@@ -20,7 +20,7 @@ This skill holds the procedure; its `references/` hold the grounding:
 
 | File | What it is | Read |
 |---|---|---|
-| [references/lessons.md](references/lessons.md) | the lessons store's index (sections in `lessons/`, per-type index; 0106): every lesson still in force, each with its gate | step 0, only the rows the site packet lists for this type; a section file when a job needs it |
+| [references/lessons/](references/lessons/README.md) | the lessons store, one file per section (README: row format and what each file holds; 0106): every lesson still in force, each with its gate | step 0, only the rows the site packet lists for this type; a section file when a job needs it |
 | [references/design-index.md](references/design-index.md) | one line per binding source or prior: the rule id and when it applies | step 0, the rows for this type, culture and step |
 | [references/reader-checklist.md](references/reader-checklist.md) | what the Sonnet image reader is told to look for | steps 3–4, pasted into the reader's prompt |
 | [references/types/](references/types/) | one design sheet per place type on the 16k list | step 0, this place's type |
@@ -189,7 +189,8 @@ per building, enclosure, path, light, water edge and dressing group:
   § Quests, § Seams: what each says is in
   [references/brief-sections.md](references/brief-sections.md). The rules
   in short: one Interiors row per door, `reserved` only for a tier B or C
-  interior (R2, R10); a shell with a load doorway gets its author's
+  interior (R2, R10), its columns the shell's plugin-linked cells (none =
+  hollow, 0114) and the chosen cell (R83); a shell with a load doorway gets its author's
   interior from assets we hold (never Creation Club, HearthFires,
   Dawnguard, Dragonborn or the SE resource pack), else a doorless piece is
   walked into; containers and visible items are placed as meshes now;
@@ -215,6 +216,14 @@ record row or an UNVERIFIED mark.
    building and dressing group of the brief in it before the first apply. Yard sets come from
    `world/sources/placement/yard-sets/<type>.json` (0101); a new set is a
    REQUEST row, never only a `group save` in the layout.
+2b. **Dry or wet, decided per piece** (R86). Standing in water is never
+   a `check` failure: for every piece you decide whether it stands dry or
+   is meant to stand in water (a jetty post, a fish trap, a sunken wreck).
+   A dry piece's spot reads no `waterLevelM` on `wb.py <scene> ground --at X Z`
+   (the fine raster; the analysis grid's `wet` cells miss a sub-cell pond);
+   a wet one carries `"wet": true` on its `place` op. After `apply`, every
+   `check` row with `waterDepthM` > 0 and `wet` false is a piece you did
+   not mean to put in water: move it. The render shows both.
 3. Scan every building's site, then apply:
 
         python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage survey-and-scans --start
@@ -232,7 +241,15 @@ record row or an UNVERIFIED mark.
 
    It writes each door's `interiorClaim` from the shell's linked set by the
    fit rule; compare with § Interiors and fix the brief or the shell, never
-   the claim.
+   the claim. The plugin's link is the interior (R83): a bound cell bigger
+   than its shell is the modder's pairing and stands; a cell that is not
+   one of the shell's own linked cells is a rule defect, fixed in
+   `blueprint_interiors.py`, never by hand-picking. A `hollow` door is a
+   shell no plugin gives a load door (0114): re-shell to a linked shell if
+   the building must be entered. Exit 3 names a linked shell no linked
+   cell passes (source the cell's missing pieces or re-shell, never widen
+   the rule) and every socket op standing in a cell no door claims (move
+   it to a claimed cell of the place or an exterior spot).
 
 Ends when: `apply` reports 0 compile errors, `check` has ZERO failures
 (placement-workbench § 5), every lived-in door has a tier A claim (or, for
@@ -251,7 +268,7 @@ and the brief's expectations written first; fix footprint, spacing, path
 and door-facing findings in the layout; `apply`; render again. No Blender
 render until the plan read is clean (0100 decision 3 as amended).
 
-Ends when: every Plan row is YES.
+Ends when: every Plan row is YES. Every fixture, tent, door or walkway piece new to this place gets a close-up first (`npm run look`, [visual-look](../visual-look/SKILL.md), ~2 s each); a flagged defect is fixed at source and becomes a look-list row.
 
 ## 4. Render rounds (at most four; 0102 decision 4)
 
@@ -266,7 +283,21 @@ resolved flame; presets, the contact sheet and the anchor check are in
 Interiors: run `wb.py render-interior <cell>` for every tier-A cell the
 place's doors claim (one contact sheet each, ~40 s; `references/doors-interiors-sockets.md`
 § 7); a reader judges it readable, warm, lit by its sources, not flat
-(reader row 48). This is the required interior check.
+(reader row 48). This is the required interior check. Before the
+renders, `wb.py audit-interior <cell ...>` (~20 s a cell; it and
+`seat-interior` run under `job_guard.sh`, or the CPU watchdog pauses them) must exit 0:
+every placed piece's texture published and no shell on a flat LOD swatch, every
+piece touching a support within 5 cm, every stair landing at both ends,
+every hearth with its fire, one lit fixture per 12 m² of the floor the player
+reaches from the doors (one surface per storey; a rug or table top is not floor)
+(reader row 49; 16k walk 6, the garbled Greenspring hut), and no coplanar
+pair. Before any render, `wb.py coplanar` (places; `check`'s `coplanar`
+rule) / `audit-interior` (cells) exits 0: two surfaces never share a plane
+within 2 mm over an overlap (the fix moves one at least 5 mm or drops a repeat) unless one is a declared decal drawn with
+polygonOffset; decal-on-decal is merged or clipped at authoring (reader
+row 50, R90). A red is fixed at
+source (kit texture alias, exporter stand-in, additions file), never by
+moving a plugin piece.
 
 One Blender launch: the top view, one front per building, two isos, and a
 shot of every `unmined` mount (0102 decision 5). The readers run as one
@@ -298,6 +329,8 @@ without that is an escalation to the planner, never a packet.
     python3 -m worldgen.export_settlement_bundle --copy-assets --places <place-id>   # (worldgen)
     python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage publish --end
     python3 -m worldgen.place_gates --id <place-id>   # (worldgen)
+    # run the derivers after every blueprint or layout change (worldgen), then commit their output with it:
+    python3 -m worldgen.export_blueprints && python3 -m worldgen.export_purpose_ledger && python3 -m worldgen.npc_roster --apply && python3 -m worldgen.author_type_siting --apply
 
 - Export writes the poses (0097) and the ground and kit provenance.
 - Patches are the place's own typed ones only (0081 decision 3: pad,
@@ -353,7 +386,7 @@ posts); collapse old packets with `owner_inbox.py --collapse`.
 `waiting-on.json` and the lessons and rulings rows the fix list names.
 
 1. Group every "wrong" in the reply by cause across the whole reply.
-2. Per cause: a REQUEST row for `references/lessons.md` (an edit of the
+2. Per cause: a REQUEST row for `references/lessons/` (an edit of the
    existing row if one covers it); a rule, gate or `check` rule the cause
    needs goes to the tooling sub-lane, which shows it **failing first on
    the defect**; the place round takes it at its next round and never
@@ -385,7 +418,7 @@ change the integrator applies with the batch's REQUEST rows. The builder
 writes the lessons, the type sheet and the judgements:
 
 1. **Lessons this slice** (mandatory): `<place>.design.md` § Lessons this
-   slice, and a `references/lessons.md` row for every finding that cost
+   slice, and a `references/lessons/` row for every finding that cost
    more than one render round and every compile refusal; zero rows needs
    a written reason.
 2. The type sheet `references/types/<n>-<type>.md`: written by the type's

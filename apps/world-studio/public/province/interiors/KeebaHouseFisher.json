@@ -437,9 +437,9 @@
     52.8661
    ],
    "rotationDeg": [
-    42.239,
-    55.877,
-    128.986
+    -44.284,
+    341.454,
+    130.589
    ],
    "scale": 0.64,
    "category": "misc",
@@ -456,9 +456,9 @@
     49.5226
    ],
    "rotationDeg": [
-    84.232,
-    298.4,
-    -45.509
+    -16.63,
+    264.67,
+    85.785
    ],
    "scale": 1.27,
    "category": "misc",
@@ -475,9 +475,9 @@
     62.1663
    ],
    "rotationDeg": [
-    -46.858,
-    309.926,
-    168.863
+    29.222,
+    49.333,
+    140.244
    ],
    "scale": 0.65,
    "category": "misc",
@@ -494,9 +494,9 @@
     60.1165
    ],
    "rotationDeg": [
-    -26.498,
-    254.912,
-    -135.843
+    2.596,
+    142.235,
+    129.995
    ],
    "scale": 1.27,
    "category": "misc",
@@ -1577,7 +1577,7 @@
     60.7328
    ],
    "rotationDeg": [
-    -0.077,
+    -0.076,
     359.784,
     -0.079
    ],
@@ -1596,9 +1596,9 @@
     60.5889
    ],
    "rotationDeg": [
-    0.196,
+    0.035,
     265.943,
-    -0.049
+    0.199
    ],
    "scale": 1.0,
    "category": "item",
@@ -1634,9 +1634,9 @@
     56.2105
    ],
    "rotationDeg": [
-    -57.77,
-    170.416,
-    -51.753
+    56.331,
+    264.668,
+    -53.45
    ],
    "scale": 1.0,
    "category": "item",
@@ -1653,9 +1653,9 @@
     55.6748
    ],
    "rotationDeg": [
-    10.051,
-    61.251,
-    -22.304
+    -11.906,
+    52.789,
+    -21.407
    ],
    "scale": 1.0,
    "category": "item",
@@ -1691,9 +1691,9 @@
     55.7044
    ],
    "rotationDeg": [
-    -6.943,
-    231.309,
-    8.118
+    -1.67,
+    229.672,
+    -10.537
    ],
    "scale": 1.0,
    "category": "item",
@@ -1710,9 +1710,9 @@
     56.2339
    ],
    "rotationDeg": [
-    -0.013,
+    0.101,
     257.565,
-    -0.1
+    0.009
    ],
    "scale": 1.0,
    "category": "item",
@@ -1729,9 +1729,9 @@
     56.2589
    ],
    "rotationDeg": [
-    -0.06,
+    -0.19,
     84.999,
-    -0.185
+    0.044
    ],
    "scale": 1.0,
    "category": "item",
@@ -1748,9 +1748,9 @@
     56.2277
    ],
    "rotationDeg": [
-    -0.145,
-    273.419,
-    -0.155
+    0.146,
+    273.42,
+    -0.154
    ],
    "scale": 1.0,
    "category": "item",
@@ -1805,9 +1805,9 @@
     60.7384
    ],
    "rotationDeg": [
-    -0.043,
+    -0.047,
     13.101,
-    -0.022
+    -0.012
    ],
    "scale": 1.0,
    "category": "item",
@@ -1824,9 +1824,9 @@
     56.7532
    ],
    "rotationDeg": [
-    1.071,
-    28.882,
-    0.256
+    1.061,
+    28.892,
+    -0.293
    ],
    "scale": 1.0,
    "category": "item",
@@ -1843,9 +1843,9 @@
     56.2153
    ],
    "rotationDeg": [
-    -0.34,
-    331.454,
-    -0.859
+    0.111,
+    331.463,
+    -0.917
    ],
    "scale": 1.0,
    "category": "item",
@@ -1862,9 +1862,9 @@
     56.6664
    ],
    "rotationDeg": [
-    0.486,
-    62.557,
-    0.093
+    0.306,
+    62.559,
+    -0.389
    ],
    "scale": 1.0,
    "category": "item",
@@ -2014,8 +2014,8 @@
     57.4913
    ],
    "rotationDeg": [
-    45.836,
-    180.0,
+    0.0,
+    314.164,
     90.0
    ],
    "scale": 1.0,
@@ -2553,9 +2553,9 @@
   {
    "refId": "fixture:KeebaHouseFisher:add:bed-glazedcandles-10",
    "positionM": [
-    103.115,
+    103.295,
     84.055,
-    53.603
+    53.683
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2577,9 +2577,9 @@
   {
    "refId": "fixture:KeebaHouseFisher:add:bed-glazedcandles-11",
    "positionM": [
-    104.022,
+    104.202,
     83.518,
-    60.524
+    60.604
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2601,9 +2601,9 @@
   {
    "refId": "fixture:KeebaHouseFisher:add:door-glazedcandles-13",
    "positionM": [
-    112.022,
+    112.202,
     83.504,
-    53.524
+    53.604
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2649,9 +2649,9 @@
   {
    "refId": "fixture:KeebaHouseFisher:add:store-glazedcandles-09",
    "positionM": [
-    109.372,
+    109.552,
     84.503,
-    60.654
+    60.734
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2673,9 +2673,9 @@
   {
    "refId": "fixture:KeebaHouseFisher:add:store-glazedcandles-12",
    "positionM": [
-    97.472,
+    97.652,
     84.841,
-    62.941
+    63.021
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2697,9 +2697,9 @@
   {
    "refId": "fixture:KeebaHouseFisher:add:table-glazedcandles-01",
    "positionM": [
-    103.329,
+    103.509,
     84.406,
-    56.378
+    56.458
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2721,9 +2721,9 @@
   {
    "refId": "fixture:KeebaHouseFisher:add:table-glazedcandles-02",
    "positionM": [
-    108.096,
+    108.276,
     87.914,
-    51.472
+    51.552
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2745,9 +2745,9 @@
   {
    "refId": "fixture:KeebaHouseFisher:add:table-glazedcandles-03",
    "positionM": [
-    106.071,
+    106.251,
     84.294,
-    50.666
+    50.746
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2767,6 +2767,7 @@
    }
   }
  ],
+ "socketsSchemaVersion": 2,
  "sockets": [
   {
    "id": "socket.KeebaHouseFisher.080A5B4E",
@@ -3208,7 +3209,16 @@
    "yawDeg": 80.214,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     100.503,
+     82.769,
+     59.052
+    ],
+    "facing": 80.214
+   }
   },
   {
    "id": "socket.KeebaHouseFisher.080A5B9F",
@@ -3221,7 +3231,16 @@
    "yawDeg": 262.597,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     107.831,
+     86.25,
+     57.078
+    ],
+    "facing": 262.597
+   }
   },
   {
    "id": "socket.KeebaHouseFisher.080A5BA0",
@@ -3234,7 +3253,16 @@
    "yawDeg": 148.006,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     107.289,
+     82.758,
+     55.879
+    ],
+    "facing": 148.006
+   }
   },
   {
    "id": "socket.KeebaHouseFisher.081AD5F5",
@@ -3247,7 +3275,16 @@
    "yawDeg": 97.403,
    "host": "KeebaHouseFisher.081AD5F5",
    "activity": "work-at",
-   "why": "CraftingCookingPotSmArgonian placed by the cell's author"
+   "why": "CraftingCookingPotSmArgonian placed by the cell's author",
+   "interact": {
+    "kind": "station",
+    "position": [
+     109.635,
+     82.758,
+     57.745
+    ],
+    "facing": 97.403
+   }
   },
   {
    "id": "socket.KeebaHouseFisher.08518B92",
@@ -3484,9 +3521,9 @@
     62.9601
    ],
    "rotationDeg": [
-    56.576,
-    91.038,
-    92.91
+    -84.197,
+    319.364,
+    106.052
    ],
    "scale": 1.0
   },
@@ -3507,9 +3544,9 @@
     62.8579
    ],
    "rotationDeg": [
-    30.925,
-    102.382,
-    88.049
+    -83.963,
+    313.028,
+    73.882
    ],
    "scale": 1.0
   },
@@ -3530,9 +3567,9 @@
     62.868
    ],
    "rotationDeg": [
-    -38.983,
-    95.996,
-    85.175
+    -71.391,
+    27.861,
+    78.177
    ],
    "scale": 1.0
   },
@@ -3553,9 +3590,9 @@
     62.9179
    ],
    "rotationDeg": [
-    -59.904,
-    351.806,
-    -22.785
+    -61.896,
+    25.155,
+    11.069
    ],
    "scale": 1.0
   },
@@ -3576,9 +3613,9 @@
     62.7617
    ],
    "rotationDeg": [
-    -65.34,
-    341.091,
-    15.974
+    -52.049,
+    296.957,
+    -49.288
    ],
    "scale": 1.0
   },
@@ -3599,9 +3636,9 @@
     60.7243
    ],
    "rotationDeg": [
-    -47.481,
-    269.106,
-    173.476
+    -0.057,
+    84.104,
+    132.18
    ],
    "scale": 1.0
   },
@@ -3622,9 +3659,9 @@
     60.5405
    ],
    "rotationDeg": [
-    -0.272,
-    307.967,
-    -0.201
+    -0.009,
+    307.969,
+    -0.338
    ],
    "scale": 1.0
   },
@@ -3645,9 +3682,9 @@
     58.312
    ],
    "rotationDeg": [
-    -9.782,
-    109.506,
-    91.698
+    -88.327,
+    99.788,
+    -179.998
    ],
    "scale": 1.0
   }

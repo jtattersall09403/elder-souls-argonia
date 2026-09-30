@@ -64,6 +64,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import re
 import subprocess
 import sys
@@ -208,15 +209,22 @@ def compile_gates(g: Gates, settlement: dict | None, why_missing: str, seconds: 
     return rest
 
 
+def tier_a_doors(bp: dict) -> list[tuple[dict, str]]:
+    """(door, cell id) for each of the place's doors into a tier-A interior
+    cell: the one rule the interior and flame anchor gates share."""
+    out = []
+    for door in bp.get("doors") or []:
+        claim = door.get("interiorClaim") or {}
+        if claim.get("tier") == "A" and claim.get("cellId"):
+            out.append((door, claim["cellId"]))
+    return out
+
+
 def interior_gate(g: Gates, bp: dict) -> None:
     from .export_interior_bundle import check
     t = time.perf_counter()
     failures, cells = [], []
-    for door in bp.get("doors") or []:
-        claim = door.get("interiorClaim") or {}
-        if claim.get("tier") != "A" or not claim.get("cellId"):
-            continue
-        cell = claim["cellId"]
+    for door, cell in tier_a_doors(bp):
         cells.append(cell)
         path = INTERIORS / f"{cell}.json"
         if not path.exists():
@@ -227,25 +235,40 @@ def interior_gate(g: Gates, bp: dict) -> None:
 
 
 #: the vitest that owns the flame anchor rule (fx/fire/flameAnchors.ts
-#: `flameAnchorFailures`) over every published place and interior; the gate
-#: runs it rather than mirror the anchor rule in Python
+#: `flameAnchorFailures`) over the published places and interiors; the gate
+#: runs it (filtered to the gated place) rather than mirror the rule in Python
 FLAME_ANCHOR_TEST = ("src/fx/fire/fire.test.ts", "every flame of every published place and interior lies in its piece")
 GAME_CORE = REPO_ROOT / "packages" / "game-core"
 
 
-def flame_anchor_gate(g: Gates) -> None:
+#: the vitest reads this: the published bundle stems (a place id, an interior
+#: cell id) it checks, comma-separated; unset, it checks every bundle
+FLAME_ANCHOR_ONLY_ENV = "ES_FLAME_ANCHOR_ONLY"
+
+
+def tier_a_cells(bp: dict) -> list[str]:
+    """The tier-A interior cells the place's doors lead into."""
+    return sorted({cell for _, cell in tier_a_doors(bp)})
+
+
+def flame_anchor_gate(g: Gates, place_id: str, bp: dict) -> None:
     """Every flame anchor lies in its piece (16k walk 5): the vitest's
     failure lines (one per anchor outside its piece's bounds, or in a hanging
-    piece's cord) are this gate's failures. Reads the PUBLISHED bundles."""
+    piece's cord) are this gate's failures. Reads the PUBLISHED bundles of
+    this place and its tier-A interiors only, so another place's defect never
+    fails this place's gate (review 2026-09-30)."""
     t = time.perf_counter()
+    only = ",".join([place_id, *tier_a_cells(bp)])
     got = subprocess.run(["npx", "vitest", "run", FLAME_ANCHOR_TEST[0], "-t", FLAME_ANCHOR_TEST[1]],
-                         cwd=GAME_CORE, capture_output=True, text=True)
+                         cwd=GAME_CORE, capture_output=True, text=True,
+                         env={**os.environ, FLAME_ANCHOR_ONLY_ENV: only})
     out = got.stdout + got.stderr
     ran = re.search(r"Tests\s+1 passed", out) is not None
     failures = ([] if ran else [f"the flame anchor test did not run (renamed?): {FLAME_ANCHOR_TEST}"]) \
         if got.returncode == 0 else (
         sorted({ln.strip().strip('",') for ln in out.splitlines()
-                if "lies outside the piece's bounds" in ln or "upper half of a hanging piece" in ln})
+                if "lies outside the piece's bounds" in ln or "upper half of a hanging piece" in ln
+                or "has no published bundle to check" in ln})
         or [f"the flame anchor test failed (exit {got.returncode}): "
             + " | ".join(out.strip().splitlines()[-5:])])
     g.add("flameAnchors", time.perf_counter() - t, failures)
@@ -786,10 +809,10 @@ def door_cells(bp: dict) -> list[dict]:
 _FIT_ENV: dict = {}
 
 
-def fitting_cells(parcel: dict | None, culture: str | None = None) -> list[str]:
-    """0105 R37/R57: the cells the fit rule accepts for the parcel over its
-    linked cells and the whole R56 culture pool
-    (``blueprint_interiors.claim_for_parcel``, nothing held, no preference),
+def fitting_cells(parcel: dict | None) -> list[str]:
+    """0105 R37: the cells the claim rule accepts for the parcel among the
+    cells its shell's plugins link (``blueprint_interiors.claim_for_parcel``,
+    nothing held, no preference; decision 0114),
     each cell's profile and sourcing looked up in the batch pre-pass claim
     table (``output/claim-table.json``) as ``--claim`` does, a cell the table
     lacks read from its plugin; no table, the plugin reads."""
@@ -803,7 +826,7 @@ def fitting_cells(parcel: dict | None, culture: str | None = None) -> list[str]:
             profile, sourcing = bi.plugin_profile, bi.bundle_sourcing
         _FIT_ENV.update(lib=bi.library(), links=bi.linked_shells(), profile=profile, sourcing=sourcing)
     got = bi.claim_for_parcel(parcel or {}, _FIT_ENV["lib"], _FIT_ENV["links"], _FIT_ENV["profile"],
-                              sourcing=_FIT_ENV["sourcing"], culture=culture, whole_pool=True)
+                              sourcing=_FIT_ENV["sourcing"])
     return sorted(c["cellId"] for c in got.get("candidates") or [] if not c["fails"])
 
 
@@ -831,7 +854,7 @@ def interior_variety_failures(place_id: str, bp: dict, claims: list[dict],
             where = ", ".join([f"{place_id} {x}" for x in before_here] + in_region)
             used = ({m["cellId"] for m in mine if m["doorId"] != d["doorId"]}
                     | {c["cellId"] for c in others if region_of(c["placeId"]) == region})
-            fit = fitting_of(parcels.get(d["parcelId"]), d.get("culture"))
+            fit = fitting_of(parcels.get(d["parcelId"]))
             exhausted = bool(fit) and set(fit) <= used
             msg = (f"0105 R4: {d['doorId']} uses interior cell {d['cellId']} already used in region "
                    f"{region} ({where})")
@@ -858,10 +881,10 @@ def interior_variety_gate(g: Gates, place_id: str, bp: dict, claims_doc: dict | 
     doc = claims_doc if claims_doc is not None else cl.load()
     memo: dict = {}
 
-    def fit_once(parcel, culture=None):
-        key = ((parcel or {}).get("id"), culture)
+    def fit_once(parcel):
+        key = (parcel or {}).get("id")
         if key not in memo:
-            memo[key] = fitting_cells(parcel, culture)
+            memo[key] = fitting_cells(parcel)
         return memo[key]
 
     failures, warnings = interior_variety_failures(place_id, bp, doc.get("interiorCellClaims") or [],
@@ -869,7 +892,7 @@ def interior_variety_gate(g: Gates, place_id: str, bp: dict, claims_doc: dict | 
     parcels = {p["id"]: p for p in bp.get("parcels") or []}
     g.add("interiors.variety", time.perf_counter() - t, failures, warnings,
           cells=[d["cellId"] for d in door_cells(bp)],
-          fitSets={d["doorId"]: len(fit_once(parcels.get(d["parcelId"]), d.get("culture")))
+          fitSets={d["doorId"]: len(fit_once(parcels.get(d["parcelId"])))
                    for d in door_cells(bp)})
 
 
@@ -1210,7 +1233,7 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
     g.rows[-1]["blueprint"] = bp_source
     interior_gate(g, bp)
     g.rows[-1]["blueprint"] = bp_source
-    flame_anchor_gate(g)
+    flame_anchor_gate(g, place_id, bp)
     from .blueprint_promises import load_record
     record = load_record(place_id)
     variety_gates(g, place_id, bp, record,

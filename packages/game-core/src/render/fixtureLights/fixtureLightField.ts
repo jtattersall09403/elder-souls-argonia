@@ -70,6 +70,9 @@ interface ObjectSlots {
   epoch: number;
   n: number;
   x: number; y: number; z: number;
+  /** An InstancedMesh's fill revision (instanceMatrix version, count): a pooled
+   * mesh refilled in place with other instances needs a fresh list. */
+  fill: number;
   idx: Int32Array;
   count: number;
 }
@@ -282,12 +285,15 @@ export class FixtureLightField {
   private refresh(object: THREE.Object3D, geometry: THREE.BufferGeometry | undefined, perObject: number): ObjectSlots {
     let s = this.slots.get(object);
     const e = object.matrixWorld.elements;
-    if (s && s.epoch === this.epoch && s.n === perObject && s.x === e[12] && s.y === e[13] && s.z === e[14]) return s;
+    const instanced = object as THREE.InstancedMesh;
+    const fill = instanced.isInstancedMesh ? instanced.instanceMatrix.version * 65536 + instanced.count : 0;
+    if (s && s.epoch === this.epoch && s.n === perObject && s.fill === fill
+      && s.x === e[12] && s.y === e[13] && s.z === e[14]) return s;
     if (!s) {
-      s = { epoch: -1, n: 0, x: 0, y: 0, z: 0, idx: new Int32Array(FIXTURE_LIGHTS_PER_OBJECT_MAX), count: 0 };
+      s = { epoch: -1, n: 0, x: 0, y: 0, z: 0, fill: -1, idx: new Int32Array(FIXTURE_LIGHTS_PER_OBJECT_MAX), count: 0 };
       this.slots.set(object, s);
     }
-    s.epoch = this.epoch; s.n = perObject; s.x = e[12]; s.y = e[13]; s.z = e[14];
+    s.epoch = this.epoch; s.n = perObject; s.fill = fill; s.x = e[12]; s.y = e[13]; s.z = e[14];
     if (this.used === 0 || !this.worldSphere(object, geometry)) {
       s.count = 0; return s;
     }

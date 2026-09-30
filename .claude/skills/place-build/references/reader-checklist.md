@@ -1,6 +1,6 @@
 # Reader checklist (what the Sonnet image reader is told)
 
-Generated from the rows of `lessons.md` that carry a shot, plus the Gate
+Generated from the rows of `lessons/` that carry a shot, plus the Gate
 rows of the 16k checklist (`docs/phases/16-foundation-and-places/16k-place-loop.md`
 § The checklist). When a lessons row with a shot is added or edited,
 edit its line here in the same change. The id after each line is its
@@ -107,6 +107,8 @@ Each reader is given its shot and the designer's expected value first.
 46. On an iso without overlays: does every way read as worn or paved ground distinct from the grass either side, not only as a cleared strip? The workbench's orange top-view line is the layout, not the paint; every way must also have a published `groundPaint` entry (§ 5 read-back). (owner walk 5, Greenspring's paths) `reader`
 47. On a night shot through each lit doorway into the interior: is the floor, the far wall and the hearth or main furnishing lit, with no room left black? (owner walk 5, the Greenspring huts) `reader`
 48. On three interior renders of each tier A cell (from the door and two far corners, the runtime light model: no shadows, no bounce, the cell's ambient cube as the sky, its lights as points, no fill): does the room read warm and readable, lit by its own hearth and lanterns (light pooled round each source, falling off towards the walls), not flat, evenly grey or washed out? The measured half is `interior_light`: `sourceLedFraction` ≥ 0.70 and the dark fraction ≤ 30 % (doors-interiors-sockets § 7); a render that reads flat is a NO whatever that number says. (16k walk 5 F1 follow-up) `reader`
+49. On the same interior renders: is every wall, floor and piece textured (no surface one flat colour), every piece resting on a floor, table, shelf, wall or ceiling (nothing hanging in the air), every stair meeting a floor at both ends, and every hearth burning? The measured half is `wb.py audit-interior <cell>` exit 0 (textures, support, stairs, hearth, lit density; doors-interiors-sockets § 3); a NO on the picture with a green audit is a new audit row. (owner walk 6, the Greenspring hut: flat green walls, no hearth fire) `reader`
+50. Is `wb.py coplanar` (places) / `audit-interior` (cells) at 0 before the renders, and on the renders does any surface shimmer or show two textures striped over each other (a decal flush on a floor or wall, two panels on one plane)? A hit is fixed at source (R90), never by a render angle.
 
 ## Walk only (never asked of the reader)
 

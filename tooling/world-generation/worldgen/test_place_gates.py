@@ -71,14 +71,40 @@ def test_flame_anchor_gate_reads_the_vitest(monkeypatch):
     calls = []
 
     def fake(cmd, **kw):
-        calls.append((cmd, kw["cwd"]))
+        calls.append((cmd, kw["cwd"], kw["env"].get(pg.FLAME_ANCHOR_ONLY_ENV)))
         return SimpleNamespace(returncode=calls.__len__() - 1, stdout=" Tests  1 passed | 17 skipped" if len(calls) == 1 else line, stderr="")
     monkeypatch.setattr(subprocess, "run", fake)
     g = pg.Gates()
-    pg.flame_anchor_gate(g)  # exit 0: green
-    pg.flame_anchor_gate(g)  # exit 1: the anchor line is the failure
+    bp = {"doors": [{"interiorClaim": {"tier": "A", "cellId": "KeebaHouseFisher"}},
+                    {"interiorClaim": {"tier": "B", "cellId": "Elsewhere"}}]}
+    pg.flame_anchor_gate(g, "place.x.claywater", bp)  # exit 0: green
+    pg.flame_anchor_gate(g, "place.x.claywater", bp)  # exit 1: the anchor line is the failure
+    # only the gated place and its tier-A cells are checked (review 2026-09-30)
+    assert {c[2] for c in calls} == {"place.x.claywater,KeebaHouseFisher"}
     calls.clear()
     monkeypatch.setattr(subprocess, "run", lambda cmd, **kw: SimpleNamespace(returncode=0, stdout="Tests  18 skipped", stderr=""))
-    pg.flame_anchor_gate(g)  # exit 0 but nothing ran: red, never a silent pass
+    pg.flame_anchor_gate(g, "place.x.claywater", {})  # exit 0 but nothing ran: red, never a silent pass
     assert [r["ok"] for r in g.rows] == [True, False, False]
     assert g.rows[1]["failures"] == [line.strip().strip('",')]
+
+
+def test_flame_anchor_gate_fails_an_unpublished_place(monkeypatch):
+    """A gated place with no published bundle reads nothing: red, naming it
+    (review 2026-09-30), never a green over zero flames."""
+    import subprocess
+    from types import SimpleNamespace
+    line = '      "place.x.claywater: has no published bundle to check",'
+    monkeypatch.setattr(subprocess, "run", lambda cmd, **kw: SimpleNamespace(returncode=1, stdout=line, stderr=""))
+    g = pg.Gates()
+    pg.flame_anchor_gate(g, "place.x.claywater", {})
+    assert g.rows[0]["ok"] is False
+    assert g.rows[0]["failures"] == ["place.x.claywater: has no published bundle to check"]
+
+
+def test_tier_a_doors_is_the_one_rule():
+    bp = {"doors": [{"id": "d1", "interiorClaim": {"tier": "A", "cellId": "C1"}},
+                    {"id": "d2", "interiorClaim": {"tier": "B", "cellId": "C2"}},
+                    {"id": "d3", "interiorClaim": {"tier": "A"}},
+                    {"id": "d4", "interiorClaim": {"tier": "A", "cellId": "C1"}}]}
+    assert [(d["id"], c) for d, c in pg.tier_a_doors(bp)] == [("d1", "C1"), ("d4", "C1")]
+    assert pg.tier_a_cells(bp) == ["C1"]

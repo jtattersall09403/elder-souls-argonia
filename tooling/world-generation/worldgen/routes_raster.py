@@ -64,9 +64,11 @@ SPANNING_KINDS = frozenset({"bridge", "deck"})
 # Kinds that REST on the slope they climb — their ground stays painted, because
 # the player walks on ground-hugging masonry, not over a void.
 GROUNDED_KINDS = frozenset({"lip-step", "stair", "stepped-ascent"})
-# NOT `compile_route_structures.RAMP_KINDS` ({deck, bridge, lip-step}). That set
-# splits level-surface pieces from climbing pieces; this one splits carried-clear
-# from on-ground. A lip-step is level AND on the ground, so the two disagree.
+# NOT `compile_route_structures.RAMP_KINDS` ({lip-step}). That set names the
+# level-surface pieces; this one splits carried-clear from on-ground. A lip-step
+# is level AND on the ground, so the two disagree. The province record carries
+# no bridge or deck (crossings are built per place in 16k), so SPANNING_KINDS
+# matches nothing in it today.
 
 # The window includes an 8 m landing pad at each end (grade_routes
 # .STRETCH_LANDING_M) that the piece's abutment sits on. Stopping the paint dead

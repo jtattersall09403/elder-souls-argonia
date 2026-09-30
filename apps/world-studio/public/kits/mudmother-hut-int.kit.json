@@ -1142,6 +1142,7 @@
    },
    "lodLevels": 3,
    "light": {
+    "fixtureKind": "candle",
     "formId": "00088238",
     "editorId": "DefaultCandleLight01NS",
     "burnSeconds": -1,
@@ -1163,11 +1164,11 @@
     ],
     "fade": 1.0,
     "offsetM": [
-     0.32,
+     0.0,
      0.09,
-     1.08
+     0.0
     ],
-    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 5 of 13 candle01 refs (next: SLightStreetStreet01 3; none 5); offset is the median of those 5 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 5 of 13 candle01 refs (next: SLightStreetStreet01 3; none 5); offset is the median of those 5 in the piece's frame, glTF Y-up metres, horizontal agreement 0.48 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
    "flames": [
     {
@@ -1381,7 +1382,34 @@
    "undersideClosed": true,
    "undersideCoverage": 0.667,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.889
+   "pivotAboveBaseM": 0.889,
+   "light": {
+    "formId": "000d0e40",
+    "editorId": "SLightStreetStreet01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     247,
+     139,
+     43
+    ],
+    "flicker": {
+     "frequency": 0.05,
+     "intensityAmplitude": 1.0,
+     "movementAmplitude": 1.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "fixtureKind": "lantern",
+    "offsetM": [
+     0.0,
+     -0.55,
+     0.0
+    ],
+    "evidence": "Copied from settlement-mud-v1's argonianlanterns04 row (the same mod piece; the mod places its 3 refs with no LIGH within 200 units, so it takes argonianlanterns03's mined record SLightStreetStreet01 with the light at its own lantern body, 0.55 m below the pivot). Walk 6 look round 2: the hut interior's copy carried no light, so it never burned."
+   }
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbonechime02",
@@ -2012,9 +2040,9 @@
    },
    "lodLevels": 3,
    "designedSinkM": {
-    "p25": -0.4494,
-    "p50": -0.4494,
-    "p75": -0.4494,
+    "p25": -0.0304,
+    "p50": -0.0304,
+    "p75": -0.0304,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy"

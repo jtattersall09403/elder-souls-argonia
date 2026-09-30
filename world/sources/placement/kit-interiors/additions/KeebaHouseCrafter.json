@@ -15,6 +15,18 @@
    "why": "Lights the book left open on the table."
   },
   {
+   "id": "KeebaHouseCrafter:add:table-glazedcandles-17",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    106.557,
+    89.865,
+    59.572
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the far end of the upper table."
+  },
+  {
    "id": "KeebaHouseCrafter:add:table-glazedcandles-02",
    "assetId": "vanilla:clutter/glazedcandles01",
    "pos": [
@@ -121,6 +133,42 @@
    "rotZDeg": 0,
    "zone": "store",
    "why": "Lights the shelf along the south wall."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:door-candle-14",
+   "assetId": "mudmother:gv_meshes/argoniannest/candle01",
+   "pos": [
+    105.596,
+    86.19,
+    53.845
+   ],
+   "rotZDeg": 0,
+   "zone": "door",
+   "why": "Lights the rug inside the balcony door."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:door-glazedcandles-15",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    105.44,
+    86.23,
+    55.927
+   ],
+   "rotZDeg": 0,
+   "zone": "door",
+   "why": "Lights the floor under the balcony."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:work-glazedcandles-16",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    109.566,
+    82.764,
+    61.984
+   ],
+   "rotZDeg": 0,
+   "zone": "work",
+   "why": "Lights the spinning wheel in the corner."
   }
  ]
 }

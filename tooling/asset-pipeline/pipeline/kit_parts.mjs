@@ -17,7 +17,8 @@
  * kit's LOD0 geometry, and every scoped megabyte ships to Pages.
  *
  * Layout, under apps/world-studio/public/kits/<kit>/parts/:
- *   index.json        schemaVersion, the source GLB's sha256, one row per asset
+ *   index.json        schemaVersion 2, the source GLB's sha256, one row per asset,
+ *                     and `fires` (the drawn assets' fire rows from the kit manifest)
  *                     (file, bytes, vertices, triangles, texture hashes)
  *   <file>.glb        one asset: its root node (transform + extras) and LOD0
  *                     mesh nodes; geometry meshopt-encoded, textures by URI
@@ -39,7 +40,7 @@ import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { MeshoptDecoder, MeshoptEncoder } from "meshoptimizer";
 
-export const PARTS_SCHEMA_VERSION = 1;
+export const PARTS_SCHEMA_VERSION = 2;
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 export const PUBLIC_KITS = join(REPO_ROOT, "apps/world-studio/public/kits");
 export const PUBLIC_INTERIORS = join(REPO_ROOT, "apps/world-studio/public/province/interiors");
@@ -95,7 +96,7 @@ const lodOf = (node) => (typeof node.extras?.lod === "number" ? node.extras.lod 
  * `only` (a Set of asset ids): split just those, the assets the interior cells
  * draw (`drawnAssets`); every one must be in the GLB. Absent: every asset.
  */
-export function splitKit(kitId, glbBytes, only = null) {
+export function splitKit(kitId, glbBytes, only = null, manifest = null) {
   const { json, bin } = readGlb(glbBytes);
   const decoded = new Map(); // bufferView index -> decoded bytes
   const viewBytes = (bvIndex) => {
@@ -165,9 +166,34 @@ export function splitKit(kitId, glbBytes, only = null) {
       textureFiles: texBytes.size, textureBytes, bytes: partBytes + textureBytes,
     },
     assets,
+    fires: firesOf(manifest, Object.keys(assets)),
   };
   files.set("index.json", Buffer.from(`${JSON.stringify(index, null, 1)}\n`));
   return { index, files };
+}
+
+/**
+ * The fire rows of the split assets (schema 2): the kit manifest rows that
+ * burn in an interior (fx/fire/interiorFires.ts `burnsInInterior`: mined
+ * `flames`, `flameCardMaterials` or a light fixture record), reduced to the
+ * fields the anchors read, so the interior loader never fetches the whole
+ * `.kit.json` (walk 6: 1.1-1.5 MB a cell, only for these rows).
+ */
+export function firesOf(manifest, assetIds) {
+  const fires = {};
+  if (!manifest) return fires;
+  if (!Array.isArray(manifest.assets)) throw new Error("kit manifest has no assets list");
+  const wanted = new Set(assetIds);
+  for (const a of manifest.assets) {
+    if (typeof a?.id !== "string" || !wanted.has(a.id)) continue;
+    if (!(a.flames?.length || a.flameCardMaterials?.length || a.light?.fixtureKind)) continue;
+    const row = {};
+    for (const k of ["id", "category", "anchorClass", "light", "flames", "sizeM", "originOffsetM", "flameCardMaterials"]) {
+      if (a[k] !== undefined) row[k] = a[k];
+    }
+    fires[a.id] = row;
+  }
+  return Object.fromEntries(Object.entries(fires).sort(([x], [y]) => (x < y ? -1 : x > y ? 1 : 0)));
 }
 
 function buildPart(src, rootIndex, viewBytes) {
@@ -334,7 +360,9 @@ function buildPart(src, rootIndex, viewBytes) {
 export function publishParts(kitId, { kitsDir = PUBLIC_KITS, check = false, assets = drawnAssets().get(kitId) } = {}) {
   const glbPath = join(kitsDir, `${kitId}.glb`);
   if (!assets?.size) throw new Error(`kit_parts: no published interior cell draws an asset of ${kitId}`);
-  const { index, files } = splitKit(kitId, new Uint8Array(readFileSync(glbPath)), assets);
+  const manifestPath = join(kitsDir, `${kitId}.kit.json`);
+  const manifest = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, "utf8")) : null;
+  const { index, files } = splitKit(kitId, new Uint8Array(readFileSync(glbPath)), assets, manifest);
   const dir = join(kitsDir, kitId, "parts");
   const changed = [];
   for (const [rel, bytes] of files) {

@@ -84,11 +84,39 @@ describe("fire presets", () => {
     expect(volumeShareAt(FIRE_VOLUME_REACH_M + 1)).toBe(0);
   });
 
-  it("flicker is the same function for light and flame: 1 +- amount, phased by seed", () => {
-    const samples = Array.from({ length: 200 }, (_, i) => fireFlicker(i * 0.037, 0.3, 5, 0.1));
+  it("flicker is the same function for light and flame: about 1 +- amount, seeded", () => {
+    const samples = Array.from({ length: 2000 }, (_, i) => fireFlicker(i * 0.037, 0.3, 5, 0.1));
     expect(Math.max(...samples)).toBeLessThanOrEqual(1.1 + 1e-9);
-    expect(Math.min(...samples)).toBeGreaterThanOrEqual(0.9 - 1e-9);
+    // the breath's floor, times the deepest gust (25 %)
+    expect(Math.min(...samples)).toBeGreaterThanOrEqual(0.9 * 0.75 - 1e-9);
     expect(fireFlicker(1, 0.2, 5, 0.1)).not.toBeCloseTo(fireFlicker(1, 0.7, 5, 0.1), 6);
+  });
+
+  it("flicker is deterministic per seed (a pure function of time and seed)", () => {
+    const a = Array.from({ length: 500 }, (_, i) => fireFlicker(i * 0.11, 0.42, 5, 0.15));
+    const b = Array.from({ length: 500 }, (_, i) => fireFlicker(i * 0.11, 0.42, 5, 0.15));
+    expect(a).toEqual(b);
+  });
+
+  it("flicker never repeats: no autocorrelation peak at lags 1-20 s, and gusts occur", () => {
+    for (const id of ["candle", "torchGround", "campfire"] as FirePresetId[]) {
+      const { rateHz, amount } = FIRE_PRESETS[id].flicker;
+      const dt = 0.05;
+      const n = Math.round(600 / dt);
+      const x = Array.from({ length: n }, (_, i) => fireFlicker(i * dt, 0.618, rateHz, amount));
+      const mean = x.reduce((a, v) => a + v, 0) / n;
+      const d = x.map((v) => v - mean);
+      const var0 = d.reduce((a, v) => a + v * v, 0);
+      let peak = 0;
+      for (let lag = Math.round(1 / dt); lag <= Math.round(20 / dt); lag++) {
+        let c = 0;
+        for (let i = 0; i + lag < n; i++) c += d[i] * d[i + lag];
+        peak = Math.max(peak, Math.abs(c / var0));
+      }
+      expect(peak).toBeLessThan(0.15);
+      // a gust: some sample sits below the breath's floor (1 - amount)
+      expect(Math.min(...x)).toBeLessThan(1 - amount);
+    }
   });
 
   it("day and night: the exposure picks the blend (noon 3.9e-5 -> 0, night 22 -> 1)", () => {
@@ -116,6 +144,22 @@ describe("preset choice reads the piece's records", () => {
 });
 
 describe("FlameSystem", () => {
+  it("frees the previous instance buffers when the emitters are set again (review 2026-09-30)", () => {
+    const fire = new FlameSystem();
+    const geometries = new Set<THREE.BufferGeometry>();
+    fire.group.traverse((o) => { if ((o as THREE.Mesh).isMesh) geometries.add((o as THREE.Mesh).geometry); });
+    expect(geometries.size).toBe(2);
+    let disposed = 0;
+    for (const g of geometries) g.addEventListener("dispose", () => { disposed += 1; });
+    const emitters = [{ position: new THREE.Vector3(0, 1, 0), preset: "candle" as const, scale: 1, seed: 0.1, owner: 0 }];
+    fire.setEmitters(emitters);
+    expect(disposed).toBe(0); // nothing bound yet
+    fire.setEmitters(emitters);
+    expect(disposed).toBe(2); // flame + ember geometries, once each
+    fire.setEmitters(emitters);
+    expect(disposed).toBe(4);
+  });
+
   it("expands a candle to its 3 cards, a campfire to its core + outer cards over its bed, with embers", () => {
     const fire = new FlameSystem();
     fire.setEmitters([
@@ -169,12 +213,29 @@ function jsonFiles(dir: string): string[] {
 }
 
 /**
+ * The bundle stems (a place id, an interior cell id) the place gate asks for
+ * (place_gates.py `flame_anchor_gate`, env ES_FLAME_ANCHOR_ONLY): one place's
+ * defect never fails another place's gate. Unset: every published bundle.
+ */
+function anchorScope(): Set<string> | null {
+  const only = process.env.ES_FLAME_ANCHOR_ONLY;
+  if (!only) return null;
+  return new Set(only.split(",").filter(Boolean));
+}
+
+const stemOf = (file: string) => file.split("/").pop()!.replace(/\.json$/, "");
+
+/**
  * The anchor check over the published data: every exterior piece the layer
  * draws a fire for (SettlementLayer's rule: a light fixture, else a sprite
  * holder; the fallback only for a lit fixture with no fire of its own or on
  * it) and every interior piece with mined flames. Fails naming the piece.
  */
-function publishedAnchorFailures(): { checked: number; failures: string[] } {
+/**
+ * With a scope, a named stem with no published bundle is a failure: a gate
+ * that read nothing never passes (review 2026-09-30).
+ */
+function publishedAnchorFailures(scope = anchorScope()): { checked: number; failures: string[] } {
   const rows = kitRows();
   const failures: string[] = [];
   let checked = 0;
@@ -185,7 +246,13 @@ function publishedAnchorFailures(): { checked: number; failures: string[] } {
     checked += anchors.length;
     failures.push(...flameAnchorFailures(pieceId, row, box, anchors));
   };
-  for (const file of jsonFiles(join(PUBLIC, "province", "settlements"))) {
+  const read = new Set<string>();
+  const inScope = (file: string) => {
+    if (scope && !scope.has(stemOf(file))) return false;
+    read.add(stemOf(file));
+    return true;
+  };
+  for (const file of jsonFiles(join(PUBLIC, "province", "settlements")).filter(inScope)) {
     const bundle = JSON.parse(readFileSync(file, "utf8")) as { placements?: Placement[] };
     const placements = bundle.placements ?? [];
     const byId = new Map(placements.map((p) => [p.id, p]));
@@ -204,12 +271,15 @@ function publishedAnchorFailures(): { checked: number; failures: string[] } {
         hostRow?.light?.fixtureKind ?? hostRow?.category);
     }
   }
-  for (const file of jsonFiles(join(PUBLIC, "province", "interiors"))) {
+  for (const file of jsonFiles(join(PUBLIC, "province", "interiors")).filter(inScope)) {
     const bundle = JSON.parse(readFileSync(file, "utf8")) as { placements?: Placement[] };
     for (const p of bundle.placements ?? []) {
       const row = rows.get(`${p.kit}|${p.assetId}`);
       if (row?.flames?.length) check(p.id, row, false);
     }
+  }
+  for (const stem of scope ?? []) {
+    if (!read.has(stem)) failures.push(`${stem}: has no published bundle to check`);
   }
   return { checked, failures };
 }
@@ -286,10 +356,20 @@ describe("flame anchor check (16k walk 5)", () => {
     expect(flameAnchorFailures("lamp", row, box, anchors)).toEqual([]);
   });
 
+  it("a place gate's scope checks only the bundles it names (review 2026-09-30)", () => {
+    expect(publishedAnchorFailures(null).checked).toBeGreaterThan(0);
+    const nowhere = publishedAnchorFailures(new Set(["place.nowhere"]));
+    expect(nowhere.checked).toBe(0);
+    // a scope naming a bundle that is not published fails: nothing read is never green
+    expect(nowhere.failures).toEqual(["place.nowhere: has no published bundle to check"]);
+  });
+
   it("every flame of every published place and interior lies in its piece", () => {
+    const scoped = anchorScope() !== null;
     const { checked, failures } = publishedAnchorFailures();
     expect(failures).toEqual([]);
-    expect(checked).toBeGreaterThan(20);
+    // a place gate's scope may hold one unlit place; the whole set never can
+    if (!scoped) expect(checked).toBeGreaterThan(20);
   });
 });
 

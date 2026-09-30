@@ -108,7 +108,12 @@ MATERIALS = [
     ("tidal_sand",    "pr",  "coastbeach01.dds",                            8.0, None, 72),
     ("salt_flat",     "acg", "Ground054",                                   9.0, None, 78),
     ("dry_clay",      "ph",  "mud_cracked_dry_riverbed_002",                7.0, None, 75),
-    ("dirt_path",     "pr",  "dirtpath01.dds",                              6.0, None, 68),
+    # dirt_path (land-cover PATH, code 27) desaturated 2026-09-30 (owner walk 6:
+    # "very vivid orange dirt that just looks a bit fake"). Raw it averaged
+    # RGB 98/64/40, the most saturated ground in the set; at sat x0.55 and
+    # lum 72 (track_mud's level) it stays a line above the lowland grasses
+    # on the ground, no longer an orange stripe.
+    ("dirt_path",     "pr",  "dirtpath01.dds",                              6.0, (0, 0.55, 1.0), 72),
     # Owner ruling 2026-09-09: take Tropical's own repaint, not the vanilla
     # FROZEN marsh slope hue-shifted warm. Tropical ships this exact filename
     # already repainted for the climate, so the tint was a warm coat of paint
@@ -277,11 +282,19 @@ def apply_tint(img: Image.Image, tint) -> Image.Image:
     return Image.fromarray(hsv.astype(np.uint8), "HSV").convert("RGB")
 
 
-def build_set(set_name: str, label: str, materials, archive) -> None:
+def build_set(set_name: str, label: str, materials, archive, only=None) -> None:
+    """Build a set. `only` = material names to rebuild; every other row is
+    kept byte-for-byte from the published materials.json (no source reads)."""
     out_dir = GROUND_DIR / set_name
     out_dir.mkdir(parents=True, exist_ok=True)
+    published = {}
+    if only:
+        published = {m["id"]: m for m in json.loads((out_dir / "materials.json").read_text())["materials"]}
     manifest = []
     for idx, (name, kind, ref, tile_m, tint, lum) in enumerate(materials):
+        if only and name not in only:
+            manifest.append(published[idx])
+            continue
         if kind == "bsa":
             img = Image.open(io.BytesIO(archive.read(ref))).convert("RGB")
             source = f"Skyrim ({ref})"
@@ -331,11 +344,19 @@ def build_set(set_name: str, label: str, materials, archive) -> None:
 
 
 def main() -> None:
-    data_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_DATA
+    """Usage: build_ground_materials.py [DATA_DIR] [--only name,name] [--set S]"""
+    args = sys.argv[1:]
+    only = sset = None
+    if "--only" in args:
+        i = args.index("--only"); only = set(args[i + 1].split(",")); del args[i:i + 2]
+    if "--set" in args:
+        i = args.index("--set"); sset = args[i + 1]; del args[i:i + 2]
+    data_dir = Path(args[0]) if args else DEFAULT_DATA
     archive = BSAArchive(data_dir / "Skyrim - Textures.bsa")
     index = {"default": DEFAULT_SET, "sets": {}}
     for set_name, (label, materials) in MATERIAL_SETS.items():
-        build_set(set_name, label, materials, archive)
+        if sset is None or set_name == sset:
+            build_set(set_name, label, materials, archive, only)
         index["sets"][set_name] = {"label": label}
     (GROUND_DIR / "index.json").write_text(json.dumps(index, indent=1))
     print(f"default set: {DEFAULT_SET}")

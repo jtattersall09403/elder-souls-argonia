@@ -13,10 +13,11 @@
 import * as THREE from "three";
 import * as tsl from "three/tsl";
 import type { TslNode } from "../../render/nodes/materialNodes";
+import { FLICKER_GUST_SLOT_S } from "./fireTypes";
 
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
 const {
-  abs, clamp, dot, float, floor, fract, max, min, mix, mat3, pow, sin, smoothstep, sqrt, vec2, vec3,
+  abs, clamp, dot, float, floor, fract, max, min, mix, mat3, pow, smoothstep, sqrt, step, vec2, vec3,
 } = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode>;
 
 export function fireHash(p: TslNode): TslNode {
@@ -68,13 +69,39 @@ export function fireWobble(t: TslNode, seed: TslNode): TslNode {
   return fireNoise(vec2(t, seed.mul(57))).mul(2).sub(1);
 }
 
-/** The shader twin of fireTypes.ts `fireFlicker`. */
+/** fireTypes.ts `flickerHash` (hash11). */
+function flickerHashNode(p: TslNode): TslNode {
+  const a = fract(p.mul(0.1031));
+  const b = a.mul(a.add(33.33));
+  return fract(b.mul(b.add(b)));
+}
+
+/** fireTypes.ts `flickerNoise`: smooth 1-D value noise in -1..1. */
+function flickerNoiseNode(x: TslNode, key: TslNode): TslNode {
+  const i = floor(x);
+  const f = x.sub(i);
+  const u = f.mul(f).mul(float(3).sub(f.mul(2)));
+  return mix(flickerHashNode(i.add(key)), flickerHashNode(i.add(1).add(key)), u).mul(2).sub(1);
+}
+
+/** The shader twin of fireTypes.ts `fireFlicker`, line for line and
+ * branch-free: value-noise breath plus rare gusts (the gust test is a step). */
 export function fireFlickerNode(t: TslNode, seed: TslNode, rateHz: TslNode, amount: TslNode): TslNode {
-  const phase = seed.mul(6.2831853);
-  const w = rateHz.mul(6.2831853);
-  return float(1).add(amount.mul(
-    sin(t.mul(w).add(phase)).mul(0.6).add(sin(t.mul(w).mul(1.73).add(phase.mul(2.3))).mul(0.4)),
-  ));
+  const key = seed.mul(7919);
+  const x = t.mul(rateHz);
+  const breath = flickerNoiseNode(x, key).mul(0.55)
+    .add(flickerNoiseNode(x.mul(2.13), key.add(311)).mul(0.3))
+    .add(flickerNoiseNode(x.mul(4.37), key.add(613)).mul(0.15));
+  const slotT = t.div(FLICKER_GUST_SLOT_S).add(seed.mul(13));
+  const slot = floor(slotT);
+  const gust = float(1).sub(step(0.3, flickerHashNode(slot.mul(1.37).add(key))));
+  const start = flickerHashNode(slot.mul(2.11).add(key).add(17)).mul(0.6);
+  const len = flickerHashNode(slot.mul(3.07).add(key).add(29)).mul(0.3).add(0.1).div(FLICKER_GUST_SLOT_S);
+  const u = slotT.sub(slot).sub(start).div(len);
+  const inside = step(0, u).mul(step(u, 1));
+  const depth = flickerHashNode(slot.mul(5.03).add(key).add(43)).mul(0.15).add(0.1).mul(min(1, amount.div(0.15)));
+  const dip = gust.mul(inside).mul(depth).mul(u.mul(4).mul(float(1).sub(u)));
+  return float(1).add(amount.mul(breath)).mul(float(1).sub(dip));
 }
 
 // ---------------------------------------------------------------------------

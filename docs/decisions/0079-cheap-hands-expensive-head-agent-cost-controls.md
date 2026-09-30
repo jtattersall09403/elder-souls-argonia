@@ -226,6 +226,12 @@ turn-wasters left. The owner ruled the same day:
     bounds, contacts), and add the missing command in the same lane.
     "Needs a new placing tool" is never a hand-off line (0106 decision 15).
 
+## Addendum 2026-09-30: the Sonnet 5.5 delivery tier (owner)
+
+20. **Tiers** (owner 2026-09-30): Fable 5.1 plans and orchestrates; `lead` is Opus 5.5 medium; `deliver` is Opus 5.5 low and the main delivery type; `deliver-small` is Sonnet 5.5 (`claude-sonnet-5-5`) at medium; `find` stays Haiku; `run` and `preflight` are Sonnet 5.5 low. Goal: no weekly usage spent on a turn or task a cheaper agent can do.
+21. **Routing to `deliver-small`**: the planner, a lead or a `deliver` agent hands it a job of one or a few named files with the mechanism, values and check given and nothing left to decide: a mechanical edit or refactor, a unit test beside a fix, a data or config change, a doc rewrite from a given spec, a scripted measurement. Budget 20 min or less. A decision, a diagnosis, a search for "where", sourcing or place work keeps the job on `deliver` (or `place-builder`); `deliver-small` returns rather than grows. Evidence and sources: [docs/research/agents/sonnet-5-5-task-fit.md](../research/agents/sonnet-5-5-task-fit.md).
+22. **Measured**: `tooling/repo-standards/session_tokens.py` prints subagent cost units per agent type (`units <type>`, from each subagent's `meta.json` `agentType`), so a cost review sees whether each tier is used.
+
 ## Not done here
 
 `rtk init -g` and the two config edits touch the owner's own Claude Code

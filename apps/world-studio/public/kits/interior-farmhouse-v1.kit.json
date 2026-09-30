@@ -646,6 +646,7 @@
    },
    "lodLevels": 3,
    "light": {
+    "fixtureKind": "candle",
     "formId": "00059a93",
     "editorId": "FarmInteriorLight01",
     "burnSeconds": -1,
@@ -666,11 +667,11 @@
     ],
     "fade": 1.0,
     "offsetM": [
-     0.01,
+     0.0,
      -0.02,
-     0.02
+     0.0
     ],
-    "evidence": "Skyrim.esm: FarmInteriorLight01 is the nearest LIGH ref (< 200 units, same cell) to 75 of 257 candlehornchandelier01 refs (next: FarmInteriorShadowLight01 20; none 74); offset is the median of those 75 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: FarmInteriorLight01 is the nearest LIGH ref (< 200 units, same cell) to 75 of 257 candlehornchandelier01 refs (next: FarmInteriorShadowLight01 20; none 74); offset is the median of those 75 in the piece's frame, glTF Y-up metres, horizontal agreement 0.17 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
    "flames": [
     {
@@ -826,6 +827,7 @@
    ],
    "lodLevels": 3,
    "light": {
+    "fixtureKind": "candle",
     "formId": "00059a93",
     "editorId": "FarmInteriorLight01",
     "burnSeconds": -1,
@@ -846,11 +848,11 @@
     ],
     "fade": 1.0,
     "offsetM": [
-     -0.43,
+     0.0,
      2.25,
-     0.25
+     0.0
     ],
-    "evidence": "Skyrim.esm: FarmInteriorLight01 is the nearest LIGH ref (< 200 units, same cell) to 58 of 458 candlehornfloor01 refs (next: RiftenLight01 29; none 230); offset is the median of those 58 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: FarmInteriorLight01 is the nearest LIGH ref (< 200 units, same cell) to 58 of 458 candlehornfloor01 refs (next: RiftenLight01 29; none 230); offset is the median of those 58 in the piece's frame, glTF Y-up metres, horizontal agreement 0.43 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
    "flames": [
     {
@@ -976,6 +978,7 @@
    ],
    "lodLevels": 3,
    "light": {
+    "fixtureKind": "candle",
     "formId": "00059a93",
     "editorId": "FarmInteriorLight01",
     "burnSeconds": -1,
@@ -996,11 +999,11 @@
     ],
     "fade": 1.0,
     "offsetM": [
-     0.16,
+     0.0,
      1.36,
-     0.16
+     0.0
     ],
-    "evidence": "Skyrim.esm: FarmInteriorLight01 is the nearest LIGH ref (< 200 units, same cell) to 91 of 992 candlehorntable01 refs (next: FarmInteriorFireLight01 83; none 369); offset is the median of those 91 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: FarmInteriorLight01 is the nearest LIGH ref (< 200 units, same cell) to 91 of 992 candlehorntable01 refs (next: FarmInteriorFireLight01 83; none 369); offset is the median of those 91 in the piece's frame, glTF Y-up metres, horizontal agreement 0.21 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
    "flames": [
     {
@@ -1081,6 +1084,7 @@
    ],
    "lodLevels": 3,
    "light": {
+    "fixtureKind": "candle",
     "formId": "00088238",
     "editorId": "DefaultCandleLight01NS",
     "burnSeconds": -1,
@@ -1106,7 +1110,7 @@
      -0.06,
      1.11
     ],
-    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 78 of 679 candlehornwall01 refs (next: DefaultCandleLight01NSDesat 70; none 310); offset is the median of those 78 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 78 of 679 candlehornwall01 refs (next: DefaultCandleLight01NSDesat 70; none 310); offset is the median of those 78 in the piece's frame, glTF Y-up metres, horizontal agreement 0.73 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
    "flames": [
     {
@@ -3511,6 +3515,7 @@
    },
    "lodLevels": 3,
    "light": {
+    "fixtureKind": "hearth",
     "formId": "00059b71",
     "editorId": "FarmInteriorFireLight01",
     "burnSeconds": -1,
@@ -3532,11 +3537,11 @@
     ],
     "fade": 1.0,
     "offsetM": [
-     -0.01,
+     0.0,
      1.2,
-     0.03
+     0.0
     ],
-    "evidence": "Skyrim.esm: FarmInteriorFireLight01 is the nearest LIGH ref (< 200 units, same cell) to 103 of 147 fireplacewood01burning refs (next: DefaultTorch01NS_FastDesat 7; none 14); offset is the median of those 103 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: FarmInteriorFireLight01 is the nearest LIGH ref (< 200 units, same cell) to 103 of 147 fireplacewood01burning refs (next: DefaultTorch01NS_FastDesat 7; none 14); offset is the median of those 103 in the piece's frame, glTF Y-up metres, horizontal agreement 0.15 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
    "flames": [
     {
@@ -7228,6 +7233,7 @@
    },
    "lodLevels": 3,
    "light": {
+    "fixtureKind": "torch",
     "formId": "000bcc9d",
     "editorId": "DefaultTorch01NS_Fast",
     "burnSeconds": -1,
@@ -7253,7 +7259,7 @@
      0.0,
      -1.23
     ],
-    "evidence": "Skyrim.esm: DefaultTorch01NS_Fast is the nearest LIGH ref (< 200 units, same cell) to 226 of 776 torchpermanent01 refs (next: BleakFallsDraugrTorch01NS 46; none 185); offset is the median of those 226 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: DefaultTorch01NS_Fast is the nearest LIGH ref (< 200 units, same cell) to 226 of 776 torchpermanent01 refs (next: BleakFallsDraugrTorch01NS 46; none 185); offset is the median of those 226 in the piece's frame, glTF Y-up metres, horizontal agreement 0.90 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
    "flames": [
     {
@@ -9539,6 +9545,7 @@
    },
    "lodLevels": 3,
    "light": {
+    "fixtureKind": "candle",
     "formId": "000b9be7",
     "editorId": "WRCandleFlickerNS",
     "burnSeconds": -1,
@@ -9560,11 +9567,11 @@
     ],
     "fade": 1.7,
     "offsetM": [
-     0.02,
+     0.0,
      0.74,
-     0.35
+     0.0
     ],
-    "evidence": "Skyrim.esm: WRCandleFlickerNS is the nearest LIGH ref (< 200 units, same cell) to 65 of 307 glazedcandlesstatic02 refs (next: SolitudeInnFirePlacesDefault 38; none 82); offset is the median of those 65 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: WRCandleFlickerNS is the nearest LIGH ref (< 200 units, same cell) to 65 of 307 glazedcandlesstatic02 refs (next: SolitudeInnFirePlacesDefault 38; none 82); offset is the median of those 65 in the piece's frame, glTF Y-up metres, horizontal agreement 0.38 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
    "flames": [
     {
@@ -10157,6 +10164,7 @@
    },
    "lodLevels": 3,
    "light": {
+    "fixtureKind": "candle",
     "formId": "0003611f",
     "editorId": "SolitudeInnCandleDefault",
     "burnSeconds": -1,
@@ -10177,17 +10185,17 @@
     ],
     "fade": 1.5,
     "offsetM": [
-     0.08,
+     0.0,
      0.14,
-     0.09
+     0.0
     ],
-    "evidence": "Skyrim.esm: SolitudeInnCandleDefault is the nearest LIGH ref (< 200 units, same cell) to 106 of 334 impcandle01 refs (next: SolitudeInnFiretDefault 22; none 170); offset is the median of those 106 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: SolitudeInnCandleDefault is the nearest LIGH ref (< 200 units, same cell) to 106 of 334 impcandle01 refs (next: SolitudeInnFiretDefault 22; none 170); offset is the median of those 106 in the piece's frame, glTF Y-up metres, horizontal agreement 0.07 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
    "flames": [
     {
      "offsetM": [
       0.0009,
-      0.3234,
+      0.272,
       0.0002
      ],
      "texture": "fx:candleflame01",
@@ -10197,7 +10205,8 @@
      ],
      "fps": 3.0,
      "sizeM": 0.036,
-     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01",
+     "seatedFromM": 0.3234
     }
    ],
    "designedSinkM": {
@@ -13768,6 +13777,7 @@
    },
    "lodLevels": 3,
    "light": {
+    "fixtureKind": "candle",
     "formId": "00088238",
     "editorId": "DefaultCandleLight01NS",
     "burnSeconds": -1,
@@ -13789,11 +13799,11 @@
     ],
     "fade": 1.0,
     "offsetM": [
-     -0.13,
+     0.0,
      1.12,
-     -0.05
+     0.0
     ],
-    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 262 of 2241 ruinsfloorcandlelampsmon refs (next: DefaultCandleLight01NSDesat 168; none 1189); offset is the median of those 262 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 262 of 2241 ruinsfloorcandlelampsmon refs (next: DefaultCandleLight01NSDesat 168; none 1189); offset is the median of those 262 in the piece's frame, glTF Y-up metres, horizontal agreement 0.04 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
    "flames": [
     {
@@ -13893,6 +13903,7 @@
    },
    "lodLevels": 3,
    "light": {
+    "fixtureKind": "candle",
     "formId": "00088238",
     "editorId": "DefaultCandleLight01NS",
     "burnSeconds": -1,
@@ -13914,11 +13925,11 @@
     ],
     "fade": 1.0,
     "offsetM": [
-     0.03,
+     0.0,
      1.11,
-     0.05
+     0.0
     ],
-    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 256 of 1515 ruinsfloorcandlelampsmon02 refs (next: DefaultCandleLight01NSDesat 132; none 780); offset is the median of those 256 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 256 of 1515 ruinsfloorcandlelampsmon02 refs (next: DefaultCandleLight01NSDesat 132; none 780); offset is the median of those 256 in the piece's frame, glTF Y-up metres, horizontal agreement 0.04 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
    "flames": [
     {

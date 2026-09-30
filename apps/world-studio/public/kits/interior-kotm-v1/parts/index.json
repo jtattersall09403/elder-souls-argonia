@@ -1,17 +1,17 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "kit": "interior-kotm-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 13610664,
-  "sha256": "f988f141269b67989435dd4d1356baea423eb8b20eff6354397d61b2c5c1eb7b"
+  "bytes": 13677396,
+  "sha256": "ff8040a2b8df9c62cb1f2a45a8c83e2e3ab3844f4df8d7d22a2687ae431c5431"
  },
  "totals": {
   "parts": 121,
   "partBytes": 2595736,
   "textureFiles": 91,
-  "textureBytes": 4337522,
-  "bytes": 6933258
+  "textureBytes": 4404407,
+  "bytes": 7000143
  },
  "assets": {
   "kotm:argonia/blackwood/plankwall01b": {
@@ -38,10 +38,10 @@
    "vertices": 8570,
    "triangles": 9757,
    "textures": [
+    "14589b7b1fd4deb3",
     "24f63fb182f6f591",
     "2c3192f23448fe31",
     "bb57f3abbba922ff",
-    "dcc4cef2f0045788",
     "de5d89f4a58bb9b3",
     "ed92dc656a5a17b3"
    ]
@@ -1217,6 +1217,126 @@
    "triangles": 136,
    "textures": [
     "b277c07b8e07accd"
+   ]
+  }
+ },
+ "fires": {
+  "kotm:argonia/clutter/townlantern04": {
+   "id": "kotm:argonia/clutter/townlantern04",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "light": {
+    "fixtureKind": "lantern",
+    "formId": "00075c32",
+    "editorId": "SolitudeInnFiretDefault",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     184,
+     96,
+     7
+    ],
+    "flicker": {
+     "frequency": 1.5,
+     "intensityAmplitude": 0.2,
+     "movementAmplitude": 12
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "fade": 2,
+    "offsetM": [
+     0,
+     0.2,
+     0
+    ],
+    "evidence": "Skyrim.esm: SolitudeInnFiretDefault is the nearest LIGH ref (< 200 units, same cell) to 9 of 19 townlantern04 refs (next: SolitudeInnFirePlacesShadowDefault 3; none 4); offset is the median of those 9 in the piece's frame, glTF Y-up metres, horizontal agreement 0.49 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
+   },
+   "sizeM": [
+    0.533,
+    0.508,
+    0.751
+   ],
+   "originOffsetM": [
+    0.276,
+    0.388,
+    0.011
+   ]
+  },
+  "vanilla:clutter/glazedcandles01": {
+   "id": "vanilla:clutter/glazedcandles01",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "light": {
+    "formId": "000b9be7",
+    "editorId": "WRCandleFlickerNS",
+    "burnSeconds": -1,
+    "radiusUnits": 128,
+    "colourRgb": [
+     254,
+     234,
+     152
+    ],
+    "flicker": {
+     "frequency": 3,
+     "intensityAmplitude": 0.3,
+     "movementAmplitude": 16
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1.7,
+    "offsetM": [
+     0,
+     0.76,
+     0
+    ],
+    "evidence": "Skyrim.esm: WRCandleFlickerNS is the nearest LIGH ref (< 200 units, same cell) to 34 of 213 glazedcandles01 refs (next: SolitudeInnCandleDefault 16; none 62); offset is the median of those 34 in the piece's frame, glTF Y-up metres, horizontal agreement 0.10 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
+   },
+   "flames": [
+    {
+     "offsetM": [
+      0.0204,
+      0.1564,
+      -0.0113
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.0387,
+      0.1378,
+      0.0169
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
+   "sizeM": [
+    0.218,
+    0.215,
+    0.169
+   ],
+   "originOffsetM": [
+    0.109,
+    0.108,
+    0
    ]
   }
  }

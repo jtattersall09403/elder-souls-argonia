@@ -38,6 +38,9 @@ whole state. Prints JSON on stdout and a timing line on stderr.
     wb.py - walktable PLACE_ID            (owner-walk table from the published bundle)
     wb.py - describe ASSET [--refresh]
     wb.py - evidence PARENT_ASSET CHILD_ASSET
+    wb.py audit-interior [CELL ...] [--out J] (interior cell: textures, support, stairs, hearth, lit density)
+    wb.py seat-interior CELL ASSET ZONE|X,Y,Z [--mount table|wall|floor|ceiling]
+                                          (seat one interior lighting addition; prints pos/rotZDeg)
 
 Coordinates are province metres, x east / z south (the studio's km x 1000);
 `--km` takes km. Faces: east, west, north, south (= +x, -x, +y, -y) in the
@@ -647,7 +650,8 @@ def _rule_task(cat, scene, key: str):
         return cmd_doors(None, scene, cat)
     from workbench import seat_rules
     fn = {"walk": rules.walk, "pathReach": rules.path_reach,
-          "berthReach": rules.berth_reach, "landing": seat_rules.landing}[key]
+          "berthReach": rules.berth_reach, "landing": seat_rules.landing,
+          "coplanar": rules.coplanar}[key]
     return fn(cat, scene)
 
 
@@ -667,8 +671,8 @@ def _piece_rule_task(cat, scene, key: str, uids: list):
 # by piece across the pool and scoped by `--only`
 CHECK_RULES = ("walk", "floorEdge", "pathReach", "propSeat", "roadSurface", "sill", "sign",
                "berthReach", "collider", "burial", "hanging", "fixtureSeat", "archway", "rockSeat",
-               "padClear", "landing")
-GRAPH_RULES = ("walk", "pathReach", "berthReach", "landing")
+               "padClear", "landing", "coplanar")
+GRAPH_RULES = ("walk", "pathReach", "berthReach", "landing", "coplanar")
 
 
 def cmd_check(a, scene, cat):
@@ -1261,7 +1265,7 @@ def _run_module(name: str, *args: str):
 
 def compile_scene(scene, src: Path, keep: Path | None = None,
                   keep_out: Path | None = None, cat=None, use_cache: bool = True) -> dict:
-    """Export into a temporary copy of the blueprint, run the settlement-build
+    """Export into a temporary copy of the blueprint, run the settlement
     derive passes on it (twice: they feed each other) and `compile_settlement`,
     and return its errors and warnings, each with the scene pieces bound to
     the parcels, landmarks and routes it names. `check` measures contacts;
@@ -2470,6 +2474,64 @@ def run_whatchanged(argv) -> int:
     return 0
 
 
+def run_audit_interior(argv) -> int:
+    """`wb.py audit-interior [CELL ...] [--out JSON]`: textures resolve,
+    support below, stairs land, hearth lit, lit density, per published cell
+    (no CELL: all). Exit 1 on any red. workbench/interior_audit.py."""
+    from workbench import interior_audit
+    ap = argparse.ArgumentParser(prog="wb.py audit-interior")
+    ap.add_argument("cells", nargs="*")
+    ap.add_argument("--out", type=Path, default=None, help="full JSON (default: stdout)")
+    a = ap.parse_args(argv)
+    got = interior_audit.audit(a.cells or None)
+    if a.out:
+        a.out.write_text(json.dumps(got, indent=1) + "\n")
+    else:
+        _emit(got)
+    for c in got:
+        print(f"{c['cell']}: red {c['red'] or 'none'}; lit {c['litDensity']['litFixtures']}"
+              f"/{c['litDensity']['needed']} over {c['litDensity']['walkableM2']} m2", file=sys.stderr)
+    return 1 if any(c["red"] for c in got) else 0
+
+
+def run_coplanar(argv) -> int:
+    """`wb.py coplanar [--cell CELL ..] [--all-cells] [--place PLACE_ID ..] [--out JSON]`:
+    every pair of surfaces from different pieces coplanar within 2 mm / 2 deg
+    and overlapping > 0.01 m2 (z-fighting), per published interior cell or
+    place bundle; a declared decal is exempt against its base only where the
+    runtime drawing it applies the decal offset. worldgen/coplanar.py. Exit 1 on any hit."""
+    import time
+    from workbench import coplanar, paths
+    ap = argparse.ArgumentParser(prog="wb.py coplanar")
+    ap.add_argument("--cell", nargs="+", default=[], help="one or more cell names")
+    ap.add_argument("--all-cells", action="store_true")
+    ap.add_argument("--place", nargs="*", default=[], help="place ids, e.g. place.hist-heartland.greenspring")
+    ap.add_argument("--out", type=Path, default=None, help="full JSON (default: stdout)")
+    a = ap.parse_args(argv)
+    cells = list(a.cell)
+    if a.all_cells:
+        cells += sorted(p.stem for p in (paths.PROVINCE / "interiors").glob("*.json"))
+    geo = coplanar.KitGeometry()
+    got = []
+    for c in cells:
+        t = time.time()
+        got.append({**coplanar.measure_cell(c, geo), "seconds": round(time.time() - t, 2)})
+    for p in a.place:
+        t = time.time()
+        got.append({**coplanar.measure_place(p, geo), "seconds": round(time.time() - t, 2)})
+    if a.out:
+        a.out.write_text(json.dumps(got, indent=1) + "\n")
+    else:
+        _emit(got)
+    for g in got:
+        print(f"{g.get('cell') or g.get('place')}: {len(g['hits'])} coplanar pair(s) over "
+              f"{g['pieces']} pieces, {g['seconds']} s", file=sys.stderr)
+        for h in g["hits"]:
+            print(f"  {h['a']['id']} x {h['b']['id']}: {h['overlapM2']} m2 {h['facing']} -> {h['fix']}",
+                  file=sys.stderr)
+    return 1 if any(g["hits"] for g in got) else 0
+
+
 def run_render_interior(argv) -> int:
     """`wb.py render-interior CELL [--day | --night] [--out PNG]`: the
     interior lighting contact sheet from the published bundle (doorway and
@@ -2493,8 +2555,29 @@ def run_render_interior(argv) -> int:
     return 0
 
 
+def run_seat_interior(argv) -> int:
+    """`wb.py seat-interior CELL ASSET ZONE|X,Y,Z [--mount table|wall|floor|ceiling]`:
+    seat one lighting addition on the published cell's geometry and print
+    its pos / rotZDeg (a wall piece faces the room on its mined light's
+    side). workbench/interior_seat.py."""
+    from workbench import interior_seat
+    ap = argparse.ArgumentParser(prog="wb.py seat-interior")
+    ap.add_argument("cell", help="the interior cell id (public/province/interiors/<cell>.json)")
+    ap.add_argument("asset", help="kit asset id, e.g. vanilla:clutter/candles/candlehornwall01")
+    ap.add_argument("where", help="a placement id or name substring (the zone), or x,y,z")
+    ap.add_argument("--mount", choices=interior_seat.MOUNTS, default=None,
+                    help="default from the asset name (wall/chandelier+lantern/floor/table)")
+    a = ap.parse_args(argv)
+    got = interior_seat.seat(a.cell, a.asset, a.where, a.mount)
+    _emit(got)
+    return 0 if got["seated"] else 1
+
+
 TOP_LEVEL = {"apply": run_apply, "replay": run_replay, "round": run_round, "edit": run_edit,
              "bpy": run_bpy, "render-interior": run_render_interior,
+             "coplanar": run_coplanar,
+             "audit-interior": run_audit_interior,
+             "seat-interior": run_seat_interior,
              "whatchanged": run_whatchanged}
 
 

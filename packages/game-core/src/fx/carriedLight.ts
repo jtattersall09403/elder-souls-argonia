@@ -11,6 +11,7 @@
  * the light is submerged (Phase 9's water sampler, injected into the combat
  * runtime), and stealth reads the same light as the target's `lightLevel`.
  */
+import { fireFlicker } from "./fire/fireTypes";
 
 export const CARRIED_LIGHT_SCHEMA_VERSION = 1;
 
@@ -102,13 +103,13 @@ export function tickCarriedLight(
 
 /**
  * Relative intensity at time `t` seconds: 1 steady, dipping by up to half the
- * record's flicker amplitude, 0 when out. Two incommensurate waves at the
- * record's frequency, so the flicker never visibly repeats.
+ * record's flicker amplitude, 0 when out. The fire flicker (fire/fireTypes.ts
+ * `fireFlicker`: seeded value noise and rare gusts at the record's frequency)
+ * mapped to 0..1, so it never repeats; `seed` (0..1) is stable per carrier.
  */
-export function carriedLightIntensity(state: CarriedLightState, spec: LightSourceSpec, t: number): number {
+export function carriedLightIntensity(state: CarriedLightState, spec: LightSourceSpec, t: number, seed = 0.5): number {
   if (!state.lit) return 0;
   if (!spec.flicker) return 1;
-  const phase = 2 * Math.PI * spec.flicker.frequency * t;
-  const wave = 0.5 + 0.25 * Math.sin(phase) + 0.25 * Math.sin(phase * 2.71 + 1.3);
+  const wave = Math.min(1, Math.max(0, fireFlicker(t, seed, spec.flicker.frequency, 0.5) - 0.5));
   return 1 - (spec.flicker.intensityAmplitude / 2) * wave;
 }

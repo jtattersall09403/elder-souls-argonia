@@ -1,7 +1,7 @@
 /**
  * The interior bundle's rotation convention, checked on real data (planner
- * ruling 7, interiors round 3). The exporter reads a Skyrim reference's
- * Euler angles as applied X, then Y, then Z, each clockwise, and re-expresses
+ * ruling 7, interiors round 3). The exporter composes a Skyrim reference's
+ * Euler angles as Gamebryo's Rx(-x) Ry(-y) Rz(-z) (Z applied first), and re-expresses
  * them for `Euler(pitch, -yaw, roll, 'YXZ')` in the game frame
  * (export_interior_bundle.game_rotation_deg). Here the published
  * DawnstarBrinasHouse bundle is placed as the runtime places it, and the
@@ -26,8 +26,8 @@ function pluginCentre(ref: (typeof raw.refs)[number], sign: 1 | -1): THREE.Vecto
   const local = new THREE.Vector3(
     ref.sizeM[0] / 2 - ref.originOffsetM[0], ref.sizeM[1] / 2 - ref.originOffsetM[1],
     ref.sizeM[2] / 2 - ref.originOffsetM[2]);
-  // three's 'ZYX' order is the matrix Rz·Ry·Rx: X applied first, then Y, then Z
-  local.applyEuler(new THREE.Euler(sign * rx, sign * ry, sign * rz, "ZYX"));
+  // three's 'XYZ' order is the matrix Rx·Ry·Rz (Gamebryo Rx(-x) Ry(-y) Rz(-z)): Z applied first, X last
+  local.applyEuler(new THREE.Euler(sign * rx, sign * ry, sign * rz, "XYZ"));
   const p = new THREE.Vector3(...ref.posUnits.map((u) => u * raw.metresPerUnit) as [number, number, number]);
   return toGame(p.add(local));
 }
@@ -51,7 +51,7 @@ describe("interior rotation convention on DawnstarBrinasHouse (ruling 7)", () =>
   const bundle = parseInteriorBundle(JSON.parse(readFileSync(BUNDLE_URL, "utf8")), "DawnstarBrinasHouse");
 
   for (const ref of raw.refs) {
-    it(`${ref.base} (${ref.refId}): the box centre lands where the plugin's X-Y-Z clockwise angles put it`, () => {
+    it(`${ref.base} (${ref.refId}): the box centre lands where the plugin's Gamebryo-order angles put it`, () => {
       const placement = bundle.placements.find((p) => p.id === `DawnstarBrinasHouse.${ref.refId}`);
       expect(placement?.assetId).toBe(ref.assetId);
       const tilted = placement!.rotationDeg.filter((a) => Math.abs(((a % 360) + 360) % 360) > 0.5

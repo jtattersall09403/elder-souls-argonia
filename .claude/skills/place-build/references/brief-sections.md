@@ -11,9 +11,10 @@ reports each lane's elapsed time against it (R62).
 - § Interiors (0103 decisions 1–2; `references/doors-interiors-sockets.md`
   §2): one row per door: building, shell, tier (A with its chosen cell,
   or `reserved` with the pool named, or `none` only for an open-fronted
-  piece with no door, walked into, R18), and why. Every building that
-  looks enterable is enterable (R52): there are no buildings nobody
-  enters. **`reserved` is legal only for a tier B or C
+  piece with no door, walked into, R18, or a `hollow` shell no plugin
+  gives a load door, 0114), and why. The plugin data is the manifest
+  (0114, R83): a building the player must enter takes a shell whose own
+  plugin links it to a cell. **`reserved` is legal only for a tier B or C
   interior** (0105 R2: a dungeon, a unique large interior). A dwelling,
   shop, stable house or workplace door is never reserved: re-shell to a
   shell with a linked furnished cell, or, for a doorless hut, dress the
@@ -38,7 +39,8 @@ reports each lane's elapsed time against it (R62).
   The cell is the fit rule's pick, written by
   `blueprint_interiors.py --claim` in step 2; the brief states the
   expected pick so a different one is noticed. Doors are typed
-  (0104 decision 4): `load` (a cell transition) or `swing` (opens in
+  (0104 decision 4): `load` (a cell transition), `hollow` (0114: a shell no plugin
+  gives a load door, no prompt) or `swing` (opens in
   place, no cell: a barn door, a gate, a room divider), and a swing door
   is a `door` record too, so the runtime animates it and its collider.
 - § Containers and items (owner 2026-09-27). Containers are **placed as

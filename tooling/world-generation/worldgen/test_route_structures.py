@@ -9,12 +9,9 @@ import numpy as np
 import pytest
 
 from . import grade_routes as G
-from .compile_route_structures import (DECK_LINE, FAMILIES, FOOT,
-                                       MONOLITH_OVERHANG_MAX_M, RAMP_MAX_DEG,
-                                       SPAN_SYSTEMS, choose_monolith,
+from .compile_route_structures import (FAMILIES, RAMP_MAX_DEG, compile_all,
                                        compile_structure, publish_route_outputs,
-                                       residual_over_cap, validate,
-                                       validate_spans)
+                                       residual_over_cap, studio_export, validate)
 from .scale import RAW_M
 
 
@@ -32,31 +29,16 @@ def _slope_way(cells: int = 240, rise_per_m: float = 0.45):
 
 
 def _kit_stub() -> dict:
-    """A kit manifest that measures exactly what the family and span tables claim."""
+    """A kit manifest that measures exactly what the family table claims."""
     out = {}
     for spec in FAMILIES.values():
         for role, piece in spec.items():
-            if role == "span" or not isinstance(piece, dict):
+            if not isinstance(piece, dict):
                 continue
             out[piece["asset"]] = {
                 "id": piece["asset"],
                 "sizeM": [piece["widthM"], piece["runM"], max(piece["riseM"], 0.5)],
                 "originOffsetM": [0.0, 0.0, 0.0],
-            }
-    for system in SPAN_SYSTEMS.values():
-        pieces = [p for p in (system.get(r) for r in ("deck", "pier", "abutment"))
-                  if p] + (system.get("monoliths") or [])
-        for piece in pieces:
-            height = max(piece.get("dropM", 0.0), 1.0) + piece.get("deckOffsetM", 0.0)
-            if piece["anchor"] == FOOT:
-                pivot = 0.0
-                height = max(height, piece.get("storeyM", height))
-            else:
-                pivot = piece.get("dropM", height)
-            out[piece["asset"]] = {
-                "id": piece["asset"],
-                "sizeM": [piece["widthM"], piece["runM"], round(height, 3)],
-                "originOffsetM": [0.0, 0.0, round(pivot, 3)],
             }
     return out
 
@@ -124,7 +106,7 @@ def test_puts_a_landing_where_the_ground_flattens():
     assert FAMILIES["dunmer-stone"]["stair"]["asset"] in assets
 
 
-def test_a_deck_steeper_than_the_ramp_cap_is_built_as_a_flight_and_reported():
+def test_a_lip_step_steeper_than_the_ramp_cap_is_built_as_a_flight_and_reported():
     """The ground wins, and the correction is named.
 
     This used to refuse, which was right while the author and the compiler
@@ -141,14 +123,14 @@ def test_a_deck_steeper_than_the_ramp_cap_is_built_as_a_flight_and_reported():
     """
     way, h = _slope_way(rise_per_m=0.45)      # 24 deg ground
     st = {"id": "structure.dunmer-north-test.1", "wayId": way["id"],
-          "kind": "deck", "family": "dunmer-stone",
+          "kind": "lip-step", "family": "dunmer-stone",
           "fromM": 100.0, "toM": 160.0, "why": "test"}
     placements, row = compile_structure(st, way, h, _kit_stub())
     assert placements, "the window must still be built"
     assert row["kind"] == "stepped-ascent", row["kind"]
     correction = row.get("kindCorrected")
     assert correction, "a silent correction is exactly what this must not be"
-    assert correction["was"] == "deck" and correction["now"] == "stepped-ascent"
+    assert correction["was"] == "lip-step" and correction["now"] == "stepped-ascent"
     assert correction["gradeDeg"] > RAMP_MAX_DEG
     # the stored rise and the measured rise are both reported, because the gap
     # between them IS the finding
@@ -158,7 +140,7 @@ def test_a_deck_steeper_than_the_ramp_cap_is_built_as_a_flight_and_reported():
 def test_refuses_an_authored_window_past_the_current_route_endpoint():
     way, h = _slope_way(cells=80)
     st = {"id": "structure.dunmer-north-test.stale", "wayId": way["id"],
-          "kind": "deck", "family": "dunmer-stone",
+          "kind": "lip-step", "family": "dunmer-stone",
           "fromM": 1_000.0, "toM": 1_050.0, "why": "test"}
     with pytest.raises(ValueError, match="does not overlap the current"):
         compile_structure(st, way, h, _kit_stub())
@@ -205,98 +187,12 @@ def test_stretch_export_finds_the_over_cap_run():
     assert chain[a] < 20.0 < chain[b - 1]
 
 
-# --------------------------------------------------------------------------
-# span systems (route-spans-v1)
-# --------------------------------------------------------------------------
-def test_every_family_declares_a_complete_span_system():
-    """A family must say how it carries a way over a gap, and the system it
-    names must be able to terminate its own run."""
-    validate_spans(_kit_stub())
-
-
-def test_a_family_with_no_span_block_is_refused():
-    fam = {"broken": {"culture": "test",
-                      "stair": {"asset": "a", "runM": 4.0, "riseM": 1.0, "widthM": 3.0}}}
-    with pytest.raises(ValueError, match="no `span` block"):
-        validate_spans(_kit_stub(), fam)
-
-
-def test_a_deck_with_no_abutment_is_refused():
-    """MUTATION: drop this and a chain can end in mid-air with nothing failing."""
-    systems = {"broken": {"deck": {"asset": "a", "runM": 4.0, "widthM": 3.0,
-                                   "anchor": DECK_LINE}}}
-    kit = {"a": {"id": "a", "sizeM": [3.0, 4.0, 1.0], "originOffsetM": [0, 0, 1.0]}}
-    with pytest.raises(ValueError, match="no abutment"):
-        validate_spans(kit, {}, systems)
-
-
-def test_a_deck_line_piece_whose_pivot_is_its_foot_is_refused():
-    """The whole point of `deck-line`: the pivot IS the walking surface and the
-    structure hangs below it. A foot-anchored piece placed there is buried."""
-    systems = {"broken": {
-        "deck": {"asset": "a", "runM": 4.0, "widthM": 3.0, "anchor": DECK_LINE},
-        "abutment": {"asset": "a", "runM": 4.0, "widthM": 3.0, "anchor": DECK_LINE}}}
-    kit = {"a": {"id": "a", "sizeM": [3.0, 4.0, 20.0], "originOffsetM": [0, 0, 0.0]}}
-    with pytest.raises(ValueError, match="foot-anchored"):
-        validate_spans(kit, {}, systems)
-
-
-def test_a_pier_drop_that_the_manifest_does_not_measure_is_refused():
-    systems = {"broken": {
-        "deck": {"asset": "a", "runM": 4.0, "widthM": 3.0, "anchor": DECK_LINE},
-        "abutment": {"asset": "a", "runM": 4.0, "widthM": 3.0, "anchor": DECK_LINE},
-        "pier": {"asset": "a", "runM": 4.0, "widthM": 3.0, "anchor": DECK_LINE,
-                 "dropM": 40.0, "everyM": 4.0}}}
-    kit = {"a": {"id": "a", "sizeM": [3.0, 4.0, 20.0], "originOffsetM": [0, 0, 18.0]}}
-    with pytest.raises(ValueError, match="shaft the manifest measures"):
-        validate_spans(kit, {}, systems)
-
-
-def test_a_system_may_not_mix_whole_bridges_with_a_chained_deck():
-    systems = {"broken": {
-        "deck": {"asset": "a", "runM": 4.0, "widthM": 3.0, "anchor": DECK_LINE},
-        "abutment": {"asset": "a", "runM": 4.0, "widthM": 3.0, "anchor": DECK_LINE},
-        "monoliths": [{"asset": "a", "runM": 20.0, "widthM": 3.0, "anchor": DECK_LINE}]}}
-    kit = {"a": {"id": "a", "sizeM": [3.0, 4.0, 20.0], "originOffsetM": [0, 0, 18.0]}}
-    with pytest.raises(ValueError, match="mixes whole authored bridges"):
-        validate_spans(kit, {}, systems)
-
-
-def test_the_monolith_rule_takes_the_smallest_bridge_that_fits():
-    arch = SPAN_SYSTEMS["stone-arch"]
-    # A 40 m road crossing: bridge01 (42.084 m, 9.133 m wide) is the smallest
-    # that both covers it and carries a 5 m running surface.
-    chosen = choose_monolith(arch, 40.0, 5.0)
-    assert chosen["asset"].endswith("bridge01"), chosen
-    # A 23 m track: the narrow twin is enough.
-    assert choose_monolith(arch, 23.0, 3.6)["asset"].endswith("bridgenarrow01")
-    # A 60 m crossing is longer than anything vanilla ships whole.
-    assert choose_monolith(arch, 60.0, 5.0) is None
-    # And a 5 m gap does NOT get a 23 m bridge overhanging 18 m of hillside.
-    assert choose_monolith(arch, 5.0, 3.6) is None
-
-
-def test_a_crossing_is_built_on_the_chord_with_piers_that_reach_the_ground():
-    """The measured proof the owner is shown: no floating end, no buried deck,
-    every pier standing on the ground under it, and no terrain touched."""
-    way, h = _slope_way(rise_per_m=0.0)         # the way runs cells 4 -> 60
-    # 15 m deep: inside the 21.848 m of shaft the Nordic pier carries below its
-    # deck-line pivot, so every pier can reach the floor of it
-    h[:, 22:46] -= 15.0
-    # the gorge sits between chainage 20 m and 63 m; the window brackets it,
-    # so both endpoints are on the level ground the road actually arrives on
-    st = {"id": "structure.dunmer-north-test.1", "wayId": way["id"],
-          "kind": "bridge", "family": "dunmer-stone",
-          "fromM": 10.0, "toM": 90.0, "why": "test"}
-    placements, row = compile_structure(st, way, h, _kit_stub())
-    facts = row["span"]
-    assert facts["arrangement"] == "chain", facts     # too long for any monolith
-    assert facts["system"] == "nordic-viaduct"
-    assert facts["piers"] > 0 and facts["piersShort"] == 0
-    roles = [p["role"] for p in placements]
-    assert roles[0] == "abutment" and "abutment" in roles[1:], roles[:3]
-    # The deck ends meet the ground; nothing floats and nothing is buried.
-    assert facts["endDropM"] == [0.0, 0.0]
-    ys = [p["posM"][1] for p in placements if p["role"] == "deck"]
-    assert ys, "a chained crossing must lay deck"
-    assert max(ys) - min(ys) < 5.0, "the deck runs on the chord, not the ground"
+def test_a_way_with_no_structures_compiles_and_publishes_nothing(tmp_path):
+    """Every structure on a way can go (16k walk 6: the crossings left the
+    province data); the compile then carries no row, no way file and no studio
+    entry for it, rather than an empty shell."""
+    by_way, rows = compile_all([], {}, np.zeros((4, 4), dtype=np.float32), _kit_stub())
+    assert by_way == {} and rows == []
+    publish_route_outputs(by_way, tmp_path / "route-structures")
+    assert list((tmp_path / "route-structures").iterdir()) == []
+    assert studio_export(by_way, rows)["structures"] == []

@@ -418,9 +418,9 @@
     11.4092
    ],
    "rotationDeg": [
-    0.034,
+    -0.07,
     240.593,
-    0.061
+    -0.001
    ],
    "scale": 1.0,
    "category": "item",
@@ -437,9 +437,9 @@
     11.5226
    ],
    "rotationDeg": [
-    0.452,
-    1.253,
-    -0.278
+    0.446,
+    1.251,
+    -0.288
    ],
    "scale": 1.0,
    "category": "item",
@@ -475,9 +475,9 @@
     11.7598
    ],
    "rotationDeg": [
-    0.153,
+    0.073,
     57.89,
-    -0.011
+    -0.135
    ],
    "scale": 1.0,
    "category": "item",
@@ -494,9 +494,9 @@
     11.7102
    ],
    "rotationDeg": [
-    0.09,
+    0.049,
     332.809,
-    0.067
+    0.101
    ],
    "scale": 1.0,
    "category": "item",
@@ -589,9 +589,9 @@
     6.6132
    ],
    "rotationDeg": [
-    -1.064,
-    71.623,
-    0.132
+    -0.21,
+    71.622,
+    1.051
    ],
    "scale": 1.0,
    "category": "item",
@@ -608,9 +608,9 @@
     6.3513
    ],
    "rotationDeg": [
-    0.429,
-    256.635,
-    179.855
+    -0.042,
+    103.367,
+    -179.549
    ],
    "scale": 1.0,
    "category": "item",
@@ -627,9 +627,9 @@
     6.1225
    ],
    "rotationDeg": [
-    0.312,
-    265.844,
-    179.929
+    -0.048,
+    94.157,
+    -179.683
    ],
    "scale": 1.0,
    "category": "item",
@@ -741,9 +741,9 @@
     11.3753
    ],
    "rotationDeg": [
-    -0.025,
+    0.035,
     51.566,
-    0.065
+    0.06
    ],
    "scale": 1.0,
    "category": "item",
@@ -779,9 +779,9 @@
     6.2121
    ],
    "rotationDeg": [
-    0.079,
+    0.082,
     358.32,
-    -0.107
+    -0.105
    ],
    "scale": 1.0,
    "category": "item",
@@ -798,9 +798,9 @@
     6.2078
    ],
    "rotationDeg": [
-    -0.094,
+    -0.102,
     357.127,
-    0.146
+    0.141
    ],
    "scale": 1.0,
    "category": "item",
@@ -817,9 +817,9 @@
     6.4178
    ],
    "rotationDeg": [
-    -0.265,
-    358.394,
-    0.388
+    -0.276,
+    358.393,
+    0.381
    ],
    "scale": 1.0,
    "category": "item",
@@ -1007,9 +1007,9 @@
     9.1928
    ],
    "rotationDeg": [
-    -0.136,
-    266.016,
-    0.29
+    -0.279,
+    266.014,
+    -0.156
    ],
    "scale": 1.0,
    "category": "item",
@@ -1026,9 +1026,9 @@
     9.8269
    ],
    "rotationDeg": [
-    -1.111,
-    63.176,
-    1.881
+    1.175,
+    63.102,
+    1.842
    ],
    "scale": 1.0,
    "category": "item",
@@ -1045,9 +1045,9 @@
     10.2733
    ],
    "rotationDeg": [
-    -0.186,
-    346.312,
-    0.424
+    -0.281,
+    346.311,
+    0.367
    ],
    "scale": 1.0,
    "category": "item",
@@ -1064,9 +1064,9 @@
     9.1077
    ],
    "rotationDeg": [
-    -35.953,
-    194.44,
-    167.115
+    -37.414,
+    152.245,
+    173.473
    ],
    "scale": 1.0,
    "category": "item",
@@ -1083,9 +1083,9 @@
     9.5526
    ],
    "rotationDeg": [
-    -0.164,
+    -0.172,
     357.744,
-    0.218
+    0.211
    ],
    "scale": 1.0,
    "category": "item",
@@ -1102,9 +1102,9 @@
     9.3153
    ],
    "rotationDeg": [
-    -30.562,
-    341.49,
-    -67.479
+    -70.127,
+    72.28,
+    14.019
    ],
    "scale": 1.0,
    "category": "item",
@@ -1121,9 +1121,9 @@
     9.4208
    ],
    "rotationDeg": [
-    -0.203,
+    -0.087,
     326.465,
-    -0.149
+    -0.236
    ],
    "scale": 1.0,
    "category": "item",
@@ -1159,9 +1159,9 @@
     6.3321
    ],
    "rotationDeg": [
-    0.513,
-    299.556,
-    -0.175
+    0.405,
+    299.552,
+    0.36
    ],
    "scale": 1.0,
    "category": "item",
@@ -1178,9 +1178,9 @@
     6.3663
    ],
    "rotationDeg": [
-    0.482,
-    173.731,
-    0.313
+    -0.445,
+    173.733,
+    -0.364
    ],
    "scale": 1.0,
    "category": "item",
@@ -1197,9 +1197,9 @@
     6.3034
    ],
    "rotationDeg": [
-    -0.148,
+    -0.088,
     326.753,
-    -0.065
+    -0.136
    ],
    "scale": 1.0,
    "category": "item",
@@ -1216,9 +1216,9 @@
     6.3692
    ],
    "rotationDeg": [
-    0.023,
+    0.054,
     219.182,
-    -0.114
+    0.103
    ],
    "scale": 1.0,
    "category": "item",
@@ -1235,9 +1235,9 @@
     6.3994
    ],
    "rotationDeg": [
-    0.193,
+    0.195,
     358.186,
-    -0.07
+    -0.063
    ],
    "scale": 1.0,
    "category": "item",
@@ -1349,9 +1349,9 @@
     6.3776
    ],
    "rotationDeg": [
-    -0.117,
+    -0.024,
     74.943,
-    0.007
+    0.115
    ],
    "scale": 1.0,
    "category": "item",
@@ -1368,9 +1368,9 @@
     6.2685
    ],
    "rotationDeg": [
-    -0.09,
-    125.092,
-    -0.123
+    -0.049,
+    125.093,
+    0.144
    ],
    "scale": 1.0,
    "category": "item",
@@ -1406,9 +1406,9 @@
     11.8602
    ],
    "rotationDeg": [
-    -45.042,
-    260.431,
-    -4.61
+    6.755,
+    267.839,
+    -44.828
    ],
    "scale": 1.0,
    "category": "item",
@@ -1425,9 +1425,9 @@
     7.6291
    ],
    "rotationDeg": [
-    -0.125,
+    -0.105,
     39.839,
-    -0.013
+    0.07
    ],
    "scale": 1.0,
    "category": "item",
@@ -1520,9 +1520,9 @@
     7.4759
    ],
    "rotationDeg": [
-    0.0,
+    -1.432,
     90.0,
-    -1.432
+    0.0
    ],
    "scale": 0.9,
    "category": "clutter",
@@ -1729,9 +1729,9 @@
     6.4971
    ],
    "rotationDeg": [
-    -2.616,
-    353.799,
-    -0.487
+    -2.548,
+    353.815,
+    -0.766
    ],
    "scale": 1.0,
    "category": "item",
@@ -1748,9 +1748,9 @@
     6.4913
    ],
    "rotationDeg": [
-    -2.427,
-    0.266,
-    -0.257
+    -2.428,
+    0.277,
+    -0.245
    ],
    "scale": 1.0,
    "category": "item",
@@ -1767,9 +1767,9 @@
     6.4681
    ],
    "rotationDeg": [
-    -1.431,
-    19.507,
-    -4.225
+    -2.769,
+    19.581,
+    -3.498
    ],
    "scale": 1.0,
    "category": "item",
@@ -1786,9 +1786,9 @@
     6.4759
    ],
    "rotationDeg": [
-    -1.881,
-    12.327,
-    -3.883
+    -2.678,
+    12.44,
+    -3.383
    ],
    "scale": 1.0,
    "category": "item",
@@ -1805,9 +1805,9 @@
     6.2941
    ],
    "rotationDeg": [
-    -0.113,
+    -0.157,
     20.524,
-    -0.144
+    -0.095
    ],
    "scale": 1.0,
    "category": "item",
@@ -1824,9 +1824,9 @@
     6.3642
    ],
    "rotationDeg": [
-    -0.04,
+    -0.104,
     20.527,
-    -0.191
+    -0.165
    ],
    "scale": 1.0,
    "category": "item",
@@ -1843,9 +1843,9 @@
     6.3541
    ],
    "rotationDeg": [
-    -0.049,
+    0.111,
     162.331,
-    0.214
+    -0.189
    ],
    "scale": 1.0,
    "category": "item",
@@ -1862,9 +1862,9 @@
     6.2787
    ],
    "rotationDeg": [
-    0.192,
-    162.331,
-    0.185
+    -0.127,
+    162.332,
+    -0.235
    ],
    "scale": 1.0,
    "category": "item",
@@ -1881,9 +1881,9 @@
     6.3728
    ],
    "rotationDeg": [
-    0.014,
+    -0.088,
     216.763,
-    0.128
+    -0.095
    ],
    "scale": 1.0,
    "category": "item",
@@ -1900,9 +1900,9 @@
     7.0686
    ],
    "rotationDeg": [
-    -35.218,
-    178.405,
-    -57.475
+    61.15,
+    257.497,
+    -24.449
    ],
    "scale": 0.7,
    "category": "item",
@@ -1919,9 +1919,9 @@
     7.1564
    ],
    "rotationDeg": [
-    71.199,
-    348.544,
-    -45.371
+    36.734,
+    266.37,
+    73.59
    ],
    "scale": 0.7,
    "category": "item",
@@ -1976,9 +1976,9 @@
     6.3852
    ],
    "rotationDeg": [
-    0.032,
+    0.031,
     358.484,
-    0.012
+    0.013
    ],
    "scale": 1.0,
    "category": "item",
@@ -2015,7 +2015,7 @@
    ],
    "rotationDeg": [
     0.041,
-    0.01,
+    0.009,
     -0.197
    ],
    "scale": 1.0,
@@ -2033,9 +2033,9 @@
     11.649
    ],
    "rotationDeg": [
-    -0.196,
-    328.485,
-    -0.127
+    -0.101,
+    328.486,
+    -0.21
    ],
    "scale": 1.0,
    "category": "item",
@@ -2128,9 +2128,9 @@
     6.6791
    ],
    "rotationDeg": [
-    -0.161,
-    129.421,
-    0.298
+    0.333,
+    129.42,
+    -0.065
    ],
    "scale": 1.0,
    "category": "item",
@@ -2147,9 +2147,9 @@
     6.678
    ],
    "rotationDeg": [
-    -0.161,
-    238.283,
-    0.298
+    -0.169,
+    238.281,
+    -0.294
    ],
    "scale": 1.0,
    "category": "item",
@@ -2166,9 +2166,9 @@
     6.6758
    ],
    "rotationDeg": [
-    -0.039,
+    -0.326,
     304.171,
-    0.367
+    0.174
    ],
    "scale": 1.0,
    "category": "item",
@@ -2204,9 +2204,9 @@
     7.1499
    ],
    "rotationDeg": [
-    -0.05,
+    0.038,
     224.149,
-    -0.003
+    -0.033
    ],
    "scale": 1.0,
    "category": "item",
@@ -2318,9 +2318,9 @@
     6.3199
    ],
    "rotationDeg": [
-    0.17,
+    0.176,
     20.517,
-    0.049
+    -0.014
    ],
    "scale": 1.0,
    "category": "item",
@@ -2338,7 +2338,7 @@
    ],
    "rotationDeg": [
     0.329,
-    0.068,
+    0.067,
     -0.121
    ],
    "scale": 1.0,
@@ -2356,9 +2356,9 @@
     9.8017
    ],
    "rotationDeg": [
-    0.276,
+    0.262,
     10.081,
-    -0.056
+    -0.103
    ],
    "scale": 1.0,
    "category": "item",
@@ -2375,9 +2375,9 @@
     10.1097
    ],
    "rotationDeg": [
-    0.102,
+    0.122,
     55.22,
-    0.077
+    -0.04
    ],
    "scale": 1.0,
    "category": "item",
@@ -2394,9 +2394,9 @@
     10.0776
    ],
    "rotationDeg": [
-    -0.147,
-    177.779,
-    0.054
+    0.149,
+    177.778,
+    -0.048
    ],
    "scale": 1.0,
    "category": "item",
@@ -2413,9 +2413,9 @@
     10.3739
    ],
    "rotationDeg": [
-    -0.079,
-    76.835,
-    0.092
+    0.071,
+    76.834,
+    0.098
    ],
    "scale": 1.0,
    "category": "item",
@@ -2432,9 +2432,9 @@
     10.3114
    ],
    "rotationDeg": [
-    0.08,
-    220.945,
-    0.123
+    -0.141,
+    220.946,
+    -0.04
    ],
    "scale": 1.0,
    "category": "item",
@@ -2451,9 +2451,9 @@
     6.5902
    ],
    "rotationDeg": [
-    -0.024,
+    0.0,
     348.954,
-    -0.122
+    -0.124
    ],
    "scale": 1.0,
    "category": "item",
@@ -2508,9 +2508,9 @@
     6.7109
    ],
    "rotationDeg": [
-    -8.623,
-    354.828,
-    -26.088
+    -9.16,
+    359.112,
+    -25.916
    ],
    "scale": 1.0,
    "category": "item",
@@ -2527,9 +2527,9 @@
     6.068
    ],
    "rotationDeg": [
-    62.935,
-    274.211,
-    -8.085
+    -1.022,
+    265.374,
+    63.221
    ],
    "scale": 1.13,
    "category": "clutter",
@@ -2546,9 +2546,9 @@
     6.1325
    ],
    "rotationDeg": [
-    62.935,
-    274.211,
-    -8.085
+    -1.022,
+    265.374,
+    63.221
    ],
    "scale": 1.13,
    "category": "clutter",
@@ -2565,9 +2565,9 @@
     6.1348
    ],
    "rotationDeg": [
-    62.935,
-    274.211,
-    -8.085
+    -1.022,
+    265.374,
+    63.221
    ],
    "scale": 1.13,
    "category": "clutter",
@@ -2829,9 +2829,9 @@
   {
    "refId": "fixture:DawnstarBrinasHouse.000E043F",
    "positionM": [
-    -20.3144,
+    -20.3653,
     2.241,
-    11.6435
+    11.864
    ],
    "radiusM": 7.283,
    "colorRGB": [
@@ -2853,9 +2853,9 @@
   {
    "refId": "fixture:DawnstarBrinasHouse.000E0440",
    "positionM": [
-    -19.2705,
+    -19.3892,
     3.01,
-    6.5056
+    6.6983
    ],
    "radiusM": 7.283,
    "colorRGB": [
@@ -2897,8 +2897,33 @@
     "recordFade": 1.0,
     "recordFalloffExponent": 1.0
    }
+  },
+  {
+   "refId": "fixture:DawnstarBrinasHouse.000E045F",
+   "positionM": [
+    -14.1643,
+    2.25,
+    8.4398
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    198,
+    162,
+    100
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "FarmInteriorLight01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
   }
  ],
+ "socketsSchemaVersion": 2,
  "sockets": [
   {
    "id": "socket.DawnstarBrinasHouse.0004D7E5",
@@ -4001,7 +4026,16 @@
    "yawDeg": 38.675,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     -25.781,
+     0.0,
+     9.7
+    ],
+    "facing": 38.675
+   }
   },
   {
    "id": "socket.DawnstarBrinasHouse.000E0473",
@@ -4014,7 +4048,16 @@
    "yawDeg": 332.785,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     -21.896,
+     0.0,
+     9.326
+    ],
+    "facing": 332.785
+   }
   },
   {
    "id": "socket.DawnstarBrinasHouse.000E0474",
@@ -4027,7 +4070,16 @@
    "yawDeg": 225.355,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     -17.709,
+     0.0,
+     9.121
+    ],
+    "facing": 225.355
+   }
   },
   {
    "id": "socket.DawnstarBrinasHouse.0010859A",
@@ -4055,7 +4107,16 @@
    "yawDeg": 37.242,
    "host": "DawnstarBrinasHouse.0010C73C",
    "activity": "work-at",
-   "why": "CraftingCookingPotSm placed by the cell's author"
+   "why": "CraftingCookingPotSm placed by the cell's author",
+   "interact": {
+    "kind": "station",
+    "position": [
+     -21.314,
+     0.0,
+     8.028
+    ],
+    "facing": 37.242
+   }
   }
  ],
  "drops": [
@@ -4136,7 +4197,7 @@
  "counts": {
   "placements": 129,
   "drops": 12,
-  "lights": 9,
+  "lights": 10,
   "substitutions": 0,
   "swingDoors": 0,
   "missingByClass": {},

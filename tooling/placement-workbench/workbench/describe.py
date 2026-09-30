@@ -33,6 +33,7 @@ from pathlib import Path
 import numpy as np
 
 from . import paths
+from .mesh_query import cast_rays
 from .kits import Catalogue, fit_of
 
 SCHEMA_VERSION = 3
@@ -178,7 +179,7 @@ def _openings(mesh, floors: list[dict]) -> list[dict]:
     out_dir = np.column_stack([np.sin(b), np.cos(b), np.zeros_like(b)])
     origins = np.column_stack([centre[0] + out_dir[:, 0] * reach, centre[1] + out_dir[:, 1] * reach,
                                np.tile(zs, len(bearings))])
-    locs, idx, _ = mesh.ray.intersects_location(origins, -out_dir, multiple_hits=False)
+    locs, idx, _ = cast_rays(mesh, origins, -out_dir, multiple_hits=False)
     radius = np.full(len(origins), -np.inf)
     radius[idx] = reach - np.linalg.norm(locs[:, :2] - origins[idx, :2], axis=1)
     grid = radius.reshape(len(bearings), len(zs)).T          # rows z, cols bearing

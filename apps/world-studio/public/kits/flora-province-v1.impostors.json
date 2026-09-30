@@ -7,7 +7,6 @@
  "impostors": [
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb2",
-   "file": "bmv__landscape_trees_mangrovereachtree0gkb2.glb",
    "grid": 14,
    "framePx": 192,
    "normalFramePx": 96,
@@ -54,7 +53,6 @@
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb3",
-   "file": "bmv__landscape_trees_mangrovereachtree0gkb3.glb",
    "grid": 12,
    "framePx": 192,
    "normalFramePx": 96,
@@ -101,7 +99,6 @@
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb8",
-   "file": "bmv__landscape_trees_mangrovereachtree0gkb8.glb",
    "grid": 12,
    "framePx": 192,
    "normalFramePx": 96,
@@ -148,7 +145,6 @@
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb9",
-   "file": "bmv__landscape_trees_mangrovereachtree0gkb9.glb",
    "grid": 14,
    "framePx": 192,
    "normalFramePx": 96,

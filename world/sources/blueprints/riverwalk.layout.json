@@ -14,22 +14,22 @@
    "uid": "lw00",
    "asset": "vanilla:architecture/docks/dockstrent02",
    "at": [
-    7192.5,
-    534.0
+    7206.27,
+    526.53
    ],
-   "yaw": 190.1,
-   "settle": true,
-   "walkable": true
+   "yaw": 174.6,
+   "walkable": true,
+   "settle": true
   },
   {
    "op": "place",
    "uid": "lw01",
    "asset": "vanilla:architecture/docks/dockstrent02",
    "at": [
-    7191.3,
-    541.1
+    7206.83,
+    533.89
    ],
-   "yaw": 190.1,
+   "yaw": 174.6,
    "walkable": true
   },
   {
@@ -47,10 +47,10 @@
    "uid": "lw02",
    "asset": "vanilla:architecture/docks/dockstrent02",
    "at": [
-    7190.1,
-    548.2
+    7207.39,
+    541.15
    ],
-   "yaw": 190.1,
+   "yaw": 174.6,
    "walkable": true
   },
   {
@@ -68,10 +68,10 @@
    "uid": "lw03",
    "asset": "vanilla:architecture/docks/dockstrent02",
    "at": [
-    7188.9,
-    555.3
+    7207.95,
+    548.41
    ],
-   "yaw": 190.1,
+   "yaw": 174.6,
    "walkable": true
   },
   {
@@ -89,10 +89,10 @@
    "uid": "lw04",
    "asset": "vanilla:architecture/docks/dockstrent02",
    "at": [
-    7187.7,
-    562.4
+    7208.5,
+    555.67
    ],
-   "yaw": 190.1,
+   "yaw": 174.6,
    "walkable": true
   },
   {
@@ -110,10 +110,10 @@
    "uid": "lw05",
    "asset": "vanilla:architecture/docks/dockstrent02",
    "at": [
-    7186.5,
-    569.5
+    7209.06,
+    562.93
    ],
-   "yaw": 190.1,
+   "yaw": 174.6,
    "walkable": true
   },
   {
@@ -129,12 +129,12 @@
   {
    "op": "place",
    "uid": "lw06",
-   "asset": "vanilla:architecture/docks/dockstrent02",
+   "asset": "vanilla:architecture/docks/dockstr4way01",
    "at": [
-    7185.3,
-    576.6
+    7209.61,
+    570.18
    ],
-   "yaw": 190.1,
+   "yaw": 174.6,
    "walkable": true
   },
   {
@@ -143,19 +143,18 @@
    "child_face": "south",
    "parent": "lw05",
    "parent_face": "north",
-   "by": "evidence",
-   "settle": true,
-   "pick": 3
+   "by": "geometry",
+   "settle": true
   },
   {
    "op": "place",
    "uid": "lw07",
    "asset": "vanilla:architecture/docks/dockstrent02",
    "at": [
-    7184.1,
-    583.7
+    7210.17,
+    577.44
    ],
-   "yaw": 190.1,
+   "yaw": 174.6,
    "walkable": true
   },
   {
@@ -164,19 +163,18 @@
    "child_face": "south",
    "parent": "lw06",
    "parent_face": "north",
-   "by": "evidence",
-   "settle": true,
-   "pick": 3
+   "by": "geometry",
+   "settle": true
   },
   {
    "op": "place",
    "uid": "lw08",
    "asset": "vanilla:architecture/docks/dockstrent02",
    "at": [
-    7182.9,
-    590.8
+    7210.73,
+    584.7
    ],
-   "yaw": 190.1,
+   "yaw": 174.6,
    "walkable": true
   },
   {
@@ -194,10 +192,10 @@
    "uid": "lw09",
    "asset": "vanilla:architecture/docks/dockstrent02",
    "at": [
-    7181.7,
-    597.9
+    7211.28,
+    591.96
    ],
-   "yaw": 190.1,
+   "yaw": 174.6,
    "walkable": true
   },
   {
@@ -215,10 +213,10 @@
    "uid": "lw10",
    "asset": "vanilla:architecture/docks/dockstrent02",
    "at": [
-    7180.5,
-    605.0
+    7211.84,
+    599.22
    ],
-   "yaw": 190.1,
+   "yaw": 174.6,
    "walkable": true
   },
   {
@@ -236,10 +234,10 @@
    "uid": "lw11",
    "asset": "vanilla:architecture/docks/dockstrent02",
    "at": [
-    7179.3,
-    612.1
+    7212.39,
+    606.48
    ],
-   "yaw": 190.1,
+   "yaw": 174.6,
    "walkable": true
   },
   {
@@ -254,108 +252,52 @@
   },
   {
    "op": "place",
-   "uid": "le00",
-   "asset": "vanilla:architecture/docks/dockstrsol01",
+   "uid": "lw12",
+   "asset": "vanilla:architecture/docks/dockstrent02",
    "at": [
-    7183.6,
-    613.6
+    7212.95,
+    613.74
    ],
-   "yaw": 100.1,
+   "yaw": 174.6,
    "walkable": true
   },
   {
    "op": "snap",
-   "child": "le00",
+   "child": "lw12",
    "child_face": "south",
    "parent": "lw11",
-   "parent_face": "west",
-   "by": "geometry",
-   "settle": true
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
   },
   {
    "op": "place",
-   "uid": "le01",
-   "asset": "vanilla:architecture/docks/dockstrsol01",
+   "uid": "lw13",
+   "asset": "vanilla:architecture/docks/dockstrent02",
    "at": [
-    7190.8,
-    614.9
+    7213.51,
+    621.0
    ],
-   "yaw": 100.1,
+   "yaw": 174.6,
    "walkable": true
   },
   {
    "op": "snap",
-   "child": "le01",
+   "child": "lw13",
    "child_face": "south",
-   "parent": "le00",
+   "parent": "lw12",
    "parent_face": "north",
    "by": "evidence",
    "settle": true,
-   "allow_terminal": true
+   "pick": 3
   },
-  {
-   "op": "place",
-   "uid": "le02",
-   "asset": "vanilla:architecture/docks/dockstrsol01",
-   "at": [
-    7198.0,
-    616.2
-   ],
-   "yaw": 100.1,
-   "walkable": true
-  },
-  {
-   "op": "snap",
-   "child": "le02",
-   "child_face": "south",
-   "parent": "le01",
-   "parent_face": "north",
-   "by": "evidence",
-   "settle": true,
-   "allow_terminal": true
-  },
-  {
-   "op": "place",
-   "uid": "le03",
-   "asset": "vanilla:architecture/docks/dockstrsol01",
-   "at": [
-    7205.200000000001,
-    617.5
-   ],
-   "yaw": 100.1,
-   "walkable": true
-  },
-  {
-   "op": "snap",
-   "child": "le03",
-   "child_face": "south",
-   "parent": "le02",
-   "parent_face": "north",
-   "by": "evidence",
-   "settle": true,
-   "allow_terminal": true
-  },
-  {
-   "op": "place",
-   "uid": "le04",
-   "asset": "vanilla:architecture/docks/dockstrsol01",
-   "at": [
-    7212.400000000001,
-    618.8000000000001
-   ],
-   "yaw": 100.1,
-   "walkable": true
-  },
-  {
-   "op": "snap",
-   "child": "le04",
-   "child_face": "south",
-   "parent": "le03",
-   "parent_face": "north",
-   "by": "evidence",
-   "settle": true,
-   "allow_terminal": true
-  },
+  {"op": "place", "uid": "wb00", "asset": "vanilla:architecture/docks/dockstrent02", "at": [7203.85, 570.63], "yaw": 84.6, "walkable": true},
+  {"op": "snap", "child": "wb00", "child_face": "north", "parent": "lw06", "parent_face": "east", "by": "geometry", "settle": true},
+  {"op": "place", "uid": "wb01", "asset": "vanilla:architecture/docks/dockstrsol01", "at": [7196.59, 571.19], "yaw": 84.6, "walkable": true},
+  {"op": "snap", "child": "wb01", "child_face": "north", "parent": "wb00", "parent_face": "south", "by": "evidence", "settle": true, "allow_terminal": true},
+  {"op": "place", "uid": "wb02", "asset": "vanilla:architecture/docks/dockstepsdown01", "at": [7189.33, 571.75], "yaw": 84.6, "walkable": true, "wet": true},
+  {"op": "snap", "child": "wb02", "child_face": "west", "parent": "wb01", "parent_face": "south", "by": "evidence"},
   {
    "op": "place",
    "uid": "fs00",
@@ -547,39 +489,21 @@
   },
   {
    "op": "bind",
-   "uid": "le00",
+   "uid": "lw12",
    "kind": "run",
-   "id": "parcel.riverwalk.islet-walk",
-   "index": 0
+   "id": "parcel.riverwalk.the-long-walk",
+   "index": 12
   },
   {
    "op": "bind",
-   "uid": "le01",
+   "uid": "lw13",
    "kind": "run",
-   "id": "parcel.riverwalk.islet-walk",
-   "index": 1
+   "id": "parcel.riverwalk.the-long-walk",
+   "index": 13
   },
-  {
-   "op": "bind",
-   "uid": "le02",
-   "kind": "run",
-   "id": "parcel.riverwalk.islet-walk",
-   "index": 2
-  },
-  {
-   "op": "bind",
-   "uid": "le03",
-   "kind": "run",
-   "id": "parcel.riverwalk.islet-walk",
-   "index": 3
-  },
-  {
-   "op": "bind",
-   "uid": "le04",
-   "kind": "run",
-   "id": "parcel.riverwalk.islet-walk",
-   "index": 4
-  },
+  {"op": "bind", "uid": "wb00", "kind": "run", "id": "parcel.riverwalk.west-boards", "index": 0},
+  {"op": "bind", "uid": "wb01", "kind": "run", "id": "parcel.riverwalk.west-boards", "index": 1},
+  {"op": "bind", "uid": "wb02", "kind": "run", "id": "parcel.riverwalk.west-boards", "index": 2},
   {
    "op": "bind",
    "uid": "fs00",
@@ -698,6 +622,33 @@
   },
   {
    "op": "place",
+   "uid": "c-doorlamp",
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
+   "at": [
+    7223.9,
+    520.1
+   ],
+   "yaw": 182.5
+  },
+  {
+   "op": "mount",
+   "child": "c-doorlamp",
+   "parent": "b-house",
+   "hang": true,
+   "unmined": "reader-approved r4",
+   "max_h": 6.0
+  },
+  {
+   "op": "bind",
+   "uid": "c-doorlamp",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "light",
+   "on": "parent",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
    "uid": "c-urn1",
    "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
    "at": [
@@ -781,8 +732,8 @@
    "uid": "c-chair1",
    "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
    "at": [
-    7217.3,
-    515.9
+    7212.9,
+    517.2
    ],
    "yaw": 0.0,
    "settle": true
@@ -801,8 +752,8 @@
    "uid": "c-chair2",
    "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
    "at": [
-    7215.5,
-    516.7
+    7211.6,
+    517.1
    ],
    "yaw": 0.0,
    "settle": true
@@ -1087,8 +1038,8 @@
      573.0
     ],
     [
-     7187.8,
-     565.0
+     7207.3,
+     571.4
     ]
    ],
    "width": 2.5,
@@ -1100,32 +1051,24 @@
    "id": "route.riverwalk.crews-path",
    "points": [
     [
-     7193.2,
-     530.5
+     7206.0,
+     522.6
     ],
     [
-     7196.6,
-     524.0
+     7210.0,
+     522.6
     ],
     [
-     7198.9,
-     519.1
+     7213.8,
+     521.2
     ],
     [
-     7205.0,
-     522.8
-    ],
-    [
-     7212.0,
-     523.2
-    ],
-    [
-     7215.3,
+     7215.4,
      518.3
     ],
     [
-     7219.32,
-     516.55
+     7223.2,
+     518.4
     ]
    ],
    "width": 1.5,
@@ -1137,8 +1080,8 @@
    "id": "route.riverwalk.islet-path",
    "points": [
     [
-     7218.0,
-     620.5
+     7215.0,
+     622.8
     ],
     [
      7224.0,
@@ -1175,8 +1118,8 @@
    "id": "route.riverwalk.shrine-path",
    "points": [
     [
-     7198.9,
-     519.1
+     7204.6,
+     519.6
     ],
     [
      7210.3,
@@ -1194,8 +1137,8 @@
    "parcel": "parcel.riverwalk.crews-house",
    "why": "The toll-holder calls the toll from the spit, at the head of the boards.",
    "at": [
-    7200.1,
-    517.0
+    7203.2,
+    520.4
    ]
   },
   {
@@ -1215,8 +1158,8 @@
    "id": "socket.riverwalk.npc-toll-holder",
    "kind": "npc",
    "at": [
-    7197.6,
-    521.6
+    7202.8,
+    521.9
    ],
    "rosterSlotId": "toll-holder",
    "role": "the toll-holder",
@@ -1493,8 +1436,8 @@
    "id": "socket.riverwalk.post-toll-holder",
    "kind": "marker",
    "at": [
-    7195.4,
-    526.6
+    7204.3,
+    521.8
    ],
    "zone": "post",
    "parcel": "parcel.riverwalk.the-long-walk",
@@ -1523,8 +1466,8 @@
    "id": "socket.riverwalk.scene-the-long-walk",
    "kind": "marker",
    "at": [
-    7186.1,
-    573.0
+    7209.9,
+    572.0
    ],
    "zone": "scene",
    "parcel": "parcel.riverwalk.the-long-walk",
@@ -1538,7 +1481,7 @@
    "id": "socket.riverwalk.evidence-the-plank-ages",
    "kind": "marker",
    "at": [
-    7181.9,
+    7211.2,
     590.0
    ],
    "zone": "evidence",

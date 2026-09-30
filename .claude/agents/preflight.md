@@ -1,7 +1,7 @@
 ---
 name: preflight
-description: Sonnet 5 at low effort. Runs the code review and preflight as one job and reports both in a fixed compact format. Use for every preflight (decision 0079 §8, owner 2026-09-22).
-model: sonnet
+description: Sonnet 5.5 at low effort. Runs the code review and preflight as one job and reports both in a fixed compact format. Use for every preflight (decision 0079 §8, owner 2026-09-22).
+model: claude-sonnet-5-5
 effort: low
 tools: Read, Bash, Grep, Glob
 ---

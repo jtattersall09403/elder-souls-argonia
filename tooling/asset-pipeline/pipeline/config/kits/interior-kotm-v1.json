@@ -206,6 +206,7 @@
     {
       "asset": "vanilla:clutter/glazedcandles01",
       "light": {
+        "fixtureKind": "candle",
         "formId": "000b9be7",
         "editorId": "WRCandleFlickerNS",
         "burnSeconds": -1,
@@ -227,11 +228,11 @@
         ],
         "fade": 1.7,
         "offsetM": [
-          -0.18,
+          0.0,
           0.76,
-          -0.08
+          0.0
         ],
-        "evidence": "Skyrim.esm: WRCandleFlickerNS is the nearest LIGH ref (< 200 units, same cell) to 34 of 213 glazedcandles01 refs (next: SolitudeInnCandleDefault 16; none 62); offset is the median of those 34 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+        "evidence": "Skyrim.esm: WRCandleFlickerNS is the nearest LIGH ref (< 200 units, same cell) to 34 of 213 glazedcandles01 refs (next: SolitudeInnCandleDefault 16; none 62); offset is the median of those 34 in the piece's frame, glTF Y-up metres, horizontal agreement 0.10 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
       }
     },
     {
@@ -434,6 +435,7 @@
     {
       "asset": "kotm:argonia/clutter/townlantern04",
       "light": {
+        "fixtureKind": "lantern",
         "formId": "00075c32",
         "editorId": "SolitudeInnFiretDefault",
         "burnSeconds": -1,
@@ -454,11 +456,11 @@
         ],
         "fade": 2.0,
         "offsetM": [
-          0.17,
+          0.0,
           0.2,
-          0.11
+          0.0
         ],
-        "evidence": "Skyrim.esm: SolitudeInnFiretDefault is the nearest LIGH ref (< 200 units, same cell) to 9 of 19 townlantern04 refs (next: SolitudeInnFirePlacesShadowDefault 3; none 4); offset is the median of those 9 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+        "evidence": "Skyrim.esm: SolitudeInnFiretDefault is the nearest LIGH ref (< 200 units, same cell) to 9 of 19 townlantern04 refs (next: SolitudeInnFirePlacesShadowDefault 3; none 4); offset is the median of those 9 in the piece's frame, glTF Y-up metres, horizontal agreement 0.49 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
       }
     },
     {
@@ -618,7 +620,7 @@
       "asset": "kotm:skinwalker21 creatures/sabrecat/megalania/skyrim/megalaniascales"
     }
   ],
-  "textureNote": "Aliases copy settlement-mud-v1's rows for the same archive-absent Creation Club, resource-pack and Dragonborn textures; desertcracked02 takes its desertcracked01 sibling's stand-in. boneflute01 is left out: its only diffuse is a Creation Club weapon texture (bgssse001 fangofhaynekhtnamet) absent from the vault, so the flute stays a named no-kit-asset gap in the bundle. Walk 3 lane L14: telwoodendoor01 (the Hist trunk's bark) takes dungeon-root-v1's stand-in; 22 more pieces the Murkmire cells reference are left out on the boneflute's rule, each because a diffuse it needs sits only in an archive the vault lacks (Creation Club bgssse001/bgssse037/bgssse025 fish, rods, weapons and ingredients; the AE _ResourcePack palm, snow-gum and willow trees; _byoh food; Dragonborn dlc2darkelffurniture01 and telinsideblob01; a Curse of Immortals turtle shell): boneflute01, doll_turtle, marshmerrowstew, saltricenoodles, crateopen01, ctq_treepalm03-05, jungletree04-06, histgland03, rainforesttree02, willow03-04, argonianspearsquiver, the three mounted fish, redwort01, argbonedagger, argknife. Walk 5: the AE _ResourcePack ceramic01teal_d (the Murkmire shells' teal-glazed inner walls) and baldcypressbark01_d (the rustic furniture and firewood) exist in the vault only as King of the Murkmire's own 256 px LOD copies under textures/lod/, the same picture at distance resolution; the two aliases name those copies explicitly, since the stem fallback no longer takes a LOD texture.",
+  "textureNote": "Aliases copy settlement-mud-v1's rows for the same archive-absent Creation Club, resource-pack and Dragonborn textures; desertcracked02 takes its desertcracked01 sibling's stand-in. boneflute01 is left out: its only diffuse is a Creation Club weapon texture (bgssse001 fangofhaynekhtnamet) absent from the vault, so the flute stays a named no-kit-asset gap in the bundle. Walk 3 lane L14: telwoodendoor01 (the Hist trunk's bark) takes dungeon-root-v1's stand-in; 22 more pieces the Murkmire cells reference are left out on the boneflute's rule, each because a diffuse it needs sits only in an archive the vault lacks (Creation Club bgssse001/bgssse037/bgssse025 fish, rods, weapons and ingredients; the AE _ResourcePack palm, snow-gum and willow trees; _byoh food; Dragonborn dlc2darkelffurniture01 and telinsideblob01; a Curse of Immortals turtle shell): boneflute01, doll_turtle, marshmerrowstew, saltricenoodles, crateopen01, ctq_treepalm03-05, jungletree04-06, histgland03, rainforesttree02, willow03-04, argonianspearsquiver, the three mounted fish, redwort01, argbonedagger, argknife. Walk 5: the AE _ResourcePack baldcypressbark01_d (the rustic furniture and firewood) exists in the vault only as King of the Murkmire's own 256 px LOD copy under textures/lod/ (pixel std 13-15 of 255, still a bark picture); the alias names that copy explicitly, since the stem fallback no longer takes a LOD texture. Walk 6: the AE _ResourcePack ceramic01teal_d (the Lilmoth shells' inner walls) is a Creation Club archive that the vault lacks. KotM's LOD copy of it is a flat swatch (pixel std 3 of 255: the owner saw flat green walls), so it takes vanilla Solitude's interior stucco wall sstuccowallint01, a full-resolution plastered inner wall.",
   "textureAliases": {
     "textures/_resourcepack/landscape/desertcracked01_d.dds": "textures/argonia/landscape/rivermud.dds",
     "textures/_resourcepack/landscape/desertcracked01_n.dds": "textures/argonia/landscape/rivermud_n.dds",
@@ -629,7 +631,7 @@
     "textures/_resourcepack/landscape/desertcracked02light_d.dds": "textures/argonia/landscape/dirt02.dds",
     "textures/_resourcepack/landscape/desertcracked02_n.dds": "textures/argonia/landscape/rivermud_n.dds",
     "textures/dlc02/architecture/telvannitower/telwoodendoor01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
-    "textures/_resourcepack/_genericmaterials/ceramic/ceramic01teal_d.dds": "textures/lod/ceramic01teal_dlod.dds",
+    "textures/_resourcepack/_genericmaterials/ceramic/ceramic01teal_d.dds": "textures/architecture/solitude/sstuccowallint01.dds",
     "textures/_resourcepack/landscape/trees/baldcypressbark01_d.dds": "textures/lod/baldcypressbark01_dlod.dds"
   }
 }

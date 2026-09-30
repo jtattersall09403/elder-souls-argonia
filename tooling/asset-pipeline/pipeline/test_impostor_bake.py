@@ -119,6 +119,7 @@ def test_publish_writes_a_versioned_sidecar(tmp_path, monkeypatch):
     data = json.loads(side.read_text())
     assert data["schemaVersion"] == 1
     assert data["impostors"][0]["path"] == "k-impostors/bmv__a_b.glb"
+    assert "file" not in data["impostors"][0]   # a bake-folder name would dangle under kits/
     assert (tmp_path / "kits" / "k-impostors" / "bmv__a_b.glb").exists()
 
 

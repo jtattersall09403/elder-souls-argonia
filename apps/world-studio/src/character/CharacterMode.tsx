@@ -70,6 +70,7 @@ import { ScreenOverlay, createScreenOverlayChannel } from "./screenOverlay";
 import { InteractionArbiter } from "@elder-souls/game-core/interaction/arbiter";
 import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { SocketMarkers, socketsOverlayEnabled } from "./SocketMarkers";
+import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
 import type { SettlementDoor } from "@elder-souls/game-core/settlement/types";
 import { FrameWorkProvider } from "./FrameWorkProvider";
 import { lastWeatherSample } from "../weather/weatherState";
@@ -255,6 +256,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // unloads), and `?interior=<cellId>` opening a cell directly.
   const [doors, setDoors] = useState<readonly SettlementDoor[]>([]);
   const [insideInterior, setInsideInterior] = useState(false);
+  // the shown cell's sockets, for the socket overlay (16k walk 6)
+  const [shownCell, setShownCell] = useState<ShownCellSockets | null>(null);
   const directInterior = useMemo(() => new URLSearchParams(window.location.search).get("interior"), []);
   // Black from the first frame when a cell is opened directly (the fade lifts once it is resident).
   const doorOverlay = useMemo(() => createDoorOverlayChannel(directInterior ? 1 : 0), [directInterior]);
@@ -572,9 +575,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             />
           )}
           {showMarkers && <CityMarkers groundAt={markerGroundAt} />}
-          {showSockets && <SocketMarkers baseUrl={base} groundAt={markerGroundAt}
-            startAt={focusRef.current} />}
           </group>
+          {/* outside the exterior group: it draws the shown cell's sockets while the exterior is hidden */}
+          {showSockets && <SocketMarkers baseUrl={base} groundAt={markerGroundAt}
+            startAt={focusRef.current} shown={shownCell} />}
           <RenderWarmup armed={collidersReady} onWarm={() => setRenderWarm(true)} />
           {/* Own Suspense boundary: rapier's WASM init and collider loads
               suspend, and without a boundary HERE each suspension unmounts and
@@ -631,6 +635,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               bodyCentreHeightM={CHARACTER_BODY_CENTER_HEIGHT}
               directCellId={directInterior}
               onInside={setInsideInterior}
+              onShown={setShownCell}
               interaction={interaction}
               kitCache={kitCache}
               overlay={doorOverlay}

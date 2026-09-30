@@ -5,7 +5,7 @@
 > measured evidence, the source review, the lore dossiers and the owner's
 > rulings to date; presented to the owner for a sense check (the closing list).
 > The `place-build` skill (`.claude/skills/place-build/`, decision 0100) is
-> the *procedure* that applies these rules, and its `references/lessons.md`
+> the *procedure* that applies these rules, and its `references/lessons/`
 > the lessons store; [module 96](96-placement-playbook.md) is their history; decision [0041](../decisions/0041-phase11-settlement-decisions.md)
 > holds the round records and the Taste ledger; the research documents hold
 > the evidence. This module holds the rules and says what enforces each one.

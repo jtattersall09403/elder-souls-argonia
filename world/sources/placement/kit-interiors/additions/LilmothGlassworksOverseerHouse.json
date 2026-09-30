@@ -54,11 +54,11 @@
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-05",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "pos": [
-    99.777,
+    99.233,
     90.451,
     78.095
    ],
-   "rotZDeg": 90,
+   "rotZDeg": 270,
    "zone": "store",
    "why": "Lights the double bed across the room."
   },
@@ -68,9 +68,9 @@
    "pos": [
     101.964,
     88.015,
-    79.097
+    78.553
    ],
-   "rotZDeg": 180,
+   "rotZDeg": 0,
    "zone": "store",
    "why": "Lights the plank wall by the bed."
   },
@@ -78,11 +78,11 @@
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-07",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "pos": [
-    101.688,
+    101.144,
     85.979,
     73.711
    ],
-   "rotZDeg": 90,
+   "rotZDeg": 270,
    "zone": "store",
    "why": "Lights the woven fence dividing the store."
   },
@@ -90,11 +90,11 @@
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-08",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "pos": [
-    99.777,
+    99.233,
     83.817,
     73.828
    ],
-   "rotZDeg": 90,
+   "rotZDeg": 270,
    "zone": "store",
    "why": "Lights the fence facing the dock pilings."
   },
@@ -104,9 +104,9 @@
    "pos": [
     109.464,
     82.098,
-    79.097
+    78.553
    ],
-   "rotZDeg": 180,
+   "rotZDeg": 0,
    "zone": "store",
    "why": "Lights the iron pot and the plate."
   },
@@ -128,9 +128,9 @@
    "pos": [
     101.789,
     82.2,
-    81.422
+    80.878
    ],
-   "rotZDeg": 180,
+   "rotZDeg": 0,
    "zone": "store",
    "why": "Lights the jug beside the chair."
   },
@@ -140,9 +140,9 @@
    "pos": [
     106.964,
     85.966,
-    79.097
+    78.553
    ],
-   "rotZDeg": 180,
+   "rotZDeg": 0,
    "zone": "store",
    "why": "Lights the basket against the plank wall."
   },
@@ -152,9 +152,9 @@
    "pos": [
     97.964,
     83.767,
-    79.097
+    78.553
    ],
-   "rotZDeg": 180,
+   "rotZDeg": 0,
    "zone": "store",
    "why": "Lights the stairs above the crates."
   },
@@ -162,11 +162,11 @@
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-14",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "pos": [
-    105.668,
+    105.124,
     82.098,
     79.711
    ],
-   "rotZDeg": 90,
+   "rotZDeg": 270,
    "zone": "store",
    "why": "Lights the second chair by the table."
   },
@@ -176,9 +176,9 @@
    "pos": [
     107.525,
     85.98,
-    73.581
+    73.037
    ],
-   "rotZDeg": 180,
+   "rotZDeg": 0,
    "zone": "store",
    "why": "Lights the lower stair by the table."
   },
@@ -186,11 +186,11 @@
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-16",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "pos": [
-    109.454,
+    109.998,
     92.236,
     76.711
    ],
-   "rotZDeg": 270,
+   "rotZDeg": 90,
    "zone": "store",
    "why": "Lights the far wall above the cupboard."
   },
@@ -205,6 +205,30 @@
    "rotZDeg": 0,
    "zone": "hearth",
    "why": "Lights the stairs by the cellar door."
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:door-candlehornwall-18",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    109.949,
+    87.528,
+    75.353
+   ],
+   "rotZDeg": 180,
+   "zone": "door",
+   "why": "Lights the landing north of the door."
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-19",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    99.806,
+    82.348,
+    78.825
+   ],
+   "rotZDeg": 180,
+   "zone": "store",
+   "why": "Lights the stone corner behind the stairs."
   }
  ]
 }

@@ -8,8 +8,10 @@
  * layer keeps loading whole kits.
  */
 import type { InteriorKitRef } from "./bundle";
+import type { InteriorFireRow } from "../fx/fire/interiorFires";
 
-export const KIT_PARTS_SCHEMA_VERSION = 1;
+/** 2: the index carries `fires` (walk 6), so the interior loader never fetches the kit manifest. */
+export const KIT_PARTS_SCHEMA_VERSION = 2;
 
 export interface KitPartRow {
   /** The part GLB, relative to the parts folder. */
@@ -27,6 +29,8 @@ export interface KitPartsIndex {
   /** The whole published GLB the parts were cut from. */
   source: { bytes: number; sha256: string };
   assets: Record<string, KitPartRow>;
+  /** The split assets that burn in an interior, their kit manifest rows reduced to the anchor fields. */
+  fires: Record<string, InteriorFireRow>;
 }
 
 /** The parts folder of a kit, from the bundle's own GLB path (`<kit>.glb` -> `<kit>/parts/` beside it). */
@@ -43,6 +47,7 @@ export function parseKitPartsIndex(raw: unknown, kitId: string, source: string):
   if (x!.schemaVersion !== KIT_PARTS_SCHEMA_VERSION) fail(`unsupported schemaVersion ${String(x!.schemaVersion)}`);
   if (x!.kit !== kitId) fail(`is for kit ${String(x!.kit)}, not ${kitId}`);
   if (!x!.assets || typeof x!.assets !== "object") fail("no assets map");
+  if (!x!.fires || typeof x!.fires !== "object") fail("no fires map");
   for (const [id, row] of Object.entries(x!.assets!)) {
     if (typeof row?.file !== "string" || !row.file.endsWith(".glb")) fail(`${id}: no part file`);
   }

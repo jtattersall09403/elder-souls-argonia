@@ -23,6 +23,7 @@ from functools import lru_cache
 import numpy as np
 
 from . import measure, paths
+from .mesh_query import cast_rays
 from .scene import plan_to_province
 
 SCHEMA_VERSION = 1
@@ -341,7 +342,7 @@ def _floor_heights(cat, p, floor_y: float, xs, zs) -> np.ndarray:
     mesh = _world_mesh(cat, p)
     origins = np.column_stack([xs, -zs, np.full(len(xs), floor_y + FLOOR_RAY_HEAD_M)])
     dirs = np.tile([0.0, 0.0, -1.0], (len(xs), 1))
-    locs, rays, _t = mesh.ray.intersects_location(origins, dirs, multiple_hits=False)
+    locs, rays, _t = cast_rays(mesh, origins, dirs, multiple_hits=False)
     out[rays] = locs[:, 2]
     return out
 
@@ -622,7 +623,7 @@ class WalkGrid:
         top = float(mesh.bounds[1][2]) + 1.0
         origins = np.column_stack([self.X[iz, ix], -self.Z[iz, ix], np.full(len(iz), top)])
         dirs = np.tile([0.0, 0.0, -1.0], (len(iz), 1))
-        locs, rays, _tri = mesh.ray.intersects_location(origins, dirs, multiple_hits=False)
+        locs, rays, _tri = cast_rays(mesh, origins, dirs, multiple_hits=False)
         for loc, r in zip(locs, rays):
             self.H[iz[r], ix[r]] = float(loc[2])
             self.src[iz[r], ix[r]] = i
@@ -967,7 +968,7 @@ def underside(cat, p, points_xz) -> list[float | None]:
     low = float(mesh.bounds[0][2]) - 1.0
     origins = np.array([[x, -z, low] for x, z in points_xz])
     dirs = np.tile([0.0, 0.0, 1.0], (len(origins), 1))
-    locs, rays, _tri = mesh.ray.intersects_location(origins, dirs, multiple_hits=False)
+    locs, rays, _tri = cast_rays(mesh, origins, dirs, multiple_hits=False)
     out: list[float | None] = [None] * len(origins)
     for loc, r in zip(locs, rays):
         out[r] = float(loc[2])
@@ -1948,7 +1949,9 @@ def berth_reach(cat, scene) -> dict:
     `at` stands on dry ground or a walkable deck, never in water. An
     open-floor house (`floor_services`) is reached at its floor's edge
     (`floor_outline`: its own landing included), by a way piece other than
-    itself or the end of a laid path."""
+    itself or the end of a laid path. A walkable deck_seated house on
+    stilts is skipped with a row reason: `seat_rules.house_landing` (R82)
+    judges its landing."""
     from shapely.geometry import Point, Polygon
     g = _ground(cat, scene)
     rows, failures = {}, []
@@ -1961,6 +1964,12 @@ def berth_reach(cat, scene) -> dict:
         if p.y is None or (p.role or {}).get("kind") != "parcel":
             continue
         if (cat.row(p.asset).get("anchorClass") or "ground") != "water":
+            continue
+        if getattr(p, "walkable", False) and measure.deck_seated(cat.row(p.asset)):
+            # a house on stilts is not a berth: seat_rules.house_landing (R82)
+            # judges its landing from the doorway to dry ground
+            rows[p.uid] = {"skipped": "deck_seated stilt house; its landing is judged by "
+                                      "seat_rules.house_landing (R82), not as a berth"}
             continue
         floor = floors.get(p.uid)
         hull = (floor_outline(cat, p, floor["floorY"]) if floor
@@ -2189,3 +2198,21 @@ def piece_rule(key: str, cat, scene, uids=None, fit_for=None) -> dict:
         want = set(uids)
         targets = [u for u in targets if u in want]
     return piece_merge(key, cat, scene, [piece_part(key, cat, scene, targets, fit_for)], uids)
+
+# --------------------------------------------------------------------------
+# coplanar (16k walk 6, the z-fighting class seen three times: Claywater
+# stable, the pad overlay, the DawnstarBrinasHouse corner): two pieces'
+# surfaces on one plane within 2 mm over more than 0.01 m2 flicker. The
+# measure is worldgen/coplanar.py, shared with `wb.py coplanar` and the
+# interior exporter's `separate` pass.
+# --------------------------------------------------------------------------
+def coplanar(cat, scene) -> dict:
+    paths.bridge()
+    from worldgen import coplanar as cp
+    placements = [{"id": p.uid, "kit": cat.row(p.asset)["kit"], "assetId": p.asset,
+                   "positionM": [p.x, p.y, p.z], "yawDeg": p.yaw, "pitchDeg": p.pitch,
+                   "scale": p.scale} for p in scene.pieces if p.y is not None]
+    hits = cp.find(cp.pieces_from_bundle(placements, cp.KitGeometry()), cp.decals_biased("place"))
+    fails = [f"{h['b']['id']}: coplanar with {h['a']['id']} over {h['overlapM2']} m2 at {h['atM']} "
+             f"({h['fix']})" for h in hits]
+    return {"ok": not fails, "failures": fails, "rows": hits}

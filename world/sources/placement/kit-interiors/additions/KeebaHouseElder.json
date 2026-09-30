@@ -253,6 +253,18 @@
    "rotZDeg": 0,
    "zone": "store",
    "why": "Lights the dish cupboard near the stairs."
+  },
+  {
+   "id": "KeebaHouseElder:add:store-glazedcandles-26",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    106.9,
+    86.071,
+    55.6
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the foot of the stairs to the upper floor."
   }
  ]
 }

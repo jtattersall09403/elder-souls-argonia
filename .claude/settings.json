@@ -26,7 +26,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo '[0079] planner: look-ups -> find agent, jobs -> run agent, no shell exploration, no sleep · explore = every area, one find agent per area, Covered/Skipped line.'"
+            "command": "echo '[0079] planner: look-ups -> find agent, jobs -> run agent, no shell exploration, no sleep \u00b7 explore = every area, one find agent per area, Covered/Skipped line.'"
           },
           {
             "type": "command",
@@ -50,6 +50,26 @@
     ],
     "PreToolUse": [
       {
+        "matcher": "Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/agent_cap.py",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Agent|Task|Workflow",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/hooks/preflight_guard.py",
+            "timeout": 20
+          }
+        ]
+      },
+      {
         "matcher": "Bash",
         "hooks": [
           {
@@ -58,8 +78,35 @@
           },
           {
             "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/hooks/preflight_guard.py",
+            "timeout": 20
+          },
+          {
+            "type": "command",
             "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/review_gate.py",
             "timeout": 600
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/agent_cap.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/agent_cap.py",
+            "timeout": 10
           }
         ]
       }

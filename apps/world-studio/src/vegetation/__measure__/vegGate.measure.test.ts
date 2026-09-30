@@ -3,7 +3,7 @@
  * unless `VEG_MEASURE=1`; it reads the locally published vegetation bundles and
  * kit manifest, which CI does not have.
  *
- *   VEG_MEASURE=1 npx vitest run src/vegetation/__measure__ -w @elder-souls/world-studio
+ *   cd apps/world-studio && VEG_MEASURE=1 npx vitest run src/vegetation/__measure__
  *
  * It builds the real cells (`buildCell`) around a site from the real bundles,
  * with the real ladder functions (`floraKit.ts`), runs the real gate
@@ -34,7 +34,7 @@ import {
   type GateStats,
 } from "@elder-souls/game-core/vegetation/cellGating";
 import { lodFadeFactors, lodLadder, BAYER4_MAX } from "@elder-souls/game-core/fx/lodFade";
-import { speciesRings, maxDrawDistance, treeDrawDistance } from "../floraKit";
+import { speciesRings, plantDrawDistance, treeDrawDistance } from "../floraKit";
 import { decodeVegetationBundle, readInstance } from "../vegetationBundle";
 import { QUALITY_PRESETS } from "@elder-souls/game-core/core/quality";
 
@@ -49,6 +49,8 @@ interface ManifestAsset {
 const SITES = [
   { label: "jungle", x: 4020, z: 4610 },
   { label: "greenspring", x: 4747, z: 1859 },
+  { label: "owner-4740-2010", x: 4740, z: 2010 },
+  { label: "claywater", x: 319, z: 3032 },
 ];
 
 describe.skipIf(!RUN)("vegetation gate measurement (VEG_MEASURE=1)", () => {
@@ -80,8 +82,8 @@ describe.skipIf(!RUN)("vegetation gate measurement (VEG_MEASURE=1)", () => {
       const card = a.billboard ? meshLevels : null;
       const maxDraw = a.category === "tree"
         ? treeDrawDistance(quality.vegChunkRing, size)
-        : maxDrawDistance(h) * quality.vegDrawScale;
-      const rings = speciesRings({ heightM: h, meshLevels, category: a.category, submerged: false, folded },
+        : plantDrawDistance(h, Math.max(a.sizeM[0], a.sizeM[1]), quality.vegDrawScale, quality.name);
+      const rings = speciesRings({ heightM: h, footprintM: Math.max(a.sizeM[0], a.sizeM[1]), triangles: a.triangles, meshLevels, category: a.category, submerged: false, folded },
         quality.vegDrawScale, quality.name);
       const ladder = lodLadder(rings, meshLevels, card, maxDraw);
       const tris = (tierTris.length > 0 ? [a.triangles, ...tierTris]
@@ -103,6 +105,9 @@ describe.skipIf(!RUN)("vegetation gate measurement (VEG_MEASURE=1)", () => {
       const list: GateSpecies[] = [];
       const meta = new Map<GateRung, { species: string; level: number; placements: Float32Array; count: number; band: [number, number, number, number]; tris: number }>();
       let groundY = NaN;
+      // Census: the commonest species within 300 m of the site (which tree the
+      // owner is looking at, with its ladder).
+      const nearCount = new Map<string, number>();
       const ring = quality.vegChunkRing;
       for (let dz = -ring; dz <= ring; dz++) {
         for (let dx = -ring; dx <= ring; dx++) {
@@ -128,6 +133,11 @@ describe.skipIf(!RUN)("vegetation gate measurement (VEG_MEASURE=1)", () => {
             (cx + dx) * size, (cz + dz) * size, size);
           for (const sb of build.species) {
             const p = params.get(sb.species)!;
+            for (let i = 0; i < sb.count; i++) {
+              if (Math.hypot(sb.placements[i * 7] - site.x, sb.placements[i * 7 + 2] - site.z) < 300) {
+                nearCount.set(sb.species, (nearCount.get(sb.species) ?? 0) + 1);
+              }
+            }
             const tris = trisPerLevel.get(sb.species)!;
             if (dx === 0 && dz === 0 && !Number.isFinite(groundY)) {
               // the nearest instance's height is the ground under the camera
@@ -232,6 +242,10 @@ describe.skipIf(!RUN)("vegetation gate measurement (VEG_MEASURE=1)", () => {
       for (const [k, v] of Object.entries(sums)) if (k !== "headings") out[k] = Math.round(v / sums.headings);
       out.submittedOverInView = Math.round((sums.submittedCopies / Math.max(1, sums.inViewCopies)) * 100) / 100;
       for (const [k, v] of Object.entries(byLevel)) out[`tris_${k}`] = Math.round(v / 4);
+      out.near300 = [...nearCount].filter(([id]) => params.get(id)!.heightM >= 2.5).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([id, n]) => ({
+        id, n, h: Math.round(params.get(id)!.heightM * 10) / 10, cat: categoryOf.get(id),
+        tris: trisPerLevel.get(id)!.map(Math.round), rungs: params.get(id)!.ladder.map((r) => `${r.level}:${Math.round(r.lo)}-${Math.round(Math.min(r.hi, 99999))}`),
+      }));
       out.variant = process.env.VEG_LABEL ?? "";
       out.gate = process.env.VEG_GATE === "old" ? "old" : "new";
       appendFileSync(process.env.VEG_OUT ?? "/tmp/veg-measure.jsonl", `${JSON.stringify(out)}\n`);

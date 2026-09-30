@@ -11,8 +11,15 @@
  * more quads, Y-locked billboards, whose teardrop mask is distorted by fbm
  * noise scrolling upward and coloured by a 3-stop temperature ramp (the
  * three.js webgpu_volume_fire look: dark red base, orange body, pale yellow
- * tip). Sizes are metres at piece scale 1, relative to real fires: a candle
- * flame is ~3.5 x 8 cm, a torch head ~16 x 38 cm, a campfire ~0.5 x 0.9 m.
+ * tip). Sizes are metres at piece scale 1. The card is the WHOLE flame from
+ * its root at the emitter, and the mined emitter sits at the particle
+ * system's origin, which is inside the fuel (a campfire's FlamesSmall03 is
+ * 0.11 m up a 0.86 m log bundle; a torch's fireball core is inside its head).
+ * The fuel's depth-tested geometry hides the lower part, so a card is sized
+ * as (emitter to fuel top) + the flame seen above the fuel (decision 0107
+ * "Flame size"): a candle ~6 cm seen (card 10 cm), a lantern candle filling
+ * half its glass (15 cm), a torch head 0.3-0.45 m seen (58 cm), a campfire
+ * >= 0.8 x its log bundle's diameter above the logs (1.7 m card).
  *
  * Presets are keyed by id (standard 18: fixtures reference a preset by id,
  * never copy its numbers). `torchHandheld` has no world anchor: the carried
@@ -136,7 +143,7 @@ const WOOD_VOLUME: FireVolumeConfig = {
 export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
   candle: {
     schemaVersion: 3, id: "candle",
-    shape: { widthM: 0.035, heightM: 0.085, taper: 0.8 },
+    shape: { widthM: 0.04, heightM: 0.1, taper: 0.8 },
     layers: { core: 2, outer: 1, spreadM: 0.01 },
     turbulence: 0.4, riseSpeed: 1.6, motion: { swayW: 1.1, pulse: 0.4, rateHz: 3.4 }, ramp: CANDLE_RAMP, bands: SMALL_BANDS,
     flicker: { rateHz: 5, amount: 0.08 }, windResponse: 0.25,
@@ -145,7 +152,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
   },
   lanternStanding: {
     schemaVersion: 3, id: "lanternStanding",
-    shape: { widthM: 0.04, heightM: 0.095, taper: 0.8 },
+    shape: { widthM: 0.06, heightM: 0.15, taper: 0.8 },
     layers: { core: 2, outer: 1, spreadM: 0.012 },
     turbulence: 0.4, riseSpeed: 1.5, motion: { swayW: 1.0, pulse: 0.4, rateHz: 3.2 }, ramp: CANDLE_RAMP, bands: SMALL_BANDS,
     flicker: { rateHz: 4, amount: 0.06 }, windResponse: 0.05,
@@ -156,7 +163,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     // a lantern body with no mined candle (the Argonian cord lanterns): one
     // bigger flame at the body's centre, reading through the cage
     schemaVersion: 3, id: "lanternHanging",
-    shape: { widthM: 0.07, heightM: 0.15, taper: 0.7 },
+    shape: { widthM: 0.16, heightM: 0.4, taper: 0.7 },
     layers: { core: 2, outer: 1, spreadM: 0.02 },
     turbulence: 0.42, riseSpeed: 1.5, motion: { swayW: 1.0, pulse: 0.4, rateHz: 3.0 }, ramp: CANDLE_RAMP, bands: SMALL_BANDS,
     flicker: { rateHz: 3.5, amount: 0.08 }, windResponse: 0.05,
@@ -165,7 +172,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
   },
   torchGround: {
     schemaVersion: 3, id: "torchGround",
-    shape: { widthM: 0.16, heightM: 0.38, taper: 0.6 },
+    shape: { widthM: 0.24, heightM: 0.58, taper: 0.6 },
     layers: { core: 2, outer: 1, spreadM: 0.03 },
     turbulence: 0.45, riseSpeed: 2.0, motion: { swayW: 0.45, pulse: 0.22, rateHz: 2.6 }, ramp: WOOD_RAMP,
     flicker: { rateHz: 7, amount: 0.14 }, windResponse: 0.35,
@@ -175,7 +182,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
   },
   torchHandheld: {
     schemaVersion: 3, id: "torchHandheld",
-    shape: { widthM: 0.14, heightM: 0.34, taper: 0.6 },
+    shape: { widthM: 0.22, heightM: 0.52, taper: 0.6 },
     layers: { core: 2, outer: 1, spreadM: 0.03 },
     turbulence: 0.45, riseSpeed: 2.0, motion: { swayW: 0.45, pulse: 0.22, rateHz: 2.6 }, ramp: WOOD_RAMP,
     flicker: { rateHz: 7, amount: 0.14 }, windResponse: 0.45,
@@ -185,7 +192,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
   },
   brazier: {
     schemaVersion: 3, id: "brazier",
-    shape: { widthM: 0.3, heightM: 0.55, taper: 0.55 },
+    shape: { widthM: 0.5, heightM: 1.0, taper: 0.55 },
     layers: { core: 2, outer: 2, spreadM: 0.12 },
     turbulence: 0.55, riseSpeed: 2.2, motion: { swayW: 0.5, pulse: 0.28, rateHz: 2.2 }, ramp: WOOD_RAMP,
     flicker: { rateHz: 6, amount: 0.12 }, windResponse: 0.3,
@@ -195,7 +202,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
   },
   hearth: {
     schemaVersion: 3, id: "hearth",
-    shape: { widthM: 0.34, heightM: 0.62, taper: 0.55 },
+    shape: { widthM: 0.55, heightM: 1.05, taper: 0.55 },
     layers: { core: 2, outer: 3, spreadM: 0.2 },
     turbulence: 0.6, riseSpeed: 2.2, motion: { swayW: 0.5, pulse: 0.28, rateHz: 2.0 }, ramp: WOOD_RAMP,
     flicker: { rateHz: 5.5, amount: 0.12 }, windResponse: 0.1,
@@ -205,8 +212,8 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
   },
   campfire: {
     schemaVersion: 3, id: "campfire",
-    shape: { widthM: 0.42, heightM: 0.85, taper: 0.5 },
-    layers: { core: 3, outer: 3, spreadM: 0.22 },
+    shape: { widthM: 0.8, heightM: 1.7, taper: 0.5 },
+    layers: { core: 3, outer: 3, spreadM: 0.3 },
     turbulence: 0.72, riseSpeed: 2.5, motion: { swayW: 0.55, pulse: 0.3, rateHz: 1.9 }, ramp: WOOD_RAMP,
     flicker: { rateHz: 5, amount: 0.15 }, windResponse: 0.4,
     embers: { count: 10, riseM: 2.2, sizeM: 0.016, lifeS: 2.4 },
@@ -263,17 +270,58 @@ export function firePresetFor(input: FirePresetInput): FirePresetId {
   return "candle";
 }
 
+/** A stable 0..1 hash of a real (Dave Hoskins' hash11, float-safe in GLSL). */
+export function flickerHash(p: number): number {
+  let x = p * 0.1031;
+  x -= Math.floor(x);
+  x *= x + 33.33;
+  x *= x + x;
+  return x - Math.floor(x);
+}
+
+/** Smooth 1-D value noise in -1..1 over lattice cells keyed by `key`. */
+export function flickerNoise(x: number, key: number): number {
+  const i = Math.floor(x);
+  const f = x - i;
+  const u = f * f * (3 - 2 * f);
+  const a = flickerHash(i + key);
+  const b = flickerHash(i + 1 + key);
+  return 2 * (a + (b - a) * u) - 1;
+}
+
+/** Mean gap between gust slots (s): each slot holds at most one dip. */
+export const FLICKER_GUST_SLOT_S = 1.9;
+
 /**
- * Flicker of a fire's brightness at time `t` (s): 1 +- `amount`, phased by
- * `seed` (0..1). Two incommensurate sines, so it never visibly loops. The
- * shader carries the same function (flameMaterial.ts `fireFlicker`); the
- * point light calls this one, so the light breathes with its flame.
+ * Flicker of a fire's brightness at time `t` (s): about 1 +- `amount`,
+ * seeded by `seed` (0..1, stable per fixture), never repeating. Three
+ * octaves of value noise at `rateHz`, 2.1x and 4.4x it (the steady breath of
+ * the flame), plus rare gusts: each ~1.9 s slot holds a dip with p = 0.3, at
+ * a hashed start, lasting 0.1-0.4 s and 10-25 % deep for a campfire-sized
+ * `amount` (0.15), shallower for a calmer flame (a candle at 0.08: ~5-13 %).
+ * A pure function of (t, seed): no state, and the lattice is hashed per cell,
+ * so no period exists. The shader carries the same function
+ * (flameMaterial.ts `fireFlicker`, single-precision); the fixture light and
+ * the carried light call this one, so the light breathes with its flame.
  */
 export function fireFlicker(t: number, seed: number, rateHz: number, amount: number): number {
-  const phase = seed * Math.PI * 2;
-  const w = rateHz * Math.PI * 2;
-  const s = 0.6 * Math.sin(t * w + phase) + 0.4 * Math.sin(t * w * 1.73 + phase * 2.3);
-  return 1 + amount * s;
+  const key = seed * 7919.0;
+  const x = t * rateHz;
+  const breath = 0.55 * flickerNoise(x, key) + 0.3 * flickerNoise(x * 2.13, key + 311.0)
+    + 0.15 * flickerNoise(x * 4.37, key + 613.0);
+  const slotT = t / FLICKER_GUST_SLOT_S + seed * 13.0;
+  const slot = Math.floor(slotT);
+  let dip = 0;
+  if (flickerHash(slot * 1.37 + key) < 0.3) {
+    const start = 0.6 * flickerHash(slot * 2.11 + key + 17.0);
+    const len = (0.1 + 0.3 * flickerHash(slot * 3.07 + key + 29.0)) / FLICKER_GUST_SLOT_S;
+    const u = (slotT - slot - start) / len;
+    if (u > 0 && u < 1) {
+      const depth = (0.1 + 0.15 * flickerHash(slot * 5.03 + key + 43.0)) * Math.min(1, amount / 0.15);
+      dip = depth * 4 * u * (1 - u);
+    }
+  }
+  return (1 + amount * breath) * (1 - dip);
 }
 
 /** Day/night blend from the renderer's exposure: 0 at <= 1e-3 (day), 1 at >= 1 (night). */

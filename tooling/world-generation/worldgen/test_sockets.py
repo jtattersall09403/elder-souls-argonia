@@ -363,3 +363,44 @@ def test_interior_socket_defects_are_named():
     assert any("no placement of bundle TestCell" in e for e in errors)
     assert any(g.startswith("sockets.reach") and " c " in g for g in gates)   # no reached host
     assert any(g.startswith("sockets.interior") and " d " in g for g in gates)  # on the shell
+
+
+# Decision 0113: the interact point of a work socket. Expected answers first:
+# a worker at the pivot of a 2 m deep counter (1 m either side along its
+# local y, north), facing north (0 deg), puts the customer 1 m + 0.6 m north,
+# facing south; a worker on the counter's south edge the same point; a forge
+# is used where the worker stands.
+COUNTER = "vanilla:furniture/shopcounter01"
+FORGE = "vanilla:clutter/blacksmith/blacksmithforge01/blacksmithforge01"
+BOUNDS = {COUNTER: ([3.0, 2.0, 1.0], [1.5, 1.0, 0.0]), FORGE: ([2.0, 2.0, 2.0], [1.0, 1.0, 0.0])}
+
+
+def _work(pos, yaw, host=None, kind="idle"):
+    row = {"id": "socket.p.w", "kind": kind, "positionM": pos, "yawDeg": yaw, "host": host}
+    return {**row, "activity": "work-at"} if kind == "idle" else {**row, "stationClass": "forge"}
+
+
+@pytest.mark.parametrize("worker, yaw, host_yaw, want, facing", [
+    ([10.0, 2.0, 20.0], 0.0, 0.0, [10.0, 2.0, 18.4], 180.0),   # at the pivot, north
+    ([10.0, 2.0, 21.0], 0.0, 0.0, [10.0, 2.0, 18.4], 180.0),   # on the south edge
+    ([10.0, 2.0, 20.0], 90.0, 90.0, [11.6, 2.0, 20.0], 270.0),  # counter and worker turned east
+    ([10.0, 2.0, 20.0], 90.0, 0.0, [12.1, 2.0, 20.0], 270.0),   # across the counter's long side
+])
+def test_a_service_surface_is_served_across_the_host(worker, yaw, host_yaw, want, facing):
+    host = {"id": "h", "assetId": COUNTER, "positionM": [10.0, 2.0, 20.0], "scale": 1.0}
+    got = sk.interact_point(_work(worker, yaw, "h"), host, BOUNDS, sk.load_vocabulary(), host_yaw)
+    assert got["kind"] == "customer"
+    assert got["position"] == pytest.approx(want, abs=1e-3)
+    assert got["facing"] == facing
+
+
+def test_a_crafting_host_or_a_free_work_spot_is_used_where_the_worker_stands():
+    vocab = sk.load_vocabulary()
+    forge = {"id": "f", "assetId": FORGE, "positionM": [0.0, 0.0, 0.0], "scale": 1.0}
+    for row, host in ((_work([1.0, 0.0, 2.0], 45.0, "f"), forge),
+                      (_work([1.0, 0.0, 2.0], 45.0, "f", kind="station"), forge),
+                      (_work([1.0, 0.0, 2.0], 45.0), None)):
+        assert sk.interact_point(row, host, BOUNDS, vocab) == {
+            "kind": "station", "position": [1.0, 0.0, 2.0], "facing": 45.0}
+    assert sk.needs_interact(_work([0, 0, 0], 0)) and sk.needs_interact(_work([0, 0, 0], 0, kind="station"))
+    assert not sk.needs_interact({"kind": "idle", "activity": "sit"})

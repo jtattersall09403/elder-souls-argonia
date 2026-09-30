@@ -8,7 +8,7 @@
 - **Approach:** the 16 questions (openworld-approach §5) with the type's usual answer.
 - **Building minimum set and yard sets:** per building kind, the assembly layers and the named `group` yard sets with their pieces.
 - **Pieces that worked, pieces that failed:** asset ids with the slice and the reason.
-- **Known failure modes:** the `lessons.md` ids that bit this type.
+- **Known failure modes:** the `lessons/` ids that bit this type.
 - **Layout template** (method review r3 finding J, 2026-09-27; 16k S10). The generator is the type's class in `tooling/world-generation/worldgen/layout_template.py`, registered under the sheet id and run as `python3 -m worldgen.layout_template --type <sheet id> --packet tooling/.reports/16k/<place>/site-packet.json --out <layout.json>`; this section is written before it and read by it. What it must carry so place 2 does not re-earn place 1's walks:
   - the sub-kind variants the type covers (type 1: on-road, off-road, water-edge), each with the ops that differ;
   - a shell pool with a rotation rule across places, never fixed shells (0098's cap of 3 per signature falls by the type's fourth place otherwise);

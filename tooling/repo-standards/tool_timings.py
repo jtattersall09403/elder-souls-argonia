@@ -7,8 +7,8 @@ Every `memwatch.sh` run appends one JSON line to `output/tool-timings.jsonl`
 tables over the last N days: tools by total wall time (tools whose name
 starts with an `--exclude` prefix left out; default `npm.`, preflight's own
 gate wrappers) and by worst single run (always complete). Memory has two
-columns: `ownPeakGiB`, the job's own process tree (RssAnon + RssShmem,
-own_memory.py), which is the per-job figure every target reads; and
+columns: `ownPeakGiB`, the job's own process tree (Pss_Anon + Pss_Shmem
+since 2026-09-30, RssAnon + RssShmem before; own_memory.py), which is the per-job figure every target reads; and
 `machineDeltaGiB`, the machine's unreclaimable peak minus its level when the
 run started, which also holds every lane that ran beside it (on the EC2 box
 the cgroup memwatch reads is the root one: 2026-09-26, the placement suite's
@@ -16,6 +16,9 @@ the cgroup memwatch reads is the root one: 2026-09-26, the placement suite's
 figure existed show `-` there. `TARGET` marks a tool whose worst run passed
 60 s or whose own peak passed 2 GiB: a candidate for a step-C profile (16h
 ledger §6 steps C and D).
+`tool_targets.json` gives heavy tools a wall and an own-peak target;
+`--record` prints OVER TARGET for a run past them, `--check` exits 1 when a
+tool's latest run is (test_tool_timings runs it over the local log).
 `--record` is memwatch's writer and `record()` the in-process one
 (site_fields' ES_TIMINGS=1 import timing), so the naming lives here only.
 """
@@ -32,6 +35,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 DEFAULT_LOG = HERE / "output" / "tool-timings.jsonl"
+TARGETS = HERE / "tool_targets.json"
 SLOW_S = 60.0
 HEAVY_GIB = 2.0
 SEPARATORS = {"&&", "||", ";", "|"}
@@ -114,10 +118,49 @@ def record(wall_s: float, start_mib: int, peak_mib: int, code: int, cwd: str, ar
            "exit": code, "cwd": rel}
     if own_mib is not None:
         row["ownPeakGiB"] = round(own_mib / 1024, 3)
+        row["ownMeasure"] = "pss"   # own_memory.py since 2026-09-30; older rows are RssAnon
+    for why in over_target(row):
+        print(f"tool_timings: OVER TARGET {tool}: {why} (tooling/repo-standards/tool_targets.json)")
     path = log_path()
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a") as f:
         f.write(json.dumps(row) + "\n")
+
+
+def targets(path: Path = TARGETS) -> dict:
+    return json.loads(path.read_text())
+
+
+def over_target(row: dict, tg: dict | None = None) -> list[str]:
+    """Why this run is over its tool's target ([] when within it, or not
+    judged: a tool outside the judged prefixes and the table, or a row whose
+    own peak is not PSS)."""
+    tg = tg if tg is not None else targets()
+    tool = row.get("tool", "")
+    t = tg["tools"].get(tool)
+    if t is None and not tool.startswith(tuple(tg["judgedPrefixes"])):
+        return []
+    t = t or {}
+    out = []
+    wall, cap = float(row.get("wallS", 0)), t.get("maxWallS")
+    if cap is not None and wall > cap:
+        out.append(f"wall {wall:.0f} s > {cap} s")
+    own, gib = row.get("ownPeakGiB"), t.get("maxOwnGiB", tg["defaultMaxOwnGiB"])
+    if row.get("ownMeasure") == "pss" and own is not None and float(own) > gib:
+        out.append(f"own peak {float(own):.2f} GiB > {gib} GiB")
+    return out
+
+
+def check(rows: list[dict], now: datetime, days: float, tg: dict | None = None) -> list[str]:
+    """The latest run of each judged tool in the window, over its target:
+    one line per tool (a failed run is not judged)."""
+    since, latest = now - timedelta(days=days), {}
+    for r in rows:
+        if r["_date"] >= since and r.get("exit") == 0 and \
+                (r["tool"] not in latest or r["_date"] >= latest[r["tool"]]["_date"]):
+            latest[r["tool"]] = r
+    return [f"{tool}: {'; '.join(why)} ({r['date']} {' '.join(map(str, r.get('args', [])))[:80]})"
+            for tool, r in sorted(latest.items()) if (why := over_target(r, tg))]
 
 
 def load(path: Path) -> list[dict]:
@@ -195,6 +238,9 @@ def main() -> int:
     ap.add_argument("--days", type=float, default=7)
     ap.add_argument("--top", type=int, default=15)
     ap.add_argument("--log", type=Path, default=None)
+    ap.add_argument("--check", action="store_true",
+                    help="exit 1 when the latest run of a tool in the window is over its "
+                         "tool_targets.json target (wall or own peak)")
     ap.add_argument("--exclude", action="append", default=None, metavar="PREFIX",
                     help="leave tools with this name prefix out of the by-total table "
                          "(repeatable; default npm.; --exclude '' keeps all)")
@@ -204,6 +250,10 @@ def main() -> int:
     if not rows:
         print(f"no runs logged in {path}")
         return 0
+    if a.check:
+        over = check(rows, datetime.now(timezone.utc), a.days)
+        print("\n".join(over) if over else f"all tools within target (last {a.days:g} days)")
+        return 1 if over else 0
     exclude = tuple(p for p in (a.exclude if a.exclude is not None else ["npm."]) if p)
     by_total, by_worst = rank(rows, datetime.now(timezone.utc), a.days, exclude)
     print(f"{len(rows)} runs in {path}; window {a.days:g} days; "

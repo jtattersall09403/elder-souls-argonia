@@ -177,6 +177,70 @@ def _line(survey, uv_pts) -> LineString | None:
         return None
 
 
+STEP_TOKENS = ("step", "stair")
+# a square hand-over: the built way's hull this close to the terminal. The
+# workbench's landingRule measures the step's foot itself (within 1 m; 0.41 m
+# at Riverwalk); the derived parcel hull stands up to ~0.6 m inside that foot
+# (Riverwalk: 1.03 m), so the blueprint check allows 1.5 m
+HANDOVER_STEP_M = 1.5
+BUILT_WAY_USES = ("dock",)
+BUILT_WAY_PAD_M = 0.5     # a way sample this close to a deck parcel's hull stands on the deck
+
+
+def _parcel_pieces_m(survey, parcel: dict) -> list[tuple[str, tuple[float, float]]]:
+    """(asset, world x/z) of a parcel's exported pieces: `atM` in the parcel's
+    frame turned by its `yawDeg` about its centre (as the compile places them)."""
+    from . import blueprint_footprints as fp_mod
+    if not parcel.get("centreUV"):
+        return []
+    cx, cz = _m(survey, parcel["centreUV"])
+    out = []
+    for piece in parcel.get("pieces") or []:
+        at = piece.get("atM")
+        if not (isinstance(at, list) and len(at) == 2):
+            continue
+        (dx, dz), = fp_mod.rotate_m([(float(at[0]), float(at[1]))], float(parcel.get("yawDeg") or 0.0))
+        out.append((str(piece.get("asset") or ""), (cx + dx, cz + dz)))
+    return out
+
+
+def _step_handover(bp: dict, survey, way: dict, pt: Point) -> str | None:
+    """R91 square hand-over (16k walk 6, Riverwalk west boards): a way may
+    leave its terminal off the road's line when it climbs onto a BUILT way
+    there: a parcel it ends at whose hull comes within HANDOVER_STEP_M of the
+    terminal and whose piece nearest the terminal is a step (the walker
+    changes mode, wade -> climb; the line rule keeps ground paint continuous).
+    The workbench's landingRule has already required the step's mined pair.
+    Returns that parcel id, or None."""
+    parcels = {p.get("id"): p for p in bp.get("parcels", []) or []}
+    for pid in way.get("endsAt") or []:
+        p = parcels.get(pid) or {}
+        hull = _poly(survey, p.get("footprint") or [])
+        pieces = _parcel_pieces_m(survey, p)
+        if hull is None or not pieces or hull.distance(pt) > HANDOVER_STEP_M:
+            continue
+        asset, _xz = min(pieces, key=lambda ap: Point(ap[1]).distance(pt))
+        stem = asset.rsplit("/", 1)[-1].lower()
+        if any(t in stem for t in STEP_TOKENS):
+            return pid
+    return None
+
+
+def _built_way(bp: dict, survey, way: dict, ln: LineString):
+    """The deck hulls a way walks on instead of the water: every `dock` parcel
+    it ends at or runs along (its hull touching the line), padded
+    BUILT_WAY_PAD_M. None when there is none."""
+    hulls = []
+    ends = set(way.get("endsAt") or [])
+    for p in bp.get("parcels", []) or []:
+        if p.get("use") not in BUILT_WAY_USES:
+            continue
+        hull = _poly(survey, p.get("footprint") or [])
+        if hull is not None and (p.get("id") in ends or hull.intersects(ln)):
+            hulls.append(hull.buffer(BUILT_WAY_PAD_M))
+    return unary_union(hulls) if hulls else None
+
+
 def _water_at(survey, x: float, z: float) -> bool:
     """Is the published water raster wet here?
 
@@ -551,8 +615,11 @@ def check_integration(bp: dict, survey) -> list[str]:
     for key, w, ln in ways:
         n = max(2, int(ln.length / 4.0))
         wet = 0
+        built = _built_way(bp, survey, w, ln) if key == "routes" else None
         for i in range(n + 1):
             pt = ln.interpolate(i / n, normalized=True)
+            if built is not None and built.covers(pt):
+                continue          # on a deck or step of the built way, not in the water
             wet += 1 if _water_at(survey, pt.x, pt.y) else 0
         frac_wet = wet / (n + 1)
         if key == "canals" and (1.0 - frac_wet) > CHANNEL_DRY_MAX_FRAC:
@@ -925,7 +992,8 @@ def check_network_stitch(bp: dict, survey, network: dict | None = None) -> list[
             way_bearing = _bearing(end, (inner.x, inner.y))
             if way_bearing is not None:
                 off = _axis_delta(way_bearing, route_bearing)
-                if off > TERMINAL_BEARING_TOL_DEG:
+                handover = _step_handover(bp, survey, w, pt)
+                if off > TERMINAL_BEARING_TOL_DEG and handover is None:
                     errors.append(f"network-stitch: terminal {tid} — {route.cls} {route.id} arrives on "
                                   f"{route_bearing:.0f}deg but way {w['id']} leaves the entry point on "
                                   f"{way_bearing:.0f}deg, {off:.0f}deg off (limit "

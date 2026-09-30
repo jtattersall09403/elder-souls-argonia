@@ -266,3 +266,23 @@ def test_a_coloured_glow_disc_keeps_its_nif_colour_a_white_one_takes_the_fire_co
     shape = {"centreM": [0.0, 0.34, 0.0], "edgeM": 0.5, "extentM": [0.5, 0.5, 0.0]}
     assert bk.glow_record(shape, "fx:glowsoft01", [0.5, 0.0, 0.0, 1.0])["tintRgb"] == [0.5, 0.0, 0.0]
     assert "tintRgb" not in bk.glow_record(shape, "fx:glowslightflash", [1.0, 1.0, 1.0, 0.75])
+
+
+def test_a_flame_above_its_piece_is_seated_on_the_top():
+    # impcandle01: AddOnNode49 at 0.3234 m over a 0.272 m candle (walk 6)
+    record = {"sizeM": [0.145, 0.148, 0.272], "originOffsetM": [0.072, 0.074, 0.0],
+              "flames": [{"offsetM": [0.0009, 0.3234, 0.0002]}, {"offsetM": [0.0, 0.2, 0.0]}]}
+    assert bk.seat_flames_on_geometry(record) == 1
+    assert record["flames"][0] == {"offsetM": [0.0009, 0.272, 0.0002], "seatedFromM": 0.3234}
+    assert record["flames"][1] == {"offsetM": [0.0, 0.2, 0.0]}
+    assert bk.seat_flames_on_geometry(record) == 0
+
+
+def test_a_light_block_with_no_fixture_kind_is_listed_for_refusal():
+    summary = {"assets": [
+        {"id": "a:lantern", "light": {"fixtureKind": "lantern"}, "flames": [{}]},
+        {"id": "a:candles", "flames": [{}]},
+        {"id": "a:forge", "light": {"formId": "1"}},
+        {"id": "a:wall"},
+    ]}
+    assert bk.unkinded_fire_pieces(summary) == ["a:forge"]

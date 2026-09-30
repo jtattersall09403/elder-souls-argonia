@@ -396,6 +396,11 @@ RESULT["pieces"] = len(api.objects_by_uid())
                                          # (no scene): doorway + two corners x day (runtime
                                          # light model) / night (sources only); flame proxies;
                                          # -> tooling/.reports/16k/interior-renders/<cell>.png, ~40 s
+    python3 tooling/placement-workbench/wb.py coplanar [--cell C ..|--all-cells] [--place ID ..] [--out J]
+                                         # z-fighting: surfaces of two pieces on one plane (2 mm, 2 deg,
+                                         # > 0.01 m2) in a published cell or place; a decal is exempt
+                                         # only where its runtime applies the decal offset; exit 1 on a
+                                         # hit, ~3 s a cell (worldgen/coplanar.py; `check` carries it)
 
 Hand the PNG paths to a Sonnet `general-purpose` agent (read-only) with this
 list: is each base on the red ground line (float / sunk, in metres from the
@@ -477,5 +482,5 @@ The packet reports these numbers; it never asks the owner to judge them. Prose g
 ## Record as you go
 
 A finding that cost more than one render round, and every compile
-refusal, is a row in `place-build`'s `references/lessons.md` (its step
+refusal, is a row in `place-build`'s `references/lessons/` (its step
 8). Tool gaps also go to the lane doc's Rounds notes.

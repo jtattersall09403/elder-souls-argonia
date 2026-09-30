@@ -327,6 +327,10 @@ export class FlameSystem {
 
 function bindInterleaved(geometry: THREE.InstancedBufferGeometry, data: Float32Array, stride: number,
   columns: [string, number][]): void {
+  // three frees an attribute's GL buffer only on the geometry's dispose
+  // event; a rebind without it leaked the old instance buffers for the
+  // session (review 2026-09-30). The next draw re-uploads the geometry.
+  if (geometry.getAttribute(columns[0][0])) geometry.dispose();
   const buffer = new THREE.InstancedInterleavedBuffer(data, stride, 1);
   buffer.setUsage(THREE.DynamicDrawUsage);
   for (const [name, offset] of columns) {

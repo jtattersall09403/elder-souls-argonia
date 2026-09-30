@@ -55,7 +55,7 @@ already accepted.
    is what "deliver 16k slice N" invokes. It contains: the procedure
    (below); `references/design-index.md`, a pointer index to every binding
    source with the one line the designer needs from each (rule id,
-   file:line, when it applies), never a copy; `references/lessons.md`,
+   file:line, when it applies), never a copy; `references/lessons/`,
    the operative lessons store (decision 3); `references/reader-checklist.md`,
    what the image reader is told to look for; and `references/types/<n>-<type>.md`,
    one design sheet per place type on the 16k list. `settlement-build` is
@@ -91,7 +91,7 @@ already accepted.
    the plan is final until the 3D rounds pass. No separate 2D blueprint
    authoring exists; 16h item 19 is delivered as this plan render.
 4. **Lessons live in the skill and every fix is a lesson.**
-   `references/lessons.md` is a table: id, the rule as an imperative, the
+   `references/lessons/` is a table (one file per section, 0106): id, the rule as an imperative, the
    defect and its cause (evidence pointer), the gate or `check` rule that
    now enforces it (or `prose only` with the slice that will mechanise
    it), the source (owner walk, reader round, compile refusal). The
@@ -105,7 +105,7 @@ already accepted.
    is fixed, never worked around). World 96 §2 keeps the history and
    points here; engineering standard 13 watches
    `tooling/placement-workbench/**` and `.claude/skills/place-build/**`
-   and accepts `lessons.md`, world 97 or 0041 as the record that moved.
+   and accepts a `lessons/` row, world 97 or 0041 as the record that moved.
    Rows are merged, never duplicated: a new row that restates an old one
    edits the old one. The type sheets are written by the slice that first
    builds the type and edited by every later slice of that type, as named
@@ -160,7 +160,7 @@ already accepted.
 
 - 16k slice 1b delivers, before Claywater is designed: `place-build`
   with its references seeded (the 16i item 0 lesson reconciliation is the
-  seeding of `lessons.md` from 96 §2 and the check-in 1–3 records);
+  seeding of `lessons/` from 96 §2 and the check-in 1–3 records);
   `wb.py apply`, the multi-shot render and the plan render; `--places`
   publishing; the acceptance receipt and its gate; the standard 13
   extension; `breadth-bars.json`; the docs reconciled to the loop

@@ -147,13 +147,11 @@ export function RoutesLayer({
   }, [showGrades, grades, baseUrl]);
 
   useEffect(() => {
-    // the spans layer needs them too: a structure's hover names the crossing
-    // it carries (route-structures.json `crossingId`, decision 0066)
-    if ((!showCrossings && !showSpans) || crossings !== null) return;
+    if (!showCrossings || crossings !== null) return;
     let alive = true;
     loadCrossings(baseUrl).then((c) => { if (alive) setCrossings(c); }).catch(() => { if (alive) setCrossings([]); });
     return () => { alive = false; };
-  }, [showCrossings, showSpans, crossings, baseUrl]);
+  }, [showCrossings, crossings, baseUrl]);
 
   useEffect(() => {
     if (!showServices || services !== null) return;
@@ -184,9 +182,6 @@ export function RoutesLayer({
   }, [roads, lanes, tracks, channels, index, showWater, showTracks, minorRoutesBuilt, minorChannelsBuilt, placeName]);
 
   const selected = useMemo(() => lines.find((l) => l.key === selectedKey) ?? null, [lines, selectedKey]);
-
-  /** The crossing a structure carries, by the `crossingId` its record states. */
-  const crossingById = useMemo(() => new Map((crossings ?? []).map((c) => [c.id, c])), [crossings]);
 
   const stationPos = useMemo(() => {
     const m = new Map<string, [number, number]>();
@@ -222,9 +217,8 @@ export function RoutesLayer({
           if (px.length < 2) return null;
           const pts = px.map(([c, r]) => `${uv(c)},${uv(r)}`).join(" ");
           const colour = STRUCTURE_COLOUR[s.kind] ?? STRUCTURE_STYLE.stroke;
-          const carried = s.crossingId ? crossingById.get(s.crossingId) ?? null : null;
           return (
-            <g key={s.id} style={{ pointerEvents: "stroke" }} {...hover([structureTip(s, carried)])}>
+            <g key={s.id} style={{ pointerEvents: "stroke" }} {...hover([structureTip(s)])}>
               <polyline points={pts} fill="none" stroke="transparent" strokeWidth={9} vectorEffect="non-scaling-stroke" />
               <polyline points={pts} fill="none" stroke={colour} strokeWidth={STRUCTURE_STYLE.width}
                 strokeLinecap="butt" vectorEffect="non-scaling-stroke" opacity={0.95} />

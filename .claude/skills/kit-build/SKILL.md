@@ -191,6 +191,7 @@ into the kit config (`--record`), then step 1 rebuilds.
   kits written, unscoped folders deleted); `--all --check` and `kit_compress
   --check` exit 1 on stale, missing or out-of-scope parts. The parts count in
   the site budget (step 7).
+- After publish, look at every new or changed piece: `npm run look -- piece <kit> <assetId>` and its Sonnet judge ([visual-look](../visual-look/SKILL.md)); a FAIL is fixed at source before the kit is used.
 - A doorway is recorded only where rays pass (`interiors_index.doorway_rays`):
   every geometric doorway (`opening`, `open-front`, `leaf`) must let horizontal
   rays through the wall from 0.3 to 1.8 m above its sill across the middle 70%
@@ -233,6 +234,16 @@ into the kit config (`--record`), then step 1 rebuilds.
     cd $P && python3 -m pytest -q pipeline/test_build_kit.py \
       pipeline/test_kit_compress.py pipeline/test_placement_metadata.py
     cd $P && python3 -m pipeline.kit_compress --kit <kit> --check
+
+- Fire pieces that never burn (walk 6: the hut's `argonianlanterns04` and
+  kotm `townlantern04` shipped with neither): list the kit's rows whose id
+  names a lantern, candle, torch, brazier or fire and that carry no `flames`
+  and no `light.fixtureKind`; each one gets its fire (mined `light` via
+  `mine_kit_lights --assets … --merge`, or the sibling's record with its
+  evidence as settlement-mud-v1 `argonianlanterns04` does) or a written
+  reason. Then `npm run look -- fixtures <kit> <assetId>` and read
+  `anchorFailures` (a flame above the geometry is seated on its top by
+  `build_kit.seat_flames_on_geometry`).
     cd $W && python3 -m pytest -q worldgen/test_mine_mounts.py \
       worldgen/test_mine_designed_sink.py      # after step 4 only
 

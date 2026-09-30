@@ -24,7 +24,14 @@ describe("parseSettlementSockets", () => {
   });
 
   it("refuses a skewed version, a bad socket, a duplicate id and a schedule naming no idle socket", () => {
-    expect(() => parseSettlementSockets({ id: "s", socketsSchemaVersion: 2, sockets: [] })).toThrow(/socketsSchemaVersion 2/);
+    expect(() => parseSettlementSockets({ id: "s", socketsSchemaVersion: 3, sockets: [] })).toThrow(/socketsSchemaVersion 3/);
+    // schema 2 (decision 0113): a work socket carries its interact point, well formed
+    const forge = { ...base, id: "station.forge", kind: "station", stationClass: "forge" };
+    expect(() => parseSettlementSockets({ id: "s", socketsSchemaVersion: 2, sockets: [forge] })).toThrow(/no interact point/);
+    expect(() => parseSettlementSockets({ id: "s", socketsSchemaVersion: 2,
+      sockets: [{ ...forge, interact: { kind: "queue", position: [0, 0, 0], facing: 0 } }] })).toThrow(/interact is not/);
+    expect(parseSettlementSockets({ id: "s", socketsSchemaVersion: 2,
+      sockets: [{ ...forge, interact: { kind: "station", position: [1, 2, 3], facing: 90 } }] })).toHaveLength(1);
     expect(() => parseSettlementSockets({ id: "s", socketsSchemaVersion: 1, sockets: [{ ...idle, positionM: [1, 2] }] })).toThrow(/positionM/);
     expect(() => parseSettlementSockets({ id: "s", socketsSchemaVersion: 1, sockets: [idle, idle] })).toThrow(/used twice/);
     expect(() => parseSettlementSockets({ id: "s", socketsSchemaVersion: 1, sockets: [idle, npc] })).toThrow(/idle\.home, which is no idle socket/);

@@ -90,9 +90,16 @@ export function isSwingDoor(door: SettlementDoor): door is ExteriorSwingDoor {
   return d.doorType === "swing" && swingPoseProblem(d.swing) === null;
 }
 
-/** The place doors that load a cell (or show the closed line): every door but a swing one. */
+/**
+ * The place doors that load a cell (or show the closed line): every door but a
+ * swing one and a `hollow` one (a shell no plugin gives a load door, decision
+ * 0114: no interior, no prompt).
+ */
 export function loadDoorsOf(doors: readonly SettlementDoor[]): SettlementDoor[] {
-  return doors.filter((d) => (d as { doorType?: unknown }).doorType !== "swing");
+  return doors.filter((d) => {
+    const kind = (d as { doorType?: unknown }).doorType;
+    return kind !== "swing" && kind !== "hollow";
+  });
 }
 
 /** Smooth ease in and out over t in [0, 1]. */

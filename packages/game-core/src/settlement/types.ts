@@ -87,8 +87,27 @@ export interface GroundTreatment {
   apronsM?: [number, number, number][];
 }
 
-/** The sockets record's version (0103 decision 5; worldgen/sockets.py). */
-export const SETTLEMENT_SOCKETS_SCHEMA_VERSION = 1;
+/** The sockets record's version (0103 decision 5; worldgen/sockets.py): 2
+ * when every work socket carries `interact` (decision 0113, additive: a 1
+ * record reads as carrying none). */
+export const SETTLEMENT_SOCKETS_SCHEMA_VERSION = 2;
+export const SETTLEMENT_SOCKETS_SCHEMA_VERSIONS = [1, SETTLEMENT_SOCKETS_SCHEMA_VERSION] as const;
+
+/** Vocabulary `interactKinds`, in its order. */
+export const SOCKET_INTERACT_KINDS = ["customer", "station"] as const;
+
+/**
+ * Where the player uses a work socket (decision 0113): `customer` across a
+ * service surface (counter, stall, market table) from the worker, facing
+ * back at them; `station` where the worker stands, in the worker's pose.
+ * Same frame as the socket's `positionM` (world, or the cell's for an
+ * interior socket); `facing` is compass degrees like `yawDeg`.
+ */
+export interface SocketInteractPoint {
+  kind: (typeof SOCKET_INTERACT_KINDS)[number];
+  position: [number, number, number];
+  facing: number;
+}
 
 /** Socket kinds, as in world/sources/vocab/socket-vocabulary.json. */
 /** Equal to `world/sources/vocab/socket-vocabulary.json` `socketKinds`, in its
@@ -121,9 +140,10 @@ export type SettlementSocket =
   | (SettlementSocketBase & {
       kind: "npc"; rosterSlotId: string; role?: string; schedule: SettlementScheduleEntry[];
     })
-  | (SettlementSocketBase & { kind: "idle"; activity: string })
-  /** A work station (0104): `stationClass` is a vocabulary `stationClasses` key. */
-  | (SettlementSocketBase & { kind: "station"; stationClass: string })
+  /** `interact` on every `work-at` idle socket from schema 2 (0113). */
+  | (SettlementSocketBase & { kind: "idle"; activity: string; interact?: SocketInteractPoint })
+  /** A work station (0104): `stationClass` is a vocabulary `stationClasses` key; `interact` from schema 2 (0113). */
+  | (SettlementSocketBase & { kind: "station"; stationClass: string; interact?: SocketInteractPoint })
   /** A signpost (0104): one `route.` or `place.` id per arm. */
   | (SettlementSocketBase & { kind: "sign"; pointsTo: string[] })
   | (SettlementSocketBase & {
@@ -160,7 +180,7 @@ export interface SettlementBundle {
     floodBandReport: Record<string, unknown>;
     variants: Record<string, unknown>[];
     /** 0103 decision 5; parse with `parseSettlementSockets` (sockets.ts). */
-    socketsSchemaVersion?: typeof SETTLEMENT_SOCKETS_SCHEMA_VERSION;
+    socketsSchemaVersion?: (typeof SETTLEMENT_SOCKETS_SCHEMA_VERSIONS)[number];
     sockets?: SettlementSocket[];
     /** The place's painted ways (16k walk 4); parse with `groundPaintOfBundle`. */
     groundPaint?: GroundPaintDoc;

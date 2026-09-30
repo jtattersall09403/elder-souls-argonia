@@ -67,13 +67,12 @@ describe("interiorAmbient", () => {
     expect(flat.isAmbientLight).toBe(true);
   });
 
-  it("the parser refuses a malformed cube and still reads schema 3", () => {
+  it("the parser refuses a malformed cube and reads a cell with no lighting record", () => {
     const bad = structuredClone(fixture) as Record<string, unknown>;
     (bad.lighting as Record<string, unknown>).ambientCube = { px: [0, 0] };
     expect(() => parseInteriorBundle(bad, "x")).toThrow(/bad lighting/);
-    const v3 = structuredClone(fixture) as Record<string, unknown>;
-    v3.schemaVersion = 3;
-    delete v3.lighting;
-    expect(parseInteriorBundle(v3, "x").lighting).toBeUndefined();
+    const unlit = structuredClone(fixture) as Record<string, unknown>;
+    delete unlit.lighting;
+    expect(parseInteriorBundle(unlit, "x").lighting).toBeUndefined();
   });
 });

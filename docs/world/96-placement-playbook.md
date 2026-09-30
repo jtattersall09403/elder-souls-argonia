@@ -3,12 +3,12 @@
 > **History and pointers, not the live procedure** (decision 0100, 2026-09-25).
 > Places are now built in the 16k place loop (decision 0099) with the
 > `place-build` skill: its [SKILL.md](../../.claude/skills/place-build/SKILL.md)
-> is the procedure, `references/lessons.md` the operative lessons store,
+> is the procedure, `references/lessons/` the operative lessons store,
 > `references/design-index.md` the grounding index and `references/types/`
 > the per-type sheets. This module keeps the Phase 11 to 16h record the skill
 > was seeded from: the old per-place loop (§1, history), the seed and
 > write-back rules (§1, still binding), the lessons table (§2, history; new
-> lessons go to `lessons.md`), the Phase 15 automation-readiness checklist
+> lessons go to `lessons/`), the Phase 15 automation-readiness checklist
 > (§3) and the record routing (§4). Owner steers on taste still go to 0041's
 > Taste ledger.
 
@@ -70,14 +70,14 @@ dot (the blueprint's geometry sits around it).
 
 ## 1b. Where lessons go now
 
-To `.claude/skills/place-build/references/lessons.md`, one merged row per
+To `.claude/skills/place-build/references/lessons/`, one merged row per
 lesson (0100 decision 4), never here. Engineering standard 13 (`npm test`)
 fails when a blueprint, design record, placement tool, the workbench or the
-place-build skill changes without that file, world 97, this module or
+place-build skill changes without that store, world 97, this module or
 decision 0041 changing too. Sourcing gaps are filled in the session they are
 found (CLAUDE.md sourcing rule); the register only records outcomes.
 
-## 2. Lessons to 2026-09-24 (history; `lessons.md` was seeded from this table)
+## 2. Lessons to 2026-09-24 (history; the lessons store was seeded from this table)
 
 | Round | Lesson | Where it now lives |
 |---|---|---|
@@ -197,11 +197,11 @@ the next rebuild. Wamasu Pond needed exactly this after the sap-tapping chain.
 ## 4. Records and routing
 
 - Procedure and lessons → the `place-build` skill (`SKILL.md`,
-  `references/lessons.md`) · taste steers → 0041 Taste ledger · per-place
+  `references/lessons/`) · taste steers → 0041 Taste ledger · per-place
   reasoning → `world/sources/blueprints/<place>.design.md` and the layout
   `<place>.layout.json` (0100 decision 2) · acceptance →
   `world/sources/placement/accepted-places.json` · lessons that are really
-  *rules* → world 97, a gate or a `check` rule, with a `lessons.md` row
+  *rules* → world 97, a gate or a `check` rule, with a `lessons/` row
   naming it.
 - Router rows: [docs/README.md](../README.md) "Siting, laying out or
   building a place"; [world/README.md](README.md) module table.

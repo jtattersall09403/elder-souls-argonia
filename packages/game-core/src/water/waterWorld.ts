@@ -12,6 +12,7 @@ import { WaterDisplacementRegistry } from "./displacementRegistry";
 import type { LocalWaterPatch } from "./LocalWaterPatch";
 import type { LocalWaterSurfaces } from "./localSurfaces";
 import type { WaterData } from "./waterData";
+import { immersionAt } from "../physics/waterSampler";
 import { FLOW_WAVE_MIN_SPEED_MS, alongShorePhase, fetchExposure, flowWaveAt, seaRmsHeightM, shoreSwellAt,
   standingWaveRatio, surfEnergyScale, surfaceWaveAt, swashAt, waveExposure, type WaveSample } from "./waves";
 
@@ -86,7 +87,9 @@ export class WaterWorld implements WorldWaterQuery {
   } {
     const pool = this.opts.localSurfaces?.at(x, z);
     if (pool) {
-      return { waterBodyId: pool.pool.id, depth: Math.max(0, pool.levelM - pool.bedM), surfaceHeight: pool.levelM, flowX: 0, flowZ: 0 };
+      const depth = this.poolDepth(pool, x, z);
+      if (depth <= 0.02) return { waterBodyId: null, depth: 0, surfaceHeight: pool.levelM, flowX: 0, flowZ: 0 };
+      return { waterBodyId: pool.pool.id, depth, surfaceHeight: pool.levelM, flowX: 0, flowZ: 0 };
     }
     const s = this.data.sample(x, z);
     const { tide, season } = this.levelOffsets(epochMinutes);
@@ -101,15 +104,19 @@ export class WaterWorld implements WorldWaterQuery {
     const pool = this.opts.localSurfaces?.at(position.x, position.z);
     if (pool) {
       // A pool is still water at its own level: no tide, wind, surf or flow.
-      const depth = Math.max(0, pool.levelM - pool.bedM);
-      const immersion = Math.max(0, Math.min(1, (pool.levelM - position.y) / Math.max(depth, 0.05)));
+      // Depth and immersion are the field's own arithmetic (depth over the
+      // real, overlay-cut ground; immersion over the 1.7 m body column), so
+      // wading, footsteps, splashes and the swim state read a pool exactly as
+      // they read shallow field water.
+      const depth = this.poolDepth(pool, position.x, position.z);
+      const wet = depth > 0.02;
       return {
-        waterBodyId: pool.pool.id,
+        waterBodyId: wet ? pool.pool.id : null,
         surfaceHeight: pool.levelM,
         surfaceNormal: { x: 0, y: 1, z: 0 },
         flowVelocity: { x: 0, y: 0, z: 0 },
-        depth,
-        immersion,
+        depth: wet ? depth : 0,
+        immersion: wet ? immersionAt(pool.levelM, position.y) : 0,
         turbidity: 0.1,
         salinity: 0,
         temperature: CLASS_TEMPERATURE.marsh,
@@ -203,6 +210,14 @@ export class WaterWorld implements WorldWaterQuery {
       temperature: CLASS_TEMPERATURE[s.className] ?? 24,
       hazardIds: [],
     };
+  }
+
+  /** Still-water depth in a pool at (x, z): over the real ground where a
+   * chunk is loaded (the place's `pool` ground overlay cuts the basin into
+   * it), else over the published bowl bed. */
+  private poolDepth(pool: { levelM: number; bedM: number }, x: number, z: number): number {
+    const ground = this.opts.groundHeight?.(x, z) ?? null;
+    return Math.max(0, pool.levelM - (ground ?? pool.bedM));
   }
 
   get localPatch(): LocalWaterPatch | null { return this.activeLocalPatch; }

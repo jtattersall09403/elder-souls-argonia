@@ -27,16 +27,13 @@ function partsHosts(bundle: unknown, assetsOf: (kitId: string) => string[]) {
   const hosts = {
     fetchJson: async (url: string) => {
       fetched.push(url);
-      // a kit manifest (the cell's fire rows): the published one
-      const manifest = /(kits\/[^/]+\.kit\.json)$/.exec(url)?.[1];
-      if (manifest) {
-        const file = new URL(`../../../../apps/world-studio/public/${manifest}`, import.meta.url);
-        return existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : { assets: [] };
-      }
       const kit = /kits\/(.+)\/parts\/index\.json$/.exec(url)?.[1];
       if (!kit) return structuredClone(bundle);
+      // the cell's fire rows: the published parts index's (schema 2)
+      const published = new URL(`../../../../apps/world-studio/public/kits/${kit}/parts/index.json`, import.meta.url);
+      const fires = existsSync(published) ? JSON.parse(readFileSync(published, "utf8")).fires : {};
       return {
-        schemaVersion: 1, kit, source: { bytes: 0, sha256: "" },
+        schemaVersion: 2, kit, source: { bytes: 0, sha256: "" }, fires,
         assets: Object.fromEntries(assetsOf(kit).map((id) => [id, { file: `${encodeURIComponent(id)}.glb`, bytes: 0, vertices: 0, triangles: 0, textures: [] }])),
       };
     },
@@ -126,18 +123,17 @@ describe("interior bundle contract (the shared fixture)", () => {
     // acceptance (0103 decision 3): references = placements + drops
     // walk 4: plus the swing doors, which are doors[] entries and not placements
     expect(b.placements.length + b.drops.length + b.doors.filter((d) => d.doorType === "swing").length).toBe(b.refCount);
-    expect(parseInteriorBundle({ ...structuredClone(fixture), shellAssetId: "s" }, "x").shellAssetId).toBe("s");
+    expect(() => parseInteriorBundle({ ...structuredClone(fixture), shellAssetId: "s" }, "x")).toThrow(/shellAssetId is not null/);
   });
 
-  it("reads a schema 2 file and drops the per-place pairing it carried (one place's, overwritten by the next)", () => {
-    const old = structuredClone(fixture) as { schemaVersion: number; doors: Record<string, unknown>[] };
-    old.schemaVersion = 2;
-    Object.assign(old.doors[0], { exteriorDoorId: "door.other-place.1", arrivalMarker: { positionM: [9, 9, 9], yawDeg: 0 } });
-    old.doors.push({ doorType: "load", interiorLoadDoorRef: "UPPER", closed: true, loadDoor: { positionM: [0, 0, 3], yawDeg: 180 } });
-    const b = parseInteriorBundle(old, "x");
-    expect(b.doors.filter((d) => d.doorType === "load")).toEqual([
-      { doorType: "load", interiorLoadDoorRef: "00000A01", loadDoor: { positionM: [0, 0, 3.5], yawDeg: 180 } },
-      { doorType: "load", interiorLoadDoorRef: "UPPER", loadDoor: { positionM: [0, 0, 3], yawDeg: 180 } }]);
+  it("refuses a schema 2 or 3 file and a load door carrying a per-place pairing", () => {
+    for (const v of [2, 3]) {
+      expect(() => parseInteriorBundle({ ...structuredClone(fixture), schemaVersion: v }, "x"))
+        .toThrow(new RegExp(`unsupported schemaVersion ${v} \\(this runtime reads 4 only`));
+    }
+    const old = structuredClone(fixture) as { doors: Record<string, unknown>[] };
+    old.doors[0].exteriorDoorId = "door.other-place.1";
+    expect(() => parseInteriorBundle(old, "x")).toThrow(/load door 0 carries per-place field exteriorDoorId/);
   });
 
   it("refuses a malformed door pairing, a light without its fade field, a missing drops list", () => {
@@ -198,8 +194,8 @@ describe("InteriorLoader", () => {
   it("instantiates the fixture: 6 placements over 4 assets, 2 point lights, ambient and fog", async () => {
     const { loader, fetched, partsLoaded } = fixtureLoader();
     const cell = await loader.request("fixture.hut-int");
-    // the bundle, the kit's parts index and its manifest (the fire rows), each once
-    expect(fetched.sort()).toEqual(["/base/kits/fixture-int-v1.kit.json", "/base/kits/fixture-int-v1/parts/index.json",
+    // the bundle and the kit's parts index (which carries the fire rows), each once; never the kit manifest
+    expect(fetched.sort()).toEqual(["/base/kits/fixture-int-v1/parts/index.json",
       "/base/province/interiors/fixture.hut-int.json"]);
     // one part per asset drawn (4 placed assets and the swing door), nothing else
     expect(partsLoaded.sort()).toEqual(["barrel", "bench", "doors/animdoor01", "floor", "wall"]
@@ -217,7 +213,7 @@ describe("InteriorLoader", () => {
     expect(cell.counts).toEqual({ placements: 6, substitutions: 0, meshes: 4, lights: 2, solids: 6, fires: 0 });
     // cached by cellId: a second request fetches nothing
     await loader.request("fixture.hut-int");
-    expect(fetched.length).toBe(3);
+    expect(fetched.length).toBe(2);
   });
 });
 
@@ -534,9 +530,8 @@ describe("interior fires (16k walk 5): the hut hearth burns a flame, not only a 
     const { hosts, fetched } = partsHosts(raw, (kit) => [...bundle.placements, ...(bundle.substitutions ?? [])]
       .filter((p) => p.kit === kit).map((p) => ("standInAsset" in p ? p.standInAsset : p.assetId) as string));
     const cell = await new InteriorLoader("/base/", hosts).request("KeebaHouseFisher");
-    // each drawn kit's manifest fetched once
-    const drawnKits = new Set([...bundle.placements, ...(bundle.substitutions ?? [])].map((p) => p.kit));
-    expect(fetched.filter((u) => u.endsWith(".kit.json")).length).toBe(drawnKits.size);
+    // the fire rows come from the parts indexes: no kit manifest is fetched
+    expect(fetched.filter((u) => u.endsWith(".kit.json"))).toEqual([]);
     expect(cell.fire).not.toBeNull();
     expect(cell.fire!.group.parent).toBe(cell.group);
     const presets = cell.fire!.emitters.map((e) => e.preset);
@@ -550,6 +545,24 @@ describe("interior fires (16k walk 5): the hut hearth burns a flame, not only a 
     // strength 1 at any hour: every flame instance burns after the first frame
     cell.fire!.update(1, () => 1);
     for (let i = 0; i < cell.fire!.flameInstances; i++) expect(cell.fire!.flameIntensity(i)).toBe(1);
+  });
+
+  it("a decal material from an interior part gets the settlement depth bias", async () => {
+    const { instantiateInterior } = await import("./interiorLoader");
+    const b = parseInteriorBundle(structuredClone(fixture), "fixture");
+    const p = b.placements[0];
+    const decal = new THREE.MeshStandardMaterial(); decal.userData = { decal: true };
+    const g = new THREE.BoxGeometry(1, 1, 1);
+    const decalAsset: ArchitectureAsset = { id: p.assetId, levels: [[
+      { geometry: g, material: decal, localMatrix: new THREE.Matrix4(), triangles: 12 }]] };
+    const ids = new Set([...b.placements, ...b.doors.filter(isInteriorSwingDoor)].map((q) => q.assetId));
+    const kit = new Map([...ids].map((id) => [id, id === p.assetId ? decalAsset : asset(id)] as const));
+    const cell = instantiateInterior(b, new Map([[p.kit, kit]]));
+    expect(decal.polygonOffset).toBe(true);
+    expect(decal.polygonOffsetFactor).toBeLessThan(0);
+    expect(decal.depthWrite).toBe(false);
+    const drawn = cell.group.children.find((c) => (c as THREE.InstancedMesh).material === decal)!;
+    expect(drawn.renderOrder).toBe(1);
   });
 
   it("a flame-card piece's cards are left undrawn; a piece with none keeps every part", async () => {

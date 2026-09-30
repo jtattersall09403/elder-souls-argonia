@@ -7,7 +7,8 @@
  */
 import {
   SETTLEMENT_SOCKET_KINDS,
-  SETTLEMENT_SOCKETS_SCHEMA_VERSION,
+  SETTLEMENT_SOCKETS_SCHEMA_VERSIONS,
+  SOCKET_INTERACT_KINDS,
   type SettlementSocket,
 } from "./types";
 
@@ -22,8 +23,27 @@ function isStrOrNull(v: unknown): boolean {
   return v === null || typeof v === "string";
 }
 
-/** Every reason one raw socket is malformed (empty when it is well formed). */
-export function socketErrors(raw: unknown): string[] {
+const INTERACT_KINDS = new Set<string>(SOCKET_INTERACT_KINDS);
+
+/** Whether a socket is a work socket, which carries `interact` from schema 2 (decision 0113). */
+export function isWorkSocket(s: { kind?: unknown; activity?: unknown }): boolean {
+  return s.kind === "station" || (s.kind === "idle" && s.activity === "work-at");
+}
+
+function interactErrors(id: string, v: unknown): string[] {
+  const x = v as Record<string, unknown> | null;
+  const pos = x?.position;
+  if (!x || typeof x !== "object" || !INTERACT_KINDS.has(String(x.kind))
+    || !Array.isArray(pos) || pos.length !== 3 || !pos.every(isNum) || !isNum(x.facing))
+    return [`${id}: interact is not {kind: customer|station, position: [x, y, z], facing}`];
+  return [];
+}
+
+/**
+ * Every reason one raw socket is malformed (empty when it is well formed).
+ * `schemaVersion` 2 requires `interact` on a work socket (decision 0113).
+ */
+export function socketErrors(raw: unknown, schemaVersion: number = SETTLEMENT_SOCKETS_SCHEMA_VERSIONS[1]): string[] {
   if (typeof raw !== "object" || raw === null) return ["socket is not an object"];
   const s = raw as Record<string, unknown>;
   const id = typeof s.id === "string" && s.id ? s.id : "?";
@@ -37,6 +57,8 @@ export function socketErrors(raw: unknown): string[] {
     if (!isStrOrNull(s[f])) out.push(`${id}: ${f} is not a string or null`);
   }
   if (typeof s.why !== "string") out.push(`${id}: why is not a string`);
+  if (s.interact !== undefined) out.push(...interactErrors(id, s.interact));
+  else if (schemaVersion >= 2 && isWorkSocket(s)) out.push(`${id}: work socket has no interact point`);
   switch (s.kind) {
     case "npc":
       if (typeof s.rosterSlotId !== "string") out.push(`${id}: npc socket has no rosterSlotId`);
@@ -84,11 +106,12 @@ export function parseSettlementSockets(entry: {
 }): SettlementSocket[] {
   if (entry.sockets === undefined) return [];
   const errors: string[] = [];
-  if (entry.socketsSchemaVersion !== SETTLEMENT_SOCKETS_SCHEMA_VERSION)
-    errors.push(`socketsSchemaVersion ${String(entry.socketsSchemaVersion)} != ${SETTLEMENT_SOCKETS_SCHEMA_VERSION}`);
+  const version = entry.socketsSchemaVersion as number;
+  if (!(SETTLEMENT_SOCKETS_SCHEMA_VERSIONS as readonly number[]).includes(version))
+    errors.push(`socketsSchemaVersion ${String(entry.socketsSchemaVersion)} is not one of ${SETTLEMENT_SOCKETS_SCHEMA_VERSIONS.join(", ")}`);
   if (!Array.isArray(entry.sockets)) errors.push("sockets is not an array");
   const raw = Array.isArray(entry.sockets) ? entry.sockets : [];
-  for (const s of raw) errors.push(...socketErrors(s));
+  for (const s of raw) errors.push(...socketErrors(s, version));
   const kindOf = new Map<string, string>();
   for (const s of raw as { id?: string; kind?: string }[]) {
     if (typeof s?.id !== "string") continue;

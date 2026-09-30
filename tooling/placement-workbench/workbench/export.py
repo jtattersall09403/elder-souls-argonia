@@ -2,7 +2,7 @@
 unchanged. Only POSE fields are written; everything authored around them
 (prose, districts, doors, routes' ids) stays as the author wrote it, and
 the derived fields (footprints, door thresholds, district hulls) are
-re-derived afterwards by the settlement-build passes, never here.
+re-derived afterwards by the settlement derive passes, never here.
 
 A piece's `role` (set with `wb.py bind`) says where its pose goes:
 

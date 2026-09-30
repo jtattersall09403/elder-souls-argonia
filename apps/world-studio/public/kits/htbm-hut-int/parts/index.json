@@ -1,5 +1,5 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "kit": "htbm-hut-int",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
@@ -32,5 +32,6 @@
     "4eb6ed5653087682"
    ]
   }
- }
+ },
+ "fires": {}
 }

@@ -5,7 +5,11 @@ agents. Subagents are exempt from the exploration rule, but NOT from the
 sleep rule (owner ruling 2026-09-25: the time audit found 21 agent-hours of
 `sleep` polling by lane leads waiting on their builders): no agent types
 `sleep` in a command; waiting is job_guard.sh's own wait, run_in_background
-or the harness hand-back. Reads the hook JSON on stdin; exit 2 with a
+or the harness hand-back. Nor does any agent write git's copy of a file over
+the shared working tree (`git checkout -- <path>`, `git restore`, `git stash`,
+`git reset --hard`, `git show REV:path > file` outside /tmp): on 2026-09-30 a
+lane lead did that to Riverwalk's layout and blueprint while another lane was
+editing them (the rules of the road forbid it; this makes it impossible). Reads the hook JSON on stdin; exit 2 with a
 reason on stderr blocks the call and shows the reason to the model.
 
 Set SHELL_GUARD_LOG=1 in the environment to append each decision to
@@ -24,6 +28,22 @@ BLOCK = re.compile(
 # keyword (`while ...; do sleep 5; done`), or behind timeout/nohup.
 SLEEP = re.compile(r"(^|[;&|(\n]\s*|\b(do|then|else|timeout\s+\S+|nohup)\s+)(rtk\s+)?sleep\b")
 
+# Foreground waiting (owner 2026-09-30, walk-6 audit: 203 polls, 145 agent-min):
+# following a log, waiting on a pid, `until` loops, and busy loops whose body is
+# only `true`/`:`/an "echo waiting". A long job runs with run_in_background.
+WAIT = re.compile(
+    r"(^|[;&|(\n]\s*)(rtk\s+)?(tail\s+(.*\s)?(-[a-zA-Z]*[fF][a-zA-Z]*|--follow\S*|--pid\S*)(\s|$)|until\s[^\n]*?;\s*do\b)"
+    r"|\bdo\s+(true|:)\s*;?\s*done\b"
+    r"|\bdo\s+echo\s+[\"']?(waiting|still|polling|not yet)\b")
+
+# git writing a committed copy over the working tree. `git checkout <branch>`
+# (no pathspec) and `git checkout -b` stay allowed; `git show REV:path` into
+# /tmp or a pipe stays allowed (reading HEAD's version into a temp path).
+TREE_WRITE = re.compile(
+    r"(^|[;&|(\n]\s*)(rtk\s+)?git\s+(-C\s+\S+\s+)?("
+    r"checkout\s+(\S+\s+)?--(\s|$)|checkout\s+\.(\s|$)|restore\b|stash\b|reset\s+--hard\b|"
+    r"show\s+\S*:\S+\s*>(?!\s*/tmp/|\s*/dev/null|\s*\$TMPDIR|\s*\"?\$\{?TMP))")
+
 
 def main():
     try:
@@ -41,6 +61,19 @@ def main():
             "`bash tooling/repo-standards/job_guard.sh <lane> -- <cmd>`; a long job runs with "
             "run_in_background and you are woken when it exits; a subagent's result arrives by its "
             "hand-back. Never poll.\n")
+        return 2
+    if WAIT.search(cmd):
+        sys.stderr.write(
+            "[shell guard, owner 2026-09-30] no foreground waiting (tail -f / tail --pid / until loops / "
+            "busy loops). Run any job over 60 s with run_in_background: the harness re-invokes you when it "
+            "exits; read its log once then.\n")
+        return 2
+    if TREE_WRITE.search(cmd):
+        sys.stderr.write(
+            "[shell guard, owner 2026-09-30] no agent writes git's copy of a file over the shared "
+            "working tree (checkout -- / restore / stash / reset --hard / show REV:path > file): "
+            "another lane may be editing it. Read HEAD's version into a temp path "
+            "(`git show HEAD:<path> > /tmp/x`) and edit the file you own with the Edit tool.\n")
         return 2
     hit = BLOCK.search(cmd)
     if os.environ.get("SHELL_GUARD_LOG"):

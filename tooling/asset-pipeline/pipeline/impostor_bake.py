@@ -521,10 +521,15 @@ def publish(kit_id: str, rows: list[dict], out: Path) -> Path:
     dest_dir.mkdir(parents=True, exist_ok=True)
     side = PUBLIC / f"{kit_id}.impostors.json"
     have = json.loads(side.read_text())["impostors"] if side.exists() else []
-    keep = {r["id"]: r for r in have}
+    # The published row names its GLB once, by `path` relative to kits/ (what
+    # the loader fetches and the site composer resolves). The bake row's
+    # `file` is a name inside the bake folder; left in the published record
+    # it resolves to kits/<file>, which does not exist (site-refs, 2026-09-30).
+    keep = {r["id"]: {k: v for k, v in r.items() if k != "file"} for r in have}
     for r in rows:
         shutil.copy(out / safe_id(r["id"]) / r["file"], dest_dir / r["file"])
-        keep[r["id"]] = {**r, "path": f"{kit_id}-impostors/{r['file']}"}
+        row = {k: v for k, v in r.items() if k != "file"}
+        keep[r["id"]] = {**row, "path": f"{kit_id}-impostors/{r['file']}"}
     side.write_text(json.dumps({
         "schemaVersion": SCHEMA_VERSION, "kit": kit_id,
         "derivation": "rendered from the kit's own source mesh and textures "

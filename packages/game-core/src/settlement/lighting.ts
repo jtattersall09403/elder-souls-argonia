@@ -63,6 +63,7 @@ import { flameCardBedAnchorLocal, pieceFlameAnchorsLocal } from "../fx/fire/flam
 import { FIRE_PRESETS, fireFlicker, type FirePresetId } from "../fx/fire/fireTypes";
 import { FLAME_MAX_DISTANCE_M as FIRE_MAX_DISTANCE_M, FLAME_MIN_ANGLE_RAD as FIRE_MIN_ANGLE_RAD } from "../fx/fire/flameMaterial";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
+import { FIXTURE_LIGHT_RGB } from "./fixtureGlow";
 import type { SettlementKitAssetMeta, SettlementKitLight, SettlementPlacement } from "./types";
 
 /** Minutes of the day: full on at and after 17:30 and up to 06:30. */
@@ -85,16 +86,8 @@ export function artificialLightFactor(epochMinutes: number): number {
 
 /** Radius of a fixture with no recorded LIGH radius. */
 export const FIXTURE_DEFAULT_RADIUS_M = 6;
-/**
- * The ONE colour (sRGB 0-255) every settlement fixture light emits: lantern,
- * candle, sconce, torch, brazier and fire alike. It is the campfire's own LIGH
- * colour (Skyrim.esm LightCampFire01, 226/140/63), the warm orange the owner
- * approved (walk 4). The LIGH record's colour is NOT read: Skyrim tuned its
- * lantern and candle colours (242/240/223 DefaultCandleLight01NSDesat) for its
- * own tonemap, and under ours they read harsh white with a green cast (walk
- * 4). Fixtures differ only in radius (the LIGH record's) and candela.
- */
-export const FIXTURE_LIGHT_RGB: readonly [number, number, number] = [226, 140, 63];
+/** The ONE fixture light colour: fixtureGlow.ts says why. */
+export { FIXTURE_LIGHT_RGB };
 /** Cap on fixture lights at once (R3): the nearest burning fixtures in the band,
  * the slots of the scene's `FixtureLightField` (render/fixtureLights
  * `FIXTURE_LIGHTS_MAX`). Also the place check rule's fixture-density cap

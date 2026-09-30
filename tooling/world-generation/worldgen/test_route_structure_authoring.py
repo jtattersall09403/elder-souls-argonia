@@ -1,16 +1,16 @@
-"""Gates on `author_route_structures`: the spans come from the crossing
-record bank to bank, the dry windows become flights, never bridges; the
-author and the compiler measure one window the same way."""
+"""Gates on `author_route_structures`: no water crossing is built in the
+province data (crossings are built per place in 16k), the dry windows become
+flights, never bridges; the author and the compiler measure one window the
+same way."""
 import json
 import math
 
 import numpy as np
 
 from .grade_routes import STRUCTURES_PATH
-from .author_route_structures import (MARSH_DECK_FAMILY, STAIR_MIN_DEG, _chain_and_z, _kind,
+from .author_route_structures import (STAIR_MIN_DEG, _chain_and_z, _kind,
                                       _way_length_m, author, steep_runs)
-from .compile_route_structures import (FAMILIES, RAMP_KINDS, RAMP_MAX_DEG, SPAN_KINDS,
-                                       measure_window, ramp_ok)
+from .compile_route_structures import KIND_ROLE, RAMP_MAX_DEG, measure_window, ramp_ok
 from .scale import RAW_M
 from .test_route_structures import _slope_way
 from .ladder import requires_stage
@@ -101,8 +101,7 @@ def test_structure_kind_uses_exact_window_endpoints():
 def test_author_cannot_choose_a_kind_the_compiler_would_refuse():
     """`_kind` picks the piece from a window's shape; `compile_structure`
     refuses a lip-step over RAMP_MAX_DEG. Every shape `_kind` can be handed
-    must yield a kind `ramp_ok` accepts, and never a span (a span is
-    authored from the crossing record)."""
+    must yield a kind `ramp_ok` accepts, and never a span."""
     bad = []
     for way_kind in ("trail", "track", "road", "trunk_road"):
         for span in (0.5, 2.0, 9.8, 18.6, 21.1, 29.9, 30.0, 30.1, 60.0,
@@ -112,7 +111,7 @@ def test_author_cannot_choose_a_kind_the_compiler_would_refuse():
                     for worst in (0.0, 12.0, 27.9, 28.0, 45.0, 89.0):
                         kind = _kind(span, signed, worst, way_kind)
                         grade = math.degrees(math.atan(abs(signed) / max(span, 1e-6)))
-                        if kind in SPAN_KINDS or not ramp_ok(kind, grade):
+                        if kind not in KIND_ROLE or not ramp_ok(kind, grade):
                             bad.append((way_kind, span, signed, worst, kind, round(grade, 2)))
     assert not bad, (
         f"_kind returned a span or a level-surface kind over the {RAMP_MAX_DEG:.0f} deg deck "
@@ -130,15 +129,12 @@ def test_measure_window_clips_to_the_route_end():
 
 
 @requires_stage("compile_route_structures")
-def test_every_published_span_stands_on_a_crossing_record():
-    """THE invariant, on the shipped file: a bridge or a deck names the
-    crossing it carries (owner 2026-09-16: no bridges over dry ground)."""
+def test_no_published_structure_is_a_water_crossing():
+    """Crossings are built per place in 16k (owner 2026-09-30): the shipped
+    record carries no bridge, no deck and no crossing id."""
     structures = json.loads(STRUCTURES_PATH.read_text())["structures"]
-    spans = [s for s in structures if s["kind"] in SPAN_KINDS]
-    assert spans, "the province publishes no spans at all — the author has stopped working"
-    dry = [f"{s['id']} ({s['toM'] - s['fromM']:.1f} m on {s['wayId']})"
-           for s in spans if not s.get("crossingId") or not float(s.get("gapM") or 0.0) > 0.0]
-    assert not dry, f"{len(dry)} published spans carry no crossing record: {', '.join(dry[:8])}"
+    wet = [s["id"] for s in structures if s.get("crossingId") or s["kind"] not in KIND_ROLE]
+    assert not wet, f"{len(wet)} published structures are crossings: {', '.join(wet[:8])}"
 
 
 @requires_stage("compile_route_structures")
@@ -170,7 +166,7 @@ def test_every_published_structure_stands_on_a_way_that_exists():
 
 
 # --------------------------------------------------------------------------
-# THE CROSSING RECORD DECIDES WHAT IS BUILT (decision 0068; owner 2026-09-16)
+# THE CROSSING RECORD BUILDS NOTHING HERE (owner 2026-09-30, 16k walk 6)
 # --------------------------------------------------------------------------
 def _flat_road():
     """A flat ROAD and the stretch doc for it; the water is a stub crossing
@@ -208,19 +204,11 @@ def _author(crossing, services=None, with_window=True):
     return author(doc, {way["id"]: way}, heights, crossings=rows, services=services or {})
 
 
-def test_a_marsh_crossing_on_a_road_is_a_boardwalk_not_a_stone_bridge():
-    out = _author(("span", "marsh"))
-    assert len(out["structures"]) == 1, out["structures"]
-    st = out["structures"][0]
-    assert st["kind"] == "deck"
-    assert st["family"] == MARSH_DECK_FAMILY
-    assert st["pieceRef"] == FAMILIES[MARSH_DECK_FAMILY]["deck"]["asset"]
-
-
-def test_a_marsh_crossing_is_a_boardwalk_at_any_band():
-    for band in ("ford", "span"):
-        st = _author((band, "marsh"))["structures"]
-        assert len(st) == 1 and st[0]["kind"] == "deck", (band, st)
+def test_no_crossing_band_builds_a_structure():
+    for crossing in (("span", "marsh"), ("ford", "marsh"), ("span", "river"),
+                     ("ford", "river"), ("span", "lake")):
+        assert _author(crossing)["structures"] == [], crossing
+        assert _author(crossing, with_window=False)["structures"] == [], crossing
 
 
 def test_a_ferry_band_crossing_builds_nothing_and_is_reported():
@@ -238,29 +226,6 @@ def test_a_ferry_window_names_the_service_that_serves_it():
     assert out["ferryCrossings"][0]["serviceId"] == "boat.test"
 
 
-def test_a_river_span_crossing_is_a_bridge_bank_to_bank():
-    way, heights, _doc, banks = _flat_road()
-    out = _author(("span", "river"))
-    st = out["structures"]
-    assert len(st) == 1 and st[0]["kind"] == "bridge"
-    assert st[0]["family"] == "stone-civic"
-    assert st[0]["crossingId"] == "crossing.test.span.river"
-    assert abs(st[0]["fromM"] - banks[0]) < 2.0 and abs(st[0]["toM"] - banks[1]) < 2.0
-    assert st[0]["gapM"] > 0.0
-
-
-def test_a_crossing_is_built_even_where_the_grader_flagged_nothing():
-    """The defect on the 2026-09-16 map: roads crossed rivers on flat banks
-    with no span, because a span was only ever authored from an over-cap
-    window. The crossing record alone is enough."""
-    st = _author(("span", "river"), with_window=False)["structures"]
-    assert len(st) == 1 and st[0]["kind"] == "bridge"
-
-
-def test_a_shallow_narrow_ford_on_a_river_builds_nothing():
-    assert _author(("ford", "river"))["structures"] == []
-
-
 def test_a_dry_window_is_never_a_span():
     """A dry over-cap window on a road is a flight, never a bridge (owner
     2026-09-16: the map showed bridges over dry hollows)."""
@@ -271,20 +236,37 @@ def test_a_dry_window_is_never_a_span():
                                     "worstDeg": 24.0, "overM": end_m * 0.2}]}]}
     st = author(doc, {way["id"]: way}, heights, crossings=[], services={})["structures"]
     assert len(st) == 1
-    assert st[0]["kind"] not in SPAN_KINDS and st[0]["kind"] not in RAMP_KINDS
+    assert st[0]["kind"] in ("stair", "stepped-ascent")
     assert st[0]["gapM"] == 0.0 and "crossingId" not in st[0]
 
 
-def test_a_window_on_a_crossing_is_not_authored_twice():
-    """The grader's window over the river banks is the crossing's: one bridge,
-    not a bridge plus a flight."""
-    out = _author(("span", "river"))
-    assert [s["kind"] for s in out["structures"]] == ["bridge"]
-
-
-def test_ids_are_numbered_per_way_in_chainage_order():
-    st = _author(("span", "river"))["structures"]
-    assert st[0]["id"] == "structure.road-test.1"
+def test_a_crossing_window_is_counted_but_only_the_dry_flight_is_emitted():
+    """A way with one crossing and one steep dry window: only the flight is
+    emitted, and its id keeps the number it had when the crossing was built,
+    so the ids of the remaining structures never move (engineering standard 2).
+    The dry window overlapping the crossing's banks grows no flight either."""
+    cells = 240
+    way = {"id": "route.road.test", "kind": "road", "px": [[4, 20], [60, 20]]}
+    heights = np.zeros((cells, cells), dtype=np.float32)
+    length = _way_length_m(way)
+    chain, xs, _zs, _z = _chain_and_z(way, heights)
+    # a steep bank two thirds along: 24 deg ground rising 9 m, level beyond
+    hill0 = 2.0 * length / 3.0
+    x_m = np.arange(cells) * RAW_M
+    x0 = float(np.interp(hill0, chain, xs))
+    heights[:, :] = np.clip((x_m - x0) * 0.45, 0.0, 9.0)[None, :]
+    wet0, wet1 = length / 6.0, length / 3.0
+    doc = {"ways": [{"wayId": way["id"], "kind": "road", "stretches": [
+        {"fromM": wet0 - 5.0, "toM": wet1 + 5.0, "worstDeg": 20.0, "overM": 50.0},
+        {"fromM": hill0 - 10.0, "toM": hill0 + 40.0, "worstDeg": 24.0, "overM": 50.0}]}]}
+    banks = (float(np.interp(wet0, chain, xs)), float(np.interp(wet1, chain, xs)))
+    st = author(doc, {way["id"]: way}, heights,
+                crossings=[_crossing("span", "river", way, banks)], services={})["structures"]
+    assert [s["id"] for s in st] == ["structure.road-test.2"], st
+    assert "crossingId" not in st[0]
+    # the same way with no crossing numbers the flight 1
+    alone = author(doc, {way["id"]: way}, heights, crossings=[], services={})["structures"]
+    assert [s["id"] for s in alone] == ["structure.road-test.1"], alone
 
 
 def test_a_gentle_window_with_one_wrinkle_gets_one_short_flight_not_a_long_one():

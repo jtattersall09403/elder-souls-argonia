@@ -457,11 +457,10 @@ KIT_SETS = {
 # (module 97 Part F names the family each set may use), so it is admitted to
 # the sets whose Part F enclosure row points into it, and the family — never
 # the kit — is what a district is held to.
-# `cultureGroup` (0105 R56, planner 2026-09-28): the sets whose kits share
-# one interior culture pool (`blueprint_interiors.culture_shells`): mud, stilt
-# and root are one Argonian pool; the monumental stone set is ruins and
-# xanmeer dungeons, not dwellings, so it has no group. A set with no group
-# pools by its `culture` alone.
+# `cultureGroup` (0105 R56): the sets that make one culture group (mud, stilt
+# and root are one Argonian group; the monumental stone set has none). It no
+# longer pools interior cells: a shell opens only onto cells its own plugin
+# links (decision 0114).
 DRESSING_KITS = ("works-v1",)
 CULTURE_KITS = set(KIT_SETS)
 
@@ -1834,8 +1833,9 @@ def assembly_failures(parcel: dict) -> list[str]:
 
 
 #: 0104 decision 4: a `load` door moves the character to its cell; a
-#: `swing` door opens in place by animation and has no cell.
-DOOR_TYPES = frozenset({"load", "swing"})
+#: `swing` door opens in place by animation and has no cell; a `hollow`
+#: door is the way into a shell no plugin gives a load door (0114): no prompt.
+DOOR_TYPES = frozenset({"load", "swing", "hollow"})
 PROMISE_ID = re.compile(r"^promise\.[a-z0-9-]+\.[a-z0-9.-]+$")
 
 
@@ -2452,6 +2452,8 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
         record = interiors.get(parcel.get("assetRef")) if (interiors and parcel) else None
         if record is None:
             continue
+        if (d.get("interiorClaim") or {}).get("tier") == "none":
+            continue    # a hollow shell's door names no interior kit (door_types rule 4)
         want = interiors.interior_ref(record)
         if record.get("interior") == "none":
             fail(f"door {d.get('id')}: parcel {parcel.get('id')} uses {parcel.get('assetRef')}, which has no "

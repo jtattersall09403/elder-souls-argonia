@@ -11,6 +11,7 @@ from pathlib import Path
 import numpy as np
 
 from . import paths
+from .mesh_query import on_surface
 from .kits import Catalogue
 from .scene import Piece, Scene, plan_to_province
 
@@ -263,7 +264,7 @@ def openings(cat: Catalogue, scene: Scene, uid: str, clear_m: float = 1.0) -> di
         for q in others:
             a, t = q.matrix()
             local = (np.array(samples) - t) @ np.linalg.inv(a).T
-            _c, dist, _tri = queries[q.uid].on_surface(local)
+            _c, dist, _tri = on_surface(queries[q.uid], local)
             if float(dist.min()) * q.scale < nearest:
                 nearest, what = float(dist.min()) * q.scale, q.uid
         terrain = min(float(s[2]) - ground.chunk_height(s[0], -s[1]) for s in samples)

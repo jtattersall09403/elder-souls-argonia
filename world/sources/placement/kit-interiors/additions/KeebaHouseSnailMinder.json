@@ -157,6 +157,42 @@
    "rotZDeg": 0,
    "zone": "door",
    "why": "Lights the floor just inside the door."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:store-glazedcandles-17",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    110.23,
+    83.46,
+    51.995
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the corner behind the giant snail shell."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:hearth-glazedcandles-18",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    102.2,
+    83.446,
+    56.9
+   ],
+   "rotZDeg": 0,
+   "zone": "hearth",
+   "why": "Lights the floor beside the cooking stand."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:door-glazedcandles-19",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    107.6,
+    83.46,
+    53.4
+   ],
+   "rotZDeg": 0,
+   "zone": "door",
+   "why": "Lights the old snail shell by the door."
   }
  ]
 }

@@ -408,6 +408,38 @@ def test_stitch_flags_an_oblique_kink_at_the_gate(survey):
     assert any("obliquely at the gate" in e for e in errs)
 
 
+def _boards(first):
+    """A deck parcel at the gate whose piece nearest it is ``first``."""
+    return parcel("boards", 320.0, 280.0, half=20.0, use="dock", centreUV=uv(320.0, 280.0),
+                  yawDeg=0.0, pieces=[{"asset": "vanilla:architecture/docks/dockstrsol01", "atM": [0.0, 0.0]},
+                                      {"asset": first, "atM": [-18.0, 18.0]}])
+
+
+def test_stitch_takes_a_square_hand_over_onto_built_steps(survey):
+    """R91 (16k walk 6, Riverwalk): the walker wades to the terminal and climbs
+    the steps of the built way, so the way may leave square to the road."""
+    gate = parcel("gate", 300.0, 300.0, half=4.0, spans="w1", yawDeg=90.0)
+    bp = stitch_bp(routes=[way("w1", [GATE_M, (340.0, 260.0)], kind="road", endsAt=["boards"])],
+                   parcels=[gate, _boards("vanilla:architecture/docks/dockstepsdown01")])
+    assert not any("obliquely at the gate" in e for e in check_network_stitch(bp, survey, net()))
+
+
+def test_stitch_keeps_the_line_rule_when_the_built_way_starts_flat(survey):
+    gate = parcel("gate", 300.0, 300.0, half=4.0, spans="w1", yawDeg=90.0)
+    bp = stitch_bp(routes=[way("w1", [GATE_M, (340.0, 260.0)], kind="road", endsAt=["boards"])],
+                   parcels=[gate, _boards("vanilla:architecture/docks/dockstrent02")])
+    assert any("obliquely at the gate" in e for e in check_network_stitch(bp, survey, net()))
+
+
+def test_water_way_counts_the_deck_a_track_runs_on(survey):
+    deck = parcel("deck", 700.0, 300.0, half=110.0, use="dock")
+    bp = _bp(routes=[way("route.stub.track", [(600, 300), (800, 300)], kind="track", endsAt=["deck"])],
+             parcels=[deck])
+    assert not any("longer than a ford" in e for e in check_integration(bp, survey))
+    deck["use"] = "house"
+    assert any("longer than a ford" in e for e in check_integration(bp, survey))
+
+
 def test_stitch_flags_a_gate_that_is_not_square_to_its_road(survey):
     # the road runs due east, so the gate faces 90; 0 lays the wall run down the
     # carriageway instead of across it

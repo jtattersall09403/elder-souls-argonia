@@ -1040,9 +1040,9 @@
     63.223
    ],
    "rotationDeg": [
-    -19.497,
-    188.701,
-    114.4
+    -67.082,
+    111.246,
+    -180.0
    ],
    "scale": 1.42,
    "category": "misc",
@@ -1135,9 +1135,9 @@
     61.5489
    ],
    "rotationDeg": [
-    -12.755,
-    228.202,
-    -174.965
+    -5.149,
+    132.89,
+    167.29
    ],
    "scale": 0.98,
    "category": "misc",
@@ -1192,9 +1192,9 @@
     61.2076
    ],
    "rotationDeg": [
-    -55.623,
-    270.0,
-    -90.0
+    -90.0,
+    34.377,
+    0.0
    ],
    "scale": 1.0,
    "category": "item",
@@ -1211,9 +1211,9 @@
     61.5751
    ],
    "rotationDeg": [
-    -55.623,
     86.654,
-    -90.0
+    124.377,
+    90.0
    ],
    "scale": 1.0,
    "category": "item",
@@ -1230,9 +1230,9 @@
     61.3798
    ],
    "rotationDeg": [
-    64.699,
     86.654,
-    -90.0
+    244.698,
+    90.0
    ],
    "scale": 1.0,
    "category": "item",
@@ -1268,9 +1268,9 @@
     60.7852
    ],
    "rotationDeg": [
-    -4.641,
-    296.645,
-    -1.316
+    -0.92,
+    296.767,
+    -4.735
    ],
    "scale": 1.0,
    "category": "item",
@@ -1287,9 +1287,9 @@
     61.0483
    ],
    "rotationDeg": [
-    -5.25,
-    269.58,
-    0.943
+    -0.889,
+    269.41,
+    -5.26
    ],
    "scale": 1.0,
    "category": "item",
@@ -1344,7 +1344,7 @@
     59.3425
    ],
    "rotationDeg": [
-    -0.004,
+    -0.008,
     355.889,
     0.058
    ],
@@ -1363,7 +1363,7 @@
     59.9118
    ],
    "rotationDeg": [
-    0.037,
+    -0.035,
     319.927,
     0.099
    ],
@@ -1382,9 +1382,9 @@
     56.6899
    ],
    "rotationDeg": [
-    0.011,
+    0.014,
     337.082,
-    -0.01
+    -0.006
    ],
    "scale": 1.0,
    "category": "item",
@@ -1401,9 +1401,9 @@
     59.9045
    ],
    "rotationDeg": [
-    -0.085,
+    0.025,
     308.402,
-    -0.099
+    -0.128
    ],
    "scale": 0.91,
    "category": "item",
@@ -1420,9 +1420,9 @@
     59.3434
    ],
    "rotationDeg": [
-    0.101,
+    0.088,
     28.004,
-    -0.004
+    -0.051
    ],
    "scale": 0.96,
    "category": "item",
@@ -1439,9 +1439,9 @@
     60.9769
    ],
    "rotationDeg": [
-    -0.224,
+    -0.221,
     34.341,
-    -0.063
+    0.074
    ],
    "scale": 1.0,
    "category": "item",
@@ -1515,9 +1515,9 @@
     55.9158
    ],
    "rotationDeg": [
-    65.677,
-    199.683,
-    -109.687
+    5.084,
+    67.66,
+    -98.007
    ],
    "scale": 2.0,
    "category": "misc",
@@ -1591,9 +1591,9 @@
     58.8893
    ],
    "rotationDeg": [
-    -41.143,
-    193.461,
-    -35.681
+    49.321,
+    239.616,
+    -20.207
    ],
    "scale": 1.31,
    "category": "clutter",
@@ -1610,9 +1610,9 @@
     55.695
    ],
    "rotationDeg": [
-    34.563,
-    349.765,
-    -20.815
+    39.664,
+    331.74,
+    0.622
    ],
    "scale": 1.23,
    "category": "clutter",
@@ -1629,9 +1629,9 @@
     59.6388
    ],
    "rotationDeg": [
-    -49.64,
-    144.187,
-    -0.366
+    38.209,
+    132.299,
+    34.498
    ],
    "scale": 1.23,
    "category": "clutter",
@@ -1648,9 +1648,9 @@
     54.8478
    ],
    "rotationDeg": [
-    -1.989,
-    297.181,
-    5.922
+    -6.181,
+    296.92,
+    0.901
    ],
    "scale": 1.18,
    "category": "clutter",
@@ -1762,9 +1762,9 @@
     59.2631
    ],
    "rotationDeg": [
-    1.348,
-    339.705,
-    4.396
+    -0.246,
+    339.87,
+    4.592
    ],
    "scale": 1.0,
    "category": "item",
@@ -1933,9 +1933,9 @@
     62.8936
    ],
    "rotationDeg": [
-    -0.014,
+    -0.002,
     320.267,
-    -0.014
+    -0.02
    ],
    "scale": 1.0,
    "category": "item",
@@ -1952,9 +1952,9 @@
     62.8863
    ],
    "rotationDeg": [
-    -0.126,
+    0.169,
     143.167,
-    0.114
+    -0.016
    ],
    "scale": 1.0,
    "category": "item",
@@ -1972,7 +1972,7 @@
    ],
    "rotationDeg": [
     0.13,
-    0.001,
+    0.0,
     -0.226
    ],
    "scale": 1.0,
@@ -1990,9 +1990,9 @@
     62.8747
    ],
    "rotationDeg": [
-    0.038,
-    291.265,
-    0.113
+    -0.091,
+    291.266,
+    0.076
    ],
    "scale": 1.0,
    "category": "item",
@@ -2009,9 +2009,9 @@
     63.419
    ],
    "rotationDeg": [
+    -0.059,
     22.713,
-    179.322,
-    -89.846
+    -89.858
    ],
    "scale": 1.0,
    "category": "item",
@@ -2028,9 +2028,9 @@
     63.167
    ],
    "rotationDeg": [
-    38.401,
-    183.211,
-    -83.682
+    -19.415,
+    40.32,
+    -84.753
    ],
    "scale": 1.0,
    "category": "item",
@@ -2047,9 +2047,9 @@
     62.8362
    ],
    "rotationDeg": [
-    -0.035,
+    -0.044,
     11.458,
-    -0.048
+    -0.04
    ],
    "scale": 1.0,
    "category": "item",
@@ -2066,9 +2066,9 @@
     62.9289
    ],
    "rotationDeg": [
-    0.046,
+    0.212,
     279.786,
-    -0.207
+    0.01
    ],
    "scale": 1.0,
    "category": "item",
@@ -2085,9 +2085,9 @@
     62.819
    ],
    "rotationDeg": [
-    0.102,
+    0.097,
     40.243,
-    0.031
+    -0.042
    ],
    "scale": 1.0,
    "category": "item",
@@ -2161,9 +2161,9 @@
     64.0753
    ],
    "rotationDeg": [
-    -73.297,
-    168.978,
-    114.825
+    -38.349,
+    80.284,
+    98.851
    ],
    "scale": 0.56,
    "category": "misc",
@@ -2180,9 +2180,9 @@
     52.4326
    ],
    "rotationDeg": [
-    47.273,
-    163.859,
-    -129.391
+    63.18,
+    125.15,
+    -162.617
    ],
    "scale": 0.68,
    "category": "misc",
@@ -2199,9 +2199,9 @@
     55.3687
    ],
    "rotationDeg": [
-    47.436,
-    112.423,
-    141.743
+    7.686,
+    294.772,
+    122.409
    ],
    "scale": 1.0,
    "category": "misc",
@@ -2218,9 +2218,9 @@
     52.9137
    ],
    "rotationDeg": [
-    42.14,
-    122.877,
-    116.095
+    -2.889,
+    315.782,
+    109.061
    ],
    "scale": 1.17,
    "category": "misc",
@@ -2531,6 +2531,27 @@
    "zone": "store"
   },
   {
+   "id": "KeebaHouseSnailMinder:add:store-glazedcandles-17",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    110.23,
+    83.46,
+    51.995
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
    "id": "KeebaHouseSnailMinder:add:table-glazedcandles-01",
    "assetId": "vanilla:clutter/glazedcandles01",
    "kit": "interior-kotm-v1",
@@ -2715,9 +2736,9 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:bed-glazedcandles-13",
    "positionM": [
-    108.579,
+    108.759,
     84.741,
-    59.355
+    59.435
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2763,9 +2784,9 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:door-glazedcandles-16",
    "positionM": [
-    104.111,
+    104.291,
     84.22,
-    50.892
+    50.972
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2787,9 +2808,9 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:hearth-glazedcandles-14",
    "positionM": [
-    102.787,
+    102.967,
     84.242,
-    61.612
+    61.692
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2883,9 +2904,33 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:store-glazedcandles-15",
    "positionM": [
-    99.08,
+    99.26,
     84.982,
-    59.594
+    59.674
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseSnailMinder:add:store-glazedcandles-17",
+   "positionM": [
+    110.23,
+    84.22,
+    51.995
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2907,9 +2952,9 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:table-glazedcandles-01",
    "positionM": [
-    108.027,
+    108.207,
     85.095,
-    57.396
+    57.476
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2931,9 +2976,9 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:table-glazedcandles-02",
    "positionM": [
-    101.825,
+    102.005,
     85.084,
-    61.124
+    61.204
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2955,9 +3000,9 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:table-glazedcandles-03",
    "positionM": [
-    107.584,
+    107.764,
     87.74,
-    59.005
+    59.085
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2979,9 +3024,9 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:table-glazedcandles-04",
    "positionM": [
-    105.735,
+    105.915,
     84.98,
-    63.258
+    63.338
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -3001,6 +3046,7 @@
    }
   }
  ],
+ "socketsSchemaVersion": 2,
  "sockets": [
   {
    "id": "socket.KeebaHouseSnailMinder.08095F77",
@@ -3136,7 +3182,16 @@
    "yawDeg": 274.057,
    "host": null,
    "activity": "work-at",
-   "why": "furniture marker CraftingTanningRackScaleMarker"
+   "why": "furniture marker CraftingTanningRackScaleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     99.929,
+     83.446,
+     57.94
+    ],
+    "facing": 274.057
+   }
   },
   {
    "id": "socket.KeebaHouseSnailMinder.08095F8A",
@@ -3563,7 +3618,16 @@
    "yawDeg": 28.648,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     101.368,
+     83.463,
+     58.446
+    ],
+    "facing": 28.648
+   }
   },
   {
    "id": "socket.KeebaHouseSnailMinder.08095FD6",
@@ -3576,7 +3640,16 @@
    "yawDeg": 239.679,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     104.254,
+     83.464,
+     55.078
+    ],
+    "facing": 239.679
+   }
   },
   {
    "id": "socket.KeebaHouseSnailMinder.08095FD7",
@@ -3615,7 +3688,16 @@
    "yawDeg": 325.623,
    "host": "KeebaHouseSnailMinder.081AD5FC",
    "activity": "work-at",
-   "why": "CraftingCookingPotSmNoHandleArgonian placed by the cell's author"
+   "why": "CraftingCookingPotSmNoHandleArgonian placed by the cell's author",
+   "interact": {
+    "kind": "station",
+    "position": [
+     100.83,
+     83.46,
+     56.448
+    ],
+    "facing": 325.623
+   }
   },
   {
    "id": "socket.KeebaHouseSnailMinder.08989C03",
@@ -3800,9 +3882,9 @@
     59.7573
    ],
    "rotationDeg": [
-    0.052,
+    -0.027,
     51.567,
-    -0.076
+    -0.088
    ],
    "scale": 1.0
   },
@@ -3823,9 +3905,9 @@
     59.5406
    ],
    "rotationDeg": [
-    -0.028,
+    0.093,
     296.974,
-    -0.119
+    -0.079
    ],
    "scale": 1.0
   },
@@ -3846,9 +3928,9 @@
     59.1467
    ],
    "rotationDeg": [
-    -0.008,
+    0.074,
     193.766,
-    -0.278
+    0.268
    ],
    "scale": 1.0
   },
@@ -3869,7 +3951,7 @@
     59.1487
    ],
    "rotationDeg": [
-    -0.005,
+    0.001,
     2.837,
     0.109
    ],
@@ -3992,9 +4074,9 @@
   }
  ],
  "counts": {
-  "placements": 126,
+  "placements": 127,
   "drops": 14,
-  "lights": 16,
+  "lights": 17,
   "substitutions": 10,
   "swingDoors": 0,
   "missingByClass": {},
@@ -4011,6 +4093,6 @@
    "idle": 13,
    "item": 27
   },
-  "additions": 13
+  "additions": 14
  }
 }

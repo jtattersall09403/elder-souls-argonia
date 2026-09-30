@@ -971,6 +971,16 @@ def apply_light_records(summary: dict, kit: dict) -> int:
     return written
 
 
+def unkinded_fire_pieces(summary: dict) -> list[str]:
+    """Pieces with a `light` block (a mined LIGH record) but no
+    `light.fixtureKind`: the runtime then cannot tell a lantern from a
+    brazier (preset, day burning, shell glow), so the build refuses them.
+    A piece with mined `flames` and no LIGH record has no light block to
+    carry a kind; its preset is read from the emitter's source."""
+    return [r["id"] for r in summary.get("assets", [])
+            if r.get("light") and not r["light"].get("fixtureKind")]
+
+
 # --- the fire layer (16k walk 4) ---------------------------------------------
 # Skyrim draws every flame as a particle system: the piece's own
 # NiParticleSystems, or an `AddOnNodeN` resolved through Skyrim.esm ADDN N to
@@ -1063,6 +1073,29 @@ def mine_fire_layer(nif_bytes: bytes, addn: dict, read_mesh,
     glows = [{"shape": g["shape"], "texturePath": g["texture"], "emissive": g.get("emissive")}
              for g in nb.billboard_glow_shapes(nif)]
     return {"flames": flames, "glowShapes": glows}
+
+
+def seat_flames_on_geometry(record: dict) -> int:
+    """Lower every flame emitter that sits above the piece's geometry onto
+    its top (the wick): the runtime draws a flame upward from its emitter, so
+    an emitter above the mesh floats the flame in the air. impcandle01's
+    AddOnNode49 sits 22.73 units up a 19.1-unit candle (walk 6 look sheet);
+    every other mined flame lies inside its piece. The mined height is kept
+    as `seatedFromM`. Manifest data only, so placement_metadata's
+    --refresh-built-manifests applies it without a Blender rebuild.
+    Returns the number of flames moved."""
+    size, origin = record.get("sizeM"), record.get("originOffsetM") or [0.0, 0.0, 0.0]
+    if not size or len(size) != 3:
+        return 0
+    top = round(size[2] - origin[2], 4)
+    moved = 0
+    for flame in record.get("flames") or []:
+        y = flame["offsetM"][1]
+        if y > top:
+            flame.setdefault("seatedFromM", y)
+            flame["offsetM"] = [flame["offsetM"][0], top, flame["offsetM"][2]]
+            moved += 1
+    return moved
 
 
 def flame_record(flame: dict, atlas_of) -> dict:
@@ -1168,6 +1201,7 @@ def apply_fire_layer(summary: dict, kit: dict, plan_assets: list[dict], vault: P
                 missing.add(item["texture"])
         if flames:
             record["flames"] = flames
+            seat_flames_on_geometry(record)
         if glows:
             record["glows"] = glows
         if cards:
@@ -2053,6 +2087,10 @@ def _build(kit_id: str, vault: Path, force: bool = False, stamp_only: bool = Fal
                             texture_atlas_measurer(vault, tropicalised(kit)))
     if fire:
         print(f"[kit] flame and glow sprites: {fire}")
+    unkinded = unkinded_fire_pieces(summary)
+    if unkinded:
+        raise RuntimeError(f"kit build refused ({kit_id}), light blocks with no fixtureKind "
+                           "(set it in the kit config's light block):\n  " + "\n  ".join(unkinded))
     apply_placement_metadata(summary, kit["id"])
     built_gltf = read_gltf_json(output_glb)
     untextured = (untextured_material_errors(built_gltf, summary, notes["texturesMissing"])

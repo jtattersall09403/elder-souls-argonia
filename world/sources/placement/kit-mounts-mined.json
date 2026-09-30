@@ -282,7 +282,7 @@
   "ground": 1386,
   "hanging": 40,
   "wall": 25,
-  "water": 58
+  "water": 59
  },
  "droppedNoLand": 872,
  "buriedGround": 6514,
@@ -4300,6 +4300,19 @@
    "n": 0,
    "votedClass": "ground",
    "evidence": "policy"
+  },
+  "composite:stilt/swamp-house-with-landing": {
+   "anchorClass": "water",
+   "anchorClassEvidence": "policy",
+   "n": 0,
+   "votedClass": "ground",
+   "evidence": "policy",
+   "waterline": {
+    "p50": 2.02,
+    "n": 0,
+    "evidence": "policy",
+    "policyId": "assetPlacement"
+   }
   },
   "composite:works/stockade-scaffold-2stage": {
    "anchorClass": "ground",

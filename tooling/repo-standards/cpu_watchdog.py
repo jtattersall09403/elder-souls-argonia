@@ -27,6 +27,15 @@ Every INTERVAL s (2) it samples whole-machine CPU from /proc/stat.
     still wrapping a running command, e.g. `rtk npm run preflight`, is left to
     the throttle), and any blender / wb.py / mine_*.py / build_kit / vitest /
     node test worker whose parent has been dead (ppid 1) for ORPHAN_MAX s (600).
+  * Memory hogs, every sample (2026-09-30, after two OOM kills of an
+    unguarded ~30 GB python3 took the code-tunnel session down): any python /
+    blender / node process OUTSIDE a job_guard slot whose RssAnon passes
+    MEM_KILL_GIB (20: only a runaway) is sent SIGTERM, then SIGKILL after KILL_GRACE s (10),
+    with pid, anon GiB and command logged to the watchdog log AND to
+    tooling/.reports/job-guard/mem-watchdog.log (ES_WD_MEM_LOG_DIR). Never
+    touched: the exempt set below, and the studio dev server (studio-dev.mjs,
+    vite, or a command naming $ES_STUDIO_PORT) with its children. A guarded
+    job has its own hard cap (job_guard.sh --mem), so the watchdog leaves it.
 Throttleable = every process except code-server / vscode-server / extension
 hosts, the VS Code tunnel CLI (`code tunnel`, comm `code`), sshd, tmux (the
 sessions run in it), the `claude` CLI,
@@ -50,7 +59,7 @@ actually slept per sample), ES_WD_MAX_SAMPLES, ES_WD_MATCH (regex: only
 processes whose command matches are throttleable). Thresholds: ES_WD_INTERVAL,
 ES_WD_HIGH, ES_WD_HIGH_SAMPLES, ES_WD_STOP_UNTIL, ES_WD_RESUME_BELOW,
 ES_WD_RESUME_AFTER, ES_WD_MIN_PCT, ES_WD_SWEEP, ES_WD_RTK_MAX, ES_WD_ORPHAN_MAX,
-ES_WD_KILL_GRACE.
+ES_WD_KILL_GRACE, ES_WD_MEM_KILL_GIB (0 turns the memory check off).
 """
 from __future__ import annotations
 
@@ -65,6 +74,7 @@ import time
 from dataclasses import dataclass, field
 
 CLK_TCK = os.sysconf("SC_CLK_TCK")
+PAGE_KIB = os.sysconf("SC_PAGE_SIZE") // 1024
 EXEMPT_ARGS = re.compile(
     r"code-server|vscode-server|/vscode/|\.vscode|extensionHost|"
     r"(^|/)code( .*)? tunnel( |$)|/claude-code/|@anthropic-ai/claude|cpu_watchdog")
@@ -75,6 +85,9 @@ JOB_GUARD = re.compile(r"job_guard\.sh")
 # vitest. Its workers descend from it; an xdist worker's own command line is
 # execnet's bootstrap and names neither.
 TEST_RUNNER = re.compile(r"(^|[\s/])(py\.test|pytest|vitest)(\s|$|\.mjs|/)|-m\s+pytest\b")
+# The kinds of process the memory check may kill, by command name or argv[0].
+MEM_KIND = re.compile(r"^(python[\d.]*|blender|node)$")
+STUDIO = re.compile(r"studio-dev\.mjs|(^|[\s/])vite(\s|$|\.js)")
 STALE_ORPHAN = re.compile(
     r"blender|\bwb\.py\b|mine_\w+(\.py)?|build_kit|vitest|tinypool|jest-worker|node\s+--test")
 
@@ -98,6 +111,7 @@ class Config:
     kill_grace: float = 10.0
     min_pct: float = 25.0
     match: str = ""
+    mem_kill_gib: float = 20.0
 
     @classmethod
     def from_env(cls) -> "Config":
@@ -109,7 +123,7 @@ class Config:
             resume_after=env_num("ES_WD_RESUME_AFTER", 10), sweep=env_num("ES_WD_SWEEP", 30),
             rtk_max=env_num("ES_WD_RTK_MAX", 120), orphan_max=env_num("ES_WD_ORPHAN_MAX", 600),
             kill_grace=env_num("ES_WD_KILL_GRACE", 10), min_pct=env_num("ES_WD_MIN_PCT", 25),
-            match=os.environ.get("ES_WD_MATCH", ""))
+            match=os.environ.get("ES_WD_MATCH", ""), mem_kill_gib=env_num("ES_WD_MEM_KILL_GIB", 20))
 
 
 @dataclass
@@ -123,6 +137,7 @@ class Proc:
     args: str
     state: str = "S"
     pgid: int = 0   # process group; 0 = unknown
+    anon_kib: int = 0   # RssAnon (statm resident - shared)
 
 
 # ---------------------------------------------------------------- readers
@@ -165,12 +180,19 @@ def read_procs() -> dict[int, Proc]:
                 args = f.read().replace(b"\0", b" ").decode(errors="replace").strip()
         except OSError:
             continue
+        try:
+            with open(f"/proc/{name}/statm") as f:
+                sm = f.read().split()
+            anon_kib = max(0, int(sm[1]) - int(sm[2])) * PAGE_KIB
+        except (OSError, ValueError, IndexError):
+            anon_kib = 0
         lp, rp = raw.index("("), raw.rindex(")")
         comm, rest = raw[lp + 1:rp], raw[rp + 2:].split()
         start = int(rest[19])
         procs[int(name)] = Proc(
             pid=int(name), ppid=int(rest[1]), start=start, ticks=int(rest[11]) + int(rest[12]),
-            age=uptime - start / CLK_TCK, comm=comm, args=args, state=rest[0], pgid=int(rest[2]))
+            age=uptime - start / CLK_TCK, comm=comm, args=args, state=rest[0], pgid=int(rest[2]),
+            anon_kib=anon_kib)
     return procs
 
 
@@ -242,6 +264,8 @@ class Watchdog:
     last_t: float | None = None
     guard_pgids: set = field(default_factory=set)        # process groups holding a job_guard job
     notify_fn: object = None                             # (pid, line): tell the paused job itself
+    mem_log_fn: object = None                            # (line): tooling/.reports/job-guard/mem-watchdog.log
+    mem_pending: set = field(default_factory=set)        # pids sent SIGTERM by the memory check
 
     def notify(self, pid: int, line: str) -> None:
         if self.notify_fn is not None:
@@ -391,6 +415,11 @@ class Watchdog:
                 self.send(pid, signal.SIGKILL)
                 del self.pending[pid]
                 self.log_fn(f"KILL pid {pid} ({cmd}): still alive {self.cfg.kill_grace:g} s after SIGTERM")
+                if pid in self.mem_pending:
+                    self.mem_log(f"KILL pid {pid} ({cmd}): still alive {self.cfg.kill_grace:g} s after SIGTERM")
+        self.mem_pending &= set(self.pending)
+        if self.cfg.mem_kill_gib > 0:
+            self.mem_check(procs, deltas, t)
 
         if cpu is not None:
             self.throttle(cpu, procs, deltas, t)
@@ -462,7 +491,42 @@ class Watchdog:
                 self.terminate(p, deltas, t, reason)
         self.orphan_seen = {k: v for k, v in self.orphan_seen.items() if k in live_keys}
 
-    def terminate(self, p: Proc, deltas: dict, t: float, reason: str) -> None:
+    def mem_log(self, line: str) -> None:
+        if self.mem_log_fn is not None:
+            self.mem_log_fn(line)
+
+    def studio(self, p: Proc, procs: dict) -> bool:
+        """p is, or descends from, the studio dev server."""
+        port = os.environ.get("ES_STUDIO_PORT", "")
+        seen, cur = set(), p
+        while cur is not None and cur.pid not in seen and cur.pid > 1:
+            a = cur.args or ""
+            if STUDIO.search(a) or (port and re.search(rf"(^|\D){re.escape(port)}(\D|$)", a)):
+                return True
+            seen.add(cur.pid)
+            cur = procs.get(cur.ppid)
+        return False
+
+    def mem_check(self, procs: dict, deltas: dict, t: float) -> None:
+        limit_kib = self.cfg.mem_kill_gib * 1048576
+        for p in procs.values():
+            if p.anon_kib <= limit_kib or p.pid in self.pending or p.pid in self.self_pids or p.pid <= 1:
+                continue
+            argv0 = os.path.basename((p.args or "").split(" ", 1)[0])
+            if not (MEM_KIND.match(p.comm) or MEM_KIND.match(argv0)):
+                continue
+            if (p.comm in EXEMPT_COMM or argv0 == "claude" or EXEMPT_ARGS.search(p.args or "")
+                    or self.held_by_job_guard(p, procs) or self.studio(p, procs)):
+                continue
+            gib = p.anon_kib / 1048576
+            reason = (f"memory hog outside a job_guard slot: anon {gib:.1f} GiB > {self.cfg.mem_kill_gib:g} GiB "
+                      f"(run it as `job_guard.sh <lane> --mem <GiB> -- ...`)")
+            self.terminate(p, deltas, t, reason, kind="memory")
+            if p.pid in self.pending:
+                self.mem_pending.add(p.pid)
+                self.mem_log(f"TERM pid {p.pid} anon {gib:.1f} GiB ({(p.args or p.comm)[:400]}): {reason}")
+
+    def terminate(self, p: Proc, deltas: dict, t: float, reason: str, kind: str = "stale") -> None:
         if not self.send(p.pid, signal.SIGTERM):
             return
         was_stopped = [s for s in self.stopped if s.pid == p.pid]
@@ -470,7 +534,7 @@ class Watchdog:
             self.send(p.pid, signal.SIGCONT)   # a stopped process only acts on SIGTERM once continued
             self.stopped = [s for s in self.stopped if s.pid != p.pid]
         self.pending[p.pid] = (p.start, t + self.cfg.kill_grace, self.short(p))
-        self.log_fn(f"TERM pid {p.pid} cpu {self.pct(deltas.get(p.pid, 0)):.0f}% ({self.short(p)}): stale, {reason}")
+        self.log_fn(f"TERM pid {p.pid} cpu {self.pct(deltas.get(p.pid, 0)):.0f}% ({self.short(p)}): {kind}, {reason}")
 
     def cont(self, s: Stopped) -> bool:
         """Continue a target: its members first, so a runner never wakes to stopped workers."""
@@ -607,8 +671,16 @@ def main() -> int:
             log(f"DRYRUN signal {signal.Signals(sig).name} -> pid {pid}")
     else:
         signal_fn = real_signal
+    mem_dir = os.environ.get("ES_WD_MEM_LOG_DIR") or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "..", ".reports", "job-guard")
+    try:
+        os.makedirs(mem_dir, exist_ok=True)
+        mem_log = make_logger(os.path.join(mem_dir, "mem-watchdog.log"))
+    except OSError:
+        mem_log = None
     wd = Watchdog(cfg, sampler, reader, signal_fn, clock, log, self_pids=ancestors(os.getpid()),
-                  notify_fn=None if os.environ.get("ES_WD_DRY_RUN") == "1" else real_notify)
+                  notify_fn=None if os.environ.get("ES_WD_DRY_RUN") == "1" else real_notify,
+                  mem_log_fn=mem_log)
     try:
         with open(state_path) as f:
             wd.adopt(json.load(f), reader())

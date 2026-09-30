@@ -107,6 +107,6 @@ needs a valid reason and there are very few.
 
 CLAUDE.md golden rule; the place-build skill (steps 2, 4, 6 and § Never);
 the 16k brief § Starting state and § The loop; world 97 A7; the
-workbench manual; `references/lessons.md` and `reader-checklist.md`.
+workbench manual; `references/lessons/` and `reader-checklist.md`.
 
 **Addendum 2026-09-26 (planner ruling 5, 16k fix 2 workbench round 2):** decision 5's small-mount bar is the child's longest PLAN side under 0.6 m and its height under 1.0 m (the 0.615 m tall candle lantern, 0.26 m in plan, is its first case); a yard-set member may carry the same `"unmined": "reader-approved rN"` field.

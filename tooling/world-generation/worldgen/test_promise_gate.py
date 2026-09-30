@@ -105,7 +105,10 @@ def test_door_type_reads_the_claim_before_the_shell():
     stable = {"interiorClaim": {"tier": "reserved", "pool": "stable"}}
     assert door_types.door_type(stable, "vanilla:architecture/farmhouse/farmhouse02", shells) is None
     hut = {"interiorClaim": {"tier": "reserved", "pool": "kotm-mudhut"}}
-    assert door_types.door_type(hut, "kotm:argonia/mudhuts/mudhut01", shells) == "load"
+    # decision 0114: no plugin gives mudhut01 a load door, so it is hollow (no
+    # prompt); a reserved door on a linked shell is load (the closed line)
+    assert door_types.door_type(hut, "kotm:argonia/mudhuts/mudhut01", shells) == "hollow"
+    assert door_types.door_type(hut, "vanilla:architecture/farmhouse/farmhouse02", shells) == "load"
     tier_a = {"interiorClaim": {"tier": "A", "cellId": "KeebaHouseFisher"}}
     assert door_types.door_type(tier_a, "kotm:argonia/mudhuts/mudhut01", shells) == "load"
     assert door_types.door_type({}, "kotm:argonia/mudhuts/mudhut01", shells) == "swing"
@@ -123,9 +126,9 @@ def test_claim_stamps_door_type_and_drops_an_open_front_door(monkeypatch):
           "doors": [{"id": f"door.{pid}", "parcelId": pid} for pid in results]}
     rows = bi.claim_doors(bp, lib={}, links={})
     assert {r["door"]: r["doorType"] for r in rows} == {
-        "door.p-a": "load", "door.p-hut": "load", "door.p-stable": None}
+        "door.p-a": "load", "door.p-hut": "hollow", "door.p-stable": None}   # x:shell is unlinked (0114)
     assert [d["id"] for d in bp["doors"]] == ["door.p-a", "door.p-hut"]
-    assert all(d["doorType"] == "load" for d in bp["doors"])
+    assert [d["doorType"] for d in bp["doors"]] == ["load", "hollow"]
 
 
 def test_the_write_lock_serialises_writers(tmp_path, monkeypatch):

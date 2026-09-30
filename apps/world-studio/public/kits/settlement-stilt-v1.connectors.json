@@ -1127,10 +1127,10 @@
     "heightM": 16.14,
     "normalDeg": 0.0,
     "positionInPiece": [
-     1.54,
+     3.54,
      -9.84
     ],
-    "widthM": 20.69
+    "widthM": 24.68
    },
    {
     "evidence": "bounds",
@@ -1138,7 +1138,7 @@
     "heightM": 16.14,
     "normalDeg": 90.0,
     "positionInPiece": [
-     11.89,
+     15.88,
      0.84
     ],
     "widthM": 21.37
@@ -1149,10 +1149,10 @@
     "heightM": 16.14,
     "normalDeg": 180.0,
     "positionInPiece": [
-     1.54,
+     3.54,
      11.53
     ],
-    "widthM": 20.69
+    "widthM": 24.68
    },
    {
     "evidence": "bounds",

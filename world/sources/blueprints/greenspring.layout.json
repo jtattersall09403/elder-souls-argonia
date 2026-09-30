@@ -1080,11 +1080,11 @@
      1857.4
     ],
     [
-     4713.1,
+     4711.4,
      1860.0
     ],
     [
-     4713.1,
+     4711.4,
      1872.6
     ],
     [
@@ -1105,12 +1105,12 @@
      1856.0
     ],
     [
-     4764.37,
-     1853.61
+     4764.4,
+     1853.6
     ],
     [
-     4767.21,
-     1852.99
+     4767.2,
+     1853.0
     ]
    ],
    "width": 1.2,
@@ -1122,20 +1122,20 @@
    "id": "route.greenspring.herald-path",
    "points": [
     [
-     4751.0,
-     1856.0
+     4758.0,
+     1854.75
     ],
     [
      4758.0,
      1847.0
     ],
     [
-     4760.12,
-     1841.62
+     4760.1,
+     1841.6
     ],
     [
      4759.5,
-     1838.79
+     1838.8
     ]
    ],
    "width": 1.2,
@@ -1155,12 +1155,12 @@
      1847.0
     ],
     [
-     4735.69,
-     1841.41
+     4735.7,
+     1841.4
     ],
     [
-     4734.61,
-     1838.72
+     4734.6,
+     1838.7
     ]
    ],
    "width": 1.2,
@@ -1173,19 +1173,19 @@
    "points": [
     [
      4758.0,
-     1847.0
+     1850.0
     ],
     [
      4766.0,
-     1840.0
+     1845.0
     ],
     [
-     4770.71,
-     1825.35
+     4770.7,
+     1825.3
     ],
     [
-     4773.55,
-     1824.78
+     4773.6,
+     1824.8
     ]
    ],
    "width": 1.2,
@@ -1197,16 +1197,16 @@
    "id": "route.greenspring.minder-path",
    "points": [
     [
-     4756.0,
-     1866.0
+     4752.6,
+     1866.5
     ],
     [
-     4764.23,
-     1861.47
+     4764.2,
+     1861.5
     ],
     [
-     4764.36,
-     1864.37
+     4764.4,
+     1864.4
     ]
    ],
    "width": 1.2,
@@ -1247,12 +1247,12 @@
      1872.0
     ],
     [
-     4721.48,
-     1878.07
+     4721.5,
+     1878.1
     ],
     [
      4720.6,
-     1880.83
+     1880.8
     ]
    ],
    "width": 1.2,
@@ -1264,7 +1264,7 @@
    "id": "route.greenspring.landing-steps",
    "points": [
     [
-     4713.1,
+     4711.4,
      1860.0
     ],
     [
@@ -2543,11 +2543,11 @@
    "op": "socket",
    "id": "socket.greenspring.idle-tree-minder-home",
    "kind": "idle",
-   "host": "KeebaHouseElder.080CC29B",
+   "host": "KeebaHouseCrafter.0809B556",
    "activity": "sleep",
-   "parcel": "parcel.greenspring.minders-house",
-   "why": "The tree-minder sleeps in the house beside the tree.",
-   "interiorCell": "KeebaHouseElder"
+   "parcel": "parcel.greenspring.lodge",
+   "why": "The tree-minder sleeps at the lodge.",
+   "interiorCell": "KeebaHouseCrafter"
   },
   {
    "op": "socket",
@@ -2601,11 +2601,11 @@
    "op": "socket",
    "id": "socket.greenspring.idle-spring-keeper-home",
    "kind": "idle",
-   "host": "LilmothGlassworksOverseerHouse.08879843",
+   "host": "KeebaHouseSnailMinder.08095F77",
    "activity": "sleep",
    "parcel": "parcel.greenspring.spring-keepers-house",
    "why": "The spring-keeper sleeps in the house above the spring.",
-   "interiorCell": "LilmothGlassworksOverseerHouse"
+   "interiorCell": "KeebaHouseSnailMinder"
   },
   {
    "op": "socket",
@@ -2658,11 +2658,11 @@
    "op": "socket",
    "id": "socket.greenspring.idle-n2-home",
    "kind": "idle",
-   "host": "LilmothIronworksOverseerHouse.08864E38",
+   "host": "KeebaHouseCrafter.0809B55E",
    "activity": "sleep",
-   "parcel": "parcel.greenspring.family-hut",
-   "why": "The family sleeps in the hut.",
-   "interiorCell": "LilmothIronworksOverseerHouse"
+   "parcel": "parcel.greenspring.lodge",
+   "why": "The family sleeps at the lodge.",
+   "interiorCell": "KeebaHouseCrafter"
   },
   {
    "op": "socket",

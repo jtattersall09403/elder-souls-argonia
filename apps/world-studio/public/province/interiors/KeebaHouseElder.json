@@ -221,9 +221,9 @@
     56.8289
    ],
    "rotationDeg": [
-    -0.041,
+    -0.039,
     3.797,
-    0.028
+    0.03
    ],
    "scale": 0.71,
    "category": "item",
@@ -601,9 +601,9 @@
     55.9738
    ],
    "rotationDeg": [
-    0.0,
-    256.138,
-    7.0
+    -6.795,
+    256.038,
+    -1.685
    ],
    "scale": 2.32,
    "category": "clutter",
@@ -620,9 +620,9 @@
     55.018
    ],
    "rotationDeg": [
-    -7.922,
-    266.018,
-    -8.078
+    8.314,
+    268.257,
+    -7.673
    ],
    "scale": 2.44,
    "category": "clutter",
@@ -1741,9 +1741,9 @@
     55.7336
    ],
    "rotationDeg": [
-    -0.022,
+    -0.002,
     354.271,
-    -0.197
+    -0.198
    ],
    "scale": 1.0,
    "category": "item",
@@ -1779,8 +1779,8 @@
     57.0395
    ],
    "rotationDeg": [
-    0.169,
-    359.993,
+    0.168,
+    359.994,
     0.403
    ],
    "scale": 1.0,
@@ -1855,9 +1855,9 @@
     49.7114
    ],
    "rotationDeg": [
-    -9.286,
-    15.921,
-    -15.027
+    -13.769,
+    18.312,
+    -11.082
    ],
    "scale": 1.47,
    "category": "clutter",
@@ -1874,9 +1874,9 @@
     49.0975
    ],
    "rotationDeg": [
-    -20.204,
-    1.26,
-    -11.034
+    -21.387,
+    5.402,
+    -8.413
    ],
    "scale": 1.64,
    "category": "clutter",
@@ -1893,9 +1893,9 @@
     48.6676
    ],
    "rotationDeg": [
-    -15.873,
-    12.138,
-    -15.933
+    -20.127,
+    17.069,
+    -9.912
    ],
    "scale": 1.88,
    "category": "clutter",
@@ -1988,9 +1988,9 @@
     56.3313
    ],
    "rotationDeg": [
-    8.553,
-    120.564,
-    -25.853
+    -27.015,
+    114.933,
+    2.69
    ],
    "scale": 1.39,
    "category": "clutter",
@@ -2026,9 +2026,9 @@
     54.9339
    ],
    "rotationDeg": [
-    -0.6,
-    28.637,
-    -1.0
+    -1.006,
+    28.648,
+    -0.59
    ],
    "scale": 1.17,
    "category": "clutter",
@@ -2045,9 +2045,9 @@
     50.7926
    ],
    "rotationDeg": [
-    42.783,
-    251.262,
-    -123.673
+    -6.132,
+    45.293,
+    -114.159
    ],
    "scale": 1.0,
    "category": "item",
@@ -2064,9 +2064,9 @@
     50.9822
    ],
    "rotationDeg": [
-    -64.73,
-    240.989,
-    -41.341
+    -3.588,
+    288.534,
+    -71.269
    ],
    "scale": 1.0,
    "category": "item",
@@ -2083,9 +2083,9 @@
     52.8152
    ],
    "rotationDeg": [
-    -0.045,
+    0.15,
     255.798,
-    -0.144
+    -0.008
    ],
    "scale": 1.0,
    "category": "item",
@@ -2102,9 +2102,9 @@
     53.2765
    ],
    "rotationDeg": [
-    0.011,
+    -0.047,
     320.006,
-    0.087
+    0.074
    ],
    "scale": 0.93,
    "category": "creature",
@@ -2121,9 +2121,9 @@
     57.4874
    ],
    "rotationDeg": [
-    -0.191,
-    28.647,
-    -0.025
+    -0.18,
+    28.648,
+    0.07
    ],
    "scale": 1.0,
    "category": "item",
@@ -2178,9 +2178,9 @@
     52.7536
    ],
    "rotationDeg": [
-    1.064,
-    359.913,
-    -1.198
+    1.067,
+    359.89,
+    -1.196
    ],
    "scale": 1.0,
    "category": "item",
@@ -2197,9 +2197,9 @@
     52.9245
    ],
    "rotationDeg": [
-    -39.376,
-    13.876,
-    -41.648
+    -50.831,
+    68.707,
+    23.863
    ],
    "scale": 1.0,
    "category": "item",
@@ -2216,9 +2216,9 @@
     52.2597
    ],
    "rotationDeg": [
-    0.06,
+    0.1,
     17.251,
-    0.145
+    0.121
    ],
    "scale": 1.0,
    "category": "item",
@@ -2235,9 +2235,9 @@
     53.3778
    ],
    "rotationDeg": [
-    0.798,
-    91.485,
-    89.99
+    -89.987,
+    269.202,
+    0.0
    ],
    "scale": 1.0,
    "category": "item",
@@ -2254,9 +2254,9 @@
     56.1242
    ],
    "rotationDeg": [
-    0.101,
+    0.091,
     342.509,
-    0.019
+    0.048
    ],
    "scale": 1.0,
    "category": "item",
@@ -2273,9 +2273,9 @@
     56.1128
    ],
    "rotationDeg": [
-    -0.136,
-    348.542,
-    0.073
+    -0.148,
+    348.541,
+    0.045
    ],
    "scale": 1.0,
    "category": "item",
@@ -2311,9 +2311,9 @@
     56.2295
    ],
    "rotationDeg": [
-    -4.731,
-    39.979,
-    -10.455
+    -10.446,
+    40.855,
+    -4.751
    ],
    "scale": 1.0,
    "category": "item",
@@ -2330,9 +2330,9 @@
     56.2314
    ],
    "rotationDeg": [
-    -1.015,
-    0.167,
-    -5.16
+    -1.042,
+    0.258,
+    -5.155
    ],
    "scale": 1.0,
    "category": "item",
@@ -2349,9 +2349,9 @@
     56.1551
    ],
    "rotationDeg": [
-    1.22,
-    177.131,
-    5.572
+    -0.958,
+    177.263,
+    -5.623
    ],
    "scale": 1.0,
    "category": "item",
@@ -2368,9 +2368,9 @@
     56.172
    ],
    "rotationDeg": [
-    -3.529,
-    62.249,
-    1.832
+    -0.036,
+    62.081,
+    3.975
    ],
    "scale": 1.0,
    "category": "item",
@@ -2387,9 +2387,9 @@
     53.2043
    ],
    "rotationDeg": [
-    0.051,
+    -0.014,
     251.705,
-    -0.002
+    0.049
    ],
    "scale": 1.0,
    "category": "item",
@@ -2406,7 +2406,7 @@
     56.0529
    ],
    "rotationDeg": [
-    -0.01,
+    0.007,
     24.6,
     0.038
    ],
@@ -2425,9 +2425,9 @@
     52.7474
    ],
    "rotationDeg": [
-    -4.314,
-    258.346,
-    0.303
+    0.577,
+    258.334,
+    -4.286
    ],
    "scale": 1.0,
    "category": "item",
@@ -2444,9 +2444,9 @@
     52.7495
    ],
    "rotationDeg": [
-    -0.022,
+    -0.019,
     356.283,
-    -0.04
+    -0.042
    ],
    "scale": 1.0,
    "category": "item",
@@ -2463,9 +2463,9 @@
     50.806
    ],
    "rotationDeg": [
-    2.682,
-    359.159,
-    1.853
+    2.659,
+    359.245,
+    1.887
    ],
    "scale": 1.0,
    "category": "item",
@@ -2482,9 +2482,9 @@
     51.2907
    ],
    "rotationDeg": [
-    65.612,
-    28.716,
-    67.073
+    0.037,
+    112.657,
+    -80.743
    ],
    "scale": 1.0,
    "category": "item",
@@ -2767,9 +2767,9 @@
     50.6537
    ],
    "rotationDeg": [
-    44.15,
-    234.522,
-    131.815
+    44.693,
+    160.129,
+    -132.295
    ],
    "scale": 0.78,
    "category": "misc",
@@ -2805,9 +2805,9 @@
     57.6936
    ],
    "rotationDeg": [
-    -27.124,
-    83.673,
-    169.877
+    8.754,
+    267.316,
+    -152.436
    ],
    "scale": 1.06,
    "category": "misc",
@@ -2976,8 +2976,8 @@
     54.2286
    ],
    "rotationDeg": [
-    -0.419,
-    0.021,
+    -0.42,
+    0.023,
     -0.233
    ],
    "scale": 1.0,
@@ -2995,9 +2995,9 @@
     56.8754
    ],
    "rotationDeg": [
-    0.336,
-    1.375,
-    -0.28
+    0.33,
+    1.374,
+    -0.288
    ],
    "scale": 0.92,
    "category": "item",
@@ -3033,9 +3033,9 @@
     57.4019
    ],
    "rotationDeg": [
-    0.161,
+    0.159,
     350.244,
-    -0.001
+    0.026
    ],
    "scale": 1.0,
    "category": "item",
@@ -3052,9 +3052,9 @@
     57.4775
    ],
    "rotationDeg": [
-    0.176,
-    89.523,
-    -0.047
+    -0.046,
+    89.522,
+    -0.177
    ],
    "scale": 1.0,
    "category": "item",
@@ -3204,9 +3204,9 @@
     50.376
    ],
    "rotationDeg": [
-    -0.553,
-    356.868,
-    1.431
+    -0.631,
+    356.855,
+    1.398
    ],
    "scale": 1.0,
    "category": "item",
@@ -3586,6 +3586,27 @@
    "zone": "store"
   },
   {
+   "id": "KeebaHouseElder:add:store-glazedcandles-26",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.9,
+    86.071,
+    55.6
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
    "id": "KeebaHouseElder:add:table-glazedcandles-01",
    "assetId": "vanilla:clutter/glazedcandles01",
    "kit": "interior-kotm-v1",
@@ -3860,9 +3881,9 @@
   {
    "refId": "fixture:KeebaHouseElder.0801AAA2",
    "positionM": [
-    106.398,
+    106.2398,
     89.0795,
-    53.1661
+    53.0397
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -3884,9 +3905,9 @@
   {
    "refId": "fixture:KeebaHouseElder.080CC2B2",
    "positionM": [
-    101.1086,
+    101.1633,
     88.7924,
-    57.1749
+    57.303
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -3932,9 +3953,9 @@
   {
    "refId": "fixture:KeebaHouseElder:add:bed-glazedcandles-24",
    "positionM": [
-    111.677,
+    111.857,
     87.361,
-    56.852
+    56.932
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4220,9 +4241,9 @@
   {
    "refId": "fixture:KeebaHouseElder:add:store-glazedcandles-23",
    "positionM": [
-    96.592,
+    96.772,
     90.997,
-    57.729
+    57.809
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4244,9 +4265,33 @@
   {
    "refId": "fixture:KeebaHouseElder:add:store-glazedcandles-25",
    "positionM": [
-    98.244,
+    98.424,
     87.372,
-    52.777
+    52.857
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseElder:add:store-glazedcandles-26",
+   "positionM": [
+    106.9,
+    86.831,
+    55.6
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4268,9 +4313,9 @@
   {
    "refId": "fixture:KeebaHouseElder:add:table-glazedcandles-01",
    "positionM": [
-    101.915,
+    102.095,
     90.952,
-    51.816
+    51.896
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4292,9 +4337,9 @@
   {
    "refId": "fixture:KeebaHouseElder:add:table-glazedcandles-02",
    "positionM": [
-    101.785,
+    101.965,
     90.96,
-    51.32
+    51.4
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4316,9 +4361,9 @@
   {
    "refId": "fixture:KeebaHouseElder:add:table-glazedcandles-03",
    "positionM": [
-    106.869,
+    107.049,
     87.69,
-    50.611
+    50.691
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4340,9 +4385,9 @@
   {
    "refId": "fixture:KeebaHouseElder:add:table-glazedcandles-04",
    "positionM": [
-    113.493,
+    113.673,
     87.637,
-    54.934
+    55.014
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4364,9 +4409,9 @@
   {
    "refId": "fixture:KeebaHouseElder:add:table-glazedcandles-06",
    "positionM": [
-    101.731,
+    101.911,
     93.736,
-    52.902
+    52.982
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4386,6 +4431,7 @@
    }
   }
  ],
+ "socketsSchemaVersion": 2,
  "sockets": [
   {
    "id": "socket.KeebaHouseElder.080157F2",
@@ -5381,9 +5427,9 @@
     52.7662
    ],
    "rotationDeg": [
-    44.714,
-    73.879,
-    -134.813
+    -0.484,
+    234.657,
+    120.058
    ],
    "scale": 1.0
   },
@@ -5404,9 +5450,9 @@
     52.9805
    ],
    "rotationDeg": [
-    21.556,
-    285.765,
-    57.597
+    -0.847,
+    334.438,
+    60.103
    ],
    "scale": 1.0
   },
@@ -5427,9 +5473,9 @@
     56.1776
    ],
    "rotationDeg": [
-    -42.395,
-    337.218,
-    -94.73
+    -11.959,
+    138.248,
+    93.569
    ],
    "scale": 1.0
   },
@@ -5450,9 +5496,9 @@
     56.1234
    ],
    "rotationDeg": [
-    45.856,
-    211.772,
-    89.487
+    30.709,
+    314.355,
+    89.584
    ],
    "scale": 1.0
   },
@@ -5473,9 +5519,9 @@
     53.4625
    ],
    "rotationDeg": [
-    0.095,
-    56.033,
-    -1.205
+    -0.946,
+    56.024,
+    -0.752
    ],
    "scale": 1.0
   },
@@ -5496,9 +5542,9 @@
     50.7656
    ],
    "rotationDeg": [
-    5.327,
-    347.865,
-    42.44
+    2.283,
+    354.608,
+    42.661
    ],
    "scale": 1.0
   },
@@ -5519,9 +5565,9 @@
     50.729
    ],
    "rotationDeg": [
-    27.074,
-    127.931,
-    -73.907
+    -5.028,
+    29.297,
+    -75.654
    ],
    "scale": 1.0
   },
@@ -5542,9 +5588,9 @@
     57.0219
    ],
    "rotationDeg": [
-    -53.856,
-    270.3,
-    -89.728
+    -89.777,
+    352.289,
+    -43.854
    ],
    "scale": 1.0
   },
@@ -5565,9 +5611,9 @@
     56.9347
    ],
    "rotationDeg": [
-    -4.809,
-    81.047,
-    89.613
+    -89.555,
+    304.776,
+    29.967
    ],
    "scale": 1.0
   },
@@ -5703,17 +5749,17 @@
     51.1382
    ],
    "rotationDeg": [
-    0.412,
-    0.151,
-    -0.761
+    0.41,
+    0.146,
+    -0.762
    ],
    "scale": 1.0
   }
  ],
  "counts": {
-  "placements": 182,
+  "placements": 183,
   "drops": 19,
-  "lights": 27,
+  "lights": 28,
   "substitutions": 15,
   "swingDoors": 0,
   "missingByClass": {},
@@ -5728,6 +5774,6 @@
    "idle": 8,
    "item": 34
   },
-  "additions": 21
+  "additions": 22
  }
 }

@@ -91,8 +91,23 @@ def test_rotation_is_the_runtime_euler():
     import math
     # a compass turn stays a compass turn (Skyrim's z is clockwise from above)
     assert ex.game_rotation_deg((0.0, 0.0, math.radians(30))) == [0.0, 30.0, 0.0]
-    # plugin y (north) is game -z: a roll about north is a roll about game z
-    assert ex.game_rotation_deg((0.0, math.radians(20), math.radians(90))) == [0.0, 90.0, 20.0]
+    # z is applied first, then the tilt about the WORLD axes (Gamebryo Rx Ry Rz):
+    # a 20 deg tilt about north after a quarter turn tips the piece's face down
+    assert ex.game_rotation_deg((0.0, math.radians(20), math.radians(90))) == [20.0, 90.0, 0.0]
+
+
+def test_a_rolled_floor_board_lies_flat():
+    """16k walk 6: KotM plankwall01b 088B26E8 in LilmothPlantationStorehouse,
+    plugin rotation (90, 90, 0) deg, is a board of the upper floor. Its thin
+    NIF axis (y, 0.177 m) must end up vertical; the old X-then-Z order stood
+    it on edge ("vertical planks hanging in the air")."""
+    import math
+    import numpy as np
+    from worldgen.interior_walk import euler_matrix
+    for raw in ((90.0, 90.0, 0.0), (-90.0, -89.972, 180.0)):   # 088B26E8, 088B2739
+        m = euler_matrix(ex.game_rotation_deg([math.radians(v) for v in raw]))
+        thin = m @ np.array([0.0, 0.0, -1.0])      # NIF +y (north) is game -z
+        assert abs(abs(thin[1]) - 1.0) < 1e-6, (raw, thin)
     # plugin (x east, y north, z up) -> game (x east, y up, z south)
     u = ex.UNITS_PER_METRE
     assert ex._game_pos((1.0 * u, 2.0 * u, 3.0 * u)) == [1.0, 3.0, -2.0]
@@ -136,7 +151,8 @@ def test_every_missing_piece_is_classed_clutter_and_drawn_by_a_stand_in(path):
         f"{len(missing)} missing pieces ship undrawn; each needs a class and a same-class "
         f"stand-in in kit-interiors/substitutions/{bundle['cellId']}.json")
     for s in bundle.get("substitutions") or []:
-        assert s["class"] in ex.SUBSTITUTABLE_CLASSES and s["standInCategory"] == s["class"]
+        assert ex.is_hearth_fire(s) or (s["class"] in ex.SUBSTITUTABLE_CLASSES
+                                        and s["standInCategory"] == s["class"])
 
 
 def _gate_bundle(**more):
@@ -163,6 +179,15 @@ def test_gate_counts_substitutions_and_checks_their_class():
     assert any("the missing piece is 'clutter'" in p for p in ex.check(_gate_bundle(substitutions=[wrong])))
     arch = dict(sub, **{"class": "architecture", "standInCategory": "architecture"})
     assert any("only clutter or furniture" in p for p in ex.check(_gate_bundle(substitutions=[arch])))
+
+
+def test_the_plugin_hearth_fire_effect_stands_in_as_the_kit_fire_bed_and_no_other_effect_does():
+    """16k walk 6: the Lilmoth hearths burned nothing (FXfireWithEmbersLogs01 was a listed drop)."""
+    fire = {"id": "X.2", "refId": "2", "class": "effect", "standInCategory": "clutter",
+            "standInAsset": ex.HEARTH_FIRE_STAND_INS["FXfireWithEmbersLogs01"], "why": ex.HEARTH_FIRE_WHY}
+    assert not any("only clutter or furniture" in p for p in ex.check(_gate_bundle(substitutions=[fire])))
+    steam = dict(fire, standInAsset="vanilla:a", why="steam")
+    assert any("only clutter or furniture" in p for p in ex.check(_gate_bundle(substitutions=[steam])))
 
 
 def test_piece_class_reads_the_base_record_then_the_sourced_absent_master_row():

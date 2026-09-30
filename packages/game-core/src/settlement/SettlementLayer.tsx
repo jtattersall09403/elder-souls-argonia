@@ -39,6 +39,7 @@ import {
   updateSettlementEnvironment,
   type SettlementMaterialUniforms,
 } from "./materials";
+import { isLanternShellMaterial } from "./fixtureGlow";
 import {
   SETTLEMENT_COLLISION_FRAME,
   type SettlementBundle,
@@ -62,6 +63,7 @@ import {
 import { isFlameCardMaterial } from "../fx/fire/flameAnchors";
 import { mergeRunColliders } from "./runColliders";
 import { fixtureLightFieldOf, litPreparerOf } from "../render/fixtureLights";
+import { DrawTargetLinker, type LinkingRenderer } from "../render/drawTargetLinker";
 import { assertPoolsSchema, syncPlacePools } from "./pools";
 import {
   SETTLEMENT_REQUERY_MOVE_M, useSettlementBundleSource,
@@ -85,6 +87,8 @@ interface DrawBucket {
   flame?: boolean;
   /** The card's piece, or the fire kind it is mounted on, burns by day (lighting.ts `burnsByDay`). */
   alwaysLit?: boolean;
+  /** A lantern's shell, lit from inside on the lamp clock (fixtureGlow.ts). */
+  shell?: boolean;
 }
 
 /**
@@ -489,6 +493,8 @@ export function SettlementLayer({
   // Light fixtures (lighting.ts): injected by the scene, else the layer's own,
   // lighting through the scene's fixture light field (render/fixtureLights).
   const { camera: sceneCamera, scene, gl } = useThree();
+  const linker = useMemo(() => new DrawTargetLinker(gl as unknown as LinkingRenderer, scene), [gl, scene]);
+  useEffect(() => { linker.attach(); return () => linker.detach(); }, [linker]);
   const ownLightFixtures = useMemo(
     () => (sharedLightFixtures ? null
       : new SettlementLightFixtures(uniforms.esSettlementNight, fixtureLightFieldOf(scene))),
@@ -921,6 +927,7 @@ export function SettlementLayer({
               bucket.flame = true;
               bucket.alwaysLit = litByDay;
             }
+            if (isLanternShellMaterial(part.material, meta)) bucket.shell = true;
             const partTransform = transform.clone().multiply(part.localMatrix);
             if (farMerged) {
               bucket.farTransforms.push(partTransform);
@@ -983,6 +990,7 @@ export function SettlementLayer({
         // A glow material is one the kit build gave an emissive map (the NIF's
         // Glow_Map slot, build_kit rebuild_material), never a name match.
         const glowMaterial = bucket.flame ? (bucket.alwaysLit ? "flame" as const : "lamp-flame" as const)
+          : bucket.shell ? "lamp-shell" as const
           : isSettlementGlowMaterial(bucket.part.material);
         const material = materialVariant(bucket.part.material, String(glowMaterial));
         bucket.material = material;
@@ -1055,9 +1063,12 @@ export function SettlementLayer({
         // walk 5). Fixture light needs no per-material patch: it is the
         // renderer's lighting (render/fixtureLights installFixtureLighting).
         litPreparerOf(scene)?.(next);
-        let linked = false;
-        gl.compileAsync(next, sceneCamera, scene).then(() => { linked = true; }, () => { linked = true; });
+        // Linked against the target the scene pass draws into (the water
+        // pipeline's linear target), so the first frame finds them linked.
         const linkStart = performance.now();
+        while (!linker.observed && performance.now() - linkStart < SETTLEMENT_LINK_WAIT_MS) yield;
+        let linked = false;
+        linker.compileAsync(next, sceneCamera, scene).then(() => { linked = true; }, () => { linked = true; });
         while (!linked && performance.now() - linkStart < SETTLEMENT_LINK_WAIT_MS) yield;
         // the live far merges not kept are freed with the live group
         const keep = new Set([...farKept.values()].map((entry) => entry.geometry));
@@ -1153,7 +1164,7 @@ export function SettlementLayer({
     };
   }, [queue, bundle, kits, manifests, revision, groundAt, quality?.architectureDrawScale,
       focusRef, materialPatch, onSolids, onStats, uniforms, fatalError, frames, lightFixtures,
-      placementById, materialVariant, gl, scene, sceneCamera]);
+      placementById, materialVariant, gl, scene, sceneCamera, linker]);
 
   // The live group goes with the world: on unmount, a new
   // baseUrl, or a fatal error emptying the layer. A new set of bundles

@@ -16,6 +16,8 @@ import math
 
 import numpy as np
 
+from .mesh_query import on_surface
+
 PENETRATION_REACH_M = 0.5
 """Penetration beyond this is reported as None (deeply crossing)."""
 
@@ -101,7 +103,6 @@ def contact_normal(points_a: np.ndarray, mesh_b, tb: np.ndarray, scale_b: float 
     """(B's mean outward normal in the shared frame, or None; the mask of
     `points_a` (shared frame) within `contact_m` of B; the hit triangles).
     `tb` carries B's scale, `scale_b` it alone (distances in B's frame)."""
-    from trimesh.proximity import ProximityQuery
     rot = tb[:3, :3]
     local = (points_a - tb[:3, 3]) @ np.linalg.inv(rot).T
     low, high = mesh_b.bounds
@@ -110,7 +111,7 @@ def contact_normal(points_a: np.ndarray, mesh_b, tb: np.ndarray, scale_b: float 
     hit = np.zeros(len(points_a), dtype=bool)
     if not near.any():
         return None, hit, np.zeros(0, dtype=int)
-    _closest, dist, tri = ProximityQuery(mesh_b).on_surface(local[near])
+    _closest, dist, tri = on_surface(mesh_b, local[near])
     close = dist * scale_b <= contact_m
     hit[np.flatnonzero(near)[close]] = True
     if not close.any():

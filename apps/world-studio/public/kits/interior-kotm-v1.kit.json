@@ -4130,6 +4130,7 @@
    },
    "lodLevels": 3,
    "light": {
+    "fixtureKind": "candle",
     "formId": "000b9be7",
     "editorId": "WRCandleFlickerNS",
     "burnSeconds": -1,
@@ -4151,11 +4152,11 @@
     ],
     "fade": 1.7,
     "offsetM": [
-     -0.18,
+     0.0,
      0.76,
-     -0.08
+     0.0
     ],
-    "evidence": "Skyrim.esm: WRCandleFlickerNS is the nearest LIGH ref (< 200 units, same cell) to 34 of 213 glazedcandles01 refs (next: SolitudeInnCandleDefault 16; none 62); offset is the median of those 34 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: WRCandleFlickerNS is the nearest LIGH ref (< 200 units, same cell) to 34 of 213 glazedcandles01 refs (next: SolitudeInnCandleDefault 16; none 62); offset is the median of those 34 in the piece's frame, glTF Y-up metres, horizontal agreement 0.10 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
    "flames": [
     {
@@ -8323,6 +8324,7 @@
    ],
    "lodLevels": 3,
    "light": {
+    "fixtureKind": "lantern",
     "formId": "00075c32",
     "editorId": "SolitudeInnFiretDefault",
     "burnSeconds": -1,
@@ -8343,11 +8345,11 @@
     ],
     "fade": 2.0,
     "offsetM": [
-     0.17,
+     0.0,
      0.2,
-     0.11
+     0.0
     ],
-    "evidence": "Skyrim.esm: SolitudeInnFiretDefault is the nearest LIGH ref (< 200 units, same cell) to 9 of 19 townlantern04 refs (next: SolitudeInnFirePlacesShadowDefault 3; none 4); offset is the median of those 9 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: SolitudeInnFiretDefault is the nearest LIGH ref (< 200 units, same cell) to 9 of 19 townlantern04 refs (next: SolitudeInnFirePlacesShadowDefault 3; none 4); offset is the median of those 9 in the piece's frame, glTF Y-up metres, horizontal agreement 0.49 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
    "designedSinkM": {
     "p25": 0.0,
@@ -11842,7 +11844,7 @@
   "textures/_resourcepack/landscape/desertcracked02light_d.dds": "textures/argonia/landscape/dirt02.dds",
   "textures/_resourcepack/landscape/desertcracked02_n.dds": "textures/argonia/landscape/rivermud_n.dds",
   "textures/dlc02/architecture/telvannitower/telwoodendoor01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
-  "textures/_resourcepack/_genericmaterials/ceramic/ceramic01teal_d.dds": "textures/lod/ceramic01teal_dlod.dds",
+  "textures/_resourcepack/_genericmaterials/ceramic/ceramic01teal_d.dds": "textures/architecture/solitude/sstuccowallint01.dds",
   "textures/_resourcepack/landscape/trees/baldcypressbark01_d.dds": "textures/lod/baldcypressbark01_dlod.dds",
   "textures/clutter/blacksmith/blacksmithnovicehammer01.dds": "textures/mihail monsters and animals/death hound/guar/mount/blacksmithnovicehammer01.dds",
   "textures/clutter/blacksmith/blacksmithnovicehammer01_n.dds": "textures/mihail monsters and animals/death hound/guar/mount/blacksmithnovicehammer01_n.dds",
@@ -11908,24 +11910,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 66221044,
-  "bytesAfter": 13610664,
+  "bytesBefore": 66812016,
+  "bytesAfter": 13677396,
   "images": 130,
-  "imageBytesAfter": 6736275,
+  "imageBytesAfter": 6803160,
   "warnings": [],
-  "sha256": "f988f141269b67989435dd4d1356baea423eb8b20eff6354397d61b2c5c1eb7b",
+  "sha256": "ff8040a2b8df9c62cb1f2a45a8c83e2e3ab3844f4df8d7d22a2687ae431c5431",
   "parts": {
    "parts": 121,
    "partBytes": 2595736,
    "textureFiles": 91,
-   "textureBytes": 4337522,
-   "bytes": 6933258,
-   "sourceSha256": "f988f141269b67989435dd4d1356baea423eb8b20eff6354397d61b2c5c1eb7b"
+   "textureBytes": 4404407,
+   "bytes": 7000143,
+   "sourceSha256": "ff8040a2b8df9c62cb1f2a45a8c83e2e3ab3844f4df8d7d22a2687ae431c5431"
   },
   "sidecarBytes": {
    "connectors": 113353,
    "footprints": 228201,
-   "interiors": 79489
+   "interiors": 79504
   }
  }
 }

@@ -12,6 +12,9 @@
  *   its base, 1.83 m below its pivot). The walk-4 rule put every fallback on
  *   the bounds' top, which for a hanging lantern is the top of its cord: the
  *   flame hung in the air above the lantern (walk 5, owner);
+ * - a lantern (`light.fixtureKind` "lantern") with a light record offset
+ *   burns at that offset, inside its glass or paper (townlantern04: 0.2 m,
+ *   in the paper globe; its box top is the handle, 0.74 m, walk 6);
  * - any other piece burns on the top-centre of its bounds (a bare candle).
  *
  * The caller applies the piece's FINAL draw matrix (placement, mount, hang
@@ -26,7 +29,7 @@ export interface FlameAnchorMeta {
   id?: string;
   category?: string;
   anchorClass?: string;
-  light?: { fixtureKind?: string } | null;
+  light?: { fixtureKind?: string; offsetM?: readonly number[] | null } | null;
   flames?: readonly { offsetM: readonly [number, number, number] | number[]; source?: string }[] | null;
   /** The piece's additive flame-card materials (build_kit): fxfirewithembers01's. */
   flameCardMaterials?: readonly string[] | null;
@@ -52,6 +55,8 @@ export function fallbackFlameAnchorLocal(meta: FlameAnchorMeta | undefined, box:
     const body = Math.min(size.x, size.z, size.y);
     return new THREE.Vector3(centre.x, box.min.y + body * 0.5, centre.z);
   }
+  const o = meta?.light?.offsetM;
+  if (meta?.light?.fixtureKind === "lantern" && o && o.length >= 3) return new THREE.Vector3(o[0], o[1], o[2]);
   return new THREE.Vector3(centre.x, box.max.y, centre.z);
 }
 
@@ -69,9 +74,15 @@ export function flameCardBedAnchorLocal(meta: FlameAnchorMeta | undefined, box: 
     preset: firePresetFor({ id: meta.id, category: meta.category, anchorClass: meta.anchorClass }), record: -1 };
 }
 
-/** A material the flame system replaces: one of a flame-card piece's cards (`flameCardBedAnchorLocal`). */
+/**
+ * A material the flame system replaces: one of a piece's vanilla flame cards.
+ * Every piece with cards burns our flame instead (its mined emitters, else
+ * its bed), so its cards are never drawn: a hearth with both
+ * (fireplacewood01burning: FlamesSmall01 + Flames:0/1.Mat) drew its opaque
+ * cards over its own flame, and no fire showed (walk 6).
+ */
 export function isFlameCardMaterial(meta: FlameAnchorMeta | undefined, materialName: string): boolean {
-  return Boolean(meta?.flameCardMaterials?.includes(materialName)) && !meta?.flames?.length;
+  return Boolean(meta?.flameCardMaterials?.includes(materialName));
 }
 
 /**

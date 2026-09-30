@@ -343,3 +343,40 @@ def test_live_two_yes_hogs(tmp_path):
         daemon.terminate()
         daemon.wait(10)
     print(read())
+
+
+def test_an_unguarded_memory_hog_is_terminated_then_killed_and_logged(monkeypatch):
+    """2026-09-30: two OOM kills of an unguarded ~30 GB python3 took the
+    code-tunnel session down. Past 20 GiB anon, a python/blender/node outside a
+    job_guard slot gets SIGTERM, SIGKILL 10 s later, and a line in the memory
+    log; guarded jobs, the studio dev server, claude and the tunnel are left."""
+    monkeypatch.setenv("ES_STUDIO_PORT", "8081")
+    big = 21 * 1048576
+    procs = [
+        P(10, 1, "python3 -m worldgen.interior_light a.json b.json"),
+        P(11, 1, "/usr/bin/blender -b --python x.py"),
+        P(20, 1, "bash tooling/repo-standards/job_guard.sh L -- python3 big.py", comm="bash", ppid=1),
+        P(21, 1, "python3 big.py", ppid=20),
+        P(30, 1, "node tooling/repo-standards/studio-dev.mjs", comm="node"),
+        P(31, 1, "node /x/node_modules/.bin/vite --port 8081", ppid=30),
+        P(40, 1, "claude --continue", comm="claude"),
+        P(41, 1, "/home/es/.vscode/cli/servers/S/server/node out/server-main.js", comm="MainThread"),
+        P(50, 1, "python3 small.py"),
+        P(60, 1, "java -jar big.jar", comm="java"),
+    ]
+    for p in procs:
+        p.anon_kib = 1024 if p.pid == 50 else big
+    w = World([10.0] * 10, procs)
+    mem = []
+    dog = w.dog()
+    dog.mem_log_fn = mem.append
+    w.run(dog, 1)
+    assert sorted(pid for pid, sig in w.signals if sig == "SIGTERM") == [10, 11]
+    assert any("TERM pid 10 anon 21.0 GiB (python3 -m worldgen.interior_light" in m for m in mem)
+    w.run(dog, 5)                                          # 10 s later, still alive
+    assert sorted(pid for pid, sig in w.signals if sig == "SIGKILL") == [10, 11]
+    assert sum(m.startswith("KILL pid") for m in mem) == 2
+    w2 = World([10.0], procs[:1])
+    w2.procs[10].anon_kib = big
+    w2.run(w2.dog(mem_kill_gib=0), 1)                      # 0 turns it off
+    assert not w2.signals

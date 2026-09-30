@@ -16,6 +16,7 @@ from functools import lru_cache
 import numpy as np
 
 from . import paths
+from .mesh_query import cast_rays
 from .kits import Catalogue
 from .scene import Piece, yaw_matrix
 
@@ -491,8 +492,7 @@ def hang_mount(cat, scene, child: Piece, parent: Piece, approval: str | None,
         grounds = np.array([float(g.chunk_height(float(x), float(-y))) for x, y in zip(xs, ns)])
         origins = np.column_stack([xs, ns, grounds + 0.05])
         rays += n
-        locs, idx, tri = mesh.ray.intersects_location(origins, np.tile([0.0, 0.0, 1.0], (n, 1)),
-                                                      multiple_hits=True)
+        locs, idx, tri = cast_rays(mesh, origins, [0.0, 0.0, 1.0], multiple_hits=True)
         per = {}
         for loc, i, t in zip(locs, idx, tri):
             per.setdefault(int(i), []).append((float(loc[2]), loc, t))

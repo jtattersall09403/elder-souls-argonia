@@ -42,8 +42,13 @@ sum was never checked.
    total is the rule.
 3. **A folded ladder hands over to the card at the Skyrim distance.** A plant
    whose mesh chain is one level (every alpha-tested asset, 0075 §6) keeps its
-   full mesh to `clamp(height × 5, 30, 140)` m, scaled by the quality tier
-   and never below the 18 m floor, and is a card beyond. Skyrim keeps full
+   full mesh to `clamp(height × 5, 30, 140)` m in low (× 7 to 200 m in
+   medium, × 9 to 280 m in high; `LOD_REACH_BY_BAND`), a light tree's reach
+   multiplied by `treeReachBoost` (up to 2.4 for a mesh under ~260
+   triangles), scaled by the quality tier and never below the 18 m floor, and
+   is a card beyond. Measured with the gate harness (medium, jungle, main
+   pass submitted): 1.31 M; high 2.37 M is over the budget
+   (tooling/.reports/16k/walk6/render/veg-report.md). Skyrim keeps full
    tree meshes only inside its ~140 m loaded grid and treats plants under
    two metres as grass. Before this a 0.9 m chickweed carried 3,832 triangles
    to 100 m and the canopy tree 5,252 to 228 m, because the fold kept the

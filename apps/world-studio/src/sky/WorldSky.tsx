@@ -17,6 +17,7 @@ import { installFixtureLighting } from "@elder-souls/game-core/render/fixtureLig
 import { advanceWaveAmplitude } from "@elder-souls/game-core/water/waveWeather";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { isNodeMaterial } from "@elder-souls/game-core/render/nodes/materialNodes";
+import { adaptExposure, stepShadowSun } from "@elder-souls/game-core/render/lightAdaptation";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
 import {
   aerialRasterLoaded,
@@ -79,7 +80,7 @@ import { DATA_BASE } from "../dataBase";
  * constellations, guardian planets, Southron pole star and drifting Serpent;
  * Masser and Secunda as lit spheres (phase falls out of the sun direction);
  * physically-valued sun/moon lights with cascaded shadow maps; throttled
- * PMREM sky IBL; ACES tone mapping with a slow eye-adaptation exposure.
+ * PMREM sky IBL; ACES tone mapping with log-space eye adaptation on real seconds.
  * Mounted inside both studio canvases so fly and character modes are lit by
  * the same one sun.
  */
@@ -488,6 +489,8 @@ export function WorldSky({
     lastBakeSunY: Number.NaN,
     lastBakeCover: Number.NaN,
     lastEpoch: Number.NaN,
+    exposure: Number.NaN,
+    shadowSun: new THREE.Vector3(),
     envBakes: 0,
     lastNotify: 0,
     lastFrustumUpdate: 0,
@@ -628,8 +631,11 @@ export function WorldSky({
     const camFogNow = 1 - Math.exp(-9e-5 * camFogDensity * 700);
 
     // Sun: one light, its shadow the cascade node (CSMShadowNode fits the
-    // cascade proxies to the camera frustum every frame by itself).
-    aimSun(sun, sunDir, camera.position, rig);
+    // cascade proxies to the camera frustum every frame by itself). The
+    // shadow sun steps only past SHADOW_SUN_STEP_DEG: a light rotated every
+    // frame re-rasterises every edge on a new texel grid (walk 6 flicker).
+    stepShadowSun(state.current.shadowSun, sunDir);
+    aimSun(sun, state.current.shadowSun, camera.position, rig);
     const nowMs = performance.now();
     if (nowMs - state.current.lastFrustumUpdate > 500) {
       state.current.lastFrustumUpdate = nowMs;
@@ -869,24 +875,19 @@ export function WorldSky({
       });
     }
 
-    // Exposure: ease toward the target (eye adaptation); snap when paused or
-    // scrubbed so fixed-instant probes are deterministic.
+    // Exposure: eye adaptation in log space on REAL seconds (adaptExposure);
+    // snap when paused or scrubbed so fixed-instant probes are deterministic.
+    // The adapted value lives here, not in gl.toneMappingExposure: inside a
+    // cell InteriorEnvironment overwrites the renderer's value with 1 every
+    // frame, and reading it back made the exit start from 1 (walk 6 white-out).
     const jumped =
       !Number.isFinite(state.current.lastEpoch) ||
       Math.abs(epochMinutes - state.current.lastEpoch) > worldClock.rate * 0.5 + 1;
     state.current.lastEpoch = epochMinutes;
-    if (!clockRunning || jumped) {
-      gl.toneMappingExposure = rig.exposureTarget;
-    } else {
-      // Eye adaptation runs in WORLD time (≈2.5 world-minutes ⇒ 2.5 real
-      // seconds at rate 1), floored at a responsive real-time constant — at
-      // high clock rates the sun brightens orders of magnitude in real
-      // seconds, and a fixed real-time ease lags so far behind that dawn
-      // whites out the whole frame.
-      const tau = Math.min(2.5, 2.5 / Math.max(worldClock.rate, 1));
-      const k = 1 - Math.exp(-delta / Math.max(tau, 0.12));
-      gl.toneMappingExposure += (rig.exposureTarget - gl.toneMappingExposure) * k;
-    }
+    state.current.exposure = !clockRunning || jumped
+      ? rig.exposureTarget
+      : adaptExposure(state.current.exposure, rig.exposureTarget, delta);
+    gl.toneMappingExposure = state.current.exposure;
 
     // Sky IBL: throttled PMREM re-bake (research doc: never per-frame). The
     // threshold tightens through twilight: sky light falls orders of

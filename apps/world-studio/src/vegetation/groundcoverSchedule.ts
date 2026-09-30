@@ -104,6 +104,41 @@ export function fillDue(i: FillInputs): { fill: boolean; phase: number } {
   return { fill: false, phase: i.phasesFilled };
 }
 
+export interface SettleInputs {
+  /** Generatable tiles still queued after this pass (not those waiting on a chunk). */
+  remaining: number;
+  /** Tiles generated since the last fill. */
+  generatedSinceFill: number;
+  /** Whether `fillDue` (or a focus move) already asked for a fill this frame. */
+  fill: boolean;
+  cold: boolean;
+  sinceLastFillS: number;
+}
+
+/**
+ * After a generation pass: whether to fill now, whether generation stays
+ * armed, and, when the generatable queue drained with new tiles unfilled,
+ * how long until they fill anyway (`fillInS`, else null).
+ *
+ * `fillDue` counts the tiles waiting on an LOD 1 chunk as missing, so a pass
+ * whose only missing tiles wait on a chunk may not fill; clearing
+ * `genPending` then left the tiles it had just made undrawn until a chunk
+ * arrived or the focus moved 8 m (review 2026-09-30, replayed in
+ * groundcoverDrain.test.ts). Filling at once instead bypassed the cold-start
+ * phasing, one whole-ring fill per chunk arrival (review 2026-09-30, second
+ * pass). So the drained pass keeps the schedule's own cadence: the fill
+ * comes at GC_PHASE_CEILING_S (cold) or GC_FILL_INTERVAL_S (walking) after
+ * the last fill, without re-running generation every frame to get there.
+ */
+export function settleGeneration(i: SettleInputs): {
+  fill: boolean; pending: boolean; fillInS: number | null;
+} {
+  if (i.remaining > 0) return { fill: i.fill, pending: true, fillInS: null };
+  if (i.fill || i.generatedSinceFill === 0) return { fill: i.fill, pending: false, fillInS: null };
+  const cadenceS = i.cold ? GC_PHASE_CEILING_S : GC_FILL_INTERVAL_S;
+  return { fill: false, pending: false, fillInS: Math.max(0, cadenceS - i.sinceLastFillS) };
+}
+
 /** Floats per tile box: minX, minY, minZ, maxX, maxY, maxZ. */
 const BOX = 6;
 
@@ -289,4 +324,36 @@ export function keptCount(keeps: Float32Array, lo: number, hi: number, t: number
     if (keeps[m] < t) a = m + 1; else b = m;
   }
   return a - lo;
+}
+
+/**
+ * The thinned far mesh tier (walk 6): a LARGE ground-cover species
+ * (`isLargePlant`, e.g. a 3 m marsh grass) keeps a deterministic subset of its
+ * plants as full mesh past the NEAR band, and those plants leave the card
+ * tiers. The subset is the head of the tile's far block (`keep` ascending), so
+ * the same plants stay mesh whatever the focus. Returns the slice of the far
+ * block (`farLo`, `farN`) and the count from the rest block (`restN`) one
+ * tile record copies:
+ *  - `all`: the plain tiers (every species that is not thinned-mesh);
+ *  - `thin`: the far mesh record, `keep < meshKeep` (and the budget thin);
+ *  - `rest`: a card record of a thinned-mesh species, the far block minus
+ *    the mesh subset.
+ */
+export function recordCopyRange(
+  keeps: Float32Array,
+  farCount: number,
+  count: number,
+  farOnly: boolean,
+  keepBelow: number,
+  role: "all" | "thin" | "rest",
+  meshKeep: number,
+): { farLo: number; farN: number; restN: number } {
+  if (role === "thin") {
+    return { farLo: 0, farN: keptCount(keeps, 0, farCount, Math.min(keepBelow, meshKeep)), restN: 0 };
+  }
+  const restN = farOnly ? 0 : keptCount(keeps, farCount, count, keepBelow);
+  const kept = keptCount(keeps, 0, farCount, keepBelow);
+  if (role === "all") return { farLo: 0, farN: kept, restN };
+  const lo = keptCount(keeps, 0, farCount, meshKeep);
+  return { farLo: lo, farN: Math.max(0, kept - lo), restN };
 }

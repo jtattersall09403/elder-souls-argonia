@@ -8,17 +8,17 @@
     "quest authoring (docs/quests/)"
   ],
   "summary": {
-    "rows": 13,
-    "places": 2,
+    "rows": 15,
+    "places": 3,
     "byPhase": {
-      "phase-12": 1,
-      "phase-13": 12
+      "phase-12": 2,
+      "phase-13": 13
     },
     "byKind": {
-      "bed": 1,
+      "bed": 2,
       "rumour": 1,
       "service-station": 2,
-      "trade": 2,
+      "trade": 3,
       "witness": 7
     }
   },
@@ -212,6 +212,36 @@
       "note": "The spring-keeper knows who uses the water and when it turned.",
       "deliveredBy": "phase-13",
       "deliverable": "an occupant carrying testimony a quest can query",
+      "interiorKind": "dwelling",
+      "interiorRef": "interior-kotm-v1",
+      "socketRef": null,
+      "socketKind": null,
+      "questId": null
+    },
+    {
+      "id": "purpose.riverwalk.crews-house.bed",
+      "placeId": "place.dunmer-north.riverwalk",
+      "parcelId": "parcel.riverwalk.crews-house",
+      "kind": "bed",
+      "tier": "medium",
+      "note": "Bunks let to boat crews stopping the night.",
+      "deliveredBy": "phase-12",
+      "deliverable": "a rentable or ownable bed with a rest gate",
+      "interiorKind": "dwelling",
+      "interiorRef": "interior-kotm-v1",
+      "socketRef": null,
+      "socketKind": null,
+      "questId": null
+    },
+    {
+      "id": "purpose.riverwalk.crews-house.trade",
+      "placeId": "place.dunmer-north.riverwalk",
+      "parcelId": "parcel.riverwalk.crews-house",
+      "kind": "trade",
+      "tier": "medium",
+      "note": "The household sells rope, food and boat stores.",
+      "deliveredBy": "phase-13",
+      "deliverable": "a merchant inventory and gold pool",
       "interiorKind": "dwelling",
       "interiorRef": "interior-kotm-v1",
       "socketRef": null,

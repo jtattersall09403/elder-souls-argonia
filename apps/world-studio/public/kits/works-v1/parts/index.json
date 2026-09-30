@@ -1,5 +1,5 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "kit": "works-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
@@ -145,6 +145,28 @@
     "5429e57a7a202bec",
     "90fcf9a5d0aaeb2d",
     "bce354c9be2aff2e"
+   ]
+  }
+ },
+ "fires": {
+  "vanilla:effects/fxfirewithembers01": {
+   "id": "vanilla:effects/fxfirewithembers01",
+   "category": "effect",
+   "anchorClass": "fx",
+   "sizeM": [
+    1.073,
+    1.073,
+    0.936
+   ],
+   "originOffsetM": [
+    0.537,
+    0.536,
+    0.003
+   ],
+   "flameCardMaterials": [
+    "Flames02grant01:0.Mat",
+    "L2_Flames02grant:0.Mat",
+    "L2_Flames02grant:1.Mat"
    ]
   }
  }

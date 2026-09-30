@@ -7,6 +7,7 @@ import {
 import { ALWAYS_LIT_DAY_FACTOR, artificialLightFactor } from "./lighting";
 import { cloneNodeMaterial, isNodeMaterial, type TslNode } from "../render/nodes/materialNodes";
 import type { SettlementKitMaterialExtras } from "./types";
+import { applyLanternShell } from "./fixtureGlow";
 
 /** A float `uniform()` node (TSL): writers set `.value`, every material reads the one node. */
 export type SettlementUniform = TslNode & { value: number };
@@ -27,8 +28,9 @@ export const SETTLEMENT_GROUND_ATTRIBUTE = "esSettlementGroundY";
 /** How a material glows: a window's emissive mask by night (`true`); an
  * additive effect card drawn unlit, a fire's (`"flame"`, burns by day at
  * `ALWAYS_LIT_DAY_FACTOR`) or a lamp's (`"lamp-flame"`, the lamp clock),
- * lighting.ts `fixtureFactor`; or not at all. */
-export type SettlementGlow = boolean | "flame" | "lamp-flame";
+ * lighting.ts `fixtureFactor`; a lantern's shell lit from inside
+ * (`"lamp-shell"`, fixtureGlow.ts, the lamp clock); or not at all. */
+export type SettlementGlow = boolean | "flame" | "lamp-flame" | "lamp-shell";
 
 interface SettlementSurfaceState {
   uniforms: SettlementMaterialUniforms;
@@ -196,6 +198,8 @@ export function applySettlementSurface(
   if (!isStandardNode(material)) return;
   const m = material;
   m.userData.esAerial = true;
+  // a shell's emissive (colour x its diffuse) is set before the first draw
+  if (glowMaterial === "lamp-shell") applyLanternShell(m);
   (m as unknown as Record<string, number>)[SETTLEMENT_FLAME_GAIN_PROPERTY] = additiveGain(m);
   const held = hidden<SettlementSurfaceState>(m, STATE_KEY);
   // Same state again (every rebuild re-applies it): nothing to relink.
@@ -274,7 +278,10 @@ function surfaceGraph(uniforms: SettlementMaterialUniforms, glow: SettlementGlow
       // Night windows in the EMISSIVE stage: the kit's glow mask (emissive
       // map x factor) x warm lamplight x the lamp clock (lighting.ts). By
       // day the factor is 0, so the glTF's emissive never shows.
-      emissiveNode: glow
+      // A lantern shell (fixtureGlow.ts): its own emissive x the lamp clock.
+      emissiveNode: glow === "lamp-shell"
+        ? vec3(base.emissiveNode ?? materialEmissive).mul(night)
+        : glow
         ? vec3(base.emissiveNode ?? materialEmissive).mul(vec3(...WINDOW_GLOW_RGB)).mul(night).mul(WINDOW_GLOW_GAIN)
         : base.emissiveNode,
       roughnessNode: mix(base.roughnessNode ?? materialRoughness, float(0.32), wet.mul(0.55)),

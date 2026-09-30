@@ -1782,7 +1782,16 @@ def flood_band_report(bp: dict, survey: ProvinceSurvey,
         district_water = sorted({eid for pid in building_ids
                                  for eid in by_id[pid]["waterEntityIds"]})
         touches_water = bool(district_water)
-        if kit == "argonian-stilt" and share is not None and touches_water:
+        # SCOPE BY SIZE: the 15-30 % band describes a stilt QUARTER's mix of
+        # houses over and beside the water. A district of one building is the
+        # house itself (a lone swamp house at Riverwalk): its share can only be
+        # 0 % or 100 %, so the band has nothing to judge.
+        if kit == "argonian-stilt" and share is not None and len(building_ids) < 2:
+            rule = {"id": "argonian-stilt-open-water-share", "min": 0.15, "max": 0.30,
+                    "applicable": False,
+                    "waterEntityIds": district_water,
+                    "why": "one building: the district is the house itself"}
+        elif kit == "argonian-stilt" and share is not None and touches_water:
             rule = {"id": "argonian-stilt-open-water-share", "min": 0.15, "max": 0.30,
                     "waterEntityIds": district_water}
             conforms = 0.15 <= share <= 0.30

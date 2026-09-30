@@ -20,7 +20,7 @@
 #   memwatch.sh [--ceiling-gib N] <command...>     (N may be decimal, e.g. 11.75)
 # TWO figures (2026-09-26): the ceiling above is MACHINE-wide (on the EC2 box
 # /sys/fs/cgroup is the root cgroup, so it holds every lane), and it is what
-# kills; the JOB's own figure is its process tree's RssAnon + RssShmem,
+# kills; the JOB's own figure is its process tree's Pss_Anon + Pss_Shmem (a fork pool's shared pages once),
 # sampled every 0.5 s by own_memory.py. The last line reads
 #   memwatch[lane]: own peak X GiB · machine peak Y GiB, exit N
 # and per-job targets read the own peak (the placement suite's logged
@@ -30,6 +30,9 @@
 # (MEMWATCH_TIMINGS_LOG overrides); `python3 tooling/repo-standards/tool_timings.py`
 # ranks it (16h ledger §6 D).
 set -uo pipefail
+# The body is one brace group so bash parses it whole before running: a commit that
+# edits this file under a running job (d6ecbe55) cannot splice old and new text.
+{
 ceiling_gib=""
 if [[ "${1:-}" == "--ceiling-gib" ]]; then ceiling_gib="${2:-}"; shift 2; fi
 if [[ -z "$ceiling_gib" ]]; then
@@ -75,7 +78,22 @@ gib() { awk -v m="$1" 'BEGIN{printf "%.2f", m / 1024}'; }
 finish() {  # $1 = exit code, $2 = suffix
   kill "$own_pid" 2>/dev/null; wait "$own_pid" 2>/dev/null
   echo "$tag: own peak $(gib "$(own_peak)") GiB · machine peak $(gib "$peak") GiB, exit $1$2"
+  report "end $(date -u +%FT%TZ) exit $1$2 ownPeakMiB $(own_peak) machinePeakMiB $peak$(scope_line)"
   log_run "$1"; rm -f "$own_file" "$own_file.tmp"
+}
+# MEMWATCH_REPORT (job_guard's per-job log, 2026-09-30): the child's pid at
+# start and, at exit, its own peak, the machine peak and, inside job_guard's
+# capped scope (MEMWATCH_SCOPE=1), the scope's memory.peak and OOM-kill count.
+report() { [[ -n "${MEMWATCH_REPORT:-}" ]] && echo "$1" >> "$MEMWATCH_REPORT" 2>/dev/null; return 0; }
+scope_line() {
+  [[ -n "${MEMWATCH_SCOPE:-}" ]] || return 0
+  local cg; cg="/sys/fs/cgroup$(awk -F: '$1=="0"{print $3}' /proc/self/cgroup 2>/dev/null)"
+  local pk oom
+  pk=$(cat "$cg/memory.peak" 2>/dev/null); oom=$(awk '$1=="oom_kill"{print $2}' "$cg/memory.events" 2>/dev/null)
+  [[ "$pk" =~ ^[0-9]+$ ]] && printf ' scopePeakMiB %d' $(( pk / 1048576 ))
+  [[ -n "$oom" ]] && printf ' oomKills %s' "$oom"
+  [[ "${oom:-0}" != 0 ]] && printf ' (KILLED AT THE CAP)'
+  return 0
 }
 cmd=("$@")
 tag="memwatch${MEMWATCH_LANE:+[$MEMWATCH_LANE]}"
@@ -87,12 +105,20 @@ start_mib=$(used)
 export MEMWATCH_OUTER_CEILING_MIB="$ceiling_mib"
 setsid bash -c "$*" &
 pid=$!
+# 1-min load average every MEMWATCH_LOAD_S seconds (default 60) into the job log,
+# so an audit sees CPU saturation beside memory (walk-6 process audit).
+load1() { cut -d' ' -f1 "${ES_JOB_LOADAVG_FILE:-/proc/loadavg}" 2>/dev/null; }
+load_every=${MEMWATCH_LOAD_S:-60}; next_load=$(( SECONDS + load_every ))
+report "child pid $pid (process group $pid) started $(date -u +%FT%TZ) load1 $(load1)"
 python3 "$here/own_memory.py" --watch "$pid" "$own_file" 0.5 &
 own_pid=$!
 peak=$start_mib
 while kill -0 "$pid" 2>/dev/null; do
   now=$(used)
   (( now > peak )) && peak=$now
+  if (( SECONDS >= next_load )); then
+    report "load1 $(load1) at $(date -u +%FT%TZ) machineMiB $now"; next_load=$(( SECONDS + load_every ))
+  fi
   if (( now > ceiling_mib )); then
     echo "$tag: machine unreclaimable ${now} MiB > ceiling ${ceiling_mib} MiB — killing (own tree $(gib "$(own_peak)") GiB at peak)" >&2
     kill -TERM -- -"$pid" 2>/dev/null; sleep 2; kill -KILL -- -"$pid" 2>/dev/null
@@ -103,3 +129,4 @@ done
 wait "$pid"; code=$?
 finish "$code" ""
 exit $code
+}

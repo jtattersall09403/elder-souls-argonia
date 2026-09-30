@@ -21,7 +21,7 @@ matter.
 | world 97 | Part E (E1 :666, E1b :672, E4 :701, E5 :707, E6 :719, E9 :732) | layers integrate; use the pool's breadth; sourcing gaps are jobs; interiors come from the mod's links; every placed thing has an id and a why; the macro promises are the requirements | every type; steps 1-2 | B |
 | world 97 | Part F :751-764 | the culture grammar row: plan unit, centre, spacing, orientation, enclosure, water, materials, never-appears | per culture; step 1 | B |
 | world 97 | owner sense-check decisions :805-865 | owner answers in force (e.g. 8: Argonian enclosure none; 11: widths) | per culture; step 1 | B |
-| `docs/world/96-placement-playbook.md` | §2 :77-153 | the history of every round's lesson; operative rows now live in `lessons.md` | fix rounds | P |
+| `docs/world/96-placement-playbook.md` | §2 :77-153 | the history of every round's lesson; operative rows now live in `lessons/` | fix rounds | P |
 | world 96 | §3 :155 | the automation-readiness checklist per type | slice close | B |
 | decision 0041 | Taste ledger :323-352 | 25 owner steers as rules (no ruled lanes, jittered rings, props not buildings, Hist wins, shrine not temple, gates named for their road, what the eye wants gets a path) | every type; step 1 | B |
 | decision 0041 | :173-297 | quest co-design at three points; the five-rung distinctiveness hierarchy (:198-225); the breadth rule (:227-249); slopes (:251-296) | every type; step 1 | B |
@@ -47,7 +47,7 @@ matter.
 | `docs/quests/20-world-provisions.md` | §11-15 | provision tags, danger tiers, canon places, the quest-ready location packet, the exit gate | step 0 | B |
 | `docs/quests/25-quest-place-map.md` | the place's rows | which quests use the place and what they need | step 0 | B |
 | `docs/quests/85-condition-vocabulary.md` | whole | the only vocabulary for quest gates and sockets | step 2 | B |
-| `docs/standards/engineering.md` | standard 13 | a placement change moves a lesson record (`lessons.md`, world 97 or 0041) | fix rounds | B |
+| `docs/standards/engineering.md` | standard 13 | a placement change moves a lesson record (`lessons/`, world 97 or 0041) | fix rounds | B |
 
 ## Research: settlement design, Skyrim and game design
 

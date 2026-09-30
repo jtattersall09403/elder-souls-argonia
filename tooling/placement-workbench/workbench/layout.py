@@ -412,4 +412,4 @@ RULES = (("walk", "walkRule"), ("floorEdge", "floorEdgeRule"), ("pathReach", "pa
          ("sign", "signRule"), ("berthReach", "berthReachRule"), ("collider", "colliderRule"),
          ("burial", "burialRule"), ("hanging", "hangingRule"), ("fixtureSeat", "fixtureSeatRule"),
          ("archway", "archwayRule"), ("rockSeat", "rockSeatRule"), ("padClear", "padClearRule"),
-         ("landing", "landingRule"), ("ownerOk", "ownerOkRule"), ("scanFresh", "scanFreshRule"))
+         ("landing", "landingRule"), ("coplanar", "coplanarRule"), ("ownerOk", "ownerOkRule"), ("scanFresh", "scanFreshRule"))

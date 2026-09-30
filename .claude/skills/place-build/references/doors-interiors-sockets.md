@@ -83,49 +83,42 @@ run) and 5 (the gates).
 
 ## 2. Which shell, which cell (0103 decisions 1–2)
 
-1. **Shells are chosen for their interiors.** A lived-in building (a
-   service, a home, a workplace) takes a shell that a plugin links to a
-   furnished cell (`world/sources/placement/exterior-interior-links.json`).
-   Every building that looks enterable is enterable (R52, owner
-   2026-09-28): a shell with a door and no link takes a cell from its
-   culture pool by the same fit rule; a shell that fits no pool cell is
-   cut for doored buildings; an open-fronted piece with no door record is
-   walked into (R18). A door is
-   `reserved` (its pool named) only for a tier B or C interior (a
-   dungeon, a unique large interior; 0105 R2): a dwelling, shop, stable
-   house or workplace door is never reserved; the builder re-shells to a
-   linked shell, or, for a doorless hut, dresses the inside as exterior
-   placements. A composite inherits its base shell's links. The cell
-   chosen is also held against repetition (0105 R4: no cell twice in a
-   region unless the shell's linked set is exhausted, at most 3 in the
-   province; `place_gates --claim-cells`, gate `interiors.variety`).
-2. **The cell is picked by the fit rule, deterministically,** from the
-   shell's linked set: the cell's room plan (its biggest enclosing piece
-   and what overlaps it, measured in that piece's own frame) is 0.6–1.7
-   times the shell's `planAreaM2` × scale² (the parcel's `scale`, else the
-   manifest's `placedScaleMedian`, the plugins' median placed scale; a
-   composite is 1). The band is derived from measured pairs: vanilla
-   farmhouse cells over their shells 1.03–1.25, King of the Murkmire pods
-   over theirs 1.50–1.65 (interiors round 4). The cell has at least the
-   shell's storeys and at least one exterior load door per entrance (spare
-   ones ship closed); use class matches the parcel's `services` (from the
-   furniture mix: beds and a bar = inn, counter and stock = shop, altar =
-   shrine, hearth and beds = dwelling). A stable (no plugin authors a
-   stable interior) is an open-sided shell with no door record, walked
-   into; a stable house (the keeper's home) is a dwelling and takes a
-   linked shell (0105 R2). Ties break on the plugin's own most-used
-   cell for that shell. A claim outside the ratio, with too few storeys
-   or doors fails a test. The rule is asset-aware (planner ruling
-   2026-09-27, `bundle_sourcing`): a cell's missing pieces (a base in a
-   master we do not hold, or a mesh the vault holds nowhere) are classed
-   from the base record or `kit-interiors/absent-master-classes.json`; a
-   cell missing any piece that is not clutter or furniture (architecture,
-   a container, an unclassed base) does not fit, nor does one whose bundle
-   fails the acceptance gate; fitting cells rank by how many clutter pieces
-   still lack a stand-in (`kit-interiors/substitutions/<cell>.json`, the
-   bundle's `substitutions[]`).
-   A door's `preferCell {cellId, why}` names the story's cell; it wins when
-   it fits, and a later parcel of the same shell takes the next free cell.
+1. **Shells are chosen for their interiors; the plugin data is the
+   manifest (decision 0114, R83).** A lived-in building (a service, a
+   home, a workplace) takes a shell that a plugin's own load door links to
+   a furnished cell (`world/sources/placement/exterior-interior-links.json`;
+   a composite inherits its base shell's links). A shell no plugin gives a
+   load door is HOLLOW: its door record stays (routes, `fills`, evidence)
+   as `doorType: "hollow"` with no prompt, claim tier `none` (tier
+   `reserved`, pool `phase-12`, when its index record is `promised`). No
+   culture pool, no size or label match ever lends it another shell's
+   cell. A lived-in building that must be entered therefore takes a linked
+   shell. A door is `reserved` on a linked shell only when no linked cell
+   passes (rule 2), and `--claim` exits 3 naming it. The cell chosen is
+   also held against repetition (0105 R4: no cell twice in a region unless
+   the shell's linked set is exhausted, at most 3 in the province;
+   `place_gates --claim-cells`, gate `interiors.variety`).
+2. **The cell is picked from the shell's linked cells, deterministically.**
+   The link is the interior: a linked cell bigger or taller than its shell
+   is the modder's pairing and stands. A linked cell passes with at least
+   one exterior load door per
+   entrance (spare ones ship closed); the bundle passes the acceptance gate
+   and misses nothing but clutter or furniture (planner ruling 2026-09-27,
+   `bundle_sourcing`: missing pieces classed from the base record or
+   `kit-interiors/absent-master-classes.json`). Rank: fewest clutter pieces
+   still lacking a stand-in (`kit-interiors/substitutions/<cell>.json`),
+   then a use class that serves the parcel (from the furniture mix: beds
+   and a bar = inn, counter and stock = shop, altar = shrine, hearth and
+   beds = dwelling; it ranks, never refuses), then the plugin's most-used
+   cell, then id; a cell another building here holds is taken only when
+   every passing cell is held. A stable (no plugin authors a stable
+   interior) is an open-sided shell with no door record, walked into; a
+   stable house (the keeper's home) is a dwelling and takes a linked shell
+   (0105 R2). A door's `preferCell {cellId, why}` names the story's cell; it
+   wins when it passes. A claim outside the shell's linked cells, or with
+   too few doors, fails a test (`test_blueprint_interiors_claim.py`). An
+   NPC socket authored in a cell (`interiorCell`) moves when its door stops
+   claiming that cell: `--claim` names the orphan and the compile refuses it.
 3. `blueprint_interiors.py --claim <blueprint>` writes the pick and its
    `why` on the door record (`interiorClaim`: `tier`, `cellId`, `plugin`
    or `pool`, `why`, `interiorLoadDoorRef`, `arrivalMarker`); the claim is
@@ -158,6 +151,24 @@ run) and 5 (the gates).
   and a missing architecture piece fails the export
   (the exporter's acceptance, `test_export_interior_bundle.py`). Interior kits are built and published through `kit-build`
   like any kit.
+- **The hearth burns** (16k walk 6): the plugin's hearth fire is an MSTT
+  effect (`FXfireWithEmbersLogs01`, `FXfireWithEmbersLight`) with no kit
+  mesh; the exporter stands it in as the kit fire bed
+  `fireplacewood01burning` (`HEARTH_FIRE_STAND_INS`, one per hearth), the
+  one effect that is not a listed drop. Every other effect stays a drop.
+- **A tilted piece keeps its plugin tilt** (16k walk 6): Skyrim composes a
+  reference's rotation as `Rx(-x) Ry(-y) Rz(-z)` (z applied first, about
+  the world axes; `game_rotation_deg`). The reverse order stood every
+  board rotated (90, 90, 0) on edge, so the Lilmoth upper floors hung in
+  the air as vertical planks. Pinned by `test_a_rolled_floor_board_lies_flat`.
+- **Audit every exported cell** with `wb.py audit-interior <cell>` (exit 0):
+  textures published, and no piece over 3 m (a shell, a wall) with its
+  diffuse aliased to a `/lod/` copy (KotM's `ceramic01teal_dlod` is one
+  flat colour, pixel std 3/255, and was the owner's "flat green walls"; a
+  kit alias to a LOD copy is checked by its pixel spread before it is
+  written, in the kit config's `textureNote`), no piece more than 5 cm from any support, stairs
+  land at both ends, hearths lit, lit density. A red names the kit, the
+  texture or the piece; fix it at its source.
 
 ## 4. The interior runtime contract (0103 decision 4)
 
@@ -179,7 +190,7 @@ What every published door must do; the code is
 ## 5. Sockets (0103 decisions 5–6)
 
 `sockets[]` in the compiled settlement record and the bundle,
-`schemaVersion` 1, exterior and interior alike. One entry per socket:
+`socketsSchemaVersion` 2, exterior and interior alike. One entry per socket:
 `id`, `kind`, `positionM`, `yawDeg`, `parcelId`, `interiorCell` (null
 outside), `host` (the placement it sits on or in), the kind's data block
 and a `why`.
@@ -187,7 +198,8 @@ and a `why`.
 | Kind | Data |
 |---|---|
 | `npc` | `rosterSlotId`, `role`, `schedule[]` of `{dayPhase, socketId}` pointing at `idle` sockets (work, home, evening; dayPhase from world 8a). Every roster slot has at least a work and a home socket; home may be a bed in a tier A cell |
-| `idle` | `activity` (stand, sit, sleep, lean, work-at, fish, tend), `host` furniture when any |
+| `idle` | `activity` (stand, sit, sleep, lean, work-at, fish, tend), `host` furniture when any; a `work-at` one carries `interact` |
+| `station` | `stationClass` (vocabulary `stationClasses`), `interact` |
 | `item` | `itemClass` from the vocabulary, `valueBand`, `why`, `contentPending` for text-bearing items |
 | `container` | `containerClass` (barrel, chest, sack, crate, urn, basket, strongbox); `fillRule`: a blanket rule id (e.g. `blanket.household-barrel`) or `authored` with `lootTable` `{itemClasses[], valueBand, storyNote}` consistent with the place's story |
 | `encounter`, `fauna`, `ambience`, `marker` | kind, danger band, zone |
@@ -212,7 +224,19 @@ and a `why`.
   bundle (`interior_walk`), a socket on host furniture (bench, bed, chest)
   is reached from a walk cell within 1.0 m of the host piece's own plan
   box; a bare marker needs its own cell.
-- The studio draws sockets as labelled markers with `?sockets=1`.
+- **Interact point (decision 0113).** A work socket is where the worker
+  stands; `interact` `{kind, position, facing}` is where the player uses
+  the job, written by `sockets.interact_point` (compile and interior
+  exporter alike, same frame as `positionM`). `customer` when the host's
+  file name carries a vocabulary `serviceSurfaces` family (counter, stall,
+  market): across the host from the worker, 0.6 m past the host box's far
+  face along the worker's facing, facing back at the worker. `station`
+  for every other work socket (forge, anvil, rack, a free work spot): the
+  worker's own position and facing. A new service surface is a
+  vocabulary row, never a code change.
+- The studio draws sockets as labelled markers with `?sockets=1`; inside
+  a cell it draws that cell's sockets where the cell is shown, and an
+  interact point is a small diamond joined to its socket's post.
 - Phase 13 and 10b read `sockets[]`; they add no vocabulary.
 
 ## 6. The approach checklist (16i item 9)
@@ -252,7 +276,7 @@ at all fails.
 `interior_walk`'s 0.5 m grid at 1.2 m eye height, with the loader's own
 light model (`test_interior_light.py` pins the constants) against the
 bars below. `--reached` keeps only nodes reached from the doors
-(~30 s a cell); `--apply` applies the rule to a published bundle in place.
+(~95 s a cell, measured 2026-09-30); `--apply` applies the rule to a published bundle in place.
 
 **The bars** (both from the same run). Dark: at most `MAX_DARK_FRACTION`
 30 % of nodes under `DARK_E` 0.12. Source-led: `light_balance` gives the
@@ -293,6 +317,18 @@ broad 1-(d/r)² falloffs overlap into an even warm wash that readers judge
 flat (walk 5 round 3). Surplus lanterns come out greedily, cheapest
 source-led loss first, while source-led stays ≥ 0.70 and dark under its bar.
 A stair gets a source its own doorway view sees, or a floor horn beneath it.
+The door zone gets its source within 1.5 m (plan) of the arrival marker,
+its flame on a clear ray from the render's doorway eye (the `eyes` lines of
+the last `render-interior` result) and 0.6 m off the door-to-hub line:
+`candlehornwall01` on the wall beside the door in a Lilmoth house, a
+`glazedcandles01` on a surface or mudmother `candle01` on the floor inside it
+in a Keeba hut (door.py beside the scripts below, 2026-09-30).
+Small flames need no fade calibration: after `skyrim_curve` a
+`glazedcandles01` (r 1.82 m, the only table candle under 2.5 m) gives E 1.03
+at 1 m, 20× the cube's +Y bar of 3 × 0.017, and every spot within 1.5 m of
+any table candle is already source-led; a candle reads weak beside a
+lantern because it carries 15–77 % of its own table's light, not because
+its near field is dim (measured 2026-09-30, `interior_light` model).
 Prefer the plugin's own fixture kinds (candles, candle-horns, lanterns)
 placed where a resident would: on the table, beside the bed, on the hearth
 wall, and beside the door on the inside. Write them in
@@ -321,4 +357,21 @@ per 12 m² in a hut. The 2026-09-30 round replaced that density with the
 rule above (`rethin.py`: zone sources, then lantern thinning). The seats are
 measured by ray cast before export, every contact on one surface ±2 cm and no
 other piece's vertex inside the fixture's box
-(`tooling/.reports/16k/interior-light-additions/`).
+(`tooling/.reports/16k/interior-light-additions/`). Lit density is measured
+on the floor the player can reach from the doors, one surface per storey (a
+rug or table top is not floor).
+
+**Seat every addition with the tool** (16k walk 6):
+`python3 tooling/placement-workbench/wb.py seat-interior <cell> <assetId>
+<zone|x,y,z> [--mount table|wall|floor|ceiling]` (~2.5 s; module
+`workbench/interior_seat.py`, test `tests/test_interior_seat.py`) seats one
+fixture on the published cell's geometry (its existing additions ignored)
+and prints `pos`, `rotZDeg` and `lightPos` for the additions file. A zone is
+a placement id or name substring; a point aims a wall seat at that height
+and must stand in the room, not inside the wall. **A wall piece's front is
+the side its mined light is on**: `back_axis` turns the side opposite the
+kit manifest's `light.offsetM` to the wall, and `rear_extent` sets the back
+flush ignoring a lone spike (candlehornwall01's 0.5 m mounting spike goes
+into the wall). The walk-5 scripts read the back from vertex counts and
+mounted every candlehornwall01 backwards, flame to the wall; check that
+`lightPos` stands in the room before writing the row.

@@ -34,6 +34,8 @@ from pathlib import Path
 
 import numpy as np
 
+from .mesh_query import RAY_CHUNK, cast_rays, segments_hit  # noqa: F401  (re-exported: iw.cast_rays)
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 RAW_KITS = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
 #: A socket on host furniture (a bench, a bed, a chair; a chest, whose own
@@ -134,7 +136,7 @@ def walk_mesh(mesh, face_owner, starts: list, targets: list[dict], ch: dict | No
     gx, gz = np.meshgrid(xs, zs)
     origins = np.column_stack([gx.ravel(), np.full(gx.size, hi[1] + 1.0), gz.ravel()])
     dirs = np.tile([0.0, -1.0, 0.0], (len(origins), 1))
-    locs, ray_idx, tri_idx = mesh.ray.intersects_location(origins, dirs, multiple_hits=True)
+    locs, ray_idx, tri_idx = cast_rays(mesh, origins, dirs, multiple_hits=True)
     normals = mesh.face_normals[tri_idx]
     per_ray: dict[int, list] = {}
     for loc, r, t, n in zip(locs, ray_idx, tri_idx, normals):
@@ -183,10 +185,7 @@ def walk_mesh(mesh, face_owner, starts: list, targets: list[dict], ch: dict | No
             d = (b + [0.0, h, 0.0]) - o
             length = np.linalg.norm(d, axis=1)
             d = d / length[:, None]
-            hit_locs, hit_rays, _ = mesh.ray.intersects_location(o, d, multiple_hits=False)
-            for loc, r in zip(hit_locs, hit_rays):
-                if np.linalg.norm(loc - o[r]) <= length[r] + ch["capsuleRadiusM"]:
-                    blocked[r] = True
+            blocked |= segments_hit(mesh, o, d, length + ch["capsuleRadiusM"])
         ok = [pr for pr, bl in zip(pairs, blocked) if not bl]
     n = len(nodes)
     rows = [i for i, _ in ok] + [j for _, j in ok]
