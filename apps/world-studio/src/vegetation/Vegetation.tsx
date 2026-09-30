@@ -29,6 +29,7 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import {
   speciesRings,
+  plantDrawDistance,
   maxDrawDistance,
   treeDrawDistance,
   SUBMERGED_MAX_DRAW_M,
@@ -686,10 +687,10 @@ export function Vegetation({
         ? Math.min(maxDrawDistance(entry.heightM) * drawScale, SUBMERGED_MAX_DRAW_M)
         : entry.category === "tree"
           ? treeDrawDistance(chunkRing, index.chunkMetres)
-          : maxDrawDistance(entry.heightM) * drawScale;
+          : plantDrawDistance(entry.heightM, entry.footprintM, drawScale, lodBand);
       const meshLevels = entry.billboardIndex ?? entry.levels.length;
       const rings = speciesRings({
-        heightM: entry.heightM, meshLevels, category: entry.category,
+        heightM: entry.heightM, footprintM: entry.footprintM, triangles: entry.levels[0]?.triangles, meshLevels, category: entry.category,
         submerged: entry.submerged, folded: entry.folded,
         impostorPx: entry.impostorPx,
       }, drawScale, lodBand);

@@ -46,6 +46,9 @@ export interface KitSpecies {
    * decimated). Such a species runs one reach and then its card, not the
    * three-ring ladder — see `lodDistances`. */
   readonly folded: boolean;
+  /** Widest horizontal extent in metres at scale 1 (manifest `sizeM[0..1]`),
+   * for the plant size class (`isLargePlant`). */
+  readonly footprintM: number;
   /** Trunk radius in metres at scale 1, from the kit's collision capsule.
    * Drives wind stiffness (`windStiffness`): fat trunks barely stir. Null
    * where the species has no trunk capsule (ground plants, aquatics), which
@@ -167,6 +170,7 @@ export function buildFloraKit(
   underwater = false,
 ): FloraKit {
   const heights = new Map(manifest.assets.map((a) => [a.id, a.sizeM[2]]));
+  const footprints = new Map(manifest.assets.map((a) => [a.id, Math.max(a.sizeM[0], a.sizeM[1])]));
   const anchors = new Map(
     manifest.assets.map((a) => {
       const originAboveBase = a.originOffsetM?.[2] ?? 0;
@@ -323,6 +327,7 @@ export function buildFloraKit(
       levels,
       billboardIndex,
       heightM: heights.get(id) ?? 4,
+      footprintM: footprints.get(id) ?? 0,
       folded: alphaTested.has(id) && meshLevelCount <= 1,
       trunkRadiusM: trunkRadii.get(id) ?? null,
       category: categories.get(id) ?? null,
@@ -369,10 +374,11 @@ export function lodDistances(
   heightM: number,
   folded = false,
   band: QualitySettings["name"] = "low",
+  boost = 1,
 ): number[] {
   const mid = LOD_REACH_BY_BAND[band];
   if (folded) {
-    const reach = Math.min(mid.maxM, Math.max(mid.foldedMinM, heightM * mid.perHeightM));
+    const reach = Math.min(mid.maxM * boost, Math.max(mid.foldedMinM, heightM * mid.perHeightM * boost));
     return [reach, reach, reach];
   }
   // Measured 2026-09-16 at the jungle site: the old rings (full mesh to
@@ -420,6 +426,24 @@ export const LOD_REACH_BY_BAND: Record<
  * and drops the tail the 24 m floor was paying for.
  */
 export const MIN_MESH_LOD_REACH_M = 18;
+
+/**
+ * A single-level tree's folded reach (height x `perHeightM`, cap `maxM`) is
+ * multiplied by sqrt(`TREE_REF_TRIS` / its full-mesh triangles), clamped to
+ * 1..`TREE_REACH_BOOST_MAX`: at a fixed triangle cost per tree the mesh reach
+ * goes as the square root of the triangles saved. The 380-triangle 19 m aspen
+ * at 4.74 km E / 2.01 km S holds its mesh to 2x the base reach (211 m in
+ * medium, 106 m unboosted), a 4,000-triangle mangrove keeps the base (owner walk 6: "medium to large trees become a card
+ * too close"). The base rows stay what the jungle budget allows (decision
+ * 0084, measured in tooling/.reports/16k/walk6/render/veg-report.md).
+ */
+export const TREE_REF_TRIS = 1500;
+export const TREE_REACH_BOOST_MAX = 2.4;
+
+export function treeReachBoost(triangles: number | undefined): number {
+  if (!(triangles && triangles > 0)) return 1;
+  return Math.min(TREE_REACH_BOOST_MAX, Math.max(1, Math.sqrt(TREE_REF_TRIS / triangles)));
+}
 
 /**
  * Billboard cards bake shadowed-canopy lighting into their atlas texture, so
@@ -479,8 +503,9 @@ export function lodRings(
   submerged: boolean,
   folded = false,
   band: QualitySettings["name"] = "low",
+  boost = 1,
 ): number[] {
-  const rings = lodDistances(heightM, folded, band)
+  const rings = lodDistances(heightM, folded, band, boost)
     .map((r, i) =>
       folded
         ? Math.max(MIN_MESH_LOD_REACH_M, r * drawScale)
@@ -533,9 +558,9 @@ export function distanceAtPx(heightM: number, px: number): number {
  * jungle site: report tooling/.reports/16k/walk5/perf/veg.md.
  */
 export const HANDOVER_PX: Record<QualitySettings["name"], readonly [number, number, number]> = {
-  low: [370, 320, 300],
+  low: [370, 320, 240],
   medium: [320, 200, 160],
-  high: [280, 170, 130],
+  high: [280, 170, 110],
 };
 
 /**
@@ -549,9 +574,56 @@ export const HANDOVER_PX: Record<QualitySettings["name"], readonly [number, numb
  */
 export const SMALL_PLANT_TOP_TIER_M: Record<QualitySettings["name"], number> = {
   low: 35,
-  medium: 50,
+  medium: 45,
   high: 65,
 };
+
+/**
+ * The plant size class, from the manifest geometry, never a name: a non-tree
+ * whose height, or half its widest footprint, reaches `LARGE_PLANT_M` is a
+ * LARGE plant (the big shrubs, gorse, man-ferns, tall mushrooms, the wide
+ * tundra shrubs, deadfall logs and stumps, large rocks). The flora kit's
+ * non-tree sizes fall into two groups either side of 2.5 m: ferns, brakens and
+ * flowers top out at ~2.2 m (half-footprint <= 1.8 m); the big shrubs start at
+ * 2.7 m (owner walk 6: "some of these models are almost small trees").
+ */
+export const LARGE_PLANT_M = 2.5;
+
+export function isLargePlant(heightM: number, footprintM = 0): boolean {
+  return Math.max(heightM, footprintM / 2) >= LARGE_PLANT_M;
+}
+
+/**
+ * The full-mesh radius of a LARGE non-tree plant by band, in place of
+ * `SMALL_PLANT_TOP_TIER_M` (owner walk 6: "those ones should fade in from like
+ * 200 m away"). Measured with the gate harness against decision 0084's budget:
+ * report tooling/.reports/16k/walk6/render/veg-report.md.
+ */
+export const LARGE_PLANT_TOP_TIER_M: Record<QualitySettings["name"], number> = {
+  low: 120,
+  medium: 200,
+  high: 260,
+};
+
+/** Past its full-mesh radius a large plant keeps its card this much further. */
+export const LARGE_PLANT_DRAW_FACTOR = 1.5;
+
+/**
+ * Draw distance of a non-tree above water: the height rule
+ * (`maxDrawDistance` x the draw scale), held out past a large plant's
+ * full-mesh radius so it never leaves before it is drawn in full.
+ */
+export function plantDrawDistance(
+  heightM: number,
+  footprintM: number,
+  drawScale: number,
+  band: QualitySettings["name"],
+): number {
+  const byHeight = maxDrawDistance(heightM) * drawScale;
+  return isLargePlant(heightM, footprintM)
+    ? Math.max(byHeight, LARGE_PLANT_TOP_TIER_M[band] * LARGE_PLANT_DRAW_FACTOR)
+    : byHeight;
+}
 
 /**
  * The rings a species runs, from what its kit actually carries: `meshLevels`
@@ -565,6 +637,11 @@ export const SMALL_PLANT_TOP_TIER_M: Record<QualitySettings["name"], number> = {
 export function speciesRings(
   species: {
     heightM: number;
+    /** Widest horizontal extent at scale 1; picks the plant size class. */
+    footprintM?: number;
+    /** Full-mesh triangles at scale 1; a light tree's reach is boosted
+     * (`treeReachBoost`). */
+    triangles?: number;
     meshLevels: number;
     category: string | null;
     submerged: boolean;
@@ -576,21 +653,23 @@ export function speciesRings(
   band: QualitySettings["name"] = "low",
 ): number[] {
   const small = species.category !== "tree" && !species.submerged;
+  const plantFloor = isLargePlant(species.heightM, species.footprintM)
+    ? LARGE_PLANT_TOP_TIER_M[band] : SMALL_PLANT_TOP_TIER_M[band];
   // An impostor rung starts no nearer than where the tree's projected height
   // falls to its texel height (screen-size hand-over; walk-5 impostor lane).
   const impostorFrom = species.impostorPx
     ? distanceAtPx(species.heightM, species.impostorPx) * (species.submerged ? SUBMERGED_LOD_SCALE : 1)
     : 0;
   if (species.meshLevels <= 1) {
-    const rings = lodRings(species.heightM, drawScale, species.submerged, species.folded, band)
+    const boost = species.category === "tree" ? treeReachBoost(species.triangles) : 1;
+    const rings = lodRings(species.heightM, drawScale, species.submerged, species.folded, band, boost)
       .map((r) => Math.max(r, impostorFrom));
     if (!small) return rings;
-    const floor = SMALL_PLANT_TOP_TIER_M[band];
-    return rings.map((r) => Math.max(r, floor));
+    return rings.map((r) => Math.max(r, plantFloor));
   }
   const px = HANDOVER_PX[band];
   const scale = species.submerged ? SUBMERGED_LOD_SCALE : 1;
-  const floor0 = small ? SMALL_PLANT_TOP_TIER_M[band] : MIN_MESH_LOD_REACH_M;
+  const floor0 = small ? plantFloor : MIN_MESH_LOD_REACH_M;
   const h = species.heightM;
   // Never nearer than round 13 validated its tiers: mid at clamp(2.5 h,
   // 18, 60) m, far at clamp(5 h, 50, 140) m (a 3 m juniper's 30 px card

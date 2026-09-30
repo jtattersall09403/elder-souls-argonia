@@ -138,7 +138,10 @@ band — it only holds the ladder in order.
 The mid reach (the folded reach and ring 1) is quality-band aware
 (`LOD_REACH_BY_BAND` in `floraKit.ts`): low keeps height × 5 in 50–140 m
 (folded 30–140), medium is height × 7 in 60–200 m (folded 40–200), high is
-height × 9 in 80–280 m (folded 50–280).
+height × 9 in 80–280 m (folded 50–280). A single-level tree's folded reach
+and cap are multiplied by `treeReachBoost` = clamp(√(1500 / full-mesh
+triangles), 1, 2.4), so light trees hold their mesh further at the same
+triangle cost (the 380-triangle 19 m aspen: 211 m in medium).
 
 ## Addendum 2026-09-29 (owner walk 5: tier fades, bushes too close, big trees hold mesh further)
 
@@ -156,11 +159,15 @@ height × 9 in 80–280 m (folded 50–280).
   (`floraKit.speciesRings`). One level: the folded reach above. Two or three
   (round 13's part-aware tiers, `lodTiers` in the manifest): screen-space
   hand-over at a 1080 px, 60° reference view (`HANDOVER_PX`, low/medium/high
-  [370, 320, 300] / [320, 200, 160] / [280, 170, 130] px), never nearer than
+  [370, 320, 240] / [320, 200, 160] / [280, 170, 110] px), never nearer than
   round 13 validated (mid clamp(2.5 h, 18, 60) m, far clamp(5 h, 50, 140) m)
   and never carding nearer than the folded ladder. `folded` is now "one mesh
   level after the dedupe", so tiers draw.
-- **Non-tree plants hold their full mesh to 35 / 50 / 65 m** (low / medium /
-  high, `SMALL_PLANT_TOP_TIER_M`, not scaled by the draw scale).
+- **Non-tree plants hold their full mesh by size class** (not scaled by the
+  draw scale): small plants 35 / 45 / 65 m (low / medium / high,
+  `SMALL_PLANT_TOP_TIER_M`); LARGE plants (height or half the widest
+  footprint >= 2.5 m, `isLargePlant`) 120 / 200 / 260 m
+  (`LARGE_PLANT_TOP_TIER_M`), drawn as cards to 1.5x that
+  (`plantDrawDistance`).
 - The band-coverage invariant (every distance kept by exactly one rung, for
   every species shape and preset) is `ladderCoverage.test.ts`.
