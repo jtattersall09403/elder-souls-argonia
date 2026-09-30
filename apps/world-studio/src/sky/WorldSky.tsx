@@ -17,6 +17,7 @@ import { reapplyWindSway } from "@elder-souls/game-core/fx/windSway";
 import { fixtureLightFieldOf, isFixtureLitMaterial, setLitPreparer } from "@elder-souls/game-core/render/fixtureLights/index";
 import { reapplyLodFade } from "@elder-souls/game-core/fx/lodFade";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
+import { adaptExposure, stepShadowSun } from "@elder-souls/game-core/render/lightAdaptation";
 import { reapplyBatchData } from "@elder-souls/game-core/fx/batchData";
 import { reapplyCylindricalBillboard } from "@elder-souls/game-core/fx/billboardQuad";
 import { reapplyImpostor } from "@elder-souls/game-core/vegetation/impostor";
@@ -54,7 +55,7 @@ import { reapplySettlementSurface } from "@elder-souls/game-core/settlement/mate
  * constellations, guardian planets, Southron pole star and drifting Serpent;
  * Masser and Secunda as lit spheres (phase falls out of the sun direction);
  * physically-valued sun/moon lights with cascaded shadow maps; throttled
- * PMREM sky IBL; ACES tone mapping with a slow eye-adaptation exposure.
+ * PMREM sky IBL; ACES tone mapping with log-space eye adaptation on real seconds.
  * Mounted inside both studio canvases so fly and character modes are lit by
  * the same one sun.
  */
@@ -1091,6 +1092,8 @@ void main() {
     lastBakeSunY: Number.NaN,
     lastBakeCover: Number.NaN,
     lastEpoch: Number.NaN,
+    exposure: Number.NaN,
+    shadowSun: { x: 0, y: 0, z: 0 },
     envBakes: 0,
     lastNotify: 0,
     lastFrustumUpdate: 0,
@@ -1247,7 +1250,12 @@ void main() {
     const camFogNow = 1 - Math.exp(-9e-5 * camFogDensity * 700);
 
     // Sun (CSM's cascade lights ARE the sun).
-    csm.lightDirection.copy(sunDir).negate();
+    // The shadow sun steps only past SHADOW_SUN_STEP_DEG: a light rotated
+    // every frame re-rasterises every edge on a new texel grid (walk 6
+    // flicker); CSM itself snaps the cascade origin to whole texels.
+    if (stepShadowSun(state.current.shadowSun, sunDir)) {
+      csm.lightDirection.set(state.current.shadowSun.x, state.current.shadowSun.y, state.current.shadowSun.z).negate();
+    }
     for (const light of csm.lights) {
       light.color.setRGB(...rig.sunColor);
       light.intensity = rig.sunIntensity;
@@ -1469,24 +1477,19 @@ void main() {
       });
     }
 
-    // Exposure: ease toward the target (eye adaptation); snap when paused or
-    // scrubbed so fixed-instant probes are deterministic.
+    // Exposure: eye adaptation in log space on REAL seconds (adaptExposure);
+    // snap when paused or scrubbed so fixed-instant probes are deterministic.
+    // The adapted value lives here, not in gl.toneMappingExposure: inside a
+    // cell InteriorEnvironment overwrites the renderer's value with 1 every
+    // frame, and reading it back made the exit start from 1 (walk 6 white-out).
     const jumped =
       !Number.isFinite(state.current.lastEpoch) ||
       Math.abs(epochMinutes - state.current.lastEpoch) > worldClock.rate * 0.5 + 1;
     state.current.lastEpoch = epochMinutes;
-    if (!clockRunning || jumped) {
-      gl.toneMappingExposure = rig.exposureTarget;
-    } else {
-      // Eye adaptation runs in WORLD time (≈2.5 world-minutes ⇒ 2.5 real
-      // seconds at rate 1), floored at a responsive real-time constant — at
-      // high clock rates the sun brightens orders of magnitude in real
-      // seconds, and a fixed real-time ease lags so far behind that dawn
-      // whites out the whole frame.
-      const tau = Math.min(2.5, 2.5 / Math.max(worldClock.rate, 1));
-      const k = 1 - Math.exp(-delta / Math.max(tau, 0.12));
-      gl.toneMappingExposure += (rig.exposureTarget - gl.toneMappingExposure) * k;
-    }
+    state.current.exposure = !clockRunning || jumped
+      ? rig.exposureTarget
+      : adaptExposure(state.current.exposure, rig.exposureTarget, delta);
+    gl.toneMappingExposure = state.current.exposure;
 
     // Sky IBL: throttled PMREM re-bake (research doc: never per-frame). The
     // threshold tightens through twilight: sky light falls orders of
