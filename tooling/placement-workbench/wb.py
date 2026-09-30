@@ -189,7 +189,8 @@ def cmd_place(a, scene, cat):
                         scale=scale, pad=pads.parse(a.pad), beached=a.beached,
                         walkable=a.walkable))
     out = {"placed": a.uid}
-    if a.settle or (p.pad is not None and a.y is None):
+    if a.settle or (a.y is None and (p.pad is not None
+                                     or measure.auto_settles(cat.row(a.asset), a.walkable))):
         # a building on a pad is always settled on it (16k walk 4, WB rec 2):
         # the Claywater stable's op carried a pad and no `settle`, so it had
         # no height, every rule skipped it and the compile seated it 2.57 m
@@ -339,7 +340,13 @@ def _fit_rules(cat, g, p, cs, authored_fit: str | None = None) -> dict:
     manifest policy's, `with_record_ground_fits`), plus the yard gate's sill.
     `ok` is False exactly when the compile or the gate would refuse the pose."""
     row = cat.row(p.asset)
-    slope = measure.footing_slope_deg(g, p, measure.footprint_province(cat, p))
+    if measure.deck_seated(row):
+        # a house on stilts seated by the water: its deck is level whatever
+        # the bed does, so 97 B3 reads the deck plane; the bed is judged per
+        # stilt foot (stiltRule, `measure.stilt_feet`)
+        slope = measure.deck_slope_deg(p)
+    else:
+        slope = measure.footing_slope_deg(g, p, measure.footprint_province(cat, p))
     slope_why = cs.fit_slope_failure({**row}, slope)
     out = {"maxSlopeDeg": round(slope, 2), "slopeRule": slope_why,
            **measure.ground_delta(cat, g, p, cs, authored_fit)}
@@ -549,9 +556,12 @@ def _check_row(cat, scene, p, declared, cs) -> dict:
                 r.update(_submerged(g, p, row))
     if p.y is not None and not mounted and (row.get("anchorClass") or "ground") != "water":
         r.update(measure.float_under(cat, g, p))
+    if measure.deck_seated(row) and not mounted:
+        r.update(measure.stilt_feet(cat, g, p))
     if cs.is_quay_run(row):
         r["quayReach"] = _quay_reach(cat, scene, g, p, row, cs)
-    elif (row.get("anchorClass") or "ground") == "water" and not row.get("piled"):
+    elif ((row.get("anchorClass") or "ground") == "water" and not row.get("piled")
+          and not measure.deck_seated(row)):     # a house on stilts: stiltRule judges its bed
         # a piled deck is no hull: its piles stand in the bed (lessons L65)
         r["hullWater"] = _hull_water(cat, g, p)
     if p.roll or p.mirror:
@@ -737,6 +747,13 @@ def check_scene(cat, scene, only=None, serial: bool = False, use_cache: bool = T
     doors = got[k]
     rows = dict(pair for chunk in got[k + 1:] for pair in chunk)
     store.save()                       # a --full run refreshes the cache
+    causes: dict = {}
+    rules.floor_services(cat, scene, causes)
+    for u, why in causes.items():
+        if u in rows:
+            rows[u]["floorService"] = why
+            if why.startswith(rules.FLOOR_UNSEATED):
+                rows[u]["floorServiceRule"] = f"floor service {why}"
     out = {"pieces": {u: rows[u] for u in uids}, "nearPairs": cached, "doors": doors}
     out.update({key: rules_out[key] for key in CHECK_RULES})
     if only:

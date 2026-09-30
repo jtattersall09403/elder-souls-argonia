@@ -21,7 +21,9 @@ largest walkable level by area. The eyes come from a scored search
 each scored by its free distance toward the hub times the clear fraction of
 a 60-degree fan (`score_eye`); the corners are the two best 90+ degrees
 apart (`pick_corners`); the doorway stands at the landing edge on the
-door-to-hub line or 1.2 m in (`doorway_eye`). An arrival more than 1.5 m
+door-to-hub line or 1.2 m in, else the best spot within 5 m of the door
+with the door behind it (`doorway_eye`, `door_side_eye`), no frame more
+than 12 % filled within 2.5 m (`occupied`). An arrival more than 1.5 m
 off the main floor (the Lilmoth houses, KeebaHouseElder) puts the corners
 on the main floor round its centroid and the doorway on the arrival's
 level; every view looks at the hub 1 m over the corners' floor. A view
@@ -64,6 +66,12 @@ LIGHT_INTENSITY_PER_FADE = math.pi   # interiorLoader.ts INTERIOR_LIGHT_INTENSIT
 LIGHT_DECAY = 2.0                    # interiorLoader.ts INTERIOR_LIGHT_DECAY
 AMBIENT_SCALE = math.pi              # interiorLoader.ts INTERIOR_AMBIENT_SCALE
 TIMEOUT_S = 600
+# A flame-card bed's flame (fx/fire/fireTypes.ts FIRE_PRESETS, as
+# `firePresetFor` picks it for a card bed): (heightM, widthM, spreadM) at
+# piece scale 1. The render proxy stands at this size so a hearth reads at
+# the size the game burns it (walk 5: a 0.45 m fixed proxy read as a dot).
+BED_PRESETS = {"campfire": (0.85, 0.42, 0.22), "hearth": (0.62, 0.34, 0.20),
+               "brazier": (0.55, 0.30, 0.12), "candle": (0.085, 0.035, 0.01)}
 _C = np.array([[1.0, 0, 0, 0], [0, 0, -1.0, 0], [0, 1.0, 0, 0], [0, 0, 0, 1.0]])
 
 
@@ -450,7 +458,9 @@ def doorway_eye(cast, door, hub, level_z: float, target=None) -> tuple:
     line's on-floor points at DOOR_STEP x 3 spacing (the edge end first),
     aimed at the target, then higher on the hub's vertical (half-way to eye
     height, then eye height less 0.3 m: from a landing, across the room
-    rather than down at its floor); none: the best-scoring. Every aim is
+    rather than down at its floor); none: the best of those and the
+    arrival-level search round the door (`door_side_eye`). Every view is
+    scored by `door_score` (`score_eye` with the `occupied` veto). Every aim is
     held within MAX_PITCH_DEG of level (`level_aim`). Returns (eye,
     target)."""
     dx, dy = hub[0] - door[0], hub[1] - door[1]
@@ -488,7 +498,7 @@ def doorway_eye(cast, door, hub, level_z: float, target=None) -> tuple:
     else:
         at = min(DOOR_IN_M, max(length - 1.0, 0.0))
     eye = (door[0] + u[0] * at, door[1] + u[1] * at, z)
-    if score_eye(cast, eye, aim(eye, target)) >= MIN_SCORE_M:
+    if door_score(cast, eye, aim(eye, target)) >= MIN_SCORE_M:
         return eye, aim(eye, target)
     aims = [target]
     if z - 0.3 > target[2]:
@@ -496,30 +506,138 @@ def doorway_eye(cast, door, hub, level_z: float, target=None) -> tuple:
     limit = edge - EDGE_BACK_M if edge is not None else max(line - 1.0, 0.0)
     spots = [x for x in on[::3] if x <= limit + 1e-9]
     spots = spots[::-1] if edge is not None else spots     # the edge end first, else the door end
-    best = (score_eye(cast, eye, aim(eye, target)), eye, aim(eye, target))
+    best = (door_score(cast, eye, aim(eye, target)), eye, aim(eye, target))
     for t0 in aims:                  # the lowest aim that passes, from the spot nearest the edge
         for x in spots:
             p = (door[0] + u[0] * x, door[1] + u[1] * x, z)
             t = aim(p, t0)           # never steeper than MAX_PITCH_DEG
-            sc = score_eye(cast, p, t)
+            sc = door_score(cast, p, t)
             if sc >= MIN_SCORE_M:
                 return p, t
             if sc > best[0] + 1e-9:
                 best = (sc, p, t)
-    # the line is blocked (DawnstarBrinasHouse: a partition across it): the
-    # clearest level heading off it from the door-end spot, turned up to 80
-    # degrees either side, the smaller turn first
-    for yaw in (20.0, -20.0, 40.0, -40.0, 60.0, -60.0, 80.0, -80.0):
-        if best[0] >= MIN_SCORE_M:
-            break
-        for x in [at] + spots:
-            p = (door[0] + u[0] * x, door[1] + u[1] * x, z)
-            h = _rot_z((u[0], u[1], 0.0), yaw)
-            t = (p[0] + h[0] * MIN_CENTRE_M * 1.5, p[1] + h[1] * MIN_CENTRE_M * 1.5, z - 0.3)
-            sc = score_eye(cast, p, t)
-            if sc > best[0] + 1e-9:
-                best = (sc, p, t)
+    # the line gives no passing eye (DawnstarBrinasHouse: a partition across
+    # it; the Lilmoth overseer houses: the stair overhang): the arrival-level
+    # search round the door, `door_side_eye`
+    side = door_side_eye(cast, door, level_z, target)
+    if side is not None and side[0] > best[0] + 1e-9:
+        best = side
     return best[1], best[2]
+
+
+OCCUPIED_M = 2.5         # a frame probe hitting within this is near clutter (a beam, a rack)
+FLOOR_SKIP_M = 0.15      # ... a hit this near the eye's floor (EYE_M below it) is the floor
+MAX_OCCUPIED = 0.12      # more than this fraction of the probes (or of the up half) near: rejected
+SIDE_RADIUS_M = 5.0      # the arrival-level search stands within this of the door
+SIDE_RADII = (1.0, 2.0, 3.0, 4.0, 5.0)
+SIDE_HEADINGS = 16
+DOOR_BEHIND_DEG = 100.0  # a side eye's view turns at least this far from the door
+
+
+def occupied(cast, eye, ahead) -> bool:
+    """More than MAX_OCCUPIED of the 5-degree NEAR_GRID probes (a lattice
+    rail slips between the 10-degree FRAME_PROBES: KeebaHouseCrafter's
+    doorway) hit within OCCUPIED_M, or
+    of the up-facing ones alone (pitch > 0: a roof beam over the frame is
+    counted on its own half; 16k walk 5, the Lilmoth overseer houses'
+    stair overhang, KeebaHouseFisher's beam, DawnstarBrinasHouse's log).
+    A hit on the eye's own floor (within FLOOR_SKIP_M over it) is no
+    clutter: the frame's bottom row meets the floor 2.4 m out."""
+    floor_z = eye[2] - EYE_M + FLOOR_SKIP_M
+    hits = []
+    for y, pt in NEAR_GRID:
+        d = _turn(ahead, y, pt)
+        t = cast(eye, d, OCCUPIED_M)
+        hits.append((pt, t is not None and eye[2] + d[2] * t > floor_z))
+    up = [h for pt, h in hits if pt > 0]
+    return (sum(h for _, h in hits) > MAX_OCCUPIED * len(hits)
+            or (up and sum(up) > MAX_OCCUPIED * len(up)))
+
+
+def door_score(cast, eye, target) -> float:
+    """`score_eye` for the doorway, 0 when the frame is `occupied`."""
+    d = [t - e for t, e in zip(target, eye)]
+    n = math.sqrt(sum(v * v for v in d)) or 1e-9
+    if occupied(cast, eye, tuple(v / n for v in d)):
+        return 0.0
+    return score_eye(cast, eye, target)
+
+
+def door_side_eye(cast, door, level_z: float, target, stats: dict | None = None):
+    """The doorway eye off the door-to-hub line: spots on the arrival level
+    (floor within DROP_M of level_z) at SIDE_RADII from the door over
+    SIDE_HEADINGS headings, each inside the shell (`is_inside`; no line
+    from the door is asked for: DawnstarBrinasHouse's door stands in a
+    recess every level ray from it hits within 1.5 m); from each, views at the target (held within MAX_PITCH_DEG of
+    level) and along each of SIDE_HEADINGS level headings, scored by
+    `door_score`; only views turned more than DOOR_BEHIND_DEG from the
+    direction to the door (the door behind the eye) count. Returns
+    (score, eye, aim) of the best, or None; `stats` (optional) counts
+    the spots reached, on the level, and views scored / occupied."""
+    st = stats if stats is not None else {}
+    for k in ("reached", "onLevel", "views", "occupied"):
+        st.setdefault(k, 0)
+    z = level_z + EYE_M
+    heads = [(math.cos(2.0 * math.pi * i / SIDE_HEADINGS), math.sin(2.0 * math.pi * i / SIDE_HEADINGS), 0.0)
+             for i in range(SIDE_HEADINGS)]
+    best = None
+    for h in heads:
+        for r in SIDE_RADII:
+            p = (door[0] + h[0] * r, door[1] + h[1] * r, z)
+            if not is_inside(cast, p):
+                continue
+            st["reached"] += 1
+            down = cast(p, (0.0, 0.0, -1.0), EYE_M + 3.0)
+            if down is None or abs(z - down - level_z) > DROP_M:
+                continue
+            st["onLevel"] += 1
+            aims = [(p[0] + v[0] * MIN_CENTRE_M * 1.5, p[1] + v[1] * MIN_CENTRE_M * 1.5, z - 0.3)
+                    for v in heads]
+            if target is not None and math.hypot(target[0] - p[0], target[1] - p[1]) >= MIN_CENTRE_M:
+                aims.insert(0, level_aim(p, target))
+            bx, by = door[0] - p[0], door[1] - p[1]
+            for t in aims:
+                vx, vy = t[0] - p[0], t[1] - p[1]
+                cos = (vx * bx + vy * by) / ((math.hypot(vx, vy) * math.hypot(bx, by)) or 1e-9)
+                if math.degrees(math.acos(max(-1.0, min(1.0, cos)))) <= DOOR_BEHIND_DEG:
+                    continue
+                sc = door_score(cast, p, t)
+                st["views"] += 1
+                st["occupied"] += sc == 0.0 and score_eye(cast, p, t) > 0.0
+                if best is None or sc > best[0] + 1e-9:
+                    best = (sc, p, t)
+    return best
+
+LANDING_BACK_M = 0.3     # a landing's doorway eye stands this far back from its edge
+
+
+def landing_edge_eye(cast, door, hub, level_z: float, target):
+    """The doorway eye on a landing over the main floor (the split plan):
+    on the door-to-hub line, LANDING_BACK_M back from the last point on the
+    landing before the drop (a floor more than DROP_M below the level, or
+    none; a railing's top is neither and is walked past), aimed at the
+    main-floor target held within MAX_PITCH_DEG of level (16k walk 5:
+    the Lilmoth overseer houses and KeebaHouseCrafter looked along the
+    landing or into its railing). None when the line meets no drop."""
+    dx, dy = hub[0] - door[0], hub[1] - door[1]
+    length = math.hypot(dx, dy)
+    if length < 1e-6:
+        return None
+    u = (dx / length, dy / length)
+    z = level_z + EYE_M
+    last, s = None, DOOR_STEP
+    while s <= length:
+        p = (door[0] + u[0] * s, door[1] + u[1] * s, z)
+        down = cast(p, (0.0, 0.0, -1.0), EYE_M + 6.0)
+        fz = z - down if down is not None else None
+        if fz is not None and abs(fz - level_z) <= DROP_M:
+            last = s
+        elif last is not None and (fz is None or fz < level_z - DROP_M):
+            at = max(DOOR_STEP, last - LANDING_BACK_M)
+            eye = (door[0] + u[0] * at, door[1] + u[1] * at, z)
+            return eye, level_aim(eye, target)
+        s += DOOR_STEP
+    return None
 
 
 def eye_plan(cast, plan: dict, door) -> dict:
@@ -528,7 +646,8 @@ def eye_plan(cast, plan: dict, door) -> dict:
     (round the main floor's centroid), else on the arrival's level (round
     the arrival point); the doorway always on the arrival's level. Every
     view looks at the hub 1 m over the corners' floor (the doorway higher on
-    its vertical when that view fails, `doorway_eye`; None when no doorway
+    its vertical when that view fails, `doorway_eye`; on a landing over the
+    main floor, its edge looking down at the hub, `landing_edge_eye`; None when no doorway
     view scores MIN_SCORE_M, and the shot's fallback camera walks in,
     DawnstarBrinasHouse). {target, hub,
     corners: [eye..], scores, doorway: (eye, target), cornerZ, doorZ}."""
@@ -537,11 +656,13 @@ def eye_plan(cast, plan: dict, door) -> dict:
     hub = plan["centroid"] if split else plan["arrivalXY"]
     target = (hub[0], hub[1], corner_z + 1.0)
     corners = pick_corners(cast, candidate_eyes(cast, hub, corner_z), target, corner_z)
-    door_eye = doorway_eye(cast, door, hub, plan["belowZ"], target)
+    edge = (landing_edge_eye(cast, door, hub, plan["belowZ"], target)
+            if split and plan["belowZ"] > plan["mainZ"] else None)
+    door_eye = edge or doorway_eye(cast, door, hub, plan["belowZ"], target)
     return {"target": target, "hub": tuple(hub), "cornerZ": corner_z, "doorZ": plan["belowZ"],
             "corners": [c["eye"] for c in corners],
             "scores": [round(c["score"], 2) for c in corners],
-            "doorway": door_eye if score_eye(cast, *door_eye) >= MIN_SCORE_M else None}
+            "doorway": door_eye if edge or door_score(cast, *door_eye) >= MIN_SCORE_M else None}
 
 
 def settle_eye(cast, eye, target, eye_h: float | None = None) -> tuple[tuple, float]:
@@ -712,17 +833,55 @@ def light_list(bundle: dict) -> list[dict]:
 
 def ambient_of(bundle: dict) -> dict:
     """{ambient: linear rgb x intensity x pi (the AmbientLight), directional:
-    linear rgb (intensity pi, straight down) or None}."""
+    linear rgb (intensity pi, straight down) or None, ambientCube: None or the
+    cell's directional ambient in BLENDER axes as ``{m, d}`` (per axis x, y, z
+    the pair mean and half difference, linear rgb): the runtime's LightProbe
+    (ambientCube.ts) is E(n) = sum_a m_a a^2 + d_a a, and with a cube the
+    ambient is the grey scale ``intensity x pi`` it multiplies}."""
     amb = bundle.get("ambient") or {}
     lin = srgb_to_linear(amb.get("colorRGB", [0, 0, 0]))
     k = float(amb.get("intensity", 1.0)) * AMBIENT_SCALE
     d = (bundle.get("lighting") or {}).get("directionalRGB")
-    return {"ambient": [c * k for c in lin],
-            "directional": srgb_to_linear(d) if d else None}
+    cube = (bundle.get("lighting") or {}).get("ambientCube")
+    return {"ambient": [k, k, k] if cube else [c * k for c in lin],
+            "directional": srgb_to_linear(d) if d else None,
+            "ambientCube": cube_blender(cube) if cube else None}
+
+
+def cube_blender(cube: dict) -> dict:
+    """The game-axis cube in Blender axes (``to_blender``: Blender x = game x,
+    Blender y = game -z, Blender z = game y) as {m, d} per Blender axis."""
+    pos = {"x": cube["px"], "y": cube["nz"], "z": cube["py"]}
+    neg = {"x": cube["nx"], "y": cube["pz"], "z": cube["ny"]}
+    return {"m": [[(pos[a][c] + neg[a][c]) / 2 for c in range(3)] for a in "xyz"],
+            "d": [[(pos[a][c] - neg[a][c]) / 2 for c in range(3)] for a in "xyz"]}
+
+
+def cube_at(blender_cube: dict, n) -> list[float]:
+    """E(n) of a ``cube_blender`` cube on a Blender-axis unit normal (what the
+    Blender material's nodes compute)."""
+    return [sum(blender_cube["m"][a][c] * n[a] ** 2 + blender_cube["d"][a][c] * n[a] for a in range(3))
+            for c in range(3)]
+
+
+def bed_preset(asset_id: str, row: dict) -> str:
+    """fireTypes.ts `firePresetFor` for a flame-card bed (no fixture kind,
+    no flame source): campfire, hearth, brazier (fxfirewithembers01 is a
+    brazier-sized bed wherever it stands), else candle."""
+    kind = row.get("category") or ""
+    aid = (asset_id or "").lower()
+    if kind == "campfire" or "campfire" in aid:
+        return "campfire"
+    if kind == "hearth" or "fireplace" in aid or "hearth" in aid:
+        return "hearth"
+    if kind in ("brazier", "forge", "cook-fire") or "brazier" in aid or "fxfirewithembers" in aid:
+        return "brazier"
+    return "candle"
 
 
 def fire_list(bundle: dict, row_of) -> tuple[list[dict], list[str], list[str]]:
     """(fires in the render fire pass's shape {at, heightM, fallback, id},
+    a flame-card bed adding widthM and spreadM from its preset,
     the flame-card material names the loader leaves undrawn, the flame-card
     materials of a piece with mined `flames`, which the loader draws and
     the render draws emissive and additive), per
@@ -757,8 +916,10 @@ def fire_list(bundle: dict, row_of) -> tuple[list[dict], list[str], list[str]]:
             cards.update(row["flameCardMaterials"])
             lo, hi = box
             at = _world(m, ((lo[0] + hi[0]) / 2, lo[1], (lo[2] + hi[2]) / 2))
+            h, w, spread = BED_PRESETS[bed_preset(p["assetId"], row)]
+            k = float(p.get("scale", 1.0))
             fires.append({"id": p["id"], "at": to_blender(at), "fallback": False,
-                          "heightM": 0.45})
+                          "heightM": h * k, "widthM": w * k, "spreadM": spread * k})
             own.append(at)
             continue
         if (row.get("light") or {}).get("fixtureKind") and box is not None:

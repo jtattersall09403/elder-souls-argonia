@@ -14,7 +14,10 @@ loader does, never with the render's sky or sun:
   times three.js's range window (1 - (d/r)^4)^2 in the light's own nodes,
   and d^(2-decay) so the falloff is three.js's 1/d^decay for any decay;
 - the AmbientLight (never occluded in three.js) is each material's albedo
-  times ambient/pi added as emission; the directional is a shadowless sun
+  times ambient/pi added as emission; a cell with an ambient cube (the
+  runtime's LightProbe, ambientCube.ts) multiplies that by the cube's
+  E(n) = sum_a m_a a^2 + d_a a on the world normal in the material's nodes
+  (exact to the probe: both are the same quadratic); the directional is a shadowless sun
   from straight above at strength pi;
 - direct light only (no bounces: three.js has none), Filmic view.
 Row `night` (the sources pass) switches the ambient and the directional off.
@@ -106,7 +109,33 @@ def glow_card(mat):
     mat.blend_method = "BLEND"
 
 
-def ambient_materials(ambient, cards, glow=()):
+def cube_colour(nt, cube):
+    """Nodes computing the ambient cube's E(n) (linear rgb) on the world normal;
+    ``cube`` is ``interior_render.cube_blender`` (m, d per Blender axis)."""
+    geo = nt.nodes.new("ShaderNodeNewGeometry")
+    sq = nt.nodes.new("ShaderNodeVectorMath")
+    sq.operation = "MULTIPLY"
+    nt.links.new(geo.outputs["Normal"], sq.inputs[0])
+    nt.links.new(geo.outputs["Normal"], sq.inputs[1])
+    comb = nt.nodes.new("ShaderNodeCombineRGB")
+    for c in range(3):
+        dm = nt.nodes.new("ShaderNodeVectorMath")
+        dm.operation = "DOT_PRODUCT"
+        nt.links.new(sq.outputs[0], dm.inputs[0])
+        dm.inputs[1].default_value = tuple(cube["m"][a][c] for a in range(3))
+        dd = nt.nodes.new("ShaderNodeVectorMath")
+        dd.operation = "DOT_PRODUCT"
+        nt.links.new(geo.outputs["Normal"], dd.inputs[0])
+        dd.inputs[1].default_value = tuple(cube["d"][a][c] for a in range(3))
+        add = nt.nodes.new("ShaderNodeMath")
+        add.operation = "ADD"
+        nt.links.new(dm.outputs["Value"], add.inputs[0])
+        nt.links.new(dd.outputs["Value"], add.inputs[1])
+        nt.links.new(add.outputs[0], comb.inputs[c])
+    return comb.outputs[0]
+
+
+def ambient_materials(ambient, cards, glow=(), cube=None):
     """Add albedo x ambient/pi as emission to every Principled material (the
     AmbientLight three.js never occludes); flame-card materials the loader
     leaves undrawn go transparent, those it draws (`glow`) go emissive and
@@ -143,6 +172,13 @@ def ambient_materials(ambient, cards, glow=()):
         else:
             mul.inputs[1].default_value = base.default_value
         nt.links.new(amb.outputs[0], mul.inputs[2])
+        if cube:
+            by_normal = nt.nodes.new("ShaderNodeMixRGB")
+            by_normal.blend_type = "MULTIPLY"
+            by_normal.inputs[0].default_value = 1.0
+            nt.links.new(mul.outputs[0], by_normal.inputs[1])
+            nt.links.new(cube_colour(nt, cube), by_normal.inputs[2])
+            mul = by_normal
         emit, strength = bsdf.inputs["Emission"], bsdf.inputs["Emission Strength"]
         add = nt.nodes.new("ShaderNodeMixRGB")
         add.blend_type = "ADD"
@@ -157,6 +193,38 @@ def ambient_materials(ambient, cards, glow=()):
         nt.links.new(add.outputs[0], emit)
         sockets.append(amb.outputs[0])
     return sockets, tuple(k)
+
+
+def bed_tongues(world, fires):
+    """A flame-card bed (a hearth's fxfirewithembers01) burns 2-3 core and
+    2-3 outer cards spread over its bed (fx/fire/FlameSystem.ts), not one
+    wick: its proxy (`fire{i}`, a teardrop h x 0.44 h from the fire pass)
+    is widened to the preset's width plus its spread, and two outer tongues
+    of 0.7 h stand at +-0.8 spread, so the render shows the hearth at the
+    size the game burns it."""
+    body = bpy.data.materials.get("fire-proxy")
+    for i, fire in enumerate(fires or []):
+        spread = fire.get("spreadM")
+        if not spread:
+            continue
+        h = float(fire["heightM"])
+        obj = world.objects.get(f"fire{i}")
+        if obj is not None:
+            k = (float(fire["widthM"]) + spread) / (h * 0.44)
+            obj.scale = (k, k, obj.scale[2])
+        x, y, z = fire["at"]
+        for side, dx in (("l", -0.8 * spread), ("r", 0.8 * spread)):
+            t = 0.7 * h
+            bpy.ops.mesh.primitive_uv_sphere_add(radius=t * 0.22, segments=12, ring_count=8,
+                                                 location=(x + dx, y, z + t * 0.45))
+            tongue = bpy.context.active_object
+            tongue.name = f"fire{i}-{side}"
+            tongue.scale = (1.0, 1.0, 2.2)
+            if body is not None:
+                tongue.data.materials.append(body)
+            for used in list(tongue.users_collection):
+                used.objects.unlink(tongue)
+            world.objects.link(tongue)
 
 
 def record_light(i, rec, scene):
@@ -246,7 +314,7 @@ def clear_eye(scene, shot, eyes):
         i = 0 if view == "corner-a" else 1
         eye = eyes["corners"][i] if i < len(eyes["corners"]) else None
     if eye is not None:
-        score = ir.score_eye(cast, eye, target)
+        score = (ir.door_score if view == "doorway" else ir.score_eye)(cast, eye, target)
         warn = None
         if score < ir.MIN_SCORE_M:
             warn = (f"[wb-irender] warning {shot['name']} eye at {tuple(round(v, 2) for v in eye)} "
@@ -292,8 +360,9 @@ def main():
         return
     shots = [ir.on_floor(s, plan, JOB["arrivalFloor"]) for s in JOB["shots"]]
     sockets, amb = ambient_materials(JOB.get("ambient") or [0, 0, 0], JOB.get("flameCards") or [],
-                                     JOB.get("glowCards") or [])
+                                     JOB.get("glowCards") or [], JOB.get("ambientCube"))
     rs.add_fire_light_pass(world, JOB.get("fires"))
+    bed_tongues(world, JOB.get("fires"))
     for obj in world.objects:          # the proxies are markers, never light sources
         if obj.name.startswith("fire"):
             obj.visible_diffuse = obj.visible_glossy = obj.visible_shadow = False
@@ -313,6 +382,11 @@ def main():
           f"{eyes['cornerZ']:.2f} scores {eyes['scores']} doorway on {eyes['doorZ']:.2f} at "
           + (f"{tuple(round(v, 2) for v in eyes['doorway'][0])} aim {tuple(round(v, 2) for v in eyes['doorway'][1])}"
              if eyes["doorway"] is not None else "none (fallback camera)"))
+    if eyes["doorway"] is None:           # why the doorway search found nothing
+        st = {}
+        side = ir.door_side_eye(scene_cast(scene), JOB["doorBlender"], eyes["doorZ"], eyes["target"], st)
+        print(f"[wb-irender] eyes doorway-search door {tuple(round(v, 2) for v in JOB['doorBlender'])} "
+              f"side spots {st} best {None if side is None else round(side[0], 2)}")
     for shot in shots:
         day = shot["row"] == "day"
         for s in sockets:

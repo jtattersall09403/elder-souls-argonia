@@ -282,14 +282,17 @@ def _parcel_interiors(scene) -> dict:
     return {q["id"]: q for q in parcels if q.get("id")}
 
 
-def floor_services(cat, scene) -> dict:
+def floor_services(cat, scene, causes: dict | None = None) -> dict:
     """{uid: {parcel, services, floorY}} of every open-floor house: a parcel
     piece whose manifest row carries `walkTopM` and whose blueprint parcel
     has `interior: none` (no door, no cell). Its floor is its service area
     (the entrance, the parcel's services and its D0 safe ground): walkRule
     reaches the floor, berthReachRule measures to the floor's edge and
     propSeatRule seats what stands on it on the floor. A house with a door
-    (any other interior kind) is judged by its doorway as before."""
+    (any other interior kind) is judged by its doorway as before.
+    ``causes`` (a dict) receives, per parcel piece with a `walkTopM` that is
+    no floor service, the named reason (`floor_service_cause`), never a
+    silent skip (Riverwalk re-site, requests row 10)."""
     parcels = _parcel_interiors(scene)
     out = {}
     for p in scene.pieces:
@@ -298,11 +301,32 @@ def floor_services(cat, scene) -> dict:
             continue
         y = _walk_top_y(cat, p)
         rec = parcels.get(role.get("id")) or {}
-        if y is None or (rec.get("interior") or {}).get("kind") != "none":
+        why = floor_service_cause(cat, p, rec)
+        if why is not None:
+            if causes is not None and isinstance(cat.row(p.asset).get("walkTopM"), (int, float)):
+                causes[p.uid] = why
             continue
         out[p.uid] = {"parcel": role["id"], "floorY": y,
                       "services": ["entrance"] + list(rec.get("services") or [])}
     return out
+
+
+FLOOR_UNSEATED = "not seated"
+
+
+def floor_service_cause(cat, p, rec: dict) -> str | None:
+    """Why parcel piece ``p`` (blueprint parcel ``rec``) is no open-floor
+    service, or None when it is one."""
+    top = cat.row(p.asset).get("walkTopM")
+    if not isinstance(top, (int, float)):
+        return f"no walkTopM on {p.asset} (no walked floor in its manifest row)"
+    if p.y is None:
+        return (f"{FLOOR_UNSEATED}: no y, so its floor has no height (place it walkable "
+                f"or settle it)")
+    kind = (rec.get("interior") or {}).get("kind")
+    if kind != "none":
+        return f"interior kind {kind!r} is not 'none': judged by its doorway"
+    return None
 
 
 def _floor_heights(cat, p, floor_y: float, xs, zs) -> np.ndarray:
@@ -329,7 +353,7 @@ def floor_outline(cat, p, floor_y: float):
     from shapely import contains_xy
     from shapely.geometry import Polygon, box
     from shapely.ops import unary_union
-    poly = Polygon(measure.footprint_province(cat, p))
+    poly = Polygon(measure.walk_plan_province(cat, p)).buffer(0)
     x0, z0, x1, z1 = poly.bounds
     gx, gz = np.meshgrid(np.arange(x0, x1 + FLOOR_LATTICE_M, FLOOR_LATTICE_M),
                          np.arange(z0, z1 + FLOOR_LATTICE_M, FLOOR_LATTICE_M))
@@ -371,7 +395,7 @@ def _surface_m(cat, scene, ground, x: float, z: float) -> float:
             if _piled_box(cat, p).contains(Point(x, z)):
                 h = max(h, piled)
             continue
-        poly = Polygon(measure.footprint_province(cat, p))
+        poly = Polygon(measure.walk_plan_province(cat, p)).buffer(0)
         if not poly.contains(Point(x, z)):
             continue
         floor = _walk_top_y(cat, p)
@@ -447,8 +471,8 @@ def socket_targets(cat, scene) -> list[dict]:
     by_uid = {q.uid: q for q in scene.pieces}
     out = []
     for op in ops:
-        if op.get("kind") not in sk.REACH_KINDS:
-            continue
+        if op.get("kind") not in sk.REACH_KINDS or op.get("interiorCell"):
+            continue            # an interior socket is interior_walk's (the compile's reach gate)
         row = {"id": f"socket:{op['id']}", "kind": "socket", "socketKind": op["kind"],
                "uid": None, "outlineM": None, "reason": None}
         if op.get("host"):
@@ -505,7 +529,9 @@ class WalkGrid:
         self.step_m, self.radius_m = ch["stepM"], ch["capsuleRadiusM"]
         g = _ground(cat, scene)
         meta = g.meta
-        polys = {p.uid: measure.footprint_province(cat, p) for p in scene.pieces}
+        # a walked floor is read over its whole plan (`walk_plan_province`)
+        polys = {p.uid: (measure.walk_plan_province(cat, p) if getattr(p, "walkable", False)
+                         else measure.footprint_province(cat, p)) for p in scene.pieces}
         pts = [xz for poly in polys.values() for xz in poly]
         pts += [tuple(q) for path in scene.paths for q in path["pointsM"]]
         term = terminal(scene)
@@ -626,13 +652,14 @@ class WalkGrid:
             return False, "slope", slope
         return True, None, slope
 
-    def graph(self):
+    def graph(self, wade_any_depth: bool = False):
         """(csr graph of walkable edges weighted by 3D length, per-edge slope
-        and step arrays keyed by (i, j) flat index)."""
+        and step arrays keyed by (i, j) flat index). `wade_any_depth` lets
+        deep water be walked: the diagnosis graph of `_wading_block`."""
         from scipy.sparse import csr_matrix
         n = self.nx * self.nz
         idx = np.arange(n).reshape(self.nz, self.nx)
-        free = (self.block < 0) & ~self.deep
+        free = (self.block < 0) & (wade_any_depth | ~self.deep)
         rows, cols, w = [], [], []
         for dz, dx in ((0, 1), (1, 0), (1, 1), (1, -1)):
             a = (slice(0, self.nz - dz), slice(max(0, -dx), self.nx - max(0, dx)))
@@ -742,6 +769,33 @@ def _why_unreached(grid: WalkGrid, dist: np.ndarray, goal) -> dict:
     return out
 
 
+def _wading_block(grid: WalkGrid, wet_pred: np.ndarray, wet_dist: np.ndarray, flat,
+                  goal) -> dict | None:
+    """Wading named first: when the target is reached once deep water may be
+    walked, the water is the cause, whatever prop stands beside the path (the
+    first blocked edge by the nearest reached cell can be that prop and hide
+    it). The first deep cell on that route is the block, its predecessor the
+    last reached cell; `deepestWadeM` is the deepest cell on the route."""
+    end = min(flat, key=lambda i: wet_dist[i])
+    if not np.isfinite(wet_dist[end]):
+        return None
+    cells = [end]
+    while wet_pred[cells[-1]] >= 0:
+        cells.append(int(wet_pred[cells[-1]]))
+    cells.reverse()
+    deep = [k for k, i in enumerate(cells) if grid.deep[divmod(i, grid.nx)]]
+    if not deep or deep[0] == 0:
+        return None
+    a, b = divmod(cells[deep[0] - 1], grid.nx), divmod(cells[deep[0]], grid.nx)
+    gx, gz = grid.xz(goal)
+    return {"lastReachedM": [round(v, 2) for v in grid.xz(a)],
+            "lastReachedToTargetM": round(math.hypot(grid.X[a] - gx, grid.Z[a] - gz), 2),
+            "blockingCellM": [round(v, 2) for v in grid.xz(b)], "reason": "wading",
+            "value": round(float(grid.depth[b]), 3),
+            "deepestWadeM": round(max(float(grid.depth[divmod(cells[k], grid.nx)])
+                                      for k in deep), 3)}
+
+
 def _route_stats(grid: WalkGrid, pred: np.ndarray, start: int, end: int) -> dict:
     cells = [end]
     while cells[-1] != start:
@@ -804,6 +858,7 @@ def walk(cat, scene, keep_points: bool = False) -> dict:
     csr = grid.graph()
     s = start[0] * grid.nx + start[1]
     dist, pred = dijkstra(csr, directed=False, indices=s, return_predecessors=True)
+    wet = None      # (dist, pred) with deep water walkable, built on the first unreached target
     floors = floor_services(cat, scene)
     # an open-floor house is served on its floor, never at a doorway record
     floor_targets = [{"id": f"floor:{uid}", "uid": uid, "kind": "floor", **f}
@@ -843,7 +898,11 @@ def walk(cat, scene, keep_points: bool = False) -> dict:
         flat = [c[0] * grid.nx + c[1] for c in cells]
         end = min(flat, key=lambda i: dist[i])
         if not np.isfinite(dist[end]):
-            got = _why_unreached(grid, dist, cells[0])
+            if wet is None:
+                wet = dijkstra(grid.graph(wade_any_depth=True), directed=False, indices=s,
+                               return_predecessors=True)
+            got = (_wading_block(grid, wet[1], wet[0], flat, cells[0])
+                   or _why_unreached(grid, dist, cells[0]))
             row.update(ok=False, **got)
             why = (f"no route from the terminal; blocked at {got.get('blockingCellM')} by "
                    f"{got.get('reason')} ({got.get('value')}), last reached cell "
@@ -1536,6 +1595,8 @@ def sill_piece(cat, scene, ctx, p) -> tuple[dict, list]:
         return rows, failures
     rep = measure.door_report(cat, scene, p)
     for d in piece_doors(cat, scene, p, rep=rep):
+        if d["source"] == "landing":
+            continue            # a stilt house's landing edge: landingRule judges its drop
         k = rep["doorways"].index(rep["best"])
         tx, tz = d["thresholdM"]
         dx, dz = _bearing_vec(d["facingDeg"])

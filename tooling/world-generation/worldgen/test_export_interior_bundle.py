@@ -317,6 +317,10 @@ def test_bundle_lighting_matches_the_plugin_bytes(vault_env, plugin_cache, plugi
             assert lighting["ambientRGB"] == list(xcll[0:3])
         if not inherits & 2:
             assert lighting["directionalRGB"] == list(xcll[4:7])
+        if not inherits & 1:  # the Ambient Colors block, X+ X- Y+ Y- Z+ Z- at 40 (UESP CELL XCLL)
+            sky = {k: list(xcll[40 + 4 * i:43 + 4 * i]) for i, k in enumerate(("xp", "xn", "yp", "yn", "zp", "zn"))}
+            assert lighting["raw"]["ambientCubeSkyrimRGB"] == sky
+    assert set(lighting["ambientCube"]) == {"px", "nx", "py", "ny", "pz", "nz"}
 
 
 def test_an_armour_ground_model_is_a_wearable_and_effects_and_wearables_are_listed_drops():
@@ -616,3 +620,42 @@ def test_xrds_override_only_when_plausible():
     assert ex.light_radius_units(float("nan"), 256) == 256
     assert ex.light_radius_units(325.075, 256) == 325.075
     assert ex.light_radius_units(104.169, 384) == 104.169
+
+
+def _xcll(ambient=(10, 20, 30), cube=((1, 1, 1),) * 6, fade=(256.0, 512.0), inherits=0):
+    import struct
+    head = struct.pack("<4B4B4Bff ii fff", *ambient, 0, 50, 50, 50, 0, 9, 9, 9, 0,
+                       64.0, 6400.0, 0, 0, 1.0, 0.0, 1.0)
+    block = b"".join(struct.pack("<4B", *c, 0) for c in cube) + struct.pack("<4Bf", 5, 6, 7, 0, 0.5)
+    tail = struct.pack("<4Bf ff I", 3, 3, 3, 0, 1.0, *fade, inherits)
+    return head + block + tail
+
+
+def test_the_ambient_cube_is_read_in_game_axes():
+    # Skyrim X+ X- Y+(north) Y-(south) Z+(up) Z-(down)
+    cube = ((255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 255, 255), (0, 0, 0))
+    got = ex.resolve_lighting(_xcll(cube=cube), None, None, None)
+    c = got["ambientCube"]
+    assert c["px"] == [1.0, 0.0, 0.0] and c["nx"] == [0.0, 1.0, 0.0]
+    assert c["py"] == [1.0, 1.0, 1.0] and c["ny"] == [0.0, 0.0, 0.0]   # game up = Skyrim Z+
+    assert c["nz"] == [0.0, 0.0, 1.0] and c["pz"] == [1.0, 1.0, 0.0]   # game -z = north = Skyrim Y+
+    assert got["raw"]["ambientCubeSkyrimRGB"]["zp"] == [255, 255, 255]
+    assert got["specularRGB"] == [5, 6, 7] and got["fresnelPower"] == 0.5
+    assert (got["lightFadeBeginM"], got["lightFadeEndM"]) == (round(256 / ex.UNITS_PER_METRE, 3),
+                                                             round(512 / ex.UNITS_PER_METRE, 3))
+    assert abs(ex.ambient_cube({k: [128, 128, 128] for k in ex._CUBE_KEYS})["py"][0] - 0.21586) < 1e-4  # sRGB -> linear
+
+
+def test_the_ambient_cube_and_light_fade_inherit_from_the_template_dalc():
+    import struct
+    tdata = _xcll(fade=(1000.0, 2000.0))[:40] + b"\0" * 32 + _xcll(fade=(1000.0, 2000.0))[72:]
+    dalc = b"".join(struct.pack("<4B", 100, 100, 100, 0) for _ in range(6)) + struct.pack("<4Bf", 1, 2, 3, 0, 1.0)
+    own = _xcll(cube=((200, 200, 200),) * 6, inherits=0)
+    kept = ex.resolve_lighting(own, tdata, dalc, "T")
+    assert kept["raw"]["ambientCubeSkyrimRGB"]["xp"] == [200, 200, 200] and kept["template"] == "T"
+    both = ex.resolve_lighting(_xcll(cube=((200, 200, 200),) * 6, inherits=1 | (1 << 10)), tdata, dalc, "T")
+    assert both["raw"]["ambientCubeSkyrimRGB"]["xp"] == [100, 100, 100] and both["specularRGB"] == [1, 2, 3]
+    assert both["lightFadeEndM"] == round(2000 / ex.UNITS_PER_METRE, 3)
+    none = ex.resolve_lighting(None, tdata, dalc, "T")  # no XCLL: everything from the template
+    assert none["ambientCube"]["py"] == ex.ambient_cube({k: [100, 100, 100] for k in ex._CUBE_KEYS})["py"]
+    assert "ambientCube" not in ex.resolve_lighting(None, None, None, None)

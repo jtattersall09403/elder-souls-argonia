@@ -187,6 +187,26 @@ def footprint_province(cat: Catalogue, piece: Piece) -> list[tuple[float, float]
             for p in outline]
 
 
+def walk_plan_province(cat: Catalogue, piece: Piece) -> list[tuple[float, float]]:
+    """The plan a walked floor (`walkTopM`) is looked for in: the kit's
+    measured whole-plan outline (`planOutlineM`), turned and placed as the
+    footprint is; any other piece's footprint. A house on stilts' footprint
+    is its ground band, only the deepest feet (BM&V swamp house: 97 m2 of a
+    375 m2 plan), so its floor read inside the footprint lost most of the
+    floor (Riverwalk re-site: sockets on the floor read as standing in water)."""
+    row = cat.row(piece.asset)
+    if not isinstance(row.get("walkTopM"), (int, float)):
+        return footprint_province(cat, piece)
+    data = cat.sidecar(row["kit"], "footprints")
+    entry = data.get(piece.asset) or (data.get("assets") or {}).get(piece.asset) or {}
+    outline = entry.get("planOutlineM")
+    if not outline:
+        return footprint_province(cat, piece)
+    return [plan_to_province((piece.x, piece.z), piece.yaw,
+                             (float(p[0]) * piece.scale, float(p[1]) * piece.scale))
+            for p in outline]
+
+
 def seat(cat: Catalogue, ground, piece: Piece, source: str = "chunks") -> dict:
     """The runtime's own seat height for this pose (`anchoring.ts`
     `anchorPlacement` / `waterPlacementY`): ground pieces on the MEAN of the
@@ -283,6 +303,174 @@ def prop_seat(cat: Catalogue, ground, piece: Piece, source: str = "chunks") -> d
     if lift > PROP_FLOAT_MAX_M:
         got = {**got, "y": got["y"] - lift, "runtimeSeatY": got["y"], "footDropM": round(lift, 4)}
     return got
+
+
+def auto_settles(row: dict, walkable: bool) -> bool:
+    """A walkable piece seated by the water (anchorClass water, or piled, or
+    the stilt policy) is settled on `place` with no `settle` flag: it has one
+    seat (the water level), and an unseated deck silently dropped out of
+    every floor-aware rule (Riverwalk re-site, requests row 10)."""
+    return bool(walkable) and ((row.get("anchorClass") or "ground") == "water"
+                               or bool(row.get("piled")) or fit_of(row) == "stilt")
+
+
+def deck_seated(row: dict) -> bool:
+    """A house on stilts seated by the water: anchorClass water, a walked
+    floor (`walkTopM`) and no piled run. Its deck is level whatever the bed
+    does, so its footing slope is the deck plane's and its bed is judged per
+    stilt foot (`stilt_feet`)."""
+    paths.bridge()
+    from worldgen.compile_settlement import deck_seated as cs_deck_seated
+    return cs_deck_seated(row)                  # one rule with the compile's 97 B3 exemption
+
+
+def deck_slope_deg(piece) -> float:
+    """The tilt of a deck-seated piece's floor plane: its pitch and roll."""
+    return math.degrees(math.atan(math.hypot(math.tan(math.radians(piece.pitch or 0.0)),
+                                             math.tan(math.radians(piece.roll or 0.0)))))
+
+
+STILT_FOOT_LINK_M = 0.4    # vertices this close in plan belong to one stilt foot
+STILT_FOOT_BAND_M = 0.3    # a foot's bottom band: vertices within this of its lowest point
+
+
+LANDING_PART_TOKENS = ("dock", "plank", "landing", "jetty", "pier", "walkway")
+
+
+def offset_parts(cat, asset: str) -> list[dict]:
+    """A composite's offset parts (its landing plank) from the kit config's
+    `compose.parts`: {asset, lo, hi} with lo/hi the part's plan box in the
+    kit frame (mesh x east, y north), read from the part's own mesh."""
+    import json as _json
+    row = cat.row(asset)
+    cfg = paths.ASSET_PIPELINE / "pipeline" / "config" / "kits" / f"{row['kit']}.json"
+    out = []
+    if not cfg.exists():
+        return out
+    for a in _json.loads(cfg.read_text()).get("assets") or []:
+        if a.get("asset") != asset:
+            continue
+        for part in (a.get("compose") or {}).get("parts") or []:
+            if "offsetM" not in part:
+                continue
+            v = np.asarray(cat.mesh(part["asset"]).vertices) * float(part.get("scale", 1.0))
+            t = math.radians(float(part.get("yawDeg", 0.0)))
+            c, s_ = math.cos(t), math.sin(t)
+            xy = v[:, :2] @ np.array([[c, s_], [-s_, c]]) + np.asarray(part["offsetM"][:2])
+            out.append({"asset": part["asset"], "offsetM": list(part["offsetM"]),
+                        "lo": xy.min(0), "hi": xy.max(0)})
+    return out
+
+
+def landing_edges(cat, piece) -> list[dict]:
+    """The landing parts of a deck-seated composite (`offset_parts` whose
+    asset names a way: LANDING_PART_TOKENS), each as its outer and inner
+    edge in province metres: the box side farthest from the pivot along the
+    part's dominant offset axis is the outer (the shore) edge, its opposite
+    the inner (the house) edge; `outwardDeg` the bearing off the outer edge
+    (clockwise from north). Three samples per edge: its ends and middle."""
+    out = []
+    for part in offset_parts(cat, piece.asset):
+        stem = part["asset"].rsplit("/", 1)[-1].lower()
+        if not any(t in stem for t in LANDING_PART_TOKENS):
+            continue
+        (x0, y0), (x1, y1) = part["lo"], part["hi"]
+        ox, oy = part["offsetM"][0], part["offsetM"][1]
+        if abs(ox) >= abs(oy):          # plan frame: x east, z = -y south
+            xo, xi = (x1, x0) if ox > 0 else (x0, x1)
+            outer = [(xo, -y) for y in (y0, (y0 + y1) / 2, y1)]
+            inner = [(xi, -y) for y in (y0, (y0 + y1) / 2, y1)]
+            out_local = (1.0 if ox > 0 else -1.0, 0.0)
+        else:
+            yo, yi = (y1, y0) if oy > 0 else (y0, y1)
+            outer = [(x, -yo) for x in (x0, (x0 + x1) / 2, x1)]
+            inner = [(x, -yi) for x in (x0, (x0 + x1) / 2, x1)]
+            out_local = (0.0, -1.0 if oy > 0 else 1.0)
+
+        def prov(pts):
+            return [plan_to_province((piece.x, piece.z), piece.yaw,
+                                     (px * piece.scale, pz * piece.scale)) for px, pz in pts]
+        o, i = prov(outer), prov(inner)
+        ux, uz = o[1][0] - i[1][0], o[1][1] - i[1][1]
+        n = math.hypot(ux, uz) or 1.0
+        out.append({"asset": part["asset"], "outer": o, "inner": i,
+                    "unit": (ux / n, uz / n),
+                    "outwardDeg": round(math.degrees(math.atan2(ux, -uz)) % 360.0, 1)})
+    return out
+
+
+def _base_part_excluded(cat, asset: str):
+    """Plan boxes (kit frame) of a composite's offset parts: the stilt feet
+    are the base part's, the landing is landingRule's."""
+    return [(p["lo"], p["hi"]) for p in offset_parts(cat, asset)]
+
+
+STILT_MIN_SUBMERSION_M = 0.5
+"""A column ending less than this under the designed water surface is a
+waterline element (the BM&V swamp house's doorway step ends 0.27 m under
+it), never a bearing stilt; the house's shortest stilt ends 1.30 m under."""
+
+
+def stilt_feet_local(cat, asset: str) -> list[dict]:
+    """The stilt feet of a deck-seated piece, from its mesh: the vertices
+    more than STILT_MIN_SUBMERSION_M under its designed waterline (the part
+    the plugin stands in the water),
+    outside its offset parts, linked in plan within STILT_FOOT_LINK_M; each
+    foot's centre is its bottom band's, its bottom the lowest vertex, its
+    length the walked floor (`walkTopM`) over that bottom. Ids foot-0..n by
+    x then z (kit frame, x east, z south)."""
+    row = cat.row(asset)
+    v = np.asarray(cat.mesh(asset).vertices)
+    v = v[v[:, 2] < float(row.get("designedWaterlineM") or 0.0) - STILT_MIN_SUBMERSION_M]
+    for lo, hi in _base_part_excluded(cat, asset):
+        inside = np.all((v[:, :2] >= lo - 0.05) & (v[:, :2] <= hi + 0.05), axis=1)
+        v = v[~inside]
+    if not len(v):
+        return []
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import connected_components
+    from scipy.spatial import cKDTree
+    pairs = cKDTree(v[:, :2]).query_pairs(STILT_FOOT_LINK_M, output_type="ndarray")
+    n = len(v)
+    _k, lab = connected_components(coo_matrix((np.ones(len(pairs)), (pairs[:, 0], pairs[:, 1])),
+                                              shape=(n, n)), directed=False)
+    top = float(row["walkTopM"])
+    feet = []
+    for k in np.unique(lab):
+        s = v[lab == k]
+        bottom = float(s[:, 2].min())
+        band = s[s[:, 2] <= bottom + STILT_FOOT_BAND_M]
+        cx, cy = band[:, 0].mean(), band[:, 1].mean()
+        feet.append({"x": float(cx), "z": float(-cy), "bottomM": bottom, "lengthM": top - bottom})
+    feet.sort(key=lambda f: (round(f["x"], 2), round(f["z"], 2)))
+    return [{"id": f"foot-{i}", **f} for i, f in enumerate(feet)]
+
+
+def stilt_feet(cat, ground, piece) -> dict:
+    """stiltRule: each stilt foot of a deck-seated piece against the bed
+    under it (the chunk terrain, what the runtime draws). embed = bed minus
+    foot bottom (>= 0: the foot reaches the bed); a foot hanging over the bed
+    or buried past its own length below the deck fails, by id."""
+    feet = stilt_feet_local(cat, piece.asset)
+    if piece.y is None:
+        return {"stiltFeet": [], "stiltRule": "not seated: no y (place it walkable, or settle it)"}
+    pts = np.array([[f["x"], -f["z"], f["bottomM"]] for f in feet]) if feet else np.zeros((0, 3))
+    world = piece.world_points(pts) if len(pts) else pts
+    rows, why = [], []
+    for f, w in zip(feet, world):
+        x, z, yb = float(w[0]), float(-w[1]), float(w[2])
+        bed = float(ground.chunk_height(x, z))
+        embed = bed - yb
+        length = f["lengthM"] * piece.scale
+        rows.append({"id": f["id"], "xz": [round(x, 2), round(z, 2)], "footM": round(yb, 3),
+                     "bedM": round(bed, 3), "embedM": round(embed, 3), "lengthM": round(length, 3)})
+        if embed < 0.0:
+            why.append(f"{f['id']} hangs {-embed:.2f} m over the bed at ({x:.1f}, {z:.1f})")
+        elif embed > length:
+            why.append(f"{f['id']} buried {embed:.2f} m, past its {length:.2f} m length")
+    if not feet:
+        why.append("no stilt feet under the designed waterline in its mesh")
+    return {"stiltFeet": rows, "stiltRule": ("; ".join(why)) or None}
 
 
 def footing_slope_deg(ground, piece, poly) -> float:
@@ -399,6 +587,18 @@ def door_report(cat: Catalogue, scene, piece: Piece) -> dict | None:
                 # (radial records), not the way its wall faces
                 row["facingOffOutwardDeg"] = round(off, 1)
         rows.append(row)
+    if deck_seated(cat.row(piece.asset)):
+        # a house on stilts is entered over its own landing: the landing's
+        # outer (shore) edge is its threshold, facing off it (Riverwalk
+        # re-site: the measured opening faced the open water, 18.6 m from
+        # the path that met the landing)
+        for e in landing_edges(cat, piece):
+            x, z = e["outer"][1]
+            near = min(((line.distance(Point(x, z)), pid) for line, pid in lines), default=None)
+            rows.append({"thresholdM": [round(x, 3), round(z, 3)], "source": "landing",
+                         "facingDeg": e["outwardDeg"], "outwardDeg": e["outwardDeg"],
+                         "nearestPath": near and near[1],
+                         "pathDistanceM": None if near is None else round(near[0], 2)})
     if not rows:
         return None
     best = min(rows, key=lambda r: r["pathDistanceM"] if r["pathDistanceM"] is not None else 1e9)

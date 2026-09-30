@@ -2462,11 +2462,22 @@ def asset_fit(asset: dict) -> str | None:
     return (((asset.get("placement") or {}).get("evidence") or {}).get("policyId"))
 
 
+def deck_seated(asset: dict) -> bool:
+    """A house on stilts seated by the water (anchorClass water, a walked
+    floor `walkTopM`, no piled run): the workbench's `measure.deck_seated`."""
+    return ((asset.get("anchorClass") or "ground") == "water" and not asset.get("piled")
+            and isinstance(asset.get("walkTopM"), (int, float)))
+
+
 def fit_slope_failure(asset: dict, slope_deg: float,
                       limits: dict[str, float] = FIT_SLOPE_LIMIT_DEG) -> str | None:
     """Why this manifest row (carrying the `kit` that holds it) may not stand
     on `slope_deg`, or None."""
     if asset.get("kit") in SLOPE_EXEMPT_KITS or is_retaining_wall(asset):
+        return None
+    if deck_seated(asset):
+        # its deck seats level on the water whatever the bed does; the bed is
+        # judged per stilt foot (the workbench's stiltRule, Riverwalk re-site)
         return None
     fit = asset_fit(asset)
     if fit not in limits:

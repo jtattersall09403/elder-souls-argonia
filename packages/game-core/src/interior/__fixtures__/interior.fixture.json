@@ -1,5 +1,5 @@
 {
- "schemaVersion": 3,
+ "schemaVersion": 4,
  "cellId": "fixture.hut-int",
  "plugin": "Fixture.esp",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
@@ -240,6 +240,45 @@
   ],
   "nearM": 4,
   "farM": 30
+ },
+ "lighting": {
+  "ambientRGB": [
+   40,
+   34,
+   28
+  ],
+  "ambientCube": {
+   "px": [
+    0.02122,
+    0.016,
+    0.01161
+   ],
+   "nx": [
+    0.02122,
+    0.016,
+    0.01161
+   ],
+   "py": [
+    0.04519,
+    0.0319,
+    0.02122
+   ],
+   "ny": [
+    0.007,
+    0.00561,
+    0.00439
+   ],
+   "pz": [
+    0.02122,
+    0.016,
+    0.01161
+   ],
+   "nz": [
+    0.02122,
+    0.016,
+    0.01161
+   ]
+  }
  },
  "sockets": [
   {

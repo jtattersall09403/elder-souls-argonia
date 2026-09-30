@@ -222,7 +222,7 @@
           "what": "The long walk: plank spans on piles from the spit down the cove.",
           "whyHere": "The channel is the street; the boards carry the tracks over knee-deep water where there is no dry footing.",
           "whySpot": "From the spit's south shore down the cove to where it turns for the islet.",
-          "whyNeighbours": "The long house stands at its head on the spit.",
+          "whyNeighbours": "The long house stands in the water off the spit, near the head of the boards.",
           "playerPurpose": "The way through the village: the only dry route across the cove.",
           "microGeography": "Planks a hand's breadth over black water on sunk piles; the boards are of different ages."
         },
@@ -624,9 +624,9 @@
         "id": "parcel.riverwalk.crews-house",
         "districtId": "district.riverwalk.the-cove",
         "use": "dwelling",
-        "buildingFamily": "kotm-mudhut",
+        "buildingFamily": "bmv-swamp-house",
         "interior": {
-          "kind": "dwelling"
+          "kind": "none"
         },
         "services": [
           "lodging",
@@ -634,9 +634,10 @@
         ],
         "fills": [
           "promise.riverwalk.service-lodging",
-          "promise.riverwalk.service-trader"
+          "promise.riverwalk.service-trader",
+          "promise.riverwalk.safe-interior"
         ],
-        "orientationWhy": "Its door turns south-west to the head of the boards.",
+        "orientationWhy": "Its doorway and landing face west to the spit and the path from the head of the boards.",
         "playerPurpose": [
           {
             "kind": "bed",
@@ -650,12 +651,12 @@
           }
         ],
         "why": {
-          "what": "The long house, a mud house on the spit where the village sleeps and the crews take a bunk.",
-          "whyHere": "The village lives on crews stopping halfway along the boat lane; the spit is the only dry ground big enough for a house.",
-          "whySpot": "The spit's one level shelf, a few steps from the head of the boards.",
-          "whyNeighbours": "The shrine stands beside its door; the boards start below it.",
+          "what": "The long house, an open plank house on piles in the cove, where the household and the boat crews sleep.",
+          "whyHere": "The village lives on crews stopping halfway along the boat lane; a house big enough for them stands in the water, as every house in the cove does.",
+          "whySpot": "The shallows off the spit's east shore, where a short landing reaches it from the path at the head of the boards.",
+          "whyNeighbours": "The shrine stands on the spit by the path to the long house landing; the boards start below the shrine.",
           "playerPurpose": "A safe bed for the night; stores for the water.",
-          "microGeography": "A mud house on a low mud pad on the spit."
+          "microGeography": "A plank house on piles in knee-deep water, its landing laid against the doorway."
         },
         "assetRef": "composite:mud/kotm-house-pod",
         "centreUV": [
@@ -1269,10 +1270,10 @@
         "why": {
           "what": "A small shrine of totems and a chime on the spit.",
           "whyHere": "Crews leave an offering before they go back on the water.",
-          "whySpot": "Beside the long house yard, on its flat ground.",
+          "whySpot": "On the spit's flat ground, by the path to the long house landing.",
           "whyNeighbours": "The head of the boards is a few steps away.",
           "playerPurpose": "A shrine blessing before the water.",
-          "microGeography": "The spit's dry mud beside the long house."
+          "microGeography": "The spit's dry mud, by the path to the long house."
         },
         "assetRef": "mudmother:gv_meshes/argoniannest/argoniantotem01",
         "centreUV": [
@@ -1369,39 +1370,7 @@
         ]
       }
     ],
-    "doors": [
-      {
-        "id": "door.dunmer-north.riverwalk.1",
-        "parcelId": "parcel.riverwalk.crews-house",
-        "doorType": "load",
-        "fills": [
-          "promise.riverwalk.safe-interior"
-        ],
-        "interiorClaim": {
-          "culture": "argonian",
-          "interiorRef": "interior-kotm-v1",
-          "sizeClass": "large",
-          "tier": "A",
-          "cellId": "KeebaHouseCrafter",
-          "plugin": "King of the Murkmire.esp",
-          "interiorLoadDoorRef": "0809B4BD",
-          "arrivalMarker": {
-            "positionM": [
-              106.4963,
-              86.2485,
-              54.4948
-            ],
-            "yawDeg": 182.383
-          },
-          "why": "2 of 4 cells linked to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) fit; KeebaHouseCrafter is a dwelling serving lodging, room footprint ratio 1.399 to the shell, 2 storeys, 1 exterior load door; ties broken on the plugin's most-used cell (2 door links), then cell id"
-        },
-        "thresholdUV": [
-          0.976535783,
-          0.069958573
-        ],
-        "facingDeg": 203.2
-      }
-    ],
+    "doors": [],
     "routes": [
       {
         "id": "route.riverwalk.the-boards",
@@ -1442,7 +1411,7 @@
           "parcel.riverwalk.the-long-walk",
           "parcel.riverwalk.crews-house"
         ],
-        "why": "From the head of the boards up the spit to the long house door.",
+        "why": "From the head of the boards across the spit to the long house landing.",
         "via": [
           [
             0.975546701,
@@ -1716,7 +1685,7 @@
             0.081194492
           ]
         ],
-        "sequence": "Coming along the track from the west, the line of boards shows first across the water, then the long house on the spit at their head and the stage shelter on the islet at their foot.",
+        "sequence": "Coming along the track from the west, the line of boards shows first across the water, then the long house standing in the water off the spit near their head and the stage shelter on the islet at their foot.",
         "wayfinding": "The track meets the boards at their midpoint. The toll and the long house lie north; the islet and the ferry lie south, then east."
       }
     ],
@@ -2028,7 +1997,7 @@
       "households": 1,
       "buildingsPlanned": 7,
       "npcsPlanned": 5,
-      "why": "One household and the crews who stop the night share the long house. The spit is the only dry shelf big enough for a house; the islet takes a tent. Three plank walks join them, with a shrine and a ferry raft."
+      "why": "One household and the crews who stop the night share the long house, which stands on piles in the cove off the spit; the islet takes a tent. Three plank walks join them, with a shrine and a ferry raft."
     },
     "siting": {
       "dossier": "world/sources/sites/dossiers/riverwalk.json",
@@ -2130,233 +2099,6 @@
       "slopeMaxDeg": 30.0,
       "wadeMaxM": 0.7,
       "routes": {
-        "door:b-house": {
-          "points": [
-            [
-              7186.34,
-              0.35,
-              573.15
-            ],
-            [
-              7186.34,
-              0.35,
-              554.65
-            ],
-            [
-              7186.84,
-              0.35,
-              554.15
-            ],
-            [
-              7186.84,
-              0.35,
-              551.65
-            ],
-            [
-              7187.34,
-              0.35,
-              551.15
-            ],
-            [
-              7187.34,
-              0.35,
-              549.65
-            ],
-            [
-              7187.84,
-              0.35,
-              549.15
-            ],
-            [
-              7187.84,
-              0.35,
-              546.65
-            ],
-            [
-              7188.34,
-              0.35,
-              546.15
-            ],
-            [
-              7188.34,
-              0.35,
-              544.15
-            ],
-            [
-              7188.84,
-              0.35,
-              543.65
-            ],
-            [
-              7188.84,
-              0.35,
-              541.65
-            ],
-            [
-              7189.34,
-              0.35,
-              541.15
-            ],
-            [
-              7189.34,
-              0.35,
-              538.65
-            ],
-            [
-              7189.84,
-              0.35,
-              538.15
-            ],
-            [
-              7189.84,
-              0.35,
-              536.15
-            ],
-            [
-              7190.34,
-              0.35,
-              535.65
-            ],
-            [
-              7190.34,
-              0.35,
-              533.65
-            ],
-            [
-              7190.84,
-              0.35,
-              533.15
-            ],
-            [
-              7190.84,
-              0.35,
-              530.65
-            ],
-            [
-              7190.84,
-              0.46,
-              530.15
-            ],
-            [
-              7191.34,
-              0.79,
-              529.65
-            ],
-            [
-              7191.84,
-              1.11,
-              529.15
-            ],
-            [
-              7192.34,
-              1.44,
-              528.65
-            ],
-            [
-              7192.84,
-              1.84,
-              528.15
-            ],
-            [
-              7192.84,
-              2.18,
-              527.15
-            ],
-            [
-              7192.84,
-              2.34,
-              526.65
-            ],
-            [
-              7192.84,
-              2.34,
-              526.15
-            ],
-            [
-              7193.84,
-              2.38,
-              525.15
-            ],
-            [
-              7194.34,
-              2.41,
-              524.65
-            ],
-            [
-              7194.34,
-              2.35,
-              524.15
-            ],
-            [
-              7194.34,
-              2.25,
-              523.15
-            ],
-            [
-              7194.34,
-              2.14,
-              522.65
-            ],
-            [
-              7194.84,
-              1.85,
-              522.15
-            ],
-            [
-              7195.34,
-              1.55,
-              521.65
-            ],
-            [
-              7195.84,
-              1.24,
-              521.15
-            ],
-            [
-              7196.34,
-              1.04,
-              520.65
-            ],
-            [
-              7196.84,
-              0.96,
-              520.65
-            ],
-            [
-              7197.34,
-              0.86,
-              520.15
-            ],
-            [
-              7197.84,
-              0.81,
-              519.65
-            ],
-            [
-              7198.34,
-              0.8,
-              519.15
-            ],
-            [
-              7199.84,
-              0.8,
-              517.65
-            ],
-            [
-              7199.84,
-              0.8,
-              517.15
-            ]
-          ],
-          "routeM": 62.55,
-          "steepestDeg": 29.6,
-          "largestStepM": 0.114,
-          "deepestWadeM": 0.0,
-          "parcelId": "parcel.riverwalk.crews-house",
-          "doorIds": [
-            "door.dunmer-north.riverwalk.1"
-          ]
-        },
         "opening:b-stage": {
           "points": [
             [

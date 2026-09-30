@@ -1,5 +1,5 @@
 {
- "schemaVersion": 3,
+ "schemaVersion": 4,
  "cellId": "KeebaHouseSnailMinder",
  "plugin": "King of the Murkmire.esp",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
@@ -75,8 +75,8 @@
    33,
    27
   ],
-  "intensity": 8.189,
-  "rule": "interior-light-floor"
+  "intensity": 1.0,
+  "rule": "ambient-cube"
  },
  "fog": {
   "colorRGB": [
@@ -111,13 +111,87 @@
   "fogClipM": 71.12,
   "fogPower": 0.6,
   "fogFarRGB": [
-   23,
-   33,
-   22
+   86,
+   88,
+   69
   ],
   "fogMax": 1.0,
+  "lightFadeBeginM": 0.0,
+  "lightFadeEndM": 0.0,
   "inherits": 159,
-  "template": "SolitudeInteriors"
+  "specularRGB": [
+   0,
+   0,
+   0
+  ],
+  "fresnelPower": 1.0,
+  "template": "SolitudeInteriors",
+  "ambientCube": {
+   "px": [
+    0.0999,
+    0.07036,
+    0.04374
+   ],
+   "nx": [
+    0.0648,
+    0.07036,
+    0.03689
+   ],
+   "py": [
+    0.01938,
+    0.01681,
+    0.00972
+   ],
+   "ny": [
+    0.19807,
+    0.16827,
+    0.09759
+   ],
+   "pz": [
+    0.08228,
+    0.06301,
+    0.04092
+   ],
+   "nz": [
+    0.08228,
+    0.07619,
+    0.04092
+   ]
+  },
+  "raw": {
+   "ambientCubeSkyrimRGB": {
+    "xp": [
+     89,
+     75,
+     59
+    ],
+    "xn": [
+     72,
+     75,
+     54
+    ],
+    "yp": [
+     81,
+     78,
+     57
+    ],
+    "yn": [
+     81,
+     71,
+     57
+    ],
+    "zp": [
+     38,
+     35,
+     25
+    ],
+    "zn": [
+     123,
+     114,
+     88
+    ]
+   }
+  }
  },
  "placements": [
   {
@@ -2289,6 +2363,27 @@
    "zone": "bed"
   },
   {
+   "id": "KeebaHouseSnailMinder:add:bed-glazedcandles-13",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.759,
+    83.981,
+    59.435
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "bed"
+  },
+  {
    "id": "KeebaHouseSnailMinder:add:door-argonianlanterns-07",
    "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
    "kit": "mudmother-hut-int",
@@ -2310,55 +2405,13 @@
    "zone": "door"
   },
   {
-   "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-05",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "kit": "mudmother-hut-int",
-   "positionM": [
-    99.291,
-    89.005,
-    59.472
-   ],
-   "rotationDeg": [
-    0.0,
-    0.0,
-    0.0
-   ],
-   "scale": 1.0,
-   "category": "misc",
-   "base": null,
-   "baseType": null,
-   "source": "addition",
-   "zone": "store"
-  },
-  {
-   "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-06",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "kit": "mudmother-hut-int",
-   "positionM": [
-    103.291,
-    89.136,
-    54.972
-   ],
-   "rotationDeg": [
-    0.0,
-    0.0,
-    0.0
-   ],
-   "scale": 1.0,
-   "category": "misc",
-   "base": null,
-   "baseType": null,
-   "source": "addition",
-   "zone": "store"
-  },
-  {
-   "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-08",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "kit": "mudmother-hut-int",
+   "id": "KeebaHouseSnailMinder:add:door-glazedcandles-16",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
    "positionM": [
     104.291,
-    89.136,
-    57.972
+    83.46,
+    50.972
    ],
    "rotationDeg": [
     0.0,
@@ -2366,11 +2419,32 @@
     0.0
    ],
    "scale": 1.0,
-   "category": "misc",
+   "category": "clutter",
    "base": null,
    "baseType": null,
    "source": "addition",
-   "zone": "store"
+   "zone": "door"
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:hearth-glazedcandles-14",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.967,
+    83.482,
+    61.692
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "hearth"
   },
   {
    "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-09",
@@ -2430,6 +2504,27 @@
    ],
    "scale": 1.0,
    "category": "misc",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:store-glazedcandles-15",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    99.26,
+    84.222,
+    59.674
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
    "base": null,
    "baseType": null,
    "source": "addition",
@@ -2618,6 +2713,30 @@
    }
   },
   {
+   "refId": "fixture:KeebaHouseSnailMinder:add:bed-glazedcandles-13",
+   "positionM": [
+    108.579,
+    84.741,
+    59.355
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
    "refId": "fixture:KeebaHouseSnailMinder:add:door-argonianlanterns-07",
    "positionM": [
     105.291,
@@ -2642,74 +2761,50 @@
    }
   },
   {
-   "refId": "fixture:KeebaHouseSnailMinder:add:store-argonianlanterns-05",
+   "refId": "fixture:KeebaHouseSnailMinder:add:door-glazedcandles-16",
    "positionM": [
-    99.291,
-    88.455,
-    59.472
+    104.111,
+    84.22,
+    50.892
    ],
-   "radiusM": 7.283,
+   "radiusM": 1.821,
    "colorRGB": [
-    247,
-    139,
-    43
+    254,
+    234,
+    152
    ],
-   "fade": 0.921,
+   "fade": 1.5228,
    "flags": 0,
    "falloffExponent": 0.01,
-   "base": "SLightStreetStreet01",
+   "base": "WRCandleFlickerNS",
    "raw": {
     "xrdsUnits": null,
-    "baseRadiusUnits": 512,
-    "recordFade": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
     "recordFalloffExponent": 1.0
    }
   },
   {
-   "refId": "fixture:KeebaHouseSnailMinder:add:store-argonianlanterns-06",
+   "refId": "fixture:KeebaHouseSnailMinder:add:hearth-glazedcandles-14",
    "positionM": [
-    103.291,
-    88.586,
-    54.972
+    102.787,
+    84.242,
+    61.612
    ],
-   "radiusM": 7.283,
+   "radiusM": 1.821,
    "colorRGB": [
-    247,
-    139,
-    43
+    254,
+    234,
+    152
    ],
-   "fade": 0.921,
+   "fade": 1.5228,
    "flags": 0,
    "falloffExponent": 0.01,
-   "base": "SLightStreetStreet01",
+   "base": "WRCandleFlickerNS",
    "raw": {
     "xrdsUnits": null,
-    "baseRadiusUnits": 512,
-    "recordFade": null,
-    "recordFalloffExponent": 1.0
-   }
-  },
-  {
-   "refId": "fixture:KeebaHouseSnailMinder:add:store-argonianlanterns-08",
-   "positionM": [
-    104.291,
-    88.586,
-    57.972
-   ],
-   "radiusM": 7.283,
-   "colorRGB": [
-    247,
-    139,
-    43
-   ],
-   "fade": 0.921,
-   "flags": 0,
-   "falloffExponent": 0.01,
-   "base": "SLightStreetStreet01",
-   "raw": {
-    "xrdsUnits": null,
-    "baseRadiusUnits": 512,
-    "recordFade": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
     "recordFalloffExponent": 1.0
    }
   },
@@ -2782,6 +2877,30 @@
     "xrdsUnits": null,
     "baseRadiusUnits": 512,
     "recordFade": null,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseSnailMinder:add:store-glazedcandles-15",
+   "positionM": [
+    99.08,
+    84.982,
+    59.594
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
     "recordFalloffExponent": 1.0
    }
   },
@@ -3873,9 +3992,9 @@
   }
  ],
  "counts": {
-  "placements": 125,
+  "placements": 126,
   "drops": 14,
-  "lights": 15,
+  "lights": 16,
   "substitutions": 10,
   "swingDoors": 0,
   "missingByClass": {},
@@ -3892,6 +4011,6 @@
    "idle": 13,
    "item": 27
   },
-  "additions": 12
+  "additions": 13
  }
 }

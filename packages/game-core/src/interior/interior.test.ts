@@ -167,7 +167,7 @@ describe("InteriorLoader", () => {
   it("lights like the cell (walk 2 D2): radius as distance, decay 2 × the plugin falloff, the bundle's directional, no shadows", async () => {
     // KeebaHouseFisher's shipped lighting block and falloff, as published 2026-09-26.
     const keeba = structuredClone(fixture) as typeof fixture & Record<string, unknown>;
-    keeba.lighting = {
+    (keeba as Record<string, unknown>).lighting = {
       ambientRGB: [44, 33, 27], directionalRGB: [77, 62, 55], fogNearRGB: [89, 95, 102], fogNearM: 4.836,
       fogFarM: 71.12, directionalFade: 0.0, fogClipM: 71.12, fogPower: 0.6, fogFarRGB: [23, 33, 22], fogMax: 1.0,
     };
@@ -209,7 +209,9 @@ describe("InteriorLoader", () => {
     expect(meshes.reduce((n, m) => n + m.count, 0)).toBe(6);
     const points = cell.group.children.filter((c) => (c as THREE.PointLight).isPointLight) as THREE.PointLight[];
     expect(points.map((l) => l.distance)).toEqual([6, 3]);
-    expect(cell.group.children.filter((c) => (c as THREE.AmbientLight).isAmbientLight).length).toBe(1);
+    // schema 4: the cell's ambient cube is a LightProbe in place of the flat AmbientLight
+    expect(cell.group.children.filter((c) => (c as THREE.LightProbe).isLightProbe).length).toBe(1);
+    expect(cell.group.children.filter((c) => (c as THREE.AmbientLight).isAmbientLight).length).toBe(0);
     expect([cell.fog.near, cell.fog.far]).toEqual([4, 30]);
     expect(cell.solids.length).toBe(6);
     expect(cell.counts).toEqual({ placements: 6, substitutions: 0, meshes: 4, lights: 2, solids: 6, fires: 0 });

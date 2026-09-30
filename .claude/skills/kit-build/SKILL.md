@@ -51,6 +51,8 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
   `additiveGains`, material extra `gain`, `build_kit.apply_additive_gains`;
   material `<shape>.Mat`, a material with no such shape refuses the build). Refraction-only shapes (heat shimmer) are dropped into
   `droppedShapes`. Without the flag they ship opaque or masked: solid cards.
+  A piece whose NIF carries flame or glow effect-shader cards MUST set the flag:
+  `build_kit.unflagged_fire_card_errors` refuses the build otherwise.
 - The fire layer (walk 4) is mined from the NIF, for every piece of every
   kit (`build_kit.mine_fire_layer`, `pipeline/nif_blocks.py`): Skyrim draws
   flames as particle systems, which never convert to meshes, so each
@@ -68,10 +70,13 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
   and no fallback flame, and is not counted in place_gates' fixture density.
 - `"light": {formId, editorId, radiusUnits, colourRgb, flicker, flags,
   offsetM, evidence, burnSeconds}`: the Skyrim LIGH record the plugin places
-  with the piece (mined from the ref nearest the piece's refs), copied onto
+  with the piece, copied onto
   the manifest record by `build_kit.apply_light_records`; the shape of
   `game-core/fx/carriedLight` `LightRecord`, `offsetM` in glTF Y-up metres
   from the pivot. Example: works-v1 `campfire01burning` (LightCampFire01).
+  Written only by `pipeline/mine_kit_lights.py`, never by hand: the LIGH refs
+  placed beside the piece in its plugin cells (>= 2 hits, nearest within 200
+  units; `--assets … --merge`).
   The settlement runtime reads both (game-core `settlement/lighting.ts`,
   walk 2 D7): `light` sets a fixture's point-light radius (every fixture
   shares one warm colour, `FIXTURE_LIGHT_RGB`), and a fixture with no mined

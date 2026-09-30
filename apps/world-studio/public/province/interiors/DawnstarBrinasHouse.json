@@ -1,5 +1,5 @@
 {
- "schemaVersion": 3,
+ "schemaVersion": 4,
  "cellId": "DawnstarBrinasHouse",
  "plugin": "Skyrim.esm",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
@@ -80,8 +80,8 @@
    48,
    48
   ],
-  "intensity": 4.777,
-  "rule": "interior-light-floor"
+  "intensity": 1.0,
+  "rule": "ambient-cube"
  },
  "fog": {
   "colorRGB": [
@@ -116,13 +116,87 @@
   "fogClipM": 0.0,
   "fogPower": 1.0,
   "fogFarRGB": [
+   31,
+   52,
+   46
+  ],
+  "fogMax": 1.0,
+  "lightFadeBeginM": 0.0,
+  "lightFadeEndM": 0.0,
+  "inherits": 159,
+  "specularRGB": [
    0,
    0,
    0
   ],
-  "fogMax": 1.0,
-  "inherits": 159,
-  "template": "FarmLightingTemplate"
+  "fresnelPower": 1.0,
+  "template": "FarmLightingTemplate",
+  "ambientCube": {
+   "px": [
+    0.03071,
+    0.02956,
+    0.0319
+   ],
+   "nx": [
+    0.02122,
+    0.02956,
+    0.02624
+   ],
+   "py": [
+    0.0075,
+    0.00802,
+    0.0075
+   ],
+   "ny": [
+    0.05781,
+    0.06663,
+    0.06848
+   ],
+   "pz": [
+    0.02624,
+    0.02624,
+    0.02956
+   ],
+   "nz": [
+    0.02624,
+    0.0319,
+    0.02956
+   ]
+  },
+  "raw": {
+   "ambientCubeSkyrimRGB": {
+    "xp": [
+     49,
+     48,
+     50
+    ],
+    "xn": [
+     40,
+     48,
+     45
+    ],
+    "yp": [
+     45,
+     50,
+     48
+    ],
+    "yn": [
+     45,
+     45,
+     48
+    ],
+    "zp": [
+     21,
+     22,
+     21
+    ],
+    "zn": [
+     68,
+     73,
+     74
+    ]
+   }
+  }
  },
  "placements": [
   {

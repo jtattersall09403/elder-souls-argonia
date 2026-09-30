@@ -712,31 +712,50 @@
    ],
    "doorwaysMeasuredAboveFloorM": 0.6,
    "entrance": {
-    "arcM": 0.82,
-    "centreShiftM": 0.47,
-    "clearM": 1.9,
-    "kind": "opening",
+    "approachBearingDeg": 105.4,
+    "approachReachM": 1.38,
+    "arcM": 1.68,
+    "centreShiftM": -0.03,
+    "clearM": 2.7,
+    "doorAsset": "vanilla:architecture/docks/dockstrent02",
+    "kind": "approach",
     "offsetM": [
-     -6.53,
-     -0.38
+     8.19,
+     0.83
     ],
     "rayConfirmed": true,
-    "sideDeg": 262.5,
-    "sillYM": 2.73,
-    "widthM": 2.4
+    "sideDeg": 95.8,
+    "sillYM": 2.78,
+    "widthM": 1.6
    },
    "floorOffsetM": 6.0,
    "frontFaceFraction": 1.0,
    "headroomM": 2.76,
    "heightM": 16.14,
-   "interior": "shell",
+   "interior": "promised",
    "medianWallM": 1.96,
    "planAreaM2": 374.98,
    "planCentreM": [
     2.75,
     -1.6
    ],
-   "provenance": [],
+   "promiseReason": "Blackmarsh and Valenwood places the swamp house 47 times with no load door in any plugin, furnishing its own floor as an open house; Phase 12 builds its interior",
+   "provenance": [
+    {
+     "arcM": 0.82,
+     "centreShiftM": 0.47,
+     "clearM": 1.9,
+     "kind": "opening",
+     "offsetM": [
+      -6.53,
+      -0.38
+     ],
+     "rayConfirmed": true,
+     "sideDeg": 262.5,
+     "sillYM": 2.73,
+     "widthM": 2.4
+    }
+   ],
    "ringFraction": 0.889,
    "roofOverhead": true,
    "sizeClass": "large",
@@ -744,7 +763,7 @@
     6.0
    ],
    "storeys": 1,
-   "why": "measured to enclose a volume \u2014 89% of the ring at 1.6 m hits a wall, there is a roof overhead and 2.0 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
+   "why": "measured to enclose a volume (89% of the ring at 1.6 m hits a wall, a roof overhead) with no matched interior and no tileset rule: Blackmarsh and Valenwood places the swamp house 47 times with no load door in any plugin, furnishing its own floor as an open house; Phase 12 builds its interior"
   },
   "ferries:yamadori/ferries/plank_ferry_swamp_03": {
    "category": "misc",
@@ -2416,6 +2435,7 @@
    "esp-door",
    "assembly",
    "composite-leaf",
+   "approach",
    "door-piece",
    "leaf",
    "opening",

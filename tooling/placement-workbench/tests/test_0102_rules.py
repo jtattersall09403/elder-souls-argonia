@@ -243,10 +243,8 @@ def test_walk_fails_where_the_water_is_deeper_than_wading(cat, scene, monkeypatc
     """Planner ruling 7: a wet cell is walkable at most 0.7 m deep over the
     padded ground (0093). The well's approach crosses water 0.63 m deep and
     passes; at a 0.3 m limit it fails as wading. The walk-1 yard-set trough
-    stands on the well's tarn-side approach (the live layout removed both in
-    walk 5), so the unreached diagnosis names it before the water: it is taken
-    out so the only thing closing the approach is the wading depth."""
-    scene.remove("isy-trough")
+    stands beside the well's tarn-side approach and stays: the diagnosis names
+    the water, never the prop beside it (`_wading_block`)."""
     t = _target(rules.walk(cat, scene), "well")
     assert t["ok"] and 0.3 < t["deepestWadeM"] <= rules.WADE_MAX_M
     monkeypatch.setattr(rules, "WADE_MAX_M", 0.3)
@@ -254,6 +252,33 @@ def test_walk_fails_where_the_water_is_deeper_than_wading(cat, scene, monkeypatc
     t = _target(got, "well")
     assert not t["ok"] and t["reason"].count("by wading")
     assert any(f.startswith("well: walk to its opening") for f in got["failures"])
+
+
+def test_unreached_names_wading_before_a_prop_beside_the_path():
+    """A target across deep water, a prop standing in the water on the line to
+    it: the first blocked edge out of the nearest reached cell is the prop,
+    but the target is reached once deep water may be walked, so the reason
+    is wading (the walk-5 isy-trough masking, on a synthetic 12 x 5 grid)."""
+    from scipy.sparse.csgraph import dijkstra
+    g = object.__new__(rules.WalkGrid)
+    g.nz, g.nx, g.step_m, g.uids = 5, 12, 0.3, ["prop"]
+    g.Z, g.X = (a * rules.CELL_M for a in np.mgrid[0:5, 0:12].astype(float))
+    g.H, g.src = np.zeros((5, 12)), np.full((5, 12), -1)
+    g.block = np.full((5, 12), -1)
+    g.block[2, 5] = 0                                   # the prop, in line with the target
+    g.depth = np.zeros((5, 12))
+    g.depth[:, 5:8] = 1.2                               # a channel deeper than any wade
+    g.deep = g.depth > rules.WADE_MAX_M
+    start, goal = 2 * 12 + 0, (2, 10)
+    dist, _ = dijkstra(g.graph(), directed=False, indices=start, return_predecessors=True)
+    assert not np.isfinite(dist[2 * 12 + 10])
+    assert rules._why_unreached(g, dist, goal)["reason"] == "obstacle prop"   # the mask
+    wd, wp = dijkstra(g.graph(wade_any_depth=True), directed=False, indices=start,
+                      return_predecessors=True)
+    got = rules._wading_block(g, wp, wd, [2 * 12 + 10], goal)
+    assert got["reason"] == "wading" and got["value"] == got["deepestWadeM"] == 1.2
+    assert got["blockingCellM"][0] == pytest.approx(5 * rules.CELL_M)
+    assert got["lastReachedM"][0] == pytest.approx(4 * rules.CELL_M)
 
 
 def test_walk_targets_every_unsealed_doorway(cat, scene):

@@ -227,16 +227,20 @@ rows check the answers that show in a picture.
 
 ## 7. Interior lighting (16k walk 5)
 
-The plugin's lights and cell lighting are copied verbatim (§ 3); Skyrim
-lit them for its own eye adaptation, so under our ACES at exposure 1 a
-KotM hut's template ambient reads black away from its hearth (walk 5:
-median E 0.028, 96–99 % of the floor dark). The exporter applies one rule
-before it writes, `worldgen/interior_light.py apply_light_rule`:
+The plugin's lights and cell lighting are copied verbatim (§ 3),
+including the cell's directional-ambient cube: the XCLL (or its LGTM
+template's) DALC, exported as `lighting.ambientCube` (interior bundle
+schema 4). The loader turns it into a LightProbe (`ambientCubeToSH` in
+game-core `interior/bundle.ts`, SH bands 0–2), so a floor gets the cube's
++Y and a wall its side faces. **A cell is lit by its cube plus its
+sources, with no fill.** The exporter applies one rule before it writes,
+`worldgen/interior_light.py apply_light_rule`:
 
 | Step | What | From |
 |---|---|---|
 | 1 | Every lit fixture (lantern, candle) whose kit asset has a mined LIGH and no plugin light within 1.0 m gets that light, `refId: fixture:<placement id>` | kit manifest `light` (radius, colour, `offsetM`) |
-| 2 | Cell ambient `intensity` raised until the unlit five-face mean reaches `FILL_E` 0.15 (≈45/255 on an albedo-0.3 wall); `ambient.rule: interior-light-floor` | the cell's own ambient and directional colours |
+| 2 | A cell WITH a cube keeps its ambient at intensity 1 (`ambient.rule: ambient-cube`). Fallback only for a cell with no cube: the flat ambient is raised until the unlit five-face mean reaches `FILL_E` 0.15 (`ambient.rule: interior-light-floor`) | the cell's own DALC; else its ambient and directional colours |
+| 3 | Each light's `fade` and `falloffExponent` set so the runtime curve follows Skyrim's point-light curve | `skyrim_curve` |
 
 A hearth is the plugin's; a burning hearth piece gets its flame from the
 fire module (fire.md), never from this rule. A cell with no light record
@@ -246,20 +250,18 @@ at all fails.
 `python3 -m worldgen.interior_light <bundle.json ...>` (from
 `tooling/world-generation`) samples the roofed standable floor on
 `interior_walk`'s 0.5 m grid at 1.2 m eye height, with the loader's own
-light model (`test_interior_light.py` pins the constants). Bar: at most
-30 % of nodes under `DARK_E` 0.12. `--reached` keeps only nodes reached
-from the doors (~30 s a cell); `--apply` applies the rule to a published
-bundle in place.
+light model (`test_interior_light.py` pins the constants) against the
+bars below. `--reached` keeps only nodes reached from the doors
+(~30 s a cell); `--apply` applies the rule to a published bundle in place.
 
-**Flat or lit by its sources.** Raising the ambient passes the dark bar but
-can leave a room evenly grey. The same run reports `light_balance`: the
+**The bars** (both from the same run). Dark: at most `MAX_DARK_FRACTION`
+30 % of nodes under `DARK_E` 0.12. Source-led: `light_balance` gives the
 share of each spot's E that comes from the cell's lights, and
-`sourceLedFraction`, the fraction of the walked floor where that share is at
-least 50 %. Under 70 % the cell is `flat` (a failure with `--balance`, a
-flag without it). The judged half is reader row 48, on renders of the cell
-under the same light model. Before the additions all eight tier A cells
-measured flat (0–4 % source-led, 2026-09-29); with them the seven KotM cells
-read 71–80 % and DawnstarBrinasHouse 97 %.
+`sourceLedFraction` (the fraction of the walked floor where that share is at
+least 50 %) must be ≥ `MIN_SOURCE_LED_FRACTION` 0.70, else the cell is
+`flat` (a failure with `--balance`, a flag without it). The judged half is
+reader row 48. Measured 2026-09-30 on the cube with no fill: the eight tier
+A cells read 83–100 % source-led, dark 1–14 %.
 A light reference's XRDS radius counts only when positive and at least a
 quarter of its LIGH's base radius (`export_interior_bundle.light_radius_units`):
 KotM carries negative and sliver values (a 0.38 m Lilmoth hearth light).
@@ -278,9 +280,19 @@ fixture's fallback). `--day` / `--night` render one row. A reader judges
 readable, warm, lit by its sources, not flat.
 
 **Design the lighting first time** (decision 0109). A dim or flat tier A
-cell is fixed with more sources, never a higher fill. Every living zone of
-a tier A cell (bed, table, hearth, work, door) has a flame fixture within
-2 m, and there is at least one lit fixture per 12 m² of walkable floor.
+cell is fixed with more sources, never a fill or a raised ambient. Every living zone of
+a tier A cell (bed, table, hearth, work, store, door) gets ONE local low
+source within 1.5 m of its furniture (the light below the furniture's floor
++ 2.5 m), on or beside it: `glazedcandles01` on a table, shelf, chest or
+cupboard top in a Keeba (Argonian) hut, else on the floor beside it;
+`candlehorntable01` on a table or counter, else `candlehornwall01`, else
+`candlehornfloor01`, in a Lilmoth (Imperial) house. Hanging
+`argonianlanterns04` go only over open floor with no furniture surface
+under them, at most 1 per 30 m² of walkable floor: the overhead lanterns'
+broad 1-(d/r)² falloffs overlap into an even warm wash that readers judge
+flat (walk 5 round 3). Surplus lanterns come out greedily, cheapest
+source-led loss first, while source-led stays ≥ 0.70 and dark under its bar.
+A stair gets a source its own doorway view sees, or a floor horn beneath it.
 Prefer the plugin's own fixture kinds (candles, candle-horns, lanterns)
 placed where a resident would: on the table, beside the bed, on the hearth
 wall, and beside the door on the inside. Write them in
@@ -305,5 +317,8 @@ floor (the kit's `argonianlanterns03` is the same lantern on a 2.15 m cord and
 sits in the 19 MB dungeon-root kit). Then the builder adds the spot that
 raises source-led most, one at a time, to 72 % (Imperial: at least 12 pieces;
 the Plantation storehouse to 1 lit fixture per 12 m²), capped at 1 lit fixture
-per 12 m² in a hut. The seats are measured by ray cast before export
+per 12 m² in a hut. The 2026-09-30 round replaced that density with the
+rule above (`rethin.py`: zone sources, then lantern thinning). The seats are
+measured by ray cast before export, every contact on one surface ±2 cm and no
+other piece's vertex inside the fixture's box
 (`tooling/.reports/16k/interior-light-additions/`).

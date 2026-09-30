@@ -100,7 +100,13 @@ def test_open_floor_house_with_its_floor_out_of_reach_fails_naming_the_floor(
         base, cat, tmp_path, monkeypatch):
     scene = _view(base, tmp_path)
     _blueprint(tmp_path, monkeypatch, scene, "none")
-    _house(cat, scene, lift=1.5)
+    p = _house(cat, scene)
+    # clear of every ground under its whole plan (the floor is read over the
+    # plan outline, `measure.walk_plan_province`: a hillside meeting the floor
+    # reaches it, Riverwalk re-site 2026-09-30)
+    g = scene.ground()
+    top = max(float(g.chunk_height(x, z)) for x, z in measure.walk_plan_province(cat, p))
+    p.y += max(1.5, top + 2.0 - rules._walk_top_y(cat, p))   # over its doorway step too
     got = rules.walk(cat, scene)
     t = next(t for t in got["targets"] if t["uid"] == "fh")
     assert t["id"] == "floor:fh" and not t["ok"]

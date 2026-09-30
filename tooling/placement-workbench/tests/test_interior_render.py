@@ -5,6 +5,8 @@ runtime's intensity, and the fires the interior loader burns."""
 from __future__ import annotations
 
 import math
+
+import pytest
 import sys
 from pathlib import Path
 
@@ -125,6 +127,22 @@ def test_flame_cards_of_a_piece_with_flames_draw_emissive_and_a_bed_s_are_hidden
     assert glow == ["TorchFlame:0.Mat"] and cards == ["Flames02:0.Mat"]
     assert {f["id"] for f in fires} == {"t", "h"}
     assert next(f for f in fires if f["id"] == "h")["heightM"] >= 0.4      # a visible bed proxy
+
+
+def test_a_hearth_bed_proxy_is_the_game_s_brazier_flame_at_piece_scale():
+    """fxfirewithembers01 on a hut's hearth burns the `brazier` preset
+    (fireTypes.ts: 0.55 m tall, 0.30 m wide, 0.12 m spread) times its
+    placement scale; the proxy carries that size, never a fixed 0.45 m."""
+    rows = {"vanilla:effects/fxfirewithembers01": {
+        "sizeM": [1.0, 1.0, 0.8], "originOffsetM": [0.5, 0.5, 0.0],
+        "flameCardMaterials": ["Flames02:0.Mat"]}}
+    p = dict(_p("h", "vanilla:effects/fxfirewithembers01", [0.0, 0.0, 0.0]), scale=1.5)
+    fires, _, _ = ir.fire_list({"placements": [p]}, lambda q: rows.get(q["assetId"]))
+    (bed,) = fires
+    assert math.isclose(bed["heightM"], 0.55 * 1.5) and math.isclose(bed["widthM"], 0.30 * 1.5)
+    assert math.isclose(bed["spreadM"], 0.12 * 1.5)
+    assert ir.bed_preset("k:campfire01", {}) == "campfire"
+    assert ir.bed_preset("k:hearthfire", {}) == "hearth"
 
 
 def test_stand_ins_and_swing_doors_draw_as_the_loader_draws_them():
@@ -428,10 +446,10 @@ def test_a_landing_over_the_main_floor_splits_the_eyes():
         assert e[0] > 3.0 and abs(e[2] - ir.EYE_M) < 1e-9       # on the main floor, off the landing
     d, aim = eyes["doorway"]
     assert abs(d[2] - (3.0 + ir.EYE_M)) < 1e-9
-    # the edge eye looks steeply down past the landing's own floor (walk 5,
-    # KeebaHouseCrafter): the view that scores looks across the room
-    assert 0.0 < d[0] <= 3.0 - ir.EDGE_BACK_M + 1e-9 and aim[2] > eyes["target"][2]
-    assert ir.score_eye(cast, d, aim) >= ir.MIN_SCORE_M
+    # the landing's edge, LANDING_BACK_M back, looking down at the hub no
+    # steeper than MAX_PITCH_DEG (walk 5: Lilmoth Glassworks, KeebaHouseCrafter)
+    assert abs(d[0] - (3.0 - ir.LANDING_BACK_M)) <= ir.DOOR_STEP + 1e-9
+    assert -ir.MAX_PITCH_DEG - 1e-6 <= _pitch_deg(d, aim) < 0.0
     # no drop on the line (arrival on the main floor): 1.2 m in from the door
     flat, _ = ir.doorway_eye(cast, (3.05, 5.0, 0.0), (8.0, 5.0), 0.0)
     assert abs(flat[0] - (3.05 + ir.DOOR_IN_M)) < 1e-9 and abs(flat[2] - ir.EYE_M) < 1e-9
@@ -494,3 +512,73 @@ def test_a_hub_by_the_door_gives_a_level_view_down_the_room():
     d, aim = ir.doorway_eye(cast, (0.05, 4.0, 0.0), (0.55, 4.0), 0.0)
     assert abs(_pitch_deg(d, aim)) <= ir.MAX_PITCH_DEG + 1e-6
     assert aim[0] - d[0] >= ir.MIN_CENTRE_M and ir.score_eye(cast, d, aim) >= ir.MIN_SCORE_M
+
+
+def test_the_render_ambient_cube_is_the_runtime_probe_in_blender_axes():
+    cube = {"px": [0.1, 0.1, 0.1], "nx": [0.2, 0.2, 0.2], "py": [0.4, 0.3, 0.2], "ny": [0.0, 0.0, 0.0],
+            "pz": [0.05, 0.05, 0.05], "nz": [0.3, 0.3, 0.3]}
+    got = ir.ambient_of({"ambient": {"colorRGB": [44, 33, 27], "intensity": 1.0}, "lighting": {"ambientCube": cube}})
+    assert got["ambient"] == [ir.AMBIENT_SCALE] * 3        # the emission scale is intensity x pi / pi
+    bc = got["ambientCube"]
+    for key, game_n in (("px", (1, 0, 0)), ("nx", (-1, 0, 0)), ("py", (0, 1, 0)), ("ny", (0, -1, 0)),
+                        ("pz", (0, 0, 1)), ("nz", (0, 0, -1))):
+        assert ir.cube_at(bc, ir.to_blender(game_n)) == pytest.approx(cube[key])
+    flat = ir.ambient_of({"ambient": {"colorRGB": [44, 33, 27], "intensity": 2.0}})
+    assert flat["ambientCube"] is None
+
+
+def test_a_beam_over_the_doorway_frame_vetoes_the_eye():
+    """16k walk 5 (Lilmoth overseer houses, KeebaHouseFisher): a beam over
+    the top of the doorway frame, 2 m ahead and ~1 m over the eye, blocks
+    only 5 of the 66 frame probes (score_eye passes) but 5 of the 22
+    up-facing ones within OCCUPIED_M: `occupied` vetoes it, and the doorway
+    search stands past it."""
+    beam = (3.05, 3.1, 2.5, 3.25, 4.9, 2.9)
+    cast = _solids_cast(_BOX12 + [beam])
+    eye, target = (1.25, 4.0, 1.6), (6.0, 4.0, 1.6)
+    assert ir.score_eye(cast, eye, target) >= ir.MIN_SCORE_M
+    assert ir.door_score(cast, eye, target) == 0.0
+    assert ir.door_score(_solids_cast(_BOX12), eye, target) >= ir.MIN_SCORE_M
+    d, aim = ir.doorway_eye(cast, (0.05, 4.0, 0.0), (6.0, 4.0), 0.0, target=target)
+    assert ir.door_score(cast, d, aim) >= ir.MIN_SCORE_M
+    assert abs(_pitch_deg(d, aim)) <= ir.MAX_PITCH_DEG + 1e-6
+
+
+_BOX14 = [(-1.0, -1.0, -0.2, 15.0, 15.0, 0.0), (-1.0, -1.0, 4.0, 15.0, 15.0, 4.2),
+          (-1.0, -1.0, 0.0, 0.0, 15.0, 4.0), (14.0, -1.0, 0.0, 15.0, 15.0, 4.0),
+          (0.0, -1.0, 0.0, 14.0, 0.0, 4.0), (0.0, 14.0, 0.0, 14.0, 15.0, 4.0)]
+
+
+def test_a_blocked_door_line_takes_a_side_spot_with_the_door_behind():
+    """DawnstarBrinasHouse: a screen across the door-to-hub line (hub 1 m
+    in) leaves no passing eye on the line; the arrival-level search within
+    SIDE_RADIUS_M of the door finds a clear spot off the line whose view
+    turns more than DOOR_BEHIND_DEG from the door, level."""
+    screen = (1.4, 5.0, 0.0, 1.6, 9.0, 4.0)
+    cast = _solids_cast(_BOX14 + [screen])
+    door = (0.05, 7.0, 0.0)
+    d, aim = ir.doorway_eye(cast, door, (1.0, 7.0), 0.0)
+    assert ir.door_score(cast, d, aim) >= ir.MIN_SCORE_M
+    assert math.hypot(d[0] - door[0], d[1] - door[1]) <= ir.SIDE_RADIUS_M + 1e-6
+    v, b = (aim[0] - d[0], aim[1] - d[1]), (door[0] - d[0], door[1] - d[1])
+    ang = math.degrees(math.acos((v[0] * b[0] + v[1] * b[1]) / (math.hypot(*v) * math.hypot(*b))))
+    assert ang > ir.DOOR_BEHIND_DEG
+    assert abs(_pitch_deg(d, aim)) <= ir.MAX_PITCH_DEG + 1e-6
+    plan = {"belowZ": 0.0, "mainZ": 0.0, "centroid": (7.0, 7.0), "arrivalXY": (1.0, 7.0)}
+    assert ir.eye_plan(cast, plan, door)["doorway"] is not None
+
+
+def test_a_lattice_rail_between_the_frame_probes_fills_the_occupancy_grid():
+    """KeebaHouseCrafter's doorway: lattice slats 2 m ahead at the odd
+    5-degree yaws slip between all 66 FRAME_PROBES; `occupied` casts the
+    5-degree NEAR_GRID and counts them."""
+    eye, ahead = (4.0, 4.0, 1.6), (1.0, 0.0, 0.0)
+    slats = [(5.99, 4.0 + 2.0 * math.tan(math.radians(a)) - 0.01, 0.0,
+              6.01, 4.0 + 2.0 * math.tan(math.radians(a)) + 0.01, 2.6)
+             for a in (-35, -25, -15, -5, 5, 15, 25, 35)]
+    cast = _solids_cast(_BOX12 + slats)
+    bare = _solids_cast(_BOX12)
+    assert all(cast(eye, ir._turn(ahead, y, pt), ir.OCCUPIED_M) == bare(eye, ir._turn(ahead, y, pt), ir.OCCUPIED_M)
+               for y, pt, _ in ir.FRAME_PROBES)
+    assert ir.occupied(cast, eye, ahead)
+    assert not ir.occupied(_solids_cast(_BOX12), eye, ahead)

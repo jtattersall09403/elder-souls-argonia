@@ -7,6 +7,7 @@
  */
 
 import { swingPoseProblem, type InteriorSwingDoor } from "./swingDoors";
+import { isAmbientCube, type AmbientCube } from "./ambientCube";
 
 /**
  * 2 (16k walk 4, owner 2026-09-28): every `doors[]` entry carries `doorType`;
@@ -17,9 +18,12 @@ import { swingPoseProblem, type InteriorSwingDoor } from "./swingDoors";
  * `{doorType, interiorLoadDoorRef, loadDoor}` and the pairing (which exterior
  * door, its arrival marker) is the place's door record (`interiorClaim`).
  * Schema 2 still parses: its per-place door fields are ignored.
+ * 4 (2026-09-30): `lighting.ambientCube`, the cell's directional ambient
+ * (ambientCube.ts), lights the cell in place of the flat `ambient` colour.
+ * Schema 3 still parses (no cube: the flat ambient).
  */
-export const INTERIOR_BUNDLE_SCHEMA_VERSION = 3;
-const READABLE_SCHEMA_VERSIONS: readonly number[] = [2, INTERIOR_BUNDLE_SCHEMA_VERSION];
+export const INTERIOR_BUNDLE_SCHEMA_VERSION = 4;
+const READABLE_SCHEMA_VERSIONS: readonly number[] = [2, 3, INTERIOR_BUNDLE_SCHEMA_VERSION];
 
 export type Vec3 = [number, number, number];
 
@@ -144,9 +148,13 @@ export interface InteriorBundle {
   fog: { colorRGB: ColorRGB; nearM: number; farM: number };
   /**
    * The cell's XCLL/LGTM lighting as the plugin records it; the runtime reads
-   * `directionalRGB` (the cell's directional light). Absent on older bundles.
+   * `directionalRGB` (the cell's directional light) and, from schema 4,
+   * `ambientCube` (linear, game axes; replaces the flat `ambient` colour,
+   * scaled by `ambient.intensity`). Absent on older bundles.
    */
-  lighting?: { directionalRGB?: ColorRGB; directionalFade?: number; [field: string]: unknown };
+  lighting?: {
+    directionalRGB?: ColorRGB; directionalFade?: number; ambientCube?: AmbientCube; [field: string]: unknown;
+  };
   /** Socket records (0103 decision 5); the interior runtime does not read them. */
   sockets: unknown[];
   /** References the exporter dropped, each with its reason. */
@@ -217,7 +225,8 @@ export function parseInteriorBundle(raw: unknown, source: string): InteriorBundl
     }
   }
   if (b!.lighting !== undefined && (typeof b!.lighting !== "object" || b!.lighting === null
-    || (b!.lighting.directionalRGB !== undefined && !isRgb(b!.lighting.directionalRGB)))) {
+    || (b!.lighting.directionalRGB !== undefined && !isRgb(b!.lighting.directionalRGB))
+    || (b!.lighting.ambientCube !== undefined && !isAmbientCube(b!.lighting.ambientCube)))) {
     fail("bad lighting");
   }
   if (!isRgb(b!.ambient?.colorRGB) || !isNum(b!.ambient?.intensity)) fail("bad ambient");

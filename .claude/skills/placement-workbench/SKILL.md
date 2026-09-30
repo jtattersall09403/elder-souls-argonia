@@ -166,7 +166,21 @@ for trying a pose by hand:
   turns a piece by yaw and pitch only).
 - Water pieces (`anchorClass water`) settle on the recorded level; a
   landing stage runs from the dry shore to the hull (tip within 0.5 m of
-  the wet edge and of the hull outline).
+  the wet edge and of the hull outline). A `walkable` water, piled or stilt
+  piece settles on `place` with no `settle` flag (`measure.auto_settles`).
+- A house on stilts (anchorClass water + `walkTopM`, e.g.
+  `composite:stilt/swamp-house-with-landing`; `measure.deck_seated`) seats
+  its deck at the plugin's waterline over the drawn water; 97 B3 reads its
+  deck plane (0 when level) and `stiltRule` judges the bed per stilt foot
+  (`check` row `stiltFeet`: foot-0..n from the mesh, each `embedM` = bed minus
+  foot bottom, fail when a foot hangs over the bed or is buried past its own
+  length). Its composite's landing plank is baked into the kit mesh (the
+  template's pose, no per-placement override): site the HOUSE so the
+  landing's outer edge rests on dry ground at deck height (`landingRule`
+  row `landings[]`: `landDropM` within 0.2 m, `groundOverWaterM` > 0); that
+  edge is its doorway for `doors`/pathReachRule (source `landing`). A
+  parcel with a `walkTopM` that is no floor service carries `floorService`
+  (its named cause) in its `check` row; "not seated" fails `floorServiceRule`.
 
 ## 5. Measure everything
 
