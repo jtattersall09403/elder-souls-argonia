@@ -44,6 +44,7 @@ import {
   updateSettlementEnvironment,
   type SettlementMaterialUniforms,
 } from "./materials";
+import { isLanternShellMaterial } from "./fixtureGlow";
 import {
   SETTLEMENT_COLLISION_FRAME,
   type SettlementBundle,
@@ -91,6 +92,8 @@ interface DrawBucket {
   flame?: boolean;
   /** The card's piece, or the fire kind it is mounted on, burns by day (lighting.ts `burnsByDay`). */
   alwaysLit?: boolean;
+  /** A lantern's shell, lit from inside on the lamp clock (fixtureGlow.ts). */
+  shell?: boolean;
 }
 
 /**
@@ -933,6 +936,7 @@ export function SettlementLayer({
               bucket.flame = true;
               bucket.alwaysLit = litByDay;
             }
+            if (isLanternShellMaterial(part.material, meta)) bucket.shell = true;
             const partTransform = transform.clone().multiply(part.localMatrix);
             if (farMerged) {
               bucket.farTransforms.push(partTransform);
@@ -995,6 +999,7 @@ export function SettlementLayer({
         // A glow material is one the kit build gave an emissive map (the NIF's
         // Glow_Map slot, build_kit rebuild_material), never a name match.
         const glowMaterial = bucket.flame ? (bucket.alwaysLit ? "flame" as const : "lamp-flame" as const)
+          : bucket.shell ? "lamp-shell" as const
           : isSettlementGlowMaterial(bucket.part.material);
         const material = materialVariant(bucket.part.material, String(glowMaterial));
         bucket.material = material;

@@ -80,7 +80,9 @@ function pieceGlb(kitName, assetId) {
       // the source's diffuse and alpha mode ride along: an alpha-cut piece
       // (the torch's MASK wraps) drawn flat and opaque reads as a skeleton
       const sm = src.materials[mi]; const tex = sm.pbrMetallicRoughness?.baseColorTexture;
+      // extras ride along too: the runtime reads the NIF shader flags there (fixtureGlow.ts)
       const m = { ...out.materials[0], name: sm.name, doubleSided: sm.doubleSided,
+        ...(sm.extras ? { extras: sm.extras } : {}),
         ...(sm.alphaMode ? { alphaMode: sm.alphaMode, alphaCutoff: sm.alphaCutoff } : {}) };
       if (tex !== undefined) m.pbrMetallicRoughness = { ...m.pbrMetallicRoughness,
         baseColorFactor: [1, 1, 1, 1], baseColorTexture: { index: texture(tex.index) } };
@@ -133,6 +135,7 @@ import { FlameSystem } from "/fire/FlameSystem.js";
 import { FIRE_PRESETS } from "/fire/fireTypes.js";
 import { interiorFlameAnchorsLocal } from "/fire/interiorFires.js";
 import { isFlameCardMaterial, manifestBoxYUp } from "/fire/flameAnchors.js";
+import { applyLanternShell, isLanternShellMaterial } from "/settlement/fixtureGlow.js";
 const canvas = document.getElementById("c");
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -158,6 +161,10 @@ window.renderFixture = async (key) => {
   const gltf = await new GLTFLoader().loadAsync("/piece/" + encodeURIComponent(key));
   const node = gltf.scene.children[0];
   node.traverse((o) => { if (o.isMesh && isFlameCardMaterial(row, o.material.name)) o.visible = false; });
+  // a lantern's shell glows as the runtime patch makes it (fixtureGlow.ts),
+  // on the lamp clock: out in the day row, lit in the night row
+  const shells = [];
+  node.traverse((o) => { if (o.isMesh && isLanternShellMaterial(o.material, row)) { applyLanternShell(o.material); shells.push(o.material); } });
   const piece = node.clone(true);
   piece.position.set(0, 0, 0);
   piece.updateMatrixWorld(true);
@@ -194,6 +201,7 @@ window.renderFixture = async (key) => {
   for (let r = 0; r < ROWS; r++) {
     const look = LOOKS[r];
     amb.intensity = look.amb; sun.intensity = look.key;
+    for (const s of shells) s.emissiveIntensity = r === 1 ? 1 : 0;
     for (let c = 0; c < COLS; c++) {
       const v = views[c];
       const fov = 35;
@@ -213,7 +221,7 @@ window.renderFixture = async (key) => {
     }
   }
   fire.dispose();
-  return { url: canvas.toDataURL("image/png"), anchors: anchors.map((a) => ({ preset: a.preset, y: +a.local.y.toFixed(3) })),
+  return { url: canvas.toDataURL("image/png"), shells: shells.length, anchors: anchors.map((a) => ({ preset: a.preset, y: +a.local.y.toFixed(3) })),
     box: { min: want.min.toArray().map((n) => +n.toFixed(3)), max: want.max.toArray().map((n) => +n.toFixed(3)) } };
 };
 window.ready = true;
@@ -240,6 +248,8 @@ try {
       return route.fulfill({ contentType: "model/gltf-binary", body: pieceGlb(kitName, assetId) });
     }
     if (path.startsWith("/pub/")) return route.fulfill({ contentType: "application/json", body: readFileSync(join(kitsPublic, path.slice(5))) });
+    if (path === "/settlement/fixtureGlow.js") return route.fulfill({ contentType: "text/javascript",
+      body: tsFileIn(join(repo, "packages/game-core/src/settlement"))("fixtureGlow.ts") });
     const m = path.match(/^\/fire\/(\w+)\.js$/);
     if (m) return route.fulfill({ contentType: "text/javascript", body: tsFile(`${m[1]}.ts`) });
     return route.fulfill({ status: 404, body: "" });
@@ -250,10 +260,10 @@ try {
   if (errors.length) throw new Error(`page errors:\n${errors.join("\n")}`);
   mkdirSync(outDir, { recursive: true });
   for (const key of list) {
-    const { url, anchors, box } = await tab.evaluate((k) => window.renderFixture(k), key);
+    const { url, shells, anchors, box } = await tab.evaluate((k) => window.renderFixture(k), key);
     const file = join(outDir, `${key.split("|")[0]}__${key.split("|")[1].split("/").pop()}.png`);
     writeFileSync(file, Buffer.from(url.split(",")[1], "base64"));
-    console.log(`${key}: ${file} box ${JSON.stringify(box)} anchors ${JSON.stringify(anchors)}`);
+    console.log(`${key}: ${file} shells ${shells} box ${JSON.stringify(box)} anchors ${JSON.stringify(anchors)}`);
   }
   if (errors.length) console.log(`page errors:\n${errors.join("\n")}`);
   console.log(`${list.length} sheets in ${((Date.now() - t0) / 1000).toFixed(1)} s`);

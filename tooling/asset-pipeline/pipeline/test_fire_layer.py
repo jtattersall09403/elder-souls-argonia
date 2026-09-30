@@ -276,3 +276,13 @@ def test_a_flame_above_its_piece_is_seated_on_the_top():
     assert record["flames"][0] == {"offsetM": [0.0009, 0.272, 0.0002], "seatedFromM": 0.3234}
     assert record["flames"][1] == {"offsetM": [0.0, 0.2, 0.0]}
     assert bk.seat_flames_on_geometry(record) == 0
+
+
+def test_a_burning_piece_with_no_fixture_kind_is_reported_not_raised():
+    summary = {"assets": [
+        {"id": "a:lantern", "light": {"fixtureKind": "lantern"}, "flames": [{}]},
+        {"id": "a:candles", "flames": [{}]},
+        {"id": "a:forge", "light": {"formId": "1"}},
+        {"id": "a:wall"},
+    ]}
+    assert bk.unkinded_fire_pieces(summary) == ["a:candles", "a:forge"]

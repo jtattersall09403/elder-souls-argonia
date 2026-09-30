@@ -61,3 +61,12 @@ def test_scattered_hits_keep_height_and_drop_the_side():
     shared = [(0.22, 0.36, 0.72), (-2.0, 0.07, -1.7), (-0.46, -0.14, 0.82),
               (2.51, 0.07, 0.61), (0.27, 0.05, 1.57)]
     assert median_offset(shared) == [0.0, 0.07, 0.0]
+
+
+def test_a_re_mine_carries_the_hand_set_fixture_kind(tmp_path):
+    mined = {"formId": "1", "evidence": "... (pipeline/mine_kit_lights.py)."}
+    (tmp_path / "k.json").write_text(json.dumps({"id": "k", "assets": [
+        {"asset": "a", "light": {**mined, "fixtureKind": "lantern"}}]}, indent=2) + "\n")
+    merge_into_config("k", {"a": {"light": {"formId": "2", "evidence": mined["evidence"]}}}, tmp_path)
+    light = json.loads((tmp_path / "k.json").read_text())["assets"][0]["light"]
+    assert light["formId"] == "2" and light["fixtureKind"] == "lantern"

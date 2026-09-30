@@ -15,6 +15,8 @@ import {
   interiorFireEmitters, isInteriorFlameCard, type InteriorFireRow,
 } from "../fx/fire/interiorFires";
 
+import { applyLanternShell, isLanternShellMaterial } from "../settlement/fixtureGlow";
+
 /** Per kit id, per asset id: the kit manifest rows a cell's fires read (fx/fire/interiorFires.ts). */
 export type InteriorFireRows = ReadonlyMap<string, ReadonlyMap<string, InteriorFireRow>>;
 
@@ -173,6 +175,8 @@ export function instantiateInterior(
     for (const part of parts) {
       // a flame card is drawn by the cell's FlameSystem instead (interiorFires.ts)
       if (isInteriorFlameCard(fireRow, part.material.name)) continue;
+      // a lantern's shell burns steady inside, as the cell's lights do (fixtureGlow.ts)
+      if (isLanternShellMaterial(part.material, fireRow)) applyLanternShell(part.material);
       const mesh = new THREE.InstancedMesh(part.geometry, part.material, placements.length);
       placements.forEach((p, i) => mesh.setMatrixAt(i, m.multiplyMatrices(interiorPlacementMatrix(p), part.localMatrix)));
       mesh.instanceMatrix.needsUpdate = true;

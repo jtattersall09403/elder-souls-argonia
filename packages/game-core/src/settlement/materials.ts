@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { ALWAYS_LIT_DAY_FACTOR, artificialLightFactor } from "./lighting";
 import type { SettlementKitMaterialExtras } from "./types";
+import { applyLanternShell } from "./fixtureGlow";
 import { chainHas, markChain } from "../render/shaderHookChain";
 
 export interface SettlementMaterialUniforms {
@@ -16,8 +17,9 @@ export const SETTLEMENT_GROUND_ATTRIBUTE = "esSettlementGroundY";
 /** How a material glows: a window's emissive mask by night (`true`); an
  * additive effect card drawn unlit, a fire's (`"flame"`, burns by day at
  * `ALWAYS_LIT_DAY_FACTOR`) or a lamp's (`"lamp-flame"`, the lamp clock),
- * lighting.ts `fixtureFactor`; or not at all. */
-export type SettlementGlow = boolean | "flame" | "lamp-flame";
+ * lighting.ts `fixtureFactor`; a lantern's shell lit from inside
+ * (`"lamp-shell"`, fixtureGlow.ts, the lamp clock); or not at all. */
+export type SettlementGlow = boolean | "flame" | "lamp-flame" | "lamp-shell";
 
 interface SettlementSurfaceState {
   uniforms: SettlementMaterialUniforms;
@@ -157,6 +159,8 @@ export function applySettlementSurface(
   const m = material as THREE.MeshStandardMaterial;
   if (!m.isMeshStandardMaterial) return;
   m.userData.esAerial = true;
+  // a shell's emissive (colour x its diffuse) is set before the first draw
+  if (glowMaterial === "lamp-shell") applyLanternShell(m);
   const held = m.userData.esSettlementSurface as SettlementSurfaceState | undefined;
   const gain = additiveGain(m);
   // Same state again (every rebuild re-applies it): nothing to relink.
@@ -269,6 +273,7 @@ export function flameOutputLine(glow: SettlementGlow): string {
 /** The emissive-stage line a glow kind adds (none for a plain surface or a card). */
 function glowLine(glow: SettlementGlow): string {
   if (glow === "flame" || glow === "lamp-flame") return "";
+  if (glow === "lamp-shell") return "\ntotalEmissiveRadiance *= esSettlementNight;";
   return glow
     ? `\ntotalEmissiveRadiance *= ${WINDOW_GLOW_RGB} * esSettlementNight * ${WINDOW_GLOW_GAIN.toFixed(1)};`
     : "";
@@ -276,7 +281,8 @@ function glowLine(glow: SettlementGlow): string {
 
 /** The surface's program key part: the glow kind and the pass, never a value. */
 function surfaceKey(state: SettlementSurfaceState): string {
-  const glow = state.glowMaterial === "flame" ? 2 : state.glowMaterial === "lamp-flame" ? 3 : state.glowMaterial ? 1 : 0;
+  const glow = state.glowMaterial === "flame" ? 2 : state.glowMaterial === "lamp-flame" ? 3
+    : state.glowMaterial === "lamp-shell" ? 4 : state.glowMaterial ? 1 : 0;
   return `${PATCH}|${glow}|${state.depthPair ? "depth" : "colour"}`;
 }
 

@@ -971,6 +971,16 @@ def apply_light_records(summary: dict, kit: dict) -> int:
     return written
 
 
+def unkinded_fire_pieces(summary: dict) -> list[str]:
+    """Pieces that burn (mined `flames` or a `light` block) with no
+    `light.fixtureKind`: the runtime then cannot tell a lantern from a
+    brazier (preset, day burning, shell glow). Reported by the build as error
+    lines, never raised: one unkinded piece must not stop a kit."""
+    return [r["id"] for r in summary.get("assets", [])
+            if (r.get("flames") or r.get("light"))
+            and not (r.get("light") or {}).get("fixtureKind")]
+
+
 # --- the fire layer (16k walk 4) ---------------------------------------------
 # Skyrim draws every flame as a particle system: the piece's own
 # NiParticleSystems, or an `AddOnNodeN` resolved through Skyrim.esm ADDN N to
@@ -2077,6 +2087,8 @@ def _build(kit_id: str, vault: Path, force: bool = False, stamp_only: bool = Fal
                             texture_atlas_measurer(vault, tropicalised(kit)))
     if fire:
         print(f"[kit] flame and glow sprites: {fire}")
+    for asset_id in unkinded_fire_pieces(summary):
+        print(f"[kit] ERROR {asset_id}: burns (flames or a LIGH record) but its light block has no fixtureKind")
     apply_placement_metadata(summary, kit["id"])
     built_gltf = read_gltf_json(output_glb)
     untextured = (untextured_material_errors(built_gltf, summary, notes["texturesMissing"])

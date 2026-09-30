@@ -197,6 +197,10 @@ def flame_bearers(kit: str) -> list[str]:
             if r.get("flames") or r.get("glows") or r.get("flameCardMaterials")]
 
 
+#: Light-block keys a person sets, never the miner: a re-mine carries them over.
+HAND_SET_LIGHT_KEYS = ("fixtureKind",)
+
+
 def merge_into_config(kit: str, mined: dict[str, dict], config_dir: Path = KIT_CONFIG_DIR) -> list[str]:
     """Write each mined light into the kit config; never overwrite a block
     this miner did not write. Returns the assets written."""
@@ -213,8 +217,9 @@ def merge_into_config(kit: str, mined: dict[str, dict], config_dir: Path = KIT_C
         old = entry.get("light")
         if old and "mine_kit_lights" not in str(old.get("evidence", "")):
             continue
-        if old and old.get("fixtureKind"):
-            got["light"]["fixtureKind"] = old["fixtureKind"]
+        for key in HAND_SET_LIGHT_KEYS:
+            if old and key in old:
+                got["light"][key] = old[key]
         entry["light"] = got["light"]
         written.append(entry["asset"])
     path.write_text(json.dumps(config, indent=indent, ensure_ascii=text.isascii()) + "\n")
