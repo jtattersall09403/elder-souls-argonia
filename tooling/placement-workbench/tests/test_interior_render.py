@@ -460,6 +460,34 @@ _BOX12 = [(-1.0, -1.0, -0.2, 13.0, 9.0, 0.0), (-1.0, -1.0, 4.0, 13.0, 9.0, 4.2),
           (0.0, -1.0, 0.0, 12.0, 0.0, 4.0), (0.0, 8.0, 0.0, 12.0, 9.0, 4.0)]
 
 
+def _named_cast(named):
+    """`_solids_cast` over {piece id: box} with the Blender scene cast's
+    `who` (distance, piece id of the first hit)."""
+    def who(o, d, max_m):
+        hits = [(t, k) for k, b in named.items() if (t := _solids_cast([b])(o, d, max_m)) is not None]
+        return min(hits) if hits else None
+    cast = _solids_cast(list(named.values()))
+    cast.who = who
+    return cast
+
+
+def test_one_piece_filling_the_near_frame_rejects_the_eye():
+    """A giant snail shell 2.2 m ahead, clear of the walls (KeebaHouseSnailMinder
+    corner-b, walk 5): the frame and near vetoes pass it, the piece-hog rule
+    rejects the eye; the same room without it keeps the eye, and a small
+    piece at the same distance does not hog."""
+    eye, target = (9.0, 4.0, 1.6), (3.0, 4.0, 1.0)
+    room = {f"wall{i}": b for i, b in enumerate(_BOX12)}
+    shell = (5.6, 2.6, 0.0, 6.8, 5.4, 2.2)          # 1.2 x 2.8 x 2.2 m, 2.2 m ahead
+    jug = (6.6, 3.9, 0.0, 6.8, 4.1, 0.4)
+    assert ir.score_eye(_named_cast(room), eye, target) >= ir.MIN_SCORE_M
+    assert not ir.piece_hog(_named_cast(room), eye, (-1.0, 0.0, 0.0))
+    assert ir.piece_hog(_named_cast({**room, "shell": shell}), eye, (-1.0, 0.0, 0.0))
+    assert ir.score_eye(_named_cast({**room, "shell": shell}), eye, target) == 0.0
+    assert not ir.piece_hog(_named_cast({**room, "jug": jug}), eye, (-1.0, 0.0, 0.0))
+    assert not ir.piece_hog(_solids_cast(_BOX12 + [shell]), eye, (-1.0, 0.0, 0.0))   # no `who`: off
+
+
 def test_a_thin_rail_near_the_eye_vetoes_it():
     """A 4 cm ladder rail 1 m ahead and 20 degrees off the line slips between
     the 10-degree frame probes (Plantation doorway, walk 5); the 5-degree

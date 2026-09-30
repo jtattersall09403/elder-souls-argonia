@@ -283,6 +283,16 @@ def scene_cast(scene):
         o = Vector(origin)
         ok, loc, *_ = scene.ray_cast(dg, o, Vector(direction), distance=max_m)
         return (loc - o).length if ok else None
+
+    def who(origin, direction, max_m):
+        """(distance, piece uid) of the first hit (copy_tree's `wb_uid`), or None."""
+        o = Vector(origin)
+        ok, loc, _n, _i, obj, _m = scene.ray_cast(dg, o, Vector(direction), distance=max_m)
+        if not ok:
+            return None
+        src = getattr(obj, "original", obj)
+        return (loc - o).length, src.get("wb_uid") or src.name
+    cast.who = who
     return cast
 
 
