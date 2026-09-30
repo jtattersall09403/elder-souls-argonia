@@ -114,7 +114,8 @@ export class Volumetrics implements VolumetricsSampler {
   private readonly clear = makeClear();
   private scatter: [Storage3DTexture, Storage3DTexture] | null = null;
   private integ: Storage3DTexture | null = null;
-  private kernels: { inject: [TslNode, TslNode]; integrate: [TslNode, TslNode] } | null = null;
+  private blurred: Storage3DTexture | null = null;
+  private kernels: { inject: [TslNode, TslNode]; blur: [TslNode, TslNode]; integrate: TslNode } | null = null;
   private parity = 0;
   private frameIndex = 0;
   private readonly sampleNodes: TslNode[] = [];
@@ -178,9 +179,11 @@ export class Volumetrics implements VolumetricsSampler {
     this.gridSize.value.set(spec.grid[0], spec.grid[1], spec.grid[2]);
     this.scatter = [makeGrid(spec.grid, "es-vol-scatter-a"), makeGrid(spec.grid, "es-vol-scatter-b")];
     this.integ = makeGrid(spec.grid, "es-vol-integrated");
+    this.blurred = makeGrid(spec.grid, "es-vol-scatter-blurred");
     this.kernels = {
       inject: [this.injectKernel(spec, this.scatter[0], this.scatter[1]), this.injectKernel(spec, this.scatter[1], this.scatter[0])],
-      integrate: [this.integrateKernel(spec, this.scatter[0]), this.integrateKernel(spec, this.scatter[1])],
+      blur: [this.blurKernel(spec, this.scatter[0]), this.blurKernel(spec, this.scatter[1])],
+      integrate: this.integrateKernel(spec, this.blurred),
     };
     this.dispatch.inject = spec.grid[0] * spec.grid[1] * spec.grid[2];
     this.dispatch.integrate = spec.grid[0] * spec.grid[1];
@@ -265,10 +268,10 @@ export class Volumetrics implements VolumetricsSampler {
     return exp(max(p.y, 0).div(-1200)).mul(this.u.air).mul(2e-4);
   }
 
-  /** Share of the sky dome open above `p`: the canopy over it takes up to 70 % (shafts read by contrast). */
+  /** Share of the sky dome open above `p`: the canopy over it takes up to 93 % (shafts read by contrast). */
   private skyOpen(p: TslNode): TslNode {
     const c = texture(this.canopy.texture, p.xz.sub(this.u.canopyOrigin).div(CANOPY_SIZE_M));
-    return float(1).sub(smoothstep(0, 1, c.b.sub(p.y)).mul(smoothstep(0, 0.5, c.r)).mul(0.7).mul(this.u.outdoor));
+    return float(1).sub(smoothstep(0, 1, c.b.sub(p.y)).mul(smoothstep(0, 0.5, c.r)).mul(0.93).mul(this.u.outdoor));
   }
 
   private injectKernel(spec: BandSpec, write: Storage3DTexture, history: Storage3DTexture): TslNode {
@@ -285,10 +288,10 @@ export class Volumetrics implements VolumetricsSampler {
       const p = u.camPos.add(dir.mul(depth));
       const v = normalize(dir);
       const fp = depth.mul(Math.pow(spec.farM / FROXEL_NEAR_M, 1 / gz) - 1);
-      const sigmaT = max(this.density(p, fp), float(1e-7));
+      const sigmaT = max(this.density(p, fp), float(1e-7)).toVar();
       const cSun = dot(v, u.sunDir);
       // strongly forward (g 0.8) with an isotropic-ish floor: bright shafts toward the sun, faint away
-      const phaseSun = mix(hg(0.2, cSun), hg(0.8, cSun), 0.7);
+      const phaseSun = mix(hg(0.2, cSun), hg(0.85, cSun), 0.75);
       const radiance = vec3(u.sunIrr).mul(phaseSun).mul(this.canopyT(p)).mul(step(float(0), u.sunDir.y))
         .add(vec3(u.skyIrr).mul(0.8 / Math.PI).mul(this.skyOpen(p))).toVar();
       Loop(u.lightCount, ({ i }: { i: TslNode }) => {
@@ -298,7 +301,7 @@ export class Volumetrics implements VolumetricsSampler {
         const dist = T.sqrt(r2);
         const win = clamp(float(1).sub(pow(dist.div(lp.w), float(2))), 0, 1);
         // scatter angle: light's travel (light -> p) against the view's (p -> camera)
-        radiance.addAssign(this.uLightCol.element(i).xyz.mul(win.mul(win)).div(r2).mul(mix(float(1 / (4 * Math.PI)), hg(0.6, dot(d.div(dist), v.negate())), 0.6)));
+        radiance.addAssign(this.uLightCol.element(i).xyz.mul(win.mul(win)).div(r2).mul(mix(float(1 / (4 * Math.PI)), hg(0.5, dot(d.div(dist), v.negate())), 0.7)));
       });
       Loop(u.apertureCount, ({ i }: { i: TslNode }) => {
         const ap = this.uApPos.element(i);
@@ -308,6 +311,9 @@ export class Volumetrics implements VolumetricsSampler {
         const radial = length(rel.sub(ad.xyz.mul(along)));
         const inBeam = step(float(0), along).mul(float(1).sub(smoothstep(ap.w.mul(0.8), ap.w, radial)))
           .mul(float(1).sub(smoothstep(ad.w.mul(0.7), ad.w, along)));
+        // beam-local dust: fine motes drifting in the shaft (0.05..0.15 /m), the room around it stays clear
+        const mote = texture3D(this.detail, p.add(vec3(u.time.mul(0.03), u.time.mul(-0.02), 0)).div(vec3(0.35, 0.35, 0.35)), 0).x;
+        sigmaT.addAssign(inBeam.mul(float(0.05).add(smoothstep(0.3, 0.9, mote).mul(0.1))));
         radiance.addAssign(this.uApCol.element(i).xyz.mul(inBeam).mul(mix(float(1 / (4 * Math.PI)), hg(0.7, dot(ad.xyz, v.negate())), 0.6)));
       });
       // clear air scatters blue more than red (Rayleigh-like tint on the air share only; mist stays white)
@@ -326,6 +332,22 @@ export class Volumetrics implements VolumetricsSampler {
       });
       textureStore(write, coord, cur).toWriteOnly();
     })().compute(gx * gy * gz).setName("volumetricsInject");
+  }
+
+  /** 3x3 tent blur of the lit scatter grid in xy (the resolve that removes the per-pixel dither grain). */
+  private blurKernel(spec: BandSpec, read: Storage3DTexture): TslNode {
+    const [gx, gy, gz] = spec.grid;
+    const out = this.blurred as Storage3DTexture;
+    return Fn(() => {
+      const id = instanceIndex;
+      const coord = uvec3(id.mod(gx), id.div(gx).mod(gy), id.div(gx * gy));
+      const c = vec3(float(coord.x).add(0.5).div(gx), float(coord.y).add(0.5).div(gy), float(coord.z).add(0.5).div(gz));
+      const acc = vec4(0).toVar();
+      for (const [dx, dy, w] of [[-1, -1, 1], [0, -1, 2], [1, -1, 1], [-1, 0, 2], [0, 0, 4], [1, 0, 2], [-1, 1, 1], [0, 1, 2], [1, 1, 1]]) {
+        acc.addAssign(texture3D(read, c.add(vec3(dx / gx, dy / gy, 0)), 0).mul(w / 16));
+      }
+      textureStore(out, coord, acc).toWriteOnly();
+    })().compute(gx * gy * gz).setName("volumetricsBlur");
   }
 
   private integrateKernel(spec: BandSpec, read: Storage3DTexture): TslNode {
@@ -407,7 +429,8 @@ export class Volumetrics implements VolumetricsSampler {
     u.prevViewProj.value.copy(this.prevViewProj);
     const k = this.parity;
     this.deps.renderer.compute(this.kernels.inject[k]);
-    this.deps.renderer.compute(this.kernels.integrate[k]);
+    this.deps.renderer.compute(this.kernels.blur[k]);
+    this.deps.renderer.compute(this.kernels.integrate);
     this.parity = 1 - k;
     this.frameIndex++;
     this.prevViewProj.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse);
@@ -434,7 +457,8 @@ export class Volumetrics implements VolumetricsSampler {
   private freeGrids(): void {
     this.scatter?.forEach((t) => t.dispose());
     this.integ?.dispose();
-    this.scatter = null; this.integ = null; this.kernels = null;
+    this.blurred?.dispose();
+    this.scatter = null; this.integ = null; this.blurred = null; this.kernels = null;
   }
 
   dispose(): void {
