@@ -272,7 +272,7 @@ function installImpostorHook(material: ImpostorMaterial): void {
   };
   const wrapped: THREE.Material["onBeforeCompile"] = (shader, renderer) => {
     previous?.call(material, shader, renderer);
-    if (shader.vertexShader.includes("esImpProject")) return; // never twice
+    if (shader.vertexShader.includes("vec3 esImpDir(")) return; // never twice
     Object.assign(shader.uniforms, uniforms);
     shader.vertexShader = shader.vertexShader
       .replace("void main() {", `${VERTEX_HEAD}\nvoid main() {`)

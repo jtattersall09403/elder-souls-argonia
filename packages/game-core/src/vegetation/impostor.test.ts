@@ -97,6 +97,15 @@ describe("ImpostorMaterial", () => {
     expect(m.alphaTest).toBe(0.5);
   });
 
+  it("a chain holding the hook twice patches the shader once (review 2026-09-30)", () => {
+    const m = new ImpostorMaterial(new THREE.Texture(), params());
+    const hook = m.onBeforeCompile;
+    m.onBeforeCompile = (s, r) => { hook.call(m, s, r); hook.call(m, s, r); };
+    const s = compile(m);
+    expect(s.vertexShader.split("vec3 esImpDir(").length - 1).toBe(1);
+    expect(s.fragmentShader.split("uniform float esImpGrid;").length - 1).toBeLessThanOrEqual(1);
+  });
+
   it("joins the temporal LOD cross-fade: the fade's discard survives the impostor patch", () => {
     const m = new ImpostorMaterial(new THREE.Texture(), params());
     applyLodFade(m, createLodFadeUniforms());
