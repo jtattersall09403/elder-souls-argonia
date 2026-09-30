@@ -121,6 +121,42 @@
    "rotZDeg": 0,
    "zone": "door",
    "why": "Lights the floor just past the doorway."
+  },
+  {
+   "id": "KeebaHouseFisher:add:bed-glazedcandles-14",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    111.161,
+    88.446,
+    56.159
+   ],
+   "rotZDeg": 0,
+   "zone": "bed",
+   "why": "Lights the loft beds from the cupboard top."
+  },
+  {
+   "id": "KeebaHouseFisher:add:store-glazedcandles-15",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    105.527,
+    84.781,
+    55.925
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the shelf of bowls and plates."
+  },
+  {
+   "id": "KeebaHouseFisher:add:hearth-argonianlanterns-16",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    107.5,
+    85.813,
+    58.5
+   ],
+   "rotZDeg": 0,
+   "zone": "hearth",
+   "why": "Hangs under the loft over the open floor."
   }
  ]
 }

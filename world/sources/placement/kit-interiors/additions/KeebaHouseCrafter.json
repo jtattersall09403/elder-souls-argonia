@@ -15,6 +15,18 @@
    "why": "Lights the book left open on the table."
   },
   {
+   "id": "KeebaHouseCrafter:add:table-glazedcandles-17",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    106.557,
+    89.865,
+    59.572
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the far end of the upper table."
+  },
+  {
    "id": "KeebaHouseCrafter:add:table-glazedcandles-02",
    "assetId": "vanilla:clutter/glazedcandles01",
    "pos": [
