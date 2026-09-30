@@ -75,7 +75,22 @@ gib() { awk -v m="$1" 'BEGIN{printf "%.2f", m / 1024}'; }
 finish() {  # $1 = exit code, $2 = suffix
   kill "$own_pid" 2>/dev/null; wait "$own_pid" 2>/dev/null
   echo "$tag: own peak $(gib "$(own_peak)") GiB · machine peak $(gib "$peak") GiB, exit $1$2"
+  report "end $(date -u +%FT%TZ) exit $1$2 ownPeakMiB $(own_peak) machinePeakMiB $peak$(scope_line)"
   log_run "$1"; rm -f "$own_file" "$own_file.tmp"
+}
+# MEMWATCH_REPORT (job_guard's per-job log, 2026-09-30): the child's pid at
+# start and, at exit, its own peak, the machine peak and, inside job_guard's
+# capped scope (MEMWATCH_SCOPE=1), the scope's memory.peak and OOM-kill count.
+report() { [[ -n "${MEMWATCH_REPORT:-}" ]] && echo "$1" >> "$MEMWATCH_REPORT" 2>/dev/null; return 0; }
+scope_line() {
+  [[ -n "${MEMWATCH_SCOPE:-}" ]] || return 0
+  local cg; cg="/sys/fs/cgroup$(awk -F: '$1=="0"{print $3}' /proc/self/cgroup 2>/dev/null)"
+  local pk oom
+  pk=$(cat "$cg/memory.peak" 2>/dev/null); oom=$(awk '$1=="oom_kill"{print $2}' "$cg/memory.events" 2>/dev/null)
+  [[ "$pk" =~ ^[0-9]+$ ]] && printf ' scopePeakMiB %d' $(( pk / 1048576 ))
+  [[ -n "$oom" ]] && printf ' oomKills %s' "$oom"
+  [[ "${oom:-0}" != 0 ]] && printf ' (KILLED AT THE CAP)'
+  return 0
 }
 cmd=("$@")
 tag="memwatch${MEMWATCH_LANE:+[$MEMWATCH_LANE]}"
@@ -87,6 +102,7 @@ start_mib=$(used)
 export MEMWATCH_OUTER_CEILING_MIB="$ceiling_mib"
 setsid bash -c "$*" &
 pid=$!
+report "child pid $pid (process group $pid) started $(date -u +%FT%TZ)"
 python3 "$here/own_memory.py" --watch "$pid" "$own_file" 0.5 &
 own_pid=$!
 peak=$start_mib

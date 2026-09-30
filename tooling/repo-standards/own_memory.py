@@ -1,6 +1,7 @@
 """The memory a job's own process tree holds: memwatch.sh's per-job figure.
 
     python3 own_memory.py --watch ROOT_PID OUT_FILE [INTERVAL_S]
+    python3 own_memory.py --tree PID...     (MiB now over the trees; job_guard admission)
 
 Sums RssAnon + RssShmem (private and shared-anonymous resident memory; file
 pages, which the kernel reclaims, are left out) over ROOT_PID and every
@@ -75,6 +76,9 @@ def watch(root: int, out: str, interval: float = 0.5) -> int:
 
 
 if __name__ == "__main__":
+    if sys.argv[1:2] == ["--tree"] and len(sys.argv) > 2:   # job_guard admission: MiB now over the trees
+        print(sum(tree_kib(int(p))[0] for p in sys.argv[2:]) // 1024)
+        sys.exit(0)
     if sys.argv[1:2] != ["--watch"] or len(sys.argv) not in (4, 5):
         print(__doc__.splitlines()[2].strip(), file=sys.stderr)
         sys.exit(2)

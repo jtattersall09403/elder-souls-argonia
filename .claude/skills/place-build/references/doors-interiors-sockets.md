@@ -252,7 +252,7 @@ at all fails.
 `interior_walk`'s 0.5 m grid at 1.2 m eye height, with the loader's own
 light model (`test_interior_light.py` pins the constants) against the
 bars below. `--reached` keeps only nodes reached from the doors
-(~30 s a cell); `--apply` applies the rule to a published bundle in place.
+(~95 s a cell, measured 2026-09-30); `--apply` applies the rule to a published bundle in place.
 
 **The bars** (both from the same run). Dark: at most `MAX_DARK_FRACTION`
 30 % of nodes under `DARK_E` 0.12. Source-led: `light_balance` gives the

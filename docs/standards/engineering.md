@@ -504,7 +504,7 @@ headless.
 fails); the full `--runner` run once before a merge to main; a red on HEAD
 blocks until fixed at source. Every Agent or Workflow brief that launches a
 deliver lane carries the line `Budget: <N> min (hard)`, and heavy jobs run
-under `job_guard.sh <lane> --budget <N>`. A new gate costs under 5 s and
+under `job_guard.sh <lane> --budget <N>`. Every python, Blender or node job that can pass 2 GiB runs under `job_guard.sh` (its own memory-capped scope, `--mem`, default 24 GiB): an unguarded one shares the editor session's cgroup, and its OOM takes the session down (2026-09-30, twice); the watchdog kills an unguarded one past 20 GiB. A new gate costs under 5 s and
 answers a failure class seen twice. Hooks: [hooks.md](hooks.md).
 
 ```

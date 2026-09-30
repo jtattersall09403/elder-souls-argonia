@@ -106,3 +106,60 @@ def test_a_budget_kills_the_job_and_writes_a_checkpoint(tmp_path):
     r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "lane8", "--budget", "5", "--", "exit 124"],
                        env=env, capture_output=True, text=True, timeout=60)
     assert r.returncode == 124 and not (tmp_path / "budget" / "lane8.checkpoint").exists()
+
+
+def _env(tmp_path, **extra):
+    load = tmp_path / "loadavg"
+    load.write_text("0.10 0.10 0.10 1/1 1\n")
+    return {**os.environ, "ES_JOB_LOCK_DIR": str(tmp_path / "locks"), "ES_JOB_LOADAVG_FILE": str(load),
+            "ES_JOB_WAIT_S": "0", "ES_JOB_POLL_S": "0", "ES_JOB_MIN_FREE_GB": "0",
+            "ES_JOB_MEM_CEILING_MIB": "100000000", "ES_JOB_CPUS": "0",
+            "ES_JOB_LOG_DIR": str(tmp_path / "logs"), **extra}
+
+
+def test_a_job_past_its_cap_dies_alone_and_is_logged(tmp_path):
+    """2026-09-30: two OOM kills of a 30 GB python3 took the whole session down
+    and left no trace. A job past its --mem cap dies alone in its own scope
+    (prlimit fallback: MemoryError), the shell that launched it survives, and
+    the log and the job's stderr say what died and why."""
+    line = f"bash {HERE / 'job_guard.sh'} hog --mem 0.25 -- python3 -c \"b = b'x' * (600 << 20)\"; echo survived $?"
+    r = subprocess.run(["bash", "-c", line], env=_env(tmp_path), capture_output=True, text=True, timeout=60)
+    assert "survived" in r.stdout and not r.stdout.strip().endswith(" 0"), r.stderr
+    text = next((tmp_path / "logs").glob("hog-*.log")).read_text()
+    assert "cap 0.25 GiB" in text and "cmd: python3 -c" in text and "child pid" in text
+    assert "\nend " in text and "guard exit" in text
+    if "via systemd" in text:
+        assert r.stdout.strip().endswith("survived 137") and "oomKills 1 (KILLED AT THE CAP)" in text, text
+        assert "killed: memory cap 0.25 GiB exceeded, peak 0.25 GiB, cmd python3 -c" in text
+        assert "killed: memory cap 0.25 GiB exceeded" in r.stderr
+    assert not (tmp_path / "locks" / "slot-0.lock").read_text()   # the slot is freed
+
+
+def test_admission_counts_the_live_slots_measured_memory(tmp_path):
+    import fcntl
+    import time
+    (tmp_path / "locks").mkdir()
+    hog = subprocess.Popen(["python3", "-c", "import sys, time; b = b'x' * (300 << 20); print(1, flush=True); time.sleep(60)"],
+                           stdout=subprocess.PIPE, text=True)
+    try:
+        hog.stdout.readline()                              # 300 MiB resident
+        held = tmp_path / "locks" / "slot-0.lock"
+        held.write_text(f"2026-09-30T00:00:00Z other pid {hog.pid} mem 24576: python3 big.py\n")
+        with open(held, "a") as f:
+            fcntl.flock(f, fcntl.LOCK_EX)                  # slot 0 is live
+            env = _env(tmp_path, ES_JOB_SLOTS="2", ES_JOB_MEM_TOTAL_GIB="0.3")
+            r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "t", "--mem", "0.1", "--", "echo ran"],
+                               env=env, capture_output=True, text=True, timeout=60)
+            assert r.returncode == 75 and "memory: live slots hold 0.3 GiB measured" in r.stderr, r.stderr
+            env["ES_JOB_MEM_TOTAL_GIB"] = "1"
+            r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "t", "--mem", "0.1", "--", "echo ran"],
+                               env=env, capture_output=True, text=True, timeout=60)
+            assert r.returncode == 0 and "ran" in r.stdout, r.stderr   # declared caps never block
+    finally:
+        hog.kill()
+    r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "t", "--mem", "30", "--", "echo ran"],
+                       env=_env(tmp_path), capture_output=True, text=True, timeout=60)
+    assert r.returncode == 2 and "REFUSED" in r.stderr
+    r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "t", "--mem", "x", "--", "echo ran"],
+                       env=_env(tmp_path), capture_output=True, text=True, timeout=60)
+    assert r.returncode == 2

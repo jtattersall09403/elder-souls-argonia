@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# job_guard.sh <lane> [--budget <min>] -- <command...>
+# job_guard.sh <lane> [--budget <min>] [--mem <GiB>] -- <command...>
 #
 # --budget (decision 0106): a hard wall-clock stop in whole minutes; at the
 # budget the job is killed (exit 124) after a checkpoint line lands in
@@ -61,18 +61,43 @@ set -uo pipefail
 
 lane="${1:-}"
 budget_min=""
+mem_gib="${ES_JOB_MEM_GIB:-24}"
 # --budget <min> (decision 0106): the job is killed at its budget after a
 # checkpoint line is written to tooling/.reports/budget/<lane>.checkpoint.
-if [[ "${2:-}" == "--budget" ]]; then
-  budget_min="${3:-}"
-  [[ "$budget_min" =~ ^[0-9]+(\.[0-9]+)?$ ]] && awk -v m="$budget_min" 'BEGIN{exit !(m > 0)}' \
-    || { echo "job_guard: --budget needs minutes > 0" >&2; exit 2; }
-  set -- "$1" "${@:4}"
+# --mem <GiB> (2026-09-30, after two OOM kills of an unguarded 30 GB python3
+# took the whole code-tunnel session down): the job's hard memory cap, 24 by
+# default (ES_JOB_MEM_GIB; the machine's single-job ceiling on the 30 GiB box). The job runs in its own cgroup scope,
+# `systemd-run --user --scope -p MemoryMax=<cap> -p MemorySwapMax=0
+# -p OOMPolicy=continue`, so past the cap the kernel kills the job's biggest
+# process and nothing outside the scope; where no user systemd exists (CI),
+# `prlimit --as=<cap>` (address space: a MemoryError, not a kill). Isolation,
+# never serialisation (owner 2026-09-30): parallel jobs are wanted. Admission
+# counts the live slots' MEASURED memory (each guarded tree's anon+shmem,
+# own_memory.py --tree) plus this job's start reserve (min(cap, 2 GiB)); past
+# ES_JOB_MEM_TOTAL_GIB (26) the job waits for room like a busy machine (exit
+# 75 after ES_JOB_WAIT_S). ES_JOB_MEM_MECH=systemd|prlimit|none forces the
+# mechanism. A job killed at its cap prints "killed: memory cap ..." on stderr.
+# Every job writes tooling/.reports/job-guard/<lane>-<pid>.log (ES_JOB_LOG_DIR):
+# cmdline, pid, cap and start time before it runs; the child's pid; at exit its
+# own peak (anon+shmem), the scope's peak and OOM-kill count, the exit code.
+lane_set=""; [[ -n "$lane" ]] && { lane_set=1; shift; }
+while [[ -n "$lane_set" && ( "${1:-}" == "--budget" || "${1:-}" == "--mem" ) ]]; do
+  case "$1" in
+    --budget)
+      budget_min="${2:-}"
+      [[ "$budget_min" =~ ^[0-9]+(\.[0-9]+)?$ ]] && awk -v m="$budget_min" 'BEGIN{exit !(m > 0)}' \
+        || { echo "job_guard: --budget needs minutes > 0" >&2; exit 2; } ;;
+    --mem)
+      mem_gib="${2:-}"
+      [[ "$mem_gib" =~ ^[0-9]+(\.[0-9]+)?$ ]] && awk -v m="$mem_gib" 'BEGIN{exit !(m > 0)}' \
+        || { echo "job_guard: --mem needs GiB > 0" >&2; exit 2; } ;;
+  esac
+  shift 2 || { echo "job_guard: $1 needs a value" >&2; exit 2; }
+done
+if [[ -z "$lane" || "${1:-}" != "--" || $# -lt 2 ]]; then
+  echo "usage: job_guard.sh <lane> [--budget <min>] [--mem <GiB>] -- <command...>" >&2; exit 2
 fi
-if [[ -z "$lane" || "${2:-}" != "--" || $# -lt 3 ]]; then
-  echo "usage: job_guard.sh <lane> [--budget <min>] -- <command...>" >&2; exit 2
-fi
-shift 2
+shift 1
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # memwatch.sh runs `bash -c "$*"`: one argument is a shell line as written;
 # several are quoted one by one so each reaches the command unchanged
@@ -133,6 +158,40 @@ mem_mib() {  # unreclaimable: anon + shmem + kernel (memwatch.sh's measure)
   fi
 }
 load1() { cut -d' ' -f1 "${ES_JOB_LOADAVG_FILE:-/proc/loadavg}"; }
+# The memory cap (--mem) and how it is enforced.
+cap_mib=$(awk -v g="$mem_gib" 'BEGIN{printf "%d", g * 1024}')
+total_mib=$(awk -v g="${ES_JOB_MEM_TOTAL_GIB:-26}" 'BEGIN{printf "%d", g * 1024}')
+reserve_mib=$(( cap_mib < 2048 ? cap_mib : 2048 ))
+if (( cap_mib > total_mib )); then
+  say "REFUSED: --mem ${mem_gib} GiB is over the ${ES_JOB_MEM_TOTAL_GIB:-26} GiB all live slots may hold together"
+  exit 2
+fi
+mech="${ES_JOB_MEM_MECH:-}"
+if [[ -z "$mech" ]]; then
+  if command -v systemd-run >/dev/null 2>&1 \
+     && systemd-run --user --scope -q -p MemoryMax=64M -p MemorySwapMax=0 -p OOMPolicy=continue -- true >/dev/null 2>&1; then
+    mech=systemd
+  elif command -v prlimit >/dev/null 2>&1; then mech=prlimit
+  else mech=none; fi
+fi
+case "$mech" in
+  systemd) cap_cmd=(systemd-run --user --scope -q -p "MemoryMax=${cap_mib}M" -p MemorySwapMax=0 -p OOMPolicy=continue --)
+           export MEMWATCH_SCOPE=1 ;;
+  prlimit) cap_cmd=(prlimit "--as=$(( cap_mib * 1048576 ))" --) ;;
+  *)       cap_cmd=(); say "WARNING: no memory cap mechanism (systemd-run --user, prlimit): the job runs uncapped" ;;
+esac
+# MiB the OTHER live slots' jobs hold now, measured (slot line: "<date> <lane> pid <guard pid> mem <cap MiB>: <cmd>").
+live_mem_mib() {
+  local f pids=()
+  for f in "$lock_dir"/slot-*.lock; do
+    [[ -e "$f" && "$f" != "$lock_dir/slot-$1.lock" ]] || continue
+    pid=$(awk 'NR==1{print $4}' "$f" 2>/dev/null)
+    [[ "$pid" =~ ^[0-9]+$ ]] && kill -0 "$pid" 2>/dev/null && pids+=("$pid")
+  done
+  (( ${#pids[@]} )) && python3 "$here/own_memory.py" --tree "${pids[@]}" || echo 0
+}
+log_dir="${ES_JOB_LOG_DIR:-$here/../.reports/job-guard}"
+
 # The volumes a job writes to: the current directory's, and the cache volume
 # the kit builds, mesh cache and mod pool are linked onto (when it exists).
 vols=(.); [[ -d "${ES_CACHE_ROOT:-/tmp/es-cache}" ]] && vols+=("${ES_CACHE_ROOT:-/tmp/es-cache}")
@@ -161,14 +220,30 @@ while :; do
       if flock -n "$fd"; then
         why=$(blocked)   # headroom may have gone while we waited for the slot
         if [[ -z "$why" ]]; then
-          printf '%s %s pid %s: %s\n' "$(date -u +%FT%TZ)" "$lane" "$$" "$*" > "$lock_dir/slot-$i.lock"
-          say "slot $((i + 1))/$slots, cores $cpus (share $ES_JOB_CORES), load $(load1), $(( $(free_kib .) / 1024 )) MiB free, mem $(mem_mib)/${ceiling_mib} MiB: $*"
+          # the caps check and the slot line are one step under admit.lock, so
+          # two jobs admitted at once cannot both miss each other's cap
+          exec {afd}>>"$lock_dir/admit.lock"; flock "$afd"
+          held=$(live_mem_mib "$i")
+          if (( held + reserve_mib > total_mib )); then
+            why="memory: live slots hold $(awk -v m="$held" 'BEGIN{printf "%.1f", m / 1024}') GiB measured + this job's $(awk -v m="$reserve_mib" 'BEGIN{printf "%.1f", m / 1024}') GiB start reserve > ${ES_JOB_MEM_TOTAL_GIB:-26} GiB"
+          else
+            printf '%s %s pid %s mem %s: %s\n' "$(date -u +%FT%TZ)" "$lane" "$$" "$cap_mib" "$*" > "$lock_dir/slot-$i.lock"
+          fi
+          exec {afd}>&-
+        fi
+        if [[ -z "$why" ]]; then
+          mkdir -p "$log_dir" 2>/dev/null
+          jlog="$log_dir/$lane-$$.log"
+          printf 'start %s lane %s guard pid %s cap %s GiB via %s slot %s cwd %s\ncmd: %s\n' \
+            "$(date -u +%FT%TZ)" "$lane" "$$" "$mem_gib" "$mech" "$((i + 1))" "$PWD" "$*" > "$jlog" 2>/dev/null
+          export MEMWATCH_REPORT="$jlog"
+          began=$(date +%s)
+          say "slot $((i + 1))/$slots, cores $cpus (share $ES_JOB_CORES), load $(load1), $(( $(free_kib .) / 1024 )) MiB free, mem $(mem_mib)/${ceiling_mib} MiB, cap ${mem_gib} GiB ($mech), log $jlog: $*"
           # The slot is held by this script for the job's life; the job gets
           # no copy of the fd ({fd}>&-), so a process it leaves behind never
           # keeps the slot. memwatch logs the run with the lane in the tool line.
           if [[ -n "$budget_min" ]]; then
-            began=$(date +%s)
-            MEMWATCH_LANE="$lane" timeout --kill-after=30 "${budget_min}m" nice -n 10 ionice -c3 taskset -c "$cpus" "$here/memwatch.sh" "${mw_args[@]}" "$run_line" {fd}>&-
+            MEMWATCH_LANE="$lane" timeout --kill-after=30 "${budget_min}m" nice -n 10 ionice -c3 taskset -c "$cpus" "${cap_cmd[@]}" "$here/memwatch.sh" "${mw_args[@]}" "$run_line" {fd}>&-
             code=$?
             # the budget, not the job's own 124 or an OOM kill: the wall reached it
             if (( code == 124 || code == 137 )) && awk -v e="$(( $(date +%s) - began ))" -v m="$budget_min" 'BEGIN{exit !(e >= m * 60 - 1)}'; then
@@ -177,9 +252,16 @@ while :; do
               say "BUDGET ${budget_min} min reached: killed; checkpoint line in $ckdir/$lane.checkpoint. Write what is green and the next step, and return."
             fi
           else
-            MEMWATCH_LANE="$lane" nice -n 10 ionice -c3 taskset -c "$cpus" "$here/memwatch.sh" "${mw_args[@]}" "$run_line" {fd}>&-
+            MEMWATCH_LANE="$lane" nice -n 10 ionice -c3 taskset -c "$cpus" "${cap_cmd[@]}" "$here/memwatch.sh" "${mw_args[@]}" "$run_line" {fd}>&-
             code=$?
           fi
+          printf 'guard exit %s %s wall %s s\n' "$code" "$(date -u +%FT%TZ)" "$(( $(date +%s) - began ))" >> "$jlog" 2>/dev/null
+          if grep -q "KILLED AT THE CAP" "$jlog" 2>/dev/null; then
+            pk=$(grep -o 'scopePeakMiB [0-9]*' "$jlog" | tail -1 | awk '{printf "%.2f", $2 / 1024}')
+            kline="killed: memory cap ${mem_gib} GiB exceeded, peak ${pk} GiB, cmd $*"
+            echo "$kline" >> "$jlog" 2>/dev/null
+            say "$kline (only this job died; log $jlog; fix its memory or pass a bigger --mem, then resume)"
+          elif (( code == 137 )); then say "exit 137 (killed): the machine ceiling or a signal; see $jlog"; fi
           : > "$lock_dir/slot-$i.lock"
           exit "$code"
         fi
