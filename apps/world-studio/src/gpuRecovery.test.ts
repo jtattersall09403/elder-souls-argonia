@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { decideRecovery, isGpuOriginError, MAX_RECOVERIES, WINDOW_MS } from "./gpuRecovery";
+import { cameraAnglesOf, decideRecovery, isGpuOriginError, MAX_RECOVERIES, saveCameraAngles, WINDOW_MS, type LivePose } from "./gpuRecovery";
 
 describe("decideRecovery", () => {
   it("ignores a loss our own dispose caused", () => {
@@ -22,5 +22,17 @@ describe("isGpuOriginError", () => {
   it("tells GPU errors from scene errors", () => {
     expect(isGpuOriginError("WebGPU Device Lost")).toBe(true);
     expect(isGpuOriginError("Cannot read properties of undefined")).toBe(false);
+  });
+});
+
+describe("saved pose camera angles", () => {
+  it("round-trips the follow camera's yaw and pitch", () => {
+    const pose: LivePose = { x: 1, y: 2, z: 3 };
+    expect(cameraAnglesOf(pose)).toBeNull();
+    saveCameraAngles(pose, 2.5, -0.3);
+    const back = cameraAnglesOf(pose)!;
+    expect(back.yaw).toBeCloseTo(2.5, 9);
+    expect(back.pitch).toBeCloseTo(-0.3, 9);
+    expect(cameraAnglesOf(null)).toBeNull();
   });
 });

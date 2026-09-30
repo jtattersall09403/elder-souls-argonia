@@ -123,7 +123,7 @@ function pieceGlb(kitName, assetId) {
 }
 
 const page = /* html */ `<!doctype html><html><body style="margin:0;background:#000">
-<canvas id="c" width="1200" height="800"></canvas>
+<canvas id="c" width="400" height="400"></canvas><canvas id="sheet" width="1200" height="800"></canvas>
 <script type="importmap">{"imports":{"three":"/three/build/three.webgpu.js","three/webgpu":"/three/build/three.webgpu.js","three/tsl":"/three/build/three.tsl.js","three/addons/":"/three/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from "three";
@@ -138,6 +138,12 @@ const renderer = new THREE.WebGPURenderer({ canvas, antialias: true });
 await renderer.init();
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.autoClear = false;
+// WebGPU tone-maps the whole framebuffer at the exposure of the LAST render
+// (one output pass per render), so each tile is one exposure: scene and fire
+// share the row's exposure, the lights and the clear colour are divided by it
+// (same displayed values as a scene lit at exposure 1), and each tile is
+// copied to the 2D sheet before the next exposure is set.
+const sheet = document.getElementById("sheet").getContext("2d");
 const COLS = 3, ROWS = 2, TW = 400, TH = 400;
 const LOOKS = [
   { exposure: 3.9e-5, bg: 0x9fb8d0, key: 2.2, amb: 0.9 },
@@ -171,10 +177,6 @@ window.renderFixture = async (key) => {
   piece.position.copy(want.min).sub(got.min);
   const scene = new THREE.Scene();
   scene.add(piece);
-  const amb = new THREE.AmbientLight(0xffffff, 1);
-  const sun = new THREE.DirectionalLight(0xfff1dd, 1);
-  sun.position.set(2, 4, 3);
-  scene.add(amb, sun);
   const anchors = interiorFlameAnchorsLocal(row, want);
   const fire = new FlameSystem(undefined, 0);
   fire.setEmitters(anchors.map((a, i) => ({ position: a.local, preset: a.preset, scale: 1, seed: 0.37 + i * 0.13, owner: 0 })));
@@ -195,11 +197,17 @@ window.renderFixture = async (key) => {
     // a bar the flame touches (argonianlanterns04, walk 6)
     { at: flameAt, dir: new THREE.Vector3(0.3, 0.15, 1), span: Math.max(flameH * 2.4, 0.12), sectionM: flameH * 1.2 },
   ];
-  renderer.setScissorTest(true);
   for (let r = 0; r < ROWS; r++) {
     const look = LOOKS[r];
-    amb.intensity = look.amb; sun.intensity = look.key;
-    for (const s of shells) s.emissiveIntensity = r === 1 ? 1 : 0;
+    renderer.toneMappingExposure = look.exposure;
+    // fresh lights per row: outside an animation loop the node frame never
+    // advances, so a changed intensity on the same light is not re-uploaded
+    scene.remove(...scene.children.filter((o) => o.isLight));
+    const amb = new THREE.AmbientLight(0xffffff, look.amb / look.exposure);
+    const sun = new THREE.DirectionalLight(0xfff1dd, look.key / look.exposure);
+    sun.position.set(2, 4, 3);
+    scene.add(amb, sun);
+    for (const s of shells) s.emissiveIntensity = r === 1 ? 1 / look.exposure : 0;
     for (let c = 0; c < COLS; c++) {
       const v = views[c];
       const fov = 35;
@@ -208,18 +216,15 @@ window.renderFixture = async (key) => {
       const cam = new THREE.PerspectiveCamera(fov, TW / TH, near, dist * 20);
       cam.position.copy(v.at).addScaledVector(v.dir.clone().normalize(), dist);
       cam.lookAt(v.at);
-      const x = c * TW, y = (ROWS - 1 - r) * TH;
-      renderer.setViewport(x, y, TW, TH); renderer.setScissor(x, y, TW, TH);
-      renderer.setClearColor(look.bg); renderer.clear();
-      renderer.toneMappingExposure = 1;
+      renderer.setClearColor(new THREE.Color(look.bg).multiplyScalar(1 / look.exposure)); renderer.clear();
       renderer.render(scene, cam);
-      renderer.toneMappingExposure = look.exposure;
       fire.update(0.3 + c * 0.4, () => 1);
       renderer.render(fireScene, cam);
+      sheet.drawImage(canvas, c * TW, r * TH);
     }
   }
   fire.dispose();
-  return { url: canvas.toDataURL("image/png"), shells: shells.length, anchors: anchors.map((a) => ({ preset: a.preset, y: +a.local.y.toFixed(3) })),
+  return { url: document.getElementById("sheet").toDataURL("image/png"), shells: shells.length, anchors: anchors.map((a) => ({ preset: a.preset, y: +a.local.y.toFixed(3) })),
     box: { min: want.min.toArray().map((n) => +n.toFixed(3)), max: want.max.toArray().map((n) => +n.toFixed(3)) } };
 };
 window.ready = true;

@@ -4,7 +4,7 @@ import { Physics, useRapier } from "@react-three/rapier";
 import { ShapeType } from '@dimforge/rapier3d-compat';
 import * as THREE from "three";
 import type { EcctrlHandle } from "ecctrl";
-import { POSE_SAVE_INTERVAL_S, useGpuRecovery, type LivePose } from "../gpuRecovery";
+import { cameraAnglesOf, POSE_SAVE_INTERVAL_S, saveCameraAngles, useGpuRecovery, type LivePose } from "../gpuRecovery";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
 import { studioCanvasRenderer, type StudioRendererHost } from "../studioRenderer";
 import type { WebGPURenderer } from "three/webgpu";
@@ -1670,6 +1670,9 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
       initialised.current = true;
       lastPosition.current.copy(position);
       camera3P.reset(visualPos, Math.PI);
+      // after a GPU-recovery remount the camera keeps the heading it had
+      const angles = cameraAnglesOf(lastPose.current);
+      if (angles) { camera3P.yaw = angles.yaw; camera3P.pitch = angles.pitch; }
       camera3P.applyTo(camera);
       return;
     }
@@ -1708,6 +1711,7 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
       poseTimer.current = 0;
       const p = lastPose.current ?? (lastPose.current = { x: 0, y: 0, z: 0 });
       p.x = position.x; p.y = position.y; p.z = position.z;
+      saveCameraAngles(p, camera3P.yaw, camera3P.pitch);
     }
 
     // Streaming safety net: anything that truly slips under the terrain is

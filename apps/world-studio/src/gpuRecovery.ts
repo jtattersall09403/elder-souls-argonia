@@ -29,8 +29,22 @@ export function decideRecovery(args: {
   return inWindow < MAX_RECOVERIES ? "recover" : "give-up";
 }
 
-/** Live view pose the host keeps across a remount (metres; yaw/pitch degrees, compass yaw). */
+/** Live view pose the host keeps across a remount (metres; yaw/pitch degrees: compass yaw in fly mode, follow-camera yaw in character mode). */
 export type LivePose = { x: number; y: number; z: number; yaw?: number; pitch?: number };
+
+/** Store a follow camera's yaw/pitch (radians) on the saved pose, in degrees. */
+export function saveCameraAngles(pose: LivePose, yawRad: number, pitchRad: number): void {
+  pose.yaw = DEG_PER_RAD * yawRad;
+  pose.pitch = DEG_PER_RAD * pitchRad;
+}
+
+/** The follow camera's yaw/pitch (radians) a saved pose carries, or null when it has none. */
+export function cameraAnglesOf(pose: LivePose | null): { yaw: number; pitch: number } | null {
+  if (!pose || pose.yaw === undefined || pose.pitch === undefined) return null;
+  return { yaw: pose.yaw / DEG_PER_RAD, pitch: pose.pitch / DEG_PER_RAD };
+}
+
+const DEG_PER_RAD = 180 / Math.PI;
 
 /** Pose writes per second at most, so the ref costs nothing per frame. */
 export const POSE_SAVE_INTERVAL_S = 0.25;
