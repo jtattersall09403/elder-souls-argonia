@@ -29,6 +29,12 @@ export function decideRecovery(args: {
   return inWindow < MAX_RECOVERIES ? "recover" : "give-up";
 }
 
+/** Live view pose the host keeps across a remount (metres; yaw/pitch degrees, compass yaw). */
+export type LivePose = { x: number; y: number; z: number; yaw?: number; pitch?: number };
+
+/** Pose writes per second at most, so the ref costs nothing per frame. */
+export const POSE_SAVE_INTERVAL_S = 0.25;
+
 export type DeviceLossInfo = { message?: string; reason?: string | null };
 
 /** Host-side state: the Canvas key and the loss handler the renderer factory calls. */

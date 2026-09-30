@@ -4,7 +4,7 @@ import { Physics, useRapier } from "@react-three/rapier";
 import { ShapeType } from '@dimforge/rapier3d-compat';
 import * as THREE from "three";
 import type { EcctrlHandle } from "ecctrl";
-import { useGpuRecovery } from "../gpuRecovery";
+import { POSE_SAVE_INTERVAL_S, useGpuRecovery, type LivePose } from "../gpuRecovery";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
 import { studioCanvasRenderer, type StudioRendererHost } from "../studioRenderer";
 import type { WebGPURenderer } from "three/webgpu";
@@ -231,6 +231,16 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // The node renderer (decision 0107), built once by R3F: WebGPU where the
   // browser has it, WebGL 2 otherwise or with `?renderer=webgl`.
   const { canvasKey, onDeviceLost, recoverFromError } = useGpuRecovery(setCanvasError);
+  // Live body position (physics coordinates), written 4x/s by CharacterDriver;
+  // after a GPU-recovery remount the player respawns here, not at the spawn point.
+  const lastPose = useRef<LivePose | null>(null);
+  const resume = canvasKey > 0 ? lastPose.current : null;
+  const spawnNow = useMemo<Vec3 | null>(
+    () => (resume ? { x: resume.x, y: resume.y, z: resume.z } : spawn),
+    // Recomputed on the remount (canvasKey) or a new spawn only; `resume` is read from the ref then.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [canvasKey, spawn],
+  );
   const glFactory = useMemo(() => studioCanvasRenderer({ antialias: canvasAa, onDeviceLost }), [canvasAa, onDeviceLost]);
   // DEV comparison switch (`?water=0`, decision 0084 round 10): the water
   // pipeline and surface are not mounted, so the frame can be measured
@@ -663,7 +673,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 of the built ground, and the one line the player gets there. */}
             <BoundaryWalls extentM={terrainExtentM} verticalScale={verticalScale} />
             <BoundaryMessage positionRef={focusRef} extentM={terrainExtentM} onMessage={setEdgeMessage} />
-            <PlayerBody handleRef={player} position={[spawn.x, spawn.y, spawn.z]} rotationY={Math.PI}>
+            <PlayerBody handleRef={player} position={[(spawnNow ?? spawn).x, (spawnNow ?? spawn).y, (spawnNow ?? spawn).z]} rotationY={Math.PI}>
               {/* The camera fades this group out when its arm is short
                   (16h check-in 2 item 3); per-mesh hiding stays armour's. */}
               <group ref={playerModelRef}>
@@ -692,7 +702,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               handleRef={player}
               world={world}
               active={collidersReady && renderWarm}
-              spawn={spawn}
+              spawn={spawnNow ?? spawn}
+              lastPose={lastPose}
               locomotion={locomotion}
               animationTimeRef={animationTimeRef}
               speedMultiplierRef={speedMultiplierRef}
@@ -1445,12 +1456,14 @@ function BoundaryMessage({ positionRef, extentM, onMessage }: {
   return null;
 }
 
-function CharacterDriver({ handleRef, world, active, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, extentM, onHud, onPositionKm, onWaterContact, playerModelRef, settlementRebuildRef, interaction, interiorProbeRef }: {
+function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, extentM, onHud, onPositionKm, onWaterContact, playerModelRef, settlementRebuildRef, interaction, interiorProbeRef }: {
   handleRef: React.RefObject<EcctrlHandle | null>;
   world: ChunkWorld;
   /** Colliders mounted AND rendering warm — physics steps only when true. */
   active: boolean;
   spawn: Vec3;
+  /** Host-owned live body position, written 4x/s for the GPU-recovery remount. */
+  lastPose: React.MutableRefObject<LivePose | null>;
   locomotion: ExplorerLocomotion;
   animationTimeRef: React.MutableRefObject<number>;
   speedMultiplierRef: React.MutableRefObject<number>;
@@ -1503,6 +1516,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   const visualQuat = useMemo(() => new THREE.Quaternion(), []);
   const poseSeeded = useRef(false);
   const netTimer = useRef(0);
+  const poseTimer = useRef(0);
   const cameraDir = useMemo(() => new THREE.Vector3(), []);
   const initialised = useRef(false);
   const hudTimer = useRef(0);
@@ -1689,6 +1703,12 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     camera3P.applyTo(camera);
     if (playerModelRef?.current) fadePlayerModel(playerModelRef.current, playerOpacityForArm(camera3P.arm));
     focusRef.current = { x: position.x, z: position.z };
+    poseTimer.current += rawDelta;
+    if (poseTimer.current >= POSE_SAVE_INTERVAL_S && adapter.ready) {
+      poseTimer.current = 0;
+      const p = lastPose.current ?? (lastPose.current = { x: 0, y: 0, z: 0 });
+      p.x = position.x; p.y = position.y; p.z = position.z;
+    }
 
     // Streaming safety net: anything that truly slips under the terrain is
     // set back on the surface. The CPU height alone must NOT trigger it —

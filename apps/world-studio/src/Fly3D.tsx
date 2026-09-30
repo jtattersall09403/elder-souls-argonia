@@ -4,7 +4,7 @@ import { MapControls, PointerLockControls } from "@react-three/drei";
 import * as THREE from "three";
 import { prefetchChunks, sharedChunkStore, type ChunksManifest } from "./character/chunkStore";
 import { headingOf } from "./compass";
-import { useGpuRecovery } from "./gpuRecovery";
+import { POSE_SAVE_INTERVAL_S, useGpuRecovery, type LivePose } from "./gpuRecovery";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "./CanvasErrorBoundary";
 import { studioCanvasRenderer } from "./studioRenderer";
 import { SettlementErrorLine } from "./SettlementErrorLine";
@@ -123,8 +123,10 @@ function FocusTracker({ focusRef }: { focusRef: React.MutableRefObject<{ x: numb
   return null;
 }
 
-function FlyRig({ speedRef, onPosition, extentM }: {
+function FlyRig({ speedRef, onPosition, extentM, lastPose }: {
   speedRef: React.MutableRefObject<number>;
+  /** Host-owned live pose, written 4x/s so a GPU-recovery remount resumes here. */
+  lastPose: React.MutableRefObject<LivePose | null>;
   onPosition?: Fly3DProps["onPosition"];
   extentM: number;
 }) {
@@ -139,6 +141,7 @@ function FlyRig({ speedRef, onPosition, extentM }: {
   }, []);
   const dir = new THREE.Vector3();
   const side = new THREE.Vector3();
+  const sinceSave = useRef(0);
   useFrame((_, dt) => {
     const k = keys.current;
     const speed = speedRef.current * (k.ShiftLeft || k.ShiftRight ? 4 : 1);
@@ -162,6 +165,14 @@ function FlyRig({ speedRef, onPosition, extentM }: {
       camera.position.y,
       headingOf(dir.x, dir.z).deg,
     );
+    sinceSave.current += dt;
+    if (sinceSave.current >= POSE_SAVE_INTERVAL_S) {
+      sinceSave.current = 0;
+      const p = lastPose.current ?? (lastPose.current = { x: 0, y: 0, z: 0 });
+      p.x = camera.position.x; p.y = camera.position.y; p.z = camera.position.z;
+      p.yaw = (Math.atan2(dir.x, -dir.z) * 180) / Math.PI;
+      p.pitch = (Math.asin(Math.max(-1, Math.min(1, dir.y))) * 180) / Math.PI;
+    }
   });
   return null;
 }
@@ -295,6 +306,11 @@ export function Fly3D(props: Fly3DProps) {
   // The node renderer (decision 0107): WebGPU where the browser has it,
   // WebGL 2 otherwise or with `?renderer=webgl`. R3F builds it once.
   const { canvasKey, onDeviceLost, recoverFromError } = useGpuRecovery(setCanvasError);
+  // After a GPU-recovery remount the view resumes at the saved pose, not the props.
+  const lastPose = useRef<LivePose | null>(null);
+  const resume = canvasKey > 0 ? lastPose.current : null;
+  const camStart: [number, number, number] = resume ? [resume.x, resume.y, resume.z] : start;
+  const camAim = resume && resume.yaw !== undefined ? aimVector(resume.yaw, resume.pitch) : initialAim;
   const glFactory = useMemo(() => studioCanvasRenderer({ onDeviceLost }), [onDeviceLost]);
   return (
     <>
@@ -305,7 +321,7 @@ export function Fly3D(props: Fly3DProps) {
     }} />
     <Canvas
           key={canvasKey}
-      camera={{ position: start, fov: 60, near: 2, far: 60000, up: [0, 1, 0] }}
+      camera={{ position: camStart, fov: 60, near: 2, far: 60000, up: [0, 1, 0] }}
       // Cap pixel density: retina 2× quadruples every fullscreen pass (scene
       // RT + blit + water); 1.5 is visually near-identical (8b round 2 perf)
       dpr={[1, 1.5]}
@@ -316,14 +332,14 @@ export function Fly3D(props: Fly3DProps) {
       shadows="percentage"
       style={{ width: "100%", height: "100%" }}
       onCreated={({ camera }) => {
-        if (initialAim) {
+        if (camAim) {
           camera.lookAt(
-            start[0] + initialAim.x * 2000,
-            start[1] + initialAim.y * 2000,
-            start[2] + initialAim.z * 2000,
+            camStart[0] + camAim.x * 2000,
+            camStart[1] + camAim.y * 2000,
+            camStart[2] + camAim.z * 2000,
           );
         } else {
-          camera.lookAt(start[0], 0, start[2] - 4000);
+          camera.lookAt(camStart[0], 0, camStart[2] - 4000);
         }
       }}
     >
@@ -397,14 +413,14 @@ export function Fly3D(props: Fly3DProps) {
       {props.mode === "fly" ? (
         <>
           <PointerLockControls onLock={() => setLocked(true)} onUnlock={() => setLocked(false)} />
-          <FlyRig speedRef={speedRef} onPosition={props.onPosition} extentM={terrainExtentM} />
+          <FlyRig speedRef={speedRef} lastPose={lastPose} onPosition={props.onPosition} extentM={terrainExtentM} />
           {!locked && null}
         </>
       ) : (
         <MapControls
-          target={initialAim
-            ? [start[0] + initialAim.x * 2000, start[1] + initialAim.y * 2000, start[2] + initialAim.z * 2000]
-            : [start[0], 0, start[2] - 2000]}
+          target={camAim
+            ? [camStart[0] + camAim.x * 2000, camStart[1] + camAim.y * 2000, camStart[2] + camAim.z * 2000]
+            : [camStart[0], 0, camStart[2] - 2000]}
           maxDistance={40000}
         />
       )}
