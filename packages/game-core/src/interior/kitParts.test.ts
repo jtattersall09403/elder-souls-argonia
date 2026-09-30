@@ -87,7 +87,7 @@ describe(`kit parts (${KIT}): a part GLB loads on its own and carries its asset'
       }
       checked += 1;
     }
-    expect(checked).toBeGreaterThan(100);
+    expect(checked).toBe(Object.keys(index.assets).length);   // every part the cells draw, however many
     expect(vertices).toBeGreaterThan(10_000);
   }, 60_000);
 });
