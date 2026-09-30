@@ -24,6 +24,7 @@ from pathlib import Path
 import numpy as np
 
 from . import measure, paths
+from .raycast import cast_rays
 
 BURY_MIN_M = 0.15            # burialRule: a base may sit this far under the ground with no design
 BURY_TOL_M = 0.03            # ... over the allowance by more than the miner's contact (0097 rule 3)
@@ -604,8 +605,7 @@ def _landing_deck(cat, p, floor: float | None, edge, inward, meshes) -> float | 
     pts = [(x + inward[0] * d, z + inward[1] * d) for x, z in edge
            for d in (LANDING_INSET_M, 0.6, 1.0, 1.5)]
     origins = [[x, -z, floor + 0.3] for x, z in pts]
-    locs, _r, _t = mesh.ray.intersects_location(origins, [[0.0, 0.0, -1.0]] * len(origins),
-                                                multiple_hits=False)
+    locs, _r, _t = cast_rays(mesh, origins, [0.0, 0.0, -1.0], multiple_hits=False)
     hits = [float(v[2]) for v in locs if floor - LANDING_DECK_BAND_M <= float(v[2]) <= floor + 0.3]
     return float(np.median(hits)) if hits else None
 

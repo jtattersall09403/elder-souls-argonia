@@ -202,6 +202,7 @@ from typing import Callable, Iterable
 import numpy as np
 
 from . import asset_registry
+from .raycast import cast_rays
 from .esp_index import UNITS_PER_METRE, Plugin
 from .mine_assemblies import local_offset
 from .mine_designed_sink import (
@@ -1150,8 +1151,8 @@ def supported_from_below(contact_points: np.ndarray, parent_mesh,
     lift = CONTACT_M / parent_scale
     starts = contact_points + np.array([0.0, 0.0, lift])
     down = np.tile(np.array([0.0, 0.0, -1.0]), (len(starts), 1))
-    locations, index_ray, index_tri = parent_mesh.ray.intersects_location(
-        starts, down, multiple_hits=False)
+    locations, index_ray, index_tri = cast_rays(
+        parent_mesh, starts, down, multiple_hits=False)
     if not len(locations):
         return False
     drop = (starts[index_ray][:, 2] - locations[:, 2]) * parent_scale - CONTACT_M
@@ -1237,8 +1238,8 @@ def floor_gap(origins: np.ndarray, a: np.ndarray, b: np.ndarray, parent_scale: f
     if not worth.any():
         return None
     starts = placed[worth]
-    locations, index_ray, index_tri = parent_mesh.ray.intersects_location(
-        starts, np.tile(down, (len(starts), 1)), multiple_hits=False)
+    locations, index_ray, index_tri = cast_rays(
+        parent_mesh, starts, np.tile(down, (len(starts), 1)), multiple_hits=False)
     if not len(locations):
         return None
     t = np.einsum("ij,j->i", locations - starts[index_ray], down) * parent_scale

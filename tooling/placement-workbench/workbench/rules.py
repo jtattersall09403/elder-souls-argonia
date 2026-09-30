@@ -23,6 +23,7 @@ from functools import lru_cache
 import numpy as np
 
 from . import measure, paths
+from .raycast import cast_rays
 from .scene import plan_to_province
 
 SCHEMA_VERSION = 1
@@ -341,7 +342,7 @@ def _floor_heights(cat, p, floor_y: float, xs, zs) -> np.ndarray:
     mesh = _world_mesh(cat, p)
     origins = np.column_stack([xs, -zs, np.full(len(xs), floor_y + FLOOR_RAY_HEAD_M)])
     dirs = np.tile([0.0, 0.0, -1.0], (len(xs), 1))
-    locs, rays, _t = mesh.ray.intersects_location(origins, dirs, multiple_hits=False)
+    locs, rays, _t = cast_rays(mesh, origins, dirs, multiple_hits=False)
     out[rays] = locs[:, 2]
     return out
 
@@ -622,7 +623,7 @@ class WalkGrid:
         top = float(mesh.bounds[1][2]) + 1.0
         origins = np.column_stack([self.X[iz, ix], -self.Z[iz, ix], np.full(len(iz), top)])
         dirs = np.tile([0.0, 0.0, -1.0], (len(iz), 1))
-        locs, rays, _tri = mesh.ray.intersects_location(origins, dirs, multiple_hits=False)
+        locs, rays, _tri = cast_rays(mesh, origins, dirs, multiple_hits=False)
         for loc, r in zip(locs, rays):
             self.H[iz[r], ix[r]] = float(loc[2])
             self.src[iz[r], ix[r]] = i
@@ -967,7 +968,7 @@ def underside(cat, p, points_xz) -> list[float | None]:
     low = float(mesh.bounds[0][2]) - 1.0
     origins = np.array([[x, -z, low] for x, z in points_xz])
     dirs = np.tile([0.0, 0.0, 1.0], (len(origins), 1))
-    locs, rays, _tri = mesh.ray.intersects_location(origins, dirs, multiple_hits=False)
+    locs, rays, _tri = cast_rays(mesh, origins, dirs, multiple_hits=False)
     out: list[float | None] = [None] * len(origins)
     for loc, r in zip(locs, rays):
         out[r] = float(loc[2])

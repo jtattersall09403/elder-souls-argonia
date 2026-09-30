@@ -34,6 +34,8 @@ from pathlib import Path
 
 import numpy as np
 
+from .raycast import RAY_CHUNK, cast_rays  # noqa: F401  (re-exported: iw.cast_rays)
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 RAW_KITS = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
 #: A socket on host furniture (a bench, a bed, a chair; a chest, whose own
@@ -115,24 +117,6 @@ def bundle_mesh(bundle: dict, kits_dir: Path = RAW_KITS):
     mesh = trimesh.Trimesh(vertices=tris.reshape(-1, 3), faces=np.arange(len(tris) * 3).reshape(-1, 3),
                            process=False)
     return mesh, np.concatenate(owner), sorted(set(missing))
-
-
-RAY_CHUNK = 512  # rays per trimesh call: its pure-numpy caster tests every ray
-# against every triangle its (unbounded) ray box meets, so one call over a
-# cell's ~10k join rays held 21 GiB (KeebaHouseElder --reached, 2026-09-30)
-
-
-def cast_rays(mesh, origins, dirs, multiple_hits: bool):
-    """`mesh.ray.intersects_location` in chunks of RAY_CHUNK rays (same
-    returns, ray indices into the full input)."""
-    origins, dirs = np.asarray(origins, float), np.asarray(dirs, float)
-    locs, rays, tris = [np.zeros((0, 3))], [np.zeros(0, int)], [np.zeros(0, int)]
-    for k in range(0, len(origins), RAY_CHUNK):
-        lo_, r_, t_ = mesh.ray.intersects_location(origins[k:k + RAY_CHUNK], dirs[k:k + RAY_CHUNK],
-                                                   multiple_hits=multiple_hits)
-        locs.append(np.asarray(lo_).reshape(-1, 3)); rays.append(np.asarray(r_, int) + k)
-        tris.append(np.asarray(t_, int))
-    return np.vstack(locs), np.concatenate(rays), np.concatenate(tris)
 
 
 def walk_mesh(mesh, face_owner, starts: list, targets: list[dict], ch: dict | None = None,
