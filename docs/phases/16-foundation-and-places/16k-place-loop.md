@@ -211,6 +211,7 @@ step 2 from the slice that first builds it.
 | Promises filled | the promise ledger and `fills` (0104 decisions 3–6); the promise gate | yes |
 | Colliders on everything a walker meets | `colliderRule`: every placed asset over 0.3 m in plan and height collides (owner 2026-09-27) | yes |
 | Fire and smoke (chimney, cook fire, forge glow) | chimney smoke in dressing-v1; cook fire and forge: new R3 | yes |
+| Mist, fog and light volumes (GPU volumetrics lane, owner walk 6) | decision 0112: the froxel medium on the WebGPU build; a place does not author fog, it inherits it from the fog field (basins, water, marsh, canopy, weather, time); a cave or damp interior cell sets its floor-mist profile; fixture lights halo in mist | yes, on the `volumetrics` harness shots (Sonnet look-list) and the /webgpu/ build; the WebGL studio shows the aerial fog alone |
 | Signage, banners, totems, shrines | mount sheets; totems 97:757 | yes |
 | Gardens, crops, kept trees | kept trees item 14; crops: new R4 (Argonian crops are a sourcing gap) | yes |
 | Water edge (docks, reeds, boats pulled up, moorings, wheels) | items 10, 16; boats pulled up and moorings: new R5 | yes where the place touches water |

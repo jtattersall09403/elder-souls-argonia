@@ -290,16 +290,18 @@ cloud layers in the envelope-pinned dome, rain streaks + ripple impulses +
 rain-wetness on the ground shader, the three mist regimes as distinct added
 densities in the ONE aerial term, weather-owned wind block scaling water
 chop (CPU + GPU symmetric), weather/visibility/grip through the environment
-query, quality via the shared device-tier heuristic. **God rays through
-canopy were deferred with rationale**: no canopy geometry exists until
-Phase 10 places trees — nothing for shafts to pass through (polish backlog,
-with volumetric clouds, the rain-occlusion depth map and lens droplets).
+query, quality via the shared device-tier heuristic. Canopy light shafts,
+mist volumes and light halos are the GPU volumetrics of decision 0112 (below).
 
 **Tier 3 — polish.** Bioluminescent night ecology (Phase 13, needs species),
 seasonal foliage response (polish backlog, owner 2026-09-16), lightning and weather audio
 (12b), per-device-class quality budgets and performance gates (14).
-Volumetric (froxel) fog is **cut** (owner 2026-09-13: the shipped mist, haze
-and fog are what we want; no heavier fog technique).
+**GPU volumetrics (decision 0112, owner 2026-09-30):** one froxel medium on
+the WebGPU backend carries radiation mist pooled in basins, steam fog over
+water, marsh ground fog, sea fog, canopy haze with sun shafts through canopy
+gaps, halos round fixture lights, and interior floor mist; it sits beside
+the aerial term in `scene.fogNode`, is lit in scene-referred radiance, and
+follows the quality bands (off on the WebGL fallback).
 
 Tier-1 code: `packages/world-time` (clock/calendar/ephemeris),
 `apps/world-studio/src/sky/` (light rig, sky dome, stars/moons, aerial haze,
