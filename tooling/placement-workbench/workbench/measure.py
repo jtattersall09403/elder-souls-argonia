@@ -493,7 +493,8 @@ def ground_report(cat: Catalogue, ground, piece: Piece) -> dict:
     poly = footprint_province(cat, piece)
     ch = [ground.chunk_height(x, z) for x, z in poly]
     sv = [ground.survey_height(x, z) for x, z in poly]
-    wet = sum(ground.wet(x, z) for x, z in poly)
+    # the fine depth raster (`water_levels_where_wet`'s own wet mask), not the coarse survey flag
+    wet = sum(ground.depth(x, z) > 0.0 for x, z in poly)
     out = {"footprintVertices": len(poly),
            "chunks": {"min": min(ch), "max": max(ch), "mean": sum(ch) / len(ch)},
            "survey": {"min": min(sv), "max": max(sv), "mean": sum(sv) / len(sv)},

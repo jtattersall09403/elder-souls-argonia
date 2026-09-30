@@ -36,6 +36,9 @@ whole state. Prints JSON on stdout and a timing line on stderr.
                                           in output/apply/<placeId>.json)
     wb.py replay --scene NAME --out LAYOUT.json   (a scene's command log as a layout)
     wb.py - walktable PLACE_ID            (owner-walk table from the published bundle)
+    wb.py paint-check PLACE_ID [--out J] (published painted ways: dangling ends, acute joins, door gaps, road overlap)
+    wb.py paint-look PLACE_ID X,Z ... [--span M] (top-down picture of the published paint over the land cover)
+    wb.py packet-shots PLACE_ID [--out DIR] (walk packet contents + pictures from the published bundle, stamped)
     wb.py - describe ASSET [--refresh]
     wb.py - evidence PARENT_ASSET CHILD_ASSET
     wb.py audit-interior [CELL ...] [--out J] (interior cell: textures, support, stairs, hearth, lit density)
@@ -190,7 +193,7 @@ def cmd_place(a, scene, cat):
     scale = cat.placed_scale(a.asset) if a.scale is None else a.scale
     p = scene.add(Piece(uid=a.uid, asset=a.asset, x=x, z=z, yaw=a.yaw % 360.0, y=a.y,
                         scale=scale, pad=pads.parse(a.pad), beached=a.beached,
-                        walkable=a.walkable))
+                        walkable=a.walkable, wet=a.wet))
     out = {"placed": a.uid}
     if a.settle or (a.y is None and (p.pad is not None
                                      or measure.auto_settles(cat.row(a.asset), a.walkable))):
@@ -416,6 +419,10 @@ def _sill(cat, g, p, row, cs) -> dict:
     fit = cs.asset_fit(row)
     if klass not in ("ground", "deck"):
         return {}
+    if p.wet and (p.settledBy or "").startswith("evidence-snap:"):
+        # a step-down laid into the water by its mined pair (R90): its seat is
+        # the pair's, its foot is meant to stand in the water (R86)
+        return {}
     mode = (row.get("placement") or {}).get("anchorMode", "streamed-perimeter")
     samples = (measure.footprint_province(cat, p) if mode == "streamed-perimeter"
                else [(p.x, p.z)])
@@ -518,6 +525,61 @@ def cmd_ground(a, scene, cat):
     return measure.ground_report(cat, g, scene.piece(a.uid))
 
 
+def cmd_boardwalk(a, scene, cat):
+    """Route a boardwalk (`workbench/boardwalk.py`, modular-runs § F): flat
+    dry ends near --from/--to, the straight when clear else the shortest L
+    turning on a --junction piece, a whole number of --piece modules per leg;
+    prints the plan and its layout ops. `--layout L --write` swaps them into
+    the layout in place of the run's old members (bound to --run or uid
+    starting --prefix); then `wb.py apply` and `walkway`."""
+    import json as _json
+    from workbench import boardwalk, walkway
+    from workbench import rules
+    g = rules._ground(cat, scene)
+    step = boardwalk.step_of(a.piece, a.pick)
+    width = float(cat.row(a.piece).get("sizeM", [4.0])[0]) if cat.row(a.piece).get("sizeM") else 4.0
+    jm = None
+    if a.junction:
+        js = cat.row(a.junction).get("sizeM") or [6.0, 6.0]
+        jm = float(max(js[0], js[1]))
+    obst = boardwalk.obstacles_of(cat, scene, a.prefix)
+    route = boardwalk.plan(g, tuple(a.from_), tuple(a.to), step_m=step, width_m=width,
+                           slope_fn=walkway._slope_deg, search_m=a.search, obstacles=obst,
+                           junction_m=jm)
+    ops, binds = boardwalk.ops_for(route, a.run, a.piece, prefix=a.prefix, step_m=step,
+                                   junction=a.junction, pick=a.pick or None)
+    out = {"route": route, "stepM": step, "widthM": width, "ops": ops, "binds": binds}
+    if a.layout:
+        doc = _json.loads(Path(a.layout).read_text())
+        new = boardwalk.replace_in_layout(doc, a.run, a.prefix, ops, binds)
+        if a.write:
+            Path(a.layout).write_text(_json.dumps(new, indent=1) + "\n")
+            out["written"] = str(a.layout)
+        else:
+            out["wouldWrite"] = len(new["ops"])
+    return out
+
+
+def cmd_walkway(a, scene, cat):
+    """walkwayRule (16k walk 6): a player capsule walked along every built
+    way (run of walkable pieces) from its start ground through every joint to
+    its end, and along every bound door's approach through the threshold;
+    every rail or post across the way, every hole or open joint, every step
+    over the controller's, and a start or end on steep ground, named by uid
+    (`workbench/walkway.py`). `--published` walks the published bundle's
+    heights (apps/world-studio/public/province/settlements/<placeId>.json)."""
+    from workbench import paths, seat_rules, walkway
+    ys = None
+    if getattr(a, "published", False):
+        f = paths.REPO_ROOT / "apps/world-studio/public/province/settlements" / f"{scene.placeId}.json"
+        if not f.exists():
+            raise ValueError(f"walkway --published: no published bundle {f}")
+        ys = seat_rules.compiled_from(scene, f)
+    out = walkway.walkway(cat, scene, ys)
+    out["ok"] = not out["failures"]
+    return out
+
+
 def cmd_doors(a, scene, cat):
     reports = {p.uid: measure.door_report(cat, scene, p) for p in scene.pieces}
     return {uid: r for uid, r in reports.items() if r}
@@ -556,7 +618,7 @@ def _check_row(cat, scene, p, declared, cs) -> dict:
             r["deltaM"] = round(seat["deltaM"], 3)
             r["wetVertices"] = sum(g.wet(x, z) for x, z in poly)
             if not p.beached and not row.get("piled") and (row.get("anchorClass") or "ground") != "water":
-                r.update(_submerged(g, p, row))
+                r.update(_water_at(g, p, row))
     if p.y is not None and not mounted and (row.get("anchorClass") or "ground") != "water":
         r.update(measure.float_under(cat, g, p))
     if measure.deck_seated(row) and not mounted:
@@ -576,26 +638,20 @@ def _check_row(cat, scene, p, declared, cs) -> dict:
     return r
 
 
-#: a ground piece whose origin stands in more than this depth of the fine
-#: water raster (the runtime's water surface over the ground) is in the water.
-#: The analysis grid's `wet` cells are 5.48 m and read a sub-cell pond as
-#: dry (Claywater walk 5: the well stood in 1.08 m of the tarn, wetVertices 0).
-SUBMERGED_DEPTH_M = 0.15
-
-
-def _submerged(g, p, row) -> dict:
-    """submergedRule: the fine water depth and level at the piece's origin
-    and how far its top stands over the water; fails a ground piece standing
-    in more than SUBMERGED_DEPTH_M of water."""
+def _water_at(g, p, row) -> dict:
+    """Information, never a failure (walk 6, rulings R86): the fine water
+    depth at the piece's origin and, where water stands there, its level and
+    how far the piece's top stands over it. Whether a piece is meant to stand
+    in water (a jetty post, a fish trap, a sunken wreck) is the builder's
+    call, recorded on its layout op (place-build step 2, `wet`)."""
     depth, level = float(g.depth(p.x, p.z)), g.water_level(p.x, p.z)
-    out = {"waterDepthM": round(depth, 3)}
-    if level is None or depth <= SUBMERGED_DEPTH_M:
+    out = {"waterDepthM": round(depth, 3), "wet": bool(p.wet)}
+    if level is None or depth <= 0.0:
         return out
-    top = None if p.y is None else p.y + (float(row["sizeM"][2]) - float(row["originOffsetM"][2])) * p.scale
-    out["topOverWaterM"] = None if top is None else round(top - level, 3)
-    out["submergedRule"] = (f"stands in {depth:.2f} m of water (level {level:.2f} m)"
-                            + ("" if top is None else f", top {top - level:+.2f} m over it")
-                            + f" (> {SUBMERGED_DEPTH_M} m for a ground piece)")
+    out["waterLevelM"] = round(float(level), 3)
+    if p.y is not None:
+        top = p.y + (float(row["sizeM"][2]) - float(row["originOffsetM"][2])) * p.scale
+        out["topOverWaterM"] = round(top - level, 3)
     return out
 
 
@@ -651,7 +707,10 @@ def _rule_task(cat, scene, key: str):
     from workbench import seat_rules
     fn = {"walk": rules.walk, "pathReach": rules.path_reach,
           "berthReach": rules.berth_reach, "landing": seat_rules.landing,
-          "coplanar": rules.coplanar}[key]
+          "coplanar": rules.coplanar}.get(key)
+    if key == "walkway":
+        from workbench import walkway
+        return walkway.walkway(cat, scene)
     return fn(cat, scene)
 
 
@@ -671,8 +730,8 @@ def _piece_rule_task(cat, scene, key: str, uids: list):
 # by piece across the pool and scoped by `--only`
 CHECK_RULES = ("walk", "floorEdge", "pathReach", "propSeat", "roadSurface", "sill", "sign",
                "berthReach", "collider", "burial", "hanging", "fixtureSeat", "archway", "rockSeat",
-               "padClear", "landing", "coplanar")
-GRAPH_RULES = ("walk", "pathReach", "berthReach", "landing", "coplanar")
+               "padClear", "landing", "walkway", "coplanar")
+GRAPH_RULES = ("walk", "pathReach", "berthReach", "landing", "walkway", "coplanar")
 
 
 def cmd_check(a, scene, cat):
@@ -831,6 +890,13 @@ def _pair_verdict(a: Piece, b: Piece, got: dict, cat=None) -> dict:
     ra, rb = a.role or {}, b.role or {}
     if on(a, b) or on(b, a):
         return {"relation": "mounted", "ok": bool(got["contact"])}
+    for x, y in ((a, b), (b, a)):
+        if (x.settledBy or "") == f"evidence-snap:{y.uid}":
+            steps = snap.evidence_steps(y.asset, x.asset)
+            if steps and all(s.get("joint") == "double" for s in steps):
+                # a `double` pair (a dock stair on its straight, R90) is no run
+                # joint: the plugins' own pose is the design, contact is all
+                return {"relation": "designed-abut", "ok": bool(got["contact"])}
     snapped = any((x.settledBy or "") in (f"evidence-snap:{y.uid}", f"geometry-snap:{y.uid}")
                   for x, y in ((a, b), (b, a)))
     if snapped or (ra.get("kind") == rb.get("kind") == "run" and ra.get("id") == rb.get("id")
@@ -1474,6 +1540,9 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--walkable", action="store_true",
                    help="a walkable deck (ramp, stair, boardwalk, bridge): walkRule walks its "
                         "top instead of routing round it (0102)")
+    s.add_argument("--wet", action="store_true",
+                   help="meant to stand in water (a jetty post, a fish trap, a sunken wreck): "
+                        "the check row reports it with its water depth (R86); never a failure")
     s.add_argument("--ruin", action="store_true",
                    help="allow a ruin-only piece (manifest placeUse, placement-policies)")
     s = sub.add_parser("move")
@@ -1590,7 +1659,7 @@ def parser() -> argparse.ArgumentParser:
                         "barrel, a board's post); exported as the member's host")
     s = sub.add_parser("render")
     s.add_argument("view", nargs="?", default=None,
-                   choices=("top", "front", "side", "back", "iso", "turntable", "cutaway"))
+                   choices=("top", "front", "side", "back", "iso", "turntable", "joint", "cutaway"))
     s.add_argument("--shots", default=None,
                    help="one Blender launch for a whole round: 'auto' (top, a front per "
                         "parcel on its door side, isos at two opposite bearings) or a comma "
@@ -1649,6 +1718,20 @@ def parser() -> argparse.ArgumentParser:
                    help="default world/sources/blueprints/<scene placeId>.json")
     s = sub.add_parser("walktable")
     s.add_argument("place")
+    s = sub.add_parser("boardwalk")
+    s.add_argument("--run", required=True, help="the run parcel id the pieces bind to")
+    s.add_argument("--piece", required=True, help="the straight module (a mined run pair with itself)")
+    s.add_argument("--junction", default=None, help="a piece made to turn (corner / 3-way / 4-way)")
+    s.add_argument("--from", dest="from_", nargs=2, type=float, required=True, metavar=("X", "Z"))
+    s.add_argument("--to", nargs=2, type=float, required=True, metavar=("X", "Z"))
+    s.add_argument("--search", type=float, default=8.0, help="flat-ground search radius at each end")
+    s.add_argument("--prefix", required=True, help="uid prefix of the run's pieces")
+    s.add_argument("--pick", type=int, default=0, help="the mined run pair, as snap --pick")
+    s.add_argument("--layout", default=None)
+    s.add_argument("--write", action="store_true")
+    s = sub.add_parser("walkway")
+    s.add_argument("--published", action="store_true",
+                   help="walk at the published bundle's piece heights")
     s = sub.add_parser("describe")
     s.add_argument("asset")
     s.add_argument("--refresh", action="store_true")
@@ -1659,7 +1742,7 @@ def parser() -> argparse.ArgumentParser:
 
 
 READ_ONLY = {"measure", "ground", "doors", "check", "render", "export", "list", "describe",
-             "evidence", "map", "walktable", "openings", "signature", "probe", "site",
+             "evidence", "map", "walktable", "walkway", "boardwalk", "openings", "signature", "probe", "site",
              "compile", "scan"}
 
 
@@ -2573,12 +2656,94 @@ def run_seat_interior(argv) -> int:
     return 0 if got["seated"] else 1
 
 
+def run_paint_check(argv) -> int:
+    """`wb.py paint-check PLACE_ID [--out JSON]`: the painted ways of the
+    PUBLISHED place measured (dangling ends, acute joins, door gaps, paint on
+    the province road; workbench/paint_rules.py). Exit 1 on any failure."""
+    from workbench import paint_rules
+    ap = argparse.ArgumentParser(prog="wb.py paint-check")
+    ap.add_argument("place")
+    ap.add_argument("--out", type=Path, default=None)
+    ap.add_argument("--preview", action="store_true",
+                    help="measure the paint the next publish ships (from the blueprint's routes)")
+    a = ap.parse_args(argv)
+    got = paint_rules.check_published(a.place, a.preview)
+    if a.out:
+        a.out.write_text(json.dumps(got, indent=1))
+    print(json.dumps({k: (len(v) if isinstance(v, list) else v) for k, v in got.items()}))
+    for line in got["failures"]:
+        print(f"FAIL {line}")
+    return 1 if got["failures"] else 0
+
+
+def run_paint_look(argv) -> int:
+    """`wb.py paint-look PLACE_ID X,Z [X,Z ...] [--span M] [--ppm N] [--out DIR]`:
+    top-down pictures of the PUBLISHED place's painted ways over the frozen
+    land cover in the studio's ground textures (workbench/paint_look.py; no
+    GPU, ~1 s a spot). For a reader to judge colour, blend, joins and gaps."""
+    from workbench import paint_look
+    ap = argparse.ArgumentParser(prog="wb.py paint-look")
+    ap.add_argument("place")
+    ap.add_argument("spots", nargs="*", help="X,Z world metres (centre of each picture)")
+    ap.add_argument("--span", type=float, default=40.0)
+    ap.add_argument("--ppm", type=float, default=20.0, help="pixels per metre")
+    ap.add_argument("--tag", default="")
+    ap.add_argument("--out", type=Path, default=Path("tooling/.reports/16k/paint-look"))
+    ap.add_argument("--preview", action="store_true", help="the paint the next publish ships")
+    ap.add_argument("--eye", nargs="*", default=[], metavar="NAME:EX,EZ>LX,LZ",
+                    help="eye-level Cycles shots from EX,EZ looking at LX,LZ over the draped "
+                         "composite (blender/examples/paint_eye.py; needs --scene)")
+    ap.add_argument("--scene", default=None, help="the place's applied scene (for --eye)")
+    a = ap.parse_args(argv)
+    if a.eye:
+        from workbench import bpy_run
+        shots = []
+        for item in a.eye:
+            name, rest = item.split(":", 1)
+            eye, look = (tuple(float(v) for v in part.split(",")) for part in rest.split(">"))
+            shots.append({"name": name, "eye": eye, "look": look})
+        spec = paint_look.eye_spec(a.place, shots, a.out, a.tag, a.preview)
+        scene = open_scene(a.scene or f"{a.place.removeprefix('place.').replace('.', '-')}-layout")
+        got = bpy_run.run(place_catalogue(scene.placeId), scene,
+                          Path(__file__).parent / "blender" / "examples" / "paint_eye.py",
+                          spec.with_suffix(".out.json"), [str(spec)], None)
+        for path in (got.get("result") or {}).get("written") or []:
+            print(path)
+        return 0
+    spots = [tuple(float(v) for v in s.split(",")) for s in a.spots]
+    for path in paint_look.paint_look(a.place, spots, a.span, a.ppm, a.out, a.tag, a.preview):
+        print(path)
+    return 0
+
+
+def run_packet_shots(argv) -> int:
+    """`wb.py packet-shots PLACE_ID [--out DIR]`: the walk packet's contents
+    list and pictures from the PUBLISHED bundle, stamped with git HEAD and the
+    bundle sha256 (workbench/packet_shots.py; one Blender round, refused when
+    the applied scene is not the published place)."""
+    from workbench import packet_shots
+    ap = argparse.ArgumentParser(prog="wb.py packet-shots")
+    ap.add_argument("place")
+    ap.add_argument("--out", type=Path, default=None,
+                    help="default tooling/.reports/16k/packet-shots/<place>")
+    a = ap.parse_args(argv)
+    out = a.out or paths_report_dir("packet-shots") / a.place
+    _emit(packet_shots.run(a.place, out))
+    return 0
+
+
+def paths_report_dir(name: str) -> Path:
+    from workbench import paths
+    return paths.REPO_ROOT / "tooling" / ".reports" / "16k" / name
+
+
 TOP_LEVEL = {"apply": run_apply, "replay": run_replay, "round": run_round, "edit": run_edit,
              "bpy": run_bpy, "render-interior": run_render_interior,
              "coplanar": run_coplanar,
              "audit-interior": run_audit_interior,
              "seat-interior": run_seat_interior,
-             "whatchanged": run_whatchanged}
+             "whatchanged": run_whatchanged, "paint-check": run_paint_check,
+             "paint-look": run_paint_look, "packet-shots": run_packet_shots}
 
 
 if __name__ == "__main__":

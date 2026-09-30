@@ -360,7 +360,7 @@ def check_failure_rows(check: dict) -> list[dict]:
         # its lowest three contacts, never by the direct fit's slope, delta
         # or foot float (planner ruling 5, CLAYWATER2)
         rock = is_rock(r.get("asset") or "")
-        for rule in ("slopeRule", "deltaRule", "sillRule", "padRule", "beachedRule", "submergedRule",
+        for rule in ("slopeRule", "deltaRule", "sillRule", "padRule", "beachedRule",
                      "stiltRule", "floorServiceRule", "notExportable"):
             if rock and rule in ("slopeRule", "deltaRule"):
                 continue
@@ -412,4 +412,4 @@ RULES = (("walk", "walkRule"), ("floorEdge", "floorEdgeRule"), ("pathReach", "pa
          ("sign", "signRule"), ("berthReach", "berthReachRule"), ("collider", "colliderRule"),
          ("burial", "burialRule"), ("hanging", "hangingRule"), ("fixtureSeat", "fixtureSeatRule"),
          ("archway", "archwayRule"), ("rockSeat", "rockSeatRule"), ("padClear", "padClearRule"),
-         ("landing", "landingRule"), ("coplanar", "coplanarRule"), ("ownerOk", "ownerOkRule"), ("scanFresh", "scanFreshRule"))
+         ("landing", "landingRule"), ("walkway", "walkwayRule"), ("coplanar", "coplanarRule"), ("ownerOk", "ownerOkRule"), ("scanFresh", "scanFreshRule"))

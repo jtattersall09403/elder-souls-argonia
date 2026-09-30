@@ -2,7 +2,8 @@
 
 Views: ``top`` (plan, north up), ``front`` / ``side`` / ``back`` (level
 orthographic elevations), ``iso`` (perspective from above), ``turntable``
-(eight iso shots in one contact sheet), ``cutaway`` (an elevation whose
+(eight iso shots in one contact sheet), ``joint`` (four low close
+perspective shots round a joint or a step, span 6-10 m), ``cutaway`` (an elevation whose
 near clip plane slices through the focus at ``cut`` metres). Every view
 has the ground grid (1 m lines, 5 m bright lines) in the world; the
 orthographic ones also get a metre scale bar, ``top`` the footprint
@@ -41,6 +42,7 @@ LENS_MM = 30.0
 SENSOR_MM = 36.0            # Blender's default sensor width (fit: the wider side)
 BLEND_CACHE = paths.SHARED_OUTPUT / "cache" / "blend"   # one .blend per raw kit GLB (render_scene.py)
 FRONT = {"front": 0.0, "side": 90.0, "back": 180.0}
+JOINT_PITCH = 14.0          # `joint`: low close-up of a joint or a step (walk 6)
 
 
 def _look(d, up=(0.0, 0.0, 1.0)) -> np.ndarray:
@@ -186,6 +188,34 @@ def _plan(cat: Catalogue, scene: Scene, view: str, focus: list[str], span: float
             shot["clipStart"] = dist + cut
             shot["lights"] = [list(centre), list(centre - d * (0.5 * depth))]
         shots.append(shot)
+    elif view == "joint":
+        # 16k walk 6: readers answer UNSURE on 18 m isos of a joint or a step.
+        # Four LOW perspective shots (pitch JOINT_PITCH) from the quarter
+        # bearings, the camera span*1.1 from the focus centre and lifted to
+        # 1.2 m over the ground if the slope would bury it: a joint's deck
+        # tops, gaps and rails read side-on, never through a roof.
+        span = float(span or max(6.0, min(extent * 1.2, 10.0)))
+        ground = render_ground(cat, scene)
+        # aim at the walking level (the pivots + 0.5 m), never the bounds'
+        # middle: a pier's piles put that metres under the mud
+        ys = [scene.piece(u).y for u in focus if scene.piece(u).y is not None]
+        if ys:
+            centre = np.array([centre[0], centre[1], sum(ys) / len(ys) + 0.5])
+        for i in range(4):
+            bb = bearing + 45.0 + 90.0 * i
+            b, p_ = math.radians(bb), math.radians(JOINT_PITCH)
+            d = np.array([math.sin(b) * math.cos(p_), math.cos(b) * math.cos(p_), -math.sin(p_)])
+            pos = centre - d * (span * 1.1)
+            try:
+                floor = ground.chunk_height(float(pos[0]), float(-pos[1])) + 1.2
+                pos[2] = max(pos[2], floor)
+            except ValueError:
+                pass
+            d = (centre - pos) / np.linalg.norm(centre - pos)
+            sun = d + np.array([0.35 * d[1], -0.35 * d[0], -0.6])
+            shots.append({"name": f"joint{i}", "ortho": False, "rot": _look(d), "pos": pos,
+                          "bearing": bb % 360.0, "sunDir": list(sun / np.linalg.norm(sun))})
+        dist = span * 1.1
     elif view in ("iso", "turntable"):
         bearings = [bearing + 45.0] if view == "iso" else [bearing + k * 45.0 for k in range(8)]
         for i, bb in enumerate(bearings):
@@ -306,7 +336,7 @@ def render(cat: Catalogue, scene: Scene, view: str, focus: list[str] | None = No
         images[0].save(out)
     else:
         from PIL import Image
-        cols = 4
+        cols = 2 if len(images) == 4 else 4
         rows = math.ceil(len(images) / cols)
         sheet = Image.new("RGB", (cols * rx, rows * ry), "white")
         for i, img in enumerate(images):
@@ -389,9 +419,19 @@ def _shot_token(tok: str, by_uid: dict, scene: Scene, wanted: list) -> None:
             wanted.append({"view": "front", "subject": f"{b['uid']} ({b['parcel']})",
                            "focus": b["focus"], "bearing": b["bearing"] if bearing is None else bearing,
                            "doorFacingDeg": b["doorFacingDeg"], "span": span})
+    elif view == "joint" and arg:
+        # joint:UID[+UID...][/SPAN[/BEARING]]: four low close-ups round a joint
+        # or a step (walk 6: the default frame for joints, never an 18 m iso)
+        arg, *opt = arg.split("/")
+        uids = [u for u in arg.split("+") if u]
+        for u in uids:
+            scene.piece(u)
+        wanted.append({"view": "joint", "subject": "+".join(uids), "focus": uids,
+                       "bearing": float(opt[1]) if len(opt) > 1 and opt[1] else None,
+                       "span": float(opt[0]) if opt and opt[0] else None})
     else:
         raise ValueError(f"shot {tok!r}: use top | iso | iso:BEARING | front:UID[/SPAN[/BEARING]] "
-                         f"(each may end in @night)")
+                         f"| joint:UID[+UID][/SPAN[/BEARING]] (each may end in @night)")
 
 
 def _draws_own_fire(row: dict) -> bool:
@@ -513,8 +553,16 @@ def render_round(cat: Catalogue, scene: Scene, spec: str = "auto", res: int = 10
     shots = []
     for k, (w, plan, imgs) in enumerate(zip(wanted, plans, images)):
         shot, img = plan["shots"][0], imgs[0]
-        _annotate(img, cat, scene, plan, shot, ground, pitch, labels)
-        name = f"{k:02d}-{w['view']}" + (f"-{w['focus'][0]}" if w["view"] == "front" else
+        for s_, im in zip(plan["shots"], imgs):
+            _annotate(im, cat, scene, plan, s_, ground, JOINT_PITCH if w["view"] == "joint"
+                      else pitch, labels)
+        if w["view"] == "joint":        # the four low close-ups as one 2x2 sheet
+            from PIL import Image
+            rx, ry = plan["res"]
+            img = Image.new("RGB", (2 * rx, 2 * ry), "white")
+            for i, im in enumerate(imgs):
+                img.paste(im, ((i % 2) * rx, (i // 2) * ry))
+        name = f"{k:02d}-{w['view']}" + (f"-{w['focus'][0]}" if w["view"] in ("front", "joint") else
                                          f"-{plan['shots'][0].get('bearing', 0):.0f}"
                                          if w["view"] == "iso" else "")
         name += "-night" if w.get("night") else ""

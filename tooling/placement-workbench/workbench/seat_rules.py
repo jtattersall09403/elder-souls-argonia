@@ -51,6 +51,8 @@ LANDING_FOOT_M = 0.2         # ... landward end: deck within this of the dry gro
 LANDING_STEP_REACH_M = 1.0   # ... or a step piece within this of the end
 LANDING_TOKENS = ("step", "stair", "ramp")
 LANDING_INSET_M = 0.3        # deck read this far inside an end, ground this far past it
+WADE_DEPTH_M = 0.8           # ... a run end in water closes on a paired step-down this shallow
+WADE_WAY_M = 3.0             # ... where a way (scene path) ends this close
 
 
 def _has(asset: str, tokens) -> bool:
@@ -521,6 +523,33 @@ def landing_runs(cat, scene, g) -> dict[str, list]:
     return out
 
 
+def wade_step_end(cat, scene, g, members, ends) -> dict | None:
+    """A run end closed in the water (16k walk 6, Riverwalk's west boards: the
+    track wades the shallows onto the boards): a member step piece
+    (LANDING_TOKENS) posed by a mined pair (`settledBy` evidence-snap) with an
+    end within LANDING_STEP_REACH_M of the run end, the water there at most
+    WADE_DEPTH_M deep, and a scene way (path) ending within WADE_WAY_M of it.
+    walkwayRule walks the step's risers; this only closes the end."""
+    from .rules import _ends
+    for e in ends:
+        level = g.water_level(*e)
+        depth = None if level is None else level - float(g.chunk_height(*e))
+        if depth is None or depth > WADE_DEPTH_M:
+            continue
+        way = next((pa["id"] for pa in scene.paths
+                    for pt in (pa.get("pointsM") or [])[:1] + (pa.get("pointsM") or [])[-1:]
+                    if math.dist(pt, e) <= WADE_WAY_M), None)
+        if way is None:
+            continue
+        for q in members:
+            if not _has(q.asset, LANDING_TOKENS) or not str(q.settledBy or "").startswith("evidence-snap"):
+                continue
+            if min(math.dist(e, x) for x in _ends(cat, q)) <= LANDING_STEP_REACH_M:
+                return {"step": q.uid, "end": [round(e[0], 2), round(e[1], 2)],
+                        "depthM": round(depth, 2), "way": way}
+    return None
+
+
 def landing(cat, scene) -> dict:
     """landingRule (owner 2026-09-25 'Landing stage reaches dry ground', for
     every water-edge run, walk 4): along the run's axis (its two farthest
@@ -547,8 +576,14 @@ def landing(cat, scene) -> dict:
         wa, wb = _over_water(g, *inside(a, 1)), _over_water(g, *inside(b, -1))
         uids = [q.uid for q in members]
         if wa is not None and wb is not None:
+            wade = wade_step_end(cat, scene, g, members, (a, b))
+            if wade is not None:
+                rows[key] = {"members": uids, "wadeStep": wade}
+                continue
             rows[key] = {"members": uids, "open": True}
-            fails.append(f"{key}: both ends of the run stand over water (an open run end)")
+            fails.append(f"{key}: both ends of the run stand over water (an open run end: end it "
+                         f"on dry ground, or in a plugin-paired step-down piece whose foot stands "
+                         f"in wadeable water, at most {WADE_DEPTH_M} m, where a way arrives)")
             continue
         if wa is None and wb is None:
             continue                               # a deck that crosses water: berthReach/walk judge it

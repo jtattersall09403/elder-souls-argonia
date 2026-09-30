@@ -119,7 +119,12 @@ All paths below are from the repo root; `WG=tooling/world-generation`,
     with the last ledger row. Record stats (pairs run/double, family pairs,
     `endFaces`, `singleUse`) in a new ledger row.
 
-## F. Built ways: ramps, stairs, boardwalks, bridges (owner check-in 2, 2026-09-24)
+## F. Built ways: ramps, stairs, boardwalks, bridges
+
+Piece catalogue (what turns, what ends, which edges have rails, measured):
+`docs/research/placement-settlements/boardwalk-piece-catalogue.md`. No
+mined pair turns a corner in any marsh kit: a turn is always a piece MADE to
+turn, snapped face to face by geometry, then walked.
 
 21. A built way (a ramp, stair, boardwalk, bridge or walkway piece) is a
     chain in this skill, never a standalone building: it is placed only as a
@@ -131,26 +136,87 @@ All paths below are from the repo root; `WG=tooling/world-generation`,
     `parcel.proving-ground.stilt-stair`) stands as a LABELLED single piece
     whose blueprint `why.what` says so, until a ways run exists. No other
     blueprint may place a built way alone.
-23. The landward end of a quay or landing stage reaches the bank where the
+23. **Route a boardwalk with the tool, never by hand** (16k walk 6):
+
+        python3 tooling/placement-workbench/wb.py <scene> boardwalk --run <parcel-id> \
+            --piece <straight> --junction <turn piece> --from X Z --to X Z --prefix <uid> \
+            [--pick N] [--search 8] --layout <place>.layout.json --write
+
+    (`workbench/boardwalk.py`). Ends: the flat dry cell (slope <= 6 deg within
+    1.5 m, ground <= 0.6 m over the water) nearest the other end, never the
+    bump beside it. Line: the straight between them when clear (no ground
+    standing into the deck, nothing placed within 1 m of its edge, water
+    within the piles' reach); else the shortest L with ONE 90 deg turn on the
+    `--junction` piece (+6 m penalty). Pieces: whole modules per leg by the
+    mined run pair (`--pick` as `snap --pick`: choose the pair whose joint is
+    flush; vanilla `dockstrent02` pick 3 = 7.28 m, rise 0; pick 0 = 7.09 m
+    crosses at every joint), the junction snapped by geometry to the leg's
+    north face and the next leg's first piece to its east or west face.
+24. **The junction rule**: never butt a straight's end against another
+    straight's railed side (Riverwalk walk 5: `le00` on `lw11`'s side, the
+    rail of the piece you stood on barred the turn). Turn only on a corner,
+    3-way or 4-way piece of the SAME family (deck heights differ between
+    families: vanilla 0, KotM 0.2, Mud Mother 0.1), open on both legs' faces.
+    A branch (a track joining a walk) is a junction piece in the run with a
+    second run off its side face. 45 deg and curves exist only in the
+    Valenwood set; an open platform takes any angle within its own family.
+25. **The walkway check** (`wb.py <scene> walkway [--published]`,
+    walkwayRule in `check`, `workbench/walkway.py`): a player capsule (radius
+    and step from `characterPhysics.ts`) walked through every run from the
+    ground past its first end, through every piece's deck centre, to the
+    ground past its last end (a run end over water walks on into the
+    walkable piece within 1.5 m: the joint is walked), and along every bound
+    door's approach (the last 8 m of the path that ends there, the threshold,
+    1 m inside). Red: a rise over the step under the capsule or anything
+    across its body 0.5-1.7 m up (rail, post, chain, lantern: the uid is
+    named); no deck under the whole capsule for 2 stations (a hole or open
+    joint); a start or end on ground steeper than 12 deg, or whose step-off
+    (the ground 2 m on past the end, 1.5 m either side of the way) rises over
+    12 deg over 2 m (`bump-on-step-off`, walk 6; a bank beside the deck is not
+    judged); a light or hanging
+    piece inside a door opening (0.6 m either side of the threshold, 0.1-2.1 m
+    up). Shown red on the walked Riverwalk (`tests/test_walkway.py`,
+    `fixtures/riverwalk-walk6.layout.json`). Run it on the scene before the
+    render round and on the published bundle (`--published`) after publish.
+26. **Render and look at every corner and both ends** before the walk
+    packet, in ONE launch of low close-ups (never an 18 m iso: readers answer
+    UNSURE, walk 6): `render --shots "joint:<first>/8,joint:<junction>+<branch>/9,
+    joint:<last>/8,joint:<step>/9,front:<house uid>/12"`, then the door
+    approach from the path;
+    the Sonnet reader's list: can a person walk every corner with no rail
+    across the way; is the route direct; does it start and end on flat
+    ground; do deck heights meet at joints; is the door opening clear; does
+    anything float or sink.
+27. The landward end of a quay or landing stage reaches the bank where the
     DECK plane meets the ground, not the waterline
     (`compile_settlement.anchor_quay_run`, `quay_deck_rise_m`); extend the run
     or add the docks kit's shore piece by its mined pair when the slide is not
     enough.
-24. A landing stage from a bank to a berth is laid by
+28. A landing stage from a bank to a berth is laid by
     `worldgen.anchor_landing_run.lay_landing_run` (16k walk 2): the step piece
     at the bank, then the fewest deck pieces by their mined run pair, shifted
     along the bearing until the run ends within 1 m of the berth and the step
     piece's whole `footprintM` stands on ground >= water + 0.2 m (owner rule
-    2026-09-25, 16k brief). Deck pieces over water are allowed; the result
-    reports each deck's height over the water. Proven on Claywater in
-    `worldgen/test_anchor_landing_run.py` (steps02 + 3 bridge01, shifted
-    7.2 m landward, on a bank levelled to water + 0.3 m).
-25. Argonian pieces for a landing: HTBM `tamu_wooddock*` have only `double`
+    2026-09-25, 16k brief). Proven on Claywater in
+    `worldgen/test_anchor_landing_run.py`.
+29. A composite's landing plank runs OUT of the doorway (its axis on the
+    measured doorway centre, its inner end under the house deck edge), never
+    along the wall: BM&V lays `dockstrent02` along its swamp house as a boat
+    landing, so its railed side crossed the door (16k walk 6; the composite
+    `stilt/swamp-house-with-landing` is turned, `interiors_index`
+    `approach_doorways` finds the wall beside an aligned doorway).
+29a. **A branch that meets a wading track** (R91, Riverwalk west boards):
+    end it in the family's step-down by its mined pair, never a deck end
+    standing 0.9 m over the bed. Vanilla: `dockstrsol01` (its -y face) >
+    `dockstepsdown01` (-x), `snap --by evidence` WITHOUT `--settle`, the
+    place op `"wet": true`; the straight before it takes the ent02 > sol01
+    family pair with `allow_terminal`. landingRule then closes the end
+    (`wadeStep` row: step uid, depth, the way that ends there).
+30. Argonian pieces for a landing: HTBM `tamu_wooddock*` have only `double`
     joints in the record (no run pair). King of the Murkmire's plugin places
-    its `argonia/blackwood` docks and walkways (walkway01 16 refs, walkway02
-    12, docks* and walkwaystairs), but no kit carries them, so `mine_abuts`
-    never walks them (it mines kit pieces only): they need a kit first
-    (`kit-build`), then a re-mine (section E).
+    its `argonia/blackwood` docks and walkways; the KotM set in
+    `settlement-stilt-v1` (docks centre / end / corner / 3way / 4way) carries
+    no mined turn pair, so its turns are geometry snaps walked by rule 25.
 
 ## G. Retaining walls along a building pad (decision 0101 R1)
 

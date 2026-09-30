@@ -9,7 +9,19 @@ per place plus pictures; a packet of several places repeats sections 2–5
 per place, in road order. Every line is under R5: checked against the
 records and the runtime, never written from memory. Sections, in order:
 
+0. **Run `python3 tooling/placement-workbench/wb.py packet-shots <place-id>
+   --out tooling/.reports/16k/<walk>/packet-shots/<place-id>` first.** It
+   writes `contents.md` (what stands in the place, counted from the
+   PUBLISHED bundle) and the pictures, rendered from the applied scene only
+   after a read-back shows it equal to that bundle, each captioned and
+   listed in `manifest.json` with git HEAD and the bundle sha256. It refuses
+   a scene that differs from the bundle: `wb.py apply <committed layout>
+   --full`, then re-run. Walk 5: Riverwalk's packet named a long house
+   from the design brief and attached a round-3 render of the pre-resite
+   layout (one hut), so text, picture and studio disagreed.
 1. **What this place is** (three sentences: where, who, why it exists).
+   Every building, run and fixture it names is a line of `contents.md`;
+   nothing is described from the brief, the layout or memory.
 2. **Start here:** one deployed-studio link at the anchor
    (`https://<pages-url>/?view=character&x=<E>&z=<S>&t=12`; the deploy ran
    green first), one link per building to enter (and its
@@ -29,9 +41,11 @@ records and the runtime, never written from memory. Sections, in order:
 6. **§ Gaps** only for 0102 decision 3's four reasons; **§ Owner calls**
    only for world-level choices. Never an archive purchase, a sourcing
    question or unfinished work.
-7. Pictures (0102 decision 11): the plan render and up to four Blender
-   shots in `tooling/.reports/16k/<place>-walk-N/`, committed
-   (`git add -f -- <png>`), embedded by `--attach`.
+7. Pictures (0102 decision 11): up to five of the `packet-shots` PNGs
+   (step 0; their caption's bundle sha must equal index.json's at posting),
+   committed (`git add -f -- <png>`), embedded by `--attach`. A place
+   picture from any other render folder is never attached; interior and
+   fire close-ups come from `render-interior` / `npm run look`.
 8. How to reply: "walk it and tell me what looks wrong, in one message;
    'looks right' when done." Then the stay-or-switch line (0083).
 

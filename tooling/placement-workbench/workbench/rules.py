@@ -121,10 +121,11 @@ FIX_HINTS = {
                        "the floor it sinks into)",
     "landingRule": "re-seat the deck 0.15-0.35 m over the water and close its landward end on dry "
                    "ground or with a step piece",
+    "walkwayRule": "lay the way so a walker never crosses a rail: turn only on a piece made to "
+                   "turn (a corner or junction whose open sides face both legs), start and end "
+                   "on flat ground, keep hung fixtures out of door openings (modular-runs § F)",
     "rockSeatRule": "seat the rock on its lowest three contacts (the row's seatYM) or move it "
                     "where it embeds no more than 0.3 m",
-    "submergedRule": "move the piece onto dry ground (wb.py ground --at X Z: no waterLevelM, or the "
-                     "ground over it), or use a water-class piece made to stand in water",
     "padClearRule": "a building floor lies flush with its graded pad: publish through the pad overlay "
                     "(it grades PAD_FLOOR_CLEARANCE_M under the datum), or re-seat the piece on its datum",
     "archwayRule": "place the named plugin door piece in the shell's doorway (attach it at the "
@@ -196,6 +197,8 @@ def _retaining(cat, p) -> bool:
 def _facing(d: dict) -> float | None:
     """A doorway's facing out: the record's facing, or the outline's outward
     bearing where the record's sideDeg is a radial bearing (or absent)."""
+    if d.get("source") == "interiors/approach" and d.get("facingDeg") is not None:
+        return d["facingDeg"]       # ray-confirmed where its landing meets the wall (16k walk 6)
     return d["outwardDeg"] if d.get("facingOffOutwardDeg") or d["facingDeg"] is None \
         else d["facingDeg"]
 
@@ -1021,6 +1024,10 @@ def _floor_edge_ctx(cat, scene):
 #: its posts must seat, its skirt or canopy may stand off the ground. The
 #: posts are the mesh's vertices within POST_BAND_M of its lowest point.
 POST_BAND_M = 0.1
+#: an open shelter's skirt: the outermost vertex per 15-degree sector within
+#: SKIRT_BAND_M of the lowest point stands at most SKIRT_HOVER_M over the ground.
+SKIRT_BAND_M = 0.6
+SKIRT_HOVER_M = 0.05
 
 
 @lru_cache(maxsize=1)
@@ -1034,8 +1041,11 @@ def floor_classes() -> dict[str, str]:
 
 def open_shelter_piece(cat, g, p, fit: str, band: float) -> tuple[dict, list]:
     """R58: the posts (vertices within POST_BAND_M of the mesh's lowest
-    point) stand within the fit's band of the padded ground; the canopy is
-    not judged."""
+    point) stand within the fit's band of the padded ground, and the skirt
+    (per 15-degree sector round the plan centre, the outermost vertex within
+    SKIRT_BAND_M of the lowest point) stands no more than SKIRT_HOVER_M over
+    it (owner, walk 6: every tent's front edge hovered 0.25-0.36 m while its
+    pole feet passed). The canopy above the skirt is not judged."""
     v = _world_mesh(cat, p).vertices
     low = float(v[:, 2].min())
     posts = v[v[:, 2] <= low + POST_BAND_M]
@@ -1051,6 +1061,25 @@ def open_shelter_piece(cat, g, p, fit: str, band: float) -> tuple[dict, list]:
         failures.append(f"{p.uid}: open shelter post stands {worst[0]:.2f} m over the padded ground "
                         f"at {row['worst']['atM']} (> {band} m for {fit}); {over} of {len(gaps)} "
                         f"post vertices over the band (R58)")
+    skirt = v[v[:, 2] <= low + SKIRT_BAND_M]
+    cx, cy = float(v[:, 0].mean()), float(v[:, 1].mean())
+    rim: dict[int, tuple[float, np.ndarray]] = {}
+    for q in skirt:
+        dx, dy = float(q[0]) - cx, float(q[1]) - cy
+        b = int((math.degrees(math.atan2(dx, dy)) % 360) // 15)
+        r = math.hypot(dx, dy)
+        if b not in rim or r > rim[b][0]:
+            rim[b] = (r, q)
+    hover = [(float(q[2]) - g.chunk_height(float(q[0]), float(-q[1])), b * 15,
+              (float(q[0]), float(-q[1]))) for b, (_, q) in sorted(rim.items())]
+    top = max(hover, key=lambda t: t[0])
+    row["skirt"] = {"sectors": len(hover), "maxGapM": round(top[0], 3), "bearing": top[1],
+                    "atM": [round(c, 2) for c in top[2]]}
+    if top[0] > SKIRT_HOVER_M:
+        failures.append(f"{p.uid}: open shelter skirt hovers {top[0]:.2f} m over the padded ground "
+                        f"at bearing {top[1]} {row['skirt']['atM']} (> {SKIRT_HOVER_M} m): its "
+                        f"ground line is the skirt, not the pole feet; lower its assetPlacement "
+                        f"designedSinkM (R58)")
     return {p.uid: row}, failures
 
 
@@ -2198,6 +2227,7 @@ def piece_rule(key: str, cat, scene, uids=None, fit_for=None) -> dict:
         want = set(uids)
         targets = [u for u in targets if u in want]
     return piece_merge(key, cat, scene, [piece_part(key, cat, scene, targets, fit_for)], uids)
+
 
 # --------------------------------------------------------------------------
 # coplanar (16k walk 6, the z-fighting class seen three times: Claywater

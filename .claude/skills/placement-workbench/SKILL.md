@@ -150,6 +150,10 @@ for trying a pose by hand:
   hitOverGroundM, branch: closed|open}`; hangingRule stops failing it.
 - A walkable deck (ramp, stair, boardwalk, bridge): `place --walkable`;
   walkRule walks its top instead of routing round it.
+- A piece meant to stand in water (jetty post, fish trap, wreck): `place
+  --wet` (R86). Water is never a `check` failure; every row reports
+  `waterDepthM` (and `waterLevelM`, `topOverWaterM`, `wet` where water
+  stands), and a row in water with `wet` false is your mistake to move.
 - A part the plugins place on this shell at a fixed offset (a door, a
   window, a chimney): `$W attach <part> <shell> [--template ID]`, which uses
   the mined template (offset, turn, part scale).
@@ -391,6 +395,12 @@ RESULT["pieces"] = len(api.objects_by_uid())
                                          # door side, isos from 45 and 225 deg; or a list
                                          # top,iso,iso:BEARING,front:UID -> output/renders/<scene>/round-N/
                                          # with manifest.json naming each shot's subject
+    $W render joint --focus A B [--span 8]   # a joint, step or end: four LOW (14 deg) close
+    $W render --shots "joint:A+B/8,joint:C/6"  # perspective shots from the quarter bearings,
+                                         # 6-10 m span, camera held 1.2 m over the ground, one
+                                         # 2x2 sheet each. The DEFAULT frame for every run joint,
+                                         # junction, step-down, walk end and skirt edge: readers
+                                         # answer UNSURE on 18 m isos (walk 6)
     python3 tooling/placement-workbench/wb.py render-interior <cell> [--day|--night] [--out PNG]
                                          # interior lighting sheet from the published bundle
                                          # (no scene): doorway + two corners x day (runtime
@@ -401,6 +411,10 @@ RESULT["pieces"] = len(api.objects_by_uid())
                                          # > 0.01 m2) in a published cell or place; a decal is exempt
                                          # only where its runtime applies the decal offset; exit 1 on a
                                          # hit, ~3 s a cell (worldgen/coplanar.py; `check` carries it)
+    python3 tooling/placement-workbench/wb.py packet-shots <place-id> [--out DIR]
+                                         # walk packet: contents.md + one --shots auto round from the
+                                         # PUBLISHED bundle (read-back first), captions + manifest
+                                         # stamped with HEAD and bundle sha256; the only packet pictures
 
 Hand the PNG paths to a Sonnet `general-purpose` agent (read-only) with this
 list: is each base on the red ground line (float / sunk, in metres from the
@@ -478,6 +492,26 @@ rule numbers per item from the place's last `apply` (walk route m / steepest
 deg / step m, floor-edge worst gap, keel gap and bow height, prop seat gap).
 The packet reports these numbers; it never asks the owner to judge them. Prose goes through
 `text-review` in a separate agent.
+
+**The painted ways (rulings R84).** After any `path` op change, before and
+after the publish:
+
+    python3 tooling/placement-workbench/wb.py paint-check <place-id> [--preview] [--out J]   # < 2 s
+    python3 tooling/placement-workbench/wb.py paint-look <place-id> X,Z ... [--preview] [--span 30]   # top-down, ~1 s a spot
+    python3 tooling/placement-workbench/wb.py paint-look <place-id> --preview --scene <scene> \
+        --eye NAME:EX,EZ>LX,LZ ...                                                            # eye-level Cycles, ~1 min a shot
+
+`--preview` computes the paint the next publish ships from the exported
+blueprint's routes (the exporter's own `ground_paint` + `clip_ground_paint`),
+so a path fix is measured and looked at before the publish. `paint-check`
+fails on a dangling end, a join under 50 deg, a door threshold more than
+0.3 m from the paint's half-alpha edge, and paint on the province road;
+all four at 0 before any packet. `paint-look` draws the land cover in the
+studio's ground textures with the paint composited exactly as
+`groundPaint.ts` does, building outlines grey and door thresholds cyan; hand
+the pictures to one Sonnet reader with R84's look-list (ways meet ways,
+doors and the road; no acute spurs; subtle but visible; no orange; no
+darker doubled patches; the way out runs out along its track).
 
 ## Record as you go
 
