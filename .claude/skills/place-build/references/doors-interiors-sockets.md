@@ -293,6 +293,18 @@ broad 1-(d/r)² falloffs overlap into an even warm wash that readers judge
 flat (walk 5 round 3). Surplus lanterns come out greedily, cheapest
 source-led loss first, while source-led stays ≥ 0.70 and dark under its bar.
 A stair gets a source its own doorway view sees, or a floor horn beneath it.
+The door zone gets its source within 1.5 m (plan) of the arrival marker,
+its flame on a clear ray from the render's doorway eye (the `eyes` lines of
+the last `render-interior` result) and 0.6 m off the door-to-hub line:
+`candlehornwall01` on the wall beside the door in a Lilmoth house, a
+`glazedcandles01` on a surface or mudmother `candle01` on the floor inside it
+in a Keeba hut (door.py beside the scripts below, 2026-09-30).
+Small flames need no fade calibration: after `skyrim_curve` a
+`glazedcandles01` (r 1.82 m, the only table candle under 2.5 m) gives E 1.03
+at 1 m, 20× the cube's +Y bar of 3 × 0.017, and every spot within 1.5 m of
+any table candle is already source-led; a candle reads weak beside a
+lantern because it carries 15–77 % of its own table's light, not because
+its near field is dim (measured 2026-09-30, `interior_light` model).
 Prefer the plugin's own fixture kinds (candles, candle-horns, lanterns)
 placed where a resident would: on the table, beside the bed, on the hearth
 wall, and beside the door on the inside. Write them in
