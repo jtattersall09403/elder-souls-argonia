@@ -37,7 +37,7 @@ function backdropMaterial(hex: number, exposure: number): MeshBasicNodeMaterial 
 
 /** A row of fires over a sky/ground backdrop at one exposure. */
 export function buildFireScene(ctx: HarnessContext, look: FireLook, presets: readonly FirePresetId[], heightM: number,
-  spacingM: number, opts: { seeds?: readonly number[]; show?: (name: string) => boolean } = {}) {
+  spacingM: number, opts: { seeds?: readonly number[]; show?: (name: string) => boolean; cardsOnly?: boolean } = {}) {
   ctx.renderer.toneMappingExposure = look.exposure;
   const scene = new THREE.Scene();
   const width = spacingM * (presets.length + 1);
@@ -48,7 +48,11 @@ export function buildFireScene(ctx: HarnessContext, look: FireLook, presets: rea
     backdropMaterial(look.ground, look.exposure));
   scene.add(ground);
   const fire = new FlameSystem();
-  fire.setBackend(ctx.backend);
+  // cardsOnly: the card path as WebGL draws it, on both backends. Hiding the
+  // volume meshes is not enough: on WebGPU the cards of a volume preset yield
+  // to the volume inside its reach (flameMaterial.ts cardShare), so hidden
+  // volumes left the WebGPU cards faded (the ~9 luma backend gap, L19 round)
+  fire.setBackend(opts.cardsOnly ? "webgl" : ctx.backend);
   fire.setEmitters(presets.map((preset, i) => ({
     position: new THREE.Vector3((i - (presets.length - 1) / 2) * spacingM, 0.02, 0),
     preset, scale: heightM / FIRE_PRESETS[preset].shape.heightM, seed: opts.seeds?.[i] ?? (0.37 + i * 0.13) % 1, owner: i,

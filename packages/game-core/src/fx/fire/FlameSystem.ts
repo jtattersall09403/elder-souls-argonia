@@ -36,7 +36,7 @@ import {
 import {
   makeEmberMaterial, makeFireUniforms, makeFlameMaterial, makeFlameQuad, type FireUniforms,
 } from "./flameMaterial";
-import { makeVolumeBox, makeVolumeMaterial, VolumeFireField } from "./volumeFire";
+import { makeVolumeBox, makeVolumeDetail, makeVolumeMaterial, VolumeFireField } from "./volumeFire";
 
 export interface FireEmitter {
   /** World position of the emitter (the wick, the fire bed's centre), m. */
@@ -94,6 +94,8 @@ export class FlameSystem {
   /** Per volume preset: its instance rows and owners (built on every backend, drawn on WebGPU). */
   private volumeData = new Map<FirePresetId, { data: Float32Array; owner: Int32Array }>();
   private readonly volumes = new Map<FirePresetId, VolumeDraw>();
+  /** The detail noise every preset's field shares (made with the first volume draw). */
+  private volumeDetail: THREE.Data3DTexture | null = null;
   private readonly scratch = new THREE.Vector3();
 
   constructor(uniforms: FireUniforms = makeFireUniforms(), layer?: number) {
@@ -237,7 +239,8 @@ export class FlameSystem {
         continue;
       }
       if (!draw) {
-        const field = new VolumeFireField(FIRE_PRESETS[id].volume!, `fire-volume-${id}`);
+        this.volumeDetail ??= makeVolumeDetail();
+        const field = new VolumeFireField(FIRE_PRESETS[id].volume!, `fire-volume-${id}`, this.volumeDetail);
         const geometry = makeVolumeBox();
         const mesh = new THREE.Mesh(geometry, makeVolumeMaterial(this.uniforms, field));
         mesh.name = `fire-volume-${id}`;
@@ -317,6 +320,8 @@ export class FlameSystem {
       v.field.dispose();
     }
     this.volumes.clear();
+    this.volumeDetail?.dispose();
+    this.volumeDetail = null;
   }
 }
 

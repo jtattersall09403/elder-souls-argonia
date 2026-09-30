@@ -15,6 +15,7 @@ import {
   FIRE_VOLUME_REACH_M, makeEmberMaterial, makeFireUniforms, makeFlameMaterial, volumeShareAt,
 } from "./flameMaterial";
 import { acesRoundTripGrey } from "./fireNodes";
+import { makeVolumeDetail } from "./volumeFire";
 import { FIRE_VOLUME_PRESETS, fireVolumeCost } from "./fireTypes";
 import { interiorFireEmitters, interiorFlameAnchorsLocal, burnsInInterior } from "./interiorFires";
 import {
@@ -212,6 +213,34 @@ function publishedAnchorFailures(): { checked: number; failures: string[] } {
   }
   return { checked, failures };
 }
+
+describe("volume detail noise (L19 round: baked on the CPU, no compute kernel)", () => {
+  it("is finite, signed in rgb, 0..1-ish in alpha, and tiles across the wrap", () => {
+    const t = makeVolumeDetail();
+    const d = t.image.data as Uint16Array;
+    const n = t.image.width;
+    const f = (i: number) => THREE.DataUtils.fromHalfFloat(d[i]);
+    let min = Infinity, max = -Infinity, aMin = Infinity, aMax = -Infinity;
+    for (let i = 0; i < d.length; i += 4) {
+      for (let c = 0; c < 3; c++) { min = Math.min(min, f(i + c)); max = Math.max(max, f(i + c)); }
+      aMin = Math.min(aMin, f(i + 3)); aMax = Math.max(aMax, f(i + 3));
+    }
+    expect(min).toBeLessThan(-0.5);
+    expect(max).toBeGreaterThan(0.5);
+    expect(Math.max(-min, max)).toBeLessThan(2.5);
+    expect(aMin).toBeGreaterThan(-0.6);
+    expect(aMax).toBeLessThan(1.6);
+    // the step across the wrap (x n-1 -> 0) is no larger than a step inside
+    const at = (x: number, y: number, z: number) => f(((z * n + y) * n + x) * 4);
+    let inside = 0, wrap = 0;
+    for (let z = 0; z < n; z++) for (let y = 0; y < n; y++) {
+      inside = Math.max(inside, Math.abs(at(1, y, z) - at(0, y, z)));
+      wrap = Math.max(wrap, Math.abs(at(0, y, z) - at(n - 1, y, z)));
+    }
+    expect(wrap).toBeLessThan(inside * 1.5);
+    t.dispose();
+  });
+});
 
 describe("interior fires", () => {
   it("every mined flame of a published interior cell becomes an emitter at its placement", () => {
