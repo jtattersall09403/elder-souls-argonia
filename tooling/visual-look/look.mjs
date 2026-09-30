@@ -4,6 +4,8 @@
 //
 //   npm run look -- piece <kit> <assetId> [--class C] [--out DIR]
 //   npm run look -- place <scene> <x> <z> [--radius M] [--out DIR]
+//   npm run look -- fixtures [<kit> <assetId> ...]   (subjects/fixtures.mjs)
+//   npm run look -- preset [<presetId> ...]          (subjects/preset.mjs)
 //
 // piece/composite: headless Chromium + SwiftShader draws the PUBLISHED kit
 // asset (apps/world-studio/public/kits: the per-asset part GLB when the kit
@@ -11,7 +13,7 @@
 // path (KTX2 + meshopt), and the flames through the runtime FlameSystem at
 // the anchors fx/fire/flameAnchors.ts gives the manifest row (the same call
 // settlement/lighting.ts makes). Day tiles use the day exposure of the light
-// rig (3.9e-5), the night tile 22, as fire-sheet.mjs does.
+// rig (3.9e-5), the night tile 22, as the preset subject does.
 // place: a workbench scene region; delegates to wb.py render (Blender).
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
@@ -30,6 +32,15 @@ const outDir = resolve(repo, opts.out);
 mkdirSync(outDir, { recursive: true });
 const rows = readLookList(join(here, "look-lists.md"));
 const slug = (s) => s.replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "").slice(-80);
+
+if (opts.mode === "fixtures" || opts.mode === "preset") {
+  const { runFixtures } = await import("./subjects/fixtures.mjs");
+  const { runPresets } = await import("./subjects/preset.mjs");
+  if (opts.mode === "fixtures") await runFixtures({ fixtures: opts.fixtures, outDir, fireDir: opts.fireDir });
+  else await runPresets({ presets: opts.presets, outDir });
+  console.log(`look: ${opts.mode} in ${((Date.now() - t0) / 1000).toFixed(1)} s`);
+  process.exit(0);
+}
 
 if (opts.mode === "place") {
   const sceneFile = join(repo, "tooling/placement-workbench/output/scenes", `${opts.scene}.json`);
@@ -109,7 +120,9 @@ window.look = async ({ url, node, row, fromPart }) => {
   const box = manifestBoxYUp(row) ?? measured.clone();
   const bed = flameCardBedAnchorLocal(row, box);
   const anchors = bed ? [bed] : pieceFlameAnchorsLocal(row, box, !!row.light);
-  const fire = new FlameSystem();
+  // layer 0: this page has no post-water pass, and the camera sees layer 0
+  // only; the runtime default (FIRE_LAYER) would hide every flame here.
+  const fire = new FlameSystem(undefined, 0);
   fire.setEmitters(anchors.map((a, i) => ({ position: a.local.clone(), preset: a.preset, scale: 1, seed: 0.37 + i * 0.11, owner: 0 })));
   fire.update(0.6, () => 1);
   const size = box.getSize(new THREE.Vector3());

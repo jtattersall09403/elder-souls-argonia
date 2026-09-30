@@ -709,6 +709,11 @@ def refresh_built_manifests(
         if config_path.exists():
             from .build_kit import apply_light_records
             apply_light_records(document, _read_json(config_path))
+        # A flame emitter above its piece's geometry is seated on the top
+        # (manifest data only, the same call build_kit.apply_fire_layer makes).
+        from .build_kit import seat_flames_on_geometry
+        for asset in document.get("assets", []):
+            seat_flames_on_geometry(asset)
         pending.append((path, document))
     for path, document in pending:
         path.write_text(json.dumps(document, indent=1) + "\n", encoding="utf-8")

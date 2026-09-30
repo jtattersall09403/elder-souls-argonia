@@ -48,16 +48,17 @@ the campfire the largest and wildest.
 ## 3. Verify
 
 1. **Contact sheet** (about 1.5 s for every preset, no GPU, no studio):
-   `node packages/game-core/src/fx/fire/tools/fire-sheet.mjs [preset ...]`
-   writes `tooling/.reports/16k/walk5/fire/sheets/<preset>.png`: 6 frames,
+   `npm run look -- preset [<presetId> ...] --out <dir>`
+   writes `<dir>/<preset>.png`: 6 frames,
    0.2 s apart, by day (top row) and by night (bottom row). The white tick
    marks the emitter. Bar: a solid orange flame by day, and at night an
    orange body with a pale core and no white blob. The flame's root sits on
    the tick. A shader error fails the run with the GLSL log.
    **On the piece** (about 0.4 s per fixture after the first): 
-   `node packages/game-core/src/fx/fire/tools/fixture-sheet.mjs [kit|assetId ...]`
+   `npm run look -- fixtures [<kit> <assetId> ...] --out <dir>`
    burns the flame on the real kit piece at the loader's anchors (front,
-   above, close-up; day and night) into `tooling/.reports/16k/walk6/render/fire/`.
+   above, close-up; day and night), one PNG per fixture (no pairs: the
+   default fixture list in `tooling/visual-look/subjects/fixtures.mjs`).
    Bar (0107 "Flame size"): the flame rises clearly above the fuel, wick or
    torch head (a campfire >= 0.8x its log bundle's diameter above the logs, a
    torch 0.3-0.45 m seen, a candle ~4-6 cm), centred on it, inside a

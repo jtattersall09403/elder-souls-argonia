@@ -33,3 +33,4 @@ picks the class from the kit manifest row (`--class` overrides).
 | interior-surface | surf-backface | Is any face invisible from one side (see-through wall, missing back face)? | Walls solid from both front and back tiles. |
 | furniture-contact | furn-feet | Do all feet/legs touch the ground plane, none floating or sunk? | Every foot on the plane within 2 cm. |
 | furniture-contact | furn-stack | Do items resting on it (clutter, cloth) sit on its surface rather than in or above it? | Resting items touch the surface. |
+| fire-fixture | flame-on-wick | Does every flame root sit on its wick, fuel or torch head, inside the fixture's bounds (not floating above the top, not on a handle or rim outside the glass or paper)? | Flame base within 1 cm of the wick or fuel top and inside the bounds box; `anchorFailures` empty in the facts line |

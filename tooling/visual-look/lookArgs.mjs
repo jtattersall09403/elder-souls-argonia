@@ -9,7 +9,12 @@ export const USAGE = `usage:
   npm run look -- piece <kit> <assetId> [--class C[,C]] [--out DIR]
   npm run look -- composite <kit> <assetId> [...]       (same path: a composite is a kit asset)
   npm run look -- place <scene> <x> <z> [--radius M] [--class C] [--out DIR]
-      (a workbench scene region: delegates to wb.py render, one Blender launch per view)
+      (a workbench scene region: wb.py render --shots, one Blender launch for every view)
+  npm run look -- fixtures [<kit> <assetId> ...] [--fire-dir DIR] [--out DIR]
+      (the real flame shader on the real kit piece at the loader's anchors, day and night,
+       front / 3-4 / flame close-up; no pairs = the default fixture list)
+  npm run look -- preset [<presetId> ...] [--out DIR]
+      (a fire preset alone over 6 frames, day and night; no ids = every preset)
 default --out tooling/.reports/look/`;
 
 /** argv (after the script) -> { mode, kit, asset, scene, x, z, radius, classes, out }. */
@@ -21,6 +26,7 @@ export function parseArgs(argv) {
     if (a === "--class") opts.classes = argv[++i].split(",");
     else if (a === "--out") opts.out = argv[++i];
     else if (a === "--radius") opts.radius = Number(argv[++i]);
+    else if (a === "--fire-dir") opts.fireDir = argv[++i];
     else if (a.startsWith("--")) throw new Error(`unknown flag ${a}\n${USAGE}`);
     else pos.push(a);
   }
@@ -29,6 +35,14 @@ export function parseArgs(argv) {
     if (rest.length !== 2) throw new Error(`${mode} needs <kit> <assetId>\n${USAGE}`);
     return { ...opts, mode, kit: rest[0], asset: rest[1] };
   }
+  if (mode === "fixtures") {
+    const keys = rest.flatMap((a) => (a.includes("|") ? [a.split("|")] : [a])).flat();
+    if (keys.length % 2) throw new Error(`fixtures takes <kit> <assetId> pairs\n${USAGE}`);
+    const fixtures = [];
+    for (let i = 0; i < keys.length; i += 2) fixtures.push(`${keys[i]}|${keys[i + 1]}`);
+    return { ...opts, mode, fixtures };
+  }
+  if (mode === "preset") return { ...opts, mode, presets: rest };
   if (mode === "place") {
     const [scene, x, z] = rest;
     if (rest.length !== 3 || !Number.isFinite(Number(x)) || !Number.isFinite(Number(z))) {

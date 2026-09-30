@@ -10,7 +10,7 @@
     "worldgen.interior_light": {"maxOwnGiB": 2.0, "measured": "job-guard 2026-09-30: 1.42 GiB"},
     "worldgen.export_settlement_bundle": {"maxOwnGiB": 1.0, "measured": "job-guard 2026-09-30: 0.15 GiB"},
     "pipeline.build_kit": {"maxWallS": 1800, "maxOwnGiB": 4.0, "measured": "7-day worst 1651 s, 4.19 GiB (RssAnon)"},
-    "visual-look.look": {"maxWallS": 20, "maxOwnGiB": 2.0, "measured": "job-guard 2026-09-30: 5 kit pieces 1.7-2.4 s, own peak 0.47-0.59 GiB; place mode (4 Blender views) 29 s, 0.54 GiB"},
+    "visual-look.look": {"maxWallS": 20, "maxOwnGiB": 2.0, "measured": "job-guard 2026-09-30: 5 kit pieces 1.7-2.4 s, own peak 0.47-0.59 GiB; place mode (4 Blender views) 29 s, 0.54 GiB; fixtures subject 11 fixtures 22.7 s at load 40, 0.47 GiB"},
     "pipeline.impostor_bake": {"maxWallS": 600, "maxOwnGiB": 2.0, "measured": "7-day worst 402 s, 1.57 GiB (RssAnon)"}
   }
 }

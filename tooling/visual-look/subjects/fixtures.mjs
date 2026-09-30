@@ -1,17 +1,14 @@
-// Fire-on-fixture sheets (16k walk 6): the REAL flame shader (FlameSystem)
-// burning on the REAL kit piece, at the anchors the interior loader computes
-// (interiorFires.ts `interiorFlameAnchorsLocal` over the manifest row), so a
-// flame's size against its fuel, wick or glass is judged on the geometry.
-// Headless Chromium (SwiftShader), no studio, no world; seconds per fixture
-// per fixture (the piece cut from the raw kit GLB, tooling/asset-pipeline/output/kits).
-//
-// Usage (repo root):
-//   node packages/game-core/src/fx/fire/tools/fixture-sheet.mjs [--out DIR] [--fire-dir DIR] [kit|assetId ...]
-// Default: the FIXTURES list below, DIR tooling/.reports/16k/walk6/render/fire.
-// Each sheet is 2 rows (day, night) x 3 columns (front, three-quarter from
-// above, close-up on the flame), one PNG per fixture. The fixture is drawn
-// untextured (flat base colour) under a plain key light; the flame is drawn after
-// it, depth-tested against it, as the game's post-water pass draws it.
+// `npm run look -- fixtures [<kit> <assetId> ...]`: the REAL flame shader
+// (FlameSystem) burning on the REAL kit piece, at the anchors the interior
+// loader computes (interiorFires.ts `interiorFlameAnchorsLocal` over the
+// manifest row), so a flame's size against its fuel, wick or glass is judged
+// on the geometry. Headless Chromium (SwiftShader), no studio, no world;
+// ~0.4 s per fixture (the piece cut from the raw kit GLB,
+// tooling/asset-pipeline/output/kits). Each sheet is 2 rows (day, night) x 3
+// columns (front, three-quarter from above, close-up on the flame), one PNG
+// per fixture. The fixture is drawn untextured (flat base colour) under a
+// plain key light; the flame is drawn after it, depth-tested against it, as
+// the game's post-water pass draws it (the flame layer here is 0: no pipeline).
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -19,14 +16,7 @@ import { chromium } from "playwright";
 import ts from "typescript";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const repo = resolve(here, "../../../../../..");
-const args = process.argv.slice(2);
-// --fire-dir DIR: render another copy of fx/fire (e.g. HEAD's, for a before/after pair)
-const dirAt = args.indexOf("--fire-dir");
-const fireDir = dirAt >= 0 ? resolve(args[dirAt + 1]) : resolve(here, "..");
-const outAt = args.indexOf("--out");
-const outDir = resolve(repo, outAt >= 0 ? args[outAt + 1] : "tooling/.reports/16k/walk6/render/fire");
-const wanted = args.filter((a, i) => !a.startsWith("--") && i !== outAt + 1 && (dirAt < 0 || i !== dirAt + 1));
+const repo = resolve(here, "../../..");
 
 const FIXTURES = [
   "works-v1|vanilla:clutter/woodfires/campfire01burning",
@@ -37,13 +27,14 @@ const FIXTURES = [
   "settlement-mud-v1|mudmother:gv_meshes/argoniannest/argonianlanterns03",
   "interior-farmhouse-v1|vanilla:clutter/candles/candlehorntable01",
   "interior-kotm-v1|vanilla:clutter/glazedcandles01",
+  "interior-farmhouse-v1|vanilla:clutter/imperial/impcandle01",
+  "mudmother-hut-int|mudmother:gv_meshes/argoniannest/argonianlanterns04",
 ];
-const list = wanted.length ? wanted : FIXTURES;
 
 const threeDir = join(repo, "node_modules/three");
 const kitsRaw = join(repo, "tooling/asset-pipeline/output/kits");
 const kitsPublic = join(repo, "apps/world-studio/public/kits");
-const tsFile = (name) => ts.transpileModule(readFileSync(join(fireDir, name), "utf8"), {
+const tsFileIn = (fireDir) => (name) => ts.transpileModule(readFileSync(join(fireDir, name), "utf8"), {
   compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
 }).outputText.replace(/from "\.\/(\w+)"/g, 'from "/fire/$1.js"');
 
@@ -198,6 +189,11 @@ window.renderFixture = async (key) => {
 window.ready = true;
 </script></body></html>`;
 
+/** Sheets for `fixtures` ("kit|assetId" keys; empty = FIXTURES) into outDir.
+ * fireDir: another copy of fx/fire (e.g. HEAD's, for a before/after pair). */
+export async function runFixtures({ fixtures, outDir, fireDir }) {
+const list = fixtures.length ? fixtures : FIXTURES;
+const tsFile = tsFileIn(fireDir ? resolve(fireDir) : join(repo, "packages/game-core/src/fx/fire"));
 const browser = await chromium.launch({ headless: true,
   args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
 try {
@@ -233,4 +229,5 @@ try {
   console.log(`${list.length} sheets in ${((Date.now() - t0) / 1000).toFixed(1)} s`);
 } finally {
   await browser.close();
+}
 }

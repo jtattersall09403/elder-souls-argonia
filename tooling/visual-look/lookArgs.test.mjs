@@ -14,6 +14,10 @@ test("parseArgs: piece, place, errors", () => {
   assert.throws(() => parseArgs(["piece", "works-v1"]));
   assert.throws(() => parseArgs(["place", "s", "a", "1"]));
   assert.throws(() => parseArgs(["piece", "k", "a", "--bogus"]));
+  assert.deepEqual(parseArgs(["fixtures", "k", "a:b", "k2|c"]).fixtures, ["k|a:b", "k2|c"]);
+  assert.deepEqual(parseArgs(["fixtures"]).fixtures, []);
+  assert.throws(() => parseArgs(["fixtures", "k"]));
+  assert.deepEqual(parseArgs(["preset", "candle"]).presets, ["candle"]);
 });
 
 test("classesFor: the published fixtures class as the look list expects", () => {

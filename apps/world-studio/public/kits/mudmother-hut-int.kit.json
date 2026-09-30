@@ -1381,7 +1381,34 @@
    "undersideClosed": true,
    "undersideCoverage": 0.667,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.889
+   "pivotAboveBaseM": 0.889,
+   "light": {
+    "formId": "000d0e40",
+    "editorId": "SLightStreetStreet01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     247,
+     139,
+     43
+    ],
+    "flicker": {
+     "frequency": 0.05,
+     "intensityAmplitude": 1.0,
+     "movementAmplitude": 1.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "fixtureKind": "lantern",
+    "offsetM": [
+     0.0,
+     -0.55,
+     0.0
+    ],
+    "evidence": "Copied from settlement-mud-v1's argonianlanterns04 row (the same mod piece; the mod places its 3 refs with no LIGH within 200 units, so it takes argonianlanterns03's mined record SLightStreetStreet01 with the light at its own lantern body, 0.55 m below the pivot). Walk 6 look round 2: the hut interior's copy carried no light, so it never burned."
+   }
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbonechime02",

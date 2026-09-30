@@ -1065,6 +1065,29 @@ def mine_fire_layer(nif_bytes: bytes, addn: dict, read_mesh,
     return {"flames": flames, "glowShapes": glows}
 
 
+def seat_flames_on_geometry(record: dict) -> int:
+    """Lower every flame emitter that sits above the piece's geometry onto
+    its top (the wick): the runtime draws a flame upward from its emitter, so
+    an emitter above the mesh floats the flame in the air. impcandle01's
+    AddOnNode49 sits 22.73 units up a 19.1-unit candle (walk 6 look sheet);
+    every other mined flame lies inside its piece. The mined height is kept
+    as `seatedFromM`. Manifest data only, so placement_metadata's
+    --refresh-built-manifests applies it without a Blender rebuild.
+    Returns the number of flames moved."""
+    size, origin = record.get("sizeM"), record.get("originOffsetM") or [0.0, 0.0, 0.0]
+    if not size or len(size) != 3:
+        return 0
+    top = round(size[2] - origin[2], 4)
+    moved = 0
+    for flame in record.get("flames") or []:
+        y = flame["offsetM"][1]
+        if y > top:
+            flame.setdefault("seatedFromM", y)
+            flame["offsetM"] = [flame["offsetM"][0], top, flame["offsetM"][2]]
+            moved += 1
+    return moved
+
+
 def flame_record(flame: dict, atlas_of) -> dict:
     """The manifest record of a mined flame. `atlas_of(texturePath)` is the
     texture's measured [cols, rows] (`atlas_from_gutters`). With a
@@ -1168,6 +1191,7 @@ def apply_fire_layer(summary: dict, kit: dict, plan_assets: list[dict], vault: P
                 missing.add(item["texture"])
         if flames:
             record["flames"] = flames
+            seat_flames_on_geometry(record)
         if glows:
             record["glows"] = glows
         if cards:

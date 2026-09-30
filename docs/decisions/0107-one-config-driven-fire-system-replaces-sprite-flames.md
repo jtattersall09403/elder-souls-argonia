@@ -53,7 +53,7 @@ with no mined candle a flame filling a clear part of its body (22 cm), a torch h
 m seen (58 cm), a brazier or hearth bed ~0.6 m seen (1.0-1.05 m), a campfire
 at least 0.8x its log bundle's diameter above the logs (1.7 m, bed spread
 0.3 m). A new preset or a new fuel is sized the same way and checked on the
-real piece with `tools/fixture-sheet.mjs`.
+real piece with `npm run look -- fixtures`.
 
 **Flicker.** Every fire's brightness (flame card, fixture-field slot,
 carried light) reads `fireFlicker(t, seed, rateHz, amount)`: three octaves
@@ -87,10 +87,10 @@ scale radiance in a physically-lit scene.
 ## What now makes fire quality visible to an agent
 
 1. Two fast standalone headless tools (no studio, no GPU): a day/night
-   contact sheet per preset in ~1 s (`tools/fire-sheet.mjs`), and the flame
+   contact sheet per preset in ~1 s (`npm run look -- preset`), and the flame
    burning on the real kit piece at the loader's anchors, front, above and
-   close-up, day and night, in ~0.4 s per fixture (`tools/fixture-sheet.mjs`
-   → `tooling/.reports/16k/walk6/render/fire/`).
+   close-up, day and night, in ~0.4 s per fixture (`npm run look -- fixtures`,
+   tooling/visual-look).
 2. The place render pipeline now draws every resolved flame anchor as a
    visible marker, day and night, in the renders an agent already reads.
 3. The anchor-in-volume check fails loudly with the offending piece uid,

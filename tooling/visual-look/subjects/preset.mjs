@@ -1,16 +1,11 @@
-// Fire contact sheets (16k walk 5): every fire preset over time, by day and
-// by night, rendered by the REAL flame shader (flameMaterial.ts) in headless
-// Chromium (SwiftShader), in seconds. A minimal standalone page: the fire
-// module, a plain backdrop, and the two exposures the light rig spans
-// (world-studio sky/lightRig.ts: 3.9e-5 at a 45 deg sun, 22 at a moonless
-// night). No studio, no vite, no world (owner ruling: no GPU on this VM).
-//
-// Usage (repo root):
-//   node packages/game-core/src/fx/fire/tools/fire-sheet.mjs [preset ...] [--out DIR]
-// Default: every preset, DIR tooling/.reports/16k/walk5/fire/sheets.
-// Each sheet is 6 frames (0.2 s apart) x {day, night} = 12 tiles, one PNG
-// per preset; the flame's own height fills ~60 % of a tile, and the white
-// tick at each tile's centre marks the emitter (the wick).
+// `npm run look -- preset [<presetId> ...]`: a fire preset over time, by day
+// and by night, rendered by the REAL flame shader (flameMaterial.ts) in
+// headless Chromium (SwiftShader), in seconds: the fire module, a plain
+// backdrop, and the two exposures the light rig spans (world-studio
+// sky/lightRig.ts: 3.9e-5 at a 45 deg sun, 22 at a moonless night).
+// Each sheet is 6 frames (0.2 s apart) x {day, night} = 12 tiles, one PNG per
+// preset; the flame's own height fills ~60 % of a tile, and the white tick at
+// each tile's centre marks the emitter (the wick).
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -18,12 +13,8 @@ import { chromium } from "playwright";
 import ts from "typescript";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const repo = resolve(here, "../../../../../..");
-const fireDir = resolve(here, "..");
-const args = process.argv.slice(2);
-const outAt = args.indexOf("--out");
-const outDir = resolve(repo, outAt >= 0 ? args[outAt + 1] : "tooling/.reports/16k/walk5/fire/sheets");
-const wanted = args.filter((a, i) => !a.startsWith("--") && (outAt < 0 || i !== outAt + 1));
+const repo = resolve(here, "../../..");
+const fireDir = join(repo, "packages/game-core/src/fx/fire");
 
 const threeDir = join(repo, "node_modules/three/build");
 const files = {
@@ -99,6 +90,8 @@ window.presets = Object.keys(FIRE_PRESETS);
 window.ready = true;
 </script></body></html>`;
 
+/** Sheets for `presets` (empty = every preset) into outDir. */
+export async function runPresets({ presets: wanted, outDir }) {
 const browser = await chromium.launch({ headless: true,
   args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
 try {
@@ -130,4 +123,5 @@ try {
   console.log(`${presets.length} sheets in ${((Date.now() - t0) / 1000).toFixed(1)} s`);
 } finally {
   await browser.close();
+}
 }

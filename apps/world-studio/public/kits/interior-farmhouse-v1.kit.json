@@ -10187,7 +10187,7 @@
     {
      "offsetM": [
       0.0009,
-      0.3234,
+      0.272,
       0.0002
      ],
      "texture": "fx:candleflame01",
@@ -10197,7 +10197,8 @@
      ],
      "fps": 3.0,
      "sizeM": 0.036,
-     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01",
+     "seatedFromM": 0.3234
     }
    ],
    "designedSinkM": {
