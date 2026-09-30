@@ -4,7 +4,8 @@ T2 rec 4): the claim first, then the plugin data, never the piece's name.
 1. A door whose `interiorClaim` is tier A, or `reserved` to a load pool (a
    Phase 12 interior will be cut for it), is `load`: a cell transition.
 2. A building with no interior and an open front (a claim reserved to a
-   `NO_INTERIOR_SERVICES` pool, e.g. the open stable) has NO door record:
+   `NO_INTERIOR_SERVICES` pool, e.g. the open stable), or a walk-in open
+   shell (claim tier `none`, `blueprint_interiors.is_walk_in`) has NO door record:
    `door_type` returns None and `blueprint_interiors --claim` drops the door.
 3. With no claim, the door-links record decides
    (`world/sources/placement/exterior-interior-links.json`, mined by
@@ -45,6 +46,8 @@ def door_type(door: dict, shell_asset: str | None,
     claim = door.get("interiorClaim") or {}
     if claim.get("tier") == "A" or claim.get("interiorLoadDoorRef"):
         return "load"
+    if claim.get("tier") == "none":
+        return None          # a walk-in open shell (blueprint_interiors.is_walk_in)
     if claim.get("tier") == "reserved":
         from .blueprint_interiors import NO_INTERIOR_SERVICES
         return None if claim.get("pool") in NO_INTERIOR_SERVICES else "load"

@@ -189,7 +189,9 @@ per building, enclosure, path, light, water edge and dressing group:
   § Quests, § Seams: what each says is in
   [references/brief-sections.md](references/brief-sections.md). The rules
   in short: one Interiors row per door, `reserved` only for a tier B or C
-  interior (R2, R10); a shell with a load doorway gets its author's
+  interior (R2, R10), its columns the shell's plan shape (aspect, round or
+  not), floors above / below its door and grammar, and the chosen cell's
+  same three (R83); a shell with a load doorway gets its author's
   interior from assets we hold (never Creation Club, HearthFires,
   Dawnguard, Dragonborn or the SE resource pack), else a doorless piece is
   walked into; containers and visible items are placed as meshes now;
@@ -232,7 +234,15 @@ record row or an UNVERIFIED mark.
 
    It writes each door's `interiorClaim` from the shell's linked set by the
    fit rule; compare with § Interiors and fix the brief or the shell, never
-   the claim.
+   the claim. Read every candidate row's `floorsAboveEntry` /
+   `floorsBelowEntry` / `shellFloorsAboveDoor`, `aspect` / `shellAspect`
+   and `grammar` / `shellGrammar` (R83), then render the shell
+   (`wb.py render`) beside one `wb.py render-interior` of each distinct
+   bound cell and look: an upstairs the roof has no room for, a rectangle
+   in a round hut or another culture's walls is a rule defect, fixed in
+   `blueprint_interiors.py`, never by hand-picking a cell. Exit 3 names an
+   enterable shell no cell fits: source a fitting cell or reserve it with
+   its reason, never widen the rule.
 
 Ends when: `apply` reports 0 compile errors, `check` has ZERO failures
 (placement-workbench § 5), every lived-in door has a tier A claim (or, for
@@ -251,7 +261,7 @@ and the brief's expectations written first; fix footprint, spacing, path
 and door-facing findings in the layout; `apply`; render again. No Blender
 render until the plan read is clean (0100 decision 3 as amended).
 
-Ends when: every Plan row is YES.
+Ends when: every Plan row is YES. Every fixture, tent, door or walkway piece new to this place gets a close-up first (`npm run look`, [visual-look](../visual-look/SKILL.md), ~2 s each); a flagged defect is fixed at source and becomes a look-list row.
 
 ## 4. Render rounds (at most four; 0102 decision 4)
 

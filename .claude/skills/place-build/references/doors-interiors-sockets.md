@@ -106,16 +106,29 @@ run) and 5 (the gates).
    manifest's `placedScaleMedian`, the plugins' median placed scale; a
    composite is 1). The band is derived from measured pairs: vanilla
    farmhouse cells over their shells 1.03–1.25, King of the Murkmire pods
-   over theirs 1.50–1.65 (interiors round 4). The cell has at least the
-   shell's storeys and at least one exterior load door per entrance (spare
-   ones ship closed); use class matches the parcel's `services` (from the
+   over theirs 1.50–1.65 (interiors round 4). The cell fits the shell's
+   VOLUME and grammar (owner walk 6, R83): its floors ABOVE the entry door
+   (levels more than the 2.4 m storey gap over the door) equal the floors
+   the shell shows above its own door (a one-storey hut: none; floors BELOW
+   the entry, a cellar, are free); its room's plan aspect is within ×1.5
+   of the shell's (manifest `sizeM`), and a round shell (plan fills < 0.82
+   of its box) takes no room longer than 1.3:1; its native shell's building
+   grammar (kit config `culture` → `KIT_SETS` `cultureGroup`, else the R56
+   folder group) is the shell's. A `promised` shell no plugin links, entered
+   by an open walk-in way (`approach`, `open-front`, `opening`), is its own
+   interior: claim tier `none`, no load door. `interiorRef` names the chosen
+   cell's interior kit, never the shell's tileset. An enterable shell no
+   cell passes is reserved and `--claim` exits 3 naming it: the rule is
+   never widened and a cell is never hand-picked past it. The cell has at
+   least one exterior load door per entrance (spare ones ship closed); use class matches the parcel's `services` (from the
    furniture mix: beds and a bar = inn, counter and stock = shop, altar =
    shrine, hearth and beds = dwelling). A stable (no plugin authors a
    stable interior) is an open-sided shell with no door record, walked
    into; a stable house (the keeper's home) is a dwelling and takes a
    linked shell (0105 R2). Ties break on the plugin's own most-used
-   cell for that shell. A claim outside the ratio, with too few storeys
-   or doors fails a test. The rule is asset-aware (planner ruling
+   cell for that shell. A claim outside the ratio, with the wrong floors
+   above the entry, the wrong aspect or grammar, or too few doors fails a
+   test (`test_blueprint_interiors_claim.py`). The rule is asset-aware (planner ruling
    2026-09-27, `bundle_sourcing`): a cell's missing pieces (a base in a
    master we do not hold, or a mesh the vault holds nowhere) are classed
    from the base record or `kit-interiors/absent-master-classes.json`; a

@@ -81,8 +81,8 @@ def test_fit_rule_rejects_ratio_and_too_few_doors():
     _claim_, row = _claim(_bp(["lodging"]))
     fails = {c["cellId"]: c["fails"] for c in row["candidates"]}
     assert any("footprint ratio" in f for f in fails["Huge"])
-    # ruling 2 (round 3): more storeys than the shell is legal (stairs inside)
-    assert fails["Tall"] == []
+    # walk 6 (owner): a floor above the entry the 1-storey shell has no room for
+    assert any("1 floor above the entry, the shell shows 0" in f for f in fails["Tall"])
     # ruling 3 (round 3): more load doors than entrances is legal; the entrance
     # takes the ground-floor door and the upper one ships closed
     assert fails["TwoDoors"] == []
@@ -170,7 +170,7 @@ def test_cell_with_fewer_storeys_than_the_shell_fails():
                                "entrance": {"kind": "esp-door", "sideDeg": 10.0}}})
     row = bi.claim_doors(_bp(["lodging"]), lib, LINKS, PROFILE)[0]
     fails = {c["cellId"]: c["fails"] for c in row["candidates"]}
-    assert any("1 storeys, the shell has 2" in f for f in fails["Home"])
+    assert any("0 floors above the entry, the shell shows 1" in f for f in fails["Home"])
     assert fails["Tall"] == []
 
 
@@ -603,3 +603,78 @@ def test_claim_reexecs_itself_under_job_guard_once(monkeypatch):
     monkeypatch.setenv("ES_JOB_CORES", "2")
     jg.reexec_guarded("interiors-claim", "worldgen.blueprint_interiors", ["--claim", "x.json"])
     assert len(execs) == 1
+
+
+# --------------------------------------------------------------------------- #
+# walk 6 (owner 2026-09-30): the cell fits the shell's volume and grammar
+# --------------------------------------------------------------------------- #
+class _KitLib(_Lib):
+    def __init__(self, records, kit_of):
+        super().__init__(records)
+        self.kit_of = kit_of
+
+
+ROUND_HUT = {"planAreaM2": 171.0, "storeys": 1, "storeyLevelsM": [0.0], "interior": "tileset",
+             "tileset": "vanilla-farmhouse-int",
+             "entrance": {"kind": "assembly", "sideDeg": 150.0}}
+SWAMP_HOUSE = {"planAreaM2": 375.0, "storeys": 1, "storeyLevelsM": [6.0], "interior": "promised",
+               "entrance": {"kind": "approach", "sideDeg": 96.0}}
+HUT_LINKS = {
+    # a rectangular 2-storey Nordic farmhouse cell (imperial grammar)
+    "vanilla:architecture/farmhouse/farmhouse02": [_cell("Farm2", [(BED, 2), (HEARTH, 1)], placements=9)],
+    # a round 1-storey Argonian hut with a cellar under the entry
+    "kotm:argonia/mudhuts/smpodext02": [_cell("PodCellar", [(BED, 1), (HEARTH, 1)])],
+    # a rectangular 2-storey Argonian timber house
+    "kotm:argonia/blackwood/shiveringhouse_02": [_cell("Timber", [(BED, 2), (HEARTH, 1)], placements=5)],
+}
+HUT_PROFILES = {
+    "Farm2": {**_profile(plan=(13.0, 12.0), storeys=2), "floorLevelsM": [0.0, 0.0, 3.6]},
+    "PodCellar": {**_profile(plan=(13.0, 13.5), storeys=2, heights=[3.5]),
+                  "floorLevelsM": [0.0, 0.2, 3.4, 3.5]},
+    "Timber": {**_profile(plan=(15.9, 8.8), storeys=2, heights=[80.5]),
+               "floorLevelsM": [78.1, 79.8, 88.7]},
+}
+HUT_LIB = _KitLib({"test:roundhut": ROUND_HUT, "test:swamphouse": SWAMP_HOUSE},
+                  {"test:roundhut": "settlement-mud-v1", "test:swamphouse": "settlement-stilt-v1",
+                   "vanilla:architecture/farmhouse/farmhouse02": "settlement-imperial-v1"})
+HUT_POOLS = {"argonian": list(HUT_LINKS)}
+SIZES = {"test:roundhut": [15.1, 15.1, 9.4], "test:swamphouse": [20.7, 21.4, 16.1]}
+
+
+def _hut_claim(asset):
+    parcel = {"id": "p1", "assetRef": asset, "use": "dwelling"}
+    return bi.claim_for_parcel(parcel, HUT_LIB, HUT_LINKS, lambda pl, c, sh: HUT_PROFILES[c],
+                               culture="argonian", pools=HUT_POOLS, sizes=SIZES.get)
+
+
+def test_round_one_storey_hut_rejects_a_two_storey_farmhouse_cell():
+    got = _hut_claim("test:roundhut")
+    fails = {c["cellId"]: c["fails"] for c in got["candidates"]}
+    assert any("1 floor above the entry" in f for f in fails["Farm2"])
+    assert any("building grammar imperial" in f for f in fails["Farm2"])
+    # the Lilmoth case: an Argonian cell, but a 1.8:1 two-storey timber house
+    assert any("rectangular room for a round shell" in f for f in fails["Timber"])
+    assert any("1 floor above the entry" in f for f in fails["Timber"])
+
+
+def test_round_one_storey_hut_accepts_a_one_storey_cell_with_a_cellar():
+    got = _hut_claim("test:roundhut")
+    assert got["tier"] == "A" and got["cellId"] == "PodCellar", got
+    pick = next(c for c in got["candidates"] if c["cellId"] == "PodCellar")
+    assert (pick["floorsAboveEntry"], pick["floorsBelowEntry"], pick["shellFloorsAboveDoor"]) == (0, 1, 0)
+    assert pick["grammar"] == pick["shellGrammar"] == "argonian"
+
+
+def test_promised_walk_in_shell_has_no_load_door():
+    got = _hut_claim("test:swamphouse")
+    assert got["tier"] == "none" and "walk-in" in got["why"]
+    from .door_types import door_type
+    assert door_type({"interiorClaim": {"tier": "none"}}, "test:swamphouse") is None
+
+
+def test_no_fitting_cell_is_reserved_never_widened():
+    lonely = {"argonian": ["vanilla:architecture/farmhouse/farmhouse02"]}
+    parcel = {"id": "p1", "assetRef": "test:roundhut", "use": "dwelling"}
+    got = bi.claim_for_parcel(parcel, HUT_LIB, HUT_LINKS, lambda pl, c, sh: HUT_PROFILES[c],
+                              culture="argonian", pools=lonely, sizes=SIZES.get)
+    assert got["tier"] == "reserved" and "the shell's floors above the entry" in got["why"]

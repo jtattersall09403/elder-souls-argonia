@@ -2452,7 +2452,7 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
         record = interiors.get(parcel.get("assetRef")) if (interiors and parcel) else None
         if record is None:
             continue
-        want = interiors.interior_ref(record)
+        want = interiors.interior_ref(record, d.get("interiorClaim"))
         if record.get("interior") == "none":
             fail(f"door {d.get('id')}: parcel {parcel.get('id')} uses {parcel.get('assetRef')}, which has no "
                  f"interior ({record.get('why', 'measured as open geometry')}) — a door here opens onto nothing")
@@ -2527,8 +2527,11 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
             # A hollow shell with no interior carries no door (a door is a
             # transition, 0081; owner check-in 2): a parcel authored
             # `interior: {kind: "none"}` needs none, whatever the kit derives.
+            # a walk-in open shell (walk 6) is its own interior: no door
             if (record.get("interior") in bi.NEEDS_INTERIOR and not doors_by_parcel.get(p.get("id"))
-                    and (p.get("interior") or {}).get("kind") != "none"):
+                    and (p.get("interior") or {}).get("kind") != "none"
+                    and not bi.is_walk_in(record, bool(bi.linked_shells().get(
+                        bi.composite_base(p.get("assetRef") or "") or p.get("assetRef"))))):
                 want = interiors.interior_ref(record) or "a Phase 12 interior claim"
                 if not bi.entrance(record):
                     # Every piece the index still calls enclosed now carries a
