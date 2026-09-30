@@ -361,8 +361,12 @@ export function aerialPerspectiveNode(
  * NodeMaterial.setupFog assigns the lit, pre-tone-map colour to `output`
  * and replaces it with this node on every material with `fog = true`.
  */
-export function createAerialFogNode(u: AerialUniforms): TslNode {
-  return Fn(() => vec4(aerialPerspectiveNode(u, output.rgb, positionWorld, cameraPosition), output.a))();
+export function createAerialFogNode(u: AerialUniforms, inner?: (lit: TslNode) => TslNode): TslNode {
+  return Fn(() => {
+    // the near medium (froxel volumetrics, decision 0112) first, then the aerial haze
+    const lit = inner ? inner(output) : output;
+    return vec4(aerialPerspectiveNode(u, lit.rgb, positionWorld, cameraPosition), lit.a);
+  })();
 }
 
 // ---------------------------------------------------------------------------

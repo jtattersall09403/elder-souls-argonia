@@ -498,7 +498,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           {/* Natural light and sky (Phase 8a): terrain, character and sea are
               lit by the same sun/moon/sky rig, shadows and exposure as the
               flyover — WorldSky replaces the old per-mode light sets. */}
-          <WorldSky mode="character" extentM={authoredExtentM} verticalScale={verticalScale} hidden={insideInterior}>
+          <WorldSky mode="character" extentM={authoredExtentM} verticalScale={verticalScale} hidden={insideInterior} groundHeight={settlementGroundAt}>
           <group visible={!insideInterior}>
           <Suspense fallback={null}>
             <ApronTerrain

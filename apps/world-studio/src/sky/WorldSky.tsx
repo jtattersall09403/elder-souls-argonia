@@ -58,7 +58,10 @@ import { STUDIO_TOOLS } from "../studioTools";
 import { buriedThresholdM } from "@elder-souls/game-core/water/index";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { airAmounts } from "@elder-souls/game-core/air/ambientAir";
-import { sunShaftIntensity } from "@elder-souls/game-core/air/sunShafts";
+import * as TSL_V from "three/tsl";
+import { Volumetrics, volumetricBandFor } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
+import { applyVolumetrics } from "@elder-souls/game-core/air/volumetrics/volumetricNodes";
+import { activeBackend } from "@elder-souls/game-core/render/createRenderer";
 import { WHITEOUT_BELT, WHITEOUT_ENABLED, type WeatherSample } from "@elder-souls/world-weather";
 import { DATA_BASE } from "../dataBase";
 
@@ -133,18 +136,6 @@ function humidityAt(xM: number, zM: number, extentM: number): number {
   const py = Math.max(0, Math.min(airPixels.h - 1, Math.round((zM / extentM) * (airPixels.h - 1))));
   return airPixels.data[(py * airPixels.w + px) * 4] / 255;
 }
-/** Canopy closure 0..1 — the BLUE channel of the same climate-air raster
- * humidityAt reads (see climateSampler's header). The sun shafts need to know
- * whether there is a roof overhead; with no raster loaded yet the honest
- * answer is "none", which keeps them off rather than hanging them in open
- * sky. */
-function canopyAt(xM: number, zM: number, extentM: number): number {
-  if (!airPixels) return 0;
-  const px = Math.max(0, Math.min(airPixels.w - 1, Math.round((xM / extentM) * (airPixels.w - 1))));
-  const py = Math.max(0, Math.min(airPixels.h - 1, Math.round((zM / extentM) * (airPixels.h - 1))));
-  return airPixels.data[(py * airPixels.w + px) * 4 + 2] / 255;
-}
-
 // ---------- authored stars (catalogue in skyObjects.ts) ----------
 
 export { STAR_POOL };
@@ -189,11 +180,10 @@ export interface SkyDebugState {
   camFog: number;
   /** Round 3: sunset cloud-light strength [deck, cirrus] (probe surface). */
   cloudSunsetAmt: [number, number];
-  /** Ambient air (owner 2026-09-10): canopy closure at the camera, the sun
-   * shaft strength, and how present each species is right now — so the layer
+  /** Ambient air (owner 2026-09-10): the volumetric band (0112) and how
+   * present each species is right now — so the layer
    * can be checked by reading a number instead of squinting at the frame. */
-  canopyAtCamera: number;
-  sunShafts: number;
+  volumetricBand: string;
   airAmounts: Record<string, number>;
 }
 
@@ -219,8 +209,12 @@ export function WorldSky({
   extentM,
   verticalScale = 1,
   hidden = false,
+  groundHeight,
   children,
 }: {
+  /** Terrain height at x,z (m), for the volumetric fog field's terrain grids
+   * (decision 0112); absent, the medium sits on a flat 0 m ground. */
+  groundHeight?: (x: number, z: number) => number | null;
   mode: "fly" | "character";
   extentM: number;
   /** Inside an interior cell (0103 decision 4): the sky, its lights, rain and
@@ -232,6 +226,29 @@ export function WorldSky({
   children?: React.ReactNode;
 }) {
   const { scene, camera, gl } = useThree();
+  // The froxel medium (decision 0112): WebGPU only; the band follows the
+  // renderer tier (every WebGPU session is "high" until a tier source exists).
+  const groundRef = useRef(groundHeight);
+  groundRef.current = groundHeight;
+  const volumetrics = useMemo(() => {
+    const renderer = gl as unknown as WebGPURenderer;
+    const backend = activeBackend(renderer);
+    const v = new Volumetrics({
+      renderer, backend,
+      terrain: {
+        groundHeight: (x, z) => groundRef.current?.(x, z) ?? 0,
+        water: (x, z) => ({ height: 0, mask: (groundRef.current?.(x, z) ?? 1) <= 0 ? 1 : 0 }),
+        seaMask: (x, z) => ((groundRef.current?.(x, z) ?? 1) <= 0 ? 1 : 0),
+        wetness: (x, z) => humidityAt(x, z, extentM) > 0.75 ? 1 : 0,
+      },
+      crowns: () => [],
+    });
+    v.setBand(volumetricBandFor(backend, "high"));
+    return v;
+  }, [gl, extentM]);
+  useEffect(() => () => volumetrics.dispose(), [volumetrics]);
+  const volSun = useRef(new THREE.Color());
+  const volSky = useRef(new THREE.Color());
   const segments = useFrameSegments();
   const base = DATA_BASE;
   const rainBudget = useMemo(() => rainDropBudget(), []);
@@ -270,11 +287,13 @@ export function WorldSky({
   // node set after them changes their cache key and recompiles them).
   useLayoutEffect(() => {
     const fogScene = scene as THREE.Scene & { fogNode?: unknown };
-    fogScene.fogNode = createAerialFogNode(sharedAerialUniforms);
+    const V = TSL_V as unknown as Record<string, { z: { negate(): unknown } }>;
+    fogScene.fogNode = createAerialFogNode(sharedAerialUniforms, (lit) =>
+      applyVolumetrics(volumetrics, lit, V.positionView.z.negate() as never, V.screenUV as never));
     return () => {
       fogScene.fogNode = null;
     };
-  }, [scene]);
+  }, [scene, volumetrics]);
 
   // Renderer: physical lights + ACES + soft shadows, one configuration for
   // both modes (module 55 §96 — tone mapping is part of the light system).
@@ -447,7 +466,6 @@ export function WorldSky({
   // Probe surfaces for the air layer, so its behaviour can be READ rather
   // than judged by eye (module 85: agents read measurements).
   const lastAirAmounts = useRef<Record<string, number>>({});
-  const lastShaftAmount = useRef(0);
   const hemiRef = useRef<THREE.HemisphereLight>(null);
   const moonLightRef = useRef<THREE.DirectionalLight>(null);
   const moonLightTarget = useMemo(() => new THREE.Object3D(), []);
@@ -743,23 +761,18 @@ export function WorldSky({
     extras.uMoonGlowWide.value.set(11.5 - 4.0 * veil, 16.0 - 6.0 * veil);
 
     // Ambient air conditions (owner 2026-09-10). Everything the fireflies,
-    // midges, pollen, leaf fall and sun shafts key on is already computed
+    // midges, pollen and leaf fall key on is already computed
     // above for the sky and the weather, so the layer derives its own
     // presence rules from world state rather than being switched on by hand.
-    // `canopy` is the one value the sky does not hold: without a vegetation
-    // density sample it stays 0 and the sun shafts stay off, which is the
-    // honest default — a shaft with no canopy casting it is a cone of fog.
     if (!airRef.current) {
       airRef.current = {
         sunDir: new THREE.Vector3(),
         sunAltDeg: 0,
-        sunColour: new THREE.Color(),
         humidity: 0.6,
         rain: 0,
         cloud: 0,
         windSpeed: 0,
         windDirXZ: [1, 0],
-        canopy: 0,
         exposure: 1,
         hazeAmbient: [0, 0, 0],
         hazeSunLight: [0, 0, 0],
@@ -771,13 +784,11 @@ export function WorldSky({
       const a = airRef.current;
       a.sunDir.copy(sunDir);
       a.sunAltDeg = sunAltDeg;
-      a.sunColour.setRGB(...rig.sunColor);
       a.humidity = humidity;
       a.rain = wx.rainIntensity;
       a.cloud = Math.min(1, rig.cloudCov[0] + rig.cloudCov[1] + 0.5 * rig.cloudCov[2]);
       a.windSpeed = wx.windSpeedMS;
       a.windDirXZ = wx.windDirXZ;
-      a.canopy = canopyAt(camera.position.x, camera.position.z, extentM);
       a.exposure = rig.exposureTarget;
       // The same air-light feeds the aerial haze uses, so a lit mote is lit
       // by the same air as the terrain behind it.
@@ -797,13 +808,24 @@ export function WorldSky({
         windSpeed: a.windSpeed,
         aboveGroundM: a.aboveGroundM,
       });
-      lastShaftAmount.current = sunShaftIntensity({
-        sunAltDeg: a.sunAltDeg,
-        cloud: a.cloud,
-        rain: a.rain,
-        canopy: a.canopy,
-        humidity: a.humidity,
-        aboveGroundM: a.aboveGroundM,
+    }
+
+    // The froxel medium (decision 0112): lit by the same sun and sky as the
+    // scene, its regimes from the clock, weather and climate here.
+    if (volumetrics.band !== "off" && !hidden) {
+      const persp = camera as THREE.PerspectiveCamera;
+      const irr = volSun.current;
+      irr.setRGB(...rig.sunColor).multiplyScalar(rig.sunIntensity);
+      volSky.current.setRGB(...rig.hemiSky).multiplyScalar(rig.hemiIntensity * Math.PI);
+      const cloud = airRef.current?.cloud ?? 0;
+      volumetrics.update({
+        camera: persp, timeS: waterTimeS(), sunDir, sunIrradiance: irr, skyIrradiance: volSky.current,
+        fog: {
+          minuteOfDay: ((epochMinutes % 1440) + 1440) % 1440, sunriseMin: 360, sunsetMin: 1080,
+          prevNightClearCalm: 1 - cloud, hoursSinceRain: wx.rainIntensity > 0 ? 0 : Infinity, rain: wx.rainIntensity,
+          windSpeedMS: wx.windSpeedMS, windDirXZ: wx.windDirXZ, humidity, wetSeason: 0.5,
+          weatherState: (wx as { state?: string }).state,
+        },
       });
     }
 
@@ -880,8 +902,7 @@ export function WorldSky({
       sunOcclusion,
       camFog: camFogNow,
       cloudSunsetAmt: rig.cloudSunsetAmt,
-      canopyAtCamera: airRef.current?.canopy ?? 0,
-      sunShafts: lastShaftAmount.current,
+      volumetricBand: volumetrics.band,
       airAmounts: lastAirAmounts.current,
       // Whole-frame total published by the DEV frame probe (CharacterMode):
       // `info.autoReset` is off there, so the live counter is mid-frame.

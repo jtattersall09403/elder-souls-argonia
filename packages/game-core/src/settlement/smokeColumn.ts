@@ -22,6 +22,7 @@ import { MeshBasicNodeMaterial } from "three/webgpu";
 import * as tsl from "three/tsl";
 import { wrapColor, type TslNode } from "../render/nodes/materialNodes";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
+import { sceneRadiance } from "../air/volumetrics/volumetricNodes";
 import { lodLadder } from "../fx/lodFade";
 import type { SettlementPlacement } from "./types";
 
@@ -162,10 +163,12 @@ export class SmokeColumns {
     this.nightNode = (night as { isNode?: boolean }).isNode
       ? night
       : reference("value", "float", night);
-    // colour × map, then dimmed by the night factor (the old map_fragment
+    // colour × map as scene radiance at the current exposure (decision 0112
+    // §3: a raw 0..1 colour under physical exposure drew charcoal grey by
+    // day), then dimmed by the night factor (the old map_fragment
     // seam; vertex colour and alpha multiply after, as before).
     wrapColor(this.material, (c: TslNode) =>
-      vec4(c.rgb.mul(mix(float(1), float(SMOKE_NIGHT_BRIGHTNESS), this.nightNode)), c.a));
+      vec4(sceneRadiance(c.rgb).mul(mix(float(1), float(SMOKE_NIGHT_BRIGHTNESS), this.nightNode)), c.a));
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.frustumCulled = false;
     this.mesh.renderOrder = 10;

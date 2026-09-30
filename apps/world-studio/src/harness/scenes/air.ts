@@ -1,9 +1,9 @@
 /**
- * Harness scene "air": every ambient-air species swarm and the sun shafts,
+ * Harness scene "air": every ambient-air species swarm,
  * built from the real package classes (game-core/air), over a lit ground
  * plane. Conditions: a humid marsh; each species gets the larger of its dusk
  * and its daytime amount so all five swarms draw (each is its own pipeline),
- * and the shafts get a 40° sun under full canopy.
+ *.
  */
 import * as THREE from "three";
 import { MeshStandardNodeMaterial } from "three/webgpu";
@@ -15,7 +15,6 @@ import {
   seededRandom,
   type AirConditions,
 } from "@elder-souls/game-core/air/ambientAir";
-import { SunShafts, sunShaftIntensity } from "@elder-souls/game-core/air/sunShafts";
 import { PRECIP_LAYER } from "@elder-souls/game-core/water/render/waterMaterial";
 
 
@@ -49,10 +48,6 @@ const harnessScene: HarnessScene = {
     const dusk = airAmounts({ ...MARSH, sunAltDeg: -3, windSpeed: 1 });
     const day = airAmounts(MARSH);
     for (const s of swarms) scene.add(s.points);
-    const shafts = new SunShafts(undefined, seededRandom(0x511af75));
-    scene.add(shafts.mesh);
-    const shaftAmount = sunShaftIntensity({ ...MARSH, canopy: 1 });
-    const sunColour = new THREE.Color(1.0, 0.93, 0.74);
     const lit = { x: 0.8, y: 0.8, z: 0.75 };
 
     const frame = (t: number) => {
@@ -63,7 +58,6 @@ const harnessScene: HarnessScene = {
           camera, t, ctx.renderer.getPixelRatio(), sunDir, [1, 0], MARSH.windSpeed, lit, 1, 1200,
         );
       }
-      shafts.update(shaftAmount, camera, sunDir, sunColour, 1);
     };
     frame(0);
     return { scene, camera, frame };

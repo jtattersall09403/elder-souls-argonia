@@ -10,11 +10,10 @@ import {
   type AirWaterSurface,
 } from "./ambientAir";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
-import { SunShafts, sunShaftIntensity } from "./sunShafts";
 import { waterParticleRadiance } from "../water/render/waterParticleLighting";
 
 /**
- * The ambient air layer: fireflies, midges, pollen, leaf fall and sun shafts
+ * The ambient air layer: fireflies, midges, pollen and leaf fall (sun shafts are the froxel medium, decision 0112)
  * (owner 2026-09-10, module 55 polish tier).
  *
  * Deliberately a LEAF in the scene graph. It reads one injected ref, writes
@@ -31,8 +30,6 @@ export interface AmbientAirConditions {
   /** Unit vector toward the sun. */
   sunDir: THREE.Vector3;
   sunAltDeg: number;
-  /** Sunlight colour, for the shafts. */
-  sunColour: THREE.Color;
   /** Local relative humidity 0..1 at the camera — the marsh/upland axis. */
   humidity: number;
   /** Rain 0..1. */
@@ -42,9 +39,6 @@ export interface AmbientAirConditions {
   windSpeed: number;
   /** Unit wind direction in XZ. */
   windDirXZ: [number, number];
-  /** Canopy density overhead 0..1. Sun shafts need something to come
-   * through; with no canopy value available, leave it 0 and they stay off. */
-  canopy: number;
   /** Renderer exposure, so the layer tracks the rest of the scene rather
    * than blowing out at night or vanishing at noon. */
   exposure: number;
@@ -94,14 +88,12 @@ export function AmbientAir({
     const rand = seededRandom(0x5eeda12);
     return Object.values(AIR_SPECIES).map((s) => new AirSwarm(s, rand));
   }, []);
-  const shafts = useMemo(() => new SunShafts(undefined, seededRandom(0x511af75)), []);
 
   useEffect(
     () => () => {
       for (const s of swarms) s.dispose();
-      shafts.dispose();
     },
-    [swarms, shafts],
+    [swarms],
   );
 
   useFrame((_, delta) => {
@@ -110,7 +102,6 @@ export function AmbientAir({
     const gain = enabled && c ? (override ?? 1) : 0;
     if (gain <= 0 || !c) {
       for (const s of swarms) s.points.visible = false;
-      shafts.mesh.visible = false;
       return;
     }
     // Real seconds, not world time: a firefly blinks at its own rate however
@@ -151,18 +142,6 @@ export function AmbientAir({
         c.visibilityM,
       );
     }
-
-    const shaftAmount = sunShaftIntensity({
-      sunAltDeg: c.sunAltDeg,
-      cloud: c.cloud,
-      rain: c.rain,
-      canopy: c.canopy,
-      humidity: c.humidity,
-      aboveGroundM: c.aboveGroundM,
-    });
-    // NOT multiplied by exposure — see SHAFT_SCREEN in sunShafts.ts. That
-    // multiply is what made the shafts invisible in daylight.
-    shafts.update(shaftAmount * gain, camera, c.sunDir, c.sunColour, c.exposure);
   });
 
   return (
@@ -170,7 +149,6 @@ export function AmbientAir({
       {swarms.map((s) => (
         <primitive key={s.species.id} object={s.points} />
       ))}
-      <primitive object={shafts.mesh} />
     </>
   );
 }

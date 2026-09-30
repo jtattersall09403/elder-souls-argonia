@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import { AIR_PATCH_BAND, AIR_SPECIES, AIR_SPRITE_MAX_PX, airBlinkEnvelope, airSpriteSize, AIR_WATER_MIN_DEPTH_M, AirSwarm, airAmounts, airHoverFloorY, airPatchBand,
   airWaterGate, seededRandom, type AirConditions } from "./ambientAir";
-import { SunShafts, sunShaftIntensity } from "./sunShafts";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 
 /**
@@ -159,59 +158,6 @@ describe("ambient air presence rules (owner 2026-09-10)", () => {
   });
 });
 
-describe("sun shafts (owner 2026-09-10)", () => {
-  const UNDER_CANOPY = {
-    sunAltDeg: 22,
-    cloud: 0.1,
-    rain: 0,
-    canopy: 0.8,
-    humidity: 0.8,
-    aboveGroundM: 2,
-  };
-
-  it("wants raking light under a canopy on a clear day", () => {
-    expect(sunShaftIntensity(UNDER_CANOPY)).toBeGreaterThan(0.5);
-  });
-
-  it("needs a canopy — a shaft with nothing casting it is a cone of fog", () => {
-    expect(sunShaftIntensity({ ...UNDER_CANOPY, canopy: 0 })).toBe(0);
-  });
-
-  it("dies under overcast and in rain", () => {
-    expect(sunShaftIntensity({ ...UNDER_CANOPY, cloud: 0.9 })).toBe(0);
-    expect(sunShaftIntensity({ ...UNDER_CANOPY, rain: 1 })).toBe(0);
-  });
-
-  it("switches off at night and at high noon", () => {
-    // No beam at all below the horizon.
-    expect(sunShaftIntensity({ ...UNDER_CANOPY, sunAltDeg: -5 })).toBe(0);
-    // Overhead sun rakes nothing: shafts read as an artefact there.
-    expect(sunShaftIntensity({ ...UNDER_CANOPY, sunAltDeg: 85 })).toBe(0);
-  });
-
-  it("reads stronger in damp marsh air than on a dry ridge", () => {
-    const damp = sunShaftIntensity({ ...UNDER_CANOPY, humidity: 1 });
-    const dry = sunShaftIntensity({ ...UNDER_CANOPY, humidity: 0 });
-    expect(damp).toBeGreaterThan(dry);
-    expect(dry).toBeGreaterThan(0);
-  });
-
-  it("stays inside 0..1 across the whole parameter space", () => {
-    for (const sunAltDeg of [-10, 0, 5, 20, 50, 80, 90]) {
-      for (const cloud of [0, 0.5, 1]) {
-        for (const canopy of [0, 0.5, 1]) {
-          for (const cameraY of [0, 100, 3000]) {
-            const v = sunShaftIntensity({ sunAltDeg, cloud, rain: 0, canopy, humidity: 0.7, aboveGroundM: cameraY });
-            expect(Number.isFinite(v)).toBe(true);
-            expect(v).toBeGreaterThanOrEqual(0);
-            expect(v).toBeLessThanOrEqual(1);
-          }
-        }
-      }
-    }
-  });
-});
-
 describe("the swarm is deterministic (standard 4)", () => {
   it("produces the same field from the same seed, on any machine", () => {
     const a = seededRandom(0x5eeda12);
@@ -228,7 +174,7 @@ describe("the swarm is deterministic (standard 4)", () => {
   });
 });
 
-describe("the swarm and shaft materials are node materials with their slots filled (decision 0107)", () => {
+describe("the swarm materials are node materials with their slots filled (decision 0107)", () => {
   it("every species builds a transparent, non-writing, unfogged node material drawn as instanced quads", () => {
     for (const species of Object.values(AIR_SPECIES)) {
       const sw = new AirSwarm(species, seededRandom(5));
@@ -248,17 +194,7 @@ describe("the swarm and shaft materials are node materials with their slots fill
       sw.dispose();
     }
   });
-  it("the sun shafts are an additive, double-sided, unfogged node material", () => {
-    const sh = new SunShafts(undefined, seededRandom(6));
-    expect(sh.material.isNodeMaterial).toBe(true);
-    expect(sh.material.fragmentNode).toBeTruthy();
-    expect(sh.material.blending).toBe(THREE.AdditiveBlending);
-    expect(sh.material.side).toBe(THREE.DoubleSide);
-    expect(sh.material.depthWrite).toBe(false);
-    expect(sh.material.fog).toBe(false);
-    expect(sh.mesh.renderOrder).toBe(5);
-    sh.dispose();
-  });
+
 });
 
 describe("blink envelope and sprite size (the maths the vertex stage mirrors)", () => {
@@ -286,12 +222,11 @@ describe("blink envelope and sprite size (the maths the vertex stage mirrors)", 
 describe("the air layer draws after the water surface", () => {
   // On layer 0 the water pass painted over every particle in front of water,
   // which is every midge and dragonfly (owner 2026-09-11). Same fix as rain.
-  it("puts every swarm and the sun shafts on the post-water layer", () => {
+  it("puts every swarm on the post-water layer", () => {
     for (const species of Object.values(AIR_SPECIES)) {
       const swarm = new AirSwarm(species, seededRandom(3));
       expect(swarm.points.layers.mask, species.id).toBe(1 << PRECIP_LAYER);
     }
-    expect(new SunShafts(undefined, seededRandom(4)).mesh.layers.mask).toBe(1 << PRECIP_LAYER);
   });
 });
 

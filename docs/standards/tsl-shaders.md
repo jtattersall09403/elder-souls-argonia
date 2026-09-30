@@ -158,6 +158,15 @@ with an object that must not have it: clone first (the old rule, unchanged).
   `TiledLighting` was measured and rejected (decision 0111 §3). Draw settlement meshes per cell, never
   as one settlement-wide instanced mesh (it would get only the 8 lamps nearest its centre).
 
+### Unlit colours under physical exposure
+
+Exposure is physical (about 4e-5 at noon, up to ~22 at night), so a raw 0..1
+colour written by an unlit or emissive material (smoke, motes, cards, glows)
+draws near black by day. Convert it with `sceneRadiance(display)` from
+`packages/game-core/src/air/volumetrics/volumetricNodes.ts` (display colour
+to scene radiance at the current exposure), or light it with the scene's
+sun and sky radiance (`waterParticleRadiance`). Decision 0112 §3.
+
 ## 7. Tests
 
 Vitest runs without a GPU. Test (a) the TS maths the graph mirrors, (b) that a helper filled the right
