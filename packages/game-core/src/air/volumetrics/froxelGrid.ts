@@ -234,13 +234,13 @@ export class Volumetrics implements VolumetricsSampler {
     const overW = p.y.sub(nearT.g);
     const colTop = float(1).add(ns.mul(3)).add(nh);
     const steam = waterMask.mul(float(1).sub(smoothstep(colTop.mul(0.3), colTop, overW))).mul(smoothstep(-0.3, 0.1, overW))
-      .mul(smoothstep(0.55, 0.8, ns.add(nh.mul(0.5)))).mul(u.steam).mul(0.05);
+      .mul(smoothstep(0.55, 0.8, ns.add(nh.mul(0.5)))).mul(u.steam).mul(0.12);
     // marsh ground fog: knee-to-waist (0.5..1.6 m), the top torn by both octaves into mounds and gaps,
     // density falling linearly with height to that top (thick at the ankles, thin at the waist)
     const marshTop = float(0.35).add(n1.mul(1.1)).add(n2.mul(0.9));
     const marshFall = clamp(float(1).sub(hAG.div(max(marshTop, float(0.2)))), 0, 1);
     const marsh = wet.mul(marshFall).mul(smoothstep(float(0).sub(soft(0.3)), float(0), hAG)).mul(smoothstep(0.25, 0.6, n2.add(n1.mul(0.5))))
-      .mul(n).mul(u.marsh).mul(0.07);
+      .mul(n).mul(u.marsh).mul(0.14);
     const sea = farT.b.mul(exp(max(p.y, 0).div(-150))).mul(n).mul(u.sea).mul(0.012);
     const cuv = p.xz.sub(u.canopyOrigin).div(CANOPY_SIZE_M);
     const under = smoothstep(0, 0.3, texture(this.canopy.texture, cuv).b.sub(ground));

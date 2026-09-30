@@ -18,4 +18,9 @@ describe("airlightIntegral", () => {
     const isoNear = airlightIntegral(0.05, 60, 20, 0.3, 40, 10, 0), isoOff = airlightIntegral(0.05, 60, 20, 4, 40, 10, 0);
     expect(near / off).toBeGreaterThan(2 * (isoNear / isoOff));
   });
+  it("the reach limit leaves a ray passing far from a lamp with ~0 airlight", () => {
+    expect(airlightIntegral(0.05, 60, 30, 40, 200, 10, undefined, 33)).toBe(0);
+    const near = airlightIntegral(0.05, 60, 30, 0.5, 200, 10, undefined, 33);
+    expect(near / airlightIntegral(0.05, 60, 30, 0.5, 200)).toBeGreaterThan(0.9);
+  });
 });

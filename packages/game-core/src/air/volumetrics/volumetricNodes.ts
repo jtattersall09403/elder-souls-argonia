@@ -57,7 +57,13 @@ export function applyVolumetrics(v: VolumetricsSampler, color: TslNode, viewDept
 /** Lamp phase: an isotropic floor plus a forward Henyey-Greenstein lobe. The round glow a lamp wears
  * in fog is light scattered a few degrees off its straight path toward the eye, so the lobe sets
  * the halo; the floor keeps a faint wide skirt (fitted by eye to the owner's misty-lamp photo). */
-export const LAMP_PHASE: { readonly g: number; readonly forward: number } = { g: 0.85, forward: 0.88 };
+export const LAMP_PHASE: { readonly g: number; readonly forward: number } = { g: 0.75, forward: 0.8 };
+/** A lamp's airlight is marched only inside LAMP_REACH x its light radius, fading from LAMP_REACH_FADE
+ * of that: at 3 radii the in-scatter has fallen to a few percent of its peak, so the phase lobe and the
+ * medium set the halo edge, not the cut; the cut still keeps distant ground free of lit haze. */
+export const LAMP_REACH = 3;
+export const LAMP_REACH_FADE = 0.6;
+const smooth = (e0: number, e1: number, x: number) => { const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1); return t * t * (3 - 2 * t); };
 /** Midpoint steps of the equiangular march per lamp. */
 export const LAMP_STEPS = 10;
 
@@ -71,14 +77,17 @@ export function lampPhase(c: number, g = LAMP_PHASE.g, forward = LAMP_PHASE.forw
  * scattering cosine at the sample is sin(theta). t0 is the ray parameter nearest the light, h its
  * distance from the ray. Plain TS twin of the shader loop. */
 export function airlightIntegral(sigma: number, intensity: number, t0: number, h: number, L: number,
-  steps = LAMP_STEPS, forward: number = LAMP_PHASE.forward): number {
+  steps = LAMP_STEPS, forward: number = LAMP_PHASE.forward, R = Infinity): number {
   const hh = Math.max(h, 0.05);
-  const a = Math.atan(-t0 / hh), b = Math.atan((L - t0) / hh), dth = (b - a) / steps;
+  const half = Math.sqrt(Math.max(R * R - hh * hh, 0));
+  const a = Math.atan((Math.max(t0 - half, 0) - t0) / hh);
+  const b = Math.max(Math.atan((Math.min(t0 + half, L) - t0) / hh), a), dth = (b - a) / steps;
   let sum = 0;
   for (let k = 0; k < steps; k++) {
     const th = a + (k + 0.5) * dth;
     const t = t0 + hh * Math.tan(th), r = hh / Math.cos(th);
-    sum += lampPhase(Math.sin(th), LAMP_PHASE.g, forward) * Math.exp(-sigma * (t + r));
+    const fade = Number.isFinite(R) ? 1 - smooth(R * LAMP_REACH_FADE, R, r) : 1;
+    sum += lampPhase(Math.sin(th), LAMP_PHASE.g, forward) * Math.exp(-sigma * (t + r)) * fade;
   }
   return sigma * intensity * sum * dth / hh;
 }
@@ -101,9 +110,9 @@ function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode
       const h = max(length(rel.sub(dir.mul(t0))), float(0.05));
       const d = length(rel);
       const reach = clamp(float(1).sub(d.sub(lp.w.mul(2)).div(lp.w.mul(2))), 0, 1);
-      // the lamp lights only the air inside its reach sphere (radius 1.5 x reach, soft over the outer
-      // half): march the chord through it, not the whole ray, or distant ground reads as lit haze
-      const R = lp.w.mul(1.5);
+      // the lamp lights only the air inside its reach sphere (LAMP_REACH x radius, soft over the outer
+      // part): march the chord through it, not the whole ray, or distant ground reads as lit haze
+      const R = lp.w.mul(LAMP_REACH);
       const half = sqrt(max(R.mul(R).sub(h.mul(h)), float(0)));
       const a = atan(max(t0.sub(half), float(0)).sub(t0).div(h));
       const b = max(atan(min(t0.add(half), segLen).sub(t0).div(h)), a);
@@ -116,7 +125,7 @@ function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode
         const r = h.div(cos(th));
         const ph = float((1 - forward) / (4 * Math.PI)).add(float(forward * (1 - g * g) / (4 * Math.PI))
           .div(pow(max(float(1 + g * g).sub(c.mul(2 * g)), float(1e-4)), float(1.5))));
-        sum.addAssign(ph.mul(exp(sigma.mul(t.add(r)).negate())).mul(float(1).sub(smoothstep(R.mul(0.5), R, r))));
+        sum.addAssign(ph.mul(exp(sigma.mul(t.add(r)).negate())).mul(float(1).sub(smoothstep(R.mul(LAMP_REACH_FADE), R, r))));
       }
       acc.addAssign(L.col.element(i).xyz.mul(sigma.mul(sum).mul(dth).div(h).mul(reach)));
     });
