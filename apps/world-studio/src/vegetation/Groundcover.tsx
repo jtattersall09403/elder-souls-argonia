@@ -162,6 +162,23 @@ const NEAR_REACH_MIN = 0.25;
 const NEAR_TRI_MAX = 1000;
 
 /** The NEAR band's fraction of `NEAR_FRACTION x r` for a mesh of `meshTris`. */
+/**
+ * After a generation pass: whether to fill, and whether generation stays
+ * armed. `fillDue` counts the tiles waiting on an LOD 1 chunk as remaining,
+ * so a walking pass whose only missing tiles wait on a chunk, under
+ * GC_FILL_INTERVAL_S after the last fill, did not fill; clearing
+ * `genPending` then left the tiles it had just made undrawn until a chunk
+ * arrived or the focus moved 8 m (review 2026-09-30, replayed in
+ * groundcoverDrain.test.ts). The generatable queue draining is the last
+ * chance for them: fill now.
+ */
+export function settleGeneration(
+  remaining: number, generatedSinceFill: number, fill: boolean,
+): { fill: boolean; pending: boolean } {
+  if (remaining > 0) return { fill, pending: true };
+  return { fill: fill || generatedSinceFill > 0, pending: false };
+}
+
 export function nearReachFraction(meshTris: number): number {
   if (!(meshTris > 0)) return 1;
   return Math.min(1, Math.max(NEAR_REACH_MIN, NEAR_TRI_REF / meshTris));
@@ -1387,7 +1404,9 @@ export function Groundcover({
         fill = true;
         phasesFilled.current = due.phase;
       }
-      if (remaining === 0) genPending.current = false;
+      const drained = settleGeneration(remaining, generatedSinceFill.current, fill);
+      fill = drained.fill;
+      if (!drained.pending) genPending.current = false;
       if (missing === 0) coldStart.current = false;
     }
     p.tilesPending = pendingTiles + generatedSinceFill.current;
