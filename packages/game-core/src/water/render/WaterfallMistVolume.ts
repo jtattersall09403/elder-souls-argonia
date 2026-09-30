@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { MeshBasicNodeMaterial } from "three/webgpu";
 import * as tsl from "three/tsl";
 import { sel, type TslNode } from "../../render/nodes/materialNodes";
+import { packInstancedAttributes } from "../../render/instancedPack";
 import type { WaterRuntime } from "./types";
 import { WATER_LAYER } from "./waterMaterial";
 import { fallsIrradianceNode, fallsSunVisibilityNode } from "./whitewaterStreaks";
@@ -250,12 +251,11 @@ export class WaterfallMistVolume {
         domeRadiusM: s.bowlRadiusM * MIST_DOME.horizontalScale,
       };
     });
-    geometry.setAttribute("aLip", new THREE.InstancedBufferAttribute(lip, 3));
-    geometry.setAttribute("aPlunge", new THREE.InstancedBufferAttribute(plunge, 3));
-    geometry.setAttribute("aParams", new THREE.InstancedBufferAttribute(params, 4));
-    geometry.setAttribute("aForward", new THREE.InstancedBufferAttribute(forward, 4));
-    geometry.setAttribute("aBoxMin", new THREE.InstancedBufferAttribute(bmin, 3));
-    geometry.setAttribute("aBoxMax", new THREE.InstancedBufferAttribute(bmax, 3));
+    // One interleaved vertex buffer for all six (WebGPU binds at most 8 per draw).
+    packInstancedAttributes(geometry, [
+      ["aLip", lip, 3], ["aPlunge", plunge, 3], ["aParams", params, 4],
+      ["aForward", forward, 4], ["aBoxMin", bmin, 3], ["aBoxMax", bmax, 3],
+    ], n);
     this.material = createMistMaterial(shared, this.camForward);
     mesh.material = this.material;
     mesh.name = "water-waterfall-mist-volume";

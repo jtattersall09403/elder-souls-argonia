@@ -52,6 +52,12 @@ with an object that must not have it: clone first (the old rule, unchanged).
 
 ### Gotchas proven on this port (each cost a lane an hour)
 
+- A WebGPU draw binds at most 8 vertex buffers (default `maxVertexBuffers`). three counts one per
+  distinct BufferAttribute or InterleavedBuffer, +1 for an InstancedMesh matrix (one stride-16
+  buffer on the attribute path `shareInstancedPrograms` forces), +1 for `instanceColor`. Put
+  per-instance data in ONE buffer with `packInstancedAttributes` (render/instancedPack.ts) and
+  assert `vertexBufferCount(mesh) <= MAX_VERTEX_BUFFERS` in the factory's test (the mist volume
+  hit 10 and failed only on WebGPU; WebGL was fine).
 - `positionNode` is object space BEFORE the instance matrix (three 0.184, proven from the generated
   shader, although `NodeMaterial.setupPosition` reads the other way). Read instance matrices with
   `instanceMatrixNode` / `matrixColumn` from `packages/game-core/src/fx/instanceNodes.ts`; never
