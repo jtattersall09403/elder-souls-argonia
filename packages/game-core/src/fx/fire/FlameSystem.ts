@@ -46,6 +46,11 @@ function jitter(seed: number, k: number): number {
   return x - Math.floor(x);
 }
 
+/** The display-referred post-water layer (water/render/waterMaterial.ts
+ * PRECIP_LAYER; fire.test.ts holds them equal). A literal, so the headless
+ * fire sheet loads this module without the water shaders. */
+export const FIRE_LAYER = 5;
+
 const FLAME_FLOATS = 20;
 const EMBER_FLOATS = 12;
 
@@ -63,7 +68,15 @@ export class FlameSystem {
   private lastStrength: Float32Array = new Float32Array(0);
   private emitterList: FireEmitter[] = [];
 
-  constructor(uniforms: FireUniforms = makeFireUniforms(), layer?: number) {
+  /**
+   * `layer`: the render layer of the flame and ember meshes, by default the
+   * display-referred post-water pass (waterMaterial.ts PRECIP_LAYER, drawn
+   * after the tone-mapped blit). The materials are `toneMapped: false`; on
+   * layer 0 they land in the HDR scene target and the blit scales them by
+   * the sky's exposure (~1e-4 by day), which drew every interior flame black
+   * (walk 6). Only a standalone harness with no pipeline passes 0.
+   */
+  constructor(uniforms: FireUniforms = makeFireUniforms(), layer: number = FIRE_LAYER) {
     this.uniforms = uniforms;
     this.group.name = "fire-flames";
     this.flames = new THREE.Mesh(this.flameGeometry, makeFlameMaterial(uniforms));
@@ -73,7 +86,7 @@ export class FlameSystem {
     for (const mesh of [this.flames, this.embers]) {
       mesh.frustumCulled = false;
       mesh.visible = false;
-      if (layer !== undefined) mesh.layers.set(layer);
+      mesh.layers.set(layer);
       this.group.add(mesh);
     }
     // the day/night blend follows the renderer's exposure, read at draw time

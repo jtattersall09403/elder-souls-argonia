@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import type { LightSourceSpec } from "./carriedLight";
+import { flickerNoise } from "./fire/fireTypes";
 
 /**
  * The carried light's ONE PointLight and where it sits each frame (walk 5
@@ -16,7 +17,11 @@ export class CarriedLightRig {
   private anchor: THREE.Object3D | null = null;
   private readonly scaleScratch = new THREE.Vector3();
 
-  constructor(private readonly park: THREE.Object3D, private readonly candela: number) {
+  /** Lattice key of this carrier's wander noise, from its 0..1 seed. */
+  private readonly seedKey: number;
+
+  constructor(private readonly park: THREE.Object3D, private readonly candela: number, seed = 0.5) {
+    this.seedKey = seed * 7919;
     this.light = new THREE.PointLight(0xffffff, 0, 1, 2);
     this.light.castShadow = false;
     this.light.name = "carried-light";
@@ -47,14 +52,14 @@ export class CarriedLightRig {
     light.intensity = this.candela * level;
     const flicker = spec.flicker;
     if (flicker && level > 0) {
-      // The record's flicker movement: a small wander of the light, two
-      // incommensurate waves per axis so it never visibly repeats.
-      const phase = 2 * Math.PI * flicker.frequency * timeS;
+      // The record's flicker movement: a small wander of the light, seeded
+      // value noise per axis (fire/fireTypes.ts `flickerNoise`), never repeating.
+      const x = flicker.frequency * timeS;
       const reach = flicker.movementMetres / scale;
       light.position.set(
-        reach * 0.5 * Math.sin(phase * 1.13 + 0.4) * Math.sin(phase * 0.37),
-        reach * 0.5 * Math.sin(phase * 0.91 + 2.1),
-        reach * 0.5 * Math.sin(phase * 1.47 + 4.2) * Math.cos(phase * 0.29),
+        reach * 0.5 * flickerNoise(x, this.seedKey),
+        reach * 0.5 * flickerNoise(x * 0.87, this.seedKey + 101),
+        reach * 0.5 * flickerNoise(x * 1.13, this.seedKey + 211),
       );
     }
   }

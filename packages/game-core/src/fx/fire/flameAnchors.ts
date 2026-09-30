@@ -69,9 +69,15 @@ export function flameCardBedAnchorLocal(meta: FlameAnchorMeta | undefined, box: 
     preset: firePresetFor({ id: meta.id, category: meta.category, anchorClass: meta.anchorClass }), record: -1 };
 }
 
-/** A material the flame system replaces: one of a flame-card piece's cards (`flameCardBedAnchorLocal`). */
+/**
+ * A material the flame system replaces: one of a piece's vanilla flame cards.
+ * Every piece with cards burns our flame instead (its mined emitters, else
+ * its bed), so its cards are never drawn: a hearth with both
+ * (fireplacewood01burning: FlamesSmall01 + Flames:0/1.Mat) drew its opaque
+ * cards over its own flame, and no fire showed (walk 6).
+ */
 export function isFlameCardMaterial(meta: FlameAnchorMeta | undefined, materialName: string): boolean {
-  return Boolean(meta?.flameCardMaterials?.includes(materialName)) && !meta?.flames?.length;
+  return Boolean(meta?.flameCardMaterials?.includes(materialName));
 }
 
 /**

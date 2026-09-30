@@ -33,10 +33,35 @@ flame-bearing volume; this is a fast, mechanical gate
 (`packages/game-core/src/fx/fire/fire.test.ts`, mirrored into
 `place_gates.py`), never a "should have been obvious" review comment.
 
-Interior fires (hearths, braziers) are wired through the same
-`FlameSystem` via `interior/interiorLoader.ts`; the exterior brazier switch
-is a follow-up (SettlementLayer.tsx/lighting.ts had another lane's
-uncommitted work at the time — see the lane report).
+Interior fires (candles, lanterns, hearths, braziers) are wired through the
+same `FlameSystem` via `interior/interiorLoader.ts`. Every `FlameSystem`
+draws on the display-referred post-water layer (`FIRE_LAYER`, equal to
+`PRECIP_LAYER`) by default: its materials are `toneMapped: false`, so on
+layer 0 they land in the HDR scene target and the blit scales them by the
+sky's exposure (~1e-4 by day), which drew every interior flame black
+(walk 6). Only a standalone harness with no pipeline passes layer 0.
+
+**Flame size.** A preset's card is the whole flame from its root at the
+emitter, and a mined emitter sits at the NIF particle system's origin, which
+is inside the fuel (a campfire's `FlamesSmall03` is 0.11 m up a 0.86 m log
+bundle; a torch's fireball core is inside its head). The fuel's geometry
+occludes the lower part, so each preset's card height is (emitter to fuel
+top) + the flame seen above the fuel, from real fires, since the mined
+records carry no particle size or speed: a candle ~6 cm seen (card 10 cm),
+a lantern's candle filling about half its glass (15 cm), a hanging lantern
+with no mined candle a flame filling a clear part of its body (22 cm), a torch head 0.3-0.45
+m seen (58 cm), a brazier or hearth bed ~0.6 m seen (1.0-1.05 m), a campfire
+at least 0.8x its log bundle's diameter above the logs (1.7 m, bed spread
+0.3 m). A new preset or a new fuel is sized the same way and checked on the
+real piece with `tools/fixture-sheet.mjs`.
+
+**Flicker.** Every fire's brightness (flame card, fixture-field slot,
+carried light) reads `fireFlicker(t, seed, rateHz, amount)`: three octaves
+of seeded 1-D value noise plus rare gusts (a ~1.9 s slot holds a 0.1-0.4 s,
+10-25 % dip with p = 0.3, shallower for a calmer flame), a pure function of
+time and the fixture's seed with no period; the shader carries the same
+function. The carried light's wander uses the same noise per axis. The unit
+test holds the autocorrelation at lags 1-20 s below 0.15.
 
 The place-render pipeline (`render.py`/`render_scene.py`) now draws a
 fire/light pass — an emissive marker at each resolved flame anchor, day and
@@ -61,9 +86,11 @@ scale radiance in a physically-lit scene.
 
 ## What now makes fire quality visible to an agent
 
-1. A fast standalone (non-studio, no GPU-studio dependency) headless
-   preview tool renders a day/night contact sheet per preset in ~1 s
-   (`tools/fire-sheet.mjs` → `tooling/.reports/16k/walk5/fire/sheets/`).
+1. Two fast standalone headless tools (no studio, no GPU): a day/night
+   contact sheet per preset in ~1 s (`tools/fire-sheet.mjs`), and the flame
+   burning on the real kit piece at the loader's anchors, front, above and
+   close-up, day and night, in ~0.4 s per fixture (`tools/fixture-sheet.mjs`
+   → `tooling/.reports/16k/walk6/render/fire/`).
 2. The place render pipeline now draws every resolved flame anchor as a
    visible marker, day and night, in the renders an agent already reads.
 3. The anchor-in-volume check fails loudly with the offending piece uid,

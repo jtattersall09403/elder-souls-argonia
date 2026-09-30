@@ -40,7 +40,7 @@
  * card instances and place the volume boxes at their emitters.
  */
 import * as THREE from "three";
-import { DEFAULT_RAMP_BANDS, FIRE_PRESETS, FIRE_PRESET_ORDER } from "./fireTypes";
+import { DEFAULT_RAMP_BANDS, FIRE_PRESETS, FIRE_PRESET_ORDER, FLICKER_GUST_SLOT_S } from "./fireTypes";
 
 /** A flame never draws narrower than this angle (radians, ~4 px at 1080p),
  * so a 3.5 cm candle flame still reads as a point of fire at 50 m. */
@@ -94,10 +94,36 @@ vec3 fireRamp(float t, vec3 base, vec3 mid, vec3 tip, vec2 at) {
 float fireWobble(float t, float seed) {
   return 2.0 * fireNoise(vec2(t, seed * 57.0)) - 1.0;
 }
+// fireTypes.ts fireFlicker, line for line: value-noise breath + rare gusts
+float flickerHash(float p) {
+  p = fract(p * 0.1031);
+  p *= p + 33.33;
+  p *= p + p;
+  return fract(p);
+}
+float flickerNoise(float x, float key) {
+  float i = floor(x);
+  float f = x - i;
+  float u = f * f * (3.0 - 2.0 * f);
+  return 2.0 * mix(flickerHash(i + key), flickerHash(i + 1.0 + key), u) - 1.0;
+}
 float fireFlicker(float t, float seed, float rateHz, float amount) {
-  float phase = seed * 6.2831853;
-  float w = rateHz * 6.2831853;
-  return 1.0 + amount * (0.6 * sin(t * w + phase) + 0.4 * sin(t * w * 1.73 + phase * 2.3));
+  float key = seed * 7919.0;
+  float x = t * rateHz;
+  float breath = 0.55 * flickerNoise(x, key) + 0.3 * flickerNoise(x * 2.13, key + 311.0)
+    + 0.15 * flickerNoise(x * 4.37, key + 613.0);
+  float slotT = t / ${FLICKER_GUST_SLOT_S.toFixed(2)} + seed * 13.0;
+  float slot = floor(slotT);
+  float dip = 0.0;
+  if (flickerHash(slot * 1.37 + key) < 0.3) {
+    float start = 0.6 * flickerHash(slot * 2.11 + key + 17.0);
+    float len = (0.1 + 0.3 * flickerHash(slot * 3.07 + key + 29.0)) / ${FLICKER_GUST_SLOT_S.toFixed(2)};
+    float u = (slotT - slot - start) / len;
+    if (u > 0.0 && u < 1.0) {
+      dip = (0.1 + 0.15 * flickerHash(slot * 5.03 + key + 43.0)) * min(1.0, amount / 0.15) * 4.0 * u * (1.0 - u);
+    }
+  }
+  return (1.0 + amount * breath) * (1.0 - dip);
 }
 `;
 // </TSL-MIRROR>

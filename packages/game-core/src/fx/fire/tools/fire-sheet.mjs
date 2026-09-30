@@ -63,7 +63,7 @@ function backdrop(look) {
 const ortho = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 2); ortho.position.z = 1;
 window.renderSheet = (preset) => {
   const c = FIRE_PRESETS[preset];
-  const fire = new FlameSystem();
+  const fire = new FlameSystem(undefined, 0); // no pipeline here: layer 0
   fire.setEmitters([{ position: new THREE.Vector3(0, 0, 0), preset, scale: 1, seed: 0.37, owner: 0 }]);
   const scene = new THREE.Scene();
   scene.add(fire.group);

@@ -10,7 +10,8 @@ import {
   FIRE_CONFIG_SCHEMA_VERSION, FIRE_PRESETS, FIRE_PRESET_ORDER, fireFlicker, firePresetFor,
   nightShareOfExposure, type FirePresetId,
 } from "./fireTypes";
-import { FlameSystem } from "./FlameSystem";
+import { FIRE_LAYER, FlameSystem } from "./FlameSystem";
+import { PRECIP_LAYER } from "../../water/render/waterMaterial";
 import { FIRE_SHADER_SOURCES } from "./flameMaterial";
 import { interiorFireEmitters, interiorFlameAnchorsLocal, burnsInInterior } from "./interiorFires";
 import {
@@ -53,11 +54,39 @@ describe("fire presets", () => {
     }
   });
 
-  it("flicker is the same function for light and flame: 1 +- amount, phased by seed", () => {
-    const samples = Array.from({ length: 200 }, (_, i) => fireFlicker(i * 0.037, 0.3, 5, 0.1));
+  it("flicker is the same function for light and flame: about 1 +- amount, seeded", () => {
+    const samples = Array.from({ length: 2000 }, (_, i) => fireFlicker(i * 0.037, 0.3, 5, 0.1));
     expect(Math.max(...samples)).toBeLessThanOrEqual(1.1 + 1e-9);
-    expect(Math.min(...samples)).toBeGreaterThanOrEqual(0.9 - 1e-9);
+    // the breath's floor, times the deepest gust (25 %)
+    expect(Math.min(...samples)).toBeGreaterThanOrEqual(0.9 * 0.75 - 1e-9);
     expect(fireFlicker(1, 0.2, 5, 0.1)).not.toBeCloseTo(fireFlicker(1, 0.7, 5, 0.1), 6);
+  });
+
+  it("flicker is deterministic per seed (a pure function of time and seed)", () => {
+    const a = Array.from({ length: 500 }, (_, i) => fireFlicker(i * 0.11, 0.42, 5, 0.15));
+    const b = Array.from({ length: 500 }, (_, i) => fireFlicker(i * 0.11, 0.42, 5, 0.15));
+    expect(a).toEqual(b);
+  });
+
+  it("flicker never repeats: no autocorrelation peak at lags 1-20 s, and gusts occur", () => {
+    for (const id of ["candle", "torchGround", "campfire"] as FirePresetId[]) {
+      const { rateHz, amount } = FIRE_PRESETS[id].flicker;
+      const dt = 0.05;
+      const n = Math.round(600 / dt);
+      const x = Array.from({ length: n }, (_, i) => fireFlicker(i * dt, 0.618, rateHz, amount));
+      const mean = x.reduce((a, v) => a + v, 0) / n;
+      const d = x.map((v) => v - mean);
+      const var0 = d.reduce((a, v) => a + v * v, 0);
+      let peak = 0;
+      for (let lag = Math.round(1 / dt); lag <= Math.round(20 / dt); lag++) {
+        let c = 0;
+        for (let i = 0; i + lag < n; i++) c += d[i] * d[i + lag];
+        peak = Math.max(peak, Math.abs(c / var0));
+      }
+      expect(peak).toBeLessThan(0.15);
+      // a gust: some sample sits below the breath's floor (1 - amount)
+      expect(Math.min(...x)).toBeLessThan(1 - amount);
+    }
   });
 
   it("day and night: the exposure picks the blend (noon 3.9e-5 -> 0, night 22 -> 1)", () => {
@@ -237,6 +266,13 @@ describe("interior fires", () => {
     expect(expected).toBeGreaterThan(0);
     expect(emitters).toHaveLength(expected);
     expect(emitters.every((e) => e.owner === 0)).toBe(true);
+  });
+
+  it("flames draw on the display-referred post-water layer, never the HDR scene (walk 6: interiors black)", () => {
+    expect(FIRE_LAYER).toBe(PRECIP_LAYER);
+    const fire = new FlameSystem();
+    fire.group.traverse((o) => { if (o !== fire.group) expect(o.layers.mask).toBe(1 << PRECIP_LAYER); });
+    fire.dispose();
   });
 });
 
