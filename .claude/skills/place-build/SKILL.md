@@ -424,24 +424,8 @@ writes the lessons, the type sheet and the judgements:
 2. The type sheet `references/types/<n>-<type>.md`: written by the type's
    first slice (which also writes its `layout_template.py` generator from
    this layout, 16k S10), edited by every later one.
-3. The receipt in `world/sources/placement/accepted-places.json` (place,
-   owner's date, hashes of the compiled record and patches, provenance);
-   later gates run on the place in report mode only, and the slice close
-   copies its report-mode rows from
-   `tooling/world-generation/output/accepted-report.json` into
-   `docs/phases/P-polish/backlog.md` (0100 decision 6).
-4. The type register and readiness check (16i item 13, 16j items 3 and 7):
-   the place's `type-recipes.json` entry; world 96 §3 box 1 for the type;
-   the brief's § Hand decisions (every decision that needed a planner or
-   owner, each with the step or field that now makes it); for a non-city
-   place, a fresh Sonnet agent's verdict on the renders and numbers before
-   the owner's final walk, compared in § Lessons.
-5. Choose the next slice by the contrast rule: a type not yet passing, a
-   contrasting region, not the same type within 300 m or purpose within
-   500 m along one road (97 A6), and rotate the shells while the culture's
-   pool holds an unused one with a usable interior. Two or three slices of
-   different types may run at once while walks are pending. Replace the
-   16k brief's Starting state with the next slice's.
+3. The receipt, the type register and readiness check, and the choice of
+   the next slice (contrast rule, 97 A6): [references/builder-practice.md](references/builder-practice.md) § Slice close.
 
 ## Never
 
@@ -454,8 +438,7 @@ writes the lessons, the type sheet and the judgements:
   fields and quests 85 conditions are the only one).
 - Hand-edit a pose or a derived field in the blueprint JSON (L38, L39).
 - Invent dressing in the compile, or at a building's foot in code.
-- Rerun the chain, refreeze or republish the province for a place (0102
-  decision 1).
+- Rerun the chain, refreeze or republish the province for a place (0102 d1).
 - Hand over a packet with a check failure, a reader NO or a red gate
   (0102 decision 3).
 

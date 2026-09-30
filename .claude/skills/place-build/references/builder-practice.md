@@ -116,3 +116,24 @@ its opening. Read once per slice; the rules are binding.
   in its report; the PLANNER then runs the Sonnet readers as one Workflow
   over that folder (one reader per image) and the `text-review` agent. A
   lane never reports "no readers ran" as a gap.
+
+## Slice close: receipt, register, next slice (SKILL step 8, items 3-5)
+
+1. The receipt in `world/sources/placement/accepted-places.json` (place,
+   owner's date, hashes of the compiled record and patches, provenance);
+   later gates run on the place in report mode only, and the slice close
+   copies its report-mode rows from
+   `tooling/world-generation/output/accepted-report.json` into
+   `docs/phases/P-polish/backlog.md` (0100 decision 6).
+2. The type register and readiness check (16i item 13, 16j items 3 and 7):
+   the place's `type-recipes.json` entry; world 96 §3 box 1 for the type;
+   the brief's § Hand decisions (every decision that needed a planner or
+   owner, each with the step or field that now makes it); for a non-city
+   place, a fresh Sonnet agent's verdict on the renders and numbers before
+   the owner's final walk, compared in § Lessons.
+3. Choose the next slice by the contrast rule: a type not yet passing, a
+   contrasting region, not the same type within 300 m or purpose within
+   500 m along one road (97 A6), and rotate the shells while the culture's
+   pool holds an unused one with a usable interior. Two or three slices of
+   different types may run at once while walks are pending. Replace the
+   16k brief's Starting state with the next slice's.
