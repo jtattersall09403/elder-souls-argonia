@@ -30,6 +30,7 @@
  * with clustered lighting; this is the WebGL fallback.
  */
 import * as THREE from "three";
+import { chainHas, markChain } from "../shaderHookChain";
 
 /** Lamps the field holds at once: the nearest burning fixtures in the band. */
 export const FIXTURE_LIGHTS_MAX = 100;
@@ -85,8 +86,9 @@ for ( int esFxI = 0; esFxI < ${n}; esFxI ++ ) {
 #endif
 `;
 
+const FIXTURE_LIGHTS_MARK = "uniform highp sampler2D esFxData;";
 const FIXTURE_LIGHTS_PARS = /* glsl */ `
-uniform highp sampler2D esFxData;
+${FIXTURE_LIGHTS_MARK}
 uniform int esFxIdx[ ${FIXTURE_LIGHTS_PER_OBJECT_MAX} ];
 uniform int esFxCount;
 `;
@@ -186,28 +188,30 @@ export class FixtureLightField {
   install(material: THREE.Material): boolean {
     if (!isFixtureLitMaterial(material)) return false;
     const m = material;
-    if (m.userData.esFixtureHook && m.userData.esFixtureHook === m.onBeforeCompile) return true;
+    if (chainHas(m.onBeforeCompile, CACHE_KEY)) return true;
     const previous = m.onBeforeCompile;
     const uniforms = this.uniforms;
     const perObject = fixtureLightsPerObject(m);
-    const hook: THREE.Material["onBeforeCompile"] = function (this: THREE.Material, shader, renderer) {
+    const hook = markChain<THREE.Material["onBeforeCompile"]>(function (this: THREE.Material, shader, renderer) {
       previous?.call(this, shader, renderer);
+      // never twice: a chain that holds this hook twice patches once
+      if (shader.fragmentShader.includes(FIXTURE_LIGHTS_MARK)) return;
       shader.uniforms.esFxData = uniforms.esFxData;
       shader.uniforms.esFxIdx = uniforms.esFxIdx;
       shader.uniforms.esFxCount = uniforms.esFxCount;
       shader.fragmentShader = shader.fragmentShader
         .replace("#include <common>", `#include <common>\n${FIXTURE_LIGHTS_PARS}`)
         .replace("#include <lights_fragment_begin>", `#include <lights_fragment_begin>\n${fixtureLightsFragment(perObject)}`);
-    };
-    const wasInstalled = Boolean(m.userData.esFixtureHook);
+    }, previous, CACHE_KEY);
+    const wasInstalled = Boolean(m.userData.esFixtureWrapped);
     m.onBeforeCompile = hook;
-    m.userData.esFixtureHook = hook;
-    if (!m.userData.esFixtureKeyed) {
-      m.userData.esFixtureKeyed = true;
+    m.userData.esFixtureWrapped = true;
+    // marked on the key function, so a clone (default key) is keyed again
+    if (!chainHas(m.customProgramCacheKey, CACHE_KEY)) {
       const priorKey = m.customProgramCacheKey;
-      m.customProgramCacheKey = function (this: THREE.Material) {
+      m.customProgramCacheKey = markChain(function (this: THREE.Material) {
         return `${priorKey.call(this)}|${CACHE_KEY}|${fixtureLightsPerObject(this)}`;
-      };
+      }, priorKey, CACHE_KEY);
     }
     // A material that already compiled without the chunk must relink once.
     if (!wasInstalled || m.version > 0) m.needsUpdate = true;
@@ -216,7 +220,7 @@ export class FixtureLightField {
 
   /** Whether `material` carries the chunk now (its hook is the one installed). */
   installed(material: THREE.Material): boolean {
-    return Boolean(material.userData?.esFixtureHook && material.userData.esFixtureHook === material.onBeforeCompile);
+    return chainHas(material.onBeforeCompile, CACHE_KEY);
   }
 
   /** Give `object` its per-object lamp list at draw time. Idempotent; chains an existing `onBeforeRender`. */

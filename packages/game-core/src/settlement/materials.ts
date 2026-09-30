@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { ALWAYS_LIT_DAY_FACTOR, artificialLightFactor } from "./lighting";
 import type { SettlementKitMaterialExtras } from "./types";
+import { chainHas, markChain } from "../render/shaderHookChain";
 
 export interface SettlementMaterialUniforms {
   esSettlementRain: { value: number };
@@ -8,6 +9,8 @@ export interface SettlementMaterialUniforms {
 }
 
 const PATCH = "es-settlement-surface-v2";
+/** The varying the patch declares in both stages; its presence means "patched". */
+const SETTLEMENT_VARYING = "varying float esSettlementHeightAboveGround";
 export const SETTLEMENT_GROUND_ATTRIBUTE = "esSettlementGroundY";
 
 /** How a material glows: a window's emissive mask by night (`true`); an
@@ -279,26 +282,27 @@ function surfaceKey(state: SettlementSurfaceState): string {
 
 export function reapplySettlementSurface(material: THREE.Material, force = false): void {
   const m = material as THREE.MeshStandardMaterial | THREE.MeshDepthMaterial;
-  const state = m.userData?.esSettlementSurface as
-    | SettlementSurfaceState
-    | undefined;
-  const ours = m.userData.esSettlementHook !== undefined && m.userData.esSettlementHook === m.onBeforeCompile;
-  if (!state || (ours && !force)) return;
-  // Chain onto the hook in place, never onto our own older wrapper (a re-wrap
-  // after a glow change would run the old patch too).
-  const previous = ours
-    ? m.userData.esSettlementPrevious as THREE.Material["onBeforeCompile"] : m.onBeforeCompile;
-  const hook: THREE.Material["onBeforeCompile"] = (shader, renderer) => {
+  if (!m.userData?.esSettlementSurface) return;
+  // The hook reads the state held at compile time, so a changed glow kind
+  // needs a relink, never a second wrap (shaderHookChain.ts says why).
+  if (chainHas(m.onBeforeCompile, PATCH)) {
+    if (force) m.needsUpdate = true;
+  } else {
+    const previous = m.onBeforeCompile;
+    m.onBeforeCompile = markChain<THREE.Material["onBeforeCompile"]>((shader, renderer) => {
       previous?.call(m, shader, renderer);
+      const state = m.userData.esSettlementSurface as SettlementSurfaceState | undefined;
+      // never twice: a chain that holds this hook twice patches once
+      if (!state || shader.vertexShader.includes(SETTLEMENT_VARYING)) return;
       shader.uniforms.esSettlementRain = state.uniforms.esSettlementRain;
       shader.uniforms.esSettlementNight = state.uniforms.esSettlementNight;
       shader.uniforms.esSettlementFlameGain = state.flameGain;
       shader.vertexShader = shader.vertexShader
-        .replace("#include <common>", `#include <common>\nattribute float ${SETTLEMENT_GROUND_ATTRIBUTE};\nvarying float esSettlementHeightAboveGround;`)
+        .replace("#include <common>", `#include <common>\nattribute float ${SETTLEMENT_GROUND_ATTRIBUTE};\n${SETTLEMENT_VARYING};`)
         .replace("#include <begin_vertex>", `#include <begin_vertex>\nvec4 esSettlementWorldPosition = vec4(transformed, 1.0);\n#ifdef USE_INSTANCING\nesSettlementWorldPosition = instanceMatrix * esSettlementWorldPosition;\n#endif\nesSettlementWorldPosition = modelMatrix * esSettlementWorldPosition;\nesSettlementHeightAboveGround = esSettlementWorldPosition.y - ${SETTLEMENT_GROUND_ATTRIBUTE};`);
       if (state.depthPair) return;
       shader.fragmentShader = shader.fragmentShader
-        .replace("#include <common>", `#include <common>\nuniform float esSettlementRain;\nuniform float esSettlementNight;\nuniform float esSettlementFlameGain;\nvarying float esSettlementHeightAboveGround;`)
+        .replace("#include <common>", `#include <common>\nuniform float esSettlementRain;\nuniform float esSettlementNight;\nuniform float esSettlementFlameGain;\n${SETTLEMENT_VARYING};`)
         .replace("#include <color_fragment>", `#include <color_fragment>\nfloat esWallWet = esSettlementRain * mix(0.55, 1.0, 1.0 - smoothstep(0.0, 4.0, max(0.0, esSettlementHeightAboveGround)));\ndiffuseColor.rgb *= mix(1.0, 0.62, esWallWet * 0.55);`)
         // Night windows in the EMISSIVE stage: the kit's glow mask (emissive
         // map x factor) x warm lamplight x the lamp clock (lighting.ts). By day the
@@ -307,20 +311,18 @@ export function reapplySettlementSurface(material: THREE.Material, force = false
         .replace("#include <emissivemap_fragment>", `#include <emissivemap_fragment>${glowLine(state.glowMaterial)}`)
         .replace("#include <opaque_fragment>", `#include <opaque_fragment>${flameOutputLine(state.glowMaterial)}`)
         .replace("#include <roughnessmap_fragment>", `#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, 0.32, esWallWet * 0.55);`);
-    };
-  m.onBeforeCompile = hook;
-  m.userData.esSettlementHook = hook;
-  m.userData.esSettlementPrevious = previous;
-  if (!m.userData.esSettlementCacheKeyed) {
-    m.userData.esSettlementCacheKeyed = true;
+    }, previous, PATCH);
+    m.needsUpdate = true;
+  }
+  // A clone (materialVariant) has three's default key: key it again.
+  if (!chainHas(m.customProgramCacheKey, PATCH)) {
     const priorKey = m.customProgramCacheKey;
     // stable: the kind and the pass read from the state held NOW, never a gain
-    m.customProgramCacheKey = function (this: THREE.Material) {
+    m.customProgramCacheKey = markChain(function (this: THREE.Material) {
       const held = this.userData.esSettlementSurface as SettlementSurfaceState | undefined;
       return `${priorKey.call(this)}|${held ? surfaceKey(held) : PATCH}`;
-    };
+    }, priorKey, PATCH);
   }
-  m.needsUpdate = true;
 }
 
 export function updateSettlementEnvironment(
