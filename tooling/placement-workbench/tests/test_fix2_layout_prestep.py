@@ -327,8 +327,11 @@ def test_a_shot_draws_the_levelled_pad_not_the_raw_terrain(applied_layout):
         if abs(raw.chunk_height(p.x, p.z) - r["datumM"]) > 0.1:
             cut.append((p, r))
     assert cut, "the fixture holds a pad that cuts or fills the frozen ground"
+    # the pad grades PAD_FLOOR_CLEARANCE_M under its datum (R75, 017b4cf4) so
+    # the floor stands clear of the drawn slab; the shot draws that graded top
+    from worldgen.pad_overlay import PAD_FLOOR_CLEARANCE_M
     for p, r in cut:
-        assert abs(drawn.chunk_height(p.x, p.z) - r["datumM"]) < 0.02
+        assert abs(drawn.chunk_height(p.x, p.z) - (r["datumM"] - PAD_FLOOR_CLEARANCE_M)) < 0.01
 
 
 def test_a_landmarks_pad_is_exported_like_a_parcels(applied_layout):

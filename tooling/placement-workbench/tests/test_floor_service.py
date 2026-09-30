@@ -90,7 +90,10 @@ def test_open_floor_house_serves_entrance_lodging_trader_on_its_floor(base, cat,
         max(edge.geoms, key=lambda g: g.area).exterior.coords[0]
     scene.paths.append({"id": "test.to-floor", "pointsM": [list(rules.terminal(scene)), [ex, ez]]})
     b = rules.berth_reach(cat, scene)
-    if "fh" in b["pieces"]:                 # a water-class parcel is a berth
+    row = b["pieces"].get("fh")
+    if row and "skipped" in row:            # a deck-seated stilt house is no berth (c3ebb1d4):
+        assert "deck_seated" in row["skipped"]   # seat_rules.house_landing judges its landing
+    elif row:                               # a water-class parcel is a berth
         assert b["pieces"]["fh"]["to"] == "floor"
         assert b["pieces"]["fh"]["way"] != "fh"
         assert b["pieces"]["fh"]["gapM"] <= rules.BERTH_REACH_M

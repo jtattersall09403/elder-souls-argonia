@@ -277,6 +277,11 @@ function changedFiles(pathspec) {
 }
 const selection = selectGates(changedFiles(reviewPaths), loadWorkspaces(repoRoot), Object.keys(GATES));
 const gateEnv = {};
+// The workbench gate runs in the working tree for the local raw kit builds
+// (gateCwd), so it must see them: the vault-hiding overrides stay off it, or
+// blueprint_footprints finds no <kit>.footprints.json under the empty scratch
+// root (the 2026-09-30 --runner run: six test_walk2_rules/test_walk4_compile reds).
+if (runnerMode) gateEnv.workbench = Object.fromEntries(Object.entries(env).filter(([k]) => !(k in runnerEnv)));
 const gateCmd = Object.fromEntries(Object.entries(GATES).map(([k, v]) => [k, v[0]]));
 if (!selection.all) {
   gateEnv["npm-test"] = { ...env, WORKSPACE_ONLY: selection.workspaces.join(",") };
