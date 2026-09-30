@@ -128,7 +128,8 @@ walks as it needs; it closes only on the owner's "looks right".
    NOs; there are no residuals. Export the pose record with its ground
    and kit provenance.
 2. **Build and gate (unattended).** The tier A interior bundles
-   (`export_interior_bundle.py`, 0103 decision 3); local patches (pad,
+   (`export_interior_bundle.py`, 0103 decision 3), then their window
+   apertures (`python3 tooling/volumetrics/window_refs.py --cells <ids> --merge`); local patches (pad,
    clearance, dressing-add; they travel in the place's bundle as a runtime overlay,
    and no chain stage, refreeze or province publish runs for a place,
    0102 decision 1), compile, publish the place only (`--places` scope,

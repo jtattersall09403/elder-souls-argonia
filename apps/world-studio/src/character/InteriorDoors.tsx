@@ -20,7 +20,7 @@ import { InteriorEnvironment, InteriorFogNode, interiorFogProfile } from "@elder
 import { MAX_VOLUME_LIGHTS, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
 import { nearestVolumeLights } from "@elder-souls/game-core/air/volumetrics/studioSamplers";
 import {
-  BEAM_OVER_LAMP, WindowBeams, brightestLampFloor, detectWindowApertures, pluginWindowApertures, windowSkyLight,
+  BEAM_OVER_LAMP, WindowBeams, brightestLampFloor, pluginWindowApertures, windowSkyLight,
 } from "@elder-souls/game-core/air/volumetrics/windowApertures";
 import { moonsAt, sunAt } from "@elder-souls/world-time";
 import { SkyContext } from "../sky/WorldSky";
@@ -286,8 +286,7 @@ export function InteriorDoors({
   // after the commit that mounted the linked group: the fade may lift
   useEffect(() => { drawn.current = shown !== null && linked === shown; }, [shown, linked]);
 
-  // Window light (0112 §6): the cell's panes, read from its geometry once
-  // per cell; a beam is BEAM_OVER_LAMP x the brightest lamp pool at the floor.
+  // Window light (0112 §6): the cell's plugin-placed windows (windowRefs.json); a beam is BEAM_OVER_LAMP x the brightest lamp pool at the floor.
   const windows = useMemo(() => {
     if (!shown) return null;
     const { group, bundle } = shown.interior;
@@ -297,14 +296,7 @@ export function InteriorDoors({
       const l = o as THREE.PointLight;
       if (l.isPointLight && o.parent === group) lamps.push({ intensity: l.intensity, heightM: l.position.y - floorY });
     });
-    let apertures = pluginWindowApertures(bundle.cellId);
-    if (!apertures.length) {
-      const v = (p: readonly number[]) => new THREE.Vector3(p[0], p[1], p[2]);
-      const doorsAt = [v(bundle.arrivalMarker.positionM), ...(bundle.exitDoor ? [v(bundle.exitDoor.positionM)] : []), ...bundle.doors.flatMap((d) => ("positionM" in d ? [v((d as { positionM: readonly number[] }).positionM)] : []))];
-      const scan = detectWindowApertures(group, floorY, doorsAt, shown.interior.fire?.group ?? null);
-      for (const g of scan.gaps) console.warn(`window scan ${bundle.cellId}: ${g.extentM.toFixed(1)} m opening at`, g.centre.toArray(), "is a missing wall, not a window");
-      apertures = scan.apertures;
-    }
+    const apertures = pluginWindowApertures(bundle.cellId);
     return apertures.length ? { beams: new WindowBeams(apertures, WINDOW_BEAM_LENGTH_M), unit: BEAM_OVER_LAMP * brightestLampFloor(lamps) } : null;
   }, [shown]);
   const sky = useMemo(() => ({ dir: new THREE.Vector3(0, -1, 0), tint: new THREE.Color(), strength: 0, inFrames: 0 }), []);

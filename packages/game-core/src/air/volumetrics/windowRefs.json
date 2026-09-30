@@ -4,7 +4,76 @@
  "cells": {
   "DawnstarBrinasHouse": {
    "plugin": "Skyrim.esm",
-   "apertures": []
+   "apertures": [
+    {
+     "refId": "000E0416",
+     "base": "FarmIntEnd01",
+     "kind": "window-panes",
+     "centreM": [
+      -29.1734,
+      3.6128,
+      7.6668
+     ],
+     "outward": [
+      -1.0,
+      0.0,
+      -0.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    },
+    {
+     "refId": "000E0416",
+     "base": "FarmIntEnd01",
+     "kind": "window-panes",
+     "centreM": [
+      -29.1734,
+      3.6128,
+      10.5401
+     ],
+     "outward": [
+      -1.0,
+      0.0,
+      -0.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    },
+    {
+     "refId": "000E0417",
+     "base": "FarmIntEnd02",
+     "kind": "window-panes",
+     "centreM": [
+      -14.5227,
+      3.6128,
+      7.6668
+     ],
+     "outward": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 1
+    },
+    {
+     "refId": "000E0417",
+     "base": "FarmIntEnd02",
+     "kind": "window-panes",
+     "centreM": [
+      -14.5227,
+      3.6128,
+      10.5401
+     ],
+     "outward": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    }
+   ]
   },
   "KeebaHouseCrafter": {
    "plugin": "King of the Murkmire.esp",
@@ -14,16 +83,16 @@
      "base": "MudHutWindow02",
      "kind": "window-piece",
      "centreM": [
-      100.9968,
-      87.9594,
-      53.5147
+      100.9845,
+      88.1825,
+      53.2631
      ],
      "outward": [
-      -0.0506,
+      -0.9987,
       0.0,
-      -0.9987
+      0.0506
      ],
-     "radiusM": 0.533,
+     "radiusM": 0.247,
      "lightsNear": 0
     },
     {
@@ -31,16 +100,16 @@
      "base": "MudHutWindow01",
      "kind": "window-piece",
      "centreM": [
-      111.2722,
-      87.9342,
-      54.6323
+      111.3047,
+      88.1746,
+      54.8867
      ],
      "outward": [
-      -0.1281,
+      0.9918,
       0.0,
-      -0.9918
+      -0.1281
      ],
-     "radiusM": 0.718,
+     "radiusM": 0.365,
      "lightsNear": 0
     },
     {
@@ -48,16 +117,16 @@
      "base": "MudHutWindow02",
      "kind": "window-piece",
      "centreM": [
-      106.6714,
-      91.8129,
-      55.2773
+      106.4158,
+      92.0628,
+      55.1577
      ],
      "outward": [
-      -0.9066,
+      0.422,
       0.0,
-      -0.422
+      -0.9066
      ],
-     "radiusM": 0.597,
+     "radiusM": 0.277,
      "lightsNear": 1
     },
     {
@@ -65,16 +134,16 @@
      "base": "MudHutWindow02",
      "kind": "window-piece",
      "centreM": [
-      108.6904,
-      86.5979,
-      63.4316
+      108.9143,
+      86.821,
+      63.3161
      ],
      "outward": [
-      -0.8878,
+      0.4601,
       0.0,
-      0.4601
+      0.8878
      ],
-     "radiusM": 0.533,
+     "radiusM": 0.247,
      "lightsNear": 0
     },
     {
@@ -82,16 +151,16 @@
      "base": "MudHutWindow01",
      "kind": "window-piece",
      "centreM": [
-      100.1397,
-      87.0733,
-      61.6696
+      99.8213,
+      87.3729,
+      61.6427
      ],
      "outward": [
-      -0.9965,
+      -0.0831,
       0.0,
-      -0.0831
+      0.9965
      ],
-     "radiusM": 0.894,
+     "radiusM": 0.455,
      "lightsNear": 0
     }
    ]
@@ -104,16 +173,16 @@
      "base": "MudHutWindow01",
      "kind": "window-piece",
      "centreM": [
-      110.648,
-      94.6881,
-      50.4811
+      110.3971,
+      94.9766,
+      50.6594
      ],
      "outward": [
-      0.8143,
+      0.5804,
       0.0,
-      -0.5804
+      0.8143
      ],
-     "radiusM": 0.861,
+     "radiusM": 0.438,
      "lightsNear": 0
     },
     {
@@ -121,16 +190,16 @@
      "base": "MudHutWindow01",
      "kind": "window-piece",
      "centreM": [
-      99.1896,
-      92.7298,
-      58.941
+      99.19,
+      93.0515,
+      58.5978
      ],
      "outward": [
+      -1.0,
       0.0,
-      0.0,
-      1.0
+      -0.0
      ],
-     "radiusM": 0.961,
+     "radiusM": 0.489,
      "lightsNear": 0
     },
     {
@@ -138,16 +207,16 @@
      "base": "MudHutWindow02",
      "kind": "window-piece",
      "centreM": [
-      106.21,
-      97.2592,
-      57.7208
+      106.4755,
+      97.4957,
+      57.6919
      ],
      "outward": [
-      0.9939,
+      0.1102,
       0.0,
-      -0.1102
+      0.9939
      ],
-     "radiusM": 0.565,
+     "radiusM": 0.262,
      "lightsNear": 0
     }
    ]
@@ -160,33 +229,33 @@
      "base": "MudHutWindow01",
      "kind": "window-piece",
      "centreM": [
-      110.2053,
-      88.048,
-      53.003
+      110.4145,
+      88.2847,
+      52.8616
      ],
      "outward": [
-      0.8278,
+      -0.561,
       0.0,
-      -0.561
+      -0.8278
      ],
-     "radiusM": 0.707,
-     "lightsNear": 1
+     "radiusM": 0.359,
+     "lightsNear": 0
     },
     {
      "refId": "080A5B33",
      "base": "MudHutWindow02",
      "kind": "window-piece",
      "centreM": [
-      104.9611,
-      84.5488,
-      49.6663
+      104.6799,
+      84.8322,
+      49.5136
      ],
      "outward": [
-      -0.8796,
+      0.4756,
       0.0,
-      -0.4756
+      -0.8796
      ],
-     "radiusM": 0.677,
+     "radiusM": 0.314,
      "lightsNear": 1
     },
     {
@@ -194,16 +263,16 @@
      "base": "MudHutWindow01",
      "kind": "window-piece",
      "centreM": [
-      107.0154,
-      86.4578,
-      62.3259
+      106.8189,
+      86.6982,
+      62.1611
      ],
      "outward": [
-      0.7669,
+      -0.6418,
       0.0,
-      0.6418
+      0.7669
      ],
-     "radiusM": 0.718,
+     "radiusM": 0.365,
      "lightsNear": 0
     },
     {
@@ -211,16 +280,16 @@
      "base": "MudHutWindow02",
      "kind": "window-piece",
      "centreM": [
-      99.792,
-      85.159,
-      60.0388
+      99.4829,
+      85.4424,
+      60.1214
      ],
      "outward": [
-      -0.9655,
+      0.2603,
       0.0,
-      0.2603
+      0.9655
      ],
-     "radiusM": 0.677,
+     "radiusM": 0.314,
      "lightsNear": 0
     }
    ]
@@ -233,16 +302,16 @@
      "base": "MudHutWindow01",
      "kind": "window-piece",
      "centreM": [
-      106.8376,
-      87.7938,
-      63.8653
+      106.8795,
+      88.0009,
+      64.0822
      ],
      "outward": [
-      0.1912,
+      0.9816,
       0.0,
-      0.9816
+      -0.1912
      ],
-     "radiusM": 0.618,
+     "radiusM": 0.314,
      "lightsNear": 0
     },
     {
@@ -250,16 +319,16 @@
      "base": "MudHutWindow01",
      "kind": "window-piece",
      "centreM": [
-      101.1546,
-      86.5113,
-      52.183
+      101.2289,
+      86.7628,
+      52.4408
      ],
      "outward": [
-      -0.278,
+      -0.9606,
       0.0,
-      -0.9606
+      0.278
      ],
-     "radiusM": 0.751,
+     "radiusM": 0.382,
      "lightsNear": 0
     },
     {
@@ -267,16 +336,16 @@
      "base": "MudHutWindow02",
      "kind": "window-piece",
      "centreM": [
-      106.0771,
-      92.335,
-      55.2778
+      106.3098,
+      92.5581,
+      55.3744
      ],
      "outward": [
-      -0.9244,
+      0.3814,
       0.0,
-      -0.3814
+      -0.9244
      ],
-     "radiusM": 0.533,
+     "radiusM": 0.247,
      "lightsNear": 0
     },
     {
@@ -284,31 +353,544 @@
      "base": "MudHutWindow02",
      "kind": "window-piece",
      "centreM": [
-      110.5478,
-      86.3416,
-      52.7627
+      110.7951,
+      86.6026,
+      52.9232
      ],
      "outward": [
-      0.8398,
+      0.5428,
       0.0,
-      0.5428
+      -0.8398
      ],
-     "radiusM": 0.624,
+     "radiusM": 0.289,
      "lightsNear": 1
     }
    ]
   },
   "LilmothGlassworksOverseerHouse": {
    "plugin": "King of the Murkmire.esp",
-   "apertures": []
+   "apertures": [
+    {
+     "refId": "08879837",
+     "base": "MurkmireHouse07OrangeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      95.6827,
+      89.4798,
+      76.5624
+     ],
+     "outward": [
+      -1.0,
+      0.0,
+      -0.0
+     ],
+     "radiusM": 0.285,
+     "lightsNear": 0
+    },
+    {
+     "refId": "08879837",
+     "base": "MurkmireHouse07OrangeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      95.7325,
+      83.0501,
+      76.4335
+     ],
+     "outward": [
+      -1.0,
+      0.0,
+      -0.0
+     ],
+     "radiusM": 0.471,
+     "lightsNear": 0
+    },
+    {
+     "refId": "08879837",
+     "base": "MurkmireHouse07OrangeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      100.6529,
+      85.8728,
+      73.2172
+     ],
+     "outward": [
+      -0.0,
+      0.0,
+      -1.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 1
+    },
+    {
+     "refId": "08879837",
+     "base": "MurkmireHouse07OrangeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      101.3243,
+      83.0501,
+      73.2206
+     ],
+     "outward": [
+      -0.0,
+      0.0,
+      -1.0
+     ],
+     "radiusM": 0.471,
+     "lightsNear": 0
+    },
+    {
+     "refId": "08879837",
+     "base": "MurkmireHouse07OrangeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      100.4214,
+      93.3533,
+      77.0566
+     ],
+     "outward": [
+      -1.0,
+      0.0,
+      -0.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    },
+    {
+     "refId": "08879837",
+     "base": "MurkmireHouse07OrangeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      102.5782,
+      85.8728,
+      73.2172
+     ],
+     "outward": [
+      -0.0,
+      0.0,
+      -1.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    },
+    {
+     "refId": "08879837",
+     "base": "MurkmireHouse07OrangeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      103.2476,
+      83.0501,
+      80.9687
+     ],
+     "outward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "radiusM": 0.471,
+     "lightsNear": 1
+    },
+    {
+     "refId": "08879837",
+     "base": "MurkmireHouse07OrangeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      107.4683,
+      85.9759,
+      73.1728
+     ],
+     "outward": [
+      -0.0,
+      0.0,
+      -1.0
+     ],
+     "radiusM": 0.262,
+     "lightsNear": 2
+    },
+    {
+     "refId": "08879837",
+     "base": "MurkmireHouse07OrangeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      108.8335,
+      93.3533,
+      77.0566
+     ],
+     "outward": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    },
+    {
+     "refId": "08879837",
+     "base": "MurkmireHouse07OrangeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      109.835,
+      91.1517,
+      77.1147
+     ],
+     "outward": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "radiusM": 0.35,
+     "lightsNear": 1
+    }
+   ]
   },
   "LilmothIronworksOverseerHouse": {
    "plugin": "King of the Murkmire.esp",
-   "apertures": []
+   "apertures": [
+    {
+     "refId": "08864DDD",
+     "base": "MurkmireHouse07BeigeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      95.6827,
+      89.4798,
+      76.5624
+     ],
+     "outward": [
+      -1.0,
+      0.0,
+      -0.0
+     ],
+     "radiusM": 0.285,
+     "lightsNear": 0
+    },
+    {
+     "refId": "08864DDD",
+     "base": "MurkmireHouse07BeigeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      95.7325,
+      83.0501,
+      76.4335
+     ],
+     "outward": [
+      -1.0,
+      0.0,
+      -0.0
+     ],
+     "radiusM": 0.471,
+     "lightsNear": 0
+    },
+    {
+     "refId": "08864DDD",
+     "base": "MurkmireHouse07BeigeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      100.6529,
+      85.8728,
+      73.2172
+     ],
+     "outward": [
+      -0.0,
+      0.0,
+      -1.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 1
+    },
+    {
+     "refId": "08864DDD",
+     "base": "MurkmireHouse07BeigeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      101.3243,
+      83.0501,
+      73.2206
+     ],
+     "outward": [
+      -0.0,
+      0.0,
+      -1.0
+     ],
+     "radiusM": 0.471,
+     "lightsNear": 0
+    },
+    {
+     "refId": "08864DDD",
+     "base": "MurkmireHouse07BeigeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      100.4214,
+      93.3533,
+      77.0566
+     ],
+     "outward": [
+      -1.0,
+      0.0,
+      -0.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    },
+    {
+     "refId": "08864DDD",
+     "base": "MurkmireHouse07BeigeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      102.5782,
+      85.8728,
+      73.2172
+     ],
+     "outward": [
+      -0.0,
+      0.0,
+      -1.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    },
+    {
+     "refId": "08864DDD",
+     "base": "MurkmireHouse07BeigeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      103.2476,
+      83.0501,
+      80.9687
+     ],
+     "outward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "radiusM": 0.471,
+     "lightsNear": 1
+    },
+    {
+     "refId": "08864DDD",
+     "base": "MurkmireHouse07BeigeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      107.4683,
+      85.9759,
+      73.1728
+     ],
+     "outward": [
+      -0.0,
+      0.0,
+      -1.0
+     ],
+     "radiusM": 0.262,
+     "lightsNear": 2
+    },
+    {
+     "refId": "08864DDD",
+     "base": "MurkmireHouse07BeigeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      108.8335,
+      93.3533,
+      77.0566
+     ],
+     "outward": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    },
+    {
+     "refId": "08864DDD",
+     "base": "MurkmireHouse07BeigeInt02",
+     "kind": "window-panes",
+     "centreM": [
+      109.835,
+      91.1517,
+      77.1147
+     ],
+     "outward": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "radiusM": 0.35,
+     "lightsNear": 1
+    }
+   ]
   },
   "LilmothPlantationStorehouse": {
    "plugin": "King of the Murkmire.esp",
-   "apertures": []
+   "apertures": [
+    {
+     "refId": "088B2719",
+     "base": "MurkmireHouse07DBlueInt02",
+     "kind": "window-panes",
+     "centreM": [
+      95.6827,
+      89.4798,
+      76.5624
+     ],
+     "outward": [
+      -1.0,
+      0.0,
+      -0.0
+     ],
+     "radiusM": 0.285,
+     "lightsNear": 0
+    },
+    {
+     "refId": "088B2719",
+     "base": "MurkmireHouse07DBlueInt02",
+     "kind": "window-panes",
+     "centreM": [
+      95.7325,
+      83.0501,
+      76.4335
+     ],
+     "outward": [
+      -1.0,
+      0.0,
+      -0.0
+     ],
+     "radiusM": 0.471,
+     "lightsNear": 0
+    },
+    {
+     "refId": "088B2719",
+     "base": "MurkmireHouse07DBlueInt02",
+     "kind": "window-panes",
+     "centreM": [
+      100.6529,
+      85.8728,
+      73.2172
+     ],
+     "outward": [
+      -0.0,
+      0.0,
+      -1.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    },
+    {
+     "refId": "088B2719",
+     "base": "MurkmireHouse07DBlueInt02",
+     "kind": "window-panes",
+     "centreM": [
+      101.3243,
+      83.0501,
+      73.2206
+     ],
+     "outward": [
+      -0.0,
+      0.0,
+      -1.0
+     ],
+     "radiusM": 0.471,
+     "lightsNear": 2
+    },
+    {
+     "refId": "088B2719",
+     "base": "MurkmireHouse07DBlueInt02",
+     "kind": "window-panes",
+     "centreM": [
+      100.4214,
+      93.3533,
+      77.0566
+     ],
+     "outward": [
+      -1.0,
+      0.0,
+      -0.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    },
+    {
+     "refId": "088B2719",
+     "base": "MurkmireHouse07DBlueInt02",
+     "kind": "window-panes",
+     "centreM": [
+      102.5782,
+      85.8728,
+      73.2172
+     ],
+     "outward": [
+      -0.0,
+      0.0,
+      -1.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    },
+    {
+     "refId": "088B2719",
+     "base": "MurkmireHouse07DBlueInt02",
+     "kind": "window-panes",
+     "centreM": [
+      103.2476,
+      83.0501,
+      80.9687
+     ],
+     "outward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "radiusM": 0.471,
+     "lightsNear": 1
+    },
+    {
+     "refId": "088B2719",
+     "base": "MurkmireHouse07DBlueInt02",
+     "kind": "window-panes",
+     "centreM": [
+      107.4683,
+      85.9759,
+      73.1728
+     ],
+     "outward": [
+      -0.0,
+      0.0,
+      -1.0
+     ],
+     "radiusM": 0.262,
+     "lightsNear": 0
+    },
+    {
+     "refId": "088B2719",
+     "base": "MurkmireHouse07DBlueInt02",
+     "kind": "window-panes",
+     "centreM": [
+      108.8335,
+      93.3533,
+      77.0566
+     ],
+     "outward": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    },
+    {
+     "refId": "088B2719",
+     "base": "MurkmireHouse07DBlueInt02",
+     "kind": "window-panes",
+     "centreM": [
+      109.835,
+      91.1517,
+      77.1147
+     ],
+     "outward": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "radiusM": 0.35,
+     "lightsNear": 0
+    }
+   ]
   }
  }
 }
