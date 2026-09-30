@@ -699,61 +699,78 @@
   },
   "composite:stilt/swamp-house-with-landing": {
    "category": "architecture",
+   "doorwayProbeCentreM": [
+    3.54,
+    3.76
+   ],
    "doorwaysClosedDropped": [
     {
-     "arcM": 3.7,
-     "kind": "open-front",
+     "arcM": 1.97,
+     "kind": "opening",
      "offsetM": [
-      -3.37,
-      -7.36
+      3.51,
+      3.72
      ],
-     "sideDeg": 313.26
+     "sideDeg": 169.41
     }
    ],
-   "doorwaysMeasuredAboveFloorM": 0.6,
    "entrance": {
-    "approachBearingDeg": 105.4,
-    "approachReachM": 1.38,
-    "arcM": 1.68,
-    "centreShiftM": -0.03,
+    "approachBearingDeg": 97.8,
+    "approachReachM": 0.38,
+    "arcM": 1.64,
+    "centreShiftM": 0.07,
     "clearM": 2.7,
     "doorAsset": "vanilla:architecture/docks/dockstrent02",
     "kind": "approach",
     "offsetM": [
-     8.19,
-     0.83
+     8.16,
+     0.74
     ],
     "rayConfirmed": true,
-    "sideDeg": 95.8,
+    "sideDeg": 95.2,
     "sillYM": 2.78,
     "widthM": 1.6
    },
    "floorOffsetM": 6.0,
    "frontFaceFraction": 1.0,
-   "headroomM": 2.76,
+   "headroomM": 2.35,
    "heightM": 16.14,
    "interior": "promised",
-   "medianWallM": 1.96,
-   "planAreaM2": 374.98,
+   "medianWallM": 1.53,
+   "planAreaM2": 412.99,
    "planCentreM": [
-    2.75,
-    -1.6
+    2.4,
+    -2.22
    ],
    "promiseReason": "Blackmarsh and Valenwood places the swamp house 47 times with no load door in any plugin, furnishing its own floor as an open house; Phase 12 builds its interior",
    "provenance": [
     {
-     "arcM": 0.82,
-     "centreShiftM": 0.47,
-     "clearM": 1.9,
-     "kind": "opening",
+     "arcM": 3.04,
+     "centreShiftM": -0.0,
+     "clearM": 2.35,
+     "kind": "open-front",
      "offsetM": [
-      -6.53,
-      -0.38
+      7.63,
+      5.25
      ],
      "rayConfirmed": true,
-     "sideDeg": 262.5,
+     "sideDeg": 145.01,
      "sillYM": 2.73,
-     "widthM": 2.4
+     "widthM": 5.05
+    },
+    {
+     "arcM": 1.52,
+     "centreShiftM": -0.0,
+     "clearM": 2.35,
+     "kind": "open-front",
+     "offsetM": [
+      6.03,
+      7.32
+     ],
+     "rayConfirmed": true,
+     "sideDeg": 159.17,
+     "sillYM": 2.73,
+     "widthM": 5.05
     }
    ],
    "ringFraction": 0.889,

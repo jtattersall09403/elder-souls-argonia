@@ -490,8 +490,8 @@
    "why": "Mooring cleat, 1.06 x 0.39 x 0.37 m. No mined plugin reference (n 0): Black Marsh sets it on dock decks, never on LAND. Its foot plane lies 0.184 m below the pivot: sink -0.184 rests the foot on the surface it is set on. (0105 R36, reviewed by lane L16 2026-09-28; sink miner run /tmp/l16/sink-sample.json and --merge --whole-population refused: no reference stands on LAND)"
   },
   "mudmother:gv_meshes/argoniannest/argoniantent02": {
-   "designedSinkM": -0.4494,
-   "why": "Mud Mother Grove hide shelter on poles, 6.1 x 5.3 m and 4.3 m tall. The plugin places it once, at a scale other than 1, so the sink miner drops it (refsDroppedNonUnitScale 1) and no plugin sink exists. The mesh's lowest vertices lie 0.449 m below the pivot in a 4.6 m run along its back (the ground log the poles stand in); 388 vertices within 0.5 m of that level span the whole 5.4 x 4.7 m footprint: sink -0.4494 sets the log and the pole feet on the ground. (0105 R36 and R54, reviewed by lane L20 2026-09-28 for the Greenspring spring house; measured on the raw settlement-mud-v1.glb) floorClass openShelter: 0105 R58: a hide canopy on poles with no floor slab. On the mesh the pole feet and the ground log are the lowest vertices (0.449 m below the pivot) and the canopy skirt hangs about 1 m above them, so the posts are judged and the canopy is not.",
+   "designedSinkM": -0.0304,
+   "why": "Mud Mother Grove hide shelter on poles, 6.1 x 5.3 m and 4.3 m tall. The plugin places it once, at a scale other than 1, so the sink miner drops it and no plugin sink exists. Its ground line is the canvas skirt, not the pole feet (16k walk 6: seated on the pole feet, 0.449 m below the pivot, every placed tent's front edge hovered 0.25-0.36 m). Measured on the mesh (wb.py bpy blender/examples/skirt_gap.py; kit frame per 15-degree sector, the outermost vertex within 0.6 m of the lowest): the skirt's highest outer edge stands 0.389 m over the pole feet; the ground line sits 0.03 m over that edge, so every canvas edge touches or enters the ground and the poles stand 0.42 m in it. floorClass openShelter: 0105 R58: a hide canopy on poles with no floor slab.",
    "floorClass": "openShelter"
   },
   "composite:stilt/swamp-house-with-landing": {
@@ -499,6 +499,11 @@
    "designedWaterlineM": 2.02,
    "why": "BM&V's swamp house, placed by the composite at scale 2.9. BM&V places the shell 47 times in 25 cells, all in open water, and its depth follows its scale: the pivot sits a median 0.22 m under the water at scale 2.6 (n 17), 1.36 m at 2.8 (n 10), 2.02 m at 2.9 (n 7) and 2.21 m at 3.0 (n 13); 1.45 m over all 47 (bmv-blackmarsh-placement.json, aboveWaterM). The row takes the scale-2.9 median, as the sink miner does for a scaled base (byScale): the floor stands 0.70 m over the water and the landing plank's deck 0.56 m. The sink miner has no row for it (it was in no kit). walkTopM 2.725: the floor, a 246 m2 up-facing band at z 2.443 m in the unit-2.6 shell (p50 over its triangles), is 2.725 m over the pivot at scale 2.9; sockets inside stand on it.",
    "walkTopM": 2.725
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantent01": {
+   "designedSinkM": 0.1385,
+   "why": "Mud Mother Grove hide shelter on poles, 8.2 x 7.0 m and 6.0 m tall; no plugin sink (placed once, off unit scale). Its ground line is the canvas skirt, not the pole feet (16k walk 6, same defect as argoniantent02). Measured on the mesh (wb.py bpy blender/examples/skirt_gap.py; kit frame per 15-degree sector, the outermost vertex within 0.6 m of the lowest): the skirt's highest outer edge stands 0.569 m over the pole feet, 0.4605 m below the pivot; the ground line sits 0.03 m over that edge. floorClass openShelter: 0105 R58: a hide canopy on poles with no floor slab.",
+   "floorClass": "openShelter"
   }
  },
  "piledDecks": {

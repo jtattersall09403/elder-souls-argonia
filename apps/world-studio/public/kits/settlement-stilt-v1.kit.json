@@ -5904,7 +5904,7 @@
    "node": "es|6bd5599025|omposite__stilt_swamp-house-with-landing",
    "category": "architecture",
    "sizeM": [
-    20.699,
+    24.683,
     21.366,
     16.137
    ],
@@ -6048,24 +6048,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 48207660,
-  "bytesAfter": 20007348,
+  "bytesBefore": 48445916,
+  "bytesAfter": 20166380,
   "images": 65,
-  "imageBytesAfter": 14433767,
+  "imageBytesAfter": 14592523,
   "warnings": [],
-  "sha256": "2b2274c6792293e0492bb25b92d8f9975dd8d17432100a1e75bd5edcdae95846",
+  "sha256": "b3219d85a18517d790dcb55e1f5278a1e5e724a8f322659af4c50578964daee5",
   "parts": {
    "parts": 1,
    "partBytes": 8980,
    "textureFiles": 2,
    "textureBytes": 133322,
    "bytes": 142302,
-   "sourceSha256": "2b2274c6792293e0492bb25b92d8f9975dd8d17432100a1e75bd5edcdae95846"
+   "sourceSha256": "b3219d85a18517d790dcb55e1f5278a1e5e724a8f322659af4c50578964daee5"
   },
   "sidecarBytes": {
    "connectors": 74810,
-   "footprints": 109159,
-   "interiors": 72178
+   "footprints": 109057,
+   "interiors": 72718
   }
  }
 }

@@ -371,7 +371,7 @@
     {
       "asset": "composite:stilt/swamp-house-with-landing",
       "compose": {
-        "note": "BM&V's swamp house as its makers build it: the shell at scale 2.9 with a vanilla dock plank, dockstrent02, laid at its east doorway as a landing. Template bmv-blackmarsh:t0258 (8 placements): the plank at [3.3, -0.91, 0.89] m in the shell's unit frame, yaw 0, at 0.357 of the shell's scale, placed here at [9.57, -2.639, 2.581] m and scale 1.035; its deck lies 0.14 m under the house floor. BM&V places the shell 47 times in 25 cells at scales 2.6 to 3.0, every one in open water; the 7 references at scale 2.9 hold the pivot a median 2.02 m under the water surface, which stands the floor 0.70 m over it. The shell has no load door in any plugin: it is an open house, furnished on its own floor (BM&V puts tables with benches and torch pillars inside it).",
+        "note": "BM&V's swamp house at scale 2.9 with a vanilla dock plank, dockstrent02, laid as a landing out of its east doorway. BM&V (template bmv-blackmarsh:t0258, 8 placements) lays the plank ALONG the east wall at yaw 0, a boat landing reached from the water, so its railed long side stands across the doorway; a house reached from the shore needs the plank run out of the doorway, so here it is turned to yaw 90 (clockwise, its +y end outward), its axis on the measured doorway centre (shell y -1.6 m; the opening runs y -3.3 to 0.1 m at 3 m and 3.8 m up) and its inner end 0.13 m under the house deck edge (x 8.0 m), at the template's height and scale (deck 0.14 m under the house floor; 16k walk 6, owner: the landing's rail blocked the door). The part carries no template field because this pose is authored, not the mined one. BM&V places the shell 47 times in 25 cells at scales 2.6 to 3.0, every one in open water; the 7 references at scale 2.9 hold the pivot a median 2.02 m under the water surface, which stands the floor 0.70 m over it. The shell has no load door in any plugin: it is an open house, furnished on its own floor (BM&V puts tables with benches and torch pillars inside it).",
         "parts": [
           {
             "asset": "bmv:architecture/swamp house",
@@ -380,13 +380,12 @@
           {
             "asset": "vanilla:architecture/docks/dockstrent02",
             "offsetM": [
-              9.57,
-              -2.639,
+              11.65,
+              -1.6,
               2.581
             ],
-            "yawDeg": 0.0,
-            "scale": 1.035,
-            "template": "bmv-blackmarsh:t0258"
+            "yawDeg": 90.0,
+            "scale": 1.035
           }
         ]
       },

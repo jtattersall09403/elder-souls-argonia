@@ -1550,6 +1550,12 @@ APPROACH_PROBE_IN_M = (1.0, 1.5, 2.0, 2.5, 3.0)
 APPROACH_MAX_REACH_M = 2.5
 
 
+#: lateral offsets (m) of the rays that find the wall between a landing part
+#: and its shell: on the part's axis first, then either side of it (a landing
+#: square on its doorway sees through the opening on its own axis)
+APPROACH_SIDE_RAYS_M = (0.0, 1.0, -1.0, 2.0, -2.0, 3.0, -3.0)
+
+
 def approach_doorways(triangles, part_rows: list[dict] | None,
                       pose: dict | None = None) -> list[dict]:
     """The doorway a composite's LANDING part reaches (``kind: "approach"``).
@@ -1589,11 +1595,22 @@ def approach_doorways(triangles, part_rows: list[dict] | None,
         if dist < 1.0:
             continue
         d /= dist
-        hit, _front = _ray_hits(triangles, landing + np.asarray([0.0, LINTEL_BAND_M, 0.0]),
-                                d[None, :])
-        if not np.isfinite(hit[0]) or float(hit[0]) >= dist:
+        # the wall between the part and the anchor, at lintel height; a
+        # landing laid square on its doorway sees THROUGH the opening on its
+        # own axis (16k walk 6: the swamp house plank turned to run out of the
+        # doorway), so the rays either side of it find the wall beside the
+        # opening, at the same distance along the axis
+        perp = np.asarray([-d[2], 0.0, d[0]])
+        wall_at = None
+        for side_m in APPROACH_SIDE_RAYS_M:
+            hit, _front = _ray_hits(triangles, landing + perp * side_m
+                                    + np.asarray([0.0, LINTEL_BAND_M, 0.0]), d[None, :])
+            if np.isfinite(hit[0]) and float(hit[0]) < dist:
+                wall_at = float(hit[0])
+                break
+        if wall_at is None:
             continue  # nothing between the part and the anchor: it stands inside
-        wall = landing + d * float(hit[0])
+        wall = landing + d * wall_at
         bearing = _bearing_deg(-d[0], -d[2])
         room_h = float(triangles[:, :, 1].max()) - z
         best = None
