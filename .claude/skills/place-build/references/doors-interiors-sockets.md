@@ -281,8 +281,18 @@ readable, warm, lit by its sources, not flat.
 
 **Design the lighting first time** (decision 0109). A dim or flat tier A
 cell is fixed with more sources, never a fill or a raised ambient. Every living zone of
-a tier A cell (bed, table, hearth, work, door) has a flame fixture within
-2 m, and there is at least one lit fixture per 12 m² of walkable floor.
+a tier A cell (bed, table, hearth, work, store, door) gets ONE local low
+source within 1.5 m of its furniture (the light below the furniture's floor
++ 2.5 m), on or beside it: `glazedcandles01` on a table, shelf, chest or
+cupboard top in a Keeba (Argonian) hut, else on the floor beside it;
+`candlehorntable01` on a table or counter, else `candlehornwall01`, else
+`candlehornfloor01`, in a Lilmoth (Imperial) house. Hanging
+`argonianlanterns04` go only over open floor with no furniture surface
+under them, at most 1 per 30 m² of walkable floor: the overhead lanterns'
+broad 1-(d/r)² falloffs overlap into an even warm wash that readers judge
+flat (walk 5 round 3). Surplus lanterns come out greedily, cheapest
+source-led loss first, while source-led stays ≥ 0.70 and dark under its bar.
+A stair gets a source its own doorway view sees, or a floor horn beneath it.
 Prefer the plugin's own fixture kinds (candles, candle-horns, lanterns)
 placed where a resident would: on the table, beside the bed, on the hearth
 wall, and beside the door on the inside. Write them in
@@ -307,5 +317,8 @@ floor (the kit's `argonianlanterns03` is the same lantern on a 2.15 m cord and
 sits in the 19 MB dungeon-root kit). Then the builder adds the spot that
 raises source-led most, one at a time, to 72 % (Imperial: at least 12 pieces;
 the Plantation storehouse to 1 lit fixture per 12 m²), capped at 1 lit fixture
-per 12 m² in a hut. The seats are measured by ray cast before export
+per 12 m² in a hut. The 2026-09-30 round replaced that density with the
+rule above (`rethin.py`: zone sources, then lantern thinning). The seats are
+measured by ray cast before export, every contact on one surface ±2 cm and no
+other piece's vertex inside the fixture's box
 (`tooling/.reports/16k/interior-light-additions/`).
