@@ -440,8 +440,8 @@ def test_an_unlinked_shell_is_hollow_and_keeps_its_promise():
     got = bi.claim_for_parcel(parcel, lib, {}, lambda *a: None)
     assert got["tier"] == "reserved" and got["pool"] == "phase-12"
     assert got["why"] == ("no plugin gives kotm:argonia/mudhuts/mudhut01 a load door, so it is a "
-                          "hollow shell with no enter prompt; its Phase 12 interior stays promised: "
-                          "Phase 12 builds it")
+                          "hollow shell with no enter prompt; the interior its record promises is "
+                          "built later")
     from .door_types import door_type
     assert door_type({"interiorClaim": {"tier": "reserved", "pool": "phase-12"}},
                      "kotm:argonia/mudhuts/mudhut01", frozenset()) == "hollow"
@@ -549,6 +549,6 @@ def test_round_hut_and_swamp_house_no_plugin_links_are_hollow_with_no_prompt():
     from .door_types import door_type
     hut, house = _pod_claim("test:roundhut"), _pod_claim("test:swamphouse")
     assert hut["tier"] == "none" and "hollow shell" in hut["why"]
-    assert house["tier"] == "reserved" and "stays promised" in house["why"]
+    assert house["tier"] == "reserved" and "record promises" in house["why"]
     # the record stays as the entrance (routes, fills, evidence); no prompt
     assert door_type({"interiorClaim": {"tier": "none"}}, "test:swamphouse") == "hollow"

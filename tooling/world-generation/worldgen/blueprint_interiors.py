@@ -639,10 +639,12 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
         # `promised` record keeps its Phase 12 promise as a reserved claim
         promise = ((record or {}).get("promiseReason") if (record or {}).get("interior") == "promised"
                    else None)
+        # the why is world-record prose (lint_prose): the index's own
+        # promiseReason carries build-plan wording, so it is not quoted here
         return {"tier": "reserved" if promise else "none", "pool": "phase-12" if promise else pool,
                 "why": (f"no plugin gives {shell}{via} a load door, so it is a hollow shell with no "
                         f"enter prompt"
-                        + (f"; its Phase 12 interior stays promised: {promise}" if promise
+                        + ("; the interior its record promises is built later" if promise
                            else " and no interior")),
                 "candidates": []}
     if record is None:
