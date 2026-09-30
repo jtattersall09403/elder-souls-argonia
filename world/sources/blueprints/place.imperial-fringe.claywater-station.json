@@ -4091,7 +4091,7 @@
             ],
             "yawDeg": 0.0
           },
-          "why": "9 of 11 cells linked to vanilla:architecture/farmhouse/farmhouse01 (the base shell of composite:farmhouse/farmhouse01-with-door) fit; DawnstarBrinasHouse is a dwelling serving lodging, room footprint ratio 1.115 to the shell, 1 storey, 1 exterior load door; ties broken on the plugin's most-used cell (2 door links), then cell id"
+          "why": "10 of 11 cells plugins link to vanilla:architecture/farmhouse/farmhouse01 (the base shell of composite:farmhouse/farmhouse01-with-door) pass; DawnstarBrinasHouse is a dwelling serving lodging, 1 exterior load door; ties broken on the plugin's most-used cell (2 door links), then cell id"
         },
         "thresholdUV": [
           0.043050074,
@@ -4123,7 +4123,7 @@
             ],
             "yawDeg": 233.95
           },
-          "why": "2 of 4 cells linked to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) fit; KeebaHouseFisher is a dwelling serving use:dwelling, room footprint ratio 1.464 to the shell, 2 storeys, 1 exterior load door; chosen for this door: the landing's poler also fishes; the fisher's house has the rods and the fish rack for that work"
+          "why": "4 of 4 cells plugins link to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) pass; KeebaHouseFisher is a dwelling serving use:dwelling, 1 exterior load door; chosen for this door: the landing's poler also fishes; the fisher's house has the rods and the fish rack for that work"
         },
         "thresholdUV": [
           0.04246148,
@@ -4145,18 +4145,18 @@
           "interiorRef": "interior-kotm-v1",
           "owner": "the landing family",
           "tier": "A",
-          "cellId": "KeebaHouseCrafter",
+          "cellId": "KeebaHouseSnailMinder",
           "plugin": "King of the Murkmire.esp",
-          "interiorLoadDoorRef": "0809B4BD",
+          "interiorLoadDoorRef": "08090C43",
           "arrivalMarker": {
             "positionM": [
-              106.4963,
-              86.2485,
-              54.4948
+              105.4125,
+              83.4645,
+              52.8801
             ],
             "yawDeg": 182.383
           },
-          "why": "2 of 4 cells linked to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) fit; KeebaHouseCrafter is a dwelling serving use:dwelling, room footprint ratio 1.399 to the shell, 2 storeys, 1 exterior load door; KeebaHouseSnailMinder was asked for but does not fit, so the most-used free cell is taken"
+          "why": "4 of 4 cells plugins link to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) pass; KeebaHouseSnailMinder is a smithy, 1 exterior load door; chosen for this door: three beds and a hearth: a family's house"
         },
         "thresholdUV": [
           0.045851997,
@@ -4179,18 +4179,18 @@
           "interiorRef": "interior-kotm-v1",
           "owner": "the landing's crafter",
           "tier": "A",
-          "cellId": "KeebaHouseSnailMinder",
+          "cellId": "KeebaHouseCrafter",
           "plugin": "King of the Murkmire.esp",
-          "interiorLoadDoorRef": "08090C43",
+          "interiorLoadDoorRef": "0809B4BD",
           "arrivalMarker": {
             "positionM": [
-              105.4125,
-              83.4645,
-              52.8801
+              106.4963,
+              86.2485,
+              54.4948
             ],
             "yawDeg": 182.383
           },
-          "why": "1 of 4 cells linked to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) fit; KeebaHouseSnailMinder is a smithy serving use:work, room footprint ratio 1.61 to the shell, 2 storeys, 1 exterior load door; KeebaHouseCrafter was asked for but does not fit, so the most-used free cell is taken"
+          "why": "4 of 4 cells plugins link to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) pass; KeebaHouseCrafter is a dwelling, 1 exterior load door; chosen for this door: the crafter's house holds the benches and baskets of the landing's net and basket maker"
         },
         "thresholdUV": [
           0.045472259,

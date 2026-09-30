@@ -2467,11 +2467,11 @@
    "op": "socket",
    "id": "socket.claywater-station.idle-family-home",
    "kind": "idle",
-   "host": "KeebaHouseCrafter.0809B556",
+   "host": "KeebaHouseSnailMinder.08095F77",
    "activity": "sleep",
    "parcel": "parcel.claywater-station.family-hut",
    "why": "The family sleeps in its hut.",
-   "interiorCell": "KeebaHouseCrafter"
+   "interiorCell": "KeebaHouseSnailMinder"
   },
   {
    "op": "socket",

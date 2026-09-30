@@ -99,10 +99,9 @@ run) and 5 (the gates).
    the shell's linked set is exhausted, at most 3 in the province;
    `place_gates --claim-cells`, gate `interiors.variety`).
 2. **The cell is picked from the shell's linked cells, deterministically.**
-   Filter: the cell's floors ABOVE its entry door (floor levels more than
-   the 2.4 m storey gap over the paired door) may not outnumber the floors
-   the shell shows above its own door (a one-storey hut or pod: none; a
-   cellar below the entry is free); at least one exterior load door per
+   The link is the interior: a linked cell bigger or taller than its shell
+   is the modder's pairing and stands. A linked cell passes with at least
+   one exterior load door per
    entrance (spare ones ship closed); the bundle passes the acceptance gate
    and misses nothing but clutter or furniture (planner ruling 2026-09-27,
    `bundle_sourcing`: missing pieces classed from the base record or
@@ -116,10 +115,10 @@ run) and 5 (the gates).
    interior) is an open-sided shell with no door record, walked into; a
    stable house (the keeper's home) is a dwelling and takes a linked shell
    (0105 R2). A door's `preferCell {cellId, why}` names the story's cell; it
-   wins when it passes. A claim with an upstairs the shell has no room for,
-   or too few doors, fails a test (`test_blueprint_interiors_claim.py`).
-   An NPC socket authored in a cell (`interiorCell`) moves when its door
-   stops claiming that cell: the compile refuses the orphan.
+   wins when it passes. A claim outside the shell's linked cells, or with
+   too few doors, fails a test (`test_blueprint_interiors_claim.py`). An
+   NPC socket authored in a cell (`interiorCell`) moves when its door stops
+   claiming that cell: `--claim` names the orphan and the compile refuses it.
 3. `blueprint_interiors.py --claim <blueprint>` writes the pick and its
    `why` on the door record (`interiorClaim`: `tier`, `cellId`, `plugin`
    or `pool`, `why`, `interiorLoadDoorRef`, `arrivalMarker`); the claim is

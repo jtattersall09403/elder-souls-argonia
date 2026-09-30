@@ -3028,7 +3028,7 @@
             ],
             "yawDeg": 182.383
           },
-          "why": "2 of 4 cells linked to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) fit; KeebaHouseCrafter is a dwelling serving lodging, room footprint ratio 1.399 to the shell, 2 storeys, 1 exterior load door; ties broken on the plugin's most-used cell (2 door links), then cell id"
+          "why": "4 of 4 cells plugins link to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) pass; KeebaHouseCrafter is a dwelling serving lodging, 1 exterior load door; ties broken on the plugin's most-used cell (2 door links), then cell id"
         },
         "fills": [
           "promise.greenspring.safe-interior"
@@ -3060,7 +3060,7 @@
             ],
             "yawDeg": 233.95
           },
-          "why": "2 of 4 cells linked to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) fit; KeebaHouseFisher is a dwelling serving use:dwelling, room footprint ratio 1.464 to the shell, 2 storeys, 1 exterior load door; KeebaHouseCrafter already furnished another building here, so the plugin's most-used free cell is taken (2 door links)"
+          "why": "4 of 4 cells plugins link to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) pass; KeebaHouseFisher is a dwelling serving use:dwelling, 1 exterior load door; KeebaHouseCrafter already furnished another building here"
         },
         "thresholdUV": [
           0.645469284,
@@ -3071,25 +3071,14 @@
       {
         "id": "door.hist-heartland.greenspring.3",
         "parcelId": "parcel.greenspring.minders-house",
-        "doorType": "load",
+        "doorType": "hollow",
         "interiorClaim": {
           "sizeClass": "large",
           "culture": "argonian",
-          "interiorRef": "vanilla-farmhouse-int",
           "owner": "the tree-minder",
-          "tier": "A",
-          "cellId": "KeebaHouseElder",
-          "plugin": "King of the Murkmire.esp",
-          "interiorLoadDoorRef": "080CC275",
-          "arrivalMarker": {
-            "positionM": [
-              100.1666,
-              86.0795,
-              55.3746
-            ],
-            "yawDeg": 49.893
-          },
-          "why": "7 of 96 cells of the argonian culture pool fit bmv:architecture/huts/exterior/hutexterior (the base shell of composite:mud/hut-with-entrance), which no plugin links to a cell; KeebaHouseElder is a dwelling serving use:dwelling, room footprint ratio 1.606 to the shell, 2 storeys, 2 exterior load doors (one entrance, paired to the lowest of 2 exterior load doors; 1 load door(s) left closed); KeebaHouseCrafter, KeebaHouseFisher already furnished another building here, so the plugin's most-used free cell is taken (4 door links)"
+          "tier": "none",
+          "pool": "bmv",
+          "why": "no plugin gives bmv:architecture/huts/exterior/hutexterior (the base shell of composite:mud/hut-with-entrance) a load door, so it is a hollow shell with no enter prompt and no interior"
         },
         "thresholdUV": [
           0.6461501,
@@ -3107,18 +3096,18 @@
           "interiorRef": "interior-kotm-v1",
           "owner": "the spring-keeper",
           "tier": "A",
-          "cellId": "LilmothGlassworksOverseerHouse",
+          "cellId": "KeebaHouseSnailMinder",
           "plugin": "King of the Murkmire.esp",
-          "interiorLoadDoorRef": "08879853",
+          "interiorLoadDoorRef": "08090C43",
           "arrivalMarker": {
             "positionM": [
-              97.7664,
-              80.3653,
-              75.1904
+              105.4125,
+              83.4645,
+              52.8801
             ],
             "yawDeg": 182.383
           },
-          "why": "6 of 96 cells linked to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) or in the argonian culture pool fit, every linked one already furnishing another building here; LilmothGlassworksOverseerHouse is a dwelling serving use:dwelling, room footprint ratio 0.923 to the shell, 2 storeys, 2 exterior load doors (one entrance, paired to the lowest of 2 exterior load doors; 1 load door(s) left closed); KeebaHouseCrafter, KeebaHouseFisher already furnished another building here, so the plugin's most-used free cell is taken (4 door links)"
+          "why": "4 of 4 cells plugins link to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) pass; KeebaHouseSnailMinder is a smithy, 1 exterior load door; KeebaHouseCrafter, KeebaHouseFisher already furnished another building here"
         },
         "thresholdUV": [
           0.640188215,
@@ -3129,25 +3118,14 @@
       {
         "id": "door.hist-heartland.greenspring.5",
         "parcelId": "parcel.greenspring.family-hut",
-        "doorType": "load",
+        "doorType": "hollow",
         "interiorClaim": {
           "sizeClass": "large",
           "culture": "argonian",
-          "interiorRef": "vanilla-farmhouse-int",
           "owner": "a spring family",
-          "tier": "A",
-          "cellId": "LilmothIronworksOverseerHouse",
-          "plugin": "King of the Murkmire.esp",
-          "interiorLoadDoorRef": "08864DBA",
-          "arrivalMarker": {
-            "positionM": [
-              97.7738,
-              80.3475,
-              75.313
-            ],
-            "yawDeg": 182.384
-          },
-          "why": "7 of 96 cells of the argonian culture pool fit bmv:architecture/huts/exterior/hutexterior (the base shell of composite:mud/hut-with-entrance), which no plugin links to a cell; LilmothIronworksOverseerHouse is a dwelling serving use:dwelling, room footprint ratio 0.813 to the shell, 2 storeys, 2 exterior load doors (one entrance, paired to the lowest of 2 exterior load doors; 1 load door(s) left closed); KeebaHouseCrafter, KeebaHouseElder, KeebaHouseFisher, LilmothGlassworksOverseerHouse already furnished another building here, so the plugin's most-used free cell is taken (4 door links)"
+          "tier": "none",
+          "pool": "bmv",
+          "why": "no plugin gives bmv:architecture/huts/exterior/hutexterior (the base shell of composite:mud/hut-with-entrance) a load door, so it is a hollow shell with no enter prompt and no interior"
         },
         "thresholdUV": [
           0.642078089,
@@ -3158,25 +3136,14 @@
       {
         "id": "door.hist-heartland.greenspring.6",
         "parcelId": "parcel.greenspring.east-family-hut",
-        "doorType": "load",
+        "doorType": "hollow",
         "interiorClaim": {
           "sizeClass": "large",
           "culture": "argonian",
-          "interiorRef": "vanilla-farmhouse-int",
           "owner": "a spring family",
-          "tier": "A",
-          "cellId": "LilmothPlantationStorehouse",
-          "plugin": "King of the Murkmire.esp",
-          "interiorLoadDoorRef": "088B271D",
-          "arrivalMarker": {
-            "positionM": [
-              97.6755,
-              80.3666,
-              75.3957
-            ],
-            "yawDeg": 176.654
-          },
-          "why": "7 of 96 cells of the argonian culture pool fit bmv:architecture/huts/exterior/hutexterior (the base shell of composite:mud/hut-with-entrance), which no plugin links to a cell; LilmothPlantationStorehouse is a dwelling serving use:dwelling, room footprint ratio 0.918 to the shell, 3 storeys, 2 exterior load doors (one entrance, paired to the lowest of 2 exterior load doors; 1 load door(s) left closed); KeebaHouseCrafter, KeebaHouseElder, KeebaHouseFisher, LilmothGlassworksOverseerHouse, LilmothIronworksOverseerHouse already furnished another building here, so the plugin's most-used free cell is taken (4 door links)"
+          "tier": "none",
+          "pool": "bmv",
+          "why": "no plugin gives bmv:architecture/huts/exterior/hutexterior (the base shell of composite:mud/hut-with-entrance) a load door, so it is a hollow shell with no enter prompt and no interior"
         },
         "thresholdUV": [
           0.647472537,

@@ -46,7 +46,6 @@ LINKS = {"test:shell": [
     _cell("Home2", [(BED, 1), (HEARTH, 1)], placements=2),
     _cell("Shop", [(COUNTER, 3), (BED, 1)], placements=1),
     _cell("Chapel", [(SHRINE, 1), (BED, 1)], placements=5),
-    _cell("Huge", [(BED, 2), (HEARTH, 1)], placements=9),
     _cell("Tall", [(BED, 2), (HEARTH, 1)], placements=1),
     _cell("TwoDoors", [(BED, 2), (HEARTH, 1)], placements=1),
     _cell("Cellar", [(BED, 2), (HEARTH, 1)], placements=1),
@@ -55,7 +54,7 @@ LINKS = {"test:shell": [
 # Interior-to-interior doors are not counted (ruling 1): "Cellar" has one
 # exterior door and a cellar door and still fits.
 PROFILES = {"Home": _profile(), "Home2": _profile(), "Shop": _profile(), "Chapel": _profile(),
-            "Huge": _profile(plan=(40.0, 40.0), storeys=3), "Tall": _profile(storeys=2),
+            "Tall": _profile(storeys=2),
             "TwoDoors": _profile(doors=(0.0, 180.0), heights=[3.4, 0.0]),
             "Cellar": _profile(interior_doors=1), "NoDoor": _profile(doors=())}
 LIB = _Lib({"test:shell": {"planAreaM2": 100.0, "storeys": 1,
@@ -81,9 +80,8 @@ def _claim(bp):
 def test_fit_rule_rejects_ratio_and_too_few_doors():
     _claim_, row = _claim(_bp(["lodging"]))
     fails = {c["cellId"]: c["fails"] for c in row["candidates"]}
-    # walk 6: floors above the entry the 1-storey shell has no room for
-    assert any("2 floors above the entry, the shell shows 0" in f for f in fails["Huge"])
-    assert any("1 floor above the entry, the shell shows 0" in f for f in fails["Tall"])
+    # 0114: the plugin's link is the interior, taller than the shell or not
+    assert fails["Tall"] == []
     # ruling 3 (round 3): more load doors than entrances is legal; the entrance
     # takes the ground-floor door and the upper one ships closed
     assert fails["TwoDoors"] == []
@@ -165,15 +163,6 @@ def test_pairing_refuses_a_90_degree_mismatch_and_too_few_doors():
     # two entrances, three doors: paired by bearing, one left over
     pick, why = pair_doors([0.0, 180.0], [0.0, 95.0, 180.0])
     assert pick == [0, 2] and "left closed" in why
-
-
-def test_a_two_storey_shell_takes_a_cell_of_one_or_two_storeys():
-    lib = _Lib({"test:shell": {"planAreaM2": 100.0, "storeys": 2,
-                               "entrance": {"kind": "esp-door", "sideDeg": 10.0}}})
-    row = bi.claim_doors(_bp(["lodging"]), lib, LINKS, PROFILE)[0]
-    fails = {c["cellId"]: c["fails"] for c in row["candidates"]}
-    assert fails["Home"] == [] and fails["Tall"] == []
-    assert any("2 floors above the entry, the shell shows 1" in f for f in fails["Huge"])
 
 
 def test_storeys_cluster_levels_more_than_2_4_m_apart():
@@ -366,8 +355,8 @@ def test_prefer_cell_is_honoured_when_it_fits_and_claims_first():
 
 
 def test_prefer_cell_that_does_not_fit_falls_back_to_the_rule():
-    a, b = _two_huts(prefer="Huge", first_prefers=True)
-    assert a["cellId"] == "Home" and "Huge was asked for but does not pass" in a["why"]
+    a, b = _two_huts(prefer="NoDoor", first_prefers=True)
+    assert a["cellId"] == "Home" and "NoDoor was asked for but does not pass" in a["why"]
     assert b["cellId"] == "Home2"
 
 
@@ -527,21 +516,23 @@ def _pod_claim(asset):
                                POD_LINKS, lambda pl, c, sh: POD_PROFILES[c])
 
 
-def test_a_one_storey_pod_rejects_a_linked_loft_cell_and_takes_its_cellar_cell():
+def test_a_pod_takes_its_plugins_cell_loft_or_not():
     got = _pod_claim("test:pod")
     fails = {c["cellId"]: c["fails"] for c in got["candidates"]}
-    assert any("1 floor above the entry, the shell shows 0" in f for f in fails["Loft"])
-    assert got["tier"] == "A" and got["cellId"] == "PodCellar", got
-    pick = next(c for c in got["candidates"] if c["cellId"] == "PodCellar")
-    assert (pick["floorsAboveEntry"], pick["floorsBelowEntry"], pick["shellFloorsAboveDoor"]) == (0, 1, 0)
+    # 0114: the modder's link is the interior, loft or not; the most-used wins
+    assert got["tier"] == "A" and got["cellId"] == "Loft", got
     assert "Elsewhere" not in fails                  # another shell's cell is never offered
+    # a second pod of the place takes the unused linked cell before a repeat
+    again = bi.claim_for_parcel({"id": "p2", "assetRef": "test:pod", "use": "dwelling"}, POD_LIB,
+                                POD_LINKS, lambda pl, c, sh: POD_PROFILES[c], used={"Loft": 1})
+    assert again["cellId"] == "PodCellar"
 
 
 def test_a_shell_whose_linked_cells_all_fail_is_reserved_never_widened():
     links = {"test:pod": [POD_LINKS["test:pod"][0]], "test:other": POD_LINKS["test:other"]}
     got = bi.claim_for_parcel({"id": "p1", "assetRef": "test:pod", "use": "dwelling"}, POD_LIB,
-                              links, lambda pl, c, sh: POD_PROFILES[c])
-    assert got["tier"] == "reserved" and "Loft: 1 floor above the entry" in got["why"]
+                              links, lambda pl, c, sh: {**POD_PROFILES[c], "exteriorDoors": []})
+    assert got["tier"] == "reserved" and "Loft: door pairing refused" in got["why"]
     assert [c["cellId"] for c in got["candidates"]] == ["Loft"]
 
 
@@ -552,3 +543,13 @@ def test_round_hut_and_swamp_house_no_plugin_links_are_hollow_with_no_prompt():
     assert house["tier"] == "reserved" and "record promises" in house["why"]
     # the record stays as the entrance (routes, fills, evidence); no prompt
     assert door_type({"interiorClaim": {"tier": "none"}}, "test:swamphouse") == "hollow"
+
+
+def test_a_socket_op_in_a_cell_no_door_claims_is_named():
+    bp = {"doors": [{"id": "d1", "interiorClaim": {"tier": "A", "cellId": "Home"}},
+                    {"id": "d2", "interiorClaim": {"tier": "reserved", "pool": "kotm"}}]}
+    layout = {"ops": [{"op": "socket", "id": "s.home", "interiorCell": "Home"},
+                      {"op": "socket", "id": "s.gone", "interiorCell": "Loft"},
+                      {"op": "socket", "id": "s.out"}, {"op": "place", "id": "p", "interiorCell": "Loft"}]}
+    assert bi.orphan_socket_ops(bp, layout) == [
+        "socket op s.gone stands in Loft, which no door claims at tier A"]

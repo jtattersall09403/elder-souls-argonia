@@ -1352,27 +1352,17 @@
       {
         "id": "door.dunmer-north.riverwalk.1",
         "parcelId": "parcel.riverwalk.crews-house",
-        "doorType": "load",
+        "doorType": "hollow",
         "fills": [
           "promise.riverwalk.safe-interior"
         ],
         "interiorClaim": {
           "culture": "argonian",
           "sizeClass": "large",
-          "tier": "A",
-          "cellId": "KeebaHouseElder",
-          "plugin": "King of the Murkmire.esp",
-          "interiorLoadDoorRef": "080CC275",
-          "arrivalMarker": {
-            "positionM": [
-              100.1666,
-              86.0795,
-              55.3746
-            ],
-            "yawDeg": 49.893
-          },
-          "why": "1 of 96 cells of the argonian culture pool fit bmv:architecture/swamp house (the base shell of composite:stilt/swamp-house-with-landing), which no plugin links to a cell; KeebaHouseElder is a dwelling serving lodging, room footprint ratio 0.734 to the shell, 2 storeys, 2 exterior load doors (one entrance, paired to the lowest of 2 exterior load doors; 1 load door(s) left closed)",
-          "interiorRef": "interior-kotm-v1"
+          "interiorRef": "interior-kotm-v1",
+          "tier": "reserved",
+          "pool": "phase-12",
+          "why": "no plugin gives bmv:architecture/swamp house (the base shell of composite:stilt/swamp-house-with-landing) a load door, so it is a hollow shell with no enter prompt; the interior its record promises is built later"
         },
         "facingDeg": 278.3,
         "thresholdUV": [

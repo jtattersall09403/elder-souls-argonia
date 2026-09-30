@@ -356,37 +356,6 @@ def report_lines(bp: dict, lib: InteriorLibrary | None = None) -> list[str]:
 FIT_RATIO = (0.6, 1.7)
 
 
-def floors_about_door(levels: list[float] | None, door_z: float | None,
-                      storeys: int | None) -> tuple[int, int]:
-    """(floors above, floors below) the entry floor of a cell (owner walk 6):
-    its measured floor levels (``interior_cells.profile_cell``
-    ``floorLevelsM``) more than the storey gap over / under the entry door's
-    threshold, each side clustered into storeys with that gap. With no
-    levels measured, every storey past the first counts as above (the door
-    is taken to stand on the lowest floor, the reading that can only err
-    towards refusing)."""
-    from .interior_cells import STOREY_GAP_M, storeys_from_levels
-    if not levels or door_z is None:
-        return max(0, int(storeys or 1) - 1), 0
-    up = [v for v in levels if v > door_z + STOREY_GAP_M]
-    down = [v for v in levels if v < door_z - STOREY_GAP_M]
-    return storeys_from_levels(up), storeys_from_levels(down)
-
-
-def shell_floors_above_door(record: dict) -> int:
-    """How many floors the shell shows above its entrance: its measured
-    `storeyLevelsM` more than the storey gap over the entrance's height
-    (`heightM`, else `sillYM`, else the lowest level)."""
-    from .interior_cells import STOREY_GAP_M, storeys_from_levels
-    levels = [float(v) for v in (record.get("storeyLevelsM") or []) if isinstance(v, (int, float))]
-    if not levels:
-        return max(0, int(record.get("storeys") or 1) - 1)
-    way = record.get("entrance") or {}
-    entry = way.get("heightM", way.get("sillYM"))
-    entry = float(entry) if isinstance(entry, (int, float)) else min(levels)
-    return storeys_from_levels([v for v in levels if v > entry + STOREY_GAP_M])
-
-
 #: A service no vanilla or mod interior serves (planner ruling 4, interiors
 #: round 4): a stable is open-sided and no plugin authors a stable interior,
 #: so a parcel offering only these is reserved to that pool (Phase 12 tier
@@ -605,10 +574,9 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
     `mine_door_links`; a composite takes its base shell's). A shell no plugin
     gives a teleport door is a HOLLOW shell: tier ``none``, no load door, no
     prompt (its index `promiseReason`, when `interior` is ``promised``, is
-    kept in the `why` as the Phase 12 promise). Among the linked cells the
-    filter is the shell's volume (owner walk 6): the cell's floors above its
-    entry door may not outnumber the floors the shell shows above its own
-    door (a cellar below the entry is free); then the door pairing, the
+    kept in the `why` as the Phase 12 promise). The plugin's link is the
+    interior: a linked cell larger or taller than its shell is the modder's
+    pairing and stands. A linked cell passes on the door pairing, the
     acceptance gate of its bundle (`sourcing`, ``bundle_sourcing``) and the
     pieces no stand-in may replace. `profile(plugin, cell, shell)` is the
     cell's measured profile (`interior_cells.profile_cell`; injected so tests
@@ -652,7 +620,6 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
                 "why": f"{ref!r} is not in the interiors index, so its entrance cannot be paired",
                 "candidates": []}
     entrances = shell_entrances(record)
-    shell_up = shell_floors_above_door(record)
     needs = wanted_classes(parcel)
 
     def measure(row: dict) -> dict:
@@ -666,11 +633,6 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
         fails = []
         if not prof:
             fails.append("the cell could not be read from its plugin")
-        entry = ext[pairing[0]] if pairing else (min(ext, key=lambda d: d["positionM"][2]) if ext else None)
-        up, down = floors_about_door(prof.get("floorLevelsM"),
-                                     float(entry["positionM"][2]) if entry else None, storeys)
-        if up > shell_up:
-            fails.append(f"{_count(up, 'floor')} above the entry, the shell shows {shell_up} above its door")
         if pairing is None:
             fails.append(f"door pairing refused: {pair_why}")
         src = sourcing(row["plugin"], row["interiorCell"]) if sourcing else {}
@@ -684,7 +646,6 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
         return {
             "cellId": row["interiorCell"], "plugin": row["plugin"],
             "structuralPlanM": prof.get("structuralPlanM"), "storeys": storeys,
-            "floorsAboveEntry": up, "floorsBelowEntry": down, "shellFloorsAboveDoor": shell_up,
             "exteriorLoadDoors": len(ext), "interiorLoadDoors": prof.get("interiorDoors"),
             "pairing": pair_why,
             "doors": [ext[j] for j in pairing] if pairing is not None else [],
@@ -703,8 +664,8 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
                 f"none of the {len(candidates)} cells plugins link to {shell}{via} pass")
         reasons = "; ".join(f"{c['cellId']}: {c['fails'][0]}" for c in candidates)
         return {"tier": "reserved", "pool": pool,
-                "why": (f"{lead} (no more floors above the entry than the shell shows, an exterior "
-                        f"load door for every entrance{', the acceptance gate' if sourcing else ''}): "
+                "why": (f"{lead} (an exterior load door for every entrance"
+                        f"{', the acceptance gate' if sourcing else ''}): "
                         f"{reasons}"),
                 "candidates": candidates}
     fit.sort(key=lambda c: (len(c.get("unsourced") or []), -len(c["served"]), -c["placements"],
@@ -731,8 +692,6 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
     why = (f"{len(fit)} of {len(candidates)} cells plugins link to {shell}{via} pass; "
            f"{best['cellId']} is a {best['useClass']}"
            f"{' serving ' + ', '.join(best['served']) if best['served'] else ''}, "
-           f"{best['floorsAboveEntry']} floors up and {best['floorsBelowEntry']} down from the entry "
-           f"(the shell shows {best['shellFloorsAboveDoor']} above its door), "
            f"{_count(best['exteriorLoadDoors'], 'exterior load door')}"
            f"{f' ({pairing})' if (pairing := best['pairing']) and best['closedDoors'] else ''}"
            f"{f'; {pick}' if pick else ''}")
@@ -898,6 +857,18 @@ def main() -> int:
     return 0
 
 
+def orphan_socket_ops(bp: dict, layout: dict | None) -> list[str]:
+    """Socket ops of the place's layout that stand in an interior cell no
+    door of the blueprint claims at tier A (walk 6: a re-claim left NPC
+    homes in cells the doors no longer open), one line each; the compile
+    refuses them later, `--claim` names them now."""
+    claimed = {(d.get("interiorClaim") or {}).get("cellId") for d in bp.get("doors") or []
+               if (d.get("interiorClaim") or {}).get("tier") == "A"}
+    return [f"socket op {op.get('id')} stands in {op['interiorCell']}, which no door claims at tier A"
+            for op in (layout or {}).get("ops") or []
+            if op.get("op") == "socket" and op.get("interiorCell") and op["interiorCell"] not in claimed]
+
+
 def table_or_plugin(table, miss_error):
     """(profile, sourcing) that look a cell up in the claim table and read it
     from its plugin, with a warning, when the table has no entry for it."""
@@ -964,7 +935,11 @@ def claim_main(path: Path, extra_parcels: list[str], use_table: bool = True) -> 
              and r.get("doorType") == "load"]
     for r in unfit:
         print(f"claim: NO CELL FITS door {r['door']} ({r['assetRef']}): {r['why']}", file=sys.stderr)
-    return 3 if unfit else 0
+    from .batch_prepass import place_sources
+    orphans = orphan_socket_ops(bp, place_sources(bp.get("id"))[1]) if bp.get("id") else []
+    for line in orphans:
+        print(f"claim: ORPHAN {line}: move it to a claimed cell or an exterior spot", file=sys.stderr)
+    return 3 if unfit or orphans else 0
 
 
 if __name__ == "__main__":

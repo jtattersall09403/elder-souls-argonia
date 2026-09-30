@@ -189,9 +189,8 @@ per building, enclosure, path, light, water edge and dressing group:
   § Quests, § Seams: what each says is in
   [references/brief-sections.md](references/brief-sections.md). The rules
   in short: one Interiors row per door, `reserved` only for a tier B or C
-  interior (R2, R10), its columns the shell's linked cells (none =
-  hollow, 0114), the floors the shell shows above its door, and the chosen
-  cell's floors above / below its entry (R83); a shell with a load doorway gets its author's
+  interior (R2, R10), its columns the shell's plugin-linked cells (none =
+  hollow, 0114) and the chosen cell (R83); a shell with a load doorway gets its author's
   interior from assets we hold (never Creation Club, HearthFires,
   Dawnguard, Dragonborn or the SE resource pack), else a doorless piece is
   walked into; containers and visible items are placed as meshes now;
@@ -234,17 +233,15 @@ record row or an UNVERIFIED mark.
 
    It writes each door's `interiorClaim` from the shell's linked set by the
    fit rule; compare with § Interiors and fix the brief or the shell, never
-   the claim. Read every candidate row's `floorsAboveEntry` /
-   `floorsBelowEntry` / `shellFloorsAboveDoor` (R83), then render the
-   shell (`npm run look -- composite …` or `wb.py render`) beside one
-   `wb.py render-interior` of each distinct bound cell and look: an
-   upstairs the roof has no room for, or a room of another building, is a
-   rule defect, fixed in `blueprint_interiors.py`, never by hand-picking a
-   cell. A `hollow` door is a shell no plugin gives a load door (0114):
-   re-shell to a linked shell if the building must be entered. Exit 3
-   names a linked shell no linked cell passes: source the cell's missing
-   pieces or re-shell, never widen the rule; move any socket authored in a
-   cell the door no longer claims.
+   the claim. The plugin's link is the interior (R83): a bound cell bigger
+   than its shell is the modder's pairing and stands; a cell that is not
+   one of the shell's own linked cells is a rule defect, fixed in
+   `blueprint_interiors.py`, never by hand-picking. A `hollow` door is a
+   shell no plugin gives a load door (0114): re-shell to a linked shell if
+   the building must be entered. Exit 3 names a linked shell no linked
+   cell passes (source the cell's missing pieces or re-shell, never widen
+   the rule) and every socket op standing in a cell no door claims (move
+   it to a claimed cell of the place or an exterior spot).
 
 Ends when: `apply` reports 0 compile errors, `check` has ZERO failures
 (placement-workbench § 5), every lived-in door has a tier A claim (or, for
