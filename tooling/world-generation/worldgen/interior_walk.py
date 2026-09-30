@@ -34,7 +34,7 @@ from pathlib import Path
 
 import numpy as np
 
-from .mesh_query import RAY_CHUNK, cast_rays  # noqa: F401  (re-exported: iw.cast_rays)
+from .mesh_query import RAY_CHUNK, cast_rays, segments_hit  # noqa: F401  (re-exported: iw.cast_rays)
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 RAW_KITS = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
@@ -185,10 +185,7 @@ def walk_mesh(mesh, face_owner, starts: list, targets: list[dict], ch: dict | No
             d = (b + [0.0, h, 0.0]) - o
             length = np.linalg.norm(d, axis=1)
             d = d / length[:, None]
-            hit_locs, hit_rays, _ = cast_rays(mesh, o, d, multiple_hits=False)
-            for loc, r in zip(hit_locs, hit_rays):
-                if np.linalg.norm(loc - o[r]) <= length[r] + ch["capsuleRadiusM"]:
-                    blocked[r] = True
+            blocked |= segments_hit(mesh, o, d, length + ch["capsuleRadiusM"])
         ok = [pr for pr, bl in zip(pairs, blocked) if not bl]
     n = len(nodes)
     rows = [i for i, _ in ok] + [j for _, j in ok]

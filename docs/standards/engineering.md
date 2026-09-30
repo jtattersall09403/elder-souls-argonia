@@ -495,6 +495,10 @@ headless.
 - A budget line in 0084 terms: submitted vs in-view copies and triangles
   (all passes, shadow included) from a node harness over real data, against
   the 4 M-triangle frame, before the owner walks.
+- No two surfaces share a plane (z-fighting): `wb.py coplanar` / `check`'s
+  `coplanar` rule / `audit-interior` flag any pair within 2 mm / 2 deg over
+  > 0.01 m2 unless one is a decal its runtime draws with polygonOffset;
+  ~3 s a cell or place, 0.4 GiB (R90, worldgen/coplanar.py).
 
 ## Memory discipline (tooling, 2026-09-30)
 

@@ -53,3 +53,46 @@ def on_surface(query, points):
         cs.append(np.asarray(c, float).reshape(-1, 3)); ds.append(np.asarray(d, float))
         ts.append(np.asarray(t, int))
     return np.vstack(cs), np.concatenate(ds), np.concatenate(ts)
+
+
+def segments_hit(mesh, origins, dirs, lengths, chunk: int = 4096) -> np.ndarray:
+    """Per segment (origin, unit dir, length): does it cross any triangle at
+    0 <= t <= length? The answer of `cast_rays(..., multiple_hits=False)`
+    followed by "first hit within length", without trimesh's ray candidate
+    search, which clips every ray to the mesh's bounds and so tests a short
+    wall probe against a room's worth of triangles (the interior walk spent
+    ~50 s a cell there, walk 6). Candidates come from the triangle r-tree
+    queried with each segment's own box, a chunk at a time."""
+    origins = np.asarray(origins, float).reshape(-1, 3)
+    dirs = np.asarray(dirs, float).reshape(-1, 3)
+    lengths = np.asarray(lengths, float).reshape(-1)
+    out = np.zeros(len(origins), bool)
+    if not len(origins):
+        return out
+    tree = mesh.triangles_tree
+    tris = mesh.triangles
+    for k in range(0, len(origins), chunk):
+        o, d, ln = origins[k:k + chunk], dirs[k:k + chunk], lengths[k:k + chunk]
+        e = o + d * ln[:, None]
+        lo, hi = np.minimum(o, e) - 1e-6, np.maximum(o, e) + 1e-6
+        ids, counts = tree.intersection_v(lo, hi)
+        seg = np.repeat(np.arange(len(o)), np.asarray(counts, np.int64))
+        ids = np.asarray(ids, np.int64)
+        if not len(seg):
+            continue
+        t = tris[ids]
+        oo, dd = o[seg], d[seg]
+        e1, e2 = t[:, 1] - t[:, 0], t[:, 2] - t[:, 0]
+        p = np.cross(dd, e2)
+        det = np.einsum("ij,ij->i", e1, p)
+        good = np.abs(det) > 1e-12
+        inv = np.where(good, 1.0 / np.where(good, det, 1.0), 0.0)
+        s = oo - t[:, 0]
+        u = np.einsum("ij,ij->i", s, p) * inv
+        q = np.cross(s, e1)
+        v = np.einsum("ij,ij->i", dd, q) * inv
+        dist = np.einsum("ij,ij->i", e2, q) * inv
+        tol = 1e-8
+        hit = good & (u >= -tol) & (v >= -tol) & (u + v <= 1 + tol) & (dist >= -tol) & (dist <= ln[seg])
+        out[k + np.unique(seg[hit])] = True
+    return out

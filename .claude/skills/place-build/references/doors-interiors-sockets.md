@@ -357,7 +357,9 @@ per 12 m² in a hut. The 2026-09-30 round replaced that density with the
 rule above (`rethin.py`: zone sources, then lantern thinning). The seats are
 measured by ray cast before export, every contact on one surface ±2 cm and no
 other piece's vertex inside the fixture's box
-(`tooling/.reports/16k/interior-light-additions/`).
+(`tooling/.reports/16k/interior-light-additions/`). Lit density is measured
+on the floor the player can reach from the doors, one surface per storey (a
+rug or table top is not floor).
 
 **Seat every addition with the tool** (16k walk 6):
 `python3 tooling/placement-workbench/wb.py seat-interior <cell> <assetId>

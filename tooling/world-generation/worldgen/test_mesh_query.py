@@ -60,3 +60,20 @@ def test_on_surface_chunked_equals_unchunked():
     assert np.array_equal(t0, t1) and np.allclose(d0, d1, atol=1e-12) and np.allclose(c0, c1, atol=1e-12)
     small = raycast.on_surface(ProximityQuery(mesh), pts[:5])
     assert np.array_equal(small[2], t0[:5])
+
+
+def test_segments_hit_matches_the_first_ray_hit_within_the_length():
+    import trimesh
+
+    from .mesh_query import cast_rays, segments_hit
+    mesh = trimesh.creation.box((1, 1, 1))
+    rng = np.random.default_rng(3)
+    o = rng.uniform(-2, 2, (400, 3))
+    d = rng.normal(size=(400, 3))
+    d /= np.linalg.norm(d, axis=1)[:, None]
+    ln = rng.uniform(0.1, 3.0, 400)
+    locs, rays, _ = cast_rays(mesh, o, d)
+    want = np.zeros(400, bool)
+    for loc, r in zip(locs, rays):
+        want[r] |= np.linalg.norm(loc - o[r]) <= ln[r]
+    assert (segments_hit(mesh, o, d, ln) == want).all()
