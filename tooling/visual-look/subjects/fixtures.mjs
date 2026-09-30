@@ -259,14 +259,17 @@ try {
   await tab.waitForFunction(() => window.ready === true, null, { timeout: 60000 }).catch(() => {});
   if (errors.length) throw new Error(`page errors:\n${errors.join("\n")}`);
   mkdirSync(outDir, { recursive: true });
+  const sheets = [];
   for (const key of list) {
     const { url, shells, anchors, box } = await tab.evaluate((k) => window.renderFixture(k), key);
     const file = join(outDir, `${key.split("|")[0]}__${key.split("|")[1].split("/").pop()}.png`);
     writeFileSync(file, Buffer.from(url.split(",")[1], "base64"));
     console.log(`${key}: ${file} shells ${shells} box ${JSON.stringify(box)} anchors ${JSON.stringify(anchors)}`);
+    sheets.push({ key, file, facts: `${key}: box ${JSON.stringify(box)} anchors ${JSON.stringify(anchors)} shells ${shells}` });
   }
   if (errors.length) console.log(`page errors:\n${errors.join("\n")}`);
   console.log(`${list.length} sheets in ${((Date.now() - t0) / 1000).toFixed(1)} s`);
+  return sheets;
 } finally {
   await browser.close();
 }

@@ -36,8 +36,14 @@ const slug = (s) => s.replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "").slice(-
 if (opts.mode === "fixtures" || opts.mode === "preset") {
   const { runFixtures } = await import("./subjects/fixtures.mjs");
   const { runPresets } = await import("./subjects/preset.mjs");
-  if (opts.mode === "fixtures") await runFixtures({ fixtures: opts.fixtures, outDir, fireDir: opts.fireDir });
-  else await runPresets({ presets: opts.presets, outDir });
+  if (opts.mode === "fixtures") {
+    const sheets = await runFixtures({ fixtures: opts.fixtures, outDir, fireDir: opts.fireDir });
+    console.log(`\n--- judge brief (paste to a Sonnet general-purpose agent) ---\n` + judgeBrief({
+      subject: `fire fixtures: ${sheets.map((s) => s.key).join(", ")}`,
+      images: sheets.map((s) => s.file), classes: opts.classes ?? ["fire-fixture"], rows,
+      facts: sheets.map((s) => s.facts).join("; "),
+    }));
+  } else await runPresets({ presets: opts.presets, outDir });
   console.log(`look: ${opts.mode} in ${((Date.now() - t0) / 1000).toFixed(1)} s`);
   process.exit(0);
 }

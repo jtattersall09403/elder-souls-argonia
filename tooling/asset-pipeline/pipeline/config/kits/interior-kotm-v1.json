@@ -206,6 +206,7 @@
     {
       "asset": "vanilla:clutter/glazedcandles01",
       "light": {
+        "fixtureKind": "candle",
         "formId": "000b9be7",
         "editorId": "WRCandleFlickerNS",
         "burnSeconds": -1,
@@ -434,6 +435,7 @@
     {
       "asset": "kotm:argonia/clutter/townlantern04",
       "light": {
+        "fixtureKind": "lantern",
         "formId": "00075c32",
         "editorId": "SolitudeInnFiretDefault",
         "burnSeconds": -1,
