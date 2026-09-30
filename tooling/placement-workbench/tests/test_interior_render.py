@@ -525,3 +525,44 @@ def test_the_render_ambient_cube_is_the_runtime_probe_in_blender_axes():
         assert ir.cube_at(bc, ir.to_blender(game_n)) == pytest.approx(cube[key])
     flat = ir.ambient_of({"ambient": {"colorRGB": [44, 33, 27], "intensity": 2.0}})
     assert flat["ambientCube"] is None
+
+
+def test_a_beam_over_the_doorway_frame_vetoes_the_eye():
+    """16k walk 5 (Lilmoth overseer houses, KeebaHouseFisher): a beam over
+    the top of the doorway frame, 2 m ahead and ~1 m over the eye, blocks
+    only 5 of the 66 frame probes (score_eye passes) but 5 of the 22
+    up-facing ones within OCCUPIED_M: `occupied` vetoes it, and the doorway
+    search stands past it."""
+    beam = (3.05, 3.1, 2.5, 3.25, 4.9, 2.9)
+    cast = _solids_cast(_BOX12 + [beam])
+    eye, target = (1.25, 4.0, 1.6), (6.0, 4.0, 1.6)
+    assert ir.score_eye(cast, eye, target) >= ir.MIN_SCORE_M
+    assert ir.door_score(cast, eye, target) == 0.0
+    assert ir.door_score(_solids_cast(_BOX12), eye, target) >= ir.MIN_SCORE_M
+    d, aim = ir.doorway_eye(cast, (0.05, 4.0, 0.0), (6.0, 4.0), 0.0, target=target)
+    assert ir.door_score(cast, d, aim) >= ir.MIN_SCORE_M
+    assert abs(_pitch_deg(d, aim)) <= ir.MAX_PITCH_DEG + 1e-6
+
+
+_BOX14 = [(-1.0, -1.0, -0.2, 15.0, 15.0, 0.0), (-1.0, -1.0, 4.0, 15.0, 15.0, 4.2),
+          (-1.0, -1.0, 0.0, 0.0, 15.0, 4.0), (14.0, -1.0, 0.0, 15.0, 15.0, 4.0),
+          (0.0, -1.0, 0.0, 14.0, 0.0, 4.0), (0.0, 14.0, 0.0, 14.0, 15.0, 4.0)]
+
+
+def test_a_blocked_door_line_takes_a_side_spot_with_the_door_behind():
+    """DawnstarBrinasHouse: a screen across the door-to-hub line (hub 1 m
+    in) leaves no passing eye on the line; the arrival-level search within
+    SIDE_RADIUS_M of the door finds a clear spot off the line whose view
+    turns more than DOOR_BEHIND_DEG from the door, level."""
+    screen = (1.4, 5.0, 0.0, 1.6, 9.0, 4.0)
+    cast = _solids_cast(_BOX14 + [screen])
+    door = (0.05, 7.0, 0.0)
+    d, aim = ir.doorway_eye(cast, door, (1.0, 7.0), 0.0)
+    assert ir.door_score(cast, d, aim) >= ir.MIN_SCORE_M
+    assert math.hypot(d[0] - door[0], d[1] - door[1]) <= ir.SIDE_RADIUS_M + 1e-6
+    v, b = (aim[0] - d[0], aim[1] - d[1]), (door[0] - d[0], door[1] - d[1])
+    ang = math.degrees(math.acos((v[0] * b[0] + v[1] * b[1]) / (math.hypot(*v) * math.hypot(*b))))
+    assert ang > ir.DOOR_BEHIND_DEG
+    assert abs(_pitch_deg(d, aim)) <= ir.MAX_PITCH_DEG + 1e-6
+    plan = {"belowZ": 0.0, "mainZ": 0.0, "centroid": (7.0, 7.0), "arrivalXY": (1.0, 7.0)}
+    assert ir.eye_plan(cast, plan, door)["doorway"] is not None

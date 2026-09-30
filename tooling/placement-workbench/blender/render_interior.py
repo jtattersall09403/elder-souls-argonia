@@ -314,7 +314,7 @@ def clear_eye(scene, shot, eyes):
         i = 0 if view == "corner-a" else 1
         eye = eyes["corners"][i] if i < len(eyes["corners"]) else None
     if eye is not None:
-        score = ir.score_eye(cast, eye, target)
+        score = (ir.door_score if view == "doorway" else ir.score_eye)(cast, eye, target)
         warn = None
         if score < ir.MIN_SCORE_M:
             warn = (f"[wb-irender] warning {shot['name']} eye at {tuple(round(v, 2) for v in eye)} "
@@ -382,6 +382,11 @@ def main():
           f"{eyes['cornerZ']:.2f} scores {eyes['scores']} doorway on {eyes['doorZ']:.2f} at "
           + (f"{tuple(round(v, 2) for v in eyes['doorway'][0])} aim {tuple(round(v, 2) for v in eyes['doorway'][1])}"
              if eyes["doorway"] is not None else "none (fallback camera)"))
+    if eyes["doorway"] is None:           # why the doorway search found nothing
+        st = {}
+        side = ir.door_side_eye(scene_cast(scene), JOB["doorBlender"], eyes["doorZ"], eyes["target"], st)
+        print(f"[wb-irender] eyes doorway-search door {tuple(round(v, 2) for v in JOB['doorBlender'])} "
+              f"side spots {st} best {None if side is None else round(side[0], 2)}")
     for shot in shots:
         day = shot["row"] == "day"
         for s in sockets:
