@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useRapier } from "@react-three/rapier";
 import type { RigidBody } from "@dimforge/rapier3d-compat";
@@ -16,7 +16,11 @@ import { SharedKtx2Textures } from "@elder-souls/game-core/interior/sharedTextur
 import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import { DoorTransition, type InteriorSource } from "@elder-souls/game-core/interior/doorTransition";
 import { fixtureLightFieldOf, isFixtureLitMaterial, litPreparerOf } from "@elder-souls/game-core/render/fixtureLights/index";
-import { InteriorEnvironment } from "@elder-souls/game-core/interior/interiorEnvironment";
+import { InteriorEnvironment, InteriorFogNode, interiorFogProfile } from "@elder-souls/game-core/interior/interiorEnvironment";
+import { MAX_VOLUME_LIGHTS, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
+import { nearestVolumeLights } from "@elder-souls/game-core/air/volumetrics/studioSamplers";
+import { SkyContext } from "../sky/WorldSky";
+import { waterTimeS } from "../water/waterClock";
 import type { Vec3 } from "@elder-souls/game-core/interior/bundle";
 import {
   SwingDoorController, buildSwingDoor, isSwingDoor, leafWorldPose, swingFrameShapes, swingLeafShapes,
@@ -90,6 +94,13 @@ export function InteriorDoors({
   const scene = useThree((s) => s.scene);
   const gl = useThree((s) => s.gl);
   const camera = useThree((s) => s.camera);
+  // The froxel medium inside the cell (0112 §6): the sky's Volumetrics,
+  // driven here while the sky is hidden, through the cell's fog node.
+  const { volumetrics } = useContext(SkyContext);
+  const interiorFog = useMemo(() => (volumetrics ? new InteriorFogNode(volumetrics) : null), [volumetrics]);
+  const volLights = useRef<VolumeLight[]>([]);
+  const dark = useMemo(() => new THREE.Color(0, 0, 0), []);
+  const up = useMemo(() => new THREE.Vector3(0, 1, 0), []);
   const [shown, setShown] = useState<Shown | null>(null);
   // The cell is drawn only once its programs are linked (`linked === shown`).
   const [linked, setLinked] = useState<Shown | null>(null);
@@ -116,10 +127,10 @@ export function InteriorDoors({
   // A cell the doors prefetch is linked as soon as it is built, against the
   // inside's lighting (`InteriorLinker.warm`), so entering finds it compiled.
   const interiors = useMemo<InteriorSource>(() => ({
-    request: (cellId) => loader.request(cellId).then((interior) => { linker.warm(interior, camera); return interior; }),
+    request: (cellId) => loader.request(cellId).then((interior) => { linker.warm(interior, camera, interiorFog); return interior; }),
     ready: (cellId) => loader.ready(cellId),
     failure: (cellId) => loader.failure(cellId),
-  }), [loader, linker, camera]);
+  }), [loader, linker, camera, interiorFog]);
 
   const transition = useMemo(() => new DoorTransition({
     controller, interiors, bodyCentreHeightM, groundAt,
@@ -245,10 +256,10 @@ export function InteriorDoors({
   const environment = useRef<InteriorEnvironment | null>(null);
   useEffect(() => {
     if (!shown) return undefined;
-    const env = new InteriorEnvironment(scene, gl, shown.interior);
+    const env = new InteriorEnvironment(scene, gl, shown.interior, interiorFog);
     environment.current = env;
     return () => { environment.current = null; env.restore(); };
-  }, [shown, scene, gl]);
+  }, [shown, scene, gl, interiorFog]);
 
   // The cell's programs are linked while the screen is black (F3): the
   // environment above has already hidden the exterior's lights and set the
@@ -296,6 +307,16 @@ export function InteriorDoors({
     const focus = interaction.focused;
     const swingDoor = swing && focus ? swing.controller.doors.find((d) => d.id === focus.id) : undefined;
     environment.current?.frame();
+    if (shown && environment.current && volumetrics && volumetrics.band !== "off") {
+      const field = fixtureLightFieldOf(scene);
+      nearestVolumeLights((v) => field.forEachLight(v), camera.position.x, camera.position.y, camera.position.z,
+        MAX_VOLUME_LIGHTS, volLights.current);
+      // No window light yet: the cell data carries no aperture (see the 0112 §6 gap).
+      volumetrics.update({
+        camera: camera as THREE.PerspectiveCamera, timeS: waterTimeS(), sunDir: up, sunIrradiance: dark, skyIrradiance: dark,
+        lights: volLights.current, interior: interiorFogProfile(shown.interior, shown.interior.group.position.y),
+      });
+    }
     overlay.setFade(directCellId && !opened.current ? 1 : transition.fade);
     const prompt = transition.prompt;
     overlay.setPrompt(prompt && interaction.isFocused(prompt.doorId) ? prompt
@@ -389,11 +410,12 @@ class InteriorLinker {
    * cell's own is hidden and the fog is the cell's (InteriorEnvironment), so
    * a bare scene holding only that fog gives the same program keys.
    */
-  warm(interior: LoadedInterior, camera: THREE.Camera): void {
+  warm(interior: LoadedInterior, camera: THREE.Camera, fog: InteriorFogNode | null): void {
     if (this.warmed.has(interior) || interior.group.parent) return;
     this.warmed.add(interior);
     const inside = new THREE.Scene();
     inside.fog = interior.fog;
+    if (fog) (inside as unknown as { fogNode: unknown }).fogNode = fog.node;
     void this.link(interior.group, camera, inside);
   }
 

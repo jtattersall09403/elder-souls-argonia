@@ -377,6 +377,10 @@ interface SpriteBatch {
   geometry: THREE.BufferGeometry;
   capacity: number;
   drawn: number;
+  /** Its texture has loaded (a null map is a white square). The mesh is
+   * visible only when textured AND drawing a quad: a zero draw range still
+   * issues a draw, which WebGPU rejects ("vertex count of 0"). */
+  textured: boolean;
 }
 
 /**
@@ -432,10 +436,9 @@ export class SettlementLightFixtures {
     mesh.frustumCulled = false;
     mesh.name = `settlement-fixture-flames:${textureId}`;
     mesh.layers.set(PRECIP_LAYER);
-    // no quad draws until its texture has loaded (a null map is a white square)
     mesh.visible = false;
     this.group.add(mesh);
-    batch = { mesh, geometry, capacity: 0, drawn: 0 };
+    batch = { mesh, geometry, capacity: 0, drawn: 0, textured: false };
     this.batches.set(textureId, batch);
     return batch;
   }
@@ -447,7 +450,7 @@ export class SettlementLightFixtures {
     if (material.map && material.map !== texture) material.map.dispose();
     material.map = texture;
     material.needsUpdate = true;
-    batch.mesh.visible = true;
+    batch.textured = true;
   }
 
   /** The sprite draw of one texture (tests, probes). */
@@ -539,13 +542,14 @@ export class SettlementLightFixtures {
         for (const sprite of fixture.flames) {
           if (!sprite.glow) continue;
           const batch = this.batches.get(sprite.texture);
-          if (!batch?.mesh.visible) continue;
+          if (!batch?.textured) continue;
           this.writeQuad(batch, sprite, strength, timeS);
         }
       }
     }
     for (const batch of this.batches.values()) {
       batch.geometry.setDrawRange(0, batch.drawn * 6);
+      batch.mesh.visible = batch.textured && batch.drawn > 0;
       if (batch.drawn > 0 || batch.mesh.userData.drawnLast > 0) {
         for (const name of ["position", "uv", "color"]) {
           const attribute = batch.geometry.getAttribute(name) as THREE.BufferAttribute | undefined;

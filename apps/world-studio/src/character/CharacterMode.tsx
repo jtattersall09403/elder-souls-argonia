@@ -45,6 +45,7 @@ import { StudioWater } from "../water/StudioWater";
 import { FloatTestCrates } from "../water/FloatTestCrates";
 import { setWaterGroundHeight, sharedLocalSurfaces, sharedWaterAssets } from "../water/waterAssets";
 import type { WaterWorld } from "@elder-souls/game-core/water/index";
+import type { CrownSource } from "@elder-souls/game-core/air/volumetrics/studioSamplers";
 import { WaterContactEmitter } from "@elder-souls/game-core/water/contactEmitter";
 import { worldClock } from "../sky/timeState";
 import { CityMarkers } from "../CityMarkers";
@@ -292,6 +293,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // Phase 8b: the authoritative water query rides the shared assets; the
   // environment query and the renderer sample the same data (module 60 §38).
   const waterWorldRef = useRef<WaterWorld | null>(null);
+  /** Tree crowns for the volumetric canopy map (0112 §5): Vegetation fills it, the sky reads it. */
+  const crownsRef = useRef<CrownSource | null>(null);
   const settlementSolidsRef = useRef<SettlementSolid[]>([]);
   const settlementEnvironment = useCallback(() => {
     const sample = lastWeatherSample();
@@ -498,7 +501,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           {/* Natural light and sky (Phase 8a): terrain, character and sea are
               lit by the same sun/moon/sky rig, shadows and exposure as the
               flyover — WorldSky replaces the old per-mode light sets. */}
-          <WorldSky mode="character" extentM={authoredExtentM} verticalScale={verticalScale} hidden={insideInterior} groundHeight={settlementGroundAt}>
+          <WorldSky mode="character" extentM={authoredExtentM} verticalScale={verticalScale} hidden={insideInterior} groundHeight={settlementGroundAt} crowns={crownsRef}>
           <group visible={!insideInterior}>
           <Suspense fallback={null}>
             <ApronTerrain
@@ -524,6 +527,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                     quality={quality}
                     onSolids={handleSolids}
                     shapesRef={floraShapesRef}
+                    crownsRef={crownsRef}
                   />
                 )}
                 {/* T3 groundcover ring around the walking character — same

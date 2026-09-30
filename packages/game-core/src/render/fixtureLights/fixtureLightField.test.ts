@@ -168,3 +168,14 @@ describe("attenuation", () => {
     expect(fixtureAttenuation(3, 6)).toBeCloseTo((1 / 9) * (1 - 1 / 16) ** 2, 12);
   });
 });
+
+describe("FixtureLightField.forEachLight", () => {
+  it("visits the lamps in use with their radiance", () => {
+    const field = new FixtureLightField();
+    field.setLights(lamps(3));
+    field.setIntensity(1, new THREE.Color(1, 0.5, 0.25), 2);
+    const seen: number[][] = [];
+    field.forEachLight((x, y, z, r, cr, cg, cb) => seen.push([x, y, z, r, cr, cg, cb]));
+    expect(seen).toEqual([[0, 2, 0, 6, 0, 0, 0], [3, 2, 0, 6, 2, 1, 0.5], [6, 2, 0, 6, 0, 0, 0]]);
+  });
+});

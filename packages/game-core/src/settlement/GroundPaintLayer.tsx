@@ -51,6 +51,7 @@ export function paintGeometry(entries: readonly GroundPaintEntry[], groundAt: Te
     strips.push(s);
   }
   const n = strips.reduce((a, s) => a + s.vertexCount, 0);
+  if (n === 0) return null; // an empty draw is a WebGPU validation error
   const positions = new Float32Array(n * 3); const colors = new Float32Array(n * 4);
   const uvs = new Float32Array(n * 2); const indices: number[] = [];
   let base = 0;

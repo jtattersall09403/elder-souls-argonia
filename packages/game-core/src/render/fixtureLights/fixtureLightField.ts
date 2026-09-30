@@ -155,6 +155,15 @@ export class FixtureLightField {
     this.dirty = true;
   }
 
+  /** Every slot in use: position, radius and linear colour x intensity (cd), read-only (the volumetric medium's halos, 0112). */
+  forEachLight(visit: (x: number, y: number, z: number, radiusM: number, r: number, g: number, b: number) => void): void {
+    const d = this.data;
+    for (let i = 0; i < this.used; i++) {
+      const o = i * 4, c = (FIXTURE_LIGHTS_MAX + i) * 4;
+      visit(d[o], d[o + 1], d[o + 2], d[o + 3], d[c], d[c + 1], d[c + 2]);
+    }
+  }
+
   /** Slot `i`'s colour x intensity as held (tests). */
   radianceOf(i: number): [number, number, number] {
     const o = (FIXTURE_LIGHTS_MAX + i) * 4;

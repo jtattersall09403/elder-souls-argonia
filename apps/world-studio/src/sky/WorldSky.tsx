@@ -59,7 +59,13 @@ import { buriedThresholdM } from "@elder-souls/game-core/water/index";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { airAmounts } from "@elder-souls/game-core/air/ambientAir";
 import * as TSL_V from "three/tsl";
-import { Volumetrics, volumetricBandFor } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
+import { Volumetrics, MAX_VOLUME_LIGHTS, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
+import { BandGovernor, volBandOverride } from "@elder-souls/game-core/air/volumetrics/bandGovernor";
+import {
+  FogClockHistory, nearestVolumeLights, studioTerrainSamplers, sunriseSunsetMin,
+  type CrownSource, type WaterRecordQuery, type WeatherProbe,
+} from "@elder-souls/game-core/air/volumetrics/studioSamplers";
+import { fixtureLightFieldOf } from "@elder-souls/game-core/render/fixtureLights/index";
 import { applyVolumetrics } from "@elder-souls/game-core/air/volumetrics/volumetricNodes";
 import { activeBackend } from "@elder-souls/game-core/render/createRenderer";
 import { WHITEOUT_BELT, WHITEOUT_ENABLED, type WeatherSample } from "@elder-souls/world-weather";
@@ -84,7 +90,9 @@ export const sharedAerialUniforms: AerialUniforms = createAerialUniforms();
 
 /** The sun's cascaded shadows (CSMShadowNode on the sun's shadow). Node
  * cascades patch nothing: consumers no longer set materials up for them. */
-export const SkyContext = createContext<{ csm: CSMShadowNode | null }>({ csm: null });
+/** What the sky shares with the world under it: the sun's shadow node, and
+ * the froxel medium (0112) an interior host drives while the sky is hidden. */
+export const SkyContext = createContext<{ csm: CSMShadowNode | null; volumetrics: Volumetrics | null }>({ csm: null, volumetrics: null });
 
 /** The ONE cloud-field uniform set (cloudField.ts): shared by the main dome,
  * the PMREM bake dome and the star/serpent shaders — one WorldSky write per
@@ -110,21 +118,23 @@ let airPending = false;
 function ensureAirPixels(base: string): void {
   if (airPixels || airPending) return;
   airPending = true;
-  const img = new Image();
-  img.src = `${base}province/climate-air.png`;
-  img
-    .decode()
-    .then(() => {
-      const c = document.createElement("canvas");
-      c.width = img.naturalWidth;
-      c.height = img.naturalHeight;
-      const g = c.getContext("2d")!;
-      g.drawImage(img, 0, 0);
-      airPixels = {
-        data: g.getImageData(0, 0, c.width, c.height).data,
-        w: c.width,
-        h: c.height,
-      };
+  // Off the first frame's critical path (walk 6: drawImage + getImageData of
+  // the 1345² raster took 2.5-3.9 s on the main thread): the browser decodes
+  // the bitmap off-thread, and the pixels are read from an OffscreenCanvas
+  // that keeps them CPU-side. Consumers read the 0.6 default until then.
+  fetch(`${base}province/climate-air.png`)
+    .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(`climate-air: HTTP ${r.status}`))))
+    .then((blob) => createImageBitmap(blob, { colorSpaceConversion: "none", premultiplyAlpha: "none" }))
+    .then((bmp) => {
+      const w = bmp.width, h = bmp.height;
+      const c = typeof OffscreenCanvas !== "undefined"
+        ? new OffscreenCanvas(w, h)
+        : Object.assign(document.createElement("canvas"), { width: w, height: h });
+      const g = c.getContext("2d", { willReadFrequently: true }) as
+        OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D;
+      g.drawImage(bmp, 0, 0);
+      bmp.close();
+      airPixels = { data: g.getImageData(0, 0, w, h).data, w, h };
     })
     .catch(() => {
       airPending = false;
@@ -210,8 +220,12 @@ export function WorldSky({
   verticalScale = 1,
   hidden = false,
   groundHeight,
+  crowns,
   children,
 }: {
+  /** Tree crowns near the camera for the canopy map (decision 0112 §5); the
+   * vegetation layer fills it (Vegetation `crownsRef`). */
+  crowns?: React.MutableRefObject<CrownSource | null>;
   /** Terrain height at x,z (m), for the volumetric fog field's terrain grids
    * (decision 0112); absent, the medium sits on a flat 0 m ground. */
   groundHeight?: (x: number, z: number) => number | null;
@@ -230,22 +244,43 @@ export function WorldSky({
   // renderer tier (every WebGPU session is "high" until a tier source exists).
   const groundRef = useRef(groundHeight);
   groundRef.current = groundHeight;
+  const crownsRef = useRef(crowns);
+  crownsRef.current = crowns;
+  // The water record (the same shared assets the water renderer and the
+  // character's buoyancy read): surface, mask, sea and marsh classes.
+  const waterRef = useRef<WaterRecordQuery | null>(null);
   const volumetrics = useMemo(() => {
     const renderer = gl as unknown as WebGPURenderer;
     const backend = activeBackend(renderer);
     const v = new Volumetrics({
       renderer, backend,
-      terrain: {
-        groundHeight: (x, z) => groundRef.current?.(x, z) ?? 0,
-        water: (x, z) => ({ height: 0, mask: (groundRef.current?.(x, z) ?? 1) <= 0 ? 1 : 0 }),
-        seaMask: (x, z) => ((groundRef.current?.(x, z) ?? 1) <= 0 ? 1 : 0),
-        wetness: (x, z) => humidityAt(x, z, extentM) > 0.75 ? 1 : 0,
-      },
-      crowns: () => [],
+      terrain: studioTerrainSamplers({
+        groundHeight: (x, z) => groundRef.current?.(x, z),
+        water: () => waterRef.current,
+        epochMinutes: () => worldClock.epochMinutes(),
+      }),
+      crowns: (x, z, r) => crownsRef.current?.current?.crowns(x, z, r) ?? [],
     });
-    v.setBand(volumetricBandFor(backend, "high"));
     return v;
   }, [gl, extentM]);
+  const governor = useMemo(() => new BandGovernor({
+    backend: activeBackend(gl as unknown as WebGPURenderer),
+    override: typeof location === "undefined" ? null : volBandOverride(location.search),
+  }), [gl]);
+  useEffect(() => {
+    let live = true;
+    void sharedWaterAssets(DATA_BASE).then((a) => {
+      if (!live) return;
+      waterRef.current = a.world;
+      // the grids baked before the record arrived hold no water: rebake them
+      volumetrics.grids.near.origin.set(Number.NaN, Number.NaN);
+      volumetrics.grids.far.origin.set(Number.NaN, Number.NaN);
+    }).catch(() => undefined);
+    return () => { live = false; };
+  }, [volumetrics]);
+  const fogClock = useMemo(() => new FogClockHistory(), []);
+  const volLights = useRef<VolumeLight[]>([]);
+  const crownVersion = useRef(-1);
   useEffect(() => () => volumetrics.dispose(), [volumetrics]);
   const volSun = useRef(new THREE.Color());
   const volSky = useRef(new THREE.Color());
@@ -533,6 +568,17 @@ export function WorldSky({
     // Weather (Phase 8c, decision 0032): the deterministic machine sampled at
     // the camera; its profile modifies the light rig, its regimes drive the
     // aerial fog, its wind drives clouds and water chop.
+    // The fog clock's look-backs (0112 §4), once per 15 world-minutes and
+    // BEFORE this frame's sample: they call the same cached machine at other
+    // instants, and the frame's own call below must be the one left cached.
+    if (volumetrics.band !== "off") {
+      const cx = camera.position.x, cz = camera.position.z, ce = Math.max(0, camera.position.y / verticalScale);
+      fogClock.update(epochMinutes, (t): WeatherProbe => {
+        const w = weatherAt(base, t, cx, cz, extentM, ce);
+        const p = w.profile;
+        return { rain: w.rainIntensity, cloud: Math.min(1, p.cloudLow + p.cloudMid + 0.5 * p.cloudHigh), windSpeedMS: w.windSpeedMS };
+      });
+    }
     const wx: WeatherSample = weatherAt(
       base,
       epochMinutes,
@@ -812,19 +858,34 @@ export function WorldSky({
 
     // The froxel medium (decision 0112): lit by the same sun and sky as the
     // scene, its regimes from the clock, weather and climate here.
+    const band = governor.frame(delta * 1000);
+    if (band !== volumetrics.band) volumetrics.setBand(band);
+    const crownSrc = crowns?.current;
+    if (crownSrc && crownSrc.version !== crownVersion.current) {
+      crownVersion.current = crownSrc.version;
+      volumetrics.canopy.update(camera.position.x, camera.position.z, true);
+    }
+    // Outside only: inside a cell the interior host drives the medium
+    // (InteriorDoors, with the cell's profile and no sun).
     if (volumetrics.band !== "off" && !hidden) {
       const persp = camera as THREE.PerspectiveCamera;
       const irr = volSun.current;
       irr.setRGB(...rig.sunColor).multiplyScalar(rig.sunIntensity);
       volSky.current.setRGB(...rig.hemiSky).multiplyScalar(rig.hemiIntensity * Math.PI);
-      const cloud = airRef.current?.cloud ?? 0;
+      const field = fixtureLightFieldOf(scene);
+      nearestVolumeLights((v) => field.forEachLight(v), camera.position.x, camera.position.y, camera.position.z,
+        MAX_VOLUME_LIGHTS, volLights.current);
+      const { sunriseMin, sunsetMin } = sunriseSunsetMin(epochMinutes, latitudeOverrideRad);
       volumetrics.update({
         camera: persp, timeS: waterTimeS(), sunDir, sunIrradiance: irr, skyIrradiance: volSky.current,
+        lights: volLights.current,
         fog: {
-          minuteOfDay: ((epochMinutes % 1440) + 1440) % 1440, sunriseMin: 360, sunsetMin: 1080,
-          prevNightClearCalm: 1 - cloud, hoursSinceRain: wx.rainIntensity > 0 ? 0 : Infinity, rain: wx.rainIntensity,
-          windSpeedMS: wx.windSpeedMS, windDirXZ: wx.windDirXZ, humidity, wetSeason: 0.5,
-          weatherState: (wx as { state?: string }).state,
+          minuteOfDay: ((epochMinutes % 1440) + 1440) % 1440, sunriseMin, sunsetMin,
+          prevNightClearCalm: fogClock.prevNightClearCalm,
+          hoursSinceRain: fogClock.hoursSinceRain(epochMinutes, wx.rainIntensity > 0.02),
+          rain: wx.rainIntensity,
+          windSpeedMS: wx.windSpeedMS, windDirXZ: wx.windDirXZ, humidity, wetSeason: (worldClock.season().s + 1) / 2,
+          weatherState: wx.state,
         },
       });
     }
@@ -916,7 +977,7 @@ export function WorldSky({
   }, -2);
 
   return (
-    <SkyContext.Provider value={{ csm }}>
+    <SkyContext.Provider value={{ csm, volumetrics }}>
       <group visible={!hidden}>
       <primitive object={sky} renderOrder={-10} frustumCulled={false} />
       {/* Stars draw AFTER the moons (−8 > −9), which write depth at a nearer

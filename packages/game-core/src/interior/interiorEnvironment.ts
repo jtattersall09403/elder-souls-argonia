@@ -1,5 +1,54 @@
 import * as THREE from "three";
+import * as tsl from "three/tsl";
 import type { LoadedInterior } from "./interiorLoader";
+import type { TslNode } from "../render/nodes/materialNodes";
+import type { InteriorFogProfile } from "../air/volumetrics/froxelGrid";
+import { applyVolumetrics, type VolumetricsSampler } from "../air/volumetrics/volumetricNodes";
+
+const T = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode> & Record<string, TslNode>;
+
+/** Lighting templates of damp underground cells (the cell record's LGTM editor id, `lighting.template`). */
+const DAMP_TEMPLATE = /cave|mine|dungeon|sewer|barrow|nordic|dwemer|falmer|ruin|grotto|crypt|tomb/i;
+
+/**
+ * The cell's volumetric profile (decision 0112 §6): a damp cell (cave, mine,
+ * barrow: its lighting template) gets knee-high floor mist; every other cell
+ * a faint dust haze, so lamp halos and window beams read. `floorY` is the
+ * arrival marker's height (it stands on the floor) in the cell's placed frame.
+ */
+export function interiorFogProfile(interior: Pick<LoadedInterior, "bundle">, originY: number): InteriorFogProfile {
+  const b = interior.bundle;
+  const template = typeof b.lighting?.template === "string" ? b.lighting.template : "";
+  const floorY = originY + b.arrivalMarker.positionM[1];
+  return DAMP_TEMPLATE.test(template)
+    ? { floorY, floorMistTopM: 0.9, floorMistDensity: 0.35, dustDensity: 0.006 }
+    : { floorY, floorMistTopM: 0, floorMistDensity: 0, dustDensity: 0.01 };
+}
+
+/**
+ * The inside's scene fog as a node: the froxel medium (floor mist, dust,
+ * lamp halos) then the cell's own range fog, the same `smoothstep(near, far)`
+ * three's `scene.fog` draws. One node per host; `set` swaps the cell's fog
+ * through uniforms, so every cell compiles to the same program keys.
+ */
+export class InteriorFogNode {
+  private readonly color = T.uniform(new THREE.Color() as never);
+  private readonly near = T.uniform(1 as never);
+  private readonly far = T.uniform(100 as never);
+  readonly node: TslNode;
+  constructor(v: VolumetricsSampler) {
+    const depth = T.positionView.z.negate();
+    this.node = T.Fn(() => {
+      const lit = applyVolumetrics(v, T.output, depth, T.screenUV);
+      return T.vec4(T.mix(lit.rgb, this.color, T.smoothstep(this.near, this.far, depth)), lit.a);
+    })();
+  }
+  set(fog: THREE.Fog): void {
+    (this.color as unknown as { value: THREE.Color }).value.copy(fog.color);
+    (this.near as unknown as { value: number }).value = fog.near;
+    (this.far as unknown as { value: number }).value = fog.far;
+  }
+}
 
 const LIGHT_SWEEP_FRAMES = 30;
 
@@ -31,8 +80,10 @@ export interface InteriorRenderer {
  *
  * Scene fog: the node renderer draws `scene.fogNode` in preference to
  * `scene.fog` (NodeManager.getFogNode), and the sky sets the outdoor haze
- * as that node (decision 0107). Inside, the node is lifted so the cell's
- * own `scene.fog` is the one drawn, and put back on `restore`.
+ * as that node (decision 0107). Inside, the outdoor node is swapped for the
+ * cell's (`InteriorFogNode`: the volumetric medium, then the cell's range
+ * fog), or lifted so `scene.fog` draws when no medium runs; put back on
+ * `restore`. Exposure inside is 1, the value `sceneRadiance` then reads.
  *
  * `frame()` runs each frame after the sky rig (which re-applies exposure and
  * may re-bake the environment): anything the rig wrote is remembered as the
@@ -52,7 +103,10 @@ export class InteriorEnvironment {
     private readonly scene: THREE.Scene,
     private readonly gl: InteriorRenderer,
     private readonly interior: LoadedInterior,
+    /** The cell's fog node (`InteriorFogNode`); null draws `scene.fog`. */
+    private readonly fog: InteriorFogNode | null = null,
   ) {
+    fog?.set(interior.fog);
     this.saved = {
       fog: scene.fog, background: scene.background,
       environment: scene.environment, fogNode: fogNodeOf(scene).fogNode ?? null,
@@ -67,8 +121,9 @@ export class InteriorEnvironment {
     if (scene.environment) this.saved.environment = scene.environment;
     scene.environment = null;
     const fogHost = fogNodeOf(scene);
-    if (fogHost.fogNode) this.saved.fogNode = fogHost.fogNode;
-    fogHost.fogNode = null;
+    const inside = this.fog?.node ?? null;
+    if (fogHost.fogNode && fogHost.fogNode !== inside) this.saved.fogNode = fogHost.fogNode;
+    fogHost.fogNode = inside;
     if (gl.toneMappingExposure !== 1) this.saved.exposure = gl.toneMappingExposure;
     gl.toneMappingExposure = 1;
     scene.fog = interior.fog;

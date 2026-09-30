@@ -173,6 +173,7 @@ export class SmokeColumns {
     this.mesh.frustumCulled = false;
     this.mesh.renderOrder = 10;
     this.mesh.name = "settlement-smoke";
+    this.mesh.visible = false; // no attributes until the first update draws a quad
     // Walk 2 D8: on layer 0 the smoke drew in the water pipeline's pass 1
     // (depth-write free) and the water surface in pass 3 painted over it.
     // The post-water layer draws after the surface, depth-tested against the
@@ -229,6 +230,8 @@ export class SmokeColumns {
       }
     }
     this.geometry.setDrawRange(0, quad * 6);
+    // a zero draw range still issues a draw, which WebGPU rejects ("vertex count of 0")
+    this.mesh.visible = quad > 0;
     position.needsUpdate = true; uv.needsUpdate = true; color.needsUpdate = true;
     return quad;
   }

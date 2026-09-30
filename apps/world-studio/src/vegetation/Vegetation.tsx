@@ -53,6 +53,8 @@ import {
   writeBatchInstance,
 } from "@elder-souls/game-core/fx/batchData";
 import type { NodeMaterial, WebGPURenderer } from "three/webgpu";
+import { crownOf, type CrownSource } from "@elder-souls/game-core/air/volumetrics/studioSamplers";
+import type { Crown } from "@elder-souls/game-core/air/volumetrics/canopyMap";
 import { GpuCullPool, cullSphereOf, type PooledDraw } from "@elder-souls/game-core/render/gpuCull/GpuCullPool";
 import { unionBand } from "@elder-souls/game-core/render/gpuCull/cullMath";
 import { makeBatchMaterial, type BatchMaterials, type VegShaderMode } from "./batchMaterial";
@@ -460,7 +462,10 @@ export function Vegetation({
   quality,
   onSolids,
   shapesRef,
+  crownsRef,
 }: {
+  /** Filled with the tree crowns near a point (the volumetric canopy map, 0112 §5); read-only over the resident cells. */
+  crownsRef?: React.MutableRefObject<CrownSource | null>;
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
   baseUrl: string;
   verticalScale?: number;
@@ -511,6 +516,8 @@ export function Vegetation({
   }, [batchUniforms, maskTexture]);
 
   const cells = useRef(new Map<string, Cell>());
+  /** Bumped when a cell is added or evicted: the crown source's version. */
+  const cellsVersion = useRef(0);
   const pending = useRef(new Set<string>());
   const batches = useRef(new Map<string, Batch>());
   const registry = useRef(new CellRegistry());
@@ -724,6 +731,38 @@ export function Vegetation({
     }
     return out;
   }, [kit, index, manifest, underwaterManifest, drawScale, chunkRing, lodBand]);
+
+  // The crown source (read-only): every resident tree instance within the
+  // radius, its crown from the species' manifest height and footprint.
+  const crownInputs = useRef({ index, kit, speciesParams, verticalScale });
+  crownInputs.current = { index, kit, speciesParams, verticalScale };
+  useEffect(() => {
+    if (!crownsRef) return undefined;
+    crownsRef.current = {
+      get version() { return cellsVersion.current; },
+      *crowns(x: number, z: number, radiusM: number): Iterable<Crown> {
+        const { index: idx, kit: k, speciesParams: params, verticalScale: vs } = crownInputs.current;
+        if (!idx || !k) return;
+        const size = idx.chunkMetres, r2 = radiusM * radiusM;
+        for (const cell of cells.current.values()) {
+          if (cell.originX > x + radiusM || cell.originX + size < x - radiusM
+            || cell.originZ > z + radiusM || cell.originZ + size < z - radiusM) continue;
+          for (const group of cell.bundle.species) {
+            const id = idx.speciesOrder?.[group.index];
+            const p = id ? params.get(id) : undefined;
+            if (!id || !p || k.get(id)?.category !== "tree" || !((p.clearRadiusM ?? 0) > 0)) continue;
+            for (let i = 0; i < group.count; i++) {
+              const px = group.positions[i * 3], pz = group.positions[i * 3 + 2];
+              if ((px - x) ** 2 + (pz - z) ** 2 > r2) continue;
+              const inst = readInstance(group, i);
+              yield crownOf(px, inst.y * vs, pz, inst.scale, p.heightM * vs, p.clearRadiusM ?? 0);
+            }
+          }
+        }
+      },
+    };
+    return () => { crownsRef.current = null; };
+  }, [crownsRef]);
 
   const underwaterOnly = useMemo(() => {
     const set = new Set(underwaterManifest?.assets.map((a) => a.id) ?? []);
@@ -1028,6 +1067,7 @@ export function Vegetation({
           fetch(`${baseUrl}province/vegetation/chunk_${key}_vegetation.bin`)
             .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error("missing"))))
             .then((buffer) => {
+              cellsVersion.current++;
               cells.current.set(key, {
                 key, originX: ox, originZ: oz,
                 bundle: decodeVegetationBundle(buffer),
@@ -1381,6 +1421,7 @@ export function Vegetation({
     // they stay 255 = hidden for as long as the window sits still.
     if (mask.clearCells(cell.occCells, 3) > 0) maskTexture.needsUpdate = true;
     cells.current.delete(cell.key);
+    cellsVersion.current++;
     registry.current.chunkUnloaded(cell.key);
     refreshRanges();
     refreshOccupied();
