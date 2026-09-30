@@ -402,8 +402,8 @@ def write_report(rows: list[dict], residual: dict[str, float], path: Path,
         "",
         f"The {len(by_way)} ways that stayed over their gradient cap after "
         "grading are walked on built geometry instead of on a deeper cut: a flight, a "
-        "stepped ascent or one step over a lip. No water crossing is built here: "
-        "crossings are built per place with the modular-runs system. The "
+        "stepped ascent or one step over a lip. No water crossing is built here. "
+        "Each place builds its own crossings with the modular-runs system. The "
         "windows come from the grader's own measurement "
         "(`output/route-grading-stretches.json`) and the pieces from "
         f"`{KIT}`. Each family uses one authored set only.",
