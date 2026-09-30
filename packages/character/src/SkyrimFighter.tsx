@@ -1,4 +1,5 @@
 import { actionSecondsAt, clipSecondsAt, type ClipTiming } from "@elder-souls/game-core/anim/clipTiming";
+import { StepSmoother } from "./stepSmoothing";
 import { hitCapsuleFor, measureHeldObject } from "@elder-souls/game-core/combat/hitVolume";
 import { applyWeaponSocketTransform } from "@elder-souls/game-core/anim/weaponMount";
 import { footContactChain, liftFootContact } from "@elder-souls/game-core/anim/footContact";
@@ -634,6 +635,10 @@ function PosedActor({
   const elapsed = useRef(0);
   const externalClockOrigin = useRef(0);
   const groundCorrection = useRef(0);
+  // What the root actually draws: the solve above, with stair step-ups spread
+  // over a few frames (stepSmoothing.ts). Uncorrected heights subtract THIS.
+  const drawnCorrection = useRef(0);
+  const stepSmoother = useRef(new StepSmoother());
   const soleTmp = useRef(new THREE.Vector3());
   const bodyTmp = useRef(new THREE.Vector3());
   const rootQuaternionTmp = useRef(new THREE.Quaternion());
@@ -1144,7 +1149,7 @@ function PosedActor({
             if (!point) continue;
             soleTmp.current.fromArray(point);
             bone.localToWorld(soleTmp.current);
-            lift = Math.max(lift, supportY - (soleTmp.current.y - groundCorrection.current));
+            lift = Math.max(lift, supportY - (soleTmp.current.y - drawnCorrection.current));
           }
         }
         liftFootContact(chain, lift, constrainedBones.current);
@@ -1165,7 +1170,7 @@ function PosedActor({
     }
     if (root.current && surfaceMinY != null) {
       root.current.getWorldPosition(bodyTmp.current);
-      const baseRootWorldY = bodyTmp.current.y - groundCorrection.current;
+      const baseRootWorldY = bodyTmp.current.y - drawnCorrection.current;
       const actorBaseY = parent
         ? parent.getWorldPosition(soleTmp.current).y - CHARACTER_BODY_CENTER_HEIGHT
         : Number.POSITIVE_INFINITY;
@@ -1187,7 +1192,7 @@ function PosedActor({
           if (markerPoint) {
             soleTmp.current.fromArray(markerPoint);
             bone.localToWorld(soleTmp.current);
-            uncorrectedMarkerSurfaceY = soleTmp.current.y - groundCorrection.current;
+            uncorrectedMarkerSurfaceY = soleTmp.current.y - drawnCorrection.current;
             const outgoingMarkerPoint = outgoingSoleMarkerPointById[id];
             if (outgoingMarkerPoint) {
               // The lowest vertex can change between clips. Interpolating two
@@ -1198,14 +1203,14 @@ function PosedActor({
               bone.localToWorld(soleTmp.current);
               uncorrectedMarkerSurfaceY = Math.min(
                 uncorrectedMarkerSurfaceY,
-                soleTmp.current.y - groundCorrection.current,
+                soleTmp.current.y - drawnCorrection.current,
               );
             }
           } else {
             bone.getWorldPosition(soleTmp.current);
             const markerClearance = soleMarkerClearanceById[id] ?? soleMarkerClearance ?? 0;
             uncorrectedMarkerSurfaceY = soleTmp.current.y
-              - groundCorrection.current
+              - drawnCorrection.current
               - markerClearance;
           }
           required = Math.max(required, requiredSupportCorrection(
@@ -1222,7 +1227,12 @@ function PosedActor({
         supportSolveMode,
         mixerDelta,
       );
-      root.current.position.y = modelOffsetY + groundCorrection.current;
+      drawnCorrection.current = stepSmoother.current.update(
+        groundCorrection.current,
+        mixerDelta,
+        supportSolveMode === "penetration" && activeSupportMode === "penetration" && LOCOMOTION_STATES.has(state),
+      );
+      root.current.position.y = modelOffsetY + drawnCorrection.current;
     } else if (parent && soleBones.length > 0) {
       let soleY = Infinity;
       for (const { bone } of soleBones) {
@@ -1232,10 +1242,15 @@ function PosedActor({
       groundCorrection.current = nextUpwardGroundCorrection(
         groundCorrection.current,
         visualSupportYRef?.current ?? visualSupportY,
-        soleY,
+        soleY - drawnCorrection.current + groundCorrection.current,
         mixerDelta,
       );
-      if (root.current) root.current.position.y = modelOffsetY + groundCorrection.current;
+      drawnCorrection.current = stepSmoother.current.update(
+        groundCorrection.current,
+        mixerDelta,
+        LOCOMOTION_STATES.has(state),
+      );
+      if (root.current) root.current.position.y = modelOffsetY + drawnCorrection.current;
     }
 
     // Validation samples the final deformed production actor, rather than a
