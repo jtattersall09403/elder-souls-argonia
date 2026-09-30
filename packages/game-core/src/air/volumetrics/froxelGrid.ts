@@ -126,9 +126,11 @@ export class Volumetrics implements VolumetricsSampler {
   readonly on = uniform(0);
   readonly near = uniform(FROXEL_NEAR_M);
   readonly far = uniform(400);
+  /** Grid dimensions (x, y, slices) of the current band, for the fog stage's per-pixel jitter. */
+  readonly gridSize = uniform(new THREE.Vector3(1, 1, 1));
   private readonly u = {
     camPos: uniform(new THREE.Vector3()), camRight: uniform(new THREE.Vector3()), camUp: uniform(new THREE.Vector3()),
-    camFwd: uniform(new THREE.Vector3()), tanHalf: uniform(new THREE.Vector2(1, 1)), jitter: uniform(0), time: uniform(0),
+    camFwd: uniform(new THREE.Vector3()), tanHalf: uniform(new THREE.Vector2(1, 1)), jitter: uniform(0), jitterXY: uniform(new THREE.Vector2()), time: uniform(0),
     prevViewProj: uniform(new THREE.Matrix4()), history: uniform(0),
     sunDir: uniform(new THREE.Vector3(0, 1, 0)), sunIrr: uniform(new THREE.Color(0, 0, 0)), skyIrr: uniform(new THREE.Color(0, 0, 0)),
     mist: uniform(0), steam: uniform(0), marsh: uniform(0), sea: uniform(0), canopyHaze: uniform(0), air: uniform(1),
@@ -173,6 +175,7 @@ export class Volumetrics implements VolumetricsSampler {
     }
     const spec = VOLUMETRIC_BANDS[band];
     this.far.value = spec.farM;
+    this.gridSize.value.set(spec.grid[0], spec.grid[1], spec.grid[2]);
     this.scatter = [makeGrid(spec.grid, "es-vol-scatter-a"), makeGrid(spec.grid, "es-vol-scatter-b")];
     this.integ = makeGrid(spec.grid, "es-vol-integrated");
     this.kernels = {
@@ -185,8 +188,9 @@ export class Volumetrics implements VolumetricsSampler {
     this.on.value = 1;
   }
 
-  /** Density (m^-1) of the medium at world `p` (TSL). */
-  private density(p: TslNode): TslNode {
+  /** Density (m^-1) of the medium at world `p` (TSL); `fp` is the froxel's depth extent in metres,
+   * which widens every hard transition to at least a froxel so the grid never stair-steps (prefilter). */
+  private density(p: TslNode, fp: TslNode = float(0)): TslNode {
     const u = this.u;
     const nuv = p.xz.sub(u.nearOrigin).div(NEAR_SIZE_M);
     const fuv = p.xz.sub(u.farOrigin).div(FAR_SIZE_M);
@@ -197,30 +201,47 @@ export class Volumetrics implements VolumetricsSampler {
     const hAG = p.y.sub(ground);
     const waterMask = nearT.b.mul(inNear);
     const wet = nearT.a.mul(inNear);
-    // drift: two octaves advected by the wind at different speeds, the time axis mutating the shape
+    const soft = (w: number) => max(float(w), fp.mul(0.6));
+    // drift: two octaves advected by the wind in different directions, the time axis mutating the shape
     const w3 = vec3(u.wind.x, 0, u.wind.y).mul(u.time);
+    const w3b = vec3(u.wind.y.negate(), 0, u.wind.x).mul(u.time.mul(0.6));
     const n1 = texture3D(this.detail, p.sub(w3).div(vec3(56, 30, 56)).add(vec3(0, 0, u.time.mul(0.004))), 0).x;
-    const n2 = texture3D(this.detail, p.sub(w3.mul(1.7)).div(vec3(15, 9, 15)).add(vec3(u.time.mul(0.011), 0, 0)), 0).y;
+    const n2 = texture3D(this.detail, p.sub(w3b.add(w3.mul(1.7))).div(vec3(15, 9, 15)).add(vec3(u.time.mul(0.011), 0, 0)), 0).y;
     const n = clamp(float(0.55).add(n1.mul(0.35)).add(n2.mul(0.2)), 0, 1.4);
     const outdoor = u.outdoor;
-    // radiation mist: flat top over the basin floor, soft 5 m edge
-    const top = farT.g.add(u.mistDepth);
-    const mist = float(1).sub(smoothstep(top.sub(5), top.add(n2.mul(1.5)), p.y)).mul(step(float(-1), hAG))
+    // radiation mist: a flat-topped pool over the basin floor; the top is billowed by the noise
+    // (+-3 m) and falls off over 8 m or a froxel; the lateral edge fades over the last 6 m of depth.
+    const top = farT.g.add(u.mistDepth).add(n1.mul(3)).add(n2.mul(1.5));
+    const mist = float(1).sub(smoothstep(top.sub(soft(8)), top, p.y))
+      .mul(smoothstep(-1, 1, hAG)).mul(smoothstep(0, 6, top.sub(ground)))
       .mul(n).mul(u.mist).mul(0.025);
-    // steam fog: 0..8 m over water, vertically stretched wisps
-    const ns = texture3D(this.detail, p.sub(w3.mul(0.6)).div(vec3(6, 18, 6)).add(vec3(0, u.time.mul(-0.02), 0)), 0).x;
+    // steam fog: wisps over water, thin rising columns (stretched 5x vertically), patchy (~half
+    // covered), each column fading with height at its own 1..5 m
+    const rise = vec3(0, u.time.mul(0.35), 0);
+    const ns = texture3D(this.detail, p.sub(w3.mul(0.8)).sub(rise).div(vec3(4, 20, 4)), 0).x;
+    const nh = texture3D(this.detail, p.sub(w3.mul(1.2)).sub(rise.mul(1.5)).div(vec3(1.3, 5, 1.3)), 0).z;
     const overW = p.y.sub(nearT.g);
-    const steam = waterMask.mul(float(1).sub(smoothstep(0, 8, overW))).mul(step(float(-0.3), overW))
-      .mul(clamp(ns.mul(0.7).add(0.3), 0, 1)).mul(u.steam).mul(0.06);
-    const marsh = wet.mul(float(1).sub(smoothstep(0.5, 3, hAG))).mul(n).mul(u.marsh).mul(0.05);
+    const colTop = float(3).add(ns.mul(2.5)).add(nh);
+    const steam = waterMask.mul(float(1).sub(smoothstep(colTop.mul(0.3), colTop, overW))).mul(smoothstep(-0.3, 0.1, overW))
+      .mul(smoothstep(0.0, 0.35, ns.add(nh.mul(0.35)))).mul(u.steam).mul(0.05);
+    // marsh ground fog: knee-to-waist, top broken by noise
+    const marshTop = float(1.6).add(n1.mul(0.8)).add(n2.mul(0.5));
+    const marsh = wet.mul(float(1).sub(smoothstep(marshTop.sub(soft(1.2)), marshTop, hAG))).mul(n).mul(u.marsh).mul(0.05);
     const sea = farT.b.mul(exp(max(p.y, 0).div(-150))).mul(n).mul(u.sea).mul(0.012);
     const cuv = p.xz.sub(u.canopyOrigin).div(CANOPY_SIZE_M);
-    const under = texture(this.canopy.texture, cuv).r;
-    const haze = under.mul(float(1).sub(smoothstep(0, 25, hAG))).mul(u.canopyHaze).mul(0.006).mul(n);
-    const air = exp(max(p.y, 0).div(-1200)).mul(u.air).mul(2e-4);
+    const under = smoothstep(0, 0.3, texture(this.canopy.texture, cuv).b.sub(ground));
+    // canopy haze: humid air under the crowns, 0.01..0.03 /m at full strength (0112 §5)
+    const haze = under.mul(float(1).sub(smoothstep(0, 25, hAG))).mul(u.canopyHaze).mul(0.014).mul(n.mul(0.5).add(0.5));
+    const air = this.airDensity(p);
     const outside = mist.add(steam).add(marsh).add(sea).add(haze).mul(outdoor);
-    const floor = float(1).sub(smoothstep(u.floorTop.sub(0.8), u.floorTop.add(n2.mul(0.3)), p.y))
-      .mul(step(u.floorY.sub(0.2), p.y)).mul(n).mul(u.floorMist);
+    // interior floor mist: 0..top, two octaves swirling in opposite directions, curling top
+    const sw = vec3(u.time.mul(0.25), 0, u.time.mul(0.1));
+    const f1 = texture3D(this.detail, p.add(sw).div(vec3(3, 1.2, 3)).add(vec3(0, u.time.mul(0.02), 0)), 0).x;
+    const f2 = texture3D(this.detail, p.sub(sw.mul(1.6).zyx).div(vec3(1.1, 0.6, 1.1)), 0).y;
+    const fTop = u.floorTop.add(f1.mul(0.35)).add(f2.mul(0.15));
+    const floor = float(1).sub(smoothstep(fTop.sub(0.5), fTop, p.y))
+      .mul(smoothstep(u.floorY.sub(0.1), u.floorY.add(0.05), p.y))
+      .mul(clamp(float(0.7).add(f1.mul(0.5)).add(f2.mul(0.3)), 0.1, 1.5)).mul(u.floorMist);
     return outside.add(air).add(floor).add(u.dust);
   }
 
@@ -229,14 +250,25 @@ export class Volumetrics implements VolumetricsSampler {
     const u = this.u;
     const trans = float(1).toVar();
     const sy = max(u.sunDir.y, 0.05);
-    for (const up of [3, 10, 22]) {
+    for (const up of [2, 5, 9, 14, 20]) {
       const h = p.y.add(up);
       const xz = p.xz.add(u.sunDir.xz.mul(float(up).div(sy)));
       const c = texture(this.canopy.texture, xz.sub(u.canopyOrigin).div(CANOPY_SIZE_M));
       const inside = step(c.g, h).mul(step(h, c.b));
-      trans.mulAssign(float(1).sub(c.r.mul(inside).mul(0.9)));
+      trans.mulAssign(float(1).sub(smoothstep(0.25, 0.6, c.r).mul(inside)));
     }
     return trans.mul(u.outdoor);
+  }
+
+  /** The air baseline's extinction (m^-1): thin haze thinning with altitude. */
+  private airDensity(p: TslNode): TslNode {
+    return exp(max(p.y, 0).div(-1200)).mul(this.u.air).mul(2e-4);
+  }
+
+  /** Share of the sky dome open above `p`: the canopy over it takes up to 70 % (shafts read by contrast). */
+  private skyOpen(p: TslNode): TslNode {
+    const c = texture(this.canopy.texture, p.xz.sub(this.u.canopyOrigin).div(CANOPY_SIZE_M));
+    return float(1).sub(smoothstep(0, 1, c.b.sub(p.y)).mul(smoothstep(0, 0.5, c.r)).mul(0.7).mul(this.u.outdoor));
   }
 
   private injectKernel(spec: BandSpec, write: Storage3DTexture, history: Storage3DTexture): TslNode {
@@ -245,26 +277,28 @@ export class Volumetrics implements VolumetricsSampler {
     return Fn(() => {
       const id = instanceIndex;
       const coord = uvec3(id.mod(gx), id.div(gx).mod(gy), id.div(gx * gy));
-      const uv = vec2(float(coord.x).add(0.5).div(gx), float(coord.y).add(0.5).div(gy));
+      const uv = vec2(float(coord.x).add(0.5).add(u.jitterXY.x).div(gx), float(coord.y).add(0.5).add(u.jitterXY.y).div(gy));
       const ndc = vec2(uv.x.mul(2).sub(1), float(1).sub(uv.y.mul(2)));
       const s = float(coord.z).add(0.5).add(u.jitter).div(gz);
       const depth = this.near.mul(pow(this.far.div(this.near), s));
       const dir = u.camRight.mul(ndc.x.mul(u.tanHalf.x)).add(u.camUp.mul(ndc.y.mul(u.tanHalf.y))).add(u.camFwd);
       const p = u.camPos.add(dir.mul(depth));
       const v = normalize(dir);
-      const sigmaT = max(this.density(p), float(1e-7));
+      const fp = depth.mul(Math.pow(spec.farM / FROXEL_NEAR_M, 1 / gz) - 1);
+      const sigmaT = max(this.density(p, fp), float(1e-7));
       const cSun = dot(v, u.sunDir);
-      const phaseSun = mix(hg(0.2, cSun), hg(0.75, cSun), 0.5);
+      // strongly forward (g 0.8) with an isotropic-ish floor: bright shafts toward the sun, faint away
+      const phaseSun = mix(hg(0.2, cSun), hg(0.8, cSun), 0.7);
       const radiance = vec3(u.sunIrr).mul(phaseSun).mul(this.canopyT(p)).mul(step(float(0), u.sunDir.y))
-        .add(vec3(u.skyIrr).mul(0.8 / Math.PI)).toVar();
+        .add(vec3(u.skyIrr).mul(0.8 / Math.PI).mul(this.skyOpen(p))).toVar();
       Loop(u.lightCount, ({ i }: { i: TslNode }) => {
         const lp = this.uLightPos.element(i);
         const d = p.sub(lp.xyz);
         const r2 = max(dot(d, d), float(0.09));
         const dist = T.sqrt(r2);
-        const win = clamp(float(1).sub(pow(dist.div(lp.w), float(4))), 0, 1);
+        const win = clamp(float(1).sub(pow(dist.div(lp.w), float(2))), 0, 1);
         // scatter angle: light's travel (light -> p) against the view's (p -> camera)
-        radiance.addAssign(this.uLightCol.element(i).xyz.mul(win.mul(win)).div(r2).mul(hg(0.6, dot(d.div(dist), v.negate()))));
+        radiance.addAssign(this.uLightCol.element(i).xyz.mul(win.mul(win)).div(r2).mul(mix(float(1 / (4 * Math.PI)), hg(0.6, dot(d.div(dist), v.negate())), 0.6)));
       });
       Loop(u.apertureCount, ({ i }: { i: TslNode }) => {
         const ap = this.uApPos.element(i);
@@ -274,9 +308,12 @@ export class Volumetrics implements VolumetricsSampler {
         const radial = length(rel.sub(ad.xyz.mul(along)));
         const inBeam = step(float(0), along).mul(float(1).sub(smoothstep(ap.w.mul(0.8), ap.w, radial)))
           .mul(float(1).sub(smoothstep(ad.w.mul(0.7), ad.w, along)));
-        radiance.addAssign(this.uApCol.element(i).xyz.mul(inBeam).mul(hg(0.7, dot(ad.xyz, v.negate()))));
+        radiance.addAssign(this.uApCol.element(i).xyz.mul(inBeam).mul(mix(float(1 / (4 * Math.PI)), hg(0.7, dot(ad.xyz, v.negate())), 0.6)));
       });
-      const cur = vec4(radiance.mul(sigmaT.mul(ALBEDO)), sigmaT).toVar();
+      // clear air scatters blue more than red (Rayleigh-like tint on the air share only; mist stays white)
+      const airShare = clamp(this.airDensity(p).div(sigmaT), 0, 1);
+      const tint = mix(vec3(1), vec3(0.72, 0.9, 1.3), airShare);
+      const cur = vec4(radiance.mul(tint).mul(sigmaT.mul(ALBEDO)), sigmaT).toVar();
       If(u.history.greaterThan(0.5), () => {
         const prev = u.prevViewProj.mul(vec4(p, 1));
         const pn = prev.xy.div(prev.w);
@@ -364,6 +401,8 @@ export class Volumetrics implements VolumetricsSampler {
     // temporal: jitter the slice depth, blend with the reprojected history
     const temporal = spec.temporal && this.hasHistory;
     u.jitter.value = spec.temporal ? ((this.frameIndex * 0.618034) % 1) - 0.5 : 0;
+    // R2 sequence for the in-slice xy jitter (a froxel's footprint is covered over ~8 frames)
+    u.jitterXY.value.set(spec.temporal ? ((this.frameIndex * 0.7548777) % 1) - 0.5 : 0, spec.temporal ? ((this.frameIndex * 0.5698403) % 1) - 0.5 : 0);
     u.history.value = temporal ? 1 : 0;
     u.prevViewProj.value.copy(this.prevViewProj);
     const k = this.parity;

@@ -18,14 +18,14 @@ export const CANOPY_TEXELS = 256;
 export const CANOPY_SIZE_M = 256;
 const REBAKE_M = 32;
 
-/** Deterministic value noise in 0..1 for the leaf gaps (world-anchored, 1.5 m cells). */
+/** Deterministic value noise in 0..1 for the leaf gaps (world-anchored, 1.2 m cells, so the gaps are 0.5..2 m holes). */
 function leafGap(x: number, z: number): number {
   const h = (i: number, j: number) => {
     let n = (i * 374761393 + j * 668265263) | 0;
     n = Math.imul(n ^ (n >>> 13), 1274126177);
     return ((n ^ (n >>> 16)) >>> 0) / 4294967295;
   };
-  const fx = x / 1.5, fz = z / 1.5;
+  const fx = x / 1.2, fz = z / 1.2;
   const i = Math.floor(fx), j = Math.floor(fz);
   const tx = fx - i, tz = fz - j;
   const sx = tx * tx * (3 - 2 * tx), sz = tz * tz * (3 - 2 * tz);
@@ -63,7 +63,7 @@ export class CanopyMap {
         if (r >= 1) continue;
         const edge = 1 - r * r;
         const gap = leafGap(wx, wz);
-        const dens = Math.min(1, edge * 1.6) * (gap < 0.3 ? gap / 0.3 * 0.4 : 1);
+        const dens = Math.min(1, edge * 2.5) * Math.min(1, Math.max(0, (gap - 0.3) / 0.08));
         const o = (j * CANOPY_TEXELS + i) * 4;
         if (d[o] === 0) { d[o + 1] = c.bottomM; d[o + 2] = c.topM; } else {
           d[o + 1] = Math.min(d[o + 1], c.bottomM); d[o + 2] = Math.max(d[o + 2], c.topM);

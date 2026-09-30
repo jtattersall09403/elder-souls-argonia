@@ -29,6 +29,13 @@ describe("fogRegimes", () => {
     const wet = fogRegimes({ ...BASE, minuteOfDay: 12 * 60, hoursSinceRain: 1 }).canopyHaze;
     expect(wet).toBeGreaterThan(dry + 0.3);
   });
+  it("a valley pooled with mist and steam at sunrise is clear at noon (harness valley-dawn vs valley-noon)", () => {
+    const dawn = fogRegimes({ ...BASE, minuteOfDay: BASE.sunriseMin });
+    const noon = fogRegimes({ ...BASE, minuteOfDay: 12 * 60 });
+    expect(dawn.radiationMist).toBeGreaterThan(0.5);
+    expect(dawn.steamFog).toBeGreaterThan(0.5);
+    expect(noon.radiationMist + noon.steamFog + noon.marshFog).toBe(0);
+  });
   it("is deterministic", () => {
     expect(fogRegimes(BASE)).toEqual(fogRegimes({ ...BASE }));
   });

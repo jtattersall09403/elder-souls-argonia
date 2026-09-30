@@ -1,6 +1,6 @@
 /**
  * The `volumetrics-*` harness scenes (decision 0112 §8): one small synthetic
- * world (a valley and a hill, a pond, a wet valley floor, ~40 trees with
+ * world (a valley and a hill, a pond, a wet valley floor, ~90 trees (a closed canopy) with
  * crowns, lanterns, a chimney smoke column, a stone room with a window) with
  * the real `Volumetrics` from game-core composed into `scene.fogNode`, shot
  * from the named cameras below. Lit at exposure 1 (harness units: sun
@@ -12,7 +12,7 @@ import * as tsl from "three/tsl";
 import type { HarnessContext, HarnessScene } from "./types";
 import { Volumetrics, type ApertureLight, type InteriorFogProfile, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
 import { applyVolumetrics } from "@elder-souls/game-core/air/volumetrics/volumetricNodes";
-import type { FogRegimes } from "@elder-souls/game-core/air/volumetrics/fogField";
+import { fogRegimes, type FogFieldInput, type FogRegimes } from "@elder-souls/game-core/air/volumetrics/fogField";
 import type { Crown } from "@elder-souls/game-core/air/volumetrics/canopyMap";
 import { effectTextureFile, SMOKE_COLUMN_ASSET_ID, SmokeColumns } from "@elder-souls/game-core/settlement/smokeColumn";
 
@@ -31,33 +31,42 @@ const FOREST: Crown[] = [];
 {
   let s = 0x7ee5;
   const rnd = () => ((s = (Math.imul(s, 1103515245) + 12345) >>> 0) / 4294967296);
-  for (let i = 0; i < 40; i++) {
-    const x = -30 + rnd() * 60, z = -230 + rnd() * 70;
-    const g = ground(x, z), r = 3.5 + rnd() * 2;
+  for (let i = 0; i < 90; i++) {
+    const x = -30 + rnd() * 60, z = -240 + rnd() * 80;
+    const g = ground(x, z), r = 4 + rnd() * 2.5;
     FOREST.push({ x, z, radiusM: r, bottomM: g + 7, topM: g + 7 + r * 1.6 });
   }
 }
 const LANTERNS = [[-10, 120], [-4, 128], [4, 116], [10, 126], [0, 136]].map(([x, z]) => new THREE.Vector3(x, ground(x, z) + 2.2, z));
 const ROOM = { x: 400, z: 400, y: 0, w: 10, h: 4, d: 8 };
 
-type ShotName = "valley-dawn-from-hill" | "pond-dawn-steam" | "marsh-dusk-groundfog" | "forest-morning-shafts"
+type ShotName = "valley-dawn-from-hill" | "valley-noon" | "forest-looking-away" | "pond-dawn-steam" | "marsh-dusk-groundfog" | "forest-morning-shafts"
   | "lanterns-night-mist" | "noon-haze-smoke" | "cave-floor-mist" | "window-beams";
 interface Shot {
   eye: [number, number, number]; look: [number, number, number];
   sunAltDeg: number; sunAzDeg: number; sun: [number, number, number]; sky: [number, number, number];
-  bg: number; exposure: number; regimes: Partial<FogRegimes>; lanterns?: boolean; interior?: InteriorFogProfile; window?: boolean;
+  bg: number; exposure: number; regimes: Partial<FogRegimes>;
+  /** When given, the regimes come from the fog field at this clock (the where/when proof shots). */
+  fog?: Partial<FogFieldInput>; lanterns?: boolean; interior?: InteriorFogProfile; window?: boolean;
 }
 const R0: FogRegimes = { radiationMist: 0, steamFog: 0, marshFog: 0, seaFog: 0, canopyHaze: 0.25, air: 1, windXZ: [0.6, 0.2] };
 const DAWN_SUN: [number, number, number] = [2.6, 1.5, 0.8];
+const VALLEY_CLIMATE: FogFieldInput = {
+  minuteOfDay: 360, sunriseMin: 360, sunsetMin: 1110, prevNightClearCalm: 1, hoursSinceRain: Infinity, rain: 0,
+  windSpeedMS: 0.5, windDirXZ: [0.95, 0.3], humidity: 0.8, wetSeason: 0.6,
+};
+const FOREST_EYE: [number, number, number] = [0, ground(0, -175) + 1.7, -175];
 export const SHOTS: Record<ShotName, Shot> = {
-  "valley-dawn-from-hill": { eye: [-150, ground(-150, 40) + 25, 40], look: [0, 5, -60], sunAltDeg: 3, sunAzDeg: 80, sun: DAWN_SUN, sky: [0.5, 0.55, 0.7], bg: 0xc9b8a8, exposure: 1.2, regimes: { radiationMist: 1, steamFog: 1, marshFog: 0.4 } },
-  "pond-dawn-steam": { eye: [POND.x - 30, ground(POND.x - 30, POND.z) + 2, POND.z + 5], look: [POND.x + 10, pondSurface + 1, POND.z - 5], sunAltDeg: 4, sunAzDeg: 70, sun: DAWN_SUN, sky: [0.5, 0.55, 0.7], bg: 0xc9b8a8, exposure: 1.2, regimes: { steamFog: 1, radiationMist: 0.3 } },
+  "valley-dawn-from-hill": { eye: [-150, ground(-150, 40) + 25, 40], look: [0, 5, -60], sunAltDeg: 3, sunAzDeg: 80, sun: DAWN_SUN, sky: [0.5, 0.55, 0.7], bg: 0xc9b8a8, exposure: 1.2, regimes: {}, fog: { minuteOfDay: 360 } },
+  "valley-noon": { eye: [-150, ground(-150, 40) + 25, 40], look: [0, 5, -60], sunAltDeg: 65, sunAzDeg: 150, sun: [3.2, 3.1, 2.9], sky: [0.8, 0.9, 1.1], bg: 0x9cc4e4, exposure: 1, regimes: {}, fog: { minuteOfDay: 720 } },
+  "pond-dawn-steam": { eye: [POND.x - 26, pondSurface + 3.5, POND.z + 6], look: [POND.x + 6, pondSurface + 1.5, POND.z - 4], sunAltDeg: 4, sunAzDeg: 70, sun: DAWN_SUN, sky: [0.5, 0.55, 0.7], bg: 0xc9b8a8, exposure: 1.2, regimes: { steamFog: 1, radiationMist: 0.1 } },
   "marsh-dusk-groundfog": { eye: [0, ground(0, 40) + 1.7, 40], look: [0, 1, -40], sunAltDeg: 2, sunAzDeg: 260, sun: [2.2, 1.0, 0.5], sky: [0.35, 0.35, 0.5], bg: 0x8a7a8a, exposure: 1.6, regimes: { marshFog: 1 } },
-  "forest-morning-shafts": { eye: [0, ground(0, -170) + 1.7, -170], look: [0, 8, -240], sunAltDeg: 25, sunAzDeg: 180, sun: [3.2, 2.9, 2.4], sky: [0.7, 0.8, 1.0], bg: 0xa8c0d8, exposure: 1, regimes: { canopyHaze: 1 } },
-  "lanterns-night-mist": { eye: [0, ground(0, 100) + 1.7, 100], look: [0, 2, 126], sunAltDeg: -20, sunAzDeg: 0, sun: [0, 0, 0], sky: [0.01, 0.012, 0.02], bg: 0x05070b, exposure: 3, regimes: { marshFog: 0.8, radiationMist: 0.5 }, lanterns: true },
+  "forest-morning-shafts": { eye: FOREST_EYE, look: [0, 9, -240], sunAltDeg: 22, sunAzDeg: 0, sun: [3.2, 2.9, 2.4], sky: [0.7, 0.8, 1.0], bg: 0xa8c0d8, exposure: 1, regimes: { canopyHaze: 1 } },
+  "forest-looking-away": { eye: FOREST_EYE, look: [0, 9, -240], sunAltDeg: 22, sunAzDeg: 180, sun: [3.2, 2.9, 2.4], sky: [0.7, 0.8, 1.0], bg: 0xa8c0d8, exposure: 1, regimes: { canopyHaze: 1 } },
+  "lanterns-night-mist": { eye: [0, ground(0, 100) + 1.7, 100], look: [0, 2, 126], sunAltDeg: -20, sunAzDeg: 0, sun: [0, 0, 0], sky: [0.01, 0.012, 0.02], bg: 0x05070b, exposure: 3, regimes: { marshFog: 2, radiationMist: 0.6 }, lanterns: true },
   "noon-haze-smoke": { eye: [-20, ground(-20, 60) + 3, 60], look: [0, 12, 20], sunAltDeg: 65, sunAzDeg: 150, sun: [3.2, 3.1, 2.9], sky: [0.8, 0.9, 1.1], bg: 0x9cc4e4, exposure: 1, regimes: { air: 3 } },
-  "cave-floor-mist": { eye: [ROOM.x - 4, 1.6, ROOM.z + 3], look: [ROOM.x + 4, 0.3, ROOM.z - 3], sunAltDeg: -20, sunAzDeg: 0, sun: [0, 0, 0], sky: [0.004, 0.004, 0.005], bg: 0x000000, exposure: 3, regimes: {}, lanterns: true, interior: { floorY: 0, floorMistTopM: 0.9, floorMistDensity: 0.15, dustDensity: 0.004 } },
-  "window-beams": { eye: [ROOM.x - 4, 1.6, ROOM.z - 3], look: [ROOM.x + 2, 1.0, ROOM.z + 3], sunAltDeg: 35, sunAzDeg: 0, sun: [3.2, 3.0, 2.6], sky: [0.02, 0.02, 0.025], bg: 0x000000, exposure: 2, regimes: {}, interior: { floorY: 0, floorMistTopM: 0, floorMistDensity: 0, dustDensity: 0.03 }, window: true },
+  "cave-floor-mist": { eye: [ROOM.x - 4, 1.6, ROOM.z + 3], look: [ROOM.x + 4, 0.3, ROOM.z - 3], sunAltDeg: -20, sunAzDeg: 0, sun: [0, 0, 0], sky: [0.004, 0.004, 0.005], bg: 0x000000, exposure: 3, regimes: {}, lanterns: true, interior: { floorY: 0, floorMistTopM: 0.9, floorMistDensity: 0.35, dustDensity: 0.006 } },
+  "window-beams": { eye: [ROOM.x - 4, 1.6, ROOM.z - 3], look: [ROOM.x + 2, 1.0, ROOM.z + 3], sunAltDeg: 35, sunAzDeg: 0, sun: [3.2, 3.0, 2.6], sky: [0.1, 0.1, 0.11], bg: 0x000000, exposure: 2, regimes: {}, interior: { floorY: 0, floorMistTopM: 0, floorMistDensity: 0, dustDensity: 0.06 }, window: true },
 };
 
 async function smokeTexture(): Promise<THREE.Texture> {
@@ -143,12 +152,12 @@ export function volumetricsShot(name: ShotName, expectDark = false): HarnessScen
         const glowM = new MeshBasicNodeMaterial({ color: new THREE.Color(1, 0.6, 0.25).multiplyScalar(4) });
         for (const p of lanterns) {
           const col = new THREE.Color(1, 0.55, 0.22);
-          const pl = new THREE.PointLight(col, 6, 12, 2);
+          const pl = new THREE.PointLight(col, 8, 18, 2);
           pl.position.copy(p);
           const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.12, 10, 8), glowM);
           bulb.position.copy(p);
           scene.add(pl, bulb);
-          lights.push({ position: p, radiance: col.clone().multiplyScalar(6), radiusM: 12 });
+          lights.push({ position: p, radiance: col.clone().multiplyScalar(35), radiusM: 18 });
         }
       }
       const apertures: ApertureLight[] = [];
@@ -184,7 +193,7 @@ export function volumetricsShot(name: ShotName, expectDark = false): HarnessScen
       const V = tsl as unknown as Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
       (scene as THREE.Scene & { fogNode?: unknown }).fogNode = V.Fn(() =>
         applyVolumetrics(vol, V.output, V.positionView.z.negate(), V.screenUV))();
-      const regimes: FogRegimes = { ...R0, ...shot.regimes };
+      const regimes: FogRegimes = shot.fog ? fogRegimes({ ...VALLEY_CLIMATE, ...shot.fog }) : { ...R0, ...shot.regimes };
       const sunIrr = outdoor || shot.window ? new THREE.Color(...shot.sun) : new THREE.Color(0, 0, 0);
       const skyPi = skyIrr.clone().multiplyScalar(Math.PI);
       (window as unknown as { __VOLUMETRICS__?: unknown }).__VOLUMETRICS__ = { band: vol.band, dispatch: vol.dispatch };
@@ -196,7 +205,8 @@ export function volumetricsShot(name: ShotName, expectDark = false): HarnessScen
         smoke?.update(t, camera, { dirXZ: [0.8, 0.6], speedMS: 2 });
       };
       update(0);
-      return { scene, camera, frame: (t: number) => update(t + 1) };
+      // the harness presents three frames: settle the temporal history (jitter) with 12 updates each
+      return { scene, camera, frame: (t: number) => { for (let k = 0; k < 12; k++) update(t + 1); } };
     },
   };
 }
