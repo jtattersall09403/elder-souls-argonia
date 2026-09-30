@@ -86,3 +86,25 @@ def test_flame_anchor_gate_reads_the_vitest(monkeypatch):
     pg.flame_anchor_gate(g, "place.x.claywater", {})  # exit 0 but nothing ran: red, never a silent pass
     assert [r["ok"] for r in g.rows] == [True, False, False]
     assert g.rows[1]["failures"] == [line.strip().strip('",')]
+
+
+def test_flame_anchor_gate_fails_an_unpublished_place(monkeypatch):
+    """A gated place with no published bundle reads nothing: red, naming it
+    (review 2026-09-30), never a green over zero flames."""
+    import subprocess
+    from types import SimpleNamespace
+    line = '      "place.x.claywater: has no published bundle to check",'
+    monkeypatch.setattr(subprocess, "run", lambda cmd, **kw: SimpleNamespace(returncode=1, stdout=line, stderr=""))
+    g = pg.Gates()
+    pg.flame_anchor_gate(g, "place.x.claywater", {})
+    assert g.rows[0]["ok"] is False
+    assert g.rows[0]["failures"] == ["place.x.claywater: has no published bundle to check"]
+
+
+def test_tier_a_doors_is_the_one_rule():
+    bp = {"doors": [{"id": "d1", "interiorClaim": {"tier": "A", "cellId": "C1"}},
+                    {"id": "d2", "interiorClaim": {"tier": "B", "cellId": "C2"}},
+                    {"id": "d3", "interiorClaim": {"tier": "A"}},
+                    {"id": "d4", "interiorClaim": {"tier": "A", "cellId": "C1"}}]}
+    assert [(d["id"], c) for d, c in pg.tier_a_doors(bp)] == [("d1", "C1"), ("d4", "C1")]
+    assert pg.tier_a_cells(bp) == ["C1"]

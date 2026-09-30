@@ -104,6 +104,41 @@ export function fillDue(i: FillInputs): { fill: boolean; phase: number } {
   return { fill: false, phase: i.phasesFilled };
 }
 
+export interface SettleInputs {
+  /** Generatable tiles still queued after this pass (not those waiting on a chunk). */
+  remaining: number;
+  /** Tiles generated since the last fill. */
+  generatedSinceFill: number;
+  /** Whether `fillDue` (or a focus move) already asked for a fill this frame. */
+  fill: boolean;
+  cold: boolean;
+  sinceLastFillS: number;
+}
+
+/**
+ * After a generation pass: whether to fill now, whether generation stays
+ * armed, and, when the generatable queue drained with new tiles unfilled,
+ * how long until they fill anyway (`fillInS`, else null).
+ *
+ * `fillDue` counts the tiles waiting on an LOD 1 chunk as missing, so a pass
+ * whose only missing tiles wait on a chunk may not fill; clearing
+ * `genPending` then left the tiles it had just made undrawn until a chunk
+ * arrived or the focus moved 8 m (review 2026-09-30, replayed in
+ * groundcoverDrain.test.ts). Filling at once instead bypassed the cold-start
+ * phasing, one whole-ring fill per chunk arrival (review 2026-09-30, second
+ * pass). So the drained pass keeps the schedule's own cadence: the fill
+ * comes at GC_PHASE_CEILING_S (cold) or GC_FILL_INTERVAL_S (walking) after
+ * the last fill, without re-running generation every frame to get there.
+ */
+export function settleGeneration(i: SettleInputs): {
+  fill: boolean; pending: boolean; fillInS: number | null;
+} {
+  if (i.remaining > 0) return { fill: i.fill, pending: true, fillInS: null };
+  if (i.fill || i.generatedSinceFill === 0) return { fill: i.fill, pending: false, fillInS: null };
+  const cadenceS = i.cold ? GC_PHASE_CEILING_S : GC_FILL_INTERVAL_S;
+  return { fill: false, pending: false, fillInS: Math.max(0, cadenceS - i.sinceLastFillS) };
+}
+
 /** Floats per tile box: minX, minY, minZ, maxX, maxY, maxZ. */
 const BOX = 6;
 

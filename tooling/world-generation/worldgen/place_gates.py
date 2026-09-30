@@ -209,15 +209,22 @@ def compile_gates(g: Gates, settlement: dict | None, why_missing: str, seconds: 
     return rest
 
 
+def tier_a_doors(bp: dict) -> list[tuple[dict, str]]:
+    """(door, cell id) for each of the place's doors into a tier-A interior
+    cell: the one rule the interior and flame anchor gates share."""
+    out = []
+    for door in bp.get("doors") or []:
+        claim = door.get("interiorClaim") or {}
+        if claim.get("tier") == "A" and claim.get("cellId"):
+            out.append((door, claim["cellId"]))
+    return out
+
+
 def interior_gate(g: Gates, bp: dict) -> None:
     from .export_interior_bundle import check
     t = time.perf_counter()
     failures, cells = [], []
-    for door in bp.get("doors") or []:
-        claim = door.get("interiorClaim") or {}
-        if claim.get("tier") != "A" or not claim.get("cellId"):
-            continue
-        cell = claim["cellId"]
+    for door, cell in tier_a_doors(bp):
         cells.append(cell)
         path = INTERIORS / f"{cell}.json"
         if not path.exists():
@@ -241,9 +248,7 @@ FLAME_ANCHOR_ONLY_ENV = "ES_FLAME_ANCHOR_ONLY"
 
 def tier_a_cells(bp: dict) -> list[str]:
     """The tier-A interior cells the place's doors lead into."""
-    return sorted({(d.get("interiorClaim") or {})["cellId"] for d in bp.get("doors") or []
-                   if (d.get("interiorClaim") or {}).get("tier") == "A"
-                   and (d.get("interiorClaim") or {}).get("cellId")})
+    return sorted({cell for _, cell in tier_a_doors(bp)})
 
 
 def flame_anchor_gate(g: Gates, place_id: str, bp: dict) -> None:
@@ -262,7 +267,8 @@ def flame_anchor_gate(g: Gates, place_id: str, bp: dict) -> None:
     failures = ([] if ran else [f"the flame anchor test did not run (renamed?): {FLAME_ANCHOR_TEST}"]) \
         if got.returncode == 0 else (
         sorted({ln.strip().strip('",') for ln in out.splitlines()
-                if "lies outside the piece's bounds" in ln or "upper half of a hanging piece" in ln})
+                if "lies outside the piece's bounds" in ln or "upper half of a hanging piece" in ln
+                or "has no published bundle to check" in ln})
         or [f"the flame anchor test failed (exit {got.returncode}): "
             + " | ".join(out.strip().splitlines()[-5:])])
     g.add("flameAnchors", time.perf_counter() - t, failures)

@@ -233,11 +233,5 @@ function disposeMesh(group: THREE.Group, mesh: THREE.Mesh, keep?: THREE.Material
 }
 
 function disposeGroup(group: THREE.Group): void {
-  for (const child of [...group.children]) {
-    const mesh = child as THREE.Mesh;
-    mesh.geometry.dispose();
-    const m = mesh.material as THREE.MeshStandardMaterial;
-    m.map?.dispose(); m.normalMap?.dispose(); m.dispose();
-    group.remove(mesh);
-  }
+  for (const child of [...group.children]) disposeMesh(group, child as THREE.Mesh);
 }

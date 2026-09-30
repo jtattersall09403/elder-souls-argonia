@@ -154,23 +154,28 @@ function jsonFiles(dir: string): string[] {
 }
 
 /**
+ * The bundle stems (a place id, an interior cell id) the place gate asks for
+ * (place_gates.py `flame_anchor_gate`, env ES_FLAME_ANCHOR_ONLY): one place's
+ * defect never fails another place's gate. Unset: every published bundle.
+ */
+function anchorScope(): Set<string> | null {
+  const only = process.env.ES_FLAME_ANCHOR_ONLY;
+  if (!only) return null;
+  return new Set(only.split(",").filter(Boolean));
+}
+
+const stemOf = (file: string) => file.split("/").pop()!.replace(/\.json$/, "");
+
+/**
  * The anchor check over the published data: every exterior piece the layer
  * draws a fire for (SettlementLayer's rule: a light fixture, else a sprite
  * holder; the fallback only for a lit fixture with no fire of its own or on
  * it) and every interior piece with mined flames. Fails naming the piece.
  */
 /**
- * The bundle stems (a place id, an interior cell id) the place gate asks for
- * (place_gates.py `flame_anchor_gate`, env ES_FLAME_ANCHOR_ONLY): one place's
- * defect never fails another place's gate. Unset: every published bundle.
+ * With a scope, a named stem with no published bundle is a failure: a gate
+ * that read nothing never passes (review 2026-09-30).
  */
-function anchorScope(): ((file: string) => boolean) | null {
-  const only = process.env.ES_FLAME_ANCHOR_ONLY;
-  if (!only) return null;
-  const stems = new Set(only.split(",").filter(Boolean));
-  return (file) => stems.has(file.split("/").pop()!.replace(/\.json$/, ""));
-}
-
 function publishedAnchorFailures(scope = anchorScope()): { checked: number; failures: string[] } {
   const rows = kitRows();
   const failures: string[] = [];
@@ -182,7 +187,12 @@ function publishedAnchorFailures(scope = anchorScope()): { checked: number; fail
     checked += anchors.length;
     failures.push(...flameAnchorFailures(pieceId, row, box, anchors));
   };
-  const inScope = (file: string) => !scope || scope(file);
+  const read = new Set<string>();
+  const inScope = (file: string) => {
+    if (scope && !scope.has(stemOf(file))) return false;
+    read.add(stemOf(file));
+    return true;
+  };
   for (const file of jsonFiles(join(PUBLIC, "province", "settlements")).filter(inScope)) {
     const bundle = JSON.parse(readFileSync(file, "utf8")) as { placements?: Placement[] };
     const placements = bundle.placements ?? [];
@@ -208,6 +218,9 @@ function publishedAnchorFailures(scope = anchorScope()): { checked: number; fail
       const row = rows.get(`${p.kit}|${p.assetId}`);
       if (row?.flames?.length) check(p.id, row, false);
     }
+  }
+  for (const stem of scope ?? []) {
+    if (!read.has(stem)) failures.push(`${stem}: has no published bundle to check`);
   }
   return { checked, failures };
 }
@@ -258,7 +271,10 @@ describe("flame anchor check (16k walk 5)", () => {
 
   it("a place gate's scope checks only the bundles it names (review 2026-09-30)", () => {
     expect(publishedAnchorFailures(null).checked).toBeGreaterThan(0);
-    expect(publishedAnchorFailures((file) => file.endsWith("/place.nowhere.json")).checked).toBe(0);
+    const nowhere = publishedAnchorFailures(new Set(["place.nowhere"]));
+    expect(nowhere.checked).toBe(0);
+    // a scope naming a bundle that is not published fails: nothing read is never green
+    expect(nowhere.failures).toEqual(["place.nowhere: has no published bundle to check"]);
   });
 
   it("every flame of every published place and interior lies in its piece", () => {
