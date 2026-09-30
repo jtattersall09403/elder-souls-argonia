@@ -325,3 +325,35 @@ export function keptCount(keeps: Float32Array, lo: number, hi: number, t: number
   }
   return a - lo;
 }
+
+/**
+ * The thinned far mesh tier (walk 6): a LARGE ground-cover species
+ * (`isLargePlant`, e.g. a 3 m marsh grass) keeps a deterministic subset of its
+ * plants as full mesh past the NEAR band, and those plants leave the card
+ * tiers. The subset is the head of the tile's far block (`keep` ascending), so
+ * the same plants stay mesh whatever the focus. Returns the slice of the far
+ * block (`farLo`, `farN`) and the count from the rest block (`restN`) one
+ * tile record copies:
+ *  - `all`: the plain tiers (every species that is not thinned-mesh);
+ *  - `thin`: the far mesh record, `keep < meshKeep` (and the budget thin);
+ *  - `rest`: a card record of a thinned-mesh species, the far block minus
+ *    the mesh subset.
+ */
+export function recordCopyRange(
+  keeps: Float32Array,
+  farCount: number,
+  count: number,
+  farOnly: boolean,
+  keepBelow: number,
+  role: "all" | "thin" | "rest",
+  meshKeep: number,
+): { farLo: number; farN: number; restN: number } {
+  if (role === "thin") {
+    return { farLo: 0, farN: keptCount(keeps, 0, farCount, Math.min(keepBelow, meshKeep)), restN: 0 };
+  }
+  const restN = farOnly ? 0 : keptCount(keeps, farCount, count, keepBelow);
+  const kept = keptCount(keeps, 0, farCount, keepBelow);
+  if (role === "all") return { farLo: 0, farN: kept, restN };
+  const lo = keptCount(keeps, 0, farCount, meshKeep);
+  return { farLo: lo, farN: Math.max(0, kept - lo), restN };
+}

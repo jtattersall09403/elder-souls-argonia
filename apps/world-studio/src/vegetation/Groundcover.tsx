@@ -63,6 +63,7 @@ import {
   type KitLevel,
   type KitManifest,
   type KitSpecies,
+  isLargePlant,
 } from "./floraKit";
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
 import { placeGround, sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
@@ -108,6 +109,7 @@ import {
   GC_BUDGET_SLACK,
   generateBudgetMs,
   keptCount,
+  recordCopyRange,
   ringWeights,
   safetyFactor,
   thinThreshold,
@@ -195,6 +197,14 @@ function nearMeshLevel(entry: KitSpecies): { parts: KitLevel["parts"]; tris: num
 
 /** Fraction of a species' instances the FAR tier keeps. */
 const FAR_THIN = 0.35;
+/** The thinned far mesh tier (walk 6): a LARGE species (`isLargePlant` on the
+ * table's `heightM`, never a name; today only the 3 m marsh grass) keeps this
+ * fraction of its authored density as full mesh from the end of its NEAR band
+ * to its far radius, in place of those plants' cards; the rest stay cards.
+ * Deterministic: the subset is `keep < FAR_MESH_DENSITY / FAR_THIN` inside
+ * the tile's far block (`recordCopyRange`). */
+const FAR_MESH_DENSITY = 0.05;
+const FAR_MESH_KEEP = FAR_MESH_DENSITY / FAR_THIN;
 /** Short species stop at `1.6 r` where the tall ones stop at `2.2 r`. */
 const SHORT_FAR_FRACTION = 1.6 / 2.2;
 /** A bed-cover species (one that stands under metres of water: the river
@@ -208,6 +218,8 @@ const BED_COVER_DEPTH_M = 4;
 const TIER_NEAR = 0;
 const TIER_MID = 1;
 const TIER_FAR = 2;
+/** The thinned far mesh copy (NEAR bucket, band NEAR end to FAR end). */
+const TIER_FAR_MESH = 3;
 /** Draw buckets (0084 round 11). MID and FAR share one card geometry and one
  * material, so they are filled into ONE instanced mesh per (plan, quadrant,
  * part): the tier still decides the crossfade band (written per instance) and
@@ -302,6 +314,8 @@ interface SpeciesPlan {
   /** Under `SHORT_SPECIES_M` tall: its FAR tier stops proportionally sooner.
    * A property of the MESH, so it is the same on every rule for a species. */
   short: boolean;
+  /** A large plant (`isLargePlant`): runs the thinned far mesh tier. */
+  large: boolean;
 }
 
 /** groundcover.json v2: (region class, land-cover id) → species. Covers with
@@ -360,12 +374,14 @@ function buildPlans(): SpeciesPlan[] {
             needsWater: false,
             submerged: false,
             short: false,
+            large: false,
           };
           plans.set(rule.asset, plan);
         }
         plan.bySlot.set(slotKey(region, Number(coverId)), rule);
         plan.maxDensity = Math.max(plan.maxDensity, rule.density);
         plan.short = rule.heightM < SHORT_SPECIES_M;
+        plan.large = isLargePlant(rule.heightM);
         if (rule.waterRule === "below-at-least") {
           plan.needsWater = true;
           if ((rule.maxDepthM ?? 0) >= BED_COVER_DEPTH_M) plan.submerged = true;
@@ -1525,7 +1541,7 @@ export function Groundcover({
     });
     const quadCount = SECTOR_SLOTS;
     culler.clear();
-    interface SlotTiles { tiles: { species: TileSpecies; far: boolean; tier: number; tx: number; tz: number; nearest: number; thin: number; thinNearM: number; thinMidM: number; minY: number; maxY: number }[]; count: number }
+    interface SlotTiles { tiles: { species: TileSpecies; far: boolean; tier: number; role: "all" | "thin" | "rest"; tx: number; tz: number; nearest: number; thin: number; thinNearM: number; thinMidM: number; minY: number; maxY: number }[]; count: number }
     const slots: SlotTiles[][] = SPECIES_PLANS.map(
       () => Array.from({ length: BUCKET_COUNT * quadCount }, () => ({ tiles: [], count: 0 })));
     // The ring's geometric weights per species (its own radii): what one
@@ -1573,16 +1589,24 @@ export function Groundcover({
         const inMid = entry.nearest <= speciesMidM + TIER_OVERLAP_M;
         const inFar = entry.nearest <= speciesFarM + TIER_OVERLAP_M;
         const bucket = slots[plan.index];
-        const record = { species, far: false, tier: TIER_NEAR, tx: entry.tx, tz: entry.tz, nearest: entry.nearest, thin, thinNearM: speciesNearM, thinMidM: speciesMidM, minY: tile.minY, maxY: tile.maxY };
+        // A large species with a card and a NEAR mesh runs the thinned far
+        // mesh tier; its card records then skip the mesh subset.
+        const farMesh = plan.large && nearPlan !== null && cards.has(plan.id);
+        const cardRole = farMesh ? "rest" as const : "all" as const;
+        const record = { species, far: false, tier: TIER_NEAR, role: "all" as "all" | "thin" | "rest", tx: entry.tx, tz: entry.tz, nearest: entry.nearest, thin, thinNearM: speciesNearM, thinMidM: speciesMidM, minY: tile.minY, maxY: tile.maxY };
         const nearSlot = BUCKET_NEAR * quadCount + quadrant;
         const cardSlot = BUCKET_CARD * quadCount + quadrant;
         if (inNear) { bucket[nearSlot].tiles.push(record); bucket[nearSlot].count += species.count; }
+        if (farMesh && inFar && entry.nearest + TILE_M * Math.SQRT2 >= speciesNearM - TIER_OVERLAP_M) {
+          bucket[nearSlot].tiles.push({ ...record, tier: TIER_FAR_MESH, role: "thin" });
+          bucket[nearSlot].count += species.farCount;
+        }
         if (inMid) {
-          bucket[cardSlot].tiles.push({ ...record, tier: TIER_MID });
+          bucket[cardSlot].tiles.push({ ...record, tier: TIER_MID, role: cardRole });
           bucket[cardSlot].count += species.count;
         }
         if (inFar) {
-          bucket[cardSlot].tiles.push({ ...record, far: true, tier: TIER_FAR });
+          bucket[cardSlot].tiles.push({ ...record, far: true, tier: TIER_FAR, role: cardRole });
           bucket[cardSlot].count += species.farCount;
         }
         // The budget counts PLANTS, not copies: a tile inside the mid band is
@@ -1634,6 +1658,7 @@ export function Groundcover({
         [0, speciesNearM, TIER_BAND_M[0][0], TIER_BAND_M[0][1]],
         [speciesNearM, speciesMidM, TIER_BAND_M[1][0], TIER_BAND_M[1][1]],
         [speciesMidM, speciesFarM, TIER_BAND_M[2][0], TIER_BAND_M[2][1]],
+        [speciesNearM, speciesFarM, TIER_BAND_M[1][0], TIER_BAND_M[2][1]],
       ];
       const speciesHeightM = plan.anyRule.heightM * (1 + plan.anyRule.heightVariance) * 1.5;
       for (let bucket = 0; bucket < BUCKET_COUNT; bucket++) {
@@ -1652,10 +1677,9 @@ export function Groundcover({
           for (const t of slotTiles.tiles) {
             const sp = t.species;
             const keepBelow = thinThreshold(t.nearest, t.thin * densityScale, t.thinNearM, t.thinMidM);
-            const farN = keptCount(sp.keeps, 0, sp.farCount, keepBelow);
-            const restN = t.far ? 0 : keptCount(sp.keeps, sp.farCount, sp.count, keepBelow);
+            const { farN, restN } = recordCopyRange(sp.keeps, sp.farCount, sp.count, t.far, keepBelow, t.role, FAR_MESH_KEEP);
             drawn += farN + restN;
-            byTier[t.tier] += farN + restN;
+            byTier[t.tier === TIER_FAR_MESH ? TIER_NEAR : t.tier] += farN + restN;
             if (t.tx * TILE_M < minX) minX = t.tx * TILE_M;
             if ((t.tx + 1) * TILE_M > maxX) maxX = (t.tx + 1) * TILE_M;
             if (t.tz * TILE_M < minZ) minZ = t.tz * TILE_M;
@@ -1725,8 +1749,7 @@ export function Groundcover({
             for (const t of slotTiles.tiles) {
               const sp = t.species;
               const keepBelow = thinThreshold(t.nearest, t.thin * densityScale, t.thinNearM, t.thinMidM);
-              const farN = keptCount(sp.keeps, 0, sp.farCount, keepBelow);
-              const restN = t.far ? 0 : keptCount(sp.keeps, sp.farCount, sp.count, keepBelow);
+              const { farLo, farN, restN } = recordCopyRange(sp.keeps, sp.farCount, sp.count, t.far, keepBelow, t.role, FAR_MESH_KEEP);
               const band = tierBands[t.tier];
               for (let i = at; i < at + farN + restN; i++) {
                 bandArray[i * 4] = band[0];
@@ -1735,8 +1758,8 @@ export function Groundcover({
                 bandArray[i * 4 + 3] = band[3];
               }
               if (farN > 0) {
-                matrices.set(sp.matrices.subarray(0, farN * 16), at * 16);
-                colours.set(sp.colours.subarray(0, farN * 3), at * 3);
+                matrices.set(sp.matrices.subarray(farLo * 16, (farLo + farN) * 16), at * 16);
+                colours.set(sp.colours.subarray(farLo * 3, (farLo + farN) * 3), at * 3);
                 at += farN;
               }
               if (restN > 0) {
