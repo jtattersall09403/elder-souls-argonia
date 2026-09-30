@@ -33,7 +33,7 @@ from pathlib import Path
 import numpy as np
 
 from . import paths
-from .raycast import cast_rays
+from .mesh_query import cast_rays
 from .kits import Catalogue, fit_of
 
 SCHEMA_VERSION = 3

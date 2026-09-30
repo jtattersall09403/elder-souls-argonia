@@ -202,7 +202,7 @@ from typing import Callable, Iterable
 import numpy as np
 
 from . import asset_registry
-from .raycast import cast_rays
+from .mesh_query import cast_rays, on_surface
 from .esp_index import UNITS_PER_METRE, Plugin
 from .mine_assemblies import local_offset
 from .mine_designed_sink import (
@@ -1304,7 +1304,7 @@ def _measure_keys(keys: list, poses: dict | None = None,
         if not near.any():
             results[key] = None
             continue
-        _, distance, triangles = query.on_surface(placed[near])
+        _, distance, triangles = on_surface(query, placed[near])
         close = distance * parent_scale <= CONTACT_M
         hit = np.zeros(len(points), dtype=bool)
         hit[np.flatnonzero(near)[close]] = True

@@ -100,6 +100,7 @@ from pathlib import Path
 import numpy as np
 
 from .esp_index import UNITS_PER_METRE
+from .mesh_query import on_surface
 from .asset_taxonomy import classify
 from .mine_assemblies import (NATURAL_DIR_WORDS, Cluster, asset_ref, collect, kit_joins,
                               pool_index, provenance,
@@ -215,7 +216,7 @@ def contact(parent: Instance, child: Instance, sampler: Sampler):
     near = np.all((placed >= low - slack) & (placed <= high + slack), axis=1)
     if not near.any():
         return None
-    _, distance, _ = query.on_surface(placed[near])
+    _, distance, _ = on_surface(query, placed[near])
     hit = np.zeros(len(points), dtype=bool)
     hit[np.flatnonzero(near)[distance * parent.scale <= CONTACT_M]] = True
     if hit.sum() < MIN_CONTACT_POINTS:

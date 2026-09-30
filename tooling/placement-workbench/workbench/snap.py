@@ -16,7 +16,7 @@ from functools import lru_cache
 import numpy as np
 
 from . import paths
-from .raycast import cast_rays
+from .mesh_query import cast_rays
 from .kits import Catalogue
 from .scene import Piece, yaw_matrix
 

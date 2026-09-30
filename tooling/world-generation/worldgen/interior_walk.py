@@ -34,7 +34,7 @@ from pathlib import Path
 
 import numpy as np
 
-from .raycast import RAY_CHUNK, cast_rays  # noqa: F401  (re-exported: iw.cast_rays)
+from .mesh_query import RAY_CHUNK, cast_rays  # noqa: F401  (re-exported: iw.cast_rays)
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 RAW_KITS = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"

@@ -23,7 +23,7 @@ from functools import lru_cache
 import numpy as np
 
 from . import measure, paths
-from .raycast import cast_rays
+from .mesh_query import cast_rays
 from .scene import plan_to_province
 
 SCHEMA_VERSION = 1

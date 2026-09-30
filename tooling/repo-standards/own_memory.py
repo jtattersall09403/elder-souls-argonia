@@ -3,8 +3,10 @@
     python3 own_memory.py --watch ROOT_PID OUT_FILE [INTERVAL_S]
     python3 own_memory.py --tree PID...     (MiB now over the trees; job_guard admission)
 
-Sums RssAnon + RssShmem (private and shared-anonymous resident memory; file
-pages, which the kernel reclaims, are left out) over ROOT_PID and every
+Sums Pss_Anon + Pss_Shmem (anonymous and shared-anonymous resident memory,
+each shared page split between the processes that map it, so a fork pool's
+copy-on-write pages count once; file pages, which the kernel reclaims, are
+left out) over ROOT_PID and every
 process descended from it, every INTERVAL_S (0.5), and rewrites OUT_FILE with
 the peak in MiB each time it rises; it stops when ROOT_PID is gone or a
 zombie. The walk follows parent links, so a descendant that calls setsid (a
@@ -38,8 +40,28 @@ def _status(pid: int) -> dict[str, int] | None:
     return out
 
 
+def _pss_kib(pid: int) -> int | None:
+    """Pss_Anon + Pss_Shmem KiB (smaps_rollup), None when unreadable. A
+    forked worker's copy-on-write pages are split between the processes
+    that share them; RssAnon counts them once per process (place_gates
+    greenspring, same code, cold cache, 2026-09-30: RssAnon 9.15 GiB, PSS
+    7.22 GiB)."""
+    out, seen = 0, False
+    try:
+        with open(f"/proc/{pid}/smaps_rollup") as f:
+            for line in f:
+                key, _, val = line.partition(":")
+                if key in ("Pss_Anon", "Pss_Shmem"):
+                    out += int(val.split()[0])
+                    seen = True
+    except (OSError, ValueError, IndexError):
+        return None
+    return out if seen else None
+
+
 def tree_kib(root: int) -> tuple[int, bool]:
-    """(RssAnon + RssShmem KiB over root's tree, root still running)."""
+    """(Pss_Anon + Pss_Shmem KiB over root's tree, root still running);
+    RssAnon + RssShmem for a process whose smaps_rollup is unreadable."""
     info: dict[int, dict[str, int]] = {}
     for name in os.listdir("/proc"):
         if name.isdigit():
@@ -55,7 +77,8 @@ def tree_kib(root: int) -> tuple[int, bool]:
         pid = todo.pop()
         s = info.get(pid)
         if s is not None:
-            total += s.get("RssAnon", 0) + s.get("RssShmem", 0)
+            pss = _pss_kib(pid)
+            total += pss if pss is not None else s.get("RssAnon", 0) + s.get("RssShmem", 0)
         todo.extend(kids.get(pid, ()))
     return total, alive
 

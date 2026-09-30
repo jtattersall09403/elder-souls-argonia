@@ -20,7 +20,7 @@
 #   memwatch.sh [--ceiling-gib N] <command...>     (N may be decimal, e.g. 11.75)
 # TWO figures (2026-09-26): the ceiling above is MACHINE-wide (on the EC2 box
 # /sys/fs/cgroup is the root cgroup, so it holds every lane), and it is what
-# kills; the JOB's own figure is its process tree's RssAnon + RssShmem,
+# kills; the JOB's own figure is its process tree's Pss_Anon + Pss_Shmem (a fork pool's shared pages once),
 # sampled every 0.5 s by own_memory.py. The last line reads
 #   memwatch[lane]: own peak X GiB · machine peak Y GiB, exit N
 # and per-job targets read the own peak (the placement suite's logged

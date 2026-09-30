@@ -19,6 +19,7 @@ import math
 import numpy as np
 
 from . import paths
+from .mesh_query import on_surface
 from .kits import Catalogue, fit_of, sink_of
 from .scene import Piece, plan_to_province
 
@@ -67,7 +68,6 @@ def _one_way(cat: Catalogue, a: Piece, b: Piece) -> dict:
     """A's surface samples against B's surface, in B's kit frame: contact
     points (within CONTACT_M), the contact patch class on A, and B's mean
     outward normal (world) at those points."""
-    from trimesh.proximity import ProximityQuery
     mm = _mm()
     ma, mb = cat.mesh(a.asset), cat.mesh(b.asset)
     pa, na = samples(ma)
@@ -80,7 +80,7 @@ def _one_way(cat: Catalogue, a: Piece, b: Piece) -> dict:
     out = {"contactPoints": 0, "patch": None, "normalOfB": None}
     if not near.any():
         return out
-    _closest, dist, tri = ProximityQuery(mb).on_surface(local[near])
+    _closest, dist, tri = on_surface(mb, local[near])
     hit = dist * b.scale <= mm.CONTACT_M
     out["contactPoints"] = int(hit.sum())
     if hit.any():

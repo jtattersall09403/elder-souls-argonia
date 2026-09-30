@@ -60,7 +60,13 @@ you can verify, ranked most severe first. Below is the
 where a simpler or cheaper one exists; violations of the engineering standards
 (stable IDs, player-visible strings in packages/text-catalogue, schemaVersion,
 determinism, no new module-level singletons, credits with assets); and code
-that will scale badly for a Skyrim-sized game. Do not review prose style in
+that will scale badly for a Skyrim-sized game. Memory (docs/standards/engineering.md,
+Memory discipline): for Python/TS that touches meshes, rasters, rays, cells or
+kits, is any allocation proportional to A x B (rays x triangles, cells x
+pieces, pixels x lights, points x candidate faces) and not chunked
+(worldgen/mesh_query.py chunks trimesh ray and closest-point calls)? Is
+anything reloaded per item that should be loaded once and shared? Are results
+held after their item is done? Do not review prose style in
 docs, comments or strings: a separate linter and skill own prose. You may
 Read/Grep/Glob the repo to verify a suspicion; verify before you report.
 

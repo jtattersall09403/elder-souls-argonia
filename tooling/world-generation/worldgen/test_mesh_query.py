@@ -8,7 +8,7 @@ import pytest
 
 trimesh = pytest.importorskip("trimesh")
 
-from . import raycast  # noqa: E402
+from . import mesh_query as raycast  # the module under test  # noqa: E402
 
 
 def _fixture():
@@ -48,3 +48,15 @@ def test_single_direction_and_empty():
     assert all(np.array_equal(a, b) for a, b in zip(full, one))
     locs, rays, tris = raycast.cast_rays(mesh, np.zeros((0, 3)), [0.0, 0.0, -1.0])
     assert locs.shape == (0, 3) and len(rays) == 0 and len(tris) == 0
+
+
+def test_on_surface_chunked_equals_unchunked():
+    from trimesh.proximity import ProximityQuery
+    mesh, _, _ = _fixture()
+    rng = np.random.default_rng(11)
+    pts = rng.uniform(-1.5, 1.5, (2 * raycast.POINT_CHUNK + 101, 3))
+    c0, d0, t0 = ProximityQuery(mesh).on_surface(pts)
+    c1, d1, t1 = raycast.on_surface(mesh, pts)
+    assert np.array_equal(t0, t1) and np.allclose(d0, d1, atol=1e-12) and np.allclose(c0, c1, atol=1e-12)
+    small = raycast.on_surface(ProximityQuery(mesh), pts[:5])
+    assert np.array_equal(small[2], t0[:5])

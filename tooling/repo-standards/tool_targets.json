@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "about": "Per-tool wall and own-peak targets read by tool_timings.py (docs/standards/engineering.md, Memory discipline). A tool under a judged prefix with no row gets defaultMaxOwnGiB (a tool that passes 4 GiB on one item is a defect). Only runs whose own peak is PSS (ownMeasure pss, memwatch since 2026-09-30) are judged. A target is set from a measured run with headroom; raise one only with the run that justifies it.",
+  "judgedPrefixes": ["worldgen.", "pipeline.", "placement-workbench."],
+  "defaultMaxOwnGiB": 4.0,
+  "tools": {
+    "worldgen.place_gates": {"maxWallS": 60, "maxOwnGiB": 2.0, "measured": "greenspring cold 2026-09-30: 33 s, 1.31 GiB"},
+    "placement-workbench.wb": {"maxWallS": 150, "maxOwnGiB": 2.0, "measured": "apply greenspring serial 2026-09-30: 53 s, 1.30 GiB; round worst 109 s"},
+    "worldgen.export_interior_bundle": {"maxWallS": 180, "maxOwnGiB": 1.5, "measured": "job-guard 2026-09-30: 0.93 GiB; worst 162.8 s"},
+    "worldgen.interior_light": {"maxOwnGiB": 2.0, "measured": "job-guard 2026-09-30: 1.42 GiB"},
+    "worldgen.export_settlement_bundle": {"maxOwnGiB": 1.0, "measured": "job-guard 2026-09-30: 0.15 GiB"},
+    "pipeline.build_kit": {"maxWallS": 1800, "maxOwnGiB": 4.0, "measured": "7-day worst 1651 s, 4.19 GiB (RssAnon)"},
+    "pipeline.impostor_bake": {"maxWallS": 600, "maxOwnGiB": 2.0, "measured": "7-day worst 402 s, 1.57 GiB (RssAnon)"}
+  }
+}
