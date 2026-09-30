@@ -2198,3 +2198,21 @@ def piece_rule(key: str, cat, scene, uids=None, fit_for=None) -> dict:
         want = set(uids)
         targets = [u for u in targets if u in want]
     return piece_merge(key, cat, scene, [piece_part(key, cat, scene, targets, fit_for)], uids)
+
+# --------------------------------------------------------------------------
+# coplanar (16k walk 6, the z-fighting class seen three times: Claywater
+# stable, the pad overlay, the DawnstarBrinasHouse corner): two pieces'
+# surfaces on one plane within 2 mm over more than 0.01 m2 flicker. The
+# measure is worldgen/coplanar.py, shared with `wb.py coplanar` and the
+# interior exporter's `separate` pass.
+# --------------------------------------------------------------------------
+def coplanar(cat, scene) -> dict:
+    paths.bridge()
+    from worldgen import coplanar as cp
+    placements = [{"id": p.uid, "kit": cat.row(p.asset)["kit"], "assetId": p.asset,
+                   "positionM": [p.x, p.y, p.z], "yawDeg": p.yaw, "pitchDeg": p.pitch,
+                   "scale": p.scale} for p in scene.pieces if p.y is not None]
+    hits = cp.find(cp.pieces_from_bundle(placements, cp.KitGeometry()), cp.decals_biased("place"))
+    fails = [f"{h['b']['id']}: coplanar with {h['a']['id']} over {h['overlapM2']} m2 at {h['atM']} "
+             f"({h['fix']})" for h in hits]
+    return {"ok": not fails, "failures": fails, "rows": hits}

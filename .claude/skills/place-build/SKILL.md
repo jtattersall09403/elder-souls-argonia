@@ -284,11 +284,18 @@ Interiors: run `wb.py render-interior <cell>` for every tier-A cell the
 place's doors claim (one contact sheet each, ~40 s; `references/doors-interiors-sockets.md`
 § 7); a reader judges it readable, warm, lit by its sources, not flat
 (reader row 48). This is the required interior check. Before the
-renders, `wb.py audit-interior <cell ...>` (~40 s a cell) must exit 0:
+renders, `wb.py audit-interior <cell ...>` (~20 s a cell; it and
+`seat-interior` run under `job_guard.sh`, or the CPU watchdog pauses them) must exit 0:
 every placed piece's texture published and no shell on a flat LOD swatch, every
 piece touching a support within 5 cm, every stair landing at both ends,
-every hearth with its fire, one lit fixture per 12 m² of walkable floor
-(reader row 49; 16k walk 6, the garbled Greenspring hut). A red is fixed at
+every hearth with its fire, one lit fixture per 12 m² of the floor the player
+reaches from the doors (one surface per storey; a rug or table top is not floor)
+(reader row 49; 16k walk 6, the garbled Greenspring hut), and no coplanar
+pair. Before any render, `wb.py coplanar` (places; `check`'s `coplanar`
+rule) / `audit-interior` (cells) exits 0: two surfaces never share a plane
+within 2 mm over an overlap (the fix moves one at least 5 mm or drops a repeat) unless one is a declared decal drawn with
+polygonOffset; decal-on-decal is merged or clipped at authoring (reader
+row 50, R90). A red is fixed at
 source (kit texture alias, exporter stand-in, additions file), never by
 moving a plugin piece.
 

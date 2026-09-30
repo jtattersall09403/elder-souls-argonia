@@ -650,7 +650,8 @@ def _rule_task(cat, scene, key: str):
         return cmd_doors(None, scene, cat)
     from workbench import seat_rules
     fn = {"walk": rules.walk, "pathReach": rules.path_reach,
-          "berthReach": rules.berth_reach, "landing": seat_rules.landing}[key]
+          "berthReach": rules.berth_reach, "landing": seat_rules.landing,
+          "coplanar": rules.coplanar}[key]
     return fn(cat, scene)
 
 
@@ -670,8 +671,8 @@ def _piece_rule_task(cat, scene, key: str, uids: list):
 # by piece across the pool and scoped by `--only`
 CHECK_RULES = ("walk", "floorEdge", "pathReach", "propSeat", "roadSurface", "sill", "sign",
                "berthReach", "collider", "burial", "hanging", "fixtureSeat", "archway", "rockSeat",
-               "padClear", "landing")
-GRAPH_RULES = ("walk", "pathReach", "berthReach", "landing")
+               "padClear", "landing", "coplanar")
+GRAPH_RULES = ("walk", "pathReach", "berthReach", "landing", "coplanar")
 
 
 def cmd_check(a, scene, cat):
@@ -2493,6 +2494,44 @@ def run_audit_interior(argv) -> int:
     return 1 if any(c["red"] for c in got) else 0
 
 
+def run_coplanar(argv) -> int:
+    """`wb.py coplanar [--cell CELL ..] [--all-cells] [--place PLACE_ID ..] [--out JSON]`:
+    every pair of surfaces from different pieces coplanar within 2 mm / 2 deg
+    and overlapping > 0.01 m2 (z-fighting), per published interior cell or
+    place bundle; a declared decal is exempt against its base only where the
+    runtime drawing it applies the decal offset. worldgen/coplanar.py. Exit 1 on any hit."""
+    import time
+    from workbench import coplanar, paths
+    ap = argparse.ArgumentParser(prog="wb.py coplanar")
+    ap.add_argument("--cell", nargs="+", default=[], help="one or more cell names")
+    ap.add_argument("--all-cells", action="store_true")
+    ap.add_argument("--place", nargs="*", default=[], help="place ids, e.g. place.hist-heartland.greenspring")
+    ap.add_argument("--out", type=Path, default=None, help="full JSON (default: stdout)")
+    a = ap.parse_args(argv)
+    cells = list(a.cell)
+    if a.all_cells:
+        cells += sorted(p.stem for p in (paths.PROVINCE / "interiors").glob("*.json"))
+    geo = coplanar.KitGeometry()
+    got = []
+    for c in cells:
+        t = time.time()
+        got.append({**coplanar.measure_cell(c, geo), "seconds": round(time.time() - t, 2)})
+    for p in a.place:
+        t = time.time()
+        got.append({**coplanar.measure_place(p, geo), "seconds": round(time.time() - t, 2)})
+    if a.out:
+        a.out.write_text(json.dumps(got, indent=1) + "\n")
+    else:
+        _emit(got)
+    for g in got:
+        print(f"{g.get('cell') or g.get('place')}: {len(g['hits'])} coplanar pair(s) over "
+              f"{g['pieces']} pieces, {g['seconds']} s", file=sys.stderr)
+        for h in g["hits"]:
+            print(f"  {h['a']['id']} x {h['b']['id']}: {h['overlapM2']} m2 {h['facing']} -> {h['fix']}",
+                  file=sys.stderr)
+    return 1 if any(g["hits"] for g in got) else 0
+
+
 def run_render_interior(argv) -> int:
     """`wb.py render-interior CELL [--day | --night] [--out PNG]`: the
     interior lighting contact sheet from the published bundle (doorway and
@@ -2536,6 +2575,7 @@ def run_seat_interior(argv) -> int:
 
 TOP_LEVEL = {"apply": run_apply, "replay": run_replay, "round": run_round, "edit": run_edit,
              "bpy": run_bpy, "render-interior": run_render_interior,
+             "coplanar": run_coplanar,
              "audit-interior": run_audit_interior,
              "seat-interior": run_seat_interior,
              "whatchanged": run_whatchanged}
