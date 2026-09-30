@@ -49,7 +49,7 @@ occludes the lower part, so each preset's card height is (emitter to fuel
 top) + the flame seen above the fuel, from real fires, since the mined
 records carry no particle size or speed: a candle ~6 cm seen (card 10 cm),
 a lantern's candle filling about half its glass (15 cm), a hanging lantern
-with no mined candle a flame filling a clear part of its body (22 cm), a torch head 0.3-0.45
+with no mined candle a flame filling about a third of its empty cage, clear of the top ring (40 cm card; 22 cm read as a speck in the Argonian cage, walk 6), a torch head 0.3-0.45
 m seen (58 cm), a brazier or hearth bed ~0.6 m seen (1.0-1.05 m), a campfire
 at least 0.8x its log bundle's diameter above the logs (1.7 m, bed spread
 0.3 m). A new preset or a new fuel is sized the same way and checked on the

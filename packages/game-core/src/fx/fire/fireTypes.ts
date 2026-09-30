@@ -121,7 +121,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     // a lantern body with no mined candle (the Argonian cord lanterns): one
     // bigger flame at the body's centre, reading through the cage
     schemaVersion: 2, id: "lanternHanging",
-    shape: { widthM: 0.1, heightM: 0.22, taper: 0.7 },
+    shape: { widthM: 0.16, heightM: 0.4, taper: 0.7 },
     layers: { core: 2, outer: 1, spreadM: 0.02 },
     turbulence: 0.42, riseSpeed: 1.5, motion: { swayW: 1.0, pulse: 0.4, rateHz: 3.0 }, ramp: CANDLE_RAMP, bands: SMALL_BANDS,
     flicker: { rateHz: 3.5, amount: 0.08 }, windResponse: 0.05,
