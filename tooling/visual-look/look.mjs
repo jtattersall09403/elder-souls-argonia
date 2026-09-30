@@ -144,12 +144,11 @@ window.look = async ({ url, node, row, fromPart }) => {
   const grid = new THREE.GridHelper(extent * 2, Math.round((extent * 2) / step), 0xffffff, 0x999999);
   grid.material.toneMapped = false; scene.add(grid);
   const bw = new THREE.Box3Helper(box, 0x00ff66); bw.material.toneMapped = false; scene.add(bw);
+  const dots = [];
   for (const a of anchors) {
     const d = new THREE.Mesh(new THREE.SphereGeometry(Math.max(r * 0.012, 0.004), 8, 6), new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false }));
-    d.position.copy(a.local); scene.add(d);
+    d.position.copy(a.local); scene.add(d); dots.push(d);
   }
-  const hemi = new THREE.HemisphereLight(0xcfe0ff, 0x5a4a30, 1); scene.add(hemi);
-  const sun = new THREE.DirectionalLight(0xfff2dd, 1); sun.position.set(0.6, 1, 0.8).multiplyScalar(100); scene.add(sun);
   const isFire = anchors.length > 0;
   const fov = 35, dist = (r / Math.sin((fov * Math.PI) / 360)) * 1.05;
   const at = (bearing, elev, d = dist, target = centre) => {
@@ -167,8 +166,19 @@ window.look = async ({ url, node, row, fromPart }) => {
   views.forEach(([name, v, night], i) => {
     const exposure = night ? 22 : 3.9e-5;
     renderer.toneMappingExposure = exposure;
-    hemi.intensity = night ? 0.02 : 0.9 / exposure; sun.intensity = night ? 0 : 2.2 / exposure;
-    scene.background = new THREE.Color(night ? 0x05070d : 0x6f8396); // a clear colour is not tone-mapped
+    // fresh lights per view: outside an animation loop the node frame never
+    // advances, so a changed intensity on the same light is not re-uploaded
+    scene.remove(...scene.children.filter((o) => o.isLight));
+    const hemi = new THREE.HemisphereLight(0xcfe0ff, 0x5a4a30, night ? 0.02 : 0.9 / exposure);
+    const sun = new THREE.DirectionalLight(0xfff2dd, night ? 0 : 2.2 / exposure); sun.position.set(0.6, 1, 0.8).multiplyScalar(100);
+    scene.add(hemi, sun);
+    // WebGPU tone-maps the whole framebuffer, unlit overlays and the clear colour
+    // included, so they are divided by the exposure like the lights
+    const inv = 1 / exposure;
+    scene.background = new THREE.Color(night ? 0x05070d : 0x6f8396).multiplyScalar(inv);
+    ground.material.color.set(0x6b6247).multiplyScalar(inv); grid.material.color.setScalar(inv);
+    bw.material.color.set(0x00ff66).multiplyScalar(inv);
+    for (const d of dots) d.material.color.setScalar(inv);
     const cam = new THREE.PerspectiveCamera(fov, TW / TH, Math.max(0.005, r * 0.01), dist * 20);
     cam.position.copy(v.pos); cam.lookAt(v.target);
     fire.update(0.4 + i * 0.2, () => 1);
