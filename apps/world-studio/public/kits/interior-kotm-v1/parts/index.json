@@ -7,65 +7,13 @@
   "sha256": "ff8040a2b8df9c62cb1f2a45a8c83e2e3ab3844f4df8d7d22a2687ae431c5431"
  },
  "totals": {
-  "parts": 121,
-  "partBytes": 2595736,
-  "textureFiles": 91,
-  "textureBytes": 4404407,
-  "bytes": 7000143
+  "parts": 96,
+  "partBytes": 1868356,
+  "textureFiles": 76,
+  "textureBytes": 3530012,
+  "bytes": 5398368
  },
  "assets": {
-  "kotm:argonia/blackwood/plankwall01b": {
-   "file": "kotm_argonia_blackwood_plankwall01b-466b30b3.glb",
-   "bytes": 8652,
-   "vertices": 382,
-   "triangles": 206,
-   "textures": [
-    "88403ddd1bd1462e"
-   ]
-  },
-  "kotm:argonia/blackwood/plankwall02b": {
-   "file": "kotm_argonia_blackwood_plankwall02b-bc524e28.glb",
-   "bytes": 11120,
-   "vertices": 573,
-   "triangles": 309,
-   "textures": [
-    "88403ddd1bd1462e"
-   ]
-  },
-  "kotm:argonia/blackwood/shiveringhouse_01_inside": {
-   "file": "kotm_argonia_blackwood_shiveringhouse_01_inside-23543840.glb",
-   "bytes": 137064,
-   "vertices": 8570,
-   "triangles": 9757,
-   "textures": [
-    "14589b7b1fd4deb3",
-    "24f63fb182f6f591",
-    "2c3192f23448fe31",
-    "bb57f3abbba922ff",
-    "de5d89f4a58bb9b3",
-    "ed92dc656a5a17b3"
-   ]
-  },
-  "kotm:argonia/blackwood/wall01": {
-   "file": "kotm_argonia_blackwood_wall01-b2ca5f6c.glb",
-   "bytes": 13956,
-   "vertices": 325,
-   "triangles": 448,
-   "textures": [
-    "24f63fb182f6f591",
-    "ed92dc656a5a17b3"
-   ]
-  },
-  "kotm:argonia/blackwood/walldoor01": {
-   "file": "kotm_argonia_blackwood_walldoor01-ec94613e.glb",
-   "bytes": 18288,
-   "vertices": 619,
-   "triangles": 716,
-   "textures": [
-    "24f63fb182f6f591",
-    "ed92dc656a5a17b3"
-   ]
-  },
   "kotm:argonia/clutter/amberbee": {
    "file": "kotm_argonia_clutter_amberbee-c6d8173b.glb",
    "bytes": 14616,
@@ -83,17 +31,6 @@
    "textures": [
     "2b7c32ecca712308",
     "8c43d230ba7157b4"
-   ]
-  },
-  "kotm:argonia/clutter/burner01": {
-   "file": "kotm_argonia_clutter_burner01-1fbbbfd5.glb",
-   "bytes": 30900,
-   "vertices": 1473,
-   "triangles": 1401,
-   "textures": [
-    "4021e21cf1e50df8",
-    "9766248a65a503af",
-    "bcdc5c6bdc444f08"
    ]
   },
   "kotm:argonia/clutter/burner02": {
@@ -159,32 +96,11 @@
     "75799bb94b2b9652"
    ]
   },
-  "kotm:argonia/clutter/hangingfeathers02": {
-   "file": "kotm_argonia_clutter_hangingfeathers02-c4a748ff.glb",
-   "bytes": 12048,
-   "vertices": 248,
-   "triangles": 306,
-   "textures": [
-    "5d6aedd71b9740f4",
-    "67ae0d42579c1eb0",
-    "75799bb94b2b9652"
-   ]
-  },
   "kotm:argonia/clutter/saxhleelfence01": {
    "file": "kotm_argonia_clutter_saxhleelfence01-67ef2634.glb",
    "bytes": 29260,
    "vertices": 1575,
    "triangles": 1420,
-   "textures": [
-    "24f63fb182f6f591",
-    "5d6aedd71b9740f4"
-   ]
-  },
-  "kotm:argonia/clutter/saxhleelfence02": {
-   "file": "kotm_argonia_clutter_saxhleelfence02-1e1fcb54.glb",
-   "bytes": 53488,
-   "vertices": 3207,
-   "triangles": 2795,
    "textures": [
     "24f63fb182f6f591",
     "5d6aedd71b9740f4"
@@ -226,26 +142,6 @@
     "119cf367cb2383fe",
     "5d6aedd71b9740f4",
     "b35bcb40eb8bac67"
-   ]
-  },
-  "kotm:argonia/clutter/townlantern04": {
-   "file": "kotm_argonia_clutter_townlantern04-2a3ee1c4.glb",
-   "bytes": 21272,
-   "vertices": 910,
-   "triangles": 952,
-   "textures": [
-    "5343c3459c93d2be",
-    "6411d58f66794557"
-   ]
-  },
-  "kotm:argonia/clutter/twigsbundle": {
-   "file": "kotm_argonia_clutter_twigsbundle-b511a3fd.glb",
-   "bytes": 40980,
-   "vertices": 2264,
-   "triangles": 2340,
-   "textures": [
-    "4021e21cf1e50df8",
-    "5d6aedd71b9740f4"
    ]
   },
   "kotm:argonia/clutter/urn01": {
@@ -385,88 +281,6 @@
     "ecf358945997e6f2"
    ]
   },
-  "kotm:argonia/furniture/beddouble01": {
-   "file": "kotm_argonia_furniture_beddouble01-dafd22ad.glb",
-   "bytes": 51432,
-   "vertices": 2139,
-   "triangles": 2112,
-   "textures": [
-    "24f63fb182f6f591",
-    "6b3ba27070caf9a3",
-    "744defe543b80553",
-    "aa625ff8711151e5",
-    "bb2a646533f8db88",
-    "de5d89f4a58bb9b3",
-    "f547bc6470506aa2"
-   ]
-  },
-  "kotm:argonia/furniture/bedsingle01": {
-   "file": "kotm_argonia_furniture_bedsingle01-49d673ad.glb",
-   "bytes": 51736,
-   "vertices": 2200,
-   "triangles": 2154,
-   "textures": [
-    "24f63fb182f6f591",
-    "6b3ba27070caf9a3",
-    "744defe543b80553",
-    "aa625ff8711151e5",
-    "bb2a646533f8db88",
-    "de5d89f4a58bb9b3",
-    "f547bc6470506aa2"
-   ]
-  },
-  "kotm:argonia/furniture/chair01": {
-   "file": "kotm_argonia_furniture_chair01-3ed28d1e.glb",
-   "bytes": 13704,
-   "vertices": 660,
-   "triangles": 580,
-   "textures": [
-    "24f63fb182f6f591",
-    "de5d89f4a58bb9b3"
-   ]
-  },
-  "kotm:argonia/furniture/chair03": {
-   "file": "kotm_argonia_furniture_chair03-2b2092cc.glb",
-   "bytes": 17056,
-   "vertices": 871,
-   "triangles": 1016,
-   "textures": [
-    "98b208b1639d4938",
-    "de5d89f4a58bb9b3"
-   ]
-  },
-  "kotm:argonia/furniture/furnbook3shelf01": {
-   "file": "kotm_argonia_furniture_furnbook3shelf01-77935d77.glb",
-   "bytes": 16480,
-   "vertices": 500,
-   "triangles": 328,
-   "textures": [
-    "24f63fb182f6f591",
-    "de5d89f4a58bb9b3"
-   ]
-  },
-  "kotm:argonia/furniture/furncupboard01": {
-   "file": "kotm_argonia_furniture_furncupboard01-2c235e41.glb",
-   "bytes": 28576,
-   "vertices": 1322,
-   "triangles": 932,
-   "textures": [
-    "24f63fb182f6f591",
-    "3cdaa8f8f0a4a7b9",
-    "de5d89f4a58bb9b3"
-   ]
-  },
-  "kotm:argonia/furniture/furndresser3dwr01": {
-   "file": "kotm_argonia_furniture_furndresser3dwr01-4167c1e4.glb",
-   "bytes": 25296,
-   "vertices": 1024,
-   "triangles": 744,
-   "textures": [
-    "24f63fb182f6f591",
-    "3cdaa8f8f0a4a7b9",
-    "de5d89f4a58bb9b3"
-   ]
-  },
   "kotm:argonia/furniture/rusticbed": {
    "file": "kotm_argonia_furniture_rusticbed-dae042ff.glb",
    "bytes": 49296,
@@ -583,26 +397,6 @@
     "6a8ef7976a684134"
    ]
   },
-  "kotm:argonia/furniture/table03": {
-   "file": "kotm_argonia_furniture_table03-fdf0b11a.glb",
-   "bytes": 10180,
-   "vertices": 372,
-   "triangles": 288,
-   "textures": [
-    "98b208b1639d4938",
-    "de5d89f4a58bb9b3"
-   ]
-  },
-  "kotm:argonia/furniture/table03end": {
-   "file": "kotm_argonia_furniture_table03end-84d1526d.glb",
-   "bytes": 10064,
-   "vertices": 372,
-   "triangles": 288,
-   "textures": [
-    "98b208b1639d4938",
-    "de5d89f4a58bb9b3"
-   ]
-  },
   "kotm:argonia/mudhuts/floor02": {
    "file": "kotm_argonia_mudhuts_floor02-ff4724d1.glb",
    "bytes": 78524,
@@ -610,16 +404,6 @@
    "triangles": 3976,
    "textures": [
     "ed92dc656a5a17b3"
-   ]
-  },
-  "kotm:argonia/mudhuts/manorint": {
-   "file": "kotm_argonia_mudhuts_manorint-e2e37e77.glb",
-   "bytes": 21612,
-   "vertices": 993,
-   "triangles": 1708,
-   "textures": [
-    "24f63fb182f6f591",
-    "bcdc5c6bdc444f08"
    ]
   },
   "kotm:argonia/mudhuts/mudhutintfloor01": {
@@ -686,42 +470,6 @@
     "ef3a115cb2e7cd78"
    ]
   },
-  "kotm:loliceptresource/barrel/rugopenbarrel": {
-   "file": "kotm_loliceptresource_barrel_rugopenbarrel-96586766.glb",
-   "bytes": 41128,
-   "vertices": 1216,
-   "triangles": 1514,
-   "textures": [
-    "37a0b1fd22d64a62",
-    "64be3b1d2af73dcf",
-    "6b62fbeb16d2c788",
-    "8e87fcd556f9017f",
-    "9849de4fbd70b209"
-   ]
-  },
-  "kotm:loliceptresource/deco/quillinkwellpaper02": {
-   "file": "kotm_loliceptresource_deco_quillinkwellpaper02-2d35f841.glb",
-   "bytes": 31852,
-   "vertices": 1031,
-   "triangles": 1086,
-   "textures": [
-    "0742cff10310ba16",
-    "234210b99d66e959",
-    "976dc619e94026f5",
-    "c9c8607fdc56791d"
-   ]
-  },
-  "kotm:loliceptresource/deco/quillinkwellpaper03": {
-   "file": "kotm_loliceptresource_deco_quillinkwellpaper03-587db85f.glb",
-   "bytes": 32892,
-   "vertices": 1123,
-   "triangles": 1295,
-   "textures": [
-    "234210b99d66e959",
-    "66a60aa803edec0d",
-    "c9c8607fdc56791d"
-   ]
-  },
   "kotm:mihail monsters and animals/rabbit/frog/frogmeat": {
    "file": "kotm_mihail_monsters_and_animals_rabbit_frog_frogmeat-010313be.glb",
    "bytes": 18580,
@@ -752,15 +500,6 @@
     "9849de4fbd70b209"
    ]
   },
-  "kotm:oaristys/paper/scrolls02": {
-   "file": "kotm_oaristys_paper_scrolls02-a3dbcd91.glb",
-   "bytes": 17976,
-   "vertices": 945,
-   "triangles": 1152,
-   "textures": [
-    "c9c8607fdc56791d"
-   ]
-  },
   "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat": {
    "file": "kotm_skinwalker21_creatures_horker_giant_snail_giantsnailmeat-12c25a2e.glb",
    "bytes": 9440,
@@ -768,15 +507,6 @@
    "triangles": 576,
    "textures": [
     "02e2e5bb5823ccca"
-   ]
-  },
-  "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeatcooked": {
-   "file": "kotm_skinwalker21_creatures_horker_giant_snail_giantsnailmeatcooked-8baa607b.glb",
-   "bytes": 9628,
-   "vertices": 368,
-   "triangles": 576,
-   "textures": [
-    "90eaadfa894d76ec"
    ]
   },
   "kotm:skinwalker21 creatures/horker/giant snail/shell": {
@@ -1221,54 +951,12 @@
   }
  },
  "fires": {
-  "kotm:argonia/clutter/townlantern04": {
-   "id": "kotm:argonia/clutter/townlantern04",
-   "category": "clutter",
-   "anchorClass": "ground",
-   "light": {
-    "fixtureKind": "lantern",
-    "formId": "00075c32",
-    "editorId": "SolitudeInnFiretDefault",
-    "burnSeconds": -1,
-    "radiusUnits": 256,
-    "colourRgb": [
-     184,
-     96,
-     7
-    ],
-    "flicker": {
-     "frequency": 1.5,
-     "intensityAmplitude": 0.2,
-     "movementAmplitude": 12
-    },
-    "flags": [
-     "dynamic",
-     "flicker"
-    ],
-    "fade": 2,
-    "offsetM": [
-     0,
-     0.2,
-     0
-    ],
-    "evidence": "Skyrim.esm: SolitudeInnFiretDefault is the nearest LIGH ref (< 200 units, same cell) to 9 of 19 townlantern04 refs (next: SolitudeInnFirePlacesShadowDefault 3; none 4); offset is the median of those 9 in the piece's frame, glTF Y-up metres, horizontal agreement 0.49 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
-   },
-   "sizeM": [
-    0.533,
-    0.508,
-    0.751
-   ],
-   "originOffsetM": [
-    0.276,
-    0.388,
-    0.011
-   ]
-  },
   "vanilla:clutter/glazedcandles01": {
    "id": "vanilla:clutter/glazedcandles01",
    "category": "clutter",
    "anchorClass": "ground",
    "light": {
+    "fixtureKind": "candle",
     "formId": "000b9be7",
     "editorId": "WRCandleFlickerNS",
     "burnSeconds": -1,
