@@ -663,7 +663,7 @@ def test_flood_report_covers_raster_cells_inside_large_footprint():
 
 # --- the stilt share rule is scoped by measured ground, not by culture label --
 
-def _stilt_district_report(*, touches_water: bool):
+def _stilt_district_report(*, touches_water: bool, buildings: int = 4):
     """One `argonian-stilt` district of four buildings, none over open water.
 
     `touches_water` decides only whether the ground under them is in the flood
@@ -674,7 +674,7 @@ def _stilt_district_report(*, touches_water: bool):
         "id": "place.test.stilt",
         "districts": [{"id": "district.test.d", "cultureKit": "argonian-stilt"}],
         "parcels": [{"id": f"parcel.test.b{i}", "districtId": "district.test.d",
-                     "use": "dwelling"} for i in range(4)],
+                     "use": "dwelling"} for i in range(buildings)],
     }
     kinds = {p["id"]: "building" for p in bp["parcels"]}
 
@@ -729,6 +729,27 @@ def test_the_stilt_share_rule_only_judges_a_district_that_reaches_the_water():
     assert not warnings, (
         f"a district that reaches no water is not built over water and has "
         f"nothing to measure, yet it warned: {warnings}")
+
+
+def test_the_stilt_share_rule_does_not_judge_a_one_building_district():
+    """MUTATION: drop the `len(building_ids) < 2` scope — red on the first case.
+
+    The 15-30 % band is a stilt QUARTER's mix. Riverwalk's lone swamp house is
+    a district of one: its share is 0 % or 100 %, never inside the band.
+    """
+    report, warnings = _stilt_district_report(touches_water=True, buildings=1)
+    rule = report["districts"][0]["cultureRule"]
+    assert rule["applicable"] is False, rule
+    assert rule["why"] == "one building: the district is the house itself"
+    assert report["districts"][0]["conforms"] is None
+    assert not [w for w in warnings if "argonian-stilt requires" in w], warnings
+
+    report, warnings = _stilt_district_report(touches_water=True, buildings=2)
+    row = report["districts"][0]
+    assert row["cultureRule"].get("applicable") is not False
+    assert row["conforms"] is False
+    assert [w for w in warnings if "argonian-stilt requires" in w], (
+        "a two-building stilt district on the water is still judged")
 
 
 # --- mounts and doorways on the compiled transforms (16h item 7) ------------ #
