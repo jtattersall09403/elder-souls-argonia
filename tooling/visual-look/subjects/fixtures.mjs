@@ -6,7 +6,7 @@
 // ~0.4 s per fixture (the piece cut from the raw kit GLB,
 // tooling/asset-pipeline/output/kits). Each sheet is 2 rows (day, night) x 3
 // columns (front, three-quarter from above, close-up on the flame), one PNG
-// per fixture. The fixture is drawn untextured (flat base colour) under a
+// per fixture. The fixture is drawn with its diffuse and alpha mode under a
 // plain key light; the flame is drawn after it, depth-tested against it, as
 // the game's post-water pass draws it (the flame layer here is 0: no pipeline).
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -29,6 +29,8 @@ const FIXTURES = [
   "interior-kotm-v1|vanilla:clutter/glazedcandles01",
   "interior-farmhouse-v1|vanilla:clutter/imperial/impcandle01",
   "mudmother-hut-int|mudmother:gv_meshes/argoniannest/argonianlanterns04",
+  "settlement-mud-v1|mudmother:gv_meshes/argoniannest/argonianlanterns04",
+  "interior-kotm-v1|kotm:argonia/clutter/townlantern04",
 ];
 
 const threeDir = join(repo, "node_modules/three");
@@ -38,7 +40,7 @@ const tsFileIn = (fireDir) => (name) => ts.transpileModule(readFileSync(join(fir
   compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
 }).outputText.replace(/from "\.\/(\w+)"/g, 'from "/fire/$1.js"');
 
-// One piece of a kit GLB as its own small untextured GLB (flat base colours):
+// One piece of a kit GLB as its own small GLB (geometry, diffuse, alpha mode):
 // SwiftShader cannot hold a whole 80 MB kit, and size is judged on geometry.
 // The piece's node is found as the studio names it (es|<hash>|<id tail>).
 function pieceGlb(kitName, assetId) {
@@ -55,10 +57,34 @@ function pieceGlb(kitName, assetId) {
   // one flat material per source material, keeping its name: the page hides
   // a piece's own flame cards as the loader does (isFlameCardMaterial)
   const materials = new Map();
+  const blob = (data) => {
+    const pad = (4 - (offset % 4)) % 4; if (pad) { chunks.push(Buffer.alloc(pad)); offset += pad; }
+    chunks.push(data); offset += data.length;
+  };
+  const textures = new Map();
+  const texture = (ti) => {
+    if (!textures.has(ti)) {
+      const img = src.images[src.textures[ti].source]; const v = src.bufferViews[img.bufferView];
+      const start = offset + ((4 - (offset % 4)) % 4);
+      blob(bin.subarray(v.byteOffset ?? 0, (v.byteOffset ?? 0) + v.byteLength));
+      out.bufferViews.push({ buffer: 0, byteOffset: start, byteLength: v.byteLength });
+      (out.images ??= []).push({ bufferView: out.bufferViews.length - 1, mimeType: img.mimeType });
+      (out.textures ??= []).push({ source: out.images.length - 1 });
+      textures.set(ti, out.textures.length - 1);
+    }
+    return textures.get(ti);
+  };
   const material = (mi) => {
     if (mi === undefined) return 0;
     if (!materials.has(mi)) {
-      out.materials.push({ ...out.materials[0], name: src.materials[mi].name });
+      // the source's diffuse and alpha mode ride along: an alpha-cut piece
+      // (the torch's MASK wraps) drawn flat and opaque reads as a skeleton
+      const sm = src.materials[mi]; const tex = sm.pbrMetallicRoughness?.baseColorTexture;
+      const m = { ...out.materials[0], name: sm.name, doubleSided: sm.doubleSided,
+        ...(sm.alphaMode ? { alphaMode: sm.alphaMode, alphaCutoff: sm.alphaCutoff } : {}) };
+      if (tex !== undefined) m.pbrMetallicRoughness = { ...m.pbrMetallicRoughness,
+        baseColorFactor: [1, 1, 1, 1], baseColorTexture: { index: texture(tex.index) } };
+      out.materials.push(m);
       materials.set(mi, out.materials.length - 1);
     }
     return materials.get(mi);
@@ -79,7 +105,7 @@ function pieceGlb(kitName, assetId) {
     if (n.mesh !== undefined) {
       const m = src.meshes[n.mesh];
       out.meshes.push({ primitives: m.primitives.map((p) => ({ mode: p.mode, material: material(p.material),
-        attributes: Object.fromEntries(Object.entries(p.attributes).filter(([k]) => k === "POSITION" || k === "NORMAL").map(([k, ai]) => [k, accessor(ai)])),
+        attributes: Object.fromEntries(Object.entries(p.attributes).filter(([k]) => k === "POSITION" || k === "NORMAL" || k === "TEXCOORD_0").map(([k, ai]) => [k, accessor(ai)])),
         ...(p.indices !== undefined ? { indices: accessor(p.indices) } : {}) })) });
       node.mesh = out.meshes.length - 1;
     }
@@ -159,7 +185,10 @@ window.renderFixture = async (key) => {
   const views = [
     { at: centre, dir: new THREE.Vector3(0, 0.05, 1), span },
     { at: centre, dir: new THREE.Vector3(0.7, 0.55, 0.7), span },
-    { at: flameAt, dir: new THREE.Vector3(0.3, 0.15, 1), span: Math.max(flameH * 2.4, 0.12) },
+    // the close-up is a section: geometry more than 1.2 flame heights in front
+    // of the flame is clipped, so a cage bar nearer the camera never reads as
+    // a bar the flame touches (argonianlanterns04, walk 6)
+    { at: flameAt, dir: new THREE.Vector3(0.3, 0.15, 1), span: Math.max(flameH * 2.4, 0.12), sectionM: flameH * 1.2 },
   ];
   renderer.setScissorTest(true);
   for (let r = 0; r < ROWS; r++) {
@@ -169,7 +198,8 @@ window.renderFixture = async (key) => {
       const v = views[c];
       const fov = 35;
       const dist = v.span / (2 * Math.tan((fov * Math.PI) / 360));
-      const cam = new THREE.PerspectiveCamera(fov, TW / TH, dist * 0.02, dist * 20);
+      const near = v.sectionM ? Math.max(dist * 0.02, dist - v.sectionM) : dist * 0.02;
+      const cam = new THREE.PerspectiveCamera(fov, TW / TH, near, dist * 20);
       cam.position.copy(v.at).addScaledVector(v.dir.clone().normalize(), dist);
       cam.lookAt(v.at);
       const x = c * TW, y = (ROWS - 1 - r) * TH;
@@ -221,7 +251,7 @@ try {
   mkdirSync(outDir, { recursive: true });
   for (const key of list) {
     const { url, anchors, box } = await tab.evaluate((k) => window.renderFixture(k), key);
-    const file = join(outDir, `${key.split("|")[1].split("/").pop()}.png`);
+    const file = join(outDir, `${key.split("|")[0]}__${key.split("|")[1].split("/").pop()}.png`);
     writeFileSync(file, Buffer.from(url.split(",")[1], "base64"));
     console.log(`${key}: ${file} box ${JSON.stringify(box)} anchors ${JSON.stringify(anchors)}`);
   }
