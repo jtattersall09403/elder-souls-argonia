@@ -1,5 +1,5 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "kit": "interior-kotm-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
@@ -1217,6 +1217,83 @@
    "triangles": 136,
    "textures": [
     "b277c07b8e07accd"
+   ]
+  }
+ },
+ "fires": {
+  "vanilla:clutter/glazedcandles01": {
+   "id": "vanilla:clutter/glazedcandles01",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "light": {
+    "formId": "000b9be7",
+    "editorId": "WRCandleFlickerNS",
+    "burnSeconds": -1,
+    "radiusUnits": 128,
+    "colourRgb": [
+     254,
+     234,
+     152
+    ],
+    "flicker": {
+     "frequency": 3,
+     "intensityAmplitude": 0.3,
+     "movementAmplitude": 16
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1.7,
+    "offsetM": [
+     0,
+     0.76,
+     0
+    ],
+    "evidence": "Skyrim.esm: WRCandleFlickerNS is the nearest LIGH ref (< 200 units, same cell) to 34 of 213 glazedcandles01 refs (next: SolitudeInnCandleDefault 16; none 62); offset is the median of those 34 in the piece's frame, glTF Y-up metres, horizontal agreement 0.10 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
+   },
+   "flames": [
+    {
+     "offsetM": [
+      0.0204,
+      0.1564,
+      -0.0113
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.0387,
+      0.1378,
+      0.0169
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
+   "sizeM": [
+    0.218,
+    0.215,
+    0.169
+   ],
+   "originOffsetM": [
+    0.109,
+    0.108,
+    0
    ]
   }
  }

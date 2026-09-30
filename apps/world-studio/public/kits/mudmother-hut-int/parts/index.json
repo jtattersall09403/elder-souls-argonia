@@ -1,5 +1,5 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "kit": "mudmother-hut-int",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
@@ -79,6 +79,83 @@
     "46c9cbe19fd13d88",
     "59e7d87c626226f2",
     "ace7c9ea587782ec"
+   ]
+  }
+ },
+ "fires": {
+  "mudmother:gv_meshes/argoniannest/candle01": {
+   "id": "mudmother:gv_meshes/argoniannest/candle01",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "light": {
+    "formId": "00088238",
+    "editorId": "DefaultCandleLight01NS",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     236,
+     223,
+     170
+    ],
+    "flicker": {
+     "frequency": 3,
+     "intensityAmplitude": 0.2,
+     "movementAmplitude": 8
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1,
+    "offsetM": [
+     0,
+     0.09,
+     0
+    ],
+    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 5 of 13 candle01 refs (next: SLightStreetStreet01 3; none 5); offset is the median of those 5 in the piece's frame, glTF Y-up metres, horizontal agreement 0.48 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
+   },
+   "flames": [
+    {
+     "offsetM": [
+      0.0204,
+      0.1564,
+      -0.0113
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.0387,
+      0.1378,
+      0.0169
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
+   "sizeM": [
+    0.161,
+    0.166,
+    0.123
+   ],
+   "originOffsetM": [
+    0.08,
+    0.081,
+    -0.046
    ]
   }
  }

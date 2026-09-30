@@ -1,5 +1,5 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "kit": "underwater-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
@@ -23,5 +23,6 @@
     "9a27911525728b4f"
    ]
   }
- }
+ },
+ "fires": {}
 }

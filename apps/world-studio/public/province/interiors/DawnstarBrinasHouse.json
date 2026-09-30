@@ -2923,6 +2923,7 @@
    }
   }
  ],
+ "socketsSchemaVersion": 2,
  "sockets": [
   {
    "id": "socket.DawnstarBrinasHouse.0004D7E5",
@@ -4025,7 +4026,16 @@
    "yawDeg": 38.675,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     -25.781,
+     0.0,
+     9.7
+    ],
+    "facing": 38.675
+   }
   },
   {
    "id": "socket.DawnstarBrinasHouse.000E0473",
@@ -4038,7 +4048,16 @@
    "yawDeg": 332.785,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     -21.896,
+     0.0,
+     9.326
+    ],
+    "facing": 332.785
+   }
   },
   {
    "id": "socket.DawnstarBrinasHouse.000E0474",
@@ -4051,7 +4070,16 @@
    "yawDeg": 225.355,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     -17.709,
+     0.0,
+     9.121
+    ],
+    "facing": 225.355
+   }
   },
   {
    "id": "socket.DawnstarBrinasHouse.0010859A",
@@ -4079,7 +4107,16 @@
    "yawDeg": 37.242,
    "host": "DawnstarBrinasHouse.0010C73C",
    "activity": "work-at",
-   "why": "CraftingCookingPotSm placed by the cell's author"
+   "why": "CraftingCookingPotSm placed by the cell's author",
+   "interact": {
+    "kind": "station",
+    "position": [
+     -21.314,
+     0.0,
+     8.028
+    ],
+    "facing": 37.242
+   }
   }
  ],
  "drops": [

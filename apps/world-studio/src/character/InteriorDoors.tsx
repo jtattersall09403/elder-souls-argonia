@@ -12,6 +12,8 @@ import { CAMERA_BLOCKING_GROUPS } from "@elder-souls/game-core/camera/cameraColl
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
 import { InteriorLoader, solidsAt, type LoadedInterior } from "@elder-souls/game-core/interior/interiorLoader";
 import { SharedKtx2Textures } from "@elder-souls/game-core/interior/sharedTextures";
+import { kitPartsDir } from "@elder-souls/game-core/interior/kitParts";
+import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
 import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import { DoorTransition, type InteriorSource } from "@elder-souls/game-core/interior/doorTransition";
 import { fixtureLightFieldOf, isFixtureLitMaterial, litPreparerOf } from "@elder-souls/game-core/render/fixtureLights/index";
@@ -47,6 +49,12 @@ export interface InteriorDoorsProbe {
   loadS: number | null;
   /** The shown cell's shader link, seconds, while the screen was black (null until linked). */
   linkS: number | null;
+  /** Shader programs the shown cell's link added (`renderer.info.programs`, at prefetch or entry). */
+  programs: number | null;
+  /** Bytes the shown cell's load fetched over the network (resource timing; cached files count 0). */
+  bytes: number | null;
+  /** Requests the shown cell's load made (resource timing, cached included). */
+  requests: number | null;
   /** The last entry's black hold, door press to reveal (`DoorTransition.enterS`): the loader timer. */
   enterS: number | null;
 }
@@ -62,7 +70,7 @@ export interface InteriorDoorsProbe {
  */
 export function InteriorDoors({
   baseUrl, controller, doors, groundAt, bodyCentreHeightM, directCellId, onInside, interaction, kitCache,
-  overlay, probeRef, sounds,
+  overlay, probeRef, sounds, onShown,
 }: {
   baseUrl: string;
   controller: PlayerMovementController;
@@ -83,6 +91,8 @@ export function InteriorDoors({
   probeRef?: { current: (() => InteriorDoorsProbe) | null };
   /** The scene's typed sound bus: swing doors say `door.open`/`door.close` on it. */
   sounds?: { emit(e: SoundEvent): void };
+  /** The cell on screen and its sockets (the socket overlay), null outside. */
+  onShown?: (cell: ShownCellSockets | null) => void;
 }) {
   const decoders = useKitDecoders(baseUrl);
   const { world, rapier } = useRapier();
@@ -93,6 +103,7 @@ export function InteriorDoors({
   // The cell is drawn only once its programs are linked (`linked === shown`).
   const [linked, setLinked] = useState<Shown | null>(null);
   const linkS = useRef<number | null>(null);
+  const loadNet = useRef<{ bytes: number; requests: number } | null>(null);
   // The fade lifts only when the colliders are in AND the linked cell is drawn.
   const collidersIn = useRef(false);
   const drawn = useRef(false);
@@ -131,6 +142,9 @@ export function InteriorDoors({
 
   useEffect(() => { transition.setDoors(doors); }, [transition, doors]);
   useEffect(() => { onInside(shown !== null); }, [shown, onInside]);
+  useEffect(() => {
+    onShown?.(shown ? { cellId: shown.interior.bundle.cellId, originM: shown.originM, sockets: shown.interior.bundle.sockets } : null);
+  }, [shown, onShown]);
 
   // The cell's colliders, built in one go while the screen is black (the
   // transition waits on `resident`), so the arrival floor is solid on the
@@ -259,13 +273,15 @@ export function InteriorDoors({
     let live = true;
     const startedMs = performance.now();
     shown.interior.group.position.set(...shown.originM);
-    linker.link(shown.interior.group, camera, scene).then(() => {
+    linker.link(shown.interior.group, camera, scene).then((added) => {
       if (!live) return;
       linkS.current = (performance.now() - startedMs) / 1000;
+      linker.noteLinked(shown.interior, added);
+      loadNet.current = loadNetOf(shown.interior, baseUrl);
       setLinked(shown);
     });
     return () => { live = false; };
-  }, [shown, linker, camera, scene]);
+  }, [shown, linker, camera, scene, baseUrl]);
   // after the commit that mounted the linked group: the fade may lift
   useEffect(() => { drawn.current = shown !== null && linked === shown; }, [shown, linked]);
 
@@ -305,14 +321,17 @@ export function InteriorDoors({
     if (transition.enterS !== null && transition.enterS !== reportedHold.current) {
       reportedHold.current = transition.enterS;
       console.info(`interior ${transition.cellId ?? "?"}: black hold ${fmtS(transition.enterS)} `
-        + `(load ${fmtS(shown?.interior.loadS ?? null)}, link ${fmtS(linkS.current)})`);
+        + `(load ${fmtS(shown?.interior.loadS ?? null)}, link ${fmtS(linkS.current)}, `
+        + `programs ${shown ? linker.programsOf(shown.interior) ?? "-" : "-"}, `
+        + `${loadNet.current ? `${loadNet.current.requests} requests ${(loadNet.current.bytes / 1e6).toFixed(2)} MB` : "-"})`);
     }
   });
 
   useEffect(() => {
     if (!probeRef) return undefined;
     probeRef.current = () => probeState(shown, transition,
-      transition.prompt ? interaction.isFocused(transition.prompt.doorId) : false, overlay, linkS.current);
+      transition.prompt ? interaction.isFocused(transition.prompt.doorId) : false, overlay, linkS.current,
+      shown ? linker.programsOf(shown.interior) ?? null : null, loadNet.current);
     return () => { probeRef.current = null; };
   }, [probeRef, shown, transition, interaction, overlay]);
 
@@ -338,6 +357,7 @@ class InteriorLinker {
   private drawsToTarget = false;
   private readonly scratch = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType });
   private readonly warmed = new WeakSet<LoadedInterior>();
+  private readonly programs = new WeakMap<LoadedInterior, number>();
   private readonly hook: THREE.Scene["onBeforeRender"];
   private readonly previous: THREE.Scene["onBeforeRender"];
 
@@ -354,7 +374,8 @@ class InteriorLinker {
   }
 
   /** Patch and link `group` (detached, lights under it) against `target`'s lights and fog. */
-  link(group: THREE.Object3D, camera: THREE.Camera, target: THREE.Scene): Promise<void> {
+  link(group: THREE.Object3D, camera: THREE.Camera, target: THREE.Scene): Promise<number> {
+    const programsBefore = this.gl.info.programs?.length ?? 0;
     const prepare = litPreparerOf(this.scene);
     if (prepare) prepare(group);
     else {
@@ -380,8 +401,16 @@ class InteriorLinker {
     const cap = new Promise<void>((resolve) => { setTimeout(resolve, INTERIOR_LINK_WAIT_MS); });
     return Promise.race([linking.then(() => undefined, (err: unknown) => {
       console.error("interior: shader link failed", err);
-    }), cap]);
+    }), cap]).then(() => (this.gl.info.programs?.length ?? 0) - programsBefore);
   }
+
+  /** Keep the larger of the prefetch link's and the entry link's program count for `interior`. */
+  noteLinked(interior: LoadedInterior, added: number): void {
+    this.programs.set(interior, Math.max(added, this.programs.get(interior) ?? 0));
+  }
+
+  /** Programs the cell's links added (the prefetch link does the work when the cell was warmed). */
+  programsOf(interior: LoadedInterior): number | undefined { return this.programs.get(interior); }
 
   /**
    * Link a prefetched cell before it is entered: inside, every light but the
@@ -393,7 +422,7 @@ class InteriorLinker {
     this.warmed.add(interior);
     const inside = new THREE.Scene();
     inside.fog = interior.fog;
-    void this.link(interior.group, camera, inside);
+    void this.link(interior.group, camera, inside).then((added) => this.noteLinked(interior, added));
   }
 
   dispose(): void {
@@ -407,7 +436,7 @@ const INTERIOR_LINK_WAIT_MS = 4000;
 
 function probeState(
   shown: Shown | null, transition: DoorTransition, focused: boolean, overlay: DoorOverlayChannel,
-  linkS: number | null,
+  linkS: number | null, programs: number | null, net: { bytes: number; requests: number } | null,
 ): InteriorDoorsProbe {
   let boundsM: InteriorDoorsProbe["boundsM"] = null;
   if (shown) {
@@ -425,6 +454,28 @@ function probeState(
     boundsM, candidate: transition.candidate?.id ?? null, focused,
     prompt: transition.prompt?.doorId ?? null, fade: transition.fade, error: overlay.error,
     loadS: shown?.interior.loadS ?? null,
-    linkS, enterS: transition.enterS,
+    linkS, enterS: transition.enterS, programs, bytes: net?.bytes ?? null, requests: net?.requests ?? null,
   };
+}
+
+/**
+ * What the cell's load fetched (walk 6, so a load-time claim is measured):
+ * the browser's resource timing entries for the cell's bundle and the parts
+ * folders of the kits it names, since page load (a part another cell shared
+ * counts here too). `transferSize` is 0 for a cached file. The browser keeps
+ * 250 entries unless the page raises `setResourceTimingBufferSize`, so a
+ * second cell in one session reads low: open cells by `?interior=` to measure.
+ */
+function loadNetOf(interior: LoadedInterior, baseUrl: string): { bytes: number; requests: number } | null {
+  if (typeof performance === "undefined" || !performance.getEntriesByType) return null;
+  const prefixes = [`${baseUrl}province/interiors/${interior.bundle.cellId}.json`,
+    ...Object.values(interior.bundle.kits).map((k) => `${baseUrl}${kitPartsDir(k)}`)];
+  let bytes = 0;
+  let requests = 0;
+  for (const e of performance.getEntriesByType("resource") as PerformanceResourceTiming[]) {
+    const path = new URL(e.name, window.location.href).pathname;
+    if (!prefixes.some((p) => path.startsWith(new URL(p, window.location.href).pathname))) continue;
+    bytes += e.transferSize; requests += 1;
+  }
+  return { bytes, requests };
 }

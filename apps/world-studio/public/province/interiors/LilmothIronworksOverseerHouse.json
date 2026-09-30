@@ -2779,6 +2779,7 @@
    }
   }
  ],
+ "socketsSchemaVersion": 2,
  "sockets": [
   {
    "id": "socket.LilmothIronworksOverseerHouse.08864E38",
@@ -3131,7 +3132,16 @@
    "yawDeg": 80.214,
    "host": "LilmothIronworksOverseerHouse.08864E79",
    "activity": "work-at",
-   "why": "CraftingCookingPotSmNoHandleArgonian placed by the cell's author"
+   "why": "CraftingCookingPotSmNoHandleArgonian placed by the cell's author",
+   "interact": {
+    "kind": "station",
+    "position": [
+     106.577,
+     80.338,
+     75.275
+    ],
+    "facing": 80.214
+   }
   },
   {
    "id": "socket.LilmothIronworksOverseerHouse.08864E7A",
@@ -3465,7 +3475,16 @@
    "yawDeg": 256.868,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     104.984,
+     84.193,
+     75.071
+    ],
+    "facing": 256.868
+   }
   },
   {
    "id": "socket.LilmothIronworksOverseerHouse.08864EB6",
@@ -3478,7 +3497,16 @@
    "yawDeg": 302.704,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     105.749,
+     80.347,
+     76.353
+    ],
+    "facing": 302.704
+   }
   },
   {
    "id": "socket.LilmothIronworksOverseerHouse.08864EB7",
@@ -3491,7 +3519,16 @@
    "yawDeg": 142.276,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     101.171,
+     80.347,
+     74.695
+    ],
+    "facing": 142.276
+   }
   },
   {
    "id": "socket.LilmothIronworksOverseerHouse.08864EB8",
@@ -3504,7 +3541,16 @@
    "yawDeg": 91.673,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     103.405,
+     88.778,
+     76.681
+    ],
+    "facing": 91.673
+   }
   },
   {
    "id": "socket.LilmothIronworksOverseerHouse.08989B9D",

@@ -192,7 +192,7 @@ What every published door must do; the code is
 ## 5. Sockets (0103 decisions 5–6)
 
 `sockets[]` in the compiled settlement record and the bundle,
-`schemaVersion` 1, exterior and interior alike. One entry per socket:
+`socketsSchemaVersion` 2, exterior and interior alike. One entry per socket:
 `id`, `kind`, `positionM`, `yawDeg`, `parcelId`, `interiorCell` (null
 outside), `host` (the placement it sits on or in), the kind's data block
 and a `why`.
@@ -200,7 +200,8 @@ and a `why`.
 | Kind | Data |
 |---|---|
 | `npc` | `rosterSlotId`, `role`, `schedule[]` of `{dayPhase, socketId}` pointing at `idle` sockets (work, home, evening; dayPhase from world 8a). Every roster slot has at least a work and a home socket; home may be a bed in a tier A cell |
-| `idle` | `activity` (stand, sit, sleep, lean, work-at, fish, tend), `host` furniture when any |
+| `idle` | `activity` (stand, sit, sleep, lean, work-at, fish, tend), `host` furniture when any; a `work-at` one carries `interact` |
+| `station` | `stationClass` (vocabulary `stationClasses`), `interact` |
 | `item` | `itemClass` from the vocabulary, `valueBand`, `why`, `contentPending` for text-bearing items |
 | `container` | `containerClass` (barrel, chest, sack, crate, urn, basket, strongbox); `fillRule`: a blanket rule id (e.g. `blanket.household-barrel`) or `authored` with `lootTable` `{itemClasses[], valueBand, storyNote}` consistent with the place's story |
 | `encounter`, `fauna`, `ambience`, `marker` | kind, danger band, zone |
@@ -225,7 +226,19 @@ and a `why`.
   bundle (`interior_walk`), a socket on host furniture (bench, bed, chest)
   is reached from a walk cell within 1.0 m of the host piece's own plan
   box; a bare marker needs its own cell.
-- The studio draws sockets as labelled markers with `?sockets=1`.
+- **Interact point (decision 0113).** A work socket is where the worker
+  stands; `interact` `{kind, position, facing}` is where the player uses
+  the job, written by `sockets.interact_point` (compile and interior
+  exporter alike, same frame as `positionM`). `customer` when the host's
+  file name carries a vocabulary `serviceSurfaces` family (counter, stall,
+  market): across the host from the worker, 0.6 m past the host box's far
+  face along the worker's facing, facing back at the worker. `station`
+  for every other work socket (forge, anvil, rack, a free work spot): the
+  worker's own position and facing. A new service surface is a
+  vocabulary row, never a code change.
+- The studio draws sockets as labelled markers with `?sockets=1`; inside
+  a cell it draws that cell's sockets where the cell is shown, and an
+  interact point is a small diamond joined to its socket's post.
 - Phase 13 and 10b read `sockets[]`; they add no vocabulary.
 
 ## 6. The approach checklist (16i item 9)

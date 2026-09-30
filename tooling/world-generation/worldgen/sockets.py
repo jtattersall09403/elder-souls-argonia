@@ -44,15 +44,21 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import re
 from pathlib import Path
 
-SOCKET_SCHEMA_VERSION = 1
+SOCKET_SCHEMA_VERSION = 2
+"""2 (decision 0113): every work-at idle socket and every station socket
+carries ``interact`` (`interact_point`); a 1 record carries none."""
+INTERACT_REACH_M = 0.6
+"""How far past the host's far face the customer stands (0113)."""
 REPO_ROOT = Path(__file__).resolve().parents[3]
 VOCABULARY = REPO_ROOT / "world" / "sources" / "vocab" / "socket-vocabulary.json"
 YARD_SETS = REPO_ROOT / "world" / "sources" / "placement" / "yard-sets"
 INTERIORS = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "interiors"
 """The published tier A bundles (`export_interior_bundle.OUT_DIR`)."""
+KITS = REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
 REACH_KINDS = ("npc", "idle", "container")
 """The socket kinds walkRule targets in their own right (planner ruling 1,
 16k round 5); the reach gate is "its `socket:<id>` route exists"."""
@@ -116,6 +122,69 @@ def container_class(asset_id: str, vocab: dict) -> str | None:
         if any(f in stem for f in row["nameFamilies"]):
             return cls
     return None
+
+
+def is_service_surface(asset_id: str | None, vocab: dict) -> bool:
+    """Is the host a service surface (a counter, a stall, a market table:
+    vocabulary ``serviceSurfaces.nameFamilies``), served across?"""
+    stem = _stem(asset_id or "")
+    return bool(stem) and any(f in stem for f in vocab["serviceSurfaces"]["nameFamilies"])
+
+
+def needs_interact(row: dict) -> bool:
+    """A socket that carries ``interact`` (0113): a station, or an idle
+    socket whose activity is ``work-at``."""
+    return row["kind"] == "station" or (row["kind"] == "idle" and row.get("activity") == "work-at")
+
+
+def _far_face_m(worker, facing_deg: float, host_pos, host_yaw_deg: float, size, origin,
+                scale: float) -> float:
+    """Distance along the worker's facing from the worker to where that ray
+    leaves the host's box (0 when the ray misses it). Plan only: x east,
+    z south; yaws are compass degrees, clockwise from north. The kit box is
+    Skyrim-axed (``sizeM`` x east, y north, z up) with the pivot at
+    ``originOffsetM`` from its min corner."""
+    f = math.radians(facing_deg)
+    ux, uz = math.sin(f), -math.cos(f)
+    h = math.radians(host_yaw_deg)
+    ax, ay = (math.cos(h), math.sin(h)), (math.sin(h), -math.cos(h))  # host local x, y in the plan
+    dx, dz = worker[0] - host_pos[0], worker[2] - host_pos[2]
+    p = (dx * ax[0] + dz * ax[1], dx * ay[0] + dz * ay[1])
+    u = (ux * ax[0] + uz * ax[1], ux * ay[0] + uz * ay[1])
+    t0, t1 = -math.inf, math.inf
+    for i in (0, 1):
+        lo, hi = -origin[i] * scale, (size[i] - origin[i]) * scale
+        if abs(u[i]) < 1e-9:
+            if not lo <= p[i] <= hi:
+                return 0.0
+            continue
+        a, b = (lo - p[i]) / u[i], (hi - p[i]) / u[i]
+        t0, t1 = max(t0, min(a, b)), min(t1, max(a, b))
+    return t1 if t1 >= max(t0, 0.0) else 0.0
+
+
+def interact_point(row: dict, host: dict | None, bounds, vocab: dict,
+                   host_yaw_deg: float | None = None) -> dict:
+    """Where the player uses a work socket (decision 0113). ``customer``
+    when the host is a service surface: across the host from the worker, at
+    the worker's position plus its facing times (the distance to the host's
+    far face + ``INTERACT_REACH_M``), facing back at the worker. Otherwise
+    (a forge, an anvil, a rack, a free work spot) ``station``: the player
+    uses it where the worker stands, in the worker's pose. ``bounds``: asset
+    id -> (sizeM, originOffsetM) of the published kits."""
+    pos, yaw = [float(v) for v in row["positionM"]], float(row["yawDeg"])
+    asset = (host or {}).get("assetId")
+    if host is None or not is_service_surface(asset, vocab) or asset not in bounds:
+        return {"kind": "station", "position": [round(v, 3) for v in pos], "facing": round(yaw % 360.0, 3)}
+    size, origin = bounds[asset]
+    scale = float(host.get("scale") or 1.0)
+    hy = float(host.get("yawDeg") or 0.0) if host_yaw_deg is None else host_yaw_deg
+    d = _far_face_m(pos, yaw, [float(v) for v in host["positionM"]], hy, size, origin, scale)
+    d += INTERACT_REACH_M
+    f = math.radians(yaw)
+    at = [pos[0] + math.sin(f) * d, pos[1], pos[2] - math.cos(f) * d]
+    return {"kind": "customer", "position": [round(v, 3) for v in at],
+            "facing": round((yaw + 180.0) % 360.0, 3)}
 
 
 def furniture_activity(asset_id: str, vocab: dict) -> str | None:
@@ -356,7 +425,8 @@ def walkable_surface_at(surfaces):
 
 def compile_sockets(bp: dict, placements: list[dict], height_at, ops: list[dict],
                     vocab: dict, category_of=None,
-                    surface_at=None, bundle_of=load_bundle) -> tuple[list[dict], list[str]]:
+                    surface_at=None, bundle_of=load_bundle,
+                    kit_bounds=None) -> tuple[list[dict], list[str]]:
     """The compiled ``sockets[]`` and the errors resolving them: a hosted
     socket stands at its host's pivot, a free one on the padded ground; either
     is lifted onto the highest walkable placed surface under it when
@@ -364,7 +434,10 @@ def compile_sockets(bp: dict, placements: list[dict], height_at, ops: list[dict]
     a deck stands on the deck top, never the terrain under it). With
     ``category_of``, every container placement left without a container
     socket then gets its class default (`default_fill_ops`). An interior op
-    resolves on its cell's bundle (``bundle_of(cellId)``)."""
+    resolves on its cell's bundle (``bundle_of(cellId)``). Every work socket
+    then gets its ``interact`` point (`interact_point`) against
+    ``kit_bounds`` (asset id -> (sizeM, originOffsetM); default the
+    published kits')."""
     out, errors, seen = [], [], set()
     index = host_index(placements)
     interiors = {"claims": interior_claims(bp), "bundle_of": bundle_of, "cache": {}}
@@ -375,8 +448,33 @@ def compile_sockets(bp: dict, placements: list[dict], height_at, ops: list[dict]
         _compile_ops(bp, placements, height_at,
                      default_fill_ops(bp["id"], placements, hosted, category_of, vocab),
                      vocab, out, errors, seen, index, surface_at)
+    if any(needs_interact(r) for r in out):
+        bounds = published_kit_bounds() if kit_bounds is None else kit_bounds
+        by_id = index[0]
+        for r in out:
+            if not needs_interact(r):
+                continue
+            if r.get("interiorCell"):
+                bundle = interiors["cache"].get(r["interiorCell"]) or {}
+                host = next((p for p in bundle.get("placements") or [] if p.get("id") == r["host"]), None)
+                hy = float((host or {}).get("rotationDeg", [0, 0, 0])[1]) if host else None
+                r["interact"] = interact_point(r, host, bounds, vocab, hy)
+            else:
+                host = by_id.get(r["host"]) if r["host"] else None
+                hy = world_yaw_deg(host, by_id) if host else None
+                r["interact"] = interact_point(r, host, bounds, vocab, hy)
     out.sort(key=lambda r: r["id"])
     return out, errors
+
+
+def published_kit_bounds(kits_dir: Path | None = None) -> dict[str, tuple[list, list]]:
+    """asset id -> (sizeM, originOffsetM) over every published kit manifest."""
+    out: dict[str, tuple[list, list]] = {}
+    for path in sorted(Path(kits_dir or KITS).glob("*.kit.json")):
+        for asset in json.loads(path.read_text()).get("assets", []) or []:
+            if asset.get("sizeM") and asset.get("originOffsetM"):
+                out.setdefault(asset["id"], (asset["sizeM"], asset["originOffsetM"]))
+    return out
 
 
 def _interior_row(op: dict, interiors: dict | None) -> tuple[dict | None, str | None]:

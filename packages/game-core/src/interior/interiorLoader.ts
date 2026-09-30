@@ -12,29 +12,11 @@ import { ambientCubeToSH } from "./ambientCube";
 import { kitPartsDir, parseKitPartsIndex, type KitPartsIndex } from "./kitParts";
 import { FlameSystem } from "../fx/fire/FlameSystem";
 import {
-  burnsInInterior, interiorFireEmitters, isInteriorFlameCard, type InteriorFireRow,
+  interiorFireEmitters, isInteriorFlameCard, type InteriorFireRow,
 } from "../fx/fire/interiorFires";
 
 /** Per kit id, per asset id: the kit manifest rows a cell's fires read (fx/fire/interiorFires.ts). */
 export type InteriorFireRows = ReadonlyMap<string, ReadonlyMap<string, InteriorFireRow>>;
-
-/**
- * The fire rows of a published kit manifest (`kits/<kit>.kit.json`): only
- * the assets that burn (`burnsInInterior`: mined `flames`, `flameCardMaterials`
- * or a light fixture record, which burns a fallback flame), reduced to
- * the fields the anchors read. A manifest with no assets list is a named error.
- */
-export function interiorFireRowsFromManifest(manifest: unknown, source: string): Map<string, InteriorFireRow> {
-  const assets = (manifest as { assets?: unknown } | null)?.assets;
-  if (!Array.isArray(assets)) throw new Error(`kit manifest ${source} has no assets list`);
-  const out = new Map<string, InteriorFireRow>();
-  for (const a of assets as (InteriorFireRow & { id?: string })[]) {
-    if (typeof a?.id !== "string" || !burnsInInterior(a)) continue;
-    out.set(a.id, { id: a.id, category: a.category, anchorClass: a.anchorClass, light: a.light,
-      flames: a.flames, sizeM: a.sizeM, originOffsetM: a.originOffsetM, flameCardMaterials: a.flameCardMaterials });
-  }
-  return out;
-}
 
 /**
  * THE NUMBER THE OWNER TUNES IN THE STUDIO: a point light's intensity is
@@ -309,7 +291,6 @@ export class InteriorLoader {
   private readonly entries = new Map<string, Entry>();
   private readonly indexes = new Map<string, Promise<KitPartsIndex>>();
   private readonly parts = new Map<string, Promise<ArchitectureAsset>>();
-  private readonly fireRows = new Map<string, Promise<Map<string, InteriorFireRow>>>();
 
   constructor(private readonly baseUrl: string, private readonly hosts: InteriorLoaderHosts) {}
 
@@ -362,24 +343,12 @@ export class InteriorLoader {
         kit.set(p.assetId, asset);
       }),
       ...[...new Set(drawnPlacements(bundle).map((p) => p.kit))].map(async (kit) => {
-        fireRows.set(kit, await this.fires(bundle.kits[kit]));
+        fireRows.set(kit, new Map(Object.entries((await this.index(bundle.kits[kit])).fires)));
       }),
     ]);
     const interior = instantiateInterior(bundle, kits, fireRows);
     interior.loadS = (performance.now() - startedMs) / 1000;
     return interior;
-  }
-
-  /** A kit's fire rows, from its manifest, fetched once per kit for the loader's life. */
-  private fires(ref: InteriorKitRef): Promise<Map<string, InteriorFireRow>> {
-    let promise = this.fireRows.get(ref.id);
-    if (!promise) {
-      const url = `${this.baseUrl}${ref.manifest}`;
-      promise = this.hosts.fetchJson(url).then((raw) => interiorFireRowsFromManifest(raw, url));
-      promise.catch(() => this.fireRows.delete(ref.id));
-      this.fireRows.set(ref.id, promise);
-    }
-    return promise;
   }
 
   private index(ref: InteriorKitRef): Promise<KitPartsIndex> {

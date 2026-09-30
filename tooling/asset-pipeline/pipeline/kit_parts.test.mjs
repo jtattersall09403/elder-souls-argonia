@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { drawnAssets, scopedKits, splitKit, unscopedPartsDirs, writeGlb } from "./kit_parts.mjs";
+import { drawnAssets, firesOf, scopedKits, splitKit, unscopedPartsDirs, writeGlb } from "./kit_parts.mjs";
 
 test("the parts scope is the kits the published cells name", () => {
   const root = mkdtempSync(join(tmpdir(), "kit-parts-"));
@@ -47,4 +47,21 @@ test("splitKit with a drawn set emits only those assets and refuses a missing on
   assert.deepEqual(Object.keys(splitKit("k", glb).index.assets).sort(), ["k:a", "k:b", "k:c"]);
   assert.deepEqual(Object.keys(splitKit("k", glb, new Set(["k:b"])).index.assets), ["k:b"]);
   assert.throws(() => splitKit("k", glb, new Set(["k:z"])), /lacks: k:z/);
+});
+
+// Walk 6: the parts index carries the drawn assets' fire rows, so the interior
+// loader never fetches the whole kit manifest.
+test("firesOf keeps only drawn assets that burn, reduced to the anchor fields", () => {
+  const manifest = { assets: [
+    { id: "k:hearth", flames: [{ at: [0, 0, 0] }], sizeM: [1, 1, 1], triangles: 99 },
+    { id: "k:lamp", light: { fixtureKind: "lantern" } },
+    { id: "k:cards", flameCardMaterials: ["m"] },
+    { id: "k:barrel", sizeM: [1, 1, 1] },
+    { id: "k:undrawn", flames: [{}] },
+  ] };
+  const fires = firesOf(manifest, ["k:hearth", "k:lamp", "k:cards", "k:barrel"]);
+  assert.deepEqual(Object.keys(fires), ["k:cards", "k:hearth", "k:lamp"]);
+  assert.deepEqual(fires["k:hearth"], { id: "k:hearth", flames: [{ at: [0, 0, 0] }], sizeM: [1, 1, 1] });
+  assert.deepEqual(firesOf(null, ["k:a"]), {});
+  assert.throws(() => firesOf({}, []), /no assets list/);
 });

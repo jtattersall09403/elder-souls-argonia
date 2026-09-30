@@ -3046,6 +3046,7 @@
    }
   }
  ],
+ "socketsSchemaVersion": 2,
  "sockets": [
   {
    "id": "socket.KeebaHouseSnailMinder.08095F77",
@@ -3181,7 +3182,16 @@
    "yawDeg": 274.057,
    "host": null,
    "activity": "work-at",
-   "why": "furniture marker CraftingTanningRackScaleMarker"
+   "why": "furniture marker CraftingTanningRackScaleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     99.929,
+     83.446,
+     57.94
+    ],
+    "facing": 274.057
+   }
   },
   {
    "id": "socket.KeebaHouseSnailMinder.08095F8A",
@@ -3608,7 +3618,16 @@
    "yawDeg": 28.648,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     101.368,
+     83.463,
+     58.446
+    ],
+    "facing": 28.648
+   }
   },
   {
    "id": "socket.KeebaHouseSnailMinder.08095FD6",
@@ -3621,7 +3640,16 @@
    "yawDeg": 239.679,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     104.254,
+     83.464,
+     55.078
+    ],
+    "facing": 239.679
+   }
   },
   {
    "id": "socket.KeebaHouseSnailMinder.08095FD7",
@@ -3660,7 +3688,16 @@
    "yawDeg": 325.623,
    "host": "KeebaHouseSnailMinder.081AD5FC",
    "activity": "work-at",
-   "why": "CraftingCookingPotSmNoHandleArgonian placed by the cell's author"
+   "why": "CraftingCookingPotSmNoHandleArgonian placed by the cell's author",
+   "interact": {
+    "kind": "station",
+    "position": [
+     100.83,
+     83.46,
+     56.448
+    ],
+    "facing": 325.623
+   }
   },
   {
    "id": "socket.KeebaHouseSnailMinder.08989C03",

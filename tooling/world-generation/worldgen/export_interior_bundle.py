@@ -99,6 +99,8 @@ if str(_ASSET_PIPELINE) not in sys.path:
 from .asset_taxonomy import classify  # noqa: E402
 from .esp_index import GT_WORLD_CHILDREN, UNITS_PER_METRE, Plugin, _cstr, walk
 from .esp import GROUP_HEADER, RECORD_HEADER, _record_at
+from .sockets import SOCKET_SCHEMA_VERSION, interact_point, load_vocabulary, needs_interact  # noqa: E402
+from .sockets import published_kit_bounds as _socket_kit_bounds  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 KITS_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
@@ -741,13 +743,8 @@ def class_by_placement(votes: dict[str, int], carried_m: float) -> str:
 
 
 def published_kit_bounds(kits_dir: Path = KITS_DIR) -> dict[str, tuple[list, list]]:
-    """asset id -> (sizeM, originOffsetM) over every published kit."""
-    out: dict[str, tuple[list, list]] = {}
-    for path in sorted(kits_dir.glob("*.kit.json")):
-        for asset in json.loads(path.read_text()).get("assets", []) or []:
-            if asset.get("sizeM") and asset.get("originOffsetM"):
-                out.setdefault(asset["id"], (asset["sizeM"], asset["originOffsetM"]))
-    return out
+    """asset id -> (sizeM, originOffsetM) over every published kit (sockets.py owns it)."""
+    return _socket_kit_bounds(kits_dir)
 
 
 def published_kit_assets(kits_dir: Path = KITS_DIR) -> dict[str, tuple[str, str | None]]:
@@ -1177,6 +1174,18 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
                             "contentPending": btype == "BOOK",
                             "why": f"{base.get('editorId')} placed by the cell's author"})
 
+    # decision 0113: where the player uses each work socket (a work-at idle socket here)
+    if any(needs_interact(sk) for sk in sockets):
+        if kit_bounds is None:
+            kit_bounds = published_kit_bounds()
+        vocab = load_vocabulary()
+        by_pid = {p["id"]: p for p in placements}
+        for sk in sockets:
+            if needs_interact(sk):
+                host = by_pid.get(sk["host"]) if sk.get("host") else None
+                sk["interact"] = interact_point(sk, host, kit_bounds, vocab,
+                                                host["rotationDeg"][1] if host else None)
+
     substitutions = []
     for rid, row in sorted(load_substitutions(cell_edid).items()):
         miss = next((d for d in drops if d["refId"] == rid and d["reason"] in MISSING_REASONS), None)
@@ -1253,6 +1262,7 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
         "lighting": lighting,
         "placements": placements,
         "lights": lights,
+        "socketsSchemaVersion": SOCKET_SCHEMA_VERSION,
         "sockets": sockets,
         "drops": drops,
         "substitutions": substitutions,

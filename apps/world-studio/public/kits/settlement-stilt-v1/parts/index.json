@@ -1,10 +1,10 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "kit": "settlement-stilt-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 20007348,
-  "sha256": "2b2274c6792293e0492bb25b92d8f9975dd8d17432100a1e75bd5edcdae95846"
+  "bytes": 20166380,
+  "sha256": "b3219d85a18517d790dcb55e1f5278a1e5e724a8f322659af4c50578964daee5"
  },
  "totals": {
   "parts": 1,
@@ -24,5 +24,6 @@
     "e78a7407be3f3a1e"
    ]
   }
- }
+ },
+ "fires": {}
 }

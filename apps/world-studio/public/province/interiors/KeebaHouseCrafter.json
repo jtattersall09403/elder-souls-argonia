@@ -3595,6 +3595,7 @@
    }
   }
  ],
+ "socketsSchemaVersion": 2,
  "sockets": [
   {
    "id": "socket.KeebaHouseCrafter.0809B556",
@@ -4118,7 +4119,16 @@
    "yawDeg": 279.786,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     107.642,
+     82.758,
+     60.651
+    ],
+    "facing": 279.786
+   }
   },
   {
    "id": "socket.KeebaHouseCrafter.080A0872",
@@ -4131,7 +4141,16 @@
    "yawDeg": 74.485,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     103.259,
+     82.773,
+     60.523
+    ],
+    "facing": 74.485
+   }
   },
   {
    "id": "socket.KeebaHouseCrafter.080A0873",
@@ -4144,7 +4163,16 @@
    "yawDeg": 143.239,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     104.161,
+     89.409,
+     57.37
+    ],
+    "facing": 143.239
+   }
   },
   {
    "id": "socket.KeebaHouseCrafter.080A0874",
@@ -4157,7 +4185,16 @@
    "yawDeg": 177.617,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     105.951,
+     82.772,
+     55.286
+    ],
+    "facing": 177.617
+   }
   },
   {
    "id": "socket.KeebaHouseCrafter.080A0875",
@@ -4170,7 +4207,16 @@
    "yawDeg": 85.944,
    "host": "KeebaHouseCrafter.080A0875",
    "activity": "work-at",
-   "why": "CraftingCookingPotSmNoHandleArgonian placed by the cell's author"
+   "why": "CraftingCookingPotSmNoHandleArgonian placed by the cell's author",
+   "interact": {
+    "kind": "station",
+    "position": [
+     109.262,
+     82.758,
+     58.326
+    ],
+    "facing": 85.944
+   }
   },
   {
    "id": "socket.KeebaHouseCrafter.080A0877",

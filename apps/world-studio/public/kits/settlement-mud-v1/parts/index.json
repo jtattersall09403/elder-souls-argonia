@@ -1,5 +1,5 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "kit": "settlement-mud-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
@@ -92,5 +92,6 @@
     "f5c46ae922ce5177"
    ]
   }
- }
+ },
+ "fires": {}
 }

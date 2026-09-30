@@ -3217,6 +3217,7 @@
    }
   }
  ],
+ "socketsSchemaVersion": 2,
  "sockets": [
   {
    "id": "socket.LilmothPlantationStorehouse.088B26E9",
@@ -3229,7 +3230,16 @@
    "yawDeg": 262.597,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     107.142,
+     80.362,
+     74.593
+    ],
+    "facing": 262.597
+   }
   },
   {
    "id": "socket.LilmothPlantationStorehouse.088B26EA",
@@ -3463,7 +3473,16 @@
    "yawDeg": 205.302,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     104.932,
+     84.184,
+     74.538
+    ],
+    "facing": 205.302
+   }
   },
   {
    "id": "socket.LilmothPlantationStorehouse.088B2718",
@@ -3476,7 +3495,16 @@
    "yawDeg": 131.781,
    "host": "LilmothPlantationStorehouse.088B2718",
    "activity": "work-at",
-   "why": "CraftingCookingPotSmNoHandleArgonian placed by the cell's author"
+   "why": "CraftingCookingPotSmNoHandleArgonian placed by the cell's author",
+   "interact": {
+    "kind": "station",
+    "position": [
+     103.86,
+     80.337,
+     78.698
+    ],
+    "facing": 131.781
+   }
   },
   {
    "id": "socket.LilmothPlantationStorehouse.088B271B",
@@ -3534,7 +3562,16 @@
    "yawDeg": 27.685,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     97.012,
+     80.354,
+     76.49
+    ],
+    "facing": 27.685
+   }
   },
   {
    "id": "socket.LilmothPlantationStorehouse.088B2726",
@@ -3547,7 +3584,16 @@
    "yawDeg": 96.44,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     102.542,
+     88.836,
+     76.46
+    ],
+    "facing": 96.44
+   }
   },
   {
    "id": "socket.LilmothPlantationStorehouse.088B2729",
@@ -3560,7 +3606,16 @@
    "yawDeg": 319.893,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     102.444,
+     80.347,
+     77.844
+    ],
+    "facing": 319.893
+   }
   },
   {
    "id": "socket.LilmothPlantationStorehouse.088B272A",

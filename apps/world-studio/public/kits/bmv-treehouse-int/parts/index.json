@@ -1,5 +1,5 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "kit": "bmv-treehouse-int",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
@@ -23,5 +23,6 @@
     "940d11c16a11b275"
    ]
   }
- }
+ },
+ "fires": {}
 }

@@ -2779,6 +2779,7 @@
    }
   }
  ],
+ "socketsSchemaVersion": 2,
  "sockets": [
   {
    "id": "socket.LilmothGlassworksOverseerHouse.08879820",
@@ -2955,7 +2956,16 @@
    "yawDeg": 256.868,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     104.984,
+     84.193,
+     75.071
+    ],
+    "facing": 256.868
+   }
   },
   {
    "id": "socket.LilmothGlassworksOverseerHouse.08879836",
@@ -2998,7 +3008,16 @@
    "yawDeg": 91.673,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     103.405,
+     88.778,
+     76.681
+    ],
+    "facing": 91.673
+   }
   },
   {
    "id": "socket.LilmothGlassworksOverseerHouse.0887983B",
@@ -3169,7 +3188,16 @@
    "yawDeg": 142.276,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     101.171,
+     80.347,
+     74.695
+    ],
+    "facing": 142.276
+   }
   },
   {
    "id": "socket.LilmothGlassworksOverseerHouse.08879854",
@@ -3312,7 +3340,16 @@
    "yawDeg": 302.704,
    "host": null,
    "activity": "work-at",
-   "why": "idle marker SweepIdleMarker"
+   "why": "idle marker SweepIdleMarker",
+   "interact": {
+    "kind": "station",
+    "position": [
+     105.749,
+     80.347,
+     76.353
+    ],
+    "facing": 302.704
+   }
   },
   {
    "id": "socket.LilmothGlassworksOverseerHouse.0887986B",
@@ -3444,7 +3481,16 @@
    "yawDeg": 80.214,
    "host": "LilmothGlassworksOverseerHouse.08879882",
    "activity": "work-at",
-   "why": "CraftingCookingPotSmNoHandleArgonian placed by the cell's author"
+   "why": "CraftingCookingPotSmNoHandleArgonian placed by the cell's author",
+   "interact": {
+    "kind": "station",
+    "position": [
+     106.577,
+     80.338,
+     75.275
+    ],
+    "facing": 80.214
+   }
   },
   {
    "id": "socket.LilmothGlassworksOverseerHouse.08879885",

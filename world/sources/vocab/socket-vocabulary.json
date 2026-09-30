@@ -278,6 +278,11 @@
    "note": "in the vault (vanilla), in no published kit yet: a kit-build job, not a sourcing gap"
   }
  },
+ "serviceSurfaces": {
+  "about": "Decision 0113: a work socket (a station, or an idle socket whose activity is work-at) hosted on one of these is served across the host (its interact point is kind customer); any other work socket is used where the worker stands (kind station). Matched on the host asset's file name, as furnitureActivities is.",
+  "nameFamilies": ["counter", "stall", "market"]
+ },
+ "interactKinds": ["customer", "station"],
  "sign": {
   "pointsTo": "one route. or place. id per arm"
  },
