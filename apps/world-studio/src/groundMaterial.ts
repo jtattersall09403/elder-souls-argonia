@@ -102,9 +102,25 @@ const GRADIENT_CLAMP = 8.0;
  * The aerial haze is the scene's `fogNode` (the material keeps `fog: true`);
  * the aerial uniforms are read here only for the climate-air raster (canopy
  * darkening, shore-wetness shelter) and the province extent. */
+/** Ground layer images decode AND resize to the 512² array layer off the main
+ * thread (walk 6: drawImage of full-size HTMLImageElements decoded and
+ * resampled every layer synchronously, ~1.3 s of main-thread work). Use as
+ * `useLoader(THREE.ImageBitmapLoader, urls, groundLayerBitmaps)`; every
+ * caller passes the same options so useLoader's cache is shared. */
+export const GROUND_LAYER_SIZE = 512;
+export function groundLayerBitmaps(loader: THREE.Loader): void {
+  (loader as THREE.ImageBitmapLoader).setOptions({
+    imageOrientation: "none",
+    premultiplyAlpha: "none",
+    resizeWidth: GROUND_LAYER_SIZE,
+    resizeHeight: GROUND_LAYER_SIZE,
+    resizeQuality: "high",
+  });
+}
+
 export function createGroundMaterial(
-  images: HTMLImageElement[],
-  cliffNormals: HTMLImageElement[],
+  images: CanvasImageSource[],
+  cliffNormals: CanvasImageSource[],
   ctrl: THREE.Texture,
   tintTex: THREE.Texture,
   gradTex: THREE.Texture,
@@ -118,7 +134,7 @@ export function createGroundMaterial(
   sharedArrayTexture?: THREE.DataArrayTexture,
 ): MeshStandardNodeMaterial {
   const n = images.length;
-  const size = 512;
+  const size = GROUND_LAYER_SIZE;
   // Cliff materials (Phase 16b item 3): the two library slots the triplanar
   // SIDE projections sample instead of the texel's own ground texture, so a
   // steep face reads as rock or dirt cliff rather than a smeared top texture.

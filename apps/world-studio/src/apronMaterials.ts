@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLoader } from "@react-three/fiber";
 import * as THREE from "three";
-import { createGroundMaterial, useGroundManifest, type GroundManifest, type GroundUniforms } from "./groundMaterial";
+import { createGroundMaterial, groundLayerBitmaps, useGroundManifest, type GroundManifest, type GroundUniforms } from "./groundMaterial";
 import { sharedAerialUniforms } from "./sky/WorldSky";
 import type { MeshStandardNodeMaterial } from "three/webgpu";
 import type { ApronManifest } from "@elder-souls/game-core/terrain/apronManifest";
@@ -42,11 +42,11 @@ export function useApronMaterials(
   sharedArrayTexture: THREE.DataArrayTexture | undefined,
 ): { near: MeshStandardNodeMaterial; far: MeshStandardNodeMaterial } {
   const { set, manifest: ground } = useGroundManifest(baseUrl, matSet);
-  const images = useLoader(THREE.ImageLoader, ground.materials.map((m) => `${baseUrl}textures/ground/${set}/${m.file}`));
+  const images = useLoader(THREE.ImageBitmapLoader, ground.materials.map((m) => `${baseUrl}textures/ground/${set}/${m.file}`), groundLayerBitmaps);
   const cliffNrmFiles = ["cliff_rock", "cliff_dirt"]
     .map((name) => ground.materials.find((m) => m.name === name)?.normalFile)
     .filter((f): f is string => !!f);
-  const cliffNormals = useLoader(THREE.ImageLoader, cliffNrmFiles.map((f) => `${baseUrl}textures/ground/${set}/${f}`));
+  const cliffNormals = useLoader(THREE.ImageBitmapLoader, cliffNrmFiles.map((f) => `${baseUrl}textures/ground/${set}/${f}`), groundLayerBitmaps);
   const files = (["near", "far"] as const).flatMap((s) =>
     [manifest.paint[s].control, manifest.paint[s].tint, manifest.paint[s].grad].map((f) => `${baseUrl}province/apron/${f}`));
   const [nearCtrl, nearTint, nearGrad, farCtrl, farTint, farGrad] = useLoader(THREE.TextureLoader, files);

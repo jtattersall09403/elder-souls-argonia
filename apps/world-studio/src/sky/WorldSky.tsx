@@ -55,6 +55,7 @@ import { RainSystem, rainDropBudget } from "../weather/RainSystem";
 import { AmbientAir, type AmbientAirConditions } from "@elder-souls/game-core/air/AmbientAir";
 import type { AirWaterSurface } from "@elder-souls/game-core/air/ambientAir";
 import { STUDIO_TOOLS } from "../studioTools";
+import { climateAirAt } from "../weather/climateSampler";
 import { buriedThresholdM } from "@elder-souls/game-core/water/index";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { airAmounts } from "@elder-souls/game-core/air/ambientAir";
@@ -113,40 +114,10 @@ export function getLatitudeOverrideDeg(): number | null {
   return latitudeOverrideRad == null ? null : latitudeOverrideRad / DEG;
 }
 
-// ---------- climate-air CPU raster (humidity at the camera → turbidity) ----------
-
-let airPixels: { data: Uint8ClampedArray; w: number; h: number } | null = null;
-let airPending = false;
-function ensureAirPixels(base: string): void {
-  if (airPixels || airPending) return;
-  airPending = true;
-  // Off the first frame's critical path (walk 6: drawImage + getImageData of
-  // the 1345² raster took 2.5-3.9 s on the main thread): the browser decodes
-  // the bitmap off-thread, and the pixels are read from an OffscreenCanvas
-  // that keeps them CPU-side. Consumers read the 0.6 default until then.
-  fetch(`${base}province/climate-air.png`)
-    .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(`climate-air: HTTP ${r.status}`))))
-    .then((blob) => createImageBitmap(blob, { colorSpaceConversion: "none", premultiplyAlpha: "none" }))
-    .then((bmp) => {
-      const w = bmp.width, h = bmp.height;
-      const c = typeof OffscreenCanvas !== "undefined"
-        ? new OffscreenCanvas(w, h)
-        : Object.assign(document.createElement("canvas"), { width: w, height: h });
-      const g = c.getContext("2d", { willReadFrequently: true }) as
-        OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D;
-      g.drawImage(bmp, 0, 0);
-      bmp.close();
-      airPixels = { data: g.getImageData(0, 0, w, h).data, w, h };
-    })
-    .catch(() => {
-      airPending = false;
-    });
-}
-function humidityAt(xM: number, zM: number, extentM: number): number {
-  if (!airPixels) return 0.6;
-  const px = Math.max(0, Math.min(airPixels.w - 1, Math.round((xM / extentM) * (airPixels.w - 1))));
-  const py = Math.max(0, Math.min(airPixels.h - 1, Math.round((zM / extentM) * (airPixels.h - 1))));
-  return airPixels.data[(py * airPixels.w + px) * 4] / 255;
+// Humidity at the camera -> turbidity: read through the shared climate
+// sampler (decoded in a worker); 0.6 until the raster lands.
+function humidityAt(base: string, xM: number, zM: number, extentM: number): number {
+  return climateAirAt(base, xM, zM, extentM)?.[0] ?? 0.6;
 }
 // ---------- authored stars (catalogue in skyObjects.ts) ----------
 
@@ -295,7 +266,6 @@ export function WorldSky({
   const segments = useFrameSegments();
   const base = DATA_BASE;
   const rainBudget = useMemo(() => rainDropBudget(), []);
-  ensureAirPixels(base);
   // Debug handles for the headless probes (probe-sky, probe-air-diff,
   // diagnose-sky, probe-sampler-count). The studio always carries these
   // globals (STUDIO_TOOLS): deployed and local studio builds are identical
@@ -572,7 +542,7 @@ export function WorldSky({
       }
     }
     const epochMinutes = worldClock.epochMinutes();
-    const humidity = humidityAt(camera.position.x, camera.position.z, extentM);
+    const humidity = humidityAt(base, camera.position.x, camera.position.z, extentM);
     // Weather (Phase 8c, decision 0032): the deterministic machine sampled at
     // the camera; its profile modifies the light rig, its regimes drive the
     // aerial fog, its wind drives clouds and water chop.

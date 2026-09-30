@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
-import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "../groundMaterial";
+import { createGroundMaterial, groundLayerBitmaps, useGroundManifest, type GroundUniforms } from "../groundMaterial";
 import type { MeshStandardNodeMaterial } from "three/webgpu";
 import { sharedAerialUniforms } from "../sky/WorldSky";
 import {
@@ -91,15 +91,15 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
 }) {
   const base = DATA_BASE;
   const { set, manifest: ground } = useGroundManifest(base, matSet);
-  const images = useLoader(THREE.ImageLoader,
-    ground.materials.map((m) => `${base}textures/ground/${set}/${m.file}`));
+  const images = useLoader(THREE.ImageBitmapLoader,
+    ground.materials.map((m) => `${base}textures/ground/${set}/${m.file}`), groundLayerBitmaps);
   // The two cliff normal maps (rock, dirt) — the side-projection relief.
   // An older set without `normalFile` rows simply ships no perturbation.
   const cliffNrmFiles = ["cliff_rock", "cliff_dirt"]
     .map((name) => ground.materials.find((m) => m.name === name)?.normalFile)
     .filter((f): f is string => !!f);
-  const cliffNormals = useLoader(THREE.ImageLoader,
-    cliffNrmFiles.map((f) => `${base}textures/ground/${set}/${f}`));
+  const cliffNormals = useLoader(THREE.ImageBitmapLoader,
+    cliffNrmFiles.map((f) => `${base}textures/ground/${set}/${f}`), groundLayerBitmaps);
   const ctrl = useLoader(THREE.TextureLoader, `${base}province/refined/ground-control.png`);
   const tintTex = useLoader(THREE.TextureLoader, `${base}province/refined/ground-tint.png`);
   const gradTex = useLoader(THREE.TextureLoader, `${base}province/chunks/normal-grad.png`);

@@ -14,28 +14,33 @@ interface RasterPixels {
 
 const rasters = new Map<string, RasterPixels | "pending" | "failed">();
 
+let worker: Worker | null = null;
+
+/** One worker decodes every raster (climateRaster.worker.ts); the main thread
+ * only receives the transferred pixel buffer. */
+function decoder(): Worker {
+  if (worker) return worker;
+  const w = new Worker(new URL("./climateRaster.worker.ts", import.meta.url), { type: "module" });
+  w.onmessage = (e: MessageEvent<{ url: string; buf?: ArrayBuffer; w?: number; h?: number; error?: string }>) => {
+    const { url, buf, error } = e.data;
+    const name = url.slice(url.lastIndexOf("/") + 1);
+    if (error || !buf) rasters.set(name, "failed");
+    else rasters.set(name, { data: new Uint8ClampedArray(buf), w: e.data.w!, h: e.data.h! });
+  };
+  worker = w;
+  return w;
+}
+
 function ensure(base: string, name: string): RasterPixels | null {
   const state = rasters.get(name);
   if (state && state !== "pending" && state !== "failed") return state;
-  if (state === "pending") return null;
+  if (state) return null;
   rasters.set(name, "pending");
-  const img = new Image();
-  img.src = `${base}province/${name}`;
-  img
-    .decode()
-    .then(() => {
-      const c = document.createElement("canvas");
-      c.width = img.naturalWidth;
-      c.height = img.naturalHeight;
-      const g = c.getContext("2d", { willReadFrequently: true })!;
-      g.drawImage(img, 0, 0);
-      rasters.set(name, {
-        data: g.getImageData(0, 0, c.width, c.height).data,
-        w: c.width,
-        h: c.height,
-      });
-    })
-    .catch(() => rasters.set(name, "failed"));
+  if (typeof Worker === "undefined") {
+    rasters.set(name, "failed");
+    return null;
+  }
+  decoder().postMessage({ url: new URL(`${base}province/${name}`, location.href).href });
   return null;
 }
 
