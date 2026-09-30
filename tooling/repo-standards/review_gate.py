@@ -120,8 +120,13 @@ def _unwrap_job_guard(cmd: str) -> str:
         return cmd
     for toks in segs:
         for i, t in enumerate(toks):
-            if os.path.basename(t) == "job_guard.sh" and len(toks) > i + 3 and toks[i + 2] == "--":
-                return " ".join(toks[i + 3:])
+            # `job_guard.sh <lane> [--budget N] [--mem G] -- <command...>`: the
+            # command starts after the first `--` (2026-09-30: `--budget`
+            # before it hid a --runner preflight from the gate)
+            if os.path.basename(t) == "job_guard.sh" and "--" in toks[i + 2:]:
+                j = toks.index("--", i + 2)
+                if j + 1 < len(toks):
+                    return " ".join(toks[j + 1:])
     return cmd
 
 

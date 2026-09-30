@@ -36,10 +36,13 @@ NEGATIVE = [
 def test_fires_through_job_guard_with_its_pathspec():
     from review_gate import preflight_paths
     for cmd in ['bash tooling/repo-standards/job_guard.sh infra -- "npm run preflight -- --paths a b"',
-                "bash tooling/repo-standards/job_guard.sh infra -- npm run preflight -- --paths a b"]:
+                "bash tooling/repo-standards/job_guard.sh infra -- npm run preflight -- --paths a b",
+                "bash tooling/repo-standards/job_guard.sh infra --budget 25 -- npm run preflight -- --paths a b",
+                "bash tooling/repo-standards/job_guard.sh infra --budget 25 --mem 8 -- npm run preflight -- --paths a b"]:
         assert is_preflight_command(cmd) is True
         assert preflight_paths(cmd) == ["a", "b"]
     assert is_preflight_command("bash tooling/repo-standards/job_guard.sh kits -- python3 build_kit.py x") is False
+    assert is_preflight_command("bash tooling/repo-standards/job_guard.sh pf --budget 25 -- npm run preflight -- --runner") is True
 
 
 # Every form an agent has typed or may type (review_gate.is_preflight_command,
