@@ -8,7 +8,11 @@ So a piece's light is the LIGH its source plugins place with it: for every
 reference of the piece's base objects (any base whose model is the piece's
 NIF), the nearest LIGH reference in the same cell within `NEAR_UNITS`; the
 most frequent LIGH wins, and `offsetM` is the per-axis median of those hits
-in the piece's frame (glTF Y-up metres, divided by the ref's scale). This is
+in the piece's frame (glTF Y-up metres, divided by the ref's scale; the
+horizontal part is zeroed when the hits scatter on every side). Measured
+2026-09-30: the long offsets are authentic, not an axis swap: lighters stand
+a wall candle's LIGH ~1.1 m out of its face and a torch's ~1.2 m out, the
+same local direction at every yaw. This is
 the walk-2 method (test_kit_light_records) promoted from a report script.
 
 A piece whose modal LIGH is nearest to fewer than `MIN_HITS` of its refs gets no light and is listed.
@@ -81,8 +85,37 @@ def ligh_record(fields: dict[bytes, bytes], form_id: str) -> dict | None:
     return out
 
 
+#: A free-standing piece's LIGH hits whose horizontal directions agree less
+#: than this (mean resultant length of the unit x/z vectors, 1 = all one way)
+#: have no side the light belongs to: several candles share one LIGH, so the
+#: horizontal median is scatter (mudmother candle01: five hits 0.7 to 2.6 m
+#: out on every side, R 0.48, median 1.08 m sideways). Wall candles (R 0.9,
+#: 1.1 m out of the -Y face) and torches (R 0.85, 1.2 m out of +Y) agree.
+MIN_DIRECTION_AGREEMENT = 0.6
+
+
+def piece_offset(ref, light_pos) -> tuple[float, float, float]:
+    """The LIGH position in the piece's frame: Skyrim Z-up local metres
+    (to_local, yaw only) -> glTF Y-up (x, z, -y), divided by the ref scale."""
+    x, y, z = to_local(ref, light_pos)
+    s = ref.scale or 1.0
+    return (x / s, z / s, -y / s)
+
+
+def direction_agreement(points: list[tuple[float, float, float]]) -> float:
+    units = [(x / h, z / h) for x, _, z in points if (h := math.hypot(x, z)) > 1e-6]
+    if not units:
+        return 1.0
+    return math.hypot(sum(u[0] for u in units), sum(u[1] for u in units)) / len(units)
+
+
 def median_offset(points: list[tuple[float, float, float]]) -> list[float]:
-    return [round(statistics.median(axis), 2) for axis in zip(*points)]
+    """Per-axis median; the horizontal part is zeroed when the hits do not
+    agree on a side (MIN_DIRECTION_AGREEMENT)."""
+    med = [round(statistics.median(axis), 2) for axis in zip(*points)]
+    if direction_agreement(points) < MIN_DIRECTION_AGREEMENT:
+        med[0] = med[2] = 0.0
+    return med
 
 
 def mine(models: dict[str, str], plugins=PLUGINS) -> dict[str, dict]:
@@ -126,13 +159,11 @@ def mine(models: dict[str, str], plugins=PLUGINS) -> dict[str, dict]:
                 best = min(((math.dist(r.pos, lr.pos), k, lr) for k, lr in ls
                             if math.dist(r.pos, lr.pos) < NEAR_UNITS), default=None,
                            key=lambda t: t[0])
-                s = r.scale or 1.0
                 for asset in assets:
                     refs[asset] += 1
                     if best is None:
                         continue
-                    x, y, z = to_local(r, best[2].pos)
-                    hits[asset][best[1]].append((x / s, z / s, -y / s))
+                    hits[asset][best[1]].append(piece_offset(r, best[2].pos))
     out = {}
     for asset in models:
         ranked = sorted(hits[asset].items(), key=lambda kv: (-len(kv[1]), kv[0]))
@@ -150,7 +181,9 @@ def mine(models: dict[str, str], plugins=PLUGINS) -> dict[str, dict]:
             f"{plugin}: {light['editorId']} is the {EVIDENCE_TAG} (< {NEAR_UNITS:.0f} units, "
             f"same cell) to {len(pts)} of {refs[asset]} {Path(models[asset]).stem} refs "
             f"({runner}none {none}); offset is the median of those {len(pts)} in the piece's "
-            f"frame, glTF Y-up metres (pipeline/mine_kit_lights.py).")
+            f"frame, glTF Y-up metres, horizontal agreement "
+            f"{direction_agreement(pts):.2f} (below {MIN_DIRECTION_AGREEMENT} the side is scatter "
+            f"and zeroed) (pipeline/mine_kit_lights.py).")
         out[asset] = {"light": light, "refs": refs[asset], "hits": len(pts)}
     return out
 
