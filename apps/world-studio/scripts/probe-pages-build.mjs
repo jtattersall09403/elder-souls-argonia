@@ -55,14 +55,54 @@ const lines = [];
 page.on("console", (m) => lines.push({ t: Date.now() - t0, type: m.type(), text: m.text().slice(0, 400) }));
 page.on("pageerror", (e) => lines.push({ t: Date.now() - t0, type: "pageerror", text: String(e.stack ?? e).slice(0, 600) }));
 await page.addInitScript(() => {
+  // GPU buffer ledger: every createBuffer's size and label, the running total,
+  // the device limits and any device loss.
+  const g = { total: 0, count: 0, big: [], lost: null, limits: null, errors: [] };
+  window.__GPU_BUFFERS__ = g;
+  if (self.GPUDevice) {
+    const destroy = GPUDevice.prototype.destroy;
+    GPUDevice.prototype.destroy = function () {
+      g.destroyedBy = [Math.round(performance.now()), new Error().stack.split("\n").slice(1, 14).join(" | ")];
+      return destroy.call(this);
+    };
+    const create = GPUDevice.prototype.createBuffer;
+    GPUDevice.prototype.createBuffer = function (d) {
+      if (!g.limits) {
+        g.limits = { maxBufferSize: this.limits.maxBufferSize, maxStorage: this.limits.maxStorageBufferBindingSize };
+        this.lost.then((i) => { g.lost = { t: Math.round(performance.now()), reason: i.reason, message: i.message }; });
+        this.addEventListener?.("uncapturederror", (e) => { if (g.errors.length < 20) g.errors.push([Math.round(performance.now()), String(e.error?.message).slice(0, 300)]); });
+      }
+      g.total += d.size; g.count += 1;
+      if (d.size >= 16 * 1024 * 1024) g.big.push([Math.round(performance.now()), d.size, d.label ?? "", new Error().stack.split("\n").slice(2, 6).join(" | ").slice(0, 400)]);
+      return create.call(this, d);
+    };
+  }
   // Long main-thread tasks, for the load's jerkiness.
   window.__LONG_TASKS__ = [];
   new PerformanceObserver((l) => { for (const e of l.getEntries()) window.__LONG_TASKS__.push([Math.round(e.startTime), Math.round(e.duration)]); })
     .observe({ type: "longtask", buffered: true });
 });
+// --profile N: a CPU profile of the first N seconds, top self-time functions.
+const profileS = Number(arg("profile", "0"));
+const cdp = profileS > 0 ? await page.context().newCDPSession(page) : null;
+if (cdp) { await cdp.send("Profiler.enable"); await cdp.send("Profiler.setSamplingInterval", { interval: 500 }); await cdp.send("Profiler.start"); }
+let profileTop = null;
+const stopProfile = async () => {
+  const { profile } = await cdp.send("Profiler.stop");
+  const byId = new Map(profile.nodes.map((n) => [n.id, n]));
+  const self = new Map();
+  profile.samples.forEach((id, i) => {
+    const f = byId.get(id).callFrame;
+    const k = `${f.functionName || "(anon)"} ${f.url.split("/").pop()}:${f.lineNumber + 1}:${f.columnNumber + 1}`;
+    self.set(k, (self.get(k) ?? 0) + (profile.timeDeltas[i] ?? 0) / 1000);
+  });
+  profileTop = [...self].sort((a, b) => b[1] - a[1]).slice(0, 20).map(([k, ms]) => [Math.round(ms), k]);
+};
+if (cdp) setTimeout(() => { stopProfile().catch(() => {}); }, profileS * 1000);
 await page.goto(url, { waitUntil: "load", timeout: 120_000 }).catch((e) => lines.push({ t: Date.now() - t0, type: "goto", text: String(e) }));
 await page.waitForTimeout(seconds * 1000);
 const longTasks = await page.evaluate(() => window.__LONG_TASKS__).catch(() => []);
+const gpuBuffers = await page.evaluate(() => window.__GPU_BUFFERS__).catch(() => null);
 await browser.close();
 server.close();
 
@@ -77,7 +117,7 @@ const classes = {
 const counts = Object.fromEntries(Object.entries(classes).map(([k, re]) => [k, lines.filter((l) => re.test(l.text)).length]));
 const sorted = [...longTasks].sort((a, b) => b[1] - a[1]);
 const summary = {
-  url, seconds, counts,
+  url, seconds, counts, gpuBuffers, profileTop,
   errors: lines.filter((l) => l.type === "error" || l.type === "pageerror").length,
   longTasks: { count: longTasks.length, totalMs: longTasks.reduce((s, x) => s + x[1], 0), top: sorted.slice(0, 10) },
   milestones: lines.filter((l) => /ground-paint|groundcover|renderer backend|first frame|ready/i.test(l.text)).slice(0, 30),
