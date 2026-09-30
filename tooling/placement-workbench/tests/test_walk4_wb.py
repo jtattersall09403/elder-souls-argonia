@@ -22,6 +22,7 @@ sys.path.insert(0, str(HERE.parent))
 import wb  # noqa: E402
 from workbench import paths, rules, seat_rules, snap  # noqa: E402
 from workbench.scene import Piece  # noqa: E402
+from worldgen.pad_overlay import PAD_FLOOR_CLEARANCE_M  # noqa: E402
 
 FIX = HERE.parent / "fixtures"
 CLAYWATER = FIX / "claywater-walk4.layout.json"
@@ -123,13 +124,16 @@ def test_mount_hang_cli_flags_reach_the_layout_op():
 def test_burial_fails_the_claywater_stable_at_both_seats(cw, cat, compiled):
     """At HEAD the stable's op carried a pad and no `settle` (y None): judged
     at the runtime seat, and at the HEAD compile's 34.83 m. A `place` op with
-    a pad now settles (walk 4 COMPILE lane), so the view un-settles it."""
+    a pad now settles (walk 4 COMPILE lane), so the view un-settles it. The
+    pad grades PAD_FLOOR_CLEARANCE_M under its datum (R75, 017b4cf4), so the
+    runtime seat's base stands that much less under the graded ground than
+    the designed 0.91 m (0.88 m; 0.91 m again with the clearance at 0)."""
     scene = cw.view()
     scene.piece("stable").y = None
     out = rules.piece_rule("burial", cat, scene, ["stable"])
     text = " ".join(out["failures"])
     row = out["pieces"]["stable"]
-    assert row["judgedAt"] == "runtime-seat" and abs(row["baseDepthM"] - 0.91) < 0.02
+    assert row["judgedAt"] == "runtime-seat" and abs(row["baseDepthM"] - (0.91 - PAD_FLOOR_CLEARANCE_M)) < 0.01
     assert abs(row["compiledBaseDepthM"] - 3.48) < 0.05 and "last compile" in text
     # the runtime seat itself is the designed pose (planner ruling 1,
     # CLAYWATER2): the assetPlacement row's 0.91 m burial allows it
