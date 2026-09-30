@@ -3,6 +3,1532 @@
     {
       "approaches": [
         {
+          "firstSeen": "parcel.riverwalk.the-long-walk",
+          "fromDirection": null,
+          "fromRouteId": "track.dunmer-north.riverwalk",
+          "id": "approach.riverwalk.west-tracks",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "Coming along the track from the west, the line of boards shows first across the water, then the long house standing in the water off the spit near their head and the stage shelter on the islet at their foot.",
+          "wayfinding": "The track meets the boards at their midpoint. The toll and the long house lie north; the islet and the ferry lie south, then east."
+        }
+      ],
+      "assetConstraints": [],
+      "boundary": [
+        [
+          7186.0,
+          496.0
+        ],
+        [
+          7236.01,
+          496.0
+        ],
+        [
+          7236.01,
+          531.61
+        ],
+        [
+          7222.0,
+          531.61
+        ],
+        [
+          7202.0,
+          540.0
+        ],
+        [
+          7194.0,
+          600.0
+        ],
+        [
+          7228.0,
+          600.0
+        ],
+        [
+          7232.0,
+          592.0
+        ],
+        [
+          7246.0,
+          592.0
+        ],
+        [
+          7250.0,
+          616.0
+        ],
+        [
+          7250.0,
+          642.0
+        ],
+        [
+          7200.0,
+          642.0
+        ],
+        [
+          7168.0,
+          614.0
+        ],
+        [
+          7176.0,
+          540.0
+        ],
+        [
+          7184.0,
+          528.0
+        ]
+      ],
+      "budget": {
+        "maxColliders": 200,
+        "maxInstances": 200,
+        "maxTextureMB": 64,
+        "maxUniqueMaterials": 180
+      },
+      "causalModel": {
+        "founding": "The northern trunk's mid-point: a village strung along a channel because the channel is the street.",
+        "occupantsMotive": "It lives on the ferry, the toll and feeding boat crews.",
+        "pressures": "Alten Corimont's captain and Thorn's field-owners both think the toll should be theirs.",
+        "siteAdvantages": "A day's run from either end of the trunk boat lane, which passes close enough to hail.",
+        "wouldChangeIf": "Would be bypassed if a deeper channel opened south."
+      },
+      "clearance": {
+        "hardClear": [],
+        "kept": [],
+        "thinned": []
+      },
+      "combatSpaces": [
+        {
+          "clearanceClass": "open",
+          "id": "combat.riverwalk.the-spit",
+          "notes": null,
+          "polygon": [
+            [
+              7192.736,
+              566.153
+            ],
+            [
+              7192.81,
+              565.768
+            ],
+            [
+              7192.847,
+              565.377
+            ],
+            [
+              7192.845,
+              564.985
+            ],
+            [
+              7192.805,
+              564.594
+            ],
+            [
+              7192.727,
+              564.209
+            ],
+            [
+              7192.611,
+              563.834
+            ],
+            [
+              7192.459,
+              563.472
+            ],
+            [
+              7192.272,
+              563.127
+            ],
+            [
+              7192.053,
+              562.802
+            ],
+            [
+              7191.802,
+              562.499
+            ],
+            [
+              7191.524,
+              562.223
+            ],
+            [
+              7191.219,
+              561.975
+            ],
+            [
+              7190.892,
+              561.759
+            ],
+            [
+              7190.545,
+              561.575
+            ],
+            [
+              7190.181,
+              561.427
+            ],
+            [
+              7189.805,
+              561.315
+            ],
+            [
+              7189.42,
+              561.24
+            ],
+            [
+              7189.029,
+              561.203
+            ],
+            [
+              7188.636,
+              561.205
+            ],
+            [
+              7188.246,
+              561.245
+            ],
+            [
+              7187.861,
+              561.324
+            ],
+            [
+              7187.486,
+              561.439
+            ],
+            [
+              7187.124,
+              561.591
+            ],
+            [
+              7186.779,
+              561.778
+            ],
+            [
+              7186.454,
+              561.997
+            ],
+            [
+              7186.151,
+              562.248
+            ],
+            [
+              7185.875,
+              562.526
+            ],
+            [
+              7185.627,
+              562.831
+            ],
+            [
+              7185.411,
+              563.158
+            ],
+            [
+              7185.227,
+              563.505
+            ],
+            [
+              7185.079,
+              563.869
+            ],
+            [
+              7182.328,
+              571.67
+            ],
+            [
+              7182.215,
+              572.046
+            ],
+            [
+              7182.141,
+              572.431
+            ],
+            [
+              7182.104,
+              572.822
+            ],
+            [
+              7182.106,
+              573.215
+            ],
+            [
+              7182.146,
+              573.605
+            ],
+            [
+              7182.224,
+              573.99
+            ],
+            [
+              7182.34,
+              574.365
+            ],
+            [
+              7182.492,
+              574.727
+            ],
+            [
+              7182.679,
+              575.072
+            ],
+            [
+              7182.898,
+              575.397
+            ],
+            [
+              7183.149,
+              575.7
+            ],
+            [
+              7183.427,
+              575.976
+            ],
+            [
+              7183.732,
+              576.224
+            ],
+            [
+              7184.059,
+              576.44
+            ],
+            [
+              7184.406,
+              576.624
+            ],
+            [
+              7184.77,
+              576.772
+            ],
+            [
+              7185.146,
+              576.885
+            ],
+            [
+              7185.531,
+              576.959
+            ],
+            [
+              7185.922,
+              576.996
+            ],
+            [
+              7186.315,
+              576.994
+            ],
+            [
+              7186.705,
+              576.954
+            ],
+            [
+              7187.09,
+              576.876
+            ],
+            [
+              7187.465,
+              576.76
+            ],
+            [
+              7187.827,
+              576.608
+            ],
+            [
+              7188.172,
+              576.421
+            ],
+            [
+              7188.497,
+              576.202
+            ],
+            [
+              7188.8,
+              575.951
+            ],
+            [
+              7189.076,
+              575.673
+            ],
+            [
+              7189.324,
+              575.368
+            ],
+            [
+              7189.54,
+              575.041
+            ],
+            [
+              7189.724,
+              574.694
+            ],
+            [
+              7189.872,
+              574.33
+            ],
+            [
+              7192.623,
+              566.529
+            ]
+          ],
+          "why": "The dry spit at the head of the boards, the only open footing in the village."
+        }
+      ],
+      "contextM": {
+        "x0": 5576.0,
+        "x1": 8842.0,
+        "z0": -1064.0,
+        "z1": 2202.0
+      },
+      "districts": [
+        {
+          "centreM": [
+            7209.974,
+            585.904
+          ],
+          "cultureKit": "argonian-mud",
+          "id": "district.riverwalk.the-cove",
+          "kind": "boardwalk-village",
+          "notes": "Plank walks over a cove joining a dry spit to a dry islet, with a ferry landing off the islet.",
+          "polygon": [
+            [
+              7196.786,
+              515.198
+            ],
+            [
+              7187.137,
+              528.528
+            ],
+            [
+              7172.056,
+              608.112
+            ],
+            [
+              7172.0,
+              608.428
+            ],
+            [
+              7171.567,
+              612.117
+            ],
+            [
+              7171.222,
+              616.063
+            ],
+            [
+              7172.931,
+              618.314
+            ],
+            [
+              7173.112,
+              618.473
+            ],
+            [
+              7229.959,
+              636.368
+            ],
+            [
+              7235.079,
+              635.765
+            ],
+            [
+              7236.746,
+              634.098
+            ],
+            [
+              7238.089,
+              631.038
+            ],
+            [
+              7241.46,
+              599.143
+            ],
+            [
+              7241.355,
+              598.307
+            ],
+            [
+              7240.256,
+              592.0
+            ],
+            [
+              7232.0,
+              592.0
+            ],
+            [
+              7228.0,
+              600.0
+            ],
+            [
+              7194.0,
+              600.0
+            ],
+            [
+              7202.0,
+              540.0
+            ],
+            [
+              7222.0,
+              531.61
+            ],
+            [
+              7229.731,
+              531.61
+            ],
+            [
+              7226.718,
+              514.32
+            ],
+            [
+              7215.206,
+              514.3
+            ]
+          ],
+          "wealth": "modest",
+          "why": {
+            "microGeography": "Knee-deep black water over mud between two low mud shelves.",
+            "playerPurpose": "Rest, trade, the toll and the ferry.",
+            "what": "The cove, the boards over it, the spit at their head and the islet at their foot.",
+            "whyHere": "The shallows between the spit and the islet carry the tracks from the west.",
+            "whyNeighbours": "Two villages lie inland to the west; the boat lane runs past the islet."
+          }
+        },
+        {
+          "centreM": [
+            7220.012,
+            522.773
+          ],
+          "cultureKit": "argonian-stilt",
+          "id": "district.riverwalk.the-long-house",
+          "kind": "boardwalk-village",
+          "notes": "The long house on its stilts in the cove, with its plank landing to the spit.",
+          "polygon": [
+            [
+              7218.973,
+              508.73
+            ],
+            [
+              7196.09,
+              515.78
+            ],
+            [
+              7186.578,
+              534.741
+            ],
+            [
+              7217.88,
+              533.338
+            ],
+            [
+              7222.0,
+              531.61
+            ],
+            [
+              7235.691,
+              531.61
+            ],
+            [
+              7236.01,
+              531.194
+            ],
+            [
+              7236.01,
+              525.44
+            ],
+            [
+              7227.006,
+              507.713
+            ],
+            [
+              7223.88,
+              507.576
+            ]
+          ],
+          "wealth": "modest",
+          "why": {
+            "microGeography": "Knee-deep black water over mud, off the spit's dry edge.",
+            "playerPurpose": "A bunk for the night and stores for the boat, bought from the household.",
+            "what": "The long house standing in the cove water on stilts, with its landing.",
+            "whyHere": "The crews tie up in the cove, so the household built out over it.",
+            "whyNeighbours": "The spit and the head of the boards lie a few steps west over the landing."
+          }
+        }
+      ],
+      "docks": [],
+      "doors": [
+        {
+          "facingDeg": 278.3,
+          "id": "door.dunmer-north.riverwalk.1",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": null,
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.riverwalk.crews-house",
+          "thresholdM": [
+            7223.354,
+            518.314
+          ]
+        }
+      ],
+      "id": "place.dunmer-north.riverwalk",
+      "landmarks": [],
+      "networkTerminals": [
+        {
+          "id": "terminal.riverwalk.west-tracks",
+          "kind": "footpath",
+          "positionM": [
+            7186.1,
+            573.0
+          ],
+          "routeId": "track.dunmer-north.riverwalk",
+          "wayId": "route.riverwalk.the-boards",
+          "why": "The tracks from the villages to the west end on the boards halfway across the cove."
+        }
+      ],
+      "parcels": [
+        {
+          "assetRef": "composite:stilt/swamp-house-with-landing",
+          "buildingFamily": "bmv-swamp-house",
+          "centreM": [
+            7231.5,
+            519.5
+          ],
+          "districtId": "district.riverwalk.the-long-house",
+          "entrance": {
+            "arcM": 1.68,
+            "bearingDeg": 278.3,
+            "interiorRef": null,
+            "kind": "approach",
+            "worldM": [
+              7223.354,
+              518.314
+            ]
+          },
+          "front": null,
+          "groundFit": "stilt",
+          "id": "parcel.riverwalk.crews-house",
+          "interior": {
+            "kind": "dwelling"
+          },
+          "notes": null,
+          "orientationWhy": "Its doorway and landing face west to the spit and the path from the head of the boards.",
+          "polygon": [
+            [
+              7233.06,
+              528.467
+            ],
+            [
+              7232.912,
+              528.66
+            ],
+            [
+              7230.359,
+              528.439
+            ],
+            [
+              7230.165,
+              528.29
+            ],
+            [
+              7220.175,
+              519.136
+            ],
+            [
+              7220.051,
+              519.0
+            ],
+            [
+              7219.937,
+              516.563
+            ],
+            [
+              7219.887,
+              512.897
+            ],
+            [
+              7219.895,
+              512.717
+            ],
+            [
+              7220.02,
+              512.593
+            ],
+            [
+              7224.258,
+              511.597
+            ],
+            [
+              7224.498,
+              511.607
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "A plank house on piles in knee-deep water, its landing laid against the doorway.",
+            "playerPurpose": "A safe bed for the night; stores for the water.",
+            "what": "The long house, an open plank house on piles in the cove, where the household and the boat crews sleep.",
+            "whyHere": "The village lives on crews stopping halfway along the boat lane; a house big enough for them stands in the water, as every house in the cove does.",
+            "whyNeighbours": "The shrine stands on the spit by the path to the long house landing; the boards start below the shrine.",
+            "whySpot": "The shallows off the spit's east shore, where a short landing reaches it from the path at the head of the boards."
+          },
+          "yawDeg": 182.5
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-docks",
+          "centreM": [
+            7231.3,
+            621.0
+          ],
+          "districtId": "district.riverwalk.the-cove",
+          "entrance": null,
+          "front": null,
+          "groundFit": "stilt",
+          "id": "parcel.riverwalk.ferry-landing",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Three spans run from the islet's north-east shore out to where the bed drops away.",
+          "polygon": [
+            [
+              7236.333,
+              604.435
+            ],
+            [
+              7232.457,
+              606.383
+            ],
+            [
+              7232.304,
+              606.485
+            ],
+            [
+              7231.441,
+              609.576
+            ],
+            [
+              7228.431,
+              623.823
+            ],
+            [
+              7228.396,
+              623.999
+            ],
+            [
+              7228.49,
+              624.14
+            ],
+            [
+              7232.667,
+              624.975
+            ],
+            [
+              7232.819,
+              624.883
+            ],
+            [
+              7235.864,
+              610.46
+            ],
+            [
+              7236.35,
+              606.957
+            ],
+            [
+              7236.604,
+              604.612
+            ],
+            [
+              7236.5,
+              604.468
+            ]
+          ],
+          "spans": null,
+          "use": "dock",
+          "why": {
+            "microGeography": "Planks a hand's breadth over the water, out to where the bed drops away.",
+            "playerPurpose": "The way from the islet to the ferry raft.",
+            "what": "The ferry landing: three plank spans from the islet out to deep water.",
+            "whyHere": "The raft draws more water than the cove holds.",
+            "whyNeighbours": "The stage shelter is behind it; the raft lies at its end.",
+            "whySpot": "The islet's north-east shore, the nearest dry footing to water deep enough for the raft."
+          },
+          "yawDeg": 11.3
+        },
+        {
+          "assetRef": "ferryraft:snt/ferry/ferryraft01",
+          "buildingFamily": "native-craft",
+          "centreM": [
+            7235.6,
+            600.6
+          ],
+          "districtId": "district.riverwalk.the-cove",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.riverwalk.ferry-stage",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The raft lies off the end of the landing for boarding.",
+          "polygon": [
+            [
+              7234.421,
+              598.386
+            ],
+            [
+              7234.427,
+              598.357
+            ],
+            [
+              7234.441,
+              598.339
+            ],
+            [
+              7234.484,
+              598.276
+            ],
+            [
+              7234.495,
+              598.268
+            ],
+            [
+              7235.088,
+              598.366
+            ],
+            [
+              7236.745,
+              598.697
+            ],
+            [
+              7237.251,
+              598.819
+            ],
+            [
+              7237.398,
+              598.899
+            ],
+            [
+              7237.433,
+              599.182
+            ],
+            [
+              7236.856,
+              602.737
+            ],
+            [
+              7236.848,
+              602.777
+            ],
+            [
+              7236.834,
+              602.794
+            ],
+            [
+              7236.828,
+              602.824
+            ],
+            [
+              7236.775,
+              602.885
+            ],
+            [
+              7236.763,
+              602.892
+            ],
+            [
+              7234.484,
+              602.355
+            ],
+            [
+              7233.976,
+              602.244
+            ],
+            [
+              7233.831,
+              602.154
+            ],
+            [
+              7233.755,
+              601.975
+            ],
+            [
+              7233.792,
+              601.789
+            ],
+            [
+              7234.413,
+              598.425
+            ]
+          ],
+          "spans": null,
+          "use": "dock",
+          "why": {
+            "microGeography": "Open water more than a metre deep over a level bed.",
+            "playerPurpose": "The ferry that carries the player along the lane.",
+            "what": "The ferry raft, moored off the end of the landing.",
+            "whyHere": "Passengers and freight cross on it to the other stations of the lane.",
+            "whyNeighbours": "The landing runs out to it from the islet.",
+            "whySpot": "The first water deep enough to float it, north of the islet."
+          },
+          "yawDeg": 11.3
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-docks",
+          "centreM": [
+            7183.587,
+            614.016
+          ],
+          "districtId": "district.riverwalk.the-cove",
+          "entrance": null,
+          "front": null,
+          "groundFit": "stilt",
+          "id": "parcel.riverwalk.islet-walk",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The spans turn east at the foot of the long walk and come ashore on the islet.",
+          "polygon": [
+            [
+              7180.526,
+              611.185
+            ],
+            [
+              7180.385,
+              611.292
+            ],
+            [
+              7179.642,
+              615.466
+            ],
+            [
+              7179.737,
+              615.615
+            ],
+            [
+              7212.058,
+              621.372
+            ],
+            [
+              7214.41,
+              621.568
+            ],
+            [
+              7214.55,
+              621.471
+            ],
+            [
+              7215.22,
+              617.71
+            ],
+            [
+              7215.122,
+              617.571
+            ],
+            [
+              7212.846,
+              616.952
+            ]
+          ],
+          "spans": null,
+          "use": "dock",
+          "why": {
+            "microGeography": "Planks over shallow water, coming ashore on the islet's mud.",
+            "playerPurpose": "The way to the islet and the ferry.",
+            "what": "The islet walk: plank spans from the foot of the long walk east to the islet.",
+            "whyHere": "The ferry lands on the islet.",
+            "whyNeighbours": "It joins the long walk at its south end.",
+            "whySpot": "Along the north shore of the islet, where the water is shallowest."
+          },
+          "yawDeg": 100.1
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+          "buildingFamily": "argonian-shrine",
+          "centreM": [
+            7211.3,
+            519.6
+          ],
+          "districtId": "district.riverwalk.the-cove",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.riverwalk.shrine",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The totems face the long house yard.",
+          "polygon": [
+            [
+              7210.91,
+              519.79
+            ],
+            [
+              7210.99,
+              519.38
+            ],
+            [
+              7211.01,
+              519.37
+            ],
+            [
+              7211.01,
+              519.37
+            ],
+            [
+              7211.57,
+              519.37
+            ],
+            [
+              7211.58,
+              519.37
+            ],
+            [
+              7211.59,
+              519.38
+            ],
+            [
+              7211.66,
+              519.79
+            ],
+            [
+              7211.66,
+              519.85
+            ],
+            [
+              7211.64,
+              519.86
+            ],
+            [
+              7211.63,
+              519.86
+            ],
+            [
+              7210.94,
+              519.86
+            ],
+            [
+              7210.93,
+              519.86
+            ],
+            [
+              7210.91,
+              519.85
+            ]
+          ],
+          "spans": null,
+          "use": "shrine",
+          "why": {
+            "microGeography": "The spit's dry mud, by the path to the long house.",
+            "playerPurpose": "A shrine blessing before the water.",
+            "what": "A small shrine of totems and a chime on the spit.",
+            "whyHere": "Crews leave an offering before they go back on the water.",
+            "whyNeighbours": "The head of the boards is a few steps away.",
+            "whySpot": "On the spit's flat ground, by the path to the long house landing."
+          },
+          "yawDeg": 0.0
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/argoniantent02",
+          "buildingFamily": "kotm-mudhut",
+          "centreM": [
+            7232.0,
+            630.0
+          ],
+          "districtId": "district.riverwalk.the-cove",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.riverwalk.stage-shelter",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open front turns west to the path from the islet walk.",
+          "polygon": [
+            [
+              7230.343,
+              632.295
+            ],
+            [
+              7230.207,
+              632.193
+            ],
+            [
+              7229.943,
+              631.989
+            ],
+            [
+              7229.918,
+              631.947
+            ],
+            [
+              7230.224,
+              627.816
+            ],
+            [
+              7230.343,
+              627.731
+            ],
+            [
+              7233.232,
+              628.045
+            ],
+            [
+              7233.385,
+              628.198
+            ],
+            [
+              7234.176,
+              630.0
+            ],
+            [
+              7233.385,
+              631.802
+            ],
+            [
+              7233.232,
+              631.955
+            ]
+          ],
+          "spans": null,
+          "use": "civic",
+          "why": {
+            "microGeography": "A hide tent on a low mud pad on the islet.",
+            "playerPurpose": "Passage on the ferry.",
+            "what": "The stage shelter, an open tent where the stage-mistress takes the fares.",
+            "whyHere": "The ferry is the village's living; it lands on the islet.",
+            "whyNeighbours": "The ferry landing runs out from the shore north of it.",
+            "whySpot": "The islet's east shelf, beside the ferry landing."
+          },
+          "yawDeg": 270.0
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-docks",
+          "centreM": [
+            7192.5,
+            534.0
+          ],
+          "districtId": "district.riverwalk.the-cove",
+          "entrance": null,
+          "front": null,
+          "groundFit": "stilt",
+          "id": "parcel.riverwalk.the-long-walk",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The boards run from the spit down the cove along the line the tracks from the west already follow, so every walker passes the toll.",
+          "polygon": [
+            [
+              7191.049,
+              530.054
+            ],
+            [
+              7190.9,
+              530.15
+            ],
+            [
+              7175.991,
+              608.835
+            ],
+            [
+              7175.959,
+              609.012
+            ],
+            [
+              7175.547,
+              612.524
+            ],
+            [
+              7175.341,
+              614.874
+            ],
+            [
+              7175.449,
+              615.015
+            ],
+            [
+              7175.616,
+              615.045
+            ],
+            [
+              7179.451,
+              613.016
+            ],
+            [
+              7179.602,
+              612.911
+            ],
+            [
+              7180.399,
+              609.803
+            ],
+            [
+              7195.309,
+              531.118
+            ],
+            [
+              7195.341,
+              530.941
+            ],
+            [
+              7195.243,
+              530.802
+            ]
+          ],
+          "spans": null,
+          "use": "dock",
+          "why": {
+            "microGeography": "Planks a hand's breadth over black water on sunk piles; the boards are of different ages.",
+            "playerPurpose": "The way through the village: the only dry route across the cove.",
+            "what": "The long walk: plank spans on piles from the spit down the cove.",
+            "whyHere": "The channel is the street; the boards carry the tracks over knee-deep water where there is no dry footing.",
+            "whyNeighbours": "The long house stands in the water off the spit, near the head of the boards.",
+            "whySpot": "From the spit's south shore down the cove to where it turns for the islet."
+          },
+          "yawDeg": 190.1
+        }
+      ],
+      "provision": {},
+      "questSockets": [
+        {
+          "id": "socket.riverwalk.q-evidence-the-plank-ages",
+          "kind": "evidence",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            7181.9,
+            590.0
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.riverwalk.q-post-stage-mistress",
+          "kind": "post",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            7229.6,
+            623.2
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.riverwalk.q-post-toll-holder",
+          "kind": "post",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            7195.8,
+            527.2
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.riverwalk.q-scene-the-long-walk",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            7186.1,
+            573.0
+          ],
+          "questId": null
+        }
+      ],
+      "scaleGrounding": {
+        "buildingsPlanned": 7,
+        "households": 1,
+        "loreSource": "settlement-register row Riverwalk (M3 boardwalk village on the northern trunk); record occupants D1 households, D2 crews, D2 toll hands; notable slots toll-holder, stage-mistress",
+        "npcsPlanned": 5,
+        "population": "8-14",
+        "why": "One household and the crews who stop the night share the long house, which stands on piles in the cove off the spit; the islet takes a tent. Three plank walks join them, with a shrine and a ferry raft."
+      },
+      "seed": "place.dunmer-north.riverwalk",
+      "siting": {
+        "candidates": [
+          {
+            "chosen": false,
+            "id": "candidate.riverwalk.plotted-anchor",
+            "positionM": [
+              7197.1,
+              584.0
+            ],
+            "rejectedBecause": "Open water under 1 m deep with no dry footing; no building stands in water here.",
+            "why": "The plotted anchor in the middle of the cove."
+          },
+          {
+            "chosen": true,
+            "id": "candidate.riverwalk.the-cove",
+            "positionM": [
+              7200.0,
+              570.0
+            ],
+            "rejectedBecause": null,
+            "why": "A dry spit and a dry islet on either side of a knee-deep cove, on the line the western tracks already follow, with water deep enough for a ferry off the islet."
+          }
+        ],
+        "dossier": "world/sources/sites/dossiers/riverwalk.json"
+      },
+      "summary": {
+        "approaches": 1,
+        "combatSpaces": 1,
+        "districts": 2,
+        "docks": 0,
+        "doors": 1,
+        "fences": 0,
+        "keptTrees": 0,
+        "landmarks": 0,
+        "networkTerminals": 1,
+        "parcels": 7,
+        "questSockets": 4,
+        "sitingCandidates": 2,
+        "ways": 5
+      },
+      "ways": [
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.riverwalk.the-long-walk",
+            "parcel.riverwalk.crews-house"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.riverwalk.crews-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              7193.211,
+              530.439
+            ],
+            [
+              7198.9,
+              519.1
+            ],
+            [
+              7205.0,
+              522.8
+            ],
+            [
+              7212.0,
+              523.2
+            ],
+            [
+              7215.3,
+              518.3
+            ],
+            [
+              7219.2,
+              518.92
+            ],
+            [
+              7223.354,
+              518.314
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              7193.2,
+              530.5
+            ],
+            [
+              7196.6,
+              524.0
+            ],
+            [
+              7198.9,
+              519.1
+            ],
+            [
+              7205.0,
+              522.8
+            ],
+            [
+              7212.0,
+              523.2
+            ],
+            [
+              7215.3,
+              518.3
+            ],
+            [
+              7219.2,
+              518.92
+            ],
+            [
+              7223.2,
+              518.3
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the head of the boards across the spit to the long house landing.",
+          "widthM": 1.5
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.riverwalk.islet-walk",
+            "parcel.riverwalk.ferry-landing"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.riverwalk.islet-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              7214.823,
+              619.934
+            ],
+            [
+              7229.53,
+              624.348
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              7218.0,
+              620.5
+            ],
+            [
+              7224.0,
+              622.6
+            ],
+            [
+              7229.6,
+              624.0
+            ]
+          ],
+          "waterOk": null,
+          "why": "Across the islet from the boards to the ferry landing.",
+          "widthM": 1.5
+        },
+        {
+          "assetRef": null,
+          "endsAt": [],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.riverwalk.shrine-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              7198.9,
+              519.1
+            ],
+            [
+              7210.3,
+              520.0
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              7198.9,
+              519.1
+            ],
+            [
+              7210.3,
+              520.0
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the long house yard to the shrine.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.riverwalk.stage-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              7224.0,
+              622.6
+            ],
+            [
+              7229.4,
+              628.4
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              7224.0,
+              622.6
+            ],
+            [
+              7229.4,
+              628.4
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the islet path to the stage shelter.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.riverwalk.the-long-walk"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.riverwalk.the-boards",
+          "kind": "track",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              7186.1,
+              573.0
+            ],
+            [
+              7188.851,
+              565.199
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              7186.1,
+              573.0
+            ],
+            [
+              7187.8,
+              565.0
+            ]
+          ],
+          "waterOk": null,
+          "why": "The last stretch of the track from the west, where it comes onto the boards halfway across the cove.",
+          "widthM": 2.5
+        }
+      ]
+    },
+    {
+      "approaches": [
+        {
           "firstSeen": "parcel.proving-ground.cave-mouth",
           "fromDirection": "east, up the west bank of body.2407-3123",
           "fromRouteId": null,
@@ -5770,18 +7296,14 @@
         },
         {
           "centreM": [
-            322.246,
-            3074.975
+            321.028,
+            3080.253
           ],
           "cultureKit": "imperial",
           "id": "district.claywater-station.the-well",
           "kind": "road-station",
           "notes": "The Imperial half on the south bench.",
           "polygon": [
-            [
-              315.384,
-              3043.758
-            ],
             [
               304.367,
               3050.799
@@ -5871,24 +7393,12 @@
               3091.446
             ],
             [
-              344.81,
-              3069.169
+              344.666,
+              3068.462
             ],
             [
-              332.12,
-              3044.191
-            ],
-            [
-              330.949,
-              3042.944
-            ],
-            [
-              329.213,
-              3042.134
-            ],
-            [
-              327.69,
-              3042.054
+              317.279,
+              3042.546
             ]
           ],
           "wealth": "modest",
@@ -8239,8 +9749,8 @@
           "assetRef": "vanilla:dungeons/mines/clutter/genericwell01",
           "buildingFamily": "works-well",
           "centreM": [
-            328.0,
-            3047.0
+            323.0,
+            3062.2
           ],
           "districtId": "district.claywater-station.the-well",
           "entrance": null,
@@ -8254,79 +9764,79 @@
           "orientationWhy": "The windlass turns across the road so the bucket is drawn from the street side.",
           "polygon": [
             [
-              327.088,
-              3046.773
+              322.088,
+              3061.973
             ],
             [
-              327.243,
-              3046.44
+              322.243,
+              3061.64
             ],
             [
-              327.512,
-              3046.188
+              322.512,
+              3061.388
             ],
             [
-              327.861,
-              3046.069
+              322.861,
+              3061.269
             ],
             [
-              328.227,
-              3046.088
+              323.227,
+              3061.288
             ],
             [
-              328.56,
-              3046.243
+              323.56,
+              3061.443
             ],
             [
-              328.812,
-              3046.512
+              323.812,
+              3061.712
             ],
             [
-              328.931,
-              3046.861
+              323.931,
+              3062.061
             ],
             [
-              328.912,
-              3047.227
+              323.912,
+              3062.427
             ],
             [
-              328.757,
-              3047.56
+              323.757,
+              3062.76
             ],
             [
-              328.488,
-              3047.812
+              323.488,
+              3063.012
             ],
             [
-              328.139,
-              3047.931
+              323.139,
+              3063.131
             ],
             [
-              327.773,
-              3047.912
+              322.773,
+              3063.112
             ],
             [
-              327.44,
-              3047.757
+              322.44,
+              3062.957
             ],
             [
-              327.188,
-              3047.488
+              322.188,
+              3062.688
             ],
             [
-              327.069,
-              3047.139
+              322.069,
+              3062.339
             ]
           ],
           "spans": null,
           "use": "civic",
           "why": {
-            "microGeography": "The verge a metre above the road, on the spring line.",
+            "microGeography": "A levelled step on the bench, two metres above the tarn and 1.5 m above the road.",
             "playerPurpose": "Water, a landmark from the south road and the cracked well of LF83.",
             "what": "The Imperial well, its head cracked, at the junction of the street and the station path.",
             "whyHere": "The well is the reason for the place. It is the road's water point.",
-            "whyNeighbours": "The trough, the lantern and the station house door stand round it.",
-            "whySpot": "The first junction off the road on its west verge, where the spring rises."
+            "whyNeighbours": "The station house, the handcart and the lantern post stand round it.",
+            "whySpot": "On the raised bench east of the station house, above the road junction and the tarn."
           },
           "yawDeg": 14.0
         },
@@ -8926,7 +10436,19 @@
             ],
             [
               320.5,
-              3054.216
+              3053.216
+            ],
+            [
+              318.5,
+              3055.216
+            ],
+            [
+              318.5,
+              3059.216
+            ],
+            [
+              320.6,
+              3061.4
             ],
             [
               320.5,
@@ -9118,8 +10640,8 @@
               3047.6
             ],
             [
-              327.512,
-              3046.188
+              322.831,
+              3061.279
             ]
           ],
           "routing": "straight",
@@ -9129,8 +10651,8 @@
               3047.6
             ],
             [
-              327.0,
-              3045.6
+              322.6,
+              3060.6
             ]
           ],
           "waterOk": null,

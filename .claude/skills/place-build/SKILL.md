@@ -298,6 +298,8 @@ without that is an escalation to the planner, never a packet.
     python3 -m worldgen.export_settlement_bundle --copy-assets --places <place-id>   # (worldgen)
     python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage publish --end
     python3 -m worldgen.place_gates --id <place-id>   # (worldgen)
+    # run the derivers after every blueprint or layout change (worldgen), then commit their output with it:
+    python3 -m worldgen.export_blueprints && python3 -m worldgen.export_purpose_ledger && python3 -m worldgen.npc_roster --apply && python3 -m worldgen.author_type_siting --apply
 
 - Export writes the poses (0097) and the ground and kit provenance.
 - Patches are the place's own typed ones only (0081 decision 3: pad,

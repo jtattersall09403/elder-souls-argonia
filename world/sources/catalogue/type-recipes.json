@@ -3894,8 +3894,8 @@
         6
       ],
       "lore": "Lore:Murkmire (platforms ascending from ground to hover above water)",
-      "footprintRadiusM": 115,
-      "footprintSource": "band"
+      "footprintRadiusM": 70,
+      "footprintSource": "built-ground"
     },
     {
       "type": "canoe-berth-hamlet",

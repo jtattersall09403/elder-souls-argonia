@@ -150,6 +150,7 @@
   "composite:stilt/bamboohut02-with-door": "stilt",
   "composite:stilt/kiosk-with-access": "stilt",
   "composite:stilt/stilthouse-with-door": "stilt",
+  "composite:stilt/swamp-house-with-landing": "stilt",
   "depths:landscape/grass/tbp_seaweed01": "water-zero",
   "depths:landscape/grass/tbp_seaweed02": "water-zero",
   "depths:landscape/grass/tbp_seaweed06": "water-zero",

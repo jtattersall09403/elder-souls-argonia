@@ -1724,7 +1724,7 @@
       "home": {
         "placeId": "place.dunmer-north.riverwalk",
         "slotIndex": 1,
-        "socketId": "post.riverwalk.stage-mistress"
+        "socketId": "socket.riverwalk.npc-stage-mistress"
       },
       "role": "the stage-mistress",
       "archetype": null,
@@ -1760,7 +1760,7 @@
       "home": {
         "placeId": "place.dunmer-north.riverwalk",
         "slotIndex": 0,
-        "socketId": "post.riverwalk.toll-holder"
+        "socketId": "socket.riverwalk.npc-toll-holder"
       },
       "role": "the toll-holder",
       "archetype": null,
