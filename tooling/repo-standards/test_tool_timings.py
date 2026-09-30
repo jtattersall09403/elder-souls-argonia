@@ -1,6 +1,7 @@
 """tool_timings ranks memwatch's run log; memwatch writes one line per run (16h ledger §6 step D)."""
 import json
 import os
+import signal
 import subprocess
 import sys
 import textwrap
@@ -245,21 +246,30 @@ def test_the_local_log_has_no_tool_over_its_target():
 
 def test_own_memory_counts_a_fork_pools_shared_pages_once():
     """A parent holding 400 MiB forks three idle children: PSS reads ~400
-    MiB over the tree where RssAnon read ~1.6 GiB."""
+    MiB over the tree where RssAnon read ~1.6 GiB. The children fork from the
+    parent alone and report in before the parent prints "ready": the old
+    list-comprehension fork let each child fork again (eight processes) and
+    measured while grandchildren were still appearing, so part of the shared
+    400 MiB sat in processes the tree walk had not listed (310 MiB, 2026-09-30)."""
     import own_memory
     code = textwrap.dedent("""
         import os, sys, time
         import numpy as np
-        a = np.ones(400 * 2**20 // 8)
-        kids = [os.fork() for _ in range(3)]
-        if 0 in kids:
-            time.sleep(4); os._exit(0)
-        print("ready", flush=True); time.sleep(4)
+        a = np.ones(400 * 2**20 // 8)   # writes every page: all 400 MiB resident
+        r, w = os.pipe()
+        for _ in range(3):              # only the parent forks: exactly three children
+            if os.fork() == 0:
+                os.write(w, b"k"); time.sleep(6); os._exit(0)
+        got = b""
+        while len(got) < 3:             # every child is running before the parent measures
+            got += os.read(r, 3 - len(got))
+        print("ready", flush=True); time.sleep(6)
     """)
-    p = subprocess.Popen([sys.executable, "-c", code], stdout=subprocess.PIPE, text=True)
+    p = subprocess.Popen([sys.executable, "-c", code], stdout=subprocess.PIPE, text=True,
+                         start_new_session=True)
     try:
         assert p.stdout.readline().strip() == "ready"
         kib, alive = own_memory.tree_kib(p.pid)
         assert alive and 380 <= kib / 1024 <= 700, kib / 1024
     finally:
-        p.kill(); p.wait()
+        os.killpg(p.pid, signal.SIGKILL); p.wait()
