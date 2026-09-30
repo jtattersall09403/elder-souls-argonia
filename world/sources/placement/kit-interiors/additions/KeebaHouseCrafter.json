@@ -75,42 +75,6 @@
    "why": "Lights the firewood stacked by the bed."
   },
   {
-   "id": "KeebaHouseCrafter:add:store-argonianlanterns-07",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "pos": [
-    105.44,
-    85.813,
-    53.927
-   ],
-   "rotZDeg": 0,
-   "zone": "store",
-   "why": "Lights the rug inside the doorway."
-  },
-  {
-   "id": "KeebaHouseCrafter:add:bed-argonianlanterns-08",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "pos": [
-    101.44,
-    85.821,
-    55.427
-   ],
-   "rotZDeg": 0,
-   "zone": "bed",
-   "why": "Lights the stair rail woven from reed."
-  },
-  {
-   "id": "KeebaHouseCrafter:add:store-argonianlanterns-09",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "pos": [
-    109.44,
-    88.808,
-    61.427
-   ],
-   "rotZDeg": 0,
-   "zone": "store",
-   "why": "Lights the shelf beneath the window."
-  },
-  {
    "id": "KeebaHouseCrafter:add:store-argonianlanterns-10",
    "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
    "pos": [
@@ -121,6 +85,42 @@
    "rotZDeg": 0,
    "zone": "store",
    "why": "Lights the hanging feathers by the shelves."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:bed-glazedcandles-11",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    102.957,
+    83.279,
+    54.345
+   ],
+   "rotZDeg": 0,
+   "zone": "bed",
+   "why": "A candle on the chest by the bed."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:bed-glazedcandles-12",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    108.477,
+    83.342,
+    53.085
+   ],
+   "rotZDeg": 0,
+   "zone": "bed",
+   "why": "A candle on the clothes cupboard."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:store-glazedcandles-13",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    109.666,
+    84.573,
+    61.429
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "A candle on the south shelf."
   }
  ]
 }

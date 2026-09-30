@@ -2978,13 +2978,13 @@
    "zone": "bed"
   },
   {
-   "id": "KeebaHouseCrafter:add:bed-argonianlanterns-08",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "kit": "mudmother-hut-int",
+   "id": "KeebaHouseCrafter:add:bed-glazedcandles-11",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
    "positionM": [
-    101.44,
-    85.821,
-    55.427
+    102.957,
+    83.279,
+    54.345
    ],
    "rotationDeg": [
     0.0,
@@ -2992,20 +2992,20 @@
     0.0
    ],
    "scale": 1.0,
-   "category": "misc",
+   "category": "clutter",
    "base": null,
    "baseType": null,
    "source": "addition",
    "zone": "bed"
   },
   {
-   "id": "KeebaHouseCrafter:add:store-argonianlanterns-07",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "kit": "mudmother-hut-int",
+   "id": "KeebaHouseCrafter:add:bed-glazedcandles-12",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
    "positionM": [
-    105.44,
-    85.813,
-    53.927
+    108.477,
+    83.342,
+    53.085
    ],
    "rotationDeg": [
     0.0,
@@ -3013,32 +3013,11 @@
     0.0
    ],
    "scale": 1.0,
-   "category": "misc",
+   "category": "clutter",
    "base": null,
    "baseType": null,
    "source": "addition",
-   "zone": "store"
-  },
-  {
-   "id": "KeebaHouseCrafter:add:store-argonianlanterns-09",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "kit": "mudmother-hut-int",
-   "positionM": [
-    109.44,
-    88.808,
-    61.427
-   ],
-   "rotationDeg": [
-    0.0,
-    0.0,
-    0.0
-   ],
-   "scale": 1.0,
-   "category": "misc",
-   "base": null,
-   "baseType": null,
-   "source": "addition",
-   "zone": "store"
+   "zone": "bed"
   },
   {
    "id": "KeebaHouseCrafter:add:store-argonianlanterns-10",
@@ -3056,6 +3035,27 @@
    ],
    "scale": 1.0,
    "category": "misc",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "KeebaHouseCrafter:add:store-glazedcandles-13",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.666,
+    84.573,
+    61.429
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
    "base": null,
    "baseType": null,
    "source": "addition",
@@ -3316,74 +3316,50 @@
    }
   },
   {
-   "refId": "fixture:KeebaHouseCrafter:add:bed-argonianlanterns-08",
+   "refId": "fixture:KeebaHouseCrafter:add:bed-glazedcandles-11",
    "positionM": [
-    101.44,
-    85.271,
-    55.427
+    102.777,
+    84.039,
+    54.265
    ],
-   "radiusM": 7.283,
+   "radiusM": 1.821,
    "colorRGB": [
-    247,
-    139,
-    43
+    254,
+    234,
+    152
    ],
-   "fade": 0.921,
+   "fade": 1.5228,
    "flags": 0,
    "falloffExponent": 0.01,
-   "base": "SLightStreetStreet01",
+   "base": "WRCandleFlickerNS",
    "raw": {
     "xrdsUnits": null,
-    "baseRadiusUnits": 512,
-    "recordFade": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
     "recordFalloffExponent": 1.0
    }
   },
   {
-   "refId": "fixture:KeebaHouseCrafter:add:store-argonianlanterns-07",
+   "refId": "fixture:KeebaHouseCrafter:add:bed-glazedcandles-12",
    "positionM": [
-    105.44,
-    85.263,
-    53.927
+    108.297,
+    84.102,
+    53.005
    ],
-   "radiusM": 7.283,
+   "radiusM": 1.821,
    "colorRGB": [
-    247,
-    139,
-    43
+    254,
+    234,
+    152
    ],
-   "fade": 0.921,
+   "fade": 1.5228,
    "flags": 0,
    "falloffExponent": 0.01,
-   "base": "SLightStreetStreet01",
+   "base": "WRCandleFlickerNS",
    "raw": {
     "xrdsUnits": null,
-    "baseRadiusUnits": 512,
-    "recordFade": null,
-    "recordFalloffExponent": 1.0
-   }
-  },
-  {
-   "refId": "fixture:KeebaHouseCrafter:add:store-argonianlanterns-09",
-   "positionM": [
-    109.44,
-    88.258,
-    61.427
-   ],
-   "radiusM": 7.283,
-   "colorRGB": [
-    247,
-    139,
-    43
-   ],
-   "fade": 0.921,
-   "flags": 0,
-   "falloffExponent": 0.01,
-   "base": "SLightStreetStreet01",
-   "raw": {
-    "xrdsUnits": null,
-    "baseRadiusUnits": 512,
-    "recordFade": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
     "recordFalloffExponent": 1.0
    }
   },
@@ -3408,6 +3384,30 @@
     "xrdsUnits": null,
     "baseRadiusUnits": 512,
     "recordFade": null,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseCrafter:add:store-glazedcandles-13",
+   "positionM": [
+    109.486,
+    85.333,
+    61.349
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
     "recordFalloffExponent": 1.0
    }
   },

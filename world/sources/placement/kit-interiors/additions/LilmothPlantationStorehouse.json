@@ -195,6 +195,18 @@
    "why": "Lights the sake bottles by the hearth."
   },
   {
+   "id": "LilmothPlantationStorehouse:add:store-candlehorntable-18",
+   "assetId": "vanilla:clutter/candles/candlehorntable01",
+   "pos": [
+    104.475,
+    81.244,
+    76.803
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "A candle horn on the food cupboard."
+  },
+  {
    "id": "LilmothPlantationStorehouse:add:door-candlehornwall-17",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "pos": [
@@ -205,6 +217,18 @@
    "rotZDeg": 270,
    "zone": "door",
    "why": "Lights the stairs just inside the door."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:door-candlehornfloor-19",
+   "assetId": "vanilla:clutter/candles/candlehornfloor01",
+   "pos": [
+    105.486,
+    84.186,
+    76.439
+   ],
+   "rotZDeg": 0,
+   "zone": "door",
+   "why": "A floor candle under the loft stairs."
   }
  ]
 }

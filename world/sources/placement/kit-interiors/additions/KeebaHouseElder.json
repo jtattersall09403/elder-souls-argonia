@@ -75,42 +75,6 @@
    "why": "Lights the flatbread cooling on the west table."
   },
   {
-   "id": "KeebaHouseElder:add:store-argonianlanterns-07",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "pos": [
-    96.783,
-    97.317,
-    57.905
-   ],
-   "rotZDeg": 0,
-   "zone": "store",
-   "why": "Lights the shelf of jars by the wall."
-  },
-  {
-   "id": "KeebaHouseElder:add:bed-argonianlanterns-08",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "pos": [
-    110.783,
-    96.113,
-    54.905
-   ],
-   "rotZDeg": 0,
-   "zone": "bed",
-   "why": "Lights the sleeping mat's woven blanket."
-  },
-  {
-   "id": "KeebaHouseElder:add:store-argonianlanterns-09",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "pos": [
-    98.783,
-    98.283,
-    52.405
-   ],
-   "rotZDeg": 0,
-   "zone": "store",
-   "why": "Lights the cupboard of clay dishes."
-  },
-  {
    "id": "KeebaHouseElder:add:store-argonianlanterns-10",
    "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
    "pos": [
@@ -169,18 +133,6 @@
    "rotZDeg": 0,
    "zone": "hearth",
    "why": "Lights the baskets hung on the wall."
-  },
-  {
-   "id": "KeebaHouseElder:add:hearth-argonianlanterns-15",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "pos": [
-    105.283,
-    89.234,
-    47.905
-   ],
-   "rotZDeg": 0,
-   "zone": "hearth",
-   "why": "Lights the stove where the broth simmers."
   },
   {
    "id": "KeebaHouseElder:add:hearth-argonianlanterns-16",
@@ -265,6 +217,42 @@
    "rotZDeg": 0,
    "zone": "door",
    "why": "Lights the threshold at the front door."
+  },
+  {
+   "id": "KeebaHouseElder:add:store-glazedcandles-23",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    96.772,
+    90.237,
+    57.809
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "A candle on the shelf of jars."
+  },
+  {
+   "id": "KeebaHouseElder:add:bed-glazedcandles-24",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    111.857,
+    86.601,
+    56.932
+   ],
+   "rotZDeg": 0,
+   "zone": "bed",
+   "why": "A candle on the cupboard by the bed."
+  },
+  {
+   "id": "KeebaHouseElder:add:store-glazedcandles-25",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    98.424,
+    86.612,
+    52.857
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "A candle on the cupboard of clay dishes."
   }
  ]
 }

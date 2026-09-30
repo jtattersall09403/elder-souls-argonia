@@ -39,42 +39,6 @@
    "why": "Lights the open book on the table."
   },
   {
-   "id": "KeebaHouseFisher:add:store-argonianlanterns-04",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "pos": [
-    109.702,
-    85.813,
-    60.104
-   ],
-   "rotZDeg": 0,
-   "zone": "store",
-   "why": "Lights the bed across the room."
-  },
-  {
-   "id": "KeebaHouseFisher:add:store-argonianlanterns-05",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "pos": [
-    110.702,
-    85.813,
-    55.604
-   ],
-   "rotZDeg": 0,
-   "zone": "store",
-   "why": "Lights the cupboard by the hearth floor."
-  },
-  {
-   "id": "KeebaHouseFisher:add:bed-argonianlanterns-06",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "pos": [
-    102.702,
-    87.101,
-    52.104
-   ],
-   "rotZDeg": 0,
-   "zone": "bed",
-   "why": "Lights the sleeping mat and its rug."
-  },
-  {
    "id": "KeebaHouseFisher:add:bed-argonianlanterns-07",
    "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
    "pos": [
@@ -97,6 +61,66 @@
    "rotZDeg": 0,
    "zone": "store",
    "why": "Lights the stairway rail of woven reed."
+  },
+  {
+   "id": "KeebaHouseFisher:add:store-glazedcandles-09",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    109.552,
+    83.743,
+    60.734
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "A candle on the low shelf."
+  },
+  {
+   "id": "KeebaHouseFisher:add:bed-glazedcandles-10",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    103.295,
+    83.295,
+    53.683
+   ],
+   "rotZDeg": 0,
+   "zone": "bed",
+   "why": "A candle on the chest by the mat."
+  },
+  {
+   "id": "KeebaHouseFisher:add:bed-glazedcandles-11",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    104.202,
+    82.758,
+    60.604
+   ],
+   "rotZDeg": 0,
+   "zone": "bed",
+   "why": "A candle on the floor by the bed."
+  },
+  {
+   "id": "KeebaHouseFisher:add:store-glazedcandles-12",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    97.652,
+    84.081,
+    63.021
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "A candle on the healer's chest."
+  },
+  {
+   "id": "KeebaHouseFisher:add:door-glazedcandles-13",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    112.202,
+    82.744,
+    53.604
+   ],
+   "rotZDeg": 0,
+   "zone": "door",
+   "why": "A candle on the floor inside the door."
   }
  ]
 }

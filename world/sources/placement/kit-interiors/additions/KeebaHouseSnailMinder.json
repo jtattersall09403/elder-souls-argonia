@@ -51,30 +51,6 @@
    "why": "Lights the honeycomb and lichen basket."
   },
   {
-   "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-05",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "pos": [
-    99.291,
-    89.005,
-    59.472
-   ],
-   "rotZDeg": 0,
-   "zone": "store",
-   "why": "Lights the shelf of drying lichen."
-  },
-  {
-   "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-06",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "pos": [
-    103.291,
-    89.136,
-    54.972
-   ],
-   "rotZDeg": 0,
-   "zone": "store",
-   "why": "Lights the chair by the woven fence."
-  },
-  {
    "id": "KeebaHouseSnailMinder:add:door-argonianlanterns-07",
    "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
    "pos": [
@@ -85,18 +61,6 @@
    "rotZDeg": 0,
    "zone": "door",
    "why": "Lights the doorway through the reed fence."
-  },
-  {
-   "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-08",
-   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
-   "pos": [
-    104.291,
-    89.136,
-    57.972
-   ],
-   "rotZDeg": 0,
-   "zone": "store",
-   "why": "Lights the roof post and the ledger."
   },
   {
    "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-09",
@@ -145,6 +109,54 @@
    "rotZDeg": 0,
    "zone": "store",
    "why": "Lights the passage past the roof post."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:bed-glazedcandles-13",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    108.759,
+    83.981,
+    59.435
+   ],
+   "rotZDeg": 0,
+   "zone": "bed",
+   "why": "A candle on the chest by the bed."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:hearth-glazedcandles-14",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    102.967,
+    83.482,
+    61.692
+   ],
+   "rotZDeg": 0,
+   "zone": "hearth",
+   "why": "A candle on the tool barrel."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:store-glazedcandles-15",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    99.26,
+    84.222,
+    59.674
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "A candle on the shelf of drying lichen."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:door-glazedcandles-16",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    104.291,
+    83.46,
+    50.972
+   ],
+   "rotZDeg": 0,
+   "zone": "door",
+   "why": "A candle on the floor inside the door."
   }
  ]
 }

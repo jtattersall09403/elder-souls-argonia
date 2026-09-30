@@ -2351,6 +2351,27 @@
    "zone": "bed"
   },
   {
+   "id": "LilmothPlantationStorehouse:add:door-candlehornfloor-19",
+   "assetId": "vanilla:clutter/candles/candlehornfloor01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    105.486,
+    84.186,
+    76.439
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "door"
+  },
+  {
    "id": "LilmothPlantationStorehouse:add:door-candlehornwall-09",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "kit": "interior-farmhouse-v1",
@@ -2421,6 +2442,27 @@
     97.486,
     87.089,
     75.939
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:store-candlehorntable-18",
+   "assetId": "vanilla:clutter/candles/candlehorntable01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    104.475,
+    81.244,
+    76.803
    ],
    "rotationDeg": [
     0.0,
@@ -2815,6 +2857,30 @@
    }
   },
   {
+   "refId": "fixture:LilmothPlantationStorehouse:add:door-candlehornfloor-19",
+   "positionM": [
+    105.056,
+    86.436,
+    76.689
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    198,
+    162,
+    100
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "FarmInteriorLight01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
    "refId": "fixture:LilmothPlantationStorehouse:add:door-candlehornwall-09",
    "positionM": [
     110.564,
@@ -2892,6 +2958,30 @@
     97.496,
     87.069,
     75.959
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    198,
+    162,
+    100
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "FarmInteriorLight01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothPlantationStorehouse:add:store-candlehorntable-18",
+   "positionM": [
+    104.635,
+    82.604,
+    76.963
    ],
    "radiusM": 7.283,
    "colorRGB": [
@@ -4019,9 +4109,9 @@
   }
  ],
  "counts": {
-  "placements": 126,
+  "placements": 128,
   "drops": 12,
-  "lights": 21,
+  "lights": 23,
   "substitutions": 1,
   "swingDoors": 0,
   "missingByClass": {},
@@ -4036,6 +4126,6 @@
    "idle": 9,
    "item": 30
   },
-  "additions": 17
+  "additions": 19
  }
 }
