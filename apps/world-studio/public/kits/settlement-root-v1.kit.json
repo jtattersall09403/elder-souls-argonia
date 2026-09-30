@@ -8144,11 +8144,11 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 2.149,
-    "buryCapM": 0.25,
+    "buryCapM": 0.5,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "stilt",
-     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": true,
