@@ -257,7 +257,7 @@ function publishedAnchorFailures(scope = anchorScope()): { checked: number; fail
 describe("interior fires", () => {
   it("every mined flame of a published interior cell becomes an emitter at its placement", () => {
     const rows = kitRows();
-    const file = join(PUBLIC, "province", "interiors", "LilmothGlassworksOverseerHouse.json");
+    const file = join(PUBLIC, "province", "interiors", "DawnstarBrinasHouse.json");
     const bundle = JSON.parse(readFileSync(file, "utf8")) as { placements: (Placement & { positionM: number[] })[] };
     const rowOf = (p: Placement) => rows.get(`${p.kit}|${p.assetId}`);
     const expected = bundle.placements.reduce((n, p) => n + (rowOf(p)?.flames?.length ?? 0), 0);
