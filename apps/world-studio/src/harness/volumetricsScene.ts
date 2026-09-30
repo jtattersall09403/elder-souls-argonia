@@ -63,7 +63,7 @@ export const SHOTS: Record<ShotName, Shot> = {
   "marsh-dusk-groundfog": { eye: [0, ground(0, 40) + 1.7, 40], look: [0, 1, -40], sunAltDeg: 2, sunAzDeg: 260, sun: [2.2, 1.0, 0.5], sky: [0.35, 0.35, 0.5], bg: 0x8a7a8a, exposure: 1.6, regimes: { marshFog: 1 } },
   "forest-morning-shafts": { eye: FOREST_EYE, look: [0, 9, -240], sunAltDeg: 22, sunAzDeg: 0, sun: [3.2, 2.9, 2.4], sky: [0.7, 0.8, 1.0], bg: 0xa8c0d8, exposure: 1, regimes: { canopyHaze: 0.7, air: 0.3 } },
   "forest-looking-away": { eye: FOREST_EYE, look: [0, 9, -240], sunAltDeg: 22, sunAzDeg: 180, sun: [3.2, 2.9, 2.4], sky: [0.7, 0.8, 1.0], bg: 0xa8c0d8, exposure: 1, regimes: { canopyHaze: 0.7, air: 0.3 } },
-  "lanterns-night-mist": { eye: [0, ground(0, 100) + 1.7, 100], look: [0, 2, 126], sunAltDeg: -20, sunAzDeg: 0, sun: [0, 0, 0], sky: [0.012, 0.022, 0.05], bg: 0x070b14, exposure: 3, regimes: { marshFog: 3, radiationMist: 0.8 }, lanterns: true },
+  "lanterns-night-mist": { eye: [0, ground(0, 100) + 1.7, 100], look: [0, 2, 126], sunAltDeg: -20, sunAzDeg: 0, sun: [0, 0, 0], sky: [0.012, 0.022, 0.05], bg: 0x070b14, exposure: 3, regimes: { marshFog: 0.5, radiationMist: 0.12 }, lanterns: true },
   "noon-haze-smoke": { eye: [-14, ground(-14, 42) + 3, 42], look: [0, 11, 20], sunAltDeg: 65, sunAzDeg: 150, sun: [3.2, 3.1, 2.9], sky: [0.8, 0.9, 1.1], bg: 0x9cc4e4, exposure: 1, regimes: { air: 3 } },
   "cave-floor-mist": { eye: [ROOM.x - 4, 1.6, ROOM.z + 3], look: [ROOM.x + 4, 0.3, ROOM.z - 3], sunAltDeg: -20, sunAzDeg: 0, sun: [0, 0, 0], sky: [0.004, 0.004, 0.005], bg: 0x000000, exposure: 3, regimes: {}, lanterns: true, interior: { floorY: 0, floorMistTopM: 0.9, floorMistDensity: 0.35, dustDensity: 0.006 } },
   "window-beams": { eye: [ROOM.x - 4, 1.6, ROOM.z - 3], look: [ROOM.x + 2, 1.0, ROOM.z + 3], sunAltDeg: 35, sunAzDeg: 0, sun: [3.2, 3.0, 2.6], sky: [0.1, 0.1, 0.11], bg: 0x000000, exposure: 2, regimes: {}, interior: { floorY: 0, floorMistTopM: 0, floorMistDensity: 0, dustDensity: 0.008 }, window: true },
@@ -78,6 +78,19 @@ async function smokeTexture(): Promise<THREE.Texture> {
   return tex;
 }
 
+/** The pond: dark water whose normal carries two octaves of wind ripples, so a low sun's glint
+ * breaks into a glitter path instead of one smooth column. */
+function pondMaterial(): MeshStandardNodeMaterial {
+  const V = tsl as unknown as Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  const m = new MeshStandardNodeMaterial({ color: 0x1d3140, roughness: 0.12, metalness: 0 });
+  const xz = V.positionWorld.xz;
+  const a = V.mx_noise_vec3(V.vec3(xz.mul(1.3), 0.5));
+  const b = V.mx_noise_vec3(V.vec3(xz.mul(4.1).add(7), 1.5));
+  const nW = V.normalize(V.vec3(a.x.mul(0.22).add(b.x.mul(0.12)), 1, a.y.mul(0.22).add(b.y.mul(0.12))));
+  m.normalNode = V.transformNormalToView(nW);
+  return m;
+}
+
 function buildWorld(scene: THREE.Scene): void {
   const geo = new THREE.PlaneGeometry(1400, 1400, 175, 175).rotateX(-Math.PI / 2);
   const pos = geo.attributes.position;
@@ -85,7 +98,7 @@ function buildWorld(scene: THREE.Scene): void {
   geo.computeVertexNormals();
   scene.add(new THREE.Mesh(geo, new MeshStandardNodeMaterial({ color: 0x55653a, roughness: 1 })));
   const pond = new THREE.Mesh(new THREE.CircleGeometry(POND.r * 1.25, 48).rotateX(-Math.PI / 2),
-    new MeshStandardNodeMaterial({ color: 0x1d3140, roughness: 0.35 }));
+    pondMaterial());
   pond.position.set(POND.x, pondSurface, POND.z);
   scene.add(pond);
   const trunkM = new MeshStandardNodeMaterial({ color: 0x3b2c20, roughness: 1 });

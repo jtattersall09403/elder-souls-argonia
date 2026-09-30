@@ -21,8 +21,8 @@ import type { VolumetricsSampler } from "./volumetricNodes";
 
 const T = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode> & Record<string, TslNode>;
 const {
-  Fn, If, Loop, clamp, dot, exp, float, instanceIndex, int, length, log, max, min, mix, normalize, pow,
-  smoothstep, step, texture, texture3D, textureStore, uniform, uniformArray, uvec3, vec2, vec3, vec4,
+  Fn, If, Loop, clamp, cos, dot, exp, float, floor, fract, instanceIndex, int, length, log, max, min, mix, normalize, pow,
+  sin, smoothstep, step, texture, texture3D, textureStore, uniform, uniformArray, uvec3, vec2, vec3, vec4,
 } = T;
 
 export type VolumetricBand = "off" | "low" | "medium" | "high";
@@ -226,10 +226,13 @@ export class Volumetrics implements VolumetricsSampler {
     const overW = p.y.sub(nearT.g);
     const colTop = float(1).add(ns.mul(3)).add(nh);
     const steam = waterMask.mul(float(1).sub(smoothstep(colTop.mul(0.3), colTop, overW))).mul(smoothstep(-0.3, 0.1, overW))
-      .mul(smoothstep(0.45, 0.75, ns.add(nh.mul(0.5)))).mul(u.steam).mul(0.12);
-    // marsh ground fog: knee-to-waist, top broken by noise
-    const marshTop = float(1.6).add(n1.mul(0.8)).add(n2.mul(0.5));
-    const marsh = wet.mul(float(1).sub(smoothstep(marshTop.sub(soft(1.2)), marshTop, hAG))).mul(n).mul(u.marsh).mul(0.05);
+      .mul(smoothstep(0.55, 0.8, ns.add(nh.mul(0.5)))).mul(u.steam).mul(0.05);
+    // marsh ground fog: knee-to-waist (0.5..1.6 m), the top torn by both octaves into mounds and gaps,
+    // density falling linearly with height to that top (thick at the ankles, thin at the waist)
+    const marshTop = float(0.35).add(n1.mul(1.1)).add(n2.mul(0.9));
+    const marshFall = clamp(float(1).sub(hAG.div(max(marshTop, float(0.2)))), 0, 1);
+    const marsh = wet.mul(marshFall).mul(smoothstep(float(0).sub(soft(0.3)), float(0), hAG)).mul(smoothstep(0.25, 0.6, n2.add(n1.mul(0.5))))
+      .mul(n).mul(u.marsh).mul(0.07);
     const sea = farT.b.mul(exp(max(p.y, 0).div(-150))).mul(n).mul(u.sea).mul(0.012);
     const cuv = p.xz.sub(u.canopyOrigin).div(CANOPY_SIZE_M);
     const under = smoothstep(0, 0.3, texture(this.canopy.texture, cuv).b.sub(ground));
@@ -246,6 +249,58 @@ export class Volumetrics implements VolumetricsSampler {
       .mul(smoothstep(u.floorY.sub(0.1), u.floorY.add(0.05), p.y))
       .mul(clamp(float(0.7).add(f1.mul(0.5)).add(f2.mul(0.3)), 0.1, 1.5)).mul(u.floorMist);
     return outside.add(air).add(floor).add(u.dust);
+  }
+
+  /** Per-pixel in-scatter the grid cannot hold (VolumetricsSampler.extra): canopy shafts marched at
+   * 8 steps over the first 40 m (full canopy sharpness, the grid holds the soft remainder) and sparse
+   * dust motes lit inside each window beam. */
+  extra(dir: TslNode, segLen: TslNode, sigma: TslNode): TslNode {
+    const u = this.u;
+    const cam = u.camPos;
+    const acc = vec3(0).toVar();
+    // shafts: under-canopy haze lit by the sun through the leaf gaps, forward-peaked (bright toward the sun)
+    If(u.outdoor.mul(u.canopyHaze).mul(step(float(0), u.sunDir.y)).greaterThan(0), () => {
+      const span = min(segLen, 40);
+      const dt = span.div(8);
+      const ph = mix(hg(0.2, dot(dir, u.sunDir)), hg(0.85, dot(dir, u.sunDir)), 0.75);
+      for (let k = 0; k < 8; k++) {
+        const t = dt.mul(k + 0.5);
+        const p = cam.add(dir.mul(t));
+        const c = texture(this.canopy.texture, p.xz.sub(u.canopyOrigin).div(CANOPY_SIZE_M));
+        const under = smoothstep(0, 0.3, c.b.sub(p.y));
+        const haze = under.mul(u.canopyHaze).mul(0.025);
+        // the grid already carries the mean; this adds the gap-vs-leaf contrast around it
+        acc.addAssign(vec3(u.sunIrr).mul(ph).mul(haze).mul(this.canopyT(p).sub(0.35)).mul(dt).mul(exp(sigma.mul(t).negate())).mul(ALBEDO * 1.6));
+      }
+    });
+    // motes: hashed points on a 0.3 m lattice, ~1 in 8 cells kept (~4.6 /m^3), lit only inside a beam,
+    // drifting and twinkling slowly
+    Loop(u.apertureCount, ({ i }: { i: TslNode }) => {
+      const ap = this.uApPos.element(i);
+      const ad = this.uApDir.element(i);
+      const span = min(segLen, 10);
+      const dt = span.div(28);
+      for (let k = 0; k < 28; k++) {
+        const p = cam.add(dir.mul(dt.mul(k + 0.5)));
+        const cell = floor(p.div(0.3));
+        const hsh = (o: number[]) => fract(sin(dot(cell, vec3(o[0], o[1], o[2]))).mul(43758.5453));
+        const hx = hsh([127.1, 311.7, 74.7]), hy = hsh([269.5, 183.3, 246.1]), hz = hsh([113.5, 271.9, 124.6]), keep = hsh([419.2, 371.9, 157.3]);
+        const drift = vec3(sin(u.time.mul(0.2).add(hx.mul(6.28))), cos(u.time.mul(0.17).add(hy.mul(6.28))), sin(u.time.mul(0.23).add(hz.mul(6.28)))).mul(0.06);
+        const m = cell.add(vec3(hx, hy, hz).mul(0.7).add(0.15)).mul(0.3).add(drift);
+        const rel = m.sub(cam);
+        const along = dot(rel, dir);
+        const off = length(rel.sub(dir.mul(along)));
+        const size = max(along.mul(0.0035), float(0.004));
+        const disc = float(1).sub(smoothstep(size.mul(0.4), size, off)).mul(step(float(0), along)).mul(step(along, segLen));
+        const brel = m.sub(ap.xyz);
+        const bAlong = dot(brel, ad.xyz);
+        const inBeam = step(float(0), bAlong).mul(float(1).sub(smoothstep(ap.w.mul(0.8), ap.w, length(brel.sub(ad.xyz.mul(bAlong))))))
+          .mul(float(1).sub(smoothstep(ad.w.mul(0.7), ad.w, bAlong)));
+        const twinkle = float(0.55).add(sin(u.time.mul(0.9).add(keep.mul(40))).mul(0.45));
+        acc.addAssign(this.uApCol.element(i).xyz.mul(disc.mul(inBeam).mul(step(0.875, keep)).mul(twinkle).mul(0.5)));
+      }
+    });
+    return acc;
   }
 
   /** Canopy transmittance of the sun ray from `p` (three samples up the ray). */

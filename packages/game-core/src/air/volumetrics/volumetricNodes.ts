@@ -12,7 +12,7 @@ import * as tsl from "three/tsl";
 import type { TslNode } from "../../render/nodes/materialNodes";
 
 const T = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode> & Record<string, TslNode>;
-const { Loop, If, atan, clamp, dot, exp, float, length, log, max, min, mix, vec3, vec4 } = T;
+const { Loop, If, atan, clamp, cos, dot, exp, float, length, log, max, min, mix, pow, sin, vec3, vec4 } = T;
 
 /** ACES filmic maps scene 0.6 to about mid display; the display→scene anchor the fire and motes share. */
 export const SCENE_WHITE = 0.6;
@@ -33,6 +33,9 @@ export interface VolumetricsSampler {
   gridSize?: TslNode;
   /** Point lights for the analytic airlight (vec4 pos+reach, vec4 radiance, int count, loop bound). */
   lights?: { pos: TslNode; col: TslNode; count: TslNode; max: number };
+  /** Per-pixel extra in-scatter along the view ray (world dir, segment length, mean extinction):
+   * sharp canopy shafts and beam motes the froxel grid is too coarse to hold. */
+  extra?(dir: TslNode, segLen: TslNode, sigma: TslNode): TslNode;
   /** 1 when a band is on, else 0 (the colour passes through). */
   on: TslNode;
 }
@@ -51,13 +54,33 @@ export function applyVolumetrics(v: VolumetricsSampler, color: TslNode, viewDept
   return vec4(mix(color.rgb, lit, v.on), color.a);
 }
 
-/** Closed-form in-scatter of one isotropic point light along a ray segment [0, L] in a homogeneous
- * medium (Sun et al. 2005, single scatter, transmittance taken at the light's distance):
- * sigma * I / (4 pi) * exp(-sigma * d) * (atan((L - t0) / h) + atan(t0 / h)) / h,
- * with t0 the ray parameter nearest the light and h the light's distance from the ray. */
-export function airlightIntegral(sigma: number, intensity: number, t0: number, h: number, L: number, d: number): number {
+/** Lamp phase: an isotropic floor plus a forward Henyey-Greenstein lobe. The round glow a lamp wears
+ * in fog is light scattered a few degrees off its straight path toward the eye, so the lobe sets
+ * the halo; the floor keeps a faint wide skirt (fitted by eye to the owner's misty-lamp photo). */
+export const LAMP_PHASE: { readonly g: number; readonly forward: number } = { g: 0.85, forward: 0.88 };
+/** Midpoint steps of the equiangular march per lamp. */
+export const LAMP_STEPS = 10;
+
+export function lampPhase(c: number, g = LAMP_PHASE.g, forward = LAMP_PHASE.forward): number {
+  const hg = (1 - g * g) / (4 * Math.PI * Math.pow(Math.max(1 + g * g - 2 * g * c, 1e-4), 1.5));
+  return (1 - forward) / (4 * Math.PI) + forward * hg;
+}
+
+/** Single-scatter in-scatter of one point light along a ray [0, L] in a homogeneous medium, marched
+ * equiangularly (Kulla and Fajardo 2012): t = t0 + h tan(theta), dt / r^2 = dtheta / h, and the
+ * scattering cosine at the sample is sin(theta). t0 is the ray parameter nearest the light, h its
+ * distance from the ray. Plain TS twin of the shader loop. */
+export function airlightIntegral(sigma: number, intensity: number, t0: number, h: number, L: number,
+  steps = LAMP_STEPS, forward: number = LAMP_PHASE.forward): number {
   const hh = Math.max(h, 0.05);
-  return (sigma * intensity / (4 * Math.PI)) * Math.exp(-sigma * d) * (Math.atan((L - t0) / hh) + Math.atan(t0 / hh)) / hh;
+  const a = Math.atan(-t0 / hh), b = Math.atan((L - t0) / hh), dth = (b - a) / steps;
+  let sum = 0;
+  for (let k = 0; k < steps; k++) {
+    const th = a + (k + 0.5) * dth;
+    const t = t0 + hh * Math.tan(th), r = hh / Math.cos(th);
+    sum += lampPhase(Math.sin(th), LAMP_PHASE.g, forward) * Math.exp(-sigma * (t + r));
+  }
+  return sigma * intensity * sum * dth / hh;
 }
 
 function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode): TslNode {
@@ -68,6 +91,7 @@ function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode
   const dir = dirW.div(max(length(dirW), float(1e-4)));
   // the medium's mean extinction along this pixel's ray, read from the grid's own transmittance
   const sigma = clamp(log(max(trans, float(1e-4))).negate().div(max(viewDepth, v.near)), 0.002, 0.5);
+  const { g, forward } = LAMP_PHASE;
   const acc = vec3(0).toVar();
   Loop({ start: 0, end: L.max }, ({ i }: { i: TslNode }) => {
     If(T.int(i).lessThan(L.count), () => {
@@ -77,9 +101,21 @@ function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode
       const h = max(length(rel.sub(dir.mul(t0))), float(0.05));
       const d = length(rel);
       const reach = clamp(float(1).sub(d.sub(lp.w.mul(2)).div(lp.w.mul(2))), 0, 1);
-      const ang = atan(segLen.sub(t0).div(h)).add(atan(t0.div(h)));
-      acc.addAssign(L.col.element(i).xyz.mul(sigma.mul(1 / (4 * Math.PI)).mul(exp(sigma.mul(d).negate())).mul(ang).div(h).mul(reach)));
+      const a = atan(t0.negate().div(h)), b = atan(segLen.sub(t0).div(h));
+      const dth = b.sub(a).div(LAMP_STEPS);
+      const sum = float(0).toVar();
+      for (let k = 0; k < LAMP_STEPS; k++) {
+        const th = a.add(dth.mul(k + 0.5));
+        const c = sin(th);
+        const t = t0.add(h.mul(sin(th).div(cos(th))));
+        const r = h.div(cos(th));
+        const ph = float((1 - forward) / (4 * Math.PI)).add(float(forward * (1 - g * g) / (4 * Math.PI))
+          .div(pow(max(float(1 + g * g).sub(c.mul(2 * g)), float(1e-4)), float(1.5))));
+        sum.addAssign(ph.mul(exp(sigma.mul(t.add(r)).negate())));
+      }
+      acc.addAssign(L.col.element(i).xyz.mul(sigma.mul(sum).mul(dth).div(h).mul(reach)));
     });
   });
-  return acc;
+  const extra = v.extra ? v.extra(dir, segLen, sigma) : vec3(0);
+  return acc.add(extra);
 }
