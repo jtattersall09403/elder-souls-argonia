@@ -334,3 +334,18 @@ rule above (`rethin.py`: zone sources, then lantern thinning). The seats are
 measured by ray cast before export, every contact on one surface ±2 cm and no
 other piece's vertex inside the fixture's box
 (`tooling/.reports/16k/interior-light-additions/`).
+
+**Seat every addition with the tool** (16k walk 6):
+`python3 tooling/placement-workbench/wb.py seat-interior <cell> <assetId>
+<zone|x,y,z> [--mount table|wall|floor|ceiling]` (~2.5 s; module
+`workbench/interior_seat.py`, test `tests/test_interior_seat.py`) seats one
+fixture on the published cell's geometry (its existing additions ignored)
+and prints `pos`, `rotZDeg` and `lightPos` for the additions file. A zone is
+a placement id or name substring; a point aims a wall seat at that height
+and must stand in the room, not inside the wall. **A wall piece's front is
+the side its mined light is on**: `back_axis` turns the side opposite the
+kit manifest's `light.offsetM` to the wall, and `rear_extent` sets the back
+flush ignoring a lone spike (candlehornwall01's 0.5 m mounting spike goes
+into the wall). The walk-5 scripts read the back from vertex counts and
+mounted every candlehornwall01 backwards, flame to the wall; check that
+`lightPos` stands in the room before writing the row.

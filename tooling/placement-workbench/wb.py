@@ -38,6 +38,8 @@ whole state. Prints JSON on stdout and a timing line on stderr.
     wb.py - walktable PLACE_ID            (owner-walk table from the published bundle)
     wb.py - describe ASSET [--refresh]
     wb.py - evidence PARENT_ASSET CHILD_ASSET
+    wb.py seat-interior CELL ASSET ZONE|X,Y,Z [--mount table|wall|floor|ceiling]
+                                          (seat one interior lighting addition; prints pos/rotZDeg)
 
 Coordinates are province metres, x east / z south (the studio's km x 1000);
 `--km` takes km. Faces: east, west, north, south (= +x, -x, +y, -y) in the
@@ -2493,8 +2495,27 @@ def run_render_interior(argv) -> int:
     return 0
 
 
+def run_seat_interior(argv) -> int:
+    """`wb.py seat-interior CELL ASSET ZONE|X,Y,Z [--mount table|wall|floor|ceiling]`:
+    seat one lighting addition on the published cell's geometry and print
+    its pos / rotZDeg (a wall piece faces the room on its mined light's
+    side). workbench/interior_seat.py."""
+    from workbench import interior_seat
+    ap = argparse.ArgumentParser(prog="wb.py seat-interior")
+    ap.add_argument("cell", help="the interior cell id (public/province/interiors/<cell>.json)")
+    ap.add_argument("asset", help="kit asset id, e.g. vanilla:clutter/candles/candlehornwall01")
+    ap.add_argument("where", help="a placement id or name substring (the zone), or x,y,z")
+    ap.add_argument("--mount", choices=interior_seat.MOUNTS, default=None,
+                    help="default from the asset name (wall/chandelier+lantern/floor/table)")
+    a = ap.parse_args(argv)
+    got = interior_seat.seat(a.cell, a.asset, a.where, a.mount)
+    _emit(got)
+    return 0 if got["seated"] else 1
+
+
 TOP_LEVEL = {"apply": run_apply, "replay": run_replay, "round": run_round, "edit": run_edit,
              "bpy": run_bpy, "render-interior": run_render_interior,
+             "seat-interior": run_seat_interior,
              "whatchanged": run_whatchanged}
 
 
