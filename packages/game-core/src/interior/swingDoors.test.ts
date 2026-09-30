@@ -182,6 +182,9 @@ describe("exterior swing doors: a place's compiled doors[]", () => {
     const doors: SettlementDoor[] = [load, gate];
     expect(doors.filter(isSwingDoor).map((d) => d.id)).toEqual(["door.p.2"]);
     expect(loadDoorsOf(doors).map((d) => d.id)).toEqual(["door.p.1"]);
+    // decision 0114: a hollow shell's door never reaches the load path (no prompt)
+    const hollow = { ...load, id: "door.p.3", doorType: "hollow", interiorClaim: { tier: "none" } } as SettlementDoor;
+    expect(loadDoorsOf([load, hollow]).map((d) => d.id)).toEqual(["door.p.1"]);
     const built = doors.filter(isSwingDoor).map((d) => buildSwingDoor(d.id, d.swing, null));
     const c = new SwingDoorController(built, { bodies: () => [] });
     expect(c.candidates(10, 20)).toEqual([]);          // at the load door: nothing from the swing path

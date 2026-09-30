@@ -4,8 +4,7 @@ T2 rec 4): the claim first, then the plugin data, never the piece's name.
 1. A door whose `interiorClaim` is tier A, or `reserved` to a load pool (a
    Phase 12 interior will be cut for it), is `load`: a cell transition.
 2. A building with no interior and an open front (a claim reserved to a
-   `NO_INTERIOR_SERVICES` pool, e.g. the open stable), or a walk-in open
-   shell (claim tier `none`, `blueprint_interiors.is_walk_in`) has NO door record:
+   `NO_INTERIOR_SERVICES` pool, e.g. the open stable) has NO door record:
    `door_type` returns None and `blueprint_interiors --claim` drops the door.
 3. With no claim, the door-links record decides
    (`world/sources/placement/exterior-interior-links.json`, mined by
@@ -13,6 +12,13 @@ T2 rec 4): the claim first, then the plugin data, never the piece's name.
    XTEL, keyed by the shell they open): a shell with a row is `load`; a shell
    whose plugin door reference has no XTEL is `swing` (opens in place by
    animation, no cell).
+
+4. A claimed door (tier `none` or `reserved`) on a shell no plugin gives a
+   load door (decision 0114; a composite is its base shell) is `hollow`: the
+   record stays as the entrance (routes, fills and evidence point at it),
+   a `promised` shell keeps its Phase 12 promise as the reserved claim, and
+   the runtime shows no prompt for it (`loadDoorsOf`). A reserved door on a
+   linked shell is `load` and shows the closed line.
 
 `blueprint_interiors --claim` stamps the result as the door's `doorType`.
 
@@ -28,7 +34,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[3]
 LINKS = REPO_ROOT / "world" / "sources" / "placement" / "exterior-interior-links.json"
 BLUEPRINT_DIR = REPO_ROOT / "world" / "sources" / "blueprints"
-DOOR_TYPES = ("load", "swing")
+DOOR_TYPES = ("load", "swing", "hollow")
 
 
 @lru_cache(maxsize=2)
@@ -46,13 +52,17 @@ def door_type(door: dict, shell_asset: str | None,
     claim = door.get("interiorClaim") or {}
     if claim.get("tier") == "A" or claim.get("interiorLoadDoorRef"):
         return "load"
-    if claim.get("tier") == "none":
-        return None          # a walk-in open shell (blueprint_interiors.is_walk_in)
-    if claim.get("tier") == "reserved":
-        from .blueprint_interiors import NO_INTERIOR_SERVICES
-        return None if claim.get("pool") in NO_INTERIOR_SERVICES else "load"
+    from .blueprint_interiors import NO_INTERIOR_SERVICES, composite_base
+    if claim.get("tier") == "reserved" and claim.get("pool") in NO_INTERIOR_SERVICES:
+        return None
     shells = linked_shells() if shells is None else shells
-    return "load" if shell_asset and shell_asset in shells else "swing"
+    base = (composite_base(shell_asset) or shell_asset
+            if isinstance(shell_asset, str) and shell_asset.startswith("composite:") else shell_asset)
+    if claim.get("tier") in ("none", "reserved"):
+        # decision 0114: a shell no plugin gives a load door is hollow (no
+        # prompt, its Phase 12 promise kept); a linked one waits closed
+        return "load" if base in shells else "hollow"
+    return "load" if base and base in shells else "swing"
 
 
 def blueprint_door_types(bp: dict, shells: frozenset[str] | None = None) -> dict[str, str | None]:

@@ -809,10 +809,10 @@ def door_cells(bp: dict) -> list[dict]:
 _FIT_ENV: dict = {}
 
 
-def fitting_cells(parcel: dict | None, culture: str | None = None) -> list[str]:
-    """0105 R37/R57: the cells the fit rule accepts for the parcel over its
-    linked cells and the whole R56 culture pool
-    (``blueprint_interiors.claim_for_parcel``, nothing held, no preference),
+def fitting_cells(parcel: dict | None) -> list[str]:
+    """0105 R37: the cells the claim rule accepts for the parcel among the
+    cells its shell's plugins link (``blueprint_interiors.claim_for_parcel``,
+    nothing held, no preference; decision 0114),
     each cell's profile and sourcing looked up in the batch pre-pass claim
     table (``output/claim-table.json``) as ``--claim`` does, a cell the table
     lacks read from its plugin; no table, the plugin reads."""
@@ -826,7 +826,7 @@ def fitting_cells(parcel: dict | None, culture: str | None = None) -> list[str]:
             profile, sourcing = bi.plugin_profile, bi.bundle_sourcing
         _FIT_ENV.update(lib=bi.library(), links=bi.linked_shells(), profile=profile, sourcing=sourcing)
     got = bi.claim_for_parcel(parcel or {}, _FIT_ENV["lib"], _FIT_ENV["links"], _FIT_ENV["profile"],
-                              sourcing=_FIT_ENV["sourcing"], culture=culture, whole_pool=True)
+                              sourcing=_FIT_ENV["sourcing"])
     return sorted(c["cellId"] for c in got.get("candidates") or [] if not c["fails"])
 
 
@@ -854,7 +854,7 @@ def interior_variety_failures(place_id: str, bp: dict, claims: list[dict],
             where = ", ".join([f"{place_id} {x}" for x in before_here] + in_region)
             used = ({m["cellId"] for m in mine if m["doorId"] != d["doorId"]}
                     | {c["cellId"] for c in others if region_of(c["placeId"]) == region})
-            fit = fitting_of(parcels.get(d["parcelId"]), d.get("culture"))
+            fit = fitting_of(parcels.get(d["parcelId"]))
             exhausted = bool(fit) and set(fit) <= used
             msg = (f"0105 R4: {d['doorId']} uses interior cell {d['cellId']} already used in region "
                    f"{region} ({where})")
@@ -881,10 +881,10 @@ def interior_variety_gate(g: Gates, place_id: str, bp: dict, claims_doc: dict | 
     doc = claims_doc if claims_doc is not None else cl.load()
     memo: dict = {}
 
-    def fit_once(parcel, culture=None):
-        key = ((parcel or {}).get("id"), culture)
+    def fit_once(parcel):
+        key = (parcel or {}).get("id")
         if key not in memo:
-            memo[key] = fitting_cells(parcel, culture)
+            memo[key] = fitting_cells(parcel)
         return memo[key]
 
     failures, warnings = interior_variety_failures(place_id, bp, doc.get("interiorCellClaims") or [],
@@ -892,7 +892,7 @@ def interior_variety_gate(g: Gates, place_id: str, bp: dict, claims_doc: dict | 
     parcels = {p["id"]: p for p in bp.get("parcels") or []}
     g.add("interiors.variety", time.perf_counter() - t, failures, warnings,
           cells=[d["cellId"] for d in door_cells(bp)],
-          fitSets={d["doorId"]: len(fit_once(parcels.get(d["parcelId"]), d.get("culture")))
+          fitSets={d["doorId"]: len(fit_once(parcels.get(d["parcelId"])))
                    for d in door_cells(bp)})
 
 

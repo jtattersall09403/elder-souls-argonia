@@ -139,15 +139,11 @@ class InteriorLibrary:
     def get(self, asset_id: str) -> dict | None:
         return self.by_asset.get(asset_id)
 
-    def interior_ref(self, record: dict, claim: dict | None = None) -> str | None:
+    def interior_ref(self, record: dict) -> str | None:
         """What a door's ``interiorClaim.interiorRef`` must name for this piece:
-        for a tier A claim the interior kit of the claimed cell
-        (`cell_interior_kit`, walk 6), else the matched interior mesh or the
-        tileset the piece is built from."""
-        if claim and claim.get("tier") == "A" and claim.get("cellId"):
-            kit = cell_interior_kit(claim.get("plugin"), claim["cellId"], linked_shells(), self)
-            if kit:
-                return kit
+        the matched interior mesh, or the tileset it is built from (a claimed
+        cell is always one its shell's plugin links, so the shell's kit is the
+        cell's, decision 0114)."""
         return record.get("interiorAssetRef") or record.get("tileset")
 
 
@@ -320,7 +316,7 @@ def report_lines(bp: dict, lib: InteriorLibrary | None = None) -> list[str]:
             for door in doors:
                 claim = door.get("interiorClaim") or {}
                 got = claim.get("interiorRef")
-                expect = lib.interior_ref(record, claim)
+                expect = lib.interior_ref(record)
                 if expect is None and not (isinstance(got, str) and got.strip()):
                     problems.append(f"{door.get('id')}: interiorClaim.interiorRef is missing — this is a "
                                     f"shell, so name the interior kit Phase 12 builds it from")
@@ -351,48 +347,24 @@ def report_lines(bp: dict, lib: InteriorLibrary | None = None) -> list[str]:
 # --------------------------------------------------------------------------- #
 # the tier A claim per door (decision 0103 decision 2; 16i item 4 fit rule)
 # --------------------------------------------------------------------------- #
-#: Footprint ratio band: the cell's ROOM plan (`interior_cells.room_of`: the
-#: largest enclosing structural piece plus the structural pieces overlapping
-#: it, never the yard, measured in that piece's own frame; planner rulings 1
-#: and 2, interiors rounds 3 and 4) over the shell's measured `planAreaM2`
-#: times its placed scale squared (ruling 1, round 4: `shell_scale`).
-#: The band is derived from measured pairs (planner ruling 3, round 4): the
-#: vanilla farmhouse cells over their own shells run 1.03-1.25 (Dawnstar
-#: Brina's house 1.115, the farmhouse02 cells 1.034 up), the King of the
-#: Murkmire pods over theirs 1.50-1.65 (KeebaHouseFisher over smpodext02
-#: 1.504); 1.7 holds both with the pod's thickness of wall, 0.6 keeps a cell
-#: no smaller than the smallest a builder would cut a house into.
+#: Footprint ratio band of a cell's ROOM plan over its shell's placed plan
+#: area. The claim no longer picks by it (walk 6: the plugin data is the
+#: manifest, decision 0114); `mine_door_links` still uses it to tell a
+#: door's own building from a neighbour when it attributes a load door to a
+#: shell. Derived from measured pairs: vanilla farmhouse cells over their own
+#: shells 1.03-1.25, the King of the Murkmire pods over theirs 1.50-1.65.
 FIT_RATIO = (0.6, 1.7)
-
-#: Owner walk 6 (2026-09-30, R-interiors-shape): a cell must fit the shell's
-#: VOLUME, not only its plan area. A cell may have floors BELOW its entry
-#: floor (a cellar dug under the hut) but never more floors ABOVE it than the
-#: shell shows above its own door; a floor level is "above" when it stands
-#: more than ``STOREY_GAP_M`` over the door's threshold (interior_cells'
-#: storey gap, so one rule counts both sides).
-#: The room's plan aspect (long side / short side) against the shell's: a
-#: cell whose aspect differs by more than this factor is another building's
-#: plan (a 1.8:1 timber house in a round hut).
-ASPECT_RATIO_MAX = 1.5
-#: A shell whose plan area fills less than this share of its bounding box is
-#: round (a disc fills pi/4 = 0.785; the farmhouse fills 0.95): its cell's
-#: room may be no longer than ``ROUND_CELL_ASPECT_MAX`` to one.
-ROUND_FILL_MAX = 0.82
-ROUND_CELL_ASPECT_MAX = 1.3
-#: Entrance kinds that are an open walk-in way (no door leaf, no load door):
-#: a `promised` shell no plugin links, entered this way, is its own interior
-#: (the mod furnishes its floor as an open house), so it has no load door.
-WALK_IN_KINDS = frozenset({"approach", "open-front", "opening"})
 
 
 def floors_about_door(levels: list[float] | None, door_z: float | None,
                       storeys: int | None) -> tuple[int, int]:
-    """(floors above, floors below) the entry floor of a cell: its measured
-    floor levels (``interior_cells.profile_cell`` ``floorLevelsM``) clustered
-    with the storey gap, counted above ``door_z + STOREY_GAP_M`` and below
-    ``door_z - STOREY_GAP_M``. With no levels measured, every storey past the
-    first is counted above (the door is taken to stand on the lowest floor,
-    the case that can only err towards refusing)."""
+    """(floors above, floors below) the entry floor of a cell (owner walk 6):
+    its measured floor levels (``interior_cells.profile_cell``
+    ``floorLevelsM``) more than the storey gap over / under the entry door's
+    threshold, each side clustered into storeys with that gap. With no
+    levels measured, every storey past the first counts as above (the door
+    is taken to stand on the lowest floor, the reading that can only err
+    towards refusing)."""
     from .interior_cells import STOREY_GAP_M, storeys_from_levels
     if not levels or door_z is None:
         return max(0, int(storeys or 1) - 1), 0
@@ -403,8 +375,8 @@ def floors_about_door(levels: list[float] | None, door_z: float | None,
 
 def shell_floors_above_door(record: dict) -> int:
     """How many floors the shell shows above its entrance: its measured
-    `storeyLevelsM` over the entrance's height (`heightM`, else `sillYM`,
-    else the lowest level) by more than the storey gap."""
+    `storeyLevelsM` more than the storey gap over the entrance's height
+    (`heightM`, else `sillYM`, else the lowest level)."""
     from .interior_cells import STOREY_GAP_M, storeys_from_levels
     levels = [float(v) for v in (record.get("storeyLevelsM") or []) if isinstance(v, (int, float))]
     if not levels:
@@ -414,90 +386,6 @@ def shell_floors_above_door(record: dict) -> int:
     entry = float(entry) if isinstance(entry, (int, float)) else min(levels)
     return storeys_from_levels([v for v in levels if v > entry + STOREY_GAP_M])
 
-
-def is_walk_in(record: dict | None, linked: bool) -> bool:
-    """A `promised` shell no plugin links to a cell whose way in is an open
-    walk-in entrance: the building IS its interior (decision 0103: every
-    enterable building is enterable; this one is entered on foot), so it has
-    no load door and no claim."""
-    return bool(record) and record.get("interior") == "promised" and not linked \
-        and (entrance(record) or {}).get("kind") in WALK_IN_KINDS
-
-
-_MANIFEST_SIZES: dict[str, list[float]] | None = None
-
-
-def manifest_size(asset_id: str) -> list[float] | None:
-    """The asset's `sizeM` [x, y, z] from its published kit manifest."""
-    global _MANIFEST_SIZES
-    if _MANIFEST_SIZES is None:
-        _MANIFEST_SIZES = {}
-        for path in sorted(PUBLISHED_KITS_DIR.glob("*.kit.json")):
-            try:
-                doc = json.loads(path.read_text())
-            except (OSError, json.JSONDecodeError):
-                continue
-            for row in doc.get("assets", []) or []:
-                if isinstance(row.get("sizeM"), list) and len(row["sizeM"]) >= 2:
-                    _MANIFEST_SIZES.setdefault(row["id"], [float(v) for v in row["sizeM"]])
-    return _MANIFEST_SIZES.get(asset_id)
-
-
-def aspect(a: float, b: float) -> float | None:
-    lo, hi = sorted((float(a), float(b)))
-    return round(hi / lo, 3) if lo > 0 else None
-
-
-@lru_cache(maxsize=None)
-def _kit_cultures() -> dict[str, str]:
-    """kit id -> its config's `culture`."""
-    out = {}
-    for path in sorted(CONFIG_KITS_DIR.glob("*.json")):
-        try:
-            culture = json.loads(path.read_text()).get("culture")
-        except (OSError, json.JSONDecodeError):
-            continue
-        if isinstance(culture, str):
-            out[path.stem] = culture
-    return out
-
-
-def grammar_of(asset_id: str | None, lib=None) -> str | None:
-    """The building grammar of a shell: the culture group (`blueprint.KIT_SETS`
-    `cultureGroup`) of the kit config that lists it (`culture`), else of the
-    `CULTURE_INTERIOR_KITS` group whose mod architecture folder holds it
-    (R56). None when neither data source knows it."""
-    if not isinstance(asset_id, str):
-        return None
-    from .blueprint import KIT_SETS
-    kit = (getattr(lib, "kit_of", None) or {}).get(asset_id) if lib is not None else None
-    culture = _kit_cultures().get(kit) if kit else None
-    if culture:
-        row = KIT_SETS.get(culture) or {}
-        return row.get("cultureGroup") or row.get("culture") or culture
-    for group, kits in CULTURE_INTERIOR_KITS.items():
-        if any(asset_id.startswith(folders) for folders in kits.values()):
-            return group
-    return None
-
-
-def cell_interior_kit(plugin: str, cell: str, links: dict[str, list[dict]], lib=None) -> str | None:
-    """The interior kit a cell is built from (the claim's `interiorRef`,
-    walk 6: the chosen cell's kit, never the shell's tileset label): the
-    `CULTURE_INTERIOR_KITS` kit whose folder holds a shell the cell is linked
-    from, else that shell's own index `tileset`."""
-    natives = sorted(s for s, rows in links.items()
-                     if any(r.get("plugin") == plugin and r.get("interiorCell") == cell for r in rows or []))
-    for shell in natives:
-        for kits in CULTURE_INTERIOR_KITS.values():
-            for kit, folders in kits.items():
-                if shell.startswith(folders):
-                    return kit
-    for shell in natives:
-        rec = lib.get(shell) if lib is not None else None
-        if rec and (rec.get("interiorAssetRef") or rec.get("tileset")):
-            return rec.get("interiorAssetRef") or rec.get("tileset")
-    return None
 
 #: A service no vanilla or mod interior serves (planner ruling 4, interiors
 #: round 4): a stable is open-sided and no plugin authors a stable interior,
@@ -549,79 +437,6 @@ def composite_base(asset_id: str) -> str | None:
                 if anchor and isinstance(entry.get("asset"), str):
                     _COMPOSITE_BASES.setdefault(entry["asset"], anchor["asset"])
     return _COMPOSITE_BASES.get(asset_id)
-
-
-#: 0105 R56 (planner 2026-09-28): the interior kits of a culture group and
-#: the exterior shells their cells are linked from, named by the mod's own
-#: architecture folders (the kit configs' descriptions name the cells): King
-#: of the Murkmire's Argonian houses, pods and Hist-tree huts; Black Marsh &
-#: Valenwood's grown tree-houses; HTBM's Argonian bamboo huts. Their linked
-#: cells join the group's pool beside the exterior kits' own shells.
-CULTURE_INTERIOR_KITS = {
-    "argonian": {
-        "interior-kotm-v1": ("kotm:argonia/blackwood/", "kotm:argonia/mudhuts/",
-                             "kotm:argonia/trees/hist trees/", "kotm:denoffen/architecture/argonian/"),
-        "bmv-treehouse-int": ("bmv:architecture/citebosmer/houses/",),
-        "htbm-hut-int": ("htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/",),
-    },
-}
-
-
-def culture_shells(culture: str | None, links: dict[str, list[dict]] | None = None) -> list[str]:
-    """Every asset the kit configs of `culture`'s kit sets list
-    (`blueprint.KIT_SETS`; the sets sharing `cultureGroup` == culture when any
-    do, else the sets of that `culture`), composites resolved to their base
-    shell, then every linked shell under a `CULTURE_INTERIOR_KITS` folder of
-    the group (R56)."""
-    if not culture:
-        return []
-    shells = list(_culture_kit_shells(culture))
-    folders = tuple(f for fs in (CULTURE_INTERIOR_KITS.get(culture) or {}).values() for f in fs)
-    for shell in sorted(links if links is not None else linked_shells()):
-        if folders and shell.startswith(folders) and shell not in shells:
-            shells.append(shell)
-    return shells
-
-
-@lru_cache(maxsize=None)
-def _culture_kit_shells(culture: str) -> tuple[str, ...]:
-    """The kit-config half of `culture_shells`, parsed once per process."""
-    from .blueprint import KIT_SETS
-    grouped = [s for s in KIT_SETS.values() if s.get("cultureGroup") == culture]
-    sets = grouped or [s for s in KIT_SETS.values() if s.get("culture") == culture]
-    kits = sorted({k for s in sets for k in s["kits"]})
-    shells: list[str] = []
-    for kit in kits:
-        path = CONFIG_KITS_DIR / f"{kit}.json"
-        try:
-            cfg = json.loads(path.read_text())
-        except (OSError, json.JSONDecodeError):
-            continue
-        for entry in cfg.get("assets", []) or []:
-            asset = entry.get("asset")
-            if isinstance(asset, str):
-                base = composite_base(asset) or asset if asset.startswith("composite:") else asset
-                if base not in shells:
-                    shells.append(base)
-    return tuple(shells)
-
-
-def culture_pool_rows(culture: str | None, links: dict[str, list[dict]],
-                      pools=None) -> list[dict]:
-    """The culture pool (R52): every cell a plugin links to any shell of the
-    culture's kits, once per cell, each row tagged with the `nativeShell` it
-    is linked to (its room plan is measured under that shell). `pools`
-    (culture -> shells) is injectable for tests."""
-    shells = (pools or {}).get(culture) if pools is not None else culture_shells(culture, links)
-    rows, seen = [], set()
-    for shell in shells or []:
-        for row in links.get(shell) or []:
-            key = (row["plugin"], row["interiorCell"])
-            if key in seen:
-                continue
-            seen.add(key)
-            rows.append({**row, "nativeShell": shell})
-    return rows
 
 
 def _leaf(model: str) -> str:
@@ -686,40 +501,6 @@ def shell_entrances(record: dict) -> list[float | None]:
     lists several, else its one canonical `entrance`."""
     ways = record.get("entrances") or ([record["entrance"]] if record.get("entrance") else [])
     return [None if is_radial(w) else float(w["sideDeg"]) % 360.0 for w in ways]
-
-
-_MANIFEST_SCALES: dict[str, float] | None = None
-PUBLISHED_KITS_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
-
-
-def manifest_scale(asset_id: str) -> float | None:
-    """The shell's `placedScaleMedian` from its published kit manifest (the
-    plugins' median placed scale, `placement_metadata`), or None."""
-    global _MANIFEST_SCALES
-    if _MANIFEST_SCALES is None:
-        _MANIFEST_SCALES = {}
-        for path in sorted(PUBLISHED_KITS_DIR.glob("*.kit.json")):
-            try:
-                doc = json.loads(path.read_text())
-            except (OSError, json.JSONDecodeError):
-                continue
-            for row in doc.get("assets", []) or []:
-                if isinstance(row.get("placedScaleMedian"), (int, float)):
-                    _MANIFEST_SCALES.setdefault(row["id"], float(row["placedScaleMedian"]))
-    return _MANIFEST_SCALES.get(asset_id)
-
-
-def shell_scale(parcel: dict, ref: str | None, scales=manifest_scale) -> float:
-    """The scale the parcel's shell stands at (planner ruling 1, interiors
-    round 4): the parcel's own `scale` when the layout set one, else the
-    shell's plugin median placed scale (the workbench `place` default), else
-    1. A composite is assembled at its authored scale already: 1."""
-    own = parcel.get("scale")
-    if isinstance(own, (int, float)) and own > 0:
-        return float(own)
-    if not isinstance(ref, str) or ref.startswith("composite:"):
-        return 1.0
-    return float(scales(ref) or 1.0)
 
 
 def _count(n, noun: str) -> str:
@@ -814,31 +595,29 @@ def bundle_kits(plugin: str, cell: str) -> dict:
 
 
 def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[dict]],
-                     profile, scales=manifest_scale, prefer: tuple[str, str] | None = None,
-                     used: set[str] | frozenset = frozenset(), sourcing=None,
-                     culture: str | None = None, pools=None, whole_pool: bool = False,
-                     sizes=manifest_size) -> dict:
-    """The tier A (or reserved) claim for one enterable parcel, with every
-    candidate's measurements. `profile(plugin, cell, shell) -> dict | None`
-    is the cell's measured profile (`interior_cells.profile_cell`: structural
-    plan, storeys, exterior load doors; injected so tests stay off the
-    vault). `prefer` `(cellId, why)` picks that cell when it fits; otherwise
-    the parcel takes the fitting cell with the most placements that no
-    earlier parcel of the same shell holds (`used`), and only when every
-    fitting cell is held does it share one. `sourcing(plugin, cell) ->
-    {unsourced, gate}` (``bundle_sourcing``; injected, None skips it) makes
-    the rule asset-aware (16k interiors r8, owner rule): a cell whose bundle
-    fails the acceptance gate does not fit, and a cell needing a mesh the vault
-    holds nowhere ranks below every fitting cell whose meshes all resolve.
-    A shell no plugin links to a cell (R52, the owner's correction of 0103
-    decision 1) is fitted against every linked cell of its `culture` pool
-    (`culture_pool_rows`), each profiled under the shell it is linked to.
-    The missing pieces are counted over clutter only (planner ruling
-    2026-09-27): a cell missing a piece of any other class (architecture, a
-    container, a light, an unclassed base in an absent master) does not fit,
-    and fitting cells rank by how many clutter pieces still lack a stand-in.
-    `whole_pool` measures the shell's linked cells and every cell of the
-    culture pool (0105 R57: the fit set `interiors.variety` judges reuse by)."""
+                     profile, prefer: tuple[str, str] | None = None,
+                     used: set[str] | frozenset = frozenset(), sourcing=None) -> dict:
+    """The claim for one enterable parcel, with every candidate's
+    measurements (decision 0114: the plugin data is the manifest).
+
+    The only cells a shell may open onto are the ones a plugin's exterior
+    load door on that shell model teleports to (`links`, mined by
+    `mine_door_links`; a composite takes its base shell's). A shell no plugin
+    gives a teleport door is a HOLLOW shell: tier ``none``, no load door, no
+    prompt (its index `promiseReason`, when `interior` is ``promised``, is
+    kept in the `why` as the Phase 12 promise). Among the linked cells the
+    filter is the shell's volume (owner walk 6): the cell's floors above its
+    entry door may not outnumber the floors the shell shows above its own
+    door (a cellar below the entry is free); then the door pairing, the
+    acceptance gate of its bundle (`sourcing`, ``bundle_sourcing``) and the
+    pieces no stand-in may replace. `profile(plugin, cell, shell)` is the
+    cell's measured profile (`interior_cells.profile_cell`; injected so tests
+    stay off the vault). The pick: `prefer` `(cellId, why)` when it passes;
+    else a passing cell no earlier parcel here holds (`used`), ranked on
+    unsourced clutter, then whether its use class (from the furniture mix)
+    serves the parcel, then the plugin's own most-used cell, then id; a cell
+    is shared across doors only when every passing cell is held. No passing
+    cell: reserved with each cell's reason, never a cell from elsewhere."""
     from .interior_cells import pair_doors
     ref = parcel.get("assetRef")
     record = lib.get(ref) if isinstance(ref, str) else None
@@ -849,52 +628,33 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
         shell = inherited or ref
     rows = links.get(shell) or []
     pool = _pool_of(shell or "?")
+    via = f" (the base shell of {ref})" if inherited else ""
     services = [s for s in (parcel.get("services") or []) if isinstance(s, str)]
     if services and all(s in NO_INTERIOR_SERVICES for s in services):
         return {"tier": "reserved", "pool": services[0],
                 "why": NO_INTERIOR_SERVICES[services[0]],
                 "candidates": []}
+    if not rows:
+        # hollow (0114): no enter prompt either way (door_types: `hollow`); a
+        # `promised` record keeps its Phase 12 promise as a reserved claim
+        promise = ((record or {}).get("promiseReason") if (record or {}).get("interior") == "promised"
+                   else None)
+        return {"tier": "reserved" if promise else "none", "pool": "phase-12" if promise else pool,
+                "why": (f"no plugin gives {shell}{via} a load door, so it is a hollow shell with no "
+                        f"enter prompt"
+                        + (f"; its Phase 12 interior stays promised: {promise}" if promise
+                           else " and no interior")),
+                "candidates": []}
     if record is None:
         return {"tier": "reserved", "pool": pool,
-                "why": f"{ref!r} is not in the interiors index, so no footprint to fit against",
+                "why": f"{ref!r} is not in the interiors index, so its entrance cannot be paired",
                 "candidates": []}
-    if is_walk_in(record, bool(rows)):
-        # walk 6 (owner, Riverwalk swamp house): an open house entered on
-        # foot is its own interior; a load door into another cell would be a
-        # second, unrelated room.
-        return {"tier": "none", "pool": pool,
-                "why": (f"{ref} is a walk-in open shell (interior 'promised', entrance "
-                        f"'{entrance(record).get('kind')}', no plugin load door): the building is "
-                        f"entered on foot, so it has no load door"),
-                "candidates": []}
-    unlinked = not rows
-    if unlinked:
-        # 0103 decision 1 as corrected by the owner 2026-09-28 (R52): a shell
-        # with a door and no plugin-linked cell takes a cell from its culture
-        # pool by the same fit rule; it is never left without a room.
-        rows = culture_pool_rows(culture, links, pools=pools)
-        if not rows:
-            via = f" (the base shell of {ref})" if inherited else ""
-            return {"tier": "reserved", "pool": pool,
-                    "why": (f"no plugin links {shell}{via} to a furnished cell and the "
-                            f"{culture or 'unknown'} culture pool has no linked cell"),
-                    "candidates": []}
-    scale = shell_scale(parcel, ref, scales)
-    area = float(record.get("planAreaM2") or 0.0) * scale * scale
     entrances = shell_entrances(record)
     shell_up = shell_floors_above_door(record)
-    size = sizes(ref) if isinstance(ref, str) else None
-    shell_aspect = aspect(size[0], size[1]) if size else None
-    shell_fill = (round(float(record.get("planAreaM2") or 0.0) / (size[0] * size[1]), 3)
-                  if size and size[0] * size[1] > 0 else None)
-    round_shell = shell_fill is not None and shell_fill < ROUND_FILL_MAX
-    shell_grammar = grammar_of(ref, lib) or grammar_of(shell, lib)
     needs = wanted_classes(parcel)
+
     def measure(row: dict) -> dict:
-        prof = profile(row["plugin"], row["interiorCell"], row.get("nativeShell") or shell) or {}
-        plan_m = prof.get("structuralPlanM") or [0.0, 0.0]
-        plan = float(plan_m[0]) * float(plan_m[1])
-        ratio = round(plan / area, 3) if area > 0 and plan > 0 else None
+        prof = profile(row["plugin"], row["interiorCell"], shell) or {}
         storeys = prof.get("storeys")
         ext = prof.get("exteriorDoors") or []
         pairing, pair_why = pair_doors(entrances, [float(d["bearingDeg"]) for d in ext],
@@ -904,33 +664,13 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
         fails = []
         if not prof:
             fails.append("the cell could not be read from its plugin")
-        if ratio is None or not (FIT_RATIO[0] <= ratio <= FIT_RATIO[1]):
-            fails.append(f"footprint ratio {ratio} outside {FIT_RATIO[0]}-{FIT_RATIO[1]}")
-        # walk 6 (owner): floors below the entry are a cellar and fit; floors
-        # above it must fit under the shell's roof.
         entry = ext[pairing[0]] if pairing else (min(ext, key=lambda d: d["positionM"][2]) if ext else None)
         up, down = floors_about_door(prof.get("floorLevelsM"),
                                      float(entry["positionM"][2]) if entry else None, storeys)
-        if up != shell_up:
-            # never more (no room under the roof), never fewer (ruling 2 of
-            # interiors round 3: the upper windows need a floor behind them)
+        if up > shell_up:
             fails.append(f"{_count(up, 'floor')} above the entry, the shell shows {shell_up} above its door")
-        cell_aspect = aspect(*plan_m) if plan_m and min(plan_m) > 0 else None
-        aspect_ratio = (round(max(cell_aspect, shell_aspect) / min(cell_aspect, shell_aspect), 3)
-                        if cell_aspect and shell_aspect else None)
-        if aspect_ratio is not None and aspect_ratio > ASPECT_RATIO_MAX:
-            fails.append(f"plan aspect {cell_aspect} against the shell's {shell_aspect} "
-                         f"(x{aspect_ratio}, over {ASPECT_RATIO_MAX})")
-        if round_shell and cell_aspect is not None and cell_aspect > ROUND_CELL_ASPECT_MAX:
-            fails.append(f"a {cell_aspect}:1 rectangular room for a round shell "
-                         f"(plan fills {shell_fill} of its box)")
-        cell_grammar = grammar_of(row.get("nativeShell") or shell, lib)
-        if shell_grammar and cell_grammar and cell_grammar != shell_grammar:
-            fails.append(f"building grammar {cell_grammar}, the shell is {shell_grammar}")
         if pairing is None:
             fails.append(f"door pairing refused: {pair_why}")
-        if needs and not served:
-            fails.append(f"use class {cls} serves none of {[n for n, _ in needs]}")
         src = sourcing(row["plugin"], row["interiorCell"]) if sourcing else {}
         if src.get("gate"):
             fails.append(f"its bundle fails the acceptance gate: {'; '.join(src['gate'])}")
@@ -941,11 +681,8 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
                          + ", ".join(f"{n} {c}" for c, n in sorted(hard.items())))
         return {
             "cellId": row["interiorCell"], "plugin": row["plugin"],
-            "ratio": ratio, "structuralPlanM": plan_m, "storeys": storeys,
+            "structuralPlanM": prof.get("structuralPlanM"), "storeys": storeys,
             "floorsAboveEntry": up, "floorsBelowEntry": down, "shellFloorsAboveDoor": shell_up,
-            "aspect": cell_aspect, "shellAspect": shell_aspect, "aspectRatio": aspect_ratio,
-            "shellFill": shell_fill, "grammar": cell_grammar, "shellGrammar": shell_grammar,
-            "shellScale": scale, "shellPlanM2": round(area, 2),
             "exteriorLoadDoors": len(ext), "interiorLoadDoors": prof.get("interiorDoors"),
             "pairing": pair_why,
             "doors": [ext[j] for j in pairing] if pairing is not None else [],
@@ -953,76 +690,47 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
                             if pairing is not None else []),
             "useClass": cls, "furniture": evidence, "served": served,
             "placements": int(row.get("placements") or 0), "fails": fails,
-            **({"nativeShell": row["nativeShell"]} if row.get("nativeShell") else {}),
             **({"unsourced": list(src.get("unsourced") or []),
                 "misses": dict(src.get("misses") or {})} if sourcing else {}),
         }
 
     candidates = [measure(row) for row in rows]
-    linked_fit = [c for c in candidates if not c["fails"]]
-    extended = ""
-    if not unlinked and culture and (whole_pool or not any(c["cellId"] not in used
-                                                          for c in linked_fit)):
-        # R52: no linked cell fits, or every fitting one already furnishes
-        # another building here, so the culture pool offers the next fitting
-        # cell before any building shares one; with no linked cell fitting,
-        # a held pool cell is shared rather than the building left without
-        # a room (the unlinked-shell case). `whole_pool` (R57) always adds it.
-        linked_cells = {(c["plugin"], c["cellId"]) for c in candidates}
-        extra = [measure(row) for row in culture_pool_rows(culture, links, pools=pools)
-                 if (row["plugin"], row["interiorCell"]) not in linked_cells]
-        if (whole_pool or not linked_fit
-                or any(not c["fails"] and c["cellId"] not in used for c in extra)):
-            candidates += extra
-            extended = "held" if linked_fit else "unfit"
     fit = [c for c in candidates if not c["fails"]]
-    linked_to = (f"the {culture} culture pool (no plugin links {shell})" if unlinked
-                 else str(shell))
     if not fit:
-        lead = (f"the 1 cell of {linked_to} does not pass" if len(candidates) == 1 else
-                f"0 of the {len(candidates)} cells of {linked_to} pass")
+        lead = (f"the 1 cell a plugin links to {shell}{via} does not pass" if len(candidates) == 1 else
+                f"none of the {len(candidates)} cells plugins link to {shell}{via} pass")
+        reasons = "; ".join(f"{c['cellId']}: {c['fails'][0]}" for c in candidates)
         return {"tier": "reserved", "pool": pool,
-                "why": (f"{lead} the fit rule "
-                        f"(room footprint {FIT_RATIO[0]}-{FIT_RATIO[1]}, the shell's floors above the entry "
-                        f"(a cellar below is free), plan aspect within x{ASPECT_RATIO_MAX}, the shell's "
-                        f"building grammar, an exterior load door for every entrance, use class"
-                        f"{', the acceptance gate' if sourcing else ''})"),
+                "why": (f"{lead} (no more floors above the entry than the shell shows, an exterior "
+                        f"load door for every entrance{', the acceptance gate' if sourcing else ''}): "
+                        f"{reasons}"),
                 "candidates": candidates}
     fit.sort(key=lambda c: (len(c.get("unsourced") or []), -len(c["served"]), -c["placements"],
                             c["cellId"]))
     chosen = next((c for c in fit if prefer and c["cellId"] == prefer[0]), None)
     free = [c for c in fit if c["cellId"] not in used]
-    # every fitting cell held: share the one fewest buildings here hold
+    # every passing cell held: share the one fewest buildings here hold
     # (`used` may map cell -> holders; a plain set counts each once)
     held_by = (lambda c: used.get(c["cellId"], 0)) if isinstance(used, dict) else (lambda c: 1)
     best = chosen or (free[0] if free else min(fit, key=held_by))
-    via = f" (the base shell of {ref})" if inherited else ""
-    at = f" at scale {scale:g}" if scale != 1.0 else ""
     if chosen:
         pick = f"chosen for this door: {prefer[1]}"
     elif prefer:
-        pick = f"{prefer[0]} was asked for but does not fit, so the most-used free cell is taken"
+        pick = f"{prefer[0]} was asked for but does not pass, so the next free cell is taken"
     elif len(free) < len(fit):
         held = sorted(c["cellId"] for c in fit if c["cellId"] in used)
-        pick = (f"{', '.join(held)} already furnished another building here, so the plugin's "
-                f"most-used free cell is taken ({_count(best['placements'], 'door link')})")
+        pick = (f"{', '.join(held)} already furnished another building here"
+                + ("" if free else ", and every linked cell is held, so this one is shared"))
     elif len(fit) == 1:
-        pick = ""               # "1 of N cells ... fit" already says it
+        pick = ""
     else:
         pick = (f"ties broken on the plugin's most-used cell "
                 f"({_count(best['placements'], 'door link')}), then cell id")
-    source = (f"cells of the {culture} culture pool fit {shell}{via}, which no plugin links to a "
-              f"cell" if unlinked else
-              f"cells linked to {shell}{via} or in the {culture} culture pool fit, every linked "
-              f"one already furnishing another building here" if extended == "held" else
-              f"cells linked to {shell}{via} or in the {culture} culture pool fit, no linked "
-              f"one passing the fit rule" if extended == "unfit" else
-              f"cells linked to {shell}{via} fit")
-    why = (f"{len(fit)} of {len(candidates)} {source}; {best['cellId']} "
-           f"is a {best['useClass']} serving {', '.join(best['served']) or 'its use'}, room "
-           f"footprint ratio {best['ratio']} to the shell{at}, plan aspect {best['aspect']} "
-           f"(shell {best['shellAspect']}), {best['floorsAboveEntry']} up / "
-           f"{best['floorsBelowEntry']} down from the entry (shell {best['shellFloorsAboveDoor']} up), "
+    why = (f"{len(fit)} of {len(candidates)} cells plugins link to {shell}{via} pass; "
+           f"{best['cellId']} is a {best['useClass']}"
+           f"{' serving ' + ', '.join(best['served']) if best['served'] else ''}, "
+           f"{best['floorsAboveEntry']} floors up and {best['floorsBelowEntry']} down from the entry "
+           f"(the shell shows {best['shellFloorsAboveDoor']} above its door), "
            f"{_count(best['exteriorLoadDoors'], 'exterior load door')}"
            f"{f' ({pairing})' if (pairing := best['pairing']) and best['closedDoors'] else ''}"
            f"{f'; {pick}' if pick else ''}")
@@ -1049,7 +757,7 @@ def plugin_profile(plugin: str, cell: str, shell: str | None, cache=None) -> dic
 
 def claim_doors(bp: dict, lib: InteriorLibrary | None = None,
                 links: dict[str, list[dict]] | None = None,
-                profile=plugin_profile, scales=manifest_scale, sourcing=None) -> list[dict]:
+                profile=plugin_profile, sourcing=None) -> list[dict]:
     """Write `interiorClaim` onto every door of a blueprint: tier A with
     cellId/plugin/why, the paired `interiorLoadDoorRef` and this door's
     `arrivalMarker` (the bundle's cell frame: game y-up metres),
@@ -1081,17 +789,12 @@ def claim_doors(bp: dict, lib: InteriorLibrary | None = None,
             continue
         parcel = parcels.get(pid) or {}
         ref = parcel.get("assetRef")
-        shell = (composite_base(ref) or ref) if isinstance(ref, str) and ref.startswith("composite:") else ref
-        # one cell furnishes one building per place while a free one fits,
-        # then the least-held is shared (R52: the culture pool is shared by
-        # every shell, so the count is place-wide)
+        # one cell furnishes one building per place while a free one passes,
+        # then the least-held is shared
         held = used.setdefault("*", {})
-        culture = next(((d.get("interiorClaim") or {}).get("culture") for d in doors
-                        if d.get("parcelId") == pid and (d.get("interiorClaim") or {}).get("culture")),
-                       None)
-        cache[pid] = claim_for_parcel(parcel, lib, links, profile, scales,
+        cache[pid] = claim_for_parcel(parcel, lib, links, profile,
                                       prefer=prefs.get(pid), used=dict(held),
-                                      sourcing=sourcing, culture=culture)
+                                      sourcing=sourcing)
         if cache[pid]["tier"] == "A":
             held[cache[pid]["cellId"]] = held.get(cache[pid]["cellId"], 0) + 1
     from .door_types import door_type
@@ -1111,10 +814,7 @@ def claim_doors(bp: dict, lib: InteriorLibrary | None = None,
         # swap kept 'vanilla-farmhouse-int' and failed the schema check)
         record = lib.get(parcel.get("assetRef")) if isinstance(parcel.get("assetRef"), str) else None
         if record is not None:
-            # walk 6: the interior kit of the cell the door opens, never the
-            # shell's tileset label (a pool cell is built from its own kit)
-            want = (cell_interior_kit(result["plugin"], result["cellId"], links, lib)
-                    if result["tier"] == "A" else None) or record.get("interiorAssetRef") or record.get("tileset")
+            want = record.get("interiorAssetRef") or record.get("tileset")  # InteriorLibrary.interior_ref
             if want is not None:
                 claim["interiorRef"] = want
             if record.get("sizeClass") is not None:
@@ -1138,6 +838,8 @@ def claim_doors(bp: dict, lib: InteriorLibrary | None = None,
             claim["tier"] = tier
             claim["pool"] = result["pool"]
             claim["why"] = result["why"]
+        if tier == "none":
+            claim.pop("interiorRef", None)      # a hollow shell names no interior kit
         door["interiorClaim"] = claim
         # the door's type from its claim first (door_types; planner ruling
         # 2026-09-27): None = no interior and an open front, so no door
@@ -1253,10 +955,11 @@ def claim_main(path: Path, extra_parcels: list[str], use_table: bool = True) -> 
         raise
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
     print(json.dumps(rows, indent=1))
-    # walk 6 (e): an enterable shell no cell fits is reported loud, with the
-    # reason, and the run exits 3; the rule is never widened to find one.
+    # 0114: a linked shell no linked cell passes is reported loud, with each
+    # cell's reason, and the run exits 3; the rule is never widened to find
+    # one (a hollow shell's reserved Phase 12 promise is not a failure)
     unfit = [r for r in rows if r.get("door") and r.get("tier") == "reserved"
-             and r.get("pool") not in NO_INTERIOR_SERVICES]
+             and r.get("doorType") == "load"]
     for r in unfit:
         print(f"claim: NO CELL FITS door {r['door']} ({r['assetRef']}): {r['why']}", file=sys.stderr)
     return 3 if unfit else 0

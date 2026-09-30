@@ -83,62 +83,43 @@ run) and 5 (the gates).
 
 ## 2. Which shell, which cell (0103 decisions 1–2)
 
-1. **Shells are chosen for their interiors.** A lived-in building (a
-   service, a home, a workplace) takes a shell that a plugin links to a
-   furnished cell (`world/sources/placement/exterior-interior-links.json`).
-   Every building that looks enterable is enterable (R52, owner
-   2026-09-28): a shell with a door and no link takes a cell from its
-   culture pool by the same fit rule; a shell that fits no pool cell is
-   cut for doored buildings; an open-fronted piece with no door record is
-   walked into (R18). A door is
-   `reserved` (its pool named) only for a tier B or C interior (a
-   dungeon, a unique large interior; 0105 R2): a dwelling, shop, stable
-   house or workplace door is never reserved; the builder re-shells to a
-   linked shell, or, for a doorless hut, dresses the inside as exterior
-   placements. A composite inherits its base shell's links. The cell
-   chosen is also held against repetition (0105 R4: no cell twice in a
-   region unless the shell's linked set is exhausted, at most 3 in the
-   province; `place_gates --claim-cells`, gate `interiors.variety`).
-2. **The cell is picked by the fit rule, deterministically,** from the
-   shell's linked set: the cell's room plan (its biggest enclosing piece
-   and what overlaps it, measured in that piece's own frame) is 0.6–1.7
-   times the shell's `planAreaM2` × scale² (the parcel's `scale`, else the
-   manifest's `placedScaleMedian`, the plugins' median placed scale; a
-   composite is 1). The band is derived from measured pairs: vanilla
-   farmhouse cells over their shells 1.03–1.25, King of the Murkmire pods
-   over theirs 1.50–1.65 (interiors round 4). The cell fits the shell's
-   VOLUME and grammar (owner walk 6, R83): its floors ABOVE the entry door
-   (levels more than the 2.4 m storey gap over the door) equal the floors
-   the shell shows above its own door (a one-storey hut: none; floors BELOW
-   the entry, a cellar, are free); its room's plan aspect is within ×1.5
-   of the shell's (manifest `sizeM`), and a round shell (plan fills < 0.82
-   of its box) takes no room longer than 1.3:1; its native shell's building
-   grammar (kit config `culture` → `KIT_SETS` `cultureGroup`, else the R56
-   folder group) is the shell's. A `promised` shell no plugin links, entered
-   by an open walk-in way (`approach`, `open-front`, `opening`), is its own
-   interior: claim tier `none`, no load door. `interiorRef` names the chosen
-   cell's interior kit, never the shell's tileset. An enterable shell no
-   cell passes is reserved and `--claim` exits 3 naming it: the rule is
-   never widened and a cell is never hand-picked past it. The cell has at
-   least one exterior load door per entrance (spare ones ship closed); use class matches the parcel's `services` (from the
-   furniture mix: beds and a bar = inn, counter and stock = shop, altar =
-   shrine, hearth and beds = dwelling). A stable (no plugin authors a
-   stable interior) is an open-sided shell with no door record, walked
-   into; a stable house (the keeper's home) is a dwelling and takes a
-   linked shell (0105 R2). Ties break on the plugin's own most-used
-   cell for that shell. A claim outside the ratio, with the wrong floors
-   above the entry, the wrong aspect or grammar, or too few doors fails a
-   test (`test_blueprint_interiors_claim.py`). The rule is asset-aware (planner ruling
-   2026-09-27, `bundle_sourcing`): a cell's missing pieces (a base in a
-   master we do not hold, or a mesh the vault holds nowhere) are classed
-   from the base record or `kit-interiors/absent-master-classes.json`; a
-   cell missing any piece that is not clutter or furniture (architecture,
-   a container, an unclassed base) does not fit, nor does one whose bundle
-   fails the acceptance gate; fitting cells rank by how many clutter pieces
-   still lack a stand-in (`kit-interiors/substitutions/<cell>.json`, the
-   bundle's `substitutions[]`).
-   A door's `preferCell {cellId, why}` names the story's cell; it wins when
-   it fits, and a later parcel of the same shell takes the next free cell.
+1. **Shells are chosen for their interiors; the plugin data is the
+   manifest (decision 0114, R83).** A lived-in building (a service, a
+   home, a workplace) takes a shell that a plugin's own load door links to
+   a furnished cell (`world/sources/placement/exterior-interior-links.json`;
+   a composite inherits its base shell's links). A shell no plugin gives a
+   load door is HOLLOW: its door record stays (routes, `fills`, evidence)
+   as `doorType: "hollow"` with no prompt, claim tier `none` (tier
+   `reserved`, pool `phase-12`, when its index record is `promised`). No
+   culture pool, no size or label match ever lends it another shell's
+   cell. A lived-in building that must be entered therefore takes a linked
+   shell. A door is `reserved` on a linked shell only when no linked cell
+   passes (rule 2), and `--claim` exits 3 naming it. The cell chosen is
+   also held against repetition (0105 R4: no cell twice in a region unless
+   the shell's linked set is exhausted, at most 3 in the province;
+   `place_gates --claim-cells`, gate `interiors.variety`).
+2. **The cell is picked from the shell's linked cells, deterministically.**
+   Filter: the cell's floors ABOVE its entry door (floor levels more than
+   the 2.4 m storey gap over the paired door) may not outnumber the floors
+   the shell shows above its own door (a one-storey hut or pod: none; a
+   cellar below the entry is free); at least one exterior load door per
+   entrance (spare ones ship closed); the bundle passes the acceptance gate
+   and misses nothing but clutter or furniture (planner ruling 2026-09-27,
+   `bundle_sourcing`: missing pieces classed from the base record or
+   `kit-interiors/absent-master-classes.json`). Rank: fewest clutter pieces
+   still lacking a stand-in (`kit-interiors/substitutions/<cell>.json`),
+   then a use class that serves the parcel (from the furniture mix: beds
+   and a bar = inn, counter and stock = shop, altar = shrine, hearth and
+   beds = dwelling; it ranks, never refuses), then the plugin's most-used
+   cell, then id; a cell another building here holds is taken only when
+   every passing cell is held. A stable (no plugin authors a stable
+   interior) is an open-sided shell with no door record, walked into; a
+   stable house (the keeper's home) is a dwelling and takes a linked shell
+   (0105 R2). A door's `preferCell {cellId, why}` names the story's cell; it
+   wins when it passes. A claim with an upstairs the shell has no room for,
+   or too few doors, fails a test (`test_blueprint_interiors_claim.py`).
+   An NPC socket authored in a cell (`interiorCell`) moves when its door
+   stops claiming that cell: the compile refuses the orphan.
 3. `blueprint_interiors.py --claim <blueprint>` writes the pick and its
    `why` on the door record (`interiorClaim`: `tier`, `cellId`, `plugin`
    or `pool`, `why`, `interiorLoadDoorRef`, `arrivalMarker`); the claim is

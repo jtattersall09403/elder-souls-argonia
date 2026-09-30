@@ -4,6 +4,7 @@ determinism, and that the pick follows the parcel's services."""
 from __future__ import annotations
 
 import copy
+import math
 
 import pytest
 
@@ -54,7 +55,7 @@ LINKS = {"test:shell": [
 # Interior-to-interior doors are not counted (ruling 1): "Cellar" has one
 # exterior door and a cellar door and still fits.
 PROFILES = {"Home": _profile(), "Home2": _profile(), "Shop": _profile(), "Chapel": _profile(),
-            "Huge": _profile(plan=(40.0, 40.0)), "Tall": _profile(storeys=2),
+            "Huge": _profile(plan=(40.0, 40.0), storeys=3), "Tall": _profile(storeys=2),
             "TwoDoors": _profile(doors=(0.0, 180.0), heights=[3.4, 0.0]),
             "Cellar": _profile(interior_doors=1), "NoDoor": _profile(doors=())}
 LIB = _Lib({"test:shell": {"planAreaM2": 100.0, "storeys": 1,
@@ -80,8 +81,8 @@ def _claim(bp):
 def test_fit_rule_rejects_ratio_and_too_few_doors():
     _claim_, row = _claim(_bp(["lodging"]))
     fails = {c["cellId"]: c["fails"] for c in row["candidates"]}
-    assert any("footprint ratio" in f for f in fails["Huge"])
-    # walk 6 (owner): a floor above the entry the 1-storey shell has no room for
+    # walk 6: floors above the entry the 1-storey shell has no room for
+    assert any("2 floors above the entry, the shell shows 0" in f for f in fails["Huge"])
     assert any("1 floor above the entry, the shell shows 0" in f for f in fails["Tall"])
     # ruling 3 (round 3): more load doors than entrances is legal; the entrance
     # takes the ground-floor door and the upper one ships closed
@@ -90,7 +91,8 @@ def test_fit_rule_rejects_ratio_and_too_few_doors():
     assert [d["refId"] for d in two["doors"]] == ["D1"] and two["closedDoors"] == ["D0"]
     assert any("0 exterior load door(s), the shell has 1" in f for f in fails["NoDoor"])
     assert fails["Cellar"] == []
-    assert any("use class shrine" in f for f in fails["Chapel"])
+    # the use class ranks the passing cells, it never refuses one (0114)
+    assert fails["Chapel"] == []
 
 
 def test_pick_is_stable_across_runs_and_keeps_existing_fields():
@@ -118,12 +120,12 @@ def test_pick_changes_when_services_change():
     assert trader["cellId"] == "Shop"
 
 
-def test_no_fit_or_no_link_is_reserved_with_the_pool():
-    none_fit, _ = _claim(_bp(["smith"]))
-    assert none_fit["tier"] == "reserved" and none_fit["pool"] == "test"
-    assert "cellId" not in none_fit
+def test_unserved_use_ranks_last_and_an_unlinked_shell_is_hollow():
+    smith, _ = _claim(_bp(["smith"]))
+    assert smith["tier"] == "A" and "serving" not in smith["why"]
     unlinked, _ = _claim(_bp([], asset="test:bare"))
-    assert unlinked["tier"] == "reserved" and "no plugin links" in unlinked["why"]
+    assert unlinked["tier"] == "none" and "no plugin gives test:bare a load door" in unlinked["why"]
+    assert "cellId" not in unlinked and "interiorRef" not in unlinked
 
 
 def test_use_class_classifier_on_labelled_cells():
@@ -165,13 +167,13 @@ def test_pairing_refuses_a_90_degree_mismatch_and_too_few_doors():
     assert pick == [0, 2] and "left closed" in why
 
 
-def test_cell_with_fewer_storeys_than_the_shell_fails():
+def test_a_two_storey_shell_takes_a_cell_of_one_or_two_storeys():
     lib = _Lib({"test:shell": {"planAreaM2": 100.0, "storeys": 2,
                                "entrance": {"kind": "esp-door", "sideDeg": 10.0}}})
     row = bi.claim_doors(_bp(["lodging"]), lib, LINKS, PROFILE)[0]
     fails = {c["cellId"]: c["fails"] for c in row["candidates"]}
-    assert any("0 floors above the entry, the shell shows 1" in f for f in fails["Home"])
-    assert fails["Tall"] == []
+    assert fails["Home"] == [] and fails["Tall"] == []
+    assert any("2 floors above the entry, the shell shows 1" in f for f in fails["Huge"])
 
 
 def test_storeys_cluster_levels_more_than_2_4_m_apart():
@@ -307,39 +309,6 @@ def test_room_is_measured_in_the_seed_pieces_own_frame():
 
 
 # --- interiors round 4: placed scale, the band, the stable ---
-def test_the_shell_area_is_taken_at_its_placed_scale():
-    """Ruling 1 (round 4): the ratio is over planAreaM2 x scale^2, the scale
-    the parcel's own, else the shell's plugin median, else 1."""
-    lib = _Lib({"test:shell": {"planAreaM2": 25.0, "storeys": 1,
-                               "entrance": {"kind": "esp-door", "sideDeg": 10.0}}})
-    bp = _bp(["lodging"])
-    rows = bi.claim_doors(bp, lib, LINKS, PROFILE, scales=lambda a: None)
-    home = next(c for c in rows[0]["candidates"] if c["cellId"] == "Home")
-    assert home["ratio"] == 4.0 and any("footprint ratio" in f for f in home["fails"])
-    bp = _bp(["lodging"])
-    rows = bi.claim_doors(bp, lib, LINKS, PROFILE, scales=lambda a: 2.0)
-    home = next(c for c in rows[0]["candidates"] if c["cellId"] == "Home")
-    assert home["ratio"] == 1.0 and home["fails"] == [] and home["shellScale"] == 2.0
-    assert bp["doors"][0]["interiorClaim"]["tier"] == "A"
-    assert "at scale 2" in bp["doors"][0]["interiorClaim"]["why"]
-    # the parcel's own scale wins over the median
-    bp = _bp(["lodging"])
-    bp["parcels"][0]["scale"] = 1.0
-    rows = bi.claim_doors(bp, lib, LINKS, PROFILE, scales=lambda a: 2.0)
-    assert rows[0]["candidates"][0]["shellScale"] == 1.0
-    assert bi.shell_scale({}, "composite:x/y", lambda a: 2.0) == 1.0
-
-
-def test_the_band_holds_the_measured_pod_pairs():
-    """Ruling 3 (round 4): KotM pods over their shells measure 1.50-1.65."""
-    assert bi.FIT_RATIO == (0.6, 1.7)
-    lib = _Lib({"test:shell": {"planAreaM2": 100.0 / 1.65, "storeys": 1,
-                               "entrance": {"kind": "esp-door", "sideDeg": 10.0}}})
-    rows = bi.claim_doors(_bp(["lodging"]), lib, LINKS, PROFILE, scales=lambda a: None)
-    home = next(c for c in rows[0]["candidates"] if c["cellId"] == "Home")
-    assert home["fails"] == []
-
-
 def test_a_stable_is_reserved_to_the_stable_pool_and_claims_no_house():
     """Ruling 4 (round 4): no plugin authors a stable interior; and an
     open-fronted building with no interior has no door record (door-type
@@ -398,7 +367,7 @@ def test_prefer_cell_is_honoured_when_it_fits_and_claims_first():
 
 def test_prefer_cell_that_does_not_fit_falls_back_to_the_rule():
     a, b = _two_huts(prefer="Huge", first_prefers=True)
-    assert a["cellId"] == "Home" and "Huge was asked for but does not fit" in a["why"]
+    assert a["cellId"] == "Home" and "Huge was asked for but does not pass" in a["why"]
     assert b["cellId"] == "Home2"
 
 
@@ -451,7 +420,7 @@ def test_prefer_cell_that_fails_the_gate_is_not_honoured():
     bp["doors"][0]["preferCell"] = {"cellId": "Home", "why": "story"}
     bi.claim_doors(bp, LIB, LINKS, PROFILE, sourcing=_sourcing({"Home": CRAFTER_GAPS}))
     claim = bp["doors"][0]["interiorClaim"]
-    assert claim["cellId"] == "Home2" and "Home was asked for but does not fit" in claim["why"]
+    assert claim["cellId"] == "Home2" and "Home was asked for but does not pass" in claim["why"]
 
 
 def test_every_cell_failing_the_gate_reserves_the_door():
@@ -462,98 +431,22 @@ def test_every_cell_failing_the_gate_reserves_the_door():
     assert claim["tier"] == "reserved" and "acceptance gate" in claim["why"]
 
 
-def test_an_unlinked_shell_why_states_the_link_fact_only():
-    """16k fix 2: the reserved why said "the kotm pool has no built interior
-    yet" after interior-kotm-v1 was built; it states the link fact only."""
-    from . import blueprint_interiors as bi
+def test_an_unlinked_shell_is_hollow_and_keeps_its_promise():
+    """0114: no plugin gives the shell a load door, so it has no interior and
+    no prompt; a `promised` record keeps its Phase 12 promise in the why."""
     parcel = {"id": "p", "assetRef": "kotm:argonia/mudhuts/mudhut01"}
-    lib = {"kotm:argonia/mudhuts/mudhut01": {"planAreaM2": 99.0}}
+    lib = {"kotm:argonia/mudhuts/mudhut01": {"planAreaM2": 99.0, "interior": "promised",
+                                             "promiseReason": "Phase 12 builds it"}}
     got = bi.claim_for_parcel(parcel, lib, {}, lambda *a: None)
-    assert got["why"] == ("no plugin links kotm:argonia/mudhuts/mudhut01 to a furnished cell "
-                          "and the unknown culture pool has no linked cell")
-
-
-def test_an_unlinked_shell_takes_a_fitting_cell_from_its_culture_pool():
-    """R52 (owner 2026-09-28, corrects 0103 decision 1): a shell with a door
-    and no plugin-linked cell is fitted against every linked cell of its
-    culture pool, each profiled under the shell it is linked to; it is
-    reserved only when no cell of the pool fits."""
-    seen = []
-
-    def profile(plugin, cell, shell):
-        seen.append(shell)
-        return PROFILE(plugin, cell, shell)
-    lib = _Lib({"test:unlinked": {"planAreaM2": 100.0, "storeys": 1,
-                                  "entrance": {"kind": "esp-door", "sideDeg": 10.0}}})
-    got = bi.claim_for_parcel({"id": "p", "assetRef": "test:unlinked", "use": "dwelling"},
-                              lib, LINKS, profile, culture="c",
-                              pools={"c": ["test:shell"]})
-    assert got["tier"] == "A" and got["cellId"] == "Home"
-    assert "culture pool" in got["why"] and "no plugin links" in got["why"]
-    assert set(seen) == {"test:shell"}
-    none = bi.claim_for_parcel({"id": "p", "assetRef": "test:unlinked", "use": "dwelling"},
-                               lib, LINKS, PROFILE, culture="c", pools={"c": []})
-    assert none["tier"] == "reserved"
-
-
-def test_a_second_building_takes_a_pool_cell_before_sharing_a_linked_one():
-    """R52: when every fitting linked cell furnishes another building here,
-    the culture pool offers the next fitting cell."""
-    links = {"test:one": [dict(r, interiorCell="Home") for r in LINKS["test:shell"]
-                          if r["interiorCell"] == "Home"],
-             "test:shell": LINKS["test:shell"]}
-    lib = _Lib({"test:one": {"planAreaM2": 100.0, "storeys": 1,
-                             "entrance": {"kind": "esp-door", "sideDeg": 10.0}}})
-    got = bi.claim_for_parcel({"id": "p", "assetRef": "test:one", "use": "dwelling"},
-                              lib, links, PROFILE, used=frozenset({"Home"}), culture="c",
-                              pools={"c": ["test:shell"]})
-    assert got["tier"] == "A" and got["cellId"] != "Home"
-    assert "culture pool" in got["why"]
-
-
-def test_whole_pool_measures_the_pool_even_while_a_linked_cell_is_free():
-    """0105 R57: the fit set the variety gate judges reuse by is the linked
-    cells plus the whole R56 culture pool, whatever is held."""
-    links = {"test:one": [r for r in LINKS["test:shell"] if r["interiorCell"] == "Home"],
-             "test:shell": LINKS["test:shell"]}
-    lib = _Lib({"test:one": {"planAreaM2": 100.0, "storeys": 1,
-                             "entrance": {"kind": "esp-door", "sideDeg": 10.0}}})
-    parcel = {"id": "p", "assetRef": "test:one", "use": "dwelling"}
-    kw = dict(culture="c", pools={"c": ["test:shell"]})
-    narrow = bi.claim_for_parcel(parcel, lib, links, PROFILE, **kw)
-    whole = bi.claim_for_parcel(parcel, lib, links, PROFILE, whole_pool=True, **kw)
-    fit = lambda got: sorted({c["cellId"] for c in got["candidates"] if not c["fails"]})
-    assert fit(narrow) == ["Home"]
-    assert "Home2" in fit(whole) and "Huge" not in fit(whole)
-
-
-def test_a_linked_shell_whose_linked_cells_all_fail_shares_a_held_pool_cell():
-    """R52 review fix: a linked shell with no fitting linked cell, placed
-    after every fitting pool cell is held, shares the least-held pool cell
-    (as an unlinked shell does) and its why says no linked cell fits."""
-    links = {"test:one": [r for r in LINKS["test:shell"] if r["interiorCell"] == "Huge"],
-             "test:shell": [r for r in LINKS["test:shell"] if r["interiorCell"] in ("Home", "Huge")]}
-    lib = _Lib({"test:one": {"planAreaM2": 100.0, "storeys": 1,
-                             "entrance": {"kind": "esp-door", "sideDeg": 10.0}}})
-    got = bi.claim_for_parcel({"id": "p", "assetRef": "test:one", "use": "dwelling"},
-                              lib, links, PROFILE, used={"Home": 1}, culture="c",
-                              pools={"c": ["test:shell"]})
-    assert got["tier"] == "A" and got["cellId"] == "Home"
-    assert "no linked one passing the fit rule" in got["why"]
-
-
-def test_culture_shells_pool_the_group_and_its_interior_kit_folders(monkeypatch):
-    """0105 R56: the sets sharing a `cultureGroup` pool together, the stone set
-    stays out, and linked shells under a group interior kit's folders join."""
-    from . import blueprint as b
-    monkeypatch.setattr(b, "KIT_SETS", {
-        "a": {"culture": "c", "cultureGroup": "c", "kits": ["kit-missing-a"]},
-        "b": {"culture": "c", "kits": ["kit-missing-b"]}})
-    monkeypatch.setattr(bi, "CULTURE_INTERIOR_KITS", {"c": {"int-kit": ("mod:houses/",)}})
-    bi._culture_kit_shells.cache_clear()
-    links = {"mod:houses/hut1": [], "mod:ruins/tower": []}
-    assert bi.culture_shells("c", links) == ["mod:houses/hut1"]
-    bi._culture_kit_shells.cache_clear()
+    assert got["tier"] == "reserved" and got["pool"] == "phase-12"
+    assert got["why"] == ("no plugin gives kotm:argonia/mudhuts/mudhut01 a load door, so it is a "
+                          "hollow shell with no enter prompt; its Phase 12 interior stays promised: "
+                          "Phase 12 builds it")
+    from .door_types import door_type
+    assert door_type({"interiorClaim": {"tier": "reserved", "pool": "phase-12"}},
+                     "kotm:argonia/mudhuts/mudhut01", frozenset()) == "hollow"
+    assert door_type({"interiorClaim": {"tier": "reserved", "pool": "kotm"}},
+                     "kotm:argonia/mudhuts/mudhut01", frozenset({"kotm:argonia/mudhuts/mudhut01"})) == "load"
 
 
 # Planner ruling 2026-09-27 (16k walk 2 lane I): missing pieces count over
@@ -606,75 +499,56 @@ def test_claim_reexecs_itself_under_job_guard_once(monkeypatch):
 
 
 # --------------------------------------------------------------------------- #
-# walk 6 (owner 2026-09-30): the cell fits the shell's volume and grammar
+# walk 6 (owner 2026-09-30), decision 0114: the plugin data is the manifest
 # --------------------------------------------------------------------------- #
-class _KitLib(_Lib):
-    def __init__(self, records, kit_of):
-        super().__init__(records)
-        self.kit_of = kit_of
-
-
 ROUND_HUT = {"planAreaM2": 171.0, "storeys": 1, "storeyLevelsM": [0.0], "interior": "tileset",
-             "tileset": "vanilla-farmhouse-int",
-             "entrance": {"kind": "assembly", "sideDeg": 150.0}}
+             "tileset": "vanilla-farmhouse-int", "entrance": {"kind": "assembly", "sideDeg": 150.0}}
+POD = {"planAreaM2": 150.8, "storeys": 1, "storeyLevelsM": [2.4, 4.0], "interior": "tileset",
+       "tileset": "interior-kotm-v1", "entrance": {"kind": "esp-door", "sideDeg": 188.0, "heightM": 2.44}}
 SWAMP_HOUSE = {"planAreaM2": 375.0, "storeys": 1, "storeyLevelsM": [6.0], "interior": "promised",
+               "promiseReason": "no load door in any plugin",
                "entrance": {"kind": "approach", "sideDeg": 96.0}}
-HUT_LINKS = {
-    # a rectangular 2-storey Nordic farmhouse cell (imperial grammar)
-    "vanilla:architecture/farmhouse/farmhouse02": [_cell("Farm2", [(BED, 2), (HEARTH, 1)], placements=9)],
-    # a round 1-storey Argonian hut with a cellar under the entry
-    "kotm:argonia/mudhuts/smpodext02": [_cell("PodCellar", [(BED, 1), (HEARTH, 1)])],
-    # a rectangular 2-storey Argonian timber house
-    "kotm:argonia/blackwood/shiveringhouse_02": [_cell("Timber", [(BED, 2), (HEARTH, 1)], placements=5)],
+POD_LINKS = {"test:pod": [_cell("Loft", [(BED, 2), (HEARTH, 1)], placements=9),
+                          _cell("PodCellar", [(BED, 1), (HEARTH, 1)])],
+             # another shell's cells: never offered to the pod or the hut
+             "test:other": [_cell("Elsewhere", [(BED, 1), (HEARTH, 1)], placements=50)]}
+POD_PROFILES = {
+    # a loft 3.1 m over the entry (the KotM Keeba pods, measured)
+    "Loft": {**_profile(storeys=2, heights=[86.27]), "floorLevelsM": [81.3, 82.7, 85.8, 89.4]},
+    # one floor at the entry and a cellar under it
+    "PodCellar": {**_profile(storeys=2, heights=[3.5]), "floorLevelsM": [0.0, 0.2, 3.4, 3.5]},
+    "Elsewhere": _profile(),
 }
-HUT_PROFILES = {
-    "Farm2": {**_profile(plan=(13.0, 12.0), storeys=2), "floorLevelsM": [0.0, 0.0, 3.6]},
-    "PodCellar": {**_profile(plan=(13.0, 13.5), storeys=2, heights=[3.5]),
-                  "floorLevelsM": [0.0, 0.2, 3.4, 3.5]},
-    "Timber": {**_profile(plan=(15.9, 8.8), storeys=2, heights=[80.5]),
-               "floorLevelsM": [78.1, 79.8, 88.7]},
-}
-HUT_LIB = _KitLib({"test:roundhut": ROUND_HUT, "test:swamphouse": SWAMP_HOUSE},
-                  {"test:roundhut": "settlement-mud-v1", "test:swamphouse": "settlement-stilt-v1",
-                   "vanilla:architecture/farmhouse/farmhouse02": "settlement-imperial-v1"})
-HUT_POOLS = {"argonian": list(HUT_LINKS)}
-SIZES = {"test:roundhut": [15.1, 15.1, 9.4], "test:swamphouse": [20.7, 21.4, 16.1]}
+POD_LIB = _Lib({"test:pod": POD, "test:roundhut": ROUND_HUT, "test:swamphouse": SWAMP_HOUSE})
 
 
-def _hut_claim(asset):
-    parcel = {"id": "p1", "assetRef": asset, "use": "dwelling"}
-    return bi.claim_for_parcel(parcel, HUT_LIB, HUT_LINKS, lambda pl, c, sh: HUT_PROFILES[c],
-                               culture="argonian", pools=HUT_POOLS, sizes=SIZES.get)
+def _pod_claim(asset):
+    return bi.claim_for_parcel({"id": "p1", "assetRef": asset, "use": "dwelling"}, POD_LIB,
+                               POD_LINKS, lambda pl, c, sh: POD_PROFILES[c])
 
 
-def test_round_one_storey_hut_rejects_a_two_storey_farmhouse_cell():
-    got = _hut_claim("test:roundhut")
+def test_a_one_storey_pod_rejects_a_linked_loft_cell_and_takes_its_cellar_cell():
+    got = _pod_claim("test:pod")
     fails = {c["cellId"]: c["fails"] for c in got["candidates"]}
-    assert any("1 floor above the entry" in f for f in fails["Farm2"])
-    assert any("building grammar imperial" in f for f in fails["Farm2"])
-    # the Lilmoth case: an Argonian cell, but a 1.8:1 two-storey timber house
-    assert any("rectangular room for a round shell" in f for f in fails["Timber"])
-    assert any("1 floor above the entry" in f for f in fails["Timber"])
-
-
-def test_round_one_storey_hut_accepts_a_one_storey_cell_with_a_cellar():
-    got = _hut_claim("test:roundhut")
+    assert any("1 floor above the entry, the shell shows 0" in f for f in fails["Loft"])
     assert got["tier"] == "A" and got["cellId"] == "PodCellar", got
     pick = next(c for c in got["candidates"] if c["cellId"] == "PodCellar")
     assert (pick["floorsAboveEntry"], pick["floorsBelowEntry"], pick["shellFloorsAboveDoor"]) == (0, 1, 0)
-    assert pick["grammar"] == pick["shellGrammar"] == "argonian"
+    assert "Elsewhere" not in fails                  # another shell's cell is never offered
 
 
-def test_promised_walk_in_shell_has_no_load_door():
-    got = _hut_claim("test:swamphouse")
-    assert got["tier"] == "none" and "walk-in" in got["why"]
+def test_a_shell_whose_linked_cells_all_fail_is_reserved_never_widened():
+    links = {"test:pod": [POD_LINKS["test:pod"][0]], "test:other": POD_LINKS["test:other"]}
+    got = bi.claim_for_parcel({"id": "p1", "assetRef": "test:pod", "use": "dwelling"}, POD_LIB,
+                              links, lambda pl, c, sh: POD_PROFILES[c])
+    assert got["tier"] == "reserved" and "Loft: 1 floor above the entry" in got["why"]
+    assert [c["cellId"] for c in got["candidates"]] == ["Loft"]
+
+
+def test_round_hut_and_swamp_house_no_plugin_links_are_hollow_with_no_prompt():
     from .door_types import door_type
-    assert door_type({"interiorClaim": {"tier": "none"}}, "test:swamphouse") is None
-
-
-def test_no_fitting_cell_is_reserved_never_widened():
-    lonely = {"argonian": ["vanilla:architecture/farmhouse/farmhouse02"]}
-    parcel = {"id": "p1", "assetRef": "test:roundhut", "use": "dwelling"}
-    got = bi.claim_for_parcel(parcel, HUT_LIB, HUT_LINKS, lambda pl, c, sh: HUT_PROFILES[c],
-                              culture="argonian", pools=lonely, sizes=SIZES.get)
-    assert got["tier"] == "reserved" and "the shell's floors above the entry" in got["why"]
+    hut, house = _pod_claim("test:roundhut"), _pod_claim("test:swamphouse")
+    assert hut["tier"] == "none" and "hollow shell" in hut["why"]
+    assert house["tier"] == "reserved" and "stays promised" in house["why"]
+    # the record stays as the entrance (routes, fills, evidence); no prompt
+    assert door_type({"interiorClaim": {"tier": "none"}}, "test:swamphouse") == "hollow"
