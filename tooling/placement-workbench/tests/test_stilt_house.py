@@ -106,3 +106,17 @@ def test_landing_outer_edge_on_dry_ground(cat):
     assert abs(lr["floorOverInnerDeckM"]) <= 0.45
     row, fails = _landing(cat, p, Bed(lambda x, z: -1.0))        # open water past the edge
     assert any("over water" in f for f in fails)
+
+
+def test_berth_reach_skips_a_stilt_house(cat, monkeypatch):
+    """A walkable deck_seated house over open water is not a berth: berthReachRule
+    leaves it to seat_rules.house_landing (R82) and says so in its row."""
+    p = _house(cat)
+    p.role = {"kind": "parcel"}
+    scene = SimpleNamespace(pieces=[p], paths=[], layout={})
+    monkeypatch.setattr(rules, "_ground", lambda c, s: Bed(lambda x, z: -1.0))
+    monkeypatch.setattr(rules, "floor_services", lambda c, s: {})
+    monkeypatch.setattr(rules, "_layout_sockets", lambda s: [])
+    out = rules.berth_reach(cat, scene)
+    assert not out["failures"], out["failures"]
+    assert "house_landing" in out["pieces"]["h"]["skipped"]

@@ -1948,7 +1948,9 @@ def berth_reach(cat, scene) -> dict:
     `at` stands on dry ground or a walkable deck, never in water. An
     open-floor house (`floor_services`) is reached at its floor's edge
     (`floor_outline`: its own landing included), by a way piece other than
-    itself or the end of a laid path."""
+    itself or the end of a laid path. A walkable deck_seated house on
+    stilts is skipped with a row reason: `seat_rules.house_landing` (R82)
+    judges its landing."""
     from shapely.geometry import Point, Polygon
     g = _ground(cat, scene)
     rows, failures = {}, []
@@ -1961,6 +1963,12 @@ def berth_reach(cat, scene) -> dict:
         if p.y is None or (p.role or {}).get("kind") != "parcel":
             continue
         if (cat.row(p.asset).get("anchorClass") or "ground") != "water":
+            continue
+        if getattr(p, "walkable", False) and measure.deck_seated(cat.row(p.asset)):
+            # a house on stilts is not a berth: seat_rules.house_landing (R82)
+            # judges its landing from the doorway to dry ground
+            rows[p.uid] = {"skipped": "deck_seated stilt house; its landing is judged by "
+                                      "seat_rules.house_landing (R82), not as a berth"}
             continue
         floor = floors.get(p.uid)
         hull = (floor_outline(cat, p, floor["floorY"]) if floor
