@@ -12,7 +12,7 @@ import * as tsl from "three/tsl";
 import type { TslNode } from "../../render/nodes/materialNodes";
 
 const T = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode> & Record<string, TslNode>;
-const { Loop, If, atan, clamp, cos, dot, exp, float, length, log, max, min, mix, pow, sin, vec3, vec4 } = T;
+const { Loop, If, atan, clamp, cos, dot, exp, float, length, log, max, min, mix, pow, sin, smoothstep, sqrt, vec3, vec4 } = T;
 
 /** ACES filmic maps scene 0.6 to about mid display; the display→scene anchor the fire and motes share. */
 export const SCENE_WHITE = 0.6;
@@ -101,7 +101,12 @@ function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode
       const h = max(length(rel.sub(dir.mul(t0))), float(0.05));
       const d = length(rel);
       const reach = clamp(float(1).sub(d.sub(lp.w.mul(2)).div(lp.w.mul(2))), 0, 1);
-      const a = atan(t0.negate().div(h)), b = atan(segLen.sub(t0).div(h));
+      // the lamp lights only the air inside its reach sphere (radius 1.5 x reach, soft over the outer
+      // half): march the chord through it, not the whole ray, or distant ground reads as lit haze
+      const R = lp.w.mul(1.5);
+      const half = sqrt(max(R.mul(R).sub(h.mul(h)), float(0)));
+      const a = atan(max(t0.sub(half), float(0)).sub(t0).div(h));
+      const b = max(atan(min(t0.add(half), segLen).sub(t0).div(h)), a);
       const dth = b.sub(a).div(LAMP_STEPS);
       const sum = float(0).toVar();
       for (let k = 0; k < LAMP_STEPS; k++) {
@@ -111,7 +116,7 @@ function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode
         const r = h.div(cos(th));
         const ph = float((1 - forward) / (4 * Math.PI)).add(float(forward * (1 - g * g) / (4 * Math.PI))
           .div(pow(max(float(1 + g * g).sub(c.mul(2 * g)), float(1e-4)), float(1.5))));
-        sum.addAssign(ph.mul(exp(sigma.mul(t.add(r)).negate())));
+        sum.addAssign(ph.mul(exp(sigma.mul(t.add(r)).negate())).mul(float(1).sub(smoothstep(R.mul(0.5), R, r))));
       }
       acc.addAssign(L.col.element(i).xyz.mul(sigma.mul(sum).mul(dth).div(h).mul(reach)));
     });

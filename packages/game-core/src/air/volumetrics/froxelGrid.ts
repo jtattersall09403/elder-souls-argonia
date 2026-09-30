@@ -37,6 +37,14 @@ export const MAX_VOLUME_LIGHTS = 16;
 export const MAX_APERTURES = 4;
 const HISTORY_BLEND = 0.9;
 const ALBEDO = 0.95;
+/** Range (m) over which the per-pixel shaft march carries the sun under the canopy, and its steps. */
+const SHAFT_NEAR_M = 40;
+const SHAFT_STEPS = 12;
+/** Sun phase: strongly forward (g 0.85) over an isotropic-ish floor, the peak clamped for a grazing
+ * sun (below ~8 deg), which otherwise draws one saturated column along the sun's azimuth in steam. */
+function sunPhase(cSun: TslNode, sunY: TslNode): TslNode {
+  return mix(hg(0.2, cSun), hg(0.85, cSun), smoothstep(0.03, 0.14, sunY).mul(0.72).add(0.03));
+}
 
 /** The band for a renderer tier (0108): WebGL is always off. */
 export function volumetricBandFor(backend: "webgpu" | "webgl", tier: "low" | "medium" | "high" | "lowest"): VolumetricBand {
@@ -258,19 +266,19 @@ export class Volumetrics implements VolumetricsSampler {
     const u = this.u;
     const cam = u.camPos;
     const acc = vec3(0).toVar();
-    // shafts: under-canopy haze lit by the sun through the leaf gaps, forward-peaked (bright toward the sun)
-    If(u.outdoor.mul(u.canopyHaze).mul(step(float(0), u.sunDir.y)).greaterThan(0), () => {
-      const span = min(segLen, 40);
-      const dt = span.div(8);
-      const ph = mix(hg(0.2, dot(dir, u.sunDir)), hg(0.85, dot(dir, u.sunDir)), 0.75);
-      for (let k = 0; k < 8; k++) {
+    // shafts: the sun's in-scatter under the crowns out to SHAFT_NEAR_M, marched per pixel at full canopy
+    // sharpness. The grid leaves this share out (shaftNear), so the march REPLACES the grid's sun term
+    // there and blends into it over the far edge: gaps between beams stay dark, crowns are not brightened.
+    If(u.outdoor.mul(step(float(0), u.sunDir.y)).greaterThan(0), () => {
+      const span = min(segLen, SHAFT_NEAR_M);
+      const dt = span.div(SHAFT_STEPS);
+      const ph = sunPhase(dot(dir, u.sunDir), u.sunDir.y);
+      for (let k = 0; k < SHAFT_STEPS; k++) {
         const t = dt.mul(k + 0.5);
         const p = cam.add(dir.mul(t));
-        const c = texture(this.canopy.texture, p.xz.sub(u.canopyOrigin).div(CANOPY_SIZE_M));
-        const under = smoothstep(0, 0.3, c.b.sub(p.y));
-        const haze = under.mul(u.canopyHaze).mul(0.025);
-        // the grid already carries the mean; this adds the gap-vs-leaf contrast around it
-        acc.addAssign(vec3(u.sunIrr).mul(ph).mul(haze).mul(this.canopyT(p).sub(0.35)).mul(dt).mul(exp(sigma.mul(t).negate())).mul(ALBEDO * 1.6));
+        const w = this.shaftNear(p, t);
+        acc.addAssign(vec3(u.sunIrr).mul(ph).mul(this.density(p, float(0.5))).mul(w).mul(this.canopyT(p))
+          .mul(dt).mul(exp(sigma.mul(t).negate())).mul(ALBEDO));
       }
     });
     // motes: hashed points on a 0.3 m lattice, ~1 in 8 cells kept (~4.6 /m^3), lit only inside a beam,
@@ -301,6 +309,13 @@ export class Volumetrics implements VolumetricsSampler {
       }
     });
     return acc;
+  }
+
+  /** Share of the sun in-scatter at `p` (distance `t` from the eye) carried by the per-pixel shaft march
+   * instead of the grid: under a crown, fading out over the last quarter of SHAFT_NEAR_M. */
+  private shaftNear(p: TslNode, t: TslNode): TslNode {
+    const c = texture(this.canopy.texture, p.xz.sub(this.u.canopyOrigin).div(CANOPY_SIZE_M));
+    return smoothstep(0, 0.3, c.b.sub(p.y)).mul(float(1).sub(smoothstep(SHAFT_NEAR_M * 0.75, SHAFT_NEAR_M, t))).mul(this.u.outdoor);
   }
 
   /** Canopy transmittance of the sun ray from `p` (three samples up the ray). */
@@ -347,11 +362,9 @@ export class Volumetrics implements VolumetricsSampler {
       const fp = depth.mul(Math.pow(spec.farM / FROXEL_NEAR_M, 1 / gz) - 1);
       const sigmaT = max(this.density(p, fp), float(1e-7)).toVar();
       const cSun = dot(v, u.sunDir);
-      // strongly forward (g 0.8) with an isotropic-ish floor: bright shafts toward the sun, faint away
-      // the forward peak is clamped for a grazing sun (below ~8 deg): a low sun behind thin steam
-      // otherwise draws one saturated column along the sun's azimuth
-      const phaseSun = mix(hg(0.2, cSun), hg(0.85, cSun), smoothstep(0.03, 0.14, u.sunDir.y).mul(0.72).add(0.03));
+      const phaseSun = sunPhase(cSun, u.sunDir.y);
       const radiance = vec3(u.sunIrr).mul(phaseSun).mul(this.canopyT(p)).mul(step(float(0), u.sunDir.y))
+        .mul(float(1).sub(this.shaftNear(p, length(dir).mul(depth))))
         .add(vec3(u.skyIrr).mul(0.8 / Math.PI).mul(this.skyOpen(p))).toVar();
       // point lights: analytic airlight in the apply stage (volumetricNodes), not here
       Loop(u.apertureCount, ({ i }: { i: TslNode }) => {
