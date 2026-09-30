@@ -1,5 +1,5 @@
 {
- "schemaVersion": 3,
+ "schemaVersion": 4,
  "cellId": "LilmothPlantationStorehouse",
  "plugin": "King of the Murkmire.esp",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
@@ -97,8 +97,8 @@
    33,
    27
   ],
-  "intensity": 8.189,
-  "rule": "interior-light-floor"
+  "intensity": 1.0,
+  "rule": "ambient-cube"
  },
  "fog": {
   "colorRGB": [
@@ -133,13 +133,87 @@
   "fogClipM": 71.12,
   "fogPower": 0.6,
   "fogFarRGB": [
-   23,
-   33,
-   22
+   86,
+   88,
+   69
   ],
   "fogMax": 1.0,
+  "lightFadeBeginM": 0.0,
+  "lightFadeEndM": 0.0,
   "inherits": 159,
-  "template": "SolitudeInteriors"
+  "specularRGB": [
+   0,
+   0,
+   0
+  ],
+  "fresnelPower": 1.0,
+  "template": "SolitudeInteriors",
+  "ambientCube": {
+   "px": [
+    0.0999,
+    0.07036,
+    0.04374
+   ],
+   "nx": [
+    0.0648,
+    0.07036,
+    0.03689
+   ],
+   "py": [
+    0.01938,
+    0.01681,
+    0.00972
+   ],
+   "ny": [
+    0.19807,
+    0.16827,
+    0.09759
+   ],
+   "pz": [
+    0.08228,
+    0.06301,
+    0.04092
+   ],
+   "nz": [
+    0.08228,
+    0.07619,
+    0.04092
+   ]
+  },
+  "raw": {
+   "ambientCubeSkyrimRGB": {
+    "xp": [
+     89,
+     75,
+     59
+    ],
+    "xn": [
+     72,
+     75,
+     54
+    ],
+    "yp": [
+     81,
+     78,
+     57
+    ],
+    "yn": [
+     81,
+     71,
+     57
+    ],
+    "zp": [
+     38,
+     35,
+     25
+    ],
+    "zn": [
+     123,
+     114,
+     88
+    ]
+   }
+  }
  },
  "placements": [
   {
@@ -2298,6 +2372,27 @@
    "zone": "door"
   },
   {
+   "id": "LilmothPlantationStorehouse:add:door-candlehornwall-17",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    108.951,
+    87.136,
+    75.439
+   ],
+   "rotationDeg": [
+    0.0,
+    270.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "door"
+  },
+  {
    "id": "LilmothPlantationStorehouse:add:hearth-candlehornwall-16",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "kit": "interior-farmhouse-v1",
@@ -2725,6 +2820,30 @@
     110.564,
     85.905,
     77.439
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    236,
+    223,
+    170
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultCandleLight01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothPlantationStorehouse:add:door-candlehornwall-17",
+   "positionM": [
+    110.061,
+    87.076,
+    75.439
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -3900,9 +4019,9 @@
   }
  ],
  "counts": {
-  "placements": 125,
+  "placements": 126,
   "drops": 12,
-  "lights": 20,
+  "lights": 21,
   "substitutions": 1,
   "swingDoors": 0,
   "missingByClass": {},
@@ -3917,6 +4036,6 @@
    "idle": 9,
    "item": 30
   },
-  "additions": 16
+  "additions": 17
  }
 }

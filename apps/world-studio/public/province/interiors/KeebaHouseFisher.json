@@ -1,5 +1,5 @@
 {
- "schemaVersion": 3,
+ "schemaVersion": 4,
  "cellId": "KeebaHouseFisher",
  "plugin": "King of the Murkmire.esp",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
@@ -80,8 +80,8 @@
    33,
    27
   ],
-  "intensity": 8.189,
-  "rule": "interior-light-floor"
+  "intensity": 1.0,
+  "rule": "ambient-cube"
  },
  "fog": {
   "colorRGB": [
@@ -116,13 +116,87 @@
   "fogClipM": 71.12,
   "fogPower": 0.6,
   "fogFarRGB": [
-   23,
-   33,
-   22
+   86,
+   88,
+   69
   ],
   "fogMax": 1.0,
+  "lightFadeBeginM": 0.0,
+  "lightFadeEndM": 0.0,
   "inherits": 159,
-  "template": "SolitudeInteriors"
+  "specularRGB": [
+   0,
+   0,
+   0
+  ],
+  "fresnelPower": 1.0,
+  "template": "SolitudeInteriors",
+  "ambientCube": {
+   "px": [
+    0.0999,
+    0.07036,
+    0.04374
+   ],
+   "nx": [
+    0.0648,
+    0.07036,
+    0.03689
+   ],
+   "py": [
+    0.01938,
+    0.01681,
+    0.00972
+   ],
+   "ny": [
+    0.19807,
+    0.16827,
+    0.09759
+   ],
+   "pz": [
+    0.08228,
+    0.06301,
+    0.04092
+   ],
+   "nz": [
+    0.08228,
+    0.07619,
+    0.04092
+   ]
+  },
+  "raw": {
+   "ambientCubeSkyrimRGB": {
+    "xp": [
+     89,
+     75,
+     59
+    ],
+    "xn": [
+     72,
+     75,
+     54
+    ],
+    "yp": [
+     81,
+     78,
+     57
+    ],
+    "yn": [
+     81,
+     71,
+     57
+    ],
+    "zp": [
+     38,
+     35,
+     25
+    ],
+    "zn": [
+     123,
+     114,
+     88
+    ]
+   }
+  }
  },
  "placements": [
   {
