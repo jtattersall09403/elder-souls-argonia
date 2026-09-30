@@ -1,6 +1,6 @@
 /**
  * The `volumetrics-*` harness scenes (decision 0112 §8): one small synthetic
- * world (a valley and a hill, a pond, a wet valley floor, ~90 trees (a closed canopy) with
+ * world (a valley and a hill, a pond, a wet valley floor, ~40 trees (an open canopy, ~35 % sky) with
  * crowns, lanterns, a chimney smoke column, a stone room with a window) with
  * the real `Volumetrics` from game-core composed into `scene.fogNode`, shot
  * from the named cameras below. Lit at exposure 1 (harness units: sun
@@ -31,7 +31,7 @@ const FOREST: Crown[] = [];
 {
   let s = 0x7ee5;
   const rnd = () => ((s = (Math.imul(s, 1103515245) + 12345) >>> 0) / 4294967296);
-  for (let i = 0; i < 90; i++) {
+  for (let i = 0; i < 40; i++) {
     const x = -30 + rnd() * 60, z = -240 + rnd() * 80;
     const g = ground(x, z), r = 4 + rnd() * 2.5;
     FOREST.push({ x, z, radiusM: r, bottomM: g + 7, topM: g + 7 + r * 1.6 });
@@ -64,7 +64,7 @@ export const SHOTS: Record<ShotName, Shot> = {
   "forest-morning-shafts": { eye: FOREST_EYE, look: [0, 9, -240], sunAltDeg: 22, sunAzDeg: 0, sun: [3.2, 2.9, 2.4], sky: [0.7, 0.8, 1.0], bg: 0xa8c0d8, exposure: 1, regimes: { canopyHaze: 0.7, air: 0.3 } },
   "forest-looking-away": { eye: FOREST_EYE, look: [0, 9, -240], sunAltDeg: 22, sunAzDeg: 180, sun: [3.2, 2.9, 2.4], sky: [0.7, 0.8, 1.0], bg: 0xa8c0d8, exposure: 1, regimes: { canopyHaze: 0.7, air: 0.3 } },
   "lanterns-night-mist": { eye: [0, ground(0, 100) + 1.7, 100], look: [0, 2, 126], sunAltDeg: -20, sunAzDeg: 0, sun: [0, 0, 0], sky: [0.012, 0.022, 0.05], bg: 0x070b14, exposure: 3, regimes: { marshFog: 3, radiationMist: 0.8 }, lanterns: true },
-  "noon-haze-smoke": { eye: [-20, ground(-20, 60) + 3, 60], look: [0, 12, 20], sunAltDeg: 65, sunAzDeg: 150, sun: [3.2, 3.1, 2.9], sky: [0.8, 0.9, 1.1], bg: 0x9cc4e4, exposure: 1, regimes: { air: 3 } },
+  "noon-haze-smoke": { eye: [-14, ground(-14, 42) + 3, 42], look: [0, 11, 20], sunAltDeg: 65, sunAzDeg: 150, sun: [3.2, 3.1, 2.9], sky: [0.8, 0.9, 1.1], bg: 0x9cc4e4, exposure: 1, regimes: { air: 3 } },
   "cave-floor-mist": { eye: [ROOM.x - 4, 1.6, ROOM.z + 3], look: [ROOM.x + 4, 0.3, ROOM.z - 3], sunAltDeg: -20, sunAzDeg: 0, sun: [0, 0, 0], sky: [0.004, 0.004, 0.005], bg: 0x000000, exposure: 3, regimes: {}, lanterns: true, interior: { floorY: 0, floorMistTopM: 0.9, floorMistDensity: 0.35, dustDensity: 0.006 } },
   "window-beams": { eye: [ROOM.x - 4, 1.6, ROOM.z - 3], look: [ROOM.x + 2, 1.0, ROOM.z + 3], sunAltDeg: 35, sunAzDeg: 0, sun: [3.2, 3.0, 2.6], sky: [0.1, 0.1, 0.11], bg: 0x000000, exposure: 2, regimes: {}, interior: { floorY: 0, floorMistTopM: 0, floorMistDensity: 0, dustDensity: 0.008 }, window: true },
 };
@@ -85,7 +85,7 @@ function buildWorld(scene: THREE.Scene): void {
   geo.computeVertexNormals();
   scene.add(new THREE.Mesh(geo, new MeshStandardNodeMaterial({ color: 0x55653a, roughness: 1 })));
   const pond = new THREE.Mesh(new THREE.CircleGeometry(POND.r * 1.25, 48).rotateX(-Math.PI / 2),
-    new MeshStandardNodeMaterial({ color: 0x1d3140, roughness: 0.15 }));
+    new MeshStandardNodeMaterial({ color: 0x1d3140, roughness: 0.35 }));
   pond.position.set(POND.x, pondSurface, POND.z);
   scene.add(pond);
   const trunkM = new MeshStandardNodeMaterial({ color: 0x3b2c20, roughness: 1 });
@@ -202,6 +202,7 @@ export function volumetricsShot(name: ShotName, expectDark = false): HarnessScen
           camera, timeS: t, sunDir, sunIrradiance: sunIrr, skyIrradiance: skyPi, regimes, lights, apertures,
           interior: shot.interior ?? null, mistDepthM: 22,
         });
+        smoke?.setLighting(sunDir, sunIrr, skyPi);
         smoke?.update(t, camera, { dirXZ: [0.8, 0.6], speedMS: 2 });
       };
       update(0);

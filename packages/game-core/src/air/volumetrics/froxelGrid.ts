@@ -145,8 +145,8 @@ export class Volumetrics implements VolumetricsSampler {
   private readonly apPos = Array.from({ length: MAX_APERTURES }, () => new THREE.Vector4());
   private readonly apDir = Array.from({ length: MAX_APERTURES }, () => new THREE.Vector4());
   private readonly apCol = Array.from({ length: MAX_APERTURES }, () => new THREE.Vector4());
-  private readonly uLightPos = uniformArray(this.lightPos, "vec4");
-  private readonly uLightCol = uniformArray(this.lightCol, "vec4");
+  /** The nearest point lights (xyz, reach) and radiance, read by the fog stage's analytic airlight. */
+  readonly lights = { pos: uniformArray(this.lightPos, "vec4"), col: uniformArray(this.lightCol, "vec4"), count: this.u.lightCount, max: MAX_VOLUME_LIGHTS };
   private readonly uApPos = uniformArray(this.apPos, "vec4");
   private readonly uApDir = uniformArray(this.apDir, "vec4");
   private readonly uApCol = uniformArray(this.apCol, "vec4");
@@ -214,19 +214,19 @@ export class Volumetrics implements VolumetricsSampler {
     const outdoor = u.outdoor;
     // radiation mist: a flat-topped pool over the basin floor; the top is billowed by the noise
     // (+-3 m) and falls off over 8 m or a froxel; the lateral edge fades over the last 6 m of depth.
-    const top = farT.g.add(u.mistDepth).add(n1.mul(3)).add(n2.mul(1.5));
-    const mist = float(1).sub(smoothstep(top.sub(soft(8)), top, p.y))
+    const top = farT.g.add(u.mistDepth).add(n1.mul(1.2)).add(n2.mul(0.6));
+    const mist = float(1).sub(smoothstep(top.sub(soft(1.5)), top, p.y))
       .mul(smoothstep(-1, 1, hAG)).mul(smoothstep(0, 6, top.sub(ground)))
-      .mul(n).mul(u.mist).mul(0.025);
+      .mul(n).mul(u.mist).mul(0.045);
     // steam fog: wisps over water, thin rising columns (stretched 5x vertically), patchy (~half
     // covered), each column fading with height at its own 1..5 m
     const rise = vec3(0, u.time.mul(0.35), 0);
-    const ns = texture3D(this.detail, p.sub(w3.mul(0.8)).sub(rise).div(vec3(4, 20, 4)), 0).x;
-    const nh = texture3D(this.detail, p.sub(w3.mul(1.2)).sub(rise.mul(1.5)).div(vec3(1.3, 5, 1.3)), 0).z;
+    const ns = texture3D(this.detail, p.sub(w3.mul(0.8)).sub(rise).div(vec3(2.2, 3, 2.2)), 0).x;
+    const nh = texture3D(this.detail, p.sub(w3.mul(1.2)).sub(rise.mul(1.5)).div(vec3(1.3, 2.2, 1.3)), 0).z;
     const overW = p.y.sub(nearT.g);
-    const colTop = float(3).add(ns.mul(2.5)).add(nh);
+    const colTop = float(1).add(ns.mul(3)).add(nh);
     const steam = waterMask.mul(float(1).sub(smoothstep(colTop.mul(0.3), colTop, overW))).mul(smoothstep(-0.3, 0.1, overW))
-      .mul(smoothstep(0.0, 0.35, ns.add(nh.mul(0.35)))).mul(u.steam).mul(0.05);
+      .mul(smoothstep(0.45, 0.75, ns.add(nh.mul(0.5)))).mul(u.steam).mul(0.12);
     // marsh ground fog: knee-to-waist, top broken by noise
     const marshTop = float(1.6).add(n1.mul(0.8)).add(n2.mul(0.5));
     const marsh = wet.mul(float(1).sub(smoothstep(marshTop.sub(soft(1.2)), marshTop, hAG))).mul(n).mul(u.marsh).mul(0.05);
@@ -234,7 +234,7 @@ export class Volumetrics implements VolumetricsSampler {
     const cuv = p.xz.sub(u.canopyOrigin).div(CANOPY_SIZE_M);
     const under = smoothstep(0, 0.3, texture(this.canopy.texture, cuv).b.sub(ground));
     // canopy haze: humid air under the crowns, 0.01..0.03 /m at full strength (0112 §5)
-    const haze = under.mul(float(1).sub(smoothstep(0, 25, hAG))).mul(u.canopyHaze).mul(0.014).mul(n.mul(0.5).add(0.5));
+    const haze = under.mul(float(1).sub(smoothstep(0, 25, hAG))).mul(u.canopyHaze).mul(0.025).mul(n.mul(0.5).add(0.5));
     const air = this.airDensity(p);
     const outside = mist.add(steam).add(marsh).add(sea).add(haze).mul(outdoor);
     // interior floor mist: 0..top, two octaves swirling in opposite directions, curling top
@@ -253,25 +253,27 @@ export class Volumetrics implements VolumetricsSampler {
     const u = this.u;
     const trans = float(1).toVar();
     const sy = max(u.sunDir.y, 0.05);
-    for (const up of [2, 5, 9, 14, 20]) {
+    // 12 steps up the sun ray through the crown layer, a sharp density threshold so leaf gaps stay
+    // open (distinct shafts, not a uniform dimming)
+    for (const up of [1, 2.5, 4, 5.5, 7, 8.5, 10, 12, 14, 16.5, 19, 22]) {
       const h = p.y.add(up);
       const xz = p.xz.add(u.sunDir.xz.mul(float(up).div(sy)));
       const c = texture(this.canopy.texture, xz.sub(u.canopyOrigin).div(CANOPY_SIZE_M));
       const inside = step(c.g, h).mul(step(h, c.b));
-      trans.mulAssign(float(1).sub(smoothstep(0.25, 0.6, c.r).mul(inside)));
+      trans.mulAssign(float(1).sub(smoothstep(0.4, 0.5, c.r).mul(inside)));
     }
     return trans.mul(u.outdoor);
   }
 
   /** The air baseline's extinction (m^-1): thin haze thinning with altitude. */
   private airDensity(p: TslNode): TslNode {
-    return exp(max(p.y, 0).div(-1200)).mul(this.u.air).mul(2e-4);
+    return exp(max(p.y, 0).div(-1200)).mul(this.u.air).mul(0.7e-4);
   }
 
   /** Share of the sky dome open above `p`: the canopy over it takes up to 93 % (shafts read by contrast). */
   private skyOpen(p: TslNode): TslNode {
     const c = texture(this.canopy.texture, p.xz.sub(this.u.canopyOrigin).div(CANOPY_SIZE_M));
-    return float(1).sub(smoothstep(0, 1, c.b.sub(p.y)).mul(smoothstep(0, 0.5, c.r)).mul(0.93).mul(this.u.outdoor));
+    return float(1).sub(smoothstep(0, 1, c.b.sub(p.y)).mul(smoothstep(0, 0.5, c.r)).mul(0.98).mul(this.u.outdoor));
   }
 
   private injectKernel(spec: BandSpec, write: Storage3DTexture, history: Storage3DTexture): TslNode {
@@ -291,18 +293,12 @@ export class Volumetrics implements VolumetricsSampler {
       const sigmaT = max(this.density(p, fp), float(1e-7)).toVar();
       const cSun = dot(v, u.sunDir);
       // strongly forward (g 0.8) with an isotropic-ish floor: bright shafts toward the sun, faint away
-      const phaseSun = mix(hg(0.2, cSun), hg(0.85, cSun), 0.75);
+      // the forward peak is clamped for a grazing sun (below ~8 deg): a low sun behind thin steam
+      // otherwise draws one saturated column along the sun's azimuth
+      const phaseSun = mix(hg(0.2, cSun), hg(0.85, cSun), smoothstep(0.03, 0.14, u.sunDir.y).mul(0.72).add(0.03));
       const radiance = vec3(u.sunIrr).mul(phaseSun).mul(this.canopyT(p)).mul(step(float(0), u.sunDir.y))
         .add(vec3(u.skyIrr).mul(0.8 / Math.PI).mul(this.skyOpen(p))).toVar();
-      Loop(u.lightCount, ({ i }: { i: TslNode }) => {
-        const lp = this.uLightPos.element(i);
-        const d = p.sub(lp.xyz);
-        const r2 = max(dot(d, d), float(0.09));
-        const dist = T.sqrt(r2);
-        const win = clamp(float(1).sub(pow(dist.div(lp.w), float(2))), 0, 1);
-        // scatter angle: light's travel (light -> p) against the view's (p -> camera)
-        radiance.addAssign(this.uLightCol.element(i).xyz.mul(win.mul(win)).div(r2).mul(mix(float(1 / (4 * Math.PI)), hg(0.5, dot(d.div(dist), v.negate())), 0.7)));
-      });
+      // point lights: analytic airlight in the apply stage (volumetricNodes), not here
       Loop(u.apertureCount, ({ i }: { i: TslNode }) => {
         const ap = this.uApPos.element(i);
         const ad = this.uApDir.element(i);
@@ -311,14 +307,14 @@ export class Volumetrics implements VolumetricsSampler {
         const radial = length(rel.sub(ad.xyz.mul(along)));
         const inBeam = step(float(0), along).mul(float(1).sub(smoothstep(ap.w.mul(0.8), ap.w, radial)))
           .mul(float(1).sub(smoothstep(ad.w.mul(0.7), ad.w, along)));
-        // beam-local dust: fine motes drifting in the shaft (0.05..0.15 /m), the room around it stays clear
-        const mote = texture3D(this.detail, p.add(vec3(u.time.mul(0.03), u.time.mul(-0.02), 0)).div(vec3(0.35, 0.35, 0.35)), 0).x;
-        sigmaT.addAssign(inBeam.mul(float(0.05).add(smoothstep(0.3, 0.9, mote).mul(0.1))));
+        // beam-local dust: fine motes drifting in the shaft (0.15..2.65 /m), the room around it stays clear
+        const mote = texture3D(this.detail, p.add(vec3(u.time.mul(0.03), u.time.mul(-0.02), 0)).div(vec3(0.14, 0.14, 0.14)), 0).x;
+        sigmaT.addAssign(inBeam.mul(float(0.15).add(smoothstep(0.66, 0.78, mote).mul(2.5))));
         radiance.addAssign(this.uApCol.element(i).xyz.mul(inBeam).mul(mix(float(1 / (4 * Math.PI)), hg(0.7, dot(ad.xyz, v.negate())), 0.6)));
       });
       // clear air scatters blue more than red (Rayleigh-like tint on the air share only; mist stays white)
       const airShare = clamp(this.airDensity(p).div(sigmaT), 0, 1);
-      const tint = mix(vec3(1), vec3(0.72, 0.9, 1.3), airShare);
+      const tint = mix(vec3(1), vec3(0.5, 0.78, 1.4), airShare);
       const cur = vec4(radiance.mul(tint).mul(sigmaT.mul(ALBEDO)), sigmaT).toVar();
       If(u.history.greaterThan(0.5), () => {
         const prev = u.prevViewProj.mul(vec4(p, 1));
