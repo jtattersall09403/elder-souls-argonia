@@ -1,6 +1,6 @@
 # Lessons: Layout
 
-Part of the lessons store; the header, the row format and the per-type index are in [../lessons.md](../lessons.md).
+Part of the lessons store; the row format and the file index are in [README.md](README.md).
 
 | Id | Rule | Defect and cause | Enforced by | Shot | Source | Types |
 |---|---|---|---|---|---|---|

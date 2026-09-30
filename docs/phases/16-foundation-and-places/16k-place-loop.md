@@ -82,7 +82,7 @@ walks as it needs; it closes only on the owner's "looks right".
 - [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md), [0100](../../decisions/0100-one-place-skill-whole-layout-authoring-lessons-store-and-the-acceptance-freeze.md) and [0104](../../decisions/0104-the-world-is-one-normalised-record-set-promises-are-fulfilled-by-placed-interactables.md) (promises as records, the interactable table, door types, the builder's two-way authority) in full; [0098](../../decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md) § Decisions; [0097](../../decisions/0097-placement-is-authored-in-a-workbench-and-the-pose-record-is-the-output.md); [0081](../../decisions/0081-building-blocks-then-exemplars-then-rollout-and-doors-are-transitions.md) decisions 3–6 (doors, patches).
 - `tooling/.reports/plan/place-audit.md` (the checklist's source) and
   `tooling/.reports/audit/time-audit-2026-09-25.md` § (e).
-- Skills: `place-build` (the procedure, `references/lessons.md` and the design index; replaces the retired settlement skill), `placement-workbench` (its tool manual), `kit-build`,
+- Skills: `place-build` (the procedure, `references/lessons/` and the design index; replaces the retired settlement skill), `placement-workbench` (its tool manual), `kit-build`,
   `modular-runs`, `composite-author`, `text-review`.
 - [world 97](../../world/97-placement-principles.md) Parts A, C7 and F;
   [quests 20](../../quests/20-world-provisions.md) for the slice's place.
@@ -154,7 +154,7 @@ walks as it needs; it closes only on the owner's "looks right".
    rule (97 §C or the skill), a test or a gate goes to the tooling
    sub-lane, which shows it failing first on the defect (never written
    inside a round); each cause is also a row in
-   `place-build/references/lessons.md` (0100 decision 4: rule, defect and
+   `place-build/references/lessons/` (0100 decision 4: rule, defect and
    cause, the gate that now enforces it, source), merged into an existing
    row where it restates one. The edited place runs the step-1 inner loop to
    zero `check` failures and zero reader NOs (0102 decisions 3–4); a
@@ -800,7 +800,7 @@ Planner rulings (2026-09-24):
 #### From 16i (the exemplar chunk, retired)
 
 0. **Reconcile the first round's lessons and the interior research.**
-   DONE 2026-09-25 as the seeding of `place-build/references/lessons.md`
+   DONE 2026-09-25 as the seeding of `place-build/references/lessons/`
    (16k slice 1b); the interior half's ruling (a kit's `matched` mesh is
    not tier A; `tileset` shells are Phase 12's; one entrance per piece)
    is `place-build/references/doors-interiors-sockets.md` §2.

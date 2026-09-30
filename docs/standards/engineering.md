@@ -268,7 +268,7 @@ kit-assembly records, the placement code in `worldgen` (`blueprint*.py`,
 `check.mjs`), the kit builder, the workbench (`tooling/placement-workbench/**`)
 and the place skill (`.claude/skills/place-build/**`). The records that satisfy
 it are the skill's lessons store
-(`.claude/skills/place-build/references/lessons.md`, the operative one,
+(`.claude/skills/place-build/references/lessons/`, the operative one,
 decision 0100 decision 4), [world 97](../world/97-placement-principles.md) and
 decision 0041; [world 96](../world/96-placement-playbook.md) stays accepted
 for edits to its history. A merged lesson row is enough; the point is that no
@@ -495,6 +495,42 @@ headless.
 - A budget line in 0084 terms: submitted vs in-view copies and triangles
   (all passes, shadow included) from a node harness over real data, against
   the 4 M-triangle frame, before the owner walks.
+
+## Memory discipline (tooling, 2026-09-30)
+
+Every heavy tool runs on one shared 30 GiB machine beside other lanes; a
+tool that holds tens of GiB kills the owner's session (the 2026-09-30 OOM
+kills). The rules:
+
+- **A tool that passes 4 GiB on one item is a defect**, fixed at source.
+- **An op whose size is A × B is chunked**: rays × triangles, points ×
+  candidate faces, cells × pieces, pixels × lights. trimesh ray casts and
+  closest-point calls go through `worldgen/mesh_query.py` (`cast_rays`,
+  `on_surface`; the workbench imports them from `workbench/mesh_query.py`),
+  never `mesh.ray.intersects_*` or `ProximityQuery.on_surface` over a
+  whole input. One unchunked ray call held 21 GiB; one closest-point call
+  held ~1.9 GiB per contact pair, times the fork pool (place_gates
+  Greenspring 7.2 GiB → 1.3 GiB).
+- **Load once, share**: a mesh, raster or kit read per item that could be
+  read once and passed (or inherited by a fork pool) is a defect.
+- **Free what is done**: a per-item result is reduced to what the caller
+  needs and dropped, never held for the whole run.
+- **float32 where float32 does**: rasters and mesh arrays that need no
+  float64 precision are stored as float32.
+- **Read the peak from the job-guard log**: run heavy jobs under
+  `tooling/repo-standards/job_guard.sh <lane> -- …` and read `ownPeakMiB`
+  (the job's process tree, PSS: a fork pool's shared pages count once) and
+  `scopePeakMiB` from `tooling/.reports/job-guard/<lane>-*.log`.
+- **Every heavy tool has a peak target beside its wall target** in
+  `tooling/repo-standards/tool_targets.json` (tools under `worldgen.`,
+  `pipeline.` and `placement-workbench.` without a row get the 4 GiB
+  default). memwatch prints `OVER TARGET` on a run past it, and
+  `test_tool_timings.py` fails when a tool's latest run in the local log
+  is over its target, so a memory regression fails the scoped test the
+  way a slow run does. A target moves only with the measured run that
+  justifies it.
+
+The batch code review asks the same questions (`review_gate.py` prompt).
 
 ## Running the checks
 

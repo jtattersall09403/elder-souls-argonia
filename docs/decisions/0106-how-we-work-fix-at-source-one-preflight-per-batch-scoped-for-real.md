@@ -67,7 +67,7 @@ the addenda of 0105 (now rows of the rulings table).
 8. **Rulings are rows.** `.claude/skills/place-build/references/rulings.md`
    is the only home of the place rulings (R1–R55: rule, gate, source); a
    decision record is written only when a contract or architecture
-   changes. `lessons.md` is an index over `lessons/<section>.md`; orient
+   changes. The lessons store is `lessons/<section>.md` with a README index; orient
    reads the site packet's rows for its type and the rulings table (orient
    read 27.6k → 17.9k tokens).
 9. **Gates that never go:** site-refs, bundle-load, the repo standards

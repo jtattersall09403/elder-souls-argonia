@@ -90,7 +90,7 @@ its opening. Read once per slice; the rules are binding.
   ledger, its bundle and its `tooling/.reports/16k/<place>/` folder. A
   change to a shared file (a zone catalogue `places-<zone>.json`,
   `world/sources/quests/*`, `yard-sets/<type>.json`, a kit's
-  `*.interiors.json`, `references/lessons.md`, `reader-checklist.md`,
+  `*.interiors.json`, `references/lessons/`, `reader-checklist.md`,
   the type sheet, the registers, `type-recipes.json`,
   `accepted-places.json`) is a REQUEST row appended to
   `tooling/.reports/16k/<place>/requests.jsonl` (file, the change, the

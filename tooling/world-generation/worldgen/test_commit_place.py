@@ -77,7 +77,7 @@ def test_refuses_a_shared_file_in_the_manifest(repo, capsys):
 @pytest.mark.parametrize("path", [
     "world/sources/placement/yard-sets/01-road-station.json",
     "apps/world-studio/public/kits/settlement-mud-v1.kit.json",
-    ".claude/skills/place-build/references/lessons.md",
+    ".claude/skills/place-build/references/lessons/layout.md",
     ".claude/skills/place-build/references/creative-register.md",
     "world/sources/placement/accepted-places.json",
     "apps/world-studio/public/province/settlements/index.json",

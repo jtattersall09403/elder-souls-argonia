@@ -1,6 +1,6 @@
 # Reader checklist (what the Sonnet image reader is told)
 
-Generated from the rows of `lessons.md` that carry a shot, plus the Gate
+Generated from the rows of `lessons/` that carry a shot, plus the Gate
 rows of the 16k checklist (`docs/phases/16-foundation-and-places/16k-place-loop.md`
 § The checklist). When a lessons row with a shot is added or edited,
 edit its line here in the same change. The id after each line is its

@@ -20,7 +20,7 @@ This skill holds the procedure; its `references/` hold the grounding:
 
 | File | What it is | Read |
 |---|---|---|
-| [references/lessons.md](references/lessons.md) | the lessons store's index (sections in `lessons/`, per-type index; 0106): every lesson still in force, each with its gate | step 0, only the rows the site packet lists for this type; a section file when a job needs it |
+| [references/lessons/](references/lessons/README.md) | the lessons store, one file per section (README: row format and what each file holds; 0106): every lesson still in force, each with its gate | step 0, only the rows the site packet lists for this type; a section file when a job needs it |
 | [references/design-index.md](references/design-index.md) | one line per binding source or prior: the rule id and when it applies | step 0, the rows for this type, culture and step |
 | [references/reader-checklist.md](references/reader-checklist.md) | what the Sonnet image reader is told to look for | steps 3–4, pasted into the reader's prompt |
 | [references/types/](references/types/) | one design sheet per place type on the 16k list | step 0, this place's type |
@@ -353,7 +353,7 @@ posts); collapse old packets with `owner_inbox.py --collapse`.
 `waiting-on.json` and the lessons and rulings rows the fix list names.
 
 1. Group every "wrong" in the reply by cause across the whole reply.
-2. Per cause: a REQUEST row for `references/lessons.md` (an edit of the
+2. Per cause: a REQUEST row for `references/lessons/` (an edit of the
    existing row if one covers it); a rule, gate or `check` rule the cause
    needs goes to the tooling sub-lane, which shows it **failing first on
    the defect**; the place round takes it at its next round and never
@@ -385,7 +385,7 @@ change the integrator applies with the batch's REQUEST rows. The builder
 writes the lessons, the type sheet and the judgements:
 
 1. **Lessons this slice** (mandatory): `<place>.design.md` § Lessons this
-   slice, and a `references/lessons.md` row for every finding that cost
+   slice, and a `references/lessons/` row for every finding that cost
    more than one render round and every compile refusal; zero rows needs
    a written reason.
 2. The type sheet `references/types/<n>-<type>.md`: written by the type's

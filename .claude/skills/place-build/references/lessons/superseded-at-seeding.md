@@ -1,6 +1,6 @@
 # Lessons: Superseded at seeding (kept here so no one revives them)
 
-Part of the lessons store; the header, the row format and the per-type index are in [../lessons.md](../lessons.md).
+Part of the lessons store; the row format and the file index are in [README.md](README.md).
 
 - 96 §1 step 7b (re-scatter the cleared chunks) → L35 (0081 decision 3).
 - 96 §1 steps 9-10 (Round A, Rounds B-C, frame rate at Lilmoth) → the

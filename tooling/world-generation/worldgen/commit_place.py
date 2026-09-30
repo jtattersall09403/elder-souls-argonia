@@ -45,7 +45,7 @@ SHARED_PATTERNS = (
     ".claude/skills/place-build/references/*",
     "docs/phases/16-foundation-and-places/build-ledger.jsonl",
     "docs/phases/P-polish/backlog.md",
-    "*/lessons.md", "lessons.md",
+    "*/lessons/*.md",
     "*/creative-register.md",
 )
 

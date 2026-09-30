@@ -477,5 +477,5 @@ The packet reports these numbers; it never asks the owner to judge them. Prose g
 ## Record as you go
 
 A finding that cost more than one render round, and every compile
-refusal, is a row in `place-build`'s `references/lessons.md` (its step
+refusal, is a row in `place-build`'s `references/lessons/` (its step
 8). Tool gaps also go to the lane doc's Rounds notes.

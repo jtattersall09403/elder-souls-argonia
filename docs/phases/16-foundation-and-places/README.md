@@ -615,7 +615,7 @@ The list below is the seed for that work.
   16k's orientation and lane reports in `tooling/.reports/16k/`.
 - Rules that change: `docs/world/50`, `60`, `65`, `96`, `97` are edited in
   place by the chunk or slice that changes them; placement lessons go to
-  the `place-build` skill's `references/lessons.md` (0100 decision 4).
+  the `place-build` skill's `references/lessons/` (0100 decision 4).
 - Provenance: the water handoff, the gap plan and 0041's round log; 16a
   archived what is no longer live.
 

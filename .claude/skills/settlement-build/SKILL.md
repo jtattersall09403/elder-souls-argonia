@@ -7,5 +7,5 @@ description: RETIRED 2026-09-25 (decision 0100) — use the place-build skill fo
 
 Retired by decision 0100 decision 1. The procedure, its still-valid rules and
 its compile and publish steps now live in `.claude/skills/place-build/SKILL.md`
-(steps 5–6) and `.claude/skills/place-build/references/lessons.md`. Kit work stays
+(steps 5–6) and `.claude/skills/place-build/references/lessons/`. Kit work stays
 with `kit-build`, `modular-runs`, `composite-author` and `kit-mining`.
