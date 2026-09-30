@@ -711,6 +711,7 @@ export function SettlementLayer({
     lightFixtures.update(clock.elapsedTime, camera);
     if (smoke) {
       smoke.setAnchors(smokeAnchors.current);
+      if (env?.sunLighting) smoke.setLighting(env.sunLighting.dir, env.sunLighting.sunIrradiance, env.sunLighting.skyIrradiance);
       smoke.update(clock.elapsedTime, camera, env?.windDirXZ && env.windSpeedMS !== undefined
         ? { dirXZ: env.windDirXZ, speedMS: env.windSpeedMS } : SMOKE_CALM_WIND);
     }

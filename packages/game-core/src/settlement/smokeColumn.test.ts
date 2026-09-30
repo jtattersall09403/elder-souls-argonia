@@ -142,3 +142,16 @@ describe("smoke draws after the water surface (walk 2 D8)", () => {
     smoke.dispose();
   });
 });
+
+describe("smoke lighting (0112 §3)", () => {
+  it("setLighting turns the lit path on and normalises the sun direction", () => {
+    const columns = new SmokeColumns(new THREE.Texture());
+    const light = (columns as unknown as { light: { sunDir: { value: THREE.Vector3 }; sunIrr: { value: THREE.Color }; lit: { value: number } } }).light;
+    expect(light.lit.value).toBe(0);
+    columns.setLighting(new THREE.Vector3(0, 3, 4), new THREE.Color(2, 1, 0.5), new THREE.Color(0.1, 0.2, 0.3));
+    expect(light.lit.value).toBe(1);
+    expect(light.sunDir.value.length()).toBeCloseTo(1, 6);
+    expect(light.sunDir.value.y).toBeCloseTo(0.6, 6);
+    expect(light.sunIrr.value.r).toBeCloseTo(2, 6);
+  });
+});

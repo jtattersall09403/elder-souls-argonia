@@ -351,6 +351,8 @@ export interface SettlementLayerProps {
   environment?: () => {
     rainIntensity: number; epochMinutes: number;
     windDirXZ?: readonly [number, number]; windSpeedMS?: number;
+    /** The sky's sun direction (unit, toward the sun) and sun/sky irradiance in scene units; lights the chimney smoke. */
+    sunLighting?: { dir: THREE.Vector3; sunIrradiance: THREE.Color; skyIrradiance: THREE.Color };
   } | null;
   onSolids?: (solids: SettlementSolid[]) => void;
   onStats?: (stats: SettlementRenderStats) => void;

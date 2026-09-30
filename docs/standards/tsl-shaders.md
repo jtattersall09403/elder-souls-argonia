@@ -166,6 +166,15 @@ draws near black by day. Convert it with `sceneRadiance(display)` from
 `packages/game-core/src/air/volumetrics/volumetricNodes.ts` (display colour
 to scene radiance at the current exposure), or light it with the scene's
 sun and sky radiance (`waterParticleRadiance`). Decision 0112 §3.
+A fixed display anchor is still unlit: by day the sunlit world is brighter
+than it, so a pale particle draws darker than the ground behind it (the
+charcoal chimney smoke). Anything that should read as lit by the sun (smoke,
+steam, dust) lights itself in its own shader: the caller supplies the sun
+direction and the sun and sky irradiance as uniforms, and the shader applies
+albedo x (sky + sun x wrap-lambert on a domed billboard normal) / pi. The
+PRECIP_LAYER pass camera sees no light objects, so a light-driven material
+cannot do this; `smokeColumn.ts` (`setLighting`) is the example. `sceneRadiance`
+is for things that emit (flames, glows, motes).
 
 ## 7. Tests
 

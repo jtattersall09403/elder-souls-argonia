@@ -40,7 +40,7 @@ import { ChunkColliders } from "./ChunkColliders";
 import { VegetationColliders } from "./VegetationColliders";
 import type { FloraCollider, SolidInstance } from "@elder-souls/game-core/physics/floraSolids";
 import { TouchControls } from "./TouchControls";
-import { WorldSky } from "../sky/WorldSky";
+import { WorldSky, type SunLighting } from "../sky/WorldSky";
 import { StudioWater } from "../water/StudioWater";
 import { FloatTestCrates } from "../water/FloatTestCrates";
 import { setWaterGroundHeight, sharedLocalSurfaces, sharedWaterAssets } from "../water/waterAssets";
@@ -296,11 +296,13 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   /** Tree crowns for the volumetric canopy map (0112 §5): Vegetation fills it, the sky reads it. */
   const crownsRef = useRef<CrownSource | null>(null);
   const settlementSolidsRef = useRef<SettlementSolid[]>([]);
+  const sunLightingRef = useRef<SunLighting | null>(null);
   const settlementEnvironment = useCallback(() => {
     const sample = lastWeatherSample();
     return sample
       ? { rainIntensity: sample.rainIntensity, epochMinutes: worldClock.epochMinutes(),
-        windDirXZ: sample.windDirXZ, windSpeedMS: sample.windSpeedMS }
+        windDirXZ: sample.windDirXZ, windSpeedMS: sample.windSpeedMS,
+        sunLighting: sunLightingRef.current ?? undefined }
       : null;
   }, []);
   const handleSettlementSolids = useCallback((solids: SettlementSolid[]) => {
@@ -501,7 +503,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           {/* Natural light and sky (Phase 8a): terrain, character and sea are
               lit by the same sun/moon/sky rig, shadows and exposure as the
               flyover — WorldSky replaces the old per-mode light sets. */}
-          <WorldSky mode="character" extentM={authoredExtentM} verticalScale={verticalScale} hidden={insideInterior} groundHeight={settlementGroundAt} crowns={crownsRef}>
+          <WorldSky sunLightingOut={sunLightingRef} mode="character" extentM={authoredExtentM} verticalScale={verticalScale} hidden={insideInterior} groundHeight={settlementGroundAt} crowns={crownsRef}>
           <group visible={!insideInterior}>
           <Suspense fallback={null}>
             <ApronTerrain

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
-import { ApertureFader, BEAM_FADE_S, MAX_WINDOW_BEAMS, rankApertures, SKY_FILL_SCALE, WindowBeams, brightestLampFloor, pluginWindowApertures, windowSkyLight } from "./windowApertures";
+import { cellFloorLevels, clusterFloorLevels, storeyOf, ApertureFader, BEAM_FADE_S, MAX_WINDOW_BEAMS, rankApertures, SKY_FILL_SCALE, WindowBeams, brightestLampFloor, pluginWindowApertures, windowSkyLight } from "./windowApertures";
 
 describe("pluginWindowApertures", () => {
   it("reads the cell's placed window refs; none for an unknown cell", () => {
@@ -66,7 +66,8 @@ describe("rankApertures", () => {
       at(8, 1.5, 0),        // 3 same storey, sun-facing, far
     ];
     const v = { player: new THREE.Vector3(0, 0, 0), frustum: all, beamLengthM: 1, lightDir: light };
-    expect(rankApertures(ws, v)).toEqual([3, 2, 1, 0]);
+    // no floor levels: one storey, so the near sun-facing upstairs pane leads
+    expect(rankApertures(ws, v)).toEqual([0, 3, 2, 1]);
     expect(rankApertures(ws, { ...v, floorsY: [0, 3.5] })).toEqual([3, 2, 1, 0]);
     // standing upstairs: the upstairs pane leads
     expect(rankApertures(ws, { ...v, player: new THREE.Vector3(0, 3.6, 0), floorsY: [0, 3.5] })[0]).toBe(0);
@@ -114,5 +115,33 @@ describe("windowSkyLight", () => {
   });
   it("lamp pool: intensity over height squared, the brightest", () => {
     expect(brightestLampFloor([{ intensity: Math.PI, heightM: 2 }, { intensity: 2 * Math.PI, heightM: 2 }])).toBeCloseTo(Math.PI / 2, 6);
+  });
+});
+
+describe("floor levels", () => {
+  const f = (y: number, areaM2 = 20) => ({ y, areaM2 });
+  it("clusters floors within 0.3 m and drops tops under 4 m²", () => {
+    expect(clusterFloorLevels([f(0), f(0.1), f(0.8, 2)])).toEqual([expect.closeTo(0.05, 6)]);
+    expect(clusterFloorLevels([f(3.2), f(0), f(3.3), f(0.05)]).map((y) => +y.toFixed(3))).toEqual([0.025, 3.25]);
+    // a mezzanine at 1.8 between two storeys
+    expect(clusterFloorLevels([f(0), f(1.8, 6), f(3.5)])).toEqual([0, 1.8, 3.5]);
+  });
+  it("storeyOf: highest level at or below", () => {
+    expect(storeyOf(1, [0, 3.5])).toBe(0);
+    expect(storeyOf(3.6, [0, 3.5])).toBe(1);
+    expect(storeyOf(-1, [0, 3.5])).toBe(-1);
+  });
+  it("cellFloorLevels reads up-facing opaque planes in the cell frame", () => {
+    const g = new THREE.Group();
+    g.position.set(100, 50, 0);
+    const plane = (y: number, size: number, transparent = false) => {
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(size, size).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ transparent }));
+      m.position.y = y;
+      g.add(m);
+    };
+    plane(0, 6); plane(3, 5); plane(0.9, 1); plane(6, 6, true);
+    const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(6, 6).rotateX(Math.PI / 2), new THREE.MeshBasicMaterial());
+    ceiling.position.y = 2.8; g.add(ceiling);
+    expect(cellFloorLevels(g)).toEqual([0, 3]);
   });
 });

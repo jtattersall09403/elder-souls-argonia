@@ -24,7 +24,7 @@ import { QUALITY_PRESETS, type QualitySettings } from "@elder-souls/game-core/co
  * view is where decision 0084 measured the overload, so it keeps the low
  * reach; every other preset field stays medium. */
 const FLY_QUALITY: QualitySettings = { ...QUALITY_PRESETS.medium, name: "low" };
-import { WorldSky } from "./sky/WorldSky";
+import { WorldSky, type SunLighting } from "./sky/WorldSky";
 import { StudioWater } from "./water/StudioWater";
 import { sharedLocalSurfaces } from "./water/waterAssets";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
@@ -282,11 +282,13 @@ export function Fly3D(props: Fly3DProps) {
   }, [store, chunkManifest, props.exaggeration]);
   const [canvasError, setCanvasError] = useState<string | null>(null);
   const [settlementError, setSettlementError] = useState<SettlementLayerError | null>(null);
+  const sunLightingRef = useRef<SunLighting | null>(null);
   const settlementEnvironment = useMemo(() => () => {
     const sample = lastWeatherSample();
     return sample
       ? { rainIntensity: sample.rainIntensity, epochMinutes: worldClock.epochMinutes(),
-        windDirXZ: sample.windDirXZ, windSpeedMS: sample.windSpeedMS }
+        windDirXZ: sample.windDirXZ, windSpeedMS: sample.windSpeedMS,
+        sunLighting: sunLightingRef.current ?? undefined }
       : null;
   }, []);
   // The node renderer (decision 0107): WebGPU where the browser has it,
@@ -326,7 +328,7 @@ export function Fly3D(props: Fly3DProps) {
       {/* Natural light and sky (Phase 8a): sun/moons/stars, CSM shadows,
           exposure and the aerial haze all come from WorldSky — the old fixed
           hemisphere+directional pair and hand-tuned fog are gone. */}
-      <WorldSky mode="fly" extentM={authoredExtentM} verticalScale={props.exaggeration}>
+      <WorldSky sunLightingOut={sunLightingRef} mode="fly" extentM={authoredExtentM} verticalScale={props.exaggeration}>
         {chunkManifest && ladderReady ? (
           <>
             <FocusTracker focusRef={focusRef} />

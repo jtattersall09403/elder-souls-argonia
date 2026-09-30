@@ -43,7 +43,8 @@ export const SMOKE_START_SIZE_M = 0.7;
 export const SMOKE_END_SIZE_M = 3.2;
 /** Share of the wind speed a puff drifts at (smoke lags the air it rides in). */
 export const SMOKE_DRIFT_SHARE = 0.35;
-export const SMOKE_PEAK_ALPHA = 0.5;
+/** The atlas alpha averages ~0.06 per puff tile, so the peak must be near 1 for the column to read. */
+export const SMOKE_PEAK_ALPHA = 1;
 /** The vanilla atlas layout: 4 x 4 puffs. */
 export const SMOKE_ATLAS_TILES = 4;
 /** Used when the environment carries no wind vector. */
@@ -51,10 +52,12 @@ export const SMOKE_ATLAS_TILES = 4;
  * the column is unlit, so without it pale smoke glows against a dark sky
  * (16k fix 2 round 4 ruling E3). */
 export const SMOKE_NIGHT_BRIGHTNESS = 0.2;
+/** Wood smoke single-scattering albedo (light grey-white). */
+export const SMOKE_ALBEDO = 0.85;
 export const SMOKE_CALM_WIND: SmokeWind = { dirXZ: [1, 0], speedMS: 1 };
 
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
-const { float, mix, reference, vec4 } = tsl as unknown as Record<string, TslNode>;
+const { dot, float, max, mix, normalGeometry, reference, uniform, vec3, vec4 } = tsl as unknown as Record<string, TslNode>;
 
 /** The colour multiplier the smoke takes at night factor `night` (0 day, 1 night). */
 export function smokeNightScale(night: number): number {
@@ -142,6 +145,8 @@ export class SmokeColumns {
   private source: readonly SmokeAnchor[] | null = null;
   private readonly geometry = new THREE.BufferGeometry();
   private readonly material: MeshBasicNodeMaterial;
+  /** Sun direction (unit, toward the sun), sun and sky irradiance (scene units); lit = 1 once `setLighting` ran. */
+  private readonly light = { sunDir: uniform(new THREE.Vector3(0, 1, 0)), sunIrr: uniform(new THREE.Color(0, 0, 0)), skyIrr: uniform(new THREE.Color(0, 0, 0)), lit: uniform(0) };
   private capacity = 0;
   private readonly right = new THREE.Vector3();
   private readonly up = new THREE.Vector3();
@@ -163,12 +168,20 @@ export class SmokeColumns {
     this.nightNode = (night as { isNode?: boolean }).isNode
       ? night
       : reference("value", "float", night);
-    // colour × map as scene radiance at the current exposure (decision 0112
-    // §3: a raw 0..1 colour under physical exposure drew charcoal grey by
-    // day), then dimmed by the night factor (the old map_fragment
-    // seam; vertex colour and alpha multiply after, as before).
-    wrapColor(this.material, (c: TslNode) =>
-      vec4(sceneRadiance(c.rgb).mul(mix(float(1), float(SMOKE_NIGHT_BRIGHTNESS), this.nightNode)), c.a));
+    // Lit in the shader from the sky and sun the caller hands `setLighting`
+    // (decision 0112 §3): white albedo x (sky + sun x wrap-lambert on a domed
+    // per-corner normal) / pi, so by day the smoke is brighter than the
+    // ground it hangs over and lighter on the sun side. Scene lights cannot
+    // do it: the smoke draws in the PRECIP_LAYER pass, whose camera sees no
+    // light objects. An unlit display anchor drew darker than the sunlit
+    // world at noon (the "charcoal smoke" defect); it stays only until the
+    // caller supplies lighting. The night factor dims either (ruling E3).
+    wrapColor(this.material, (c: TslNode) => {
+      const L = this.light;
+      const wrap = max(dot(normalGeometry, L.sunDir).mul(0.6).add(0.4), float(0.08));
+      const lit = vec3(L.skyIrr).add(vec3(L.sunIrr).mul(wrap)).mul(SMOKE_ALBEDO / Math.PI).mul(c.rgb);
+      return vec4(mix(sceneRadiance(c.rgb), lit, L.lit).mul(mix(float(1), float(SMOKE_NIGHT_BRIGHTNESS), this.nightNode)), c.a);
+    });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.frustumCulled = false;
     this.mesh.renderOrder = 10;
@@ -181,6 +194,14 @@ export class SmokeColumns {
     // (waterMaterial.ts PRECIP_LAYER, WaterPipeline pass 3). Scene fog still
     // applies: the same scene is rendered.
     this.mesh.layers.set(PRECIP_LAYER);
+  }
+
+  /** The sun (unit vector toward it) and the sun and sky irradiance in scene units, per frame. */
+  setLighting(sunDir: THREE.Vector3, sunIrradiance: THREE.Color, skyIrradiance: THREE.Color): void {
+    this.light.sunDir.value.copy(sunDir).normalize();
+    this.light.sunIrr.value.copy(sunIrradiance);
+    this.light.skyIrr.value.copy(skyIrradiance);
+    this.light.lit.value = 1;
   }
 
   /** Cheap to call every frame: the same array is a no-op. */
@@ -199,9 +220,11 @@ export class SmokeColumns {
     if (!position) return 0;
     const color = this.geometry.getAttribute("color") as THREE.BufferAttribute;
     const uv = this.geometry.getAttribute("uv") as THREE.BufferAttribute;
+    const normal = this.geometry.getAttribute("normal") as THREE.BufferAttribute;
     this.right.setFromMatrixColumn(camera.matrixWorld, 0).normalize();
     this.up.setFromMatrixColumn(camera.matrixWorld, 1).normalize();
     const cameraAt = new THREE.Vector3().setFromMatrixPosition(camera.matrixWorld);
+    const back = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 2).normalize();
     const tileSize = 1 / SMOKE_ATLAS_TILES;
     let quad = 0;
     for (const anchor of this.anchors) {
@@ -225,6 +248,12 @@ export class SmokeColumns {
             cz + (this.right.z * sx + this.up.z * sy) * puff.sizeM);
           uv.setXY(v, u0 + (sx + 0.5) * tileSize, v0 + (sy + 0.5) * tileSize);
           color.setXYZW(v, 1, 1, 1, puff.alpha * fade);
+          // domed normal: toward the camera, bent out toward the corner (a puff is a ball, not a card)
+          const nx = back.x + (this.right.x * sx + this.up.x * sy) * 1.6;
+          const ny = back.y + (this.right.y * sx + this.up.y * sy) * 1.6;
+          const nz = back.z + (this.right.z * sx + this.up.z * sy) * 1.6;
+          const nl = Math.hypot(nx, ny, nz);
+          normal.setXYZ(v, nx / nl, ny / nl, nz / nl);
         }
         quad += 1;
       }
@@ -232,7 +261,7 @@ export class SmokeColumns {
     this.geometry.setDrawRange(0, quad * 6);
     // a zero draw range still issues a draw, which WebGPU rejects ("vertex count of 0")
     this.mesh.visible = quad > 0;
-    position.needsUpdate = true; uv.needsUpdate = true; color.needsUpdate = true;
+    position.needsUpdate = true; uv.needsUpdate = true; normal.needsUpdate = true; color.needsUpdate = true;
     return quad;
   }
 
@@ -252,6 +281,7 @@ export class SmokeColumns {
     }
     this.geometry.setIndex(new THREE.BufferAttribute(index, 1));
     this.geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(quads * 12), 3));
+    this.geometry.setAttribute("normal", new THREE.BufferAttribute(new Float32Array(quads * 12), 3));
     this.geometry.setAttribute("uv", new THREE.BufferAttribute(new Float32Array(quads * 8), 2));
     this.geometry.setAttribute("color", new THREE.BufferAttribute(new Float32Array(quads * 16), 4));
     this.geometry.setDrawRange(0, 0);

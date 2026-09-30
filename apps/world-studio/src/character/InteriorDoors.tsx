@@ -20,7 +20,7 @@ import { InteriorEnvironment, InteriorFogNode, interiorFogProfile } from "@elder
 import { MAX_VOLUME_LIGHTS, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
 import { nearestVolumeLights } from "@elder-souls/game-core/air/volumetrics/studioSamplers";
 import {
-  BEAM_OVER_LAMP, WindowBeams, brightestLampFloor, pluginWindowApertures, windowSkyLight,
+  BEAM_OVER_LAMP, WindowBeams, cellFloorLevels, brightestLampFloor, pluginWindowApertures, windowSkyLight,
 } from "@elder-souls/game-core/air/volumetrics/windowApertures";
 import { moonsAt, sunAt } from "@elder-souls/world-time";
 import { SkyContext } from "../sky/WorldSky";
@@ -297,7 +297,7 @@ export function InteriorDoors({
       if (l.isPointLight && o.parent === group) lamps.push({ intensity: l.intensity, heightM: l.position.y - floorY });
     });
     const apertures = pluginWindowApertures(bundle.cellId);
-    return apertures.length ? { beams: new WindowBeams(apertures, WINDOW_BEAM_LENGTH_M), unit: BEAM_OVER_LAMP * brightestLampFloor(lamps) } : null;
+    return apertures.length ? { beams: new WindowBeams(apertures, WINDOW_BEAM_LENGTH_M, cellFloorLevels(group)), unit: BEAM_OVER_LAMP * brightestLampFloor(lamps) } : null;
   }, [shown]);
   const sky = useMemo(() => ({ dir: new THREE.Vector3(0, -1, 0), tint: new THREE.Color(), strength: 0, inFrames: 0 }), []);
 

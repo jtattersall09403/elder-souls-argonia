@@ -92,7 +92,9 @@ export const sharedAerialUniforms: AerialUniforms = createAerialUniforms();
  * cascades patch nothing: consumers no longer set materials up for them. */
 /** What the sky shares with the world under it: the sun's shadow node, and
  * the froxel medium (0112) an interior host drives while the sky is hidden. */
-export const SkyContext = createContext<{ csm: CSMShadowNode | null; volumetrics: Volumetrics | null }>({ csm: null, volumetrics: null });
+export interface SunLighting { dir: THREE.Vector3; sunIrradiance: THREE.Color; skyIrradiance: THREE.Color }
+export const SkyContext = createContext<{ csm: CSMShadowNode | null; volumetrics: Volumetrics | null; sunLighting: SunLighting | null }>(
+  { csm: null, volumetrics: null, sunLighting: null });
 
 /** The ONE cloud-field uniform set (cloudField.ts): shared by the main dome,
  * the PMREM bake dome and the star/serpent shaders — one WorldSky write per
@@ -221,11 +223,14 @@ export function WorldSky({
   hidden = false,
   groundHeight,
   crowns,
+  sunLightingOut,
   children,
 }: {
   /** Tree crowns near the camera for the canopy map (decision 0112 §5); the
    * vegetation layer fills it (Vegetation `crownsRef`). */
   crowns?: React.MutableRefObject<CrownSource | null>;
+  /** Receives this sky's sun lighting object, for a parent that builds the settlement environment outside the provider. */
+  sunLightingOut?: React.MutableRefObject<SunLighting | null>;
   /** Terrain height at x,z (m), for the volumetric fog field's terrain grids
    * (decision 0112); absent, the medium sits on a flat 0 m ground. */
   groundHeight?: (x: number, z: number) => number | null;
@@ -284,6 +289,9 @@ export function WorldSky({
   useEffect(() => () => volumetrics.dispose(), [volumetrics]);
   const volSun = useRef(new THREE.Color());
   const volSky = useRef(new THREE.Color());
+  /** The sun and sky the lit effects (chimney smoke) read; refreshed every frame, owned by this sky. */
+  const sunLighting = useMemo<SunLighting>(() => ({ dir: new THREE.Vector3(0, 1, 0), sunIrradiance: volSun.current, skyIrradiance: volSky.current }), []);
+  useEffect(() => { if (sunLightingOut) sunLightingOut.current = sunLighting; }, [sunLightingOut, sunLighting]);
   const segments = useFrameSegments();
   const base = DATA_BASE;
   const rainBudget = useMemo(() => rainDropBudget(), []);
@@ -865,13 +873,14 @@ export function WorldSky({
       crownVersion.current = crownSrc.version;
       volumetrics.canopy.update(camera.position.x, camera.position.z, true);
     }
+    sunLighting.dir.copy(sunDir);
+    volSun.current.setRGB(...rig.sunColor).multiplyScalar(rig.sunIntensity);
+    volSky.current.setRGB(...rig.hemiSky).multiplyScalar(rig.hemiIntensity * Math.PI);
     // Outside only: inside a cell the interior host drives the medium
     // (InteriorDoors, with the cell's profile and no sun).
     if (volumetrics.band !== "off" && !hidden) {
       const persp = camera as THREE.PerspectiveCamera;
       const irr = volSun.current;
-      irr.setRGB(...rig.sunColor).multiplyScalar(rig.sunIntensity);
-      volSky.current.setRGB(...rig.hemiSky).multiplyScalar(rig.hemiIntensity * Math.PI);
       const field = fixtureLightFieldOf(scene);
       nearestVolumeLights((v) => field.forEachLight(v), camera.position.x, camera.position.y, camera.position.z,
         MAX_VOLUME_LIGHTS, volLights.current);
@@ -977,7 +986,7 @@ export function WorldSky({
   }, -2);
 
   return (
-    <SkyContext.Provider value={{ csm, volumetrics }}>
+    <SkyContext.Provider value={{ csm, volumetrics, sunLighting }}>
       <group visible={!hidden}>
       <primitive object={sky} renderOrder={-10} frustumCulled={false} />
       {/* Stars draw AFTER the moons (−8 > −9), which write depth at a nearer

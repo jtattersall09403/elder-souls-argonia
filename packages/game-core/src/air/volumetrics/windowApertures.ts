@@ -53,16 +53,79 @@ export function brightestLampFloor(lights: readonly { intensity: number; heightM
 
 /** Seconds a beam takes to fade fully in or out. */
 export const BEAM_FADE_S = 0.6;
-/** A storey is floor y to floor y + this. */
-export const STOREY_HEIGHT_M = 3;
-/** Same storey when no walkable levels are recorded: |aperture y - player y| under this. */
-export const SAME_STOREY_DY_M = 2.2;
+/** Floor pieces smaller than this (m², up-facing area at one height in one mesh) are furniture tops, not floors. */
+export const FLOOR_MIN_AREA_M2 = 4;
+/** Floor heights within this of each other are one level. */
+export const FLOOR_CLUSTER_M = 0.3;
+/** The player stands on a level when the feet are at most this below it (stairs, slop). */
+export const FEET_SLOP_M = 0.3;
+
+/**
+ * Floor levels from (height, area) samples: samples under FLOOR_MIN_AREA_M2
+ * dropped, the rest sorted and chained into clusters whose neighbours lie
+ * within FLOOR_CLUSTER_M; each level is its cluster's area-weighted mean. Ascending.
+ */
+export function clusterFloorLevels(samples: readonly { y: number; areaM2: number }[]): number[] {
+  const s = samples.filter((x) => x.areaM2 > FLOOR_MIN_AREA_M2).sort((a, b) => a.y - b.y);
+  const out: number[] = [];
+  let sumY = 0, sumA = 0, last = -Infinity;
+  for (const x of s) {
+    if (x.y - last > FLOOR_CLUSTER_M && sumA > 0) { out.push(sumY / sumA); sumY = 0; sumA = 0; }
+    sumY += x.y * x.areaM2; sumA += x.areaM2; last = x.y;
+  }
+  if (sumA > 0) out.push(sumY / sumA);
+  return out;
+}
+
+/**
+ * The cell's floor levels in its own frame (the group's local space), read once
+ * at load from its opaque meshes: up-facing (normal y > 0.95) triangles, their
+ * area summed per mesh per 0.1 m of height, then clusterFloorLevels.
+ */
+export function cellFloorLevels(group: THREE.Object3D): number[] {
+  const _a = new THREE.Vector3(), _b = new THREE.Vector3(), _c = new THREE.Vector3(), _n = new THREE.Vector3();
+  const _toCell = new THREE.Matrix4();
+  group.updateMatrixWorld(true);
+  const groupInv = new THREE.Matrix4().copy(group.matrixWorld).invert();
+  const samples: { y: number; areaM2: number }[] = [];
+  group.traverse((o) => {
+    const m = o as THREE.Mesh;
+    if (!m.isMesh || (m as unknown as THREE.InstancedMesh).isInstancedMesh) return;
+    const mat = Array.isArray(m.material) ? m.material[0] : m.material;
+    if (!mat || mat.transparent) return;
+    const pos = m.geometry.getAttribute("position");
+    if (!pos) return;
+    const idx = m.geometry.getIndex();
+    _toCell.multiplyMatrices(groupInv, m.matrixWorld);
+    const bins = new Map<number, number>();
+    const n = idx ? idx.count : pos.count;
+    for (let i = 0; i + 2 < n; i += 3) {
+      _a.fromBufferAttribute(pos, idx ? idx.getX(i) : i).applyMatrix4(_toCell);
+      _b.fromBufferAttribute(pos, idx ? idx.getX(i + 1) : i + 1).applyMatrix4(_toCell);
+      _c.fromBufferAttribute(pos, idx ? idx.getX(i + 2) : i + 2).applyMatrix4(_toCell);
+      _n.crossVectors(_b.sub(_a), _c.sub(_a)); // _b, _c now edges
+      const len = _n.length();
+      if (len === 0 || _n.y / len < 0.95) continue;
+      const key = Math.round((_a.y + (_b.y + _c.y) / 3) * 10); // centroid y (edges carry the offset)
+      bins.set(key, (bins.get(key) ?? 0) + len / 2);
+    }
+    for (const [k, areaM2] of bins) samples.push({ y: k / 10, areaM2 });
+  });
+  return clusterFloorLevels(samples);
+}
+
+/** The storey of height y: index of the highest level at or below it, -1 below all (or no levels). */
+export function storeyOf(y: number, floorsY: readonly number[]): number {
+  let best = -1;
+  for (let i = 0; i < floorsY.length; i++) if (floorsY[i] <= y && (best < 0 || floorsY[i] > floorsY[best])) best = i;
+  return best;
+}
 
 /** What the beam ranking reads each frame, all in the cell frame. */
 export interface BeamView {
   /** The player's feet. */
   player: THREE.Vector3;
-  /** The cell's walkable floor heights, when recorded. */
+  /** The cell's floor levels (cellFloorLevels); none means one storey. */
   floorsY?: readonly number[];
   /** The camera frustum; an aperture is in view when its sphere of the beam length meets it. */
   frustum: THREE.Frustum;
@@ -79,12 +142,8 @@ function sunFacing(w: WindowAperture, lightDir: THREE.Vector3): boolean {
 }
 
 function sameStorey(y: number, v: BeamView): boolean {
-  if (!v.floorsY?.length) return Math.abs(y - v.player.y) < SAME_STOREY_DY_M;
-  // the player's floor: the highest floor at or below the feet (+0.5 m for stairs and slop)
-  let floor = -Infinity;
-  for (const f of v.floorsY) if (f <= v.player.y + 0.5 && f > floor) floor = f;
-  if (floor === -Infinity) floor = Math.min(...v.floorsY);
-  return y >= floor && y <= floor + STOREY_HEIGHT_M;
+  const floors = v.floorsY ?? [];
+  return storeyOf(y, floors) === storeyOf(v.player.y + FEET_SLOP_M, floors);
 }
 
 /**

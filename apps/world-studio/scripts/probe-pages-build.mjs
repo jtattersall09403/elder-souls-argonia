@@ -65,7 +65,8 @@ const page = await browser.newPage({ viewport: { width: 640, height: 360 } });
 const t0 = Date.now();
 const lines = [];
 page.on("console", (m) => lines.push({ t: Date.now() - t0, type: m.type(), text: m.text().slice(0, 400) }));
-page.on("pageerror", (e) => lines.push({ t: Date.now() - t0, type: "pageerror", text: String(e.stack ?? e).slice(0, 600) }));
+page.on("pageerror", (e) => lines.push({ t: Date.now() - t0, type: "pageerror",
+  text: (String(e.stack || "") || `${e.name}: ${e.message}` || String(e)).slice(0, 600) }));
 await page.addInitScript(() => {
   // GPU buffer ledger: every createBuffer's size and label, the running total,
   // the device limits and any device loss.
@@ -81,7 +82,10 @@ await page.addInitScript(() => {
     GPUDevice.prototype.createBuffer = function (d) {
       if (!g.limits) {
         g.limits = { maxBufferSize: this.limits.maxBufferSize, maxStorage: this.limits.maxStorageBufferBindingSize };
-        this.lost.then((i) => { g.lost = { t: Math.round(performance.now()), reason: i.reason, message: i.message }; });
+        // The marker goes to the console so its time is on the same clock as
+        // every error line (the classifier's "after device loss" cut).
+        this.lost.then((i) => { g.lost = { t: Math.round(performance.now()), reason: i.reason, message: i.message };
+          console.warn(`[probe] GPU device lost: ${i.reason} ${i.message}`); });
         this.addEventListener?.("uncapturederror", (e) => { if (g.errors.length < 20) g.errors.push([Math.round(performance.now()), String(e.error?.message).slice(0, 300)]); });
       }
       g.total += d.size; g.count += 1;
@@ -128,11 +132,18 @@ const classes = {
   ktx2: /\.ktx2|KTX2|transcoder/i,
 };
 const counts = Object.fromEntries(Object.entries(classes).map(([k, re]) => [k, lines.filter((l) => re.test(l.text)).length]));
+// Errors after the device is lost are SwiftShader's headless loss cascade
+// (every createBuffer/pipeline on a dead device throws): reported apart.
+const lostAt = lines.find((l) => l.text.startsWith("[probe] GPU device lost"))?.t ?? Infinity;
+const errLines = lines.filter((l) => l.type === "error" || l.type === "pageerror");
+const known = (l) => Object.values(classes).some((re) => re.test(l.text));
 const sorted = [...longTasks].sort((a, b) => b[1] - a[1]);
 const summary = {
   url, seconds, counts, gpuBuffers, profileTop,
   notFound: [...missing].slice(0, 40),
-  errors: lines.filter((l) => l.type === "error" || l.type === "pageerror").length,
+  errors: errLines.length,
+  afterDeviceLoss: errLines.filter((l) => l.t >= lostAt).length,
+  unclassified: errLines.filter((l) => l.t < lostAt && !known(l)).map((l) => `${l.t} ${l.text.slice(0, 200)}`),
   longTasks: { count: longTasks.length, totalMs: longTasks.reduce((s, x) => s + x[1], 0), top: sorted.slice(0, 10) },
   milestones: lines.filter((l) => /ground-paint|groundcover|renderer backend|first frame|ready/i.test(l.text)).slice(0, 30),
 };
