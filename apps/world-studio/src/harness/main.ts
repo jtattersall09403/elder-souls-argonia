@@ -121,6 +121,34 @@ async function main(): Promise<HarnessResult> {
   renderer.setOutputRenderTarget(target);
   renderer.setRenderTarget(target);
 
+  // Shader work counters (lane L18): node graph builds and shader stages
+  // created, read from three's own managers (0.184 internals, harness only).
+  const internals = renderer as unknown as {
+    _nodes: { _createNodeBuilderState: (...a: unknown[]) => unknown };
+    _pipelines: { caches: Map<unknown, unknown>; programs: { vertex: Map<unknown, unknown>; fragment: Map<unknown, unknown> } };
+    backend: { createProgram: (...a: unknown[]) => unknown; createRenderPipeline: (...a: unknown[]) => unknown };
+  };
+  const work = { builds: 0, programs: 0, late: [] as string[], afterWarmup: false };
+  const origBuild = internals._nodes._createNodeBuilderState.bind(internals._nodes);
+  internals._nodes._createNodeBuilderState = (...a) => {
+    work.builds++;
+    if (work.afterWarmup && work.late.length < 6) {
+      const b = a[0] as { material?: { name?: string; type?: string }; object?: { name?: string; type?: string } };
+      work.late.push(`${b.object?.name || b.object?.type} / ${b.material?.name || b.material?.type}`);
+    }
+    return origBuild(...a);
+  };
+  const origProgram = internals.backend.createProgram.bind(internals.backend);
+  internals.backend.createProgram = (...a) => { work.programs++; return origProgram(...a); };
+  // Main-thread time spent creating pipelines (WebGL: link + the synchronous
+  // LINK_STATUS read that waits for the driver's compile, outside compileAsync).
+  let pipelineMs = 0;
+  const origPipeline = internals.backend.createRenderPipeline.bind(internals.backend);
+  internals.backend.createRenderPipeline = (...a) => {
+    const t = performance.now();
+    try { return origPipeline(...a); } finally { pipelineMs += performance.now() - t; }
+  };
+
   const { default: harnessScene } = await load();
   const built = await harnessScene.build({ renderer, backend, width, height });
   const t0 = performance.now();
@@ -148,14 +176,38 @@ async function main(): Promise<HarnessResult> {
   result.compileMs = Math.round(performance.now() - t0);
 
   const f0 = performance.now();
-  for (let i = 0; i < 3; i++) {
+  let workAfterWarmup = 0;
+  /** ?frames=N renders more frames (a late recompile shows as rebuilds). */
+  const frames = Math.max(3, Number(params.get("frames")) || 3);
+  const perFrame: number[] = [];
+  for (let i = 0; i < frames; i++) {
+    const before = work.builds + work.programs;
+    // Frame 2 is still warm-up: CSMShadowNode creates its cascade lights in
+    // frame 1's updateBefore, and their shadow programs build in frame 2.
+    if (i === 2) { workAfterWarmup = work.builds + work.programs; work.afterWarmup = true; }
     built.frame?.(i / 30);
     renderer.info.reset();
     renderer.render(built.scene, built.camera);
     // Let the GPU finish each frame so errors surface before the next one.
     await new Promise((r) => requestAnimationFrame(() => r(null)));
+    perFrame.push(work.builds + work.programs - before);
   }
-  result.frameMs = Math.round((performance.now() - f0) / 3);
+  result.frameMs = Math.round((performance.now() - f0) / frames);
+  if (frames > 3) (result as unknown as { perFrame: number[] }).perFrame = perFrame;
+  result.rebuildsAfterWarmup = work.builds + work.programs - workAfterWarmup;
+  result.builds = work.builds;
+  result.programs = internals._pipelines.programs.vertex.size + internals._pipelines.programs.fragment.size;
+  result.pipelines = internals._pipelines.caches.size;
+  result.pipelineMs = Math.round(pipelineMs);
+  if (backend === "webgl") result.parallelCompile = Boolean((internals.backend as { parallel?: unknown }).parallel);
+  if (params.get("dumpPrograms")) {
+    (result as unknown as { programCodes: unknown }).programCodes = [...internals._pipelines.programs.fragment.values(), ...internals._pipelines.programs.vertex.values()]
+      .map((p) => { const q = p as { name: string; stage: string; code: string }; return { name: q.name, stage: q.stage, code: q.code }; });
+  }
+  if (result.rebuildsAfterWarmup > 0) {
+    errors.push(`${result.rebuildsAfterWarmup} node builds / shader programs created after the two warm-up frames: `
+      + `a material recompiles every frame (tsl-shaders.md Gotchas): ${work.late.join("; ")}`);
+  }
   result.calls = renderer.info.render.drawCalls;
   result.triangles = renderer.info.render.triangles;
   // The last frame, read back and shown on a 2D canvas in place of the

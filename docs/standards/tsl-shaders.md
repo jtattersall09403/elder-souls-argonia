@@ -81,6 +81,20 @@ with an object that must not have it: clone first (the old rule, unchanged).
 - Bake a PMREM environment BEFORE `renderer.compileAsync(scene)`: setting `scene.environment` after it
   recompiles every lit program inside `render()`, and on SwiftShader the terrain (WebGPU) and sky-noon
   (WebGL) harness scenes then never finished (see `addStudioSky` `bakeAtBuild`).
+- Program count is a start-up budget: identical materials must compile to identical shader text.
+  three 0.184 gave every small InstancedMesh (matrices under the uniform-buffer limit) its own
+  uniform buffer named after the node id and sized by the count, so each mesh compiled its own
+  vertex program (settlement-day: 167 programs for 176 draws); the WebGL backend links each one
+  synchronously on the main thread (SwiftShader has no `KHR_parallel_shader_compile`, so even
+  `compileAsync` blocks per link), and the studio never painted its first frame on SwiftShader.
+  `createRenderer` calls `shareInstancedPrograms` (instanced attributes, as the classic renderer
+  used). Never bake a per-object id, count or random into a graph; hold it in a uniform or an
+  attribute. The harness reports `programs`, `pipelines` and `builds`, and fails a scene with
+  `rebuildsAfterWarmup` above 0 (a material that recompiles every frame); `?dumpPrograms=1` puts the
+  shader text in summary.json to diff two programs that should be one.
+- A `texture(tex)` node with no uv builds the default `uv` attribute even when only
+  `textureSize`/`textureLoad` read it ("Vertex attribute uv not found" on uv-less geometry):
+  create holder nodes as `texture(tex, vec2(0))`.
 - Debug a graph with `await renderer.debug.getShaderAsync(scene, camera, mesh)`; to see an
   intermediate value, route it to `outputNode` behind a harness switch.
 

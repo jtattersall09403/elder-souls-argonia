@@ -26,7 +26,7 @@
 import * as THREE from "three";
 import * as tsl from "three/tsl";
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
-const { float, int, ivec2, texture, textureLoad, textureSize, uniform, vec4 } = tsl as unknown as Record<string, TslNode>;
+const { float, int, ivec2, texture, textureLoad, textureSize, uniform, vec2, vec4 } = tsl as unknown as Record<string, TslNode>;
 import type { TslNode } from "../render/nodes/materialNodes";
 import { optionalAttribute, whenInstanced } from "./instanceNodes";
 
@@ -117,7 +117,10 @@ export function createBatchDataUniforms(
   shared?: Pick<BatchDataUniforms, "esOccMask" | "esOccParams">,
 ): BatchDataUniforms {
   return {
-    esBatchData: texture(placeholderTexture()) as BatchDataUniforms["esBatchData"],
+    // An explicit uv: a uv-less texture node builds the default `uv`
+    // attribute, which batched geometry may lack ("Vertex attribute uv not
+    // found"); the node is only ever read with textureSize/textureLoad.
+    esBatchData: texture(placeholderTexture(), vec2(0)) as BatchDataUniforms["esBatchData"],
     esOccMask: shared?.esOccMask
       ?? (texture(placeholderTexture(true)) as BatchDataUniforms["esOccMask"]),
     esOccParams: shared?.esOccParams

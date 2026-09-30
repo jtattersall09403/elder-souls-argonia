@@ -187,7 +187,7 @@ try {
         });
         const warnCount = (result.warnings?.length ?? 0);
         console.log(`${ok ? "ok  " : timedOut ? "HUNG" : "FAIL"} ${sys} [${backend}${wrongBackend ? ` ran ${result.backend}` : ""}]`
-          + ` compile ${result.compileMs ?? "-"} ms, calls ${result.calls ?? "-"}, tris ${result.triangles ?? "-"},`
+          + ` compile ${result.compileMs ?? "-"} ms, programs ${result.programs ?? "-"}, pipelines ${result.pipelines ?? "-"} (${result.pipelineMs ?? "-"} ms), builds ${result.builds ?? "-"}, rebuilds ${result.rebuildsAfterWarmup ?? "-"}, calls ${result.calls ?? "-"}, tris ${result.triangles ?? "-"},`
           + ` luma ${result.meanLuma ?? "-"}, drawn ${result.drawnFraction ?? "-"}, covered ${result.coveredFraction ?? "-"}, black ${result.blackFraction ?? "-"}${tooBlack ? " (> " + BLACK_FRACTION_MAX + ")" : ""}${result.expectDark ? " (expectDark)" : ""}, errors ${result.errors?.length ?? 0}, warnings ${warnCount}, env-noise ${result.envNoise?.length ?? 0}`
           + (result.adapter ? `, adapter: ${result.adapter}` : ""));
         for (const e of (result.errors ?? []).slice(0, 5)) console.log(`     error: ${e}`);

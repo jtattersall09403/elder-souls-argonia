@@ -43,7 +43,29 @@ export async function createRenderer(options: CreateRendererOptions): Promise<We
     powerPreference: options.powerPreference ?? "high-performance",
   });
   await renderer.init();
+  shareInstancedPrograms(renderer);
   return renderer;
+}
+
+/**
+ * Makes every InstancedMesh read its instance matrices from an instanced
+ * vertex attribute, as the classic renderer did, so meshes with the same
+ * material share one program (lane L18).
+ *
+ * three 0.184's `InstanceNode` puts the matrices of any InstancedMesh whose
+ * `count * 64` bytes fit the uniform-buffer limit into a uniform buffer named
+ * after the node id and sized by the count (`NodeBuffer_2542 { mat4
+ * buffer2542[37]; }`), so every such mesh compiled its own vertex program:
+ * 167 programs for the 176 draws of the settlement-day harness scene. On the
+ * WebGL backend each new program links synchronously on the main thread
+ * (15 ms to 2 s under SwiftShader), and the studio's thousands of instanced
+ * meshes never reached their first painted frame. A limit below zero sends
+ * every mesh down InstanceNode's interleaved-attribute path (RangeNode, the
+ * only other reader of the limit, makes the same choice).
+ */
+export function shareInstancedPrograms(renderer: WebGPURenderer): void {
+  const backend = (renderer as unknown as { backend: { capabilities: { getUniformBufferLimit(): number } } }).backend;
+  backend.capabilities.getUniformBufferLimit = () => -1;
 }
 
 /** Which backend an initialised renderer actually runs on. */
