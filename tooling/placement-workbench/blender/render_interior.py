@@ -14,7 +14,10 @@ loader does, never with the render's sky or sun:
   times three.js's range window (1 - (d/r)^4)^2 in the light's own nodes,
   and d^(2-decay) so the falloff is three.js's 1/d^decay for any decay;
 - the AmbientLight (never occluded in three.js) is each material's albedo
-  times ambient/pi added as emission; the directional is a shadowless sun
+  times ambient/pi added as emission; a cell with an ambient cube (the
+  runtime's LightProbe, ambientCube.ts) multiplies that by the cube's
+  E(n) = sum_a m_a a^2 + d_a a on the world normal in the material's nodes
+  (exact to the probe: both are the same quadratic); the directional is a shadowless sun
   from straight above at strength pi;
 - direct light only (no bounces: three.js has none), Filmic view.
 Row `night` (the sources pass) switches the ambient and the directional off.
@@ -106,7 +109,33 @@ def glow_card(mat):
     mat.blend_method = "BLEND"
 
 
-def ambient_materials(ambient, cards, glow=()):
+def cube_colour(nt, cube):
+    """Nodes computing the ambient cube's E(n) (linear rgb) on the world normal;
+    ``cube`` is ``interior_render.cube_blender`` (m, d per Blender axis)."""
+    geo = nt.nodes.new("ShaderNodeNewGeometry")
+    sq = nt.nodes.new("ShaderNodeVectorMath")
+    sq.operation = "MULTIPLY"
+    nt.links.new(geo.outputs["Normal"], sq.inputs[0])
+    nt.links.new(geo.outputs["Normal"], sq.inputs[1])
+    comb = nt.nodes.new("ShaderNodeCombineRGB")
+    for c in range(3):
+        dm = nt.nodes.new("ShaderNodeVectorMath")
+        dm.operation = "DOT_PRODUCT"
+        nt.links.new(sq.outputs[0], dm.inputs[0])
+        dm.inputs[1].default_value = tuple(cube["m"][a][c] for a in range(3))
+        dd = nt.nodes.new("ShaderNodeVectorMath")
+        dd.operation = "DOT_PRODUCT"
+        nt.links.new(geo.outputs["Normal"], dd.inputs[0])
+        dd.inputs[1].default_value = tuple(cube["d"][a][c] for a in range(3))
+        add = nt.nodes.new("ShaderNodeMath")
+        add.operation = "ADD"
+        nt.links.new(dm.outputs["Value"], add.inputs[0])
+        nt.links.new(dd.outputs["Value"], add.inputs[1])
+        nt.links.new(add.outputs[0], comb.inputs[c])
+    return comb.outputs[0]
+
+
+def ambient_materials(ambient, cards, glow=(), cube=None):
     """Add albedo x ambient/pi as emission to every Principled material (the
     AmbientLight three.js never occludes); flame-card materials the loader
     leaves undrawn go transparent, those it draws (`glow`) go emissive and
@@ -143,6 +172,13 @@ def ambient_materials(ambient, cards, glow=()):
         else:
             mul.inputs[1].default_value = base.default_value
         nt.links.new(amb.outputs[0], mul.inputs[2])
+        if cube:
+            by_normal = nt.nodes.new("ShaderNodeMixRGB")
+            by_normal.blend_type = "MULTIPLY"
+            by_normal.inputs[0].default_value = 1.0
+            nt.links.new(mul.outputs[0], by_normal.inputs[1])
+            nt.links.new(cube_colour(nt, cube), by_normal.inputs[2])
+            mul = by_normal
         emit, strength = bsdf.inputs["Emission"], bsdf.inputs["Emission Strength"]
         add = nt.nodes.new("ShaderNodeMixRGB")
         add.blend_type = "ADD"
@@ -324,7 +360,7 @@ def main():
         return
     shots = [ir.on_floor(s, plan, JOB["arrivalFloor"]) for s in JOB["shots"]]
     sockets, amb = ambient_materials(JOB.get("ambient") or [0, 0, 0], JOB.get("flameCards") or [],
-                                     JOB.get("glowCards") or [])
+                                     JOB.get("glowCards") or [], JOB.get("ambientCube"))
     rs.add_fire_light_pass(world, JOB.get("fires"))
     bed_tongues(world, JOB.get("fires"))
     for obj in world.objects:          # the proxies are markers, never light sources

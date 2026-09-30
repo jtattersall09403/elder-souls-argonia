@@ -38,7 +38,8 @@ export outright: such a cell is never claimed.
 
 Alongside: ``lights[]`` from each light reference's LIGH record (radius with
 the reference's XRDS override, colour, flicker flags) and the cell's
-``lighting`` (ambient, directional, fog colours and distances) from its XCLL,
+``lighting`` (ambient, the directional ambient cube ``ambientCube``, directional,
+fog colours and distances, light fade) from its XCLL,
 with the fields it inherits taken from its lighting template (LTMP -> LGTM);
 ``sockets[]`` per 0103 decision 5 (container / idle / item); the arrival
 marker and the exit door (the cell's load door).
@@ -107,7 +108,10 @@ OUT_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "interio
 #: 3 (2026-09-29): the shared cell file carries no per-place field; load doors
 #: are `{doorType, interiorLoadDoorRef, loadDoor}` and the pairing is the
 #: place's door record (`interiorClaim`)
-SCHEMA_VERSION = 3
+#: 4 (2026-09-30): `lighting.ambientCube` {px,nx,py,ny,pz,nz: linear rgb, game axes},
+#: the XCLL/LGTM DALC directional ambient; the runtime lights the cell with it
+#: (a LightProbe) in place of the flat ambient, and the light rule adds no fill
+SCHEMA_VERSION = 4
 #: fields that belong to one claiming place, never to the shared cell file
 PER_PLACE_DOOR_FIELDS = ("exteriorDoorId", "arrivalMarker", "closed")
 #: a swing door whose NIF has no Open sequence opens this far (degrees)
@@ -366,9 +370,43 @@ def _base_info(rec) -> dict:
 
 _XCLL = struct.Struct("<4B4B4Bff ii fff")  # ambient, directional, fog near colour, near, far, rotXY, rotZ, fade, clip, power
 
+#: The full 92-byte XCLL (UESP Skyrim_Mod:Mod_File_Format/CELL, XCLL, read 2026-09-30 through
+#: the MediaWiki API): after fog power (offset 40) the "Ambient Colors" block, six rgba
+#: directional ambients X+, X-, Y+, Y-, Z+, Z- (40..64), specular rgba (64), fresnel power
+#: float (68); then fog far rgba (72), fog max (76), light fade begin/end (80, 84) and the
+#: inherit flags uint32 (88). The lighting template (UESP Skyrim_Mod:Mod_File_Format/LGTM)
+#: keeps the same DATA layout but leaves 40..72 unknown: its ambient cube, specular and
+#: fresnel are the separate DALC subrecord (six rgba, specular rgba, fresnel float).
+XCLL_FULL_SIZE = 92
+_CUBE_KEYS = ("xp", "xn", "yp", "yn", "zp", "zn")    # Skyrim axes, UESP order
+
 
 def _rgb(b: tuple) -> list[int]:
     return [int(b[0]), int(b[1]), int(b[2])]
+
+
+def _srgb_linear(c: int) -> float:
+    v = c / 255.0
+    return v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4
+
+
+def decode_ambient_colors(payload: bytes, offset: int = 0) -> dict:
+    """The "Ambient Colors" block at ``offset`` (XCLL 40, LGTM DALC 0): the six
+    directional ambients in Skyrim axes (sRGB bytes), specular and fresnel power."""
+    cube = {k: _rgb(struct.unpack_from("<4B", payload, offset + 4 * i)) for i, k in enumerate(_CUBE_KEYS)}
+    return {"ambientCubeSkyrimRGB": cube,
+            "specularRGB": _rgb(struct.unpack_from("<4B", payload, offset + 24)),
+            "fresnelPower": round(struct.unpack_from("<f", payload, offset + 28)[0], 4)}
+
+
+def ambient_cube(skyrim_rgb: dict) -> dict:
+    """``lighting.ambientCube``: the Skyrim cube in GAME axes, linear 0-1.
+    Skyrim is x east, y north, z up; the game frame (FRAME, and every placement's
+    positionM) is x east, y up, z south: game (x, y, z) = Skyrim (x, z, -y). So
+    game +x/-x = Skyrim X+/X-, game +y/-y = Skyrim Z+/Z-, game +z (south) = Skyrim Y-,
+    game -z (north) = Skyrim Y+."""
+    src = {"px": "xp", "nx": "xn", "py": "zp", "ny": "zn", "pz": "yn", "nz": "yp"}
+    return {k: [round(_srgb_linear(c), 5) for c in skyrim_rgb[v]] for k, v in src.items()}
 
 
 def decode_lighting(payload: bytes) -> dict:
@@ -383,19 +421,58 @@ def decode_lighting(payload: bytes) -> dict:
         "directionalFade": round(v[16], 3), "fogClipM": round(v[17] / UNITS_PER_METRE, 3),
         "fogPower": round(v[18], 3),
     }
-    if len(payload) >= 92:
+    if len(payload) >= XCLL_FULL_SIZE:
         far = struct.unpack_from("<4B", payload, 72)
         out["fogFarRGB"] = _rgb(far)
         out["fogMax"] = round(struct.unpack_from("<f", payload, 76)[0], 3)
+        begin, end = struct.unpack_from("<ff", payload, 80)
+        out["lightFadeBeginM"] = round(begin / UNITS_PER_METRE, 3)
+        out["lightFadeEndM"] = round(end / UNITS_PER_METRE, 3)
         out["inherits"] = struct.unpack_from("<I", payload, 88)[0]
     return out
 
 
-#: XCLL inherit bits -> the fields the template supplies (UESP Skyrim:CELL).
-INHERIT_BITS = {0: ("ambientRGB",), 1: ("directionalRGB",), 2: ("fogNearRGB", "fogFarRGB"),
+def decode_cell_lighting(payload: bytes) -> dict:
+    """A CELL's XCLL: ``decode_lighting`` plus its Ambient Colors block."""
+    out = decode_lighting(payload)
+    if len(payload) >= XCLL_FULL_SIZE:
+        out.update(decode_ambient_colors(payload, 40))
+    return out
+
+
+#: XCLL inherit bits -> the fields the template supplies (UESP Skyrim_Mod:Mod_File_Format/CELL).
+#: Bit 0 "Ambient Color" carries the Ambient Colors block too (the CK inherits the cube,
+#: specular and fresnel with the ambient; LGTM keeps them in DALC).
+INHERIT_BITS = {0: ("ambientRGB", "ambientCubeSkyrimRGB", "specularRGB", "fresnelPower"),
+                1: ("directionalRGB",), 2: ("fogNearRGB", "fogFarRGB"),
                 3: ("fogNearM",), 4: ("fogFarM",),
                 5: ("directionalRotXYDeg", "directionalRotZDeg"), 6: ("directionalFade",), 7: ("fogClipM",),
-                8: ("fogPower",), 9: ("fogMax",)}
+                8: ("fogPower",), 9: ("fogMax",), 10: ("lightFadeBeginM", "lightFadeEndM")}
+
+
+def resolve_lighting(xcll: bytes | None, template_data: bytes | None, template_dalc: bytes | None,
+                     template_edid: str | None) -> dict:
+    """The cell's lighting: its XCLL with every inherited field taken from the
+    template (LGTM DATA + DALC), then ``ambientCube`` in game axes (raw bytes kept
+    under ``raw``). A cell with no XCLL inherits everything."""
+    lighting = decode_cell_lighting(xcll) if xcll else {}
+    if template_data and len(template_data) >= _XCLL.size:
+        template = decode_lighting(template_data)
+        template.pop("inherits", None)
+        if template_dalc and len(template_dalc) >= 32:
+            template.update(decode_ambient_colors(template_dalc, 0))
+        inherits = lighting.get("inherits", 0xFFFFFFFF) if lighting else 0xFFFFFFFF
+        for bit, fields in INHERIT_BITS.items():
+            if inherits & (1 << bit):
+                for f in fields:
+                    if f in template:
+                        lighting[f] = template[f]
+        lighting["template"] = template_edid
+    sky = lighting.pop("ambientCubeSkyrimRGB", None)
+    if sky:
+        lighting["ambientCube"] = ambient_cube(sky)
+        lighting["raw"] = {"ambientCubeSkyrimRGB": sky}
+    return lighting
 
 
 # --------------------------------------------------------------------------- #
@@ -1135,23 +1212,15 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
         additions = load_additions(cell_edid, placements + substitutions, kit_assets, kit_bounds)
     placements.extend(additions)
 
-    lighting = decode_lighting(xcll) if xcll else {}
-    template = None
+    tdata = tdalc = tedid = None
     if ltmp:
         trec = records.get(pset.key(main, ltmp))
         if trec is not None:
-            tdata = next((p for st, p in trec.subrecords() if st == b"DATA"), None)
-            tedid = next((_cstr(p) for st, p in trec.subrecords() if st == b"EDID"), None)
-            if tdata and len(tdata) >= _XCLL.size:
-                template = {"editorId": tedid, **decode_lighting(tdata[:_XCLL.size])}
-    if template:
-        inherits = lighting.get("inherits", 0xFFFFFFFF) if lighting else 0xFFFFFFFF
-        for bit, fields in INHERIT_BITS.items():
-            if inherits & (1 << bit):
-                for f in fields:
-                    if f in template:
-                        lighting[f] = template[f]
-        lighting["template"] = template.get("editorId")
+            subs = list(trec.subrecords())
+            tdata = next((p for st, p in subs if st == b"DATA"), None)
+            tdalc = next((p for st, p in subs if st == b"DALC"), None)
+            tedid = next((_cstr(p) for st, p in subs if st == b"EDID"), None)
+    lighting = resolve_lighting(xcll, tdata, tdalc, tedid)
 
     for d in doors or []:
         if d["interiorLoadDoorRef"] not in load_doors:
@@ -1322,6 +1391,12 @@ def validate_bundle(b: dict) -> list[str]:
     amb, fog = b.get("ambient") or {}, b.get("fog") or {}
     if not (_is_rgb(amb.get("colorRGB")) and _num(amb.get("intensity"))):
         bad.append("bad ambient")
+    cube = (b.get("lighting") or {}).get("ambientCube")
+    if cube is not None and not (isinstance(cube, dict) and all(
+            isinstance(cube.get(k), list) and len(cube[k]) == 3
+            and all(isinstance(c, (int, float)) and c >= 0 for c in cube[k])
+            for k in ("px", "nx", "py", "ny", "pz", "nz"))):
+        bad.append("bad lighting.ambientCube")
     if not (_is_rgb(fog.get("colorRGB")) and _num(fog.get("nearM")) and _num(fog.get("farM"))):
         bad.append("bad fog")
     for key in ("placements", "lights", "sockets", "drops"):

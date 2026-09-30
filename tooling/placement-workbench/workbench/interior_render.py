@@ -718,13 +718,35 @@ def light_list(bundle: dict) -> list[dict]:
 
 def ambient_of(bundle: dict) -> dict:
     """{ambient: linear rgb x intensity x pi (the AmbientLight), directional:
-    linear rgb (intensity pi, straight down) or None}."""
+    linear rgb (intensity pi, straight down) or None, ambientCube: None or the
+    cell's directional ambient in BLENDER axes as ``{m, d}`` (per axis x, y, z
+    the pair mean and half difference, linear rgb): the runtime's LightProbe
+    (ambientCube.ts) is E(n) = sum_a m_a a^2 + d_a a, and with a cube the
+    ambient is the grey scale ``intensity x pi`` it multiplies}."""
     amb = bundle.get("ambient") or {}
     lin = srgb_to_linear(amb.get("colorRGB", [0, 0, 0]))
     k = float(amb.get("intensity", 1.0)) * AMBIENT_SCALE
     d = (bundle.get("lighting") or {}).get("directionalRGB")
-    return {"ambient": [c * k for c in lin],
-            "directional": srgb_to_linear(d) if d else None}
+    cube = (bundle.get("lighting") or {}).get("ambientCube")
+    return {"ambient": [k, k, k] if cube else [c * k for c in lin],
+            "directional": srgb_to_linear(d) if d else None,
+            "ambientCube": cube_blender(cube) if cube else None}
+
+
+def cube_blender(cube: dict) -> dict:
+    """The game-axis cube in Blender axes (``to_blender``: Blender x = game x,
+    Blender y = game -z, Blender z = game y) as {m, d} per Blender axis."""
+    pos = {"x": cube["px"], "y": cube["nz"], "z": cube["py"]}
+    neg = {"x": cube["nx"], "y": cube["pz"], "z": cube["ny"]}
+    return {"m": [[(pos[a][c] + neg[a][c]) / 2 for c in range(3)] for a in "xyz"],
+            "d": [[(pos[a][c] - neg[a][c]) / 2 for c in range(3)] for a in "xyz"]}
+
+
+def cube_at(blender_cube: dict, n) -> list[float]:
+    """E(n) of a ``cube_blender`` cube on a Blender-axis unit normal (what the
+    Blender material's nodes compute)."""
+    return [sum(blender_cube["m"][a][c] * n[a] ** 2 + blender_cube["d"][a][c] * n[a] for a in range(3))
+            for c in range(3)]
 
 
 def bed_preset(asset_id: str, row: dict) -> str:

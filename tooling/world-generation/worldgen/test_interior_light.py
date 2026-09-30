@@ -97,3 +97,26 @@ def test_the_near_field_cap_and_idempotence():
     apply_light_rule(b, {"lantern": LANTERN})
     hearth = b["lights"][0]
     assert hearth["raw"]["recordFade"] == 2.5 and hearth["falloffExponent"] == 0.01 and hearth["fade"] != 2.5
+
+
+def test_the_ambient_cube_lights_each_face_with_its_own_axis():
+    from worldgen.interior_light import _LUMA, _NORMALS, ambient_per_normal, cube_irradiance
+    cube = {"px": [0.1] * 3, "nx": [0.2] * 3, "py": [0.4] * 3, "ny": [0.0] * 3, "pz": [0.05] * 3, "nz": [0.3] * 3}
+    axes = np.array([[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]], float)
+    assert np.allclose(cube_irradiance(cube, axes)[:, 0], [0.1, 0.2, 0.4, 0.0, 0.05, 0.3])
+    flat = {k: [0.25, 0.2, 0.1] for k in cube}
+    tilted = np.array([[0.6, 0.8, 0.0], [0.0, -0.6, 0.8]])
+    assert np.allclose(cube_irradiance(flat, tilted), [0.25, 0.2, 0.1])   # a uniform cube is flat
+    b = {"ambient": {"colorRGB": [0, 0, 0], "intensity": 1.0}, "lighting": {"ambientCube": cube}}
+    assert np.isclose(ambient_per_normal(b)[0], 0.4 * _LUMA.sum())   # the floor (up) face reads +Y
+    assert list(_NORMALS[0]) == [0, 1, 0]
+
+
+def test_a_cell_with_a_cube_gets_no_fill():
+    b = _bundle()
+    b["lighting"]["ambientCube"] = {k: [0.02, 0.015, 0.01] for k in ("px", "nx", "py", "ny", "pz", "nz")}
+    did = apply_light_rule(b, {"lantern": LANTERN})
+    assert did["ambientIntensity"] == 1.0 and b["ambient"]["rule"] == "ambient-cube"
+    fallback = _bundle()
+    apply_light_rule(fallback, {"lantern": LANTERN})
+    assert fallback["ambient"]["rule"] == "interior-light-floor" and fallback["ambient"]["intensity"] > 1.0

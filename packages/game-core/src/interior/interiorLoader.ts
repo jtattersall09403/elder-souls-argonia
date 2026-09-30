@@ -8,6 +8,7 @@ import {
   type ColorRGB, type InteriorBundle, type InteriorKitRef, type InteriorLight, type InteriorPlacement,
   type InteriorSubstitution, type Vec3,
 } from "./bundle";
+import { ambientCubeToSH } from "./ambientCube";
 import { kitPartsDir, parseKitPartsIndex, type KitPartsIndex } from "./kitParts";
 import { FlameSystem } from "../fx/fire/FlameSystem";
 import {
@@ -140,6 +141,23 @@ export function interiorPlacementMatrix(p: InteriorPlacement): THREE.Matrix4 {
 }
 
 /**
+ * The cell's ambient: from schema 4 a LightProbe carrying the cell's
+ * directional ambient cube (ambientCube.ts), else the flat AmbientLight.
+ * Both at `ambient.intensity × INTERIOR_AMBIENT_SCALE`, so a cube of the old
+ * ambient colour on every axis lights exactly as the AmbientLight did.
+ */
+export function interiorAmbient(bundle: InteriorBundle): THREE.Light {
+  const scale = bundle.ambient.intensity * INTERIOR_AMBIENT_SCALE;
+  const cube = bundle.lighting?.ambientCube;
+  if (!cube) return new THREE.AmbientLight(colorFromRGB(bundle.ambient.colorRGB), scale);
+  const sh = new THREE.SphericalHarmonics3();
+  ambientCubeToSH(cube, scale).forEach((c, i) => sh.coefficients[i].set(c[0], c[1], c[2]));
+  const probe = new THREE.LightProbe(sh, 1);
+  probe.name = "interior-ambient-cube";
+  return probe;
+}
+
+/**
  * Build the cell: one InstancedMesh per (asset, LOD0 part) holding every
  * placement of that asset (stand-ins from `substitutions[]` count as
  * placements of their stand-in asset), a point light per record light, the cell's
@@ -200,8 +218,7 @@ export function instantiateInterior(
     point.position.set(...light.positionM);
     group.add(point);
   }
-  group.add(new THREE.AmbientLight(colorFromRGB(bundle.ambient.colorRGB),
-    bundle.ambient.intensity * INTERIOR_AMBIENT_SCALE));
+  group.add(interiorAmbient(bundle));
   const directionalRGB = bundle.lighting?.directionalRGB;
   if (directionalRGB) {
     // From straight above: the bundle's directionalRotXYDeg/ZDeg (0/0 in both

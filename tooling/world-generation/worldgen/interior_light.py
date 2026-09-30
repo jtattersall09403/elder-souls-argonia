@@ -4,8 +4,12 @@ Mirrors the runtime light model of ``packages/game-core/src/interior/interiorLoa
 (no shadows, so a light reaches through walls exactly as it does in the studio):
 
 * every colour is sRGB/255 -> linear (``colorFromRGB``);
-* the ambient is ``ambient.colorRGB * intensity * INTERIOR_AMBIENT_SCALE`` and the
-  directional is ``lighting.directionalRGB * INTERIOR_AMBIENT_SCALE`` from straight up;
+* the ambient is the cell's directional ambient cube (``lighting.ambientCube``, linear,
+  game axes; the runtime's LightProbe, ``ambientCubeToSH`` in bundle.ts) times
+  ``ambient.intensity * INTERIOR_AMBIENT_SCALE``: a surface facing n gets
+  ``sum_a ((p_a + n_a) / 2) a^2 + ((p_a - n_a) / 2) a`` over a = x, y, z, exactly the cube
+  value on each axis (a floor facing up gets ``py``); a cell with no cube falls back to the
+  flat ``ambient.colorRGB * intensity * INTERIOR_AMBIENT_SCALE``; the directional is ``lighting.directionalRGB * INTERIOR_AMBIENT_SCALE`` from straight up;
 * a point light is ``fade * INTERIOR_LIGHT_INTENSITY_PER_FADE``, three.js decay
   ``2 * falloffExponent`` with the ``radiusM`` cutoff window
   ``saturate(1 - (d/r)^4)^2 / max(d^decay, 0.01)``.
@@ -20,8 +24,10 @@ the floor (up) and the four horizontal directions (walls, furniture fronts).
 doors-interiors-sockets.md § 7): (1) every lit fixture placement (a plugin
 reference or a builder's addition, decision 0109) whose kit asset
 carries a mined LIGH (``light`` in its kit manifest) and has no plugin light within
-``FIXTURE_LIT_M`` gets that light, ``refId: "fixture:<placement id>"``; (2) the cell
-ambient's intensity is raised so the unlit mean reaches ``FILL_E``; (3) every light's
+``FIXTURE_LIT_M`` gets that light, ``refId: "fixture:<placement id>"``; (2) a cell with
+no ambient cube (``lighting.ambientCube``) has its ambient's intensity raised so the unlit
+mean reaches ``FILL_E`` (the fallback fill, rule ``interior-light-floor``); a cell with a cube
+keeps the plugin's own ambient at intensity 1 (rule ``ambient-cube``, 2026-09-30); (3) every light's
 exported ``fade`` and ``falloffExponent`` are set so the runtime curve above follows
 Skyrim's own point-light curve (``skyrim_curve``). All are derived from records,
 idempotent, and run by the exporter before it writes the bundle.
@@ -43,8 +49,8 @@ EYE_M = 1.2
 #: ~37/255 on an albedo-0.3 wall after ACES at exposure 1: the darkest a walked spot may read.
 DARK_E = 0.12
 MAX_DARK_FRACTION = 0.30
-#: The fill floor (the rule's step 2): the cell ambient's intensity is raised until the
-#: unlit five-face mean reaches this (~45/255 on albedo 0.3; ~70/255 on albedo 0.5).
+#: The fill floor (the rule's step 2, only for a cell with no ambient cube): the cell
+#: ambient's intensity is raised until the unlit five-face mean reaches this (~45/255 on albedo 0.3; ~70/255 on albedo 0.5).
 FILL_E = 0.15
 #: A lit fixture within this of a plugin light is already lit by it (the plugins place
 #: the LIGH beside the lantern: 0.61 m median for candlelanternwithcandle01).
@@ -56,6 +62,9 @@ FIXTURE_LIT_M = 1.0
 #: with the additions files (kit-interiors/additions/, 2026-09-29) the seven KotM cells
 #: measure 71-80 % (SnailMinder 71.0, Elder 71.4, Crafter 74.4, Fisher 77.8,
 #: Glassworks 78.7, Ironworks 78.5, Plantation 80.3) and DawnstarBrinasHouse 96.6 %.
+#: Lit by the plugin's ambient cube with no fill (2026-09-30): SnailMinder 82.7, Elder 85.4,
+#: Crafter 88.3, Plantation 93.2, Fisher 96.3, Ironworks 96.7, Glassworks 97.2, Dawnstar 100;
+#: dark fraction 1-14 % (bar 30 %).
 SOURCE_LED_SHARE = 0.5
 MIN_SOURCE_LED_FRACTION = 0.70
 #: Skyrim's point-light attenuation (the Creation Engine Lighting shader as reconstructed by
@@ -84,12 +93,29 @@ def srgb_to_linear(rgb) -> np.ndarray:
     return np.where(c <= 0.04045, c / 12.92, ((c + 0.055) / 1.055) ** 2.4)
 
 
+def cube_irradiance(cube: dict, normals) -> np.ndarray:
+    """Linear rgb of the ambient cube on each unit normal (game axes): the quadratic
+    ``ambientCubeToSH`` (bundle.ts) encodes, exact on the six axes."""
+    n = np.asarray(normals, float).reshape(-1, 3)
+    pos = np.array([cube["px"], cube["py"], cube["pz"]], float)
+    neg = np.array([cube["nx"], cube["ny"], cube["nz"]], float)
+    return (n ** 2) @ ((pos + neg) / 2) + n @ ((pos - neg) / 2)
+
+
+def ambient_per_normal(bundle: dict) -> np.ndarray:
+    """The ambient's luminance on each of ``_NORMALS`` (module docstring)."""
+    amb = bundle.get("ambient") or {}
+    k = float(amb.get("intensity", 1.0))
+    cube = (bundle.get("lighting") or {}).get("ambientCube")
+    if cube:
+        return (cube_irradiance(cube, _NORMALS) @ _LUMA) * k
+    return np.full(len(_NORMALS), float(_LUMA @ srgb_to_linear(amb.get("colorRGB", [0, 0, 0]))) * k)
+
+
 def irradiance(bundle: dict, points: np.ndarray) -> np.ndarray:
     """Luminance of the albedo multiplier at each point (see the module docstring)."""
     pts = np.asarray(points, float).reshape(-1, 3)
-    amb = bundle.get("ambient") or {}
-    base = float(_LUMA @ srgb_to_linear(amb.get("colorRGB", [0, 0, 0]))) * float(amb.get("intensity", 1.0))
-    per_normal = np.full((len(pts), len(_NORMALS)), base)
+    per_normal = np.tile(ambient_per_normal(bundle), (len(pts), 1))
     d_rgb = (bundle.get("lighting") or {}).get("directionalRGB")
     if d_rgb:
         per_normal[:, 0] += float(_LUMA @ srgb_to_linear(d_rgb))
@@ -175,12 +201,15 @@ def apply_light_rule(bundle: dict, lights_by_asset: dict[str, dict]) -> dict:
                                            recordFalloffExponent=fit["recordFalloffExponent"])
         capped += fit["capped"]
     amb = bundle["ambient"]
-    amb_lum = float(_LUMA @ srgb_to_linear(amb["colorRGB"]))
-    d_rgb = (bundle.get("lighting") or {}).get("directionalRGB")
-    dir_share = float(_LUMA @ srgb_to_linear(d_rgb)) / len(_NORMALS) if d_rgb else 0.0
-    need = (FILL_E - dir_share) / amb_lum if amb_lum > 0 else 1.0
-    amb["intensity"] = round(max(1.0, need), 3)
-    amb["rule"] = "interior-light-floor"
+    if (bundle.get("lighting") or {}).get("ambientCube"):
+        amb["intensity"], amb["rule"] = 1.0, "ambient-cube"
+    else:
+        amb_lum = float(_LUMA @ srgb_to_linear(amb["colorRGB"]))
+        d_rgb = (bundle.get("lighting") or {}).get("directionalRGB")
+        dir_share = float(_LUMA @ srgb_to_linear(d_rgb)) / len(_NORMALS) if d_rgb else 0.0
+        need = (FILL_E - dir_share) / amb_lum if amb_lum > 0 else 1.0
+        amb["intensity"] = round(max(1.0, need), 3)
+        amb["rule"] = "interior-light-floor"
     bundle.setdefault("counts", {})["lights"] = len(bundle["lights"])
     return {"fixtureLights": len(added), "ambientIntensity": amb["intensity"], "cappedLights": capped}
 

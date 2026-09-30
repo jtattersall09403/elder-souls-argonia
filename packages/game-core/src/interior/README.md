@@ -7,7 +7,8 @@ mounts it (`apps/world-studio/src/character/InteriorDoors.tsx`).
 
 | File | What it owns |
 | --- | --- |
-| `bundle.ts` | The bundle contract (`public/province/interiors/<cellId>.json`, schemaVersion 2: every `doors[]` entry typed `load` or `swing`) and its validator; a schema-1 bundle is refused with its version named. |
+| `bundle.ts` | The bundle contract (`public/province/interiors/<cellId>.json`, schemaVersion 4; 2 and 3 still parse) and its validator; a schema-1 bundle is refused with its version named. |
+| `ambientCube.ts` | The cell's directional ambient (Skyrim XCLL "Ambient Colors" / LGTM DALC, `lighting.ambientCube`, linear, game axes): `ambientCubeToSH` gives the nine SH coefficients (plain numbers, any renderer) whose irradiance is exactly the cube on each axis, `E(n) = Σ m_a a² + d_a a`; the loader's `interiorAmbient` feeds them to a `THREE.LightProbe` in place of the flat AmbientLight, at the same `ambient.intensity × INTERIOR_AMBIENT_SCALE`. `interior_light.py` and the render tool evaluate the same E(n). |
 | `swingDoors.ts` | Swing doors (built in 16k walk 4, owner 2026-09-28): the one record kind for an interior bundle's `swing` entry and a place's compiled door with `doorType: "swing"` and a `swing` pose; `buildSwingDoor` (the leaf under a hinge group at `hinge.pivotM`, frame parts outside `hinge.leafBoundsM` left standing), `SwingDoorController` (Open/Close prompt candidates, toggle on `activate`, eased turn over `hinge.openS` to `hinge.openAngleDeg`, collider off while moving and rebuilt at rest, a body in the swept arc keeps it put, `door.open`/`door.close` on the typed sound bus), `loadDoorsOf` (what `DoorTransition` keeps). |
 | `doors.ts` | Which doors open (`doorAccess`: `interiorClaim.tier === "A"` with a `cellId`, not `reserved`), reach 1.5 m, prefetch 40 m, the interior-space lift, the prompt text ids. |
 | `interiorLoader.ts` | `InteriorLoader`: fetch, validate, fetch only the parts the cell draws (each kit's `parts/index.json` once, then one part GLB per (kit, assetId), in parallel, cached per pair; injected `loadPart`, the studio passes `createKitLoader` then `buildArchitectureKit` through the scene's `KitCache`), instantiate, cache per cellId. A drawn asset with no published part fails the cell with a line naming kit and asset, which the overlay shows as its red line. Light intensity = `(fade ?? 1) × INTERIOR_LIGHT_INTENSITY_PER_FADE`, the one number the owner tunes on a walk (0102 decision 3b). |
@@ -19,7 +20,7 @@ mounts it (`apps/world-studio/src/character/InteriorDoors.tsx`).
 
 The shared fixture `__fixtures__/interior.fixture.json` IS the contract:
 the exporter's Python test and `interior.test.ts` both read it.
-`schemaVersion 3` (2 still parses, its per-place door fields dropped), `cellId`, `plugin`, `frame`, `shellAssetId` (null from 3: the
+`schemaVersion 4` (3 still parses with the flat ambient; 2 too, its per-place door fields dropped), `cellId`, `plugin`, `frame`, `shellAssetId` (null from 3: the
 shell is the claiming parcel's `assetRef`), `refCount` (= placements + drops + substitutions + swing doors), `kits {id: {id, glb, manifest}}`,
 `arrivalMarker {positionM, yawDeg}`, `exitDoor {id, refId, positionM, yawDeg}`,
 `doors[]` (may be empty): one `{doorType: "load", interiorLoadDoorRef, loadDoor}`
@@ -34,7 +35,9 @@ teleport (not a placement; the hinge is the door NIF's animated node and its
 `placements[] {id, assetId, kit, positionM, rotationDeg, scale, category}`,
 `lights[] {refId, positionM, radiusM, colorRGB, fade (LIGH FNAM, unitless, or
 null), base, raw {xrdsUnits|null, baseRadiusUnits}}`, `ambient {colorRGB,
-intensity}`, `fog {colorRGB, nearM, farM}`, `sockets[]`, `drops[]`, and
+intensity}`, `fog {colorRGB, nearM, farM}`, `lighting` (the XCLL/LGTM record;
+the runtime reads `directionalRGB` and, from 4, `ambientCube {px,nx,py,ny,pz,nz:
+linear rgb}`), `sockets[]`, `drops[]`, and
 optionally `substitutions[] {id, refId, class, standInAsset, kit,
 standInCategory, positionM, rotationDeg, scale, …}` (walk 2 lane I: a piece
 the vault does not hold, drawn as a placement of its same-class stand-in

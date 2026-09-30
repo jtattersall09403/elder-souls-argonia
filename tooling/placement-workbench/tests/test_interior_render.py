@@ -5,6 +5,8 @@ runtime's intensity, and the fires the interior loader burns."""
 from __future__ import annotations
 
 import math
+
+import pytest
 import sys
 from pathlib import Path
 
@@ -510,3 +512,16 @@ def test_a_hub_by_the_door_gives_a_level_view_down_the_room():
     d, aim = ir.doorway_eye(cast, (0.05, 4.0, 0.0), (0.55, 4.0), 0.0)
     assert abs(_pitch_deg(d, aim)) <= ir.MAX_PITCH_DEG + 1e-6
     assert aim[0] - d[0] >= ir.MIN_CENTRE_M and ir.score_eye(cast, d, aim) >= ir.MIN_SCORE_M
+
+
+def test_the_render_ambient_cube_is_the_runtime_probe_in_blender_axes():
+    cube = {"px": [0.1, 0.1, 0.1], "nx": [0.2, 0.2, 0.2], "py": [0.4, 0.3, 0.2], "ny": [0.0, 0.0, 0.0],
+            "pz": [0.05, 0.05, 0.05], "nz": [0.3, 0.3, 0.3]}
+    got = ir.ambient_of({"ambient": {"colorRGB": [44, 33, 27], "intensity": 1.0}, "lighting": {"ambientCube": cube}})
+    assert got["ambient"] == [ir.AMBIENT_SCALE] * 3        # the emission scale is intensity x pi / pi
+    bc = got["ambientCube"]
+    for key, game_n in (("px", (1, 0, 0)), ("nx", (-1, 0, 0)), ("py", (0, 1, 0)), ("ny", (0, -1, 0)),
+                        ("pz", (0, 0, 1)), ("nz", (0, 0, -1))):
+        assert ir.cube_at(bc, ir.to_blender(game_n)) == pytest.approx(cube[key])
+    flat = ir.ambient_of({"ambient": {"colorRGB": [44, 33, 27], "intensity": 2.0}})
+    assert flat["ambientCube"] is None
