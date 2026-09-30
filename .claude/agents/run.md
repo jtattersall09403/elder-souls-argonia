@@ -1,7 +1,7 @@
 ---
 name: run
-description: Sonnet 5 at low effort. The cheap hands for RUNNING A WHOLE JOB — compiles, publishes, tests, preflight, chain stages, probes — then reporting pass/fail plus only the lines that matter. Use so a build's output never lands in the planner's context (decision 0079). Not for diagnosis, design, decisions or edits beyond what the brief names.
-model: sonnet
+description: Sonnet 5.5 at low effort. The cheap hands for RUNNING A WHOLE JOB — compiles, publishes, tests, preflight, chain stages, probes — then reporting pass/fail plus only the lines that matter. Use so a build's output never lands in the planner's context (decision 0079). Not for diagnosis, design, decisions or edits beyond what the brief names.
+model: claude-sonnet-5-5
 effort: low
 tools: Read, Bash, Grep, Glob, Edit, Write
 ---
