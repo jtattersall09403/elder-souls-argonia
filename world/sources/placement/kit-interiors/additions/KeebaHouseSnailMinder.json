@@ -120,7 +120,7 @@
    ],
    "rotZDeg": 0,
    "zone": "bed",
-   "why": "A candle on the chest by the bed."
+   "why": "Lights the clothes chest by the bedding."
   },
   {
    "id": "KeebaHouseSnailMinder:add:hearth-glazedcandles-14",
@@ -132,7 +132,7 @@
    ],
    "rotZDeg": 0,
    "zone": "hearth",
-   "why": "A candle on the tool barrel."
+   "why": "Lights the tool barrel by the hearth."
   },
   {
    "id": "KeebaHouseSnailMinder:add:store-glazedcandles-15",
@@ -144,7 +144,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A candle on the shelf of drying lichen."
+   "why": "Lights the rack of drying lichen."
   },
   {
    "id": "KeebaHouseSnailMinder:add:door-glazedcandles-16",
@@ -156,7 +156,7 @@
    ],
    "rotZDeg": 0,
    "zone": "door",
-   "why": "A candle on the floor inside the door."
+   "why": "Lights the floor just inside the door."
   }
  ]
 }

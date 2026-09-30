@@ -72,7 +72,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A candle on the low shelf."
+   "why": "Lights the low shelf by the stairs."
   },
   {
    "id": "KeebaHouseFisher:add:bed-glazedcandles-10",
@@ -84,7 +84,7 @@
    ],
    "rotZDeg": 0,
    "zone": "bed",
-   "why": "A candle on the chest by the mat."
+   "why": "Lights the sea chest beside the mat."
   },
   {
    "id": "KeebaHouseFisher:add:bed-glazedcandles-11",
@@ -96,7 +96,7 @@
    ],
    "rotZDeg": 0,
    "zone": "bed",
-   "why": "A candle on the floor by the bed."
+   "why": "Lights the floor beside the sleeping mat."
   },
   {
    "id": "KeebaHouseFisher:add:store-glazedcandles-12",
@@ -108,7 +108,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A candle on the healer's chest."
+   "why": "Lights the healer's chest of remedies."
   },
   {
    "id": "KeebaHouseFisher:add:door-glazedcandles-13",
@@ -120,7 +120,7 @@
    ],
    "rotZDeg": 0,
    "zone": "door",
-   "why": "A candle on the floor inside the door."
+   "why": "Lights the floor just past the doorway."
   }
  ]
 }

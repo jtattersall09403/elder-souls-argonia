@@ -96,7 +96,7 @@
    ],
    "rotZDeg": 0,
    "zone": "bed",
-   "why": "A candle on the chest by the bed."
+   "why": "Lights the clothes chest by the mat."
   },
   {
    "id": "KeebaHouseCrafter:add:bed-glazedcandles-12",
@@ -108,7 +108,7 @@
    ],
    "rotZDeg": 0,
    "zone": "bed",
-   "why": "A candle on the clothes cupboard."
+   "why": "Lights the reed cupboard beside the bed."
   },
   {
    "id": "KeebaHouseCrafter:add:store-glazedcandles-13",
@@ -120,7 +120,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A candle on the south shelf."
+   "why": "Lights the shelf along the south wall."
   }
  ]
 }

@@ -228,7 +228,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A candle on the shelf of jars."
+   "why": "Lights the row of clay jars."
   },
   {
    "id": "KeebaHouseElder:add:bed-glazedcandles-24",
@@ -240,7 +240,7 @@
    ],
    "rotZDeg": 0,
    "zone": "bed",
-   "why": "A candle on the cupboard by the bed."
+   "why": "Lights the storage cupboard by the mat."
   },
   {
    "id": "KeebaHouseElder:add:store-glazedcandles-25",
@@ -252,7 +252,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A candle on the cupboard of clay dishes."
+   "why": "Lights the dish cupboard near the stairs."
   }
  ]
 }

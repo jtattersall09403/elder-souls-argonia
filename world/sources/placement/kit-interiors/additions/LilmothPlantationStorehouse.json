@@ -204,7 +204,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A candle horn on the food cupboard."
+   "why": "Lights the shelf of stored provisions."
   },
   {
    "id": "LilmothPlantationStorehouse:add:door-candlehornwall-17",
@@ -228,7 +228,7 @@
    ],
    "rotZDeg": 0,
    "zone": "door",
-   "why": "A floor candle under the loft stairs."
+   "why": "Lights the floor beneath the loft stairs."
   }
  ]
 }
