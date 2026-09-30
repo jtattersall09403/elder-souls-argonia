@@ -1121,32 +1121,32 @@
     {
       "id": "repo-asset-build",
       "object": "snapshot/v1/repo-asset-build.tar",
-      "bytes": 5059512320,
-      "sha256": "5960854f82fc31e22f3915491e3035955b5983d13f59dbdb107ca7bc78bd74b7",
+      "bytes": 5060730880,
+      "sha256": "f7b7e3c447ba8653ab35f538d457c8e9bc56f67663f2607621ddcf463f5b565e",
       "root": "elder-souls-argonia-webgpu/tooling/asset-pipeline/build",
       "tier": "cache",
       "needsArchives": false,
-      "sourceBytes": 5045682965,
-      "sourceFingerprint": "fe5d7091d253a8e776c9d7a14841a84cbb756e903dbe77d2edc2234c7898e8b8",
+      "sourceBytes": 5046906208,
+      "sourceFingerprint": "8fde6692e750be59b2084445911c64d84b8802578244e97d728cb5b3508fb93a",
       "tarWarnings": 0,
       "filesObject": "snapshot/v1/repo-asset-build.files",
-      "createdAt": "2026-09-30T09:07:51+00:00",
-      "prevSha256": "de76883ac66544ffcae0d636f9270e45b1178a46c4e3612d81171eaed6290466"
+      "createdAt": "2026-09-30T17:34:56+00:00",
+      "prevSha256": "5960854f82fc31e22f3915491e3035955b5983d13f59dbdb107ca7bc78bd74b7"
     },
     {
       "id": "repo-asset-kits-meta",
       "object": "snapshot/v1/repo-asset-kits-meta.tar",
       "bytes": 51619840,
-      "sha256": "eb8e1b0d8b16c8ee70abb104014f0c963dd0bd685fd44cd214afc452f7986e50",
+      "sha256": "889f9ae6693ac373756bac19970ae1787e80fa8bcb7a3f387055d440d1b59833",
       "root": "elder-souls-argonia-webgpu/tooling/asset-pipeline/output/kits",
       "tier": "base",
       "needsArchives": false,
-      "sourceBytes": 50791705,
-      "sourceFingerprint": "10802dbdd4784fa8d4090f8137b6c2249da1166241b09b076be4d21e3983aef7",
+      "sourceBytes": 50793039,
+      "sourceFingerprint": "3b9ed40b528307541d537fc74c83cbd17a6ba590a213b820546d23c94344ada4",
       "tarWarnings": 0,
       "filesObject": "snapshot/v1/repo-asset-kits-meta.files",
-      "createdAt": "2026-09-30T09:01:50+00:00",
-      "prevSha256": "95919f3191716cfe53b4b081a40281a9e9d3290d60097df0156e04366966d3dc"
+      "createdAt": "2026-09-30T17:27:47+00:00",
+      "prevSha256": "eb8e1b0d8b16c8ee70abb104014f0c963dd0bd685fd44cd214afc452f7986e50"
     },
     {
       "id": "repo-asset-output",
@@ -1210,17 +1210,17 @@
     {
       "id": "repo-wg-products",
       "object": "snapshot/v1/repo-wg-products.tar",
-      "bytes": 7505920,
-      "sha256": "4c743d6ae29e83c1ed85a5beeb5e1225d7053dc9bd38783560c961803add4a9d",
+      "bytes": 7260160,
+      "sha256": "c41aaeeeb9e0cbb02eef83fbb708c67a5cba01cd0ca1dbf268930167953d1bee",
       "root": "elder-souls-argonia-webgpu/tooling/world-generation/output",
       "tier": "base",
       "needsArchives": false,
-      "sourceBytes": 7427359,
-      "sourceFingerprint": "828d6474e6d54b0313cdd1d546253d4f369ec4aee7e11531c6fe6c4445729d17",
+      "sourceBytes": 7181212,
+      "sourceFingerprint": "67bc91935b2e0aa7e7cdc3fd0719f8f4cf0fa09cb4576efda2a921e04eef7d49",
       "tarWarnings": 0,
       "filesObject": "snapshot/v1/repo-wg-products.files",
-      "createdAt": "2026-09-30T09:01:37+00:00",
-      "prevSha256": "f4585ccd44d6393e4714ba7507b1ce0622e8bdaccf70f0ffcb2f77b175ca42ee"
+      "createdAt": "2026-09-30T17:27:42+00:00",
+      "prevSha256": "4c743d6ae29e83c1ed85a5beeb5e1225d7053dc9bd38783560c961803add4a9d"
     },
     {
       "id": "skyrim-source-misc",
