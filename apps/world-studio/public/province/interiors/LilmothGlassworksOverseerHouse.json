@@ -216,9 +216,9 @@
     73.7783
    ],
    "rotationDeg": [
-    0.095,
+    0.019,
     327.0,
-    0.112
+    0.146
    ],
    "scale": 1.0,
    "category": "item",
@@ -235,9 +235,9 @@
     77.2774
    ],
    "rotationDeg": [
-    -68.353,
-    303.281,
-    90.868
+    57.779,
+    248.863,
+    -90.601
    ],
    "scale": 1.0,
    "category": "item",
@@ -292,9 +292,9 @@
     73.9332
    ],
    "rotationDeg": [
-    0.104,
+    -0.142,
     197.0,
-    0.145
+    -0.108
    ],
    "scale": 1.0,
    "category": "item",
@@ -311,9 +311,9 @@
     77.765
    ],
    "rotationDeg": [
-    0.004,
+    -0.022,
     331.097,
-    0.053
+    0.049
    ],
    "scale": 1.0,
    "category": "item",
@@ -349,9 +349,9 @@
     77.7645
    ],
    "rotationDeg": [
-    0.047,
+    -0.168,
     268.655,
-    0.167
+    0.043
    ],
    "scale": 1.0,
    "category": "item",
@@ -368,9 +368,9 @@
     73.7489
    ],
    "rotationDeg": [
-    -67.821,
-    170.906,
-    -92.603
+    5.883,
+    292.26,
+    -90.988
    ],
    "scale": 1.0,
    "category": "item",
@@ -406,9 +406,9 @@
     73.8541
    ],
    "rotationDeg": [
-    -5.933,
-    123.02,
-    18.84
+    19.262,
+    120.696,
+    -4.306
    ],
    "scale": 1.0,
    "category": "item",
@@ -425,9 +425,9 @@
     73.8574
    ],
    "rotationDeg": [
-    0.097,
+    -0.035,
     138.0,
-    0.055
+    -0.106
    ],
    "scale": 1.0,
    "category": "item",
@@ -444,9 +444,9 @@
     78.9554
    ],
    "rotationDeg": [
-    0.277,
+    0.2,
     45.746,
-    0.009
+    -0.192
    ],
    "scale": 1.0,
    "category": "item",
@@ -463,9 +463,9 @@
     77.7709
    ],
    "rotationDeg": [
-    -0.034,
-    268.57,
-    0.111
+    -0.111,
+    268.569,
+    -0.037
    ],
    "scale": 1.0,
    "category": "item",
@@ -539,9 +539,9 @@
     76.7989
    ],
    "rotationDeg": [
-    0.011,
+    0.01,
     309.293,
-    -0.004
+    0.006
    ],
    "scale": 1.0,
    "category": "item",
@@ -577,9 +577,9 @@
     77.9893
    ],
    "rotationDeg": [
-    0.028,
-    270.0,
-    -90.0
+    -90.0,
+    90.028,
+    0.0
    ],
    "scale": 1.0,
    "category": "misc",
@@ -596,9 +596,9 @@
     77.2462
    ],
    "rotationDeg": [
-    -0.229,
-    195.024,
-    -0.356
+    0.313,
+    195.025,
+    0.285
    ],
    "scale": 1.0,
    "category": "item",
@@ -615,9 +615,9 @@
     73.8128
    ],
    "rotationDeg": [
-    -0.548,
-    196.051,
-    5.266
+    -0.92,
+    195.933,
+    -5.214
    ],
    "scale": 1.0,
    "category": "item",
@@ -634,9 +634,9 @@
     74.3647
    ],
    "rotationDeg": [
-    0.024,
+    0.117,
     45.837,
-    0.139
+    0.08
    ],
    "scale": 1.0,
    "category": "item",
@@ -653,9 +653,9 @@
     74.5755
    ],
    "rotationDeg": [
-    0.0,
-    90.0,
-    90.0
+    -90.0,
+    270.0,
+    0.0
    ],
    "scale": 1.0,
    "category": "misc",
@@ -672,9 +672,9 @@
     73.8118
    ],
    "rotationDeg": [
-    -0.064,
+    0.003,
     209.0,
-    0.11
+    -0.127
    ],
    "scale": 1.0,
    "category": "item",
@@ -691,9 +691,9 @@
     73.9987
    ],
    "rotationDeg": [
-    -0.017,
+    0.041,
     130.818,
-    0.039
+    -0.012
    ],
    "scale": 1.0,
    "category": "item",
@@ -881,9 +881,9 @@
     77.2233
    ],
    "rotationDeg": [
-    0.068,
+    0.063,
     66.596,
-    0.039
+    -0.047
    ],
    "scale": 1.0,
    "category": "item",
@@ -900,9 +900,9 @@
     77.0574
    ],
    "rotationDeg": [
-    0.399,
-    305.339,
-    -0.197
+    0.392,
+    305.336,
+    0.211
    ],
    "scale": 1.0,
    "category": "item",
@@ -919,9 +919,9 @@
     78.2733
    ],
    "rotationDeg": [
-    -2.963,
-    25.59,
-    6.226
+    -0.049,
+    25.108,
+    6.892
    ],
    "scale": 1.0,
    "category": "item",
@@ -1014,9 +1014,9 @@
     77.2163
    ],
    "rotationDeg": [
-    3.326,
-    65.928,
-    -0.861
+    0.576,
+    65.87,
+    -3.387
    ],
    "scale": 1.0,
    "category": "item",
@@ -1147,9 +1147,9 @@
     76.7476
    ],
    "rotationDeg": [
-    0.043,
+    -0.029,
     232.328,
-    0.003
+    0.032
    ],
    "scale": 1.0,
    "category": "item",
@@ -1166,9 +1166,9 @@
     73.7419
    ],
    "rotationDeg": [
-    12.312,
-    188.934,
-    -64.34
+    -39.663,
+    170.834,
+    56.662
    ],
    "scale": 1.0,
    "category": "item",
@@ -1318,9 +1318,9 @@
     78.7843
    ],
    "rotationDeg": [
-    -0.074,
-    308.434,
-    -0.464
+    0.318,
+    308.436,
+    -0.347
    ],
    "scale": 1.0,
    "category": "item",
@@ -1356,9 +1356,9 @@
     77.7739
    ],
    "rotationDeg": [
-    0.067,
-    81.22,
-    0.195
+    0.203,
+    81.221,
+    -0.037
    ],
    "scale": 1.0,
    "category": "item",
@@ -1375,7 +1375,7 @@
     74.7043
    ],
    "rotationDeg": [
-    90.0,
+    -90.0,
     180.0,
     0.0
    ],
@@ -1451,9 +1451,9 @@
     73.9876
    ],
    "rotationDeg": [
-    -0.102,
-    74.483,
-    0.03
+    0.002,
+    74.482,
+    0.107
    ],
    "scale": 1.0,
    "category": "item",
@@ -1527,9 +1527,9 @@
     76.8041
    ],
    "rotationDeg": [
-    -2.408,
-    317.732,
-    3.691
+    -4.269,
+    317.539,
+    1.093
    ],
    "scale": 1.0,
    "category": "item",
@@ -1565,9 +1565,9 @@
     78.9766
    ],
    "rotationDeg": [
-    -0.086,
-    279.785,
-    -0.136
+    0.119,
+    279.786,
+    -0.108
    ],
    "scale": 1.0,
    "category": "item",
@@ -1603,9 +1603,9 @@
     79.9066
    ],
    "rotationDeg": [
-    -0.078,
+    -0.092,
     39.998,
-    -0.051
+    0.011
    ],
    "scale": 1.0,
    "category": "item",
@@ -1641,9 +1641,9 @@
     74.4274
    ],
    "rotationDeg": [
-    -0.833,
-    314.15,
-    -0.568
+    -0.173,
+    314.161,
+    -0.994
    ],
    "scale": 1.0,
    "category": "item",
@@ -1660,9 +1660,9 @@
     78.4078
    ],
    "rotationDeg": [
-    -0.174,
+    -0.118,
     68.754,
-    -0.059
+    0.14
    ],
    "scale": 1.0,
    "category": "item",
@@ -1679,7 +1679,7 @@
     76.9691
    ],
    "rotationDeg": [
-    90.0,
+    -90.0,
     180.0,
     0.0
    ],
@@ -1755,9 +1755,9 @@
     73.8136
    ],
    "rotationDeg": [
-    -28.384,
-    247.747,
-    15.97
+    3.568,
+    237.342,
+    -32.063
    ],
    "scale": 1.0,
    "category": "item",
@@ -1793,9 +1793,9 @@
     73.8015
    ],
    "rotationDeg": [
-    3.216,
-    50.246,
-    -4.368
+    -1.26,
+    49.819,
+    -5.274
    ],
    "scale": 1.0,
    "category": "item",
@@ -1812,9 +1812,9 @@
     74.6687
    ],
    "rotationDeg": [
-    0.0,
-    90.0,
-    90.0
+    -90.0,
+    270.0,
+    0.0
    ],
    "scale": 1.0,
    "category": "misc",
@@ -1831,9 +1831,9 @@
     73.7011
    ],
    "rotationDeg": [
-    0.101,
+    -0.032,
     123.0,
-    0.027
+    -0.099
    ],
    "scale": 1.0,
    "category": "item",
@@ -1850,9 +1850,9 @@
     73.999
    ],
    "rotationDeg": [
-    -47.747,
-    309.13,
-    -69.137
+    -76.14,
+    41.98,
+    1.605
    ],
    "scale": 1.0,
    "category": "item",
@@ -3761,21 +3761,6 @@
    ]
   },
   {
-   "refId": "0887987A",
-   "reason": "listed-drop",
-   "base": "FXfireWithEmbersLogs01",
-   "baseType": "MSTT",
-   "model": "effects/fxfirewithemberslogs01.nif",
-   "assetId": null,
-   "class": "effect",
-   "classSource": "base record MSTT, model taxonomy",
-   "positionM": [
-    108.7557,
-    81.1264,
-    74.8532
-   ]
-  },
-  {
    "refId": "0887987B",
    "reason": "light-source",
    "base": "SolitudeInnFirePlacesDefault",
@@ -3817,9 +3802,9 @@
     78.495
    ],
    "rotationDeg": [
-    -0.291,
-    57.037,
-    -0.061
+    -0.21,
+    57.038,
+    0.211
    ],
    "scale": 1.0
   },
@@ -3840,23 +3825,46 @@
     73.8177
    ],
    "rotationDeg": [
-    0.012,
+    -0.006,
     236.0,
-    -0.001
+    0.011
    ],
    "scale": 1.0
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse.0887987A",
+   "refId": "0887987A",
+   "originalPath": "effects/fxfirewithemberslogs01.nif",
+   "baseForm": null,
+   "class": "effect",
+   "classSource": "base record MSTT, model taxonomy",
+   "standInAsset": "vanilla:clutter/woodfires/fireplacewood01burning",
+   "kit": "interior-farmhouse-v1",
+   "standInCategory": "clutter",
+   "why": "A log fire burns in the hearth here.",
+   "positionM": [
+    108.7557,
+    81.1264,
+    74.8532
+   ],
+   "rotationDeg": [
+    0.0,
+    182.384,
+    0.0
+   ],
+   "scale": 0.82
   }
  ],
  "counts": {
   "placements": 108,
-  "drops": 18,
+  "drops": 17,
   "lights": 20,
-  "substitutions": 2,
+  "substitutions": 3,
   "swingDoors": 0,
   "missingByClass": {},
   "dropsByReason": {
    "light-source": 4,
-   "listed-drop": 2,
+   "listed-drop": 1,
    "listed-gap": 8,
    "marker": 4
   },

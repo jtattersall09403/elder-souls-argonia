@@ -226,9 +226,9 @@
     74.6687
    ],
    "rotationDeg": [
-    0.0,
-    90.0,
-    90.0
+    -90.0,
+    270.0,
+    0.0
    ],
    "scale": 1.0,
    "category": "misc",
@@ -245,9 +245,9 @@
     80.4067
    ],
    "rotationDeg": [
-    -12.312,
-    8.918,
-    64.34
+    -39.676,
+    350.823,
+    56.654
    ],
    "scale": 1.0,
    "category": "item",
@@ -303,7 +303,7 @@
    ],
    "rotationDeg": [
     0.0,
-    0.0,
+    360.0,
     180.0
    ],
    "scale": 0.74,
@@ -340,9 +340,9 @@
     77.1587
    ],
    "rotationDeg": [
-    -0.18,
-    251.158,
-    -0.335
+    0.375,
+    251.16,
+    -0.062
    ],
    "scale": 1.0,
    "category": "item",
@@ -397,9 +397,9 @@
     77.6549
    ],
    "rotationDeg": [
-    0.122,
-    268.328,
-    -0.088
+    0.085,
+    268.327,
+    0.125
    ],
    "scale": 1.0,
    "category": "item",
@@ -473,9 +473,9 @@
     76.9566
    ],
    "rotationDeg": [
-    0.485,
-    325.609,
-    -0.036
+    0.42,
+    325.608,
+    0.244
    ],
    "scale": 1.0,
    "category": "item",
@@ -492,9 +492,9 @@
     80.3471
    ],
    "rotationDeg": [
-    -3.216,
-    230.17,
-    4.368
+    -1.253,
+    229.744,
+    -5.276
    ],
    "scale": 1.0,
    "category": "item",
@@ -587,9 +587,9 @@
     77.6613
    ],
    "rotationDeg": [
-    0.016,
+    0.211,
     268.327,
-    -0.211
+    0.022
    ],
    "scale": 1.0,
    "category": "item",
@@ -663,9 +663,9 @@
     77.1366
    ],
    "rotationDeg": [
-    -0.173,
-    216.745,
-    -0.423
+    0.391,
+    216.746,
+    0.236
    ],
    "scale": 1.0,
    "category": "item",
@@ -682,9 +682,9 @@
     74.5014
    ],
    "rotationDeg": [
-    23.632,
-    101.801,
-    2.655
+    -2.949,
+    102.758,
+    -23.599
    ],
    "scale": 1.0,
    "category": "item",
@@ -701,9 +701,9 @@
     80.3703
    ],
    "rotationDeg": [
-    -0.095,
+    0.019,
     147.052,
-    -0.112
+    0.146
    ],
    "scale": 1.0,
    "category": "item",
@@ -739,9 +739,9 @@
     77.6643
    ],
    "rotationDeg": [
-    0.036,
+    -0.168,
     80.242,
-    -0.177
+    -0.065
    ],
    "scale": 1.0,
    "category": "item",
@@ -815,9 +815,9 @@
     76.639
    ],
    "rotationDeg": [
-    -0.068,
+    -0.002,
     231.722,
-    0.056
+    -0.088
    ],
    "scale": 1.0,
    "category": "item",
@@ -910,9 +910,9 @@
     77.1058
    ],
    "rotationDeg": [
-    3.994,
-    66.921,
-    -0.902
+    0.744,
+    66.853,
+    -4.027
    ],
    "scale": 1.0,
    "category": "item",
@@ -986,9 +986,9 @@
     80.4475
    ],
    "rotationDeg": [
-    -0.101,
+    -0.032,
     302.704,
-    -0.027
+    -0.1
    ],
    "scale": 1.0,
    "category": "item",
@@ -1024,9 +1024,9 @@
     77.1137
    ],
    "rotationDeg": [
-    -0.004,
+    -0.003,
     68.755,
-    -0.002
+    0.003
    ],
    "scale": 1.0,
    "category": "item",
@@ -1043,7 +1043,7 @@
     74.7043
    ],
    "rotationDeg": [
-    90.0,
+    -90.0,
     180.0,
     0.0
    ],
@@ -1119,9 +1119,9 @@
     78.6272
    ],
    "rotationDeg": [
-    0.109,
+    -0.099,
     245.408,
-    0.059
+    0.074
    ],
    "scale": 1.0,
    "category": "item",
@@ -1157,9 +1157,9 @@
     80.3349
    ],
    "rotationDeg": [
-    28.384,
-    68.096,
-    -15.97
+    3.383,
+    57.637,
+    -32.081
    ],
    "scale": 1.0,
    "category": "item",
@@ -1195,9 +1195,9 @@
     74.9387
    ],
    "rotationDeg": [
-    -7.544,
-    306.866,
-    17.392
+    -18.647,
+    303.838,
+    3.208
    ],
    "scale": 1.0,
    "category": "item",
@@ -1214,7 +1214,7 @@
     76.9691
    ],
    "rotationDeg": [
-    90.0,
+    -90.0,
     180.0,
     0.0
    ],
@@ -1290,9 +1290,9 @@
     78.2889
    ],
    "rotationDeg": [
-    0.028,
-    270.0,
-    -90.0
+    -90.0,
+    90.028,
+    0.0
    ],
    "scale": 1.0,
    "category": "misc",
@@ -1328,9 +1328,9 @@
     80.3358
    ],
    "rotationDeg": [
-    0.548,
-    15.94,
-    -5.266
+    -0.91,
+    15.823,
+    -5.215
    ],
    "scale": 1.0,
    "category": "item",
@@ -1347,9 +1347,9 @@
     74.5233
    ],
    "rotationDeg": [
-    0.24,
-    5.732,
-    -0.132
+    0.225,
+    5.731,
+    -0.155
    ],
    "scale": 1.0,
    "category": "item",
@@ -1405,8 +1405,8 @@
    ],
    "rotationDeg": [
     0.0,
-    74.484,
-    -180.0
+    285.516,
+    180.0
    ],
    "scale": 0.74,
    "category": "misc",
@@ -1423,9 +1423,9 @@
     74.1875
    ],
    "rotationDeg": [
-    -0.528,
-    302.712,
-    0.316
+    -0.551,
+    302.706,
+    -0.273
    ],
    "scale": 1.0,
    "category": "item",
@@ -1461,9 +1461,9 @@
     76.6909
    ],
    "rotationDeg": [
-    0.037,
+    0.078,
     308.434,
-    -0.069
+    -0.014
    ],
    "scale": 1.0,
    "category": "item",
@@ -1480,9 +1480,9 @@
     80.2912
    ],
    "rotationDeg": [
-    -0.097,
+    -0.036,
     318.053,
-    -0.055
+    -0.106
    ],
    "scale": 1.0,
    "category": "item",
@@ -1537,9 +1537,9 @@
     80.2154
    ],
    "rotationDeg": [
-    -0.104,
-    17.188,
-    -0.145
+    -0.142,
+    17.189,
+    -0.107
    ],
    "scale": 1.0,
    "category": "item",
@@ -1594,9 +1594,9 @@
     74.8751
    ],
    "rotationDeg": [
-    0.0,
-    90.0,
-    90.0
+    -90.0,
+    270.0,
+    0.0
    ],
    "scale": 1.0,
    "category": "misc",
@@ -1613,9 +1613,9 @@
     80.3368
    ],
    "rotationDeg": [
-    0.064,
+    0.003,
     28.648,
-    -0.11
+    -0.127
    ],
    "scale": 1.0,
    "category": "item",
@@ -1632,9 +1632,9 @@
     80.2945
    ],
    "rotationDeg": [
-    5.933,
-    303.502,
-    -18.84
+    19.225,
+    301.205,
+    -4.474
    ],
    "scale": 1.0,
    "category": "item",
@@ -1689,9 +1689,9 @@
     74.4302
    ],
    "rotationDeg": [
-    -0.218,
-    285.531,
-    -0.117
+    0.054,
+    285.532,
+    -0.242
    ],
    "scale": 1.0,
    "category": "item",
@@ -1708,9 +1708,9 @@
     77.655
    ],
    "rotationDeg": [
-    0.103,
+    0.151,
     331.353,
-    -0.127
+    -0.063
    ],
    "scale": 1.0,
    "category": "item",
@@ -1822,9 +1822,9 @@
     76.6901
    ],
    "rotationDeg": [
-    0.444,
-    320.441,
-    3.555
+    -1.919,
+    320.533,
+    3.026
    ],
    "scale": 1.0,
    "category": "item",
@@ -4017,21 +4017,6 @@
    "baseType": "IDLM"
   },
   {
-   "refId": "088B26F4",
-   "reason": "listed-drop",
-   "base": "FXfireWithEmbersLogs01",
-   "baseType": "MSTT",
-   "model": "effects/fxfirewithemberslogs01.nif",
-   "assetId": null,
-   "class": "effect",
-   "classSource": "base record MSTT, model taxonomy",
-   "positionM": [
-    104.4555,
-    80.9875,
-    80.0736
-   ]
-  },
-  {
    "refId": "088B26F9",
    "reason": "light-source",
    "base": "SolitudeInnFirePlacesDefault",
@@ -4116,6 +4101,29 @@
  ],
  "substitutions": [
   {
+   "id": "LilmothPlantationStorehouse.088B26F4",
+   "refId": "088B26F4",
+   "originalPath": "effects/fxfirewithemberslogs01.nif",
+   "baseForm": null,
+   "class": "effect",
+   "classSource": "base record MSTT, model taxonomy",
+   "standInAsset": "vanilla:clutter/woodfires/fireplacewood01burning",
+   "kit": "interior-farmhouse-v1",
+   "standInCategory": "clutter",
+   "why": "A log fire burns in the hearth here.",
+   "positionM": [
+    104.4555,
+    80.9875,
+    80.0736
+   ],
+   "rotationDeg": [
+    0.0,
+    182.384,
+    0.0
+   ],
+   "scale": 0.49
+  },
+  {
    "id": "LilmothPlantationStorehouse.088B271C",
    "refId": "088B271C",
    "originalPath": "creationclub/bgssse001/critters/fish/fishcuckoocatfish/fishcuckoocatfish01inv.nif",
@@ -4132,23 +4140,22 @@
     80.3309
    ],
    "rotationDeg": [
-    -0.012,
+    -0.006,
     55.626,
-    0.001
+    0.011
    ],
    "scale": 1.0
   }
  ],
  "counts": {
   "placements": 128,
-  "drops": 12,
+  "drops": 11,
   "lights": 22,
-  "substitutions": 1,
+  "substitutions": 2,
   "swingDoors": 0,
   "missingByClass": {},
   "dropsByReason": {
    "light-source": 4,
-   "listed-drop": 1,
    "listed-gap": 2,
    "marker": 5
   },

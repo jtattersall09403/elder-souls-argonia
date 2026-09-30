@@ -151,6 +151,24 @@ run) and 5 (the gates).
   and a missing architecture piece fails the export
   (the exporter's acceptance, `test_export_interior_bundle.py`). Interior kits are built and published through `kit-build`
   like any kit.
+- **The hearth burns** (16k walk 6): the plugin's hearth fire is an MSTT
+  effect (`FXfireWithEmbersLogs01`, `FXfireWithEmbersLight`) with no kit
+  mesh; the exporter stands it in as the kit fire bed
+  `fireplacewood01burning` (`HEARTH_FIRE_STAND_INS`, one per hearth), the
+  one effect that is not a listed drop. Every other effect stays a drop.
+- **A tilted piece keeps its plugin tilt** (16k walk 6): Skyrim composes a
+  reference's rotation as `Rx(-x) Ry(-y) Rz(-z)` (z applied first, about
+  the world axes; `game_rotation_deg`). The reverse order stood every
+  board rotated (90, 90, 0) on edge, so the Lilmoth upper floors hung in
+  the air as vertical planks. Pinned by `test_a_rolled_floor_board_lies_flat`.
+- **Audit every exported cell** with `wb.py audit-interior <cell>` (exit 0):
+  textures published, and no piece over 3 m (a shell, a wall) with its
+  diffuse aliased to a `/lod/` copy (KotM's `ceramic01teal_dlod` is one
+  flat colour, pixel std 3/255, and was the owner's "flat green walls"; a
+  kit alias to a LOD copy is checked by its pixel spread before it is
+  written, in the kit config's `textureNote`), no piece more than 5 cm from any support, stairs
+  land at both ends, hearths lit, lit density. A red names the kit, the
+  texture or the piece; fix it at its source.
 
 ## 4. The interior runtime contract (0103 decision 4)
 

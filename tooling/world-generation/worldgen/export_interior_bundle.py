@@ -141,6 +141,23 @@ ARCHITECTURE_CLASSES = frozenset({"architecture", "ruin", "dungeon-kit", "door",
 #: ruling 2026-09-27, lane P): an effect (steam, smoke) and a wearable (an
 #: ARMO ground model: boots, sandals) carry no furnishing the room needs
 LISTED_DROP_CLASSES = frozenset({"effect", "wearable"})
+#: The one effect a room needs (16k walk 6): the plugin's hearth fire, an MSTT
+#: effect with no kit mesh, stands in as the kit fire bed that carries the mined
+#: hearth flame. Base EDID -> stand-in, in preference order; one fire per hearth
+#: (a second fire effect within HEARTH_FIRE_M of a stood-in one stays a drop).
+HEARTH_FIRE_STAND_INS = {
+    "FXfireWithEmbersLogs01": "vanilla:clutter/woodfires/fireplacewood01burning",
+    "FXfireWithEmbersLight": "vanilla:clutter/woodfires/fireplacewood01burning",
+}
+HEARTH_FIRE_WHY = "A log fire burns in the hearth here."
+HEARTH_FIRE_M = 1.0
+
+
+def is_hearth_fire(sub: dict) -> bool:
+    """A substitution that is the plugin hearth fire's kit fire bed (the one
+    effect-class stand-in; its category is the fire bed's, not 'effect')."""
+    return (sub.get("class") == "effect" and sub.get("why") == HEARTH_FIRE_WHY
+            and sub.get("standInAsset") in HEARTH_FIRE_STAND_INS.values())
 
 REF_TYPES = (b"REFR", b"ACHR")
 ACTOR_BASES = {"NPC_", "LVLN", "LVLC"}
@@ -780,11 +797,15 @@ _AXES_T = [[1, 0, 0], [0, 0, -1], [0, 1, 0]]
 
 
 def game_rotation_deg(rot) -> list[float]:
-    """The plugin's Euler rotation (radians, applied X then Y then Z, each
-    clockwise) as the runtime's ``[pitch, yaw, roll]`` degrees for
-    ``Euler(pitch, -yaw, roll, 'YXZ')`` in the game frame."""
+    """The plugin's Euler rotation (radians, each clockwise) as the runtime's
+    ``[pitch, yaw, roll]`` degrees for ``Euler(pitch, -yaw, roll, 'YXZ')`` in
+    the game frame. Skyrim composes a reference's rotation as Gamebryo's
+    ``Rx(-x) Ry(-y) Rz(-z)``: z is applied first, x last, about the world
+    axes. (16k walk 6: the old X-then-Y-then-Z order stood KotM's floor
+    boards on edge; plankwall01b 088B26E8 at (90, 90, 0) deg is a flat
+    board of the Lilmoth upper floor, `test_a_rolled_floor_board_lies_flat`.)"""
     rx, ry, rz = (float(v) for v in rot)
-    r_plugin = _mat_mul(_rot("z", -rz), _mat_mul(_rot("y", -ry), _rot("x", -rx)))
+    r_plugin = _mat_mul(_rot("x", -rx), _mat_mul(_rot("y", -ry), _rot("z", -rz)))
     m = _mat_mul(_AXES, _mat_mul(r_plugin, _AXES_T))
     m23 = max(-1.0, min(1.0, m[1][2]))
     x = math.asin(-m23)
@@ -1187,7 +1208,19 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
                                                 host["rotationDeg"][1] if host else None)
 
     substitutions = []
-    for rid, row in sorted(load_substitutions(cell_edid).items()):
+    sub_rows = load_substitutions(cell_edid)
+    fires: list = []
+    order = list(HEARTH_FIRE_STAND_INS)
+    for d in sorted((d for d in drops if d["reason"] in MISSING_REASONS
+                     and d.get("base") in HEARTH_FIRE_STAND_INS and d["refId"] not in sub_rows),
+                    key=lambda d: (order.index(d["base"]), d["refId"])):
+        pos = poses[d["refId"]][0]
+        if any(math.dist(pos, f) <= HEARTH_FIRE_M for f in fires):
+            continue
+        fires.append(pos)
+        sub_rows[d["refId"]] = {"refId": d["refId"], "standInAsset": HEARTH_FIRE_STAND_INS[d["base"]],
+                                "why": HEARTH_FIRE_WHY}
+    for rid, row in sorted(sub_rows.items()):
         miss = next((d for d in drops if d["refId"] == rid and d["reason"] in MISSING_REASONS), None)
         if miss is None:
             raise ValueError(f"{cell_edid}: substitution for {rid}, which is not a missing piece of the cell")
@@ -1298,10 +1331,11 @@ def check(bundle: dict) -> list[str]:
                         f"({', '.join(sorted({d.get('model') or d.get('baseForm') or '?' for d in arch}))}); "
                         f"the cell does not fit and is never claimed")
     for s in subs:
-        if s.get("class") not in SUBSTITUTABLE_CLASSES:
+        hearth_fire = is_hearth_fire(s)
+        if s.get("class") not in SUBSTITUTABLE_CLASSES and not hearth_fire:
             problems.append(f"{bundle['cellId']}: {s.get('refId')} is class {s.get('class')!r}; "
                             f"only clutter or furniture takes a stand-in")
-        elif s.get("standInCategory") != s.get("class"):
+        elif s.get("standInCategory") != s.get("class") and not hearth_fire:
             problems.append(f"{bundle['cellId']}: stand-in {s.get('standInAsset')} is "
                             f"{s.get('standInCategory')!r}, the missing piece is {s.get('class')!r}")
     ids = [p["id"] for p in bundle["placements"]] + [s["id"] for s in subs]

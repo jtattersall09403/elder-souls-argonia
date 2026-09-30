@@ -216,6 +216,14 @@ record row or an UNVERIFIED mark.
    building and dressing group of the brief in it before the first apply. Yard sets come from
    `world/sources/placement/yard-sets/<type>.json` (0101); a new set is a
    REQUEST row, never only a `group save` in the layout.
+2b. **Dry or wet, decided per piece** (R86). Standing in water is never
+   a `check` failure: for every piece you decide whether it stands dry or
+   is meant to stand in water (a jetty post, a fish trap, a sunken wreck).
+   A dry piece's spot reads no `waterLevelM` on `wb.py <scene> ground --at X Z`
+   (the fine raster; the analysis grid's `wet` cells miss a sub-cell pond);
+   a wet one carries `"wet": true` on its `place` op. After `apply`, every
+   `check` row with `waterDepthM` > 0 and `wet` false is a piece you did
+   not mean to put in water: move it. The render shows both.
 3. Scan every building's site, then apply:
 
         python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage survey-and-scans --start
@@ -275,7 +283,14 @@ resolved flame; presets, the contact sheet and the anchor check are in
 Interiors: run `wb.py render-interior <cell>` for every tier-A cell the
 place's doors claim (one contact sheet each, ~40 s; `references/doors-interiors-sockets.md`
 § 7); a reader judges it readable, warm, lit by its sources, not flat
-(reader row 48). This is the required interior check.
+(reader row 48). This is the required interior check. Before the
+renders, `wb.py audit-interior <cell ...>` (~40 s a cell) must exit 0:
+every placed piece's texture published and no shell on a flat LOD swatch, every
+piece touching a support within 5 cm, every stair landing at both ends,
+every hearth with its fire, one lit fixture per 12 m² of walkable floor
+(reader row 49; 16k walk 6, the garbled Greenspring hut). A red is fixed at
+source (kit texture alias, exporter stand-in, additions file), never by
+moving a plugin piece.
 
 One Blender launch: the top view, one front per building, two isos, and a
 shot of every `unmined` mount (0102 decision 5). The readers run as one

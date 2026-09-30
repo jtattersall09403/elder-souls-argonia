@@ -38,6 +38,7 @@ whole state. Prints JSON on stdout and a timing line on stderr.
     wb.py - walktable PLACE_ID            (owner-walk table from the published bundle)
     wb.py - describe ASSET [--refresh]
     wb.py - evidence PARENT_ASSET CHILD_ASSET
+    wb.py audit-interior [CELL ...] [--out J] (interior cell: textures, support, stairs, hearth, lit density)
     wb.py seat-interior CELL ASSET ZONE|X,Y,Z [--mount table|wall|floor|ceiling]
                                           (seat one interior lighting addition; prints pos/rotZDeg)
 
@@ -2472,6 +2473,26 @@ def run_whatchanged(argv) -> int:
     return 0
 
 
+def run_audit_interior(argv) -> int:
+    """`wb.py audit-interior [CELL ...] [--out JSON]`: textures resolve,
+    support below, stairs land, hearth lit, lit density, per published cell
+    (no CELL: all). Exit 1 on any red. workbench/interior_audit.py."""
+    from workbench import interior_audit
+    ap = argparse.ArgumentParser(prog="wb.py audit-interior")
+    ap.add_argument("cells", nargs="*")
+    ap.add_argument("--out", type=Path, default=None, help="full JSON (default: stdout)")
+    a = ap.parse_args(argv)
+    got = interior_audit.audit(a.cells or None)
+    if a.out:
+        a.out.write_text(json.dumps(got, indent=1) + "\n")
+    else:
+        _emit(got)
+    for c in got:
+        print(f"{c['cell']}: red {c['red'] or 'none'}; lit {c['litDensity']['litFixtures']}"
+              f"/{c['litDensity']['needed']} over {c['litDensity']['walkableM2']} m2", file=sys.stderr)
+    return 1 if any(c["red"] for c in got) else 0
+
+
 def run_render_interior(argv) -> int:
     """`wb.py render-interior CELL [--day | --night] [--out PNG]`: the
     interior lighting contact sheet from the published bundle (doorway and
@@ -2515,6 +2536,7 @@ def run_seat_interior(argv) -> int:
 
 TOP_LEVEL = {"apply": run_apply, "replay": run_replay, "round": run_round, "edit": run_edit,
              "bpy": run_bpy, "render-interior": run_render_interior,
+             "audit-interior": run_audit_interior,
              "seat-interior": run_seat_interior,
              "whatchanged": run_whatchanged}
 
