@@ -141,8 +141,9 @@ export function interiorPlacementMatrix(p: InteriorPlacement): THREE.Matrix4 {
 }
 
 /**
- * The cell's ambient: from schema 4 a LightProbe carrying the cell's
- * directional ambient cube (ambientCube.ts), else the flat AmbientLight.
+ * The cell's ambient: a LightProbe carrying the cell's
+ * directional ambient cube (ambientCube.ts) when the cell records one, else
+ * the flat AmbientLight.
  * Both at `ambient.intensity × INTERIOR_AMBIENT_SCALE`, so a cube of the old
  * ambient colour on every axis lights exactly as the AmbientLight did.
  */

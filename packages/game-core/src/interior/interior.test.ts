@@ -126,18 +126,17 @@ describe("interior bundle contract (the shared fixture)", () => {
     // acceptance (0103 decision 3): references = placements + drops
     // walk 4: plus the swing doors, which are doors[] entries and not placements
     expect(b.placements.length + b.drops.length + b.doors.filter((d) => d.doorType === "swing").length).toBe(b.refCount);
-    expect(parseInteriorBundle({ ...structuredClone(fixture), shellAssetId: "s" }, "x").shellAssetId).toBe("s");
+    expect(() => parseInteriorBundle({ ...structuredClone(fixture), shellAssetId: "s" }, "x")).toThrow(/shellAssetId is not null/);
   });
 
-  it("reads a schema 2 file and drops the per-place pairing it carried (one place's, overwritten by the next)", () => {
-    const old = structuredClone(fixture) as { schemaVersion: number; doors: Record<string, unknown>[] };
-    old.schemaVersion = 2;
-    Object.assign(old.doors[0], { exteriorDoorId: "door.other-place.1", arrivalMarker: { positionM: [9, 9, 9], yawDeg: 0 } });
-    old.doors.push({ doorType: "load", interiorLoadDoorRef: "UPPER", closed: true, loadDoor: { positionM: [0, 0, 3], yawDeg: 180 } });
-    const b = parseInteriorBundle(old, "x");
-    expect(b.doors.filter((d) => d.doorType === "load")).toEqual([
-      { doorType: "load", interiorLoadDoorRef: "00000A01", loadDoor: { positionM: [0, 0, 3.5], yawDeg: 180 } },
-      { doorType: "load", interiorLoadDoorRef: "UPPER", loadDoor: { positionM: [0, 0, 3], yawDeg: 180 } }]);
+  it("refuses a schema 2 or 3 file and a load door carrying a per-place pairing", () => {
+    for (const v of [2, 3]) {
+      expect(() => parseInteriorBundle({ ...structuredClone(fixture), schemaVersion: v }, "x"))
+        .toThrow(new RegExp(`unsupported schemaVersion ${v} \\(this runtime reads 4 only`));
+    }
+    const old = structuredClone(fixture) as { doors: Record<string, unknown>[] };
+    old.doors[0].exteriorDoorId = "door.other-place.1";
+    expect(() => parseInteriorBundle(old, "x")).toThrow(/load door 0 carries per-place field exteriorDoorId/);
   });
 
   it("refuses a malformed door pairing, a light without its fade field, a missing drops list", () => {

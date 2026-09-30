@@ -7,7 +7,7 @@ mounts it (`apps/world-studio/src/character/InteriorDoors.tsx`).
 
 | File | What it owns |
 | --- | --- |
-| `bundle.ts` | The bundle contract (`public/province/interiors/<cellId>.json`, schemaVersion 4; 2 and 3 still parse) and its validator; a schema-1 bundle is refused with its version named. |
+| `bundle.ts` | The bundle contract (`public/province/interiors/<cellId>.json`, schemaVersion 4) and its validator; any other version is refused with its version named. |
 | `ambientCube.ts` | The cell's directional ambient (Skyrim XCLL "Ambient Colors" / LGTM DALC, `lighting.ambientCube`, linear, game axes): `ambientCubeToSH` gives the nine SH coefficients (plain numbers, any renderer) whose irradiance is exactly the cube on each axis, `E(n) = Σ m_a a² + d_a a`; the loader's `interiorAmbient` feeds them to a `THREE.LightProbe` in place of the flat AmbientLight, at the same `ambient.intensity × INTERIOR_AMBIENT_SCALE`. `interior_light.py` and the render tool evaluate the same E(n). |
 | `swingDoors.ts` | Swing doors (built in 16k walk 4, owner 2026-09-28): the one record kind for an interior bundle's `swing` entry and a place's compiled door with `doorType: "swing"` and a `swing` pose; `buildSwingDoor` (the leaf under a hinge group at `hinge.pivotM`, frame parts outside `hinge.leafBoundsM` left standing), `SwingDoorController` (Open/Close prompt candidates, toggle on `activate`, eased turn over `hinge.openS` to `hinge.openAngleDeg`, collider off while moving and rebuilt at rest, a body in the swept arc keeps it put, `door.open`/`door.close` on the typed sound bus), `loadDoorsOf` (what `DoorTransition` keeps). |
 | `doors.ts` | Which doors open (`doorAccess`: `interiorClaim.tier === "A"` with a `cellId`, not `reserved`), reach 1.5 m, prefetch 40 m, the interior-space lift, the prompt text ids. |
@@ -20,7 +20,7 @@ mounts it (`apps/world-studio/src/character/InteriorDoors.tsx`).
 
 The shared fixture `__fixtures__/interior.fixture.json` IS the contract:
 the exporter's Python test and `interior.test.ts` both read it.
-`schemaVersion 4` (3 still parses with the flat ambient; 2 too, its per-place door fields dropped), `cellId`, `plugin`, `frame`, `shellAssetId` (null from 3: the
+`schemaVersion 4` (the only version read), `cellId`, `plugin`, `frame`, `shellAssetId` (always null: the
 shell is the claiming parcel's `assetRef`), `refCount` (= placements + drops + substitutions + swing doors), `kits {id: {id, glb, manifest}}`,
 `arrivalMarker {positionM, yawDeg}`, `exitDoor {id, refId, positionM, yawDeg}`,
 `doors[]` (may be empty): one `{doorType: "load", interiorLoadDoorRef, loadDoor}`

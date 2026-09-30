@@ -105,10 +105,9 @@
     },
     {
       "pattern": "settlement-build(?!ing)",
-      "why": "the settlement-build skill was retired by 0100 decision 1 (a pointer for one release, then deleted)",
+      "why": "the settlement-build skill was retired by 0100 decision 1 and deleted 2026-09-30",
       "say": "the place-build skill (.claude/skills/place-build/)",
       "exempt": [
-        ".claude/skills/settlement-build/",
         "docs/phases/16-foundation-and-places/16h-settlement-runtime-and-kit-qa.md",
         "docs/phases/16-foundation-and-places/16g-macro-plot-places-adapt.md",
         "docs/research/phase16/16h-catalogue-wide-steps-audit.md",

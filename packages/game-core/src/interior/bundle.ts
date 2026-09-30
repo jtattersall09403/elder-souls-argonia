@@ -10,20 +10,16 @@ import { swingPoseProblem, type InteriorSwingDoor } from "./swingDoors";
 import { isAmbientCube, type AmbientCube } from "./ambientCube";
 
 /**
- * 2 (16k walk 4, owner 2026-09-28): every `doors[]` entry carries `doorType`;
- * a DOOR reference with no teleport is a `swing` entry (swingDoors.ts), no
- * longer a placement. A schema-1 bundle is refused with its version named.
- * 3 (2026-09-29, decision 0104): the cell file is shared by every place that
- * claims the cell, so it carries no per-place field: a load door is
- * `{doorType, interiorLoadDoorRef, loadDoor}` and the pairing (which exterior
- * door, its arrival marker) is the place's door record (`interiorClaim`).
- * Schema 2 still parses: its per-place door fields are ignored.
- * 4 (2026-09-30): `lighting.ambientCube`, the cell's directional ambient
- * (ambientCube.ts), lights the cell in place of the flat `ambient` colour.
- * Schema 3 still parses (no cube: the flat ambient).
+ * 4 (2026-09-30): the only schema read. The cell file is shared by every
+ * place that claims the cell (decision 0104), so it carries no per-place
+ * field: a load door is `{doorType, interiorLoadDoorRef, loadDoor}` and the
+ * pairing (which exterior door, its arrival marker) is the place's door
+ * record (`interiorClaim`); a DOOR reference with no teleport is a `swing`
+ * entry (swingDoors.ts); `lighting.ambientCube` (ambientCube.ts) lights the
+ * cell in place of the flat `ambient` colour. Any other version is refused
+ * with its version named: re-export the cell.
  */
 export const INTERIOR_BUNDLE_SCHEMA_VERSION = 4;
-const READABLE_SCHEMA_VERSIONS: readonly number[] = [2, 3, INTERIOR_BUNDLE_SCHEMA_VERSION];
 
 export type Vec3 = [number, number, number];
 
@@ -129,8 +125,8 @@ export interface InteriorBundle {
   plugin: string;
   /** Human-readable statement of the coordinate frame; documentation only. */
   frame: string;
-  /** Null from schema 3 (the shell is the claiming parcel's `assetRef`); schema 2 files name one. */
-  shellAssetId: string | null;
+  /** Always null: the shell is the claiming parcel's `assetRef`. */
+  shellAssetId: null;
   /** References in the plugin cell: placements plus the listed drops (0103 decision 3 acceptance). */
   refCount: number;
   kits: Record<string, InteriorKitRef>;
@@ -148,9 +144,10 @@ export interface InteriorBundle {
   fog: { colorRGB: ColorRGB; nearM: number; farM: number };
   /**
    * The cell's XCLL/LGTM lighting as the plugin records it; the runtime reads
-   * `directionalRGB` (the cell's directional light) and, from schema 4,
+   * `directionalRGB` (the cell's directional light) and
    * `ambientCube` (linear, game axes; replaces the flat `ambient` colour,
-   * scaled by `ambient.intensity`). Absent on older bundles.
+   * scaled by `ambient.intensity`; absent when the cell records none, read
+   * as the flat ambient).
    */
   lighting?: {
     directionalRGB?: ColorRGB; directionalFade?: number; ambientCube?: AmbientCube; [field: string]: unknown;
@@ -180,12 +177,12 @@ export function parseInteriorBundle(raw: unknown, source: string): InteriorBundl
   const fail = (why: string): never => { throw new Error(`interior bundle ${source}: ${why}`); };
   const b = raw as Partial<InteriorBundle> | null;
   if (!b || typeof b !== "object") fail("not an object");
-  if (!READABLE_SCHEMA_VERSIONS.includes(b!.schemaVersion as number)) {
-    fail(`unsupported schemaVersion ${String(b!.schemaVersion)}`);
+  if (b!.schemaVersion !== INTERIOR_BUNDLE_SCHEMA_VERSION) {
+    fail(`unsupported schemaVersion ${String(b!.schemaVersion)} (this runtime reads ${INTERIOR_BUNDLE_SCHEMA_VERSION} only; re-export the cell with export_interior_bundle)`);
   }
   if (typeof b!.cellId !== "string" || !b!.cellId) fail("no cellId");
   if (typeof b!.plugin !== "string" || typeof b!.frame !== "string") fail("no plugin/frame");
-  if (b!.shellAssetId !== null && typeof b!.shellAssetId !== "string") fail("shellAssetId is neither a string nor null");
+  if (b!.shellAssetId !== null) fail("shellAssetId is not null (the shell is the claiming parcel's assetRef)");
   if (!Number.isInteger(b!.refCount) || b!.refCount! < 0) fail("bad refCount");
   if (!b!.kits || typeof b!.kits !== "object") fail("no kits map");
   if (!isMarker(b!.arrivalMarker)) fail("bad arrivalMarker");
@@ -204,8 +201,8 @@ export function parseInteriorBundle(raw: unknown, source: string): InteriorBundl
     if (kind !== "load") fail(`door ${i}: doorType ${String(kind)} is neither load nor swing`);
     const d = entry as Partial<InteriorLoadDoor> | null;
     if (!isStr(d?.interiorLoadDoorRef) || !isMarker(d.loadDoor)) fail(`load door ${i} malformed`);
-    // schema 2 wrote the pairing here (exteriorDoorId, arrivalMarker, closed): one place's, overwritten by the next
-    b!.doors![i] = { doorType: "load", interiorLoadDoorRef: d!.interiorLoadDoorRef!, loadDoor: d!.loadDoor! };
+    const perPlace = ["exteriorDoorId", "arrivalMarker", "closed"].filter((k) => k in d!);
+    if (perPlace.length) fail(`load door ${i} carries per-place field ${perPlace.join(", ")} (0104: the pairing is the place's interiorClaim)`);
   }
   if (!Array.isArray(b!.placements)) fail("no placements list");
   for (const p of b!.placements!) {

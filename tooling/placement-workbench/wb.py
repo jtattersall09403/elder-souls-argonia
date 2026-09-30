@@ -1263,7 +1263,7 @@ def _run_module(name: str, *args: str):
 
 def compile_scene(scene, src: Path, keep: Path | None = None,
                   keep_out: Path | None = None, cat=None, use_cache: bool = True) -> dict:
-    """Export into a temporary copy of the blueprint, run the settlement-build
+    """Export into a temporary copy of the blueprint, run the settlement
     derive passes on it (twice: they feed each other) and `compile_settlement`,
     and return its errors and warnings, each with the scene pieces bound to
     the parcels, landmarks and routes it names. `check` measures contacts;
