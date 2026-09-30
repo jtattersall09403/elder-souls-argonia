@@ -14,7 +14,8 @@
  */
 import { createServer } from "node:http";
 import { createReadStream, existsSync, statSync, writeFileSync } from "node:fs";
-import { extname, join, resolve } from "node:path";
+import { createRequire } from "node:module";
+import { dirname, extname, join, resolve } from "node:path";
 import { chromium } from "playwright";
 
 const argv = process.argv.slice(2);
@@ -31,8 +32,18 @@ const charDir = resolve(publicDir, "../../../packages/character-assets/files");
 // Pages: the character files resolve against the sandbox at the site root.
 const ROOTS = [["/elder-souls-argonia/webgpu/", dist], ["/elder-souls-argonia/studio/", publicDir],
   ["/elder-souls-argonia/", charDir]];
+// The KTX2 transcoder, as packages/basis-transcoder ships it into every
+// Pages build: served at any `<base>/basis/` the loader resolves.
+const basisDir = dirname(createRequire(import.meta.url).resolve("three/examples/jsm/libs/basis/basis_transcoder.js"));
+const missing = new Set();
 const server = createServer((req, res) => {
   const path = decodeURIComponent(req.url.split("?")[0]);
+  const basis = /\/basis\/(basis_transcoder\.(?:js|wasm))$/.exec(path);
+  if (basis) {
+    res.writeHead(200, { "Content-Type": MIME[extname(basis[1])] });
+    createReadStream(join(basisDir, basis[1])).pipe(res);
+    return;
+  }
   for (const [prefix, root] of ROOTS) {
     if (!path.startsWith(prefix)) continue;
     let file = join(root, path.slice(prefix.length) || "index.html");
@@ -42,6 +53,7 @@ const server = createServer((req, res) => {
     createReadStream(file).pipe(res);
     return;
   }
+  missing.add(path);
   res.writeHead(404); res.end();
 });
 await new Promise((r) => server.listen(0, "127.0.0.1", r));
@@ -113,11 +125,13 @@ const classes = {
   timestampPool: /Maximum number of queries exceeded/,
   zeroDraw: /vertex count of 0/,
   clock: /THREE\.Clock/,
+  ktx2: /\.ktx2|KTX2|transcoder/i,
 };
 const counts = Object.fromEntries(Object.entries(classes).map(([k, re]) => [k, lines.filter((l) => re.test(l.text)).length]));
 const sorted = [...longTasks].sort((a, b) => b[1] - a[1]);
 const summary = {
   url, seconds, counts, gpuBuffers, profileTop,
+  notFound: [...missing].slice(0, 40),
   errors: lines.filter((l) => l.type === "error" || l.type === "pageerror").length,
   longTasks: { count: longTasks.length, totalMs: longTasks.reduce((s, x) => s + x[1], 0), top: sorted.slice(0, 10) },
   milestones: lines.filter((l) => /ground-paint|groundcover|renderer backend|first frame|ready/i.test(l.text)).slice(0, 30),

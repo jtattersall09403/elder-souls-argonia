@@ -303,6 +303,8 @@ export function InteriorDoors({
 
   // Per-frame scratch (walk 5 perf): no vector or closure made per frame.
   const bodyPos = useMemo(() => new THREE.Vector3(), []);
+  const frustum = useMemo(() => new THREE.Frustum(), []);
+  const viewProj = useMemo(() => new THREE.Matrix4(), []);
   const answers = useMemo(() => (doorId: string) => interaction.answers(doorId), [interaction]);
   const reportedHold = useRef<number | null>(null);
   useFrame((state, delta) => {
@@ -339,7 +341,10 @@ export function InteriorDoors({
           const epoch = worldClock.epochMinutes();
           sky.strength = windowSkyLight(sunAt(epoch), moonsAt(epoch), sky.dir, sky.tint);
         }
-        apertures = windows.beams.update(shown.interior.group.position, sky.dir, sky.strength * windows.unit, sky.tint);
+        camera.updateMatrixWorld();
+        frustum.setFromProjectionMatrix(viewProj.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
+        apertures = windows.beams.update(shown.interior.group.position, sky.dir, sky.strength * windows.unit, sky.tint,
+          controller.position(bodyPos), frustum, Math.min(delta, 0.1));
       }
       volumetrics.update({
         camera: camera as THREE.PerspectiveCamera, timeS: waterTimeS(), sunDir: up, sunIrradiance: dark, skyIrradiance: dark,
