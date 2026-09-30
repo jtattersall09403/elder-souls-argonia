@@ -361,9 +361,9 @@
    "file": "27-dirt_path.png",
    "tileM": 6.0,
    "avgColor": [
-    98,
-    64,
-    40
+    86,
+    69,
+    58
    ],
    "source": "Project Rainforest SE (dirtpath01.dds)",
    "cliff": "dirt"
