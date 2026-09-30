@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
-import { MAX_WINDOW_BEAMS, SKY_FILL_SCALE, WindowBeams, brightestLampFloor, detectWindowApertures, windowSkyLight } from "./windowApertures";
+import { MAX_WINDOW_BEAMS, SKY_FILL_SCALE, WindowBeams, brightestLampFloor, detectWindowApertures, pluginWindowApertures, windowSkyLight } from "./windowApertures";
 
 const opaque = new THREE.MeshStandardMaterial();
 const glass = new THREE.MeshStandardMaterial({ transparent: true, opacity: 0.4 });
@@ -9,38 +9,64 @@ function box(group: THREE.Group, size: [number, number, number], at: [number, nu
   m.position.set(...at);
   group.add(m);
 }
-/** A 6 x 3 x 4 m room: walls at x = ±3, z = ±2; panes as named. */
-function room(): THREE.Group {
+/** A closed 6 x 3 x 4 m room (walls at x = ±3, z = ±2), a 1.2 m glazed hole in the east wall, optionally a door gap in the west wall. */
+function room(door = false): THREE.Group {
   const g = new THREE.Group();
   box(g, [6, 0.2, 4], [0, 0, 0], opaque);
-  box(g, [0.3, 3, 4], [3, 1.5, 0], opaque);
-  box(g, [0.3, 3, 4], [-3, 1.5, 0], opaque);
+  box(g, [6, 0.2, 4], [0, 3, 0], opaque);
+  box(g, [0.3, 3, 1.4], [3, 1.5, -1.3], opaque);
+  box(g, [0.3, 3, 1.4], [3, 1.5, 1.3], opaque);
+  box(g, [0.3, 1, 1.2], [3, 0.5, 0], opaque);
+  box(g, [0.3, 1, 1.2], [3, 2.5, 0], opaque);
+  box(g, [0.05, 1, 1.2], [2.95, 1.5, 0], glass); // glass lets light in
+  if (door) {
+    box(g, [0.3, 3, 1.4], [-3, 1.5, -1.3], opaque);
+    box(g, [0.3, 3, 1.4], [-3, 1.5, 1.3], opaque);
+  } else box(g, [0.3, 3, 4], [-3, 1.5, 0], opaque);
   box(g, [6, 3, 0.3], [0, 1.5, 2], opaque);
   box(g, [6, 3, 0.3], [0, 1.5, -2], opaque);
-  box(g, [0.05, 1.2, 1], [2.95, 1.6, 0], glass);      // east pane, 1.2 m²
-  box(g, [0.05, 1.2, 1.01], [2.95, 1.6, 0.3], glass); // same window, merged
-  box(g, [0.8, 1, 0.05], [-1, 1.6, -1.95], glass);    // north pane, 0.8 m²
-  box(g, [0.05, 1, 1], [0, 1.5, 0], glass);           // mid-room screen: not at a wall
-  box(g, [1, 0.05, 1], [2.5, 2, 1], glass);           // flat: not upright
-  box(g, [0.05, 1, 1], [2.9, 1.5, -1.5], opaque);     // opaque: not glass
   return g;
 }
+const scan = (g: THREE.Group, doors: THREE.Vector3[] = []) => detectWindowApertures(g, 0.1, doors).apertures;
 
-describe("detectWindowApertures", () => {
-  it("finds the wall panes, merged, largest first, normal outward", () => {
-    const w = detectWindowApertures(room());
-    expect(w.map((a) => a.outward.toArray())).toEqual([[1, 0, 0], [0, 0, -1]]);
-    expect(w[0].areaM2).toBeCloseTo(1.2 * 1.01, 3);
-    expect(w[0].centre.z).toBeCloseTo(0.15, 3);
+describe("pluginWindowApertures", () => {
+  it("reads the cell's placed window refs; none for an unknown cell", () => {
+    const refs = { schemaVersion: 1 as const, cells: { A: { apertures: [{ centreM: [1, 2, 3], outward: [0, 0, -1], radiusM: 0.5 }] } } };
+    const w = pluginWindowApertures("A", refs);
+    expect(w[0].centre.toArray()).toEqual([1, 2, 3]);
+    expect(w[0].areaM2).toBeCloseTo(Math.PI * 0.25, 6);
+    expect(pluginWindowApertures("B", refs)).toEqual([]);
   });
-
-  it("is deterministic", () => {
-    expect(detectWindowApertures(room())).toEqual(detectWindowApertures(room()));
+  it("the published Keeba cells carry their mud-hut windows", () => {
+    expect(pluginWindowApertures("KeebaHouseCrafter").length).toBe(5);
   });
 });
 
+describe("detectWindowApertures", () => {
+  it("finds the east opening through its glass, outward east", () => {
+    const w = scan(room());
+    expect(w.length).toBe(1);
+    expect(w[0].outward.x).toBeGreaterThan(0.9);
+    expect(w[0].centre.x).toBeCloseTo(3, 0);
+    expect(Math.abs(w[0].centre.z)).toBeLessThan(0.5);
+  });
+  it("drops the opening at a door", () => {
+    const w = scan(room(true), [new THREE.Vector3(-3, 0.1, 0)]);
+    expect(w.length).toBe(1);
+    expect(w[0].outward.x).toBeGreaterThan(0.9);
+  });
+  it("is deterministic", () => {
+    expect(scan(room())).toEqual(scan(room()));
+  });
+});
+
+const windows = [
+  { centre: new THREE.Vector3(2.95, 1.5, 0), outward: new THREE.Vector3(1, 0, 0), areaM2: 1.2 },
+  { centre: new THREE.Vector3(-1, 1.6, -2), outward: new THREE.Vector3(0, 0, -1), areaM2: 0.8 },
+];
+
 describe("WindowBeams", () => {
-  const w = detectWindowApertures(room());
+  const w = windows;
   const beams = new WindowBeams(w, 8);
   const origin = new THREE.Vector3(10, 0, 0);
   const tint = new THREE.Color(1, 1, 1);

@@ -1,0 +1,314 @@
+{
+ "schemaVersion": 1,
+ "source": "tooling/volumetrics/window_refs.py over public/province/interiors",
+ "cells": {
+  "DawnstarBrinasHouse": {
+   "plugin": "Skyrim.esm",
+   "apertures": []
+  },
+  "KeebaHouseCrafter": {
+   "plugin": "King of the Murkmire.esp",
+   "apertures": [
+    {
+     "refId": "0809B530",
+     "base": "MudHutWindow02",
+     "kind": "window-piece",
+     "centreM": [
+      100.9968,
+      87.9594,
+      53.5147
+     ],
+     "outward": [
+      -0.0506,
+      0.0,
+      -0.9987
+     ],
+     "radiusM": 0.533,
+     "lightsNear": 0
+    },
+    {
+     "refId": "0809B531",
+     "base": "MudHutWindow01",
+     "kind": "window-piece",
+     "centreM": [
+      111.2722,
+      87.9342,
+      54.6323
+     ],
+     "outward": [
+      -0.1281,
+      0.0,
+      -0.9918
+     ],
+     "radiusM": 0.718,
+     "lightsNear": 0
+    },
+    {
+     "refId": "0809B532",
+     "base": "MudHutWindow02",
+     "kind": "window-piece",
+     "centreM": [
+      106.6714,
+      91.8129,
+      55.2773
+     ],
+     "outward": [
+      -0.9066,
+      0.0,
+      -0.422
+     ],
+     "radiusM": 0.597,
+     "lightsNear": 1
+    },
+    {
+     "refId": "0809B533",
+     "base": "MudHutWindow02",
+     "kind": "window-piece",
+     "centreM": [
+      108.6904,
+      86.5979,
+      63.4316
+     ],
+     "outward": [
+      -0.8878,
+      0.0,
+      0.4601
+     ],
+     "radiusM": 0.533,
+     "lightsNear": 0
+    },
+    {
+     "refId": "0809B534",
+     "base": "MudHutWindow01",
+     "kind": "window-piece",
+     "centreM": [
+      100.1397,
+      87.0733,
+      61.6696
+     ],
+     "outward": [
+      -0.9965,
+      0.0,
+      -0.0831
+     ],
+     "radiusM": 0.894,
+     "lightsNear": 0
+    }
+   ]
+  },
+  "KeebaHouseElder": {
+   "plugin": "King of the Murkmire.esp",
+   "apertures": [
+    {
+     "refId": "080CC294",
+     "base": "MudHutWindow01",
+     "kind": "window-piece",
+     "centreM": [
+      110.648,
+      94.6881,
+      50.4811
+     ],
+     "outward": [
+      0.8143,
+      0.0,
+      -0.5804
+     ],
+     "radiusM": 0.861,
+     "lightsNear": 0
+    },
+    {
+     "refId": "080CC295",
+     "base": "MudHutWindow01",
+     "kind": "window-piece",
+     "centreM": [
+      99.1896,
+      92.7298,
+      58.941
+     ],
+     "outward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "radiusM": 0.961,
+     "lightsNear": 0
+    },
+    {
+     "refId": "080CC296",
+     "base": "MudHutWindow02",
+     "kind": "window-piece",
+     "centreM": [
+      106.21,
+      97.2592,
+      57.7208
+     ],
+     "outward": [
+      0.9939,
+      0.0,
+      -0.1102
+     ],
+     "radiusM": 0.565,
+     "lightsNear": 0
+    }
+   ]
+  },
+  "KeebaHouseFisher": {
+   "plugin": "King of the Murkmire.esp",
+   "apertures": [
+    {
+     "refId": "080A5B32",
+     "base": "MudHutWindow01",
+     "kind": "window-piece",
+     "centreM": [
+      110.2053,
+      88.048,
+      53.003
+     ],
+     "outward": [
+      0.8278,
+      0.0,
+      -0.561
+     ],
+     "radiusM": 0.707,
+     "lightsNear": 1
+    },
+    {
+     "refId": "080A5B33",
+     "base": "MudHutWindow02",
+     "kind": "window-piece",
+     "centreM": [
+      104.9611,
+      84.5488,
+      49.6663
+     ],
+     "outward": [
+      -0.8796,
+      0.0,
+      -0.4756
+     ],
+     "radiusM": 0.677,
+     "lightsNear": 1
+    },
+    {
+     "refId": "080A5B34",
+     "base": "MudHutWindow01",
+     "kind": "window-piece",
+     "centreM": [
+      107.0154,
+      86.4578,
+      62.3259
+     ],
+     "outward": [
+      0.7669,
+      0.0,
+      0.6418
+     ],
+     "radiusM": 0.718,
+     "lightsNear": 0
+    },
+    {
+     "refId": "080A5B35",
+     "base": "MudHutWindow02",
+     "kind": "window-piece",
+     "centreM": [
+      99.792,
+      85.159,
+      60.0388
+     ],
+     "outward": [
+      -0.9655,
+      0.0,
+      0.2603
+     ],
+     "radiusM": 0.677,
+     "lightsNear": 0
+    }
+   ]
+  },
+  "KeebaHouseSnailMinder": {
+   "plugin": "King of the Murkmire.esp",
+   "apertures": [
+    {
+     "refId": "0809B499",
+     "base": "MudHutWindow01",
+     "kind": "window-piece",
+     "centreM": [
+      106.8376,
+      87.7938,
+      63.8653
+     ],
+     "outward": [
+      0.1912,
+      0.0,
+      0.9816
+     ],
+     "radiusM": 0.618,
+     "lightsNear": 0
+    },
+    {
+     "refId": "0809B49A",
+     "base": "MudHutWindow01",
+     "kind": "window-piece",
+     "centreM": [
+      101.1546,
+      86.5113,
+      52.183
+     ],
+     "outward": [
+      -0.278,
+      0.0,
+      -0.9606
+     ],
+     "radiusM": 0.751,
+     "lightsNear": 0
+    },
+    {
+     "refId": "0809B49B",
+     "base": "MudHutWindow02",
+     "kind": "window-piece",
+     "centreM": [
+      106.0771,
+      92.335,
+      55.2778
+     ],
+     "outward": [
+      -0.9244,
+      0.0,
+      -0.3814
+     ],
+     "radiusM": 0.533,
+     "lightsNear": 0
+    },
+    {
+     "refId": "0809B49C",
+     "base": "MudHutWindow02",
+     "kind": "window-piece",
+     "centreM": [
+      110.5478,
+      86.3416,
+      52.7627
+     ],
+     "outward": [
+      0.8398,
+      0.0,
+      0.5428
+     ],
+     "radiusM": 0.624,
+     "lightsNear": 1
+    }
+   ]
+  },
+  "LilmothGlassworksOverseerHouse": {
+   "plugin": "King of the Murkmire.esp",
+   "apertures": []
+  },
+  "LilmothIronworksOverseerHouse": {
+   "plugin": "King of the Murkmire.esp",
+   "apertures": []
+  },
+  "LilmothPlantationStorehouse": {
+   "plugin": "King of the Murkmire.esp",
+   "apertures": []
+  }
+ }
+}
