@@ -199,7 +199,7 @@ several of the evidences above at once, and the studio was drawing all of them:
 "three different answers for where the door is". So the passes above are now
 RANKED (``ENTRANCE_RANK``) and the record exports exactly one ``entrance``:
 
-    esp-door > assembly > door-piece > leaf > opening > open-front
+    esp-door > assembly > composite-leaf > approach > door-piece > leaf > opening > open-front
 
 The losers are kept in ``provenance[]`` for audit — they are never drawn, and a
 blueprint door is matched only against ``entrance``. ``entrance.radial`` is set
@@ -282,6 +282,9 @@ PROMISED_INTERIORS: dict[str, str] = {
     "kotm:argonia/mudhuts/smpodext02": (
         "King of the Murkmire places no interior door for this shell (door-link mine "
         "2026-09-25); Phase 12 builds it"),
+    "composite:stilt/swamp-house-with-landing": (
+        "Blackmarsh and Valenwood places the swamp house 47 times with no load door in any "
+        "plugin, furnishing its own floor as an open house; Phase 12 builds its interior"),
 }
 
 # --- enclosure / doorway measurement constants ----------------------------- #
@@ -1541,6 +1544,84 @@ def composite_doorways(parts: list[str],
     return out
 
 
+#: how far inside the wall the landing's doorway is probed from, and how far
+#: off the landing's bearing an opening may face and still be the one it reaches.
+APPROACH_PROBE_IN_M = (1.0, 1.5, 2.0, 2.5, 3.0)
+APPROACH_MAX_REACH_M = 2.5
+
+
+def approach_doorways(triangles, part_rows: list[dict] | None,
+                      pose: dict | None = None) -> list[dict]:
+    """The doorway a composite's LANDING part reaches (``kind: "approach"``).
+
+    A composite that lays a plank, dock or step at its shell (BM&V's swamp
+    house with ``dockstrent02``, template bmv-blackmarsh:t0258) records where
+    its makers walk in. The ray pass from the plan centre cannot see that: the
+    landing drags the hull centre towards itself and the shell's inner walls
+    shadow its doorway, so the sill pass kept the opening on the far side,
+    over water (16k Riverwalk walk 5: the entrance read 262.5 deg local, the
+    doorway on the landing is ~90 deg). A part counts as a landing when it is
+    no leaf and stands OUTSIDE the shell: a ray from it towards the anchor at
+    lintel height meets the wall. The shell is then probed from
+    each depth of ``APPROACH_PROBE_IN_M`` inside that wall at the landing's deck
+    height; the ray-confirmed opening nearest the point where the landing meets
+    the wall (within ``APPROACH_MAX_REACH_M``) is the entrance, facing out from
+    the anchor's middle. GLB frame: x east, y up, z
+    south; a part's z-up ``offsetM`` [x, y, z] is GLB [x, z, -y].
+    """
+    import numpy as np
+
+    if triangles is None or not len(triangles) or not part_rows or len(part_rows) < 2:
+        return []
+    ox, oy, _oz = (pose or {}).get("offsetM", [0.0, 0.0, 0.0])
+    anchor = np.asarray([float(ox), 0.0, -float(oy)])
+    out: list[dict] = []
+    for part in part_rows[1:]:
+        base = part["asset"].rsplit("/", 1)[-1].lower()
+        offset = part.get("offsetM")
+        if not offset or any(t in base for t in LEAF_TOKENS):
+            continue
+        x, y, z = (float(v) for v in offset)
+        landing = np.asarray([x, z, -y])
+        d = anchor - landing
+        d[1] = 0.0
+        dist = float(np.linalg.norm(d))
+        if dist < 1.0:
+            continue
+        d /= dist
+        hit, _front = _ray_hits(triangles, landing + np.asarray([0.0, LINTEL_BAND_M, 0.0]),
+                                d[None, :])
+        if not np.isfinite(hit[0]) or float(hit[0]) >= dist:
+            continue  # nothing between the part and the anchor: it stands inside
+        wall = landing + d * float(hit[0])
+        bearing = _bearing_deg(-d[0], -d[2])
+        room_h = float(triangles[:, :, 1].max()) - z
+        best = None
+        for depth in APPROACH_PROBE_IN_M:
+            centre = wall + d * depth
+            found, _why = doorways_from_probe(triangles, (float(centre[0]), float(centre[2])),
+                                              z, room_h)
+            for door in found:
+                px, pz = (float(v) for v in door["offsetM"])
+                reach = math.hypot(px - float(wall[0]), pz - float(wall[2]))
+                if reach > APPROACH_MAX_REACH_M or (best is not None and reach >= best[0]):
+                    continue
+                # the doorway faces out from the shell's own middle (its
+                # anchor), not from wherever the probe stood
+                side = round(_bearing_deg(px - float(anchor[0]), pz - float(anchor[2])), 1)
+                for face in (side, float(door["sideDeg"])):
+                    posed = dict(door, sideDeg=face, offsetM=[round(px, 2), round(pz, 2)])
+                    proof = doorway_rays(triangles, posed, z - 0.3, z + LEAF_SILL_MAX_M)
+                    if proof is not None:
+                        best = (reach, dict(posed, **proof, rayConfirmed=True))
+                        break
+        if best is not None:
+            out.append({**best[1], "kind": "approach", "doorAsset": part["asset"],
+                        "approachBearingDeg": round(bearing, 1),
+                        "approachReachM": round(best[0], 2)})
+    return out
+
+
 #: basename fragments of a door LEAF part (a frame ring is not a leaf).
 LEAF_TOKENS = ("door",)
 LEAF_EXCLUDE_TOKENS = ("frame",)
@@ -2143,6 +2224,7 @@ ENTRANCE_RANK: tuple[str, ...] = (
     "esp-door",     # the mod's own door teleport offset: evidence, not inference
     "assembly",     # a door part the source authors repeatedly placed on this shell
     "composite-leaf",  # a leaf the composite hangs in the shell's doorway (kit config)
+    "approach",     # the doorway a composite's landing part (the authors' template) reaches
     "door-piece",   # the entrance mesh the family authored, fitted to the wall line
     "leaf",         # a shut door modelled into the shell
     "opening",      # a hole in the wall, measured by ray
@@ -2298,6 +2380,11 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
         assets[asset["id"]] = classify_asset(
             asset, kit_name, verts, triangles, pool_ids, doors, anchor_id=anchor,
             anchor_pose=poses.get(asset["id"]))
+        if (asset["id"] in part_rows
+                and assets[asset["id"]].get("interior") in BUILDING_INTERIORS):
+            landed = approach_doorways(triangles, part_rows[asset["id"]], poses.get(asset["id"]))
+            if landed:
+                assets[asset["id"]]["doorways"] = landed + (assets[asset["id"]].get("doorways") or [])
         if verts is not None and len(verts):
             bounds[asset["id"]] = (verts.min(axis=0), verts.max(axis=0))
 

@@ -1146,3 +1146,53 @@ def test_the_sill_is_the_tread_not_the_gap_under_a_floor_slab():
     proof = ix.doorway_rays(tris, door, 0.0, 0.6)
     assert proof["sillYM"] == pytest.approx(0.3, abs=0.06)
     assert proof["clearM"] == pytest.approx(1.9, abs=0.1)
+
+
+# --------------------------------------------------------------------------- #
+# approach: the doorway a composite's landing part reaches (16k Riverwalk
+# walk 5: BM&V's swamp house read its far-side opening over water as the
+# entrance, ~175 deg from the doorway its dock plank is laid at)
+# --------------------------------------------------------------------------- #
+def two_door_room(half: float = 5.0, ceiling: float = 3.0) -> np.ndarray:
+    """A roofed box with a 1.2 m doorway in BOTH the +x (east) and -x (west)
+    walls: the centre ray pass cannot tell which one the makers walk in by."""
+    tris: list = []
+    tris += _wall(-half, -half, half, -half, 0.0, ceiling)
+    tris += _wall(half, half, -half, half, 0.0, ceiling)
+    for x in (half, -half):
+        tris += _wall(x, -half, x, -0.6, 0.0, ceiling)
+        tris += _wall(x, 0.6, x, half, 0.0, ceiling)
+        tris += _wall(x, -0.6, x, 0.6, 2.2, ceiling)
+    tris += _slab(0.0, half)
+    tris += _slab(ceiling, half)
+    return np.asarray(tris, dtype=np.float64)
+
+
+def _parts(landing_offset):
+    return [{"asset": "bmv:architecture/swamp house", "scale": 1.0},
+            {"asset": "vanilla:architecture/docks/dockstrent02", "offsetM": landing_offset}]
+
+
+@pytest.mark.parametrize("x, expected", [(7.5, 90.0), (-7.5, 270.0)])
+def test_a_landing_part_picks_the_doorway_it_reaches(x, expected):
+    doors = ix.approach_doorways(two_door_room(), _parts([x, 0.0, 0.0]))
+    assert len(doors) == 1
+    door = doors[0]
+    assert door["kind"] == "approach" and door["rayConfirmed"]
+    assert door["doorAsset"].endswith("dockstrent02")
+    assert abs((door["sideDeg"] - expected + 180.0) % 360.0 - 180.0) <= 10.0
+    assert math.copysign(1.0, door["offsetM"][0]) == math.copysign(1.0, x)
+
+
+def test_a_part_inside_the_shell_or_a_leaf_is_no_landing():
+    assert ix.approach_doorways(two_door_room(), _parts([1.0, 0.0, 0.0])) == []
+    leaf = [{"asset": "bmv:architecture/swamp house"},
+            {"asset": "x:architecture/housedoor01", "offsetM": [7.5, 0.0, 0.0]}]
+    assert ix.approach_doorways(two_door_room(), leaf) == []
+
+
+def test_the_approach_outranks_the_ray_pick():
+    record = {"doorways": [{"kind": "opening", "sideDeg": 262.5, "arcM": 0.8},
+                           {"kind": "approach", "sideDeg": 95.8, "arcM": 1.7}]}
+    ix.finalise_entrance(record)
+    assert record["entrance"]["kind"] == "approach"
