@@ -19,7 +19,12 @@ import { fixtureLightFieldOf, isFixtureLitMaterial, litPreparerOf } from "@elder
 import { InteriorEnvironment, InteriorFogNode, interiorFogProfile } from "@elder-souls/game-core/interior/interiorEnvironment";
 import { MAX_VOLUME_LIGHTS, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
 import { nearestVolumeLights } from "@elder-souls/game-core/air/volumetrics/studioSamplers";
+import {
+  BEAM_OVER_LAMP, WindowBeams, brightestLampFloor, detectWindowApertures, windowSkyLight,
+} from "@elder-souls/game-core/air/volumetrics/windowApertures";
+import { moonsAt, sunAt } from "@elder-souls/world-time";
 import { SkyContext } from "../sky/WorldSky";
+import { worldClock } from "../sky/timeState";
 import { waterTimeS } from "../water/waterClock";
 import type { Vec3 } from "@elder-souls/game-core/interior/bundle";
 import {
@@ -281,6 +286,22 @@ export function InteriorDoors({
   // after the commit that mounted the linked group: the fade may lift
   useEffect(() => { drawn.current = shown !== null && linked === shown; }, [shown, linked]);
 
+  // Window light (0112 §6): the cell's panes, read from its geometry once
+  // per cell; a beam is BEAM_OVER_LAMP x the brightest lamp pool at the floor.
+  const windows = useMemo(() => {
+    if (!shown) return null;
+    const { group, bundle } = shown.interior;
+    const floorY = bundle.arrivalMarker.positionM[1];
+    const lamps: { intensity: number; heightM: number }[] = [];
+    group.traverse((o) => {
+      const l = o as THREE.PointLight;
+      if (l.isPointLight && o.parent === group) lamps.push({ intensity: l.intensity, heightM: l.position.y - floorY });
+    });
+    const apertures = detectWindowApertures(group, shown.interior.fire?.group ?? null);
+    return apertures.length ? { beams: new WindowBeams(apertures, WINDOW_BEAM_LENGTH_M), unit: BEAM_OVER_LAMP * brightestLampFloor(lamps) } : null;
+  }, [shown]);
+  const sky = useMemo(() => ({ dir: new THREE.Vector3(0, -1, 0), tint: new THREE.Color(), strength: 0, inFrames: 0 }), []);
+
   // Per-frame scratch (walk 5 perf): no vector or closure made per frame.
   const bodyPos = useMemo(() => new THREE.Vector3(), []);
   const answers = useMemo(() => (doorId: string) => interaction.answers(doorId), [interaction]);
@@ -311,10 +332,19 @@ export function InteriorDoors({
       const field = fixtureLightFieldOf(scene);
       nearestVolumeLights((v) => field.forEachLight(v), camera.position.x, camera.position.y, camera.position.z,
         MAX_VOLUME_LIGHTS, volLights.current);
-      // No window light yet: the cell data carries no aperture (see the 0112 §6 gap).
+      let apertures: ReturnType<WindowBeams["update"]> | undefined;
+      if (windows) {
+        // the ephemeris allocates: the sky light is re-read twice a second
+        if (--sky.inFrames <= 0) {
+          sky.inFrames = SKY_LIGHT_REFRESH_FRAMES;
+          const epoch = worldClock.epochMinutes();
+          sky.strength = windowSkyLight(sunAt(epoch), moonsAt(epoch), sky.dir, sky.tint);
+        }
+        apertures = windows.beams.update(shown.interior.group.position, sky.dir, sky.strength * windows.unit, sky.tint);
+      }
       volumetrics.update({
         camera: camera as THREE.PerspectiveCamera, timeS: waterTimeS(), sunDir: up, sunIrradiance: dark, skyIrradiance: dark,
-        lights: volLights.current, interior: interiorFogProfile(shown.interior, shown.interior.group.position.y),
+        lights: volLights.current, apertures, interior: interiorFogProfile(shown.interior, shown.interior.group.position.y),
       });
     }
     overlay.setFade(directCellId && !opened.current ? 1 : transition.fade);
@@ -342,6 +372,8 @@ export function InteriorDoors({
   return exteriorSwing.length ? <>{exteriorSwing.map((d) => <primitive key={d.id} object={d.object} />)}</> : null;
 }
 
+const WINDOW_BEAM_LENGTH_M = 10;
+const SKY_LIGHT_REFRESH_FRAMES = 30;
 const probeBox = new THREE.Box3();
 const fmtS = (s: number | null) => (s === null ? "-" : `${s.toFixed(2)} s`);
 
