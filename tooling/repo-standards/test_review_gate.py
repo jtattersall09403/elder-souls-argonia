@@ -247,3 +247,64 @@ def test_a_batch_with_no_code_is_never_reviewed(repo, monkeypatch):
     assert review_gate.current_diff() == ""
     assert run_hook(monkeypatch, "npm run preflight -- --paths docs world tooling/.reports tooling/a") == 0
     assert calls == []
+
+
+def _git(root, *a):
+    return subprocess.run(["git", *a], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+
+
+def test_committed_lanes_are_reviewed_once_per_batch(repo, monkeypatch):
+    """2026-09-30: a batch whose lanes all committed by pathspec left the
+    working tree clean and got no review. The batch is `<base>..HEAD` plus the
+    working tree; base = the last reviewed HEAD, else the merge-base with main."""
+    root, calls = repo
+    _git(root, "checkout", "-qB", "dev")
+    _git(root, "branch", "-f", "main", "HEAD")
+    (root / "tooling/a" / "f.py").write_text("x = 2  # LANE_A\n")
+    _git(root, "commit", "-qam", "lane a")
+    (root / "tooling/b" / "f.py").write_text("x = 3  # LANE_B\n")
+    _git(root, "commit", "-qam", "lane b")
+    # clean tree, first stamp ever: base is the merge-base with main
+    assert run_hook(monkeypatch, "npm run preflight -- --runner") == 0
+    assert len(calls) == 1 and "LANE_A" in calls[0] and "LANE_B" in calls[0]
+    reviewed = _git(root, "rev-parse", "HEAD")
+    assert json.load(open(review_gate.STAMP))["reviewedHead"] == reviewed
+    # same HEAD: no second review
+    assert run_hook(monkeypatch, "npm run preflight -- --runner") == 0 and len(calls) == 1
+    # the next batch starts at the reviewed HEAD: lane a/b are not read again
+    (root / "tooling/a" / "f.py").write_text("x = 4  # LANE_C\n")
+    _git(root, "commit", "-qam", "lane c")
+    (root / "tooling/b" / "f.py").write_text("x = 5  # UNCOMMITTED\n")
+    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/a") == 0
+    assert len(calls) == 2 and "LANE_C" in calls[1] and "UNCOMMITTED" in calls[1]
+    assert "+x = 2  # LANE_A" not in calls[1] and "+x = 3  # LANE_B" not in calls[1]
+
+
+def test_base_falls_back_to_main_when_the_reviewed_head_is_foreign(repo, monkeypatch):
+    root, _ = repo
+    _git(root, "checkout", "-qB", "dev")
+    _git(root, "branch", "-f", "main", "HEAD")
+    init = _git(root, "rev-parse", "HEAD")
+    (root / "tooling/a" / "f.py").write_text("x = 2\n")
+    _git(root, "commit", "-qam", "a")
+    os.makedirs(os.path.dirname(review_gate.STAMP), exist_ok=True)
+    json.dump({"stamps": {}, "reviewedHead": "0" * 40}, open(review_gate.STAMP, "w"))
+    assert review_gate.batch_base() == init
+    # a legacy stamp file (no reviewedHead) reads its ok stamps' head
+    head = _git(root, "rev-parse", "HEAD")
+    json.dump({"stamps": {"k": {"head": head, "status": "ok"}}}, open(review_gate.STAMP, "w"))
+    assert review_gate.batch_base() == head
+    assert review_gate.batch_base("HEAD~1") == init
+
+
+def test_a_failed_review_does_not_move_the_base(repo, monkeypatch):
+    root, calls = repo
+    _git(root, "checkout", "-qB", "dev")
+    _git(root, "branch", "-f", "main", "HEAD")
+    init = _git(root, "rev-parse", "HEAD")
+    (root / "tooling/a" / "f.py").write_text("x = 2\n")
+    _git(root, "commit", "-qam", "a")
+    monkeypatch.setattr(review_gate, "review", lambda diff, what: ("", -1, "timeout"))
+    assert run_hook(monkeypatch, "npm run preflight -- --runner") == 0
+    assert json.load(open(review_gate.STAMP)).get("reviewedHead") is None
+    assert review_gate.batch_base() == init

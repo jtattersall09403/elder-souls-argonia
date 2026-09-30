@@ -5,12 +5,16 @@ run BY THIS HOOK, so the orchestrator never has to remember it.
 On `npm run preflight` (or preflight.mjs):
   0. decision 0106: only CODE is reviewed (.py .ts .tsx .mjs .js under
      packages/ apps/ tooling/); a batch with no code change -> allow, no review
-  1. no uncommitted change              -> allow
+  1. no code change since the batch base -> allow. The batch is COMMITTED
+     code since the last reviewed HEAD plus the working tree (`batch_base`):
+     `git diff <base>` against the working tree, so lanes that committed by
+     pathspec before preflight are reviewed too (2026-09-30; the uncommitted-
+     only diff let a batch whose lanes all committed pass unreviewed)
   2. a stamp for this batch              -> allow (already reviewed)
   3. any stamp recorded at the current HEAD commit (one review per commit
      batch, 0106) -> allow (the fix cycle after a review; a new commit on
      HEAD starts a new batch); a `--range` review never writes a stamp
-  4. otherwise run a headless Opus 5.5 review of the WHOLE working-tree code diff (read-only tools),
+  4. otherwise run a headless Opus 5.5 review of the WHOLE batch's code diff (read-only tools),
      write tooling/.reports/review/review-findings.md and the stamp, then
        - no findings -> allow, preflight runs
        - findings    -> exit 2: the findings are the refusal message; the
@@ -19,8 +23,14 @@ On `npm run preflight` (or preflight.mjs):
 A review that cannot run (timeout, CLI error) stamps and allows, and says so
 on stderr, so a broken reviewer never blocks work; it is visible in the stamp.
 
+The batch base (`batch_base`) is the HEAD the last successful review
+covered (`reviewedHead` in the stamp file, else the head of its ok stamps),
+when that commit is an ancestor of HEAD; the first review ever, or a missing
+or foreign stamp, falls back to the merge-base of HEAD with main (the last
+deploy). `--base <rev>` overrides it for a manual run.
+
 Manual: `python3 tooling/repo-standards/review_gate.py --run` reviews the
-uncommitted diff now. `--run --range <rev>[..<rev>]` reviews a COMMITTED diff
+batch now (committed since the base, plus the working tree). `--run --range <rev>[..<rev>]` reviews a COMMITTED diff
 instead (`--range db8034db` means `db8034db^..db8034db`), so a change that was
 committed before preflight still gets reviewed. A `--range` review never
 touches the working-tree stamp: it writes only
@@ -312,11 +322,45 @@ def range_diff(rng):
     return sh("git", "diff", rng, "--", *files) if files else ""
 
 
-def current_diff(paths=None):
-    """Uncommitted CODE diff (tracked + small untracked code files), limited to `paths` when given."""
+def _is_ancestor(rev, head="HEAD"):
+    return subprocess.run(["git", "merge-base", "--is-ancestor", rev, head], cwd=ROOT,
+                          capture_output=True).returncode == 0
+
+
+def read_reviewed_head():
+    """The HEAD the last successful review covered: the stamp file's
+    `reviewedHead`, else (stamps written before 2026-09-30) the head of its ok
+    stamps; None when there is none."""
+    try:
+        d = json.load(open(STAMP))
+    except Exception:
+        return None
+    if isinstance(d, dict) and d.get("reviewedHead"):
+        return d["reviewedHead"]
+    heads = [s.get("head") for s in read_stamps().values() if s.get("status") == "ok" and s.get("head")]
+    return heads[0] if heads else None
+
+
+def batch_base(override=None):
+    """The commit the batch's code diff starts from: `override`, else the last
+    reviewed HEAD when it is an ancestor of HEAD, else the merge-base of HEAD
+    with main, else HEAD (a repo with no main: the uncommitted diff only)."""
+    if override:
+        return sh("git", "rev-parse", "--verify", f"{override}^{{commit}}").strip() or override
+    last = read_reviewed_head()
+    if last and _is_ancestor(last):
+        return last
+    mb = sh("git", "merge-base", "HEAD", "main").strip()
+    return mb or current_head()
+
+
+def current_diff(paths=None, base="HEAD"):
+    """The batch's CODE diff: `base` against the working tree (commits since
+    `base` plus uncommitted changes) and small untracked code files, limited
+    to `paths` when given. base="HEAD" is the uncommitted diff only."""
     spec = ("--", *paths, *EXCLUDE_SPECS) if paths else EXCLUDES
-    files = [f for f in sh("git", "diff", "--name-only", "HEAD", *spec).split() if is_code(f)]
-    d = sh("git", "diff", "HEAD", "--", *files) if files else ""
+    files = [f for f in sh("git", "diff", "--name-only", base, *spec).split() if is_code(f)]
+    d = sh("git", "diff", base, "--", *files) if files else ""
     others = ("--", *paths) if paths else ()
     for path in sh("git", "ls-files", "--others", "--exclude-standard", *others, *EXCLUDE_SPECS).split():
         full = os.path.join(ROOT, path)
@@ -358,23 +402,25 @@ def stamp_lock_path():
     return str(path)
 
 
-def write_stamp(key, h, status, n, head=None, paths=None):
+def write_stamp(key, h, status, n, head=None, paths=None, base=None):
     """Add or replace the stamp for batch `key`; stamps from other HEADs are
     dropped (their batch is over). The read-modify-write holds an exclusive flock
     on the stamp's lock file and replaces the stamp file by rename, so
     parallel preflights keep every stamp and a reader never sees a
-    half-written file (16k S9: unlocked, 8 writers lost 195 of 200 stamps)."""
+    half-written file (16k S9: unlocked, 8 writers lost 195 of 200 stamps).
+    An ok review moves `reviewedHead` to `head`: the next batch's base."""
     head = head if head is not None else current_head()
     os.makedirs(os.path.dirname(STAMP), exist_ok=True)
     with open(stamp_lock_path(), "a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
+        reviewed = head if status == "ok" else read_reviewed_head()
         stamps = {k: s for k, s in read_stamps().items() if s.get("head") == head}
         stamps[key] = {"hash": h, "paths": paths or [], "time": time.time(),
-                       "head": head, "status": status, "findings": n}
+                       "head": head, "base": base, "status": status, "findings": n}
         fd, tmp = tempfile.mkstemp(prefix=".review-stamp.", dir=os.path.dirname(STAMP))
         try:
             with os.fdopen(fd, "w") as f:
-                json.dump({"stamps": stamps}, f)
+                json.dump({"stamps": stamps, "reviewedHead": reviewed}, f)
             os.replace(tmp, STAMP)
         except BaseException:
             if os.path.exists(tmp):
@@ -406,6 +452,13 @@ def main():
         rng = sys.argv[i + 1]
     paths = argv_paths(sys.argv)
     force = "--force" in sys.argv
+    base_arg = None
+    if "--base" in sys.argv:
+        i = sys.argv.index("--base")
+        if i + 1 >= len(sys.argv):
+            sys.stderr.write("[review gate] --base needs a revision\n")
+            return 2
+        base_arg = sys.argv[i + 1]
     if not manual:
         try:
             d = json.load(sys.stdin)
@@ -424,14 +477,15 @@ def main():
         sys.stderr.write("[review gate] --range and --paths cannot be combined\n")
         return 2
     # the batch, never the pathspec: `paths` only fired the gate
-    diff = range_diff(rng) if rng else current_diff()
+    base = None if rng else batch_base(base_arg)
+    diff = range_diff(rng) if rng else current_diff(base=base)
     if not diff.strip():
         if rng:
             print(f"review gate: empty diff for range {rng}")
             return 2
         if manual:
-            print("[review gate] the working tree is clean: nothing uncommitted to review. "
-                  "To review the last commit, run with `--range HEAD`.")
+            print(f"[review gate] no code change since the batch base {base[:8]} (committed or not): "
+                  "nothing to review.")
         return 0
     h = hashlib.sha256(diff.encode()).hexdigest()[:16]
     head = current_head()
@@ -442,17 +496,17 @@ def main():
             print(f"[review gate] this batch was reviewed at HEAD {head[:8]} ({st.get('status')}, "
                   f"{st.get('findings')} findings); `--force` reviews again.")
         return 0
-    what = f"diff {rng}" if rng else "uncommitted diff of the whole batch"
+    what = f"diff {rng}" if rng else f"code diff of the whole batch ({base[:8]}..HEAD plus the working tree)"
     if len(diff) > MAX_DIFF_BYTES:
         sys.stderr.write(f"[review gate] the {what} is {len(diff)//1000} KB, too large for one review; "
-                         "commit the finished part first (pathspec), then preflight the rest.\n")
+                         "review the older commits with `--run --range <base>..<rev>`, then this batch with `--run --base <rev>`.\n")
         return 2
     out, rc, err = review(diff, what)
     rel = "review-findings-range.md" if rng else "review-findings.md"
     findings_path = os.path.join(os.path.dirname(FINDINGS), rel)
     if rc != 0 or not out:
         if not rng:
-            write_stamp(key, h, f"review failed: {err.strip()[:120]}", 0, head, paths)
+            write_stamp(key, h, f"review failed: {err.strip()[:120]}", 0, head, paths, base)
         sys.stderr.write(f"[review gate] the automatic review could not run ({err.strip()[:120]}); preflight allowed. "
                          "Run `python3 tooling/repo-standards/review_gate.py --run` to retry.\n")
         return 0
@@ -461,7 +515,7 @@ def main():
     with open(findings_path, "w") as f:
         f.write(f"# Automatic code review ({MODEL}), diff {h}, {time.strftime('%Y-%m-%d %H:%M')}\n\n{out}\n")
     if not rng:
-        write_stamp(key, h, "ok", n, head, paths)
+        write_stamp(key, h, "ok", n, head, paths, base)
     if n == 0:
         if manual:
             print("NO FINDINGS")
