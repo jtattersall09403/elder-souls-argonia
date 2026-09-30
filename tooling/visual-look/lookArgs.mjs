@@ -80,14 +80,18 @@ export function readLookList(path) {
 }
 
 /** The ready-to-paste Sonnet judge brief. */
-export function judgeBrief({ subject, images, classes, rows, facts }) {
+/** Each mode states the key of the sheet it actually draws (a judge told about a grid that is not there guesses). */
+export const PIECE_SHEET_KEY = "tiles are front / 3-4 / side / top-down / eye-height 1.7 m / low grazing (or night for fire). Grey grid = ground plane at the piece's pivot height; grid spacing and bounds size are in each caption; green wire = the manifest bounds; white dots = the runtime flame anchors.";
+export const FIXTURE_SHEET_KEY = "3 columns x 2 rows: front, three-quarter from above, close-up on the flame (a section: geometry more than 1.2 flame heights in front of the flame is clipped, by design); top row day, bottom row night. No grid or bounds wire: sizes and anchors are in the facts line (box = bounds in metres, anchors = flame anchor positions).";
+export const PLACE_SHEET_KEY = "workbench render shots of the placed region, one view per image, no grid or bounds wire; judge scale against the placed pieces (a door is about 2 m, eye height 1.7 m).";
+export function judgeBrief({ subject, images, classes, rows, facts, sheetKey = PIECE_SHEET_KEY }) {
   const pick = rows.filter((r) => r.cls === "all" || classes.includes(r.cls));
   return [
     `You are a visual judge (read-only). Read each image with the Read tool, then answer every question below.`,
     `Subject: ${subject}. Classes: ${classes.join(", ")}.`,
     `Facts measured by the tool (trust these over your eye for sizes): ${facts}`,
     `Images:`, ...images.map((p) => `- ${p}`),
-    `Sheet key: tiles are front / 3-4 / side / top-down / eye-height 1.7 m / low grazing (or night for fire). Grey grid = ground plane at the piece's pivot height; grid spacing and bounds size are in each caption; green wire = the manifest bounds; white dots = the runtime flame anchors.`,
+    `Sheet key: ${sheetKey}`,
     `Questions (answer each: id, PASS / FAIL / UNSURE, the evidence in one line with a measurement against the grid where you can; UNSURE only when the view cannot show it, and say which view would):`,
     ...pick.map((r) => `- [${r.id}] ${r.question} Pass bar: ${r.bar}`),
     `Then list any OTHER defect you see that no question asked about (these become new look-list rows). Reply in <= 25 lines.`,

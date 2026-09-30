@@ -21,7 +21,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import ts from "typescript";
-import { classesFor, judgeBrief, parseArgs, readLookList } from "./lookArgs.mjs";
+import { classesFor, FIXTURE_SHEET_KEY, PLACE_SHEET_KEY, judgeBrief, parseArgs, readLookList } from "./lookArgs.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repo = resolve(here, "../..");
@@ -41,7 +41,7 @@ if (opts.mode === "fixtures" || opts.mode === "preset") {
     console.log(`\n--- judge brief (paste to a Sonnet general-purpose agent) ---\n` + judgeBrief({
       subject: `fire fixtures: ${sheets.map((s) => s.key).join(", ")}`,
       images: sheets.map((s) => s.file), classes: opts.classes ?? ["fire-fixture"], rows,
-      facts: sheets.map((s) => s.facts).join("; "),
+      facts: sheets.map((s) => s.facts).join("; "), sheetKey: FIXTURE_SHEET_KEY,
     }));
   } else await runPresets({ presets: opts.presets, outDir });
   console.log(`look: ${opts.mode} in ${((Date.now() - t0) / 1000).toFixed(1)} s`);
@@ -66,7 +66,7 @@ if (opts.mode === "place") {
   const classes = opts.classes ?? [...new Set(near.flatMap((p) => classesFor({ id: p.asset })))];
   console.log(`\n--- judge brief (paste to a Sonnet general-purpose agent) ---\n` + judgeBrief({
     subject: `${opts.scene} region ${opts.x},${opts.z} r${opts.radius} m (${near.map((p) => `${p.uid}=${p.asset}`).join(", ")})`,
-    images, classes, rows, facts: `workbench scene poses; span ${opts.radius * 2} m`,
+    images, classes, rows, facts: `workbench scene poses; span ${opts.radius * 2} m`, sheetKey: PLACE_SHEET_KEY,
   }));
   console.log(`look: ${images.length} views in ${((Date.now() - t0) / 1000).toFixed(1)} s`);
   process.exit(0);
