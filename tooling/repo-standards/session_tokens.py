@@ -121,7 +121,7 @@ def read_session(path):
     sid = os.path.basename(path)[:-6]
     s = {"id": sid[:8], "turns": 0, "first": None, "last": None, "bash": 0, "explore": 0, "sleeps": 0, "guard": 0,
          "agents": collections.Counter(), "added": collections.Counter(), "carried": collections.Counter(),
-         "planner": collections.Counter(), "sub": collections.Counter(), "sub_units": 0.0, "model": collections.Counter()}
+         "planner": collections.Counter(), "sub": collections.Counter(), "sub_units": 0.0, "sub_type": collections.Counter(), "model": collections.Counter()}
     ids, turns, calls = {}, [], Calls()
     for line in open(path, errors="replace"):
         try:
@@ -161,6 +161,11 @@ def read_session(path):
         u, models = usage_of(sub)
         mdl = models.most_common(1)[0][0] if models else "?"
         s["sub"][mdl] += sum(u.values()); s["sub_units"] += cost_units(u)
+        try:
+            kind = json.load(open(sub[:-6] + ".meta.json")).get("agentType") or "(default)"
+        except (OSError, ValueError):
+            kind = "?"
+        s["sub_type"][kind] += cost_units(u)
     s["units"] = cost_units(s["planner"]) + s["sub_units"]
     return s
 
@@ -222,9 +227,10 @@ def summarise(rows):
            "units": sum(r["units"] for r in rows) / n / 1e6,
            "bash": sum(r["bash"] for r in rows) / n, "explore": sum(r["explore"] for r in rows) / n,
            "sleeps": sum(r["sleeps"] for r in rows), "guard": sum(r["guard"] for r in rows)}
-    sub = collections.Counter(); agents = collections.Counter(); carried = collections.Counter()
+    sub = collections.Counter(); agents = collections.Counter(); carried = collections.Counter(); sub_type = collections.Counter()
     for r in rows:
-        sub.update(r["sub"]); agents.update(r["agents"]); carried.update(r["carried"])
+        sub.update(r["sub"]); agents.update(r["agents"]); carried.update(r["carried"]); sub_type.update(r["sub_type"])
+    agg["sub_type"] = {k: v / n / 1e6 for k, v in sub_type.items()}
     agg["sub"] = {k: v / n / 1e6 for k, v in sub.items()}
     agg["agents"] = dict(agents)
     tot = sum(carried.values()) or 1
@@ -278,6 +284,9 @@ def main():
     line("sleeps (total)", "sleeps", "{:.0f}"); line("guard refusals (total)", "guard", "{:.0f}")
     print(f"{'agent calls (total)':22s}" + "".join(f"{sum(g['agents'].values()):16d}" for _, g in G))
     print(f"{'  by type':22s}" + "".join(f"{','.join(f'{k}:{v}' for k, v in sorted(g['agents'].items(), key=lambda kv: -kv[1])[:4]):>16s}" for _, g in G))
+    types = sorted({k for _, g in G for k in g.get("sub_type", {})}, key=lambda k: -sum(g.get("sub_type", {}).get(k, 0) for _, g in G))
+    for k in types:  # subagent cost units per agent type (meta.json agentType): is each tier used?
+        print(f"{'  units '+k:22s}" + "".join(f"{g.get('sub_type', {}).get(k, 0):16.2f}" if g["sessions"] else f"{'-':>16s}" for _, g in G))
     print("\ncontext carried by the planner, share by source")
     keys = ["bash-do", "bash-explore", "read-code", "read-doc", "image", "Agent"]
     for k in keys:

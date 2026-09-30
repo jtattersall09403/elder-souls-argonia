@@ -19,8 +19,12 @@ How you work:
   the ones that apply to it.
 - Delegate the legwork. `find` for every look-up and every read of a big
   file, `run` for every whole job (compile, publish, test, render, probe),
-  `deliver` for implementation you have fully planned (files, mechanism,
-  numbers, checks), `research` for sourcing and audits, Sonnet agents for
+  `deliver` (Opus) for implementation you have fully planned (files,
+  mechanism, numbers, checks) where delivery choices remain,
+  `deliver-small` (Sonnet 5.5) for a job of one or a few named files
+  with nothing left to decide (a mechanical edit, a unit test beside a
+  fix, a data or config change, a doc rewrite from a given spec, a
+  scripted measurement; budget 20 min or less), `research` for sourcing and audits, Sonnet agents for
   visual inspection (contact sheets, several inspectors in parallel, each
   with a sharp "what to look at" list). At most 2 of your agents at once, more only when
   the planner allots slots (a hook caps the session tree at 8 live agents);
