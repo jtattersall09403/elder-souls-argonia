@@ -80,6 +80,13 @@ the hinge is the NIF's animated node and its ``Open`` sequence (``door_hinge``),
 Run (from tooling/world-generation/):
   python3 -m worldgen.export_interior_bundle --plugin Skyrim.esm --cell DawnstarBrinasHouse
   python3 -m worldgen.export_interior_bundle --blueprint ../../world/sources/blueprints/<place>.json
+
+Cost (KeebaHouseFisher, 118 placements, 2026-09-30, loaded machine): own peak
+1.43 GiB (target 1.6 GiB, the plugin world loaded once per run is most of it); ~55 s an export with a cold plugin cache, ~23 s of it parsing the
+plugins (``interior_cells.world_for``), ~4 s the settle pass's contact gaps
+(deterministic per-piece points against nearby triangles,
+``interior_support.contact_gaps``; was 18 s of random surface sampling) and
+~2-8 s the coplanar ``separate`` passes.
 """
 
 from __future__ import annotations
@@ -1546,7 +1553,7 @@ def blueprint_claims(data: dict) -> dict[tuple[str, str], list[dict]]:
 
 
 def export_bundle(plugin: str, cell: str, env, kit_assets, fixture_lights,
-                  claims: list[dict] | None = None, cache=None) -> dict:
+                  claims: list[dict] | None = None, cache=None, geo=None) -> dict:
     """The shared cell file, as written: `export_cell`, the plugin's own
     arrival marker (its exterior partner's teleport, `profile_cell`) and the
     fixture light rule. Place-independent: `claims` only checks load door refs."""
@@ -1565,6 +1572,26 @@ def export_bundle(plugin: str, cell: str, env, kit_assets, fixture_lights,
         if load is not None:
             bundle["exitDoor"] = {"id": f"{cell}.{first['refId']}", "refId": first["refId"],
                                   **load["loadDoor"]}
+    # a plugin piece stored a few cm above its support drops onto it, as havok
+    # drops it at load (16k walk 6); the rows are the build evidence
+    # `geo` holds the kit triangles: pass one per run so each kit loads once
+    from . import coplanar
+    from .interior_support import settle
+    geo = geo or coplanar.KitGeometry()
+    mesh, owner = coplanar.bundle_mesh(coplanar.pieces_from_bundle(bundle["placements"], geo))
+    bundle["settled"] = settle(bundle, mesh, owner)
+    bundle["counts"]["settled"] = len(bundle["settled"])
+    del mesh, owner
+    # two surfaces on one plane z-fight (16k walk 6): the later piece moves 5 mm
+    # a plugin that stored one piece twice in one pose: the lowest id stays
+    dup = coplanar.drop_duplicates(bundle)
+    bundle["drops"].extend(dup)
+    if dup:
+        bundle["counts"]["placements"] = len(bundle["placements"])
+        bundle["counts"]["drops"] = len(bundle["drops"])
+        bundle["counts"]["dropsByReason"] = dict(sorted(Counter(d["reason"] for d in bundle["drops"]).items()))
+    bundle["coplanarFixed"] = coplanar.separate(bundle, geo)
+    bundle["counts"]["coplanarFixed"] = len(bundle["coplanarFixed"])
     apply_light_rule(bundle, fixture_lights)  # doors-interiors-sockets.md § 7
     return bundle
 
@@ -1595,8 +1622,10 @@ def main() -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
     failed = 0
     cache = PluginCache()                      # this run's plugins, parsed once
+    from .coplanar import KitGeometry
+    geo = KitGeometry()                        # this run's kit triangles, loaded once
     for (plugin, cell), cell_claims in claims.items():
-        bundle = export_bundle(plugin, cell, env, kit_assets, fixture_lights, cell_claims, cache)
+        bundle = export_bundle(plugin, cell, env, kit_assets, fixture_lights, cell_claims, cache, geo)
         problems = check(bundle) + validate_bundle(bundle)
         gaps = [d for d in bundle["drops"] if d["reason"] == "no-kit-asset"]
         (out_dir / f"{cell}.json").write_text(json.dumps(bundle, indent=1) + "\n")
