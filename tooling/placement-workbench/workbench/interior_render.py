@@ -379,8 +379,7 @@ def score_eye(cast, eye, target) -> float:
     kept a post over a third of its frame, walk 5). A frame with fewer
     than MIN_FRAME_CLEAR of its probes clear, or with any hit within
     NEAR_VETO_M on the 5-degree NEAR_GRID (`near_hit`), or failing
-    `level_view`, or with one piece over a third of its near frame
-    (`piece_hog`), scores 0."""
+    `level_view`, scores 0."""
     d = [t - e for t, e in zip(target, eye)]
     n = math.sqrt(sum(v * v for v in d)) or 1e-9
     ahead = tuple(v / n for v in d)
@@ -392,38 +391,9 @@ def score_eye(cast, eye, target) -> float:
                         FAN_CLEAR_M) is None)
     frame = sum(1 for y, pt, bar in FRAME_PROBES
                 if cast(eye, _turn(ahead, y, pt), bar) is None) / len(FRAME_PROBES)
-    if (frame < MIN_FRAME_CLEAR or near_hit(cast, eye, ahead) or not level_view(ahead, hit)
-            or piece_hog(cast, eye, ahead)):
+    if frame < MIN_FRAME_CLEAR or near_hit(cast, eye, ahead) or not level_view(ahead, hit):
         return 0.0
     return free * clear / FAN_RAYS * frame
-
-
-# One piece filling the frame near the eye (16k walk 5: a giant snail shell
-# 2.2 m from KeebaHouseSnailMinder corner-b, clear of the wall, so the frame
-# and near vetoes let it pass): the eye is rejected when any single piece
-# takes more than MAX_PIECE_SHARE of the FRAME_PROBES within PIECE_HOG_M.
-PIECE_HOG_M = 3.0
-MAX_PIECE_SHARE = 0.30
-
-
-def piece_hog(cast, eye, ahead) -> bool:
-    """More than MAX_PIECE_SHARE of the FRAME_PROBES hit ONE piece within
-    PIECE_HOG_M, the eye's own floor (within FLOOR_SKIP_M over it) not
-    counted. Needs ``cast.who(origin, direction, max_m)`` -> (distance,
-    piece id) or None (render_interior.py `scene_cast`); a cast without it
-    (the unit tests' boxes) never hogs."""
-    who = getattr(cast, "who", None)
-    if who is None:
-        return False
-    floor_z = eye[2] - EYE_M + FLOOR_SKIP_M
-    counts: dict = {}
-    for y, pt, _bar in FRAME_PROBES:
-        d = _turn(ahead, y, pt)
-        got = who(eye, d, PIECE_HOG_M)
-        if got is None or eye[2] + d[2] * got[0] <= floor_z:
-            continue
-        counts[got[1]] = counts.get(got[1], 0) + 1
-    return bool(counts) and max(counts.values()) > MAX_PIECE_SHARE * len(FRAME_PROBES)
 
 
 def level_view(ahead, hit) -> bool:
