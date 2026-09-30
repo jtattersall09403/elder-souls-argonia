@@ -4,6 +4,7 @@ import { MapControls, PointerLockControls } from "@react-three/drei";
 import * as THREE from "three";
 import { prefetchChunks, sharedChunkStore, type ChunksManifest } from "./character/chunkStore";
 import { headingOf } from "./compass";
+import { useGpuRecovery } from "./gpuRecovery";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "./CanvasErrorBoundary";
 import { studioCanvasRenderer } from "./studioRenderer";
 import { SettlementErrorLine } from "./SettlementErrorLine";
@@ -293,7 +294,8 @@ export function Fly3D(props: Fly3DProps) {
   }, []);
   // The node renderer (decision 0107): WebGPU where the browser has it,
   // WebGL 2 otherwise or with `?renderer=webgl`. R3F builds it once.
-  const glFactory = useMemo(() => studioCanvasRenderer(), []);
+  const { canvasKey, onDeviceLost, recoverFromError } = useGpuRecovery(setCanvasError);
+  const glFactory = useMemo(() => studioCanvasRenderer({ onDeviceLost }), [onDeviceLost]);
   return (
     <>
     {canvasError && <CanvasErrorBanner message={canvasError} />}
@@ -302,6 +304,7 @@ export function Fly3D(props: Fly3DProps) {
       background: "rgba(10,14,20,0.85)", padding: "6px 12px", borderRadius: 8, maxWidth: "80%",
     }} />
     <Canvas
+          key={canvasKey}
       camera={{ position: start, fov: 60, near: 2, far: 60000, up: [0, 1, 0] }}
       // Cap pixel density: retina 2× quadruples every fullscreen pass (scene
       // RT + blit + water); 1.5 is visually near-identical (8b round 2 perf)
@@ -324,7 +327,7 @@ export function Fly3D(props: Fly3DProps) {
         }
       }}
     >
-      <CanvasErrorBoundary onError={setCanvasError}>
+      <CanvasErrorBoundary onError={setCanvasError} onGpuError={recoverFromError}>
       {/* Natural light and sky (Phase 8a): sun/moons/stars, CSM shadows,
           exposure and the aerial haze all come from WorldSky — the old fixed
           hemisphere+directional pair and hand-tuned fog are gone. */}

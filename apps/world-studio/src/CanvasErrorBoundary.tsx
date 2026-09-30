@@ -11,12 +11,17 @@ import { Component, type ErrorInfo, type ReactNode } from "react";
  * owner saw. This catches the throw instead: 3D renders nothing, the error is
  * logged ONCE, and the host reports it in plain HTML outside the canvas.
  *
- * It deliberately never resets itself: an automatic remount would reproduce
- * the same crash loop this exists to stop. Reload the page to retry.
+ * It never resets itself for a scene error: a remount would reproduce the
+ * same crash loop this exists to stop. A GPU-origin error (a lost device)
+ * goes to `onGpuError` first: the host remounts the Canvas with a new device
+ * (gpuRecovery.ts, bounded); only when that refuses is the banner shown.
  */
+import { isGpuOriginError } from "./gpuRecovery";
 type Props = {
   /** Called once, with the error message, when the 3D tree throws. */
   onError?: (message: string) => void;
+  /** GPU-origin throws: return true when the host remounts the Canvas. */
+  onGpuError?: (message: string) => boolean;
   children: ReactNode;
 };
 
@@ -29,6 +34,7 @@ export class CanvasErrorBoundary extends Component<Props, { failed: boolean }> {
 
   componentDidCatch(error: Error, info: ErrorInfo) {
     console.error("[studio] 3D tree failed:", error, info.componentStack);
+    if (isGpuOriginError(error.message) && this.props.onGpuError?.(error.message)) return;
     this.props.onError?.(error.message);
   }
 
@@ -46,7 +52,8 @@ export function CanvasErrorBanner({ message }: { message: string }) {
       background: "#8b1a1a", color: "#fff", font: "13px/1.4 monospace",
       padding: "8px 12px",
     }}>
-      3D tree failed — the scene was stopped so the canvas is not remounted. Reload to retry. {message}
+      3D tree failed — the scene was stopped so the canvas is not remounted. {message}{" "}
+      <button onClick={() => location.reload()}>Reload</button>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { Physics, useRapier } from "@react-three/rapier";
 import { ShapeType } from '@dimforge/rapier3d-compat';
 import * as THREE from "three";
 import type { EcctrlHandle } from "ecctrl";
+import { useGpuRecovery } from "../gpuRecovery";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
 import { studioCanvasRenderer, type StudioRendererHost } from "../studioRenderer";
 import type { WebGPURenderer } from "three/webgpu";
@@ -229,7 +230,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   ), []);
   // The node renderer (decision 0107), built once by R3F: WebGPU where the
   // browser has it, WebGL 2 otherwise or with `?renderer=webgl`.
-  const glFactory = useMemo(() => studioCanvasRenderer({ antialias: canvasAa }), [canvasAa]);
+  const { canvasKey, onDeviceLost, recoverFromError } = useGpuRecovery(setCanvasError);
+  const glFactory = useMemo(() => studioCanvasRenderer({ antialias: canvasAa, onDeviceLost }), [canvasAa, onDeviceLost]);
   // DEV comparison switch (`?water=0`, decision 0084 round 10): the water
   // pipeline and surface are not mounted, so the frame can be measured
   // without the render-to-target/blit/water/precip/overlay passes.
@@ -481,6 +483,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
       {canvasError && <CanvasErrorBanner message={canvasError} />}
       {manifest && spawn ? (
         <Canvas
+          key={canvasKey}
           camera={{ fov: FOLLOW_CAMERA.fieldOfView, near: 0.3, far: 60000, up: [0, 1, 0] }}
           // Cap pixel density — see Fly3D (8b round 2 perf); the quality
           // preset tightens it further on foot (fill rate is the retina tax).
@@ -494,7 +497,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           onCreated={({ gl }) => { glRef.current = gl.domElement; }}
           onPointerDown={() => { if (!touch) glRef.current?.requestPointerLock(); }}
         >
-          <CanvasErrorBoundary onError={setCanvasError}>
+          <CanvasErrorBoundary onError={setCanvasError} onGpuError={recoverFromError}>
           {/* Every renderer marks its segment on this one timer (0084). */}
           <FrameSegmentsContext.Provider value={frameSegments}>
           {/* Walking-stutter fix (owner 2026-09-20): the per-crossing rebuilds

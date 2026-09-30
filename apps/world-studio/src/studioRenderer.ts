@@ -7,16 +7,32 @@
  */
 import { backendLabel, canvasRenderer, type CanvasRendererOptions } from "@elder-souls/game-core/render/canvasRenderer";
 import { STUDIO_TOOLS } from "./studioTools";
+import type { DeviceLossInfo } from "./gpuRecovery";
 
 export type StudioRendererHost = {
   __RENDERER__?: unknown;
   __RENDERER_BACKEND__?: string;
 };
 
-export function studioCanvasRenderer(options: Omit<CanvasRendererOptions, "onReady"> = {}) {
+export function studioCanvasRenderer(
+  options: Omit<CanvasRendererOptions, "onReady"> & {
+    /** Device loss (gpuRecovery.ts); `disposedByUs` is true when our own teardown caused it. */
+    onDeviceLost?: (info: DeviceLossInfo, disposedByUs: boolean) => void;
+  } = {},
+) {
+  const { onDeviceLost, ...rendererOptions } = options;
   return canvasRenderer({
-    ...options,
+    ...rendererOptions,
     onReady: (renderer, backend) => {
+      if (onDeviceLost) {
+        // three's dispose() destroys the device, which fires `device.lost`
+        // ("destroyed"): mark our own teardown so it is not "recovered".
+        let disposed = false;
+        const dispose = renderer.dispose.bind(renderer);
+        renderer.dispose = () => { disposed = true; dispose(); };
+        const log = renderer.onDeviceLost.bind(renderer);
+        renderer.onDeviceLost = (info) => { log(info); onDeviceLost(info, disposed); };
+      }
       if (!STUDIO_TOOLS) return;
       const host = window as unknown as StudioRendererHost;
       host.__RENDERER__ = renderer;
