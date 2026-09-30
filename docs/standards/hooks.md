@@ -7,7 +7,7 @@ on stdin and refuses with exit 2 and the rule's text.
 
 | Hook | Refuses | Rule |
 |---|---|---|
-| `tooling/repo-standards/shell_guard.py` (Bash) | planner exploration; `sleep` anywhere | 0079 |
+| `tooling/repo-standards/shell_guard.py` (Bash) | planner exploration; `sleep` anywhere; any agent writing git's copy over the tree (`checkout --`, `restore`, `stash`, `reset --hard`, `show REV:path >` outside /tmp; owner 2026-09-30) | 0079 |
 | `tooling/repo-standards/review_gate.py` (Bash) | a batch's first preflight until the headless code review ran; code files only (`.py .ts .tsx .mjs .js` under packages/ apps/ tooling/); one exhaustive review per batch over the whole tree's code diff whatever `--paths` names, stamp keyed to HEAD plus a hash of the whole working-tree diff (never the pathspec), findings under `tooling/.reports/review/`, valid while HEAD stays the commit it reviewed | 0079 §8, 0106 |
 | `tooling/repo-standards/hooks/preflight_guard.py` (Bash) | `npm run preflight` with no `--paths` and no `--runner`; a docs-, report- or rulings-only batch; the same pathspec again on the same HEAD with the same files; a full miner run without `--rule-change` | 0106 |
 | `tooling/repo-standards/hooks/preflight_guard.py` (Agent, Task, Workflow) | a call launching a `deliver` lane whose prompt or script has no `Budget: <N> min` line | 0106 |
