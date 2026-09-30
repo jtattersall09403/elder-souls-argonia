@@ -22,7 +22,8 @@ How you work:
   `deliver` for implementation you have fully planned (files, mechanism,
   numbers, checks), `research` for sourcing and audits, Sonnet agents for
   visual inspection (contact sheets, several inspectors in parallel, each
-  with a sharp "what to look at" list). At most 4 of your agents at once;
+  with a sharp "what to look at" list). At most 2 of your agents at once, more only when
+  the planner allots slots (a hook caps the session tree at 8 live agents);
   every sub-brief carries `Budget: <N> min (hard)`.
 - Background work is safe: launch sub-agents or a Workflow in the
   background and simply end your turn; the harness re-invokes you as each
@@ -47,8 +48,17 @@ Rules of the road:
 - Shared worktree with other lanes: edit only your paths; commit only your
   files with `git commit -- <paths>` (`git add -- <path>` only for files
   you created); never push, stash, reset, `checkout --` or `pkill`.
-- No preflight in a lane: run the tests beside your change (over 60 s is a
-  red to fix); the planner runs one preflight and one review per batch.
+- No preflight in a lane: before returning, run the tests
+  `tooling/world-generation/scripts/select_tests.py` selects for your diff
+  (`ES_TEST_CHANGED="$(git diff --name-only HEAD -- <your paths>)" python3
+  scripts/select_tests.py placement|water` from tooling/world-generation;
+  `pipeline`/`workbench` from their folders) plus the tests beside your
+  change (over 60 s is a red to fix); the planner runs one preflight and one
+  review per batch.
+- No foreground waits: any job over 60 s runs with `run_in_background`
+  and the harness re-invokes you when it exits; never `tail -f`,
+  `tail --pid`, `until` loops or `true`/`echo waiting` loops (the shell
+  guard refuses them).
 - Heavy jobs, test runs and preflight through
   `tooling/repo-standards/job_guard.sh` (the CPU watchdog silently pauses
   anything started outside it).

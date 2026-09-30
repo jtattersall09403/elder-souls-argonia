@@ -11,9 +11,11 @@ On `npm run preflight` (or preflight.mjs):
      pathspec before preflight are reviewed too (2026-09-30; the uncommitted-
      only diff let a batch whose lanes all committed pass unreviewed)
   2. a stamp for this batch              -> allow (already reviewed)
-  3. any stamp recorded at the current HEAD commit (one review per commit
-     batch, 0106) -> allow (the fix cycle after a review; a new commit on
-     HEAD starts a new batch); a `--range` review never writes a stamp
+  3. the batch is OPEN (an ok review ran and the planner has not closed it
+     with `--close`) and its reviewed HEAD is an ancestor of HEAD -> allow:
+     a batch spans every commit of its round (walk-6 audit: pathspec commits
+     at the close started four reviews in 40 min); likewise any stamp at the
+     current HEAD; a `--range` review never writes a stamp
   4. otherwise run a headless Opus 5.5 review of the WHOLE batch's code diff (read-only tools),
      write tooling/.reports/review/review-findings.md and the stamp, then
        - no findings -> allow, preflight runs
@@ -46,6 +48,10 @@ tree's code diff and MAX_DIFF_BYTES is measured on it, so the stamp covers
 every lane's code and any later preflight or `--run` at the same HEAD passes
 whatever pathspec it names. `--run --force` reviews again regardless.
 Findings go to tooling/.reports/review/review-findings.md.
+
+`review_gate.py --close` ends the round's batch (the planner runs it when the
+walk packet is posted): the current HEAD becomes the next batch's base and the
+next preflight reviews only what comes after it.
 """
 import fcntl, hashlib, json, os, re, shlex, subprocess, sys, tempfile, time
 
@@ -332,6 +338,43 @@ def _is_ancestor(rev, head="HEAD"):
                           capture_output=True).returncode == 0
 
 
+def read_stamp_file():
+    try:
+        d = json.load(open(STAMP))
+    except Exception:
+        return {}
+    return d if isinstance(d, dict) else {}
+
+
+def batch_open():
+    """True while an ok review's batch has not been closed and its reviewed
+    HEAD is still an ancestor of HEAD (the round's later commits)."""
+    d = read_stamp_file()
+    return bool(d.get("open")) and bool(d.get("reviewedHead")) and _is_ancestor(d["reviewedHead"])
+
+
+def close_batch(head=None):
+    """End the round: the next batch starts at `head` (HEAD)."""
+    head = head or current_head()
+    os.makedirs(os.path.dirname(STAMP), exist_ok=True)
+    with open(stamp_lock_path(), "a") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        _write_stamp_file({"stamps": {}, "reviewedHead": head, "open": False})
+    return head
+
+
+def _write_stamp_file(obj):
+    fd, tmp = tempfile.mkstemp(prefix=".review-stamp.", dir=os.path.dirname(STAMP))
+    try:
+        with os.fdopen(fd, "w") as f:
+            json.dump(obj, f)
+        os.replace(tmp, STAMP)
+    except BaseException:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+        raise
+
+
 def read_reviewed_head():
     """The HEAD the last successful review covered: the stamp file's
     `reviewedHead`, else (stamps written before 2026-09-30) the head of its ok
@@ -418,19 +461,13 @@ def write_stamp(key, h, status, n, head=None, paths=None, base=None):
     os.makedirs(os.path.dirname(STAMP), exist_ok=True)
     with open(stamp_lock_path(), "a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
+        prev = read_stamp_file()
         reviewed = head if status == "ok" else read_reviewed_head()
         stamps = {k: s for k, s in read_stamps().items() if s.get("head") == head}
         stamps[key] = {"hash": h, "paths": paths or [], "time": time.time(),
                        "head": head, "base": base, "status": status, "findings": n}
-        fd, tmp = tempfile.mkstemp(prefix=".review-stamp.", dir=os.path.dirname(STAMP))
-        try:
-            with os.fdopen(fd, "w") as f:
-                json.dump({"stamps": stamps, "reviewedHead": reviewed}, f)
-            os.replace(tmp, STAMP)
-        except BaseException:
-            if os.path.exists(tmp):
-                os.unlink(tmp)
-            raise
+        _write_stamp_file({"stamps": stamps, "reviewedHead": reviewed,
+                           "open": status == "ok" or bool(prev.get("open"))})
 
 
 def review(diff, what):
@@ -447,6 +484,9 @@ def review(diff, what):
 
 
 def main():
+    if "--close" in sys.argv:
+        print(f"[review gate] batch closed at HEAD {close_batch()[:8]}; the next preflight reviews what follows it.")
+        return 0
     manual = "--run" in sys.argv
     rng = None
     if "--range" in sys.argv:
@@ -496,6 +536,8 @@ def main():
     head = current_head()
     key = None if rng else batch_key(head)
     st = {} if rng or force else batch_stamp(head, key)
+    if not st and not rng and not force and batch_open():
+        st = {"status": "open batch", "findings": "-"}
     if st:
         if manual:
             print(f"[review gate] this batch was reviewed at HEAD {head[:8]} ({st.get('status')}, "

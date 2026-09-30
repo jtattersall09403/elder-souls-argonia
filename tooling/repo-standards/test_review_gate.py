@@ -194,10 +194,18 @@ def test_batch_key_moves_with_the_tree_and_head_not_the_pathspec(repo, monkeypat
     # a fix after the review at the same HEAD: the 0106 fix window, no second review
     (root / "tooling/b" / "f.py").write_text("x = 9\n")
     assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/b") == 0 and len(calls) == 1
-    # a HEAD move starts a new batch
+    # a pathspec commit inside the round stays in the open batch: no new review
     subprocess.run(["git", "commit", "-qam", "c"], cwd=root, check=True, capture_output=True)
     (root / "tooling/a" / "f.py").write_text("x = 5\n")
-    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/a") == 0 and len(calls) == 2
+    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/a") == 0 and len(calls) == 1
+    # the planner closes the round: the next change is a new batch, reviewed from the close
+    subprocess.run(["git", "commit", "-qam", "d"], cwd=root, check=True, capture_output=True)
+    monkeypatch.setattr(sys, "argv", ["review_gate.py", "--close"])
+    assert review_gate.main() == 0
+    assert review_gate.batch_base() == review_gate.current_head()
+    (root / "tooling/b" / "f.py").write_text("x = 6\n")
+    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/b") == 0 and len(calls) == 2
+    assert "tooling/a/f.py" not in calls[1]
     stamps = json.load(open(review_gate.STAMP))["stamps"]
     assert list(stamps) == [review_gate.batch_key()]         # the old HEAD's stamp is dropped
 
@@ -274,7 +282,9 @@ def test_committed_lanes_are_reviewed_once_per_batch(repo, monkeypatch):
     assert json.load(open(review_gate.STAMP))["reviewedHead"] == reviewed
     # same HEAD: no second review
     assert run_hook(monkeypatch, "npm run preflight -- --runner") == 0 and len(calls) == 1
-    # the next batch starts at the reviewed HEAD: lane a/b are not read again
+    # the planner closes the round; the next batch starts there: lane a/b are not read again
+    monkeypatch.setattr(sys, "argv", ["review_gate.py", "--close"])
+    assert review_gate.main() == 0
     (root / "tooling/a" / "f.py").write_text("x = 4  # LANE_C\n")
     _git(root, "commit", "-qam", "lane c")
     (root / "tooling/b" / "f.py").write_text("x = 5  # UNCOMMITTED\n")

@@ -102,13 +102,20 @@ start_mib=$(used)
 export MEMWATCH_OUTER_CEILING_MIB="$ceiling_mib"
 setsid bash -c "$*" &
 pid=$!
-report "child pid $pid (process group $pid) started $(date -u +%FT%TZ)"
+# 1-min load average every MEMWATCH_LOAD_S seconds (default 60) into the job log,
+# so an audit sees CPU saturation beside memory (walk-6 process audit).
+load1() { cut -d' ' -f1 "${ES_JOB_LOADAVG_FILE:-/proc/loadavg}" 2>/dev/null; }
+load_every=${MEMWATCH_LOAD_S:-60}; next_load=$(( SECONDS + load_every ))
+report "child pid $pid (process group $pid) started $(date -u +%FT%TZ) load1 $(load1)"
 python3 "$here/own_memory.py" --watch "$pid" "$own_file" 0.5 &
 own_pid=$!
 peak=$start_mib
 while kill -0 "$pid" 2>/dev/null; do
   now=$(used)
   (( now > peak )) && peak=$now
+  if (( SECONDS >= next_load )); then
+    report "load1 $(load1) at $(date -u +%FT%TZ) machineMiB $now"; next_load=$(( SECONDS + load_every ))
+  fi
   if (( now > ceiling_mib )); then
     echo "$tag: machine unreclaimable ${now} MiB > ceiling ${ceiling_mib} MiB — killing (own tree $(gib "$(own_peak)") GiB at peak)" >&2
     kill -TERM -- -"$pid" 2>/dev/null; sleep 2; kill -KILL -- -"$pid" 2>/dev/null

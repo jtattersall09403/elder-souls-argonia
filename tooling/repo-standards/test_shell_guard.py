@@ -53,3 +53,17 @@ def test_reading_head_into_a_temp_path_is_allowed():
                 "git commit -m 'restore the stash note' -- a.json", "git checkout main",
                 "git show HEAD:a.json > \"$TMPDIR/a.json\"", "git log --oneline -5"]:
         assert code(cmd, sub=True) == 0, cmd
+
+
+def test_foreground_waits_refused_for_everyone():
+    for cmd in ["tail -f log.txt", "tail -n 20 -f x.log", "tail --pid=123 -f /dev/null", "tail -F x",
+                "until [ -f done ]; do true; done", "x=1; until grep -q ok log; do :; done",
+                "while ! test -f d; do true; done", "while pgrep x; do echo waiting; done"]:
+        assert code(cmd, sub=True) == 2, cmd
+        assert code(cmd, sub=False) == 2, cmd
+
+
+def test_ordinary_loops_and_tail_allowed_for_agents():
+    for cmd in ["tail -n 40 log.txt", "tail -20 x.log", "while read l; do echo $l; done < f",
+                "for f in a b; do true; echo $f; done", "git commit -m 'until done'", "cat <<'E' > f\nthe batch stays open\n  until the close\nE","grep -n tail x.py"]:
+        assert code(cmd, sub=True) == 0, cmd

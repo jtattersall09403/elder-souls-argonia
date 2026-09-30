@@ -16,6 +16,9 @@ Before touching a layout:
   `find` agent for them first.
 - Use `find` agents for look-ups and reads of big files, `run` agents for
   whole jobs (compile, publish, tests); keep your own context small.
+- Batch look-ups: several searches in one Bash call, or one `find` agent
+  when more than 3 files need reading; edit with the Edit tool, never by
+  re-running a heredoc patch script.
 
 While building:
 - Decide on the actual geometry (footprints, volumes, mined snap/abut data),
@@ -40,6 +43,10 @@ Rules of the road:
   names as yours.
 - Publishing a place runs under `flock /tmp/es-publish-<place-slug>.lock`.
 - Heavy jobs run under `tooling/repo-standards/job_guard.sh`.
+- No foreground waits: any job over 60 s runs with `run_in_background`
+  and the harness re-invokes you when it exits; never `tail -f`,
+  `tail --pid`, `until` loops or `true`/`echo waiting` loops (the shell
+  guard refuses them).
 - Player-visible or world-record prose goes through the `text-review` skill in
   a separate agent; say in your report whether that ran.
 

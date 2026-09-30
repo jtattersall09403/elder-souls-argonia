@@ -23,6 +23,13 @@ Rules of the road:
 - Player-visible or world-record prose goes through the `text-review` skill
   in a separate agent; say in your report whether that ran.
 - Report: what changed (file:line), what was measured, what failed.
+- Batch look-ups: several searches in one Bash call, or one `find` agent
+  when more than 3 files need reading; edit with the Edit tool, never by
+  re-running a heredoc patch script.
+- No foreground waits: any job over 60 s runs with `run_in_background`
+  and the harness re-invokes you when it exits; never `tail -f`,
+  `tail --pid`, `until` loops or `true`/`echo waiting` loops (the shell
+  guard refuses them).
 - A placement the workbench cannot make or measure (owner 2026-09-28): use
   `wb.py bpy <scene> <script.py> --out <json>` (headless Blender with the
   whole scene; placement-workbench skill § 5b) to answer it now, and add

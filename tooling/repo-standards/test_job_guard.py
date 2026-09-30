@@ -163,3 +163,12 @@ def test_admission_counts_the_live_slots_measured_memory(tmp_path):
     r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "t", "--mem", "x", "--", "echo ran"],
                        env=_env(tmp_path), capture_output=True, text=True, timeout=60)
     assert r.returncode == 2
+
+
+def test_the_job_log_samples_the_load_average(tmp_path):
+    """walk-6 audit: job logs could not show CPU saturation; memwatch logs load1."""
+    line = f"bash {HERE / 'job_guard.sh'} ld -- python3 -c \"import time; time.sleep(1.5)\""
+    env = {**_env(tmp_path), "MEMWATCH_LOAD_S": "1"}
+    subprocess.run(["bash", "-c", line], env=env, capture_output=True, text=True, timeout=60)
+    text = next((tmp_path / "logs").glob("ld-*.log")).read_text()
+    assert "started" in text and text.count("load1 ") >= 2, text

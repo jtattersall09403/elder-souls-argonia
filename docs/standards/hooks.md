@@ -7,8 +7,9 @@ on stdin and refuses with exit 2 and the rule's text.
 
 | Hook | Refuses | Rule |
 |---|---|---|
-| `tooling/repo-standards/shell_guard.py` (Bash) | planner exploration; `sleep` anywhere; any agent writing git's copy over the tree (`checkout --`, `restore`, `stash`, `reset --hard`, `show REV:path >` outside /tmp; owner 2026-09-30) | 0079 |
-| `tooling/repo-standards/review_gate.py` (Bash) | a batch's first preflight until the headless code review ran; code files only (`.py .ts .tsx .mjs .js` under packages/ apps/ tooling/); one exhaustive review per batch over the batch's code diff (commits since the last reviewed HEAD, else since the merge-base with main, plus the working tree) whatever `--paths` names, stamp keyed to HEAD plus a hash of the whole working-tree diff (never the pathspec), findings under `tooling/.reports/review/`, valid while HEAD stays the commit it reviewed | 0079 §8, 0106 |
+| `tooling/repo-standards/shell_guard.py` (Bash) | planner exploration; `sleep` anywhere; foreground waits for every agent (`tail -f`/`-F`/`--pid`, `until` loops, loops whose body is `true`, `:` or an `echo waiting`; owner 2026-09-30); any agent writing git's copy over the tree (`checkout --`, `restore`, `stash`, `reset --hard`, `show REV:path >` outside /tmp; owner 2026-09-30) | 0079 |
+| `tooling/repo-standards/agent_cap.py` (Agent, Task; SubagentStart; SubagentStop) | a ninth live subagent in one session tree (counter per `session_id` in /tmp/es-agent-cap, pending launches expire in 120 s, live entries in 4 h; `--status` prints it; owner 2026-09-30) | 0106 d18 |
+| `tooling/repo-standards/review_gate.py` (Bash) | a batch's first preflight until the headless code review ran; code files only (`.py .ts .tsx .mjs .js` under packages/ apps/ tooling/); one exhaustive review per batch over the batch's code diff (commits since the last reviewed HEAD, else since the merge-base with main, plus the working tree) whatever `--paths` names, stamp keyed to HEAD plus a hash of the whole working-tree diff (never the pathspec), findings under `tooling/.reports/review/`; after an ok review the batch stays open across the round's commits until the planner runs `review_gate.py --close` when the walk packet is posted | 0079 §8, 0106 |
 | `tooling/repo-standards/hooks/preflight_guard.py` (Bash) | `npm run preflight` with no `--paths` and no `--runner`; a docs-, report- or rulings-only batch; the same pathspec again on the same HEAD with the same files; a full miner run without `--rule-change` | 0106 |
 | `tooling/repo-standards/hooks/preflight_guard.py` (Agent, Task, Workflow) | a call launching a `deliver` lane whose prompt or script has no `Budget: <N> min` line | 0106 |
 
@@ -39,7 +40,22 @@ the guard after the review gate, and one new entry covers the lane tools:
 ```
 
 The guard runs before the review gate so a refused preflight never starts
-a review.
+a review. The agent cap needs three more entries (the Agent entry above gains
+it as a second hook):
+
+```json
+"PreToolUse": [{ "matcher": "Agent|Task", "hooks": [{ "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/agent_cap.py", "timeout": 10 }] }],
+"SubagentStart": [{ "hooks": [{ "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/agent_cap.py", "timeout": 10 }] }],
+"SubagentStop": [{ "hooks": [{ "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/agent_cap.py", "timeout": 10 }] }]
+```
+
+## The close of a round
+
+Review items go back to ONE lane (a lead or deliver that owns the batch's
+code), never judged by the planner reading code. Crash, memory and
+infrastructure fixes found at the close go to a side lane, off the close's
+critical path. The planner runs `review_gate.py --close` when the packet is
+posted.
 
 ## Weekly drift check
 

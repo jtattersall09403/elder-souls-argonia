@@ -94,8 +94,9 @@ the addenda of 0105 (now rows of the rulings table).
 13. **The review runs once, exhaustively, never in rounds.** High effort,
     a "this is the only pass" prompt with a coverage line, findings under
     `tooling/.reports/review/` (never under `.claude/`), and the stamp
-    holds while HEAD is unchanged: fixes after the review are not
-    re-reviewed; the next commit batch gets its own review.
+    holds until the planner closes the batch (`review_gate.py --close`, at
+    the packet): the round's later commits and fixes are not re-reviewed;
+    the next round gets its own review.
 14. **A budget stop is a diagnosis, never a result.** The planner reads the
     stop note, finds the cause of the overrun (walk 3's causes: a survey
     and scan pass re-run per round, 22–44 min a place; orient 12–17 min a
@@ -115,6 +116,20 @@ the addenda of 0105 (now rows of the rulings table).
 16. **Reports live in `tooling/.reports/`** (per run, per area), never in
     `.claude/`, the repo root or a docs folder; `.claude/` holds only
     settings, agents and skills.
+
+### Addendum 2026-09-30 (owner, walk-6 process audit, tooling/.reports/16k/walk6/process-audit.md)
+
+18. **At most 8 live subagents per session tree**, refused by
+    `agent_cap.py` on the Agent tool; a lead runs at most 2 unless the
+    planner allots slots. Walk 5 peaked at 23; two OOM kills cost 504 min.
+19. **One review per round**: the batch spans the round's pathspec commits
+    until `review_gate.py --close` (walk 5's close ran four reviews in 40
+    min).
+20. **No foreground waits**: jobs over 60 s run in the background; the
+    shell guard refuses `tail -f`, `tail --pid`, `until` and busy loops.
+21. **A lean close**: review items go to one lane, crash and infra fixes
+    to a side lane; each lane runs `select_tests.py` on its diff before
+    returning; job logs carry a 1-min load-average sample.
 
 ## Where each lives
 

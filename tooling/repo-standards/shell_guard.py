@@ -28,6 +28,14 @@ BLOCK = re.compile(
 # keyword (`while ...; do sleep 5; done`), or behind timeout/nohup.
 SLEEP = re.compile(r"(^|[;&|(\n]\s*|\b(do|then|else|timeout\s+\S+|nohup)\s+)(rtk\s+)?sleep\b")
 
+# Foreground waiting (owner 2026-09-30, walk-6 audit: 203 polls, 145 agent-min):
+# following a log, waiting on a pid, `until` loops, and busy loops whose body is
+# only `true`/`:`/an "echo waiting". A long job runs with run_in_background.
+WAIT = re.compile(
+    r"(^|[;&|(\n]\s*)(rtk\s+)?(tail\s+(.*\s)?(-[a-zA-Z]*[fF][a-zA-Z]*|--follow\S*|--pid\S*)(\s|$)|until\s[^\n]*?;\s*do\b)"
+    r"|\bdo\s+(true|:)\s*;?\s*done\b"
+    r"|\bdo\s+echo\s+[\"']?(waiting|still|polling|not yet)\b")
+
 # git writing a committed copy over the working tree. `git checkout <branch>`
 # (no pathspec) and `git checkout -b` stay allowed; `git show REV:path` into
 # /tmp or a pipe stays allowed (reading HEAD's version into a temp path).
@@ -53,6 +61,12 @@ def main():
             "`bash tooling/repo-standards/job_guard.sh <lane> -- <cmd>`; a long job runs with "
             "run_in_background and you are woken when it exits; a subagent's result arrives by its "
             "hand-back. Never poll.\n")
+        return 2
+    if WAIT.search(cmd):
+        sys.stderr.write(
+            "[shell guard, owner 2026-09-30] no foreground waiting (tail -f / tail --pid / until loops / "
+            "busy loops). Run any job over 60 s with run_in_background: the harness re-invokes you when it "
+            "exits; read its log once then.\n")
         return 2
     if TREE_WRITE.search(cmd):
         sys.stderr.write(

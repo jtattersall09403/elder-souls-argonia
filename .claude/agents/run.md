@@ -12,6 +12,10 @@ the result tersely. The caller's context is expensive; yours is cheap.
 - Run the commands the brief gives (prefix long-output commands with `rtk`
   when it is installed: `rtk test …`, `rtk err …`, `rtk git …`). Never
   guess a different command; if the named one fails to start, report that.
+- No foreground waits: any job over 60 s runs with `run_in_background`
+  and the harness re-invokes you when it exits; never `tail -f`,
+  `tail --pid`, `until` loops or `true`/`echo waiting` loops (the shell
+  guard refuses them).
 - Another agent may be working in the same tree. Never `git add`, `commit`,
   `stash`, `checkout --` or `reset`; edit only files the brief names as
   yours.
