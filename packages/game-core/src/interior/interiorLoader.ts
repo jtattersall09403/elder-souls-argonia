@@ -16,6 +16,7 @@ import {
 } from "../fx/fire/interiorFires";
 
 import { applyLanternShell, isLanternShellMaterial } from "../settlement/fixtureGlow";
+import { applySettlementDecal, settlementMeshDrawFlags } from "../settlement/materials";
 
 /** Per kit id, per asset id: the kit manifest rows a cell's fires read (fx/fire/interiorFires.ts). */
 export type InteriorFireRows = ReadonlyMap<string, ReadonlyMap<string, InteriorFireRow>>;
@@ -177,7 +178,11 @@ export function instantiateInterior(
       if (isInteriorFlameCard(fireRow, part.material.name)) continue;
       // a lantern's shell burns steady inside, as the cell's lights do (fixtureGlow.ts)
       if (isLanternShellMaterial(part.material, fireRow)) applyLanternShell(part.material);
+      // a decal (hay scatter, blood) gets the settlement depth bias so it never
+      // z-fights the floor under it (16k walk 6, DawnstarBrinasHouse)
+      applySettlementDecal(part.material);
       const mesh = new THREE.InstancedMesh(part.geometry, part.material, placements.length);
+      mesh.renderOrder = settlementMeshDrawFlags(part.material).renderOrder;
       placements.forEach((p, i) => mesh.setMatrixAt(i, m.multiplyMatrices(interiorPlacementMatrix(p), part.localMatrix)));
       mesh.instanceMatrix.needsUpdate = true;
       mesh.computeBoundingSphere();

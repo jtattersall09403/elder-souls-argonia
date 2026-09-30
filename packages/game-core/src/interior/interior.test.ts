@@ -547,6 +547,24 @@ describe("interior fires (16k walk 5): the hut hearth burns a flame, not only a 
     for (let i = 0; i < cell.fire!.flameInstances; i++) expect(cell.fire!.flameIntensity(i)).toBe(1);
   });
 
+  it("a decal material from an interior part gets the settlement depth bias", async () => {
+    const { instantiateInterior } = await import("./interiorLoader");
+    const b = parseInteriorBundle(structuredClone(fixture), "fixture");
+    const p = b.placements[0];
+    const decal = new THREE.MeshStandardMaterial(); decal.userData = { decal: true };
+    const g = new THREE.BoxGeometry(1, 1, 1);
+    const decalAsset: ArchitectureAsset = { id: p.assetId, levels: [[
+      { geometry: g, material: decal, localMatrix: new THREE.Matrix4(), triangles: 12 }]] };
+    const ids = new Set([...b.placements, ...b.doors.filter(isInteriorSwingDoor)].map((q) => q.assetId));
+    const kit = new Map([...ids].map((id) => [id, id === p.assetId ? decalAsset : asset(id)] as const));
+    const cell = instantiateInterior(b, new Map([[p.kit, kit]]));
+    expect(decal.polygonOffset).toBe(true);
+    expect(decal.polygonOffsetFactor).toBeLessThan(0);
+    expect(decal.depthWrite).toBe(false);
+    const drawn = cell.group.children.find((c) => (c as THREE.InstancedMesh).material === decal)!;
+    expect(drawn.renderOrder).toBe(1);
+  });
+
   it("a flame-card piece's cards are left undrawn; a piece with none keeps every part", async () => {
     const { instantiateInterior } = await import("./interiorLoader");
     const b = parseInteriorBundle(structuredClone(fixture), "fixture");
