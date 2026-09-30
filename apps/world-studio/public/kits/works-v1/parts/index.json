@@ -7,11 +7,11 @@
   "sha256": "9029f469203e6124c9f0281c301c1d4055da1b99f29fffabf5c55c59aad2726c"
  },
  "totals": {
-  "parts": 14,
-  "partBytes": 236152,
-  "textureFiles": 13,
-  "textureBytes": 1525692,
-  "bytes": 1761844
+  "parts": 11,
+  "partBytes": 192348,
+  "textureFiles": 11,
+  "textureBytes": 1393228,
+  "bytes": 1585576
  },
  "assets": {
   "kotm:argonia/clutter/basket01": {
@@ -50,15 +50,6 @@
     "9a27911525728b4f"
    ]
   },
-  "vanilla:clutter/basket05": {
-   "file": "vanilla_clutter_basket05-0695f32d.glb",
-   "bytes": 8276,
-   "vertices": 283,
-   "triangles": 428,
-   "textures": [
-    "9a27911525728b4f"
-   ]
-  },
   "vanilla:clutter/basket06": {
    "file": "vanilla_clutter_basket06-0b65a787.glb",
    "bytes": 13732,
@@ -66,25 +57,6 @@
    "triangles": 788,
    "textures": [
     "9a27911525728b4f"
-   ]
-  },
-  "vanilla:clutter/basketclosed01": {
-   "file": "vanilla_clutter_basketclosed01-e215beff.glb",
-   "bytes": 9568,
-   "vertices": 355,
-   "triangles": 552,
-   "textures": [
-    "9a27911525728b4f"
-   ]
-  },
-  "vanilla:clutter/common/cratesmalllong01": {
-   "file": "vanilla_clutter_common_cratesmalllong01-7fb50a82.glb",
-   "bytes": 25960,
-   "vertices": 1231,
-   "triangles": 1024,
-   "textures": [
-    "84e860a3ea484090",
-    "dc9bb44de37c4b8c"
    ]
   },
   "vanilla:clutter/deadanimals/fishrack01": {
