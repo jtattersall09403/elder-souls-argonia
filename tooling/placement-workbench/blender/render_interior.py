@@ -159,6 +159,38 @@ def ambient_materials(ambient, cards, glow=()):
     return sockets, tuple(k)
 
 
+def bed_tongues(world, fires):
+    """A flame-card bed (a hearth's fxfirewithembers01) burns 2-3 core and
+    2-3 outer cards spread over its bed (fx/fire/FlameSystem.ts), not one
+    wick: its proxy (`fire{i}`, a teardrop h x 0.44 h from the fire pass)
+    is widened to the preset's width plus its spread, and two outer tongues
+    of 0.7 h stand at +-0.8 spread, so the render shows the hearth at the
+    size the game burns it."""
+    body = bpy.data.materials.get("fire-proxy")
+    for i, fire in enumerate(fires or []):
+        spread = fire.get("spreadM")
+        if not spread:
+            continue
+        h = float(fire["heightM"])
+        obj = world.objects.get(f"fire{i}")
+        if obj is not None:
+            k = (float(fire["widthM"]) + spread) / (h * 0.44)
+            obj.scale = (k, k, obj.scale[2])
+        x, y, z = fire["at"]
+        for side, dx in (("l", -0.8 * spread), ("r", 0.8 * spread)):
+            t = 0.7 * h
+            bpy.ops.mesh.primitive_uv_sphere_add(radius=t * 0.22, segments=12, ring_count=8,
+                                                 location=(x + dx, y, z + t * 0.45))
+            tongue = bpy.context.active_object
+            tongue.name = f"fire{i}-{side}"
+            tongue.scale = (1.0, 1.0, 2.2)
+            if body is not None:
+                tongue.data.materials.append(body)
+            for used in list(tongue.users_collection):
+                used.objects.unlink(tongue)
+            world.objects.link(tongue)
+
+
 def record_light(i, rec, scene):
     """A LIGH record: shadowless point light, three.js intensity and window."""
     data = bpy.data.lights.new(f"light{i}", type="POINT")
@@ -294,6 +326,7 @@ def main():
     sockets, amb = ambient_materials(JOB.get("ambient") or [0, 0, 0], JOB.get("flameCards") or [],
                                      JOB.get("glowCards") or [])
     rs.add_fire_light_pass(world, JOB.get("fires"))
+    bed_tongues(world, JOB.get("fires"))
     for obj in world.objects:          # the proxies are markers, never light sources
         if obj.name.startswith("fire"):
             obj.visible_diffuse = obj.visible_glossy = obj.visible_shadow = False

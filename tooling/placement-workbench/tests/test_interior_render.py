@@ -127,6 +127,22 @@ def test_flame_cards_of_a_piece_with_flames_draw_emissive_and_a_bed_s_are_hidden
     assert next(f for f in fires if f["id"] == "h")["heightM"] >= 0.4      # a visible bed proxy
 
 
+def test_a_hearth_bed_proxy_is_the_game_s_brazier_flame_at_piece_scale():
+    """fxfirewithembers01 on a hut's hearth burns the `brazier` preset
+    (fireTypes.ts: 0.55 m tall, 0.30 m wide, 0.12 m spread) times its
+    placement scale; the proxy carries that size, never a fixed 0.45 m."""
+    rows = {"vanilla:effects/fxfirewithembers01": {
+        "sizeM": [1.0, 1.0, 0.8], "originOffsetM": [0.5, 0.5, 0.0],
+        "flameCardMaterials": ["Flames02:0.Mat"]}}
+    p = dict(_p("h", "vanilla:effects/fxfirewithembers01", [0.0, 0.0, 0.0]), scale=1.5)
+    fires, _, _ = ir.fire_list({"placements": [p]}, lambda q: rows.get(q["assetId"]))
+    (bed,) = fires
+    assert math.isclose(bed["heightM"], 0.55 * 1.5) and math.isclose(bed["widthM"], 0.30 * 1.5)
+    assert math.isclose(bed["spreadM"], 0.12 * 1.5)
+    assert ir.bed_preset("k:campfire01", {}) == "campfire"
+    assert ir.bed_preset("k:hearthfire", {}) == "hearth"
+
+
 def test_stand_ins_and_swing_doors_draw_as_the_loader_draws_them():
     bundle = dict(BUNDLE, substitutions=[{
         "id": "sub", "refId": "1", "standInAsset": "k:candle", "kit": "k",

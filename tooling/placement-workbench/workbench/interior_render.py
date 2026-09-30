@@ -64,6 +64,12 @@ LIGHT_INTENSITY_PER_FADE = math.pi   # interiorLoader.ts INTERIOR_LIGHT_INTENSIT
 LIGHT_DECAY = 2.0                    # interiorLoader.ts INTERIOR_LIGHT_DECAY
 AMBIENT_SCALE = math.pi              # interiorLoader.ts INTERIOR_AMBIENT_SCALE
 TIMEOUT_S = 600
+# A flame-card bed's flame (fx/fire/fireTypes.ts FIRE_PRESETS, as
+# `firePresetFor` picks it for a card bed): (heightM, widthM, spreadM) at
+# piece scale 1. The render proxy stands at this size so a hearth reads at
+# the size the game burns it (walk 5: a 0.45 m fixed proxy read as a dot).
+BED_PRESETS = {"campfire": (0.85, 0.42, 0.22), "hearth": (0.62, 0.34, 0.20),
+               "brazier": (0.55, 0.30, 0.12), "candle": (0.085, 0.035, 0.01)}
 _C = np.array([[1.0, 0, 0, 0], [0, 0, -1.0, 0], [0, 1.0, 0, 0], [0, 0, 0, 1.0]])
 
 
@@ -721,8 +727,24 @@ def ambient_of(bundle: dict) -> dict:
             "directional": srgb_to_linear(d) if d else None}
 
 
+def bed_preset(asset_id: str, row: dict) -> str:
+    """fireTypes.ts `firePresetFor` for a flame-card bed (no fixture kind,
+    no flame source): campfire, hearth, brazier (fxfirewithembers01 is a
+    brazier-sized bed wherever it stands), else candle."""
+    kind = row.get("category") or ""
+    aid = (asset_id or "").lower()
+    if kind == "campfire" or "campfire" in aid:
+        return "campfire"
+    if kind == "hearth" or "fireplace" in aid or "hearth" in aid:
+        return "hearth"
+    if kind in ("brazier", "forge", "cook-fire") or "brazier" in aid or "fxfirewithembers" in aid:
+        return "brazier"
+    return "candle"
+
+
 def fire_list(bundle: dict, row_of) -> tuple[list[dict], list[str], list[str]]:
     """(fires in the render fire pass's shape {at, heightM, fallback, id},
+    a flame-card bed adding widthM and spreadM from its preset,
     the flame-card material names the loader leaves undrawn, the flame-card
     materials of a piece with mined `flames`, which the loader draws and
     the render draws emissive and additive), per
@@ -757,8 +779,10 @@ def fire_list(bundle: dict, row_of) -> tuple[list[dict], list[str], list[str]]:
             cards.update(row["flameCardMaterials"])
             lo, hi = box
             at = _world(m, ((lo[0] + hi[0]) / 2, lo[1], (lo[2] + hi[2]) / 2))
+            h, w, spread = BED_PRESETS[bed_preset(p["assetId"], row)]
+            k = float(p.get("scale", 1.0))
             fires.append({"id": p["id"], "at": to_blender(at), "fallback": False,
-                          "heightM": 0.45})
+                          "heightM": h * k, "widthM": w * k, "spreadM": spread * k})
             own.append(at)
             continue
         if (row.get("light") or {}).get("fixtureKind") and box is not None:
