@@ -626,13 +626,14 @@ class WalkGrid:
             return False, "slope", slope
         return True, None, slope
 
-    def graph(self):
+    def graph(self, wade_any_depth: bool = False):
         """(csr graph of walkable edges weighted by 3D length, per-edge slope
-        and step arrays keyed by (i, j) flat index)."""
+        and step arrays keyed by (i, j) flat index). `wade_any_depth` lets
+        deep water be walked: the diagnosis graph of `_wading_block`."""
         from scipy.sparse import csr_matrix
         n = self.nx * self.nz
         idx = np.arange(n).reshape(self.nz, self.nx)
-        free = (self.block < 0) & ~self.deep
+        free = (self.block < 0) & (wade_any_depth | ~self.deep)
         rows, cols, w = [], [], []
         for dz, dx in ((0, 1), (1, 0), (1, 1), (1, -1)):
             a = (slice(0, self.nz - dz), slice(max(0, -dx), self.nx - max(0, dx)))
@@ -742,6 +743,33 @@ def _why_unreached(grid: WalkGrid, dist: np.ndarray, goal) -> dict:
     return out
 
 
+def _wading_block(grid: WalkGrid, wet_pred: np.ndarray, wet_dist: np.ndarray, flat,
+                  goal) -> dict | None:
+    """Wading named first: when the target is reached once deep water may be
+    walked, the water is the cause, whatever prop stands beside the path (the
+    first blocked edge by the nearest reached cell can be that prop and hide
+    it). The first deep cell on that route is the block, its predecessor the
+    last reached cell; `deepestWadeM` is the deepest cell on the route."""
+    end = min(flat, key=lambda i: wet_dist[i])
+    if not np.isfinite(wet_dist[end]):
+        return None
+    cells = [end]
+    while wet_pred[cells[-1]] >= 0:
+        cells.append(int(wet_pred[cells[-1]]))
+    cells.reverse()
+    deep = [k for k, i in enumerate(cells) if grid.deep[divmod(i, grid.nx)]]
+    if not deep or deep[0] == 0:
+        return None
+    a, b = divmod(cells[deep[0] - 1], grid.nx), divmod(cells[deep[0]], grid.nx)
+    gx, gz = grid.xz(goal)
+    return {"lastReachedM": [round(v, 2) for v in grid.xz(a)],
+            "lastReachedToTargetM": round(math.hypot(grid.X[a] - gx, grid.Z[a] - gz), 2),
+            "blockingCellM": [round(v, 2) for v in grid.xz(b)], "reason": "wading",
+            "value": round(float(grid.depth[b]), 3),
+            "deepestWadeM": round(max(float(grid.depth[divmod(cells[k], grid.nx)])
+                                      for k in deep), 3)}
+
+
 def _route_stats(grid: WalkGrid, pred: np.ndarray, start: int, end: int) -> dict:
     cells = [end]
     while cells[-1] != start:
@@ -804,6 +832,7 @@ def walk(cat, scene, keep_points: bool = False) -> dict:
     csr = grid.graph()
     s = start[0] * grid.nx + start[1]
     dist, pred = dijkstra(csr, directed=False, indices=s, return_predecessors=True)
+    wet = None      # (dist, pred) with deep water walkable, built on the first unreached target
     floors = floor_services(cat, scene)
     # an open-floor house is served on its floor, never at a doorway record
     floor_targets = [{"id": f"floor:{uid}", "uid": uid, "kind": "floor", **f}
@@ -843,7 +872,11 @@ def walk(cat, scene, keep_points: bool = False) -> dict:
         flat = [c[0] * grid.nx + c[1] for c in cells]
         end = min(flat, key=lambda i: dist[i])
         if not np.isfinite(dist[end]):
-            got = _why_unreached(grid, dist, cells[0])
+            if wet is None:
+                wet = dijkstra(grid.graph(wade_any_depth=True), directed=False, indices=s,
+                               return_predecessors=True)
+            got = (_wading_block(grid, wet[1], wet[0], flat, cells[0])
+                   or _why_unreached(grid, dist, cells[0]))
             row.update(ok=False, **got)
             why = (f"no route from the terminal; blocked at {got.get('blockingCellM')} by "
                    f"{got.get('reason')} ({got.get('value')}), last reached cell "
