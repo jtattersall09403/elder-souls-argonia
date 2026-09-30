@@ -682,7 +682,10 @@ class WalkGrid:
 
 
 def _free_near(grid: WalkGrid, x: float, z: float, reach: float = 2.0):
-    """The free cell nearest (x, z) within `reach`, or None."""
+    """The free cell nearest (x, z) within `reach`, or None. A ground cell
+    wins over a piece's top: the road terminal is on the ground, so a house
+    whose floor spans the terminal is walked to, never started on (a piece
+    top is the start only where no ground cell is free within reach)."""
     best = None
     k = int(reach / CELL_M) + 1
     c = grid.cell(x, z)
@@ -693,8 +696,9 @@ def _free_near(grid: WalkGrid, x: float, z: float, reach: float = 2.0):
             if grid.block[iz, ix] >= 0:
                 continue
             d = math.hypot(grid.X[iz, ix] - x, grid.Z[iz, ix] - z)
-            if d <= reach and (best is None or d < best[0]):
-                best = (d, (iz, ix))
+            key = (grid.src[iz, ix] >= 0, d)
+            if d <= reach and (best is None or key < best[0]):
+                best = (key, (iz, ix))
     return None if best is None else best[1]
 
 

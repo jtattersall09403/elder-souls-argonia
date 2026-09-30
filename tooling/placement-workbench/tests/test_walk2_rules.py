@@ -266,7 +266,7 @@ def test_the_0104_fields_validate():
     assert bpm.fills_failures({"fills": []})
     assert "doorType" in "".join(
         f"doorType must be one of {sorted(bpm.DOOR_TYPES)}" for _ in [0]) and \
-        bpm.DOOR_TYPES == {"load", "swing"}
+        bpm.DOOR_TYPES == {"load", "swing", "hollow"}
 
 
 # ------------------------------------------------ planner ruling yFinal

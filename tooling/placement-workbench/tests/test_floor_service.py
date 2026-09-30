@@ -112,7 +112,7 @@ def test_open_floor_house_with_its_floor_out_of_reach_fails_naming_the_floor(
     p.y += max(1.5, top + 2.0 - rules._walk_top_y(cat, p))   # over its doorway step too
     got = rules.walk(cat, scene)
     t = next(t for t in got["targets"] if t["uid"] == "fh")
-    assert t["id"] == "floor:fh" and not t["ok"]
+    assert t["id"] == "floor:fh" and not t["ok"], t
     assert any(f.startswith("fh: walk to its floor (walkTopM top") for f in got["failures"])
 
 

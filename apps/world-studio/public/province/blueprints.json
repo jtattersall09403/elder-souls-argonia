@@ -28,28 +28,8 @@
           531.61
         ],
         [
-          7222.0,
-          531.61
-        ],
-        [
-          7202.0,
-          540.0
-        ],
-        [
-          7194.0,
-          600.0
-        ],
-        [
-          7228.0,
-          600.0
-        ],
-        [
-          7232.0,
-          592.0
-        ],
-        [
           7246.0,
-          592.0
+          531.61
         ],
         [
           7250.0,
@@ -101,268 +81,268 @@
           "notes": null,
           "polygon": [
             [
-              7192.736,
-              566.153
+              7208.435,
+              575.302
             ],
             [
-              7192.81,
-              565.768
+              7208.818,
+              575.216
             ],
             [
-              7192.847,
-              565.377
+              7209.191,
+              575.092
             ],
             [
-              7192.845,
-              564.985
+              7209.55,
+              574.933
             ],
             [
-              7192.805,
-              564.594
+              7209.891,
+              574.739
             ],
             [
-              7192.727,
-              564.209
+              7210.212,
+              574.513
             ],
             [
-              7192.611,
-              563.834
+              7210.509,
+              574.256
             ],
             [
-              7192.459,
-              563.472
+              7210.779,
+              573.972
             ],
             [
-              7192.272,
-              563.127
+              7211.021,
+              573.662
             ],
             [
-              7192.053,
-              562.802
+              7211.23,
+              573.33
             ],
             [
-              7191.802,
-              562.499
+              7211.406,
+              572.979
             ],
             [
-              7191.524,
-              562.223
+              7211.547,
+              572.613
             ],
             [
-              7191.219,
-              561.975
+              7211.652,
+              572.235
             ],
             [
-              7190.892,
-              561.759
+              7211.719,
+              571.848
             ],
             [
-              7190.545,
-              561.575
+              7211.747,
+              571.456
             ],
             [
-              7190.181,
-              561.427
+              7211.737,
+              571.064
             ],
             [
-              7189.805,
-              561.315
+              7211.689,
+              570.674
             ],
             [
-              7189.42,
-              561.24
+              7211.603,
+              570.291
             ],
             [
-              7189.029,
-              561.203
+              7211.479,
+              569.919
             ],
             [
-              7188.636,
-              561.205
+              7211.32,
+              569.56
             ],
             [
-              7188.246,
-              561.245
+              7211.126,
+              569.219
             ],
             [
-              7187.861,
-              561.324
+              7210.9,
+              568.898
             ],
             [
-              7187.486,
-              561.439
+              7210.643,
+              568.601
             ],
             [
-              7187.124,
-              561.591
+              7210.359,
+              568.33
             ],
             [
-              7186.779,
-              561.778
+              7210.049,
+              568.089
             ],
             [
-              7186.454,
-              561.997
+              7209.717,
+              567.879
             ],
             [
-              7186.151,
-              562.248
+              7209.366,
+              567.703
             ],
             [
-              7185.875,
-              562.526
+              7209.0,
+              567.562
             ],
             [
-              7185.627,
-              562.831
+              7208.622,
+              567.458
             ],
             [
-              7185.411,
-              563.158
+              7208.235,
+              567.391
             ],
             [
-              7185.227,
-              563.505
+              7207.843,
+              567.362
             ],
             [
-              7185.079,
-              563.869
+              7207.451,
+              567.372
             ],
             [
-              7182.328,
-              571.67
+              7186.877,
+              568.906
             ],
             [
-              7182.215,
-              572.046
+              7186.488,
+              568.955
             ],
             [
-              7182.141,
-              572.431
+              7186.105,
+              569.041
             ],
             [
-              7182.104,
-              572.822
+              7185.732,
+              569.165
             ],
             [
-              7182.106,
-              573.215
+              7185.374,
+              569.324
             ],
             [
-              7182.146,
-              573.605
+              7185.032,
+              569.518
             ],
             [
-              7182.224,
-              573.99
+              7184.711,
+              569.744
             ],
             [
-              7182.34,
-              574.365
+              7184.414,
+              570.001
             ],
             [
-              7182.492,
-              574.727
+              7184.144,
+              570.285
             ],
             [
-              7182.679,
-              575.072
+              7183.903,
+              570.595
             ],
             [
-              7182.898,
-              575.397
+              7183.693,
+              570.927
             ],
             [
-              7183.149,
-              575.7
+              7183.517,
+              571.277
             ],
             [
-              7183.427,
-              575.976
+              7183.376,
+              571.644
             ],
             [
-              7183.732,
-              576.224
+              7183.271,
+              572.022
             ],
             [
-              7184.059,
-              576.44
+              7183.205,
+              572.409
             ],
             [
-              7184.406,
-              576.624
+              7183.176,
+              572.8
             ],
             [
-              7184.77,
-              576.772
+              7183.186,
+              573.193
             ],
             [
-              7185.146,
-              576.885
+              7183.234,
+              573.582
             ],
             [
-              7185.531,
-              576.959
+              7183.321,
+              573.965
             ],
             [
-              7185.922,
-              576.996
+              7183.444,
+              574.338
             ],
             [
-              7186.315,
-              576.994
+              7183.603,
+              574.697
             ],
             [
-              7186.705,
-              576.954
+              7183.797,
+              575.038
             ],
             [
-              7187.09,
-              576.876
+              7184.023,
+              575.359
             ],
             [
-              7187.465,
-              576.76
+              7184.28,
+              575.656
             ],
             [
-              7187.827,
-              576.608
+              7184.565,
+              575.926
             ],
             [
-              7188.172,
-              576.421
+              7184.874,
+              576.168
             ],
             [
-              7188.497,
-              576.202
+              7185.206,
+              576.377
             ],
             [
-              7188.8,
-              575.951
+              7185.557,
+              576.553
             ],
             [
-              7189.076,
-              575.673
+              7185.923,
+              576.694
             ],
             [
-              7189.324,
-              575.368
+              7186.302,
+              576.799
             ],
             [
-              7189.54,
-              575.041
+              7186.688,
+              576.866
             ],
             [
-              7189.724,
-              574.694
+              7187.08,
+              576.894
             ],
             [
-              7189.872,
-              574.33
+              7187.472,
+              576.884
             ],
             [
-              7192.623,
-              566.529
+              7208.046,
+              575.35
             ]
           ],
           "why": "The dry spit at the head of the boards, the only open footing in the village."
@@ -377,8 +357,8 @@
       "districts": [
         {
           "centreM": [
-            7209.974,
-            585.904
+            7213.192,
+            576.632
           ],
           "cultureKit": "argonian-mud",
           "id": "district.riverwalk.the-cove",
@@ -386,40 +366,48 @@
           "notes": "Plank walks over a cove joining a dry spit to a dry islet, with a ferry landing off the islet.",
           "polygon": [
             [
-              7196.786,
-              515.198
+              7209.625,
+              515.591
             ],
             [
-              7187.137,
-              528.528
+              7209.172,
+              515.817
             ],
             [
-              7172.056,
-              608.112
+              7201.325,
+              519.904
             ],
             [
-              7172.0,
-              608.428
+              7200.191,
+              521.169
             ],
             [
-              7171.567,
-              612.117
+              7183.067,
+              569.771
             ],
             [
-              7171.222,
-              616.063
+              7182.953,
+              570.813
             ],
             [
-              7172.931,
-              618.314
+              7183.194,
+              573.283
             ],
             [
-              7173.112,
-              618.473
+              7183.401,
+              575.408
             ],
             [
-              7229.959,
-              636.368
+              7209.612,
+              626.602
+            ],
+            [
+              7210.812,
+              627.516
+            ],
+            [
+              7229.673,
+              636.401
             ],
             [
               7235.079,
@@ -442,40 +430,12 @@
               598.307
             ],
             [
-              7240.256,
-              592.0
+              7226.751,
+              514.449
             ],
             [
-              7232.0,
-              592.0
-            ],
-            [
-              7228.0,
-              600.0
-            ],
-            [
-              7194.0,
-              600.0
-            ],
-            [
-              7202.0,
-              540.0
-            ],
-            [
-              7222.0,
-              531.61
-            ],
-            [
-              7229.731,
-              531.61
-            ],
-            [
-              7226.718,
-              514.32
-            ],
-            [
-              7215.206,
-              514.3
+              7214.946,
+              514.294
             ]
           ],
           "wealth": "modest",
@@ -489,8 +449,8 @@
         },
         {
           "centreM": [
-            7220.012,
-            522.773
+            7224.77,
+            521.729
           ],
           "cultureKit": "argonian-stilt",
           "id": "district.riverwalk.the-long-house",
@@ -498,28 +458,20 @@
           "notes": "The long house on its stilts in the cove, with its plank landing to the spit.",
           "polygon": [
             [
-              7218.973,
-              508.73
+              7215.302,
+              511.965
             ],
             [
-              7196.09,
-              515.78
+              7196.027,
+              524.734
             ],
             [
-              7186.578,
-              534.741
+              7229.74,
+              532.4
             ],
             [
-              7217.88,
-              533.338
-            ],
-            [
-              7222.0,
-              531.61
-            ],
-            [
-              7235.691,
-              531.61
+              7234.751,
+              532.835
             ],
             [
               7236.01,
@@ -534,8 +486,8 @@
               507.713
             ],
             [
-              7223.88,
-              507.576
+              7223.31,
+              507.551
             ]
           ],
           "wealth": "modest",
@@ -551,7 +503,7 @@
       "docks": [],
       "doors": [
         {
-          "facingDeg": 278.3,
+          "facingDeg": 277.7,
           "id": "door.dunmer-north.riverwalk.1",
           "interiorClaim": {
             "culture": "argonian",
@@ -560,8 +512,8 @@
           },
           "parcelId": "parcel.riverwalk.crews-house",
           "thresholdM": [
-            7223.354,
-            518.314
+            7223.38,
+            518.405
           ]
         }
       ],
@@ -572,12 +524,12 @@
           "id": "terminal.riverwalk.west-tracks",
           "kind": "footpath",
           "positionM": [
-            7186.1,
-            573.0
+            7186.153,
+            573.028
           ],
           "routeId": "track.dunmer-north.riverwalk",
           "wayId": "route.riverwalk.the-boards",
-          "why": "The tracks from the villages to the west end on the boards halfway across the cove."
+          "why": "The tracks from the villages to the west come across the shallows and end on the boards halfway across the cove."
         }
       ],
       "parcels": [
@@ -590,13 +542,13 @@
           ],
           "districtId": "district.riverwalk.the-long-house",
           "entrance": {
-            "arcM": 1.68,
-            "bearingDeg": 278.3,
+            "arcM": 1.64,
+            "bearingDeg": 277.7,
             "interiorRef": null,
             "kind": "approach",
             "worldM": [
-              7223.354,
-              518.314
+              7223.38,
+              518.405
             ]
           },
           "front": null,
@@ -625,28 +577,24 @@
               528.29
             ],
             [
-              7220.175,
-              519.136
+              7219.97,
+              519.487
             ],
             [
-              7220.051,
-              519.0
+              7219.845,
+              519.351
             ],
             [
-              7219.937,
-              516.563
+              7217.232,
+              515.694
             ],
             [
-              7219.887,
-              512.897
+              7217.24,
+              515.514
             ],
             [
-              7219.895,
-              512.717
-            ],
-            [
-              7220.02,
-              512.593
+              7217.376,
+              515.39
             ],
             [
               7224.258,
@@ -872,77 +820,6 @@
           "yawDeg": 11.3
         },
         {
-          "assetRef": null,
-          "buildingFamily": "vanilla-docks",
-          "centreM": [
-            7183.587,
-            614.016
-          ],
-          "districtId": "district.riverwalk.the-cove",
-          "entrance": null,
-          "front": null,
-          "groundFit": "stilt",
-          "id": "parcel.riverwalk.islet-walk",
-          "interior": {
-            "kind": "none"
-          },
-          "notes": null,
-          "orientationWhy": "The spans turn east at the foot of the long walk and come ashore on the islet.",
-          "polygon": [
-            [
-              7180.526,
-              611.185
-            ],
-            [
-              7180.385,
-              611.292
-            ],
-            [
-              7179.642,
-              615.466
-            ],
-            [
-              7179.737,
-              615.615
-            ],
-            [
-              7212.058,
-              621.372
-            ],
-            [
-              7214.41,
-              621.568
-            ],
-            [
-              7214.55,
-              621.471
-            ],
-            [
-              7215.22,
-              617.71
-            ],
-            [
-              7215.122,
-              617.571
-            ],
-            [
-              7212.846,
-              616.952
-            ]
-          ],
-          "spans": null,
-          "use": "dock",
-          "why": {
-            "microGeography": "Planks over shallow water, coming ashore on the islet's mud.",
-            "playerPurpose": "The way to the islet and the ferry.",
-            "what": "The islet walk: plank spans from the foot of the long walk east to the islet.",
-            "whyHere": "The ferry lands on the islet.",
-            "whyNeighbours": "It joins the long walk at its south end.",
-            "whySpot": "Along the north shore of the islet, where the water is shallowest."
-          },
-          "yawDeg": 100.1
-        },
-        {
           "assetRef": "mudmother:gv_meshes/argoniannest/argoniantotem01",
           "buildingFamily": "argonian-shrine",
           "centreM": [
@@ -1045,7 +922,7 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "Its open front turns west to the path from the islet walk.",
+          "orientationWhy": "Its open front turns west to the path from the foot of the long walk.",
           "polygon": [
             [
               7230.343,
@@ -1108,8 +985,8 @@
           "assetRef": null,
           "buildingFamily": "vanilla-docks",
           "centreM": [
-            7192.5,
-            534.0
+            7206.27,
+            526.53
           ],
           "districtId": "district.riverwalk.the-cove",
           "entrance": null,
@@ -1120,76 +997,179 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The boards run from the spit down the cove along the line the tracks from the west already follow, so every walker passes the toll.",
+          "orientationWhy": "The boards run straight from the flat ground at the spit's south shore across the cove to the islet, the shortest line over the water, so every walker passes the toll.",
           "polygon": [
             [
-              7191.049,
-              530.054
+              7208.059,
+              522.715
             ],
             [
-              7190.9,
-              530.15
+              7203.818,
+              523.116
             ],
             [
-              7175.991,
-              608.835
+              7203.7,
+              523.248
             ],
             [
-              7175.959,
-              609.012
+              7206.727,
+              559.524
             ],
             [
-              7175.547,
-              612.524
+              7211.77,
+              617.977
             ],
             [
-              7175.341,
-              614.874
+              7211.787,
+              618.157
             ],
             [
-              7175.449,
-              615.015
+              7212.329,
+              621.651
             ],
             [
-              7175.616,
-              615.045
+              7212.759,
+              623.971
             ],
             [
-              7179.451,
-              613.016
+              7212.9,
+              624.078
             ],
             [
-              7179.602,
-              612.911
+              7213.069,
+              624.062
             ],
             [
-              7180.399,
-              609.803
+              7216.222,
+              621.082
             ],
             [
-              7195.309,
-              531.118
+              7216.339,
+              620.94
             ],
             [
-              7195.341,
-              530.941
+              7216.277,
+              617.732
             ],
             [
-              7195.243,
-              530.802
+              7212.098,
+              566.937
+            ],
+            [
+              7208.207,
+              523.002
+            ],
+            [
+              7208.19,
+              522.823
             ]
           ],
           "spans": null,
           "use": "dock",
           "why": {
             "microGeography": "Planks a hand's breadth over black water on sunk piles; the boards are of different ages.",
-            "playerPurpose": "The way through the village: the only dry route across the cove.",
-            "what": "The long walk: plank spans on piles from the spit down the cove.",
+            "playerPurpose": "The way through the village. It crosses the cove to the islet and the ferry. The west boards join it halfway.",
+            "what": "The long walk: plank spans on piles from the spit straight across the cove to the islet.",
             "whyHere": "The channel is the street; the boards carry the tracks over knee-deep water where there is no dry footing.",
             "whyNeighbours": "The long house stands in the water off the spit, near the head of the boards.",
-            "whySpot": "From the spit's south shore down the cove to where it turns for the islet."
+            "whySpot": "From the flat ground on the spit's south shore straight across the cove to the islet's north shore."
           },
-          "yawDeg": 190.1
+          "yawDeg": 174.6
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-docks",
+          "centreM": [
+            7204.19,
+            571.176
+          ],
+          "districtId": "district.riverwalk.the-cove",
+          "entrance": null,
+          "front": null,
+          "groundFit": "stilt",
+          "id": "parcel.riverwalk.west-boards",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The side boards run due west from the crossing on the long walk to where the track from the west comes out of the shallows.",
+          "polygon": [
+            [
+              7203.87,
+              569.177
+            ],
+            [
+              7200.662,
+              569.239
+            ],
+            [
+              7193.236,
+              569.951
+            ],
+            [
+              7187.136,
+              570.556
+            ],
+            [
+              7186.993,
+              570.665
+            ],
+            [
+              7186.974,
+              570.837
+            ],
+            [
+              7187.308,
+              574.263
+            ],
+            [
+              7187.398,
+              574.407
+            ],
+            [
+              7187.561,
+              574.457
+            ],
+            [
+              7193.66,
+              574.431
+            ],
+            [
+              7201.086,
+              573.729
+            ],
+            [
+              7204.581,
+              573.188
+            ],
+            [
+              7206.901,
+              572.758
+            ],
+            [
+              7207.008,
+              572.617
+            ],
+            [
+              7206.992,
+              572.448
+            ],
+            [
+              7204.012,
+              569.294
+            ]
+          ],
+          "spans": null,
+          "use": "dock",
+          "why": {
+            "microGeography": "Knee-deep black water over soft mud. The lowest steps stand under the surface.",
+            "playerPurpose": "The way in from the west, up the steps from the shallows onto the boards.",
+            "what": "The west boards: two plank spans from the crossing on the long walk, ending in a flight of steps down into the water.",
+            "whyHere": "The track from the western villages wades the shallows; walkers climb out of the water here onto the boards.",
+            "whyNeighbours": "The long walk crosses at their east end; the toll and the long house lie north, the islet and the ferry south.",
+            "whySpot": "Halfway along the long walk, level with the point where the track reaches the cove."
+          },
+          "yawDeg": 84.6
         }
       ],
       "provision": {},
@@ -1244,7 +1224,7 @@
         }
       ],
       "scaleGrounding": {
-        "buildingsPlanned": 7,
+        "buildingsPlanned": 6,
         "households": 1,
         "loreSource": "settlement-register row Riverwalk (M3 boardwalk village on the northern trunk); record occupants D1 households, D2 crews, D2 toll hands; notable slots toll-holder, stage-mistress",
         "npcsPlanned": 5,
@@ -1308,67 +1288,43 @@
           "notes": null,
           "points": [
             [
-              7193.211,
-              530.439
+              7206.029,
+              522.907
             ],
             [
-              7198.9,
-              519.1
+              7213.8,
+              521.2
             ],
             [
-              7205.0,
-              522.8
-            ],
-            [
-              7212.0,
-              523.2
-            ],
-            [
-              7215.3,
+              7215.4,
               518.3
             ],
             [
-              7219.2,
-              518.92
-            ],
-            [
-              7223.354,
-              518.314
+              7223.38,
+              518.405
             ]
           ],
           "routing": "straight",
           "via": [
             [
-              7193.2,
-              530.5
+              7206.0,
+              522.6
             ],
             [
-              7196.6,
-              524.0
+              7210.0,
+              522.6
             ],
             [
-              7198.9,
-              519.1
+              7213.8,
+              521.2
             ],
             [
-              7205.0,
-              522.8
-            ],
-            [
-              7212.0,
-              523.2
-            ],
-            [
-              7215.3,
+              7215.4,
               518.3
-            ],
-            [
-              7219.2,
-              518.92
             ],
             [
               7223.2,
-              518.3
+              518.4
             ]
           ],
           "waterOk": null,
@@ -1378,7 +1334,7 @@
         {
           "assetRef": null,
           "endsAt": [
-            "parcel.riverwalk.islet-walk",
+            "parcel.riverwalk.the-long-walk",
             "parcel.riverwalk.ferry-landing"
           ],
           "fenceClass": null,
@@ -1390,8 +1346,12 @@
           "notes": null,
           "points": [
             [
-              7214.823,
-              619.934
+              7214.719,
+              622.503
+            ],
+            [
+              7224.0,
+              622.6
             ],
             [
               7229.53,
@@ -1401,8 +1361,8 @@
           "routing": "straight",
           "via": [
             [
-              7218.0,
-              620.5
+              7215.0,
+              622.8
             ],
             [
               7224.0,
@@ -1429,8 +1389,8 @@
           "notes": null,
           "points": [
             [
-              7198.9,
-              519.1
+              7204.6,
+              519.6
             ],
             [
               7210.3,
@@ -1440,8 +1400,8 @@
           "routing": "straight",
           "via": [
             [
-              7198.9,
-              519.1
+              7204.6,
+              519.6
             ],
             [
               7210.3,
@@ -1490,7 +1450,8 @@
         {
           "assetRef": null,
           "endsAt": [
-            "parcel.riverwalk.the-long-walk"
+            "parcel.riverwalk.the-long-walk",
+            "parcel.riverwalk.west-boards"
           ],
           "fenceClass": null,
           "gapAt": [],
@@ -1501,12 +1462,12 @@
           "notes": null,
           "points": [
             [
-              7186.1,
-              573.0
+              7187.175,
+              572.895
             ],
             [
-              7188.851,
-              565.199
+              7207.748,
+              571.361
             ]
           ],
           "routing": "straight",
@@ -1516,8 +1477,8 @@
               573.0
             ],
             [
-              7187.8,
-              565.0
+              7207.3,
+              571.4
             ]
           ],
           "waterOk": null,
@@ -4953,16 +4914,16 @@
           "notes": null,
           "polygon": [
             [
-              4723.334,
-              1853.447
+              4723.395,
+              1853.441
             ],
             [
-              4709.94,
-              1856.642
+              4708.024,
+              1856.612
             ],
             [
-              4704.107,
-              1875.838
+              4704.002,
+              1875.77
             ],
             [
               4707.6,
@@ -6588,15 +6549,15 @@
           "points": [
             [
               4758.0,
-              1847.0
+              1850.0
             ],
             [
               4766.0,
-              1840.0
+              1845.0
             ],
             [
-              4770.71,
-              1825.35
+              4770.7,
+              1825.3
             ],
             [
               4774.143,
@@ -6607,19 +6568,19 @@
           "via": [
             [
               4758.0,
-              1847.0
+              1850.0
             ],
             [
               4766.0,
-              1840.0
+              1845.0
             ],
             [
-              4770.71,
-              1825.35
+              4770.7,
+              1825.3
             ],
             [
-              4773.55,
-              1824.78
+              4773.6,
+              1824.8
             ]
           ],
           "waterOk": null,
@@ -6663,12 +6624,12 @@
               1847.0
             ],
             [
-              4735.69,
-              1841.41
+              4735.7,
+              1841.4
             ],
             [
-              4734.61,
-              1838.72
+              4734.6,
+              1838.7
             ]
           ],
           "waterOk": null,
@@ -6689,16 +6650,16 @@
           "notes": null,
           "points": [
             [
-              4751.0,
-              1856.0
+              4758.0,
+              1854.75
             ],
             [
               4758.0,
               1847.0
             ],
             [
-              4760.12,
-              1841.62
+              4760.1,
+              1841.6
             ],
             [
               4759.372,
@@ -6708,20 +6669,20 @@
           "routing": "straight",
           "via": [
             [
-              4751.0,
-              1856.0
+              4758.0,
+              1854.75
             ],
             [
               4758.0,
               1847.0
             ],
             [
-              4760.12,
-              1841.62
+              4760.1,
+              1841.6
             ],
             [
               4759.5,
-              1838.79
+              1838.8
             ]
           ],
           "waterOk": null,
@@ -6740,7 +6701,7 @@
           "notes": null,
           "points": [
             [
-              4713.1,
+              4711.4,
               1860.0
             ],
             [
@@ -6751,7 +6712,7 @@
           "routing": "straight",
           "via": [
             [
-              4713.1,
+              4711.4,
               1860.0
             ],
             [
@@ -6792,12 +6753,12 @@
               1856.0
             ],
             [
-              4764.37,
-              1853.61
+              4764.4,
+              1853.6
             ],
             [
-              4767.21,
-              1852.99
+              4767.2,
+              1853.0
             ]
           ],
           "waterOk": null,
@@ -6818,12 +6779,12 @@
           "notes": null,
           "points": [
             [
-              4756.0,
-              1866.0
+              4752.6,
+              1866.5
             ],
             [
-              4764.23,
-              1861.47
+              4764.2,
+              1861.5
             ],
             [
               4764.392,
@@ -6833,16 +6794,16 @@
           "routing": "straight",
           "via": [
             [
-              4756.0,
-              1866.0
+              4752.6,
+              1866.5
             ],
             [
-              4764.23,
-              1861.47
+              4764.2,
+              1861.5
             ],
             [
-              4764.36,
-              1864.37
+              4764.4,
+              1864.4
             ]
           ],
           "waterOk": null,
@@ -6919,12 +6880,12 @@
               1872.0
             ],
             [
-              4721.48,
-              1878.07
+              4721.5,
+              1878.1
             ],
             [
               4720.6,
-              1880.83
+              1880.8
             ]
           ],
           "waterOk": null,
@@ -7020,11 +6981,11 @@
               1857.4
             ],
             [
-              4713.1,
+              4711.4,
               1860.0
             ],
             [
-              4713.1,
+              4711.4,
               1872.6
             ],
             [
@@ -7071,11 +7032,11 @@
               1857.4
             ],
             [
-              4713.1,
+              4711.4,
               1860.0
             ],
             [
-              4713.1,
+              4711.4,
               1872.6
             ],
             [
@@ -7296,8 +7257,8 @@
         },
         {
           "centreM": [
-            321.028,
-            3080.253
+            322.45,
+            3080.49
           ],
           "cultureKit": "imperial",
           "id": "district.claywater-station.the-well",
@@ -7305,8 +7266,12 @@
           "notes": "The Imperial half on the south bench.",
           "polygon": [
             [
-              304.367,
-              3050.799
+              305.639,
+              3050.069
+            ],
+            [
+              304.5,
+              3050.651
             ],
             [
               301.576,
@@ -7337,68 +7302,84 @@
               3068.491
             ],
             [
-              295.465,
-              3069.227
+              295.464,
+              3069.224
             ],
             [
-              298.339,
-              3073.255
+              298.333,
+              3073.26
             ],
             [
-              326.198,
-              3100.632
+              326.205,
+              3100.629
             ],
             [
-              326.633,
-              3101.037
+              326.64,
+              3101.033
             ],
             [
-              328.128,
-              3102.092
+              328.135,
+              3102.088
             ],
             [
-              333.808,
-              3103.327
+              333.803,
+              3103.32
             ],
             [
-              334.919,
-              3103.222
+              334.915,
+              3103.215
             ],
             [
-              336.035,
-              3103.051
+              336.031,
+              3103.045
             ],
             [
-              337.162,
-              3102.6
+              337.154,
+              3102.595
             ],
             [
-              347.309,
-              3096.259
+              340.53,
+              3100.496
             ],
             [
-              348.037,
-              3095.477
+              340.712,
+              3100.382
             ],
             [
-              349.193,
-              3093.838
+              343.794,
+              3098.456
             ],
             [
-              349.389,
-              3092.346
+              347.308,
+              3096.249
             ],
             [
-              349.373,
-              3091.446
+              348.033,
+              3095.47
             ],
             [
-              344.666,
-              3068.462
+              349.189,
+              3093.831
             ],
             [
-              317.279,
-              3042.546
+              349.385,
+              3092.339
+            ],
+            [
+              349.369,
+              3091.44
+            ],
+            [
+              344.648,
+              3068.377
+            ],
+            [
+              325.912,
+              3051.983
+            ],
+            [
+              306.994,
+              3049.615
             ]
           ],
           "wealth": "modest",
@@ -8226,8 +8207,8 @@
           "assetRef": null,
           "buildingFamily": "vanilla-farmhouse-stonewall",
           "centreM": [
-            302.01,
-            3069.96
+            302.006,
+            3069.967
           ],
           "districtId": "district.claywater-station.the-well",
           "entrance": null,
@@ -8241,36 +8222,36 @@
           "orientationWhy": "The wall runs along the station house's long back wall, square to the pad.",
           "polygon": [
             [
-              300.804,
-              3069.513
+              300.799,
+              3069.52
             ],
             [
-              300.878,
-              3069.866
+              300.874,
+              3069.873
             ],
             [
-              301.076,
-              3070.19
+              301.072,
+              3070.197
             ],
             [
-              301.392,
-              3070.647
+              301.388,
+              3070.654
             ],
             [
-              301.686,
-              3070.913
+              301.682,
+              3070.92
             ],
             [
-              301.864,
-              3071.024
+              301.86,
+              3071.031
             ],
             [
-              302.96,
-              3071.497
+              302.955,
+              3071.504
             ],
             [
-              303.179,
-              3071.519
+              303.188,
+              3071.526
             ],
             [
               304.755,
@@ -8305,8 +8286,8 @@
               3075.361
             ],
             [
-              310.913,
-              3076.679
+              310.912,
+              3076.678
             ],
             [
               311.091,
@@ -8362,7 +8343,7 @@
             ],
             [
               318.826,
-              3080.432
+              3080.433
             ],
             [
               318.932,
@@ -8401,7 +8382,7 @@
               3077.051
             ],
             [
-              315.03,
+              315.029,
               3076.94
             ],
             [
@@ -8414,7 +8395,7 @@
             ],
             [
               312.129,
-              3075.128
+              3075.127
             ],
             [
               311.951,
@@ -8433,7 +8414,7 @@
               3073.204
             ],
             [
-              308.873,
+              308.872,
               3073.093
             ],
             [
@@ -8441,7 +8422,7 @@
               3072.248
             ],
             [
-              306.877,
+              306.878,
               3072.058
             ],
             [
@@ -8453,40 +8434,40 @@
               3071.169
             ],
             [
-              303.924,
-              3070.328
+              303.912,
+              3070.322
             ],
             [
-              303.808,
-              3070.14
+              303.803,
+              3070.147
             ],
             [
-              302.903,
-              3069.362
+              302.898,
+              3069.369
             ],
             [
-              302.725,
-              3069.251
+              302.72,
+              3069.258
             ],
             [
-              302.356,
-              3069.103
+              302.352,
+              3069.11
             ],
             [
-              301.834,
-              3068.977
-            ],
-            [
-              301.429,
+              301.83,
               3068.984
             ],
             [
-              301.139,
-              3069.015
+              301.425,
+              3068.991
             ],
             [
-              300.879,
-              3069.241
+              301.135,
+              3069.021
+            ],
+            [
+              300.875,
+              3069.248
             ]
           ],
           "spans": null,
@@ -8804,8 +8785,8 @@
           "assetRef": null,
           "buildingFamily": "vanilla-farmhouse-stonewall",
           "centreM": [
-            334.35,
-            3077.41
+            334.354,
+            3077.417
           ],
           "districtId": "district.claywater-station.the-well",
           "entrance": null,
@@ -8819,40 +8800,40 @@
           "orientationWhy": "The wall runs across the stable's north end, square to the pad.",
           "polygon": [
             [
-              323.6,
-              3083.833
+              323.604,
+              3083.839
             ],
             [
-              323.723,
-              3084.086
+              323.727,
+              3084.092
             ],
             [
-              323.829,
-              3084.256
+              323.833,
+              3084.262
             ],
             [
-              323.989,
-              3084.38
+              323.993,
+              3084.386
             ],
             [
-              324.302,
-              3084.466
+              324.307,
+              3084.473
             ],
             [
-              325.02,
-              3084.313
+              325.024,
+              3084.32
             ],
             [
-              325.278,
-              3084.234
+              325.282,
+              3084.241
             ],
             [
-              325.456,
-              3084.123
+              325.46,
+              3084.13
             ],
             [
-              327.032,
-              3082.811
+              327.046,
+              3082.81
             ],
             [
               327.252,
@@ -8883,72 +8864,72 @@
               3080.281
             ],
             [
-              333.181,
-              3078.969
+              333.172,
+              3078.976
             ],
             [
-              333.4,
-              3078.947
+              333.405,
+              3078.954
             ],
             [
-              334.496,
-              3078.474
+              334.5,
+              3078.481
             ],
             [
-              334.674,
-              3078.363
+              334.678,
+              3078.37
             ],
             [
-              334.968,
-              3078.097
+              334.972,
+              3078.103
             ],
             [
-              335.31,
-              3077.682
+              335.315,
+              3077.689
             ],
             [
-              335.482,
-              3077.316
+              335.486,
+              3077.323
             ],
             [
-              335.582,
-              3077.041
+              335.586,
+              3077.048
             ],
             [
-              335.492,
+              335.496,
+              3076.715
+            ],
+            [
+              335.285,
+              3076.529
+            ],
+            [
+              334.935,
+              3076.441
+            ],
+            [
+              334.557,
+              3076.477
+            ],
+            [
+              334.008,
+              3076.56
+            ],
+            [
+              333.64,
               3076.708
             ],
             [
-              335.281,
-              3076.522
+              333.462,
+              3076.819
             ],
             [
-              334.931,
-              3076.434
+              332.557,
+              3077.597
             ],
             [
-              334.552,
-              3076.47
-            ],
-            [
-              334.004,
-              3076.553
-            ],
-            [
-              333.635,
-              3076.701
-            ],
-            [
-              333.457,
-              3076.812
-            ],
-            [
-              332.552,
-              3077.59
-            ],
-            [
-              332.436,
-              3077.778
+              332.448,
+              3077.772
             ],
             [
               330.566,
@@ -8959,7 +8940,7 @@
               3078.73
             ],
             [
-              329.483,
+              329.482,
               3079.508
             ],
             [
@@ -8967,7 +8948,7 @@
               3079.698
             ],
             [
-              327.487,
+              327.488,
               3080.543
             ],
             [
@@ -8979,28 +8960,28 @@
               3081.432
             ],
             [
-              326.288,
-              3081.619
+              326.282,
+              3081.631
             ],
             [
-              324.418,
-              3082.461
+              324.422,
+              3082.468
             ],
             [
-              324.239,
-              3082.572
+              324.243,
+              3082.579
             ],
             [
-              324.056,
-              3082.77
+              324.06,
+              3082.776
             ],
             [
-              323.624,
-              3083.381
+              323.629,
+              3083.388
             ],
             [
-              323.596,
-              3083.599
+              323.6,
+              3083.606
             ]
           ],
           "spans": null,
@@ -9019,8 +9000,8 @@
           "assetRef": null,
           "buildingFamily": "vanilla-farmhouse-stonewall",
           "centreM": [
-            334.63,
-            3098.31
+            334.626,
+            3098.303
           ],
           "districtId": "district.claywater-station.the-well",
           "entrance": null,
@@ -9034,44 +9015,44 @@
           "orientationWhy": "The wall runs across the stable's south end, square to the pad.",
           "polygon": [
             [
-              333.398,
-              3098.679
+              333.394,
+              3098.672
             ],
             [
-              333.488,
+              333.484,
+              3099.005
+            ],
+            [
+              333.695,
+              3099.191
+            ],
+            [
+              334.045,
+              3099.279
+            ],
+            [
+              334.423,
+              3099.243
+            ],
+            [
+              334.972,
+              3099.16
+            ],
+            [
+              335.34,
               3099.012
             ],
             [
-              333.699,
-              3099.198
+              335.518,
+              3098.901
             ],
             [
-              334.049,
-              3099.286
+              336.423,
+              3098.123
             ],
             [
-              334.428,
-              3099.25
-            ],
-            [
-              334.976,
-              3099.167
-            ],
-            [
-              335.345,
-              3099.019
-            ],
-            [
-              335.523,
-              3098.908
-            ],
-            [
-              336.428,
-              3098.13
-            ],
-            [
-              336.544,
-              3097.942
+              336.532,
+              3097.948
             ],
             [
               338.414,
@@ -9082,7 +9063,7 @@
               3096.99
             ],
             [
-              339.497,
+              339.498,
               3096.212
             ],
             [
@@ -9090,7 +9071,7 @@
               3096.022
             ],
             [
-              341.493,
+              341.492,
               3095.177
             ],
             [
@@ -9102,64 +9083,64 @@
               3094.288
             ],
             [
-              342.692,
-              3094.101
+              342.698,
+              3094.089
             ],
             [
-              344.562,
-              3093.259
+              344.558,
+              3093.252
             ],
             [
-              344.741,
-              3093.148
+              344.737,
+              3093.141
             ],
             [
-              344.924,
-              3092.95
+              344.92,
+              3092.944
             ],
             [
-              345.356,
-              3092.339
-            ],
-            [
-              345.384,
-              3092.121
+              345.351,
+              3092.332
             ],
             [
               345.38,
-              3091.887
+              3092.114
             ],
             [
-              345.257,
-              3091.634
+              345.376,
+              3091.881
             ],
             [
-              345.151,
-              3091.464
+              345.253,
+              3091.627
             ],
             [
-              344.991,
-              3091.34
+              345.147,
+              3091.458
             ],
             [
-              344.677,
-              3091.254
+              344.987,
+              3091.334
             ],
             [
-              343.96,
-              3091.407
+              344.673,
+              3091.247
             ],
             [
-              343.702,
-              3091.486
+              343.956,
+              3091.4
             ],
             [
-              343.524,
-              3091.597
+              343.698,
+              3091.479
             ],
             [
-              341.948,
-              3092.909
+              343.52,
+              3091.59
+            ],
+            [
+              341.934,
+              3092.91
             ],
             [
               341.728,
@@ -9190,32 +9171,32 @@
               3095.439
             ],
             [
-              335.799,
-              3096.751
+              335.808,
+              3096.744
             ],
             [
-              335.58,
-              3096.773
+              335.575,
+              3096.766
             ],
             [
-              334.484,
-              3097.246
+              334.48,
+              3097.239
             ],
             [
-              334.306,
-              3097.357
+              334.302,
+              3097.35
             ],
             [
-              334.012,
-              3097.623
+              334.008,
+              3097.617
             ],
             [
-              333.67,
-              3098.037
+              333.665,
+              3098.031
             ],
             [
-              333.498,
-              3098.404
+              333.494,
+              3098.397
             ]
           ],
           "spans": null,
@@ -9294,7 +9275,7 @@
             ],
             [
               326.933,
-              3094.493
+              3094.492
             ],
             [
               327.044,
@@ -9305,64 +9286,64 @@
               3095.576
             ],
             [
-              328.009,
-              3095.692
+              328.021,
+              3095.698
             ],
             [
-              328.851,
-              3097.562
+              328.858,
+              3097.558
             ],
             [
-              328.962,
-              3097.741
+              328.969,
+              3097.736
             ],
             [
-              329.16,
-              3097.924
+              329.166,
+              3097.92
             ],
             [
-              329.771,
-              3098.356
+              329.778,
+              3098.351
             ],
             [
-              329.989,
-              3098.384
-            ],
-            [
-              330.223,
+              329.996,
               3098.38
             ],
             [
-              330.476,
-              3098.257
+              330.229,
+              3098.376
             ],
             [
-              330.646,
-              3098.151
+              330.482,
+              3098.253
             ],
             [
-              330.77,
-              3097.991
+              330.652,
+              3098.147
             ],
             [
-              330.856,
-              3097.677
+              330.776,
+              3097.987
             ],
             [
-              330.703,
-              3096.96
+              330.863,
+              3097.673
             ],
             [
-              330.624,
-              3096.702
+              330.71,
+              3096.956
             ],
             [
-              330.513,
-              3096.524
+              330.631,
+              3096.698
             ],
             [
-              329.201,
-              3094.948
+              330.52,
+              3096.519
+            ],
+            [
+              329.2,
+              3094.934
             ],
             [
               329.179,
@@ -10285,14 +10266,6 @@
               3004.5
             ],
             [
-              331.5,
-              3003.216
-            ],
-            [
-              331.5,
-              3001.216
-            ],
-            [
               334.5,
               2997.216
             ],
@@ -10321,7 +10294,7 @@
             ],
             [
               315.5,
-              3019.15
+              3019.2
             ],
             [
               322.8,
@@ -10431,24 +10404,16 @@
           "notes": null,
           "points": [
             [
+              322.6,
+              3060.6
+            ],
+            [
               321.5,
-              3053.5
+              3060.216
             ],
             [
               320.5,
-              3053.216
-            ],
-            [
-              318.5,
-              3055.216
-            ],
-            [
-              318.5,
-              3059.216
-            ],
-            [
-              320.6,
-              3061.4
+              3061.216
             ],
             [
               320.5,
@@ -10462,12 +10427,12 @@
           "routing": "terrain",
           "via": [
             [
-              321.5,
-              3053.5
+              322.6,
+              3060.6
             ],
             [
-              320.6,
-              3061.4
+              320.0,
+              3062.5
             ],
             [
               317.9,
@@ -10492,32 +10457,28 @@
           "notes": null,
           "points": [
             [
-              328.5,
-              3004.5
+              331.9,
+              2999.3
             ],
             [
-              327.5,
-              3003.216
+              330.5,
+              2997.216
             ],
             [
-              327.5,
-              3000.216
+              334.5,
+              2993.0
             ],
             [
-              331.5,
-              2996.5
+              334.5,
+              2989.216
             ],
             [
-              331.5,
-              2994.216
+              336.2,
+              2987.6
             ],
             [
-              337.6,
-              2988.0
-            ],
-            [
-              337.5,
-              2984.216
+              336.5,
+              2985.216
             ],
             [
               338.8,
@@ -10535,23 +10496,23 @@
           "routing": "terrain",
           "via": [
             [
-              328.5,
-              3004.5
+              331.9,
+              2999.3
             ],
             [
-              331.5,
-              2996.5
+              334.5,
+              2993.0
             ],
             [
-              337.6,
-              2988.0
+              336.2,
+              2987.6
             ],
             [
               338.8,
               2983.4
             ],
             [
-              336.2,
+              336.1,
               2983.0
             ]
           ],
@@ -10636,8 +10597,8 @@
           "notes": null,
           "points": [
             [
-              316.8,
-              3047.6
+              324.2,
+              3055.8
             ],
             [
               322.831,
@@ -10647,8 +10608,8 @@
           "routing": "straight",
           "via": [
             [
-              316.8,
-              3047.6
+              324.2,
+              3055.8
             ],
             [
               322.6,
