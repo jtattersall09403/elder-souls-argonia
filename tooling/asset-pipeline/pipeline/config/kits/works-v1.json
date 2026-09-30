@@ -91,6 +91,7 @@
    "asset": "vanilla:clutter/blacksmith/blacksmithforge01/blacksmithforge01",
    "effect": "additive",
    "light": {
+    "fixtureKind": "forge",
     "formId": "000b15ee",
     "editorId": "LightForgeFire01",
     "burnSeconds": -1,

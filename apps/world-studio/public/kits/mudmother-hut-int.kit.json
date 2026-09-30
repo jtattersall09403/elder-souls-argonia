@@ -1142,6 +1142,7 @@
    },
    "lodLevels": 3,
    "light": {
+    "fixtureKind": "candle",
     "formId": "00088238",
     "editorId": "DefaultCandleLight01NS",
     "burnSeconds": -1,

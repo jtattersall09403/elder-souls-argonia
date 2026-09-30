@@ -278,11 +278,11 @@ def test_a_flame_above_its_piece_is_seated_on_the_top():
     assert bk.seat_flames_on_geometry(record) == 0
 
 
-def test_a_burning_piece_with_no_fixture_kind_is_reported_not_raised():
+def test_a_light_block_with_no_fixture_kind_is_listed_for_refusal():
     summary = {"assets": [
         {"id": "a:lantern", "light": {"fixtureKind": "lantern"}, "flames": [{}]},
         {"id": "a:candles", "flames": [{}]},
         {"id": "a:forge", "light": {"formId": "1"}},
         {"id": "a:wall"},
     ]}
-    assert bk.unkinded_fire_pieces(summary) == ["a:candles", "a:forge"]
+    assert bk.unkinded_fire_pieces(summary) == ["a:forge"]

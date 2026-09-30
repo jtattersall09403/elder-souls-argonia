@@ -68,6 +68,7 @@
   {
    "asset": "mudmother:gv_meshes/argoniannest/candle01",
    "light": {
+    "fixtureKind": "candle",
     "formId": "00088238",
     "editorId": "DefaultCandleLight01NS",
     "burnSeconds": -1,

@@ -53,7 +53,7 @@ with no mined candle a flame filling a clear part of its body (22 cm), a torch h
 m seen (58 cm), a brazier or hearth bed ~0.6 m seen (1.0-1.05 m), a campfire
 at least 0.8x its log bundle's diameter above the logs (1.7 m, bed spread
 0.3 m). A new preset or a new fuel is sized the same way and checked on the
-real piece with `npm run look -- fixtures`. A lantern whose mod cage has no modelled candle (argonianlanterns04, as the mod ships it) burns a lantern-size flame (`lanternHanging`, never a torch) at the NIF's own light point, as Skyrim draws it, centred in the cage and touching no bar; a lantern with a light record offset and no mined emitter (townlantern04's paper globe) burns at that offset inside its glass or paper, never on its handle (`flameAnchors.ts` `fallbackFlameAnchorLocal`).
+real piece with `npm run look -- fixtures`. An effect-only piece that is the fire itself, with no logs (`fxfirewithembers01` on a Keeba hut's floor hearth or in a brazier bowl), burns one bed at its own base centre at bed size, since its flame cards are the fire and nothing occludes the root. A lantern whose mod cage has no modelled candle (argonianlanterns04, as the mod ships it) burns a lantern-size flame (`lanternHanging`, never a torch) at the NIF's own light point, as Skyrim draws it, centred in the cage and touching no bar; a lantern with a light record offset and no mined emitter (townlantern04's paper globe) burns at that offset inside its glass or paper, never on its handle (`flameAnchors.ts` `fallbackFlameAnchorLocal`).
 
 **Flicker.** Every fire's brightness (flame card, fixture-field slot,
 carried light) reads `fireFlicker(t, seed, rateHz, amount)`: three octaves

@@ -972,13 +972,13 @@ def apply_light_records(summary: dict, kit: dict) -> int:
 
 
 def unkinded_fire_pieces(summary: dict) -> list[str]:
-    """Pieces that burn (mined `flames` or a `light` block) with no
+    """Pieces with a `light` block (a mined LIGH record) but no
     `light.fixtureKind`: the runtime then cannot tell a lantern from a
-    brazier (preset, day burning, shell glow). Reported by the build as error
-    lines, never raised: one unkinded piece must not stop a kit."""
+    brazier (preset, day burning, shell glow), so the build refuses them.
+    A piece with mined `flames` and no LIGH record has no light block to
+    carry a kind; its preset is read from the emitter's source."""
     return [r["id"] for r in summary.get("assets", [])
-            if (r.get("flames") or r.get("light"))
-            and not (r.get("light") or {}).get("fixtureKind")]
+            if r.get("light") and not r["light"].get("fixtureKind")]
 
 
 # --- the fire layer (16k walk 4) ---------------------------------------------
@@ -2087,8 +2087,10 @@ def _build(kit_id: str, vault: Path, force: bool = False, stamp_only: bool = Fal
                             texture_atlas_measurer(vault, tropicalised(kit)))
     if fire:
         print(f"[kit] flame and glow sprites: {fire}")
-    for asset_id in unkinded_fire_pieces(summary):
-        print(f"[kit] ERROR {asset_id}: burns (flames or a LIGH record) but its light block has no fixtureKind")
+    unkinded = unkinded_fire_pieces(summary)
+    if unkinded:
+        raise RuntimeError(f"kit build refused ({kit_id}), light blocks with no fixtureKind "
+                           "(set it in the kit config's light block):\n  " + "\n  ".join(unkinded))
     apply_placement_metadata(summary, kit["id"])
     built_gltf = read_gltf_json(output_glb)
     untextured = (untextured_material_errors(built_gltf, summary, notes["texturesMissing"])

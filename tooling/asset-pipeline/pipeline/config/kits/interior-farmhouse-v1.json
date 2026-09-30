@@ -44,6 +44,7 @@
     {
       "asset": "vanilla:clutter/candles/candlehornchandelier01",
       "light": {
+        "fixtureKind": "candle",
         "formId": "00059a93",
         "editorId": "FarmInteriorLight01",
         "burnSeconds": -1,
@@ -74,6 +75,7 @@
     {
       "asset": "vanilla:clutter/candles/candlehornfloor01",
       "light": {
+        "fixtureKind": "candle",
         "formId": "00059a93",
         "editorId": "FarmInteriorLight01",
         "burnSeconds": -1,
@@ -104,6 +106,7 @@
     {
       "asset": "vanilla:clutter/candles/candlehorntable01",
       "light": {
+        "fixtureKind": "candle",
         "formId": "00059a93",
         "editorId": "FarmInteriorLight01",
         "burnSeconds": -1,
@@ -134,6 +137,7 @@
     {
       "asset": "vanilla:clutter/candles/candlehornwall01",
       "light": {
+        "fixtureKind": "candle",
         "formId": "00088238",
         "editorId": "DefaultCandleLight01NS",
         "burnSeconds": -1,
@@ -277,6 +281,7 @@
       "asset": "vanilla:clutter/woodfires/fireplacewood01burning",
       "effect": "additive",
       "light": {
+        "fixtureKind": "hearth",
         "formId": "00059b71",
         "editorId": "FarmInteriorFireLight01",
         "burnSeconds": -1,
@@ -489,6 +494,7 @@
       "asset": "vanilla:clutter/common/torchpermanent01",
       "effect": "additive",
       "light": {
+        "fixtureKind": "torch",
         "formId": "000bcc9d",
         "editorId": "DefaultTorch01NS_Fast",
         "burnSeconds": -1,
@@ -634,6 +640,7 @@
     {
       "asset": "vanilla:clutter/glazedcandlesstatic02",
       "light": {
+        "fixtureKind": "candle",
         "formId": "000b9be7",
         "editorId": "WRCandleFlickerNS",
         "burnSeconds": -1,
@@ -689,6 +696,7 @@
     {
       "asset": "vanilla:clutter/imperial/impcandle01",
       "light": {
+        "fixtureKind": "candle",
         "formId": "0003611f",
         "editorId": "SolitudeInnCandleDefault",
         "burnSeconds": -1,
@@ -896,6 +904,7 @@
     {
       "asset": "vanilla:clutter/ruins/ruinsfloorcandlelampsmon",
       "light": {
+        "fixtureKind": "candle",
         "formId": "00088238",
         "editorId": "DefaultCandleLight01NS",
         "burnSeconds": -1,
@@ -927,6 +936,7 @@
     {
       "asset": "vanilla:clutter/ruins/ruinsfloorcandlelampsmon02",
       "light": {
+        "fixtureKind": "candle",
         "formId": "00088238",
         "editorId": "DefaultCandleLight01NS",
         "burnSeconds": -1,
