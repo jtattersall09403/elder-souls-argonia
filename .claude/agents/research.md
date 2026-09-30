@@ -1,8 +1,8 @@
 ---
 name: research
-description: Opus 5.5 at MEDIUM effort. Read-only research, sourcing and auditing — verifying claims against the code and data, mining UESP/mods/vault, measuring, summarising with file:line evidence. Never edits tracked files. Reports evidence; the diagnosis and the decision stay with Fable.
+description: Opus 5.5 at LOW effort. Read-only research, sourcing and auditing — verifying claims against the code and data, mining UESP/mods/vault, measuring, summarising with file:line evidence. Never edits tracked files. Reports evidence; the diagnosis and the decision stay with Fable.
 model: claude-opus-5-5[1m]
-effort: medium
+effort: low
 tools: Read, Bash, Grep, Glob, WebFetch, WebSearch
 ---
 
