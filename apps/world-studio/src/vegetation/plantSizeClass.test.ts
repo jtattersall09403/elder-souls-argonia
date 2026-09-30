@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { QUALITY_PRESETS } from "@elder-souls/game-core/core/quality";
 import {
   isLargePlant,
+  TREE_MESH_FLOOR_M,
   LARGE_PLANT_TOP_TIER_M,
   plantDrawDistance,
   SMALL_PLANT_TOP_TIER_M,
@@ -30,13 +31,21 @@ describe("plant size class", () => {
     });
   }
 
-  it("medium: the 19 m, 380-triangle aspen at the owner site cards at >= 200 m, a 42 m tiered tree at >= 240 m; a heavy tree keeps the base reach", () => {
+  it("medium: the 19 m, 380-triangle aspen at the owner site cards at >= 200 m, a 42 m tiered tree at >= 240 m; a heavy tree keeps max(base reach, floor)", () => {
     const m = QUALITY_PRESETS.medium;
     const folded = speciesRings({ heightM: 19, triangles: 380, meshLevels: 1, category: "tree", submerged: false, folded: true }, m.vegDrawScale, "medium");
     const heavy = speciesRings({ heightM: 15, triangles: 4000, meshLevels: 1, category: "tree", submerged: false, folded: true }, m.vegDrawScale, "medium");
-    expect(heavy[0]).toBeCloseTo(15 * 7 * m.vegDrawScale, 6);
+    expect(heavy[0]).toBeCloseTo(Math.max(15 * 7 * m.vegDrawScale, TREE_MESH_FLOOR_M.medium), 6);
     const tiered = speciesRings({ heightM: 42, meshLevels: 3, category: "tree", submerged: false, folded: false }, m.vegDrawScale, "medium");
     expect(folded[0]).toBeGreaterThanOrEqual(200);
     expect(tiered[2]).toBeGreaterThanOrEqual(240);
+  });
+
+  it("medium: a heavy single-level tree >= 6 m keeps its mesh to the floor; a 4 m tree is unaffected", () => {
+    const m = QUALITY_PRESETS.medium;
+    const mangrove = speciesRings({ heightM: 9.3, triangles: 4039, meshLevels: 1, category: "tree", submerged: false, folded: true }, m.vegDrawScale, "medium");
+    expect(mangrove[0]).toBeGreaterThanOrEqual(TREE_MESH_FLOOR_M.medium);
+    const small = speciesRings({ heightM: 4, triangles: 4039, meshLevels: 1, category: "tree", submerged: false, folded: true }, m.vegDrawScale, "medium");
+    expect(small[0]).toBeLessThan(TREE_MESH_FLOOR_M.medium);
   });
 });

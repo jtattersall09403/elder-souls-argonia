@@ -23,6 +23,7 @@ import {
   HANDOVER_PX,
   SMALL_PLANT_TOP_TIER_M,
   ladderCoverageFailures,
+  TREE_MESH_FLOOR_M,
 } from "./floraKit";
 
 const CHUNK_M = 467.93;
@@ -93,7 +94,10 @@ describe("screen-space hand-over", () => {
         const multi = speciesRings(
           { heightM, meshLevels: 3, category: "tree", submerged: false, folded: false },
           preset.vegDrawScale, preset.name);
-        expect(multi[2]).toBeGreaterThanOrEqual(folded[0] * 0.95);
+        // The single-level full-mesh floor (TREE_MESH_FLOOR_M) exists only
+        // because single-level trees have no mid tier; compare the ladders
+        // where the floor does not set the folded reach.
+        if (folded[0] > TREE_MESH_FLOOR_M[preset.name]) expect(multi[2]).toBeGreaterThanOrEqual(folded[0] * 0.95);
         expect(multi[1]).toBeGreaterThanOrEqual(multi[0]);
         expect(multi[2]).toBeGreaterThanOrEqual(multi[1]);
         // Never nearer than round 13 validated: mid from 2.5 h, far from 5 h

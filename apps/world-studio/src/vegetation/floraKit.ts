@@ -440,6 +440,23 @@ export const MIN_MESH_LOD_REACH_M = 18;
 export const TREE_REF_TRIS = 1500;
 export const TREE_REACH_BOOST_MAX = 2.4;
 
+/**
+ * The full-mesh floor of a single-level tree at least `TREE_FLOOR_HEIGHT_M`
+ * tall, by band, not scaled by the draw scale. The heavy mangroves and gkb
+ * jungle trees have no allowed middle tier (round 13-13d: their bark is
+ * 83-95 % of the triangles, every leaf-thinned level is over the share cap,
+ * bark tubes failed the image judge; the mod ships no LOD mesh) and the
+ * cost-weighted boost leaves them at base reach (a 9.3 m mangrove carded at
+ * 52 m in medium; owner walk 6). The floor spends medium's jungle headroom
+ * (decision 0084, measured in tooling/.reports/16k/walk6/render/veg-report.md).
+ */
+export const TREE_FLOOR_HEIGHT_M = 6;
+export const TREE_MESH_FLOOR_M: Record<QualitySettings["name"], number> = {
+  low: 0,
+  medium: 130,
+  high: 130,
+};
+
 export function treeReachBoost(triangles: number | undefined): number {
   if (!(triangles && triangles > 0)) return 1;
   return Math.min(TREE_REACH_BOOST_MAX, Math.max(1, Math.sqrt(TREE_REF_TRIS / triangles)));
@@ -664,6 +681,10 @@ export function speciesRings(
     const boost = species.category === "tree" ? treeReachBoost(species.triangles) : 1;
     const rings = lodRings(species.heightM, drawScale, species.submerged, species.folded, band, boost)
       .map((r) => Math.max(r, impostorFrom));
+    if (species.category === "tree" && species.heightM >= TREE_FLOOR_HEIGHT_M) {
+      const floor = TREE_MESH_FLOOR_M[band] * (species.submerged ? SUBMERGED_LOD_SCALE : 1);
+      return rings.map((r) => Math.max(r, floor));
+    }
     if (!small) return rings;
     return rings.map((r) => Math.max(r, plantFloor));
   }

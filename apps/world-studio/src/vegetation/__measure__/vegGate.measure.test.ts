@@ -3,7 +3,7 @@
  * unless `VEG_MEASURE=1`; it reads the locally published vegetation bundles and
  * kit manifest, which CI does not have.
  *
- *   VEG_MEASURE=1 npx vitest run src/vegetation/__measure__ -w @elder-souls/world-studio
+ *   cd apps/world-studio && VEG_MEASURE=1 npx vitest run src/vegetation/__measure__
  *
  * It builds the real cells (`buildCell`) around a site from the real bundles,
  * with the real ladder functions (`floraKit.ts`), runs the real gate
