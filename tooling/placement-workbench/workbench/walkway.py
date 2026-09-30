@@ -370,7 +370,13 @@ def _tail(points, length):
     return out[::-1]
 
 
-def door_lines(cat, scene):
+def door_reports(cat, scene) -> dict:
+    """uid -> `measure.door_report` for every scene piece (pure: measured
+    once per walkway run and shared by `door_lines` and `door_openings`)."""
+    return {p.uid: measure.door_report(cat, scene, p) for p in scene.pieces}
+
+
+def door_lines(cat, scene, reports: dict | None = None):
     """[(door row, points)] for every bound door: the last DOOR_PATH_M of
     the path that ends within DOOR_PATH_REACH_M of its threshold (the way a
     walker comes: over a landing, up its steps), else DOOR_OUT_M out along
@@ -378,8 +384,9 @@ def door_lines(cat, scene):
     from . import rules
     out = []
     paths_ = _path_lines(scene)
+    reports = door_reports(cat, scene) if reports is None else reports
     for p in scene.pieces:
-        rep = measure.door_report(cat, scene, p)
+        rep = reports[p.uid]
         if not rep or not rep.get("best"):
             continue
         d = rep["best"]
@@ -403,15 +410,16 @@ def door_lines(cat, scene):
     return out
 
 
-def door_openings(cat, scene):
+def door_openings(cat, scene, reports: dict | None = None):
     """[(door row, threshold)] for EVERY doorway opening the shell's doorway
     record lists (`measure.door_report` doorways: piece and interiors/approach
     doorways), enterable, hollow or promised alike (ruling R89: the owner
     judges a lantern in a doorway by how it looks, not whether the door
     loads). A landing's shore edge is not an opening and is skipped."""
     out = []
+    reports = door_reports(cat, scene) if reports is None else reports
     for p in scene.pieces:
-        rep = measure.door_report(cat, scene, p)
+        rep = reports[p.uid]
         for i, d in enumerate((rep or {}).get("doorways", [])):
             facing = d.get("facingDeg") if d.get("facingDeg") is not None else d.get("outwardDeg")
             if facing is None or d.get("source") == "landing":
@@ -541,14 +549,15 @@ def walkway(cat, scene, ys: dict | None = None) -> dict:
     for key, (members, pts, dry, _joined) in run_lines(cat, scene, g).items():
         lines.append(("run", key, pts, dry))
         members_of[key] = members[0].uid
-    for d, pts in door_lines(cat, scene):
+    reports = door_reports(cat, scene)
+    for d, pts in door_lines(cat, scene, reports):
         lines.append(("door", d["id"], pts, (True, False)))
     if not lines:
         return {"runs": {}, "doors": {}, "failures": []}
     allp = np.array([p for _k, _i, pts, _d in lines for p in pts])
     world = _World(cat, scene, (allp[:, 0].min(), allp[:, 1].min(), allp[:, 0].max(), allp[:, 1].max()))
     runs, doors, fails = {}, {}, []
-    for d, threshold in door_openings(cat, scene):
+    for d, threshold in door_openings(cat, scene, reports):
         for u in door_fixtures(cat, scene, d, threshold):
             fails.append(f"{d['id']}~{u}: {d['id']} a hung or standing fixture ({u}) inside the "
                          f"door opening (±{OPENING_HALF_M} m across and through the threshold, "

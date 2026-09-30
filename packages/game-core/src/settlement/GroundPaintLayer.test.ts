@@ -20,6 +20,11 @@ describe("ground paint layer grouping (16k walk 5)", () => {
     expect([...paintGroups(bundle).keys()]).toEqual(["claywater", "greenspring"]);
   });
 
+  it("a place with refused paint drops only its own paint", () => {
+    const old = { id: "old", groundPaint: { schemaVersion: 1, entries: [strip("paint.old", 0)] } };
+    expect([...paintGroups([old, ...bundle]).keys()]).toEqual(["claywater", "greenspring"]);
+  });
+
   it("builds a decoded place's paint while another place's ground is still undecoded", () => {
     const { built, waiting, missing } = buildPaintGroups(paintGroups(bundle).values(), groundAt, () => true);
     expect(built.map((b) => b.group.placeId)).toEqual(["claywater"]);

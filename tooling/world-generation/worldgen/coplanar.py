@@ -49,6 +49,7 @@ NUDGE_M = 0.005
 ANGLE_DEG = 2.0
 OFFSET_M = 0.002
 AREA_M2 = 0.01
+PAIR_CHUNK = 4_000_000  # candidate triangle pairs per block (memory standard)
 MIN_TRI_M2 = 1e-5
 NORMAL_BIN = 0.06      # coarse bins, neighbours searched: never misses at a bin edge
 OFFSET_BIN = 0.01
@@ -188,57 +189,69 @@ def pair_hits(a: dict, b: dict, decal_exempt: bool = True) -> dict | None:
     for j, key in enumerate(map(tuple, _keys(nb, db))):
         buckets.setdefault(key, []).append(j)
     cos_tol = math.cos(math.radians(ANGLE_DEG))
-    ci, cj = [], []
     offs = list(itertools.product((-1, 0, 1), repeat=4))
     ukeys, inv = np.unique(_keys(na, da), axis=0, return_inverse=True)
     inv = inv.ravel()
     order = np.argsort(inv, kind="stable")
     starts = np.searchsorted(inv[order], np.arange(len(ukeys) + 1))
-    for u, key in enumerate(map(tuple, ukeys)):
-        js = [j for o in offs for j in buckets.get(
-            (key[0] + o[0], key[1] + o[1], key[2] + o[2], key[3] + o[3]), ())]
-        if js:
+    # triangles relative to the overlap box, float32 (mm-exact at cell scale)
+    TA = (a["tris"][ia] - origin).astype(np.float32)
+    TB = (b["tris"][ib] - origin).astype(np.float32)
+
+    def candidates():
+        """(ci, cj) pair blocks of at most PAIR_CHUNK (memory standard:
+        never the whole A x B product at once)."""
+        for u, key in enumerate(map(tuple, ukeys)):
+            js = np.asarray([j for o in offs for j in buckets.get(
+                (key[0] + o[0], key[1] + o[1], key[2] + o[2], key[3] + o[3]), ())], int)
+            if not len(js):
+                continue
             members = order[starts[u]:starts[u + 1]]
-            ci.extend(np.repeat(members, len(js)).tolist())
-            cj.extend(np.tile(js, len(members)).tolist())
-    if not ci:
-        return None
-    ci, cj = np.asarray(ci), np.asarray(cj)
-    ok = (np.einsum("ij,ij->i", na[ci], nb[cj]) >= cos_tol) & (np.abs(da[ci] - db[cj]) < OFFSET_M)
-    ci, cj = ci[ok], cj[ok]
-    ta_, tb_ = a["tris"][ia[ci]], b["tris"][ib[cj]]
-    ok = ((ta_.max(1) >= tb_.min(1) - OFFSET_M) & (tb_.max(1) >= ta_.min(1) - OFFSET_M)).all(1)
-    ci, cj = ci[ok], cj[ok]
-    del ta_, tb_
-    # every vertex of b's triangle within OFFSET_M of a's plane (the exact test)
-    tb = b["tris"][ib[cj]] - origin
-    dist = np.abs(np.einsum("ikj,ij->ik", tb, na[ci]) - da[ci, None]).max(1)
-    # a declared decal is exempt against the surface under it; decal on decal is a hit
-    dA, dB = a["decal"][ia[ci]], b["decal"][ib[cj]]
-    # opposite normals on one plane are a resting contact (a chest's underside
-    # on the floor): each hides the other's back face, nothing flickers unless
-    # one material draws both sides
-    same = sa[ci] == sb[cj]
-    both = a["double"][ia[ci]] | b["double"][ib[cj]]
-    exempt = (dA ^ dB) if decal_exempt else np.zeros(len(ci), bool)
-    ok = (dist < OFFSET_M) & ~exempt & (same | both)
-    ci, cj, tb, dist, dA, dB = ci[ok], cj[ok], tb[ok], dist[ok], dA[ok], dB[ok]
-    if not len(ci):
-        return None
+            step = max(1, PAIR_CHUNK // len(js))
+            for k in range(0, len(members), step):
+                m = members[k:k + step]
+                yield np.repeat(m, len(js)), np.tile(js, len(m))
+
     import shapely
-    # project onto a's plane: two axes orthogonal to its normal
-    n0 = na[ci]
-    ref = np.where(np.abs(n0[:, :1]) < 0.9, [[1.0, 0, 0]], [[0, 1.0, 0]])
-    u = np.cross(n0, ref)
-    u /= np.linalg.norm(u, axis=1)[:, None]
-    v = np.cross(n0, u)
-    ta = a["tris"][ia[ci]] - origin
+    kept = []   # (ci, cj, area, dist, dA, dB) per block, in pair order
+    for ci, cj in candidates():
+        ok = (np.einsum("ij,ij->i", na[ci], nb[cj]) >= cos_tol) & (np.abs(da[ci] - db[cj]) < OFFSET_M)
+        ci, cj = ci[ok], cj[ok]
+        ta_, tb_ = TA[ci], TB[cj]
+        ok = ((ta_.max(1) >= tb_.min(1) - OFFSET_M) & (tb_.max(1) >= ta_.min(1) - OFFSET_M)).all(1)
+        ci, cj = ci[ok], cj[ok]
+        del ta_, tb_
+        # every vertex of b's triangle within OFFSET_M of a's plane (the exact test)
+        tb = TB[cj]
+        dist = np.abs(np.einsum("ikj,ij->ik", tb, na[ci]) - da[ci, None]).max(1)
+        # a declared decal is exempt against the surface under it; decal on decal is a hit
+        dA, dB = a["decal"][ia[ci]], b["decal"][ib[cj]]
+        # opposite normals on one plane are a resting contact (a chest's underside
+        # on the floor): each hides the other's back face, nothing flickers unless
+        # one material draws both sides
+        same = sa[ci] == sb[cj]
+        both = a["double"][ia[ci]] | b["double"][ib[cj]]
+        exempt = (dA ^ dB) if decal_exempt else np.zeros(len(ci), bool)
+        ok = (dist < OFFSET_M) & ~exempt & (same | both)
+        ci, cj, tb, dist, dA, dB = ci[ok], cj[ok], tb[ok], dist[ok], dA[ok], dB[ok]
+        if not len(ci):
+            continue
+        # project onto a's plane: two axes orthogonal to its normal
+        n0 = na[ci]
+        ref = np.where(np.abs(n0[:, :1]) < 0.9, [[1.0, 0, 0]], [[0, 1.0, 0]])
+        u = np.cross(n0, ref)
+        u /= np.linalg.norm(u, axis=1)[:, None]
+        v = np.cross(n0, u)
 
-    def poly(t):
-        xy = np.stack([np.einsum("ikj,ij->ik", t, u), np.einsum("ikj,ij->ik", t, v)], -1)
-        return shapely.polygons(np.concatenate([xy, xy[:, :1]], 1))
+        def poly(t):
+            xy = np.stack([np.einsum("ikj,ij->ik", t, u), np.einsum("ikj,ij->ik", t, v)], -1)
+            return shapely.polygons(np.concatenate([xy, xy[:, :1]], 1))
 
-    area = shapely.area(shapely.intersection(poly(ta), poly(tb)))
+        area = shapely.area(shapely.intersection(poly(TA[ci]), poly(tb)))
+        kept.append((ci, cj, area, dist, dA, dB))
+    if not kept:
+        return None
+    ci, cj, area, dist, dA, dB = (np.concatenate(x) for x in zip(*kept))
     keep = area > 1e-6
     if not keep.any():
         return None

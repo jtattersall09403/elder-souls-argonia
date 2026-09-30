@@ -148,10 +148,10 @@ def load_doc(place_id: str, preview: bool = False) -> dict:
         from worldgen import export_settlement_bundle as ex
         bp = json.loads((paths.BLUEPRINTS / f"{place_id}.json").read_text())["blueprint"]
         site = doc["settlement"]
-        site["groundPaint"] = ex._place_ground_paint(place_id, bp, ex.shared_survey())
+        site["groundPaint"], road = ex._place_ground_paint(place_id, bp, ex.shared_survey())
         ids = set(site.get("placementIds") or [])
         ex.clip_ground_paint(site, [t for t in doc.get("groundTreatments") or []
-                                    if t["id"].removeprefix("treatment.") in ids])
+                                    if t["id"].removeprefix("treatment.") in ids], road=road)
     return doc
 
 

@@ -1408,8 +1408,7 @@ def _two_places(tmp_path, monkeypatch):
                                              "provenance": {"sourceStructureId": "structure.a.1"}}]})
     for kit, asset, policy, mode in (
             ("kit-a", "asset.house", "plinth", "streamed-origin"),
-            ("route-structures-v1", "asset.bridge", "route-structure", "streamed-perimeter"),
-            ("route-spans-v1", "asset.viaduct", "route-structure", "streamed-perimeter")):
+            ("route-structures-v1", "asset.bridge", "route-structure", "streamed-perimeter")):
         _write(tmp_path / f"kits/{kit}.kit.json", {"kit": kit, "assets": [{
             "id": asset, "sizeM": [4, 6, 8], "originOffsetM": [2, 3, 1], "triangles": 500,
             "collision": "mesh", "placement": _manifest_placement(policy, mode=mode)}]})

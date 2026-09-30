@@ -10,12 +10,12 @@
   within ``SUPPORT_M`` of another rests on it, hangs from it or is mounted on
   it; one rule covers a table on the floor, a lantern on its beam, a window
   in its wall. ``inf`` when nothing lies within ``REACH_M``.
-* ``down_gaps``: per placement, how far its underside lies above the first
-  surface of another piece straight below (rays from its lowest points).
+* ``down_support``: per placement, how far its underside lies above the first
+  surface of another piece straight below, and which piece that is (rays from its lowest points).
 * ``settle``: the exporter pass. A plugin clutter or furniture piece that
   touches nothing but has a surface 0-``SETTLE_MAX_M`` below its underside is
   lowered onto it (Skyrim's havok does this at load; the plugin stores the
-  pre-settle pose). Returns the build evidence rows ``{id, dropM}``.
+  pre-settle pose); a piece resting on a lowered piece moves with it. Returns the build evidence rows ``{id, dropM}``.
 """
 from __future__ import annotations
 
@@ -31,6 +31,7 @@ REACH_M = 0.30
 SETTLE_MAX_M = 0.12
 SETTLE_CATEGORIES = frozenset({"clutter", "furniture", "item", "container"})
 PROBE = 0.03
+SETTLE_PASSES = 8  # dependent chains followed at most (plate on table on crate)
 
 
 def _piece_points(tris: np.ndarray) -> np.ndarray:
@@ -54,10 +55,11 @@ def _piece_points(tris: np.ndarray) -> np.ndarray:
     return pts
 
 
-def contact_gaps(mesh, owner, n: int, only=None) -> np.ndarray:
+def contact_gaps(mesh, owner, n: int, only=None, ignore=None) -> np.ndarray:
     """Per placement, the gap to the nearest other piece (inf past REACH_M):
     its deterministic points against only the other pieces' triangles
-    near each point (mesh_query.nearest_within)."""
+    near each point (mesh_query.nearest_within). ``ignore`` maps a piece to
+    the pieces that do not count as its support (those resting on it)."""
     tris_all = mesh.triangles
     out = np.full(n, np.inf)
     order = np.argsort(owner, kind="stable")
@@ -66,6 +68,8 @@ def contact_gaps(mesh, owner, n: int, only=None) -> np.ndarray:
         f = order[bounds[i]:bounds[i + 1]]
         if len(f):
             pts, mine = _piece_points(tris_all[f]), owner == i
+            if ignore and ignore.get(i):
+                mine = mine | np.isin(owner, list(ignore[i]))
             # a touching piece is answered from the SUPPORT_M boxes (few
             # candidates; any nearer triangle lies in them too, so it is the
             # exact minimum); only a loose one pays for the REACH_M boxes
@@ -92,9 +96,9 @@ def all_hits(mesh, o: np.ndarray, d: np.ndarray):
     return ri, ti, dist
 
 
-def down_gaps(mesh, owner, idx) -> dict[int, float]:
-    """Per placement in `idx`: the smallest drop from its lowest points to
-    another piece below (inf when nothing is below)."""
+def down_support(mesh, owner, idx) -> dict[int, tuple[float, int]]:
+    """Per placement in `idx`: (smallest drop from its lowest points to
+    another piece below, that piece's index); (inf, -1) when nothing is below."""
     origins, who = [], []
     for i in idx:
         f = np.where(owner == i)[0]
@@ -106,7 +110,7 @@ def down_gaps(mesh, owner, idx) -> dict[int, float]:
             low = low[np.linspace(0, len(low) - 1, 12).astype(int)]
         origins.append(low + [0, PROBE, 0])
         who.append(np.full(len(low), i))
-    out = {i: np.inf for i in idx}
+    out = {i: (np.inf, -1) for i in idx}
     if not origins:
         return out
     o, w = np.vstack(origins), np.concatenate(who)
@@ -114,7 +118,9 @@ def down_gaps(mesh, owner, idx) -> dict[int, float]:
     ri, ti, dist = all_hits(mesh, o, d)
     for r, t, g in zip(ri, ti, dist - PROBE):
         if owner[t] != w[r] and g > -0.01:
-            out[w[r]] = min(out[w[r]], max(float(g), 0.0))
+            g = max(float(g), 0.0)
+            if g < out[w[r]][0]:
+                out[w[r]] = (g, int(owner[t]))
     return out
 
 
@@ -124,11 +130,26 @@ def settle(bundle: dict, mesh, owner) -> list[dict]:
     pl = bundle["placements"]
     cand = [i for i, p in enumerate(pl) if p.get("source") != "addition"
             and p.get("category") in SETTLE_CATEGORIES]
-    gaps = contact_gaps(mesh, owner, len(pl), only=cand)
-    loose = [i for i in cand if gaps[i] > SUPPORT_M]
+    # what each piece rests on; a piece resting on another is not its support
+    # (a plate on a table stored 8 cm up does not hold the table up)
+    under = down_support(mesh, owner, cand)
+    above: dict[int, set[int]] = {}
+    for j, (g, s_) in under.items():
+        if s_ >= 0 and g <= SUPPORT_M:
+            above.setdefault(s_, set()).add(j)
+    gaps = contact_gaps(mesh, owner, len(pl), only=cand, ignore=above)
+    drop = {i: under[i][0] for i in cand
+            if gaps[i] > SUPPORT_M and 0.0 < under[i][0] <= SETTLE_MAX_M}
+    # a piece resting on a lowered piece moves with it; a chain settles one
+    # link per pass (bounded)
+    for _ in range(SETTLE_PASSES):
+        moved = {j: drop[s_] for j, (g, s_) in under.items()
+                 if j not in drop and s_ in drop and g <= SUPPORT_M}
+        if not moved:
+            break
+        drop.update(moved)
     rows = []
-    for i, g in sorted(down_gaps(mesh, owner, loose).items()):
-        if 0.0 < g <= SETTLE_MAX_M:
-            pl[i]["positionM"][1] = round(pl[i]["positionM"][1] - g, 4)
-            rows.append({"id": pl[i]["id"], "dropM": round(g, 3)})
+    for i in sorted(drop):
+        pl[i]["positionM"][1] = round(pl[i]["positionM"][1] - drop[i], 4)
+        rows.append({"id": pl[i]["id"], "dropM": round(drop[i], 3)})
     return rows

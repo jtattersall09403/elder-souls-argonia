@@ -1000,14 +1000,16 @@ def ground_paint(place_id: str, routes: list[dict], survey, vocab: dict | None =
     return {"schemaVersion": GROUND_PAINT_SCHEMA, "entries": entries}
 
 
-def _place_ground_paint(place_id: str, bp: dict, survey) -> dict:
-    """`ground_paint` for one compiled place, with its boundary in metres and
-    the province road paint round its ways (the run-out ends)."""
+def _place_ground_paint(place_id: str, bp: dict, survey):
+    """(`ground_paint` for one compiled place, the province road paint round
+    its ways): the paint takes its boundary in metres and the road (the
+    run-out ends); `clip_ground_paint` takes the same road, so the raster is
+    windowed once per place."""
     from shapely.geometry import MultiPoint
     routes = bp.get("routes") or []
     pts = [survey.uv_to_m(float(u), float(v)) for r in routes for u, v in r.get("via") or r.get("points") or []]
     road = province_road_paint(MultiPoint(pts).buffer(20.0).bounds) if pts else None
-    return ground_paint(place_id, routes, survey, boundary=_metres(bp.get("boundary", []), survey), road=road)
+    return ground_paint(place_id, routes, survey, boundary=_metres(bp.get("boundary", []), survey), road=road), road
 
 
 def load_warning_known_red(path: Path | None = None) -> dict[tuple[str, str, str], dict]:
@@ -1493,7 +1495,9 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                if isinstance(doc.get("clearance"), dict) else {}),
             # the ways painted on the ground at load (16k walk 4, 0102 decision 1);
             # clipped under pads and floors by `attach_ground_overlays`
-            "groundPaint": _place_ground_paint(doc["id"], bp, survey),
+            # the road rides on the site (never written: `export` pops it) so the
+            # overlay pass clips on the same raster window
+            **dict(zip(("groundPaint", "_roadPaint"), _place_ground_paint(doc["id"], bp, survey))),
             **walk_routes_field(bp),
             # the place's sockets (0103 decision 5), copied as compiled
             "socketsSchemaVersion": doc.get("socketsSchemaVersion", SOCKETS_SCHEMA),
@@ -2171,7 +2175,7 @@ def attach_ground_overlays(bundle: dict, places, survey=None) -> int:
         own = [t for t in bundle.get("groundTreatments") or []
                if t["id"].removeprefix("treatment.") in ids]
         grow_clearance(site, rows, own)       # from the whole ways, before the paint is cut
-        clip_ground_paint(site, own)
+        clip_ground_paint(site, own, road=site.pop("_roadPaint", _LOAD_ROAD))
     _refuse("ground overlays", missing,
             "declared pad with no ground overlay in the bundle (0102): " + "; ".join(missing))
     return sum(len((s.get("groundOverlays") or {}).get("pads") or []) for s in bundle["settlements"])
@@ -2230,6 +2234,7 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
         bundle["groundOverlayCount"] = attach_ground_overlays(bundle, places)
     for site in bundle["settlements"]:
         site.pop("poolOps", None)       # no overlays measured: no pools either
+        site.pop("_roadPaint", None)    # build-time only (the overlay pass's road)
     if places is not None and report_path.exists():
         # A --places publish re-judges only its own places: every other
         # accepted place's report-mode rows stand as the last export left them.
