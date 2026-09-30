@@ -64,6 +64,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import re
 import subprocess
 import sys
@@ -227,19 +228,35 @@ def interior_gate(g: Gates, bp: dict) -> None:
 
 
 #: the vitest that owns the flame anchor rule (fx/fire/flameAnchors.ts
-#: `flameAnchorFailures`) over every published place and interior; the gate
-#: runs it rather than mirror the anchor rule in Python
+#: `flameAnchorFailures`) over the published places and interiors; the gate
+#: runs it (filtered to the gated place) rather than mirror the rule in Python
 FLAME_ANCHOR_TEST = ("src/fx/fire/fire.test.ts", "every flame of every published place and interior lies in its piece")
 GAME_CORE = REPO_ROOT / "packages" / "game-core"
 
 
-def flame_anchor_gate(g: Gates) -> None:
+#: the vitest reads this: the published bundle stems (a place id, an interior
+#: cell id) it checks, comma-separated; unset, it checks every bundle
+FLAME_ANCHOR_ONLY_ENV = "ES_FLAME_ANCHOR_ONLY"
+
+
+def tier_a_cells(bp: dict) -> list[str]:
+    """The tier-A interior cells the place's doors lead into."""
+    return sorted({(d.get("interiorClaim") or {})["cellId"] for d in bp.get("doors") or []
+                   if (d.get("interiorClaim") or {}).get("tier") == "A"
+                   and (d.get("interiorClaim") or {}).get("cellId")})
+
+
+def flame_anchor_gate(g: Gates, place_id: str, bp: dict) -> None:
     """Every flame anchor lies in its piece (16k walk 5): the vitest's
     failure lines (one per anchor outside its piece's bounds, or in a hanging
-    piece's cord) are this gate's failures. Reads the PUBLISHED bundles."""
+    piece's cord) are this gate's failures. Reads the PUBLISHED bundles of
+    this place and its tier-A interiors only, so another place's defect never
+    fails this place's gate (review 2026-09-30)."""
     t = time.perf_counter()
+    only = ",".join([place_id, *tier_a_cells(bp)])
     got = subprocess.run(["npx", "vitest", "run", FLAME_ANCHOR_TEST[0], "-t", FLAME_ANCHOR_TEST[1]],
-                         cwd=GAME_CORE, capture_output=True, text=True)
+                         cwd=GAME_CORE, capture_output=True, text=True,
+                         env={**os.environ, FLAME_ANCHOR_ONLY_ENV: only})
     out = got.stdout + got.stderr
     ran = re.search(r"Tests\s+1 passed", out) is not None
     failures = ([] if ran else [f"the flame anchor test did not run (renamed?): {FLAME_ANCHOR_TEST}"]) \
@@ -1210,7 +1227,7 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
     g.rows[-1]["blueprint"] = bp_source
     interior_gate(g, bp)
     g.rows[-1]["blueprint"] = bp_source
-    flame_anchor_gate(g)
+    flame_anchor_gate(g, place_id, bp)
     from .blueprint_promises import load_record
     record = load_record(place_id)
     variety_gates(g, place_id, bp, record,

@@ -143,7 +143,19 @@ function jsonFiles(dir: string): string[] {
  * holder; the fallback only for a lit fixture with no fire of its own or on
  * it) and every interior piece with mined flames. Fails naming the piece.
  */
-function publishedAnchorFailures(): { checked: number; failures: string[] } {
+/**
+ * The bundle stems (a place id, an interior cell id) the place gate asks for
+ * (place_gates.py `flame_anchor_gate`, env ES_FLAME_ANCHOR_ONLY): one place's
+ * defect never fails another place's gate. Unset: every published bundle.
+ */
+function anchorScope(): ((file: string) => boolean) | null {
+  const only = process.env.ES_FLAME_ANCHOR_ONLY;
+  if (!only) return null;
+  const stems = new Set(only.split(",").filter(Boolean));
+  return (file) => stems.has(file.split("/").pop()!.replace(/\.json$/, ""));
+}
+
+function publishedAnchorFailures(scope = anchorScope()): { checked: number; failures: string[] } {
   const rows = kitRows();
   const failures: string[] = [];
   let checked = 0;
@@ -154,7 +166,8 @@ function publishedAnchorFailures(): { checked: number; failures: string[] } {
     checked += anchors.length;
     failures.push(...flameAnchorFailures(pieceId, row, box, anchors));
   };
-  for (const file of jsonFiles(join(PUBLIC, "province", "settlements"))) {
+  const inScope = (file: string) => !scope || scope(file);
+  for (const file of jsonFiles(join(PUBLIC, "province", "settlements")).filter(inScope)) {
     const bundle = JSON.parse(readFileSync(file, "utf8")) as { placements?: Placement[] };
     const placements = bundle.placements ?? [];
     const byId = new Map(placements.map((p) => [p.id, p]));
@@ -173,7 +186,7 @@ function publishedAnchorFailures(): { checked: number; failures: string[] } {
         hostRow?.light?.fixtureKind ?? hostRow?.category);
     }
   }
-  for (const file of jsonFiles(join(PUBLIC, "province", "interiors"))) {
+  for (const file of jsonFiles(join(PUBLIC, "province", "interiors")).filter(inScope)) {
     const bundle = JSON.parse(readFileSync(file, "utf8")) as { placements?: Placement[] };
     for (const p of bundle.placements ?? []) {
       const row = rows.get(`${p.kit}|${p.assetId}`);
@@ -227,10 +240,17 @@ describe("flame anchor check (16k walk 5)", () => {
     expect(flameAnchorFailures("lamp", row, box, anchors)).toEqual([]);
   });
 
+  it("a place gate's scope checks only the bundles it names (review 2026-09-30)", () => {
+    expect(publishedAnchorFailures(null).checked).toBeGreaterThan(0);
+    expect(publishedAnchorFailures((file) => file.endsWith("/place.nowhere.json")).checked).toBe(0);
+  });
+
   it("every flame of every published place and interior lies in its piece", () => {
+    const scoped = anchorScope() !== null;
     const { checked, failures } = publishedAnchorFailures();
     expect(failures).toEqual([]);
-    expect(checked).toBeGreaterThan(20);
+    // a place gate's scope may hold one unlit place; the whole set never can
+    if (!scoped) expect(checked).toBeGreaterThan(20);
   });
 });
 

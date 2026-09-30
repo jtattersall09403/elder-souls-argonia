@@ -71,14 +71,18 @@ def test_flame_anchor_gate_reads_the_vitest(monkeypatch):
     calls = []
 
     def fake(cmd, **kw):
-        calls.append((cmd, kw["cwd"]))
+        calls.append((cmd, kw["cwd"], kw["env"].get(pg.FLAME_ANCHOR_ONLY_ENV)))
         return SimpleNamespace(returncode=calls.__len__() - 1, stdout=" Tests  1 passed | 17 skipped" if len(calls) == 1 else line, stderr="")
     monkeypatch.setattr(subprocess, "run", fake)
     g = pg.Gates()
-    pg.flame_anchor_gate(g)  # exit 0: green
-    pg.flame_anchor_gate(g)  # exit 1: the anchor line is the failure
+    bp = {"doors": [{"interiorClaim": {"tier": "A", "cellId": "KeebaHouseFisher"}},
+                    {"interiorClaim": {"tier": "B", "cellId": "Elsewhere"}}]}
+    pg.flame_anchor_gate(g, "place.x.claywater", bp)  # exit 0: green
+    pg.flame_anchor_gate(g, "place.x.claywater", bp)  # exit 1: the anchor line is the failure
+    # only the gated place and its tier-A cells are checked (review 2026-09-30)
+    assert {c[2] for c in calls} == {"place.x.claywater,KeebaHouseFisher"}
     calls.clear()
     monkeypatch.setattr(subprocess, "run", lambda cmd, **kw: SimpleNamespace(returncode=0, stdout="Tests  18 skipped", stderr=""))
-    pg.flame_anchor_gate(g)  # exit 0 but nothing ran: red, never a silent pass
+    pg.flame_anchor_gate(g, "place.x.claywater", {})  # exit 0 but nothing ran: red, never a silent pass
     assert [r["ok"] for r in g.rows] == [True, False, False]
     assert g.rows[1]["failures"] == [line.strip().strip('",')]
