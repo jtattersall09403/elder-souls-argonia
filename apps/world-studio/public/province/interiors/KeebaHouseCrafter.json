@@ -3020,6 +3020,27 @@
    "zone": "bed"
   },
   {
+   "id": "KeebaHouseCrafter:add:door-candle-14",
+   "assetId": "mudmother:gv_meshes/argoniannest/candle01",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    105.596,
+    86.19,
+    53.845
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "door"
+  },
+  {
    "id": "KeebaHouseCrafter:add:store-argonianlanterns-10",
    "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
    "kit": "mudmother-hut-int",
@@ -3360,6 +3381,30 @@
     "xrdsUnits": null,
     "baseRadiusUnits": 128,
     "recordFade": 1.7,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseCrafter:add:door-candle-14",
+   "positionM": [
+    105.916,
+    86.28,
+    54.925
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    236,
+    223,
+    170
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultCandleLight01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
     "recordFalloffExponent": 1.0
    }
   },
@@ -4489,9 +4534,9 @@
   }
  ],
  "counts": {
-  "placements": 154,
+  "placements": 155,
   "drops": 19,
-  "lights": 14,
+  "lights": 15,
   "substitutions": 5,
   "swingDoors": 0,
   "missingByClass": {},
@@ -4506,6 +4551,6 @@
    "idle": 16,
    "item": 25
   },
-  "additions": 10
+  "additions": 11
  }
 }

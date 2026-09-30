@@ -205,6 +205,18 @@
    "rotZDeg": 0,
    "zone": "hearth",
    "why": "Lights the stairs by the cellar door."
+  },
+  {
+   "id": "LilmothIronworksOverseerHouse:add:door-candlehornwall-18",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    109.828,
+    87.229,
+    77.252
+   ],
+   "rotZDeg": 0,
+   "zone": "door",
+   "why": "Lights the landing south of the door."
   }
  ]
 }

@@ -121,6 +121,18 @@
    "rotZDeg": 0,
    "zone": "store",
    "why": "Lights the shelf along the south wall."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:door-candle-14",
+   "assetId": "mudmother:gv_meshes/argoniannest/candle01",
+   "pos": [
+    105.596,
+    86.19,
+    53.845
+   ],
+   "rotZDeg": 0,
+   "zone": "door",
+   "why": "Lights the rug inside the balcony door."
   }
  ]
 }
