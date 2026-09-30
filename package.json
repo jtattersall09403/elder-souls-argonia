@@ -29,7 +29,8 @@
     "preflight": "node tooling/repo-standards/preflight.mjs",
     "docs:check": "node tooling/repo-standards/check.mjs --docs",
     "facts": "node tooling/repo-standards/facts.mjs --write",
-    "studio": "node tooling/repo-standards/studio-dev.mjs"
+    "studio": "node tooling/repo-standards/studio-dev.mjs",
+    "look": "node tooling/visual-look/look.mjs"
   },
   "devDependencies": {
     "meshoptimizer": "1.1.1",

@@ -191,6 +191,7 @@ into the kit config (`--record`), then step 1 rebuilds.
   kits written, unscoped folders deleted); `--all --check` and `kit_compress
   --check` exit 1 on stale, missing or out-of-scope parts. The parts count in
   the site budget (step 7).
+- After publish, look at every new or changed piece: `npm run look -- piece <kit> <assetId>` and its Sonnet judge ([visual-look](../visual-look/SKILL.md)); a FAIL is fixed at source before the kit is used.
 - A doorway is recorded only where rays pass (`interiors_index.doorway_rays`):
   every geometric doorway (`opening`, `open-front`, `leaf`) must let horizontal
   rays through the wall from 0.3 to 1.8 m above its sill across the middle 70%
