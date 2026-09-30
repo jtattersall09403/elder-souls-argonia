@@ -789,6 +789,15 @@ export function registerGcDraw(
   };
 }
 
+/** Rows a ground-cover mesh can hold. On the GPU cull path its
+ * `instanceMatrix` is the pool's SHARED output buffer (every draw's rows), so
+ * that count says nothing about this mesh and never triggered a regrow: a
+ * slot that outgrew its first capacity overflowed the staging arrays
+ * ("offset is out of bounds", walk 6). The staging rows are its capacity. */
+export function gcMeshCapacity(mesh: THREE.InstancedMesh, gc: GcDraw | undefined): number {
+  return gc ? gc.matrices.length / 16 : mesh.instanceMatrix.count;
+}
+
 /** Write a mesh's first `drawn` staged rows as its whole candidate list. */
 export function fillGcDraw(pool: GpuCullPool, gc: GcDraw, drawn: number): void {
   for (let i = 0; i < drawn; i++) {
@@ -1652,7 +1661,7 @@ export function Groundcover({
               wind, lodFade, billboard: bucket !== BUCKET_NEAR && card !== null,
             });
             let mesh = meshPool.current.get(meshKey);
-            if (!mesh || mesh.instanceMatrix.count < drawn) {
+            if (!mesh || gcMeshCapacity(mesh, gcDraws.current.get(mesh)) < drawn) {
               // Grow by 1.5x so a ring that keeps creeping up by a few
               // instances does not reallocate on every rebuild.
               // The OLD mesh is dropped after the new one is in the scene

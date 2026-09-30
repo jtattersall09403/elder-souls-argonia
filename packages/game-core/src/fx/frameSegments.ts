@@ -44,7 +44,8 @@ export interface TimedRenderer {
   backend: {
     isWebGPUBackend?: boolean;
     trackTimestamp?: boolean;
-    timestampQueryPool?: { render?: TimestampPool | null };
+    hasFeature?(name: string): boolean;
+    timestampQueryPool?: { render?: TimestampPool | null; compute?: unknown };
   };
 }
 
@@ -139,6 +140,8 @@ export class FrameSegments {
   private framesSinceResolve = 0;
   private gpuWindow = new Window();
 
+  private framesSinceCompute = 0;
+  private resolvingCompute = false;
   private cpuLabel: string | null = null;
   private cpuStart = 0;
   private cpuFrame = new Map<string, number>();
@@ -151,8 +154,17 @@ export class FrameSegments {
    * and the first in-canvas hook binds it.
    */
   attach(renderer: TimedRenderer | null): void {
+    // Timestamp queries run only while a collector is bound: the renderer is
+    // made with them off, because frames rendered before this hook mounts
+    // (the Suspense load) would fill three's query pool with nobody resolving
+    // it ("Maximum number of queries exceeded").
+    if (this.renderer && this.renderer !== renderer) this.renderer.backend.trackTimestamp = false;
     this.renderer = renderer && typeof renderer.resolveTimestampsAsync === "function"
       ? renderer : null;
+    // WebGPU checks the device feature only at init; the WebGL backend
+    // guards on its own disjoint-timer extension.
+    const b = this.renderer?.backend;
+    if (b) b.trackTimestamp = !b.isWebGPUBackend || (b.hasFeature?.("timestamp-query") ?? false);
     // Apple hardware means Metal in every browser: the timestamp is the
     // pass's wall time on the GPU queue there, not its work (0084 r11).
     const nav = typeof navigator === "undefined" ? null : navigator;
@@ -224,6 +236,17 @@ export class FrameSegments {
     if (!this.renderer) return;
     this.bindPool();
     this.framesSinceResolve += 1;
+    // Compute passes (the GPU cull) fill their own pool: nobody reads those
+    // times, but unresolved they overflow it ("Maximum number of queries").
+    this.framesSinceCompute += 1;
+    if (this.framesSinceCompute >= RESOLVE_EVERY && !this.resolvingCompute
+      && this.renderer.backend.timestampQueryPool?.compute) {
+      this.framesSinceCompute = 0;
+      this.resolvingCompute = true;
+      this.renderer.resolveTimestampsAsync("compute")
+        .catch(() => undefined)
+        .finally(() => { this.resolvingCompute = false; });
+    }
     const pool = this.pool;
     if (!pool || this.resolving) return;
     const halfFull = pool.currentQueryIndex * 2 >= pool.maxQueries;

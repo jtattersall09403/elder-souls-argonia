@@ -3,6 +3,8 @@ import {
   STRIP_BANK_M, STRIP_STEP_M, buildChannelStripGeometry, resampleStrip,
   rockFoamAt, type ChannelStrip,
 } from "./ChannelStrips";
+import * as THREE from "three";
+import { MAX_VERTEX_BUFFERS, vertexBufferCount } from "../../render/instancedPack";
 
 const point = (x: number, y: number, kind: ChannelStrip["points"][number]["kind"]) => ({
   x, z: 0, y, bedY: y - 0.8, halfWidthM: 1.5, speedMS: 2, season: 0.5, kind,
@@ -38,6 +40,13 @@ describe("channel strip meshes", () => {
     expect(stations[0].y).toBeCloseTo(30, 6);
     expect(stations[stations.length - 1].x).toBeCloseTo(20, 6);
     expect(stations[stations.length - 1].y).toBeCloseTo(21, 6);
+  });
+
+  it("binds at most 8 vertex buffers on WebGPU (pipeline es-water-*-strip drew 12)", () => {
+    const built = buildChannelStripGeometry([chain]);
+    const mesh = new THREE.Mesh(built.geometry);
+    expect(vertexBufferCount(mesh)).toBe(2);
+    expect(vertexBufferCount(mesh)).toBeLessThanOrEqual(MAX_VERTEX_BUFFERS);
   });
 
   it("widens the ribbon by the bank margin the depth fade dissolves", () => {

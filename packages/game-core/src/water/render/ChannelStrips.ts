@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import type { WaterMeta } from "../waterData";
+import { packVertexAttributes } from "../../render/instancedPack";
 
 /**
  * Explicit ribbon meshes for the compiled steep-reach strips (decision 0046
@@ -243,20 +244,34 @@ export function buildChannelStripGeometry(
 
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.BufferAttribute(position, 3));
-  geometry.setAttribute("aStill", new THREE.BufferAttribute(aStill, 1));
-  geometry.setAttribute("aBedDepth", new THREE.BufferAttribute(aBedDepth, 1));
-  geometry.setAttribute("aFlow", new THREE.BufferAttribute(aFlow, 2));
-  geometry.setAttribute("aSeason", new THREE.BufferAttribute(aSeason, 1));
-  geometry.setAttribute("aDrop", new THREE.BufferAttribute(aDrop, 1));
-  geometry.setAttribute("aSide", new THREE.BufferAttribute(aSide, 1));
-  geometry.setAttribute("aSideM", new THREE.BufferAttribute(aSideM, 1));
-  geometry.setAttribute("aArc", new THREE.BufferAttribute(aArc, 1));
-  geometry.setAttribute("aScroll", new THREE.BufferAttribute(aScroll, 1));
-  geometry.setAttribute("aEdge", new THREE.BufferAttribute(aEdge, 1));
-  geometry.setAttribute("aRockFoam", new THREE.BufferAttribute(aRockFoam, 2));
+  setStripAttributes(geometry, {
+    aStill, aBedDepth, aFlow, aSeason, aDrop, aSide, aSideM, aArc, aScroll, aEdge, aRockFoam,
+  }, vertexCount);
   geometry.setIndex(new THREE.BufferAttribute(index, 1));
   geometry.computeBoundingSphere();
   return { geometry, stationCount, vertexCount, triangleCount, stripCount: chains.length };
+}
+
+/** The strip shader's eleven per-vertex attributes (the pool discs carry the
+ *  same set). */
+export interface StripAttributes {
+  aStill: Float32Array; aBedDepth: Float32Array; aFlow: Float32Array; aSeason: Float32Array;
+  aDrop: Float32Array; aSide: Float32Array; aSideM: Float32Array; aArc: Float32Array;
+  aScroll: Float32Array; aEdge: Float32Array; aRockFoam: Float32Array;
+}
+
+/** Set them as ONE interleaved vertex buffer: WebGPU binds at most 8 vertex
+ *  buffers a draw, and eleven separate attributes plus position made 12
+ *  (render/instancedPack.ts). */
+export function setStripAttributes(
+  geometry: THREE.BufferGeometry, a: StripAttributes, vertexCount: number,
+): void {
+  packVertexAttributes(geometry, [
+    ["aStill", a.aStill, 1], ["aBedDepth", a.aBedDepth, 1], ["aFlow", a.aFlow, 2],
+    ["aSeason", a.aSeason, 1], ["aDrop", a.aDrop, 1], ["aSide", a.aSide, 1],
+    ["aSideM", a.aSideM, 1], ["aArc", a.aArc, 1], ["aScroll", a.aScroll, 1],
+    ["aEdge", a.aEdge, 1], ["aRockFoam", a.aRockFoam, 2],
+  ], vertexCount);
 }
 
 /* ------------------------------------------------------------------ *

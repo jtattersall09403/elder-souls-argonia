@@ -14,7 +14,9 @@ import { activeBackend, createRenderer, requestedBackend, type RendererBackend }
 export interface CanvasRendererOptions {
   antialias?: boolean;
   alpha?: boolean;
-  /** Timestamp queries for the HUD's GPU time; on by default. */
+  /** Timestamp queries from the first frame; off by default, since
+   * `FrameSegments.attach` turns them on when a collector that resolves
+   * them is bound. */
   trackTimestamp?: boolean;
   /** Called once the renderer is initialised, with the backend it actually
    * runs on (WebGPU falls back to WebGL 2 when no adapter is found). */
@@ -44,7 +46,7 @@ export function canvasRenderer(options: CanvasRendererOptions = {}) {
       backend,
       antialias: options.antialias ?? defaults.antialias ?? true,
       alpha: options.alpha ?? defaults.alpha ?? true,
-      trackTimestamp: options.trackTimestamp ?? true,
+      trackTimestamp: options.trackTimestamp ?? false,
     });
     options.onReady?.(renderer, activeBackend(renderer));
     return renderer;

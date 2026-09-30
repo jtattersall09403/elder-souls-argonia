@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { setStripAttributes } from "./ChannelStrips";
 import { poolBedAt, type LocalPoolRecord } from "../localSurfaces";
 
 /** A place's pools as ONE strip-mode mesh: the same vertex attributes the
@@ -65,17 +66,9 @@ export function buildPoolGeometry(pools: readonly LocalPoolRecord[]): { geometry
   }
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.BufferAttribute(position, 3));
-  geometry.setAttribute("aStill", new THREE.BufferAttribute(aStill, 1));
-  geometry.setAttribute("aBedDepth", new THREE.BufferAttribute(aBedDepth, 1));
-  geometry.setAttribute("aFlow", new THREE.BufferAttribute(aFlow, 2));
-  geometry.setAttribute("aSeason", new THREE.BufferAttribute(aSeason, 1));
-  geometry.setAttribute("aDrop", new THREE.BufferAttribute(aDrop, 1));
-  geometry.setAttribute("aSide", new THREE.BufferAttribute(aSide, 1));
-  geometry.setAttribute("aSideM", new THREE.BufferAttribute(aSideM, 1));
-  geometry.setAttribute("aArc", new THREE.BufferAttribute(aArc, 1));
-  geometry.setAttribute("aScroll", new THREE.BufferAttribute(aScroll, 1));
-  geometry.setAttribute("aEdge", new THREE.BufferAttribute(aEdge, 1));
-  geometry.setAttribute("aRockFoam", new THREE.BufferAttribute(aRockFoam, 2));
+  setStripAttributes(geometry, {
+    aStill, aBedDepth, aFlow, aSeason, aDrop, aSide, aSideM, aArc, aScroll, aEdge, aRockFoam,
+  }, vertexCount);
   geometry.setIndex(new THREE.BufferAttribute(index, 1));
   geometry.computeBoundingSphere();
   return { geometry, triangleCount };

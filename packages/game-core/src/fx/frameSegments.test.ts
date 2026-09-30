@@ -13,7 +13,7 @@ function fakeRenderer(msPerPass: number) {
   };
   let resolves = 0;
   const renderer: TimedRenderer = {
-    backend: { isWebGPUBackend: true, trackTimestamp: true, timestampQueryPool: { render: pool } },
+    backend: { isWebGPUBackend: true, trackTimestamp: false, hasFeature: () => true, timestampQueryPool: { render: pool } },
     getRenderTarget: () => target,
     resolveTimestampsAsync: async () => {
       resolves += 1;
@@ -85,5 +85,14 @@ describe("frame segments on renderer timestamps", () => {
     expect(fake.pool.allocateQueriesForContext).not.toBe(original);
     segs.dispose();
     expect(fake.pool.allocateQueriesForContext).toBe(original);
+  });
+  it("turns timestamp queries on only while bound (the pool filled unread during the load)", () => {
+    const fake = fakeRenderer(1);
+    const segs = new FrameSegments();
+    expect(fake.renderer.backend.trackTimestamp).toBe(false);
+    segs.attach(fake.renderer);
+    expect(fake.renderer.backend.trackTimestamp).toBe(true);
+    segs.attach(null);
+    expect(fake.renderer.backend.trackTimestamp).toBe(false);
   });
 });
