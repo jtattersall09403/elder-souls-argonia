@@ -30,6 +30,9 @@
 # (MEMWATCH_TIMINGS_LOG overrides); `python3 tooling/repo-standards/tool_timings.py`
 # ranks it (16h ledger §6 D).
 set -uo pipefail
+# The body is one brace group so bash parses it whole before running: a commit that
+# edits this file under a running job (d6ecbe55) cannot splice old and new text.
+{
 ceiling_gib=""
 if [[ "${1:-}" == "--ceiling-gib" ]]; then ceiling_gib="${2:-}"; shift 2; fi
 if [[ -z "$ceiling_gib" ]]; then
@@ -126,3 +129,4 @@ done
 wait "$pid"; code=$?
 finish "$code" ""
 exit $code
+}

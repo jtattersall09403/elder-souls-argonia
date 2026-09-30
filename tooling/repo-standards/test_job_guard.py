@@ -172,3 +172,19 @@ def test_the_job_log_samples_the_load_average(tmp_path):
     subprocess.run(["bash", "-c", line], env=env, capture_output=True, text=True, timeout=60)
     text = next((tmp_path / "logs").glob("ld-*.log")).read_text()
     assert "started" in text and text.count("load1 ") >= 2, text
+
+
+def test_memwatch_survives_an_edit_of_itself_mid_run(tmp_path):
+    """d6ecbe55: a running memwatch re-read its edited file and died 'next_load: unbound'."""
+    import shutil, time
+    copy = tmp_path / "memwatch.sh"
+    shutil.copy(HERE / "memwatch.sh", copy)
+    shutil.copy(HERE / "own_memory.py", tmp_path / "own_memory.py")
+    rep = tmp_path / "rep.log"
+    env = {**_env(tmp_path), "MEMWATCH_LOAD_S": "1", "MEMWATCH_REPORT": str(rep)}
+    p = subprocess.Popen(["bash", str(copy), "sleep 2"], env=env, stderr=subprocess.PIPE, text=True)
+    time.sleep(0.7)
+    copy.write_text("# pad\n" * 40 + (HERE / "memwatch.sh").read_text())  # in-place, longer
+    err = p.communicate(timeout=60)[1]
+    assert p.returncode == 0 and "unbound" not in err, err
+    assert "end " in rep.read_text()
