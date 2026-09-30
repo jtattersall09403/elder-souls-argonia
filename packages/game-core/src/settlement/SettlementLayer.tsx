@@ -67,6 +67,7 @@ import {
 import { isFlameCardMaterial } from "../fx/fire/flameAnchors";
 import { mergeRunColliders } from "./runColliders";
 import { fixtureLightFieldOf, isFixtureLitMaterial, litPreparerOf } from "../render/fixtureLights";
+import { DrawTargetLinker } from "../render/drawTargetLinker";
 import { assertPoolsSchema, syncPlacePools } from "./pools";
 import {
   SETTLEMENT_REQUERY_MOVE_M, useSettlementBundleSource,
@@ -499,6 +500,8 @@ export function SettlementLayer({
   // Light fixtures (lighting.ts): injected by the scene, else the layer's own,
   // lighting through the scene's fixture light field (render/fixtureLights).
   const { camera: sceneCamera, scene, gl } = useThree();
+  const linker = useMemo(() => new DrawTargetLinker(gl, scene), [gl, scene]);
+  useEffect(() => { linker.attach(); return () => linker.detach(); }, [linker]);
   const ownLightFixtures = useMemo(
     () => (sharedLightFixtures ? null
       : new SettlementLightFixtures(uniforms.esSettlementNight, fixtureLightFieldOf(scene))),
@@ -1087,9 +1090,12 @@ export function SettlementLayer({
               && field.install(mesh.material as THREE.Material)) field.attach(mesh);
           });
         }
-        let linked = false;
-        gl.compileAsync(next, sceneCamera, scene).then(() => { linked = true; }, () => { linked = true; });
+        // Linked against the target the scene pass draws into (the water
+        // pipeline's linear target), so the first frame finds them linked.
         const linkStart = performance.now();
+        while (!linker.observed && performance.now() - linkStart < SETTLEMENT_LINK_WAIT_MS) yield;
+        let linked = false;
+        linker.compileAsync(next, sceneCamera, scene).then(() => { linked = true; }, () => { linked = true; });
         while (!linked && performance.now() - linkStart < SETTLEMENT_LINK_WAIT_MS) yield;
         // the live far merges not kept are freed with the live group
         const keep = new Set([...farKept.values()].map((entry) => entry.geometry));
@@ -1192,7 +1198,7 @@ export function SettlementLayer({
     };
   }, [queue, bundle, kits, manifests, revision, groundAt, quality?.architectureDrawScale,
       focusRef, materialPatch, onSolids, onStats, uniforms, fatalError, frames, lightFixtures,
-      placementById, materialVariant, gl, scene, sceneCamera]);
+      placementById, materialVariant, gl, scene, sceneCamera, linker]);
 
   // The live group and the depth twins go with the world: on unmount, a new
   // baseUrl, or a fatal error emptying the layer. A new set of bundles
