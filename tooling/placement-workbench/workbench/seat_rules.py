@@ -504,6 +504,8 @@ def landing_runs(cat, scene, g) -> dict[str, list]:
     for p in scene.pieces:
         if p.y is None or not getattr(p, "walkable", False):
             continue
+        if measure.deck_seated(cat.row(p.asset)):
+            continue                     # a house on stilts: `house_landing` judges its landing
         role = p.role or {}
         key = role["id"] if role.get("kind") == "run" else p.uid
         runs.setdefault(key, []).append(p)
@@ -579,7 +581,83 @@ def landing(cat, scene) -> dict:
                                  f"past it with no step (want within {LANDING_FOOT_M} m, or a step "
                                  f"piece whose top is within {step} m of the deck){tag}")
         rows[key] = r
+    for p in scene.pieces:
+        if p.y is not None and getattr(p, "walkable", False) and measure.deck_seated(cat.row(p.asset)):
+            r, f = house_landing(cat, scene, g, p, step, meshes)
+            rows[p.uid] = r
+            fails += f
     return {"runs": rows, "failures": fails}
+
+
+LANDING_DECK_BAND_M = 1.0   # a stilt house's landing deck: a hit this far under its floor top at most
+
+
+def _landing_deck(cat, p, floor: float | None, edge, inward, meshes) -> float | None:
+    """A stilt house landing's deck height near one edge: the median of the
+    first hits of rays down from just over the house floor top (never the
+    roof or a post cap above it) at the edge's samples, LANDING_INSET_M to
+    1.5 m inward, keeping hits within LANDING_DECK_BAND_M under the floor
+    (a ray through a plank gap meets a pile foot metres down)."""
+    if floor is None:
+        return None
+    mesh = _member_mesh(cat, p, meshes)
+    pts = [(x + inward[0] * d, z + inward[1] * d) for x, z in edge
+           for d in (LANDING_INSET_M, 0.6, 1.0, 1.5)]
+    origins = [[x, -z, floor + 0.3] for x, z in pts]
+    locs, _r, _t = mesh.ray.intersects_location(origins, [[0.0, 0.0, -1.0]] * len(origins),
+                                                multiple_hits=False)
+    hits = [float(v[2]) for v in locs if floor - LANDING_DECK_BAND_M <= float(v[2]) <= floor + 0.3]
+    return float(np.median(hits)) if hits else None
+
+
+def house_landing(cat, scene, g, p, step: float, meshes: dict | None = None) -> tuple[dict, list]:
+    """landingRule for a house on stilts (`measure.deck_seated`): each
+    landing part of its composite (`measure.landing_edges`) has its outer
+    edge on dry ground (every sample LANDING_INSET_M past the edge above the
+    drawn water) with the deck inside the edge's middle within LANDING_FOOT_M
+    of that ground (or a step piece there), and its inner edge meeting the
+    house floor within the controller's step."""
+    from . import rules
+    rows, fails = [], []
+    edges = measure.landing_edges(cat, p)
+    if not edges:
+        return {"landings": []}, [f"{p.uid}: a house on stilts with no landing part in its composite"]
+    floor = rules._walk_top_y(cat, p)
+    for e in edges:
+        ux, uz = e["unit"]
+        past = [(x + ux * LANDING_INSET_M, z + uz * LANDING_INSET_M) for x, z in e["outer"]]
+        wet = []
+        for x, z in past:
+            lv = g.water_level(x, z)
+            h = float(g.chunk_height(x, z))
+            if lv is not None and lv > h + 0.05:
+                wet.append((x, z, lv - h))
+        mx, mz = e["outer"][1]
+        deck = _landing_deck(cat, p, floor, e["outer"], (-ux, -uz), meshes)
+        ground = float(g.chunk_height(*past[1]))
+        level = g.water_level(*past[1]) or g.water_level(p.x, p.z)
+        drop = None if deck is None else round(deck - ground, 3)
+        deck_in = _landing_deck(cat, p, floor, e["inner"], (ux, uz), meshes)
+        inner = None if deck_in is None or floor is None else round(floor - deck_in, 3)
+        r = {"part": e["asset"], "outerEdgeM": [[round(x, 2), round(z, 2)] for x, z in e["outer"]],
+             "outwardDeg": e["outwardDeg"], "deckM": None if deck is None else round(deck, 3),
+             "groundPastM": round(ground, 3),
+             "groundOverWaterM": None if level is None else round(ground - level, 3),
+             "landDropM": drop, "floorOverInnerDeckM": inner, "stepM": step}
+        if wet:
+            fails.append(f"{p.uid}: its landing's outer edge stands over water at "
+                         + ", ".join(f"({x:.1f}, {z:.1f}) {d:.2f} m deep" for x, z, d in wet))
+        if drop is None or abs(drop) > LANDING_FOOT_M:
+            stepper = _landing_step(cat, scene, g, [p], e["outer"][1], deck, step)
+            r["step"] = stepper
+            if stepper is None:
+                fails.append(f"{p.uid}: its landing's deck stands {drop} m over the dry ground "
+                             f"past its outer edge with no step (want within {LANDING_FOOT_M} m)")
+        if inner is None or abs(inner) > step:
+            fails.append(f"{p.uid}: its landing's inner edge meets the floor {inner} m under it "
+                         f"(want within the step, {step} m)")
+        rows.append(r)
+    return {"landings": rows}, fails
 
 
 def _landing_step(cat, scene, g, members, end, deck, step: float) -> str | None:

@@ -8,7 +8,10 @@ the CLI's own argument names (the argparse ``dest``: ``child_face``,
 "settle": true}``, ``{"op": "group", "action": "place", "name": ...}``,
 ``{"op": "path", "action": "add", "id": ..., "points": [[x, z], ...]}``;
 a building pad is ``"pad": {"apronM": 1.5, "floorMinM": 35.8}`` on a
-`place` op (``{}`` for every default; decision 0101).
+`place` op (``{}`` for every default; decision 0101). A ``"walkable": true``
+water, piled or stilt piece settles with no ``settle`` (`measure.auto_settles`);
+a house on stilts' landing plank is part of its composite's mesh and has no
+per-placement override: the house pose sites it (placement-workbench skill).
 
 A socket (decision 0103) is ``{"op": "socket", "id", "kind", "at": [x, z]
 or "host": <scene uid | parcel id>, "yawDeg", "parcel", "why", <kind data>}``
@@ -358,7 +361,7 @@ def check_failure_rows(check: dict) -> list[dict]:
         # or foot float (planner ruling 5, CLAYWATER2)
         rock = is_rock(r.get("asset") or "")
         for rule in ("slopeRule", "deltaRule", "sillRule", "padRule", "beachedRule", "submergedRule",
-                     "notExportable"):
+                     "stiltRule", "floorServiceRule", "notExportable"):
             if rock and rule in ("slopeRule", "deltaRule"):
                 continue
             if r.get(rule):
