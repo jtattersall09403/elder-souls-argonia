@@ -9,7 +9,7 @@
 //   contact-sheet.png     every screenshot, labelled, one sheet per run
 //
 //   node scripts/harness-run.mjs [--sys smoke,water] [--backend webgpu]
-//        [--label name] [--out dir] [--url http://127.0.0.1:PORT/] [--w 512 --h 288]
+//        [--label name] [--out dir] [--query "bake=frame"] [--url http://127.0.0.1:PORT/] [--w 512 --h 288]
 //
 // Without --url it starts its own vite dev server on a free port on 127.0.0.1
 // (scripts/dev-server.mjs; never $ES_STUDIO_PORT or 8081). With --url it
@@ -53,6 +53,8 @@ const scenes = typeof args.sys === "string" ? args.sys.split(",") : allScenes;
  * A scene past it is recorded as `timedOut` and its browser is relaunched
  * (a hung page can hold the GPU process). */
 const timeoutMs = Number(args.timeout) || 240000;
+/** --query "a=1&b=2": extra page parameters (e.g. bake=frame, skyScene.ts). */
+const extraQuery = typeof args.query === "string" ? `&${args.query.replace(/^[&?]/, "")}` : "";
 /** Above this share of drawn pixels at luma < 3 a run fails (NaN shading
  * renders black), unless its scene exports `expectDark: true`. */
 const BLACK_FRACTION_MAX = 0.2;
@@ -147,7 +149,7 @@ try {
           if (r.status() >= 400 && !noise(r.url())) consoleLines.push(`error: http ${r.status()} ${r.url()}`);
         });
         page.on("pageerror", (e) => { if (!noise(e.message)) consoleLines.push(`pageerror: ${e.message.slice(0, 600)}`); });
-        const url = `${base}harness.html?sys=${encodeURIComponent(sys)}&renderer=${backend}&w=${width}&h=${height}`;
+        const url = `${base}harness.html?sys=${encodeURIComponent(sys)}&renderer=${backend}&w=${width}&h=${height}${extraQuery}`;
         const t0 = Date.now();
         let result;
         let timedOut = false;

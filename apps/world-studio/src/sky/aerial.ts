@@ -452,7 +452,9 @@ export function applyMipAlphaBoost(material: NodeMaterial): void {
   if (!claimFeature(material, "mipAlphaBoost")) return;
   const mapUv = uv(map.channel ?? 0);
   wrapColor(material, (c: TslNode) => {
-    const texels = vec2(textureSize(texture(map), int(0)));
+    // An explicit uv: textureSize builds its texture node, and a node with no
+    // uv builds the default `uv` attribute ("uv not found" on uv-less meshes).
+    const texels = vec2(textureSize(texture(map, mapUv), int(0)));
     const dx = dFdx(mapUv).mul(texels);
     const dy = dFdy(mapUv).mul(texels);
     const mip = log2(max(max(dot(dx, dx), dot(dy, dy)), 1)).mul(0.5);

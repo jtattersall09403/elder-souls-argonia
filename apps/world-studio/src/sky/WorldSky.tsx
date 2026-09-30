@@ -1,7 +1,8 @@
 import { createContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { PMREMGenerator, type NodeMaterial, type RenderTarget, type WebGPURenderer } from "three/webgpu";
+import type { NodeMaterial, WebGPURenderer } from "three/webgpu";
+import { createSkyEnvironment, type SkyEnvironment } from "./skyEnvironment";
 import type { CSMShadowNode } from "three/examples/jsm/csm/CSMShadowNode.js";
 import {
   dayPhaseAt,
@@ -265,7 +266,9 @@ export function WorldSky({
 
   // THE scene fog is the aerial inscatter (decision 0107): every node
   // material with `fog = true` is hazed by this one node.
-  useEffect(() => {
+  // A layout effect, so the first frame's programs compile with it (a fog
+  // node set after them changes their cache key and recompiles them).
+  useLayoutEffect(() => {
     const fogScene = scene as THREE.Scene & { fogNode?: unknown };
     fogScene.fogNode = createAerialFogNode(sharedAerialUniforms);
     return () => {
@@ -275,7 +278,8 @@ export function WorldSky({
 
   // Renderer: physical lights + ACES + soft shadows, one configuration for
   // both modes (module 55 §96 — tone mapping is part of the light system).
-  useEffect(() => {
+  // Layout effect: shadowMap.enabled/type are in every program's cache key.
+  useLayoutEffect(() => {
     gl.toneMapping = THREE.ACESFilmicToneMapping;
     gl.toneMappingExposure = 1e-4;
     gl.outputColorSpace = THREE.SRGBColorSpace;
@@ -365,17 +369,28 @@ export function WorldSky({
     bakeScene.add(b.sky);
     return { ...b, scene: bakeScene };
   }, []);
-  const pmrem = useMemo(() => new PMREMGenerator(gl as unknown as WebGPURenderer), [gl]);
-  const envRT = useRef<RenderTarget | null>(null);
+  // The sky IBL exists before the first frame: baked here at commit (a
+  // layout effect runs before R3F renders), assigned to scene.environment
+  // once, and re-baked in place by the frame loop (skyEnvironment.ts says
+  // why the texture identity must never change).
+  const envRef = useRef<SkyEnvironment | null>(null);
+  useLayoutEffect(() => {
+    bake.sky.showSunDisc.value = 0;
+    const env = createSkyEnvironment(gl as unknown as WebGPURenderer, bake.scene);
+    envRef.current = env;
+    scene.environment = env.texture;
+    return () => {
+      if (scene.environment === env.texture) scene.environment = null;
+      env.dispose();
+      envRef.current = null;
+    };
+  }, [gl, scene, bake]);
   useEffect(
     () => () => {
       sky.material.dispose();
       bake.sky.material.dispose();
-      pmrem.dispose();
-      envRT.current?.dispose();
-      envRT.current = null;
     },
-    [sky, bake, pmrem],
+    [sky, bake],
   );
 
   // Stars.
@@ -832,10 +847,7 @@ export function WorldSky({
       copySkyUniforms(dome, bake);
       bake.sky.showSunDisc.value = 0;
       bake.extras.uFlash.value = 0; // flashes never tint the IBL
-      const rt = pmrem.fromScene(bake.scene, 0, 0.1, 1100);
-      scene.environment = rt.texture;
-      envRT.current?.dispose();
-      envRT.current = rt;
+      envRef.current?.rebake();
       state.current.envBakes += 1;
     }
 

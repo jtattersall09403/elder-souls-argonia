@@ -9,6 +9,7 @@ import * as THREE from "three";
 import { MeshStandardNodeMaterial, PMREMGenerator } from "three/webgpu";
 import { localSiderealAngle, toEpochMinutes, toHorizontal } from "@elder-souls/world-time";
 import { createAerialFogNode, createAerialUniforms } from "../sky/aerial";
+import { createSkyEnvironment, type SkyEnvironment } from "../sky/skyEnvironment";
 import { createCloudUniforms } from "../sky/cloudField";
 import { computeLightRig } from "../sky/lightRig";
 import {
@@ -55,7 +56,7 @@ export function buildSkyScene(ctx: HarnessContext, hour: number, opts: { pmrem?:
   aerial.uEsFogCam.value.copy(camera.position);
   (scene as THREE.Scene & { fogNode?: unknown }).fogNode = createAerialFogNode(aerial);
 
-  const studioSky = addStudioSky(renderer, scene, camera, rig, sunDir, aerial, { bakeAtBuild: true, ...opts });
+  const studioSky = addStudioSky(renderer, scene, camera, rig, sunDir, aerial, opts);
   const { clouds } = studioSky;
 
   // Stars, Serpent, moons.
@@ -143,8 +144,7 @@ export function buildSkyScene(ctx: HarnessContext, hour: number, opts: { pmrem?:
  * as the background (radiance on the scene's lux scale, so it survives the
  * photometric exposure; a plain `scene.background` colour is a clear colour
  * that WebGPURenderer tone-maps with that exposure, ~2.6e-5 at noon, and
- * reads black), the PMREM sky IBL baked from a second dome in the first
- * frame (the studio's main indirect light: without it shadowed ground at
+ * reads black), the PMREM sky IBL baked from a second dome (the studio's main indirect light: without it shadowed ground at
  * noon lies at luma ~1 on BOTH renderers), and the rig's hemisphere light.
  * The sun and its cascades stay with the scene.
  */
@@ -155,6 +155,8 @@ export function addStudioSky(
   rig: ReturnType<typeof computeLightRig>,
   sunDir: THREE.Vector3,
   aerial: ReturnType<typeof createAerialUniforms>,
+  /** `bakeAtBuild` is the default now (and the studio's order); callers
+   * still passing it change nothing. */
   opts: { pmrem?: boolean; bakeAtBuild?: boolean } = {},
 ): { clouds: ReturnType<typeof createCloudUniforms>; frame(t: number): void } {
   const clouds = createCloudUniforms();
@@ -170,22 +172,29 @@ export function addStudioSky(
   dome.sky.frustumCulled = false;
   scene.add(dome.sky);
 
-  // PMREM sky IBL from a second dome, as WorldSky bakes it.
+  // PMREM sky IBL from a second dome, in WorldSky's order: baked at build
+  // (createSkyEnvironment, before the harness's compileAsync), assigned to
+  // scene.environment once, re-baked IN PLACE in frame 0 as WorldSky's loop
+  // does. `?bake=frame` reproduces the pre-L17 studio order instead: nothing
+  // at build, a new PMREM target in frame 0 and scene.environment set then,
+  // which recompiled every lit program inside render() and hung sky-noon
+  // and terrain on the WebGL backend (lane L17).
   const bake = createSkyDome(100, aerial, clouds);
   copySkyUniforms(dome, bake);
   bake.sky.showSunDisc.value = 0;
   const bakeScene = new THREE.Scene();
   bakeScene.add(bake.sky);
-  // Baked in the frame loop, as WorldSky does (never at build time).
-  let pmrem: PMREMGenerator | null = opts.pmrem === false ? null : new PMREMGenerator(renderer);
-  // `bakeAtBuild`: bake before the harness's compileAsync, so every program
-  // is compiled with the environment in place. Baked in frame 0 instead, a
-  // heavy material (the ground splat) must recompile inside render(): on
-  // WebGPU/SwiftShader the terrain scene then never finished (240 s).
-  if (pmrem && opts.bakeAtBuild) {
-    scene.environment = pmrem.fromScene(bakeScene, 0, 0.1, 1100).texture;
-    pmrem = null;
+  const frameOrder = new URLSearchParams(globalThis.location?.search ?? "").get("bake") === "frame";
+  let env: SkyEnvironment | null = null;
+  let lateBake: PMREMGenerator | null = null;
+  if (opts.pmrem !== false) {
+    if (frameOrder) lateBake = new PMREMGenerator(renderer);
+    else {
+      env = createSkyEnvironment(renderer, bakeScene);
+      scene.environment = env.texture;
+    }
   }
+  let frames = 0;
 
   const hemi = new THREE.HemisphereLight(0xffffff, 0xffffff, rig.hemiIntensity);
   hemi.color.setRGB(...rig.hemiSky);
@@ -196,9 +205,9 @@ export function addStudioSky(
     clouds,
     frame(t: number) {
       clouds.uCloudTime.value = 137 + t * 30;
-      if (pmrem) {
-        scene.environment = pmrem.fromScene(bakeScene, 0, 0.1, 1100).texture;
-        pmrem = null;
+      if (frames++ === 0) {
+        if (env) env.rebake();
+        if (lateBake) scene.environment = lateBake.fromScene(bakeScene, 0, 0.1, 1100).texture;
       }
     },
   };
