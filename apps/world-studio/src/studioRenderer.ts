@@ -30,8 +30,17 @@ export function studioCanvasRenderer(
         let disposed = false;
         const dispose = renderer.dispose.bind(renderer);
         renderer.dispose = () => { disposed = true; dispose(); };
-        const log = renderer.onDeviceLost.bind(renderer);
-        renderer.onDeviceLost = (info) => { log(info); onDeviceLost(info, disposed); };
+        // WebGPU: listen on the device itself. three's backend drops a loss
+        // whose reason is "destroyed" before calling renderer.onDeviceLost,
+        // and Chrome reports a Dawn-internal loss with exactly that reason
+        // (walk-6 probes: 3 of 3 losses never reached the recovery).
+        const device = (renderer.backend as { device?: GPUDevice }).device;
+        if (device) {
+          void device.lost.then((info) => onDeviceLost({ reason: info.reason, message: info.message }, disposed));
+        } else {
+          const log = renderer.onDeviceLost.bind(renderer);
+          renderer.onDeviceLost = (info) => { log(info); onDeviceLost(info, disposed); };
+        }
       }
       if (!STUDIO_TOOLS) return;
       const host = window as unknown as StudioRendererHost;
