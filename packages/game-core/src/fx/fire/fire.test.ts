@@ -85,6 +85,22 @@ describe("preset choice reads the piece's records", () => {
 });
 
 describe("FlameSystem", () => {
+  it("frees the previous instance buffers when the emitters are set again (review 2026-09-30)", () => {
+    const fire = new FlameSystem();
+    const geometries = new Set<THREE.BufferGeometry>();
+    fire.group.traverse((o) => { if ((o as THREE.Mesh).isMesh) geometries.add((o as THREE.Mesh).geometry); });
+    expect(geometries.size).toBe(2);
+    let disposed = 0;
+    for (const g of geometries) g.addEventListener("dispose", () => { disposed += 1; });
+    const emitters = [{ position: new THREE.Vector3(0, 1, 0), preset: "candle" as const, scale: 1, seed: 0.1, owner: 0 }];
+    fire.setEmitters(emitters);
+    expect(disposed).toBe(0); // nothing bound yet
+    fire.setEmitters(emitters);
+    expect(disposed).toBe(2); // flame + ember geometries, once each
+    fire.setEmitters(emitters);
+    expect(disposed).toBe(4);
+  });
+
   it("expands a candle to its 3 cards, a campfire to its core + outer cards over its bed, with embers", () => {
     const fire = new FlameSystem();
     fire.setEmitters([
