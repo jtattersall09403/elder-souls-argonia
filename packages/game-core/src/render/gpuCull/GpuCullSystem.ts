@@ -51,6 +51,7 @@ import {
   INDIRECT_STRIDE, LOD_FADE_SAMPLES, LOD_OPEN_M, RangeAllocator, SWEEP_MAX_M, indirectArgs,
   type SunSweep,
 } from "./cullMath";
+import { installStableInstanceNames } from "./stableInstanceNames";
 
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -149,6 +150,7 @@ export class GpuCullSystem {
   private readonly cullNode: TslNode;
 
   constructor(readonly options: GpuCullSystemOptions) {
+    installStableInstanceNames();
     const { rows, maxDraws } = options;
     this.matrices = new StorageInstancedBufferAttribute(new Float32Array(rows * 16), 16);
     this.slots = new StorageInstancedBufferAttribute(new Float32Array(rows), 1);

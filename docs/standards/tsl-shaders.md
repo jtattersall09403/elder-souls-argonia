@@ -95,6 +95,9 @@ with an object that must not have it: clone first (the old rule, unchanged).
 - A `texture(tex)` node with no uv builds the default `uv` attribute even when only
   `textureSize`/`textureLoad` read it ("Vertex attribute uv not found" on uv-less geometry):
   create holder nodes as `texture(tex, vec2(0))`.
+- A named storage node must be ONE node per buffer, reused by every mesh and pass (the shadow pass
+  builds the mesh twice; a second node of the same name is renamed into invalid WGSL). Unnamed, each
+  mesh gets `NodeBuffer_<id>` and its own shader module: see `render/gpuCull/stableInstanceNames.ts`.
 - Debug a graph with `await renderer.debug.getShaderAsync(scene, camera, mesh)`; to see an
   intermediate value, route it to `outputNode` behind a harness switch.
 
