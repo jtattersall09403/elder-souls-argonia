@@ -151,7 +151,10 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt }: {
     } catch (error: unknown) {
       console.warn("[ground-paint] refused", error);
     }
-    disposeGroup(group);
+    // The live meshes stay drawn until their replacements are added
+    // (review 2026-09-30: a requery blanked all road paint for a frame, and
+    // for RETRY_S wherever a place's ground was still undecoded).
+    retainPaint(group, new Set(groups.keys()));
     pending.current = groups;
     nextTry.current = 0;
     since.current = null;
@@ -167,15 +170,22 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt }: {
       want.values(), groundAt, (t) => materials.rows.find((r) => r.name === t)?.tileM);
     for (const g of missing) {
       console.warn(`[ground-paint] no ground material ${g.texture} (${g.placeId})`);
+      replacePaint(group, g.key, null);
       want.delete(g.key);
     }
     for (const { group: g, geometry } of built) {
       const row = materials.rows.find((r) => r.name === g.texture)!;
-      const mesh = new THREE.Mesh(geometry, paintMaterial(baseUrl, materials.set, row));
+      // The replaced mesh's material (textures loaded) is reused: a fresh one
+      // would draw unloaded textures for the frames its images take.
+      const live = group.children.find((c) => c.userData.paintKey === g.key && c.userData.paintSet === materials.set);
+      const material = (live as THREE.Mesh | undefined)?.material as THREE.MeshStandardMaterial | undefined
+        ?? paintMaterial(baseUrl, materials.set, row);
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.userData.paintSet = materials.set;
       mesh.name = `ground-paint:${g.placeId}:${g.texture}`;
       mesh.receiveShadow = true;
       mesh.renderOrder = 1;
-      group.add(mesh);
+      replacePaint(group, g.key, mesh);
       want.delete(g.key);
     }
     if (built.length) {
@@ -191,6 +201,35 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt }: {
   });
   useEffect(() => () => disposeGroup(group), [group]);
   return <primitive object={group} />;
+}
+
+/**
+ * A new paint set arrived: every live mesh whose key the set drops goes now;
+ * the newest mesh of every kept key stays drawn until `replacePaint` swaps its
+ * replacement in, so paint never blanks between two builds.
+ */
+export function retainPaint(group: THREE.Group, keys: ReadonlySet<string>): void {
+  const kept = new Set<string>();
+  for (const child of [...group.children].reverse()) {
+    const key = child.userData.paintKey as string | undefined;
+    if (key !== undefined && keys.has(key) && !kept.has(key)) { kept.add(key); continue; }
+    disposeMesh(group, child as THREE.Mesh);
+  }
+}
+
+/** Add `mesh` as the paint of `key` (or none, for `null`), then free the one it replaces. */
+export function replacePaint(group: THREE.Group, key: string, mesh: THREE.Mesh | null): void {
+  const old = group.children.filter((child) => child.userData.paintKey === key);
+  if (mesh) { mesh.userData.paintKey = key; group.add(mesh); }
+  for (const child of old) disposeMesh(group, child as THREE.Mesh, mesh?.material);
+}
+
+/** Free a paint mesh; its material too unless the replacement kept it. */
+function disposeMesh(group: THREE.Group, mesh: THREE.Mesh, keep?: THREE.Material | THREE.Material[]): void {
+  mesh.geometry.dispose();
+  const m = mesh.material as THREE.MeshStandardMaterial;
+  if (m !== keep) { m.map?.dispose(); m.normalMap?.dispose(); m.dispose(); }
+  group.remove(mesh);
 }
 
 function disposeGroup(group: THREE.Group): void {
