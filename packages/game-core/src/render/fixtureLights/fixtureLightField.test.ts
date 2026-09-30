@@ -139,4 +139,18 @@ describe("per-material list length", () => {
     field.install(wall);
     expect(compiled(wall).fragment).toContain("esFxI < 8");
   });
+
+  it("a pooled InstancedMesh refilled in place gets a fresh lamp list (review 2026-09-30)", () => {
+    const field = new FixtureLightField();
+    field.setLights([{ position: new THREE.Vector3(0, 0, 0), radiusM: 6 }]);
+    const mesh = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshStandardMaterial(), 1);
+    mesh.setMatrixAt(0, new THREE.Matrix4().makeTranslation(100, 0, 0));
+    mesh.updateMatrixWorld(true);
+    expect(field.slotsOf(mesh).count).toBe(0);
+    // Groundcover's meshPool refill: same mesh, same world matrix, new instances
+    mesh.setMatrixAt(0, new THREE.Matrix4().makeTranslation(1, 0, 0));
+    mesh.instanceMatrix.needsUpdate = true;
+    mesh.boundingSphere = null;
+    expect(field.slotsOf(mesh).count).toBe(1);
+  });
 });
