@@ -55,6 +55,46 @@ def on_surface(query, points):
     return np.vstack(cs), np.concatenate(ds), np.concatenate(ts)
 
 
+def nearest_within(mesh, points, reach: float, skip=None, budget: int = 4_000_000) -> float:
+    """The smallest distance from any of `points` to a triangle of `mesh`
+    within `reach` (inf when none), skipping triangles where `skip` (bool
+    per face) is true. One r-tree query over the points' whole box names
+    the candidate triangles; each point then keeps those whose box meets its
+    own +-reach box (a points x candidates test, chunked to `budget` pairs),
+    and the closest point is trimesh's vectorised per-pair
+    `triangles.closest_point` (`on_surface` runs a slower candidate search
+    over every point first)."""
+    from trimesh.triangles import closest_point
+    points = np.asarray(points, float).reshape(-1, 3)
+    if not len(points):
+        return np.inf
+    lo, hi = points.min(0) - reach, points.max(0) + reach
+    cand = np.fromiter(mesh.triangles_tree.intersection(np.concatenate([lo, hi])), np.int64)
+    if skip is not None:
+        cand = cand[~skip[cand]]
+    if not len(cand):
+        return np.inf
+    cand.sort()
+    tris = mesh.triangles[cand]
+    tlo, thi = (tris.min(1) - reach).astype(np.float32), (tris.max(1) + reach).astype(np.float32)
+    p32 = points.astype(np.float32)
+    chunk = max(1, budget // len(cand))
+    best = np.inf
+    for k in range(0, len(points), chunk):
+        p, q = points[k:k + chunk], p32[k:k + chunk]
+        near = (q[:, 0, None] >= tlo[None, :, 0]) & (q[:, 0, None] <= thi[None, :, 0])
+        for ax in (1, 2):
+            near &= (q[:, ax, None] >= tlo[None, :, ax]) & (q[:, ax, None] <= thi[None, :, ax])
+        seg, ids = np.nonzero(near)
+        if not len(ids):
+            continue
+        d = np.linalg.norm(closest_point(tris[ids], p[seg]) - p[seg], axis=1)
+        best = min(best, float(d.min()))
+        if best == 0.0:
+            break
+    return best if best <= reach else np.inf
+
+
 def segments_hit(mesh, origins, dirs, lengths, chunk: int = 4096) -> np.ndarray:
     """Per segment (origin, unit dir, length): does it cross any triangle at
     0 <= t <= length? The answer of `cast_rays(..., multiple_hits=False)`
