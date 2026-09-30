@@ -1,12 +1,27 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "decision": [
   "docs/decisions/0102-a-place-carries-its-own-ground-and-hands-over-nothing-it-can-check-itself.md"
  ],
  "kinds": {
-  "road": {"texture": "bc_road", "edgeM": 1.0},
-  "track": {"texture": "track_mud", "edgeM": 0.8},
-  "footpath": {"texture": "dirt_path", "edgeM": 0.4}
+  "road": {
+   "texture": "bc_road",
+   "edgeM": 1.2,
+   "peakAlpha": 0.75
+  },
+  "track": {
+   "texture": "track_mud",
+   "edgeM": 1.0,
+   "peakAlpha": 0.7
+  },
+  "footpath": {
+   "texture": "track_mud",
+   "edgeM": 0.7,
+   "peakAlpha": 0.5
+  }
  },
- "unpainted": ["stair", "ramp"]
+ "unpainted": [
+  "stair",
+  "ramp"
+ ]
 }

@@ -137,34 +137,35 @@ def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
             "errors": [], "warnings": [], "floodBandReport": {"warningCount": 0},
             "placements": [placement], "doors": [], "budgetReport": {},
             "compiledObjects": compiled_objects})
-    structure = {"id": "structure.a.1", "wayId": "route.a", "kind": "bridge",
+    structure = {"id": "structure.a.1", "wayId": "route.a", "kind": "stair",
                  "fromM": 10, "toM": 20}
-    route = {"id": "structure.a.1.p1", "assetId": "asset.bridge", "posM": [9, 2, 8],
+    route = {"id": "structure.a.1.p1", "assetId": "asset.stair", "posM": [9, 2, 8],
              "fromM": 10, "toM": 20,
              "yawDeg": 90, "provenance": {"sourceStructureId": "structure.a.1"}}
-    span = {"id": "structure.a.1.p2", "assetId": "asset.viaduct", "posM": [9, 3, 9],
+    landing = {"id": "structure.a.1.p2", "assetId": "asset.landing", "posM": [9, 3, 9],
             "fromM": 20, "toM": 30,
             "yawDeg": 90, "provenance": {"sourceStructureId": "structure.a.1"}}
     _write(tmp_path / "routes/a.json", {"wayId": "route.a", "structures": [structure],
-                                         "placements": [route, span]})
+                                         "placements": [route, landing]})
     manifests = (
         ("kit-a", "asset.house", _manifest_placement(
             "plinth", mode="streamed-origin", cap=.67)),
-        ("route-structures-v1", "asset.bridge", _manifest_placement(
+        ("route-structures-v1", "asset.stair", _manifest_placement(
             "route-structure", mode="streamed-perimeter", cap=.21)),
-        # Crossings come from the second route kit (decision 0051); the bundle
-        # must load both manifests and resolve each placement to the one that
-        # holds it.
-        ("route-spans-v1", "asset.viaduct", _manifest_placement(
+        ("route-structures-v1", "asset.landing", _manifest_placement(
             "route-structure", mode="streamed-perimeter", cap=.21)),
     )
+    by_kit: dict = {}
     for kit, asset, placement_policy in manifests:
+        by_kit.setdefault(kit, []).append((asset, placement_policy))
+    for kit, rows in by_kit.items():
         _write(tmp_path / f"kits/{kit}.kit.json", {"kit": kit, "assets": [{
             "id": asset, "sizeM": [4, 6, 8], "originOffsetM": [2, 3, 1],
-            "triangles": 500, "collision": "mesh", "placement": placement_policy}]})
+            "triangles": 500, "collision": "mesh", "placement": placement_policy}
+            for asset, placement_policy in rows]})
         # The collider-budget gate counts real LOD0 parts, so the kit GLB is an
         # input to the export, not just an asset copied at publication time.
-        _fake_glb(tmp_path / f"kits/{kit}.glb", {asset: [2, 1, 1]})
+        _fake_glb(tmp_path / f"kits/{kit}.glb", {asset: [2, 1, 1] for asset, _p in rows})
     bundle = ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
                              tmp_path / "kits", _route_source(tmp_path, [structure]))
     assert bundle["stats"] == {"settlements": 1, "settlementPlacements": 1,
@@ -181,14 +182,8 @@ def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
     assert house["collision"]["frame"] == ex.COLLISION_FRAME
     route_placement = next(p for p in bundle["placements"]
                            if p["kind"] == "route-structure"
-                           and p["assetId"] == "asset.bridge")
-    # Each route placement resolves to whichever of the two route kits holds it:
-    # a climb from route-structures-v1, a crossing from route-spans-v1. A single
-    # hard-coded kit name silently loses every span piece (decision 0051).
+                           and p["assetId"] == "asset.stair")
     assert route_placement["kit"] == "route-structures-v1"
-    span_placement = next(p for p in bundle["placements"]
-                          if p["assetId"] == "asset.viaduct")
-    assert span_placement["kit"] == "route-spans-v1"
     assert route_placement["anchor"]["mode"] == "streamed-perimeter"
     assert route_placement["anchor"]["designedSinkM"]["p50"] == .31
     assert len(route_placement["footprintM"]) == 4
@@ -345,10 +340,7 @@ def test_refuses_compiler_errors(tmp_path, monkeypatch):
 def _warned_settlement(tmp_path, *, conforms=False):
     _write(tmp_path / "kits/route-structures-v1.kit.json",
            {"kit": "route-structures-v1", "assets": []})
-    _write(tmp_path / "kits/route-spans-v1.kit.json",
-           {"kit": "route-spans-v1", "assets": []})
-    for empty_kit in ("route-structures-v1", "route-spans-v1"):
-        _glb_with_images(tmp_path / f"kits/{empty_kit}.glb", [])
+    _glb_with_images(tmp_path / "kits/route-structures-v1.glb", [])
     bp = {"id": "place.a"}
     _write(tmp_path / "bp/place.a.json", {"blueprint": bp})
     _write(tmp_path / "sett/place.a.settlement.json", {
@@ -734,10 +726,7 @@ def _obligation_bundle_fixture(tmp_path):
     })
     _write(tmp_path / "kits/route-structures-v1.kit.json",
            {"kit": "route-structures-v1", "assets": []})
-    _write(tmp_path / "kits/route-spans-v1.kit.json",
-           {"kit": "route-spans-v1", "assets": []})
-    for empty_kit in ("route-structures-v1", "route-spans-v1"):
-        _glb_with_images(tmp_path / f"kits/{empty_kit}.glb", [])
+    _glb_with_images(tmp_path / "kits/route-structures-v1.glb", [])
     source = _route_source(tmp_path, [])
     return record, settlement_path, source, evidence
 
@@ -1410,7 +1399,7 @@ def _two_places(tmp_path, monkeypatch):
                 "errors": [], "warnings": [], "floodBandReport": {"warningCount": 0},
                 "placements": [placement], "doors": [], "budgetReport": {},
                 "compiledObjects": objects})
-    structure = {"id": "structure.a.1", "wayId": "route.a", "kind": "bridge",
+    structure = {"id": "structure.a.1", "wayId": "route.a", "kind": "stair",
                  "fromM": 10, "toM": 20}
     _write(tmp_path / "routes/a.json", {"wayId": "route.a", "structures": [structure],
                                          "placements": [{
@@ -1758,7 +1747,10 @@ def test_a_layout_with_two_paths_yields_two_paint_entries_byte_identical_on_a_re
     one = ex.ground_paint("place.t", _two_paths(), _Survey())
     two = ex.ground_paint("place.t", list(reversed(_two_paths())), _Survey())
     assert [e["id"] for e in one["entries"]] == ["paint.route.t.a", "paint.route.t.b"]
-    assert [e["texture"] for e in one["entries"]] == ["bc_road", "dirt_path"]
+    assert [e["texture"] for e in one["entries"]] == ["bc_road", "track_mud"]   # never the orange dirt_path
+    assert [e["peakAlpha"] for e in one["entries"]] == [0.75, 0.5]
+    assert one["schemaVersion"] == 2 and one["entries"][1]["centrelineM"] == [[0.0, 10.0], [30.0, 10.0]]
+    assert one["entries"][1]["widthM"] == 1.2
     assert json.dumps(one, sort_keys=True) == json.dumps(two, sort_keys=True)
     with pytest.raises(ValueError, match="kind 'lane' has no ground paint"):
         ex.ground_paint("place.t", [{**_two_paths()[0], "kind": "lane"}], _Survey())
@@ -1788,23 +1780,68 @@ def test_ground_cover_survives_between_buildings_and_dies_on_ways_pads_and_floor
 
 def test_the_paint_dies_under_floors_but_reaches_the_door_apron():
     from shapely.geometry import Point, Polygon
-    site = {"id": "place.t", "groundPaint": {"schemaVersion": 1, "entries": [{
-        "id": "paint.route.t.p", "routeId": "route.t.p", "kind": "footpath", "texture": "dirt_path",
-        "edgeM": 0.4, "polygonM": [[2.2, 10.0], [3.8, 10.0], [3.8, 24.0], [2.2, 24.0]]}]}}
+    site = {"id": "place.t", "groundPaint": {"schemaVersion": 2, "entries": [{
+        "id": "paint.route.t.p", "routeId": "route.t.p", "kind": "footpath", "texture": "track_mud",
+        "edgeM": 0.7, "peakAlpha": 0.5, "polygonM": [[2.2, 10.0], [3.8, 10.0], [3.8, 24.0], [2.2, 24.0]]}]}}
     treatments = [{"id": "treatment.place.t.hut.building", "kind": "floor",
                    "footprintM": [[0, 20], [6, 20], [6, 26], [0, 26]], "apronsM": [[3.0, 20.0, 1.0]]}]
-    ex.clip_ground_paint(site, treatments)
+    ex.clip_ground_paint(site, treatments, road=None)
     [entry] = site["groundPaint"]["entries"]
     poly = Polygon(entry["polygonM"])
     assert poly.contains(Point(3.0, 15.0)) and poly.contains(Point(3.0, 20.3))   # to the threshold
     assert not poly.contains(Point(3.0, 23.0))                                    # not on the floor
 
 
+def test_the_paint_never_repaints_the_province_road():
+    """16k walk 6 (owner: the main street was painted over the main road): a
+    way on the land cover's road texels is cut there and the rest of it is
+    kept; a one-texel province footpath survives as road (never eroded)."""
+    import numpy as np
+    from shapely.geometry import Point, Polygon
+    mat = np.zeros((40, 40), dtype=np.int16)
+    mat[:, 10:15] = 30                                   # a BC_ROAD stripe, east 20..28 m at 2 m texels
+    road = ex.province_road_paint((0, 0, 80, 80), mat=mat, texel_m=2.0)
+    assert road.contains(Point(24.0, 40.0)) and not road.contains(Point(18.5, 40.0))
+    thin = np.zeros((40, 40), dtype=np.int16)
+    thin[np.arange(40), np.arange(40)] = 27                 # a diagonal one-texel PATH
+    assert ex.province_road_paint((0, 0, 80, 80), mat=thin, texel_m=2.0).contains(Point(40.0, 40.0))
+    site = {"id": "place.t", "groundPaint": {"schemaVersion": 2, "entries": [{
+        "id": "paint.route.t.s", "routeId": "route.t.s", "kind": "road", "texture": "bc_road", "edgeM": 1.2,
+        "peakAlpha": 0.75, "centrelineM": [[0.0, 40.0], [60.0, 40.0]],
+        "polygonM": [[0.0, 38.0], [60.0, 38.0], [60.0, 42.0], [0.0, 42.0]]}, {
+        # a way running ALONG the road, 1 m off its edge-line: only slivers survive the cut
+        "id": "paint.route.t.along", "routeId": "route.t.along", "kind": "road", "texture": "bc_road",
+        "edgeM": 1.2, "peakAlpha": 0.75, "centrelineM": [[22.0, 50.0], [22.0, 75.0]],
+        "polygonM": [[18.0, 50.0], [26.0, 50.0], [26.0, 75.0], [18.0, 75.0]]}]}}
+    ex.clip_ground_paint(site, [], road=road)
+    polys = [Polygon(e["polygonM"]) for e in site["groundPaint"]["entries"]]
+    assert len(polys) == 2 and sum(p.intersection(road).area for p in polys) < 1e-6
+    assert any(p.contains(Point(10.0, 40.0)) for p in polys) and any(p.contains(Point(40.0, 40.0)) for p in polys)
+    assert not any(e["routeId"] == "route.t.along" for e in site["groundPaint"]["entries"])   # no slivers
+
+
+def test_a_way_leaving_the_place_runs_out_and_one_on_the_road_does_not():
+    """16k walk 6 (owner: the path out of the village stops dead): an end
+    outside or at the boundary narrows to nothing; an end on the road paint
+    stops square (the road carries on)."""
+    from shapely.geometry import Point, Polygon, box
+    boundary = [[0.0, -20.0], [30.0, -20.0], [30.0, 20.0], [0.0, 20.0]]
+    way = [{"id": "route.t.out", "kind": "track", "widthM": 2.5, "via": [[0.005, 0.0], [0.045, 0.0]]}]
+    [e] = ex.ground_paint("place.t", way, _Survey(), boundary=boundary)["entries"]
+    assert e["runOutEnds"] == ["end"]
+    poly = Polygon(e["polygonM"])
+    width_at = lambda x: poly.intersection(box(x - 0.01, -5, x + 0.01, 5)).bounds[3] * 2
+    assert width_at(20.0) > 3.0 and width_at(42.0) < 1.5 and width_at(44.5) < width_at(40.0)
+    road = box(40.0, -10.0, 60.0, 10.0)
+    [e] = ex.ground_paint("place.t", way, _Survey(), boundary=boundary, road=road)["entries"]
+    assert "runOutEnds" not in e and Polygon(e["polygonM"]).contains(Point(44.5, 0.0))
+
+
 def test_published_places_clear_ground_cover_only_on_their_ways_pads_and_floors():
     """16k walk 4: the published tiers. Every painted way lies inside the
     ground-cover clearance, the ground-cover clearance lies inside the tree
     clearance, and it is far smaller than the old hull (Claywater 7,830 m2
-    hull; under 3,000 m2 now)."""
+    hull; under 3,300 m2 now: walk 6 widened the ways' soft edges to 0.7-1.2 m)."""
     from shapely.geometry import Polygon
     from shapely.ops import unary_union
     side = {s["id"]: s for s in json.loads(
@@ -1818,7 +1855,7 @@ def test_published_places_clear_ground_cover_only_on_their_ways_pads_and_floors(
         ways = unary_union([Polygon(e["polygonM"]) for e in paint["entries"]])
         assert ways.difference(ground.buffer(1e-3)).area < 0.01, pid
         assert ground.difference(trees.buffer(1e-3)).area < 0.5, pid
-        assert ground.area < 3000.0, (pid, ground.area)
+        assert ground.area < 3300.0, (pid, ground.area)
 
 
 # --- 16k fix 2 r3 ruling 1: the warning ledger compares FLOOD warnings only

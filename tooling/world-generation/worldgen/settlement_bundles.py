@@ -37,7 +37,7 @@ INDEX_NAME = "index.json"
 INDEX_SCHEMA = 1
 PLACE_KIND = "settlement-place-bundle"
 ROUTE_KIND = "settlement-route-bundle"
-ROUTE_KITS = ("route-structures-v1", "route-spans-v1")
+ROUTE_KITS = ("route-structures-v1",)
 
 # The whole-file keys and how each one travels (a new key refuses the split
 # until it is given a home, so nothing is silently dropped).

@@ -861,7 +861,7 @@ def _metres(poly: list, survey: ProvinceSurvey) -> list[list[float]]:
 
 
 VEGETATION_CLEARANCE_SCHEMA = 2   # 16k walk 4: tiers (trees/plants `hardClear`, ground cover `groundClear`)
-GROUND_PAINT_SCHEMA = 1
+GROUND_PAINT_SCHEMA = 2
 GROUND_PAINT_VOCAB = REPO_ROOT / "world" / "sources" / "vocab" / "ground-paint.json"
 
 
@@ -883,21 +883,95 @@ def _vegetation_clearance(place_id: str, clearance: dict, survey) -> dict:
 
 def ground_paint_vocab(path: Path | None = None) -> dict:
     """`world/sources/vocab/ground-paint.json`: `kinds`, way kind -> the
-    terrain road paint material (the land cover's BC_ROAD / TRACK / PATH, by
-    name) and the soft edge, metres; `unpainted`, the built ways (stairs,
+    terrain road paint material (the land cover's BC_ROAD / TRACK, by
+    name), the soft edge, metres, and the alpha at the way's middle; `unpainted`, the built ways (stairs,
     ramps: placed pieces) that paint nothing."""
     doc = json.loads(Path(path or GROUND_PAINT_VOCAB).read_text())
-    if doc.get("schemaVersion") != 1:
-        raise ValueError(f"ground-paint vocab: schemaVersion {doc.get('schemaVersion')!r}, expected 1")
+    if doc.get("schemaVersion") != 2:
+        raise ValueError(f"ground-paint vocab: schemaVersion {doc.get('schemaVersion')!r}, expected 2")
     return doc
 
 
-def ground_paint(place_id: str, routes: list[dict], survey, vocab: dict | None = None) -> dict:
+RUN_OUT_M = 14.0          # a way leaving the place narrows to nothing over this length
+RUN_OUT_EDGE_M = 2.0      # an end this near the place boundary leaves the place ...
+RUN_OUT_ROAD_M = 1.0      # ... unless it lands this near the province road paint
+
+
+def _tapered(line, half: float, ends: tuple[str, ...]):
+    """``line`` (shapely) buffered by ``half``, narrowing linearly to 0.1 m
+    over the last `RUN_OUT_M` at each named end ("start", "end"): a way that
+    runs out into the wild fades along its length, never stops square."""
+    from shapely.geometry import Point
+    from shapely.ops import substring, unary_union
+    length = line.length
+    run = min(RUN_OUT_M, length * 0.6 / max(1, len(ends)))
+    a = run if "start" in ends else 0.0
+    b = length - run if "end" in ends else length
+    parts = [substring(line, a, b).buffer(half, quad_segs=4)]
+    for end in ends:
+        s0, s1 = (0.0, a) if end == "start" else (b, length)
+        n = max(2, int(run / 0.5) + 1)
+        circles = []
+        for k in range(n):
+            s = s0 + (s1 - s0) * k / (n - 1)
+            frac = (s - s0) / (s1 - s0) if end == "end" else (s1 - s) / (s1 - s0)   # 0 at the body, 1 at the tip
+            circles.append(Point(line.interpolate(s)).buffer(max(0.1, half * (1.0 - frac)), quad_segs=4))
+        parts += [unary_union(pair).convex_hull for pair in zip(circles, circles[1:])]
+    return unary_union(parts)
+
+
+ROAD_JOIN_M = 4.0         # a way end this near the province road paint is carried onto it
+
+
+def _join_road(pts: list, road) -> list:
+    """The way's painted centreline: an end within `ROAD_JOIN_M` of the
+    province road paint (but not on it) gains a last leg to the nearest
+    painted point, so the place's paint meets the road's (a network route's
+    macro line and its painted texels differ by a few metres)."""
+    from shapely.geometry import Point
+    from shapely.ops import nearest_points
+    if road is None or road.is_empty:
+        return pts
+    out = list(pts)
+    for k in (0, -1):
+        p = Point(out[k])
+        d = road.distance(p)
+        if RUN_OUT_ROAD_M < d <= ROAD_JOIN_M:
+            q = nearest_points(road, p)[0]
+            # a hair inside the road, so the join survives the road clip
+            v = (q.x - p.x, q.y - p.y)
+            tip = (q.x + v[0] / d * 0.3, q.y + v[1] / d * 0.3)
+            out = [tip] + out if k == 0 else out + [tip]
+    return out
+
+
+def run_out_ends(pts: list, boundary: list, road) -> tuple[str, ...]:
+    """The ends of a way (metres) that leave the place into the wild: outside
+    the place boundary or within `RUN_OUT_EDGE_M` of it, and not on the
+    province road paint."""
+    from shapely.geometry import Point, Polygon
+    if len(boundary) < 3:
+        return ()
+    area = Polygon(boundary).buffer(0)
+    out = []
+    for name, p in (("start", pts[0]), ("end", pts[-1])):
+        leaves = not area.contains(Point(p)) or area.exterior.distance(Point(p)) <= RUN_OUT_EDGE_M
+        if leaves and (
+                road is None or road.is_empty or road.distance(Point(p)) > RUN_OUT_ROAD_M):
+            out.append(name)
+    return tuple(out)
+
+
+def ground_paint(place_id: str, routes: list[dict], survey, vocab: dict | None = None,
+                 boundary: list | None = None, road=None) -> dict:
     """Every blueprint way (the layout's path ops, `via` in map UV) as a
     `groundPaint` entry: the polyline buffered to its width plus half the
     soft edge, so the half-alpha line sits on the way's edge; the texture is
-    the land cover's paint for that kind of way. Deterministic: sorted by id,
-    rounded to the millimetre. Refuses a way kind the vocabulary lacks."""
+    the land cover's paint for that kind of way, `peakAlpha` its strength.
+    An end that leaves the place (`run_out_ends`, against ``boundary`` in
+    metres and the province ``road`` paint) narrows to nothing
+    (`runOutEnds`). Deterministic: sorted by id, rounded to the millimetre.
+    Refuses a way kind the vocabulary lacks."""
     from shapely.geometry import LineString
     vocab = vocab if vocab is not None else ground_paint_vocab()
     entries = []
@@ -911,12 +985,29 @@ def ground_paint(place_id: str, routes: list[dict], survey, vocab: dict | None =
             raise ValueError(f"{place_id}: way {route['id']} kind {kind!r} has no ground paint "
                              f"(world/sources/vocab/ground-paint.json)")
         edge = float(kinds[kind]["edgeM"])
-        poly = LineString(pts).buffer(float(route["widthM"]) / 2 + edge / 2, quad_segs=4)
+        pts = _join_road(pts, road)
+        ends = run_out_ends(pts, boundary or [], road)
+        half = float(route["widthM"]) / 2 + edge / 2
+        poly = _tapered(LineString(pts), half, ends) if ends else LineString(pts).buffer(half, quad_segs=4)
         entries.append({"id": f"paint.{route['id']}", "routeId": route["id"], "kind": kind,
                         "texture": kinds[kind]["texture"], "edgeM": edge,
+                        "peakAlpha": float(kinds[kind]["peakAlpha"]),
+                        "widthM": float(route["widthM"]),
+                        "centrelineM": [[round(float(x), 3), round(float(z), 3)] for x, z in pts],
+                        **({"runOutEnds": list(ends)} if ends else {}),
                         "polygonM": [[round(float(x), 3), round(float(z), 3)]
                                      for x, z in list(poly.exterior.coords)[:-1]]})
     return {"schemaVersion": GROUND_PAINT_SCHEMA, "entries": entries}
+
+
+def _place_ground_paint(place_id: str, bp: dict, survey) -> dict:
+    """`ground_paint` for one compiled place, with its boundary in metres and
+    the province road paint round its ways (the run-out ends)."""
+    from shapely.geometry import MultiPoint
+    routes = bp.get("routes") or []
+    pts = [survey.uv_to_m(float(u), float(v)) for r in routes for u, v in r.get("via") or r.get("points") or []]
+    road = province_road_paint(MultiPoint(pts).buffer(20.0).bounds) if pts else None
+    return ground_paint(place_id, routes, survey, boundary=_metres(bp.get("boundary", []), survey), road=road)
 
 
 def load_warning_known_red(path: Path | None = None) -> dict[tuple[str, str, str], dict]:
@@ -1103,11 +1194,9 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     # pads are bundle overlays (0102): the export never reads a terrain pad receipt
 
     compiled = []
-    # Route pieces come from TWO built kits since 2026-09-09 (decision 0051):
-    # the climbs from route-structures-v1 and the crossings from route-spans-v1.
-    # A placement names neither, so the kit is resolved per asset below and both
-    # manifests must be loaded.
-    kit_names: set[str] = ({"route-structures-v1", "route-spans-v1"} if scope is None
+    # Route pieces are the climbs of route-structures-v1 (no water crossing is
+    # built in the province data: crossings are built per place in 16k).
+    kit_names: set[str] = ({"route-structures-v1"} if scope is None
                            else set())
     if scope is None:
         compiled_paths = sorted(settlements_dir.glob("place.*.settlement.json"))
@@ -1227,10 +1316,9 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     if not all_kit_assets:
         used = {(p["kit"], p["assetId"]) for doc, _bp in compiled
                 for p in doc.get("placements", []) if p.get("kit")}
-        # A route placement names no kit: it resolves in either route kit.
-        used |= {(kit, raw["assetId"]) for doc in route_docs
-                 for raw in doc.get("placements", [])
-                 for kit in ("route-structures-v1", "route-spans-v1")}
+        # A route placement names no kit: it resolves in the route kit.
+        used |= {("route-structures-v1", raw["assetId"]) for doc in route_docs
+                 for raw in doc.get("placements", [])}
     effect_rows: dict[str, dict] = {}
     kits, assets = _kit_assets(kit_names, kits_dir, used, effect_rows)
 
@@ -1405,7 +1493,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                if isinstance(doc.get("clearance"), dict) else {}),
             # the ways painted on the ground at load (16k walk 4, 0102 decision 1);
             # clipped under pads and floors by `attach_ground_overlays`
-            "groundPaint": ground_paint(doc["id"], bp.get("routes") or [], survey),
+            "groundPaint": _place_ground_paint(doc["id"], bp, survey),
             **walk_routes_field(bp),
             # the place's sockets (0103 decision 5), copied as compiled
             "socketsSchemaVersion": doc.get("socketsSchemaVersion", SOCKETS_SCHEMA),
@@ -1423,14 +1511,11 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     route_count = 0
     for doc in route_docs:
         for raw in doc.get("placements", []):
-            for route_kit in ("route-structures-v1", "route-spans-v1"):
-                asset = assets.get((route_kit, raw["assetId"]))
-                if asset is not None:
-                    break
+            route_kit = "route-structures-v1"
+            asset = assets.get((route_kit, raw["assetId"]))
             if asset is None:
                 raise ValueError(
-                    f"{raw['id']}: route asset {raw['assetId']} is in neither "
-                    f"route-structures-v1 nor route-spans-v1")
+                    f"{raw['id']}: route asset {raw['assetId']} is not in route-structures-v1")
             footprint = []
             if asset["_runtimeAnchor"]["mode"] == "streamed-perimeter":
                 footprint = _bounds_footprint(
@@ -1804,7 +1889,7 @@ def merge_bundle(base: dict, part: dict, places) -> dict:
     merged_kits = {**base["kits"], **part["kits"]}
     used_kits = {p["kit"] for p in placements}
     kits = {name: kit for name, kit in merged_kits.items()
-            if name in used_kits or name in ("route-structures-v1", "route-spans-v1")}
+            if name in used_kits or name == "route-structures-v1"}
 
     # A gap is judged fresh for every asset the part places; the base's
     # judgement stands for the rest. Counts are over the merged placements.
@@ -1932,10 +2017,48 @@ def grow_clearance(site: dict, rows: list[dict], treatments: list[dict] = ()) ->
     clearance["fringeFalloffM"] = FRINGE_RING_M
 
 
-def clip_ground_paint(site: dict, treatments: list[dict] = ()) -> None:
+# The province's own painted roads (16e land cover: BC_ROAD, TRACK, PATH
+# texels) are never painted again by a place (16k walk 6, owner): a place's
+# paint stops at the road texels' edge and its feather meets the road's own
+# blurred edge.
+PROVINCE_ROAD_CODES = (30, 29, 27)          # landcover BC_ROAD, TRACK, PATH
+SLIVER_CENTRE_M = 1.0      # a clipped remnant keeps only if the centreline runs this far inside it
+
+
+def province_road_paint(bounds: tuple[float, float, float, float], mat=None, texel_m: float | None = None):
+    """The painted province road inside ``bounds`` (minx, minz, maxx, maxz,
+    metres) as one shapely geometry: the union of the land-cover road texels (the bake's own per-texel material, the
+    raster `road_paint_census` reads). ``mat`` (rows = south, cols = east)
+    and ``texel_m`` are injectable for tests."""
+    import numpy as np
+    from shapely.geometry import box
+    from shapely.ops import unary_union
+    if mat is None:
+        from .road_paint_census import material_path
+        from .scale import RAW_M
+        mat, texel_m = np.load(material_path(), mmap_mode="r"), RAW_M
+    t = float(texel_m)
+    x0, z0, x1, z1 = bounds
+    i0, j0 = max(0, int(x0 // t) - 1), max(0, int(z0 // t) - 1)
+    i1, j1 = min(mat.shape[1], int(x1 // t) + 2), min(mat.shape[0], int(z1 // t) + 2)
+    window = np.asarray(mat[j0:j1, i0:i1])
+    jj, ii = np.nonzero(np.isin(window, PROVINCE_ROAD_CODES))
+    # texel k covers [k*t - t/2, k*t + t/2] (sample centres at k*t, `metres_to_sample`)
+    cells = [box((i0 + i) * t - t / 2, (j0 + j) * t - t / 2, (i0 + i) * t + t / 2, (j0 + j) * t + t / 2)
+             for j, i in zip(jj.tolist(), ii.tolist())]
+    # never shrunk: a province footpath is one texel wide and an inward buffer erases it
+    return unary_union(cells) if cells else None
+
+
+_LOAD_ROAD = object()
+
+
+def clip_ground_paint(site: dict, treatments: list[dict] = (), road=_LOAD_ROAD) -> None:
     """The paint dies under pads and floors, except inside a door's apron, so
-    worn ground reaches every threshold. A way cut in two becomes two
-    entries (`<id>.part-N`); a way wholly under a floor is dropped."""
+    worn ground reaches every threshold, and on the province road paint
+    (`province_road_paint`; ``road`` injectable, None for none): the road is
+    never painted twice. A way cut in two becomes two entries
+    (`<id>.part-N`); a way wholly cut is dropped."""
     from shapely.geometry import Polygon
     from shapely.ops import unary_union
     from .vegetation_patches import apron_polygon
@@ -1948,13 +2071,28 @@ def clip_ground_paint(site: dict, treatments: list[dict] = ()) -> None:
               if t.get("kind", "floor") == "floor" and len(t.get("footprintM") or []) >= 3]
     aprons = [Polygon(apron_polygon(*a)) for t in treatments for a in t.get("apronsM") or []]
     under = [p if p.is_valid else p.buffer(0) for p in under]
-    if not under:
+    cut = unary_union(under).difference(unary_union(aprons)) if aprons and under else unary_union(under)
+    if road is _LOAD_ROAD:
+        ways = unary_union([Polygon(e["polygonM"]) for e in paint["entries"]])
+        road = province_road_paint(ways.buffer(5.0).bounds) if not ways.is_empty else None
+    if road is not None and not road.is_empty:
+        cut = cut.union(road) if not cut.is_empty else road
+    if cut.is_empty:
         return
-    cut = unary_union(under).difference(unary_union(aprons)) if aprons else unary_union(under)
+    from shapely.geometry import LineString, Point
     out = []
     for e in paint["entries"]:
         rings = _rings(Polygon(e["polygonM"]).difference(cut))
         rings = [r for r in rings if Polygon(r).area > 0.05]
+        if e.get("centrelineM"):
+            # a remnant the way's centre does not run through is a sliver along the road's or the
+            # floor's edge (walk 6: strips beside the main road), never a piece of the way
+            # (a way's END piece is kept however short: the stub inside a door's apron)
+            centre = LineString(e["centrelineM"])
+            ends = [Point(e["centrelineM"][0]), Point(e["centrelineM"][-1])]
+            rings = [r for r in rings
+                     if Polygon(r).buffer(0).intersection(centre).length >= SLIVER_CENTRE_M
+                     or any(Polygon(r).buffer(0.05).contains(p) for p in ends)]
         for i, ring in enumerate(rings):
             out.append({**e, "id": e["id"] if len(rings) == 1 else f"{e['id']}.part-{i + 1}",
                         "polygonM": ring})

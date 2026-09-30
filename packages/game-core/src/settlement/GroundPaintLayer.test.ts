@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { buildPaintGroups, paintGroups, replacePaint, retainPaint } from "./GroundPaintLayer";
 
 const strip = (id: string, x: number): GroundPaintEntry => ({
-  id, kind: "road", texture: "bc_road", edgeM: 1,
+  id, kind: "road", texture: "bc_road", edgeM: 1, peakAlpha: 0.75,
   polygonM: [[x, -2], [x + 20, -2], [x + 20, 2], [x, 2]],
 });
 const place = (id: string, x: number) => ({
@@ -16,12 +16,12 @@ describe("ground paint layer grouping (16k walk 5)", () => {
   const bundle = [place("claywater", 307), place("greenspring", 4700)];
   const groundAt = (x: number) => (x < 1000 ? 5 : null);
 
-  it("groups by (place, texture), never one texture across places", () => {
-    expect([...paintGroups(bundle).keys()]).toEqual(["claywater|bc_road", "greenspring|bc_road"]);
+  it("groups by place: one surface per place, never one texture across places", () => {
+    expect([...paintGroups(bundle).keys()]).toEqual(["claywater", "greenspring"]);
   });
 
   it("builds a decoded place's paint while another place's ground is still undecoded", () => {
-    const { built, waiting, missing } = buildPaintGroups(paintGroups(bundle).values(), groundAt, () => 4);
+    const { built, waiting, missing } = buildPaintGroups(paintGroups(bundle).values(), groundAt, () => true);
     expect(built.map((b) => b.group.placeId)).toEqual(["claywater"]);
     expect(built[0].geometry.getAttribute("position").count).toBeGreaterThan(0);
     expect(waiting.map((g) => g.placeId)).toEqual(["greenspring"]);
@@ -29,7 +29,7 @@ describe("ground paint layer grouping (16k walk 5)", () => {
   });
 
   it("drops a group whose texture has no ground material instead of retrying it", () => {
-    const { built, missing } = buildPaintGroups(paintGroups(bundle).values(), () => 5, () => undefined);
+    const { built, missing } = buildPaintGroups(paintGroups(bundle).values(), () => 5, () => false);
     expect(built).toEqual([]);
     expect(missing).toHaveLength(2);
   });
