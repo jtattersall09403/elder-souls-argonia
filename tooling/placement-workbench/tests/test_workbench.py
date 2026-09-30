@@ -111,11 +111,16 @@ def test_the_stilt_hut_front_is_open_on_its_record_bearing(cat):
     16h check-in 3 (5365d641, `interiors_index` composite-leaf) the record
     lists the hung door leaf's doorway FIRST (sideDeg 180, the leaf 3.06 m
     south of the pivot); the open front is picked by its source, never by
-    its index."""
+    its index. Since every doorway is proven open by rays (486463fa, walk 4
+    lane PARTS; the record rebuilt in b0f14087) the 10.4 m `open-front` arc
+    at 20.6 deg is dropped as closed (`doorwaysClosedDropped`) and the same
+    face is recorded as a ray-confirmed `opening` at 15.0 deg, 1.5 m wide:
+    the front is the first non-leaf doorway, either kind."""
     d = describe.describe(cat, "composite:stilt/stilthouse-with-door")
     leaf = next(r for r in d["doorways"] if r["source"] == "interiors/composite-leaf")
     assert leaf["bearingDeg"] == 180.0 and leaf["planXZ"] == [0.0, 3.06]
-    door = next(r for r in d["doorways"] if r["source"] == "interiors/open-front")
+    door = next(r for r in d["doorways"]
+                if r["source"] in ("interiors/open-front", "interiors/opening"))
     assert abs(door["bearingDeg"]) <= 30
     assert any(p["meshRadiusM"] is None for p in door["probes"] if p["floorZM"] > -2.0)
 
