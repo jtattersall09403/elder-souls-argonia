@@ -133,6 +133,18 @@
    "rotZDeg": 0,
    "zone": "door",
    "why": "Lights the rug inside the balcony door."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:door-glazedcandles-15",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    105.44,
+    86.23,
+    55.927
+   ],
+   "rotZDeg": 0,
+   "zone": "door",
+   "why": "Lights the floor under the balcony."
   }
  ]
 }

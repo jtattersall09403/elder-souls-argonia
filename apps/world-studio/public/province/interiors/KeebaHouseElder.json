@@ -3860,9 +3860,9 @@
   {
    "refId": "fixture:KeebaHouseElder.0801AAA2",
    "positionM": [
-    106.398,
+    106.2398,
     89.0795,
-    53.1661
+    53.0397
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -3884,9 +3884,9 @@
   {
    "refId": "fixture:KeebaHouseElder.080CC2B2",
    "positionM": [
-    101.1086,
+    101.1633,
     88.7924,
-    57.1749
+    57.303
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -3932,9 +3932,9 @@
   {
    "refId": "fixture:KeebaHouseElder:add:bed-glazedcandles-24",
    "positionM": [
-    111.677,
+    111.857,
     87.361,
-    56.852
+    56.932
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4220,9 +4220,9 @@
   {
    "refId": "fixture:KeebaHouseElder:add:store-glazedcandles-23",
    "positionM": [
-    96.592,
+    96.772,
     90.997,
-    57.729
+    57.809
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4244,9 +4244,9 @@
   {
    "refId": "fixture:KeebaHouseElder:add:store-glazedcandles-25",
    "positionM": [
-    98.244,
+    98.424,
     87.372,
-    52.777
+    52.857
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4268,9 +4268,9 @@
   {
    "refId": "fixture:KeebaHouseElder:add:table-glazedcandles-01",
    "positionM": [
-    101.915,
+    102.095,
     90.952,
-    51.816
+    51.896
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4292,9 +4292,9 @@
   {
    "refId": "fixture:KeebaHouseElder:add:table-glazedcandles-02",
    "positionM": [
-    101.785,
+    101.965,
     90.96,
-    51.32
+    51.4
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4316,9 +4316,9 @@
   {
    "refId": "fixture:KeebaHouseElder:add:table-glazedcandles-03",
    "positionM": [
-    106.869,
+    107.049,
     87.69,
-    50.611
+    50.691
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4340,9 +4340,9 @@
   {
    "refId": "fixture:KeebaHouseElder:add:table-glazedcandles-04",
    "positionM": [
-    113.493,
+    113.673,
     87.637,
-    54.934
+    55.014
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4364,9 +4364,9 @@
   {
    "refId": "fixture:KeebaHouseElder:add:table-glazedcandles-06",
    "positionM": [
-    101.731,
+    101.911,
     93.736,
-    52.902
+    52.982
    ],
    "radiusM": 1.821,
    "colorRGB": [

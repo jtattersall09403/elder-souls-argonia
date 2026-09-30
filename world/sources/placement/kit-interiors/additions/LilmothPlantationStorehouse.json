@@ -18,11 +18,11 @@
    "id": "LilmothPlantationStorehouse:add:store-candlehornwall-02",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "pos": [
-    104.196,
+    104.74,
     91.471,
     75.439
    ],
-   "rotZDeg": 270,
+   "rotZDeg": 90,
    "zone": "store",
    "why": "Lights the ledger and the dried lavender."
   },
@@ -32,9 +32,9 @@
    "pos": [
     108.646,
     83.141,
-    76.506
+    75.962
    ],
-   "rotZDeg": 180,
+   "rotZDeg": 0,
    "zone": "store",
    "why": "Lights the crates stacked by the wall."
   },
@@ -44,9 +44,9 @@
    "pos": [
     108.236,
     86.559,
-    78.281
+    78.825
    ],
-   "rotZDeg": 0,
+   "rotZDeg": 180,
    "zone": "store",
    "why": "Lights the small crates near the stairs."
   },
@@ -54,11 +54,11 @@
    "id": "LilmothPlantationStorehouse:add:store-candlehornwall-05",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "pos": [
-    96.056,
+    95.512,
     83.447,
     78.277
    ],
-   "rotZDeg": 90,
+   "rotZDeg": 270,
    "zone": "store",
    "why": "Lights the open barrel by the rug."
   },
@@ -66,11 +66,11 @@
    "id": "LilmothPlantationStorehouse:add:store-candlehornwall-06",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "pos": [
-    108.95,
+    109.494,
     82.491,
     75.439
    ],
-   "rotZDeg": 270,
+   "rotZDeg": 90,
    "zone": "store",
    "why": "Lights the rugs piled near the wall."
   },
@@ -78,11 +78,11 @@
    "id": "LilmothPlantationStorehouse:add:bed-candlehornwall-07",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "pos": [
-    100.58,
+    101.124,
     87.041,
     75.439
    ],
-   "rotZDeg": 270,
+   "rotZDeg": 90,
    "zone": "bed",
    "why": "Lights the single bed by the plank wall."
   },
@@ -90,11 +90,11 @@
    "id": "LilmothPlantationStorehouse:add:store-candlehornwall-08",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "pos": [
-    105.86,
+    105.316,
     83.649,
     77.905
    ],
-   "rotZDeg": 90,
+   "rotZDeg": 270,
    "zone": "store",
    "why": "Lights the barrel amid scattered hay."
   },
@@ -102,11 +102,11 @@
    "id": "LilmothPlantationStorehouse:add:door-candlehornwall-09",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "pos": [
-    109.454,
+    109.998,
     85.965,
     77.439
    ],
-   "rotZDeg": 270,
+   "rotZDeg": 90,
    "zone": "door",
    "why": "Lights the threshold rug by the door."
   },
@@ -128,9 +128,9 @@
    "pos": [
     104.707,
     85.98,
-    72.752
+    73.296
    ],
-   "rotZDeg": 0,
+   "rotZDeg": 180,
    "zone": "store",
    "why": "Lights the basket against the plank wall."
   },
@@ -140,9 +140,9 @@
    "pos": [
     107.207,
     82.098,
-    72.752
+    73.296
    ],
-   "rotZDeg": 0,
+   "rotZDeg": 180,
    "zone": "store",
    "why": "Lights the rug facing the dock pilings."
   },
@@ -150,11 +150,11 @@
    "id": "LilmothPlantationStorehouse:add:store-candlehornwall-13",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "pos": [
-    103.863,
+    103.319,
     91.47,
     78.407
    ],
-   "rotZDeg": 90,
+   "rotZDeg": 270,
    "zone": "store",
    "why": "Lights the honey pot and the ledger."
   },
@@ -164,9 +164,9 @@
    "pos": [
     99.737,
     82.098,
-    79.097
+    78.553
    ],
-   "rotZDeg": 180,
+   "rotZDeg": 0,
    "zone": "bed",
    "why": "Lights the baskets stacked by the bed."
   },
@@ -176,9 +176,9 @@
    "pos": [
     101.736,
     88.015,
-    79.097
+    78.553
    ],
-   "rotZDeg": 180,
+   "rotZDeg": 0,
    "zone": "bed",
    "why": "Lights the bed beside the dresser."
   },
@@ -186,11 +186,11 @@
    "id": "LilmothPlantationStorehouse:add:hearth-candlehornwall-16",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "pos": [
-    104.854,
+    105.398,
     82.741,
     79.939
    ],
-   "rotZDeg": 270,
+   "rotZDeg": 90,
    "zone": "hearth",
    "why": "Lights the sake bottles by the hearth."
   },
@@ -210,11 +210,11 @@
    "id": "LilmothPlantationStorehouse:add:door-candlehornwall-17",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "pos": [
-    108.951,
+    109.495,
     87.136,
     75.439
    ],
-   "rotZDeg": 270,
+   "rotZDeg": 90,
    "zone": "door",
    "why": "Lights the stairs just inside the door."
   },

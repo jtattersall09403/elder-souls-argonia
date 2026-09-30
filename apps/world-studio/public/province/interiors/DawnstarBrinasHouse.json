@@ -2829,9 +2829,9 @@
   {
    "refId": "fixture:DawnstarBrinasHouse.000E043F",
    "positionM": [
-    -20.3144,
+    -20.3653,
     2.241,
-    11.6435
+    11.864
    ],
    "radiusM": 7.283,
    "colorRGB": [
@@ -2853,9 +2853,9 @@
   {
    "refId": "fixture:DawnstarBrinasHouse.000E0440",
    "positionM": [
-    -19.2705,
+    -19.3892,
     3.01,
-    6.5056
+    6.6983
    ],
    "radiusM": 7.283,
    "colorRGB": [
@@ -2894,6 +2894,30 @@
    "raw": {
     "xrdsUnits": null,
     "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:DawnstarBrinasHouse.000E045F",
+   "positionM": [
+    -14.1643,
+    2.25,
+    8.4398
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    198,
+    162,
+    100
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "FarmInteriorLight01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
     "recordFade": 1.0,
     "recordFalloffExponent": 1.0
    }
@@ -4136,7 +4160,7 @@
  "counts": {
   "placements": 129,
   "drops": 12,
-  "lights": 9,
+  "lights": 10,
   "substitutions": 0,
   "swingDoors": 0,
   "missingByClass": {},

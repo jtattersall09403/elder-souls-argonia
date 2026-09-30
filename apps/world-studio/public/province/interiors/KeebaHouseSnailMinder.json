@@ -2715,9 +2715,9 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:bed-glazedcandles-13",
    "positionM": [
-    108.579,
+    108.759,
     84.741,
-    59.355
+    59.435
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2763,9 +2763,9 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:door-glazedcandles-16",
    "positionM": [
-    104.111,
+    104.291,
     84.22,
-    50.892
+    50.972
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2787,9 +2787,9 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:hearth-glazedcandles-14",
    "positionM": [
-    102.787,
+    102.967,
     84.242,
-    61.612
+    61.692
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2883,9 +2883,9 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:store-glazedcandles-15",
    "positionM": [
-    99.08,
+    99.26,
     84.982,
-    59.594
+    59.674
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2907,9 +2907,9 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:table-glazedcandles-01",
    "positionM": [
-    108.027,
+    108.207,
     85.095,
-    57.396
+    57.476
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2931,9 +2931,9 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:table-glazedcandles-02",
    "positionM": [
-    101.825,
+    102.005,
     85.084,
-    61.124
+    61.204
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2955,9 +2955,9 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:table-glazedcandles-03",
    "positionM": [
-    107.584,
+    107.764,
     87.74,
-    59.005
+    59.085
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -2979,9 +2979,9 @@
   {
    "refId": "fixture:KeebaHouseSnailMinder:add:table-glazedcandles-04",
    "positionM": [
-    105.735,
+    105.915,
     84.98,
-    63.258
+    63.338
    ],
    "radiusM": 1.821,
    "colorRGB": [

@@ -2292,13 +2292,13 @@
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "kit": "interior-farmhouse-v1",
    "positionM": [
-    100.58,
+    101.124,
     87.041,
     75.439
    ],
    "rotationDeg": [
     0.0,
-    270.0,
+    90.0,
     0.0
    ],
    "scale": 1.0,
@@ -2315,11 +2315,11 @@
    "positionM": [
     99.737,
     82.098,
-    79.097
+    78.553
    ],
    "rotationDeg": [
     0.0,
-    180.0,
+    0.0,
     0.0
    ],
    "scale": 1.0,
@@ -2336,11 +2336,11 @@
    "positionM": [
     101.736,
     88.015,
-    79.097
+    78.553
    ],
    "rotationDeg": [
     0.0,
-    180.0,
+    0.0,
     0.0
    ],
    "scale": 1.0,
@@ -2376,13 +2376,13 @@
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "kit": "interior-farmhouse-v1",
    "positionM": [
-    109.454,
+    109.998,
     85.965,
     77.439
    ],
    "rotationDeg": [
     0.0,
-    270.0,
+    90.0,
     0.0
    ],
    "scale": 1.0,
@@ -2397,13 +2397,13 @@
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "kit": "interior-farmhouse-v1",
    "positionM": [
-    108.951,
+    109.495,
     87.136,
     75.439
    ],
    "rotationDeg": [
     0.0,
-    270.0,
+    90.0,
     0.0
    ],
    "scale": 1.0,
@@ -2418,13 +2418,13 @@
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "kit": "interior-farmhouse-v1",
    "positionM": [
-    104.854,
+    105.398,
     82.741,
     79.939
    ],
    "rotationDeg": [
     0.0,
-    270.0,
+    90.0,
     0.0
    ],
    "scale": 1.0,
@@ -2481,13 +2481,13 @@
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "kit": "interior-farmhouse-v1",
    "positionM": [
-    104.196,
+    104.74,
     91.471,
     75.439
    ],
    "rotationDeg": [
     0.0,
-    270.0,
+    90.0,
     0.0
    ],
    "scale": 1.0,
@@ -2504,11 +2504,11 @@
    "positionM": [
     108.646,
     83.141,
-    76.506
+    75.962
    ],
    "rotationDeg": [
     0.0,
-    180.0,
+    0.0,
     0.0
    ],
    "scale": 1.0,
@@ -2525,11 +2525,11 @@
    "positionM": [
     108.236,
     86.559,
-    78.281
+    78.825
    ],
    "rotationDeg": [
     0.0,
-    0.0,
+    180.0,
     0.0
    ],
    "scale": 1.0,
@@ -2544,30 +2544,9 @@
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "kit": "interior-farmhouse-v1",
    "positionM": [
-    96.056,
+    95.512,
     83.447,
     78.277
-   ],
-   "rotationDeg": [
-    0.0,
-    90.0,
-    0.0
-   ],
-   "scale": 1.0,
-   "category": "clutter",
-   "base": null,
-   "baseType": null,
-   "source": "addition",
-   "zone": "store"
-  },
-  {
-   "id": "LilmothPlantationStorehouse:add:store-candlehornwall-06",
-   "assetId": "vanilla:clutter/candles/candlehornwall01",
-   "kit": "interior-farmhouse-v1",
-   "positionM": [
-    108.95,
-    82.491,
-    75.439
    ],
    "rotationDeg": [
     0.0,
@@ -2582,17 +2561,38 @@
    "zone": "store"
   },
   {
+   "id": "LilmothPlantationStorehouse:add:store-candlehornwall-06",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    109.494,
+    82.491,
+    75.439
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
    "id": "LilmothPlantationStorehouse:add:store-candlehornwall-08",
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "kit": "interior-farmhouse-v1",
    "positionM": [
-    105.86,
+    105.316,
     83.649,
     77.905
    ],
    "rotationDeg": [
     0.0,
-    90.0,
+    270.0,
     0.0
    ],
    "scale": 1.0,
@@ -2609,11 +2609,11 @@
    "positionM": [
     104.707,
     85.98,
-    72.752
+    73.296
    ],
    "rotationDeg": [
     0.0,
-    0.0,
+    180.0,
     0.0
    ],
    "scale": 1.0,
@@ -2630,11 +2630,11 @@
    "positionM": [
     107.207,
     82.098,
-    72.752
+    73.296
    ],
    "rotationDeg": [
     0.0,
-    0.0,
+    180.0,
     0.0
    ],
    "scale": 1.0,
@@ -2649,13 +2649,13 @@
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "kit": "interior-farmhouse-v1",
    "positionM": [
-    103.863,
+    103.319,
     91.47,
     78.407
    ],
    "rotationDeg": [
     0.0,
-    90.0,
+    270.0,
     0.0
    ],
    "scale": 1.0,
@@ -2787,7 +2787,7 @@
   {
    "refId": "fixture:LilmothPlantationStorehouse:add:bed-candlehornwall-07",
    "positionM": [
-    101.69,
+    100.014,
     86.981,
     75.439
    ],
@@ -2813,7 +2813,7 @@
    "positionM": [
     99.737,
     82.038,
-    77.987
+    79.663
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -2837,7 +2837,7 @@
    "positionM": [
     101.736,
     87.955,
-    77.987
+    79.663
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -2859,9 +2859,9 @@
   {
    "refId": "fixture:LilmothPlantationStorehouse:add:door-candlehornfloor-19",
    "positionM": [
-    105.056,
+    105.486,
     86.436,
-    76.689
+    76.439
    ],
    "radiusM": 7.283,
    "colorRGB": [
@@ -2883,7 +2883,7 @@
   {
    "refId": "fixture:LilmothPlantationStorehouse:add:door-candlehornwall-09",
    "positionM": [
-    110.564,
+    108.888,
     85.905,
     77.439
    ],
@@ -2907,7 +2907,7 @@
   {
    "refId": "fixture:LilmothPlantationStorehouse:add:door-candlehornwall-17",
    "positionM": [
-    110.061,
+    108.385,
     87.076,
     75.439
    ],
@@ -2929,35 +2929,11 @@
    }
   },
   {
-   "refId": "fixture:LilmothPlantationStorehouse:add:hearth-candlehornwall-16",
-   "positionM": [
-    105.964,
-    82.681,
-    79.939
-   ],
-   "radiusM": 3.641,
-   "colorRGB": [
-    236,
-    223,
-    170
-   ],
-   "fade": 0.9083,
-   "flags": 0,
-   "falloffExponent": 0.01,
-   "base": "DefaultCandleLight01NS",
-   "raw": {
-    "xrdsUnits": null,
-    "baseRadiusUnits": 256,
-    "recordFade": 1.0,
-    "recordFalloffExponent": 1.0
-   }
-  },
-  {
    "refId": "fixture:LilmothPlantationStorehouse:add:store-candlehornchandelier-10",
    "positionM": [
-    97.496,
+    97.486,
     87.069,
-    75.959
+    75.939
    ],
    "radiusM": 7.283,
    "colorRGB": [
@@ -2979,9 +2955,9 @@
   {
    "refId": "fixture:LilmothPlantationStorehouse:add:store-candlehorntable-18",
    "positionM": [
-    104.635,
+    104.475,
     82.604,
-    76.963
+    76.803
    ],
    "radiusM": 7.283,
    "colorRGB": [
@@ -3003,7 +2979,7 @@
   {
    "refId": "fixture:LilmothPlantationStorehouse:add:store-candlehornwall-02",
    "positionM": [
-    105.306,
+    103.63,
     91.411,
     75.439
    ],
@@ -3029,7 +3005,7 @@
    "positionM": [
     108.646,
     83.081,
-    75.396
+    77.072
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -3053,7 +3029,7 @@
    "positionM": [
     108.236,
     86.499,
-    79.391
+    77.715
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -3075,7 +3051,7 @@
   {
    "refId": "fixture:LilmothPlantationStorehouse:add:store-candlehornwall-05",
    "positionM": [
-    94.946,
+    96.622,
     83.387,
     78.277
    ],
@@ -3099,7 +3075,7 @@
   {
    "refId": "fixture:LilmothPlantationStorehouse:add:store-candlehornwall-06",
    "positionM": [
-    110.06,
+    108.384,
     82.431,
     75.439
    ],
@@ -3123,7 +3099,7 @@
   {
    "refId": "fixture:LilmothPlantationStorehouse:add:store-candlehornwall-08",
    "positionM": [
-    104.75,
+    106.426,
     83.589,
     77.905
    ],
@@ -3149,7 +3125,7 @@
    "positionM": [
     104.707,
     85.92,
-    73.862
+    72.186
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -3173,7 +3149,7 @@
    "positionM": [
     107.207,
     82.038,
-    73.862
+    72.186
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -3195,7 +3171,7 @@
   {
    "refId": "fixture:LilmothPlantationStorehouse:add:store-candlehornwall-13",
    "positionM": [
-    102.753,
+    104.429,
     91.41,
     78.407
    ],
@@ -3219,9 +3195,9 @@
   {
    "refId": "fixture:LilmothPlantationStorehouse:add:table-candlehorntable-01",
    "positionM": [
-    101.297,
+    101.137,
     82.604,
-    74.295
+    74.135
    ],
    "radiusM": 7.283,
    "colorRGB": [
@@ -4111,7 +4087,7 @@
  "counts": {
   "placements": 128,
   "drops": 12,
-  "lights": 23,
+  "lights": 22,
   "substitutions": 1,
   "swingDoors": 0,
   "missingByClass": {},

@@ -1902,13 +1902,13 @@
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "kit": "interior-farmhouse-v1",
    "positionM": [
-    99.777,
+    99.233,
     90.451,
     78.095
    ],
    "rotationDeg": [
     0.0,
-    90.0,
+    270.0,
     0.0
    ],
    "scale": 1.0,
@@ -1925,7 +1925,7 @@
    "positionM": [
     109.828,
     87.229,
-    77.252
+    76.994
    ],
    "rotationDeg": [
     0.0,
@@ -1986,13 +1986,13 @@
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "kit": "interior-farmhouse-v1",
    "positionM": [
-    101.688,
+    101.144,
     85.979,
     73.711
    ],
    "rotationDeg": [
     0.0,
-    90.0,
+    270.0,
     0.0
    ],
    "scale": 1.0,
@@ -2007,13 +2007,13 @@
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "kit": "interior-farmhouse-v1",
    "positionM": [
-    99.777,
+    99.233,
     83.817,
     73.828
    ],
    "rotationDeg": [
     0.0,
-    90.0,
+    270.0,
     0.0
    ],
    "scale": 1.0,
@@ -2030,11 +2030,11 @@
    "positionM": [
     101.964,
     88.015,
-    79.097
+    78.553
    ],
    "rotationDeg": [
     0.0,
-    180.0,
+    0.0,
     0.0
    ],
    "scale": 1.0,
@@ -2051,11 +2051,11 @@
    "positionM": [
     98.464,
     83.805,
-    79.097
+    78.553
    ],
    "rotationDeg": [
     0.0,
-    180.0,
+    0.0,
     0.0
    ],
    "scale": 1.0,
@@ -2072,11 +2072,11 @@
    "positionM": [
     109.464,
     82.098,
-    79.097
+    78.553
    ],
    "rotationDeg": [
     0.0,
-    180.0,
+    0.0,
     0.0
    ],
    "scale": 1.0,
@@ -2093,11 +2093,11 @@
    "positionM": [
     101.789,
     82.2,
-    81.422
+    80.878
    ],
    "rotationDeg": [
     0.0,
-    180.0,
+    0.0,
     0.0
    ],
    "scale": 1.0,
@@ -2114,11 +2114,11 @@
    "positionM": [
     106.964,
     85.966,
-    79.097
+    78.553
    ],
    "rotationDeg": [
     0.0,
-    180.0,
+    0.0,
     0.0
    ],
    "scale": 1.0,
@@ -2133,13 +2133,13 @@
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "kit": "interior-farmhouse-v1",
    "positionM": [
-    105.668,
+    105.124,
     82.098,
     79.711
    ],
    "rotationDeg": [
     0.0,
-    90.0,
+    270.0,
     0.0
    ],
    "scale": 1.0,
@@ -2156,11 +2156,11 @@
    "positionM": [
     107.525,
     85.98,
-    73.581
+    73.037
    ],
    "rotationDeg": [
     0.0,
-    180.0,
+    0.0,
     0.0
    ],
    "scale": 1.0,
@@ -2175,13 +2175,34 @@
    "assetId": "vanilla:clutter/candles/candlehornwall01",
    "kit": "interior-farmhouse-v1",
    "positionM": [
-    109.454,
+    109.998,
     92.236,
     76.711
    ],
    "rotationDeg": [
     0.0,
-    270.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "LilmothIronworksOverseerHouse:add:store-candlehornwall-19",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    99.806,
+    82.348,
+    78.825
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
     0.0
    ],
    "scale": 1.0,
@@ -2376,7 +2397,7 @@
   {
    "refId": "fixture:LilmothIronworksOverseerHouse:add:bed-candlehornwall-05",
    "positionM": [
-    98.667,
+    100.343,
     90.391,
     78.095
    ],
@@ -2402,7 +2423,7 @@
    "positionM": [
     109.828,
     87.169,
-    78.362
+    78.104
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -2424,9 +2445,9 @@
   {
    "refId": "fixture:LilmothIronworksOverseerHouse:add:hearth-candlehornfloor-17",
    "positionM": [
-    105.556,
+    105.986,
     90.52,
-    76.961
+    76.711
    ],
    "radiusM": 7.283,
    "colorRGB": [
@@ -2448,9 +2469,9 @@
   {
    "refId": "fixture:LilmothIronworksOverseerHouse:add:store-candlehornchandelier-11",
    "positionM": [
-    97.496,
+    97.486,
     87.069,
-    75.731
+    75.711
    ],
    "radiusM": 7.283,
    "colorRGB": [
@@ -2472,7 +2493,7 @@
   {
    "refId": "fixture:LilmothIronworksOverseerHouse:add:store-candlehornwall-06",
    "positionM": [
-    100.578,
+    102.254,
     85.919,
     73.711
    ],
@@ -2496,7 +2517,7 @@
   {
    "refId": "fixture:LilmothIronworksOverseerHouse:add:store-candlehornwall-07",
    "positionM": [
-    98.667,
+    100.343,
     83.757,
     73.828
    ],
@@ -2522,7 +2543,7 @@
    "positionM": [
     101.964,
     87.955,
-    77.987
+    79.663
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -2546,7 +2567,7 @@
    "positionM": [
     98.464,
     83.745,
-    77.987
+    79.663
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -2570,7 +2591,7 @@
    "positionM": [
     109.464,
     82.038,
-    77.987
+    79.663
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -2594,7 +2615,7 @@
    "positionM": [
     101.789,
     82.14,
-    80.312
+    81.988
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -2618,7 +2639,7 @@
    "positionM": [
     106.964,
     85.906,
-    77.987
+    79.663
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -2640,7 +2661,7 @@
   {
    "refId": "fixture:LilmothIronworksOverseerHouse:add:store-candlehornwall-14",
    "positionM": [
-    104.558,
+    106.234,
     82.038,
     79.711
    ],
@@ -2666,7 +2687,7 @@
    "positionM": [
     107.525,
     85.92,
-    72.471
+    74.147
    ],
    "radiusM": 3.641,
    "colorRGB": [
@@ -2688,7 +2709,7 @@
   {
    "refId": "fixture:LilmothIronworksOverseerHouse:add:store-candlehornwall-16",
    "positionM": [
-    110.564,
+    108.888,
     92.176,
     76.711
    ],
@@ -2710,35 +2731,35 @@
    }
   },
   {
-   "refId": "fixture:LilmothIronworksOverseerHouse:add:table-candlehorntable-02",
+   "refId": "fixture:LilmothIronworksOverseerHouse:add:store-candlehornwall-19",
    "positionM": [
-    105.774,
-    82.538,
-    74.008
+    99.806,
+    82.288,
+    77.715
    ],
-   "radiusM": 7.283,
+   "radiusM": 3.641,
    "colorRGB": [
-    198,
-    162,
-    100
+    236,
+    223,
+    170
    ],
-   "fade": 0.921,
+   "fade": 0.9083,
    "flags": 0,
    "falloffExponent": 0.01,
-   "base": "FarmInteriorLight01",
+   "base": "DefaultCandleLight01NS",
    "raw": {
     "xrdsUnits": null,
-    "baseRadiusUnits": 512,
+    "baseRadiusUnits": 256,
     "recordFade": 1.0,
     "recordFalloffExponent": 1.0
    }
   },
   {
-   "refId": "fixture:LilmothIronworksOverseerHouse:add:table-candlehorntable-04",
+   "refId": "fixture:LilmothIronworksOverseerHouse:add:table-candlehorntable-02",
    "positionM": [
-    109.381,
-    87.818,
-    74.235
+    105.614,
+    82.538,
+    73.848
    ],
    "radiusM": 7.283,
    "colorRGB": [
@@ -3781,7 +3802,7 @@
   }
  ],
  "counts": {
-  "placements": 107,
+  "placements": 108,
   "drops": 18,
   "lights": 20,
   "substitutions": 2,
@@ -3798,6 +3819,6 @@
    "idle": 9,
    "item": 37
   },
-  "additions": 18
+  "additions": 19
  }
 }
