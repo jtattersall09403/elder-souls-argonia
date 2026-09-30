@@ -7,7 +7,7 @@
  "properties": {
   "id": {"type": "string", "pattern": "^door\\."},
   "parcelId": {"type": "string", "pattern": "^parcel\\."},
-  "doorType": {"enum": ["load", "swing"]},
+  "doorType": {"enum": ["load", "swing", "hollow"]},
   "fills": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^promise\\."}, "uniqueItems": true},
   "owner": {"type": ["string", "null"]},
   "valueTier": {"type": ["string", "null"]},

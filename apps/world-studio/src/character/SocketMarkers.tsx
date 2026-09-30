@@ -56,7 +56,7 @@ export function SocketMarkers({ baseUrl, groundAt, startAt, shown = null }: {
         const base = s.clampToGround ? Math.max(groundAt(x, z) ?? y, y) : y;
         const use = s.interact;
         const useAt: [number, number, number] | null = use
-          ? [use.positionM[0] - x, use.positionM[1] - y + (base - y), use.positionM[2] - z] : null;
+          ? [use.positionM[0] - x, use.positionM[1] - base, use.positionM[2] - z] : null;
         return (
           <group key={s.id} position={[x, base, z]}>
             {use && useAt && (

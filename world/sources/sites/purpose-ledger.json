@@ -93,7 +93,7 @@
       "deliveredBy": "phase-13",
       "deliverable": "an occupant carrying testimony a quest can query",
       "interiorKind": "dwelling",
-      "interiorRef": "vanilla-farmhouse-int",
+      "interiorRef": null,
       "socketRef": null,
       "socketKind": null,
       "questId": null
@@ -108,7 +108,7 @@
       "deliveredBy": "phase-13",
       "deliverable": "a rumour line that names a real place or person",
       "interiorKind": "dwelling",
-      "interiorRef": "vanilla-farmhouse-int",
+      "interiorRef": null,
       "socketRef": null,
       "socketKind": null,
       "questId": null
@@ -123,7 +123,7 @@
       "deliveredBy": "phase-13",
       "deliverable": "an occupant carrying testimony a quest can query",
       "interiorKind": "dwelling",
-      "interiorRef": "vanilla-farmhouse-int",
+      "interiorRef": null,
       "socketRef": null,
       "socketKind": null,
       "questId": null
@@ -198,7 +198,7 @@
       "deliveredBy": "phase-13",
       "deliverable": "an occupant carrying testimony a quest can query",
       "interiorKind": "dwelling",
-      "interiorRef": "vanilla-farmhouse-int",
+      "interiorRef": null,
       "socketRef": null,
       "socketKind": null,
       "questId": null

@@ -414,7 +414,7 @@
    "kit": "interior-farmhouse-v1",
    "positionM": [
     -20.3902,
-    0.9397,
+    0.8856,
     11.4092
    ],
    "rotationDeg": [
@@ -1896,7 +1896,7 @@
    "kit": "interior-farmhouse-v1",
    "positionM": [
     -19.1179,
-    0.5606,
+    0.4831,
     7.0686
    ],
    "rotationDeg": [
@@ -2944,7 +2944,7 @@
    "kind": "item",
    "positionM": [
     -20.3902,
-    0.9397,
+    0.8856,
     11.4092
    ],
    "yawDeg": 240.593,
@@ -3692,7 +3692,7 @@
    "kind": "item",
    "positionM": [
     -19.1179,
-    0.5606,
+    0.4831,
     7.0686
    ],
    "yawDeg": 220.529,
@@ -4210,6 +4210,19 @@
    "container": 8,
    "idle": 10,
    "item": 61
+  },
+  "settled": 2,
+  "coplanarFixed": 0
+ },
+ "settled": [
+  {
+   "id": "DawnstarBrinasHouse.000E03FD",
+   "dropM": 0.054
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E044E",
+   "dropM": 0.077
   }
- }
+ ],
+ "coplanarFixed": []
 }

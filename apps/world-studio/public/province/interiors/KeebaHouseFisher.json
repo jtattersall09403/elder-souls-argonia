@@ -318,9 +318,9 @@
    "assetId": "vanilla:architecture/farmhouse/fencewoven02",
    "kit": "settlement-imperial-v1",
    "positionM": [
-    104.9818,
+    104.9772,
     82.5841,
-    55.9722
+    55.9812
    ],
    "rotationDeg": [
     0.0,
@@ -338,7 +338,7 @@
    "kit": "interior-kotm-v1",
    "positionM": [
     104.0059,
-    83.2129,
+    83.2179,
     52.7995
    ],
    "rotationDeg": [
@@ -565,9 +565,9 @@
    "assetId": "vanilla:architecture/farmhouse/fencewoven01",
    "kit": "settlement-imperial-v1",
    "positionM": [
-    109.2091,
+    109.2111,
     82.5841,
-    61.2238
+    61.2192
    ],
    "rotationDeg": [
     0.0,
@@ -660,9 +660,9 @@
    "assetId": "vanilla:architecture/farmhouse/fencewoven01",
    "kit": "settlement-imperial-v1",
    "positionM": [
-    103.0553,
+    103.0535,
     83.5929,
-    62.7613
+    62.7659
    ],
    "rotationDeg": [
     0.0,
@@ -889,7 +889,7 @@
    "kit": "interior-kotm-v1",
    "positionM": [
     109.7035,
-    86.2304,
+    86.2254,
     58.7173
    ],
    "rotationDeg": [
@@ -1059,9 +1059,9 @@
    "assetId": "vanilla:architecture/farmhouse/fencewoven01",
    "kit": "settlement-imperial-v1",
    "positionM": [
-    107.1924,
+    107.1889,
     82.5841,
-    51.0649
+    51.0613
    ],
    "rotationDeg": [
     0.0,
@@ -1116,9 +1116,9 @@
    "assetId": "vanilla:architecture/farmhouse/fencewoven02",
    "kit": "settlement-imperial-v1",
    "positionM": [
-    103.7221,
+    103.7229,
     83.5929,
-    54.8159
+    54.8059
    ],
    "rotationDeg": [
     0.0,
@@ -1211,9 +1211,9 @@
    "assetId": "vanilla:architecture/farmhouse/fencewoven02",
    "kit": "settlement-imperial-v1",
    "positionM": [
-    101.9707,
+    101.9611,
     82.5841,
-    55.4536
+    55.4566
    ],
    "rotationDeg": [
     0.0,
@@ -1249,9 +1249,9 @@
    "assetId": "vanilla:architecture/farmhouse/fencewoven01",
    "kit": "settlement-imperial-v1",
    "positionM": [
-    101.8929,
+    101.8883,
     83.5929,
-    52.7702
+    52.7721
    ],
    "rotationDeg": [
     0.0,
@@ -1516,7 +1516,7 @@
    "kit": "works-v1",
    "positionM": [
     99.5318,
-    83.2358,
+    83.2258,
     60.3843
    ],
    "rotationDeg": [
@@ -1611,7 +1611,7 @@
    "kit": "interior-kotm-v1",
    "positionM": [
     105.4437,
-    83.894,
+    83.884,
     55.9271
    ],
    "rotationDeg": [
@@ -1953,7 +1953,7 @@
    "kit": "interior-kotm-v1",
    "positionM": [
     109.2106,
-    82.7577,
+    82.7677,
     54.6603
    ],
    "rotationDeg": [
@@ -2258,6 +2258,27 @@
    "zone": "bed"
   },
   {
+   "id": "KeebaHouseFisher:add:bed-glazedcandles-14",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    111.161,
+    88.446,
+    56.159
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "bed"
+  },
+  {
    "id": "KeebaHouseFisher:add:door-glazedcandles-13",
    "assetId": "vanilla:clutter/glazedcandles01",
    "kit": "interior-kotm-v1",
@@ -2277,6 +2298,27 @@
    "baseType": null,
    "source": "addition",
    "zone": "door"
+  },
+  {
+   "id": "KeebaHouseFisher:add:hearth-argonianlanterns-16",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    107.5,
+    85.813,
+    58.5
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "hearth"
   },
   {
    "id": "KeebaHouseFisher:add:store-argonianlanterns-08",
@@ -2328,6 +2370,27 @@
     97.652,
     84.081,
     63.021
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "KeebaHouseFisher:add:store-glazedcandles-15",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.527,
+    84.781,
+    55.925
    ],
    "rotationDeg": [
     0.0,
@@ -2599,6 +2662,30 @@
    }
   },
   {
+   "refId": "fixture:KeebaHouseFisher:add:bed-glazedcandles-14",
+   "positionM": [
+    111.161,
+    89.206,
+    56.159
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
    "refId": "fixture:KeebaHouseFisher:add:door-glazedcandles-13",
    "positionM": [
     112.202,
@@ -2619,6 +2706,30 @@
     "xrdsUnits": null,
     "baseRadiusUnits": 128,
     "recordFade": 1.7,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseFisher:add:hearth-argonianlanterns-16",
+   "positionM": [
+    107.5,
+    85.263,
+    58.5
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    247,
+    139,
+    43
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "SLightStreetStreet01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
+    "recordFade": null,
     "recordFalloffExponent": 1.0
    }
   },
@@ -2676,6 +2787,30 @@
     97.652,
     84.841,
     63.021
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseFisher:add:store-glazedcandles-15",
+   "positionM": [
+    105.527,
+    85.541,
+    55.925
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -3690,9 +3825,9 @@
   }
  ],
  "counts": {
-  "placements": 115,
+  "placements": 118,
   "drops": 9,
-  "lights": 15,
+  "lights": 18,
   "substitutions": 12,
   "swingDoors": 0,
   "missingByClass": {},
@@ -3707,6 +3842,191 @@
    "idle": 12,
    "item": 18
   },
-  "additions": 10
- }
+  "additions": 13,
+  "settled": 0,
+  "coplanarFixed": 18
+ },
+ "settled": [],
+ "coplanarFixed": [
+  {
+   "id": "KeebaHouseFisher.080A5AEF",
+   "against": "KeebaHouseFisher.080A5AA0",
+   "nudgeM": [
+    0.0,
+    0.005,
+    0.0
+   ],
+   "overlapM2": 0.2794
+  },
+  {
+   "id": "KeebaHouseFisher.080A5AE0",
+   "against": "KeebaHouseFisher.080A5AAC",
+   "nudgeM": [
+    -0.0023,
+    -0.0,
+    0.0045
+   ],
+   "overlapM2": 0.2591
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B39",
+   "against": "KeebaHouseFisher.080A5B38",
+   "nudgeM": [
+    0.002,
+    0.0,
+    -0.0046
+   ],
+   "overlapM2": 0.5803
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B3F",
+   "against": "KeebaHouseFisher.080A5B3E",
+   "nudgeM": [
+    -0.0018,
+    0.0,
+    0.0046
+   ],
+   "overlapM2": 0.5803
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B54",
+   "against": "KeebaHouseFisher.080A5B53",
+   "nudgeM": [
+    0.0,
+    -0.005,
+    -0.0
+   ],
+   "overlapM2": 0.0971
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B5D",
+   "against": "KeebaHouseFisher.080A5B5C",
+   "nudgeM": [
+    -0.0035,
+    0.0,
+    -0.0036
+   ],
+   "overlapM2": 0.5803
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B60",
+   "against": "KeebaHouseFisher.080A5B5F",
+   "nudgeM": [
+    -0.0041,
+    0.0,
+    -0.0028
+   ],
+   "overlapM2": 0.2591
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B65",
+   "against": "KeebaHouseFisher.080A5B64",
+   "nudgeM": [
+    -0.0048,
+    -0.0,
+    0.0015
+   ],
+   "overlapM2": 0.2591
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B67",
+   "against": "KeebaHouseFisher.080A5B66",
+   "nudgeM": [
+    -0.0046,
+    0.0,
+    0.0019
+   ],
+   "overlapM2": 0.5803
+  },
+  {
+   "id": "KeebaHouseFisher.080A5AE0",
+   "against": "KeebaHouseFisher.080A5AAC",
+   "nudgeM": [
+    0.0027,
+    -0.0,
+    0.0042
+   ],
+   "overlapM2": 0.069
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B78",
+   "against": "KeebaHouseFisher.080A5AEF",
+   "nudgeM": [
+    0.0,
+    -0.01,
+    0.0
+   ],
+   "overlapM2": 0.2799
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B84",
+   "against": "KeebaHouseFisher.080A5AEF",
+   "nudgeM": [
+    0.0,
+    -0.01,
+    0.0
+   ],
+   "overlapM2": 0.0539
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B98",
+   "against": "KeebaHouseFisher.080A5AEF",
+   "nudgeM": [
+    0.0,
+    0.01,
+    0.0
+   ],
+   "overlapM2": 0.2203
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B60",
+   "against": "KeebaHouseFisher.080A5B5F",
+   "nudgeM": [
+    0.0004,
+    -0.0,
+    -0.005
+   ],
+   "overlapM2": 0.1611
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B65",
+   "against": "KeebaHouseFisher.080A5B64",
+   "nudgeM": [
+    -0.0011,
+    -0.0,
+    0.0049
+   ],
+   "overlapM2": 0.069
+  },
+  {
+   "id": "KeebaHouseFisher.080A5AE0",
+   "against": "KeebaHouseFisher.080A5AAC",
+   "nudgeM": [
+    -0.005,
+    -0.0,
+    0.0003
+   ],
+   "overlapM2": 0.0297
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B60",
+   "against": "KeebaHouseFisher.080A5B5F",
+   "nudgeM": [
+    0.0045,
+    0.0,
+    -0.0022
+   ],
+   "overlapM2": 0.1011
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B65",
+   "against": "KeebaHouseFisher.080A5B64",
+   "nudgeM": [
+    -0.0037,
+    -0.0,
+    -0.0034
+   ],
+   "overlapM2": 0.0297
+  }
+ ]
 }

@@ -56,7 +56,7 @@ def test_reading_head_into_a_temp_path_is_allowed():
 
 
 def test_foreground_waits_refused_for_everyone():
-    for cmd in ["tail -f log.txt", "tail -n 20 -f x.log", "tail --pid=123 -f /dev/null", "tail -F x",
+    for cmd in ["tail -f log.txt", "tail -n 20 -f x.log", "ls; tail -" + "f x.log", "tail -n 5 x | tail -" + "f y", "tail --pid=123 -f /dev/null", "tail -F x",
                 "until [ -f done ]; do true; done", "x=1; until grep -q ok log; do :; done",
                 "while ! test -f d; do true; done", "while pgrep x; do echo waiting; done"]:
         assert code(cmd, sub=True) == 2, cmd
@@ -65,5 +65,6 @@ def test_foreground_waits_refused_for_everyone():
 
 def test_ordinary_loops_and_tail_allowed_for_agents():
     for cmd in ["tail -n 40 log.txt", "tail -20 x.log", "while read l; do echo $l; done < f",
-                "for f in a b; do true; echo $f; done", "git commit -m 'until done'", "cat <<'E' > f\nthe batch stays open\n  until the close\nE","grep -n tail x.py"]:
+                "for f in a b; do true; echo $f; done", "git commit -m 'until done'", "cat <<'E' > f\nthe batch stays open\n  until the close\nE","grep -n tail x.py",
+                "tail -n 50 out.log | grep -F error", "tail -n 5 x.log; rm -rf tmp", "tail -n 3 a && find . -name f"]:
         assert code(cmd, sub=True) == 0, cmd

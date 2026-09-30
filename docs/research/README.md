@@ -20,5 +20,6 @@ task router).
 | [quests-and-cast/](quests-and-cast/) | Quest and narrative research: cast structure, faction/quest rewards, opening hours and start area, boss options. |
 | [lore/](lore/) | Lore-grounding notes that back world decisions: minority enclaves, creature asset availability, watercraft. |
 | [agent-ops/](agent-ops/) | How our coding agents spend tokens: the dated cost reviews appended by the `cost-review` skill (decision 0079). |
+| [agents/](agents/) | Model task-fit and routing for our agent tiers (decision 0079). |
 | [process/](process/README.md) | How the work is run, measured end to end: the 2026-09-28 workflow cost review (lanes, gates, miners) behind decision 0106. |
 | [archive/](archive/) | Superseded workstream material and decision-record round logs, provenance only. Never a live design source. Holds `phase10-rounds/`, `phase11-rounds/`, `water-8b-rounds/`, `weather-8c-rounds/` (history split out of decisions 0036, 0041, 0025, 0032), `water-round-2-2026-09/` (the round-2 water handoff, quality contract and evidence ledger), `water-overhaul-2026-09/`, `workstream-s/` and `phase16-retired-briefs/` (the 16i and 16j briefs, retired by 0099; their live items are in the 16k brief § Carried backlog). |

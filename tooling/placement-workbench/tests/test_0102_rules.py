@@ -560,3 +560,24 @@ def test_open_shelter_is_judged_at_its_posts_not_its_canopy(monkeypatch):
         row, failures = R.open_shelter_piece(None, ground, p, "pad", 0.10)
         assert (failures == []) is ok, (lift, failures)
         assert row["tent"]["floorClass"] == "openShelter"
+
+
+def test_open_shelter_skirt_may_not_hover(monkeypatch):
+    """R58 (owner, walk 6): pole feet on the ground but a skirt 0.3 m up
+    fails; the skirt buried and the poles 0.4 m in the ground passes."""
+    import trimesh
+    from types import SimpleNamespace
+    from workbench import rules as R
+    post = trimesh.creation.box(extents=(0.2, 0.2, 2.0))
+    post.apply_translation((0.0, 0.0, 1.0))
+    skirt = trimesh.creation.box(extents=(5.0, 5.0, 0.1))
+    skirt.apply_translation((0.0, 0.0, 0.35))
+    ground = SimpleNamespace(chunk_height=lambda x, z: 0.0)
+    p = SimpleNamespace(uid="tent")
+    for lift, ok in ((0.0, False), (-0.4, True)):
+        mesh = trimesh.util.concatenate([post, skirt])
+        mesh.apply_translation((0.0, 0.0, lift))
+        monkeypatch.setattr(R, "_world_mesh", lambda cat, piece, m=mesh: m)
+        row, failures = R.open_shelter_piece(None, ground, p, "pad", 0.10)
+        assert (failures == []) is ok, (lift, failures)
+        assert row["tent"]["skirt"]["sectors"] >= 4

@@ -120,8 +120,10 @@ export interface PaintSurface {
 /**
  * The one draped surface of a place's entries, or null while any vertex it
  * needs has no ground yet (the terrain under it is not decoded: build again
- * later). Cost is the sum of the entries' bounding boxes in cells, never the
- * union box times the entries.
+ * later). Cost and memory are the sum of the entries' bounding boxes in
+ * cells: the weights are sparse (painted cells only) and the sweep visits
+ * only the quads touching a painted cell, never the union box (a 1 km city
+ * would be 4 M cells).
  */
 export function paintSurface(
   entries: readonly GroundPaintEntry[], groundAt: TerrainHeight, cellM = PAINT_CELL_M, liftM = PAINT_LIFT_M,
@@ -145,7 +147,8 @@ export function paintSurface(
   const z0 = Math.floor(minZ / cellM) * cellM;
   const nx = Math.ceil((maxX - x0) / cellM) + 1;
   const nz = Math.ceil((maxZ - z0) / cellM) + 1;
-  const weight = new Float32Array(nx * nz * W);
+  /** Painted cells only: cell index -> one weight per channel. */
+  const weight = new Map<number, Float32Array>();
   for (const e of entries) {
     const poly = e.polygonM;
     const ch = textures.indexOf(e.texture);
@@ -162,37 +165,54 @@ export function paintSurface(
         if (!insidePolygon(x, z, poly)) continue;
         const t = Math.min(1, edgeDistance(x, z, poly) / edge);
         const a = t * t * (3 - 2 * t) * e.peakAlpha;
-        const k = (j * nx + i) * W + ch;
-        if (a > weight[k]) weight[k] = a;
+        const k = j * nx + i;
+        let w = weight.get(k);
+        if (!w) { w = new Float32Array(W); weight.set(k, w); }
+        if (a > w[ch]) w[ch] = a;
       }
     }
   }
-  const any = (k: number) => {
-    for (let c = 0; c < W; c++) if (weight[k * W + c] > 0) return true;
+  const painted = (k: number) => {
+    const w = weight.get(k);
+    if (!w) return false;
+    for (let c = 0; c < W; c++) if (w[c] > 0) return true;
     return false;
   };
-  const vertexOf = new Int32Array(nx * nz).fill(-1);
+  // the quads with a painted corner, in row-major order (lower-left corner index)
+  const quadSet = new Set<number>();
+  for (const k of weight.keys()) {
+    if (!painted(k)) continue;
+    const i = k % nx; const j = (k - i) / nx;
+    for (let dj = -1; dj <= 0; dj++) {
+      for (let di = -1; di <= 0; di++) {
+        const qi = i + di; const qj = j + dj;
+        if (qi >= 0 && qj >= 0 && qi + 1 < nx && qj + 1 < nz) quadSet.add(qj * nx + qi);
+      }
+    }
+  }
+  const quads = [...quadSet].sort((p, q) => p - q);
+  const vertexOf = new Map<number, number>();
   const positions: number[] = []; const weights: number[] = []; const indices: number[] = [];
   const vertex = (i: number, j: number): number => {
     const k = j * nx + i;
-    if (vertexOf[k] >= 0) return vertexOf[k];
+    const seen = vertexOf.get(k);
+    if (seen !== undefined) return seen;
     const x = x0 + i * cellM; const z = z0 + j * cellM;
     const y = groundAt(x, z);
     if (y === null) throw new MissingGround();
-    vertexOf[k] = positions.length / 3;
+    const v = positions.length / 3;
+    vertexOf.set(k, v);
     positions.push(x, y + liftM, z);
-    for (let c = 0; c < W; c++) weights.push(weight[k * W + c]);
-    return vertexOf[k];
+    const w = weight.get(k);
+    for (let c = 0; c < W; c++) weights.push(w ? w[c] : 0);
+    return v;
   };
   try {
-    for (let j = 0; j + 1 < nz; j++) {
-      for (let i = 0; i + 1 < nx; i++) {
-        const k = j * nx + i;
-        if (!any(k) && !any(k + 1) && !any(k + nx) && !any(k + nx + 1)) continue;
-        const a = vertex(i, j); const b = vertex(i + 1, j);
-        const c = vertex(i, j + 1); const d = vertex(i + 1, j + 1);
-        indices.push(a, c, b, b, c, d);
-      }
+    for (const k of quads) {
+      const i = k % nx; const j = (k - i) / nx;
+      const a = vertex(i, j); const b = vertex(i + 1, j);
+      const c = vertex(i, j + 1); const d = vertex(i + 1, j + 1);
+      indices.push(a, c, b, b, c, d);
     }
   } catch (error) {
     if (error instanceof MissingGround) return null;

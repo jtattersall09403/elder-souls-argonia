@@ -7,11 +7,11 @@
   "sha256": "31570402567aa6b9f7ad80132af01b5338099f04a8a886dfd5ef6d07efe42014"
  },
  "totals": {
-  "parts": 8,
-  "partBytes": 103340,
-  "textureFiles": 6,
-  "textureBytes": 1371043,
-  "bytes": 1474383
+  "parts": 5,
+  "partBytes": 61796,
+  "textureFiles": 5,
+  "textureBytes": 1116939,
+  "bytes": 1178735
  },
  "assets": {
   "kotm:argonia/mudhuts/door01": {
@@ -19,16 +19,6 @@
    "bytes": 19140,
    "vertices": 388,
    "triangles": 445,
-   "textures": [
-    "3ccb8ac9f2e67d61",
-    "e78a7407be3f3a1e"
-   ]
-  },
-  "kotm:argonia/mudhuts/door02": {
-   "file": "kotm_argonia_mudhuts_door02-cfaeda04.glb",
-   "bytes": 17464,
-   "vertices": 587,
-   "triangles": 395,
    "textures": [
     "3ccb8ac9f2e67d61",
     "e78a7407be3f3a1e"
@@ -52,24 +42,6 @@
    "textures": [
     "872a0b33fb5c44f3",
     "f5c46ae922ce5177"
-   ]
-  },
-  "kotm:argonia/mudhuts/stairs01": {
-   "file": "kotm_argonia_mudhuts_stairs01-33fd2324.glb",
-   "bytes": 6740,
-   "vertices": 228,
-   "triangles": 164,
-   "textures": [
-    "e78a7407be3f3a1e"
-   ]
-  },
-  "kotm:argonia/mudhuts/stairs02": {
-   "file": "kotm_argonia_mudhuts_stairs02-116e04f8.glb",
-   "bytes": 17340,
-   "vertices": 881,
-   "triangles": 861,
-   "textures": [
-    "8d8c9f84eae22a9d"
    ]
   },
   "kotm:argonia/mudhuts/window01": {

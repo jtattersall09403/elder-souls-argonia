@@ -81,3 +81,17 @@ describe("ground paint (16k walk 4)", () => {
     console.info(`[ground-paint] claywater: ${entries.length} ways, one surface in ${(performance.now() - start).toFixed(1)} ms`);
   });
 });
+
+describe("paintSurface cost (review walk 6)", () => {
+  it("two ways 1 km apart cost their own cells, not the union box", () => {
+    const at = (x: number, id: string): GroundPaintEntry => ({
+      id, kind: "road", texture: "bc_road", edgeM: 1, peakAlpha: 0.75,
+      polygonM: [[x, 0], [x + 4, 0], [x + 4, 4], [x, 4]],
+    });
+    let calls = 0;
+    const surface = paintSurface([at(0, "a"), at(1000, "b")], () => { calls++; return 0; });
+    expect(surface).not.toBeNull();
+    expect(surface!.vertexCount).toBeLessThan(200);
+    expect(calls).toBe(surface!.vertexCount);
+  });
+});

@@ -58,3 +58,13 @@ def test_an_exact_duplicate_pose_is_dropped_keeping_the_lowest_id():
     assert [p["id"] for p in bundle["placements"]] == ["C.0A", "C.0C"]
     assert rows == [{"refId": "0B", "reason": "duplicate-pose", "assetId": "fence",
                      "duplicateOf": "C.0A", "positionM": [1.0, 2.0, 3.0]}]
+
+
+def test_pair_blocks_give_the_same_answer_as_one_block(monkeypatch):
+    """The A x B pair build runs in PAIR_CHUNK blocks (memory standard); a
+    one-pair block must report exactly what one whole block reports."""
+    from worldgen import coplanar as wc
+    a, b = _quad("a", 0.0), _quad("b", 0.0, size=0.8)
+    whole = wc.pair_hits(a, b)
+    monkeypatch.setattr(wc, "PAIR_CHUNK", 1)
+    assert wc.pair_hits(a, b) == whole and whole["overlapM2"] > 0.6

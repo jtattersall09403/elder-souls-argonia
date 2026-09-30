@@ -253,7 +253,7 @@ def op_key(cat, scene, op: dict, gkey: str, env: str | None = None) -> str:
 
 def fast_state(p) -> str:
     return json.dumps([p.x, p.z, p.yaw, p.y, p.scale, p.pitch, p.roll, p.mirror, p.beached,
-                       p.walkable, p.settledBy, p.asset, p.role, p.pad, p.notes],
+                       p.walkable, p.wet, p.settledBy, p.asset, p.role, p.pad, p.notes],
                       sort_keys=True, default=_plain)
 
 

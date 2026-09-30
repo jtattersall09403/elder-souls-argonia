@@ -22,7 +22,8 @@ Per cell, from `public/province/interiors/<cell>.json` and the kits it names:
   fire effect (`FXfire*`), has a flame-bearing piece within `HEARTH_M`; a
   dropped `FXfire*` ref is red on its own.
 * **lit density** (decision 0109 rule 4): lit fixtures (a kit asset with a
-  mined `light`) >= walkable floor m2 / `M2_PER_LIT`.
+  mined `light`) >= reachable floor m2 / `M2_PER_LIT` (walk cells flooded
+  from the door arrivals; a table top or shelf is not floor).
 
 The measurement reads the shipped bundle and the raw kit geometry the
 exporter measured; it fails on a real defect (`test_interior_audit.py`).
@@ -42,6 +43,7 @@ from workbench import paths
 if str(paths.WORLDGEN) not in sys.path:
     sys.path.insert(0, str(paths.WORLDGEN))
 
+from worldgen import interior_support as isup  # noqa: E402
 from worldgen import interior_walk as iw  # noqa: E402
 
 SUPPORT_M = 0.05
@@ -125,32 +127,12 @@ def _first_hit(mesh, owner, i: int, origins: np.ndarray, d: np.ndarray) -> float
     if not len(origins):
         return float("inf")
     dirs = np.tile(d, (len(origins), 1))
-    ri, ti, dist = all_hits(mesh, np.asarray(origins, float), dirs)
+    ri, ti, dist = isup.all_hits(mesh, np.asarray(origins, float), dirs)
     if not len(ri):
         return float("inf")
     dist = dist - PROBE
     keep = owner[ti] != i
     return float(max(dist[keep].min(), 0.0)) if keep.any() else float("inf")
-
-
-def all_hits(mesh, o: np.ndarray, d: np.ndarray):
-    """(ray index, triangle index, distance) of EVERY triangle each ray
-    crosses, in chunks of iw.RAY_CHUNK. `intersects_location` merges hits at
-    one point, so a piece's own bottom face hides the floor it rests on
-    (coplanar contact is exactly the resting case); `intersects_id` without
-    locations keeps both, and the distance comes from the triangle's plane."""
-    rs, ts = [np.zeros(0, int)], [np.zeros(0, int)]
-    for k in range(0, len(o), iw.RAY_CHUNK):
-        t_, r_ = mesh.ray.intersects_id(o[k:k + iw.RAY_CHUNK], d[k:k + iw.RAY_CHUNK], multiple_hits=True)
-        rs.append(np.asarray(r_, int) + k)
-        ts.append(np.asarray(t_, int))
-    ri, ti = np.concatenate(rs), np.concatenate(ts)
-    n = mesh.face_normals[ti]
-    den = np.einsum("ij,ij->i", n, d[ri])
-    num = np.einsum("ij,ij->i", n, mesh.triangles[ti][:, 0] - o[ri])
-    with np.errstate(divide="ignore", invalid="ignore"):
-        dist = np.where(np.abs(den) > 1e-9, num / den, 0.0)
-    return ri, ti, dist
 
 
 def _pick(v: np.ndarray, n: int = 10) -> np.ndarray:
@@ -159,42 +141,17 @@ def _pick(v: np.ndarray, n: int = 10) -> np.ndarray:
     return v[np.linspace(0, len(v) - 1, n).astype(int)]
 
 
-def support_gaps(mesh, owner, n: int) -> np.ndarray:
-    """Per placement, the smallest gap to another piece over six directions
-    (inf when it has no geometry or touches nothing). All rays in one cast:
-    the pure-python ray engine pays per call, not per ray."""
-    origins, dirs, who = [], [], []
-    for i in range(n):
-        f = np.where(owner == i)[0]
-        if not len(f):
-            continue
-        v = np.unique(mesh.vertices[mesh.faces[f].ravel()].round(3), axis=0)
-        lo, hi = v.min(0), v.max(0)
-        for axis in range(3):
-            for sign in (-1, 1):
-                d = np.zeros(3)
-                d[axis] = sign
-                ext = hi[axis] if sign > 0 else lo[axis]
-                pts = _pick(v[np.abs(v[:, axis] - ext) < 0.02]).copy()
-                # 2 cm in from the piece's other faces: a ray down a vertex
-                # lies on an edge of the support's triangles and can miss it
-                c = (lo + hi) / 2
-                side = np.arange(3) != axis
-                pts[:, side] += np.clip(c[side] - pts[:, side], -0.02, 0.02)
-                origins.append(pts - d * PROBE)
-                dirs.append(np.tile(d, (len(pts), 1)))
-                who.append(np.full(len(pts), i))
-    out = np.full(n, np.inf)
-    if not origins:
-        return out
-    o, d, w = np.vstack(origins), np.vstack(dirs), np.concatenate(who)
-    ri, ti, dist = all_hits(mesh, o, d)
-    if not len(ri):
-        return out
-    dist = dist - PROBE
-    keep = owner[ti] != w[ri]
-    np.minimum.at(out, w[ri][keep], np.maximum(dist[keep], 0.0))
-    return out
+def _foot_under_floor(mesh, owner, i: int, foot: np.ndarray, rise: float) -> bool:
+    """The stair's lowest vertices run under another piece's floor within the
+    lower half of its rise: the plugin sank the stringer through the floor
+    (KeebaHouseSnailMinder's `mudhutintstairs` foot sits 0.83 m under its
+    `floor02`, above the pod's sunken shell; walk 6), so the stair lands on
+    that floor and its buried foot is no gap."""
+    if not len(foot):
+        return False
+    ri, ti, dist = isup.all_hits(mesh, foot - [0, PROBE, 0], np.tile([0, 1.0, 0], (len(foot), 1)))
+    return bool(((owner[ti] != i) & (np.abs(mesh.face_normals[ti][:, 1]) > 0.7)
+                 & (dist - PROBE <= rise)).any())
 
 
 def stair_rows(bundle: dict, mesh, owner) -> list[dict]:
@@ -207,7 +164,10 @@ def stair_rows(bundle: dict, mesh, owner) -> list[dict]:
             continue
         v = mesh.vertices[mesh.faces[f].ravel()]
         lo, hi = v.min(0), v.max(0)
-        bottom = _first_hit(mesh, owner, i, _pick(v[v[:, 1] < lo[1] + 0.02]) + [0, PROBE, 0], np.array([0, -1.0, 0]))
+        foot = _pick(v[v[:, 1] < lo[1] + 0.02])
+        bottom = _first_hit(mesh, owner, i, foot + [0, PROBE, 0], np.array([0, -1.0, 0]))
+        if bottom > SUPPORT_M and _foot_under_floor(mesh, owner, i, foot, (hi[1] - lo[1]) / 2):
+            bottom = 0.0
         top = v[v[:, 1] > hi[1] - 0.05]
         c = (lo + hi) / 2
         off = top.mean(0) - c
@@ -218,7 +178,7 @@ def stair_rows(bundle: dict, mesh, owner) -> list[dict]:
         edge = top.mean(0).copy()
         edge[ax] = hi[ax] if d[ax] > 0 else lo[ax]
         probe = edge + d * LANDING_REACH_M + [0, 1.0, 0]
-        _, ti, dist = all_hits(mesh, probe[None], np.array([[0, -1.0, 0]]))
+        _, ti, dist = isup.all_hits(mesh, probe[None], np.array([[0, -1.0, 0]]))
         ys = [float(probe[1] - t_) for t_, t in zip(dist, ti) if owner[t] != i and abs(probe[1] - t_ - hi[1]) <= LANDING_M]
         ok_top = bool(ys)
         if bottom > SUPPORT_M or not ok_top:
@@ -245,11 +205,37 @@ def hearth_rows(bundle: dict, kits: Kits) -> list[dict]:
     return rows
 
 
+def reachable_floor_m2(mesh, owner, starts: list) -> tuple[float, str]:
+    """The floor the player can reach: walk cells flooded from the door
+    arrivals, so a table top, a shelf or a bed (a step too high to climb) is
+    not floor. A cell with no arrival on a walkable surface (a pool cell)
+    falls back to every roofed standable node, and says so. Surfaces stacked
+    in one walk column less than a storey (the character's height) apart are
+    one floor cell: a rug on the floor, a plank laid over a plank, a low step
+    (KeebaHouseFisher counted 1097 cells for 627, walk 6)."""
+    ch = iw.character()
+    walk = iw.walk_mesh(mesh, owner, starts, [], want_reached=True)
+    pts, how = walk.get("reachedPositions") or [], "reached"
+    if not pts:
+        pts, how = iw.walk_mesh(mesh, owner, starts, [], nodes_only=True).get("positions") or [], \
+            "roofedNodes"
+    cols: dict[tuple, list] = {}
+    for x, y, z in pts:
+        cols.setdefault((round(x, 2), round(z, 2)), []).append(y)
+    n = 0
+    for ys in cols.values():
+        last = None
+        for y in sorted(ys):
+            if last is None or y - last > ch["heightM"]:
+                n, last = n + 1, y
+    return n * ch["cellM"] ** 2, how
+
+
 def audit_cell(cell: str, kits: Kits, interiors_dir: Path) -> dict:
     bundle = json.loads((interiors_dir / f"{cell}.json").read_text())
     mesh, owner, missing = iw.bundle_mesh(bundle, iw.RAW_KITS)
     floating = []
-    gaps = support_gaps(mesh, owner, len(bundle["placements"]))
+    gaps = isup.contact_gaps(mesh, owner, len(bundle["placements"]))
     span = mesh.bounds[1] - mesh.bounds[0]
     for i, p in enumerate(bundle["placements"]):
         g = gaps[i]
@@ -262,11 +248,9 @@ def audit_cell(cell: str, kits: Kits, interiors_dir: Path) -> dict:
             floating.append({"id": p["id"], "assetId": p["assetId"], "source": p.get("source") or "plugin",
                              "gapM": None if g == float("inf") else round(g, 3),
                              "positionM": [round(x, 2) for x in p["positionM"]]})
-    # every roofed standable node (the walk's floor sample): the reached set
-    # needs a door arrival inside the cell, which a pool cell may not have
-    walk = iw.walk_mesh(mesh, owner, [bundle["arrivalMarker"]["positionM"]], [], nodes_only=True)
-    cellm = iw.character()["cellM"]
-    area = len(walk.get("positions") or []) * cellm * cellm
+    starts = [d["arrivalMarker"]["positionM"] for d in bundle.get("doors") or []
+              if d.get("arrivalMarker")] + [bundle["arrivalMarker"]["positionM"]]
+    area, area_from = reachable_floor_m2(mesh, owner, starts)
     lit = sum(1 for p in bundle["placements"] if kits.lit(p["kit"], p["assetId"]))
     out = {
         "cell": cell,
@@ -274,11 +258,15 @@ def audit_cell(cell: str, kits: Kits, interiors_dir: Path) -> dict:
         "floating": floating,
         "stairs": stair_rows(bundle, mesh, owner),
         "hearth": hearth_rows(bundle, kits),
-        "litDensity": {"walkableM2": round(area, 1), "litFixtures": lit,
+        "litDensity": {"walkableM2": round(area, 1), "areaFrom": area_from, "litFixtures": lit,
                        "needed": int(np.ceil(area / M2_PER_LIT)), "ok": bool(lit >= np.ceil(area / M2_PER_LIT))},
         "assetsWithoutGeometry": sorted(set(missing)),
     }
-    out["red"] = {k: len(out[k]) for k in ("textures", "floating", "stairs", "hearth") if out[k]}
+    # two surfaces on one plane z-fight (16k walk 6); worldgen/coplanar.py
+    from worldgen import coplanar
+    out["coplanar"] = coplanar.find(coplanar.pieces_from_bundle(bundle["placements"], coplanar.KitGeometry()),
+                                    coplanar.decals_biased("cell"))
+    out["red"] = {k: len(out[k]) for k in ("textures", "floating", "stairs", "hearth", "coplanar") if out[k]}
     if not out["litDensity"]["ok"]:
         out["red"]["litDensity"] = 1
     return out

@@ -103,14 +103,22 @@ export interface PaintGroup {
  * One group per place (one surface, never one per texture: two surfaces
  * overlapping at a junction blink under the depth test). Places sit
  * kilometres apart and their ground decodes at different times, so one
- * place's undecoded terrain must never hold back another place's paint.
+ * place's undecoded terrain must never hold back another place's paint,
+ * and one place's refused paint never drops another's.
  */
 export function paintGroups(
   settlements: readonly { readonly id: string; readonly groundPaint?: GroundPaintDoc }[],
 ): Map<string, PaintGroup> {
   const out = new Map<string, PaintGroup>();
   for (const s of settlements) {
-    const entries = groundPaintOfBundle([s]);
+    let entries: GroundPaintEntry[];
+    try {
+      entries = groundPaintOfBundle([s]);
+    } catch (error: unknown) {
+      // one refused place drops only its own paint (review walk 6)
+      console.warn("[ground-paint] refused", error);
+      continue;
+    }
     if (!entries.length) continue;
     const textures = [...new Set(entries.map((e) => e.texture))].sort();
     out.set(s.id, { key: s.id, placeId: s.id, textures, entries });
@@ -159,12 +167,7 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt }: {
     return () => { live = false; };
   }, [baseUrl]);
   useEffect(() => {
-    let groups = new Map<string, PaintGroup>();
-    try {
-      groups = paintGroups(settlements ?? []);
-    } catch (error: unknown) {
-      console.warn("[ground-paint] refused", error);
-    }
+    const groups = paintGroups(settlements ?? []);
     // The live meshes stay drawn until their replacements are added
     // (review 2026-09-30: a requery blanked all road paint for a frame, and
     // for RETRY_S wherever a place's ground was still undecoded).

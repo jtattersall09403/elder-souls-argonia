@@ -122,20 +122,36 @@ def test_gate_fails_on_an_unlisted_reference():
     assert ex.check(fixed) == []
 
 
-def test_reexport_matches_the_published_bundle(plugin_cache):
+@pytest.fixture(scope="module")
+def kit_geo():
+    """One kit-triangle cache for every export in this file (each kit loads once)."""
+    from worldgen.coplanar import KitGeometry
+    return KitGeometry()
+
+
+_FISHER = ("King of the Murkmire.esp", "KeebaHouseFisher")   # the smallest shared cell
+
+
+@pytest.fixture(scope="module")
+def fisher_export(plugin_cache, kit_geo):
+    """One KeebaHouseFisher export (no claims) for the two tests that read it."""
     try:
-        paths, pools, registry = ex._environment()
+        env = ex._environment()
     except Exception as exc:  # pragma: no cover - no vault on the runner
         pytest.skip(f"vault not available: {exc}")
-    if not BUNDLES:
-        pytest.skip("no bundles published")
-    bundle = _load(BUNDLES[0])
-    if bundle["plugin"] not in paths:
-        pytest.skip(f"{bundle['plugin']} not in the local vault")
+    if _FISHER[0] not in env[0]:
+        pytest.skip(f"{_FISHER[0]} not in the local vault")
     from worldgen.interior_light import kit_lights
-    again = ex.export_bundle(bundle["plugin"], bundle["cellId"], (paths, pools, registry),
-                             ex.published_kit_assets(), kit_lights(ex.KITS_DIR), cache=plugin_cache)
-    assert json.loads(json.dumps(again)) == bundle
+    kits, lights = ex.published_kit_assets(), kit_lights(ex.KITS_DIR)
+    bundle = ex.export_bundle(*_FISHER, env, kits, lights, None, plugin_cache, kit_geo)
+    return json.loads(json.dumps(bundle)), env, kits, lights
+
+
+def test_reexport_matches_the_published_bundle(fisher_export):
+    path = ex.OUT_DIR / f"{_FISHER[1]}.json"
+    if not path.exists():
+        pytest.skip("no bundles published")
+    assert fisher_export[0] == _load(path)
 
 
 # --------------------------------------------------------------------------- #
@@ -545,30 +561,22 @@ def test_each_place_door_record_holds_its_own_pairing():
                 assert isinstance(claim["interiorLoadDoorRef"], str) and "exteriorDoorId" not in claim
 
 
-def test_two_places_export_one_cell_file_in_either_order(plugin_cache):
+def test_two_places_export_one_cell_file_in_either_order(fisher_export, plugin_cache, kit_geo):
     """Export the shared cells for place A then B, and B then A: the file is
     identical whichever order and whichever place, and names no place."""
-    try:
-        env = ex._environment()
-    except Exception as exc:  # pragma: no cover - no vault on the runner
-        pytest.skip(f"vault not available: {exc}")
-    from worldgen.interior_light import kit_lights
+    base, env, kits, lights = fisher_export
     a, b = _two_places()
     ca, cb = ex.blueprint_claims(a), ex.blueprint_claims(b)
-    key = sorted(set(ca) & set(cb))[0]
-    if key[0] not in env[0]:
-        pytest.skip(f"{key[0]} not in the local vault")
-    kits, lights = ex.published_kit_assets(), kit_lights(ex.KITS_DIR)
-    out = {}
-    for order in ((ca, cb), (cb, ca)):
-        written = None
-        for claims in order:
-            written = ex.export_bundle(*key, env, kits, lights, claims[key], plugin_cache)
-        out[order[0] is ca] = json.dumps(written, sort_keys=True)
-    assert out[True] == out[False]
-    bundle = json.loads(out[True])
+    key = _FISHER
+    assert key in set(ca) & set(cb)
+    # A, then B after A, then A after B: the claim-free export covers both orders
+    out = [json.dumps(base, sort_keys=True)] + [
+        json.dumps(ex.export_bundle(*key, env, kits, lights, claims[key], plugin_cache, kit_geo),
+                   sort_keys=True) for claims in (ca, cb)]
+    assert out[0] == out[1] == out[2]
+    bundle = json.loads(out[1])
     assert ex.validate_bundle(bundle) == []
-    assert "door.hist-heartland" not in out[True] and "door.imperial-fringe" not in out[True]
+    assert "door.hist-heartland" not in out[1] and "door.imperial-fringe" not in out[1]
 
 
 # --------------------------------------------------------------------------- #
@@ -684,3 +692,25 @@ def test_the_ambient_cube_and_light_fade_inherit_from_the_template_dalc():
     none = ex.resolve_lighting(None, tdata, dalc, "T")  # no XCLL: everything from the template
     assert none["ambientCube"]["py"] == ex.ambient_cube({k: [100, 100, 100] for k in ex._CUBE_KEYS})["py"]
     assert "ambientCube" not in ex.resolve_lighting(None, None, None, None)
+
+
+def test_separate_takes_two_coplanar_pieces_apart_by_five_mm():
+    """16k walk 6: two plugin pieces on one plane z-fight; the export moves
+    the later one 5 mm along the shared normal and records the row."""
+    import numpy as np
+    from worldgen import coplanar as cp
+    quad = np.array([[[-.5, 0, -.5], [.5, 0, -.5], [.5, 0, .5]], [[-.5, 0, -.5], [.5, 0, .5], [-.5, 0, .5]]])
+
+    class Geo:
+        def load(self, kit, assets):
+            pass
+
+        def get(self, kit, asset):
+            return quad, np.zeros(2, np.uint8)
+
+    bundle = {"placements": [{"id": f"C.{i}", "kit": "k", "assetId": "floor", "positionM": [0.0, 0.0, 0.0],
+                              "rotationDeg": [0, 0, 0]} for i in (2, 1)]}
+    rows = cp.separate(bundle, Geo())
+    assert [(r["id"], r["against"], r["overlapM2"]) for r in rows] == [("C.2", "C.1", 1.0)]
+    assert abs(bundle["placements"][0]["positionM"][1]) == 0.005 == abs(rows[0]["nudgeM"][1])
+    assert cp.separate(bundle, Geo()) == []

@@ -1,6 +1,6 @@
 ---
 name: deliver
-description: Opus 5.5 at LOW effort. Delivers generic implementation work (code, data, tooling, docs) the planner or a lead has planned; may diagnose, challenge assumptions and make delivery decisions inside the brief. Place building, layout design and Blender scene work go to `place-builder` (medium) instead (owner 2026-09-30).
+description: Opus 5.5 at LOW effort. Delivers generic implementation work (code, data, tooling, docs) the planner or a lead has delegated; may plan, diagnose, challenge assumptions and make delivery decisions inside the brief. Place building, layout design and Blender scene work go to `place-builder` (medium) instead (owner 2026-09-30).
 model: claude-opus-5-5[1m]
 effort: low
 ---

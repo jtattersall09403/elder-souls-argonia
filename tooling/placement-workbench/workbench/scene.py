@@ -73,6 +73,7 @@ class Piece:
     pad: dict | None = None  # a declared building pad {apronM?, datumM?, floorMinM?} (0101)
     beached: bool = False    # a hull or cleat drawn up on the bank (R5): `wb.py check` beachedRule
     walkable: bool = False   # a walkable deck (ramp, stair, boardwalk, bridge): walkRule's surface (0102)
+    wet: bool = False        # meant to stand in water (a jetty post, a fish trap, a wreck): the builder's call (R86)
 
     def matrix(self) -> tuple[np.ndarray, np.ndarray]:
         """(A, b): kit-frame points p -> wb points A @ p + b."""

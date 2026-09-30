@@ -299,7 +299,9 @@
   "mudmother:gv_meshes/argoniannest/argoniantent01": "pad",
   "vanilla:architecture/riften/rtstables01": "pad",
   "vanilla:effects/fxfirewithembers01": "direct",
-  "vanilla:architecture/docks/dockstrsol01": "stilt"
+  "vanilla:architecture/docks/dockstrsol01": "stilt",
+  "vanilla:architecture/docks/dockstepsdown01": "stilt",
+  "vanilla:architecture/docks/dockstr4way01": "stilt"
  },
  "kitAssetPolicies": {
   "dungeon-root-v1": {
@@ -403,7 +405,9 @@
   "mudmother:gv_meshes/argoniannest/argoniantent01": "Mud Mother Grove hide shelter on a declared pad: same contact family as mudmother:gv_meshes/argoniannest/argoniantent02 (pad); its designedSinkM row sits in assetPlacement.",
   "vanilla:architecture/riften/rtstables01": "Riften stable on a declared pad: same contact family as the imperial-keep stables (mwimparchstableendl01/endr01, pad); its designedSinkM row sits in assetPlacement (0105 R25).",
   "vanilla:effects/fxfirewithembers01": "fire effect child of a hearth or campfire: seated by its mined pair (the mounts record's parent offset), never by ground contact, so no sink (fallbackSinkM 0); planner ruling 2026-09-28, GREENSPRING3 ruling 3",
-  "vanilla:architecture/docks/dockstrsol01": "frozen from the docks-v1 manifest's fit (Riverwalk's cross walk, 16k slice 3): policy stilt, a piled deck (piledDecks), anchor class water, designed-sink p50 -1.64 m over 6 plugin references"
+  "vanilla:architecture/docks/dockstrsol01": "frozen from the docks-v1 manifest's fit (Riverwalk's cross walk, 16k slice 3): policy stilt, a piled deck (piledDecks), anchor class water, designed-sink p50 -1.64 m over 6 plugin references",
+  "vanilla:architecture/docks/dockstepsdown01": "frozen from the docks-v1 manifest's fit (Riverwalk's walk, 16k slice 3): policy stilt, a piled deck (piledDecks), anchor class ground, designed-sink p50 -0.35 m, n 0, evidence mesh-sill (plugin-spread)",
+  "vanilla:architecture/docks/dockstr4way01": "frozen from the docks-v1 manifest's fit (Riverwalk's 4-way junction, 16k slice 3): policy stilt, a piled deck (piledDecks), anchor class water, designed-sink p50 -0.35 m, n 0, evidence mesh-sill"
  },
  "assetPlacement": {
   "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": {

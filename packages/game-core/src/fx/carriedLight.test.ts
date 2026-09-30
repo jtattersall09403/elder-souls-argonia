@@ -6,6 +6,7 @@ import {
   tickCarriedLight,
   type LightSourceSpec,
 } from "./carriedLight";
+import { fireFlicker } from "./fire/fireTypes";
 
 /**
  * Expected answers written first (combat-sandbox lane round 3). The torch is
@@ -68,5 +69,15 @@ describe("flicker", () => {
       expect(value).toBeLessThanOrEqual(1 + 1e-9);
     }
     expect(carriedLightIntensity({ ...lit, lit: false }, spec, 1)).toBe(0);
+  });
+  it("rises and falls with the flame, never against it", () => {
+    const lit = igniteCarriedLight(spec);
+    const rows: [number, number][] = [];
+    for (let t = 0; t < 20; t += 0.05) {
+      rows.push([fireFlicker(t, 0.5, spec.flicker!.frequency, 0.5), carriedLightIntensity(lit, spec, t)]);
+    }
+    rows.sort((p, q) => p[0] - q[0]);
+    for (let i = 1; i < rows.length; i++) expect(rows[i][1]).toBeGreaterThanOrEqual(rows[i - 1][1] - 1e-12);
+    expect(rows[rows.length - 1][1]).toBeGreaterThan(rows[0][1]);
   });
 });

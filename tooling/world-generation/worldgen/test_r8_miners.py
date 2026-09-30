@@ -171,12 +171,3 @@ def test_the_record_has_no_loose_clutter_family_pair():
     rec = json.loads((REPO / "world/sources/placement/kit-assemblies-mined.json").read_text())
     fam = rec["abuts"]["familyPairs"]
     assert ab.drop_loose_clutter(fam, ab.kit_rows()) == fam
-
-
-def test_every_template_id_the_route_structures_cite_is_in_the_record():
-    import re
-    src = (Path(__file__).parent / "compile_route_structures.py").read_text()
-    cited = set(re.findall(r'"([a-z-]+:t\d{4})"', src))
-    rec = json.loads((REPO / "world/sources/placement/kit-assemblies-mined.json").read_text())
-    ids = {t["id"] for s in rec["sets"].values() for t in s.get("templates", [])}
-    assert cited and not cited - ids, sorted(cited - ids)

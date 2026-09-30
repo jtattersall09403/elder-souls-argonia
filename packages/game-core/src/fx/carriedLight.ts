@@ -105,11 +105,11 @@ export function tickCarriedLight(
  * Relative intensity at time `t` seconds: 1 steady, dipping by up to half the
  * record's flicker amplitude, 0 when out. The fire flicker (fire/fireTypes.ts
  * `fireFlicker`: seeded value noise and rare gusts at the record's frequency)
- * mapped to 0..1, so it never repeats; `seed` (0..1) is stable per carrier.
+ * mapped to 0..1 (the light dips only when the flame dips), so it never repeats; `seed` (0..1) is stable per carrier.
  */
 export function carriedLightIntensity(state: CarriedLightState, spec: LightSourceSpec, t: number, seed = 0.5): number {
   if (!state.lit) return 0;
   if (!spec.flicker) return 1;
-  const wave = Math.min(1, Math.max(0, fireFlicker(t, seed, spec.flicker.frequency, 0.5) - 0.5));
+  const wave = 1 - Math.min(1, Math.max(0, fireFlicker(t, seed, spec.flicker.frequency, 0.5) - 0.5));
   return 1 - (spec.flicker.intensityAmplitude / 2) * wave;
 }

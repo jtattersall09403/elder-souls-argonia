@@ -7,11 +7,11 @@
   "sha256": "41e70c2501d089d4862b21b392b72dec425390e9d230742d82410cbe25dd381a"
  },
  "totals": {
-  "parts": 88,
-  "partBytes": 1449896,
-  "textureFiles": 93,
-  "textureBytes": 4518158,
-  "bytes": 5968054
+  "parts": 58,
+  "partBytes": 975596,
+  "textureFiles": 56,
+  "textureBytes": 2937856,
+  "bytes": 3913452
  },
  "assets": {
   "vanilla:architecture/farmhouse/farmhouseldoor01": {
@@ -126,26 +126,6 @@
     "9f2e0fca2754ba45"
    ]
   },
-  "vanilla:clutter/books/basicbook05": {
-   "file": "vanilla_clutter_books_basicbook05-4c9f3aa5.glb",
-   "bytes": 19484,
-   "vertices": 685,
-   "triangles": 538,
-   "textures": [
-    "9f2e0fca2754ba45",
-    "d307f8a8e9ef2008"
-   ]
-  },
-  "vanilla:clutter/books/basicbook07": {
-   "file": "vanilla_clutter_books_basicbook07-f7892b8d.glb",
-   "bytes": 19508,
-   "vertices": 685,
-   "triangles": 538,
-   "textures": [
-    "11460400d61b6d5f",
-    "9f2e0fca2754ba45"
-   ]
-  },
   "vanilla:clutter/candles/candlehornchandelier01": {
    "file": "vanilla_clutter_candles_candlehornchandelier01-cffe6ecd.glb",
    "bytes": 46764,
@@ -182,17 +162,6 @@
     "92021889840d7cb6"
    ]
   },
-  "vanilla:clutter/chopping block/axe01": {
-   "file": "vanilla_clutter_chopping_block_axe01-878fb04e.glb",
-   "bytes": 11972,
-   "vertices": 380,
-   "triangles": 470,
-   "textures": [
-    "b34cfb7585643469",
-    "ceae962d07353191",
-    "e2609a5a05cebc32"
-   ]
-  },
   "vanilla:clutter/common/broom": {
    "file": "vanilla_clutter_common_broom-fa335bf0.glb",
    "bytes": 13756,
@@ -220,46 +189,6 @@
     "05a13042d7563362"
    ]
   },
-  "vanilla:clutter/common/cratesmall02": {
-   "file": "vanilla_clutter_common_cratesmall02-83488192.glb",
-   "bytes": 18860,
-   "vertices": 780,
-   "triangles": 650,
-   "textures": [
-    "9c53fdfb26b0eb86",
-    "ea54798d7baab949"
-   ]
-  },
-  "vanilla:clutter/common/cratesmall03": {
-   "file": "vanilla_clutter_common_cratesmall03-a603b40c.glb",
-   "bytes": 18620,
-   "vertices": 706,
-   "triangles": 594,
-   "textures": [
-    "00c0747b6bc011d9",
-    "ea54798d7baab949"
-   ]
-  },
-  "vanilla:clutter/common/cratesmall04": {
-   "file": "vanilla_clutter_common_cratesmall04-94485d3c.glb",
-   "bytes": 18968,
-   "vertices": 710,
-   "triangles": 594,
-   "textures": [
-    "00c0747b6bc011d9",
-    "489a30237702fed4"
-   ]
-  },
-  "vanilla:clutter/common/cratesmalllong03": {
-   "file": "vanilla_clutter_common_cratesmalllong03-79550cad.glb",
-   "bytes": 20864,
-   "vertices": 856,
-   "triangles": 704,
-   "textures": [
-    "00c0747b6bc011d9",
-    "489a30237702fed4"
-   ]
-  },
   "vanilla:clutter/common/cupboard01": {
    "file": "vanilla_clutter_common_cupboard01-5aed270f.glb",
    "bytes": 27136,
@@ -276,26 +205,6 @@
    "triangles": 810,
    "textures": [
     "05a13042d7563362"
-   ]
-  },
-  "vanilla:clutter/common/rug11": {
-   "file": "vanilla_clutter_common_rug11-cc6d3258.glb",
-   "bytes": 8668,
-   "vertices": 119,
-   "triangles": 82,
-   "textures": [
-    "4ba8f16c67d7c29f",
-    "a36ee4e5a6ea4b1c"
-   ]
-  },
-  "vanilla:clutter/common/rug12": {
-   "file": "vanilla_clutter_common_rug12-4724855a.glb",
-   "bytes": 8660,
-   "vertices": 119,
-   "triangles": 82,
-   "textures": [
-    "4ba8f16c67d7c29f",
-    "a36ee4e5a6ea4b1c"
    ]
   },
   "vanilla:clutter/common/wardrobe01": {
@@ -450,76 +359,6 @@
     "46e76fc7010ea8ac"
    ]
   },
-  "vanilla:clutter/glazedcandlesstatic02": {
-   "file": "vanilla_clutter_glazedcandlesstatic02-ba39bff8.glb",
-   "bytes": 19156,
-   "vertices": 721,
-   "triangles": 840,
-   "textures": [
-    "308d2a5e777d1e9b",
-    "e57da8e5f799fb18"
-   ]
-  },
-  "vanilla:clutter/glazedcup01": {
-   "file": "vanilla_clutter_glazedcup01-300dc0c9.glb",
-   "bytes": 6976,
-   "vertices": 254,
-   "triangles": 286,
-   "textures": [
-    "308d2a5e777d1e9b"
-   ]
-  },
-  "vanilla:clutter/glazedjugsmall01": {
-   "file": "vanilla_clutter_glazedjugsmall01-bc282916.glb",
-   "bytes": 10188,
-   "vertices": 449,
-   "triangles": 590,
-   "textures": [
-    "308d2a5e777d1e9b"
-   ]
-  },
-  "vanilla:clutter/glazedplate01": {
-   "file": "vanilla_clutter_glazedplate01-f2cebcfb.glb",
-   "bytes": 8348,
-   "vertices": 298,
-   "triangles": 308,
-   "textures": [
-    "308d2a5e777d1e9b"
-   ]
-  },
-  "vanilla:clutter/hagraven/hagravenhangingball01": {
-   "file": "vanilla_clutter_hagraven_hagravenhangingball01-ac1f6798.glb",
-   "bytes": 17420,
-   "vertices": 461,
-   "triangles": 760,
-   "textures": [
-    "1ce9f66875719f05",
-    "60d7730143ccb812",
-    "7ecbc6734cee705c",
-    "d1b34d6ca0e09ee9"
-   ]
-  },
-  "vanilla:clutter/hagraven/hagravenhangingball02": {
-   "file": "vanilla_clutter_hagraven_hagravenhangingball02-76d922e8.glb",
-   "bytes": 23420,
-   "vertices": 841,
-   "triangles": 1376,
-   "textures": [
-    "1ce9f66875719f05",
-    "60d7730143ccb812",
-    "7ecbc6734cee705c",
-    "d1b34d6ca0e09ee9"
-   ]
-  },
-  "vanilla:clutter/hay/haymound02": {
-   "file": "vanilla_clutter_hay_haymound02-7da1e0f8.glb",
-   "bytes": 8908,
-   "vertices": 135,
-   "triangles": 190,
-   "textures": [
-    "f547bc6470506aa2"
-   ]
-  },
   "vanilla:clutter/hay/hayscatter01": {
    "file": "vanilla_clutter_hay_hayscatter01-f958d00c.glb",
    "bytes": 3860,
@@ -538,15 +377,6 @@
     "f547bc6470506aa2"
    ]
   },
-  "vanilla:clutter/honeypot01": {
-   "file": "vanilla_clutter_honeypot01-a7148a1c.glb",
-   "bytes": 21612,
-   "vertices": 1144,
-   "triangles": 1410,
-   "textures": [
-    "67041eb311c908ee"
-   ]
-  },
   "vanilla:clutter/ingredients/mead01": {
    "file": "vanilla_clutter_ingredients_mead01-6528315d.glb",
    "bytes": 13596,
@@ -555,36 +385,6 @@
    "textures": [
     "a6fb72402f619129",
     "b6ee256be9c8e60f"
-   ]
-  },
-  "vanilla:clutter/ingredients/sap": {
-   "file": "vanilla_clutter_ingredients_sap-2e5fa1df.glb",
-   "bytes": 11808,
-   "vertices": 320,
-   "triangles": 372,
-   "textures": [
-    "75b00659025db5b3",
-    "bcefbff236d54ff9"
-   ]
-  },
-  "vanilla:clutter/ingredients/spriggantaproot": {
-   "file": "vanilla_clutter_ingredients_spriggantaproot-467b374c.glb",
-   "bytes": 6888,
-   "vertices": 190,
-   "triangles": 308,
-   "textures": [
-    "60d7730143ccb812",
-    "d1b34d6ca0e09ee9"
-   ]
-  },
-  "vanilla:clutter/ingredients/stew": {
-   "file": "vanilla_clutter_ingredients_stew-8562ebfc.glb",
-   "bytes": 10480,
-   "vertices": 240,
-   "triangles": 262,
-   "textures": [
-    "bcefbff236d54ff9",
-    "d284a5208fb29230"
    ]
   },
   "vanilla:clutter/kettle01": {
@@ -677,37 +477,6 @@
     "aa625ff8711151e5"
    ]
   },
-  "vanilla:clutter/ruins/ruinsfloorcandlelampsmon": {
-   "file": "vanilla_clutter_ruins_ruinsfloorcandlelampsmon-ab5b12cf.glb",
-   "bytes": 22980,
-   "vertices": 785,
-   "triangles": 891,
-   "textures": [
-    "1ad417f463733278",
-    "92a2ef36c80f3944",
-    "e57da8e5f799fb18"
-   ]
-  },
-  "vanilla:clutter/ruins/ruinsfloorcandlelampsmon02": {
-   "file": "vanilla_clutter_ruins_ruinsfloorcandlelampsmon02-394c5eb8.glb",
-   "bytes": 24896,
-   "vertices": 733,
-   "triangles": 763,
-   "textures": [
-    "1ad417f463733278",
-    "92a2ef36c80f3944",
-    "e57da8e5f799fb18"
-   ]
-  },
-  "vanilla:clutter/wallbasket01": {
-   "file": "vanilla_clutter_wallbasket01-4fc737f7.glb",
-   "bytes": 9696,
-   "vertices": 392,
-   "triangles": 400,
-   "textures": [
-    "b35bcb40eb8bac67"
-   ]
-  },
   "vanilla:clutter/wine/winebottle01a": {
    "file": "vanilla_clutter_wine_winebottle01a-443e9df4.glb",
    "bytes": 10392,
@@ -747,40 +516,6 @@
     "acac1b10de5d5fde"
    ]
   },
-  "vanilla:critters/bee/beehivehusk": {
-   "file": "vanilla_critters_bee_beehivehusk-5c702ead.glb",
-   "bytes": 8736,
-   "vertices": 235,
-   "triangles": 294,
-   "textures": [
-    "0ae7e13daf414f65"
-   ]
-  },
-  "vanilla:critters/bee/beeinjar": {
-   "file": "vanilla_critters_bee_beeinjar-7306b549.glb",
-   "bytes": 36160,
-   "vertices": 794,
-   "triangles": 786,
-   "textures": [
-    "2acd74c28df2880e",
-    "32367a253c906e97",
-    "ba0e6d71675a2264",
-    "e422502e60306ba1",
-    "edc81ae79133fbd6",
-    "f07330f08f9e6503"
-   ]
-  },
-  "vanilla:furniture/alchemyworkstation": {
-   "file": "vanilla_furniture_alchemyworkstation-04cc5f08.glb",
-   "bytes": 57476,
-   "vertices": 1742,
-   "triangles": 2292,
-   "textures": [
-    "1b786d3d01cf0f14",
-    "41552c7908fed555",
-    "7233d2ac7f91a93d"
-   ]
-  },
   "vanilla:furniture/common/commonbed01": {
    "file": "vanilla_furniture_common_commonbed01-f2002452.glb",
    "bytes": 31252,
@@ -801,25 +536,6 @@
    "triangles": 1212,
    "textures": [
     "05a13042d7563362"
-   ]
-  },
-  "vanilla:plants/deathbell01": {
-   "file": "vanilla_plants_deathbell01-c50b243c.glb",
-   "bytes": 6020,
-   "vertices": 93,
-   "triangles": 130,
-   "textures": [
-    "3f87d81a6e9142bd",
-    "a5596c39a847bb01"
-   ]
-  },
-  "vanilla:plants/dragonstongue01": {
-   "file": "vanilla_plants_dragonstongue01-46071954.glb",
-   "bytes": 5516,
-   "vertices": 129,
-   "triangles": 103,
-   "textures": [
-    "dbfa9f058d356c86"
    ]
   },
   "vanilla:plants/hangingelvesear01": {
@@ -847,24 +563,6 @@
    "triangles": 1544,
    "textures": [
     "b75ec8707a4bb6b1"
-   ]
-  },
-  "vanilla:plants/hangingmoss01": {
-   "file": "vanilla_plants_hangingmoss01-2f515338.glb",
-   "bytes": 5072,
-   "vertices": 69,
-   "triangles": 54,
-   "textures": [
-    "a4bf0f184a69cd6d"
-   ]
-  },
-  "vanilla:plants/lavender01": {
-   "file": "vanilla_plants_lavender01-6fe736fe.glb",
-   "bytes": 6940,
-   "vertices": 202,
-   "triangles": 158,
-   "textures": [
-    "388d3d952dcd4cd8"
    ]
   },
   "vanilla:plants/leek01": {
@@ -895,6 +593,7 @@
    "category": "clutter",
    "anchorClass": "ground",
    "light": {
+    "fixtureKind": "candle",
     "formId": "00059a93",
     "editorId": "FarmInteriorLight01",
     "burnSeconds": -1,
@@ -1029,6 +728,7 @@
    "category": "clutter",
    "anchorClass": "ground",
    "light": {
+    "fixtureKind": "candle",
     "formId": "00059a93",
     "editorId": "FarmInteriorLight01",
     "burnSeconds": -1,
@@ -1133,6 +833,7 @@
    "category": "clutter",
    "anchorClass": "ground",
    "light": {
+    "fixtureKind": "candle",
     "formId": "00059a93",
     "editorId": "FarmInteriorLight01",
     "burnSeconds": -1,
@@ -1192,6 +893,7 @@
    "category": "clutter",
    "anchorClass": "wall",
    "light": {
+    "fixtureKind": "candle",
     "formId": "00088238",
     "editorId": "DefaultCandleLight01NS",
     "burnSeconds": -1,
@@ -1247,281 +949,12 @@
     0.41
    ]
   },
-  "vanilla:clutter/glazedcandlesstatic02": {
-   "id": "vanilla:clutter/glazedcandlesstatic02",
-   "category": "clutter",
-   "anchorClass": "ground",
-   "light": {
-    "formId": "000b9be7",
-    "editorId": "WRCandleFlickerNS",
-    "burnSeconds": -1,
-    "radiusUnits": 128,
-    "colourRgb": [
-     254,
-     234,
-     152
-    ],
-    "flicker": {
-     "frequency": 3,
-     "intensityAmplitude": 0.3,
-     "movementAmplitude": 16
-    },
-    "flags": [
-     "dynamic",
-     "flicker",
-     "portalStrict"
-    ],
-    "fade": 1.7,
-    "offsetM": [
-     0,
-     0.74,
-     0
-    ],
-    "evidence": "Skyrim.esm: WRCandleFlickerNS is the nearest LIGH ref (< 200 units, same cell) to 65 of 307 glazedcandlesstatic02 refs (next: SolitudeInnFirePlacesDefault 38; none 82); offset is the median of those 65 in the piece's frame, glTF Y-up metres, horizontal agreement 0.38 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
-   },
-   "flames": [
-    {
-     "offsetM": [
-      0.0512,
-      0.1939,
-      -0.0379
-     ],
-     "texture": "fx:candleflame01",
-     "atlas": [
-      2,
-      2
-     ],
-     "fps": 3,
-     "sizeM": 0.036,
-     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
-    },
-    {
-     "offsetM": [
-      -0.0524,
-      0.1662,
-      -0.0284
-     ],
-     "texture": "fx:candleflame01",
-     "atlas": [
-      2,
-      2
-     ],
-     "fps": 3,
-     "sizeM": 0.036,
-     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
-    },
-    {
-     "offsetM": [
-      -0.0454,
-      0.1387,
-      0.0587
-     ],
-     "texture": "fx:candleflame01",
-     "atlas": [
-      2,
-      2
-     ],
-     "fps": 3,
-     "sizeM": 0.036,
-     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
-    },
-    {
-     "offsetM": [
-      0.0132,
-      0.1537,
-      0.0884
-     ],
-     "texture": "fx:candleflame01",
-     "atlas": [
-      2,
-      2
-     ],
-     "fps": 3,
-     "sizeM": 0.036,
-     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
-    }
-   ],
-   "sizeM": [
-    0.453,
-    0.446,
-    0.208
-   ],
-   "originOffsetM": [
-    0.226,
-    0.223,
-    0
-   ]
-  },
-  "vanilla:clutter/ruins/ruinsfloorcandlelampsmon": {
-   "id": "vanilla:clutter/ruins/ruinsfloorcandlelampsmon",
-   "category": "clutter",
-   "anchorClass": "ground",
-   "light": {
-    "formId": "00088238",
-    "editorId": "DefaultCandleLight01NS",
-    "burnSeconds": -1,
-    "radiusUnits": 256,
-    "colourRgb": [
-     236,
-     223,
-     170
-    ],
-    "flicker": {
-     "frequency": 3,
-     "intensityAmplitude": 0.2,
-     "movementAmplitude": 8
-    },
-    "flags": [
-     "dynamic",
-     "flicker",
-     "portalStrict"
-    ],
-    "fade": 1,
-    "offsetM": [
-     0,
-     1.12,
-     0
-    ],
-    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 262 of 2241 ruinsfloorcandlelampsmon refs (next: DefaultCandleLight01NSDesat 168; none 1189); offset is the median of those 262 in the piece's frame, glTF Y-up metres, horizontal agreement 0.04 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
-   },
-   "flames": [
-    {
-     "offsetM": [
-      0.0068,
-      0.3697,
-      -0.0628
-     ],
-     "texture": "fx:candleflame01",
-     "atlas": [
-      2,
-      2
-     ],
-     "fps": 3,
-     "sizeM": 0.036,
-     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
-    },
-    {
-     "offsetM": [
-      0.0016,
-      0.4028,
-      0.0394
-     ],
-     "texture": "fx:candleflame01",
-     "atlas": [
-      2,
-      2
-     ],
-     "fps": 3,
-     "sizeM": 0.036,
-     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
-    }
-   ],
-   "sizeM": [
-    0.292,
-    0.297,
-    0.41
-   ],
-   "originOffsetM": [
-    0.145,
-    0.147,
-    -0.005
-   ]
-  },
-  "vanilla:clutter/ruins/ruinsfloorcandlelampsmon02": {
-   "id": "vanilla:clutter/ruins/ruinsfloorcandlelampsmon02",
-   "category": "clutter",
-   "anchorClass": "ground",
-   "light": {
-    "formId": "00088238",
-    "editorId": "DefaultCandleLight01NS",
-    "burnSeconds": -1,
-    "radiusUnits": 256,
-    "colourRgb": [
-     236,
-     223,
-     170
-    ],
-    "flicker": {
-     "frequency": 3,
-     "intensityAmplitude": 0.2,
-     "movementAmplitude": 8
-    },
-    "flags": [
-     "dynamic",
-     "flicker",
-     "portalStrict"
-    ],
-    "fade": 1,
-    "offsetM": [
-     0,
-     1.11,
-     0
-    ],
-    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 256 of 1515 ruinsfloorcandlelampsmon02 refs (next: DefaultCandleLight01NSDesat 132; none 780); offset is the median of those 256 in the piece's frame, glTF Y-up metres, horizontal agreement 0.04 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
-   },
-   "flames": [
-    {
-     "offsetM": [
-      0.0259,
-      0.3403,
-      0.0511
-     ],
-     "texture": "fx:candleflame01",
-     "atlas": [
-      2,
-      2
-     ],
-     "fps": 3,
-     "sizeM": 0.036,
-     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
-    },
-    {
-     "offsetM": [
-      0.0564,
-      0.3672,
-      -0.0044
-     ],
-     "texture": "fx:candleflame01",
-     "atlas": [
-      2,
-      2
-     ],
-     "fps": 3,
-     "sizeM": 0.036,
-     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
-    },
-    {
-     "offsetM": [
-      -0.0348,
-      0.4311,
-      0.0126
-     ],
-     "texture": "fx:candleflame01",
-     "atlas": [
-      2,
-      2
-     ],
-     "fps": 3,
-     "sizeM": 0.036,
-     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
-    }
-   ],
-   "sizeM": [
-    0.283,
-    0.292,
-    0.435
-   ],
-   "originOffsetM": [
-    0.138,
-    0.145,
-    -0.005
-   ]
-  },
   "vanilla:clutter/woodfires/fireplacewood01burning": {
    "id": "vanilla:clutter/woodfires/fireplacewood01burning",
    "category": "clutter",
    "anchorClass": "deck",
    "light": {
+    "fixtureKind": "hearth",
     "formId": "00059b71",
     "editorId": "FarmInteriorFireLight01",
     "burnSeconds": -1,

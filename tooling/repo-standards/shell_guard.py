@@ -32,7 +32,7 @@ SLEEP = re.compile(r"(^|[;&|(\n]\s*|\b(do|then|else|timeout\s+\S+|nohup)\s+)(rtk
 # following a log, waiting on a pid, `until` loops, and busy loops whose body is
 # only `true`/`:`/an "echo waiting". A long job runs with run_in_background.
 WAIT = re.compile(
-    r"(^|[;&|(\n]\s*)(rtk\s+)?(tail\s+(.*\s)?(-[a-zA-Z]*[fF][a-zA-Z]*|--follow\S*|--pid\S*)(\s|$)|until\s[^\n]*?;\s*do\b)"
+    r"(^|[;&|(\n]\s*)(rtk\s+)?(tail\s+([^|;&\n]*\s)?(-[a-zA-Z]*[fF][a-zA-Z]*|--follow\S*|--pid\S*)(\s|$)|until\s[^\n]*?;\s*do\b)"
     r"|\bdo\s+(true|:)\s*;?\s*done\b"
     r"|\bdo\s+echo\s+[\"']?(waiting|still|polling|not yet)\b")
 

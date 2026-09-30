@@ -276,7 +276,7 @@
    "kit": "interior-kotm-v1",
    "positionM": [
     106.6731,
-    83.9155,
+    83.9205,
     60.6963
    ],
    "rotationDeg": [
@@ -446,9 +446,9 @@
    "assetId": "vanilla:architecture/farmhouse/fencewoven01",
    "kit": "settlement-imperial-v1",
    "positionM": [
-    102.1819,
+    102.1775,
     83.3399,
-    62.1745
+    62.1721
    ],
    "rotationDeg": [
     0.0,
@@ -541,9 +541,9 @@
    "assetId": "vanilla:architecture/farmhouse/fencewoven01",
    "kit": "settlement-imperial-v1",
    "positionM": [
-    111.1552,
+    111.1581,
     83.3399,
-    59.9194
+    59.9153
    ],
    "rotationDeg": [
     0.0,
@@ -579,9 +579,9 @@
    "assetId": "vanilla:architecture/farmhouse/fencewoven01",
    "kit": "settlement-imperial-v1",
    "positionM": [
-    107.5938,
+    107.5939,
     83.3399,
-    58.7301
+    58.7251
    ],
    "rotationDeg": [
     0.0,
@@ -979,7 +979,7 @@
    "kit": "interior-kotm-v1",
    "positionM": [
     108.1123,
-    89.5538,
+    89.5488,
     59.076
    ],
    "rotationDeg": [
@@ -2100,7 +2100,7 @@
    "kit": "interior-kotm-v1",
    "positionM": [
     106.9222,
-    84.843,
+    84.7754,
     62.9206
    ],
    "rotationDeg": [
@@ -2426,6 +2426,27 @@
    "zone": "door"
   },
   {
+   "id": "KeebaHouseSnailMinder:add:door-glazedcandles-19",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.6,
+    83.46,
+    53.4
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "door"
+  },
+  {
    "id": "KeebaHouseSnailMinder:add:hearth-glazedcandles-14",
    "assetId": "vanilla:clutter/glazedcandles01",
    "kit": "interior-kotm-v1",
@@ -2433,6 +2454,27 @@
     102.967,
     83.482,
     61.692
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "hearth"
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:hearth-glazedcandles-18",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.2,
+    83.446,
+    56.9
    ],
    "rotationDeg": [
     0.0,
@@ -2806,11 +2848,59 @@
    }
   },
   {
+   "refId": "fixture:KeebaHouseSnailMinder:add:door-glazedcandles-19",
+   "positionM": [
+    107.6,
+    84.22,
+    53.4
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
    "refId": "fixture:KeebaHouseSnailMinder:add:hearth-glazedcandles-14",
    "positionM": [
     102.967,
     84.242,
     61.692
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseSnailMinder:add:hearth-glazedcandles-18",
+   "positionM": [
+    102.2,
+    84.206,
+    56.9
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -3567,7 +3657,7 @@
    "kind": "item",
    "positionM": [
     106.9222,
-    84.843,
+    84.7754,
     62.9206
    ],
    "yawDeg": 22.918,
@@ -4074,9 +4164,9 @@
   }
  ],
  "counts": {
-  "placements": 127,
+  "placements": 129,
   "drops": 14,
-  "lights": 17,
+  "lights": 19,
   "substitutions": 10,
   "swingDoors": 0,
   "missingByClass": {},
@@ -4093,6 +4183,66 @@
    "idle": 13,
    "item": 27
   },
-  "additions": 14
- }
+  "additions": 16,
+  "settled": 1,
+  "coplanarFixed": 5
+ },
+ "settled": [
+  {
+   "id": "KeebaHouseSnailMinder.08095FCF",
+   "dropM": 0.068
+  }
+ ],
+ "coplanarFixed": [
+  {
+   "id": "KeebaHouseSnailMinder.08090C4C",
+   "against": "KeebaHouseSnailMinder.08090C36",
+   "nudgeM": [
+    0.0,
+    0.005,
+    0.0
+   ],
+   "overlapM2": 0.3345
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C97",
+   "against": "KeebaHouseSnailMinder.08090C96",
+   "nudgeM": [
+    -0.0044,
+    0.0,
+    -0.0024
+   ],
+   "overlapM2": 0.5804
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C9C",
+   "against": "KeebaHouseSnailMinder.08090C9B",
+   "nudgeM": [
+    0.0029,
+    0.0,
+    -0.0041
+   ],
+   "overlapM2": 0.5804
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C9E",
+   "against": "KeebaHouseSnailMinder.08090C9D",
+   "nudgeM": [
+    0.0001,
+    0.0,
+    -0.005
+   ],
+   "overlapM2": 0.5804
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F78",
+   "against": "KeebaHouseSnailMinder.08095F77",
+   "nudgeM": [
+    0.0,
+    -0.005,
+    -0.0
+   ],
+   "overlapM2": 0.1019
+  }
+ ]
 }

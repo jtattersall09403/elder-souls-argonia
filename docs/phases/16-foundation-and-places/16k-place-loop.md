@@ -143,7 +143,9 @@ walks as it needs; it closes only on the owner's "looks right".
 3. **Walk packet** (Owner check-ins below) → the owner walks **the
    deployed studio** (owner 2026-09-27): before posting, merge `dev` into
    `main`, push, and confirm the Pages action is green; the packet's links
-   use the deployed URL, never `$ES_TUNNEL_URL`. The packet
+   use the deployed URL, never `$ES_TUNNEL_URL`; run
+   `python3 tooling/repo-standards/review_gate.py --close` when the packet
+   is posted. The packet
    gives the measured numbers in one line (no per-item table) and asks
    only look and feel; it
    lists the interiors to enter (door, cell, `?interior=<cellId>` URL)
