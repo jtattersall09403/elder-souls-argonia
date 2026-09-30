@@ -2531,6 +2531,27 @@
    "zone": "store"
   },
   {
+   "id": "KeebaHouseSnailMinder:add:store-glazedcandles-17",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    110.23,
+    83.46,
+    51.995
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
    "id": "KeebaHouseSnailMinder:add:table-glazedcandles-01",
    "assetId": "vanilla:clutter/glazedcandles01",
    "kit": "interior-kotm-v1",
@@ -2886,6 +2907,30 @@
     99.26,
     84.982,
     59.674
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseSnailMinder:add:store-glazedcandles-17",
+   "positionM": [
+    110.23,
+    84.22,
+    51.995
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -3992,9 +4037,9 @@
   }
  ],
  "counts": {
-  "placements": 126,
+  "placements": 127,
   "drops": 14,
-  "lights": 16,
+  "lights": 17,
   "substitutions": 10,
   "swingDoors": 0,
   "missingByClass": {},
@@ -4011,6 +4056,6 @@
    "idle": 13,
    "item": 27
   },
-  "additions": 13
+  "additions": 14
  }
 }

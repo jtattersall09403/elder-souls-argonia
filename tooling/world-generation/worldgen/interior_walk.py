@@ -117,6 +117,24 @@ def bundle_mesh(bundle: dict, kits_dir: Path = RAW_KITS):
     return mesh, np.concatenate(owner), sorted(set(missing))
 
 
+RAY_CHUNK = 512  # rays per trimesh call: its pure-numpy caster tests every ray
+# against every triangle its (unbounded) ray box meets, so one call over a
+# cell's ~10k join rays held 21 GiB (KeebaHouseElder --reached, 2026-09-30)
+
+
+def cast_rays(mesh, origins, dirs, multiple_hits: bool):
+    """`mesh.ray.intersects_location` in chunks of RAY_CHUNK rays (same
+    returns, ray indices into the full input)."""
+    origins, dirs = np.asarray(origins, float), np.asarray(dirs, float)
+    locs, rays, tris = [np.zeros((0, 3))], [np.zeros(0, int)], [np.zeros(0, int)]
+    for k in range(0, len(origins), RAY_CHUNK):
+        lo_, r_, t_ = mesh.ray.intersects_location(origins[k:k + RAY_CHUNK], dirs[k:k + RAY_CHUNK],
+                                                   multiple_hits=multiple_hits)
+        locs.append(np.asarray(lo_).reshape(-1, 3)); rays.append(np.asarray(r_, int) + k)
+        tris.append(np.asarray(t_, int))
+    return np.vstack(locs), np.concatenate(rays), np.concatenate(tris)
+
+
 def walk_mesh(mesh, face_owner, starts: list, targets: list[dict], ch: dict | None = None,
               want_reached: bool = False, nodes_only: bool = False) -> dict:
     """The layered walk (see the module docstring). `starts` are
@@ -134,7 +152,7 @@ def walk_mesh(mesh, face_owner, starts: list, targets: list[dict], ch: dict | No
     gx, gz = np.meshgrid(xs, zs)
     origins = np.column_stack([gx.ravel(), np.full(gx.size, hi[1] + 1.0), gz.ravel()])
     dirs = np.tile([0.0, -1.0, 0.0], (len(origins), 1))
-    locs, ray_idx, tri_idx = mesh.ray.intersects_location(origins, dirs, multiple_hits=True)
+    locs, ray_idx, tri_idx = cast_rays(mesh, origins, dirs, multiple_hits=True)
     normals = mesh.face_normals[tri_idx]
     per_ray: dict[int, list] = {}
     for loc, r, t, n in zip(locs, ray_idx, tri_idx, normals):
@@ -183,7 +201,7 @@ def walk_mesh(mesh, face_owner, starts: list, targets: list[dict], ch: dict | No
             d = (b + [0.0, h, 0.0]) - o
             length = np.linalg.norm(d, axis=1)
             d = d / length[:, None]
-            hit_locs, hit_rays, _ = mesh.ray.intersects_location(o, d, multiple_hits=False)
+            hit_locs, hit_rays, _ = cast_rays(mesh, o, d, multiple_hits=False)
             for loc, r in zip(hit_locs, hit_rays):
                 if np.linalg.norm(loc - o[r]) <= length[r] + ch["capsuleRadiusM"]:
                     blocked[r] = True

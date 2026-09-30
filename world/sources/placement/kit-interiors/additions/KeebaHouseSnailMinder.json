@@ -157,6 +157,18 @@
    "rotZDeg": 0,
    "zone": "door",
    "why": "Lights the floor just inside the door."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:store-glazedcandles-17",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    110.23,
+    83.46,
+    51.995
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the corner behind the giant snail shell."
   }
  ]
 }

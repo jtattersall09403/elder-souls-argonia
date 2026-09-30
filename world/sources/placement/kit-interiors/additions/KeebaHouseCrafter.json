@@ -145,6 +145,18 @@
    "rotZDeg": 0,
    "zone": "door",
    "why": "Lights the floor under the balcony."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:work-glazedcandles-16",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    109.566,
+    82.764,
+    61.984
+   ],
+   "rotZDeg": 0,
+   "zone": "work",
+   "why": "Lights the spinning wheel in the corner."
   }
  ]
 }

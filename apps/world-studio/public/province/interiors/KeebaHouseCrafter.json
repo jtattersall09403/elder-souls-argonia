@@ -3186,6 +3186,27 @@
    "baseType": null,
    "source": "addition",
    "zone": "table"
+  },
+  {
+   "id": "KeebaHouseCrafter:add:work-glazedcandles-16",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.566,
+    82.764,
+    61.984
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "work"
   }
  ],
  "lights": [
@@ -3531,6 +3552,30 @@
     104.767,
     84.413,
     62.915
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseCrafter:add:work-glazedcandles-16",
+   "positionM": [
+    109.566,
+    83.524,
+    61.984
    ],
    "radiusM": 1.821,
    "colorRGB": [
@@ -4555,9 +4600,9 @@
   }
  ],
  "counts": {
-  "placements": 156,
+  "placements": 157,
   "drops": 19,
-  "lights": 15,
+  "lights": 16,
   "substitutions": 5,
   "swingDoors": 0,
   "missingByClass": {},
@@ -4572,6 +4617,6 @@
    "idle": 16,
    "item": 25
   },
-  "additions": 12
+  "additions": 13
  }
 }
