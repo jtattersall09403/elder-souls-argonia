@@ -10,30 +10,28 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
-import ts from "typescript";
+import { gcModule } from "../gcModule.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repo = resolve(here, "../../..");
-const fireDir = join(repo, "packages/game-core/src/fx/fire");
 
 const threeDir = join(repo, "node_modules/three/build");
 const files = {
-  "/three.module.js": () => readFileSync(join(threeDir, "three.module.js"), "utf8"),
+  "/three.webgpu.js": () => readFileSync(join(threeDir, "three.webgpu.js"), "utf8"),
+  "/three.tsl.js": () => readFileSync(join(threeDir, "three.tsl.js"), "utf8"),
   "/three.core.js": () => readFileSync(join(threeDir, "three.core.js"), "utf8"),
 };
-const tsFile = (name) => ts.transpileModule(readFileSync(join(fireDir, name), "utf8"), {
-  compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
-}).outputText.replace(/from "\.\/(\w+)"/g, 'from "/fire/$1.js"');
 
 const page = /* html */ `<!doctype html><html><body style="margin:0;background:#000">
 <canvas id="c" width="1200" height="600"></canvas>
-<script type="importmap">{"imports":{"three":"/three.module.js"}}</script>
+<script type="importmap">{"imports":{"three":"/three.webgpu.js","three/webgpu":"/three.webgpu.js","three/tsl":"/three.tsl.js"}}</script>
 <script type="module">
 import * as THREE from "three";
 import { FlameSystem } from "/fire/FlameSystem.js";
 import { FIRE_PRESETS } from "/fire/fireTypes.js";
 const canvas = document.getElementById("c");
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+const renderer = new THREE.WebGPURenderer({ canvas, antialias: true });
+await renderer.init();
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.autoClear = false;
 const COLS = 6, ROWS = 2, TW = 200, TH = 300;
@@ -83,8 +81,7 @@ window.renderSheet = (preset) => {
     }
   }
   fire.dispose();
-  const gl = renderer.getContext();
-  return { url: canvas.toDataURL("image/png"), error: gl.getError() };
+  return { url: canvas.toDataURL("image/png"), error: renderer.backend.isWebGPUBackend ? 0 : "webgl-fallback" };
 };
 window.presets = Object.keys(FIRE_PRESETS);
 window.ready = true;
@@ -93,7 +90,7 @@ window.ready = true;
 /** Sheets for `presets` (empty = every preset) into outDir. */
 export async function runPresets({ presets: wanted, outDir }) {
 const browser = await chromium.launch({ headless: true,
-  args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
+  args: ["--enable-unsafe-webgpu", "--enable-features=UnsafeWebGPU", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
 try {
   const tab = await browser.newPage({ viewport: { width: 1200, height: 600 } });
   const errors = [];
@@ -103,8 +100,9 @@ try {
     const path = new URL(route.request().url()).pathname;
     if (path === "/") return route.fulfill({ contentType: "text/html", body: page });
     if (files[path]) return route.fulfill({ contentType: "text/javascript", body: files[path]() });
-    const m = path.match(/^\/fire\/(\w+)\.js$/);
-    if (m) return route.fulfill({ contentType: "text/javascript", body: tsFile(`${m[1]}.ts`) });
+    const mod = gcModule(path);
+    if (mod) return route.fulfill({ contentType: "text/javascript", body: mod });
+    errors.push(`404 ${path}`);
     return route.fulfill({ status: 404, body: "" });
   });
   const t0 = Date.now();
@@ -118,7 +116,7 @@ try {
     if (errors.length) throw new Error(`${preset}: shader or page errors:\n${errors.join("\n")}`);
     const file = join(outDir, `${preset}.png`);
     writeFileSync(file, Buffer.from(url.split(",")[1], "base64"));
-    console.log(`${preset}: ${file}${error ? ` (gl error ${error})` : ""}`);
+    console.log(`${preset}: ${file}${error ? ` (${error})` : ""}`);
   }
   console.log(`${presets.length} sheets in ${((Date.now() - t0) / 1000).toFixed(1)} s`);
 } finally {

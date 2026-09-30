@@ -20,7 +20,7 @@ import { spawnSync } from "node:child_process";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
-import ts from "typescript";
+import { gcModule } from "./gcModule.mjs";
 import { classesFor, FIXTURE_SHEET_KEY, PLACE_SHEET_KEY, judgeBrief, parseArgs, readLookList } from "./lookArgs.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -83,14 +83,10 @@ const glbUrl = part ? `/kits/${opts.kit}/parts/${part.file}` : `/kits/${opts.kit
 const classes = opts.classes ?? classesFor(row, opts.kit);
 
 const threeDir = join(repo, "node_modules/three");
-const fireDir = join(repo, "packages/game-core/src/fx/fire");
-const tsFile = (name) => ts.transpileModule(readFileSync(join(fireDir, name), "utf8"), {
-  compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
-}).outputText.replace(/from "\.\/(\w+)"/g, 'from "/fire/$1.js"');
 
 const page = /* html */ `<!doctype html><html><body style="margin:0;background:#000">
 <canvas id="gl" width="480" height="400"></canvas><canvas id="sheet" width="1440" height="800"></canvas>
-<script type="importmap">{"imports":{"three":"/three/build/three.module.js","three/addons/":"/three/examples/jsm/"}}</script>
+<script type="importmap">{"imports":{"three":"/three/build/three.webgpu.js","three/webgpu":"/three/build/three.webgpu.js","three/tsl":"/three/build/three.tsl.js","three/addons/":"/three/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
@@ -101,7 +97,8 @@ import { pieceFlameAnchorsLocal, manifestBoxYUp, isFlameCardMaterial, flameCardB
 import { FIRE_PRESETS } from "/fire/fireTypes.js";
 const TW = 480, TH = 400;
 const gl = document.getElementById("gl");
-const renderer = new THREE.WebGLRenderer({ canvas: gl, antialias: true, preserveDrawingBuffer: true });
+const renderer = new THREE.WebGPURenderer({ canvas: gl, antialias: true });
+await renderer.init();
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 const sheet = document.getElementById("sheet").getContext("2d");
@@ -191,14 +188,14 @@ window.look = async ({ url, node, row, fromPart }) => {
       anchorFailures: flameAnchorFailures(row.id, row, box, anchors),
       presetHeightsM: Object.fromEntries(anchors.map((a) => [a.preset, FIRE_PRESETS[a.preset]?.shape?.heightM])),
       anchors: anchors.map((a) => ({ preset: a.preset, local: a.local.toArray().map((v) => +v.toFixed(3)), record: a.record })),
-      hiddenFlameCards: hidden, flameCards, flameIntensity0, flamePos0, gridStepM: step, glError: renderer.getContext().getError() },
+      hiddenFlameCards: hidden, flameCards, flameIntensity0, flamePos0, gridStepM: step, backend: renderer.backend.isWebGPUBackend ? "webgpu" : "webgl-fallback" },
   };
 };
 window.ready = true;
 </script></body></html>`;
 
 const browser = await chromium.launch({ headless: true,
-  args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
+  args: ["--enable-unsafe-webgpu", "--enable-features=UnsafeWebGPU", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
 try {
   const tab = await browser.newPage({ viewport: { width: 1440, height: 1200 } });
   const errors = [];
@@ -212,8 +209,8 @@ try {
     if (path.startsWith("/basis/")) return file(join(threeDir, "examples/jsm/libs/basis", path.slice(7)),
       path.endsWith(".wasm") ? "application/wasm" : "text/javascript");
     if (path.startsWith("/kits/")) return file(join(kitsDir, path.slice(6)), path.endsWith(".ktx2") ? "image/ktx2" : "model/gltf-binary");
-    const m = path.match(/^\/fire\/(\w+)\.js$/);
-    if (m) return route.fulfill({ contentType: "text/javascript", body: tsFile(`${m[1]}.ts`) });
+    const mod = gcModule(path);
+    if (mod) return route.fulfill({ contentType: "text/javascript", body: mod });
     if (path === "/favicon.ico") return route.fulfill({ status: 204, body: "" });
     errors.push(`404 ${path}`);
     return route.fulfill({ status: 404, body: "" });

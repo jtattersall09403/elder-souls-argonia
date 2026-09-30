@@ -13,7 +13,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
-import ts from "typescript";
+import { gcModule } from "../gcModule.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repo = resolve(here, "../../..");
@@ -36,9 +36,6 @@ const FIXTURES = [
 const threeDir = join(repo, "node_modules/three");
 const kitsRaw = join(repo, "tooling/asset-pipeline/output/kits");
 const kitsPublic = join(repo, "apps/world-studio/public/kits");
-const tsFileIn = (fireDir) => (name) => ts.transpileModule(readFileSync(join(fireDir, name), "utf8"), {
-  compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
-}).outputText.replace(/from "\.\/(\w+)"/g, 'from "/fire/$1.js"');
 
 // One piece of a kit GLB as its own small GLB (geometry, diffuse, alpha mode):
 // SwiftShader cannot hold a whole 80 MB kit, and size is judged on geometry.
@@ -127,7 +124,7 @@ function pieceGlb(kitName, assetId) {
 
 const page = /* html */ `<!doctype html><html><body style="margin:0;background:#000">
 <canvas id="c" width="1200" height="800"></canvas>
-<script type="importmap">{"imports":{"three":"/three/build/three.module.js","three/addons/":"/three/examples/jsm/"}}</script>
+<script type="importmap">{"imports":{"three":"/three/build/three.webgpu.js","three/webgpu":"/three/build/three.webgpu.js","three/tsl":"/three/build/three.tsl.js","three/addons/":"/three/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
@@ -135,9 +132,10 @@ import { FlameSystem } from "/fire/FlameSystem.js";
 import { FIRE_PRESETS } from "/fire/fireTypes.js";
 import { interiorFlameAnchorsLocal } from "/fire/interiorFires.js";
 import { isFlameCardMaterial, manifestBoxYUp } from "/fire/flameAnchors.js";
-import { applyLanternShell, isLanternShellMaterial } from "/settlement/fixtureGlow.js";
+import { applyLanternShell, isLanternShellMaterial } from "/gc/settlement/fixtureGlow.js";
 const canvas = document.getElementById("c");
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+const renderer = new THREE.WebGPURenderer({ canvas, antialias: true });
+await renderer.init();
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.autoClear = false;
 const COLS = 3, ROWS = 2, TW = 400, TH = 400;
@@ -231,9 +229,8 @@ window.ready = true;
  * fireDir: another copy of fx/fire (e.g. HEAD's, for a before/after pair). */
 export async function runFixtures({ fixtures, outDir, fireDir }) {
 const list = fixtures.length ? fixtures : FIXTURES;
-const tsFile = tsFileIn(fireDir ? resolve(fireDir) : join(repo, "packages/game-core/src/fx/fire"));
 const browser = await chromium.launch({ headless: true,
-  args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
+  args: ["--enable-unsafe-webgpu", "--enable-features=UnsafeWebGPU", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
 try {
   const tab = await browser.newPage({ viewport: { width: 1200, height: 800 } });
   const errors = [];
@@ -248,10 +245,9 @@ try {
       return route.fulfill({ contentType: "model/gltf-binary", body: pieceGlb(kitName, assetId) });
     }
     if (path.startsWith("/pub/")) return route.fulfill({ contentType: "application/json", body: readFileSync(join(kitsPublic, path.slice(5))) });
-    if (path === "/settlement/fixtureGlow.js") return route.fulfill({ contentType: "text/javascript",
-      body: tsFileIn(join(repo, "packages/game-core/src/settlement"))("fixtureGlow.ts") });
-    const m = path.match(/^\/fire\/(\w+)\.js$/);
-    if (m) return route.fulfill({ contentType: "text/javascript", body: tsFile(`${m[1]}.ts`) });
+    const mod = gcModule(path, fireDir ? resolve(fireDir) : undefined);
+    if (mod) return route.fulfill({ contentType: "text/javascript", body: mod });
+    errors.push(`404 ${path}`);
     return route.fulfill({ status: 404, body: "" });
   });
   const t0 = Date.now();
