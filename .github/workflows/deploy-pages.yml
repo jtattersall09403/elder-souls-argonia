@@ -105,7 +105,8 @@ jobs:
   build:
     needs: rasters
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    # 12 min for main's gates and build, plus ~3 for the webgpu studio (code only).
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -164,6 +165,38 @@ jobs:
       # excluded file, or a site over 900 MB (warns over 750 MB).
       - name: Compose site
         run: npm run site:compose
+      # The WebGPU studio (branch `webgpu`, which must exist on origin) ships
+      # beside main's studio at /elder-souls-argonia/webgpu/, AFTER main's
+      # site has composed and passed its own gates above (the 900 MB site
+      # gate judges main's build only). It ships CODE ONLY: built with
+      # VITE_ES_DATA_BASE its every data fetch (rasters, kits, settlements,
+      # water, ground textures, transcoder) resolves against main's
+      # /elder-souls-argonia/studio/, character files against main's sandbox
+      # (vite.config sharedBase), and publicDir is off, so no data is copied
+      # twice. A webgpu branch whose data contract has moved away from main's
+      # shows at runtime in /webgpu/ only; main's site is untouched.
+      - name: Check out the webgpu branch
+        uses: actions/checkout@v4
+        with:
+          ref: webgpu
+          path: webgpu-src
+      - run: npm ci
+        working-directory: webgpu-src
+      - name: Build the webgpu studio (code only)
+        run: npm run build -w @elder-souls/world-studio
+        working-directory: webgpu-src
+        env:
+          ES_STUDIO_BASE: /elder-souls-argonia/webgpu/
+          VITE_ES_DATA_BASE: /elder-souls-argonia/studio/
+      # Code only, so a small cap: a data folder leaking into this build
+      # (publicDir back on, a plugin copying files) fails here, never
+      # duplicates hundreds of MB on the site.
+      - name: Add the webgpu studio at site/webgpu
+        run: |
+          cp -R webgpu-src/apps/world-studio/dist site/webgpu
+          bytes=$(du -sb site/webgpu | cut -f1)
+          echo "webgpu studio: $((bytes / 1000000)) MB (code only; cap 60 MB)"
+          if [ "$bytes" -gt 60000000 ]; then echo "::error::site/webgpu is $((bytes / 1000000)) MB, over the 60 MB code-only cap"; exit 1; fi
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
