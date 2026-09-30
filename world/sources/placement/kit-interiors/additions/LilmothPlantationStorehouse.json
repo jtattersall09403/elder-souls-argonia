@@ -193,6 +193,18 @@
    "rotZDeg": 270,
    "zone": "hearth",
    "why": "Lights the sake bottles by the hearth."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:door-candlehornwall-17",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    108.951,
+    87.136,
+    75.439
+   ],
+   "rotZDeg": 270,
+   "zone": "door",
+   "why": "Lights the stairs just inside the door."
   }
  ]
 }
