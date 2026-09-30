@@ -27,3 +27,4 @@ Where places go, what they are for, what they can be built from, and what shippe
 | [kit-level-design-and-layout-generation.md](kit-level-design-and-layout-generation.md) | The known craft of kit-based level design and procedural layout generation. Inspiration, not prescription. | research reference |
 | [settlement-design-principles-sources.md](settlement-design-principles-sources.md) | External sources on settlement design, gathered for a later synthesis. Nothing here is a rule. | research reference |
 | [xanmeer-mesoamerican-reference.md](xanmeer-mesoamerican-reference.md) | Real wet-tropical archaeology as grounding for xanmeer ruins and their dungeons. Canon wins over analogy. | research reference |
+| [boardwalk-piece-catalogue.md](boardwalk-piece-catalogue.md) | What we hold for boardwalks, docks and walkways over marsh water, measured from the kits. Read by the 16k boardwalk work. | live design input |
