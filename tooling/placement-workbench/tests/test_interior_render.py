@@ -446,10 +446,10 @@ def test_a_landing_over_the_main_floor_splits_the_eyes():
         assert e[0] > 3.0 and abs(e[2] - ir.EYE_M) < 1e-9       # on the main floor, off the landing
     d, aim = eyes["doorway"]
     assert abs(d[2] - (3.0 + ir.EYE_M)) < 1e-9
-    # the edge eye looks steeply down past the landing's own floor (walk 5,
-    # KeebaHouseCrafter): the view that scores looks across the room
-    assert 0.0 < d[0] <= 3.0 - ir.EDGE_BACK_M + 1e-9 and aim[2] > eyes["target"][2]
-    assert ir.score_eye(cast, d, aim) >= ir.MIN_SCORE_M
+    # the landing's edge, LANDING_BACK_M back, looking down at the hub no
+    # steeper than MAX_PITCH_DEG (walk 5: Lilmoth Glassworks, KeebaHouseCrafter)
+    assert abs(d[0] - (3.0 - ir.LANDING_BACK_M)) <= ir.DOOR_STEP + 1e-9
+    assert -ir.MAX_PITCH_DEG - 1e-6 <= _pitch_deg(d, aim) < 0.0
     # no drop on the line (arrival on the main floor): 1.2 m in from the door
     flat, _ = ir.doorway_eye(cast, (3.05, 5.0, 0.0), (8.0, 5.0), 0.0)
     assert abs(flat[0] - (3.05 + ir.DOOR_IN_M)) < 1e-9 and abs(flat[2] - ir.EYE_M) < 1e-9
@@ -566,3 +566,19 @@ def test_a_blocked_door_line_takes_a_side_spot_with_the_door_behind():
     assert abs(_pitch_deg(d, aim)) <= ir.MAX_PITCH_DEG + 1e-6
     plan = {"belowZ": 0.0, "mainZ": 0.0, "centroid": (7.0, 7.0), "arrivalXY": (1.0, 7.0)}
     assert ir.eye_plan(cast, plan, door)["doorway"] is not None
+
+
+def test_a_lattice_rail_between_the_frame_probes_fills_the_occupancy_grid():
+    """KeebaHouseCrafter's doorway: lattice slats 2 m ahead at the odd
+    5-degree yaws slip between all 66 FRAME_PROBES; `occupied` casts the
+    5-degree NEAR_GRID and counts them."""
+    eye, ahead = (4.0, 4.0, 1.6), (1.0, 0.0, 0.0)
+    slats = [(5.99, 4.0 + 2.0 * math.tan(math.radians(a)) - 0.01, 0.0,
+              6.01, 4.0 + 2.0 * math.tan(math.radians(a)) + 0.01, 2.6)
+             for a in (-35, -25, -15, -5, 5, 15, 25, 35)]
+    cast = _solids_cast(_BOX12 + slats)
+    bare = _solids_cast(_BOX12)
+    assert all(cast(eye, ir._turn(ahead, y, pt), ir.OCCUPIED_M) == bare(eye, ir._turn(ahead, y, pt), ir.OCCUPIED_M)
+               for y, pt, _ in ir.FRAME_PROBES)
+    assert ir.occupied(cast, eye, ahead)
+    assert not ir.occupied(_solids_cast(_BOX12), eye, ahead)

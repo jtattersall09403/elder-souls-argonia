@@ -535,7 +535,9 @@ DOOR_BEHIND_DEG = 100.0  # a side eye's view turns at least this far from the do
 
 
 def occupied(cast, eye, ahead) -> bool:
-    """More than MAX_OCCUPIED of the FRAME_PROBES hit within OCCUPIED_M, or
+    """More than MAX_OCCUPIED of the 5-degree NEAR_GRID probes (a lattice
+    rail slips between the 10-degree FRAME_PROBES: KeebaHouseCrafter's
+    doorway) hit within OCCUPIED_M, or
     of the up-facing ones alone (pitch > 0: a roof beam over the frame is
     counted on its own half; 16k walk 5, the Lilmoth overseer houses'
     stair overhang, KeebaHouseFisher's beam, DawnstarBrinasHouse's log).
@@ -543,7 +545,7 @@ def occupied(cast, eye, ahead) -> bool:
     clutter: the frame's bottom row meets the floor 2.4 m out."""
     floor_z = eye[2] - EYE_M + FLOOR_SKIP_M
     hits = []
-    for y, pt, _ in FRAME_PROBES:
+    for y, pt in NEAR_GRID:
         d = _turn(ahead, y, pt)
         t = cast(eye, d, OCCUPIED_M)
         hits.append((pt, t is not None and eye[2] + d[2] * t > floor_z))
@@ -606,13 +608,46 @@ def door_side_eye(cast, door, level_z: float, target, stats: dict | None = None)
                     best = (sc, p, t)
     return best
 
+LANDING_BACK_M = 0.3     # a landing's doorway eye stands this far back from its edge
+
+
+def landing_edge_eye(cast, door, hub, level_z: float, target):
+    """The doorway eye on a landing over the main floor (the split plan):
+    on the door-to-hub line, LANDING_BACK_M back from the last point on the
+    landing before the drop (a floor more than DROP_M below the level, or
+    none; a railing's top is neither and is walked past), aimed at the
+    main-floor target held within MAX_PITCH_DEG of level (16k walk 5:
+    the Lilmoth overseer houses and KeebaHouseCrafter looked along the
+    landing or into its railing). None when the line meets no drop."""
+    dx, dy = hub[0] - door[0], hub[1] - door[1]
+    length = math.hypot(dx, dy)
+    if length < 1e-6:
+        return None
+    u = (dx / length, dy / length)
+    z = level_z + EYE_M
+    last, s = None, DOOR_STEP
+    while s <= length:
+        p = (door[0] + u[0] * s, door[1] + u[1] * s, z)
+        down = cast(p, (0.0, 0.0, -1.0), EYE_M + 6.0)
+        fz = z - down if down is not None else None
+        if fz is not None and abs(fz - level_z) <= DROP_M:
+            last = s
+        elif last is not None and (fz is None or fz < level_z - DROP_M):
+            at = max(DOOR_STEP, last - LANDING_BACK_M)
+            eye = (door[0] + u[0] * at, door[1] + u[1] * at, z)
+            return eye, level_aim(eye, target)
+        s += DOOR_STEP
+    return None
+
+
 def eye_plan(cast, plan: dict, door) -> dict:
     """The three eyes (Blender frame) from the floor plan: the corners on the
     main floor when it lies more than SPLIT_M from the arrival's level
     (round the main floor's centroid), else on the arrival's level (round
     the arrival point); the doorway always on the arrival's level. Every
     view looks at the hub 1 m over the corners' floor (the doorway higher on
-    its vertical when that view fails, `doorway_eye`; None when no doorway
+    its vertical when that view fails, `doorway_eye`; on a landing over the
+    main floor, its edge looking down at the hub, `landing_edge_eye`; None when no doorway
     view scores MIN_SCORE_M, and the shot's fallback camera walks in,
     DawnstarBrinasHouse). {target, hub,
     corners: [eye..], scores, doorway: (eye, target), cornerZ, doorZ}."""
@@ -621,11 +656,13 @@ def eye_plan(cast, plan: dict, door) -> dict:
     hub = plan["centroid"] if split else plan["arrivalXY"]
     target = (hub[0], hub[1], corner_z + 1.0)
     corners = pick_corners(cast, candidate_eyes(cast, hub, corner_z), target, corner_z)
-    door_eye = doorway_eye(cast, door, hub, plan["belowZ"], target)
+    edge = (landing_edge_eye(cast, door, hub, plan["belowZ"], target)
+            if split and plan["belowZ"] > plan["mainZ"] else None)
+    door_eye = edge or doorway_eye(cast, door, hub, plan["belowZ"], target)
     return {"target": target, "hub": tuple(hub), "cornerZ": corner_z, "doorZ": plan["belowZ"],
             "corners": [c["eye"] for c in corners],
             "scores": [round(c["score"], 2) for c in corners],
-            "doorway": door_eye if door_score(cast, *door_eye) >= MIN_SCORE_M else None}
+            "doorway": door_eye if edge or door_score(cast, *door_eye) >= MIN_SCORE_M else None}
 
 
 def settle_eye(cast, eye, target, eye_h: float | None = None) -> tuple[tuple, float]:
