@@ -587,7 +587,11 @@ def door_report(cat: Catalogue, scene, piece: Piece) -> dict | None:
                 # (radial records), not the way its wall faces
                 row["facingOffOutwardDeg"] = round(off, 1)
         rows.append(row)
-    if deck_seated(cat.row(piece.asset)):
+    if deck_seated(cat.row(piece.asset)) and not any(
+            r["source"] == "interiors/approach" for r in rows):
+        # (an `approach` doorway is the one the landing reaches, measured in
+        # the wall by interiors_index.approach_doorways: the door stands
+        # there, never at the landing's shore edge 4 m out; Riverwalk walk 5)
         # a house on stilts is entered over its own landing: the landing's
         # outer (shore) edge is its threshold, facing off it (Riverwalk
         # re-site: the measured opening faced the open water, 18.6 m from

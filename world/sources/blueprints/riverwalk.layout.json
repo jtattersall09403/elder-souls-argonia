@@ -698,6 +698,33 @@
   },
   {
    "op": "place",
+   "uid": "c-doorlamp",
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
+   "at": [
+    7223.8,
+    518.6
+   ],
+   "yaw": 182.5
+  },
+  {
+   "op": "mount",
+   "child": "c-doorlamp",
+   "parent": "b-house",
+   "hang": true,
+   "unmined": "reader-approved r4",
+   "max_h": 6.0
+  },
+  {
+   "op": "bind",
+   "uid": "c-doorlamp",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "light",
+   "on": "parent",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
    "uid": "c-urn1",
    "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
    "at": [
@@ -1124,8 +1151,12 @@
      518.3
     ],
     [
-     7219.32,
-     516.55
+     7219.2,
+     518.92
+    ],
+    [
+     7223.2,
+     518.3
     ]
    ],
    "width": 1.5,
