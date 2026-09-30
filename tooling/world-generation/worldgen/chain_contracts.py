@@ -526,7 +526,6 @@ READS: dict[str, list[Check]] = {
         P(json_doc, SOURCES / "routes" / "route-structures.json", ("structures",), 1),
         P(json_doc, OUTPUT / "route-grading-stretches.json"),
         P(json_doc, KITS / "route-structures-v1.kit.json"),
-        P(json_doc, KITS / "route-spans-v1.kit.json"),
     ],
     # `travel_services.py` reads the registry, the crossings, the catalogue, the
     # compiled water and — since 16g deliverable 6 — the published waterways:

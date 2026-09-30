@@ -121,22 +121,21 @@ export function selectMinor(
 
 /**
  * Authored route structures (worldgen.compile_route_structures): the stairs,
- * stepped ascents, decks, spans and lip steps that carry the stretches terrain
- * grading could not fix. Coordinates arrive in WORLD METRES; the map layer
+ * stepped ascents and lip steps that carry the stretches terrain grading could
+ * not fix. No water crossing is among them: crossings are built per place in
+ * 16k. Coordinates arrive in WORLD METRES; the map layer
  * works in hydrology-grid pixels, so they are converted here. Drawing them in
  * 3D is Round B's job — this is the 2D map trace and its hover label.
  */
 export interface RouteStructure {
   id: string;
   wayId: string;
-  kind: "stair" | "stepped-ascent" | "deck" | "bridge" | "lip-step";
+  kind: "stair" | "stepped-ascent" | "lip-step";
   family: string;
   pieces: number;
   riseM: number;
   spanM: number;
   why: string;
-  /** The crossing record a bridge or deck carries (`crossings.json` id). */
-  crossingId?: string;
   /** One point per placed piece, [x east, z south] in metres. */
   pointsM: [number, number][];
 }
@@ -184,23 +183,21 @@ export function routeTip(sel: RouteSelection): TipSection {
 }
 
 /** A structure: what it is, how many pieces, and the height it carries. */
-export function structureTip(s: RouteStructure, carried?: WaterCrossing | null): TipSection {
+export function structureTip(s: RouteStructure): TipSection {
   return {
     title: `${s.kind} on ${s.wayId}`,
     rows: [
       ...row("id", s.id),
       ...row("pieces", `${s.pieces} piece${s.pieces === 1 ? "" : "s"} (${s.family})`),
       ...row("size", `${Math.abs(s.riseM).toFixed(1)} m rise over ${s.spanM.toFixed(0)} m`),
-      ...row("carries", carried ? `${carried.id} (${carried.band}, ${carried.water})` : null),
       ...row("why", s.why),
     ],
   };
 }
 
-/** One colour per structure kind; a span is drawn as a recoloured stretch of
- *  its road line (owner 2026-09-16), a flight the same way. */
+/** One colour per structure kind; a flight is drawn as a recoloured stretch
+ *  of its road line (owner 2026-09-16). */
 export const STRUCTURE_COLOUR: Record<string, string> = {
-  bridge: "#ffb454", deck: "#d89a52", trestle: "#c58a4a",
   stair: "#9fd0ff", "stepped-ascent": "#7fb0e8", "lip-step": "#b7c4d4",
 };
 export const STRUCTURE_STYLE = { stroke: "#ffb454", width: 3.4 };

@@ -1,6 +1,8 @@
 # 0051 — Route span systems: how a way crosses a gap
 
-Date: 2026-09-09. Status: accepted. Supersedes nothing; extends
+Date: 2026-09-09. Status: accepted; its province-wide span placement is
+superseded by [0115](0115-province-route-compile-builds-no-crossings.md)
+(spans are built per place). Extends
 [0041](0041-phase11-settlement-decisions.md) (placement) and the
 `route-structures-v1` half of module 90.
 
