@@ -428,16 +428,13 @@
   {
    "op": "place",
    "uid": "b-house",
-   "asset": "composite:mud/kotm-house-pod",
+   "asset": "composite:stilt/swamp-house-with-landing",
    "at": [
-    7203.0,
-    510.0
+    7231.5,
+    519.5
    ],
-   "yaw": 15.0,
-   "pad": {
-    "apronM": 1.0,
-    "batter": true
-   }
+   "yaw": 182.5,
+   "walkable": true
   },
   {
    "op": "place",
@@ -684,8 +681,8 @@
    "uid": "c-candle1",
    "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
    "at": [
-    7199.1,
-    517.1
+    7215.6,
+    515.7
    ],
    "yaw": 0.0,
    "settle": true
@@ -704,8 +701,8 @@
    "uid": "c-urn1",
    "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
    "at": [
-    7203.4,
-    518.2
+    7213.1,
+    516.0
    ],
    "yaw": 0.0,
    "settle": true
@@ -724,8 +721,8 @@
    "uid": "c-urn2",
    "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
    "at": [
-    7204.4,
-    517.4
+    7214.1,
+    516.5
    ],
    "yaw": 0.0,
    "settle": true
@@ -744,8 +741,8 @@
    "uid": "c-basket",
    "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
    "at": [
-    7205.2,
-    516.4
+    7214.7,
+    515.9
    ],
    "yaw": 0.0,
    "settle": true
@@ -764,7 +761,7 @@
    "uid": "c-sack",
    "asset": "vanilla:clutter/containers/miscsacklarge",
    "at": [
-    7197.1,
+    7212.1,
     515.9
    ],
    "yaw": 0.0,
@@ -784,8 +781,8 @@
    "uid": "c-chair1",
    "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
    "at": [
-    7195.25,
-    511.8
+    7217.3,
+    515.9
    ],
    "yaw": 0.0,
    "settle": true
@@ -804,8 +801,8 @@
    "uid": "c-chair2",
    "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
    "at": [
-    7196.65,
-    514.65
+    7215.5,
+    516.7
    ],
    "yaw": 0.0,
    "settle": true
@@ -824,8 +821,8 @@
    "uid": "cc-pot",
    "asset": "kotm:argonia/clutter/saxhleelmetalpot01",
    "at": [
-    7211.2,
-    512.4
+    7212.3,
+    519.3
    ],
    "yaw": 0.0,
    "settle": true
@@ -844,8 +841,8 @@
    "uid": "cc-wood",
    "asset": "vanilla:clutter/firewood/firewoodpilesmall01",
    "at": [
-    7210.25,
-    512.75
+    7212.6,
+    518.6
    ],
    "yaw": 0.0,
    "settle": true
@@ -1115,8 +1112,20 @@
      519.1
     ],
     [
-     7200.3,
-     516.3
+     7205.0,
+     522.8
+    ],
+    [
+     7212.0,
+     523.2
+    ],
+    [
+     7215.3,
+     518.3
+    ],
+    [
+     7219.32,
+     516.55
     ]
    ],
    "width": 1.5,
@@ -1183,7 +1192,7 @@
    "kind": "idle",
    "activity": "stand",
    "parcel": "parcel.riverwalk.crews-house",
-   "why": "The toll-holder calls the toll from the long house door, at the head of the boards.",
+   "why": "The toll-holder calls the toll from the spit, at the head of the boards.",
    "at": [
     7200.1,
     517.0
@@ -1193,11 +1202,13 @@
    "op": "socket",
    "id": "socket.riverwalk.idle-toll-holder-home",
    "kind": "idle",
-   "host": "KeebaHouseCrafter.0809B556",
    "activity": "sleep",
    "parcel": "parcel.riverwalk.crews-house",
    "why": "The toll-holder sleeps in the long house.",
-   "interiorCell": "KeebaHouseCrafter"
+   "at": [
+    7233.37,
+    522.58
+   ]
   },
   {
    "op": "socket",
@@ -1250,11 +1261,13 @@
    "op": "socket",
    "id": "socket.riverwalk.idle-stage-mistress-home",
    "kind": "idle",
-   "host": "KeebaHouseCrafter.0809B557",
    "activity": "sleep",
    "parcel": "parcel.riverwalk.crews-house",
    "why": "The stage-mistress sleeps in the long house.",
-   "interiorCell": "KeebaHouseCrafter"
+   "at": [
+    7229.37,
+    522.41
+   ]
   },
   {
    "op": "socket",
@@ -1298,21 +1311,25 @@
    "op": "socket",
    "id": "socket.riverwalk.idle-n1-work",
    "kind": "idle",
-   "host": "KeebaHouseCrafter.0809B562",
    "activity": "work-at",
    "parcel": "parcel.riverwalk.crews-house",
    "why": "The household keeps the bunks and the stores in the long house.",
-   "interiorCell": "KeebaHouseCrafter"
+   "at": [
+    7226.22,
+    514.26
+   ]
   },
   {
    "op": "socket",
    "id": "socket.riverwalk.idle-n1-home",
    "kind": "idle",
-   "host": "KeebaHouseCrafter.0809B55D",
    "activity": "sleep",
    "parcel": "parcel.riverwalk.crews-house",
    "why": "The household sleeps in the long house.",
-   "interiorCell": "KeebaHouseCrafter"
+   "at": [
+    7233.5,
+    519.59
+   ]
   },
   {
    "op": "socket",
@@ -1365,11 +1382,13 @@
    "op": "socket",
    "id": "socket.riverwalk.idle-n2-home",
    "kind": "idle",
-   "host": "KeebaHouseCrafter.0809B55E",
    "activity": "sleep",
    "parcel": "parcel.riverwalk.crews-house",
    "why": "The crew takes a bunk in the long house.",
-   "interiorCell": "KeebaHouseCrafter"
+   "at": [
+    7229.48,
+    519.91
+   ]
   },
   {
    "op": "socket",
@@ -1423,11 +1442,13 @@
    "op": "socket",
    "id": "socket.riverwalk.idle-n3-home",
    "kind": "idle",
-   "host": "KeebaHouseCrafter.0809B556",
    "activity": "sleep",
    "parcel": "parcel.riverwalk.crews-house",
    "why": "The toll hand sleeps in the long house.",
-   "interiorCell": "KeebaHouseCrafter"
+   "at": [
+    7231.28,
+    524.5
+   ]
   },
   {
    "op": "socket",
@@ -1532,12 +1553,12 @@
    "id": "socket.riverwalk.marker-house-door",
    "kind": "marker",
    "at": [
-    7200.1,
-    517.0
+    7223.55,
+    518.25
    ],
    "zone": "entrance",
    "parcel": "parcel.riverwalk.crews-house",
-   "why": "The long house door, the most-used door in the village."
+   "why": "The long house doorway, over its landing, the most-used doorway in the village."
   },
   {
    "op": "socket",
@@ -1555,7 +1576,7 @@
     "storyNote": "Rope and dried food sold to the crews."
    },
    "parcel": "parcel.riverwalk.crews-house",
-   "why": "The stores that the household sells to the crews, kept by the door."
+   "why": "The stores that the household sells to the crews, kept on the spit by the path to the long house."
   },
   {
    "op": "socket",
@@ -1572,19 +1593,21 @@
     "storyNote": "The day's toll, not yet paid on to either city."
    },
    "parcel": "parcel.riverwalk.crews-house",
-   "why": "The toll-holder keeps the takings in a painted urn by the long house door."
+   "why": "The toll-holder keeps the takings in a painted urn on the spit, by the path to the long house."
   },
   {
    "op": "socket",
    "id": "socket.riverwalk.item-toll-tally",
    "kind": "item",
-   "host": "KeebaHouseCrafter.0809B55B",
    "itemClass": "book",
    "valueBand": "low",
    "contentPending": true,
    "parcel": "parcel.riverwalk.crews-house",
    "why": "The toll-holder's tally of who paid which city.",
-   "interiorCell": "KeebaHouseCrafter"
+   "at": [
+    7230.11,
+    516.94
+   ]
   }
  ]
 }
