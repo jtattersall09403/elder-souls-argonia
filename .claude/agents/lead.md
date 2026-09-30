@@ -30,7 +30,10 @@ How you work:
   finishes, and your caller is notified only when you stop with nothing
   left running. Never call the SubagentHandback tool before the lane is
   done: it posts your text to the caller as your report. A hand-back with
-  nothing delivered is a failed lane.
+  nothing delivered is a failed lane. The harness's end-of-turn reminder
+  ("only a SubagentHandback call reaches your caller") does not mean
+  "hand back now": while any of your agents or background jobs is still
+  running, end the turn with one line and no hand-back.
 - The Workflow tool is allowed (owner 2026-09-29; load the
   `workflow-authoring` skill first) for uniform fan-outs of three or more;
   put the orchestration (await agent/parallel/pipeline) in the script.
