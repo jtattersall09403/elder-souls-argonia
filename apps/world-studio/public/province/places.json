@@ -28936,10 +28936,11 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "contents": {
-        "creatures": [],
+        "creatures": [
+          "apex-ambusher · D3 · single — something in the deep end of the seep"
+        ],
         "npcs": [
-          "rank-and-file · D2 · few — D2 seasonal diggers",
-          "rank-and-file · D2 · few — D3 something in the deeper pools"
+          "rank-and-file · D2 · few — D2 seasonal diggers"
         ],
         "loot": [
           "workshop-stock · materials · tier-1"
@@ -36795,8 +36796,8 @@
         "v": 0.41683
       },
       "positionM": [
-        1231.1,
-        3073.5
+        1196.0,
+        3084.0
       ],
       "plotFacts": {
         "landform": "spring-head",
@@ -36815,8 +36816,8 @@
       },
       "whySiteWon": "spring head in upland hills (danger band 2), 165 m from the nearest route; at the water's edge; won on nearPoint, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'.",
       "why": {
-        "founding": "When the Legion was recalled, not every man on the border road went with it. These men were never paid off.",
-        "siteAdvantages": "A blind bend on the road with cover on the uphill side and a ravine for falling back.",
+        "founding": "When the Legion was recalled, two centuries ago, not every man on the border road went with it. Those who stayed were never paid off. Their grandsons keep the roster and wear the colours still.",
+        "siteAdvantages": "A bench on the hill above the junction of the Mile House and Swampmoth tracks, out of sight of the Gideon road, with cover uphill and the stream's ravine below for falling back.",
         "occupantsMotive": "They keep watches and wear the colours. What they take, they call a levy.",
         "pressures": "Gideon's council will not pay to clear them. The toll company would rather use them.",
         "wouldChangeIf": "Would disband inside a season if Gideon offered them a pardon and a wage."
@@ -36833,7 +36834,7 @@
       "discovery": "rumour",
       "valueTier": "tier-3",
       "purpose": "combat-challenge (real) + social-drama, quest-anchor",
-      "hook": "A Legion column left unpaid at the recall holds a bend of the Blackwood Road and calls what it takes a levy.",
+      "hook": "The grandsons of a Legion column left unpaid at the recall hold a track junction off the Gideon road and call what they take a levy.",
       "stance": "hostile",
       "interior": null,
       "purposeDetail": {
@@ -46945,8 +46946,8 @@
       },
       "whySiteWon": "Reseated (2026-09-23): Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2484.1, 6426.8, less than 275 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2579.6, 6565.9 (275.5 m from the centre, 168.7 m move).",
       "why": {
-        "founding": "Argonians die in the Rose and their bones must reach the dirt; the Chainbreakers built a station on the Blackrose road to receive them.",
-        "siteAdvantages": "On the Blackrose road, at the point where the Rose's people will hand a body to the villages' people.",
+        "founding": "Argonians die in the Rose and their bones must reach the dirt; the Chainbreakers built a station near the Prison road to receive them.",
+        "siteAdvantages": "A dry rise between the Prison road and the tracks east to the villages, where the Rose's people hand a body to the villages' people.",
         "occupantsMotive": "The Rose's families release the dead here for a fee they call a carriage charge; the Chainbreakers pay it and record every payment.",
         "pressures": "The fee is the most resented transaction in the south, but both sides need it to continue.",
         "wouldChangeIf": "The Rose refusing to release the dead would end the arrangement and put the Chainbreakers and the families in open conflict."
@@ -46959,16 +46960,16 @@
       ],
       "discovery": "road",
       "valueTier": "tier-2",
-      "purpose": "dungeon-delve (real) + lore-reveal, service-hub",
-      "hook": "The Rose's families will not release a body without a fee; the Chainbreakers pay it at this shed.",
+      "purpose": "lore-reveal (real) + service-hub, quest-anchor",
+      "hook": "The Rose's families will not release a body without a fee; the Chainbreakers pay it at this shelter.",
       "stance": "neutral",
       "interior": "building · civic-hall · S1 · wet 0%",
       "purposeDetail": {
-        "primary": "dungeon-delve",
+        "primary": "lore-reveal",
         "impact": "real",
         "secondary": [
-          "lore-reveal",
-          "service-hub"
+          "service-hub",
+          "quest-anchor"
         ]
       },
       "stanceDetail": {
@@ -63410,7 +63411,7 @@
       "whySiteWon": "firm ground in firm lowland (danger band 3), 20 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, region.",
       "why": {
         "founding": "A gang that works a channel has to sleep on land. The families follow it. The camp is forty years old and is still named for the ground worked by the gang.",
-        "siteAdvantages": "Firm bank opposite the barge's mooring, with a hatching shed set back from the water where the ground stays dry.",
+        "siteAdvantages": "A slope of firm ground between the Border road and the marsh. Its top terrace stays dry enough for a hatching shed.",
         "occupantsMotive": "Families whose people are on the roll, keeping a life going within walking distance of it.",
         "pressures": "The camp has a Hist a day upriver but no claim on it. The families stay because the clutch is in the shed.",
         "wouldChangeIf": "If the clutch is lost, the families go somewhere the ledger cannot follow."
@@ -63428,7 +63429,7 @@
       "discovery": "sightline",
       "valueTier": "tier-3",
       "purpose": "quest-anchor (province-changing) + social-drama, safe-rest, lore-reveal",
-      "hook": "The gang's families live on this bank. The warm shed at the back holds the clutch that they will not leave.",
+      "hook": "The gang's families live on this slope above the marsh. The warm shed at the top holds the gang's egg clutch. The families will not move away from it.",
       "stance": "wary",
       "interior": "building · dwelling · S1 · wet 0%",
       "purposeDetail": {
@@ -63464,7 +63465,6 @@
         "creatures": [],
         "npcs": [
           "family · D1 · band — gang families, who know every name on the roll",
-          "named-keeper · D1 · single · named — the clutch-keeper, who does not leave the shed",
           "patrol · D1 · pair — the camp's two overseers"
         ],
         "loot": [
@@ -66892,11 +66892,11 @@
       },
       "whySiteWon": "firm ground in tropical jungle (danger band 4), 888 m from the nearest route; its first-choice landform; won on culture-clump, landform, nearPoint; placed from the homeless batch at stage 'neighbour-zone'.",
       "why": {
-        "founding": "A void opened where the root layer lifted the ground deep in the D4 jungle. Something moved into it.",
+        "founding": "A void opened where the root layer lifted the ground deep in the jungle. Something moved into it.",
         "siteAdvantages": "A dry void under the root layer, root-walled and rock-floored, with one defensible mouth.",
         "occupantsMotive": "An occupant that has made a lair of it and dragged in what it has taken.",
-        "pressures": "The nearest village keeps its hunters a valley clear of it. The headman will explain why at length.",
-        "wouldChangeIf": "If it were cleared, the village's hunting range doubles."
+        "pressures": "The evicted families at the hiring camp a kilometre east no longer forage this way. Any of them will tell a stranger why, at length.",
+        "wouldChangeIf": "If it were cleared, the hiring camp's foraging range would double."
       },
       "hardConstraints": [
         "large dry void",
@@ -66935,7 +66935,7 @@
         "exteriorShell": true,
         "verticalRelationship": "below"
       },
-      "entrance": "sinkhole-lip",
+      "entrance": "cave-mouth",
       "underwaterAccess": "none",
       "contents": {
         "creatures": [

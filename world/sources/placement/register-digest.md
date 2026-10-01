@@ -2,4 +2,10 @@
 
 # Register digest
 
-- `place.imperial-fringe.claywater-station` | type `road-station-village` | magnitude M2 | positionM [301, 3059] | shells `farmhouse01-with-door`, `farmhouse02`, `genericwell01`, `kotm-house-pod`, `mudhut01` | signatures 6 | status built, not accepted | brief `world/sources/blueprints/claywater-station.design.md`
+- `place.dunmer-north.riverwalk` | type `boardwalk-village` | magnitude M1 | positionM [7197, 584] | shells - | signatures 0 | status built, not accepted | brief `world/sources/blueprints/riverwalk.design.md`
+- `place.hist-heartland.greenspring` | type `hist-village` | magnitude M2 | positionM [4779, 1900] | shells `hut-with-entrance`, `kotm-house-pod`, `mudhut01`, `shed` | signatures 7 | status built, not accepted | brief `world/sources/blueprints/greenspring.design.md`
+- `place.imperial-fringe.bog-iron-workings` | type `bog-iron-bloomery` | magnitude M1 | positionM [2004, 2599] | shells - | signatures 0 | status built, not accepted | brief `world/sources/blueprints/bog-iron-workings.design.md`
+- `place.imperial-fringe.claywater-station` | type `road-station-village` | magnitude M1 | positionM [301, 3059] | shells `farmhouse01-with-door`, `genericwell01`, `kotm-house-pod`, `mwimparchstableendl01` | signatures 6 | status built, not accepted | brief `world/sources/blueprints/claywater-station.design.md`
+- `place.imperial-fringe.the-broke-column` | type `blackguard-hideout` | magnitude M1 | positionM [1231, 3074] | shells - | signatures 0 | status built, not accepted | brief `world/sources/blueprints/the-broke-column.design.md`
+- `place.imperial-penal-south.rose-bone-waystation` | type `bone-repatriation-waystation` | magnitude M1 | positionM [2580, 6566] | shells `bamboohut02-with-door` | signatures 1 | status built, not accepted | brief `world/sources/blueprints/rose-bone-waystation.design.md`
+- `place.saxhleel-coast.jungle-root-hollow` | type `root-hollow-gallery` | magnitude M1 | positionM [3682, 4554] | shells - | signatures 0 | status built, not accepted | brief `world/sources/blueprints/jungle-root-hollow.design.md`

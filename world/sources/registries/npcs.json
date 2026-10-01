@@ -12694,6 +12694,42 @@
       }
     },
     {
+      "id": "npc.imperial-penal-south.rose-bone-waystation.tag-keeper",
+      "name": "Counts-The-Crates-Again",
+      "kind": "slot",
+      "nameForm": "translated",
+      "race": "argonian",
+      "sex": "male",
+      "factionIds": [],
+      "home": {
+        "placeId": "place.imperial-penal-south.rose-bone-waystation",
+        "slotIndex": 0,
+        "socketId": "socket.rose-bone-waystation.npc-tag-keeper"
+      },
+      "role": "the tag-keeper",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "generated",
+      "sources": [
+        "place.imperial-penal-south.rose-bone-waystation notableNpcSlots[0]"
+      ],
+      "notes": "Holds the post: the tag-keeper (The Tag House).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
       "id": "npc.imperial-penal-south.rose-outworks.crew-s-book-keeper",
       "name": "Julia Cato",
       "kind": "slot",
@@ -17514,7 +17550,7 @@
       "home": {
         "placeId": "place.pirate-freeholds.opening-work-camp",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "socket.opening-work-camp.npc-clutch-keeper"
       },
       "role": "npc.opening.clutch-keeper",
       "archetype": null,
@@ -17552,7 +17588,7 @@
       "home": {
         "placeId": "place.pirate-freeholds.opening-work-camp",
         "slotIndex": 1,
-        "socketId": null
+        "socketId": "socket.opening-work-camp.npc-witness"
       },
       "role": "npc.opening.witness",
       "archetype": null,

@@ -6157,8 +6157,8 @@
         3
       ],
       "lore": "Lore:Black Marsh (bog iron); material-culture (metal use almost unheard of post-Duskfall)",
-      "footprintRadiusM": 45,
-      "footprintSource": "band",
+      "footprintRadiusM": 70,
+      "footprintSource": "built-ground",
       "proximity": {
         "maxFromM": {
           "route": 400
@@ -7586,8 +7586,8 @@
         8
       ],
       "lore": "labour-and-bondage dossier; argonia-4e201-state (shellback city levies)",
-      "footprintRadiusM": 45,
-      "footprintSource": "band"
+      "footprintRadiusM": 30,
+      "footprintSource": "built-ground"
     },
     {
       "type": "tunnel-rat-gallery",
@@ -12330,7 +12330,7 @@
       ],
       "lore": "Lore:Argonian (bones brought to the dirt redeem a death away from the Hist); White Rose Prison",
       "footprintRadiusM": 45,
-      "footprintSource": "band"
+      "footprintSource": "built-ground"
     },
     {
       "type": "cairn-field",
@@ -19146,8 +19146,8 @@
         9
       ],
       "lore": "Lore:Blackrose Prison (the Blackguards' heirs, prison-descended three generations)",
-      "footprintRadiusM": 45,
-      "footprintSource": "band",
+      "footprintRadiusM": 25,
+      "footprintSource": "built-ground",
       "proximity": {
         "minFromClassM": {
           "settlement": 400
@@ -24426,8 +24426,8 @@
         16
       ],
       "lore": "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role",
-      "footprintRadiusM": 45,
-      "footprintSource": "band"
+      "footprintRadiusM": 20,
+      "footprintSource": "built-ground"
     },
     {
       "type": "wild-rootworm-burrow",

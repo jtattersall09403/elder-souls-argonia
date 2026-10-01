@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "type": "06-shrine",
+  "about": "Yard sets for shrines and sacred sites (decision 0101): the dressing groups that `wb.py group place` lays, rebuilt from the repo. Members sit in the anchor's plan frame (offsetM is x east and z south with the anchor at yaw 0); none is mounted, every member is settled on the ground. First laid at the Tag House, a bone-repatriation waystation (16k walk 9): a handover shelter has a side the dead arrive on and a side they leave from, and each side is dressed for its work.",
+  "source": "world/sources/blueprints/rose-bone-waystation.layout.json (first laid there by `group place`)",
+  "sets": [
+    {
+      "id": "handover-arrival-side",
+      "anchor": "hp-basket1",
+      "why": "Where the dead are received: closed baskets that carry the remains, and an urn outside the posts. The tags hang above them on chimes from the eave.",
+      "members": [
+        {
+          "uid": "hp-basket1",
+          "piece": "vanilla:clutter/basketclosed01",
+          "offsetM": [
+            0.0,
+            0.0
+          ],
+          "yaw": 20.0
+        },
+        {
+          "uid": "hp-basket2",
+          "piece": "vanilla:clutter/basketclosed01",
+          "offsetM": [
+            1.0,
+            0.0
+          ],
+          "yaw": 300.0
+        },
+        {
+          "uid": "hp-basket3",
+          "piece": "vanilla:clutter/basketclosed01",
+          "offsetM": [
+            0.2,
+            1.6
+          ],
+          "yaw": 75.0
+        },
+        {
+          "uid": "hp-urn",
+          "piece": "mudmother:gv_meshes/argoniannest/paintedurn01",
+          "offsetM": [
+            -2.3,
+            0.8
+          ],
+          "yaw": 0.0
+        }
+      ]
+    },
+    {
+      "id": "handover-departure-side",
+      "anchor": "hv-table",
+      "why": "Where the dead are made ready to travel: a low wicker bench to wrap on, wrapped bundles waiting by the posts, the urns that go with them and a basket of cloth.",
+      "members": [
+        {
+          "uid": "hv-table",
+          "piece": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01",
+          "offsetM": [
+            0.0,
+            0.0
+          ],
+          "yaw": 0.0
+        },
+        {
+          "uid": "hv-flat1",
+          "piece": "vanilla:clutter/containers/miscsacklargeflat01",
+          "offsetM": [
+            2.0,
+            -0.8
+          ],
+          "yaw": 15.0
+        },
+        {
+          "uid": "hv-flat2",
+          "piece": "vanilla:clutter/containers/miscsacklargeflat01",
+          "offsetM": [
+            2.1,
+            0.2
+          ],
+          "yaw": 350.0
+        },
+        {
+          "uid": "hv-urn1",
+          "piece": "mudmother:gv_meshes/argoniannest/paintedurn01",
+          "offsetM": [
+            2.3,
+            1.5
+          ],
+          "yaw": 0.0
+        },
+        {
+          "uid": "hv-urn2",
+          "piece": "mudmother:gv_meshes/argoniannest/paintedurn01",
+          "offsetM": [
+            1.1,
+            2.3
+          ],
+          "yaw": 40.0
+        },
+        {
+          "uid": "hv-basket",
+          "piece": "mudmother:gv_meshes/argoniannest/basketfull",
+          "offsetM": [
+            1.6,
+            -2.0
+          ],
+          "yaw": 70.0
+        }
+      ]
+    },
+    {
+      "id": "keepers-yard",
+      "anchor": "ty-table",
+      "why": "The keeper's work outside the door: a table the fee is counted on, two chairs (one for whoever pays), a small basket, a sack, a lidded basket, an urn and a woodpile.",
+      "members": [
+        {
+          "uid": "ty-table",
+          "piece": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01",
+          "offsetM": [
+            0.0,
+            0.0
+          ],
+          "yaw": 30.0
+        },
+        {
+          "uid": "ty-chair1",
+          "piece": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01",
+          "offsetM": [
+            -1.2,
+            0.1
+          ],
+          "yaw": 90.0
+        },
+        {
+          "uid": "ty-chair2",
+          "piece": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01",
+          "offsetM": [
+            1.2,
+            -0.1
+          ],
+          "yaw": 270.0
+        },
+        {
+          "uid": "ty-basket",
+          "piece": "mudmother:gv_meshes/argoniannest/basketsmall01",
+          "offsetM": [
+            0.3,
+            1.3
+          ],
+          "yaw": 10.0
+        },
+        {
+          "uid": "ty-sack",
+          "piece": "vanilla:clutter/containers/miscsacklarge",
+          "offsetM": [
+            -2.6,
+            -0.4
+          ],
+          "yaw": 200.0
+        },
+        {
+          "uid": "ty-wicker",
+          "piece": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01",
+          "offsetM": [
+            -1.9,
+            1.4
+          ],
+          "yaw": 0.0
+        },
+        {
+          "uid": "ty-urn",
+          "piece": "mudmother:gv_meshes/argoniannest/paintedurn01",
+          "offsetM": [
+            1.0,
+            1.5
+          ],
+          "yaw": 0.0
+        },
+        {
+          "uid": "ty-wood",
+          "piece": "vanilla:clutter/firewood/firewoodpilemedium01",
+          "offsetM": [
+            3.4,
+            1.6
+          ],
+          "yaw": 290.0
+        }
+      ]
+    }
+  ]
+}
