@@ -7,11 +7,11 @@
   "sha256": "41e70c2501d089d4862b21b392b72dec425390e9d230742d82410cbe25dd381a"
  },
  "totals": {
-  "parts": 58,
-  "partBytes": 975596,
-  "textureFiles": 56,
-  "textureBytes": 2937856,
-  "bytes": 3913452
+  "parts": 61,
+  "partBytes": 1001272,
+  "textureFiles": 59,
+  "textureBytes": 3126256,
+  "bytes": 4127528
  },
  "assets": {
   "vanilla:architecture/farmhouse/farmhouseldoor01": {
@@ -387,6 +387,15 @@
     "b6ee256be9c8e60f"
    ]
   },
+  "vanilla:clutter/ingredients/slaughterfishscale": {
+   "file": "vanilla_clutter_ingredients_slaughterfishscale-510cb903.glb",
+   "bytes": 5668,
+   "vertices": 113,
+   "triangles": 120,
+   "textures": [
+    "9df568fd9f06b584"
+   ]
+  },
   "vanilla:clutter/kettle01": {
    "file": "vanilla_clutter_kettle01-d989af2c.glb",
    "bytes": 15960,
@@ -477,6 +486,16 @@
     "aa625ff8711151e5"
    ]
   },
+  "vanilla:clutter/quest/firebrandwine01": {
+   "file": "vanilla_clutter_quest_firebrandwine01-d87de7cb.glb",
+   "bytes": 14492,
+   "vertices": 338,
+   "triangles": 482,
+   "textures": [
+    "358063da31615888",
+    "ecf358945997e6f2"
+   ]
+  },
   "vanilla:clutter/wine/winebottle01a": {
    "file": "vanilla_clutter_wine_winebottle01a-443e9df4.glb",
    "bytes": 10392,
@@ -536,6 +555,15 @@
    "triangles": 1212,
    "textures": [
     "05a13042d7563362"
+   ]
+  },
+  "vanilla:plants/dragonstongue01": {
+   "file": "vanilla_plants_dragonstongue01-46071954.glb",
+   "bytes": 5516,
+   "vertices": 129,
+   "triangles": 103,
+   "textures": [
+    "dbfa9f058d356c86"
    ]
   },
   "vanilla:plants/hangingelvesear01": {

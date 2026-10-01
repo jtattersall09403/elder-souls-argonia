@@ -7,13 +7,78 @@
   "sha256": "8f4bff1bfeb2b3e2cc8d430adf8d2a71b711b1e2a31a1ec23891718be483f281"
  },
  "totals": {
-  "parts": 2,
-  "partBytes": 9888,
-  "textureFiles": 1,
-  "textureBytes": 329652,
-  "bytes": 339540
+  "parts": 9,
+  "partBytes": 447488,
+  "textureFiles": 15,
+  "textureBytes": 3518223,
+  "bytes": 3965711
  },
  "assets": {
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int": {
+   "file": "e_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_bamboohut01_int-0b1a20a4.glb",
+   "bytes": 130672,
+   "vertices": 6157,
+   "triangles": 7140,
+   "textures": [
+    "28a617353e54d7fe",
+    "2d48a9a80d80c38d",
+    "dc4f3c7828673f51"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int": {
+   "file": "e_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_bamboohut02_int-4d2ea035.glb",
+   "bytes": 130508,
+   "vertices": 6157,
+   "triangles": 7140,
+   "textures": [
+    "28a617353e54d7fe",
+    "97d57c3e2fb1241b",
+    "dc4f3c7828673f51"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01": {
+   "file": "e_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_bamboohutdoor01-2cf84724.glb",
+   "bytes": 22332,
+   "vertices": 1097,
+   "triangles": 1011,
+   "textures": [
+    "614ff5cea62eb7f9",
+    "dc4f3c7828673f51"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01": {
+   "file": "re_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_wickerbasket01-ce6ae8cc.glb",
+   "bytes": 11028,
+   "vertices": 436,
+   "triangles": 590,
+   "textures": [
+    "27855f4d597ffa3c"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01": {
+   "file": "ere_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_wickerchair01-2945f576.glb",
+   "bytes": 36064,
+   "vertices": 1363,
+   "triangles": 1612,
+   "textures": [
+    "08a71e40d4da0f06",
+    "27855f4d597ffa3c",
+    "dcff439e64e45d53"
+   ]
+  },
+  "vanilla:clutter/giant/giantcampfire01off": {
+   "file": "vanilla_clutter_giant_giantcampfire01off-9e27a7b7.glb",
+   "bytes": 68052,
+   "vertices": 3053,
+   "triangles": 3313,
+   "textures": [
+    "25c02250327bb7ae",
+    "48fc2c9e0a8a9117",
+    "bf54764d1816fe0a",
+    "e82094db3552cb74",
+    "e8a3d378b8660dfe"
+   ]
+  },
   "vanilla:clutter/hay/hayscatter05": {
    "file": "vanilla_clutter_hay_hayscatter05-4fdf522a.glb",
    "bytes": 4808,
@@ -30,6 +95,15 @@
    "triangles": 92,
    "textures": [
     "4eb6ed5653087682"
+   ]
+  },
+  "vanilla:clutter/imperial/impbrazier01": {
+   "file": "vanilla_clutter_imperial_impbrazier01-c04c9a4e.glb",
+   "bytes": 38944,
+   "vertices": 2535,
+   "triangles": 2228,
+   "textures": [
+    "04d131bf58a3467b"
    ]
   }
  },
