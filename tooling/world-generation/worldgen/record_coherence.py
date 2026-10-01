@@ -126,6 +126,11 @@ def build_index() -> Index:
         for p in rf.places:
             places[p["id"]] = p
             place_file[p["id"]] = str(rf.path.relative_to(REPO))
+    # A route place (16k type 10) has its home row in the route-place table.
+    from .blueprint import ROUTE_PLACES, route_place_records
+    for pid, rec in route_place_records().items():
+        places.setdefault(pid, rec)
+        place_file.setdefault(pid, str(ROUTE_PLACES.relative_to(REPO)))
     by_name: dict[str, list[str]] = {}
     for pid in sorted(places):
         n = places[pid].get("name") or ""

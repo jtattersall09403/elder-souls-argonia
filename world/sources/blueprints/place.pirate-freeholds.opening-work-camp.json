@@ -2028,12 +2028,12 @@
       },
       "kits": {
         "dungeon-root-v1": "66a7812fa7024674c8e0a1b446ab4b5857498388f9b7bc9f72bd2247f2dc40dc",
-        "mudmother-hut-int": "bd4c67bac1cf3dfbc3055fe9d10e5ecf2588724f5b7901b12be9a8d3ffcb638c",
+        "mudmother-hut-int": "bff2ca4aa7c35e6e9a46c1eb943f8bcf4bbf5e632667f43355ae1e1364910283",
         "settlement-imperial-v1": "f8a72fb38b0ef3095ea0413462813ee4bcb7be5a4fdf28dbed2a447b5e3461f1",
-        "settlement-mud-v1": "c96507b435d263cf1417650b499ce9a43d42636a8622505377ed1c3646446de8",
-        "settlement-root-v1": "c16c84e716e61568bbe3e18ec324649554891e8516fc87fe70441d6667cd2db7",
-        "settlement-stilt-v1": "ed8355b22da7d4f82b2ae1b9275c8b331c013212d539b1b2b546b47e3f58da43",
-        "works-v1": "a930198844ccd7c7203ffa78df96f88c1228015ac3c0b297ec4e305038e4339d"
+        "settlement-mud-v1": "62dc047d1ac7a7f5329635ae06edca66c410489b2f7f2418c818b9b57182bc12",
+        "settlement-root-v1": "68a8291b5596f9e60e803b55fff88cb9ba39fc58b650e9f8b59daeaaf8c37b74",
+        "settlement-stilt-v1": "f7e92cc345844d0efeda7843caf1e0742176ca07dfac5065fbf30271eaa71f3e",
+        "works-v1": "6067e40071c5a2dcba94d0420411ae0cd400ce480ebe42ab6f55ef063fbfda09"
       },
       "layout": {
         "path": "world/sources/blueprints/opening-work-camp.layout.json",

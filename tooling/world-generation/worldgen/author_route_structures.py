@@ -243,17 +243,17 @@ WHY = {
  "route.road.blackrose-lilmoth":
    "Near the junction the road runs along a ridge of firm ground above the fen. For a kilometre either side, that ridge is the dry ground.",
  "route.road.gideon-blackwood-road":
-   "The Blackwood road crosses the flood ground between Gideon and the border. Water lies over that ground for half the year, in sheets tens of metres wide. The road is carried above it on deck.",
+   "The Blackwood road crosses the flood ground between Gideon and the border. Where it climbs off that ground onto the banks that stay dry, the rise is too steep to walk, so the road goes up it on built steps.",
  "route.road.gideon-stormhold":
-   "The Gideon road to Stormhold runs level the whole way. It meets water instead of rock. Channels stand across it at intervals, a metre or so deep and far wider than that. The road goes over them on deck.",
+   "The Gideon road to Stormhold runs level almost the whole way. In one place it climbs a channel bank too steep to walk; there it goes up on built steps.",
  "route.road.archon-gideon":
    "The Archon road reaches Gideon across worked land that still holds water between its drains. Those channels cut across the line of the road. A cart cannot take a ford every mile, so each channel is spanned.",
  "track.imperial-fringe.onkobra-field-station":
    "The field station is a hut on the bank above the workings. Its last few metres come up that bank in one step.",
  "route.road.gideon-soulrest":
-   "Two channels cross the road between Gideon and Soulrest. Each is about a metre deep and some tens of metres wide. The road is carried over both.",
+   "Between Gideon and Soulrest the road drops into two channel beds and climbs out again. The channel banks are too steep to walk, so the road takes them on built steps instead of cutting them back.",
  "route.road.stormhold-thorn":
-   "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart.",
+   "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water.",
  # Written 2026-09-08 against the survivors the 0047 re-carve produced, and
  # reviewed by a separate agent under the style guide. Each one is about the
  # place and its landform rather than a measured stretch, so a re-grade that

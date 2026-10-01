@@ -107,6 +107,17 @@ def test_riverwalk_real_record():
     assert fails == [], "\n".join(fails)
 
 
+def test_a_route_place_is_read_from_its_home_table():
+    """A route place (type 10) has no catalogue row; the index reads its
+    route-place row, so step 5b checks it like any place."""
+    from worldgen.blueprint import route_place_records
+    ix = rc.build_index()
+    for pid in route_place_records():
+        assert ix.places[pid]["positionM"]
+        assert ix.place_file[pid].endswith("route-structure-exemplars.json")
+        assert not any("no catalogue record" in f for f in rc.coherence_failures(pid, ix))
+
+
 def test_service_edge_form():
     ix = _rel_index({"travelServiceEdges": ["service:ferry.x.real"]}, {})
     ix.services["services"].append({"id": "ferry.x.real"})
