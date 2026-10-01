@@ -33,7 +33,7 @@ KTX2 + meshopt loader.
 The sheet shows the flame at the piece's origin; it cannot show whether the
 studio draws it in a cell or a place. That question has its own check,
 `node tooling/visual-look/flames.mjs interior <cellId> <xKm> <zKm>` (or
-`place <xKm> <zKm> --t 22`) on the built site, and only its PASS line means
+`place <placeId> --t 22`, at the built bundle's centre) on the built site, and only its PASS line means
 "flames verified" (place-build `references/fire.md` § 3 step 4).
 
 ## 2. Judge it (Sonnet)

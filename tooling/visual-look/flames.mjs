@@ -18,7 +18,8 @@
 // on) as a PNG beside the JSON result.
 //
 //   node tooling/visual-look/flames.mjs interior <cellId> <xKm> <zKm> [--site DIR | --url BASE]
-//   node tooling/visual-look/flames.mjs place <xKm> <zKm> [--t 22] [--site DIR | --url BASE]
+//   node tooling/visual-look/flames.mjs place <placeId> [--t 22] [--site DIR | --url BASE]
+//   (the spot is the built bundle's centre from the published place index)
 //   flags: --out DIR (default tooling/.reports/flames), --force (ignore the
 //   key), --data-base URL (fetch province data for the key from here, not
 //   the page base: the webgpu build serves its data under /studio/),
@@ -48,6 +49,17 @@ const repo = resolve(here, "../..");
 const FIRE_DIR = join(repo, "packages/game-core/src/fx/fire");
 const COUNTS = ["flameSystems", "emitters", "draws", "onScreen", "visible"];
 
+/** The published place index: each built bundle's own centre. */
+export const PLACES_INDEX = join(repo, "apps/world-studio/public/province/settlements/index.json");
+
+/** A place's built centre (km) from the published index, never the catalogue
+ * record's dot (walk 9: Gang Ground's record sits ~50 m off the built camp). */
+export function builtCentreKm(placeId, indexPath = PLACES_INDEX) {
+  const row = JSON.parse(readFileSync(indexPath, "utf8")).places.find((p) => p.id === placeId);
+  if (!row) throw new Error(`flames.mjs: ${placeId} has no built bundle in ${indexPath} (publish the place first)`);
+  return row.positionM.map((m) => (m / 1000).toFixed(4));
+}
+
 export function parseFlameArgs(argv) {
   const [mode, ...rest] = argv;
   const flags = {}; const pos = [];
@@ -58,8 +70,11 @@ export function parseFlameArgs(argv) {
     else { flags[name] = rest[i + 1]; i++; }
   }
   if (mode === "interior" && pos.length === 3) return { mode, cell: pos[0], x: pos[1], z: pos[2], ...common(flags, "12") };
-  if (mode === "place" && pos.length === 2) return { mode, cell: null, x: pos[0], z: pos[1], ...common(flags, "22") };
-  throw new Error("usage: flames.mjs interior <cellId> <xKm> <zKm> | place <xKm> <zKm> [--site DIR | --url BASE] [--data-base URL] [--t H] [--out DIR] [--force] [--empty-fires]");
+  if (mode === "place" && pos.length === 1) {
+    const [x, z] = builtCentreKm(pos[0], flags.index ?? PLACES_INDEX);
+    return { mode, cell: null, place: pos[0], x, z, ...common(flags, "22") };
+  }
+  throw new Error("usage: flames.mjs interior <cellId> <xKm> <zKm> | place <placeId> [--index FILE] [--site DIR | --url BASE] [--data-base URL] [--t H] [--out DIR] [--force] [--empty-fires]");
 }
 function common(f, t) {
   return {
