@@ -63,7 +63,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.922,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.941
+   "pivotAboveBaseM": 1.941,
+   "displayName": "Connect"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/cor01",
@@ -127,7 +128,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.946,
    "openBackYawDeg": 135.0,
-   "pivotAboveBaseM": 0.131
+   "pivotAboveBaseM": 0.131,
+   "displayName": "Cor 01"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/cor02",
@@ -191,7 +193,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.103
+   "pivotAboveBaseM": 0.103,
+   "displayName": "Cor 02"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/cor03",
@@ -255,7 +258,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.572,
    "openBackYawDeg": 135.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Cor 03"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/corc",
@@ -319,7 +323,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.942,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 0.083
+   "pivotAboveBaseM": 0.083,
+   "displayName": "Corc"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/corc01",
@@ -378,7 +383,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.137,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Corc 01"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/corc02",
@@ -437,7 +443,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.137,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Corc 02"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/corc03",
@@ -501,7 +508,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 1.128
+   "pivotAboveBaseM": 1.128,
+   "displayName": "Corc 03"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/corc04",
@@ -565,7 +573,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 1.128
+   "pivotAboveBaseM": 1.128,
+   "displayName": "Corc 04"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid01",
@@ -629,7 +638,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.179
+   "pivotAboveBaseM": 0.179,
+   "displayName": "Mid 01"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid02",
@@ -693,7 +703,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.083
+   "pivotAboveBaseM": 0.083,
+   "displayName": "Mid 02"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid03a",
@@ -757,7 +768,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91
+   "pivotAboveBaseM": 0.91,
+   "displayName": "Mid 03a"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid03b",
@@ -821,7 +833,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.02,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -1.821
+   "pivotAboveBaseM": -1.821,
+   "displayName": "Mid 03b"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid03c",
@@ -885,7 +898,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.796,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.24
+   "pivotAboveBaseM": 0.24,
+   "displayName": "Mid 03c"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid04",
@@ -949,7 +963,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.909,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.485
+   "pivotAboveBaseM": 7.485,
+   "displayName": "Mid 04"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid05",
@@ -1013,7 +1028,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.964,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.311
+   "pivotAboveBaseM": 0.311,
+   "displayName": "Mid 05"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/room01",
@@ -1077,7 +1093,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.842,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.327
+   "pivotAboveBaseM": 6.327,
+   "displayName": "Room 01"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/room02",
@@ -1141,7 +1158,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 18.381
+   "pivotAboveBaseM": 18.381,
+   "displayName": "Room 02"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/room03",
@@ -1205,7 +1223,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.791,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 9.863
+   "pivotAboveBaseM": 9.863,
+   "displayName": "Room 03"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/room04",
@@ -1269,7 +1288,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.636,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.74
+   "pivotAboveBaseM": 8.74,
+   "displayName": "Room 04"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/room05",
@@ -1333,7 +1353,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 9.091
+   "pivotAboveBaseM": 9.091,
+   "displayName": "Room 05"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall01",
@@ -1397,7 +1418,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": 0.156
+   "pivotAboveBaseM": 0.156,
+   "displayName": "Wall 01"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall02",
@@ -1461,7 +1483,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": 0.055
+   "pivotAboveBaseM": 0.055,
+   "displayName": "Wall 02"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall03",
@@ -1525,7 +1548,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.975,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91
+   "pivotAboveBaseM": 0.91,
+   "displayName": "Wall 03"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall04",
@@ -1589,7 +1613,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.011,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -1.821
+   "pivotAboveBaseM": -1.821,
+   "displayName": "Wall 04"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall05",
@@ -1653,7 +1678,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.648,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.128
+   "pivotAboveBaseM": 0.128,
+   "displayName": "Wall 05"
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall06",
@@ -1717,7 +1743,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": 0.082
+   "pivotAboveBaseM": 0.082,
+   "displayName": "Wall 06"
   },
   {
    "id": "bmv:architecture/philscaves/small/cap",
@@ -1776,7 +1803,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": 1.789
+   "pivotAboveBaseM": 1.789,
+   "displayName": "Cap"
   },
   {
    "id": "bmv:architecture/philscaves/small/cor01",
@@ -1840,7 +1868,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.788,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.953
+   "pivotAboveBaseM": 1.953,
+   "displayName": "Cor 01"
   },
   {
    "id": "bmv:architecture/philscaves/small/cor02",
@@ -1904,7 +1933,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.61
+   "pivotAboveBaseM": 3.61,
+   "displayName": "Cor 02"
   },
   {
    "id": "bmv:architecture/philscaves/small/cor03",
@@ -1968,7 +1998,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.61
+   "pivotAboveBaseM": 3.61,
+   "displayName": "VW cavehallturun"
   },
   {
    "id": "bmv:architecture/philscaves/small/cor04",
@@ -2032,7 +2063,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.83,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.945
+   "pivotAboveBaseM": 1.945,
+   "displayName": "Cor 04"
   },
   {
    "id": "bmv:architecture/philscaves/small/doorcaveb",
@@ -2096,7 +2128,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.368,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.827
+   "pivotAboveBaseM": 1.827,
+   "displayName": "Doorcaveb"
   },
   {
    "id": "bmv:architecture/philscaves/small/exit01",
@@ -2165,7 +2198,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.883,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 1.827
+   "pivotAboveBaseM": 1.827,
+   "displayName": "Exit 01"
   },
   {
    "id": "bmv:architecture/philscaves/small/exit02",
@@ -2233,7 +2267,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.069
+   "pivotAboveBaseM": 2.069,
+   "displayName": "Exit 02"
   },
   {
    "id": "bmv:architecture/philscaves/small/hall01",
@@ -2297,7 +2332,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.884
+   "pivotAboveBaseM": 1.884,
+   "displayName": "Hall 01"
   },
   {
    "id": "bmv:architecture/philscaves/small/hall02",
@@ -2361,7 +2397,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.926
+   "pivotAboveBaseM": 1.926,
+   "displayName": "Hall 02"
   },
   {
    "id": "bmv:architecture/philscaves/small/hall03",
@@ -2425,7 +2462,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.946
+   "pivotAboveBaseM": 1.946,
+   "displayName": "VW cavehall 1"
   },
   {
    "id": "bmv:architecture/philscaves/small/hall04",
@@ -2484,7 +2522,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.041
+   "pivotAboveBaseM": 2.041,
+   "displayName": "Hall 04"
   },
   {
    "id": "bmv:architecture/philscaves/small/hall05",
@@ -2548,7 +2587,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.662,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.966
+   "pivotAboveBaseM": 1.966,
+   "displayName": "Hall 05"
   },
   {
    "id": "bmv:architecture/philscaves/small/hall05_a",
@@ -2607,7 +2647,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -2.096
+   "pivotAboveBaseM": -2.096,
+   "displayName": "Hall 05 a"
   },
   {
    "id": "bmv:architecture/philscaves/small/hall05_b",
@@ -2671,7 +2712,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.961,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.007
+   "pivotAboveBaseM": -3.007,
+   "displayName": "Hall 05 b"
   },
   {
    "id": "bmv:architecture/philscaves/small/hallh01",
@@ -2730,7 +2772,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.812
+   "pivotAboveBaseM": 1.812,
+   "displayName": "Hallh 01"
   },
   {
    "id": "bmv:architecture/philscaves/small/ram01",
@@ -2789,7 +2832,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.61
+   "pivotAboveBaseM": 3.61,
+   "displayName": "VW cave slope"
   },
   {
    "id": "bmv:architecture/philscaves/cave2",
@@ -2845,7 +2889,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.771,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.729
+   "pivotAboveBaseM": 3.729,
+   "displayName": "Cave 2"
   },
   {
    "id": "bmv:architecture/philscaves/cave3",
@@ -2901,7 +2946,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.955,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 9.114
+   "pivotAboveBaseM": 9.114,
+   "displayName": "Cave 3"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintdooret01",
@@ -2961,7 +3007,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.483,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.389
+   "pivotAboveBaseM": 0.389,
+   "displayName": "Housetroncintdooret 01"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintdoorrc01",
@@ -3021,7 +3068,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.524,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.715
+   "pivotAboveBaseM": 0.715,
+   "displayName": "Housetroncintdoorrc 01"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintet001",
@@ -3092,7 +3140,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.637,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.024
+   "pivotAboveBaseM": -3.024,
+   "displayName": "Housetroncintet 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintet90v001",
@@ -3157,7 +3206,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.593,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.395
+   "pivotAboveBaseM": -3.395,
+   "displayName": "Housetroncintet 90v 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintrc001",
@@ -3231,7 +3281,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.578,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.643
+   "pivotAboveBaseM": 0.643,
+   "displayName": "Housetroncintrc 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintrc90v001",
@@ -3296,7 +3347,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.521,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.643
+   "pivotAboveBaseM": 0.643,
+   "displayName": "Housetroncintrc 90v 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintrcet90v001",
@@ -3361,7 +3413,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.628,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.643
+   "pivotAboveBaseM": 0.643,
+   "displayName": "Housetroncintrcet 90v 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintss001",
@@ -3432,7 +3485,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.559,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.763
+   "pivotAboveBaseM": 2.763,
+   "displayName": "Housetroncintss 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallet001",
@@ -3495,7 +3549,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.701,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.127
+   "pivotAboveBaseM": 0.127,
+   "displayName": "Housetroncintwallet 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallet002",
@@ -3558,7 +3613,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.662,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.127
+   "pivotAboveBaseM": 0.127,
+   "displayName": "Housetroncintwallet 002"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallet003",
@@ -3619,7 +3675,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.567,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.127
+   "pivotAboveBaseM": 0.127,
+   "displayName": "Housetroncintwallet 003"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallrc001",
@@ -3682,7 +3739,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.534,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.127
+   "pivotAboveBaseM": 0.127,
+   "displayName": "Housetroncintwallrc 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallrc002",
@@ -3745,7 +3803,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.608,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.127
+   "pivotAboveBaseM": 0.127,
+   "displayName": "Housetroncintwallrc 002"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallrc003",
@@ -3806,7 +3865,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.565,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.127
+   "pivotAboveBaseM": 0.127,
+   "displayName": "Housetroncintwallrc 003"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowet001",
@@ -3864,7 +3924,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.57,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.514
+   "pivotAboveBaseM": -0.514,
+   "displayName": "Housetroncintwindowet 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowet002",
@@ -3922,7 +3983,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.567,
    "openBackYawDeg": 315.0,
-   "pivotAboveBaseM": -1.03
+   "pivotAboveBaseM": -1.03,
+   "displayName": "Housetroncintwindowet 002"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowet003",
@@ -3980,7 +4042,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.874,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.605
+   "pivotAboveBaseM": -0.605,
+   "displayName": "Housetroncintwindowet 003"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowrc001",
@@ -4038,7 +4101,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.217,
    "openBackYawDeg": 292.5,
-   "pivotAboveBaseM": -0.403
+   "pivotAboveBaseM": -0.403,
+   "displayName": "Housetroncintwindowrc 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowrc002",
@@ -4096,7 +4160,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.365,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.403
+   "pivotAboveBaseM": -0.403,
+   "displayName": "Housetroncintwindowrc 002"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowrc003",
@@ -4154,7 +4219,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.451,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -1.016
+   "pivotAboveBaseM": -1.016,
+   "displayName": "Housetroncintwindowrc 003"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampint001",
@@ -4218,7 +4284,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.845,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.992
+   "pivotAboveBaseM": 0.992,
+   "displayName": "Housechampint 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintdoor01",
@@ -4278,7 +4345,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.909,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.389
+   "pivotAboveBaseM": 0.389,
+   "displayName": "Housechampintdoor 01"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v001",
@@ -4341,7 +4409,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.523,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "displayName": "Housechampintwalla 15v 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v002",
@@ -4404,7 +4473,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.626,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "displayName": "Housechampintwalla 15v 002"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v003",
@@ -4465,7 +4535,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.556,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "displayName": "Housechampintwalla 15v 003"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla45v001",
@@ -4528,7 +4599,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.519,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "displayName": "Housechampintwalla 45v 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla45v002",
@@ -4591,7 +4663,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.532,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "displayName": "Housechampintwalla 45v 002"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla45v003",
@@ -4652,7 +4725,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.536,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "displayName": "Housechampintwalla 45v 003"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwindow001",
@@ -4710,7 +4784,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.486,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.943
+   "pivotAboveBaseM": -0.943,
+   "displayName": "Housechampintwindow 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwindow002",
@@ -4768,7 +4843,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.774,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.4
+   "pivotAboveBaseM": -0.4,
+   "displayName": "Housechampintwindow 002"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwindow003",
@@ -4826,7 +4902,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.648,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.125
+   "pivotAboveBaseM": -0.125,
+   "displayName": "Housechampintwindow 003"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandint001",
@@ -4896,7 +4973,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.984,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.08
+   "pivotAboveBaseM": 4.08,
+   "displayName": "Houseglandint 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandintdoor001",
@@ -4954,7 +5032,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.394,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.095
+   "pivotAboveBaseM": -0.095,
+   "displayName": "Houseglandintdoor 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandinttrapetdn001",
@@ -5017,7 +5096,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.016
+   "pivotAboveBaseM": 0.016,
+   "displayName": "Houseglandinttrapetdn 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandinttraprcdn001",
@@ -5080,7 +5160,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.016
+   "pivotAboveBaseM": 0.016,
+   "displayName": "Houseglandinttraprcdn 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandinttraprcup001",
@@ -5141,7 +5222,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.797,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -1.638
+   "pivotAboveBaseM": -1.638,
+   "displayName": "Houseglandinttraprcup 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandinttrapssup001",
@@ -5202,7 +5284,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -1.559
+   "pivotAboveBaseM": -1.559,
+   "displayName": "Houseglandinttrapssup 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandintwindowet001",
@@ -5260,7 +5343,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.675,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": -5.021
+   "pivotAboveBaseM": -5.021,
+   "displayName": "Houseglandintwindowet 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandintwindowet002",
@@ -5318,7 +5402,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.598,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -4.102
+   "pivotAboveBaseM": -4.102,
+   "displayName": "Houseglandintwindowet 002"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandintwindowet003",
@@ -5376,7 +5461,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.612,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.672
+   "pivotAboveBaseM": -3.672,
+   "displayName": "Houseglandintwindowet 003"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandintwindowrc001",
@@ -5434,7 +5520,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.383,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.052
+   "pivotAboveBaseM": -0.052,
+   "displayName": "Houseglandintwindowrc 001"
   },
   {
    "id": "bmv:telvanni/tel_ext_root_01",
@@ -5495,7 +5582,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.187,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.833
+   "pivotAboveBaseM": 11.833,
+   "displayName": "Tel ext root 01"
   },
   {
    "id": "bmv:telvanni/tel_ext_root_02",
@@ -5551,7 +5639,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.227,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 10.851
+   "pivotAboveBaseM": 10.851,
+   "displayName": "Tel ext root 02"
   },
   {
    "id": "bmv:telvanni/tel_root_03",
@@ -5607,7 +5696,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.182,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 46.295
+   "pivotAboveBaseM": 46.295,
+   "displayName": "Tel root 03"
   },
   {
    "id": "bmv:telvanni/tel_int_connector_01",
@@ -5670,7 +5760,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.296
+   "pivotAboveBaseM": 0.296,
+   "displayName": "Tel int connector 01"
   },
   {
    "id": "bmv:telvanni/tel_int_gourdhouse01",
@@ -5739,7 +5830,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.915,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.254
+   "pivotAboveBaseM": 0.254,
+   "displayName": "Tel int gourdhouse 01"
   },
   {
    "id": "bmv:telvanni/tel_ramp_03",
@@ -5797,7 +5889,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.726,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 44.635
+   "pivotAboveBaseM": 44.635,
+   "displayName": "Tel ramp 03"
   },
   {
    "id": "bmv:telvanni/tel_stairs_01",
@@ -5860,7 +5953,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.236,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 12.616
+   "pivotAboveBaseM": 12.616,
+   "displayName": "Tel stairs 01"
   },
   {
    "id": "bmv:telvanni/tel_stairs_01b",
@@ -5923,7 +6017,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.942,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.129
+   "pivotAboveBaseM": 8.129,
+   "displayName": "Tel stairs 01b"
   },
   {
    "id": "bmv:telvanni/tel_ext_ramp_01",
@@ -5981,7 +6076,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.71
+   "pivotAboveBaseM": 3.71,
+   "displayName": "Tel ext ramp 01"
   },
   {
    "id": "bmv:telvanni/tel_pod_shelf_01",
@@ -6052,7 +6148,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.891
+   "pivotAboveBaseM": -3.891,
+   "displayName": "Tel pod shelf 01"
   },
   {
    "id": "bmv:telvanni/tel_shelffungus_01",
@@ -6117,7 +6214,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.666,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -9.843
+   "pivotAboveBaseM": -9.843,
+   "displayName": "Tel shelffungus 01"
   },
   {
    "id": "bmv:telvanni/tel_entrance_01",
@@ -6182,7 +6280,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.033
+   "pivotAboveBaseM": 2.033,
+   "displayName": "Tel entrance 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots01",
@@ -6240,7 +6339,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.11,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 39.602
+   "pivotAboveBaseM": 39.602,
+   "displayName": "Histroots 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots02",
@@ -6303,7 +6403,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.626
+   "pivotAboveBaseM": 3.626,
+   "displayName": "Histroots 02"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots03",
@@ -6366,7 +6467,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.823,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.05
+   "pivotAboveBaseM": 0.05,
+   "displayName": "Histroots 03"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots04",
@@ -6422,7 +6524,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.974,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.97
+   "pivotAboveBaseM": 4.97,
+   "displayName": "Histroots 04"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots05",
@@ -6483,7 +6586,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.416,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.826
+   "pivotAboveBaseM": 0.826,
+   "displayName": "Histroots 05"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots06",
@@ -6544,7 +6648,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.309,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.243
+   "pivotAboveBaseM": 1.243,
+   "displayName": "Histroots 06"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histramp",
@@ -6616,7 +6721,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.944,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.541
+   "pivotAboveBaseM": 1.541,
+   "displayName": "Histramp"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histtree",
@@ -6752,7 +6858,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 16.098
+   "pivotAboveBaseM": 16.098,
+   "displayName": "Histtree"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/treegiantrootbase01",
@@ -6810,7 +6917,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.11,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 39.602
+   "pivotAboveBaseM": 39.602,
+   "displayName": "Treegiantrootbase 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/treeroots01",
@@ -6868,7 +6976,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.11,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 39.602
+   "pivotAboveBaseM": 39.602,
+   "displayName": "Treeroots 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/treeroots03",
@@ -6924,7 +7033,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.823,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.05
+   "pivotAboveBaseM": 0.05,
+   "displayName": "Treeroots 03"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/treeroottrap",
@@ -6996,7 +7106,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.951,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.08
+   "pivotAboveBaseM": 2.08,
+   "displayName": "Treeroottrap"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproot",
@@ -7068,7 +7179,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.98,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.203
+   "pivotAboveBaseM": 0.203,
+   "displayName": "Corruptedtaproot"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproothist",
@@ -7135,7 +7247,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.98,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.203
+   "pivotAboveBaseM": 0.203,
+   "displayName": "Corruptedtaproothist"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/clutter/histfruit",
@@ -7211,7 +7324,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.315,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.064
+   "pivotAboveBaseM": 0.064,
+   "displayName": "Histfruit"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/histtree",
@@ -7293,7 +7407,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.521,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.822
+   "pivotAboveBaseM": 8.822,
+   "displayName": "Histtree"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/fxhistmist01",
@@ -7359,7 +7474,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.263
+   "pivotAboveBaseM": 1.263,
+   "displayName": "Fxhistmist 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/cavegbalconyshelf01",
@@ -7430,7 +7546,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.49
+   "pivotAboveBaseM": 1.49,
+   "displayName": "Cavegbalconyshelf 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/archwaysticks",
@@ -7514,7 +7631,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.198,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.995
+   "pivotAboveBaseM": -3.995,
+   "displayName": "Archwaysticks"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns01",
@@ -7580,7 +7698,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.524,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.425
+   "pivotAboveBaseM": 4.425,
+   "displayName": "Argonianlanterns 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
@@ -7659,7 +7778,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.638,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.149
+   "pivotAboveBaseM": 2.149,
+   "displayName": "Argonianlanterns 03"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/sithisshrine",
@@ -7741,7 +7861,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.937,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.065
+   "pivotAboveBaseM": -0.065,
+   "displayName": "Sithisshrine"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
@@ -7820,7 +7941,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.315,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.011
+   "pivotAboveBaseM": -0.011,
+   "displayName": "Argoniantotem 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/roundfloor01",
@@ -7903,7 +8025,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.805,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.002
+   "pivotAboveBaseM": 3.002,
+   "displayName": "Roundfloor 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/shellhalf",
@@ -7959,7 +8082,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.518
+   "pivotAboveBaseM": -0.518,
+   "displayName": "Shellhalf"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\dungeon-root-v1.glb",

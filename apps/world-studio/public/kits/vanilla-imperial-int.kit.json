@@ -80,7 +80,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.572,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.067
+   "pivotAboveBaseM": -0.067,
+   "displayName": "Imp door double 01"
   },
   {
    "id": "vanilla:dungeons/imperial/door/impwooddoordoubleload01",
@@ -157,7 +158,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.812,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": -0.076
+   "pivotAboveBaseM": -0.076,
+   "displayName": "Imp door double load 01"
   },
   {
    "id": "vanilla:dungeons/imperial/door/impwooddoorsingle01",
@@ -234,7 +236,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.974,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.092
+   "pivotAboveBaseM": -0.092,
+   "displayName": "Dun frostflow cellar door"
   },
   {
    "id": "vanilla:dungeons/imperial/door/impwooddoorsingleload01",
@@ -310,7 +313,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.735,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": -0.095
+   "pivotAboveBaseM": -0.095,
+   "displayName": "CW secret imp door single load 01"
   },
   {
    "id": "vanilla:dungeons/imperial/door/impwooddoorsinglesmall01",
@@ -373,7 +377,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.604,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.525
+   "pivotAboveBaseM": 0.525,
+   "displayName": "Imp door ext single small 01"
   },
   {
    "id": "vanilla:dungeons/imperial/door/impwooddoorsinglesmallload01",
@@ -431,7 +436,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.648,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.518
+   "pivotAboveBaseM": 0.518,
+   "displayName": "Imp door ext hole door load 01 static"
   },
   {
    "id": "vanilla:dungeons/imperial/door/trapdoorladder01",
@@ -494,7 +500,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.062
+   "pivotAboveBaseM": 0.062,
+   "displayName": "Trapdoor ladder 01"
   },
   {
    "id": "vanilla:dungeons/imperial/jail/impjaildoor01",
@@ -552,7 +559,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.075
+   "pivotAboveBaseM": -0.075,
+   "displayName": "Imp jail door 01"
   },
   {
    "id": "vanilla:dungeons/imperial/jail/impjaildoorframe01",
@@ -608,7 +616,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.6,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Imp jail doorframe 01"
   },
   {
    "id": "vanilla:dungeons/imperial/jail/impjailwall01",
@@ -669,7 +678,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.574,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Imp jail wall 01"
   },
   {
    "id": "vanilla:dungeons/imperial/largehall/implhall1way01",
@@ -750,7 +760,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313
+   "pivotAboveBaseM": 0.313,
+   "displayName": "Imp l hall 1 way 01"
   },
   {
    "id": "vanilla:dungeons/imperial/largehall/implhall2way01",
@@ -831,7 +842,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.999,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.204
+   "pivotAboveBaseM": 0.204,
+   "displayName": "Imp l hall 2 way 01"
   },
   {
    "id": "vanilla:dungeons/imperial/largehall/implhall4way01",
@@ -910,7 +922,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.985,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.114
+   "pivotAboveBaseM": 0.114,
+   "displayName": "Imp l hall 4 way 01"
   },
   {
    "id": "vanilla:dungeons/imperial/largehall/implhalldoorl01",
@@ -990,7 +1003,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.192
+   "pivotAboveBaseM": 0.192,
+   "displayName": "Imp l hall door l 01"
   },
   {
    "id": "vanilla:dungeons/imperial/largehall/implhallstairs01",
@@ -1073,7 +1087,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.239
+   "pivotAboveBaseM": 0.239,
+   "displayName": "Imp l hall stairs 01"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomcorner01",
@@ -1154,7 +1169,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.982,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.482
+   "pivotAboveBaseM": 0.482,
+   "displayName": "Imp l room corner 01"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomcorner02",
@@ -1235,7 +1251,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.983,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.524
+   "pivotAboveBaseM": 0.524,
+   "displayName": "Imp l room corner 02"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomcorner03",
@@ -1316,7 +1333,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.983,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.539
+   "pivotAboveBaseM": 0.539,
+   "displayName": "Imp l room corner 03"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomcorner04",
@@ -1397,7 +1415,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.988,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.567
+   "pivotAboveBaseM": 0.567,
+   "displayName": "Imp l room corner 04"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomdoor01",
@@ -1478,7 +1497,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.967,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.501
+   "pivotAboveBaseM": 0.501,
+   "displayName": "Imp l room door 01"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomdoor02",
@@ -1559,7 +1579,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.967,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.526
+   "pivotAboveBaseM": 0.526,
+   "displayName": "Imp l room door 02"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomdoor03",
@@ -1640,7 +1661,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.967,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.483
+   "pivotAboveBaseM": 0.483,
+   "displayName": "Imp l room door 03"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomdoor04",
@@ -1721,7 +1743,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.967,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.518
+   "pivotAboveBaseM": 0.518,
+   "displayName": "Imp l room door 04"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomicorner01",
@@ -1798,7 +1821,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.984,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.66
+   "pivotAboveBaseM": 0.66,
+   "displayName": "Imp l room i corner 01"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomicorner02",
@@ -1875,7 +1899,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.984,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.581
+   "pivotAboveBaseM": 0.581,
+   "displayName": "Imp l room i corner 02"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomicorner03",
@@ -1952,7 +1977,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.984,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.567
+   "pivotAboveBaseM": 0.567,
+   "displayName": "Imp l room i corner 03"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomicorner04",
@@ -2029,7 +2055,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.984,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.483
+   "pivotAboveBaseM": 0.483,
+   "displayName": "Imp l room i corner 04"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroommid01",
@@ -2104,7 +2131,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.662
+   "pivotAboveBaseM": 0.662,
+   "displayName": "Imp l room mid 01"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroommid02",
@@ -2179,7 +2207,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.563
+   "pivotAboveBaseM": 0.563,
+   "displayName": "Imp l room mid 02"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroompillar01",
@@ -2254,7 +2283,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.062,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.654
+   "pivotAboveBaseM": 0.654,
+   "displayName": "Imp l room pillar 01"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomwall01",
@@ -2335,7 +2365,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.984,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.516
+   "pivotAboveBaseM": 0.516,
+   "displayName": "Imp l room wall 01"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomwall02",
@@ -2416,7 +2447,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.986,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 0.575
+   "pivotAboveBaseM": 0.575,
+   "displayName": "Imp l room wall 02"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomwall03",
@@ -2497,7 +2529,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.988,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": 0.637
+   "pivotAboveBaseM": 0.637,
+   "displayName": "Imp l room wall 03"
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomwall04",
@@ -2578,7 +2611,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.988,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 0.658
+   "pivotAboveBaseM": 0.658,
+   "displayName": "Imp l room wall 04"
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphall1way01",
@@ -2651,7 +2685,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.996,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.036
+   "pivotAboveBaseM": -0.036,
+   "displayName": "Imp hall 1 way 01"
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphall1way128d01",
@@ -2724,7 +2759,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.707
+   "pivotAboveBaseM": 1.707,
+   "displayName": "Imp hall 1 way 128 d 01"
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphall1way128u01",
@@ -2797,7 +2833,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.995,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.114
+   "pivotAboveBaseM": -0.114,
+   "displayName": "Imp hall 1 way 128 u 01"
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphall2way01",
@@ -2870,7 +2907,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.996,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.066
+   "pivotAboveBaseM": -0.066,
+   "displayName": "Imp hall 2 way 01"
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphall3way01",
@@ -2943,7 +2981,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.989,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.004
+   "pivotAboveBaseM": -0.004,
+   "displayName": "Imp hall 3 way 01"
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphall4way01",
@@ -3016,7 +3055,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.02
+   "pivotAboveBaseM": 0.02,
+   "displayName": "Imp hall 4 way 01"
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphalldeadend01",
@@ -3089,7 +3129,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.036
+   "pivotAboveBaseM": -0.036,
+   "displayName": "Imp hall dead end 01"
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphallstairs01",
@@ -3164,7 +3205,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.902,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.065
+   "pivotAboveBaseM": -0.065,
+   "displayName": "Imp hall stairs 01"
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphallstairs02",
@@ -3231,7 +3273,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.902,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.065
+   "pivotAboveBaseM": -0.065,
+   "displayName": "Imp hall stairs 02"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improombrace01",
@@ -3294,7 +3337,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Imp room brace 01"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomcorner01",
@@ -3367,7 +3411,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 225.0,
-   "pivotAboveBaseM": -0.024
+   "pivotAboveBaseM": -0.024,
+   "displayName": "Imp room corner 01"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomcorner02",
@@ -3440,7 +3485,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 315.0,
-   "pivotAboveBaseM": -0.024
+   "pivotAboveBaseM": -0.024,
+   "displayName": "Imp room corner 02"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomcorner03",
@@ -3513,7 +3559,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 45.0,
-   "pivotAboveBaseM": -0.024
+   "pivotAboveBaseM": -0.024,
+   "displayName": "Imp room corner 03"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomcorner04",
@@ -3586,7 +3633,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 135.0,
-   "pivotAboveBaseM": -0.012
+   "pivotAboveBaseM": -0.012,
+   "displayName": "Imp room corner 04"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoor01",
@@ -3659,7 +3707,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.972,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "displayName": "Imp room door 01"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoor02",
@@ -3732,7 +3781,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.973,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.043
+   "pivotAboveBaseM": 0.043,
+   "displayName": "Imp room door 02"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoor03",
@@ -3805,7 +3855,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.972,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.032
+   "pivotAboveBaseM": 0.032,
+   "displayName": "Imp room door 03"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoor04",
@@ -3878,7 +3929,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.972,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.05
+   "pivotAboveBaseM": 0.05,
+   "displayName": "Imp room door 04"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoorb01",
@@ -3951,7 +4003,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.972,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.026
+   "pivotAboveBaseM": 0.026,
+   "displayName": "Imp room door b 01"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoorb02",
@@ -4024,7 +4077,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.972,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.047
+   "pivotAboveBaseM": 0.047,
+   "displayName": "Imp room door b 02"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoorb03",
@@ -4097,7 +4151,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.972,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.002
+   "pivotAboveBaseM": -0.002,
+   "displayName": "Imp room door b 03"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoorb04",
@@ -4170,7 +4225,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.973,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.074
+   "pivotAboveBaseM": 0.074,
+   "displayName": "Imp room door b 04"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomicorner01",
@@ -4243,7 +4299,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.992,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.043
+   "pivotAboveBaseM": 0.043,
+   "displayName": "Imp room i corner 01"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomicorner02",
@@ -4316,7 +4373,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.992,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.045
+   "pivotAboveBaseM": 0.045,
+   "displayName": "Imp room i corner 02"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomicorner03",
@@ -4389,7 +4447,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.992,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.045
+   "pivotAboveBaseM": 0.045,
+   "displayName": "Imp room i corner 03"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomicorner04",
@@ -4462,7 +4521,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.992,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.043
+   "pivotAboveBaseM": 0.043,
+   "displayName": "Imp room i corner 04"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improommid01",
@@ -4535,7 +4595,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.043
+   "pivotAboveBaseM": 0.043,
+   "displayName": "Imp room mid 01"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomwall01",
@@ -4608,7 +4669,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.024
+   "pivotAboveBaseM": -0.024,
+   "displayName": "Imp room wall 01"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomwall02",
@@ -4681,7 +4743,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 225.0,
-   "pivotAboveBaseM": 0.043
+   "pivotAboveBaseM": 0.043,
+   "displayName": "Imp room wall 02"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomwall03",
@@ -4754,7 +4817,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.974,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.024
+   "pivotAboveBaseM": -0.024,
+   "displayName": "Imp room wall 03"
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomwall04",
@@ -4827,7 +4891,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": 45.0,
-   "pivotAboveBaseM": 0.043
+   "pivotAboveBaseM": 0.043,
+   "displayName": "Imp room wall 04"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\vanilla-imperial-int.glb",

@@ -59,7 +59,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.074,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 14.927
+   "pivotAboveBaseM": 14.927,
+   "displayName": "FX waterfall body tall"
   },
   {
    "id": "vanilla:effects/fxwaterfallbodytall02",
@@ -122,7 +123,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.045,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 38.293
+   "pivotAboveBaseM": 38.293,
+   "displayName": "FX waterfall body tall 02 static"
   },
   {
    "id": "vanilla:effects/fxwaterfallbodyslope",
@@ -182,7 +184,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.138,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.118
+   "pivotAboveBaseM": 8.118,
+   "displayName": "FX waterfall body slope"
   },
   {
    "id": "vanilla:effects/fxwaterfallthin512x128",
@@ -236,7 +239,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": 123.8,
-   "pivotAboveBaseM": 7.325
+   "pivotAboveBaseM": 7.325,
+   "displayName": "FX waterfall thin 512x 128"
   },
   {
    "id": "vanilla:effects/fxwaterfallthin2048x128",
@@ -292,7 +296,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.004,
    "openBackYawDeg": 135.0,
-   "pivotAboveBaseM": 32.574
+   "pivotAboveBaseM": 32.574,
+   "displayName": "FX waterfall thin 2048x 128"
   },
   {
    "id": "vanilla:effects/fxwaterfallthin2048x512",
@@ -348,7 +353,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.01,
    "openBackYawDeg": 112.5,
-   "pivotAboveBaseM": 32.254
+   "pivotAboveBaseM": 32.254,
+   "displayName": "FX waterfall thin 2048x 512"
   },
   {
    "id": "vanilla:effects/fxwaterfallthin4096x256",
@@ -404,7 +410,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.005,
    "openBackYawDeg": 135.0,
-   "pivotAboveBaseM": 65.162
+   "pivotAboveBaseM": 65.162,
+   "displayName": "FX waterfall thin 4096x 256"
   },
   {
    "id": "vanilla:effects/fxwaterfallthinsheet",
@@ -465,7 +472,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 135.0,
-   "pivotAboveBaseM": 11.187
+   "pivotAboveBaseM": 11.187,
+   "displayName": "FX waterfall thin sheet"
   },
   {
    "id": "vanilla:effects/fxwaterfallthinspray2048",
@@ -522,7 +530,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 168.8,
-   "pivotAboveBaseM": 28.837
+   "pivotAboveBaseM": 28.837,
+   "displayName": "FX waterfall thin spray 2048"
   },
   {
    "id": "vanilla:effects/fxwaterfallskirttallfront",
@@ -580,7 +589,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 135.0,
-   "pivotAboveBaseM": -0.147
+   "pivotAboveBaseM": -0.147,
+   "displayName": "FX waterfall skirt tall front"
   },
   {
    "id": "vanilla:effects/fxwaterfallskirtslope",
@@ -637,7 +647,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.693
+   "pivotAboveBaseM": 0.693,
+   "displayName": "FX waterfall skirt slope"
   },
   {
    "id": "vanilla:effects/fxwaterfallskirtslopenomist",
@@ -694,7 +705,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.693
+   "pivotAboveBaseM": 0.693,
+   "displayName": "FX waterfall skirt slope no mist"
   },
   {
    "id": "vanilla:effects/fxwaterfallmistblast",
@@ -748,7 +760,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 101.2,
-   "pivotAboveBaseM": 1.752
+   "pivotAboveBaseM": 1.752,
+   "displayName": "FX waterfall mist blast"
   },
   {
    "id": "vanilla:effects/fxwaterfallmistblastlite",
@@ -801,7 +814,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 101.2,
-   "pivotAboveBaseM": 1.08
+   "pivotAboveBaseM": 1.08,
+   "displayName": "FX waterfall mist blast lite"
   },
   {
    "id": "vanilla:effects/fxrapids",
@@ -857,7 +871,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.004
+   "pivotAboveBaseM": 0.004,
+   "displayName": "FX rapids"
   },
   {
    "id": "vanilla:effects/fxrapidsbig01",
@@ -911,7 +926,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.208
+   "pivotAboveBaseM": 0.208,
+   "displayName": "F xrapids big 01"
   },
   {
    "id": "vanilla:effects/fxrapidsfallsline01",
@@ -967,7 +983,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.065
+   "pivotAboveBaseM": 0.065,
+   "displayName": "F xrapids falls line 01"
   },
   {
    "id": "vanilla:effects/fxrapidsfallstop",
@@ -1023,7 +1040,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.19
+   "pivotAboveBaseM": 0.19,
+   "displayName": "F xrapids falls top"
   },
   {
    "id": "vanilla:effects/fxrapidsringheavy",
@@ -1079,7 +1097,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.007
+   "pivotAboveBaseM": -0.007,
+   "displayName": "Fx rapids ring heavy"
   },
   {
    "id": "vanilla:effects/fxsplashlargechurnnorapids",
@@ -1137,7 +1156,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "FX large splash churn"
   },
   {
    "id": "vanilla:lod/waterfalls/fxwaterfallbodytall_lod",
@@ -1190,7 +1210,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.072,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 14.927
+   "pivotAboveBaseM": 14.927,
+   "displayName": "Fxwaterfallbodytall lod"
   },
   {
    "id": "vanilla:lod/waterfalls/fxwaterfallbodytall02_lod",
@@ -1243,7 +1264,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.155,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 33.271
+   "pivotAboveBaseM": 33.271,
+   "displayName": "Fxwaterfallbodytall 02 lod"
   },
   {
    "id": "vanilla:lod/waterfalls/fxwaterfallbodyslope_lod",
@@ -1296,7 +1318,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.172,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.114
+   "pivotAboveBaseM": 8.114,
+   "displayName": "Fxwaterfallbodyslope lod"
   },
   {
    "id": "vanilla:architecture/whiterun/wreffects/wrstairsstreamrapids01",
@@ -1349,7 +1372,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.088
+   "pivotAboveBaseM": 0.088,
+   "displayName": "Wrstairsstreamrapids 01"
   },
   {
    "id": "vanilla:architecture/whiterun/wreffects/wrstairsstreamrapids01foam",
@@ -1402,7 +1426,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.088
+   "pivotAboveBaseM": 0.088,
+   "displayName": "Wrstairsstreamrapids 01foam"
   },
   {
    "id": "vanilla:effects/ambient/fxmistlow01",
@@ -1460,7 +1485,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.263
+   "pivotAboveBaseM": 1.263,
+   "displayName": "FX mist low 01"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\apps\\world-studio\\public\\kits\\waterfall-fx-v1.glb",

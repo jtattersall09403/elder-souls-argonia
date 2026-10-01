@@ -80,7 +80,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.566,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.148
+   "pivotAboveBaseM": 0.148,
+   "displayName": "Imperial tent large"
   },
   {
    "id": "vanilla:architecture/tents/smallimperialtent",
@@ -168,7 +169,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.648,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.066
+   "pivotAboveBaseM": 0.066,
+   "displayName": "Imperial tent small"
   },
   {
    "id": "vanilla:clutter/civilwar/civilwarbanner01",
@@ -264,7 +266,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.758,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Civil war banner 01"
   },
   {
    "id": "vanilla:clutter/civilwar/civilwarbannerimp01",
@@ -376,7 +379,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 2.228
+   "pivotAboveBaseM": 2.228,
+   "displayName": "Civil war banner imp 01"
   },
   {
    "id": "vanilla:clutter/civilwar/civilwartable01",
@@ -459,7 +463,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Civil war table 01"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\camp-v1.glb",

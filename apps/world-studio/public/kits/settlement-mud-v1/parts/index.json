@@ -82,6 +82,9 @@
    ],
    "emissiveMaterials": [
     "Objekt01:1.Mat"
+   ],
+   "windowMaterials": [
+    "Objekt01:1.Mat"
    ]
   },
   "kotm:argonia/mudhuts/window02": {
@@ -99,6 +102,9 @@
     0.175
    ],
    "emissiveMaterials": [
+    "Kugel02:1.Mat"
+   ],
+   "windowMaterials": [
     "Kugel02:1.Mat"
    ]
   }

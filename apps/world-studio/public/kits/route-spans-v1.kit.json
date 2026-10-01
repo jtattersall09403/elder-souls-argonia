@@ -57,7 +57,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.433
+   "pivotAboveBaseM": 0.433,
+   "displayName": "Nor tmp ext plat tower bridge 01"
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgefree01",
@@ -122,7 +123,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.868
+   "pivotAboveBaseM": 1.868,
+   "displayName": "Nor tmp ext plat tower bridge free 01"
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgeendcap01",
@@ -185,7 +187,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.999,
    "openBackYawDeg": 168.8,
-   "pivotAboveBaseM": 0.433
+   "pivotAboveBaseM": 0.433,
+   "displayName": "Nor tmp ext plat tower bridge end cap 01"
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplattower01",
@@ -250,7 +253,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.681,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 21.848
+   "pivotAboveBaseM": 21.848,
+   "displayName": "Nor tmp ext plat tower 01"
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplattower02",
@@ -315,7 +319,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.777,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 21.848
+   "pivotAboveBaseM": 21.848,
+   "displayName": "Nor tmp ext plat tower 02"
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplatshaftbot01",
@@ -378,7 +383,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.455
+   "pivotAboveBaseM": 0.455,
+   "displayName": "Nor tmp ext plat shaft bot 01"
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplatstairmid02",
@@ -441,7 +447,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 7.283
+   "pivotAboveBaseM": 7.283,
+   "displayName": "Nor tmp ext plat stair mid 02"
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapl01",
@@ -507,7 +514,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 112.5,
-   "pivotAboveBaseM": 7.283
+   "pivotAboveBaseM": 7.283,
+   "displayName": "Nor tmp ext plat stair cap l 01"
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapr01",
@@ -573,7 +581,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 247.5,
-   "pivotAboveBaseM": 7.283
+   "pivotAboveBaseM": 7.283,
+   "displayName": "Nor tmp ext plat stair cap r 01"
   },
   {
    "id": "bmv:architecture/huts/exterior/bridge01",
@@ -648,7 +657,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.8,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.003
+   "pivotAboveBaseM": -0.003,
+   "displayName": "Bridge 01"
   },
   {
    "id": "bmv:architecture/huts/exterior/steps01",
@@ -709,7 +719,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Steps 01"
   },
   {
    "id": "bmv:architecture/huts/exterior/steps02",
@@ -784,7 +795,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.794,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.019
+   "pivotAboveBaseM": 0.019,
+   "displayName": "Steps 02"
   },
   {
    "id": "bmv:architecture/huts/exterior/steps03",
@@ -849,7 +861,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.992,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024
+   "pivotAboveBaseM": 0.024,
+   "displayName": "Steps 03"
   },
   {
    "id": "vanilla:landscape/bridges/bridgeshort01",
@@ -927,7 +940,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.363,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 14.373
+   "pivotAboveBaseM": 14.373,
+   "displayName": "Bridge short 01"
   },
   {
    "id": "vanilla:landscape/bridges/bridgenarrow01",
@@ -1005,7 +1019,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.355,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 14.373
+   "pivotAboveBaseM": 14.373,
+   "displayName": "Bridge narrow 01"
   },
   {
    "id": "vanilla:landscape/bridges/bridge01",
@@ -1078,7 +1093,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.41,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 14.373
+   "pivotAboveBaseM": 14.373,
+   "displayName": "Bridge 01"
   },
   {
    "id": "vanilla:landscape/bridges/bridgelong01",
@@ -1156,7 +1172,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.461,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 14.373
+   "pivotAboveBaseM": 14.373,
+   "displayName": "Bridge long 01"
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/dragonbridge01",
@@ -1238,7 +1255,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 22.43
+   "pivotAboveBaseM": 22.43,
+   "displayName": "Dragon bridge 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
@@ -1327,7 +1345,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stockade scaffold base 4 sided 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
@@ -1386,7 +1405,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stockade scaffold base 0 sided 02"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
@@ -1488,7 +1508,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219
+   "pivotAboveBaseM": 0.219,
+   "displayName": "Stockade scaffold top 0 sided 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop2sided01",
@@ -1578,7 +1599,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219
+   "pivotAboveBaseM": 0.219,
+   "displayName": "Stockade scaffold top 2 sided 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop3sided01",
@@ -1669,7 +1691,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219
+   "pivotAboveBaseM": 0.219,
+   "displayName": "Stockade scaffold top 3 sided 01"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\route-spans-v1.glb",

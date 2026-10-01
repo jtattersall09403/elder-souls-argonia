@@ -67,7 +67,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.098,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.038
+   "pivotAboveBaseM": 8.038,
+   "displayName": "House 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/house01base",
@@ -130,7 +131,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219
+   "pivotAboveBaseM": 0.219,
+   "displayName": "House 01base"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/housebase00",
@@ -193,7 +195,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219
+   "pivotAboveBaseM": 0.219,
+   "displayName": "Housebase 00"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/housebase01",
@@ -259,7 +262,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219
+   "pivotAboveBaseM": 0.219,
+   "displayName": "Housebase 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/housetall01",
@@ -320,7 +324,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -7.624
+   "pivotAboveBaseM": -7.624,
+   "displayName": "Housetall 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/entrance00",
@@ -385,7 +390,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.158,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.455
+   "pivotAboveBaseM": 7.455,
+   "displayName": "Entrance 00"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/baseentrance00",
@@ -453,7 +459,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.389,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.626
+   "pivotAboveBaseM": 0.626,
+   "displayName": "Baseentrance 00"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/baseentrance01",
@@ -518,7 +525,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.389,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.626
+   "pivotAboveBaseM": 0.626,
+   "displayName": "Baseentrance 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/largewindow00",
@@ -581,7 +589,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": -4.401
+   "pivotAboveBaseM": -4.401,
+   "displayName": "Largewindow 00"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/roof",
@@ -644,7 +653,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.121,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -6.818
+   "pivotAboveBaseM": -6.818,
+   "displayName": "Roof"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/dome",
@@ -710,7 +720,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.078,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641
+   "pivotAboveBaseM": 3.641,
+   "displayName": "Dome"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/basetower00",
@@ -773,7 +784,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159
+   "pivotAboveBaseM": 0.159,
+   "displayName": "Basetower 00"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/basetower01",
@@ -839,7 +851,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.029,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159
+   "pivotAboveBaseM": 0.159,
+   "displayName": "Basetower 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/middletower00",
@@ -902,7 +915,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -6.035
+   "pivotAboveBaseM": -6.035,
+   "displayName": "Middletower 00"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/middletower01",
@@ -968,7 +982,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.041,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -6.035
+   "pivotAboveBaseM": -6.035,
+   "displayName": "Middletower 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/toptower00",
@@ -1031,7 +1046,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -12.116
+   "pivotAboveBaseM": -12.116,
+   "displayName": "Toptower 00"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/toptower01",
@@ -1097,7 +1113,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.094,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -12.116
+   "pivotAboveBaseM": -12.116,
+   "displayName": "Toptower 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower00",
@@ -1160,7 +1177,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159
+   "pivotAboveBaseM": 0.159,
+   "displayName": "Tower 00"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower01",
@@ -1228,7 +1246,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.129,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.455
+   "pivotAboveBaseM": 7.455,
+   "displayName": "Tower 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower02",
@@ -1294,7 +1313,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159
+   "pivotAboveBaseM": 0.159,
+   "displayName": "Tower 02"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower03",
@@ -1360,7 +1380,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159
+   "pivotAboveBaseM": 0.159,
+   "displayName": "Tower 03"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower04",
@@ -1428,7 +1449,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.129,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.455
+   "pivotAboveBaseM": 7.455,
+   "displayName": "Tower 04"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower05",
@@ -1491,7 +1513,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159
+   "pivotAboveBaseM": 0.159,
+   "displayName": "Tower 05"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower06",
@@ -1557,7 +1580,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159
+   "pivotAboveBaseM": 0.159,
+   "displayName": "Tower 06"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower07",
@@ -1623,7 +1647,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.094,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159
+   "pivotAboveBaseM": 0.159,
+   "displayName": "Tower 07"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower08",
@@ -1691,7 +1716,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.129,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.455
+   "pivotAboveBaseM": 7.455,
+   "displayName": "Tower 08"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/miniwall",
@@ -1752,7 +1778,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.296,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.063
+   "pivotAboveBaseM": -0.063,
+   "displayName": "Miniwall"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall001",
@@ -1808,7 +1835,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.04
+   "pivotAboveBaseM": 3.04,
+   "displayName": "Stonewall 001"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall002",
@@ -1864,7 +1892,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.04
+   "pivotAboveBaseM": 3.04,
+   "displayName": "Stonewall 002"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall003",
@@ -1920,7 +1949,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.04
+   "pivotAboveBaseM": 3.04,
+   "displayName": "Stonewall 003"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcorner001",
@@ -1981,7 +2011,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.04
+   "pivotAboveBaseM": 3.04,
+   "displayName": "Stonewallcorner 001"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcurve001",
@@ -2042,7 +2073,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.04
+   "pivotAboveBaseM": 3.04,
+   "displayName": "Stonewallcurve 001"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallendpillar001",
@@ -2104,7 +2136,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.125,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.679
+   "pivotAboveBaseM": 3.679,
+   "displayName": "Stonewallendpillar 001"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallgatearc001",
@@ -2165,7 +2198,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.352,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.04
+   "pivotAboveBaseM": 3.04,
+   "displayName": "Stonewallgatearc 001"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall",
@@ -2221,7 +2255,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313
+   "pivotAboveBaseM": 0.313,
+   "displayName": "Trgmlcwall"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall90a",
@@ -2282,7 +2317,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313
+   "pivotAboveBaseM": 0.313,
+   "displayName": "Trgmlcwall 90a"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokena",
@@ -2343,7 +2379,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.277,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313
+   "pivotAboveBaseM": 0.313,
+   "displayName": "Trgmlcwallbrokena"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenb",
@@ -2404,7 +2441,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.402,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 0.313
+   "pivotAboveBaseM": 0.313,
+   "displayName": "Trgmlcwallbrokenb"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenc",
@@ -2465,7 +2503,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.158,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313
+   "pivotAboveBaseM": 0.313,
+   "displayName": "Trgmlcwallbrokenc"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallend",
@@ -2521,7 +2560,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313
+   "pivotAboveBaseM": 0.313,
+   "displayName": "Trgmlcwallend"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallentera",
@@ -2582,7 +2622,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.277,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313
+   "pivotAboveBaseM": 0.313,
+   "displayName": "Trgmlcwallentera"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallenterb",
@@ -2643,7 +2684,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.559,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313
+   "pivotAboveBaseM": 0.313,
+   "displayName": "Trgmlcwallenterb"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/stairs01",
@@ -2706,7 +2748,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.018,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.15
+   "pivotAboveBaseM": 0.15,
+   "displayName": "Stairs 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01",
@@ -2767,7 +2810,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.251
+   "pivotAboveBaseM": 0.251,
+   "displayName": "Trgmstairs 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/skavenclaystairs",
@@ -2829,7 +2873,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.476
+   "pivotAboveBaseM": 0.476,
+   "displayName": "Skavenclaystairs"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmcover1",
@@ -2895,7 +2940,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.995,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.264
+   "pivotAboveBaseM": 0.264,
+   "displayName": "Trgmcover 1"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmcover2",
@@ -2963,7 +3009,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.26
+   "pivotAboveBaseM": 0.26,
+   "displayName": "Trgmcover 2"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmcoverstairs",
@@ -3031,7 +3078,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.125,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.266
+   "pivotAboveBaseM": 0.266,
+   "displayName": "Trgmcoverstairs"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmfence",
@@ -3094,7 +3142,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.062,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.142
+   "pivotAboveBaseM": 0.142,
+   "displayName": "Trgmfence"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmfenceend",
@@ -3157,7 +3206,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.061,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.142
+   "pivotAboveBaseM": 0.142,
+   "displayName": "Trgmfenceend"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmfencepost",
@@ -3220,7 +3270,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.215,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.142
+   "pivotAboveBaseM": 0.142,
+   "displayName": "Trgmfencepost"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock01",
@@ -3281,7 +3332,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.811
+   "pivotAboveBaseM": 1.811,
+   "displayName": "Trgmstoneblock 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock02",
@@ -3342,7 +3394,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.811
+   "pivotAboveBaseM": 1.811,
+   "displayName": "Trgmstoneblock 02"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock03",
@@ -3403,7 +3456,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.811
+   "pivotAboveBaseM": 1.811,
+   "displayName": "Trgmstoneblock 03"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge01",
@@ -3468,7 +3522,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.411
+   "pivotAboveBaseM": 0.411,
+   "displayName": "Trgmbridge 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02",
@@ -3535,7 +3590,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.973,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.772
+   "pivotAboveBaseM": 2.772,
+   "displayName": "Trgmbridge 02"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/tradehome",
@@ -3598,7 +3654,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.486,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Tradehome"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/multi_barrels00",
@@ -3689,7 +3746,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.625,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.004
+   "pivotAboveBaseM": 0.004,
+   "displayName": "Multi barrels 00"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/multi_crate00",
@@ -3757,7 +3815,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.677,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.101
+   "pivotAboveBaseM": 0.101,
+   "displayName": "Multi crate 00"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trcrane02base",
@@ -3818,7 +3877,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.686,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.195
+   "pivotAboveBaseM": 1.195,
+   "displayName": "Trcrane 02base"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/crane01",
@@ -3900,7 +3960,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.547,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.032
+   "pivotAboveBaseM": 1.032,
+   "displayName": "Crane 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/crane02",
@@ -3983,7 +4044,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.547,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.032
+   "pivotAboveBaseM": 1.032,
+   "displayName": "Crane 02"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/crane03",
@@ -4068,7 +4130,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.547,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.032
+   "pivotAboveBaseM": 1.032,
+   "displayName": "Crane 03"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/trlanternpostbase",
@@ -4129,7 +4192,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.213
+   "pivotAboveBaseM": 0.213,
+   "displayName": "Trlanternpostbase"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/trlanternpost1arm",
@@ -4185,7 +4249,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.236,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.633
+   "pivotAboveBaseM": 1.633,
+   "displayName": "Trlanternpost 1arm"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/trlanternpost2arm",
@@ -4241,7 +4306,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.262,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.64
+   "pivotAboveBaseM": 1.64,
+   "displayName": "Trlanternpost 2arm"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/trlanternpost4arm",
@@ -4302,7 +4368,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.312,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.646
+   "pivotAboveBaseM": 1.646,
+   "displayName": "Trlanternpost 4arm"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/sbigplanter02t",
@@ -4368,7 +4435,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Sbigplanter 02t"
   },
   {
    "id": "bmv:architecture/phitt/aldredanyia/house03",
@@ -4445,7 +4513,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.308,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.646
+   "pivotAboveBaseM": 3.646,
+   "displayName": "House 03"
   },
   {
    "id": "bmv:architecture/phitt/aldredanyia/overhang05",
@@ -4525,7 +4594,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.887,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.804
+   "pivotAboveBaseM": 1.804,
+   "displayName": "Overhang 05"
   },
   {
    "id": "bmv:architecture/phitt/aldredanyia/window",
@@ -4595,7 +4665,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 0.796
+   "pivotAboveBaseM": 0.796,
+   "displayName": "Window"
   },
   {
    "id": "composite:phitt/marsh-house-03",
@@ -4707,7 +4778,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.275,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.306
+   "pivotAboveBaseM": 4.306,
+   "displayName": "Marsh house 03"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\hlaalu-domestic.glb",

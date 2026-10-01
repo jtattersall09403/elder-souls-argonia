@@ -60,7 +60,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.44
+   "pivotAboveBaseM": 0.44,
+   "displayName": "Ar block 01"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock02",
@@ -121,7 +122,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.44
+   "pivotAboveBaseM": 0.44,
+   "displayName": "Ar block 02"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock03",
@@ -182,7 +184,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.44
+   "pivotAboveBaseM": 0.44,
+   "displayName": "Ar block 03"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock05",
@@ -243,7 +246,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.44
+   "pivotAboveBaseM": 0.44,
+   "displayName": "Ar block 05"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock01",
@@ -304,7 +308,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91
+   "pivotAboveBaseM": 0.91,
+   "displayName": "Ar quad block 01"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock02",
@@ -365,7 +370,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91
+   "pivotAboveBaseM": 0.91,
+   "displayName": "Ar quad block 02"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick01",
@@ -426,7 +432,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.996,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Ar brick 01"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick03",
@@ -487,7 +494,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.996,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Ar brick 03"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick05",
@@ -548,7 +556,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.877,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Ar brick 05"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairs01",
@@ -609,7 +618,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 146.2,
-   "pivotAboveBaseM": 1.007
+   "pivotAboveBaseM": 1.007,
+   "displayName": "Ar stairs 01"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairs02",
@@ -665,7 +675,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 4.043
+   "pivotAboveBaseM": 4.043,
+   "displayName": "Ar stairs 02"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairscenter01",
@@ -726,7 +737,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.043
+   "pivotAboveBaseM": 4.043,
+   "displayName": "Ar stairs center 01"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairsside01",
@@ -787,7 +799,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 225.0,
-   "pivotAboveBaseM": 4.055
+   "pivotAboveBaseM": 4.055,
+   "displayName": "Ar stairs side 01"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arspiralstairs01",
@@ -848,7 +861,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.098,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.777
+   "pivotAboveBaseM": 1.777,
+   "displayName": "Ar spiral stairs 01"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuebase01",
@@ -909,7 +923,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.034
+   "pivotAboveBaseM": -0.034,
+   "displayName": "Ar statue base 01"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuewall01",
@@ -972,7 +987,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Ar statue wall 01"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuewall02",
@@ -1038,7 +1054,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.056,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029
+   "pivotAboveBaseM": 0.029,
+   "displayName": "Ar statue wall 02"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbridge01",
@@ -1102,7 +1119,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.661
+   "pivotAboveBaseM": 4.661,
+   "displayName": "Ar bridge 01"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbridge03",
@@ -1165,7 +1183,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.717
+   "pivotAboveBaseM": 4.717,
+   "displayName": "Ar bridge 03"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/artower01",
@@ -1230,7 +1249,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.09,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 9.246
+   "pivotAboveBaseM": 9.246,
+   "displayName": "Ar tower 01"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arcolumn02",
@@ -1291,7 +1311,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Ar column 02"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararchcolumn02",
@@ -1354,7 +1375,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.176,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.879
+   "pivotAboveBaseM": 0.879,
+   "displayName": "Ar arch column 02"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arringouterwall03",
@@ -1415,7 +1437,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Ar ring outer wall 03"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arringinnerwall02",
@@ -1476,7 +1499,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.152
+   "pivotAboveBaseM": 1.152,
+   "displayName": "Ar ring inner wall 02"
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/aroutercircle01",
@@ -1541,7 +1565,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.711,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.35
+   "pivotAboveBaseM": 0.35,
+   "displayName": "Ar outer circle 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding1",
@@ -1612,7 +1637,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.076,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.27
+   "pivotAboveBaseM": 7.27,
+   "displayName": "1mjyaztecbuilding 1"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding3redone",
@@ -1682,7 +1708,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.371,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 16.145
+   "pivotAboveBaseM": 16.145,
+   "displayName": "1mjyaztecbuilding 3redone"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding7",
@@ -1760,7 +1787,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.201,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.948
+   "pivotAboveBaseM": 4.948,
+   "displayName": "1mjyaztecbuilding 7"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue",
@@ -1821,7 +1849,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.599,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.318
+   "pivotAboveBaseM": 0.318,
+   "displayName": "Serpentsigilstatue"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentstatue_feathered",
@@ -1891,7 +1920,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.751,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.017
+   "pivotAboveBaseM": 0.017,
+   "displayName": "Serpentstatue feathered"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/statuegoddess",
@@ -1952,7 +1982,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.988,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Statuegoddess"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/gargoyle01",
@@ -2013,7 +2044,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.898,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.017
+   "pivotAboveBaseM": -0.017,
+   "displayName": "Gargoyle 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/runicstone",
@@ -2074,7 +2106,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.872,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.061
+   "pivotAboveBaseM": 0.061,
+   "displayName": "Runicstone"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar02",
@@ -2130,7 +2163,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Pillar 02"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar05",
@@ -2191,7 +2225,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.746,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.021
+   "pivotAboveBaseM": 0.021,
+   "displayName": "Pillar 05"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallfree01",
@@ -2256,7 +2291,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.117,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.665
+   "pivotAboveBaseM": 7.665,
+   "displayName": "Wallfree 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallcorner01",
@@ -2329,7 +2365,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.056,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.621
+   "pivotAboveBaseM": 4.621,
+   "displayName": "Wallcorner 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallstraight",
@@ -2394,7 +2431,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.142,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.567
+   "pivotAboveBaseM": 4.567,
+   "displayName": "Wallstraight"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem01",
@@ -2455,7 +2493,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.814,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.022
+   "pivotAboveBaseM": 0.022,
+   "displayName": "Totem 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02",
@@ -2516,7 +2555,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.956,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.003
+   "pivotAboveBaseM": 0.003,
+   "displayName": "Totem 02"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/skeletontotem01",
@@ -2579,7 +2619,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.507,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.008
+   "pivotAboveBaseM": 0.008,
+   "displayName": "Skeletontotem 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/skullstack01",
@@ -2635,7 +2676,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.705,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.011
+   "pivotAboveBaseM": 0.011,
+   "displayName": "Skullstack 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/3mjyunderwaterruins8",
@@ -2700,7 +2742,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.742,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 21.243
+   "pivotAboveBaseM": 21.243,
+   "displayName": "3mjyunderwaterruins 8"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/blockslargepile",
@@ -2763,7 +2806,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.569,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -1.657
+   "pivotAboveBaseM": -1.657,
+   "displayName": "Blockslargepile"
   },
   {
    "id": "composite:ayleid/arblock-mass-2x2x2",
@@ -2831,7 +2875,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.44
+   "pivotAboveBaseM": 0.44,
+   "displayName": "Ar block 01"
   },
   {
    "id": "composite:ayleid/arblock-mass-3x1x3",
@@ -2900,7 +2945,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.44
+   "pivotAboveBaseM": 0.44,
+   "displayName": "Ar block 01"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\ruin-monumental-v1.glb",

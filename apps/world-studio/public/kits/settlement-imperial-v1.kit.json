@@ -53,9 +53,6 @@
     "Farmhouse01:4.Mat": 0.502
    },
    "lodLevels": 3,
-   "emissiveMaterials": [
-    "Farmhouse01:14.Mat"
-   ],
    "designedSinkM": {
     "p25": -0.5238,
     "p50": -0.0479,
@@ -118,7 +115,14 @@
    "undersideClosed": false,
    "undersideCoverage": 0.156,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821
+   "pivotAboveBaseM": 1.821,
+   "emissiveMaterials": [
+    "Farmhouse01:14.Mat"
+   ],
+   "windowMaterials": [
+    "Farmhouse01:14.Mat"
+   ],
+   "displayName": "Farmhouse 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse02",
@@ -180,9 +184,6 @@
     "L2_Rope:22.Mat"
    ],
    "lodLevels": 3,
-   "emissiveMaterials": [
-    "Farmhouse02:14.Mat"
-   ],
    "designedSinkM": {
     "p25": -0.3084,
     "p50": 0.4218,
@@ -239,7 +240,14 @@
    "undersideClosed": false,
    "undersideCoverage": 0.505,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821
+   "pivotAboveBaseM": 1.821,
+   "emissiveMaterials": [
+    "Farmhouse02:14.Mat"
+   ],
+   "windowMaterials": [
+    "Farmhouse02:14.Mat"
+   ],
+   "displayName": "Farmhouse 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse01walkway",
@@ -342,7 +350,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.897,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641
+   "pivotAboveBaseM": 3.641,
+   "displayName": "Farmhouse 01 walkway"
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse02walkway",
@@ -437,7 +446,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.905,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641
+   "pivotAboveBaseM": 3.641,
+   "displayName": "Farmhouse 02 walkway"
   },
   {
    "id": "vanilla:architecture/docks/dockstrsol01",
@@ -533,7 +543,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.793,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.233
+   "pivotAboveBaseM": 6.233,
+   "displayName": "Dock str sol 01"
   },
   {
    "id": "vanilla:architecture/docks/dockcorsol01",
@@ -622,7 +633,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.756,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.218
+   "pivotAboveBaseM": 6.218,
+   "displayName": "Dock cor sol 01"
   },
   {
    "id": "vanilla:architecture/docks/dockstr4way01",
@@ -712,7 +724,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.815,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.157
+   "pivotAboveBaseM": 6.157,
+   "displayName": "Dock str 4way 01"
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdown01",
@@ -805,7 +818,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.87,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.317
+   "pivotAboveBaseM": 6.317,
+   "displayName": "Dock steps down 01"
   },
   {
    "id": "vanilla:architecture/docks/dockcolstr01",
@@ -883,7 +897,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.152,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 10.615
+   "pivotAboveBaseM": 10.615,
+   "displayName": "Dock col str 01"
   },
   {
    "id": "vanilla:architecture/docks/dockropestr01",
@@ -958,7 +973,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.389,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.464
+   "pivotAboveBaseM": -0.464,
+   "displayName": "Dock rope str 01"
   },
   {
    "id": "rowboats:dungeons/ship/shiprowboat01",
@@ -1030,7 +1046,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.179
+   "pivotAboveBaseM": 0.179,
+   "displayName": "Shiprowboat 01"
   },
   {
    "id": "rowboats:dungeons/clutter/shipoar01",
@@ -1100,7 +1117,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.345,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.071
+   "pivotAboveBaseM": 0.071,
+   "displayName": "Shipoar 01"
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiiliccityferry01",
@@ -1186,7 +1204,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.507
+   "pivotAboveBaseM": 0.507,
+   "displayName": "Shipcyrodiiliccityferry 01"
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicriverferry01",
@@ -1272,7 +1291,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.909,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.583
+   "pivotAboveBaseM": 0.583,
+   "displayName": "Shipcyrodiilicriverferry 01"
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrowboat01",
@@ -1349,7 +1369,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.402
+   "pivotAboveBaseM": 0.402,
+   "displayName": "Shipcyrodiilicrowboat 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/fencewoven01",
@@ -1443,7 +1464,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.382,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Fence woven 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/fencewoven02",
@@ -1539,7 +1561,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.363,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Fence woven 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewall01",
@@ -1626,7 +1649,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.05,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stonewall 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewall02",
@@ -1719,7 +1743,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.011,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "displayName": "Stonewall 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallendl01",
@@ -1806,7 +1831,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.093,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stonewall end l 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
@@ -1893,7 +1919,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.04,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stonewall end r 01"
   },
   {
    "id": "composite:farmhouse/farmhouse01-with-door",
@@ -2004,7 +2031,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.156,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821
+   "pivotAboveBaseM": 1.821,
+   "displayName": "Farmhouse 01"
   },
   {
    "id": "composite:farmhouse/farmhouse02-with-door",
@@ -2117,7 +2145,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.505,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821
+   "pivotAboveBaseM": 1.821,
+   "displayName": "Farmhouse 02"
   },
   {
    "id": "composite:farmhouse/farmhouse02-with-walkway",
@@ -2247,7 +2276,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.527,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.651
+   "pivotAboveBaseM": 3.651,
+   "displayName": "Farmhouse 02"
   },
   {
    "id": "composite:farmhouse/stonewall-run-3",
@@ -2341,7 +2371,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.044,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stonewall 01"
   },
   {
    "id": "composite:farmhouse/stonewall-run-5",
@@ -2437,7 +2468,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.035,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stonewall 01"
   },
   {
    "id": "vanilla:clutter/imperial/impwallsconcecandle01",
@@ -2490,9 +2522,6 @@
      "sizeM": 0.036,
      "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
     }
-   ],
-   "emissiveMaterials": [
-    "ImpWallSconceCandle01:8.Mat"
    ],
    "designedSinkM": {
     "p25": -0.3345,
@@ -2558,7 +2587,11 @@
    "undersideClosed": true,
    "undersideCoverage": 0.739,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.335
+   "pivotAboveBaseM": 0.335,
+   "emissiveMaterials": [
+    "ImpWallSconceCandle01:8.Mat"
+   ],
+   "displayName": "Imp wall sconce candle 01"
   },
   {
    "id": "vanilla:dungeons/imperial/clutterkits/impfreewall01",
@@ -2664,7 +2697,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.562,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.341
+   "pivotAboveBaseM": 0.341,
+   "displayName": "Imp free wall 01"
   },
   {
    "id": "vanilla:clutter/signage/whiterun/signwrpost01",
@@ -2752,7 +2786,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.173,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Sign WR post 01"
   },
   {
    "id": "vanilla:clutter/signage/whiterun/signwrdrunkenhuntsman01",
@@ -2838,7 +2873,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.046
+   "pivotAboveBaseM": 1.046,
+   "displayName": "Sign WR drunken huntsman 01"
   },
   {
    "id": "vanilla:clutter/signage/whiterun/signwrgeneralgoods",
@@ -2899,7 +2935,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.031
+   "pivotAboveBaseM": 1.031,
+   "displayName": "Sign WR general goods"
   },
   {
    "id": "vanilla:clutter/signage/whiterun/signwrstables01",
@@ -2984,7 +3021,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.033
+   "pivotAboveBaseM": 1.033,
+   "displayName": "Sign WR stables 01"
   },
   {
    "id": "vanilla:clutter/barrel01",
@@ -3088,7 +3126,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Barrel empty 01"
   },
   {
    "id": "vanilla:clutter/barrel02",
@@ -3192,7 +3231,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Barrel 02 static"
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilelarge01",
@@ -3301,7 +3341,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.633,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.019
+   "pivotAboveBaseM": 0.019,
+   "displayName": "Firewood pile large 01"
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilemedium01",
@@ -3410,7 +3451,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.753,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024
+   "pivotAboveBaseM": 0.024,
+   "displayName": "Firewood pile medium 01"
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilesmall01",
@@ -3519,7 +3561,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.962,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.017
+   "pivotAboveBaseM": 0.017,
+   "displayName": "Firewood pile small 01"
   },
   {
    "id": "vanilla:furniture/farm/farmbench01",
@@ -3623,7 +3666,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm bench 01 f"
   },
   {
    "id": "vanilla:clutter/bucket01",
@@ -3727,7 +3771,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.775,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Bucket 01"
   },
   {
    "id": "vanilla:clutter/hay/haymound01",
@@ -3840,7 +3885,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Hay mound 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaystairs1",
@@ -3933,7 +3979,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.728,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821
+   "pivotAboveBaseM": 1.821,
+   "displayName": "Walkway stairs 1"
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaystairs4",
@@ -4033,7 +4080,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.816,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821
+   "pivotAboveBaseM": 1.821,
+   "displayName": "Walkway stairs 4"
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaystairs8",
@@ -4133,7 +4181,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.848,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821
+   "pivotAboveBaseM": 1.821,
+   "displayName": "Walkway stairs 8"
   },
   {
    "id": "vanilla:architecture/farmhouse/ivy01",
@@ -4214,7 +4263,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.501
+   "pivotAboveBaseM": 0.501,
+   "displayName": "Ivy 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/ivy02",
@@ -4299,7 +4349,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 1.067
+   "pivotAboveBaseM": 1.067,
+   "displayName": "Ivy 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/ivy03",
@@ -4381,7 +4432,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 1.067
+   "pivotAboveBaseM": 1.067,
+   "displayName": "Ivy 03"
   },
   {
    "id": "vanilla:plants/chickennest01",
@@ -4488,7 +4540,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.233,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.096
+   "pivotAboveBaseM": -0.096,
+   "displayName": "Chicken nest"
   },
   {
    "id": "vanilla:architecture/riften/rtstables01",
@@ -4585,7 +4638,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91
+   "pivotAboveBaseM": 0.91,
+   "displayName": "RT stables 01"
   },
   {
    "id": "vanilla:clutter/horsetrough/horsetrough01",
@@ -4678,7 +4732,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Horse trough 01"
   },
   {
    "id": "vanilla:clutter/common/candlelanternwithcandle01",
@@ -4775,9 +4830,6 @@
      "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
     }
    ],
-   "emissiveMaterials": [
-    "CandleLanternWithCandle:7.Mat"
-   ],
    "designedSinkM": {
     "p25": -0.0285,
     "p50": -0.0268,
@@ -4850,7 +4902,11 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024
+   "pivotAboveBaseM": 0.024,
+   "emissiveMaterials": [
+    "CandleLanternWithCandle:7.Mat"
+   ],
+   "displayName": "Candle lanternwith candle 01"
   },
   {
    "id": "bmv:architecture/phitt/aldredanyia/signpost",
@@ -4937,7 +4993,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.609,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.884
+   "pivotAboveBaseM": 2.884,
+   "displayName": "Signpost"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-imperial-v1.glb",

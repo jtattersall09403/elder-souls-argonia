@@ -632,6 +632,9 @@
    ],
    "emissiveMaterials": [
     "FarmIntEnd01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntEnd01:14.Mat"
    ]
   },
   "vanilla:architecture/farmhouse/interior/farmintend02": {
@@ -649,6 +652,9 @@
     0
    ],
    "emissiveMaterials": [
+    "FarmIntEnd02:14.Mat"
+   ],
+   "windowMaterials": [
     "FarmIntEnd02:14.Mat"
    ]
   },

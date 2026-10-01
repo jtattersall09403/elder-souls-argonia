@@ -100,7 +100,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.188,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext wall 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
@@ -200,7 +201,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.253,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext wall ruin 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02",
@@ -304,7 +306,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.235,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 0.004
+   "pivotAboveBaseM": 0.004,
+   "displayName": "Old imp ext wall ruin 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01",
@@ -383,7 +386,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.137,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext wall cor in 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01",
@@ -464,7 +468,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.213,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext wall cor in 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorout01",
@@ -543,7 +548,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.208,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext wall cor out"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallent01",
@@ -618,7 +624,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.062,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 3.641
+   "pivotAboveBaseM": 3.641,
+   "displayName": "Old imp ext foundation 04"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01",
@@ -712,7 +719,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.502,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext wall gate"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01destroyed01",
@@ -808,7 +816,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.479,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext wall gate ruin"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01",
@@ -905,7 +914,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.164,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext wall 06"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs01",
@@ -986,7 +996,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.186,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext wall 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs02",
@@ -1067,7 +1078,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.186,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext wall 03"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs03",
@@ -1144,7 +1156,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.023,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext wall 04"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs04",
@@ -1221,7 +1234,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.023,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext wall 05"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbg01",
@@ -1313,7 +1327,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext tower 03 a"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgbase01",
@@ -1388,7 +1403,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.09,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641
+   "pivotAboveBaseM": 3.641,
+   "displayName": "Old imp ext tower 03 b"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop01",
@@ -1485,7 +1501,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.02,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext tower 03 c"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop02",
@@ -1577,7 +1594,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.004,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext tower 03 d"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersm01",
@@ -1648,7 +1666,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext tower 04 a"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmbase01",
@@ -1723,7 +1742,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.055,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641
+   "pivotAboveBaseM": 3.641,
+   "displayName": "Old imp ext tower 04 b"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmtop01",
@@ -1802,7 +1822,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.145,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext tower 04 c"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep01",
@@ -1881,7 +1902,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.219,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext building 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep02",
@@ -1978,7 +2000,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.309,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641
+   "pivotAboveBaseM": 3.641,
+   "displayName": "Old imp ext building 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance01",
@@ -2051,7 +2074,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.414,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.448
+   "pivotAboveBaseM": 0.448,
+   "displayName": "Old imp ext entrance 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance02",
@@ -2134,7 +2158,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.223,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.626
+   "pivotAboveBaseM": 0.626,
+   "displayName": "Old imp ext entrance 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01",
@@ -2231,7 +2256,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.27,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext tower 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01destroyed01",
@@ -2330,7 +2356,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.098,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext tower 01 ruin"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower02",
@@ -2429,7 +2456,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.266,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.283
+   "pivotAboveBaseM": 7.283,
+   "displayName": "Old imp ext tower 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation01",
@@ -2512,7 +2540,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext foundation 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation02",
@@ -2581,7 +2610,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.283
+   "pivotAboveBaseM": 7.283,
+   "displayName": "Old imp ext foundation 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfreeplat01",
@@ -2672,7 +2702,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.283
+   "pivotAboveBaseM": 7.283,
+   "displayName": "Old imp ext foundation 03"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchplaza01",
@@ -2767,7 +2798,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.283
+   "pivotAboveBaseM": 7.283,
+   "displayName": "Old imp ext plaza 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchpool01",
@@ -2864,7 +2896,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.016,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.731
+   "pivotAboveBaseM": 2.731,
+   "displayName": "Old imp ext pool"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit01",
@@ -2928,7 +2961,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.832,
    "openBackYawDeg": 146.2,
-   "pivotAboveBaseM": 0.004
+   "pivotAboveBaseM": 0.004,
+   "displayName": "Old imp ext arrow slit 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit02",
@@ -3001,7 +3035,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 1.934
+   "pivotAboveBaseM": 1.934,
+   "displayName": "Old imp ext arrow slit 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01",
@@ -3072,7 +3107,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.125,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext sm wall 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01tall",
@@ -3151,7 +3187,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.125,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641
+   "pivotAboveBaseM": 3.641,
+   "displayName": "Old imp ext lrg wall 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01rubble",
@@ -3222,7 +3259,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.055,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext sm wall 01 ruin"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02",
@@ -3295,7 +3333,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.188,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext sm wall 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02tall",
@@ -3368,7 +3407,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.188,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641
+   "pivotAboveBaseM": 3.641,
+   "displayName": "Old imp ext lrg wall 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort01",
@@ -3439,7 +3479,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.125,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext sm wall 03"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort02",
@@ -3512,7 +3553,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.184,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext sm wall 04"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor01",
@@ -3583,7 +3625,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.062,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext sm wall cor in 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor02",
@@ -3656,7 +3699,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.133,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext sm wall cor in 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost01",
@@ -3727,7 +3771,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.234,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext sm wall post 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost02",
@@ -3801,7 +3846,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.234,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641
+   "pivotAboveBaseM": 3.641,
+   "displayName": "Old imp ext lrg wall post 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost03",
@@ -3874,7 +3920,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.238,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext sm wall post 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost04",
@@ -3947,7 +3994,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.238,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641
+   "pivotAboveBaseM": 3.641,
+   "displayName": "Old imp ext lrg wall post 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge01",
@@ -4036,7 +4084,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.031,
    "openBackYawDeg": 135.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext ledge 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge02",
@@ -4121,7 +4170,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.031,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext ledge 03"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorin01",
@@ -4196,7 +4246,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.013,
    "openBackYawDeg": 22.5,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext ledge cor in"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorout01",
@@ -4287,7 +4338,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.062,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext ledge cor out"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid01",
@@ -4370,7 +4422,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext ledge mid 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid02",
@@ -4456,7 +4509,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext ledge mid 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairs01",
@@ -4557,7 +4611,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.02,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext ledge stairs 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsl01",
@@ -4636,7 +4691,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.038,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext ledge stairs 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsmid01",
@@ -4717,7 +4773,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext ledge stairs 04"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsr01",
@@ -4796,7 +4853,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.038,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext ledge stairs 03"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge01",
@@ -4875,7 +4933,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.805,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641
+   "pivotAboveBaseM": 3.641,
+   "displayName": "Old imp ext bridge 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge02",
@@ -4956,7 +5015,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.184,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641
+   "pivotAboveBaseM": 3.641,
+   "displayName": "Old imp ext bridge 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock01",
@@ -5051,7 +5111,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext dock bridge 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock02",
@@ -5150,7 +5211,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.113,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext dock bridge 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatfront01",
@@ -5246,7 +5308,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.145,
    "openBackYawDeg": 78.8,
-   "pivotAboveBaseM": 10.924
+   "pivotAboveBaseM": 10.924,
+   "displayName": "Old imp ext dock wall 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatmid01",
@@ -5321,7 +5384,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext dock mid 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorin01",
@@ -5398,7 +5462,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.093,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 10.924
+   "pivotAboveBaseM": 10.924,
+   "displayName": "Old imp ext dock cor in"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorout01",
@@ -5484,7 +5549,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.186,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 10.924
+   "pivotAboveBaseM": 10.924,
+   "displayName": "Old imp ext dock cor out"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstablestraight01",
@@ -5563,7 +5629,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.916,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext stable mid"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01",
@@ -5660,7 +5727,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.826,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext stable l 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01",
@@ -5757,7 +5825,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.826,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp ext stable r 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchwell01",
@@ -5849,7 +5918,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.055,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.455
+   "pivotAboveBaseM": 0.455,
+   "displayName": "Old imp well"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchflagpole01",
@@ -5913,7 +5983,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.129,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.085
+   "pivotAboveBaseM": 0.085,
+   "displayName": "Old imp flagpole"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal01",
@@ -6000,7 +6071,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.32,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp pedestal 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal02",
@@ -6082,7 +6154,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.273,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Old imp pedestal 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchplanter01",
@@ -6155,7 +6228,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91
+   "pivotAboveBaseM": 0.91,
+   "displayName": "Mwimparchplanter 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchmooring01",
@@ -6234,7 +6308,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.065,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp ext dock mooring"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchsewer01",
@@ -6325,7 +6400,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.105,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.164
+   "pivotAboveBaseM": 0.164,
+   "displayName": "Old imp sewer grate"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchaltar01",
@@ -6407,7 +6483,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.352,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp altar"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile01",
@@ -6502,7 +6579,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.031,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.128
+   "pivotAboveBaseM": -0.128,
+   "displayName": "Old imp rubble pile 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile02",
@@ -6602,7 +6680,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.025,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.043
+   "pivotAboveBaseM": 0.043,
+   "displayName": "Old imp rubble pile 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile03",
@@ -6702,7 +6781,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.235,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.171
+   "pivotAboveBaseM": 0.171,
+   "displayName": "Old imp rubble pile 03"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece01",
@@ -6794,7 +6874,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.844,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.053
+   "pivotAboveBaseM": 1.053,
+   "displayName": "Old imp rubble piece 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece02",
@@ -6858,7 +6939,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.478
+   "pivotAboveBaseM": 1.478,
+   "displayName": "Old imp rubble piece 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece03",
@@ -6931,7 +7013,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.986,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.215
+   "pivotAboveBaseM": 1.215,
+   "displayName": "Old imp rubble piece 03"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk01",
@@ -7029,7 +7112,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp rubble floor 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk02",
@@ -7127,7 +7211,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp rubble floor 02"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorsingle01",
@@ -7210,7 +7295,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.837,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp door int 01 STATIC"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorload01",
@@ -7280,7 +7366,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.309,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Old imp door l 01"
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorjail01",
@@ -7349,7 +7436,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.896,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Mwimparchdoorjail 01"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\imperial-keep.glb",

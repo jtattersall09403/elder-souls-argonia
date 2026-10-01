@@ -7,11 +7,11 @@
   "sha256": "61e33ae470f9dbbe9448919aeeab28aa88cca196ec1b7d0a5681544ca083c59a"
  },
  "totals": {
-  "parts": 7,
-  "partBytes": 128284,
-  "textureFiles": 3,
-  "textureBytes": 666877,
-  "bytes": 795161
+  "parts": 8,
+  "partBytes": 136740,
+  "textureFiles": 4,
+  "textureBytes": 792618,
+  "bytes": 929358
  },
  "assets": {
   "kotm:issgard/clutter/bones/issgard_boneargonianskullfull": {
@@ -21,6 +21,15 @@
    "triangles": 2594,
    "textures": [
     "f67b9b6722952f8c"
+   ]
+  },
+  "vanilla:clutter/basket01": {
+   "file": "vanilla_clutter_basket01-31268527.glb",
+   "bytes": 8456,
+   "vertices": 321,
+   "triangles": 500,
+   "textures": [
+    "9a27911525728b4f"
    ]
   },
   "vanilla:clutter/bones/bloodybone": {

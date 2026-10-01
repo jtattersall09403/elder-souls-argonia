@@ -74,7 +74,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.435,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.911
+   "pivotAboveBaseM": 0.911,
+   "displayName": "Bamboohut 01 int"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
@@ -149,7 +150,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.435,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.911
+   "pivotAboveBaseM": 0.911,
+   "displayName": "Bamboohut 02 int"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/bamboohut01_int",
@@ -225,7 +227,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.435,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.911
+   "pivotAboveBaseM": 0.911,
+   "displayName": "Bamboohut 01 int"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
@@ -283,7 +286,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Bamboohutdoor 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01",
@@ -357,7 +361,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.99,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.008
+   "pivotAboveBaseM": -0.008,
+   "displayName": "Wickerchair 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickersofa01",
@@ -436,7 +441,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.995,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.035
+   "pivotAboveBaseM": 0.035,
+   "displayName": "Wickersofa 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01",
@@ -518,7 +524,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.003
+   "pivotAboveBaseM": -0.003,
+   "displayName": "Wickertable 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01",
@@ -574,7 +581,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Wickerbasket 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/chestwicker01",
@@ -649,7 +657,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.034
+   "pivotAboveBaseM": 0.034,
+   "displayName": "Chestwicker 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02",
@@ -712,7 +721,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.473,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b trapdoor 02"
   },
   {
    "id": "vanilla:clutter/barrel01",
@@ -829,7 +839,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Barrel empty 01"
   },
   {
    "id": "vanilla:clutter/giant/giantcampfire01off",
@@ -902,7 +913,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.056,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91
+   "pivotAboveBaseM": 0.91,
+   "displayName": "Giant campfire 01 off"
   },
   {
    "id": "vanilla:clutter/hay/hayscatter05",
@@ -964,7 +976,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Hay scatter 05"
   },
   {
    "id": "vanilla:clutter/hay/hayscatter06",
@@ -1026,7 +1039,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Hay scatter 06"
   },
   {
    "id": "vanilla:clutter/imperial/impbrazier01",
@@ -1126,7 +1140,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.945,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Imp brazier 01"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\htbm-hut-int.glb",

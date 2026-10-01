@@ -55,7 +55,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.022
+   "pivotAboveBaseM": -0.022,
+   "displayName": "Tbp seaweed 01"
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed02",
@@ -111,7 +112,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.074,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.496
+   "pivotAboveBaseM": 0.496,
+   "displayName": "Tbp seaweed 02"
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed06",
@@ -173,7 +175,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.116,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.973
+   "pivotAboveBaseM": 0.973,
+   "displayName": "TBP seaweed 06 cluster"
   },
   {
    "id": "depths:landscape/grass/tbpalgae01",
@@ -234,7 +237,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.106
+   "pivotAboveBaseM": 0.106,
+   "displayName": "Tbpalgae 01"
   },
   {
    "id": "depths:landscape/grass/waterkelptall02",
@@ -290,7 +294,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.323,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.09
+   "pivotAboveBaseM": 0.09,
+   "displayName": "Waterkelptall 02"
   },
   {
    "id": "depths:landscape/grass/waterkelptall03",
@@ -346,7 +351,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.323,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.801
+   "pivotAboveBaseM": 0.801,
+   "displayName": "Waterkelptall 03"
   },
   {
    "id": "depths:landscape/grass/tbpcoastdriftwood01",
@@ -420,7 +426,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.699,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.485
+   "pivotAboveBaseM": 0.485,
+   "displayName": "TB pcoastdriftwood test"
   },
   {
    "id": "depths:landscape/grass/tbpcoastdriftwood02",
@@ -494,7 +501,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.139,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.254
+   "pivotAboveBaseM": 0.254,
+   "displayName": "Tbpcoastdriftwood 02"
   },
   {
    "id": "depths:landscape/grass/tbprockgrasswater03",
@@ -555,7 +563,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.234
+   "pivotAboveBaseM": 0.234,
+   "displayName": "Tbprockgrasswater 03"
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl01",
@@ -618,7 +627,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.911,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Aruniquerubblewalkablefl 01"
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl03",
@@ -681,7 +691,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.653,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Aruniquerubblewalkablefl 03"
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl05",
@@ -744,7 +755,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.709,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Aruniquerubblewalkablefl 05"
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokena",
@@ -807,7 +819,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arblockfreebrokena"
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokenb",
@@ -870,7 +883,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arblockfreebrokenb"
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
@@ -933,7 +947,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.34,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arblockfreehollow"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02",
@@ -994,7 +1009,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.956,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.003
+   "pivotAboveBaseM": 0.003,
+   "displayName": "Totem 02"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem03",
@@ -1050,7 +1066,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.149,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.006
+   "pivotAboveBaseM": -0.006,
+   "displayName": "Totem 03"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/runicstone",
@@ -1111,7 +1128,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.872,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.061
+   "pivotAboveBaseM": 0.061,
+   "displayName": "Runicstone"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue",
@@ -1172,7 +1190,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.599,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.318
+   "pivotAboveBaseM": 0.318,
+   "displayName": "Serpentsigilstatue"
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed06var1",
@@ -1233,7 +1252,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.232,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.973
+   "pivotAboveBaseM": 0.973,
+   "displayName": "Tbp seaweed 06var 1"
   },
   {
    "id": "vanilla:plants/clam01",
@@ -1291,7 +1311,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.965,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.018
+   "pivotAboveBaseM": 0.018,
+   "displayName": "Clam 01"
   },
   {
    "id": "vanilla:plants/clamlarge01",
@@ -1349,7 +1370,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.739,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.003
+   "pivotAboveBaseM": 0.003,
+   "displayName": "Clam large 01"
   },
   {
    "id": "vanilla:plants/clamthin01",
@@ -1407,7 +1429,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.887,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.012
+   "pivotAboveBaseM": 0.012,
+   "displayName": "Clam thin 01"
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards01",
@@ -1473,7 +1496,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.971,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "displayName": "Shipwreck boards 01"
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards02",
@@ -1539,7 +1563,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.96,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "displayName": "Shipwreck boards 02"
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards03",
@@ -1605,7 +1630,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.943,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "displayName": "Shipwreck boards 03"
   },
   {
    "id": "depths:dos/boats/rowboatbrokenback",
@@ -1670,7 +1696,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.882,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.764
+   "pivotAboveBaseM": 0.764,
+   "displayName": "Rowboatbrokenback"
   },
   {
    "id": "depths:dos/boats/rowboatbrokenfront",
@@ -1735,7 +1762,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.757
+   "pivotAboveBaseM": 0.757,
+   "displayName": "Rowboatbrokenfront"
   },
   {
    "id": "vanilla:landscape/plants/kelpshortstatic01",
@@ -1792,7 +1820,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.358,
    "openBackYawDeg": 292.5,
-   "pivotAboveBaseM": 0.024
+   "pivotAboveBaseM": 0.024,
+   "displayName": "Tree kelp short static 01"
   },
   {
    "id": "vanilla:landscape/plants/kelptallstatic01",
@@ -1849,7 +1878,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.277,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.09
+   "pivotAboveBaseM": 0.09,
+   "displayName": "Tree kelp tall static 01"
   },
   {
    "id": "jokerine:_seaside/coral",
@@ -1910,7 +1940,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.139,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.025
+   "pivotAboveBaseM": 0.025,
+   "displayName": "Aaa sea coral blue"
   },
   {
    "id": "jokerine:_seaside/coral_spiky",
@@ -1974,7 +2005,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.673,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.017
+   "pivotAboveBaseM": 0.017,
+   "displayName": "Aaa sea coral spiky"
   },
   {
    "id": "jokerine:_seaside/starfish",
@@ -2035,7 +2067,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.605,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.018
+   "pivotAboveBaseM": 0.018,
+   "displayName": "Aaa sea starfish blue"
   },
   {
    "id": "jokerine:_seaside/sponge",
@@ -2096,7 +2129,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.564,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Aaa sea sponge"
   },
   {
    "id": "jokerine:_seaside/conch",
@@ -2157,7 +2191,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.845,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.064
+   "pivotAboveBaseM": 0.064,
+   "displayName": "Aaa sea conch blue"
   },
   {
    "id": "jokerine:_seaside/sanddollar",
@@ -2218,7 +2253,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.897,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029
+   "pivotAboveBaseM": 0.029,
+   "displayName": "Aaa sea sand dollar brown"
   },
   {
    "id": "jokerine:_seaside/scallop_red",
@@ -2282,7 +2318,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.773,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.027
+   "pivotAboveBaseM": 0.027,
+   "displayName": "Aaa sea scallop red"
   },
   {
    "id": "jokerine:_seaside/scallop_blue",
@@ -2346,7 +2383,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.773,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.027
+   "pivotAboveBaseM": 0.027,
+   "displayName": "Aaa sea scallop blue"
   },
   {
    "id": "jokerine:_seaside/scallop_yellow",
@@ -2410,7 +2448,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.773,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.027
+   "pivotAboveBaseM": 0.027,
+   "displayName": "Aaa sea scallop yellow"
   },
   {
    "id": "jokerine:_seaside/scallop_greenwhite",
@@ -2474,7 +2513,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.773,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.027
+   "pivotAboveBaseM": 0.027,
+   "displayName": "Aaa sea scallop green white"
   },
   {
    "id": "jokerine:_seaside/scallop_purplewhite",
@@ -2538,7 +2578,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.773,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.027
+   "pivotAboveBaseM": 0.027,
+   "displayName": "Aaa sea scallop purple white"
   },
   {
    "id": "jokerine:_seaside/scallop_slate",
@@ -2602,7 +2643,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.773,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.027
+   "pivotAboveBaseM": 0.027,
+   "displayName": "Aaa sea scallop slate"
   },
   {
    "id": "jokerine:_seaside/clam_large",
@@ -2663,7 +2705,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041
+   "pivotAboveBaseM": 0.041,
+   "displayName": "Aaa sea clam large"
   },
   {
    "id": "shores:shoresofskyrim/shorerock01",
@@ -2724,7 +2767,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.012
+   "pivotAboveBaseM": 0.012,
+   "displayName": "Shorerock 01"
   },
   {
    "id": "shores:shoresofskyrim/shorerock02",
@@ -2785,7 +2829,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.024
+   "pivotAboveBaseM": -0.024,
+   "displayName": "Shorerock 02"
   },
   {
    "id": "shores:shoresofskyrim/shorerock03",
@@ -2846,7 +2891,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.991,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.002
+   "pivotAboveBaseM": -0.002,
+   "displayName": "Shorerock 03"
   },
   {
    "id": "shores:shoresofskyrim/shorerock04",
@@ -2907,7 +2953,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.994,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "displayName": "Shorerock 04"
   },
   {
    "id": "shores:shoresofskyrim/shorerock05",
@@ -2968,7 +3015,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.973,
    "openBackYawDeg": 112.5,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Shorerock 05"
   },
   {
    "id": "shores:shoresofskyrim/shorerock06",
@@ -3029,7 +3077,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.896,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.013
+   "pivotAboveBaseM": -0.013,
+   "displayName": "Shorerock 06"
   },
   {
    "id": "shores:shoresofskyrim/shorerock07",
@@ -3090,7 +3139,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.957,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.014
+   "pivotAboveBaseM": 0.014,
+   "displayName": "Shorerock 07"
   },
   {
    "id": "shores:shoresofskyrim/shorerock08",
@@ -3151,7 +3201,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.947,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.011
+   "pivotAboveBaseM": 0.011,
+   "displayName": "Shorerock 08"
   },
   {
    "id": "shores:shoresofskyrim/shorerock09",
@@ -3212,7 +3263,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.99,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.013
+   "pivotAboveBaseM": -0.013,
+   "displayName": "Shorerock 09"
   },
   {
    "id": "shores:shoresofskyrim/shorerock10",
@@ -3273,7 +3325,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.775,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.011
+   "pivotAboveBaseM": -0.011,
+   "displayName": "Shorerock 10"
   },
   {
    "id": "shores:shoresofskyrim/shorerock11",
@@ -3334,7 +3387,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.952,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.011
+   "pivotAboveBaseM": -0.011,
+   "displayName": "Shorerock 11"
   },
   {
    "id": "shores:shoresofskyrim/shorerock12",
@@ -3395,7 +3449,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.94,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Shorerock 12"
   },
   {
    "id": "shores:shoresofskyrim/seashell02",
@@ -3456,7 +3511,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.793,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.042
+   "pivotAboveBaseM": 0.042,
+   "displayName": "Seashell 02"
   },
   {
    "id": "shores:shoresofskyrim/seashell03",
@@ -3517,7 +3573,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.776,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.006
+   "pivotAboveBaseM": 0.006,
+   "displayName": "Seashell 03"
   },
   {
    "id": "shores:shoresofskyrim/snailshell01",
@@ -3578,7 +3635,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.844,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.002
+   "pivotAboveBaseM": 0.002,
+   "displayName": "Snailshell 01"
   },
   {
    "id": "vanilla:plants/nordicbarnaclecluster01",
@@ -3636,7 +3694,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.464,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.025
+   "pivotAboveBaseM": 0.025,
+   "displayName": "Nordic barnacle cluster 01"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rocks01wet",
@@ -3702,7 +3761,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.424,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.205
+   "pivotAboveBaseM": 0.205,
+   "displayName": "Rock s 01 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rocks02wet",
@@ -3768,7 +3828,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.313,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.09
+   "pivotAboveBaseM": 0.09,
+   "displayName": "Rock s 02 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rocks03wet",
@@ -3835,7 +3896,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.372,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.383
+   "pivotAboveBaseM": 0.383,
+   "displayName": "Rock s 03 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockm01wet",
@@ -3901,7 +3963,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.188
+   "pivotAboveBaseM": 0.188,
+   "displayName": "Rock m 01 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockm03wet",
@@ -3967,7 +4030,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.791,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.47
+   "pivotAboveBaseM": 0.47,
+   "displayName": "Rock m 03 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockm04wet",
@@ -4039,7 +4103,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.009,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.26
+   "pivotAboveBaseM": 0.26,
+   "displayName": "Rock m 04 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilem01wet",
@@ -4115,7 +4180,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.002,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.584
+   "pivotAboveBaseM": 0.584,
+   "displayName": "Rock pile m 01 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilem03wet",
@@ -4192,7 +4258,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.003,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.757
+   "pivotAboveBaseM": 0.757,
+   "displayName": "Rock pile m 03 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockshelf01wet",
@@ -4273,7 +4340,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.001,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.513
+   "pivotAboveBaseM": 0.513,
+   "displayName": "Rock shelf 01 wet"
   },
   {
    "id": "vanilla:landscape/trees/coastdriftwood01",
@@ -4342,7 +4410,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.699,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.485
+   "pivotAboveBaseM": 0.485,
+   "displayName": "Coast drift wood 01"
   },
   {
    "id": "vanilla:landscape/trees/coastdriftwood02",
@@ -4411,7 +4480,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.139,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.254
+   "pivotAboveBaseM": 0.254,
+   "displayName": "Coast drift wood 02"
   },
   {
    "id": "vanilla:landscape/trees/coastdriftwood03",
@@ -4480,7 +4550,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.112,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159
+   "pivotAboveBaseM": 0.159,
+   "displayName": "Coast drift wood 03"
   },
   {
    "id": "vanilla:clutter/bones/humanskull",
@@ -4536,7 +4607,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.873,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.006
+   "pivotAboveBaseM": 0.006,
+   "displayName": "Bone human skull"
   },
   {
    "id": "vanilla:clutter/bones/humanribcagefull",
@@ -4592,7 +4664,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.818,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.142
+   "pivotAboveBaseM": 0.142,
+   "displayName": "Bone human ribcage full"
   },
   {
    "id": "vanilla:clutter/bones/mammothskull1",
@@ -4648,7 +4721,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.178,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.379
+   "pivotAboveBaseM": 1.379,
+   "displayName": "Bone mammoth skull 1"
   },
   {
    "id": "vanilla:clutter/barrel01",
@@ -4765,7 +4839,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Barrel empty 01"
   },
   {
    "id": "vanilla:clutter/basket01",
@@ -4849,19 +4924,20 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryCapM": 0.75,
+    "buryCapM": 0.25,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Basket 01"
   },
   {
    "id": "vanilla:clutter/bucket01",
@@ -4965,7 +5041,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.775,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Bucket 01"
   },
   {
    "id": "bmv:landscape/grass/riverbedpebbles",
@@ -5026,7 +5103,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.438,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.08
+   "pivotAboveBaseM": 0.08,
+   "displayName": "Riverbedpebbles"
   },
   {
    "id": "bmv:landscape/grass/smallpebbles",
@@ -5087,7 +5165,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.438,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.051
+   "pivotAboveBaseM": 0.051,
+   "displayName": "Smallpebbles"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\underwater-v1.glb",
