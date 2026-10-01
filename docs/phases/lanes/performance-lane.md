@@ -33,9 +33,9 @@ may hand it an item from the owner's walk.
 
 | Win | Source | Note |
 |---|---|---|
-| Night rain with lights to 60 fps on the M2 | walk 9; 0108 § 7a | first item: measure which pass the lit night frame pays for |
+| Night rain with lights to 60 fps on the M2 | walk 9; 0108 § 7c | rain, ripple, foam and bloom are cleared (§ 7c); next: the owner's HUD at Riverwalk, night, rain, `?q=medium`: the `tris … / budget` line and the `scene` GPU ms. Scene ms near 2.6 × M triangles means triangle-bound (cut triangles: canopy shell, vertex hoists); far above it means fill-bound (the prepass row) |
 | Vertex-stage hoists in foliage materials | fable5 audit row 17 | about -1.4 ms there |
-| Depth prepass for alpha-tested foliage | fable5 audit row 18 | gated on an M2 measurement |
+| Depth prepass for alpha-tested foliage | fable5 audit row 18; 0108 § 7c | only on a fill-bound HUD reading: it doubles foliage triangles at ~2.6 ms per million on the M2 |
 | CDLOD vertex morph on terrain | fable5 audit row 19 | replaces skirts-only seams |
 | Far-forest canopy shell | fable5 audit row 20 | one draw for far forest |
 | Uniform groups on static meshes | fable5 audit row 16 | `matrixAutoUpdate=false` is done for settlements (0108 § 7a) |
@@ -50,4 +50,8 @@ may hand it an item from the owner's walk.
 2. Take the item with the largest measured saving per agent-hour; a win the
    owner's walk named comes first.
 3. Prove it on the harness, ship it, and the owner's next walk gives the
-   fps verdict; delete its row here when shipped.
+   fps verdict; delete its row here when shipped and list it under Done.
+
+## Done (awaiting the owner's fps verdict)
+
+- Walk 9: terrain splat samples −48 % per near fragment (0108 § 7c).

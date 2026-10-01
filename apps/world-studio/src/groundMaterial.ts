@@ -273,11 +273,20 @@ vec3 esLitterMix(int i, vec3 c, vec3 w, vec3 worldPos) {
   if (k <= 0.001) return c;
   return mix(c, esTriSample(int(uLitterLayer), w, worldPos), k);
 }
-vec3 esTexelCol(ivec2 tc, float fade, vec3 w, vec3 worldPos) {
-  vec4 c = texelFetch(uCtrl, clamp(tc, ivec2(0), ivec2(uCtrlSize) - 1), 0);
+vec4 esCtrlAt(ivec2 tc) {
+  return texelFetch(uCtrl, clamp(tc, ivec2(0), ivec2(uCtrlSize) - 1), 0);
+}
+// Cost (performance lane, walk 9): the tiled samples run only where the near
+// field contributes (fade < 1), and the second id only when it shows (ids
+// differ, blend > 0: 48% of control texels are blend 0); a weight-0 term is
+// pixel-identical without its samples.
+vec3 esTexelCol(vec4 c, float fade, vec3 w, vec3 worldPos) {
 ${CONTROL_DECODE_GLSL}
-  vec3 near_ = mix(esLitterMix(i0, esTriSample(i0, w, worldPos), w, worldPos),
-                   esLitterMix(i1, esTriSample(i1, w, worldPos), w, worldPos), esBlend);
+  vec3 near_ = vec3(0.0);
+  if (fade < 1.0) {
+    near_ = esLitterMix(i0, esTriSample(i0, w, worldPos), w, worldPos);
+    if (i1 != i0 && esBlend > 0.0) near_ = mix(near_, esLitterMix(i1, esTriSample(i1, w, worldPos), w, worldPos), esBlend);
+  }
   vec3 far_ = mix(mix(esAvgCol(i0, w), uAvgCol[int(uLitterLayer)], uLitterOf[i0] * esLitter),
                   mix(esAvgCol(i1, w), uAvgCol[int(uLitterLayer)], uLitterOf[i1] * esLitter), esBlend);
   return mix(near_, far_, fade);
@@ -300,11 +309,21 @@ ${CONTROL_DECODE_GLSL}
   vec2 esP = vProvinceUv * uCtrlSize - 0.5;
   ivec2 esP0 = ivec2(floor(esP));
   vec2 esF = fract(esP);
-  // ids can't be hardware-filtered: manual bilinear over 4 texels
-  vec3 esCol = mix(
-    mix(esTexelCol(esP0, esFade, esW, vEsWorldPos), esTexelCol(esP0 + ivec2(1, 0), esFade, esW, vEsWorldPos), esF.x),
-    mix(esTexelCol(esP0 + ivec2(0, 1), esFade, esW, vEsWorldPos), esTexelCol(esP0 + ivec2(1, 1), esFade, esW, vEsWorldPos), esF.x),
-    esF.y);
+  // ids can't be hardware-filtered: manual bilinear over 4 texels. Inside a
+  // uniform patch (all four texels equal: most of the ground) the bilinear
+  // of four equal colours is that colour, shaded once with a quarter of the
+  // texture-array samples (performance lane, walk 9).
+  vec4 esC00 = esCtrlAt(esP0), esC10 = esCtrlAt(esP0 + ivec2(1, 0));
+  vec4 esC01 = esCtrlAt(esP0 + ivec2(0, 1)), esC11 = esCtrlAt(esP0 + ivec2(1, 1));
+  vec3 esCol;
+  if (esC00 == esC10 && esC00 == esC01 && esC00 == esC11) {
+    esCol = esTexelCol(esC00, esFade, esW, vEsWorldPos);
+  } else {
+    esCol = mix(
+      mix(esTexelCol(esC00, esFade, esW, vEsWorldPos), esTexelCol(esC10, esFade, esW, vEsWorldPos), esF.x),
+      mix(esTexelCol(esC01, esFade, esW, vEsWorldPos), esTexelCol(esC11, esFade, esW, vEsWorldPos), esF.x),
+      esF.y);
+  }
   // macro climate tint (coastal/wetness/latitude palette drift),
   // with a live strength control for owner tuning
   esCol *= mix(vec3(1.0), texture2D(uTint, vProvinceUv).rgb * 2.0, uTintStrength);

@@ -248,6 +248,16 @@ baseline.
   target, `samples: 0` on both tiers; canvas MSAA does not reach it.
 - Not drawn: under water, with `?water=0` (no pipeline), in Fly3D.
 
+## 7c. Walk-9 rows (owner: Riverwalk night rain with lamps, 32–42 fps on the M2)
+
+| item | outcome | evidence |
+|---|---|---|
+| Terrain splat samples | taken (`groundMaterial.ts` `esTexelCol`, map_fragment): a uniform 2×2 control patch shades once, the second id is sampled only when its blend is above 0, the near samples only where fade < 1; pixel-identical | province control raster: 41.9 % of 2×2 patches uniform, 48 % of texels blend 0; near-field array samples per fragment ~8 to ~4.2 (−48 %) |
+| "Terrain noise bake" (walk-8 list) | does not exist: the ground shader has no procedural noise (macro brightness is in the tint raster); its cost was the splat sampling above | `groundMaterial.ts` |
+| Rain passes | kept: 2 draws in the one precip pass, ~0.20 M fragments a frame (0.14× a 1470×956 screen; outer shell 0.03 M) of a 3-line shader | Monte Carlo over the RainSystem vertex law |
+| Ripple, foam, bloom targets | kept: ripple 128², foam 512²/256² by tier (world sims, not screen-sized); bloom already half resolution; the water surface draws on screen at full resolution by definition | `RippleSim.ts`, `FoamField.ts`, `BloomPass.ts` |
+| Foliage depth prepass | not built: it re-issues every foliage triangle, and the M2 pays ~2.6 ms per million (`FRAME_TRIANGLE_BUDGET`), against a 2–4 ms fill estimate; worth it only if the HUD shows the frame fill-bound | owner HUD reading in the performance lane |
+
 ## 8. How performance is measured
 
 - **No full-studio headless probes.** The VM has no GPU; SwiftShader runs
