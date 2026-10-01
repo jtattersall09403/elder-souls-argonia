@@ -9,7 +9,68 @@ import {
   WIND_REFERENCE_TRUNK_RADIUS_M,
   WIND_STIFFNESS_RANGE,
   WIND_TUNE_ATTRIBUTE,
+  groundCoverSway,
+  windGustAt,
 } from "./windSway";
+
+/** One ground-cover tip sampled at 60 Hz for 10 s. */
+function tipTrace(speedMS: number, gustiness: number, originXZ: [number, number] = [137.2, -48.9]) {
+  const out: number[] = [];
+  for (let i = 0; i < 600; i++) {
+    out.push(groundCoverSway({ speedMS, gustiness, dirXZ: [1, 0], originXZ, heightM: 1, t: i / 60 }));
+  }
+  return out;
+}
+
+/** The strongest frequency, Hz, of a trace sampled at 60 Hz (DFT, 0.1–10 Hz). */
+function dominantHz(trace: number[]): number {
+  const mean = trace.reduce((a, b) => a + b, 0) / trace.length;
+  let best = 0; let bestPow = -1;
+  for (let f = 0.1; f <= 10; f += 0.05) {
+    let re = 0; let im = 0;
+    trace.forEach((v, i) => { re += (v - mean) * Math.cos(2 * Math.PI * f * i / 60); im += (v - mean) * Math.sin(2 * Math.PI * f * i / 60); });
+    if (re * re + im * im > bestPow) { bestPow = re * re + im * im; best = f; }
+  }
+  return best;
+}
+
+describe("ground-cover wind (walk 9: no constant vibration)", () => {
+  const peak = (t: number[]) => Math.max(...t.map(Math.abs));
+  it("is still at calm, moves in wind, lays over in a gale, all below 1.5 Hz", () => {
+    const calm = tipTrace(2, 0); const windy = tipTrace(8, 0.6); const gale = tipTrace(14, 1);
+    expect(peak(calm)).toBeLessThan(0.01);
+    expect(peak(windy)).toBeGreaterThan(0.15);
+    expect(peak(gale)).toBeGreaterThan(peak(windy));
+    expect(dominantHz(windy)).toBeLessThan(1.5);
+    expect(dominantHz(gale)).toBeLessThan(1.5);
+  });
+  it("rolls gust fronts downwind: a root 5 m downwind sees the same gust within 1 s", () => {
+    const lagOf = (speed: number) => {
+      const a = (t: number) => windGustAt([100, 40], [1, 0], speed, 1, t);
+      const b = (t: number) => windGustAt([105, 40], [1, 0], speed, 1, t);
+      let bestLag = 0; let bestErr = Infinity;
+      for (let lag = 0; lag <= 3; lag += 0.01) {
+        let err = 0;
+        for (let t = 0; t < 10; t += 0.1) err += (b(t + lag) - a(t)) ** 2;
+        if (err < bestErr) { bestErr = err; bestLag = lag; }
+      }
+      return { bestLag, bestErr };
+    };
+    for (const speed of [8, 14]) {
+      const { bestLag, bestErr } = lagOf(speed);
+      expect(bestLag).toBeGreaterThan(0);
+      expect(bestLag).toBeLessThan(1);
+      expect(bestErr).toBeLessThan(1e-3);
+    }
+  });
+  it("draws ground cover without the 7 Hz flutter, and gates tree flutter by wind speed squared", () => {
+    const material = new THREE.MeshStandardMaterial();
+    applyWindSway(material, createWindUniforms());
+    const vs = compile(material).vertexShader;
+    expect(vs).toContain("if (esTune.z <= 0.05)");
+    expect(vs).toContain("esFlutter = 0.5 * clamp(esSpeedMS * esSpeedMS / 100.0");
+  });
+});
 
 /** A minimal stand-in for the object three.js passes to onBeforeCompile. */
 function shaderStub() {

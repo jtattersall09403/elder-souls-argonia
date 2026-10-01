@@ -144,6 +144,59 @@ export function updateWindSway(
   );
 }
 
+/** Ground cover is still at or below this wind, m/s (the clear-weather states blow 2.2). */
+export const GROUND_COVER_CALM_MS = 2.5;
+/** At or above this wind, m/s, ground cover is laid over (gust 1). */
+export const GROUND_COVER_FULL_MS = 12;
+/** Ground-cover bend rate, Hz, from calm to full wind. */
+export const GROUND_COVER_HZ: readonly [number, number] = [0.4, 1.2];
+/** Tip lean at full wind and gust 1, as a fraction of the plant's height. */
+export const GROUND_COVER_LEAN = 0.9;
+
+function windHash(x: number, z: number): number {
+  const v = Math.sin(x * 12.9898 + z * 78.233) * 43758.5453;
+  return v - Math.floor(v);
+}
+
+function windNoise(x: number, z: number): number {
+  const ix = Math.floor(x); const iz = Math.floor(z);
+  let fx = x - ix; let fz = z - iz;
+  fx = fx * fx * (3 - 2 * fx); fz = fz * fz * (3 - 2 * fz);
+  const a = windHash(ix, iz) + (windHash(ix + 1, iz) - windHash(ix, iz)) * fx;
+  const b = windHash(ix, iz + 1) + (windHash(ix + 1, iz + 1) - windHash(ix, iz + 1)) * fx;
+  return a + (b - a) * fz;
+}
+
+/** The gust multiplier at a plant root (the shader's `esGust`). */
+export function windGustAt(originXZ: readonly [number, number], dirXZ: readonly [number, number],
+  speedMS: number, gustiness: number, t: number): number {
+  const drift = t * (2 + 0.6 * speedMS);
+  const n = windNoise((originXZ[0] - dirXZ[0] * drift) / 30, (originXZ[1] - dirXZ[1] * drift) / 30);
+  const g = Math.min(1, Math.max(0, gustiness));
+  return 1 + (0.25 + 1.5 * n - 1) * g;
+}
+
+/**
+ * The ground-cover branch of the vertex shader in TypeScript (the shader is
+ * built from the same constants; `windSway.test.ts` measures this law): the
+ * downwind offset, metres, of a vertex `heightM` above the ground of a plant
+ * of `plantH` (1 when untuned) rooted at `originXZ`, at time `t`.
+ */
+export function groundCoverSway(p: {
+  speedMS: number; gustiness: number; dirXZ: readonly [number, number];
+  originXZ: readonly [number, number]; heightM: number; plantH?: number; t: number;
+}): number {
+  const plantH = p.plantH ?? 1;
+  const w = Math.min(1, Math.max(0, (p.speedMS - GROUND_COVER_CALM_MS) / (GROUND_COVER_FULL_MS - GROUND_COVER_CALM_MS)));
+  const freq = (GROUND_COVER_HZ[0] + (GROUND_COVER_HZ[1] - GROUND_COVER_HZ[0]) * w) * 2 * Math.PI;
+  const k = freq / (2 + 0.6 * p.speedMS);
+  const phase = k * (p.originXZ[0] * p.dirXZ[0] + p.originXZ[1] * p.dirXZ[1])
+    - 0.6 * windHash(p.originXZ[0], p.originXZ[1]) * 2 * Math.PI;
+  const profile = Math.min(p.heightM / plantH, 1.2) ** 2;
+  const gust = windGustAt(p.originXZ, p.dirXZ, p.speedMS, p.gustiness, p.t);
+  return GROUND_COVER_LEAN * plantH * w ** 1.3 * profile * gust * (0.65 + 0.35 * Math.sin(p.t * freq - phase));
+}
+
 const VERTEX_HEAD = /* glsl */ `
 uniform float esWindTime;
 uniform vec3 esWindVec;
@@ -187,9 +240,10 @@ float esWindNoise(vec2 p) {
  *  - leaf flutter: the outer, upper vertices jitter at ~7 Hz with a per-vertex
  *    phase; near-field only.
  * The gust is a value-noise field advected downwind, sampled at the plant's
- * root: bands of stronger wind visibly roll across a stand. Grass and ground
- * cover take the same code; at their height the trunk bend IS the blade bend
- * and the gust band is the ripple.
+ * root: bands of stronger wind visibly roll across a stand. Leaf flutter is
+ * gated by wind speed squared (walk 9: every sedge tip vibrated at 7 Hz in
+ * calm air). Ground cover (no tune) takes its own branch, `groundCoverSway`:
+ * one slow bend, no flutter.
  *
  * The weights come from geometry, not vertex colour: 472 of the flora kit's
  * 732 primitives carry no colour attribute, and the rest carry NIF-specific
@@ -235,6 +289,24 @@ const VERTEX_BODY = /* glsl */ `
     float esSpeedMS = esStrength / ${WIND_METRES_PER_MS.toFixed(4)};
     vec2 esGustAt = (esInstanceOrigin.xz - esDir * esT * (2.0 + 0.6 * esSpeedMS)) / 30.0;
     float esGust = mix(1.0, 0.25 + 1.5 * esWindNoise(esGustAt), clamp(esWindVec.z, 0.0, 1.0));
+    vec3 esOffset;
+    if (esTune.z <= 0.05) {
+      // Ground cover (drawn without the tune): one slow bend, no flutter.
+      // Amplitude and rate rise with the wind (still at calm, laid over in a
+      // gale), times the gust field; the phase is a wave travelling downwind
+      // at the gust speed, so a field moves in rolling fronts.
+      float esW = clamp((esSpeedMS - ${GROUND_COVER_CALM_MS.toFixed(2)}) / ${(GROUND_COVER_FULL_MS - GROUND_COVER_CALM_MS).toFixed(2)}, 0.0, 1.0);
+      float esGcFreq = (${GROUND_COVER_HZ[0].toFixed(2)} + ${(GROUND_COVER_HZ[1] - GROUND_COVER_HZ[0]).toFixed(2)} * esW) * 6.2831853;
+      float esGcK = esGcFreq / (2.0 + 0.6 * esSpeedMS);
+      float esGcPhase = esGcK * dot(esInstanceOrigin.xz, esDir) - 0.6 * esPhase;
+      float esGcProfile = min(esHeight / esPlantH, 1.2);
+      esGcProfile *= esGcProfile;
+      float esGcLean = ${GROUND_COVER_LEAN.toFixed(2)} * esPlantH * pow(esW, 1.3) * esGcProfile * esGust
+        * (0.65 + 0.35 * sin(esT * esGcFreq - esGcPhase));
+      esOffset = vec3(esDir.x * esGcLean, 0.0, esDir.y * esGcLean);
+      float esGcL = length(esOffset);
+      esOffset.y -= esHeight * (1.0 - cos(min(esGcL / max(esHeight, 0.01), 1.0)));
+    } else {
     // Trunk bend. Crown amplitude keeps the calibrated pow(H/10, 0.8) law; the
     // profile up the plant is (h/H)², so trunks stay planted and crowns swing.
     float esFreq = clamp(2.2 * inversesqrt(esPlantH), 0.3, 2.2) * 6.2831853;
@@ -244,8 +316,8 @@ const VERTEX_BODY = /* glsl */ `
     float esOsc = sin(esT * esFreq + esPhase) + 0.4 * sin(esT * esFreq * 1.73 + esPhase * 1.3);
     float esBend = esCrown * esProfile * (0.5 * esGust + 0.35 * esOsc * (0.5 + 0.5 * esGust));
     float esCross = esCrown * esProfile * 0.15 * esGust * sin(esT * esFreq * 0.71 + esPhase * 2.1);
-    vec3 esOffset = vec3(esDir.x * esBend + esPerp.x * esCross, 0.0,
-                         esDir.y * esBend + esPerp.y * esCross);
+    esOffset = vec3(esDir.x * esBend + esPerp.x * esCross, 0.0,
+                    esDir.y * esBend + esPerp.y * esCross);
     // Length-preserving correction: without it a bent plant visibly stretches.
     float esLean = length(esOffset);
     esOffset.y -= esHeight * (1.0 - cos(min(esLean / max(esHeight, 0.01), 1.0)));
@@ -257,11 +329,15 @@ const VERTEX_BODY = /* glsl */ `
       float esBranchPhase = esPhase + dot(esLocal, vec3(1.0, 0.6, 0.8)) * 2.0 / max(0.3 * esPlantH, 0.5);
       esOffset += vec3(0.6 * esDir.x, 1.0, 0.6 * esDir.y)
         * (0.12 * esLimb * esOuter * sin(esT * esFreq * 2.1 + esBranchPhase));
-      // Leaf flutter, near field only (beyond ~60 m it is sub-pixel shimmer).
+      // Leaf flutter, near field only (beyond ~60 m it is sub-pixel shimmer)
+      // and only in real wind: gated by speed squared, so a calm crown is
+      // still and a gale's crown shivers.
       float esNear = 1.0 - smoothstep(30.0, 60.0, esDist);
       float esLeafPhase = dot(esLocal, vec3(17.3, 11.1, 13.7));
+      float esFlutter = 0.5 * clamp(esSpeedMS * esSpeedMS / 100.0, 0.0, 1.0);
       esOffset += vec3(esPerp.x, 0.7, esPerp.y)
-        * (0.03 * esStrength * esGust * esOuter * esNear * sin(esT * 44.0 + esLeafPhase));
+        * (0.03 * esFlutter * esStrength * esGust * esOuter * esNear * sin(esT * 44.0 + esLeafPhase));
+    }
     }
     esOffset *= esFade;
     // World -> object: the basis is rotation × uniform scale, so its inverse
