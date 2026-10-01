@@ -35,8 +35,9 @@ strongest causal record and the most quest anchors among the 44 active
 
 ### The record (`world/sources/catalogue/places-imperial-fringe.json`)
 
-- **class** camp / hostile-camp / blackguard-hideout, variant `raw`, M1,
-  `simple`, danger D3, culture `imperial`, owner faction none. Hostile,
+- **class** camp / hostile-camp / deserter-camp, variant `legion-remnant`, M1,
+  `simple`, danger D3, culture `imperial`, owner faction
+  `faction.imperial-legion-remnant`. Hostile,
   clearable; the serjeant parleys before he fights.
 - **why:** a Legion column never paid off at the recall keeps watches and
   wears the colours; what it takes it calls a levy. Site: a blind bend with

@@ -31,6 +31,12 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
 | sink / mounts / policy record only (miner full run) | 4, 5–7 | policy-only metadata; never rebuild for it (M13–M16) |
 | nothing, published kit suspect | `kit_compress --check`, 5 | — |
 
+A new kit, before its first build: add a `KIT_SETS` row in
+`worldgen/blueprint.py` for the district that builds with it, and read every
+candidate for its licence (`kit-setting-class.json`), its mounted parent
+(`wb.py - describe <child>` `evidence.mountsAsChild`; the parent joins the
+same config) and duplicates in other kits.
+
 ## Per-piece config fields that reach the runtime
 
 - `"variantOf": <base id>` + `"textureVariants": {<NIF texture path>: <recipe>}`:
@@ -86,6 +92,14 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
   by day), the rest follow the clock; absent, the manifest `category` is read.
   `placement_metadata --refresh-built-manifests` copies `light` blocks too
   (`apply_light_records`), so a mined light needs no Blender rebuild.
+- `"doubleSided": true`: cloth, banners, flags and awnings draw from both
+  sides. It needs `"lodRatios": [1.0, 1.0]` beside it, or the build ships
+  one LOD level and the compile drops the piece ("is in no built kit").
+- Hidden shapes: the build drops every shape the NIF hides (HIDDEN flag on
+  it or a node above it, `build_kit.is_hidden_in_nif`) and lists it in
+  `droppedShapes` reason `hidden` (vanilla `furniture/smeltermarker` once
+  shipped a 4.5 m preview skeleton). After adding a furniture-marker NIF,
+  look at it (`npm run look`) before placing it.
 - Collision default: the category table (`_COLLISION_BY_CATEGORY`), then the
   size rule (`apply_size_collision`, planner 2026-09-27): a non-foliage piece
   left at "none" that is >= 0.3 m in both plan axes and >= 0.3 m tall gets

@@ -19157,6 +19157,80 @@
       }
     },
     {
+      "type": "deserter-camp",
+      "class": "camp",
+      "family": "hostile-camp",
+      "recordScope": "poi",
+      "variants": [
+        "legion-remnant"
+      ],
+      "summary": "A camp of men the Legion left behind at the recall, still keeping its watches and its roster, who take from the road and call it a levy.",
+      "slots": {
+        "cue": "a line of Legion tents and a barricade across the track, the watch called on the hour",
+        "population": "4-8; a serjeant and the rank and file of a column",
+        "props": "a duty roster, a pay book, issue canvas and tools kept in order, near-empty stores",
+        "rewardFree": "the roster and the pay book",
+        "rewardGated": "the strongroom of Legion issue",
+        "satellite": "the barricade on the track below the tents"
+      },
+      "siting": {
+        "landformClasses": [
+          "ravine",
+          "enclosed-clearing",
+          "any-firm-ground"
+        ],
+        "waterRelation": "a stream at its back",
+        "regionClasses": [
+          "firm lowland",
+          "upland hills"
+        ],
+        "neighbourRelation": "on a road between two settlements a day apart"
+      },
+      "magnitude": "M1",
+      "settingClass": "camp",
+      "cultures": [
+        "imperial"
+      ],
+      "dangerTiers": [
+        "D3"
+      ],
+      "eraLayers": [
+        "current"
+      ],
+      "season": "all",
+      "statuses": [
+        "active"
+      ],
+      "assetPlan": [
+        "imperial-keep",
+        "market-tents",
+        "stockade-scaffold",
+        "signage-blank",
+        "clutter"
+      ],
+      "assetGaps": [],
+      "traversal": [
+        "walk",
+        "combat",
+        "stealth"
+      ],
+      "complexityBudget": "simple",
+      "countBand": [
+        1,
+        2
+      ],
+      "lore": "Lore:Imperial Legion (the recall from Black Marsh); world/sources/lore/gideon.md. Split from blackguard-hideout at 16k walk 9: a Legion remnant is no Blackguard outpost.",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
+      "proximity": {
+        "minFromClassM": {
+          "settlement": 400
+        },
+        "why": "macro_plot city-ring ruling: a hostile camp at a city gate is a mistake, not a challenge",
+        "minFromClassMeasure": "equivalent-flat-metres"
+      }
+    },
+    {
       "type": "cult-raid-camp",
       "class": "camp",
       "family": "hostile-camp",

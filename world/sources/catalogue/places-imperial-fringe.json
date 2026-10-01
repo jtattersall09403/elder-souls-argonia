@@ -19278,8 +19278,8 @@
       "classification": {
         "class": "camp",
         "family": "hostile-camp",
-        "type": "blackguard-hideout",
-        "variant": "raw",
+        "type": "deserter-camp",
+        "variant": "legion-remnant",
         "magnitude": "M1"
       },
       "status": "active",

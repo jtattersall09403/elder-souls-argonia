@@ -47,6 +47,11 @@ the job guard, whose slot governs its cores and memory.
     $W map                       # . <2 deg  + <3  o <6  # steeper  ~ wet  W deep >= 1 m  R road  r track
     $W scan <spec>.json --out tooling/.reports/16k/<place-id>/round-N/scan.json   # before siting any building
 
+On a busy machine run `scan` and `apply` under the guard
+(`bash tooling/repo-standards/job_guard.sh <lane> -- python3 tooling/placement-workbench/wb.py ...`):
+the CPU watchdog pauses an unguarded scan (walk 9: a 10 s scan stopped twice
+at machine CPU 98 %).
+
 A building (a `place` with a `pad`) new or moved since HEAD fails
 `scanFreshRule` unless a scan written after HEAD's layout commit holds its
 asset and pose (0105 R31; README § Fresh scans).

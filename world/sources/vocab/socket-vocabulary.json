@@ -115,6 +115,14 @@
    "assetSource": "vanilla:meshes/clutter/books (note01..04, notetornpaper)",
    "valueBand": "trivial",
    "textBearing": true
+  },
+  "weapon": {
+   "assetSource": "packages/game-core generated/arsenal.items.json (the arsenal items)",
+   "valueBand": "moderate"
+  },
+  "armour": {
+   "assetSource": "packages/game-core generated/arsenal.items.json (the arsenal items)",
+   "valueBand": "moderate"
   }
  },
  "containerClasses": {

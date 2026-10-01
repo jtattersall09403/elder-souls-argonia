@@ -156,7 +156,6 @@ CULTURE_KIT_PINNED = {
     "place.hist-heartland.bubble-spire-open-helstrom": ["dunmer-telvanni"],
     "place.hist-heartland.umpholo-mission": ["imperial-keep"],
     "place.hist-heartland.xal-meeruth-station": ["imperial-keep"],
-    "place.imperial-fringe.bog-iron-workings": ["vanilla-farmhouse"],
     "place.imperial-fringe.bonded-shed-of-the-onkobra": ["hlaalu-domestic"],
     "place.imperial-fringe.cartwrights-cross": ["imperial-keep", "vanilla-farmhouse"],
     "place.imperial-fringe.castle-giovesse": ["hlaalu-domestic"],
@@ -587,7 +586,7 @@ def test_travel_services_check_refuses_a_socket_the_place_does_not_have():
 # answers, or a non-settlement record whose kind (faction-access) the
 # NON_SETTLEMENT_CEILING still strips (low-water-fair, red-cart-yard); the
 # count only falls.
-REWARD_UNBACKED_PINNED_COUNT = 173
+REWARD_UNBACKED_PINNED_COUNT = 172
 
 
 def unbacked_reward_kinds(places: dict) -> dict[str, list[str]]:
