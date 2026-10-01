@@ -11,6 +11,7 @@ import {
 import { ambientCubeToSH } from "./ambientCube";
 import { kitPartsDir, parseKitPartsIndex, type KitPartsIndex } from "./kitParts";
 import { FlameSystem } from "../fx/fire/FlameSystem";
+import type { FixtureLightField } from "../render/fixtureLights/fixtureLightField";
 import {
   interiorFireEmitters, isInteriorFlameCard, type InteriorFireRow,
 } from "../fx/fire/interiorFires";
@@ -99,9 +100,20 @@ export const WINDOW_FULL_SUN_SIN = 0.5;
 /** Emissive gain of a lit pane over the daylight colour, modulated by its own diffuse. */
 export const WINDOW_PANE_GAIN = 1.2;
 
-/** 0 (sun at or below the horizon) .. 1 (sun at 30 deg or higher), linear in sin(altitude). */
-export function daylightShare(sunAltitudeRad: number): number {
-  return Math.min(1, Math.max(0, Math.sin(sunAltitudeRad) / WINDOW_FULL_SUN_SIN));
+/** Share of a clear day's window light an overcast sky (no direct sun) still gives: the sky's diffuse light. */
+export const WINDOW_OVERCAST_SHARE = 0.5;
+
+/**
+ * 0 (sun at or below the horizon) .. 1 (sun at 30 deg or higher in a clear
+ * sky), linear in sin(altitude), times the weather: `directFactor` is the
+ * drawn sky rig's share of direct sun left by cloud and rain (lightRig
+ * `directFactor`, 1 clear, 0 full overcast), which takes the window light
+ * down to `WINDOW_OVERCAST_SHARE`.
+ */
+export function daylightShare(sunAltitudeRad: number, directFactor = 1): number {
+  const sun = Math.min(1, Math.max(0, Math.sin(sunAltitudeRad) / WINDOW_FULL_SUN_SIN));
+  const weather = WINDOW_OVERCAST_SHARE + (1 - WINDOW_OVERCAST_SHARE) * Math.min(1, Math.max(0, directFactor));
+  return sun * weather;
 }
 
 /**
@@ -120,17 +132,26 @@ export function isWindowPane(row: { windowMaterials?: readonly string[] | null }
  * Daylight inside (owner, walk 9; supersedes decision 0103 R11): by night a
  * cell keeps only its fires and record lights plus `INTERIOR_NIGHT_AMBIENT`
  * of its ambient; by day its ambient and directional rise with the sun, its
- * panes glow the sky's daylight colour and each pane is a point light of that
- * colour (`WINDOW_LIGHT_CANDELA` x `daylightShare`).
+ * panes glow the sky's daylight colour and each pane is a light of that
+ * colour (`WINDOW_LIGHT_CANDELA` x `daylightShare`) in the scene's fixture
+ * light field (decision 0108: no PointLight per object), held as the field's
+ * reserved lights while the cell is bound (`bind`) and served first from its
+ * cap.
  */
 export class InteriorDaylight {
   private readonly ambientBase: number;
   private readonly directionalBase: number;
+  private field: FixtureLightField | null = null;
+  private readonly colour = new THREE.Color(1, 1, 1);
+  private share = 0;
   constructor(
+    /** The cell's group: window positions are in its frame. */
+    readonly group: THREE.Object3D,
     readonly ambient: THREE.Light,
     readonly directional: THREE.DirectionalLight | null,
     readonly paneMaterials: readonly THREE.MeshStandardMaterial[],
-    readonly windowLights: readonly THREE.PointLight[],
+    /** Each pane placement's centre, cell-local: one window light each. */
+    readonly windows: readonly THREE.Vector3[],
   ) {
     this.ambientBase = ambient.intensity;
     this.directionalBase = directional?.intensity ?? 0;
@@ -142,6 +163,8 @@ export class InteriorDaylight {
 
   /** `share`: `daylightShare` of the sun now; `colour`: the sun's linear colour (the sky rig's). */
   set(share: number, colour: THREE.Color): void {
+    this.share = share;
+    this.colour.copy(colour);
     const floor = INTERIOR_NIGHT_AMBIENT + (1 - INTERIOR_NIGHT_AMBIENT) * share;
     this.ambient.intensity = this.ambientBase * floor;
     if (this.directional) this.directional.intensity = this.directionalBase * floor;
@@ -149,10 +172,33 @@ export class InteriorDaylight {
       m.emissive.copy(colour).multiplyScalar(WINDOW_PANE_GAIN * share);
       m.emissiveIntensity = 1;
     }
-    for (const l of this.windowLights) {
-      l.color.copy(colour);
-      l.intensity = WINDOW_LIGHT_CANDELA * share;
+    if (this.field) {
+      for (let j = 0; j < this.windows.length; j++) {
+        this.field.setReservedIntensity(j, colour, WINDOW_LIGHT_CANDELA * share);
+      }
+      this.field.commit();
     }
+  }
+
+  /**
+   * Hold the window lights in `field` (the scene's, `fixtureLightFieldOf`) at
+   * the group's world placement now; call again after the group moves.
+   */
+  bind(field: FixtureLightField): void {
+    this.group.updateWorldMatrix(true, false);
+    field.setReserved(this.windows.map((w) => ({
+      position: w.clone().applyMatrix4(this.group.matrixWorld), radiusM: WINDOW_LIGHT_RADIUS_M,
+    })));
+    this.field = field;
+    this.set(this.share, this.colour);
+  }
+
+  /** Give the field's slots back (the cell is hidden or disposed). */
+  unbind(): void {
+    if (!this.field) return;
+    this.field.setReserved([]);
+    this.field.commit();
+    this.field = null;
   }
 }
 
@@ -238,7 +284,7 @@ export function instantiateInterior(
     byAsset.set(key, row);
   }
   let meshes = 0;
-  const panes = { materials: new Set<THREE.MeshStandardMaterial>(), lights: [] as THREE.PointLight[] };
+  const panes = { materials: new Set<THREE.MeshStandardMaterial>(), windows: [] as THREE.Vector3[] };
   const solids: SettlementSolid[] = [];
   const m = new THREE.Matrix4();
   for (const { asset, placements } of byAsset.values()) {
@@ -264,12 +310,7 @@ export function instantiateInterior(
         panes.materials.add(part.material as THREE.MeshStandardMaterial);
         placements.forEach((_, i) => {
           mesh.getMatrixAt(i, m);
-          const light = new THREE.PointLight(0xffffff, 0, WINDOW_LIGHT_RADIUS_M, INTERIOR_LIGHT_DECAY);
-          light.name = "interior-window-light";
-          light.castShadow = false;
-          light.position.copy(centre).applyMatrix4(m);
-          panes.lights.push(light);
-          group.add(light);
+          panes.windows.push(centre.clone().applyMatrix4(m));
         });
       }
       mesh.castShadow = false;
@@ -322,7 +363,7 @@ export function instantiateInterior(
   const background = colorFromRGB(bundle.fog.colorRGB);
   return {
     bundle, group, solids, background, loadS: null, swingDoors, fire,
-    daylight: new InteriorDaylight(ambient, directional, [...panes.materials], panes.lights),
+    daylight: new InteriorDaylight(group, ambient, directional, [...panes.materials], panes.windows),
     fog: new THREE.Fog(background.clone(), bundle.fog.nearM, bundle.fog.farM),
     counts: {
       placements: bundle.placements.length, substitutions: bundle.substitutions?.length ?? 0,

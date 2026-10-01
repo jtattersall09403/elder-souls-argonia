@@ -5,7 +5,9 @@ import fixture from "./__fixtures__/interior.fixture.json";
 import type { ArchitectureAsset } from "../settlement/kit";
 import type { SettlementDoor } from "../settlement/types";
 import { isInteriorSwingDoor, parseInteriorBundle, type Vec3 } from "./bundle";
-import { daylightShare, INTERIOR_LIGHT_INTENSITY_PER_FADE, INTERIOR_NIGHT_AMBIENT, InteriorDaylight, InteriorLoader, isWindowPane, type LoadedInterior, WINDOW_LIGHT_CANDELA } from "./interiorLoader";
+import { daylightShare, INTERIOR_LIGHT_INTENSITY_PER_FADE, INTERIOR_NIGHT_AMBIENT, InteriorDaylight, InteriorLoader, isWindowPane, type LoadedInterior, WINDOW_LIGHT_CANDELA, WINDOW_OVERCAST_SHARE } from "./interiorLoader";
+import { FIXTURE_LIGHTS_MAX, FixtureLightField } from "../render/fixtureLights/fixtureLightField";
+import { LIGHTS_CAP } from "../settlement/lighting";
 import { DOOR_FADE_S, DoorTransition, RETURN_LIFT_M } from "./doorTransition";
 import { INTERIOR_SPACE_LIFT_M, cellsToPrefetch, doorAccess } from "./doors";
 import { InteriorEnvironment } from "./interiorEnvironment";
@@ -608,18 +610,59 @@ describe("interior daylight (walk 9, 0109 addendum)", () => {
   });
   it("night keeps the ambient floor and no window light; noon lights the panes in the sun's colour", () => {
     const ambient = new THREE.AmbientLight(0xffffff, 2);
-    const light = new THREE.PointLight();
     const m = pane();
-    const d = new InteriorDaylight(ambient, null, [m], [light]);
+    const group = new THREE.Group();
+    group.position.set(100, -4000, 50);
+    const field = new FixtureLightField();
+    const d = new InteriorDaylight(group, ambient, null, [m], [new THREE.Vector3(1, 2, 3)]);
+    d.bind(field);
+    const slot = field.reservedSlot(0);
     const sun = new THREE.Color(1, 0.9, 0.8);
     d.set(daylightShare(-0.2), sun);
     expect(ambient.intensity).toBeCloseTo(2 * INTERIOR_NIGHT_AMBIENT, 6);
-    expect([light.intensity, m.emissive.r]).toEqual([0, 0]);
+    expect([field.radianceOf(slot)[0], m.emissive.r]).toEqual([0, 0]);
     expect(m.emissiveMap).toBe(m.map);
     d.set(daylightShare(Math.PI / 3), sun);
     expect(ambient.intensity).toBeCloseTo(2, 6);
-    expect(light.intensity).toBe(WINDOW_LIGHT_CANDELA);
-    expect(light.color.g).toBeCloseTo(0.9, 6);
+    expect(field.radianceOf(slot)[0]).toBeCloseTo(WINDOW_LIGHT_CANDELA, 5);
+    expect(field.radianceOf(slot)[1]).toBeCloseTo(0.9 * WINDOW_LIGHT_CANDELA, 5);
     expect(daylightShare(Math.PI / 12)).toBeCloseTo(Math.sin(Math.PI / 12) / 0.5, 6);
+    // no three light per window: the field holds it, at the window's world position
+    expect(group.children.some((c) => (c as THREE.Light).isLight)).toBe(false);
+    const box = new THREE.Sphere(new THREE.Vector3(101, -3998, 53), 0.1);
+    expect(field.selectFor(box, new Int32Array(8))).toBe(1);
+    d.unbind();
+    expect(field.count).toBe(0);
+  });
+  it("window lights sit in the scene's capped field beside the settlement's and never pass the cap", () => {
+    const field = new FixtureLightField();
+    const lamp = (x: number) => ({ position: new THREE.Vector3(x, 0, 0), radiusM: 5 });
+    field.setLights(Array.from({ length: LIGHTS_CAP }, (_, i) => lamp(i)));
+    expect(field.count).toBe(LIGHTS_CAP);
+    const windows = Array.from({ length: 6 }, (_, i) => new THREE.Vector3(i, 10, 0));
+    const d = new InteriorDaylight(new THREE.Group(), new THREE.AmbientLight(0xffffff, 1), null, [], windows);
+    d.bind(field);
+    expect(LIGHTS_CAP).toBe(FIXTURE_LIGHTS_MAX);
+    expect([field.count, field.reservedCount]).toEqual([LIGHTS_CAP, 6]);
+    // the settlement refresh keeps the windows' slots and takes what is left
+    field.setLights(Array.from({ length: LIGHTS_CAP }, (_, i) => lamp(i)));
+    expect(field.count).toBe(LIGHTS_CAP);
+    expect(field.reservedSlot(0)).toBe(LIGHTS_CAP - 6);
+    d.set(1, new THREE.Color(1, 1, 1));
+    // a settlement slot past its share never writes over a window
+    field.setIntensity(LIGHTS_CAP - 6, new THREE.Color(1, 0, 0), 99);
+    expect(field.radianceOf(field.reservedSlot(0))).toEqual([WINDOW_LIGHT_CANDELA, WINDOW_LIGHT_CANDELA, WINDOW_LIGHT_CANDELA]);
+    d.unbind();
+    field.setLights(Array.from({ length: LIGHTS_CAP }, (_, i) => lamp(i)));
+    expect([field.count, field.reservedCount]).toEqual([LIGHTS_CAP, 0]);
+  });
+  it("window daylight falls under overcast against a clear sky at the same hour", () => {
+    const noon = Math.PI / 3;
+    const clear = daylightShare(noon, 1);
+    const overcast = daylightShare(noon, 0);
+    expect(clear).toBe(1);
+    expect(overcast).toBeCloseTo(WINDOW_OVERCAST_SHARE, 6);
+    expect(daylightShare(noon, 0.3)).toBeLessThan(clear);
+    expect(daylightShare(-0.1, 1)).toBe(0);
   });
 });

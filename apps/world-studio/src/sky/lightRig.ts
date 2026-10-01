@@ -86,6 +86,9 @@ export interface LightRig {
   cloudDarkCol: [number, number, number];
   /** Whether the sun light should cast shadows (off under heavy overcast). */
   sunCastsShadows: boolean;
+  /** Share of direct sun the weather leaves (1 clear, 0 full overcast or a
+   * cloud over the sun): what the interior's windows dim by (interiorLoader `daylightShare`). */
+  directFactor: number;
   /** Asymptotic inscatter colour of DENSE fog (mist regimes / whiteout /
    * heavy weather haze), exposure-anchored: lit cloud-water is bright
    * white-grey by day, moonlit-dim by night — never the thin-haze ambient,
@@ -716,6 +719,7 @@ export function computeLightRig(
     cloudBright,
     cloudDarkCol,
     sunCastsShadows,
+    directFactor,
     fogLum,
     fogSunLum,
     cloudGlowDir,
@@ -723,4 +727,19 @@ export function computeLightRig(
     cloudSunsetCol,
     cloudSunsetAmt,
   };
+}
+
+const DRAWN_RIG_KEY = "esDrawnLightRig";
+type SceneLike = { userData: Record<string, unknown> };
+
+/** WorldSky publishes the rig it drew this frame (weather, season, latitude
+ * and cloud over the sun included) on the scene, its context object. */
+export function setDrawnLightRig(scene: SceneLike, rig: LightRig): void {
+  scene.userData[DRAWN_RIG_KEY] = rig;
+}
+
+/** The rig the sky drew last frame, for every reader that lights by the sun
+ * (interior windows, the bloom sun cone); null before the sky's first frame. */
+export function drawnLightRigOf(scene: SceneLike): LightRig | null {
+  return (scene.userData[DRAWN_RIG_KEY] as LightRig | undefined) ?? null;
 }

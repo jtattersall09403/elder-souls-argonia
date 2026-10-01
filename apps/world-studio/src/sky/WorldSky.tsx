@@ -32,7 +32,7 @@ import {
   createCloudUniforms,
   type CloudParams,
 } from "./cloudField";
-import { computeLightRig, type LightRig } from "./lightRig";
+import { computeLightRig, setDrawnLightRig, type LightRig } from "./lightRig";
 import { worldClock, notifyClock } from "./timeState";
 import { waterTimeS } from "../water/waterClock";
 import { wetnessUniforms } from "../water/groundWetness";
@@ -1212,6 +1212,7 @@ void main() {
         sunOcclusion,
       },
     );
+    setDrawnLightRig(scene, rig);
     const sunDir = sunDirScratch.set(rig.sun.direction.x, rig.sun.direction.y, rig.sun.direction.z);
 
     // Sky dome follows the camera so the horizon never clips.

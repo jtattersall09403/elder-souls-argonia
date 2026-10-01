@@ -46,7 +46,7 @@ import { setWaterGroundHeight, sharedLocalSurfaces, sharedWaterAssets } from "..
 import type { WaterWorld } from "@elder-souls/game-core/water/index";
 import { WaterContactEmitter } from "@elder-souls/game-core/water/contactEmitter";
 import { worldClock } from "../sky/timeState";
-import { computeLightRig } from "../sky/lightRig";
+import { drawnLightRigOf } from "../sky/lightRig";
 import { CityMarkers } from "../CityMarkers";
 import { Vegetation, VEGETATION_ENABLED } from "../vegetation/Vegetation";
 import { Groundcover, GROUNDCOVER_ENABLED } from "../vegetation/Groundcover";
@@ -1512,8 +1512,10 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   const segments = useFrameSegments();
   // the glow pass's sun disc follows the light rig's sun (BloomPass sunHaloDeg)
   useFrame(() => {
-    if (!bloom) return;
-    const d = computeLightRig(worldClock.epochMinutes(), 0.5, 0.5).sun.direction;
+    // the rig the sky drew this frame (its latitude), never a default rebuild
+    const rig = bloom ? drawnLightRigOf(scene) : null;
+    if (!bloom || !rig) return;
+    const d = rig.sun.direction;
     bloom.sunDirection.set(d.x, d.y, d.z);
   });
   // Sky look-up is the shared default (owner 2026-08-25) — no override needed.

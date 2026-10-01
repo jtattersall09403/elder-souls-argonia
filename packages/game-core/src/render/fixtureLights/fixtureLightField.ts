@@ -115,6 +115,9 @@ export class FixtureLightField {
   epoch = 0;
   private readonly data = new Float32Array(FIXTURE_LIGHTS_MAX * 2 * 4);
   private used = 0;
+  private primary: readonly FixtureLightInput[] = [];
+  private reserved: readonly FixtureLightInput[] = [];
+  private reservedRadiance = new Float32Array(0);
   private dirty = false;
   private readonly slots = new WeakMap<THREE.Object3D, ObjectSlots>();
   private readonly attached = new WeakSet<THREE.Object3D>();
@@ -142,29 +145,73 @@ export class FixtureLightField {
   /** Lamps held now. */
   get count(): number { return this.used; }
 
-  /** The lamp set (at most `FIXTURE_LIGHTS_MAX`): positions and radii; intensities go to 0. */
+  /**
+   * The settlement's lamp set: positions and radii; their intensities go to 0
+   * until `setIntensity`. It takes the slots the reserved lights
+   * (`setReserved`) leave, so the two together never pass `FIXTURE_LIGHTS_MAX`.
+   */
   setLights(lights: readonly FixtureLightInput[]): void {
-    const n = Math.min(lights.length, FIXTURE_LIGHTS_MAX);
+    this.primary = lights.slice(0, FIXTURE_LIGHTS_MAX - this.reserved.length);
+    this.pack();
+  }
+
+  /**
+   * Lights another owner holds beside the settlement's (an interior's window
+   * panes, interiorLoader `InteriorDaylight`): packed after the settlement's
+   * slots and served first from the cap. `[]` gives the slots back.
+   */
+  setReserved(lights: readonly FixtureLightInput[]): void {
+    this.reserved = lights.slice(0, FIXTURE_LIGHTS_MAX);
+    this.reservedRadiance = new Float32Array(this.reserved.length * 3);
+    this.primary = this.primary.slice(0, FIXTURE_LIGHTS_MAX - this.reserved.length);
+    this.pack();
+  }
+
+  /** Reserved lights held now. */
+  get reservedCount(): number { return this.reserved.length; }
+
+  /** Reserved light `j`'s linear colour x intensity (cd). */
+  setReservedIntensity(j: number, colour: THREE.Color, intensity: number): void {
+    if (j < 0 || j >= this.reserved.length) return;
+    const k = j * 3;
+    this.reservedRadiance[k] = colour.r * intensity;
+    this.reservedRadiance[k + 1] = colour.g * intensity;
+    this.reservedRadiance[k + 2] = colour.b * intensity;
+    this.writeRadiance(this.primary.length + j, this.reservedRadiance[k], this.reservedRadiance[k + 1], this.reservedRadiance[k + 2]);
+  }
+
+  /** The slot reserved light `j` holds now (tests, probes). */
+  reservedSlot(j: number): number { return this.primary.length + j; }
+
+  private pack(): void {
+    const n = this.primary.length + this.reserved.length;
     let changed = n !== this.used;
     for (let i = 0; i < n; i++) {
-      const { position, radiusM } = lights[i];
+      const { position, radiusM } = i < this.primary.length ? this.primary[i] : this.reserved[i - this.primary.length];
       const o = i * 4;
       if (!changed && (this.data[o] !== Math.fround(position.x) || this.data[o + 1] !== Math.fround(position.y)
         || this.data[o + 2] !== Math.fround(position.z) || this.data[o + 3] !== Math.fround(radiusM))) changed = true;
       this.data[o] = position.x; this.data[o + 1] = position.y; this.data[o + 2] = position.z;
       this.data[o + 3] = radiusM;
     }
-    for (let i = n; i < this.used; i++) this.setIntensity(i, null, 0);
+    for (let j = 0; j < this.reserved.length; j++) {
+      const k = j * 3;
+      this.writeRadiance(this.primary.length + j, this.reservedRadiance[k], this.reservedRadiance[k + 1], this.reservedRadiance[k + 2]);
+    }
+    for (let i = n; i < this.used; i++) this.writeRadiance(i, 0, 0, 0);
     this.used = n;
     if (changed) { this.epoch += 1; this.dirty = true; }
   }
 
-  /** Slot `i`'s linear colour x intensity (cd), three's PointLight `color * intensity`. */
+  /** Settlement slot `i`'s linear colour x intensity (cd), three's PointLight `color * intensity`. */
   setIntensity(i: number, colour: THREE.Color | null, intensity: number): void {
+    if (i < 0 || i >= this.primary.length) return;
+    this.writeRadiance(i, colour ? colour.r * intensity : 0, colour ? colour.g * intensity : 0,
+      colour ? colour.b * intensity : 0);
+  }
+
+  private writeRadiance(i: number, r: number, g: number, b: number): void {
     const o = (FIXTURE_LIGHTS_MAX + i) * 4;
-    const r = colour ? colour.r * intensity : 0;
-    const g = colour ? colour.g * intensity : 0;
-    const b = colour ? colour.b * intensity : 0;
     if (this.data[o] === Math.fround(r) && this.data[o + 1] === Math.fround(g) && this.data[o + 2] === Math.fround(b)) return;
     this.data[o] = r; this.data[o + 1] = g; this.data[o + 2] = b; this.data[o + 3] = 1;
     this.dirty = true;

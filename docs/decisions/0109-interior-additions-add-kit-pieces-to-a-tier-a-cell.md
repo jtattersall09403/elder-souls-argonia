@@ -55,9 +55,12 @@ Supersedes decision 0103 R11 ("window glows are emissive only"). By night a
 cell has only its natural sources (fires, candles, record lights) over
 `INTERIOR_NIGHT_AMBIENT` (15 %) of its ambient cube and template
 directional. By day those rise with the sun (`daylightShare`: sin(altitude)
-/ sin 30 deg, clamped 0..1), every window pane glows the sky rig's sun colour
-and each pane is a point light of that colour (`WINDOW_LIGHT_CANDELA` 4 cd,
-4 m). A pane is a material its NIF really emits (kit manifest
+/ sin 30 deg, clamped 0..1, times the weather: the drawn sky rig's
+`directFactor` takes it down to `WINDOW_OVERCAST_SHARE` 0.5 under full
+overcast), every window pane glows the drawn rig's sun colour and each pane
+is a light of that colour (`WINDOW_LIGHT_CANDELA` 4 cd, 4 m) held as a
+reserved light in the scene's fixture light field (decision 0108's cap, no
+PointLight per pane). A pane is a material its NIF really emits (kit manifest
 `emissiveMaterials`, `nif_blocks.emitting_shapes`) on a window piece; the
 light sits at the pane geometry's centre. Code: `interiorLoader.ts`
 `InteriorDaylight`; the host (`InteriorDoors.tsx`) feeds it each frame.
