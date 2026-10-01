@@ -610,30 +610,22 @@
   },
   "kotm:argonia/mudhuts/lizardhouse": {
    "category": "misc",
-   "doorwaysClosedDropped": [
-    {
-     "arcM": 3.23,
-     "kind": "open-front",
-     "offsetM": [
-      -2.2,
-      2.51
-     ],
-     "sideDeg": 211.82
-    },
-    {
-     "arcM": 2.02,
-     "kind": "opening",
-     "offsetM": [
-      -3.22,
-      0.01
-     ],
-     "sideDeg": 261.96
-    }
-   ],
-   "entrance": null,
-   "entranceWhy": "every measured doorway was closed wall by rays (2 dropped); the door is a separate piece or the plugin's own placement",
+   "doorStoreyM": 5.18,
+   "entrance": {
+    "arcM": 1.63,
+    "centreShiftM": -0.15,
+    "clearM": 2.1,
+    "kind": "opening",
+    "offsetM": [
+     -3.86,
+     1.04
+    ],
+    "rayConfirmed": true,
+    "sideDeg": 247.5,
+    "sillYM": 3.33,
+    "widthM": 1.75
+   },
    "floorOffsetM": 4.0,
-   "front": null,
    "frontFaceFraction": 1.0,
    "headroomM": 6.76,
    "heightM": 14.2,
@@ -876,26 +868,22 @@
   },
   "kotm:argonia/mudhuts/shed": {
    "category": "misc",
-   "doorwaysClosedDropped": [
-    {
-     "arcM": 2.07,
-     "kind": "open-front",
-     "offsetM": [
-      -0.34,
-      0.3
-     ],
-     "sideDeg": 208.77
-    }
-   ],
-   "entrance": null,
-   "entranceWhy": "every measured doorway was closed wall by rays (1 dropped); the door is a separate piece or the plugin's own placement",
-   "floorOffsetM": 2.0,
-   "front": {
-    "deg": 164.3,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 164\u00b0 in the piece's own frame carries 2.95x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   "doorStoreyM": 0.94,
+   "entrance": {
+    "arcM": 2.46,
+    "centreShiftM": 0.05,
+    "clearM": 2.95,
+    "kind": "open-front",
+    "offsetM": [
+     0.21,
+     0.47
+    ],
+    "rayConfirmed": true,
+    "sideDeg": 180.0,
+    "sillYM": -1.68,
+    "widthM": 4.05
    },
+   "floorOffsetM": 2.0,
    "frontFaceFraction": 1.0,
    "headroomM": 2.42,
    "heightM": 6.41,
@@ -1687,7 +1675,7 @@
  "provenance": {
   "exterior-interior-links.json": {
    "miner": "worldgen.mine_door_links",
-   "minerVersion": "9abb006dbad2",
+   "minerVersion": "0cd64d1a336f",
    "plugins": [
     "ArgonianHome.esp",
     "ArgonianLakeHouse.esl",
@@ -1746,7 +1734,7 @@
     "igs_tileset_ayleid.esp"
    ],
    "poolRegister": {
-    "date": "2026-09-25",
+    "date": "2026-09-27",
     "pools": [
      "bmv",
      "vanilla",
@@ -1778,7 +1766,7 @@
      "hlaalu"
     ],
     "source": "worldgen.asset_registry.POOLS",
-    "uncommittedChanges": true
+    "uncommittedChanges": false
    },
    "poolsMined": [
     "ayleidcc",
@@ -1804,7 +1792,7 @@
     "xalfek",
     "xanmeer"
    ],
-   "runDate": "2026-09-26"
+   "runDate": "2026-10-01"
   },
   "kit-assemblies-mined.json": {
    "miner": "worldgen.mine_assemblies",

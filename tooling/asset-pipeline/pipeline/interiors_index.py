@@ -770,8 +770,28 @@ def probe_from_inside(triangles, centre: tuple[float, float], eye_y: float) -> d
         "floor": bool(np.isfinite(dist[BINS + 1])),
         "floorFront": bool(np.isfinite(dist[BINS + 1]) and front[BINS + 1]),
         "headroomM": float(dist[BINS]) if np.isfinite(dist[BINS]) else float("inf"),
+        "floorDropM": float(dist[BINS + 1]) if np.isfinite(dist[BINS + 1]) else float("inf"),
         "eyeY": eye_y,
     }
+
+
+#: a down ray shorter than this hit a lump at the stander's knees, not a floor
+DOOR_STOREY_MIN_DROP_M = 0.4
+
+
+def door_storey_y(probe: dict, floor_y: float, base_y: float) -> float:
+    """The height a doorway is measured and ray-confirmed at: the surface the
+    probe's down ray stands the player on, not the floor-ladder rung the ring
+    closed at. The rung is a 1 m step, so the real floor sits anywhere up to
+    an eye height off it (16k walk 9: KotM's lizardhouse pod floor is 1.18 m
+    above rung 4, so the 1.1 m door eye stood under the pod and its round
+    door at 5.3 m was tested as closed wall; the shed's tread is 1.06 m below
+    rung 2, under the band its open front was tested in). No floor hit, or a
+    hit at the knees, keeps the rung (`floor_y`)."""
+    drop = probe.get("floorDropM", float("inf"))
+    if not probe.get("floor") or not math.isfinite(drop) or drop < DOOR_STOREY_MIN_DROP_M:
+        return floor_y
+    return max(probe["eyeY"] - drop, base_y)
 
 
 def best_floor(triangles, centre: tuple[float, float], base_y: float, height_m: float) -> dict:
@@ -992,6 +1012,11 @@ DOOR_RAY_REACH_M = 1.0
 #: the columns sit across this share of the recorded width (the jambs' own
 #: rounding stays out of the test)
 DOOR_RAY_WIDTH_SHARE = 0.7
+#: ...but never wider than a stander's shoulders: a round or arched door
+#: narrows towards its crown, and 70% of its width at the door eye is wider
+#: than it stands 1.8 m up (16k walk 9: KotM's lizardhouse round door is 1.7 m
+#: wide at its middle and 1.0 m at 1.8 m above its sill)
+DOOR_RAY_PASS_WIDTH_M = 0.8
 DOOR_RAY_COLUMNS = 5
 
 
@@ -1044,7 +1069,7 @@ def doorway_rays(triangles, door: dict, sill_lo_y: float, sill_hi_y: float) -> d
     start = wall - out_dir * DOOR_RAY_REACH_M
     reach = 2.0 * DOOR_RAY_REACH_M
     width = float(door.get("arcM") or LEAF_MIN_ARC_M)
-    half = 0.5 * DOOR_RAY_WIDTH_SHARE * width
+    half = 0.5 * min(DOOR_RAY_WIDTH_SHARE * width, DOOR_RAY_PASS_WIDTH_M)
     columns = np.linspace(-half, half, DOOR_RAY_COLUMNS)
     top = sill_hi_y + DOOR_RAY_HIGH_M + 0.5
     heights = np.arange(sill_lo_y, top + 1e-9, DOOR_RAY_STEP_M)
@@ -2172,9 +2197,15 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
             def confirm(found, lo_y, hi_y):
                 return confirm_doorways(triangles, found, lo_y, hi_y, asset_id, closed)
 
-            sill_hi = floor_y + LEAF_SILL_MAX_M
-            doors, why_not = doorways_from_probe(triangles, (cx, cz), floor_y, room_h)
-            doors = confirm(doors, floor_y, sill_hi)
+            # Doorways are probed and ray-confirmed at the storey's own surface
+            # (door_storey_y), never at the ladder rung the ring closed at.
+            door_y = door_storey_y(probe, floor_y, base_y)
+            door_h = height - (door_y - base_y)
+            if abs(door_y - floor_y) > 0.05:
+                record["doorStoreyM"] = round(door_y - base_y, 2)
+            sill_hi = door_y + LEAF_SILL_MAX_M
+            doors, why_not = doorways_from_probe(triangles, (cx, cz), door_y, door_h)
+            doors = confirm(doors, door_y, sill_hi)
             if probe["floorOffsetM"] > 0 and not probe["floor"]:
                 # Nothing to stand on at the storey the ring closed at: the way
                 # in is at the ground, where a player walks (walk 2 lane P,
@@ -2188,22 +2219,22 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
                     record["doorwaysMeasuredBelowM"] = probe["floorOffsetM"]
             if not doors:
                 # the leaf pass: a door modelled shut into the shell
-                doors = confirm(leaf_doorways(triangles, (cx, cz), floor_y, room_h),
-                                floor_y, sill_hi)
+                doors = confirm(leaf_doorways(triangles, (cx, cz), door_y, door_h),
+                                door_y, sill_hi)
                 if doors:
                     why_not = None
             if not doors:
                 doors, point = doorways_retry_off_centre(
-                    triangles, plan, (cx, cz), floor_y, room_h)
-                doors = confirm(doors, floor_y, sill_hi)
+                    triangles, plan, (cx, cz), door_y, door_h)
+                doors = confirm(doors, door_y, sill_hi)
                 if doors:
                     why_not = None
                     record["doorwayProbeCentreM"] = [round(point[0], 2), round(point[1], 2)]
             if not doors:
-                doors = sill_doorways(triangles, (cx, cz), floor_y, room_h)
+                doors = sill_doorways(triangles, (cx, cz), door_y, door_h)
                 if doors:
                     why_not = None
-                    record["doorwaysMeasuredAboveFloorM"] = round(doors[0]["sillYM"] - floor_y, 2)
+                    record["doorwaysMeasuredAboveFloorM"] = round(doors[0]["sillYM"] - door_y, 2)
             record["doorways"] = doors
             if closed:
                 record["doorwaysClosedDropped"] = closed
