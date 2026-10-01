@@ -1,0 +1,806 @@
+{
+ "schemaVersion": 1,
+ "placeId": "place.pirate-freeholds.opening-work-camp",
+ "window": {
+  "centreKm": [
+   3.95,
+   1.405
+  ],
+  "halfM": 70.0
+ },
+ "ops": [
+  {
+   "op": "place",
+   "uid": "b-hatch",
+   "asset": "composite:stilt/bamboohut01-with-door",
+   "at": [
+    3947.0,
+    1425.0
+   ],
+   "yaw": 30.0,
+   "settle": true,
+   "pad": {
+    "apronM": 1.5,
+    "batter": true,
+    "apronBySide": {
+     "n": 2.5,
+     "w": 2.0
+    }
+   }
+  },
+  {
+   "op": "bind",
+   "uid": "b-hatch",
+   "kind": "parcel",
+   "id": "parcel.opening-work-camp.hatching-shed"
+  },
+  {
+   "op": "place",
+   "uid": "b-over",
+   "asset": "composite:stilt/bamboohut02-with-door",
+   "at": [
+    3934.0,
+    1398.0
+   ],
+   "yaw": 150.0,
+   "settle": true,
+   "pad": {
+    "apronM": 1.5,
+    "batter": true,
+    "apronBySide": {
+     "e": 3.0
+    }
+   }
+  },
+  {
+   "op": "bind",
+   "uid": "b-over",
+   "kind": "parcel",
+   "id": "parcel.opening-work-camp.overseers-hut"
+  },
+  {
+   "op": "place",
+   "uid": "s-shed1",
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01",
+   "at": [
+    3930.0,
+    1386.0
+   ],
+   "yaw": 315.0,
+   "settle": true,
+   "pad": {
+    "apronM": 1.0,
+    "batter": true,
+    "apronBySide": {
+     "s": 3.5,
+     "e": 3.5
+    }
+   }
+  },
+  {
+   "op": "bind",
+   "uid": "s-shed1",
+   "kind": "parcel",
+   "id": "parcel.opening-work-camp.sleeping-shed-west"
+  },
+  {
+   "op": "place",
+   "uid": "s-shed2",
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01",
+   "at": [
+    3945.0,
+    1388.0
+   ],
+   "yaw": 0.0,
+   "settle": true,
+   "pad": {
+    "apronM": 1.0,
+    "batter": true,
+    "apronBySide": {
+     "s": 3.5
+    }
+   }
+  },
+  {
+   "op": "bind",
+   "uid": "s-shed2",
+   "kind": "parcel",
+   "id": "parcel.opening-work-camp.sleeping-shed-east"
+  },
+  {
+   "op": "place",
+   "uid": "t-tent2",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantent02",
+   "at": [
+    3954.0,
+    1406.0
+   ],
+   "yaw": 285.0,
+   "settle": true,
+   "pad": {
+    "apronM": 1.0,
+    "batter": true,
+    "apronBySide": {
+     "w": 2.5
+    }
+   }
+  },
+  {
+   "op": "bind",
+   "uid": "t-tent2",
+   "kind": "parcel",
+   "id": "parcel.opening-work-camp.family-tent-east"
+  },
+  {
+   "op": "place",
+   "uid": "t-tent1",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantent02",
+   "at": [
+    3938.0,
+    1414.0
+   ],
+   "yaw": 45.0,
+   "settle": true,
+   "pad": {
+    "apronM": 1.0,
+    "batter": true,
+    "apronBySide": {
+     "n": 2.0,
+     "e": 2.0
+    }
+   }
+  },
+  {
+   "op": "bind",
+   "uid": "t-tent1",
+   "kind": "parcel",
+   "id": "parcel.opening-work-camp.family-tent-south"
+  },
+  {
+   "op": "place",
+   "uid": "y-fire",
+   "asset": "vanilla:clutter/woodfires/campfire01burning",
+   "at": [
+    3945.0,
+    1400.0
+   ],
+   "yaw": 0.0,
+   "settle": true,
+   "pad": {
+    "apronM": 1.5,
+    "batter": true
+   }
+  },
+  {
+   "op": "place",
+   "uid": "y-pot",
+   "asset": "kotm:argonia/clutter/saxhleelmetalpot01",
+   "at": [
+    3945.0,
+    1398.0
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "y-urn",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    3946.6,
+    1402.0
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-cookpot",
+   "at": [
+    3943.0,
+    1391.6
+   ],
+   "yaw": 90.0,
+   "prefix": "c-",
+   "parcel": "parcel.opening-work-camp.sleeping-shed-east"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-stores",
+   "at": [
+    3948.2,
+    1391.2
+   ],
+   "yaw": 0.0,
+   "prefix": "e-",
+   "parcel": "parcel.opening-work-camp.sleeping-shed-east"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-stores",
+   "at": [
+    3934.4,
+    1382.6
+   ],
+   "yaw": 315.0,
+   "prefix": "w-",
+   "parcel": "parcel.opening-work-camp.sleeping-shed-west"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-nets",
+   "at": [
+    3929.2,
+    1390.2
+   ],
+   "yaw": 315.0,
+   "prefix": "n-",
+   "parcel": "parcel.opening-work-camp.sleeping-shed-west"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-stores",
+   "at": [
+    3950.0,
+    1421.0
+   ],
+   "yaw": 30.0,
+   "prefix": "h-",
+   "parcel": "parcel.opening-work-camp.hatching-shed"
+  },
+  {
+   "op": "place",
+   "uid": "h-candle",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    3947.4,
+    1420.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "h-totem",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+   "at": [
+    3942.5,
+    1424.5
+   ],
+   "yaw": 330.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "h-lamp1",
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
+   "at": [
+    3946.56,
+    1421.3
+   ],
+   "yaw": 0.0
+  },
+  {
+   "op": "mount",
+   "child": "h-lamp1",
+   "parent": "b-hatch",
+   "hang": true,
+   "unmined": "reader-approved r1",
+   "max_h": 4.0
+  },
+  {
+   "op": "place",
+   "uid": "h-lamp2",
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
+   "at": [
+    3943.98,
+    1422.83
+   ],
+   "yaw": 0.0
+  },
+  {
+   "op": "mount",
+   "child": "h-lamp2",
+   "parent": "b-hatch",
+   "hang": true,
+   "unmined": "reader-approved r1",
+   "max_h": 4.0
+  },
+  {
+   "op": "place",
+   "uid": "t-lamp",
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
+   "at": [
+    3945.0,
+    1390.6
+   ],
+   "yaw": 0.0
+  },
+  {
+   "op": "place",
+   "uid": "f-basket1",
+   "asset": "kotm:argonia/clutter/basket01",
+   "at": [
+    3952.5,
+    1403.0
+   ],
+   "yaw": 20.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "f-basket2",
+   "asset": "kotm:argonia/clutter/basket01",
+   "at": [
+    3951.5,
+    1402.5
+   ],
+   "yaw": 75.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "y-bench",
+   "asset": "vanilla:furniture/farm/farmbench01",
+   "at": [
+    3947.5,
+    1400.0
+   ],
+   "yaw": 90.0,
+   "settle": true
+  },
+  {
+   "op": "mount",
+   "child": "t-lamp",
+   "parent": "s-shed2",
+   "hang": true,
+   "unmined": "reader-approved r1",
+   "max_h": 4.0
+  },
+  {
+   "op": "place",
+   "uid": "o-candle",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    3937.9,
+    1396.6
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {"op": "bind", "uid": "y-fire", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-east", "layer": "light", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "y-pot", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-east", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "y-urn", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-east", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "y-bench", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-east", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "c-hc-wood", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-east", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "c-hc-pot", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-east", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "c-hc-potloose", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-east", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "c-hc-bucket", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-east", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "e-hv-store", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-east", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "e-hv-basket1", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-east", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "e-hv-basket2", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-east", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "e-hv-closed", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-east", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "e-hv-small", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-east", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "t-lamp", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-east", "layer": "light", "on": "parent", "evidence": "measured"},
+  {"op": "bind", "uid": "w-hv-store", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-west", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "w-hv-basket1", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-west", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "w-hv-basket2", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-west", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "w-hv-closed", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-west", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "w-hv-small", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-west", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "n-hn-net1", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-west", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "n-hn-net2", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-west", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "n-hn-sack", "kind": "assembly", "id": "parcel.opening-work-camp.sleeping-shed-west", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "h-hv-store", "kind": "assembly", "id": "parcel.opening-work-camp.hatching-shed", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "h-hv-basket1", "kind": "assembly", "id": "parcel.opening-work-camp.hatching-shed", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "h-hv-basket2", "kind": "assembly", "id": "parcel.opening-work-camp.hatching-shed", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "h-hv-closed", "kind": "assembly", "id": "parcel.opening-work-camp.hatching-shed", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "h-hv-small", "kind": "assembly", "id": "parcel.opening-work-camp.hatching-shed", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "h-candle", "kind": "assembly", "id": "parcel.opening-work-camp.hatching-shed", "layer": "light", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "h-totem", "kind": "assembly", "id": "parcel.opening-work-camp.hatching-shed", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "h-lamp1", "kind": "assembly", "id": "parcel.opening-work-camp.hatching-shed", "layer": "light", "on": "parent", "evidence": "measured"},
+  {"op": "bind", "uid": "h-lamp2", "kind": "assembly", "id": "parcel.opening-work-camp.hatching-shed", "layer": "light", "on": "parent", "evidence": "measured"},
+  {"op": "bind", "uid": "o-candle", "kind": "assembly", "id": "parcel.opening-work-camp.overseers-hut", "layer": "light", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "f-basket1", "kind": "assembly", "id": "parcel.opening-work-camp.family-tent-east", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "f-basket2", "kind": "assembly", "id": "parcel.opening-work-camp.family-tent-east", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.opening-work-camp.the-road-way",
+   "points": [
+    [
+     3958.5,
+     1418.5
+    ],
+    [
+     3952.0,
+     1417.5
+    ],
+    [
+     3946.0,
+     1418.5
+    ],
+    [
+     3944.1,
+     1420.0
+    ],
+    [
+     3945.566,
+     1422.566
+    ]
+   ],
+   "width": 2.0,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.opening-work-camp.the-yard-way",
+   "points": [
+    [
+     3947.0,
+     1418.333
+    ],
+    [
+     3943.0,
+     1412.0
+    ],
+    [
+     3941.5,
+     1405.0
+    ],
+    [
+     3941.0,
+     1400.0
+    ],
+    [
+     3942.0,
+     1394.0
+    ],
+    [
+     3945.0,
+     1390.0
+    ]
+   ],
+   "width": 2.0,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.opening-work-camp.the-overseers-door",
+   "points": [
+    [
+     3941.0,
+     1400.0
+    ],
+    [
+     3939.8,
+     1398.0
+    ],
+    [
+     3936.837,
+     1397.966
+    ]
+   ],
+   "width": 1.5,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.opening-work-camp.the-west-shed",
+   "points": [
+    [
+     3942.0,
+     1394.0
+    ],
+    [
+     3937.0,
+     1391.0
+    ],
+    [
+     3931.1,
+     1387.2
+    ]
+   ],
+   "width": 1.5,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.opening-work-camp.the-east-tent",
+   "points": [
+    [
+     3943.0,
+     1412.0
+    ],
+    [
+     3947.0,
+     1408.0
+    ],
+    [
+     3951.2,
+     1405.4
+    ]
+   ],
+   "width": 1.5,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.opening-work-camp.the-south-tent",
+   "points": [
+    [
+     3943.0,
+     1412.0
+    ],
+    [
+     3939.6,
+     1412.2
+    ]
+   ],
+   "width": 1.5,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.opening-work-camp.the-gang-walk",
+   "points": [
+    [
+     3989.26,
+     1395.55
+    ],
+    [
+     3980.5,
+     1402.3
+    ],
+    [
+     3971.0,
+     1403.3
+    ]
+   ],
+   "width": 2.5,
+   "kind": "track"
+  },
+  {
+   "id": "socket.opening-work-camp.idle-keeper-tends",
+   "kind": "idle",
+   "host": "h-hv-store",
+   "activity": "tend",
+   "parcel": "parcel.opening-work-camp.hatching-shed",
+   "why": "The clutch-keeper fetches dry reed for the clutch from the store basket by the shed door.",
+   "op": "socket"
+  },
+  {
+   "id": "socket.opening-work-camp.idle-keeper-home",
+   "kind": "idle",
+   "activity": "sleep",
+   "host": "parcel.opening-work-camp.family-tent-south",
+   "parcel": "parcel.opening-work-camp.family-tent-south",
+   "why": "The clutch-keeper sleeps in the south tent, a few paces from the shed.",
+   "op": "socket"
+  },
+  {
+   "id": "socket.opening-work-camp.idle-family-cooks",
+   "kind": "idle",
+   "host": "y-fire",
+   "activity": "cook",
+   "parcel": "parcel.opening-work-camp.sleeping-shed-east",
+   "why": "A family cooks at the camp's fire.",
+   "op": "socket"
+  },
+  {
+   "id": "socket.opening-work-camp.idle-family-sits",
+   "kind": "idle",
+   "host": "y-bench",
+   "activity": "sit",
+   "parcel": "parcel.opening-work-camp.sleeping-shed-east",
+   "why": "Families sit on the bench by the fire after a shift.",
+   "op": "socket"
+  },
+  {
+   "id": "socket.opening-work-camp.idle-family-sleeps",
+   "kind": "idle",
+   "activity": "sleep",
+   "host": "parcel.opening-work-camp.sleeping-shed-west",
+   "parcel": "parcel.opening-work-camp.sleeping-shed-west",
+   "why": "The gang's families sleep under the west shed's thatch.",
+   "op": "socket"
+  },
+  {
+   "id": "socket.opening-work-camp.idle-witness-sleeps",
+   "kind": "idle",
+   "activity": "sleep",
+   "host": "parcel.opening-work-camp.sleeping-shed-east",
+   "parcel": "parcel.opening-work-camp.sleeping-shed-east",
+   "why": "The eldest of one family sleeps under the east shed's thatch.",
+   "op": "socket"
+  },
+  {
+   "id": "socket.opening-work-camp.idle-witness-nets",
+   "kind": "idle",
+   "host": "n-hn-net1",
+   "activity": "tend",
+   "parcel": "parcel.opening-work-camp.sleeping-shed-west",
+   "why": "The eldest mends the nets at the corner of the west shed.",
+   "op": "socket"
+  },
+  {
+   "id": "socket.opening-work-camp.idle-overseer-watch",
+   "kind": "idle",
+   "activity": "sit",
+   "host": "y-bench",
+   "parcel": "parcel.opening-work-camp.overseers-hut",
+   "why": "An overseer sits on the bench by the fire, with the yard and the sheds in view.",
+   "op": "socket"
+  },
+  {"op": "socket", "id": "socket.opening-work-camp.marker-hatch-door", "kind": "marker", "at": [3945.0, 1421.6], "zone": "entrance", "parcel": "parcel.opening-work-camp.hatching-shed", "why": "The hatching shed door, the way in to the clutch."},
+  {"op": "socket", "id": "socket.opening-work-camp.marker-overseers-door", "kind": "marker", "at": [3937.8, 1398.0], "zone": "entrance", "parcel": "parcel.opening-work-camp.overseers-hut", "why": "The overseers' hut door, on the yard way."},
+  {"op": "socket", "id": "socket.opening-work-camp.scene-camp-night", "kind": "marker", "at": [3944.6, 1402.4], "zone": "scene", "parcel": "parcel.opening-work-camp.sleeping-shed-east", "why": "The camp's fire on the middle terrace, where the families sit on the night of the raid.", "fills": ["promise.opening-work-camp.scene-opening-camp-night", "promise.opening-work-camp.provision-opening-camp"]},
+  {"op": "socket", "id": "socket.opening-work-camp.scene-clutch-dies", "kind": "marker", "at": [3944.4, 1420.6], "zone": "scene", "parcel": "parcel.opening-work-camp.hatching-shed", "why": "The door of the hatching shed, where the clutch-keeper comes out that night.", "fills": ["promise.opening-work-camp.scene-opening-clutch-dies", "promise.opening-work-camp.provision-opening-egg-clutch"]},
+  {"op": "socket", "id": "socket.opening-work-camp.scene-choose-a-witness", "kind": "marker", "at": [3941.6, 1406.0], "zone": "scene", "parcel": "parcel.opening-work-camp.overseers-hut", "why": "The yard way between the overseers' door and the tents.", "fills": ["promise.opening-work-camp.scene-opening-choose-a-witness", "promise.opening-work-camp.provision-opening-work-camp"]},
+  {"op": "socket", "id": "socket.opening-work-camp.evidence-dead-clutch", "kind": "marker", "at": [3945.2, 1421.6], "zone": "evidence", "parcel": "parcel.opening-work-camp.hatching-shed", "why": "The egg clutch inside the hatching shed.", "fills": ["promise.opening-work-camp.evidence-opening-dead-clutch"]},
+  {"op": "socket", "id": "socket.opening-work-camp.mark-hatching-shed", "kind": "marker", "at": [3945.6, 1422.6], "zone": "mark", "parcel": "parcel.opening-work-camp.hatching-shed", "why": "The hatching shed's door, where the clutch is kept.", "fills": ["promise.opening-work-camp.marks-opening-hatching-shed"]},
+  {"op": "socket", "id": "socket.opening-work-camp.scene-epilogue", "kind": "marker", "at": [3942.0, 1403.0], "zone": "scene", "parcel": "parcel.opening-work-camp.overseers-hut", "why": "The yard, read back in the epilogue to show whether the families stayed.", "fills": ["promise.opening-work-camp.provision-mq32-epilogue-sockets"]},
+  {"op": "socket", "id": "socket.opening-work-camp.mark-root-route", "kind": "marker", "at": [3923.5, 1380.5], "zone": "mark", "parcel": "parcel.opening-work-camp.sleeping-shed-west", "why": "The steep bank below the west sleeping shed, the climb down to the reeds.", "fills": ["promise.opening-work-camp.marks-opening-root-route"]},
+  {"op": "socket", "id": "socket.opening-work-camp.post-rest", "kind": "marker", "at": [3931.5, 1387.5], "zone": "post", "parcel": "parcel.opening-work-camp.sleeping-shed-west", "why": "A sleeping place under the west shed's thatch.", "fills": ["promise.opening-work-camp.post-rest-gang-ground"]},
+  {
+   "id": "socket.opening-work-camp.npc-clutch-keeper",
+   "kind": "npc",
+   "at": [
+    3944.4,
+    1420.2
+   ],
+   "rosterSlotId": "npc-opening-clutch-keeper",
+   "role": "the clutch-keeper",
+   "parcel": "parcel.opening-work-camp.hatching-shed",
+   "why": "The clutch-keeper keeps the eggs warm and dry and rarely leaves the shed.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.opening-work-camp.idle-keeper-tends",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "afternoon",
+     "socketId": "socket.opening-work-camp.idle-keeper-tends",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.opening-work-camp.idle-keeper-home",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.opening-work-camp.occupant-npc-opening-clutch-keeper"
+   ],
+   "op": "socket"
+  },
+  {
+   "id": "socket.opening-work-camp.npc-camp-overseer",
+   "kind": "npc",
+   "at": [
+    3938.8,
+    1398.4
+   ],
+   "rosterSlotId": "n3",
+   "role": "the camp overseer",
+   "parcel": "parcel.opening-work-camp.overseers-hut",
+   "why": "One of the brokers' two overseers keeps the camp's count.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.opening-work-camp.idle-overseer-watch",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "afternoon",
+     "socketId": "socket.opening-work-camp.idle-overseer-watch",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.opening-work-camp.idle-overseer-watch",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.opening-work-camp.occupant-n3"
+   ],
+   "op": "socket"
+  },
+  {
+   "id": "socket.opening-work-camp.npc-gang-family",
+   "kind": "npc",
+   "at": [
+    3943.4,
+    1398.6
+   ],
+   "rosterSlotId": "n1",
+   "role": "a gang family",
+   "parcel": "parcel.opening-work-camp.sleeping-shed-west",
+   "why": "The families of the gang cook, mend and wait for the shift to come back.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.opening-work-camp.idle-family-cooks",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "afternoon",
+     "socketId": "socket.opening-work-camp.idle-family-sits",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.opening-work-camp.idle-family-sleeps",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.opening-work-camp.occupant-n1"
+   ],
+   "op": "socket"
+  },
+  {
+   "id": "socket.opening-work-camp.npc-witness",
+   "kind": "npc",
+   "at": [
+    3931.0,
+    1390.0
+   ],
+   "rosterSlotId": "npc-opening-witness",
+   "role": "a family's eldest",
+   "parcel": "parcel.opening-work-camp.sleeping-shed-east",
+   "why": "The eldest of one family, who sees the raid from the sheds.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.opening-work-camp.idle-witness-nets",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "afternoon",
+     "socketId": "socket.opening-work-camp.idle-witness-nets",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.opening-work-camp.idle-witness-sleeps",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.opening-work-camp.occupant-npc-opening-witness"
+   ],
+   "op": "socket"
+  },
+  {
+   "id": "socket.opening-work-camp.container-family-stores",
+   "kind": "container",
+   "host": "w-hv-store",
+   "containerClass": "basket",
+   "fillRule": "authored",
+   "lootTable": {
+    "itemClasses": [
+     "food",
+     "misc-household"
+    ],
+    "valueBand": "low",
+    "storyNote": "Dried fish and reed cord, what the families put together for a stranger."
+   },
+   "parcel": "parcel.opening-work-camp.sleeping-shed-west",
+   "why": "The families' store basket at the west shed.",
+   "op": "socket"
+  }
+ ]
+}
