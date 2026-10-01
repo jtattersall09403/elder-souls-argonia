@@ -19,7 +19,7 @@
    "text": "The Border road was laid on a Dunmer line from Stormhold to Thorn. West of the Greenspring track it drops off the ridge into the river marsh.",
    "confirmed": {
     "sha": "ac953c1d6da8",
-    "note": "The road comes down off the ridge west of the Greenspring track and crosses the river marsh on the rb plank run."
+    "note": "The road comes down off the ridge west of the Greenspring track and crosses the river marsh on the river plank run."
    }
   },
   {
@@ -45,7 +45,7 @@
    "text": "The marsh rots a pile in a few seasons. Greenspring has to keep replacing them.",
    "confirmed": {
     "sha": "b9932a0cb825",
-    "note": "Both runs stand on piles in standing marsh water (17 dockstrent02 pieces, wet ground under each run)."
+    "note": "Both runs stand on piles in standing marsh water (17 dock pieces, wet ground under each run)."
    }
   },
   {
@@ -58,7 +58,7 @@
    "text": "The road keeps to the dry strip at the mountain foot and crosses water only where it must: two reaches of the river marsh, where the water stands up to a metre and a quarter deep.",
    "confirmed": {
     "sha": "667a8a16c818",
-    "note": "Two plank runs (river 9 pieces, inlet 8), dry ground at both ends; wb ground under the runs reads 0.05 to 1.22 m below water level 0."
+    "note": "Two plank runs (river 9 pieces, inlet 8), dry ground at both ends; the ground under the runs lies 0.05 to 1.22 m below the water surface."
    }
   },
   {
