@@ -105,16 +105,17 @@ export function halveRaster(src: { width: number; height: number; data: Uint8Cla
   return { width: w, height: h, data: out };
 }
 
-/** RGBA -> RG8: the flow raster's shaders read `.xy` only (waterMaterial
- * `esFl.xy`, FoamField `fl.xy`). The surface atlas uses all four channels
- * and the class raster's R is a class id, G turbidity, B salinity and A the
- * dark constituent, and the shore raster's four channels are all read (R
- * distance, G season, B tannin, A algae), so those three stay RGBA8 at full
- * size; habitat goes to the GPU through `halveRaster`. */
-export function packRG(rgba: Uint8ClampedArray | Uint8Array): Uint8Array {
-  const n = rgba.length / 4, out = new Uint8Array(n * 2);
-  for (let i = 0; i < n; i++) { out[i * 2] = rgba[i * 4]; out[i * 2 + 1] = rgba[i * 4 + 1]; }
-  return out;
+/** The flow raster goes to the GPU as RGBA8, as decoded: R/G are the flow
+ * vector (waterMaterial `esFl.xy`, FoamField `fl.xy`) and B the fetch
+ * (`esFetchAt` reads `.z`), so no two-channel format keeps every value; the
+ * PNG is RGB and three has no RGB8 upload, so A rides along as 255. The
+ * surface atlas uses all four channels and the class raster's R is a class
+ * id, G turbidity, B salinity and A the dark constituent, and the shore
+ * raster's four channels are all read (R distance, G season, B tannin, A
+ * algae), so those three stay RGBA8 at full size; habitat goes to the GPU
+ * through `halveRaster`. */
+export function flowTexture(img: { width: number; height: number; data: Uint8ClampedArray | Uint8Array }): THREE.DataTexture {
+  return dataTexture(img, THREE.LinearFilter);
 }
 
 function dataTexture(img: { width: number; height: number; data: Uint8ClampedArray | Uint8Array },
@@ -334,8 +335,7 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     dressing,
     bedRocks,
     surfaceTex: dataTexture(surfaceAtlas, THREE.NearestFilter),
-    flowTex: dataTexture({ width: flowImg.width, height: flowImg.height, data: packRG(flowImg.data) },
-      THREE.LinearFilter, THREE.RGFormat),
+    flowTex: flowTexture(flowImg),
     klassTex: dataTexture(klassImg, THREE.LinearFilter),
     shoreTex: dataTexture(shoreImg, THREE.LinearFilter),
     hasOwner,
