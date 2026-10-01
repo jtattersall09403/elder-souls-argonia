@@ -23,6 +23,7 @@
  * module singleton.
  */
 import * as THREE from "three";
+import { BLOOM_SOURCE_LAYER } from "../../render/post/BloomPass";
 import {
   FIRE_BED_PRESETS, FIRE_PRESETS, FIRE_PRESET_ORDER, nightShareOfExposure,
   type FirePresetId,
@@ -90,6 +91,8 @@ export class FlameSystem {
       mesh.frustumCulled = false;
       mesh.visible = false;
       mesh.layers.set(layer);
+      // also a glow source for the bloom pass (render/post/BloomPass.ts)
+      mesh.layers.enable(BLOOM_SOURCE_LAYER);
       this.group.add(mesh);
     }
     // the day/night blend follows the renderer's exposure, read at draw time

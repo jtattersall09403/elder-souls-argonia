@@ -229,6 +229,25 @@ baseline.
 - Rain is one shader-animated draw built once; the ripple and light-field
   code holds no per-frame allocations.
 
+## 7b. Post-process row (owner 2026-10-01: glow round bright lights at 60 fps on the Honor Magic V5 and the M2)
+
+- **Bloom only**: `packages/game-core/src/render/post/BloomPass.ts`, one
+  injected instance, drawn by WaterPipeline above water after the overlay
+  pass: prefilter of the linear HDR scene target × exposure at half the
+  canvas (soft knee, threshold 4 ± 2 in exposed units), the flame layer
+  added depth-tested (flames carry `BLOOM_SOURCE_LAYER` 7 beside the
+  precipitation layer; rain does not), dual-filter mip chain (≤ 5 levels,
+  8 px floor), composited additively (strength 0.06). Research estimate
+  0.6–1.2 ms Adreno, 0.3 ms M2 (cheap-sky-and-post-effects doc §2); the
+  owner's HUD line `post on · bloom gpu … ms` is the measurement, `?post=0`
+  the A/B. No extra MSAA resolve: it reads the scene target the blit
+  already resolved.
+- **No colour grade**: ACES runs inside the blit; a grade would change the
+  default look or add a pass, so none is drawn.
+- **No `alphaToCoverage`**: foliage draws into the water pipeline's scene
+  target, `samples: 0` on both tiers; canvas MSAA does not reach it.
+- Not drawn: under water, with `?water=0` (no pipeline), in Fly3D.
+
 ## 8. How performance is measured
 
 - **No full-studio headless probes.** The VM has no GPU; SwiftShader runs

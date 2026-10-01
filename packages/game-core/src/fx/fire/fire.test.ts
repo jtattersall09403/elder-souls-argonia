@@ -3,6 +3,7 @@
  * and the flame anchor check over every published place and interior.
  */
 import { readdirSync, readFileSync, existsSync, writeFileSync } from "node:fs";
+import { BLOOM_SOURCE_LAYER } from "../../render/post/BloomPass";
 import { join } from "node:path";
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
@@ -278,10 +279,12 @@ describe("interior fires", () => {
     expect(emitters.every((e) => e.owner === 0)).toBe(true);
   });
 
-  it("flames draw on the display-referred post-water layer, never the HDR scene (walk 6: interiors black)", () => {
+  it("flames draw on the display-referred post-water layer and the glow source, never the HDR scene (walk 6: interiors black)", () => {
     expect(FIRE_LAYER).toBe(PRECIP_LAYER);
     const fire = new FlameSystem();
-    fire.group.traverse((o) => { if (o !== fire.group) expect(o.layers.mask).toBe(1 << PRECIP_LAYER); });
+    fire.group.traverse((o) => {
+      if (o !== fire.group) expect(o.layers.mask).toBe((1 << PRECIP_LAYER) | (1 << BLOOM_SOURCE_LAYER));
+    });
     fire.dispose();
   });
 });

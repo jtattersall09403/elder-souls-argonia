@@ -7,6 +7,7 @@ import type { RippleSim } from "./RippleSim";
 import type { WaterSurfaceHandle } from "./WaterSurface";
 import { UnderwaterBubblePass, UNDERWATER_BUBBLE_COMPOSITE_GLSL } from "./UnderwaterBubblePass";
 import { useFrameSegments } from "../../fx/frameSegments";
+import type { BloomPass } from "../../render/post/BloomPass";
 
 /**
  * The shared render-pass architecture (module 60 §41, decision 0025) — ONE
@@ -42,13 +43,16 @@ const CAUSTICS_GLSL = /* glsl */ `
   }
 `;
 
-export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ripple }: {
+export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ripple, bloom }: {
   runtime: WaterRuntime;
   assets: WaterAssets;
   tier: WaterTier;
   verticalScale: number;
   handle: () => WaterSurfaceHandle | null;
   ripple?: RippleSim | null;
+  /** The host's glow pass (render/post/BloomPass.ts), drawn above water
+   * after the overlay; null/absent or disabled: no post pass at all. */
+  bloom?: BloomPass | null;
 }) {
   const { gl } = useThree();
   // Pass attribution only (decision 0084 round 10): the marks below change
@@ -437,6 +441,12 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       cam.layers.mask = 1 << OVERLAY_LAYER;
       segments?.cpuMark("overlay"); segments?.gpuMark("overlay");
       renderer.render(scene, cam);
+      // 4. glow around bright lights (decision 0108 post row), from the
+      // linear HDR target this frame drew, onto the canvas
+      if (bloom?.enabled && !underwater) {
+        segments?.cpuMark("bloom"); segments?.gpuMark("bloom");
+        bloom.render(renderer, scene, cam, drawTarget.texture, drawTarget.depthTexture as THREE.Texture);
+      }
       segments?.cpuMark("post"); segments?.gpuMark("post");
       scene.background = prevBackground;
       scene.matrixWorldAutoUpdate = prevMatrixAuto;

@@ -3,6 +3,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Physics, useRapier } from "@react-three/rapier";
 import { ShapeType } from '@dimforge/rapier3d-compat';
 import * as THREE from "three";
+import { BloomPass } from "@elder-souls/game-core/render/post/BloomPass";
 import type { EcctrlHandle } from "ecctrl";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
 import { SettlementErrorLine } from "../SettlementErrorLine";
@@ -232,6 +233,13 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const waterPipelineEnabled = useMemo(() => (
     new URLSearchParams(window.location.search).get("water") !== "0"
   ), []);
+  // Glow around bright lights (decision 0108 post row), default ON; DEV A/B
+  // switch `?post=0` mounts no post pass, so its cost reads on the HUD.
+  const postEnabled = useMemo(() => (
+    new URLSearchParams(window.location.search).get("post") !== "0"
+  ), []);
+  const bloom = useMemo(() => (postEnabled ? new BloomPass() : null), [postEnabled]);
+  useEffect(() => () => bloom?.dispose(), [bloom]);
   // The segmented frame timer (decision 0084 round 10). Made here, bound to
   // the renderer by the first in-canvas hook, provided to every renderer.
   const frameSegments = useMemo(() => new FrameSegments(), []);
@@ -565,6 +573,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               verticalScale={verticalScale}
               farExtentM={12000}
               surfaceFocus={waterSurfaceFocus}
+              bloom={bloom}
             />
           )}
           {showMarkers && <CityMarkers groundAt={markerGroundAt} />}
@@ -679,6 +688,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               </group>
             </PlayerBody>
             <CharacterDriver
+              bloom={bloom}
               handleRef={player}
               world={world}
               active={collidersReady && renderWarm}
@@ -763,7 +773,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         <span title="Solid plants and rocks around you (trunks and boulders are solid; reeds and ferns are not)">
           solid {floraColliderCount}
         </span>
-        <CharacterHud channel={hudChannel} segments={frameSegments} />
+        <CharacterHud channel={hudChannel} segments={frameSegments} postOn={postEnabled} />
       </div>
       <div style={{
         position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)",
@@ -799,9 +809,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
 
 /** The readout — the only thing that re-renders on a HUD tick. Identical
  * text to the version that lived in the parent; only the ownership moved. */
-function CharacterHud({ channel, segments }: {
+function CharacterHud({ channel, segments, postOn }: {
   channel: HudChannel;
   segments: FrameSegments;
+  postOn: boolean;
 }) {
   const hud = useHud(channel);
   if (!hud) return null;
@@ -821,6 +832,7 @@ function CharacterHud({ channel, segments }: {
         <GroundcoverHudLine />
         <TriangleAttributionLine />
         <FrameSegmentLines segments={segments} />
+        <PostHudLine segments={segments} on={postOn} />
       </PerfHudSection>
     </span>
   );
@@ -914,11 +926,11 @@ function PerfHudSection({ children }: { children: ReactNode }) {
  * out of the line. */
 const GPU_SEGMENT_ORDER = [
   "pre", "sky", "shadow", "scene", "blit", "water", "precip", "overlay",
-  "ripple", "foam", "post",
+  "ripple", "foam", "bloom", "post",
 ];
 const CPU_SEGMENT_ORDER = [
   "pre", "veg", "gc", "sky", "char", "ripple", "foam", "shadow", "scene",
-  "blit", "water", "precip", "overlay", "post",
+  "blit", "water", "precip", "overlay", "bloom", "post",
 ];
 
 function segmentText(rows: SegmentStat[], order: string[]): string {
@@ -963,6 +975,26 @@ function FrameSegmentLines({ segments }: { segments: FrameSegments }) {
       </span>
     </>
   );
+}
+
+/** DEV HUD line: post on/off and the glow pass's GPU and CPU ms (segment
+ * `bloom`), so `?post=0` can be A/B'd on a device. */
+function PostHudLine({ segments, on }: { segments: FrameSegments; on: boolean }) {
+  const [text, setText] = useState("");
+  useEffect(() => {
+    const read = () => {
+      const s = segments.stats();
+      const gpu = s.gpu.find((r) => r.label === "bloom");
+      const cpu = s.cpu.find((r) => r.label === "bloom");
+      setText(on
+        ? `post on · bloom gpu ${s.gpuSupported && gpu ? gpu.avg.toFixed(2) : "n/a"} ms · cpu ${cpu ? cpu.avg.toFixed(2) : "—"} ms`
+        : "post off (?post=0)");
+    };
+    read();
+    const timer = window.setInterval(read, 1000);
+    return () => window.clearInterval(timer);
+  }, [segments, on]);
+  return <span style={{ display: "block", opacity: 0.75 }}>{text}</span>;
 }
 
 /** A 60-frame rolling frame rate for the HUD line, published from inside the
@@ -1396,6 +1428,8 @@ declare global {
     __STUDIO_CHARACTER_DEBUG__?: {
       /** Sets the follow camera's yaw (radians; it looks along -sin, -cos). */
       aimCamera: (yaw: number) => void;
+      /** Turns the glow pass on/off in place (A/B probes; no-op under `?post=0`). */
+      post: (on: boolean) => void;
       playerY: () => number | null;
       grounded: () => boolean;
       frames: () => number;
@@ -1433,8 +1467,10 @@ function BoundaryMessage({ positionRef, extentM, onMessage }: {
   return null;
 }
 
-function CharacterDriver({ handleRef, world, active, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, extentM, onHud, onPositionKm, onWaterContact, playerModelRef, settlementRebuildRef, interaction, interiorProbeRef }: {
+function CharacterDriver({ handleRef, world, active, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, extentM, onHud, onPositionKm, onWaterContact, playerModelRef, settlementRebuildRef, interaction, interiorProbeRef, bloom }: {
   handleRef: React.RefObject<EcctrlHandle | null>;
+  /** The glow pass, toggled in place by the debug hook's `post` (A/B probes). */
+  bloom: BloomPass | null;
   world: ChunkWorld;
   /** Colliders mounted AND rendering warm — physics steps only when true. */
   active: boolean;
@@ -1524,6 +1560,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
       },
       cameraArm: () => camera3P.arm,
       aimCamera: (yaw) => { camera3P.yaw = yaw; },
+      post: (on) => { if (bloom) bloom.enabled = on; },
       cameraCast: (from, to) => cameraCast(
         new THREE.Vector3(...from), new THREE.Vector3(...to), FOLLOW_CAMERA.collisionRadius,
         FOLLOW_CAMERA.pivotRadius),
@@ -1541,7 +1578,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
       interior: () => interiorProbeRef?.current?.() ?? null,
     };
     return () => { delete window.__STUDIO_CHARACTER_DEBUG__; };
-  }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef, camera, interiorProbeRef]);
+  }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef, camera, interiorProbeRef, bloom]);
 
   useEffect(() => {
     const detach = input.attach();
