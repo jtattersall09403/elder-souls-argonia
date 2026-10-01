@@ -14,7 +14,9 @@ from . import place_obligations as po
 
 
 def _records():
-    return {r["id"]: r for rf in catalogue.load_region_files() for r in rf.places}
+    # route places (type 10) are records in their own home table
+    return ({r["id"]: r for rf in catalogue.load_region_files() for r in rf.places}
+            | bp_mod.route_place_records())
 
 
 def _blueprints():

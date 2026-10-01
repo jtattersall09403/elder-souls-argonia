@@ -9,9 +9,17 @@
    "chainageM": [3940, 4815],
    "positionM": [4620.0, 1690.0],
    "footprintRadiusM": 190,
-   "culture": "hist-heartland",
+   "region": "hist-heartland",
+   "culture": "argonian",
+   "settingClass": "wild",
    "condition": "worn",
-   "why": "West of the Greenspring track the Border road drops off the ridge into the marsh where an inlet stream meets the river. It crosses the inlet mouth and then a reach of the river marsh, each about half a metre to a metre and a quarter deep. The road was laid on a Dunmer line and its keepers carry it over both on piled timber, then climb the river bank on old stone steps.",
+   "why": {
+    "founding": "The Border road was laid on a Dunmer line from Stormhold to Thorn. West of the Greenspring track it drops off the ridge into the marsh where an inlet stream meets the river.",
+    "siteAdvantages": "The road keeps to the dry strip at the mountain foot and crosses water only where it must: the inlet mouth and one reach of the river marsh, where the water stands half a metre to a metre and a quarter deep.",
+    "occupantsMotive": "Nobody lives on the crossings. Greenspring keeps the planks because its trade goes out along this road.",
+    "pressures": "The marsh rots a pile in a few seasons. The planks are of different ages and some are patched.",
+    "wouldChangeIf": "A stone causeway would replace the planks if anyone paid for one."
+   },
    "ends": {
     "east": {"placeId": "place.hist-heartland.greenspring", "via": "track.hist-heartland.greenspring", "atM": [4801.0, 1785.0]},
     "west": {"wayId": "route.road.stormhold-thorn", "towards": "stormhold", "atM": [4444.0, 1516.0]}

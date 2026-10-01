@@ -1,0 +1,39 @@
+{
+ "id": "route-dressing-v1",
+ "description": "Road furniture between places (16k type 10): the verge rocks, rock piles, wet bank rocks, trail cairns, burial cairns and the unlit pull-off fire ring that vanilla Skyrim sets beside its roads (world/sources/placement/vanilla-roadside-dressing.json: rocks 67/km at a 4.9 m median off the edge, cairns 1.2/km, campfires 0.28/km). The same vanilla meshes ship in flora-province-v1 as one-level scatter, which a place cannot stand (compile_settlement.lod_tiers_can_meet); this kit carries them with the full LOD chain so a route place seats and measures them like any piece. Every texture comes from the vanilla pool, the same files the province scatter's rocks wear, so a verge rock reads the same as the rocks the vegetation compile scatters around it. Signposts, walls and cart parts are not repeated here: they are on works-v1, settlement-imperial-v1 and hlaalu-domestic. Read by docs/research/placement-settlements/road-dressing.md.",
+ "culture": "neutral-route",
+ "output": "tooling/asset-pipeline/output/kits/route-dressing-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "assets": [
+  {"asset": "vanilla:landscape/rocks/rocks01"},
+  {"asset": "vanilla:landscape/rocks/rocks02"},
+  {"asset": "vanilla:landscape/rocks/rocks03"},
+  {"asset": "vanilla:landscape/rocks/rockm01"},
+  {"asset": "vanilla:landscape/rocks/rockm02"},
+  {"asset": "vanilla:landscape/rocks/rockm03"},
+  {"asset": "vanilla:landscape/rocks/rockm04"},
+  {"asset": "vanilla:landscape/rocks/rockl01"},
+  {"asset": "vanilla:landscape/rocks/rockl02"},
+  {"asset": "vanilla:landscape/rocks/rockl04"},
+  {"asset": "vanilla:landscape/rocks/rockpiles01"},
+  {"asset": "vanilla:landscape/rocks/rockpiles02"},
+  {"asset": "vanilla:landscape/rocks/rockpiles03"},
+  {"asset": "vanilla:landscape/rocks/rockpilem01"},
+  {"asset": "vanilla:landscape/rocks/rockpilem02"},
+  {"asset": "vanilla:landscape/rocks/wetrocks/rockm02wet"},
+  {"asset": "vanilla:landscape/rocks/wetrocks/rockl01wet"},
+  {"asset": "vanilla:landscape/rocks/wetrocks/rockpilem02wet"},
+  {"asset": "vanilla:landscape/rocks/cairns/rockcairn01"},
+  {"asset": "vanilla:landscape/rocks/cairns/rockcairn02"},
+  {"asset": "vanilla:landscape/rocks/cairns/rockcairn03"},
+  {"asset": "vanilla:landscape/rocks/cairns/rockcairn04"},
+  {"asset": "vanilla:clutter/burialcairn/burialcairn01"},
+  {"asset": "vanilla:clutter/burialcairn/burialcairn02"},
+  {"asset": "vanilla:clutter/burialcairn/burialcairn03"},
+  {"asset": "vanilla:clutter/woodfires/campfire01landoff"}
+ ]
+}

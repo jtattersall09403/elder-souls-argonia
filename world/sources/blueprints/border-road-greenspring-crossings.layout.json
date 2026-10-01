@@ -1,0 +1,1033 @@
+{
+ "schemaVersion": 1,
+ "placeId": "place.route.border-road-greenspring-crossings",
+ "window": {
+  "centreKm": [
+   4.62,
+   1.69
+  ],
+  "halfM": 190.0
+ },
+ "ops": [
+  {
+   "op": "place",
+   "uid": "rb-00",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4474.12,
+    1563.64
+   ],
+   "yaw": 178.1,
+   "walkable": true,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rb-01",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4474.37,
+    1570.91
+   ],
+   "yaw": 178.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "rb-01",
+   "child_face": "south",
+   "parent": "rb-00",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "rb-02",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4474.61,
+    1578.19
+   ],
+   "yaw": 178.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "rb-02",
+   "child_face": "south",
+   "parent": "rb-01",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "rb-03",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4474.86,
+    1585.47
+   ],
+   "yaw": 178.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "rb-03",
+   "child_face": "south",
+   "parent": "rb-02",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "rb-04",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4475.1,
+    1592.74
+   ],
+   "yaw": 178.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "rb-04",
+   "child_face": "south",
+   "parent": "rb-03",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "rb-05",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4475.35,
+    1600.02
+   ],
+   "yaw": 178.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "rb-05",
+   "child_face": "south",
+   "parent": "rb-04",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "rb-06",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4475.59,
+    1607.3
+   ],
+   "yaw": 178.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "rb-06",
+   "child_face": "south",
+   "parent": "rb-05",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "rb-07",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4475.84,
+    1614.57
+   ],
+   "yaw": 178.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "rb-07",
+   "child_face": "south",
+   "parent": "rb-06",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "rb-08",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4476.08,
+    1621.85
+   ],
+   "yaw": 178.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "rb-08",
+   "child_face": "south",
+   "parent": "rb-07",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "ib-00",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4662.81,
+    1788.51
+   ],
+   "yaw": 114.4,
+   "walkable": true,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "ib-01",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4669.44,
+    1791.52
+   ],
+   "yaw": 114.4,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "ib-01",
+   "child_face": "south",
+   "parent": "ib-00",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "ib-02",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4676.07,
+    1794.53
+   ],
+   "yaw": 114.4,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "ib-02",
+   "child_face": "south",
+   "parent": "ib-01",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "ib-03",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4682.7,
+    1797.54
+   ],
+   "yaw": 114.4,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "ib-03",
+   "child_face": "south",
+   "parent": "ib-02",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "ib-04",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4689.33,
+    1800.55
+   ],
+   "yaw": 114.4,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "ib-04",
+   "child_face": "south",
+   "parent": "ib-03",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "ib-05",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4695.95,
+    1803.57
+   ],
+   "yaw": 114.4,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "ib-05",
+   "child_face": "south",
+   "parent": "ib-04",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "ib-06",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4702.58,
+    1806.58
+   ],
+   "yaw": 114.4,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "ib-06",
+   "child_face": "south",
+   "parent": "ib-05",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "ib-07",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    4709.21,
+    1809.59
+   ],
+   "yaw": 114.4,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "ib-07",
+   "child_face": "south",
+   "parent": "ib-06",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "wm-track-0",
+   "asset": "vanilla:landscape/rocks/cairns/rockcairn02",
+   "at": [
+    4806.36,
+    1778.09
+   ],
+   "yaw": 29.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rk-verge3-0",
+   "asset": "vanilla:landscape/rocks/rockm02",
+   "at": [
+    4743.99,
+    1757.51
+   ],
+   "yaw": 226.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rk-spur-0",
+   "asset": "vanilla:landscape/rocks/rockl01",
+   "at": [
+    4762.83,
+    1689.54
+   ],
+   "yaw": 128.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rk-deck-e-0",
+   "asset": "vanilla:landscape/rocks/rockm01",
+   "at": [
+    4726.0,
+    1793.5
+   ],
+   "yaw": 88.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rk-deck-e-1",
+   "asset": "vanilla:landscape/rocks/rocks02",
+   "at": [
+    4717.28,
+    1793.68
+   ],
+   "yaw": 175.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "cn-deck-w-0",
+   "asset": "vanilla:landscape/rocks/cairns/rockcairn04",
+   "at": [
+    4640.6,
+    1779.61
+   ],
+   "yaw": 66.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "cn-deck-w-1",
+   "asset": "vanilla:landscape/rocks/rockm01",
+   "at": [
+    4636.91,
+    1778.76
+   ],
+   "yaw": 93.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "cn-deck-w-2",
+   "asset": "vanilla:landscape/rocks/rocks01",
+   "at": [
+    4639.99,
+    1782.01
+   ],
+   "yaw": 209.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rk-verge2-0",
+   "asset": "vanilla:landscape/rocks/rocks03",
+   "at": [
+    4622.49,
+    1774.01
+   ],
+   "yaw": 276.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rk-verge2-1",
+   "asset": "vanilla:landscape/rocks/rockpiles01",
+   "at": [
+    4609.86,
+    1773.42
+   ],
+   "yaw": 220.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rk-bend-east-0",
+   "asset": "vanilla:landscape/rocks/rockm04",
+   "at": [
+    4582.56,
+    1767.26
+   ],
+   "yaw": 215.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rk-bend-east-1",
+   "asset": "vanilla:landscape/rocks/rocks02",
+   "at": [
+    4572.53,
+    1749.83
+   ],
+   "yaw": 98.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rk-bend-east-2",
+   "asset": "vanilla:landscape/rocks/rockpiles03",
+   "at": [
+    4591.84,
+    1742.21
+   ],
+   "yaw": 204.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rk-verge-a-0",
+   "asset": "vanilla:landscape/rocks/rocks01",
+   "at": [
+    4561.34,
+    1733.23
+   ],
+   "yaw": 140.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rk-bend-bank-0",
+   "asset": "vanilla:landscape/rocks/rockl04",
+   "at": [
+    4529.92,
+    1702.1
+   ],
+   "yaw": 276.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rk-bend-bank-1",
+   "asset": "vanilla:landscape/rocks/rockm03",
+   "at": [
+    4555.11,
+    1704.0
+   ],
+   "yaw": 182.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rk-bend-bank-2",
+   "asset": "vanilla:landscape/rocks/rockpiles02",
+   "at": [
+    4530.52,
+    1691.62
+   ],
+   "yaw": 41.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "po-bend-0",
+   "asset": "vanilla:clutter/woodfires/campfire01landoff",
+   "at": [
+    4630.0,
+    1739.0
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "po-bend-1",
+   "asset": "vanilla:landscape/rocks/rocks02",
+   "at": [
+    4627.15,
+    1742.48
+   ],
+   "yaw": 221.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "po-bend-2",
+   "asset": "vanilla:landscape/rocks/rocks03",
+   "at": [
+    4630.54,
+    1744.47
+   ],
+   "yaw": 146.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "gr-verge1-0",
+   "asset": "vanilla:clutter/burialcairn/burialcairn02",
+   "at": [
+    4487.0,
+    1556.0
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rk-bridge-s-0",
+   "asset": "vanilla:landscape/rocks/wetrocks/rockm02wet",
+   "at": [
+    4481.26,
+    1618.54
+   ],
+   "yaw": 134.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "rk-bridge-s-1",
+   "asset": "vanilla:landscape/rocks/rocks03",
+   "at": [
+    4483.85,
+    1616.68
+   ],
+   "yaw": 43.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "cn-bridge-n-0",
+   "asset": "vanilla:landscape/rocks/cairns/rockcairn01",
+   "at": [
+    4472.11,
+    1552.22
+   ],
+   "yaw": 122.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "cn-bridge-n-1",
+   "asset": "vanilla:landscape/rocks/wetrocks/rockm02wet",
+   "at": [
+    4476.59,
+    1550.85
+   ],
+   "yaw": 12.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "cn-bridge-n-2",
+   "asset": "vanilla:landscape/rocks/rockpiles01",
+   "at": [
+    4482.78,
+    1549.64
+   ],
+   "yaw": 353.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "ib-00",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.inlet-deck",
+   "index": 0
+  },
+  {
+   "op": "bind",
+   "uid": "ib-01",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.inlet-deck",
+   "index": 1
+  },
+  {
+   "op": "bind",
+   "uid": "ib-02",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.inlet-deck",
+   "index": 2
+  },
+  {
+   "op": "bind",
+   "uid": "ib-03",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.inlet-deck",
+   "index": 3
+  },
+  {
+   "op": "bind",
+   "uid": "ib-04",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.inlet-deck",
+   "index": 4
+  },
+  {
+   "op": "bind",
+   "uid": "ib-05",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.inlet-deck",
+   "index": 5
+  },
+  {
+   "op": "bind",
+   "uid": "ib-06",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.inlet-deck",
+   "index": 6
+  },
+  {
+   "op": "bind",
+   "uid": "ib-07",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.inlet-deck",
+   "index": 7
+  },
+  {
+   "op": "bind",
+   "uid": "rb-00",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.river-bridge",
+   "index": 0
+  },
+  {
+   "op": "bind",
+   "uid": "rb-01",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.river-bridge",
+   "index": 1
+  },
+  {
+   "op": "bind",
+   "uid": "rb-02",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.river-bridge",
+   "index": 2
+  },
+  {
+   "op": "bind",
+   "uid": "rb-03",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.river-bridge",
+   "index": 3
+  },
+  {
+   "op": "bind",
+   "uid": "rb-04",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.river-bridge",
+   "index": 4
+  },
+  {
+   "op": "bind",
+   "uid": "rb-05",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.river-bridge",
+   "index": 5
+  },
+  {
+   "op": "bind",
+   "uid": "rb-06",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.river-bridge",
+   "index": 6
+  },
+  {
+   "op": "bind",
+   "uid": "rb-07",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.river-bridge",
+   "index": 7
+  },
+  {
+   "op": "bind",
+   "uid": "rb-08",
+   "kind": "run",
+   "id": "parcel.border-road-greenspring-crossings.river-bridge",
+   "index": 8
+  },
+  {
+   "op": "bind",
+   "uid": "wm-track-0",
+   "kind": "parcel",
+   "id": "parcel.border-road-greenspring-crossings.track-head-marks"
+  },
+  {
+   "op": "bind",
+   "uid": "po-bend-0",
+   "kind": "parcel",
+   "id": "parcel.border-road-greenspring-crossings.bank-road"
+  },
+  {
+   "op": "bind",
+   "uid": "cn-bridge-n-0",
+   "kind": "parcel",
+   "id": "parcel.border-road-greenspring-crossings.river-crossing-head"
+  },
+  {
+   "op": "bind",
+   "uid": "rk-verge3-0",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.track-head-marks",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "rk-spur-0",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.track-head-marks",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "rk-deck-e-0",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.track-head-marks",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "rk-deck-e-1",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.track-head-marks",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "cn-deck-w-0",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.bank-road",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "cn-deck-w-1",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.bank-road",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "cn-deck-w-2",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.bank-road",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "rk-verge2-0",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.bank-road",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "rk-verge2-1",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.bank-road",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "rk-bend-east-0",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.bank-road",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "rk-bend-east-1",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.bank-road",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "rk-bend-east-2",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.bank-road",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "rk-verge-a-0",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.bank-road",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "rk-bend-bank-0",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.bank-road",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "rk-bend-bank-1",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.bank-road",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "rk-bend-bank-2",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.bank-road",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "po-bend-1",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.bank-road",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "po-bend-2",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.bank-road",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "gr-verge1-0",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.river-crossing-head",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "rk-bridge-s-0",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.river-crossing-head",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "rk-bridge-s-1",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.river-crossing-head",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "cn-bridge-n-1",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.river-crossing-head",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "cn-bridge-n-2",
+   "kind": "assembly",
+   "id": "parcel.border-road-greenspring-crossings.river-crossing-head",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.border-road-greenspring-crossings.track-head-marks-path",
+   "points": [
+    [
+     4799.73,
+     1779.0
+    ],
+    [
+     4804.01,
+     1778.41
+    ]
+   ],
+   "width": 1.5,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.border-road-greenspring-crossings.bank-road-path",
+   "points": [
+    [
+     4620.64,
+     1749.76
+    ],
+    [
+     4627.95,
+     1741.36
+    ]
+   ],
+   "width": 1.5,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.border-road-greenspring-crossings.river-crossing-head-path",
+   "points": [
+    [
+     4474.45,
+     1548.74
+    ],
+    [
+     4473.27,
+     1550.49
+    ]
+   ],
+   "width": 1.5,
+   "kind": "footpath"
+  }
+ ]
+}

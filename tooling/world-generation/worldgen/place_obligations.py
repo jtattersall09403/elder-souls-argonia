@@ -57,6 +57,9 @@ PLOT_FIELDS = {
     # 16g siting geometry: what a pair of places promises each other, and the
     # ground each one occupies. Measured, not delivered.
     "coSitedWith", "footprintPolygon", "footprintRadiusM", "footprintSource", "footprintWhy",
+    # a route place's stretch of its province way (type 10,
+    # world/sources/routes/route-structure-exemplars.json): measured siting
+    "chainageM", "ends", "region", "wayId",
 }
 DELIVERY_FIELDS = {
     "approachDanger", "assetGaps", "assetPlan", "authoredDangerProperty",
@@ -80,7 +83,14 @@ PROCESS_FIELDS = {"ownerGuided"}
 # Read by a check, owed by nobody (planner 2026-09-25, 16k lane F): the
 # PRIMARY `culture` is the delivery promise and decides the place's policy;
 # `secondaryCultures` only widens the kit check's allowed cultures.
-INFORMATION_FIELDS = {"secondaryCultures"}
+INFORMATION_FIELDS = {
+    "secondaryCultures",
+    # a route place's road condition, its dressing rule set and evidence and
+    # its setting class (type 10), read by the builder and the setting gate;
+    # its `structures[]` are owed through the promise ledger's structure rows
+    # (blueprint_promises), never a second time here
+    "condition", "dressingEvidence", "dressingRules", "settingClass", "structures",
+}
 FIELD_POLICY = {
     **{k: "process" for k in PROCESS_FIELDS},
     **{k: "information" for k in INFORMATION_FIELDS},
@@ -937,6 +947,9 @@ def live_phase11_document() -> tuple[dict, list[str]]:
     records = {record["id"]: record
                for region_file in catalogue.load_region_files()
                for record in region_file.places}
+    # a route place (type 10) has no catalogue row: its record is its row in
+    # the route-place home table (`blueprint.route_place_records`)
+    records.update(blueprint.route_place_records())
     # A blueprint file carries a `blueprint` object; the place's layout file
     # (<place>.layout.json, 0100 decision 2) sits beside it and is not one.
     docs = [json.loads(path.read_text())

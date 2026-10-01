@@ -446,6 +446,7 @@ KIT_SETS = {
     "dunmer-hlaalu":      {"culture": "dunmer",   "kits": ["hlaalu-domestic", "vanilla-imperial-int", "enclosure-v1"]},
     "neutral-works":      {"culture": "neutral",  "kits": ["works-v1", "enclosure-v1"]},
     "neutral-underwater": {"culture": "neutral",  "kits": ["underwater-v1"]},
+    "neutral-route":      {"culture": "neutral",  "kits": ["route-dressing-v1"]},
 }
 # 97 C1, decision 2026-09-07: kit purity is held over what a place is BUILT of.
 # The dressing pool — the works kit's props, which are vanilla clutter and
@@ -464,7 +465,11 @@ KIT_SETS = {
 # and root are one Argonian group; the monumental stone set has none). It no
 # longer pools interior cells: a shell opens only onto cells its own plugin
 # links (decision 0114).
-DRESSING_KITS = ("works-v1",)
+# `route-dressing-v1` (16k walk 9, type 10) is the road furniture pool (verge
+# rocks, cairns, the cold fire ring): vanilla and neutral, so it is dressing
+# for every set, and the neutral layer puts it ahead of flora-province-v1's
+# one-level copies of the same rocks in `place_kit_preference`.
+DRESSING_KITS = ("works-v1", "route-dressing-v1")
 CULTURE_KITS = set(KIT_SETS)
 
 
@@ -2303,6 +2308,11 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
     # checked by `blueprint_integration.check_network_stitch`.
     terminals = bp.get("networkTerminals") or []
     way_ids = {w.get("id") for key in ("routes", "boardwalks", "canals") for w in bp.get(key, []) or []}
+    # a route place (type 10) is a stretch of its province way, so the way its
+    # terminals continue onto is that way itself, never an inner street
+    own_way = (route_place_records().get(bid) or {}).get("wayId")
+    if own_way:
+        way_ids.add(own_way)
     known_routes = pn.route_ids()
     terminal_routes = set()
     for t in terminals:

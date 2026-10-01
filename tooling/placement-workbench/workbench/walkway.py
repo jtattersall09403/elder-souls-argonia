@@ -137,6 +137,34 @@ def _slope_deg(g, x, z, r=FLAT_R_M) -> float:
     return worst
 
 
+ROUTE_BUNDLES = "province/settlements/routes"   # under paths.PUBLIC
+HANDOVER_M = 0.5        # a step-off cell this close to a route structure's outline hands over to it
+
+
+def route_structure_outlines(cat, bbox, pad=30.0) -> list[tuple[str, object]]:
+    """[(placement id, plan polygon)] of the frozen route compile's structures
+    (stairs, landings: `compile_route_structures`, published in the route
+    bundles) within ``pad`` of ``bbox`` (x0, z0, x1, z1). A run end that steps
+    onto one hands the walker to it (type 10: the river crossing ends at the
+    foot of a route stair), so its bank is not the run's step-off."""
+    import json
+    from shapely.geometry import Polygon
+    from . import paths
+    from .scene import Piece
+    out = []
+    for f in sorted((paths.PUBLIC / ROUTE_BUNDLES).glob("*.json")):
+        for pl in json.loads(f.read_text()).get("placements", []):
+            if pl.get("kind") != "route-structure":
+                continue
+            x, _y, z = pl["positionM"]
+            if not (bbox[0] - pad <= x <= bbox[2] + pad and bbox[1] - pad <= z <= bbox[3] + pad):
+                continue
+            piece = Piece(pl["id"], pl["assetId"], x, z, float(pl.get("yawDeg") or 0.0),
+                          scale=float(pl.get("scale") or 1.0))
+            out.append((pl["id"], Polygon(measure.footprint_province(cat, piece))))
+    return out
+
+
 def _step_off_slope_deg(g, x, z, out, reach=STEP_OFF_M, half=STEP_OFF_HALF_M, step=0.5,
                         base=STEP_OFF_BASE_M) -> tuple:
     """Steepest slope (over ``base`` metres) of the dry ground a walker steps onto off a run's
@@ -557,6 +585,8 @@ def walkway(cat, scene, ys: dict | None = None) -> dict:
     allp = np.array([p for _k, _i, pts, _d in lines for p in pts])
     world = _World(cat, scene, (allp[:, 0].min(), allp[:, 1].min(), allp[:, 0].max(), allp[:, 1].max()))
     runs, doors, fails = {}, {}, []
+    route_outlines = route_structure_outlines(
+        cat, (allp[:, 0].min(), allp[:, 1].min(), allp[:, 0].max(), allp[:, 1].max()))
     for d, threshold in door_openings(cat, scene, reports):
         for u in door_fixtures(cat, scene, d, threshold):
             fails.append(f"{d['id']}~{u}: {d['id']} a hung or standing fixture ({u}) inside the "
@@ -576,12 +606,17 @@ def walkway(cat, scene, ys: dict | None = None) -> dict:
             side, side_at = _step_off_slope_deg(g, x, z, ((bx - ax) / dl, (bz - az) / dl))
             row[end] = {"xz": [round(x, 2), round(z, 2)], "slopeDeg": round(sl, 1),
                         "stepOffDeg": round(side, 1), "stepOffXz": side_at}
+            from shapely.geometry import Point
+            handover = next((sid for sid, poly in route_outlines
+                             if poly.distance(Point(*side_at)) <= HANDOVER_M), None)
+            if handover is not None:
+                row[end]["handover"] = handover
             if sl > FLAT_DEG:
                 row["blocks"].append({"kind": "not-flat", "atM": 0.0 if end == "start" else row["lengthM"],
                                       "xz": [round(x, 2), round(z, 2)], "uid": "ground",
                                       "why": f"the {end} stands on ground {sl:.1f} deg steep "
                                              f"(> {FLAT_DEG}): move it onto the flat ground beside it"})
-            elif side > FLAT_DEG:
+            elif side > FLAT_DEG and handover is None:
                 row["blocks"].append({"kind": "bump-on-step-off", "atM": 0.0 if end == "start" else row["lengthM"],
                                       "xz": side_at, "uid": "ground",
                                       "why": f"the ground a walker steps onto off the {end} ({STEP_OFF_M} m on, "
