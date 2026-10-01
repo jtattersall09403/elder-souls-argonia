@@ -5,7 +5,7 @@
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-hist-heartland.json",
-   "sha256": "7ffb6e9000e5aeb1a471fe7e3a753a9630035f2d98079d6f2561d74cd610f0e3"
+   "sha256": "6a84cb07e50606eac404f33416b956e08e630f38eef1f5d8d92b1de9db125544"
   },
   {
    "file": "world/sources/quests/local-hist-heartland.json",
@@ -130,11 +130,8 @@
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].vibe.approach"
    },
-   "text": "Coming up from the landing, the black river water gives way to a small clear pool ringed in grey stones. Frond smoke from the cookfires reaches the landing before the houses are in sight.",
-   "confirmed": {
-    "sha": "d385dcba56fc",
-    "note": "Built 2.5 m spring pool ringed by rock cairns above the plank landing on body.2442-1212."
-   }
+   "text": "Coming up from the landing, the black river water gives way to a small clear pool under the Hist. Frond smoke from the cookfires reaches the landing before the houses are in sight.",
+   "confirmed": null
   },
   {
    "id": "promise.greenspring.prose-vibe-condition",
@@ -156,11 +153,8 @@
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].vibe.materials"
    },
-   "text": "a hide tent beside the spring; mud-walled pods and bamboo huts; rough stones set round the spring; a plank landing on the bank",
-   "confirmed": {
-    "sha": "bb8ea88c79b5",
-    "note": "argoniantent02 beside the spring, Keeba pods and bamboo huts, rock cairns, plank_ferry landing."
-   }
+   "text": "a hide tent beside the spring; mud-walled pods and bamboo huts; a plank landing on the bank",
+   "confirmed": null
   },
   {
    "id": "promise.greenspring.prose-vibe-mood",
@@ -182,11 +176,8 @@
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].vibe.palette"
    },
-   "text": "grey stones round a pool of clear water, a green crown thinning to open sky above, painted urns along the yards, mud churned brown at the landing",
-   "confirmed": {
-    "sha": "85b41f78a5f9",
-    "note": "Rock cairns ring the pool; painted urns in every yard; the landing on the bank."
-   }
+   "text": "a pool of clear water, a green crown thinning to open sky above, painted urns along the yards, mud churned brown at the landing",
+   "confirmed": null
   },
   {
    "id": "promise.greenspring.prose-vibe-senses",
@@ -208,11 +199,8 @@
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].vibe.signatureFeature"
    },
-   "text": "Water drunk without ceremony, dipped from a stone-ringed pool that visitors are expected to taste before they speak.",
-   "confirmed": {
-    "sha": "1f21f6cbb2b7",
-    "note": "The spring pool (pool op) ringed by sp-rim stones with an urn beside it."
-   }
+   "text": "Water drunk without ceremony, dipped from the clear pool under the Hist that visitors are expected to taste before they speak.",
+   "confirmed": null
   },
   {
    "id": "promise.greenspring.prose-vibe-silhouette",
@@ -221,11 +209,8 @@
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].vibe.silhouette"
    },
-   "text": "a sick crown leaning out over the river bank, with the spring ringed in grey stones below it",
-   "confirmed": {
-    "sha": "84235f6882d2",
-    "note": "landmark.greenspring.the-hist over the bank with the stone-ringed pool below."
-   }
+   "text": "a sick crown leaning over the spring and the huts round it",
+   "confirmed": null
   },
   {
    "id": "promise.greenspring.prose-why-founding",

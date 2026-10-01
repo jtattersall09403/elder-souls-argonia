@@ -5,7 +5,7 @@
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-imperial-fringe.json",
-   "sha256": "e3d6345a7944aa0520765068d9e0fb848e3ef23bd74e26e739664a47ff7dc101"
+   "sha256": "966ecbef7029d82fb5f6f70d85993c6868692f0430664107988ee1ed77008143"
   },
   {
    "file": "world/sources/quests/local-imperial-fringe.json",
@@ -188,11 +188,8 @@
     "file": "world/sources/catalogue/places-imperial-fringe.json",
     "path": "places[place.imperial-fringe.the-broke-column].why.founding"
    },
-   "text": "When the Legion was recalled, two centuries ago, not every man on the border road went with it. Those who stayed were never paid off. Their grandsons keep the roster and wear the colours still.",
-   "confirmed": {
-    "sha": "501afc8975ca",
-    "note": "Lore (history-timeline.md:73; argonia-4e201-state.md:484): the recall was two centuries ago, so the camp is held by the column's grandsons; the record says so."
-   }
+   "text": "When the Legion was recalled, two centuries ago, part of the column on the border road deserted rather than march. They had not been paid. Nobody came back to pay them. Their grandsons keep the roster and wear the colours still.",
+   "confirmed": null
   },
   {
    "id": "promise.the-broke-column.prose-why-occupantsmotive",
@@ -214,11 +211,8 @@
     "file": "world/sources/catalogue/places-imperial-fringe.json",
     "path": "places[place.imperial-fringe.the-broke-column].why.pressures"
    },
-   "text": "Gideon's council will not pay to clear them. The toll company would rather use them.",
-   "confirmed": {
-    "sha": "055ba09589f7",
-    "note": "World: Gideon's anchor is 0.32 km east; the toll company and its toll-takers hold Fort Swampmoth 0.15 km south-west."
-   }
+   "text": "Gideon's governor will not pay to clear them. The toll company's officers would rather use them.",
+   "confirmed": null
   },
   {
    "id": "promise.the-broke-column.prose-why-siteadvantages",
@@ -227,11 +221,8 @@
     "file": "world/sources/catalogue/places-imperial-fringe.json",
     "path": "places[place.imperial-fringe.the-broke-column].why.siteAdvantages"
    },
-   "text": "A bench on the hill above the junction of the Mile House and Swampmoth tracks, out of sight of the Gideon road, with cover uphill and the stream's ravine below for falling back.",
-   "confirmed": {
-    "sha": "81b5c2784a01",
-    "note": "Built: the bench above the junction of the Mile House and Swampmoth tracks; the hill rises behind it; the stream ravine lies below at the junction."
-   }
+   "text": "A bench by a spring-fed tarn in the hills above the Mile House track, out of sight of the Gideon road, with cover uphill.",
+   "confirmed": null
   },
   {
    "id": "promise.the-broke-column.prose-why-wouldchangeif",

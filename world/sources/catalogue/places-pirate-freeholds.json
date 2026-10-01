@@ -3842,7 +3842,7 @@
             "to": "hostile",
             "when": {
               "questStage": [
-                "quest.mq.01",
+                "quest.main.mq01",
                 "≥",
                 60
               ]
@@ -7126,7 +7126,9 @@
           "place.pirate-freeholds.alten-corimont"
         ],
         "supplies": [
-          "place.pirate-freeholds.alten-corimont"
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.corimont-hiring-yard",
+          "place.pirate-freeholds.opening-work-camp"
         ],
         "rivals": [],
         "patrols": [],
@@ -7162,7 +7164,7 @@
             "to": "hostile",
             "when": {
               "questStage": [
-                "quest.mq.01",
+                "quest.main.mq01",
                 "≥",
                 30
               ]
@@ -7173,7 +7175,7 @@
             "to": "neutral",
             "when": {
               "questStage": [
-                "quest.mq.01",
+                "quest.main.mq01",
                 "≥",
                 60
               ]
@@ -7359,7 +7361,7 @@
       "occupants": [
         "D1 gang families",
         "D1 clutch-keeper",
-        "D2 camp overseer"
+        "D1 camp overseers"
       ],
       "notableNpcSlots": [
         {
@@ -7483,7 +7485,7 @@
             "to": "friendly",
             "when": {
               "questStage": [
-                "quest.mq.01",
+                "quest.main.mq01",
                 "≥",
                 60
               ]
@@ -13186,7 +13188,7 @@
             "to": "friendly",
             "when": {
               "questStage": [
-                "quest.mq.01",
+                "quest.main.mq01",
                 "≥",
                 40
               ]

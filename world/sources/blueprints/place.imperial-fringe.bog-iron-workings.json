@@ -134,7 +134,7 @@
           "whyHere": "The seep's ore is carried up to the first level ground, where a furnace can stand dry.",
           "whySpot": "The bench is the last firm ground before the bank drops to the seep.",
           "whyNeighbours": "The keeper's lodge of the lower Onkobra is 95 m west; the porter yard at Red Cart is 200 m north-west.",
-          "playerPurpose": "A place to take bog iron, and the way to the seep LF67 turns on.",
+          "playerPurpose": "A place to take bog iron. The way down leads to the seep where LF67 starts.",
           "microGeography": "A firm bench, level to within a degree, falling east to a steep bank and the seep."
         }
       }
@@ -153,7 +153,7 @@
         ],
         "orientationWhy": "Its door turns east-south-east toward the furnace floor and the way from the road.",
         "why": {
-          "what": "The diggers' hut, a mud pod the season's crew sleeps in.",
+          "what": "The diggers' hut, a mud pod where the season's crew sleeps.",
           "whyHere": "The diggers come for one season and need a roof near the furnace.",
           "whySpot": "The flattest part of the bench, west of the furnace floor and clear of the road.",
           "whyNeighbours": "The furnace floor is 15 m east; the way from the seep track ends at its door.",
@@ -164,7 +164,7 @@
           {
             "kind": "witness",
             "tier": "medium",
-            "note": "The season's crew know which end of the seep they stopped working, and what took the last digger who went there (LF67)."
+            "note": "The season's crew know which end of the seep they stopped working. They also know what took the last digger who went there (LF67)."
           }
         ],
         "assetRef": "composite:mud/kotm-house-pod",
@@ -1127,7 +1127,7 @@
       "households": 0,
       "buildingsPlanned": 1,
       "npcsPlanned": 1,
-      "why": "A season's crew of three to six from three villages: one hut to sleep in, and a furnace floor beside it."
+      "why": "A season's crew of three to six from three villages: one sleeping hut with a furnace floor beside it."
     },
     "siting": {
       "dossier": "world/sources/sites/dossiers/bog-iron-workings.json",

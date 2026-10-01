@@ -14230,7 +14230,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Argonians die in the Rose and their bones must reach the dirt; the Chainbreakers built a station near the Prison road to receive them.",
-        "siteAdvantages": "A dry rise between the Prison road and the tracks east to the villages, where the Rose's people hand a body to the villages' people.",
+        "siteAdvantages": "A dry rise beside the Prison road, where the Rose's people hand a body to the villages' people.",
         "occupantsMotive": "The Rose's families release the dead here for a fee they call a carriage charge; the Chainbreakers pay it and record every payment.",
         "pressures": "The fee is the most resented transaction in the south, but both sides need it to continue.",
         "wouldChangeIf": "The Rose refusing to release the dead would end the arrangement and put the Chainbreakers and the families in open conflict."
@@ -14253,11 +14253,6 @@
           ],
           "neighbourRelation": "between a carceral site and the interior",
           "densityGradient": "Rose approach, moderate"
-        },
-        "nearPoint": {
-          "x": 2525.2,
-          "z": 6303.3,
-          "maxM": 150.0
         }
       },
       "relations": {
@@ -14303,7 +14298,7 @@
       },
       "vibe": {
         "palette": "Tag-bone white, cloth grey, trodden mud.",
-        "signatureFeature": "A thatched handover shelter on a dry rise: chimes hung with bone-tags under the eave on the Rose's side, a wrapping bench on the villages' side; a row of candles across the floor between them.",
+        "signatureFeature": "A handover shelter on a dry rise, with the tag-keeper's hut beside it and a brazier between them.",
         "mood": "Formal and unhappy."
       },
       "assetPlan": [

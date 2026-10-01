@@ -5,7 +5,7 @@
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-saxhleel-coast.json",
-   "sha256": "47e1284d63669475a951cf840d026d768ea3b7f31be8027c7577fc58caf234c0"
+   "sha256": "ebcfabda2fc2ec302ee9cd19abef266bb8e2f3d3a8be001bc3228230021e6c64"
   },
   {
    "file": "world/sources/quests/local-saxhleel-coast.json",
@@ -40,11 +40,8 @@
     "file": "world/sources/catalogue/places-saxhleel-coast.json",
     "path": "places[place.saxhleel-coast.jungle-root-hollow].playerPurpose.hook"
    },
-   "text": "A lair dug into the root layer, an hour off the last hunting path. The bone scatter at its mouth holds three generations of other people's tools.",
-   "confirmed": {
-    "sha": "fb30eeec5a93",
-    "note": "The mouth is a cave in a rock bank over King of the Murkmire's root cave (MugsumpHollowInt01, Hist roots in its walls); bones and three dropped tools lie in front of it; no way reaches it, 888 m from the archon-gideon road."
-   }
+   "text": "A lair dug into the root layer west of the hiring camp. The bone scatter at its mouth holds three generations of tools taken from foragers.",
+   "confirmed": null
   },
   {
    "id": "promise.jungle-root-hollow.prose-questhooks-opportunity",
@@ -157,11 +154,8 @@
     "file": "world/sources/catalogue/places-saxhleel-coast.json",
     "path": "places[place.saxhleel-coast.jungle-root-hollow].vibe.silhouette"
    },
-   "text": "a cave mouth in a bank, collared with hist root, bones outside it",
-   "confirmed": {
-    "sha": "14507c50f2d1",
-    "note": "A cave mouth in a 19.5 m rock mound (the bank), a Hist vine mass standing at its right-hand side, bones outside it."
-   }
+   "text": "a cave mouth among the roots of the canopy giants, bones outside it",
+   "confirmed": null
   },
   {
    "id": "promise.jungle-root-hollow.prose-why-founding",

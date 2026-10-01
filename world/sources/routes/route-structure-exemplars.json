@@ -14,8 +14,8 @@
    "settingClass": "wild",
    "condition": "worn",
    "why": {
-    "founding": "The Border road was laid on a Dunmer line from Stormhold to Thorn. West of the Greenspring track it drops off the ridge into the marsh where an inlet stream meets the river.",
-    "siteAdvantages": "The road keeps to the dry strip at the mountain foot and crosses water only where it must: the inlet mouth and one reach of the river marsh, where the water stands half a metre to a metre and a quarter deep.",
+    "founding": "The Border road was laid on a Dunmer line from Stormhold to Thorn. West of the Greenspring track it drops off the ridge into the river marsh.",
+    "siteAdvantages": "The road keeps to the dry strip at the mountain foot and crosses water only where it must: two reaches of the river marsh, where the water stands half a metre to a metre and a quarter deep.",
     "occupantsMotive": "Nobody lives on the crossings. Greenspring keeps the planks because its trade goes out along this road.",
     "pressures": "The marsh rots a pile in a few seasons. The planks are of different ages and some are patched.",
     "wouldChangeIf": "A stone causeway would replace the planks if anyone paid for one."
@@ -29,7 +29,7 @@
     {"kind": "deck", "id": "structure.border-road-greenspring-crossings.inlet", "crossingId": "crossing.major.012", "junctionId": "junction.pin.stormhold-thorn.inlet-mouth", "builtBy": "this-place"},
     {"kind": "stair", "id": "structure.road-stormhold-thorn.12", "builtBy": "route-compile"},
     {"kind": "lip-step", "id": "structure.road-stormhold-thorn.15", "builtBy": "route-compile", "status": "pending: packet", "pendingWhy": "not on this stretch: it stands 480 m east of Greenspring inside the Two-Gate Bridge's ground, which places it when that place is built"},
-    {"kind": "ferry-crossing", "id": "ferry.imperial-fringe.drowning-gate", "builtBy": "place.imperial-fringe.claywater-station"}
+    {"kind": "ferry-crossing", "id": "ferry.imperial-fringe.drowning-gate", "builtBy": "place.imperial-fringe.claywater-station", "status": "pending: packet", "pendingWhy": "not on this stretch: the Drowning Gate ferry serves the Gideon-Blackwood road and is built at Claywater Station"}
    ],
    "dressingRules": "docs/research/placement-settlements/road-dressing.md",
    "dressingEvidence": "world/sources/placement/vanilla-roadside-dressing.json"

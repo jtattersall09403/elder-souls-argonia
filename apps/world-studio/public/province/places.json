@@ -11315,7 +11315,7 @@
         "clearable": true,
         "respawn": "none",
         "flips": [
-          "→ neutral when questStage quest.mq.22 ≥ 20"
+          "→ neutral when questStage quest.main.mq22 ≥ 20"
         ]
       },
       "interiorDetail": {
@@ -12321,7 +12321,7 @@
         "clearable": false,
         "respawn": "none",
         "flips": [
-          "→ hostile when questStage quest.mq.07 ≥ 70 [occupantGroup]"
+          "→ hostile when questStage quest.main.mq07 ≥ 70 [occupantGroup]"
         ]
       },
       "interiorDetail": {
@@ -26733,8 +26733,8 @@
         "clearable": true,
         "respawn": "faction-refills",
         "flips": [
-          "→ hostile when questStage quest.mq.18 ≥ 70",
-          "→ neutral when questStage quest.mq.22 ≥ 20"
+          "→ hostile when questStage quest.main.mq18 ≥ 70",
+          "→ neutral when questStage quest.main.mq22 ≥ 20"
         ]
       },
       "interiorDetail": {
@@ -28907,7 +28907,7 @@
       "discovery": "none",
       "valueTier": "tier-1",
       "purpose": "resource-source (real) + social-drama",
-      "hook": "Iron lifts out of the mud here in cakes. The diggers in the north cut allow a visitor to take what they can carry.",
+      "hook": "Iron lifts out of the mud here in cakes. The seasonal diggers allow a visitor to take what they can carry.",
       "stance": "guarded",
       "interior": "building · dwelling · S1 · wet 0%",
       "purposeDetail": {
@@ -36816,16 +36816,15 @@
       },
       "whySiteWon": "spring head in upland hills (danger band 2), 165 m from the nearest route; at the water's edge; won on nearPoint, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'.",
       "why": {
-        "founding": "When the Legion was recalled, two centuries ago, not every man on the border road went with it. Those who stayed were never paid off. Their grandsons keep the roster and wear the colours still.",
-        "siteAdvantages": "A bench on the hill above the junction of the Mile House and Swampmoth tracks, out of sight of the Gideon road, with cover uphill and the stream's ravine below for falling back.",
+        "founding": "When the Legion was recalled, two centuries ago, part of the column on the border road deserted rather than march. They had not been paid. Nobody came back to pay them. Their grandsons keep the roster and wear the colours still.",
+        "siteAdvantages": "A bench by a spring-fed tarn in the hills above the Mile House track, out of sight of the Gideon road, with cover uphill.",
         "occupantsMotive": "They keep watches and wear the colours. What they take, they call a levy.",
-        "pressures": "Gideon's council will not pay to clear them. The toll company would rather use them.",
+        "pressures": "Gideon's governor will not pay to clear them. The toll company's officers would rather use them.",
         "wouldChangeIf": "Would disband inside a season if Gideon offered them a pardon and a wage."
       },
       "hardConstraints": [
-        "on the road, at a blind bend between two settlements a day apart",
         "cover on the uphill side",
-        "overlooking the Blackwood Road at a bend, with the ambush sightline and a channel exit behind it"
+        "off the road and out of sight of it"
       ],
       "reachedVia": [
         "place.imperial-fringe.mile-house-of-the-eagle",
@@ -46947,7 +46946,7 @@
       "whySiteWon": "Reseated (2026-09-23): Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2484.1, 6426.8, less than 275 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2579.6, 6565.9 (275.5 m from the centre, 168.7 m move).",
       "why": {
         "founding": "Argonians die in the Rose and their bones must reach the dirt; the Chainbreakers built a station near the Prison road to receive them.",
-        "siteAdvantages": "A dry rise between the Prison road and the tracks east to the villages, where the Rose's people hand a body to the villages' people.",
+        "siteAdvantages": "A dry rise beside the Prison road, where the Rose's people hand a body to the villages' people.",
         "occupantsMotive": "The Rose's families release the dead here for a fee they call a carriage charge; the Chainbreakers pay it and record every payment.",
         "pressures": "The fee is the most resented transaction in the south, but both sides need it to continue.",
         "wouldChangeIf": "The Rose refusing to release the dead would end the arrangement and put the Chainbreakers and the families in open conflict."
@@ -62458,7 +62457,7 @@
         "clearable": true,
         "respawn": "slow",
         "flips": [
-          "→ hostile when questStage quest.mq.01 ≥ 60 [occupantGroup]"
+          "→ hostile when questStage quest.main.mq01 ≥ 60 [occupantGroup]"
         ]
       },
       "interiorDetail": {
@@ -63314,8 +63313,8 @@
         "clearable": false,
         "respawn": "none",
         "flips": [
-          "→ hostile when questStage quest.mq.01 ≥ 30",
-          "→ neutral when questStage quest.mq.01 ≥ 60"
+          "→ hostile when questStage quest.main.mq01 ≥ 30",
+          "→ neutral when questStage quest.main.mq01 ≥ 60"
         ]
       },
       "interiorDetail": {
@@ -63447,7 +63446,7 @@
         "clearable": false,
         "respawn": "none",
         "flips": [
-          "→ friendly when questStage quest.mq.01 ≥ 60"
+          "→ friendly when questStage quest.main.mq01 ≥ 60"
         ]
       },
       "interiorDetail": {
@@ -64521,7 +64520,7 @@
         "clearable": false,
         "respawn": "none",
         "flips": [
-          "→ friendly when questStage quest.mq.01 ≥ 40"
+          "→ friendly when questStage quest.main.mq01 ≥ 40"
         ]
       },
       "interiorDetail": {
@@ -66908,7 +66907,7 @@
       "discovery": "none",
       "valueTier": "tier-3",
       "purpose": "dungeon-delve (real) + unique-item, hidden-secret",
-      "hook": "A lair dug into the root layer, an hour off the last hunting path. The bone scatter at its mouth holds three generations of other people's tools.",
+      "hook": "A lair dug into the root layer west of the hiring camp. The bone scatter at its mouth holds three generations of tools taken from foragers.",
       "stance": "hostile",
       "interior": "delve · root-cavern · S2 · wet 0%",
       "purposeDetail": {

@@ -29205,7 +29205,7 @@
             "to": "neutral",
             "when": {
               "questStage": [
-                "quest.mq.22",
+                "quest.main.mq22",
                 "≥",
                 20
               ]
@@ -32106,7 +32106,7 @@
             "to": "hostile",
             "when": {
               "questStage": [
-                "quest.mq.07",
+                "quest.main.mq07",
                 "≥",
                 70
               ]

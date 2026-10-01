@@ -10854,7 +10854,7 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "a cave mouth in a bank, collared with hist root, bones outside it",
+        "silhouette": "a cave mouth among the roots of the canopy giants, bones outside it",
         "palette": "black, bone white, root brown",
         "materials": "root-walled rock, bone, dragged belongings",
         "signatureFeature": "the bone scatter outside contains three generations of other people's tools",
@@ -10918,7 +10918,7 @@
           "hidden-secret"
         ],
         "impact": "real",
-        "hook": "A lair dug into the root layer, an hour off the last hunting path. The bone scatter at its mouth holds three generations of other people's tools.",
+        "hook": "A lair dug into the root layer west of the hiring camp. The bone scatter at its mouth holds three generations of tools taken from foragers.",
         "reviewed": true
       },
       "interior": {

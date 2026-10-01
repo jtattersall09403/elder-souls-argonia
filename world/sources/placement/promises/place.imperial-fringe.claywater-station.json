@@ -5,7 +5,7 @@
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-imperial-fringe.json",
-   "sha256": "e5f67c2e0356b80306d92b882fcf429ba446f07e36dfb704dbe4afa1882f4e58"
+   "sha256": "966ecbef7029d82fb5f6f70d85993c6868692f0430664107988ee1ed77008143"
   },
   {
    "file": "world/sources/quests/local-imperial-fringe.json",
@@ -363,16 +363,6 @@
     "path": "places[place.imperial-fringe.claywater-station].services[stable]"
    },
    "text": "Claywater Station offers the stable service.",
-   "unfilled": null
-  },
-  {
-   "id": "promise.claywater-station.service-trader",
-   "kind": "service",
-   "source": {
-    "file": "world/sources/catalogue/places-imperial-fringe.json",
-    "path": "places[place.imperial-fringe.claywater-station].services[trader]"
-   },
-   "text": "Claywater Station offers the trader service.",
    "unfilled": null
   }
  ]

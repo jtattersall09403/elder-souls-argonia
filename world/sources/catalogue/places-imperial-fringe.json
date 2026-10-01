@@ -320,13 +320,13 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "silhouette": "A squat clay furnace and its black charcoal bed on a bench, a mud hut beside them, the seep below the bank.",
+        "silhouette": "A squat clay furnace and its black charcoal bed on a bench, a mud hut west of them, the seep below the bank.",
         "palette": "Charcoal black, grey furnace clay, dark peat water.",
-        "materials": "A clay furnace, a timber woodpile and reed baskets, renewed every season.",
+        "materials": "A clay furnace and a mud hut, renewed every season.",
         "signatureFeature": "The furnace stands on a levelled floor above the seep, its charcoal bed spread before its mouth.",
         "condition": "Rebuilt every season, because the furnace is broken open to get the bloom out.",
         "mood": "Purposeful.",
-        "approach": "The seep shows through the reeds below the bench well before the workings do.",
+        "approach": "The seep shows through the ferns below the bench well before the workings do.",
         "senses": "Sucking mud; a hollow ring when a bloom is struck; sulphur."
       },
       "assetPlan": [
@@ -421,7 +421,7 @@
           "social-drama"
         ],
         "impact": "real",
-        "hook": "Iron lifts out of the mud here in cakes. The diggers in the north cut allow a visitor to take what they can carry.",
+        "hook": "Iron lifts out of the mud here in cakes. The seasonal diggers allow a visitor to take what they can carry.",
         "reviewed": true
       },
       "interior": {
@@ -2339,12 +2339,7 @@
           "a well head",
           "a landing"
         ],
-        "scourSiteIds": [],
-        "nearPoint": {
-          "x": 729.0,
-          "z": 3208.0,
-          "maxM": 300.0
-        }
+        "scourSiteIds": []
       },
       "relations": {
         "dependsOn": [
@@ -2420,8 +2415,7 @@
         "bmv-round-huts",
         "signage-blank",
         "landmark-civic",
-        "clutter",
-        "market-tents"
+        "clutter"
       ],
       "discovery": "road",
       "questHooks": {
@@ -2550,8 +2544,7 @@
       "services": [
         "ferry",
         "lodging",
-        "stable",
-        "trader"
+        "stable"
       ]
     },
     {
@@ -19294,10 +19287,10 @@
       ],
       "confidence": "LORE_IMPLIED",
       "why": {
-        "founding": "When the Legion was recalled, two centuries ago, not every man on the border road went with it. Those who stayed were never paid off. Their grandsons keep the roster and wear the colours still.",
-        "siteAdvantages": "A bench on the hill above the junction of the Mile House and Swampmoth tracks, out of sight of the Gideon road, with cover uphill and the stream's ravine below for falling back.",
+        "founding": "When the Legion was recalled, two centuries ago, part of the column on the border road deserted rather than march. They had not been paid. Nobody came back to pay them. Their grandsons keep the roster and wear the colours still.",
+        "siteAdvantages": "A bench by a spring-fed tarn in the hills above the Mile House track, out of sight of the Gideon road, with cover uphill.",
         "occupantsMotive": "They keep watches and wear the colours. What they take, they call a levy.",
-        "pressures": "Gideon's council will not pay to clear them. The toll company would rather use them.",
+        "pressures": "Gideon's governor will not pay to clear them. The toll company's officers would rather use them.",
         "wouldChangeIf": "Would disband inside a season if Gideon offered them a pardon and a wage."
       },
       "sitingPrefs": {
@@ -19310,23 +19303,17 @@
           "enclosed-clearing",
           "any-firm-ground"
         ],
-        "waterRelation": "a stream in the ravine at its back",
-        "neighbourRelation": "on the border road, between two settlements a day apart",
+        "waterRelation": "a spring tarn at its back",
+        "neighbourRelation": "off the Gideon road, within a walk of the Mile House",
         "hardConstraints": [
-          "on the road, at a blind bend between two settlements a day apart",
           "cover on the uphill side",
-          "overlooking the Blackwood Road at a bend, with the ambush sightline and a channel exit behind it"
+          "off the road and out of sight of it"
         ],
         "preferences": [
           "a blind bend",
           "a fallback line"
         ],
-        "scourSiteIds": [],
-        "nearPoint": {
-          "x": 945.9,
-          "z": 3150.3,
-          "maxM": 150.0
-        }
+        "scourSiteIds": []
       },
       "relations": {
         "supplies": [],
@@ -19497,10 +19484,6 @@
         {
           "sourcePath": "why.pressures",
           "placeRef": "place.imperial-fringe.gideon"
-        },
-        {
-          "sourcePath": "why.pressures",
-          "serviceRef": "council"
         },
         {
           "sourcePath": "why.wouldChangeIf",

@@ -5,7 +5,7 @@
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-pirate-freeholds.json",
-   "sha256": "0d077031368df32203402f8d3b2d0565d77eeb1caa71dc56fc5b3a992bcf4585"
+   "sha256": "e4743ea13f68542f4748ae7e68ce03a0568ef25ccfc9439c9c6af142ca894189"
   },
   {
    "file": "world/sources/quests/quests-main.json",

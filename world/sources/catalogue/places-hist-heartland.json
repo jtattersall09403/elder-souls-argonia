@@ -8005,13 +8005,13 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "a sick crown leaning out over the river bank, with the spring ringed in grey stones below it",
-        "palette": "grey stones round a pool of clear water, a green crown thinning to open sky above, painted urns along the yards, mud churned brown at the landing",
-        "materials": "a hide tent beside the spring; mud-walled pods and bamboo huts; rough stones set round the spring; a plank landing on the bank",
-        "signatureFeature": "Water drunk without ceremony, dipped from a stone-ringed pool that visitors are expected to taste before they speak.",
+        "silhouette": "a sick crown leaning over the spring and the huts round it",
+        "palette": "a pool of clear water, a green crown thinning to open sky above, painted urns along the yards, mud churned brown at the landing",
+        "materials": "a hide tent beside the spring; mud-walled pods and bamboo huts; a plank landing on the bank",
+        "signatureFeature": "Water drunk without ceremony, dipped from the clear pool under the Hist that visitors are expected to taste before they speak.",
         "condition": "well kept in the yards used daily, threadbare a step off the path",
         "mood": "hospitable, tired, professionally patient",
-        "approach": "Coming up from the landing, the black river water gives way to a small clear pool ringed in grey stones. Frond smoke from the cookfires reaches the landing before the houses are in sight.",
+        "approach": "Coming up from the landing, the black river water gives way to a small clear pool under the Hist. Frond smoke from the cookfires reaches the landing before the houses are in sight.",
         "senses": "cold mineral water tasted before a word is spoken; wet rope and boat tar at the landing; voices bartering over bed and rope prices; frond smoke drifting from cookfires at dusk"
       },
       "assetPlan": [
@@ -24611,7 +24611,7 @@
             "to": "hostile",
             "when": {
               "questStage": [
-                "quest.mq.18",
+                "quest.main.mq18",
                 "≥",
                 70
               ]
@@ -24622,7 +24622,7 @@
             "to": "neutral",
             "when": {
               "questStage": [
-                "quest.mq.22",
+                "quest.main.mq22",
                 "≥",
                 20
               ]

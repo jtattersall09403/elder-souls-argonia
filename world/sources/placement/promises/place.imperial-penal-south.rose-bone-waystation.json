@@ -1,243 +1,237 @@
 {
-  "schemaVersion": 1,
-  "placeId": "place.imperial-penal-south.rose-bone-waystation",
-  "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
-  "derivedFrom": [
-    {
-      "file": "world/sources/catalogue/places-imperial-penal-south.json",
-      "sha256": "89d91073da81ac07dbc120b21e11017ab98734d6694c3e76a6f15ee5024f58c6"
-    },
-    {
-      "file": "world/sources/quests/local-imperial-penal-south.json",
-      "sha256": "cd10b67afb35343f9c855af2e658b08363d018a2abbeb73e2af6dfe69b956324"
-    },
-    {
-      "file": "world/sources/quests/quests-factions.json",
-      "sha256": "92f935e9fe9b1ac016732f03f7c72ea3fc5a038cbad4ea4bb6302e86642c07c1"
-    }
-  ],
-  "promises": [
-    {
-      "id": "promise.rose-bone-waystation.evidence-tag-house-carriage-charges",
-      "kind": "socketBucket",
-      "source": {
-        "file": "world/sources/catalogue/places-imperial-penal-south.json",
-        "path": "places[place.imperial-penal-south.rose-bone-waystation].sockets.evidence[evidence.tag-house.carriage-charges]"
-      },
-      "text": "The Tag House has the evidence socket evidence.tag-house.carriage-charges.",
-      "unfilled": null
-    },
-    {
-      "id": "promise.rose-bone-waystation.interior-principal",
-      "kind": "interior",
-      "source": {
-        "file": "world/sources/catalogue/places-imperial-penal-south.json",
-        "path": "places[place.imperial-penal-south.rose-bone-waystation].interior"
-      },
-      "text": "The Tag House's principal interior is a civic-hall (S1), entered by 1 door.",
-      "unfilled": null
-    },
-    {
-      "id": "promise.rose-bone-waystation.occupant-tag-keeper",
-      "kind": "occupant",
-      "source": {
-        "file": "world/sources/catalogue/places-imperial-penal-south.json",
-        "path": "places[place.imperial-penal-south.rose-bone-waystation].notableNpcSlots[tag-keeper]"
-      },
-      "text": "The tag-keeper lives and works at The Tag House.",
-      "unfilled": null
-    },
-    {
-      "id": "promise.rose-bone-waystation.prose-playerpurpose-hook",
-      "kind": "prose",
-      "source": {
-        "file": "world/sources/catalogue/places-imperial-penal-south.json",
-        "path": "places[place.imperial-penal-south.rose-bone-waystation].playerPurpose.hook"
-      },
-      "text": "The Rose's families will not release a body without a fee; the Chainbreakers pay it at this shelter.",
-      "confirmed": {
-        "sha": "fb3fcbaa5a36",
-        "note": "The tag-keeper's npc socket stands at the shelter front; the fee is counted at the keeper's table by the hut door."
-      }
-    },
-    {
-      "id": "promise.rose-bone-waystation.prose-questhooks-opportunity",
-      "kind": "prose",
-      "source": {
-        "file": "world/sources/catalogue/places-imperial-penal-south.json",
-        "path": "places[place.imperial-penal-south.rose-bone-waystation].questHooks.opportunity"
-      },
-      "text": "A quest could start with a bone-tag returned for somebody who is demonstrably alive.",
-      "confirmed": {
-        "sha": "0e702170baa1",
-        "note": "Bone-tags hang as bone chimes in the shelter (s-chime1, s-chime2) and on the keeper's hut (k-tags); the ledger lies at the keeper's table."
-      }
-    },
-    {
-      "id": "promise.rose-bone-waystation.prose-vibe-mood",
-      "kind": "prose",
-      "source": {
-        "file": "world/sources/catalogue/places-imperial-penal-south.json",
-        "path": "places[place.imperial-penal-south.rose-bone-waystation].vibe.mood"
-      },
-      "text": "Formal and unhappy.",
-      "confirmed": {
-        "sha": "b487642dab4b",
-        "note": "A bare handover shelter, a waiting bench and brazier outside its west corner, a row of candles across its floor."
-      }
-    },
-    {
-      "id": "promise.rose-bone-waystation.prose-vibe-palette",
-      "kind": "prose",
-      "source": {
-        "file": "world/sources/catalogue/places-imperial-penal-south.json",
-        "path": "places[place.imperial-penal-south.rose-bone-waystation].vibe.palette"
-      },
-      "text": "Tag-bone white, cloth grey, trodden mud.",
-      "confirmed": {
-        "sha": "d88d888b7bae",
-        "note": "Bone chimes, grey wrapped bundles (miscsacklargeflat01), trodden earth on the levelled pads."
-      }
-    },
-    {
-      "id": "promise.rose-bone-waystation.prose-vibe-signaturefeature",
-      "kind": "prose",
-      "source": {
-        "file": "world/sources/catalogue/places-imperial-penal-south.json",
-        "path": "places[place.imperial-penal-south.rose-bone-waystation].vibe.signatureFeature"
-      },
-      "text": "A thatched handover shelter on a dry rise: chimes hung with bone-tags under the eave on the Rose's side, a wrapping bench on the villages' side; a row of candles across the floor between them.",
-      "confirmed": {
-        "sha": "09a788a4f927",
-        "note": "s-shelter on its pad on the rise; chimes hung under the west eave over the closed baskets, the wicker bench in the east half, candles s-line1 to s-line3 between."
-      }
-    },
-    {
-      "id": "promise.rose-bone-waystation.prose-why-founding",
-      "kind": "prose",
-      "source": {
-        "file": "world/sources/catalogue/places-imperial-penal-south.json",
-        "path": "places[place.imperial-penal-south.rose-bone-waystation].why.founding"
-      },
-      "text": "Argonians die in the Rose and their bones must reach the dirt; the Chainbreakers built a station near the Prison road to receive them.",
-      "confirmed": {
-        "sha": "5b7cfb9fbcf6",
-        "note": "The shelter stands 189 m from the Prison road (dossier, routes.json)."
-      }
-    },
-    {
-      "id": "promise.rose-bone-waystation.prose-why-occupantsmotive",
-      "kind": "prose",
-      "source": {
-        "file": "world/sources/catalogue/places-imperial-penal-south.json",
-        "path": "places[place.imperial-penal-south.rose-bone-waystation].why.occupantsMotive"
-      },
-      "text": "The Rose's families release the dead here for a fee they call a carriage charge; the Chainbreakers pay it and record every payment.",
-      "confirmed": {
-        "sha": "79e96518de1e",
-        "note": "The tag-keeper (npc socket) and the ledger at the keeper's table (evidence marker)."
-      }
-    },
-    {
-      "id": "promise.rose-bone-waystation.prose-why-pressures",
-      "kind": "prose",
-      "source": {
-        "file": "world/sources/catalogue/places-imperial-penal-south.json",
-        "path": "places[place.imperial-penal-south.rose-bone-waystation].why.pressures"
-      },
-      "text": "The fee is the most resented transaction in the south, but both sides need it to continue.",
-      "confirmed": {
-        "sha": "85936f276a29",
-        "note": "Carried by the place's people (Phase 13); the build gives the families' waiting bench apart from the keeper's table."
-      }
-    },
-    {
-      "id": "promise.rose-bone-waystation.prose-why-siteadvantages",
-      "kind": "prose",
-      "source": {
-        "file": "world/sources/catalogue/places-imperial-penal-south.json",
-        "path": "places[place.imperial-penal-south.rose-bone-waystation].why.siteAdvantages"
-      },
-      "text": "A dry rise between the Prison road and the tracks east to the villages, where the Rose's people hand a body to the villages' people.",
-      "confirmed": {
-        "sha": "e307725d1f09",
-        "note": "Dossier: a dry rise 3.2 m over the water table; the Prison road 189 m north-west; the villages' track starts at the place's terminal."
-      }
-    },
-    {
-      "id": "promise.rose-bone-waystation.prose-why-wouldchangeif",
-      "kind": "prose",
-      "source": {
-        "file": "world/sources/catalogue/places-imperial-penal-south.json",
-        "path": "places[place.imperial-penal-south.rose-bone-waystation].why.wouldChangeIf"
-      },
-      "text": "The Rose refusing to release the dead would end the arrangement and put the Chainbreakers and the families in open conflict.",
-      "confirmed": {
-        "sha": "b42c67467f86",
-        "note": "A story state; nothing built contradicts it."
-      }
-    },
-    {
-      "id": "promise.rose-bone-waystation.provision-whiterose-prison-ruin",
-      "kind": "provision",
-      "source": {
-        "file": "world/sources/catalogue/places-imperial-penal-south.json",
-        "path": "places[place.imperial-penal-south.rose-bone-waystation].questHooks.provisions[quest.provision.whiterose-prison-ruin]"
-      },
-      "text": "The Tag House holds what quest provision quest.provision.whiterose-prison-ruin needs.",
-      "unfilled": null
-    },
-    {
-      "id": "promise.rose-bone-waystation.quest-bc05",
-      "kind": "quest",
-      "source": {
-        "file": "world/sources/quests/quests-factions.json",
-        "path": "quest[BC05]"
-      },
-      "text": "BC05 Bones to the Dirt: White Rose Prison holds the graves of Argonians who died mid-Owing, far from their Hist",
-      "confirmed": {
-        "sha": "7d348062e647",
-        "note": "The procession stop is the scene marker at the shelter front (scene-procession)."
-      }
-    },
-    {
-      "id": "promise.rose-bone-waystation.quest-lr03",
-      "kind": "quest",
-      "source": {
-        "file": "world/sources/quests/local-imperial-penal-south.json",
-        "path": "quest[LR03]"
-      },
-      "text": "LR03 The Tag Not Returned: A bone-tag comes back to the Tag House for a woman whose family were told she walked out years ago",
-      "confirmed": {
-        "sha": "d616cb41d6d4",
-        "note": "Tags hang at the shelter; the ledger lies at the keeper's table."
-      }
-    },
-    {
-      "id": "promise.rose-bone-waystation.quest-lr24",
-      "kind": "quest",
-      "source": {
-        "file": "world/sources/quests/local-imperial-penal-south.json",
-        "path": "quest[LR24]"
-      },
-      "text": "LR24 Out on Another Name: Somebody is moving living people out of the Rose on the paperwork of the dead",
-      "confirmed": {
-        "sha": "c1c92ed8ccb7",
-        "note": "The ledger of the dead lies at the keeper's table (evidence marker)."
-      }
-    },
-    {
-      "id": "promise.rose-bone-waystation.quest-lr39",
-      "kind": "quest",
-      "source": {
-        "file": "world/sources/quests/local-imperial-penal-south.json",
-        "path": "quest[LR39]"
-      },
-      "text": "LR39 Tags for the Living: Bone-tags are being hung on the Tag House wall for people who are still alive",
-      "confirmed": {
-        "sha": "3718a3ff3ef1",
-        "note": "Bone-tags hang as bone chimes on the keeper's hut eave (k-tags), the Tag House wall."
-      }
-    }
-  ]
+ "schemaVersion": 1,
+ "placeId": "place.imperial-penal-south.rose-bone-waystation",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
+ "derivedFrom": [
+  {
+   "file": "world/sources/catalogue/places-imperial-penal-south.json",
+   "sha256": "ec7391ee430765bb2e7ab0cc911e7d095c208f51eb4549e099d668f5309573e0"
+  },
+  {
+   "file": "world/sources/quests/local-imperial-penal-south.json",
+   "sha256": "cd10b67afb35343f9c855af2e658b08363d018a2abbeb73e2af6dfe69b956324"
+  },
+  {
+   "file": "world/sources/quests/quests-factions.json",
+   "sha256": "92f935e9fe9b1ac016732f03f7c72ea3fc5a038cbad4ea4bb6302e86642c07c1"
+  }
+ ],
+ "promises": [
+  {
+   "id": "promise.rose-bone-waystation.evidence-tag-house-carriage-charges",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].sockets.evidence[evidence.tag-house.carriage-charges]"
+   },
+   "text": "The Tag House has the evidence socket evidence.tag-house.carriage-charges.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.rose-bone-waystation.interior-principal",
+   "kind": "interior",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].interior"
+   },
+   "text": "The Tag House's principal interior is a civic-hall (S1), entered by 1 door.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.rose-bone-waystation.occupant-tag-keeper",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].notableNpcSlots[tag-keeper]"
+   },
+   "text": "The tag-keeper lives and works at The Tag House.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.rose-bone-waystation.prose-playerpurpose-hook",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].playerPurpose.hook"
+   },
+   "text": "The Rose's families will not release a body without a fee; the Chainbreakers pay it at this shelter.",
+   "confirmed": {
+    "sha": "fb3fcbaa5a36",
+    "note": "The tag-keeper's npc socket stands at the shelter front; the fee is counted at the keeper's table by the hut door."
+   }
+  },
+  {
+   "id": "promise.rose-bone-waystation.prose-questhooks-opportunity",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].questHooks.opportunity"
+   },
+   "text": "A quest could start with a bone-tag returned for somebody who is demonstrably alive.",
+   "confirmed": {
+    "sha": "0e702170baa1",
+    "note": "Bone-tags hang as bone chimes in the shelter (s-chime1, s-chime2) and on the keeper's hut (k-tags); the ledger lies at the keeper's table."
+   }
+  },
+  {
+   "id": "promise.rose-bone-waystation.prose-vibe-mood",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].vibe.mood"
+   },
+   "text": "Formal and unhappy.",
+   "confirmed": {
+    "sha": "b487642dab4b",
+    "note": "A bare handover shelter, a waiting bench and brazier outside its west corner, a row of candles across its floor."
+   }
+  },
+  {
+   "id": "promise.rose-bone-waystation.prose-vibe-palette",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].vibe.palette"
+   },
+   "text": "Tag-bone white, cloth grey, trodden mud.",
+   "confirmed": {
+    "sha": "d88d888b7bae",
+    "note": "Bone chimes, grey wrapped bundles (miscsacklargeflat01), trodden earth on the levelled pads."
+   }
+  },
+  {
+   "id": "promise.rose-bone-waystation.prose-vibe-signaturefeature",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].vibe.signatureFeature"
+   },
+   "text": "A handover shelter on a dry rise, with the tag-keeper's hut beside it and a brazier between them.",
+   "confirmed": null
+  },
+  {
+   "id": "promise.rose-bone-waystation.prose-why-founding",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].why.founding"
+   },
+   "text": "Argonians die in the Rose and their bones must reach the dirt; the Chainbreakers built a station near the Prison road to receive them.",
+   "confirmed": {
+    "sha": "5b7cfb9fbcf6",
+    "note": "The shelter stands 189 m from the Prison road (dossier, routes.json)."
+   }
+  },
+  {
+   "id": "promise.rose-bone-waystation.prose-why-occupantsmotive",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].why.occupantsMotive"
+   },
+   "text": "The Rose's families release the dead here for a fee they call a carriage charge; the Chainbreakers pay it and record every payment.",
+   "confirmed": {
+    "sha": "79e96518de1e",
+    "note": "The tag-keeper (npc socket) and the ledger at the keeper's table (evidence marker)."
+   }
+  },
+  {
+   "id": "promise.rose-bone-waystation.prose-why-pressures",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].why.pressures"
+   },
+   "text": "The fee is the most resented transaction in the south, but both sides need it to continue.",
+   "confirmed": {
+    "sha": "85936f276a29",
+    "note": "Carried by the place's people (Phase 13); the build gives the families' waiting bench apart from the keeper's table."
+   }
+  },
+  {
+   "id": "promise.rose-bone-waystation.prose-why-siteadvantages",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].why.siteAdvantages"
+   },
+   "text": "A dry rise beside the Prison road, where the Rose's people hand a body to the villages' people.",
+   "confirmed": null
+  },
+  {
+   "id": "promise.rose-bone-waystation.prose-why-wouldchangeif",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].why.wouldChangeIf"
+   },
+   "text": "The Rose refusing to release the dead would end the arrangement and put the Chainbreakers and the families in open conflict.",
+   "confirmed": {
+    "sha": "b42c67467f86",
+    "note": "A story state; nothing built contradicts it."
+   }
+  },
+  {
+   "id": "promise.rose-bone-waystation.provision-whiterose-prison-ruin",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-penal-south.json",
+    "path": "places[place.imperial-penal-south.rose-bone-waystation].questHooks.provisions[quest.provision.whiterose-prison-ruin]"
+   },
+   "text": "The Tag House holds what quest provision quest.provision.whiterose-prison-ruin needs.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.rose-bone-waystation.quest-bc05",
+   "kind": "quest",
+   "source": {
+    "file": "world/sources/quests/quests-factions.json",
+    "path": "quest[BC05]"
+   },
+   "text": "BC05 Bones to the Dirt: White Rose Prison holds the graves of Argonians who died mid-Owing, far from their Hist",
+   "confirmed": {
+    "sha": "7d348062e647",
+    "note": "The procession stop is the scene marker at the shelter front (scene-procession)."
+   }
+  },
+  {
+   "id": "promise.rose-bone-waystation.quest-lr03",
+   "kind": "quest",
+   "source": {
+    "file": "world/sources/quests/local-imperial-penal-south.json",
+    "path": "quest[LR03]"
+   },
+   "text": "LR03 The Tag Not Returned: A bone-tag comes back to the Tag House for a woman whose family were told she walked out years ago",
+   "confirmed": {
+    "sha": "d616cb41d6d4",
+    "note": "Tags hang at the shelter; the ledger lies at the keeper's table."
+   }
+  },
+  {
+   "id": "promise.rose-bone-waystation.quest-lr24",
+   "kind": "quest",
+   "source": {
+    "file": "world/sources/quests/local-imperial-penal-south.json",
+    "path": "quest[LR24]"
+   },
+   "text": "LR24 Out on Another Name: Somebody is moving living people out of the Rose on the paperwork of the dead",
+   "confirmed": {
+    "sha": "c1c92ed8ccb7",
+    "note": "The ledger of the dead lies at the keeper's table (evidence marker)."
+   }
+  },
+  {
+   "id": "promise.rose-bone-waystation.quest-lr39",
+   "kind": "quest",
+   "source": {
+    "file": "world/sources/quests/local-imperial-penal-south.json",
+    "path": "quest[LR39]"
+   },
+   "text": "LR39 Tags for the Living: Bone-tags are being hung on the Tag House wall for people who are still alive",
+   "confirmed": {
+    "sha": "3718a3ff3ef1",
+    "note": "Bone-tags hang as bone chimes on the keeper's hut eave (k-tags), the Tag House wall."
+   }
+  }
+ ]
 }
