@@ -1137,16 +1137,16 @@
       "id": "repo-asset-kits-meta",
       "object": "snapshot/v1/repo-asset-kits-meta.tar",
       "bytes": 51619840,
-      "sha256": "889f9ae6693ac373756bac19970ae1787e80fa8bcb7a3f387055d440d1b59833",
+      "sha256": "e8cdb0a58d0af2836eda5d187d73fbe720288c9fb52f977b783742f330040991",
       "root": "elder-souls-argonia-webgpu/tooling/asset-pipeline/output/kits",
       "tier": "base",
       "needsArchives": false,
-      "sourceBytes": 50793039,
-      "sourceFingerprint": "3b9ed40b528307541d537fc74c83cbd17a6ba590a213b820546d23c94344ada4",
+      "sourceBytes": 50793071,
+      "sourceFingerprint": "069fd35ee79ea897d3465ba3f0741d468f3850e4b66f9cd3479c036acbb08823",
       "tarWarnings": 0,
       "filesObject": "snapshot/v1/repo-asset-kits-meta.files",
-      "createdAt": "2026-09-30T17:27:47+00:00",
-      "prevSha256": "eb8e1b0d8b16c8ee70abb104014f0c963dd0bd685fd44cd214afc452f7986e50"
+      "createdAt": "2026-10-01T11:31:35+00:00",
+      "prevSha256": "889f9ae6693ac373756bac19970ae1787e80fa8bcb7a3f387055d440d1b59833"
     },
     {
       "id": "repo-asset-output",
@@ -1210,17 +1210,17 @@
     {
       "id": "repo-wg-products",
       "object": "snapshot/v1/repo-wg-products.tar",
-      "bytes": 7260160,
-      "sha256": "c41aaeeeb9e0cbb02eef83fbb708c67a5cba01cd0ca1dbf268930167953d1bee",
+      "bytes": 7802880,
+      "sha256": "b807cb68e43b7cda1621cb59696037cee824995f33ac2f32568a0ec979cc033e",
       "root": "elder-souls-argonia-webgpu/tooling/world-generation/output",
       "tier": "base",
       "needsArchives": false,
-      "sourceBytes": 7181212,
-      "sourceFingerprint": "67bc91935b2e0aa7e7cdc3fd0719f8f4cf0fa09cb4576efda2a921e04eef7d49",
+      "sourceBytes": 7719463,
+      "sourceFingerprint": "ed77422f23476dc6ad675f276eeb3db3cf44d9af56283380e5864b8a455e7f5d",
       "tarWarnings": 0,
       "filesObject": "snapshot/v1/repo-wg-products.files",
-      "createdAt": "2026-09-30T17:27:42+00:00",
-      "prevSha256": "4c743d6ae29e83c1ed85a5beeb5e1225d7053dc9bd38783560c961803add4a9d"
+      "createdAt": "2026-10-01T11:31:28+00:00",
+      "prevSha256": "c41aaeeeb9e0cbb02eef83fbb708c67a5cba01cd0ca1dbf268930167953d1bee"
     },
     {
       "id": "skyrim-source-misc",
