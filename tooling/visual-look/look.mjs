@@ -17,7 +17,7 @@
 // place: a workbench scene region; delegates to wb.py render (Blender).
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, posix, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import ts from "typescript";
@@ -97,10 +97,13 @@ const glbUrl = part ? `/kits/${opts.kit}/parts/${part.file}` : `/kits/${opts.kit
 const classes = opts.classes ?? classesFor(row, opts.kit);
 
 const threeDir = join(repo, "node_modules/three");
-const fireDir = join(repo, "packages/game-core/src/fx/fire");
-const tsFile = (name) => ts.transpileModule(readFileSync(join(fireDir, name), "utf8"), {
+const gcDir = join(repo, "packages/game-core/src");
+// A game-core module by its path under src (no extension), served at /gc/<path>.js;
+// every relative import is resolved against the module's own folder, so a fire
+// module importing ../../render/post/BloomPass loads (walk 9: the page 404'd on it).
+const tsFile = (rel) => ts.transpileModule(readFileSync(join(gcDir, `${rel}.ts`), "utf8"), {
   compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
-}).outputText.replace(/from "\.\/(\w+)"/g, 'from "/fire/$1.js"');
+}).outputText.replace(/from "(\.{1,2}\/[^"]+)"/g, (_, spec) => `from "/gc/${posix.join(posix.dirname(rel), spec)}.js"`);
 
 const page = /* html */ `<!doctype html><html><body style="margin:0;background:#000">
 <canvas id="gl" width="480" height="400"></canvas><canvas id="sheet" width="1440" height="800"></canvas>
@@ -226,8 +229,8 @@ try {
     if (path.startsWith("/basis/")) return file(join(threeDir, "examples/jsm/libs/basis", path.slice(7)),
       path.endsWith(".wasm") ? "application/wasm" : "text/javascript");
     if (path.startsWith("/kits/")) return file(join(kitsDir, path.slice(6)), path.endsWith(".ktx2") ? "image/ktx2" : "model/gltf-binary");
-    const m = path.match(/^\/fire\/(\w+)\.js$/);
-    if (m) return route.fulfill({ contentType: "text/javascript", body: tsFile(`${m[1]}.ts`) });
+    const m = path.match(/^\/fire\/(\w+)\.js$/) ?? path.match(/^\/gc\/([\w/]+)\.js$/);
+    if (m) return route.fulfill({ contentType: "text/javascript", body: tsFile(path.startsWith("/fire/") ? `fx/fire/${m[1]}` : m[1]) });
     if (path === "/favicon.ico") return route.fulfill({ status: 204, body: "" });
     errors.push(`404 ${path}`);
     return route.fulfill({ status: 404, body: "" });
