@@ -7,9 +7,9 @@
 //   flameSystems  FlameSystem groups ("fire-flames") under the subject
 //   emitters      flame card instances those systems draw
 //   draws         draw calls of the flame-card mesh
-//   onScreen      cards whose position (the system's instance data through
-//                 the group's world matrix: where the flames belong) projects
-//                 inside the frame
+//   onScreen      cards within 30 m whose position (the system's instance
+//                 data through the group's world matrix: where the flames
+//                 belong) projects inside the frame
 //   visible       on-screen cards whose pixels change when the flames are
 //                 shown (read back from the default framebuffer right after
 //                 the pipeline's on-screen passes: flames off, on, off; the
@@ -139,6 +139,7 @@ async function keyOf(opts, studioBase) {
  * framebuffer (the last on-screen render of a frame overwrites the earlier
  * ones, so a capture is the finished frame). */
 function installProbe(cell) {
+  const RANGE_M = 30; // farther, a candle or lantern is a pixel or two: no measure of whether it draws
   const scene = window.__SCENE__; const r = window.__RENDERER__; const T = window.__THREE__;
   const root = cell ? scene.getObjectByName(`interior:${cell}`) : scene;
   const systems = [];
@@ -169,7 +170,7 @@ function installProbe(cell) {
         v.set(a.getX(i), a.getY(i), a.getZ(i)).applyMatrix4(mesh.matrixWorld);
         const dist = v.distanceTo(camera.position);
         v.project(camera);
-        if (!(v.z < 1 && Math.abs(v.x) < 0.95 && Math.abs(v.y) < 0.9)) continue;
+        if (dist > RANGE_M || !(v.z < 1 && Math.abs(v.x) < 0.95 && Math.abs(v.y) < 0.9)) continue;
         const px = Math.round((v.x + 1) / 2 * W); const py = Math.round((v.y + 1) / 2 * H);
         const x0 = Math.max(0, px - R); const y0 = Math.max(0, py - R); // flames rise: window from the root up
         const w = Math.min(W, px + R + 1) - x0; const h = Math.min(H, py + 3 * R + 1) - y0;
@@ -238,7 +239,7 @@ async function run(opts) {
     result.key = await keyOf(opts, base);
     if (!opts.force && existsSync(jsonPath)) {
       const prior = JSON.parse(readFileSync(jsonPath, "utf8"));
-      if (prior.key === result.key) { Object.assign(result, prior, { key: result.key }); return finish(true); }
+      if (prior.key === result.key && prior.stage === "done") { Object.assign(result, prior, { key: result.key }); return finish(true); }
     }
     const { chromium } = await import("playwright");
     browser = await chromium.launch({ headless: true, args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
@@ -252,7 +253,9 @@ async function run(opts) {
         await route.fulfill({ response: res, json: { ...body, fires: {} } });
       });
     }
-    const q = opts.cell ? `&interior=${encodeURIComponent(opts.cell)}` : "";
+    // no HUD; in a cell no vegetation (hidden behind the cell anyway); the
+    // water pipeline stays on: its on-screen pass is the one that draws flames
+    const q = opts.cell ? `&interior=${encodeURIComponent(opts.cell)}&veg=0&hud=0` : "&hud=0";
     result.url = `${base}?view=character&x=${opts.x}&z=${opts.z}&t=${opts.t}&q=low&aa=0&dpr=1${q}`;
     await page.goto(result.url, { waitUntil: "domcontentloaded" });
     await page.waitForFunction(() => window.__STUDIO_CHARACTER_DEBUG__?.player?.() != null && window.__SCENE__ && window.__RENDERER__,
@@ -290,10 +293,11 @@ async function run(opts) {
       await page.keyboard.down("ArrowLeft"); await page.waitForTimeout(400); await page.keyboard.up("ArrowLeft");
     }
     result.views = views;
+    Object.assign(result, { draws: await page.evaluate(() => window.__FLAME_PROBE__.draws), errors: errs.slice(0, 8) });
     result.png = join(opts.out, `${name}.png`);
     mkdirSync(opts.out, { recursive: true });
-    await page.screenshot({ path: result.png });
-    Object.assign(result, { draws: await page.evaluate(() => window.__FLAME_PROBE__.draws), errors: errs.slice(0, 8), stage: "done" });
+    await page.screenshot({ path: result.png, timeout: 0 });
+    result.stage = "done";
   } catch (e) {
     result.failed = String(e).slice(0, 500);
   }
