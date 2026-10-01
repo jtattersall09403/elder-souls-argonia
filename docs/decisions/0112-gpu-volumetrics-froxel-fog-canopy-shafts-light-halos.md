@@ -32,7 +32,13 @@ colour comes from the light rig.
    rule that ends the daytime "charcoal grey" particles: every unlit or
    emissive colour (smoke, motes, cards) is converted with the shared
    scene-radiance helper, never written as a raw 0–1 colour under physical
-   exposure (~4e-5 at noon).
+   exposure (~4e-5 at noon). The light feeds are irradiances in three.js's
+   own convention: the sun is the directional light's colour × intensity and
+   the sky is the hemisphere light's colour × intensity (three treats that
+   product as irradiance and its Lambert BRDF divides by π, so it is never
+   multiplied by π again). The sky term is `SKY_INSCATTER` = 0.8/π per unit
+   irradiance, so thick sky-lit fog settles at ~0.76 of a white floor under
+   the same sky (test `skyInscatter.test.ts`).
 4. **Where and when (the fog field).** CPU works out, per frame and from
    epoch minutes + weather + climate rasters, the strength of each regime;
    the GPU shapes it from two terrain grids baked around the camera (near

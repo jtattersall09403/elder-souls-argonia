@@ -854,7 +854,9 @@ export function WorldSky({
     }
     sunLighting.dir.copy(sunDir);
     volSun.current.setRGB(...rig.sunColor).multiplyScalar(rig.sunIntensity);
-    volSky.current.setRGB(...rig.hemiSky).multiplyScalar(rig.hemiIntensity * Math.PI);
+    // three.js reads a hemisphere light's colour x intensity as IRRADIANCE (lux; the Lambert BRDF
+    // divides by pi), so that product is the sky irradiance itself, never x pi (0112 §4)
+    volSky.current.setRGB(...rig.hemiSky).multiplyScalar(rig.hemiIntensity);
     // Outside only: inside a cell the interior host drives the medium
     // (InteriorDoors, with the cell's profile and no sun).
     if (volumetrics.band !== "off" && !hidden) {

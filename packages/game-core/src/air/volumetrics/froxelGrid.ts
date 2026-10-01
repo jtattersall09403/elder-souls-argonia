@@ -38,6 +38,10 @@ export const MAX_VOLUME_LIGHTS = 16;
 export const MAX_APERTURES = 4;
 const HISTORY_BLEND = 0.9;
 const ALBEDO = 0.95;
+/** Sky in-scatter per unit sky irradiance E: a uniform upper-hemisphere sky of radiance E/π seen by an
+ * isotropic scatterer gives E/(2π); 0.8/π carries the ground bounce on top. Under the same sky a
+ * white Lambert floor reads E/π, so thick fog settles at 0.76 of the floor's radiance, never above it. */
+export const SKY_INSCATTER = 0.8 / Math.PI;
 /** Range (m) over which the per-pixel shaft march carries the sun under the canopy, and its steps. */
 const SHAFT_NEAR_M = 40;
 const SHAFT_STEPS = 12;
@@ -75,7 +79,8 @@ export interface VolumetricsFrame {
   sunDir: THREE.Vector3;
   /** Sun irradiance at the ground, the directional light's colour × intensity. */
   sunIrradiance: THREE.Color;
-  /** Sky irradiance on a horizontal plane (the ambient/hemisphere light's colour × intensity × π). */
+  /** Sky irradiance on a horizontal plane (the hemisphere light's colour × intensity: three.js
+   * treats that product as irradiance, its Lambert BRDF divides by π). */
   skyIrradiance: THREE.Color;
   fog?: FogFieldInput;
   regimes?: FogRegimes;
@@ -430,7 +435,7 @@ export class Volumetrics implements VolumetricsSampler {
       const skyKeep = float(1).sub(smoothstep(0, 0.05, u.sunDir.y).mul(float(1 - SHADOWED_SKY).mul(float(1).sub(sunVis))));
       const radiance = vec3(u.sunIrr).mul(phaseSun).mul(this.canopyT(p)).mul(sunVis).mul(step(float(0), u.sunDir.y))
         .mul(float(1).sub(this.shaftNear(p, length(dir).mul(depth))))
-        .add(vec3(u.skyIrr).mul(0.8 / Math.PI).mul(this.skyOpen(p)).mul(skyKeep)).toVar();
+        .add(vec3(u.skyIrr).mul(SKY_INSCATTER).mul(this.skyOpen(p)).mul(skyKeep)).toVar();
       // point lights: analytic airlight in the apply stage (volumetricNodes), not here
       Loop(u.apertureCount, ({ i }: { i: TslNode }) => {
         const ap = this.uApPos.element(i);

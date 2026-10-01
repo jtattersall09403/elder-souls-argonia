@@ -208,14 +208,13 @@ export function volumetricsShot(name: ShotName, expectDark = false): HarnessScen
         applyVolumetrics(vol, V.output, V.positionView.z.negate(), V.screenUV))();
       const regimes: FogRegimes = shot.fog ? fogRegimes({ ...VALLEY_CLIMATE, ...shot.fog }) : { ...R0, ...shot.regimes };
       const sunIrr = outdoor || shot.window ? new THREE.Color(...shot.sun) : new THREE.Color(0, 0, 0);
-      const skyPi = skyIrr.clone().multiplyScalar(Math.PI);
       (window as unknown as { __VOLUMETRICS__?: unknown }).__VOLUMETRICS__ = { band: vol.band, dispatch: vol.dispatch };
       const update = (t: number) => {
         vol.update({
-          camera, timeS: t, sunDir, sunIrradiance: sunIrr, skyIrradiance: skyPi, regimes, lights, apertures,
+          camera, timeS: t, sunDir, sunIrradiance: sunIrr, skyIrradiance: skyIrr, regimes, lights, apertures,
           interior: shot.interior ?? null, mistDepthM: 22,
         });
-        smoke?.setLighting(sunDir, sunIrr, skyPi);
+        smoke?.setLighting(sunDir, sunIrr, skyIrr);
         smoke?.update(t, camera, { dirXZ: [0.8, 0.6], speedMS: 2 });
       };
       update(0);
