@@ -14,8 +14,9 @@ import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.j
 import { paintGeometry, paintMaterial } from "../../../packages/game-core/src/settlement/groundPaintMaterial";
 import type { GroundPaintEntry } from "../../../packages/game-core/src/settlement/groundPaint";
 import { placementQuaternion } from "../../../packages/game-core/src/settlement/anchoring";
+import { GroundArrayLoader, groundArrayUrl } from "../../../packages/game-core/src/terrain/groundArray";
 
-interface Row { name: string; file: string; tileM: number }
+interface Row { id: number; name: string; file: string; tileM: number }
 interface Opts {
   base: string; set: string; rows: Row[]; entries: GroundPaintEntry[];
   grid: { x0: number; z0: number; step: number; n: number; heights: number[]; wet: number[] };
@@ -79,13 +80,17 @@ async function run(o: Opts) {
   const near = o.entries.filter((e) => e.polygonM.some(([x, z]) => Math.abs(x - px) < 40 && Math.abs(z - pz) < 40));
   const built = near.length ? paintGeometry(near, groundAt) : null;
   let paint: THREE.Mesh | null = null;
+  const ktx2 = new KTX2Loader().setTranscoderPath(`${o.base}basis/`).detectSupport(renderer);
   if (built) {
-    const mat = paintMaterial(o.base, o.set, built.textures.map(rowOf));
+    // the runtime paint's albedo array, through the terrain's own loader
+    const array = await new GroundArrayLoader().setDecoders({ ktx2, meshopt: MeshoptDecoder, baseUrl: o.base })
+      .loadAsync(groundArrayUrl(o.base, o.set));
+    const mat = paintMaterial(array, built.textures.map(rowOf));
     paint = new THREE.Mesh(built.geometry, mat); paint.renderOrder = 1; paint.receiveShadow = true; scene.add(paint);
   }
   // the building, at its bundle pose
   const loader = new GLTFLoader();
-  loader.setKTX2Loader(new KTX2Loader().setTranscoderPath(`${o.base}basis/`).detectSupport(renderer));
+  loader.setKTX2Loader(ktx2);
   loader.setMeshoptDecoder(MeshoptDecoder);
   const gltf = await loader.loadAsync(o.glbUrl);
   let obj: THREE.Object3D = gltf.scene;
@@ -116,7 +121,6 @@ async function run(o: Opts) {
   const camera = new THREE.PerspectiveCamera(60, o.width / o.height, 0.1, 500);
   camera.position.set(ex, groundAt(ex, ez) + o.eyeM, ez);
   camera.lookAt(wx, groundAt(wx, wz) + 0.6, wz);
-  await new Promise((r) => setTimeout(r, 800));   // the paint's own TextureLoader images
   const shots: Record<string, string> = {};
   const t1 = performance.now();
   renderer.render(scene, camera); shots.live = canvas.toDataURL("image/png");

@@ -32,7 +32,7 @@ async function layerArray(base: string, set: string, rows: Row[]): Promise<THREE
   const x = c.getContext("2d", { willReadFrequently: true })!;
   for (const r of rows) {
     const img = await createImageBitmap(await (await fetch(`${base}textures/ground/${set}/${r.file}`)).blob());
-    x.drawImage(img, 0, 0, S, S);
+    x.clearRect(0, 0, S, S); x.drawImage(img, 0, 0, S, S);
     data.set(x.getImageData(0, 0, S, S).data, r.id * S * S * 4);
   }
   const t = new THREE.DataArrayTexture(data, S, S, depth);
