@@ -36783,7 +36783,7 @@
       "region": "imperial-fringe",
       "class": "camp",
       "family": "hostile-camp",
-      "type": "blackguard-hideout",
+      "type": "deserter-camp",
       "magnitude": "M1",
       "importanceTier": 3,
       "dangerTier": "D3",

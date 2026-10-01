@@ -336,10 +336,11 @@ Phase 15 packet template in `references/rollout-packet-template.md`.
     `underwaterAccessDetail`; and 16e's route structures with their
     `walkSurface`. **Exemplar first:** this chunk stands up the
     **route-structure exemplar set**, recorded in
-    `world/sources/routes/route-structure-exemplars.json`: one structure of
-    each recorded kind (stair, deck, lip-step, bridge), chosen to include
-    the Nine-Trunks stair flight and the Xul-Vaat walkway (both on the
-    road, outside the village plots), plus the Drowning Gate ferry
+    `world/sources/routes/route-structure-exemplars.json`: the Border road
+    crossings below Greenspring (walk 9, type 10: two plank crossings laid
+    with the modular-runs system, a route-compiled stair, road dressing;
+    the route records carry only stairs and lip steps since 0115, so a
+    water crossing is built per place), plus the Drowning Gate ferry
     crossing with its two berths and hulls. The berths that belong to the
     six exemplar places are 16i's, with the places. The other structures
     and berths keep their records
@@ -451,7 +452,7 @@ Phase 15 packet template in `references/rollout-packet-template.md`.
     `settlement-pad` under the Imperial house, one `vegetation-clearance`
     by tier over the yard with one tree named `kept`, one `dressing-add`
     rock group at the cave entrance piece. On the route exemplars: the
-    clearance the Xul-Vaat walkway and the Nine-Trunks stair flight need
+    clearance the Border road crossings' plank runs and stair need
     (their `walkSurface` footprint plus the C13 margin); a `dressing-add`
     at the Drowning Gate landings (reeds or rocks by the bank, from the
     region palette, with `why` and `sources`). These are the only patches

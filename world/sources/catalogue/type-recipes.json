@@ -19146,8 +19146,8 @@
         9
       ],
       "lore": "Lore:Blackrose Prison (the Blackguards' heirs, prison-descended three generations)",
-      "footprintRadiusM": 25,
-      "footprintSource": "built-ground",
+      "footprintRadiusM": 45,
+      "footprintSource": "band",
       "proximity": {
         "minFromClassM": {
           "settlement": 400
@@ -19220,15 +19220,8 @@
         2
       ],
       "lore": "Lore:Imperial Legion (the recall from Black Marsh); world/sources/lore/gideon.md. Split from blackguard-hideout at 16k walk 9: a Legion remnant is no Blackguard outpost.",
-      "footprintRadiusM": 45,
-      "footprintSource": "band",
-      "proximity": {
-        "minFromClassM": {
-          "settlement": 400
-        },
-        "why": "macro_plot city-ring ruling: a hostile camp at a city gate is a mistake, not a challenge",
-        "minFromClassMeasure": "equivalent-flat-metres"
-      }
+      "footprintRadiusM": 25,
+      "footprintSource": "built-ground"
     },
     {
       "type": "cult-raid-camp",
