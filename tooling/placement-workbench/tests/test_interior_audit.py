@@ -75,6 +75,18 @@ def test_a_shell_on_a_lod_swatch_is_red_and_on_a_real_texture_is_not():
     assert not any("LOD" in r["why"] for r in rows)
 
 
+def test_only_furniture_and_hearths_are_living_zones(tmp_path):
+    # 0109 rule 4 lights living zones; a beast's cave (rock, bones, a chest)
+    # has none and keeps its plugin's own lights (16k walk 9)
+    import json
+    (tmp_path / "k.kit.json").write_text(json.dumps({"assets": [
+        {"id": "bed", "category": "furniture"}, {"id": "cave/wall", "category": "dungeon-kit"},
+        {"id": "chest", "category": "container"}, {"id": "stonefireplace01", "category": "misc"}]}))
+    k = ia.Kits(tmp_path)
+    assert k.living("k", "bed") and k.living("k", "stonefireplace01")
+    assert not k.living("k", "cave/wall") and not k.living("k", "chest")
+
+
 def test_a_dropped_plugin_hearth_fire_is_red():
     k = _Kits("x")
     bundle = {"placements": [], "drops": [{"refId": "1", "base": "FXfireWithEmbersLogs01"}]}

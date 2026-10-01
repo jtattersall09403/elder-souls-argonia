@@ -1,0 +1,3243 @@
+{
+ "schemaVersion": 4,
+ "cellId": "MugsumpHollowInt01",
+ "plugin": "King of the Murkmire.esp",
+ "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
+ "shellAssetId": null,
+ "refCount": 162,
+ "kits": {
+  "flora-province-v1": {
+   "id": "flora-province-v1",
+   "glb": "kits/flora-province-v1.glb",
+   "manifest": "kits/flora-province-v1.kit.json"
+  },
+  "interior-kotm-v1": {
+   "id": "interior-kotm-v1",
+   "glb": "kits/interior-kotm-v1.glb",
+   "manifest": "kits/interior-kotm-v1.kit.json"
+  },
+  "settlement-root-v1": {
+   "id": "settlement-root-v1",
+   "glb": "kits/settlement-root-v1.glb",
+   "manifest": "kits/settlement-root-v1.kit.json"
+  },
+  "underwater-v1": {
+   "id": "underwater-v1",
+   "glb": "kits/underwater-v1.glb",
+   "manifest": "kits/underwater-v1.kit.json"
+  }
+ },
+ "arrivalMarker": {
+  "positionM": [
+   -64.3026,
+   93.8454,
+   -15.3091
+  ],
+  "yawDeg": 180.0
+ },
+ "exitDoor": {
+  "id": "MugsumpHollowInt01.085706AB",
+  "refId": "085706AB",
+  "positionM": [
+   -64.4063,
+   97.406,
+   -20.9377
+  ],
+  "yawDeg": 0.0
+ },
+ "doors": [
+  {
+   "doorType": "load",
+   "interiorLoadDoorRef": "085706AB",
+   "loadDoor": {
+    "positionM": [
+     -64.4063,
+     97.406,
+     -20.9377
+    ],
+    "yawDeg": 0.0
+   }
+  }
+ ],
+ "ambient": {
+  "colorRGB": [
+   67,
+   58,
+   39
+  ],
+  "intensity": 1.0,
+  "rule": "ambient-cube"
+ },
+ "fog": {
+  "colorRGB": [
+   63,
+   97,
+   95
+  ],
+  "nearM": 10.668,
+  "farM": 85.344
+ },
+ "lighting": {
+  "ambientRGB": [
+   67,
+   58,
+   39
+  ],
+  "directionalRGB": [
+   71,
+   77,
+   78
+  ],
+  "fogNearRGB": [
+   63,
+   97,
+   95
+  ],
+  "fogNearM": 10.668,
+  "fogFarM": 85.344,
+  "directionalRotXYDeg": 0,
+  "directionalRotZDeg": 0,
+  "directionalFade": 0.0,
+  "fogClipM": 0.0,
+  "fogPower": 0.6,
+  "fogFarRGB": [
+   136,
+   227,
+   218
+  ],
+  "fogMax": 1.0,
+  "lightFadeBeginM": 0.0,
+  "lightFadeEndM": 0.0,
+  "inherits": 159,
+  "specularRGB": [
+   0,
+   0,
+   0
+  ],
+  "fresnelPower": 1.0,
+  "template": "GreenCaveMedium",
+  "ambientCube": {
+   "px": [
+    0.06663,
+    0.04231,
+    0.02122
+   ],
+   "nx": [
+    0.04519,
+    0.04231,
+    0.0185
+   ],
+   "py": [
+    0.0137,
+    0.01096,
+    0.00561
+   ],
+   "ny": [
+    0.13287,
+    0.09759,
+    0.04519
+   ],
+   "pz": [
+    0.05613,
+    0.0382,
+    0.02029
+   ],
+   "nz": [
+    0.05613,
+    0.04519,
+    0.02029
+   ]
+  },
+  "raw": {
+   "ambientCubeSkyrimRGB": {
+    "xp": [
+     73,
+     58,
+     40
+    ],
+    "xn": [
+     60,
+     58,
+     37
+    ],
+    "yp": [
+     67,
+     60,
+     39
+    ],
+    "yn": [
+     67,
+     55,
+     39
+    ],
+    "zp": [
+     31,
+     27,
+     17
+    ],
+    "zn": [
+     102,
+     88,
+     60
+    ]
+   }
+  }
+ },
+ "placements": [
+  {
+   "id": "MugsumpHollowInt01.085706AC",
+   "assetId": "vanilla:dungeons/caves/green/largehall/caveglhallentrance03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -63.7235,
+    93.537,
+    -18.6619
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLHallEntrance03Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706AE",
+   "assetId": "vanilla:dungeons/caves/green/largehall/caveglhallramp01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -63.7235,
+    89.8957,
+    -11.3792
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLHallRamp01Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706B8",
+   "assetId": "vanilla:dungeons/caves/green/largehall/caveglhall1way01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -63.7235,
+    89.8957,
+    -4.0965
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLHall1Way01Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706B9",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomdoorl03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -63.7235,
+    89.8957,
+    3.1862
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomDoorL03Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706BA",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -71.0062,
+    89.8957,
+    3.1862
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomCorner03Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706BB",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomwall03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -56.4408,
+    89.8957,
+    3.1862
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomWall03Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706BC",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner02c",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -49.1581,
+    89.8957,
+    3.1862
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomCorner02cRainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706BD",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomwall02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -49.1581,
+    89.8957,
+    10.4689
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomWall02Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706BE",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -49.1581,
+    89.8957,
+    17.7516
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomCorner01Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706BF",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomincorner02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -56.4408,
+    89.8957,
+    17.7516
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomInCorner02Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706C1",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -56.4408,
+    89.8957,
+    32.3169
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomCorner01Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706C2",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomwall02c",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -56.4408,
+    89.8957,
+    25.0342
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomWall02cRainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706C3",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomwall01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -63.7235,
+    89.8957,
+    32.3169
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomWall01Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706C4",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomwall01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -71.0062,
+    89.8957,
+    32.3169
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomWall01Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706C5",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner04",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -78.2889,
+    89.8957,
+    32.3169
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomCorner04Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706C6",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomwall04c",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -78.2889,
+    89.8957,
+    25.0342
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomWall04cRainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706C7",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -78.2889,
+    89.8957,
+    17.7516
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomCorner03Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706C8",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomincorner04",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -71.0062,
+    89.8957,
+    17.7516
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomInCorner04Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706C9",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroomwall04c",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -71.0062,
+    89.8957,
+    10.4689
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomWall04cRainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706CA",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroommid01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -56.4408,
+    89.8957,
+    10.4689
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomMid01Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706CB",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroommid01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -63.7235,
+    89.8957,
+    10.4689
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomMid01Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706CC",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroommid01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -63.7235,
+    89.8957,
+    17.7516
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomMid01Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706CD",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroommid01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -63.7235,
+    89.8957,
+    25.0342
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomMid01Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706CE",
+   "assetId": "vanilla:dungeons/caves/green/largeroom/caveglroommid01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -71.0062,
+    89.8957,
+    25.0342
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGLRoomMid01Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706CF",
+   "assetId": "vanilla:landscape/dirtcliffs/dirtcliffsisland01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -78.1043,
+    89.2406,
+    29.3748
+   ],
+   "rotationDeg": [
+    0.0,
+    245.409,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "terrain-feature",
+   "base": "ArgoniaDirtCliffsIsland01LSRainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706D0",
+   "assetId": "vanilla:landscape/volcanic/volcanicplateau02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -53.696,
+    89.7685,
+    30.7422
+   ],
+   "rotationDeg": [
+    0.0,
+    68.755,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "terrain-feature",
+   "base": "ArgoniaRockPlateau02Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706D1",
+   "assetId": "vanilla:landscape/dirtcliffs/dirtcliffsisland01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -71.9397,
+    89.2406,
+    5.6374
+   ],
+   "rotationDeg": [
+    0.0,
+    108.862,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "terrain-feature",
+   "base": "ArgoniaDirtCliffsIsland01LSRainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706D6",
+   "assetId": "vanilla:landscape/rocks/rockl02",
+   "kit": "flora-province-v1",
+   "positionM": [
+    -71.6583,
+    90.4443,
+    14.937
+   ],
+   "rotationDeg": [
+    0.0,
+    137.51,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "rock",
+   "base": "ArgoniaRockL02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706D7",
+   "assetId": "vanilla:landscape/rocks/rockl01",
+   "kit": "flora-province-v1",
+   "positionM": [
+    -75.4662,
+    89.3856,
+    29.9016
+   ],
+   "rotationDeg": [
+    0.0,
+    337.082,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "rock",
+   "base": "ArgoniaRockL01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706D8",
+   "assetId": "vanilla:landscape/rocks/rockl03",
+   "kit": "flora-province-v1",
+   "positionM": [
+    -71.611,
+    89.998,
+    33.7008
+   ],
+   "rotationDeg": [
+    0.0,
+    97.403,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "rock",
+   "base": "ArgoniaRockL03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706D9",
+   "assetId": "vanilla:landscape/rocks/rockpilem02",
+   "kit": "flora-province-v1",
+   "positionM": [
+    -65.9749,
+    90.3077,
+    14.7202
+   ],
+   "rotationDeg": [
+    0.0,
+    337.082,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "rock",
+   "base": "ArgoniaRockPileM02Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706DA",
+   "assetId": "vanilla:landscape/rocks/rockpilem01",
+   "kit": "flora-province-v1",
+   "positionM": [
+    -59.4174,
+    90.3218,
+    5.5112
+   ],
+   "rotationDeg": [
+    0.0,
+    268.327,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "rock",
+   "base": "ArgoniaRockPileM01Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706DB",
+   "assetId": "vanilla:dungeons/mines/cavepillars/mineclpillar02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -50.1578,
+    90.545,
+    16.7312
+   ],
+   "rotationDeg": [
+    0.0,
+    57.296,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "ArgoniaRockPillarSm02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706DC",
+   "assetId": "vanilla:dungeons/mines/cavepillars/mineclpillar04",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -48.3622,
+    90.1836,
+    7.8554
+   ],
+   "rotationDeg": [
+    0.0,
+    40.107,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "ArgoniaRockPillarSm04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706DD",
+   "assetId": "vanilla:dungeons/mines/cavepillars/mineclpillar06",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -47.8946,
+    89.9672,
+    10.6248
+   ],
+   "rotationDeg": [
+    0.0,
+    285.516,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "ArgoniaRockPillarSm06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706DE",
+   "assetId": "vanilla:dungeons/mines/cavepillars/mineclpillar04",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -63.2493,
+    90.7485,
+    22.7201
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 0.92,
+   "category": "dungeon-kit",
+   "base": "ArgoniaRockPillarSm04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706DF",
+   "assetId": "vanilla:dungeons/mines/cavepillars/mineclpillar03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -65.8097,
+    89.8207,
+    23.0122
+   ],
+   "rotationDeg": [
+    0.0,
+    331.352,
+    0.0
+   ],
+   "scale": 1.05,
+   "category": "dungeon-kit",
+   "base": "ArgoniaRockPillarSm03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706E0",
+   "assetId": "vanilla:dungeons/mines/cavepillars/mineclpillar06",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -64.0327,
+    90.5935,
+    25.3203
+   ],
+   "rotationDeg": [
+    0.0,
+    57.296,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "ArgoniaRockPillarSm06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706E1",
+   "assetId": "vanilla:dungeons/mines/cavepillars/mineclpillar06",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -76.5864,
+    91.2573,
+    25.7515
+   ],
+   "rotationDeg": [
+    0.0,
+    262.597,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "ArgoniaRockPillarSm06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706E2",
+   "assetId": "vanilla:dungeons/mines/cavepillars/mineclpillar05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -74.6477,
+    91.8622,
+    32.8543
+   ],
+   "rotationDeg": [
+    0.0,
+    337.082,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "ArgoniaRockPillarSm05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706E3",
+   "assetId": "vanilla:dungeons/mines/cavepillars/mineclpillar05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -57.7178,
+    90.1829,
+    17.7428
+   ],
+   "rotationDeg": [
+    0.0,
+    183.346,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "ArgoniaRockPillarSm05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706E4",
+   "assetId": "vanilla:dungeons/mines/cavepillars/mineclpillar04",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -58.0852,
+    90.4964,
+    33.634
+   ],
+   "rotationDeg": [
+    0.0,
+    11.459,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "ArgoniaRockPillarSm04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706E5",
+   "assetId": "vanilla:landscape/rocks/rockpiles03",
+   "kit": "flora-province-v1",
+   "positionM": [
+    -58.7046,
+    91.6542,
+    20.9216
+   ],
+   "rotationDeg": [
+    0.0,
+    239.679,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "rock",
+   "base": "ArgoniaRockPileS03Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706E6",
+   "assetId": "vanilla:landscape/rocks/rockpiles03",
+   "kit": "flora-province-v1",
+   "positionM": [
+    -55.6501,
+    90.1145,
+    14.5647
+   ],
+   "rotationDeg": [
+    0.0,
+    302.704,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "rock",
+   "base": "ArgoniaRockPileS03Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706E7",
+   "assetId": "vanilla:landscape/rocks/rockpiles01",
+   "kit": "flora-province-v1",
+   "positionM": [
+    -78.8159,
+    92.3783,
+    24.5834
+   ],
+   "rotationDeg": [
+    0.0,
+    319.893,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "rock",
+   "base": "ArgoniaRockPileS01Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706E8",
+   "assetId": "vanilla:landscape/rocks/rockpiles01",
+   "kit": "flora-province-v1",
+   "positionM": [
+    -64.841,
+    90.2159,
+    28.3832
+   ],
+   "rotationDeg": [
+    0.0,
+    103.132,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "rock",
+   "base": "ArgoniaRockPileS01Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706E9",
+   "assetId": "vanilla:landscape/rocks/rocks03",
+   "kit": "flora-province-v1",
+   "positionM": [
+    -62.58,
+    89.8069,
+    28.8176
+   ],
+   "rotationDeg": [
+    0.0,
+    103.132,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "rock",
+   "base": "ArgoniaRockS03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706EA",
+   "assetId": "vanilla:landscape/rocks/rocks03",
+   "kit": "flora-province-v1",
+   "positionM": [
+    -59.1524,
+    90.1492,
+    3.1603
+   ],
+   "rotationDeg": [
+    0.0,
+    314.164,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "rock",
+   "base": "ArgoniaRockS03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706EB",
+   "assetId": "kotm:argonia/stalactites/stal6",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -74.2883,
+    91.8373,
+    18.6659
+   ],
+   "rotationDeg": [
+    0.0,
+    68.755,
+    0.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706EE",
+   "assetId": "kotm:argonia/stalactites/stal6",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -75.8257,
+    92.0808,
+    29.2289
+   ],
+   "rotationDeg": [
+    0.0,
+    108.862,
+    0.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706EF",
+   "assetId": "kotm:argonia/stalactites/stal5",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -71.5201,
+    91.9702,
+    33.6741
+   ],
+   "rotationDeg": [
+    0.0,
+    68.755,
+    0.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706F0",
+   "assetId": "kotm:argonia/stalactites/stal2",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -70.0171,
+    91.5295,
+    33.1612
+   ],
+   "rotationDeg": [
+    0.0,
+    148.969,
+    0.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706F2",
+   "assetId": "kotm:argonia/stalactites/stal2",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -49.6345,
+    90.4536,
+    13.0375
+   ],
+   "rotationDeg": [
+    0.0,
+    354.271,
+    0.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706F3",
+   "assetId": "kotm:argonia/stalactites/stal2",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -51.8247,
+    91.0182,
+    2.6466
+   ],
+   "rotationDeg": [
+    0.0,
+    91.673,
+    0.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706F4",
+   "assetId": "kotm:argonia/stalactites/stal6",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -50.9495,
+    100.0404,
+    9.6716
+   ],
+   "rotationDeg": [
+    0.0,
+    256.868,
+    180.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706F5",
+   "assetId": "kotm:argonia/stalactites/stal5",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -52.6464,
+    100.0404,
+    11.592
+   ],
+   "rotationDeg": [
+    0.0,
+    199.572,
+    180.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706F6",
+   "assetId": "kotm:argonia/stalactites/stal2",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -54.0334,
+    99.838,
+    9.804
+   ],
+   "rotationDeg": [
+    0.0,
+    119.358,
+    180.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706F7",
+   "assetId": "kotm:argonia/stalactites/stal5",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -73.8102,
+    100.1209,
+    27.68
+   ],
+   "rotationDeg": [
+    0.0,
+    130.817,
+    180.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706F8",
+   "assetId": "kotm:argonia/stalactites/stal3",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -77.1461,
+    100.1209,
+    28.1647
+   ],
+   "rotationDeg": [
+    0.0,
+    16.226,
+    180.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706F9",
+   "assetId": "kotm:argonia/stalactites/stal7",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -75.9182,
+    100.1209,
+    29.4882
+   ],
+   "rotationDeg": [
+    0.0,
+    119.358,
+    180.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706FA",
+   "assetId": "kotm:argonia/stalactites/stal5",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -76.3194,
+    100.4274,
+    31.5146
+   ],
+   "rotationDeg": [
+    0.0,
+    296.012,
+    180.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706FB",
+   "assetId": "kotm:argonia/stalactites/stal3",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -61.5981,
+    99.9094,
+    20.7793
+   ],
+   "rotationDeg": [
+    0.0,
+    284.553,
+    180.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706FC",
+   "assetId": "kotm:argonia/stalactites/stal5",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -57.9574,
+    100.0001,
+    20.8291
+   ],
+   "rotationDeg": [
+    0.0,
+    204.339,
+    180.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706FD",
+   "assetId": "kotm:argonia/stalactites/stal3",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -69.4308,
+    99.9681,
+    5.552
+   ],
+   "rotationDeg": [
+    0.0,
+    221.527,
+    180.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.085706FE",
+   "assetId": "kotm:argonia/stalactites/stal6",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -67.239,
+    100.0716,
+    4.2702
+   ],
+   "rotationDeg": [
+    0.0,
+    227.257,
+    180.0
+   ],
+   "scale": 1.54,
+   "category": "misc",
+   "base": "LSCaveStalactite05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570706",
+   "assetId": "vanilla:dungeons/caves/green/dirtmound/cavegdirtmound03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -55.4369,
+    89.9788,
+    4.1404
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGDirtMound03Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857071B",
+   "assetId": "kotm:argonia/trees/greguire/swampplant08a",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -68.1612,
+    90.4665,
+    26.0538
+   ],
+   "rotationDeg": [
+    0.0,
+    308.434,
+    0.0
+   ],
+   "scale": 1.12,
+   "category": "misc",
+   "base": "ArgoniaTreeSwampPlant02B",
+   "baseType": "TREE"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857071C",
+   "assetId": "vanilla:dungeons/caves/green/dirtmound/cavegdirtmound03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -67.5495,
+    89.9743,
+    27.0058
+   ],
+   "rotationDeg": [
+    0.0,
+    80.214,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "LSCaveGDirtMound03Rainforest",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857071D",
+   "assetId": "kotm:argonia/trees/greguire/swampplant08",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -59.5292,
+    91.7592,
+    19.8287
+   ],
+   "rotationDeg": [
+    0.0,
+    354.271,
+    0.0
+   ],
+   "scale": 1.62,
+   "category": "misc",
+   "base": "ArgoniaTreeSwampPlant02A",
+   "baseType": "TREE"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857071E",
+   "assetId": "kotm:argonia/trees/greguire/swampplant08a",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -66.0713,
+    90.4756,
+    6.6713
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.23,
+   "category": "misc",
+   "base": "ArgoniaTreeSwampPlant02B",
+   "baseType": "TREE"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857071F",
+   "assetId": "kotm:argonia/trees/greguire/swampplant08a",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -52.3327,
+    90.3243,
+    5.9029
+   ],
+   "rotationDeg": [
+    0.0,
+    296.975,
+    0.0
+   ],
+   "scale": 0.99,
+   "category": "misc",
+   "base": "ArgoniaTreeSwampPlant02B",
+   "baseType": "TREE"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570720",
+   "assetId": "kotm:plants/tamira/new plants/tropicalshrub05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -59.46,
+    90.6242,
+    6.5687
+   ],
+   "rotationDeg": [
+    0.0,
+    28.648,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "shrub",
+   "base": "ArgoniaGroundplant05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570721",
+   "assetId": "kotm:plants/tamira/new plants/tropicalshrub05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -68.2951,
+    92.931,
+    7.3061
+   ],
+   "rotationDeg": [
+    0.0,
+    314.163,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "shrub",
+   "base": "ArgoniaGroundplant05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570722",
+   "assetId": "kotm:plants/tamira/new plants/tropicalshrub05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -57.9288,
+    91.4254,
+    26.8776
+   ],
+   "rotationDeg": [
+    0.0,
+    314.163,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "shrub",
+   "base": "ArgoniaGroundplant05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570723",
+   "assetId": "kotm:plants/tamira/new plants/tropicalshrub05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -73.0056,
+    92.864,
+    33.6894
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "shrub",
+   "base": "ArgoniaGroundplant05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570724",
+   "assetId": "kotm:plants/tamira/new plants/tropicalshrub03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -79.0635,
+    92.3016,
+    27.0495
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.12,
+   "category": "shrub",
+   "base": "ArgoniaGroundplant06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570725",
+   "assetId": "kotm:plants/tamira/new plants/tropicalshrub05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -76.0172,
+    92.4438,
+    27.3816
+   ],
+   "rotationDeg": [
+    0.0,
+    11.459,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "shrub",
+   "base": "ArgoniaGroundplant05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570726",
+   "assetId": "kotm:plants/tamira/new plants/tropicalplant01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -72.5616,
+    90.3806,
+    28.0503
+   ],
+   "rotationDeg": [
+    0.0,
+    342.811,
+    0.0
+   ],
+   "scale": 1.11,
+   "category": "plant",
+   "base": "ArgoniaGroundplant02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570727",
+   "assetId": "kotm:plants/tamira/new plants/tropicalshrub05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -71.1118,
+    90.3868,
+    18.9612
+   ],
+   "rotationDeg": [
+    0.0,
+    28.648,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "shrub",
+   "base": "ArgoniaGroundplant05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570728",
+   "assetId": "kotm:plants/tamira/new plants/tropicalplant01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -65.0263,
+    90.3534,
+    12.4369
+   ],
+   "rotationDeg": [
+    0.0,
+    348.541,
+    0.0
+   ],
+   "scale": 1.21,
+   "category": "plant",
+   "base": "ArgoniaGroundplant02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570729",
+   "assetId": "kotm:plants/tamira/new plants/tropicalshrub05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -63.3166,
+    90.0169,
+    -1.3106
+   ],
+   "rotationDeg": [
+    0.0,
+    314.164,
+    0.0
+   ],
+   "scale": 1.09,
+   "category": "shrub",
+   "base": "ArgoniaGroundplant05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857072A",
+   "assetId": "kotm:plants/tamira/new plants/tropicalshrub05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -65.2622,
+    95.0479,
+    -18.0312
+   ],
+   "rotationDeg": [
+    10.0,
+    0.0,
+    -5.0
+   ],
+   "scale": 1.0,
+   "category": "shrub",
+   "base": "ArgoniaGroundplant05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857072B",
+   "assetId": "kotm:plants/tamira/new plants/tropicalshrub03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -62.6401,
+    95.6167,
+    -20.4192
+   ],
+   "rotationDeg": [
+    0.0,
+    274.057,
+    0.0
+   ],
+   "scale": 1.11,
+   "category": "shrub",
+   "base": "ArgoniaGroundplant06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857072C",
+   "assetId": "vanilla:plants/florahangingmoss02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -63.3223,
+    99.1471,
+    -10.3879
+   ],
+   "rotationDeg": [
+    0.0,
+    337.082,
+    0.0
+   ],
+   "scale": 1.27,
+   "category": "plant",
+   "base": "TreeFloraHangingMoss02",
+   "baseType": "TREE"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857072D",
+   "assetId": "vanilla:plants/florahangingmoss01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -66.4055,
+    94.9248,
+    -3.7967
+   ],
+   "rotationDeg": [
+    0.0,
+    262.597,
+    0.0
+   ],
+   "scale": 1.1,
+   "category": "plant",
+   "base": "TreeFloraHangingMoss01",
+   "baseType": "TREE"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857072F",
+   "assetId": "vanilla:plants/florahangingmoss02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -51.3012,
+    98.8232,
+    7.0527
+   ],
+   "rotationDeg": [
+    0.0,
+    17.189,
+    0.0
+   ],
+   "scale": 1.22,
+   "category": "plant",
+   "base": "TreeFloraHangingMoss02",
+   "baseType": "TREE"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570730",
+   "assetId": "kotm:argonia/trees/greguire/junglelogmossflat01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -50.2756,
+    99.7992,
+    12.805
+   ],
+   "rotationDeg": [
+    0.0,
+    245.409,
+    0.0
+   ],
+   "scale": 2.67,
+   "category": "misc",
+   "base": "ArgoniaTreeMossCluster01",
+   "baseType": "TREE"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570731",
+   "assetId": "kotm:argonia/trees/greguire/junglelogmossflat01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -58.5063,
+    99.8321,
+    27.5616
+   ],
+   "rotationDeg": [
+    0.0,
+    176.654,
+    0.0
+   ],
+   "scale": 2.67,
+   "category": "misc",
+   "base": "ArgoniaTreeMossCluster01",
+   "baseType": "TREE"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570732",
+   "assetId": "kotm:argonia/trees/greguire/junglelogmossflat01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -59.8053,
+    99.8321,
+    19.8069
+   ],
+   "rotationDeg": [
+    0.0,
+    291.245,
+    0.0
+   ],
+   "scale": 2.67,
+   "category": "misc",
+   "base": "ArgoniaTreeMossCluster01",
+   "baseType": "TREE"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570733",
+   "assetId": "vanilla:plants/florahangingmoss02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -56.3617,
+    98.2647,
+    24.5112
+   ],
+   "rotationDeg": [
+    0.0,
+    291.245,
+    0.0
+   ],
+   "scale": 1.2,
+   "category": "plant",
+   "base": "TreeFloraHangingMoss02",
+   "baseType": "TREE"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570734",
+   "assetId": "kotm:argonia/trees/greguire/junglelogmossflat01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -75.1197,
+    100.0309,
+    21.1762
+   ],
+   "rotationDeg": [
+    0.0,
+    228.22,
+    0.0
+   ],
+   "scale": 2.67,
+   "category": "misc",
+   "base": "ArgoniaTreeMossCluster01",
+   "baseType": "TREE"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570735",
+   "assetId": "vanilla:plants/florahangingmoss01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -74.9063,
+    91.283,
+    25.3002
+   ],
+   "rotationDeg": [
+    0.0,
+    245.409,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "plant",
+   "base": "TreeFloraHangingMoss01",
+   "baseType": "TREE"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857073A",
+   "assetId": "vanilla:dungeons/nordic/rubble/norvinefloor01nocol",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -59.3443,
+    90.4628,
+    12.498
+   ],
+   "rotationDeg": [
+    0.0,
+    103.132,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "HistMossyVinesFloor01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857073B",
+   "assetId": "vanilla:dungeons/nordic/rubble/norvinefloor02nocol",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -63.4307,
+    90.4976,
+    8.4663
+   ],
+   "rotationDeg": [
+    0.0,
+    137.51,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "HistMossyVinesFloor02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857073C",
+   "assetId": "vanilla:dungeons/nordic/rubble/norvinefloor02nocol",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -57.4436,
+    91.7779,
+    23.0323
+   ],
+   "rotationDeg": [
+    4.08,
+    5.743,
+    0.595
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "HistMossyVinesFloor02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857073D",
+   "assetId": "vanilla:dungeons/nordic/rubble/norvinefloor01nocol",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -61.0554,
+    90.6397,
+    30.9653
+   ],
+   "rotationDeg": [
+    0.789,
+    45.618,
+    6.351
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "HistMossyVinesFloor01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857073E",
+   "assetId": "vanilla:dungeons/nordic/rubble/norvinefloor01nocol",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -69.4087,
+    90.5298,
+    29.4038
+   ],
+   "rotationDeg": [
+    0.0,
+    34.377,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "dungeon-kit",
+   "base": "HistMossyVinesFloor01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857073F",
+   "assetId": "kotm:argonia/trees/hist trees/hist_root03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -56.4027,
+    86.9556,
+    0.3725
+   ],
+   "rotationDeg": [
+    10.041,
+    330.864,
+    5.551
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "HistRoot03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570740",
+   "assetId": "kotm:argonia/trees/hist trees/hist_root04",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -56.0285,
+    89.2899,
+    0.9391
+   ],
+   "rotationDeg": [
+    10.041,
+    62.538,
+    5.551
+   ],
+   "scale": 0.83,
+   "category": "misc",
+   "base": "HistRoot04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570741",
+   "assetId": "kotm:argonia/trees/hist trees/hist_rootanim",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -69.4622,
+    91.7695,
+    35.6827
+   ],
+   "rotationDeg": [
+    -15.509,
+    321.102,
+    -91.736
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "HistRoot06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570742",
+   "assetId": "kotm:argonia/trees/hist trees/hist_root04",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -66.5639,
+    91.1955,
+    34.9286
+   ],
+   "rotationDeg": [
+    -37.956,
+    15.397,
+    -36.23
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "HistRoot04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570743",
+   "assetId": "kotm:argonia/trees/hist trees/hist_root05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -55.7402,
+    93.2779,
+    30.4817
+   ],
+   "rotationDeg": [
+    0.0,
+    263.561,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "HistRoot05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570748",
+   "assetId": "vanilla:clutter/bones/humanspine",
+   "kit": "settlement-root-v1",
+   "positionM": [
+    -56.2889,
+    91.7563,
+    24.1329
+   ],
+   "rotationDeg": [
+    4.042,
+    355.072,
+    -84.198
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanSpine",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570749",
+   "assetId": "vanilla:clutter/bones/humanribcage",
+   "kit": "settlement-root-v1",
+   "positionM": [
+    -56.9445,
+    91.8545,
+    22.9068
+   ],
+   "rotationDeg": [
+    82.264,
+    204.783,
+    78.262
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanRibcage",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857074A",
+   "assetId": "vanilla:clutter/bones/humanlegleft",
+   "kit": "settlement-root-v1",
+   "positionM": [
+    -57.0737,
+    91.8423,
+    22.2849
+   ],
+   "rotationDeg": [
+    8.684,
+    5.835,
+    87.275
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanLegL",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857074B",
+   "assetId": "vanilla:clutter/bones/humanfootleft",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -56.1522,
+    91.7746,
+    23.6282
+   ],
+   "rotationDeg": [
+    5.201,
+    26.093,
+    3.398
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanFootL",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857074C",
+   "assetId": "vanilla:clutter/bones/humanhandleft",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -56.7702,
+    91.7054,
+    23.6141
+   ],
+   "rotationDeg": [
+    14.38,
+    277.622,
+    11.941
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanHandL",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857074E",
+   "assetId": "vanilla:clutter/bones/humanarmleft",
+   "kit": "settlement-root-v1",
+   "positionM": [
+    -56.6509,
+    91.766,
+    23.1279
+   ],
+   "rotationDeg": [
+    11.434,
+    66.164,
+    -97.347
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanArmL",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857074F",
+   "assetId": "vanilla:clutter/bones/humanskull",
+   "kit": "underwater-v1",
+   "positionM": [
+    -56.2729,
+    91.919,
+    22.9569
+   ],
+   "rotationDeg": [
+    8.578,
+    16.792,
+    -154.933
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanSkull",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570750",
+   "assetId": "kotm:issgard/clutter/bones/issgard_boneargonianskullfull",
+   "kit": "settlement-root-v1",
+   "positionM": [
+    -55.4861,
+    91.8803,
+    23.6376
+   ],
+   "rotationDeg": [
+    -0.186,
+    294.261,
+    3.478
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneArgSkullFull",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570751",
+   "assetId": "vanilla:clutter/bones/humanribcagefull",
+   "kit": "underwater-v1",
+   "positionM": [
+    -55.3373,
+    91.9162,
+    24.3523
+   ],
+   "rotationDeg": [
+    76.625,
+    322.501,
+    -53.825
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanRibcageFull",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570752",
+   "assetId": "vanilla:clutter/bones/humanfootleft",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -55.2605,
+    91.865,
+    23.8009
+   ],
+   "rotationDeg": [
+    -0.984,
+    64.065,
+    -90.044
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanFootL",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570753",
+   "assetId": "vanilla:clutter/bones/humanarmleft",
+   "kit": "settlement-root-v1",
+   "positionM": [
+    -56.0301,
+    91.752,
+    24.28
+   ],
+   "rotationDeg": [
+    -2.075,
+    11.588,
+    174.686
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanArmL",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570755",
+   "assetId": "vanilla:clutter/bones/humanlegright",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -56.5562,
+    91.824,
+    24.6256
+   ],
+   "rotationDeg": [
+    23.426,
+    100.909,
+    -4.934
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanLegR",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570756",
+   "assetId": "vanilla:clutter/bones/bloodyleg",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -58.8205,
+    91.5566,
+    25.0876
+   ],
+   "rotationDeg": [
+    4.481,
+    39.485,
+    177.109
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanBloodyLeg",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570757",
+   "assetId": "vanilla:clutter/bones/bloodyribs",
+   "kit": "settlement-root-v1",
+   "positionM": [
+    -59.2514,
+    91.675,
+    24.8243
+   ],
+   "rotationDeg": [
+    3.045,
+    3.879,
+    -14.294
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanBloodyRibcage",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570758",
+   "assetId": "vanilla:clutter/bones/bloodyskull",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -59.1042,
+    91.5015,
+    26.2427
+   ],
+   "rotationDeg": [
+    9.898,
+    97.104,
+    22.633
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanBloodySkull",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.08570759",
+   "assetId": "vanilla:clutter/bones/bloodyarm",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -60.0195,
+    91.6337,
+    24.7555
+   ],
+   "rotationDeg": [
+    -2.093,
+    68.487,
+    83.965
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanBloodyArm",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857075A",
+   "assetId": "vanilla:clutter/bones/bloodybone",
+   "kit": "settlement-root-v1",
+   "positionM": [
+    -59.5728,
+    91.539,
+    25.398
+   ],
+   "rotationDeg": [
+    4.147,
+    3.766,
+    -3.616
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanBloodyBone",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857075B",
+   "assetId": "vanilla:clutter/bones/bloodyleg",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -59.7009,
+    91.7006,
+    23.7917
+   ],
+   "rotationDeg": [
+    -5.735,
+    153.113,
+    1.6
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "BoneHumanBloodyLeg",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857075C",
+   "assetId": "vanilla:clutter/bones/bloodyhand",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -59.1471,
+    91.5587,
+    25.4176
+   ],
+   "rotationDeg": [
+    11.57,
+    37.703,
+    -2.533
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "BoneHumanBloodyHand",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "MugsumpHollowInt01.0857075E",
+   "assetId": "kotm:argonia/furniture/rusticchest",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    -55.3579,
+    92.0214,
+    22.6059
+   ],
+   "rotationDeg": [
+    -1.34,
+    68.594,
+    -4.816
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "TreasMurkmireChest01",
+   "baseType": "CONT"
+  }
+ ],
+ "lights": [
+  {
+   "refId": "085706FF",
+   "positionM": [
+    -72.1231,
+    97.0274,
+    8.696
+   ],
+   "radiusM": 5.38,
+   "colorRGB": [
+    235,
+    250,
+    254
+   ],
+   "fade": 0.9154,
+   "flags": 12289,
+   "falloffExponent": 0.01,
+   "base": "DefaultSunlight01Omni",
+   "raw": {
+    "xrdsUnits": 378.235,
+    "baseRadiusUnits": 256,
+    "xlig": {
+     "fovOffset": 0.0,
+     "fadeOffset": 0.0,
+     "endDistanceCap": 0.0,
+     "shadowDepthBias": 25.248
+    },
+    "recordFade": 1.0,
+    "recordFalloffExponent": 5.0
+   }
+  },
+  {
+   "refId": "08570700",
+   "positionM": [
+    -79.018,
+    97.2632,
+    23.1077
+   ],
+   "radiusM": 5.38,
+   "colorRGB": [
+    235,
+    250,
+    254
+   ],
+   "fade": 0.9154,
+   "flags": 12289,
+   "falloffExponent": 0.01,
+   "base": "DefaultSunlight01Omni",
+   "raw": {
+    "xrdsUnits": 378.235,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 5.0
+   }
+  },
+  {
+   "refId": "08570701",
+   "positionM": [
+    -57.6249,
+    98.9515,
+    23.8028
+   ],
+   "radiusM": 5.38,
+   "colorRGB": [
+    235,
+    250,
+    254
+   ],
+   "fade": 0.9154,
+   "flags": 12289,
+   "falloffExponent": 0.01,
+   "base": "DefaultSunlight01Omni",
+   "raw": {
+    "xrdsUnits": 378.235,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 5.0
+   }
+  },
+  {
+   "refId": "08570702",
+   "positionM": [
+    -51.7679,
+    97.9705,
+    5.2121
+   ],
+   "radiusM": 5.38,
+   "colorRGB": [
+    235,
+    250,
+    254
+   ],
+   "fade": 0.9154,
+   "flags": 12289,
+   "falloffExponent": 0.01,
+   "base": "DefaultSunlight01Omni",
+   "raw": {
+    "xrdsUnits": 378.235,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 5.0
+   }
+  }
+ ],
+ "socketsSchemaVersion": 2,
+ "sockets": [
+  {
+   "id": "socket.MugsumpHollowInt01.0857075E",
+   "kind": "container",
+   "positionM": [
+    -55.3579,
+    92.0214,
+    22.6059
+   ],
+   "yawDeg": 68.755,
+   "host": "MugsumpHollowInt01.0857075E",
+   "containerClass": "urn",
+   "fillRule": "blanket.household-urn",
+   "why": "TreasMurkmireChest01 placed by the cell's author"
+  }
+ ],
+ "drops": [
+  {
+   "refId": "0857059A",
+   "reason": "unresolved-base",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dragonborn.esm:0003D5DC",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 13 loose (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    106.3177,
+    85.1868,
+    7.9435
+   ]
+  },
+  {
+   "refId": "085706AB",
+   "reason": "marker",
+   "base": "AutoLoadDoor01",
+   "baseType": "DOOR"
+  },
+  {
+   "refId": "085706D2",
+   "reason": "listed-gap",
+   "base": "ArgoniaRockCliff12",
+   "baseType": "STAT",
+   "model": "_resourcepack/landscape/rocks/desertrockscliff01.nif",
+   "assetId": null,
+   "class": "rock",
+   "classSource": "base record STAT, model taxonomy",
+   "positionM": [
+    -46.7121,
+    90.4372,
+    1.7388
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "The four ArgoniaRockCliff12-15 bases draw `_resourcepack/landscape/rocks/desertrockscliff01-04.nif`, meshes of the Skyrim Anniversary Edition resource pack (Creation Club), which the project never sources (place-build references/brief-sections.md \u00a7 Interiors; planner ruling 2026-09-27). The vault holds no copy: no file named desertrockscliff0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object, so no same-object stand-in exists (R48).",
+   "why": "A cliff boulder from a content pack we do not use stood here; the cave wall behind it stays."
+  },
+  {
+   "refId": "085706D3",
+   "reason": "listed-gap",
+   "base": "ArgoniaRockCliff15",
+   "baseType": "STAT",
+   "model": "_resourcepack/landscape/rocks/desertrockscliff04.nif",
+   "assetId": null,
+   "class": "rock",
+   "classSource": "base record STAT, model taxonomy",
+   "positionM": [
+    -79.1429,
+    90.1992,
+    17.3916
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "The four ArgoniaRockCliff12-15 bases draw `_resourcepack/landscape/rocks/desertrockscliff01-04.nif`, meshes of the Skyrim Anniversary Edition resource pack (Creation Club), which the project never sources (place-build references/brief-sections.md \u00a7 Interiors; planner ruling 2026-09-27). The vault holds no copy: no file named desertrockscliff0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object, so no same-object stand-in exists (R48).",
+   "why": "A cliff boulder from a content pack we do not use stood here; the cave wall behind it stays."
+  },
+  {
+   "refId": "085706D4",
+   "reason": "listed-gap",
+   "base": "ArgoniaRockCliff13",
+   "baseType": "STAT",
+   "model": "_resourcepack/landscape/rocks/desertrockscliff02.nif",
+   "assetId": null,
+   "class": "rock",
+   "classSource": "base record STAT, model taxonomy",
+   "positionM": [
+    -52.4512,
+    90.7027,
+    31.9065
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "The four ArgoniaRockCliff12-15 bases draw `_resourcepack/landscape/rocks/desertrockscliff01-04.nif`, meshes of the Skyrim Anniversary Edition resource pack (Creation Club), which the project never sources (place-build references/brief-sections.md \u00a7 Interiors; planner ruling 2026-09-27). The vault holds no copy: no file named desertrockscliff0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object, so no same-object stand-in exists (R48).",
+   "why": "A cliff boulder from a content pack we do not use stood here; the cave wall behind it stays."
+  },
+  {
+   "refId": "085706D5",
+   "reason": "listed-gap",
+   "base": "ArgoniaRockCliff14",
+   "baseType": "STAT",
+   "model": "_resourcepack/landscape/rocks/desertrockscliff03.nif",
+   "assetId": null,
+   "class": "rock",
+   "classSource": "base record STAT, model taxonomy",
+   "positionM": [
+    -48.4209,
+    89.8154,
+    19.3413
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "The four ArgoniaRockCliff12-15 bases draw `_resourcepack/landscape/rocks/desertrockscliff01-04.nif`, meshes of the Skyrim Anniversary Edition resource pack (Creation Club), which the project never sources (place-build references/brief-sections.md \u00a7 Interiors; planner ruling 2026-09-27). The vault holds no copy: no file named desertrockscliff0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object, so no same-object stand-in exists (R48).",
+   "why": "A cliff boulder from a content pack we do not use stood here; the cave wall behind it stays."
+  },
+  {
+   "refId": "085706FF",
+   "reason": "light-source",
+   "base": "DefaultSunlight01Omni",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "08570700",
+   "reason": "light-source",
+   "base": "DefaultSunlight01Omni",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "08570701",
+   "reason": "light-source",
+   "base": "DefaultSunlight01Omni",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "08570702",
+   "reason": "light-source",
+   "base": "DefaultSunlight01Omni",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "08570703",
+   "reason": "unresolved-base",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dawnguard.esm:0000EFB3",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 21 loose (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    -54.6098,
+    90.42,
+    11.4186
+   ]
+  },
+  {
+   "refId": "08570707",
+   "reason": "unresolved-base",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dawnguard.esm:0000EFB8",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 17 loose (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    -55.2022,
+    90.465,
+    3.8993
+   ]
+  },
+  {
+   "refId": "08570708",
+   "reason": "unresolved-base",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dawnguard.esm:0000EFB8",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 17 loose (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    -55.2727,
+    90.3908,
+    5.2654
+   ]
+  },
+  {
+   "refId": "08570709",
+   "reason": "unresolved-base",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dawnguard.esm:0000EFB3",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 21 loose (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    -71.5581,
+    92.4947,
+    9.3494
+   ]
+  },
+  {
+   "refId": "0857070A",
+   "reason": "unresolved-base",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dawnguard.esm:0000EFB3",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 21 loose (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    -67.2455,
+    90.3865,
+    10.5997
+   ]
+  },
+  {
+   "refId": "0857070B",
+   "reason": "unresolved-base",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dawnguard.esm:0000EFB8",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 17 loose (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    -77.8996,
+    92.562,
+    23.0145
+   ]
+  },
+  {
+   "refId": "0857070C",
+   "reason": "unresolved-base",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dawnguard.esm:0000EFB8",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 17 loose (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    -76.5065,
+    92.4488,
+    24.1677
+   ]
+  },
+  {
+   "refId": "0857070D",
+   "reason": "listed-gap",
+   "base": "ArgoniaTreeUndergrowth02",
+   "baseType": "TREE",
+   "model": "argonia/trees/undergrowth02.nif",
+   "assetId": "kotm:argonia/trees/undergrowth02",
+   "class": "vegetation",
+   "classSource": "base record TREE (planner ruling R46, 16k walk 3)",
+   "positionM": [
+    -79.2682,
+    92.7071,
+    32.8954
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "0857070E",
+   "reason": "listed-gap",
+   "base": "ArgoniaTreeUndergrowth01",
+   "baseType": "TREE",
+   "model": "argonia/trees/undergrowth01.nif",
+   "assetId": "kotm:argonia/trees/undergrowth01",
+   "class": "vegetation",
+   "classSource": "base record TREE (planner ruling R46, 16k walk 3)",
+   "positionM": [
+    -79.9328,
+    92.5425,
+    23.2366
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "0857070F",
+   "reason": "listed-gap",
+   "base": "ArgoniaTreeUndergrowth02",
+   "baseType": "TREE",
+   "model": "argonia/trees/undergrowth02.nif",
+   "assetId": "kotm:argonia/trees/undergrowth02",
+   "class": "vegetation",
+   "classSource": "base record TREE (planner ruling R46, 16k walk 3)",
+   "positionM": [
+    -71.3704,
+    92.7595,
+    3.3392
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570710",
+   "reason": "listed-gap",
+   "base": "ArgoniaTreeUndergrowth01",
+   "baseType": "TREE",
+   "model": "argonia/trees/undergrowth01.nif",
+   "assetId": "kotm:argonia/trees/undergrowth01",
+   "class": "vegetation",
+   "classSource": "base record TREE (planner ruling R46, 16k walk 3)",
+   "positionM": [
+    -71.8755,
+    92.5829,
+    11.0106
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570711",
+   "reason": "listed-gap",
+   "base": "ArgoniaTreeUndergrowth01",
+   "baseType": "TREE",
+   "model": "argonia/trees/undergrowth01.nif",
+   "assetId": "kotm:argonia/trees/undergrowth01",
+   "class": "vegetation",
+   "classSource": "base record TREE (planner ruling R46, 16k walk 3)",
+   "positionM": [
+    -60.7936,
+    91.628,
+    21.8431
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570712",
+   "reason": "listed-gap",
+   "base": "ArgoniaTreeUndergrowth01",
+   "baseType": "TREE",
+   "model": "argonia/trees/undergrowth01.nif",
+   "assetId": "kotm:argonia/trees/undergrowth01",
+   "class": "vegetation",
+   "classSource": "base record TREE (planner ruling R46, 16k walk 3)",
+   "positionM": [
+    -55.1287,
+    92.0141,
+    19.7822
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570713",
+   "reason": "listed-gap",
+   "base": "ArgoniaTreeUndergrowth02",
+   "baseType": "TREE",
+   "model": "argonia/trees/undergrowth02.nif",
+   "assetId": "kotm:argonia/trees/undergrowth02",
+   "class": "vegetation",
+   "classSource": "base record TREE (planner ruling R46, 16k walk 3)",
+   "positionM": [
+    -53.193,
+    90.2818,
+    11.0967
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570714",
+   "reason": "listed-gap",
+   "base": "ArgoniaTreeUndergrowth01",
+   "baseType": "TREE",
+   "model": "argonia/trees/undergrowth01.nif",
+   "assetId": "kotm:argonia/trees/undergrowth01",
+   "class": "vegetation",
+   "classSource": "base record TREE (planner ruling R46, 16k walk 3)",
+   "positionM": [
+    -54.2418,
+    90.3442,
+    2.5156
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570715",
+   "reason": "listed-gap",
+   "base": "ArgoniaTreeUndergrowth01",
+   "baseType": "TREE",
+   "model": "argonia/trees/undergrowth01.nif",
+   "assetId": "kotm:argonia/trees/undergrowth01",
+   "class": "vegetation",
+   "classSource": "base record TREE (planner ruling R46, 16k walk 3)",
+   "positionM": [
+    -62.8405,
+    90.044,
+    -7.5417
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570716",
+   "reason": "listed-gap",
+   "base": "ArgoniaTreeUndergrowth01",
+   "baseType": "TREE",
+   "model": "argonia/trees/undergrowth01.nif",
+   "assetId": "kotm:argonia/trees/undergrowth01",
+   "class": "vegetation",
+   "classSource": "base record TREE (planner ruling R46, 16k walk 3)",
+   "positionM": [
+    -64.7235,
+    90.2458,
+    -3.6332
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570717",
+   "reason": "listed-gap",
+   "base": "ArgoniaTreeUndergrowth01",
+   "baseType": "TREE",
+   "model": "argonia/trees/undergrowth01.nif",
+   "assetId": "kotm:argonia/trees/undergrowth01",
+   "class": "vegetation",
+   "classSource": "base record TREE (planner ruling R46, 16k walk 3)",
+   "positionM": [
+    -66.2663,
+    95.8096,
+    -23.5115
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570718",
+   "reason": "listed-gap",
+   "base": "ArgoniaTreeUndergrowth01",
+   "baseType": "TREE",
+   "model": "argonia/trees/undergrowth01.nif",
+   "assetId": "kotm:argonia/trees/undergrowth01",
+   "class": "vegetation",
+   "classSource": "base record TREE (planner ruling R46, 16k walk 3)",
+   "positionM": [
+    -60.4138,
+    90.3754,
+    17.0835
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570719",
+   "reason": "listed-gap",
+   "base": "ArgoniaTreeUndergrowth01",
+   "baseType": "TREE",
+   "model": "argonia/trees/undergrowth01.nif",
+   "assetId": "kotm:argonia/trees/undergrowth01",
+   "class": "vegetation",
+   "classSource": "base record TREE (planner ruling R46, 16k walk 3)",
+   "positionM": [
+    -60.4581,
+    91.4991,
+    33.4517
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570736",
+   "reason": "listed-gap",
+   "base": "HistHangingRoots01",
+   "baseType": "STAT",
+   "model": "creationclub/_shared/dungeons/root/clutter/rootclusterlarge01.nif",
+   "assetId": null,
+   "class": "clutter",
+   "classSource": "base record STAT, model in the kit's clutter folder",
+   "positionM": [
+    -60.1389,
+    100.3587,
+    6.4222
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "HistHangingRoots01/02 draw `creationclub/_shared/dungeons/root/clutter/rootclusterlarge01-02.nif`, Creation Club meshes the project never sources (planner ruling 2026-09-27). The vault holds no copy: no file named rootclusterlarge0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object (R48).",
+   "why": "A hanging root cluster from a content pack we do not use hung here; the Hist roots around it stay."
+  },
+  {
+   "refId": "08570737",
+   "reason": "listed-gap",
+   "base": "HistHangingRoots02",
+   "baseType": "STAT",
+   "model": "creationclub/_shared/dungeons/root/clutter/rootclusterlarge02.nif",
+   "assetId": null,
+   "class": "clutter",
+   "classSource": "base record STAT, model in the kit's clutter folder",
+   "positionM": [
+    -55.959,
+    100.487,
+    8.1518
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "HistHangingRoots01/02 draw `creationclub/_shared/dungeons/root/clutter/rootclusterlarge01-02.nif`, Creation Club meshes the project never sources (planner ruling 2026-09-27). The vault holds no copy: no file named rootclusterlarge0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object (R48).",
+   "why": "A hanging root cluster from a content pack we do not use hung here; the Hist roots around it stay."
+  },
+  {
+   "refId": "08570738",
+   "reason": "listed-gap",
+   "base": "HistHangingRoots02",
+   "baseType": "STAT",
+   "model": "creationclub/_shared/dungeons/root/clutter/rootclusterlarge02.nif",
+   "assetId": null,
+   "class": "clutter",
+   "classSource": "base record STAT, model in the kit's clutter folder",
+   "positionM": [
+    -70.5222,
+    100.2134,
+    23.622
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "HistHangingRoots01/02 draw `creationclub/_shared/dungeons/root/clutter/rootclusterlarge01-02.nif`, Creation Club meshes the project never sources (planner ruling 2026-09-27). The vault holds no copy: no file named rootclusterlarge0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object (R48).",
+   "why": "A hanging root cluster from a content pack we do not use hung here; the Hist roots around it stay."
+  },
+  {
+   "refId": "08570739",
+   "reason": "listed-gap",
+   "base": "HistHangingRoots01",
+   "baseType": "STAT",
+   "model": "creationclub/_shared/dungeons/root/clutter/rootclusterlarge01.nif",
+   "assetId": null,
+   "class": "clutter",
+   "classSource": "base record STAT, model in the kit's clutter folder",
+   "positionM": [
+    -61.406,
+    100.0017,
+    31.2462
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "HistHangingRoots01/02 draw `creationclub/_shared/dungeons/root/clutter/rootclusterlarge01-02.nif`, Creation Club meshes the project never sources (planner ruling 2026-09-27). The vault holds no copy: no file named rootclusterlarge0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object (R48).",
+   "why": "A hanging root cluster from a content pack we do not use hung here; the Hist roots around it stay."
+  },
+  {
+   "refId": "08570746",
+   "reason": "actor",
+   "base": "ArgonianBehemoth01",
+   "baseType": "NPC_"
+  },
+  {
+   "refId": "0857075D",
+   "reason": "no-model",
+   "base": "DecalBloodSprayGroundMediumSmall",
+   "baseType": "TXST"
+  },
+  {
+   "refId": "085706EC",
+   "reason": "listed-gap",
+   "gapReason": "rests-on-a-gap",
+   "restsOn": "085706D3",
+   "assetId": "kotm:argonia/stalactites/stal2",
+   "class": "misc",
+   "positionM": [
+    -75.698,
+    91.8214,
+    21.2211
+   ],
+   "why": "A stalagmite that stood on that boulder. With the boulder missing (5.4 m off its pivot) it would hang in the air (wb.py audit-interior: floating, no support within reach)."
+  },
+  {
+   "refId": "085706ED",
+   "reason": "listed-gap",
+   "gapReason": "rests-on-a-gap",
+   "restsOn": "085706D3",
+   "assetId": "kotm:argonia/stalactites/stal3",
+   "class": "misc",
+   "positionM": [
+    -77.7918,
+    94.893,
+    18.8505
+   ],
+   "why": "A stalagmite that stood on that boulder. With the boulder missing (5.1 m off its pivot) it would hang in the air (wb.py audit-interior: floating, no support within reach)."
+  },
+  {
+   "refId": "085706F1",
+   "reason": "listed-gap",
+   "gapReason": "rests-on-a-gap",
+   "restsOn": "085706D5",
+   "assetId": "kotm:argonia/stalactites/stal5",
+   "class": "misc",
+   "positionM": [
+    -53.8754,
+    91.5111,
+    17.041
+   ],
+   "why": "A stalagmite that stood on that boulder. With the boulder missing (6.2 m off its pivot) it would hang in the air (wb.py audit-interior: floating, no support within reach)."
+  },
+  {
+   "refId": "0857072E",
+   "reason": "listed-gap",
+   "gapReason": "rests-on-a-gap",
+   "restsOn": "085706D2",
+   "assetId": "vanilla:plants/florahangingmoss01",
+   "class": "plant",
+   "positionM": [
+    -50.1529,
+    93.8381,
+    3.0145
+   ],
+   "why": "Moss that hung from that boulder. With the boulder missing (5.0 m off its pivot) it would hang in the air (wb.py audit-interior: floating, no support within reach)."
+  }
+ ],
+ "substitutions": [],
+ "counts": {
+  "placements": 122,
+  "drops": 40,
+  "lights": 4,
+  "substitutions": 0,
+  "swingDoors": 0,
+  "missingByClass": {
+   "clutter": 8
+  },
+  "dropsByReason": {
+   "actor": 1,
+   "light-source": 4,
+   "listed-gap": 25,
+   "marker": 1,
+   "no-model": 1,
+   "unresolved-base": 8
+  },
+  "socketsByKind": {
+   "container": 1
+  },
+  "settled": 0,
+  "coplanarFixed": 0
+ },
+ "settled": [],
+ "coplanarFixed": []
+}

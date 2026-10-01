@@ -2407,7 +2407,44 @@
   },
   "bmv:architecture/citebosmer/trees/treegiant01": {
    "category": "architecture",
-   "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 1.87,
+     "kind": "leaf",
+     "offsetM": [
+      9.97,
+      0.52
+     ],
+     "sideDeg": 115.0
+    },
+    {
+     "arcM": 1.6,
+     "kind": "leaf",
+     "offsetM": [
+      8.72,
+      12.22
+     ],
+     "sideDeg": 152.5
+    },
+    {
+     "arcM": 1.31,
+     "kind": "leaf",
+     "offsetM": [
+      -4.21,
+      10.24
+     ],
+     "sideDeg": 197.5
+    },
+    {
+     "arcM": 1.12,
+     "kind": "leaf",
+     "offsetM": [
+      6.01,
+      -6.67
+     ],
+     "sideDeg": 65.0
+    }
+   ],
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
@@ -2632,6 +2669,17 @@
   "bmv:architecture/citebosmer/trees/treegiantbranche7": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 3.2,
+     "kind": "opening",
+     "offsetM": [
+      -3.74,
+      -0.44
+     ],
+     "sideDeg": 272.5
+    }
+   ],
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 1.0,
@@ -3008,6 +3056,45 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (1.1 m\u00b2 plan, 4.6 m tall)"
   },
+  "kotm:argonia/trees/hist trees/hist_vines01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 3.0,
+   "front": {
+    "deg": 195.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 195\u00b0 in the piece's own frame carries 1.63x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.9,
+   "headroomM": 99.0,
+   "heightM": 7.74,
+   "interior": "none",
+   "medianWallM": 0.34,
+   "planAreaM2": 22.45,
+   "planCentreM": [
+    -0.5,
+    -0.46
+   ],
+   "provenance": [],
+   "ringFraction": 0.417,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "kotm:issgard/clutter/bones/issgard_boneargonianskullfull": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.23,
+   "interior": "none",
+   "planAreaM2": 0.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
   "mudmother:gv_meshes/argoniannest/archwaysticks": {
    "category": "misc",
    "entrance": null,
@@ -3242,12 +3329,17 @@
    "category": "misc",
    "entrance": {
     "arcM": 0.93,
+    "centreShiftM": -0.88,
+    "clearM": 2.95,
     "kind": "opening",
     "offsetM": [
      5.27,
      2.7
     ],
-    "sideDeg": 105.0
+    "rayConfirmed": true,
+    "sideDeg": 105.0,
+    "sillYM": -0.82,
+    "widthM": 3.3
    },
    "floorOffsetM": 8.0,
    "frontFaceFraction": 0.733,
@@ -3282,6 +3374,23 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (32.6 m\u00b2 plan, 0.0 m tall)"
+  },
+  "shores:shoresofskyrim/fishnet01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 343.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 344\u00b0 in the piece's own frame carries 2.80x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.46,
+   "interior": "none",
+   "planAreaM2": 0.25,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.5 m tall)"
   },
   "tropical:landscape/trees/anvil_palm_trunk": {
    "category": "tree",
@@ -3353,13 +3462,175 @@
    "roofOverhead": true,
    "sizeClass": "medium",
    "why": "category 'tree' is never a building"
+  },
+  "vanilla:clutter/basket01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.44,
+   "interior": "none",
+   "planAreaM2": 0.18,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:clutter/bones/bloodybone": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.07,
+   "interior": "none",
+   "planAreaM2": 0.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/bones/bloodyribs": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.3,
+   "interior": "none",
+   "planAreaM2": 0.22,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:clutter/bones/humanarmleft": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 284.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 284\u00b0 in the piece's own frame carries 2.37x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.13,
+   "interior": "none",
+   "planAreaM2": 0.08,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/bones/humanlegleft": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 138.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 139\u00b0 in the piece's own frame carries 1.63x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.34,
+   "interior": "none",
+   "planAreaM2": 0.12,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:clutter/bones/humanribcage": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.29,
+   "interior": "none",
+   "planAreaM2": 0.2,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:clutter/bones/humanspine": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.18,
+   "interior": "none",
+   "planAreaM2": 0.09,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/common/shovel01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 229.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 229\u00b0 in the piece's own frame carries 7.41x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.51,
+   "interior": "none",
+   "planAreaM2": 0.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 1.5 m tall)"
+  },
+  "vanilla:landscape/rocks/rockcaveentrance02": {
+   "category": "rock",
+   "doorwaysMeasuredAboveFloorM": 15.0,
+   "entrance": {
+    "doorAsset": "vanilla:autoloadmarker01",
+    "kind": "esp-door",
+    "offsetM": [
+     1.443,
+     0.426
+    ],
+    "placements": 63,
+    "radiusM": 1.505,
+    "sideDeg": 106.44,
+    "yawDeg": 106.44
+   },
+   "entranceWhy": "a cave mouth: the plugin's invisible load door stands inside the tunnel on a 1.50 m ring across its placements; their 31 door yaws give the tunnel axis, 106 deg in the rock's frame, on its show side, so the door is fixed there",
+   "espLink": {
+    "doorModel": "vanilla:autoloadmarker01",
+    "interiorCell": "CIPHTBMCoatepecMine",
+    "interiorFamily": "vanilla:dungeons/mines/rocks",
+    "interiorSizeM": {
+     "heightM": 69.53,
+     "planXM": 131.68,
+     "planYM": 89.58
+    },
+    "placements": 2,
+    "plugin": "Here There Be Monsters - Curse of Cipactli.esp"
+   },
+   "floorOffsetM": 1.0,
+   "frontFaceFraction": 1.0,
+   "headroomM": 3.7,
+   "heightM": 19.51,
+   "interior": "tileset",
+   "interiorSource": "esp-door",
+   "medianWallM": 2.0,
+   "planAreaM2": 747.9,
+   "planCentreM": [
+    -1.31,
+    -1.92
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "storeyLevelsM": [
+    1.0
+   ],
+   "storeys": 1,
+   "tileset": "vanilla-imperial-int",
+   "why": "Here There Be Monsters - Curse of Cipactli.esp teleports from this shell into interior cell CIPHTBMCoatepecMine (2 placements of the load door); that cell is built from vanilla:dungeons/mines/rocks, which is packaged as vanilla-imperial-int"
   }
  },
  "kit": "settlement-root-v1",
  "provenance": {
   "exterior-interior-links.json": {
    "miner": "worldgen.mine_door_links",
-   "minerVersion": "9abb006dbad2",
+   "minerVersion": "0cd64d1a336f",
    "plugins": [
     "ArgonianHome.esp",
     "ArgonianLakeHouse.esl",
@@ -3418,7 +3689,7 @@
     "igs_tileset_ayleid.esp"
    ],
    "poolRegister": {
-    "date": "2026-09-25",
+    "date": "2026-09-27",
     "pools": [
      "bmv",
      "vanilla",
@@ -3450,7 +3721,7 @@
      "hlaalu"
     ],
     "source": "worldgen.asset_registry.POOLS",
-    "uncommittedChanges": true
+    "uncommittedChanges": false
    },
    "poolsMined": [
     "ayleidcc",
@@ -3476,7 +3747,7 @@
     "xalfek",
     "xanmeer"
    ],
-   "runDate": "2026-09-26"
+   "runDate": "2026-10-01"
   },
   "kit-assemblies-mined.json": {
    "miner": "worldgen.mine_assemblies",
@@ -3577,6 +3848,7 @@
    "esp-door",
    "assembly",
    "composite-leaf",
+   "approach",
    "door-piece",
    "leaf",
    "opening",

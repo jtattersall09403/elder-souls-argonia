@@ -1218,6 +1218,16 @@ def _nearest_way(bp: dict, point_uv):
     return best
 
 
+def off_network(bp: dict) -> bool:
+    """No way of any kind and no network terminal, and the first approach
+    comes across country (`fromDirection`, no `fromRouteId`, a `viaUV`): the
+    blueprint twin of `workbench.rules.off_network`."""
+    if any(bp.get(k) for k in WAY_KEYS) or bp.get("networkTerminals"):
+        return False
+    first = (bp.get("approaches") or [{}])[0]
+    return bool(first.get("fromDirection") and not first.get("fromRouteId") and first.get("viaUV"))
+
+
 def _door_way_failures(bp: dict) -> list[str]:
     """The orientation contract, read off the geometry: a door's derived entrance
     must look at the way it opens onto, and its threshold must stand at that way.
@@ -1228,7 +1238,10 @@ def _door_way_failures(bp: dict) -> list[str]:
     out: list[str] = []
     bid = bp.get("id", "<missing id>")
     lib = bi.library()
-    if not lib:
+    if not lib or off_network(bp):
+        # an off-network place (a lair reached across country) has no way for
+        # its door to give onto; the workbench's walkRule walks it from its
+        # approach instead (`workbench.rules.off_network`, 16k walk 9)
         return out
     parcels = {p.get("id"): p for p in bp.get("parcels", []) or []}
     for d in bp.get("doors", []) or []:

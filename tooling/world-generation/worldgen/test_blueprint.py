@@ -1209,3 +1209,13 @@ def test_no_loader_globs_the_blueprints_folder_itself():
             for i, line in enumerate(p.read_text().splitlines(), 1)
             if glob_call.search(line) and names_blueprints.search(line)]
     assert hits == [], hits
+
+
+def test_an_off_network_lair_asks_no_way_of_its_door():
+    # Takes-The-Tools (16k walk 9): no way, no terminal, approached across country
+    lair = {"routes": [], "boardwalks": [], "canals": [], "fences": [], "networkTerminals": [],
+            "approaches": [{"fromDirection": "east", "viaUV": [[0.5, 0.6]]}]}
+    assert blueprint.off_network(lair)
+    assert not blueprint.off_network(dict(lair, routes=[{"id": "route.x.track"}]))
+    assert not blueprint.off_network(dict(lair, approaches=[{"fromRouteId": "route.x",
+                                                             "viaUV": [[0.5, 0.6]]}]))

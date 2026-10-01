@@ -10803,11 +10803,11 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A void opened where the root layer lifted the ground deep in the D4 jungle. Something moved into it.",
+        "founding": "A void opened where the root layer lifted the ground deep in the jungle. Something moved into it.",
         "siteAdvantages": "A dry void under the root layer, root-walled and rock-floored, with one defensible mouth.",
         "occupantsMotive": "An occupant that has made a lair of it and dragged in what it has taken.",
-        "pressures": "The nearest village keeps its hunters a valley clear of it. The headman will explain why at length.",
-        "wouldChangeIf": "If it were cleared, the village's hunting range doubles."
+        "pressures": "The evicted families at the hiring camp a kilometre east no longer forage this way. Any of them will tell a stranger why, at length.",
+        "wouldChangeIf": "If it were cleared, the hiring camp's foraging range would double."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10875,7 +10875,9 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [],
-        "evidence": [],
+        "evidence": [
+          "evidence.jungle-root-hollow.the-tools"
+        ],
         "post": [],
         "marks": []
       },
@@ -10899,7 +10901,7 @@
         "current"
       ],
       "densityLayer": "fine-tempo",
-      "entrance": "sinkhole-lip",
+      "entrance": "cave-mouth",
       "underwaterAccess": "none",
       "name": "Takes-The-Tools",
       "hostility": {

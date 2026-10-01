@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "type": "05-dungeon-entrance",
+  "about": "Yard sets for dungeon entrances (decision 0101): the dressing groups that `wb.py group place` lays, rebuilt from the repo. Members sit in the anchor's plan frame (offsetM is x east and z south with the anchor at yaw 0); none is mounted, every member is settled on the ground. A lair's threshold is told by what its occupant leaves: the bones are the pieces the linked cell itself scatters (MugsumpHollowInt01), so outside and inside agree. First laid at Takes-The-Tools (16k walk 9).",
+  "source": "world/sources/blueprints/jungle-root-hollow.layout.json (first laid there by `group place`)",
+  "sets": [
+    {
+      "id": "lair-bone-scatter",
+      "anchor": "lb-ribs",
+      "why": "What the occupant left at its threshold: a rib cage, an Argonian skull, loose limb bones and fresh scraps, thickest by the mouth.",
+      "members": [
+        {"uid": "lb-ribs", "piece": "vanilla:clutter/bones/humanribcage", "offsetM": [0.0, 0.0], "yaw": 0.0},
+        {"uid": "lb-skull", "piece": "kotm:issgard/clutter/bones/issgard_boneargonianskullfull", "offsetM": [0.9, 0.6], "yaw": 70.0},
+        {"uid": "lb-arm", "piece": "vanilla:clutter/bones/humanarmleft", "offsetM": [-0.8, 0.9], "yaw": 140.0},
+        {"uid": "lb-leg", "piece": "vanilla:clutter/bones/humanlegleft", "offsetM": [1.4, -0.7], "yaw": 25.0},
+        {"uid": "lb-spine", "piece": "vanilla:clutter/bones/humanspine", "offsetM": [-0.4, -1.1], "yaw": 300.0},
+        {"uid": "lb-fresh", "piece": "vanilla:clutter/bones/bloodyribs", "offsetM": [2.2, 0.4], "yaw": 200.0},
+        {"uid": "lb-scrap", "piece": "vanilla:clutter/bones/bloodybone", "offsetM": [0.3, 1.8], "yaw": 95.0},
+        {"uid": "lb-arm2", "piece": "vanilla:clutter/bones/humanarmleft", "offsetM": [-1.6, -0.2], "yaw": 250.0}
+      ]
+    },
+    {
+      "id": "lair-tool-scatter",
+      "anchor": "lt-shovel",
+      "why": "Other people's tools dragged out with them and dropped: a spade, a forager's basket and a fishing net.",
+      "members": [
+        {"uid": "lt-shovel", "piece": "vanilla:clutter/common/shovel01", "offsetM": [0.0, 0.0], "yaw": 0.0},
+        {"uid": "lt-basket", "piece": "vanilla:clutter/basket01", "offsetM": [0.9, -0.9], "yaw": 250.0},
+        {"uid": "lt-net", "piece": "shores:shoresofskyrim/fishnet01", "offsetM": [-1.2, 0.6], "yaw": 15.0}
+      ]
+    }
+  ]
+}

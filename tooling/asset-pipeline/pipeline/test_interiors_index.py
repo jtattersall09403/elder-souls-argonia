@@ -1196,3 +1196,24 @@ def test_the_approach_outranks_the_ray_pick():
                            {"kind": "approach", "sideDeg": 95.8, "arcM": 1.7}]}
     ix.finalise_entrance(record)
     assert record["entrance"]["kind"] == "approach"
+
+
+def test_a_rock_with_an_invisible_load_door_is_a_cave_mouth_and_no_other_rock_is():
+    # 16k walk 9: rockcaveentrance02 holds King of the Murkmire's AutoLoadDoor01
+    rock = {"category": "rock", "interior": "none"}
+    assert ix.cave_mouth_link(rock, {"doorModel": "vanilla:autoloadmarker01"})
+    assert not ix.cave_mouth_link(rock, {"doorModel": "vanilla:architecture/farmhouse/farmhouseldoor01"})
+    assert not ix.cave_mouth_link({"category": "misc"}, {"doorModel": "vanilla:autoloadmarker01"})
+
+
+def test_a_radial_cave_mouth_door_is_fixed_on_its_doors_axis_toward_the_show_side():
+    # rockcaveentrance02's plugins face their doors out (about 110) or in (about 290)
+    record = {"category": "rock", "caveDoorYawsDeg": [107.0, 113.0, 287.0, 293.0],
+              "entrance": {"kind": "esp-door", "radial": True, "radiusM": 1.5}}
+    ix.fix_cave_mouth_entrance(record, 79.7)
+    ent = record["entrance"]
+    assert "radial" not in ent and "caveDoorYawsDeg" not in record
+    assert abs(ent["sideDeg"] - 110.0) < 0.01 and ent["yawDeg"] == ent["sideDeg"]
+    record = {"category": "rock", "entrance": {"kind": "esp-door", "radial": True, "radiusM": 1.5}}
+    ix.fix_cave_mouth_entrance(record, 90.0)
+    assert record["entrance"]["offsetM"] == [1.5, -0.0]

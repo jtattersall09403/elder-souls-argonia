@@ -605,17 +605,28 @@ def load_additions(cell_edid: str, placements: list[dict], kit_assets: dict,
 #: walk 3; decision 0102's third reason): the piece exists nowhere we may use
 #: after a completed search, recorded with the search in the cell's ``gaps[]``
 GAP_REASONS = frozenset({"asset-exists-nowhere"})
+#: a placed piece whose only support was an asset-exists-nowhere gap (a
+#: stalagmite on a resource-pack boulder, 16k walk 9) would hang in the air
+#: (`wb.py audit-interior` floating); it goes undrawn with its support,
+#: naming that gap in ``restsOn``
+DEPENDENT_GAP_REASON = "rests-on-a-gap"
 
 
 def load_gaps(cell_edid: str, directory: Path = SUBSTITUTIONS_DIR) -> dict[str, dict]:
-    """refId -> ``{reason, search, why}`` for one cell's listed gaps (R51)."""
+    """refId -> ``{reason, search, why}`` for one cell's listed gaps (R51);
+    a ``rests-on-a-gap`` row names the asset-exists-nowhere gap it stood on
+    (``restsOn``) instead of a search."""
     path = directory / f"{cell_edid}.json"
     if not path.exists():
         return {}
     rows = json.loads(path.read_text()).get("gaps", [])
-    bad = [r.get("refId") for r in rows if r.get("reason") not in GAP_REASONS or not r.get("search")]
+    nowhere = {r.get("refId") for r in rows if r.get("reason") in GAP_REASONS}
+    bad = [r.get("refId") for r in rows
+           if not ((r.get("reason") in GAP_REASONS and r.get("search"))
+                   or (r.get("reason") == DEPENDENT_GAP_REASON and r.get("restsOn") in nowhere))]
     if bad:
-        raise ValueError(f"{path.name}: gaps {bad} need reason in {sorted(GAP_REASONS)} and a search")
+        raise ValueError(f"{path.name}: gaps {bad} need reason in {sorted(GAP_REASONS)} and a "
+                         f"search, or {DEPENDENT_GAP_REASON!r} naming a listed gap in restsOn")
     return {row["refId"]: row for row in rows}
 
 
@@ -645,8 +656,24 @@ def piece_class(base: dict | None, base_form: str | None, model: str | None,
     if btype in ITEM_BASES:
         return "clutter", f"base record {btype} (a carried item)"
     if model:
-        return classify(model).category, f"base record {btype}, model taxonomy"
+        category = classify(model).category
+        if (category in ARCHITECTURE_CLASSES
+                and "clutter" in model.lower().replace("\\", "/").split("/")[:-1]):
+            # the author filed the mesh under a clutter folder inside a kit
+            # folder (Creation Club's dungeons/root/clutter/rootclusterlarge01):
+            # clutter, not the kit's architecture (16k walk 9, type-5 slice)
+            return "clutter", f"base record {btype}, model in the kit's clutter folder"
+        return category, f"base record {btype}, model taxonomy"
     return "unclassed", f"base record {btype} with no model"
+
+
+#: meshes Skyrim uses for a load door that draws nothing (AutoLoadDoor01 at a
+#: cave mouth); matched on the file name
+INVISIBLE_LOAD_DOOR_MODELS = frozenset({"autoloadmarker01.nif", "autoloadmarker01"})
+
+
+def is_invisible_load_door(model: str) -> bool:
+    return model.lower().replace("\\", "/").rsplit("/", 1)[-1] in INVISIBLE_LOAD_DOOR_MODELS
 
 
 #: R45 (planner ruling, 16k walk 3): the kit categories a reference can rest on
@@ -1130,6 +1157,12 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
             load_doors[rid] = {"id": f"{cell_edid}.{rid}", "refId": rid,
                                "targetRefId": f"{ref['teleport']:08X}", "positionM": pos,
                                "yawDeg": yaw}
+            if model and is_invisible_load_door(model):
+                # AutoLoadDoor01: the cave mouth's load door has no mesh of its
+                # own (the walls are the way out); it is the cell's load door
+                # above and draws nothing (16k walk 9, type-5 slice)
+                drop("marker")
+                continue
         if btype == "IDLM":
             drop("marker")
             sockets.append({"id": f"socket.{cell_edid}.{rid}", "kind": "idle", "positionM": pos,
@@ -1152,6 +1185,14 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
             continue
         asset_id = asset_id_for(model, registry, pool)
         hit = kit_assets.get(asset_id) if asset_id else None
+        if hit is None:
+            # the same mesh path shipped by another pool (Tamira's
+            # tropicalplant01 in King of the Murkmire and in Darkwater Den,
+            # 16k walk 9) draws the same object: take the copy a kit holds
+            key = model if model.startswith("meshes/") else "meshes/" + model
+            alt = next((a for a in sorted((registry.get(key) or {}).values()) if a in kit_assets), None)
+            if alt is not None:
+                asset_id, hit = alt, kit_assets[alt]
         if hit is None:
             cls, why = piece_class(base, None, model, absent)
             drop("no-kit-asset", model=model, assetId=asset_id,
@@ -1244,6 +1285,16 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
             "positionM": pos, "rotationDeg": rot, "scale": scale})
 
     for rid, row in sorted(load_gaps(cell_edid).items()):
+        if row["reason"] == DEPENDENT_GAP_REASON:
+            placed = next((p for p in placements if p["id"] == f"{cell_edid}.{rid}"), None)
+            if placed is None:
+                raise ValueError(f"{cell_edid}: listed gap {rid} rests on a gap but is no placement of the cell")
+            placements.remove(placed)
+            drops.append({"refId": rid, "reason": "listed-gap", "gapReason": row["reason"],
+                          "restsOn": row["restsOn"], "assetId": placed["assetId"],
+                          "class": placed.get("category"), "positionM": placed["positionM"],
+                          "why": row.get("why")})
+            continue
         miss = next((d for d in drops if d["refId"] == rid and d["reason"] in MISSING_REASONS), None)
         if miss is None:
             raise ValueError(f"{cell_edid}: listed gap {rid} is not a missing piece of the cell")

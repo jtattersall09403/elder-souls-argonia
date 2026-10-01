@@ -1,0 +1,160 @@
+{
+ "schemaVersion": 1,
+ "cellId": "MugsumpHollowInt01",
+ "plugin": "King of the Murkmire.esp",
+ "rule": "Stand-ins for a missing clutter or furniture piece of this cell (same object, R48); none are needed here.",
+ "substitutions": [],
+ "gaps": [
+  {
+   "refId": "085706D2",
+   "reason": "asset-exists-nowhere",
+   "search": "The four ArgoniaRockCliff12-15 bases draw `_resourcepack/landscape/rocks/desertrockscliff01-04.nif`, meshes of the Skyrim Anniversary Edition resource pack (Creation Club), which the project never sources (place-build references/brief-sections.md § Interiors; planner ruling 2026-09-27). The vault holds no copy: no file named desertrockscliff0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object, so no same-object stand-in exists (R48).",
+   "why": "A cliff boulder from a content pack we do not use stood here; the cave wall behind it stays."
+  },
+  {
+   "refId": "085706D3",
+   "reason": "asset-exists-nowhere",
+   "search": "The four ArgoniaRockCliff12-15 bases draw `_resourcepack/landscape/rocks/desertrockscliff01-04.nif`, meshes of the Skyrim Anniversary Edition resource pack (Creation Club), which the project never sources (place-build references/brief-sections.md § Interiors; planner ruling 2026-09-27). The vault holds no copy: no file named desertrockscliff0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object, so no same-object stand-in exists (R48).",
+   "why": "A cliff boulder from a content pack we do not use stood here; the cave wall behind it stays."
+  },
+  {
+   "refId": "085706D4",
+   "reason": "asset-exists-nowhere",
+   "search": "The four ArgoniaRockCliff12-15 bases draw `_resourcepack/landscape/rocks/desertrockscliff01-04.nif`, meshes of the Skyrim Anniversary Edition resource pack (Creation Club), which the project never sources (place-build references/brief-sections.md § Interiors; planner ruling 2026-09-27). The vault holds no copy: no file named desertrockscliff0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object, so no same-object stand-in exists (R48).",
+   "why": "A cliff boulder from a content pack we do not use stood here; the cave wall behind it stays."
+  },
+  {
+   "refId": "085706D5",
+   "reason": "asset-exists-nowhere",
+   "search": "The four ArgoniaRockCliff12-15 bases draw `_resourcepack/landscape/rocks/desertrockscliff01-04.nif`, meshes of the Skyrim Anniversary Edition resource pack (Creation Club), which the project never sources (place-build references/brief-sections.md § Interiors; planner ruling 2026-09-27). The vault holds no copy: no file named desertrockscliff0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object, so no same-object stand-in exists (R48).",
+   "why": "A cliff boulder from a content pack we do not use stood here; the cave wall behind it stays."
+  },
+  {
+   "refId": "085706EC",
+   "reason": "rests-on-a-gap",
+   "restsOn": "085706D3",
+   "why": "A stalagmite that stood on that boulder. With the boulder missing (5.4 m off its pivot) it would hang in the air (wb.py audit-interior: floating, no support within reach)."
+  },
+  {
+   "refId": "085706ED",
+   "reason": "rests-on-a-gap",
+   "restsOn": "085706D3",
+   "why": "A stalagmite that stood on that boulder. With the boulder missing (5.1 m off its pivot) it would hang in the air (wb.py audit-interior: floating, no support within reach)."
+  },
+  {
+   "refId": "085706F1",
+   "reason": "rests-on-a-gap",
+   "restsOn": "085706D5",
+   "why": "A stalagmite that stood on that boulder. With the boulder missing (6.2 m off its pivot) it would hang in the air (wb.py audit-interior: floating, no support within reach)."
+  },
+  {
+   "refId": "0857070D",
+   "reason": "asset-exists-nowhere",
+   "search": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "0857070E",
+   "reason": "asset-exists-nowhere",
+   "search": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "0857070F",
+   "reason": "asset-exists-nowhere",
+   "search": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570710",
+   "reason": "asset-exists-nowhere",
+   "search": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570711",
+   "reason": "asset-exists-nowhere",
+   "search": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570712",
+   "reason": "asset-exists-nowhere",
+   "search": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570713",
+   "reason": "asset-exists-nowhere",
+   "search": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570714",
+   "reason": "asset-exists-nowhere",
+   "search": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570715",
+   "reason": "asset-exists-nowhere",
+   "search": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570716",
+   "reason": "asset-exists-nowhere",
+   "search": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570717",
+   "reason": "asset-exists-nowhere",
+   "search": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570718",
+   "reason": "asset-exists-nowhere",
+   "search": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "08570719",
+   "reason": "asset-exists-nowhere",
+   "search": "ArgoniaTreeUndergrowth01/02 draw King of the Murkmire's undergrowth01-02.nif, whose only leaf diffuse is the Anniversary Edition resource pack's `textures/_resourcepack/landscape/trees/snowgumbranches01_d.dds` (Creation Club), absent from the vault (no snowgum* texture anywhere under skyrim-source, LOD copies included; 16k walk 9, 2026-10-01). Drawn untextured or under another atlas the branches would not be the same object (R48); interior-kotm-v1 already leaves them out on the boneflute's rule.",
+   "why": "A low clump of undergrowth stood here; its leaves come from a content pack we do not use."
+  },
+  {
+   "refId": "0857072E",
+   "reason": "rests-on-a-gap",
+   "restsOn": "085706D2",
+   "why": "Moss that hung from that boulder. With the boulder missing (5.0 m off its pivot) it would hang in the air (wb.py audit-interior: floating, no support within reach)."
+  },
+  {
+   "refId": "08570736",
+   "reason": "asset-exists-nowhere",
+   "search": "HistHangingRoots01/02 draw `creationclub/_shared/dungeons/root/clutter/rootclusterlarge01-02.nif`, Creation Club meshes the project never sources (planner ruling 2026-09-27). The vault holds no copy: no file named rootclusterlarge0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object (R48).",
+   "why": "A hanging root cluster from a content pack we do not use hung here; the Hist roots around it stay."
+  },
+  {
+   "refId": "08570737",
+   "reason": "asset-exists-nowhere",
+   "search": "HistHangingRoots01/02 draw `creationclub/_shared/dungeons/root/clutter/rootclusterlarge01-02.nif`, Creation Club meshes the project never sources (planner ruling 2026-09-27). The vault holds no copy: no file named rootclusterlarge0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object (R48).",
+   "why": "A hanging root cluster from a content pack we do not use hung here; the Hist roots around it stay."
+  },
+  {
+   "refId": "08570738",
+   "reason": "asset-exists-nowhere",
+   "search": "HistHangingRoots01/02 draw `creationclub/_shared/dungeons/root/clutter/rootclusterlarge01-02.nif`, Creation Club meshes the project never sources (planner ruling 2026-09-27). The vault holds no copy: no file named rootclusterlarge0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object (R48).",
+   "why": "A hanging root cluster from a content pack we do not use hung here; the Hist roots around it stay."
+  },
+  {
+   "refId": "08570739",
+   "reason": "asset-exists-nowhere",
+   "search": "HistHangingRoots01/02 draw `creationclub/_shared/dungeons/root/clutter/rootclusterlarge01-02.nif`, Creation Club meshes the project never sources (planner ruling 2026-09-27). The vault holds no copy: no file named rootclusterlarge0* anywhere under skyrim-source (find over the whole vault, 16k walk 9, 2026-10-01). No other plugin draws the same object (R48).",
+   "why": "A hanging root cluster from a content pack we do not use hung here; the Hist roots around it stay."
+  }
+ ],
+ "gapRule": "A missing piece ships undrawn only when it exists nowhere we may use after a completed search (R51, decision 0102's third reason); each row records the search. A placed piece whose only support was such a gap goes undrawn with it (reason rests-on-a-gap, restsOn naming the gap)."
+}

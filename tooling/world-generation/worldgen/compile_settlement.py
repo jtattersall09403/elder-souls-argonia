@@ -1490,10 +1490,18 @@ def _bearing_gap_deg(a: float, b: float) -> float:
     return abs((a - b + 180.0) % 360.0 - 180.0)
 
 
+#: 0102 decision 7 lights every BUILDING's entrance; a door whose shell is
+#: one of these kit categories is a landform's (a cave mouth in rock, 16k
+#: walk 9) and nobody lights it
+NOT_A_BUILDING_SHELL_CATEGORIES = frozenset({"rock", "terrain-feature"})
+
+
 def unlit_entrance_errors(doors_out: list[dict], placements: list[dict],
-                          asset_row) -> list[str]:
+                          asset_row, shell_of: dict | None = None) -> list[str]:
     """A door with neither a window glow facing its approach nor a light at
-    its threshold is dark at night (0102 decision 7).
+    its threshold is dark at night (0102 decision 7). ``shell_of`` maps a
+    parcel id to its shell asset; a door on a rock or terrain shell (a cave
+    mouth) is not a building's and is not judged.
 
     Glow: a placement on the door's parcel whose kit row carries
     `glowMaterials` AND `glowFacingsDeg` (the glow's outward bearings in the
@@ -1510,6 +1518,9 @@ def unlit_entrance_errors(doors_out: list[dict], placements: list[dict],
               and p.get("objectKind") != "effect"]
     by_id = {p["id"]: p for p in placements}
     for door in doors_out:
+        shell = (shell_of or {}).get(door.get("parcelId"))
+        if shell and (asset_row(shell) or {}).get("category") in NOT_A_BUILDING_SHELL_CATEGORIES:
+            continue
         threshold, facing = door.get("thresholdM"), door.get("facingDeg")
         if threshold is None:
             # `bind_doors_to_doorways` gives every door on a placed parcel
@@ -3009,7 +3020,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                                      interiors_index, doorways)
     # 0102 decision 7: HARD for a place; the proving-ground fixtures (a test
     # yard nobody walks at night) carry it as a WARN, waived into fixtureWaived.
-    unlit = unlit_entrance_errors(doors_out, placements, shelf.by_asset.get)
+    unlit = unlit_entrance_errors(doors_out, placements, shelf.by_asset.get,
+                                  {p.get("id"): p.get("assetRef") for p in bp.get("parcels") or []})
     if bp_mod.is_fixture(bp):
         warns += unlit
     else:

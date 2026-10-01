@@ -2544,8 +2544,12 @@ def _main(argv: Iterable[str] | None = None) -> int:
         args.assets = sample_assets(kits, args.sample, args.seed, args.assets or [])
     if args.assets and args.merge:
         document = build_document(kits, args.vault, only=set(args.assets))
-        merged = merge_assets(json.loads(args.out.read_text()), document, set(args.assets))
-        args.out.write_text(json.dumps(merged, indent=1) + "\n", encoding="utf-8")
+        # read and write under the record's write lock: a merge by another
+        # lane between the two would be dropped (16k walk 9, the sink record)
+        from .atomic_write import locked_write_text, write_lock
+        with write_lock(args.out):
+            merged = merge_assets(json.loads(args.out.read_text()), document, set(args.assets))
+            locked_write_text(args.out, json.dumps(merged, indent=1) + "\n")
         print(json.dumps({"pairs": [p for p in merged["pairs"] if p["child"] in args.assets],
                           "anchors": {a: merged["anchors"].get(a) for a in args.assets}},
                          indent=1))

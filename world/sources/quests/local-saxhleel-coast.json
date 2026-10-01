@@ -224,7 +224,7 @@
         "place.saxhleel-coast.jungle-root-hollow",
         "place.saxhleel-coast.owing-hiring-camp"
       ],
-      "premise": "The hiring camp cannot forage east because something in a root hollow has been taking foragers.",
+      "premise": "The hiring camp cannot forage west because something in a root hollow has been taking foragers.",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

@@ -1893,6 +1893,55 @@ def door_piece_doorways(record: dict, asset_id: str,
     return out[:MAX_DOORWAYS]
 
 
+#: the mesh of a load door that draws nothing (AutoLoadDoor01, a cave mouth)
+INVISIBLE_LOAD_DOOR_MODELS = ("autoloadmarker01",)
+
+
+def cave_mouth_link(record: dict, link_row: dict) -> bool:
+    """A rock is never a building, but a rock its plugin hung an invisible
+    load door inside IS a cave mouth: the plugin's link makes it an entrance
+    (`mine_door_links` gives such a door to the rock whose box holds it;
+    16k walk 9, rockcaveentrance02 -> MugsumpHollowInt01)."""
+    model = str(link_row.get("doorModel") or "").lower().rsplit("/", 1)[-1].rsplit(":", 1)[-1]
+    return record.get("category") == "rock" and model.removesuffix(".nif") in INVISIBLE_LOAD_DOOR_MODELS
+
+
+def cave_mouth_axis_deg(door_yaws_deg: list[float], front_deg: float) -> float:
+    """The way out of a cave mouth, from its plugins' own doors: every load
+    door stands along the tunnel, facing out or in, so the yaws gather on one
+    axis (rockcaveentrance02: 107-120 and 274-298 deg). Fold them onto the
+    half facing the rock's show side and take the circular mean."""
+    out = []
+    for y in door_yaws_deg:
+        y = float(y) % 360.0
+        if abs((y - front_deg + 180.0) % 360.0 - 180.0) > 90.0:
+            y = (y + 180.0) % 360.0
+        out.append(math.radians(y))
+    s, c = sum(math.sin(a) for a in out), sum(math.cos(a) for a in out)
+    return math.degrees(math.atan2(s, c)) % 360.0 if out else front_deg % 360.0
+
+
+def fix_cave_mouth_entrance(record: dict, front_deg: float) -> None:
+    """A cave-mouth rock's plugin doors stand at different spots inside its
+    tunnel across the plugins (`radial`), but the way in is always the mouth.
+    Fix the entrance on the doors' median ring along the tunnel axis their
+    yaws give (`caveDoorYawsDeg`, `cave_mouth_axis_deg`), facing out (16k
+    walk 9, rockcaveentrance02: 29 cells; the show side 79.7 deg picks the
+    outward half). With no yaws, the show side is the axis."""
+    ent = record["entrance"]
+    yaws = record.pop("caveDoorYawsDeg", None) or []
+    axis = cave_mouth_axis_deg(yaws, front_deg) if yaws else front_deg % 360.0
+    r = float(ent.get("radiusM") or 0.0)
+    b = math.radians(axis)
+    ent.pop("radial", None)
+    ent.update(sideDeg=round(axis, 2), yawDeg=round(axis, 2),
+               offsetM=[round(r * math.sin(b), 3), round(-r * math.cos(b), 3)])
+    record["entranceWhy"] = (
+        f"a cave mouth: the plugin's invisible load door stands inside the tunnel on "
+        f"a {r:.2f} m ring across its placements; their {len(yaws)} door yaws give the "
+        f"tunnel axis, {axis:.0f} deg in the rock's frame, on its show side, so the door is fixed there")
+
+
 # --------------------------------------------------------------------------- #
 # per-kit derivation
 # --------------------------------------------------------------------------- #
@@ -1920,11 +1969,16 @@ def classify_asset(asset: dict, kit: str, verts, triangles,
     # door is. It does not decide what counts as a building: that stays with
     # the geometry (owner ruling 2026-09-04), or a walkway with a door standing
     # on it would become a house.
-    if link is not None and kit not in INTERIOR_KITS and record.get("interior") != "none":
+    if link is not None and kit not in INTERIOR_KITS and (
+            record.get("interior") != "none" or cave_mouth_link(record, link[0])):
         row, interior_kit = link
         shell_links = ([posed_link(r, anchor_pose) for r in links.get(anchor_id) or ()]
                        if anchor_link is not None else None) or links.get(asset["id"]) or [row]
         apply_esp_link(record, row, interior_kit, shell_links)
+        if cave_mouth_link(record, row):
+            record["caveDoorYawsDeg"] = [float((r.get("doorOffsetInShell") or {}).get("yawDeg"))
+                                         for r in shell_links
+                                         if (r.get("doorOffsetInShell") or {}).get("yawDeg") is not None]
         fix_radial_esp_door(record, assembly_doors)
         if assembly_doors:
             # The plugin's door leads, but a shell the source authors ALSO hung
@@ -2432,6 +2486,13 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
         finalise_entrance(record)
         walk_in_open_front(record, setting.get(asset_id))
         set_storeys(record)
+        ent = record.get("entrance") or {}
+        if ent.get("kind") == "esp-door" and ent.get("radial") and record.get("category") == "rock":
+            source = parts_of.get(asset_id, [asset_id])[0]
+            front = (pf.derive_front(asset_id, tris_of.get(asset_id), coplacements)
+                     or pf.derive_front(source, None, coplacements))
+            if front and front.get("deg") is not None:
+                fix_cave_mouth_entrance(record, float(front["deg"]))
         if record.get("entrance") is None:
             source = parts_of.get(asset_id, [asset_id])[0]
             record["front"] = (pf.derive_front(asset_id, tris_of.get(asset_id), coplacements)

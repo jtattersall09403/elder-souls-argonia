@@ -95,6 +95,7 @@ from shapely.ops import nearest_points, unary_union
 from . import parcel_kinds as pk
 from . import province_network as pn
 from .blueprint import PARCEL_GAP_MIN_M, PASSAGE_MIN_M
+from .blueprint import off_network as bp_off_network
 
 OVERLAP_M = 1.5
 OVERLAP_RUN_M = 6.0
@@ -467,7 +468,9 @@ def check_integration(bp: dict, survey) -> list[str]:
         pt = Point(*_m(survey, d["thresholdUV"]))
         if walk_ways and min(ln.distance(pt) for ln in walk_ways) > DOOR_REACH_M:
             errors.append(f"integration: door {d['id']} is {min(ln.distance(pt) for ln in walk_ways):.1f} m from any route or boardwalk — add a footpath way that endsAt its parcel, or turn the door")
-        elif not walk_ways:
+        elif not walk_ways and not bp_off_network(bp):
+            # an off-network lair is walked to across country from its
+            # approach (`blueprint.off_network`, 16k walk 9)
             errors.append(f"integration: door {d['id']} — the blueprint has no routes or boardwalks for any door to open onto")
 
     # parcel-gap (97 C5): nearest-neighbour spacing is a legibility constant —

@@ -7,11 +7,11 @@
   "sha256": "10d7a2deac84fdcaf30b6837027e842b32894e3564600597e28819f732993cd9"
  },
  "totals": {
-  "parts": 1,
-  "partBytes": 8456,
-  "textureFiles": 1,
-  "textureBytes": 125741,
-  "bytes": 134197
+  "parts": 3,
+  "partBytes": 58400,
+  "textureFiles": 2,
+  "textureBytes": 340693,
+  "bytes": 399093
  },
  "assets": {
   "vanilla:clutter/basket01": {
@@ -21,6 +21,24 @@
    "triangles": 500,
    "textures": [
     "9a27911525728b4f"
+   ]
+  },
+  "vanilla:clutter/bones/humanribcagefull": {
+   "file": "vanilla_clutter_bones_humanribcagefull-2574cdfe.glb",
+   "bytes": 39388,
+   "vertices": 2200,
+   "triangles": 3238,
+   "textures": [
+    "63d644afaac283a8"
+   ]
+  },
+  "vanilla:clutter/bones/humanskull": {
+   "file": "vanilla_clutter_bones_humanskull-b05c5f26.glb",
+   "bytes": 10556,
+   "vertices": 464,
+   "triangles": 750,
+   "textures": [
+    "63d644afaac283a8"
    ]
   }
  },

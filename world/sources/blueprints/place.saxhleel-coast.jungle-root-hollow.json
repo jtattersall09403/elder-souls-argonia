@@ -1,0 +1,916 @@
+{
+  "schemaVersion": 1,
+  "blueprint": {
+    "id": "place.saxhleel-coast.jungle-root-hollow",
+    "seed": "place.saxhleel-coast.jungle-root-hollow",
+    "causalModel": {
+      "founding": "A void opened where the root layer lifted the ground deep in the jungle. Something moved into it.",
+      "siteAdvantages": "A dry void under the root layer, root-walled and rock-floored, with one defensible mouth.",
+      "occupantsMotive": "An occupant that has made a lair of it and dragged in what it has taken.",
+      "pressures": "The evicted families at the hiring camp a kilometre east no longer forage this way. Any of them will tell a stranger why, at length.",
+      "wouldChangeIf": "If it were cleared, the hiring camp's foraging range would double."
+    },
+    "boundary": [
+      [
+        0.495015,
+        0.614362
+      ],
+      [
+        0.505865,
+        0.614362
+      ],
+      [
+        0.505865,
+        0.623855
+      ],
+      [
+        0.495015,
+        0.623855
+      ]
+    ],
+    "districts": [
+      {
+        "id": "district.jungle-root-hollow.the-mouth",
+        "kind": "lair",
+        "cultureKit": "argonian-root",
+        "wealth": "none",
+        "boundary": [
+          [
+            0.498787577,
+            0.61827249
+          ],
+          [
+            0.497857428,
+            0.618852435
+          ],
+          [
+            0.500573193,
+            0.620587527
+          ],
+          [
+            0.501339398,
+            0.620097969
+          ],
+          [
+            0.501631285,
+            0.619498164
+          ],
+          [
+            0.501752471,
+            0.618821371
+          ],
+          [
+            0.501501297,
+            0.618082242
+          ],
+          [
+            0.500776682,
+            0.617349397
+          ]
+        ],
+        "notes": "A Hist root mouth against a mossy rock bank, with a scatter of bones and tools in front of it.",
+        "why": {
+          "what": "The mouth of the hollow, its rock bank and the scatter in front of it.",
+          "whyHere": "The root layer lifted the ground here and left a dry void under it.",
+          "whySpot": "A level pocket on the jungle floor, where the roots come down to the ground against rock.",
+          "whyNeighbours": "No one lives within a valley of it; the hiring camp is nearly a kilometre east.",
+          "playerPurpose": "The way into the lair; the evidence of what it has taken.",
+          "microGeography": "Dark leaf litter on firm ground, under a closed canopy."
+        }
+      }
+    ],
+    "parcels": [
+      {
+        "id": "parcel.jungle-root-hollow.the-cave-mouth",
+        "districtId": "district.jungle-root-hollow.the-mouth",
+        "use": "lair",
+        "buildingFamily": "vanilla-cave-entrance",
+        "interior": {
+          "kind": "shell"
+        },
+        "orientationWhy": "Its mouth faces east, toward the hiring camp, home of the lost foragers.",
+        "why": {
+          "what": "The mouth: a rock arch collared with Hist root, with the way down inside it.",
+          "whyHere": "The roots hold up the roof of the void; this arch is its single opening.",
+          "whySpot": "Against the rock bank, on the level pocket in front of it.",
+          "whyNeighbours": "The bank closes it on the west; the scatter spreads east of it.",
+          "playerPurpose": "The way down into the lair; also the only way out of it again.",
+          "microGeography": "Rock and living root over a dark opening, with trodden earth at the threshold."
+        },
+        "playerPurpose": [
+          {
+            "kind": "cache",
+            "tier": "medium",
+            "note": "Everything the occupant has taken, piled deep in the hollow."
+          },
+          {
+            "kind": "unique-item",
+            "tier": "major",
+            "note": "One thing in the den worth the fight."
+          }
+        ],
+        "assetRef": "vanilla:landscape/rocks/rockcaveentrance02",
+        "centreUV": [
+          0.499355357,
+          0.6189728
+        ],
+        "yawDeg": 350.0,
+        "yMeasured": 37.793,
+        "assembly": [
+          {
+            "id": "r-vines",
+            "asset": "kotm:argonia/trees/hist trees/hist_vines01",
+            "atM": [
+              12.4267,
+              7.2683
+            ],
+            "yaw": 10.0,
+            "on": "ground",
+            "layer": "wear",
+            "evidence": "measured",
+            "yMeasured": 36.9722
+          },
+          {
+            "id": "s1-lb-arm",
+            "asset": "vanilla:clutter/bones/humanarmleft",
+            "atM": [
+              15.2855,
+              -2.6761
+            ],
+            "yaw": 246.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 38.2978
+          },
+          {
+            "id": "s1-lb-arm2",
+            "asset": "vanilla:clutter/bones/humanarmleft",
+            "atM": [
+              16.5634,
+              -3.1419
+            ],
+            "yaw": 356.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 38.2181
+          },
+          {
+            "id": "s1-lb-fresh",
+            "asset": "vanilla:clutter/bones/bloodyribs",
+            "atM": [
+              14.9392,
+              0.3455
+            ],
+            "yaw": 306.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 38.1207
+          },
+          {
+            "id": "s1-lb-leg",
+            "asset": "vanilla:clutter/bones/humanlegleft",
+            "atM": [
+              16.2171,
+              -0.1203
+            ],
+            "yaw": 131.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 38.1844
+          },
+          {
+            "id": "s1-lb-ribs",
+            "asset": "vanilla:clutter/bones/humanribcage",
+            "atM": [
+              15.9301,
+              -1.659
+            ],
+            "yaw": 106.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 38.251
+          },
+          {
+            "id": "s1-lb-scrap",
+            "asset": "vanilla:clutter/bones/bloodybone",
+            "atM": [
+              14.1171,
+              -1.8667
+            ],
+            "yaw": 201.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 38.2469
+          },
+          {
+            "id": "s1-lb-skull",
+            "asset": "kotm:issgard/clutter/bones/issgard_boneargonianskullfull",
+            "atM": [
+              15.1053,
+              -0.9592
+            ],
+            "yaw": 176.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 38.2006
+          },
+          {
+            "id": "s1-lb-spine",
+            "asset": "vanilla:clutter/bones/humanspine",
+            "atM": [
+              17.0977,
+              -1.7403
+            ],
+            "yaw": 46.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 38.1472
+          },
+          {
+            "id": "s1-lt-basket",
+            "asset": "vanilla:clutter/basket01",
+            "atM": [
+              18.8835,
+              -3.6051
+            ],
+            "yaw": 200.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 38.0227
+          },
+          {
+            "id": "s1-lt-net",
+            "asset": "shores:shoresofskyrim/fishnet01",
+            "atM": [
+              18.6827,
+              -1.0322
+            ],
+            "yaw": 325.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 37.9417
+          },
+          {
+            "id": "s1-lt-shovel",
+            "asset": "vanilla:clutter/common/shovel01",
+            "atM": [
+              18.9944,
+              -2.3372
+            ],
+            "yaw": 310.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 38.5585
+          }
+        ],
+        "footprint": [
+          [
+            0.498873782,
+            0.618858031
+          ],
+          [
+            0.499046243,
+            0.618750502
+          ],
+          [
+            0.500659087,
+            0.618002022
+          ],
+          [
+            0.50102781,
+            0.618374933
+          ],
+          [
+            0.501193824,
+            0.618863461
+          ],
+          [
+            0.501110561,
+            0.619328463
+          ],
+          [
+            0.500918498,
+            0.619723137
+          ],
+          [
+            0.500573183,
+            0.619943772
+          ]
+        ]
+      }
+    ],
+    "doors": [
+      {
+        "id": "door.saxhleel-coast.jungle-root-hollow.1",
+        "parcelId": "parcel.jungle-root-hollow.the-cave-mouth",
+        "doorType": "load",
+        "fills": [
+          "promise.jungle-root-hollow.interior-principal"
+        ],
+        "preferCell": {
+          "cellId": "MugsumpHollowInt01",
+          "why": "The record's lair: a dry root cave with bones on its floor and a beast's den, the cell King of the Murkmire's AutoLoadDoor01 in this rock loads."
+        },
+        "interiorClaim": {
+          "culture": "argonian",
+          "interiorRef": "vanilla-imperial-int",
+          "sizeClass": "large",
+          "tier": "A",
+          "cellId": "MugsumpHollowInt01",
+          "plugin": "King of the Murkmire.esp",
+          "interiorLoadDoorRef": "085706AB",
+          "arrivalMarker": {
+            "positionM": [
+              -64.3026,
+              93.8454,
+              -15.3091
+            ],
+            "yawDeg": 180.0
+          },
+          "why": "1 of 31 cells plugins link to vanilla:landscape/rocks/rockcaveentrance02 pass; MugsumpHollowInt01 is a storage, 1 exterior load door; chosen for this door: The record's lair: a dry root cave with bones on its floor and a beast's den, the cell King of the Murkmire's AutoLoadDoor01 in this rock loads."
+        },
+        "thresholdUV": [
+          0.49955811,
+          0.61899572
+        ],
+        "facingDeg": 96.4
+      }
+    ],
+    "routes": [],
+    "canals": [],
+    "boardwalks": [],
+    "fences": [],
+    "docks": [],
+    "landmarks": [],
+    "questSockets": [
+      {
+        "id": "socket.jungle-root-hollow.q-evidence-the-tools",
+        "kind": "evidence",
+        "socketRef": "evidence.jungle-root-hollow.the-tools",
+        "position": [
+          0.50015,
+          0.61871
+        ],
+        "parcel": "parcel.jungle-root-hollow.the-cave-mouth"
+      }
+    ],
+    "travelServices": [],
+    "occupants": [],
+    "approaches": [
+      {
+        "id": "approach.jungle-root-hollow.from-the-camp",
+        "mode": "walk",
+        "firstSeen": "parcel.jungle-root-hollow.the-cave-mouth",
+        "viaUV": [
+          [
+            0.505187,
+            0.617752
+          ]
+        ],
+        "sequence": "Coming west through the trees from the hiring camp, the rock bank shows first, then the root mass against it, then the dark mouth between them.",
+        "wayfinding": "No path reaches it. The bank is the one patch of grey rock among the trees.",
+        "fromDirection": "east"
+      }
+    ],
+    "networkTerminals": [],
+    "combatSpaces": [
+      {
+        "id": "combat.jungle-root-hollow.the-threshold",
+        "aroundIds": [
+          "parcel.jungle-root-hollow.the-cave-mouth"
+        ],
+        "clearanceClass": "open",
+        "why": "The level pocket in front of the mouth, the only open footing under the trees.",
+        "boundary": [
+          [
+            0.498787577,
+            0.61827249
+          ],
+          [
+            0.497857428,
+            0.618852435
+          ],
+          [
+            0.500573193,
+            0.620587527
+          ],
+          [
+            0.501339398,
+            0.620097969
+          ],
+          [
+            0.501631285,
+            0.619498164
+          ],
+          [
+            0.501752471,
+            0.618821371
+          ],
+          [
+            0.501501297,
+            0.618082242
+          ],
+          [
+            0.500776682,
+            0.617349397
+          ]
+        ]
+      }
+    ],
+    "clearance": {
+      "hardClear": [],
+      "thinned": [],
+      "kept": []
+    },
+    "variants": [
+      {
+        "id": "variant.jungle-root-hollow.base",
+        "changedRefs": [],
+        "serviceOverrides": {},
+        "ambience": "lair"
+      }
+    ],
+    "scaleGrounding": {
+      "loreSource": "catalogue record Takes-The-Tools (lair, M1, one mouth); interior MugsumpHollowInt01, the cell King of the Murkmire links to the hist_vines01 root mouth",
+      "population": "0",
+      "households": 0,
+      "buildingsPlanned": 1,
+      "npcsPlanned": 0,
+      "why": "One mouth, its rock bank and the scatter in front of it; the lair itself is the cell below."
+    },
+    "siting": {
+      "dossier": "world/sources/sites/dossiers/jungle-root-hollow.json",
+      "candidates": [
+        {
+          "id": "candidate.jungle-root-hollow.the-pocket",
+          "positionM": [
+            3690.0,
+            4562.0
+          ],
+          "chosen": true,
+          "why": "A level pocket 10 m south-east of the plotted anchor, firm and dry, with the ground rising on its west side for the bank."
+        },
+        {
+          "id": "candidate.jungle-root-hollow.plotted-anchor",
+          "positionM": [
+            3682.2,
+            4554.1
+          ],
+          "why": "The plotted anchor, 12 m north-west of the chosen pocket.",
+          "rejectedBecause": "Its east side drops into a hummock, so the mouth would face into rising ground."
+        }
+      ]
+    },
+    "macroEvidence": [
+      {
+        "sourcePaths": [
+          "assetPlan",
+          "contents",
+          "discovery",
+          "eraLayers",
+          "hostility",
+          "interior",
+          "playerPurpose",
+          "questHooks",
+          "relations",
+          "rewardProfile",
+          "season",
+          "sitingPrefs",
+          "status",
+          "traversalModes",
+          "underwaterAccess",
+          "vibe",
+          "why"
+        ],
+        "evidenceRefs": [
+          "parcel.jungle-root-hollow.the-cave-mouth",
+          "approach.jungle-root-hollow.from-the-camp"
+        ]
+      },
+      {
+        "sourcePaths": [
+          "entrance"
+        ],
+        "evidenceRefs": [
+          "door.saxhleel-coast.jungle-root-hollow.1",
+          "parcel.jungle-root-hollow.the-cave-mouth"
+        ]
+      },
+      {
+        "sourcePaths": [
+          "rumourPoolKey"
+        ],
+        "evidenceRefs": [
+          "socket.jungle-root-hollow.q-evidence-the-tools"
+        ]
+      }
+    ],
+    "budget": {
+      "maxInstances": 60,
+      "maxUniqueMaterials": 60,
+      "maxTextureMB": 32,
+      "maxColliders": 40
+    },
+    "assetConstraints": [],
+    "proseRefs": [],
+    "authoredOn": {
+      "wbSchemaVersion": 1,
+      "ground": {
+        "centreM": [
+          3690.0,
+          4562.0
+        ],
+        "halfM": 60.0,
+        "chunks": {
+          "chunk_7_9": "cce6dfec20b1922685d81d3a0f678980dc0d65151883d82fc58c5ed89882248c",
+          "chunk_8_9": "8e0b66e97df9a7cf66a15898a9929d72aaca6ebcb72c7394a2fb7b4c0aa86671"
+        },
+        "sha256": "ef03739d429b1ad5c00359983ea0bd86bdcb58ade9bccaa503a29b2fc3c77ce8"
+      },
+      "kits": {
+        "settlement-root-v1": "68c39b0353a0a39fb0b1e7194cc8d72aaa07f4b89b71619e9335e510837834b5"
+      },
+      "layout": {
+        "path": "world/sources/blueprints/jungle-root-hollow.layout.json",
+        "sha256": "92b4047ad35ee530d499137a35771255d8b930678a136bfd71d0dd2a8984c95e"
+      }
+    },
+    "walkRoutes": {
+      "schemaVersion": 1,
+      "cellM": 0.5,
+      "stepM": 0.45,
+      "slopeMaxDeg": 30.0,
+      "wadeMaxM": 0.7,
+      "routes": {
+        "door:b-mouth": {
+          "points": [
+            [
+              3724.95,
+              36.58,
+              4555.0
+            ],
+            [
+              3723.45,
+              36.61,
+              4555.0
+            ],
+            [
+              3722.95,
+              36.59,
+              4555.0
+            ],
+            [
+              3722.45,
+              36.56,
+              4555.5
+            ],
+            [
+              3721.95,
+              36.52,
+              4556.0
+            ],
+            [
+              3720.95,
+              36.46,
+              4557.0
+            ],
+            [
+              3720.45,
+              36.44,
+              4557.5
+            ],
+            [
+              3719.45,
+              36.42,
+              4558.5
+            ],
+            [
+              3718.95,
+              36.39,
+              4558.5
+            ],
+            [
+              3718.45,
+              36.37,
+              4558.5
+            ],
+            [
+              3717.95,
+              36.36,
+              4558.5
+            ],
+            [
+              3717.45,
+              36.36,
+              4558.5
+            ],
+            [
+              3716.95,
+              36.35,
+              4558.5
+            ],
+            [
+              3716.45,
+              36.35,
+              4558.5
+            ],
+            [
+              3715.95,
+              36.36,
+              4558.5
+            ],
+            [
+              3715.45,
+              36.38,
+              4558.5
+            ],
+            [
+              3714.95,
+              36.41,
+              4558.5
+            ],
+            [
+              3714.45,
+              36.41,
+              4559.0
+            ],
+            [
+              3713.45,
+              36.51,
+              4560.0
+            ],
+            [
+              3712.95,
+              36.55,
+              4560.5
+            ],
+            [
+              3712.45,
+              36.54,
+              4561.0
+            ],
+            [
+              3711.95,
+              36.49,
+              4561.0
+            ],
+            [
+              3710.45,
+              36.43,
+              4561.0
+            ],
+            [
+              3709.95,
+              36.36,
+              4561.0
+            ],
+            [
+              3709.45,
+              36.3,
+              4561.0
+            ],
+            [
+              3708.95,
+              36.25,
+              4561.0
+            ],
+            [
+              3708.45,
+              36.22,
+              4561.0
+            ],
+            [
+              3707.95,
+              36.22,
+              4561.0
+            ],
+            [
+              3706.95,
+              36.24,
+              4561.0
+            ],
+            [
+              3706.45,
+              36.24,
+              4561.5
+            ],
+            [
+              3705.95,
+              36.25,
+              4562.0
+            ],
+            [
+              3705.45,
+              36.27,
+              4562.5
+            ],
+            [
+              3704.95,
+              36.31,
+              4563.0
+            ],
+            [
+              3703.95,
+              36.47,
+              4564.0
+            ],
+            [
+              3702.95,
+              36.77,
+              4565.0
+            ],
+            [
+              3702.45,
+              36.9,
+              4565.5
+            ],
+            [
+              3701.95,
+              37.04,
+              4566.0
+            ],
+            [
+              3701.45,
+              37.24,
+              4566.5
+            ],
+            [
+              3700.45,
+              37.48,
+              4567.5
+            ],
+            [
+              3699.95,
+              37.57,
+              4568.0
+            ],
+            [
+              3699.45,
+              37.62,
+              4568.5
+            ],
+            [
+              3698.95,
+              37.65,
+              4569.0
+            ],
+            [
+              3698.45,
+              37.67,
+              4569.5
+            ],
+            [
+              3697.95,
+              37.67,
+              4570.0
+            ],
+            [
+              3697.45,
+              37.65,
+              4570.5
+            ],
+            [
+              3696.95,
+              37.66,
+              4570.5
+            ],
+            [
+              3696.45,
+              37.68,
+              4570.5
+            ],
+            [
+              3695.95,
+              37.71,
+              4570.5
+            ],
+            [
+              3695.45,
+              37.72,
+              4570.5
+            ],
+            [
+              3694.95,
+              37.74,
+              4570.5
+            ],
+            [
+              3694.45,
+              37.74,
+              4570.5
+            ],
+            [
+              3693.95,
+              37.75,
+              4570.5
+            ],
+            [
+              3693.45,
+              37.77,
+              4570.5
+            ],
+            [
+              3692.95,
+              37.78,
+              4570.5
+            ],
+            [
+              3692.45,
+              37.75,
+              4571.0
+            ],
+            [
+              3691.95,
+              37.76,
+              4571.0
+            ],
+            [
+              3691.45,
+              37.74,
+              4571.5
+            ],
+            [
+              3690.45,
+              37.76,
+              4571.5
+            ],
+            [
+              3689.95,
+              37.79,
+              4571.5
+            ],
+            [
+              3688.45,
+              37.91,
+              4570.0
+            ],
+            [
+              3687.95,
+              37.94,
+              4570.0
+            ],
+            [
+              3687.45,
+              37.98,
+              4569.5
+            ],
+            [
+              3686.95,
+              38.0,
+              4569.0
+            ],
+            [
+              3684.45,
+              38.05,
+              4569.0
+            ],
+            [
+              3683.95,
+              38.06,
+              4568.5
+            ],
+            [
+              3683.45,
+              38.09,
+              4568.0
+            ],
+            [
+              3682.95,
+              38.13,
+              4567.5
+            ],
+            [
+              3682.45,
+              38.19,
+              4567.0
+            ],
+            [
+              3681.95,
+              38.24,
+              4566.5
+            ]
+          ],
+          "routeM": 52.07,
+          "steepestDeg": 15.8,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0,
+          "parcelId": "parcel.jungle-root-hollow.the-cave-mouth",
+          "doorIds": [
+            "door.saxhleel-coast.jungle-root-hollow.1"
+          ]
+        }
+      }
+    }
+  }
+}

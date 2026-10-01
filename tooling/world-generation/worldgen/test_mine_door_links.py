@@ -276,3 +276,22 @@ def test_a_base_resolves_through_the_asking_plugins_own_load_order(tmp_path):
     assert models("Q.esp") == {0x10: "q10.nif", 0x11: "m11.nif", 0x12: "m12.nif"}
     assert models("M.esm") == {0x10: "m10.nif", 0x11: "m11.nif", 0x12: "m12.nif"}
     assert isinstance(plugins["P.esp"], Plugin)
+
+
+def test_a_cave_rock_holding_an_invisible_load_door_is_the_entrance():
+    # King of the Murkmire's MugsumpHollowInt01: AutoLoadDoor01 stands 0.36 m
+    # inside rockcaveentrance02; the Hist vines beside it are 5.85 m off
+    bases = {
+        20: _base("landscape/rocks/rockcaveentrance02.nif", 6.0, 5.0, 8.0),
+        21: _base("argonia/trees/hist trees/hist_vines01.nif", 3.1, 2.7, 7.7),
+        22: SimpleNamespace(type="DOOR", model="autoloadmarker01.nif",
+                            model_key="autoloadmarker01.nif", bounds=None),
+        23: SimpleNamespace(type="DOOR", model="architecture/farmhouse/farmhouseldoor01.nif",
+                            model_key="architecture/farmhouse/farmhouseldoor01.nif", bounds=None),
+    }
+    refs = [_ref(30, 20, 0.25, 0.26), _ref(31, 21, 5.85, -0.2)]
+    ref, _b = M.shell_for(_ref(98, 22, 0.0, 0.0, 1.0), refs, _Vault(bases), None)
+    assert ref.form_id == 30
+    # a rock never takes a door that draws a leaf
+    ref, _b = M.shell_for(_ref(97, 23, 0.0, 0.0, 1.0), refs, _Vault(bases), None)
+    assert ref.form_id == 31

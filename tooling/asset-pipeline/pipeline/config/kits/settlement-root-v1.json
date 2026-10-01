@@ -1,6 +1,6 @@
 {
   "id": "settlement-root-v1",
-  "description": "Grown-root EXTERIOR settlement kit \u2014 the canopy/trunk building culture the catalogue's `hist-grove-capital` and 34 other records assume (audit \u00a74 claim `grown-root-architecture`). Pure packaging of BM&V's Bosmer tree-city (`citebosmer`) as its authors built it: the three trunk-house forms with their own balcony, door, window and liana pieces (`tronc` = trunk house, `champ` = tapered mushroom-cap house, `gland` = hanging acorn/pod house), the COMPLETE modular elevated walkway system (all 52 `passerelles/troncons` straights, climbs, turns, 45/90 curves, T/X/Y junctions, stair and end pieces) and its `kiosque` platform family (deck, side walls, railings, access ramps, fixation collar), plus the giant host trees and root base the houses are authored to hang from. Extended with HTBM Cipactli Hist roots and ramp for the ground layer, and Mud Mother Grove's Argonian lanterns, totem, bone chime, banner, woven fences, plank bridge and platforms so the settlement reads Argonian rather than Bosmer. Interiors for these dwellings come from dungeon-root-v1 (`dwelling`/`civic-hall` interior families also resolve there). NOT tropicalised: no vanilla-backed piece is present. EXCLUDED: `housetroncbalcon001` \u2014 it carries no exportable geometry (an editor marker/parent node); the usable trunk balcony is `housetroncbalcon15v001` with its `acces15d/i` approach and `endl/endr` caps. Phase 11 Part 6 sourcing gap FILLED: the kit had no stand-alone trunk COLUMN (its only trunk-like pieces are the 206 m host tree and its 44 m root flare, and every Hist mesh we hold is a whole tree with a crown), so Nine-Trunks and every future grove/ruined-trunk composition had nothing to stand up. Tropical Skyrim's Anvil giant-tree TRUNK-ONLY pieces fill it: `anvilgianttrunk` (10.5 x 10.5 x 56.4 m, 784 tris) is a bare crownless column, `anvil_palm_trunk` (17.9 x 16.6 x 33.7 m) the broader buttressed form, and `anvil_root01` (14.4 x 10.3 x 6.2 m) the authored root flare that skirts either. Same author, same set, authored to combine (they are already the flora kit's two composite jungle giants).",
+  "description": "Grown-root EXTERIOR settlement kit \u2014 the canopy/trunk building culture the catalogue's `hist-grove-capital` and 34 other records assume (audit \u00a74 claim `grown-root-architecture`). Pure packaging of BM&V's Bosmer tree-city (`citebosmer`) as its authors built it: the three trunk-house forms with their own balcony, door, window and liana pieces (`tronc` = trunk house, `champ` = tapered mushroom-cap house, `gland` = hanging acorn/pod house), the COMPLETE modular elevated walkway system (all 52 `passerelles/troncons` straights, climbs, turns, 45/90 curves, T/X/Y junctions, stair and end pieces) and its `kiosque` platform family (deck, side walls, railings, access ramps, fixation collar), plus the giant host trees and root base the houses are authored to hang from. Extended with HTBM Cipactli Hist roots and ramp for the ground layer, and Mud Mother Grove's Argonian lanterns, totem, bone chime, banner, woven fences, plank bridge and platforms so the settlement reads Argonian rather than Bosmer. Interiors for these dwellings come from dungeon-root-v1 (`dwelling`/`civic-hall` interior families also resolve there). NOT tropicalised: no vanilla-backed piece is present. EXCLUDED: `housetroncbalcon001` \u2014 it carries no exportable geometry (an editor marker/parent node); the usable trunk balcony is `housetroncbalcon15v001` with its `acces15d/i` approach and `endl/endr` caps. Phase 11 Part 6 sourcing gap FILLED: the kit had no stand-alone trunk COLUMN (its only trunk-like pieces are the 206 m host tree and its 44 m root flare, and every Hist mesh we hold is a whole tree with a crown), so Nine-Trunks and every future grove/ruined-trunk composition had nothing to stand up. Tropical Skyrim's Anvil giant-tree TRUNK-ONLY pieces fill it: `anvilgianttrunk` (10.5 x 10.5 x 56.4 m, 784 tris) is a bare crownless column, `anvil_palm_trunk` (17.9 x 16.6 x 33.7 m) the broader buttressed form, and `anvil_root01` (14.4 x 10.3 x 6.2 m) the authored root flare that skirts either. Same author, same set, authored to combine (they are already the flora kit's two composite jungle giants). 16k walk 9 (type-5 slice): the King of the Murkmire root cave mouth as its plugin builds it, `vanilla:landscape/rocks/rockcaveentrance02` (the rock whose box holds the AutoLoadDoor01 into MugsumpHollowInt01, its linked shell in exterior-interior-links.json) and `kotm:argonia/trees/hist trees/hist_vines01` (the Hist vine mass the plugin sets 5.85 m beside that door), with the lair-threshold yard sets' bones (the ones MugsumpHollowInt01 itself scatters, and its Argonian skull: the cell draws them from here) and tools (spade, basket, net), so a root-cave place loads one culture kit and the flora kit.",
   "culture": "argonian-root",
   "output": "tooling/asset-pipeline/output/kits/settlement-root-v1.glb",
   "lodRatios": [
@@ -454,6 +454,42 @@
       "asset": "tropical:landscape/trees/anvil_root01"
     },
     {
+      "asset": "vanilla:landscape/rocks/rockcaveentrance02"
+    },
+    {
+      "asset": "kotm:argonia/trees/hist trees/hist_vines01"
+    },
+    {
+      "asset": "vanilla:clutter/bones/humanribcage"
+    },
+    {
+      "asset": "vanilla:clutter/bones/humanarmleft"
+    },
+    {
+      "asset": "vanilla:clutter/bones/humanlegleft"
+    },
+    {
+      "asset": "vanilla:clutter/bones/humanspine"
+    },
+    {
+      "asset": "vanilla:clutter/bones/bloodyribs"
+    },
+    {
+      "asset": "vanilla:clutter/bones/bloodybone"
+    },
+    {
+      "asset": "kotm:issgard/clutter/bones/issgard_boneargonianskullfull"
+    },
+    {
+      "asset": "vanilla:clutter/common/shovel01"
+    },
+    {
+      "asset": "vanilla:clutter/basket01"
+    },
+    {
+      "asset": "shores:shoresofskyrim/fishnet01"
+    },
+    {
       "asset": "composite:root/kiosk-with-access",
       "compose": {
         "note": "BM&V's walkway kiosk with its own access piece set in the gap in its wall. The kiosk pod ships as a closed drum with two gaps in the ring at 1.6 m above its deck and no opening at door or lintel height, because the way in is a step-up threshold the set ships separately. kioskaccesd01 and kioskaccesi01 are modelled in kiosk01's own frame \u2014 measured, their plan centres sit in those two gaps to within 0.11 m and 0.02 m of the wall radius, and their heads stand 2.61 m above the kiosk floor. The set was authored to combine at the shared origin, so the composite carries no offset.",
@@ -470,5 +506,8 @@
         ]
       }
     }
-  ]
+  ],
+  "texturesMissingAccepted": {
+    "textures/shoresofskyrim/limpets01.dds": "the fishnet01 limpet shells: the mod that names this path does not ship it, and the build found it in no pool, sibling pool or vanilla archive (works-v1 accepts the same row, 16k fix round 2)"
+  }
 }

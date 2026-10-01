@@ -87,6 +87,12 @@ class Kits:
         a = self.assets.get((kit, asset)) or {}
         return isinstance(a.get("light"), dict) or bool(a.get("flames"))
 
+    def living(self, kit: str, asset: str) -> bool:
+        """A piece someone lives at (0109 rule 4's living zones: bed, table,
+        seat, workstation, hearth): kit category furniture, or a hearth."""
+        a = self.assets.get((kit, asset)) or {}
+        return a.get("category") == "furniture" or bool(HEARTH_RE.search(asset))
+
 
 def texture_rows(bundle: dict, kits: Kits) -> list[dict]:
     rows, seen = [], set()
@@ -252,6 +258,10 @@ def audit_cell(cell: str, kits: Kits, interiors_dir: Path) -> dict:
               if d.get("arrivalMarker")] + [bundle["arrivalMarker"]["positionM"]]
     area, area_from = reachable_floor_m2(mesh, owner, starts)
     lit = sum(1 for p in bundle["placements"] if kits.lit(p["kit"], p["assetId"]))
+    living = sum(1 for p in bundle["placements"] if kits.living(p["kit"], p["assetId"]))
+    # 0109 rule 4 lights the zones people live in; a cell with none (a beast's
+    # cave, 16k walk 9) keeps its plugin's own lights and its dark
+    needed = int(np.ceil(area / M2_PER_LIT)) if living else 0
     out = {
         "cell": cell,
         "textures": texture_rows(bundle, kits),
@@ -259,7 +269,7 @@ def audit_cell(cell: str, kits: Kits, interiors_dir: Path) -> dict:
         "stairs": stair_rows(bundle, mesh, owner),
         "hearth": hearth_rows(bundle, kits),
         "litDensity": {"walkableM2": round(area, 1), "areaFrom": area_from, "litFixtures": lit,
-                       "needed": int(np.ceil(area / M2_PER_LIT)), "ok": bool(lit >= np.ceil(area / M2_PER_LIT))},
+                       "livingPieces": living, "needed": needed, "ok": bool(lit >= needed)},
         "assetsWithoutGeometry": sorted(set(missing)),
     }
     # two surfaces on one plane z-fight (16k walk 6); worldgen/coplanar.py

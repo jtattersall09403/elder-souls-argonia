@@ -186,8 +186,19 @@ def burial_piece(cat, scene, ctx, p) -> tuple[dict, list]:
         poses.append(("compiled", c))
     r = {"allowM": round(allow, 3), "designedBaseDepthM": round(designed, 3), "sinkEvidence": ev}
     fails = []
+    dug_in = (cat.row(q.asset).get("placement") or {}).get("evidence", {}).get("policyId") == "dug-in"
     for where, pose in poses:
         depth, x, north = _base_depth(cat, g, pose)
+        if dug_in:
+            # a dug-in piece is seated on the lowest ground under its outline
+            # (`wb.py _sill`'s line), so its designed burial is measured from
+            # that line: ground rising under one end of a 30 m cave mound is
+            # the hill it is set into, not a sinking (16k walk 9)
+            poly = measure.footprint_province(cat, pose)
+            if poly:
+                line = min(float(g.chunk_height(px, pz)) for px, pz in poly)
+                depth = min(depth, line - (float(np.min(pose.world_points(
+                    np.asarray(cat.mesh(pose.asset).vertices))[:, 2]))))
         key = "baseDepthM" if where != "compiled" else "compiledBaseDepthM"
         r[key] = round(depth, 3)
         r["judgedAt" if where != "compiled" else "compiledOffM"] = (
