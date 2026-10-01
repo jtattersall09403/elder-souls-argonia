@@ -294,9 +294,11 @@ export interface SkyCensus {
   /** Brightest sky texel (exposed linear, ~3 % steps) and where it is (mip-0 texels). */
   maxSkyBr: number;
   peak: [number, number];
-  /** Glowing sky texels, and the farthest of them from `peak` (mip-0 texels). */
+  /** Glowing sky texels, and the farthest of them from `sunPx` (mip-0 texels; -1 off-frame). */
   glowCount: number;
   glowReachPx: number;
+  /** Glowing texels whose CPU view ray is outside the cone (+0.25 deg slack): must be 0. */
+  glowOutsideCone: number;
   /** Where the sun's centre projects (mip-0 texels, row 0 at the bottom), or
    * null when it is behind the camera or off the frame: a probe that aims at
    * the sun reads this, never its own aim, to know the disc is in view. */
@@ -507,15 +509,21 @@ export class BloomPass {
       if (px[i] > 127 && px[i + 3] > peakA) { peakA = px[i + 3]; peak = i / 4; }
     }
     const [x0, y0] = [peak % w, Math.floor(peak / w)];
-    let reach = 0;
+    const sun = sunPixel(camera, this.sunDirection, w, h);
+    // Reach is measured from the sun's own texel, never from the brightest
+    // sky texel (at noon that is horizon haze ~59 texels off: walk 9), and
+    // each glowing texel's ray is re-tested on the CPU against the cone.
+    const coneDeg = THREE.MathUtils.radToDeg(Math.acos(this.disc.uSunCos.value));
+    let reach = 0; let outside = 0;
     for (let i = 0; i < px.length; i += 4) {
       if (px[i + 2] <= 127) continue;
       const j = i / 4;
-      reach = Math.max(reach, Math.hypot((j % w) - x0, Math.floor(j / w) - y0));
+      const [x, y] = [j % w, Math.floor(j / w)];
+      if (sun) reach = Math.max(reach, Math.hypot(x - sun[0], y - sun[1]));
+      if (THREE.MathUtils.radToDeg(pixelRay(camera, x, y, w, h).angleTo(this.sunDirection)) > coneDeg + 0.25) outside++;
     }
     target.dispose();
     material.dispose();
-    const sun = sunPixel(camera, this.sunDirection, w, h);
     let sunBr = 0; let sunGlow = 0;
     if (sun) {
       for (let y = Math.max(0, sun[1] - 3); y <= Math.min(h - 1, sun[1] + 3); y++) {
@@ -530,7 +538,7 @@ export class BloomPass {
     return { sunPx: sun, sunBr, sunGlow, peakDegFromSun, skyFraction: sky / (w * h), skyOverSceneThreshold: sky ? over / sky : 0,
       skyGlowing: sky ? glow / sky : 0, exposure: renderer.toneMappingExposure,
       maxSkyBr: peakA < 0 ? 0 : 2 ** ((peakA / 255) * 12) - 1, peak: [x0, y0],
-      glowCount: glow, glowReachPx: reach };
+      glowCount: glow, glowReachPx: sun ? reach : -1, glowOutsideCone: outside };
   }
 
   dispose(): void {

@@ -69,7 +69,8 @@ try {
     const VFOV = 60 * Math.PI / 180; // only the steering gain
     for (let k = 0; k < 6; k++) {
       const c = await census();
-      const err = c.sunPx ? (c.sunPx[1] / 135 - 0.5) * VFOV : null;
+      // the disc sits in the upper quarter: mid-frame is the player's body (walk 9: sunBr 0 at 06:30/14:30)
+      const err = c.sunPx ? (c.sunPx[1] / 135 - 0.75) * VFOV : null;
       if (err !== null && Math.abs(err) < 0.05) break;
       pitch = Math.max(-1.15, Math.min(0.78, pitch - (err ?? 0.25)));
       await page.evaluate(({ yaw, p }) => window.__STUDIO_CHARACTER_DEBUG__.aimCamera(yaw, p), { yaw: sun.yaw, p: pitch });
