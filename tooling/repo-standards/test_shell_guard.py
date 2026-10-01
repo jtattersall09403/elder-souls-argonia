@@ -68,3 +68,58 @@ def test_ordinary_loops_and_tail_allowed_for_agents():
                 "for f in a b; do true; echo $f; done", "git commit -m 'until done'", "cat <<'E' > f\nthe batch stays open\n  until the close\nE","grep -n tail x.py",
                 "tail -n 50 out.log | grep -F error", "tail -n 5 x.log; rm -rf tmp", "tail -n 3 a && find . -name f"]:
         assert code(cmd, sub=True) == 0, cmd
+
+
+def run(cmd, agent_type="deliver", agent_id="a1", state=None):
+    d = {"tool_name": "Bash", "tool_input": {"command": cmd}, "agent_id": agent_id, "agent_type": agent_type}
+    env = {"PATH": "/usr/bin:/bin", "ES_SHELL_GUARD_DIR": str(state or "/tmp/es-shell-guard-test")}
+    return subprocess.run([sys.executable, str(GUARD)], input=json.dumps(d), text=True,
+                          capture_output=True, env=env)
+
+
+def test_poll_loopholes_refused_for_everyone():
+    """Decision 0118: the r6 polls (Lane B's pgrep one-liner, walk 7's `date; grep` ticks)."""
+    for cmd in ["python3 -c \"import time,subprocess\nwhile subprocess.run(['pgrep','-f','x']).returncode==0: time.sleep(5)\"",
+                "while pgrep -f build_kit >/dev/null; do wait; done", "for i in 1 2 3; do pgrep x && break; done",
+                "date; grep -c ok /tmp/x.log", "date && tail -n 3 /tmp/x.log", "date -u; ls tooling/.reports",
+                "python3 -c 'import time; time.sleep(30)'", "while true; do wait $pid; done"]:
+        r = run(cmd)
+        assert r.returncode == 2 and "run_in_background" in r.stderr and "0118" in r.stderr, cmd
+        assert code(cmd, sub=False) == 2, cmd
+
+
+def test_poll_lookalikes_allowed():
+    for cmd in ["pgrep -f build_kit", "date -u +%FT%TZ", "python3 -c 'print(1)'", "git log --since=date",
+                "while read l; do echo $l; done < f", "date > /tmp/stamp",
+                "sed -i 's#refuses pgrep loops, python sleep one-liners#x#' docs/a.md",
+                "cat > /tmp/n.md <<'E'\nwhile pgrep x; do wait; done\nE"]:
+        assert run(cmd).returncode == 0, cmd
+
+
+def test_heredoc_edit_of_tracked_file_refused():
+    tracked_file = "tooling/repo-standards/shell_guard.py"
+    for cmd in [f"cat > {tracked_file} <<'E2'\nx\nE2", f"cat <<'E' > {tracked_file}\nx\nE",
+                f"cat <<'E' >> {tracked_file}\nx\nE", f"tee {tracked_file} <<'E'\nx\nE",
+                f"python3 - <<'E'\np='{tracked_file}'\ns=open(p).read()\nopen(p,'w').write(s)\nE",
+                f"python3 - <<'E'\nfrom pathlib import Path\nPath('{tracked_file}').write_text('x')\nE"]:
+        r = run(cmd)
+        assert r.returncode == 2 and "Edit tool" in r.stderr and tracked_file in r.stderr, cmd
+        assert code(cmd, sub=False) == 2, cmd
+
+
+def test_heredoc_into_tmp_or_new_file_allowed():
+    for cmd in ["cat > /tmp/brief.md <<'E'\nx\nE", "cat <<'E' > tooling/.reports/new-note.md\nx\nE",
+                "python3 - <<'E'\nprint(open('tooling/repo-standards/shell_guard.py').read()[:10])\nE",
+                "python3 - <<'E'\nopen('/tmp/x.json','w').write('{}')\nE", "git commit -F - <<'E'\nmsg\nE"]:
+        assert run(cmd).returncode == 0, cmd
+
+
+def test_third_single_lookup_in_a_row_nudges_opus_only(tmp_path):
+    first, second, third = (run(c, state=tmp_path) for c in ["cat a.py", "grep -n x b.py", "sed -n 1,5p c.py"])
+    assert first.stdout == second.stdout == ""
+    assert third.returncode == 0 and "batch" in third.stdout and "0118" in third.stdout
+    assert run("npm test", state=tmp_path).stdout == ""             # a non-look-up resets the streak
+    assert run("cat a; grep x b; ls c", state=tmp_path).stdout == ""  # a batched call is not a single look-up
+    for c in ["cat a", "cat b", "cat c"]:
+        r = run(c, agent_type="find", agent_id="f1", state=tmp_path)
+    assert r.stdout == ""                                           # Haiku `find` is the cheap path

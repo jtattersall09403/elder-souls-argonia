@@ -2249,6 +2249,13 @@ def round_parser() -> argparse.ArgumentParser:
     ap.add_argument("--shots", default="auto", help="the render round's list (default auto)")
     ap.add_argument("--res", type=int, default=1024)
     ap.add_argument("--samples", type=int, default=12)
+    ap.add_argument("--walk", type=int, default=None, metavar="N",
+                    help="the owner walk this fix round answers: the first round of walk N "
+                         "opens the run <place>#walk-N in the build ledger (a `fix-round` "
+                         "stage); later rounds of walk N keep it open (decision 0118)")
+    ap.add_argument("--end-walk", action="store_true",
+                    help="with --walk: after this round, end the fix-round stage, so the "
+                         "run's minutes reach `build_ledger.py --report`")
     ap.add_argument("--no-compile", action="store_true")
     ap.add_argument("--full", action="store_true", help="re-derive every op and pair")
     ap.add_argument("--cache", action="store_true", help="restore unchanged ops from the op cache")
@@ -2369,6 +2376,32 @@ def write_ledger(path: Path, out: dict, report_dir: Path | None = None) -> None:
             log.write(row)
 
 
+def walk_clock(place_id: str, walk: int, end: bool = False, at: float | None = None,
+               clock_dir: str | None = None, ledger: str | None = None) -> str:
+    """Decision 0118 (method review r6: no fix round was timed after 09-29, so
+    the review loop's trigger went blind): the build-ledger events of a fix
+    round. Opens `<place>#walk-<walk>` with a `fix-round` stage unless the
+    place's open stage already answers this walk; with `end`, ends the open
+    fix-round stage (its row carries the walk's minutes). Returns what it did."""
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "repo-standards"))
+    import build_ledger as bl
+    clock_dir = clock_dir or os.path.join(bl.ROOT, "tooling", ".reports", "16k")
+    ledger = ledger or bl.LEDGER
+    at = time.time() if at is None else at
+    path = bl.clock_path(clock_dir, place_id)
+    clock = json.loads(Path(path).read_text()) if os.path.exists(path) else {}
+    if end:
+        if clock.get("stage") != "fix-round" or clock.get("walk") != walk:
+            return f"no open fix-round stage for {place_id} walk {walk}"
+        bl.end_stage(clock_dir, place_id, "fix-round", at, ledger)
+        return f"ended {bl.walk_run_id(place_id, walk)} fix-round stage"
+    if clock.get("walk") == walk:
+        return f"{bl.walk_run_id(place_id, walk)} already open ({clock.get('stage')})"
+    bl.start_stage(clock_dir, place_id, "fix-round", at, ledger, path="fix-round",
+                   start_run=True, walk=walk)
+    return f"opened {bl.walk_run_id(place_id, walk)} (fix-round stage)"
+
+
 def run_round(argv) -> int:
     """`wb.py round [SCENE] LAYOUT`: one process, the catalogue, ground,
     survey, road paint and kit records loaded once; writes
@@ -2379,9 +2412,13 @@ def run_round(argv) -> int:
     a = round_parser().parse_args(argv)
     if len(a.args) > 2:
         raise SystemExit("wb.py round [SCENE] LAYOUT")
+    if a.end_walk and a.walk is None:
+        raise SystemExit("wb.py round: --end-walk needs --walk N")
     scene_name, layout_path = (a.args if len(a.args) == 2 else (None, a.args[0]))
     t0 = time.time()
     doc = layout.load(Path(layout_path))
+    if a.walk is not None:
+        print(f"build ledger: {walk_clock(doc['placeId'], a.walk)}")
     cat = place_catalogue(doc["placeId"])
     t_load = round(time.time() - t0, 2)
     applied = apply_layout(Path(layout_path), scene_name, not a.no_compile, a.allow_stale_ground,
@@ -2448,6 +2485,8 @@ def run_round(argv) -> int:
     path.write_text(json.dumps(out, indent=1, default=lambda o: round(float(o), 4)) + "\n")
     report_dir = a.report_dir or default_report_dir(doc["placeId"])
     write_ledger(path, out, report_dir)
+    if a.end_walk:
+        print(f"build ledger: {walk_clock(doc['placeId'], a.walk, end=True)}")
     if a.waiting_on:
         write_waiting_on(report_dir, doc["placeId"], a.waiting_on)
     lines = digest(applied) if "summaryPath" in applied else [f"round: REFUSED {out.get('refused')}"]

@@ -1,0 +1,6 @@
+{
+  "limitUnits": 825,
+  "resetWeekday": 4,
+  "resetHourUTC": 5,
+  "calibratedFrom": "units 2026-09-25T05:00Z to the refusal at 2026-09-30T22:15Z (\"You have hit your weekly limit · resets Oct 2, 5am (UTC)\"): 825.2; week_usage.py --between"
+}

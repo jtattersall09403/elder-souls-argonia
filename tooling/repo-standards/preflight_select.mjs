@@ -120,3 +120,18 @@ export function selectGates(files, workspaces, gateNames) {
   const gates = gateNames.filter((g) => g === "npm-test" ? wsList.length > 0 || weapons : anyHit(files, GATE_INPUTS[g] ?? [/./]));
   return { all: false, gates, skipped: gateNames.filter((g) => !gates.includes(g)), workspaces: wsList, weapons };
 }
+
+// One close per batch (decision 0118, method review r6: three 6-min scoped
+// preflights on the same paths in 20 min of walk 7). Inside an open review
+// batch, a re-run keeps only the gates that were red last time plus any gate
+// the last run did not run; a green last run, another batch, or a runner run
+// re-runs everything selected. `last` is the previous runs.jsonl row.
+export function rerunOnlyFailed(gates, last, batchId) {
+  if (!batchId || !last || last.runner || last.batchId !== batchId || !Array.isArray(last.failed) || !last.failed.length) {
+    return { gates, skipped: [] };
+  }
+  const ran = new Set((last.gates ?? []).map((g) => g[0]));
+  const red = new Set(last.failed);
+  const keep = gates.filter((g) => red.has(g) || !ran.has(g));
+  return { gates: keep, skipped: gates.filter((g) => !keep.includes(g)) };
+}

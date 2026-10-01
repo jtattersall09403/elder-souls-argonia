@@ -10,7 +10,8 @@ import agent_cap  # noqa: E402
 
 GIB = 1024
 FINE = dict(mem_mib=lambda: 8 * GIB, ceiling_mib=lambda: 22 * GIB, load1=lambda: 4.0,
-            cores=lambda: 8, slots_busy=lambda now: False, slot_waiters=lambda: 0)
+            cores=lambda: 8, slots_busy=lambda now: False, slot_waiters=lambda: 0,
+            _week_share=lambda: 0.1)
 EV = {"hook_event_name": "PreToolUse", "session_id": "s", "tool_name": "Agent"}
 
 
@@ -60,6 +61,20 @@ def test_pending_launches_count_and_stop_frees(tmp_path, monkeypatch):
     for _ in range(agent_cap.RUNAWAY_CAP):
         assert gate(tmp_path, monkeypatch)[0] == 0
     assert gate(tmp_path, monkeypatch)[0] == 2
+
+
+def test_wave_above_weekly_pace_refused_unless_short_budget(tmp_path, monkeypatch):
+    """Decision 0118: a second launch within a minute above 85 % of the weekly limit is refused."""
+    hot = dict(_week_share=lambda: 0.9)
+    long_brief = {**EV, "tool_input": {"prompt": "lane X. Budget: 90 min (hard)"}}
+    short_brief = {**EV, "tool_input": {"prompt": "fix y. Budget: 20 min (hard)"}}
+    assert gate(tmp_path, monkeypatch, now=100.0, **hot)[0] == 0          # one launch is not a wave
+    code, msg = agent_cap.handle(dict(long_brief), now=130.0)
+    assert code == 2 and "90 %" in msg and "decision 0118" in msg and "Budget:" in msg
+    assert agent_cap.handle(dict(short_brief), now=131.0)[0] == 0         # a short job may go
+    assert agent_cap.handle(dict(long_brief), now=400.0)[0] == 0          # a minute apart: not a wave
+    monkeypatch.setattr(agent_cap, "_week_share", lambda: 0.5)
+    assert agent_cap.handle(dict(long_brief), now=401.0)[0] == 0          # under the pace
 
 
 def test_other_tools_pass_and_garbage_input_allows(tmp_path):

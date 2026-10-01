@@ -1040,11 +1040,14 @@ per stage from `rounds.jsonl`, Opus and cheap-agent turns, CPU minutes,
 rounds, and, filled at the walk, the owner's defect count. `build_ledger.py
 --report` prints the trend per path and per skill version and lists every
 run over its target; a run over target files a tooling task (S-list row)
-the same day. Method reviews (`tooling/.reports/16k/walk2/method-review*.md`,
-rounds 1–3 on 2026-09-27, ~3,500 s per place saved, exited on
+the same day. Method reviews (rounds 1–6, 2026-09-27 to 2026-10-01,
+the first three saving ~3,500 s per place, exited on
 measurement) are indexed in `docs/research/phase16/method-reviews.md`
-(round, date, savings, exit reason); a read-only review round reopens
-only when the ledger shows a run over target. Each slice's Starting state
+(round, date, savings, exit reason); a process audit (a research agent, under
+40 min) runs at the close of every second walk round, or at once on a
+`workflow_drift.py` red, a day above 120 units (`session_tokens.py --days 1`)
+or a fix round over target (`wb.py round --walk N` times fix rounds;
+decision 0118). Each slice's Starting state
 quotes the last ledger rows, so a new session sees the numbers. Phase 15
 inherits the ledger and the targets per region packet.
 

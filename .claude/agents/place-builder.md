@@ -18,7 +18,14 @@ Before touching a layout:
   whole jobs (compile, publish, tests); keep your own context small.
 - Batch look-ups: several searches in one Bash call, or one `find` agent
   when more than 3 files need reading; edit with the Edit tool, never by
-  re-running a heredoc patch script.
+  re-running a heredoc patch script (the shell guard refuses a heredoc that
+  writes a tracked file, decision 0118).
+- Context cap (decision 0118): at 150 turns a hook tells you to write your
+  hand-off note (what is green, the exact next step) to your report and
+  return; at 180 it refuses every tool but a Write/Edit under
+  `tooling/.reports/` and SubagentHandback. A fresh builder continues from
+  the note. A fix round is timed: run `wb.py round ... --walk N` (and
+  `--end-walk` on its last round), so the build ledger sees it.
 
 While building:
 - Decide on the actual geometry (footprints, volumes, mined snap/abut data),

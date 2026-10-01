@@ -59,6 +59,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 REPORT_DIR = os.path.join(ROOT, "tooling", ".reports", "review")
 STAMP = os.path.join(REPORT_DIR, "stamp.json")
 FINDINGS = os.path.join(REPORT_DIR, "review-findings.md")
+REVIEW_LOG = "reviews.jsonl"  # beside STAMP; append-only, one row per review fired
 FINDINGS_RANGE = os.path.join(REPORT_DIR, "review-findings-range.md")
 # a fix round's whole code diff; the reviewer's window is 1M tokens; 0106 decision 13
 MAX_DIFF_BYTES = 1_200_000
@@ -464,10 +465,19 @@ def write_stamp(key, h, status, n, head=None, paths=None, base=None):
         prev = read_stamp_file()
         reviewed = head if status == "ok" else read_reviewed_head()
         stamps = {k: s for k, s in read_stamps().items() if s.get("head") == head}
-        stamps[key] = {"hash": h, "paths": paths or [], "time": time.time(),
+        now = time.time()
+        stamps[key] = {"hash": h, "paths": paths or [], "time": now,
                        "head": head, "base": base, "status": status, "findings": n}
-        _write_stamp_file({"stamps": stamps, "reviewedHead": reviewed,
-                           "open": status == "ok" or bool(prev.get("open"))})
+        was_open = bool(prev.get("open"))
+        # the batch id: the HEAD of the review that opened it; kept across the round
+        batch = prev.get("batchId") if was_open and prev.get("batchId") else head[:12]
+        _write_stamp_file({"stamps": stamps, "reviewedHead": reviewed, "batchId": batch,
+                           "open": status == "ok" or was_open})
+        # append-only (decision 0118): --close empties the stamps, so the drift
+        # check counts fires here, never from the stamp file
+        with open(os.path.join(os.path.dirname(STAMP), REVIEW_LOG), "a") as log:
+            log.write(json.dumps({"time": now, "batchId": batch, "head": head, "status": status,
+                                  "findings": n, "paths": paths or []}) + "\n")
 
 
 def review(diff, what):

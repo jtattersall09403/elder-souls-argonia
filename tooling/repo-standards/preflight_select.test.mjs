@@ -1,7 +1,7 @@
 // node --test: preflight's path scoping picks the gates a fixture path list needs.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { selectGates } from "./preflight_select.mjs";
+import { selectGates, rerunOnlyFailed } from "./preflight_select.mjs";
 import { jobsCap, pinPrefix } from "./jobs.mjs";
 
 const GATES = ["placement", "water", "typecheck", "rasters", "pipeline", "workbench", "npm-test", "credits", "python-deps"];
@@ -84,4 +84,15 @@ test("pin: upper half of the cores unless already confined", () => {
   assert.equal(pinPrefix(4, 4), "nice -n 10 taskset -c 1-3 ");
   assert.equal(pinPrefix(4, 2), "");
   assert.equal(pinPrefix(1, 1), "");
+});
+
+test("inside an open batch a re-run keeps only last run's red gates and gates it did not run (0118)", () => {
+  const last = { batchId: "b1", runner: false, gates: [["typecheck", 30], ["npm-test", 50], ["placement", 200]], failed: ["typecheck"] };
+  assert.deepEqual(rerunOnlyFailed(["typecheck", "npm-test", "placement", "water"], last, "b1"),
+    { gates: ["typecheck", "water"], skipped: ["npm-test", "placement"] });
+  const all = ["typecheck", "npm-test"];
+  assert.deepEqual(rerunOnlyFailed(all, last, "b2").gates, all);                       // another batch
+  assert.deepEqual(rerunOnlyFailed(all, { ...last, failed: [] }, "b1").gates, all);    // last run green
+  assert.deepEqual(rerunOnlyFailed(all, last, null).gates, all);                       // no open batch
+  assert.deepEqual(rerunOnlyFailed(all, { ...last, runner: true }, "b1").gates, all);  // runner rows never narrow
 });

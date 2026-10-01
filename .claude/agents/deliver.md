@@ -31,7 +31,15 @@ Rules of the road:
 - Report: what changed (file:line), what was measured, what failed.
 - Batch look-ups: several searches in one Bash call, or one `find` agent
   when more than 3 files need reading; edit with the Edit tool, never by
-  re-running a heredoc patch script.
+  re-running a heredoc patch script. The shell guard nudges at the third
+  single look-up in a row and refuses a heredoc that writes a tracked file
+  (decision 0118).
+- Context cap (decision 0118): at 150 turns a hook tells you to write your
+  hand-off note (what is green, the exact next step) to your report and
+  return; at 180 it refuses every tool but a Write/Edit under
+  `tooling/.reports/` and SubagentHandback. A fresh agent continues from
+  the note.
+- A lane spawned by a lead reports to that lead, never to the planner.
 - No foreground waits: any job over 60 s runs with `run_in_background`
   and the harness re-invokes you when it exits; never `tail -f`,
   `tail --pid`, `until` loops or `true`/`echo waiting` loops (the shell
