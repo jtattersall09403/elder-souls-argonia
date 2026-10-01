@@ -160,6 +160,9 @@ COMPATIBLE_ASSET_GROUND_FITS = {
         {"direct", "dug-in"},
     "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar02":
         {"direct", "pad"},
+    # The KotM shop sign hangs by its wall-mount pair (placement-policies
+    # assetFits "direct"); mounted on a padded house it takes the house's pad.
+    "kotm:argonia/blackwood/sign": {"direct", "pad"},
     "mudmother:gv_meshes/argoniannest/argonianplatform": {"direct", "pad"},
     "mudmother:gv_meshes/argoniannest/fishracksmall": {"direct", "pad"},
     "mudmother:gv_meshes/argoniannest/mudhut01": {"pad", "plinth", "dug-in"},

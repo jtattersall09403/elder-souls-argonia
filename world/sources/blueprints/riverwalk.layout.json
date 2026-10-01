@@ -716,14 +716,13 @@
     7211.2,
     518.55
    ],
-   "yaw": 0.0,
-   "settle": true
+   "yaw": 0.0
   },
   {
    "op": "bind",
    "uid": "sh-chime",
    "kind": "assembly",
-   "id": "parcel.riverwalk.shrine",
+   "id": "parcel.riverwalk.crews-house",
    "layer": "clutter",
    "on": "ground",
    "evidence": "measured"
@@ -2039,6 +2038,17 @@
   {"op": "place", "uid": "d9-stall", "asset": "vanilla:architecture/riften/rtmarketstall01", "at": [7218.0, 523.0], "yaw": 150.0, "settle": true, "pad": {"apronM": 0.5}},
   {"op": "place", "uid": "d9-fishrack", "asset": "vanilla:clutter/deadanimals/fishrack01", "at": [7219.0, 620.5], "yaw": 90.0, "settle": true, "pad": {"apronM": 0.3}},
   {"op": "bind", "uid": "d9-stall", "kind": "assembly", "id": "parcel.riverwalk.crews-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
-  {"op": "bind", "uid": "d9-fishrack", "kind": "assembly", "id": "parcel.riverwalk.stage-shelter", "layer": "clutter", "on": "ground", "evidence": "measured"}
+  {"op": "bind", "uid": "d9-fishrack", "kind": "assembly", "id": "parcel.riverwalk.stage-shelter", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "place", "uid": "d9-notice", "asset": "bmv:advertising_board", "at": [7214.5, 516.6], "yaw": 179.0, "settle": true},
+  {"op": "place", "uid": "d9-washline", "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/farmhouseline", "at": [7193.6, 510.1], "yaw": 209.5, "settle": true},
+  {"op": "bind", "uid": "d9-notice", "kind": "assembly", "id": "parcel.riverwalk.crews-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "d9-washline", "kind": "assembly", "id": "parcel.riverwalk.family-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "place", "uid": "d9-awning1", "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawning01", "at": [7205.0, 502.0], "yaw": 270.0, "scale": 0.65, "settle": true},
+  {"op": "place", "uid": "d9-awning2", "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawning01", "at": [7209.5, 505.5], "yaw": 240.0, "scale": 0.65, "settle": true},
+  {"op": "place", "uid": "d9-rainbarrel", "asset": "vanilla:clutter/barrel01", "at": [7200.6, 511.0], "yaw": 30.0, "settle": true},
+  {"op": "bind", "uid": "d9-awning1", "kind": "assembly", "id": "parcel.riverwalk.family-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "d9-awning2", "kind": "assembly", "id": "parcel.riverwalk.crews-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "d9-rainbarrel", "kind": "assembly", "id": "parcel.riverwalk.family-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "mount", "child": "sh-chime", "parent": "d9-awning2", "hang": true, "unmined": "reader-approved r30", "min_h": 2.4, "max_h": 5.0, "bearing": 240.0, "along": 1.0}
  ]
 }

@@ -2925,6 +2925,10 @@
   {"op": "bind", "uid": "d9-table", "kind": "assembly", "id": "parcel.claywater-station.the-well", "layer": "clutter", "on": "ground", "evidence": "measured"},
   {"op": "bind", "uid": "d9-bench", "kind": "assembly", "id": "parcel.claywater-station.the-well", "layer": "clutter", "on": "ground", "evidence": "measured"},
   {"op": "bind", "uid": "d9-chop", "kind": "assembly", "id": "parcel.claywater-station.station-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
-  {"op": "bind", "uid": "d9-hide", "kind": "assembly", "id": "parcel.claywater-station.stable", "layer": "clutter", "on": "ground", "evidence": "measured"}
+  {"op": "bind", "uid": "d9-hide", "kind": "assembly", "id": "parcel.claywater-station.stable", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "place", "uid": "d9-notice", "asset": "bmv:advertising_board", "at": [323.9, 3072.4], "yaw": 59.0, "settle": true},
+  {"op": "place", "uid": "d9-washline", "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/farmhouseline", "at": [330.6, 2975.3], "yaw": 0.0, "settle": true},
+  {"op": "bind", "uid": "d9-notice", "kind": "assembly", "id": "parcel.claywater-station.station-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "d9-washline", "kind": "assembly", "id": "parcel.claywater-station.family-hut", "layer": "clutter", "on": "ground", "evidence": "measured"}
  ]
 }

@@ -781,8 +781,7 @@
     4748.39,
     1875.37
    ],
-   "yaw": 0.0,
-   "settle": true
+   "yaw": 0.0
   },
   {
    "op": "place",
@@ -965,6 +964,15 @@
    "max_h": 12.0,
    "bearing": 20.0,
    "along": 4.0
+  },
+  {
+   "op": "mount",
+   "child": "sh-chime",
+   "parent": "hist",
+   "hang": true,
+   "unmined": "reader-approved r34",
+   "min_h": 2.4,
+   "max_h": 12.0
   },
   {
    "op": "mount",
@@ -3217,16 +3225,16 @@
   },
   {"op": "note", "uid": "hist", "text": "walk 9 dressing (dressing.md § 4, Hist village): the village's dead lie under two low cairns north-west of the Hist and north of the spring-keeper's house (burial runs through the Hist: argonia-4e201-state.md:165-167); the east family keeps two hives on their bench and two hens' nests behind the hut; the family hut by the nets dries fish on a rack. Sites from `wb.py site --free --clear 0.7`."},
   {"op": "place", "uid": "d9-grave1", "asset": "vanilla:clutter/burialcairn/burialcairn02", "at": [4729.5, 1889.0], "yaw": 90.0, "settle": true},
-  {"op": "place", "uid": "d9-grave2", "asset": "vanilla:clutter/burialcairn/burialcairn02", "at": [4718.0, 1897.0], "yaw": 0.0, "settle": true},
   {"op": "place", "uid": "d9-hive", "asset": "kotm:argonia/clutter/beehive", "at": [4781.0, 1832.5], "yaw": 0.0, "settle": true},
   {"op": "place", "uid": "d9-nest1", "asset": "vanilla:plants/chickennest01", "at": [4783.0, 1815.0], "yaw": 0.0, "settle": true},
-  {"op": "place", "uid": "d9-nest2", "asset": "vanilla:plants/chickennest01", "at": [4781.5, 1814.0], "yaw": 70.0, "settle": true},
   {"op": "place", "uid": "d9-fishrack", "asset": "vanilla:clutter/deadanimals/fishrack01", "at": [4723.5, 1837.0], "yaw": 0.0, "settle": true},
   {"op": "bind", "uid": "d9-grave1", "kind": "assembly", "id": "parcel.greenspring.hist-shrine", "layer": "clutter", "on": "ground", "evidence": "measured"},
-  {"op": "bind", "uid": "d9-grave2", "kind": "assembly", "id": "parcel.greenspring.hist-shrine", "layer": "clutter", "on": "ground", "evidence": "measured"},
   {"op": "bind", "uid": "d9-hive", "kind": "assembly", "id": "parcel.greenspring.east-family-hut", "layer": "clutter", "on": "ground", "evidence": "measured"},
   {"op": "bind", "uid": "d9-nest1", "kind": "assembly", "id": "parcel.greenspring.east-family-hut", "layer": "clutter", "on": "ground", "evidence": "measured"},
-  {"op": "bind", "uid": "d9-nest2", "kind": "assembly", "id": "parcel.greenspring.east-family-hut", "layer": "clutter", "on": "ground", "evidence": "measured"},
-  {"op": "bind", "uid": "d9-fishrack", "kind": "assembly", "id": "parcel.greenspring.family-hut", "layer": "clutter", "on": "ground", "evidence": "measured"}
+  {"op": "bind", "uid": "d9-fishrack", "kind": "assembly", "id": "parcel.greenspring.family-hut", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "place", "uid": "d9-notice", "asset": "bmv:advertising_board", "at": [4765.5, 1850.9], "yaw": 257.6, "settle": true},
+  {"op": "place", "uid": "d9-washline", "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/farmhouseline", "at": [4737.9, 1836.4], "yaw": 157.0, "settle": true},
+  {"op": "bind", "uid": "d9-notice", "kind": "assembly", "id": "parcel.greenspring.lodge", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "d9-washline", "kind": "assembly", "id": "parcel.greenspring.family-hut", "layer": "clutter", "on": "ground", "evidence": "measured"}
  ]
 }

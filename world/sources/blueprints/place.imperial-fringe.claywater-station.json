@@ -457,6 +457,19 @@
             "yMeasured": 37.4076
           },
           {
+            "id": "d9-notice",
+            "asset": "bmv:advertising_board",
+            "atM": [
+              -10.7273,
+              1.5148
+            ],
+            "yaw": 207.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 37.461
+          },
+          {
             "id": "sh-sign",
             "asset": "vanilla:clutter/signage/whiterun/signwrgeneralgoods",
             "atM": [
@@ -3415,6 +3428,19 @@
             "yMeasured": 35.9603
           },
           {
+            "id": "d9-washline",
+            "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/farmhouseline",
+            "atM": [
+              -8.4,
+              7.3
+            ],
+            "yaw": 0.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 35.27
+          },
+          {
             "id": "f2",
             "asset": "vanilla:clutter/woodfires/cookingstand01",
             "atM": [
@@ -5030,18 +5056,18 @@
         "sha256": "5ed27ca47c12e26f8deffdbec2c52e4a78ce69b4203a37ec04e52d13caa83a32"
       },
       "kits": {
-        "bmv-treehouse-int": "b4eae3ff712c698e724481f7592dcb1ca9b041d0f64af19d910625f6fd363a68",
-        "docks-v1": "d785fd4869f188cb91c34e6b10dd5f064993a6d01a2c7994676863eb0eeb1b48",
-        "htbm-hut-int": "ea80ddee9fb3d16de90ae60647f316d6ec10d9891f703684dce693dbae21c8ef",
-        "mudmother-hut-int": "36687657be26a430ab9efed29d36f77b888b36c7c4f784af1e47445acec5b6d5",
-        "settlement-imperial-v1": "e0f1fce8cc1d06571b1b3604b03ee291c1b9cf576a3ede6e9d033366a6fd47f5",
-        "settlement-mud-v1": "e502130d3e30e82a361775fc98195ec07e35dd75ec2efd08185446f5dbab42c8",
-        "settlement-root-v1": "9fa555fe25a8945793609473f2f011f97d71220a23287b45ce5687a62bb8bf67",
-        "works-v1": "57277662a5dc64d80ba0e048fce2789f8bcb8924ccb68455c55c1e5ddd92945c"
+        "bmv-treehouse-int": "88b8aee84f65c844752ad96592f2bc043405af5c9d94b75a2203b9a2c53912b4",
+        "docks-v1": "1569a4d22d143dbfd699d6a4bacd842eeefd064fd46443469825736bc1e5b489",
+        "htbm-hut-int": "409bfa969e465a361d68dce3673eee1634f442eb97bde201a68ebf03896961c6",
+        "mudmother-hut-int": "bd4c67bac1cf3dfbc3055fe9d10e5ecf2588724f5b7901b12be9a8d3ffcb638c",
+        "settlement-imperial-v1": "f8a72fb38b0ef3095ea0413462813ee4bcb7be5a4fdf28dbed2a447b5e3461f1",
+        "settlement-mud-v1": "c96507b435d263cf1417650b499ce9a43d42636a8622505377ed1c3646446de8",
+        "settlement-root-v1": "c16c84e716e61568bbe3e18ec324649554891e8516fc87fe70441d6667cd2db7",
+        "works-v1": "a930198844ccd7c7203ffa78df96f88c1228015ac3c0b297ec4e305038e4339d"
       },
       "layout": {
         "path": "world/sources/blueprints/claywater-station.layout.json",
-        "sha256": "38e50ded2375fbdd3b192a4a4fdcf4455d612d30d0b1e18bb61279e0a55900cf"
+        "sha256": "c690a7a2130f3542c6c998f2a97b4ef121e30229b49af149b6f58d3c202ba378"
       }
     },
     "walkRoutes": {

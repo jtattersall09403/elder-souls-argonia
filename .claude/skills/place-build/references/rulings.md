@@ -10,7 +10,7 @@ the code that enforces each is listed in 0105 § Where each lives.
 
 | Rule | What it says | Enforced by | Source |
 |---|---|---|---|
-| R1 | A piece stands only in the setting its own plugin places it in (manifest `settingClass`), never judged from its name | `setting.class` | 0105 decision (owner 2026-09-28) |
+| R1 | A piece stands only in the setting its own plugin places it in (manifest `settingClass`), never judged from its name. A modder's resource no plugin places, or vanilla dressing placed only indoors, is licensed outdoors PER SETTING CLASS by a reviewed `settingLicence` row in placement-policies.json (notice board: a road station or a place with trade or travel; washing line, herb rack, rain barrel: a domestic parcel; Sithis shrine: an Argonian record naming a Sithis or dead-cult provision; awning: a stilt or water-edge parcel), never blanket | `setting.class` | 0105 decision (owner 2026-09-28); settingLicence: planner, 16k walk 9 |
 | R2 | Reserved doors are for tier B/C interiors only; a dwelling, shop, stable house or workplace re-shells or is walked into | `interiors.reserved` | 0105 decision (owner 2026-09-28) |
 | R3 | Superseded by R80 (0108): `LIGHTS_CAP` is 100, nearest-8 per object | `lights.density` | 0105 decision (owner 2026-09-28) |
 | R4 | § Variety per building; a cell repeats in a region only when the fit set is used up; 3 uses per province | `interiors.variety` | 0105 decision (owner 2026-09-28) |
