@@ -46,9 +46,9 @@ walks as it needs; it closes only on the owner's "looks right".
     field). The webgpu branch must port all of these at the merge
     (backlog rows).
   - *Ways of working (decision 0118):* method review r6 found the review
-    loop blind and long-context agents at 41 % of spend. `agent_guard.py`
-    caps context (150 nudge to hand off, 220 runaway backstop) and keeps
-    leads to planning; `shell_guard.py` batches look-ups and refuses wait
+    loop blind and long-context agents at 41 % of spend. Briefs are chunked to one
+    context and monitored by the planner, never capped; `agent_guard.py`
+    keeps leads to planning; `shell_guard.py` batches look-ups and refuses wait
     loops and heredoc edits; `week_usage.py` paces to the weekly limit
     (derived from the owner's latest "% used" reading this week, which
     also switches the gate from nudge to refuse); one close per batch;
@@ -62,7 +62,7 @@ walks as it needs; it closes only on the owner's "looks right".
   performance technique goes through the standing
   [performance lane](../lanes/performance-lane.md). 3D clouds dropped
   (owner).
-- **Open owner calls:** the `agent_guard` settings line and a weekly
+- **Open owner calls:** the `agent_guard` settings line (lead rule) and a weekly
   "% used" reading in `weekly_limit.json`; carried: Godot, dawn valley fog.
 - **Open for the planner:** `workflow_drift` red on scopedWallP50S,
   scopedOver60S and minerFullRuns (30 full miner runs in 7 days: the

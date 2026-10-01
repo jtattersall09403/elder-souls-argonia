@@ -6,8 +6,10 @@ seconds of builder wall per place over the 580-place rollout. The reviews
 themselves live in `tooling/.reports/16k/walk2/` (gitignored: local to the build
 machine); their queued items are the
 S rows in [16k § New rows and speed items](../../phases/16-foundation-and-places/16k-place-loop.md).
-A new round opens only when `tooling/repo-standards/build_ledger.py --report`
-lists a run over its target (16k § Build cost is measured as data).
+A new round (a process audit, decision 0118) runs at the close of every
+second walk round, or at once on a `workflow_drift` red, a day above 120
+units, or a fix round over target in `build_ledger.py --report`
+(16k § Build cost is measured as data).
 
 | Round | Date | Review | Saving per place | Exit reason | Top findings |
 |---|---|---|---|---|---|
@@ -17,6 +19,7 @@ lists a run over its target (16k § Build cost is measured as data).
 | 4 | 2026-09-27 | the build ledger (`build_ledger.py --report`, `tooling/.reports/16k/walk2/ledger-report.txt`), not a read-only review | measured, not estimated: Greenspring (type 2, new type) 64 min wall against 40; Claywater's walk-2 fix round 3.4 min of `wb round` process time over 18 distinct rounds against 10 (the agents' own wall was not recorded) | no round 5: the one over-target run is filed as 16k S27, and stage events now time every stage without a hand row | the survey (15 min) and the layout-to-compile (22 min) stages carry the overrun; dressing seated by hand on a slope (S20) and overlapping pads found only at check (S21) are the tool tasks |
 | 5 | 2026-09-28 | `tooling/.reports/16k/walk3/method-review-r5.md` | ~95 min (est.): A 30, B 15, E 15, F 13, C 8, G 7, H 3 | continued: the next round is the ledger's own measurement of the next fix round, once runs are keyed by walk (D) | the walk-3 fix round cost ~107 min of builder wall per place against 10 while the ledger showed 22.4 (D); R2 + R4 + R10 cap dwelling doors near 12 on the two main shells (A); re-siting without a scan (B); orient read three briefs and 0105 (C); the R6 bar derived under another count (E); sourcing by filename (F); packet prose from memory (G); no place gate lists fallback sinks (H) |
 | 6 | 2026-10-01 | `method-review-r6.md` (this folder) | ~180 units per week of ~550 (est.): context ceiling 100, look-up hook 45, limit pacing 15, one close 10, wakes 9, polls 5 | continued: a process audit every second walk round, or at once on a drift red, a round over 120 units, or a fix round over target (needs fix rounds timed again) | the loop's trigger went blind (no ledger run rows after 09-29); 14 long-context Opus agents cost 41 % of units; look-up rules unobeyed (19–28 % of Opus turns); weekly limit hit with four leads in flight; three preflights and three reviews at one close, invisible to `workflow_drift` |
+| 7 | 2026-10-01 | `method-review-r7.md` (this folder) | ~25 units per week from one-context briefs (0118 d1), ~10 from a scene-reading coherence gate | continued: next audit at the close of walk 10 | walk 8 spent 24 units, about 6× below walks 5–7; agents past 150 turns or 200k context were 30 %; the coherence gate read prose, not the built scene (16 % redone); `minerFullRuns` drift matcher permanently red |
 
 ## Round 4 delivered: round-3 findings A–I measured on Greenspring (2026-09-28)
 

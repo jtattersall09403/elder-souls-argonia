@@ -20,10 +20,9 @@ Before touching a layout:
   when more than 3 files need reading; edit with the Edit tool, never by
   re-running a heredoc patch script (the shell guard refuses a heredoc that
   writes a tracked file, decision 0118).
-- Context cap (decision 0118): at 150 turns a hook tells you to write your
-  hand-off note (what is green, the exact next step) to your report and
-  return; at 220 (a runaway backstop) it refuses every tool but a Write/Edit under
-  `tooling/.reports/` and SubagentHandback. A fresh builder continues from
+- Chunking (decision 0118): your brief is one deliverable for one context.
+  If it proves bigger, stop at a green step, write the hand-off note (what
+  is green, next step, files) and return; a fresh builder continues from
   the note. A fix round is timed: run `wb.py round ... --walk N` (and
   `--end-walk` on its last round), so the build ledger sees it.
 

@@ -34,11 +34,10 @@ Rules of the road:
   re-running a heredoc patch script. The shell guard nudges at the third
   single look-up in a row and refuses a heredoc that writes a tracked file
   (decision 0118).
-- Context cap (decision 0118): at 150 turns a hook tells you to write your
-  hand-off note (what is green, the exact next step) to your report and
-  return; at 220 (a runaway backstop) it refuses every tool but a Write/Edit under
-  `tooling/.reports/` and SubagentHandback. A fresh agent continues from
-  the note.
+- Chunking (decision 0118): your brief is one deliverable for one context.
+  If it proves bigger, stop at a green step, write the hand-off note the
+  brief names (what is green, next step, files) and return; a fresh agent
+  continues from the note.
 - A lane spawned by a lead reports to that lead, never to the planner.
 - No foreground waits: any job over 60 s runs with `run_in_background`
   and the harness re-invokes you when it exits; never `tail -f`,

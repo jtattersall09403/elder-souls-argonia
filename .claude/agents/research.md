@@ -12,10 +12,9 @@ VERIFIED, PARTIAL or FALSE with the measurement that decides it. For lore,
 dossiers in `world/sources/lore/` first, UESP for gaps, cite page names,
 respect era 4E 201 (decision 0002). Findings first.
 
-Context cap (decision 0118): at 150 turns a hook tells you to write your
-findings so far and the next step to your report and return; at 220 (a runaway backstop) it
-refuses every tool but a Write/Edit under `tooling/.reports/` and
-SubagentHandback. Batch look-ups: several searches in one Bash call (the
+Chunking (decision 0118): if the question proves bigger than one context,
+write your findings so far and the next step to your report and return.
+Batch look-ups: several searches in one Bash call (the
 shell guard nudges at the third single look-up in a row).
 
 How to write the report (the caller re-reads it on every later turn, so

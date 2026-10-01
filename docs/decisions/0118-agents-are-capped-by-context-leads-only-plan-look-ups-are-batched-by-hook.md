@@ -1,4 +1,4 @@
-# 0118 — Agents are capped by context, leads only plan, look-ups are batched by hook
+# 0118 — Work is chunked to one context and monitored, leads only plan, look-ups are batched by hook
 
 Status: accepted (16k walk 8, 2026-10-01). Amends 0079 rule 20 (the lead
 tier) and 0106 decisions 19 and 20 in place. Evidence:
@@ -31,18 +31,18 @@ measured where they went:
 
 ## Decisions
 
-1. **Context cap.** An Opus agent (deliver, place-builder, lead, research)
-   is nudged at 150 turns to finish the current step, write the hand-off
-   note (what is green, next step) to its report and return; `lane_resume`
-   relaunches a fresh agent from the note, so no context is lost. This
-   nudge is the normal path. From 220 turns every tool call is refused but
-   a Write/Edit under `tooling/.reports/` and SubagentHandback: a runaway
-   backstop only. The real control is brief size (leads only plan, deliver
-   briefs arrive fully decided with a `Budget:` line); the cap exists
-   because long-context agents were 41 % of spend and quality falls with
-   context (planner ruling, walk 9, on the owner's "is it a plaster?").
-   `agent_guard.py` counts distinct assistant message ids in the agent's
-   own transcript.
+1. **Chunking, never a cap** (owner, walk 9: no turn cap). The planner or
+   lead sizes every brief to one deliverable an agent finishes in one
+   context: one mechanism, one place or one tool. The brief names the
+   hand-off note the agent writes when it returns (what is green, the next
+   step, the files). The next chunk starts a fresh agent from that note
+   plus the brief. A lead that finds a chunk bigger than briefed splits it
+   and returns the split; it never pushes on. Long-running work is
+   monitored by the planner, never capped: at every check-in it compares
+   elapsed with expected, and when a lane is over it finds the
+   inefficiency, stops the lane and resumes it with the improved process.
+   The brief's `Budget: N min (hard)` line is that checkpoint, not a
+   limit.
 2. **Leads only plan.** A lead briefs, integrates by reading reports and
    verifies through `find`/`run` agents. `agent_guard.py` refuses its
    Edit/Write outside `tooling/.reports/` and its build, test and publish
@@ -79,7 +79,8 @@ round over target (the 16k brief, § Build cost is measured as data).
 
 ## Where each lives
 
-- `tooling/repo-standards/agent_guard.py` (1, 2), `shell_guard.py` (3, 6),
+- 1 lives in the brief templates and the agent files; no hook.
+- `tooling/repo-standards/agent_guard.py` (2), `shell_guard.py` (3, 6),
   `week_usage.py` + `weekly_limit.json` + `agent_cap.py` +
   `session_tokens.py --brief` (4), `preflight.mjs` +
   `preflight_select.mjs` `rerunOnlyFailed` + `review_gate.py` +
@@ -87,4 +88,4 @@ round over target (the 16k brief, § Build cost is measured as data).
   `walk_clock` (7); tests beside each.
 - `.claude/agents/{deliver,place-builder,lead,research}.md`;
   [`docs/standards/hooks.md`](../standards/hooks.md) holds the settings
-  line the owner pastes for `agent_guard.py`.
+  line for `agent_guard.py`.

@@ -71,8 +71,7 @@ it as a second hook):
 ```
 
 The agent guard (decision 0118) needs one more `PreToolUse` entry, on every
-tool (until it is pasted, the context cap and the lead rule are agent-file
-rules only):
+tool (until it is pasted, the lead rule is an agent-file rule only):
 
 ```json
 { "matcher": "*", "hooks": [{ "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/agent_guard.py", "timeout": 10 }] }

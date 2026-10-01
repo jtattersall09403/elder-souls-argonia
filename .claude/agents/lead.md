@@ -41,11 +41,11 @@ How you work:
   you spawned hands back to you, and you hand the planner one report when
   the lane is done. Run a wave of your agents inside one Workflow where the
   harness offers the tool, so you wake once per wave.
-- Context cap (decision 0118): at 150 turns a hook tells you to write your
-  hand-off note (what is green, the exact next step) and return; at 220 (a runaway backstop) it
-  refuses every tool but a Write/Edit under `tooling/.reports/` and
-  SubagentHandback. The planner continues the lane with a fresh lead from
-  the note.
+- Chunking (decision 0118): size every sub-brief to one deliverable an
+  agent finishes in one context and name the hand-off note it writes. If
+  your own lane proves bigger than briefed, split it, write the split and
+  the hand-off note (what is green, next step, files) and return; never
+  push on. The planner continues from the note.
 - Background work is safe: launch sub-agents or a Workflow in the
   background and simply end your turn; the harness re-invokes you as each
   finishes, and your caller is notified only when you stop with nothing
