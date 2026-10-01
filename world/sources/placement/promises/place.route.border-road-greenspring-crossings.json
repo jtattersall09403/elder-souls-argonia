@@ -5,7 +5,7 @@
  "derivedFrom": [
   {
    "file": "world/sources/routes/route-structure-exemplars.json",
-   "sha256": "01e5eaa86316504543fa2ef71e86212c26eb727aa385a85a1c92e00692914995"
+   "sha256": "5465c8ea36ae8a605377f2cb01375e3be8f1569e1ee4378d8c7c9512a70cf6ab"
   }
  ],
  "promises": [
@@ -42,9 +42,9 @@
     "file": "world/sources/routes/route-structure-exemplars.json",
     "path": "places[place.route.border-road-greenspring-crossings].why.pressures"
    },
-   "text": "The marsh rots a pile in a few seasons. Greenspring has to keep replacing them.",
+   "text": "The marsh rots the piles in a few seasons. Greenspring has to keep replacing them.",
    "confirmed": {
-    "sha": "b9932a0cb825",
+    "sha": "9b68bfd34139",
     "note": "Both runs stand on piles in standing marsh water (17 dock pieces, wet ground under each run)."
    }
   },
