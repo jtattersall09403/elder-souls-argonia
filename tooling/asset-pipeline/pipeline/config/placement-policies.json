@@ -160,6 +160,7 @@
   "ferries:yamadori/ferries/plank_ferry_swamp_01": "pad",
   "ferryraft:snt/ferry/ferryraft01": "stilt",
   "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree": "direct",
+  "histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick": "direct",
   "histtree:skyfall/sleeping tree overhaul/histflower01": "direct",
   "histtree:skyfall/sleeping tree overhaul/rockcairn01": "direct",
   "histtree:skyfall/sleeping tree overhaul/rockcairn03": "direct",
@@ -518,10 +519,6 @@
    "floorClass": "openShelter"
   },
   "kotm:argonia/blackwood/sign": {
-   "anchorClass": "hanging",
-   "why": "Hanging shop sign: a re-textured vanilla Riften/Whiterun sign (rings and a hinge constraint in the NIF, no post of its own). King of the Murkmire's plugin places it nowhere, so the mounts vote is 'unplaced'; vanilla hangs every such sign from the bracket post signwrpost01 (kit-mounts-mined pairs signwrpost01 -> signwr*, 2.39 m up), which this kit carries."
-  },
-  "kotm:argonia/blackwood/signinn": {
    "anchorClass": "hanging",
    "why": "Hanging shop sign: a re-textured vanilla Riften/Whiterun sign (rings and a hinge constraint in the NIF, no post of its own). King of the Murkmire's plugin places it nowhere, so the mounts vote is 'unplaced'; vanilla hangs every such sign from the bracket post signwrpost01 (kit-mounts-mined pairs signwrpost01 -> signwr*, 2.39 m up), which this kit carries."
   }

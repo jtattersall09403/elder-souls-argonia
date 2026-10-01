@@ -574,18 +574,6 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.3 m\u00b2 plan, 1.4 m tall)"
   },
-  "kotm:argonia/blackwood/signinn": {
-   "category": "misc",
-   "entrance": null,
-   "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": null,
-   "heightM": 1.42,
-   "interior": "none",
-   "planAreaM2": 0.33,
-   "provenance": [],
-   "sizeClass": "small",
-   "why": "too small to hold an interior (0.3 m\u00b2 plan, 1.4 m tall)"
-  },
   "kotm:argonia/mudhuts/door01": {
    "category": "door",
    "entrance": null,
@@ -1693,42 +1681,6 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (4.4 m\u00b2 plan, 0.9 m tall)"
-  },
-  "vanilla:clutter/signage/riften/signrtbeeandbarb01": {
-   "category": "clutter",
-   "entrance": null,
-   "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": null,
-   "heightM": 1.42,
-   "interior": "none",
-   "planAreaM2": 0.33,
-   "provenance": [],
-   "sizeClass": "small",
-   "why": "too small to hold an interior (0.3 m\u00b2 plan, 1.4 m tall)"
-  },
-  "vanilla:clutter/signage/riften/signrtblacksmith01": {
-   "category": "clutter",
-   "entrance": null,
-   "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": null,
-   "heightM": 1.52,
-   "interior": "none",
-   "planAreaM2": 0.31,
-   "provenance": [],
-   "sizeClass": "small",
-   "why": "too small to hold an interior (0.3 m\u00b2 plan, 1.5 m tall)"
-  },
-  "vanilla:clutter/signage/whiterun/signwrpost01": {
-   "category": "clutter",
-   "entrance": null,
-   "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": null,
-   "heightM": 2.74,
-   "interior": "none",
-   "planAreaM2": 0.06,
-   "provenance": [],
-   "sizeClass": "small",
-   "why": "too small to hold an interior (0.1 m\u00b2 plan, 2.7 m tall)"
   }
  },
  "kit": "settlement-mud-v1",

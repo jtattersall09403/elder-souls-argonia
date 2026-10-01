@@ -374,7 +374,10 @@ def export(scene: Scene, blueprint: Path, write: bool = False) -> dict:
         if mark is None:
             unknown.append(lid)
             continue
-        mark.update({"position": fields["position"], "yawDeg": fields["yawDeg"]})
+        # the built asset is the record's (walk 8: Greenspring's Hist kept the base
+        # tree in the blueprint while the layout placed the sick variant)
+        mark.update({"assetRef": fields["assetRef"], "position": fields["position"],
+                     "yawDeg": fields["yawDeg"]})
         if "yMeasured" in fields:
             mark["yMeasured"] = fields["yMeasured"]     # the pose is the output (0097)
         else:

@@ -3670,7 +3670,7 @@
       {
         "id": "landmark.greenspring.the-hist",
         "kind": "hist-tree",
-        "assetRef": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree",
+        "assetRef": "histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick",
         "notes": "The village's tribal Hist, ailing (MR01); hist-placement R2 tribal, R3 state sick.",
         "why": {
           "what": "The village's Hist, a broad old tree whose roots are sickening.",
@@ -4055,7 +4055,7 @@
         "dungeon-root-v1": "01532639bd3f467d1f2d900ffcad5a19625a2138a0b4d8cca6676f8ed168e262",
         "mudmother-hut-int": "9d84ead19358aec0f2065cac9eb0a93165154097d5a9efb6a2a900024d3e6fcb",
         "settlement-imperial-v1": "fc5c087017a7ef44152771e94c03624877006ef37849dcab7b2ed36341833ec8",
-        "settlement-mud-v1": "f69e109f5efc120cd85ab9492b25a04b027afbb1e2c6e6ef29c69bf2ef95fcfd",
+        "settlement-mud-v1": "082ed8a171aafa88eef2d1a73de4b17fe0419e1c03ff6bc3dbcc2d1e063ee5dd",
         "settlement-stilt-v1": "98d964533cb8d2d10ca70ec6caca8c88f20d3b131687b46bb4d5ba47e4fc8361",
         "works-v1": "92f4eb48eadda959ceb0f7f978b2a02e2596e9ff366c0b9dc9ed5bdff207f0de"
       },

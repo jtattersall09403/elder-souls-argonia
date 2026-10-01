@@ -511,7 +511,7 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
 - **Argonian trade signage (walk 8, 2026-10-01).** Greenspring's lodge and Riverwalk's crews-house sell lodging and trade but carry no board.
   - The only usable Argonian board is KotM `blackwood/sign`, with a wordless sun face. It is kitted in settlement-mud-v1. `signinn` carries a named inn on its face and was dropped from the kit.
   - KotM's plugin places neither board, so a board can hang only by a twin's mined pair (R98, `mount --like … --twin`).
-  - **Twin search (all 43 vanilla shop and inn boards under `meshes/clutter/signage/`, dumped by the mount miner's mesh dump, `/tmp/laneC-twin-table.txt`):** none is within 1 cm.
+  - **Twin search (all 43 vanilla shop and inn boards under `meshes/clutter/signage/`, dumped by the mount miner's mesh dump, `tooling/.reports/16k/walk8/laneC-twin-table.txt`):** none is within 1 cm.
     - Nearest is the blacksmith family (`signrtblacksmith01`, `signwrblacksmith01`, `signwhblacksmith01`, `signriverwoodriverwoodblacksmith01`) at 0.129 m. They share the beam and hook; their board hangs 0.13 m lower.
     - Next are the stables boards (0.24 m) and the general-goods boards (0.242 m).
   - The `riftencanalwood01` alias for the missing `bwcs` frame texture reads as a plain wooden beam on the look sheets and is kept.

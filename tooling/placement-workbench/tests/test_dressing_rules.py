@@ -61,3 +61,4 @@ def test_twin_is_measured_on_bounds_and_hook():
     cat = _Cat({"a": _chair(), "b": _chair(), "c": _hut()})
     assert snap.twin_refusal(cat, "a", "b") is None
     assert "not b" not in (snap.twin_refusal(cat, "a", "c") or "") and snap.twin_refusal(cat, "a", "c")
+
