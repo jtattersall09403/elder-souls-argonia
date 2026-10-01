@@ -1326,22 +1326,24 @@ def coherence_gate(g: Gates, place_id: str, settlement: dict | None) -> None:
     A and B", premised features, the plants it says grow there) matches the
     world (``record_coherence``), for this place AND every other built place
     (walk 9: a later place's change set must not break an earlier fit).
-    ``record.regression``: no record green at HEAD is red in the tree; the
-    tracked receipt is refreshed so a rollback shows in git."""
+    ``record.regression``: no record green at HEAD is red in the tree. Only the
+    records this tree can have moved are graded (``gate_statuses``: the place, the
+    built places, the change set's re-check set), each bundle read once; the tracked
+    receipt is rewritten only when a status changes, so a rollback shows in git."""
     from . import record_coherence as rc
     t = time.perf_counter()
     index = rc.build_index()
-    fails = rc.coherence_failures(place_id, index, settlement or rc.load_compiled(place_id))
+    before = rc.committed_receipt()
+    now, fails = rc.gate_statuses(index, place_id, settlement, before)
+    out = list(fails.get(place_id, []))
     for other in rc.built_places(index):
         if other != place_id:
-            fails += [f"{other}: {f}" for f in rc.coherence_failures(other, index, rc.load_compiled(other))]
-    g.add("record.coherence", time.perf_counter() - t, fails)
+            out += [f"{other}: {f}" for f in fails.get(other, [])]
+    g.add("record.coherence", time.perf_counter() - t, out)
     t = time.perf_counter()
-    now = rc.all_statuses(index)
-    if settlement is not None:      # this run's compile, not yet published
-        now[place_id] = "red" if rc.coherence_failures(place_id, index, settlement) else "green"
-    reg = rc.regression_failures(now, rc.committed_receipt(), index)
+    reg = rc.regression_failures(now, before, fails)
     rc.write_receipt(now)
+    index.vegetation.clear()        # free the frozen cells the ecology reader loaded
     g.add("record.regression", time.perf_counter() - t, reg)
 
 

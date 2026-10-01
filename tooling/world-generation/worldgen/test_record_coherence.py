@@ -212,3 +212,22 @@ def test_regression_green_to_red_only():
     before = {"a": "green", "b": "red", "c": "red"}
     fails = rc.regression_failures(now, before)
     assert len(fails) == 1 and "a was coherent at HEAD" in fails[0]
+
+
+def test_gate_statuses_grade_only_what_can_move(monkeypatch):
+    """The place gate grades the place, the built places and the re-check set once each
+    and carries every other record's HEAD status forward (walk 9 review)."""
+    ix = rc.Index(places={p: {"positionM": [0, 0]} for p in ("a", "b", "c", "d")},
+                  place_file={}, names={}, name_re=None, routes={}, channels=[], services={}, quests=[])
+    graded, loads = [], []
+    monkeypatch.setattr(rc, "changed_records", lambda index: ({}, {"c"}))
+    monkeypatch.setattr(rc, "built_places", lambda index: ["b"])
+    monkeypatch.setattr(rc, "load_compiled", lambda pid: loads.append(pid) or {"built": pid})
+    monkeypatch.setattr(rc, "coherence_failures",
+                        lambda pid, index, comp: graded.append((pid, comp)) or (["x"] if pid == "b" else []))
+    now, fails = rc.gate_statuses(ix, "a", {"tree": 1}, {"a": "red", "b": "green", "d": "red", "gone": "green"})
+    assert sorted(p for p, _ in graded) == ["a", "b", "c"] and loads == ["b"]
+    assert dict(graded)["a"] == {"tree": 1}
+    assert now == {"a": "green", "b": "red", "c": "green", "d": "red"}
+    assert rc.regression_failures(now, {"b": "green"}, fails) == [
+        "record.regression: b was coherent at HEAD and is not now: x"]

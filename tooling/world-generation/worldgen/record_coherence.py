@@ -761,16 +761,36 @@ def built_places(index: Index) -> list[str]:
                   if (PROVINCE / "settlements" / f"{pid}.json").exists())
 
 
-def all_statuses(index: Index) -> dict[str, str]:
-    """green / red for every place record with a position (built places graded with their bundle)."""
+def grade(index: Index, ids, compiled: dict[str, dict | None] | None = None
+          ) -> tuple[dict[str, str], dict[str, list[str]]]:
+    """green / red and the failures of the named place records that have a position;
+    a built place is graded with its bundle (``compiled`` overrides; each bundle read once)."""
+    compiled = dict(compiled or {})
     built = set(built_places(index))
-    out = {}
-    for pid in sorted(index.places):
-        if not index.places[pid].get("positionM"):
+    status: dict[str, str] = {}
+    fails: dict[str, list[str]] = {}
+    for pid in sorted(set(ids)):
+        if not (index.places.get(pid) or {}).get("positionM"):
             continue
-        fails = coherence_failures(pid, index, load_compiled(pid) if pid in built else None)
-        out[pid] = "red" if fails else "green"
-    return out
+        if pid not in compiled:
+            compiled[pid] = load_compiled(pid) if pid in built else None
+        fails[pid] = coherence_failures(pid, index, compiled[pid])
+        status[pid] = "red" if fails[pid] else "green"
+    return status, fails
+
+
+def gate_statuses(index: Index, place_id: str, compiled: dict | None, before: dict[str, str]
+                  ) -> tuple[dict[str, str], dict[str, list[str]]]:
+    """The place gate's grading (walk 9 review: under 1 s a place). Only the records whose
+    status this tree can have moved are graded: the place, every built place and the
+    change set's re-check set (``changed_records``); every other record carries its HEAD
+    status (``before``) forward unchanged."""
+    _, recheck = changed_records(index)
+    ids = {place_id} | set(built_places(index)) | recheck
+    graded, fails = grade(index, ids, {place_id: compiled} if compiled is not None else None)
+    now = {p: v for p, v in before.items() if p in index.places}
+    now.update(graded)
+    return now, fails
 
 
 def committed_receipt(rel: str | None = None) -> dict[str, str]:
@@ -780,17 +800,17 @@ def committed_receipt(rel: str | None = None) -> dict[str, str]:
     return json.loads(r.stdout).get("records", {}) if r.returncode == 0 else {}
 
 
-def regression_failures(now: dict[str, str], before: dict[str, str], index: Index | None = None) -> list[str]:
-    """A record green at HEAD and red in the working tree: a later change broke a fit made earlier."""
-    fails = []
+def regression_failures(now: dict[str, str], before: dict[str, str],
+                        fails: dict[str, list[str]] | None = None) -> list[str]:
+    """A record green at HEAD and red in the working tree: a later change broke a fit made
+    earlier; ``fails`` (from ``grade``) supplies each one's first failure."""
+    out = []
     for pid in sorted(before):
         if before[pid] == "green" and now.get(pid) == "red":
-            first = ""
-            if index is not None:
-                f = coherence_failures(pid, index, load_compiled(pid))
-                first = f": {f[0]}" if f else ""
-            fails.append(f"record.regression: {pid} was coherent at HEAD and is not now{first}")
-    return fails
+            f = (fails or {}).get(pid) or []
+            out.append(f"record.regression: {pid} was coherent at HEAD and is not now"
+                       f"{': ' + f[0] if f else ''}")
+    return out
 
 
 def write_receipt(statuses: dict[str, str]) -> None:
@@ -1020,8 +1040,8 @@ def main(argv=None) -> int:
             print(f"  {f}")
         rc |= bool(fails)
     if a.receipt:
-        now = all_statuses(index)
-        reg = regression_failures(now, committed_receipt(), index)
+        now, grades = grade(index, index.places)
+        reg = regression_failures(now, committed_receipt(), grades)
         write_receipt(now)
         print(f"receipt: {sum(v == 'green' for v in now.values())} green, "
               f"{sum(v == 'red' for v in now.values())} red -> {RECEIPT.relative_to(REPO)}")
