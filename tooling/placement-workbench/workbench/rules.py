@@ -90,6 +90,12 @@ PHYSICS_TS = paths.REPO_ROOT / "packages" / "game-core" / "src" / "physics" / "c
 # (the round summary prints it beside the count; the bars and their rulings are the placement-workbench
 # skill's section 5). Tooling text for the agent, not player-facing.
 FIX_HINTS = {
+    "serviceSignRule": "mount the pool's board on its bracket post beside the door (mined pair, wb.py mount), never over the opening",
+    "seatFacingRule": "turn the seat (yaw by uid) so its front faces the table, or away from the "
+                      "wall toward the path; never rebuild",
+    "socketCoherenceRule": "move the socket onto its prop (host it on the prop's uid), move it "
+                           "indoors, or drop one that marks nothing (every roster slot keeps a "
+                           "work and a home socket)",
     "slopeRule": "re-site (wb.py scan / site) or give the parcel a pad or a fit made for the slope",
     "deltaRule": "re-site, declare a pad, or author a groundFit that takes the delta, with its reason",
     "sillRule": "bring the threshold within 0.20 m of the walk surface: re-seat, pad, or lay the "

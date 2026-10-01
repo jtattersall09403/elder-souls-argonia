@@ -29,6 +29,8 @@ EXEMPT: dict[str, str] = {
         "a hanging board, mounted above head height on its post (mount pair)",
     "vanilla:clutter/signage/whiterun/signwrstables01":
         "a hanging board, mounted above head height on its post",
+    "vanilla:clutter/signage/whiterun/signwrgeneralgoods":
+        "a hanging board, mounted above head height on its post or a wall",
     "vanilla:clutter/shipwreck/shipwreckboards01": "a loose board 0.06 m thick, scatter",
     "vanilla:clutter/shipwreck/shipwreckboards02": "a loose board 0.06 m thick, scatter",
     "vanilla:clutter/shipwreck/shipwreckboards03": "a loose board 0.06 m thick, scatter",

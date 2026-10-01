@@ -677,7 +677,7 @@
               6.4124,
               -8.3067
             ],
-            "yaw": 120.0,
+            "yaw": 246.0,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
@@ -690,7 +690,7 @@
               0.9144,
               -4.7837
             ],
-            "yaw": 120.0,
+            "yaw": 22.0,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
@@ -1011,7 +1011,7 @@
               2.0,
               -3.5
             ],
-            "yaw": 90.0,
+            "yaw": 22.0,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
@@ -2688,17 +2688,17 @@
         "sha256": "3a5b59f2c5e0eb1bdc5605eb87cf312bf493a6d11ae7b7392c50349320a933fc"
       },
       "kits": {
-        "docks-v1": "1d9a68f780dacb0456d7a1cc7697a9d2c7020ceeb4cbab0ca6413b945d9b41da",
+        "docks-v1": "d785fd4869f188cb91c34e6b10dd5f064993a6d01a2c7994676863eb0eeb1b48",
         "dungeon-root-v1": "01532639bd3f467d1f2d900ffcad5a19625a2138a0b4d8cca6676f8ed168e262",
         "mudmother-hut-int": "9d84ead19358aec0f2065cac9eb0a93165154097d5a9efb6a2a900024d3e6fcb",
-        "settlement-imperial-v1": "416315a360170b2299125fa5646a45d6d1ba7f9fb816588fdb4a4c1b9cab01e0",
+        "settlement-imperial-v1": "fc5c087017a7ef44152771e94c03624877006ef37849dcab7b2ed36341833ec8",
         "settlement-mud-v1": "f69e109f5efc120cd85ab9492b25a04b027afbb1e2c6e6ef29c69bf2ef95fcfd",
         "settlement-stilt-v1": "98d964533cb8d2d10ca70ec6caca8c88f20d3b131687b46bb4d5ba47e4fc8361",
-        "works-v1": "e74e2c823c3c08f659d9a6fd86f1770fc1fb14bf0d4c276ce5b877acdbcc6369"
+        "works-v1": "92f4eb48eadda959ceb0f7f978b2a02e2596e9ff366c0b9dc9ed5bdff207f0de"
       },
       "layout": {
         "path": "world/sources/blueprints/riverwalk.layout.json",
-        "sha256": "3594d87af36299305f625779789442a7d8bc429246fd08d18b06f91de78fee6c"
+        "sha256": "7562905a150a3274d9743735c13327b2d348df34dbd3b80d74a3c8ba2502154e"
       }
     },
     "walkRoutes": {

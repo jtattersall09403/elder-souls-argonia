@@ -1963,6 +1963,30 @@
     "widthM": 0.24
    }
   ],
+  "vanilla:clutter/signage/whiterun/signwrgeneralgoods": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.15,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -1.4
+    ],
+    "widthM": 0.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.15,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     -0.0
+    ],
+    "widthM": 0.25
+   }
+  ],
   "vanilla:clutter/signage/whiterun/signwrpost01": [
    {
     "evidence": "bounds",
@@ -2129,8 +2153,8 @@
   ]
  },
  "counts": {
-  "assets": 50,
-  "bounds": 155,
+  "assets": 51,
+  "bounds": 157,
   "co-placement": 23
  },
  "elongationRatio": 2.0,

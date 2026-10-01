@@ -9,7 +9,8 @@ import { socketsToDraw, type ShownCellSockets } from "@elder-souls/game-core/int
 
 /**
  * Studio debug overlay (decision 0103 decision 6): every published place
- * socket as a coloured post with its kind and id, so the owner can see on a
+ * socket as a coloured post labelled with what it marks (`DrawnSocket.label`: kind,
+ * activity or class, and the building it belongs to), so the owner can see on a
  * walk where the people, containers and idle spots stand. Mounted while the
  * character view's "sockets" checkbox is on; `socketsOverlayEnabled()`
  * (`?sockets=1`) gives that checkbox its start state. It reads the places in
@@ -76,7 +77,7 @@ export function SocketMarkers({ baseUrl, groundAt, startAt, shown = null }: {
             <Html position={[0, POST_M + 0.2, 0]} center distanceFactor={12}>
               <div style={{ color: KIND_COLOUR[s.kind], font: "11px monospace", whiteSpace: "nowrap",
                 background: "rgba(0,0,0,0.6)", padding: "1px 4px" }}>
-                {s.kind} {s.id}{use ? ` (use: ${use.kind})` : ""}
+                {s.label}{use ? ` (use: ${use.kind})` : ""}
               </div>
             </Html>
           </group>

@@ -232,7 +232,7 @@
               3.4844,
               5.9355
             ],
-            "yaw": 278.2,
+            "yaw": 143.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
@@ -245,7 +245,7 @@
               0.4874,
               8.4519
             ],
-            "yaw": 8.2,
+            "yaw": 167.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
@@ -2176,7 +2176,7 @@
               -3.6875,
               -6.3573
             ],
-            "yaw": 99.5,
+            "yaw": 214.2,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
@@ -4054,14 +4054,14 @@
       "kits": {
         "dungeon-root-v1": "01532639bd3f467d1f2d900ffcad5a19625a2138a0b4d8cca6676f8ed168e262",
         "mudmother-hut-int": "9d84ead19358aec0f2065cac9eb0a93165154097d5a9efb6a2a900024d3e6fcb",
-        "settlement-imperial-v1": "416315a360170b2299125fa5646a45d6d1ba7f9fb816588fdb4a4c1b9cab01e0",
+        "settlement-imperial-v1": "fc5c087017a7ef44152771e94c03624877006ef37849dcab7b2ed36341833ec8",
         "settlement-mud-v1": "f69e109f5efc120cd85ab9492b25a04b027afbb1e2c6e6ef29c69bf2ef95fcfd",
         "settlement-stilt-v1": "98d964533cb8d2d10ca70ec6caca8c88f20d3b131687b46bb4d5ba47e4fc8361",
-        "works-v1": "e74e2c823c3c08f659d9a6fd86f1770fc1fb14bf0d4c276ce5b877acdbcc6369"
+        "works-v1": "92f4eb48eadda959ceb0f7f978b2a02e2596e9ff366c0b9dc9ed5bdff207f0de"
       },
       "layout": {
         "path": "world/sources/blueprints/greenspring.layout.json",
-        "sha256": "bb6cb8e41fd55fd33e4457e604b2476ab13bb47bdfc4a670a93ba941c4e9d630"
+        "sha256": "c35a3577828e95d3ff8a3607b863ff19830b323cba827386b3205d30ae87c145"
       }
     },
     "walkRoutes": {

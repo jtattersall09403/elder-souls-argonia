@@ -708,6 +708,10 @@ def _rule_task(cat, scene, key: str):
     fn = {"walk": rules.walk, "pathReach": rules.path_reach,
           "berthReach": rules.berth_reach, "landing": seat_rules.landing,
           "coplanar": rules.coplanar}.get(key)
+    if key in ("seatFacing", "socketCoherence", "serviceSign"):
+        from workbench import dressing_rules as dr
+        return {"seatFacing": dr.seat_facing, "socketCoherence": dr.socket_coherence,
+                "serviceSign": dr.service_sign}[key](cat, scene)
     if key == "walkway":
         from workbench import walkway
         return walkway.walkway(cat, scene)
@@ -730,8 +734,10 @@ def _piece_rule_task(cat, scene, key: str, uids: list):
 # by piece across the pool and scoped by `--only`
 CHECK_RULES = ("walk", "floorEdge", "pathReach", "propSeat", "roadSurface", "sill", "sign",
                "berthReach", "collider", "burial", "hanging", "fixtureSeat", "archway", "rockSeat",
-               "padClear", "landing", "walkway", "coplanar")
-GRAPH_RULES = ("walk", "pathReach", "berthReach", "landing", "walkway", "coplanar")
+               "padClear", "landing", "walkway", "coplanar", "seatFacing", "socketCoherence",
+               "serviceSign")
+GRAPH_RULES = ("walk", "pathReach", "berthReach", "landing", "walkway", "coplanar",
+               "seatFacing", "socketCoherence", "serviceSign")
 
 
 def cmd_check(a, scene, cat):

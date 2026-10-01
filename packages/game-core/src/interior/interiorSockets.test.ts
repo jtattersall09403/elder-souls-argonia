@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { socketsToDraw } from "./interiorSockets";
+import { socketLabel, socketsToDraw } from "./interiorSockets";
 import type { SettlementSocket } from "../settlement/types";
 
 const base = { yawDeg: 0, parcelId: null, host: null, why: "" };
@@ -14,7 +14,7 @@ const cellOwn = { id: "socket.Cell.1", kind: "container", positionM: [100, 82, 5
 describe("socket overlay (16k walk 6): interior sockets are drawn in the shown cell", () => {
   it("outside: only the place's outdoor sockets, clamped to the ground", () => {
     expect(socketsToDraw([outside, authoredIn], null)).toEqual([
-      { id: "socket.p.out", kind: "idle", positionM: [4724, 4.4, 1881], clampToGround: true, interact: null }]);
+      { id: "socket.p.out", kind: "idle", positionM: [4724, 4.4, 1881], clampToGround: true, interact: null, label: "idle · stand" }]);
   });
 
   it("inside: the cell's own sockets and the place's authored ones, moved by the cell origin, never clamped", () => {
@@ -39,5 +39,16 @@ describe("socket overlay (16k walk 6): interior sockets are drawn in the shown c
       expect(work.length).toBeGreaterThan(0);
       expect(got.filter((d) => d.interact).length).toBe(work.length);
     }
+  });
+});
+
+describe("socketLabel", () => {
+  it("names kind, activity and the building", () => {
+    expect(socketLabel({ kind: "idle", activity: "sit", parcelId: "parcel.riverwalk.crews-house" }))
+      .toBe("idle · sit · crews-house");
+  });
+  it("falls back to the host without a parcel", () => {
+    expect(socketLabel({ kind: "container", containerClass: "barrel", parcelId: null, host: "c-barrel" }))
+      .toBe("container · barrel · c-barrel");
   });
 });

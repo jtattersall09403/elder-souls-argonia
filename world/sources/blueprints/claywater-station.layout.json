@@ -450,6 +450,57 @@
    "parcel": "parcel.claywater-station.family-hut"
   },
   {
+   "op": "move",
+   "uid": "b5-ahy-chair",
+   "yaw": 281.0,
+   "resettle": true
+  },
+  {
+   "op": "place",
+   "uid": "st-signpost",
+   "asset": "vanilla:clutter/signage/whiterun/signwrpost01",
+   "at": [
+    326.6,
+    3083.6
+   ],
+   "yaw": 238.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "st-sign",
+   "asset": "vanilla:clutter/signage/whiterun/signwrstables01",
+   "at": [
+    326.6,
+    3083.6
+   ],
+   "yaw": 238.0
+  },
+  {
+   "op": "mount",
+   "child": "st-sign",
+   "parent": "st-signpost"
+  },
+  {
+   "op": "bind",
+   "uid": "st-signpost",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.stable",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "st-sign",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.stable",
+   "layer": "clutter",
+   "on": "parent",
+   "evidence": "mined",
+   "host": "st-signpost"
+  },
+  {
    "op": "place",
    "uid": "b6-basket",
    "asset": "mudmother:gv_meshes/argoniannest/basketfull",
@@ -2424,7 +2475,7 @@
    "id": "socket.claywater-station.idle-poler-nets",
    "kind": "idle",
    "host": "al-rack1",
-   "activity": "fish",
+   "activity": "work-at",
    "parcel": "parcel.claywater-station.polers-hut",
    "why": "In the dry season the poler dries the catch at the landing racks."
   },

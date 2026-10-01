@@ -19,6 +19,8 @@ export interface DrawnSocket {
   clampToGround: boolean;
   /** Where the player uses it (decision 0113), world metres, or null. */
   interact: { kind: SocketInteractPoint["kind"]; positionM: Vec3; facing: number } | null;
+  /** What the post marks, for the studio overlay (`socketLabel`). */
+  label: string;
 }
 
 export interface ShownCellSockets {
@@ -33,6 +35,19 @@ const isVec3 = (v: unknown): v is Vec3 =>
   Array.isArray(v) && v.length === 3 && v.every((c) => typeof c === "number" && Number.isFinite(c));
 const add = (a: Vec3, o: Vec3): Vec3 => [a[0] + o[0], a[1] + o[1], a[2] + o[2]];
 
+/** What a socket marks, in the owner's words: kind · activity (or class)
+ * · the building (the parcel id's last part, else the host), e.g.
+ * "idle · sit · crews-house". Studio debug text, not game text. */
+export function socketLabel(raw: unknown): string {
+  const s = (raw ?? {}) as Record<string, unknown>;
+  const str = (v: unknown): string | null => (typeof v === "string" && v ? v : null);
+  const what = str(s.activity) ?? str(s.stationClass) ?? str(s.containerClass) ?? str(s.itemClass)
+    ?? str(s.role) ?? str(s.rosterSlotId);
+  const parcel = str(s.parcelId) ?? str(s.parcel);
+  const where = parcel ? parcel.split(".").pop() ?? null : str(s.host);
+  return [str(s.kind), what, where].filter(Boolean).join(" · ");
+}
+
 function drawn(raw: unknown, origin: Vec3 | null): DrawnSocket | null {
   const s = raw as { id?: unknown; kind?: unknown; positionM?: unknown; interact?: unknown } | null;
   if (!s || typeof s.id !== "string" || !KINDS.has(String(s.kind)) || !isVec3(s.positionM)) return null;
@@ -42,6 +57,7 @@ function drawn(raw: unknown, origin: Vec3 | null): DrawnSocket | null {
     id: s.id, kind: s.kind as DrawnSocket["kind"], positionM: at(s.positionM), clampToGround: origin === null,
     interact: i && isVec3(i.position) && typeof i.facing === "number" && (i.kind === "customer" || i.kind === "station")
       ? { kind: i.kind, positionM: at(i.position), facing: i.facing } : null,
+    label: socketLabel(raw),
   };
 }
 

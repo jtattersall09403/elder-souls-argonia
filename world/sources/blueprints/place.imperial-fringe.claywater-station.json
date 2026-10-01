@@ -3272,7 +3272,7 @@
               -8.5251,
               -4.0506
             ],
-            "yaw": 135.0,
+            "yaw": 281.0,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
@@ -3907,6 +3907,38 @@
             "layer": "clutter",
             "evidence": "measured",
             "yMeasured": 39.2198
+          },
+          {
+            "id": "st-sign",
+            "asset": "vanilla:clutter/signage/whiterun/signwrstables01",
+            "atM": [
+              -0.0898,
+              0.0554
+            ],
+            "yaw": 240.0,
+            "on": "parent",
+            "layer": "clutter",
+            "evidence": "mined",
+            "mountPair": {
+              "kind": "points",
+              "mountedOn": "st-signpost",
+              "n": 1
+            },
+            "upM": 2.4267,
+            "host": "st-signpost"
+          },
+          {
+            "id": "st-signpost",
+            "asset": "vanilla:clutter/signage/whiterun/signwrpost01",
+            "atM": [
+              7.6315,
+              -4.6647
+            ],
+            "yaw": 0.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 37.0163
           },
           {
             "id": "sty-hay",
@@ -4927,16 +4959,16 @@
       },
       "kits": {
         "bmv-treehouse-int": "b4eae3ff712c698e724481f7592dcb1ca9b041d0f64af19d910625f6fd363a68",
-        "docks-v1": "1d9a68f780dacb0456d7a1cc7697a9d2c7020ceeb4cbab0ca6413b945d9b41da",
+        "docks-v1": "d785fd4869f188cb91c34e6b10dd5f064993a6d01a2c7994676863eb0eeb1b48",
         "htbm-hut-int": "ea80ddee9fb3d16de90ae60647f316d6ec10d9891f703684dce693dbae21c8ef",
         "mudmother-hut-int": "9d84ead19358aec0f2065cac9eb0a93165154097d5a9efb6a2a900024d3e6fcb",
-        "settlement-imperial-v1": "416315a360170b2299125fa5646a45d6d1ba7f9fb816588fdb4a4c1b9cab01e0",
+        "settlement-imperial-v1": "fc5c087017a7ef44152771e94c03624877006ef37849dcab7b2ed36341833ec8",
         "settlement-mud-v1": "f69e109f5efc120cd85ab9492b25a04b027afbb1e2c6e6ef29c69bf2ef95fcfd",
-        "works-v1": "e74e2c823c3c08f659d9a6fd86f1770fc1fb14bf0d4c276ce5b877acdbcc6369"
+        "works-v1": "92f4eb48eadda959ceb0f7f978b2a02e2596e9ff366c0b9dc9ed5bdff207f0de"
       },
       "layout": {
         "path": "world/sources/blueprints/claywater-station.layout.json",
-        "sha256": "3002311e2b8eb9ec4f4029e2794bc0d8d5aed17520a8d881cc5926413c8bfe23"
+        "sha256": "528d1ec1542f4bc712de2eedfc57ac6c9270e55d1183a8c724cf8763637f6270"
       }
     },
     "walkRoutes": {

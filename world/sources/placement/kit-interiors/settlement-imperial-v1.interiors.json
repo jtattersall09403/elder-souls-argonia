@@ -361,7 +361,7 @@
     "deg": 78.2,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 78\u00b0 in the piece's own frame carries 3.15x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 78\u00b0 in the piece's own frame carries 3.16x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 0.971,
    "headroomM": 1.87,
@@ -1163,6 +1163,18 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.3 m\u00b2 plan, 1.2 m tall)"
   },
+  "vanilla:clutter/signage/whiterun/signwrgeneralgoods": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.15,
+   "interior": "none",
+   "planAreaM2": 0.33,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 1.1 m tall)"
+  },
   "vanilla:clutter/signage/whiterun/signwrpost01": {
    "category": "clutter",
    "entrance": null,
@@ -1446,6 +1458,7 @@
    "esp-door",
    "assembly",
    "composite-leaf",
+   "approach",
    "door-piece",
    "leaf",
    "opening",

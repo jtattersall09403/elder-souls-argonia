@@ -2825,6 +2825,67 @@
    "pivotAboveBaseM": 1.046
   },
   {
+   "id": "vanilla:clutter/signage/whiterun/signwrgeneralgoods",
+   "node": "es|3c67c20f07|tter_signage_whiterun_signwrgeneralgoods",
+   "category": "clutter",
+   "sizeM": [
+    0.248,
+    1.399,
+    1.155
+   ],
+   "originOffsetM": [
+    0.118,
+    -0.0,
+    1.031
+   ],
+   "triangles": 458,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "signgeneralgoods01.dds",
+    "wrwoodbeam01.dds"
+   ],
+   "materials": [
+    "GeneralStoreSign:4.Mat",
+    "SignWRGeneralGoods:2.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "GeneralStoreSign:4.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.031,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.031
+  },
+  {
    "id": "vanilla:clutter/signage/whiterun/signwrstables01",
    "node": "es|f12f29a66c|clutter_signage_whiterun_signwrstables01",
    "category": "clutter",
@@ -4336,6 +4397,10 @@
     "ChickenNest01:0.Mat",
     "ChickenNest01_1:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ChickenNest01:0.Mat": 0.039,
+    "ChickenNest01_1:0.Mat": 0.039
+   },
    "decalMaterials": [
     "ChickenNest01:0.Mat",
     "ChickenNest01_1:0.Mat"
@@ -4841,8 +4906,8 @@
  "texturesMissing": [],
  "texturesSubstituted": {},
  "alphaModes": {
-  "MASK": 59,
-  "OPAQUE": 115,
+  "MASK": 60,
+  "OPAQUE": 116,
   "BLEND": 1
  },
  "trunkSolids": {
@@ -4876,16 +4941,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 31252944,
-  "bytesAfter": 13856740,
-  "images": 55,
-  "imageBytesAfter": 11994960,
+  "bytesBefore": 31704728,
+  "bytesAfter": 14130644,
+  "images": 56,
+  "imageBytesAfter": 12255176,
   "warnings": [],
-  "sha256": "f0320d067f5f4b07d2215cdf8bb0da2b8ddc204254e34188e4273e4218125576",
+  "sha256": "9c0bc43a5cb46a90d757dec5bd65f1dde23259e1d86a72f37c824393c75f6795",
+  "parts": {
+   "parts": 7,
+   "partBytes": 102652,
+   "textureFiles": 8,
+   "textureBytes": 1182169,
+   "bytes": 1284821,
+   "sourceSha256": "9c0bc43a5cb46a90d757dec5bd65f1dde23259e1d86a72f37c824393c75f6795"
+  },
   "sidecarBytes": {
-   "connectors": 36912,
-   "footprints": 61143,
-   "interiors": 41874
+   "connectors": 37323,
+   "footprints": 62051,
+   "interiors": 43161
   }
  }
 }
