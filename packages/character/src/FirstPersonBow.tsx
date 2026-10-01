@@ -1,7 +1,7 @@
 import { assetUrl } from "./assetBase";
 import { NockedArrow } from "./NockedArrow";
 import { OffHandItem, type BowDrawRefs } from "./OffHandItem";
-import { useGLTF } from "@react-three/drei";
+import { useCharacterGLTF } from "./characterGltf";
 import { useFrame } from "@react-three/fiber";
 import { Suspense, useLayoutEffect, useMemo, useRef, type MutableRefObject } from "react";
 import * as THREE from "three";
@@ -88,7 +88,7 @@ export function FirstPersonBow({
   visible: boolean;
 }) {
   const race = characterBuild(buildId);
-  const gltf = useGLTF(assetUrl(firstPersonBowAsset(race.body)));
+  const gltf = useCharacterGLTF(assetUrl(firstPersonBowAsset(race.body)));
   const model = useMemo(() => {
     const instance = clone(gltf.scene);
     const skinMeshes: string[] = [];

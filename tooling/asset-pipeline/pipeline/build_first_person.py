@@ -206,4 +206,9 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Build the first-person bow rig, one GLB per body.")
     parser.add_argument("--only", nargs="*", default=None)
-    build(parser.parse_args().only)
+    only = parser.parse_args().only
+    build(only)
+    # The shipped copies are the compressed ones (KTX2/UASTC + meshopt).
+    from .publish_characters import publish
+    publish({f"rig-skyrim-first-person.bow.{v}" for v in only} if only else
+            {p.stem for p in (ROOT / "output").glob("rig-skyrim-first-person.bow.*.glb")})

@@ -386,6 +386,10 @@ def main() -> None:
     args = parser.parse_args()
     build(args.roster, args.only, skip_reference=args.skip_reference,
           reuse_rig=args.reuse_rig)
+    if args.roster == "skyrim-playable":
+        # The shipped copies are the compressed ones (KTX2/UASTC + meshopt).
+        from .publish_characters import publish
+        publish(set(args.only) if args.only else None)
 
 
 if __name__ == "__main__":
