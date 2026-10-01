@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { deflateSync } from "node:zlib";
 import * as THREE from "three";
-import { decodePng, foldMacroIntoTint, packControl, packGradient, textureResidentBytes } from "./groundRasters";
+import { GroundRasterLoader, PngCache, decodePng, foldMacroIntoTint, groundRasterKey, packControl, packGradient, textureResidentBytes, type GroundTextures } from "./groundRasters";
 
 /** Minimal PNG writer (CRCs are not checked by the decoder). */
 function png(w: number, h: number, colourType: 2 | 6, rows: number[][], filter = 0): Uint8Array {
@@ -68,5 +68,29 @@ describe("ground rasters", () => {
     const mip = (n: number) => ({ data: new Uint8Array(n), width: 1, height: 1 });
     const t = new THREE.CompressedTexture([mip(4096), mip(1024), mip(256)] as unknown as ImageData[], 64, 64, THREE.RGBA_BPTC_Format);
     expect(textureResidentBytes(t).bytes).toBe(5376);
+  });
+});
+
+describe("PngCache", () => {
+  it("decodes ground-control once for its three readers (ground material, walk world, groundcover)", async () => {
+    const calls: string[] = [];
+    const img = (n: number) => ({ width: n, height: n, data: new Uint8Array(n * n * 4).fill(64) });
+    const cache = new PngCache(async (url) => { calls.push(url); return img(url.includes("tint") ? 4 : 2); });
+    const loader = new GroundRasterLoader();
+    loader.png = (u) => cache.decode(u);
+    const ground = new Promise<GroundTextures>((res, rej) => loader.load(groundRasterKey("ctrl.png", "tint.png", "grad.png"), res, undefined, rej));
+    const [, walk, cover] = await Promise.all([ground, cache.decode("ctrl.png"), cache.decode("ctrl.png")]);
+    expect(walk).toBe(cover);
+    expect(calls.filter((u) => u === "ctrl.png")).toHaveLength(1);
+    // a reader arriving while the decode is still held gets it without a refetch
+    expect(await cache.decode("ctrl.png")).toBe(walk);
+    expect(calls).toHaveLength(3);
+  });
+
+  it("retries after a failed load", async () => {
+    let n = 0;
+    const cache = new PngCache(async () => { if (n++ === 0) throw new Error("404"); return { width: 1, height: 1, data: new Uint8Array(4) }; });
+    await expect(cache.decode("a")).rejects.toThrow("404");
+    expect((await cache.decode("a")).width).toBe(1);
   });
 });

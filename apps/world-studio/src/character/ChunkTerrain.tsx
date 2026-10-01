@@ -95,7 +95,9 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   const arrayTex = useGroundArray(base, set);
   const { ctrl, tint: tintTex, grad: gradTex } = useLoader(GroundRasterLoader, groundRasterKey(
     `${base}province/refined/ground-control.png`, `${base}province/refined/ground-tint.png`,
-    `${base}province/chunks/normal-grad.png`));
+    `${base}province/chunks/normal-grad.png`),
+    // the store's decodes: ground-control is shared with the walk world and groundcover
+    (loader) => { loader.png = (url) => store.pngs.decode(url); });
   const { csm } = useContext(SkyContext);
   const hiddenLayers = useHiddenLayers(base);
   const shoreWetness = !hiddenLayers.has("water");

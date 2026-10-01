@@ -66,7 +66,7 @@ import {
   isLargePlant,
 } from "./floraKit";
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
-import { placeGround, sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
+import { placeGround, sharedChunkStore, type ChunkStore, type ChunksManifest } from "../character/chunkStore";
 import { PROVINCE_EXTENT_M } from "../provinceScale";
 import {
   applyWindSway,
@@ -102,7 +102,6 @@ import {
 } from "@elder-souls/game-core/vegetation/vegetationPatches";
 import { clearancesOfBundle, withPlaceClearances } from "@elder-souls/game-core/vegetation/clearanceFilter";
 import type { WaterData } from "@elder-souls/game-core/water/index";
-import { fetchPng } from "@elder-souls/game-core/terrain/groundRasters";
 import groundcoverTable from "../../../../world/sources/flora/groundcover.json";
 import {
   fillDue,
@@ -613,13 +612,15 @@ let controlPromise: Promise<ControlRaster> | null = null;
 let controlBase: string | null = null;
 
 /** Loaded ONCE per session and sampled CPU-side; both scenes share it. */
-function sharedControlRaster(baseUrl: string): Promise<ControlRaster> {
+function sharedControlRaster(store: ChunkStore): Promise<ControlRaster> {
+  const baseUrl = store.baseUrl;
   if (!controlPromise || controlBase !== baseUrl) {
     controlBase = baseUrl;
     controlPromise = (async () => {
       // Exact decode: a canvas premultiplies alpha and zeroed the ids of
-      // every texel whose macro brightness (A) is 0.
-      const { width, data: px } = await fetchPng(`${baseUrl}province/refined/ground-control.png`);
+      // every texel whose macro brightness (A) is 0. The decode is the
+      // store's, shared with the ground material and the walk world.
+      const { width, data: px } = await store.pngs.decode(`${baseUrl}province/refined/ground-control.png`);
       const ids = new Uint8Array(width * width);
       for (let i = 0; i < ids.length; i++) ids[i] = px[i * 4];
       // metresPerTexel comes from the image's OWN size against the province
@@ -1232,7 +1233,7 @@ export function Groundcover({
       })
       .catch((e) => { if (!cancelled) settleInput("patches", e); })
       .finally(() => { if (!cancelled) settleInput("patches"); });
-    sharedControlRaster(baseUrl)
+    sharedControlRaster(store)
       .then((c) => { if (!cancelled) setControl(c); })
       .catch(() => undefined);
     sharedRegionRaster(baseUrl)

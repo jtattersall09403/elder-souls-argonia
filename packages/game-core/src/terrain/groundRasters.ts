@@ -81,6 +81,33 @@ export async function fetchPng(url: string): Promise<{ width: number; height: nu
   return decodePng(new Uint8Array(await res.arrayBuffer()));
 }
 
+export type DecodedPng = { width: number; height: number; data: Uint8Array };
+
+/** One decode per URL for every reader that asks while it is in flight or
+ * still held: the 4033² ground-control PNG has three readers (the ground
+ * material, the walk world's material ids, groundcover). The decoded pixels
+ * are held weakly once settled, so the ~65 MB RGBA is freed when the last
+ * reader drops it. Owned by the `ChunkStore` its readers already share. */
+export class PngCache {
+  private readonly pending = new Map<string, Promise<DecodedPng>>();
+  private readonly settled = new Map<string, WeakRef<DecodedPng>>();
+
+  constructor(private readonly load: (url: string) => Promise<DecodedPng> = fetchPng) {}
+
+  decode(url: string): Promise<DecodedPng> {
+    const held = this.settled.get(url)?.deref();
+    if (held) return Promise.resolve(held);
+    let p = this.pending.get(url);
+    if (!p) {
+      p = this.load(url).then(
+        (img) => { this.pending.delete(url); this.settled.set(url, new WeakRef(img)); return img; },
+        (e: unknown) => { this.pending.delete(url); throw e; });
+      this.pending.set(url, p);
+    }
+    return p;
+  }
+}
+
 /** Control RGBA -> RG8 (ids + 4-bit blend). Inverse in GLSL: `CONTROL_DECODE_GLSL`. */
 export function packControl(rgba: Uint8Array): Uint8Array {
   const n = rgba.length / 4;
@@ -164,8 +191,9 @@ export interface GroundTextures { ctrl: THREE.DataTexture; tint: THREE.DataTextu
 /** Load one ground raster set (province or an apron frame) in its GPU form.
  * An image texture uploads flipped (PNG row 0 at v = 1); data textures do
  * not, so the rows are reversed here once and the shader's UVs stay as they were. */
-export async function loadGroundTextures(ctrlUrl: string, tintUrl: string, gradUrl: string): Promise<GroundTextures> {
-  const [c, t0, g] = await Promise.all([fetchPng(ctrlUrl), fetchPng(tintUrl), fetchPng(gradUrl)]);
+export async function loadGroundTextures(ctrlUrl: string, tintUrl: string, gradUrl: string,
+  png: (url: string) => Promise<DecodedPng> = fetchPng): Promise<GroundTextures> {
+  const [c, t0, g] = await Promise.all([png(ctrlUrl), png(tintUrl), png(gradUrl)]);
   const t = halveSmooth(t0, TINT_MAX_TEXELS);
   const flipRows = (d: Uint8Array, w: number, h: number, bpp: number) => {
     const out = new Uint8Array(d.length), row = w * bpp;
@@ -195,9 +223,12 @@ export async function loadSmoothRaster(url: string, max: number): Promise<THREE.
 /** `useLoader` adapter: the key is the three URLs joined by `|`
  * (`groundRasterKey`), so the set suspends and caches as one entry. */
 export class GroundRasterLoader extends THREE.Loader<GroundTextures> {
+  /** The decoder the PNGs go through; set to a shared `PngCache` via
+   * `useLoader`'s extensions so other readers of the same PNG reuse it. */
+  png: (url: string) => Promise<DecodedPng> = fetchPng;
   load(key: string, onLoad: (t: GroundTextures) => void, _onProgress?: unknown, onError?: (e: unknown) => void): void {
     const [c, t, g] = key.split("|");
-    loadGroundTextures(c, t, g).then(onLoad, (e) => onError?.(e));
+    loadGroundTextures(c, t, g, this.png).then(onLoad, (e) => onError?.(e));
   }
 }
 

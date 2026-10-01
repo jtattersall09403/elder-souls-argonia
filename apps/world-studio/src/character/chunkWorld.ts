@@ -6,7 +6,6 @@ import { worldClock } from "../sky/timeState";
 import { lastWeatherSample } from "../weather/weatherState";
 import type { ChunkStore, ChunksManifest } from "./chunkStore";
 import { sampleChunkHeight } from "@elder-souls/game-core/terrain/heightfield";
-import { fetchPng } from "@elder-souls/game-core/terrain/groundRasters";
 
 /**
  * `EnvironmentQuery` (contracts §61) over the loaded terrain chunks plus the
@@ -65,7 +64,7 @@ export class ChunkWorld implements EnvironmentQuery {
       ).json();
       for (const m of materials.materials) this.materialNames.set(m.id, m.name);
       // Exact decode (a canvas premultiplies alpha and zeroes ids where A = 0).
-      const { width: size, data: px } = await fetchPng(`${this.baseUrl}province/refined/ground-control.png`);
+      const { width: size, data: px } = await this.store.pngs.decode(`${this.baseUrl}province/refined/ground-control.png`);
       const ids = new Uint8Array(size * size);
       for (let i = 0; i < ids.length; i++) ids[i] = px[i * 4];
       this.controlIds = ids;

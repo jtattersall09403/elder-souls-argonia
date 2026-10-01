@@ -11,6 +11,7 @@
  * decode waits for it, so no reader ever sees a chunk without its pads.
  */
 import { applyGroundOverlays, type GroundOverlayRegistry } from "./heightOverlays";
+import { PngCache } from "./groundRasters";
 
 export interface ChunkLodMeta {
   file: string;
@@ -59,6 +60,8 @@ export interface ChunkStoreOptions {
   overlays?: GroundOverlayRegistry;
   /** The raster decoder; the browser's `decodeHeightPng` unless a test injects one. */
   decodeHeights?: (blob: Blob, lodMeta: ChunkLodMeta) => Promise<Float32Array>;
+  /** The PNG decode cache; a fresh one unless a test injects one. */
+  pngs?: PngCache;
 }
 
 export class ChunkStore {
@@ -69,10 +72,14 @@ export class ChunkStore {
   private readonly arrivalListeners = new Set<(grid: ChunkGrid) => void>();
 
   readonly overlays: GroundOverlayRegistry | undefined;
+  /** Shared PNG decodes for the province rasters every store reader needs
+   * (ground-control: ground material, walk-world ids, groundcover). */
+  readonly pngs: PngCache;
   private readonly decodeHeights: (blob: Blob, lodMeta: ChunkLodMeta) => Promise<Float32Array>;
 
   constructor(readonly baseUrl: string, options: ChunkStoreOptions = {}) {
     this.overlays = options.overlays;
+    this.pngs = options.pngs ?? new PngCache();
     this.decodeHeights = options.decodeHeights ?? decodeHeightPng;
   }
 
