@@ -38,6 +38,12 @@ def _catalogue(root: Path) -> dict[str, dict]:
     for path in sorted((root / "world/sources/catalogue").glob("places-*.json")):
         for rec in _read(path).get("places") or []:
             out[rec["id"]] = rec
+    # route places (16k type 10) have no catalogue record: their home table is
+    # the route-structure exemplars file (worldgen.blueprint.catalogue_ids)
+    routes = root / "world/sources/routes/route-structure-exemplars.json"
+    if routes.exists():
+        for rec in _read(routes).get("places") or []:
+            out[rec["id"]] = rec
     return out
 
 

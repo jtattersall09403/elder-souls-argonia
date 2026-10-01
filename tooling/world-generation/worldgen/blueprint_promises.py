@@ -557,6 +557,9 @@ def _record_file(place_id: str) -> str:
     for rf in catalogue.load_region_files():
         if any(r.get("id") == place_id for r in rf.places):
             return str(rf.path.relative_to(REPO_ROOT))
+    from .blueprint import ROUTE_PLACES, route_place_records   # a route place's home table
+    if place_id in route_place_records():
+        return str(ROUTE_PLACES.relative_to(REPO_ROOT))
     return f"{CATALOGUE_REL}/?"
 
 

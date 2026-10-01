@@ -1,0 +1,63 @@
+{
+ "schemaVersion": 1,
+ "placeId": "place.route.border-road-greenspring-crossings",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
+ "derivedFrom": [
+  {
+   "file": "world/sources/routes/route-structure-exemplars.json",
+   "sha256": "7dfc0f633a751517097744670ab8faccb7b41f9bcf0039f791b7e7362f059326"
+  }
+ ],
+ "promises": [
+  {
+   "id": "promise.border-road-greenspring-crossings.prose-why-founding",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/routes/route-structure-exemplars.json",
+    "path": "places[place.route.border-road-greenspring-crossings].why.founding"
+   },
+   "text": "The Border road was laid on a Dunmer line from Stormhold to Thorn. West of the Greenspring track it drops off the ridge into the river marsh.",
+   "confirmed": null
+  },
+  {
+   "id": "promise.border-road-greenspring-crossings.prose-why-occupantsmotive",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/routes/route-structure-exemplars.json",
+    "path": "places[place.route.border-road-greenspring-crossings].why.occupantsMotive"
+   },
+   "text": "Nobody lives on the crossings. Greenspring keeps the planks because its trade goes out along this road.",
+   "confirmed": null
+  },
+  {
+   "id": "promise.border-road-greenspring-crossings.prose-why-pressures",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/routes/route-structure-exemplars.json",
+    "path": "places[place.route.border-road-greenspring-crossings].why.pressures"
+   },
+   "text": "The marsh rots a pile in a few seasons. The planks are of different ages and some are patched.",
+   "confirmed": null
+  },
+  {
+   "id": "promise.border-road-greenspring-crossings.prose-why-siteadvantages",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/routes/route-structure-exemplars.json",
+    "path": "places[place.route.border-road-greenspring-crossings].why.siteAdvantages"
+   },
+   "text": "The road keeps to the dry strip at the mountain foot and crosses water only where it must: two reaches of the river marsh, where the water stands half a metre to a metre and a quarter deep.",
+   "confirmed": null
+  },
+  {
+   "id": "promise.border-road-greenspring-crossings.prose-why-wouldchangeif",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/routes/route-structure-exemplars.json",
+    "path": "places[place.route.border-road-greenspring-crossings].why.wouldChangeIf"
+   },
+   "text": "A stone causeway would replace the planks if anyone paid for one.",
+   "confirmed": null
+  }
+ ]
+}
