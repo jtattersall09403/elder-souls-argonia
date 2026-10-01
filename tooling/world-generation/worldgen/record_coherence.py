@@ -818,7 +818,7 @@ def changed_records(index: Index) -> tuple[dict[str, tuple[dict | None, dict | N
     for rel in files:
         head = _head_json(rel) or {}
         now = json.loads((REPO / rel).read_text())
-        key = "places" if "catalogue" in rel else "quests"
+        key = "places" if ("catalogue" in rel or "routes" in rel) else "quests"
         b = {r["id"]: r for r in head.get(key, []) if isinstance(r, dict) and "id" in r}
         a = {r["id"]: r for r in now.get(key, []) if isinstance(r, dict) and "id" in r}
         for rid in sorted(set(a) | set(b)):

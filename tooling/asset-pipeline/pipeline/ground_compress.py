@@ -20,8 +20,9 @@ concatenation of the layers' level-k frames (no re-encode). The DFD and the
 key/value data are the first layer's; every layer must agree on format, size
 and level count, else the build fails.
 
-The PNGs stay published: the settlement ground paint reads single rows of
-them (packages/game-core/src/settlement/groundPaintMaterial.ts). Output:
+The settlement ground paint samples this array
+(packages/game-core/src/settlement/groundPaintMaterial.ts); compose.mjs
+drops the layer PNGs from the site. Output:
 `apps/world-studio/public/textures/ground/<set>/albedo-array.ktx2`; the
 layer list and source hashes go to `albedo-array.json` beside it so `--check`
 can say the array is stale. Deterministic: same PNGs, same gltfpack, same
