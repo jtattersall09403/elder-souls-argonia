@@ -6,6 +6,7 @@ import { worldClock } from "../sky/timeState";
 import { lastWeatherSample } from "../weather/weatherState";
 import type { ChunkStore, ChunksManifest } from "./chunkStore";
 import { sampleChunkHeight } from "@elder-souls/game-core/terrain/heightfield";
+import { fetchPng } from "@elder-souls/game-core/terrain/groundRasters";
 
 /**
  * `EnvironmentQuery` (contracts §61) over the loaded terrain chunks plus the
@@ -63,15 +64,8 @@ export class ChunkWorld implements EnvironmentQuery {
         await fetch(`${this.baseUrl}textures/ground/${materialSet}/materials.json`)
       ).json();
       for (const m of materials.materials) this.materialNames.set(m.id, m.name);
-      const image = new Image();
-      image.src = `${this.baseUrl}province/refined/ground-control.png`;
-      await image.decode();
-      const size = image.width;
-      const canvas = document.createElement("canvas");
-      canvas.width = canvas.height = size;
-      const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
-      ctx.drawImage(image, 0, 0);
-      const px = ctx.getImageData(0, 0, size, size).data;
+      // Exact decode (a canvas premultiplies alpha and zeroes ids where A = 0).
+      const { width: size, data: px } = await fetchPng(`${this.baseUrl}province/refined/ground-control.png`);
       const ids = new Uint8Array(size * size);
       for (let i = 0; i < ids.length; i++) ids[i] = px[i * 4];
       this.controlIds = ids;

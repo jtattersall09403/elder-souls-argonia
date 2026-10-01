@@ -37,6 +37,7 @@ import { worldClock, notifyClock } from "./timeState";
 import { waterTimeS } from "../water/waterClock";
 import { wetnessUniforms } from "../water/groundWetness";
 import { lightningNow, weatherAt } from "../weather/weatherState";
+import { CLIMATE_MAX_TEXELS, loadSmoothRaster } from "@elder-souls/game-core/terrain/groundRasters";
 import { RainSystem, rainDropBudget } from "../weather/RainSystem";
 import { AmbientAir, type AmbientAirConditions } from "@elder-souls/game-core/air/AmbientAir";
 import type { AirWaterSurface } from "@elder-souls/game-core/air/ambientAir";
@@ -712,26 +713,13 @@ export function WorldSky({
 
   // Climate rasters as GPU textures for the haze term (shared uniforms).
   useEffect(() => {
-    if (!sharedAerialUniforms.uClimateAir.value) {
-      new THREE.TextureLoader().load(`${base}province/climate-air.png`, (t) => {
-        t.colorSpace = THREE.NoColorSpace;
-        t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
-        sharedAerialUniforms.uClimateAir.value = t;
-      });
-    }
-    if (!sharedAerialUniforms.uClimateWeather.value) {
-      new THREE.TextureLoader().load(`${base}province/climate-weather.png`, (t) => {
-        t.colorSpace = THREE.NoColorSpace;
-        t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
-        sharedAerialUniforms.uClimateWeather.value = t;
-      });
-    }
-    if (!sharedAerialUniforms.uClimateVis.value) {
-      new THREE.TextureLoader().load(`${base}province/climate-vis.png`, (t) => {
-        t.colorSpace = THREE.NoColorSpace;
-        t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
-        sharedAerialUniforms.uClimateVis.value = t;
-      });
+    // Smooth fields: decoded exactly and halved before upload (groundRasters).
+    for (const [slot, file] of [["uClimateAir", "climate-air"], ["uClimateWeather", "climate-weather"],
+      ["uClimateVis", "climate-vis"]] as const) {
+      if (sharedAerialUniforms[slot].value) continue;
+      loadSmoothRaster(`${base}province/${file}.png`, CLIMATE_MAX_TEXELS)
+        .then((t) => { sharedAerialUniforms[slot].value = t; })
+        .catch((e) => console.error(`climate raster ${file}`, e));
     }
   }, [base]);
 

@@ -10,6 +10,7 @@ import {
 import { useHiddenLayers } from "../ladder";
 import { buildTerrainGridGeometry, subGrid } from "@elder-souls/game-core/terrain/gridGeometry";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
+import { GroundRasterLoader, groundRasterKey } from "@elder-souls/game-core/terrain/groundRasters";
 import { createOcclusionCadence, hiddenBehindTerrain, topCornersOfBox } from "@elder-souls/game-core/terrain/terrainOcclusion";
 import { makeChunkHeightSampler } from "./terrainHeightSampler";
 import type { FrameJobHandle } from "@elder-souls/game-core/scheduling/frameWork";
@@ -98,9 +99,9 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     .filter((f): f is string => !!f);
   const cliffNormals = useLoader(THREE.ImageLoader,
     cliffNrmFiles.map((f) => `${base}textures/ground/${set}/${f}`));
-  const ctrl = useLoader(THREE.TextureLoader, `${base}province/refined/ground-control.png`);
-  const tintTex = useLoader(THREE.TextureLoader, `${base}province/refined/ground-tint.png`);
-  const gradTex = useLoader(THREE.TextureLoader, `${base}province/chunks/normal-grad.png`);
+  const { ctrl, tint: tintTex, grad: gradTex } = useLoader(GroundRasterLoader, groundRasterKey(
+    `${base}province/refined/ground-control.png`, `${base}province/refined/ground-tint.png`,
+    `${base}province/chunks/normal-grad.png`));
   const { csm } = useContext(SkyContext);
   const hiddenLayers = useHiddenLayers(base);
   const shoreWetness = !hiddenLayers.has("water");

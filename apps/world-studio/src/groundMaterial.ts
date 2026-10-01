@@ -2,6 +2,7 @@ import * as THREE from "three";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
 import { applyAerialPerspective, type AerialUniforms } from "./sky/aerial";
 import { applyShoreWetness } from "./water/groundWetness";
+import { CONTROL_DECODE_GLSL } from "@elder-souls/game-core/terrain/groundRasters";
 
 /**
  * Ground-material splat shader (decision 0011), shared between the flyover's
@@ -274,12 +275,11 @@ vec3 esLitterMix(int i, vec3 c, vec3 w, vec3 worldPos) {
 }
 vec3 esTexelCol(ivec2 tc, float fade, vec3 w, vec3 worldPos) {
   vec4 c = texelFetch(uCtrl, clamp(tc, ivec2(0), ivec2(uCtrlSize) - 1), 0);
-  int i0 = int(c.r * 255.0 + 0.5);
-  int i1 = int(c.g * 255.0 + 0.5);
+${CONTROL_DECODE_GLSL}
   vec3 near_ = mix(esLitterMix(i0, esTriSample(i0, w, worldPos), w, worldPos),
-                   esLitterMix(i1, esTriSample(i1, w, worldPos), w, worldPos), c.b);
+                   esLitterMix(i1, esTriSample(i1, w, worldPos), w, worldPos), esBlend);
   vec3 far_ = mix(mix(esAvgCol(i0, w), uAvgCol[int(uLitterLayer)], uLitterOf[i0] * esLitter),
-                  mix(esAvgCol(i1, w), uAvgCol[int(uLitterLayer)], uLitterOf[i1] * esLitter), c.b);
+                  mix(esAvgCol(i1, w), uAvgCol[int(uLitterLayer)], uLitterOf[i1] * esLitter), esBlend);
   return mix(near_, far_, fade);
 }`,
       )
@@ -305,8 +305,6 @@ vec3 esTexelCol(ivec2 tc, float fade, vec3 w, vec3 worldPos) {
     mix(esTexelCol(esP0, esFade, esW, vEsWorldPos), esTexelCol(esP0 + ivec2(1, 0), esFade, esW, vEsWorldPos), esF.x),
     mix(esTexelCol(esP0 + ivec2(0, 1), esFade, esW, vEsWorldPos), esTexelCol(esP0 + ivec2(1, 1), esFade, esW, vEsWorldPos), esF.x),
     esF.y);
-  float esMacro = texture2D(uCtrl, vProvinceUv).a;
-  esCol *= 0.84 + 0.32 * esMacro;
   // macro climate tint (coastal/wetness/latitude palette drift),
   // with a live strength control for owner tuning
   esCol *= mix(vec3(1.0), texture2D(uTint, vProvinceUv).rgb * 2.0, uTintStrength);
@@ -323,7 +321,7 @@ vec3 esTexelCol(ivec2 tc, float fade, vec3 w, vec3 worldPos) {
   // face +-x), Z projection (u = world x, v = world y, face +-z).
   {
     ivec2 esCtc = clamp(ivec2(floor(esP)), ivec2(0), ivec2(uCtrlSize) - 1);
-    int esCi = int(texelFetch(uCtrl, esCtc, 0).r * 255.0 + 0.5);
+    int esCi = int(texelFetch(uCtrl, esCtc, 0).r * 255.0 + 0.5) & 63;
     float esClN = esCliffLayer(esCi);
     float esClT = uTileM[int(esClN)];
     float esClNrm = uCliffNrmBase + (esClN == uCliffLayer.x ? 0.0 : 1.0);   // its normal map's layer

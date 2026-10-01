@@ -102,6 +102,7 @@ import {
 } from "@elder-souls/game-core/vegetation/vegetationPatches";
 import { clearancesOfBundle, withPlaceClearances } from "@elder-souls/game-core/vegetation/clearanceFilter";
 import type { WaterData } from "@elder-souls/game-core/water/index";
+import { fetchPng } from "@elder-souls/game-core/terrain/groundRasters";
 import groundcoverTable from "../../../../world/sources/flora/groundcover.json";
 import {
   fillDue,
@@ -616,17 +617,10 @@ function sharedControlRaster(baseUrl: string): Promise<ControlRaster> {
   if (!controlPromise || controlBase !== baseUrl) {
     controlBase = baseUrl;
     controlPromise = (async () => {
-      const res = await fetch(`${baseUrl}province/refined/ground-control.png`);
-      const bitmap = await createImageBitmap(await res.blob(), {
-        premultiplyAlpha: "none",
-        colorSpaceConversion: "none",
-      });
-      const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
-      const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
-      ctx.drawImage(bitmap, 0, 0);
-      const px = ctx.getImageData(0, 0, bitmap.width, bitmap.height).data;
-      bitmap.close();
-      const ids = new Uint8Array(canvas.width * canvas.height);
+      // Exact decode: a canvas premultiplies alpha and zeroed the ids of
+      // every texel whose macro brightness (A) is 0.
+      const { width, data: px } = await fetchPng(`${baseUrl}province/refined/ground-control.png`);
+      const ids = new Uint8Array(width * width);
       for (let i = 0; i < ids.length; i++) ids[i] = px[i * 4];
       // metresPerTexel comes from the image's OWN size against the province
       // extent: ground-control ships at full resolution (4033²) while
@@ -635,8 +629,8 @@ function sharedControlRaster(baseUrl: string): Promise<ControlRaster> {
       // no groundcover anywhere south-east of the map centre).
       return {
         ids,
-        size: canvas.width,
-        metresPerTexel: PROVINCE_EXTENT_M / canvas.width,
+        size: width,
+        metresPerTexel: PROVINCE_EXTENT_M / width,
       };
     })();
   }

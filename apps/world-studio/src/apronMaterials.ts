@@ -5,6 +5,7 @@ import { createGroundMaterial, useGroundManifest, type GroundManifest } from "./
 import { sharedAerialUniforms } from "./sky/WorldSky";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
 import type { ApronManifest } from "@elder-souls/game-core/terrain/apronManifest";
+import { GroundRasterLoader, groundRasterKey } from "@elder-souls/game-core/terrain/groundRasters";
 
 /**
  * The border apron's manifest and its two ground materials (16d).
@@ -48,9 +49,11 @@ export function useApronMaterials(
     .map((name) => ground.materials.find((m) => m.name === name)?.normalFile)
     .filter((f): f is string => !!f);
   const cliffNormals = useLoader(THREE.ImageLoader, cliffNrmFiles.map((f) => `${baseUrl}textures/ground/${set}/${f}`));
-  const files = (["near", "far"] as const).flatMap((s) =>
-    [manifest.paint[s].control, manifest.paint[s].tint, manifest.paint[s].grad].map((f) => `${baseUrl}province/apron/${f}`));
-  const [nearCtrl, nearTint, nearGrad, farCtrl, farTint, farGrad] = useLoader(THREE.TextureLoader, files);
+  const [near, far] = useLoader(GroundRasterLoader, (["near", "far"] as const).map((s) => groundRasterKey(
+    ...([manifest.paint[s].control, manifest.paint[s].tint, manifest.paint[s].grad]
+      .map((f) => `${baseUrl}province/apron/${f}`) as [string, string, string]))));
+  const { ctrl: nearCtrl, tint: nearTint, grad: nearGrad } = near;
+  const { ctrl: farCtrl, tint: farTint, grad: farGrad } = far;
   const materials = useMemo(() => {
     const build = (ctrl: THREE.Texture, tint: THREE.Texture, grad: THREE.Texture) =>
       createGroundMaterial(images, cliffNormals, ctrl, tint, grad, ground as GroundManifest,
