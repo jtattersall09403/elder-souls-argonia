@@ -6,6 +6,7 @@
  */
 import { WebGPURenderer } from "three/webgpu";
 import { budgetShaderBuilds, SHADER_BUILD_BUDGET_MS } from "./shaderBuildBudget";
+import { trimTextureWrites } from "./writeTextureSpan";
 
 export type RendererBackend = "webgpu" | "webgl";
 
@@ -47,6 +48,7 @@ export async function createRenderer(options: CreateRendererOptions): Promise<We
   });
   await renderer.init();
   shareInstancedPrograms(renderer);
+  trimTextureWrites(renderer);
   budgetShaderBuilds(renderer, options.shaderBuildBudgetMs ?? SHADER_BUILD_BUDGET_MS);
   return renderer;
 }

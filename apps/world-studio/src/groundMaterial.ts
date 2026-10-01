@@ -158,6 +158,7 @@ export function createGroundMaterial(
       data.set(g2d.getImageData(0, 0, size, size).data, size * size * 4 * i);
     });
     tex = new THREE.DataArrayTexture(data, size, size, layers);
+    tex.name = "es-ground-albedo-array";
     tex.format = THREE.RGBAFormat;
     tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
     tex.minFilter = THREE.LinearMipmapLinearFilter;
