@@ -77,6 +77,12 @@ def test_a_full_miner_run_needs_rule_change(repo):
     assert refused("Bash", command="python3 -m worldgen.mine_mounts --sample 25 --out /tmp/s") is None
     assert "rule change" in refused("Bash", command="python3 -m worldgen.mine_designed_sink --jobs 2").lower()
     assert refused("Bash", command="echo mine_abuts is fast now") is None
+    # walk 8: the name in a heredoc or an import is not an invocation
+    heredoc = "python3 - <<'E'\nfrom worldgen import mine_mounts as m\nprint(m.MESH_CACHE)\nE"
+    assert refused("Bash", command=heredoc) is None
+    assert refused("Bash", command='python3 -c "import worldgen.mine_mounts"') is None
+    wrapped = "tooling/repo-standards/job_guard.sh L -- python3 tooling/world-generation/worldgen/mine_mounts.py"
+    assert "rule change" in refused("Bash", command=wrapped).lower()
 
 
 def test_a_deliver_lane_needs_a_budget_line(repo):

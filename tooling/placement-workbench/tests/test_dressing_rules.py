@@ -54,3 +54,10 @@ def test_wall_normal_points_out_of_the_face_toward_the_point():
     from workbench import snap
     n, d = snap._wall_normal(_hut(), np.array([0.0, 4.0, 1.0]))   # 1 m north of the north wall
     assert abs(n[0]) < 1e-6 and abs(n[1] - 1.0) < 1e-6 and abs(d - 1.0) < 1e-6
+
+
+def test_twin_is_measured_on_bounds_and_hook():
+    from workbench import snap
+    cat = _Cat({"a": _chair(), "b": _chair(), "c": _hut()})
+    assert snap.twin_refusal(cat, "a", "b") is None
+    assert "not b" not in (snap.twin_refusal(cat, "a", "c") or "") and snap.twin_refusal(cat, "a", "c")

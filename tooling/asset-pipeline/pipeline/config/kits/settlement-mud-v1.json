@@ -564,6 +564,12 @@
    "asset": "kotm:argonia/blackwood/sign"
   },
   {
+   "asset": "vanilla:clutter/signage/riften/signrtblacksmith01"
+  },
+  {
+   "asset": "vanilla:clutter/signage/riften/signrtbeeandbarb01"
+  },
+  {
    "asset": "vanilla:clutter/signage/whiterun/signwrpost01",
    "collision": "convex"
   }

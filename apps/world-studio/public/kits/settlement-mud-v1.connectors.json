@@ -2964,6 +2964,54 @@
     "widthM": 1.47
    }
   ],
+  "vanilla:clutter/signage/riften/signrtbeeandbarb01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.42,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     0.0
+    ],
+    "widthM": 0.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.42,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     1.4
+    ],
+    "widthM": 0.25
+   }
+  ],
+  "vanilla:clutter/signage/riften/signrtblacksmith01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.52,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -1.4
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.52,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     -0.0
+    ],
+    "widthM": 0.24
+   }
+  ],
   "vanilla:clutter/signage/whiterun/signwrpost01": [
    {
     "evidence": "bounds",
@@ -3012,8 +3060,8 @@
   ]
  },
  "counts": {
-  "assets": 72,
-  "bounds": 258,
+  "assets": 74,
+  "bounds": 262,
   "co-placement": 2
  },
  "elongationRatio": 2.0,

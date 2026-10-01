@@ -230,7 +230,7 @@ def mount_pair(role: dict) -> dict | None:
     out = {"kind": pair["kind"]}
     if role.get("mountedOn"):
         out["mountedOn"] = role["mountedOn"]
-    for key in ("n", "yardSet", "unmined", "like"):
+    for key in ("n", "yardSet", "unmined", "like", "evidence"):
         if pair.get(key) is not None:
             out[key] = pair[key]
     return out

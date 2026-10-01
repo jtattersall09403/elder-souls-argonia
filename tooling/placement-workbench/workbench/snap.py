@@ -415,7 +415,28 @@ def _wall_normal(mesh, point) -> tuple[np.ndarray, float]:
     return d / n, n
 
 
-def like_wall_mount(cat, scene, child: Piece, parent: Piece, like: str) -> dict:
+TWIN_TOL_M = 0.01
+"""R98: a re-textured NIF is its vanilla twin's geometry when its bounds and
+its hook (the centre of its top 10 % of height) match within this."""
+
+
+def twin_refusal(cat, child_asset: str, twin: str) -> str | None:
+    """Why `child_asset` is not `twin`'s geometric twin (R98), or None."""
+    a, b = (np.asarray(cat.mesh(x).vertices) for x in (child_asset, twin))
+
+    def hook(v):
+        z = v[:, 2]
+        return v[z >= z.max() - 0.1 * (z.max() - z.min())].mean(0)
+    for what, x, y in (("bounds min", a.min(0), b.min(0)), ("bounds max", a.max(0), b.max(0)),
+                       ("hook", hook(a), hook(b))):
+        off = float(np.max(np.abs(x - y)))
+        if off > TWIN_TOL_M:
+            return f"{child_asset} is not {twin}'s twin: {what} differ by {off:.3f} m (> {TWIN_TOL_M})"
+    return None
+
+
+def like_wall_mount(cat, scene, child: Piece, parent: Piece, like: str,
+                    twin: str | None = None) -> dict:
     """R97: hang a child on the WALL of a host it has no mined pair with,
     by the mined wall pair it does have (`like` = that pair's parent asset):
     the pair's distance off its wall plane, its height and its yaw relative
@@ -423,9 +444,13 @@ def like_wall_mount(cat, scene, child: Piece, parent: Piece, like: str) -> dict:
     the host's wall face nearest where the child is placed (the host's
     actual mesh). The 0102 cap for unmined mounts is untouched: this needs a
     mined pair."""
-    pairs = mount_pairs(child.asset, like)
+    if twin:
+        why = twin_refusal(cat, child.asset, twin)
+        if why:
+            raise ValueError(f"mount --twin: {why}")
+    pairs = mount_pairs(twin or child.asset, like)
     if not pairs:
-        raise ValueError(f"mount --like: no mined pair hangs {child.asset} on {like}")
+        raise ValueError(f"mount --like: no mined pair hangs {twin or child.asset} on {like}")
     pair = max(pairs, key=lambda q: q.get("n", 0))
     if pair["kind"] == "band":
         off, ryaw = list(pair["offsetM"]), float(pair["yawDeg"])
@@ -478,9 +503,11 @@ def like_wall_mount(cat, scene, child: Piece, parent: Piece, like: str) -> dict:
             break
     child.settledBy = f"mount:{parent.uid}"
     prov = {"kind": "like", "like": like, "n": int(pair.get("n", 0)),
+            **({"evidence": f"twin:{twin}"} if twin else {}),
             "offWallM": round(ld, 3), "heightM": round(float(off[2]), 3), "yawOffNormalDeg": round(rel, 1)}
     child.role = {**child.role, "mountedOn": parent.uid, "mountPair": prov}
-    child.notes.append(f"wall mount on {parent.uid} like {like} (R97)")
+    child.notes.append(f"wall mount on {parent.uid} like {like} (R97)"
+                       + (f", twin {twin} (R98)" if twin else ""))
     return {"pair": prov}
 
 

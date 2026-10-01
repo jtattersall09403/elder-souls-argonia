@@ -1749,7 +1749,7 @@ ASSEMBLY_KEYS = frozenset({"id", "asset", "atM", "upM", "yaw", "pitch", "on", "l
 #: by (`n`), the mined yard set it came from (`yardSet`), or an unmined
 #: mount and the render round that approved it (`unmined`).
 MOUNT_PAIR_KINDS = {"band": "n", "points": "n", "mined": "yardSet", "unmined": "unmined", "like": "like"}
-MOUNT_PAIR_KEYS = frozenset({"kind", "mountedOn", "n", "yardSet", "unmined", "like"})
+MOUNT_PAIR_KEYS = frozenset({"kind", "mountedOn", "n", "yardSet", "unmined", "like", "evidence"})
 UNMINED_APPROVAL = re.compile(r"^reader-approved r[0-9]+$")
 ASSEMBLY_ID = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 

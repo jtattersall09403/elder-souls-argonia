@@ -6143,6 +6143,140 @@
    "pivotAboveBaseM": 1.272
   },
   {
+   "id": "vanilla:clutter/signage/riften/signrtblacksmith01",
+   "node": "es|8f1d8b360a|lutter_signage_riften_signrtblacksmith01",
+   "category": "clutter",
+   "sizeM": [
+    0.236,
+    1.399,
+    1.519
+   ],
+   "originOffsetM": [
+    0.11,
+    -0.0,
+    1.401
+   ],
+   "triangles": 816,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "riftencanalwood01.dds",
+    "riverwoodblacksmith01.dds"
+   ],
+   "materials": [
+    "Ring01:1.Mat.001",
+    "Ring02:1.Mat.001",
+    "Ring03:1.Mat.001",
+    "Sign:0.Mat",
+    "Sign:1.Mat",
+    "Sign:3.Mat",
+    "SignRTBlacksmith01:0.Mat.001",
+    "SignRTBlacksmith01:1.Mat.001",
+    "SignRTBlacksmith01:2.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "Ring01:1.Mat.001": 0.498,
+    "Ring02:1.Mat.001": 0.498,
+    "Ring03:1.Mat.001": 0.498,
+    "Sign:1.Mat": 0.498,
+    "Sign:3.Mat": 0.498,
+    "SignRTBlacksmith01:1.Mat.001": 0.498
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.401,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.401
+  },
+  {
+   "id": "vanilla:clutter/signage/riften/signrtbeeandbarb01",
+   "node": "es|da06d2686c|lutter_signage_riften_signrtbeeandbarb01",
+   "category": "clutter",
+   "sizeM": [
+    0.248,
+    1.399,
+    1.425
+   ],
+   "originOffsetM": [
+    0.127,
+    1.399,
+    1.305
+   ],
+   "triangles": 428,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "riftencanalwood01.dds",
+    "signrtbeeandbarb01.dds"
+   ],
+   "materials": [
+    "SignBanneredMare:8.Mat.001",
+    "SignRTBeeandBarb01:2.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "SignBanneredMare:8.Mat.001": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.305,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.305
+  },
+  {
    "id": "vanilla:clutter/signage/whiterun/signwrpost01",
    "node": "es|537564ae15|a__clutter_signage_whiterun_signwrpost01",
    "category": "clutter",
@@ -6256,8 +6390,8 @@
   "textures/dwarvenmilitary/blackwoodfarm/signinn.dds": "textures/clutter/signage/riften/signinn40.dds"
  },
  "alphaModes": {
-  "MASK": 44,
-  "OPAQUE": 209,
+  "MASK": 51,
+  "OPAQUE": 213,
   "BLEND": 0
  },
  "trunkSolids": {
@@ -6291,24 +6425,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 44540984,
-  "bytesAfter": 20583564,
-  "images": 79,
-  "imageBytesAfter": 16861953,
+  "bytesBefore": 45041940,
+  "bytesAfter": 20867412,
+  "images": 80,
+  "imageBytesAfter": 17100795,
   "warnings": [],
-  "sha256": "9406a379a6a9f86923e1d8bab425855520f95441baed91f00cb7bb0d9ee12749",
+  "sha256": "810cdaa8306e97d121aecd7932997113e1c3771bd8c5d31d960e9d6228b024fa",
   "parts": {
    "parts": 5,
    "partBytes": 61796,
    "textureFiles": 5,
    "textureBytes": 1116939,
    "bytes": 1178735,
-   "sourceSha256": "9406a379a6a9f86923e1d8bab425855520f95441baed91f00cb7bb0d9ee12749"
+   "sourceSha256": "810cdaa8306e97d121aecd7932997113e1c3771bd8c5d31d960e9d6228b024fa"
   },
   "sidecarBytes": {
-   "connectors": 49636,
-   "footprints": 107426,
-   "interiors": 57969
+   "connectors": 50454,
+   "footprints": 109218,
+   "interiors": 58721
   }
  }
 }

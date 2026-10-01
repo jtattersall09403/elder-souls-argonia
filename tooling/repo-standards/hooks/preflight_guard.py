@@ -142,13 +142,37 @@ def check_preflight(cmd: str) -> str | None:
     return None
 
 
+def _miner_argv(cmd: str) -> list[str] | None:
+    """The argv after the miner of the first command segment that INVOKES a
+    miner (`python3 -m worldgen.mine_X ...` or `python3 .../mine_X.py ...`,
+    wrappers such as job_guard.sh before it allowed); None when no segment
+    does. The miner's name inside a heredoc, a string or an import is not an
+    invocation (walk 8 false positive)."""
+    import shlex
+    for seg in re.split(r"\n|&&|\|\||;|\|", cmd):
+        try:
+            argv = shlex.split(seg)
+        except ValueError:
+            argv = seg.split()
+        for i, tok in enumerate(argv):
+            if not re.fullmatch(r"(.*/)?python3?(\.\d+)?", tok):
+                continue
+            rest = argv[i + 1:]
+            if rest[:1] == ["-m"] and len(rest) > 1 and MINERS.search(rest[1]) \
+                    and rest[1].rsplit(".", 1)[-1].startswith("mine_"):
+                return rest[2:]
+            if rest and rest[0].endswith(".py") and MINERS.search(rest[0].rsplit("/", 1)[-1]):
+                return rest[1:]
+            break
+    return None
+
+
 def check_miner(cmd: str) -> str | None:
-    if not MINERS.search(cmd) or not re.search(r"python3?\b", cmd):
+    tail = _miner_argv(cmd)
+    if tail is None:
         return None
-    tail = cmd[MINERS.search(cmd).end():]
-    if any(re.search(rf"(^|\s){re.escape(flag)}(\s|=|$)", tail) for flag in (*MINER_SCOPED, "--rule-change")):
-        return None
-    if re.search(r"(^|\s)(--sample-max|--sample-seed)(\s|=|$)", tail):
+    flags = {t.split("=", 1)[0] for t in tail}
+    if flags & {*MINER_SCOPED, "--rule-change", "--sample-max", "--sample-seed"}:
         return None
     return ("[0106] a full miner run is only for a miner RULE change: add `--rule-change` and name it "
             "in the brief. A piece joining the pool is mined with `--assets <ids> --merge` (seconds).")
