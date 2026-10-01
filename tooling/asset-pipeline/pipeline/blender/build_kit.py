@@ -1228,8 +1228,12 @@ for asset in PLAN["assets"]:
     # An alpha-tested asset gets no decimated levels at all (16f round 5):
     # its parts are hundreds of separate leaf/twig/bark cards that collapse
     # decimation shreds (leaves and branches vanished at mid distance). The
-    # runtime substitutes the base geometry for any that still ship.
-    lod_ratios = [] if asset.get("doubleSided") else asset["lodRatios"]
+    # runtime substitutes the base geometry for any that still ship. A row
+    # that authors its chain (`lodRatiosAuthored`, e.g. [1.0, 1.0]: every
+    # level shares LOD0's mesh) keeps it: the settlement runtime requires
+    # three tiers of every placed piece (walk 9, chickennest01).
+    lod_ratios = ([] if asset.get("doubleSided") and not asset.get("lodRatiosAuthored")
+                  else asset["lodRatios"])
     source_tris = [len(obj.data.loop_triangles) or len(obj.data.polygons) for obj in meshes]
     level_parts = {0: list(meshes)}
     for row in plan_lod_levels(source_tris, lod_ratios, MIN_LOD_TRIANGLES):

@@ -2916,6 +2916,15 @@
    ],
    "parcel": "parcel.claywater-station.the-well",
    "why": "Two boards on the post at the well junction point along the road, north-west over the ford toward Blackwood and south-east to Gideon."
-  }
+  },
+  {"op": "note", "uid": "well", "text": "walk 9 dressing (dressing.md § 4, road station): a travellers' table and its bench beside the well, east of the station house; a chopping block at the station-house woodpile; a hide rack in the stable yard. Every site is dry and level ground chosen by `wb.py scan` or `wb.py site`."},
+  {"op": "place", "uid": "d9-table", "asset": "vanilla:clutter/exteriorwoodenfurniture/exteriorwoodentable01", "at": [325.0, 3070.0], "yaw": 90.0, "settle": true},
+  {"op": "place", "uid": "d9-bench", "asset": "vanilla:furniture/farm/farmbench01", "at": [326.25, 3070.0], "yaw": 270.0, "settle": true},
+  {"op": "place", "uid": "d9-chop", "asset": "vanilla:clutter/chopping block/choppingblock01", "at": [306.0, 3061.0], "yaw": 20.0, "settle": true},
+  {"op": "place", "uid": "d9-hide", "asset": "vanilla:furniture/tanningrackmarker", "at": [333.0, 3095.0], "yaw": 238.0, "settle": true},
+  {"op": "bind", "uid": "d9-table", "kind": "assembly", "id": "parcel.claywater-station.the-well", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "d9-bench", "kind": "assembly", "id": "parcel.claywater-station.the-well", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "d9-chop", "kind": "assembly", "id": "parcel.claywater-station.station-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "d9-hide", "kind": "assembly", "id": "parcel.claywater-station.stable", "layer": "clutter", "on": "ground", "evidence": "measured"}
  ]
 }

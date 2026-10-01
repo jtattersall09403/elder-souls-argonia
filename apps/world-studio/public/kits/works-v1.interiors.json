@@ -179,6 +179,18 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.5 m\u00b2 plan, 1.0 m tall)"
   },
+  "kotm:argonia/clutter/beehive": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.11,
+   "interior": "none",
+   "planAreaM2": 4.98,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (5.0 m\u00b2 plan, 3.1 m tall)"
+  },
   "kotm:argonia/clutter/saxhleelmetalpot01": {
    "category": "clutter",
    "entrance": null,
@@ -596,6 +608,23 @@
    "sizeClass": "medium",
    "why": "name token 'walkway' \u2014 a hull, a hollow tree or a floor slab, not a building"
   },
+  "vanilla:architecture/riften/rtmarketstall01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 307.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 308\u00b0 in the piece's own frame carries 4.58x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 3.07,
+   "interior": "none",
+   "planAreaM2": 4.49,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (4.5 m\u00b2 plan, 3.1 m tall)"
+  },
   "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01": {
    "category": "architecture",
    "entrance": null,
@@ -755,6 +784,18 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.4 m tall)"
   },
+  "vanilla:clutter/burialcairn/burialcairn02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.75,
+   "interior": "none",
+   "planAreaM2": 9.67,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (9.7 m\u00b2 plan, 1.8 m tall)"
+  },
   "vanilla:clutter/carts/handcart01": {
    "category": "clutter",
    "entrance": null,
@@ -846,6 +887,18 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (4.2 m\u00b2 plan, 2.1 m tall)"
+  },
+  "vanilla:clutter/chopping block/choppingblock01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.47,
+   "interior": "none",
+   "planAreaM2": 0.44,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 0.5 m tall)"
   },
   "vanilla:clutter/common/cratesmall01": {
    "category": "clutter",
@@ -1016,6 +1069,18 @@
    "roofOverhead": true,
    "sizeClass": "small",
    "why": "category 'clutter' is never a building"
+  },
+  "vanilla:clutter/exteriorwoodenfurniture/exteriorwoodentable01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.01,
+   "interior": "none",
+   "planAreaM2": 4.98,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (5.0 m\u00b2 plan, 1.0 m tall)"
   },
   "vanilla:clutter/firewood/firewoodpilehuge01": {
    "category": "clutter",
@@ -1860,13 +1925,25 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.9 m\u00b2 plan, 0.9 m tall)"
+  },
+  "vanilla:furniture/tanningrackmarker": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.71,
+   "interior": "none",
+   "planAreaM2": 1.4,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.4 m\u00b2 plan, 1.7 m tall)"
   }
  },
  "kit": "works-v1",
  "provenance": {
   "exterior-interior-links.json": {
    "miner": "worldgen.mine_door_links",
-   "minerVersion": "9abb006dbad2",
+   "minerVersion": "0cd64d1a336f",
    "plugins": [
     "ArgonianHome.esp",
     "ArgonianLakeHouse.esl",
@@ -1925,7 +2002,7 @@
     "igs_tileset_ayleid.esp"
    ],
    "poolRegister": {
-    "date": "2026-09-25",
+    "date": "2026-09-27",
     "pools": [
      "bmv",
      "vanilla",
@@ -1957,7 +2034,7 @@
      "hlaalu"
     ],
     "source": "worldgen.asset_registry.POOLS",
-    "uncommittedChanges": true
+    "uncommittedChanges": false
    },
    "poolsMined": [
     "ayleidcc",
@@ -1983,7 +2060,7 @@
     "xalfek",
     "xanmeer"
    ],
-   "runDate": "2026-09-26"
+   "runDate": "2026-10-01"
   },
   "kit-assemblies-mined.json": {
    "miner": "worldgen.mine_assemblies",
@@ -2084,6 +2161,7 @@
    "esp-door",
    "assembly",
    "composite-leaf",
+   "approach",
    "door-piece",
    "leaf",
    "opening",

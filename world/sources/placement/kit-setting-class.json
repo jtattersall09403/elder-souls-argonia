@@ -3,7 +3,7 @@
  "provenance": {
   "miner": "worldgen.mine_setting_class",
   "minerVersion": 3,
-  "runDate": "2026-09-28",
+  "runDate": "2026-10-01",
   "kits": [
    "imperial-keep",
    "settlement-imperial-v1",
@@ -17,10 +17,6 @@
    "Black Marsh North.esp",
    "Valenwood.esp",
    "ArgonianLakeHouse.esl",
-   "Ferries.esp",
-   "Skyfall Sleeping Tree Overhaul.esp",
-   "Scriptfreeshipsailing.esp",
-   "SNT ferry.esp",
    "King of the Murkmire.esp"
   ]
  },
@@ -843,6 +839,36 @@
     }
    }
   },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/farmhouseline": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawning01": {
+   "n": 3,
+   "interior": {},
+   "exterior": {
+    "wild": 3
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:CIPHTBMHesperideWorld"
+   ],
+   "plugins": [
+    "Here There Be Monsters - Curse of Cipactli.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
   "kotm:argonia/clutter/basket01": {
    "n": 81,
    "interior": {
@@ -959,6 +985,29 @@
    ],
    "otherFileRefs": 0,
    "evidence": "plugin"
+  },
+  "kotm:argonia/clutter/beehive": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "village": 1
+   },
+   "settings": {
+    "exterior": []
+   },
+   "sourceCells": [
+    "exterior:village:RootWhisperVillageLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin",
+   "classNotMeasured": {
+    "exterior": {
+     "village": 1
+    }
+   }
   },
   "kotm:argonia/clutter/saxhleelmetalpot01": {
    "n": 14,
@@ -4584,6 +4633,26 @@
    "otherFileRefs": 0,
    "evidence": "plugin"
   },
+  "vanilla:architecture/riften/rtmarketstall01": {
+   "n": 3,
+   "interior": {},
+   "exterior": {
+    "town": 3
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:RiftenLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
   "vanilla:architecture/riften/rtstables01": {
    "n": 2,
    "interior": {},
@@ -5130,6 +5199,96 @@
    "otherFileRefs": 38,
    "evidence": "plugin"
   },
+  "vanilla:clutter/burialcairn/burialcairn01": {
+   "n": 21,
+   "interior": {},
+   "exterior": {
+    "wild": 11,
+    "keep": 4,
+    "ruin": 4,
+    "town": 2
+   },
+   "settings": {
+    "exterior": [
+     "keep",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:HamvirsRestLocation",
+    "exterior:wild:Tamriel",
+    "exterior:ruin:ColdRockPassLocation",
+    "exterior:wild:ArcwindPointLocation",
+    "exterior:keep:NarzulburLocation",
+    "exterior:keep:FortSnowhawkLocation",
+    "exterior:town:FalkreathLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 1,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/burialcairn/burialcairn02": {
+   "n": 18,
+   "interior": {},
+   "exterior": {
+    "wild": 12,
+    "keep": 4,
+    "town": 2
+   },
+   "settings": {
+    "exterior": [
+     "keep",
+     "town",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:HamvirsRestLocation",
+    "exterior:wild:ArcwindPointLocation",
+    "exterior:keep:FortSnowhawkLocation",
+    "exterior:wild:Tamriel",
+    "exterior:town:FalkreathLocation",
+    "exterior:keep:NarzulburLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/burialcairn/burialcairn03": {
+   "n": 22,
+   "interior": {},
+   "exterior": {
+    "wild": 17,
+    "keep": 3,
+    "ruin": 1,
+    "town": 1
+   },
+   "settings": {
+    "exterior": [
+     "keep",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "exterior:wild:ArcwindPointLocation",
+    "exterior:wild:HamvirsRestLocation",
+    "exterior:keep:FortSnowhawkLocation",
+    "exterior:keep:NarzulburLocation",
+    "exterior:ruin:RefugeesRestLocation",
+    "exterior:town:FalkreathLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 1,
+   "evidence": "plugin"
+  },
   "vanilla:clutter/carts/handcart01": {
    "n": 73,
    "interior": {
@@ -5383,6 +5542,52 @@
     }
    }
   },
+  "vanilla:clutter/chopping block/choppingblock01": {
+   "n": 123,
+   "interior": {
+    "town": 29,
+    "camp": 16,
+    "keep": 17,
+    "ruin": 11,
+    "wild": 7
+   },
+   "exterior": {
+    "keep": 1,
+    "ruin": 5,
+    "wild": 14,
+    "town": 21,
+    "camp": 2
+   },
+   "settings": {
+    "interior": [
+     "keep",
+     "town",
+     "camp",
+     "ruin",
+     "wild"
+    ],
+    "exterior": [
+     "town",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "exterior:town:WindhelmLocation",
+    "interior:keep:BloodletThrone01",
+    "exterior:town:SolitudeLocation",
+    "interior:camp:GallowsRock01",
+    "interior:wild:OLDBluePalaceWing01",
+    "interior:camp:SwindlersDen01",
+    "interior:keep:MarkarthUnderStoneKeep"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 10,
+   "evidence": "plugin"
+  },
   "vanilla:clutter/common/candlelanternwithcandle01": {
    "n": 1391,
    "interior": {
@@ -5484,7 +5689,7 @@
    "plugins": [
     "Skyrim.esm"
    ],
-   "otherFileRefs": 148,
+   "otherFileRefs": 147,
    "evidence": "plugin"
   },
   "vanilla:clutter/common/cratesmalllong01": {
@@ -5536,7 +5741,7 @@
    "plugins": [
     "Skyrim.esm"
    ],
-   "otherFileRefs": 173,
+   "otherFileRefs": 169,
    "evidence": "plugin"
   },
   "vanilla:clutter/common/pitchfork01": {
@@ -5630,7 +5835,7 @@
    "plugins": [
     "Skyrim.esm"
    ],
-   "otherFileRefs": 20,
+   "otherFileRefs": 19,
    "evidence": "plugin"
   },
   "vanilla:clutter/common/tanningrack01": {
@@ -5730,7 +5935,7 @@
    "plugins": [
     "Skyrim.esm"
    ],
-   "otherFileRefs": 35,
+   "otherFileRefs": 33,
    "evidence": "plugin"
   },
   "vanilla:clutter/containers/miscsacklargeflat01": {
@@ -5781,7 +5986,7 @@
    "plugins": [
     "Skyrim.esm"
    ],
-   "otherFileRefs": 21,
+   "otherFileRefs": 20,
    "evidence": "plugin"
   },
   "vanilla:clutter/deadanimals/fishrack01": {
@@ -5828,7 +6033,7 @@
    "plugins": [
     "Skyrim.esm"
    ],
-   "otherFileRefs": 10,
+   "otherFileRefs": 9,
    "evidence": "plugin"
   },
   "vanilla:clutter/deadanimals/fishrack02": {
@@ -5862,6 +6067,53 @@
     "Skyrim.esm"
    ],
    "otherFileRefs": 27,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/exteriorwoodenfurniture/exteriorwoodentable01": {
+   "n": 137,
+   "interior": {
+    "ruin": 31,
+    "camp": 32,
+    "village": 2,
+    "town": 4,
+    "keep": 1
+   },
+   "exterior": {
+    "keep": 11,
+    "wild": 11,
+    "ruin": 16,
+    "camp": 20,
+    "town": 8,
+    "village": 1
+   },
+   "settings": {
+    "interior": [
+     "town",
+     "camp",
+     "ruin"
+    ],
+    "exterior": [
+     "keep",
+     "town",
+     "camp",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:camp:BrokenOarGrotto01",
+    "interior:ruin:Pinewatch01",
+    "exterior:ruin:LostValleyRedoubtLocation",
+    "exterior:wild:Tamriel",
+    "exterior:town:SolitudeLocation",
+    "interior:camp:EmbershardMine01",
+    "interior:ruin:ChillwindDepths01",
+    "exterior:camp:HagRockRedoubtLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 23,
    "evidence": "plugin"
   },
   "vanilla:clutter/firewood/firewoodpilehuge01": {
@@ -6931,7 +7183,7 @@
    "plugins": [
     "Skyrim.esm"
    ],
-   "otherFileRefs": 2,
+   "otherFileRefs": 0,
    "evidence": "plugin"
   },
   "vanilla:clutter/stockade/stockadescaffoldtop3sided01": {
@@ -7082,7 +7334,7 @@
    "plugins": [
     "Skyrim.esm"
    ],
-   "otherFileRefs": 50,
+   "otherFileRefs": 49,
    "evidence": "plugin"
   },
   "vanilla:clutter/woodfires/cookingstand01": {
@@ -7352,7 +7604,7 @@
    "plugins": [
     "Skyrim.esm"
    ],
-   "otherFileRefs": 95,
+   "otherFileRefs": 92,
    "evidence": "plugin"
   },
   "vanilla:dungeons/mines/clutter/minewoodbeam02": {
@@ -7553,7 +7805,7 @@
    "plugins": [
     "Skyrim.esm"
    ],
-   "otherFileRefs": 78,
+   "otherFileRefs": 77,
    "evidence": "plugin"
   },
   "vanilla:dungeons/mines/clutter/minewoodplanks02": {
@@ -7649,7 +7901,7 @@
    "plugins": [
     "Skyrim.esm"
    ],
-   "otherFileRefs": 25,
+   "otherFileRefs": 24,
    "evidence": "plugin"
   },
   "vanilla:dungeons/mines/clutter/minewoodplanks04": {
@@ -7696,7 +7948,7 @@
    "plugins": [
     "Skyrim.esm"
    ],
-   "otherFileRefs": 13,
+   "otherFileRefs": 10,
    "evidence": "plugin"
   },
   "vanilla:dungeons/mines/ore/mineoredepleted01": {
@@ -7938,6 +8190,53 @@
     "Skyrim.esm"
    ],
    "otherFileRefs": 10,
+   "evidence": "plugin"
+  },
+  "vanilla:furniture/tanningrackmarker": {
+   "n": 99,
+   "interior": {
+    "ruin": 9,
+    "wild": 2,
+    "camp": 15,
+    "keep": 2,
+    "town": 1
+   },
+   "exterior": {
+    "wild": 20,
+    "camp": 8,
+    "town": 22,
+    "village": 7,
+    "ruin": 8,
+    "keep": 5
+   },
+   "settings": {
+    "interior": [
+     "camp",
+     "ruin"
+    ],
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "interior:camp:GallowsRock01",
+    "exterior:town:FalkreathLocation",
+    "interior:ruin:Alftand02",
+    "interior:camp:DruadachRedoubt01",
+    "interior:ruin:TolvaldsCave01",
+    "exterior:town:DawnstarLocation",
+    "exterior:town:RiverwoodLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 9,
    "evidence": "plugin"
   },
   "vanilla:plants/chickennest01": {

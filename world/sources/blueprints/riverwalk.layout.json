@@ -2034,6 +2034,11 @@
    "on": "parent",
    "evidence": "mined",
    "host": "b-crews"
-  }
+  },
+  {"op": "note", "uid": "b-crews", "text": "walk 9 dressing (dressing.md § 4, water village): the crews-house's trade gets a market stall on the crews path; the islet dries the catch on a fish rack north of the islet path, where the long walk lands. Both stand on their own small pads, sited by `wb.py scan` on dry ground."},
+  {"op": "place", "uid": "d9-stall", "asset": "vanilla:architecture/riften/rtmarketstall01", "at": [7218.0, 523.0], "yaw": 150.0, "settle": true, "pad": {"apronM": 0.5}},
+  {"op": "place", "uid": "d9-fishrack", "asset": "vanilla:clutter/deadanimals/fishrack01", "at": [7219.0, 620.5], "yaw": 90.0, "settle": true, "pad": {"apronM": 0.3}},
+  {"op": "bind", "uid": "d9-stall", "kind": "assembly", "id": "parcel.riverwalk.crews-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "d9-fishrack", "kind": "assembly", "id": "parcel.riverwalk.stage-shelter", "layer": "clutter", "on": "ground", "evidence": "measured"}
  ]
 }

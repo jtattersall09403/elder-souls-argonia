@@ -104,6 +104,24 @@ def test_every_sited_pose_passes_the_slope_rule(cat, scene):
         assert cs.fit_slope_failure(cat.row(STILT), slope) is None
 
 
+def test_every_sited_pose_stands_where_the_fine_water_depth_is_zero(cat, scene):
+    """Walk 9: `site` judged water by the wet mask alone and sited a
+    Claywater table and rain butt where `check` read 1.08 m and 0.84 m of
+    water (`waterDepthM`, the fine depth). A sited pose is dry by both: no
+    depth at its origin or any outline vertex."""
+    from types import SimpleNamespace
+    asset = "vanilla:clutter/common/tanningrack01"
+    args = SimpleNamespace(asset=asset, yaw=0.0, step=2.0, half=40.0, centre=[4400.0, 6030.0],
+                           clear=0.7, limit=400)
+    got = wb.cmd_site(args, scene, cat)
+    g = scene.ground()
+    assert got["legal"] >= 1
+    for row in got["best"]:
+        p = Piece("s", asset, row["at"][0], row["at"][1], 0.0)
+        assert g.depth(p.x, p.z) <= 0.0
+        assert all(g.depth(x, z) <= 0.0 for x, z in measure.footprint_province(cat, p))
+
+
 HOUSE_OLD = (4226.0, 6014.0)       # round 3's first pose: compile refused delta 1.08 m
 HOUSE_SILL = (4230.0, 6004.0)      # second pose: delta 0.33 m, gate sill 0.18 m
 HOUSE_OK = (4223.0, 5997.0)

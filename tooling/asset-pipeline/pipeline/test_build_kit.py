@@ -307,6 +307,17 @@ def test_a_mesh_under_the_floor_still_publishes_a_full_ladder_sharing_its_primit
     assert [row["sharesLevel"] for row in levels] == [None, None]
 
 
+def test_an_authored_full_chain_shares_lod0_at_every_level():
+    """Walk 9: an alpha-tested piece (chickennest01, 1,088 triangles of
+    straw cards) authors `lodRatios: [1.0, 1.0]` so the settlement runtime
+    gets its three tiers with no decimation and no new geometry."""
+    levels = plan_lod_levels([1088], [1.0, 1.0], 300)
+    assert [row["sharesLevel"] for row in levels] == [0, 0]
+    assert [row["effectives"] for row in levels] == [[1.0], [1.0]]
+    blender = (Path(__file__).resolve().parent / "blender" / "build_kit.py").read_text()
+    assert 'asset.get("doubleSided") and not asset.get("lodRatiosAuthored")' in blender
+
+
 def test_lod_level_plan_is_identical_in_the_blender_half():
     import re
     here = Path(__file__).resolve().parent

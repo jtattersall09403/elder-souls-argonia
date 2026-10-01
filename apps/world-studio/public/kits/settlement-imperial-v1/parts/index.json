@@ -3,8 +3,8 @@
  "kit": "settlement-imperial-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 14130644,
-  "sha256": "9c0bc43a5cb46a90d757dec5bd65f1dde23259e1d86a72f37c824393c75f6795"
+  "bytes": 14132180,
+  "sha256": "ce285db28def8077f13351ab0203907dd9b7904f887728b0666ab1f05206ccbf"
  },
  "totals": {
   "parts": 7,

@@ -605,6 +605,12 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
         }
         if entry.get("collisionRadiusM"):
             record["collisionRadiusM"] = entry["collisionRadiusM"]
+        if "lodRatios" in entry and record["doubleSided"]:
+            # an alpha-tested piece gets no decimated levels (blender half),
+            # unless its row authors a chain: [1.0, 1.0] ships the full
+            # 3-tier chain the settlement runtime requires, every level
+            # sharing LOD0's mesh (walk 9: chickennest01 had 1 tier)
+            record["lodRatiosAuthored"] = True
         if entry.get("variantOf"):
             # a texture variant (`texture_variants`): the base's mesh under
             # its own id; the derived textures land after the texture pass

@@ -53,6 +53,9 @@
     "Farmhouse01:4.Mat": 0.502
    },
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "Farmhouse01:14.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.5238,
     "p50": -0.0479,
@@ -115,10 +118,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.156,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "emissiveMaterials": [
-    "Farmhouse01:14.Mat"
-   ]
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse02",
@@ -180,6 +180,9 @@
     "L2_Rope:22.Mat"
    ],
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "Farmhouse02:14.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.3084,
     "p50": 0.4218,
@@ -236,10 +239,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.505,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "emissiveMaterials": [
-    "Farmhouse02:14.Mat"
-   ]
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse01walkway",
@@ -392,6 +392,13 @@
     "n": 8,
     "slopeTermMPerDeg": -0.05426,
     "evidence": "plugin"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 8,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "settingClass": {
     "settings": {
@@ -2484,6 +2491,9 @@
      "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
     }
    ],
+   "emissiveMaterials": [
+    "ImpWallSconceCandle01:8.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.3345,
     "p50": -0.3345,
@@ -2548,10 +2558,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.739,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.335,
-   "emissiveMaterials": [
-    "ImpWallSconceCandle01:8.Mat"
-   ]
+   "pivotAboveBaseM": 0.335
   },
   {
    "id": "vanilla:dungeons/imperial/clutterkits/impfreewall01",
@@ -2869,24 +2876,24 @@
    },
    "lodLevels": 3,
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -1.031,
+    "p50": -1.031,
+    "p75": -1.031,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": 1.031,
-    "buryCapM": 0.9,
+    "buryCapM": 0.25,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": true,
@@ -4392,12 +4399,12 @@
    ],
    "triangles": 1088,
    "lodRatios": [
-    0.35,
-    0.12
+    1.0,
+    1.0
    ],
    "doubleSided": true,
    "alphaTest": true,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "chickennest01.dds"
@@ -4414,7 +4421,20 @@
     "ChickenNest01:0.Mat",
     "ChickenNest01_1:0.Mat"
    ],
-   "lodLevels": 1,
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.396,
+     0.161,
+     0.39
+    ],
+    "centreOffsetM": [
+     0.021,
+     0.279,
+     0.044
+    ]
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0277,
     "p50": -0.0263,
@@ -4524,6 +4544,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "settingClass": {
     "settings": {
@@ -4748,6 +4775,9 @@
      "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
     }
    ],
+   "emissiveMaterials": [
+    "CandleLanternWithCandle:7.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.0285,
     "p50": -0.0268,
@@ -4820,10 +4850,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024,
-   "emissiveMaterials": [
-    "CandleLanternWithCandle:7.Mat"
-   ]
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "bmv:architecture/phitt/aldredanyia/signpost",
@@ -4953,24 +4980,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 31704728,
-  "bytesAfter": 14130644,
+  "bytesBefore": 31706232,
+  "bytesAfter": 14132180,
   "images": 56,
   "imageBytesAfter": 12255176,
   "warnings": [],
-  "sha256": "9c0bc43a5cb46a90d757dec5bd65f1dde23259e1d86a72f37c824393c75f6795",
+  "sha256": "ce285db28def8077f13351ab0203907dd9b7904f887728b0666ab1f05206ccbf",
   "parts": {
    "parts": 7,
    "partBytes": 102652,
    "textureFiles": 8,
    "textureBytes": 1182169,
    "bytes": 1284821,
-   "sourceSha256": "9c0bc43a5cb46a90d757dec5bd65f1dde23259e1d86a72f37c824393c75f6795"
+   "sourceSha256": "ce285db28def8077f13351ab0203907dd9b7904f887728b0666ab1f05206ccbf"
   },
   "sidecarBytes": {
    "connectors": 37323,
    "footprints": 62051,
-   "interiors": 43161
+   "interiors": 43162
   }
  }
 }

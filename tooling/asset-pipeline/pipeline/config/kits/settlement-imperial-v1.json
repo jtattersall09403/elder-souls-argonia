@@ -318,7 +318,9 @@
    "asset": "vanilla:architecture/farmhouse/ivy03"
   },
   {
-   "asset": "vanilla:plants/chickennest01"
+   "asset": "vanilla:plants/chickennest01",
+   "collision": "convex",
+   "lodRatios": [1.0, 1.0]
   },
   {
    "asset": "vanilla:architecture/riften/rtstables01"

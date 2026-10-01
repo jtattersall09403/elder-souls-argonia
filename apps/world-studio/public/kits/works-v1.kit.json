@@ -105,6 +105,35 @@
     "L2_Flames:2.Mat": 1.6
    },
    "lodLevels": 3,
+   "light": {
+    "fixtureKind": "forge",
+    "formId": "000b15ee",
+    "editorId": "LightForgeFire01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     226,
+     140,
+     63
+    ],
+    "flicker": {
+     "frequency": 2.0,
+     "intensityAmplitude": 0.3,
+     "movementAmplitude": 12.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1.35,
+    "offsetM": [
+     0.0,
+     1.13,
+     0.0
+    ],
+    "evidence": "Skyrim.esm: LightForgeFire01 is the nearest LIGH ref (< 200 units, same cell) to 6 of 9 blacksmithforge01 refs (none 3); offset is the median of those 6 in the piece's frame, glTF Y-up metres, horizontal agreement 0.45 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
+   },
    "glows": [
     {
      "offsetM": [
@@ -184,36 +213,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.107,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.626,
-   "light": {
-    "fixtureKind": "forge",
-    "formId": "000b15ee",
-    "editorId": "LightForgeFire01",
-    "burnSeconds": -1,
-    "radiusUnits": 512,
-    "colourRgb": [
-     226,
-     140,
-     63
-    ],
-    "flicker": {
-     "frequency": 2.0,
-     "intensityAmplitude": 0.3,
-     "movementAmplitude": 12.0
-    },
-    "flags": [
-     "dynamic",
-     "flicker",
-     "portalStrict"
-    ],
-    "fade": 1.35,
-    "offsetM": [
-     0.0,
-     1.13,
-     0.0
-    ],
-    "evidence": "Skyrim.esm: LightForgeFire01 is the nearest LIGH ref (< 200 units, same cell) to 6 of 9 blacksmithforge01 refs (none 3); offset is the median of those 6 in the piece's frame, glTF Y-up metres, horizontal agreement 0.45 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
-   }
+   "pivotAboveBaseM": 0.626
   },
   {
    "id": "vanilla:clutter/blacksmith/blacksmithnovicebellows01",
@@ -5996,6 +5996,598 @@
    "pivotAboveBaseM": 0.0
   },
   {
+   "id": "vanilla:clutter/chopping block/choppingblock01",
+   "node": "es|dd75a44131|__clutter_chopping block_choppingblock01",
+   "category": "clutter",
+   "sizeM": [
+    0.751,
+    0.751,
+    0.469
+   ],
+   "originOffsetM": [
+    0.375,
+    0.375,
+    0.0
+   ],
+   "triangles": 94,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "choppingblock01.dds"
+   ],
+   "materials": [
+    "ChoppingBlock01:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": 0.0124,
+    "p75": 0.0456,
+    "n": 29,
+    "slopeTermMPerDeg": 0.00537,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "town",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 123,
+    "interior": {
+     "town": 29,
+     "camp": 16,
+     "keep": 17,
+     "ruin": 11,
+     "wild": 7
+    },
+    "exterior": {
+     "keep": 1,
+     "ruin": 5,
+     "wild": 14,
+     "town": 21,
+     "camp": 2
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "exterior:town:WindhelmLocation",
+     "interior:keep:BloodletThrone01",
+     "exterior:town:SolitudeLocation",
+     "interior:camp:GallowsRock01",
+     "interior:wild:OLDBluePalaceWing01",
+     "interior:camp:SwindlersDen01",
+     "interior:keep:MarkarthUnderStoneKeep"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
+  },
+  {
+   "id": "kotm:argonia/clutter/beehive",
+   "node": "es|43a43fb42d|kotm__argonia_clutter_beehive",
+   "category": "container",
+   "sizeM": [
+    3.084,
+    1.732,
+    3.108
+   ],
+   "originOffsetM": [
+    1.559,
+    0.73,
+    0.074
+   ],
+   "triangles": 5749,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "baldcypressbark01_d.dds",
+    "dryoakpost01.dds",
+    "riftenrope01.dds",
+    "treepineforestcut01.dds",
+    "wrwoodbeamint01.dds"
+   ],
+   "materials": [
+    "ExteriorWoodenTable01:0.Mat",
+    "L2_Support.Mat",
+    "ShipWoodplanks02:5.Mat",
+    "grp11.Mat",
+    "grp2.Mat",
+    "grp21.Mat",
+    "grp31.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     1.357,
+     1.368,
+     0.762
+    ],
+    "centreOffsetM": [
+     -0.017,
+     1.48,
+     -0.136
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.074,
+    "p50": -0.074,
+    "p75": -0.074,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": []
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "village": 1
+    },
+    "sourceCells": [
+     "exterior:village:RootWhisperVillageLocation"
+    ],
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "village": 1
+     }
+    }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.074,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.812,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.074
+  },
+  {
+   "id": "vanilla:clutter/exteriorwoodenfurniture/exteriorwoodentable01",
+   "node": "es|e140a28d46|iorwoodenfurniture_exteriorwoodentable01",
+   "category": "clutter",
+   "sizeM": [
+    3.084,
+    1.732,
+    1.006
+   ],
+   "originOffsetM": [
+    1.559,
+    0.73,
+    -0.0
+   ],
+   "triangles": 2643,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "rope01.dds",
+    "woodpost02.dds"
+   ],
+   "materials": [
+    "ExteriorWoodenTable01:0 - L2_Support:0.Mat",
+    "L2_Support.Mat.001"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0475,
+    "p75": 0.1035,
+    "n": 42,
+    "slopeTermMPerDeg": -0.05625,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "camp",
+      "ruin"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 137,
+    "interior": {
+     "ruin": 31,
+     "camp": 32,
+     "village": 2,
+     "town": 4,
+     "keep": 1
+    },
+    "exterior": {
+     "keep": 11,
+     "wild": 11,
+     "ruin": 16,
+     "camp": 20,
+     "town": 8,
+     "village": 1
+    },
+    "sourceCells": [
+     "interior:camp:BrokenOarGrotto01",
+     "interior:ruin:Pinewatch01",
+     "exterior:ruin:LostValleyRedoubtLocation",
+     "exterior:wild:Tamriel",
+     "exterior:town:SolitudeLocation",
+     "interior:camp:EmbershardMine01",
+     "interior:ruin:ChillwindDepths01",
+     "exterior:camp:HagRockRedoubtLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.669,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:clutter/burialcairn/burialcairn02",
+   "node": "es|5587fa5d29|nilla__clutter_burialcairn_burialcairn02",
+   "category": "clutter",
+   "sizeM": [
+    2.745,
+    4.191,
+    1.75
+   ],
+   "originOffsetM": [
+    1.323,
+    2.142,
+    0.479
+   ],
+   "triangles": 4022,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds",
+    "ratwaybmudfloor01.dds",
+    "scrollworktrim01.dds"
+   ],
+   "materials": [
+    "BurialCairn02:0.Mat",
+    "BurialCairn02:1.Mat",
+    "BurialCairn02:2.Mat",
+    "L1.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "BurialCairn02:2.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0573,
+    "p50": -0.009,
+    "p75": 0.055,
+    "n": 9,
+    "slopeTermMPerDeg": 0.02495,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "keep",
+      "town",
+      "wild"
+     ]
+    },
+    "n": 18,
+    "interior": {},
+    "exterior": {
+     "wild": 12,
+     "keep": 4,
+     "town": 2
+    },
+    "sourceCells": [
+     "exterior:wild:HamvirsRestLocation",
+     "exterior:wild:ArcwindPointLocation",
+     "exterior:keep:FortSnowhawkLocation",
+     "exterior:wild:Tamriel",
+     "exterior:town:FalkreathLocation",
+     "exterior:keep:NarzulburLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.479,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.148,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.479
+  },
+  {
+   "id": "vanilla:architecture/riften/rtmarketstall01",
+   "node": "es|7d038e2e33|lla__architecture_riften_rtmarketstall01",
+   "category": "architecture",
+   "sizeM": [
+    2.048,
+    2.227,
+    3.066
+   ],
+   "originOffsetM": [
+    1.024,
+    1.094,
+    -0.0
+   ],
+   "triangles": 1386,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "riftenlattice01.dds",
+    "riftenlogdetails01.dds",
+    "riftensiding01.dds",
+    "rtmarketstallroof01.dds"
+   ],
+   "materials": [
+    "L1_Lattice.Mat",
+    "L2_Supports.Mat",
+    "RTMarketStall01:1 - L2_Supports:1.Mat",
+    "RTMarketStall01:22.Mat",
+    "RTMarketStall01:35.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L1_Lattice.Mat": 0.498,
+    "L2_Supports.Mat": 0.247,
+    "RTMarketStall01:35.Mat": 0.498
+   },
+   "decalMaterials": [
+    "L2_Supports.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 3,
+    "interior": {},
+    "exterior": {
+     "town": 3
+    },
+    "sourceCells": [
+     "exterior:town:RiftenLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:furniture/tanningrackmarker",
+   "node": "es|ee6cbfbee7|vanilla__furniture_tanningrackmarker",
+   "category": "furniture",
+   "sizeM": [
+    1.609,
+    0.903,
+    1.715
+   ],
+   "originOffsetM": [
+    0.804,
+    -0.668,
+    0.001
+   ],
+   "triangles": 1000,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "leatherrack01.dds",
+    "rope01.dds",
+    "woodwall01.dds"
+   ],
+   "materials": [
+    "TanningRack:0.Mat.001",
+    "TanningRack:1.Mat.001",
+    "TanningRack:2.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "TanningRack:0.Mat.001": 0.502
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.708,
+     0.755,
+     0.397
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.856,
+     -1.12
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0249,
+    "p50": 0.0,
+    "p75": 0.0336,
+    "n": 41,
+    "slopeTermMPerDeg": -0.00339,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.001,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.148,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.001,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "camp",
+      "ruin"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 99,
+    "interior": {
+     "ruin": 9,
+     "wild": 2,
+     "camp": 15,
+     "keep": 2,
+     "town": 1
+    },
+    "exterior": {
+     "wild": 20,
+     "camp": 8,
+     "town": 22,
+     "village": 7,
+     "ruin": 8,
+     "keep": 5
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:camp:GallowsRock01",
+     "exterior:town:FalkreathLocation",
+     "interior:ruin:Alftand02",
+     "interior:camp:DruadachRedoubt01",
+     "interior:ruin:TolvaldsCave01",
+     "exterior:town:DawnstarLocation",
+     "exterior:town:RiverwoodLocation"
+    ],
+    "evidence": "plugin"
+   }
+  },
+  {
    "id": "vanilla:clutter/common/cratesmall01",
    "node": "es|c9f1ac3275|vanilla__clutter_common_cratesmall01",
    "category": "clutter",
@@ -6289,13 +6881,13 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryCapM": 0.25,
+    "buryCapM": 0.75,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": true,
@@ -6790,13 +7382,13 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.762,
-    "buryCapM": 0.25,
+    "buryCapM": 0.75,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
@@ -8026,12 +8618,12 @@
    ],
    "lodLevels": 3,
    "designedSinkM": {
-    "p25": 1.8217,
-    "p50": 1.8217,
-    "p75": 1.8217,
+    "p25": -0.041,
+    "p50": -0.041,
+    "p75": -0.041,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
    },
    "settingClass": {
     "settings": {},
@@ -8043,11 +8635,6 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 1.8217
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -10389,6 +10976,7 @@
   "textures/_byoh/clutter/food/dumpling01_n.dds",
   "textures/_byoh/furniture/oven01.dds",
   "textures/_byoh/furniture/oven01_n.dds",
+  "textures/_resourcepack/landscape/trees/baldcypressbark01_n.dds",
   "textures/shoresofskyrim/limpets01.dds",
   "textures/shoresofskyrim/limpets01_n.dds"
  ],
@@ -10397,11 +10985,13 @@
   "textures/clutter/stockade/stockadeplanks01_n.dds": "textures/architecture/farmhouse/woodwall01_n.dds",
   "textures/clutter/stockade/stockadewood01.dds": "textures/architecture/farmhouse/woodpost02.dds",
   "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds",
-  "textures/\bERR": "textures/clutter/blacksmith/blacksmithforge01.dds"
+  "textures/\bERR": "textures/clutter/blacksmith/blacksmithforge01.dds",
+  "textures/_resourcepack/landscape/trees/baldcypressbark01_d.dds": "textures/lod/baldcypressbark01_dlod.dds",
+  "textures/landscape/trees/treepineforestcut01.dds": "textures/texturepack/landscape/trees/treepineforestcut01.dds"
  },
  "alphaModes": {
-  "MASK": 26,
-  "OPAQUE": 224,
+  "MASK": 31,
+  "OPAQUE": 241,
   "BLEND": 17
  },
  "effectTextures": {
@@ -10573,24 +11163,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 42652568,
-  "bytesAfter": 20814784,
-  "images": 90,
-  "imageBytesAfter": 18278643,
+  "bytesBefore": 47696752,
+  "bytesAfter": 23128584,
+  "images": 100,
+  "imageBytesAfter": 20276814,
   "warnings": [],
-  "sha256": "9029f469203e6124c9f0281c301c1d4055da1b99f29fffabf5c55c59aad2726c",
+  "sha256": "ba5bda31d749f6bc7254ac391a354655f14b7742efa87d57f8a53d01cb5f1ac9",
   "parts": {
-   "parts": 14,
-   "partBytes": 236152,
-   "textureFiles": 13,
-   "textureBytes": 1525692,
-   "bytes": 1761844,
-   "sourceSha256": "9029f469203e6124c9f0281c301c1d4055da1b99f29fffabf5c55c59aad2726c"
+   "parts": 11,
+   "partBytes": 192348,
+   "textureFiles": 11,
+   "textureBytes": 1393228,
+   "bytes": 1585576,
+   "sourceSha256": "ba5bda31d749f6bc7254ac391a354655f14b7742efa87d57f8a53d01cb5f1ac9"
   },
   "sidecarBytes": {
-   "connectors": 76342,
-   "footprints": 136376,
-   "interiors": 64044
+   "connectors": 80847,
+   "footprints": 144353,
+   "interiors": 66515
   }
  }
 }

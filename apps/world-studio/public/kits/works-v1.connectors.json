@@ -420,6 +420,52 @@
     "widthM": 0.76
    }
   ],
+  "kotm:argonia/clutter/beehive": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -1.0
+    ],
+    "widthM": 3.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.52,
+     -0.14
+    ],
+    "widthM": 1.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     0.73
+    ],
+    "widthM": 3.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.56,
+     -0.14
+    ],
+    "widthM": 1.73
+   }
+  ],
   "kotm:argonia/clutter/saxhleelmetalpot01": [
    {
     "evidence": "bounds",
@@ -1166,6 +1212,52 @@
     "widthM": 5.18
    }
   ],
+  "vanilla:architecture/riften/rtmarketstall01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.07,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.13
+    ],
+    "widthM": 2.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.07,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.02,
+     -0.02
+    ],
+    "widthM": 2.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.07,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.09
+    ],
+    "widthM": 2.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.07,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.02,
+     -0.02
+    ],
+    "widthM": 2.22
+   }
+  ],
   "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01": [
    {
     "evidence": "bounds",
@@ -1674,6 +1766,52 @@
     "widthM": 0.54
    }
   ],
+  "vanilla:clutter/burialcairn/burialcairn02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.75,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.05,
+     -2.05
+    ],
+    "widthM": 2.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.75,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.42,
+     0.05
+    ],
+    "widthM": 4.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.75,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.05,
+     2.14
+    ],
+    "widthM": 2.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.75,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.32,
+     0.05
+    ],
+    "widthM": 4.19
+   }
+  ],
   "vanilla:clutter/carts/handcart01": [
    {
     "evidence": "bounds",
@@ -1926,6 +2064,52 @@
      1.17
     ],
     "widthM": 1.44
+   }
+  ],
+  "vanilla:clutter/chopping block/choppingblock01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.47,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.38
+    ],
+    "widthM": 0.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.47,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.38,
+     0.0
+    ],
+    "widthM": 0.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.47,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.38
+    ],
+    "widthM": 0.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.47,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.38,
+     0.0
+    ],
+    "widthM": 0.76
    }
   ],
   "vanilla:clutter/common/cratesmall01": [
@@ -2298,6 +2482,52 @@
      0.0
     ],
     "widthM": 4.12
+   }
+  ],
+  "vanilla:clutter/exteriorwoodenfurniture/exteriorwoodentable01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.01,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -1.0
+    ],
+    "widthM": 3.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.01,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.52,
+     -0.14
+    ],
+    "widthM": 1.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.01,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     0.73
+    ],
+    "widthM": 3.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.01,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.56,
+     -0.14
+    ],
+    "widthM": 1.73
    }
   ],
   "vanilla:clutter/firewood/firewoodpilehuge01": [
@@ -4545,11 +4775,57 @@
     ],
     "widthM": 1.08
    }
+  ],
+  "vanilla:furniture/tanningrackmarker": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.71,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.57
+    ],
+    "widthM": 1.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.71,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.8,
+     -1.12
+    ],
+    "widthM": 0.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.71,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     -0.67
+    ],
+    "widthM": 1.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.71,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.8,
+     -1.12
+    ],
+    "widthM": 0.9
+   }
   ]
  },
  "counts": {
-  "assets": 110,
-  "bounds": 364,
+  "assets": 116,
+  "bounds": 388,
   "co-placement": 23
  },
  "elongationRatio": 2.0,
