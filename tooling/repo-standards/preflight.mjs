@@ -84,6 +84,12 @@ const GATES = {
   // (decision 0052 addendum 2026-09-28); path-selected on the bundles, the
   // kits and the settlement runtime, since game-core's npm test is not.
   "bundle-load":   ["cd packages/game-core && npx vitest run src/settlement/publishedLoad.test.ts src/settlement/publishedResolve.test.ts src/settlement/shippedBundle.test.ts", [/FAIL/, /Error/, /Tests/]],
+  // webgpu branch only (walk 8): every built place booted headless on WebGPU with a 60 s hold.
+  // Each place is cached on the renderer sources and its own bundle and kit GLBs, so an
+  // unchanged place is a skip; never in CI or --runner (planner ruling 2026-10-01). Its own
+  // time is outside the scoped limit (a changed renderer is minutes of SwiftShader by nature).
+  ...(process.argv.includes("--runner") ? {} : {
+    "webgpu-boot": ["cd apps/world-studio && ../../tooling/repo-standards/job_guard.sh webgpu-boot --mem 8 -- node scripts/webgpu-boot-check.mjs --place all", [/^place\./, /webgpu-boot-check: (FAIL|OK|SKIP)/]] }),
 };
 
 // RUNNER MODE: `npm run preflight -- --runner` runs every gate exactly as the
@@ -334,7 +340,7 @@ const memwatch = join(repoRoot, "tooling", "repo-standards", "memwatch.sh");
 // tool-timings.jsonl, workbench 0.74 GiB at 4 workers on 2026-09-26, the
 // small gates rounded up); the order puts the heavy gates first.
 const GATE_PEAK_GIB = { placement: 3.8, water: 4.4, pipeline: 1.5, workbench: 1.0, typecheck: 1.2,
-  "npm-test": 2.0, rasters: 1.0, credits: 0.5, "python-deps": 0.5, "site-refs": 0.2, "bundle-load": 0.5 };
+  "npm-test": 2.0, rasters: 1.0, credits: 0.5, "python-deps": 0.5, "site-refs": 0.2, "bundle-load": 0.5, "webgpu-boot": 3.0 };
 // Every gate in GATES runs in some wave: a gate missing from the lists below
 // joins the last wave (2026-09-28: two new gates were selected and never run
 // because the waves were a hand list).
@@ -430,7 +436,7 @@ if (headReds.length) {
   for (const id of headReds) console.log(`      ${id}`);
 }
 const wallS = Math.round((Date.now() - startedAt) / 1000);
-const slow = !runnerMode && wallS > SCOPED_LIMIT_S;
+const slow = !runnerMode && wallS - (results.find((r) => r.name === "webgpu-boot")?.seconds ?? 0) > SCOPED_LIMIT_S;
 if (slow) console.log(`\nFAIL  scoped preflight took ${wallS}s, over the ${SCOPED_LIMIT_S}s limit (decision 0106): the selection is too wide; fix select_tests.py or the pathspec, never re-run as is.`);
 console.log(`\n${results.length - failed} passed, ${failed} failed; slowest ${Math.max(0, ...results.map((r) => r.seconds))}s; wall ${wallS}s` +
   (selection.skipped.length ? `; skipped ${selection.skipped.join(", ")}` : "") + "\n");

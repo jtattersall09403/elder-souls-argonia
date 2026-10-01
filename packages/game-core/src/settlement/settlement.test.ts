@@ -451,6 +451,28 @@ describe("settlement far geometry and collision budgets", () => {
     merged!.dispose(); source.dispose();
   });
 
+  it("keeps every far-merge vertex buffer 4-byte aligned for WebGPU (walk 8)", () => {
+    // the kit layout: octahedral int8 normals padded to stride 4 in an interleaved buffer
+    const source = new THREE.BoxGeometry(1, 1, 1);
+    const count = source.getAttribute("position").count;
+    const packed = new Int8Array(count * 4);
+    const normal = source.getAttribute("normal");
+    for (let i = 0; i < count; i += 1) {
+      packed[i * 4] = Math.round(normal.getX(i) * 127);
+      packed[i * 4 + 1] = Math.round(normal.getY(i) * 127);
+      packed[i * 4 + 2] = Math.round(normal.getZ(i) * 127);
+    }
+    source.setAttribute("normal", new THREE.InterleavedBufferAttribute(
+      new THREE.InterleavedBuffer(packed, 4), 3, 0, true));
+    const merged = mergeTransformedGeometry(source, [new THREE.Matrix4(), new THREE.Matrix4().makeTranslation(5, 0, 0)])!;
+    for (const [name, attribute] of Object.entries(merged.attributes)) {
+      const a = attribute as THREE.BufferAttribute;
+      expect([name, (a.array.BYTES_PER_ELEMENT * a.itemSize) % 4]).toEqual([name, 0]);
+    }
+    expect(merged.getAttribute("normal").getY(2)).toBeCloseTo(normal.getY(2), 1);
+    merged.dispose(); source.dispose();
+  });
+
   it("bakes each far instance's streamed ground line into its vertices", () => {
     const source = new THREE.BoxGeometry(1, 1, 1);
     const merged = mergeTransformedGeometry(source, [

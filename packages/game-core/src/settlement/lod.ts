@@ -150,7 +150,29 @@ export function mergeTransformedGeometry(
   const merged = mergeGeometries(copies, false);
   copies.forEach((copy) => copy.dispose());
   if (!merged) throw new Error("settlement far-tier geometry could not be merged");
-  return merged;
+  return alignVertexStrides(merged);
+}
+
+/**
+ * WebGPU rejects a vertex buffer whose stride is not a multiple of 4 bytes
+ * (WebGL2 accepts it). Kits ship octahedral int8 normals padded to stride 4
+ * inside an interleaved buffer; `mergeGeometries` de-interleaves them into a
+ * tight Int8 array of stride 3, and one such pipeline invalidates the whole
+ * render pass (walk 8: every building vanished whenever a far merge was in
+ * view). Any attribute that is not 4-byte aligned is widened to float32.
+ */
+export function alignVertexStrides(geometry: THREE.BufferGeometry): THREE.BufferGeometry {
+  for (const [name, attribute] of Object.entries(geometry.attributes)) {
+    if (attribute instanceof THREE.InterleavedBufferAttribute) continue;
+    const { itemSize, count } = attribute;
+    if ((attribute.array.BYTES_PER_ELEMENT * itemSize) % 4 === 0) continue;
+    const out = new Float32Array(count * itemSize);
+    for (let i = 0; i < count; i += 1) {
+      for (let c = 0; c < itemSize; c += 1) out[i * itemSize + c] = attribute.getComponent(i, c);
+    }
+    geometry.setAttribute(name, new THREE.Float32BufferAttribute(out, itemSize));
+  }
+  return geometry;
 }
 
 export function selectCollisionRing<T>(

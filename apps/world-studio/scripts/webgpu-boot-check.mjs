@@ -4,18 +4,27 @@
  * a GPU validation error, a device loss or no complete frame. Run it before handing the owner a
  * webgpu build; NEVER in preflight or CI (planner ruling 2026-10-01).
  *
- *   node scripts/webgpu-boot-check.mjs [--force] [--place <placeId>] [--query "view=character&x=..&z=.."]
- *     [--no-build --dist <dir>] [--out <file>] [--profile <s>] [--alloc] [--gpu-timing] [--present]
+ *   node scripts/webgpu-boot-check.mjs [--force] [--place <placeId>|all] [--query "view=character&x=..&z=.."]
+ *     [--hold <s>] [--no-build --dist <dir>] [--out <file>] [--profile <s>] [--alloc] [--gpu-timing] [--present]
+ *
+ * `--place all` builds once and checks every built place in the settlement index (fixtures
+ * excluded), two at a time, each at its own centre with `--hold 60`; each place keeps its own
+ * cached result, keyed on the renderer sources AND that place's bundle and kit GLB bytes, so a
+ * kit republish re-runs exactly the places that load it. `--hold <s>` keeps the scene running after
+ * the first complete frame, turning the view two full circles, and fails if any GPU error appears or the page stalls (walk 8: one
+ * stride-3 vertex buffer invalidates the whole render pass, so every building vanishes while a
+ * far-tier merge is in the frame); it records the draws per frame once a second.
  *
  * Cheap by design, not by a cut-off:
  * - It runs only when its inputs change: a SHA-256 of the renderer and shader sources (INPUTS
- *   below: the WebGPU render package, the fog, fire, water and ground shader sources, the sky,
- *   three's version) is stored with the last result in tmp/webgpu-boot/last.json; an unchanged
+ *   below: the WebGPU render package, the settlement layer, the fog, fire, water and ground
+ *   shader sources, the sky, three's version) plus the place's bundle and kit GLBs is stored
+ *   with the last result in tmp/webgpu-boot/<place>.json; an unchanged
  *   hash with a green last result prints that result's line and exits 0 (`--force` reruns).
  *   It runs once per batch that touched those files, by the lane, before the packet, and the
  *   packet quotes its line.
- * - The scene is small: ONE place (the server lists only --place in the settlement index, default
- *   Claywater Station), a 480x270 viewport at dpr 0.5, the low quality tier (the lowest that still
+ * - The scene: the whole published settlement index (every place, as the owner loads it; `--only`
+ *   lists just --place) seen from --place's centre (default Claywater Station), a 480x270 viewport at dpr 0.5, the low quality tier (the lowest that still
  *   runs the froxel volumetrics), data from disk (public/).
  * - It stops at the FIRST COMPLETE FRAME: a frame has drawn and neither the GPU pipeline-creation
  *   counter (node builds that need a pipeline; trivial cached node builds are not waited for) nor
@@ -36,7 +45,7 @@
  * uncaptured GPU error; a device loss; any page error; JS heap over HEAP_MB; wall time over TARGET_S.
  * SwiftShader runs GPU work on the CPU: frame rates are ratios, main-thread JS time is the device's.
  */
-import { spawnSync } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { createServer } from "node:http";
 import { dataPublicDir, pagesRoots, staticHandler } from "./lib/webgpu-static.mjs";
 import { createHash } from "node:crypto";
@@ -52,7 +61,7 @@ const repo = resolve(appDir, "../..");
 const dist = resolve(arg("dist", "/tmp/webgpu-boot-dist"));
 const out = resolve(arg("out", "/tmp/webgpu-boot.json"));
 const place = arg("place", "place.imperial-fringe.claywater-station");
-const query = arg("query", "view=character&x=0.331&z=3.079&t=10%3A00") + "&q=low&dpr=0.5";
+const holdS = Number(arg("hold", "0"));
 /** Measured wall time of a green run on the EC2 VM (0111 §4); over it is a defect, never a reason to raise it. */
 const TARGET_S = 135;
 const HANG_FACTOR = 2;
@@ -62,7 +71,7 @@ const HEAP_MB = 1500;
 const present = flag("present");
 
 // Inputs: a change to any of these can change a shader, a pipeline or the first frames' JS.
-const INPUTS = ["packages/game-core/src/render", "packages/game-core/src/air", "packages/game-core/src/fx/fire",
+const INPUTS = ["packages/game-core/src/render", "packages/game-core/src/settlement", "packages/game-core/src/air", "packages/game-core/src/fx/fire",
   "packages/game-core/src/water/render", "packages/game-core/src/interior", "apps/world-studio/src/sky",
   "apps/world-studio/src/groundMaterial.ts", "apps/world-studio/src/studioRenderer.ts",
   "apps/world-studio/src/character/CharacterMode.tsx", "apps/world-studio/src/vegetation",
@@ -72,9 +81,45 @@ const hash = createHash("sha256");
 for (const f of INPUTS.flatMap((p) => existsSync(join(repo, p)) ? files(join(repo, p)) : []).filter((f) => !/\.test\.tsx?$/.test(f))) {
   hash.update(f.slice(repo.length)); hash.update(readFileSync(f));
 }
-const inputHash = hash.digest("hex").slice(0, 16);
+const publicDir = dataPublicDir();
+const settlementIndex = JSON.parse(readFileSync(join(publicDir, "province/settlements/index.json"), "utf8"));
 const lastDir = join(appDir, "tmp/webgpu-boot");
-const lastFile = join(lastDir, "last.json");
+
+if (place === "all") {
+  // one build, then every built place as its own run (its own cache entry), two at a time
+  if (!flag("no-build")) build();
+  const ids = settlementIndex.places.map((p) => p.id).filter((id) => !id.startsWith("place.fixture."));
+  const pass = argv.filter((a, i) => !["--place", "--dist", "--out", "--query"].includes(argv[i - 1] ?? "")
+    && !["--place", "--dist", "--out", "--query", "--no-build"].includes(a));
+  const run = (id) => new Promise((done) => {
+    const child = spawn(process.execPath, [new URL(import.meta.url).pathname, ...pass, "--place", id, "--no-build", "--dist", dist,
+      "--out", out.replace(/\.json$/, `.${id}.json`), ...(argv.includes("--hold") ? [] : ["--hold", "60"])], { stdio: ["ignore", "pipe", "inherit"] });
+    let text = ""; child.stdout.on("data", (d) => { text += d; });
+    child.on("close", (code) => done({ id, code, line: text.trim().split("\n").filter((l) => l.startsWith("webgpu-boot-check")).at(-1) ?? "" }));
+  });
+  const results = [];
+  for (let i = 0; i < ids.length; i += 2) results.push(...await Promise.all(ids.slice(i, i + 2).map(run)));
+  for (const r of results) console.log(`${r.id}: ${r.line}`);
+  process.exit(results.some((r) => r.code !== 0) ? 1 : 0);
+}
+
+const entry = settlementIndex.places.find((p) => p.id === place);
+if (!entry) { console.error(`webgpu-boot-check: ${place} is not in the settlement index`); process.exit(2); }
+const query = arg("query", `view=character&x=${(entry.positionM[0] / 1000).toFixed(3)}&z=${(entry.positionM[1] / 1000).toFixed(3)}&t=10%3A00`)
+  + "&q=low&dpr=0.5";
+// the place's own data: its bundle and every kit GLB it loads (a kit republish re-runs it)
+const kitGlbs = new Map();
+for (const p of flag("only") ? [entry] : settlementIndex.places) {
+  for (const kit of Object.values(JSON.parse(readFileSync(join(publicDir, "province", p.bundle), "utf8")).kits ?? {})) kitGlbs.set(kit.glb, kit);
+}
+for (const kit of [...kitGlbs.values()].sort((a, b) => a.glb.localeCompare(b.glb))) {
+  const f = join(publicDir, kit.glb);
+  hash.update(kit.glb); if (existsSync(f)) hash.update(readFileSync(f));
+}
+for (const p of flag("only") ? [entry] : settlementIndex.places) hash.update(p.sha256 ?? p.id);
+hash.update(query); hash.update(String(holdS)); hash.update(String(flag("only")));
+const inputHash = hash.digest("hex").slice(0, 16);
+const lastFile = join(lastDir, `${place}.json`);
 const last = existsSync(lastFile) ? JSON.parse(readFileSync(lastFile, "utf8")) : null;
 if (!flag("force") && last?.inputHash === inputHash && last.ok) {
   console.log(`webgpu-boot-check: SKIP (inputs ${inputHash} unchanged) ${last.line}`);
@@ -82,24 +127,24 @@ if (!flag("force") && last?.inputHash === inputHash && last.ok) {
 }
 const wall0 = Date.now();
 
-if (!flag("no-build")) {
+function build() {
   const t = Date.now();
   const r = spawnSync("npx", ["vite", "build", "--outDir", dist, "--emptyOutDir"], { cwd: appDir, stdio: ["ignore", "ignore", "inherit"],
     env: { ...process.env, ES_STUDIO_BASE: "/elder-souls-argonia/webgpu/", VITE_ES_DATA_BASE: "/elder-souls-argonia/studio/" } });
   if (r.status !== 0) { console.error("webgpu-boot-check: build failed"); process.exit(2); }
   console.log(`built ${dist} in ${((Date.now() - t) / 1000).toFixed(1)} s`);
 }
+if (!flag("no-build")) build();
 
-const publicDir = dataPublicDir();
 const missing = new Set();
 const server = createServer(staticHandler(pagesRoots(dist, publicDir), {
   onMissing: (path) => missing.add(path),
-  // one place only: the settlement index lists just --place
+  // the whole published world by default, as the owner loads it: the other places stand at
+  // far-merge distance from this one (walk 8's stride-3 buffers were far merges of Greenspring
+  // and Claywater seen from Riverwalk; a one-place index never built one). --only: just --place.
   intercept: (path, res) => {
-    if (!path.endsWith("/province/settlements/index.json")) return false;
-    const index = JSON.parse(readFileSync(join(publicDir, "province/settlements/index.json"), "utf8"));
-    index.places = index.places.filter((p) => p.id === place); index.routes = [];
-    if (!index.places.length) { console.error(`webgpu-boot-check: ${place} is not in the settlement index`); process.exit(2); }
+    if (!flag("only") || !path.endsWith("/province/settlements/index.json")) return false;
+    const index = { ...settlementIndex, places: [entry], routes: [] };
     res.writeHead(200, { "Content-Type": "application/json" }); res.end(JSON.stringify(index)); return true;
   },
 }));
@@ -142,6 +187,26 @@ await page.addInitScript(([present, gpuTiming]) => {
     if (d.size >= 16 * 1024 * 1024) g.big.push([Math.round(performance.now()), d.size, d.label ?? "", stack().slice(0, 300)]);
     return createBuffer.call(this, d);
   };
+  // Texture bytes resident, by format (mips counted): what the tab's GPU memory holds beside buffers.
+  g.texBytes = {};
+  const BPP = (f) => /^(bc1|bc4|etc2-rgb8|eac-r11)/.test(f) ? 0.5 : /^(bc|astc-4x4|etc2|eac)/.test(f) ? 1
+    : /^(r8|stencil8)/.test(f) ? 1 : /^(rg8|r16|depth16)/.test(f) ? 2 : /^(rgba16|rg32|depth32float-stencil8)/.test(f) ? 8
+    : /^rgba32/.test(f) ? 16 : 4;
+  const live = new WeakMap();
+  const createTexture = D.createTexture;
+  D.createTexture = function (d) {
+    const t = createTexture.call(this, d);
+    const [w, h = 1, l = 1] = Array.isArray(d.size) ? d.size : [d.size.width, d.size.height ?? 1, d.size.depthOrArrayLayers ?? 1];
+    const mips = d.mipLevelCount ?? 1;
+    let bytes = 0; for (let m = 0; m < mips; m++) bytes += Math.max(1, w >> m) * Math.max(1, h >> m) * (d.dimension === "3d" ? Math.max(1, l >> m) : l);
+    bytes *= BPP(d.format) * (d.sampleCount ?? 1);
+    const key = `${d.format} ${w}x${h}${l > 1 ? "x" + l : ""}${mips > 1 ? " mips" : ""} ${d.label ?? ""}`.trim();
+    g.texBytes[d.format] = (g.texBytes[d.format] ?? 0) + bytes; (g.texBy ??= {})[key] = (g.texBy[key] ?? 0) + bytes;
+    live.set(t, [d.format, bytes, key]);
+    const destroy = t.destroy; t.destroy = function () {
+      const e = live.get(this); if (e) { g.texBytes[e[0]] -= e[1]; g.texBy[e[2]] -= e[1]; live.delete(this); } return destroy.call(this); };
+    return t;
+  };
   // Every GPU call that holds the main thread over 100 ms: the call, its size, its label and who made it.
   g.slow = []; g.maxDispatch = null;
   const timed = (proto, name, what) => { const f = proto[name]; proto[name] = function (...a) {
@@ -177,6 +242,7 @@ await page.addInitScript(([present, gpuTiming]) => {
     const add = (enc, verts, indirect) => {
       const k = cur.get(enc) ?? "?";
       const e = (g.drawBy[k] ??= [0, 0, 0]); e[0] += verts; e[1] += 1; e[2] += indirect ? 1 : 0;
+      g.curDraws = (g.curDraws ?? 0) + 1;
     };
     const draw = RP.draw; RP.draw = function (v, i = 1, ...r) { add(this, v * i, false); return draw.call(this, v, i, ...r); };
     const drawIndexed = RP.drawIndexed; RP.drawIndexed = function (v, i = 1, ...r) { add(this, v * i, false); return drawIndexed.call(this, v, i, ...r); };
@@ -212,7 +278,12 @@ await page.addInitScript(([present, gpuTiming]) => {
   D.createRenderPipeline = function (d) { const t = performance.now(); const p = createPipeline.call(this, d); g.pipelines++; g.pipelineMs += performance.now() - t; return p; };
   const C = GPUCanvasContext.prototype;
   const getCurrentTexture = C.getCurrentTexture;
-  const frame = () => { g.frames++; if (g.firstFrameMs === null) g.firstFrameMs = Math.round(performance.now()); };
+  const frame = () => {
+    g.frames++; if (g.firstFrameMs === null) g.firstFrameMs = Math.round(performance.now());
+  };
+  // draws in the last whole animation frame (read by --hold): every pass, not just the canvas pass
+  const tick = () => { g.lastFrameDraws = g.curDraws ?? 0; g.curDraws = 0; requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
   if (present) {
     C.getCurrentTexture = function () { frame(); return getCurrentTexture.call(this); };
   } else {
@@ -236,6 +307,20 @@ await page.addInitScript(([present, gpuTiming]) => {
   let r0 = undefined;
   Object.defineProperty(window, "__RENDERER__", { configurable: true, get: () => r0, set: (r) => {
     r0 = r;
+    // --hold turns the view a full circle (window.__SPIN__): a pipeline is only built for what is
+    // in the frustum, so a fixed camera never meets the far-tier merges behind it (walk 8).
+    if (r && !r.__spinHooked) {
+      r.__spinHooked = true;
+      const render = r.render.bind(r);
+      r.render = (scene, camera, ...rest) => {
+        const spin = window.__SPIN__;
+        if (!spin || !camera?.isCamera) return render(scene, camera, ...rest);
+        const q = camera.quaternion.clone();
+        camera.rotateOnWorldAxis(camera.up.clone().set(0, 1, 0), 2 * Math.PI * ((performance.now() - spin.t0) / spin.periodMs % 1));
+        camera.updateMatrixWorld();
+        try { return render(scene, camera, ...rest); } finally { camera.quaternion.copy(q); camera.updateMatrixWorld(); }
+      };
+    }
     const nodes = r?._nodes;
     if (!nodes || nodes.__bootHooked) return;
     nodes.__bootHooked = true;
@@ -308,6 +393,17 @@ while (Date.now() < hangAt) {
   if (lastBoot.pipelines !== seenBuilds || inflight > 0 || lastBoot.frames === 0) { seenBuilds = lastBoot.pipelines; stableSince = Date.now(); continue; }
   if (Date.now() - stableSince >= STABLE_MS) { completeMs = Date.now() - t0; break; }
 }
+// --hold: keep the scene running and sample the draws per frame once a second
+const holdDraws = [];
+if (holdS > 0 && completeMs !== null) {
+  // two full turns over the hold
+  await page.evaluate((ms) => { window.__SPIN__ = { t0: performance.now(), periodMs: ms }; }, holdS * 500).catch(() => {});
+  const until = Date.now() + holdS * 1000;
+  while (Date.now() < until) {
+    await new Promise((r) => setTimeout(r, 1000));
+    if (lastBoot && lastBoot !== seenPing) { seenPing = lastBoot; holdDraws.push([Math.round((Date.now() - t0) / 1000), lastBoot.lastFrameDraws ?? 0, lastBoot.errors?.length ?? 0]); }
+  }
+}
 // let the GPU finish what was submitted, so every validation error has been raised
 await Promise.race([page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))).catch(() => {}),
   new Promise((r) => setTimeout(r, 15_000))]);
@@ -351,13 +447,19 @@ if (boot) {
   if (boot.losses.length) fails.push(`device lost ${boot.losses.length}x: ${boot.losses.map((l) => `${l.reason} ${l.message}`.slice(0, 120)).join("; ")}`);
   if (boot.errors.length) fails.push(`${boot.errors.length} uncaptured GPU errors, first: ${boot.errors[0][2].split("\n")[0]}`);
 }
+if (holdS > 0) {
+  // A vanish is an invalid pass: any GPU error during the hold (already a fail below) is it. The
+  // draws per frame are reported, not judged: they legitimately swing with shadow-cascade
+  // updates and async pipeline compiles (124..229 on a healthy run, 2026-10-01).
+  if (holdDraws.length < holdS / 4) fails.push(`hold: only ${holdDraws.length} readings in ${holdS} s (page stalled)`);
+}
 if (maxTaskMs > MAX_TASK_MS) fails.push(`main-thread JS task ${maxTaskMs} ms > ${MAX_TASK_MS} ms`);
 if (pageErrors.length) fails.push(`${pageErrors.length} page errors, first: ${pageErrors[0].slice(0, 200)}`);
 if (heapPeakMb > HEAP_MB) fails.push(`JS heap ${heapPeakMb} MB > ${HEAP_MB} MB`);
-if (wallS > TARGET_S) fails.push(`wall time ${wallS} s > target ${TARGET_S} s: shrink the scene or the method (lessons row), never the target`);
+if (wallS - holdS > TARGET_S) fails.push(`wall time ${wallS} s (less the ${holdS} s hold) > target ${TARGET_S} s: shrink the scene or the method (lessons row), never the target`);
 const summary = {
   url, place, inputHash, wallS, targetS: TARGET_S, completeFrameMs: completeMs, ok: fails.length === 0, fails,
-  firstFrameMs: boot?.firstFrameMs ?? null, frames: boot?.frames ?? 0, maxTaskMs, maxGpuStallMs, maxPingMs, heapPeakMb,
+  holdDraws, firstFrameMs: boot?.firstFrameMs ?? null, frames: boot?.frames ?? 0, maxTaskMs, maxGpuStallMs, maxPingMs, heapPeakMb,
   builds: boot?.builds ?? null, buildMs: boot ? Math.round(boot.buildMs) : null,
   buildsBy: boot ? Object.entries(boot.buildBy).sort((a, b) => b[1][0] - a[1][0]).slice(0, 25).map(([k, v]) => [k, Math.round(v[0]), v[1]]) : [],
   drawsBy: boot ? Object.entries(boot.drawBy).sort((a, b) => b[1][0] - a[1][0]).slice(0, 25).map(([k, v]) => [k, v[0], v[1], v[2]]) : [],
@@ -366,6 +468,8 @@ const summary = {
   slowGpuCalls: boot?.slow ?? [], maxDispatch: boot?.maxDispatch ?? null,
   pipelines: boot?.pipelines ?? null, pipelineMs: boot ? Math.round(boot.pipelineMs) : null,
   gpuBufferMb: boot ? Math.round(boot.total / 1e6) : null,
+  gpuTextureTop: boot?.texBy ? Object.entries(boot.texBy).filter(([, v]) => v > 1e6).sort((a, b) => b[1] - a[1]).slice(0, 25).map(([k, v]) => [Math.round(v / 1e5) / 10, k]) : [],
+  gpuTextureMbBy: boot?.texBytes ? Object.entries(boot.texBytes).filter(([, v]) => v > 1e5).sort((a, b) => b[1] - a[1]).map(([k, v]) => [k, Math.round(v / 1e6)]) : [],
   bufferMbBy: boot?.bufferBy ? Object.entries(boot.bufferBy).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([k, v]) => [Math.round(v / 1e6), k]) : [], bigBuffers: boot?.big.slice(0, 10) ?? [],
   losses: boot?.losses ?? [], destroys: boot?.destroys ?? [], gpuErrors: boot?.errors ?? [],
   longTasks: [...longTasks].sort((a, b) => b[1] - a[1]).slice(0, 10), heap: heap.filter((_, i) => i % 5 === 0),
