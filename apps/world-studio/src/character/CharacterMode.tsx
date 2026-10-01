@@ -46,6 +46,7 @@ import { setWaterGroundHeight, sharedLocalSurfaces, sharedWaterAssets } from "..
 import type { WaterWorld } from "@elder-souls/game-core/water/index";
 import { WaterContactEmitter } from "@elder-souls/game-core/water/contactEmitter";
 import { worldClock } from "../sky/timeState";
+import { computeLightRig } from "../sky/lightRig";
 import { CityMarkers } from "../CityMarkers";
 import { Vegetation, VEGETATION_ENABLED } from "../vegetation/Vegetation";
 import { Groundcover, GROUNDCOVER_ENABLED } from "../vegetation/Groundcover";
@@ -1429,10 +1430,11 @@ declare global {
       /** Sets the follow camera's yaw (radians; it looks along -sin, -cos). */
       aimCamera: (yaw: number, pitch?: number) => void;
       /** Turns the glow pass on/off in place (A/B probes; no-op under `?post=0`). */
-      post: (on: boolean, tune?: { threshold?: number; knee?: number; strength?: number; skyMask?: number }) => number;
-      /** The last sky census of the glow pass (BloomPass `lastSkyCensus`) and
-       * a request for the next frame's (probe-post.mjs CENSUS=1). */
-      postSkyCensus: () => SkyCensus | null;
+      post: (on: boolean, tune?: { threshold?: number; knee?: number; strength?: number; skyMask?: number;
+        skyThreshold?: number; skyKnee?: number }) => number;
+      /** The glow pass's sky census (BloomPass `lastSkyCensus`); `request`
+       * clears it and asks for the next frame's (probe-bloom-sky.mjs polls). */
+      postSkyCensus: (request?: boolean) => SkyCensus | null;
       playerY: () => number | null;
       grounded: () => boolean;
       frames: () => number;
@@ -1505,6 +1507,12 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     [handleRef, rapier.rigidBodyStates],
   );
   const segments = useFrameSegments();
+  // the glow pass's sun disc follows the light rig's sun (BloomPass sunHaloDeg)
+  useFrame(() => {
+    if (!bloom) return;
+    const d = computeLightRig(worldClock.epochMinutes(), 0.5, 0.5).sun.direction;
+    bloom.sunDirection.set(d.x, d.y, d.z);
+  });
   // Sky look-up is the shared default (owner 2026-08-25) — no override needed.
   const camera3P = useMemo(() => new FollowCamera(), []);
   // The arm collides with settlement and terrain colliders (16h check-in 2
@@ -1573,13 +1581,14 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
         if (tune?.knee !== undefined) bloom.knee.value = tune.knee;
         if (tune?.strength !== undefined) bloom.strength.value = tune.strength;
         if (tune?.skyMask !== undefined) bloom.skyMask.value = tune.skyMask;
+        if (tune?.skyThreshold !== undefined) bloom.skyThreshold.value = tune.skyThreshold;
+        if (tune?.skyKnee !== undefined) bloom.skyKnee.value = tune.skyKnee;
         return bloom.lastExposure;
       },
-      postSkyCensus: () => {
+      postSkyCensus: (request) => {
         if (!bloom) return null;
-        const last = bloom.lastSkyCensus;
-        bloom.requestSkyCensus();
-        return last;
+        if (request) bloom.requestSkyCensus();
+        return bloom.lastSkyCensus;
       },
       cameraCast: (from, to) => cameraCast(
         new THREE.Vector3(...from), new THREE.Vector3(...to), FOLLOW_CAMERA.collisionRadius,

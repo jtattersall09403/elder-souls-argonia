@@ -105,15 +105,15 @@ export function daylightShare(sunAltitudeRad: number): number {
 }
 
 /**
- * A window pane: a piece whose id names it a window (the station house's
- * kotm mudhuts window01/02) and a material its NIF really emits (manifest
- * `emissiveMaterials`: the amber glass, OWN_EMIT 1.0/0.5/0.0). The pane's
+ * A window pane: a material the manifest lists in `windowMaterials`, read
+ * from the NIF's own shader (nif_blocks.window_glass_shapes: an opaque
+ * emitting shape with External_Emittance or a backlight map; the station
+ * house's amber panes, the farmhouse FarmWindowInterior01 glass). The pane's
  * geometry seats its light.
  */
-export function isWindowPane(assetId: string, row: { emissiveMaterials?: readonly string[] | null } | undefined,
+export function isWindowPane(row: { windowMaterials?: readonly string[] | null } | undefined,
   material: THREE.Material): boolean {
-  return /(^|\/)window[^/]*$/i.test(assetId)
-    && (row?.emissiveMaterials ?? []).includes(material.name.replace(/(\.Mat)\.\d{3,}$/, "$1"));
+  return (row?.windowMaterials ?? []).includes(material.name.replace(/(\.Mat)\.\d{3,}$/, "$1"));
 }
 
 /**
@@ -257,7 +257,7 @@ export function instantiateInterior(
       placements.forEach((p, i) => mesh.setMatrixAt(i, m.multiplyMatrices(interiorPlacementMatrix(p), part.localMatrix)));
       mesh.instanceMatrix.needsUpdate = true;
       mesh.computeBoundingSphere();
-      if (isWindowPane(placements[0].assetId, fireRow, part.material)) {
+      if (isWindowPane(fireRow, part.material)) {
         // the pane's own geometry gives the window light's seat (walk 9)
         part.geometry.computeBoundingBox();
         const centre = part.geometry.boundingBox!.getCenter(new THREE.Vector3());

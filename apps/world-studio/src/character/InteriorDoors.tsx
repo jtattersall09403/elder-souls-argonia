@@ -13,9 +13,6 @@ import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rap
 import { daylightShare, InteriorLoader, solidsAt, type LoadedInterior } from "@elder-souls/game-core/interior/interiorLoader";
 import { computeLightRig } from "../sky/lightRig";
 import { worldClock } from "../sky/timeState";
-
-/** Scratch: the sun's colour handed to the shown cell's daylight each frame. */
-const daylightColour = new THREE.Color();
 import { SharedKtx2Textures } from "@elder-souls/game-core/interior/sharedTextures";
 import { kitPartsDir } from "@elder-souls/game-core/interior/kitParts";
 import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
@@ -33,6 +30,9 @@ import type { InteractionArbiter } from "@elder-souls/game-core/interaction/arbi
 import type { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { settlementColliderDesc } from "./SettlementColliders";
 import type { DoorOverlayChannel } from "./doorOverlay";
+
+/** Scratch: the sun's colour handed to the shown cell's daylight each frame. */
+const daylightColour = new THREE.Color();
 
 type Shown = { interior: LoadedInterior; originM: Vec3 };
 

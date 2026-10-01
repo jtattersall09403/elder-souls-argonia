@@ -126,7 +126,8 @@ try {
   page.on("console", (m) => { if (m.type() === "error" && keep(m.text())) errs.push(m.text().slice(0, 300)); });
   // the default 250-entry resource buffer fills with terrain tiles before the cell's fetches
   await page.addInitScript(() => performance.setResourceTimingBufferSize(20000));
-  const q = PROBE === "cell" ? `&interior=${encodeURIComponent(CELL)}` : "";
+  // T=hh:mm sets the clock (walk 9 lights: the cell at night and by day)
+  const q = (PROBE === "cell" ? `&interior=${encodeURIComponent(CELL)}` : "") + (process.env.T ? `&t=${process.env.T}` : "");
   // Cheapest render settings: SwiftShader shares the CPU with the physics.
   await page.goto(`http://127.0.0.1:${PORT}/?view=character&x=${X}&z=${Z}&q=low&aa=0&dpr=0.5${q}`, { waitUntil: "domcontentloaded" });
   await page.waitForFunction(() => window.__STUDIO_CHARACTER_DEBUG__?.player?.() != null, undefined, { timeout: 240000 });
@@ -149,6 +150,18 @@ try {
       samples.push({ ...s, cameraInside: inside(s.camera, s.interior.boundsM), playerInside: inside(s.player, s.interior.boundsM) });
     }
     const png = await page.screenshot({ path: `${OUT}interior-${CELL}.png` });
+    // the second frame (walk 9 lights): the camera turned half round, the room's other side
+    const turned = await page.evaluate(() => {
+      const d = window.__STUDIO_CHARACTER_DEBUG__;
+      if (!d.aimCamera) return false;
+      const c = d.camera(); const p = d.player();
+      // aimCamera looks along (-sin yaw, -cos yaw): turn to look from the player back past the camera
+      d.aimCamera(Math.atan2(p[0] - c[0], p[2] - c[2]));
+      return true;
+    });
+    await page.waitForTimeout(4000);
+    const png2 = await page.screenshot({ path: `${OUT}interior-${CELL}-2.png` });
+    result.frame2 = { turned, luminance: await luminance(page, png2) };
     // walk 4 lane INTERIOR: fog, render stats, the group's visibility chain, load timings
     result.scene = await page.evaluate((cell) => {
       const scene = window.__SCENE__; const gl = window.__RENDERER__;

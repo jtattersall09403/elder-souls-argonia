@@ -600,11 +600,11 @@ describe("interior daylight (walk 9, 0109 addendum)", () => {
     m.name = "Objekt01:1.Mat";
     return m;
   };
-  it("a pane is an emitting material on a window piece only", () => {
-    const row = { emissiveMaterials: ["Objekt01:1.Mat"] };
-    expect(isWindowPane("kotm:argonia/mudhuts/window01", row, pane())).toBe(true);
-    expect(isWindowPane("vanilla:critters/bee/beehoneycomb", row, pane())).toBe(false);
-    expect(isWindowPane("kotm:argonia/mudhuts/window01", {}, pane())).toBe(false);
+  it("a pane is a material the manifest marks as window glass, never an emitter alone", () => {
+    expect(isWindowPane({ windowMaterials: ["Objekt01:1.Mat"] }, pane())).toBe(true);
+    // honeycomb, slime: emitting, not glass
+    expect(isWindowPane({ emissiveMaterials: ["Objekt01:1.Mat"] } as never, pane())).toBe(false);
+    expect(isWindowPane({}, pane())).toBe(false);
   });
   it("night keeps the ambient floor and no window light; noon lights the panes in the sun's colour", () => {
     const ambient = new THREE.AmbientLight(0xffffff, 2);

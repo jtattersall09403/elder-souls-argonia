@@ -10,6 +10,10 @@ import { spawn } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { chromium } from "playwright";
+import { readFileSync } from "node:fs";
+
+/** The shipped sky constants (the sweep restores these for its "config" row). */
+const CONFIG = JSON.parse(readFileSync(new URL("../../../packages/game-core/src/render/post/bloom.config.json", import.meta.url), "utf8"));
 
 const i = process.argv.indexOf("--out");
 const OUT = i > 0 ? process.argv[i + 1] : new URL("../artifacts/bloom-sky/", import.meta.url).pathname;
@@ -53,16 +57,24 @@ try {
       return { yaw, altDeg: (alt * 180) / Math.PI };
     }, hh * 60 + mm);
     await page.waitForTimeout(15000);
+    // the clock the frame was drawn at (walk 9: a stale census repeated 14:30 as 18:30)
+    const clockMinute = await page.evaluate(async () => (await import("/src/sky/timeState.ts")).worldClock.now().minuteOfDay);
     const tag = t.replace(":", "");
     await page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.post(true, { skyMask: 0 }));
     await page.waitForTimeout(1500);
     await page.screenshot({ path: join(OUT, `${tag}-before.png`), timeout: 180000 });
-    await page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.post(true, { skyMask: 1 }));
-    await page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.postSkyCensus());
-    await page.waitForTimeout(1500);
-    const census = await page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.postSkyCensus());
+    // one census per candidate sky threshold (SKY_SWEEP, comma list; else the config's)
+    const sweep = {};
+    for (const st of (process.env.SKY_SWEEP ?? "").split(",").filter(Boolean).map(Number).concat([NaN])) {
+      const threshold = Number.isNaN(st) ? CONFIG.skyThreshold : st;
+      await page.evaluate((v) => window.__STUDIO_CHARACTER_DEBUG__.post(true, { skyMask: 1, skyThreshold: v }), threshold);
+      await page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.postSkyCensus(true));
+      // a census drawn after this request, never the previous time's
+      await page.waitForFunction(() => window.__STUDIO_CHARACTER_DEBUG__.postSkyCensus() != null, undefined, { timeout: 180000, polling: 500 });
+      sweep[Number.isNaN(st) ? "config" : st] = await page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.postSkyCensus());
+    }
     await page.screenshot({ path: join(OUT, `${tag}-after.png`), timeout: 180000 });
-    result[t] = { sun, census };
+    result[t] = { sun, clockMinute, census: sweep };
     console.log(t, JSON.stringify(result[t]));
   }
   await page.close();

@@ -45,15 +45,18 @@ describe("BloomPass disabled", () => {
 
 describe("bloomSource: the sky is not scene content (walk 9 sun blob)", () => {
   const o = BLOOM_DEFAULTS;
-  it("a bright sky texel under the sky threshold adds nothing, where the scene threshold would glow it", () => {
-    // the Mie halo at low sun: well above the scene threshold, below the disc
-    expect(bloomSource(20, false)).toBeGreaterThan(10);
-    expect(bloomSource(20, true)).toBe(0);
-    expect(bloomSource(o.skyThreshold - o.knee, true)).toBe(0);
+  it("the halo outside the disc adds nothing, however bright (the dome clamps disc and halo alike)", () => {
+    // dawn 06:30: the dome reads 30.4 at 2 deg from the sun, 21.0 at 8 deg (skyScreenModel)
+    expect(bloomSource(30.4, false)).toBeGreaterThan(10);
+    expect(bloomSource(30.4, true, o, 2)).toBe(0);
+    expect(bloomSource(21.0, true, o, 8)).toBe(0);
   });
-  it("the sun's disc glows, never by more than skyMax however bright it is", () => {
-    expect(bloomSource(o.skyThreshold * 2, true)).toBe(o.skyMax);
-    expect(bloomSource(1e6, true)).toBe(o.skyMax);
+  it("the disc glows at every sun height, never by more than skyMax", () => {
+    // the disc's dimmest reading across the day: 3.24 at noon (dawn 31.3, 14:30 6.0)
+    expect(o.skyThreshold).toBeLessThan(3.24);
+    expect(bloomSource(3.24, true, o, 0)).toBeGreaterThan(0);
+    expect(bloomSource(31.3, true, o, 0)).toBe(o.skyMax);
+    expect(bloomSource(o.skyThreshold - o.skyKnee, true, o, 0)).toBe(0);
     expect(o.skyMax).toBeLessThan(1);
   });
 });

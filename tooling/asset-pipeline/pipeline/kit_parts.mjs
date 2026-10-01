@@ -188,7 +188,7 @@ export function firesOf(manifest, assetIds) {
     if (typeof a?.id !== "string" || !wanted.has(a.id)) continue;
     if (!(a.flames?.length || a.flameCardMaterials?.length || a.light?.fixtureKind || a.emissiveMaterials?.length)) continue;
     const row = {};
-    for (const k of ["id", "category", "anchorClass", "light", "flames", "sizeM", "originOffsetM", "flameCardMaterials", "emissiveMaterials"]) {
+    for (const k of ["id", "category", "anchorClass", "light", "flames", "sizeM", "originOffsetM", "flameCardMaterials", "emissiveMaterials", "windowMaterials"]) {
       if (a[k] !== undefined) row[k] = a[k];
     }
     fires[a.id] = row;
@@ -437,13 +437,12 @@ async function main() {
   const scope = scopedKits();
   const published = new Set(publishedKits());
   const named = args.flatMap((a, i) => (args[i - 1] === "--kit" ? [a] : []));
-  for (const k of named) {
-    if (!scope.includes(k)) { console.error(`kit_parts: ${k} is named by no interior cell (public/province/interiors/*.json kits); it publishes no parts`); process.exit(2); }
-  }
+  const skipped = named.filter((k) => !scope.includes(k));
+  for (const k of skipped) console.error(`kit_parts: skipping ${k}: no interior cell names it (public/province/interiors/*.json kits), so it publishes no parts`);
   const missing = scope.filter((k) => !published.has(k));
   if (all && missing.length) { console.error(`kit_parts: interior cells name unpublished kit(s): ${missing.join(", ")}`); process.exit(1); }
-  const kits = all ? scope : named;
-  if (!kits.length) { console.error("usage: kit_parts.mjs (--kit <id>)... | --all [--check]"); process.exit(2); }
+  const kits = all ? scope : named.filter((k) => scope.includes(k));
+  if (!kits.length) { if (skipped.length) return; console.error("usage: kit_parts.mjs (--kit <id>)... | --all [--check]"); process.exit(2); }
   await MeshoptDecoder.ready;
   await MeshoptEncoder.ready;
   let stale = 0;
