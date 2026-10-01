@@ -777,8 +777,10 @@ def sink_fallback_failures(placements: list[dict], rows: dict) -> list[str]:
         cat = row.get("category")
         if cat in SINK_STRUCTURE_CATEGORIES or size >= TALL_M:
             out.append(f"0105 R36: {p['id']} ({p.get('assetId')}, {cat}, {size:.1f} m) seats on the "
-                       f"sink fallback ({ev}), not a plugin-measured row: a reader shot of its foot, "
-                       f"or a measured row through the sink miner")
+                       f"sink fallback ({ev}), not a plugin-measured row: re-mine it "
+                       f"(mine_designed_sink --assets <id> --merge); where that measures no LAND "
+                       f"reference, a reviewed assetPlacement row in placement-policies.json citing a "
+                       f"render of its foot, then --refresh-built-manifests --kit <kit>")
     return out
 
 
