@@ -1091,7 +1091,9 @@ def _padded_bundle(pad: bool) -> dict:
     if pad:
         house["pad"] = {"parcelId": "b1", "datumM": 11.0, "apronM": 1.5,
                         "polygonM": [[8.5, 8.5], [15.5, 8.5], [15.5, 15.5], [8.5, 15.5]]}
-    return {"placements": [house], "settlements": [{"id": "place.t", "placementIds": [house["id"]]}]}
+    return {"placements": [house], "settlements": [{"id": "place.t", "placementIds": [house["id"]],
+                             # no province road here: the runner has no land-cover raster
+                             "_roadPaint": None}]}
 
 
 def test_a_declared_pad_travels_in_the_bundle_as_its_ground_overlay():
