@@ -12695,9 +12695,9 @@
     },
     {
       "id": "npc.imperial-penal-south.rose-bone-waystation.tag-keeper",
-      "name": "Counts-The-Crates-Again",
+      "name": "Ux-Vakka",
       "kind": "slot",
-      "nameForm": "translated",
+      "nameForm": "jel",
       "race": "argonian",
       "sex": "male",
       "factionIds": [],

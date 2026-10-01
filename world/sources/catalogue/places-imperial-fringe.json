@@ -2395,8 +2395,7 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "rest-shelter",
-          "trade-access"
+          "rest-shelter"
         ],
         "valueTier": "tier-1"
       },

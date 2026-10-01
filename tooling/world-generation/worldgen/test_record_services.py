@@ -634,8 +634,12 @@ def test_only_a_road_crossing_derives_ferry_from_its_operator():
 def test_the_ceiling_spares_only_what_the_record_implies():
     from worldgen import catalogue, derive_services
     rec = json.loads(json.dumps(_places()["place.imperial-fringe.claywater-station"]))
-    assert derive_services.derive(rec) == ["ferry", "lodging", "stable", "trader"]
+    # Claywater's trader was cut to what stands (walk 9 coherence set), so
+    # its record no longer promises trade-access.
+    assert derive_services.derive(rec) == ["ferry", "lodging", "stable"]
     assert catalogue.hamlet_overreach(rec, rec["services"]) == []
+    rec["rewardProfile"]["kinds"].append("trade-access")
+    assert derive_services.derive(rec) == ["ferry", "lodging", "stable", "trader"]
     assert catalogue.hamlet_overreach(rec, rec["services"] + ["smith"]) == ["smith"]
     rec["rewardProfile"]["kinds"] = []
     rec["classification"]["type"] = "flood-high-hamlet"
