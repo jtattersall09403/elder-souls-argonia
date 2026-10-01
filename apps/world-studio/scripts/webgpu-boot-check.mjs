@@ -169,6 +169,16 @@ await page.addInitScript(([present, gpuTiming]) => {
   timed(GPUQueue.prototype, "writeTexture", (a) => `${a[0].texture?.label ?? ""} ${a[3]?.width ?? a[3]?.[0]}x${a[3]?.height ?? a[3]?.[1]} ${a[1]?.byteLength ?? "?"} B`);
   timed(GPUQueue.prototype, "writeBuffer", (a) => `${a[0]?.label ?? ""} ${a[2]?.byteLength ?? "?"} B`);
   timed(GPUQueue.prototype, "submit", (a) => `${a[0]?.length} command buffers`);
+  // every other WebGPU call too: under Dawn's wire any call can block on a full
+  // command buffer while the GPU process works (a 20 s stall on SwiftShader sat
+  // in a call the three above did not time, and was charged to JS)
+  for (const P of [GPUDevice, GPUQueue, GPUCommandEncoder, GPURenderPassEncoder, GPUComputePassEncoder, GPUBuffer, GPUCanvasContext]) {
+    for (const k of Object.getOwnPropertyNames(P.prototype)) {
+      const d = Object.getOwnPropertyDescriptor(P.prototype, k);
+      if (k === "constructor" || typeof d.value !== "function" || (P === GPUQueue && ["writeTexture", "writeBuffer", "submit"].includes(k))) continue;
+      timed(P.prototype, k, () => P.name);
+    }
+  }
   const dispatch = GPUComputePassEncoder.prototype.dispatchWorkgroups;
   GPUComputePassEncoder.prototype.dispatchWorkgroups = function (x, y = 1, z = 1) {
     if (!g.maxDispatch || x * y * z > g.maxDispatch[0]) g.maxDispatch = [x * y * z, x, y, z, this.label ?? "", stack().slice(0, 300)];
@@ -294,12 +304,13 @@ page.goto(url, { waitUntil: "load", timeout: 120_000 }).catch((e) => lines.push(
 // Heartbeat: a CDP ping every second; its latency is how long the page's main
 // thread was busy. A ping still unanswered at the end is a hang in progress.
 const heap = [];
-let maxPingMs = 0, pending = null, lastBoot = null;
+let maxPingMs = 0, pending = null, lastBoot = null, lastLong = [];
 const beat = setInterval(() => {
   if (pending) return;
   const s = Date.now();
   pending = cdp.send("Runtime.getHeapUsage").then((h) => { heap.push([s - t0, Math.round(h.usedSize / 1e6)]); })
-    .then(() => page.evaluate(() => JSON.stringify(window.__BOOT__))).then((j) => { if (j) lastBoot = JSON.parse(j); })
+    .then(() => page.evaluate(() => JSON.stringify([window.__BOOT__, window.__LONG_TASKS__])))
+    .then((j) => { if (!j) return; const [bt, lt] = JSON.parse(j); if (bt) lastBoot = bt; if (lt) lastLong = lt; })
     .catch(() => {}).finally(() => { maxPingMs = Math.max(maxPingMs, Date.now() - s); pending = null; });
 }, 1000);
 // Wait for the first complete frame: a frame has drawn, and the node-build counter and the
@@ -337,7 +348,8 @@ if (flag("alloc")) {
     allocTop = [...self].sort((a, b) => b[1] - a[1]).slice(0, 20).map(([k, b]) => [Math.round(b / 1e6), k]);
   }
 }
-const longTasks = (await withTimeout(page.evaluate(() => window.__LONG_TASKS__), 5_000)) ?? [];
+// the heartbeat's last copy when the page is too busy to answer at the end (an empty list read as 0 ms)
+const longTasks = (await withTimeout(page.evaluate(() => window.__LONG_TASKS__), 5_000)) ?? lastLong;
 await withTimeout(browser.close(), 10_000);
 server.close();
 

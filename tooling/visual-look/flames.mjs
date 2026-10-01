@@ -367,6 +367,18 @@ async function run(opts) {
       await page.waitForTimeout(600);
     }
     result.views = views;
+    // what the cards were drawn with: the night blend, the exposure it is read
+    // from, and the per-lamp strength column (iParams[0]) of the first system
+    result.diag = await page.evaluate(() => {
+      const mesh = window.__FLAME_PROBE__.systems[0]?.getObjectByName("fire-flame-cards");
+      const a = mesh?.geometry.getAttribute("iParams"); const m = mesh?.material;
+      const u = window.__FLAME_PROBE__.systems[0]?.userData?.fireUniforms;
+      return { exposure: window.__RENDERER__.toneMappingExposure, uNight: u?.uNight?.value ?? null,
+        strength: a ? Array.from({ length: Math.min(6, mesh.geometry.instanceCount) }, (_, i) => +a.getX(i).toFixed(3)) : null,
+        volumeFlag: mesh ? +mesh.geometry.getAttribute("iAnim").getW(0) : null,
+        children: window.__FLAME_PROBE__.systems[0]?.children.map((c) => `${c.name}:${c.visible}`) ?? null,
+        blending: m?.blending ?? null, depthWrite: m?.depthWrite ?? null, depthTest: m?.depthTest ?? null, layers: mesh?.layers.mask ?? null };
+    });
     Object.assign(result, { draws: await page.evaluate(() => window.__FLAME_PROBE__.draws), errors: errs.slice(0, 8) });
     result.png = join(opts.out, `${name}.png`);
     mkdirSync(opts.out, { recursive: true });
