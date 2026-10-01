@@ -61,7 +61,10 @@
     "path": "places[place.imperial-fringe.bog-iron-workings].playerPurpose.hook"
    },
    "text": "Iron lifts out of the mud here in cakes. The seasonal diggers allow a visitor to take what they can carry.",
-   "confirmed": null
+   "confirmed": {
+    "sha": "a8db0d6673c5",
+    "note": "The bloomery and its smoke stand beside the diggers' hut; the take-what-you-carry ore is the harvest system's job."
+   }
   },
   {
    "id": "promise.bog-iron-workings.prose-questhooks-opportunity",
@@ -84,7 +87,10 @@
     "path": "places[place.imperial-fringe.bog-iron-workings].vibe.approach"
    },
    "text": "The seep shows through the ferns below the bench well before the workings do.",
-   "confirmed": null
+   "confirmed": {
+    "sha": "97924d97f82a",
+    "note": "The seep is the iron-rich ground below the bench; the fern scatter (813 within 200 m) covers the slope up to the workings."
+   }
   },
   {
    "id": "promise.bog-iron-workings.prose-vibe-condition",
@@ -107,7 +113,10 @@
     "path": "places[place.imperial-fringe.bog-iron-workings].vibe.materials"
    },
    "text": "A clay furnace and a mud hut, renewed every season.",
-   "confirmed": null
+   "confirmed": {
+    "sha": "8d0d297033a0",
+    "note": "The bloomery (smeltermarker) is the clay furnace; the diggers' hut is a kotm mud pod."
+   }
   },
   {
    "id": "promise.bog-iron-workings.prose-vibe-mood",
@@ -169,7 +178,10 @@
     "path": "places[place.imperial-fringe.bog-iron-workings].vibe.silhouette"
    },
    "text": "A squat clay furnace and its black charcoal bed on a bench, a mud hut west of them, the seep below the bank.",
-   "confirmed": null
+   "confirmed": {
+    "sha": "d3e3146209fc",
+    "note": "Bloomery with its fire on the bench at x 2008; the mud hut stands 19 m west at x 1989."
+   }
   },
   {
    "id": "promise.bog-iron-workings.prose-why-founding",
