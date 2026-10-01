@@ -1,27 +1,106 @@
 #!/usr/bin/env python3
-"""Live-agent cap (owner 2026-09-30, walk-6 process audit proposal 1): at most
-CAP subagents alive at once across one session tree (the planner, its leads
-and their workers share the harness `session_id`). Walk 5 peaked at 23 live
-agents; two OOM kills cost 504 min.
+"""Agent admission gate (owner 2026-10-01, decision 0106 decision 18): a
+subagent spawn is admitted on the machine's measured CPU and memory, not on a
+count. Walk 5 peaked at 23 live agents and two OOM kills cost 504 min; the
+cause was memory and load, so the gate measures those.
 
 One script, three hook events (the event is read from `hook_event_name`):
-  PreToolUse (Agent|Task)  refuse (exit 2) when live + pending >= CAP, else
-                           record a pending launch (expires after PENDING_S)
-  SubagentStart            the launch became a live agent: drop the oldest
-                           pending entry, add `agent_id`
+  PreToolUse (Agent|Task)  refuse (exit 2) when
+    - memory: machine unreclaimable (anon + shmem + kernel, memwatch.sh's
+      measure) + AGENT_RESERVE_MIB >= the memwatch ceiling (3/4 of
+      memory.max, else MemTotal);
+    - CPU: 1-min load >= nproc x LOAD_FACTOR, or every job_guard heavy slot
+      is held by a job in its first SLOT_YOUNG_S (a slot that is free, or a
+      job waiting for one, admits: slots serialise heavy jobs);
+    - backstop: live + pending >= RUNAWAY_CAP;
+    else record a pending launch (expires after PENDING_S).
+  SubagentStart            pending -> live (`agent_id`)
   SubagentStop             remove `agent_id`
-Live entries older than STALE_S are dropped (a crashed agent that never sent
-SubagentStop cannot hold a slot for ever). State: one JSON file per session
-under $ES_AGENT_CAP_DIR (default /tmp/es-agent-cap), read-modify-write under
-flock. Any error allows: a broken counter never blocks work.
-`agent_cap.py --status` prints the live count for every session.
+Live entries older than STALE_S drop (a crashed agent cannot hold a place).
+Every PreToolUse decision and its numbers go to DIR/admissions.log.
+State: one JSON file per session under $ES_AGENT_CAP_DIR (default
+/tmp/es-agent-cap), read-modify-write under flock. Any error allows.
+`agent_cap.py --status` prints live counts and the current measurements.
 """
 import fcntl, json, os, sys, time
 
-CAP = int(os.environ.get("ES_AGENT_CAP", "8"))
+# Per-new-agent memory reserve. Measured 2026-10-01 from the live tree (the
+# Pss anon+shmem of each tool tree under the claude process, own_memory.py
+# --tree): 0.0 / 0.36 / 0.40 / 1.14 GiB over 4 agents' tools. Too few samples
+# for a true 95th percentile: 1.5 GiB sits above the observed max and is a
+# placeholder to re-measure from more trees.
+AGENT_RESERVE_MIB = 1536
+LOAD_FACTOR = 1.25
+SLOT_YOUNG_S = 60
+# Not a budget: a backstop against a spawn loop. Admission is CPU and memory.
+RUNAWAY_CAP = 24
 PENDING_S = 120
 STALE_S = 4 * 3600
 DIR = os.environ.get("ES_AGENT_CAP_DIR", "/tmp/es-agent-cap")
+STAT = "/sys/fs/cgroup/memory.stat"
+LOCK_DIR = os.environ.get("ES_JOB_LOCK_DIR", "/tmp/es-jobs")
+
+
+def mem_mib():
+    """memwatch.sh used() / job_guard.sh mem_mib(): anon + shmem + kernel."""
+    s = 0
+    with open(STAT) as f:
+        for line in f:
+            k, _, v = line.partition(" ")
+            if k in ("anon", "shmem", "kernel"):
+                s += int(v)
+    return s // 1048576
+
+
+def ceiling_mib():
+    """memwatch.sh default ceiling: 3/4 of memory.max, else of MemTotal."""
+    try:
+        lim = int(open("/sys/fs/cgroup/memory.max").read().strip())
+    except (OSError, ValueError):
+        lim = next(int(l.split()[1]) * 1024 for l in open("/proc/meminfo") if l.startswith("MemTotal:"))
+    return lim * 3 // 4 // 1048576
+
+
+def load1():
+    return float(open("/proc/loadavg").read().split()[0])
+
+
+def cores():
+    return os.cpu_count() or 1
+
+
+def slots_busy(now):
+    """True when every job_guard slot (N = max(1, (nproc-1)//2), as job_guard)
+    is held by a live job whose slot line is under SLOT_YOUNG_S old."""
+    n = int(os.environ.get("ES_JOB_SLOTS") or max(1, (cores() - 1) // 2))
+    for i in range(n):
+        try:
+            parts = open(os.path.join(LOCK_DIR, f"slot-{i}.lock")).readline().split()
+            os.kill(int(parts[3]), 0)
+            started = time.mktime(time.strptime(parts[0], "%Y-%m-%dT%H:%M:%SZ")) - time.timezone
+        except Exception:
+            return False
+        if now - started >= SLOT_YOUNG_S:
+            return False
+    return True
+
+
+def _admit(n, now):
+    """(refusal reason or "", numbers line)."""
+    m, c = mem_mib(), ceiling_mib()
+    l, lim = load1(), cores() * LOAD_FACTOR
+    nums = (f"unreclaimable {m / 1024:.1f} GiB + reserve {AGENT_RESERVE_MIB / 1024:.1f} GiB vs ceiling "
+            f"{c / 1024:.1f} GiB; load {l:.2f} vs limit {lim:.1f}; {n} live+pending (runaway cap {RUNAWAY_CAP})")
+    if n >= RUNAWAY_CAP:
+        return "runaway cap: wait for a lane to hand back (you are re-invoked when it does)", nums
+    if m + AGENT_RESERVE_MIB >= c:
+        return ("memory: wait for a lane to finish, or run the heavy job under job_guard.sh "
+                "so it waits for its slot instead of a new agent"), nums
+    if l >= lim:
+        return "CPU load: wait for a lane to finish, or run the heavy job under job_guard.sh", nums
+    if slots_busy(now):
+        return "every job_guard heavy slot is starting a job: wait a minute and retry", nums
+    return "", nums
 
 
 def _prune(st, now):
@@ -46,12 +125,13 @@ def handle(d, now=None):
         _prune(st, now)
         msg, code = "", 0
         if ev == "PreToolUse":
-            n = len(st["live"]) + len(st["pending"])
-            if n >= CAP:
+            why, nums = _admit(len(st["live"]) + len(st["pending"]), now)
+            with open(os.path.join(DIR, "admissions.log"), "a") as log:
+                log.write(f"{time.strftime('%FT%TZ', time.gmtime(now))} {sid} "
+                          f"{'refuse' if why else 'admit'}: {nums}{' | ' + why if why else ''}\n")
+            if why:
                 code = 2
-                msg = (f"[agent cap, owner 2026-09-30] {n} agents are alive or launching in this session tree; "
-                       f"the cap is {CAP} (walk 5: 23 live agents, two OOM kills, 504 min lost). Wait for one to "
-                       "hand back (you are re-invoked when it does), or fold this job into a running lane.\n")
+                msg = f"[agent admission, 0106 d18] refused: {nums}. {why}.\n"
             else:
                 st["pending"].append(now)
         elif ev == "SubagentStart":
@@ -73,7 +153,8 @@ def main():
             if name.endswith(".json"):
                 st = json.load(open(os.path.join(DIR, name)))
                 _prune(st, time.time())
-                print(f"{name[:-5]}: {len(st['live'])} live, {len(st['pending'])} pending (cap {CAP})")
+                print(f"{name[:-5]}: {len(st['live'])} live, {len(st['pending'])} pending")
+        print(_admit(0, time.time())[1])
         return 0
     try:
         code, msg = handle(json.load(sys.stdin))

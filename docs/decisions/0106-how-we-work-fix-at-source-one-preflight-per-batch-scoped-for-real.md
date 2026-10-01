@@ -119,9 +119,13 @@ the addenda of 0105 (now rows of the rulings table).
 
 ### Addendum 2026-09-30 (owner, walk-6 process audit, tooling/.reports/16k/walk6/process-audit.md)
 
-18. **At most 8 live subagents per session tree**, refused by
-    `agent_cap.py` on the Agent tool; a lead runs at most 2 unless the
-    planner allots slots. Walk 5 peaked at 23; two OOM kills cost 504 min.
+18. **A subagent is admitted on measured CPU and memory** (owner
+    2026-10-01): `agent_cap.py` on the Agent tool refuses a spawn when
+    machine unreclaimable memory plus a per-agent reserve reaches the
+    memwatch ceiling, when the 1-min load reaches nproc × 1.25, or when every
+    job_guard heavy slot is starting a job; 24 live+pending is a runaway
+    backstop, not a budget. Why: walk 5 peaked at 23 agents and two OOM
+    kills cost 504 min; memory and load were the cause, so they are the gate.
 19. **One review per round**: the batch spans the round's pathspec commits
     until `review_gate.py --close` (walk 5's close ran four reviews in 40
     min).
