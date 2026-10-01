@@ -38,10 +38,10 @@
  */
 import { spawnSync } from "node:child_process";
 import { createServer } from "node:http";
+import { dataPublicDir, pagesRoots, staticHandler } from "./lib/webgpu-static.mjs";
 import { createHash } from "node:crypto";
-import { createReadStream, existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { createRequire } from "node:module";
-import { dirname, extname, join, resolve } from "node:path";
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { join, resolve } from "node:path";
 import { chromium } from "playwright";
 
 const argv = process.argv.slice(2);
@@ -90,37 +90,19 @@ if (!flag("no-build")) {
   console.log(`built ${dist} in ${((Date.now() - t) / 1000).toFixed(1)} s`);
 }
 
-const publicDir = join(appDir, "public");
-const MIME = { ".js": "text/javascript", ".html": "text/html", ".json": "application/json", ".css": "text/css",
-  ".wasm": "application/wasm", ".png": "image/png", ".ktx2": "image/ktx2", ".glb": "model/gltf-binary" };
-const charDir = resolve(appDir, "../../packages/character-assets/files");
-// Pages: the character files resolve against the sandbox at the site root.
-const ROOTS = [["/elder-souls-argonia/webgpu/", dist], ["/elder-souls-argonia/studio/", publicDir], ["/elder-souls-argonia/", charDir]];
-// The KTX2 transcoder, as packages/basis-transcoder ships it into every Pages build.
-const basisDir = dirname(createRequire(import.meta.url).resolve("three/examples/jsm/libs/basis/basis_transcoder.js"));
+const publicDir = dataPublicDir();
 const missing = new Set();
-const server = createServer((req, res) => {
-  const path = decodeURIComponent(req.url.split("?")[0]);
-  const basis = /\/basis\/(basis_transcoder\.(?:js|wasm))$/.exec(path);
-  if (basis) { res.writeHead(200, { "Content-Type": MIME[extname(basis[1])] }); createReadStream(join(basisDir, basis[1])).pipe(res); return; }
-  if (path.endsWith("/province/settlements/index.json")) {
+const server = createServer(staticHandler(pagesRoots(dist, publicDir), {
+  onMissing: (path) => missing.add(path),
+  // one place only: the settlement index lists just --place
+  intercept: (path, res) => {
+    if (!path.endsWith("/province/settlements/index.json")) return false;
     const index = JSON.parse(readFileSync(join(publicDir, "province/settlements/index.json"), "utf8"));
     index.places = index.places.filter((p) => p.id === place); index.routes = [];
     if (!index.places.length) { console.error(`webgpu-boot-check: ${place} is not in the settlement index`); process.exit(2); }
-    res.writeHead(200, { "Content-Type": MIME[".json"] }); res.end(JSON.stringify(index)); return;
-  }
-  for (const [prefix, root] of ROOTS) {
-    if (!path.startsWith(prefix)) continue;
-    let file = join(root, path.slice(prefix.length) || "index.html");
-    if (!existsSync(file) || statSync(file).isDirectory()) file = join(root, "index.html");
-    if (!existsSync(file)) break;
-    res.writeHead(200, { "Content-Type": MIME[extname(file)] ?? "application/octet-stream" });
-    createReadStream(file).pipe(res);
-    return;
-  }
-  missing.add(path);
-  res.writeHead(404); res.end();
-});
+    res.writeHead(200, { "Content-Type": "application/json" }); res.end(JSON.stringify(index)); return true;
+  },
+}));
 await new Promise((r) => server.listen(0, "127.0.0.1", r));
 const url = `http://127.0.0.1:${server.address().port}/elder-souls-argonia/webgpu/?${query}`;
 

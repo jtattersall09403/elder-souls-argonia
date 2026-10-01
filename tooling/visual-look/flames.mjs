@@ -298,7 +298,11 @@ async function run(opts) {
       if (prior.key === result.key && prior.stage === "done") { Object.assign(result, prior, { key: result.key }); return finish(true); }
     }
     const { chromium } = await import("playwright");
-    browser = await chromium.launch({ headless: true, args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
+    // webgpu: a real SwiftShader WebGPU adapter (harness-run.mjs LAUNCH); without
+    // these flags WebGPURenderer silently falls back to its WebGL2 backend
+    browser = await chromium.launch({ headless: true, args: opts.renderer === "webgpu"
+      ? ["--enable-unsafe-webgpu", "--enable-features=UnsafeWebGPU", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"]
+      : ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
     const page = await browser.newPage({ viewport: { width: 400, height: 225 } });
     const errs = [];
     page.on("pageerror", (e) => errs.push(e.message.slice(0, 300)));
@@ -317,6 +321,7 @@ async function run(opts) {
     await page.goto(result.url, { waitUntil: "domcontentloaded" });
     await page.waitForFunction(() => window.__STUDIO_CHARACTER_DEBUG__?.player?.() != null && window.__SCENE__ && window.__RENDERER__,
       undefined, { timeout: 0, polling: 250 });
+    result.backend = await page.evaluate(() => window.__RENDERER_BACKEND__ ?? null);
     result.stage = "player-ready"; result.playerReadyS = +((Date.now() - started) / 1000).toFixed(1);
     if (opts.cell) {
       await page.waitForFunction(() => { const s = window.__STUDIO_CHARACTER_DEBUG__?.interior?.(); return s?.cellId && s.fade === 0; },

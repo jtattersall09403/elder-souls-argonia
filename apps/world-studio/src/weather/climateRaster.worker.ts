@@ -3,13 +3,18 @@
  * (walk 6: drawImage + getImageData of the 1345² climate-air.png on the main
  * thread blocked it for seconds). fetch -> createImageBitmap -> OffscreenCanvas
  * getImageData; the pixel buffer is transferred back, not copied.
+ * colorSpaceConversion stays "default": the bytes must equal what the dev
+ * build's <img> -> canvas decode reads (the PNG's gAMA applied); "none" read
+ * humidity 0.800 where dev reads 0.788 and shifted canopy-sheltered rain.
  */
+export const DECODE: ImageBitmapOptions = { colorSpaceConversion: "default", premultiplyAlpha: "default" };
+
 self.onmessage = async (e: MessageEvent<{ url: string }>) => {
   const { url } = e.data;
   try {
     const r = await fetch(url);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    const bmp = await createImageBitmap(await r.blob(), { colorSpaceConversion: "none", premultiplyAlpha: "none" });
+    const bmp = await createImageBitmap(await r.blob(), DECODE);
     const w = bmp.width, h = bmp.height;
     const g = new OffscreenCanvas(w, h).getContext("2d", { willReadFrequently: true })!;
     g.drawImage(bmp, 0, 0);
