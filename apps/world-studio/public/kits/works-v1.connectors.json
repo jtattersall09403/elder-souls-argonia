@@ -512,6 +512,190 @@
     "widthM": 0.44
    }
   ],
+  "kotm:oaristys/forge/coalpile": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.44,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.3,
+     -2.07
+    ],
+    "widthM": 3.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.06,
+     -0.02
+    ],
+    "widthM": 4.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.44,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.3,
+     2.03
+    ],
+    "widthM": 3.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.46,
+     -0.02
+    ],
+    "widthM": 4.1
+   }
+  ],
+  "kotm:oaristys/forge/ingotsiron01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.23,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.24
+    ],
+    "widthM": 0.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.23,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.18,
+     0.0
+    ],
+    "widthM": 0.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.23,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.24
+    ],
+    "widthM": 0.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.23,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.18,
+     0.0
+    ],
+    "widthM": 0.48
+   }
+  ],
+  "kotm:oaristys/forge/orebucket_iron": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.44,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.38
+    ],
+    "widthM": 0.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.36,
+     0.0
+    ],
+    "widthM": 0.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.44,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.38
+    ],
+    "widthM": 0.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.36,
+     0.0
+    ],
+    "widthM": 0.76
+   }
+  ],
+  "kotm:oaristys/forge/orestack_iron": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.32,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.38
+    ],
+    "widthM": 0.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.32,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.32,
+     0.01
+    ],
+    "widthM": 0.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.32,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.41
+    ],
+    "widthM": 0.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.32,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.3,
+     0.01
+    ],
+    "widthM": 0.79
+   }
+  ],
   "mudmother:gv_meshes/argoniannest/basketfull": [
    {
     "evidence": "bounds",
@@ -4776,6 +4960,52 @@
     "widthM": 1.08
    }
   ],
+  "vanilla:furniture/smeltermarker": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.57,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.11,
+     -3.19
+    ],
+    "widthM": 6.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.57,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.48,
+     -0.7
+    ],
+    "widthM": 4.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.57,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.11,
+     1.79
+    ],
+    "widthM": 6.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.57,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.26,
+     -0.7
+    ],
+    "widthM": 4.98
+   }
+  ],
   "vanilla:furniture/tanningrackmarker": [
    {
     "evidence": "bounds",
@@ -4824,8 +5054,8 @@
   ]
  },
  "counts": {
-  "assets": 116,
-  "bounds": 388,
+  "assets": 121,
+  "bounds": 408,
   "co-placement": 23
  },
  "elongationRatio": 2.0,

@@ -965,3 +965,16 @@ def test_oven_new_flame_cards_get_their_emissive_multiple():
     shaders = nb.effect_shape_shaders(nb.parse(OVEN_NEW.read_bytes()))
     gains = build_kit.additive_gains(["m_Flames:0.Mat", "m_Flames:1.Mat", "m_Glow.Mat"], shaders)
     assert gains == {"m_Flames:0.Mat": 1.75, "m_Flames:1.Mat": 1.5, "m_Glow.Mat": 1.0}
+
+
+def test_shapes_the_nif_hides_are_dropped_and_listed():
+    """Vanilla `furniture/smeltermarker.nif` carries a hidden preview skeleton
+    and body beside the smelter (HIDDEN flag on the shape or a node above it);
+    the game never draws them, so the shipped kit must not either (16k walk 9,
+    Bog Iron Workings: a mannequin and marker cards stood in the yard)."""
+    root = Path(__file__).resolve().parents[3] / "apps/world-studio/public/kits"
+    manifest = json.loads((root / "works-v1.kit.json").read_text())
+    rec = next(a for a in manifest["assets"] if a["id"] == "vanilla:furniture/smeltermarker")
+    hidden = {d["shape"].split(".")[0] for d in rec.get("droppedShapes", [])
+              if d.get("reason") == "hidden"}
+    assert {"BodyMale_Big", "FemaleHead"} <= hidden

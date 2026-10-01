@@ -8,14 +8,14 @@
    "sizeM": [
     4.767,
     3.54,
-    4.334
+    3.852
    ],
    "originOffsetM": [
     1.741,
     1.776,
-    0.626
+    0.143
    ],
-   "triangles": 2790,
+   "triangles": 2782,
    "lodRatios": [
     0.35,
     0.12
@@ -43,6 +43,10 @@
       1.722,
       0.0
      ]
+    },
+    {
+     "shape": "Trigger:0",
+     "reason": "hidden"
     }
    ],
    "textures": [
@@ -202,7 +206,7 @@
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.626,
+    "groundContactOffsetM": 0.143,
     "buryCapM": 0.25,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
@@ -213,7 +217,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.107,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.626
+   "pivotAboveBaseM": 0.143
   },
   {
    "id": "vanilla:clutter/blacksmith/blacksmithnovicebellows01",
@@ -475,16 +479,16 @@
    "node": "es|19e9e59b57|vanilla__clutter_smelter_smelter01",
    "category": "clutter",
    "sizeM": [
-    4.313,
-    5.826,
-    3.796
+    2.797,
+    3.131,
+    2.567
    ],
    "originOffsetM": [
-    2.913,
-    2.913,
+    1.397,
+    1.388,
     0.0
    ],
-   "triangles": 995,
+   "triangles": 987,
    "lodRatios": [
     0.35,
     0.12
@@ -492,7 +496,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "OrderedAlphaBound",
+     "reason": "hidden"
+    }
+   ],
    "textures": [
     "smelter01.dds",
     "stoneedgetrim01.dds"
@@ -703,6 +712,776 @@
    "undersideCoverage": 0.564,
    "openBackYawDeg": null,
    "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:furniture/smeltermarker",
+   "node": "es|3ed88fef27|vanilla__furniture_smeltermarker",
+   "category": "furniture",
+   "sizeM": [
+    6.742,
+    4.976,
+    2.567
+   ],
+   "originOffsetM": [
+    3.26,
+    1.791,
+    0.0
+   ],
+   "triangles": 1174,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [
+    {
+     "shape": "AnimObjectA:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "AnimObjectB:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "AnimObjectL:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "AnimObjectR:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "BodyMale_Big",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakBone04:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakLBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakLBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakLBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakLBone04:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakRBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakRBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakRBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakRBone04:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "Coal",
+     "reason": "hidden"
+    },
+    {
+     "shape": "DwarvenSkirt_PrevIz",
+     "reason": "hidden"
+    },
+    {
+     "shape": "FemaleFoot",
+     "reason": "hidden"
+    },
+    {
+     "shape": "FemaleHand",
+     "reason": "hidden"
+    },
+    {
+     "shape": "FemaleHead",
+     "reason": "hidden"
+    },
+    {
+     "shape": "FemaleUnderwear",
+     "reason": "hidden"
+    },
+    {
+     "shape": "FemaleUnderwearBody:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "FootMale_Big",
+     "reason": "hidden"
+    },
+    {
+     "shape": "HandMale_Big",
+     "reason": "hidden"
+    },
+    {
+     "shape": "HelmetTopBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "HelmetTopBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "HelmetTopBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "MagicEffectsNode:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "MaleHeadIMF",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC Camera3rd Ctrl:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC Camera3rd FOV:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC COM [COM ]:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC Head MagicNode [Hmag]:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC L FootBox:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC L HeelPivot:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC L MagicNode [LMag]:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC L PauldronOverride:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC L ToePivot:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC R FootBox:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC R HeelPivot:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC R MagicNode [RMag]:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC R PauldronOverride:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC R ToePivot:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC Root [Root]:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPCEyeBone:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "OrderedAlphaBound",
+     "reason": "hidden"
+    },
+    {
+     "shape": "Quiver:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeBone04:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeLBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeLBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeLBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeLBone04:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeRBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeRBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeRBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeRBone04:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "Shield:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "Shovel:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "TailBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "TailBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "TailBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "TailBone04:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "TailBone05:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "Weapon:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WeaponAxe:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WeaponBack:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WeaponBow:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WeaponDagger:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WeaponMace:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WeaponStaff:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WeaponSword:0",
+     "reason": "hidden"
+    }
+   ],
+   "textures": [
+    "charcoal01.dds",
+    "fxsmelter01.dds",
+    "smelter01.dds",
+    "stoneedgetrim01.dds"
+   ],
+   "materials": [
+    "Bucket:0.Mat.001",
+    "Cracks.Mat.001",
+    "Door:0.Mat.001",
+    "Handle:0.Mat",
+    "Slag (Bucket):0.Mat",
+    "Slag (Mould):0.Mat",
+    "Smelter01Coal01:0.Mat.001",
+    "Smelter01Coal01:1.Mat.001",
+    "Spout.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "Cracks.Mat.001": 1.0,
+    "Slag (Bucket):0.Mat": 0.114,
+    "Smelter01Coal01:0.Mat.001": 0.122,
+    "Smelter01Coal01:1.Mat.001": 0.122
+   },
+   "decalMaterials": [
+    "Cracks.Mat.001",
+    "Smelter01Coal01:1.Mat.001"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     2.967,
+     1.13,
+     2.19
+    ],
+    "centreOffsetM": [
+     0.111,
+     1.284,
+     -0.698
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0249,
+    "p50": -0.0078,
+    "p75": 0.0006,
+    "n": 25,
+    "slopeTermMPerDeg": -0.00545,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.027,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [],
+     "exterior": [
+      "town",
+      "wild"
+     ]
+    },
+    "n": 25,
+    "interior": {
+     "wild": 1,
+     "camp": 2,
+     "ruin": 1
+    },
+    "exterior": {
+     "wild": 12,
+     "camp": 1,
+     "keep": 2,
+     "ruin": 1,
+     "village": 2,
+     "town": 3
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:wild:QASmoke",
+     "interior:camp:KnifepointRidge01",
+     "interior:ruin:Gloomreach01",
+     "interior:camp:BrokenOarGrotto01",
+     "exterior:camp:FortFellhammerLocation",
+     "exterior:keep:NarzulburLocation",
+     "exterior:ruin:DragonLair06Location"
+    ],
+    "evidence": "plugin"
+   }
+  },
+  {
+   "id": "kotm:oaristys/forge/coalpile",
+   "node": "es|8f12b20f5c|kotm__oaristys_forge_coalpile",
+   "category": "clutter",
+   "sizeM": [
+    3.525,
+    4.099,
+    0.439
+   ],
+   "originOffsetM": [
+    1.465,
+    2.029,
+    0.0
+   ],
+   "triangles": 201,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "charcoal01.dds"
+   ],
+   "materials": [
+    "Coal01.Mat",
+    "Coal02.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Coal01.Mat": 0.122,
+    "Coal02.Mat": 0.122
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 28,
+    "interior": {
+     "town": 23
+    },
+    "exterior": {
+     "town": 3,
+     "village": 2
+    },
+    "sourceCells": [
+     "interior:town:LilmothLumberworks",
+     "interior:town:LilmothIronworks",
+     "exterior:town:LilmothLocation",
+     "interior:town:LilmothSilverRefinery",
+     "interior:town:LilmothOliisIronFoundryInt",
+     "exterior:village:SeekhatYolLocation",
+     "interior:town:LilmothGlassFoundry"
+    ],
+    "evidence": "plugin"
+   },
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   }
+  },
+  {
+   "id": "kotm:oaristys/forge/orebucket_iron",
+   "node": "es|9d18881eb2|kotm__oaristys_forge_orebucket_iron",
+   "category": "clutter",
+   "sizeM": [
+    0.728,
+    0.753,
+    0.437
+   ],
+   "originOffsetM": [
+    0.364,
+    0.377,
+    0.0
+   ],
+   "triangles": 3616,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "bucket01.dds",
+    "oreiron01.dds"
+   ],
+   "materials": [
+    "Bucket.Mat",
+    "Ore.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.781,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "ruin"
+     ],
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 19,
+    "interior": {
+     "town": 12,
+     "ruin": 2
+    },
+    "exterior": {
+     "town": 4,
+     "village": 1
+    },
+    "sourceCells": [
+     "interior:town:LilmothSilverRefinery",
+     "interior:town:LilmothIronworks",
+     "exterior:town:LilmothLocation",
+     "interior:ruin:TeethofSithisInt03",
+     "interior:town:LilmothOliisIronFoundryInt",
+     "exterior:village:SeekhatYolLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   }
+  },
+  {
+   "id": "kotm:oaristys/forge/orestack_iron",
+   "node": "es|242727a85a|kotm__oaristys_forge_orestack_iron",
+   "category": "clutter",
+   "sizeM": [
+    0.616,
+    0.786,
+    0.314
+   ],
+   "originOffsetM": [
+    0.296,
+    0.406,
+    0.002
+   ],
+   "triangles": 2700,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "oreiron01.dds"
+   ],
+   "materials": [
+    "Ore.Mat.001"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0019,
+    "p50": -0.0019,
+    "p75": -0.0019,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.002,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.738,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.002,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ]
+    },
+    "n": 9,
+    "interior": {
+     "town": 8,
+     "ruin": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:town:LilmothIronworks",
+     "interior:town:LilmothSilverRefinery",
+     "interior:ruin:TeethofSithisInt03",
+     "interior:town:LilmothOliisIronFoundryInt"
+    ],
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "interior": {
+      "ruin": 1
+     }
+    }
+   },
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0019
+   }
+  },
+  {
+   "id": "kotm:oaristys/forge/ingotsiron01",
+   "node": "es|e50fd2c529|kotm__oaristys_forge_ingotsiron01",
+   "category": "clutter",
+   "sizeM": [
+    0.356,
+    0.48,
+    0.228
+   ],
+   "originOffsetM": [
+    0.178,
+    0.239,
+    0.002
+   ],
+   "triangles": 612,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ingotsilver01.dds"
+   ],
+   "materials": [
+    "Ingots.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0022,
+    "p50": -0.0022,
+    "p75": -0.0022,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.002,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.002,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0022
+   }
   },
   {
    "id": "vanilla:clutter/common/tanningrack01",
@@ -5125,16 +5904,16 @@
    "node": "es|896a982209|cture_farmhouse_lumbermill01waterwheel01",
    "category": "architecture",
    "sizeM": [
-    9.229,
-    9.229,
+    6.685,
+    7.283,
     7.283
    ],
    "originOffsetM": [
-    0.41,
-    3.717,
+    -2.134,
+    3.641,
     5.92
    ],
-   "triangles": 3080,
+   "triangles": 1088,
    "lodRatios": [
     0.35,
     0.12
@@ -5142,7 +5921,20 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "mesh",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "Ragdoll_Object02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WheelEmitGeo01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WheelEmitGeoOld01:0",
+     "reason": "hidden"
+    }
+   ],
    "textures": [
     "woodpost02.dds",
     "woodwalkway01.dds"
@@ -5218,16 +6010,16 @@
    "node": "es|7937faa4ae|cture_farmhouse_lumbermill01waterwheel02",
    "category": "architecture",
    "sizeM": [
-    9.229,
-    9.229,
+    6.685,
+    7.283,
     7.283
    ],
    "originOffsetM": [
-    0.41,
-    3.717,
+    -2.134,
+    3.641,
     5.92
    ],
-   "triangles": 3080,
+   "triangles": 1088,
    "lodRatios": [
     0.35,
     0.12
@@ -5235,7 +6027,20 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "mesh",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "Ragdoll_Object01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WheelEmitGeo02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WheelEmitGeoOld02:0",
+     "reason": "hidden"
+    }
+   ],
    "textures": [
     "woodpost02.dds",
     "woodwalkway01.dds"
@@ -6526,23 +7331,6 @@
     "slopeTermMPerDeg": -0.00339,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.001,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.148,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
    "settingClass": {
     "settings": {
      "interior": [
@@ -6585,7 +7373,24 @@
      "exterior:town:RiverwoodLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.001,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.148,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "vanilla:clutter/common/cratesmall01",
@@ -6881,13 +7686,13 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryCapM": 0.75,
+    "buryCapM": 0.25,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": true,
@@ -7382,13 +8187,13 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.762,
-    "buryCapM": 0.75,
+    "buryCapM": 0.25,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
@@ -9921,14 +10726,14 @@
    "sizeM": [
     0.453,
     0.467,
-    1.57
+    0.719
    ],
    "originOffsetM": [
     0.221,
     0.234,
-    0.043
+    -0.808
    ],
-   "triangles": 686,
+   "triangles": 678,
    "lodRatios": [
     0.35,
     0.12
@@ -9936,7 +10741,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "ANCHOR:0",
+     "reason": "hidden"
+    }
+   ],
    "textures": [
     "wrfireplaceclutter01.dds"
    ],
@@ -10000,7 +10810,7 @@
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.043,
+    "groundContactOffsetM": -0.808,
     "buryCapM": 0.25,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
@@ -10011,7 +10821,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.043
+   "pivotAboveBaseM": -0.808
   },
   {
    "id": "vanilla:clutter/woodfires/spitpotopenloose01",
@@ -10990,8 +11800,8 @@
   "textures/landscape/trees/treepineforestcut01.dds": "textures/texturepack/landscape/trees/treepineforestcut01.dds"
  },
  "alphaModes": {
-  "MASK": 31,
-  "OPAQUE": 241,
+  "MASK": 37,
+  "OPAQUE": 250,
   "BLEND": 17
  },
  "effectTextures": {
@@ -11163,24 +11973,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 47696752,
-  "bytesAfter": 23128584,
-  "images": 100,
-  "imageBytesAfter": 20276814,
+  "bytesBefore": 48622948,
+  "bytesAfter": 23636940,
+  "images": 103,
+  "imageBytesAfter": 20666274,
   "warnings": [],
-  "sha256": "ba5bda31d749f6bc7254ac391a354655f14b7742efa87d57f8a53d01cb5f1ac9",
+  "sha256": "2afee78862e33187d2c6a43f8e91a0d01924d8a1c7e54919a3b9973f167c7131",
   "parts": {
    "parts": 11,
    "partBytes": 192348,
    "textureFiles": 11,
    "textureBytes": 1393228,
    "bytes": 1585576,
-   "sourceSha256": "ba5bda31d749f6bc7254ac391a354655f14b7742efa87d57f8a53d01cb5f1ac9"
+   "sourceSha256": "2afee78862e33187d2c6a43f8e91a0d01924d8a1c7e54919a3b9973f167c7131"
   },
   "sidecarBytes": {
-   "connectors": 80847,
-   "footprints": 144353,
-   "interiors": 66515
+   "connectors": 84539,
+   "footprints": 152654,
+   "interiors": 69183
   }
  }
 }

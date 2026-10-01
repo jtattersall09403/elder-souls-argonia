@@ -208,6 +208,64 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.2 m tall)"
   },
+  "kotm:oaristys/forge/coalpile": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.44,
+   "interior": "none",
+   "planAreaM2": 11.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (11.0 m\u00b2 plan, 0.4 m tall)"
+  },
+  "kotm:oaristys/forge/ingotsiron01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 342.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 343\u00b0 in the piece's own frame carries 1.58x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.23,
+   "interior": "none",
+   "planAreaM2": 0.17,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.2 m tall)"
+  },
+  "kotm:oaristys/forge/orebucket_iron": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.44,
+   "interior": "none",
+   "planAreaM2": 0.43,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 0.4 m tall)"
+  },
+  "kotm:oaristys/forge/orestack_iron": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 223.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 224\u00b0 in the piece's own frame carries 1.41x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.32,
+   "interior": "none",
+   "planAreaM2": 0.35,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 0.3 m tall)"
+  },
   "mudmother:gv_meshes/argoniannest/basketfull": {
    "category": "container",
    "entrance": null,
@@ -1925,6 +1983,33 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.9 m\u00b2 plan, 0.9 m tall)"
+  },
+  "vanilla:furniture/smeltermarker": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 226.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 226\u00b0 in the piece's own frame carries 1.67x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 2.57,
+   "interior": "none",
+   "medianWallM": 0.31,
+   "planAreaM2": 22.77,
+   "planCentreM": [
+    -0.6,
+    -1.12
+   ],
+   "provenance": [],
+   "ringFraction": 0.292,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "category 'furniture' is never a building"
   },
   "vanilla:furniture/tanningrackmarker": {
    "category": "furniture",

@@ -141,6 +141,21 @@
    "asset": "vanilla:clutter/smelter/coal01"
   },
   {
+   "asset": "vanilla:furniture/smeltermarker"
+  },
+  {
+   "asset": "kotm:oaristys/forge/coalpile"
+  },
+  {
+   "asset": "kotm:oaristys/forge/orebucket_iron"
+  },
+  {
+   "asset": "kotm:oaristys/forge/orestack_iron"
+  },
+  {
+   "asset": "kotm:oaristys/forge/ingotsiron01"
+  },
+  {
    "asset": "vanilla:clutter/common/tanningrack01"
   },
   {
