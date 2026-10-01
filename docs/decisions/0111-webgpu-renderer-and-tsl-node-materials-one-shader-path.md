@@ -85,6 +85,17 @@ per-material texture or value into a node, makes a build per material
   pass drawn to the canvas failed validation and was dropped (walk 9: Riverwalk
   at night black but for rain, on one boot in two). The install drops the
   cached descriptor whenever its depth no longer matches the drawing buffer.
+**Settlement draws are merged per material per cell.** three's WebGPU path
+costs ~50-60 µs of CPU per draw, so `SettlementLayer` bakes every copy of
+every part that shares a material, vertex layout and draw flags in one cell
+into one geometry and draws it once (`drawBatchKey`, `mergeTransformedParts`
+in `settlement/lod.ts`). The cell (`drawCellOf`) is the 48 m chunk when its
+centre is within `SETTLEMENT_LAMP_BAND_M` of the build focus
+(`LIGHTS_ACTIVE_M` + the rebuild move + a chunk diagonal), so its bounds cull
+it and pick its 8 nearest lamps; beyond the band no lamp burns and the cell
+is `SETTLEMENT_COARSE_CELL_M` (384 m). A merge is reused while its batch's
+membership signature holds and freed when a build drops it. Riverwalk
+(t=22): 307 settlement draw objects, most of them inside the lamp band.
 `?diag=1` shows the per-frame GPU churn and the queue on screen and downloads
 it as JSON (`render/gpuDiag.ts`, the studio's `diagOverlay.ts`); the boot
 check records the same counters once a second.
