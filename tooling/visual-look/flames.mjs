@@ -86,7 +86,7 @@ function common(f, t) {
 
 /** True when `t` (`H` or `HH:MM`) falls in the lamps-out day, 06:30-17:30 (0105 R3). */
 /** The run's measured target (header): every wait is bounded by it, so a subject that never arrives fails with a reason instead of hanging. */
-export const TARGET_MS = 60_000;
+export const TARGET_MS = Number(process.env.FLAMES_TARGET_MS ?? 60_000); // env: a diagnostic run may wait longer; the check's bar stays 60 s
 
 /** `page.waitForFunction` bounded by TARGET_MS; a miss throws `what` (the check's failure line). */
 export async function waitOrFail(page, fn, what, polling = 250, timeoutMs = TARGET_MS) {
@@ -350,8 +350,22 @@ async function run(opts) {
         `cell ${opts.cell} did not open`);
     } else {
       // the settlement's fixtures streamed: a flame system with cards
-      await waitOrFail(page, () => { let n = 0; window.__SCENE__.traverse((o) => { if (o.name === "fire-flame-cards" && o.visible) n++; }); return n > 0; },
-        "no flame cards streamed at the place", 500);
+      try {
+        await waitOrFail(page, () => { let n = 0; window.__SCENE__.traverse((o) => { if (o.name === "fire-flame-cards" && o.visible) n++; }); return n > 0; },
+          "no flame cards streamed at the place", 500);
+      } catch (e) {
+        // why: the settlement build's state at the timeout (still loading, or built with no fixture)
+        result.settlement = await page.evaluate(() => {
+          const s = window.__STUDIO_SETTLEMENT_DEBUG__;
+          return s && { status: s.status, settlements: s.settlements, placements: s.placements, renderedPlacements: s.renderedPlacements, draws: s.draws, error: s.error };
+        });
+        result.errors = errs.slice(0, 8);
+        // the settlement fetches and when each finished (s since navigation): a kit still in flight shows here
+        result.fetches = await page.evaluate(() => performance.getEntriesByType("resource")
+          .filter((e) => /\/kits\/[^/]+\.(glb|kit\.json)|\/settlements\//.test(e.name))
+          .map((e) => [e.name.split("/").slice(-1)[0].slice(0, 60), +(e.responseEnd / 1000).toFixed(1), e.transferSize]));
+        throw e;
+      }
     }
     result.stage = "subject-ready"; result.subjectReadyS = +((Date.now() - started) / 1000).toFixed(1);
     Object.assign(result, await page.evaluate(installProbe, opts.cell));

@@ -96,7 +96,33 @@ try {
       sweep[Number.isNaN(st) ? "config" : st] = await page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.postSkyCensus());
     }
     await page.screenshot({ path: join(OUT, `${tag}-after.png`), timeout: 180000 });
-    result[t] = { sun, clockMinute, census: sweep };
+    // HUNT=1: a sun texel with a near depth is covered by some drawable that
+    // writes depth; hide depth writers by top-level group, then bisect inside
+    // the guilty group, until the texel reads the far clear.
+    let hunt;
+    if (process.env.HUNT && sweep.config.sunTexel && sweep.config.sunTexel.depth < 0.9999999) {
+      const writers = await page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.depthWriters());
+      const depthWith = async (hidden) => {
+        await page.evaluate((u) => window.__STUDIO_CHARACTER_DEBUG__.setVisible(u, false), hidden);
+        await page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.postSkyCensus(true));
+        await page.waitForFunction(() => window.__STUDIO_CHARACTER_DEBUG__.postSkyCensus() != null, undefined, { timeout: 180000, polling: 500 });
+        const c = await page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.postSkyCensus());
+        await page.evaluate((u) => window.__STUDIO_CHARACTER_DEBUG__.setVisible(u, true), hidden);
+        return c.sunTexel?.depth ?? null;
+      };
+      const far = (d) => d !== null && d >= 0.9999999;
+      let set = writers;
+      if (!far(await depthWith(set.map((w) => w.uuid)))) hunt = { writers: writers.length, result: "not a depth writer in the scene graph" };
+      else {
+        while (set.length > 1) {
+          const half = set.slice(0, Math.ceil(set.length / 2));
+          set = far(await depthWith(half.map((w) => w.uuid))) ? half : set.slice(half.length);
+        }
+        hunt = { writers: writers.length, culprit: set[0] };
+      }
+      console.log("hunt", JSON.stringify(hunt));
+    }
+    result[t] = { sun, clockMinute, census: sweep, hunt };
     console.log(t, JSON.stringify(result[t]));
   }
   await page.close();

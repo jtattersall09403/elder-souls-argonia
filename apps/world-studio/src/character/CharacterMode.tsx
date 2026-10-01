@@ -1455,6 +1455,9 @@ declare global {
       player: () => [number, number, number] | null;
       /** The door transition and the shown cell (InteriorDoors probe state). */
       interior: () => InteriorDoorsProbe | null;
+      /** Visible drawables that write depth (probe-bloom-sky HUNT). */
+      depthWriters: () => { uuid: string; path: string; type: string; mat: string; transparent: boolean }[];
+      setVisible: (uuids: string[], on: boolean) => void;
     };
   }
 }
@@ -1522,7 +1525,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     camera3P.setObstruction(cameraCast);
     return () => camera3P.setObstruction(null);
   }, [camera3P, cameraCast]);
-  const { camera } = useThree();
+  const { camera, scene } = useThree();
   const position = useMemo(() => new THREE.Vector3(), []);
   const lastPosition = useRef(new THREE.Vector3());
   const stepAccum = useRef(0);
@@ -1605,9 +1608,27 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
         return [p.x, p.y, p.z];
       },
       interior: () => interiorProbeRef?.current?.() ?? null,
+      // Probe-only: visible drawables that write depth (the sun-texel depth
+      // hunt), and a toggle by uuid so a probe can bisect which covers a pixel.
+      depthWriters: () => {
+        const out: { uuid: string; path: string; type: string; mat: string; transparent: boolean }[] = [];
+        scene.traverseVisible((o) => {
+          const m = (o as THREE.Mesh).material as THREE.Material | THREE.Material[] | undefined;
+          if (!m) return;
+          const mats = Array.isArray(m) ? m : [m];
+          if (!mats.some((x) => x.depthWrite && x.visible)) return;
+          let path = "";
+          for (let q: THREE.Object3D | null = o; q; q = q.parent) path = `${q.name || q.type}/${path}`;
+          out.push({ uuid: o.uuid, path, type: o.type, mat: mats.map((x) => x.type).join(","), transparent: mats.some((x) => x.transparent) });
+        });
+        return out;
+      },
+      setVisible: (uuids: string[], on: boolean) => {
+        for (const u of uuids) { const o = scene.getObjectByProperty("uuid", u); if (o) o.visible = on; }
+      },
     };
     return () => { delete window.__STUDIO_CHARACTER_DEBUG__; };
-  }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef, camera, interiorProbeRef, bloom]);
+  }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef, camera, interiorProbeRef, bloom, scene]);
 
   useEffect(() => {
     const detach = input.attach();

@@ -123,6 +123,19 @@ export function buildStartMark(
 }
 
 /**
+ * Whether an incomplete build (a placement whose ground had not arrived) is
+ * retried now: only once it has swapped in, and 2 s after the last retry.
+ * Retrying while a build runs cancelled it: a slow sliced build that met an
+ * unresolved far route piece early was restarted every 2 s and never swapped,
+ * so a place kept no buildings and no fixtures (walk 9: Gang Ground, 300 s
+ * at `loading`; Bog Iron 134 s).
+ */
+export function retryIncompleteBuild(incomplete: boolean, building: boolean,
+  nowMs: number, lastRetryMs: number): boolean {
+  return incomplete && !building && nowMs - lastRetryMs > 2000;
+}
+
+/**
  * The manifest path of the kit that publishes the billboard flame: its bundle
  * entry where the bundle lists it, else the same kits folder as any kit the
  * bundle lists (a bundle placing nothing from works-v1 does not list it).
@@ -766,7 +779,7 @@ export function SettlementLayer({
     if (queried && Math.hypot(focus.x - queried.x, focus.z - queried.z) > SETTLEMENT_REQUERY_MOVE_M) {
       queriedAt.current = null; setQueryRevision((v) => v + 1);
     }
-    if (incomplete.current && performance.now() - retryAt.current > 2000) {
+    if (retryIncompleteBuild(incomplete.current, running.current !== null, performance.now(), retryAt.current)) {
       retryAt.current = performance.now();
       setRevision((v) => v + 1);
     }
