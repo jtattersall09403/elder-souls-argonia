@@ -8,7 +8,7 @@
  * attribute, because the visible copies are a compact prefix that moves as
  * copies are switched on and off, so no ordering the GPU can see is stable.
  * Two RGBA float texels per slot: texel 2i is the band (dIn, dOut, wIn, wOut),
- * texel 2i+1 is (stiffness − 1, sink, 0, 0).
+ * texel 2i+1 is (stiffness − 1, sink, plant height m, 0).
  *
  * The same head also carries the terrain-occlusion mask (`occlusionMask.ts`),
  * because it is read from the same place and by the same instances.
@@ -63,6 +63,7 @@ export function writeBatchInstance(
   band: readonly [number, number, number, number],
   stiffness: number,
   sink: number,
+  plantHeightM: number,
 ): void {
   const data = texture.image.data as Float32Array;
   const at = id * BATCH_DATA_TEXELS * 4;
@@ -72,7 +73,7 @@ export function writeBatchInstance(
   data[at + 3] = band[3];
   data[at + 4] = stiffness;
   data[at + 5] = sink;
-  data[at + 6] = 0;
+  data[at + 6] = plantHeightM;
   data[at + 7] = 0;
 }
 

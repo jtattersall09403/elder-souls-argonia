@@ -87,13 +87,15 @@ export interface CellRung {
 export const CELL_TILES = 16;
 /** minX, minY, minZ, maxX, maxY, maxZ, maxScale. */
 export const TILE_BOUNDS_STRIDE = 7;
+/** (stiffness − 1, sink m, plant height m): the wind patch's per-instance tune. */
+export const WIND_TUNE_STRIDE = 3;
 
 export interface CellSpeciesBuild {
   species: string;
   count: number;
   /** Stride 7: x, y, z, tiltX, yaw, tiltZ, scale. SORTED by gate tile. */
   placements: Float32Array;
-  /** Stride 2: (stiffness − 1, sink). Sorted with `placements`. */
+  /** Stride `WIND_TUNE_STRIDE`. Sorted with `placements`. */
   windTune: Float32Array;
   rungs: CellRung[];
   /** CSR offsets into `placements` per tile: `CELL_TILES²+1` entries, tile t
@@ -210,7 +212,7 @@ function buildSpecies(
   if (rungs.length === 0) return null;
   const tiles = CELL_TILES * CELL_TILES;
   const read = new Float32Array(wanted * PLACEMENT_STRIDE);
-  const readWind = new Float32Array(wanted * 2);
+  const readWind = new Float32Array(wanted * WIND_TUNE_STRIDE);
   const tileOf = new Uint16Array(wanted);
   const tileOffsets = new Uint32Array(tiles + 1);
   const tileBounds = new Float32Array(tiles * TILE_BOUNDS_STRIDE);
@@ -250,8 +252,9 @@ function buildSpecies(
     read[at + 6] = inst.scale;
     // A non-swaying species is pushed to stiffness −1 even though its
     // material is left unpatched: it may SHARE a material with a plant.
-    readWind[i * 2] = params.sways ? params.stiffness(inst.scale) : -1;
-    readWind[i * 2 + 1] = sink;
+    readWind[i * WIND_TUNE_STRIDE] = params.sways ? params.stiffness(inst.scale) : -1;
+    readWind[i * WIND_TUNE_STRIDE + 1] = sink;
+    readWind[i * WIND_TUNE_STRIDE + 2] = params.heightM * inst.scale;
     const tile = tileIndex(inst.x, inst.z, originX, originZ, chunkMetres);
     tileOf[i] = tile;
     tileOffsets[tile + 1]++;
@@ -271,7 +274,7 @@ function buildSpecies(
   }
   if (count === 0) return null;
   const placements = new Float32Array(count * PLACEMENT_STRIDE);
-  const windTune = new Float32Array(count * 2);
+  const windTune = new Float32Array(count * WIND_TUNE_STRIDE);
   // Counting sort into tile order: the gate switches a TILE on and off, so a
   // tile's copies must be one contiguous run of batch instances.
   for (let t = 0; t < tiles; t++) tileOffsets[t + 1] += tileOffsets[t];
@@ -282,8 +285,7 @@ function buildSpecies(
     const from = i * PLACEMENT_STRIDE;
     const at = to * PLACEMENT_STRIDE;
     for (let k = 0; k < PLACEMENT_STRIDE; k++) placements[at + k] = read[from + k];
-    windTune[to * 2] = readWind[i * 2];
-    windTune[to * 2 + 1] = readWind[i * 2 + 1];
+    windTune.set(readWind.subarray(i * WIND_TUNE_STRIDE, (i + 1) * WIND_TUNE_STRIDE), to * WIND_TUNE_STRIDE);
     const b = tile * TILE_BOUNDS_STRIDE;
     const x = read[from];
     const y = read[from + 1];

@@ -74,7 +74,7 @@ Verdict on ours: **already** (we do it as well or better), **worse**, **lacks**.
 | 22 | Octahedral impostors, 4-tile blend, relit normals (`src/render/ImpostorRuntime.ts`) | already: 3-view (`vegetation/impostor.ts`) | polish | compare relighting quality only |
 | 23 | World-anchored dither crossfade (`STATUS.md:910`) | already (`cellGating.ts:128`), anchor unchecked | polish | screen-anchored dither swims |
 | 24 | Edge-on card fade (`VegMaterials.ts:314-329`) | lacks | polish | cards seen edge-on show as lines |
-| 25 | Hierarchical wind: gust fronts, sway frequency by size, shelter (`src/render/Wind.ts:1-15`) | worse: sines plus noise (`fx/windSway.ts`) | consider (owner E) | a feel change the owner must walk |
+| 25 | Hierarchical wind: gust fronts, sway frequency by size, shelter (`src/render/Wind.ts:1-15`) | matched except shelter: trunk bend by height², frequency by plant size, branch sway, leaf flutter, downwind gust band (`fx/windSway.ts`, walk-8 lane E) | done (owner E, 2026-10-01) | shelter not done; owner walks the feel |
 | 26 | GPU auto-exposure from frame luminance (`PostStack.ts:517-530`) | worse: CPU ease toward a target (`lightAdaptation.ts:10`) | polish | ours never measures the frame |
 | 27 | Far-terrain ridged normal synthesis (`src/render/TerrainMaterial.ts:8-14`) | partial: macro channel (`groundMaterial.ts:265,308`) | polish | distant hills keep detail |
 | 28 | Baked noise instead of live noise in terrain shading (live noise was 52 of 73.5 ms, `STATUS.md`) | check our `groundMaterial.ts` live-noise count | polish | possible large win; unmeasured |

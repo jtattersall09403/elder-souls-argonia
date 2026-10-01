@@ -69,6 +69,7 @@ import {
   copiesPerKey,
   CELL_TILES,
   TILE_BOUNDS_STRIDE,
+  WIND_TUNE_STRIDE,
   type CellBuild,
   type CopiesSpecies,
   type CellInstance,
@@ -1877,9 +1878,10 @@ export function Vegetation({
       geo.src[slot] = sb.placements;
       geo.srcIndex[slot] = i;
       // The card rung never sways, whatever the species does.
-      const stiffness = batch.isCard ? -1 : sb.windTune[i * 2];
-      writeBatchInstance(
-        batch.data, dataSlot, rung.band, stiffness, sb.windTune[i * 2 + 1]);
+      const tune = i * WIND_TUNE_STRIDE;
+      const stiffness = batch.isCard ? -1 : sb.windTune[tune];
+      writeBatchInstance(batch.data, dataSlot, rung.band, stiffness,
+        sb.windTune[tune + 1], sb.windTune[tune + 2]);
       ids[i] = slot;
     }
     return ids;

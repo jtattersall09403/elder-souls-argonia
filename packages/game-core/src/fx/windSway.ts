@@ -1,22 +1,22 @@
 /**
  * Wind sway for instanced vegetation — a vertex-shader injection shared by
- * every plant material in the world.
+ * every plant material in the world (decision 0082; walk-8 lane E rewrite).
  *
- * The recipe is the standard one (research/rendering/vegetation-scatter-instancing-threejs.md
- * §4, after GPU Gems 3 ch. 16): displace along the wind direction, weighted by
- * height above the instance's own base so trunks stay planted while crowns
- * move; two sines plus a scrolled noise term for gusts; a per-instance phase
- * so a forest never sways in unison; and a distance fade because nobody can
- * see a leaf move at 600 m.
+ * The recipe (research/rendering/vegetation-scatter-instancing-threejs.md §4,
+ * GPU Gems 3 ch. 16, the fable5 demo's gust fronts): trunk bend by height
+ * squared at a frequency set by plant size, branch sway, leaf flutter, a gust
+ * field that travels downwind across the stand, a per-instance phase so a
+ * forest never sways in unison, and a distance fade. Vertex shader only, no
+ * texture fetch, four uniforms' worth of state.
  *
  * **The one thing that must not be got wrong**: alpha-tested foliage casts its
  * shadow through a *separate* `customDepthMaterial`. If the displacement is
  * injected into the colour material only, every tree's shadow stays still
  * while the tree moves and the whole effect reads as broken. `applyWindSway`
  * therefore takes both materials and shares one uniform block between them —
- * same uniforms object, same clock, same code. Detail (per-leaf) bending is
- * deliberately not implemented: our sourced meshes carry no authored vertex
- * colours to drive it, and main bending alone is the documented fallback.
+ * same uniforms object, same clock, same code. The branch and leaf weights
+ * are read from the geometry (distance from the trunk axis, height), because
+ * the sourced meshes carry no authored wind vertex colours.
  *
  * Lives in a package rather than in the studio app because it is game
  * rendering, not scene composition (owner ruling 2026-08-30, decision 0038
@@ -51,15 +51,14 @@ export const WIND_FADE_M = 220;
 export const WIND_METRES_PER_MS = 0.09;
 
 /**
- * Per-instance wind tuning, as a `vec2` instanced attribute:
+ * Per-instance wind tuning, as a `vec3` instanced attribute:
  *
- *   `.x` = stiffness − 1   `.y` = sink metres
+ *   `.x` = stiffness − 1   `.y` = sink metres   `.z` = plant height metres
  *
- * Both are offsets from the neutral value ON PURPOSE. An instanced draw whose
+ * Each reads its neutral value at 0 ON PURPOSE (height 0 = ground cover, 1 m). An instanced draw whose
  * geometry lacks the attribute reads WebGL's generic default of `(0, 0)`,
- * which decodes to stiffness 1 and sink 0 — exactly the behaviour before this
- * existed. A missing attribute therefore degrades to the old look rather than
- * silently switching wind off altogether.
+ * which decodes to stiffness 1, sink 0 and a 1 m plant: a missing attribute
+ * degrades to ground-cover motion rather than switching wind off.
  */
 export const WIND_TUNE_ATTRIBUTE = "esWindTune";
 
@@ -143,102 +142,127 @@ uniform vec3 esWindVec;
 uniform float esWindFadeM;
 
 #if defined(USE_INSTANCING) && !defined(ES_BATCH_SLOTS)
-  // vec2(stiffness - 1, sink metres). Unbound => (0, 0) => neutral.
+  // vec3(stiffness - 1, sink metres, plant height metres). Unbound =>
+  // (0, 0, 0) => neutral stiffness, no sink, ground-cover height.
   // The foliage batches read the tune from their data texture instead.
-  attribute vec2 esWindTune;
+  attribute vec3 esWindTune;
 #endif
 ${BATCH_DATA_HEAD}
 
-// Cheap hash for a per-instance phase, so neighbours are never in step.
-float esWindPhase(vec2 p) {
+float esWindHash(vec2 p) {
   return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+// Value noise, 0..1: the gust field. Four hashes, no texture fetch.
+float esWindNoise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(esWindHash(i), esWindHash(i + vec2(1.0, 0.0)), f.x),
+             mix(esWindHash(i + vec2(0.0, 1.0)), esWindHash(i + vec2(1.0, 1.0)), f.x), f.y);
 }
 `;
 
 /**
- * Injected after `project_vertex`'s prerequisites are set up but before the
- * position is used: three.js builds `transformed` in `begin_vertex`, and both
- * the colour and the depth material go through that same chunk — which is
- * exactly why the same injection works for both.
+ * Injected after `begin_vertex`: three.js builds `transformed` there, and both
+ * the colour and the depth material go through that same chunk, which is why
+ * the same injection works for both.
+ *
+ * Three motions, all in world space (GPU Gems 3 ch. 16 hierarchy; the fable5
+ * demo's gust fronts, docs/research/rendering/fable5-world-demo-audit.md row 25):
+ *  - trunk bend: the whole plant leans and sways downwind, weighted by
+ *    (height / plant height)², at a natural frequency that falls with plant
+ *    size (a 40 m tree ~0.35 Hz, a 1 m fern ~2 Hz);
+ *  - branch sway: vertices away from the trunk axis bob at ~2× that rate with
+ *    a phase that drifts smoothly across the crown;
+ *  - leaf flutter: the outer, upper vertices jitter at ~7 Hz with a per-vertex
+ *    phase; near-field only.
+ * The gust is a value-noise field advected downwind, sampled at the plant's
+ * root: bands of stronger wind visibly roll across a stand. Grass and ground
+ * cover take the same code; at their height the trunk bend IS the blade bend
+ * and the gust band is the ripple.
+ *
+ * The weights come from geometry, not vertex colour: 472 of the flora kit's
+ * 732 primitives carry no colour attribute, and the rest carry NIF-specific
+ * channels, not wind masks.
  */
 const VERTEX_BODY = /* glsl */ `
 {
-  // transformed is still in OBJECT space here — three.js applies
-  // instanceMatrix later, in project_vertex. That matters more than it looks:
-  // adding the wind offset straight to transformed would send it through each
-  // instance's own yaw rotation, so every tree in a stand would bend in a
-  // different direction. The offset is therefore computed in WORLD space and
-  // converted back into object space before it is applied.
+  // transformed is still in OBJECT space here; the instance matrix is applied
+  // later, in project_vertex. The offset is computed in WORLD space (so a
+  // stand bends one way whatever each instance's yaw) and converted back.
   #ifdef ES_BATCH_SLOTS
     // The foliage batches: the tune rides texel 1 of the per-slot data
     // texture (decision 0082 §5).
     mat3 esBasis = mat3(instanceMatrix);
     vec3 esInstanceOrigin = instanceMatrix[3].xyz;
-    vec2 esTune = esBatchTexel(1).xy;
-    float esStiffness = 1.0 + esTune.x;
-    float esSink = esTune.y;
-    float esRawHeight = (esBasis * transformed).y;
-    // Uniform instance scale, so squared length of any basis column gives s².
-    float esScaleSq = max(1e-6, dot(esBasis[0], esBasis[0]));
+    vec3 esTune = esBatchTexel(1).xyz;
   #elif defined(USE_INSTANCING)
     mat3 esBasis = mat3(instanceMatrix);
     vec3 esInstanceOrigin = instanceMatrix[3].xyz;
-    float esStiffness = 1.0 + esWindTune.x;
-    float esSink = esWindTune.y;
-    float esRawHeight = (esBasis * transformed).y;
-    float esScaleSq = max(1e-6, dot(esBasis[0], esBasis[0]));
+    vec3 esTune = esWindTune;
   #else
     mat3 esBasis = mat3(1.0);
     vec3 esInstanceOrigin = vec3(0.0);
-    float esStiffness = 1.0;
-    float esSink = 0.0;
-    float esRawHeight = transformed.y;
-    float esScaleSq = 1.0;
+    vec3 esTune = vec3(0.0);
   #endif
-  // Height above the GROUND LINE, not above the pivot. Terrain species are
-  // deliberately sunk (sink metres below the streamed ground) so a flat base
-  // never shows on a slope — but the pivot is then underground, and weighting
-  // from the pivot left the trunk already displaced where it meets the soil:
-  // the owner's round-6 "trunks look like they're swaying at their base, like
-  // they're moving in the ground". Rebasing here pins every plant at the exact
-  // point it enters the ground, whatever its sink.
-  float esHeight = max(0.0, esRawHeight - esSink);
-  float esWindStrength = length(esWindVec.xy);
-  if (esWindStrength > 0.0001 && esHeight > 0.01) {
-    float esPhase = esWindPhase(esInstanceOrigin.xz) * 6.2831853;
-    // Two sines at incommensurate rates plus a slow swell: a gust pattern
-    // that never visibly repeats without costing a noise texture fetch.
+  vec3 esLocal = esBasis * transformed;
+  // Height above the GROUND LINE, not the pivot: terrain species are sunk so a
+  // flat base never shows on a slope, and weighting from the pivot moved the
+  // trunk where it meets the soil (owner round 6).
+  float esHeight = max(0.0, esLocal.y - esTune.y);
+  float esStrength = length(esWindVec.xy);
+  float esDist = length(cameraPosition - esInstanceOrigin);
+  float esFade = 1.0 - smoothstep(esWindFadeM * 0.6, esWindFadeM, esDist);
+  if (esStrength > 0.0001 && esHeight > 0.01 && esFade > 0.0) {
+    float esStiffness = 1.0 + esTune.x;
+    // Unknown height (ground cover draws without the tune) reads as 1 m.
+    float esPlantH = esTune.z > 0.05 ? esTune.z : 1.0;
+    vec2 esDir = esWindVec.xy / esStrength;
+    vec2 esPerp = vec2(-esDir.y, esDir.x);
     float esT = esWindTime;
-    float esGust =
-        sin(esT * 1.7 + esPhase)
-      + 0.5 * sin(esT * 2.9 + esPhase * 1.7)
-      + esWindVec.z * sin(esT * 0.31 + esPhase * 0.5);
-    // Weight by height^0.8: crowns swing, bases are pinned. Normalised
-    // against a nominal 10 m plant. The exponent was 1.5 in round 5 and that
-    // made every sub-2 m plant move by millimetres — literally invisible
-    // (owner: "couldn't see any movement in a thunderstorm"). 0.8 keeps
-    // trunk-pinning (weight still ~0 at the base) while a 1 m fern in a
-    // 13 m/s storm oscillates ~±9 cm and a 15 m crown leans ~1.5 m.
-    // Stiffness is the trunk-width term (windStiffness()): a fat buttressed
-    // giant and a whippy sapling no longer sway by the same amount.
-    float esWeight = pow(min(esHeight / 10.0, 1.6), 0.8) * esStiffness;
-    float esFade = 1.0 - smoothstep(esWindFadeM * 0.6, esWindFadeM,
-                                    length(cameraPosition - esInstanceOrigin));
-    // Half the displacement is oscillation, not standing lean — the moving
-    // part is what the eye reads as wind.
-    float esAmount = esWeight * esFade * (0.5 + 0.5 * esGust);
-    vec3 esWorldOffset = vec3(esWindVec.x, 0.0, esWindVec.y) * esAmount;
+    float esPhase = esWindHash(esInstanceOrigin.xz) * 6.2831853;
+    // Gust band: 30 m noise cells carried downwind at 2 m/s + 0.6 × wind speed.
+    float esSpeedMS = esStrength / ${WIND_METRES_PER_MS.toFixed(4)};
+    vec2 esGustAt = (esInstanceOrigin.xz - esDir * esT * (2.0 + 0.6 * esSpeedMS)) / 30.0;
+    float esGust = mix(1.0, 0.25 + 1.5 * esWindNoise(esGustAt), clamp(esWindVec.z, 0.0, 1.0));
+    // Trunk bend. Crown amplitude keeps the calibrated pow(H/10, 0.8) law; the
+    // profile up the plant is (h/H)², so trunks stay planted and crowns swing.
+    float esFreq = clamp(2.2 * inversesqrt(esPlantH), 0.3, 2.2) * 6.2831853;
+    float esProfile = min(esHeight / esPlantH, 1.3);
+    esProfile *= esProfile;
+    float esCrown = pow(min(esPlantH / 10.0, 1.6), 0.8) * esStiffness * esStrength;
+    float esOsc = sin(esT * esFreq + esPhase) + 0.4 * sin(esT * esFreq * 1.73 + esPhase * 1.3);
+    float esBend = esCrown * esProfile * (0.5 * esGust + 0.35 * esOsc * (0.5 + 0.5 * esGust));
+    float esCross = esCrown * esProfile * 0.15 * esGust * sin(esT * esFreq * 0.71 + esPhase * 2.1);
+    vec3 esOffset = vec3(esDir.x * esBend + esPerp.x * esCross, 0.0,
+                         esDir.y * esBend + esPerp.y * esCross);
     // Length-preserving correction: without it a bent plant visibly stretches.
-    float esLean = length(esWorldOffset);
-    esWorldOffset.y -= esHeight * (1.0 - cos(min(esLean / max(esHeight, 0.01), 1.0)));
+    float esLean = length(esOffset);
+    esOffset.y -= esHeight * (1.0 - cos(min(esLean / max(esHeight, 0.01), 1.0)));
+    // Branch sway: weight by distance from the trunk axis and height.
+    float esRadial = length(esLocal.xz);
+    float esOuter = smoothstep(0.06 * esPlantH, 0.4 * esPlantH, esRadial) * min(esHeight / esPlantH, 1.0);
+    if (esOuter > 0.0) {
+      float esLimb = esStiffness * esStrength * min(esPlantH / 10.0, 1.0) * esGust;
+      float esBranchPhase = esPhase + dot(esLocal, vec3(1.0, 0.6, 0.8)) * 2.0 / max(0.3 * esPlantH, 0.5);
+      esOffset += vec3(0.6 * esDir.x, 1.0, 0.6 * esDir.y)
+        * (0.12 * esLimb * esOuter * sin(esT * esFreq * 2.1 + esBranchPhase));
+      // Leaf flutter, near field only (beyond ~60 m it is sub-pixel shimmer).
+      float esNear = 1.0 - smoothstep(30.0, 60.0, esDist);
+      float esLeafPhase = dot(esLocal, vec3(17.3, 11.1, 13.7));
+      esOffset += vec3(esPerp.x, 0.7, esPerp.y)
+        * (0.03 * esStrength * esGust * esOuter * esNear * sin(esT * 44.0 + esLeafPhase));
+    }
+    esOffset *= esFade;
     // World -> object: the basis is rotation × uniform scale, so its inverse
-    // is transpose / s². (Written out because GLSL ES 1.00 has no
-    // transpose() and no inverse().)
+    // is transpose / s² (written out: GLSL ES 1.00 has no transpose()).
+    float esScaleSq = max(1e-6, dot(esBasis[0], esBasis[0]));
     mat3 esBasisT = mat3(
       esBasis[0][0], esBasis[1][0], esBasis[2][0],
       esBasis[0][1], esBasis[1][1], esBasis[2][1],
       esBasis[0][2], esBasis[1][2], esBasis[2][2]);
-    transformed += (esBasisT * esWorldOffset) / esScaleSq;
+    transformed += (esBasisT * esOffset) / esScaleSq;
   }
 }
 `;

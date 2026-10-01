@@ -61,8 +61,8 @@ describe("wind sway shader patch", () => {
     reapplyWindSway(material);
     reapplyWindSway(material);
     const shader = compile(material);
-    expect(shader.vertexShader.match(/esWindPhase\(/g)?.length ?? 0)
-      .toBeLessThanOrEqual(2); // declaration + one call site, one injection
+    expect(shader.vertexShader.match(/float esWindNoise\(/g)?.length ?? 0)
+      .toBe(1); // one injection
   });
 
   it("ignores materials wind never touched", () => {
@@ -93,11 +93,11 @@ describe("wind sway shader patch", () => {
     const material = new THREE.MeshStandardMaterial();
     applyWindSway(material, createWindUniforms());
     const shader = compile(material);
-    expect(shader.vertexShader).toContain(`attribute vec2 ${WIND_TUNE_ATTRIBUTE}`);
+    expect(shader.vertexShader).toContain(`attribute vec3 ${WIND_TUNE_ATTRIBUTE}`);
     // Guarded, because the non-instanced path has no such attribute to bind,
     // and the foliage batches read the tune from their data texture instead.
     const declaration = shader.vertexShader.indexOf(
-      `attribute vec2 ${WIND_TUNE_ATTRIBUTE}`);
+      `attribute vec3 ${WIND_TUNE_ATTRIBUTE}`);
     const guard = shader.vertexShader.lastIndexOf(
       "#if defined(USE_INSTANCING) && !defined(ES_BATCH_SLOTS)", declaration);
     expect(guard).toBeGreaterThan(-1);
@@ -110,7 +110,28 @@ describe("wind sway shader patch", () => {
     const material = new THREE.MeshStandardMaterial();
     applyWindSway(material, createWindUniforms());
     const shader = compile(material);
-    expect(shader.vertexShader).toContain("esHeight = max(0.0, esRawHeight - esSink)");
+    expect(shader.vertexShader).toContain("esHeight = max(0.0, esLocal.y - esTune.y)");
+  });
+
+  it("carries the trunk/branch/leaf hierarchy and a travelling gust band", () => {
+    const material = new THREE.MeshStandardMaterial();
+    applyWindSway(material, createWindUniforms());
+    const vs = compile(material).vertexShader;
+    // Trunk bend by (height / plant height) squared, frequency by plant size.
+    expect(vs).toContain("esProfile *= esProfile");
+    expect(vs).toContain("inversesqrt(esPlantH)");
+    // Branch sway and near-field leaf flutter.
+    expect(vs).toContain("esBranchPhase");
+    expect(vs).toContain("esLeafPhase");
+    // The gust is a noise field advected downwind, sampled per instance.
+    expect(vs).toMatch(/esWindNoise\(esGustAt\)/);
+    expect(vs).toContain("esInstanceOrigin.xz - esDir * esT");
+    // Plant height rides the tune's third channel.
+    expect(vs).toContain("esTune.z");
+    // The old two-sines-plus-swell branch is gone.
+    expect(vs).not.toContain("esWindPhase");
+    expect(vs).not.toContain("esT * 0.31");
+    expect(vs).not.toContain("esRawHeight");
   });
 
   it("scales sway by the trunk's width, both ways off the reference", () => {

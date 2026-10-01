@@ -270,8 +270,8 @@ describe("applyBatchData", () => {
 
   it("writes two RGBA texels per instance", () => {
     const texture = createBatchDataTexture(4);
-    writeBatchInstance(texture, 2, [1, 2, 3, 4], -0.5, 0.25);
+    writeBatchInstance(texture, 2, [1, 2, 3, 4], -0.5, 0.25, 12);
     const data = texture.image.data as Float32Array;
-    expect([...data.slice(16, 24)]).toEqual([1, 2, 3, 4, -0.5, 0.25, 0, 0]);
+    expect([...data.slice(16, 24)]).toEqual([1, 2, 3, 4, -0.5, 0.25, 12, 0]);
   });
 });
