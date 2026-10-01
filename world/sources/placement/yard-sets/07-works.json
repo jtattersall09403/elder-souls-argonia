@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "type": "07-works",
-  "about": "Yard sets for works and landings (decision 0101): the dressing groups that `wb.py group place` lays. Members sit in the anchor's plan frame (offsetM is x east and z south with the anchor at yaw 0); none is mounted, every member is settled on the ground. A works is told by its process laid out in order: fuel and ore in, the furnace, the product and the spoil out. First laid at Bog Iron Workings (16k walk 9).",
+  "about": "Yard sets for works and landings (decision 0101): the dressing groups that `wb.py group place` lays. Members sit in the anchor's plan frame (offsetM is x east and z south with the anchor at yaw 0); none is mounted, every member is settled on the ground. A works lays out its process in order: fuel and ore in, the furnace, the product and the spoil out. First laid at Bog Iron Workings (16k walk 9).",
   "source": "world/sources/blueprints/bog-iron-workings.layout.json (first laid there by `group place`)",
   "sets": [
     {
