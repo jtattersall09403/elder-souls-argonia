@@ -416,13 +416,30 @@ def _wall_normal(mesh, point) -> tuple[np.ndarray, float]:
 
 
 TWIN_TOL_M = 0.01
-"""R98: a re-textured NIF is its vanilla twin's geometry when its bounds and
+"""R99: a re-textured NIF is its vanilla twin's geometry when its bounds and
 its hook (the centre of its top 10 % of height) match within this."""
+HOOK_BAND_M = 0.25
+"""R99 amended: `--hook-only` judges the top band that carries a hanging
+sign (its beam, rings and hooks); the board below hangs free."""
 
 
-def twin_refusal(cat, child_asset: str, twin: str) -> str | None:
-    """Why `child_asset` is not `twin`'s geometric twin (R98), or None."""
-    a, b = (np.asarray(cat.mesh(x).vertices) for x in (child_asset, twin))
+def _twin_mesh(cat, twin: str):
+    """The twin's mesh: the kit's, else the mount miner's dump of the
+    vanilla NIF (`plugin-static:<path>.nif`)."""
+    try:
+        return cat.mesh(twin)
+    except Exception:  # noqa: BLE001 - not kitted
+        return _like_parent_mesh(cat, "plugin-static:" + twin.split(":", 1)[1] + ".nif")
+
+
+def twin_refusal(cat, child_asset: str, twin: str, hook_only: bool = False) -> str | None:
+    """Why `child_asset` is not `twin`'s geometric twin (R99), or None; with
+    `hook_only` only the top HOOK_BAND_M of each is compared."""
+    a = np.asarray(cat.mesh(child_asset).vertices)
+    b = np.asarray(_twin_mesh(cat, twin).vertices)
+    if hook_only:
+        a = a[a[:, 2] >= a[:, 2].max() - HOOK_BAND_M]
+        b = b[b[:, 2] >= b[:, 2].max() - HOOK_BAND_M]
 
     def hook(v):
         z = v[:, 2]
@@ -431,12 +448,17 @@ def twin_refusal(cat, child_asset: str, twin: str) -> str | None:
                        ("hook", hook(a), hook(b))):
         off = float(np.max(np.abs(x - y)))
         if off > TWIN_TOL_M:
-            return f"{child_asset} is not {twin}'s twin: {what} differ by {off:.3f} m (> {TWIN_TOL_M})"
+            part = "hook band " if hook_only else ""
+            return f"{child_asset} is not {twin}'s twin: {part}{what} differ by {off:.3f} m (> {TWIN_TOL_M})"
     return None
 
 
+HANG_GROUND_CLEAR_M = 0.1
+"""R99 amended: a free-hanging board under a borrowed hook clears the ground by this."""
+
+
 def like_wall_mount(cat, scene, child: Piece, parent: Piece, like: str,
-                    twin: str | None = None) -> dict:
+                    twin: str | None = None, hook_only: bool = False) -> dict:
     """R97: hang a child on the WALL of a host it has no mined pair with,
     by the mined wall pair it does have (`like` = that pair's parent asset):
     the pair's distance off its wall plane, its height and its yaw relative
@@ -445,7 +467,7 @@ def like_wall_mount(cat, scene, child: Piece, parent: Piece, like: str,
     actual mesh). The 0102 cap for unmined mounts is untouched: this needs a
     mined pair."""
     if twin:
-        why = twin_refusal(cat, child.asset, twin)
+        why = twin_refusal(cat, child.asset, twin, hook_only)
         if why:
             raise ValueError(f"mount --twin: {why}")
     pairs = mount_pairs(twin or child.asset, like)
@@ -501,13 +523,28 @@ def like_wall_mount(cat, scene, child: Piece, parent: Piece, like: str,
             hi = mid
         else:
             break
+    clear = None
+    if hook_only:
+        # the board hangs free under the borrowed hook: measure that it clears
+        # the wall and the ground (R99 amended)
+        c = measure.contact(cat, child, parent)
+        pen = c.get("penetrationM")
+        if c.get("intersecting") and (pen is None or pen > 0.02):
+            raise ValueError(f"mount --hook-only: {child.uid} passes into {parent.uid} "
+                             f"(penetration {pen})")
+        low = float(cat.mesh(child.asset).copy().apply_transform(_t4(child)).vertices[:, 2].min())
+        clear = round(low - float(g.chunk_height(child.x, child.z)), 3)
+        if clear < HANG_GROUND_CLEAR_M:
+            raise ValueError(f"mount --hook-only: {child.uid} hangs {clear} m over the ground "
+                             f"(< {HANG_GROUND_CLEAR_M})")
     child.settledBy = f"mount:{parent.uid}"
     prov = {"kind": "like", "like": like, "n": int(pair.get("n", 0)),
-            **({"evidence": f"twin:{twin}"} if twin else {}),
+            **({"evidence": f"twin{'-hook' if hook_only else ''}:{twin}"} if twin else {}),
+            **({"groundClearM": clear} if clear is not None else {}),
             "offWallM": round(ld, 3), "heightM": round(float(off[2]), 3), "yawOffNormalDeg": round(rel, 1)}
     child.role = {**child.role, "mountedOn": parent.uid, "mountPair": prov}
     child.notes.append(f"wall mount on {parent.uid} like {like} (R97)"
-                       + (f", twin {twin} (R98)" if twin else ""))
+                       + (f", twin {twin} (R99)" if twin else ""))
     return {"pair": prov}
 
 

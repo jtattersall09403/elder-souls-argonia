@@ -508,14 +508,6 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
 - **Vegetation scans the whole cell registry every frame (walk-5 perf lane).** Vegetation.tsx ~1082 runs `registry.dirty().filter().sort()` each frame, which is O(cells) with allocation; the reason depends on time (the settle hold, 834e895e). Done when the registry keeps a dirty set updated on events and the settle timer, and the frame reads it without allocating.
 - **Unused `barkTube` path (walk-5 impostor ship, 2026-09-29).** All four placed mangroves (gkb2, gkb3, gkb8, gkb9) now ship impostors (decision 0108 §5), so the `barkTube` code in `pipeline/tree_tiers.py` (modes 1 and 2) ships on no asset. Done when `barkTube` is removed or used.
 
-- **Argonian trade signage (walk 8, 2026-10-01).** Greenspring's lodge and Riverwalk's crews-house sell lodging and trade but carry no board.
-  - The only usable Argonian board is KotM `blackwood/sign`, with a wordless sun face. It is kitted in settlement-mud-v1. `signinn` carries a named inn on its face and was dropped from the kit.
-  - KotM's plugin places neither board, so a board can hang only by a twin's mined pair (R98, `mount --like … --twin`).
-  - **Twin search (all 43 vanilla shop and inn boards under `meshes/clutter/signage/`, dumped by the mount miner's mesh dump, `tooling/.reports/16k/walk8/laneC-twin-table.txt`):** none is within 1 cm.
-    - Nearest is the blacksmith family (`signrtblacksmith01`, `signwrblacksmith01`, `signwhblacksmith01`, `signriverwoodriverwoodblacksmith01`) at 0.129 m. They share the beam and hook; their board hangs 0.13 m lower.
-    - Next are the stables boards (0.24 m) and the general-goods boards (0.242 m).
-  - The `riftencanalwood01` alias for the missing `bwcs` frame texture reads as a plain wooden beam on the look sheets and is kept.
-  - Done when an owner or planner call is made: either the twin rule measures the hook alone (the mount-relevant part) so the blacksmith wall pairs can be borrowed, or the board is left unplaced and `hist-heartland`/`dunmer-north` stay out of `SIGN_POOLS`.
 - **Road dressing sourcing (walk 8).** There is no milestone mesh in the vault manifest or in any kit. Burial cairns (`clutter/burialcairn01-03`), the wayside shrines to the Nine (`clutter/shrines/shrine*.nif`, of which only `shrinearkay`/`shrinebase` are kitted, in interior-farmhouse-v1) and an unlit campfire ring (`clutter/woodfires`) are in the vault but not kitted. There is no broken-cart mesh. Done when the type-10 slice's brief kits what it plans from the vault and records milestone and broken cart in the sourcing log as searched, with the mod pool's evidence (`docs/research/placement-settlements/road-dressing.md` § What we hold).
 
 ## Repo hygiene (2026-09-30)

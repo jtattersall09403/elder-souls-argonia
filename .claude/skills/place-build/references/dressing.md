@@ -61,7 +61,7 @@ place's pool has a published sign family.
 | Pool (place id region) | Bracket post | Boards in a kit | Not yet in a kit (vault) |
 |---|---|---|---|
 | `imperial-fringe` (settlement-imperial-v1) | `vanilla:clutter/signage/whiterun/signwrpost01` | `signwrstables01` (stable, mined on the post), `signwrgeneralgoods` (trader, lodging; on the wall by `mount --like` its `wrhousestores01` pair, R97), `signwrdrunkenhuntsman01` (a named inn: not used) | `signwrblacksmith01`, `signwralchemyshop01` |
-| Argonian pools (`hist-heartland`, Murkmire, `dunmer-north` Argonian places) | none mined | KotM `argonia/blackwood/sign` (wordless sun board), settlement-mud-v1 | no vanilla twin within 1 cm (nearest: the blacksmith boards, 0.129 m), so no pair hangs it yet (R98; P-polish backlog "Argonian trade signage"); the pool joins `SIGN_POOLS` when it is hung |
+| Argonian pools (`hist-heartland`, Murkmire, `dunmer-north` Argonian places) | the shell's wall | KotM `argonia/blackwood/sign` (wordless sun board), settlement-mud-v1 | hung with `mount <board> <shell> --like plugin-static:architecture/riften/rtblacksmith01city.nif --twin vanilla:clutter/signage/riften/signrtblacksmith01 --hook-only` (R99; the twin's hook band matches within 1 cm) |
 | Junction signpost (any pool on a road) | `vanilla:clutter/signage/roadsigns/roadsignpost` (works-v1) | `bmv:roadsign{small,medium,large}01{l,r}` | the vanilla named arms (Skyrim town names; never used) |
 | Dock | `vanilla:architecture/docks/dockcolstrsign01`, `dockcolstrsignrope01` (docks-v1) | as listed | |
 

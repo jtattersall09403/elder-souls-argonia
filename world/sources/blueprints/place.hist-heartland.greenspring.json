@@ -278,6 +278,26 @@
             "yMeasured": 7.0103
           },
           {
+            "id": "gs-sign",
+            "asset": "kotm:argonia/blackwood/sign",
+            "atM": [
+              -1.9373,
+              5.9099
+            ],
+            "yaw": 249.802,
+            "on": "parent",
+            "layer": "clutter",
+            "evidence": "mined",
+            "mountPair": {
+              "kind": "like",
+              "mountedOn": "b-lodge",
+              "n": 1,
+              "like": "plugin-static:architecture/riften/rtblacksmith01city.nif",
+              "evidence": "twin-hook:vanilla:clutter/signage/riften/signrtblacksmith01"
+            },
+            "upM": 5.4075
+          },
+          {
             "id": "y1-hc-bucket",
             "asset": "vanilla:clutter/bucket01",
             "atM": [
@@ -3724,6 +3744,16 @@
           0.253678489
         ],
         "parcel": "parcel.greenspring.hist-shrine"
+      },
+      {
+        "id": "socket.greenspring.sick-root",
+        "kind": "evidence",
+        "socketRef": "evidence.greenspring.sick-root",
+        "position": [
+          0.643113282,
+          0.253678489
+        ],
+        "parcel": "parcel.greenspring.hist-shrine"
       }
     ],
     "occupants": [
@@ -4061,7 +4091,7 @@
       },
       "layout": {
         "path": "world/sources/blueprints/greenspring.layout.json",
-        "sha256": "c35a3577828e95d3ff8a3607b863ff19830b323cba827386b3205d30ae87c145"
+        "sha256": "16dc9601b88b9863f8ddbfb31e0766e07a87a3b66a6eb32da3c2696d69ec8727"
       }
     },
     "walkRoutes": {

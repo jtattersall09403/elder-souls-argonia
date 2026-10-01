@@ -486,7 +486,8 @@ def cmd_mount(a, scene, cat):
         got["contact"] = measure.contact(cat, child, parent)
         return got
     if getattr(a, "like", None):
-        got = snap.like_wall_mount(cat, scene, child, parent, a.like, getattr(a, "twin", None))
+        got = snap.like_wall_mount(cat, scene, child, parent, a.like, getattr(a, "twin", None),
+                                   bool(getattr(a, "hook_only", False)))
         got["pose"] = {"x": child.x, "z": child.z, "yaw": child.yaw, "y": child.y}
         got["contact"] = measure.contact(cat, child, parent)
         return got
@@ -1646,8 +1647,11 @@ def parser() -> argparse.ArgumentParser:
                         "placed by its mined WALL pair on MINED_PARENT_ASSET (offset off the "
                         "wall, height and yaw to the wall measured on that mesh)")
     s.add_argument("--twin", default=None, metavar="VANILLA_ASSET",
-                   help="R98 with --like: borrow the mined pair of this geometric twin (bounds "
+                   help="R99 with --like: borrow the mined pair of this geometric twin (bounds "
                         "and hook within 1 cm, measured; refused otherwise)")
+    s.add_argument("--hook-only", action="store_true",
+                   help="R99 amended, with --twin: judge only the top 0.25 m (beam, rings, "
+                        "hooks); the board hangs free and must clear the wall and the ground")
     s.add_argument("--wall", action="store_true",
                    help="with --unmined: hang the child on the parent's nearest wall face where "
                         "it is placed (its height kept), not on its top (walk 2 round 4)")

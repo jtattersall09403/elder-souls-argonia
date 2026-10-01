@@ -224,7 +224,8 @@ def socket_coherence(cat, scene) -> dict:
 # the opening). Pool = the place id's region token; a pool with no family
 # in a published kit is listed (a sourcing row), never failed.
 SIGN_SERVICES = ("lodging", "trader", "stable", "smith")
-SIGN_POOLS = {"imperial-fringe": ("signwr",)}
+SIGN_POOLS = {"imperial-fringe": ("signwr",),
+              "hist-heartland": ("sign",), "dunmer-north": ("sign",)}   # KotM blackwood/sign (R99)
 SIGN_DOOR_M = 4.0
 
 

@@ -169,6 +169,17 @@
   },
   {
    "op": "place",
+   "uid": "gs-sign",
+   "asset": "kotm:argonia/blackwood/sign",
+   "at": [
+    4766.37,
+    1850.1
+   ],
+   "yaw": 257.6,
+   "settle": true
+  },
+  {
+   "op": "place",
    "uid": "b-lodge-chair2",
    "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
    "at": [
@@ -3140,7 +3151,8 @@
    "parcel": "parcel.greenspring.hist-shrine",
    "why": "The Hist's roots where the sickness shows, where MR01 starts.",
    "fills": [
-    "promise.greenspring.provision-mr01-anchor"
+    "promise.greenspring.provision-mr01-anchor",
+    "promise.greenspring.evidence-sick-root"
    ]
   },
   {
@@ -3184,6 +3196,24 @@
    "fills": [
     "promise.greenspring.post-greenspring-river-landing"
    ]
+  },
+  {
+   "op": "mount",
+   "child": "gs-sign",
+   "parent": "b-lodge",
+   "like": "plugin-static:architecture/riften/rtblacksmith01city.nif",
+   "twin": "vanilla:clutter/signage/riften/signrtblacksmith01",
+   "hook_only": true
+  },
+  {
+   "op": "bind",
+   "uid": "gs-sign",
+   "kind": "assembly",
+   "id": "parcel.greenspring.lodge",
+   "layer": "clutter",
+   "on": "parent",
+   "evidence": "mined",
+   "host": "b-lodge"
   }
  ]
 }

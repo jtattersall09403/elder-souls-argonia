@@ -843,6 +843,26 @@
             "layer": "clutter",
             "evidence": "measured",
             "yMeasured": 0.399
+          },
+          {
+            "id": "rw-sign",
+            "asset": "kotm:argonia/blackwood/sign",
+            "atM": [
+              -2.4578,
+              -2.8931
+            ],
+            "yaw": 23.311,
+            "on": "parent",
+            "layer": "clutter",
+            "evidence": "mined",
+            "mountPair": {
+              "kind": "like",
+              "mountedOn": "b-crews",
+              "n": 1,
+              "like": "plugin-static:architecture/riften/rtblacksmith01city.nif",
+              "evidence": "twin-hook:vanilla:clutter/signage/riften/signrtblacksmith01"
+            },
+            "upM": 3.3546
           }
         ],
         "footprint": [
@@ -2730,7 +2750,7 @@
       },
       "layout": {
         "path": "world/sources/blueprints/riverwalk.layout.json",
-        "sha256": "7562905a150a3274d9743735c13327b2d348df34dbd3b80d74a3c8ba2502154e"
+        "sha256": "17505a581c391487454520c0667c7a287730d96b23dcf4602aaf63722982d644"
       }
     },
     "walkRoutes": {

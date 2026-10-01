@@ -5,7 +5,7 @@
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-hist-heartland.json",
-   "sha256": "6a4b80d9526bb6cb13dca11b2a3d5108f77926c687a56be38132efaeaa74da7d"
+   "sha256": "7ffb6e9000e5aeb1a471fe7e3a753a9630035f2d98079d6f2561d74cd610f0e3"
   },
   {
    "file": "world/sources/quests/local-hist-heartland.json",
@@ -17,6 +17,16 @@
   }
  ],
  "promises": [
+  {
+   "id": "promise.greenspring.evidence-sick-root",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].sockets.evidence[evidence.greenspring.sick-root]"
+   },
+   "text": "Greenspring has the evidence socket evidence.greenspring.sick-root.",
+   "unfilled": null
+  },
   {
    "id": "promise.greenspring.interior-principal",
    "kind": "interior",

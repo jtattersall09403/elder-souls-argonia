@@ -1167,6 +1167,17 @@
    "settle": true
   },
   {
+   "op": "place",
+   "uid": "rw-sign",
+   "asset": "kotm:argonia/blackwood/sign",
+   "at": [
+    7211.03,
+    515.64
+   ],
+   "yaw": 179.3,
+   "settle": true
+  },
+  {
    "op": "bind",
    "uid": "c-chair2",
    "kind": "assembly",
@@ -2005,6 +2016,24 @@
     7230.11,
     516.94
    ]
+  },
+  {
+   "op": "mount",
+   "child": "rw-sign",
+   "parent": "b-crews",
+   "like": "plugin-static:architecture/riften/rtblacksmith01city.nif",
+   "twin": "vanilla:clutter/signage/riften/signrtblacksmith01",
+   "hook_only": true
+  },
+  {
+   "op": "bind",
+   "uid": "rw-sign",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "clutter",
+   "on": "parent",
+   "evidence": "mined",
+   "host": "b-crews"
   }
  ]
 }
