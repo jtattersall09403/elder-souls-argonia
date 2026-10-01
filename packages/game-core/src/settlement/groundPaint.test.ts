@@ -83,6 +83,33 @@ describe("ground paint (16k walk 4)", () => {
   });
 });
 
+describe("contact shade (16k walk 9, the building-to-ground seam)", () => {
+  const shade: GroundPaintEntry = {
+    id: "seam.shade.b", kind: "shade", texture: "shade", edgeM: 0.8, peakAlpha: 0.45,
+    polygonM: [[-0.8, -0.8], [10.8, -0.8], [10.8, 10.8], [-0.8, 10.8]],
+    holeM: [[0.5, 0.5], [9.5, 0.5], [9.5, 9.5], [0.5, 9.5]],
+  };
+  it("rides its own channel: texture weights stay 0, shade peaks at the wall and fades out, none in the hole", () => {
+    const s = paintSurface([shade], ground)!;
+    expect(s.textures).toEqual(["track_mud"]);
+    expect(Math.max(...s.weights)).toBe(0);
+    const at = (x: number, z: number) => {
+      for (let v = 0; v < s.vertexCount; v++) {
+        if (Math.abs(s.positions[v * 3] - x) < 1e-6 && Math.abs(s.positions[v * 3 + 2] - z) < 1e-6) return s.shade[v];
+      }
+      return null;
+    };
+    expect(at(0, 5)).toBeCloseTo(0.45, 5);          // at the wall: full strength
+    expect(at(-0.5, 5)!).toBeLessThan(0.1);         // fading outward
+    expect(at(-0.5, 5)!).toBeGreaterThan(0);
+    expect(at(5, 5)).toBeNull();                     // the hole is never surfaced
+  });
+  it("is accepted by the bundle reader beside a way", () => {
+    expect(groundPaintOfBundle([{ id: "p", groundPaint: {
+      schemaVersion: GROUND_PAINT_SCHEMA_VERSION, entries: [road, shade] } }])).toHaveLength(2);
+  });
+});
+
 describe("paintSurface cost (review walk 6)", () => {
   it("two ways 1 km apart cost their own cells, not the union box", () => {
     const at = (x: number, id: string): GroundPaintEntry => ({

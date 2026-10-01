@@ -1997,7 +1997,9 @@ def grow_clearance(site: dict, rows: list[dict], treatments: list[dict] = ()) ->
         return [p if p.is_valid else p.buffer(0) for p in parts if not p.is_empty]
 
     decks = {t["id"].removeprefix("treatment.") for t in treatments if t.get("kind") == "deck"}
-    ways = valid([Polygon(e["polygonM"]) for e in (site.get("groundPaint") or {}).get("entries") or []])
+    # the ways and the seams' trampled rings; a contact shade is not bare ground
+    ways = valid([Polygon(e["polygonM"]) for e in (site.get("groundPaint") or {}).get("entries") or []
+                  if e["texture"] != "shade"])
     hard = valid([Polygon(piece["polygonM"]) for o in (site.get("groundOverlays") or {}).get("pads") or []
                   for piece in o["pieces"]]
                  + [Polygon(p) for t in treatments for p in treatment_clearance_polygons(t)])
@@ -2093,15 +2095,22 @@ def clip_ground_paint(site: dict, treatments: list[dict] = (), road=_LOAD_ROAD) 
     if road is _LOAD_ROAD:
         ways = unary_union([Polygon(e["polygonM"]) for e in paint["entries"]])
         road = province_road_paint(ways.buffer(5.0).bounds) if not ways.is_empty else None
+    road_only = None
     if road is not None and not road.is_empty:
-        road = road_cut(road)
+        road = road_only = road_cut(road)
         cut = cut.union(road) if not cut.is_empty else road
     if cut.is_empty:
         return
     from shapely.geometry import LineString, Point
     out = []
     for e in paint["entries"]:
-        rings = _rings(Polygon(e["polygonM"]).difference(cut))
+        # a building's seam (`seam_paint`) carries its own floor hole: its
+        # trampled ring stops only at the road, its shade nowhere
+        seam = e["id"].startswith(SEAM_ID_PREFIX)
+        if seam and (e["texture"] == "shade" or road_only is None):
+            out.append(e)
+            continue
+        rings = _rings(Polygon(e["polygonM"]).difference(road_only if seam else cut))
         rings = [r for r in rings if Polygon(r).area > 0.05]
         if e.get("centrelineM"):
             # a remnant the way's centre does not run through is a sliver along the road's or the
@@ -2152,6 +2161,85 @@ def layout_pool_ops(bp: dict) -> dict:
     return {"poolOps": ops} if ops else {}
 
 
+#: The building-to-ground seam (16k walk 9, docs/research/rendering/building-ground-seam.md):
+#: every building's footprint gets, at compile, a trampled-earth ring and a contact shade.
+SEAM_RING_GROW_M = 1.5        # the trampled ring reaches this far past the walls (or the pad)
+SEAM_RING_EDGE_M = 1.2
+SEAM_RING_ALPHA = 0.6
+SEAM_RING_TEXTURE = "track_mud"
+SEAM_SHADE_GROW_M = 1.0       # the shade is full at the wall and fades to 0 over this (t², groundPaint.ts)
+SEAM_SHADE_ALPHA = 0.7
+SEAM_HOLE_INSET_M = 0.4       # nothing is painted this far inside the walls (the floor)
+SEAM_MIN_AREA_M2 = 4.0        # a smaller footprint (a well, a totem) is not a building
+SEAM_WET_CELL_M = 0.5
+SEAM_ID_PREFIX = "seam."
+
+
+def _dry_parts(poly, is_wet):
+    """``poly`` less its wet ground (`is_wet` sampled on a SEAM_WET_CELL_M grid):
+    the polygons left, exterior rings only, largest first."""
+    from shapely.geometry import box
+    from shapely.ops import unary_union
+    x0, z0, x1, z1 = poly.bounds
+    c = SEAM_WET_CELL_M
+    wet = []
+    nx, nz = int((x1 - x0) / c) + 1, int((z1 - z0) / c) + 1
+    for j in range(nz):
+        for i in range(nx):
+            x, z = x0 + (i + 0.5) * c, z0 + (j + 0.5) * c
+            if is_wet(x, z):
+                wet.append(box(x - c / 2, z - c / 2, x + c / 2, z + c / 2))
+    left = poly.difference(unary_union(wet)) if wet else poly
+    parts = [left] if left.geom_type == "Polygon" else list(getattr(left, "geoms", []))
+    parts = [p for p in parts if p.geom_type == "Polygon" and p.area >= 0.5]
+    return sorted(parts, key=lambda p: -p.area)
+
+
+def _ring_of(poly) -> list:
+    return [[round(float(x), 3), round(float(z), 3)] for x, z in list(poly.exterior.coords)[:-1]]
+
+
+def seam_paint(site: dict, rows: list[dict], is_wet) -> None:
+    """Appends to the place's `groundPaint` the seam of every building
+    (a placement whose id ends ``.building``, footprint at least
+    SEAM_MIN_AREA_M2): a ``seam-ring`` of trampled earth round the footprint
+    (and its pad, so a retaining wall's foot is worn too) and a ``shade``
+    entry, full at the wall and fading outward, both left unpainted under the
+    floor and cut off the water. A stilt building gets the shade only, with no
+    hole (the ground under its deck is in its shadow). Written before
+    `grow_clearance` (the ring is bare ground) and `clip_ground_paint` (which
+    cuts the ring at the road only)."""
+    from shapely.geometry import Polygon
+    entries = (site.setdefault("groundPaint", {"schemaVersion": GROUND_PAINT_SCHEMA, "entries": []})
+               ["entries"])
+    for row in sorted(rows, key=lambda r: r["id"]):
+        fp = row.get("footprintM") or []
+        if not row["id"].endswith(".building") or len(fp) < 3:
+            continue
+        foot = Polygon(fp).buffer(0)
+        if foot.area < SEAM_MIN_AREA_M2:
+            continue
+        stilt = (row.get("anchor") or {}).get("groundFit") == "stilt"
+        hole = None if stilt else foot.buffer(-SEAM_HOLE_INSET_M, quad_segs=4)
+        hole_field = ({"holeM": _ring_of(hole)} if hole is not None and not hole.is_empty
+                      and hole.geom_type == "Polygon" else {})
+        base = row["id"]
+        layers = [("shade", "shade", foot.buffer(SEAM_SHADE_GROW_M, quad_segs=4),
+                   SEAM_SHADE_GROW_M, SEAM_SHADE_ALPHA)]
+        if not stilt:
+            pad = (row.get("pad") or {}).get("polygonM") or []
+            body = foot.union(Polygon(pad).buffer(0)) if len(pad) >= 3 else foot
+            layers.append(("seam-ring", SEAM_RING_TEXTURE, body.buffer(SEAM_RING_GROW_M, quad_segs=4),
+                           SEAM_RING_EDGE_M, SEAM_RING_ALPHA))
+        for kind, texture, poly, edge, alpha in layers:
+            parts = _dry_parts(poly.simplify(0.05), is_wet)
+            for i, part in enumerate(parts):
+                suffix = "" if len(parts) == 1 else f".part-{i + 1}"
+                entries.append({"id": f"{SEAM_ID_PREFIX}{kind}.{base}{suffix}", "kind": kind, "texture": texture,
+                                "edgeM": edge, "peakAlpha": alpha, "polygonM": _ring_of(part),
+                                **hole_field})
+
+
 def attach_ground_overlays(bundle: dict, places, survey=None) -> int:
     """Decision 0102 decision 1: every exported place carries its levelled
     ground as `groundOverlays` (schemaVersion 1, `pad_overlay`): one overlay
@@ -2189,6 +2277,7 @@ def attach_ground_overlays(bundle: dict, places, survey=None) -> int:
         ids = set(site["placementIds"])
         own = [t for t in bundle.get("groundTreatments") or []
                if t["id"].removeprefix("treatment.") in ids]
+        seam_paint(site, rows, is_wet)        # before the clearance: the trampled ring is bare
         grow_clearance(site, rows, own)       # from the whole ways, before the paint is cut
         clip_ground_paint(site, own, road=site.pop("_roadPaint", _LOAD_ROAD))
     _refuse("ground overlays", missing,

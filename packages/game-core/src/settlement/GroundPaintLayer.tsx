@@ -10,7 +10,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import type { GroundArea, GroundArrivals, TerrainHeight } from "./types";
-import { PAINT_LIFT_M, groundPaintOfBundle, type GroundPaintDoc, type GroundPaintEntry } from "./groundPaint";
+import { PAINT_LIFT_M, groundPaintOfBundle, paintTextures, type GroundPaintDoc, type GroundPaintEntry } from "./groundPaint";
 import { paintGeometry, paintMaterial, type GroundMaterialRow } from "./groundPaintMaterial";
 import { fetchJsonWithRetry } from "./fetchRetry";
 
@@ -52,7 +52,7 @@ export function paintGroups(
       continue;
     }
     if (!entries.length) continue;
-    const textures = [...new Set(entries.map((e) => e.texture))].sort();
+    const textures = paintTextures(entries);
     out.set(s.id, { key: s.id, placeId: s.id, textures, entries });
   }
   return out;

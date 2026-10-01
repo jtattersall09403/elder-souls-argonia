@@ -12,6 +12,13 @@ Get it right first time by LOOKING, cheaply, before the owner does.
     npm run look -- piece <kit> <assetId> [--class C[,C]] [--out DIR]
     npm run look -- composite <kit> <assetId>          # a composite is a kit asset too
     npm run look -- place <scene> <x> <z> [--radius M] # workbench scene region (wb.py render, Blender)
+    npm run look -- seam <placeId> <placement-id-suffix> [--bearing DEG]  # a building's base, ~5 s
+
+`seam` draws the published building at its bundle pose on its own padded
+ground with the place's published ground paint (the compile's trampled ring
+and contact shade, docs/research/rendering/building-ground-seam.md), from 6 m
+at 1.2 m eye, 480x270, with the paint (`_live`) and without (`_bare`). Run it
+on a building after a publish that moved it or changed its footprint.
 
 Heavy batches run under `tooling/repo-standards/job_guard.sh <lane> -- npm run look -- …`
 (target: 20 s, 2 GiB; measured ~2 s, 0.6 GiB per piece). Per piece it writes

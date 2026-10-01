@@ -32,6 +32,11 @@ export const GROUND_PAINT_SCHEMA_VERSION = 2;
  * vocabulary row, not a code change. */
 export const GROUND_PAINT_TEXTURES: ReadonlySet<string> = new Set(["track_mud"]);
 
+/** The `texture` of a contact-shade entry (16k walk 9, the building-to-ground
+ * seam): no texture swap, the ground under it darkens by its weight. Rides
+ * its own channel of the same surface (`PaintSurface.shade`). */
+export const GROUND_PAINT_SHADE = "shade";
+
 /** Most textures one place's surface blends (one weight channel each). */
 export const PAINT_MAX_TEXTURES = 3;
 
@@ -52,6 +57,8 @@ export interface GroundPaintEntry {
   readonly widthM?: number;
   readonly centrelineM?: readonly (readonly [number, number])[];
   readonly polygonM: readonly (readonly [number, number])[];
+  /** Left unpainted inside the polygon (a building's floor, under its walls). */
+  readonly holeM?: readonly (readonly [number, number])[];
 }
 
 export interface GroundPaintDoc {
@@ -73,7 +80,7 @@ export function groundPaintOfBundle(settlements: readonly {
         + `expected ${GROUND_PAINT_SCHEMA_VERSION}`);
     }
     for (const e of doc.entries) {
-      if (!GROUND_PAINT_TEXTURES.has(e.texture)) {
+      if (!GROUND_PAINT_TEXTURES.has(e.texture) && e.texture !== GROUND_PAINT_SHADE) {
         throw new Error(`${s.id}: groundPaint ${e.id} texture ${JSON.stringify(e.texture)} `
           + `is not a road paint material (${[...GROUND_PAINT_TEXTURES].join(", ")})`);
       }
@@ -108,6 +115,14 @@ function edgeDistance(x: number, z: number, poly: GroundPaintEntry["polygonM"]):
   return best;
 }
 
+/** The textures a place's surface blends, sorted (the weight channel order):
+ * its entries' paint materials; a place with contact shade only still binds
+ * the first paint material (weight 0) so the one material stays one shape. */
+export function paintTextures(entries: readonly GroundPaintEntry[]): string[] {
+  const out = [...new Set(entries.map((e) => e.texture).filter((t) => t !== GROUND_PAINT_SHADE))].sort();
+  return out.length || !entries.length ? out : [[...GROUND_PAINT_TEXTURES][0]];
+}
+
 export interface PaintSurface {
   /** The textures the weight channels stand for, in channel order. */
   readonly textures: readonly string[];
@@ -115,6 +130,8 @@ export interface PaintSurface {
   readonly positions: Float32Array;
   /** One weight per texture channel per vertex (PAINT_MAX_TEXTURES wide, unused channels 0). */
   readonly weights: Float32Array;
+  /** The contact-shade weight per vertex (`GROUND_PAINT_SHADE` entries), 0..1. */
+  readonly shade: Float32Array;
   /** Triangle indices. */
   readonly indices: Uint32Array;
   readonly vertexCount: number;
@@ -131,7 +148,7 @@ export interface PaintSurface {
 export function paintSurface(
   entries: readonly GroundPaintEntry[], groundAt: TerrainHeight, cellM = PAINT_CELL_M, liftM = PAINT_LIFT_M,
 ): PaintSurface | null {
-  const textures = [...new Set(entries.map((e) => e.texture))].sort();
+  const textures = paintTextures(entries);
   if (textures.length > PAINT_MAX_TEXTURES) {
     throw new Error(`ground paint: ${textures.length} textures in one place, at most ${PAINT_MAX_TEXTURES}`);
   }
@@ -143,9 +160,10 @@ export function paintSurface(
     }
   }
   const empty = { textures, positions: new Float32Array(0), weights: new Float32Array(0),
-    indices: new Uint32Array(0), vertexCount: 0 };
+    shade: new Float32Array(0), indices: new Uint32Array(0), vertexCount: 0 };
   if (!Number.isFinite(minX)) return empty;
-  const W = PAINT_MAX_TEXTURES;
+  // the texture channels, then the shade channel
+  const W = PAINT_MAX_TEXTURES + 1;
   const x0 = Math.floor(minX / cellM) * cellM;
   const z0 = Math.floor(minZ / cellM) * cellM;
   const nx = Math.ceil((maxX - x0) / cellM) + 1;
@@ -154,7 +172,8 @@ export function paintSurface(
   const weight = new Map<number, Float32Array>();
   for (const e of entries) {
     const poly = e.polygonM;
-    const ch = textures.indexOf(e.texture);
+    const ch = e.texture === GROUND_PAINT_SHADE ? PAINT_MAX_TEXTURES : textures.indexOf(e.texture);
+    const hole = e.holeM && e.holeM.length >= 3 ? e.holeM : null;
     const edge = Math.max(e.edgeM, 1e-3);
     let ex0 = Infinity; let ez0 = Infinity; let ex1 = -Infinity; let ez1 = -Infinity;
     for (const [x, z] of poly) {
@@ -165,9 +184,12 @@ export function paintSurface(
     for (let j = j0; j <= j1; j++) {
       for (let i = i0; i <= i1; i++) {
         const x = x0 + i * cellM; const z = z0 + j * cellM;
-        if (!insidePolygon(x, z, poly)) continue;
+        if (!insidePolygon(x, z, poly) || (hole && insidePolygon(x, z, hole))) continue;
         const t = Math.min(1, edgeDistance(x, z, poly) / edge);
-        const a = t * t * (3 - 2 * t) * e.peakAlpha;
+        // a way feathers smoothly; a contact shade gathers at the wall
+        // (t squared: a quarter strength half way out, the falloff of
+        // ambient occlusion in a corner)
+        const a = (ch === PAINT_MAX_TEXTURES ? t * t : t * t * (3 - 2 * t)) * e.peakAlpha;
         const k = j * nx + i;
         let w = weight.get(k);
         if (!w) { w = new Float32Array(W); weight.set(k, w); }
@@ -195,7 +217,8 @@ export function paintSurface(
   }
   const quads = [...quadSet].sort((p, q) => p - q);
   const vertexOf = new Map<number, number>();
-  const positions: number[] = []; const weights: number[] = []; const indices: number[] = [];
+  const positions: number[] = []; const weights: number[] = []; const shade: number[] = [];
+  const indices: number[] = [];
   const vertex = (i: number, j: number): number => {
     const k = j * nx + i;
     const seen = vertexOf.get(k);
@@ -207,7 +230,8 @@ export function paintSurface(
     vertexOf.set(k, v);
     positions.push(x, y + liftM, z);
     const w = weight.get(k);
-    for (let c = 0; c < W; c++) weights.push(w ? w[c] : 0);
+    for (let c = 0; c < PAINT_MAX_TEXTURES; c++) weights.push(w ? w[c] : 0);
+    shade.push(w ? w[PAINT_MAX_TEXTURES] : 0);
     return v;
   };
   try {
@@ -223,7 +247,7 @@ export function paintSurface(
   }
   return {
     textures, positions: Float32Array.from(positions), weights: Float32Array.from(weights),
-    indices: Uint32Array.from(indices), vertexCount: positions.length / 3,
+    shade: Float32Array.from(shade), indices: Uint32Array.from(indices), vertexCount: positions.length / 3,
   };
 }
 

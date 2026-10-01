@@ -74,10 +74,13 @@ export function reapplyGroundPaint(material: THREE.Material): void {
       shader.vertexShader = shader.vertexShader
         .replace("#include <common>", `#include <common>
 attribute vec3 paintWeight;
+attribute float paintShade;
 varying vec3 vPaintWeight;
+varying float vPaintShade;
 varying vec2 vPaintXZ;`)
         .replace("#include <project_vertex>", `#include <project_vertex>
 vPaintWeight = paintWeight;
+vPaintShade = paintShade;
 vPaintXZ = (modelMatrix * vec4(transformed, 1.0)).xz;`);
       shader.fragmentShader = shader.fragmentShader
         .replace("#include <common>", `#include <common>
@@ -86,6 +89,7 @@ uniform sampler2D paintMap1;
 uniform sampler2D paintMap2;
 uniform vec3 paintTile;
 varying vec3 vPaintWeight;
+varying float vPaintShade;
 varying vec2 vPaintXZ;
 float esPaintHash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float esPaintNoise(vec2 p) {
@@ -104,7 +108,11 @@ float esPaintNoise(vec2 p) {
   // thin the paint most where it is already thin, so the edge frays
   float n = 0.6 * esPaintNoise(vPaintXZ / 0.9) + 0.4 * esPaintNoise(vPaintXZ / 2.7);
   a *= smoothstep(0.0, 1.0, clamp(a * 2.2 - 0.5 * n + 0.2, 0.0, 1.0));
-  diffuseColor *= vec4(c, a);
+  // contact shade (walk 9): the ground under the surface darkens by s, as a
+  // multiply, folded into one over-blend: paint a over ground, all times (1 - s)
+  float s = clamp(vPaintShade, 0.0, 1.0);
+  float A = 1.0 - (1.0 - a) * (1.0 - s);
+  diffuseColor *= vec4(c * a * (1.0 - s) / max(A, 1e-4), A);
 }`);
     }, previous, PAINT_PATCH);
     material.needsUpdate = true;
@@ -130,6 +138,7 @@ export function paintGeometry(entries: readonly GroundPaintEntry[], groundAt: Te
   const g = new THREE.BufferGeometry();
   g.setAttribute("position", new THREE.BufferAttribute(s.positions, 3));
   g.setAttribute("paintWeight", new THREE.BufferAttribute(s.weights, PAINT_MAX_TEXTURES));
+  g.setAttribute("paintShade", new THREE.BufferAttribute(s.shade, 1));
   g.setAttribute("uv", new THREE.BufferAttribute(uvs, 2));
   g.setIndex(new THREE.BufferAttribute(s.indices, 1));
   g.computeVertexNormals();

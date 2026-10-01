@@ -70,7 +70,9 @@ def measure(site: dict, doors: list[dict], road=None, treatments: list[dict] = (
     from shapely.geometry import LineString, Point, Polygon
     from shapely.ops import unary_union
     paint = site.get("groundPaint") or {}
-    entries = paint.get("entries") or []
+    # the ways only: a building's seam (`seam_paint`: its trampled ring and
+    # contact shade) is no way, and would hide a way that stops short of a door
+    entries = [e for e in paint.get("entries") or [] if "routeId" in e]
     out = {"schemaVersion": paint.get("schemaVersion"), "entries": len(entries),
            "surfaces": 1 if entries else 0, "danglingEnds": [], "acuteJoins": [], "doorGaps": [],
            "roadOverlapM2": 0.0, "failures": []}
