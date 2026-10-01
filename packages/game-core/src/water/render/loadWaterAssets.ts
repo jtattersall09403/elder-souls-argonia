@@ -76,12 +76,41 @@ export function packChannel(src: ImageData, srcChannel: number, dst: ImageData, 
   }
 }
 
+/** Half-resolution GPU copy of the habitat raster: each new texel is the
+ * bilinear sample of the source at that texel's centre in normalised UV, and
+ * ambientAir's nearest `texelFetch` scales its index (`uAirHabitatScale`).
+ * 2017² -> 1009² is 16.3 -> 4.1 MB resident. The published PNG stays on the
+ * surface grid (the frozen record the Python chain reads). The shore raster
+ * is NOT halved: its G (season response) drives the GPU still-water height
+ * against the CPU's full-size copy, and a half copy misses it by up to 243/255
+ * at band edges (4.2 % of texels over 4/255; /tmp probe, walk 9). */
+export function halveRaster(src: { width: number; height: number; data: Uint8ClampedArray | Uint8Array }):
+  { width: number; height: number; data: Uint8Array } {
+  const sw = src.width, sh = src.height;
+  const w = Math.ceil(sw / 2), h = Math.ceil(sh / 2);
+  const out = new Uint8Array(w * h * 4);
+  for (let y = 0; y < h; y++) {
+    const fy = Math.min(Math.max((y + 0.5) * sh / h - 0.5, 0), sh - 1);
+    const y0 = Math.floor(fy), y1 = Math.min(y0 + 1, sh - 1), ty = fy - y0;
+    for (let x = 0; x < w; x++) {
+      const fx = Math.min(Math.max((x + 0.5) * sw / w - 0.5, 0), sw - 1);
+      const x0 = Math.floor(fx), x1 = Math.min(x0 + 1, sw - 1), tx = fx - x0;
+      for (let c = 0; c < 4; c++) {
+        const a = src.data[(y0 * sw + x0) * 4 + c], b = src.data[(y0 * sw + x1) * 4 + c];
+        const d = src.data[(y1 * sw + x0) * 4 + c], e = src.data[(y1 * sw + x1) * 4 + c];
+        out[(y * w + x) * 4 + c] = Math.round((a * (1 - tx) + b * tx) * (1 - ty) + (d * (1 - tx) + e * tx) * ty);
+      }
+    }
+  }
+  return { width: w, height: h, data: out };
+}
+
 /** RGBA -> RG8: the flow raster's shaders read `.xy` only (waterMaterial
- * `esFl.xy`, FoamField `fl.xy`). The other water rasters stay RGBA8: the
- * surface atlas uses all four channels, the class raster's R is a class id
- * and its A the dark constituent, and the shore and habitat rasters are read
- * by `texelFetch` on the surface grid (connectedStage.ts, ambientAir.ts), so
- * neither a channel cut nor a smaller copy keeps their values. */
+ * `esFl.xy`, FoamField `fl.xy`). The surface atlas uses all four channels
+ * and the class raster's R is a class id, G turbidity, B salinity and A the
+ * dark constituent, and the shore raster's four channels are all read (R
+ * distance, G season, B tannin, A algae), so those three stay RGBA8 at full
+ * size; habitat goes to the GPU through `halveRaster`. */
 export function packRG(rgba: Uint8ClampedArray | Uint8Array): Uint8Array {
   const n = rgba.length / 4, out = new Uint8Array(n * 2);
   for (let i = 0; i < n; i++) { out[i * 2] = rgba[i * 4]; out[i * 2 + 1] = rgba[i * 4 + 1]; }
@@ -287,7 +316,7 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
       // straight into the DataTexture bytes, so no premultiply touches it.
       packChannel(colourImg, 0, shoreImg, 3);
       packChannel(colourImg, 1, klassImg, 3);
-      return { habitatTex: dataTexture(habitatImg, THREE.LinearFilter), size: side.size, metresPerPixel: side.metresPerPixel };
+      return { habitatTex: dataTexture(halveRaster(habitatImg), THREE.LinearFilter), size: side.size, metresPerPixel: side.metresPerPixel };
     } catch { return undefined; }
   })();
 

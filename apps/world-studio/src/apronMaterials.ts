@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLoader } from "@react-three/fiber";
 import * as THREE from "three";
-import { createGroundMaterial, useGroundArray, useGroundManifest, type GroundManifest } from "./groundMaterial";
+import { createGroundMaterial, useGroundManifest, type GroundManifest } from "./groundMaterial";
+import { useGroundArray } from "@elder-souls/game-core/terrain/groundArray";
 import { sharedAerialUniforms } from "./sky/WorldSky";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
 import type { ApronManifest } from "@elder-souls/game-core/terrain/apronManifest";

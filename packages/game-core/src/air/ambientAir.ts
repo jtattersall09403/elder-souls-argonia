@@ -196,6 +196,7 @@ uniform vec4 uAirWaterDepth;   // depthMinM, depthSpanM, buriedM, enabled (0/1)
 uniform vec3 uAirHover;        // hover above water (m), hover band (m), lift (m)
 uniform sampler2D uAirHabitat; // 16f: R standing water, G wet ground, B canopy
 uniform vec4 uAirHabitatW;     // species weights on those, w = enabled (0/1)
+uniform vec2 uAirHabitatScale; // habitat width / surface size, habitat width (halveRaster)
 
 varying float vAlpha;
 varying float vBacklit;
@@ -326,7 +327,7 @@ void main() {
   // and leaf fall) and the value noise only textures the density inside
   // it; the height-above-surface rule above is untouched.
   if (uAirHabitatW.w > 0.5) {
-    vec2 esHabF = clamp(world.xz / uAirWaterInfo.y - 0.5, vec2(0.0), vec2(uAirWaterInfo.x - 1.001));
+    vec2 esHabF = clamp(world.xz / uAirWaterInfo.y * uAirHabitatScale.x - 0.5, vec2(0.0), vec2(uAirHabitatScale.y - 1.001));
     vec3 esHab = texelFetch(uAirHabitat, ivec2(esHabF + 0.5), 0).rgb;
     float esHabW = clamp(dot(esHab, uAirHabitatW.xyz), 0.0, 1.0);
     esPatch = esHabW * (0.35 + 0.65 * esPatch);
@@ -456,6 +457,7 @@ export class AirSwarm {
         uAirHover: { value: new THREE.Vector3(species.hoverAboveWaterM ?? 0, species.hoverBandM ?? 0, 0) },
         uAirHabitat: { value: null },
         uAirHabitatW: { value: new THREE.Vector4(...(species.habitat ?? [0, 0, 0]), 0) },
+        uAirHabitatScale: { value: new THREE.Vector2(1, 1) },
         // Scene-linear radiance, written every frame by update().
         uCore: { value: new THREE.Color(0, 0, 0) },
         uHalo: { value: new THREE.Color(0, 0, 0) },
@@ -495,6 +497,10 @@ export class AirSwarm {
     (u.uAirWaterTex as { value: THREE.Texture | null }).value = hover || habitat ? water!.texture : null;
     (u.uAirHabitat as { value: THREE.Texture | null }).value = habitat ? water!.habitat! : null;
     (u.uAirHabitatW.value as THREE.Vector4).w = habitat ? 1 : 0;
+    if (habitat) {
+      const width = (water!.habitat!.image as { width?: number } | undefined)?.width ?? water!.size;
+      (u.uAirHabitatScale.value as THREE.Vector2).set(width / water!.size, width);
+    }
     if (hover || habitat) {
       (u.uAirWaterInfo.value as THREE.Vector4).set(water!.size, water!.metresPerPixel, water!.minM, water!.spanM);
     }

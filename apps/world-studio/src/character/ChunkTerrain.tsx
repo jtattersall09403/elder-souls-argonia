@@ -1,7 +1,8 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
-import { createGroundMaterial, useGroundArray, useGroundManifest, type GroundUniforms } from "../groundMaterial";
+import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "../groundMaterial";
+import { useGroundArray } from "@elder-souls/game-core/terrain/groundArray";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
 import {
   LOD_REEVALUATE_M, SUB_TILE_DIVISIONS, SUB_TILE_LODS, drawsAsSubTiles, lodForDistance, lodForSubTile,

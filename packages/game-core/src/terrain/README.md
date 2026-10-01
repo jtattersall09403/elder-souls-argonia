@@ -79,11 +79,12 @@ the shaders read:
 | `ground-control.png` (province, apron) | RGBA: id0, id1, blend 0..127, macro | RG8, nearest: ids in bits 0-5, blend as 16 levels in bits 6-7 of R and G (`CONTROL_DECODE_GLSL`) |
 | `ground-tint.png` | RGBA tint and litter | RGBA8, mipped, macro brightness folded into RGB, halved to at most 1100² |
 | `climate-{air,weather,vis}.png` 1345² | RGB | RGBA8, mipped, halved to 672² |
-| ground albedo array (`textures/ground/<set>/albedo-array.ktx2`, 42 x 512²) | the set's PNGs (kept: the settlement ground paint reads rows of them) | one KTX2 array, UASTC with encoder mips, transcoded to BC7/ASTC/ETC2 (`pipeline.ground_compress`; `GroundArrayLoader` in apps/world-studio/src/groundMaterial.ts) |
+| ground albedo array (`textures/ground/<set>/albedo-array.ktx2`, 42 x 512²) | built from the set's layer PNGs, which are build inputs only (compose.mjs drops them from the site) | one KTX2 array, UASTC with encoder mips, transcoded to BC7/ASTC/ETC2 (`pipeline.ground_compress`; `groundArray.ts`); the terrain, the apron and the settlement ground paint sample it |
 | `water-flow.png` 1345² | RGB, R and G read | RG8 (`packRG`, water/render/loadWaterAssets.ts) |
+| `water-habitat.png` 2017² | RGB | RGBA8 halved to 1009² (`halveRaster`; ambientAir scales its fetch) |
 
-The other water rasters stay RGBA8 on the GPU, for the reason in
-`loadWaterAssets.ts` above `packRG`. `textureResidentBytes` counts what one of
+The surface, class and shore water rasters stay RGBA8 at full size, for the
+reasons in `loadWaterAssets.ts` above `halveRaster` and `packRG`. `textureResidentBytes` counts what one of
 these holds on the WebGL path. After any change to a set's PNGs run
 `python3 -m pipeline.ground_compress --set <set>` (from tooling/asset-pipeline);
 `--all --check` fails on a stale array.

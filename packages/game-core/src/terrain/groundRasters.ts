@@ -207,10 +207,15 @@ const BYTES_PER_TEXEL: Partial<Record<number, number>> = {
   [THREE.RGBAFormat]: 4, [THREE.RGFormat]: 2, [THREE.RedFormat]: 1,
 };
 
-/** Resident bytes of an uncompressed 2D/array texture as uploaded (mip chain
- * counted when `generateMipmaps` is on). The WebGL-path counterpart of the
- * WebGPU boot check's bytes-by-format readout. */
+/** Resident bytes of a 2D/array texture as uploaded: uncompressed with its
+ * mip chain counted when `generateMipmaps` is on; a compressed (KTX2) one as
+ * the transcoded mip levels it carries, whatever block format the device got.
+ * The WebGL-path counterpart of the WebGPU boot check's bytes-by-format readout. */
 export function textureResidentBytes(t: THREE.Texture): { format: string; bytes: number } {
+  if ((t as THREE.CompressedTexture).isCompressedTexture) {
+    const levels = (t as THREE.CompressedTexture).mipmaps as unknown as { data: ArrayBufferView }[];
+    return { format: `compressed:${t.format}`, bytes: levels.reduce((s, m) => s + m.data.byteLength, 0) };
+  }
   const img = t.image as { width: number; height: number; depth?: number };
   const bpp = BYTES_PER_TEXEL[t.format as number] ?? 4;
   let w = img.width, h = img.height, bytes = 0;

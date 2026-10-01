@@ -13,7 +13,7 @@ import type { GroundPaintEntry } from "@elder-souls/game-core/settlement/groundP
 import { applyAerialPerspective, createAerialUniforms } from "../../sky/aerial";
 
 const W = 900; const H = 500;
-interface Row { name: string; file: string; tileM: number }
+interface Row { id: number; name: string; file: string; tileM: number }
 interface Shot { eye: [number, number, number]; at: [number, number, number] }
 interface Opts { base: string; set: string; rows: Row[]; entries: GroundPaintEntry[]; shots: Shot[]; mist: number;
   control: [number, number, number, number]; wiped?: boolean }
@@ -21,6 +21,25 @@ interface Opts { base: string; set: string; rows: Row[]; entries: GroundPaintEnt
 const load = (url: string) => new Promise<THREE.Texture>((ok, no) => new THREE.TextureLoader().load(url, (t) => {
   t.wrapS = t.wrapT = THREE.RepeatWrapping; t.colorSpace = THREE.SRGBColorSpace; ok(t);
 }, undefined, no));
+
+/** The runtime paint samples the set's KTX2 albedo array by row id; the
+ * harness has no transcoder, so it builds the same layers, raw (the shader
+ * decodes sRGB), from the build-input PNGs at the array's 512². */
+async function layerArray(base: string, set: string, rows: Row[]): Promise<THREE.DataArrayTexture> {
+  const S = 512; const depth = Math.max(...rows.map((r) => r.id)) + 1;
+  const data = new Uint8Array(S * S * 4 * depth);
+  const c = document.createElement("canvas"); c.width = c.height = S;
+  const x = c.getContext("2d", { willReadFrequently: true })!;
+  for (const r of rows) {
+    const img = await createImageBitmap(await (await fetch(`${base}textures/ground/${set}/${r.file}`)).blob());
+    x.drawImage(img, 0, 0, S, S);
+    data.set(x.getImageData(0, 0, S, S).data, r.id * S * S * 4);
+  }
+  const t = new THREE.DataArrayTexture(data, S, S, depth);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.minFilter = THREE.LinearMipmapLinearFilter; t.generateMipmaps = true; t.needsUpdate = true;
+  return t;
+}
 
 async function run(o: Opts) {
   const canvas = document.createElement("canvas"); canvas.width = W; canvas.height = H;
@@ -78,8 +97,7 @@ async function run(o: Opts) {
   const control = new THREE.Mesh(worldUv(ctrlGeo), ctrlMat); control.receiveShadow = true; scene.add(control);
   const built = paintGeometry(o.entries, () => 0)!;
   const rows = built.textures.map((t) => rowOf(t));
-  const paintMat = paintMaterial(o.base, o.set, rows);
-  await new Promise((r) => setTimeout(r, 600));   // the paint's own TextureLoader images
+  const paintMat = paintMaterial(await layerArray(o.base, o.set, rows), rows);
   chain(paintMat);
   const paint = new THREE.Mesh(built.geometry, paintMat); paint.renderOrder = 1; paint.receiveShadow = true; scene.add(paint);
   const flat = new THREE.MeshBasicMaterial({ color: 0xff0000 });

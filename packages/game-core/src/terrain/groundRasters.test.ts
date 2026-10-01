@@ -64,4 +64,9 @@ describe("ground rasters", () => {
     t.generateMipmaps = true;
     expect(textureResidentBytes(t)).toEqual({ format: "rg8unorm", bytes: 10 });
   });
+  it("counts a compressed (KTX2) texture as the transcoded levels it carries", () => {
+    const mip = (n: number) => ({ data: new Uint8Array(n), width: 1, height: 1 });
+    const t = new THREE.CompressedTexture([mip(4096), mip(1024), mip(256)] as unknown as ImageData[], 64, 64, THREE.RGBA_BPTC_Format);
+    expect(textureResidentBytes(t).bytes).toBe(5376);
+  });
 });

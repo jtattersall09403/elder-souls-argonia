@@ -1,14 +1,10 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
-import { reapplyGroundPaint } from "./groundPaintMaterial";
+import { paintMaterial, reapplyGroundPaint } from "./groundPaintMaterial";
 
-/** A material as `paintMaterial` leaves it (built without the image loader). */
+const ROWS = [{ id: 7, name: "track_mud", file: "", tileM: 4 }, { id: 12, name: "grass_dirt", file: "", tileM: 6 }];
 function paint(): THREE.MeshStandardMaterial {
-  const m = new THREE.MeshStandardMaterial({ transparent: true });
-  m.userData.esAerial = true;
-  m.userData.esGroundPaint = { maps: [new THREE.Texture()], tile: new THREE.Vector3(6, 6, 6) };
-  reapplyGroundPaint(m);
-  return m;
+  return paintMaterial(new THREE.Texture(), ROWS);
 }
 function compile(m: THREE.Material) {
   const shader = {
@@ -41,6 +37,17 @@ describe("ground paint material (16k walk 7)", () => {
     expect(m.userData.esAerial).toBe(true);
     // no distance fade of its own: the haze fades it as it fades the ground
     expect(compile(m).fragmentShader).not.toContain("paintFade");
+  });
+
+  it("samples the terrain's albedo array at each row's id layer, decoding sRGB (no PNG maps)", () => {
+    const array = new THREE.Texture();
+    const s = compile(paintMaterial(array, ROWS));
+    expect((s.uniforms.paintArray as { value: THREE.Texture }).value).toBe(array);
+    // two rows: the third channel repeats the last row
+    expect((s.uniforms.paintLayer as { value: THREE.Vector3 }).value.toArray()).toEqual([7, 12, 12]);
+    expect((s.uniforms.paintTile as { value: THREE.Vector3 }).value.toArray()).toEqual([4, 6, 6]);
+    expect(s.fragmentShader).toContain("sampler2DArray paintArray");
+    expect(s.fragmentShader).toContain("sRGBTransferEOTF");
   });
 
   it("leaves other materials alone", () => {

@@ -3,9 +3,6 @@ import type { CSM } from "three/examples/jsm/csm/CSM.js";
 import { applyAerialPerspective, type AerialUniforms } from "./sky/aerial";
 import { applyShoreWetness } from "./water/groundWetness";
 import { CONTROL_DECODE_GLSL } from "@elder-souls/game-core/terrain/groundRasters";
-import type { KitDecoders } from "@elder-souls/game-core/assets/kitLoader";
-import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
-import { useLoader } from "@react-three/fiber";
 
 /**
  * Ground-material splat shader (decision 0011), shared between the flyover's
@@ -74,44 +71,8 @@ export interface GroundUniforms {
   uCanopyStrength: { value: number };
 }
 
-/** The set's albedo array: one KTX2 container (UASTC, encoder mips) whose
- * layers are the materials in id order, then the cliff_rock and cliff_dirt
- * normal maps (written by `pipeline.ground_compress`). `KTX2Loader` returns a
- * `CompressedArrayTexture` that stays BC7/ASTC/ETC2 in VRAM: 42 layers are
- * about 15 MB resident where the PNG upload was 59 MB of RGBA8. Load it with
- * R3F's `useLoader(GroundArrayLoader, url, (l) => l.setDecoders(...))`; the
- * loader cache hands the province ground and the apron the same texture. */
-export const groundArrayUrl = (base: string, set: string) => `${base}textures/ground/${set}/albedo-array.ktx2`;
-
-/** Suspends until the set's albedo array is decoded (see `GroundArrayLoader`). */
-export function useGroundArray(base: string, set: string): THREE.CompressedArrayTexture {
-  const decoders = useKitDecoders(base);
-  return useLoader(GroundArrayLoader, groundArrayUrl(base, set), (l) => { l.setDecoders(decoders); });
-}
-
-export class GroundArrayLoader extends THREE.Loader<THREE.CompressedArrayTexture> {
-  private decoders: KitDecoders | null = null;
-  setDecoders(decoders: KitDecoders): this { this.decoders = decoders; return this; }
-  load(url: string, onLoad: (t: THREE.CompressedArrayTexture) => void, _p?: unknown, onError?: (e: unknown) => void): void {
-    if (!this.decoders) { onError?.(new Error("GroundArrayLoader: setDecoders first")); return; }
-    this.decoders.ktx2.loadAsync(url).then((t) => {
-      const tex = t as THREE.CompressedArrayTexture;
-      // Sampled raw like the PNG array was: the container's sRGB tag on the
-      // colour layers must not select an sRGB-decoding GPU format.
-      tex.colorSpace = THREE.NoColorSpace;
-      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-      tex.minFilter = THREE.LinearMipmapLinearFilter;
-      tex.magFilter = THREE.LinearFilter;
-      tex.generateMipmaps = false;
-      tex.anisotropy = 4;
-      tex.needsUpdate = true;
-      onLoad(tex);
-    }, (e) => onError?.(e));
-  }
-}
-
 /** Builds the splat material. The albedo array (`arrayTex`, from
- * `GroundArrayLoader`) belongs to the loader cache: the province ground and
+ * game-core `terrain/groundArray`) belongs to the loader cache: the province ground and
  * the apron's two materials share it and none of them disposes it; it rides
  * on `material.userData.tex`. The material is the caller's to dispose.
  * Live-tunable uniforms are exposed on `material.userData.groundUniforms`.

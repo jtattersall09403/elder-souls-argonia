@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { decodeWaterRasters, packRG } from "./loadWaterAssets";
+import { decodeWaterRasters, halveRaster, packRG } from "./loadWaterAssets";
 import { BURIED_DEPTH_M, buriedThresholdM, decodeDepthByte, type WaterMeta } from "../waterData";
 
 function meta(version: 1 | 2): WaterMeta {
@@ -54,5 +54,20 @@ describe("flow raster GPU packing", () => {
       expect(rg[i * 2]).toBe(rgba[i * 4]);
       expect(rg[i * 2 + 1]).toBe(rgba[i * 4 + 1]);
     }
+  });
+});
+
+describe("habitat raster half copy", () => {
+  it("halves an odd grid to ceil(n/2) and keeps a constant field and a ramp's normalised mapping", () => {
+    const n = 5;
+    const flat = { width: n, height: n, data: new Uint8Array(n * n * 4).fill(200) };
+    const half = halveRaster(flat);
+    expect([half.width, half.height]).toEqual([3, 3]);
+    expect([...half.data].every((v) => v === 200)).toBe(true);
+    // R ramps 0..200 in x: the half copy's centre texel reads the source centre.
+    const ramp = { width: n, height: n, data: new Uint8Array(n * n * 4).map((_, i) => (i % 4 === 0 ? ((i / 4) % n) * 50 : 0)) };
+    const r = halveRaster(ramp);
+    expect(r.data[(1 * 3 + 1) * 4]).toBe(100);
+    expect(r.data[0]).toBe(Math.round((5 / 6 - 0.5) * 50));
   });
 });
