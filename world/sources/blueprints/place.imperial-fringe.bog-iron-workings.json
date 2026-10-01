@@ -1196,7 +1196,20 @@
       "maxColliders": 60
     },
     "assetConstraints": [],
-    "proseRefs": [],
+    "proseRefs": [
+      {
+        "sourcePath": "causalModel.founding",
+        "itemRef": "item.bog-iron"
+      },
+      {
+        "sourcePath": "districts[0].why.playerPurpose",
+        "itemRef": "item.bog-iron"
+      },
+      {
+        "sourcePath": "parcels[1].why.playerPurpose",
+        "itemRef": "item.bog-iron"
+      }
+    ],
     "authoredOn": {
       "wbSchemaVersion": 1,
       "ground": {

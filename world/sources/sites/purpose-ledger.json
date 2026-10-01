@@ -34,7 +34,7 @@
       "parcelId": "parcel.bog-iron-workings.diggers-hut",
       "kind": "witness",
       "tier": "medium",
-      "note": "The season's crew know which end of the seep they stopped working, and what took the last digger who went there (LF67).",
+      "note": "The season's crew know which end of the seep they stopped working. They also know what took the last digger who went there (LF67).",
       "deliveredBy": "phase-13",
       "deliverable": "an occupant carrying testimony a quest can query",
       "interiorKind": "dwelling",

@@ -7594,7 +7594,17 @@
         "score": 3.746
       },
       "sitingNote": "Held at D1 with the barge for the same Ring A reason; see place.pirate-freeholds.opening-work-barge.",
-      "ownerGuided": true
+      "ownerGuided": true,
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.approach",
+          "routeRef": "route.road.stormhold-thorn"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.road.stormhold-thorn"
+        }
+      ]
     },
     {
       "id": "place.pirate-freeholds.plague-cordon-line",

@@ -1259,7 +1259,84 @@
       "maxColliders": 60
     },
     "assetConstraints": [],
-    "proseRefs": [],
+    "proseRefs": [
+      {
+        "sourcePath": "approaches[0].sequence",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "approaches[1].sequence",
+        "placeRef": "place.dunmer-north.stormhold"
+      },
+      {
+        "sourcePath": "causalModel.founding",
+        "placeRef": "place.dunmer-north.stormhold"
+      },
+      {
+        "sourcePath": "causalModel.founding",
+        "placeRef": "place.dunmer-north.thorn"
+      },
+      {
+        "sourcePath": "causalModel.founding",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "districts[0].notes",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "districts[0].why.playerPurpose",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "districts[0].why.what",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "districts[0].why.whyNeighbours",
+        "placeRef": "place.dunmer-north.stormhold"
+      },
+      {
+        "sourcePath": "districts[0].why.whyNeighbours",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "networkTerminals[0].why",
+        "placeRef": "place.dunmer-north.stormhold"
+      },
+      {
+        "sourcePath": "networkTerminals[1].why",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "parcels[1].why.playerPurpose",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "parcels[1].why.whyNeighbours",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "parcels[1].why.whySpot",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "parcels[2].why.playerPurpose",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "parcels[2].why.what",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "parcels[2].why.whyNeighbours",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "parcels[4].why.playerPurpose",
+        "placeRef": "place.dunmer-north.stormhold"
+      }
+    ],
     "authoredOn": {
       "wbSchemaVersion": 1,
       "ground": {

@@ -7587,7 +7587,7 @@
           "wealth": "poor",
           "why": {
             "microGeography": "A firm bench, level to within a degree, falling east to a steep bank and the seep.",
-            "playerPurpose": "A place to take bog iron, and the way to the seep LF67 turns on.",
+            "playerPurpose": "A place to take bog iron. The way down leads to the seep where LF67 starts.",
             "what": "The bench above the seep: the diggers' hut, the furnace floor and the way down from the road.",
             "whyHere": "The seep's ore is carried up to the first level ground, where a furnace can stand dry.",
             "whyNeighbours": "The keeper's lodge of the lower Onkobra is 95 m west; the porter yard at Red Cart is 200 m north-west."
@@ -7776,7 +7776,7 @@
           "why": {
             "microGeography": "A mud pod on a levelled pad on the bench.",
             "playerPurpose": "A shut room with beds where the crew keeps its stores.",
-            "what": "The diggers' hut, a mud pod the season's crew sleeps in.",
+            "what": "The diggers' hut, a mud pod where the season's crew sleeps.",
             "whyHere": "The diggers come for one season and need a roof near the furnace.",
             "whyNeighbours": "The furnace floor is 15 m east; the way from the seep track ends at its door.",
             "whySpot": "The flattest part of the bench, west of the furnace floor and clear of the road."
@@ -7973,7 +7973,7 @@
         "loreSource": "catalogue record Bog Iron Workings (works, M1; occupants D2 seasonal diggers, few; interior a dwelling S1, one door)",
         "npcsPlanned": 1,
         "population": "3-6",
-        "why": "A season's crew of three to six from three villages: one hut to sleep in, and a furnace floor beside it."
+        "why": "A season's crew of three to six from three villages: one sleeping hut with a furnace floor beside it."
       },
       "seed": "place.imperial-fringe.bog-iron-workings",
       "siting": {

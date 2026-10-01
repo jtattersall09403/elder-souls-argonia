@@ -19477,11 +19477,19 @@
       },
       "proseRefs": [
         {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
           "sourcePath": "why.founding",
           "routeRef": "route.road.stormhold-thorn"
         },
         {
           "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
           "placeRef": "place.imperial-fringe.gideon"
         },
         {
@@ -19523,13 +19531,13 @@
         "regionClass": "upland hills",
         "dangerBand": 2,
         "distanceToRouteM": 164.9,
-        "distanceToWaterM": 12.3,
+        "distanceToWaterM": 19.8,
         "water": {
           "entityId": "body.635-1651",
           "kind": "tarn-upland",
           "levelM": 72.53,
           "season": "perennial",
-          "distanceM": 12.3
+          "distanceM": 19.8
         },
         "score": 1.497
       }
