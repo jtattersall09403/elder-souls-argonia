@@ -4,6 +4,7 @@ determinism, and that the pick follows the parcel's services."""
 from __future__ import annotations
 
 import copy
+from pathlib import Path
 import math
 
 import pytest
@@ -541,8 +542,51 @@ def test_round_hut_and_swamp_house_no_plugin_links_are_hollow_with_no_prompt():
     hut, house = _pod_claim("test:roundhut"), _pod_claim("test:swamphouse")
     assert hut["tier"] == "none" and "hollow shell" in hut["why"]
     assert house["tier"] == "reserved" and "record promises" in house["why"]
-    # the record stays as the entrance (routes, fills, evidence); no prompt
     assert door_type({"interiorClaim": {"tier": "none"}}, "test:swamphouse") == "hollow"
+
+
+def test_an_unlinked_shell_walked_in_through_an_opening_has_no_door_record(monkeypatch):
+    """No closed buildings, the open case (door_types rule 2): the BM&V swamp
+    house (an `approach` opening, no door leaf, no plugin link) is walked
+    into, so its door record is dropped; a door leaf on an unlinked shell
+    stays a hollow (closed) door the gate refuses."""
+    from . import door_types as dt
+    lib = bi.InteriorLibrary(Path("/nonexistent"))
+    lib.by_asset = {"test:swamphouse": {"entrance": {"kind": "approach", "rayConfirmed": True}},
+                    "test:roundhut": {"entrance": {"kind": "esp-door"}}}
+    monkeypatch.setattr(bi, "library", lambda kits_dir=None: lib)
+    shells = frozenset({"test:shell"})
+    assert dt.door_type({"interiorClaim": {"tier": "reserved", "pool": "phase-12"}},
+                        "test:swamphouse", shells) is None
+    assert dt.door_type({"interiorClaim": {"tier": "none"}}, "test:roundhut", shells) == "hollow"
+
+
+def test_a_door_on_a_shell_no_plugin_links_is_a_closed_building_and_fails():
+    """No closed buildings (0114 rule 3): hollow is a build error, not a state;
+    a stale tier A claim on an unlinked shell fails too; an open front with no
+    door record, and a linked shell, pass."""
+    shells = frozenset({"test:shell"})
+    bp = {"parcels": [{"id": "p.home", "assetRef": "test:shell"},
+                      {"id": "p.hut", "assetRef": "test:roundhut"},
+                      {"id": "p.stale", "assetRef": "test:swamphouse"}],
+          "doors": [{"id": "d.home", "parcelId": "p.home", "interiorClaim": {"tier": "A"}},
+                    {"id": "d.hut", "parcelId": "p.hut", "interiorClaim": {"tier": "none"}},
+                    {"id": "d.stale", "parcelId": "p.stale",
+                     "interiorClaim": {"tier": "A", "cellId": "Borrowed"}}]}
+    lib = bi.InteriorLibrary(Path("/nonexistent"))
+    lib.by_asset = {"test:roundhut": {"entrance": {"kind": "esp-door"}},
+                    "test:swamphouse": {"entrance": {"kind": "approach", "rayConfirmed": True}}}
+    got = bi.closed_shell_failures(bp, shells, lib)
+    assert [line.split()[3] for line in got] == ["d.hut", "d.stale"]
+    assert all(line.startswith("closed building: door") for line in got)
+    # the doors dropped: the round hut still carries its plugin door leaf, so
+    # it looks shut and opens nowhere (a closed building with no door record);
+    # the swamp house's open front is walked into (open structure)
+    bp["doors"] = bp["doors"][:1]
+    got = bi.closed_shell_failures(bp, shells, lib)
+    assert len(got) == 1 and got[0].startswith("closed building: p.hut")
+    bp["parcels"] = [p for p in bp["parcels"] if p["id"] != "p.hut"]
+    assert bi.closed_shell_failures(bp, shells, lib) == []
 
 
 def test_a_socket_op_in_a_cell_no_door_claims_is_named():

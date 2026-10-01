@@ -66,6 +66,7 @@ import { fixtureLightFieldOf, litPreparerOf } from "../render/fixtureLights";
 import { DrawTargetLinker, type LinkingRenderer } from "../render/drawTargetLinker";
 import { detachSharedAttribute } from "../vegetation/slotGeometry";
 import { assertPoolsSchema, syncPlacePools } from "./pools";
+import { TransientFetchError, fetchJsonWithRetry, withRetry } from "./fetchRetry";
 import {
   SETTLEMENT_REQUERY_MOVE_M, useSettlementBundleSource,
   type AssembledSettlementBundle, type SettlementBundleSource,
@@ -238,6 +239,8 @@ function farSignatureOf(transforms: readonly THREE.Matrix4[], groundLinesM: read
   return `${transforms.length}:${Math.round(sum * 1000)}`;
 }
 const MAX_RENDER_DISTANCE_M = 5000;
+/** After a kit fails its retries (`fetchRetry`), the layer asks for it again this much later, ms. */
+const KIT_RETRY_MS = 5000;
 export const SETTLEMENT_PROOF_KEY = "__STUDIO_SETTLEMENT_DEBUG__";
 
 type SettlementProofHost = typeof globalThis & {
@@ -316,9 +319,7 @@ export async function loadSettlementBundle(
 export async function loadKitAssetMeta(
   url: string,
 ): Promise<Map<string, SettlementKitAssetMeta>> {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`kit manifest HTTP ${response.status}`);
-  return kitAssetMetaFromManifest(await response.json(), url);
+  return kitAssetMetaFromManifest(await fetchJsonWithRetry(url), url);
 }
 
 /**
@@ -427,7 +428,7 @@ export function solidFrom(
 }
 
 export function SettlementLayer({
-  baseUrl, focusRef, groundAt, quality, environment, onSolids, onStats, materialPatch,
+  baseUrl, focusRef, groundAt, groundArrivals, quality, environment, onSolids, onStats, materialPatch,
   rebuildRef, onDoors, kitCache: sharedKitCache, lightFixtures: sharedLightFixtures, onError,
   localSurfaces,
 }: SettlementLayerProps) {
@@ -457,6 +458,10 @@ export function SettlementLayer({
   const [manifests, setManifests] = useState<Map<string, Map<string, SettlementKitAssetMeta>>>(
     () => new Map());
   const pendingKits = useRef(new Set<string>());
+  /** A kit or kit manifest that failed after its retries (reported, retried after KIT_RETRY_MS). */
+  const [kitError, setKitError] = useState<string | null>(null);
+  const [kitRetry, setKitRetry] = useState(0);
+  const kitRetryTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const pendingManifests = useRef(new Set<string>());
   const decoders = useKitDecoders(baseUrl);
   // The scene's shared cache when one is injected (the interior loader reads
@@ -544,6 +549,13 @@ export function SettlementLayer({
       onDoors?.(data.doors ?? []);
     }).catch((error: unknown) => {
       if (cancelled) return;
+      if (error instanceof TransientFetchError) {
+        // the connection, not the data: reported, and the pick runs again
+        setKitError(`settlement bundle failed: ${error.message}; retrying`);
+        clearTimeout(kitRetryTimer.current);
+        kitRetryTimer.current = setTimeout(() => setQueryRevision((n) => n + 1), KIT_RETRY_MS);
+        return;
+      }
       const failure = error instanceof Error ? error : new Error(String(error));
       bundleSource.fail(failure);
       setFatalError(failure);
@@ -588,25 +600,38 @@ export function SettlementLayer({
         continue;
       }
       if (pendingKits.current.has(id)) continue;
+      // A kit that will not arrive after its retries (a dropped connection on
+      // a phone) is reported, never fatal (a refused manifest still is): the layer asks again after
+      // KIT_RETRY_MS (`kitRetry`), and the report clears when it arrives.
+      const failed = (what: string) => (error: unknown) => {
+        if (!(error instanceof TransientFetchError)) {
+          setFatalError(new Error(`settlement kit ${what}${id} failed: `
+            + `${error instanceof Error ? error.message : String(error)}`));
+          return;
+        }
+        setKitError(`settlement kit ${what}${id} failed: `
+          + `${error instanceof Error ? error.message : String(error)}; retrying`);
+        clearTimeout(kitRetryTimer.current);
+        kitRetryTimer.current = setTimeout(() => setKitRetry((n) => n + 1), KIT_RETRY_MS);
+      };
       if (!manifests.has(id) && !pendingManifests.current.has(id)) {
         pendingManifests.current.add(id);
         loadKitAssetMeta(`${baseUrl}${kit.manifest}`).then((assets) => {
           setManifests((current) => new Map(current).set(id, assets));
-        }).catch((error: unknown) => setFatalError(new Error(
-          `settlement kit manifest ${id} failed: `
-          + `${error instanceof Error ? error.message : String(error)}`)))
+        }).catch(failed("manifest "))
           .finally(() => pendingManifests.current.delete(id));
       }
       if (gltfs.has(id)) continue;
       pendingKits.current.add(id);
-      kitCache.load(id, `${baseUrl}${kit.glb}`, (url) => loader.loadAsync(url)).then((gltf) => {
+      kitCache.load(id, `${baseUrl}${kit.glb}`, (url) => withRetry(() => loader.loadAsync(url))).then((gltf) => {
         setGltfs((current) => new Map(current).set(id, gltf));
-      }).catch((error: unknown) => setFatalError(new Error(
-        `settlement kit ${id} failed: ${error instanceof Error ? error.message : String(error)}`)))
+      }).catch(failed(""))
         .finally(() => pendingKits.current.delete(id));
     }
+    if ([...wanted].every((id) => gltfs.has(id) && manifests.has(id))) setKitError(null);
   }, [bundle, revision, baseUrl, focusRef, quality?.architectureDrawScale, gltfs, manifests,
-      decoders, kitCache]);
+      decoders, kitCache, kitRetry]);
+  useEffect(() => () => clearTimeout(kitRetryTimer.current), []);
 
   // One index (and one set of material clones) per loaded GLTF for the
   // layer's life: a new kit arriving must not re-clone every other kit's
@@ -655,10 +680,7 @@ export function SettlementLayer({
     let cancelled = false;
     let made: SmokeColumns | null = null;
     const manifestUrl = `${baseUrl}${kit.manifest}`;
-    fetch(manifestUrl).then((response) => {
-      if (!response.ok) throw new Error(`${manifestUrl}: HTTP ${response.status}`);
-      return response.json();
-    }).then((manifest: unknown) => {
+    fetchJsonWithRetry(manifestUrl).then((manifest: unknown) => {
       const file = effectTextureFile(manifest, SMOKE_COLUMN_ASSET_ID, manifestUrl);
       return new THREE.TextureLoader().loadAsync(`${manifestUrl.replace(/[^/]*$/, "")}${file}`);
     }).then((texture) => {
@@ -689,10 +711,7 @@ export function SettlementLayer({
     if (!flameManifest) return undefined;
     let cancelled = false;
     const manifestUrl = `${baseUrl}${flameManifest}`;
-    fetch(manifestUrl).then((response) => {
-      if (!response.ok) throw new Error(`${manifestUrl}: HTTP ${response.status}`);
-      return response.json();
-    }).then((manifest: unknown) => {
+    fetchJsonWithRetry(manifestUrl).then((manifest: unknown) => {
       const ids = spriteTextureIds(manifest);
       if (!ids.includes(FLAME_TEXTURE_ASSET_ID)) ids.push(FLAME_TEXTURE_ASSET_ID);
       const folder = manifestUrl.replace(/[^/]*$/, "");
@@ -746,13 +765,12 @@ export function SettlementLayer({
   // The host's readable line, and the console (decision 0052 addendum
   // 2026-09-28: a failure shown only as a shape was unreadable three times).
   useEffect(() => {
+    const recoverable = [kitError, effectErrors.flame, effectErrors.smoke].filter(Boolean);
     const report = fatalError ? { fatal: true, message: fatalError.message }
-      : effectErrors.flame || effectErrors.smoke
-        ? { fatal: false, message: [effectErrors.flame, effectErrors.smoke].filter(Boolean).join("; ") }
-        : null;
-    if (report) console.error(`[settlement] ${report.fatal ? "LAYER FAILED" : "effect failed"}: ${report.message}`);
+      : recoverable.length ? { fatal: false, message: recoverable.join("; ") } : null;
+    if (report) console.error(`[settlement] ${report.fatal ? "LAYER FAILED" : "not fatal"}: ${report.message}`);
     onErrorRef.current?.(report);
-  }, [fatalError, effectErrors]);
+  }, [fatalError, effectErrors, kitError]);
   // The host's line goes with the layer: hiding or unmounting it clears it.
   useEffect(() => () => onErrorRef.current?.(null), []);
 
@@ -1194,7 +1212,7 @@ export function SettlementLayer({
       {smoke && <primitive key="settlement-smoke" object={smoke.mesh} />}
       <primitive key="settlement-light-fixtures" object={lightFixtures.group} />
       <GroundPaintLayer key="settlement-ground-paint" baseUrl={baseUrl}
-        settlements={bundle?.settlements} groundAt={groundAt} />
+        settlements={bundle?.settlements} groundAt={groundAt} groundArrivals={groundArrivals} />
     </>
   );
 }

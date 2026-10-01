@@ -3,8 +3,10 @@
  * card and one ember quad, two draws for all fires in view.
  *
  * A caller hands `setEmitters` one `FireEmitter` per mined flame record (the
- * emitter's FINAL world position: the piece's full draw matrix applied to the
- * record's `offsetM`, hang and mount included). Each emitter expands by its
+ * emitter's final position in the space of `group`'s parent: the piece's
+ * full draw matrix applied to the record's `offsetM`, hang and mount
+ * included; the shaders apply the group's world matrix, so a cell-local
+ * interior system follows its cell to 4000 m). Each emitter expands by its
  * preset's `layers`: every preset is at least 3 cards (a candle, lantern or
  * torch 2 core + 1 outer; a brazier, hearth or campfire 2-3 core and 2-3
  * outer spread over its fire bed), each on its own seed, so each sways and
@@ -39,7 +41,7 @@ import {
 import { makeVolumeBox, makeVolumeDetail, makeVolumeMaterial, VolumeFireField } from "./volumeFire";
 
 export interface FireEmitter {
-  /** World position of the emitter (the wick, the fire bed's centre), m. */
+  /** Position of the emitter (the wick, the fire bed's centre) in the group's parent space, m. */
   position: THREE.Vector3;
   preset: FirePresetId;
   /** The piece's scale: card sizes and the bed spread scale with it. */
@@ -146,7 +148,7 @@ export class FlameSystem {
   get flameInstances(): number { return this.flameGeometry.instanceCount; }
   /** Ember quads drawn (instances). */
   get emberInstances(): number { return this.emberGeometry.instanceCount; }
-  /** World position of flame card `i` (tests, probes). */
+  /** Position of flame card `i` in the group's parent space (tests, probes). */
   flamePosition(i: number, target = new THREE.Vector3()): THREE.Vector3 {
     return target.fromArray(this.flameData, i * FLAME_FLOATS);
   }

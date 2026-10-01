@@ -29,6 +29,7 @@ across the repo resolve via the map below.
 | **Building a place** (every 16k slice and Phase 15 packet): the procedure, the design index, the lessons store and the type sheets | the `place-build` skill ([.claude/skills/place-build/](../../.claude/skills/place-build/SKILL.md), decision 0100) |
 | History of place building (Phase 11 to 16h): the old per-place loop, the lessons table the skill was seeded from, the seed and write-back rules, the automation-readiness checklist | [96-placement-playbook.md](96-placement-playbook.md) |
 | **The rules for siting and laying out a place** (BINDING): province → place, place → ground, ground → layout, the walking player, integration, one grammar table per culture, the enforcement-gap table and the owner sense-check list | [97-placement-principles.md](97-placement-principles.md) |
+| **The data model**: every entity table (place, promise, layout, blueprint, door, socket, interior cell, route, quest, NPC), its home file, id and writer, and which files are derived | [98-data-model.md](98-data-model.md) |
 | Resolving [^..] citations from any module | [99-sources.md](99-sources.md) |
 
 Acceptance rules (old Part XIV, §88–92) live in **00-core** — they bind

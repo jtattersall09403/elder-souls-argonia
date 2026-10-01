@@ -292,12 +292,67 @@
    "settle": true,
    "pick": 3
   },
-  {"op": "place", "uid": "wb00", "asset": "vanilla:architecture/docks/dockstrent02", "at": [7203.85, 570.63], "yaw": 84.6, "walkable": true},
-  {"op": "snap", "child": "wb00", "child_face": "north", "parent": "lw06", "parent_face": "east", "by": "geometry", "settle": true},
-  {"op": "place", "uid": "wb01", "asset": "vanilla:architecture/docks/dockstrsol01", "at": [7196.59, 571.19], "yaw": 84.6, "walkable": true},
-  {"op": "snap", "child": "wb01", "child_face": "north", "parent": "wb00", "parent_face": "south", "by": "evidence", "settle": true, "allow_terminal": true},
-  {"op": "place", "uid": "wb02", "asset": "vanilla:architecture/docks/dockstepsdown01", "at": [7189.33, 571.75], "yaw": 84.6, "walkable": true, "wet": true},
-  {"op": "snap", "child": "wb02", "child_face": "west", "parent": "wb01", "parent_face": "south", "by": "evidence"},
+  {
+   "op": "place",
+   "uid": "wb00",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7203.85,
+    570.63
+   ],
+   "yaw": 84.6,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "wb00",
+   "child_face": "north",
+   "parent": "lw06",
+   "parent_face": "east",
+   "by": "geometry",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "wb01",
+   "asset": "vanilla:architecture/docks/dockstrsol01",
+   "at": [
+    7196.59,
+    571.19
+   ],
+   "yaw": 84.6,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "wb01",
+   "child_face": "north",
+   "parent": "wb00",
+   "parent_face": "south",
+   "by": "evidence",
+   "settle": true,
+   "allow_terminal": true
+  },
+  {
+   "op": "place",
+   "uid": "wb02",
+   "asset": "vanilla:architecture/docks/dockstepsdown01",
+   "at": [
+    7189.33,
+    571.75
+   ],
+   "yaw": 84.6,
+   "walkable": true,
+   "wet": true
+  },
+  {
+   "op": "snap",
+   "child": "wb02",
+   "child_face": "west",
+   "parent": "wb01",
+   "parent_face": "south",
+   "by": "evidence"
+  },
   {
    "op": "place",
    "uid": "fs00",
@@ -377,6 +432,49 @@
    ],
    "yaw": 182.5,
    "walkable": true
+  },
+  {
+   "op": "place",
+   "uid": "b-crews",
+   "asset": "composite:stilt/bamboohut02-with-door",
+   "at": [
+    7213.0,
+    512.0
+   ],
+   "yaw": 240.0,
+   "settle": true,
+   "pad": {
+    "apronM": 2.0,
+    "batter": true,
+    "apronBySide": {
+     "s": 3.0
+    }
+   }
+  },
+  {
+   "op": "move",
+   "uid": "b-crews",
+   "dy": -0.05
+  },
+  {
+   "op": "place",
+   "uid": "b-family",
+   "asset": "composite:stilt/bamboohut01-with-door",
+   "at": [
+    7200.0,
+    507.0
+   ],
+   "yaw": 270.0,
+   "settle": true,
+   "pad": {
+    "apronM": 2.0,
+    "batter": true
+   }
+  },
+  {
+   "op": "move",
+   "uid": "b-family",
+   "dy": -0.03
   },
   {
    "op": "place",
@@ -501,9 +599,27 @@
    "id": "parcel.riverwalk.the-long-walk",
    "index": 13
   },
-  {"op": "bind", "uid": "wb00", "kind": "run", "id": "parcel.riverwalk.west-boards", "index": 0},
-  {"op": "bind", "uid": "wb01", "kind": "run", "id": "parcel.riverwalk.west-boards", "index": 1},
-  {"op": "bind", "uid": "wb02", "kind": "run", "id": "parcel.riverwalk.west-boards", "index": 2},
+  {
+   "op": "bind",
+   "uid": "wb00",
+   "kind": "run",
+   "id": "parcel.riverwalk.west-boards",
+   "index": 0
+  },
+  {
+   "op": "bind",
+   "uid": "wb01",
+   "kind": "run",
+   "id": "parcel.riverwalk.west-boards",
+   "index": 1
+  },
+  {
+   "op": "bind",
+   "uid": "wb02",
+   "kind": "run",
+   "id": "parcel.riverwalk.west-boards",
+   "index": 2
+  },
   {
    "op": "bind",
    "uid": "fs00",
@@ -529,7 +645,19 @@
    "op": "bind",
    "uid": "b-house",
    "kind": "parcel",
+   "id": "parcel.riverwalk.long-house"
+  },
+  {
+   "op": "bind",
+   "uid": "b-crews",
+   "kind": "parcel",
    "id": "parcel.riverwalk.crews-house"
+  },
+  {
+   "op": "bind",
+   "uid": "b-family",
+   "kind": "parcel",
+   "id": "parcel.riverwalk.family-house"
   },
   {
    "op": "bind",
@@ -565,8 +693,8 @@
    "uid": "sh-totem2",
    "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01",
    "at": [
-    7211.25,
-    520.65
+    7210.4,
+    517.6
    ],
    "yaw": 0.0,
    "settle": true
@@ -602,6 +730,160 @@
   },
   {
    "op": "place",
+   "uid": "f-candle",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    7197.1,
+    509.7
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "f-closed",
+   "asset": "vanilla:clutter/basketclosed01",
+   "at": [
+    7204.2,
+    510.2
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "f-bucket",
+   "asset": "vanilla:clutter/bucket01",
+   "at": [
+    7203.6,
+    511.4
+   ],
+   "yaw": 47.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "f-wood",
+   "asset": "vanilla:clutter/firewood/firewoodpilesmall01",
+   "at": [
+    7203.9,
+    505.8
+   ],
+   "yaw": 94.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "f-sack",
+   "asset": "vanilla:clutter/containers/miscsacklarge",
+   "at": [
+    7204.2,
+    506.6
+   ],
+   "yaw": 141.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "f-basket",
+   "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
+   "at": [
+    7197.0,
+    503.6
+   ],
+   "yaw": 188.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "f-urn",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    7199.5,
+    503.2
+   ],
+   "yaw": 235.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "c-net",
+   "asset": "shores:shoresofskyrim/fishnet01",
+   "at": [
+    7217.6,
+    514.4
+   ],
+   "yaw": 282.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "c-pot2",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    7214.5,
+    507.6
+   ],
+   "yaw": 329.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "c-full",
+   "asset": "mudmother:gv_meshes/argoniannest/basketfull",
+   "at": [
+    7215.6,
+    509.0
+   ],
+   "yaw": 16.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "c-sack2",
+   "asset": "vanilla:clutter/containers/miscsacklarge",
+   "at": [
+    7216.6,
+    511.0
+   ],
+   "yaw": 63.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "f-chair",
+   "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
+   "at": [
+    7196.5,
+    505.0
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "f-wood2",
+   "asset": "vanilla:clutter/firewood/firewoodpilesmall01",
+   "at": [
+    7202.0,
+    511.6
+   ],
+   "yaw": 61.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "f-full",
+   "asset": "mudmother:gv_meshes/argoniannest/basketfull",
+   "at": [
+    7203.0,
+    509.4
+   ],
+   "yaw": 122.0,
+   "settle": true
+  },
+  {
+   "op": "place",
    "uid": "c-candle1",
    "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
    "at": [
@@ -610,6 +892,132 @@
    ],
    "yaw": 0.0,
    "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "f-candle",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.family-house",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "f-closed",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.family-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "f-bucket",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.family-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "f-wood",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.family-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "f-sack",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.family-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "f-basket",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.family-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "f-urn",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.family-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c-net",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c-pot2",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c-full",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c-sack2",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "f-chair",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.family-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "f-wood2",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.family-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "f-full",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.family-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
   },
   {
    "op": "bind",
@@ -625,15 +1033,15 @@
    "uid": "c-doorlamp",
    "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
    "at": [
-    7223.9,
-    520.1
+    7214.8,
+    515.3
    ],
-   "yaw": 182.5
+   "yaw": 240.0
   },
   {
    "op": "mount",
    "child": "c-doorlamp",
-   "parent": "b-house",
+   "parent": "b-crews",
    "hang": true,
    "unmined": "reader-approved r4",
    "max_h": 6.0
@@ -652,8 +1060,8 @@
    "uid": "c-urn1",
    "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
    "at": [
-    7213.1,
-    516.0
+    7210.6,
+    516.2
    ],
    "yaw": 0.0,
    "settle": true
@@ -672,8 +1080,8 @@
    "uid": "c-urn2",
    "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
    "at": [
-    7214.1,
-    516.5
+    7215.6,
+    517.2
    ],
    "yaw": 0.0,
    "settle": true
@@ -692,8 +1100,8 @@
    "uid": "c-basket",
    "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
    "at": [
-    7214.7,
-    515.9
+    7211.0,
+    517.0
    ],
    "yaw": 0.0,
    "settle": true
@@ -712,8 +1120,8 @@
    "uid": "c-sack",
    "asset": "vanilla:clutter/containers/miscsacklarge",
    "at": [
-    7212.1,
-    515.9
+    7208.8,
+    509.4
    ],
    "yaw": 0.0,
    "settle": true
@@ -732,8 +1140,8 @@
    "uid": "c-chair1",
    "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
    "at": [
-    7212.9,
-    517.2
+    7202.6,
+    510.6
    ],
    "yaw": 0.0,
    "settle": true
@@ -752,8 +1160,8 @@
    "uid": "c-chair2",
    "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
    "at": [
-    7211.6,
-    517.1
+    7208.4,
+    513.6
    ],
    "yaw": 0.0,
    "settle": true
@@ -772,8 +1180,8 @@
    "uid": "cc-pot",
    "asset": "kotm:argonia/clutter/saxhleelmetalpot01",
    "at": [
-    7212.3,
-    519.3
+    7210.0,
+    514.9
    ],
    "yaw": 0.0,
    "settle": true
@@ -792,8 +1200,8 @@
    "uid": "cc-wood",
    "asset": "vanilla:clutter/firewood/firewoodpilesmall01",
    "at": [
-    7212.6,
-    518.6
+    7209.3,
+    515.6
    ],
    "yaw": 0.0,
    "settle": true
@@ -1077,6 +1485,52 @@
   {
    "op": "path",
    "action": "add",
+   "id": "route.riverwalk.hut-path",
+   "points": [
+    [
+     7214.6,
+     519.75
+    ],
+    [
+     7213.55,
+     519.17
+    ],
+    [
+     7213.03,
+     514.84
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.riverwalk.family-path",
+   "points": [
+    [
+     7209.0,
+     522.6
+    ],
+    [
+     7209.0,
+     517.5
+    ],
+    [
+     7197.1,
+     512.1
+    ],
+    [
+     7198.609,
+     509.459
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
    "id": "route.riverwalk.islet-path",
    "points": [
     [
@@ -1146,7 +1600,7 @@
    "id": "socket.riverwalk.idle-toll-holder-home",
    "kind": "idle",
    "activity": "sleep",
-   "parcel": "parcel.riverwalk.crews-house",
+   "parcel": "parcel.riverwalk.long-house",
    "why": "The toll-holder sleeps in the long house.",
    "at": [
     7233.37,
@@ -1205,7 +1659,7 @@
    "id": "socket.riverwalk.idle-stage-mistress-home",
    "kind": "idle",
    "activity": "sleep",
-   "parcel": "parcel.riverwalk.crews-house",
+   "parcel": "parcel.riverwalk.long-house",
    "why": "The stage-mistress sleeps in the long house.",
    "at": [
     7229.37,
@@ -1255,7 +1709,7 @@
    "id": "socket.riverwalk.idle-n1-work",
    "kind": "idle",
    "activity": "work-at",
-   "parcel": "parcel.riverwalk.crews-house",
+   "parcel": "parcel.riverwalk.long-house",
    "why": "The household keeps the bunks and the stores in the long house.",
    "at": [
     7226.22,
@@ -1267,7 +1721,7 @@
    "id": "socket.riverwalk.idle-n1-home",
    "kind": "idle",
    "activity": "sleep",
-   "parcel": "parcel.riverwalk.crews-house",
+   "parcel": "parcel.riverwalk.long-house",
    "why": "The household sleeps in the long house.",
    "at": [
     7233.5,
@@ -1326,7 +1780,7 @@
    "id": "socket.riverwalk.idle-n2-home",
    "kind": "idle",
    "activity": "sleep",
-   "parcel": "parcel.riverwalk.crews-house",
+   "parcel": "parcel.riverwalk.long-house",
    "why": "The crew takes a bunk in the long house.",
    "at": [
     7229.48,
@@ -1386,7 +1840,7 @@
    "id": "socket.riverwalk.idle-n3-home",
    "kind": "idle",
    "activity": "sleep",
-   "parcel": "parcel.riverwalk.crews-house",
+   "parcel": "parcel.riverwalk.long-house",
    "why": "The toll hand sleeps in the long house.",
    "at": [
     7231.28,
@@ -1496,12 +1950,12 @@
    "id": "socket.riverwalk.marker-house-door",
    "kind": "marker",
    "at": [
-    7223.55,
-    518.25
+    7213.03,
+    514.84
    ],
    "zone": "entrance",
    "parcel": "parcel.riverwalk.crews-house",
-   "why": "The long house doorway, over its landing, the most-used doorway in the village."
+   "why": "The crews' house doorway, at the head of the boards, the most-used doorway in the village."
   },
   {
    "op": "socket",
@@ -1545,7 +1999,7 @@
    "itemClass": "book",
    "valueBand": "low",
    "contentPending": true,
-   "parcel": "parcel.riverwalk.crews-house",
+   "parcel": "parcel.riverwalk.long-house",
    "why": "The toll-holder's tally of who paid which city.",
    "at": [
     7230.11,

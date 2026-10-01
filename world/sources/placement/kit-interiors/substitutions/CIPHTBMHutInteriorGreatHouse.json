@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "cellId": "CIPHTBMHutInteriorGreatHouse",
+  "plugin": "Here There Be Monsters - Curse of Cipactli.esp",
+  "rule": "Stand-ins for the cell's missing pieces. Every missing piece of this cell is a Dragonborn.esm base that the vault does not hold and the owner excludes, so each ships as a listed gap.",
+  "substitutions": [],
+  "gaps": [
+    {
+      "refId": "06468B6C",
+      "reason": "asset-exists-nowhere",
+      "search": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+      "why": "A small household object from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+    },
+    {
+      "refId": "06468B6D",
+      "reason": "asset-exists-nowhere",
+      "search": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+      "why": "A small household object from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+    },
+    {
+      "refId": "06468B6E",
+      "reason": "asset-exists-nowhere",
+      "search": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+      "why": "A small household object from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+    },
+    {
+      "refId": "06468B6F",
+      "reason": "asset-exists-nowhere",
+      "search": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+      "why": "A small household object from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+    },
+    {
+      "refId": "06468B70",
+      "reason": "asset-exists-nowhere",
+      "search": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+      "why": "A small household object from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+    }
+  ],
+  "gapRule": "Planner ruling R51 (16k walk 3, 2026-09-28; decision 0102's third reason): a missing piece with no same-object stand-in (R48) whose asset exists nowhere after the completed search ships as a listed gap, drawn by nothing."
+}

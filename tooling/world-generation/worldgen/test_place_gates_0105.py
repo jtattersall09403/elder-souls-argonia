@@ -444,3 +444,20 @@ def test_spatial_grid_matches_all_pairs_across_cell_edges():
                "positionM": [x, 0.0, z]} for i, (x, z) in enumerate(
                    [(3 + reach, 0), (3 + reach + 1e-6, 0), (-3 - reach, 0), (0, -3 - reach), (-40, -40)])]
     assert pg.breadth_measure(scene, {"parcel.a"}, {"parcel.a": fp})["dressingPerDwelling"] == {"parcel.a": 3}
+
+
+def test_record_magnitude_must_match_the_built_column():
+    """Walk 7: Riverwalk's record said M3 (a town) over a two-building halt;
+    the record's magnitude is the column its counted buildings build."""
+    from worldgen.place_gates import record_consistency_failures
+    bars = {"tiers": {"M1": {"buildingsMin": 4, "buildingsMax": 6},
+                      "M2": {"buildingsMin": 7, "buildingsMax": 12},
+                      "M3": {"buildingsMin": 13, "buildingsMax": 25},
+                      "M4": {"buildingsMin": 26}, "M5": {"buildingsMin": 26}}}
+    rec = {"classification": {"class": "settlement", "magnitude": "M3"}}
+    got = record_consistency_failures(rec, 7, bars)
+    assert len(got) == 1 and "says M3 (13-25 buildings)" in got[0] and "(M2)" in got[0]
+    assert "below every column" in record_consistency_failures(rec, 2, bars)[0]
+    rec["classification"]["magnitude"] = "M2"
+    assert record_consistency_failures(rec, 7, bars) == []
+    assert record_consistency_failures({"classification": {"class": "camp"}}, 1, bars) == []

@@ -61,6 +61,7 @@ from pathlib import Path
 from . import catalogue
 from .blueprint_files import blueprint_paths, parcel_services  # noqa: F401 — parcel_services is re-exported
 from .catalogue import SERVICES
+from .promise_gate import CONFIRMED_KINDS
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 BLUEPRINT_DIR = REPO_ROOT / "world" / "sources" / "blueprints"
@@ -613,10 +614,97 @@ def ledger_rows(rec: dict, services_doc: dict | None = None) -> list[dict]:
         rows.append(_row(place_slug, "safe-interior", "safeInterior", cat,
                          f"{at}.classification.class",
                          f"{name} has one safe interior (danger D0, quests 20 section 12)."))
+    rows += claim_rows(rec, place_slug, name, cat, at)
     by_id: dict[str, dict] = {}
     for row in rows:
         by_id.setdefault(row["id"], row)
     return sorted(by_id.values(), key=lambda r: r["id"])
+
+
+#: the record's prose fields the builder re-reads against the built place
+#: (walk 7: Riverwalk's record spoke of a "northern trunk" on a coast site and
+#: never named the shrine island that was built): each is a `prose` row the
+#: builder confirms true of the built place, pinned to the text's hash
+PROSE_FIELDS = (("why", ("founding", "siteAdvantages", "occupantsMotive", "pressures",
+                         "wouldChangeIf")),
+                ("vibe", ("silhouette", "palette", "materials", "signatureFeature", "condition",
+                          "mood", "approach", "senses")),
+                ("playerPurpose", ("hook",)),
+                ("questHooks", ("opportunity",)))
+QUESTS_DIR = REPO_ROOT / "world" / "sources" / "quests"
+
+
+def text_sha(text: str) -> str:
+    """The pin a `confirmed` block carries: the first 12 hex of the text's sha256."""
+    import hashlib
+    return hashlib.sha256(str(text).encode("utf-8")).hexdigest()[:12]
+
+
+def quest_rows_for(place_id: str, quests_dir: Path = QUESTS_DIR) -> dict[str, tuple[str, str]]:
+    """quest code -> (its home file, "<code> <title>: <premise>") for every
+    quest record (`world/sources/quests/*.json`, the home table the quest
+    index renders) whose `settlement` or `anchorPlaces` names this place."""
+    out: dict[str, tuple[str, str]] = {}
+    for path in sorted(Path(quests_dir).glob("*.json")):
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        rows = doc.get("quests") if isinstance(doc, dict) else None
+        for q in rows or []:
+            if not isinstance(q, dict) or not q.get("code"):
+                continue
+            if q.get("settlement") != place_id and place_id not in (q.get("anchorPlaces") or []):
+                continue
+            rel = path.relative_to(REPO_ROOT) if path.is_relative_to(REPO_ROOT) else path
+            out.setdefault(q["code"], (str(rel), f"{q['code']} {q.get('title')}: {q.get('premise')}"))
+    return out
+
+
+def claim_rows(rec: dict, place_slug: str, name: str, cat: str, at: str) -> list[dict]:
+    """Every other claim of the record the build can keep or contradict
+    (walk 7, owner: record, popup and built place 100% consistent):
+
+    * `interior` - the principal interior (`interior` block + `entrance`),
+      filled by the door that opens onto it;
+    * `underwaterAccess` - a promised dive way in (`shallow-dive`, `deep-dive`,
+      `argonian-only-depth`; `surface-swim` is the open water itself),
+      filled by the door or socket that gives it;
+    * `travelStation` - the modes and destinations, filled by the landing,
+      dock or station socket they leave from;
+    * `prose` - each `why`, `vibe`, purpose hook and quest-opportunity line,
+      CONFIRMED (not filled): the builder re-reads it against the built
+      place and records `confirmed: {sha, note}`; an edited text voids it;
+    * `quest` - each quest record that anchors on the place, confirmed the
+      same way (the place serves the quest as built).
+    The structure count is measured, not a row (`place_gates` gate
+    `record.consistency`)."""
+    rows: list[dict] = []
+    it = rec.get("interior") or {}
+    if it.get("kind") not in (None, "none"):
+        rows.append(_row(place_slug, "interior-principal", "interior", cat, f"{at}.interior",
+                         f"{name}'s principal interior is a {it.get('family') or it.get('kind')} "
+                         f"({it.get('sizeBand')}), entered by {it.get('entranceCount') or 1} "
+                         f"{rec.get('entrance') or 'door'}."))
+    uw = rec.get("underwaterAccess")
+    # surface-swim is the water itself (swim in at the surface); a dive is a
+    # built way in under the water, which a door or socket must give
+    if uw not in (None, "none", "surface-swim"):
+        rows.append(_row(place_slug, "underwater-access", "underwaterAccess", cat,
+                         f"{at}.underwaterAccess", f"{name} can be entered from under the water "
+                         f"({uw})."))
+    ts = rec.get("travelStation") or {}
+    if ts.get("modes") or ts.get("destinations"):
+        rows.append(_row(place_slug, "travel-station", "travelStation", cat, f"{at}.travelStation",
+                         f"{name} is a travel station ({', '.join(ts.get('modes') or [])}) to "
+                         f"{len(ts.get('destinations') or [])} destinations."))
+    for block, fields in PROSE_FIELDS:
+        got = rec.get(block) or {}
+        for field_ in fields:
+            text = got.get(field_) if isinstance(got, dict) else None
+            if isinstance(text, str) and text.strip():
+                rows.append(_row(place_slug, f"prose-{_slug(block)}-{_slug(field_)}", "prose", cat,
+                                 f"{at}.{block}.{field_}", text.strip()))
+    for code, (file, premise) in sorted(quest_rows_for(rec["id"]).items()):
+        rows.append(_row(place_slug, f"quest-{code.lower()}", "quest", file, f"quest[{code}]", premise))
+    return rows
 
 
 def _sha(path: Path) -> str:
@@ -629,15 +717,21 @@ def ledger_record(rec: dict, services_doc: dict | None = None,
     """The ledger document of one place; `previous` (the committed ledger)
     lends its `unfilled` blocks to the rows whose ids survive."""
     from .promise_gate import LEDGER_SCHEMA_VERSION
-    kept = {r["id"]: r.get("unfilled") for r in (previous or {}).get("promises") or []}
+    prev = {r["id"]: r for r in (previous or {}).get("promises") or []}
     rows = ledger_rows(rec, services_doc)
     for row in rows:
-        row["unfilled"] = kept.get(row["id"])
+        row["unfilled"] = (prev.get(row["id"]) or {}).get("unfilled")
+        if row["kind"] in CONFIRMED_KINDS:
+            # a confirmation holds only while its text is unchanged
+            conf = (prev.get(row["id"]) or {}).get("confirmed")
+            row.pop("unfilled")
+            row["confirmed"] = conf if (conf or {}).get("sha") == text_sha(row["text"]) else None
     files = sorted({r["source"]["file"] for r in rows})
     return {"schemaVersion": LEDGER_SCHEMA_VERSION,
             "placeId": rec["id"],
             "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write "
-                         "(decision 0104); never hand-edit a row but its `unfilled` block",
+                         "(decision 0104); never hand-edit a row but its `unfilled` or "
+                         "`confirmed` block",
             "derivedFrom": [{"file": f, "sha256": _sha(REPO_ROOT / f)} for f in files
                             if (REPO_ROOT / f).exists()],
             "promises": rows}

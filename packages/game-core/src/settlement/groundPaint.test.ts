@@ -8,7 +8,7 @@ import {
 
 const here = dirname(fileURLToPath(import.meta.url));
 const road: GroundPaintEntry = {
-  id: "paint.route.t.road", kind: "road", texture: "bc_road", edgeM: 1, peakAlpha: 0.75,
+  id: "paint.route.t.road", kind: "road", texture: "track_mud", edgeM: 1, peakAlpha: 0.75,
   polygonM: [[0, -2.65], [30, -2.65], [30, 2.65], [0, 2.65]],
 };
 /** A footpath crossing the road at x 10..12: overlaps it by 5.3 m. */
@@ -35,7 +35,8 @@ describe("ground paint (16k walk 4)", () => {
   });
 
   it("is ONE surface where two ways cross: every grid vertex once, weights by texture, max never summed", () => {
-    const s = paintSurface([road, path], ground)!;
+    // a second material (a vocabulary row away) takes the second weight channel
+    const s = paintSurface([{ ...road, texture: "bc_road" }, path], ground)!;
     expect(s.textures).toEqual(["bc_road", "track_mud"]);
     const seen = new Set<string>();
     for (let v = 0; v < s.vertexCount; v++) {

@@ -50,7 +50,12 @@ Runs, for one place and without the yard regression gates:
   type-recipes.json row; keep exclusive, town/village/camp one pool, ruin
   alone);
 * ``interiors.reserved`` - 0105 R10: a reserved door on a dwelling,
-  workplace, shop or store parcel fails (reserved is tier B/C only).
+  workplace, shop or store parcel fails (reserved is tier B/C only);
+* ``interiors.closed`` - decision 0114 rule 3: a door on a shell no plugin
+  links to an interior cell is a closed building and fails;
+* ``record.consistency`` - walk 7: a settlement record's magnitude is the
+  breadth-bars column its counted buildings are built under (the record's
+  other claims are promise-ledger rows: ``promises``).
 
 Writes ``tooling/.reports/16k/<place-id>/place-gates.json`` (contract 3:
 schemaVersion, placeId, startedAt, wallS, ok, gates[{id, ok, seconds,
@@ -1156,6 +1161,46 @@ def reserved_gate(g: Gates, bp: dict) -> None:
     g.add("interiors.reserved", time.perf_counter() - t, reserved_failures(bp))
 
 
+def record_consistency_failures(record: dict | None, n_counted: int, bars: dict | None = None) -> list[str]:
+    """Walk 7 (owner: record, map popup and built place 100% consistent): a
+    settlement record's magnitude is the column its counted buildings are
+    built under (``breadth_bars.built_column``, the one band table the popup
+    also reads). A mismatch is fixed by editing the record (place-build step
+    5b), or by building to it; never left."""
+    from . import breadth_bars as bb
+    cls = (record or {}).get("classification") or {}
+    if cls.get("class") != "settlement":
+        return []
+    bars = bars if bars is not None else bb.load()
+    built = bb.built_column(n_counted, bars)
+    said = cls.get("magnitude")
+    if built == said:
+        return []
+    def band(tier):
+        row = bars["tiers"].get(tier) or {}
+        hi = row.get("buildingsMax")
+        return f"{row.get('buildingsMin')}-{hi}" if hi is not None else f"{row.get('buildingsMin')}+"
+    return [f"record.magnitude: the record says {said} ({band(said) if said in bars['tiers'] else '?'} "
+            f"buildings) and the place is built with {n_counted} counted buildings "
+            f"({built or 'below every column'}); edit the record's magnitude and its prose to the "
+            f"built place (place-build step 5b), or build to the record"]
+
+
+def record_gate(g: Gates, bp: dict, record: dict | None) -> None:
+    from . import parcel_kinds as pk
+    t = time.perf_counter()
+    counted = pk.counted_parcels(bp, pk.kinds_of(bp), include=("building",))
+    g.add("record.consistency", time.perf_counter() - t, record_consistency_failures(record, len(counted)))
+
+
+def closed_gate(g: Gates, bp: dict) -> None:
+    """No closed buildings (decision 0114 rule 3): a door on a shell no
+    plugin links to a cell fails (``blueprint_interiors.closed_shell_failures``)."""
+    from .blueprint_interiors import closed_shell_failures
+    t = time.perf_counter()
+    g.add("interiors.closed", time.perf_counter() - t, closed_shell_failures(bp))
+
+
 def layout_blueprint(place_id: str, compiled_ok: bool) -> Path | None:
     """The blueprint the gates grade and the cell claims read: the one this
     run's ``wb.py apply`` derived from the layout (``run_apply`` clears the
@@ -1240,6 +1285,8 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
                   gates_output(place_id) / "scenes" / f"{scene}.json", bp_source, settlement)
     interior_variety_gate(g, place_id, bp)
     reserved_gate(g, bp)
+    closed_gate(g, bp)
+    record_gate(g, bp, record)
     rows = kit_rows({p.get("kit") for p in (settlement or {}).get("placements") or []})
     lights_gate(g, settlement, rows, place_id=place_id)
     setting_gate(g, settlement, record, rows)

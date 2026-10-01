@@ -87,13 +87,24 @@ run) and 5 (the gates).
    manifest (decision 0114, R83).** A lived-in building (a service, a
    home, a workplace) takes a shell that a plugin's own load door links to
    a furnished cell (`world/sources/placement/exterior-interior-links.json`;
-   a composite inherits its base shell's links). A shell no plugin gives a
-   load door is HOLLOW: its door record stays (routes, `fills`, evidence)
-   as `doorType: "hollow"` with no prompt, claim tier `none` (tier
-   `reserved`, pool `phase-12`, when its index record is `promised`). No
-   culture pool, no size or label match ever lends it another shell's
-   cell. A lived-in building that must be entered therefore takes a linked
-   shell. A door is `reserved` on a linked shell only when no linked cell
+   a composite inherits its base shell's links). **No closed buildings**
+   (owner 2026-09-30, 0114 rule 3, lessons L50): every building is either
+   open (no doorway: an open front, shed, stall or tent walked into in the
+   world, no door record; an unlinked shell whose way in is an `approach`
+   or `open-front` opening, such as the BM&V swamp house, is open) or a
+   linked shell opening onto its linked cell.
+   A doored shell no plugin links is `hollow`, and hollow is a build error:
+   `--claim` exits 3 and `place_gates` gate `interiors.closed` fails,
+   naming the door. Swap it for a linked shell at design time. No culture
+   pool, no size or label match ever lends a shell another shell's cell.
+
+   **Shell-choice checklist** (one line per building in the brief's
+   § Interiors, before the layout is written): (a) open structure with no
+   doorway, or doored? (b) doored: the base shell's row in
+   `exterior-interior-links.json` and its linked cells (none = choose
+   another shell now); (c) the cell's use class serves the parcel;
+   (d) the cell is not already held in the region (R4) unless the linked
+   set is exhausted. A door is `reserved` on a linked shell only when no linked cell
    passes (rule 2), and `--claim` exits 3 naming it. The cell chosen is
    also held against repetition (0105 R4: no cell twice in a region unless
    the shell's linked set is exhausted, at most 3 in the province;
@@ -301,7 +312,10 @@ alone (ambient and directional off: the runtime lights an interior the same
 at every hour, so this row shows what the cell's own lights reach), and a
 flame proxy at every fire the loader burns (orange; magenta = a lit
 fixture's fallback). `--day` / `--night` render one row. A reader judges
-readable, warm, lit by its sources, not flat.
+readable, warm, lit by its sources, not flat. The proxy shows where a flame
+belongs, never that the studio draws it: "flames verified" for a cell means
+a PASS from `node tooling/visual-look/flames.mjs interior <cellId> <xKm>
+<zKm>` on the built site (`references/fire.md` § 3 step 4).
 
 **Design the lighting first time** (decision 0109). A dim or flat tier A
 cell is fixed with more sources, never a fill or a raised ambient. Every living zone of

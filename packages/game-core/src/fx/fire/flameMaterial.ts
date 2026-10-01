@@ -19,7 +19,15 @@
  * it ADDS glow (a halo at night).
  *
  * Instance attributes (FlameSystem.ts writes them):
- *   iPosSeed  vec4  emitter world position (m), seed 0..1
+ *   iPosSeed  vec4  emitter position (m) in the FlameSystem group's space, seed 0..1
+ *
+ * Both vertex shaders take `iPosSeed.xyz` through `modelWorldMatrix` before the
+ * camera maths. An interior cell's emitters are cell-local and its group
+ * stands at (door x, 4000 m, door z) (interior/doors.ts
+ * INTERIOR_SPACE_LIFT_M); read as world positions they drew 4 km below the
+ * player, past `uMaxDistance`, so every interior flame faded to nothing
+ * in the studio while the look harness (cell at the origin) showed them
+ * (16k walk 7). A settlement's fixture group stands at the identity.
  *   iShape    vec4  width m, height m, turbulence 0..1, rise (heights/s)
  *   iParams   vec4  intensity 0..1, palette row, layer (0 core, 1 outer), taper
  *   iAnim     vec4  flicker Hz, flicker share, wind response, volume preset (1: the
@@ -145,7 +153,7 @@ export function makeFlameMaterial(u: FireUniforms): NodeMaterial {
   const iMotion = attribute("iMotion", "vec4");
   const position = attribute("position", "vec3");
 
-  const at = iPosSeed.xyz;
+  const at = T.modelWorldMatrix.mul(vec4(iPosSeed.xyz, 1)).xyz;
   const seed = iPosSeed.w;
   const toCam = T.cameraPosition.sub(at);
   const dist = length(toCam);
@@ -241,7 +249,7 @@ export function makeEmberMaterial(u: FireUniforms): NodeMaterial {
   const ang = h1(k.add(1)).mul(6.2831853);
   const drift = vec3(T.cos(ang.add(t.mul(3))), 0, T.sin(ang.add(t.mul(3)))).mul(iEmber.w).mul(t.add(0.4));
   const wind = u.uWind.mul(t).mul(t).mul(iEmber.x).mul(0.5);
-  const p0 = iPosSeed.xyz.add(drift).add(vec3(wind.x, t.mul(iEmber.x), wind.y));
+  const p0 = T.modelWorldMatrix.mul(vec4(iPosSeed.xyz, 1)).xyz.add(drift).add(vec3(wind.x, t.mul(iEmber.x), wind.y));
   const toCam = T.cameraPosition.sub(p0);
   const dist = length(toCam);
   const f = normalize(toCam);

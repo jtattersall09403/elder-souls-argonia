@@ -1,0 +1,885 @@
+{
+ "schemaVersion": 4,
+ "cellId": "CIPHTBMHutInterior01",
+ "plugin": "Here There Be Monsters - Curse of Cipactli.esp",
+ "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
+ "shellAssetId": null,
+ "refCount": 25,
+ "kits": {
+  "bmv-treehouse-int": {
+   "id": "bmv-treehouse-int",
+   "glb": "kits/bmv-treehouse-int.glb",
+   "manifest": "kits/bmv-treehouse-int.kit.json"
+  },
+  "htbm-hut-int": {
+   "id": "htbm-hut-int",
+   "glb": "kits/htbm-hut-int.glb",
+   "manifest": "kits/htbm-hut-int.kit.json"
+  },
+  "interior-farmhouse-v1": {
+   "id": "interior-farmhouse-v1",
+   "glb": "kits/interior-farmhouse-v1.glb",
+   "manifest": "kits/interior-farmhouse-v1.kit.json"
+  },
+  "interior-kotm-v1": {
+   "id": "interior-kotm-v1",
+   "glb": "kits/interior-kotm-v1.glb",
+   "manifest": "kits/interior-kotm-v1.kit.json"
+  }
+ },
+ "arrivalMarker": {
+  "positionM": [
+   -2.0483,
+   0.1138,
+   -1.2517
+  ],
+  "yawDeg": 115.0
+ },
+ "exitDoor": {
+  "id": "CIPHTBMHutInterior01.06029E47",
+  "refId": "06029E47",
+  "positionM": [
+   -2.4465,
+   0.0569,
+   -1.4224
+  ],
+  "yawDeg": 300.0
+ },
+ "doors": [
+  {
+   "doorType": "load",
+   "interiorLoadDoorRef": "06029E47",
+   "loadDoor": {
+    "positionM": [
+     -2.4465,
+     0.0569,
+     -1.4224
+    ],
+    "yawDeg": 300.0
+   }
+  }
+ ],
+ "ambient": {
+  "colorRGB": [
+   60,
+   55,
+   36
+  ],
+  "intensity": 1.0,
+  "rule": "ambient-cube"
+ },
+ "fog": {
+  "colorRGB": [
+   117,
+   119,
+   130
+  ],
+  "nearM": 3.414,
+  "farM": 35.56
+ },
+ "lighting": {
+  "ambientRGB": [
+   60,
+   55,
+   36
+  ],
+  "directionalRGB": [
+   70,
+   70,
+   70
+  ],
+  "fogNearRGB": [
+   117,
+   119,
+   130
+  ],
+  "fogNearM": 3.414,
+  "fogFarM": 35.56,
+  "directionalRotXYDeg": 0,
+  "directionalRotZDeg": 0,
+  "directionalFade": 0.0,
+  "fogClipM": 35.56,
+  "fogPower": 1.0,
+  "fogFarRGB": [
+   117,
+   119,
+   130
+  ],
+  "fogMax": 1.0,
+  "lightFadeBeginM": 0.0,
+  "lightFadeEndM": 0.0,
+  "inherits": 157,
+  "specularRGB": [
+   0,
+   0,
+   0
+  ],
+  "fresnelPower": 1.0,
+  "ambientCube": {
+   "px": [
+    0.01521,
+    0.01298,
+    0.02217
+   ],
+   "nx": [
+    0.01033,
+    0.01298,
+    0.01938
+   ],
+   "py": [
+    0.00439,
+    0.00439,
+    0.00605
+   ],
+   "ny": [
+    0.02624,
+    0.02624,
+    0.04667
+   ],
+   "pz": [
+    0.01298,
+    0.01161,
+    0.02122
+   ],
+   "nz": [
+    0.01298,
+    0.0137,
+    0.02122
+   ]
+  },
+  "raw": {
+   "ambientCubeSkyrimRGB": {
+    "xp": [
+     33,
+     30,
+     41
+    ],
+    "xn": [
+     26,
+     30,
+     38
+    ],
+    "yp": [
+     30,
+     31,
+     40
+    ],
+    "yn": [
+     30,
+     28,
+     40
+    ],
+    "zp": [
+     14,
+     14,
+     18
+    ],
+    "zn": [
+     45,
+     45,
+     61
+    ]
+   }
+  }
+ },
+ "placements": [
+  {
+   "id": "CIPHTBMHutInterior01.06029E46",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "CIPHTBMVillageHut2Interior",
+   "baseType": "STAT"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E47",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    -2.4465,
+    0.0569,
+    -1.4224
+   ],
+   "rotationDeg": [
+    0.0,
+    300.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "CIPHTBMVillageHutDoorLoad",
+   "baseType": "DOOR"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E48",
+   "assetId": "vanilla:clutter/barrel01",
+   "kit": "bmv-treehouse-int",
+   "positionM": [
+    -2.6172,
+    0.0,
+    0.2845
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "BarrelFish01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E49",
+   "assetId": "vanilla:clutter/barrel01",
+   "kit": "bmv-treehouse-int",
+   "positionM": [
+    -2.4608,
+    0.0284,
+    1.0384
+   ],
+   "rotationDeg": [
+    0.0,
+    120.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "BarrelEmpty01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E4A",
+   "assetId": "vanilla:clutter/barrel01",
+   "kit": "bmv-treehouse-int",
+   "positionM": [
+    -2.5034,
+    1.1379,
+    0.6828
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "BarrelFish01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E4B",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    -1.1379,
+    0.0569,
+    -2.2189
+   ],
+   "rotationDeg": [
+    0.0,
+    330.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "CIPHTBMNativeBasket",
+   "baseType": "CONT"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E52",
+   "assetId": "vanilla:clutter/imperial/impbrazier01",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    -0.7396,
+    0.0569,
+    -0.3983
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ImpBrazier01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E55",
+   "assetId": "vanilla:clutter/hay/hayscatter06",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    -0.3983,
+    0.0569,
+    -2.162
+   ],
+   "rotationDeg": [
+    0.0,
+    225.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayScatter06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E57",
+   "assetId": "vanilla:clutter/hay/hayscatter05",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    0.8534,
+    0.0619,
+    0.9672
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayScatter05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E58",
+   "assetId": "vanilla:clutter/hay/hayscatter05",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    -1.65,
+    0.0569,
+    0.6259
+   ],
+   "rotationDeg": [
+    0.0,
+    270.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayScatter05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E59",
+   "assetId": "vanilla:plants/dragonstongue01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    1.8965,
+    0.9535,
+    1.6207
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "DragonsTongue",
+   "baseType": "INGR"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E5A",
+   "assetId": "vanilla:plants/dragonstongue01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    2.0056,
+    0.9388,
+    1.8349
+   ],
+   "rotationDeg": [
+    0.0,
+    270.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "DragonsTongue",
+   "baseType": "INGR"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E5B",
+   "assetId": "vanilla:clutter/deadanimals/deadpondfish03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    1.8349,
+    0.9388,
+    1.8207
+   ],
+   "rotationDeg": [
+    0.0,
+    15.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "CritterPondFish03Ingredient",
+   "baseType": "INGR"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E5C",
+   "assetId": "vanilla:plants/slaughterfishegg01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    1.7638,
+    0.9809,
+    2.0483
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SlaughterfishEgg01",
+   "baseType": "INGR"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E5D",
+   "assetId": "vanilla:clutter/ingredients/slaughterfishscale",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    1.5789,
+    0.9388,
+    1.6642
+   ],
+   "rotationDeg": [
+    0.0,
+    45.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SlaughterfishScales",
+   "baseType": "INGR"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E5E",
+   "assetId": "vanilla:plants/slaughterfishegg01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    1.9345,
+    0.9672,
+    1.9914
+   ],
+   "rotationDeg": [
+    0.0,
+    255.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SlaughterfishEgg01",
+   "baseType": "INGR"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E5F",
+   "assetId": "vanilla:clutter/deadanimals/deadpondfish03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    1.7638,
+    0.9672,
+    1.65
+   ],
+   "rotationDeg": [
+    0.0,
+    345.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "CritterPondFish03Ingredient",
+   "baseType": "INGR"
+  },
+  {
+   "id": "CIPHTBMHutInterior01.06029E60",
+   "assetId": "vanilla:clutter/quest/firebrandwine01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    1.6358,
+    0.953,
+    2.0625
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FirebrandWine",
+   "baseType": "ALCH"
+  }
+ ],
+ "lights": [
+  {
+   "refId": "fixture:CIPHTBMHutInterior01.06029E52",
+   "positionM": [
+    -0.8296,
+    1.3569,
+    -0.5783
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    197,
+    156,
+    112
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultTorch01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": null,
+    "recordFalloffExponent": 1.0
+   }
+  }
+ ],
+ "socketsSchemaVersion": 2,
+ "sockets": [
+  {
+   "id": "socket.CIPHTBMHutInterior01.06029E48",
+   "kind": "container",
+   "positionM": [
+    -2.6172,
+    0.0,
+    0.2845
+   ],
+   "yawDeg": 0.0,
+   "host": "CIPHTBMHutInterior01.06029E48",
+   "containerClass": "barrel",
+   "fillRule": "blanket.household-barrel",
+   "why": "BarrelFish01 placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInterior01.06029E49",
+   "kind": "container",
+   "positionM": [
+    -2.4608,
+    0.0284,
+    1.0384
+   ],
+   "yawDeg": 120.0,
+   "host": "CIPHTBMHutInterior01.06029E49",
+   "containerClass": "barrel",
+   "fillRule": "blanket.household-barrel",
+   "why": "BarrelEmpty01 placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInterior01.06029E4A",
+   "kind": "container",
+   "positionM": [
+    -2.5034,
+    1.1379,
+    0.6828
+   ],
+   "yawDeg": 0.0,
+   "host": "CIPHTBMHutInterior01.06029E4A",
+   "containerClass": "barrel",
+   "fillRule": "blanket.household-barrel",
+   "why": "BarrelFish01 placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInterior01.06029E4B",
+   "kind": "container",
+   "positionM": [
+    -1.1379,
+    0.0569,
+    -2.2189
+   ],
+   "yawDeg": 330.0,
+   "host": "CIPHTBMHutInterior01.06029E4B",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "CIPHTBMNativeBasket placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInterior01.06029E59",
+   "kind": "item",
+   "positionM": [
+    1.8965,
+    0.9535,
+    1.6207
+   ],
+   "yawDeg": 0.0,
+   "host": "CIPHTBMHutInterior01.06029E59",
+   "itemClass": "ingredient",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "DragonsTongue placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInterior01.06029E5A",
+   "kind": "item",
+   "positionM": [
+    2.0056,
+    0.9388,
+    1.8349
+   ],
+   "yawDeg": 270.0,
+   "host": "CIPHTBMHutInterior01.06029E5A",
+   "itemClass": "ingredient",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "DragonsTongue placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInterior01.06029E5B",
+   "kind": "item",
+   "positionM": [
+    1.8349,
+    0.9388,
+    1.8207
+   ],
+   "yawDeg": 15.0,
+   "host": "CIPHTBMHutInterior01.06029E5B",
+   "itemClass": "ingredient",
+   "valueBand": "mid",
+   "contentPending": false,
+   "why": "CritterPondFish03Ingredient placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInterior01.06029E5C",
+   "kind": "item",
+   "positionM": [
+    1.7638,
+    0.9809,
+    2.0483
+   ],
+   "yawDeg": 0.0,
+   "host": "CIPHTBMHutInterior01.06029E5C",
+   "itemClass": "ingredient",
+   "valueBand": "mid",
+   "contentPending": false,
+   "why": "SlaughterfishEgg01 placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInterior01.06029E5D",
+   "kind": "item",
+   "positionM": [
+    1.5789,
+    0.9388,
+    1.6642
+   ],
+   "yawDeg": 45.0,
+   "host": "CIPHTBMHutInterior01.06029E5D",
+   "itemClass": "ingredient",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "SlaughterfishScales placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInterior01.06029E5E",
+   "kind": "item",
+   "positionM": [
+    1.9345,
+    0.9672,
+    1.9914
+   ],
+   "yawDeg": 255.0,
+   "host": "CIPHTBMHutInterior01.06029E5E",
+   "itemClass": "ingredient",
+   "valueBand": "mid",
+   "contentPending": false,
+   "why": "SlaughterfishEgg01 placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInterior01.06029E5F",
+   "kind": "item",
+   "positionM": [
+    1.7638,
+    0.9672,
+    1.65
+   ],
+   "yawDeg": 345.0,
+   "host": "CIPHTBMHutInterior01.06029E5F",
+   "itemClass": "ingredient",
+   "valueBand": "mid",
+   "contentPending": false,
+   "why": "CritterPondFish03Ingredient placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInterior01.06029E60",
+   "kind": "item",
+   "positionM": [
+    1.6358,
+    0.953,
+    2.0625
+   ],
+   "yawDeg": 90.0,
+   "host": "CIPHTBMHutInterior01.06029E60",
+   "itemClass": "food-or-potion",
+   "valueBand": "mid",
+   "contentPending": false,
+   "why": "FirebrandWine placed by the cell's author"
+  }
+ ],
+ "drops": [
+  {
+   "refId": "06029E4C",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dragonborn.esm:00021743",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 16 floor (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    0.0,
+    0.0569,
+    -2.6741
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+   "why": "A small household object from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+  },
+  {
+   "refId": "06029E4D",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dragonborn.esm:00035038",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 16 floor (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    -0.9672,
+    0.0569,
+    1.8776
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+   "why": "A small household object from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+  },
+  {
+   "refId": "06029E4E",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dragonborn.esm:00035037",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 16 floor (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    1.65,
+    0.0569,
+    -0.7396
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+   "why": "A small household object from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+  },
+  {
+   "refId": "06029E4F",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dragonborn.esm:00021746",
+   "class": "furniture",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 16 floor, 1 loose (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.882 m above it",
+   "positionM": [
+    1.7638,
+    0.0569,
+    1.7638
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+   "why": "A piece of furniture from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+  },
+  {
+   "refId": "06029E50",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dragonborn.esm:00036793",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 29 floor, 2 loose (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    0.7396,
+    0.0569,
+    2.162
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+   "why": "A small household object from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+  },
+  {
+   "refId": "06029E51",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dragonborn.esm:00036794",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 26 floor, 4 loose (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    2.3896,
+    0.0569,
+    0.9103
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+   "why": "A small household object from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+  },
+  {
+   "refId": "06029E54",
+   "reason": "listed-drop",
+   "base": "FXfireWithEmbersOut",
+   "baseType": "MSTT",
+   "model": "effects/fxfirewithembers03.nif",
+   "assetId": null,
+   "class": "effect",
+   "classSource": "base record MSTT, model taxonomy",
+   "positionM": [
+    -0.7396,
+    0.3414,
+    -0.3983
+   ]
+  }
+ ],
+ "substitutions": [],
+ "counts": {
+  "placements": 18,
+  "drops": 7,
+  "lights": 1,
+  "substitutions": 0,
+  "swingDoors": 0,
+  "missingByClass": {},
+  "dropsByReason": {
+   "listed-drop": 1,
+   "listed-gap": 6
+  },
+  "socketsByKind": {
+   "container": 4,
+   "item": 8
+  },
+  "settled": 0,
+  "coplanarFixed": 1
+ },
+ "settled": [],
+ "coplanarFixed": [
+  {
+   "id": "CIPHTBMHutInterior01.06029E57",
+   "against": "CIPHTBMHutInterior01.06029E55",
+   "nudgeM": [
+    0.0,
+    0.005,
+    0.0
+   ],
+   "overlapM2": 0.0394
+  }
+ ]
+}

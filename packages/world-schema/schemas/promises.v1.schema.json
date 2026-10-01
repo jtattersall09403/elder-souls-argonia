@@ -1,30 +1,177 @@
 {
  "$schema": "https://json-schema.org/draft/2020-12/schema",
  "$id": "world-schema/promises.v1",
- "title": "Promise ledger of one place (decision 0104 decision 3)",
+ "title": "Promise ledger of one place (decision 0104 decision 3, decision 0116)",
  "type": "object",
- "required": ["schemaVersion", "placeId", "generator", "derivedFrom", "promises"],
+ "required": [
+  "schemaVersion",
+  "placeId",
+  "generator",
+  "derivedFrom",
+  "promises"
+ ],
  "additionalProperties": false,
  "properties": {
-  "schemaVersion": {"const": 1},
-  "placeId": {"type": "string", "pattern": "^place\\.[a-z0-9-]+\\.[a-z0-9-]+$"},
-  "generator": {"type": "string"},
-  "derivedFrom": {"type": "array", "items": {"type": "object", "required": ["file", "sha256"],
-   "properties": {"file": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}},
-  "promises": {"type": "array", "items": {
-   "type": "object",
-   "required": ["id", "kind", "source", "text", "unfilled"],
-   "additionalProperties": false,
-   "properties": {
-    "id": {"type": "string", "pattern": "^promise\\.[a-z0-9-]+\\.[a-z0-9]+(-[a-z0-9]+)*$"},
-    "kind": {"enum": ["service", "occupant", "operator", "provision", "socketBucket", "safeInterior"]},
-    "source": {"type": "object", "required": ["file", "path"], "additionalProperties": false,
-     "properties": {"file": {"type": "string"}, "path": {"type": "string"}}},
-    "text": {"type": "string", "minLength": 1},
-    "unfilled": {"oneOf": [{"type": "null"}, {"type": "object", "required": ["reason", "note"],
-     "additionalProperties": false,
-     "properties": {"reason": {"enum": ["later-phase-system", "gpu-judgement", "asset-exists-nowhere", "owner-world-call"]},
-                    "note": {"type": "string", "minLength": 1}}}]}
-   }}}
+  "schemaVersion": {
+   "const": 1
+  },
+  "placeId": {
+   "type": "string",
+   "pattern": "^place\\.[a-z0-9-]+\\.[a-z0-9-]+$"
+  },
+  "generator": {
+   "type": "string"
+  },
+  "derivedFrom": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "file",
+     "sha256"
+    ],
+    "properties": {
+     "file": {
+      "type": "string"
+     },
+     "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+     }
+    }
+   }
+  },
+  "promises": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "kind",
+     "source",
+     "text"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "id": {
+      "type": "string",
+      "pattern": "^promise\\.[a-z0-9-]+\\.[a-z0-9]+(-[a-z0-9]+)*$"
+     },
+     "kind": {
+      "enum": [
+       "service",
+       "occupant",
+       "operator",
+       "provision",
+       "socketBucket",
+       "safeInterior",
+       "interior",
+       "underwaterAccess",
+       "travelStation",
+       "prose",
+       "quest"
+      ]
+     },
+     "source": {
+      "type": "object",
+      "required": [
+       "file",
+       "path"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "file": {
+        "type": "string"
+       },
+       "path": {
+        "type": "string"
+       }
+      }
+     },
+     "text": {
+      "type": "string",
+      "minLength": 1
+     },
+     "unfilled": {
+      "oneOf": [
+       {
+        "type": "null"
+       },
+       {
+        "type": "object",
+        "required": [
+         "reason",
+         "note"
+        ],
+        "additionalProperties": false,
+        "properties": {
+         "reason": {
+          "enum": [
+           "later-phase-system",
+           "gpu-judgement",
+           "asset-exists-nowhere",
+           "owner-world-call"
+          ]
+         },
+         "note": {
+          "type": "string",
+          "minLength": 1
+         }
+        }
+       }
+      ]
+     },
+     "confirmed": {
+      "oneOf": [
+       {
+        "type": "null"
+       },
+       {
+        "type": "object",
+        "required": [
+         "sha",
+         "note"
+        ],
+        "additionalProperties": false,
+        "properties": {
+         "sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{12}$"
+         },
+         "note": {
+          "type": "string",
+          "minLength": 1
+         }
+        }
+       }
+      ]
+     }
+    },
+    "allOf": [
+     {
+      "if": {
+       "properties": {
+        "kind": {
+         "enum": [
+          "prose",
+          "quest"
+         ]
+        }
+       }
+      },
+      "then": {
+       "required": [
+        "confirmed"
+       ]
+      },
+      "else": {
+       "required": [
+        "unfilled"
+       ]
+      }
+     }
+    ]
+   }
+  }
  }
 }

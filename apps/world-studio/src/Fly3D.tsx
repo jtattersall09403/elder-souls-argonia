@@ -29,6 +29,7 @@ import { WorldSky, type SunLighting } from "./sky/WorldSky";
 import { StudioWater } from "./water/StudioWater";
 import { sharedLocalSurfaces } from "./water/waterAssets";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
+import { groundArrivalsOf } from "@elder-souls/game-core/settlement/groundPaint";
 import { loadLadder, useHiddenLayers } from "./ladder";
 import { useApronManifest } from "./apronMaterials";
 import { groundHeightM } from "./vegetation/terrainHeight";
@@ -292,6 +293,7 @@ export function Fly3D(props: Fly3DProps) {
     const height = groundHeightM(store, chunkManifest, x, z);
     return height === null ? null : height * props.exaggeration;
   }, [store, chunkManifest, props.exaggeration]);
+  const groundArrivals = useMemo(() => groundArrivalsOf(store), [store]);
   const [canvasError, setCanvasError] = useState<string | null>(null);
   const [settlementError, setSettlementError] = useState<SettlementLayerError | null>(null);
   const sunLightingRef = useRef<SunLighting | null>(null);
@@ -390,7 +392,7 @@ export function Fly3D(props: Fly3DProps) {
             )}
             {!hiddenLayers.has("settlements") && (
               <SettlementLayer baseUrl={DATA_BASE} focusRef={focusRef}
-                groundAt={settlementGroundAt} environment={settlementEnvironment}
+                groundAt={settlementGroundAt} groundArrivals={groundArrivals} environment={settlementEnvironment}
                 onError={setSettlementError}
                 localSurfaces={sharedLocalSurfaces(DATA_BASE)} />
             )}

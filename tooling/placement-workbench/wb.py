@@ -873,6 +873,11 @@ def along_run_overlap(cat, a: Piece, b: Piece) -> float:
                                 cat.mesh(b.asset), measure._transform4(b))
 
 
+#: how far an unmined mount's mesh may pass into its host (the mined pairs'
+#: designed overlap does not apply: nobody designed this pose)
+UNMINED_MOUNT_PENETRATION_M = 0.02
+
+
 def _pair_verdict(a: Piece, b: Piece, got: dict, cat=None) -> dict:
     """What the pair is and the bar it is judged on: a mounted child on its
     parent (the mined pair or template IS the pose, so only contact is
@@ -889,6 +894,24 @@ def _pair_verdict(a: Piece, b: Piece, got: dict, cat=None) -> dict:
                     and (parent.role or {}).get("id") == role.get("id")))
     ra, rb = a.role or {}, b.role or {}
     if on(a, b) or on(b, a):
+        child, host = (a, b) if on(a, b) else (b, a)
+        pair = (child.role or {}).get("mountPair") or {}
+        if pair.get("kind") == "unmined":
+            # an unmined mount (hang, wall, top: no plugin pose behind it) has
+            # no designed overlap: its mesh may touch its host, never pass
+            # into it (walk 7: Riverwalk's hung lantern inside the house
+            # wall). A hung child's hook wraps its branch, so for a hang the
+            # body under the hook is tested (`snap.HostClearance`)
+            if pair.get("on") == "branch" and cat is not None:
+                from workbench.snap import HostClearance
+                inside = HostClearance(cat, child, host, hook=True).crosses(child)
+                return {"relation": "mounted-unmined", "bar": {"bodyClear": True},
+                        "ok": bool(got["contact"]) and not inside}
+            # penetrationM None while crossing: more than PENETRATION_REACH_M every way
+            pen = (float("inf") if got.get("intersecting") and got.get("penetrationM") is None
+                   else float(got.get("penetrationM") or 0.0))
+            return {"relation": "mounted-unmined", "bar": {"penetrationM": UNMINED_MOUNT_PENETRATION_M},
+                    "ok": bool(got["contact"]) and pen <= UNMINED_MOUNT_PENETRATION_M}
         return {"relation": "mounted", "ok": bool(got["contact"])}
     for x, y in ((a, b), (b, a)):
         if (x.settledBy or "") == f"evidence-snap:{y.uid}":

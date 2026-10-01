@@ -4,6 +4,7 @@
  */
 import { readdirSync, readFileSync, existsSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
 import {
@@ -82,6 +83,19 @@ describe("fire presets", () => {
     }
     expect(volumeShareAt(0)).toBe(1);
     expect(volumeShareAt(FIRE_VOLUME_REACH_M + 1)).toBe(0);
+  });
+
+  it("every fire vertex stage places the emitter through the group's world matrix (walk 7: interior flames 4 km below the cell)", () => {
+    // An interior cell's emitters are cell-local and its group stands at
+    // 4000 m; a shader reading iPosSeed as world drew every interior flame
+    // past uMaxDistance. Distance, billboard and fade all start from it.
+    for (const file of ["flameMaterial.ts", "volumeFire.ts"]) {
+      const src = readFileSync(fileURLToPath(new URL(`./${file}`, import.meta.url)), "utf8")
+        .split("\n").filter((l) => !/^\s*(\*|\/\/)/.test(l)).join("\n");
+      const placed = src.match(/T\.modelWorldMatrix\.mul\(vec4\(iPosSeed\.xyz, 1\)\)\.xyz/g) ?? [];
+      expect(placed.length).toBe(file === "flameMaterial.ts" ? 2 : 1);
+      expect(src.replace(/T\.modelWorldMatrix\.mul\(vec4\(iPosSeed\.xyz, 1\)\)/g, "")).not.toMatch(/iPosSeed\.xyz/);
+    }
   });
 
   it("flicker is the same function for light and flame: about 1 +- amount, seeded", () => {

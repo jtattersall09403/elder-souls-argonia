@@ -53,6 +53,7 @@ import { CityMarkers } from "../CityMarkers";
 import { Vegetation, VEGETATION_ENABLED } from "../vegetation/Vegetation";
 import { Groundcover, GROUNDCOVER_ENABLED } from "../vegetation/Groundcover";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
+import { groundArrivalsOf } from "@elder-souls/game-core/settlement/groundPaint";
 import {
   FrameSegments, FrameSegmentsContext, useFrameSegments, useMarkedFrame,
   type FrameGpuSummary, type FrameSegmentStats, type SegmentStat, type GpuTimerSource, type TimedRenderer,
@@ -299,6 +300,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [world, verticalScale],
   );
+  const groundArrivals = useMemo(() => groundArrivalsOf(store), [store]);
   const markerGroundAt = useMemo(
     () => (xM: number, zM: number) => world.groundHeight(xM, zM) ?? 0,
     // Re-key markers when the vertical scale changes (heights re-seat).
@@ -566,6 +568,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 baseUrl={base}
                 focusRef={focusRef}
                 groundAt={settlementGroundAt}
+                groundArrivals={groundArrivals}
                 quality={quality}
                 environment={settlementEnvironment}
                 onSolids={handleSettlementSolids}

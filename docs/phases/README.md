@@ -1046,6 +1046,18 @@ Deliverables:
   ships only placed pieces with its own download line, and its creature
   and actor textures (542 MB raw) wait for this phase's streaming host;
 - performance budgets by device class;
+- **rendering-performance techniques from the fable5-world-demo audit**
+  ([audit](../research/rendering/fable5-world-demo-audit.md) rows 15-21;
+  MIT code at `github.com/Braffolk/fable5-world-demo` commit `fd75fdb7`, local
+  clone `/workspaces/ext/fable5-world-demo`, same three.js 0.184): CSM cascade
+  update periods (`src/render/CsmCached.ts:29`), `matrixAutoUpdate=false` and
+  uniform groups on static meshes (their `STATUS.md:548-561`), vertex-stage
+  hoists in foliage materials (`src/render/VegMaterials.ts:53-63`), a depth
+  prepass for alpha foliage gated on an M2 measurement
+  (`src/render/VegPrepass.ts:38,79`), CDLOD vertex morph on terrain
+  (`src/world/TerrainTiles.ts:117-133`), a far-forest canopy shell
+  (`src/world/CanopyShell.ts`), and their ABAB measurement rules
+  (`STATUS.md:585-600`) for the device-class budgets;
 - GitHub Pages build containing approved runtime content only;
 - **sparse local state variants, consumed and budgeted** (the overlay
   mechanism in the bundle format is the 16k loop's (carried 16h item 18), per the buildout register and

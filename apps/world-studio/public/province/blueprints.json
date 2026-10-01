@@ -357,8 +357,8 @@
       "districts": [
         {
           "centreM": [
-            7213.192,
-            576.632
+            7213.122,
+            576.798
           ],
           "cultureKit": "argonian-mud",
           "id": "district.riverwalk.the-cove",
@@ -426,16 +426,16 @@
               599.143
             ],
             [
-              7241.355,
-              598.307
+              7241.348,
+              598.247
             ],
             [
-              7226.751,
-              514.449
+              7224.764,
+              517.694
             ],
             [
-              7214.946,
-              514.294
+              7215.687,
+              514.113
             ]
           ],
           "wealth": "modest",
@@ -493,27 +493,125 @@
           "wealth": "modest",
           "why": {
             "microGeography": "Knee-deep black water over mud, off the spit's dry edge.",
-            "playerPurpose": "A bunk for the night and stores for the boat, bought from the household.",
+            "playerPurpose": "Bunks for the night, let by the household to the boat crews.",
             "what": "The long house standing in the cove water on stilts, with its landing.",
             "whyHere": "The crews tie up in the cove, so the household built out over it.",
             "whyNeighbours": "The spit and the head of the boards lie a few steps west over the landing."
+          }
+        },
+        {
+          "centreM": [
+            7206.503,
+            508.43
+          ],
+          "cultureKit": "argonian",
+          "id": "district.riverwalk.the-spit",
+          "kind": "boardwalk-village",
+          "notes": "The crews' house and a family house on the dry spit at the head of the boards.",
+          "polygon": [
+            [
+              7198.076,
+              499.968
+            ],
+            [
+              7194.897,
+              501.81
+            ],
+            [
+              7194.024,
+              502.771
+            ],
+            [
+              7192.39,
+              505.953
+            ],
+            [
+              7192.39,
+              507.361
+            ],
+            [
+              7193.346,
+              514.122
+            ],
+            [
+              7208.392,
+              527.398
+            ],
+            [
+              7218.015,
+              522.5
+            ],
+            [
+              7220.15,
+              514.34
+            ],
+            [
+              7220.285,
+              511.389
+            ],
+            [
+              7220.052,
+              510.114
+            ],
+            [
+              7218.159,
+              506.836
+            ],
+            [
+              7217.171,
+              505.997
+            ],
+            [
+              7214.751,
+              504.743
+            ],
+            [
+              7202.595,
+              499.867
+            ],
+            [
+              7199.36,
+              499.711
+            ]
+          ],
+          "wealth": "modest",
+          "why": {
+            "microGeography": "Dry sandy ground on the spit, levelled into two pads.",
+            "playerPurpose": "A safe room for the night and the household's stores, behind shut doors.",
+            "what": "The two bamboo houses on the dry spit at the head of the boards.",
+            "whyHere": "The spit is the only dry ground at the cove's north end, so the households built there.",
+            "whyNeighbours": "The shrine and the start of the boards are a few steps south; the long house stands in the water to the east."
           }
         }
       ],
       "docks": [],
       "doors": [
         {
-          "facingDeg": 277.7,
+          "facingDeg": 179.3,
           "id": "door.dunmer-north.riverwalk.1",
           "interiorClaim": {
             "culture": "argonian",
             "owner": null,
-            "sizeClass": "large"
+            "sizeClass": "medium"
           },
           "parcelId": "parcel.riverwalk.crews-house",
           "thresholdM": [
-            7223.38,
-            518.405
+            7213.034,
+            514.837
+          ]
+        },
+        {
+          "facingDeg": 209.5,
+          "id": "door.dunmer-north.riverwalk.2",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": null,
+            "sizeClass": "medium"
+          },
+          "parcelId": "parcel.riverwalk.family-house",
+          "thresholdM": [
+            7198.609,
+            509.459
           ]
         }
       ],
@@ -534,88 +632,228 @@
       ],
       "parcels": [
         {
-          "assetRef": "composite:stilt/swamp-house-with-landing",
-          "buildingFamily": "bmv-swamp-house",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
+          "buildingFamily": "htbm-bamboo-hut",
           "centreM": [
-            7231.5,
-            519.5
+            7213.0,
+            512.0
           ],
-          "districtId": "district.riverwalk.the-long-house",
+          "districtId": "district.riverwalk.the-spit",
           "entrance": {
-            "arcM": 1.64,
-            "bearingDeg": 277.7,
-            "interiorRef": null,
-            "kind": "approach",
+            "arcM": null,
+            "bearingDeg": 179.3,
+            "interiorRef": "htbm-hut-int",
+            "kind": "esp-door",
             "worldM": [
-              7223.38,
-              518.405
+              7213.034,
+              514.837
             ]
           },
           "front": null,
-          "groundFit": "stilt",
+          "groundFit": null,
           "id": "parcel.riverwalk.crews-house",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Its doorway and landing face west to the spit and the path from the head of the boards.",
+          "orientationWhy": "Its door faces south onto the path from the head of the boards.",
           "polygon": [
             [
-              7233.06,
-              528.467
+              7214.341,
+              515.002
             ],
             [
-              7232.912,
-              528.66
+              7214.196,
+              515.051
             ],
             [
-              7230.359,
-              528.439
+              7211.803,
+              515.047
             ],
             [
-              7230.165,
-              528.29
+              7211.661,
+              515.001
             ],
             [
-              7219.97,
-              519.487
+              7209.914,
+              513.874
             ],
             [
-              7219.845,
-              519.351
+              7209.834,
+              513.736
             ],
             [
-              7217.232,
-              515.694
+              7209.731,
+              511.659
             ],
             [
-              7217.24,
-              515.514
+              7209.763,
+              511.513
             ],
             [
-              7217.376,
-              515.39
+              7210.956,
+              509.439
             ],
             [
-              7224.258,
-              511.597
+              7211.071,
+              509.338
             ],
             [
-              7224.498,
-              511.607
+              7212.913,
+              508.39
+            ],
+            [
+              7213.083,
+              508.384
+            ],
+            [
+              7214.928,
+              509.34
+            ],
+            [
+              7215.041,
+              509.436
+            ],
+            [
+              7216.241,
+              511.514
+            ],
+            [
+              7216.268,
+              511.66
+            ],
+            [
+              7216.173,
+              513.736
+            ],
+            [
+              7216.083,
+              513.88
             ]
           ],
           "spans": null,
           "use": "dwelling",
           "why": {
-            "microGeography": "A plank house on piles in knee-deep water, its landing laid against the doorway.",
-            "playerPurpose": "A safe bed for the night; stores for the water.",
-            "what": "The long house, an open plank house on piles in the cove, where the household and the boat crews sleep.",
-            "whyHere": "The village lives on crews stopping halfway along the boat lane; a house big enough for them stands in the water, as every house in the cove does.",
-            "whyNeighbours": "The shrine stands on the spit by the path to the long house landing; the boards start below the shrine.",
-            "whySpot": "The shallows off the spit's east shore, where a short landing reaches it from the path at the head of the boards."
+            "microGeography": "A bamboo hut on a levelled pad on the spit, its door over the path.",
+            "playerPurpose": "A safe bed behind a shut door; stores for the water.",
+            "what": "The crews' house, a bamboo hut on the spit where the household lets beds and sells stores to boat crews.",
+            "whyHere": "The village lives on crews stopping halfway along the coast lane; they pay for a bed with a door that shuts.",
+            "whyNeighbours": "The long house stands in the water beside it; the shrine and the start of the boards are a few steps west.",
+            "whySpot": "The dry top of the spit, a step from the head of the boards and the toll-holder's post."
           },
-          "yawDeg": 182.5
+          "yawDeg": 240.0
+        },
+        {
+          "assetRef": "composite:stilt/bamboohut01-with-door",
+          "buildingFamily": "htbm-bamboo-hut",
+          "centreM": [
+            7200.0,
+            507.0
+          ],
+          "districtId": "district.riverwalk.the-spit",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": 209.5,
+            "interiorRef": "htbm-hut-int",
+            "kind": "esp-door",
+            "worldM": [
+              7198.609,
+              509.459
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.riverwalk.family-house",
+          "interior": {
+            "kind": "dwelling"
+          },
+          "notes": null,
+          "orientationWhy": "Its door turns south toward the head of the boards and the toll-holder's post.",
+          "polygon": [
+            [
+              7199.66,
+              510.27
+            ],
+            [
+              7199.51,
+              510.24
+            ],
+            [
+              7197.44,
+              509.04
+            ],
+            [
+              7197.34,
+              508.93
+            ],
+            [
+              7196.39,
+              507.08
+            ],
+            [
+              7196.39,
+              506.92
+            ],
+            [
+              7197.34,
+              505.07
+            ],
+            [
+              7197.44,
+              504.96
+            ],
+            [
+              7199.51,
+              503.76
+            ],
+            [
+              7199.66,
+              503.73
+            ],
+            [
+              7201.73,
+              503.83
+            ],
+            [
+              7201.88,
+              503.91
+            ],
+            [
+              7203.0,
+              505.66
+            ],
+            [
+              7203.05,
+              505.8
+            ],
+            [
+              7203.05,
+              508.2
+            ],
+            [
+              7203.0,
+              508.34
+            ],
+            [
+              7201.88,
+              510.09
+            ],
+            [
+              7201.73,
+              510.17
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "A bamboo hut on a levelled pad at the dry west end of the spit.",
+            "playerPurpose": "A home to enter, where the household talks about the toll and the crews.",
+            "what": "A family house on the spit, home to one of the boardwalk households.",
+            "whyHere": "The households who keep the boards live beside them, on the only dry ground in the cove.",
+            "whyNeighbours": "The crews' house and its yard are a few steps east; the boards start just south.",
+            "whySpot": "The west end of the spit, behind the crews' house yard and clear of the path."
+          },
+          "yawDeg": 270.0
         },
         {
           "assetRef": null,
@@ -818,6 +1056,90 @@
             "whySpot": "The first water deep enough to float it, north of the islet."
           },
           "yawDeg": 11.3
+        },
+        {
+          "assetRef": "composite:stilt/swamp-house-with-landing",
+          "buildingFamily": "bmv-swamp-house",
+          "centreM": [
+            7231.5,
+            519.5
+          ],
+          "districtId": "district.riverwalk.the-long-house",
+          "entrance": {
+            "arcM": 1.64,
+            "bearingDeg": 277.7,
+            "interiorRef": null,
+            "kind": "approach",
+            "worldM": [
+              7223.38,
+              518.405
+            ]
+          },
+          "front": null,
+          "groundFit": "stilt",
+          "id": "parcel.riverwalk.long-house",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open front and landing face west to the spit and the path from the head of the boards.",
+          "polygon": [
+            [
+              7233.06,
+              528.467
+            ],
+            [
+              7232.912,
+              528.66
+            ],
+            [
+              7230.359,
+              528.439
+            ],
+            [
+              7230.165,
+              528.29
+            ],
+            [
+              7219.97,
+              519.487
+            ],
+            [
+              7219.845,
+              519.351
+            ],
+            [
+              7217.232,
+              515.694
+            ],
+            [
+              7217.24,
+              515.514
+            ],
+            [
+              7217.376,
+              515.39
+            ],
+            [
+              7224.258,
+              511.597
+            ],
+            [
+              7224.498,
+              511.607
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "A plank house on piles in knee-deep water, its landing laid against the open front.",
+            "playerPurpose": "A roof over the crews, walked into from its landing.",
+            "what": "The long house, an open plank house on piles in the cove, where the household and the boat crews sleep.",
+            "whyHere": "The village lives on crews stopping halfway along the coast lane. They need somewhere to sleep.",
+            "whyNeighbours": "The crews' house stands on the spit beside its landing path. The boards start below the shrine.",
+            "whySpot": "The shallows off the spit's east shore, where a short landing reaches it from the path at the head of the boards."
+          },
+          "yawDeg": 182.5
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argoniantotem01",
@@ -1224,12 +1546,12 @@
         }
       ],
       "scaleGrounding": {
-        "buildingsPlanned": 6,
+        "buildingsPlanned": 8,
         "households": 1,
-        "loreSource": "settlement-register row Riverwalk (M3 boardwalk village on the northern trunk); record occupants D1 households, D2 crews, D2 toll hands; notable slots toll-holder, stage-mistress",
+        "loreSource": "settlement-register row Riverwalk (boardwalk village on the coast lane); record occupants D1 households, D2 crews, D2 toll hands; notable slots toll-holder, stage-mistress",
         "npcsPlanned": 5,
         "population": "8-14",
-        "why": "One household and the crews who stop the night share the long house, which stands on piles in the cove off the spit; the islet takes a tent. Three plank walks join them, with a shrine and a ferry raft."
+        "why": "The crews' house and a family house stand on the spit, with the long house on piles in the shallows beside them. The islet takes the stage tent. Three plank walks join them, with a shrine and a ferry raft."
       },
       "seed": "place.dunmer-north.riverwalk",
       "siting": {
@@ -1260,24 +1582,24 @@
       "summary": {
         "approaches": 1,
         "combatSpaces": 1,
-        "districts": 2,
+        "districts": 3,
         "docks": 0,
-        "doors": 1,
+        "doors": 2,
         "fences": 0,
         "keptTrees": 0,
         "landmarks": 0,
         "networkTerminals": 1,
-        "parcels": 7,
+        "parcels": 9,
         "questSockets": 4,
         "sitingCandidates": 2,
-        "ways": 5
+        "ways": 7
       },
       "ways": [
         {
           "assetRef": null,
           "endsAt": [
             "parcel.riverwalk.the-long-walk",
-            "parcel.riverwalk.crews-house"
+            "parcel.riverwalk.long-house"
           ],
           "fenceClass": null,
           "gapAt": [],
@@ -1300,8 +1622,8 @@
               518.3
             ],
             [
-              7223.38,
-              518.405
+              7221.283,
+              520.621
             ]
           ],
           "routing": "straight",
@@ -1330,6 +1652,104 @@
           "waterOk": null,
           "why": "From the head of the boards across the spit to the long house landing.",
           "widthM": 1.5
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.riverwalk.family-house"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.riverwalk.family-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              7209.0,
+              522.6
+            ],
+            [
+              7209.0,
+              517.5
+            ],
+            [
+              7197.1,
+              512.1
+            ],
+            [
+              7198.609,
+              509.459
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              7209.0,
+              522.6
+            ],
+            [
+              7209.0,
+              517.5
+            ],
+            [
+              7197.1,
+              512.1
+            ],
+            [
+              7198.609,
+              509.459
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the head of the boards round the yard to the family house door.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.riverwalk.crews-house"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.riverwalk.hut-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              7214.6,
+              519.75
+            ],
+            [
+              7213.55,
+              519.17
+            ],
+            [
+              7213.034,
+              514.837
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              7214.6,
+              519.75
+            ],
+            [
+              7213.55,
+              519.17
+            ],
+            [
+              7213.03,
+              514.84
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the path at the head of the boards to the crews' house door.",
+          "widthM": 1.2
         },
         {
           "assetRef": null,
@@ -4974,45 +5394,37 @@
       "districts": [
         {
           "centreM": [
-            4754.96,
-            1847.584
+            4754.995,
+            1853.53
           ],
-          "cultureKit": "argonian-mud",
+          "cultureKit": "argonian",
           "id": "district.greenspring.the-common",
           "kind": "hist-village",
           "notes": "One common with the Hist, the spring and the landing.",
           "polygon": [
             [
-              4730.513,
-              1821.407
+              4780.217,
+              1815.745
             ],
             [
-              4728.127,
-              1821.926
+              4729.207,
+              1824.397
             ],
             [
-              4725.736,
-              1822.954
+              4727.772,
+              1825.034
             ],
             [
-              4724.715,
-              1823.435
+              4725.511,
+              1827.659
             ],
             [
-              4723.98,
-              1824.423
+              4725.047,
+              1828.581
             ],
             [
-              4722.782,
-              1826.362
-            ],
-            [
-              4721.719,
-              1828.786
-            ],
-            [
-              4709.252,
-              1884.821
+              4709.259,
+              1884.85
             ],
             [
               4711.766,
@@ -5027,68 +5439,60 @@
               1898.951
             ],
             [
-              4722.954,
-              1898.868
+              4723.071,
+              1898.853
             ],
             [
-              4769.487,
-              1881.656
+              4726.167,
+              1897.498
             ],
             [
-              4770.113,
-              1881.207
+              4767.246,
+              1879.135
             ],
             [
-              4771.843,
-              1879.725
+              4769.656,
+              1877.645
             ],
             [
-              4773.753,
-              1877.556
+              4770.439,
+              1876.84
             ],
             [
-              4774.796,
-              1875.146
+              4782.365,
+              1856.695
             ],
             [
-              4783.959,
-              1853.587
+              4783.917,
+              1853.749
             ],
             [
-              4784.377,
-              1851.988
+              4784.407,
+              1851.87
             ],
             [
-              4791.315,
-              1824.001
+              4784.731,
+              1850.111
             ],
             [
-              4791.145,
-              1821.04
+              4788.613,
+              1821.997
             ],
             [
-              4790.505,
-              1818.517
+              4788.122,
+              1820.18
             ],
             [
-              4790.189,
-              1817.434
+              4785.875,
+              1817.544
             ],
             [
-              4789.328,
-              1816.553
+              4784.81,
+              1816.784
             ],
             [
-              4787.601,
-              1815.067
-            ],
-            [
-              4785.937,
-              1814.0
-            ],
-            [
-              4772.628,
-              1814.0
+              4781.29,
+              1815.728
             ]
           ],
           "wealth": "modest",
@@ -5132,17 +5536,17 @@
           ]
         },
         {
-          "facingDeg": 355.0,
+          "facingDeg": 355.2,
           "id": "door.hist-heartland.greenspring.3",
           "interiorClaim": {
             "culture": "argonian",
             "owner": "the tree-minder",
-            "sizeClass": "large"
+            "sizeClass": "medium"
           },
           "parcelId": "parcel.greenspring.minders-house",
           "thresholdM": [
-            4764.392,
-            1864.97
+            4764.763,
+            1869.166
           ]
         },
         {
@@ -5165,26 +5569,26 @@
           "interiorClaim": {
             "culture": "argonian",
             "owner": "a spring family",
-            "sizeClass": "large"
+            "sizeClass": "medium"
           },
           "parcelId": "parcel.greenspring.family-hut",
           "thresholdM": [
-            4734.367,
-            1838.152
+            4732.745,
+            1834.257
           ]
         },
         {
-          "facingDeg": 256.3,
+          "facingDeg": 256.5,
           "id": "door.hist-heartland.greenspring.6",
           "interiorClaim": {
             "culture": "argonian",
             "owner": "a spring family",
-            "sizeClass": "large"
+            "sizeClass": "medium"
           },
           "parcelId": "parcel.greenspring.east-family-hut",
           "thresholdM": [
-            4774.143,
-            1824.665
+            4778.234,
+            1823.663
           ]
         }
       ],
@@ -5235,8 +5639,8 @@
       ],
       "parcels": [
         {
-          "assetRef": "composite:mud/hut-with-entrance",
-          "buildingFamily": "mud-hut",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
+          "buildingFamily": "htbm-bamboo-hut",
           "centreM": [
             4781.0,
             1823.0
@@ -5245,11 +5649,11 @@
           "entrance": {
             "arcM": null,
             "bearingDeg": 256.3,
-            "interiorRef": "vanilla-farmhouse-int",
-            "kind": "assembly",
+            "interiorRef": "htbm-hut-int",
+            "kind": "esp-door",
             "worldM": [
-              4774.683,
-              1824.537
+              4778.255,
+              1823.669
             ]
           },
           "front": null,
@@ -5262,132 +5666,76 @@
           "orientationWhy": "Its door turns west toward the common and the herald's path.",
           "polygon": [
             [
-              4783.541,
-              1817.215
+              4778.384,
+              1824.991
             ],
             [
-              4785.205,
-              1818.283
+              4778.303,
+              1824.861
             ],
             [
-              4786.588,
-              1819.473
+              4777.76,
+              1822.53
             ],
             [
-              4786.629,
-              1819.514
+              4777.772,
+              1822.382
             ],
             [
-              4786.645,
-              1819.57
+              4778.47,
+              1820.423
             ],
             [
-              4787.174,
-              1821.653
+              4778.587,
+              1820.314
             ],
             [
-              4787.287,
-              1823.626
+              4780.586,
+              1819.74
             ],
             [
-              4786.785,
-              1825.541
+              4780.735,
+              1819.737
             ],
             [
-              4785.717,
-              1827.205
+              4783.026,
+              1820.425
             ],
             [
-              4784.518,
-              1828.544
+              4783.151,
+              1820.514
             ],
             [
-              4784.477,
-              1828.585
+              4784.495,
+              1822.091
             ],
             [
-              4784.418,
-              1828.611
+              4784.539,
+              1822.255
             ],
             [
-              4782.347,
-              1829.174
+              4784.03,
+              1824.27
             ],
             [
-              4780.374,
-              1829.287
+              4783.963,
+              1824.402
             ],
             [
-              4778.459,
-              1828.785
+              4782.213,
+              1826.045
             ],
             [
-              4776.795,
-              1827.717
+              4782.077,
+              1826.104
             ],
             [
-              4774.171,
-              1825.861
+              4780.034,
+              1826.486
             ],
             [
-              4774.161,
-              1825.858
-            ],
-            [
-              4774.05,
-              1825.767
-            ],
-            [
-              4773.969,
-              1825.684
-            ],
-            [
-              4773.953,
-              1825.628
-            ],
-            [
-              4773.609,
-              1823.904
-            ],
-            [
-              4773.586,
-              1823.795
-            ],
-            [
-              4773.679,
-              1823.519
-            ],
-            [
-              4773.684,
-              1823.5
-            ],
-            [
-              4775.215,
-              1820.459
-            ],
-            [
-              4776.283,
-              1818.795
-            ],
-            [
-              4777.795,
-              1817.248
-            ],
-            [
-              4777.836,
-              1817.208
-            ],
-            [
-              4777.892,
-              1817.191
-            ],
-            [
-              4779.653,
-              1816.826
-            ],
-            [
-              4781.626,
-              1816.713
+              4779.873,
+              1826.431
             ]
           ],
           "spans": null,
@@ -5400,11 +5748,11 @@
             "whyNeighbours": "It looks down the path to the common and the herald's house.",
             "whySpot": "North of the lodge on a dry shelf beside the track."
           },
-          "yawDeg": 104.7
+          "yawDeg": 316.8
         },
         {
-          "assetRef": "composite:mud/hut-with-entrance",
-          "buildingFamily": "mud-hut",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
+          "buildingFamily": "htbm-bamboo-hut",
           "centreM": [
             4731.65,
             1831.64
@@ -5413,11 +5761,11 @@
           "entrance": {
             "arcM": null,
             "bearingDeg": 157.3,
-            "interiorRef": "vanilla-farmhouse-int",
-            "kind": "assembly",
+            "interiorRef": "htbm-hut-int",
+            "kind": "esp-door",
             "worldM": [
-              4734.157,
-              1837.639
+              4732.745,
+              1834.257
             ]
           },
           "front": null,
@@ -5430,132 +5778,76 @@
           "orientationWhy": "Its door turns south-east to the common.",
           "polygon": [
             [
-              4725.539,
-              1830.035
+              4734.018,
+              1833.92
             ],
             [
-              4726.333,
-              1828.225
+              4733.902,
+              1834.02
             ],
             [
-              4727.292,
-              1826.673
+              4731.683,
+              1834.913
             ],
             [
-              4727.327,
-              1826.626
+              4731.534,
+              1834.924
             ],
             [
-              4727.379,
-              1826.601
+              4729.492,
+              1834.535
             ],
             [
-              4729.353,
-              1825.753
+              4729.365,
+              1834.436
             ],
             [
-              4731.285,
-              1825.333
+              4728.492,
+              1832.549
             ],
             [
-              4733.255,
-              1825.529
+              4728.467,
+              1832.402
             ],
             [
-              4735.065,
-              1826.323
+              4728.795,
+              1830.032
             ],
             [
-              4736.576,
-              1827.298
+              4728.863,
+              1829.896
             ],
             [
-              4736.622,
-              1827.333
+              4730.216,
+              1828.326
             ],
             [
-              4736.657,
-              1827.386
+              4730.371,
+              1828.257
             ],
             [
-              4737.537,
-              1829.343
+              4732.44,
+              1828.451
             ],
             [
-              4737.957,
-              1831.275
+              4732.581,
+              1828.497
             ],
             [
-              4737.761,
-              1833.245
+              4734.473,
+              1829.974
             ],
             [
-              4736.967,
-              1835.055
+              4734.552,
+              1830.1
             ],
             [
-              4735.544,
-              1837.938
+              4735.243,
+              1832.06
             ],
             [
-              4735.543,
-              1837.948
-            ],
-            [
-              4735.47,
-              1838.071
-            ],
-            [
-              4735.401,
-              1838.165
-            ],
-            [
-              4735.348,
-              1838.19
-            ],
-            [
-              4733.699,
-              1838.799
-            ],
-            [
-              4733.595,
-              1838.839
-            ],
-            [
-              4733.308,
-              1838.79
-            ],
-            [
-              4733.288,
-              1838.788
-            ],
-            [
-              4730.045,
-              1837.751
-            ],
-            [
-              4728.235,
-              1836.957
-            ],
-            [
-              4726.471,
-              1835.706
-            ],
-            [
-              4726.424,
-              1835.671
-            ],
-            [
-              4726.399,
-              1835.618
-            ],
-            [
-              4725.763,
-              1833.937
-            ],
-            [
-              4725.343,
-              1832.005
+              4735.213,
+              1832.227
             ]
           ],
           "spans": null,
@@ -5568,7 +5860,7 @@
             "whyNeighbours": "It faces the common with the herald's house to the east.",
             "whySpot": "West of the herald's house, where the ground runs down to the water."
           },
-          "yawDeg": 5.7
+          "yawDeg": 217.98
         },
         {
           "assetRef": "composite:mud/kotm-house-pod",
@@ -6046,8 +6338,8 @@
           "yawDeg": 69.4
         },
         {
-          "assetRef": "composite:mud/hut-with-entrance",
-          "buildingFamily": "mud-hut",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
+          "buildingFamily": "htbm-bamboo-hut",
           "centreM": [
             4765.0,
             1872.0
@@ -6056,11 +6348,11 @@
           "entrance": {
             "arcM": null,
             "bearingDeg": 355.0,
-            "interiorRef": "vanilla-farmhouse-int",
-            "kind": "assembly",
+            "interiorRef": "htbm-hut-int",
+            "kind": "esp-door",
             "worldM": [
-              4764.436,
-              1865.523
+              4764.754,
+              1869.186
             ]
           },
           "front": null,
@@ -6073,132 +6365,76 @@
           "orientationWhy": "Its door turns north-west to the Hist and the shrine.",
           "polygon": [
             [
-              4770.334,
-              1875.387
+              4763.428,
+              1869.113
             ],
             [
-              4769.027,
-              1876.87
+              4763.569,
+              1869.052
             ],
             [
-              4767.642,
-              1878.057
+              4765.954,
+              1868.869
             ],
             [
-              4767.594,
-              1878.091
+              4766.099,
+              1868.903
             ],
             [
-              4767.536,
-              1878.099
+              4767.93,
+              1869.889
             ],
             [
-              4765.398,
-              1878.307
+              4768.02,
+              1870.021
             ],
             [
-              4763.43,
-              1878.12
+              4768.285,
+              1872.084
             ],
             [
-              4761.613,
-              1877.334
+              4768.265,
+              1872.231
             ],
             [
-              4760.13,
-              1876.027
+              4767.239,
+              1874.393
             ],
             [
-              4758.987,
-              1874.639
+              4767.132,
+              1874.502
             ],
             [
-              4758.953,
-              1874.592
+              4765.37,
+              1875.592
             ],
             [
-              4758.937,
-              1874.53
+              4765.201,
+              1875.611
             ],
             [
-              4758.693,
-              1872.398
+              4763.287,
+              1874.804
             ],
             [
-              4758.88,
-              1870.43
+              4763.166,
+              1874.716
             ],
             [
-              4759.666,
-              1868.613
+              4761.807,
+              1872.739
             ],
             [
-              4760.973,
-              1867.13
+              4761.769,
+              1872.595
             ],
             [
-              4763.205,
-              1864.816
+              4761.7,
+              1870.518
             ],
             [
-              4763.209,
-              1864.807
-            ],
-            [
-              4763.316,
-              1864.712
-            ],
-            [
-              4763.411,
-              1864.644
-            ],
-            [
-              4763.469,
-              1864.636
-            ],
-            [
-              4765.224,
-              1864.557
-            ],
-            [
-              4765.336,
-              1864.551
-            ],
-            [
-              4765.594,
-              1864.684
-            ],
-            [
-              4765.613,
-              1864.692
-            ],
-            [
-              4768.387,
-              1866.666
-            ],
-            [
-              4769.87,
-              1867.973
-            ],
-            [
-              4771.17,
-              1869.701
-            ],
-            [
-              4771.204,
-              1869.749
-            ],
-            [
-              4771.212,
-              1869.807
-            ],
-            [
-              4771.307,
-              1871.602
-            ],
-            [
-              4771.12,
-              1873.57
+              4761.779,
+              1870.367
             ]
           ],
           "spans": null,
@@ -6211,7 +6447,7 @@
             "whyNeighbours": "The Hist and its shrine are across the path to the west; the lodge is to the north.",
             "whySpot": "On the rise east of the Hist, the nearest dry pad to its roots."
           },
-          "yawDeg": 203.4
+          "yawDeg": 55.5
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/argoniantent02",
@@ -6560,8 +6796,8 @@
               1825.3
             ],
             [
-              4774.143,
-              1824.665
+              4778.234,
+              1823.663
             ]
           ],
           "routing": "straight",
@@ -6581,6 +6817,10 @@
             [
               4773.6,
               1824.8
+            ],
+            [
+              4777.72,
+              1823.7
             ]
           ],
           "waterOk": null,
@@ -6605,12 +6845,12 @@
               1856.0
             ],
             [
-              4737.0,
-              1847.0
+              4735.7,
+              1841.4
             ],
             [
-              4734.367,
-              1838.152
+              4732.745,
+              1834.257
             ]
           ],
           "routing": "straight",
@@ -6630,6 +6870,10 @@
             [
               4734.6,
               1838.7
+            ],
+            [
+              4732.77,
+              1834.58
             ]
           ],
           "waterOk": null,
@@ -6787,8 +7031,8 @@
               1861.5
             ],
             [
-              4764.392,
-              1864.97
+              4764.763,
+              1869.166
             ]
           ],
           "routing": "straight",
@@ -6804,6 +7048,10 @@
             [
               4764.4,
               1864.4
+            ],
+            [
+              4764.59,
+              1868.72
             ]
           ],
           "waterOk": null,

@@ -7904,7 +7904,7 @@
         "class": "settlement",
         "family": "tribal-village",
         "type": "hist-village",
-        "magnitude": "M3",
+        "magnitude": "M2",
         "variant": "speaking-hist"
       },
       "status": "active",
@@ -7996,15 +7996,16 @@
       "rewardProfile": {
         "kinds": [
           "rest-shelter",
-          "services"
+          "services",
+          "trade-access"
         ],
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "a crown leaning out over a river fork, with the spring head walled in pale stone below it",
-        "palette": "pale stone lip pouring clear water, a green crown thinning to open sky above, red flower tubs at the water-seller's stall, mud churned brown at the landing steps",
-        "materials": "a grafted canopy frame trained young over the spring house; a woven cane roof laid in overlapping courses; stone tasting basins cut and reset by hand; hitching posts of driven hardwood at the landing",
-        "signatureFeature": "Water drunk without ceremony, poured from a stone lip into a run of tasting basins that visitors are expected to use before they speak.",
+        "silhouette": "a sick crown leaning out over a river fork, with the spring ringed in grey stones below it",
+        "palette": "grey stones round a pool of clear water, a green crown thinning to open sky above, painted urns along the yards, mud churned brown at the landing",
+        "materials": "a hide awning over the spring house; mud-walled pods and bamboo huts; rough stones set round the spring; a plank landing on the bank",
+        "signatureFeature": "Water drunk without ceremony, dipped from a stone-ringed pool that visitors are expected to taste before they speak.",
         "condition": "well kept in the yards used daily, threadbare a step off the path",
         "mood": "hospitable, tired, professionally patient",
         "approach": "Coming in from the fork, the standing water goes from black to clear over about a hundred metres. Frond smoke from the cookfires reaches the fork before the houses are in sight.",
@@ -8115,7 +8116,7 @@
         "kind": "building",
         "family": "dwelling",
         "sizeBand": "S2",
-        "wetFraction": 0.2,
+        "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
         "programRef": null,
@@ -8155,7 +8156,6 @@
       "terrainRequests": [],
       "services": [
         "lodging",
-        "shrine",
         "trader"
       ],
       "proseRefs": [

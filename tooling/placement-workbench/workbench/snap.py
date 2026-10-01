@@ -430,6 +430,38 @@ HANG_NORMAL_Z = -0.2         # a branch underside: the hit face's normal z at mo
 HANG_THICK_M = 0.6           # ... and its top (the ray's exit) at most this above it
 
 
+HANG_HOOK_M = 0.15
+"""A hanging child's hook: its mesh within this below its hang point wraps
+the branch it hangs on and may cross it; the body below may not (walk 7:
+Riverwalk's lantern hung on the eave with its body inside the wall)."""
+
+
+class HostClearance:
+    """Does a mounted child's BODY cross its host's mesh? The host's FCL
+    mesh is built once; each pose is one exact triangle-crossing query. For a
+    hanging child (`hook=True`) the hook (`HANG_HOOK_M` under the hang point)
+    is cut off first: it is meant to wrap the branch."""
+
+    def __init__(self, cat, child: Piece, parent: Piece, hook: bool):
+        import trimesh
+        from .measure import _fcl_mesh, _rigid4
+        self._rigid4 = _rigid4
+        self.manager = trimesh.collision.CollisionManager()
+        self.manager.add_object("host", _fcl_mesh(cat, parent), transform=_rigid4(parent))
+        m = cat.mesh(child.asset)
+        if hook:
+            cut = float(hang_point(cat, child.asset)[0][2]) - HANG_HOOK_M
+            keep = np.all(np.asarray(m.vertices)[np.asarray(m.faces)][:, :, 2] < cut, axis=1)
+            m = m.submesh([np.nonzero(keep)[0]], append=True) if keep.any() else None
+        self.body = None if m is None else (
+            m if float(child.scale or 1.0) == 1.0 else m.copy().apply_scale(float(child.scale)))
+
+    def crosses(self, child: Piece) -> bool:
+        if self.body is None or not len(self.body.faces):
+            return False
+        return bool(self.manager.in_collision_single(self.body, transform=self._rigid4(child)))
+
+
 def hang_point(cat, asset: str) -> tuple[np.ndarray, str]:
     """(kit-frame point, how) a hanging child hangs by: its highest vertex
     within HANG_AXIS_M of its pivot axis (a lantern's hook, a flower strand's
@@ -481,7 +513,8 @@ def hang_mount(cat, scene, child: Piece, parent: Piece, approval: str | None,
         tx, tn = child.x + float(d[0]), -child.z + float(d[1])
     mesh = cat.mesh(parent.asset).copy().apply_transform(_t4(parent))
     normals = np.asarray(mesh.face_normals)
-    rays = 0
+    rays, crossed, best, clear = 0, 0, None, None
+    pose0 = (child.x, child.y, child.z)
     rings = np.concatenate([np.arange(0.0, min(1.0, search_m) + 1e-9, HANG_RING_M),
                             np.arange(1.0 + HANG_RING_FAR_M, search_m + 1e-9, HANG_RING_FAR_M)])
     for ring in rings:
@@ -496,7 +529,7 @@ def hang_mount(cat, scene, child: Piece, parent: Piece, approval: str | None,
         per = {}
         for loc, i, t in zip(locs, idx, tri):
             per.setdefault(int(i), []).append((float(loc[2]), loc, t))
-        best = None
+        cands = []
         for i, hits in per.items():
             hits.sort(key=lambda h: h[0])
             # the first surface over the child must be a branch: a closed one
@@ -518,14 +551,27 @@ def hang_mount(cat, scene, child: Piece, parent: Piece, approval: str | None,
             if not (min_h <= over <= max_h):
                 continue
             off = math.hypot(float(loc[0]) - tx, float(loc[1]) - tn)
-            if best is None or off < best[0]:
-                best = (off, loc, over, kind, round(float(loc[2]) - float(under[2]), 3))
+            cands.append((off, i, loc, over, kind, round(float(loc[2]) - float(under[2]), 3)))
+        # the nearest seat whose body clears the host (a hook on an eave
+        # beside the wall must not put the lantern inside the wall)
+        for off, _i, loc, over, kind, thick in sorted(cands, key=lambda c: (c[0], c[1])):
+            child.x, child.z, child.y = (float(loc[0]) - float(d[0]), -(float(loc[1]) - float(d[1])),
+                                         float(loc[2]) - float(d[2]))
+            if clear is None:
+                clear = HostClearance(cat, child, parent, hook=True)
+            if clear.crosses(child):
+                crossed += 1
+                continue
+            best = (off, loc, over, kind, thick)
+            break
         if best is not None:
             break
     else:
+        child.x, child.y, child.z = pose0
         raise ValueError(f"hang {child.uid}: no downward-facing surface of {parent.uid} "
                          f"{min_h}-{max_h} m over the ground within {search_m} m of "
-                         f"({tx:.2f}, {-tn:.2f}) ({rays} rays)")
+                         f"({tx:.2f}, {-tn:.2f}) leaves its body clear of {parent.uid} "
+                         f"({rays} rays, {crossed} seats refused: body inside the host)")
     off, hit, over, kind, thick = best
     child.x = float(hit[0]) - float(d[0])
     child.z = -(float(hit[1]) - float(d[1]))

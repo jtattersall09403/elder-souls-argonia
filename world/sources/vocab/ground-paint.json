@@ -5,19 +5,19 @@
  ],
  "kinds": {
   "road": {
-   "texture": "bc_road",
-   "edgeM": 1.2,
-   "peakAlpha": 0.75
+   "texture": "track_mud",
+   "edgeM": 1.6,
+   "peakAlpha": 0.95
   },
   "track": {
    "texture": "track_mud",
-   "edgeM": 1.0,
-   "peakAlpha": 0.7
+   "edgeM": 1.3,
+   "peakAlpha": 0.9
   },
   "footpath": {
    "texture": "track_mud",
-   "edgeM": 0.7,
-   "peakAlpha": 0.5
+   "edgeM": 1.0,
+   "peakAlpha": 0.85
   }
  },
  "unpainted": [

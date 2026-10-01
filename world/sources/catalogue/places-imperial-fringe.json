@@ -2294,7 +2294,7 @@
         "family": "imperial-settlement",
         "type": "road-station-village",
         "variant": null,
-        "magnitude": "M2"
+        "magnitude": "M1"
       },
       "status": "active",
       "season": "all-year",
@@ -2403,13 +2403,13 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "silhouette": "A stone well head with a tiled roof on one side of the road; low round mud huts on the bank on the other.",
-        "palette": "Wet stone grey against thatch gold; the two halves do not share a colour.",
-        "materials": "Imperial well masonry and pantile on one side, Argonian mud walls and thatch on the other.",
+        "silhouette": "A timber station house and a stone well on one side of the road; low round mud huts on the bank on the other.",
+        "palette": "Wet stone grey and weathered timber against mud brown and thatch gold; the two halves do not share a colour.",
+        "materials": "Imperial timber framing and well masonry on one side, Argonian mud walls and thatch on the other.",
         "signatureFeature": "The road is the boundary. Two villages face each other across it.",
-        "condition": "The stone half is cracking; the mud half was replastered last year.",
+        "condition": "The well is cracking; the mud half was replastered last year.",
         "mood": "Neighbourly and wary.",
-        "approach": "The well roof shows first. Across the road the huts sit low by the water.",
+        "approach": "The station house roof shows first. Across the road the huts sit low by the water.",
         "senses": "A windlass; water poured; two languages across one street."
       },
       "assetPlan": [

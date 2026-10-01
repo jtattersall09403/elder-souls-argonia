@@ -605,13 +605,14 @@ export function isLargePlant(heightM: number, footprintM = 0): boolean {
 
 /**
  * The full-mesh radius of a LARGE non-tree plant by band, in place of
- * `SMALL_PLANT_TOP_TIER_M` (owner walk 6: "those ones should fade in from like
- * 200 m away"). Measured with the gate harness against decision 0084's budget:
- * report tooling/.reports/16k/walk6/render/veg-report.md.
+ * `SMALL_PLANT_TOP_TIER_M` (owner walk 7: medium, the character view's
+ * default band, steps down at 100 m, "let's try 100 m"; low stays under it).
+ * Walk 6 measured 200 m with the gate harness against decision 0084's budget
+ * (tooling/.reports/16k/walk6/render/veg-report.md), so 100 m is inside it.
  */
 export const LARGE_PLANT_TOP_TIER_M: Record<QualitySettings["name"], number> = {
-  low: 120,
-  medium: 200,
+  low: 80,
+  medium: 100,
   high: 260,
 };
 

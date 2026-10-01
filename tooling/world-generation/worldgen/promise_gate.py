@@ -24,7 +24,13 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 LEDGER_DIR = REPO_ROOT / "world" / "sources" / "placement" / "promises"
 LAYOUT_DIR = REPO_ROOT / "world" / "sources" / "blueprints"
 LEDGER_SCHEMA_VERSION = 1
-PROMISE_KINDS = ("service", "occupant", "operator", "provision", "socketBucket", "safeInterior")
+PROMISE_KINDS = ("service", "occupant", "operator", "provision", "socketBucket", "safeInterior",
+                 "interior", "underwaterAccess", "travelStation", "prose", "quest")
+#: kinds kept by the builder's confirmation, not by a placed thing: the row's
+#: text is re-read against the built place and `confirmed: {sha, note}` pins
+#: it (sha = blueprint_promises.text_sha of the text); an untrue line is fixed
+#: by editing its source record (0104 decision 6), never left unconfirmed
+CONFIRMED_KINDS = ("prose", "quest")
 #: decision 0102 decision 3: the only four reasons a promise may stay unfilled
 #: (c needs the sourcing register row named in the note)
 UNFILLED_REASONS = ("later-phase-system", "gpu-judgement", "asset-exists-nowhere",
@@ -99,6 +105,9 @@ def promise_gate_errors(bp: dict, ledger: dict | None,
                        f"of {ledger.get('placeId')}'s ledger (regenerate it with "
                        f"`blueprint_promises --id {ledger.get('placeId')} --write`)")
     for pid, row in sorted(rows.items()):
+        if row.get("kind") in CONFIRMED_KINDS:
+            out += _confirmation_errors(pid, row)
+            continue
         unfilled = row.get("unfilled")
         if unfilled is not None:
             reason = (unfilled or {}).get("reason")
@@ -117,3 +126,18 @@ def promise_gate_errors(bp: dict, ledger: dict | None,
                        f"thing that keeps it, or give the row `unfilled` with a decision 0102 "
                        f"reason")
     return out
+
+
+def _confirmation_errors(pid: str, row: dict) -> list[str]:
+    """A prose or quest row: confirmed against its current text, with a note."""
+    import hashlib
+    conf = row.get("confirmed") or {}
+    sha = hashlib.sha256(str(row.get("text")).encode("utf-8")).hexdigest()[:12]
+    if conf.get("sha") != sha:
+        return [f"promises.confirm: {pid} ({row.get('kind')}: {str(row.get('text'))[:90]}) is not "
+                f"confirmed against the built place{' (its text changed)' if conf else ''}: re-read "
+                f"it, edit the source record where the place contradicts it (place-build step 5b), "
+                f"then set `confirmed: {{\"sha\": \"{sha}\", \"note\": <what in the place keeps it>}}`"]
+    if not str(conf.get("note") or "").strip():
+        return [f"promises.confirm: {pid} is confirmed with no note naming what keeps it"]
+    return []

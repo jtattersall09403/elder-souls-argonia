@@ -15,6 +15,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { SettlementBundle } from "./types";
 import { assertPoolsSchema } from "./pools";
+import { fetchJsonWithRetry } from "./fetchRetry";
 
 export const SETTLEMENT_INDEX_SCHEMA_VERSION = 1;
 /** A bundle loads when its centre is within this range plus its radius. */
@@ -155,11 +156,7 @@ export function assembleSettlementBundle(
 
 export type FetchJson = (url: string) => Promise<unknown>;
 
-const defaultFetchJson: FetchJson = async (url) => {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`${url} returned HTTP ${response.status}`);
-  return response.json();
-};
+const defaultFetchJson: FetchJson = (url) => fetchJsonWithRetry(url);
 
 type Listener = (bundle: AssembledSettlementBundle) => void;
 

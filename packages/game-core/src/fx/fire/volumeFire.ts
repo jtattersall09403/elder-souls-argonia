@@ -29,7 +29,7 @@
  * same day/night envelope the card fire was judged in.
  *
  * Instance attributes (FlameSystem.ts writes them):
- *   iPosSeed vec4  emitter world position (m), seed 0..1
+ *   iPosSeed vec4  emitter position (m) in the FlameSystem group's space, seed 0..1
  *   iBox     vec4  box width m, box height m, palette row, intensity 0..1
  *   iAnim    vec4  flicker Hz, flicker share, wind response, unused
  */
@@ -275,7 +275,7 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
   const iBox = attribute("iBox", "vec4");
   const iAnim = attribute("iAnim", "vec4");
   const position = attribute("position", "vec3");
-  const at = iPosSeed.xyz;
+  const at = T.modelWorldMatrix.mul(vec4(iPosSeed.xyz, 1)).xyz; // group space -> world (interior cells stand at 4000 m)
   const size = vec3(iBox.x, iBox.y, iBox.x);
   const floor = at.sub(vec3(0, iBox.y.mul(fu.rootShare), 0));
   const world = floor.add(position.mul(size));

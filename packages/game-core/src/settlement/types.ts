@@ -222,6 +222,11 @@ export interface SettlementDoor {
 
 export type TerrainHeight = (x: number, z: number) => number | null;
 
+/** A ground area that just arrived (decoded), world metres `[minX, minZ, maxX, maxZ]`. */
+export type GroundArea = readonly [number, number, number, number];
+/** Subscribe to ground arrivals (the terrain chunk store's decodes); returns the unsubscribe. */
+export type GroundArrivals = (listener: (area: GroundArea) => void) => () => void;
+
 export interface SettlementCollisionPart {
   halfExtentsM: [number, number, number];
   offsetM: [number, number, number];
@@ -362,6 +367,10 @@ export interface SettlementLayerProps {
   baseUrl: string;
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
   groundAt: TerrainHeight;
+  /** When ground under `groundAt` arrives: the path paint builds a place the
+   * moment its ground is there (no polling); without it the paint is tried
+   * once per bundle change. `groundArrivalsOf(store)` adapts a chunk store. */
+  groundArrivals?: GroundArrivals;
   quality?: { architectureDrawScale?: number };
   /** Injected world state; no app singleton leaks into the reusable layer. */
   /** `epochMinutes` is the Module 55 world clock; the layer reads the sun's

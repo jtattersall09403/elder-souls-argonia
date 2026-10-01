@@ -98,4 +98,6 @@ scale radiance in a physically-lit scene.
    is a red, not a vibe.
 4. `.claude/skills/place-build/references/fire.md` tells the next agent
    which preset to pick, how to tweak it, and how to verify with the sheet
-   + anchor check + close-ups before calling a fire placement done.
+   + anchor check + close-ups, and that a fire placement is done only on a
+   PASS from `tooling/visual-look/flames.mjs` against the built site (the
+   flames drawn and seen in the studio's own frame; 16k walk 7).

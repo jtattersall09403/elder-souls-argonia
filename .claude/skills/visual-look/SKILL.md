@@ -23,6 +23,12 @@ are the runtime FlameSystem at the anchors `flameAnchors.ts` gives the
 manifest row; the geometry and textures are the published GLB through the
 KTX2 + meshopt loader.
 
+The sheet shows the flame at the piece's origin; it cannot show whether the
+studio draws it in a cell or a place. That question has its own check,
+`node tooling/visual-look/flames.mjs interior <cellId> <xKm> <zKm>` (or
+`place <xKm> <zKm> --t 22`) on the built site, and only its PASS line means
+"flames verified" (place-build `references/fire.md` § 3 step 4).
+
 ## 2. Judge it (Sonnet)
 
 The tool prints a ready-to-paste judge brief: image paths, the measured

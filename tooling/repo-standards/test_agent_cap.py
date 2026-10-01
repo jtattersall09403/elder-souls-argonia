@@ -1,57 +1,69 @@
-"""agent_cap.py: at most CAP live subagents per session tree (owner 2026-09-30)."""
+"""agent_cap.py: CPU-and-memory admission gate for subagent spawns (owner 2026-10-01)."""
 import json
 import subprocess
 import sys
 from pathlib import Path
 
 CAP_PY = Path(__file__).parent / "agent_cap.py"
+sys.path.insert(0, str(CAP_PY.parent))
+import agent_cap  # noqa: E402
+
+GIB = 1024
+FINE = dict(mem_mib=lambda: 8 * GIB, ceiling_mib=lambda: 22 * GIB, load1=lambda: 4.0,
+            cores=lambda: 8, slots_busy=lambda now: False, slot_waiters=lambda: 0)
+EV = {"hook_event_name": "PreToolUse", "session_id": "s", "tool_name": "Agent"}
 
 
-def hook(tmp, ev, **kw):
-    d = {"hook_event_name": ev, "session_id": "s1", **kw}
-    env = {"ES_AGENT_CAP_DIR": str(tmp), "ES_AGENT_CAP": "3", "PATH": "/usr/bin:/bin"}
-    return subprocess.run([sys.executable, str(CAP_PY)], input=json.dumps(d), text=True,
-                          capture_output=True, env=env).returncode
+def gate(tmp_path, monkeypatch, now=100.0, **over):
+    monkeypatch.setattr(agent_cap, "DIR", str(tmp_path))
+    for k, v in {**FINE, **over}.items():
+        monkeypatch.setattr(agent_cap, k, v)
+    return agent_cap.handle(dict(EV), now=now)
 
 
-def test_cap_refuses_then_frees_a_slot_on_stop(tmp_path):
-    for i in range(3):
-        assert hook(tmp_path, "PreToolUse", tool_name="Agent") == 0
-        assert hook(tmp_path, "SubagentStart", agent_id=f"a{i}") == 0
-    assert hook(tmp_path, "PreToolUse", tool_name="Agent") == 2
-    assert hook(tmp_path, "SubagentStop", agent_id="a1") == 0
-    assert hook(tmp_path, "PreToolUse", tool_name="Agent") == 0
+def test_both_fine_admits_and_logs(tmp_path, monkeypatch):
+    code, _ = gate(tmp_path, monkeypatch)
+    assert code == 0
+    assert "admit" in (tmp_path / "admissions.log").read_text()
 
 
-def test_parallel_launches_count_before_they_start(tmp_path):
-    # three Agent calls in one message: none has started when the fourth asks
-    for _ in range(3):
-        assert hook(tmp_path, "PreToolUse", tool_name="Agent") == 0
-    assert hook(tmp_path, "PreToolUse", tool_name="Task") == 2
+def test_memory_high_refuses_with_numbers(tmp_path, monkeypatch):
+    # 21 GiB unreclaimable + the per-agent reserve passes the 22 GiB ceiling
+    code, msg = gate(tmp_path, monkeypatch, mem_mib=lambda: 21 * GIB)
+    assert code == 2 and "22.0 GiB" in msg and "job_guard" in msg
+    assert "refuse" in (tmp_path / "admissions.log").read_text()
 
 
-def test_other_tools_and_sessions_are_not_counted(tmp_path):
-    for _ in range(5):
-        assert hook(tmp_path, "PreToolUse", tool_name="Bash") == 0
-    for i in range(3):
-        hook(tmp_path, "SubagentStart", agent_id=f"a{i}")
-    d = {"hook_event_name": "PreToolUse", "session_id": "s2", "tool_name": "Agent"}
-    env = {"ES_AGENT_CAP_DIR": str(tmp_path), "ES_AGENT_CAP": "3", "PATH": "/usr/bin:/bin"}
-    assert subprocess.run([sys.executable, str(CAP_PY)], input=json.dumps(d), text=True,
-                          env=env).returncode == 0
+def test_load_high_refuses(tmp_path, monkeypatch):
+    # limit 8 x 3 = 24; load alone admits, load + memory over half or a slot waiter refuses
+    assert gate(tmp_path, monkeypatch, load1=lambda: 24.5)[0] == 0
+    code, msg = gate(tmp_path, monkeypatch, load1=lambda: 24.5, mem_mib=lambda: 12 * GIB)
+    assert code == 2 and "24.0" in msg
+    assert gate(tmp_path, monkeypatch, load1=lambda: 24.5, slot_waiters=lambda: 1)[0] == 2
 
 
-def test_stale_entries_expire(tmp_path):
-    sys.path.insert(0, str(CAP_PY.parent))
-    import agent_cap
-    agent_cap.DIR = str(tmp_path)
-    for i in range(agent_cap.CAP):
+def test_all_slots_starting_refuses_but_waiting_slot_admits(tmp_path, monkeypatch):
+    assert gate(tmp_path, monkeypatch, slots_busy=lambda now: True)[0] == 2
+    assert gate(tmp_path / "b", monkeypatch, slots_busy=lambda now: False)[0] == 0
+
+
+def test_runaway_cap_refuses(tmp_path, monkeypatch):
+    monkeypatch.setattr(agent_cap, "DIR", str(tmp_path))
+    for i in range(agent_cap.RUNAWAY_CAP):
         agent_cap.handle({"hook_event_name": "SubagentStart", "session_id": "s", "agent_id": f"a{i}"}, now=0)
-    ev = {"hook_event_name": "PreToolUse", "session_id": "s", "tool_name": "Agent"}
-    assert agent_cap.handle(dict(ev), now=10)[0] == 2
-    assert agent_cap.handle(dict(ev), now=agent_cap.STALE_S + 1)[0] == 0
+    assert gate(tmp_path, monkeypatch, now=10)[0] == 2
+    # stale live entries expire, so a crashed agent cannot hold the backstop
+    assert gate(tmp_path, monkeypatch, now=agent_cap.STALE_S + 1)[0] == 0
 
 
-def test_garbage_input_allows(tmp_path):
+def test_pending_launches_count_and_stop_frees(tmp_path, monkeypatch):
+    for _ in range(agent_cap.RUNAWAY_CAP):
+        assert gate(tmp_path, monkeypatch)[0] == 0
+    assert gate(tmp_path, monkeypatch)[0] == 2
+
+
+def test_other_tools_pass_and_garbage_input_allows(tmp_path):
     env = {"ES_AGENT_CAP_DIR": str(tmp_path), "PATH": "/usr/bin:/bin"}
+    d = {"hook_event_name": "PreToolUse", "session_id": "s", "tool_name": "Bash"}
+    assert subprocess.run([sys.executable, str(CAP_PY)], input=json.dumps(d), text=True, env=env).returncode == 0
     assert subprocess.run([sys.executable, str(CAP_PY)], input="not json", text=True, env=env).returncode == 0
