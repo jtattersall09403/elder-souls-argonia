@@ -92,6 +92,7 @@ const scene: HarnessScene = {
 
     const wind = createWindUniforms();
     const lodFade = createLodFadeUniforms();
+    const memo = new Map();
     const matrix = new THREE.Matrix4();
     const q = new THREE.Quaternion();
     const up = new THREE.Vector3(0, 1, 0);
@@ -116,7 +117,7 @@ const scene: HarnessScene = {
         const near = ti === 0;
         const parts = near || !card ? entry.levels[0].parts : [card];
         parts.forEach((part, pi) => {
-          patchGroundcoverPart(part.material, { wind, lodFade, billboard: !near && card !== null });
+          patchGroundcoverPart(part.material, { wind, lodFade, memo, billboard: !near && card !== null });
           const n = tier.count;
           const bands = new THREE.InstancedBufferAttribute(new Float32Array(n * 4), 4);
           for (let i = 0; i < n; i++) bands.setXYZW(i, tier.band[0], tier.band[1], tier.band[2], tier.band[3]);

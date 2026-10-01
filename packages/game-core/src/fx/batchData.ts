@@ -17,8 +17,10 @@
  * Node form (decision 0111): `applyBatchData` marks the material; `lodFade`
  * and `windSway` read `batchTexel(material, k)` at BUILD time, so either may
  * be applied before or after `applyBatchData` (the old `ES_BATCH_SLOTS`
- * define). The texture uniforms are texture nodes: re-point a grown batch
- * with `uniforms.esBatchData.value = texture`, as before. Clone first, then
+ * define). Each batch material carries its own data texture
+ * (`setBatchTexture`, again when the batch grows); the shared `esBatchData`
+ * node binds it per drawn object, so all batch materials can share one node
+ * graph and one shader build. Clone first, then
  * patch: the feature graphs look up the batch mark on the material they were
  * applied to, and `clone()` does not carry the mark.
  */
@@ -46,10 +48,21 @@ export interface TextureUniformNode {
   value: THREE.Texture;
 }
 
-/** Uniforms every foliage batch material shares (the shadow pass reuses them). */
+/**
+ * Uniforms every foliage batch material shares (the shadow pass reuses them).
+ * ONE set per vegetation layer, so every batch material can share one node
+ * graph and one shader build (decision 0111 §shader builds): the per-batch
+ * data texture is not a node per batch but the material's own texture
+ * (`setBatchTexture`), bound per drawn OBJECT by `esBatchSelect`.
+ */
 export interface BatchDataUniforms {
-  /** Per-slot data texture node; set `.value` to the batch's DataTexture. */
+  /**
+   * The data texture node every batch reads. Its `.value` is re-pointed per
+   * drawn object to that object's material's batch texture; never set it by hand.
+   */
   esBatchData: TextureUniformNode & TslNode;
+  /** Always 0; its per-object update binds the drawn object's batch texture. */
+  esBatchSelect: TslNode;
   /** Terrain-occlusion mask texture node (R > 0.5 = occluded). */
   esOccMask: TextureUniformNode & TslNode;
   /** (originCellX, originCellZ, size, cellM) of the occlusion mask, a `uniform()` node. */
@@ -109,18 +122,53 @@ function placeholderTexture(occlusion = false): THREE.DataTexture {
   return t;
 }
 
+const BATCH_TEXTURE_KEY = Symbol("esBatchTexture");
+
+/** Point a batch material at its per-batch data texture (again when it grows). */
+export function setBatchTexture(material: THREE.Material, data: THREE.Texture): void {
+  (material as unknown as Record<symbol, THREE.Texture>)[BATCH_TEXTURE_KEY] = data;
+}
+
+/** The data texture `setBatchTexture` gave a material. */
+export function batchTextureOf(material: THREE.Material): THREE.Texture | undefined {
+  return (material as unknown as Record<symbol, THREE.Texture | undefined>)[BATCH_TEXTURE_KEY];
+}
+
 /**
- * Fresh uniforms. `shared` hands over the occlusion mask and its window so
- * every batch reads one sweep (the per-batch data texture node is always new).
+ * The texture the data node must bind for a drawn object: its OWN material's
+ * batch texture. Read from the object, never from the frame's material: in the
+ * shadow pass the frame material is the shadow material.
+ */
+export function objectBatchTexture(object: THREE.Object3D | null | undefined): THREE.Texture | undefined {
+  const m = (object as THREE.Mesh | null | undefined)?.material;
+  const material = Array.isArray(m) ? m[0] : m;
+  return material ? batchTextureOf(material) : undefined;
+}
+
+/**
+ * Fresh uniforms, one set per vegetation layer (or harness scene). `shared`
+ * hands over the occlusion mask and its window.
  */
 export function createBatchDataUniforms(
   shared?: Pick<BatchDataUniforms, "esOccMask" | "esOccParams">,
 ): BatchDataUniforms {
+  const empty = placeholderTexture();
+  // An explicit uv: a uv-less texture node builds the default `uv`
+  // attribute, which batched geometry may lack ("Vertex attribute uv not
+  // found"); the node is only ever read with textureSize/textureLoad.
+  const esBatchData = texture(empty, vec2(0)) as BatchDataUniforms["esBatchData"];
+  // A TextureNode resets its own update type in setup, so the per-object bind
+  // rides a uniform that is in every batch graph (it adds 0 to the texel index).
+  // three updates OBJECT nodes before it updates the object's bindings.
+  const esBatchSelect = (uniform(0, "int") as TslNode).onObjectUpdate(
+    (frame: { object?: THREE.Object3D }) => {
+      esBatchData.value = objectBatchTexture(frame.object) ?? empty;
+      return 0;
+    },
+  ) as TslNode;
   return {
-    // An explicit uv: a uv-less texture node builds the default `uv`
-    // attribute, which batched geometry may lack ("Vertex attribute uv not
-    // found"); the node is only ever read with textureSize/textureLoad.
-    esBatchData: texture(placeholderTexture(), vec2(0)) as BatchDataUniforms["esBatchData"],
+    esBatchData,
+    esBatchSelect,
     esOccMask: shared?.esOccMask
       ?? (texture(placeholderTexture(true)) as BatchDataUniforms["esOccMask"]),
     esOccParams: shared?.esOccParams
@@ -142,7 +190,7 @@ export function batchUniformsOf(material: THREE.Material): BatchDataUniforms | u
  */
 export function batchTexelNode(uniforms: BatchDataUniforms, k: number): TslNode {
   const slot = optionalAttribute("esSlot", "float", () => float(0));
-  const t = int(slot).mul(BATCH_DATA_TEXELS).add(k);
+  const t = int(slot).mul(BATCH_DATA_TEXELS).add(k).add(uniforms.esBatchSelect);
   const width = int(textureSize(uniforms.esBatchData, 0).x);
   return textureLoad(uniforms.esBatchData, ivec2(t.mod(width), t.div(width)));
 }

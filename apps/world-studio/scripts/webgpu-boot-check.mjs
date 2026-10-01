@@ -397,7 +397,10 @@ await page.addInitScript(([present, gpuTiming, light]) => {
         // what multiplies builds: per material object, how many render contexts and how many builds
         const mk = material?.uuid ?? "?";
         const ctx = String(ro?.context?.id ?? "?"), cam = ro?.camera?.type ?? "?";
-        const pm = ((g.buildPerMaterial ??= {})[mk] ??= { n: 0, ctx: [], cams: [] });
+        const pm = ((g.buildPerMaterial ??= {})[mk] ??= { n: 0, ctx: [], cams: [], name: k, where: (() => {
+          // the layer that drew it: the outermost named group under the scene
+          let o = ro?.object, at = "?"; while (o?.parent) { if (o.name) at = o.name; o = o.parent; } return at.replace(/\d{3,}/g, "#");
+        })() });
         pm.n++; if (!pm.ctx.includes(ctx)) pm.ctx.push(ctx); if (!pm.cams.includes(cam)) pm.cams.push(cam);
         const note = (ms) => { const e = ((g.nodeBuild ??= {})[k] ??= [0, 0]); e[0] += ms; e[1]++; g.nodeBuildMs = (g.nodeBuildMs ?? 0) + ms; g.nodeBuildN = (g.nodeBuildN ?? 0) + 1; };
         const build = nb.build.bind(nb);
@@ -669,7 +672,9 @@ const summary = {
     const v = Object.values(boot.buildPerMaterial); const hist = {};
     for (const m of v) hist[`${m.n} builds / ${m.ctx.length} contexts`] = (hist[`${m.n} builds / ${m.ctx.length} contexts`] ?? 0) + 1;
     const cams = {}; for (const m of v) for (const c of m.cams) cams[c] = (cams[c] ?? 0) + 1;
-    return { materials: v.length, hist, cams };
+    // every material by name with its build count: the census a build-sharing change is judged on
+    const names = Object.entries(boot.buildPerMaterial).map(([, m]) => [`${m.where} | ${m.name}`, m.n]).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1));
+    return { materials: v.length, hist, cams, names };
   })() : null,
   nodeBuild: boot?.nodeBuildN ? { n: boot.nodeBuildN, ms: Math.round(boot.nodeBuildMs), top: Object.entries(boot.nodeBuild).sort((x, y) => y[1][0] - x[1][0]).slice(0, 15).map(([k, v]) => [k, Math.round(v[0]), v[1]]) } : null,
   holdNewGeometryBy: boot?.newGeomByHold ? Object.entries(boot.newGeomByHold).sort((x, y) => y[1][0] - x[1][0]).slice(0, 15).map(([k, v]) => [Math.round(v[0] / 1e5) / 10, v[1], v[2], k]) : [],

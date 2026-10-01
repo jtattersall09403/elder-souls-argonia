@@ -13,6 +13,7 @@ import type { NodeMaterial } from "three/webgpu";
 import { applyWindSway, type WindUniforms } from "@elder-souls/game-core/fx/windSway";
 import { applyLodFade, type LodFadeUniforms } from "@elder-souls/game-core/fx/lodFade";
 import { applyCylindricalBillboard } from "@elder-souls/game-core/fx/billboardQuad";
+import { patchShared, type PatchMemo } from "@elder-souls/game-core/render/nodes/materialNodes";
 import type { FloraKit } from "./floraKit";
 
 export interface KitLevelPart {
@@ -69,9 +70,12 @@ export function buildCardIndex(
  */
 export function patchGroundcoverPart(
   material: NodeMaterial,
-  opts: { wind: WindUniforms; lodFade: LodFadeUniforms; billboard: boolean },
+  opts: { wind: WindUniforms; lodFade: LodFadeUniforms; billboard: boolean; memo: PatchMemo },
 ): void {
-  if (!opts.billboard) applyWindSway(material, opts.wind);
-  applyLodFade(material, opts.lodFade);
-  if (opts.billboard) applyCylindricalBillboard(material, opts.lodFade);
+  // One node graph per signature, so every kit material shares its build.
+  patchShared(material, opts.memo, `groundcover|${opts.billboard ? 1 : 0}`, (m) => {
+    if (!opts.billboard) applyWindSway(m, opts.wind);
+    applyLodFade(m, opts.lodFade);
+    if (opts.billboard) applyCylindricalBillboard(m, opts.lodFade);
+  });
 }

@@ -1,7 +1,9 @@
 import * as THREE from "three";
 import type { NodeMaterial } from "three/webgpu";
 import * as TSL_TYPED from "three/tsl";
-import { claimFeature, isNodeMaterial, sel, wrapColor, type TslNode } from "@elder-souls/game-core/render/nodes/materialNodes";
+import {
+  claimFeature, isNodeMaterial, patchShared, sel, wrapColor, type PatchMemo, type TslNode,
+} from "@elder-souls/game-core/render/nodes/materialNodes";
 import { PROVINCE_EXTENT_M } from "../provinceScale";
 // TSL builders typed loosely (standard 0107 §1: chained TSL typings are too deep for tsc).
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,7 +20,6 @@ const {
   float,
   floor,
   fract,
-  int,
   length,
   log2,
   max,
@@ -30,7 +31,6 @@ const {
   sin,
   smoothstep,
   texture,
-  textureSize,
   uniform,
   uv,
   vec2,
@@ -442,27 +442,56 @@ export function mipAlphaBoost(mipLevel: number): number {
 }
 
 /**
+ * What every mip-boosted material shares so they share one shader build
+ * (decision 0111 §shader builds): the patched node slots per signature and
+ * the map-size uniform, set per drawn OBJECT from its own material's map.
+ * One per sky (caller-owned, standard 8).
+ */
+export interface MipAlphaShare {
+  memo: PatchMemo;
+  mapSize: TslNode;
+}
+
+/** Map texel size of a drawn object's own material (the frame material is the shadow material in the shadow pass). */
+export function objectMapSize(object: THREE.Object3D | null | undefined, into: THREE.Vector2): THREE.Vector2 {
+  const m = (object as THREE.Mesh | null | undefined)?.material;
+  const material = (Array.isArray(m) ? m[0] : m) as (THREE.Material & { map?: THREE.Texture | null }) | undefined;
+  const image = material?.map?.image as { width?: number; height?: number } | undefined;
+  if (image?.width && image?.height) into.set(image.width, image.height);
+  return into;
+}
+
+export function createMipAlphaShare(): MipAlphaShare {
+  const size = new THREE.Vector2(1, 1);
+  const mapSize = uniform(size).onObjectUpdate(
+    (frame: { object?: THREE.Object3D }) => objectMapSize(frame.object, size));
+  return { memo: new Map(), mapSize };
+}
+
+/**
  * Mip-alpha coverage boost for alpha-tested foliage (research doc
  * openworld-vegetation-placement-architecture §4.1 cause 1): box-filtered mips
  * average cutout alpha downward, so ever fewer texels pass `alphaTest` in
  * lower mips and canopies dissolve to sticks at distance. Estimate the mip
  * level from the UV footprint and scale alpha up before the cutoff (the
  * NodeMaterial alpha test runs on the colour node's alpha). A no-op for
- * materials without both an alpha test and a map. Idempotent.
+ * materials without both an alpha test and a map. Idempotent. The map's size
+ * is a per-object uniform, not the map itself, so every material with the same
+ * node slots and uv channel shares one graph (`share`).
  */
-export function applyMipAlphaBoost(material: NodeMaterial): void {
+export function applyMipAlphaBoost(material: NodeMaterial, share: MipAlphaShare): void {
   const map = (material as NodeMaterial & { map?: THREE.Texture | null }).map;
   if (!(material.alphaTest > 0) || !map) return;
-  if (!claimFeature(material, "mipAlphaBoost")) return;
-  const mapUv = uv(map.channel ?? 0);
-  wrapColor(material, (c: TslNode) => {
-    // An explicit uv: textureSize builds its texture node, and a node with no
-    // uv builds the default `uv` attribute ("uv not found" on uv-less meshes).
-    const texels = vec2(textureSize(texture(map, mapUv), int(0)));
-    const dx = dFdx(mapUv).mul(texels);
-    const dy = dFdy(mapUv).mul(texels);
-    const mip = log2(max(max(dot(dx, dx), dot(dy, dy)), 1)).mul(0.5);
-    return vec4(c.rgb, c.a.mul(float(1).add(min(mip, 4).mul(0.25))));
+  const channel = map.channel ?? 0;
+  patchShared(material, share.memo, `mipAlphaBoost|${channel}`, (m) => {
+    if (!claimFeature(m, "mipAlphaBoost")) return;
+    const mapUv = uv(channel);
+    wrapColor(m, (c: TslNode) => {
+      const dx = dFdx(mapUv).mul(share.mapSize);
+      const dy = dFdy(mapUv).mul(share.mapSize);
+      const mip = log2(max(max(dot(dx, dx), dot(dy, dy)), 1)).mul(0.5);
+      return vec4(c.rgb, c.a.mul(float(1).add(min(mip, 4).mul(0.25))));
+    });
   });
 }
 
@@ -474,5 +503,5 @@ export function applyMipAlphaBoost(material: NodeMaterial): void {
  */
 export function applyAerialPerspective(material: THREE.Material, _uniforms?: AerialUniforms): void {
   (material as THREE.Material & { fog?: boolean }).fog = true;
-  if (isNodeMaterial(material)) applyMipAlphaBoost(material);
+  if (isNodeMaterial(material)) applyMipAlphaBoost(material, createMipAlphaShare());
 }

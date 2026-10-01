@@ -22,6 +22,7 @@ import catalogue from "../../../../world/sources/sky/star-catalogue.json";
 import {
   aerialRasterLoaded,
   applyMipAlphaBoost,
+  createMipAlphaShare,
   createAerialFogNode,
   createAerialUniforms,
   type AerialRasterKey,
@@ -364,6 +365,8 @@ export function WorldSky({
   // second later, the startup flash. Only new materials cost anything; the
   // walk is a WeakSet look-up per visible mesh.
   const patched = useRef(new WeakSet<THREE.Material>());
+  // one shared mip-boost graph for every alpha-tested map (one shader build)
+  const mipShare = useMemo(() => createMipAlphaShare(), []);
   const patchScene = () => {
     // fixture lamps are the renderer's lighting (render/fixtureLights; idempotent, before the first list)
     installFixtureLighting(gl as unknown as WebGPURenderer);
@@ -374,7 +377,7 @@ export function WorldSky({
       for (const m of mats) {
         if (!m || patched.current.has(m)) continue;
         patched.current.add(m);
-        if (m.userData?.esAerial && isNodeMaterial(m)) applyMipAlphaBoost(m as NodeMaterial);
+        if (m.userData?.esAerial && isNodeMaterial(m)) applyMipAlphaBoost(m as NodeMaterial, mipShare);
       }
     });
   };

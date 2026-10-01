@@ -14,7 +14,7 @@ import {
 } from "@elder-souls/game-core/fx/lodFade";
 import { applyCylindricalBillboard } from "@elder-souls/game-core/fx/billboardQuad";
 import {
-  applyBatchData, createBatchDataTexture, createBatchDataUniforms, writeBatchInstance,
+  applyBatchData, createBatchDataTexture, createBatchDataUniforms, setBatchTexture, writeBatchInstance,
 } from "@elder-souls/game-core/fx/batchData";
 
 interface HarnessContext {
@@ -136,7 +136,6 @@ export default {
         -(s % 2) * 0.5, 0);
     }
     data.needsUpdate = true;
-    batch.esBatchData.value = data;
     const maskSize = 8;
     const mask = new THREE.DataTexture(new Uint8Array(maskSize * maskSize), maskSize, maskSize,
       THREE.RedFormat, THREE.UnsignedByteType);
@@ -148,6 +147,7 @@ export default {
     applyWindSway(batchMat, wind);
     applyLodFade(batchMat, lod, { shadowBandFromZero: true });
     applyBatchData(batchMat, undefined, batch);
+    setBatchTexture(batchMat, data);
     scene.add(instanced(batchGeo, batchMat, count, (i, m) => gridMatrix(i, m, 60, 1.1)));
 
     const camera = new THREE.PerspectiveCamera(55, ctx.width / ctx.height, 0.5, 600);

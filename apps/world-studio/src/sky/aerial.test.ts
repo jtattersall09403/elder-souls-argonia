@@ -4,9 +4,12 @@ import { MeshStandardNodeMaterial } from "three/webgpu";
 import {
   aerialRasterLoaded,
   applyAerialPerspective,
+  applyMipAlphaBoost,
   createAerialFogNode,
   createAerialUniforms,
+  createMipAlphaShare,
   mipAlphaBoost,
+  objectMapSize,
 } from "./aerial";
 
 describe("aerial perspective as the scene fog node (decision 0107)", () => {
@@ -40,6 +43,22 @@ describe("aerial perspective as the scene fog node (decision 0107)", () => {
     expect(first).not.toBeNull();
     applyAerialPerspective(leaf);
     expect(leaf.colorNode).toBe(first);
+  });
+
+  it("mip-alpha boost: materials with different maps share one graph; the map size comes from the drawn object", () => {
+    const share = createMipAlphaShare();
+    const mapA = new THREE.Texture({ width: 512, height: 256 } as never);
+    const mapB = new THREE.Texture({ width: 64, height: 64 } as never);
+    const a = new MeshStandardNodeMaterial({ alphaTest: 0.5, map: mapA });
+    const b = new MeshStandardNodeMaterial({ alphaTest: 0.5, map: mapB });
+    applyMipAlphaBoost(a, share);
+    applyMipAlphaBoost(b, share);
+    expect(a.colorNode).not.toBeNull();
+    expect(b.colorNode).toBe(a.colorNode);
+    const into = new THREE.Vector2();
+    // shadow pass: only the OBJECT knows its material
+    expect(objectMapSize(new THREE.Mesh(undefined, a), into).toArray()).toEqual([512, 256]);
+    expect(objectMapSize(new THREE.Mesh(undefined, b), into).toArray()).toEqual([64, 64]);
   });
 
   it("mip-alpha boost: 1 at mip 0, capped at 2 from mip 4", () => {

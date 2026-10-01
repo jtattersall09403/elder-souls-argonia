@@ -186,8 +186,73 @@ export function claimFeature(material: THREE.Material, feature: string): boolean
   return true;
 }
 
+/** The node slots and feature claims one patch signature produced. */
+export interface PatchedSlots {
+  nodes: Record<string, unknown>;
+  claims: string[];
+}
+
 /**
- * Branch-free select: `c ? a : b` as arithmetic, so the node builder never lowers
+ * Patched node slots per signature (`patchShared`). Caller-owned: one per
+ * layer, beside the uniforms its patches read; never a module singleton
+ * (standard 8).
+ */
+export type PatchMemo = Map<string, PatchedSlots>;
+
+/** Own keys of a material holding a node slot (`positionNode`, `maskShadowNode`, …). */
+function nodeSlotKeys(material: THREE.Material): string[] {
+  return Object.keys(material).filter((k) => k.endsWith("Node"));
+}
+
+function featureClaims(material: THREE.Material): string[] {
+  return Object.keys(material.userData ?? {}).filter((k) => k.startsWith("esNode_")).sort();
+}
+
+/**
+ * The signature two materials must share to share a patch's nodes: the
+ * caller's tag (the patch and its options), the material type, the identity
+ * of every node slot and the features already claimed.
+ */
+export function patchSignature(material: THREE.Material, tag: string): string {
+  const slots = nodeSlotKeys(material).sort().map((k) => {
+    const v = (material as unknown as Record<string, { id?: number } | null>)[k];
+    return `${k}=${v ? v.id ?? "?" : "-"}`;
+  });
+  return `${tag}|${material.type}|${slots.join(",")}|${featureClaims(material).join(",")}`;
+}
+
+/**
+ * Run `patch` on `material` ONCE per signature and give every later material
+ * of that signature the same node objects (decision 0111 §shader builds).
+ * three keys a node build by the node graph, so a patch that makes new nodes
+ * per material makes a build per material; shared nodes share one build.
+ * Only for patches whose nodes read nothing of the material they patched
+ * except through the material reference (`materialColor`, the batch mark…):
+ * a patch that bakes in a per-material texture or value must not use this.
+ */
+export function patchShared(
+  material: NodeMaterial,
+  memo: PatchMemo,
+  tag: string,
+  patch: (material: NodeMaterial) => void,
+): void {
+  const signature = patchSignature(material, tag);
+  const known = memo.get(signature);
+  if (known) {
+    Object.assign(material, known.nodes);
+    for (const claim of known.claims) material.userData[claim] = true;
+    touch(material);
+    return;
+  }
+  patch(material);
+  const target = material as unknown as Record<string, unknown>;
+  const nodes: Record<string, unknown> = {};
+  for (const k of nodeSlotKeys(material)) nodes[k] = target[k];
+  memo.set(signature, { nodes, claims: featureClaims(material) });
+}
+
+/**
+ * Branch-free select:`c ? a : b` as arithmetic, so the node builder never lowers
  * it to an if/else that reads temporaries declared in one branch (three
  * 0.184 does that for `select` on computed operands and the result is NaN,
  * silently; decision 0111 gotchas). Both operands are evaluated: keep them

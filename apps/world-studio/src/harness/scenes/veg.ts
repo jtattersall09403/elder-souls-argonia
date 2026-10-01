@@ -39,7 +39,7 @@ import {
   createLodFadeUniforms, createLodHistory, lodLadder, pushLodHistory,
 } from "@elder-souls/game-core/fx/lodFade";
 import {
-  createBatchDataTexture, createBatchDataUniforms, writeBatchInstance,
+  createBatchDataTexture, createBatchDataUniforms, setBatchTexture, writeBatchInstance,
 } from "@elder-souls/game-core/fx/batchData";
 import { cellRungs } from "@elder-souls/game-core/vegetation/cellBuild";
 import { makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry";
@@ -195,6 +195,7 @@ const scene: HarnessScene = {
     const wind = createWindUniforms();
     const lodFade = createLodFadeUniforms();
     const shared = createBatchDataUniforms();
+    const memo = new Map();
     const history = createLodHistory();
 
     const matrix = new THREE.Matrix4();
@@ -239,7 +240,7 @@ const scene: HarnessScene = {
         const fromZero = casts && level === 1;
         for (const part of entry.levels[level].parts) {
           const owned = makeBatchMaterial(part.material, {
-            wind, lodFade, batchUniforms: shared, fromZero,
+            wind, lodFade, batchUniforms: shared, memo, fromZero,
           });
           const n = at.length;
           const data = createBatchDataTexture(n);
@@ -249,9 +250,9 @@ const scene: HarnessScene = {
             writeBatchInstance(data, i, rung.band, isCard ? -1 : stiffness, 0);
           }
           data.needsUpdate = true;
-          owned.uniforms.esBatchData.value = data;
+          setBatchTexture(owned, data);
           const mesh = new THREE.InstancedMesh(
-            makeSlotGeometry(part.geometry, { esSlot: slots }), owned.material, n);
+            makeSlotGeometry(part.geometry, { esSlot: slots }), owned, n);
           at.forEach((p, i) => {
             q.setFromAxisAngle(up, i * 1.3 + si);
             matrix.compose(p, q, new THREE.Vector3(1, 1, 1));
@@ -267,7 +268,7 @@ const scene: HarnessScene = {
             const twin = new THREE.InstancedMesh(
               makeSlotGeometry(part.geometry, {
                 esSlot: new THREE.InstancedBufferAttribute(new Float32Array(n), 1),
-              }), owned.material, n);
+              }), owned, n);
             twin.castShadow = casts;
             twin.receiveShadow = !isCard;
             const draw = pool.addDraw(twin, {

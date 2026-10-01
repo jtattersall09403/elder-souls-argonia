@@ -51,6 +51,7 @@ import {
   BATCH_DATA_TEXELS,
   createBatchDataTexture,
   createBatchDataUniforms,
+  setBatchTexture,
   writeBatchInstance,
 } from "@elder-souls/game-core/fx/batchData";
 import type { NodeMaterial, WebGPURenderer } from "three/webgpu";
@@ -58,7 +59,7 @@ import { crownOf, type CrownSource } from "@elder-souls/game-core/air/volumetric
 import type { Crown } from "@elder-souls/game-core/air/volumetrics/canopyMap";
 import { GpuCullPool, cullSphereOf, type PooledDraw } from "@elder-souls/game-core/render/gpuCull/GpuCullPool";
 import { unionBand } from "@elder-souls/game-core/render/gpuCull/cullMath";
-import { makeBatchMaterial, type BatchMaterials, type VegShaderMode } from "./batchMaterial";
+import { makeBatchMaterial, type BatchPatchMemo, type VegShaderMode } from "./batchMaterial";
 import { OCCLUSION_CELL_M, OCCLUSION_MIN_DISTANCE_M } from "@elder-souls/game-core/render/terrainOcclusion";
 import { isSolid, type FloraCollider, type SolidInstance } from "@elder-souls/game-core/physics/floraSolids";
 import {
@@ -523,7 +524,9 @@ export function Vegetation({
   const batches = useRef(new Map<string, Batch>());
   const registry = useRef(new CellRegistry());
   const jobs = useRef(new Map<string, { cancel(): void }>());
-  const batchMaterials = useRef(new Map<string, BatchMaterials>());
+  const batchMaterials = useRef(new Map<string, NodeMaterial>());
+  /** Patched node slots per signature: batch materials share one shader build. */
+  const batchPatchMemo = useMemo<BatchPatchMemo>(() => new Map(), []);
   const mounted = useRef(true);
   const allSpecies = useRef<CellSpeciesEntry[]>([]);
   const copiesTotal = useRef(0);
@@ -664,9 +667,7 @@ export function Vegetation({
         batch.data.dispose();
       }
       live.clear();
-      for (const owned of liveMaterials.values()) {
-        owned.material.dispose();
-      }
+      for (const owned of liveMaterials.values()) owned.dispose();
       liveMaterials.clear();
     };
   }, []);
@@ -824,16 +825,16 @@ export function Vegetation({
     let owned = batchMaterials.current.get(key);
     if (!owned) {
       owned = makeBatchMaterial(material, {
-        wind, lodFade, batchUniforms, fromZero, mode: VEG_SHADER_MODE,
+        wind, lodFade, batchUniforms, memo: batchPatchMemo, fromZero, mode: VEG_SHADER_MODE,
       });
       batchMaterials.current.set(key, owned);
     }
-    const clone = owned.material;
+    const clone = owned;
     const data = createBatchDataTexture(capacity);
-    // The data texture is PER BATCH and re-pointed when the batch grows; the
-    // occlusion mask and its window are shared by reference, so one sweep
-    // feeds every batch.
-    owned.uniforms.esBatchData.value = data;
+    // The data texture is PER BATCH, carried by the batch's material and
+    // re-pointed when the batch grows; the occlusion mask and its window are
+    // shared by reference, so one sweep feeds every batch.
+    setBatchTexture(owned, data);
     return {
       key, geometries: new Map(), geoList: [], geometryPool: new Map(),
       material: clone,
@@ -1710,7 +1711,7 @@ export function Vegetation({
     batch.data = data;
     batch.capacity = capacity;
     const owned = batchMaterials.current.get(batch.key);
-    if (owned) owned.uniforms.esBatchData.value = data;
+    if (owned) setBatchTexture(owned, data);
   }
 
   /** The next free data-texture slot of a batch, growing the texture if the

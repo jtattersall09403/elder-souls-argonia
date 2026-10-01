@@ -79,6 +79,7 @@ import {
 import {
   buildCardIndex, patchGroundcoverPart, type KitLevelPart,
 } from "./groundcoverMaterials";
+import type { PatchMemo } from "@elder-souls/game-core/render/nodes/materialNodes";
 import { detachSharedAttribute, makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry";
 import { sharedWindUniforms } from "./windUniforms";
 import { lastWeatherSample } from "../weather/weatherState";
@@ -1279,6 +1280,8 @@ export function Groundcover({
   // vegetation layer's: the two draw different kits, so no material is
   // shared, and one uniform object per layer keeps the dependency one-way.
   const lodFade = useMemo(() => createLodFadeUniforms(), []);
+  /** Patched node slots per signature: kit materials share one shader build. */
+  const patchMemo = useMemo<PatchMemo>(() => new Map(), []);
   // THE switch point (lane L9b): on the WebGPU backend with
   // `indirect-first-instance` every plant is a candidate of a GPU cull
   // (frustum + its mesh's tier band, per plant) written once per fill, and
@@ -1700,7 +1703,7 @@ export function Groundcover({
             const meshKey = `${plan.index}|${slot}|${partIndex}`;
             const geometry = slotGeometry(part.geometry, slot, gcCull !== null);
             patchGroundcoverPart(part.material, {
-              wind, lodFade, billboard: bucket !== BUCKET_NEAR && card !== null,
+              wind, lodFade, memo: patchMemo, billboard: bucket !== BUCKET_NEAR && card !== null,
             });
             let mesh = meshPool.current.get(meshKey);
             if (!mesh || gcMeshCapacity(mesh, gcDraws.current.get(mesh)) < drawn) {

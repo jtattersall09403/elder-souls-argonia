@@ -28,7 +28,7 @@ import {
   createLodFadeUniforms, createLodHistory, lodLadder, pushLodHistory,
 } from "@elder-souls/game-core/fx/lodFade";
 import {
-  createBatchDataTexture, createBatchDataUniforms, writeBatchInstance,
+  createBatchDataTexture, createBatchDataUniforms, setBatchTexture, writeBatchInstance,
 } from "@elder-souls/game-core/fx/batchData";
 import { cellRungs } from "@elder-souls/game-core/vegetation/cellBuild";
 import { makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry";
@@ -138,6 +138,7 @@ const scene: HarnessScene = {
     const wind = createWindUniforms();
     const lodFade = createLodFadeUniforms();
     const shared = createBatchDataUniforms();
+    const memo = new Map();
     const history = createLodHistory();
     const gpuOk = ctx.backend === "webgpu" && GpuCullSystem.supported(renderer);
     console.log(`[veg-cull] gpu path ${gpuOk}`);
@@ -206,10 +207,10 @@ const scene: HarnessScene = {
       data.needsUpdate = true;
       const mk = () => {
         const owned = makeBatchMaterial(sp.material as never, {
-          wind, lodFade, batchUniforms: shared, fromZero: sp.fromZero,
+          wind, lodFade, batchUniforms: shared, memo, fromZero: sp.fromZero,
         });
-        owned.uniforms.esBatchData.value = data;
-        return owned.material;
+        setBatchTexture(owned, data);
+        return owned;
       };
       const cpu = new THREE.InstancedMesh(makeSlotGeometry(sp.geometry, { esSlot: slots }), mk(), n);
       cpu.count = 0;

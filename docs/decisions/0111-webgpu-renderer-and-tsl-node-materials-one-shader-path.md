@@ -59,6 +59,26 @@ node material into shaders in JS the first frame an object with it is drawn,
   `createRenderPipelineAsync` (three's own `compileAsync` path), so a new pipeline compiles on the
   driver's threads instead of stalling the GPU queue; the draw waits for it, the frame does not
   (RTX 3070 pod: under one frame a second for Riverwalk's first 50 s before, 60+ fps after).
+
+**Materials share builds by sharing nodes.** three keys a build by the
+material's properties (numbers as on/off, textures by sampler state, not
+identity), its geometry layout and the structure of its node slots; a
+per-material patch that makes new node objects per material, or bakes a
+per-material texture or value into a node, makes a build per material
+(Riverwalk, walk 9: 466 materials, 525 builds, 93 s of build on an RTX 3070,
+~2 MB of JS heap a build). So:
+- A feature patch on many materials goes through `patchShared(material, memo,
+  tag, patch)` (`render/nodes/materialNodes.ts`): the patch runs once per
+  signature (tag, material type, node-slot identities, features claimed) and
+  later materials get the same node objects. The memo is owned by the layer
+  beside the uniforms its nodes read (standard 8). Users: the vegetation batch
+  materials (`vegetation/batchMaterial.ts`), ground cover
+  (`groundcoverMaterials.ts`), the mip-alpha boost (`sky/aerial.ts`).
+- Per-material data reaches a shared graph through a node updated per drawn
+  OBJECT (`onObjectUpdate`), read from `object.material`, never from the
+  frame's material (in the shadow pass that is the shadow material): the
+  vegetation batch data texture (`setBatchTexture`; the layer's one
+  `BatchDataUniforms` binds it per object) and the mip boost's map size.
 `?diag=1` shows the per-frame GPU churn and the queue on screen and downloads
 it as JSON (`render/gpuDiag.ts`, the studio's `diagOverlay.ts`); the boot
 check records the same counters once a second.
