@@ -2627,7 +2627,7 @@
  "drops": [
   {
    "refId": "0857059A",
-   "reason": "unresolved-base",
+   "reason": "listed-gap",
    "base": null,
    "baseType": null,
    "baseForm": "Dragonborn.esm:0003D5DC",
@@ -2637,7 +2637,10 @@
     106.3177,
     85.1868,
     7.9435
-   ]
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Base form Dragonborn.esm:0003D5DC lives in a master the project never sources (absent-master-classes.json rule; planner ruling 2026-09-27); the vault Data folder holds only Skyrim.esm and Update.esm (listing, 16k walk 9, 2026-10-01). With no base record the object cannot be named, so no same-object stand-in can be chosen (R48).",
+   "why": "A small loose piece from the Dragonborn add-on lay here; that add-on is not ours, so the spot stays bare."
   },
   {
    "refId": "085706AB",
@@ -2743,7 +2746,7 @@
   },
   {
    "refId": "08570703",
-   "reason": "unresolved-base",
+   "reason": "listed-gap",
    "base": null,
    "baseType": null,
    "baseForm": "Dawnguard.esm:0000EFB3",
@@ -2753,11 +2756,14 @@
     -54.6098,
     90.42,
     11.4186
-   ]
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Base form Dawnguard.esm:0000EFB3 lives in a master the project never sources (absent-master-classes.json rule; planner ruling 2026-09-27); the vault Data folder holds only Skyrim.esm and Update.esm (listing, 16k walk 9, 2026-10-01). With no base record the object cannot be named, so no same-object stand-in can be chosen (R48).",
+   "why": "A small loose piece from the Dawnguard add-on lay here; that add-on is not ours, so the spot stays bare."
   },
   {
    "refId": "08570707",
-   "reason": "unresolved-base",
+   "reason": "listed-gap",
    "base": null,
    "baseType": null,
    "baseForm": "Dawnguard.esm:0000EFB8",
@@ -2767,11 +2773,14 @@
     -55.2022,
     90.465,
     3.8993
-   ]
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Base form Dawnguard.esm:0000EFB8 lives in a master the project never sources (absent-master-classes.json rule; planner ruling 2026-09-27); the vault Data folder holds only Skyrim.esm and Update.esm (listing, 16k walk 9, 2026-10-01). With no base record the object cannot be named, so no same-object stand-in can be chosen (R48).",
+   "why": "A small loose piece from the Dawnguard add-on lay here; that add-on is not ours, so the spot stays bare."
   },
   {
    "refId": "08570708",
-   "reason": "unresolved-base",
+   "reason": "listed-gap",
    "base": null,
    "baseType": null,
    "baseForm": "Dawnguard.esm:0000EFB8",
@@ -2781,11 +2790,14 @@
     -55.2727,
     90.3908,
     5.2654
-   ]
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Base form Dawnguard.esm:0000EFB8 lives in a master the project never sources (absent-master-classes.json rule; planner ruling 2026-09-27); the vault Data folder holds only Skyrim.esm and Update.esm (listing, 16k walk 9, 2026-10-01). With no base record the object cannot be named, so no same-object stand-in can be chosen (R48).",
+   "why": "A small loose piece from the Dawnguard add-on lay here; that add-on is not ours, so the spot stays bare."
   },
   {
    "refId": "08570709",
-   "reason": "unresolved-base",
+   "reason": "listed-gap",
    "base": null,
    "baseType": null,
    "baseForm": "Dawnguard.esm:0000EFB3",
@@ -2795,11 +2807,14 @@
     -71.5581,
     92.4947,
     9.3494
-   ]
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Base form Dawnguard.esm:0000EFB3 lives in a master the project never sources (absent-master-classes.json rule; planner ruling 2026-09-27); the vault Data folder holds only Skyrim.esm and Update.esm (listing, 16k walk 9, 2026-10-01). With no base record the object cannot be named, so no same-object stand-in can be chosen (R48).",
+   "why": "A small loose piece from the Dawnguard add-on lay here; that add-on is not ours, so the spot stays bare."
   },
   {
    "refId": "0857070A",
-   "reason": "unresolved-base",
+   "reason": "listed-gap",
    "base": null,
    "baseType": null,
    "baseForm": "Dawnguard.esm:0000EFB3",
@@ -2809,11 +2824,14 @@
     -67.2455,
     90.3865,
     10.5997
-   ]
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Base form Dawnguard.esm:0000EFB3 lives in a master the project never sources (absent-master-classes.json rule; planner ruling 2026-09-27); the vault Data folder holds only Skyrim.esm and Update.esm (listing, 16k walk 9, 2026-10-01). With no base record the object cannot be named, so no same-object stand-in can be chosen (R48).",
+   "why": "A small loose piece from the Dawnguard add-on lay here; that add-on is not ours, so the spot stays bare."
   },
   {
    "refId": "0857070B",
-   "reason": "unresolved-base",
+   "reason": "listed-gap",
    "base": null,
    "baseType": null,
    "baseForm": "Dawnguard.esm:0000EFB8",
@@ -2823,11 +2841,14 @@
     -77.8996,
     92.562,
     23.0145
-   ]
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Base form Dawnguard.esm:0000EFB8 lives in a master the project never sources (absent-master-classes.json rule; planner ruling 2026-09-27); the vault Data folder holds only Skyrim.esm and Update.esm (listing, 16k walk 9, 2026-10-01). With no base record the object cannot be named, so no same-object stand-in can be chosen (R48).",
+   "why": "A small loose piece from the Dawnguard add-on lay here; that add-on is not ours, so the spot stays bare."
   },
   {
    "refId": "0857070C",
-   "reason": "unresolved-base",
+   "reason": "listed-gap",
    "base": null,
    "baseType": null,
    "baseForm": "Dawnguard.esm:0000EFB8",
@@ -2837,7 +2858,10 @@
     -76.5065,
     92.4488,
     24.1677
-   ]
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Base form Dawnguard.esm:0000EFB8 lives in a master the project never sources (absent-master-classes.json rule; planner ruling 2026-09-27); the vault Data folder holds only Skyrim.esm and Update.esm (listing, 16k walk 9, 2026-10-01). With no base record the object cannot be named, so no same-object stand-in can be chosen (R48).",
+   "why": "A small loose piece from the Dawnguard add-on lay here; that add-on is not ours, so the spot stays bare."
   },
   {
    "refId": "0857070D",
@@ -3221,16 +3245,13 @@
   "lights": 4,
   "substitutions": 0,
   "swingDoors": 0,
-  "missingByClass": {
-   "clutter": 8
-  },
+  "missingByClass": {},
   "dropsByReason": {
    "actor": 1,
    "light-source": 4,
-   "listed-gap": 25,
+   "listed-gap": 33,
    "marker": 1,
-   "no-model": 1,
-   "unresolved-base": 8
+   "no-model": 1
   },
   "socketsByKind": {
    "container": 1
