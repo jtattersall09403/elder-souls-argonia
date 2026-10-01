@@ -15,16 +15,6 @@
    "id": "htbm-hut-int",
    "glb": "kits/htbm-hut-int.glb",
    "manifest": "kits/htbm-hut-int.kit.json"
-  },
-  "interior-farmhouse-v1": {
-   "id": "interior-farmhouse-v1",
-   "glb": "kits/interior-farmhouse-v1.glb",
-   "manifest": "kits/interior-farmhouse-v1.kit.json"
-  },
-  "interior-kotm-v1": {
-   "id": "interior-kotm-v1",
-   "glb": "kits/interior-kotm-v1.glb",
-   "manifest": "kits/interior-kotm-v1.kit.json"
   }
  },
  "arrivalMarker": {
@@ -372,158 +362,6 @@
    "category": "clutter",
    "base": "HayScatter05",
    "baseType": "STAT"
-  },
-  {
-   "id": "CIPHTBMHutInterior01.06029E59",
-   "assetId": "vanilla:plants/dragonstongue01",
-   "kit": "interior-farmhouse-v1",
-   "positionM": [
-    1.8965,
-    0.9535,
-    1.6207
-   ],
-   "rotationDeg": [
-    0.0,
-    0.0,
-    0.0
-   ],
-   "scale": 1.0,
-   "category": "item",
-   "base": "DragonsTongue",
-   "baseType": "INGR"
-  },
-  {
-   "id": "CIPHTBMHutInterior01.06029E5A",
-   "assetId": "vanilla:plants/dragonstongue01",
-   "kit": "interior-farmhouse-v1",
-   "positionM": [
-    2.0056,
-    0.9388,
-    1.8349
-   ],
-   "rotationDeg": [
-    0.0,
-    270.0,
-    0.0
-   ],
-   "scale": 1.0,
-   "category": "item",
-   "base": "DragonsTongue",
-   "baseType": "INGR"
-  },
-  {
-   "id": "CIPHTBMHutInterior01.06029E5B",
-   "assetId": "vanilla:clutter/deadanimals/deadpondfish03",
-   "kit": "interior-kotm-v1",
-   "positionM": [
-    1.8349,
-    0.9388,
-    1.8207
-   ],
-   "rotationDeg": [
-    0.0,
-    15.0,
-    0.0
-   ],
-   "scale": 1.0,
-   "category": "item",
-   "base": "CritterPondFish03Ingredient",
-   "baseType": "INGR"
-  },
-  {
-   "id": "CIPHTBMHutInterior01.06029E5C",
-   "assetId": "vanilla:plants/slaughterfishegg01",
-   "kit": "interior-kotm-v1",
-   "positionM": [
-    1.7638,
-    0.9809,
-    2.0483
-   ],
-   "rotationDeg": [
-    0.0,
-    0.0,
-    0.0
-   ],
-   "scale": 1.0,
-   "category": "item",
-   "base": "SlaughterfishEgg01",
-   "baseType": "INGR"
-  },
-  {
-   "id": "CIPHTBMHutInterior01.06029E5D",
-   "assetId": "vanilla:clutter/ingredients/slaughterfishscale",
-   "kit": "interior-farmhouse-v1",
-   "positionM": [
-    1.5789,
-    0.9388,
-    1.6642
-   ],
-   "rotationDeg": [
-    0.0,
-    45.0,
-    0.0
-   ],
-   "scale": 1.0,
-   "category": "item",
-   "base": "SlaughterfishScales",
-   "baseType": "INGR"
-  },
-  {
-   "id": "CIPHTBMHutInterior01.06029E5E",
-   "assetId": "vanilla:plants/slaughterfishegg01",
-   "kit": "interior-kotm-v1",
-   "positionM": [
-    1.9345,
-    0.9672,
-    1.9914
-   ],
-   "rotationDeg": [
-    0.0,
-    255.0,
-    0.0
-   ],
-   "scale": 1.0,
-   "category": "item",
-   "base": "SlaughterfishEgg01",
-   "baseType": "INGR"
-  },
-  {
-   "id": "CIPHTBMHutInterior01.06029E5F",
-   "assetId": "vanilla:clutter/deadanimals/deadpondfish03",
-   "kit": "interior-kotm-v1",
-   "positionM": [
-    1.7638,
-    0.9672,
-    1.65
-   ],
-   "rotationDeg": [
-    0.0,
-    345.0,
-    0.0
-   ],
-   "scale": 1.0,
-   "category": "item",
-   "base": "CritterPondFish03Ingredient",
-   "baseType": "INGR"
-  },
-  {
-   "id": "CIPHTBMHutInterior01.06029E60",
-   "assetId": "vanilla:clutter/quest/firebrandwine01",
-   "kit": "interior-farmhouse-v1",
-   "positionM": [
-    1.6358,
-    0.953,
-    2.0625
-   ],
-   "rotationDeg": [
-    0.0,
-    90.0,
-    0.0
-   ],
-   "scale": 1.0,
-   "category": "item",
-   "base": "FirebrandWine",
-   "baseType": "ALCH"
   }
  ],
  "lights": [
@@ -848,19 +686,131 @@
     0.3414,
     -0.3983
    ]
+  },
+  {
+   "refId": "06029E59",
+   "reason": "listed-gap",
+   "gapReason": "rests-on-a-gap",
+   "restsOn": "06029E4F",
+   "assetId": "vanilla:plants/dragonstongue01",
+   "class": "item",
+   "positionM": [
+    1.8965,
+    0.9535,
+    1.6207
+   ],
+   "why": "A dragon's tongue that lay on that table. With the table missing it would hang 0.9 m above the floor (wb.py audit-interior: floating)."
+  },
+  {
+   "refId": "06029E5A",
+   "reason": "listed-gap",
+   "gapReason": "rests-on-a-gap",
+   "restsOn": "06029E4F",
+   "assetId": "vanilla:plants/dragonstongue01",
+   "class": "item",
+   "positionM": [
+    2.0056,
+    0.9388,
+    1.8349
+   ],
+   "why": "A dragon's tongue that lay on that table. With the table missing it would hang 0.9 m above the floor (wb.py audit-interior: floating)."
+  },
+  {
+   "refId": "06029E5B",
+   "reason": "listed-gap",
+   "gapReason": "rests-on-a-gap",
+   "restsOn": "06029E4F",
+   "assetId": "vanilla:clutter/deadanimals/deadpondfish03",
+   "class": "item",
+   "positionM": [
+    1.8349,
+    0.9388,
+    1.8207
+   ],
+   "why": "A dead pond fish that lay on that table. With the table missing it would hang 0.9 m above the floor (wb.py audit-interior: floating)."
+  },
+  {
+   "refId": "06029E5C",
+   "reason": "listed-gap",
+   "gapReason": "rests-on-a-gap",
+   "restsOn": "06029E4F",
+   "assetId": "vanilla:plants/slaughterfishegg01",
+   "class": "item",
+   "positionM": [
+    1.7638,
+    0.9809,
+    2.0483
+   ],
+   "why": "A slaughterfish egg that lay on that table. With the table missing it would hang 0.9 m above the floor (wb.py audit-interior: floating)."
+  },
+  {
+   "refId": "06029E5D",
+   "reason": "listed-gap",
+   "gapReason": "rests-on-a-gap",
+   "restsOn": "06029E4F",
+   "assetId": "vanilla:clutter/ingredients/slaughterfishscale",
+   "class": "item",
+   "positionM": [
+    1.5789,
+    0.9388,
+    1.6642
+   ],
+   "why": "A slaughterfish scale that lay on that table. With the table missing it would hang 0.9 m above the floor (wb.py audit-interior: floating)."
+  },
+  {
+   "refId": "06029E5E",
+   "reason": "listed-gap",
+   "gapReason": "rests-on-a-gap",
+   "restsOn": "06029E4F",
+   "assetId": "vanilla:plants/slaughterfishegg01",
+   "class": "item",
+   "positionM": [
+    1.9345,
+    0.9672,
+    1.9914
+   ],
+   "why": "A slaughterfish egg that lay on that table. With the table missing it would hang 0.9 m above the floor (wb.py audit-interior: floating)."
+  },
+  {
+   "refId": "06029E5F",
+   "reason": "listed-gap",
+   "gapReason": "rests-on-a-gap",
+   "restsOn": "06029E4F",
+   "assetId": "vanilla:clutter/deadanimals/deadpondfish03",
+   "class": "item",
+   "positionM": [
+    1.7638,
+    0.9672,
+    1.65
+   ],
+   "why": "A dead pond fish that lay on that table. With the table missing it would hang 0.9 m above the floor (wb.py audit-interior: floating)."
+  },
+  {
+   "refId": "06029E60",
+   "reason": "listed-gap",
+   "gapReason": "rests-on-a-gap",
+   "restsOn": "06029E4F",
+   "assetId": "vanilla:clutter/quest/firebrandwine01",
+   "class": "item",
+   "positionM": [
+    1.6358,
+    0.953,
+    2.0625
+   ],
+   "why": "A bottle of Firebrand wine that lay on that table. With the table missing it would hang 0.9 m above the floor (wb.py audit-interior: floating)."
   }
  ],
  "substitutions": [],
  "counts": {
-  "placements": 18,
-  "drops": 7,
+  "placements": 10,
+  "drops": 15,
   "lights": 1,
   "substitutions": 0,
   "swingDoors": 0,
   "missingByClass": {},
   "dropsByReason": {
    "listed-drop": 1,
-   "listed-gap": 6
+   "listed-gap": 14
   },
   "socketsByKind": {
    "container": 4,

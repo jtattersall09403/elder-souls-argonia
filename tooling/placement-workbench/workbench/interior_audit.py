@@ -20,7 +20,9 @@ Per cell, from `public/province/interiors/<cell>.json` and the kits it names:
   within `LANDING_M` of its top step, `LANDING_REACH_M` past its top edge.
 * **hearth**: a hearth, fireplace or fire pit piece, or a dropped plugin
   fire effect (`FXfire*`), has a flame-bearing piece within `HEARTH_M`; a
-  dropped `FXfire*` ref is red on its own.
+  dropped `FXfire*` ref is red on its own. An extinguished plugin fire
+  (`FXfireWithEmbersOut`, the `*Out` dead-embers forms) is the author's cold
+  hearth: its drop is no defect and it counts as the hearth's fire.
 * **lit density** (decision 0109 rule 4): lit fixtures (a kit asset with a
   mined `light`) >= reachable floor m2 / `M2_PER_LIT` (walk cells flooded
   from the door arrivals; a table top or shelf is not floor).
@@ -54,6 +56,7 @@ M2_PER_LIT = 12.0
 LOD_OK_M = 3.0
 HEARTH_RE = re.compile(r"hearth|fireplace|firepit", re.I)
 FLAME_RE = re.compile(r"fxfirewithembers|burning|campfire", re.I)
+COLD_FIRE_RE = re.compile(r"^fxfire\w*out$", re.I)
 PROBE = 0.03   # rays start this far inside the piece; hits closer than it are the piece's own skin
 
 
@@ -200,7 +203,11 @@ def hearth_rows(bundle: dict, kits: Kits) -> list[dict]:
               and "candle" not in p["assetId"] and "lantern" not in p["assetId"]]
     rows = []
     beds = [(p["id"], p["assetId"], p["positionM"]) for p in bundle["placements"] if HEARTH_RE.search(p["assetId"])]
+    cold = [d for d in bundle.get("drops") or [] if COLD_FIRE_RE.match(d.get("base") or "")]
+    flames += [np.asarray(d["positionM"], float) for d in cold if d.get("positionM")]
     for d in bundle.get("drops") or []:
+        if d in cold:
+            continue
         if (d.get("base") or "").lower().startswith("fxfire") and not any(
                 np.linalg.norm(f - np.asarray(d.get("positionM") or [1e9] * 3, float)) <= HEARTH_M for f in flames):
             rows.append({"refId": d["refId"], "base": d["base"], "why": "the plugin's hearth fire is dropped"})

@@ -94,6 +94,15 @@ def test_a_dropped_plugin_hearth_fire_is_red():
     assert not ia.hearth_rows({"placements": [], "drops": []}, k)
 
 
+def test_an_extinguished_plugin_fire_is_the_hearth():
+    k = _Kits("x")
+    out = {"refId": "2", "base": "FXfireWithEmbersOut", "positionM": [0.0, 0.0, 0.0]}
+    assert not ia.hearth_rows({"placements": [], "drops": [out]}, k)
+    bed = {"id": "h", "assetId": "stonefireplace01", "kit": "k", "positionM": [0.5, 0.0, 0.0]}
+    assert not ia.hearth_rows({"placements": [bed], "drops": [out]}, k)
+    assert ia.hearth_rows({"placements": [bed], "drops": []}, k)
+
+
 def test_a_table_top_is_not_reachable_floor():
     floor = trimesh.creation.box((6, 0.2, 6))
     floor.apply_translation((0, -0.1, 0))
