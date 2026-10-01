@@ -91,28 +91,39 @@ when a page presents to a WebGPU canvas, so the harness renders to a target
 and reads the pixels back. The visual and speed verdict is the owner's, on
 the deployed `/webgpu/` build.
 
-**Boot check (before any `/webgpu/` build goes to the owner).** The whole
-studio is booted once, headless, from the BUILT bundle the way Pages serves
-it, and fails on a hang, a GPU validation error, a device loss or no frame:
-
-    cd apps/world-studio && node scripts/webgpu-boot-check.mjs \
-      [--query "view=character&x=0.331&z=3.079&t=10%3A00"] [--seconds 90]
-
-It builds into `/tmp/webgpu-boot-dist` (`--no-build --dist <dir>` reuses a
-build), serves `public/` as the data base, swaps the canvas swap chain for an
-offscreen texture on the same device (SwiftShader drops the device on
-present; nothing else in the page changes) and reports in
-`/tmp/webgpu-boot.json`: first frame, frames, the longest main-thread stall
-(a CDP heartbeat), JS heap, every uncaptured GPU error, any shader over the
-device's per-stage texture limit with its bindings, GPU calls that held the
-main thread over 100 ms with their stacks, and draw volume per pipeline
-(`--profile <s>` adds a CPU profile, `--gpu-timing` GPU ms per submit). The
-adapter is SwiftShader's, whose limits (16 sampled textures per stage,
-8 vertex buffers) are WebGPU's defaults and what many phones expose, so a
-pipeline that validates here validates there. SwiftShader runs the GPU work
-on the CPU: frame rates are ratios, and a main-thread stall here can be GPU
-back-pressure that a real GPU absorbs; JS time and validation are the
-device's own.
+**Boot check (before any `/webgpu/` build goes to the owner; planner ruling
+2026-10-01).** `cd apps/world-studio && node scripts/webgpu-boot-check.mjs`
+boots the BUILT bundle the way Pages serves it and fails on a main-thread
+freeze, a GPU validation error (a shader over 16 textures, a vertex-buffer
+overflow), a device loss or no complete frame. It is cheap by design, never a
+time-boxed cut-off, and never runs in preflight or CI:
+- **Only when its inputs change.** A hash of the renderer and shader sources
+  (the render package, fog, fire, water and ground shaders, the sky, three's
+  version; `INPUTS` in the script) is stored with the last result in
+  `apps/world-studio/tmp/webgpu-boot/last.json`; an unchanged hash prints the
+  last line and exits. The lane whose batch touched those files runs it once,
+  before the packet, and the packet quotes its line.
+- **The smallest scene that exercises the failure classes:** one place (the
+  server lists only `--place` in the settlement index), a 480x270 viewport at
+  dpr 0.5, the low tier (the lowest that runs the froxel volumetrics), data
+  from disk.
+- **It stops at the first complete frame:** a frame has drawn and the GPU
+  pipeline-creation count and the in-flight request count have been stable
+  for 3 s of wall time (cached node builds, hundreds of them, do not move it);
+  it then waits for the GPU queue, reads the validation errors and reports its
+  own wall time against `TARGET_S`, the wall time of a green run on the EC2 VM
+  plus 20% (SwiftShader compiles pipelines in stalls of up to 30 s, so the
+  figure is the machine's, not the device's). A run over the target is a
+  defect fixed by shrinking the scene or the method (and a lessons row),
+  never by raising the target.
+It swaps the canvas swap chain for an offscreen texture (SwiftShader drops
+the device on present), and reports over-limit materials with their
+textures, slow GPU calls with stacks, draw volume per pipeline, buffer bytes
+per call site (`--profile`, `--alloc` add a CPU profile and allocations;
+`CHROME_CDP=ws://... --present` runs it on a real GPU's Chrome). The adapter's
+limits are WebGPU's defaults, as on many phones, so a pipeline that validates
+here validates there; GPU work runs on the CPU, so frame rates are ratios and
+the JS figures are the device's.
 
 ## 5. Rule for new shaders
 

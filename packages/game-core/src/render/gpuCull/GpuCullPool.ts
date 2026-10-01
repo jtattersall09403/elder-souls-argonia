@@ -23,6 +23,7 @@
 import * as THREE from "three";
 import type { WebGPURenderer } from "three/webgpu";
 import type { LodFadeUniforms } from "../../fx/lodFade";
+import { detachSharedAttribute } from "../../vegetation/slotGeometry";
 import { GpuCullSystem, type GpuCullDraw, type GpuCullDrawOptions } from "./GpuCullSystem";
 import { INDIRECT_STRIDE, type SunSweep } from "./cullMath";
 
@@ -151,7 +152,7 @@ export class GpuCullPool {
   removeDraw(d: PooledDraw): void {
     d.system.removeDraw(d.draw);
     const geometry = d.mesh.geometry;
-    if (geometry.getAttribute("esSlot") === (d.system.slots as unknown)) geometry.deleteAttribute("esSlot");
+    if (geometry.getAttribute("esSlot") === (d.system.slots as unknown)) detachSharedAttribute(geometry, "esSlot");
     geometry.setIndirect(null);
     d.mesh.instanceMatrix = placeholderMatrix();
     const set = this.draws.get(d.system);

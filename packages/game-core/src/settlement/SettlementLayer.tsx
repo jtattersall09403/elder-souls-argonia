@@ -64,6 +64,7 @@ import { isFlameCardMaterial } from "../fx/fire/flameAnchors";
 import { mergeRunColliders } from "./runColliders";
 import { fixtureLightFieldOf, litPreparerOf } from "../render/fixtureLights";
 import { DrawTargetLinker, type LinkingRenderer } from "../render/drawTargetLinker";
+import { detachSharedAttribute } from "../vegetation/slotGeometry";
 import { assertPoolsSchema, syncPlacePools } from "./pools";
 import {
   SETTLEMENT_REQUERY_MOVE_M, useSettlementBundleSource,
@@ -181,10 +182,10 @@ export function instancedPartView(source: THREE.BufferGeometry, groundLinesM: re
 /** Free a part view's own buffers only: three's geometry dispose deletes every
  * attribute it holds, and the shared ones belong to the kit part. */
 export function disposePartView(view: THREE.BufferGeometry): void {
-  const ground = view.getAttribute(SETTLEMENT_GROUND_ATTRIBUTE);
   view.setIndex(null);
-  for (const name of Object.keys(view.attributes)) view.deleteAttribute(name);
-  if (ground) view.setAttribute(SETTLEMENT_GROUND_ATTRIBUTE, ground);
+  for (const name of Object.keys(view.attributes)) {
+    if (name !== SETTLEMENT_GROUND_ATTRIBUTE) detachSharedAttribute(view, name);
+  }
   view.dispose();
 }
 

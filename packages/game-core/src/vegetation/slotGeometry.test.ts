@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
-import { disposeSlotGeometry, makeSlotGeometry } from "./slotGeometry";
+import { disposeSlotGeometry, isDetachedAttribute, makeSlotGeometry } from "./slotGeometry";
 
 function source(): THREE.BufferGeometry {
   const geometry = new THREE.BufferGeometry();
@@ -49,12 +49,15 @@ describe("disposeSlotGeometry", () => {
     const view = makeSlotGeometry(kit, { esSlot: owned });
     const freed: string[] = [];
     view.addEventListener("dispose", () => {
-      freed.push(...Object.keys(view.attributes));
+      freed.push(...Object.keys(view.attributes).filter((n) => !isDetachedAttribute(view.attributes[n])));
       if (view.index) freed.push("index");
     });
     disposeSlotGeometry(view, kit);
     expect(freed).toEqual(["esSlot"]);
-    expect(view.attributes.position).toBeUndefined();
+    // The name stays (three's WebGPU dispose reads every material attribute by name)
+    // but holds an empty stand-in, never the kit's buffer.
+    expect(view.attributes.position).toBeDefined();
+    expect(view.attributes.position).not.toBe(kit.attributes.position);
     expect(view.index).toBeNull();
     // The kit is untouched and still drawable by every other view.
     expect(kit.attributes.position).toBeDefined();

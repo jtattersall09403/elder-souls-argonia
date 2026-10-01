@@ -79,7 +79,7 @@ import {
 import {
   buildCardIndex, patchGroundcoverPart, type KitLevelPart,
 } from "./groundcoverMaterials";
-import { makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry";
+import { detachSharedAttribute, makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry";
 import { sharedWindUniforms } from "./windUniforms";
 import { lastWeatherSample } from "../weather/weatherState";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
@@ -834,7 +834,7 @@ export function releaseGcDraw(
   pool.removeDraw(gc.draw);
   mesh.instanceColor = null;
   if (mesh.geometry.getAttribute(LOD_BAND_ATTRIBUTE) === (gc.draw.system.payloads[1] as unknown)) {
-    mesh.geometry.deleteAttribute(LOD_BAND_ATTRIBUTE);
+    detachSharedAttribute(mesh.geometry, LOD_BAND_ATTRIBUTE);
   }
 }
 

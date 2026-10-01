@@ -64,11 +64,12 @@ chunks are RG16 PNGs + `chunks-web-manifest.json` written by
 
 - `npm test` — data-contract tests (anchors, chunk manifest coverage) + the
   light-rig unit tests (`src/sky/lightRig.test.ts`).
-- `node scripts/webgpu-boot-check.mjs [--query "view=character&x=..&z=.."]` —
-  boots the BUILT `/webgpu/` studio headless on SwiftShader's WebGPU adapter
-  and fails on a hang, a GPU validation error (e.g. a shader over 16
-  textures), a device loss or no frame (decision 0111 §4). Run it before
-  any `/webgpu/` build goes to the owner.
+- `node scripts/webgpu-boot-check.mjs [--force] [--place <id>]` — boots the
+  BUILT `/webgpu/` studio headless (one place, small viewport, low tier) to
+  its first complete frame and fails on a freeze, a GPU validation error, a
+  device loss or a run over its measured target; skips itself when its
+  input hash is unchanged. Once per batch touching the renderer or shaders,
+  before the packet; never in preflight or CI (decision 0111 §4).
 - `node scripts/probe-deployed-requests.mjs "?view=character&x=..&z=.."` —
   deployed-build request audit: serves `dist/` under the Pages base path
   with a plain static server (no dev middleware), opens the URL headless and

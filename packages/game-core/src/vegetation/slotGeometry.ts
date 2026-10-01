@@ -37,14 +37,38 @@ export function makeSlotGeometry(
   return view;
 }
 
+const detachedStandIns = new WeakSet<THREE.BufferAttribute>();
+
+/** True for the empty stand-in `detachSharedAttribute` leaves under a shared name. */
+export function isDetachedAttribute(attribute: THREE.BufferAttribute | THREE.InterleavedBufferAttribute): boolean {
+  return detachedStandIns.has(attribute as THREE.BufferAttribute);
+}
+
+/**
+ * Replace one attribute this view SHARES with a kit geometry by an empty
+ * stand-in of the same item size, so a dispose frees nothing the kit still
+ * draws with. The name must stay present: three's WebGPU dispose handler asks
+ * the geometry's render objects for their attributes (built lazily from the
+ * material's nodes, `position` among them) and reads `attribute.id` of every
+ * name it finds missing, so a deleted shared attribute threw
+ * "Cannot read properties of undefined (reading 'id')" out of unmount and
+ * stopped the whole scene (the "3D tree failed" screen).
+ */
+export function detachSharedAttribute(geometry: THREE.BufferGeometry, name: string): void {
+  const shared = geometry.attributes[name];
+  const stand = new THREE.BufferAttribute(new Float32Array(shared.itemSize), shared.itemSize);
+  detachedStandIns.add(stand);
+  geometry.setAttribute(name, stand);
+}
+
 /**
  * Free a view's OWNED buffers and nothing else.
  *
- * Three keys GL buffers by the attribute object, and `WebGLGeometries`'
- * dispose handler deletes the buffer of every attribute (and the index) the
- * disposed geometry still references, without fixing up the other geometries
- * that share them. So every attribute that belongs to the source is dropped
- * from the view FIRST; what is left when `dispose()` fires is the owned set
+ * Three keys GPU buffers by the attribute object, and its geometry dispose
+ * handler deletes the buffer of every attribute (and the index) the disposed
+ * geometry still references, without fixing up the other geometries that
+ * share them. So every attribute that belongs to the source is swapped for an
+ * empty stand-in FIRST; what is left when `dispose()` fires is the owned set
  * alone, which no other mesh can see.
  */
 export function disposeSlotGeometry(
@@ -52,9 +76,7 @@ export function disposeSlotGeometry(
   source: THREE.BufferGeometry,
 ): void {
   for (const name of Object.keys(geometry.attributes)) {
-    if (geometry.attributes[name] === source.attributes[name]) {
-      geometry.deleteAttribute(name);
-    }
+    if (geometry.attributes[name] === source.attributes[name]) detachSharedAttribute(geometry, name);
   }
   if (geometry.index && geometry.index === source.index) geometry.setIndex(null);
   geometry.dispose();
