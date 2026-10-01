@@ -19,10 +19,8 @@ CLAYWATER = "place.imperial-fringe.claywater-station"
 #: promises no socket, door or parcel fills yet, per place. A ledger that lands
 #: before its place's fills pins its open count here; the count only falls, to
 #: 0 at the slice's acceptance. Claywater fills all 14 rows since walk 2
-#: (2026-09-27), so it pins nothing.
-#: The Border road crossings (16k type 10) got their ledger at walk 9 close:
-#: five prose rows await the builder's `confirmed` block.
-OPEN_PROMISES_PINNED: dict[str, int] = {"place.route.border-road-greenspring-crossings": 5}
+#: (2026-09-27), so it pins nothing; nor does any other place today.
+OPEN_PROMISES_PINNED: dict[str, int] = {}
 
 
 def test_every_schema_is_a_valid_draft_2020_12_schema():
