@@ -2667,8 +2667,14 @@ def validate_all(blueprint_dir: Path = BLUEPRINT_DIR, known_place_ids: set[str] 
     # signature + the known ids; the caller gets a fresh list either way, and
     # the warnings path is recorded alongside so `--check` prints the same
     # report it always did.
+    # The key also names the collaborators validation reads beyond the dir
+    # (the interior library, the catalogue and kit look-ups): a stubbed one
+    # (tests monkeypatch them) is never served the real result, and never
+    # leaves its own result behind for the real one.
     key = (str(blueprint_dir), _dir_signature(blueprint_dir),
-           None if known_place_ids is None else frozenset(known_place_ids))
+           None if known_place_ids is None else frozenset(known_place_ids),
+           tuple(id(f) for f in (bi.library, catalogue_records,
+                                 kit_config_names, built_kit_names)))
     hit = _VALIDATE_ALL_CACHE.get(key)
     if hit is not None:
         cached_errors, cached_warnings = hit
