@@ -311,14 +311,16 @@ def _asset_placement_row_findings(
     if asset_id not in configured_assets:
         findings.append(f"{where}: not emitted by a kit config")
     # floorClass (0105 R58) is read by the workbench's floorEdgeRule, not the
-    # manifests; it rides on the row that carries the asset's reviewed why
+    # manifests; it rides on the row that carries the asset's reviewed why and
+    # is a decision on its own (a row never restates the miner's anchorClass
+    # just to carry it: the record test reads a row anchorClass as a policy)
     unknown = set(row) - set(ASSET_PLACEMENT_FIELDS) - {"why", "floorClass"}
     if row.get("floorClass") not in (None, "openShelter"):
         findings.append(f"{where}: floorClass {row['floorClass']!r} is not one of ['openShelter']")
     if unknown:
         findings.append(f"{where}: unknown fields {sorted(unknown)}")
-    if not any(key in row for key in ASSET_PLACEMENT_FIELDS):
-        findings.append(f"{where}: decides nothing (needs one of {list(ASSET_PLACEMENT_FIELDS)})")
+    if not any(key in row for key in (*ASSET_PLACEMENT_FIELDS, "floorClass")):
+        findings.append(f"{where}: decides nothing (needs floorClass or one of {list(ASSET_PLACEMENT_FIELDS)})")
     if "anchorClass" in row and row["anchorClass"] not in ANCHOR_CLASSES:
         findings.append(f"{where}: anchorClass must be one of {sorted(ANCHOR_CLASSES)}")
     if "placeUse" in row and row["placeUse"] not in PLACE_USES:

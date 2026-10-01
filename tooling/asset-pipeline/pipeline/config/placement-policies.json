@@ -521,15 +521,13 @@
  },
  "assetPlacement": {
   "vanilla:architecture/tents/largeimperialtent01": {
-   "anchorClass": "ground",
    "floorClass": "openShelter",
-   "why": "Legion command tent: canvas on poles with no floor slab, open at the front; 0105 R58 judges it at its poles and its canvas skirt (16k walk 9, The Broke Column). anchorClass ground is the mounts miner's plugin class."
+   "why": "Legion command tent: canvas on poles with no floor slab, open at the front; 0105 R58 judges it at its poles and its canvas skirt (16k walk 9, The Broke Column)."
   },
   "vanilla:architecture/tents/smallimperialtent": {
-   "anchorClass": "ground",
    "floorClass": "openShelter",
    "designedSinkM": 0.48,
-   "why": "Legion tent: canvas on poles with no floor slab, open at both gable ends; 0105 R58 judges it at its poles and its canvas skirt (16k walk 9, The Broke Column). Its long-side canvas edges end 0.43 m (front) and 0.50 m (back) over the mesh's lowest point, so on the plugin sink (p50 0.11 m) they hovered 0.41 m over a levelled pad (check, walk 9); the sink is lowered to 0.48 m so every canvas edge meets the ground and the gable poles go 0.5 m in. anchorClass ground is the mounts miner's plugin class (85 of 88 refs on ground)."
+   "why": "Legion tent: canvas on poles with no floor slab, open at both gable ends; 0105 R58 judges it at its poles and its canvas skirt (16k walk 9, The Broke Column). Its long-side canvas edges end 0.43 m (front) and 0.50 m (back) over the mesh's lowest point, so on the plugin sink (p50 0.11 m) they hovered 0.41 m over a levelled pad (check, walk 9); the sink is lowered to 0.48 m so every canvas edge meets the ground and the gable poles go 0.5 m in."
   },
   "vanilla:landscape/rocks/rockcaveentrance02": {
    "designedSinkM": -0.02,
