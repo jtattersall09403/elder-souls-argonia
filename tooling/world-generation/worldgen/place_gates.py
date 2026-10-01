@@ -178,14 +178,25 @@ def derived_blueprint_path(place_id: str) -> Path:
     return gates_output(place_id) / "apply" / f"{place_id}.blueprint.json"
 
 
+def apply_cmd(doc: dict, layout: Path, scene: str, compile_: bool) -> list[str]:
+    """The ``wb.py apply`` command for a layout. An ownerGuided place carries
+    the owner's go-ahead in its layout (`ownerGoAhead`), so the reason travels
+    with the place and its gates can run (16k walk 9, type 9)."""
+    cmd = [sys.executable, str(WB), "apply", str(layout), "--scene", scene]
+    if not compile_:
+        cmd.append("--no-compile")
+    if str(doc.get("ownerGoAhead") or "").strip():
+        cmd += ["--owner-guided", doc["ownerGoAhead"]]
+    return cmd
+
+
 def run_apply(layout: Path, scene: str, compile_: bool) -> tuple[dict | None, str]:
     """``wb.py apply``; (its summary when this run wrote it, the tail of its
     output). The summary and the derived blueprint a previous run left are
     removed first, so either file existing afterwards is this run's."""
-    cmd = [sys.executable, str(WB), "apply", str(layout), "--scene", scene]
-    if not compile_:
-        cmd.append("--no-compile")
-    place_id = json.loads(layout.read_text(encoding="utf-8"))["placeId"]
+    doc = json.loads(layout.read_text(encoding="utf-8"))
+    cmd = apply_cmd(doc, layout, scene, compile_)
+    place_id = doc["placeId"]
     summary_path = gates_output(place_id) / "apply" / f"{place_id}.json"
     for stale in (summary_path, derived_blueprint_path(place_id)):
         stale.unlink(missing_ok=True)

@@ -1,6 +1,7 @@
 {
  "schemaVersion": 1,
  "placeId": "place.pirate-freeholds.opening-work-camp",
+ "ownerGoAhead": "owner 2026-10-01 (walk 9 reply): build one place of every type, type 9 included, as a draft to check and steer",
  "window": {
   "centreKm": [
    3.95,

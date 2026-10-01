@@ -154,3 +154,11 @@ def test_tier_a_doors_is_the_one_rule():
                     {"id": "d4", "interiorClaim": {"tier": "A", "cellId": "C1"}}]}
     assert [(d["id"], c) for d, c in pg.tier_a_doors(bp)] == [("d1", "C1"), ("d4", "C1")]
     assert pg.tier_a_cells(bp) == ["C1"]
+
+
+def test_apply_cmd_carries_the_layouts_owner_go_ahead():
+    from pathlib import Path
+    plain = pg.apply_cmd({"placeId": "p"}, Path("l.json"), "s", True)
+    assert "--owner-guided" not in plain
+    guided = pg.apply_cmd({"placeId": "p", "ownerGoAhead": "owner 2026-10-01"}, Path("l.json"), "s", False)
+    assert guided[-2:] == ["--owner-guided", "owner 2026-10-01"] and "--no-compile" in guided
