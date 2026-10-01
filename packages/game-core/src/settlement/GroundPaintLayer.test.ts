@@ -1,10 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { GROUND_PAINT_SCHEMA_VERSION, type GroundPaintEntry } from "./groundPaint";
 import * as THREE from "three";
-import { buildPaintGroups, paintGroups, replacePaint, retainPaint } from "./GroundPaintLayer";
+import {
+  areasTouch, buildPaintGroups, groundMoved, groundReady, paintBounds, paintGroups, replacePaint,
+  retainPaint,
+} from "./GroundPaintLayer";
+import { groundArrivalsOf } from "./groundPaint";
 
 const strip = (id: string, x: number): GroundPaintEntry => ({
-  id, kind: "road", texture: "bc_road", edgeM: 1, peakAlpha: 0.75,
+  id, kind: "road", texture: "track_mud", edgeM: 1, peakAlpha: 0.75,
   polygonM: [[x, -2], [x + 20, -2], [x + 20, 2], [x, 2]],
 });
 const place = (id: string, x: number) => ({
@@ -37,6 +41,44 @@ describe("ground paint layer grouping (16k walk 5)", () => {
     const { built, missing } = buildPaintGroups(paintGroups(bundle).values(), () => 5, () => false);
     expect(built).toEqual([]);
     expect(missing).toHaveLength(2);
+  });
+});
+
+describe("ground paint waits for its ground by event, never by polling (16k walk 7)", () => {
+  const groups = paintGroups([place("claywater", 307), place("greenspring", 4700)]);
+  const claywater = paintBounds(groups.get("claywater")!);
+  const greenspring = paintBounds(groups.get("greenspring")!);
+
+  it("a ground arrival touches only the places inside it", () => {
+    const chunk = [0, -700, 1403.8, 703.8] as const;   // the chunk under Claywater
+    expect(areasTouch(chunk, claywater)).toBe(true);
+    expect(areasTouch(chunk, greenspring)).toBe(false);
+  });
+
+  it("an out-of-range place is not ready (no surface build is paid) until its ground answers", () => {
+    const near = (x: number) => (x < 1000 ? 5 : null);
+    expect(groundReady(claywater, near)).toBe(true);
+    expect(groundReady(greenspring, near)).toBe(false);
+    expect(groundReady(greenspring, () => 2)).toBe(true);
+  });
+
+  it("a built surface is rebuilt only when the ground under it moved", () => {
+    const { built } = buildPaintGroups([groups.get("claywater")!], () => 5, () => true);
+    const geometry = built[0].geometry;
+    expect(groundMoved(geometry, () => 5)).toBe(false);
+    expect(groundMoved(geometry, () => 5.6)).toBe(true);    // a finer level arrived under it
+    expect(groundMoved(geometry, () => null)).toBe(false);  // ground unloaded: keep it drawn
+  });
+
+  it("adapts a chunk store's arrivals to the area they cover", () => {
+    let fire: ((grid: { meta: { originM: [number, number] }; nx: number; ny: number; metresPerSample: number }) => void) | null = null;
+    const store = { onArrival: (l: typeof fire) => { fire = l; return () => { fire = null; }; } };
+    const seen: (readonly number[])[] = [];
+    const stop = groundArrivalsOf(store as never)((area) => seen.push(area));
+    fire!({ meta: { originM: [100, 200] }, nx: 11, ny: 6, metresPerSample: 2 });
+    expect(seen).toEqual([[100, 200, 120, 210]]);
+    stop();
+    expect(fire).toBeNull();
   });
 });
 

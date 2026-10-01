@@ -47,6 +47,7 @@ import { airAmounts } from "@elder-souls/game-core/air/ambientAir";
 import { sunShaftIntensity } from "@elder-souls/game-core/air/sunShafts";
 import { WHITEOUT_BELT, WHITEOUT_ENABLED, type WeatherSample } from "@elder-souls/world-weather";
 import { reapplySettlementSurface } from "@elder-souls/game-core/settlement/materials";
+import { reapplyGroundPaint } from "@elder-souls/game-core/settlement/groundPaintMaterial";
 
 /**
  * The natural light and sky system (world module 55, Phase 8a): Preetham sky
@@ -875,6 +876,9 @@ export function WorldSky({
           // contract: CSM owns the first patch, then the settlement surface
           // hook is restored and chains it (Round B checklist item 12).
           reapplySettlementSurface(m);
+          // The places' path paint blend (settlement/GroundPaintLayer): lost,
+          // the paint draws as one opaque tile of its first texture.
+          reapplyGroundPaint(m);
           fixtureField.install(m);
           m.needsUpdate = true;
           return true;

@@ -1746,8 +1746,9 @@ def test_a_layout_with_two_paths_yields_two_paint_entries_byte_identical_on_a_re
     one = ex.ground_paint("place.t", _two_paths(), _Survey())
     two = ex.ground_paint("place.t", list(reversed(_two_paths())), _Survey())
     assert [e["id"] for e in one["entries"]] == ["paint.route.t.a", "paint.route.t.b"]
-    assert [e["texture"] for e in one["entries"]] == ["bc_road", "track_mud"]   # never the orange dirt_path
-    assert [e["peakAlpha"] for e in one["entries"]] == [0.75, 0.5]
+    # worn earth for every way (16k walk 7: a place's ways are dirt, never cobble over the fields)
+    assert [e["texture"] for e in one["entries"]] == ["track_mud", "track_mud"]
+    assert [e["peakAlpha"] for e in one["entries"]] == [0.95, 0.85]
     assert one["schemaVersion"] == 2 and one["entries"][1]["centrelineM"] == [[0.0, 10.0], [30.0, 10.0]]
     assert one["entries"][1]["widthM"] == 1.2
     assert json.dumps(one, sort_keys=True) == json.dumps(two, sort_keys=True)
@@ -1814,9 +1815,37 @@ def test_the_paint_never_repaints_the_province_road():
         "polygonM": [[18.0, 50.0], [26.0, 50.0], [26.0, 75.0], [18.0, 75.0]]}]}}
     ex.clip_ground_paint(site, [], road=road)
     polys = [Polygon(e["polygonM"]) for e in site["groundPaint"]["entries"]]
-    assert len(polys) == 2 and sum(p.intersection(road).area for p in polys) < 1e-6
+    assert len(polys) == 2 and sum(p.intersection(road.buffer(ex.ROAD_CUT_MARGIN_M - 0.05)).area for p in polys) < 1e-6
     assert any(p.contains(Point(10.0, 40.0)) for p in polys) and any(p.contains(Point(40.0, 40.0)) for p in polys)
     assert not any(e["routeId"] == "route.t.along" for e in site["groundPaint"]["entries"])   # no slivers
+
+
+def test_the_paint_stops_along_a_smooth_line_beside_a_diagonal_road():
+    """16k walk 7 (owner: blocky square lines): the cut against a diagonal
+    road, one texel wide, is a smooth line, never the texels' 2 m staircase.
+    The paint's edge beside the road stays within 0.35 m of a straight line
+    parallel to the road (the raw texel cut swung by a whole texel)."""
+    import numpy as np
+    from shapely.geometry import LineString, Point, Polygon
+    mat = np.zeros((40, 40), dtype=np.int16)
+    for k in range(40):
+        mat[k, k] = 30
+        if k + 1 < 40:
+            mat[k, k + 1] = 30                           # a two-texel diagonal road, 4-connected
+    road = ex.province_road_paint((0, 0, 80, 80), mat=mat, texel_m=2.0)
+    site = {"id": "place.t", "groundPaint": {"schemaVersion": 2, "entries": [{
+        "id": "paint.route.t.beside", "routeId": "route.t.beside", "kind": "footpath", "texture": "track_mud",
+        "edgeM": 1.0, "peakAlpha": 0.85, "centrelineM": [[20.0, 40.0], [60.0, 40.0]],
+        "polygonM": [[20.0, 30.0], [60.0, 30.0], [60.0, 50.0], [20.0, 50.0]]}]}}
+    ex.clip_ground_paint(site, [], road=road)
+    [entry] = [e for e in site["groundPaint"]["entries"] if Polygon(e["polygonM"]).contains(Point(55.0, 40.0))]
+    poly = Polygon(entry["polygonM"])
+    # the paint's boundary inside the band where it meets the road (x 32..48)
+    edge = [(x, z) for x, z in entry["polygonM"] if 32.0 < x < 48.0 and 31.0 < z < 49.0]
+    assert len(edge) >= 3
+    offsets = [LineString([(0.0, 0.0), (80.0, 80.0)]).distance(Point(p)) for p in edge]
+    assert max(offsets) - min(offsets) < 0.35
+    assert poly.intersection(road).area < 1e-6
 
 
 def test_a_way_leaving_the_place_runs_out_and_one_on_the_road_does_not():

@@ -9,109 +9,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import type { TerrainHeight } from "./types";
-import {
-  PAINT_MAX_TEXTURES, groundPaintOfBundle, paintSurface, type GroundPaintDoc, type GroundPaintEntry,
-} from "./groundPaint";
-
-interface GroundMaterialRow { readonly name: string; readonly file: string; readonly normalFile?: string; readonly tileM: number }
-
-/** Retry cadence while the ground under a strip is not decoded yet, seconds. */
-const RETRY_S = 1;
+import type { GroundArea, GroundArrivals, TerrainHeight } from "./types";
+import { PAINT_LIFT_M, groundPaintOfBundle, type GroundPaintDoc, type GroundPaintEntry } from "./groundPaint";
+import { paintGeometry, paintMaterial, type GroundMaterialRow } from "./groundPaintMaterial";
+import { fetchJsonWithRetry } from "./fetchRetry";
 
 async function groundMaterials(baseUrl: string): Promise<{ set: string; rows: GroundMaterialRow[] }> {
-  const index = await (await fetch(`${baseUrl}textures/ground/index.json`)).json() as { default: string };
+  const index = await fetchJsonWithRetry(`${baseUrl}textures/ground/index.json`) as { default: string };
   const set = new URLSearchParams(globalThis.location?.search ?? "").get("mats") ?? index.default;
-  const doc = await (await fetch(`${baseUrl}textures/ground/${set}/materials.json`)).json() as
+  const doc = await fetchJsonWithRetry(`${baseUrl}textures/ground/${set}/materials.json`) as
     { materials: GroundMaterialRow[] };
   return { set, rows: doc.materials };
-}
-
-/** Where the paint fades out, metres from the camera: over the same band
- * the place kit ladder's far ring (`settlementLadder`: 180 m minimum), so the
- * paint is gone by the ring where buildings drop detail, and never pops. */
-export const PAINT_FADE_M: readonly [number, number] = [120, 180];
-
-const PAINT_MARK = "/* es-ground-paint */";
-
-/**
- * One material per place: the place's textures (at most `PAINT_MAX_TEXTURES`)
- * blended by the per-vertex `paintWeight` channels, alpha = the largest weight,
- * faded out over `PAINT_FADE_M`. UVs are world metres; each texture tiles at
- * its own `tileM`.
- */
-function paintMaterial(baseUrl: string, set: string, rows: readonly GroundMaterialRow[]): THREE.MeshStandardMaterial {
-  const loader = new THREE.TextureLoader();
-  const maps = rows.map((row) => {
-    const t = loader.load(`${baseUrl}textures/ground/${set}/${row.file}`);
-    t.wrapS = t.wrapT = THREE.RepeatWrapping;
-    t.colorSpace = THREE.SRGBColorSpace;
-    return t;
-  });
-  const tileOf = (c: number) => rows[Math.min(c, rows.length - 1)].tileM;
-  const tile = new THREE.Vector3(tileOf(0), tileOf(1), tileOf(2));
-  const material = new THREE.MeshStandardMaterial({
-    map: maps[0], roughness: 1, metalness: 0, transparent: true, depthWrite: false,
-    polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -4,
-  });
-  material.userData.paintMaps = maps;
-  const extra = [maps[Math.min(1, maps.length - 1)], maps[Math.min(2, maps.length - 1)]];
-  material.onBeforeCompile = (shader) => {
-    if (shader.fragmentShader.includes(PAINT_MARK)) return;
-    shader.uniforms.paintMap1 = { value: extra[0] };
-    shader.uniforms.paintMap2 = { value: extra[1] };
-    shader.uniforms.paintTile = { value: tile };
-    shader.uniforms.paintFade = { value: new THREE.Vector2(PAINT_FADE_M[0], PAINT_FADE_M[1]) };
-    shader.vertexShader = shader.vertexShader
-      .replace("#include <common>", `#include <common>
-attribute vec3 paintWeight;
-varying vec3 vPaintWeight;
-varying vec3 vPaintWorld;`)
-      .replace("#include <project_vertex>", `#include <project_vertex>
-vPaintWeight = paintWeight;
-vPaintWorld = (modelMatrix * vec4(transformed, 1.0)).xyz;`);
-    shader.fragmentShader = shader.fragmentShader
-      .replace("#include <common>", `#include <common>
-${PAINT_MARK}
-uniform sampler2D paintMap1;
-uniform sampler2D paintMap2;
-uniform vec3 paintTile;
-uniform vec2 paintFade;
-varying vec3 vPaintWeight;
-varying vec3 vPaintWorld;`)
-      .replace("#include <map_fragment>", `{
-  vec3 w = vPaintWeight;
-  vec3 c = w.x * texture2D(map, vMapUv / paintTile.x).rgb
-    + w.y * texture2D(paintMap1, vMapUv / paintTile.y).rgb
-    + w.z * texture2D(paintMap2, vMapUv / paintTile.z).rgb;
-  c /= max(w.x + w.y + w.z, 1e-4);
-  float a = max(w.x, max(w.y, w.z));
-  a *= 1.0 - smoothstep(paintFade.x, paintFade.y, distance(vPaintWorld, cameraPosition));
-  diffuseColor *= vec4(c, a);
-}`);
-  };
-  material.customProgramCacheKey = () => "es-ground-paint";
-  return material;
-}
-
-/** One place's surface as a geometry: UVs in world metres, `paintWeight` per vertex. */
-export function paintGeometry(entries: readonly GroundPaintEntry[], groundAt: TerrainHeight):
-  { geometry: THREE.BufferGeometry; textures: readonly string[] } | null {
-  const s = paintSurface(entries, groundAt);
-  if (!s) return null;
-  const uvs = new Float32Array(s.vertexCount * 2);
-  for (let v = 0; v < s.vertexCount; v++) {
-    uvs[v * 2] = s.positions[v * 3];
-    uvs[v * 2 + 1] = s.positions[v * 3 + 2];
-  }
-  const g = new THREE.BufferGeometry();
-  g.setAttribute("position", new THREE.BufferAttribute(s.positions, 3));
-  g.setAttribute("paintWeight", new THREE.BufferAttribute(s.weights, PAINT_MAX_TEXTURES));
-  g.setAttribute("uv", new THREE.BufferAttribute(uvs, 2));
-  g.setIndex(new THREE.BufferAttribute(s.indices, 1));
-  g.computeVertexNormals();
-  g.computeBoundingSphere();
-  return { geometry: g, textures: s.textures };
 }
 
 /** One mesh's worth of paint: a single place's whole paint surface. */
@@ -151,8 +59,8 @@ export function paintGroups(
 }
 
 /**
- * Builds every group whose ground is decoded; the rest stay waiting and are
- * retried. A group with a texture that has no ground material is dropped
+ * Builds every group whose ground is decoded; the rest stay waiting until a
+ * ground arrival touches them. A group with a texture that has no ground material is dropped
  * (`missing`), never retried.
  */
 export function buildPaintGroups(
@@ -168,22 +76,71 @@ export function buildPaintGroups(
   return { built, waiting, missing };
 }
 
-/** A group still undecoded after this long is reported (once per WARN_EVERY_S). */
-const WARN_AFTER_S = 5;
-const WARN_EVERY_S = 30;
+/** A place's paint extent, world metres `[minX, minZ, maxX, maxZ]`. */
+export function paintBounds(group: PaintGroup): GroundArea {
+  let minX = Infinity; let minZ = Infinity; let maxX = -Infinity; let maxZ = -Infinity;
+  for (const e of group.entries) {
+    for (const [x, z] of e.polygonM) {
+      minX = Math.min(minX, x); maxX = Math.max(maxX, x); minZ = Math.min(minZ, z); maxZ = Math.max(maxZ, z);
+    }
+  }
+  return [minX, minZ, maxX, maxZ];
+}
 
-export function GroundPaintLayer({ baseUrl, settlements, groundAt }: {
+/** Whether two areas overlap (edges touching count: a chunk's edge row is shared). */
+export function areasTouch(a: GroundArea, b: GroundArea): boolean {
+  return a[0] <= b[2] && b[0] <= a[2] && a[1] <= b[3] && b[1] <= a[3];
+}
+
+/** Most vertices `groundMoved` samples per surface. */
+const MOVED_SAMPLES = 32;
+
+/**
+ * Whether the ground under a built surface now stands elsewhere (a finer
+ * terrain level arrived under it, or the ground is gone): a sparse sample of
+ * its vertices against `groundAt`. Cheap enough to run on every arrival
+ * that touches the place; only a moved surface is rebuilt.
+ */
+export function groundMoved(geometry: THREE.BufferGeometry, groundAt: TerrainHeight, toleranceM = 0.05): boolean {
+  const p = geometry.getAttribute("position");
+  if (!p || p.count === 0) return false;
+  const step = Math.max(1, Math.floor(p.count / MOVED_SAMPLES));
+  for (let i = 0; i < p.count; i += step) {
+    const y = groundAt(p.getX(i), p.getZ(i));
+    if (y === null) return false;   // ground unloaded: keep the surface drawn
+    if (Math.abs(y + PAINT_LIFT_M - p.getY(i)) > toleranceM) return true;
+  }
+  return false;
+}
+
+/** Whether `groundAt` answers at an area's four corners and middle. */
+export function groundReady(b: GroundArea, groundAt: TerrainHeight): boolean {
+  const mx = (b[0] + b[2]) / 2; const mz = (b[1] + b[3]) / 2;
+  return [[b[0], b[1]], [b[2], b[1]], [b[0], b[3]], [b[2], b[3]], [mx, mz]]
+    .every(([x, z]) => groundAt(x, z) !== null);
+}
+
+/**
+ * Builds each place's paint when its ground is there: once when the bundle
+ * changes, then again only for the places a ground arrival touches (a place
+ * still waiting, or one whose ground moved under it). A place whose ground
+ * has not arrived is simply not drawn yet: out of range is the normal state,
+ * never a warning, and nothing polls.
+ */
+export function GroundPaintLayer({ baseUrl, settlements, groundAt, groundArrivals }: {
   baseUrl: string;
   settlements: readonly { readonly id: string; readonly groundPaint?: GroundPaintDoc }[] | undefined;
   groundAt: TerrainHeight;
+  groundArrivals?: GroundArrivals;
 }) {
   const group = useMemo(() => new THREE.Group(), []);
   const [materials, setMaterials] = useState<{ set: string; rows: GroundMaterialRow[] } | null>(null);
-  const pending = useRef<Map<string, PaintGroup> | null>(null);
-  const nextTry = useRef(0);
-  /** Clock time the current pending set was first tried, and when it last warned. */
-  const since = useRef<number | null>(null);
-  const lastWarn = useRef(-Infinity);
+  /** Every place's paint of the current bundle, and its extent. */
+  const groups = useRef(new Map<string, { group: PaintGroup; bounds: GroundArea }>());
+  /** The places to (re)build on the next frame. */
+  const dirty = useRef(new Set<string>());
+  /** Places whose ground was missing at their last build. */
+  const waiting = useRef(new Set<string>());
   useEffect(() => {
     let live = true;
     groundMaterials(baseUrl).then((m) => { if (live) setMaterials(m); })
@@ -191,30 +148,43 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt }: {
     return () => { live = false; };
   }, [baseUrl]);
   useEffect(() => {
-    const groups = paintGroups(settlements ?? []);
+    const next = paintGroups(settlements ?? []);
     // The live meshes stay drawn until their replacements are added
-    // (review 2026-09-30: a requery blanked all road paint for a frame, and
-    // for RETRY_S wherever a place's ground was still undecoded).
-    retainPaint(group, new Set(groups.keys()));
-    pending.current = groups;
-    nextTry.current = 0;
-    since.current = null;
-    lastWarn.current = -Infinity;
+    // (review 2026-09-30: a requery blanked all road paint for a frame).
+    retainPaint(group, new Set(next.keys()));
+    groups.current = new Map([...next].map(([k, g]) => [k, { group: g, bounds: paintBounds(g) }]));
+    dirty.current = new Set(next.keys());
+    waiting.current = new Set();
   }, [settlements, groundAt, group]);
-  useFrame(({ clock }) => {
-    const want = pending.current;
-    if (!want || !materials || clock.elapsedTime < nextTry.current) return;
-    const now = clock.elapsedTime;
-    since.current ??= now;
+  useEffect(() => groundArrivals?.((area) => {
+    for (const [key, { bounds }] of groups.current) {
+      if (!areasTouch(area, bounds)) continue;
+      if (waiting.current.has(key)) { dirty.current.add(key); continue; }
+      const mesh = group.children.find((c) => c.userData.paintKey === key) as THREE.Mesh | undefined;
+      if (mesh && groundMoved(mesh.geometry, groundAt)) dirty.current.add(key);
+    }
+  }), [groundArrivals, groundAt, group]);
+  useFrame(() => {
+    if (!materials || dirty.current.size === 0) return;
+    // a place whose corners or middle have no ground yet waits without paying
+    // for a surface build (arrivals of coarse levels touch it many times)
+    const want: PaintGroup[] = [];
+    for (const k of dirty.current) {
+      const g = groups.current.get(k);
+      if (!g) continue;
+      if (groundReady(g.bounds, groundAt)) want.push(g.group); else waiting.current.add(k);
+    }
+    dirty.current.clear();
     const start = performance.now();
-    const { built, waiting, missing } = buildPaintGroups(
-      want.values(), groundAt, (t) => materials.rows.some((r) => r.name === t));
+    const { built, waiting: unbuilt, missing } = buildPaintGroups(
+      want, groundAt, (t) => materials.rows.some((r) => r.name === t));
     for (const g of missing) {
       console.warn(`[ground-paint] no ground material for ${g.textures.join(", ")} (${g.placeId})`);
       replacePaint(group, g.key, null);
-      want.delete(g.key);
     }
+    for (const g of unbuilt) waiting.current.add(g.key);
     for (const { group: g, geometry } of built) {
+      waiting.current.delete(g.key);
       const rows = g.textures.map((t) => materials.rows.find((r) => r.name === t)!);
       const matKey = `${materials.set}|${g.textures.join(",")}`;
       // The replaced mesh's material (textures loaded) is reused: a fresh one
@@ -228,17 +198,9 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt }: {
       mesh.receiveShadow = true;
       mesh.renderOrder = 1;
       replacePaint(group, g.key, mesh);
-      want.delete(g.key);
     }
     if (built.length) {
       console.info(`[ground-paint] ${built.length} mesh(es) in ${(performance.now() - start).toFixed(1)} ms`);
-    }
-    if (waiting.length === 0) { pending.current = null; return; }
-    nextTry.current = now + RETRY_S;
-    if (now - since.current > WARN_AFTER_S && now - lastWarn.current >= WARN_EVERY_S) {
-      lastWarn.current = now;
-      console.warn(`[ground-paint] ground still undecoded after ${(now - since.current).toFixed(0)} s for `
-        + waiting.map((g) => g.key).join(", "));
     }
   });
   useEffect(() => () => disposeGroup(group), [group]);

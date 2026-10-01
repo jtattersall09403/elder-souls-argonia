@@ -2056,6 +2056,20 @@ def province_road_paint(bounds: tuple[float, float, float, float], mat=None, tex
 
 _LOAD_ROAD = object()
 
+ROAD_CUT_SMOOTH_M = 3.0   # closing radius: fills the road texels' staircase (RAW_M 1.83 m) into a smooth line
+ROAD_CUT_MARGIN_M = 0.5   # the cut stands this far off the road texels, inside the road's own bilinear fade
+
+
+def road_cut(road):
+    """Where a place's paint stops against the province road paint: the
+    road texels (`province_road_paint`, a union of texel squares) closed by
+    `ROAD_CUT_SMOOTH_M` and grown by `ROAD_CUT_MARGIN_M`. Cut on the raw
+    squares, a way's edge ran in 1.8 m stair steps (16k walk 7, the blocky
+    lines at Claywater); cut here, the way's own soft edge fades it out along
+    a smooth line just outside the road, so the road always wins."""
+    return (road.buffer(ROAD_CUT_SMOOTH_M + ROAD_CUT_MARGIN_M, quad_segs=8)
+            .buffer(-ROAD_CUT_SMOOTH_M, quad_segs=8).simplify(0.05))
+
 
 def clip_ground_paint(site: dict, treatments: list[dict] = (), road=_LOAD_ROAD) -> None:
     """The paint dies under pads and floors, except inside a door's apron, so
@@ -2080,6 +2094,7 @@ def clip_ground_paint(site: dict, treatments: list[dict] = (), road=_LOAD_ROAD) 
         ways = unary_union([Polygon(e["polygonM"]) for e in paint["entries"]])
         road = province_road_paint(ways.buffer(5.0).bounds) if not ways.is_empty else None
     if road is not None and not road.is_empty:
+        road = road_cut(road)
         cut = cut.union(road) if not cut.is_empty else road
     if cut.is_empty:
         return

@@ -166,7 +166,7 @@ triangle cost (the 380-triangle 19 m aspen: 211 m in medium).
 - **Non-tree plants hold their full mesh by size class** (not scaled by the
   draw scale): small plants 35 / 45 / 65 m (low / medium / high,
   `SMALL_PLANT_TOP_TIER_M`); LARGE plants (height or half the widest
-  footprint >= 2.5 m, `isLargePlant`) 120 / 200 / 260 m
+  footprint >= 2.5 m, `isLargePlant`) 80 / 100 / 260 m
   (`LARGE_PLANT_TOP_TIER_M`), drawn as cards to 1.5x that
   (`plantDrawDistance`).
 - The band-coverage invariant (every distance kept by exactly one rung, for

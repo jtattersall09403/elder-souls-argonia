@@ -19,15 +19,18 @@
  * the province road paint already lies.
  */
 
-import type { TerrainHeight } from "./types";
+import type { GroundArrivals, TerrainHeight } from "./types";
 
 export const GROUND_PAINT_SCHEMA_VERSION = 2;
 
-/** The terrain road paint materials a way may use, by their ground-material
- * name: the land cover's BC_ROAD and TRACK (`landcover.py`), the same
- * texture the 16e road paint draws with. `world/sources/vocab/ground-paint.json`
- * maps each way kind to one; `groundPaint.test.ts` holds the two equal. */
-export const GROUND_PAINT_TEXTURES: ReadonlySet<string> = new Set(["bc_road", "track_mud"]);
+/** The terrain paint materials a way may use, by their ground-material name:
+ * the land cover's TRACK (`landcover.py`), worn earth for every kind of way
+ * since 16k walk 7 (the owner: a subtle dirt track, never cobble over the
+ * fields). `world/sources/vocab/ground-paint.json` maps each way kind to one;
+ * `groundPaint.test.ts` holds the two equal. The surface still blends up to
+ * `PAINT_MAX_TEXTURES`, so a place kind that needs a second material is a
+ * vocabulary row, not a code change. */
+export const GROUND_PAINT_TEXTURES: ReadonlySet<string> = new Set(["track_mud"]);
 
 /** Most textures one place's surface blends (one weight channel each). */
 export const PAINT_MAX_TEXTURES = 3;
@@ -225,3 +228,14 @@ export function paintSurface(
 }
 
 class MissingGround extends Error {}
+
+/** Adapts a terrain chunk store's decode events to `GroundArrivals`. */
+export function groundArrivalsOf(store: {
+  onArrival(listener: (grid: { meta: { originM: readonly [number, number] }; nx: number; ny: number;
+    metresPerSample: number }) => void): () => void;
+}): GroundArrivals {
+  return (listener) => store.onArrival((grid) => {
+    const [x0, z0] = grid.meta.originM;
+    listener([x0, z0, x0 + (grid.nx - 1) * grid.metresPerSample, z0 + (grid.ny - 1) * grid.metresPerSample]);
+  });
+}
