@@ -1,0 +1,517 @@
+{
+ "kit": "camp-v1",
+ "assets": [
+  {
+   "id": "vanilla:architecture/tents/largeimperialtent01",
+   "node": "es|3912185439|__architecture_tents_largeimperialtent01",
+   "category": "architecture",
+   "sizeM": [
+    5.841,
+    8.304,
+    4.533
+   ],
+   "originOffsetM": [
+    2.92,
+    4.133,
+    0.148
+   ],
+   "triangles": 2998,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "largeimperialtent.dds"
+   ],
+   "materials": [
+    "LargeImperialTent:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.5558,
+    "p75": 0.6396,
+    "n": 27,
+    "slopeTermMPerDeg": 0.01511,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town",
+      "camp"
+     ]
+    },
+    "n": 29,
+    "interior": {},
+    "exterior": {
+     "camp": 24,
+     "town": 5
+    },
+    "sourceCells": [
+     "exterior:camp:MilitaryCampWinterholdImperialLocation",
+     "exterior:camp:MilitaryCampRiftImperialLocation",
+     "exterior:camp:MilitaryCampEastmarchImperialLocation",
+     "exterior:camp:MilitaryCampReachImperialLocation",
+     "exterior:camp:MilitaryCampWhiterunImperialLocation",
+     "exterior:camp:MilitaryCampHjaalmarchImperialLocation",
+     "exterior:camp:MilitaryCampPaleImperialLocation",
+     "exterior:camp:MilitaryCampFalkreathImperialLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "policy",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.148,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.566,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.148
+  },
+  {
+   "id": "vanilla:architecture/tents/smallimperialtent",
+   "node": "es|631f16a48f|la__architecture_tents_smallimperialtent",
+   "category": "architecture",
+   "sizeM": [
+    4.684,
+    3.128,
+    2.681
+   ],
+   "originOffsetM": [
+    2.343,
+    1.564,
+    0.066
+   ],
+   "triangles": 1842,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "smallimperialtent.dds"
+   ],
+   "materials": [
+    "SmallImperialTent:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.48,
+    "p50": 0.48,
+    "p75": 0.48,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 86,
+    "interior": {
+     "wild": 1,
+     "ruin": 1
+    },
+    "exterior": {
+     "camp": 30,
+     "town": 48,
+     "wild": 3,
+     "ruin": 3
+    },
+    "sourceCells": [
+     "exterior:town:WindhelmLocation",
+     "exterior:camp:MilitaryCampWinterholdImperialLocation",
+     "exterior:town:RiftenLocation",
+     "exterior:town:MarkarthLocation",
+     "exterior:town:WhiterunLocation",
+     "exterior:camp:MilitaryCampEastmarchImperialLocation",
+     "exterior:camp:MilitaryCampPaleImperialLocation",
+     "exterior:camp:MilitaryCampRiftImperialLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "policy",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.066,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.648,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.066
+  },
+  {
+   "id": "vanilla:clutter/civilwar/civilwarbanner01",
+   "node": "es|bbeb765beb|nilla__clutter_civilwar_civilwarbanner01",
+   "category": "clutter",
+   "sizeM": [
+    0.392,
+    2.296,
+    5.98
+   ],
+   "originOffsetM": [
+    0.14,
+    1.149,
+    -0.0
+   ],
+   "triangles": 246,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "cwcatapult01.dds",
+    "ratwaywood01.dds"
+   ],
+   "materials": [
+    "CivilWarBanner01:10.Mat",
+    "CivilWarBanner01:11.Mat",
+    "CivilWarBanner01:9.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.1173,
+    "p50": 0.1924,
+    "p75": 0.3268,
+    "n": 4,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "ruin"
+     ],
+     "exterior": [
+      "keep",
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 69,
+    "interior": {
+     "keep": 17,
+     "ruin": 4,
+     "camp": 1
+    },
+    "exterior": {
+     "wild": 12,
+     "keep": 17,
+     "camp": 16,
+     "ruin": 1,
+     "town": 1
+    },
+    "sourceCells": [
+     "interior:keep:FortGreymoor01",
+     "exterior:wild:HelgenLocation",
+     "interior:ruin:Volskygge01",
+     "exterior:keep:FortDunstadLocation",
+     "exterior:keep:FortGreenwallLocation",
+     "interior:keep:FortGreymoor02",
+     "exterior:keep:FortAmolLocation",
+     "exterior:keep:FortHraggstadLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.758,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:clutter/civilwar/civilwarbannerimp01",
+   "node": "es|a6c9d1938b|la__clutter_civilwar_civilwarbannerimp01",
+   "category": "clutter",
+   "sizeM": [
+    0.211,
+    1.323,
+    2.231
+   ],
+   "originOffsetM": [
+    0.15,
+    0.67,
+    2.228
+   ],
+   "triangles": 48,
+   "lodRatios": [
+    1.0,
+    1.0
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "civilwarbanners01.dds"
+   ],
+   "materials": [
+    "Banner1_Banner.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Banner1_Banner.Mat": 0.333
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.093,
+     0.982,
+     0.582
+    ],
+    "centreOffsetM": [
+     -0.045,
+     -1.113,
+     0.009
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 144,
+    "interior": {
+     "keep": 89,
+     "town": 14,
+     "ruin": 6,
+     "wild": 10
+    },
+    "exterior": {
+     "camp": 8,
+     "wild": 4,
+     "keep": 8,
+     "town": 5
+    },
+    "sourceCells": [
+     "interior:keep:FortGreymoor01",
+     "interior:keep:FortDunstad01",
+     "interior:keep:FortGreenwall01",
+     "interior:town:Katariah01",
+     "interior:wild:HelgenKeep01",
+     "interior:keep:FortSnowhawk01",
+     "interior:keep:FortNeugrad01",
+     "interior:keep:FortGreenwall02"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.228,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 90.0,
+   "pivotAboveBaseM": 2.228
+  },
+  {
+   "id": "vanilla:clutter/civilwar/civilwartable01",
+   "node": "es|a6b52d8bd1|anilla__clutter_civilwar_civilwartable01",
+   "category": "clutter",
+   "sizeM": [
+    2.349,
+    1.779,
+    0.896
+   ],
+   "originOffsetM": [
+    1.151,
+    0.913,
+    -0.0
+   ],
+   "triangles": 952,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "dresser01.dds"
+   ],
+   "materials": [
+    "CivilWarTable01:3.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0057,
+    "p50": 0.0561,
+    "p75": 0.0604,
+    "n": 10,
+    "slopeTermMPerDeg": -0.0019,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 19,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {
+     "camp": 16,
+     "keep": 1,
+     "wild": 1
+    },
+    "sourceCells": [
+     "interior:wild:CWGuardTemplates",
+     "exterior:camp:MilitaryCampWinterholdImperialLocation",
+     "exterior:camp:MilitaryCampPaleSonsLocation",
+     "exterior:camp:MilitaryCampFalkreathSonsLocation",
+     "exterior:camp:MilitaryCampWhiterunSonsLocation",
+     "exterior:camp:MilitaryCampRiftImperialLocation",
+     "exterior:camp:MilitaryCampRiftSonsLocation",
+     "exterior:keep:FortAmolLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  }
+ ],
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\camp-v1.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [],
+ "texturesSubstituted": {},
+ "alphaModes": {
+  "MASK": 1,
+  "OPAQUE": 6,
+  "BLEND": 0
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
+ },
+ "compression": {
+  "schemaVersion": 1,
+  "tool": "gltfpack 1.2",
+  "args": [
+   "-cc",
+   "-tc",
+   "-tq",
+   "8",
+   "-kn",
+   "-km",
+   "-ke",
+   "-vtf",
+   "-vpf",
+   "-tj",
+   "4",
+   "-tu",
+   "color,normal,attrib"
+  ],
+  "textures": {
+   "color": "uastc",
+   "normal": "uastc",
+   "attrib": "uastc"
+  },
+  "textureQuality": 8,
+  "textureContainer": "ktx2",
+  "geometry": "EXT_meshopt_compression",
+  "bytesBefore": 3402020,
+  "bytesAfter": 1788620,
+  "images": 6,
+  "imageBytesAfter": 1670337,
+  "warnings": [],
+  "sha256": "db2b2d137556b1a40c05c4b47f893053779bb20d1933edde9f632337c940ce58",
+  "sidecarBytes": {
+   "connectors": 4064,
+   "footprints": 4966,
+   "interiors": 9182
+  }
+ }
+}

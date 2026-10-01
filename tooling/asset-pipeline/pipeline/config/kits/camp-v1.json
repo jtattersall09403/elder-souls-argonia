@@ -1,0 +1,35 @@
+{
+ "id": "camp-v1",
+ "description": "Military and field camps (place type 4, camp or hold): the vanilla Imperial Legion camp set as Skyrim's civil-war camps place it, each piece licensed for an exterior camp by its own plugin (kit-setting-class.json). Tents are open-fronted canvas walked into from the front (no door, no interior cell: a camp's tents are open buildings, decision 0114 rule 3). largeimperialtent01 is the command tent that holds civilwartable01; smallimperialtent is the sleeping tent, pitched in a line 4.13 m apart (mined template vanilla:t0224); civilwarbannerimp01 hangs from its pole civilwarbanner01 (cloth drawn double-sided, as its NIF draws it) by the mined band pair (8 plugin placements) at the tent line. Left out on their licence (R1): civilwarcot01, civilwarmap01 and bedrollground (interior only), civilwarbannerimp02 (no camp), note01 (no plugin places it as a static). Kept out of works-v1 so the tents and banners download only where a camp loads them (standard 16). The fire, brazier, firewood, crates and sacks come from works-v1; the palisade stakes (stockadepike01) and the road block (stockadebarricade01) from enclosure-v1.",
+ "culture": "neutral-camp",
+ "output": "tooling/asset-pipeline/output/kits/camp-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "publish": true,
+ "assets": [
+  {
+   "asset": "vanilla:architecture/tents/largeimperialtent01"
+  },
+  {
+   "asset": "vanilla:architecture/tents/smallimperialtent"
+  },
+  {
+   "asset": "vanilla:clutter/civilwar/civilwarbanner01"
+  },
+  {
+   "asset": "vanilla:clutter/civilwar/civilwarbannerimp01",
+   "collision": "convex",
+   "doubleSided": true,
+   "lodRatios": [
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "asset": "vanilla:clutter/civilwar/civilwartable01"
+  }
+ ]
+}
