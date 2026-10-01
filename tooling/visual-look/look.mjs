@@ -229,6 +229,10 @@ try {
     if (path.startsWith("/basis/")) return file(join(threeDir, "examples/jsm/libs/basis", path.slice(7)),
       path.endsWith(".wasm") ? "application/wasm" : "text/javascript");
     if (path.startsWith("/kits/")) return file(join(kitsDir, path.slice(6)), path.endsWith(".ktx2") ? "image/ktx2" : "model/gltf-binary");
+    // a JSON import (BloomPass's bloom.config.json) is served as an ES module
+    const j = path.match(/^\/gc\/([\w/.-]+\.json)\.js$/);
+    if (j) return route.fulfill({ contentType: "text/javascript",
+      body: `export default ${readFileSync(join(gcDir, j[1]), "utf8")};` });
     const m = path.match(/^\/fire\/(\w+)\.js$/) ?? path.match(/^\/gc\/([\w/]+)\.js$/);
     if (m) return route.fulfill({ contentType: "text/javascript", body: tsFile(path.startsWith("/fire/") ? `fx/fire/${m[1]}` : m[1]) });
     if (path === "/favicon.ico") return route.fulfill({ status: 204, body: "" });

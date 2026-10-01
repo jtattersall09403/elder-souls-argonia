@@ -1025,8 +1025,79 @@ def recipe_of(record: dict | None) -> dict | None:
     return None
 
 
+#: the reviewed per-setting licences for pieces their own plugin licenses
+#: nowhere outdoors (modder's resources, indoor-only vanilla dressing):
+#: ``settingLicence`` in placement-policies.json (16k walk 9 planner ruling)
+POLICIES_PATH = REPO_ROOT / "tooling" / "asset-pipeline" / "pipeline" / "config" / "placement-policies.json"
+
+
+def setting_licences(path: Path = POLICIES_PATH) -> dict:
+    """{asset id: licence row} of placement-policies.json ``settingLicence``."""
+    rows = json.loads(path.read_text(encoding="utf-8")).get("settingLicence") or {}
+    return {k: v for k, v in rows.items() if isinstance(v, dict)}
+
+
+def licence_context(place_id: str | None, record: dict | None, bp: dict | None) -> dict:
+    """What a ``settingLicence`` row's ``when`` clauses read: the place
+    record (type, services, culture, prose) and the blueprint's parcels."""
+    return {"placeId": place_id or (bp or {}).get("id") or "", "record": record or {},
+            "parcels": {p["id"]: p for p in (bp or {}).get("parcels") or [] if p.get("id")}}
+
+
+def parcel_of(p: dict, ctx: dict) -> dict | None:
+    """The blueprint parcel a compiled placement belongs to: its id is
+    ``<place id>.<parcel id>.<rest>`` (compile_settlement)."""
+    pid = str(p.get("id") or "")
+    for parcel_id, parcel in (ctx.get("parcels") or {}).items():
+        if pid.startswith(f"{ctx.get('placeId')}.{parcel_id}.") or pid.startswith(f"{parcel_id}."):
+            return parcel
+    return None
+
+
+#: a water-edge parcel (awning licence): a stilt-founded parcel or a dock or quay
+WATER_EDGE_USES = frozenset({"dock", "quay", "pier", "landing"})
+
+
+def licence_matches(clause: dict, p: dict, ctx: dict) -> bool:
+    """One ``when`` alternative: every key it names holds for placement
+    ``p`` (an all-of); the row licenses the piece when any alternative holds."""
+    from .blueprint import USE_BUCKET
+    record = ctx.get("record") or {}
+    parcel = parcel_of(p, ctx) or {}
+    if "placeTypes" in clause and ((record.get("classification") or {}).get("type")
+                                   not in clause["placeTypes"]):
+        return False
+    if "recordServices" in clause and not set(record.get("services") or []) & set(clause["recordServices"]):
+        return False
+    if "cultures" in clause and record.get("culture") not in clause["cultures"]:
+        return False
+    if "recordTerms" in clause:
+        prose = json.dumps({k: record.get(k) for k in ("why", "vibe", "questHooks", "sockets",
+                                                       "contents", "playerPurpose")}).lower()
+        if not any(t.lower() in prose for t in clause["recordTerms"]):
+            return False
+    if "parcelUses" in clause and USE_BUCKET.get(str(parcel.get("use") or "").lower()) not in clause["parcelUses"]:
+        return False
+    if clause.get("parcelWaterEdge") and not (parcel.get("groundFit") == "stilt"
+                                              or str(parcel.get("use") or "").lower() in WATER_EDGE_USES):
+        return False
+    return True
+
+
+def licensed_by_policy(p: dict, setting: str, licences: dict | None, ctx: dict | None) -> str | None:
+    """The ``settingLicence`` row's reason when it licenses ``p`` in
+    ``setting`` here, else None."""
+    row = (licences or {}).get(p.get("assetId"))
+    if not row or ctx is None or setting not in (row.get("settings") or []):
+        return None
+    if any(licence_matches(c, p, ctx) for c in row.get("when") or []):
+        return row.get("why") or "settingLicence"
+    return None
+
+
 def setting_failures(placements: list[dict], rows: dict, place_class: str | None,
-                     interior: bool = False, pool: frozenset | None = None
+                     interior: bool = False, pool: frozenset | None = None,
+                     licences: dict | None = None, ctx: dict | None = None
                      ) -> tuple[list[str], list[str], list[str]]:
     """(failures, warnings, not measured asset ids) of 0105 R1 as R9 reads it.
 
@@ -1045,7 +1116,11 @@ def setting_failures(placements: list[dict], rows: dict, place_class: str | None
     ``builtBy`` widens it, ``place_pool``); a piece licensed only ``wild``
     is judged on axis i alone, and so is one whose only classes the miner
     left unlicensed for resting on fewer than 2 references (R23, the row's
-    ``classNotMeasured``: a warning names it NOT_MEASURED on axis ii). Rows without ``settingClass`` are NOT_MEASURED."""
+    ``classNotMeasured``: a warning names it NOT_MEASURED on axis ii). Rows without ``settingClass`` are NOT_MEASURED.
+    A reviewed ``settingLicence`` row (``licences``, read against ``ctx``:
+    the record and the placement's parcel, ``licence_context``) licenses a
+    piece its plugin does not, per setting class, on both axes; each
+    placement of such a piece is judged on its own parcel."""
     setting = "interior" if interior else "exterior"
     if pool is None:
         pool = SETTING_POOLS.get(place_class or "")
@@ -1054,10 +1129,13 @@ def setting_failures(placements: list[dict], rows: dict, place_class: str | None
     for p in placements:
         if p.get("objectKind") == "effect":
             continue
-        key = (p.get("kit"), p.get("assetId"), float(p.get("scale") or 1.0))
+        own = p.get("id") if p.get("assetId") in (licences or {}) else None
+        key = (p.get("kit"), p.get("assetId"), float(p.get("scale") or 1.0), own)
         if key in seen:
             continue
         seen.add(key)
+        if own and licensed_by_policy(p, setting, licences, ctx):
+            continue
         row = rows.get(key[:2]) or {}
         sc = row.get("settingClass")
         if not isinstance(sc, dict):
@@ -1103,7 +1181,8 @@ def small_dressing(p: dict, row: dict) -> bool:
     return max(float(x) for x in size) * scale < SMALL_DRESSING_M
 
 
-def setting_gate(g: Gates, settlement: dict | None, record: dict | None, rows: dict | None = None) -> None:
+def setting_gate(g: Gates, settlement: dict | None, record: dict | None, rows: dict | None = None,
+                 bp: dict | None = None, place_id: str | None = None) -> None:
     t = time.perf_counter()
     if settlement is None:
         g.add("setting.class", 0.0, ["the compile did not run: no placements to read"])
@@ -1114,7 +1193,9 @@ def setting_gate(g: Gates, settlement: dict | None, record: dict | None, rows: d
     recipe = recipe_of(record)
     place_class = place_setting_class(recipe)
     failures, warnings, unmeasured = setting_failures(placements, rows, place_class,
-                                                      pool=place_pool(recipe))
+                                                      pool=place_pool(recipe),
+                                                      licences=setting_licences(),
+                                                      ctx=licence_context(place_id, record, bp))
     if place_class is None:
         warnings.append("NOT_MEASURED: the place's type-recipes.json row carries no settingClass, "
                         "so the social-scale axis (0105 R9 ii) is not judged")
@@ -1316,7 +1397,7 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
     coherence_gate(g, place_id, settlement)
     rows = kit_rows({p.get("kit") for p in (settlement or {}).get("placements") or []})
     lights_gate(g, settlement, rows, place_id=place_id)
-    setting_gate(g, settlement, record, rows)
+    setting_gate(g, settlement, record, rows, bp=bp, place_id=place_id)
     sink_fallback_gate(g, settlement, rows)
 
     doc = {"schemaVersion": SCHEMA_VERSION, "placeId": place_id, "startedAt": started,
