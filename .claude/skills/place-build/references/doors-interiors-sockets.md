@@ -312,7 +312,10 @@ alone (ambient and directional off: the runtime lights an interior the same
 at every hour, so this row shows what the cell's own lights reach), and a
 flame proxy at every fire the loader burns (orange; magenta = a lit
 fixture's fallback). `--day` / `--night` render one row. A reader judges
-readable, warm, lit by its sources, not flat.
+readable, warm, lit by its sources, not flat. The proxy shows where a flame
+belongs, never that the studio draws it: "flames verified" for a cell means
+a PASS from `node tooling/visual-look/flames.mjs interior <cellId> <xKm>
+<zKm>` on the built site (`references/fire.md` § 3 step 4).
 
 **Design the lighting first time** (decision 0109). A dim or flat tier A
 cell is fixed with more sources, never a fill or a raised ambient. Every living zone of

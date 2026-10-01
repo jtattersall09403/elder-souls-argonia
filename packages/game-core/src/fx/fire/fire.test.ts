@@ -54,6 +54,16 @@ describe("fire presets", () => {
     }
   });
 
+  it("both vertex shaders place the emitter through the group's world matrix (walk 7: interior flames 4 km below the cell)", () => {
+    // An interior cell's emitters are cell-local and its group stands at
+    // 4000 m; a shader reading iPosSeed as world drew every interior flame
+    // past uMaxDistance. Distance, billboard and fade all start from `at`.
+    for (const src of [FIRE_SHADER_SOURCES.flameVertex, FIRE_SHADER_SOURCES.emberVertex]) {
+      expect(src).toMatch(/vec3 at = \(modelMatrix \* vec4\(iPosSeed\.xyz, 1\.0\)\)\.xyz;/);
+      expect(src.replace(/vec3 at = [^;]*;/, "")).not.toMatch(/iPosSeed\.xyz/);
+    }
+  });
+
   it("flicker is the same function for light and flame: about 1 +- amount, seeded", () => {
     const samples = Array.from({ length: 2000 }, (_, i) => fireFlicker(i * 0.037, 0.3, 5, 0.1));
     expect(Math.max(...samples)).toBeLessThanOrEqual(1.1 + 1e-9);

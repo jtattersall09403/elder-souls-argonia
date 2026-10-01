@@ -16,7 +16,15 @@
  * (visible halo at night).
  *
  * Instance attributes (FlameSystem.ts writes them):
- *   iPosSeed  vec4  emitter world position (m), seed 0..1
+ *   iPosSeed  vec4  emitter position (m) in the FlameSystem group's space, seed 0..1
+ *
+ * Both vertex shaders take `iPosSeed.xyz` through `modelMatrix` before the
+ * camera maths. An interior cell's emitters are cell-local and its group
+ * stands at (door x, 4000 m, door z) (interior/doors.ts
+ * INTERIOR_SPACE_LIFT_M); read as world positions they drew 4 km below the
+ * player, past `uMaxDistance`, so every interior flame faded to nothing
+ * in the studio while the look harness (cell at the origin) showed them
+ * (16k walk 7). A settlement's fixture group stands at the identity.
  *   iShape    vec4  width m, height m, turbulence 0..1, rise (heights/s)
  *   iParams   vec4  intensity 0..1, palette row, layer (0 core, 1 outer), taper
  *   iAnim     vec4  flicker Hz, flicker share, wind response, unused
@@ -152,7 +160,7 @@ varying float vRise;
 varying float vOctaves;
 ${FIRE_GLSL_COMMON}
 void main() {
-  vec3 at = iPosSeed.xyz;
+  vec3 at = (modelMatrix * vec4(iPosSeed.xyz, 1.0)).xyz;
   vec3 toCam = cameraPosition - at;
   float dist = length(toCam);
   // Y-locked billboard: the card turns about the vertical only, like
@@ -266,7 +274,7 @@ void main() {
   float k = iPosSeed.w * 97.0 + iParams.z * 13.7;
   float life = max(iEmber.z, 0.1);
   float t = fract(uTime / life + h1(k));
-  vec3 at = iPosSeed.xyz;
+  vec3 at = (modelMatrix * vec4(iPosSeed.xyz, 1.0)).xyz;
   float ang = h1(k + 1.0) * 6.2831853;
   vec3 drift = vec3(cos(ang + t * 3.0), 0.0, sin(ang + t * 3.0)) * iEmber.w * (0.4 + t);
   vec3 p = at + drift + vec3(0.0, t * iEmber.x, 0.0);

@@ -269,7 +269,10 @@ resolved flame; presets, the contact sheet and the anchor check are in
 Interiors: run `wb.py render-interior <cell>` for every tier-A cell the
 place's doors claim (one contact sheet each, ~40 s; `references/doors-interiors-sockets.md`
 § 7); a reader judges it readable, warm, lit by its sources, not flat
-(reader row 48). This is the required interior check. Before the
+(reader row 48). This is the required interior check. Flames are
+verified only by `tooling/visual-look/flames.mjs` on the built site, one
+PASS per cell and one outdoors at night (`references/fire.md` § 3 step 4;
+the render's flame proxy is not that check). Before the
 renders, `wb.py audit-interior <cell ...>` (~20 s a cell; it and
 `seat-interior` run under `job_guard.sh`, or the CPU watchdog pauses them) must exit 0:
 every placed piece's texture published and no shell on a flat LOD swatch, every

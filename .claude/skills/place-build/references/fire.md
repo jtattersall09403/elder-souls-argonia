@@ -81,8 +81,38 @@ the campfire the largest and wildest.
    The reader answers checklist row 34 on these shots: is each flame in its
    wick, bowl or lantern body?
    Examples: `tooling/.reports/16k/walk5/fire/renders/`.
+4. **Flames visible in the build that deploys** (the only check that may
+   say "flames verified"; 16k walk 7). Steps 1-3 draw the flame at the
+   cell's or the piece's origin; the studio draws a cell 4000 m up beside
+   its door through the water pipeline's on-screen pass, and for three
+   rounds every interior flame was invisible there while steps 1-3 passed.
+   Build and compose, then run the check per interior cell the place's
+   doors claim, and once outdoors at night for a place with lit fixtures:
+
+       npm run build -w @elder-souls/world-studio && npm run site:compose
+       bash tooling/repo-standards/job_guard.sh <lane> -- node tooling/visual-look/flames.mjs interior <cellId> <xKm> <zKm>
+       bash tooling/repo-standards/job_guard.sh <lane> -- node tooling/visual-look/flames.mjs place <xKm> <zKm> --t 22
+
+   It loads `site/` (the files that deploy), opens the cell, and reads the
+   framebuffer at every on-screen flame with the flames on and off. PASS
+   needs flame systems, emitters, draws, on-screen cards and VISIBLE cards
+   all above zero; the JSON and PNG land in `tooling/.reports/flames/`.
+   An unchanged key (fire sources, the cell bundle, its kits' fires maps)
+   skips the browser and reprints the stored verdict. Add `--url
+   https://jtattersall09403.github.io/elder-souls-argonia/studio/` to ask
+   the same of the deployed site. The walk packet quotes the PASS line;
+   a packet that claims flames without it is unfinished.
 
 ## 4. When it is wrong
+
+- `flames.mjs` FAIL `zero: visible` with cards on screen: the flames are
+  built and drawn but not where the camera looks, or blended away. Read
+  the result's `groupWorld`, `firstCardRaw` and `cards[].dist` first (the
+  walk-7 cause: shaders that ignored the group's world matrix drew the
+  cell-local flames 4 km below the player, past `uMaxDistance`).
+- `flames.mjs` FAIL `zero: emitters` or `flameSystems`: the cell's kits'
+  `parts/index.json` carry no `fires` rows for the drawn assets (re-run
+  `kit_parts.mjs` for that kit) or the loader's lookup missed them.
 
 - A flame outside its piece: the mined `offsetM` or the piece's bounds is
   wrong. That is a kit-mining defect (kit-mining skill); never move the
