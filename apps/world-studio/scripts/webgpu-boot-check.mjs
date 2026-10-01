@@ -317,7 +317,30 @@ await page.addInitScript(([present, gpuTiming, light]) => {
     g.frames++; if (g.firstFrameMs === null) g.firstFrameMs = Math.round(performance.now());
   };
   // draws in the last whole animation frame (read by --hold): every pass, not just the canvas pass
-  const tick = () => { g.lastFrameDraws = g.curDraws ?? 0; g.curDraws = 0; g.deferred = window.__RENDERER__?.esBuildQueue?.deferred ?? 0; g.buildsWaiting = window.__RENDERER__?.esBuildQueue?.pending ?? 0; g.pipelinesCompiling = window.__RENDERER__?.esPipelineCompiles?.pending ?? 0; requestAnimationFrame(tick); };
+  // Draws per frame by layer and pass (three's renderObject, one call per object per pass): the
+  // settlement layer's own draws apart from the rest, so a batching change is measured on its layer.
+  g.layerDraws = {}; g.curLayerDraws = {};
+  const layerOf = (o) => {
+    for (let p = o; p; p = p.parent) {
+      if (p.userData?.esSettlementBatch || p.userData?.esSettlementLodAuthority || p.userData?.esSettlementFarMerge) return "settlement";
+      if (p.parent && p.parent.isScene) return p.name || p.type;
+    }
+    return o.name || o.type;
+  };
+  const hookRenderObject = () => {
+    const r = window.__RENDERER__;
+    if (!r || r.__layerHooked || typeof r.renderObject !== "function") return;
+    r.__layerHooked = true;
+    const ro = r.renderObject;
+    r.renderObject = function (object, scene, camera, ...rest) {
+      const rt = this.getRenderTarget?.();
+      const pass = camera?.isOrthographicCamera ? "shadow" : rt ? "target" : "canvas";
+      const k = `${pass}:${layerOf(object)}`;
+      g.curLayerDraws[k] = (g.curLayerDraws[k] ?? 0) + 1;
+      return ro.call(this, object, scene, camera, ...rest);
+    };
+  };
+  const tick = () => { hookRenderObject(); g.layerDraws = g.curLayerDraws; g.curLayerDraws = {}; g.lastFrameDraws = g.curDraws ?? 0; g.curDraws = 0; g.deferred = window.__RENDERER__?.esBuildQueue?.deferred ?? 0; g.buildsWaiting = window.__RENDERER__?.esBuildQueue?.pending ?? 0; g.pipelinesCompiling = window.__RENDERER__?.esPipelineCompiles?.pending ?? 0; requestAnimationFrame(tick); };
   requestAnimationFrame(tick);
   if (present) {
     C.getCurrentTexture = function () { frame(); return getCurrentTexture.call(this); };
@@ -526,7 +549,7 @@ const beat = setInterval(() => {
     .then(() => page.evaluate(() => { const b = window.__BOOT__; return b && JSON.stringify([{
       frames: b.frames, firstFrameMs: b.firstFrameMs, total: b.total, count: b.count, bufferDestroys: b.bufferDestroys,
       pipelines: b.pipelines, asyncPipelines: b.asyncPipelines, shaderModules: b.shaderModules, builds: b.builds,
-      textures: b.textures, bindGroups: b.bindGroups, writeBytes: b.writeBytes, lastFrameDraws: b.lastFrameDraws,
+      textures: b.textures, bindGroups: b.bindGroups, writeBytes: b.writeBytes, lastFrameDraws: b.lastFrameDraws, layerDraws: b.layerDraws,
       deferred: b.deferred, buildsWaiting: b.buildsWaiting, pipelinesCompiling: b.pipelinesCompiling,
       errors: b.errors, losses: b.losses, slow: b.slow, big: b.big, destroys: b.destroys, buildBy: {}, drawBy: {},
     }, window.__LONG_TASKS__]); }))
@@ -536,10 +559,15 @@ const beat = setInterval(() => {
 // Wait for the first complete frame: a frame has drawn, and the node-build counter and the
 // in-flight request count have been stable for STABLE_MS of wall time, read by successful pings.
 let completeMs = null;
+const measureAtS = Number(arg("measure-at", "0"));
+let measuredEarlyMs = null;
 const hangAt = Date.now() + HANG_FACTOR * TARGET_S * 1000;
 let stableSince = Date.now(), seenBuilds = -1, seenPing = null;
 while (Date.now() < hangAt) {
   await new Promise((r) => setTimeout(r, 500));
+  // --measure-at <s>: a structural measurement (draws by layer, --eval) need not wait for every
+  // build; the run still fails on no complete frame, the hold and eval run from here
+  if (measureAtS > 0 && Date.now() - t0 >= measureAtS * 1000) { measuredEarlyMs = Date.now() - t0; break; }
   if (!lastBoot || lastBoot === seenPing) continue; // no fresh reading since the last look
   seenPing = lastBoot;
   if (flag("trace")) console.error(`t=${Math.round((Date.now() - t0) / 1000)}s builds=${lastBoot.builds} pipelines=${lastBoot.pipelines} frames=${lastBoot.frames} inflight=${inflight}`);
@@ -550,6 +578,7 @@ while (Date.now() < hangAt) {
   }
   if (Date.now() - stableSince >= STABLE_MS) { completeMs = Date.now() - t0; break; }
 }
+if (measuredEarlyMs !== null) completeMs = measuredEarlyMs;
 // --eval <file>: run the file's body as an async function in the page after the first complete frame
 // (a probe or an experiment on the live renderer); its return value lands in the summary as `evalResult`
 let evalResult = null;
@@ -585,7 +614,7 @@ if (holdS > 0 && completeMs !== null) {
   const until = Date.now() + holdS * 1000;
   while (Date.now() < until) {
     await new Promise((r) => setTimeout(r, 1000));
-    if (lastBoot && lastBoot !== seenPing) { seenPing = lastBoot; holdDraws.push([Math.round((Date.now() - t0) / 1000), lastBoot.lastFrameDraws ?? 0, lastBoot.errors?.length ?? 0]); }
+    if (lastBoot && lastBoot !== seenPing) { seenPing = lastBoot; holdDraws.push([Math.round((Date.now() - t0) / 1000), lastBoot.lastFrameDraws ?? 0, lastBoot.errors?.length ?? 0, lastBoot.layerDraws ?? {}]); }
   }
 }
 if (holdS > 0 && completeMs !== null) await readHud("hold end");
@@ -636,7 +665,7 @@ const heapPeakMb = Math.max(0, ...heap.map((h) => h[1]));
 const wallS = Math.round((Date.now() - wall0) / 100) / 10;
 const fails = [];
 if (hung) fails.push("page did not answer at the end (main thread hung)");
-if (completeMs === null) fails.push(`no complete frame in ${HANG_FACTOR * TARGET_S} s (hang)`);
+if (completeMs === null || measuredEarlyMs !== null) fails.push(`no complete frame in ${measuredEarlyMs !== null ? `${measureAtS} s (--measure-at)` : `${HANG_FACTOR * TARGET_S} s (hang)`}`);
 if (boot) {
   if (boot.losses.length) fails.push(`device lost ${boot.losses.length}x: ${boot.losses.map((l) => `${l.reason} ${l.message}`.slice(0, 120)).join("; ")}`);
   if (boot.errors.length) fails.push(`${boot.errors.length} uncaptured GPU errors, first: ${boot.errors[0][2].split("\n")[0]}`);

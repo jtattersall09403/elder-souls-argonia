@@ -154,6 +154,42 @@ export function mergeTransformedGeometry(
 }
 
 /**
+ * The vertex layout two kit parts must share to merge into one geometry:
+ * each attribute's name, array type, item size and normalisation, and
+ * whether the part is indexed (`mergeGeometries` refuses a mismatch).
+ */
+export function vertexLayoutKey(geometry: THREE.BufferGeometry): string {
+  const rows = Object.entries(geometry.attributes).map(([name, attribute]) => {
+    const array = attribute instanceof THREE.InterleavedBufferAttribute ? attribute.data.array : attribute.array;
+    return `${name}:${array.constructor.name}:${attribute.itemSize}:${attribute.normalized ? 1 : 0}`;
+  }).sort();
+  return `${geometry.index ? "i" : "n"}|${rows.join(",")}`;
+}
+
+/** One kit part and its copies in a settlement draw batch. */
+export interface MergeEntry {
+  geometry: THREE.BufferGeometry;
+  transforms: readonly THREE.Matrix4[];
+  groundLinesM: readonly number[];
+}
+
+/**
+ * Bake every copy of every part of one draw batch (one material, one
+ * vertex layout, one chunk) into one geometry: one draw where an instanced
+ * mesh per part made one each (decision 0111, settlement draws on WebGPU).
+ */
+export function mergeTransformedParts(entries: readonly MergeEntry[]): THREE.BufferGeometry | null {
+  const pieces = entries
+    .map((entry) => mergeTransformedGeometry(entry.geometry, entry.transforms, entry.groundLinesM))
+    .filter((piece): piece is THREE.BufferGeometry => piece !== null);
+  if (pieces.length <= 1) return pieces[0] ?? null;
+  const merged = mergeGeometries(pieces, false);
+  pieces.forEach((piece) => piece.dispose());
+  if (!merged) throw new Error("settlement draw batch could not be merged (vertex layouts differ)");
+  return alignVertexStrides(merged);
+}
+
+/**
  * WebGPU rejects a vertex buffer whose stride is not a multiple of 4 bytes
  * (WebGL2 accepts it). Kits ship octahedral int8 normals padded to stride 4
  * inside an interleaved buffer; `mergeGeometries` de-interleaves them into a

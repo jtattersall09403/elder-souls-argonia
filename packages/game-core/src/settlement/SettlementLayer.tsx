@@ -21,7 +21,9 @@ import {
 } from "./kit";
 import {
   ladderLevelAt,
-  mergeTransformedGeometry,
+  mergeTransformedParts,
+  vertexLayoutKey,
+  type MergeEntry,
   settlementLadder,
   validateLodTriangles,
   validateMaterialTextureCap,
@@ -34,7 +36,6 @@ import {
   cloneSettlementMaterial,
   createSettlementMaterialUniforms,
   isSettlementGlowMaterial,
-  SETTLEMENT_GROUND_ATTRIBUTE,
   prepareSettlementMaterial,
   updateSettlementEnvironment,
   type SettlementMaterialUniforms,
@@ -57,14 +58,13 @@ import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import {
   FLAME_TEXTURE_ASSET_ID, FLAME_TEXTURE_KIT, fixtureFromFireSocket, fixtureFromPiece,
   burnsByDay, drawsOwnFire, isFireSocket, isLightFixturePlacement, isSpriteHolderPlacement,
-  SettlementLightFixtures,
+  LIGHTS_ACTIVE_M, SettlementLightFixtures,
   type LightFixture,
 } from "./lighting";
 import { isFlameCardMaterial } from "../fx/fire/flameAnchors";
 import { mergeRunColliders } from "./runColliders";
 import { fixtureLightFieldOf, litPreparerOf } from "../render/fixtureLights";
 import { DrawTargetLinker, type LinkingRenderer } from "../render/drawTargetLinker";
-import { detachSharedAttribute } from "../vegetation/slotGeometry";
 import { assertPoolsSchema, syncPlacePools } from "./pools";
 import { TransientFetchError, fetchJsonWithRetry, withRetry } from "./fetchRetry";
 import {
@@ -91,6 +91,40 @@ interface DrawBucket {
   alwaysLit?: boolean;
   /** A lantern's shell, lit from inside on the lamp clock (fixtureGlow.ts). */
   shell?: boolean;
+  /** The chunk its placements stand in (`settlementChunkKey`). */
+  chunk: string;
+}
+
+/** What one settlement draw holds: every part of one chunk drawing with one
+ * material and one vertex layout, baked into one geometry. */
+export interface DrawBatch {
+  material: THREE.Material;
+  drawFlags: { castShadow: boolean; renderOrder: number };
+  entries: MergeEntry[];
+  /** Per bucket, its key and copies: the merge is reused while these hold. */
+  signatures: string[];
+  /** It holds far-tier copies. */
+  far: boolean;
+}
+
+/** The batch a bucket draws in: material, vertex layout, chunk and draw flags. */
+export function drawBatchKey(
+  material: THREE.Material, geometry: THREE.BufferGeometry, chunk: string,
+  drawFlags: { castShadow: boolean; renderOrder: number },
+): string {
+  return `${material.uuid}|${vertexLayoutKey(geometry)}|${chunk}|${drawFlags.castShadow ? 1 : 0}|${drawFlags.renderOrder}`;
+}
+
+/** Add one bucket's part and copies to its batch. */
+export function addToBatch(
+  batches: Map<string, DrawBatch>, key: string,
+  row: { material: THREE.Material; drawFlags: DrawBatch["drawFlags"]; far: boolean; entry: MergeEntry; signature: string },
+): void {
+  const batch = batches.get(key) ?? { material: row.material, drawFlags: row.drawFlags, entries: [], signatures: [], far: false };
+  batch.entries.push(row.entry);
+  batch.signatures.push(row.signature);
+  batch.far ||= row.far;
+  batches.set(key, batch);
 }
 
 /**
@@ -158,36 +192,31 @@ const EMPTY_FINAL_TRANSFORM_EVIDENCE = Object.freeze({
  * instances of a part off screen are frustum-culled with their square (walk 5
  * perf: one bucket spanning the place was never culled from inside it). */
 export const SETTLEMENT_CHUNK_M = 48;
+const REBUILD_MOVE_M = 40;
 
 /** The chunk key of a world position. */
 export function settlementChunkKey(x: number, z: number): string {
   return `${Math.floor(x / SETTLEMENT_CHUNK_M)},${Math.floor(z / SETTLEMENT_CHUNK_M)}`;
 }
 
-/**
- * A draw geometry that SHARES the kit part's index and vertex attributes (the
- * same GPU buffers) and adds only its own per-instance ground line: a rebuild
- * uploads the ground lines, never the part's vertices again (a clone per
- * bucket per rebuild did).
- */
-export function instancedPartView(source: THREE.BufferGeometry, groundLinesM: readonly number[]): THREE.BufferGeometry {
-  const view = new THREE.BufferGeometry();
-  view.setIndex(source.index);
-  for (const [name, attribute] of Object.entries(source.attributes)) view.setAttribute(name, attribute);
-  for (const group of source.groups) view.addGroup(group.start, group.count, group.materialIndex);
-  view.setAttribute(SETTLEMENT_GROUND_ATTRIBUTE, new THREE.InstancedBufferAttribute(new Float32Array(groundLinesM), 1));
-  view.userData.esSettlementPartView = true;
-  return view;
-}
+/** Beyond the lamp band a draw batch spans a square of this edge (m): no
+ * fixture lamp lights it, so it needs no chunk of its own for its lamps. */
+export const SETTLEMENT_COARSE_CELL_M = 384;
 
-/** Free a part view's own buffers only: three's geometry dispose deletes every
- * attribute it holds, and the shared ones belong to the kit part. */
-export function disposePartView(view: THREE.BufferGeometry): void {
-  view.setIndex(null);
-  for (const name of Object.keys(view.attributes)) {
-    if (name !== SETTLEMENT_GROUND_ATTRIBUTE) detachSharedAttribute(view, name);
-  }
-  view.dispose();
+/** A chunk whose centre is within this of the build focus keeps its own draws:
+ * lamps burn within LIGHTS_ACTIVE_M of the camera, the camera moves up to
+ * REBUILD_MOVE_M before the next build, and a chunk reaches a diagonal past
+ * its centre. */
+export const SETTLEMENT_LAMP_BAND_M = LIGHTS_ACTIVE_M + REBUILD_MOVE_M + SETTLEMENT_CHUNK_M * Math.SQRT2;
+
+/** The cell a chunk's parts draw in: the chunk itself inside the lamp band
+ * (culled with its square, lit by its own lamps), else the coarse cell its
+ * centre falls in (one merged draw per material over many chunks). */
+export function drawCellOf(chunk: string, focus: { x: number; z: number }, coarseM = SETTLEMENT_COARSE_CELL_M): string {
+  const [cx, cz] = chunk.split(",").map(Number);
+  const x = (cx + 0.5) * SETTLEMENT_CHUNK_M, z = (cz + 0.5) * SETTLEMENT_CHUNK_M;
+  if (Math.hypot(x - focus.x, z - focus.z) <= SETTLEMENT_LAMP_BAND_M) return `c${chunk}`;
+  return `C${Math.floor(x / coarseM)},${Math.floor(z / coarseM)}`;
 }
 
 /** Dispose and detach everything the layer put in `group`: the per-build
@@ -199,11 +228,7 @@ export function disposePartView(view: THREE.BufferGeometry): void {
 function disposeChildren(group: THREE.Group, keep?: ReadonlySet<THREE.BufferGeometry>): void {
   for (const child of [...group.children]) {
     group.remove(child);
-    if (child instanceof THREE.InstancedMesh) {
-      child.dispose();
-      if (child.geometry.userData.esSettlementPartView) disposePartView(child.geometry);
-    }
-    else if (child instanceof THREE.Mesh && !keep?.has(child.geometry)) child.geometry.dispose();
+    if (child instanceof THREE.Mesh && !keep?.has(child.geometry)) child.geometry.dispose();
   }
 }
 
@@ -223,7 +248,6 @@ function buildSignature(buckets: Map<string, DrawBucket>, colliderParts: number)
   return `${rows.sort().join(",")}|${colliderParts}`;
 }
 
-const REBUILD_MOVE_M = 40;
 /** How long a finished build waits for its programs to link before it swaps
  * in anyway (a driver without parallel compile links on first draw). */
 const SETTLEMENT_LINK_WAIT_MS = 4000;
@@ -940,7 +964,7 @@ export function SettlementLayer({
             const chunk = settlementChunkKey(placement.positionM[0], placement.positionM[2]);
             const key = `${placement.kit}|${placement.assetId}|${level}|${partIndex}${litByDay ? "|day" : ""}|${chunk}`;
             const bucket = buckets.get(key) ?? {
-              part, transforms: [], groundLinesM: [], farTransforms: [], farGroundLinesM: [],
+              part, transforms: [], groundLinesM: [], farTransforms: [], farGroundLinesM: [], chunk,
             };
             if (flamePart) {
               bucket.flame = true;
@@ -1001,8 +1025,13 @@ export function SettlementLayer({
       // and on the console; never thrown, so one bad run cannot blank a place.
       const runJointFailures = runJointErrors(runJoints);
       if (runJointFailures.length) console.error(`settlement run joints: ${runJointFailures.join("; ")}`);
-      // the far merges this build draws (reused or new), keyed like the buckets
-      const farKept = new Map<string, { signature: string; geometry: THREE.BufferGeometry }>();
+      // One draw per material per cell (decision 0111, settlement draws): every
+      // bucket of a cell drawing with one material and vertex layout is baked
+      // into one geometry. three's WebGPU path costs ~50-60 µs of CPU per draw,
+      // and an instanced mesh per part per chunk made 528 draws at Riverwalk.
+      // Inside the lamp band the cell is the chunk (its bounds pick its lamps);
+      // beyond it the cell is SETTLEMENT_COARSE_CELL_M (drawCellOf).
+      const batches = new Map<string, DrawBatch>();
       for (const [bucketKey, bucket] of buckets) {
         yield;
         validateMaterialTextureCap(bucket.part.material, bundle.lod.atlasMaxSize);
@@ -1019,53 +1048,38 @@ export function SettlementLayer({
         // (decision 0107), so every draw's caster matches its colour by
         // construction: there is no depth twin to pair or check.
         const drawFlags = prepareSettlementMaterial(material, uniforms, glowMaterial, bucket.flame === true);
-        if (reuseLive) {
-          const drawsHere = (bucket.transforms.length ? 1 : 0) + (bucket.farTransforms.length ? 1 : 0);
-          draws += drawsHere;
-          if (bucket.farTransforms.length) farMeshes += 1;
-          nearInstances += bucket.transforms.length;
-          farInstances += bucket.farTransforms.length;
-          groundBoundInstances += bucket.transforms.length + bucket.farTransforms.length;
-          shadowPairedDraws += drawsHere;
-        }
-        if (!reuseLive && bucket.transforms.length) {
-          const geometry = instancedPartView(bucket.part.geometry, bucket.groundLinesM);
-          const mesh = new THREE.InstancedMesh(geometry, material, bucket.transforms.length);
-          bucket.transforms.forEach((matrix, i) => mesh.setMatrixAt(i, matrix));
-          mesh.instanceMatrix.needsUpdate = true;
-          // the chunk's own bounds: culled with its square, lit by its lamps
-          mesh.computeBoundingSphere();
-          mesh.castShadow = drawFlags.castShadow; mesh.receiveShadow = true;
-          mesh.renderOrder = drawFlags.renderOrder;
-          mesh.userData.esSettlementLodAuthority = true;
-          next.add(mesh);
-          draws += 1;
-          nearInstances += bucket.transforms.length;
-          groundBoundInstances += bucket.transforms.length;
-          shadowPairedDraws += 1;
-        }
-        let farGeometry: THREE.BufferGeometry | null = null;
-        if (!reuseLive && bucket.farTransforms.length) {
-          const farSignature = farSignatureOf(bucket.farTransforms, bucket.farGroundLinesM);
-          const cached = farCache.current.get(bucketKey);
-          farGeometry = cached?.signature === farSignature ? cached.geometry
-            : mergeTransformedGeometry(bucket.part.geometry, bucket.farTransforms, bucket.farGroundLinesM);
-          if (farGeometry) farKept.set(bucketKey, { signature: farSignature, geometry: farGeometry });
-        }
-        if (farGeometry) {
-          const mesh = new THREE.Mesh(farGeometry, material);
-          mesh.castShadow = drawFlags.castShadow; mesh.receiveShadow = true;
-          mesh.renderOrder = drawFlags.renderOrder;
-          mesh.userData.esSettlementFarMerge = true;
-          next.add(mesh);
-          draws += 1;
-          farMeshes += 1;
-          farInstances += bucket.farTransforms.length;
-          groundBoundInstances += bucket.farTransforms.length;
-          shadowPairedDraws += 1;
-        }
-        triangles += bucket.part.triangles * bucket.transforms.length;
-        triangles += bucket.part.triangles * bucket.farTransforms.length;
+        nearInstances += bucket.transforms.length;
+        farInstances += bucket.farTransforms.length;
+        groundBoundInstances += bucket.transforms.length + bucket.farTransforms.length;
+        triangles += bucket.part.triangles * (bucket.transforms.length + bucket.farTransforms.length);
+        const transforms = [...bucket.transforms, ...bucket.farTransforms];
+        const groundLinesM = [...bucket.groundLinesM, ...bucket.farGroundLinesM];
+        addToBatch(batches, drawBatchKey(material, bucket.part.geometry, drawCellOf(bucket.chunk, focus), drawFlags), {
+          material, drawFlags, far: bucket.farTransforms.length > 0,
+          entry: { geometry: bucket.part.geometry, transforms, groundLinesM },
+          signature: `${bucketKey}:${farSignatureOf(transforms, groundLinesM)}`,
+        });
+      }
+      // the merges this build draws (reused or new), keyed by batch
+      const farKept = new Map<string, { signature: string; geometry: THREE.BufferGeometry }>();
+      for (const [batchKey, batch] of batches) {
+        yield;
+        draws += 1;
+        shadowPairedDraws += 1;
+        if (batch.far) farMeshes += 1;
+        if (reuseLive) continue;
+        const batchSignature = batch.signatures.sort().join(";");
+        const cached = farCache.current.get(batchKey);
+        const geometry = cached?.signature === batchSignature ? cached.geometry
+          : mergeTransformedParts(batch.entries);
+        if (!geometry) continue;
+        farKept.set(batchKey, { signature: batchSignature, geometry });
+        const mesh = new THREE.Mesh(geometry, batch.material);
+        // the cell's own bounds: culled with its square, lit by its lamps
+        mesh.castShadow = batch.drawFlags.castShadow; mesh.receiveShadow = true;
+        mesh.renderOrder = batch.drawFlags.renderOrder;
+        mesh.userData.esSettlementBatch = true;
+        next.add(mesh);
       }
       // No code-placed dressing at a building's foot (check-in 2 ruling 1):
       // the wall-foot skirt is cut; the seam is the height-blend shader
