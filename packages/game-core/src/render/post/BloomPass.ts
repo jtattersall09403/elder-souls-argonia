@@ -140,13 +140,16 @@ void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }
 // Preetham disc into its own halo (WorldSky `min(texColor, 50)`), so no
 // brightness separates disc from halo; the disc's direction does.
 const SUN_DISC = /* glsl */ `
-uniform mat4 uInvViewProj;
-uniform vec3 uCamPos;
+uniform mat4 uInvProj;
+uniform mat3 uCamRot;
 uniform vec3 uSunDir;
 uniform float uSunCos;
+// The view ray from the NEAR plane, rotated to world; never the far-plane
+// world point minus the camera: at near 0.3 m and far 60 km that point's w is
+// a float32 cancellation that moved the cone off the disc (walk 9, 06:30).
 bool esInSunDisc(vec2 uv) {
-  vec4 p = uInvViewProj * vec4(uv * 2.0 - 1.0, 1.0, 1.0);
-  return dot(normalize(p.xyz / p.w - uCamPos), uSunDir) >= uSunCos;
+  vec4 v = uInvProj * vec4(uv * 2.0 - 1.0, -1.0, 1.0);
+  return dot(normalize(uCamRot * (v.xyz / v.w)), uSunDir) >= uSunCos;
 }
 `;
 
@@ -294,6 +297,34 @@ export interface SkyCensus {
   /** Glowing sky texels, and the farthest of them from `peak` (mip-0 texels). */
   glowCount: number;
   glowReachPx: number;
+  /** Where the sun's centre projects (mip-0 texels, row 0 at the bottom), or
+   * null when it is behind the camera or off the frame: a probe that aims at
+   * the sun reads this, never its own aim, to know the disc is in view. */
+  sunPx: [number, number] | null;
+  /** Brightest sky texel within 3 mip-0 texels of `sunPx` (exposed linear; 0 off-frame). */
+  sunBr: number;
+  /** Glowing texels within 3 mip-0 texels of `sunPx`. */
+  sunGlow: number;
+  /** Angle (deg) between the `peak` texel's view ray and the sun. */
+  peakDegFromSun: number;
+}
+
+/** The mip-0 texel (row 0 at the bottom) the direction `dir` projects to
+ * through `camera`, or null when behind it or off a `w`×`h` frame. */
+export function sunPixel(camera: THREE.Camera, dir: THREE.Vector3, w: number, h: number): [number, number] | null {
+  const view = dir.clone().transformDirection(camera.matrixWorldInverse);
+  if (view.z >= 0) return null;
+  const ndc = view.applyMatrix4(camera.projectionMatrix);
+  const x = Math.floor((ndc.x * 0.5 + 0.5) * w);
+  const y = Math.floor((ndc.y * 0.5 + 0.5) * h);
+  return x < 0 || y < 0 || x >= w || y >= h ? null : [x, y];
+}
+
+/** World view ray (unit) through the centre of mip-0 texel (`x`, `y`): the
+ * CPU twin of the shader's `esInSunDisc` ray. */
+export function pixelRay(camera: THREE.Camera, x: number, y: number, w: number, h: number): THREE.Vector3 {
+  return new THREE.Vector3(((x + 0.5) / w) * 2 - 1, ((y + 0.5) / h) * 2 - 1, -1)
+    .applyMatrix4(camera.projectionMatrixInverse).transformDirection(camera.matrixWorld);
 }
 
 export class BloomPass {
@@ -309,8 +340,8 @@ export class BloomPass {
   readonly sunDirection = new THREE.Vector3(0, -1, 0);
   /** The sun-disc test's uniforms, shared by the prefilter and the census. */
   private readonly disc = {
-    uInvViewProj: { value: new THREE.Matrix4() },
-    uCamPos: { value: new THREE.Vector3() },
+    uInvProj: { value: new THREE.Matrix4() },
+    uCamRot: { value: new THREE.Matrix3() },
     uSunDir: { value: this.sunDirection },
     uSunCos: { value: 1 },
   };
@@ -413,11 +444,11 @@ export class BloomPass {
     pu.uTexel.value.set(1 / this.mips[0].width, 1 / this.mips[0].height);
     pu.uExposure.value = this.lastExposure = renderer.toneMappingExposure;
     camera.updateMatrixWorld();
-    this.disc.uInvViewProj.value.multiplyMatrices(camera.matrixWorld, camera.projectionMatrixInverse);
-    this.disc.uCamPos.value.setFromMatrixPosition(camera.matrixWorld);
+    this.disc.uInvProj.value.copy(camera.projectionMatrixInverse);
+    this.disc.uCamRot.value.setFromMatrix4(camera.matrixWorld);
     if (this.censusNext && depth) {
       this.censusNext = false;
-      this.lastSkyCensus = this.measureSky(renderer, color, depth);
+      this.lastSkyCensus = this.measureSky(renderer, color, depth, camera);
     }
     renderer.setRenderTarget(this.mips[0]);
     renderer.clear(true, true, false);
@@ -456,7 +487,8 @@ export class BloomPass {
    * SKY texels those the scene threshold would glow (`skyOverSceneThreshold`:
    * the walk-9 sun blob) and those that glow now (`skyGlowing`: the disc).
    */
-  private measureSky(renderer: THREE.WebGLRenderer, color: THREE.Texture, depth: THREE.Texture): SkyCensus {
+  private measureSky(renderer: THREE.WebGLRenderer, color: THREE.Texture, depth: THREE.Texture,
+    camera: THREE.Camera): SkyCensus {
     const [w, h] = [this.mips[0].width, this.mips[0].height];
     const target = new THREE.WebGLRenderTarget(w, h, { depthBuffer: false });
     const material = pass(SKY_CENSUS, {
@@ -483,7 +515,19 @@ export class BloomPass {
     }
     target.dispose();
     material.dispose();
-    return { skyFraction: sky / (w * h), skyOverSceneThreshold: sky ? over / sky : 0,
+    const sun = sunPixel(camera, this.sunDirection, w, h);
+    let sunBr = 0; let sunGlow = 0;
+    if (sun) {
+      for (let y = Math.max(0, sun[1] - 3); y <= Math.min(h - 1, sun[1] + 3); y++) {
+        for (let x = Math.max(0, sun[0] - 3); x <= Math.min(w - 1, sun[0] + 3); x++) {
+          const k = (y * w + x) * 4;
+          if (px[k] > 127) sunBr = Math.max(sunBr, 2 ** ((px[k + 3] / 255) * 12) - 1);
+          if (px[k + 2] > 127) sunGlow++;
+        }
+      }
+    }
+    const peakDegFromSun = THREE.MathUtils.radToDeg(pixelRay(camera, x0, y0, w, h).angleTo(this.sunDirection));
+    return { sunPx: sun, sunBr, sunGlow, peakDegFromSun, skyFraction: sky / (w * h), skyOverSceneThreshold: sky ? over / sky : 0,
       skyGlowing: sky ? glow / sky : 0, exposure: renderer.toneMappingExposure,
       maxSkyBr: peakA < 0 ? 0 : 2 ** ((peakA / 255) * 12) - 1, peak: [x0, y0],
       glowCount: glow, glowReachPx: reach };

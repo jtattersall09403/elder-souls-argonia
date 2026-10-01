@@ -57,6 +57,25 @@ try {
       return { yaw, altDeg: (alt * 180) / Math.PI };
     }, hh * 60 + mm);
     await page.waitForTimeout(15000);
+    // The follow camera's pitch is not the view's elevation (the look target
+    // rises past minPosPitch), so steer on the census's own sun pixel until
+    // the disc sits mid-frame; a sun still off-frame is reported, not measured.
+    let pitch = -sun.altDeg * Math.PI / 180;
+    const census = async () => {
+      await page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.postSkyCensus(true));
+      await page.waitForFunction(() => window.__STUDIO_CHARACTER_DEBUG__.postSkyCensus() != null, undefined, { timeout: 180000, polling: 500 });
+      return page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.postSkyCensus());
+    };
+    const VFOV = 60 * Math.PI / 180; // only the steering gain
+    for (let k = 0; k < 6; k++) {
+      const c = await census();
+      const err = c.sunPx ? (c.sunPx[1] / 135 - 0.5) * VFOV : null;
+      if (err !== null && Math.abs(err) < 0.05) break;
+      pitch = Math.max(-1.15, Math.min(0.78, pitch - (err ?? 0.25)));
+      await page.evaluate(({ yaw, p }) => window.__STUDIO_CHARACTER_DEBUG__.aimCamera(yaw, p), { yaw: sun.yaw, p: pitch });
+      await page.waitForTimeout(4000);
+    }
+    sun.pitch = pitch;
     // the clock the frame was drawn at (walk 9: a stale census repeated 14:30 as 18:30)
     const clockMinute = await page.evaluate(async () => (await import("/src/sky/timeState.ts")).worldClock.now().minuteOfDay);
     const tag = t.replace(":", "");

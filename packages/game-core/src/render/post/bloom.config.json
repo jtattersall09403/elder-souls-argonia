@@ -4,7 +4,7 @@
   "knee": 2,
   "strength": 0.35,
   "maxMips": 5,
-  "skyThreshold": 3.0,
+  "skyThreshold": 1.0,
   "skyKnee": 0.25,
   "sunHaloDeg": 0.8,
   "skyMax": 0.4
