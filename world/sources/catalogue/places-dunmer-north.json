@@ -10858,7 +10858,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A halt in a sheltered sea cove at the mouth of the pilgrim water, the channel up to Hissmir. Boats off the Padomaic run put in here. The houses stand along the plank walk, which serves as the village street.",
+        "founding": "A halt in a sheltered sea cove at the mouth of the pilgrim water, the channel up to Hissmir. Boats off the Padomaic run put in here. The houses stand on the shore. A plank walk runs out from them across the cove to the islet where the ferry stage moors.",
         "siteAdvantages": "The only sheltered water on this stretch of coast, under a kilometre from Thorn by the Tear road. Canoes leave the same stage for Hissmir and Murkwater.",
         "occupantsMotive": "It lives on the ferry stage and the toll on boats entering the pilgrim water. It also feeds and lodges the crews. The village grows no food of its own.",
         "pressures": "Thorn's field-owners and the stewards of Hissmir both say the toll on the pilgrim water is theirs.",
@@ -10950,14 +10950,14 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "A plank walk across a shallow cove, with the houses and the totems on the spit at one end and the ferry stage on the islet at the other.",
+        "silhouette": "Two houses and a totem stand on the shore, with the long house on piles in the shallows beside them. A plank walk runs out across the cove to a tent on a low islet. The ferry stage is moored off the islet's far side.",
         "palette": "Silver weathered plank, black water and reed thatch.",
-        "materials": "Piles, planks and lashed handrails over the water. The crews' house stands on the dry spit; the long house stands on piles in the shallows beside it.",
-        "signatureFeature": "The walk is the street. It crosses open water, so everyone who lands at the stage walks past the toll-holder's post.",
+        "materials": "Piles, planks and lashed handrails over the water. The crews' house and the family house stand on dry ground at the shore; the long house stands on piles in the shallows beside them.",
+        "signatureFeature": "The plank walk is the only way between the shore and the ferry stage. It crosses open water, so everyone who lands at the stage walks past the toll-holder's post at the shore end.",
         "condition": "Constantly re-planked; the boards are all different ages, recording the order in which the village was built.",
         "mood": "Linear and sociable.",
-        "approach": "Boats come in off the Padomaic run and pole across the cove to the ferry stage on the islet.",
-        "senses": "Boards underfoot from the spit to the islet; poles in the mud; talk carrying over still water."
+        "approach": "Boats come in off the Padomaic run and pole across the cove to the ferry stage off the islet.",
+        "senses": "Boards underfoot from the shore to the islet; poles in the mud; talk carrying over still water."
       },
       "assetPlan": [
         "passerelles-walkway",
@@ -11024,7 +11024,7 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cove in mangrove forest (danger band 0), 692 m from the nearest route; at the water's edge; won on region, hinterland, route; site exchanged in the swap pass with place.dunmer-north.reedmoor-stilts (+0.38).",
+      "whySiteWon": "sheltered sea cove (danger band 0), 692 m from the nearest route; at the water's edge; won on region, hinterland, route; site exchanged in the swap pass with place.dunmer-north.reedmoor-stilts (+0.38).",
       "plotFacts": {
         "landform": "cove",
         "regionClass": "mangrove forest",

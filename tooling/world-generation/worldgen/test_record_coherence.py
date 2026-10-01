@@ -104,3 +104,91 @@ def test_service_edge_form():
     assert rc.coherence_failures("place.t.home", ix) == []
     ix.places["place.t.home"]["relations"]["travelServiceEdges"] = ["service:ferry.x.nope"]
     assert any("ferry.x.nope" in f for f in rc.coherence_failures("place.t.home", ix))
+
+
+# ------------------------------------------------ walk 9: the scene, the plants, the receipt
+
+def _veg_index(rec_why: str, n_mangrove: int, field: str = "founding") -> rc.Index:
+    from pathlib import Path
+    ix = _index("A halt.", "Nothing here", True)
+    ix.places["place.t.home"]["why"] = {field: rec_why}
+    ix.vegetation_dir = Path("/nonexistent")
+    ix.cache["veg"] = {"order": ["bmv:landscape/trees/mangrovereachtree0gkb3", "bmv:landscape/plants/fern01"],
+                       "cm": 500.0}
+    xz = np.array([[10.0 + i, 10.0] for i in range(n_mangrove)] + [[20.0, 20.0]] * 10, dtype=np.float32)
+    sp = np.array([0] * n_mangrove + [1] * 10, dtype=np.int32)
+    ix.vegetation[(0, 0)] = (sp, xz.reshape(-1, 2))
+    return ix
+
+
+def _eco(ix):
+    return [f for f in rc.coherence_failures("place.t.home", ix) if "grows here" in f]
+
+
+def test_ecology_noun_needs_plants_within_200m():
+    """Owner walk 9: Riverwalk's 'cove in mangrove forest' with no mangrove in sight."""
+    assert any("mangrove forest or stand" in f for f in _eco(_veg_index("A cove in mangrove forest.", 20)))
+    assert _eco(_veg_index("A cove in mangrove forest.", 80)) == []
+    assert any("says mangrove grows" in f for f in _eco(_veg_index("A few mangroves lean over it.", 2)))
+    assert _eco(_veg_index("A few mangroves lean over it.", 6)) == []
+    assert _eco(_veg_index("Ferns crowd the bank.", 0)) == []          # ten ferns stand there
+
+
+def test_ecology_materials_are_not_plants():
+    assert _eco(_veg_index("Roofs of reed thatch and bamboo huts.", 0)) == []
+    assert _eco(_veg_index("Mud and reed at the rear.", 0, field="materials")) == []
+    assert any("reed" in f for f in _eco(_veg_index("Reeds crowd the water.", 0)))
+
+
+def test_ecology_undressed_cell_is_not_measured():
+    ix = _veg_index("A cove in mangrove forest.", 0)
+    ix.vegetation.clear()
+    assert _eco(ix) == []
+
+
+def test_ecology_tokens_are_palette_species():
+    """Every plant noun is proved by a species the flora palettes actually place."""
+    import json
+    import re
+    text = json.dumps(json.loads((rc.SRC / "flora" / "palettes.json").read_text())).lower()
+    leaves = {s.rsplit("/", 1)[-1] for s in re.findall(r'"[a-z0-9_]+:[^"]+/[^"]+"', text)}
+    for noun, (_, tok) in rc.ECOLOGY.items():
+        assert any(tok in leaf for leaf in leaves), noun
+
+
+class _Water:
+    """3 m cells: the mainland is the top 5 rows, an islet sits in open water."""
+    mpp2 = 3.0
+
+    def __init__(self):
+        d = np.full((200, 200), 2.0, dtype=np.float32)
+        d[:5, :] = -1.0
+        d[39:44, 20:24] = -0.5
+        self.depth2 = d
+
+
+def test_scene_summary_land_islet_water_and_run_ends():
+    ix = _index("A halt.", "Nothing here", True)
+    ix.places["place.t.home"].update(positionM=[66.0, 66.0], footprintRadiusM=60.0)
+    run = "place.t.home.parcel.t.walk"
+    pl = [{"id": "place.t.home.parcel.t.house.building", "assetId": "k:a/hut", "positionM": [66.0, 0, 6.0]},
+          {"id": "place.t.home.parcel.t.tent.building", "assetId": "k:a/tent", "positionM": [64.0, 0, 125.0]},
+          {"id": "place.t.home.parcel.t.raft.building", "assetId": "k:a/raft", "positionM": [100.0, 0, 100.0]}]
+    pl += [{"id": f"{run}.piece.{i}", "assetId": "k:a/plank", "positionM": [64.0, 0, 18.0 + 25.0 * i],
+            "run": {"id": run, "index": i}} for i in range(5)]
+    s = rc.scene_summary("place.t.home", ix, {"placements": pl}, water=_Water())
+    on = {x["id"]: x["on"] for x in s["built"]["structures"]}
+    assert on == {"t.house.building": "land", "t.tent.building": "islet", "t.raft.building": "water"}
+    (walk,) = s["built"]["runs"]
+    assert walk["pieces"] == 5 and walk["lengthM"] == 100.0
+    assert walk["ends"][0]["on"] == "water" and walk["ends"][0]["nearestDry"]["on"] == "land"
+    assert walk["ends"][0]["nearestStructure"] == "t.house.building"
+    assert walk["ends"][1]["on"] == "islet" and walk["ends"][1]["nearestStructure"] == "t.tent.building"
+    assert any("on islet" in ln for ln in rc.scene_lines(s))
+
+
+def test_regression_green_to_red_only():
+    now = {"a": "red", "b": "green", "c": "red"}
+    before = {"a": "green", "b": "red", "c": "red"}
+    fails = rc.regression_failures(now, before)
+    assert len(fails) == 1 and "a was coherent at HEAD" in fails[0]

@@ -13,8 +13,17 @@ Names are read from their home tables (catalogue, anchors, route registry;
 standard 18); route geometry is the shipped province data, px converted the
 way ``audit_place_semantics.load_routes`` does it ((p + 0.5) * metresPerPixel).
 
-CLI: ``python3 -m worldgen.record_coherence --place <id>`` or ``--all-built``
-writes ``tooling/.reports/16k/<short-id>/coherence-packet.md``.
+A plant the record's prose says grows here needs a handful of frozen
+vegetation instances within 200 m (owner walk 9: "cove in mangrove forest"
+with no mangrove in sight). The packet's scene section says what stands on
+land, water or islet, what each run's ends touch and what grows nearby.
+
+CLI: ``--place <id>`` or ``--all-built`` writes
+``tooling/.reports/16k/<short-id>/coherence-packet.md``; ``--changed`` grades
+every record a change set touches and every place referencing one and writes
+``tooling/.reports/16k/changeset-packet.md`` (before/after per record);
+``--receipt`` refreshes ``world/sources/catalogue/coherence-receipt.json`` and
+fails on a record green at HEAD and red now (``record.regression``).
 """
 from __future__ import annotations
 
@@ -98,6 +107,12 @@ class Index:
     services: dict
     quests: list[tuple[str, dict]]          # (file, quest)
     lines: dict[str, dict[str, int]] = field(default_factory=dict)
+    # frozen vegetation, chunk -> (speciesOrder index per instance, (n, 2) x/z); None: undressed.
+    # Tests inject a dict here; build_index leaves it lazily filled from disk.
+    vegetation: dict[tuple[int, int], tuple[np.ndarray, np.ndarray] | None] = field(default_factory=dict)
+    vegetation_dir: Path | None = None
+    cache: dict = field(default_factory=dict)   # per-index memo (vegetation meta, station places)
+    _reverse: dict[str, dict[str, set[str]]] | None = None
 
 
 def _px_pts(px, mpp: float) -> np.ndarray:
@@ -164,7 +179,8 @@ def build_index() -> Index:
         for q in doc.get("quests", []) if isinstance(doc, dict) else []:
             quests.append((str(Path(f).relative_to(REPO)), q))
     services = json.loads((SRC / "routes" / "travel-services.json").read_text())
-    return Index(places, place_file, names, name_re, routes, channels, services, quests)
+    return Index(places, place_file, names, name_re, routes, channels, services, quests,
+                 vegetation_dir=PROVINCE / "vegetation")
 
 
 # --------------------------------------------------------------- geometry
@@ -205,8 +221,14 @@ def prose_strings(obj, path: str = "") -> list[tuple[str, str]]:
 
 
 def anchored_quests(place_id: str, index: Index) -> list[tuple[str, dict]]:
-    return [(f, q) for f, q in index.quests
-            if q.get("settlement") == place_id or place_id in (q.get("anchorPlaces") or [])]
+    if "anchored" not in index.cache:
+        by: dict[str, list[tuple[str, dict]]] = {}
+        for f, q in index.quests:
+            for pid in dict.fromkeys([q.get("settlement")] + list(q.get("anchorPlaces") or [])):
+                if isinstance(pid, str):
+                    by.setdefault(pid, []).append((f, q))
+        index.cache["anchored"] = by
+    return list(index.cache["anchored"].get(place_id, []))
 
 
 def quest_prose(q: dict) -> list[tuple[str, str]]:
@@ -222,9 +244,12 @@ def station_place(st: dict, index: Index) -> str | None:
     pos = st.get("positionM")
     if not pos:
         return None
-    best = min(((pdist(pos, p["positionM"]), pid) for pid, p in index.places.items()
-                if p.get("positionM")), default=None)
-    return best[1] if best else None
+    key = ("station", tuple(pos))
+    if key not in index.cache:
+        best = min(((pdist(pos, p["positionM"]), pid) for pid, p in index.places.items()
+                    if p.get("positionM")), default=None)
+        index.cache[key] = best[1] if best else None
+    return index.cache[key]
 
 
 def travel_rows(place_id: str, index: Index) -> tuple[list[dict], set[str]]:
@@ -376,6 +401,7 @@ def coherence_failures(place_id: str, index: Index, compiled: dict | None = None
             fails.append(f"record.coherence: quest {q['id']} premises a {feat} and the record, the "
                          f"build and the water within 3 km have none")
     fails += relation_failures(place_id, index, compiled)
+    fails += ecology_failures(place_id, index, compiled)
     return sorted(set(fails))
 
 
@@ -406,22 +432,427 @@ def relation_failures(place_id: str, index: Index, compiled: dict | None = None)
         for pid in sorted(rivals & set(rel.get(key) or [])):
             fails.append(f"record.coherence: {pid} is in both relations.rivals and relations.{key}")
     supplies = set(rel.get("supplies") or [])
-    for oid in sorted(index.places):
-        if oid == place_id:
-            continue
-        orel = index.places[oid].get("relations") or {}
-        if place_id in (orel.get("dependsOn") or []) and oid not in supplies:
-            fails.append(f"record.coherence: {oid} dependsOn this place and relations.supplies "
-                         f"does not name it")
-        if place_id in (orel.get("rivals") or []) and oid not in rivals:
-            fails.append(f"record.coherence: {oid} names this place a rival and relations.rivals "
-                         f"does not name it back")
+    rev = _reverse(index)
+    for oid in sorted(rev["dependsOn"].get(place_id, set()) - {place_id} - supplies):
+        fails.append(f"record.coherence: {oid} dependsOn this place and relations.supplies "
+                     f"does not name it")
+    for oid in sorted(rev["rivals"].get(place_id, set()) - {place_id} - rivals):
+        fails.append(f"record.coherence: {oid} names this place a rival and relations.rivals "
+                     f"does not name it back")
     for oid in sorted(rivals):
         o = index.places.get(oid)
         if o is not None and place_id not in ((o.get("relations") or {}).get("rivals") or []):
             fails.append(f"record.coherence: relations.rivals names {oid} and its record does not "
                          f"name this place back")
     return fails
+
+
+def _reverse(index: Index) -> dict[str, dict[str, set[str]]]:
+    """target -> the places whose relations.<key> name it (built once per index)."""
+    if index._reverse is None:
+        rev: dict[str, dict[str, set[str]]] = {"dependsOn": {}, "rivals": {}}
+        for oid, o in index.places.items():
+            orel = o.get("relations") or {}
+            for key in rev:
+                for t in orel.get(key) or []:
+                    if isinstance(t, str):
+                        rev[key].setdefault(t, set()).add(oid)
+        index._reverse = rev
+    return index._reverse
+
+
+# --------------------------------------------------------------- what grows there
+
+# A growing plant the prose names -> the species-name token that proves it in
+# the frozen vegetation (tokens taken from the species of world/sources/flora/
+# palettes.json; test_ecology_tokens_are_palette_species holds them to it).
+# "reed thatch", "bamboo hut", "pine planks" are materials, never ecology.
+_MATERIAL = (r"(?![-\s](?:thatch\w*|mats?|matting|roofs?|walls?|screens?|baskets?|rope|planks?|"
+             r"boards?|poles?|wood|timber|huts?|cloth|weave|woven|frames?|beams?|staves?|pipes?|"
+             r"wine|oil|beads?|carvings?|furniture|decks?|floors?|lattice)\b)")
+ECOLOGY: dict[str, tuple[str, str]] = {
+    "mangrove": (r"\bmangroves?\b", "mangrove"),
+    "palm": (r"\bpalms?\b", "palm"),
+    "reed": (r"\breeds?\b(?:\s+beds?\b)?", "reed"),
+    "cypress": (r"\bcypress(?:es)?\b", "cypress"),
+    "willow": (r"\bwillows?\b", "willow"),
+    "fern": (r"\bferns?\b|\bbracken\b", "fern"),
+    "moss": (r"\bmoss(?:es|y)?\b", "moss"),
+    "kelp": (r"\bkelp\b", "kelp"),
+    "bamboo": (r"\bbamboo\b", "bamboo"),
+    "lily": (r"\b(?:water\s?)?lil(?:y|ies)\b|\blily\s?pads?\b", "lil"),
+    "pine": (r"\bpines?\b", "pine"),
+    "aspen": (r"\baspens?\b", "aspen"),
+    "vine": (r"\bvines?\b", "vine"),
+    "coral": (r"\bcorals?\b", "coral"),
+    "seaweed": (r"\bseaweeds?\b", "seaweed"),
+}
+ECOLOGY_M = 200.0
+ECOLOGY_MIN = 5          # "a handful": fewer and the prose is about something absent
+# "mangrove forest", "palm grove", "reed beds": a stand needs more than a handful
+_STAND = r"[\s-]*(?:forests?|woods?|woodland|groves?|stands?|thickets?|swamps?|beds?|belts?|jungle)\b"
+ECOLOGY_STAND_MIN = 60
+_PLANT_RE = {n: re.compile(p + _MATERIAL, re.I) for n, (p, _) in ECOLOGY.items()}
+_ANY_PLANT = re.compile("|".join(p for p, _ in ECOLOGY.values()), re.I)
+CLEARANCE_SEED = 0x5CA77E5   # apply_vegetation_patches main's default seed (clearanceFilter.ts)
+# fields that are siting machinery, never a claim about the built place
+ECOLOGY_SKIP = ("plotFacts", "sitingPrefs", "sitingNote")
+# building-material fields: "mud and reed at the rear" is a wall, not a reed bed
+ECOLOGY_SKIP_LEAF = ("materials", "palette")
+
+
+def _veg_chunk(index: Index, cx: int, cz: int):
+    """(speciesOrder index per instance, (n, 2) float32 x/z) of one frozen vegetation
+    cell, read once per index; None when the cell is not dressed."""
+    key = (cx, cz)
+    if key not in index.vegetation:
+        vdir = index.vegetation_dir
+        blob = vdir / f"chunk_{cx}_{cz}_vegetation.bin" if vdir else None
+        if blob is None or not blob.exists():
+            index.vegetation[key] = None
+        else:
+            from .scatter import INSTANCE_STRUCT, MAGIC, SPECIES_HEADER_STRUCT
+            raw = blob.read_bytes()
+            if raw[:4] != MAGIC:
+                raise ValueError(f"{blob}: not a vegetation bundle")
+            count = int.from_bytes(raw[8:12], "little")
+            off, heads = 12, []
+            for _ in range(count):
+                heads.append(SPECIES_HEADER_STRUCT.unpack_from(raw, off)[:2])
+                off += SPECIES_HEADER_STRUCT.size
+            names, parts = [], []
+            row = np.dtype([("x", "<f4"), ("y", "<f4"), ("z", "<f4"), ("b", "u1", (5,))])
+            assert row.itemsize == INSTANCE_STRUCT.size
+            for sp, n in heads:
+                arr = np.frombuffer(raw, dtype=row, count=n, offset=off)
+                off += n * row.itemsize
+                names.append(np.full(n, sp, dtype=np.int32))
+                parts.append(np.stack([arr["x"], arr["z"]], axis=1))
+            idx = np.concatenate(names) if names else np.zeros(0, np.int32)
+            xz = np.concatenate(parts) if parts else np.zeros((0, 2), np.float32)
+            index.vegetation[key] = (idx, xz)
+    return index.vegetation[key]
+
+
+def _veg_meta(index: Index) -> dict:
+    """speciesOrder and chunkMetres of the frozen vegetation index, read once."""
+    if "veg" not in index.cache:
+        path = index.vegetation_dir / "vegetation-index.json" if index.vegetation_dir else None
+        doc = json.loads(path.read_text()) if path and path.exists() else {}
+        index.cache["veg"] = {"order": doc.get("speciesOrder", []),
+                              "cm": float(doc.get("chunkMetres") or 467.93)}
+    return index.cache["veg"]
+
+
+def _species_order(index: Index) -> list[str]:
+    return _veg_meta(index)["order"]
+
+
+def vegetation_near(index: Index, pos, radius: float = ECOLOGY_M,
+                    clearance: dict | None = None) -> dict[str, int] | None:
+    """Species (leaf name) -> frozen instances within the radius that the
+    place's own clearance keeps (tree tier, ``apply_vegetation_patches.survives``
+    at the origin); None when no cell there is dressed."""
+    x, z = float(pos[0]), float(pos[1])
+    cm = _veg_meta(index)["cm"]
+    out: dict[str, int] = {}
+    dressed = False
+    for cx in range(int((x - radius) // cm), int((x + radius) // cm) + 1):
+        for cz in range(int((z - radius) // cm), int((z + radius) // cm) + 1):
+            ch = _veg_chunk(index, cx, cz)
+            if ch is None:
+                continue
+            dressed = True
+            sp, xz = ch
+            if not len(xz):
+                continue
+            hit = np.nonzero(np.hypot(xz[:, 0] - x, xz[:, 1] - z) <= radius)[0]
+            if clearance and len(hit):
+                from . import apply_vegetation_patches as avp
+                keep = avp.survives_mask(xz[hit, 0], xz[hit, 1], clearance, CLEARANCE_SEED,
+                                         avp.patch_id_hash(clearance["id"]))
+                hit = hit[keep]
+            order = _species_order(index)
+            for i, n in zip(*np.unique(sp[hit], return_counts=True)):
+                leaf = (order[i] if i < len(order) else "?").rsplit("/", 1)[-1]
+                out[leaf] = out.get(leaf, 0) + int(n)
+    return out if dressed else None
+
+
+def _clearance(compiled: dict | None) -> dict | None:
+    c = ((compiled or {}).get("settlement") or {}).get("vegetationClearance")
+    return c if c and c.get("id") else None
+
+
+def ecology_failures(place_id: str, index: Index, compiled: dict | None = None) -> list[str]:
+    """A plant the record's prose says grows here has a handful of frozen instances within 200 m."""
+    rec = index.places[place_id]
+    texts = [(k, t) for k, t in prose_strings(rec)
+             if not k.startswith(ECOLOGY_SKIP) and not k.rsplit(".", 1)[-1].startswith(ECOLOGY_SKIP_LEAF)]
+    claims: dict[str, str] = {}
+    for where, text in texts:
+        if not _ANY_PLANT.search(text):
+            continue
+        for noun, pat in _PLANT_RE.items():
+            for m in pat.finditer(text):
+                stand = bool(re.match(_STAND, text[m.end():], re.I))
+                if noun not in claims or (stand and not claims[noun][1]):
+                    claims[noun] = (where, stand)
+    if not claims:
+        return []
+    near = vegetation_near(index, rec["positionM"], clearance=_clearance(compiled))
+    if near is None:
+        return []          # no dressed chunk here: nothing to measure against
+    fails = []
+    for noun, (where, stand) in sorted(claims.items()):
+        tok = ECOLOGY[noun][1]
+        n = sum(c for leaf, c in near.items() if tok in leaf.lower())
+        bar = ECOLOGY_STAND_MIN if stand else ECOLOGY_MIN
+        if n < bar:
+            what = f"a {noun} forest or stand" if stand else f"{noun}"
+            fails.append(f"record.coherence: record {where} says {what} grows here and the frozen "
+                         f"vegetation the place keeps has {n} {noun} instance(s) within "
+                         f"{ECOLOGY_M:.0f} m (bar {bar})")
+    return fails
+
+
+# --------------------------------------------------------------- the scene
+
+SCENE_PAD_M = 150.0
+
+
+def _water_window(water, x: float, z: float, half: float):
+    """Dry-ground components of the frozen water record around (x, z): the
+    component touching the window edge is the mainland, any other is an islet."""
+    from scipy import ndimage
+    m = float(water.mpp2)
+    c0, r0 = max(0, int((x - half) / m)), max(0, int((z - half) / m))
+    c1, r1 = int((x + half) / m) + 1, int((z + half) / m) + 1
+    depth = water.depth2[r0:r1, c0:c1]
+    lab, _ = ndimage.label(depth <= 0.0)
+    edge = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]).tolist())) - {0}
+    dist, (ir, ic) = ndimage.distance_transform_edt(lab == 0, return_indices=True)
+    return {"m": m, "c0": c0, "r0": r0, "lab": lab, "edge": edge, "depth": depth,
+            "dist": dist * m, "ir": ir, "ic": ic}
+
+
+def _where(win, x: float, z: float) -> dict:
+    r, c = int(z / win["m"]) - win["r0"], int(x / win["m"]) - win["c0"]
+    lab = win["lab"]
+    if not (0 <= r < lab.shape[0] and 0 <= c < lab.shape[1]):
+        return {"on": "outside", "depthM": None}
+    L = int(lab[r, c])
+    kind = lambda l: "land" if l in win["edge"] else "islet"  # noqa: E731
+    out = {"on": "water" if L == 0 else kind(L), "depthM": round(float(win["depth"][r, c]), 2)}
+    if L == 0:
+        nl = int(lab[win["ir"][r, c], win["ic"][r, c]])
+        out["nearestDry"] = {"on": kind(nl) if nl else "none", "m": round(float(win["dist"][r, c]), 1)}
+    return out
+
+
+def scene_summary(place_id: str, index: Index, compiled: dict | None, water=None) -> dict:
+    """What is built where and what grows around it, read from the compiled
+    bundle, the frozen water record and the frozen vegetation (owner walk 9:
+    the reader packet named kits and doors but not the scene)."""
+    rec = index.places[place_id]
+    pos = rec["positionM"]
+    out: dict = {"vegetationWithin200m": vegetation_near(index, pos, clearance=_clearance(compiled))}
+    if compiled is None:
+        out["built"] = None
+        return out
+    if water is None:
+        from .water_report import ShippedWater
+        water = ShippedWater(heights=None)
+    half = (rec.get("footprintRadiusM") or 100.0) + SCENE_PAD_M
+    win = _water_window(water, pos[0], pos[1], half)
+    structures, by_class, runs = [], {}, {}
+    short = lambda pid: pid.split(".parcel.", 1)[-1] if ".parcel." in pid else pid  # noqa: E731
+    for p in compiled.get("placements") or []:
+        x, z = p["positionM"][0], p["positionM"][2]
+        w = _where(win, x, z)
+        run = (p.get("run") or {}).get("id")
+        cls = "run piece" if run else (p.get("layer") or "structure")
+        by_class.setdefault(cls, {}).setdefault(w["on"], 0)
+        by_class[cls][w["on"]] += 1
+        if run:
+            runs.setdefault(run, []).append((p["run"].get("index", 0), x, z, w))
+        elif cls == "structure":
+            structures.append({"id": short(p["id"]), "asset": str(p.get("assetId", "")).rsplit("/", 1)[-1],
+                               "xz": [round(x, 1), round(z, 1)], **w})
+    run_rows = []
+    for rid, pieces in sorted(runs.items()):
+        pieces.sort(key=lambda t: t[0])
+        ends = []
+        for _, x, z, w in (pieces[0], pieces[-1]):
+            near = min(((math.hypot(s["xz"][0] - x, s["xz"][1] - z), s["id"]) for s in structures),
+                       default=(math.inf, None))
+            ends.append({**w, "xz": [round(x, 1), round(z, 1)],
+                         "nearestStructure": near[1] if near[0] <= 15.0 else None,
+                         "nearestStructureM": round(near[0], 1) if near[0] <= 15.0 else None})
+        length = sum(math.hypot(b[1] - a[1], b[2] - a[2]) for a, b in zip(pieces, pieces[1:]))
+        on = {}
+        for *_, w in pieces:
+            on[w["on"]] = on.get(w["on"], 0) + 1
+        run_rows.append({"id": short(rid), "pieces": len(pieces), "lengthM": round(length, 1),
+                         "piecesOn": on, "ends": ends})
+    out["built"] = {"structures": structures, "byClass": by_class, "runs": run_rows}
+    return out
+
+
+def scene_lines(scene: dict) -> list[str]:
+    out = []
+    b = scene.get("built")
+    if b is None:
+        out.append("- not compiled")
+    else:
+        out.append("Where each structure stands (frozen water record: land = the mainland, islet = dry "
+                   "ground cut off by water, water = in the water, depth in m):")
+        for s in b["structures"]:
+            extra = (f", nearest dry ground {s['nearestDry']['on']} {s['nearestDry']['m']} m"
+                     if s.get("nearestDry") else "")
+            out.append(f"- {s['id']} ({s['asset']}) at {s['xz']}: on {s['on']}, depth {s['depthM']}{extra}")
+        out.append("Placements by class and where they stand: " + "; ".join(
+            f"{c} {sorted(v.items())}" for c, v in sorted(b["byClass"].items())))
+        out.append("Runs (plank walks, docks) and what their ends touch:")
+        for r in b["runs"]:
+            ends = []
+            for e in r["ends"]:
+                t = f"on {e['on']}"
+                if e.get("nearestDry"):
+                    t += f" ({e['nearestDry']['m']} m from {e['nearestDry']['on']})"
+                if e.get("nearestStructure"):
+                    t += f", {e['nearestStructureM']} m from {e['nearestStructure']}"
+                ends.append(t)
+            out.append(f"- {r['id']}: {r['pieces']} pieces, {r['lengthM']} m, pieces on {r['piecesOn']}; "
+                       f"start {ends[0]}; end {ends[1]}")
+    veg = scene.get("vegetationWithin200m")
+    if veg is None:
+        out.append("Vegetation within 200 m: no dressed chunk here")
+    else:
+        top = sorted(veg.items(), key=lambda kv: (-kv[1], kv[0]))
+        out.append("Vegetation within 200 m (frozen scatter, instances): "
+                   + ", ".join(f"{k} {v}" for k, v in top[:30]))
+        groups = {n: sum(c for leaf, c in veg.items() if t in leaf.lower()) for n, (_, t) in ECOLOGY.items()}
+        out.append("By plant the prose may name: " + ", ".join(f"{n} {c}" for n, c in sorted(groups.items())))
+    return out
+
+
+# --------------------------------------------------------------- receipt and change sets
+
+RECEIPT = SRC / "catalogue" / "coherence-receipt.json"
+RECEIPT_SCHEMA = 1
+
+
+def built_places(index: Index) -> list[str]:
+    """Every place with a published bundle (the built places), sorted."""
+    return sorted(pid for pid in index.places
+                  if (PROVINCE / "settlements" / f"{pid}.json").exists())
+
+
+def all_statuses(index: Index) -> dict[str, str]:
+    """green / red for every place record with a position (built places graded with their bundle)."""
+    built = set(built_places(index))
+    out = {}
+    for pid in sorted(index.places):
+        if not index.places[pid].get("positionM"):
+            continue
+        fails = coherence_failures(pid, index, load_compiled(pid) if pid in built else None)
+        out[pid] = "red" if fails else "green"
+    return out
+
+
+def committed_receipt(rel: str | None = None) -> dict[str, str]:
+    import subprocess
+    rel = rel or str(RECEIPT.relative_to(REPO))
+    r = subprocess.run(["git", "show", f"HEAD:{rel}"], cwd=REPO, capture_output=True, text=True)
+    return json.loads(r.stdout).get("records", {}) if r.returncode == 0 else {}
+
+
+def regression_failures(now: dict[str, str], before: dict[str, str], index: Index | None = None) -> list[str]:
+    """A record green at HEAD and red in the working tree: a later change broke a fit made earlier."""
+    fails = []
+    for pid in sorted(before):
+        if before[pid] == "green" and now.get(pid) == "red":
+            first = ""
+            if index is not None:
+                f = coherence_failures(pid, index, load_compiled(pid))
+                first = f": {f[0]}" if f else ""
+            fails.append(f"record.regression: {pid} was coherent at HEAD and is not now{first}")
+    return fails
+
+
+def write_receipt(statuses: dict[str, str]) -> None:
+    doc = {"schemaVersion": RECEIPT_SCHEMA,
+           "about": "record_coherence status per place record; written by place_gates and "
+                    "record_coherence --receipt; gate record.regression compares HEAD with the tree",
+           "records": dict(sorted(statuses.items()))}
+    text = json.dumps(doc, indent=1, ensure_ascii=False) + "\n"
+    if not RECEIPT.exists() or RECEIPT.read_text() != text:
+        RECEIPT.write_text(text, encoding="utf-8")
+
+
+def _head_json(rel: str):
+    import subprocess
+    r = subprocess.run(["git", "show", f"HEAD:{rel}"], cwd=REPO, capture_output=True, text=True)
+    return json.loads(r.stdout) if r.returncode == 0 else None
+
+
+def changed_records(index: Index) -> tuple[dict[str, tuple[dict | None, dict | None]], set[str]]:
+    """Place and quest records that differ from HEAD (id -> (before, after)), and
+    every place a change set must re-check: the touched places, the places their
+    quests anchor at, and every place whose relations or prose name a touched one."""
+    touched: dict[str, tuple[dict | None, dict | None]] = {}
+    files = sorted({index.place_file[p] for p in index.places}) + sorted({f for f, _ in index.quests})
+    for rel in files:
+        head = _head_json(rel) or {}
+        now = json.loads((REPO / rel).read_text())
+        key = "places" if "catalogue" in rel else "quests"
+        b = {r["id"]: r for r in head.get(key, []) if isinstance(r, dict) and "id" in r}
+        a = {r["id"]: r for r in now.get(key, []) if isinstance(r, dict) and "id" in r}
+        for rid in sorted(set(a) | set(b)):
+            if a.get(rid) != b.get(rid):
+                touched[rid] = (b.get(rid), a.get(rid))
+    places: set[str] = set()
+    for rid, (b, a) in touched.items():
+        rec = a or b or {}
+        if rid in index.places:
+            places.add(rid)
+        places.update(p for p in [rec.get("settlement")] + list(rec.get("anchorPlaces") or [])
+                      if isinstance(p, str) and p in index.places)
+    base = set(places)
+    names = {index.places[p].get("name") for p in base if len(index.places[p].get("name") or "") >= MIN_NAME}
+    for oid, o in index.places.items():
+        blob = json.dumps(o.get("relations") or {})
+        if any(p in blob for p in base) or any(n in t for n in names for _, t in prose_strings(o)):
+            places.add(oid)
+    for _, q in index.quests:          # a quest that names a touched place: its anchors
+        if any(n in t for n in names for _, t in quest_prose(q)):
+            places.update(p for p in [q.get("settlement")] + list(q.get("anchorPlaces") or [])
+                          if isinstance(p, str) and p in index.places)
+    return touched, {p for p in places if index.places[p].get("positionM")}
+
+
+def changeset_packet(index: Index) -> tuple[str, list[str]]:
+    touched, recheck = changed_records(index)
+    out = ["# Change-set packet (record coherence, set dimension)", "",
+           f"Records this change set touches ({len(touched)}), before (HEAD) and after (tree):", ""]
+    for rid, (b, a) in sorted(touched.items()):
+        out += [f"## {rid}", "", "Before:", "```json", json.dumps(b, indent=1, ensure_ascii=False), "```",
+                "After:", "```json", json.dumps(a, indent=1, ensure_ascii=False), "```", ""]
+    out += ["## Re-checked places (touched, anchored by a touched quest, or naming a touched place)", ""]
+    before = committed_receipt()
+    fails_all: list[str] = []
+    built = set(built_places(index))
+    for pid in sorted(recheck):
+        f = coherence_failures(pid, index, load_compiled(pid) if pid in built else None)
+        was = before.get(pid, "unrecorded")
+        out.append(f"- {pid}: {'red' if f else 'green'} (HEAD {was}{', built' if pid in built else ''})")
+        out += [f"  - {x}" for x in f]
+        # every record the change set touches is green, every built place is green,
+        # and no record green at HEAD went red
+        if f and (pid in touched or pid in built or was == "green"):
+            fails_all += [f"{pid}: {x}" for x in f]
+    return "\n".join(out) + "\n", fails_all
 
 
 def load_compiled(place_id: str) -> dict | None:
@@ -538,18 +969,26 @@ def packet(place_id: str, index: Index) -> str:
         for t in compiled.get("groundTreatments") or []:
             gt[str(t.get("kind") or t.get("treatment"))] = gt.get(str(t.get("kind") or t.get("treatment")), 0) + 1
         out.append("- ground treatments: " + ", ".join(f"{k} {v}" for k, v in sorted(gt.items())))
+    out += ["", "## Scene (what stands on land, water or islet; what the runs join; what grows within 200 m)", ""]
+    out += scene_lines(scene_summary(place_id, index, compiled))
     return "\n".join(out) + "\n"
 
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--place", action="append", default=[])
-    ap.add_argument("--all-built", action="store_true")
+    ap.add_argument("--all-built", action="store_true", help="every place with a published bundle")
+    ap.add_argument("--changed", action="store_true",
+                    help="the change-set check: every place and quest record that differs from HEAD, "
+                         "re-graded with every place that references one; writes the set packet")
+    ap.add_argument("--receipt", action="store_true",
+                    help="refresh world/sources/catalogue/coherence-receipt.json and run record.regression")
     a = ap.parse_args(argv)
-    ids = list(a.place) + (list(BUILT) if a.all_built else [])
-    if not ids:
-        ap.error("--place <id> or --all-built")
     index = build_index()
+    ids = list(a.place) + (built_places(index) if a.all_built else [])
+    if not (ids or a.changed or a.receipt):
+        ap.error("--place <id>, --all-built, --changed or --receipt")
+    rc = 0
     for pid in ids:
         short = pid.rsplit(".", 1)[-1]
         path = REPORTS / short / "coherence-packet.md"
@@ -559,7 +998,25 @@ def main(argv=None) -> int:
         print(f"{pid}: {len(fails)} failure(s) -> {path.relative_to(REPO)}")
         for f in fails:
             print(f"  {f}")
-    return 0
+        rc |= bool(fails)
+    if a.changed:
+        text, fails = changeset_packet(index)
+        path = REPORTS / "changeset-packet.md"
+        path.write_text(text, encoding="utf-8")
+        print(f"change set: {len(fails)} failure(s) over the re-checked places -> {path.relative_to(REPO)}")
+        for f in fails:
+            print(f"  {f}")
+        rc |= bool(fails)
+    if a.receipt:
+        now = all_statuses(index)
+        reg = regression_failures(now, committed_receipt(), index)
+        write_receipt(now)
+        print(f"receipt: {sum(v == 'green' for v in now.values())} green, "
+              f"{sum(v == 'red' for v in now.values())} red -> {RECEIPT.relative_to(REPO)}")
+        for f in reg:
+            print(f"  {f}")
+        rc |= bool(reg)
+    return rc
 
 
 if __name__ == "__main__":

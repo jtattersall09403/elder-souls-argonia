@@ -5,7 +5,7 @@
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-dunmer-north.json",
-   "sha256": "266fa75e895864ed26cbe8903d2fd67c19d6d55ce8f10d7207d7636d4afcb715"
+   "sha256": "84a1fe6aedc01eae03e895f2c2001f4c4335c313fb7144b66cd55a23cf0fd6f7"
   },
   {
    "file": "world/sources/quests/local-dunmer-north.json",
@@ -150,10 +150,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].vibe.approach"
    },
-   "text": "Boats come in off the Padomaic run and pole across the cove to the ferry stage on the islet.",
+   "text": "Boats come in off the Padomaic run and pole across the cove to the ferry stage off the islet.",
    "confirmed": {
-    "sha": "a2d3c5a3f928",
-    "note": "Ferry stage (ferryraft01) and dock run built on the cove; Padomaic run lane passes 0.92 km off."
+    "sha": "38833f3ad1c9",
+    "note": "Scene: ferry stage (ferryraft01) on water 21 m off the islet, joined to it by the 3-piece ferry-landing run; Padomaic run lane passes 0.92 km off."
    }
   },
   {
@@ -176,10 +176,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].vibe.materials"
    },
-   "text": "Piles, planks and lashed handrails over the water. The crews' house stands on the dry spit; the long house stands on piles in the shallows beside it.",
+   "text": "Piles, planks and lashed handrails over the water. The crews' house and the family house stand on dry ground at the shore; the long house stands on piles in the shallows beside them.",
    "confirmed": {
-    "sha": "5aef24db92a0",
-    "note": "Dock planks on piles across the cove; bamboo huts on padded dry ground on the spit; the swamp house on piles."
+    "sha": "5fc6723d846a",
+    "note": "Scene: crews' house and family house (bamboohut) on land; the long house (swamp-house-with-landing) on water 1.3 m deep, 11.6 m off the land; dock planks on piles."
    }
   },
   {
@@ -215,10 +215,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].vibe.senses"
    },
-   "text": "Boards underfoot from the spit to the islet; poles in the mud; talk carrying over still water.",
+   "text": "Boards underfoot from the shore to the islet; poles in the mud; talk carrying over still water.",
    "confirmed": {
-    "sha": "db573db76f22",
-    "note": "The long walk runs from the spit to the islet; poles and canoe at the stage."
+    "sha": "704c136e2824",
+    "note": "Scene: the-long-walk, 14 pieces, 95 m, starts 3.7 m off the land beside the totem and ends on the islet."
    }
   },
   {
@@ -228,10 +228,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].vibe.signatureFeature"
    },
-   "text": "The walk is the street. It crosses open water, so everyone who lands at the stage walks past the toll-holder's post.",
+   "text": "The plank walk is the only way between the shore and the ferry stage. It crosses open water, so everyone who lands at the stage walks past the toll-holder's post at the shore end.",
    "confirmed": {
-    "sha": "8dd15d30a4e9",
-    "note": "The long walk crosses open water from the islet stage to the spit, past socket post-toll-holder at its head."
+    "sha": "66a5ff83d829",
+    "note": "Scene: the-long-walk is the only run joining land and islet; socket post-toll-holder stands at its shore end (7204, 522)."
    }
   },
   {
@@ -241,10 +241,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].vibe.silhouette"
    },
-   "text": "A plank walk across a shallow cove, with the houses and the totems on the spit at one end and the ferry stage on the islet at the other.",
+   "text": "Two houses and a totem stand on the shore, with the long house on piles in the shallows beside them. A plank walk runs out across the cove to a tent on a low islet. The ferry stage is moored off the islet's far side.",
    "confirmed": {
-    "sha": "b6de5ed2ef4c",
-    "note": "17 dock pieces form the plank walk; two argoniantotem01 and the huts on the spit; ferry stage at the far end."
+    "sha": "746e47a5833f",
+    "note": "Scene: two bamboo huts and one argoniantotem01 on land; long house on water; the long walk to the islet tent (argoniantent02); ferry raft moored off the islet."
    }
   },
   {
@@ -254,10 +254,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].why.founding"
    },
-   "text": "A halt in a sheltered sea cove at the mouth of the pilgrim water, the channel up to Hissmir. Boats off the Padomaic run put in here. The houses stand along the plank walk, which serves as the village street.",
+   "text": "A halt in a sheltered sea cove at the mouth of the pilgrim water, the channel up to Hissmir. Boats off the Padomaic run put in here. The houses stand on the shore. A plank walk runs out from them across the cove to the islet where the ferry stage moors.",
    "confirmed": {
-    "sha": "b4d4e673b9bb",
-    "note": "Cove (plotFacts landform cove, ocean); pilgrim-water track 0.09 km; plank walk built as the street."
+    "sha": "2287bca5e43e",
+    "note": "Scene: houses on land; the long walk runs from the shore across the cove to the islet; the ferry stage moors off the islet."
    }
   },
   {

@@ -1197,11 +1197,26 @@ def record_gate(g: Gates, bp: dict, record: dict | None) -> None:
 
 def coherence_gate(g: Gates, place_id: str, settlement: dict | None) -> None:
     """Walk 8: what the record and its quests say (places, routes, "between
-    A and B", premised features) matches the world (``record_coherence``)."""
+    A and B", premised features, the plants it says grow there) matches the
+    world (``record_coherence``), for this place AND every other built place
+    (walk 9: a later place's change set must not break an earlier fit).
+    ``record.regression``: no record green at HEAD is red in the tree; the
+    tracked receipt is refreshed so a rollback shows in git."""
     from . import record_coherence as rc
     t = time.perf_counter()
-    fails = rc.coherence_failures(place_id, rc.build_index(), settlement or rc.load_compiled(place_id))
+    index = rc.build_index()
+    fails = rc.coherence_failures(place_id, index, settlement or rc.load_compiled(place_id))
+    for other in rc.built_places(index):
+        if other != place_id:
+            fails += [f"{other}: {f}" for f in rc.coherence_failures(other, index, rc.load_compiled(other))]
     g.add("record.coherence", time.perf_counter() - t, fails)
+    t = time.perf_counter()
+    now = rc.all_statuses(index)
+    if settlement is not None:      # this run's compile, not yet published
+        now[place_id] = "red" if rc.coherence_failures(place_id, index, settlement) else "green"
+    reg = rc.regression_failures(now, rc.committed_receipt(), index)
+    rc.write_receipt(now)
+    g.add("record.regression", time.perf_counter() - t, reg)
 
 
 def closed_gate(g: Gates, bp: dict) -> None:

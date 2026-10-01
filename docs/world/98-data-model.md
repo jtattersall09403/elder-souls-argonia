@@ -59,10 +59,15 @@ changes the world, the builder edits the record and the quests that read
 it in the same change (0104 decision 6). The record must also agree with
 itself, the world around it (routes, neighbours, water), every quest that
 uses it and lore: place-build step 5b runs the record-coherence protocol
-(0117; five readers over the packet from `worldgen.record_coherence`, one
-change set). Three gates hold the measured part: `record.consistency`
-(the counted buildings against the record's magnitude band in
-`breadth-bars.json`), `record.coherence` (every place and route the
+(0117; six readers over the packet from `worldgen.record_coherence`, its
+§ Scene saying what stands on land, water or islet and what grows; one
+change set, checked by `--changed` against every record it touches).
+Four gates hold the measured part: `record.consistency` (the counted
+buildings against the record's magnitude band in `breadth-bars.json`),
+`record.coherence` over every built place (every place and route the
 prose and its quests name resolves and is related to the place, a
-"between A and B" has its route, a quest's premised feature exists) and
-`promises` (every ledger row filled or confirmed).
+"between A and B" has its route, a quest's premised feature exists, a
+plant the prose says grows there stands within 200 m), `record.regression`
+(no record green in HEAD's `world/sources/catalogue/coherence-receipt.json`
+is red now; the gate refreshes that tracked receipt) and `promises`
+(every ledger row filled or confirmed).

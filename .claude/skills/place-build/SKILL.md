@@ -333,18 +333,24 @@ without that is an escalation to the planner, never a packet.
   compared with the walked rev; a height over water against the DRAWN
   water and pose (same reference § Verify).
 
-**5b. Record coherence (0104 decision 6, 0117; owner walks 7 and 8).**
+**5b. Record coherence (0104 decision 6, 0117; owner walks 7, 8 and 9).**
 The catalogue record is the one truth the 2D map popup (`places.json`,
 from `export_places` above) and the builders read; it must agree with
-itself, the world around it (routes, neighbours, water), every quest that
-uses it, lore and the built place. Run the protocol in
+itself, the world around it (routes, neighbours, water), the scene as
+built (what stands on land, water or islet, what the plank walks join,
+what grows within 200 m), every quest that uses it, lore and the built
+place, and its change set must leave every other place and quest as
+coherent as it found them. Run the protocol in
 [references/record-coherence.md](references/record-coherence.md): build
-the packet (`worldgen.record_coherence --place <id>`), five readers return
-NO lists, ONE Opus synthesis writes one change set across the record, the
-quests and any other record it touches, then `export_places`,
-`blueprint_promises --write` ([references/promise-ledger.md](references/promise-ledger.md)
-§ Record = built) and one `text-review`. Never one issue at a time. Gates
-`record.coherence`, `record.consistency` and `promises` fail until done.
+the packet (`worldgen.record_coherence --place <id>`; read its § Scene
+before writing one word about where things stand or what grows), six
+readers return NO lists, ONE Opus synthesis writes one change set, then
+`record_coherence --changed` (every touched record and every place that
+references one, green; the `set` reader reads its before/after packet),
+`export_places`, `blueprint_promises --write` ([references/promise-ledger.md](references/promise-ledger.md)
+§ Record = built), `record_coherence --receipt` and one `text-review`.
+Never one issue at a time. Gates `record.coherence` (every built place),
+`record.regression`, `record.consistency` and `promises` fail until done.
 
 Ends when: 0 compile errors, every per-place gate green, the place
 published and every claim read back; the batch gates run when the
