@@ -1,150 +1,147 @@
 # Should Elder Souls: Argonia move to Godot 4?
 
-Assessment for the owner, 2026-10-01. The research notes are in
-`tooling/.reports/research/godot/`: 01 web on phone and Mac, 02 WebGPU
-roadmap, 03 agents and testing, 04 open-world streaming, 05 native apps,
-06 engine-switch case studies, plus the repo facts.
+Assessment for the owner, 2026-10-01. The comparison is (A) three.js as now,
+in the browser or wrapped as an app, against (B) Godot 4 built as native apps
+for the M2 Mac and the Honor Magic V5. The browser is not a requirement. The
+research notes are in `tooling/.reports/research/godot/`; the native findings
+are in `07-native-frame.md`.
 
 ## 1. The answer
 
-**Stay on the current browser stack and finish the WebGPU port. Do not move to
-Godot. Confidence: high.** The evidence on the browser build is primary
-(Godot's own documentation and issue tracker). The cost estimate is my
-judgement.
+**Stay on three.js and finish the WebGPU port. This is now a closer call.
+Confidence: medium.** The answer could change on one measurement: how the
+WebGPU build runs on the Honor.
 
-Godot is a good engine, but its browser version is its weakest part, and the
-browser is where this game lives. In the browser Godot 4.7 can only use its
-reduced "Compatibility" renderer. That renderer runs on WebGL 2 (the older way
-a web page talks to the graphics chip) and has no compute shaders (small
-programs on the graphics chip that effects like volumetric fog need). Godot's
-own proposal to add WebGPU (the newer interface) has been open since April 2023,
-marked "implementer wanted", with no linked work. Our `webgpu` branch already
-runs froxel fog (fog held in a 3D grid in front of the camera) on compute
-shaders (decisions 0111 and 0112). A switch would rebuild about 117,000 lines of
-TypeScript and ask you to re-accept every visual system by eye. The browser
-game at the end would be weaker than the one you have. Godot's real strength is
-native apps for Mac and Android. That only becomes a serious option if you give
-up "played in the browser".
+Native Godot runs the game's own work (streaming, physics, culling, animation)
+as compiled code on several processor cores. That is much faster than
+JavaScript in a browser tab, so most of the performance work this project has
+done would have been cheaper. The graphics chip itself does about the same work
+either way. On the phone, Godot's native renderer has weaknesses of its own.
+Its phone renderer ("Mobile") has no volumetric fog, no real-time global
+illumination (light bouncing off surfaces) and no screen-space reflections.
+Its desktop renderer ("Forward+") is documented as "poorly optimized" on
+phones. In 2026, two projects on Snapdragon phones moved to Godot's basic
+renderer after display faults and crashes: one on the 8 Gen 3, and one on
+the 8 Elite, which is the Honor's chip. On the Mac, Forward+ with Metal (Apple's
+graphics interface) gives the full feature set. Against those gains stands
+the same porting bill as before: about 117,000 lines rebuilt and every system
+re-accepted by eye.
 
 ## 2. Side by side
 
-| What you care about | Stay (three.js, browser) | Switch (Godot 4) |
+| What you care about | A: three.js (browser or wrapped) | B: Godot native apps |
 |---|---|---|
-| Speed of development with agents | Fast now: 241 TypeScript and 269 Python test files, type checking, everything is code | Months of porting first. GDScript (Godot's language) has less training data, and agents mix up Godot 3 and Godot 4 calls |
-| How error-prone | The type checker and the data-integrity gate (decision 0104) catch broken references before you play | GDScript types are optional. Scenes link by node path, which breaks silently on a rename |
-| Back-and-forth per new feature | Unchanged | Higher for a year: every system re-tuned and walked again |
-| Skyrim and mod assets | Working: NIF to glTF through PyNifly, KTX2 textures, meshopt | glTF imports. The texture step and the animation import need rebuilding |
-| M2 Mac | WebGPU branch. 57 fps in the jungle after vegetation round 12 | Browser: WebGL 2 only, with known Chrome-on-Mac faults. Mac app: Metal, clearly faster |
-| Honor phone | WebGPU in Chrome for Android, WebGL 2 fallback | Browser: reports of crashes after minutes of play. Android app: clearly faster |
-| Many interlocking systems | Records with ids, checked by gates and tests | Possible, but Godot's editor-and-scene habits pull away from that |
-| Data-driven, code-first | A natural fit | Workable, against the grain of the tool |
-| Combat feel | The tuned feel is kept | New physics engine (Jolt). Every timing re-felt |
-| Visual checks without a GPU here | Headless Chrome with a software renderer; `npm run look` | The same method (Xvfb, a virtual screen, with a software renderer). No better |
+| Speed of development with agents | Fast now: 241 TypeScript and 269 Python test files, type checking | Months of porting first; agents mix up Godot 3 and 4 calls |
+| How error-prone | Type checker and the integrity gate (decision 0104) | GDScript types optional; scenes link by node path |
+| Back-and-forth per feature | Unchanged | Higher for a year; each code change is a new install |
+| Skyrim and mod assets | Working pipeline: NIF to glTF, KTX2, meshopt | glTF imports; textures and animations need a new import step |
+| M2 Mac | 57 fps in the jungle after vegetation round 12 | Faster on processor-heavy scenes; Metal had frame-rate regressions in 4.4 |
+| Honor phone | WebGPU in Chrome, not yet measured | Faster processor work; Mobile renderer lacks fog and reflections; Adreno 830 crash reports |
+| Many interlocking systems | Typed records with ids, gated | Possible, against Godot's scene habits |
+| Data-driven, code-first | A natural fit | Workable |
+| Combat feel | Kept | Rebuilt on Jolt physics; every timing re-felt |
+| Visual checks with no GPU here | Headless Chrome renders the same WebGPU path you see | Software rendering on this VM uses Godot's basic renderer, not the one you run |
 
 ## 3. What would actually happen
 
-- **If we switch, the fog, canopy light shafts and lantern halos disappear from
-  the browser game.** Godot's browser renderer has neither volumetric fog nor
-  compute shaders.
-- **If we switch, the 13 rounds of vegetation performance work are lost.** That
-  work tuned three.js on your M2. Godot's tools for drawing many copies of a
-  plant would have to be tuned again from zero, and its scatter addons get poor
-  reviews on Godot 4.6.
-- **If we switch and stay in the browser, walking into new areas stutters.** On
-  GitHub Pages Godot runs on one thread, so loading happens on the thread that
-  draws the picture. The threaded build needs a workaround that is known to
-  break in Safari and Firefox.
-- **If we switch, the phone becomes the riskiest device.** Godot 4 browser
-  builds have published reports of crashes on mobile browsers (2025) and of
-  memory creeping up in an empty project (2026).
-- **If we switch, agents will write more code that runs but looks wrong.** In
-  GameDevBench, a 2026 benchmark of agents doing Godot tasks, the best agents
-  solved 38% of 3D graphics tasks.
-- **If we stay, a broken quest is more likely to be caught by a test than found
-  10 hours into a playthrough.** Quest conditions are typed records, and the
-  integrity gate checks them on every change.
-- **If we stay, climbing, swimming and boats (Phase 9) start next on the
-  existing character code.** In Godot they would wait until movement and combat
-  had been rebuilt and re-felt.
-- **If we stay, the main cost is TSL**, three.js's young shader language.
-  Agents sometimes misuse it.
+- **If we switch, the phone game has no volumetric fog or light shafts unless
+  we write them ourselves.** Godot's phone renderer leaves them out, and its
+  desktop renderer is not built for phones.
+- **If we switch, the Mac version gains fog, global illumination and smoother
+  streaming without our code.** Forward+ includes them, and native threads load
+  areas off the drawing thread.
+- **If we switch, each walk starts with an install.** A Mac build must be
+  approved once under Privacy & Security, an Android build sideloaded. From
+  2027 Google requires developer verification for sideloaded apps.
+- **If we switch, walk-packet links stop opening the right spot.** The app needs
+  a custom link scheme built for it. Place data could still download without
+  a reinstall.
+- **If we switch, agents check pictures on a different renderer from yours.**
+  This VM has no GPU, so Godot can only render here with its basic renderer.
+- **If we switch, the 13 vegetation performance rounds are discarded**, along
+  with the water, sky and fire work, and you walk each one again.
+- **If we stay, a broken quest is more likely to fail a test than surface 10
+  hours into a playthrough.** Quest conditions are typed records checked on
+  every change.
+- **If we stay and wrap the game as an app, nothing gets faster.** Electron on
+  the Mac and Capacitor on Android run the same Chrome engine. They add an
+  install icon, offline play and higher memory limits.
 
-## 4. What a migration would involve
+## 4. What leaving the browser changes
 
-Kept: the Python world pipeline (about 208,000 lines), the world records, lore,
-quest design, sourced assets and the decision records.
+You lose: free hosting on GitHub Pages, instant updates on every push, play with
+no install, and walk links that open a spot on any device. You gain: faster
+processor-heavy work, full engine features on the Mac, and no tab memory
+limits. Costs: an Apple Developer account ($99 a year) to remove the Mac
+warning, and Android developer verification ($25) from 2027.
 
-Rebuilt: everything the player sees and touches. That is terrain streaming,
-water, sky, weather, vegetation, fire and interiors. It is also the character,
-combat and animation (`packages/game-core` is about 70,000 lines and
-`packages/character` about 9,000). The simulation packages go too, because
-Godot cannot run TypeScript and cannot put C# in a browser build. So does the
-review studio (about 26,000 lines).
+## 5. What a migration would involve
 
-Rough size: 40 to 70 agent sessions and 15 to 30 walks by you, during which the
-world and the game make no progress. The switches that went well were mid-sized
-games that kept their code language. Slay the Spire 2 took about seven months
-and Road to Vostok 615 hours. Sigil of Kings took six months, most of it on
-rendering. Duke Nukem Forever's 1998 switch was estimated at six weeks; the game
-shipped in 2011.
+Kept: the Python world pipeline (about 208,000 lines), world records, lore,
+quest design, sourced assets and decisions. The web studio could stay as the
+map and review tool.
 
-## 5. The options
+Rebuilt: terrain streaming, water, sky, weather, vegetation, fire, interiors,
+character, combat and animation (`packages/game-core` about 70,000 lines,
+`packages/character` about 9,000), the simulation packages (Godot cannot run
+TypeScript), and new build, signing and walk-link tooling.
 
-1. **Stay and finish WebGPU (recommended).** All past work stays useful, and
-   every major browser now has WebGPU.
-2. **Native apps without changing engine.** Wrapping the same game as a Mac
-   app (Electron) or an Android app (Capacitor) gives an installable game, but
-   not native speed. Kept in reserve.
-3. **A Godot client fed by the Python pipeline.** Worth a trial only if the
-   game becomes a Mac and Android app. A Mac app then costs $99 a year for
-   Apple signing. Android now requires developer verification even outside the
-   Play Store. Each walk would mean a new download instead of a link.
-4. **Full switch.** As in section 4.
+Rough size: 45 to 75 agent sessions and 15 to 30 walks by you, with the world
+standing still meanwhile. Slay the Spire 2 took about seven months to switch,
+Road to Vostok 615 hours and Sigil of Kings six months, mostly on rendering.
+All three kept their code language; we could not.
 
-**What would reverse this.** You choose native apps over the browser. Godot
-ships an official WebGPU browser renderer; the community forks (one in beta
-since May 2026) do not count yet. Or the `webgpu` branch fails on the Honor in
-a way the WebGL 2 fallback cannot cover. The cheapest test: open the `/webgpu/`
-studio on the Honor and note the frame rate.
+## 6. The options
 
-## 6. Sources
+1. **Stay and finish WebGPU (recommended).**
+2. **Wrap three.js as apps.** Cheap, adds an installable game, no speed.
+3. **Godot native client fed by the Python pipeline.** The real alternative.
+4. **Full switch, studio included.** No advantage over option 3.
 
-- Godot docs, Exporting for the Web, 4.7 (read 2026-10-01). https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_web.html
+**What would flip this to option 3.** The WebGPU build cannot hold a playable
+frame rate on the Honor in a dense place after the planned performance work, and
+the cause is processor time rather than the graphics chip. The next step would
+be a trial of three to five sessions: one terrain tile and one place in native
+Godot on the Honor, measured against the WebGPU build. Also an Apple or Google
+change that blocks WebGPU, or you choosing an app store release.
+
+## 7. Sources
+
 - Godot docs, Overview of renderers (read 2026-10-01). https://docs.godotengine.org/en/stable/tutorials/rendering/renderers.html
-- Godot 4.7 release coverage (2026-06-19). https://app.cinevva.com/news/2026-06-19-godot-4-7-released
-- Godot, Web export in 4.3 (2024-05). https://godotengine.org/article/progress-report-web-export-in-4-3/
-- Single-threaded background loading, Godot forum (2024-08). https://forum.godotengine.org/t/can-we-do-single-thread-background-loading-in-godot-4-3/76473
-- GitHub Pages headers discussion #13309 (2022 to 2025-08). https://github.com/orgs/community/discussions/13309
-- Chrome on Mac, Godot issue #95832 (2024-08). https://github.com/godotengine/godot/issues/95832
-- Web against native frame rate, issue #86913 (2024-01). https://github.com/godotengine/godot/issues/86913
-- Mobile browser crashes, Godot forum (2025-06). https://forum.godotengine.org/t/godot-4-4-1-html-exports-resets-crashes-when-playing-on-mobile-browsers/114247
-- Memory growth in web export, Godot forum (2026). https://forum.godotengine.org/t/memory-leak-on-web-export/141309
-- WebGPU proposal #6646 (opened 2023-04-06, read 2026-10-01). https://github.com/godotengine/godot-proposals/issues/6646
-- Godot priorities page (read 2026-10-01). https://godotengine.org/priorities/
-- Community WebGPU fork, beta 2026-05-10. https://github.com/dwalter/godotwebgpu
-- Godot 4.4 release, Metal on Apple Silicon (2025-03). https://godotengine.org/releases/4.4/
-- Godot 4.6 release, Jolt default (2026-01). https://godotengine.org/releases/4.6/
-- What's missing for AAA, no streaming (2023). https://godotengine.org/article/whats-missing-in-godot-for-aaa/
-- Open-world management, Godot forum (2026-04). https://forum.godotengine.org/t/how-are-massive-open-world-games-actually-managed/136773
-- Scatter tools on 4.6, Godot forum (2026-04). https://forum.godotengine.org/t/mesh-scatter-paint-tools-for-godot-4-6/135963
-- Terrain3D platforms, 1.1 docs (read 2026-10-01). https://terrain3d.readthedocs.io/en/latest/docs/platforms.html
-- GameDevBench (2026-06-30). https://www.alphaxiv.org/abs/2602.11103
-- Godot 4 calls agents get wrong, DEV (2026). https://dev.to/ziva/7-godot-4-api-calls-your-ai-assistant-still-gets-wrong-3ep6
-- gdUnit4 command-line tool (read 2026-10-01). https://godot-gdunit-labs.github.io/gdUnit4/latest/advanced_testing/cmd/
-- Off-screen rendering proposal #5790 (2022, open). https://github.com/godotengine/godot-proposals/issues/5790
-- Native wrappers for web games (read 2026-10-01). https://abratabia.com/native-wrappers/
+- Godot docs, Volumetric fog (read 2026-10-01). https://docs.godotengine.org/en/stable/tutorials/3d/volumetric_fog.html
+- Forward+ on Android, Godot forum (2024-09). https://forum.godotengine.org/t/forward-does-not-work-on-android-in-spite-of-full-vulkan-support/83491
+- Godot 4.4, Metal backend (2025-03). https://godotengine.org/releases/4.4/
+- Metal frame-rate regression on M1, issue #103723 (2025-03). https://github.com/godotengine/godot/issues/103723
+- SDFGI on Metal, M2 Pro, issue #96077 (2024-08). https://github.com/godotengine/godot/issues/96077
+- Godot 4.5.2, Android Vulkan crash fixes (2026-03-19). https://godotengine.org/article/maintenance-release-godot-4-5-2/
+- Adreno 750 tearing, fallback to Compatibility (2026-09). https://github.com/OpenGameStack-Games/LetterLogic/issues/170
+- Snapdragon 8 Elite (Galaxy S25 Ultra) Vulkan crash, fallback to Compatibility (2026-09). https://github.com/MrLogic85/Node-Runner/issues/104
+- Vulkan Mobile crash, Godot 4.7.2, issue #123376 (2026-09). https://github.com/godotengine/godot/issues/123376
+- Snapdragon 8 Elite throttling (2024-11). https://gadgets.beebom.com/guides/snapdragon-8-elite-benchmark-specs
+- Honor Magic V5 specification (2025-07). https://www.gsmarena.com/honor_magic_v5-13982.php
+- WebGPU dispatch overhead against native (2026-04). https://arxiv.org/html/2604.02344v1
+- Exporting for macOS, Godot docs source (read 2026-10-01). https://github.com/godotengine/godot-docs/blob/master/tutorials/export/exporting_for_macos.rst
+- macOS Sequoia Gatekeeper change (2024-08-07). https://www.idownloadblog.com/2024/08/07/apple-macos-sequoia-gatekeeper-change-install-unsigned-apps-mac/
 - Apple distribution outside the App Store (read 2026-10-01). https://developer.apple.com/macos/distribution/
 - Android developer verification (2026-03). https://android-developers.googleblog.com/2026/03/android-developer-verification-rolling-out-to-all-developers.html
-- Chrome WebGPU on Android (2024-01). https://developer.chrome.com/docs/web-platform/webgpu/overview
-- Honor Magic V5 specification (2025-07). https://www.gsmarena.com/honor_magic_v5-13982.php
+- godot-export GitHub action (read 2026-10-01). https://github.com/firebelley/godot-export
+- Off-screen rendering proposal #5790 (open, read 2026-10-01). https://github.com/godotengine/godot-proposals/issues/5790
+- Native wrappers for web games (read 2026-10-01). https://abratabia.com/native-wrappers/
+- Chromium, WebGPU on Android WebView (2025). https://groups.google.com/a/chromium.org/g/blink-dev/c/8Fy8vnSyNic
+- Godot 4.6, Jolt default (2026-01). https://godotengine.org/releases/4.6/
+- No built-in streaming, What's missing for AAA (2023). https://godotengine.org/article/whats-missing-in-godot-for-aaa/
+- GameDevBench (2026-06-30). https://www.alphaxiv.org/abs/2602.11103
+- Godot 4 calls agents get wrong (2026). https://dev.to/ziva/7-godot-4-api-calls-your-ai-assistant-still-gets-wrong-3ep6
 - Casey Yano, On Evaluating Godot (2023-10). https://caseyyano.com/on-evaluating-godot-b35ea86e8cf4
-- Slay the Spire 2 switch, PC Gamer (2024-04). https://www.pcgamer.com/games/card-games/slay-the-spire-2-ditched-unity-for-open-source-engine-godot-after-2-years-of-development/
-- Road to Vostok port, 615 hours (2024-07). https://www.patreon.com/posts/godot-engine-to-107308034
+- Road to Vostok port (2024-07). https://www.patreon.com/posts/godot-engine-to-107308034
 - Sigil of Kings port (2024-03). https://byte-arcane.itch.io/sigil-of-kings/devlog/701930/unity-to-godot-port-complete
-- Development of Duke Nukem Forever (read 2026-10-01). https://en.wikipedia.org/wiki/Development_of_Duke_Nukem_Forever
 - Repo: decisions 0084, 0089, 0104, and 0111 and 0112 on the `webgpu` branch; `docs/phases/lanes/vegetation-renderer-lane.md`.
 
-What is thin: no controlled benchmark compares Godot's browser build with
-three.js. No frame rates are published for either on the Honor. No shipped
-Godot 4 open world has published how it streams. The session estimate in
-section 4 is a judgement from this repo's phase history.
+**Footnote, Godot in the browser.** Godot 4.7's browser build uses only its
+basic WebGL 2 renderer, with no WebGPU or compute (docs, read 2026-10-01). Its
+WebGPU proposal has been open since 2023-04 with no linked work. It is weaker
+than the current WebGPU branch and is not an option (notes 01 and 02).
+
+What is thin: no published frame rates for a Godot open world on an M2 or a
+Snapdragon 8 Elite, and none yet for the WebGPU branch on the Honor. The session
+estimate is a judgement from this repo's history.
