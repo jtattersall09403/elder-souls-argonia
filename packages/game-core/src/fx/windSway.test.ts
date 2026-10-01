@@ -11,64 +11,91 @@ import {
   WIND_TUNE_ATTRIBUTE,
   groundCoverSway,
   windGustAt,
+  windGustEnvelope,
+  windRustleGate,
+  WIND_GUST,
 } from "./windSway";
 
-/** One ground-cover tip sampled at 60 Hz for 10 s. */
-function tipTrace(speedMS: number, gustiness: number, originXZ: [number, number] = [137.2, -48.9]) {
-  const out: number[] = [];
-  for (let i = 0; i < 600; i++) {
-    out.push(groundCoverSway({ speedMS, gustiness, dirXZ: [1, 0], originXZ, heightM: 1, t: i / 60 }));
+/** Eight ground-cover tips, each sampled at 60 Hz for 60 s. */
+const ROOTS: [number, number][] = Array.from({ length: 8 }, (_, s) => [137.2 + s * 523, -48.9 + s * 311]);
+
+function tipTrace(speedMS: number, gustiness: number, originXZ: [number, number]) {
+  const out: { tip: number; rustle: number; env: number }[] = [];
+  for (let i = 0; i < 3600; i++) {
+    const r = groundCoverSway({ speedMS, gustiness, dirXZ: [1, 0], originXZ, heightM: 1, t: i / 60 });
+    out.push({ tip: Math.hypot(r.along, r.across), rustle: Math.abs(r.across), env: r.envelope });
   }
   return out;
 }
 
-/** The strongest frequency, Hz, of a trace sampled at 60 Hz (DFT, 0.1–10 Hz). */
-function dominantHz(trace: number[]): number {
-  const mean = trace.reduce((a, b) => a + b, 0) / trace.length;
-  let best = 0; let bestPow = -1;
-  for (let f = 0.1; f <= 10; f += 0.05) {
-    let re = 0; let im = 0;
-    trace.forEach((v, i) => { re += (v - mean) * Math.cos(2 * Math.PI * f * i / 60); im += (v - mean) * Math.sin(2 * Math.PI * f * i / 60); });
-    if (re * re + im * im > bestPow) { bestPow = re * re + im * im; best = f; }
-  }
-  return best;
+/** Fronts in an envelope trace (on above 0.25, off below 0.08), as durations in seconds. */
+function fronts(env: number[]): number[] {
+  const out: number[] = []; let on = -1;
+  env.forEach((e, i) => {
+    if (e > 0.25 && on < 0) on = i;
+    if (e <= 0.08 && on >= 0) { out.push((i - on) / 60); on = -1; }
+  });
+  return out;
 }
 
-describe("ground-cover wind (walk 9: no constant vibration)", () => {
-  const peak = (t: number[]) => Math.max(...t.map(Math.abs));
-  it("is still at calm, moves in wind, lays over in a gale, all below 1.5 Hz", () => {
-    const calm = tipTrace(2, 0); const windy = tipTrace(8, 0.6); const gale = tipTrace(14, 1);
-    expect(peak(calm)).toBeLessThan(0.01);
-    expect(peak(windy)).toBeGreaterThan(0.15);
-    expect(peak(gale)).toBeGreaterThan(peak(windy));
-    expect(dominantHz(windy)).toBeLessThan(1.5);
-    expect(dominantHz(gale)).toBeLessThan(1.5);
+describe("the gust field (walk 9 owner correction: calm spells, separate fronts)", () => {
+  it("is near still at 2 m/s with no gust", () => {
+    for (const root of ROOTS) {
+      const trace = tipTrace(2, 0, root);
+      expect(trace.filter((s) => s.tip < 0.01).length / trace.length).toBeGreaterThan(0.8);
+      expect(Math.max(...trace.map((s) => s.rustle))).toBeLessThan(0.002);
+    }
   });
-  it("rolls gust fronts downwind: a root 5 m downwind sees the same gust within 1 s", () => {
-    const lagOf = (speed: number) => {
-      const a = (t: number) => windGustAt([100, 40], [1, 0], speed, 1, t);
-      const b = (t: number) => windGustAt([105, 40], [1, 0], speed, 1, t);
+  it("at 8 m/s, gust 0.6: 3 to 12 fronts a minute lasting 2 to 15 s, a strongly varying envelope", () => {
+    const counts: number[] = []; const durations: number[] = []; const cvs: number[] = [];
+    for (const root of ROOTS) {
+      const env = tipTrace(8, 0.6, root).map((s) => s.env);
+      const f = fronts(env);
+      counts.push(f.length); durations.push(...f);
+      const mean = env.reduce((a, b) => a + b, 0) / env.length;
+      cvs.push(Math.sqrt(env.reduce((a, b) => a + (b - mean) ** 2, 0) / env.length) / mean);
+    }
+    const meanCount = counts.reduce((a, b) => a + b, 0) / counts.length;
+    expect(meanCount).toBeGreaterThanOrEqual(3);
+    expect(meanCount).toBeLessThanOrEqual(12);
+    const inRange = durations.filter((d) => d >= 2 && d <= 15).length / durations.length;
+    expect(inRange).toBeGreaterThan(0.85);
+    for (const cv of cvs) expect(cv).toBeGreaterThan(0.5);
+  });
+  it("at 14 m/s, gust 1: fronts every few seconds and a rustle over 2 cm as one passes", () => {
+    for (const root of ROOTS) {
+      const trace = tipTrace(14, 1, root);
+      expect(fronts(trace.map((s) => s.env)).length).toBeGreaterThanOrEqual(3);
+      expect(Math.max(...trace.filter((s) => s.env > 0.3).map((s) => s.rustle))).toBeGreaterThan(0.02);
+    }
+  });
+  it("rolls fronts downwind: a root 5 m downwind sees the same front within 1 s", () => {
+    for (const speed of [8, 14]) {
+      const a = (t: number) => windGustEnvelope([100, 40], [1, 0], speed, 1, t);
+      const b = (t: number) => windGustEnvelope([105, 40], [1, 0], speed, 1, t);
       let bestLag = 0; let bestErr = Infinity;
       for (let lag = 0; lag <= 3; lag += 0.01) {
         let err = 0;
-        for (let t = 0; t < 10; t += 0.1) err += (b(t + lag) - a(t)) ** 2;
+        for (let t = 0; t < 60; t += 0.1) err += (b(t + lag) - a(t)) ** 2;
         if (err < bestErr) { bestErr = err; bestLag = lag; }
       }
-      return { bestLag, bestErr };
-    };
-    for (const speed of [8, 14]) {
-      const { bestLag, bestErr } = lagOf(speed);
       expect(bestLag).toBeGreaterThan(0);
       expect(bestLag).toBeLessThan(1);
       expect(bestErr).toBeLessThan(1e-3);
     }
   });
-  it("draws ground cover without the 7 Hz flutter, and gates tree flutter by wind speed squared", () => {
+  it("tree bend mean stays near the calibrated 1 and the shader runs the same envelope and rustle gate", () => {
+    let sum = 0; let n = 0;
+    for (const root of ROOTS) for (let t = 0; t < 600; t += 0.5) { sum += windGustAt(root, [1, 0], 8, 0.6, t); n++; }
+    expect(sum / n).toBeGreaterThan(0.6);
+    expect(sum / n).toBeLessThan(1.2);
+    expect(windRustleGate(2, 0, 0)).toBe(0);
     const material = new THREE.MeshStandardMaterial();
     applyWindSway(material, createWindUniforms());
     const vs = compile(material).vertexShader;
-    expect(vs).toContain("if (esTune.z <= 0.05)");
-    expect(vs).toContain("esFlutter = 0.5 * clamp(esSpeedMS * esSpeedMS / 100.0");
+    expect(vs).toContain("float esGustEnvelope(");
+    expect(vs).toContain("esRustleGate(esSpeedMS, esGustiness, esEnv)");
+    expect(vs).toContain(`* ${WIND_GUST.slotM.toFixed(1)}`);
   });
 });
 
@@ -196,9 +223,9 @@ describe("wind sway shader patch", () => {
     // Branch sway and near-field leaf flutter.
     expect(vs).toContain("esBranchPhase");
     expect(vs).toContain("esLeafPhase");
-    // The gust is a noise field advected downwind, sampled per instance.
-    expect(vs).toMatch(/esWindNoise\(esGustAt\)/);
-    expect(vs).toContain("esInstanceOrigin.xz - esDir * esT");
+    // The gust is the envelope carried downwind, sampled per instance.
+    expect(vs).toContain("esGustEnvelope(esInstanceOrigin.xz, esDir, esSpeedMS, esGustiness, esT)");
+    expect(vs).toContain("float u = dot(origin, dir) - t * (");
     // Plant height rides the tune's third channel.
     expect(vs).toContain("esTune.z");
     // The old two-sines-plus-swell branch is gone.

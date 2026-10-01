@@ -144,14 +144,63 @@ export function updateWindSway(
   );
 }
 
-/** Ground cover is still at or below this wind, m/s (the clear-weather states blow 2.2). */
-export const GROUND_COVER_CALM_MS = 2.5;
-/** At or above this wind, m/s, ground cover is laid over (gust 1). */
-export const GROUND_COVER_FULL_MS = 12;
-/** Ground-cover bend rate, Hz, from calm to full wind. */
-export const GROUND_COVER_HZ: readonly [number, number] = [0.4, 1.2];
-/** Tip lean at full wind and gust 1, as a fraction of the plant's height. */
-export const GROUND_COVER_LEAN = 0.9;
+/**
+ * Every gust-field and rustle constant, in one place (walk 9 owner correction:
+ * the fault was a gust field so constant that everything moved alike under
+ * every weather). The shader is generated from these values and
+ * `windSway.test.ts` measures the TypeScript law below, which mirrors it.
+ *
+ * The envelope is Taylor's frozen turbulence: a pattern carried downwind at
+ * `driftBase + driftPerMS × wind`, so a front keeps its shape across tens of
+ * metres and reaches a plant 5 m downwind a fraction of a second later. The
+ * pattern is a row of discrete gust fronts along the wind: every `slotM`
+ * metres one slot may hold a front (chance rising with gustiness), with its
+ * own position, length and strength drawn from a hash, so fronts come at
+ * irregular spacing with calm between them. A coarse lull field modulates
+ * the chance (active minutes and quiet minutes: the red end of the
+ * spectrum), and the draw is blended across the wind over `crossCellM`, so
+ * a front is a broad band that fades out sideways rather than a wall.
+ * Lengths are in metres, so a front lasts longer in light wind and passes
+ * faster in a gale, as real gusts do.
+ */
+export const WIND_GUST = {
+  /** Gust fronts travel at this many m/s plus `driftPerMS` × wind speed. */
+  driftBase: 1,
+  driftPerMS: 0.9,
+  /** One possible front per this many metres along the wind. */
+  slotM: 60,
+  /** Where in its slot a front's centre falls (fraction of the slot). */
+  centreSpan: [0.15, 0.85] as readonly number[],
+  /** Front half-length, metres along the wind. */
+  halfLengthM: [16, 55] as readonly number[],
+  /** Chance a slot holds a front: `occupancyBase + occupancyPerGust × gustiness`, times the lull field. */
+  occupancyBase: 0.1,
+  occupancyPerGust: 0.75,
+  /** The lull field: value noise of this cell (m), scaling the chance by `lullRange`. */
+  lullCellM: 520,
+  lullRange: [0.35, 1.45] as readonly number[],
+  /** Across the wind, the draw is blended over this many metres. */
+  crossCellM: 150,
+  /** Per-front strength draw. */
+  strengthRange: [0.35, 1] as readonly number[],
+  /** Ground cover is still at or below this wind, m/s (the clear-weather states blow 2.2). */
+  coverCalmMS: 2.5,
+  /** At or above this wind, m/s, ground cover is laid over. */
+  coverFullMS: 12,
+  /** Ground-cover slow-bend rate, Hz, from calm to full wind. */
+  coverHz: [0.4, 1.2] as readonly number[],
+  /** Tip lean at full wind in a full front, as a fraction of plant height. */
+  coverLean: 0.9,
+  /** Share of the lean that is steady (the rest arrives with the front). */
+  coverSteady: 0.35,
+  /** Rustle (high-frequency flutter), rad/s, and its tip amplitude as a fraction of plant height. */
+  rustleRadS: 44,
+  rustleCover: 0.05,
+  /** Rustle grows with (wind / rustleFullMS)²; above `rustleStrongMS` a floor of it stays between fronts. */
+  rustleFullMS: 14,
+  rustleStrongMS: [10, 14] as readonly number[],
+  rustleStrongFloor: 0.35,
+} as const;
 
 function windHash(x: number, z: number): number {
   const v = Math.sin(x * 12.9898 + z * 78.233) * 43758.5453;
@@ -167,35 +216,89 @@ function windNoise(x: number, z: number): number {
   return a + (b - a) * fz;
 }
 
-/** The gust multiplier at a plant root (the shader's `esGust`). */
-export function windGustAt(originXZ: readonly [number, number], dirXZ: readonly [number, number],
-  speedMS: number, gustiness: number, t: number): number {
-  const drift = t * (2 + 0.6 * speedMS);
-  const n = windNoise((originXZ[0] - dirXZ[0] * drift) / 30, (originXZ[1] - dirXZ[1] * drift) / 30);
-  const g = Math.min(1, Math.max(0, gustiness));
-  return 1 + (0.25 + 1.5 * n - 1) * g;
+function smoothstep(e0: number, e1: number, x: number): number {
+  const t = Math.min(1, Math.max(0, (x - e0) / (e1 - e0)));
+  return t * t * (3 - 2 * t);
 }
 
 /**
- * The ground-cover branch of the vertex shader in TypeScript (the shader is
- * built from the same constants; `windSway.test.ts` measures this law): the
- * downwind offset, metres, of a vertex `heightM` above the ground of a plant
- * of `plantH` (1 when untuned) rooted at `originXZ`, at time `t`.
+ * The gust envelope at a plant root, 0 (calm spell) .. 1 (the heart of a
+ * strong front): the shader's `esEnv`. Zero whenever gustiness is zero.
+ */
+export function windGustEnvelope(originXZ: readonly [number, number], dirXZ: readonly [number, number],
+  speedMS: number, gustiness: number, t: number): number {
+  const G = WIND_GUST;
+  const g = Math.min(1, Math.max(0, gustiness));
+  if (g <= 0) return 0;
+  const u = originXZ[0] * dirXZ[0] + originXZ[1] * dirXZ[1] - t * (G.driftBase + G.driftPerMS * speedMS);
+  const v = -originXZ[0] * dirXZ[1] + originXZ[1] * dirXZ[0];
+  const lull = G.lullRange[0] + (G.lullRange[1] - G.lullRange[0]) * windNoise(u / G.lullCellM + 3.1, v / G.lullCellM);
+  const p = Math.min(0.95, (G.occupancyBase + G.occupancyPerGust * g) * lull);
+  const cv = v / G.crossCellM; const iv = Math.floor(cv); const fv = smoothstep(0, 1, cv - iv);
+  const slot = Math.floor(u / G.slotM);
+  let env = 0;
+  for (let k = slot - 1; k <= slot + 1; k++) {
+    const occ = windHash(k, iv) + (windHash(k, iv + 1) - windHash(k, iv)) * fv;
+    const present = smoothstep(1 - p - 0.06, 1 - p + 0.06, occ);
+    if (present <= 0) continue;
+    const centre = (k + G.centreSpan[0] + (G.centreSpan[1] - G.centreSpan[0]) * windHash(k, 3.7)) * G.slotM;
+    const half = G.halfLengthM[0] + (G.halfLengthM[1] - G.halfLengthM[0]) * windHash(k, 5.3);
+    const s0 = windHash(k + 0.5, iv); const s1 = windHash(k + 0.5, iv + 1);
+    const strength = G.strengthRange[0] + (G.strengthRange[1] - G.strengthRange[0]) * (s0 + (s1 - s0) * fv);
+    const d = Math.max(0, 1 - ((u - centre) / half) ** 2);
+    env = Math.max(env, present * strength * d * d);
+  }
+  return env;
+}
+
+/** The gust multiplier on a tree's bend (the shader's `esGust`): 0.4 in a lull, 2 in a full front. */
+export function windGustAt(originXZ: readonly [number, number], dirXZ: readonly [number, number],
+  speedMS: number, gustiness: number, t: number): number {
+  const g = Math.min(1, Math.max(0, gustiness));
+  return 1 + (0.4 + 1.6 * windGustEnvelope(originXZ, dirXZ, speedMS, gustiness, t) - 1) * g;
+}
+
+/**
+ * How much high-frequency rustle a plant carries, 0..1: it rides the gust
+ * envelope and the wind speed, with a floor between fronts only in strong
+ * wind (never at 2 m/s).
+ */
+export function windRustleGate(speedMS: number, gustiness: number, envelope: number): number {
+  const G = WIND_GUST;
+  const g = Math.min(1, Math.max(0, gustiness));
+  const speed = Math.min(1, (speedMS / G.rustleFullMS) ** 2);
+  const strong = G.rustleStrongFloor * smoothstep(G.rustleStrongMS[0], G.rustleStrongMS[1], speedMS);
+  return speed * Math.max(envelope * g, strong);
+}
+
+/**
+ * The ground-cover branch of the vertex shader in TypeScript: the downwind
+ * lean (`along`) and the cross-wind rustle (`across`), metres, of a vertex
+ * `heightM` above the ground of a plant of `plantH` (1 when untuned).
  */
 export function groundCoverSway(p: {
   speedMS: number; gustiness: number; dirXZ: readonly [number, number];
-  originXZ: readonly [number, number]; heightM: number; plantH?: number; t: number;
-}): number {
+  originXZ: readonly [number, number]; heightM: number; plantH?: number; t: number; leafPhase?: number;
+}): { along: number; across: number; envelope: number } {
+  const G = WIND_GUST;
   const plantH = p.plantH ?? 1;
-  const w = Math.min(1, Math.max(0, (p.speedMS - GROUND_COVER_CALM_MS) / (GROUND_COVER_FULL_MS - GROUND_COVER_CALM_MS)));
-  const freq = (GROUND_COVER_HZ[0] + (GROUND_COVER_HZ[1] - GROUND_COVER_HZ[0]) * w) * 2 * Math.PI;
-  const k = freq / (2 + 0.6 * p.speedMS);
-  const phase = k * (p.originXZ[0] * p.dirXZ[0] + p.originXZ[1] * p.dirXZ[1])
-    - 0.6 * windHash(p.originXZ[0], p.originXZ[1]) * 2 * Math.PI;
+  const env = windGustEnvelope(p.originXZ, p.dirXZ, p.speedMS, p.gustiness, p.t);
+  const g = Math.min(1, Math.max(0, p.gustiness));
+  const w = smoothstep(G.coverCalmMS, G.coverFullMS, p.speedMS);
+  const freq = (G.coverHz[0] + (G.coverHz[1] - G.coverHz[0]) * w) * 2 * Math.PI;
+  const phase = windHash(p.originXZ[0], p.originXZ[1]) * 2 * Math.PI;
   const profile = Math.min(p.heightM / plantH, 1.2) ** 2;
-  const gust = windGustAt(p.originXZ, p.dirXZ, p.speedMS, p.gustiness, p.t);
-  return GROUND_COVER_LEAN * plantH * w ** 1.3 * profile * gust * (0.65 + 0.35 * Math.sin(p.t * freq - phase));
+  const push = G.coverSteady + (1 - G.coverSteady) * env * g;
+  const along = G.coverLean * plantH * w * profile * push
+    * (0.75 + 0.25 * (0.3 + 0.7 * env) * Math.sin(p.t * freq + phase));
+  const across = G.rustleCover * plantH * profile * windRustleGate(p.speedMS, p.gustiness, env)
+    * Math.sin(p.t * G.rustleRadS + (p.leafPhase ?? 0));
+  return { along, across, envelope: env };
 }
+
+const G = WIND_GUST;
+/** A GLSL float literal. */
+const f = (x: number): string => (Number.isInteger(x) ? x.toFixed(1) : String(x));
 
 const VERTEX_HEAD = /* glsl */ `
 uniform float esWindTime;
@@ -223,6 +326,42 @@ float esWindNoise(vec2 p) {
   return mix(mix(esWindHash(i), esWindHash(i + vec2(1.0, 0.0)), f.x),
              mix(esWindHash(i + vec2(0.0, 1.0)), esWindHash(i + vec2(1.0, 1.0)), f.x), f.y);
 }
+
+// The gust envelope (windGustEnvelope in TS): discrete fronts on a row of
+// slots carried downwind, a lull field on their chance, a per-front strength
+// draw blended across the wind. 0 in a calm spell, up to 1 in a strong front.
+float esGustEnvelope(vec2 origin, vec2 dir, float speedMS, float gust, float t) {
+  if (gust <= 0.0) return 0.0;
+  float u = dot(origin, dir) - t * (${f(G.driftBase)} + ${f(G.driftPerMS)} * speedMS);
+  float v = dot(origin, vec2(-dir.y, dir.x));
+  float lull = ${f(G.lullRange[0])} + ${f(G.lullRange[1] - G.lullRange[0])} * esWindNoise(vec2(u / ${f(G.lullCellM)} + 3.1, v / ${f(G.lullCellM)}));
+  float p = min(0.95, (${f(G.occupancyBase)} + ${f(G.occupancyPerGust)} * gust) * lull);
+  float cv = v / ${f(G.crossCellM)};
+  float iv = floor(cv);
+  float fv = smoothstep(0.0, 1.0, cv - iv);
+  float slot = floor(u / ${f(G.slotM)});
+  float env = 0.0;
+  for (int j = -1; j <= 1; j++) {
+    float k = slot + float(j);
+    float occ = mix(esWindHash(vec2(k, iv)), esWindHash(vec2(k, iv + 1.0)), fv);
+    float present = smoothstep(1.0 - p - 0.06, 1.0 - p + 0.06, occ);
+    float centre = (k + ${f(G.centreSpan[0])} + ${f(G.centreSpan[1] - G.centreSpan[0])} * esWindHash(vec2(k, 3.7))) * ${f(G.slotM)};
+    float half_ = ${f(G.halfLengthM[0])} + ${f(G.halfLengthM[1] - G.halfLengthM[0])} * esWindHash(vec2(k, 5.3));
+    float strength = ${f(G.strengthRange[0])} + ${f(G.strengthRange[1] - G.strengthRange[0])}
+      * mix(esWindHash(vec2(k + 0.5, iv)), esWindHash(vec2(k + 0.5, iv + 1.0)), fv);
+    float dd = (u - centre) / half_;
+    float d = max(0.0, 1.0 - dd * dd);
+    env = max(env, present * strength * d * d);
+  }
+  return env;
+}
+
+// The rustle gate (windRustleGate in TS).
+float esRustleGate(float speedMS, float gust, float env) {
+  float sp = min(1.0, (speedMS / ${f(G.rustleFullMS)}) * (speedMS / ${f(G.rustleFullMS)}));
+  float strong = ${f(G.rustleStrongFloor)} * smoothstep(${f(G.rustleStrongMS[0])}, ${f(G.rustleStrongMS[1])}, speedMS);
+  return sp * max(env * gust, strong);
+}
 `;
 
 /**
@@ -239,11 +378,12 @@ float esWindNoise(vec2 p) {
  *    a phase that drifts smoothly across the crown;
  *  - leaf flutter: the outer, upper vertices jitter at ~7 Hz with a per-vertex
  *    phase; near-field only.
- * The gust is a value-noise field advected downwind, sampled at the plant's
- * root: bands of stronger wind visibly roll across a stand. Leaf flutter is
- * gated by wind speed squared (walk 9: every sedge tip vibrated at 7 Hz in
- * calm air). Ground cover (no tune) takes its own branch, `groundCoverSway`:
- * one slow bend, no flutter.
+ * The gust is the `WIND_GUST` envelope sampled at the plant's root: separate
+ * fronts roll across a stand with calm between them. Leaf flutter and the
+ * ground-cover rustle ride that envelope and the wind speed (walk 9: every
+ * sedge tip vibrated at 7 Hz in calm air because the old field never let
+ * up). Ground cover (no tune) takes its own branch, `groundCoverSway`,
+ * because a 1 m blade bends whole where a tree bends at the crown.
  *
  * The weights come from geometry, not vertex colour: 472 of the flora kit's
  * 732 primitives carry no colour attribute, and the rest carry NIF-specific
@@ -285,25 +425,28 @@ const VERTEX_BODY = /* glsl */ `
     vec2 esPerp = vec2(-esDir.y, esDir.x);
     float esT = esWindTime;
     float esPhase = esWindHash(esInstanceOrigin.xz) * 6.2831853;
-    // Gust band: 30 m noise cells carried downwind at 2 m/s + 0.6 × wind speed.
+    // Gust envelope: separate fronts carried downwind, calm between them.
     float esSpeedMS = esStrength / ${WIND_METRES_PER_MS.toFixed(4)};
-    vec2 esGustAt = (esInstanceOrigin.xz - esDir * esT * (2.0 + 0.6 * esSpeedMS)) / 30.0;
-    float esGust = mix(1.0, 0.25 + 1.5 * esWindNoise(esGustAt), clamp(esWindVec.z, 0.0, 1.0));
+    float esGustiness = clamp(esWindVec.z, 0.0, 1.0);
+    float esEnv = esGustEnvelope(esInstanceOrigin.xz, esDir, esSpeedMS, esGustiness, esT);
+    float esGust = mix(1.0, 0.4 + 1.6 * esEnv, esGustiness);
+    float esRustle = esRustleGate(esSpeedMS, esGustiness, esEnv);
+    float esLeafPhase = dot(esLocal, vec3(17.3, 11.1, 13.7));
     vec3 esOffset;
     if (esTune.z <= 0.05) {
-      // Ground cover (drawn without the tune): one slow bend, no flutter.
-      // Amplitude and rate rise with the wind (still at calm, laid over in a
-      // gale), times the gust field; the phase is a wave travelling downwind
-      // at the gust speed, so a field moves in rolling fronts.
-      float esW = clamp((esSpeedMS - ${GROUND_COVER_CALM_MS.toFixed(2)}) / ${(GROUND_COVER_FULL_MS - GROUND_COVER_CALM_MS).toFixed(2)}, 0.0, 1.0);
-      float esGcFreq = (${GROUND_COVER_HZ[0].toFixed(2)} + ${(GROUND_COVER_HZ[1] - GROUND_COVER_HZ[0]).toFixed(2)} * esW) * 6.2831853;
-      float esGcK = esGcFreq / (2.0 + 0.6 * esSpeedMS);
-      float esGcPhase = esGcK * dot(esInstanceOrigin.xz, esDir) - 0.6 * esPhase;
+      // Ground cover (groundCoverSway in TS): a steady lean that scales with
+      // the wind, a front's push on top, a slow bend, and the rustle only as
+      // a front passes or in strong wind.
+      float esW = smoothstep(${f(G.coverCalmMS)}, ${f(G.coverFullMS)}, esSpeedMS);
+      float esGcFreq = (${f(G.coverHz[0])} + ${f(G.coverHz[1] - G.coverHz[0])} * esW) * 6.2831853;
       float esGcProfile = min(esHeight / esPlantH, 1.2);
       esGcProfile *= esGcProfile;
-      float esGcLean = ${GROUND_COVER_LEAN.toFixed(2)} * esPlantH * pow(esW, 1.3) * esGcProfile * esGust
-        * (0.65 + 0.35 * sin(esT * esGcFreq - esGcPhase));
-      esOffset = vec3(esDir.x * esGcLean, 0.0, esDir.y * esGcLean);
+      float esPush = ${f(G.coverSteady)} + ${f(1 - G.coverSteady)} * esEnv * esGustiness;
+      float esGcLean = ${f(G.coverLean)} * esPlantH * esW * esGcProfile * esPush
+        * (0.75 + 0.25 * (0.3 + 0.7 * esEnv) * sin(esT * esGcFreq + esPhase));
+      float esGcRustle = ${f(G.rustleCover)} * esPlantH * esGcProfile * esRustle
+        * sin(esT * ${f(G.rustleRadS)} + esLeafPhase);
+      esOffset = vec3(esDir.x * esGcLean + esPerp.x * esGcRustle, 0.0, esDir.y * esGcLean + esPerp.y * esGcRustle);
       float esGcL = length(esOffset);
       esOffset.y -= esHeight * (1.0 - cos(min(esGcL / max(esHeight, 0.01), 1.0)));
     } else {
@@ -329,14 +472,12 @@ const VERTEX_BODY = /* glsl */ `
       float esBranchPhase = esPhase + dot(esLocal, vec3(1.0, 0.6, 0.8)) * 2.0 / max(0.3 * esPlantH, 0.5);
       esOffset += vec3(0.6 * esDir.x, 1.0, 0.6 * esDir.y)
         * (0.12 * esLimb * esOuter * sin(esT * esFreq * 2.1 + esBranchPhase));
-      // Leaf flutter, near field only (beyond ~60 m it is sub-pixel shimmer)
-      // and only in real wind: gated by speed squared, so a calm crown is
-      // still and a gale's crown shivers.
+      // Leaf flutter, near field only (beyond ~60 m it is sub-pixel shimmer),
+      // gated like the ground-cover rustle: it shivers as a front passes and
+      // in strong wind, never in a light breeze.
       float esNear = 1.0 - smoothstep(30.0, 60.0, esDist);
-      float esLeafPhase = dot(esLocal, vec3(17.3, 11.1, 13.7));
-      float esFlutter = 0.5 * clamp(esSpeedMS * esSpeedMS / 100.0, 0.0, 1.0);
       esOffset += vec3(esPerp.x, 0.7, esPerp.y)
-        * (0.03 * esFlutter * esStrength * esGust * esOuter * esNear * sin(esT * 44.0 + esLeafPhase));
+        * (0.03 * esRustle * esStrength * esGust * esOuter * esNear * sin(esT * ${f(G.rustleRadS)} + esLeafPhase));
     }
     }
     esOffset *= esFade;
