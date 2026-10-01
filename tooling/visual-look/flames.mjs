@@ -20,7 +20,9 @@
 //   node tooling/visual-look/flames.mjs interior <cellId> <xKm> <zKm> [--site DIR | --url BASE]
 //   node tooling/visual-look/flames.mjs place <xKm> <zKm> [--t 22] [--site DIR | --url BASE]
 //   flags: --out DIR (default tooling/.reports/flames), --force (ignore the
-//   key), --empty-fires (serve every kit parts index with an empty fires
+//   key), --data-base URL (fetch province data for the key from here, not
+//   the page base: the webgpu build serves its data under /studio/),
+//   --empty-fires (serve every kit parts index with an empty fires
 //   map: the check must FAIL; proves it can)
 //
 // Cheap by design (owner ruling, 16k walk 7): one cell or spot, a 400 x 225
@@ -57,11 +59,11 @@ export function parseFlameArgs(argv) {
   }
   if (mode === "interior" && pos.length === 3) return { mode, cell: pos[0], x: pos[1], z: pos[2], ...common(flags, "12") };
   if (mode === "place" && pos.length === 2) return { mode, cell: null, x: pos[0], z: pos[1], ...common(flags, "22") };
-  throw new Error("usage: flames.mjs interior <cellId> <xKm> <zKm> | place <xKm> <zKm> [--site DIR | --url BASE] [--t H] [--out DIR] [--force] [--empty-fires]");
+  throw new Error("usage: flames.mjs interior <cellId> <xKm> <zKm> | place <xKm> <zKm> [--site DIR | --url BASE] [--data-base URL] [--t H] [--out DIR] [--force] [--empty-fires]");
 }
 function common(f, t) {
   return {
-    site: resolve(repo, f.site ?? "site"), url: f.url ?? null, t: f.t ?? t,
+    site: resolve(repo, f.site ?? "site"), url: f.url ?? null, dataBase: f["data-base"] ?? null, t: f.t ?? t,
     out: resolve(repo, f.out ?? "tooling/.reports/flames"), minDelta: Number(f["min-delta"] ?? 12),
     force: !!f.force, emptyFires: !!f["empty-fires"],
   };
@@ -102,6 +104,16 @@ export function seenCards(on, offA, offB, minDelta) {
       if (d - n > margin) { margin = d - n; delta = d; noise = n; }
     }
     return { delta: Math.round(delta), noise: Math.round(noise), seen: margin >= minDelta };
+  });
+}
+
+/** The pixel windows of the cards out of one RGBA frame (`width` wide, rows
+ * top-down, as a screenshot gives it): each card's `win` is [x0, yTop, w, h]. */
+export function windowsFrom(rgba, width, cards) {
+  return cards.map(({ win: [x0, y0, w, h] }) => {
+    const out = new Array(w * h * 4);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w * 4; x++) out[(y * w) * 4 + x] = rgba[((y0 + y) * width + x0) * 4 + x];
+    return out;
   });
 }
 
@@ -170,13 +182,17 @@ function installProbe(cell) {
     const prev = cards.onBeforeRender;
     cards.onBeforeRender = function (...args) { P.draws += 1; return prev.apply(this, args); };
   }
-  const gl = r.getContext();
+  // WebGPU has no synchronous read-back: the page records each card's window
+  // and the driver fills it from a screenshot of the canvas (windowsFrom)
+  const webgpu = !!(r.isWebGPURenderer || r.backend?.isWebGPUBackend || r.backend);
+  P.webgpu = webgpu;
+  const gl = webgpu ? null : r.getContext();
   const render = r.render.bind(r);
   const v = new T.Vector3();
   r.render = (s, camera) => {
     render(s, camera);
     if (!P.armed || r.getRenderTarget() !== null || !camera.isPerspectiveCamera) return;
-    const W = gl.drawingBufferWidth; const H = gl.drawingBufferHeight; const R = 4;
+    const W = webgpu ? r.domElement.width : gl.drawingBufferWidth; const H = webgpu ? r.domElement.height : gl.drawingBufferHeight; const R = 4;
     const cards = [];
     for (const g of systems) {
       const mesh = g.getObjectByName("fire-flame-cards");
@@ -190,6 +206,7 @@ function installProbe(cell) {
         const px = Math.round((v.x + 1) / 2 * W); const py = Math.round((v.y + 1) / 2 * H);
         const x0 = Math.max(0, px - R); const y0 = Math.max(0, py - R); // flames rise: window from the root up
         const w = Math.min(W, px + R + 1) - x0; const h = Math.min(H, py + 3 * R + 1) - y0;
+        if (webgpu) { cards.push({ px, py: H - py, dist: +dist.toFixed(2), win: [x0, H - (y0 + h), w, h] }); continue; }
         const px8 = new Uint8Array(w * h * 4);
         gl.readPixels(x0, y0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, px8);
         cards.push({ px, py: H - py, dist: +dist.toFixed(2), pixels: Array.from(px8) });
@@ -273,7 +290,9 @@ async function run(opts) {
       base = `http://127.0.0.1:${server.address().port}/elder-souls-argonia/studio/`;
     }
     if (!base.endsWith("/")) base += "/";
-    result.key = await keyOf(opts, base);
+    let dataBase = opts.dataBase ?? base;
+    if (!dataBase.endsWith("/")) dataBase += "/";
+    result.key = await keyOf(opts, dataBase);
     if (!opts.force && existsSync(jsonPath)) {
       const prior = JSON.parse(readFileSync(jsonPath, "utf8"));
       if (prior.key === result.key && prior.stage === "done") { Object.assign(result, prior, { key: result.key }); return finish(true); }
@@ -311,13 +330,28 @@ async function run(opts) {
     // the screenshot shows the world canvas alone (no HUD, no minimap canvas)
     await page.addStyleTag({ content: "* { visibility: hidden !important; } canvas { visibility: visible !important; }" });
     await page.evaluate(() => { for (const c of document.querySelectorAll("canvas")) if (c !== window.__RENDERER__.domElement) c.style.setProperty("visibility", "hidden", "important"); });
+    // WebGPU: the cards' windows come from a CDP screenshot clip of the canvas
+    // taken while the toggled state holds (the camera is still by then)
+    const cdp = await page.context().newCDPSession(page);
+    const grab = async (cards) => {
+      if (!cards?.length || cards[0].pixels) return cards;
+      const rect = await page.evaluate(() => { const c = window.__RENDERER__.domElement; const b = c.getBoundingClientRect(); return { x: b.left, y: b.top, w: b.width, h: b.height, W: c.width }; });
+      const shot = await cdp.send("Page.captureScreenshot", { format: "png", clip: { x: rect.x, y: rect.y, width: rect.w, height: rect.h, scale: rect.W / rect.w } });
+      const img = await page.evaluate(async (b64) => {
+        const bm = await createImageBitmap(await (await fetch(`data:image/png;base64,${b64}`)).blob());
+        const c = new OffscreenCanvas(bm.width, bm.height); const x = c.getContext("2d"); x.drawImage(bm, 0, 0);
+        return { width: bm.width, data: Array.from(x.getImageData(0, 0, bm.width, bm.height).data) };
+      }, shot.data);
+      const wins = windowsFrom(img.data, img.width, cards);
+      return cards.map((c, k) => ({ ...c, pixels: wins[k] }));
+    };
     let views = 0;
     for (;;) {
       const at = () => +((Date.now() - started) / 1000).toFixed(1);
-      const offA = await page.evaluate(captureIn, { show: false, still: true });
+      const offA = await grab(await page.evaluate(captureIn, { show: false, still: true }));
       result.stillS = at();
-      const on = await page.evaluate(captureIn, { show: true, still: false });
-      const offB = await page.evaluate(captureIn, { show: false, still: false });
+      const on = await grab(await page.evaluate(captureIn, { show: true, still: false }));
+      const offB = await grab(await page.evaluate(captureIn, { show: false, still: false }));
       result.capturedS = at();
       await page.evaluate(() => { for (const g of window.__FLAME_PROBE__.systems) g.visible = true; });
       views += 1;

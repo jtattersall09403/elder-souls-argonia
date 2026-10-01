@@ -1,7 +1,7 @@
 // node --test tooling/visual-look/flames.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { isLampDay, parseFlameArgs, seenCards, verdict } from "./flames.mjs";
+import { isLampDay, parseFlameArgs, seenCards, verdict, windowsFrom } from "./flames.mjs";
 
 test("args: an interior cell with its door spot, a place at night by default", () => {
   const i = parseFlameArgs(["interior", "KeebaHouseFisher", "0.313", "3.006", "--url", "https://x/studio/", "--force"]);
@@ -44,4 +44,12 @@ test("verdict: a place by day needs its flames drawn, not seen (lamps out 06:30-
   assert.equal(verdict({ ...day, t: "22" }), "zero: onScreen, visible");
   assert.equal(verdict({ ...day, mode: "interior" }), "zero: onScreen, visible");
   assert.equal(verdict({ ...day, draws: 0 }), "zero: draws");
+});
+
+test("windowsFrom: a card's window is cut from a top-down RGBA frame", () => {
+  // 3 x 2 frame, pixel value = 10 * index
+  const frame = []; for (let i = 0; i < 6; i++) frame.push(10 * i, 10 * i, 10 * i, 255);
+  const [w] = windowsFrom(frame, 3, [{ win: [1, 0, 2, 2] }]);
+  assert.deepEqual(w.filter((_, i) => i % 4 === 0), [10, 20, 40, 50]);
+  assert.equal(parseFlameArgs(["place", "1", "2", "--data-base", "http://d/studio/"]).dataBase, "http://d/studio/");
 });
