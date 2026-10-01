@@ -1236,3 +1236,19 @@ def test_a_radial_cave_mouth_door_is_fixed_on_its_doors_axis_toward_the_show_sid
     record = {"category": "rock", "entrance": {"kind": "esp-door", "radial": True, "radiusM": 1.5}}
     ix.fix_cave_mouth_entrance(record, 90.0)
     assert record["entrance"]["offsetM"] == [1.5, -0.0]
+
+
+def test_cave_door_yaws_never_reach_the_sidecar():
+    # walk 9 review: a cave-mouth rock with no derivable front, or a door that is
+    # not radial, kept the working field and published it
+    yaws = [107.0, 113.0]
+    for record, front in (
+            ({"category": "rock", "caveDoorYawsDeg": yaws,
+              "entrance": {"kind": "esp-door", "radial": True, "radiusM": 1.5}}, None),
+            ({"category": "rock", "caveDoorYawsDeg": yaws,
+              "entrance": {"kind": "esp-door", "radiusM": 1.5}}, {"deg": 80.0}),
+            ({"category": "rock", "caveDoorYawsDeg": yaws,
+              "entrance": {"kind": "esp-door", "radial": True, "radiusM": 1.5}}, {"deg": 79.7})):
+        ix.settle_cave_mouth(record, lambda: front)
+        assert "caveDoorYawsDeg" not in record
+    assert abs(record["entrance"]["sideDeg"] - 110.0) < 0.01

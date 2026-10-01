@@ -1946,6 +1946,18 @@ def cave_mouth_axis_deg(door_yaws_deg: list[float], front_deg: float) -> float:
     return math.degrees(math.atan2(s, c)) % 360.0 if out else front_deg % 360.0
 
 
+def settle_cave_mouth(record: dict, front_of) -> None:
+    """Every record leaves with no `caveDoorYawsDeg` (classify_asset's working
+    field, never published): a radial esp-door on a rock with a derivable front
+    (``front_of()``) is fixed on its doors' axis; any other record just drops it."""
+    ent = record.get("entrance") or {}
+    if ent.get("kind") == "esp-door" and ent.get("radial") and record.get("category") == "rock":
+        front = front_of()
+        if front and front.get("deg") is not None:
+            fix_cave_mouth_entrance(record, float(front["deg"]))
+    record.pop("caveDoorYawsDeg", None)
+
+
 def fix_cave_mouth_entrance(record: dict, front_deg: float) -> None:
     """A cave-mouth rock's plugin doors stand at different spots inside its
     tunnel across the plugins (`radial`), but the way in is always the mouth.
@@ -2517,13 +2529,9 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
         finalise_entrance(record)
         walk_in_open_front(record, setting.get(asset_id))
         set_storeys(record)
-        ent = record.get("entrance") or {}
-        if ent.get("kind") == "esp-door" and ent.get("radial") and record.get("category") == "rock":
-            source = parts_of.get(asset_id, [asset_id])[0]
-            front = (pf.derive_front(asset_id, tris_of.get(asset_id), coplacements)
-                     or pf.derive_front(source, None, coplacements))
-            if front and front.get("deg") is not None:
-                fix_cave_mouth_entrance(record, float(front["deg"]))
+        source = parts_of.get(asset_id, [asset_id])[0]
+        settle_cave_mouth(record, lambda: (pf.derive_front(asset_id, tris_of.get(asset_id), coplacements)
+                                           or pf.derive_front(source, None, coplacements)))
         if record.get("entrance") is None:
             source = parts_of.get(asset_id, [asset_id])[0]
             record["front"] = (pf.derive_front(asset_id, tris_of.get(asset_id), coplacements)
