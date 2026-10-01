@@ -101,6 +101,25 @@ def test_flame_anchor_gate_fails_an_unpublished_place(monkeypatch):
     assert g.rows[0]["failures"] == ["place.x.claywater: has no published bundle to check"]
 
 
+def test_kits_fresh_gate_fails_a_stale_publish(tmp_path, monkeypatch):
+    """16k walk 9: the exporter's publish refusal runs as gate kits.fresh."""
+    from . import export_settlement_bundle  # noqa: F401  (puts pipeline on the path)
+    import pipeline.kit_compress as kc
+    monkeypatch.setattr(kc, "glb_problems", lambda name, glb, manifest: [])
+    built, public = tmp_path / "built", tmp_path / "public"
+    built.mkdir(), public.mkdir()
+    (built / "k.kit.json").write_text('{"assets": [1]}')
+    (public / "k.kit.json").write_text('{"assets": [1]}')
+    settlement = {"placements": [{"kit": "k"}]}
+    g = pg.Gates()
+    pg.kits_fresh_gate(g, settlement, built, public)
+    (public / "k.kit.json").write_text('{"assets": []}')
+    pg.kits_fresh_gate(g, settlement, built, public)
+    pg.kits_fresh_gate(g, None, built, public)
+    assert [r["ok"] for r in g.rows] == [True, False, False]
+    assert "stale publish" in g.rows[1]["failures"][0]
+
+
 def test_tier_a_doors_is_the_one_rule():
     bp = {"doors": [{"id": "d1", "interiorClaim": {"tier": "A", "cellId": "C1"}},
                     {"id": "d2", "interiorClaim": {"tier": "B", "cellId": "C2"}},

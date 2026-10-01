@@ -53,6 +53,9 @@ Runs, for one place and without the yard regression gates:
   workplace, shop or store parcel fails (reserved is tier B/C only);
 * ``interiors.closed`` - decision 0114 rule 3: a door on a shell no plugin
   links to an interior cell is a closed building and fails;
+* ``kits.fresh`` - the exporter's publish refusal, before the publish: every
+  kit the place uses passes ``kit_compress --check`` and its published
+  manifest is the build's (``export_settlement_bundle.kit_freshness_problems``);
 * ``record.consistency`` - walk 7: a settlement record's magnitude is the
   breadth-bars column its counted buildings are built under (the record's
   other claims are promise-ledger rows: ``promises``).
@@ -793,6 +796,21 @@ def sink_fallback_gate(g: Gates, settlement: dict | None, rows: dict) -> None:
           sink_fallback_failures(settlement.get("placements") or [], rows))
 
 
+def kits_fresh_gate(g: Gates, settlement: dict | None, kits_dir: Path | None = None,
+                    public_dir: Path | None = None) -> None:
+    """The exporter's publish refusal, run before the publish: every kit the
+    place uses passes ``kit_compress --check`` and its published manifest is
+    the build's (``export_settlement_bundle.kit_freshness_problems``)."""
+    from . import export_settlement_bundle as esb
+    t = time.perf_counter()
+    if settlement is None:
+        g.add("kits.fresh", 0.0, ["the compile did not run: no kits to read"])
+        return
+    kits = {p["kit"] for p in settlement.get("placements") or [] if p.get("kit")}
+    failures = esb.kit_freshness_problems(kits, kits_dir or esb.KITS, public_dir or esb.PUBLIC_KITS)
+    g.add("kits.fresh", time.perf_counter() - t, failures)
+
+
 # --- 0105 R4: planned interior variety --------------------------------------
 
 def region_of(place_id: str) -> str:
@@ -1399,6 +1417,7 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
     lights_gate(g, settlement, rows, place_id=place_id)
     setting_gate(g, settlement, record, rows, bp=bp, place_id=place_id)
     sink_fallback_gate(g, settlement, rows)
+    kits_fresh_gate(g, settlement)
 
     doc = {"schemaVersion": SCHEMA_VERSION, "placeId": place_id, "startedAt": started,
            "wallS": round(time.perf_counter() - t0, 2), "ok": all(r["ok"] for r in g.rows),

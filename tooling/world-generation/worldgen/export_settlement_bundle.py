@@ -1781,6 +1781,22 @@ def _scoped_kits(bundle: dict, places=None) -> list[str]:
     return sorted(used & set(bundle["kits"]))
 
 
+def kit_freshness_problems(kits, kits_dir: Path = KITS, public_dir: Path = PUBLIC_KITS) -> list[str]:
+    """Per published kit: the ``kit_compress --check`` rule (``glb_problems``),
+    then the published manifest against the build's (a differing one is a stale
+    publish). Shared by ``_stage_assets`` and ``place_gates`` (gate kits.fresh)."""
+    from pipeline.kit_compress import glb_problems
+    out: list[str] = []
+    for name in sorted(kits):
+        glb, manifest = public_dir / f"{name}.glb", public_dir / f"{name}.kit.json"
+        problems = glb_problems(name, glb, manifest)
+        if not problems and _read(manifest) != _read(kits_dir / f"{name}.kit.json"):
+            problems = [f"{name}: published manifest differs from the build's "
+                        f"{kits_dir / (name + '.kit.json')} (stale publish)"]
+        out.extend(problems)
+    return out
+
+
 def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
                   publish_kit=None, places=None) -> tuple[Path, list[str]]:
     """Validate and copy every asset to a private sibling before publication.
@@ -1794,7 +1810,7 @@ def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
     as is a published manifest that is not the manifest this bundle was built
     from (the pair is stale against the build). Sidecars come from the build
     output, where the measurers write them."""
-    from pipeline.kit_compress import glb_problems, publish
+    from pipeline.kit_compress import publish
     publish_kit = publish_kit or publish
     kits = _scoped_kits(bundle, places)
 
@@ -1814,16 +1830,9 @@ def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
             require(kits_dir / f"{name}.glb")
         for suffix in sidecar_suffixes(name):
             require(kits_dir / f"{name}{suffix}")
-    refused: list[str] = []
     for name in unpublished:
         publish_kit(name)
-    for name in kits:
-        glb, manifest = public_dir / f"{name}.glb", public_dir / f"{name}.kit.json"
-        problems = glb_problems(name, glb, manifest)
-        if not problems and _read(manifest) != _read(kits_dir / f"{name}.kit.json"):
-            problems = [f"{name}: published manifest differs from the build's "
-                        f"{kits_dir / (name + '.kit.json')} (stale publish)"]
-        refused.extend(problems)
+    refused = kit_freshness_problems(kits, kits_dir, public_dir)
     if refused:
         raise ValueError("refusing to publish kits that fail kit_compress --check "
                          "(publish them with `python3 -m pipeline.kit_compress --kit "
