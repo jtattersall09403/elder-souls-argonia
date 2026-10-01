@@ -149,14 +149,7 @@ else
   [[ "$limit" =~ ^[0-9]+$ ]] || limit=$(awk '$1=="MemTotal:"{printf "%d", $2 * 1024}' /proc/meminfo)
   ceiling_mib=$(( limit * 3 / 4 / 1048576 ))
 fi
-mem_mib() {  # unreclaimable: anon + shmem + kernel (memwatch.sh's measure)
-  local stat=/sys/fs/cgroup/memory.stat
-  if [[ -r "$stat" ]]; then
-    awk '$1=="anon"||$1=="shmem"||$1=="kernel"{s+=$2} END{printf "%d", (s+0)/1048576}' "$stat"
-  else
-    awk '$1=="MemTotal:"{t=$2} $1=="MemAvailable:"{a=$2} END{printf "%d", (t-a)/1024}' /proc/meminfo
-  fi
-}
+mem_mib() { python3 "$here/own_memory.py" --machine; }  # unreclaimable: anon + shmem + kernel
 load1() { cut -d' ' -f1 "${ES_JOB_LOADAVG_FILE:-/proc/loadavg}"; }
 # The memory cap (--mem) and how it is enforced.
 cap_mib=$(awk -v g="$mem_gib" 'BEGIN{printf "%d", g * 1024}')

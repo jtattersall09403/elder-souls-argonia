@@ -35,8 +35,8 @@ def test_memory_high_refuses_with_numbers(tmp_path, monkeypatch):
 
 
 def test_load_high_refuses(tmp_path, monkeypatch):
-    code, msg = gate(tmp_path, monkeypatch, load1=lambda: 10.5)  # limit 8 x 1.25 = 10
-    assert code == 2 and "10.0" in msg
+    code, msg = gate(tmp_path, monkeypatch, load1=lambda: 24.5)  # limit 8 x 3 = 24
+    assert code == 2 and "24.0" in msg
 
 
 def test_all_slots_starting_refuses_but_waiting_slot_admits(tmp_path, monkeypatch):

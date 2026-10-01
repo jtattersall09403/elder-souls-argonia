@@ -98,7 +98,7 @@ scope_line() {
 cmd=("$@")
 tag="memwatch${MEMWATCH_LANE:+[$MEMWATCH_LANE]}"
 # MiB of unreclaimable memory, integer.
-used() { awk '$1=="anon"||$1=="shmem"||$1=="kernel"{s+=$2} END{printf "%d", (s+0)/1048576}' "$stat" 2>/dev/null || echo 0; }
+used() { python3 "$(dirname "${BASH_SOURCE[0]}")/own_memory.py" --machine 2>/dev/null || echo 0; }
 start_mib=$(used)
 # A preflight (or any nested memwatch) under this one keeps its own ceilings
 # below this one, so its inner gate is killed and reported first.

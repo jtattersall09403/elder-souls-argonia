@@ -98,7 +98,28 @@ def watch(root: int, out: str, interval: float = 0.5) -> int:
         time.sleep(interval)
 
 
+def machine_mib(stat: str = "/sys/fs/cgroup/memory.stat") -> int:
+    """The machine's unreclaimable memory, MiB: anon + shmem + kernel from the
+    root cgroup's memory.stat (file cache excluded: the kernel reclaims it
+    before it kills). Without memory.stat: MemTotal - MemAvailable. The one
+    implementation; memwatch.sh, job_guard.sh and agent_cap.py call it."""
+    try:
+        s = 0
+        with open(stat) as f:
+            for line in f:
+                k, _, v = line.partition(" ")
+                if k in ("anon", "shmem", "kernel"):
+                    s += int(v)
+        return s // 1048576
+    except OSError:
+        m = {l.split(":")[0]: int(l.split()[1]) for l in open("/proc/meminfo")}
+        return (m["MemTotal"] - m["MemAvailable"]) // 1024
+
+
 if __name__ == "__main__":
+    if sys.argv[1:2] == ["--machine"]:
+        print(machine_mib())
+        sys.exit(0)
     if sys.argv[1:2] == ["--tree"] and len(sys.argv) > 2:   # job_guard admission: MiB now over the trees
         print(sum(tree_kib(int(p))[0] for p in sys.argv[2:]) // 1024)
         sys.exit(0)

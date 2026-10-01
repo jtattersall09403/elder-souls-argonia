@@ -9,7 +9,7 @@ One script, three hook events (the event is read from `hook_event_name`):
     - memory: machine unreclaimable (anon + shmem + kernel, memwatch.sh's
       measure) + AGENT_RESERVE_MIB >= the memwatch ceiling (3/4 of
       memory.max, else MemTotal);
-    - CPU: 1-min load >= nproc x LOAD_FACTOR, or every job_guard heavy slot
+    - CPU: 1-min load >= nproc x LOAD_FACTOR (3), or every job_guard heavy slot
       is held by a job in its first SLOT_YOUNG_S (a slot that is free, or a
       job waiting for one, admits: slots serialise heavy jobs);
     - backstop: live + pending >= RUNAWAY_CAP;
@@ -30,26 +30,20 @@ import fcntl, json, os, sys, time
 # for a true 95th percentile: 1.5 GiB sits above the observed max and is a
 # placeholder to re-measure from more trees.
 AGENT_RESERVE_MIB = 1536
-LOAD_FACTOR = 1.25
+LOAD_FACTOR = 3.0  # load counts runnable threads; ~23 with three guarded jobs is normal
 SLOT_YOUNG_S = 60
 # Not a budget: a backstop against a spawn loop. Admission is CPU and memory.
 RUNAWAY_CAP = 24
 PENDING_S = 120
 STALE_S = 4 * 3600
 DIR = os.environ.get("ES_AGENT_CAP_DIR", "/tmp/es-agent-cap")
-STAT = "/sys/fs/cgroup/memory.stat"
 LOCK_DIR = os.environ.get("ES_JOB_LOCK_DIR", "/tmp/es-jobs")
 
 
 def mem_mib():
-    """memwatch.sh used() / job_guard.sh mem_mib(): anon + shmem + kernel."""
-    s = 0
-    with open(STAT) as f:
-        for line in f:
-            k, _, v = line.partition(" ")
-            if k in ("anon", "shmem", "kernel"):
-                s += int(v)
-    return s // 1048576
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from own_memory import machine_mib
+    return machine_mib()
 
 
 def ceiling_mib():
