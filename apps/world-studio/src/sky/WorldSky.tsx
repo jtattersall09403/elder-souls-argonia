@@ -811,6 +811,11 @@ export function WorldSky({
     // Sweep orphaned cascade lights from discarded renders (owner gate defect
     // 2026-08-25: suspense retries leaked 8 CSMs = 24 stray shadow-casting
     // intensity-3 white lights — night terrain lit like day, frame rate dead).
+    // A new CSM (camera or mode change) follows the old one's dispose(), which
+    // deleted every patched material's onBeforeCompile: forget them all so the
+    // per-frame patch pass re-runs setupMaterial and every reapply* hook
+    // (wind, LOD fade, ground paint, settlement surface) on the next frame.
+    patched.current = new WeakSet();
     const live = new Set<THREE.Object3D>(csm.lights);
     const strays = scene.children.filter(
       (o) => o.name === "csm-cascade" && !live.has(o),
