@@ -392,7 +392,7 @@
    "uid": "lv-barricade",
    "asset": "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01",
    "at": [
-    1218.0,
+    1211.8,
     3074.0
    ],
    "yaw": 0.0,
@@ -631,20 +631,20 @@
    "id": "route.the-broke-column.camp-path",
    "points": [
     [
-     1193.0,
-     3072.2
+     1188.0,
+     3072.1
     ],
     [
-     1209.5,
-     3073.6
+     1202.8,
+     3070.9
     ],
     [
-     1210.4,
-     3080.0
+     1200.5,
+     3079.5
     ],
     [
-     1204.0,
-     3086.6
+     1201.0,
+     3083.0
     ],
     [
      1201.5,
@@ -779,8 +779,8 @@
    "kind": "idle",
    "activity": "stand",
    "at": [
-    1211.0,
-    3075.0
+    1203.8,
+    3074.6
    ],
    "parcel": "parcel.the-broke-column.tent-3",
    "why": "The man on watch steps out from the barricade and asks for the levy."

@@ -241,11 +241,13 @@ none (R96 lists no service here).
 ### § Approach (openworld-approach §5, the answers that matter)
 
 Seen first from the Mile House track: the banners on the skyline, then the
-tent line, then the barricade. A walker on the track meets the barricade
-before the tents. No way-sign; the only way up is the camp path, which
-leaves the track along its own line (97 C-stitch: the first 15 m of a way
-stay within 20 degrees of the route it continues) and turns up the slope
-past the barricade.
+tent line, then the barricade across half the track ahead. No way-sign;
+the only way up is the camp path, which leaves the track along its own
+line (97 C-stitch: the first 15 m of a way stay within 20 degrees of the
+route it continues) just short of the barricade and climbs through the gap
+in the stakes. The barricade stands on the one level stretch of the track
+below the bench (0.64 m of ground change along its 9.2 m; at its first
+site the change was 2.0 m and half of it was buried).
 
 ## Record corrections (step 5b, one change set)
 
@@ -292,3 +294,6 @@ receipt went from 291 to 292 green records.
 6. A way leaving a passing track must run along it for 15 m first
    (C-stitch); a camp beside a through track lays its path along the verge,
    then turns.
+7. A long rigid piece stands where the ground along its length changes by
+   under 0.6 m, whatever its fit: the dug-in barricade passed `check` with
+   half its length buried on a 2.0 m rise, seen only in the close-up render.
