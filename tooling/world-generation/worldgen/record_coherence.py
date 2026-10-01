@@ -969,7 +969,7 @@ def packet(place_id: str, index: Index) -> str:
             kits[str(p.get("kit"))] = kits.get(str(p.get("kit")), 0) + 1
         out.append("- placements by kit: " + ", ".join(f"{k} {v}" for k, v in sorted(kits.items())))
         out.append(f"- doors {len(compiled.get('doors') or [])}; interiors "
-                   f"{sorted({str(d.get('interior') or d.get('interiorCell') or d.get('cell')) for d in compiled.get('doors') or []})}")
+                   f"{sorted({str((d.get('interiorClaim') or {}).get('cellId')) for d in compiled.get('doors') or []})}")
         objs = compiled.get("compiledObjects") or []
         kinds: dict[str, int] = {}
         for o in objs:
