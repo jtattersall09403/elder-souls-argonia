@@ -1847,9 +1847,7 @@
         ]
       },
       "relations": {
-        "rivals": [
-          "place.dunmer-north.riverwalk"
-        ],
+        "rivals": [],
         "supplies": [
           "place.dunmer-north.riverwalk",
           "place.dunmer-north.stormhold"
@@ -10856,11 +10854,11 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A halt in a sheltered sea cove, half-way along the coast lane between Stormhold and Alten Corimont. The village grew along its plank walk because the walk is its street.",
-        "siteAdvantages": "A day's sail from either end of the coast lane. No other water on that stretch is sheltered. Boats on the lane pass close enough to hail.",
-        "occupantsMotive": "It lives on the ferry stage, the toll and feeding boat crews. The village grows no food of its own.",
-        "pressures": "Alten Corimont's captain and Thorn's field-owners both think the toll should be theirs.",
-        "wouldChangeIf": "Would be bypassed if the cove silted up. The villagers sound the channel to the landing every morning."
+        "founding": "A halt in a sheltered sea cove at the mouth of the pilgrim water, the channel up to Hissmir. Boats off the Padomaic run put in here. The houses stand along the plank walk, which serves as the village street.",
+        "siteAdvantages": "The only sheltered water on this stretch of coast, under a kilometre from Thorn by the Tear road. Canoes leave the same stage for Hissmir and Murkwater.",
+        "occupantsMotive": "It lives on the ferry stage and the toll on boats entering the pilgrim water. It also feeds and lodges the crews. The village grows no food of its own.",
+        "pressures": "Thorn's field-owners and the stewards of Hissmir both say the toll on the pilgrim water is theirs.",
+        "wouldChangeIf": "Would be bypassed if the cove silted up. The villagers sound the way across the cove to the ferry stage every morning."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10890,24 +10888,26 @@
       },
       "relations": {
         "tolls": [
-          "route.road.stormhold-thorn"
+          "route.track.hissmir-pilgrim-water"
         ],
         "rivals": [
-          "place.dunmer-north.wolk-market"
+          "place.dunmer-north.the-last-landing"
         ],
         "travelServiceEdges": [
-          "route.boat.stormhold-alten-corimont"
+          "route.track.hissmir-pilgrim-water"
         ],
         "dependsOn": [
+          "place.dunmer-north.channel-cross-village",
           "place.dunmer-north.wolk-market"
         ],
         "supplies": [
-          "place.dunmer-north.stormhold"
+          "place.dunmer-north.the-bone-stage-north"
         ],
         "patrols": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.dunmer-north.the-black-stage"
+          "route.road.thorn-tear-road",
+          "route.boat.archon-thorn"
         ]
       },
       "culture": "argonian",
@@ -10946,13 +10946,13 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "A plank walk across a shallow cove, with the houses and the shrine on the spit at one end and the ferry stage on the islet at the other.",
+        "silhouette": "A plank walk across a shallow cove, with the houses and the totems on the spit at one end and the ferry stage on the islet at the other.",
         "palette": "Silver weathered plank, black water and reed thatch.",
         "materials": "Piles, planks and lashed handrails over the water. The crews' house stands on the dry spit; the long house stands on piles in the shallows beside it.",
         "signatureFeature": "The walk is the street. It crosses open water, so everyone who lands at the stage walks past the toll-holder's post.",
         "condition": "Constantly re-planked; the boards are all different ages, recording the order in which the village was built.",
         "mood": "Linear and sociable.",
-        "approach": "Boats come in off the coast lane and pole across the cove to the ferry stage on the islet.",
+        "approach": "Boats come in off the Padomaic run and pole across the cove to the ferry stage on the islet.",
         "senses": "Boards underfoot from the spit to the islet; poles in the mud; talk carrying over still water."
       },
       "assetPlan": [
@@ -10967,7 +10967,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "a cove village on the coast lane is taxed by two authorities; paying either one is treated as a choice · the nightly toll argument turns into an accusation somebody can prove",
+        "opportunity": "Thorn and Hissmir both tax the cove village at the mouth of the pilgrim water; paying either one counts as taking its side · the nightly toll argument turns into an accusation somebody can prove",
         "tierOwnership": "LV38 · tier-3; LV39 · tier-3; LV40 · tier-3"
       },
       "rumourPoolKey": "rumour.northern-trunk",
@@ -11050,7 +11050,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "The coast lane's natural halt, where the toll is argued nightly and two cities claim it.",
+        "hook": "The cove where boats put in off the Padomaic run, where the toll is argued nightly and Thorn and Hissmir both claim it.",
         "reviewed": true
       },
       "interior": {
@@ -11058,7 +11058,7 @@
         "family": "dwelling",
         "sizeBand": "S1",
         "wetFraction": 0.0,
-        "entranceCount": 1,
+        "entranceCount": 2,
         "exteriorShell": true,
         "programRef": null,
         "verticalRelationship": "behind"
@@ -11103,12 +11103,8 @@
           "ferry"
         ],
         "destinations": [
-          "place.dunmer-north.channel-cross-village",
           "place.dunmer-north.hissmir",
           "place.dunmer-north.murkwater",
-          "place.dunmer-north.reedmoor-stilts",
-          "place.dunmer-north.stormhold",
-          "place.dunmer-north.the-last-landing",
           "place.dunmer-north.the-tide-fair"
         ]
       },
@@ -11121,15 +11117,39 @@
       "proseRefs": [
         {
           "sourcePath": "why.founding",
-          "placeRef": "place.dunmer-north.stormhold"
+          "placeRef": "place.dunmer-north.hissmir"
         },
         {
           "sourcePath": "why.founding",
-          "placeRef": "place.pirate-freeholds.alten-corimont"
+          "routeRef": "route.track.hissmir-pilgrim-water"
+        },
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.boat.archon-thorn"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.road.thorn-tear-road"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.dunmer-north.murkwater"
         },
         {
           "sourcePath": "why.pressures",
-          "placeRef": "place.pirate-freeholds.alten-corimont"
+          "placeRef": "place.dunmer-north.hissmir"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "routeRef": "route.track.hissmir-pilgrim-water"
+        },
+        {
+          "sourcePath": "why.occupantsMotive",
+          "routeRef": "route.track.hissmir-pilgrim-water"
+        },
+        {
+          "sourcePath": "vibe.approach",
+          "routeRef": "route.boat.archon-thorn"
         }
       ],
       "scourSiteId": "site.scour.mangrove-forest.cove-056"
@@ -14503,7 +14523,8 @@
       },
       "relations": {
         "rivals": [
-          "place.dunmer-north.wolk-market"
+          "place.dunmer-north.wolk-market",
+          "place.hist-heartland.greenspring"
         ],
         "visibleFrom": [],
         "dependsOn": [],
@@ -39706,9 +39727,7 @@
         ]
       },
       "relations": {
-        "rivals": [
-          "place.dunmer-north.riverwalk"
-        ],
+        "rivals": [],
         "dependsOn": [],
         "supplies": [],
         "patrols": [],

@@ -4481,22 +4481,23 @@
       },
       "whySiteWon": "cove in mangrove forest (danger band 0), 692 m from the nearest route; at the water's edge; won on region, hinterland, route; site exchanged in the swap pass with place.dunmer-north.reedmoor-stilts (+0.38).",
       "why": {
-        "founding": "A halt in a sheltered sea cove, half-way along the coast lane between Stormhold and Alten Corimont. The village grew along its plank walk because the walk is its street.",
-        "siteAdvantages": "A day's sail from either end of the coast lane. No other water on that stretch is sheltered. Boats on the lane pass close enough to hail.",
-        "occupantsMotive": "It lives on the ferry stage, the toll and feeding boat crews. The village grows no food of its own.",
-        "pressures": "Alten Corimont's captain and Thorn's field-owners both think the toll should be theirs.",
-        "wouldChangeIf": "Would be bypassed if the cove silted up. The villagers sound the channel to the landing every morning."
+        "founding": "A halt in a sheltered sea cove at the mouth of the pilgrim water, the channel up to Hissmir. Boats off the Padomaic run put in here. The houses stand along the plank walk, which serves as the village street.",
+        "siteAdvantages": "The only sheltered water on this stretch of coast, under a kilometre from Thorn by the Tear road. Canoes leave the same stage for Hissmir and Murkwater.",
+        "occupantsMotive": "It lives on the ferry stage and the toll on boats entering the pilgrim water. It also feeds and lodges the crews. The village grows no food of its own.",
+        "pressures": "Thorn's field-owners and the stewards of Hissmir both say the toll on the pilgrim water is theirs.",
+        "wouldChangeIf": "Would be bypassed if the cove silted up. The villagers sound the way across the cove to the ferry stage every morning."
       },
       "hardConstraints": [
         "a sheltered cove with a boat landing"
       ],
       "reachedVia": [
-        "place.dunmer-north.the-black-stage"
+        "route.road.thorn-tear-road",
+        "route.boat.archon-thorn"
       ],
       "discovery": "sightline",
       "valueTier": "tier-2",
       "purpose": "safe-rest (real) + vista-landmark, service-hub",
-      "hook": "The coast lane's natural halt, where the toll is argued nightly and two cities claim it.",
+      "hook": "The cove where boats put in off the Padomaic run, where the toll is argued nightly and Thorn and Hissmir both claim it.",
       "stance": "wary",
       "interior": "building · dwelling · S1 · wet 0%",
       "purposeDetail": {
@@ -4519,7 +4520,7 @@
         "family": "dwelling",
         "sizeBand": "S1",
         "wetFraction": 0.0,
-        "entranceCount": 1,
+        "entranceCount": 2,
         "exteriorShell": true,
         "verticalRelationship": "behind"
       },
@@ -4542,28 +4543,12 @@
         ],
         "destinations": [
           {
-            "id": "place.dunmer-north.channel-cross-village",
-            "name": "Channel Cross"
-          },
-          {
             "id": "place.dunmer-north.hissmir",
             "name": "Hissmir"
           },
           {
             "id": "place.dunmer-north.murkwater",
             "name": "Murkwater"
-          },
-          {
-            "id": "place.dunmer-north.reedmoor-stilts",
-            "name": "Reedmoor"
-          },
-          {
-            "id": "place.dunmer-north.stormhold",
-            "name": "Stormhold"
-          },
-          {
-            "id": "place.dunmer-north.the-last-landing",
-            "name": "Last Landing"
           },
           {
             "id": "place.dunmer-north.the-tide-fair",
@@ -19153,24 +19138,24 @@
       },
       "whySiteWon": "firm ground in firm lowland (danger band 3), 93 m from the nearest route; no free 'confluence' site was left in the zone, so plain ground; won on culture-clump, nearPoint, region.",
       "why": {
-        "founding": "Founded at the Panther fork on springs that can be drunk unboiled, rare enough here to found a village.",
-        "siteAdvantages": "Firm ground where clean water rises from a stone lip, at the last dry footing before the Helstrom approach.",
-        "occupantsMotive": "A tribe that has made itself indispensable as the interior's last friendly stop. It charges nothing for water and a great deal for beds and rope.",
-        "pressures": "Traffic for Helstrom comes through the village, including people whom the tribe would rather not host: cult couriers, tappers and the Veiled Reed's factors.",
-        "wouldChangeIf": "If the springs soured the village would move within a season. The Helstrom approach would then have no guaranteed clean water in a day's radius."
+        "founding": "Founded beside the Panther Race on springs whose water can be drunk unboiled, which is rare in this region. The tribe's Hist grows over the spring.",
+        "siteAdvantages": "Firm ground where clean water rises from a stone lip, a short walk from the road and from the river landing.",
+        "occupantsMotive": "A tribe that has made itself indispensable to travellers bound for Helstrom. It charges nothing for water and a great deal for beds and rope.",
+        "pressures": "Salt is reaching the water from upstream. The Hist has begun to sicken. The village blames the salt works. Traffic for Helstrom also brings people the tribe would rather not host: cult couriers, tappers and the Veiled Reed's factors.",
+        "wouldChangeIf": "If the springs soured the village would move within a season. Travellers bound for Helstrom would then lose their surest clean water."
       },
       "hardConstraints": [
         "culture zone: hist-heartland",
         "On the fork below The Panther Race."
       ],
       "reachedVia": [
-        "place.hist-heartland.whitewater-reach-panther"
+        "route.road.stormhold-thorn"
       ],
       "discovery": "road",
       "valueTier": "tier-2",
       "purpose": "safe-rest (real) + service-hub",
       "hook": "Water here can be drunk without ceremony. The tribe charges nothing for it. Beds and rope cost a great deal.",
-      "stance": "wary",
+      "stance": "friendly",
       "interior": "building · dwelling · S2 · wet 0%",
       "purposeDetail": {
         "primary": "safe-rest",
@@ -19180,7 +19165,7 @@
         ]
       },
       "stanceDetail": {
-        "baseline": "wary",
+        "baseline": "friendly",
         "owner": null,
         "clearable": false,
         "respawn": "none",
@@ -19191,7 +19176,7 @@
         "family": "dwelling",
         "sizeBand": "S2",
         "wetFraction": 0.0,
-        "entranceCount": 1,
+        "entranceCount": 6,
         "exteriorShell": true,
         "verticalRelationship": "behind"
       },
@@ -29740,8 +29725,8 @@
       },
       "whySiteWon": "firm ground in firm lowland (danger band 4), 20 m from the nearest route; at the water's edge; its first-choice landform; won on landform, nearPoint, route; placed from the homeless batch at stage 'neighbour-zone'.",
       "why": {
-        "founding": "A mixed village at the road's water point: an Imperial well on one side of the road, an Argonian landing on the other. The landing is older than the station. Argonian polers worked the channel before the Imperials dug the well. Their boats lie pulled up on the bank.",
-        "siteAdvantages": "A perennial spring beside a boat channel. Here the road and the water meet on level terms.",
+        "founding": "A mixed village where the road crosses the Claywater ford: an Imperial well and station house on one bank, an Argonian landing on the other. The landing is older than the station. Argonian polers worked the ford before the Imperials dug the well. Their boats lie pulled up on the bank.",
+        "siteAdvantages": "A shallow, stony ford that a walker can wade and a cart cannot. Firm ground on each bank holds a well on one side and a landing on the other.",
         "occupantsMotive": "Two communities share it because neither can hold the other's half.",
         "pressures": "The well is Imperial-built and failing. The Argonian half of the village will not help to repair it in stone.",
         "wouldChangeIf": "Would become one community or two villages within a generation."
@@ -29759,7 +29744,7 @@
       "discovery": "road",
       "valueTier": "tier-1",
       "purpose": "service-hub (mild) + safe-rest",
-      "hook": "The road's water point has a well, a landing and the first cold drink since the border post.",
+      "hook": "The road's water point at the ford, with a well, a landing and a plank ferry for carts.",
       "stance": "guarded",
       "interior": "building · dwelling · S1 · wet 0%",
       "purposeDetail": {
@@ -29781,7 +29766,7 @@
         "family": "dwelling",
         "sizeBand": "S1",
         "wetFraction": 0.0,
-        "entranceCount": 1,
+        "entranceCount": 4,
         "exteriorShell": true,
         "verticalRelationship": "behind"
       },
@@ -29790,8 +29775,8 @@
       "contents": {
         "creatures": [],
         "npcs": [
-          "family · D1 · few — D1 mixed villagers",
-          "rank-and-file · D1 · few — D2 road travellers"
+          "family · D1 · few — D1 households of both halves",
+          "rank-and-file · D1 · few — D1 road travellers"
         ],
         "loot": []
       },

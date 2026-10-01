@@ -5,7 +5,7 @@
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-imperial-fringe.json",
-   "sha256": "6f666da47a8d9a1b2e820a565eb3260b66587f546efd62f0791a7ca6c1095a27"
+   "sha256": "e5f67c2e0356b80306d92b882fcf429ba446f07e36dfb704dbe4afa1882f4e58"
   },
   {
    "file": "world/sources/quests/local-imperial-fringe.json",
@@ -34,7 +34,7 @@
     "file": "world/sources/catalogue/places-imperial-fringe.json",
     "path": "places[place.imperial-fringe.claywater-station].interior"
    },
-   "text": "Claywater Station's principal interior is a dwelling (S1), entered by 1 door.",
+   "text": "Claywater Station's principal interior is a dwelling (S1), entered by 4 door.",
    "unfilled": null
   },
   {
@@ -74,7 +74,7 @@
     "file": "world/sources/catalogue/places-imperial-fringe.json",
     "path": "places[place.imperial-fringe.claywater-station].notableNpcSlots[well-keeper]"
    },
-   "text": "The well-keeper lives and works at Claywater Station.",
+   "text": "The well-keeper, who keeps the station house counter, its beds and the stable lives and works at Claywater Station.",
    "unfilled": null
   },
   {
@@ -114,10 +114,10 @@
     "file": "world/sources/catalogue/places-imperial-fringe.json",
     "path": "places[place.imperial-fringe.claywater-station].playerPurpose.hook"
    },
-   "text": "The road's water point has a well, a landing and the first cold drink since the border post.",
+   "text": "The road's water point at the ford, with a well, a landing and a plank ferry for carts.",
    "confirmed": {
-    "sha": "88ae35e6c491",
-    "note": "The well (genericwell01), the landing stage and ferry raft are built."
+    "sha": "409733b88a2d",
+    "note": "genericwell01 well parcel, Keeba landing huts, plank ferry and ferry raft at the ford crossing (312.6,3033.7)."
    }
   },
   {
@@ -127,10 +127,10 @@
     "file": "world/sources/catalogue/places-imperial-fringe.json",
     "path": "places[place.imperial-fringe.claywater-station].questHooks.opportunity"
    },
-   "text": "The well and the landing charge travellers separately for the same stop.",
+   "text": "The well and the landing charge travellers separately for the same stop. The poler's plank ferry is the only way a cart crosses the ford.",
    "confirmed": {
-    "sha": "e890059df673",
-    "note": "The well and the landing stand on opposite sides of the road."
+    "sha": "26f37d1df48f",
+    "note": "Well parcel and poler's landing built; ferry.imperial-fringe.drowning-gate run by this place's poler, sole cart crossing."
    }
   },
   {
@@ -140,10 +140,10 @@
     "file": "world/sources/catalogue/places-imperial-fringe.json",
     "path": "places[place.imperial-fringe.claywater-station].vibe.approach"
    },
-   "text": "The station house roof shows first. Across the road the huts sit low by the water.",
+   "text": "The station house roof shows first. Across the ford the huts sit low by the water.",
    "confirmed": {
-    "sha": "56a31663eb90",
-    "note": "The station house (farmhouse01) stands by the road; the mud pods sit low by the water."
+    "sha": "940b806dd3aa",
+    "note": "DawnstarBrinasHouse station house on one bank; Keeba huts low by the ford on the other."
    }
   },
   {
@@ -205,10 +205,10 @@
     "file": "world/sources/catalogue/places-imperial-fringe.json",
     "path": "places[place.imperial-fringe.claywater-station].vibe.senses"
    },
-   "text": "A windlass; water poured; two languages across one street.",
+   "text": "A windlass; water poured; two languages spoken from either bank.",
    "confirmed": {
-    "sha": "7c00f89a6eec",
-    "note": "The well's windlass; the landing across the road."
+    "sha": "6694317a5bc7",
+    "note": "Well parcel with bucket at the station-house bank; Argonian huts across the ford."
    }
   },
   {
@@ -218,10 +218,10 @@
     "file": "world/sources/catalogue/places-imperial-fringe.json",
     "path": "places[place.imperial-fringe.claywater-station].vibe.signatureFeature"
    },
-   "text": "The road is the boundary. Two villages face each other across it.",
+   "text": "The ford divides the station half from the landing half. The two halves face each other over the water.",
    "confirmed": {
-    "sha": "34e6db185211",
-    "note": "Station house, well and stable on one side of the road, the pods and landing on the other."
+    "sha": "8f099c78152e",
+    "note": "Imperial half and Argonian half on opposite banks of the 15 m ford channel."
    }
   },
   {
@@ -231,10 +231,10 @@
     "file": "world/sources/catalogue/places-imperial-fringe.json",
     "path": "places[place.imperial-fringe.claywater-station].vibe.silhouette"
    },
-   "text": "A timber station house and a stone well on one side of the road; low round mud huts on the bank on the other.",
+   "text": "A timber station house and a stone well on one bank of the ford; low round mud huts on the other.",
    "confirmed": {
-    "sha": "81524c9cc0af",
-    "note": "Station house and well by the road; three mud pods on the bank."
+    "sha": "a93913dd7803",
+    "note": "Station house and genericwell01 on one bank; three Keeba mud huts on the other."
    }
   },
   {
@@ -244,10 +244,10 @@
     "file": "world/sources/catalogue/places-imperial-fringe.json",
     "path": "places[place.imperial-fringe.claywater-station].why.founding"
    },
-   "text": "A mixed village at the road's water point: an Imperial well on one side of the road, an Argonian landing on the other. The landing is older than the station. Argonian polers worked the channel before the Imperials dug the well. Their boats lie pulled up on the bank.",
+   "text": "A mixed village where the road crosses the Claywater ford: an Imperial well and station house on one bank, an Argonian landing on the other. The landing is older than the station. Argonian polers worked the ford before the Imperials dug the well. Their boats lie pulled up on the bank.",
    "confirmed": {
-    "sha": "1f5d6c31cdbc",
-    "note": "Well and landing both built; canoes and the ferry raft at the landing."
+    "sha": "72b973ff22ff",
+    "note": "Ford named the Claywater ford in travel-services; well on one bank, landing with plank ferry on the other."
    }
   },
   {
@@ -283,10 +283,10 @@
     "file": "world/sources/catalogue/places-imperial-fringe.json",
     "path": "places[place.imperial-fringe.claywater-station].why.siteAdvantages"
    },
-   "text": "A perennial spring beside a boat channel. Here the road and the water meet on level terms.",
+   "text": "A shallow, stony ford that a walker can wade and a cart cannot. Firm ground on each bank holds a well on one side and a landing on the other.",
    "confirmed": {
-    "sha": "d7c873cef6bb",
-    "note": "The well on the road and the landing on the channel stand within 60 m."
+    "sha": "8faacb01920c",
+    "note": "Ford measured 0.65 m deep, 14.1 m span (water-crossings.json); carts need the ferry."
    }
   },
   {

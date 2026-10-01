@@ -3658,7 +3658,7 @@
     {
       "id": "quest.local.lv38",
       "code": "LV38",
-      "title": "Two Cities Claim the Halt",
+      "title": "Thorn and Hissmir Claim the Halt",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -3672,7 +3672,7 @@
       "anchorPlaces": [
         "place.dunmer-north.riverwalk"
       ],
-      "premise": "A cove village on the coast lane is taxed by two authorities; paying either one is treated as a choice",
+      "premise": "Thorn and Hissmir both tax the cove village at the mouth of the pilgrim water; paying either one counts as taking its side",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -3711,7 +3711,7 @@
     {
       "id": "quest.local.lv40",
       "code": "LV40",
-      "title": "The Channel Silted Overnight",
+      "title": "The Cove Silted Overnight",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -3725,7 +3725,7 @@
       "anchorPlaces": [
         "place.dunmer-north.riverwalk"
       ],
-      "premise": "The channel to the landing stops being navigable, which the boat-holders do not believe was natural",
+      "premise": "The sounded way across the cove to the ferry stage silts up overnight, which the boat-holders do not believe was natural",
       "costTier": "S",
       "milestone": 2,
       "touches": [],

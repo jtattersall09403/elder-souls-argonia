@@ -22,6 +22,7 @@ This skill holds the procedure; its `references/` hold the grounding:
 |---|---|---|
 | [references/lessons/](references/lessons/README.md) | the lessons store, one file per section (README: row format and what each file holds; 0106): every lesson still in force, each with its gate | step 0, only the rows the site packet lists for this type; a section file when a job needs it |
 | [references/design-index.md](references/design-index.md) | one line per binding source or prior: the rule id and when it applies | step 0, the rows for this type, culture and step |
+| [references/dressing.md](references/dressing.md) | the facing table, idle-socket placement, signs by use and pool, and the dressing each place still lacks with its kit | steps 1-2, the dressing groups |
 | [references/reader-checklist.md](references/reader-checklist.md) | what the Sonnet image reader is told to look for | steps 3–4, pasted into the reader's prompt |
 | [references/types/](references/types/) | one design sheet per place type on the 16k list | step 0, this place's type |
 | [references/doors-interiors-sockets.md](references/doors-interiors-sockets.md) | door records, shells chosen for their interiors, the fit rule, the tier A export, the interior runtime contract, the socket kinds and gates, the approach checklist | steps 1, 2 and 5 |
@@ -158,7 +159,11 @@ per building, enclosure, path, light, water edge and dressing group:
   piece never stood on land gets a reviewed `assetPlacement` row (L83;
   commands in [references/builder-practice.md](references/builder-practice.md) § Sinks).
 - Dressing is authored as named **yard sets** per building kind, defined
-  in the type sheet and placed with `group place` (0100 decision 5).
+  in the type sheet and placed with `group place` (0100 decision 5), and
+  obeys [references/dressing.md](references/dressing.md): every seat,
+  spit and lantern faces its user (R94), every idle socket stands at its
+  prop (R95), every lodging, trade, stable or smith parcel carries its
+  pool's board by the door (R96); `check` measures all three.
 - The bars: this place's tier and type objects in
   `world/sources/placement/breadth-bars.json` (16k § 1b) and 0098 § 1's
   table, each written with the number the brief plans to reach; the
@@ -328,13 +333,18 @@ without that is an escalation to the planner, never a packet.
   compared with the walked rev; a height over water against the DRAWN
   water and pose (same reference § Verify).
 
-**5b. Record = built (two-way authority, 0104 decision 6; owner walk 7).**
-The catalogue record, the 2D map popup (`places.json`, regenerated from
-the record by `export_places` above) and the built place say the same
-thing. Whatever the build changed, edit the RECORD in the same change, re-run
-`blueprint_promises --write`, review every quest anchored here and
-confirm each prose and quest row ([references/promise-ledger.md](references/promise-ledger.md)
-§ Record = built). Gates `promises` and `record.consistency` fail until done.
+**5b. Record coherence (0104 decision 6, 0117; owner walks 7 and 8).**
+The catalogue record is the one truth the 2D map popup (`places.json`,
+from `export_places` above) and the builders read; it must agree with
+itself, the world around it (routes, neighbours, water), every quest that
+uses it, lore and the built place. Run the protocol in
+[references/record-coherence.md](references/record-coherence.md): build
+the packet (`worldgen.record_coherence --place <id>`), five readers return
+NO lists, ONE Opus synthesis writes one change set across the record, the
+quests and any other record it touches, then `export_places`,
+`blueprint_promises --write` ([references/promise-ledger.md](references/promise-ledger.md)
+§ Record = built) and one `text-review`. Never one issue at a time. Gates
+`record.coherence`, `record.consistency` and `promises` fail until done.
 
 Ends when: 0 compile errors, every per-place gate green, the place
 published and every claim read back; the batch gates run when the
@@ -384,7 +394,9 @@ posts); collapse old packets with `owner_inbox.py --collapse`.
    ruling naming the cause. The inner loop of steps 2–4 runs to zero
    `check` failures and zero reader NOs; a reader NO on something the
    owner called right goes to the planner, not fixed.
-4. Then `place_gates` and the § 5 read-back of every fix against the
+4. When the round touched the record, a quest or what is built, run
+   step 5b's record-coherence protocol once over the place. Then
+   `place_gates` and the § 5 read-back of every fix against the
    published bundle (R74; a fix not visible there is not done), then the
    place joins the next **batch** deploy and its walk packet, whose
    § What changed is `wb.py whatchanged` (R35).

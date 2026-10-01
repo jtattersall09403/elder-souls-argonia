@@ -2310,8 +2310,8 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A mixed village at the road's water point: an Imperial well on one side of the road, an Argonian landing on the other. The landing is older than the station. Argonian polers worked the channel before the Imperials dug the well. Their boats lie pulled up on the bank.",
-        "siteAdvantages": "A perennial spring beside a boat channel. Here the road and the water meet on level terms.",
+        "founding": "A mixed village where the road crosses the Claywater ford: an Imperial well and station house on one bank, an Argonian landing on the other. The landing is older than the station. Argonian polers worked the ford before the Imperials dug the well. Their boats lie pulled up on the bank.",
+        "siteAdvantages": "A shallow, stony ford that a walker can wade and a cart cannot. Firm ground on each bank holds a well on one side and a landing on the other.",
         "occupantsMotive": "Two communities share it because neither can hold the other's half.",
         "pressures": "The well is Imperial-built and failing. The Argonian half of the village will not help to repair it in stone.",
         "wouldChangeIf": "Would become one community or two villages within a generation."
@@ -2359,7 +2359,9 @@
         ],
         "rivals": [],
         "patrols": [],
-        "tolls": [],
+        "tolls": [
+          "route.road.gideon-blackwood-road"
+        ],
         "visibleFrom": [],
         "reachedVia": [
           "place.imperial-fringe.cartwrights-cross",
@@ -2378,7 +2380,7 @@
       "notableNpcSlots": [
         {
           "slotId": "well-keeper",
-          "role": "the well-keeper"
+          "role": "the well-keeper, who keeps the station house counter, its beds and the stable"
         },
         {
           "slotId": "landing-s-poler",
@@ -2403,14 +2405,14 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "silhouette": "A timber station house and a stone well on one side of the road; low round mud huts on the bank on the other.",
+        "silhouette": "A timber station house and a stone well on one bank of the ford; low round mud huts on the other.",
         "palette": "Wet stone grey and weathered timber against mud brown and thatch gold; the two halves do not share a colour.",
         "materials": "Imperial timber framing and well masonry on one side, Argonian mud walls and thatch on the other.",
-        "signatureFeature": "The road is the boundary. Two villages face each other across it.",
+        "signatureFeature": "The ford divides the station half from the landing half. The two halves face each other over the water.",
         "condition": "The well is cracking; the mud half was replastered last year.",
         "mood": "Neighbourly and wary.",
-        "approach": "The station house roof shows first. Across the road the huts sit low by the water.",
-        "senses": "A windlass; water poured; two languages across one street."
+        "approach": "The station house roof shows first. Across the ford the huts sit low by the water.",
+        "senses": "A windlass; water poured; two languages spoken from either bank."
       },
       "assetPlan": [
         "vanilla-farmhouse",
@@ -2424,7 +2426,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "The well and the landing charge travellers separately for the same stop.",
+        "opportunity": "The well and the landing charge travellers separately for the same stop. The poler's plank ferry is the only way a cart crosses the ford.",
         "tierOwnership": "LF83 · tier-3"
       },
       "rumourPoolKey": "rumour.blackwood-road",
@@ -2506,7 +2508,7 @@
           "safe-rest"
         ],
         "impact": "mild",
-        "hook": "The road's water point has a well, a landing and the first cold drink since the border post.",
+        "hook": "The road's water point at the ford, with a well, a landing and a plank ferry for carts.",
         "reviewed": true
       },
       "interior": {
@@ -2514,7 +2516,7 @@
         "family": "dwelling",
         "sizeBand": "S1",
         "wetFraction": 0.0,
-        "entranceCount": 1,
+        "entranceCount": 4,
         "exteriorShell": true,
         "programRef": null,
         "verticalRelationship": "behind"
@@ -2529,7 +2531,7 @@
             "danger": "D1",
             "count": "few",
             "named": false,
-            "note": "D1 mixed villagers"
+            "note": "D1 households of both halves"
           },
           {
             "slotId": "n2",
@@ -2538,7 +2540,7 @@
             "danger": "D1",
             "count": "few",
             "named": false,
-            "note": "D2 road travellers"
+            "note": "D1 road travellers"
           }
         ],
         "loot": []
@@ -20990,9 +20992,7 @@
         "rivals": [
           "place.imperial-fringe.cassian-farm"
         ],
-        "dependsOn": [
-          "place.imperial-fringe.claywater-station"
-        ],
+        "dependsOn": [],
         "supplies": [],
         "patrols": [],
         "tolls": [],

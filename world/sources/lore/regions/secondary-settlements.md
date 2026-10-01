@@ -72,9 +72,10 @@ for free even though the places themselves are blank.
 | **Soulrest** | Chasepoint (E) |
 | Also named | Seaspring (N of Oliis Bay, W of Murkwood), Greenspring (on the Panther fork by Helstrom), Rockgrove (SE of Stonewastes; a Sul-Xan-held xanmeer) |
 
-**Note on Riverwalk**: it is named as east of Alten Corimont *and* west of Thorn.
-That makes it the natural mid-point of the **Alten Corimont–Thorn** leg and a
-strong candidate for a real waystation settlement on our northern trunk route.
+**Note on Riverwalk**: canon names it east of Alten Corimont *and* west of Thorn.
+Our map places it 0.95 km east of Thorn instead, as an M1 boardwalk village on
+the sea cove at the mouth of the pilgrim water (the channel up to Hissmir), where
+boats off the Padomaic run put in. It is not a stop on the Alten Corimont–Thorn leg.
 Similarly **Tenmar Wall** is named as a neighbour of Helstrom, Stormhold *and*
 Alten Corimont — canon puts it at the hinge of the north, so it should be a real
 junction in our road/river network, not a dead ruin off to one side.

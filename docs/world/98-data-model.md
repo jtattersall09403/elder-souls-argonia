@@ -56,7 +56,13 @@ The place record, the map popup and the built place must agree. The
 popup reads `places.json`, which `export_places` derives from the
 catalogue, so the record is the only thing to edit. When the build
 changes the world, the builder edits the record and the quests that read
-it in the same change (0104 decision 6, place-build step 5b). Gate
-`record.consistency` checks the measured part (the counted buildings
-against the record's magnitude band in `breadth-bars.json`), and gate
-`promises` checks that every ledger row is filled or confirmed.
+it in the same change (0104 decision 6). The record must also agree with
+itself, the world around it (routes, neighbours, water), every quest that
+uses it and lore: place-build step 5b runs the record-coherence protocol
+(0117; five readers over the packet from `worldgen.record_coherence`, one
+change set). Three gates hold the measured part: `record.consistency`
+(the counted buildings against the record's magnitude band in
+`breadth-bars.json`), `record.coherence` (every place and route the
+prose and its quests name resolves and is related to the place, a
+"between A and B" has its route, a quest's premised feature exists) and
+`promises` (every ledger row filled or confirmed).

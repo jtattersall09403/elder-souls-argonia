@@ -338,7 +338,6 @@ TRAVEL_EDGE_PINNED: dict[str, list[str]] = {
     "place.dunmer-north.murkwater": ["route.boat.stormhold-alten-corimont"],
     "place.dunmer-north.nine-fords": ["route.road.thorn-tear-road"],
     "place.dunmer-north.reedmoor-stilts": ["route.boat.stormhold-alten-corimont"],
-    "place.dunmer-north.riverwalk": ["route.boat.stormhold-alten-corimont"],
     "place.dunmer-north.stormhold": ["route.road.thorn-tear-road"],
     "place.dunmer-north.tear-road-stage": ["route.road.thorn-tear-road"],
     "place.dunmer-north.tearmouth": ["route.boat.archon-thorn", "route.road.thorn-tear-road"],

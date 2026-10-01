@@ -4,11 +4,11 @@
     "id": "place.dunmer-north.riverwalk",
     "seed": "place.dunmer-north.riverwalk",
     "causalModel": {
-      "founding": "The northern trunk's mid-point: a village strung along a channel because the channel is the street.",
-      "siteAdvantages": "A day's run from either end of the trunk boat lane, which passes close enough to hail.",
-      "occupantsMotive": "It lives on the ferry, the toll and feeding boat crews.",
-      "pressures": "Alten Corimont's captain and Thorn's field-owners both think the toll should be theirs.",
-      "wouldChangeIf": "Would be bypassed if a deeper channel opened south."
+      "founding": "A halt in a sheltered sea cove at the mouth of the pilgrim water, the channel up to Hissmir. Boats off the Padomaic run put in here. The houses stand along the plank walk, which serves as the village street.",
+      "siteAdvantages": "The only sheltered water on this stretch of coast, under a kilometre from Thorn by the Tear road. Canoes leave the same stage for Hissmir and Murkwater.",
+      "occupantsMotive": "It lives on the ferry stage and the toll on boats entering the pilgrim water. It also feeds and lodges the crews.",
+      "pressures": "Thorn's field-owners and the stewards of Hissmir both say the toll on the pilgrim water is theirs.",
+      "wouldChangeIf": "Would be bypassed if the cove silted up. The villagers sound the way across the cove to the ferry stage every morning."
     },
     "boundary": [
       [
@@ -2668,10 +2668,14 @@
     },
     "assetConstraints": [],
     "proseRefs": [
-      {
-        "sourcePath": "causalModel.pressures",
-        "placeRef": "place.pirate-freeholds.alten-corimont"
-      }
+      {"sourcePath": "causalModel.founding", "placeRef": "place.dunmer-north.hissmir"},
+      {"sourcePath": "causalModel.founding", "routeRef": "route.track.hissmir-pilgrim-water"},
+      {"sourcePath": "causalModel.founding", "routeRef": "route.boat.archon-thorn"},
+      {"sourcePath": "causalModel.siteAdvantages", "routeRef": "route.road.thorn-tear-road"},
+      {"sourcePath": "causalModel.siteAdvantages", "placeRef": "place.dunmer-north.murkwater"},
+      {"sourcePath": "causalModel.pressures", "placeRef": "place.dunmer-north.hissmir"},
+      {"sourcePath": "causalModel.pressures", "routeRef": "route.track.hissmir-pilgrim-water"},
+      {"sourcePath": "causalModel.occupantsMotive", "routeRef": "route.track.hissmir-pilgrim-water"}
     ],
     "authoredOn": {
       "wbSchemaVersion": 1,

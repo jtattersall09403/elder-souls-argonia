@@ -1195,6 +1195,15 @@ def record_gate(g: Gates, bp: dict, record: dict | None) -> None:
     g.add("record.consistency", time.perf_counter() - t, record_consistency_failures(record, len(counted)))
 
 
+def coherence_gate(g: Gates, place_id: str, settlement: dict | None) -> None:
+    """Walk 8: what the record and its quests say (places, routes, "between
+    A and B", premised features) matches the world (``record_coherence``)."""
+    from . import record_coherence as rc
+    t = time.perf_counter()
+    fails = rc.coherence_failures(place_id, rc.build_index(), settlement or rc.load_compiled(place_id))
+    g.add("record.coherence", time.perf_counter() - t, fails)
+
+
 def closed_gate(g: Gates, bp: dict) -> None:
     """No closed buildings (decision 0114 rule 3): a door on a shell no
     plugin links to a cell fails (``blueprint_interiors.closed_shell_failures``)."""
@@ -1289,6 +1298,7 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
     reserved_gate(g, bp)
     closed_gate(g, bp)
     record_gate(g, bp, record)
+    coherence_gate(g, place_id, settlement)
     rows = kit_rows({p.get("kit") for p in (settlement or {}).get("placements") or []})
     lights_gate(g, settlement, rows, place_id=place_id)
     setting_gate(g, settlement, record, rows)
