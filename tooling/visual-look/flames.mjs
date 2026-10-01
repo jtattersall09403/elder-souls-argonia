@@ -7,9 +7,9 @@
 //   flameSystems  FlameSystem groups ("fire-flames") under the subject
 //   emitters      flame card instances those systems draw
 //   draws         draw calls of the flame-card mesh
-//   onScreen      cards whose position (the system's instance data through
-//                 the group's world matrix: where the flames belong) projects
-//                 inside the frame
+//   onScreen      cards 2-30 m away whose position (the system's instance
+//                 data through the group's world matrix: where the flames
+//                 belong) projects inside the frame
 //   visible       on-screen cards whose pixels change when the flames are
 //                 shown (read back from the default framebuffer right after
 //                 the pipeline's on-screen passes: flames off, on, off; the
@@ -20,7 +20,9 @@
 //   node tooling/visual-look/flames.mjs interior <cellId> <xKm> <zKm> [--site DIR | --url BASE]
 //   node tooling/visual-look/flames.mjs place <xKm> <zKm> [--t 22] [--site DIR | --url BASE]
 //   flags: --out DIR (default tooling/.reports/flames), --force (ignore the
-//   key), --empty-fires (serve every kit parts index with an empty fires
+//   key), --data-base URL (fetch province data for the key from here, not
+//   the page base: the webgpu build serves its data under /studio/),
+//   --empty-fires (serve every kit parts index with an empty fires
 //   map: the check must FAIL; proves it can)
 //
 // Cheap by design (owner ruling, 16k walk 7): one cell or spot, a 400 x 225
@@ -57,20 +59,31 @@ export function parseFlameArgs(argv) {
   }
   if (mode === "interior" && pos.length === 3) return { mode, cell: pos[0], x: pos[1], z: pos[2], ...common(flags, "12") };
   if (mode === "place" && pos.length === 2) return { mode, cell: null, x: pos[0], z: pos[1], ...common(flags, "22") };
-  throw new Error("usage: flames.mjs interior <cellId> <xKm> <zKm> | place <xKm> <zKm> [--site DIR | --url BASE] [--t H] [--out DIR] [--force] [--empty-fires]");
+  throw new Error("usage: flames.mjs interior <cellId> <xKm> <zKm> | place <xKm> <zKm> [--site DIR | --url BASE] [--data-base URL] [--t H] [--out DIR] [--force] [--empty-fires]");
 }
 function common(f, t) {
   return {
-    site: resolve(repo, f.site ?? "site"), url: f.url ?? null, t: f.t ?? t,
+    site: resolve(repo, f.site ?? "site"), url: f.url ?? null, dataBase: f["data-base"] ?? null, t: f.t ?? t,
     out: resolve(repo, f.out ?? "tooling/.reports/flames"), minDelta: Number(f["min-delta"] ?? 12),
     force: !!f.force, emptyFires: !!f["empty-fires"],
   };
 }
 
-/** The verdict of one result: the zero counts, or the failure. */
+/** True when `t` (`H` or `HH:MM`) falls in the lamps-out day, 06:30-17:30 (0105 R3). */
+export function isLampDay(t) {
+  const m = /^(\d{1,2})(?::(\d{2}))?$/.exec(String(t));
+  if (!m) return false;
+  const min = Number(m[1]) * 60 + Number(m[2] ?? 0);
+  return min > 6 * 60 + 30 && min < 17 * 60 + 30;
+}
+
+/** The verdict of one result: the zero counts, or the failure. A place by
+ * day expects its fixtures drawn but not seen: lanterns and candles are out
+ * from 06:30 to 17:30 (0105 R3), so `visible` is reported, not required. */
 export function verdict(result) {
   if (result.failed) return result.failed;
-  const zero = COUNTS.filter((k) => !(result[k] > 0));
+  const day = result.mode === "place" && isLampDay(result.t);
+  const zero = COUNTS.filter((k) => !(day && (k === "visible" || k === "onScreen")) && !(result[k] > 0));
   return zero.length ? `zero: ${zero.join(", ")}` : null;
 }
 
@@ -81,12 +94,26 @@ export function seenCards(on, offA, offB, minDelta) {
   return on.map((w, k) => {
     const a = offA[k]; const b = offB[k];
     if (!w || !a || !b || w.length !== a.length || w.length !== b.length) return { delta: 0, noise: 0, seen: false };
-    let delta = 0; let noise = 0;
+    // per pixel: the flame's change against that pixel's own off/off change
+    // (a flickering lamp moves the lit wall beside the flame between frames;
+    // a window-wide noise floor hid every night flame, walk 7)
+    let delta = 0; let noise = 0; let margin = -Infinity;
     for (let i = 0; i < w.length; i += 4) {
-      delta = Math.max(delta, Math.min(Math.abs(lum(w, i) - lum(a, i)), Math.abs(lum(w, i) - lum(b, i))));
-      noise = Math.max(noise, Math.abs(lum(a, i) - lum(b, i)));
+      const d = Math.min(Math.abs(lum(w, i) - lum(a, i)), Math.abs(lum(w, i) - lum(b, i)));
+      const n = Math.abs(lum(a, i) - lum(b, i));
+      if (d - n > margin) { margin = d - n; delta = d; noise = n; }
     }
-    return { delta: Math.round(delta), noise: Math.round(noise), seen: delta >= noise + minDelta };
+    return { delta: Math.round(delta), noise: Math.round(noise), seen: margin >= minDelta };
+  });
+}
+
+/** The pixel windows of the cards out of one RGBA frame (`width` wide, rows
+ * top-down, as a screenshot gives it): each card's `win` is [x0, yTop, w, h]. */
+export function windowsFrom(rgba, width, cards) {
+  return cards.map(({ win: [x0, y0, w, h] }) => {
+    const out = new Array(w * h * 4);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w * 4; x++) out[(y * w) * 4 + x] = rgba[((y0 + y) * width + x0) * 4 + x];
+    return out;
   });
 }
 
@@ -139,6 +166,8 @@ async function keyOf(opts, studioBase) {
  * framebuffer (the last on-screen render of a frame overwrites the earlier
  * ones, so a capture is the finished frame). */
 function installProbe(cell) {
+  const RANGE_M = 30; // farther, a candle or lantern is a pixel or two: no measure of whether it draws
+  const NEAR_M = 2; // nearer, the camera is inside the fixture (its glow shell clips the pixels white)
   const scene = window.__SCENE__; const r = window.__RENDERER__; const T = window.__THREE__;
   const root = cell ? scene.getObjectByName(`interior:${cell}`) : scene;
   const systems = [];
@@ -153,13 +182,17 @@ function installProbe(cell) {
     const prev = cards.onBeforeRender;
     cards.onBeforeRender = function (...args) { P.draws += 1; return prev.apply(this, args); };
   }
-  const gl = r.getContext();
+  // WebGPU has no synchronous read-back: the page records each card's window
+  // and the driver fills it from a screenshot of the canvas (windowsFrom)
+  const webgpu = !!(r.isWebGPURenderer || r.backend?.isWebGPUBackend || r.backend);
+  P.webgpu = webgpu;
+  const gl = webgpu ? null : r.getContext();
   const render = r.render.bind(r);
   const v = new T.Vector3();
   r.render = (s, camera) => {
     render(s, camera);
     if (!P.armed || r.getRenderTarget() !== null || !camera.isPerspectiveCamera) return;
-    const W = gl.drawingBufferWidth; const H = gl.drawingBufferHeight; const R = 4;
+    const W = webgpu ? r.domElement.width : gl.drawingBufferWidth; const H = webgpu ? r.domElement.height : gl.drawingBufferHeight; const R = 4;
     const cards = [];
     for (const g of systems) {
       const mesh = g.getObjectByName("fire-flame-cards");
@@ -169,10 +202,11 @@ function installProbe(cell) {
         v.set(a.getX(i), a.getY(i), a.getZ(i)).applyMatrix4(mesh.matrixWorld);
         const dist = v.distanceTo(camera.position);
         v.project(camera);
-        if (!(v.z < 1 && Math.abs(v.x) < 0.95 && Math.abs(v.y) < 0.9)) continue;
+        if (dist > RANGE_M || dist < NEAR_M || !(v.z < 1 && Math.abs(v.x) < 0.95 && Math.abs(v.y) < 0.9)) continue;
         const px = Math.round((v.x + 1) / 2 * W); const py = Math.round((v.y + 1) / 2 * H);
         const x0 = Math.max(0, px - R); const y0 = Math.max(0, py - R); // flames rise: window from the root up
         const w = Math.min(W, px + R + 1) - x0; const h = Math.min(H, py + 3 * R + 1) - y0;
+        if (webgpu) { cards.push({ px, py: H - py, dist: +dist.toFixed(2), win: [x0, H - (y0 + h), w, h] }); continue; }
         const px8 = new Uint8Array(w * h * 4);
         gl.readPixels(x0, y0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, px8);
         cards.push({ px, py: H - py, dist: +dist.toFixed(2), pixels: Array.from(px8) });
@@ -187,6 +221,27 @@ function installProbe(cell) {
   return { flameSystems: systems.length, emitters, rootFound: !!root, groupWorld: world0,
     firstCardRaw: a0 ? [a0.getX(0), a0.getY(0), a0.getZ(0)].map((x) => +x.toFixed(2)) : null,
     uMaxDistance: mesh0?.material.uniforms?.uMaxDistance?.value ?? null };
+}
+
+/** Points the follow camera at the `k`-th nearest flame card 3-25 m from the
+ * player (horizontal); returns its distance, or null when there is none. */
+function aimAtEmitter(k) {
+  const D = window.__STUDIO_CHARACTER_DEBUG__; const p = D.player(); const T = window.__THREE__;
+  const v = new T.Vector3(); const found = [];
+  for (const g of window.__FLAME_PROBE__.systems) {
+    const mesh = g.getObjectByName("fire-flame-cards"); const a = mesh?.geometry.getAttribute("iPosSeed");
+    if (!a) continue;
+    for (let i = 0; i < mesh.geometry.instanceCount; i++) {
+      v.set(a.getX(i), a.getY(i), a.getZ(i)).applyMatrix4(mesh.matrixWorld);
+      const dx = v.x - p[0]; const dz = v.z - p[2]; const d = Math.hypot(dx, dz);
+      if (d >= 3 && d <= 25 && !found.some((f) => Math.abs(f.d - d) < 0.5)) found.push({ d, yaw: Math.atan2(-dx, -dz) });
+    }
+  }
+  found.sort((a, b) => a.d - b.d);
+  const f = found[k];
+  if (!f) return null;
+  D.aimCamera(f.yaw);
+  return +f.d.toFixed(1);
 }
 
 /** One capture with the flames shown or hidden: the first whole frame drawn
@@ -223,7 +278,7 @@ async function run(opts) {
     const why = verdict(result);
     if (!skipped) { mkdirSync(opts.out, { recursive: true }); writeFileSync(jsonPath, JSON.stringify(result, null, 1) + "\n"); }
     console.log(`flames: ${why ? "FAIL" : "PASS"}${skipped ? " (unchanged key, stored result)" : ""} ${opts.cell ?? `place ${opts.x},${opts.z}`} `
-      + COUNTS.map((k) => `${k} ${result[k] ?? 0}`).join(" ") + `${why ? ` (${why})` : ""} in ${result.elapsedS} s -> ${jsonPath}`);
+      + COUNTS.map((k) => `${k} ${result[k] ?? 0}`).join(" ") + (result.mode === "place" && isLampDay(result.t) ? " (day: lamps out, visible not required)" : "") + `${why ? ` (${why})` : ""} in ${result.elapsedS} s -> ${jsonPath}`);
     browser?.close().catch(() => undefined); server?.close();
     process.exit(why ? 1 : 0);
   };
@@ -235,10 +290,12 @@ async function run(opts) {
       base = `http://127.0.0.1:${server.address().port}/elder-souls-argonia/studio/`;
     }
     if (!base.endsWith("/")) base += "/";
-    result.key = await keyOf(opts, base);
+    let dataBase = opts.dataBase ?? base;
+    if (!dataBase.endsWith("/")) dataBase += "/";
+    result.key = await keyOf(opts, dataBase);
     if (!opts.force && existsSync(jsonPath)) {
       const prior = JSON.parse(readFileSync(jsonPath, "utf8"));
-      if (prior.key === result.key) { Object.assign(result, prior, { key: result.key }); return finish(true); }
+      if (prior.key === result.key && prior.stage === "done") { Object.assign(result, prior, { key: result.key }); return finish(true); }
     }
     const { chromium } = await import("playwright");
     browser = await chromium.launch({ headless: true, args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
@@ -252,7 +309,9 @@ async function run(opts) {
         await route.fulfill({ response: res, json: { ...body, fires: {} } });
       });
     }
-    const q = opts.cell ? `&interior=${encodeURIComponent(opts.cell)}` : "";
+    // no HUD; in a cell no vegetation (hidden behind the cell anyway); the
+    // water pipeline stays on: its on-screen pass is the one that draws flames
+    const q = opts.cell ? `&interior=${encodeURIComponent(opts.cell)}&veg=0&hud=0` : "&hud=0";
     result.url = `${base}?view=character&x=${opts.x}&z=${opts.z}&t=${opts.t}&q=low&aa=0&dpr=1${q}`;
     await page.goto(result.url, { waitUntil: "domcontentloaded" });
     await page.waitForFunction(() => window.__STUDIO_CHARACTER_DEBUG__?.player?.() != null && window.__SCENE__ && window.__RENDERER__,
@@ -271,13 +330,28 @@ async function run(opts) {
     // the screenshot shows the world canvas alone (no HUD, no minimap canvas)
     await page.addStyleTag({ content: "* { visibility: hidden !important; } canvas { visibility: visible !important; }" });
     await page.evaluate(() => { for (const c of document.querySelectorAll("canvas")) if (c !== window.__RENDERER__.domElement) c.style.setProperty("visibility", "hidden", "important"); });
+    // WebGPU: the cards' windows come from a CDP screenshot clip of the canvas
+    // taken while the toggled state holds (the camera is still by then)
+    const cdp = await page.context().newCDPSession(page);
+    const grab = async (cards) => {
+      if (!cards?.length || cards[0].pixels) return cards;
+      const rect = await page.evaluate(() => { const c = window.__RENDERER__.domElement; const b = c.getBoundingClientRect(); return { x: b.left, y: b.top, w: b.width, h: b.height, W: c.width }; });
+      const shot = await cdp.send("Page.captureScreenshot", { format: "png", clip: { x: rect.x, y: rect.y, width: rect.w, height: rect.h, scale: rect.W / rect.w } });
+      const img = await page.evaluate(async (b64) => {
+        const bm = await createImageBitmap(await (await fetch(`data:image/png;base64,${b64}`)).blob());
+        const c = new OffscreenCanvas(bm.width, bm.height); const x = c.getContext("2d"); x.drawImage(bm, 0, 0);
+        return { width: bm.width, data: Array.from(x.getImageData(0, 0, bm.width, bm.height).data) };
+      }, shot.data);
+      const wins = windowsFrom(img.data, img.width, cards);
+      return cards.map((c, k) => ({ ...c, pixels: wins[k] }));
+    };
     let views = 0;
     for (;;) {
       const at = () => +((Date.now() - started) / 1000).toFixed(1);
-      const offA = await page.evaluate(captureIn, { show: false, still: true });
+      const offA = await grab(await page.evaluate(captureIn, { show: false, still: true }));
       result.stillS = at();
-      const on = await page.evaluate(captureIn, { show: true, still: false });
-      const offB = await page.evaluate(captureIn, { show: false, still: false });
+      const on = await grab(await page.evaluate(captureIn, { show: true, still: false }));
+      const offB = await grab(await page.evaluate(captureIn, { show: false, still: false }));
       result.capturedS = at();
       await page.evaluate(() => { for (const g of window.__FLAME_PROBE__.systems) g.visible = true; });
       views += 1;
@@ -287,13 +361,17 @@ async function run(opts) {
         result.cards = on.slice(0, 24).map((c, k) => ({ px: c.px, py: c.py, dist: c.dist, ...seen[k] }));
       }
       if (result.onScreen > 0 || views >= 4 || !(result.emitters > 0)) break;
-      await page.keyboard.down("ArrowLeft"); await page.waitForTimeout(400); await page.keyboard.up("ArrowLeft");
+      // face the next-nearest emitter 3-25 m from the player (a blind turn
+      // from a spawn on a lantern finds none: walk 7)
+      result.aimedAt = await page.evaluate(aimAtEmitter, views - 1);
+      await page.waitForTimeout(600);
     }
     result.views = views;
+    Object.assign(result, { draws: await page.evaluate(() => window.__FLAME_PROBE__.draws), errors: errs.slice(0, 8) });
     result.png = join(opts.out, `${name}.png`);
     mkdirSync(opts.out, { recursive: true });
-    await page.screenshot({ path: result.png });
-    Object.assign(result, { draws: await page.evaluate(() => window.__FLAME_PROBE__.draws), errors: errs.slice(0, 8), stage: "done" });
+    await page.screenshot({ path: result.png, timeout: 0 });
+    result.stage = "done";
   } catch (e) {
     result.failed = String(e).slice(0, 500);
   }

@@ -485,6 +485,14 @@
    "designedSinkM": 6.0086,
    "why": "The sick texture variant of histflower02: the same mesh, so the same sink (6.009 m, the stem's foot on the ground; kit-build § texture variants). (0105 R36, reviewed by lane L16 2026-09-28; sink miner run /tmp/l16/sink-sample.json and --merge --whole-population refused: no reference stands on LAND)"
   },
+  "vanilla:architecture/docks/dockstr4way01": {
+   "designedSinkM": -0.35,
+   "why": "Four-way dock junction, 7.3 m tall with piles. All four plugin references stand it in water (Skyrim.esm and Black Marsh.esm; anchor vote water 4 of 4, waterline p50 -0.03 m), so no ground sink exists to measure. It seats as a piled deck by its deck rise, never by this sink; its deck top lies at the pivot: sink -0.35 keeps the deck 0.35 m over the bank (the deck-top tell's clearance) if it ever meets the shore. Riverwalk lw06: the deck is level with the run and the piles stand in water (wb.py render iso --focus lw06 wb02, 2026-10-01). (0105 R36, reviewed 2026-10-01; per-asset sink miner sample measured no LAND reference)"
+  },
+  "vanilla:architecture/docks/dockstepsdown01": {
+   "designedSinkM": -0.35,
+   "why": "Dock steps down to the water, 9.0 m tall with piles. Its makers hang it off a deck end (it abuts dockstrsol01) and its four land references disagree by 9.25 m IQR (pluginSpread), so no ground sink is measured. It seats by its designed abut to the deck above, never by this sink; its top step lies at the pivot: sink -0.35 is the deck-top tell's clearance. Riverwalk wb02: snapped to wb01 by evidence, the lowest step in 0.58 m of water (wb.py render iso --focus lw06 wb02, 2026-10-01). (0105 R36, reviewed 2026-10-01; per-asset sink miner sample measured no agreeing LAND set)"
+  },
   "vanilla:architecture/docks/dockstrent02": {
    "designedSinkM": -0.35,
    "why": "Dock entrance piece, 7.2 m tall with piles. Its makers stand it in water (waterline row n 3, p50 -1.59 m); on land the four plugins disagree by 3.07 m IQR (pluginSpread), so no ground sink is measured. Its deck top lies at the pivot and the piles reach down from it: sink -0.35 keeps the deck 0.35 m over the bank (the deck-top tell's clearance) where it meets the shore. (0105 R36, reviewed by lane L16 2026-09-28; sink miner run /tmp/l16/sink-sample.json and --merge --whole-population refused: no reference stands on LAND)"

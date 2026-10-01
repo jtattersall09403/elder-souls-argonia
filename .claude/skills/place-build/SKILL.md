@@ -154,8 +154,14 @@ per building, enclosure, path, light, water edge and dressing group:
   verified by the reader pass.
 - **Sinks** (R12, R36): a tree, piece of architecture or piece 3 m or
   taller whose sink row is the mesh-sill fallback is listed by gate
-  `sink.fallback` and holds the place red: choose a measured piece, or file
-  its row to the sink miner.
+  `sink.fallback` and holds the place red: choose a measured piece, or
+  re-mine its row (`mine_designed_sink --assets <id> --merge`). A piece its
+  makers never stand on LAND (a dock deck or stair over water) measures
+  nothing: give it a reviewed `assetPlacement` row in
+  `tooling/asset-pipeline/pipeline/config/placement-policies.json` (sink,
+  why, a render of its foot) and refresh the kits that carry it
+  (`--refresh-built-manifests --kit <kit>`), as the builder does, in the
+  same round (L83).
 - Dressing is authored as named **yard sets** per building kind, defined
   in the type sheet and placed with `group place` (0100 decision 5).
 - The bars: this place's tier and type objects in

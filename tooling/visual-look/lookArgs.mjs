@@ -3,7 +3,7 @@
 import { readFileSync } from "node:fs";
 
 export const CLASSES = ["fire-fixture", "hanging-fixture", "doorway", "walkway",
-  "ground-contact", "interior-surface", "furniture-contact"];
+  "ground-contact", "interior-surface", "furniture-contact", "ground-paint"];
 
 export const USAGE = `usage:
   npm run look -- piece <kit> <assetId> [--class C[,C]] [--out DIR]

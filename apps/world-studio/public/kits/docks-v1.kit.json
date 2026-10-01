@@ -536,7 +536,7 @@
     "p75": -0.35,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
    },
    "piled": true,
    "deckRiseM": 0.35,
@@ -569,13 +569,6 @@
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.35,
-    "deckTopM": 0.0,
-    "deckClearanceM": 0.35
-   },
    "designedWaterlineM": -0.0273,
    "placement": {
     "schemaVersion": 1,
@@ -722,7 +715,7 @@
     "p75": -0.35,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill (plugin-spread)"
+    "evidence": "policy"
    },
    "piled": true,
    "deckRiseM": 0.35,
@@ -759,13 +752,6 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.35,
-    "deckTopM": 0.0,
-    "deckClearanceM": 0.35
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
