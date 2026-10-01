@@ -2434,7 +2434,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.396,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029
+   "pivotAboveBaseM": 0.029,
+   "emissiveMaterials": [
+    "RieklingCandle:0.Mat"
+   ]
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/sithisshrine",
@@ -3121,7 +3124,10 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -5.854
+   "pivotAboveBaseM": -5.854,
+   "emissiveMaterials": [
+    "Cylinder.Mat"
+   ]
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower02",
@@ -4089,7 +4095,10 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.166
+   "pivotAboveBaseM": 0.166,
+   "emissiveMaterials": [
+    "Object009:2.Mat"
+   ]
   },
   {
    "id": "ferryraft:snt/ferry/ferryraft01",
@@ -4222,7 +4231,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.892,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.473
+   "pivotAboveBaseM": 0.473,
+   "emissiveMaterials": [
+    "CandleLanternWithCandle:7.Mat"
+   ]
   },
   {
    "id": "composite:mud/hut-with-entrance",
@@ -5475,7 +5487,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.418,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.554
+   "pivotAboveBaseM": 0.554,
+   "emissiveMaterials": [
+    "Objekt01:1.Mat"
+   ]
   },
   {
    "id": "kotm:argonia/mudhuts/window02",
@@ -5564,7 +5579,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.373,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.175
+   "pivotAboveBaseM": 0.175,
+   "emissiveMaterials": [
+    "Kugel02:1.Mat"
+   ]
   },
   {
    "id": "kotm:argonia/mudhuts/mudhutchimney",

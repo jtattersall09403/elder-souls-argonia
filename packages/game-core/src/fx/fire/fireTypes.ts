@@ -118,11 +118,14 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     smokeHandOffM: 0, gain: { day: 1.0, night: 0.95 },
   },
   lanternHanging: {
-    // a lantern body with no mined candle (the Argonian cord lanterns): one
-    // bigger flame at the body's centre, reading through the cage
+    // a lantern body with no mined candle (the Argonian cord lanterns: their
+    // NIFs hold a hist-wood cage and a rope, no candle shape and no emitter):
+    // one candle-lantern flame at the body's centre. Sized as the candle
+    // lantern's candle (lanternStanding), never the body: a 0.4 m card filled
+    // the cage and the cage read as glowing (walk 9, owner)
     schemaVersion: 2, id: "lanternHanging",
-    shape: { widthM: 0.16, heightM: 0.4, taper: 0.7 },
-    layers: { core: 2, outer: 1, spreadM: 0.02 },
+    shape: { widthM: 0.06, heightM: 0.15, taper: 0.8 },
+    layers: { core: 2, outer: 1, spreadM: 0.012 },
     turbulence: 0.42, riseSpeed: 1.5, motion: { swayW: 1.0, pulse: 0.4, rateHz: 3.0 }, ramp: CANDLE_RAMP, bands: SMALL_BANDS,
     flicker: { rateHz: 3.5, amount: 0.08 }, windResponse: 0.05,
     embers: { count: 0, riseM: 0, sizeM: 0, lifeS: 1 },
@@ -173,6 +176,35 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     embers: { count: 10, riseM: 2.2, sizeM: 0.016, lifeS: 2.4 },
     smokeHandOffM: 1.2, gain: { day: 1.0, night: 0.95 },
   },
+};
+
+/** The light a fixture of one fire class casts (the fixture light field). */
+export interface FireLight {
+  /** Peak intensity, candela (three PointLight units, decay 2). */
+  candela: number;
+  /** Cap on the LIGH record's radius (m); null: the record's radius stands. */
+  maxRadiusM: number | null;
+}
+
+/**
+ * Each fire class's light, keyed by preset id (standard 18). Every class is
+ * the carried torch's 6 cd at its LIGH radius (owner-approved: candles and the
+ * campfire, walks 4 to 9) except the hanging lantern: the Argonian cord
+ * lantern's mod LIGH is 512 units (7.3 m) at the torch's 6 cd, and hung by a
+ * door 0.3 m off the wall it blew the wall and ground out (walk 9, owner).
+ * Vanilla's candle lantern (CandleLanternWithCandle01, DefaultCandleLight01NSDesat)
+ * is 256 units (3.65 m), half the radius; the class keeps a third of the
+ * intensity (2 cd) inside that radius, so it lights the doorway, not the wall.
+ */
+export const FIRE_LIGHTS: Readonly<Record<FirePresetId, FireLight>> = {
+  candle: { candela: 6, maxRadiusM: null },
+  lanternStanding: { candela: 6, maxRadiusM: null },
+  lanternHanging: { candela: 2, maxRadiusM: 3.65 },
+  torchGround: { candela: 6, maxRadiusM: null },
+  torchHandheld: { candela: 6, maxRadiusM: null },
+  brazier: { candela: 6, maxRadiusM: null },
+  hearth: { candela: 6, maxRadiusM: null },
+  campfire: { candela: 6, maxRadiusM: null },
 };
 
 /** Stable palette row of each preset (the shader's ramp table index). */

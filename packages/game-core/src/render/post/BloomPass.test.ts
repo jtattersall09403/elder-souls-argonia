@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
-import { BLOOM_DEFAULTS, BloomPass, bloomMipSizes, bloomWeight } from "./BloomPass";
+import { BLOOM_DEFAULTS, BloomPass, bloomMipSizes, bloomSource, bloomWeight } from "./BloomPass";
 
 describe("bloomWeight", () => {
   const { threshold: t, knee: k } = BLOOM_DEFAULTS;
@@ -40,5 +40,20 @@ describe("BloomPass disabled", () => {
     expect(calls).toEqual([]);
     expect(pass.mipCount).toBe(0);
     pass.dispose();
+  });
+});
+
+describe("bloomSource: the sky is not scene content (walk 9 sun blob)", () => {
+  const o = BLOOM_DEFAULTS;
+  it("a bright sky texel under the sky threshold adds nothing, where the scene threshold would glow it", () => {
+    // the Mie halo at low sun: well above the scene threshold, below the disc
+    expect(bloomSource(20, false)).toBeGreaterThan(10);
+    expect(bloomSource(20, true)).toBe(0);
+    expect(bloomSource(o.skyThreshold - o.knee, true)).toBe(0);
+  });
+  it("the sun's disc glows, never by more than skyMax however bright it is", () => {
+    expect(bloomSource(o.skyThreshold * 2, true)).toBe(o.skyMax);
+    expect(bloomSource(1e6, true)).toBe(o.skyMax);
+    expect(o.skyMax).toBeLessThan(1);
   });
 });

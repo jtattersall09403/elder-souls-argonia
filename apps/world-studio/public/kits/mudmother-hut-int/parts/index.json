@@ -180,6 +180,9 @@
     0.08,
     0.081,
     -0.046
+   ],
+   "emissiveMaterials": [
+    "GlazedCandles01:6.Mat"
    ]
   }
  }

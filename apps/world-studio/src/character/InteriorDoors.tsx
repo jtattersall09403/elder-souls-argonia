@@ -10,7 +10,12 @@ import { createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
 import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
 import { CAMERA_BLOCKING_GROUPS } from "@elder-souls/game-core/camera/cameraCollision";
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
-import { InteriorLoader, solidsAt, type LoadedInterior } from "@elder-souls/game-core/interior/interiorLoader";
+import { daylightShare, InteriorLoader, solidsAt, type LoadedInterior } from "@elder-souls/game-core/interior/interiorLoader";
+import { computeLightRig } from "../sky/lightRig";
+import { worldClock } from "../sky/timeState";
+
+/** Scratch: the sun's colour handed to the shown cell's daylight each frame. */
+const daylightColour = new THREE.Color();
 import { SharedKtx2Textures } from "@elder-souls/game-core/interior/sharedTextures";
 import { kitPartsDir } from "@elder-souls/game-core/interior/kitParts";
 import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
@@ -311,6 +316,12 @@ export function InteriorDoors({
     const focus = interaction.focused;
     const swingDoor = swing && focus ? swing.controller.doors.find((d) => d.id === focus.id) : undefined;
     environment.current?.frame();
+    if (shown) {
+      // the cell's daylight follows the sun outside (interiorLoader InteriorDaylight)
+      const rig = computeLightRig(worldClock.epochMinutes(), 0.5, 0.5);
+      daylightColour.setRGB(rig.sunColor[0], rig.sunColor[1], rig.sunColor[2]);
+      shown.interior.daylight.set(daylightShare(rig.sun.altitude), daylightColour);
+    }
     overlay.setFade(directCellId && !opened.current ? 1 : transition.fade);
     const prompt = transition.prompt;
     overlay.setPrompt(prompt && interaction.isFocused(prompt.doorId) ? prompt

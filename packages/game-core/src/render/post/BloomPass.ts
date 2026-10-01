@@ -12,7 +12,15 @@ import * as THREE from "three";
  * 1. prefilter → mip 0 (half the canvas): the linear HDR scene target times
  *    the renderer's exposure, kept above a soft-knee threshold in EXPOSED
  *    units, so the cut sits at the same place on the display by day and by
- *    night. The pass also writes the scene depth, so
+ *    night. The sky (depth at the far clear: the Preetham dome, its clouds
+ *    and stars write no depth) is NOT scene content here (walk 9, owner: the
+ *    sun bloomed into a white blob from 14:30 and at sunrise, because the
+ *    authored exposure rises as the sun sinks while the Mie halo spreads, so
+ *    a wide sky region passed the scene threshold). A sky texel feeds the
+ *    glow only above `skyThreshold`, which only the sun's disc reaches, and
+ *    never by more than `skyMax` (a quarter of a flame's mip-0 level), so the
+ *    sun keeps a small halo of a fixed size at every altitude. The pass also
+ *    writes the scene depth, so
  * 2. the bloom-source layer (flames; display-referred, drawn after the
  *    tone-mapped blit and so absent from the HDR target) is drawn into mip 0
  *    depth-tested against the scene;
@@ -46,6 +54,12 @@ export interface BloomOptions {
   strength?: number;
   /** Upper bound on mips below mip 0. */
   maxMips?: number;
+  /** Exposed brightness a SKY texel (depth at the far clear) must pass to
+   * glow: above the Mie halo at every sun altitude, below the sun's disc. */
+  skyThreshold?: number;
+  /** Most a sky texel adds to mip 0 (exposed linear): the sun's halo never
+   * grows with exposure or with the halo's spread. */
+  skyMax?: number;
 }
 
 export const BLOOM_DEFAULTS: Required<BloomOptions> = {
@@ -53,7 +67,12 @@ export const BLOOM_DEFAULTS: Required<BloomOptions> = {
   knee: 2,
   strength: 0.35,
   maxMips: 5,
+  skyThreshold: 60,
+  skyMax: 0.4,
 };
+
+/** A depth-buffer value at or above this is the far clear: no geometry, the sky. */
+export const BLOOM_SKY_DEPTH = 0.9999999;
 
 /** Smallest side a mip may have; below it the chain stops. */
 const MIN_MIP_PX = 8;
@@ -89,6 +108,16 @@ export function bloomWeight(br: number, threshold: number, knee: number): number
   return Math.max(soft, br - threshold) / Math.max(br, 1e-5);
 }
 
+/**
+ * Brightest channel a texel of exposed brightness `br` adds to mip 0 before
+ * the Karis weight: a scene texel by the scene threshold, a sky texel (`sky`)
+ * by `skyThreshold`, clamped to `skyMax`. The GLSL `esPick` is this.
+ */
+export function bloomSource(br: number, sky: boolean, o: Required<BloomOptions> = BLOOM_DEFAULTS): number {
+  if (!sky) return br * bloomWeight(br, o.threshold, o.knee);
+  return Math.min(br * bloomWeight(br, o.skyThreshold, o.knee), o.skyMax);
+}
+
 const VERT = /* glsl */ `
 varying vec2 vUv;
 void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }
@@ -101,14 +130,21 @@ uniform vec2 uTexel;
 uniform float uExposure;
 uniform float uThreshold;
 uniform float uKnee;
+uniform float uSkyThreshold;
+uniform float uSkyMax;
+uniform float uSkyMask;
 varying vec2 vUv;
 vec3 esPick(vec2 uv) {
   vec3 c = texture2D(uColor, uv).rgb * uExposure;
   float br = max(c.r, max(c.g, c.b));
+  bool sky = uSkyMask > 0.5 && texture2D(uDepth, uv).x >= ${BLOOM_SKY_DEPTH.toFixed(7)};
+  float t = sky ? uSkyThreshold : uThreshold;
   float k = max(uKnee, 1e-5);
-  float soft = clamp(br - uThreshold + k, 0.0, 2.0 * k);
+  float soft = clamp(br - t + k, 0.0, 2.0 * k);
   soft = soft * soft / (4.0 * k + 1e-5);
-  float w = max(soft, br - uThreshold) / max(br, 1e-5);
+  float w = max(soft, br - t) / max(br, 1e-5);
+  // the sun's halo: a fixed ceiling, never the size of the bright sky
+  if (sky) w = min(w, uSkyMax / max(br, 1e-5));
   // Karis weight: one hot texel cannot flicker the whole glow
   return c * w / (1.0 + br * w);
 }
@@ -122,6 +158,24 @@ void main() {
   c /= max(1.0 - m, 1e-3);
   gl_FragColor = vec4(c, 1.0);
   gl_FragDepth = texture2D(uDepth, vUv).x;
+}
+`;
+
+// The probe's census (`measureSky`): per texel, is it sky (r), would the
+// scene threshold let it glow (g: the walk-9 behaviour), does it glow now (b).
+const SKY_CENSUS = /* glsl */ `
+uniform sampler2D uColor;
+uniform sampler2D uDepth;
+uniform float uExposure;
+uniform float uThreshold;
+uniform float uKnee;
+uniform float uSkyThreshold;
+varying vec2 vUv;
+void main() {
+  vec3 c = texture2D(uColor, vUv).rgb * uExposure;
+  float br = max(c.r, max(c.g, c.b));
+  float sky = step(${BLOOM_SKY_DEPTH.toFixed(7)}, texture2D(uDepth, vUv).x);
+  gl_FragColor = vec4(sky, sky * step(uThreshold - uKnee, br), sky * step(uSkyThreshold - uKnee, br), 1.0);
 }
 `;
 
@@ -192,6 +246,14 @@ function mipTarget(depth: boolean): THREE.WebGLRenderTarget {
   return t;
 }
 
+/** One frame's sky census (`BloomPass.measureSky`). */
+export interface SkyCensus {
+  skyFraction: number;
+  skyOverSceneThreshold: number;
+  skyGlowing: number;
+  exposure: number;
+}
+
 export class BloomPass {
   enabled = true;
   /** The renderer exposure the last frame was filtered at (probes, HUD). */
@@ -199,6 +261,13 @@ export class BloomPass {
   readonly threshold: { value: number };
   readonly knee: { value: number };
   readonly strength: { value: number };
+  readonly skyThreshold: { value: number };
+  readonly skyMax: { value: number };
+  /** 1: the sky glows only by `skyThreshold`/`skyMax`; 0: as scene content (probe A/B). */
+  readonly skyMask = { value: 1 };
+  /** The last census `requestSkyCensus` asked for (probes), else null. */
+  lastSkyCensus: SkyCensus | null = null;
+  private censusNext = false;
   private readonly maxMips: number;
   private readonly mips: THREE.WebGLRenderTarget[] = [];
   private readonly quad: THREE.Mesh;
@@ -216,9 +285,12 @@ export class BloomPass {
     this.knee = { value: o.knee };
     this.strength = { value: o.strength };
     this.maxMips = o.maxMips;
+    this.skyThreshold = { value: o.skyThreshold };
+    this.skyMax = { value: o.skyMax };
     this.prefilter = pass(PREFILTER, {
       uColor: { value: null }, uDepth: { value: null }, uTexel: { value: new THREE.Vector2() },
       uExposure: { value: 1 }, uThreshold: this.threshold, uKnee: this.knee,
+      uSkyThreshold: this.skyThreshold, uSkyMax: this.skyMax, uSkyMask: { value: 1 },
     });
     // writes the scene depth so the bloom-source layer depth-tests against it
     this.prefilter.depthTest = true;
@@ -282,8 +354,13 @@ export class BloomPass {
     pu.uColor.value = color;
     pu.uDepth.value = depth;
     this.prefilter.depthWrite = depth !== null;
+    pu.uSkyMask.value = depth ? this.skyMask.value : 0;
     pu.uTexel.value.set(1 / this.mips[0].width, 1 / this.mips[0].height);
     pu.uExposure.value = this.lastExposure = renderer.toneMappingExposure;
+    if (this.censusNext && depth) {
+      this.censusNext = false;
+      this.lastSkyCensus = this.measureSky(renderer, color, depth);
+    }
     renderer.setRenderTarget(this.mips[0]);
     renderer.clear(true, true, false);
     this.draw(renderer, this.prefilter, this.mips[0]);
@@ -311,6 +388,36 @@ export class BloomPass {
 
     renderer.setRenderTarget(prevTarget);
     renderer.autoClear = prevAuto;
+  }
+
+  /** Ask for one sky census on the next frame (`lastSkyCensus`; probes). */
+  requestSkyCensus(): void { this.censusNext = true; }
+
+  /**
+   * Fractions of the frame's texels (at mip-0 size) that are sky, and of the
+   * SKY texels those the scene threshold would glow (`skyOverSceneThreshold`:
+   * the walk-9 sun blob) and those that glow now (`skyGlowing`: the disc).
+   */
+  private measureSky(renderer: THREE.WebGLRenderer, color: THREE.Texture, depth: THREE.Texture): SkyCensus {
+    const [w, h] = [this.mips[0].width, this.mips[0].height];
+    const target = new THREE.WebGLRenderTarget(w, h, { depthBuffer: false });
+    const material = pass(SKY_CENSUS, {
+      uColor: { value: color }, uDepth: { value: depth }, uExposure: { value: renderer.toneMappingExposure },
+      uThreshold: this.threshold, uKnee: this.knee, uSkyThreshold: this.skyThreshold,
+    });
+    this.draw(renderer, material, target);
+    const px = new Uint8Array(w * h * 4);
+    renderer.readRenderTargetPixels(target, 0, 0, w, h, px);
+    let sky = 0; let over = 0; let glow = 0;
+    for (let i = 0; i < px.length; i += 4) {
+      if (px[i] > 127) sky++;
+      if (px[i + 1] > 127) over++;
+      if (px[i + 2] > 127) glow++;
+    }
+    target.dispose();
+    material.dispose();
+    return { skyFraction: sky / (w * h), skyOverSceneThreshold: sky ? over / sky : 0,
+      skyGlowing: sky ? glow / sky : 0, exposure: renderer.toneMappingExposure };
   }
 
   dispose(): void {

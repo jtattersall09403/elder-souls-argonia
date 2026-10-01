@@ -616,6 +616,42 @@
   }
  },
  "fires": {
+  "vanilla:architecture/farmhouse/interior/farmintend01": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintend01",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    6.155,
+    10.924,
+    10.924
+   ],
+   "originOffsetM": [
+    0.693,
+    5.462,
+    0
+   ],
+   "emissiveMaterials": [
+    "FarmIntEnd01:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintend02": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintend02",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    6.429,
+    10.924,
+    10.924
+   ],
+   "originOffsetM": [
+    5.735,
+    5.462,
+    0
+   ],
+   "emissiveMaterials": [
+    "FarmIntEnd02:14.Mat"
+   ]
+  },
   "vanilla:clutter/candles/candlehornchandelier01": {
    "id": "vanilla:clutter/candles/candlehornchandelier01",
    "category": "clutter",
@@ -749,6 +785,11 @@
     0.523,
     0.464,
     0.412
+   ],
+   "emissiveMaterials": [
+    "CandleHornChandelier01:0.Mat",
+    "Chains.Mat",
+    "Rope.Mat"
    ]
   },
   "vanilla:clutter/candles/candlehornfloor01": {
@@ -854,6 +895,9 @@
     0.374,
     0.374,
     0
+   ],
+   "emissiveMaterials": [
+    "CandleHornFloor01:0.Mat"
    ]
   },
   "vanilla:clutter/candles/candlehorntable01": {
@@ -914,6 +958,9 @@
     0.128,
     0.261,
     0
+   ],
+   "emissiveMaterials": [
+    "CandleHornTable01:0.Mat"
    ]
   },
   "vanilla:clutter/candles/candlehornwall01": {
@@ -975,6 +1022,9 @@
     0.069,
     0.408,
     0.41
+   ],
+   "emissiveMaterials": [
+    "CandleHornWall01:0.Mat"
    ]
   },
   "vanilla:clutter/woodfires/fireplacewood01burning": {

@@ -9,7 +9,7 @@ import { BLOOM_SOURCE_LAYER } from "../render/post/BloomPass";
 import { describe, expect, it } from "vitest";
 import {
   ALWAYS_LIT_DAY_FACTOR, artificialLightFactor, fixtureFromFireSocket, fixtureFromPiece,
-  burnsByDay, drawsOwnFire, fixtureLightOf, FIXTURE_CANDELA, FIXTURE_DEFAULT_RADIUS_M, FIXTURE_LIGHT_RGB, isAlwaysLitFixture,
+  burnsByDay, drawsOwnFire, fixtureLightOf, FIXTURE_DEFAULT_RADIUS_M, FIXTURE_LIGHT_RGB, isAlwaysLitFixture,
   isFireSocket, fixturesInBand, FLAME_MAX_DISTANCE_M, FLAME_MIN_ANGLE_RAD,
   FLAME_TEXTURE_ASSET_ID, isLightFixturePlacement, isSpriteHolderPlacement,
   bandFade, LIGHTS_ACTIVE_M, LIGHTS_CAP, LIGHTS_FADE_M,
@@ -17,7 +17,7 @@ import {
 } from "./lighting";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import type { SettlementKitAssetMeta } from "./types";
-import { FIRE_PRESETS } from "../fx/fire/fireTypes";
+import { FIRE_LIGHTS, FIRE_PRESETS } from "../fx/fire/fireTypes";
 import { FIXTURE_LIGHTS_MAX } from "../render/fixtureLights";
 
 const hm = (h: number, m = 0) => h * 60 + m;
@@ -105,6 +105,27 @@ describe("light fixtures", () => {
     expect(f.flames[0].preset).toBe("lanternHanging");
     // 0.32 m above the lantern's base, 1.83 m below the cord's top
     expect(f.flames[0].position.y).toBeCloseTo(5 - 2.149 + 0.639 / 2, 6);
+    // its class's light (walk 9): a third of the candle's candela, inside
+    // vanilla's candle-lantern radius, not the mod's 7.3 m
+    expect(f.candela).toBe(FIRE_LIGHTS.lanternHanging.candela);
+    expect(f.candela).toBeCloseTo(FIRE_LIGHTS.candle.candela / 3, 6);
+    expect(f.radiusM).toBe(3.65);
+  });
+
+  it("candles, the candle lantern and the campfire keep the torch's 6 cd at their LIGH radius (walk 9)", () => {
+    const box = new THREE.Box3(new THREE.Vector3(-0.1, 0, -0.1), new THREE.Vector3(0.1, 0.3, 0.1));
+    const light = { formId: "00088241", burnSeconds: -1, radiusUnits: 256, colourRgb: [242, 240, 223] as [number, number, number], flags: [] };
+    const lantern = fixtureFromPiece("l", { id: "vanilla:clutter/common/candlelanternwithcandle01",
+      light: { ...light, fixtureKind: "lantern" },
+      flames: [{ offsetM: [0, 0.09, 0], texture: "fx:candleflame01", atlas: [2, 2], fps: 3, sizeM: 0.036,
+        source: "AddOnNode49 -> MPSCandleFlame01/CandleFlame01" }] }, new THREE.Matrix4(), box);
+    expect(lantern.flames[0].preset).toBe("lanternStanding");
+    expect([lantern.candela, lantern.radiusM]).toEqual([6, 256 * 0.01428]);
+    const candle = fixtureFromPiece("c", { light: { ...light, fixtureKind: "candle" } }, new THREE.Matrix4(), box);
+    expect(candle.candela).toBe(6);
+    const fire = fixtureFromPiece("f", { id: "vanilla:clutter/woodfires/campfire01burning",
+      light: { ...light, radiusUnits: 512, fixtureKind: "campfire" } }, new THREE.Matrix4(), box);
+    expect([fire.candela, fire.radiusM]).toEqual([6, 512 * 0.01428]);
   });
 
   it("the band and the cap are the R3 numbers the place gate reads", () => {
@@ -284,7 +305,7 @@ describe("fires that burn by day (planner ruling, walk 2)", () => {
     camera.position.set(0, 1, 5); camera.updateMatrixWorld();
     manager.update(0, camera);
     expect(ALWAYS_LIT_DAY_FACTOR).toBe(0.5);
-    near(intensityOf(manager, "brazier"), FIXTURE_CANDELA * 0.5, FIRE_PRESETS.brazier.flicker.amount);
+    near(intensityOf(manager, "brazier"), FIRE_LIGHTS.brazier.candela * 0.5, FIRE_PRESETS.brazier.flicker.amount);
     // a candle that is out holds no light at all
     expect(manager.litIds).toEqual(["brazier"]);
     expect(manager.field.count).toBe(1);
@@ -293,8 +314,8 @@ describe("fires that burn by day (planner ruling, walk 2)", () => {
     expect(drawn(manager)).toEqual(Array(brazierCards).fill(0.5));
     factor.value = artificialLightFactor(22 * 60);
     manager.update(1, camera);
-    near(intensityOf(manager, "brazier"), FIXTURE_CANDELA, FIRE_PRESETS.brazier.flicker.amount);
-    near(intensityOf(manager, "candle"), FIXTURE_CANDELA, FIRE_PRESETS.candle.flicker.amount);
+    near(intensityOf(manager, "brazier"), FIRE_LIGHTS.brazier.candela, FIRE_PRESETS.brazier.flicker.amount);
+    near(intensityOf(manager, "candle"), FIRE_LIGHTS.candle.candela, FIRE_PRESETS.candle.flicker.amount);
     expect(drawn(manager)).toEqual(Array(brazierCards + cardsOf("candle")).fill(1));
     manager.dispose();
   });

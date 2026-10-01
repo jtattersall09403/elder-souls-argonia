@@ -20,7 +20,7 @@ the code that enforces each is listed in 0105 § Where each lives.
 | R8 | Renders carry no text (scale bar, north arrow); `--labels` for humans only | `test_render_blueprint` | 0105 decision (owner 2026-09-28) |
 | R9 | Setting licence has two axes: interior/exterior (small dressing exempt) and social scale (keep exclusive) | `setting.class` | 0105 add. 1 (planner, wave 2) |
 | R10 | A reserved door on a dwelling, work, storage or service parcel fails | `interiors.reserved` | 0105 add. 1 (planner, wave 2) |
-| R11 | Window glows are emissive only; lit counts step 0/4/8/16, per-object budget now nearest-8 of 100 (R80) | lighting.ts tests | 0105 add. 1 (planner, wave 2) |
+| R11 | ~~Window glows are emissive only~~ (superseded 2026-10-01 by the 0109 daylight addendum: by day an interior's window panes glow the sun's colour and each is a point light, by night only its fires and record lights burn over a 15 % ambient floor); per-object budget nearest-8 of 100 (R80) | `interior.test.ts` daylight, lighting.ts tests | 0105 add. 1; 0109 addendum (owner, walk 9) |
 | R12 | Sink rows are measured on the master's ground; the mesh-sill fallback is flagged `fallback: true` | sink miner | 0105 add. 1 (planner, wave 2) |
 | R13 | `wb round` writes the round folder and `waiting-on.json`; `ownerOkRule` guards accepted ops | `ownerOkRule` | 0105 add. 1 (planner, wave 2) |
 | R14 | Small dressing = largest placed dimension under 1.2 m and no light | `setting.class` | 0105 add. 2 (planner, wave 2 close) |

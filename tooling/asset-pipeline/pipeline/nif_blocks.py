@@ -324,6 +324,44 @@ def effect_shape_shaders(nif: Nif) -> dict[str, dict]:
     return out
 
 
+#: BSLightingShaderProperty Shader_Flags_1 bit OWN_EMIT.
+OWN_EMIT = 1 << 22
+
+
+def lighting_shader_emissive(raw: bytes) -> dict:
+    """BSLightingShaderProperty (bsVersion 83/100): the OWN_EMIT flag and the
+    emissive colour and multiple (shader type u32, NiObjectNET, flags 1 and
+    2, uv offset and scale, texture set ref, then emissive rgb and multiple)."""
+    p = _object_net(raw, 4)
+    (flags1,) = struct.unpack_from("<I", raw, p); p += 8 + 16 + 4
+    r, g, b, multiple = struct.unpack_from("<4f", raw, p)
+    return {"ownEmit": bool(flags1 & OWN_EMIT), "emissive": [round(r, 4), round(g, 4), round(b, 4)],
+            "emissiveMultiple": round(multiple, 4)}
+
+
+def emitting_shapes(nif: Nif) -> list[str]:
+    """Shapes whose lighting shader really emits: OWN_EMIT set AND a non-black
+    emissive colour at a positive multiple. Skyrim flags whole lanterns
+    OWN_EMIT (CandleLanternWithCandle01's LampGeneric01 metal frame too) but
+    gives the frame a black emissive, so the flag alone lit the metal (walk 9,
+    owner); only the candle (`CandleLanternWithCandle:7`, emissive
+    1.0/0.80/0.46 x 1.14) and a paper shell glow."""
+    out = []
+    for i, (kind, raw) in enumerate(nif.blocks):
+        if kind not in EFFECT_GEOMETRY:
+            continue
+        try:
+            shader_ref, _ = _geometry_properties(raw, nif.bs_version, kind)
+        except struct.error:
+            continue
+        if not (0 <= shader_ref < len(nif.blocks) and nif.blocks[shader_ref][0] == "BSLightingShaderProperty"):
+            continue
+        s = lighting_shader_emissive(nif.blocks[shader_ref][1])
+        if s["ownEmit"] and max(s["emissive"]) > 0 and s["emissiveMultiple"] > 0:
+            out.append(nif.name(i))
+    return sorted(out)
+
+
 def is_flame_system(name: str) -> bool:
     return bool(FLAME_NAME.search(name)) and not NOT_FLAME_NAME.search(name)
 

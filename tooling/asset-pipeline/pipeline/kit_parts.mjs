@@ -186,9 +186,9 @@ export function firesOf(manifest, assetIds) {
   const wanted = new Set(assetIds);
   for (const a of manifest.assets) {
     if (typeof a?.id !== "string" || !wanted.has(a.id)) continue;
-    if (!(a.flames?.length || a.flameCardMaterials?.length || a.light?.fixtureKind)) continue;
+    if (!(a.flames?.length || a.flameCardMaterials?.length || a.light?.fixtureKind || a.emissiveMaterials?.length)) continue;
     const row = {};
-    for (const k of ["id", "category", "anchorClass", "light", "flames", "sizeM", "originOffsetM", "flameCardMaterials"]) {
+    for (const k of ["id", "category", "anchorClass", "light", "flames", "sizeM", "originOffsetM", "flameCardMaterials", "emissiveMaterials"]) {
       if (a[k] !== undefined) row[k] = a[k];
     }
     fires[a.id] = row;

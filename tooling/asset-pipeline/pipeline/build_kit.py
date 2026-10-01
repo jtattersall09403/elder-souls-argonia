@@ -1072,7 +1072,7 @@ def mine_fire_layer(nif_bytes: bytes, addn: dict, read_mesh,
             flames.append(flame_of(system, system["positionUnits"], system["name"]))
     glows = [{"shape": g["shape"], "texturePath": g["texture"], "emissive": g.get("emissive")}
              for g in nb.billboard_glow_shapes(nif)]
-    return {"flames": flames, "glowShapes": glows}
+    return {"flames": flames, "glowShapes": glows, "emissiveShapes": nb.emitting_shapes(nif)}
 
 
 def seat_flames_on_geometry(record: dict) -> int:
@@ -1179,7 +1179,7 @@ def apply_fire_layer(summary: dict, kit: dict, plan_assets: list[dict], vault: P
     written = 0
     missing = set()
     for record in summary.get("assets", []):
-        for key in ("flames", "glows", "flameCardMaterials"):
+        for key in ("flames", "glows", "flameCardMaterials", "emissiveMaterials"):
             record.pop(key, None)
         plan = by_id.get(record["id"])
         if plan is None or not plan.get("nif"):
@@ -1206,6 +1206,12 @@ def apply_fire_layer(summary: dict, kit: dict, plan_assets: list[dict], vault: P
             record["glows"] = glows
         if cards:
             record["flameCardMaterials"] = cards
+        # the materials that really emit (nif_blocks.emitting_shapes): a lit
+        # lantern's shell is one of these, never every OWN_EMIT material
+        emitting = [f"{shape}.Mat" for shape in layer["emissiveShapes"]
+                    if f"{shape}.Mat" in record.get("materials", [])]
+        if emitting:
+            record["emissiveMaterials"] = emitting
         written += len(flames) + len(glows)
     if missing:
         raise RuntimeError(f"{kit['id']}: flame textures with no {FLAME_TEXTURE_KIT} "
@@ -2394,7 +2400,15 @@ def main() -> None:
                     help="write the inputs stamp beside the existing build and "
                          "publish (no Blender, no output touched), so the next "
                          "build of unchanged inputs skips")
+    ap.add_argument("--emissive-merge", action="store_true",
+                    help="write only `emissiveMaterials` (nif_blocks.emitting_shapes) onto the "
+                         "pieces (lanterns, window panes) of the built and published manifests, from the kit's "
+                         "data-root NIFs (no Blender, ~1 s a kit)")
     args = ap.parse_args()
+    if args.emissive_merge:
+        for kit_id in ([args.kit] if args.kit else [k for k in args.kits.split(",") if k]):
+            print(kit_id, merge_emissive_materials(kit_id))
+        return
     if args.force and args.stamp_only:
         ap.error("--force and --stamp-only contradict each other")
     if args.kit:
@@ -2403,6 +2417,37 @@ def main() -> None:
         build_many([k for k in args.kits.split(",") if k], Path(args.vault), args.jobs,
                    force=args.force, stamp_only=args.stamp_only)
     refresh_abuts_derived()
+
+
+def merge_emissive_materials(kit_id: str) -> dict[str, list[str]]:
+    """Per-asset merge of `emissiveMaterials` (the field `apply_fire_layer`
+    writes on a full build) onto every piece (lantern shells, window panes) of the
+    kit's built and published manifests, read from the NIF the build staged
+    under `build/kits/<kit>/data-root/meshes/<id path>.nif`. Returns asset id
+    -> materials written."""
+    from . import nif_blocks as nb
+    pipeline_root = Path(__file__).resolve().parents[1]
+    data_root = pipeline_root / "build/kits" / kit_id / "data-root/meshes"
+    manifests = [p for p in (pipeline_root / "output/kits" / f"{kit_id}.kit.json",
+                             pipeline_root.parents[1] / "apps/world-studio/public/kits" / f"{kit_id}.kit.json")
+                 if p.is_file()]
+    written: dict[str, list[str]] = {}
+    for path in manifests:
+        manifest = json.loads(path.read_text())
+        for record in manifest.get("assets", []):
+            record.pop("emissiveMaterials", None)
+            nif = data_root / (record["id"].split(":", 1)[1].lower() + ".nif")
+            if not nif.is_file():
+                if record.get("light"):
+                    raise FileNotFoundError(f"{kit_id} {record['id']}: no staged NIF at {nif}")
+                continue
+            emitting = [f"{s}.Mat" for s in nb.emitting_shapes(nb.parse(nif.read_bytes()))
+                        if f"{s}.Mat" in record.get("materials", [])]
+            if emitting:
+                record["emissiveMaterials"] = emitting
+                written[record["id"]] = emitting
+        path.write_text(json.dumps(manifest, indent=1) + "\n")
+    return written
 
 
 WORLDGEN_DIR = Path(__file__).resolve().parents[2] / "world-generation"

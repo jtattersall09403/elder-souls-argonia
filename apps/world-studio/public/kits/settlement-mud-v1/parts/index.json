@@ -65,5 +65,42 @@
    ]
   }
  },
- "fires": {}
+ "fires": {
+  "kotm:argonia/mudhuts/window01": {
+   "id": "kotm:argonia/mudhuts/window01",
+   "category": "misc",
+   "anchorClass": "ground",
+   "sizeM": [
+    3.681,
+    4.117,
+    1.872
+   ],
+   "originOffsetM": [
+    1.841,
+    2.046,
+    0.554
+   ],
+   "emissiveMaterials": [
+    "Objekt01:1.Mat"
+   ]
+  },
+  "kotm:argonia/mudhuts/window02": {
+   "id": "kotm:argonia/mudhuts/window02",
+   "category": "misc",
+   "anchorClass": "ground",
+   "sizeM": [
+    1.777,
+    1.987,
+    0.824
+   ],
+   "originOffsetM": [
+    0.889,
+    0.979,
+    0.175
+   ],
+   "emissiveMaterials": [
+    "Kugel02:1.Mat"
+   ]
+  }
+ }
 }

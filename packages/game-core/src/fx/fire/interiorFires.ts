@@ -29,7 +29,7 @@ import {
 } from "./flameAnchors";
 
 export interface InteriorFirePlacement { id: string; kit: string; assetId: string }
-export type InteriorFireRow = FlameAnchorMeta & { sizeM?: number[]; originOffsetM?: number[] };
+export type InteriorFireRow = FlameAnchorMeta & { sizeM?: number[]; originOffsetM?: number[]; emissiveMaterials?: readonly string[] | null };
 
 /** A material the interior loader leaves undrawn: one of its piece's flame cards. */
 export function isInteriorFlameCard(row: InteriorFireRow | undefined, materialName: string): boolean {

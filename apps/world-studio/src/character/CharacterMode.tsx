@@ -3,7 +3,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Physics, useRapier } from "@react-three/rapier";
 import { ShapeType } from '@dimforge/rapier3d-compat';
 import * as THREE from "three";
-import { BloomPass } from "@elder-souls/game-core/render/post/BloomPass";
+import { BloomPass, type SkyCensus } from "@elder-souls/game-core/render/post/BloomPass";
 import type { EcctrlHandle } from "ecctrl";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
 import { SettlementErrorLine } from "../SettlementErrorLine";
@@ -1427,9 +1427,12 @@ declare global {
   interface Window {
     __STUDIO_CHARACTER_DEBUG__?: {
       /** Sets the follow camera's yaw (radians; it looks along -sin, -cos). */
-      aimCamera: (yaw: number) => void;
+      aimCamera: (yaw: number, pitch?: number) => void;
       /** Turns the glow pass on/off in place (A/B probes; no-op under `?post=0`). */
-      post: (on: boolean, tune?: { threshold?: number; knee?: number; strength?: number }) => number;
+      post: (on: boolean, tune?: { threshold?: number; knee?: number; strength?: number; skyMask?: number }) => number;
+      /** The last sky census of the glow pass (BloomPass `lastSkyCensus`) and
+       * a request for the next frame's (probe-post.mjs CENSUS=1). */
+      postSkyCensus: () => SkyCensus | null;
       playerY: () => number | null;
       grounded: () => boolean;
       frames: () => number;
@@ -1559,14 +1562,24 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
         return out;
       },
       cameraArm: () => camera3P.arm,
-      aimCamera: (yaw) => { camera3P.yaw = yaw; },
+      aimCamera: (yaw, pitch) => {
+        camera3P.yaw = yaw;
+        if (pitch !== undefined) camera3P.pitch = Math.min(FOLLOW_CAMERA.maxPitch, Math.max(FOLLOW_CAMERA.minPitch, pitch));
+      },
       post: (on, tune) => {
         if (!bloom) return 0;
         bloom.enabled = on;
         if (tune?.threshold !== undefined) bloom.threshold.value = tune.threshold;
         if (tune?.knee !== undefined) bloom.knee.value = tune.knee;
         if (tune?.strength !== undefined) bloom.strength.value = tune.strength;
+        if (tune?.skyMask !== undefined) bloom.skyMask.value = tune.skyMask;
         return bloom.lastExposure;
+      },
+      postSkyCensus: () => {
+        if (!bloom) return null;
+        const last = bloom.lastSkyCensus;
+        bloom.requestSkyCensus();
+        return last;
       },
       cameraCast: (from, to) => cameraCast(
         new THREE.Vector3(...from), new THREE.Vector3(...to), FOLLOW_CAMERA.collisionRadius,

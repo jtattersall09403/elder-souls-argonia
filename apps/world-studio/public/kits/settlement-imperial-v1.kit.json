@@ -115,7 +115,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.156,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821
+   "pivotAboveBaseM": 1.821,
+   "emissiveMaterials": [
+    "Farmhouse01:14.Mat"
+   ]
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse02",
@@ -233,7 +236,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.505,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821
+   "pivotAboveBaseM": 1.821,
+   "emissiveMaterials": [
+    "Farmhouse02:14.Mat"
+   ]
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse01walkway",
@@ -2542,7 +2548,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.739,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.335
+   "pivotAboveBaseM": 0.335,
+   "emissiveMaterials": [
+    "ImpWallSconceCandle01:8.Mat"
+   ]
   },
   {
    "id": "vanilla:dungeons/imperial/clutterkits/impfreewall01",
@@ -4811,7 +4820,10 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024
+   "pivotAboveBaseM": 0.024,
+   "emissiveMaterials": [
+    "CandleLanternWithCandle:7.Mat"
+   ]
   },
   {
    "id": "bmv:architecture/phitt/aldredanyia/signpost",

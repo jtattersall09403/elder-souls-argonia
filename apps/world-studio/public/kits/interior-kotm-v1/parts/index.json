@@ -951,6 +951,24 @@
   }
  },
  "fires": {
+  "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime": {
+   "id": "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime",
+   "category": "misc",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.501,
+    0.538,
+    0.427
+   ],
+   "originOffsetM": [
+    0.25,
+    0.269,
+    0
+   ],
+   "emissiveMaterials": [
+    "Puddle02:0.Mat"
+   ]
+  },
   "vanilla:clutter/glazedcandles01": {
    "id": "vanilla:clutter/glazedcandles01",
    "category": "clutter",
@@ -1025,6 +1043,28 @@
     0.109,
     0.108,
     0
+   ],
+   "emissiveMaterials": [
+    "GlazedCandles01:6.Mat"
+   ]
+  },
+  "vanilla:critters/bee/beehoneycomb": {
+   "id": "vanilla:critters/bee/beehoneycomb",
+   "category": "creature",
+   "anchorClass": "wall",
+   "sizeM": [
+    0.047,
+    0.334,
+    0.276
+   ],
+   "originOffsetM": [
+    0.021,
+    0.165,
+    0.162
+   ],
+   "emissiveMaterials": [
+    "HoneyComb:0.Mat",
+    "HoneyComb:1.Mat"
    ]
   }
  }

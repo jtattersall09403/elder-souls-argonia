@@ -157,6 +157,9 @@
     0.129,
     0.127,
     0.024
+   ],
+   "emissiveMaterials": [
+    "CandleLanternWithCandle:7.Mat"
    ]
   }
  }

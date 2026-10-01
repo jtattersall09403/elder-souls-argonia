@@ -216,7 +216,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.622,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "emissiveMaterials": [
+    "FarmIntEnd01:14.Mat"
+   ]
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintend02",
@@ -304,7 +307,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.638,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "emissiveMaterials": [
+    "FarmIntEnd02:14.Mat"
+   ]
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwallhearth01",
@@ -794,7 +800,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.238,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.412
+   "pivotAboveBaseM": 0.412,
+   "emissiveMaterials": [
+    "CandleHornChandelier01:0.Mat",
+    "Chains.Mat",
+    "Rope.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/candles/candlehornfloor01",
@@ -945,7 +956,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.195,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "emissiveMaterials": [
+    "CandleHornFloor01:0.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/candles/candlehorntable01",
@@ -1051,7 +1065,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.322,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "emissiveMaterials": [
+    "CandleHornTable01:0.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/candles/candlehornwall01",
@@ -1158,7 +1175,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.867,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.41
+   "pivotAboveBaseM": 0.41,
+   "emissiveMaterials": [
+    "CandleHornWall01:0.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/common/broom",
@@ -5520,7 +5540,10 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.007
+   "pivotAboveBaseM": 0.007,
+   "emissiveMaterials": [
+    "Egg:0.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/chopping block/axe01",
@@ -8605,7 +8628,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.001,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.02
+   "pivotAboveBaseM": 0.02,
+   "emissiveMaterials": [
+    "L1_GooBase09.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/floral/snowberrywreath",
@@ -9659,7 +9685,10 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "emissiveMaterials": [
+    "GlazedCandlesStatic02:6.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/glazedcup01",
@@ -10233,7 +10262,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.75,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "emissiveMaterials": [
+    "Scandle01:8.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/ingredients/beefmeat",
@@ -10703,7 +10735,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.042
+   "pivotAboveBaseM": 0.042,
+   "emissiveMaterials": [
+    "Ectoplasm:9.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/ingredients/firesaltpile",
@@ -10762,7 +10797,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.758,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.044
+   "pivotAboveBaseM": 0.044,
+   "emissiveMaterials": [
+    "FireSaltPile:0.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/ingredients/frostsalts",
@@ -11288,7 +11326,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.042
+   "pivotAboveBaseM": 0.042,
+   "emissiveMaterials": [
+    "Sap:8.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/ingredients/slaughterfishscale",
@@ -11470,7 +11511,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.98,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.203
+   "pivotAboveBaseM": 0.203,
+   "emissiveMaterials": [
+    "Taproot:0.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/ingredients/stew",
@@ -11989,7 +12033,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.777,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.004
+   "pivotAboveBaseM": -0.004,
+   "emissiveMaterials": [
+    "BFXOilBarrelClosedStatic01:1.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/oilbarrel/bfxoilbarrelclosedstatic02",
@@ -12053,7 +12100,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.777,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.002
+   "pivotAboveBaseM": -0.002,
+   "emissiveMaterials": [
+    "BFXOilBarrelClosedStatic02:1.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/pelts/pelthanging01",
@@ -13861,7 +13911,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.984,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.005
+   "pivotAboveBaseM": -0.005,
+   "emissiveMaterials": [
+    "Ruins_FloorCandleLampSmall01:10.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/ruins/ruinsfloorcandlelampsmon02",
@@ -14002,7 +14055,11 @@
    "undersideClosed": true,
    "undersideCoverage": 0.984,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.005
+   "pivotAboveBaseM": -0.005,
+   "emissiveMaterials": [
+    "Ruins_FloorCandleLampSmall02:10.Mat",
+    "Ruins_FloorCandleLampSmall02:8.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/shrines/shrinearkay",
@@ -14166,7 +14223,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.664,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.012
+   "pivotAboveBaseM": 0.012,
+   "emissiveMaterials": [
+    "GlazedCandlesStatic04:9.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/silver/silverbowl01",
@@ -14351,7 +14411,11 @@
    "undersideClosed": false,
    "undersideCoverage": 0.504,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.025
+   "pivotAboveBaseM": -0.025,
+   "emissiveMaterials": [
+    "Liquid02:14.Mat",
+    "Liquid02:15.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/upperclass/upperchair01",
@@ -15739,7 +15803,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.392,
    "openBackYawDeg": 191.2,
-   "pivotAboveBaseM": 0.156
+   "pivotAboveBaseM": 0.156,
+   "emissiveMaterials": [
+    "BeeHiveHusk:0.Mat"
+   ]
   },
   {
    "id": "vanilla:critters/bee/beeinjar",
@@ -15817,7 +15884,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.781,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "emissiveMaterials": [
+    "Wings:1.Mat"
+   ]
   },
   {
    "id": "vanilla:critters/firefly/fireflygo",
@@ -15887,7 +15957,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.873,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.08
+   "pivotAboveBaseM": 0.08,
+   "emissiveMaterials": [
+    "FireflyGO:0.Mat"
+   ]
   },
   {
    "id": "vanilla:dungeons/mines/ore/ingotcorundum",
@@ -16374,7 +16447,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.834,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.008
+   "pivotAboveBaseM": 0.008,
+   "emissiveMaterials": [
+    "Liquid01:14.Mat",
+    "Liquid01:15.Mat",
+    "Table01:24.Mat"
+   ]
   },
   {
    "id": "vanilla:furniture/alchemyworkstation",
@@ -16464,7 +16542,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.079,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.008
+   "pivotAboveBaseM": 0.008,
+   "emissiveMaterials": [
+    "Tablet01:24.Mat"
+   ]
   },
   {
    "id": "vanilla:furniture/bedroll/bedroll01",
@@ -17703,7 +17784,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.421,
    "openBackYawDeg": 11.2,
-   "pivotAboveBaseM": 0.055
+   "pivotAboveBaseM": 0.055,
+   "emissiveMaterials": [
+    "DeathBell01:0.Mat"
+   ]
   },
   {
    "id": "vanilla:plants/dragonstongue01",
@@ -18300,7 +18384,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.167,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.454
+   "pivotAboveBaseM": 0.454,
+   "emissiveMaterials": [
+    "Nirnroot:0.Mat"
+   ]
   },
   {
    "id": "vanilla:plants/potato01",
@@ -19410,7 +19497,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.868,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.96
+   "pivotAboveBaseM": 1.96,
+   "emissiveMaterials": [
+    "HagravenHangingBall01:22.Mat"
+   ]
   },
   {
    "id": "vanilla:clutter/hagraven/hagravenhangingball02",
@@ -19484,7 +19574,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.722,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.855
+   "pivotAboveBaseM": 1.855,
+   "emissiveMaterials": [
+    "HagravenHangingBall02:22.Mat"
+   ]
   },
   {
    "id": "vanilla:plants/hangingmoss01",

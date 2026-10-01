@@ -1231,7 +1231,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.046
+   "pivotAboveBaseM": -0.046,
+   "emissiveMaterials": [
+    "GlazedCandles01:6.Mat"
+   ]
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns01",

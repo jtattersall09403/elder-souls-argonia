@@ -447,6 +447,9 @@ export interface SettlementKitAssetMeta {
   /** Additive materials that are real flame cards (fxfirewithembers01): the
    * piece needs no fallback flame sprite. */
   flameCardMaterials?: string[];
+  /** Materials whose NIF lighting shader really emits (OWN_EMIT and a
+   * non-black emissive; build_kit `emissiveMaterials`): a lantern's shell. */
+  emissiveMaterials?: string[];
 }
 
 /** A kit manifest flame: a flipbook sprite at the emitter (glTF Y-up metres

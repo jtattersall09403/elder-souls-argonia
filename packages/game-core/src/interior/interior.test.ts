@@ -5,7 +5,7 @@ import fixture from "./__fixtures__/interior.fixture.json";
 import type { ArchitectureAsset } from "../settlement/kit";
 import type { SettlementDoor } from "../settlement/types";
 import { isInteriorSwingDoor, parseInteriorBundle, type Vec3 } from "./bundle";
-import { INTERIOR_LIGHT_INTENSITY_PER_FADE, InteriorLoader, type LoadedInterior } from "./interiorLoader";
+import { daylightShare, INTERIOR_LIGHT_INTENSITY_PER_FADE, INTERIOR_NIGHT_AMBIENT, InteriorDaylight, InteriorLoader, isWindowPane, type LoadedInterior, WINDOW_LIGHT_CANDELA } from "./interiorLoader";
 import { DOOR_FADE_S, DoorTransition, RETURN_LIFT_M } from "./doorTransition";
 import { INTERIOR_SPACE_LIFT_M, cellsToPrefetch, doorAccess } from "./doors";
 import { InteriorEnvironment } from "./interiorEnvironment";
@@ -591,5 +591,35 @@ describe("interior fires (16k walk 5): the hut hearth burns a flame, not only a 
     expect(drawn.some((m) => m.material === coal)).toBe(true);
     expect(lit.fire!.emitters.map((e) => e.preset)).toEqual(
       b.placements.filter((q) => q.assetId === p.assetId).map(() => "brazier"));
+  });
+});
+
+describe("interior daylight (walk 9, 0109 addendum)", () => {
+  const pane = () => {
+    const m = new THREE.MeshStandardMaterial({ map: new THREE.Texture() });
+    m.name = "Objekt01:1.Mat";
+    return m;
+  };
+  it("a pane is an emitting material on a window piece only", () => {
+    const row = { emissiveMaterials: ["Objekt01:1.Mat"] };
+    expect(isWindowPane("kotm:argonia/mudhuts/window01", row, pane())).toBe(true);
+    expect(isWindowPane("vanilla:critters/bee/beehoneycomb", row, pane())).toBe(false);
+    expect(isWindowPane("kotm:argonia/mudhuts/window01", {}, pane())).toBe(false);
+  });
+  it("night keeps the ambient floor and no window light; noon lights the panes in the sun's colour", () => {
+    const ambient = new THREE.AmbientLight(0xffffff, 2);
+    const light = new THREE.PointLight();
+    const m = pane();
+    const d = new InteriorDaylight(ambient, null, [m], [light]);
+    const sun = new THREE.Color(1, 0.9, 0.8);
+    d.set(daylightShare(-0.2), sun);
+    expect(ambient.intensity).toBeCloseTo(2 * INTERIOR_NIGHT_AMBIENT, 6);
+    expect([light.intensity, m.emissive.r]).toEqual([0, 0]);
+    expect(m.emissiveMap).toBe(m.map);
+    d.set(daylightShare(Math.PI / 3), sun);
+    expect(ambient.intensity).toBeCloseTo(2, 6);
+    expect(light.intensity).toBe(WINDOW_LIGHT_CANDELA);
+    expect(light.color.g).toBeCloseTo(0.9, 6);
+    expect(daylightShare(Math.PI / 12)).toBeCloseTo(Math.sin(Math.PI / 12) / 0.5, 6);
   });
 });
