@@ -60,6 +60,27 @@ def changed(paths: list[str]) -> list[str]:
                   | set(git("ls-files", "-o", "--exclude-standard", "--", *paths)))
 
 
+def batch_base() -> str | None:
+    """The commit the batch started at: review_gate's last close (reviewed HEAD) when
+    it is an ancestor of HEAD, else None (no close recorded: the dirty tree is the batch)."""
+    try:
+        import review_gate
+        last = review_gate.read_reviewed_head()
+        return last if last and review_gate._is_ancestor(last) else None
+    except Exception:
+        return None
+
+
+def batch_files(paths: list[str], base: str | None) -> tuple[list[str], str]:
+    """(files, source) the docs-only rule judges: everything under `paths` changed since
+    the last close (committed plus dirty plus untracked), else the dirty tree alone."""
+    if not base:
+        return changed(paths), "the uncommitted tree (no batch close recorded)"
+    files = sorted(set(git("diff", "--name-only", base, "--", *paths))
+                   | set(git("ls-files", "-o", "--exclude-standard", "--", *paths)))
+    return files, f"the changes under --paths since the last close {base[:8]}"
+
+
 def batch_key(paths: list[str]) -> str:
     return "\0".join(sorted(paths))
 
@@ -109,10 +130,10 @@ def check_preflight(cmd: str) -> str | None:
     paths = preflight_paths(cmd)
     if not paths:                       # a computed pathspec: preflight.mjs itself decides
         return None
-    files = changed(paths)
+    files, source = batch_files(paths, batch_base())
     if files and all(is_prose(f) for f in files):
-        return (f"[0106] no preflight for a docs-, report- or rulings-only batch ({len(files)} files, "
-                "none read by a test): commit it; the prose linter (`npm run docs:check`) is its gate.")
+        return (f"[0106] no preflight for a docs-, report- or rulings-only batch ({len(files)} files from "
+                f"{source}, none read by a test): commit it; the prose linter (`npm run docs:check`) is its gate.")
     st = read_stamps().get(batch_key(paths))
     if st and st.get("fingerprint") == fingerprint(paths):
         verdict = "passed" if st.get("passed") else "failed"

@@ -22,6 +22,7 @@ def repo(tmp_path, monkeypatch):
     git("add", "."); git("commit", "-qm", "init")
     monkeypatch.setattr(pg, "ROOT", str(tmp_path))
     monkeypatch.setattr(pg, "STAMPS", str(tmp_path / "stamps.json"))
+    monkeypatch.setattr(pg, "batch_base", lambda: None)
     return tmp_path
 
 
@@ -40,6 +41,22 @@ def test_a_docs_only_batch_is_refused(repo):
     assert "docs-" in refused("Bash", command="npm run preflight -- --paths docs")
     (repo / "tooling/a/f.py").write_text("x = 2\n")
     assert refused("Bash", command="npm run preflight -- --paths docs tooling/a") is None
+
+
+def test_a_committed_code_batch_is_not_docs_only(repo, monkeypatch):
+    """Walk 7: everything committed, only a ledger dirty; the old dirty-tree rule refused."""
+    base = subprocess.run(["git", "rev-parse", "HEAD"], cwd=repo, capture_output=True, text=True).stdout.strip()
+    (repo / "tooling/a/f.py").write_text("x = 2\n")
+    subprocess.run(["git", "commit", "-qam", "code"], cwd=repo, check=True, capture_output=True)
+    (repo / "docs/d.md").write_text("dirty\n")
+    cmd = "npm run preflight -- --paths tooling/a docs"
+    assert "docs-" in refused("Bash", command=cmd)           # the old logic (no close known)
+    monkeypatch.setattr(pg, "batch_base", lambda: base)
+    assert refused("Bash", command=cmd) is None
+    (repo / "tooling/a/f.py").write_text("x = 1\n")        # code reverted to base: only docs differ
+    subprocess.run(["git", "commit", "-qam", "back"], cwd=repo, check=True, capture_output=True)
+    msg = refused("Bash", command=cmd)
+    assert "since the last close" in msg and "1 files" in msg
 
 
 def test_the_same_batch_twice_is_refused_until_an_edit(repo):
