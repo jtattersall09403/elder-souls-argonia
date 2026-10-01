@@ -116,6 +116,7 @@ finishes. Ported code keeps the MIT header and adds the README credit line.
    than 80 %, the sunlit side unchanged within 2 %; inject pass cost up less
    than 0.2 ms on the high band (per-pass timer from item 4). About 30 agent
    minutes.
+   **Done (webgpu):** `terrainSun.ts` + `froxelGrid.ts` `terrainSunT`; unit test: shaded valley vis < 0.2, sunlit > 0.98; harness valley-dawn 256x144 mean luma 98.5 -> 83.2 (with item 2); GPU ms not measurable on SwiftShader.
 2. **Fog that follows wet ground and lifts at noon** (row 3). Our file:
    `packages/game-core/src/air/volumetrics/fogField.ts` (density regimes) and
    the density call in `froxelGrid.ts:245-248`. Start from:
@@ -126,12 +127,14 @@ finishes. Ported code keeps the MIT header and adds the README credit line.
    `fogField.ts` keep their meaning. Measure: in `fogField.test.ts`, density
    ratio wet basin over dry slope at dawn at least 3, and noon density at
    most 0.25 of dawn for the marsh regime. About 30 agent minutes.
+   **Done (webgpu):** moisture = far grid a (max of the record's marsh class and water mask), `moistureWeight` floor 0.25; wet/dry 4x, noon marsh and mist 0 (the dawn/dusk envelopes already lifted at noon; no new noon term).
 3. **Camera-matrix freshness check** (row 5). Our file:
    `froxelGrid.ts` (where `camPos`, `camFwd`, `tanHalf` are written).
    Start from: `STATUS.md:493-494`. Adapts: write the uniforms in the same
    frame callback that renders, after the camera update. Measure: a unit
    test or a harness frame with the camera yawing 90°/s shows no fog shift
    against a fixed occluder edge. About 15 agent minutes.
+   **Done (webgpu):** cause confirmed (WorldSky updates the grid at priority -2, the camera moves at 0); the fog stage now looks the grid up by world position in the grid's own basis (`gridUvw`), test: 1.5 deg stale yaw shifted the old lookup > 0.4 m at 20 m, new lookup exact.
 4. **Per-pass GPU timings** (row 13). Our file:
    `packages/game-core/src/render/createRenderer.ts:31` and the studio perf
    overlay. Start from: `src/core/GpuProfiler.ts:52-63`. Adapts: label our
@@ -139,6 +142,7 @@ finishes. Ported code keeps the MIT header and adds the README credit line.
    water); keep it dev-only behind the existing debug export. Measure: the
    overlay prints one timing per pass and the sum is within 10 % of the frame
    timestamp. About 30 agent minutes.
+   **Done (webgpu):** `frameSegments.ts` files compute passes by node name (volumetricsInject/Blur/Integrate, gpuCull) resolved with the render pool; unit test sum = frame; harness `?timing=N`. SwiftShader resolves 0 ms per pass, so real numbers need the owner's GPU.
 5. **Shadow-material thrash check and memo** (row 12). Our files: wherever
    alpha-tested materials enter the CSM shadow pass (15 `alphaTest` uses on
    webgpu). Start from: `src/render/ThreePatches.ts:53` and
@@ -146,6 +150,7 @@ finishes. Ported code keeps the MIT header and adds the README credit line.
    port the memo only if shadow-node material builds recur per frame.
    Measure: CPU frame time in character mode before and after, ABAB pairs;
    no visual change in `npm run look`. About 30 agent minutes.
+   **Skipped:** the item-4 timer cannot read GPU cost on this VM (SwiftShader); needs the per-pass HUD on the M2 first.
 6. **Terrain shadow caster cost** (row 14). Our file:
    `apps/world-studio/src/character/ChunkTerrain.tsx:54-62`. Start from:
    `src/world/ShadowProxy.ts:22`. Adapts: measure the shadow-pass time with
@@ -154,6 +159,7 @@ finishes. Ported code keeps the MIT header and adds the README credit line.
    chunks). Measure: shadow pass time before and after; a low-sun frame
    shows ridge shadows still reaching the valley floor. About 40 agent
    minutes.
+   **Skipped:** as item 5; gate it on the shadow row of the per-pass HUD on the owner's GPU.
 
 Total about 175 agent minutes; items 1-3 are the volumetric-lighting set,
 4 is the timer the others measure with.
