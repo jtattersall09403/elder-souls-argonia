@@ -10,7 +10,7 @@ import agent_cap  # noqa: E402
 
 GIB = 1024
 FINE = dict(mem_mib=lambda: 8 * GIB, ceiling_mib=lambda: 22 * GIB, load1=lambda: 4.0,
-            cores=lambda: 8, slots_busy=lambda now: False)
+            cores=lambda: 8, slots_busy=lambda now: False, slot_waiters=lambda: 0)
 EV = {"hook_event_name": "PreToolUse", "session_id": "s", "tool_name": "Agent"}
 
 
@@ -35,8 +35,11 @@ def test_memory_high_refuses_with_numbers(tmp_path, monkeypatch):
 
 
 def test_load_high_refuses(tmp_path, monkeypatch):
-    code, msg = gate(tmp_path, monkeypatch, load1=lambda: 24.5)  # limit 8 x 3 = 24
+    # limit 8 x 3 = 24; load alone admits, load + memory over half or a slot waiter refuses
+    assert gate(tmp_path, monkeypatch, load1=lambda: 24.5)[0] == 0
+    code, msg = gate(tmp_path, monkeypatch, load1=lambda: 24.5, mem_mib=lambda: 12 * GIB)
     assert code == 2 and "24.0" in msg
+    assert gate(tmp_path, monkeypatch, load1=lambda: 24.5, slot_waiters=lambda: 1)[0] == 2
 
 
 def test_all_slots_starting_refuses_but_waiting_slot_admits(tmp_path, monkeypatch):

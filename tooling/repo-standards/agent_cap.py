@@ -9,7 +9,9 @@ One script, three hook events (the event is read from `hook_event_name`):
     - memory: machine unreclaimable (anon + shmem + kernel, memwatch.sh's
       measure) + AGENT_RESERVE_MIB >= the memwatch ceiling (3/4 of
       memory.max, else MemTotal);
-    - CPU: 1-min load >= nproc x LOAD_FACTOR (3), or every job_guard heavy slot
+    - CPU: 1-min load >= nproc x LOAD_FACTOR (3) AND (unreclaimable > half
+      the ceiling OR a job waits for a job_guard slot); load alone never
+      refuses (it only slows jobs; memory kills sessions); or every job_guard heavy slot
       is held by a job in its first SLOT_YOUNG_S (a slot that is free, or a
       job waiting for one, admits: slots serialise heavy jobs);
     - backstop: live + pending >= RUNAWAY_CAP;
@@ -90,7 +92,7 @@ def slot_waiters():
             pass
     for d in glob.glob("/proc/[0-9]*"):
         try:
-            if b"job_guard.sh" in open(d + "/cmdline", "rb").read():
+            if any(x.endswith(b"job_guard.sh") for x in open(d + "/cmdline", "rb").read().split(b"\0")):
                 guards[int(d[6:])] = int(open(d + "/stat").read().rsplit(")", 1)[1].split()[1])
         except Exception:
             pass

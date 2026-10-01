@@ -122,7 +122,9 @@ the addenda of 0105 (now rows of the rulings table).
 18. **A subagent is admitted on measured CPU and memory** (owner
     2026-10-01): `agent_cap.py` on the Agent tool refuses a spawn when
     machine unreclaimable memory plus a per-agent reserve reaches the
-    memwatch ceiling, when the 1-min load reaches nproc × 3, or when every
+    memwatch ceiling, when the 1-min load reaches nproc × 3 together with
+    unreclaimable memory above half the ceiling or a job waiting for a
+    job_guard slot (load alone never refuses: it only slows jobs), or when every
     job_guard heavy slot is starting a job; 24 live+pending is a runaway
     backstop, not a budget. Why: walk 5 peaked at 23 agents and two OOM
     kills cost 504 min; memory and load were the cause, so they are the gate.
