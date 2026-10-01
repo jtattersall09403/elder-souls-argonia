@@ -8,6 +8,7 @@
 import { backendLabel, canvasRenderer, type CanvasRendererOptions } from "@elder-souls/game-core/render/canvasRenderer";
 import { STUDIO_TOOLS } from "./studioTools";
 import type { DeviceLossInfo } from "./gpuRecovery";
+import { diagRequested, mountDiagOverlay } from "./diagOverlay";
 
 export type StudioRendererHost = {
   __RENDERER__?: unknown;
@@ -43,6 +44,7 @@ export function studioCanvasRenderer(
         }
       }
       if (!STUDIO_TOOLS) return;
+      if (diagRequested(location.search)) mountDiagOverlay(renderer);
       const host = window as unknown as StudioRendererHost;
       host.__RENDERER__ = renderer;
       host.__RENDERER_BACKEND__ = backendLabel(backend);

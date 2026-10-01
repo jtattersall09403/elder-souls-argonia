@@ -37,16 +37,27 @@ twins are gone: the shadow pass reuses `positionNode` and `maskNode`.
 Loaded classic materials are converted once at load (`toNodeMaterial`), and
 node materials are copied only with `cloneNodeMaterial`.
 
-**Shader builds are budgeted per frame** (walk 7: the `/webgpu/` studio froze
-Chrome on the owner's phone and M2). three builds a node material into
-shaders in JS, synchronously, the first frame an object with it is drawn;
-character view's first frames bring hundreds of new materials (flora kit,
-settlement kits, waterfall kit), and that one frame was a 25-67 s task
-headless. `createRenderer` installs `render/shaderBuildBudget.ts`: an object
-whose material is not built yet draws only while the frame's builds have
-taken under `SHADER_BUILD_BUDGET_MS` (12), at least one per frame; the rest
-wait a frame, so the world fills in over a few seconds and the browser keeps
-control. Harness pages pass `shaderBuildBudgetMs: 0` (they compile up front).
+**Shader builds run off the frame, one per material** (walk 7: the `/webgpu/`
+studio froze Chrome on the owner's phone and M2; walk 9: the world drew a
+piece at a time, things vanished and came back, fps under 10). three builds a
+node material into shaders in JS the first frame an object with it is drawn,
+50-500 ms per build of our materials on the VM. Two renderer installs in
+`createRenderer` govern it:
+- `render/shareInstancedBuilds.ts`: three keys every InstancedMesh's build by
+  its uuid (its InstanceNode reads that mesh's matrices), so each instanced
+  tile built its own graph and a re-created tile vanished until rebuilt. The
+  install keys instanced meshes by material, geometry layout and instance
+  layout instead, and gives each render object its own mesh's instance
+  buffers; GPU-cull draws share the build of their pool's storage buffer.
+- `render/shaderBuildQueue.ts`: an object whose material is not built is not
+  drawn; its build is queued (one per cache key, nearest object first, one at
+  a time) and runs with three's `buildAsync`, which yields after every shader
+  stage, so no task holds the main thread for a whole build and frames keep
+  coming with everything already built. Harness pages pass
+  `shaderBuildsInFlight: 0` (three's synchronous builds; they compile up front).
+`?diag=1` shows the per-frame GPU churn and the queue on screen and downloads
+it as JSON (`render/gpuDiag.ts`, the studio's `diagOverlay.ts`); the boot
+check records the same counters once a second.
 
 **Sixteen textures per fragment shader at most.** WebGPU's default
 `maxSampledTexturesPerShaderStage` is 16, as on SwiftShader and many

@@ -99,7 +99,7 @@ async function main(): Promise<HarnessResult> {
   const hasGpu = Boolean((navigator as { gpu?: unknown }).gpu);
   const renderer = await createRenderer({
     canvas, backend: requestedBackend(window.location.search, hasGpu), antialias: false,
-    shaderBuildBudgetMs: 0, // scenes compile up front and read their first frame
+    shaderBuildsInFlight: 0, // scenes compile up front and read their first frame
   });
   // The game's output settings (R3F's Canvas defaults, which every app keeps).
   const THREE = await import("three");

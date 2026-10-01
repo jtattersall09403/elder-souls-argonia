@@ -35,6 +35,12 @@
  *   shrinking the scene or the method (and a lessons row), never by raising TARGET_S. A page that
  *   never completes a frame is failed as a hang at HANG_FACTOR x TARGET_S.
  *
+ * The churn record (walk 9): `series` holds cumulative counters once a second (frames, pipelines,
+ * shader modules, node builds, buffers, textures, bind groups, MB written, draws, draws held back
+ * for an unbuilt material, builds waiting) and `steady` their rates over the hold; during the hold it
+ * also records which objects waited for a build and which uploaded new geometry, the node-build ms
+ * per material (`nodeBuild`), and a JS stack when the page stops answering (`hangStacks`).
+ *
  * Headless SwiftShader drops the GPU device the moment a page PRESENTS to a WebGPU canvas, so the
  * check replaces the canvas context's swap chain with an offscreen texture on the same device (the
  * page's code runs unchanged; only the final present is skipped). `--present` keeps the real swap
@@ -164,7 +170,8 @@ page.on("requestfinished", () => { inflight--; });
 page.on("requestfailed", () => { inflight--; });
 page.on("pageerror", (e) => lines.push({ t: Date.now() - t0, type: "pageerror", text: String(e.stack || e).slice(0, 600) }));
 await page.addInitScript(([present, gpuTiming]) => {
-  const g = { frames: 0, firstFrameMs: null, total: 0, count: 0, big: [], losses: [], destroys: [], devices: 0, errors: [], pipelines: 0, pipelineMs: 0 };
+  const g = { frames: 0, firstFrameMs: null, total: 0, count: 0, big: [], losses: [], destroys: [], devices: 0, errors: [], pipelines: 0, pipelineMs: 0,
+    asyncPipelines: 0, computePipelines: 0, shaderModules: 0, textures: 0, bindGroups: 0, writeBytes: 0, bufferDestroys: 0 };
   window.__BOOT__ = g;
   const stack = () => new Error().stack.split("\n").slice(2, 12).join(" | ").slice(0, 900);
   const req = GPUAdapter.prototype.requestDevice;
@@ -178,12 +185,31 @@ await page.addInitScript(([present, gpuTiming]) => {
   const D = GPUDevice.prototype;
   const destroy = D.destroy;
   D.destroy = function () { g.destroys.push({ t: Math.round(performance.now()), stack: stack() }); return destroy.call(this); };
+  // churn counters, read once a second into the steady-state series (a settled scene creates none)
+  for (const [name, key] of [["createRenderPipelineAsync", "asyncPipelines"], ["createComputePipeline", "computePipelines"],
+    ["createComputePipelineAsync", "computePipelines"], ["createBindGroup", "bindGroups"]]) {
+    const f = D[name]; D[name] = function (...a) { g[key]++; return f.apply(this, a); };
+  }
+  const bufDestroy = GPUBuffer.prototype.destroy;
+  GPUBuffer.prototype.destroy = function () { g.bufferDestroys++; return bufDestroy.call(this); };
+  const wb = GPUQueue.prototype.writeBuffer;
+  // bytes actually written (a typed array's size and offset are in elements) and, during the hold, by call site
+  const site = () => new Error().stack.split("\n").slice(3, 11).map((l) => l.trim().replace(/^at /, "").replace(/\(?https?:\/\/[^/]+\/[^)]*\/([^/)]+)\)?/, "$1")).join(" < ");
+  g.site = site;
+  GPUQueue.prototype.writeBuffer = function (b, o, data, dataOffset = 0, size, ...r) {
+    const el = data?.BYTES_PER_ELEMENT ?? 1;
+    const n = (size ?? ((data?.byteLength ?? 0) / el - dataOffset)) * el;
+    g.writeBytes += n;
+    if (g.hold) { const k = site(); const e = ((g.writeByHold ??= {})[k] ??= [0, 0]); e[0] += n; e[1]++; }
+    return wb.call(this, b, o, data, dataOffset, size, ...r);
+  };
   const createBuffer = D.createBuffer;
   D.createBuffer = function (d) {
     g.total += d.size; g.count += 1;
     // bytes created per call site (the first two frames outside the hook): buffer churn
     const site = new Error().stack.split("\n").slice(2, 4).map((l) => l.trim().replace(/^at /, "").replace(/\(?https?:\/\/[^/]+\/[^)]*\/([^/)]+)\)?/, "$1")).join(" < ");
     (g.bufferBy ??= {})[site] = (g.bufferBy[site] ?? 0) + d.size;
+    if (g.hold) { const k = g.site(); const e = ((g.bufferByHold ??= {})[k] ??= [0, 0]); e[0] += d.size; e[1]++; }
     if (d.size >= 16 * 1024 * 1024) g.big.push([Math.round(performance.now()), d.size, d.label ?? "", stack().slice(0, 300)]);
     return createBuffer.call(this, d);
   };
@@ -195,6 +221,7 @@ await page.addInitScript(([present, gpuTiming]) => {
   const live = new WeakMap();
   const createTexture = D.createTexture;
   D.createTexture = function (d) {
+    g.textures++;
     const t = createTexture.call(this, d);
     const [w, h = 1, l = 1] = Array.isArray(d.size) ? d.size : [d.size.width, d.size.height ?? 1, d.size.depthOrArrayLayers ?? 1];
     const mips = d.mipLevelCount ?? 1;
@@ -268,6 +295,7 @@ await page.addInitScript(([present, gpuTiming]) => {
   g.overTextures = [];
   const createShaderModule = D.createShaderModule;
   D.createShaderModule = function (d) {
+    g.shaderModules++;
     const names = [...String(d.code).matchAll(/var\s+(\w+)\s*:\s*texture_/g)].map((m) => m[1]);
     if (names.length > this.limits.maxSampledTexturesPerShaderStage && g.overTextures.length < 10)
       g.overTextures.push([d.label ?? "", names.length, names.join(" ")]);
@@ -282,7 +310,7 @@ await page.addInitScript(([present, gpuTiming]) => {
     g.frames++; if (g.firstFrameMs === null) g.firstFrameMs = Math.round(performance.now());
   };
   // draws in the last whole animation frame (read by --hold): every pass, not just the canvas pass
-  const tick = () => { g.lastFrameDraws = g.curDraws ?? 0; g.curDraws = 0; requestAnimationFrame(tick); };
+  const tick = () => { g.lastFrameDraws = g.curDraws ?? 0; g.curDraws = 0; g.deferred = window.__RENDERER__?.esBuildQueue?.deferred ?? 0; g.buildsWaiting = window.__RENDERER__?.esBuildQueue?.pending ?? 0; requestAnimationFrame(tick); };
   requestAnimationFrame(tick);
   if (present) {
     C.getCurrentTexture = function () { frame(); return getCurrentTexture.call(this); };
@@ -321,6 +349,64 @@ await page.addInitScript(([present, gpuTiming]) => {
         try { return render(scene, camera, ...rest); } finally { camera.quaternion.copy(q); camera.updateMatrixWorld(); }
       };
     }
+    // During the hold: which objects get NEW vertex buffers (first upload or a rebuilt geometry),
+    // keyed by the object's name path; `geoms` counts distinct geometries, so a rebuild shows as
+    // geoms > the object count it should have.
+    if (r && r.backend && !r.backend.__churnHooked) {
+      r.backend.__churnHooked = true;
+      let curObj = null;
+      const rod = r._renderObjectDirect.bind(r);
+      // unbuilt objects during the hold: calls, distinct objects, how many got their state, by name
+      const seenUnbuilt = new WeakSet();
+      r._renderObjectDirect = (object, ...rest) => {
+        curObj = object;
+        let ro = null;
+        if (g.hold) {
+          const [material, scene, camera, lightsNode, , clippingContext, passId] = rest;
+          ro = r._objects.get(object, material, scene, camera, lightsNode, r._currentRenderContext, clippingContext, passId);
+          if (r._nodes.get(ro).nodeBuilderState !== undefined || r._nodes.nodeBuilderCache.has(r._nodes.getForRenderCacheKey(ro))) ro = null;
+        }
+        try { return rod(object, ...rest); } finally {
+          curObj = null;
+          if (ro) {
+            const u = (g.unbuilt ??= { calls: 0, distinct: 0, built: 0, by: {} });
+            u.calls++;
+            if (!seenUnbuilt.has(object)) {
+              seenUnbuilt.add(object); u.distinct++; const k = path(object) + " | " + (rest[0]?.name || rest[0]?.type); u.by[k] = (u.by[k] ?? 0) + 1;
+              // why it missed the cache: how many distinct keys, materials, passes and lights behind one name
+              const w = ((u.why ??= {})[k] ??= { keys: [], mats: [], passes: [], lights: [], inst: object.isInstancedMesh ? 1 : 0, count: object.count });
+              for (const [list, v] of [[w.keys, String(ro.initialCacheKey).slice(-24)], [w.mats, rest[0]?.id], [w.passes, String(rest[6])], [w.lights, rest[3]?.id]])
+                if (!list.includes(v) && list.length < 12) list.push(v);
+            }
+            if (r._nodes.get(ro).nodeBuilderState !== undefined) u.built++;
+          }
+        }
+      };
+      // node-graph build time per material (NodeBuilder.build: the JS cost of a first draw)
+      const cnb = r._nodes._createNodeBuilder?.bind(r._nodes);
+      if (cnb) r._nodes._createNodeBuilder = (ro, material, ...more) => {
+        const nb = cnb(ro, material, ...more);
+        const k = (material?.name || material?.type || "?").replace(/\d{3,}/g, "#");
+        const note = (ms) => { const e = ((g.nodeBuild ??= {})[k] ??= [0, 0]); e[0] += ms; e[1]++; g.nodeBuildMs = (g.nodeBuildMs ?? 0) + ms; g.nodeBuildN = (g.nodeBuildN ?? 0) + 1; };
+        const build = nb.build.bind(nb);
+        nb.build = (...x) => { const t = performance.now(); try { return build(...x); } finally { note(performance.now() - t); } };
+        // buildAsync: wall ms from start to end (it yields between stages), counted the same way
+        const buildAsync = nb.buildAsync.bind(nb);
+        nb.buildAsync = async (...x) => { const t = performance.now(); try { return await buildAsync(...x); } finally { note(performance.now() - t); } };
+        return nb;
+      };
+      const path = (o) => { const n = []; for (let x = o; x && n.length < 4; x = x.parent) n.push(x.name || x.type); return n.join(" < "); };
+      const ca = r.backend.createAttribute.bind(r.backend);
+      r.backend.createAttribute = (attr, ...rest) => {
+        if (g.hold && curObj) {
+          const k = path(curObj); const e = ((g.newGeomByHold ??= {})[k] ??= [0, 0, 0, []]);
+          e[0] += attr.array?.byteLength ?? 0; e[1]++;
+          const uuid = curObj.geometry?.uuid;
+          if (uuid && !e[3].includes(uuid) && e[3].length < 400) { e[3].push(uuid); e[2]++; }
+        }
+        return ca(attr, ...rest);
+      };
+    }
     const nodes = r?._nodes;
     if (!nodes || nodes.__bootHooked) return;
     nodes.__bootHooked = true;
@@ -333,6 +419,7 @@ await page.addInitScript(([present, gpuTiming]) => {
       const m = a[0]?.material;
       const k = (m?.name || m?.type || "?").replace(/\d{3,}/g, "#");
       const e = (g.buildBy[k] ??= [0, 0]); e[0] += ms; e[1] += 1;
+      if (g.hold) { const h = ((g.buildByHold ??= {})[k] ??= [0, 0]); h[0] += ms; h[1] += 1; }
       // a material over 16 fragment textures: what each texture is (name, size, the uniform's name)
       const tex = [];
       for (const group of out?.bindings ?? []) for (const b of group.bindings ?? []) {
@@ -371,13 +458,33 @@ page.goto(url, { waitUntil: "load", timeout: 120_000 }).catch((e) => lines.push(
 // Heartbeat: a CDP ping every second; its latency is how long the page's main
 // thread was busy. A ping still unanswered at the end is a hang in progress.
 const heap = [];
-let maxPingMs = 0, pending = null, lastBoot = null, lastLong = [];
+// Per-second churn series (cumulative counters): frames, render pipelines (sync+async), shader
+// modules, node builds, buffers created and destroyed, MB created, textures, bind groups, MB written,
+// draws in the last frame. After the first complete frame every column but frames, bind groups and
+// MB written must stay flat: a rising one is per-frame material, geometry or target churn.
+const series = [];
+const SERIES_COLS = ["t", "frames", "pipelines", "shaders", "builds", "buffers", "bufDestroys", "bufMb", "textures", "bindGroups", "writeMb", "draws", "heldBack", "buildsWaiting"];
+const seriesRow = (t, b) => [Math.round(t / 100) / 10, b.frames, b.pipelines + b.asyncPipelines, b.shaderModules, b.builds, b.count, b.bufferDestroys,
+  Math.round(b.total / 1e5) / 10, b.textures, b.bindGroups, Math.round(b.writeBytes / 1e5) / 10, b.lastFrameDraws ?? 0, b.deferred ?? 0, b.buildsWaiting ?? 0];
+let pendingSince = 0, maxPingMs = 0, pending = null, lastBoot = null, lastLong = [];
+// A ping out over 10 s: pause the page once and keep the JS stack it was stuck in (what hung).
+const hangStacks = [];
+let pausing = false;
+cdp.on("Debugger.paused", (e) => {
+  hangStacks.push(e.callFrames.slice(0, 25).map((f) => `${f.functionName || "(anon)"} ${f.url.split("/").pop()}:${f.location.lineNumber + 1}`));
+  cdp.send("Debugger.resume").catch(() => {});
+});
 const beat = setInterval(() => {
+  if (pending && !pausing && hangStacks.length < 3 && Date.now() - pendingSince > 10_000) {
+    pausing = true;
+    cdp.send("Debugger.enable").then(() => cdp.send("Debugger.pause")).catch(() => {}).finally(() => { setTimeout(() => { pausing = false; }, 5000); });
+  }
   if (pending) return;
+  pendingSince = Date.now();
   const s = Date.now();
   pending = cdp.send("Runtime.getHeapUsage").then((h) => { heap.push([s - t0, Math.round(h.usedSize / 1e6)]); })
     .then(() => page.evaluate(() => JSON.stringify([window.__BOOT__, window.__LONG_TASKS__])))
-    .then((j) => { if (!j) return; const [bt, lt] = JSON.parse(j); if (bt) lastBoot = bt; if (lt) lastLong = lt; })
+    .then((j) => { if (!j) return; const [bt, lt] = JSON.parse(j); if (bt) { lastBoot = bt; series.push(seriesRow(s - t0, bt)); } if (lt) lastLong = lt; })
     .catch(() => {}).finally(() => { maxPingMs = Math.max(maxPingMs, Date.now() - s); pending = null; });
 }, 1000);
 // Wait for the first complete frame: a frame has drawn, and the node-build counter and the
@@ -397,7 +504,7 @@ while (Date.now() < hangAt) {
 const holdDraws = [];
 if (holdS > 0 && completeMs !== null) {
   // two full turns over the hold
-  await page.evaluate((ms) => { window.__SPIN__ = { t0: performance.now(), periodMs: ms }; }, holdS * 500).catch(() => {});
+  await page.evaluate((ms) => { window.__SPIN__ = { t0: performance.now(), periodMs: ms }; window.__BOOT__.hold = true; }, holdS * 500).catch(() => {});
   const until = Date.now() + holdS * 1000;
   while (Date.now() < until) {
     await new Promise((r) => setTimeout(r, 1000));
@@ -431,6 +538,14 @@ const longTasks = (await withTimeout(page.evaluate(() => window.__LONG_TASKS__),
 await withTimeout(browser.close(), 10_000);
 server.close();
 
+// churn per second over the hold (after the first complete frame): the steady state's verdict
+function steadyChurn() {
+  const from = series.find((r) => completeMs !== null && r[0] * 1000 >= completeMs), to = series.at(-1);
+  if (!from || !to || to[0] - from[0] < 5) return null;
+  const s = to[0] - from[0], d = (i) => Math.round(((to[i] - from[i]) / s) * 10) / 10;
+  return { seconds: Math.round(s), fps: d(1), pipelinesPerS: d(2), shadersPerS: d(3), buildsPerS: d(4), buffersPerS: d(5),
+    bufferMbPerS: d(7), texturesPerS: d(8), bindGroupsPerS: d(9), writeMbPerS: d(10), heldBackPerS: d(12) };
+}
 const pageErrors = lines.filter((l) => l.type === "pageerror").map((l) => `${l.t} ${l.text.slice(0, 300)}`);
 const consoleErrors = [...new Set(lines.filter((l) => l.type === "error").map((l) => l.text.slice(0, 200)))];
 // A long task's JS time: its duration less the WebGPU calls inside it that blocked over 100 ms.
@@ -459,7 +574,7 @@ if (heapPeakMb > HEAP_MB) fails.push(`JS heap ${heapPeakMb} MB > ${HEAP_MB} MB`)
 if (wallS - holdS > TARGET_S) fails.push(`wall time ${wallS} s (less the ${holdS} s hold) > target ${TARGET_S} s: shrink the scene or the method (lessons row), never the target`);
 const summary = {
   url, place, inputHash, wallS, targetS: TARGET_S, completeFrameMs: completeMs, ok: fails.length === 0, fails,
-  holdDraws, firstFrameMs: boot?.firstFrameMs ?? null, frames: boot?.frames ?? 0, maxTaskMs, maxGpuStallMs, maxPingMs, heapPeakMb,
+  holdDraws, seriesCols: SERIES_COLS, series, steady: steadyChurn(), firstFrameMs: boot?.firstFrameMs ?? null, frames: boot?.frames ?? 0, maxTaskMs, maxGpuStallMs, maxPingMs, heapPeakMb,
   builds: boot?.builds ?? null, buildMs: boot ? Math.round(boot.buildMs) : null,
   buildsBy: boot ? Object.entries(boot.buildBy).sort((a, b) => b[1][0] - a[1][0]).slice(0, 25).map(([k, v]) => [k, Math.round(v[0]), v[1]]) : [],
   drawsBy: boot ? Object.entries(boot.drawBy).sort((a, b) => b[1][0] - a[1][0]).slice(0, 25).map(([k, v]) => [k, v[0], v[1], v[2]]) : [],
@@ -470,13 +585,20 @@ const summary = {
   gpuBufferMb: boot ? Math.round(boot.total / 1e6) : null,
   gpuTextureTop: boot?.texBy ? Object.entries(boot.texBy).filter(([, v]) => v > 1e6).sort((a, b) => b[1] - a[1]).slice(0, 25).map(([k, v]) => [Math.round(v / 1e5) / 10, k]) : [],
   gpuTextureMbBy: boot?.texBytes ? Object.entries(boot.texBytes).filter(([, v]) => v > 1e5).sort((a, b) => b[1] - a[1]).map(([k, v]) => [k, Math.round(v / 1e6)]) : [],
+  holdWritesBy: boot?.writeByHold ? Object.entries(boot.writeByHold).sort((a, b) => b[1][0] - a[1][0]).slice(0, 12).map(([k, v]) => [Math.round(v[0] / 1e5) / 10, v[1], k]) : [],
+  holdBuildsBy: boot?.buildByHold ? Object.entries(boot.buildByHold).sort((x, y) => y[1][1] - x[1][1]).slice(0, 15).map(([k, v]) => [k, Math.round(v[0]), v[1]]) : [],
+  holdUnbuilt: boot?.unbuilt ? { ...boot.unbuilt, by: Object.entries(boot.unbuilt.by).sort((x, y) => y[1] - x[1]).slice(0, 15),
+    why: Object.entries(boot.unbuilt.why ?? {}).sort((x, y) => (boot.unbuilt.by[y[0]] ?? 0) - (boot.unbuilt.by[x[0]] ?? 0)).slice(0, 8) } : null,
+  nodeBuild: boot?.nodeBuildN ? { n: boot.nodeBuildN, ms: Math.round(boot.nodeBuildMs), top: Object.entries(boot.nodeBuild).sort((x, y) => y[1][0] - x[1][0]).slice(0, 15).map(([k, v]) => [k, Math.round(v[0]), v[1]]) } : null,
+  holdNewGeometryBy: boot?.newGeomByHold ? Object.entries(boot.newGeomByHold).sort((x, y) => y[1][0] - x[1][0]).slice(0, 15).map(([k, v]) => [Math.round(v[0] / 1e5) / 10, v[1], v[2], k]) : [],
+  holdBuffersBy: boot?.bufferByHold ? Object.entries(boot.bufferByHold).sort((a, b) => b[1][1] - a[1][1]).slice(0, 12).map(([k, v]) => [Math.round(v[0] / 1e5) / 10, v[1], k]) : [],
   bufferMbBy: boot?.bufferBy ? Object.entries(boot.bufferBy).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([k, v]) => [Math.round(v / 1e6), k]) : [], bigBuffers: boot?.big.slice(0, 10) ?? [],
   losses: boot?.losses ?? [], destroys: boot?.destroys ?? [], gpuErrors: boot?.errors ?? [],
   longTasks: [...longTasks].sort((a, b) => b[1] - a[1]).slice(0, 10), heap: heap.filter((_, i) => i % 5 === 0),
-  pageErrors: pageErrors.slice(0, 10), consoleErrors: consoleErrors.slice(0, 20), notFound: [...missing].slice(0, 40), profileTop, allocMbBy: allocTop,
+  hangStacks, pageErrors: pageErrors.slice(0, 10), consoleErrors: consoleErrors.slice(0, 20), notFound: [...missing].slice(0, 40), profileTop, allocMbBy: allocTop,
 };
 writeFileSync(out, JSON.stringify({ summary, lines }, null, 1));
-console.log(JSON.stringify({ ...summary, heap: undefined, longTasks: summary.longTasks.slice(0, 5) }, null, 1));
+console.log(JSON.stringify({ ...summary, heap: undefined, series: undefined, longTasks: summary.longTasks.slice(0, 5) }, null, 1));
 const line = fails.length ? `webgpu-boot-check: FAIL in ${wallS} s (inputs ${inputHash})\n  ${fails.join("\n  ")}`
   : `webgpu-boot-check: OK in ${wallS} s of ${TARGET_S} s (inputs ${inputHash}; first frame ${summary.firstFrameMs} ms, complete frame ${completeMs} ms, ${summary.frames} frames, longest JS task ${maxTaskMs} ms, 0 GPU errors)`;
 mkdirSync(lastDir, { recursive: true });
