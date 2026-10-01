@@ -1,0 +1,935 @@
+{
+ "schemaVersion": 1,
+ "placeId": "place.imperial-fringe.the-broke-column",
+ "window": {
+  "centreKm": [
+   1.198,
+   3.084
+  ],
+  "halfM": 90.0
+ },
+ "ops": [
+  {
+   "op": "place",
+   "uid": "b-command",
+   "asset": "vanilla:architecture/tents/largeimperialtent01",
+   "at": [
+    1185.5,
+    3089.0
+   ],
+   "yaw": 90.0,
+   "settle": true,
+   "pad": {
+    "apronM": 2.0,
+    "batter": true
+   }
+  },
+  {
+   "op": "place",
+   "uid": "b-tent1",
+   "asset": "vanilla:architecture/tents/smallimperialtent",
+   "at": [
+    1193.0,
+    3090.0
+   ],
+   "yaw": 90.0,
+   "settle": true,
+   "pad": {
+    "apronM": 0.8,
+    "batter": true
+   }
+  },
+  {
+   "op": "place",
+   "uid": "b-tent2",
+   "asset": "vanilla:architecture/tents/smallimperialtent",
+   "at": [
+    1197.5,
+    3090.0
+   ],
+   "yaw": 90.0,
+   "settle": true,
+   "pad": {
+    "apronM": 0.8,
+    "batter": true
+   }
+  },
+  {
+   "op": "place",
+   "uid": "b-tent3",
+   "asset": "vanilla:architecture/tents/smallimperialtent",
+   "at": [
+    1201.5,
+    3090.0
+   ],
+   "yaw": 90.0,
+   "settle": true,
+   "pad": {
+    "apronM": 0.8,
+    "batter": true
+   }
+  },
+  {
+   "op": "bind",
+   "uid": "b-command",
+   "kind": "parcel",
+   "id": "parcel.the-broke-column.command-tent"
+  },
+  {
+   "op": "bind",
+   "uid": "b-tent1",
+   "kind": "parcel",
+   "id": "parcel.the-broke-column.tent-1"
+  },
+  {
+   "op": "bind",
+   "uid": "b-tent2",
+   "kind": "parcel",
+   "id": "parcel.the-broke-column.tent-2"
+  },
+  {
+   "op": "bind",
+   "uid": "b-tent3",
+   "kind": "parcel",
+   "id": "parcel.the-broke-column.tent-3"
+  },
+  {
+   "op": "place",
+   "uid": "c-brazier",
+   "asset": "vanilla:clutter/imperial/impbrazier01",
+   "at": [
+    1183.6,
+    3085.1
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "c-brazier",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.command-tent",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "bn1-pole",
+   "asset": "vanilla:clutter/civilwar/civilwarbanner01",
+   "at": [
+    1180.0,
+    3087.5
+   ],
+   "yaw": 0.0,
+   "settle": true,
+   "scale": 0.65
+  },
+  {
+   "op": "place",
+   "uid": "bn1",
+   "asset": "vanilla:clutter/civilwar/civilwarbannerimp01",
+   "at": [
+    1180.0,
+    3087.5
+   ],
+   "yaw": 0.0
+  },
+  {
+   "op": "mount",
+   "child": "bn1",
+   "parent": "bn1-pole"
+  },
+  {
+   "op": "place",
+   "uid": "bn2-pole",
+   "asset": "vanilla:clutter/civilwar/civilwarbanner01",
+   "at": [
+    1205.0,
+    3086.6
+   ],
+   "yaw": 0.0,
+   "settle": true,
+   "scale": 0.65
+  },
+  {
+   "op": "place",
+   "uid": "bn2",
+   "asset": "vanilla:clutter/civilwar/civilwarbannerimp01",
+   "at": [
+    1205.0,
+    3086.6
+   ],
+   "yaw": 0.0
+  },
+  {
+   "op": "mount",
+   "child": "bn2",
+   "parent": "bn2-pole"
+  },
+  {
+   "op": "place",
+   "uid": "cf-wood",
+   "asset": "vanilla:clutter/firewood/firewoodpilemedium01",
+   "at": [
+    1180.4,
+    3089.0
+   ],
+   "yaw": 90.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "cf-bench",
+   "asset": "vanilla:furniture/farm/farmbench01",
+   "at": [
+    1181.9,
+    3085.1
+   ],
+   "yaw": 90.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "t1-sack",
+   "asset": "vanilla:clutter/containers/miscsacklarge",
+   "at": [
+    1195.3,
+    3088.0
+   ],
+   "yaw": 20.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "t2-barrel",
+   "asset": "vanilla:clutter/barrel01",
+   "at": [
+    1199.5,
+    3088.0
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-w1",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1181.5,
+    3079.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-w2",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1182.8,
+    3079.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-w3",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1184.1,
+    3079.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-w4",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1185.4,
+    3079.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-w5",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1186.7,
+    3079.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-w7",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1189.3,
+    3079.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-w8",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1190.6,
+    3079.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-w9",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1191.9,
+    3079.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-w10",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1193.2,
+    3079.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-w11",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1194.5,
+    3079.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-w12",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1195.8,
+    3079.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-e1",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1202.4,
+    3080.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-e2",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1203.7,
+    3080.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-e3",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1205.0,
+    3080.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-e4",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1206.3,
+    3080.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "pk-e5",
+   "asset": "vanilla:clutter/stockade/stockadepike01",
+   "at": [
+    1207.6,
+    3080.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "lv-barricade",
+   "asset": "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01",
+   "at": [
+    1218.0,
+    3074.0
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "cf-bench",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.command-tent",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "cf-wood",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.command-tent",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "bn1-pole",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.command-tent",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "bn1",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.command-tent",
+   "layer": "clutter",
+   "on": "parent",
+   "evidence": "mined",
+   "host": "bn1-pole"
+  },
+  {
+   "op": "bind",
+   "uid": "bn2-pole",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-3",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "bn2",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-3",
+   "layer": "clutter",
+   "on": "parent",
+   "evidence": "mined",
+   "host": "bn2-pole"
+  },
+  {
+   "op": "bind",
+   "uid": "t1-sack",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-1",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "t2-barrel",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-2",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-w1",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-1",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-w2",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-1",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-w3",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-1",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-w4",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-1",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-w5",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-1",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-w7",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-1",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-w8",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-1",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-w9",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-1",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-w10",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-1",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-w11",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-1",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-w12",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-1",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-e1",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-3",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-e2",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-3",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-e3",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-3",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-e4",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-3",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "pk-e5",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-3",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "lv-barricade",
+   "kind": "assembly",
+   "id": "parcel.the-broke-column.tent-3",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.the-broke-column.camp-path",
+   "points": [
+    [
+     1193.0,
+     3072.2
+    ],
+    [
+     1209.5,
+     3073.6
+    ],
+    [
+     1210.4,
+     3080.0
+    ],
+    [
+     1204.0,
+     3086.6
+    ],
+    [
+     1201.5,
+     3087.0
+    ]
+   ],
+   "width": 2.5,
+   "kind": "track"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.the-broke-column.line-walk",
+   "points": [
+    [
+     1201.5,
+     3087.0
+    ],
+    [
+     1197.5,
+     3086.5
+    ],
+    [
+     1193.0,
+     3086.5
+    ],
+    [
+     1189.6,
+     3086.0
+    ],
+    [
+     1187.4,
+     3084.4
+    ],
+    [
+     1186.6,
+     3085.6
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.the-broke-column.tent-1-step",
+   "points": [
+    [
+     1193.0,
+     3086.5
+    ],
+    [
+     1193.0,
+     3087.1
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.the-broke-column.tent-2-step",
+   "points": [
+    [
+     1197.5,
+     3086.5
+    ],
+    [
+     1197.5,
+     3087.1
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "socket",
+   "id": "socket.the-broke-column.idle-n1-work",
+   "kind": "idle",
+   "activity": "stand",
+   "at": [
+    1186.9,
+    3084.9
+   ],
+   "parcel": "parcel.the-broke-column.command-tent",
+   "why": "The serjeant stands at his tent's mouth, where the column reports and the levy is counted."
+  },
+  {
+   "op": "socket",
+   "id": "socket.the-broke-column.idle-n1-home",
+   "kind": "idle",
+   "activity": "stand",
+   "at": [
+    1184.6,
+    3084.4
+   ],
+   "parcel": "parcel.the-broke-column.command-tent",
+   "why": "The serjeant keeps his own tent's mouth after dark."
+  },
+  {
+   "op": "socket",
+   "id": "socket.the-broke-column.npc-n1",
+   "kind": "npc",
+   "at": [
+    1185.4,
+    3084.2
+   ],
+   "rosterSlotId": "n1",
+   "role": "the serjeant",
+   "parcel": "parcel.the-broke-column.command-tent",
+   "why": "The serjeant commands what is left of the column from the command tent.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.the-broke-column.idle-n1-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.the-broke-column.idle-n1-home",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.the-broke-column.occupant-n1"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.the-broke-column.idle-n2-levy",
+   "kind": "idle",
+   "activity": "stand",
+   "at": [
+    1211.0,
+    3075.0
+   ],
+   "parcel": "parcel.the-broke-column.tent-3",
+   "why": "The man on watch steps out from the barricade and asks for the levy."
+  },
+  {
+   "op": "socket",
+   "id": "socket.the-broke-column.idle-n2-cook",
+   "kind": "idle",
+   "host": "c-brazier",
+   "activity": "cook",
+   "parcel": "parcel.the-broke-column.command-tent",
+   "why": "The column eats what it has at the fire."
+  },
+  {
+   "op": "socket",
+   "id": "socket.the-broke-column.idle-n2-home",
+   "kind": "idle",
+   "activity": "sit",
+   "host": "cf-bench",
+   "parcel": "parcel.the-broke-column.command-tent",
+   "why": "The column sits out the night on the bench by the fire."
+  },
+  {
+   "op": "socket",
+   "id": "socket.the-broke-column.npc-n2",
+   "kind": "npc",
+   "at": [
+    1199.0,
+    3085.6
+   ],
+   "rosterSlotId": "n2",
+   "role": "what is left of the column",
+   "parcel": "parcel.the-broke-column.tent-1",
+   "why": "The column keeps the watch on the track and the fire on the bench.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.the-broke-column.idle-n2-levy",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "dusk",
+     "socketId": "socket.the-broke-column.idle-n2-cook",
+     "purpose": "evening"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.the-broke-column.idle-n2-home",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.the-broke-column.occupant-n2"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.the-broke-column.item-pay-book",
+   "kind": "item",
+   "itemClass": "book",
+   "valueBand": "moderate",
+   "parcel": "parcel.the-broke-column.command-tent",
+   "why": "The pay book in the command tent, with the last entry in it.",
+   "fills": [
+    "promise.the-broke-column.evidence-the-pay-book",
+    "promise.the-broke-column.provision-fg07-anchor"
+   ],
+   "at": [
+    1185.5,
+    3089.6
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.the-broke-column.item-schedules",
+   "kind": "item",
+   "itemClass": "note",
+   "valueBand": "low",
+   "parcel": "parcel.the-broke-column.command-tent",
+   "why": "The toll office's published schedules, copied out and kept with the pay book.",
+   "fills": [
+    "promise.the-broke-column.provision-lq15-anchor"
+   ],
+   "at": [
+    1185.0,
+    3089.8
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.the-broke-column.item-roster",
+   "kind": "item",
+   "itemClass": "note",
+   "valueBand": "trivial",
+   "at": [
+    1198.4,
+    3081.0
+   ],
+   "parcel": "parcel.the-broke-column.command-tent",
+   "why": "The duty roster nailed to the aspen in the gap of the palisade below the tents, kept up in a clerk's hand."
+  },
+  {
+   "op": "socket",
+   "id": "socket.the-broke-column.marker-roster-tree",
+   "kind": "marker",
+   "at": [
+    1198.7,
+    3081.2
+   ],
+   "zone": "scene",
+   "parcel": "parcel.the-broke-column.command-tent",
+   "why": "The roster tree in the gap of the palisade, where LF21's parley over the pardon is held.",
+   "fills": [
+    "promise.the-broke-column.scene-the-roster-tree"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.the-broke-column.container-sack",
+   "kind": "container",
+   "host": "t1-sack",
+   "containerClass": "sack",
+   "fillRule": "authored",
+   "lootTable": {
+    "itemClasses": [
+     "food"
+    ],
+    "valueBand": "trivial",
+    "storyNote": "The last of the meal, a hand deep at the bottom of the sack."
+   },
+   "parcel": "parcel.the-broke-column.tent-1",
+   "why": "The column's food, nearly gone."
+  },
+  {
+   "op": "socket",
+   "id": "socket.the-broke-column.container-barrel",
+   "kind": "container",
+   "host": "t2-barrel",
+   "containerClass": "barrel",
+   "fillRule": "authored",
+   "lootTable": {
+    "itemClasses": [
+     "drink"
+    ],
+    "valueBand": "trivial",
+    "storyNote": "Water carried up from the stream."
+   },
+   "parcel": "parcel.the-broke-column.tent-2",
+   "why": "Water for the line."
+  }
+ ]
+}
