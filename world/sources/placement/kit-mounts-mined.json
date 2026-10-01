@@ -279,8 +279,8 @@
  "anchorClassCounts": {
   "deck": 95,
   "fx": 22,
-  "ground": 1389,
-  "hanging": 42,
+  "ground": 1388,
+  "hanging": 43,
   "wall": 25,
   "water": 59
  },
@@ -5940,9 +5940,11 @@
    }
   },
   "kotm:argonia/blackwood/sign": {
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "n": 0
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "policy",
+   "n": 0,
+   "votedClass": "ground",
+   "evidence": "policy"
   },
   "kotm:argonia/blackwood/signinn": {
    "anchorClass": "ground",

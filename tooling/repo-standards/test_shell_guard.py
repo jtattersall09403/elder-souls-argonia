@@ -110,7 +110,7 @@ def test_heredoc_edit_of_tracked_file_refused():
 def test_heredoc_after_cd_resolves_the_target():
     """Lane G hit it: `cd tooling/repo-standards && cat >> preflight_select.mjs <<` slipped through."""
     for cmd in ["cd tooling/repo-standards && cat >> preflight_select.mjs <<'E'\nx\nE",
-                "cd /workspaces/elder-souls-argonia/tooling; cd repo-standards; tee shell_guard.py <<'E'\nx\nE"]:
+                f"cd {GUARD.parents[2]}/tooling; cd repo-standards; tee shell_guard.py <<'E'\nx\nE"]:
         r = run(cmd)
         assert r.returncode == 2 and "Edit tool" in r.stderr, cmd
     assert run("cd /tmp && cat > preflight_select.mjs <<'E'\nx\nE").returncode == 0

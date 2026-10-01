@@ -56,7 +56,11 @@ on another building is hung with `wb.py mount <board> <host> --like <that
 building>` (R97). A parcel whose `services` hold `lodging`,
 `trader`, `stable` or `smith` carries its board within 4 m of its walls,
 mounted by the mined pair (`wb.py mount <board> <post>`), wherever the
-place's pool has a published sign family.
+place's pool has a published sign family. A board new to the pool first gets
+its `assetPolicies` row (`direct`, with its `assetPolicyEvidence` reason) and,
+when it has an `assetPlacement` anchorClass, its mounts record row
+(`mine_mounts --assets <board> --merge`); `wb.py mount` refuses it until both
+are there.
 
 | Pool (place id region) | Bracket post | Boards in a kit | Not yet in a kit (vault) |
 |---|---|---|---|

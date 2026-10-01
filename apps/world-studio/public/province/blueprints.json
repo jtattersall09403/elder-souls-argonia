@@ -63,11 +63,11 @@
         "maxUniqueMaterials": 180
       },
       "causalModel": {
-        "founding": "The northern trunk's mid-point: a village strung along a channel because the channel is the street.",
-        "occupantsMotive": "It lives on the ferry, the toll and feeding boat crews.",
-        "pressures": "Alten Corimont's captain and Thorn's field-owners both think the toll should be theirs.",
-        "siteAdvantages": "A day's run from either end of the trunk boat lane, which passes close enough to hail.",
-        "wouldChangeIf": "Would be bypassed if a deeper channel opened south."
+        "founding": "A halt in a sheltered sea cove at the mouth of the pilgrim water, the channel up to Hissmir. Boats off the Padomaic run put in here. The houses stand along the plank walk, which serves as the village street.",
+        "occupantsMotive": "It lives on the ferry stage and the toll on boats entering the pilgrim water. It also feeds and lodges the crews.",
+        "pressures": "Thorn's field-owners and the stewards of Hissmir both say the toll on the pilgrim water is theirs.",
+        "siteAdvantages": "The only sheltered water on this stretch of coast, under a kilometre from Thorn by the Tear road. Canoes leave the same stage for Hissmir and Murkwater.",
+        "wouldChangeIf": "Would be bypassed if the cove silted up. The villagers sound the way across the cove to the ferry stage every morning."
       },
       "clearance": {
         "hardClear": [],
@@ -5595,7 +5595,7 @@
       "id": "place.hist-heartland.greenspring",
       "landmarks": [
         {
-          "assetRef": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree",
+          "assetRef": "histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick",
           "id": "landmark.greenspring.the-hist",
           "kind": "hist-tree",
           "notes": "The village's tribal Hist, ailing (MR01); hist-placement R2 tribal, R3 state sick.",
@@ -6718,6 +6718,18 @@
             1852.0
           ],
           "questId": null
+        },
+        {
+          "id": "socket.greenspring.sick-root",
+          "kind": "evidence",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            4742.0,
+            1870.5
+          ],
+          "questId": null
         }
       ],
       "scaleGrounding": {
@@ -6765,7 +6777,7 @@
         "landmarks": 1,
         "networkTerminals": 2,
         "parcels": 8,
-        "questSockets": 3,
+        "questSockets": 4,
         "sitingCandidates": 2,
         "ways": 10
       },

@@ -248,7 +248,9 @@
   "vanilla:clutter/imperial/impwallsconcecandle01": "direct",
   "bmv:roadsignmedium01l": "direct",
   "vanilla:clutter/signage/roadsigns/roadsignpost": "direct",
+  "kotm:argonia/blackwood/sign": "direct",
   "vanilla:clutter/signage/whiterun/signwrdrunkenhuntsman01": "direct",
+  "vanilla:clutter/signage/whiterun/signwrgeneralgoods": "direct",
   "vanilla:clutter/signage/whiterun/signwrpost01": "direct",
   "vanilla:clutter/signage/whiterun/signwrstables01": "direct",
   "vanilla:clutter/smelter/smelter01": "dug-in",
@@ -326,6 +328,8 @@
   "fx:smoke-column": "runtime smoke effect (game-core settlement/smokeColumn.ts) at a mined fire socket, drawn from the works-v1 manifest's effectTextures puff atlas; no mesh, no ground contact"
  },
  "assetPolicyEvidence": {
+  "kotm:argonia/blackwood/sign": "hanging shop sign mounted by its wall-mount pair (wb.py mount --like --twin --hook-only); the mount sets its pose, so the fit takes the origin as placed, no burial",
+  "vanilla:clutter/signage/whiterun/signwrgeneralgoods": "hanging shop sign mounted by its wall-mount pair (wb.py mount); the mount sets its pose, so the fit takes the origin as placed, no burial",
   "bmv:architecture/ships/imperialship01base": "hull sections rest on each other over water, so contact reads deck/hanging; the hull floats",
   "bmv:landscape/grass/vurt_reeds": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
   "bmv:landscape/grass/watercoralgrass01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",

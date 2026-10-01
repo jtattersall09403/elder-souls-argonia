@@ -8498,7 +8498,7 @@
         "slotIndex": 0,
         "socketId": "socket.claywater-station.npc-well-keeper"
       },
-      "role": "the well-keeper",
+      "role": "the well-keeper, who keeps the station house counter, its beds and the stable",
       "archetype": null,
       "statblock": null,
       "hostility": null,

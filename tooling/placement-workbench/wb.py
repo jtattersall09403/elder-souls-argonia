@@ -474,8 +474,31 @@ def _at_height(cat, scene, child, height: float) -> None:
     child.y += float(height) - (float(cz) - float(g.chunk_height(float(cx), float(-cy))))
 
 
+def mount_records_problem(asset: str, policies: dict, anchors: dict) -> str | None:
+    """Why a mounted asset's records do not yet carry its mount, or None: an
+    asset-level placement-policies row (the fit gate), and a mounts record
+    that agrees with its assetPlacement anchorClass (the record follows the
+    placement)."""
+    if asset not in policies.get("assetPolicies", {}):
+        return (f"{asset} has no assetPolicies row in placement-policies.json: add it "
+                f"(\"direct\", the mount sets the pose) with its assetPolicyEvidence reason")
+    row = policies.get("assetPlacement", {}).get(asset) or {}
+    rec = anchors.get(asset, {})
+    if "anchorClass" in row and (rec.get("anchorClass"), rec.get("anchorClassEvidence")) \
+            != (row["anchorClass"], "policy"):
+        return (f"{asset}: mounts record says {rec.get('anchorClass')}, its assetPlacement row "
+                f"{row['anchorClass']}: run `python3 -m worldgen.mine_mounts --assets {asset} --merge`")
+    return None
+
+
 def cmd_mount(a, scene, cat):
     child, parent = scene.piece(a.child), scene.piece(a.parent)
+    from workbench import paths as wbpaths
+    problem = mount_records_problem(
+        child.asset, json.loads((wbpaths.ASSET_PIPELINE / "pipeline" / "config"
+                                 / "placement-policies.json").read_text()), _mounts_anchors())
+    if problem:
+        raise ValueError(problem)
     if getattr(a, "hang", False):
         # R53: hang from the parent's own mesh (a branch underside) by the
         # child's hang point; --along/--bearing pick the spot from the trunk
