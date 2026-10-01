@@ -287,3 +287,13 @@ def test_hyphenated_npc_name_still_fires_at_the_start_of_a_sentence():
         {"id": "place.test.a"}, [("why.pressures", "Never-Sold wants the ledger.")], [never],
     )
     assert [f.entity_id for f in result.hard] == ["npc.test.never-sold"]
+
+
+def test_short_one_word_place_name_matches_mid_sentence_only():
+    entity = pl.Entity("place", "place.test.thorn", "Thorn")
+    mid = pl.check_record({"id": "place.test.camp"},
+                          [("why.founding", "The boats pole north to Thorn each week.")], [entity])
+    assert len(mid.hard) == 1 and "placeRef" in mid.hard[0].message
+    initial = pl.check_record({"id": "place.test.camp"},
+                              [("why.founding", "Thorn is far. Thorn thorn bushes grow.")], [entity])
+    assert initial.findings == []

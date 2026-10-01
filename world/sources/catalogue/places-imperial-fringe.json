@@ -2351,7 +2351,8 @@
           "route.blackwood-road"
         ],
         "travelServiceEdges": [
-          "road:route.road.gideon-blackwood-road"
+          "road:route.road.gideon-blackwood-road",
+          "service:ferry.imperial-fringe.drowning-gate"
         ],
         "supplies": [
           "place.imperial-fringe.gideon",

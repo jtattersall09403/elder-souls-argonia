@@ -2675,7 +2675,8 @@
       {"sourcePath": "causalModel.siteAdvantages", "placeRef": "place.dunmer-north.murkwater"},
       {"sourcePath": "causalModel.pressures", "placeRef": "place.dunmer-north.hissmir"},
       {"sourcePath": "causalModel.pressures", "routeRef": "route.track.hissmir-pilgrim-water"},
-      {"sourcePath": "causalModel.occupantsMotive", "routeRef": "route.track.hissmir-pilgrim-water"}
+      {"sourcePath": "causalModel.occupantsMotive", "routeRef": "route.track.hissmir-pilgrim-water"},
+      {"sourcePath": "causalModel.siteAdvantages", "placeRef": "place.dunmer-north.thorn"}
     ],
     "authoredOn": {
       "wbSchemaVersion": 1,

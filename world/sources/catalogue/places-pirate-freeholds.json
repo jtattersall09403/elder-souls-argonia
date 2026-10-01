@@ -359,6 +359,14 @@
         {
           "sourcePath": "why.founding",
           "placeRef": "place.dunmer-north.hatching-pools"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.thorn"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.dunmer-north.thorn"
         }
       ],
       "cityLayout": {

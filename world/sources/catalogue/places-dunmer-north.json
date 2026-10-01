@@ -948,6 +948,10 @@
         {
           "sourcePath": "vibe.materials",
           "placeRef": "place.dunmer-north.stormhold"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.dunmer-north.thorn"
         }
       ],
       "scourSiteId": "site.scour.firm-lowland.headland-017"
@@ -11150,6 +11154,14 @@
         {
           "sourcePath": "vibe.approach",
           "routeRef": "route.boat.archon-thorn"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.dunmer-north.thorn"
+        },
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.dunmer-north.thorn"
         }
       ],
       "scourSiteId": "site.scour.mangrove-forest.cove-056"
@@ -18626,6 +18638,10 @@
         {
           "sourcePath": "why.founding",
           "placeRef": "place.dunmer-north.the-last-landing"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.thorn"
         }
       ]
     },
@@ -21405,7 +21421,17 @@
           "place.dunmer-north.tear-road-stage",
           "place.dunmer-north.wolk-market"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.dunmer-north.thorn"
+        },
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.dunmer-north.thorn"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-field-gate-garrison",
@@ -23334,7 +23360,13 @@
             "whereInInterior": "main"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.thorn"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-high-wrappings",
@@ -24894,7 +24926,17 @@
           }
         ],
         "loot": []
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.thorn"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.dunmer-north.thorn"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-moon-court",
@@ -28117,6 +28159,18 @@
         {
           "sourcePath": "why.founding",
           "routeRef": "route.road.thorn-tear-road"
+        },
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.dunmer-north.thorn"
+        },
+        {
+          "sourcePath": "vibe.signatureFeature",
+          "placeRef": "place.dunmer-north.thorn"
+        },
+        {
+          "sourcePath": "sitingNote",
+          "placeRef": "place.dunmer-north.thorn"
         }
       ]
     },
@@ -37984,6 +38038,10 @@
         {
           "sourcePath": "sitingNote",
           "placeRef": "place.dunmer-north.stormhold"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.thorn"
         }
       ]
     },

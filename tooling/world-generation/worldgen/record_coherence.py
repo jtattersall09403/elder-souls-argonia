@@ -387,6 +387,11 @@ def relation_failures(place_id: str, index: Index, compiled: dict | None = None)
         if want != have:
             fails.append(f"record.coherence: interior.entranceCount is {want} and the build has "
                          f"{have} load doors")
+    service_ids = {sv.get("id") for sv in index.services.get("services", [])}
+    for edge in rel.get("travelServiceEdges") or []:
+        if isinstance(edge, str) and edge.startswith("service:") and edge[8:] not in service_ids:
+            fails.append(f"record.coherence: relations.travelServiceEdges {edge!r} names no id in "
+                         f"world/sources/routes/travel-services.json")
     rivals = set(rel.get("rivals") or [])
     for key in ("dependsOn", "supplies"):
         for pid in sorted(rivals & set(rel.get(key) or [])):

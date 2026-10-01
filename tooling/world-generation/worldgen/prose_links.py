@@ -400,8 +400,6 @@ def _high_precision(entity: Entity, kinds_by_name: dict[str, frozenset[str]]) ->
                 and kinds_by_name.get(entity.name.casefold(), frozenset()) == frozenset({"quest"}))
     if entity.kind == "place" and len(words) == 2 and words[0].casefold() == "the":
         return False  # The Break/The Roll/etc. collide heavily with ordinary phrases
-    if entity.kind == "place" and len(words) == 1 and len(entity.name) <= 5:
-        return False  # Spine/Thorn and similar short nouns are unsafe bare tokens
     if entity.kind == "faction" and len(words) == 1 and "-" not in entity.name:
         return False
     return True
@@ -460,8 +458,10 @@ def _mentioned_entities(text: str, entities: tuple[Entity, ...]):
             # is the author's choice. Multi-word and hyphenated names
             # (Never-Sold, Vicecanon Neetra-Sei) are distinctive enough to
             # match anywhere and keep the old rule.
-            if (entity.kind == "npc" and entity.name != entity.id
-                    and len(entity.name.split()) == 1 and "-" not in entity.name
+            # Short one-word place names (Thorn, Spine) follow the same rule.
+            one_word = len(entity.name.split()) == 1 and "-" not in entity.name
+            if (((entity.kind == "npc" and entity.name != entity.id and one_word)
+                    or (entity.kind == "place" and one_word and len(entity.name) <= 5))
                     and _sentence_initial(text, i)):
                 continue
             # Service vocabulary is intentionally terse and therefore

@@ -419,6 +419,8 @@ def far_travel_edges(places: dict, lines: dict, unresolved: dict | None = None) 
         x, z = rec["positionM"]
         tol = NAMED_ROUTE_TOL_M + float(rec.get("footprintRadiusM") or 0.0)
         for edge in (rec.get("relations") or {}).get("travelServiceEdges") or []:
+            if str(edge).startswith("service:"):   # a service id, checked by record.coherence
+                continue
             lid = edge_line_id(edge, lines, aliases, geometry)
             if lid is None:
                 if unresolved is not None:

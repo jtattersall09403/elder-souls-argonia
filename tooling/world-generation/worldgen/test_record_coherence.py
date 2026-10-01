@@ -79,3 +79,11 @@ def test_riverwalk_real_record():
     """The shipped Riverwalk record and its quests agree with the map and the build."""
     fails = rc.coherence_failures(RIVERWALK, rc.build_index(), rc.load_compiled(RIVERWALK))
     assert fails == [], "\n".join(fails)
+
+
+def test_service_edge_form():
+    ix = _rel_index({"travelServiceEdges": ["service:ferry.x.real"]}, {})
+    ix.services["services"].append({"id": "ferry.x.real"})
+    assert rc.coherence_failures("place.t.home", ix) == []
+    ix.places["place.t.home"]["relations"]["travelServiceEdges"] = ["service:ferry.x.nope"]
+    assert any("ferry.x.nope" in f for f in rc.coherence_failures("place.t.home", ix))

@@ -62,6 +62,9 @@ against the record (standard 12) and the style guide's "Before you write".
 A feature the record or a quest needs that is not built is a layout
 request (uid-level op) for the place round, never a rebuild here.
 
+Edit JSON records through a parser or the record tool, never by character-offset
+splicing (a splice deleted 966 lines in walk 8).
+
 Then: apply the change set, `export_places`, `blueprint_promises --write`,
 `place_gates --id <place>` green (`record.coherence`,
 `record.consistency`, `promises`), and ONE `text-review` in a separate
