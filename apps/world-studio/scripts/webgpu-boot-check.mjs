@@ -26,10 +26,9 @@
  * - The scene: the whole published settlement index (every place, as the owner loads it; `--only`
  *   lists just --place) seen from --place's centre (default Claywater Station), a 480x270 viewport at dpr 0.5, the low quality tier (the lowest that still
  *   runs the froxel volumetrics), data from disk (public/).
- * - It stops at the FIRST COMPLETE FRAME: a frame has drawn and neither the GPU pipeline-creation
- *   counter (node builds that need a pipeline; trivial cached node builds are not waited for) nor
- *   the in-flight request count has changed for 3 s of wall time (every pipeline and
- *   asset the scene needs exists), then waits for the GPU queue and reads the uncaptured
+ * - It stops at the FIRST COMPLETE FRAME: a frame has drawn, no node build is queued or running,
+ *   no pipeline is compiling, and neither the pipeline and node-build counters nor the in-flight
+ *   request count has changed for 3 s of wall time (every pipeline and asset the scene needs exists), then waits for the GPU queue and reads the uncaptured
  *   validation errors. It reports its own wall time.
  * - TARGET_S is that wall time as measured (see 0111 §4). A run over TARGET_S is a DEFECT, fixed by
  *   shrinking the scene or the method (and a lessons row), never by raising TARGET_S. A page that
@@ -519,7 +518,15 @@ const beat = setInterval(() => {
   pendingSince = Date.now();
   const s = Date.now();
   pending = cdp.send("Runtime.getHeapUsage").then((h) => { heap.push([s - t0, Math.round(h.usedSize / 1e6)]); })
-    .then(() => page.evaluate(() => JSON.stringify([window.__BOOT__, window.__LONG_TASKS__])))
+    // the counters only, never the hold's per-object tables (stringifying those every second
+    // starved the ping while builds ran: "only 9 readings in 60 s"); the whole record is read at the end
+    .then(() => page.evaluate(() => { const b = window.__BOOT__; return b && JSON.stringify([{
+      frames: b.frames, firstFrameMs: b.firstFrameMs, total: b.total, count: b.count, bufferDestroys: b.bufferDestroys,
+      pipelines: b.pipelines, asyncPipelines: b.asyncPipelines, shaderModules: b.shaderModules, builds: b.builds,
+      textures: b.textures, bindGroups: b.bindGroups, writeBytes: b.writeBytes, lastFrameDraws: b.lastFrameDraws,
+      deferred: b.deferred, buildsWaiting: b.buildsWaiting, pipelinesCompiling: b.pipelinesCompiling,
+      errors: b.errors, losses: b.losses, slow: b.slow, big: b.big, destroys: b.destroys, buildBy: {}, drawBy: {},
+    }, window.__LONG_TASKS__]); }))
     .then((j) => { if (!j) return; const [bt, lt] = JSON.parse(j); if (bt) { lastBoot = bt; series.push(seriesRow(s - t0, bt)); } if (lt) lastLong = lt; })
     .catch(() => {}).finally(() => { maxPingMs = Math.max(maxPingMs, Date.now() - s); pending = null; });
 }, 1000);
@@ -533,7 +540,11 @@ while (Date.now() < hangAt) {
   if (!lastBoot || lastBoot === seenPing) continue; // no fresh reading since the last look
   seenPing = lastBoot;
   if (flag("trace")) console.error(`t=${Math.round((Date.now() - t0) / 1000)}s builds=${lastBoot.builds} pipelines=${lastBoot.pipelines} frames=${lastBoot.frames} inflight=${inflight}`);
-  if (lastBoot.pipelines !== seenBuilds || inflight > 0 || lastBoot.frames === 0) { seenBuilds = lastBoot.pipelines; stableSince = Date.now(); continue; }
+  // stable = no new pipeline (sync or async), no node build waiting or compiling, nothing in flight
+  const made = lastBoot.pipelines + (lastBoot.asyncPipelines ?? 0) + lastBoot.builds;
+  if (made !== seenBuilds || inflight > 0 || lastBoot.frames === 0 || lastBoot.buildsWaiting > 0 || lastBoot.pipelinesCompiling > 0) {
+    seenBuilds = made; stableSince = Date.now(); continue;
+  }
   if (Date.now() - stableSince >= STABLE_MS) { completeMs = Date.now() - t0; break; }
 }
 // --eval <file>: run the file's body as an async function in the page after the first complete frame
