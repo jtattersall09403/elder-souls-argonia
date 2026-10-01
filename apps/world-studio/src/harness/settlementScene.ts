@@ -4,8 +4,8 @@
  * kit (public/kits/settlement-mud-v1), loaded through the settlement kit
  * loader (assets/kitLoader createKitLoader + settlement/kit
  * buildArchitectureKit, which converts each glTF material to its node twin
- * once) and drawn the way SettlementLayer draws a bucket: an InstancedMesh
- * over `instancedPartView` (the ground-line attribute) with the material
+ * once) and drawn the way SettlementLayer draws a batch: one merged mesh
+ * (`mergeTransformedGeometry`, with the ground-line attribute) with the material
  * through `prepareSettlementMaterial`. Night adds the lanterns' fixture
  * lights through the scene's FixtureLightField (the same `fixtureFromPiece`
  * position, colour and radius, FIXTURE_CANDELA), lit by the renderer's
@@ -24,7 +24,7 @@ import {
   isSettlementGlowMaterial,
   prepareSettlementMaterial,
 } from "@elder-souls/game-core/settlement/materials";
-import { instancedPartView } from "@elder-souls/game-core/settlement/SettlementLayer";
+import { mergeTransformedGeometry } from "@elder-souls/game-core/settlement/lod";
 import { FIXTURE_CANDELA, fixtureFromPiece } from "@elder-souls/game-core/settlement/lighting";
 import {
   FIXTURE_LIGHTS_MAX,
@@ -139,7 +139,7 @@ export async function buildSettlementScene(ctx: HarnessContext, night: boolean):
 
   const { pieces, lanterns } = layout();
   const all: Placed[] = [...pieces, ...lanterns.map((matrix) => ({ assetId: LANTERN, matrix }))];
-  // one InstancedMesh per (asset, part, 16 m cell), as the layer's per-cell
+  // one merged mesh per (asset, part, 16 m cell), as the layer's per-cell
   // buckets are (the field picks lamps per drawn object)
   const byPart = new Map<string, { part: ArchitecturePart; matrices: THREE.Matrix4[] }>();
   for (const placed of all) {
@@ -156,10 +156,9 @@ export async function buildSettlementScene(ctx: HarnessContext, night: boolean):
   for (const { part, matrices } of byPart.values()) {
     const material = part.material;
     const flags = prepareSettlementMaterial(material, uniforms, isSettlementGlowMaterial(material), false);
-    const mesh = new THREE.InstancedMesh(instancedPartView(part.geometry, matrices.map(() => 0)), material, matrices.length);
-    matrices.forEach((m, i) => mesh.setMatrixAt(i, m));
-    mesh.instanceMatrix.needsUpdate = true;
-    mesh.computeBoundingSphere();
+    const geometry = mergeTransformedGeometry(part.geometry, matrices, matrices.map(() => 0));
+    if (!geometry) continue;
+    const mesh = new THREE.Mesh(geometry, material);
     mesh.castShadow = flags.castShadow; mesh.receiveShadow = true;
     mesh.renderOrder = flags.renderOrder;
     scene.add(mesh);
