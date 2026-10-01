@@ -158,6 +158,18 @@ describe("preset choice reads the piece's records", () => {
 });
 
 describe("FlameSystem", () => {
+  it("publishes its uniforms and the last draw's tone mapping on group.userData for the flames probe", () => {
+    const fire = new FlameSystem();
+    expect(fire.group.userData.fireUniforms).toBe(fire.uniforms);
+    const cards = fire.group.getObjectByName("fire-flame-cards")!;
+    const renderer = { toneMappingExposure: 16, toneMapping: THREE.ACESFilmicToneMapping, currentToneMapping: THREE.ACESFilmicToneMapping,
+      getRenderTarget: () => null, backend: { isWebGPUBackend: false } };
+    fire.setBackend("webgl");
+    cards.onBeforeRender(renderer as never, null as never, null as never, null as never, null as never, null as never);
+    expect(fire.group.userData.lastDraw).toEqual({ toneMapping: THREE.ACESFilmicToneMapping, currentToneMapping: THREE.ACESFilmicToneMapping, target: null });
+    expect(fire.uniforms.uExposure.value).toBe(16);
+  });
+
   it("frees the previous instance buffers when the emitters are set again (review 2026-09-30)", () => {
     const fire = new FlameSystem();
     const geometries = new Set<THREE.BufferGeometry>();

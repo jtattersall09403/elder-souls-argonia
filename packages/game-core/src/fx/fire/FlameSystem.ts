@@ -121,7 +121,12 @@ export class FlameSystem {
       this.uniforms.uExposure.value = renderer.toneMappingExposure;
       this.uniforms.uToneMapped.value = renderer.toneMapping === THREE.NoToneMapping ? 0 : 1;
       if (this.backend === null) this.setBackend(activeBackend(renderer as unknown as WebGPURenderer));
+      // what the last draw saw, for the flames probe (tooling/visual-look/flames.mjs diag)
+      const r = renderer as unknown as { currentToneMapping?: number; getRenderTarget(): { name?: string } | null };
+      this.group.userData.lastDraw = { toneMapping: renderer.toneMapping, currentToneMapping: r.currentToneMapping ?? null,
+        target: r.getRenderTarget()?.name ?? null };
     };
+    this.group.userData.fireUniforms = this.uniforms;
     this.embers.renderOrder = 1;
   }
 

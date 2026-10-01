@@ -59,13 +59,13 @@ export function parseFlameArgs(argv) {
   }
   if (mode === "interior" && pos.length === 3) return { mode, cell: pos[0], x: pos[1], z: pos[2], ...common(flags, "12") };
   if (mode === "place" && pos.length === 2) return { mode, cell: null, x: pos[0], z: pos[1], ...common(flags, "22") };
-  throw new Error("usage: flames.mjs interior <cellId> <xKm> <zKm> | place <xKm> <zKm> [--site DIR | --url BASE] [--data-base URL] [--t H] [--out DIR] [--force] [--empty-fires]");
+  throw new Error("usage: flames.mjs interior <cellId> <xKm> <zKm> | place <xKm> <zKm> [--site DIR | --url BASE] [--data-base URL] [--t H] [--out DIR] [--force] [--empty-fires] [--renderer webgl|webgpu]");
 }
 function common(f, t) {
   return {
     site: resolve(repo, f.site ?? "site"), url: f.url ?? null, dataBase: f["data-base"] ?? null, t: f.t ?? t,
     out: resolve(repo, f.out ?? "tooling/.reports/flames"), minDelta: Number(f["min-delta"] ?? 12),
-    force: !!f.force, emptyFires: !!f["empty-fires"],
+    force: !!f.force, emptyFires: !!f["empty-fires"], renderer: f.renderer ?? null,
   };
 }
 
@@ -311,7 +311,8 @@ async function run(opts) {
     }
     // no HUD; in a cell no vegetation (hidden behind the cell anyway); the
     // water pipeline stays on: its on-screen pass is the one that draws flames
-    const q = opts.cell ? `&interior=${encodeURIComponent(opts.cell)}&veg=0&hud=0` : "&hud=0";
+    const q = (opts.cell ? `&interior=${encodeURIComponent(opts.cell)}&veg=0&hud=0` : "&hud=0")
+      + (opts.renderer ? `&renderer=${opts.renderer}` : "");
     result.url = `${base}?view=character&x=${opts.x}&z=${opts.z}&t=${opts.t}&q=low&aa=0&dpr=1${q}`;
     await page.goto(result.url, { waitUntil: "domcontentloaded" });
     await page.waitForFunction(() => window.__STUDIO_CHARACTER_DEBUG__?.player?.() != null && window.__SCENE__ && window.__RENDERER__,
@@ -374,6 +375,8 @@ async function run(opts) {
       const a = mesh?.geometry.getAttribute("iParams"); const m = mesh?.material;
       const u = window.__FLAME_PROBE__.systems[0]?.userData?.fireUniforms;
       return { exposure: window.__RENDERER__.toneMappingExposure, uNight: u?.uNight?.value ?? null,
+        uExposure: u?.uExposure?.value ?? null, uToneMapped: u?.uToneMapped?.value ?? null,
+        lastDraw: window.__FLAME_PROBE__.systems[0]?.userData?.lastDraw ?? null,
         strength: a ? Array.from({ length: Math.min(6, mesh.geometry.instanceCount) }, (_, i) => +a.getX(i).toFixed(3)) : null,
         volumeFlag: mesh ? +mesh.geometry.getAttribute("iAnim").getW(0) : null,
         children: window.__FLAME_PROBE__.systems[0]?.children.map((c) => `${c.name}:${c.visible}`) ?? null,
