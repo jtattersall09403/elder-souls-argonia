@@ -223,6 +223,8 @@ export class DoorTransition {
   }
 
   get cellId(): string | null { return this.inside?.cellId ?? null; }
+  /** Outward compass bearing of the exterior door the cell was entered by (0 for a direct open), null outside. */
+  get entranceFacingDeg(): number | null { return this.inside?.returnTo.facingDeg ?? null; }
 
   /** Open a cell directly (studio `?interior=<cellId>`); leaving returns to `anchor`. */
   openDirect(cellId: string, anchor: { x: number; y: number; z: number }): void {

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import { InteriorEnvironment, InteriorFogNode, interiorFogProfile, type InteriorRenderer } from "./interiorEnvironment";
+import { DUST_DENSITY } from "../air/volumetrics/windowApertures";
 import { uniform } from "three/tsl";
 import type { LoadedInterior } from "./interiorLoader";
 
@@ -46,9 +47,13 @@ describe("interior environment and the sky's fog node", () => {
     env.restore();
     expect((scene as unknown as { fogNode: unknown }).fogNode).toBe(skyFog);
   });
-  it("profiles damp cells with floor mist and lit cells with dust", () => {
-    const cell = (template: string) => ({ bundle: { lighting: { template }, arrivalMarker: { positionM: [0, 2, 0] } } }) as never;
-    expect(interiorFogProfile(cell("CaveLightingTemplate"), 10)).toMatchObject({ floorY: 12, floorMistDensity: 0.35 });
-    expect(interiorFogProfile(cell("SolitudeInteriors"), 0)).toMatchObject({ floorMistDensity: 0, dustDensity: 0.01 });
+  it("profiles a cell from its interior light row: damp gets floor mist, dust by band, medium when absent", () => {
+    const cell = (cellId: string) => ({ bundle: { cellId, arrivalMarker: { positionM: [0, 2, 0] } } }) as never;
+    const row = (dust: "low" | "medium" | "high", floorMist: boolean) => ({ apertures: [], kind: "k", dust, floorMist });
+    const record = { schemaVersion: 1 as const, cells: { Cave: row("medium", true), Mill: row("high", false), Hut: row("low", false) } };
+    expect(interiorFogProfile(cell("Cave"), 10, record)).toMatchObject({ floorY: 12, floorMistDensity: 0.35, dustDensity: DUST_DENSITY.medium });
+    expect(interiorFogProfile(cell("Mill"), 0, record)).toMatchObject({ floorMistDensity: 0, dustDensity: DUST_DENSITY.high });
+    expect(interiorFogProfile(cell("Hut"), 0, record).dustDensity).toBeLessThan(interiorFogProfile(cell("Mill"), 0, record).dustDensity);
+    expect(interiorFogProfile(cell("Unknown"), 0, record)).toMatchObject({ floorMistDensity: 0, dustDensity: DUST_DENSITY.medium });
   });
 });

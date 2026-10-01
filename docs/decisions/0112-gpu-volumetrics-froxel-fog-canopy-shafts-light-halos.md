@@ -46,21 +46,70 @@ colour comes from the light rig.
    by a top-down canopy map rasterised on the CPU from the vegetation
    instances near the camera (crowns as discs with leaf-gap noise), sampled
    along the sun direction. Shafts appear where the canopy has gaps, the sun
-   is low to mid, and the medium is dense enough. The old cone-ring
-   `sunShafts.ts` (gated off at most times and occluded by nothing) is deleted.
-6. **Interiors** use the same grid with a per-cell profile: floor-hugging
-   mist for caves and damp cells (drifting, mutating noise), a dust haze where
-   window beams or lamps should show; fixture lights give the halos.
+   is low to mid, and the medium is dense enough. Over the first 40 m a
+   per-pixel march in the apply stage keeps the crowns' sharpness; it reads
+   the medium's extinction back from the integrated grid (`gridDensity`),
+   never the fog field itself: whatever the apply stage samples is bound by
+   every fogged material, and the field's terrain grids and noise volume
+   pushed water and ground past WebGPU's 16 textures per stage (0111 §2).
+   The apply stage's textures are the integrated grid, the canopy map and
+   the climate rasters, nothing else. The old cone-ring `sunShafts.ts`
+   (gated off at most times and occluded by nothing) is deleted.
+6. **Interiors: one data-driven window light system** (owner walk 7: "a
+   flexible reusable system … right first time"). Every published cell gets
+   its light from ONE generated record, `interiorLight.json` (keyed by cell
+   id), written by `tooling/volumetrics/interior_light.py` over
+   `public/province/interiors/`; nothing is hand-written per cell.
+   - **Apertures from the cell's own geometry** (0114): the plugin's placed
+     window pieces (`window<NN>` leaves, light-ray FX statics) and the
+     window-textured panes inside placed models, each with centre, outward
+     normal and size. A cell with no window gets `apertures: []` and a reason,
+     so it gets no shafts.
+   - **Compass from the door it is entered by.** A Skyrim cell has no north.
+     The cell is turned so its entrance faces the way the exterior door
+     faces: offset = the door's outward `facingDeg` − (the plugin's arrival
+     marker yaw + 180), the marker facing into the room
+     (`cellCompassOffsetDeg`). The offset is derived at entry from the two
+     fields that already hold it (the settlement door record and the cell
+     bundle), never stored as a third copy (standard 18); one cell entered
+     from two doors that face different ways is lit for the door used.
+   - **Sun and moon from the world clock**: the ephemeris direction turned
+     into the cell frame (`worldToCellDirection`), so an east window slants
+     morning light and a west one evening light. The province sits at
+     latitude −10° (world-time), so the noon sun stands in the north for
+     most of the year: SOUTH-facing windows are the ones that never take
+     direct noon sun. A pane the sun is not behind gets a dim sky fill; at
+     night the highest moon at 2 % of the sun, else nothing.
+   - **Dust decides how visible the shafts are.** The cell's kind is derived:
+     `damp` from a cave/mine/barrow/ruin lighting template (floor mist too),
+     else the use class the door claim gives the cell (`cell_use_class` over
+     the cell's mined furniture mix in `exterior-interior-links.json`, the
+     claim's own input; the published bundle drops markers, so it is never
+     re-read for this: shrine, inn, shop, smithy, barracks, dwelling, storage). Kind → band: dwelling and
+     shop low; inn, barracks, shrine (incense) and damp medium; storage,
+     smithy, workshop high. A humid Argonian mud hut (a room built of the
+     modder's mud-hut pieces, five or more) is one band lower. Bands are froxel dust densities
+     (`DUST_DENSITY`: 0.005 / 0.01 / 0.02 per m). `DUST_OVERRIDES` in the
+     generator takes a cell whose derived band is wrong, with a reason.
+   - **When a cell is published**, the publisher runs
+     `python3 tooling/volumetrics/interior_light.py`; `windowApertures.test.ts`
+     fails while a published cell has no row or a row names a cell no longer
+     published. Fixture lights give the halos in the same medium.
 7. **Quality bands** (0108): off (WebGL backend and lowest tier; aerial fog
    alone) / low 80×45×32, 400 m / medium 128×72×48, 800 m / high 160×90×64,
    1500 m; temporal reprojection on medium and high. The band follows the
    renderer tier and steps down when the frame is over budget.
 8. **Verified in the harness, not the studio**: the `volumetrics` harness
    scene renders the named cases headless on the SwiftShader WebGPU adapter
-   and Sonnet judges read them against a look-list.
+   and Sonnet judges read them against a look-list; the `interior-light`
+   scene lights a published cell's record apertures for a door facing and a
+   clock (`?sys=interior-light&cell=<id>&facing=<deg>&t=HH:MM`).
 
 ## Code
 
 `packages/game-core/src/air/volumetrics/` (grid, fog field, canopy map,
 nodes, scene-radiance helper); wiring in `apps/world-studio/src/sky/WorldSky.tsx`;
-harness scene `apps/world-studio/src/harness/scenes/volumetrics*`.
+harness scenes `apps/world-studio/src/harness/scenes/volumetrics*` and
+`interior-light.ts`; the window record `volumetrics/interiorLight.json` from
+`tooling/volumetrics/interior_light.py`, read by `windowApertures.ts` and
+`interior/interiorEnvironment.ts`.

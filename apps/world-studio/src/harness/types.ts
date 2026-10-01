@@ -19,6 +19,8 @@ export interface HarnessBuilt {
   camera: THREE.Camera;
   /** Advance animated uniforms to `tSeconds` before each rendered frame. */
   frame?(tSeconds: number): void;
+  /** Scene facts the runner saves beside the shot (HarnessResult.report), e.g. which beams are lit. */
+  report?: Record<string, unknown>;
 }
 
 export interface HarnessScene {
@@ -42,6 +44,8 @@ export interface HarnessResult {
   envNoise: string[];
   calls: number;
   triangles: number;
+  /** The scene's own facts (HarnessBuilt.report). */
+  report?: Record<string, unknown>;
   compileMs: number;
   frameMs: number;
   /** Distinct shader stages (vertex + fragment programs; WGSL modules on

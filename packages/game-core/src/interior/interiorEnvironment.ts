@@ -4,25 +4,27 @@ import type { LoadedInterior } from "./interiorLoader";
 import type { TslNode } from "../render/nodes/materialNodes";
 import type { InteriorFogProfile } from "../air/volumetrics/froxelGrid";
 import { applyVolumetrics, type VolumetricsSampler } from "../air/volumetrics/volumetricNodes";
+import { DUST_DENSITY, interiorLightOf, type InteriorLightRecord } from "../air/volumetrics/windowApertures";
 
 const T = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode> & Record<string, TslNode>;
 
-/** Lighting templates of damp underground cells (the cell record's LGTM editor id, `lighting.template`). */
-const DAMP_TEMPLATE = /cave|mine|dungeon|sewer|barrow|nordic|dwemer|falmer|ruin|grotto|crypt|tomb/i;
-
 /**
- * The cell's volumetric profile (decision 0112 §6): a damp cell (cave, mine,
- * barrow: its lighting template) gets knee-high floor mist; every other cell
- * a faint dust haze, so lamp halos and window beams read. `floorY` is the
- * arrival marker's height (it stands on the floor) in the cell's placed frame.
+ * The cell's volumetric profile (decision 0112 §6) from its row in the
+ * interior light record: knee-high floor mist on a damp cell (cave, mine,
+ * barrow), and the dust haze its kind carries (DUST_DENSITY), so lamp halos and
+ * window shafts read as strongly as the room is dusty. A cell the record lacks
+ * gets medium dust and no mist. `floorY` is the arrival marker's height (it
+ * stands on the floor) in the cell's placed frame.
  */
-export function interiorFogProfile(interior: Pick<LoadedInterior, "bundle">, originY: number): InteriorFogProfile {
+export function interiorFogProfile(interior: Pick<LoadedInterior, "bundle">, originY: number,
+  record?: InteriorLightRecord): InteriorFogProfile {
   const b = interior.bundle;
-  const template = typeof b.lighting?.template === "string" ? b.lighting.template : "";
+  const row = interiorLightOf(b.cellId, record);
   const floorY = originY + b.arrivalMarker.positionM[1];
-  return DAMP_TEMPLATE.test(template)
-    ? { floorY, floorMistTopM: 0.9, floorMistDensity: 0.35, dustDensity: 0.006 }
-    : { floorY, floorMistTopM: 0, floorMistDensity: 0, dustDensity: 0.01 };
+  const dustDensity = DUST_DENSITY[row?.dust ?? "medium"];
+  return row?.floorMist
+    ? { floorY, floorMistTopM: 0.9, floorMistDensity: 0.35, dustDensity }
+    : { floorY, floorMistTopM: 0, floorMistDensity: 0, dustDensity };
 }
 
 /**

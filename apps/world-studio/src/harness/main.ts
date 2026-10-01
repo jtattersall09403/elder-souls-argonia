@@ -99,6 +99,7 @@ async function main(): Promise<HarnessResult> {
   const hasGpu = Boolean((navigator as { gpu?: unknown }).gpu);
   const renderer = await createRenderer({
     canvas, backend: requestedBackend(window.location.search, hasGpu), antialias: false,
+    shaderBuildBudgetMs: 0, // scenes compile up front and read their first frame
   });
   // The game's output settings (R3F's Canvas defaults, which every app keeps).
   const THREE = await import("three");
@@ -151,6 +152,7 @@ async function main(): Promise<HarnessResult> {
 
   const { default: harnessScene } = await load();
   const built = await harnessScene.build({ renderer, backend, width, height });
+  result.report = built.report;
   const t0 = performance.now();
   if (params.get("compile") !== "0") {
     // A compileAsync that never settles hung the whole page until the

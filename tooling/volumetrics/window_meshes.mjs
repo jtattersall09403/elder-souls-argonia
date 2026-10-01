@@ -4,7 +4,7 @@
 // (name contains "window", e.g. farmwindowinterior01, riftenwindows02) are
 // decoded (meshopt + quantization), put in the part's frame by the node chain,
 // and split into connected panes. Prints JSON: { "<glb>": { bounds, panes:
-// [{ centre, size }] } } in metres, part frame. Called by window_refs.py.
+// [{ centre, size }] } } in metres, part frame. Called by interior_light.py.
 import { readFileSync } from "node:fs";
 import { MeshoptDecoder } from "meshoptimizer";
 

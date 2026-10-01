@@ -128,8 +128,8 @@ walks as it needs; it closes only on the owner's "looks right".
    NOs; there are no residuals. Export the pose record with its ground
    and kit provenance.
 2. **Build and gate (unattended).** The tier A interior bundles
-   (`export_interior_bundle.py`, 0103 decision 3), then their window
-   apertures (`python3 tooling/volumetrics/window_refs.py --cells <ids> --merge`); local patches (pad,
+   (`export_interior_bundle.py`, 0103 decision 3), then the interior
+   light record (windows, kind, dust; `python3 tooling/volumetrics/interior_light.py`, 0112 §6); local patches (pad,
    clearance, dressing-add; they travel in the place's bundle as a runtime overlay,
    and no chain stage, refreeze or province publish runs for a place,
    0102 decision 1), compile, publish the place only (`--places` scope,
@@ -143,7 +143,10 @@ walks as it needs; it closes only on the owner's "looks right".
 3. **Walk packet** (Owner check-ins below) → the owner walks **the
    deployed studio** (owner 2026-09-27): before posting, merge `dev` into
    `main`, push, and confirm the Pages action is green; the packet's links
-   use the deployed URL, never `$ES_TUNNEL_URL`; run
+   use the deployed URL, never `$ES_TUNNEL_URL`; a packet that links the
+   `/webgpu/` studio first runs `node scripts/webgpu-boot-check.mjs` (from
+   apps/world-studio on the `webgpu` branch, about 2 min) green at the
+   packet's places (0111 §4); run
    `python3 tooling/repo-standards/review_gate.py --close` when the packet
    is posted. The packet
    gives the measured numbers in one line (no per-item table) and asks

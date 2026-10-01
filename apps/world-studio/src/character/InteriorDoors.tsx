@@ -22,7 +22,7 @@ import { InteriorEnvironment, InteriorFogNode, interiorFogProfile } from "@elder
 import { MAX_VOLUME_LIGHTS, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
 import { nearestVolumeLights } from "@elder-souls/game-core/air/volumetrics/studioSamplers";
 import {
-  BEAM_OVER_LAMP, WindowBeams, cellFloorLevels, brightestLampFloor, pluginWindowApertures, windowSkyLight,
+  BEAM_OVER_LAMP, WindowBeams, cellCompassOffsetDeg, cellFloorLevels, brightestLampFloor, pluginWindowApertures, windowSkyLight, worldToCellDirection,
 } from "@elder-souls/game-core/air/volumetrics/windowApertures";
 import { moonsAt, sunAt } from "@elder-souls/world-time";
 import { SkyContext } from "../sky/WorldSky";
@@ -302,7 +302,7 @@ export function InteriorDoors({
   // after the commit that mounted the linked group: the fade may lift
   useEffect(() => { drawn.current = shown !== null && linked === shown; }, [shown, linked]);
 
-  // Window light (0112 §6): the cell's plugin-placed windows (windowRefs.json); a beam is BEAM_OVER_LAMP x the brightest lamp pool at the floor.
+  // Window light (0112 §6): the cell's plugin-placed windows (interiorLight.json); a beam is BEAM_OVER_LAMP x the brightest lamp pool at the floor.
   const windows = useMemo(() => {
     if (!shown) return null;
     const { group, bundle } = shown.interior;
@@ -356,6 +356,9 @@ export function InteriorDoors({
           sky.inFrames = SKY_LIGHT_REFRESH_FRAMES;
           const epoch = worldClock.epochMinutes();
           sky.strength = windowSkyLight(sunAt(epoch), moonsAt(epoch), sky.dir, sky.tint);
+          // the sky as the cell sees it: its compass turned to the door it was entered by (0112 §6)
+          worldToCellDirection(sky.dir, cellCompassOffsetDeg(transition.entranceFacingDeg ?? 0,
+            shown.interior.bundle.arrivalMarker.yawDeg), sky.dir);
         }
         camera.updateMatrixWorld();
         frustum.setFromProjectionMatrix(viewProj.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));

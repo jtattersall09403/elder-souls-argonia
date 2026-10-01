@@ -277,7 +277,7 @@ export class Volumetrics implements VolumetricsSampler {
         const t = dt.mul(k + 0.5);
         const p = cam.add(dir.mul(t));
         const w = this.shaftNear(p, t);
-        acc.addAssign(vec3(u.sunIrr).mul(ph).mul(this.density(p, float(0.5))).mul(w).mul(this.canopyT(p))
+        acc.addAssign(vec3(u.sunIrr).mul(ph).mul(this.gridDensity(p)).mul(w).mul(this.canopyT(p))
           .mul(dt).mul(exp(sigma.mul(t).negate())).mul(ALBEDO));
       }
     });
@@ -309,6 +309,31 @@ export class Volumetrics implements VolumetricsSampler {
       }
     });
     return acc;
+  }
+
+  /**
+   * Extinction (m^-1) at world `p` read back from the integrated grid: the drop in its transmittance over
+   * one slice around p's view depth. The per-pixel shaft march reads this, not `density()`: density()
+   * samples the terrain grids and the noise volume, and everything the apply stage samples is bound by
+   * EVERY fogged material, which pushed the water and ground past WebGPU's 16 textures per stage (0111
+   * §2); it also cost ~100 texture reads per pixel. The grid's own value is the same field at froxel
+   * resolution, which the shafts' 40 m reach resolves (the crowns' sharpness comes from canopyT).
+   */
+  private gridDensity(p: TslNode): TslNode {
+    const u = this.u;
+    const rel = p.sub(u.camPos);
+    const z = max(dot(rel, u.camFwd), this.near);
+    const ndc = vec2(dot(rel, u.camRight).div(z.mul(u.tanHalf.x)), dot(rel, u.camUp).div(z.mul(u.tanHalf.y)));
+    const uv = vec2(ndc.x.mul(0.5).add(0.5), float(0.5).sub(ndc.y.mul(0.5)));
+    const lnRatio = log(this.far.div(this.near));
+    const half = float(0.5).div(this.gridSize.z);
+    const s = log(z.div(this.near)).div(lnRatio);
+    const s0 = clamp(s.sub(half), 0, 1), s1 = clamp(s.add(half), 0, 1);
+    const t0 = this.sampleIntegrated(vec3(uv, s0)).a, t1 = this.sampleIntegrated(vec3(uv, s1)).a;
+    // texel i holds the transmittance at the END of slice i: the depths are half a slice on
+    const d0 = this.near.mul(exp(s0.add(half).mul(lnRatio))), d1 = this.near.mul(exp(s1.add(half).mul(lnRatio)));
+    const ds = d1.sub(d0).mul(length(rel).div(z));
+    return max(log(max(t0, float(1e-4))).sub(log(max(t1, float(1e-4)))), float(0)).div(max(ds, float(1e-3)));
   }
 
   /** Share of the sun in-scatter at `p` (distance `t` from the eye) carried by the per-pixel shaft march

@@ -1,19 +1,65 @@
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
-import { cellFloorLevels, clusterFloorLevels, storeyOf, ApertureFader, BEAM_FADE_S, MAX_WINDOW_BEAMS, rankApertures, SKY_FILL_SCALE, WindowBeams, brightestLampFloor, pluginWindowApertures, windowSkyLight } from "./windowApertures";
+import { readdirSync } from "node:fs";
+import { cellCompassOffsetDeg, cellFloorLevels, clusterFloorLevels, storeyOf, ApertureFader, BEAM_FADE_S, MAX_WINDOW_BEAMS, interiorLightOf, rankApertures, SKY_FILL_SCALE, WindowBeams, brightestLampFloor, pluginWindowApertures, windowSkyLight, worldToCellDirection } from "./windowApertures";
+import interiorLight from "./interiorLight.json";
 
 describe("pluginWindowApertures", () => {
   it("reads the cell's placed window refs; none for an unknown cell", () => {
-    const refs = { schemaVersion: 1 as const, cells: { A: { apertures: [{ centreM: [1, 2, 3], outward: [0, 0, -1], radiusM: 0.5 }] } } };
+    const refs = { schemaVersion: 1 as const, cells: { A: { apertures: [{ centreM: [1, 2, 3], outward: [0, 0, -1], radiusM: 0.5 }], kind: "dwelling", dust: "low" as const, floorMist: false } } };
     const w = pluginWindowApertures("A", refs);
     expect(w[0].centre.toArray()).toEqual([1, 2, 3]);
     expect(w[0].areaM2).toBeCloseTo(Math.PI * 0.25, 6);
     expect(pluginWindowApertures("B", refs)).toEqual([]);
   });
-  it("the published cells carry their plugin windows", () => {
+});
+
+describe("interior light record (0112 §6)", () => {
+  const published = readdirSync(new URL("../../../../../apps/world-studio/public/province/interiors/", import.meta.url))
+    .filter((f) => f.endsWith(".json")).map((f) => f.slice(0, -5)).sort();
+  it("has a row for every published interior cell and none for a cell no longer published", () => {
+    // a red here: run `python3 tooling/volumetrics/interior_light.py` (the cell was published without it)
+    expect(Object.keys(interiorLight.cells).sort()).toEqual(published);
+  });
+  it("carries the plugin windows and a dust band per cell", () => {
     expect(pluginWindowApertures("KeebaHouseCrafter").length).toBe(5);
     expect(pluginWindowApertures("DawnstarBrinasHouse").length).toBe(4);
-    expect(pluginWindowApertures("LilmothPlantationStorehouse").length).toBe(10);
+    for (const id of published) expect(["low", "medium", "high"]).toContain(interiorLightOf(id)?.dust);
+  });
+});
+
+describe("cell compass (0112 §6)", () => {
+  const bearing = (v: THREE.Vector3) => ((THREE.MathUtils.radToDeg(Math.atan2(v.x, -v.z)) % 360) + 360) % 360;
+  it("turns the cell so its entrance faces the way the exterior door faces", () => {
+    // arrival marker faces north (0) into the room, so the cell's door faces south (180); the exterior door faces east (90)
+    expect(cellCompassOffsetDeg(90, 0)).toBeCloseTo(-90, 9);
+    expect(cellCompassOffsetDeg(180, 0)).toBeCloseTo(0, 9);
+    expect(cellCompassOffsetDeg(59, 233.95)).toBeCloseTo(-354.95 + 360, 9);
+  });
+  it("a world bearing b is the cell bearing b - offset", () => {
+    const east = new THREE.Vector3(1, -0.5, 0);
+    const d = worldToCellDirection(east, -90, new THREE.Vector3());
+    expect(bearing(d)).toBeCloseTo(180, 6); // 90 - (-90)
+    expect(d.y).toBeCloseTo(-0.5, 9);
+    expect(bearing(worldToCellDirection(east, 0, new THREE.Vector3()))).toBeCloseTo(90, 6);
+  });
+  it("an east-facing window takes morning sun, a west one evening sun, a north one none at noon", () => {
+    // cell compass = world compass; windows face E, W, N; light travels opposite the sun direction
+    const w = [
+      { centre: new THREE.Vector3(3, 1.5, 0), outward: new THREE.Vector3(1, 0, 0), areaM2: 1 },
+      { centre: new THREE.Vector3(-3, 1.5, 0), outward: new THREE.Vector3(-1, 0, 0), areaM2: 1 },
+      { centre: new THREE.Vector3(0, 1.5, -3), outward: new THREE.Vector3(0, 0, -1), areaM2: 1 },
+    ];
+    const lit = (sunTowards: THREE.Vector3) => {
+      const beams = new WindowBeams(w, 8);
+      const dir = sunTowards.clone().normalize().negate();
+      beams.update(new THREE.Vector3(), dir, 1, new THREE.Color(1, 1, 1), new THREE.Vector3(0, 0.5, 0), all, 1);
+      return beams.update(new THREE.Vector3(), dir, 1, new THREE.Color(1, 1, 1), new THREE.Vector3(0, 0.5, 0), all, 1)
+        .filter((a) => a.direction.distanceTo(dir) < 1e-6).map((a) => a.position.x);
+    };
+    expect(lit(new THREE.Vector3(1, 0.3, 0.2))).toEqual([3]); // morning sun in the east-south-east
+    expect(lit(new THREE.Vector3(-1, 0.3, 0.2))).toEqual([-3]); // evening sun in the west
+    expect(lit(new THREE.Vector3(0, 1, 0.6))).toEqual([]); // noon sun high in the south: no pane faces it
   });
 });
 

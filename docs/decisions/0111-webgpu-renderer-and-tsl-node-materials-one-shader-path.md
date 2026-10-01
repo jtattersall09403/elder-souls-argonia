@@ -37,6 +37,24 @@ twins are gone: the shadow pass reuses `positionNode` and `maskNode`.
 Loaded classic materials are converted once at load (`toNodeMaterial`), and
 node materials are copied only with `cloneNodeMaterial`.
 
+**Shader builds are budgeted per frame** (walk 7: the `/webgpu/` studio froze
+Chrome on the owner's phone and M2). three builds a node material into
+shaders in JS, synchronously, the first frame an object with it is drawn;
+character view's first frames bring hundreds of new materials (flora kit,
+settlement kits, waterfall kit), and that one frame was a 25-67 s task
+headless. `createRenderer` installs `render/shaderBuildBudget.ts`: an object
+whose material is not built yet draws only while the frame's builds have
+taken under `SHADER_BUILD_BUDGET_MS` (12), at least one per frame; the rest
+wait a frame, so the world fills in over a few seconds and the browser keeps
+control. Harness pages pass `shaderBuildBudgetMs: 0` (they compile up front).
+
+**Sixteen textures per fragment shader at most.** WebGPU's default
+`maxSampledTexturesPerShaderStage` is 16, as on SwiftShader and many
+phones; a material over it fails validation and is not drawn (the water and
+ground were at 17 and 19 in walk 7). The scene fog's textures count against
+every fogged material. The boot check (§4) names any material over the limit
+with its textures.
+
 Aerial haze is ONE `scene.fogNode` built by the sky; CSM cascades are
 `CSMShadowNode`. Every `reapply*` function that existed to survive CSM's
 hook overwrite is deleted.
@@ -72,6 +90,29 @@ Chromium's SwiftShader gives a real WebGPU adapter, but it loses the device
 when a page presents to a WebGPU canvas, so the harness renders to a target
 and reads the pixels back. The visual and speed verdict is the owner's, on
 the deployed `/webgpu/` build.
+
+**Boot check (before any `/webgpu/` build goes to the owner).** The whole
+studio is booted once, headless, from the BUILT bundle the way Pages serves
+it, and fails on a hang, a GPU validation error, a device loss or no frame:
+
+    cd apps/world-studio && node scripts/webgpu-boot-check.mjs \
+      [--query "view=character&x=0.331&z=3.079&t=10%3A00"] [--seconds 90]
+
+It builds into `/tmp/webgpu-boot-dist` (`--no-build --dist <dir>` reuses a
+build), serves `public/` as the data base, swaps the canvas swap chain for an
+offscreen texture on the same device (SwiftShader drops the device on
+present; nothing else in the page changes) and reports in
+`/tmp/webgpu-boot.json`: first frame, frames, the longest main-thread stall
+(a CDP heartbeat), JS heap, every uncaptured GPU error, any shader over the
+device's per-stage texture limit with its bindings, GPU calls that held the
+main thread over 100 ms with their stacks, and draw volume per pipeline
+(`--profile <s>` adds a CPU profile, `--gpu-timing` GPU ms per submit). The
+adapter is SwiftShader's, whose limits (16 sampled textures per stage,
+8 vertex buffers) are WebGPU's defaults and what many phones expose, so a
+pipeline that validates here validates there. SwiftShader runs the GPU work
+on the CPU: frame rates are ratios, and a main-thread stall here can be GPU
+back-pressure that a real GPU absorbs; JS time and validation are the
+device's own.
 
 ## 5. Rule for new shaders
 

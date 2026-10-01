@@ -5,6 +5,7 @@
  * backends run the same TSL node materials, so there is one shader code path.
  */
 import { WebGPURenderer } from "three/webgpu";
+import { budgetShaderBuilds, SHADER_BUILD_BUDGET_MS } from "./shaderBuildBudget";
 
 export type RendererBackend = "webgpu" | "webgl";
 
@@ -30,6 +31,8 @@ export interface CreateRendererOptions {
   /** Timestamp queries for the HUD's GPU time (WebGPU: timestamp-query; WebGL: EXT_disjoint_timer_query_webgl2). */
   trackTimestamp?: boolean;
   powerPreference?: GPUPowerPreference;
+  /** Node-material build ms per frame before unbuilt objects wait a frame (shaderBuildBudget.ts); 0 = unbudgeted (harness scenes). */
+  shaderBuildBudgetMs?: number;
 }
 
 /** Create and initialise the renderer (async: WebGPU needs a device). */
@@ -44,6 +47,7 @@ export async function createRenderer(options: CreateRendererOptions): Promise<We
   });
   await renderer.init();
   shareInstancedPrograms(renderer);
+  budgetShaderBuilds(renderer, options.shaderBuildBudgetMs ?? SHADER_BUILD_BUDGET_MS);
   return renderer;
 }
 

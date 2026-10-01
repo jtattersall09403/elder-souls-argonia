@@ -204,7 +204,7 @@ async function main() {
   canvas.height = FRAME_H;
   document.body.appendChild(canvas);
   const renderer = await createRenderer({
-    canvas, antialias: false,
+    canvas, antialias: false, shaderBuildBudgetMs: 0,
     backend: requestedBackend(window.location.search, Boolean((navigator as { gpu?: unknown }).gpu)),
   });
   renderer.setPixelRatio(1);
