@@ -13,50 +13,56 @@ their items are this loop's backlog, under their original numbers.
 owner's reply and republishes for the next walk. A slice spans as many
 walks as it needs; it closes only on the owner's "looks right".
 
-## Starting state (2026-10-01, walk-7 fix round delivered; packet 8 posted by the planner, owner walk pending; the closing agent of each round replaces this section)
+## Starting state (2026-10-01, walk-8 fix round delivered; packet 9 posted by the planner, owner walk pending; the closing agent of each round replaces this section)
 
-- **All three places pass every place gate** (`place_gates` 26/26 each:
-  Claywater, Greenspring, Riverwalk) and are published. Reports are in
-  `tooling/.reports/16k/walk7/`.
-- **Walk-7 root causes, each fixed at source:**
-  - *Path paint:* the ground-paint shader patch was wiped when the CSM
-    (cascaded shadow) material rebuild replaced `onBeforeCompile`; the
-    patch now survives it.
-  - *Interior flames:* the flame shaders read cell-local emitter positions
-    as world positions, so flames drew 4 km below the cell; they now apply
-    the group's world matrix. `flames.mjs` measures flames in the built
-    studio and is the only "flames verified" (the TSL port on webgpu has
-    the same fix).
-  - *Links:* `t=22` opened by day because `parseTimeParam` read `HH:MM`
-    only; a bare hour is accepted now.
-  - *Closed buildings:* a hollow shell is a compile error, and "no closed
-    buildings" is a CLAUDE.md golden rule (every enterable building is
-    enterable, with a real interior).
-  - *Record = built:* the built gate `record.consistency` checks the
-    record against what was built, and the promise ledger is generated from
-    every claim a record makes. The data model is
-    [docs/world/98-data-model.md](../../world/98-data-model.md).
-  - *WebGPU freeze:* every shader compiled in one frame and a material
-    sat over 16 fragment textures; the boot check (`webgpu-boot-check`) is
-    keyed on its inputs and fails the build on both. Window light comes from
-    the real window geometry (0112).
-  - *Agent admission:* the hook admits a subagent on free memory, not on a
-    count (`AGENT_RESERVE_MIB`); the count cap is gone.
-  - *Audit:* [fable5-world-demo audit](../../research/rendering/fable5-world-demo-audit.md)
-    compares the other project's renderer row by row; items 1-4 are ported,
-    5-6 wait on the M2 per-pass HUD reading (backlog).
-- **Ways of working:** unchanged from walk 4 (CLAUDE.md "get it right first
-  time"; a batch is a fix round; one exhaustive review per batch; a budget
-  stop is diagnosed, never a gap; 0106 decisions 11-17).
-- **Open owner calls (packet 8):** the fable5 audit's six choices (sky
-  model, high-quality setting, bounced light, colour plan per time of day,
-  livelier wind, how we check our work); whether the south-window
-  sunlight rule (the province sits at -10 deg, so southern windows get no
-  direct sun in summer) stays as the ephemeris gives it.
-- **Open for the planner:** the backlog rows added 2026-10-01
-  ([P-polish backlog](../P-polish/backlog.md)): ~1,000 sink-fallback assets,
-  texture-slot headroom, the 0111/0112 index reconcile at the webgpu merge.
-- **Next:** "continue 16k after owner walk" (walk 8), or on acceptance
+- **All three places pass every place gate** (`place_gates` 27/27 each:
+  Claywater, Greenspring, Riverwalk; the new row is `record.coherence`)
+  and are published. Reports are in `tooling/.reports/16k/walk8/`
+  (lanes A to G, the packet, the find notes).
+- **Walk-8 root causes, each fixed at source:**
+  - *Record coherence (decision 0117):* nothing checked a record against
+    the world, its quests or the build. Now SKILL step 5b runs the
+    protocol in `place-build/references/record-coherence.md`
+    (`record_coherence.py --place <id>` builds the reader packet; readers
+    over five dimensions; ONE change set; one text-review) and the gate
+    `record.coherence` fails on unrelated or missing names, a "between"
+    with no route, a quest feature the place lacks, door counts that
+    differ from the build, one-way relations. JSON records are edited
+    through a parser, never by offset splice (engineering standard 18).
+  - *WebGPU:* the far-tier merge (`settlement/lod.ts`) unpacked normals to
+    a 3-byte stride; `alignVertexStrides` pads after every merge (both
+    branches). The boot check boots every place (`--place all --hold 60`).
+  - *Seats and sockets:* `seatFacingRule`, `socketCoherenceRule` and
+    `serviceSignRule` in `workbench/dressing_rules.py`; signs mount by
+    `wb.py mount --like` (own mined wall pair) or `--twin --hook-only` (a
+    vanilla twin's beam and hook within 1 cm; rulings R94-R99). The
+    dressing reference is `place-build/references/dressing.md`; road
+    dressing is `docs/research/placement-settlements/road-dressing.md`
+    and belongs to the type-10 slice.
+  - *Performance and look (0108 §7a-7b):* one scene matrix walk per
+    frame, static settlement matrices, `BloomPass` (half-res dual-filter,
+    threshold 4 exposed units, strength 0.35, `&post=0`), `?quality=high`.
+    The wind is hierarchical (`fx/windSway.ts`; trunk, branch, leaf, gust
+    field). The webgpu branch must port all of these at the merge
+    (backlog rows).
+  - *Ways of working (decision 0118):* method review r6 found the review
+    loop blind and long-context agents at 41 % of spend. `agent_guard.py`
+    caps context (150 nudge, 180 refuse) and keeps leads to planning;
+    `shell_guard.py` batches look-ups and refuses wait loops and heredoc
+    edits; `week_usage.py` paces to the weekly limit (`enforce: false`
+    until the owner sets `limitUnits`); one close per batch; `wb.py round
+    --walk N` records fix rounds in the build ledger; a process audit
+    runs at the close of every second walk round or on a drift red.
+- **Open owner calls (packet 9):** Phase 14 reshaped to a standing
+  performance lane plus a budget-lock chunk; sprite clouds as a lane; the
+  `agent_guard` settings line and the weekly `limitUnits`; carried: Godot,
+  dawn valley fog, the south-window sunlight rule.
+- **Open for the planner:** `workflow_drift` red on scopedWallP50S,
+  scopedOver60S and minerFullRuns (30 full miner runs in 7 days: the
+  process audit's trigger has fired); baked vertex AO in the kit build and
+  the ground-raster GPU memory (backlog); foliage `alphaToCoverage` needs
+  MSAA on the scene target.
+- **Next:** "continue 16k after owner walk" (walk 9), or on acceptance
   "deliver 16k slice 4 by the contrast rule".
 
 ## Read (fresh agent: this is your whole map)
