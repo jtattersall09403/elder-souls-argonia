@@ -1429,7 +1429,7 @@ declare global {
       /** Sets the follow camera's yaw (radians; it looks along -sin, -cos). */
       aimCamera: (yaw: number) => void;
       /** Turns the glow pass on/off in place (A/B probes; no-op under `?post=0`). */
-      post: (on: boolean) => void;
+      post: (on: boolean, tune?: { threshold?: number; knee?: number; strength?: number }) => number;
       playerY: () => number | null;
       grounded: () => boolean;
       frames: () => number;
@@ -1560,7 +1560,14 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
       },
       cameraArm: () => camera3P.arm,
       aimCamera: (yaw) => { camera3P.yaw = yaw; },
-      post: (on) => { if (bloom) bloom.enabled = on; },
+      post: (on, tune) => {
+        if (!bloom) return 0;
+        bloom.enabled = on;
+        if (tune?.threshold !== undefined) bloom.threshold.value = tune.threshold;
+        if (tune?.knee !== undefined) bloom.knee.value = tune.knee;
+        if (tune?.strength !== undefined) bloom.strength.value = tune.strength;
+        return bloom.lastExposure;
+      },
       cameraCast: (from, to) => cameraCast(
         new THREE.Vector3(...from), new THREE.Vector3(...to), FOLLOW_CAMERA.collisionRadius,
         FOLLOW_CAMERA.pivotRadius),

@@ -5,6 +5,7 @@
  */
 import * as THREE from "three";
 import * as lighting from "./lighting";
+import { BLOOM_SOURCE_LAYER } from "../render/post/BloomPass";
 import { describe, expect, it } from "vitest";
 import {
   ALWAYS_LIT_DAY_FACTOR, artificialLightFactor, fixtureFromFireSocket, fixtureFromPiece,
@@ -223,14 +224,14 @@ describe("light fixtures", () => {
     manager.setFixtures(ring(1, 5));
     for (const name of ["fire-flame-cards", "fire-embers"]) {
       const mesh = manager.group.getObjectByName(name) as THREE.Mesh;
-      expect(mesh.layers.mask).toBe(1 << PRECIP_LAYER);
+      expect(mesh.layers.mask).toBe((1 << PRECIP_LAYER) | (1 << BLOOM_SOURCE_LAYER));
       const m = mesh.material as THREE.ShaderMaterial;
       expect([m.toneMapped, m.blending, m.blendSrc, m.blendDst, m.depthWrite])
         .toEqual([false, THREE.CustomBlending, THREE.OneFactor, THREE.OneMinusSrcAlphaFactor, false]);
     }
     manager.setFlameTexture(new THREE.Texture());
     const flames = manager.spriteMesh()!;
-    expect(flames.layers.mask).toBe(1 << PRECIP_LAYER);
+    expect(flames.layers.mask).toBe((1 << PRECIP_LAYER) | (1 << BLOOM_SOURCE_LAYER));
     const first = (flames as THREE.Mesh).material as THREE.MeshBasicMaterial;
     const old = first.map!;
     let disposed = false;

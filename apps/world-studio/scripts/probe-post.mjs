@@ -1,9 +1,10 @@
 import "./probe-guard.mjs"; // job pool first (speed lane 3B)
-// Headless A/B of the glow pass (decision 0108 post row): one paused night
-// view per yaw shot off, off again (noise floor) and on, toggled in place by
-// the debug hook's `post`; SwiftShader, canvas PNGs plus the
-// HUD's post and cpu-by-stage lines. Pixel metrics: tooling/.reports or the
-// caller's script. Env: X, Z (km), T (hh:mm), HARNESS_PORT; --out <dir>.
+// Headless A/B of the glow pass (decision 0108 post row): per site one paused
+// night view shot off, off again (the noise floor: rain, water, flicker), then
+// on at each tune, toggled in place by the debug hook's `post`. SwiftShader;
+// canvas PNGs (HUD hidden) plus the exposure and HUD lines in hud.json.
+// Env: SITES name:xKm:zKm:yaw[:interiorCell],...  TUNES threshold:strength,...
+// T (hh:mm), HARNESS_PORT; --out <dir>. Run from apps/world-studio.
 import { spawn } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { chromium } from "playwright";
@@ -12,7 +13,11 @@ const i = process.argv.indexOf("--out");
 const OUT = i > 0 ? process.argv[i + 1] : new URL("../artifacts/post/", import.meta.url).pathname;
 mkdirSync(OUT, { recursive: true });
 const PORT = Number(process.env.HARNESS_PORT ?? 8097);
-const X = process.env.X ?? "0.318", Z = process.env.Z ?? "3.035", T = process.env.T ?? "22:00";
+const T = process.env.T ?? "22:00";
+// Claywater: the north campfire, the station-house brazier and lanterns, one interior
+const SITES = (process.env.SITES
+  ?? "campfire:0.311:2.975:3.14,brazier:0.311:3.040:3.2,interior:0.31309:3.00629:3.14:KeebaHouseFisher").split(",");
+const TUNES = (process.env.TUNES ?? "4:0.06").split(",").map((t) => t.split(":").map(Number));
 const vite = spawn("npx", ["vite", "--port", String(PORT), "--host", "127.0.0.1"], {
   cwd: new URL("..", import.meta.url).pathname,
   stdio: ["ignore", "pipe", "pipe"], env: { ...process.env, BROWSER: "none" }, shell: true, detached: true,
@@ -26,25 +31,40 @@ await new Promise((res, rej) => {
 const result = {};
 const browser = await chromium.launch({ headless: true, args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
 try {
-  const page = await browser.newPage({ viewport: { width: 960, height: 540 } });
-  await page.addInitScript(() => localStorage.setItem("es.hud.perfOpen", "1"));
-  await page.goto(`http://127.0.0.1:${PORT}/?view=character&x=${X}&z=${Z}&t=${T}&q=low&aa=0&dpr=1`, { waitUntil: "domcontentloaded" });
-  await page.waitForFunction(() => window.__STUDIO_CHARACTER_DEBUG__?.player?.() != null, undefined, { timeout: 300000 });
-  await page.waitForTimeout(30000);
-  result.hud = await page.evaluate(() => [...document.querySelectorAll("span")].map((s) => s.innerText)
-    .filter((t) => /^post |^cpu by stage|^gpu/.test(t)));
-  await page.evaluate(() => { for (const el of document.querySelectorAll("body *")) if (el.tagName !== "CANVAS" && !el.querySelector("canvas")) el.style.visibility = "hidden"; });
-  const shot = (name) => page.screenshot({ path: `${OUT}${name}.png`, timeout: 120000 });
-  // per yaw: off, off again (the noise floor: rain, water, flicker), on
-  for (const yaw of (process.env.YAWS ?? "3.14,2.5,3.8").split(",")) {
+  for (const site of SITES) {
+    const [name, x, z, yaw, cell] = site.split(":");
+    const page = await browser.newPage({ viewport: { width: 960, height: 540 } });
+    await page.addInitScript(() => localStorage.setItem("es.hud.perfOpen", "1"));
+    const q = cell ? `&interior=${encodeURIComponent(cell)}` : "";
+    await page.goto(`http://127.0.0.1:${PORT}/?view=character&x=${x}&z=${z}&t=${T}&q=low&aa=0&dpr=1${q}`, { waitUntil: "domcontentloaded" });
+    await page.waitForFunction(() => window.__STUDIO_CHARACTER_DEBUG__?.player?.() != null, undefined, { timeout: 300000 });
+    if (cell) {
+      await page.waitForFunction(() => window.__STUDIO_CHARACTER_DEBUG__?.interior?.()?.cellId, undefined, { timeout: 240000, polling: 200 });
+    }
+    await page.waitForTimeout(30000);
+    const hud = await page.evaluate(() => [...document.querySelectorAll("span")].map((s) => s.innerText)
+      .filter((t) => /^post |^cpu by stage|^gpu/.test(t)));
+    await page.evaluate(() => {
+      for (const el of document.querySelectorAll("body *")) {
+        if (el.tagName !== "CANVAS" && !el.querySelector("canvas")) el.style.visibility = "hidden";
+      }
+    });
+    const shot = (n) => page.screenshot({ path: `${OUT}${name}-${n}.png`, timeout: 120000 });
     await page.evaluate((y) => window.__STUDIO_CHARACTER_DEBUG__.aimCamera(Number(y)), yaw);
     await page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.post(false));
-    await page.waitForTimeout(4000);
-    await shot(`y${yaw}-off-a`);
-    await shot(`y${yaw}-off-b`);
-    await page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.post(true));
-    await page.waitForTimeout(1500);
-    await shot(`y${yaw}-on`);
+    // the follow camera eases to the new yaw at software-GL frame rates
+    await page.waitForTimeout(25000);
+    await shot("off-a");
+    await shot("off-b");
+    let exposure = 0;
+    for (const [threshold, strength] of TUNES) {
+      await page.evaluate((t) => window.__STUDIO_CHARACTER_DEBUG__.post(true, t), { threshold, strength });
+      await page.waitForTimeout(1500);
+      await shot(`on-${threshold}-${strength}`);
+      exposure = await page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.post(true));
+    }
+    result[name] = { exposure, hud };
+    await page.close();
   }
 } finally {
   await browser.close();

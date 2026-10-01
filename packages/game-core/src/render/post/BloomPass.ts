@@ -51,7 +51,7 @@ export interface BloomOptions {
 export const BLOOM_DEFAULTS: Required<BloomOptions> = {
   threshold: 4,
   knee: 2,
-  strength: 0.06,
+  strength: 0.35,
   maxMips: 5,
 };
 
@@ -194,6 +194,8 @@ function mipTarget(depth: boolean): THREE.WebGLRenderTarget {
 
 export class BloomPass {
   enabled = true;
+  /** The renderer exposure the last frame was filtered at (probes, HUD). */
+  lastExposure = 0;
   readonly threshold: { value: number };
   readonly knee: { value: number };
   readonly strength: { value: number };
@@ -281,7 +283,7 @@ export class BloomPass {
     pu.uDepth.value = depth;
     this.prefilter.depthWrite = depth !== null;
     pu.uTexel.value.set(1 / this.mips[0].width, 1 / this.mips[0].height);
-    pu.uExposure.value = renderer.toneMappingExposure;
+    pu.uExposure.value = this.lastExposure = renderer.toneMappingExposure;
     renderer.setRenderTarget(this.mips[0]);
     renderer.clear(true, true, false);
     this.draw(renderer, this.prefilter, this.mips[0]);

@@ -237,7 +237,7 @@ baseline.
   canvas (soft knee, threshold 4 ± 2 in exposed units), the flame layer
   added depth-tested (flames carry `BLOOM_SOURCE_LAYER` 7 beside the
   precipitation layer; rain does not), dual-filter mip chain (≤ 5 levels,
-  8 px floor), composited additively (strength 0.06). Research estimate
+  8 px floor), composited additively (strength 0.35, tuned on Claywater and KeebaHouseFisher at 22:00). Research estimate
   0.6–1.2 ms Adreno, 0.3 ms M2 (cheap-sky-and-post-effects doc §2); the
   owner's HUD line `post on · bloom gpu … ms` is the measurement, `?post=0`
   the A/B. No extra MSAA resolve: it reads the scene target the blit

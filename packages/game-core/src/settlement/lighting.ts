@@ -59,6 +59,7 @@ import { MINUTES_PER_DAY } from "@elder-souls/world-time";
 import { lightSourceFromRecord } from "../fx/carriedLight";
 import { FlameSystem } from "../fx/fire/FlameSystem";
 import { FixtureLightField } from "../render/fixtureLights";
+import { BLOOM_SOURCE_LAYER } from "../render/post/BloomPass";
 import { flameCardBedAnchorLocal, pieceFlameAnchorsLocal } from "../fx/fire/flameAnchors";
 import { FIRE_PRESETS, fireFlicker, type FirePresetId } from "../fx/fire/fireTypes";
 import { FLAME_MAX_DISTANCE_M as FIRE_MAX_DISTANCE_M, FLAME_MIN_ANGLE_RAD as FIRE_MIN_ANGLE_RAD } from "../fx/fire/flameMaterial";
@@ -425,6 +426,7 @@ export class SettlementLightFixtures {
     mesh.frustumCulled = false;
     mesh.name = `settlement-fixture-flames:${textureId}`;
     mesh.layers.set(PRECIP_LAYER);
+    mesh.layers.enable(BLOOM_SOURCE_LAYER); // a glow source (render/post/BloomPass.ts)
     // no quad draws until its texture has loaded (a null map is a white square)
     mesh.visible = false;
     this.group.add(mesh);
