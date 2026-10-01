@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { resolve } from "node:path";
 import { AnimationMixer, Group, Vector3 } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 import { ARSENAL_BLUEPRINT_WEAPONS } from "../../../packages/game-core/src/equipment/arsenalBlueprints";
 import { ANIMATION_PACKS, CHARACTER_SCALE, clipConfig } from "../../../packages/game-core/src/anim/animationManifest";
 import { DEFAULT_BUILD, characterBuild } from "../../../packages/game-core/src/actors/races";
@@ -32,7 +33,8 @@ async function load(asset: string) {
   json.images = []; json.textures = []; json.materials = [];
   for (const mesh of json.meshes ?? []) for (const primitive of mesh.primitives) delete primitive.material;
   json.buffers[0].uri = `data:application/octet-stream;base64,${binary.toString("base64")}`;
-  return new GLTFLoader().parseAsync(JSON.stringify(json), "");
+  // Character bodies ship meshopt-compressed (standard 16).
+  return new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(JSON.stringify(json), "");
 }
 
 // A race carries no asset; a build does (decision 0054). Reach is measured
