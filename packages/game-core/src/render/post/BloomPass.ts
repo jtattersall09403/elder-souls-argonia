@@ -309,7 +309,17 @@ export interface SkyCensus {
   sunGlow: number;
   /** Angle (deg) between the `peak` texel's view ray and the sun. */
   peakDegFromSun: number;
+  /** Raw scene depth and linear colour (pre-exposure) at `sunPx`; null off-frame. */
+  sunTexel: { depth: number; rgb: [number, number, number] } | null;
 }
+
+const TEXEL_READ = /* glsl */ `
+uniform sampler2D uColor;
+uniform sampler2D uDepth;
+uniform vec2 uAt;
+varying vec2 vUv;
+void main() { gl_FragColor = vec4(texture2D(uColor, uAt).rgb, texture2D(uDepth, uAt).x); }
+`;
 
 /** The mip-0 texel (row 0 at the bottom) the direction `dir` projects to
  * through `camera`, or null when behind it or off a `w`×`h` frame. */
@@ -534,8 +544,20 @@ export class BloomPass {
         }
       }
     }
+    let sunTexel: SkyCensus["sunTexel"] = null;
+    if (sun) {
+      const t1 = new THREE.WebGLRenderTarget(1, 1, { depthBuffer: false, type: THREE.FloatType });
+      const m1 = pass(TEXEL_READ, { uColor: { value: color }, uDepth: { value: depth },
+        uAt: { value: new THREE.Vector2((sun[0] + 0.5) / w, (sun[1] + 0.5) / h) } });
+      this.draw(renderer, m1, t1);
+      const f = new Float32Array(4);
+      renderer.readRenderTargetPixels(t1, 0, 0, 1, 1, f);
+      sunTexel = { depth: f[3], rgb: [f[0], f[1], f[2]] };
+      t1.dispose();
+      m1.dispose();
+    }
     const peakDegFromSun = THREE.MathUtils.radToDeg(pixelRay(camera, x0, y0, w, h).angleTo(this.sunDirection));
-    return { sunPx: sun, sunBr, sunGlow, peakDegFromSun, skyFraction: sky / (w * h), skyOverSceneThreshold: sky ? over / sky : 0,
+    return { sunTexel, sunPx: sun, sunBr, sunGlow, peakDegFromSun, skyFraction: sky / (w * h), skyOverSceneThreshold: sky ? over / sky : 0,
       skyGlowing: sky ? glow / sky : 0, exposure: renderer.toneMappingExposure,
       maxSkyBr: peakA < 0 ? 0 : 2 ** ((peakA / 255) * 12) - 1, peak: [x0, y0],
       glowCount: glow, glowReachPx: sun ? reach : -1, glowOutsideCone: outside };

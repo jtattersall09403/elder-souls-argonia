@@ -43,6 +43,8 @@ try {
     for (const el of document.querySelectorAll("body *")) {
       if (el.tagName !== "CANVAS" && !el.querySelector("canvas")) el.style.visibility = "hidden";
     }
+    // the minimap is a canvas too: only the WebGL canvas stays
+    for (const c of document.querySelectorAll("canvas")) if (!c.getContext("webgl2")) c.style.visibility = "hidden";
   });
   for (const t of TIMES) {
     const [hh, mm] = t.split(":").map(Number);

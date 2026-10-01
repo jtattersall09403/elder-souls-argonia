@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
-  SETTLEMENT_LOAD_ALL_BELOW, SettlementBundleSource, assembleSettlementBundle, bundlesInRange,
+  SettlementBundleSource, assembleSettlementBundle, bundlesInRange,
   type SettlementIndex,
   type SettlementPartBundle,
 } from "./settlementIndex";
@@ -11,10 +11,10 @@ const entry = (i: number, x: number, radiusM = 50) => ({
 });
 
 describe("bundlesInRange (S8)", () => {
-  it("loads every place when the index lists fewer than twenty", () => {
+  it("picks by range even when the index is short (walk 9: all eleven loaded everywhere)", () => {
     const index: SettlementIndex = { schemaVersion: 1,
-      places: Array.from({ length: SETTLEMENT_LOAD_ALL_BELOW - 1 }, (_, i) => entry(i, i * 10_000)) };
-    expect(bundlesInRange(index, { x: 0, z: 0 })).toHaveLength(SETTLEMENT_LOAD_ALL_BELOW - 1);
+      places: Array.from({ length: 3 }, (_, i) => entry(i, i * 10_000)) };
+    expect(bundlesInRange(index, { x: 0, z: 0 }).map((e) => e.id)).toEqual(["place.p00"]);
   });
 
   it("with 25 places loads only those within 2 km plus their radius", () => {
