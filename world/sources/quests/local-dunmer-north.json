@@ -3672,7 +3672,7 @@
       "anchorPlaces": [
         "place.dunmer-north.riverwalk"
       ],
-      "premise": "A channel village is taxed by two authorities; paying either one is treated as a choice",
+      "premise": "A cove village on the coast lane is taxed by two authorities; paying either one is treated as a choice",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -3725,7 +3725,7 @@
       "anchorPlaces": [
         "place.dunmer-north.riverwalk"
       ],
-      "premise": "The main street stops being navigable, which the boat-holders do not believe was natural",
+      "premise": "The channel to the landing stops being navigable, which the boat-holders do not believe was natural",
       "costTier": "S",
       "milestone": 2,
       "touches": [],

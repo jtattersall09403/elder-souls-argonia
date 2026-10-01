@@ -50,16 +50,9 @@ a frozen layer or an accepted place (listed in
 `world/sources/placement/accepted-places.json`) is a world-level call for
 the owner, batched into the next walk packet.
 
-**A place's files.**
-
-| File | Written by | Holds |
-|---|---|---|
-| `world/sources/sites/dossiers/<slug>.{json,md}` | step 0 (`site_dossier`) | the measured ground (97 B1) |
-| `world/sources/blueprints/<place>.design.md` | steps 0–1 | § Site, § Brief, § Approach, § Lessons this slice |
-| `world/sources/blueprints/<place>.layout.json` | step 2 | the ordered workbench operations for the whole place |
-| `world/sources/blueprints/<place-id>.json` | step 2 (skeleton), `wb.py export` (poses and provenance) | the blueprint the compile realises (`schemaVersion` 2: a parcel's `services` is a list, one building may host several; the schema-1 `service` string still reads); named by the full place id because every loader reads `blueprint_files.blueprint_paths` (`place.*.json` minus `*.layout.json`; `<place>` above is the slug) |
-| `apps/world-studio/public/province/interiors/<cellId>.json` | step 5 (`export_interior_bundle`) | one tier A cell, copied verbatim (0103 decision 3) |
-| `references/types/<n>-<type>.md` | step 8 | the type sheet |
+**A place's files and the entity tables they belong to** (who writes
+each, its ids, what references it): [docs/world/98-data-model.md](../../../docs/world/98-data-model.md)
+§ A place's files. Read it at step 0.
 
 ## How the builder works
 
@@ -101,15 +94,14 @@ would join an earlier walk's run is refused.
 
    `blueprint_promises --write` generates the **promise ledger**
    `world/sources/placement/promises/<place-id>.json` (0104 decision 3):
-   **the checklist you start from, work through and end on**; every row is
-   filled by a placed thing carrying `fills: [that id]` or carries an
-   `unfilled` block with one of 0102's four reasons (the compile fails
-   otherwise). **Read the prose too, sceptically** (typed fields and the
-   ground win; no claim of a world behaviour the runtime lacks, R5).
-   **Two-way (0104 decision 6):** a promise the world cannot keep is a
-   REQUEST row correcting the source record, logged in § Record
-   corrections. Where each source lives and the full rules:
-   [references/promise-ledger.md](references/promise-ledger.md).
+   **the checklist you start from, work through and end on**. It holds
+   every claim of the record the build can keep or contradict: services,
+   NPCs, sockets, the principal interior, underwater access, the travel
+   station, each `why`/`vibe`/hook line and each quest anchored here.
+   Fill a row with `fills: [id]` on a placed thing, or `unfilled` with a
+   0102 reason; prose and quest rows are `confirmed` against the built
+   place at step 5b. The entity map is [docs/world/98-data-model.md](../../../docs/world/98-data-model.md);
+   the rules are [references/promise-ledger.md](references/promise-ledger.md).
 3b. **The place in its world (seams).** Read the route records that touch
    it (`world/sources/routes/`: the trunk or leg it sits on, every minor
    route ending at it, the ferry crossing and its berths in
@@ -171,16 +163,12 @@ per building, enclosure, path, light, water edge and dressing group:
   table, each written with the number the brief plans to reach; the
   per-dwelling count is R6's. A bar the culture's pool cannot reach is a
   sourcing gap (0098 § 1).
-- **§ Variety** (R4, R37): one row per building: the shell and interior
-  cell chosen, and every pool member rejected with its reason (used within
-  2 km, used 3 times province-wide, no link, fails the fit rule). Read the
-  register digest and `interiorCellClaims` in
-  `world/sources/placement/signature-claims.json` first. A cell already
-  used in the region is legal only when every cell the fit rule accepts for
-  the parcel is used there; the gate computes that from the claim table.
-  Hold the cells once claimed (step 2 item 4):
-  `python3 -m worldgen.place_gates --id <place-id> --claim-cells` (worldgen).
-  Gate `interiors.variety`.
+- **§ Variety** (R4, R37): per building the shell, its chosen cell and
+  every rejected pool member with its reason. Read the register digest and
+  `interiorCellClaims` (`signature-claims.json`) first; a cell used in the
+  region is legal only when every cell the fit rule accepts there is used.
+  Hold the cells: `python3 -m worldgen.place_gates --id <place-id> --claim-cells`
+  (worldgen). Gate `interiors.variety`.
 - § Approach: the 16 questions of
   `docs/research/placement-settlements/openworld-approach-and-wayfinding.md`
   §5, each answered yes or no with its field; each "no" is a layout edit or
@@ -189,13 +177,13 @@ per building, enclosure, path, light, water edge and dressing group:
   § Quests, § Seams: what each says is in
   [references/brief-sections.md](references/brief-sections.md). The rules
   in short: one Interiors row per door, `reserved` only for a tier B or C
-  interior (R2, R10), its columns the shell's plugin-linked cells (none =
-  hollow, 0114) and the chosen cell (R83); a shell with a load doorway gets its author's
-  interior from assets we hold (never Creation Club, HearthFires,
-  Dawnguard, Dragonborn or the SE resource pack), else a doorless piece is
-  walked into; containers and visible items are placed as meshes now;
-  three creative calls unlike the register's rows; every roster slot has a
-  work and a home socket.
+  interior (R2, R10). **No closed buildings** (CLAUDE.md, 0114 rule 3,
+  L50): every building is open (no door) or a plugin-linked shell opening
+  onto its linked cell (R83); run the shell-choice checklist
+  (`references/doors-interiors-sockets.md` §2) per building before the
+  layout. Containers and visible items are meshes now; three creative
+  calls unlike the register's rows; every roster slot has a work and a
+  home socket.
 
 Ends when: every row has all four columns, every bar a planned number,
 every door an Interiors row, every promise a fulfilment or an `unfilled`
@@ -216,14 +204,11 @@ record row or an UNVERIFIED mark.
    building and dressing group of the brief in it before the first apply. Yard sets come from
    `world/sources/placement/yard-sets/<type>.json` (0101); a new set is a
    REQUEST row, never only a `group save` in the layout.
-2b. **Dry or wet, decided per piece** (R86). Standing in water is never
-   a `check` failure: for every piece you decide whether it stands dry or
-   is meant to stand in water (a jetty post, a fish trap, a sunken wreck).
-   A dry piece's spot reads no `waterLevelM` on `wb.py <scene> ground --at X Z`
-   (the fine raster; the analysis grid's `wet` cells miss a sub-cell pond);
-   a wet one carries `"wet": true` on its `place` op. After `apply`, every
-   `check` row with `waterDepthM` > 0 and `wet` false is a piece you did
-   not mean to put in water: move it. The render shows both.
+2b. **Dry or wet, decided per piece** (R86): standing in water is a
+   design decision, never a `check` failure. A dry piece's spot reads no
+   `waterLevelM` on `wb.py <scene> ground --at X Z` (the fine raster); a wet
+   one carries `"wet": true` on its `place` op. After `apply`, a `check`
+   row with `waterDepthM` > 0 and `wet` false is a mistake: move it.
 3. Scan every building's site, then apply:
 
         python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage survey-and-scans --start
@@ -244,9 +229,10 @@ record row or an UNVERIFIED mark.
    the claim. The plugin's link is the interior (R83): a bound cell bigger
    than its shell is the modder's pairing and stands; a cell that is not
    one of the shell's own linked cells is a rule defect, fixed in
-   `blueprint_interiors.py`, never by hand-picking. A `hollow` door is a
-   shell no plugin gives a load door (0114): re-shell to a linked shell if
-   the building must be entered. Exit 3 names a linked shell no linked
+   `blueprint_interiors.py`, never by hand-picking. A `hollow` door (a
+   shell no plugin gives a load door) is a closed building and a build
+   error (0114 rule 3): `--claim` exits 3 and gate `interiors.closed`
+   fails; re-shell to a linked shell. Exit 3 also names a linked shell no linked
    cell passes (source the cell's missing pieces or re-shell, never widen
    the rule) and every socket op standing in a cell no door claims (move
    it to a claimed cell of the place or an exterior spot).
@@ -270,7 +256,7 @@ render until the plan read is clean (0100 decision 3 as amended).
 
 Ends when: every Plan row is YES. Every fixture, tent, door or walkway piece new to this place gets a close-up first (`npm run look`, [visual-look](../visual-look/SKILL.md), ~2 s each); a flagged defect is fixed at source and becomes a look-list row.
 
-## 4. Render rounds (at most four; 0102 decision 4)
+## 4. Render rounds
 
     python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage readers --start
     python3 tooling/placement-workbench/wb.py round <scene> world/sources/blueprints/<place>.layout.json
@@ -330,7 +316,7 @@ without that is an escalation to the planner, never a packet.
     python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage publish --end
     python3 -m worldgen.place_gates --id <place-id>   # (worldgen)
     # run the derivers after every blueprint or layout change (worldgen), then commit their output with it:
-    python3 -m worldgen.export_blueprints && python3 -m worldgen.export_purpose_ledger && python3 -m worldgen.npc_roster --apply && python3 -m worldgen.author_type_siting --apply
+    python3 -m worldgen.export_blueprints && python3 -m worldgen.export_places && python3 -m worldgen.export_purpose_ledger && python3 -m worldgen.npc_roster --apply && python3 -m worldgen.author_type_siting --apply
 
 - Export writes the poses (0097) and the ground and kit provenance.
 - Patches are the place's own typed ones only (0081 decision 3: pad,
@@ -351,6 +337,17 @@ without that is an escalation to the planner, never a packet.
   `apps/world-studio/public/province/settlements/<place-id>.json` and
   compared with the walked rev; a height over water against the DRAWN
   water and pose (same reference § Verify).
+
+**5b. Record = built (two-way authority, 0104 decision 6; owner walk 7).**
+The catalogue record, the 2D map popup (`places.json`, regenerated from
+the record by `export_places` above) and the built place say the same
+thing. Whatever the build changed (fewer buildings, no underwater way
+in, an added islet shrine), edit the RECORD in the same change, prose
+and fields, re-run `blueprint_promises --write`, review every quest that
+anchors here (its row in `world/sources/quests/`, then `export_quest_index`),
+and confirm each prose and quest row (checklist and gate:
+[references/promise-ledger.md](references/promise-ledger.md) § Record = built).
+Gates `promises` and `record.consistency` fail until it is done.
 
 Ends when: 0 compile errors, every per-place gate green, the place
 published and every claim read back; the batch gates run when the

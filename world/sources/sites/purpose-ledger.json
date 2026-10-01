@@ -8,13 +8,14 @@
     "quest authoring (docs/quests/)"
   ],
   "summary": {
-    "rows": 15,
+    "rows": 16,
     "places": 3,
     "byPhase": {
       "phase-12": 2,
-      "phase-13": 13
+      "phase-13": 14
     },
     "byKind": {
+      "actionable-information": 1,
       "bed": 2,
       "rumour": 1,
       "service-station": 2,
@@ -93,7 +94,7 @@
       "deliveredBy": "phase-13",
       "deliverable": "an occupant carrying testimony a quest can query",
       "interiorKind": "dwelling",
-      "interiorRef": null,
+      "interiorRef": "htbm-hut-int",
       "socketRef": null,
       "socketKind": null,
       "questId": null
@@ -108,7 +109,7 @@
       "deliveredBy": "phase-13",
       "deliverable": "a rumour line that names a real place or person",
       "interiorKind": "dwelling",
-      "interiorRef": null,
+      "interiorRef": "htbm-hut-int",
       "socketRef": null,
       "socketKind": null,
       "questId": null
@@ -123,7 +124,7 @@
       "deliveredBy": "phase-13",
       "deliverable": "an occupant carrying testimony a quest can query",
       "interiorKind": "dwelling",
-      "interiorRef": null,
+      "interiorRef": "htbm-hut-int",
       "socketRef": null,
       "socketKind": null,
       "questId": null
@@ -198,7 +199,7 @@
       "deliveredBy": "phase-13",
       "deliverable": "an occupant carrying testimony a quest can query",
       "interiorKind": "dwelling",
-      "interiorRef": null,
+      "interiorRef": "htbm-hut-int",
       "socketRef": null,
       "socketKind": null,
       "questId": null
@@ -224,11 +225,11 @@
       "parcelId": "parcel.riverwalk.crews-house",
       "kind": "bed",
       "tier": "medium",
-      "note": "Bunks let to boat crews stopping the night.",
+      "note": "A room with a door that shuts: the safest bed in the village.",
       "deliveredBy": "phase-12",
       "deliverable": "a rentable or ownable bed with a rest gate",
       "interiorKind": "dwelling",
-      "interiorRef": "interior-kotm-v1",
+      "interiorRef": "htbm-hut-int",
       "socketRef": null,
       "socketKind": null,
       "questId": null
@@ -243,7 +244,22 @@
       "deliveredBy": "phase-13",
       "deliverable": "a merchant inventory and gold pool",
       "interiorKind": "dwelling",
-      "interiorRef": "interior-kotm-v1",
+      "interiorRef": "htbm-hut-int",
+      "socketRef": null,
+      "socketKind": null,
+      "questId": null
+    },
+    {
+      "id": "purpose.riverwalk.family-house.actionable-information",
+      "placeId": "place.dunmer-north.riverwalk",
+      "parcelId": "parcel.riverwalk.family-house",
+      "kind": "actionable-information",
+      "tier": "medium",
+      "note": "A boardwalk household at home, who talk about the toll and the crews.",
+      "deliveredBy": "phase-13",
+      "deliverable": "a dialogue or note that sets a world flag: a route, a price, a name",
+      "interiorKind": "dwelling",
+      "interiorRef": "htbm-hut-int",
       "socketRef": null,
       "socketKind": null,
       "questId": null

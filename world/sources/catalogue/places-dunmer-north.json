@@ -10840,7 +10840,7 @@
         "family": "water-village",
         "type": "boardwalk-village",
         "variant": null,
-        "magnitude": "M3"
+        "magnitude": "M1"
       },
       "status": "active",
       "season": "all-year",
@@ -10856,11 +10856,11 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The northern trunk's mid-point: a village strung along a channel because the channel is the street.",
-        "siteAdvantages": "A day's run from either end of the trunk boat lane, which passes close enough to hail, making this the natural place to stop the night.",
+        "founding": "A halt in a sheltered sea cove, half-way along the coast lane between Stormhold and Alten Corimont. The village grew along its plank walk because the walk is its street.",
+        "siteAdvantages": "A day's sail from either end of the coast lane. No other water on that stretch is sheltered. Boats on the lane pass close enough to hail.",
         "occupantsMotive": "It lives on the ferry stage, the toll and feeding boat crews. The village grows no food of its own.",
         "pressures": "Alten Corimont's captain and Thorn's field-owners both think the toll should be theirs.",
-        "wouldChangeIf": "Would be bypassed if a deeper channel opened south. The villagers watch the silt for it."
+        "wouldChangeIf": "Would be bypassed if the cove silted up. The villagers sound the channel to the landing every morning."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10877,7 +10877,7 @@
         "waterRelation": "crosses water rather than sitting beside it",
         "neighbourRelation": "often the only dry route through its stretch",
         "hardConstraints": [
-          "a navigable channel as the main street"
+          "a sheltered cove with a boat landing"
         ],
         "preferences": [
           "a continuous boardwalk",
@@ -10946,14 +10946,14 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "A single boardwalk a kilometre long with houses down both sides. No land under any of them.",
-        "palette": "Silver weathered plank, black water, reed roofs in a continuous run.",
-        "materials": "Elevated walkway construction throughout: piles, planks, stilt shells and lashed handrails.",
-        "signatureFeature": "The length: one street with no cross-streets, so the whole village passes each house in turn.",
+        "silhouette": "A plank walk across a shallow cove, with the houses and the shrine on the spit at one end and the ferry stage on the islet at the other.",
+        "palette": "Silver weathered plank, black water and reed thatch.",
+        "materials": "Piles, planks and lashed handrails over the water. The crews' house stands on the dry spit; the long house stands on piles in the shallows beside it.",
+        "signatureFeature": "The walk is the street. It crosses open water, so everyone who lands at the stage walks past the toll-holder's post.",
         "condition": "Constantly re-planked; the boards are all different ages, recording the order in which the village was built.",
         "mood": "Linear and sociable.",
-        "approach": "A boat enters the village at one end and poles its whole length past every house.",
-        "senses": "Boards underfoot for a kilometre; poles; talk from directly above the water."
+        "approach": "Boats come in off the coast lane and pole across the cove to the ferry stage on the islet.",
+        "senses": "Boards underfoot from the spit to the islet; poles in the mud; talk carrying over still water."
       },
       "assetPlan": [
         "passerelles-walkway",
@@ -10967,7 +10967,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "a channel village is taxed by two authorities; paying either one is treated as a choice · the nightly toll argument turns into an accusation somebody can prove",
+        "opportunity": "a cove village on the coast lane is taxed by two authorities; paying either one is treated as a choice · the nightly toll argument turns into an accusation somebody can prove",
         "tierOwnership": "LV38 · tier-3; LV39 · tier-3; LV40 · tier-3"
       },
       "rumourPoolKey": "rumour.northern-trunk",
@@ -10992,7 +10992,7 @@
       "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "surface-swim",
+      "underwaterAccess": "none",
       "position": {
         "u": 0.97608,
         "v": 0.0792
@@ -11050,14 +11050,14 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "The trunk channel's natural halt, where the toll is argued nightly and two cities claim it.",
+        "hook": "The coast lane's natural halt, where the toll is argued nightly and two cities claim it.",
         "reviewed": true
       },
       "interior": {
         "kind": "building",
         "family": "dwelling",
         "sizeBand": "S1",
-        "wetFraction": 0.2,
+        "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
         "programRef": null,
@@ -11116,10 +11116,17 @@
       "services": [
         "ferry",
         "lodging",
-        "shrine",
         "trader"
       ],
       "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.stormhold"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.pirate-freeholds.alten-corimont"
+        },
         {
           "sourcePath": "why.pressures",
           "placeRef": "place.pirate-freeholds.alten-corimont"

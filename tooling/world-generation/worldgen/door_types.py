@@ -3,9 +3,14 @@ T2 rec 4): the claim first, then the plugin data, never the piece's name.
 
 1. A door whose `interiorClaim` is tier A, or `reserved` to a load pool (a
    Phase 12 interior will be cut for it), is `load`: a cell transition.
-2. A building with no interior and an open front (a claim reserved to a
-   `NO_INTERIOR_SERVICES` pool, e.g. the open stable) has NO door record:
+2. A building with no interior and an open front has NO door record:
    `door_type` returns None and `blueprint_interiors --claim` drops the door.
+   Two cases: a claim reserved to a `NO_INTERIOR_SERVICES` pool (the open
+   stable), and a shell no plugin links whose way in is an opening with no
+   door (`OPEN_ENTRANCE_KINDS` in its interiors record: the BM&V swamp
+   house, which its plugin places 47 times furnished on its own floor). Such
+   a building is OPEN, walked into in the world (no closed buildings, 0114
+   rule 3: open, or linked).
 3. With no claim, the door-links record decides
    (`world/sources/placement/exterior-interior-links.json`, mined by
    `worldgen.mine_door_links`, holds exactly the exterior doors that carry an
@@ -14,11 +19,12 @@ T2 rec 4): the claim first, then the plugin data, never the piece's name.
    animation, no cell).
 
 4. A claimed door (tier `none` or `reserved`) on a shell no plugin gives a
-   load door (decision 0114; a composite is its base shell) is `hollow`: the
-   record stays as the entrance (routes, fills and evidence point at it),
-   a `promised` shell keeps its Phase 12 promise as the reserved claim, and
-   the runtime shows no prompt for it (`loadDoorsOf`). A reserved door on a
-   linked shell is `load` and shows the closed line.
+   load door (decision 0114; a composite is its base shell) is `hollow`: a
+   closed building. That type exists only so the tools can name it: no
+   closed buildings (0114 rule 3), so `--claim` exits 3 and gate
+   `interiors.closed` fails on it (`blueprint_interiors.closed_shell_failures`);
+   the runtime drops it from the load path (`loadDoorsOf`) as a safety net.
+   A reserved door on a linked shell is `load` and shows the closed line.
 
 `blueprint_interiors --claim` stamps the result as the door's `doorType`.
 
@@ -35,6 +41,11 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 LINKS = REPO_ROOT / "world" / "sources" / "placement" / "exterior-interior-links.json"
 BLUEPRINT_DIR = REPO_ROOT / "world" / "sources" / "blueprints"
 DOOR_TYPES = ("load", "swing", "hollow")
+#: interiors-record entrance kinds that are an opening walked through with no
+#: door: a stable's or dock's open front, the swamp house's approach. Every
+#: other kind (`esp-door`, `leaf`, `composite-leaf`, `assembly`, and an
+#: `opening` that takes the plugin's door piece, L78) is a door
+OPEN_ENTRANCE_KINDS = ("approach", "open-front")
 
 
 @lru_cache(maxsize=2)
@@ -58,11 +69,22 @@ def door_type(door: dict, shell_asset: str | None,
     shells = linked_shells() if shells is None else shells
     base = (composite_base(shell_asset) or shell_asset
             if isinstance(shell_asset, str) and shell_asset.startswith("composite:") else shell_asset)
+    if base not in shells and _open_entrance(shell_asset, base):
+        return None
     if claim.get("tier") in ("none", "reserved"):
-        # decision 0114: a shell no plugin gives a load door is hollow (no
-        # prompt, its Phase 12 promise kept); a linked one waits closed
+        # decision 0114: a shell no plugin gives a load door is hollow, a
+        # closed building the gates refuse; a linked one waits closed
         return "load" if base in shells else "hollow"
     return "load" if base and base in shells else "swing"
+
+
+def _open_entrance(shell_asset: str | None, base: str | None) -> bool:
+    """Rule 2's second case: the shell's interiors record names an opening
+    with no door leaf as its way in."""
+    from .blueprint_interiors import entrance, library
+    lib = library()
+    rec = lib.get(shell_asset or "") or lib.get(base or "")
+    return (entrance(rec) or {}).get("kind") in OPEN_ENTRANCE_KINDS
 
 
 def blueprint_door_types(bp: dict, shells: frozenset[str] | None = None) -> dict[str, str | None]:

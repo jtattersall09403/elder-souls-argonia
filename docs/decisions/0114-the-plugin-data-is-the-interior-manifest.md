@@ -24,14 +24,21 @@ an unrelated hut cell. Owner, via the planner:
    linked cell passes on the door pairing, its bundle's acceptance gate and
    the no-stand-in classes; the use class ranks passing cells, never
    refuses one.
-3. **No link = hollow shell.** A shell no plugin gives a load door has no
-   interior and no enter prompt: claim tier `none`, `doorType: "hollow"`. If
-   its index record says `interior: "promised"`, the claim is `reserved` to
-   pool `phase-12` with the `promiseReason` in its `why` and the existing
-   `interiorRef` kept, so the Phase 12 promise and the services it carries
-   survive; the door is still `hollow`. The door record stays: routes,
-   `fills` and macro evidence point at it. The runtime drops `hollow` doors
-   from the load path (`loadDoorsOf`), so no prompt shows.
+3. **No closed buildings: a doored shell with no link is a build error**
+   (owner 2026-09-30, walk 7). Every building is either open (no doorway,
+   no door record: walked into in the world) or a shell a plugin links to
+   a cell, opening onto that cell. A door on a shell no plugin gives a load
+   door is classified `hollow` (`door_types`) so the tools can name it, and
+   `hollow` is never an outcome: `blueprint_interiors --claim` exits 3 and
+   `place_gates` gate `interiors.closed` fails
+   (`blueprint_interiors.closed_shell_failures`) until the shell is swapped
+   for a linked one. The gate also fails a placed shell with no door record
+   whose interiors record names a door as its way in. A shell no plugin
+   links whose way in is an opening with no door (interiors entrance kind
+   `approach` or `open-front`: the BM&V swamp house, which its plugin
+   furnishes on its own floor) is open: `door_types` drops its door
+   record. The runtime still drops `hollow` doors from the load path
+   (`loadDoorsOf`) as a safety net.
 4. **No passing linked cell = reserved, loud.** `--claim` names each such
    door and every linked cell's first failure, and exits 3. The rule is never
    widened and a cell is never hand-picked past it.
@@ -46,3 +53,5 @@ an unrelated hut cell. Owner, via the planner:
   included.
 - `interiors.variety` judges reuse against the linked set only.
 - Rulings: R52, R56 and R57 are superseded by R83.
+- The owner's golden rule "no closed buildings" (2026-09-30) is this
+  record's rule 3; lessons L50 carries it into the place-build design step.

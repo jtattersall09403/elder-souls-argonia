@@ -44,9 +44,9 @@ Generated from the quest data and the live place catalogue. The gaps here *are* 
 
 95 live settlements. Target band per magnitude: M5 35–60, M4 10–20, M3 3–8, M2 1–3, M1 0–2.
 
-Summed settlement demand: **554–1148** quests. Province target: **550–740** at maturity, **170–210** at Milestone 1. Written today: **715** rows (168 live).
+Summed settlement demand: **548–1136** quests. Province target: **550–740** at maturity, **170–210** at Milestone 1. Written today: **715** rows (168 live).
 
-**Read the bands as ceilings, not quotas.** The province plotted 95 live settlements against Morrowind's 35, so applying every band at its floor would demand 554 quests — above the province target. The ladder sizes each settlement RELATIVE to its neighbours; the 550–740 total is the binding number, so the M5/M4 rows should reach their bands and the long M3/M2 tail should sit at the low end, many of them on one quest or none.
+**Read the bands as ceilings, not quotas.** The province plotted 95 live settlements against Morrowind's 35, so applying every band at its floor would demand 548 quests — above the province target. The ladder sizes each settlement RELATIVE to its neighbours; the 550–740 total is the binding number, so the M5/M4 rows should reach their bands and the long M3/M2 tail should sit at the low end, many of them on one quest or none.
 
 | Settlement | Region | Mag | Target | Anchored | Short by |
 |---|---|---|---|---:|---:|
@@ -78,7 +78,6 @@ Summed settlement demand: **554–1148** quests. Province target: **550–740** 
 | Murkwater | dunmer-north | M3 | 3–8 | 3 | 0 |
 | Nine Fords | dunmer-north | M3 | 3–8 | 13 | 0 |
 | Reedmoor | dunmer-north | M3 | 3–8 | 3 | 0 |
-| Riverwalk | dunmer-north | M3 | 3–8 | 3 | 0 |
 | Saltmarch | dunmer-north | M3 | 3–8 | 3 | 0 |
 | Stands-On-The-Hammock | dunmer-north | M3 | 3–8 | 3 | 0 |
 | The Veterans' Ridge | dunmer-north | M3 | 3–8 | 3 | 0 |
@@ -86,7 +85,6 @@ Summed settlement demand: **554–1148** quests. Province target: **550–740** 
 | Keeps-the-Egg | hist-heartland | M3 | 3–8 | 3 | 0 |
 | Many-Ways | hist-heartland | M3 | 3–8 | 3 | 0 |
 | Cut-and-Carried | hist-heartland | M3 | 3–8 | 3 | 0 |
-| Greenspring | hist-heartland | M3 | 3–8 | 3 | 0 |
 | Green-Moss Hammock | hist-heartland | M3 | 3–8 | 3 | 0 |
 | The Restarted Work | hist-heartland | M3 | 3–8 | 3 | 0 |
 | The Kept Line | hist-heartland | M3 | 3–8 | 3 | 0 |
@@ -120,9 +118,9 @@ Summed settlement demand: **554–1148** quests. Province target: **550–740** 
 | The Freed Rows | dunmer-north | M2 | 1–3 | 1 | 0 |
 | The Shut Village | dunmer-north | M2 | 1–3 | 1 | 0 |
 | Alten Markmont | hist-heartland | M2 | 1–3 | 1 | 0 |
+| Greenspring | hist-heartland | M2 | 1–3 | 3 | 0 |
 | No-Tree Camp | hist-heartland | M2 | 1–3 | 1 | 0 |
 | The Meeruth Station | hist-heartland | M2 | 1–3 | 1 | 0 |
-| Claywater Station | imperial-fringe | M2 | 1–3 | 1 | 0 |
 | Hangs-Above-The-Water | imperial-fringe | M2 | 1–3 | 1 | 0 |
 | Highwater | imperial-fringe | M2 | 1–3 | 1 | 0 |
 | Lowmere | imperial-fringe | M2 | 1–3 | 1 | 0 |
@@ -145,14 +143,16 @@ Summed settlement demand: **554–1148** quests. Province target: **550–740** 
 | Nothing-Planted | saxhleel-coast | M2 | 1–3 | 1 | 0 |
 | Portdun Mont | saxhleel-coast | M2 | 1–3 | 2 | 0 |
 | Keeps-Its-Own-Cordon | saxhleel-coast | M2 | 1–3 | 1 | 0 |
+| Riverwalk | dunmer-north | M1 | 0–2 | 3 | 0 |
+| Claywater Station | imperial-fringe | M1 | 0–2 | 1 | 0 |
 
 ## Per-region totals against the province target
 
 | Region | Settlements | Settlement demand | Quests today | Milestone 1 |
 |---|---:|---|---:|---:|
-| dunmer-north | 25 | 155–322 | 180 | 52 |
-| hist-heartland | 17 | 77–173 | 101 | 34 |
-| imperial-fringe | 17 | 95–196 | 111 | 21 |
+| dunmer-north | 25 | 152–316 | 180 | 52 |
+| hist-heartland | 17 | 75–168 | 101 | 34 |
+| imperial-fringe | 17 | 94–195 | 111 | 21 |
 | imperial-penal-south | 6 | 49–92 | 75 | 10 |
 | mercantile-coast | 14 | 103–203 | 146 | 59 |
 | naga-kur-deeps | 5 | 15–40 | 22 | 4 |

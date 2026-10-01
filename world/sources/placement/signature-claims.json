@@ -68,6 +68,24 @@
  ],
  "interiorCellClaims": [
   {
+   "cellId": "CIPHTBMHutInterior01",
+   "claimedAt": "2026-10-01T08:48:49Z",
+   "doorId": "door.hist-heartland.greenspring.5",
+   "placeId": "place.hist-heartland.greenspring"
+  },
+  {
+   "cellId": "CIPHTBMHutInterior04",
+   "claimedAt": "2026-10-01T08:48:49Z",
+   "doorId": "door.hist-heartland.greenspring.6",
+   "placeId": "place.hist-heartland.greenspring"
+  },
+  {
+   "cellId": "CIPHTBMHutInteriorGreatHouse",
+   "claimedAt": "2026-10-01T08:48:49Z",
+   "doorId": "door.hist-heartland.greenspring.3",
+   "placeId": "place.hist-heartland.greenspring"
+  },
+  {
    "cellId": "DawnstarBrinasHouse",
    "claimedAt": "2026-09-28T08:22:08Z",
    "doorId": "door.imperial-fringe.claywater-station.1",
@@ -92,12 +110,6 @@
    "placeId": "place.imperial-fringe.claywater-station"
   },
   {
-   "cellId": "KeebaHouseElder",
-   "claimedAt": "2026-09-28T16:27:33Z",
-   "doorId": "door.hist-heartland.greenspring.3",
-   "placeId": "place.hist-heartland.greenspring"
-  },
-  {
    "cellId": "KeebaHouseFisher",
    "claimedAt": "2026-09-30T00:49:41Z",
    "doorId": "door.hist-heartland.greenspring.2",
@@ -111,27 +123,15 @@
   },
   {
    "cellId": "KeebaHouseSnailMinder",
-   "claimedAt": "2026-09-28T12:55:27Z",
-   "doorId": "door.imperial-fringe.claywater-station.5",
-   "placeId": "place.imperial-fringe.claywater-station"
-  },
-  {
-   "cellId": "LilmothGlassworksOverseerHouse",
-   "claimedAt": "2026-09-30T00:49:41Z",
+   "claimedAt": "2026-10-01T08:48:49Z",
    "doorId": "door.hist-heartland.greenspring.4",
    "placeId": "place.hist-heartland.greenspring"
   },
   {
-   "cellId": "LilmothIronworksOverseerHouse",
-   "claimedAt": "2026-09-30T00:49:41Z",
-   "doorId": "door.hist-heartland.greenspring.5",
-   "placeId": "place.hist-heartland.greenspring"
-  },
-  {
-   "cellId": "LilmothPlantationStorehouse",
-   "claimedAt": "2026-09-30T00:49:41Z",
-   "doorId": "door.hist-heartland.greenspring.6",
-   "placeId": "place.hist-heartland.greenspring"
+   "cellId": "KeebaHouseSnailMinder",
+   "claimedAt": "2026-09-28T12:55:27Z",
+   "doorId": "door.imperial-fringe.claywater-station.5",
+   "placeId": "place.imperial-fringe.claywater-station"
   }
  ],
  "schemaVersion": 1

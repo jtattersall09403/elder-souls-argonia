@@ -58,7 +58,7 @@ def test_claywater_fills_every_promise():
     ledger = pg.load_ledger(CLAYWATER)
     bp = json.loads((pg.LAYOUT_DIR / f"{CLAYWATER}.json").read_text())["blueprint"]
     sockets = pg.layout_sockets(pg.layouts()[CLAYWATER])
-    assert len(ledger["promises"]) == 14
+    assert {r["kind"] for r in ledger["promises"]} >= {"service", "interior", "prose", "quest"}
     errs = pg.promise_gate_errors(bp, ledger, sockets)
     assert [e for e in errs if e.startswith("promises.unfilled")] == []
 
@@ -73,10 +73,60 @@ def test_the_ledger_record_is_generated_deterministically():
             "promise.claywater-station.occupant-landing-s-poler", "promise.claywater-station.safe-interior",
             "promise.claywater-station.operator-ferry-imperial-fringe-drowning-gate"} <= ids
     committed = pg.load_ledger(CLAYWATER)
-    strip = lambda rows: [{k: v for k, v in r.items() if k != "unfilled"} for r in rows]  # noqa: E731
+    strip = lambda rows: [{k: v for k, v in r.items() if k not in ("unfilled", "confirmed")}  # noqa: E731
+                          for r in rows]
     assert strip(committed["promises"]) == strip(a), (
         "the committed ledger is stale: run `blueprint_promises --id "
         f"{CLAYWATER} --write`")
+
+
+def test_a_prose_row_is_kept_by_a_confirmation_pinned_to_its_text():
+    """Walk 7: the record's prose is a checklist row the builder confirms
+    against the built place; an edit to the text voids the confirmation."""
+    text = "The northern trunk's mid-point."
+    ledger = _ledger({"id": "promise.p.prose-why-founding", "kind": "prose"})
+    row = ledger["promises"][0]
+    row["text"] = text
+    row.pop("unfilled")
+    assert [e.split(":")[0] for e in pg.promise_gate_errors(BP, ledger)] == ["promises.confirm"]
+    row["confirmed"] = {"sha": bpr.text_sha(text), "note": "the channel runs past the boardwalk"}
+    assert pg.promise_gate_errors(BP, ledger) == []
+    row["text"] = "A cove halt on the coast."
+    assert "its text changed" in pg.promise_gate_errors(BP, ledger)[0]
+    row["text"], row["confirmed"]["note"] = text, " "
+    assert "no note" in pg.promise_gate_errors(BP, ledger)[0]
+
+
+def test_the_ledger_carries_every_claim_of_the_record():
+    """Walk 7 (Riverwalk): the principal interior, underwater access, the travel
+    station, each prose line and each quest row naming the place are rows."""
+    rec = {"id": "place.z.halt", "name": "Halt", "interior": {"kind": "building", "family": "dwelling",
+           "sizeBand": "S1", "entranceCount": 1}, "entrance": "door", "underwaterAccess": "shallow-dive",
+           "travelStation": {"modes": ["boat"], "destinations": ["place.z.a", "place.z.b"]},
+           "why": {"founding": "A halt on the channel."}, "playerPurpose": {"hook": "The toll."}}
+    rows = {r["id"]: r for r in bpr.claim_rows(rec, "halt", "Halt", "f", "places[place.z.halt]")}
+    assert set(rows) == {"promise.halt.interior-principal", "promise.halt.underwater-access",
+                         "promise.halt.travel-station", "promise.halt.prose-why-founding",
+                         "promise.halt.prose-playerpurpose-hook"}
+    assert rows["promise.halt.travel-station"]["text"] == "Halt is a travel station (boat) to 2 destinations."
+    swim = dict(rec, underwaterAccess="surface-swim")   # the open water, no built way in
+    assert "promise.halt.underwater-access" not in {r["id"] for r in bpr.claim_rows(swim, "halt", "Halt", "f", "x")}
+    prev = {"promises": [{"id": "promise.claywater-station.prose-why-founding",
+                          "confirmed": {"sha": "stale", "note": "n"}}]}
+    doc = bpr.ledger_record(bpr.load_record(CLAYWATER), {"services": []}, prev)
+    row = next(r for r in doc["promises"] if r["id"] == "promise.claywater-station.prose-why-founding")
+    assert row["confirmed"] is None and "unfilled" not in row
+
+
+def test_quest_rows_are_read_from_the_quest_records(tmp_path):
+    (tmp_path / "local-z.json").write_text(json.dumps({"quests": [
+        {"code": "LZ01", "title": "The Toll", "premise": "Two cities claim it",
+         "settlement": "place.z.halt", "anchorPlaces": ["place.z.halt"]},
+        {"code": "LZ02", "title": "Elsewhere", "premise": "Not here", "anchorPlaces": ["place.z.other"]},
+        {"code": "LZ03", "title": "Passing", "premise": "Also here",
+         "anchorPlaces": ["place.z.other", "place.z.halt"]}]}))
+    got = bpr.quest_rows_for("place.z.halt", tmp_path)
+    assert sorted(got) == ["LZ01", "LZ03"] and got["LZ01"][1] == "LZ01 The Toll: Two cities claim it"
 
 
 def test_a_regeneration_keeps_the_builders_unfilled_blocks():

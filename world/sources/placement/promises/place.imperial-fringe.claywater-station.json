@@ -1,15 +1,19 @@
 {
  "schemaVersion": 1,
  "placeId": "place.imperial-fringe.claywater-station",
- "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` block",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-imperial-fringe.json",
-   "sha256": "98bb6b8470f023a8f3e760c790a3f71fc23bf169f05d5f09d3c53f46955de790"
+   "sha256": "6f666da47a8d9a1b2e820a565eb3260b66587f546efd62f0791a7ca6c1095a27"
+  },
+  {
+   "file": "world/sources/quests/local-imperial-fringe.json",
+   "sha256": "05d17c80525aaf221ca2e8e56e71d4f85e26a04fe48c9f22e926adc04bca660c"
   },
   {
    "file": "world/sources/routes/travel-services.json",
-   "sha256": "8179c7cdb05cb2636f94fec3453d0d0d46b95cc76bf7b81073ee587df85f2ab7"
+   "sha256": "b31d925a55f6b106ddde6f2e0722b284e276efc90b287970cd18bca3dd44a49b"
   }
  ],
  "promises": [
@@ -21,6 +25,16 @@
     "path": "places[place.imperial-fringe.claywater-station].sockets.evidence[evidence.claywater-station.the-cracked-well]"
    },
    "text": "Claywater Station has the evidence socket evidence.claywater-station.the-cracked-well.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.claywater-station.interior-principal",
+   "kind": "interior",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].interior"
+   },
+   "text": "Claywater Station's principal interior is a dwelling (S1), entered by 1 door.",
    "unfilled": null
   },
   {
@@ -92,6 +106,214 @@
    },
    "text": "Claywater Station has the post socket post.claywater-station.well-keeper.",
    "unfilled": null
+  },
+  {
+   "id": "promise.claywater-station.prose-playerpurpose-hook",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].playerPurpose.hook"
+   },
+   "text": "The road's water point has a well, a landing and the first cold drink since the border post.",
+   "confirmed": {
+    "sha": "88ae35e6c491",
+    "note": "The well (genericwell01), the landing stage and ferry raft are built."
+   }
+  },
+  {
+   "id": "promise.claywater-station.prose-questhooks-opportunity",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].questHooks.opportunity"
+   },
+   "text": "The well and the landing charge travellers separately for the same stop.",
+   "confirmed": {
+    "sha": "e890059df673",
+    "note": "The well and the landing stand on opposite sides of the road."
+   }
+  },
+  {
+   "id": "promise.claywater-station.prose-vibe-approach",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].vibe.approach"
+   },
+   "text": "The station house roof shows first. Across the road the huts sit low by the water.",
+   "confirmed": {
+    "sha": "56a31663eb90",
+    "note": "The station house (farmhouse01) stands by the road; the mud pods sit low by the water."
+   }
+  },
+  {
+   "id": "promise.claywater-station.prose-vibe-condition",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].vibe.condition"
+   },
+   "text": "The well is cracking; the mud half was replastered last year.",
+   "confirmed": {
+    "sha": "4caf8a28e164",
+    "note": "Carried by the well and the pods as built; no placed thing contradicts it."
+   }
+  },
+  {
+   "id": "promise.claywater-station.prose-vibe-materials",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].vibe.materials"
+   },
+   "text": "Imperial timber framing and well masonry on one side, Argonian mud walls and thatch on the other.",
+   "confirmed": {
+    "sha": "b3f877b8f1a1",
+    "note": "Vanilla farmhouse timber and the stone well; KotM mud pods with thatch."
+   }
+  },
+  {
+   "id": "promise.claywater-station.prose-vibe-mood",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].vibe.mood"
+   },
+   "text": "Neighbourly and wary.",
+   "confirmed": {
+    "sha": "1f898572f601",
+    "note": "The two halves face each other across the road."
+   }
+  },
+  {
+   "id": "promise.claywater-station.prose-vibe-palette",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].vibe.palette"
+   },
+   "text": "Wet stone grey and weathered timber against mud brown and thatch gold; the two halves do not share a colour.",
+   "confirmed": {
+    "sha": "e08dcd16a5a1",
+    "note": "Stone well and farmhouse timber against the mud pods."
+   }
+  },
+  {
+   "id": "promise.claywater-station.prose-vibe-senses",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].vibe.senses"
+   },
+   "text": "A windlass; water poured; two languages across one street.",
+   "confirmed": {
+    "sha": "7c00f89a6eec",
+    "note": "The well's windlass; the landing across the road."
+   }
+  },
+  {
+   "id": "promise.claywater-station.prose-vibe-signaturefeature",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].vibe.signatureFeature"
+   },
+   "text": "The road is the boundary. Two villages face each other across it.",
+   "confirmed": {
+    "sha": "34e6db185211",
+    "note": "Station house, well and stable on one side of the road, the pods and landing on the other."
+   }
+  },
+  {
+   "id": "promise.claywater-station.prose-vibe-silhouette",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].vibe.silhouette"
+   },
+   "text": "A timber station house and a stone well on one side of the road; low round mud huts on the bank on the other.",
+   "confirmed": {
+    "sha": "81524c9cc0af",
+    "note": "Station house and well by the road; three mud pods on the bank."
+   }
+  },
+  {
+   "id": "promise.claywater-station.prose-why-founding",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].why.founding"
+   },
+   "text": "A mixed village at the road's water point: an Imperial well on one side of the road, an Argonian landing on the other. The landing is older than the station. Argonian polers worked the channel before the Imperials dug the well. Their boats lie pulled up on the bank.",
+   "confirmed": {
+    "sha": "1f5d6c31cdbc",
+    "note": "Well and landing both built; canoes and the ferry raft at the landing."
+   }
+  },
+  {
+   "id": "promise.claywater-station.prose-why-occupantsmotive",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].why.occupantsMotive"
+   },
+   "text": "Two communities share it because neither can hold the other's half.",
+   "confirmed": {
+    "sha": "6965cc57a884",
+    "note": "Two halves built as two groups of buildings across the road."
+   }
+  },
+  {
+   "id": "promise.claywater-station.prose-why-pressures",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].why.pressures"
+   },
+   "text": "The well is Imperial-built and failing. The Argonian half of the village will not help to repair it in stone.",
+   "confirmed": {
+    "sha": "2c519233bf6d",
+    "note": "The well is built in stone; the pods are mud; no placed thing contradicts it."
+   }
+  },
+  {
+   "id": "promise.claywater-station.prose-why-siteadvantages",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].why.siteAdvantages"
+   },
+   "text": "A perennial spring beside a boat channel. Here the road and the water meet on level terms.",
+   "confirmed": {
+    "sha": "d7c873cef6bb",
+    "note": "The well on the road and the landing on the channel stand within 60 m."
+   }
+  },
+  {
+   "id": "promise.claywater-station.prose-why-wouldchangeif",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.claywater-station].why.wouldChangeIf"
+   },
+   "text": "Would become one community or two villages within a generation.",
+   "confirmed": {
+    "sha": "01cab852c50c",
+    "note": "A prediction; no placed thing contradicts it."
+   }
+  },
+  {
+   "id": "promise.claywater-station.quest-lf83",
+   "kind": "quest",
+   "source": {
+    "file": "world/sources/quests/local-imperial-fringe.json",
+    "path": "quest[LF83]"
+   },
+   "text": "LF83 The Well and the Landing: The Imperial well and the Argonian landing serve the same travellers under two sets of charges",
+   "confirmed": {
+    "sha": "245fa5bbe868",
+    "note": "The well and the landing stage both stand, each with its keeper's post."
+   }
   },
   {
    "id": "promise.claywater-station.safe-interior",

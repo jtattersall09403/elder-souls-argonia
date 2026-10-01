@@ -3374,7 +3374,7 @@
         14
       ],
       "lore": "Lore:Hist; Lore:Argonian; settlement-register M3 band",
-      "footprintRadiusM": 60,
+      "footprintRadiusM": 55,
       "footprintSource": "built-ground"
     },
     {
@@ -3894,7 +3894,7 @@
         6
       ],
       "lore": "Lore:Murkmire (platforms ascending from ground to hover above water)",
-      "footprintRadiusM": 70,
+      "footprintRadiusM": 80,
       "footprintSource": "built-ground"
     },
     {

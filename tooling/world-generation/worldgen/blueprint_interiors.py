@@ -817,6 +817,58 @@ def claim_doors(bp: dict, lib: InteriorLibrary | None = None,
     return out
 
 
+def closed_shell_failures(bp: dict, shells: frozenset[str] | None = None,
+                          lib: InteriorLibrary | None = None) -> list[str]:
+    """No closed buildings (owner 2026-09-30, decision 0114 rule 3): every
+    building is OPEN (no door leaf and no door record: walked into in the
+    world) or a shell a plugin's own load door links to a cell
+    (`exterior-interior-links.json`; a composite is its base shell). Two
+    things are a closed building and a build error, never a state:
+
+    * a door record on a shell no plugin links (the `hollow` door type);
+    * a placed shell with no door record whose interiors record names a
+      door as its way in (any entrance kind but `door_types.OPEN_ENTRANCE_KINDS`)
+      and no link: a door that looks shut and opens nowhere.
+
+    Fix: swap the shell for one `exterior-interior-links.json` links (re-run
+    --claim), or build an open structure with no door. Doors the claim drops
+    (an open front with no interior, `door_types` rule 2) are no door
+    records."""
+    from .door_types import OPEN_ENTRANCE_KINDS, door_type, linked_shells as linked
+    shells = linked() if shells is None else shells
+    lib = library() if lib is None else lib
+
+    def base_of(ref):
+        return composite_base(ref) or ref if isinstance(ref, str) and ref.startswith("composite:") else ref
+
+    parcels = {p.get("id"): p for p in bp.get("parcels") or []}
+    out, doored = [], set()
+    for door in sorted(bp.get("doors") or [], key=lambda d: str(d.get("id"))):
+        doored.add(door.get("parcelId"))
+        ref = (parcels.get(door.get("parcelId")) or {}).get("assetRef")
+        base = base_of(ref)
+        kind = door_type(door, ref, shells)
+        # a swing door opens in place onto the shell's own walked-in floor
+        # (no XTEL in its plugin): an open structure, not a closed one
+        if kind in (None, "swing") or base in shells:
+            continue
+        out.append(f"closed building: door {door.get('id')} on {door.get('parcelId')} ({ref}"
+                   f"{f', base shell {base}' if base != ref else ''}) opens onto no plugin-linked "
+                   f"interior cell; swap the shell for one exterior-interior-links.json links "
+                   f"(re-run --claim), or build an open structure with no doorway")
+    for pid, parcel in sorted(parcels.items(), key=lambda kv: str(kv[0])):
+        ref = parcel.get("assetRef")
+        if pid in doored or not isinstance(ref, str) or base_of(ref) in shells:
+            continue
+        way = entrance(lib.get(ref) or lib.get(base_of(ref) or ""))
+        if way is None or way.get("kind") in OPEN_ENTRANCE_KINDS:
+            continue
+        out.append(f"closed building: {pid} ({ref}) has a {way.get('kind')} doorway and no plugin links "
+                   f"its shell to an interior cell; swap the shell for one "
+                   f"exterior-interior-links.json links, or an open structure with no door")
+    return out
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--report", help="a blueprint json, or a directory of them")
@@ -930,7 +982,8 @@ def claim_main(path: Path, extra_parcels: list[str], use_table: bool = True) -> 
     print(json.dumps(rows, indent=1))
     # 0114: a linked shell no linked cell passes is reported loud, with each
     # cell's reason, and the run exits 3; the rule is never widened to find
-    # one (a hollow shell's reserved Phase 12 promise is not a failure)
+    # one; a door on a shell no plugin links (hollow) is a closed building and
+    # fails too (no closed buildings, owner 2026-09-30)
     unfit = [r for r in rows if r.get("door") and r.get("tier") == "reserved"
              and r.get("doorType") == "load"]
     for r in unfit:
@@ -939,7 +992,10 @@ def claim_main(path: Path, extra_parcels: list[str], use_table: bool = True) -> 
     orphans = orphan_socket_ops(bp, place_sources(bp.get("id"))[1]) if bp.get("id") else []
     for line in orphans:
         print(f"claim: ORPHAN {line}: move it to a claimed cell or an exterior spot", file=sys.stderr)
-    return 3 if unfit or orphans else 0
+    closed = closed_shell_failures(bp)
+    for line in closed:
+        print(f"claim: {line}", file=sys.stderr)
+    return 3 if unfit or orphans or closed else 0
 
 
 if __name__ == "__main__":

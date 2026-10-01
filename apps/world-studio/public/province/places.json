@@ -608,7 +608,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.breathes-underneath",
@@ -974,7 +974,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.climbs-to-see",
@@ -1264,7 +1264,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 20–60 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.cut-and-stack",
@@ -1477,7 +1477,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.draws-the-herds",
@@ -2145,7 +2145,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.hackwing-wall",
@@ -2378,7 +2378,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.hissmir",
@@ -2593,7 +2593,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 20–60 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.hixinoag",
@@ -2728,7 +2728,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.hutan-tzel",
@@ -2891,7 +2891,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.let-upper-floor",
@@ -3248,7 +3248,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.mazzatun-hist",
@@ -3517,7 +3517,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.murkwater-shadowscale-ground",
@@ -3966,7 +3966,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.nine-marks",
@@ -4334,7 +4334,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.rimfield",
@@ -4440,7 +4440,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.riverwalk",
@@ -4449,7 +4449,7 @@
       "class": "settlement",
       "family": "water-village",
       "type": "boardwalk-village",
-      "magnitude": "M3",
+      "magnitude": "M1",
       "importanceTier": 2,
       "dangerTier": "D1",
       "densityLayer": "destination",
@@ -4481,14 +4481,14 @@
       },
       "whySiteWon": "cove in mangrove forest (danger band 0), 692 m from the nearest route; at the water's edge; won on region, hinterland, route; site exchanged in the swap pass with place.dunmer-north.reedmoor-stilts (+0.38).",
       "why": {
-        "founding": "The northern trunk's mid-point: a village strung along a channel because the channel is the street.",
-        "siteAdvantages": "A day's run from either end of the trunk boat lane, which passes close enough to hail, making this the natural place to stop the night.",
+        "founding": "A halt in a sheltered sea cove, half-way along the coast lane between Stormhold and Alten Corimont. The village grew along its plank walk because the walk is its street.",
+        "siteAdvantages": "A day's sail from either end of the coast lane. No other water on that stretch is sheltered. Boats on the lane pass close enough to hail.",
         "occupantsMotive": "It lives on the ferry stage, the toll and feeding boat crews. The village grows no food of its own.",
         "pressures": "Alten Corimont's captain and Thorn's field-owners both think the toll should be theirs.",
-        "wouldChangeIf": "Would be bypassed if a deeper channel opened south. The villagers watch the silt for it."
+        "wouldChangeIf": "Would be bypassed if the cove silted up. The villagers sound the channel to the landing every morning."
       },
       "hardConstraints": [
-        "a navigable channel as the main street"
+        "a sheltered cove with a boat landing"
       ],
       "reachedVia": [
         "place.dunmer-north.the-black-stage"
@@ -4496,9 +4496,9 @@
       "discovery": "sightline",
       "valueTier": "tier-2",
       "purpose": "safe-rest (real) + vista-landmark, service-hub",
-      "hook": "The trunk channel's natural halt, where the toll is argued nightly and two cities claim it.",
+      "hook": "The coast lane's natural halt, where the toll is argued nightly and two cities claim it.",
       "stance": "wary",
-      "interior": "building · dwelling · S1 · wet 20%",
+      "interior": "building · dwelling · S1 · wet 0%",
       "purposeDetail": {
         "primary": "safe-rest",
         "impact": "real",
@@ -4518,13 +4518,13 @@
         "kind": "building",
         "family": "dwelling",
         "sizeBand": "S1",
-        "wetFraction": 0.2,
+        "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
         "verticalRelationship": "behind"
       },
       "entrance": "door",
-      "underwaterAccess": "surface-swim",
+      "underwaterAccess": "none",
       "contents": {
         "creatures": [],
         "npcs": [
@@ -4602,7 +4602,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 4–6 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.saltmarch-village",
@@ -4728,7 +4728,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.seam-chasers",
@@ -5221,7 +5221,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.stillrise-village",
@@ -5779,7 +5779,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 60+ structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.stormhold-causeway",
@@ -6212,7 +6212,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 20–60 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.ten-maur-wolk",
@@ -8239,7 +8239,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.the-drover-camp",
@@ -9028,7 +9028,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.the-guar-ground",
@@ -12042,7 +12042,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.the-silyanorn-crown",
@@ -13813,7 +13813,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.the-wamasu-shrine",
@@ -14796,7 +14796,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 60+ structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.thorn-paddy-terraces",
@@ -15721,7 +15721,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 20–60 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.dunmer-north.zuuk",
@@ -16044,7 +16044,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.artisan-chime-makers",
@@ -16189,7 +16189,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.barsaebic-sub-city",
@@ -16608,7 +16608,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.bioluminescent-glowfen",
@@ -16925,7 +16925,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.bog-blight-ground-stakes",
@@ -18209,7 +18209,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.daril-fermentary-interior",
@@ -19121,7 +19121,7 @@
       "class": "settlement",
       "family": "tribal-village",
       "type": "hist-village",
-      "magnitude": "M3",
+      "magnitude": "M2",
       "importanceTier": 1,
       "dangerTier": "D3",
       "densityLayer": "landmark",
@@ -19171,7 +19171,7 @@
       "purpose": "safe-rest (real) + service-hub",
       "hook": "Water here can be drunk without ceremony. The tribe charges nothing for it. Beds and rope cost a great deal.",
       "stance": "wary",
-      "interior": "building · dwelling · S2 · wet 20%",
+      "interior": "building · dwelling · S2 · wet 0%",
       "purposeDetail": {
         "primary": "safe-rest",
         "impact": "real",
@@ -19190,7 +19190,7 @@
         "kind": "building",
         "family": "dwelling",
         "sizeBand": "S2",
-        "wetFraction": 0.2,
+        "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
         "verticalRelationship": "behind"
@@ -19259,7 +19259,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.guide-camp-far-shelter",
@@ -19855,7 +19855,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.harmed-hist-tapped",
@@ -20415,7 +20415,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 60+ structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.heretic-stone-restarted",
@@ -20533,7 +20533,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.hermit-hut-exile-warden",
@@ -21045,7 +21045,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.hist-paatru-lowcrown",
@@ -21345,7 +21345,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.legendary-deep-medusa-wood",
@@ -22510,7 +22510,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.nightbound-lightless",
@@ -22631,7 +22631,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.nine-trunks",
@@ -22770,7 +22770,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.nisswo-rest-house-interior",
@@ -26127,7 +26127,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.stilt-channel-edge-uxaneet",
@@ -26264,7 +26264,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.stone-calendar-hist-tsoko",
@@ -28663,7 +28663,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.hist-heartland.xanmeer-fort-defences-working",
@@ -29480,7 +29480,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.cassian-farm",
@@ -29708,7 +29708,7 @@
       "class": "settlement",
       "family": "imperial-settlement",
       "type": "road-station-village",
-      "magnitude": "M2",
+      "magnitude": "M1",
       "importanceTier": 3,
       "dangerTier": "D3",
       "densityLayer": "fine-tempo",
@@ -29809,7 +29809,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 4–6 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.collections-dig",
@@ -30343,7 +30343,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.fig-market",
@@ -30550,7 +30550,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 20–60 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.fort-greenditch",
@@ -31248,7 +31248,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 60+ structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.gideon-rootworm-terminus",
@@ -31821,7 +31821,7 @@
           "role": "line"
         }
       ],
-      "interiorScope": "settlement: about 20–60 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.glenbridge-sermon-xanmeer",
@@ -32175,7 +32175,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.highwater-hamlet",
@@ -32296,7 +32296,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.hollow-arch-toll",
@@ -33048,7 +33048,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.marcians-terrace",
@@ -33158,7 +33158,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.mile-house-of-the-eagle",
@@ -35507,7 +35507,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.sour-orchard",
@@ -35715,7 +35715,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.stonewastes",
@@ -35918,7 +35918,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 20–60 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.swampmoth-town",
@@ -36120,7 +36120,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 20–60 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.takes-the-field",
@@ -40191,7 +40191,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.the-ring-of-nine-wells",
@@ -41726,7 +41726,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.the-white-throat",
@@ -42618,7 +42618,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-fringe.whispers-house-of-the-low-fen",
@@ -43552,7 +43552,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 60+ structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-penal-south.blackrose-drowned-hist",
@@ -44223,7 +44223,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-penal-south.cordon-cellars",
@@ -44972,7 +44972,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-penal-south.intact-fort",
@@ -46672,7 +46672,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-penal-south.rebellion-earthworks",
@@ -46919,7 +46919,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-penal-south.rose-bone-waystation",
@@ -47622,7 +47622,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 20–60 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.imperial-penal-south.saltrice-village",
@@ -48549,7 +48549,7 @@
           "role": "line"
         }
       ],
-      "interiorScope": "settlement: about 20–60 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.mercantile-coast.ashfield",
@@ -48809,7 +48809,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.mercantile-coast.bereaved-village-murkmire",
@@ -48947,7 +48947,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.mercantile-coast.bog-blight-ground-murkmire",
@@ -49442,7 +49442,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.mercantile-coast.chasepoint",
@@ -49583,7 +49583,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.mercantile-coast.coast-road-stage",
@@ -50400,7 +50400,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.mercantile-coast.high-junction",
@@ -51290,7 +51290,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.mercantile-coast.lilmoth",
@@ -51739,7 +51739,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 60+ structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.mercantile-coast.lilmoth-divers-yard",
@@ -52267,7 +52267,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.mercantile-coast.mudfoot",
@@ -52432,7 +52432,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.mercantile-coast.naga-village-oliis",
@@ -52704,7 +52704,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.mercantile-coast.oliis-air-station",
@@ -52975,7 +52975,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.mercantile-coast.oliis-drake-deep",
@@ -54256,7 +54256,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.mercantile-coast.sealed-meer-murkmire",
@@ -54906,7 +54906,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 60+ structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.mercantile-coast.soulrest-breaking-yard",
@@ -57145,7 +57145,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.naga-kur-deeps.bog-blight-ground-nine-stakes",
@@ -57539,7 +57539,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.naga-kur-deeps.deepmire-refuge",
@@ -59553,7 +59553,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.naga-kur-deeps.necropolis-nightbound",
@@ -59696,7 +59696,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.naga-kur-deeps.poacher-camp-egg",
@@ -60356,7 +60356,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.naga-kur-deeps.sealed-xanmeer-vakka-deeps",
@@ -61418,7 +61418,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 20–60 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.pirate-freeholds.bone-repatriation-waystation",
@@ -61857,7 +61857,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.pirate-freeholds.corimont-crosstrees",
@@ -62180,7 +62180,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.pirate-freeholds.corimont-low-store",
@@ -62641,7 +62641,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.pirate-freeholds.flu-cairn-field",
@@ -64269,7 +64269,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.pirate-freeholds.trunk-road-tradehouse",
@@ -64605,7 +64605,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.pirate-freeholds.veterans-holding",
@@ -64734,7 +64734,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 8–20 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 13–25 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.saxhleel-coast.archon",
@@ -65213,7 +65213,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 60+ structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 26+ buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.saxhleel-coast.archon-bonded-row",
@@ -66265,7 +66265,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.saxhleel-coast.contested-bank",
@@ -67862,7 +67862,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.saxhleel-coast.quarantine-village-lagoon",
@@ -67964,7 +67964,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "settlement: about 3–8 structures, every one enterable; the block below is the principal interior"
+      "interiorScope": "settlement: 7–12 buildings; every building with a door opens onto its own room; the block below is the principal interior"
     },
     {
       "id": "place.saxhleel-coast.quay-tradehouse",

@@ -1,0 +1,1136 @@
+{
+ "schemaVersion": 4,
+ "cellId": "CIPHTBMHutInteriorGreatHouse",
+ "plugin": "Here There Be Monsters - Curse of Cipactli.esp",
+ "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
+ "shellAssetId": null,
+ "refCount": 46,
+ "kits": {
+  "bmv-treehouse-int": {
+   "id": "bmv-treehouse-int",
+   "glb": "kits/bmv-treehouse-int.glb",
+   "manifest": "kits/bmv-treehouse-int.kit.json"
+  },
+  "htbm-hut-int": {
+   "id": "htbm-hut-int",
+   "glb": "kits/htbm-hut-int.glb",
+   "manifest": "kits/htbm-hut-int.kit.json"
+  }
+ },
+ "arrivalMarker": {
+  "positionM": [
+   -2.3896,
+   0.037,
+   -1.3655
+  ],
+  "yawDeg": 120.0
+ },
+ "exitDoor": {
+  "id": "CIPHTBMHutInteriorGreatHouse.06256E16",
+  "refId": "06256E16",
+  "positionM": [
+   -3.1862,
+   0.0,
+   -1.8207
+  ],
+  "yawDeg": 300.0
+ },
+ "doors": [
+  {
+   "doorType": "load",
+   "interiorLoadDoorRef": "06256E16",
+   "loadDoor": {
+    "positionM": [
+     -3.1862,
+     0.0,
+     -1.8207
+    ],
+    "yawDeg": 300.0
+   }
+  }
+ ],
+ "ambient": {
+  "colorRGB": [
+   60,
+   55,
+   36
+  ],
+  "intensity": 1.0,
+  "rule": "ambient-cube"
+ },
+ "fog": {
+  "colorRGB": [
+   117,
+   119,
+   130
+  ],
+  "nearM": 3.414,
+  "farM": 35.56
+ },
+ "lighting": {
+  "ambientRGB": [
+   60,
+   55,
+   36
+  ],
+  "directionalRGB": [
+   70,
+   70,
+   70
+  ],
+  "fogNearRGB": [
+   117,
+   119,
+   130
+  ],
+  "fogNearM": 3.414,
+  "fogFarM": 35.56,
+  "directionalRotXYDeg": 0,
+  "directionalRotZDeg": 0,
+  "directionalFade": 0.0,
+  "fogClipM": 35.56,
+  "fogPower": 1.0,
+  "fogFarRGB": [
+   117,
+   119,
+   130
+  ],
+  "fogMax": 1.0,
+  "lightFadeBeginM": 0.0,
+  "lightFadeEndM": 0.0,
+  "inherits": 157,
+  "specularRGB": [
+   0,
+   0,
+   0
+  ],
+  "fresnelPower": 1.0,
+  "ambientCube": {
+   "px": [
+    0.01521,
+    0.01298,
+    0.02217
+   ],
+   "nx": [
+    0.01033,
+    0.01298,
+    0.01938
+   ],
+   "py": [
+    0.00439,
+    0.00439,
+    0.00605
+   ],
+   "ny": [
+    0.02624,
+    0.02624,
+    0.04667
+   ],
+   "pz": [
+    0.01298,
+    0.01161,
+    0.02122
+   ],
+   "nz": [
+    0.01298,
+    0.0137,
+    0.02122
+   ]
+  },
+  "raw": {
+   "ambientCubeSkyrimRGB": {
+    "xp": [
+     33,
+     30,
+     41
+    ],
+    "xn": [
+     26,
+     30,
+     38
+    ],
+    "yp": [
+     30,
+     31,
+     40
+    ],
+    "yn": [
+     30,
+     28,
+     40
+    ],
+    "zp": [
+     14,
+     14,
+     18
+    ],
+    "zn": [
+     45,
+     45,
+     61
+    ]
+   }
+  }
+ },
+ "placements": [
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256DFE",
+   "assetId": "vanilla:clutter/barrel01",
+   "kit": "bmv-treehouse-int",
+   "positionM": [
+    -3.4991,
+    0.0,
+    0.5121
+   ],
+   "rotationDeg": [
+    0.0,
+    5.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "BarrelFish01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256DFF",
+   "assetId": "vanilla:clutter/barrel01",
+   "kit": "bmv-treehouse-int",
+   "positionM": [
+    -3.3995,
+    0.0284,
+    1.2659
+   ],
+   "rotationDeg": [
+    0.0,
+    125.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "BarrelEmpty01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E00",
+   "assetId": "vanilla:clutter/barrel01",
+   "kit": "bmv-treehouse-int",
+   "positionM": [
+    -3.4138,
+    1.1379,
+    0.9103
+   ],
+   "rotationDeg": [
+    0.0,
+    5.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "BarrelFish01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E06",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    0.9103,
+    0.0285,
+    2.8448
+   ],
+   "rotationDeg": [
+    0.0,
+    350.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CIPHTBMNativeChair",
+   "baseType": "FURN"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E07",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    2.2758,
+    0.0285,
+    2.2758
+   ],
+   "rotationDeg": [
+    0.0,
+    320.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CIPHTBMNativeChair",
+   "baseType": "FURN"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E0A",
+   "assetId": "vanilla:clutter/hay/hayscatter06",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    -0.3983,
+    0.0569,
+    -2.162
+   ],
+   "rotationDeg": [
+    0.0,
+    225.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayScatter06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E0B",
+   "assetId": "vanilla:clutter/hay/hayscatter05",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    0.8534,
+    0.0619,
+    0.9672
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayScatter05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E0C",
+   "assetId": "vanilla:clutter/hay/hayscatter05",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    -1.65,
+    0.0569,
+    0.6259
+   ],
+   "rotationDeg": [
+    0.0,
+    270.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayScatter05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E15",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.3,
+   "category": "architecture",
+   "base": "CIPHTBMVillageHut1Interior",
+   "baseType": "STAT"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E16",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    -3.1862,
+    0.0,
+    -1.8207
+   ],
+   "rotationDeg": [
+    0.0,
+    300.0,
+    0.0
+   ],
+   "scale": 1.3,
+   "category": "architecture",
+   "base": "CIPHTBMVillageHutDoorLoad",
+   "baseType": "DOOR"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E8D",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    -0.9103,
+    0.0285,
+    2.6172
+   ],
+   "rotationDeg": [
+    0.0,
+    15.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CIPHTBMNativeChair",
+   "baseType": "FURN"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E8E",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    -2.3896,
+    0.0285,
+    2.0483
+   ],
+   "rotationDeg": [
+    0.0,
+    35.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CIPHTBMNativeChair",
+   "baseType": "FURN"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E8F",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    3.0724,
+    0.0285,
+    0.569
+   ],
+   "rotationDeg": [
+    0.0,
+    270.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CIPHTBMNativeChair",
+   "baseType": "FURN"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E90",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    2.731,
+    0.0285,
+    -1.0241
+   ],
+   "rotationDeg": [
+    0.0,
+    240.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CIPHTBMNativeChair",
+   "baseType": "FURN"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E91",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    0.4552,
+    0.0484,
+    -3.3
+   ],
+   "rotationDeg": [
+    0.0,
+    205.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CIPHTBMNativeChair",
+   "baseType": "FURN"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E93",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    1.7069,
+    0.0285,
+    -2.5034
+   ],
+   "rotationDeg": [
+    0.0,
+    230.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CIPHTBMNativeChair",
+   "baseType": "FURN"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E94",
+   "assetId": "vanilla:clutter/giant/giantcampfire01off",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    0.1138,
+    0.0284,
+    -0.1138
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 0.3,
+   "category": "clutter",
+   "base": "GiantCampfire01Off",
+   "baseType": "STAT"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06468B68",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    -1.4793,
+    0.0,
+    -3.1293
+   ],
+   "rotationDeg": [
+    0.0,
+    100.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "CIPHTBMNativeBasket",
+   "baseType": "CONT"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06468B6A",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    3.0297,
+    0.0427,
+    1.6073
+   ],
+   "rotationDeg": [
+    0.0,
+    150.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "CIPHTBMNativeBasket",
+   "baseType": "CONT"
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06468B6B",
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    -0.0569,
+    0.0569,
+    3.1862
+   ],
+   "rotationDeg": [
+    0.0,
+    140.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "CIPHTBMNativeBasket",
+   "baseType": "CONT"
+  }
+ ],
+ "lights": [
+  {
+   "refId": "06468B72",
+   "positionM": [
+    -0.0569,
+    3.3,
+    1.0241
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    100,
+    89,
+    70
+   ],
+   "fade": 0.9083,
+   "flags": 9,
+   "falloffExponent": 0.01,
+   "base": "Alikr_OmniLight_WarmFlicker",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "06468B73",
+   "positionM": [
+    0.4552,
+    3.3,
+    -1.7638
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    100,
+    89,
+    70
+   ],
+   "fade": 0.9083,
+   "flags": 9,
+   "falloffExponent": 0.01,
+   "base": "Alikr_OmniLight_WarmFlicker",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "06468B74",
+   "positionM": [
+    -2.1052,
+    3.3,
+    -0.1138
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    100,
+    89,
+    70
+   ],
+   "fade": 0.9083,
+   "flags": 9,
+   "falloffExponent": 0.01,
+   "base": "Alikr_OmniLight_WarmFlicker",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "06468B77",
+   "positionM": [
+    0.0,
+    0.2845,
+    0.0569
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    185,
+    208,
+    202
+   ],
+   "fade": 0.9083,
+   "flags": 8193,
+   "falloffExponent": 0.01,
+   "base": "BleakFallsSunlightBounceAmb01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 5.0
+   }
+  }
+ ],
+ "socketsSchemaVersion": 2,
+ "sockets": [
+  {
+   "id": "socket.CIPHTBMHutInteriorGreatHouse.06256DFE",
+   "kind": "container",
+   "positionM": [
+    -3.4991,
+    0.0,
+    0.5121
+   ],
+   "yawDeg": 5.0,
+   "host": "CIPHTBMHutInteriorGreatHouse.06256DFE",
+   "containerClass": "barrel",
+   "fillRule": "blanket.household-barrel",
+   "why": "BarrelFish01 placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInteriorGreatHouse.06256DFF",
+   "kind": "container",
+   "positionM": [
+    -3.3995,
+    0.0284,
+    1.2659
+   ],
+   "yawDeg": 125.0,
+   "host": "CIPHTBMHutInteriorGreatHouse.06256DFF",
+   "containerClass": "barrel",
+   "fillRule": "blanket.household-barrel",
+   "why": "BarrelEmpty01 placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInteriorGreatHouse.06256E00",
+   "kind": "container",
+   "positionM": [
+    -3.4138,
+    1.1379,
+    0.9103
+   ],
+   "yawDeg": 5.0,
+   "host": "CIPHTBMHutInteriorGreatHouse.06256E00",
+   "containerClass": "barrel",
+   "fillRule": "blanket.household-barrel",
+   "why": "BarrelFish01 placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInteriorGreatHouse.06256E06",
+   "kind": "idle",
+   "positionM": [
+    0.9103,
+    0.0285,
+    2.8448
+   ],
+   "yawDeg": 350.0,
+   "host": "CIPHTBMHutInteriorGreatHouse.06256E06",
+   "activity": "sit",
+   "why": "CIPHTBMNativeChair placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInteriorGreatHouse.06256E07",
+   "kind": "idle",
+   "positionM": [
+    2.2758,
+    0.0285,
+    2.2758
+   ],
+   "yawDeg": 320.0,
+   "host": "CIPHTBMHutInteriorGreatHouse.06256E07",
+   "activity": "sit",
+   "why": "CIPHTBMNativeChair placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInteriorGreatHouse.06256E8D",
+   "kind": "idle",
+   "positionM": [
+    -0.9103,
+    0.0285,
+    2.6172
+   ],
+   "yawDeg": 15.0,
+   "host": "CIPHTBMHutInteriorGreatHouse.06256E8D",
+   "activity": "sit",
+   "why": "CIPHTBMNativeChair placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInteriorGreatHouse.06256E8E",
+   "kind": "idle",
+   "positionM": [
+    -2.3896,
+    0.0285,
+    2.0483
+   ],
+   "yawDeg": 35.0,
+   "host": "CIPHTBMHutInteriorGreatHouse.06256E8E",
+   "activity": "sit",
+   "why": "CIPHTBMNativeChair placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInteriorGreatHouse.06256E8F",
+   "kind": "idle",
+   "positionM": [
+    3.0724,
+    0.0285,
+    0.569
+   ],
+   "yawDeg": 270.0,
+   "host": "CIPHTBMHutInteriorGreatHouse.06256E8F",
+   "activity": "sit",
+   "why": "CIPHTBMNativeChair placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInteriorGreatHouse.06256E90",
+   "kind": "idle",
+   "positionM": [
+    2.731,
+    0.0285,
+    -1.0241
+   ],
+   "yawDeg": 240.0,
+   "host": "CIPHTBMHutInteriorGreatHouse.06256E90",
+   "activity": "sit",
+   "why": "CIPHTBMNativeChair placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInteriorGreatHouse.06256E91",
+   "kind": "idle",
+   "positionM": [
+    0.4552,
+    0.0484,
+    -3.3
+   ],
+   "yawDeg": 205.0,
+   "host": "CIPHTBMHutInteriorGreatHouse.06256E91",
+   "activity": "sit",
+   "why": "CIPHTBMNativeChair placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInteriorGreatHouse.06256E93",
+   "kind": "idle",
+   "positionM": [
+    1.7069,
+    0.0285,
+    -2.5034
+   ],
+   "yawDeg": 230.0,
+   "host": "CIPHTBMHutInteriorGreatHouse.06256E93",
+   "activity": "sit",
+   "why": "CIPHTBMNativeChair placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInteriorGreatHouse.06468B68",
+   "kind": "container",
+   "positionM": [
+    -1.4793,
+    0.0,
+    -3.1293
+   ],
+   "yawDeg": 100.0,
+   "host": "CIPHTBMHutInteriorGreatHouse.06468B68",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "CIPHTBMNativeBasket placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInteriorGreatHouse.06468B6A",
+   "kind": "container",
+   "positionM": [
+    3.0297,
+    0.0427,
+    1.6073
+   ],
+   "yawDeg": 150.0,
+   "host": "CIPHTBMHutInteriorGreatHouse.06468B6A",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "CIPHTBMNativeBasket placed by the cell's author"
+  },
+  {
+   "id": "socket.CIPHTBMHutInteriorGreatHouse.06468B6B",
+   "kind": "container",
+   "positionM": [
+    -0.0569,
+    0.0569,
+    3.1862
+   ],
+   "yawDeg": 140.0,
+   "host": "CIPHTBMHutInteriorGreatHouse.06468B6B",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "CIPHTBMNativeBasket placed by the cell's author"
+  }
+ ],
+ "drops": [
+  {
+   "refId": "06468B6C",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dragonborn.esm:00039BB5",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    -0.6259,
+    4.6655,
+    -1.3086
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+   "why": "A small household object from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+  },
+  {
+   "refId": "06468B6D",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dragonborn.esm:00039BBC",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    0.9103,
+    4.4379,
+    1.65
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+   "why": "A small household object from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+  },
+  {
+   "refId": "06468B6E",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dragonborn.esm:00039BBB",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    0.9672,
+    4.8931,
+    0.0569
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+   "why": "A small household object from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+  },
+  {
+   "refId": "06468B6F",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dragonborn.esm:00039BBC",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    1.3655,
+    4.0965,
+    -1.9914
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+   "why": "A small household object from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+  },
+  {
+   "refId": "06468B70",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dragonborn.esm:00039BBC",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
+   "positionM": [
+    -2.8448,
+    3.9258,
+    -0.2276
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "Dragonborn.esm is not in the vault (skyrim-source/Data holds Skyrim.esm and Update.esm only) and the owner excludes Dragonborn content (CLAUDE.md asset rule), so the base cannot be resolved to an object; a UESP search for the form id found no page (16k walk 7, places lane, 2026-10-01). With the object unknown, no same-object stand-in (R48) can be chosen.",
+   "why": "A small household object from Dragonborn stood here. Its record is not in the vault, so the spot stays bare."
+  },
+  {
+   "refId": "06468B72",
+   "reason": "light-source",
+   "base": "Alikr_OmniLight_WarmFlicker",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "06468B73",
+   "reason": "light-source",
+   "base": "Alikr_OmniLight_WarmFlicker",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "06468B74",
+   "reason": "light-source",
+   "base": "Alikr_OmniLight_WarmFlicker",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "06468B75",
+   "reason": "listed-drop",
+   "base": "FXAmbBeamDust02",
+   "baseType": "MSTT",
+   "model": "effects/ambient/fxambbeamdust02.nif",
+   "assetId": null,
+   "class": "effect",
+   "classSource": "base record MSTT, model taxonomy",
+   "positionM": [
+    -0.0569,
+    5.9172,
+    0.0
+   ]
+  },
+  {
+   "refId": "06468B77",
+   "reason": "light-source",
+   "base": "BleakFallsSunlightBounceAmb01NS",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "067B4966",
+   "reason": "actor",
+   "base": "CIPHTBMNative1F",
+   "baseType": "NPC_"
+  },
+  {
+   "refId": "067B4967",
+   "reason": "actor",
+   "base": "CIPHTBMNative1M",
+   "baseType": "NPC_"
+  },
+  {
+   "refId": "067B4968",
+   "reason": "actor",
+   "base": "CIPHTBMNative2M",
+   "baseType": "NPC_"
+  },
+  {
+   "refId": "067B4969",
+   "reason": "actor",
+   "base": "CIPHTBMNative3F",
+   "baseType": "NPC_"
+  },
+  {
+   "refId": "067B496A",
+   "reason": "actor",
+   "base": "CIPHTBMNative3M",
+   "baseType": "NPC_"
+  },
+  {
+   "refId": "067B496B",
+   "reason": "actor",
+   "base": "CIPHTBMNative4F",
+   "baseType": "NPC_"
+  },
+  {
+   "refId": "067B496C",
+   "reason": "actor",
+   "base": "CIPHTBMNative4M",
+   "baseType": "NPC_"
+  },
+  {
+   "refId": "067B496D",
+   "reason": "no-model",
+   "base": "DecalBloodSprayGroundSmall",
+   "baseType": "TXST"
+  },
+  {
+   "refId": "067B496E",
+   "reason": "no-model",
+   "base": "DecalBloodSprayGroundSmall",
+   "baseType": "TXST"
+  },
+  {
+   "refId": "067B496F",
+   "reason": "no-model",
+   "base": "DecalBloodSprayGroundSmall",
+   "baseType": "TXST"
+  },
+  {
+   "refId": "067B4970",
+   "reason": "no-model",
+   "base": "DecalBloodSprayGroundSmall",
+   "baseType": "TXST"
+  },
+  {
+   "refId": "067B4971",
+   "reason": "no-model",
+   "base": "DecalBloodSprayGroundSmall",
+   "baseType": "TXST"
+  },
+  {
+   "refId": "067B4972",
+   "reason": "no-model",
+   "base": "DecalBloodSprayGroundSmall",
+   "baseType": "TXST"
+  },
+  {
+   "refId": "067B4973",
+   "reason": "no-model",
+   "base": "DecalBloodSprayGroundSmall",
+   "baseType": "TXST"
+  },
+  {
+   "refId": "067B4974",
+   "reason": "no-model",
+   "base": "DecalBloodSprayGroundSmall",
+   "baseType": "TXST"
+  },
+  {
+   "refId": "067B4975",
+   "reason": "actor",
+   "base": "CIPHTBMNagaHeavy2F",
+   "baseType": "NPC_"
+  }
+ ],
+ "substitutions": [],
+ "counts": {
+  "placements": 20,
+  "drops": 26,
+  "lights": 4,
+  "substitutions": 0,
+  "swingDoors": 0,
+  "missingByClass": {},
+  "dropsByReason": {
+   "actor": 8,
+   "light-source": 4,
+   "listed-drop": 1,
+   "listed-gap": 5,
+   "no-model": 8
+  },
+  "socketsByKind": {
+   "container": 6,
+   "idle": 8
+  },
+  "settled": 8,
+  "coplanarFixed": 1
+ },
+ "settled": [
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E06",
+   "dropM": 0.085
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E07",
+   "dropM": 0.085
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E8D",
+   "dropM": 0.085
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E8E",
+   "dropM": 0.085
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E8F",
+   "dropM": 0.085
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E90",
+   "dropM": 0.085
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E91",
+   "dropM": 0.065
+  },
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E93",
+   "dropM": 0.085
+  }
+ ],
+ "coplanarFixed": [
+  {
+   "id": "CIPHTBMHutInteriorGreatHouse.06256E0B",
+   "against": "CIPHTBMHutInteriorGreatHouse.06256E0A",
+   "nudgeM": [
+    0.0,
+    0.005,
+    0.0
+   ],
+   "overlapM2": 0.0394
+  }
+ ]
+}

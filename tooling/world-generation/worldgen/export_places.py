@@ -22,7 +22,7 @@ import json
 import re
 from pathlib import Path
 
-from . import catalogue
+from . import breadth_bars, catalogue
 from .society import CULTURES
 
 QUESTS_REGISTRY = catalogue.REPO_ROOT / "world" / "sources" / "registries" / "quests.json"
@@ -35,9 +35,6 @@ ANCHOR_PROVISION = re.compile(r"^quest\.provision\.([a-z]{2})(\d{2})-anchor$")
 # carries an explicit `group` per line when it exists and wins over this map.
 KIND_GROUP = {"main-quest": "main", "faction-quest": "faction", "daedric-quest": "other",
               "local-quest": "minor", "proposed-quest": "minor"}
-# Settlement magnitude → rough count of enterable structures (world-plan rule:
-# 100 % of settlement structures enterable; docs/research/placement-settlements/morrowind-content-density.md §4).
-MAGNITUDE_STRUCTURES = {"M1": "1–3", "M2": "3–8", "M3": "8–20", "M4": "20–60", "M5": "60+"}
 
 SCHEMA_VERSION = 3
 OUT_PATH = catalogue.REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "places.json"
@@ -193,8 +190,13 @@ def _interior_scope(rec: dict) -> str | None:
     it = rec.get("interior") or {}
     kind = it.get("kind")
     if cls.get("class") == "settlement":
-        n = MAGNITUDE_STRUCTURES.get(cls.get("magnitude") or "", "several")
-        return f"settlement: about {n} structures, every one enterable; the block below is the principal interior"
+        # the band is the breadth-bars column the place gates build it under
+        # (one home; `place_gates` gate `record.consistency`)
+        row = (breadth_bars.load()["tiers"].get(cls.get("magnitude") or "") or {})
+        lo, hi = row.get("buildingsMin"), row.get("buildingsMax")
+        n = f"{lo}–{hi}" if lo is not None and hi is not None else (f"{lo}+" if lo is not None else "several")
+        return (f"settlement: {n} buildings; every building with a door opens onto its own room; "
+                f"the block below is the principal interior")
     if kind in (None, "none"):
         return None
     n = it.get("entranceCount") or 1

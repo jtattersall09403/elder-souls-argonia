@@ -4120,7 +4120,8 @@
         "facingDeg": 59.0,
         "doorType": "load",
         "fills": [
-          "promise.claywater-station.safe-interior"
+          "promise.claywater-station.safe-interior",
+          "promise.claywater-station.interior-principal"
         ]
       },
       {

@@ -349,3 +349,24 @@ def test_a_landmarks_pad_is_exported_like_a_parcels(applied_layout):
     padded.role = {"kind": "landmark", "id": "landmark.t.mound"}
     got = export.poses(scene, 7373.50656)["landmarks"]["landmark.t.mound"]
     assert isinstance(got.get("pad"), dict) and isinstance(got["pad"]["datumM"], float)
+
+
+def test_an_unmined_mount_may_touch_its_host_but_never_pass_into_it():
+    """16k walk 7: Riverwalk's lantern, hung by `mount --hang` (an unmined
+    pose), stood 0.1 m inside the house wall and `check` passed it because a
+    mounted pair asked for contact only. A mined pair's overlap is designed;
+    an unmined one's is a defect over UNMINED_MOUNT_PENETRATION_M."""
+    from workbench.scene import Piece
+    house = Piece("b-house", "x:house", 0.0, 0.0)
+    lamp = Piece("c-doorlamp", "x:lamp", 1.0, 0.0,
+                 role={"mountedOn": "b-house", "mountPair": {"kind": "unmined", "on": "branch"}})
+    touch = {"contact": True, "gapM": 0.0, "penetrationM": 0.01, "intersecting": True}
+    into = dict(touch, penetrationM=0.12)
+    assert wb._pair_verdict(house, lamp, touch)["ok"] is True
+    got = wb._pair_verdict(house, lamp, into)
+    assert got["relation"] == "mounted-unmined" and got["ok"] is False
+    deep = dict(touch, penetrationM=None)     # crossing past every slide reach
+    assert wb._pair_verdict(house, lamp, deep)["ok"] is False
+    mined = Piece("c-lamp2", "x:lamp", 1.0, 0.0,
+                  role={"mountedOn": "b-house", "mountPair": {"kind": "sconce", "evidence": "mined"}})
+    assert wb._pair_verdict(house, mined, into) == {"relation": "mounted", "ok": True}
