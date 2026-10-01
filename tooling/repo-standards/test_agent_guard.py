@@ -49,6 +49,7 @@ def test_refuse_at_180_except_report_and_handback(tmp_path):
     assert call(tmp_path, 200, tool="Write", file_path="/r/tooling/.reports/16k/x.md").returncode == 0
     assert call(tmp_path, 200, tool="Edit", file_path="/r/packages/a.ts").returncode == 2
     assert call(tmp_path, 200, tool="SubagentHandback", message="done").returncode == 0
+    assert call(tmp_path, 200, tool="StructuredOutput", result="done").returncode == 0  # schema-bound Workflow agent
     assert call(tmp_path, 200, workflow=True).returncode == 2          # Workflow agents' layout too
 
 

@@ -62,3 +62,15 @@ def test_twin_is_measured_on_bounds_and_hook():
     assert snap.twin_refusal(cat, "a", "b") is None
     assert "not b" not in (snap.twin_refusal(cat, "a", "c") or "") and snap.twin_refusal(cat, "a", "c")
 
+
+def test_blueprint_reads_the_override_dir(tmp_path, monkeypatch):
+    import json
+    from workbench import paths
+    (tmp_path / "place.t.x.json").write_text(json.dumps({"blueprint": {"marker": 1}}))
+    monkeypatch.setattr(paths, "BLUEPRINTS", tmp_path)
+    assert dr._blueprint(SimpleNamespace(placeId="place.t.x")) == {"marker": 1}
+
+
+def test_kit_forward_cache_is_bounded():
+    assert dr._kit_forward.cache_info().maxsize == 256
+

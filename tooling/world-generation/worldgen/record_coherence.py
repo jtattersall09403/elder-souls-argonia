@@ -55,10 +55,18 @@ FEATURES: dict[str, tuple[str, tuple[str, ...], tuple[str, ...]]] = {
     "channel": (r"\bchannels?\b", ("channel", "canal"), ("channel", "river", "lane")),
     "canal": (r"\bcanals?\b", ("canal", "channel"), ("channel",)),
     "ferry": (r"\bferry\b|\bferries\b", ("ferry",), ("lane", "crossing")),
-    "well": (r"\bwells?\b", ("well",), ()),
-    "spring": (r"\bsprings?\b", ("spring",), ()),
+    # Bare words that are also ordinary prose are read only as the feature
+    # noun: "as well" / "well-kept" is no well, "in the spring" / "spring
+    # rains" is the season (fig-market's premise), "takes its toll" no toll.
+    "well": (r"(?<!\bas )\bwells?\b(?![-,])", ("well",), ()),
+    "spring": (r"(?<!\bin )(?<!\bin the )(?<!\bthis )(?<!\blast )(?<!\bnext )(?<!\bthat )"
+               r"(?<!\bevery )(?<!\beach )(?<!\bby )(?<!\buntil )(?<!\bsince )(?<!\bthe late )"
+               r"(?<!\bthe early )\bsprings?\b"
+               r"(?!\s+(?:rains?|floods?|thaw|seasons?|tides?|planting|and\s+summer|or\s+summer))",
+               ("spring",), ()),
     "Hist tree": (r"\bHist\b", ("hist",), ()),
-    "toll": (r"\btolls?\b", ("toll",), ()),
+    "toll": (r"(?<!\btakes its )(?<!\btook its )(?<!\btake its )(?<!\btaken its )"
+             r"(?<!\btakes their )(?<!\btook their )(?<!\btake a )\btolls?\b", ("toll",), ()),
     "bridge": (r"\bbridges?\b", ("bridge",), ()),
     "dock": (r"\bdocks?\b|\bjett(?:y|ies)\b|\bpiers?\b|\bquays?\b",
              ("dock", "jetty", "pier", "quay", "landing", "stage"), ()),
@@ -384,7 +392,8 @@ def relation_failures(place_id: str, index: Index, compiled: dict | None = None)
     if compiled is not None:
         want = (rec.get("interior") or {}).get("entranceCount")
         have = load_door_count(compiled)
-        if want != have:
+        # an absent entranceCount is "not recorded": nothing to compare
+        if want is not None and want != have:
             fails.append(f"record.coherence: interior.entranceCount is {want} and the build has "
                          f"{have} load doors")
     service_ids = {sv.get("id") for sv in index.services.get("services", [])}

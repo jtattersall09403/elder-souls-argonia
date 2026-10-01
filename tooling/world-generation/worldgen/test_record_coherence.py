@@ -61,6 +61,23 @@ def test_entrance_count_fail():
     assert any("entranceCount is 1 and the build has 2 load doors" in f for f in fails)
 
 
+def test_entrance_count_not_recorded_skips():
+    ix = _rel_index({}, {})
+    del ix.places["place.t.home"]["interior"]
+    fails = rc.coherence_failures("place.t.home", ix, {"doors": [{"interiorClaim": {"c": 1}}]})
+    assert not any("entranceCount" in f for f in fails)
+
+
+def test_season_and_idiom_are_no_features():
+    """fig-market's premise (local-imperial-fringe.json): the season is no spring."""
+    for prose in ("A herdsman who died in the spring", "Spring rains came late", "The fever takes its toll",
+                  "The boatmen came as well"):
+        ix = _index("A halt.", prose, True)
+        assert not any("premises" in f for f in rc.coherence_failures("place.t.home", ix)), prose
+    ix = _index("A halt.", "The spring under the hall is fouled", True)
+    assert any("premises a spring" in f for f in rc.coherence_failures("place.t.home", ix))
+
+
 def test_rival_and_dependency_fail():
     ix = _rel_index({"rivals": ["place.t.aaa"], "dependsOn": ["place.t.aaa"]}, {"rivals": ["place.t.home"]})
     assert any("both relations.rivals and relations.dependsOn" in f for f in rc.coherence_failures("place.t.home", ix))

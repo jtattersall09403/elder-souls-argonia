@@ -67,7 +67,8 @@ def _off(a: float, b: float) -> float:
     return abs((a - b + 180.0) % 360.0 - 180.0)
 
 
-@lru_cache(maxsize=None)
+# bounded: the key holds the Catalogue (and its meshes) alive (memory discipline)
+@lru_cache(maxsize=256)
 def _kit_forward(cat, asset: str) -> float | None:
     """The seat's front as a kit bearing (0 = kit +y), measured from its
     mesh: back = top-30 %-of-height centroid; front = from the back through
@@ -232,7 +233,7 @@ SIGN_DOOR_M = 4.0
 def _blueprint(scene) -> dict:
     import json
     from . import paths
-    f = paths.REPO_ROOT / "world" / "sources" / "blueprints" / f"{scene.placeId}.json"
+    f = paths.BLUEPRINTS / f"{scene.placeId}.json"   # honours WB_BLUEPRINTS, like rules.py
     return json.loads(f.read_text())["blueprint"] if f.exists() else {}
 
 

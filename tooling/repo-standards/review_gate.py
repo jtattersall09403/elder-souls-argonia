@@ -474,7 +474,10 @@ def write_stamp(key, h, status, n, head=None, paths=None, base=None):
         _write_stamp_file({"stamps": stamps, "reviewedHead": reviewed, "batchId": batch,
                            "open": status == "ok" or was_open})
         # append-only (decision 0118): --close empties the stamps, so the drift
-        # check counts fires here, never from the stamp file
+        # check counts fires here, never from the stamp file. Only a review that
+        # ran is a fire: a failed attempt and its retry are one review.
+        if status != "ok":
+            return
         with open(os.path.join(os.path.dirname(STAMP), REVIEW_LOG), "a") as log:
             log.write(json.dumps({"time": now, "batchId": batch, "head": head, "status": status,
                                   "findings": n, "paths": paths or []}) + "\n")
@@ -546,6 +549,8 @@ def main():
     head = current_head()
     key = None if rng else batch_key(head)
     st = {} if rng or force else batch_stamp(head, key)
+    if st and str(st.get("status", "")).startswith("review failed"):
+        st = {}                 # a failed attempt reviewed nothing: `--run` retries it
     if not st and not rng and not force and batch_open():
         st = {"status": "open batch", "findings": "-"}
     if st:

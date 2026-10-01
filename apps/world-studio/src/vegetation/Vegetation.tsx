@@ -988,7 +988,7 @@ export function Vegetation({
     allPending.current.clear();
     flushAllDirty();
     const weather = lastWeatherSample();
-    if (weather) updateWindSway(wind, state.clock.elapsedTime, weather);
+    if (weather) updateWindSway(wind, state.clock.elapsedTime, weather, state.camera.position);
     lodFade.esLodViewPos.value.copy(state.camera.position);
     pushLodHistory(lodHistory, state.camera.position.x, state.camera.position.z,
       state.clock.elapsedTime, lodFade.esLodHist.value);

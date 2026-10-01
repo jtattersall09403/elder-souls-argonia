@@ -125,9 +125,13 @@ export function selectGates(files, workspaces, gateNames) {
 // preflights on the same paths in 20 min of walk 7). Inside an open review
 // batch, a re-run keeps only the gates that were red last time plus any gate
 // the last run did not run; a green last run, another batch, or a runner run
-// re-runs everything selected. `last` is the previous runs.jsonl row.
-export function rerunOnlyFailed(gates, last, batchId) {
-  if (!batchId || !last || last.runner || last.batchId !== batchId || !Array.isArray(last.failed) || !last.failed.length) {
+// re-runs everything selected, and so does a different `--paths` scope (a
+// gate green on game-core says nothing of world-studio). `last` is the
+// previous runs.jsonl row; `paths` this run's `--paths` list.
+export function rerunOnlyFailed(gates, last, batchId, paths = []) {
+  const scope = (p) => JSON.stringify([...(p ?? [])].sort());
+  if (!batchId || !last || last.runner || last.batchId !== batchId || !Array.isArray(last.failed) || !last.failed.length
+      || scope(last.paths) !== scope(paths)) {
     return { gates, skipped: [] };
   }
   const ran = new Set((last.gates ?? []).map((g) => g[0]));

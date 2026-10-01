@@ -95,4 +95,7 @@ test("inside an open batch a re-run keeps only last run's red gates and gates it
   assert.deepEqual(rerunOnlyFailed(all, { ...last, failed: [] }, "b1").gates, all);    // last run green
   assert.deepEqual(rerunOnlyFailed(all, last, null).gates, all);                       // no open batch
   assert.deepEqual(rerunOnlyFailed(all, { ...last, runner: true }, "b1").gates, all);  // runner rows never narrow
+  const scoped = { ...last, paths: ["packages/game-core/src/a.ts"] };
+  assert.deepEqual(rerunOnlyFailed(all, scoped, "b1", ["apps/world-studio/src/b.ts"]).gates, all); // other scope
+  assert.deepEqual(rerunOnlyFailed(all, scoped, "b1", ["packages/game-core/src/a.ts"]).gates, ["typecheck"]);
 });

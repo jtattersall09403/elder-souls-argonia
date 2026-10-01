@@ -34,6 +34,11 @@ export interface WindUniforms {
   esWindVec: { value: THREE.Vector3 };
   /** Beyond this distance from the camera, sway fades to nothing. */
   esWindFadeM: { value: number };
+  /** The player's view point (the MAIN camera), set by `updateWindSway`. The
+   * fade reads this, never `cameraPosition`: in the shadow pass that is the
+   * CSM shadow camera, 400 m past the cascades, and shadows would stop
+   * swaying with their plants. */
+  esWindEye: { value: THREE.Vector3 };
 }
 
 /**
@@ -110,6 +115,7 @@ export function createWindUniforms(): WindUniforms {
     esWindTime: { value: 0 },
     esWindVec: { value: new THREE.Vector3(1, 0, 0) },
     esWindFadeM: { value: WIND_FADE_M },
+    esWindEye: { value: new THREE.Vector3() },
   };
 }
 
@@ -123,7 +129,9 @@ export function updateWindSway(
   uniforms: WindUniforms,
   elapsedSeconds: number,
   wind: { windDirXZ: readonly [number, number]; windSpeedMS: number; gustiness: number },
+  eye: THREE.Vector3,
 ): void {
+  uniforms.esWindEye.value.copy(eye);
   // Absolute, not accumulated: two systems sharing one uniform block (the
   // instanced flora and the groundcover ring both do) may each call this per
   // frame, and accumulation would run the clock at double speed.
@@ -140,6 +148,7 @@ const VERTEX_HEAD = /* glsl */ `
 uniform float esWindTime;
 uniform vec3 esWindVec;
 uniform float esWindFadeM;
+uniform vec3 esWindEye;
 
 #if defined(USE_INSTANCING) && !defined(ES_BATCH_SLOTS)
   // vec3(stiffness - 1, sink metres, plant height metres). Unbound =>
@@ -212,7 +221,7 @@ const VERTEX_BODY = /* glsl */ `
   // trunk where it meets the soil (owner round 6).
   float esHeight = max(0.0, esLocal.y - esTune.y);
   float esStrength = length(esWindVec.xy);
-  float esDist = length(cameraPosition - esInstanceOrigin);
+  float esDist = length(esWindEye - esInstanceOrigin);
   float esFade = 1.0 - smoothstep(esWindFadeM * 0.6, esWindFadeM, esDist);
   if (esStrength > 0.0001 && esHeight > 0.01 && esFade > 0.0) {
     float esStiffness = 1.0 + esTune.x;
@@ -284,6 +293,7 @@ function installWindHook(material: THREE.Material, uniforms: WindUniforms): void
     shader.uniforms.esWindTime = uniforms.esWindTime;
     shader.uniforms.esWindVec = uniforms.esWindVec;
     shader.uniforms.esWindFadeM = uniforms.esWindFadeM;
+    shader.uniforms.esWindEye = uniforms.esWindEye;
     shader.vertexShader = shader.vertexShader
       .replace("void main() {", `${VERTEX_HEAD}\nvoid main() {`)
       .replace(

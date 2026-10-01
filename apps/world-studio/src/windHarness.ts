@@ -117,7 +117,7 @@ async function main(): Promise<void> {
     return +(n / (W * H)).toFixed(4);
   };
   const setWind = (strength: number, t: number): void =>
-    updateWindSway(wind, t, { windDirXZ: [1, 0], windSpeedMS: 13 * strength, gustiness: GUSTINESS });
+    updateWindSway(wind, t, { windDirXZ: [1, 0], windSpeedMS: 13 * strength, gustiness: GUSTINESS }, camera.position);
   const show = (only: string | null, patched: boolean): void => {
     for (const s of species) {
       s.patched.visible = patched && (only === null || only === s.id);

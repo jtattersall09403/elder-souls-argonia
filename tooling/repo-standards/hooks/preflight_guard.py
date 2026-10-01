@@ -158,6 +158,9 @@ def _miner_argv(cmd: str) -> list[str] | None:
             if not re.fullmatch(r"(.*/)?python3?(\.\d+)?", tok):
                 continue
             rest = argv[i + 1:]
+            # walk interpreter flags (-u, -O, -X opt, -W arg, -Xopt) to -m or the script
+            while rest and rest[0].startswith("-") and rest[0] != "-m":
+                rest = [] if rest[0] == "-c" else rest[2:] if rest[0] in ("-X", "-W") else rest[1:]
             if rest[:1] == ["-m"] and len(rest) > 1 and MINERS.search(rest[1]) \
                     and rest[1].rsplit(".", 1)[-1].startswith("mine_"):
                 return rest[2:]

@@ -9,7 +9,7 @@ context, and a lead only plans.
    - at NUDGE_TURNS: the call runs, with a nudge to write the hand-off note
      and return;
    - at REFUSE_TURNS: every call is refused except a Write/Edit under
-     tooling/.reports/ (the report) and SubagentHandback.
+     tooling/.reports/ (the report), SubagentHandback and StructuredOutput.
    Applies to CAPPED types (the Opus tiers); find/run/deliver-small are cheap.
 2. Leads never do the work (r6: walk-7 leads ran 0 children, 2,511 turns,
    53.4 units). agent_type `lead`: Edit/Write/MultiEdit/NotebookEdit outside
@@ -25,6 +25,8 @@ NUDGE_TURNS = 150
 REFUSE_TURNS = 180
 CAPPED = {"deliver", "place-builder", "lead", "research"}
 EDIT_TOOLS = {"Edit", "Write", "MultiEdit", "NotebookEdit"}
+# how an agent returns: SubagentHandback, or StructuredOutput for a Workflow agent with a schema
+RETURN_TOOLS = {"SubagentHandback", "StructuredOutput"}
 REPORTS = "tooling/.reports/"
 LEAD_WORK = re.compile(
     r"\bwb\.py\b|\bpytest\b|\bnpm\s+(test\b|run\s+(\S*:)?\S*(test|build|publish|compile|export|preflight|look)\S*)"
@@ -91,7 +93,7 @@ def decide(d, n_turns=None):
             return 0, ""
         n_turns = turns(p)
     if n_turns >= REFUSE_TURNS:
-        if tool == "SubagentHandback" or (tool in EDIT_TOOLS and under_reports(inp.get("file_path"))):
+        if tool in RETURN_TOOLS or (tool in EDIT_TOOLS and under_reports(inp.get("file_path"))):
             return 0, ""
         return 2, (f"[agent guard, decision 0118] {n_turns} turns: past the {REFUSE_TURNS}-turn context cap. "
                    "Write your hand-off note (what is green, the exact next step) to your report under "

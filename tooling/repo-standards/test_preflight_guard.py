@@ -83,6 +83,9 @@ def test_a_full_miner_run_needs_rule_change(repo):
     assert refused("Bash", command='python3 -c "import worldgen.mine_mounts"') is None
     wrapped = "tooling/repo-standards/job_guard.sh L -- python3 tooling/world-generation/worldgen/mine_mounts.py"
     assert "rule change" in refused("Bash", command=wrapped).lower()
+    # interpreter flags before -m or the script do not hide the miner
+    for flags in ("-u", "-X importtime", "-W ignore", "-u -O"):
+        assert "rule change" in refused("Bash", command=f"python3 {flags} -m worldgen.mine_mounts").lower(), flags
 
 
 def test_a_deliver_lane_needs_a_budget_line(repo):

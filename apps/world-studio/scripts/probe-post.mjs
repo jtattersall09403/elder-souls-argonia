@@ -7,6 +7,7 @@ import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 // T (hh:mm), HARNESS_PORT; --out <dir>. Run from apps/world-studio.
 import { spawn } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import { chromium } from "playwright";
 
 const i = process.argv.indexOf("--out");
@@ -49,7 +50,7 @@ try {
         if (el.tagName !== "CANVAS" && !el.querySelector("canvas")) el.style.visibility = "hidden";
       }
     });
-    const shot = (n) => page.screenshot({ path: `${OUT}${name}-${n}.png`, timeout: 120000 });
+    const shot = (n) => page.screenshot({ path: join(OUT, `${name}-${n}.png`), timeout: 120000 });
     await page.evaluate((y) => window.__STUDIO_CHARACTER_DEBUG__.aimCamera(Number(y)), yaw);
     await page.evaluate(() => window.__STUDIO_CHARACTER_DEBUG__.post(false));
     // the follow camera eases to the new yaw at software-GL frame rates
@@ -70,6 +71,6 @@ try {
   await browser.close();
   killVite();
 }
-writeFileSync(`${OUT}hud.json`, JSON.stringify(result, null, 1));
+writeFileSync(join(OUT, "hud.json"), JSON.stringify(result, null, 1));
 console.log(JSON.stringify(result));
 process.exit(0);

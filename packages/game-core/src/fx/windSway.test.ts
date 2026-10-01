@@ -30,6 +30,18 @@ function compile(material: THREE.Material) {
 }
 
 describe("wind sway shader patch", () => {
+  it("fades from the player's eye uniform, never the pass camera (shadow pass)", () => {
+    const uniforms = createWindUniforms();
+    updateWindSway(uniforms, 1, { windDirXZ: [1, 0], windSpeedMS: 5, gustiness: 0 }, new THREE.Vector3(3, 4, 5));
+    expect(uniforms.esWindEye.value.toArray()).toEqual([3, 4, 5]);
+    const material = new THREE.MeshStandardMaterial();
+    applyWindSway(material, uniforms);
+    const shader = compile(material);
+    expect(shader.vertexShader).toContain("length(esWindEye - esInstanceOrigin)");
+    expect(shader.vertexShader).not.toContain("cameraPosition - esInstanceOrigin");
+    expect(shader.uniforms.esWindEye).toBe(uniforms.esWindEye);
+  });
+
   it("injects the displacement and binds the shared uniforms", () => {
     const material = new THREE.MeshStandardMaterial();
     const uniforms = createWindUniforms();
@@ -83,8 +95,8 @@ describe("wind sway shader patch", () => {
   it("takes absolute time, so two callers per frame do not double the clock", () => {
     const uniforms = createWindUniforms();
     const wind = { windDirXZ: [1, 0] as const, windSpeedMS: 10, gustiness: 0.5 };
-    updateWindSway(uniforms, 4.2, wind);
-    updateWindSway(uniforms, 4.2, wind);
+    updateWindSway(uniforms, 4.2, wind, new THREE.Vector3());
+    updateWindSway(uniforms, 4.2, wind, new THREE.Vector3());
     expect(uniforms.esWindTime.value).toBe(4.2);
     expect(uniforms.esWindVec.value.x).toBeCloseTo(0.9);
   });

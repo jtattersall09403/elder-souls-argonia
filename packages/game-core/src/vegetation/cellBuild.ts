@@ -285,7 +285,10 @@ function buildSpecies(
     const from = i * PLACEMENT_STRIDE;
     const at = to * PLACEMENT_STRIDE;
     for (let k = 0; k < PLACEMENT_STRIDE; k++) placements[at + k] = read[from + k];
-    windTune.set(readWind.subarray(i * WIND_TUNE_STRIDE, (i + 1) * WIND_TUNE_STRIDE), to * WIND_TUNE_STRIDE);
+    // index loop, no per-instance subarray view (GC churn on the stream path)
+    for (let k = 0, wf = i * WIND_TUNE_STRIDE, wt = to * WIND_TUNE_STRIDE; k < WIND_TUNE_STRIDE; k++) {
+      windTune[wt + k] = readWind[wf + k];
+    }
     const b = tile * TILE_BOUNDS_STRIDE;
     const x = read[from];
     const y = read[from + 1];

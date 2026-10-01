@@ -333,7 +333,7 @@ if (!runnerMode && !process.argv.includes("--all-gates")) {
     const rows = readFileSync(RUNS_LOG, "utf8").trim().split("\n");
     last = JSON.parse(rows[rows.length - 1]);
   } catch { /* no log yet */ }
-  const narrowed = rerunOnlyFailed(selection.gates, last, batchId);
+  const narrowed = rerunOnlyFailed(selection.gates, last, batchId, reviewPaths);
   if (narrowed.skipped.length) {
     selection.gates = narrowed.gates;
     selection.skipped.push(...narrowed.skipped);

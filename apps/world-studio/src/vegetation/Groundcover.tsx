@@ -1307,7 +1307,7 @@ export function Groundcover({
     // Ground-cover stage of the frame (decision 0084 round 10).
     segments?.cpuMark("gc");
     const weather = lastWeatherSample();
-    if (weather) updateWindSway(wind, state.clock.elapsedTime, weather);
+    if (weather) updateWindSway(wind, state.clock.elapsedTime, weather, state.camera.position);
     // The crossfade and the billboard both measure from the REAL camera, not
     // from `cameraPosition` (the light, in the shadow pass) and not from the
     // focus (the character's feet, which is a metre and a half out).

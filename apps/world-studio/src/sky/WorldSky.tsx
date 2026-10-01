@@ -790,7 +790,23 @@ export function WorldSky({
     // React may throw a suspended render away WITHOUT running any cleanup.
     for (const l of c.lights) l.name = "csm-cascade";
     return c;
-  }, [camera, scene, mode, shadowMapSize]);
+    // shadowMapSize is read at creation only: a rebuild runs csm.dispose(),
+    // which deletes every patched material's onBeforeCompile (CSM, wind, LOD
+    // fade, ground paint; the walk-7 cause). The effect below resizes in place.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [camera, scene, mode]);
+  useEffect(() => {
+    // Quality change: resize the live cascades' maps in place; three
+    // reallocates a shadow map whose `map` is null on the next shadow pass.
+    const s = Number(new URLSearchParams(window.location.search).get("smsize")) || shadowMapSize;
+    csm.shadowMapSize = s;
+    for (const l of csm.lights) {
+      if (l.shadow.mapSize.x === s && l.shadow.mapSize.y === s) continue;
+      l.shadow.mapSize.set(s, s);
+      l.shadow.map?.dispose();
+      l.shadow.map = null as unknown as THREE.WebGLRenderTarget;
+    }
+  }, [csm, shadowMapSize]);
   useEffect(() => {
     // Sweep orphaned cascade lights from discarded renders (owner gate defect
     // 2026-08-25: suspense retries leaked 8 CSMs = 24 stray shadow-casting
