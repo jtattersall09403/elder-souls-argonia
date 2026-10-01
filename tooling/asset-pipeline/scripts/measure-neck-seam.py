@@ -9,9 +9,9 @@ is what this script measures: it reads the wearer's `bodyWeight` out of the
 roster, blends the piece to it exactly as the runtime does, and then asks
 whether a hole remains.
 
-It reads the shipped files directly — `packages/character-assets/files/armour/`
-and `.../races/`, plus `races.json` — so it measures what the game loads, not
-what the pipeline believed it wrote. No Blender, no pipeline import: glTF JSON
+It reads `packages/character-assets/files/armour/`, the raw race bodies in
+`tooling/asset-pipeline/output/races/` (the shipped ones are their
+meshopt-compressed copies, same geometry), plus `races.json`. No Blender, no pipeline import: glTF JSON
 plus accessors.
 
 Method, matching `pipeline/blender/neck_seam.py`:
@@ -50,7 +50,9 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
 ARMOUR_DIR = REPO / "packages/character-assets/files/armour"
-RACES_DIR = REPO / "packages/character-assets/files/races"
+# The raw race bodies: the shipped ones are meshopt-compressed
+# (pipeline/publish_characters.py) and their accessors cannot be read plainly.
+RACES_DIR = REPO / "tooling/asset-pipeline/output/races"
 # The GLBs carry Blender source units (pynifly's 0.1 of a Bethesda unit), the
 # same units decision 0055's table was measured in. One of them is 0.142240 m,
 # so a 1.94-unit-tall Nord stands 1.94 m. Only used to report millimetres.
