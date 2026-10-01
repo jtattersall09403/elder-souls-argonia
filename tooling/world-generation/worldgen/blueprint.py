@@ -440,6 +440,9 @@ KIT_SETS = {
     "argonian-root":      {"culture": "argonian", "cultureGroup": "argonian", "kits": ["settlement-root-v1", "dungeon-root-v1"]},
     "argonian-stone":     {"culture": "argonian", "kits": ["ruin-monumental-v1", "xanmeer-interior-v1"]},
     "imperial":           {"culture": "imperial", "kits": ["settlement-imperial-v1", "imperial-keep", "vanilla-farmhouse-int", "vanilla-imperial-int", "enclosure-v1"]},
+    # the Legion camp set (type 4 camps, 16k walk 9): Skyrim's own military-camp
+    # tents and colours with the enclosure kit's stakes and barricades
+    "imperial-camp":      {"culture": "imperial", "kits": ["camp-v1", "enclosure-v1"]},
     "dunmer-hlaalu":      {"culture": "dunmer",   "kits": ["hlaalu-domestic", "vanilla-imperial-int", "enclosure-v1"]},
     "neutral-works":      {"culture": "neutral",  "kits": ["works-v1", "enclosure-v1"]},
     "neutral-underwater": {"culture": "neutral",  "kits": ["underwater-v1"]},
@@ -1448,8 +1451,22 @@ def _front_failures(bp: dict) -> tuple[list[str], list[str]]:
     return hard, warn
 
 
+#: The home table of route places (16k type 10): a stretch of road built as
+#: one place has no catalogue record; its row here is its record.
+ROUTE_PLACES = REPO_ROOT / "world" / "sources" / "routes" / "route-structure-exemplars.json"
+
+
+def route_place_records(path: Path = ROUTE_PLACES) -> dict[str, dict]:
+    """{place id: record} of the route places (type 10)."""
+    if not path.exists():
+        return {}
+    return {p["id"]: p for p in json.loads(path.read_text(encoding="utf-8")).get("places", [])}
+
+
 def catalogue_ids() -> set[str]:
-    return {p["id"] for rf in load_region_files(CATALOGUE_DIR) for p in rf.places if "id" in p}
+    """Every id a blueprint may detail: the catalogue's places and the route places."""
+    return ({p["id"] for rf in load_region_files(CATALOGUE_DIR) for p in rf.places if "id" in p}
+            | set(route_place_records()))
 
 
 #: A fixture yard's site record: `<SITES_DIR>/<slug>.json` for `place.fixture.<slug>`.

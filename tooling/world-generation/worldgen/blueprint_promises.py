@@ -150,7 +150,8 @@ def load_record(place_id: str) -> dict | None:
         for rec in rf.places:
             if rec.get("id") == place_id:
                 return rec
-    return None
+    from .blueprint import route_place_records   # a route place (16k type 10): its row is its record
+    return route_place_records().get(place_id)
 
 
 def provision_tags(path: Path = PLACE_MAP_PATH) -> dict[str, str]:
