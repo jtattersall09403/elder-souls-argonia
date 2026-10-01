@@ -531,6 +531,12 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
 
 - **Quest `touches` / dependency field (walk 8, record coherence).** All 715 quests have `touches` empty, so quest-to-quest dependency is inferred from shared places (`anchorPlaces`, `settlement`); a re-premised quest cannot find the quests that depend on it except by that inference. Evidence: tooling/.reports/16k/walk8/laneA-record-coherence.md (synthesis step reads shared-place quests by hand). Done when `touches` carries the dependent quest ids, the quest schema validates it, and the coherence synthesis reads it instead of inferring from places.
 
+## Rendering and dependencies, from the WebGPU and perf lanes (2026-10-01)
+
+- **Ground rasters are 412 MB of uncompressed rgba8 on the GPU (walk 8, `tooling/.reports/16k/walk8/laneB-webgpu.md` lines 19-21).** The 4033² height and colour rasters (87 + 65 MB), the 42-layer 512² ground albedo array (59 MB), the 2097² and 2017² rasters (47 + 33 MB) and two 22 MB character body textures are all rgba8unorm; kit textures are already ASTC (24 MB). Done when these move to compressed or half-size formats within the Phase 14 budget lock, measured by the same resident-texture count.
+- **Dependency upgrades (walk 8, `laneB-webgpu.md` lines 17-18).** `@react-three/fiber` 9.7.0 to 9.8.1 removes the `THREE.Clock` deprecation warning; `@dimforge/rapier3d-compat` 0.19.2 to 0.21 (via `@react-three/rapier`) removes the "deprecated parameters for the initialization function" warning. Done when both are upgraded, the console is clean, and a physics-feel re-check (jump, slope, swim, ragdoll) matches today.
+- **Port lane D's perf work at the webgpu merge (`tooling/.reports/16k/walk8/laneD-perf.md` line 20, dev commit `03d89d7b`).** The `WaterPipeline` single matrix walk, the `shadowMapSize` field in `quality.ts` (2048/2048/4096) and the `?quality=` URL parameter exist on dev only. Done when the webgpu branch carries all three after the merge.
+
 ## Rendering ideas from the fable5-world-demo audit (2026-10-01)
 
 Source for every row: [audit](../../research/rendering/fable5-world-demo-audit.md); MIT code at `github.com/Braffolk/fable5-world-demo` commit `fd75fdb7` (local clone `/workspaces/ext/fable5-world-demo`, three.js 0.184 like our `webgpu` branch). Ported code keeps the MIT header and adds the README § Credits line.
