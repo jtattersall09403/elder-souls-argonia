@@ -42,7 +42,7 @@ How you work:
   the lane is done. Run a wave of your agents inside one Workflow where the
   harness offers the tool, so you wake once per wave.
 - Context cap (decision 0118): at 150 turns a hook tells you to write your
-  hand-off note (what is green, the exact next step) and return; at 180 it
+  hand-off note (what is green, the exact next step) and return; at 220 (a runaway backstop) it
   refuses every tool but a Write/Edit under `tooling/.reports/` and
   SubagentHandback. The planner continues the lane with a fresh lead from
   the note.

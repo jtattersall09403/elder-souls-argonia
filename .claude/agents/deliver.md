@@ -36,7 +36,7 @@ Rules of the road:
   (decision 0118).
 - Context cap (decision 0118): at 150 turns a hook tells you to write your
   hand-off note (what is green, the exact next step) to your report and
-  return; at 180 it refuses every tool but a Write/Edit under
+  return; at 220 (a runaway backstop) it refuses every tool but a Write/Edit under
   `tooling/.reports/` and SubagentHandback. A fresh agent continues from
   the note.
 - A lane spawned by a lead reports to that lead, never to the planner.

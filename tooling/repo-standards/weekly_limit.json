@@ -1,7 +1,8 @@
 {
-  "enforce": false,
+  "comment": "Owner: paste the '% used' figure from the Anthropic usage page and the time you read it (UTC), as a new row in readings, e.g. {\"at\": \"2026-10-03T09:00Z\", \"percentUsed\": 23}. The latest reading this week sets the limit and turns the pace gate from nudge to refuse (decision 0118).",
+  "readings": [],
   "limitUnits": 825,
   "resetWeekday": 4,
   "resetHourUTC": 5,
-  "calibratedFrom": "units 2026-09-25T05:00Z to the refusal at 2026-09-30T22:15Z (\"You have hit your weekly limit · resets Oct 2, 5am (UTC)\"): 825.2; week_usage.py --between"
+  "calibratedFrom": "limitUnits is the fallback while no reading exists this week: units 2026-09-25T05:00Z to the refusal at 2026-09-30T22:15Z (\"You have hit your weekly limit · resets Oct 2, 5am (UTC)\"): 825.2; week_usage.py --between"
 }

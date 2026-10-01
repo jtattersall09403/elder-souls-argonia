@@ -64,13 +64,13 @@ Verdict on ours: **already** (we do it as well or better), **worse**, **lacks**.
 | 12 | Shadow-material hash memo against alphaTest version thrash (`src/render/ThreePatches.ts:53`, `STATUS.md:455-470`) | unverified; same three 0.184 CSM node, 15 alphaTest uses | want, **now** (profile first) | CPU submit was their binding limit; ours is CPU-heavy too (0084) |
 | 13 | Per-pass GPU timings (`src/core/GpuProfiler.ts:52-63`) | worse: one timestamp (`createRenderer.ts:31`) | want, **now** | the WebGPU lane needs per-pass numbers to tune |
 | 14 | Terrain shadow proxy, 512² caster (`src/world/ShadowProxy.ts:22`; ~54 ms saved, `STATUS.md:186-187`) | full-res LOD 1-2 chunks cast (`ChunkTerrain.tsx:54-62`) into one 120 m cascade | want, **now** (measure first) | win scales with cascade count; ours has one cascade in character mode |
-| 15 | CSM caching, cascade update periods [1,2,3,6] (`src/render/CsmCached.ts:29`; -3.9 ms) | lacks: refit every frame (`WorldSky.tsx:333-348`) | want, later: Phase 14 | small in character mode (1 cascade), real in fly mode |
-| 16 | Static meshes `matrixAutoUpdate=false`, uniform groups (`STATUS.md:548-561`; 0.67 ms CPU) | unchecked | want, later: Phase 14 | cheap CPU win on every device |
-| 17 | Vertex-stage hoists in foliage materials (`src/render/VegMaterials.ts:53-63`; -1.4 ms) | unchecked in `floraKit.ts` | want, later: Phase 14 | per-fragment work moved per-vertex, no visual change |
-| 18 | Depth prepass for alpha-tested foliage with `@invariant` (`src/render/VegPrepass.ts:38,79`; 49.6 to 39.4 ms) | lacks | want, later: Phase 14 (gate on an M2 measurement) | doubles vertex work; wins only where overdraw dominates |
-| 19 | CDLOD vertex morph between terrain LODs (`src/world/TerrainTiles.ts:117-133`) | worse: skirts only (`terrain/gridGeometry.ts:55`) | want, later: Phase 14 | removes terrain LOD pops on both renderers |
-| 20 | Canopy shell for far forests, one draw (`src/world/CanopyShell.ts:1-11`) | lacks | want, later: Phase 14 | far forest reads as canopy, not bare ground, past the impostor ring |
-| 21 | Measurement rules: ABAB pairs, exposure locked, ablation deltas over timestamp spans (`STATUS.md:585-600`) | partial | want, later: Phase 14 | device-class budgets need trustworthy deltas |
+| 15 | CSM caching, cascade update periods [1,2,3,6] (`src/render/CsmCached.ts:29`; -3.9 ms) | lacks: refit every frame (`WorldSky.tsx:333-348`) | want, the performance lane | small in character mode (1 cascade), real in fly mode |
+| 16 | Static meshes `matrixAutoUpdate=false`, uniform groups (`STATUS.md:548-561`; 0.67 ms CPU) | unchecked | want, the performance lane | cheap CPU win on every device |
+| 17 | Vertex-stage hoists in foliage materials (`src/render/VegMaterials.ts:53-63`; -1.4 ms) | unchecked in `floraKit.ts` | want, the performance lane | per-fragment work moved per-vertex, no visual change |
+| 18 | Depth prepass for alpha-tested foliage with `@invariant` (`src/render/VegPrepass.ts:38,79`; 49.6 to 39.4 ms) | lacks | want, the performance lane (gate on an M2 measurement) | doubles vertex work; wins only where overdraw dominates |
+| 19 | CDLOD vertex morph between terrain LODs (`src/world/TerrainTiles.ts:117-133`) | worse: skirts only (`terrain/gridGeometry.ts:55`) | want, the performance lane | removes terrain LOD pops on both renderers |
+| 20 | Canopy shell for far forests, one draw (`src/world/CanopyShell.ts:1-11`) | lacks | want, the performance lane | far forest reads as canopy, not bare ground, past the impostor ring |
+| 21 | Measurement rules: ABAB pairs, exposure locked, ablation deltas over timestamp spans (`STATUS.md:585-600`) | partial | want, the performance lane | device-class budgets need trustworthy deltas |
 | 22 | Octahedral impostors, 4-tile blend, relit normals (`src/render/ImpostorRuntime.ts`) | already: 3-view (`vegetation/impostor.ts`) | polish | compare relighting quality only |
 | 23 | World-anchored dither crossfade (`STATUS.md:910`) | already (`cellGating.ts:128`), anchor unchecked | polish | screen-anchored dither swims |
 | 24 | Edge-on card fade (`VegMaterials.ts:314-329`) | lacks | polish | cards seen edge-on show as lines |
@@ -94,7 +94,7 @@ Verdict on ours: **already** (we do it as well or better), **worse**, **lacks**.
 | 42 | Water: clipmap surface, SSR with terrain fallback, obstacle foam, wet margins (`src/world/WaterSurface.ts`, `src/render/WaterMaterial.ts`) | already (0047 field water, SSR, refraction, foam) | don't want | no gap found |
 
 Counts: implement now 7 rows in 6 jobs (rows 2-5, 12, 13, 14); later phase
-7 (rows 15-21, Phase 14); polish backlog 8 (rows 22-24, 26-30); consider 9
+7 (rows 15-21, the performance lane); polish backlog 8 (rows 22-24, 26-30); consider 9
 rows in 6 owner items; don't want 11.
 
 ## Implement now
@@ -176,8 +176,8 @@ Total about 175 agent minutes; items 1-3 are the volumetric-lighting set,
 
 ## Routed elsewhere
 
-- Phase 14 (streaming and deployment): rows 15-21, one deliverable bullet in
-  [docs/phases/README.md](../../phases/README.md) § Phase 14.
+- The standing performance lane: rows 15-21, the open wins list in
+  [docs/phases/lanes/performance-lane.md](../../phases/lanes/performance-lane.md); row 21 also measures the Phase 14 budgets.
 - Polish backlog: rows 22-24 and 26-30, § "Rendering ideas from the
   fable5-world-demo audit" in
   [P-polish/backlog.md](../../phases/P-polish/backlog.md).

@@ -6,10 +6,12 @@ context, and a lead only plans.
    160k-290k tokens per turn, spent 112.6 of 276.5 units (41 %). The agent's
    own transcript (<project>/<session>/subagents/[workflows/<run>/]agent-<id>.jsonl,
    lane_resume.py's layout) gives its turn count (distinct assistant message ids).
-   - at NUDGE_TURNS: the call runs, with a nudge to write the hand-off note
-     and return;
-   - at REFUSE_TURNS: every call is refused except a Write/Edit under
-     tooling/.reports/ (the report), SubagentHandback and StructuredOutput.
+   - at NUDGE_TURNS (the normal path): the call runs, with a nudge to finish
+     the step, write the hand-off note to the report and return, so
+     lane_resume relaunches a fresh agent from it and no context is lost;
+   - at REFUSE_TURNS (a runaway backstop only): every call is refused except
+     a Write/Edit under tooling/.reports/ (the report), SubagentHandback and
+     StructuredOutput.
    Applies to CAPPED types (the Opus tiers); find/run/deliver-small are cheap.
 2. Leads never do the work (r6: walk-7 leads ran 0 children, 2,511 turns,
    53.4 units). agent_type `lead`: Edit/Write/MultiEdit/NotebookEdit outside
@@ -22,7 +24,7 @@ import glob, json, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 NUDGE_TURNS = 150
-REFUSE_TURNS = 180
+REFUSE_TURNS = 220
 CAPPED = {"deliver", "place-builder", "lead", "research"}
 EDIT_TOOLS = {"Edit", "Write", "MultiEdit", "NotebookEdit"}
 # how an agent returns: SubagentHandback, or StructuredOutput for a Workflow agent with a schema
@@ -100,8 +102,9 @@ def decide(d, n_turns=None):
                    "tooling/.reports/ and call SubagentHandback; a fresh agent continues from the note.\n")
     if n_turns >= NUDGE_TURNS:
         return 0, (f"[agent guard, decision 0118] {n_turns} turns: past the {NUDGE_TURNS}-turn nudge. Finish the "
-                   "step in hand, write your hand-off note and return; a fresh agent continues from the note "
-                   f"(tool calls are refused at {REFUSE_TURNS}).\n")
+                   "current step, write the hand-off note (what is green, next step) to your report, and "
+                   "return; lane_resume relaunches you from it, so no context is lost "
+                   f"(a runaway backstop refuses tool calls at {REFUSE_TURNS}).\n")
     return 0, ""
 
 

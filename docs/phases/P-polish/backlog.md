@@ -1,8 +1,11 @@
 # Polish backlog (Phase P — plan §86)
 
-Rolling list for the general polish pass (docs/phases/README.md, "Phase P"). Add items
-freely (owner or agents); one line each, with source and a concrete "done"
-test. Remove items when shipped. This file is the single place deferred
+**What goes here (owner 2026-10-01):** only an item that a later phase owns
+AND that makes more sense done there; anything else is fixed in the round it
+is found, and a later phase's item that is cheaper now is pulled forward.
+
+One line each, with source, the owning phase and a concrete "done" test.
+Remove items when shipped. This file is the single place deferred
 cosmetic/feel work lives — do not park polish items in decision docs.
 
 ## Absorbed into Phase 16 (2026-09-11)

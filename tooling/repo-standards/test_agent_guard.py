@@ -43,14 +43,14 @@ def test_nudge_at_150_lets_the_call_run(tmp_path):
     assert r.returncode == 0 and "hand-off note" in r.stdout and "0118" in r.stdout
 
 
-def test_refuse_at_180_except_report_and_handback(tmp_path):
-    r = call(tmp_path, 180)
+def test_refuse_at_220_except_report_and_handback(tmp_path):
+    r = call(tmp_path, 220)
     assert r.returncode == 2 and "SubagentHandback" in r.stderr and "0118" in r.stderr
-    assert call(tmp_path, 200, tool="Write", file_path="/r/tooling/.reports/16k/x.md").returncode == 0
-    assert call(tmp_path, 200, tool="Edit", file_path="/r/packages/a.ts").returncode == 2
-    assert call(tmp_path, 200, tool="SubagentHandback", message="done").returncode == 0
-    assert call(tmp_path, 200, tool="StructuredOutput", result="done").returncode == 0  # schema-bound Workflow agent
-    assert call(tmp_path, 200, workflow=True).returncode == 2          # Workflow agents' layout too
+    assert call(tmp_path, 240, tool="Write", file_path="/r/tooling/.reports/16k/x.md").returncode == 0
+    assert call(tmp_path, 240, tool="Edit", file_path="/r/packages/a.ts").returncode == 2
+    assert call(tmp_path, 240, tool="SubagentHandback", message="done").returncode == 0
+    assert call(tmp_path, 240, tool="StructuredOutput", result="done").returncode == 0  # schema-bound Workflow agent
+    assert call(tmp_path, 240, workflow=True).returncode == 2          # Workflow agents' layout too
 
 
 def test_cheap_tiers_and_planner_uncapped(tmp_path):

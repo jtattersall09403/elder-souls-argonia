@@ -141,12 +141,11 @@ def _week_share():
 
 
 def _pace_enforced():
-    """weekly_limit.json `enforce`: False (the default) nudges, True refuses."""
-    try:
-        return bool(json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                                "weekly_limit.json"))).get("enforce"))
-    except Exception:
-        return False
+    """True (refuse) once an owner % reading this week calibrates the limit; else nudge."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from week_usage import week_status
+    s = week_status()
+    return bool(s and s["enforce"])
 
 
 def pace_refusal(d, launches, share_fn):
@@ -189,7 +188,7 @@ def handle(d, now=None, share_fn=None):
             pace = pace_refusal(d, st["launches"], share_fn)
             if pace and _pace_enforced():
                 return 2, pace
-            nudge = pace.replace("refused:", "nudge (enforce off, the limit is uncalibrated):") if pace else ""
+            nudge = pace.replace("refused:", "nudge (no % reading this week, the limit is uncalibrated):") if pace else ""
             st["launches"].append(now)
             why, nums = _admit(len(st["live"]) + len(st["pending"]), now)
             with open(os.path.join(DIR, "admissions.log"), "a") as log:

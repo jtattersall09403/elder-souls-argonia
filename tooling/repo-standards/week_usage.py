@@ -5,9 +5,14 @@ The weekly limit resets at a fixed time (`weekly_limit.json` `resetWeekday`,
 `resetHourUTC`: the harness message "resets Oct 2, 5am (UTC)"). Usage is the
 cost units (session_tokens.WEIGHT, in millions) of every assistant record in
 this repo's transcripts (planners, subagents, Workflow agents) since the last
-reset. `limitUnits` was calibrated from the week the limit was hit: the units
-from that week's reset to the refusal (`calibratedFrom`). It meters this repo
-only; the owner's other Claude use is not seen, so the share is a floor.
+reset. The limit comes from the owner's readings of the "% used" figure on
+the Anthropic usage page (`weekly_limit.json` `readings`, each
+`{at: ISO-8601 UTC, percentUsed: N}`): the latest reading inside the current
+week gives limit = units measured from the reset to `at` / (percentUsed/100),
+and with it the pace gate enforces. With no reading this week the limit is
+`limitUnits` (calibrated from the week the limit was hit, `calibratedFrom`)
+and the gate only nudges. It meters this repo only; the owner's other Claude
+use is not seen, so a derived limit is a floor of the true one.
 
 Incremental: a cache under $ES_WEEK_CACHE (default /tmp/es-week-usage.json)
 keeps each transcript's byte offset and units, so a call re-reads only what
@@ -24,6 +29,7 @@ from lane_resume import project_dir  # noqa: E402
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONFIG = os.path.join(HERE, "weekly_limit.json")
 CACHE = os.environ.get("ES_WEEK_CACHE", "/tmp/es-week-usage.json")
+LIMIT_CACHE = os.environ.get("ES_WEEK_LIMIT_CACHE", "/tmp/es-week-limit.json")
 WEIGHT = {"cache_read_input_tokens": 0.1, "cache_creation_input_tokens": 2.0,
           "input_tokens": 1.0, "output_tokens": 5.0}  # session_tokens.WEIGHT, raw usage keys
 TS = re.compile(r'"timestamp":"([^"]+)"')
@@ -111,15 +117,48 @@ def units_between(since, until, directory=None, cache_path=None):
     return total
 
 
-def week_share(now=None, directory=None):
-    """(used units, limit units, share 0..1) since the last reset; None on any error."""
+def week_limit(cfg, since, now, directory=None, cache_path=None):
+    """(limit units, enforce, reading or None): from the latest reading in [since, now], else limitUnits."""
+    rs = [r for r in cfg.get("readings") or []
+          if r.get("percentUsed", 0) > 0 and since <= _ts(r["at"]) <= now]
+    if not rs:
+        return cfg["limitUnits"], False, None
+    r = max(rs, key=lambda r: _ts(r["at"]))
+    key = f'{r["at"]}|{r["percentUsed"]}|{since}'
+    cached = {}
+    if cache_path:
+        try:
+            cached = json.load(open(cache_path))
+        except (OSError, ValueError):
+            cached = {}
+    if cached.get("key") != key:
+        units = units_between(since, _ts(r["at"]), directory)
+        cached = {"key": key, "limit": units / (r["percentUsed"] / 100)}
+        if cache_path:
+            with open(cache_path, "w") as f:
+                json.dump(cached, f)
+    if cached["limit"] <= 0:  # nothing measured before the reading: it calibrates nothing
+        return cfg["limitUnits"], False, None
+    return cached["limit"], True, r
+
+
+def week_status(now=None, directory=None, cfg=None, cache=CACHE, limit_cache=LIMIT_CACHE):
+    """{used, limit, share, enforce, reading} since the last reset; None on any error."""
     try:
-        cfg = json.load(open(CONFIG))
+        cfg = cfg or json.load(open(CONFIG))
+        now = now or dt.datetime.now().timestamp()
         since = week_start(now, cfg)
-        used = units_between(since, float("inf"), directory, CACHE)
-        return used, cfg["limitUnits"], used / cfg["limitUnits"]
+        used = units_between(since, float("inf"), directory, cache)
+        limit, enforce, reading = week_limit(cfg, since, now, directory, limit_cache)
+        return {"used": used, "limit": limit, "share": used / limit, "enforce": enforce, "reading": reading}
     except Exception:
         return None
+
+
+def week_share(now=None, directory=None):
+    """(used units, limit units, share 0..1) since the last reset; None on any error."""
+    s = week_status(now, directory)
+    return None if s is None else (s["used"], s["limit"], s["share"])
 
 
 def main():
@@ -128,11 +167,14 @@ def main():
         a, b = _ts(sys.argv[i + 1]), _ts(sys.argv[i + 2])
         print(f"{units_between(a, b):.1f} units")
         return 0
-    r = week_share()
-    if r is None:
+    s = week_status()
+    if s is None:
         print("week usage: unavailable")
         return 1
-    print(f"week usage: {r[0]:.1f} of {r[1]:.0f} units ({100 * r[2]:.0f} %) since the weekly reset")
+    src = (f"derived from the reading {s['reading']['percentUsed']} % at {s['reading']['at']}; enforced"
+           if s["reading"] else "no % reading this week: calibrated fallback, nudge only")
+    print(f"week usage: {s['used']:.1f} of {s['limit']:.0f} units, {100 * s['share']:.0f} % used now "
+          f"since the weekly reset (limit {src})")
     return 0
 
 

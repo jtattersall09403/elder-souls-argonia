@@ -47,16 +47,23 @@ walks as it needs; it closes only on the owner's "looks right".
     (backlog rows).
   - *Ways of working (decision 0118):* method review r6 found the review
     loop blind and long-context agents at 41 % of spend. `agent_guard.py`
-    caps context (150 nudge, 180 refuse) and keeps leads to planning;
-    `shell_guard.py` batches look-ups and refuses wait loops and heredoc
-    edits; `week_usage.py` paces to the weekly limit (`enforce: false`
-    until the owner sets `limitUnits`); one close per batch; `wb.py round
-    --walk N` records fix rounds in the build ledger; a process audit
-    runs at the close of every second walk round or on a drift red.
-- **Open owner calls (packet 9):** Phase 14 reshaped to a standing
-  performance lane plus a budget-lock chunk; sprite clouds as a lane; the
-  `agent_guard` settings line and the weekly `limitUnits`; carried: Godot,
-  dawn valley fog, the south-window sunlight rule.
+    caps context (150 nudge to hand off, 220 runaway backstop) and keeps
+    leads to planning; `shell_guard.py` batches look-ups and refuses wait
+    loops and heredoc edits; `week_usage.py` paces to the weekly limit
+    (derived from the owner's latest "% used" reading this week, which
+    also switches the gate from nudge to refuse); one close per batch;
+    `wb.py round --walk N` records fix rounds in the build ledger; a
+    process audit runs at the close of every second walk round or on a
+    drift red.
+- **Settled at walk 9:** sunlight through windows follows the ephemeris
+  alone (00-core rule 3, one deterministic clock): no per-window
+  exception, each window gets the direct sun the ephemeris gives at the
+  place's latitude. Phase 14 is the budget lock and chunk format; every
+  performance technique goes through the standing
+  [performance lane](../lanes/performance-lane.md). 3D clouds dropped
+  (owner).
+- **Open owner calls:** the `agent_guard` settings line and a weekly
+  "% used" reading in `weekly_limit.json`; carried: Godot, dawn valley fog.
 - **Open for the planner:** `workflow_drift` red on scopedWallP50S,
   scopedOver60S and minerFullRuns (30 full miner runs in 7 days: the
   process audit's trigger has fired); baked vertex AO in the kit build and

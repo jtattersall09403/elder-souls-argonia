@@ -32,11 +32,17 @@ measured where they went:
 ## Decisions
 
 1. **Context cap.** An Opus agent (deliver, place-builder, lead, research)
-   is nudged at 150 turns to write its hand-off note and return, and from
-   180 turns every tool call is refused but a Write/Edit under
-   `tooling/.reports/` and SubagentHandback. A fresh agent continues from
-   the note. `agent_guard.py` counts distinct assistant message ids in the
-   agent's own transcript.
+   is nudged at 150 turns to finish the current step, write the hand-off
+   note (what is green, next step) to its report and return; `lane_resume`
+   relaunches a fresh agent from the note, so no context is lost. This
+   nudge is the normal path. From 220 turns every tool call is refused but
+   a Write/Edit under `tooling/.reports/` and SubagentHandback: a runaway
+   backstop only. The real control is brief size (leads only plan, deliver
+   briefs arrive fully decided with a `Budget:` line); the cap exists
+   because long-context agents were 41 % of spend and quality falls with
+   context (planner ruling, walk 9, on the owner's "is it a plaster?").
+   `agent_guard.py` counts distinct assistant message ids in the agent's
+   own transcript.
 2. **Leads only plan.** A lead briefs, integrates by reading reports and
    verifies through `find`/`run` agents. `agent_guard.py` refuses its
    Edit/Write outside `tooling/.reports/` and its build, test and publish

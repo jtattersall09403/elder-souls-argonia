@@ -19,6 +19,8 @@ fable5 audit row 13).
 
 ## 1. 3D clouds as an addition to the dome
 
+Not pursued (owner 2026-10-01): the sky stays the dome without 3D clouds.
+
 | Technique | Reported cost | WebGL2 | three.js path | Verdict |
 |---|---|---|---|---|
 | Full raymarched volumetric, temporal upscale 1/16 (`@takram/three-clouds`, Nubis-style) | iPhone 13, Low preset: 36-53 fps at 780x1326 for the clouds scene alone; iPad Pro 1st gen 30-32 fps (README) | yes (pmndrs postprocessing effect, no TSL/WebGPU yet) | `<Clouds>` effect over its own atmosphere | no: alone it misses 60 on a phone-class GPU |
