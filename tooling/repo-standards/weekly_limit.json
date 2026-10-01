@@ -1,4 +1,5 @@
 {
+  "enforce": false,
   "limitUnits": 825,
   "resetWeekday": 4,
   "resetHourUTC": 5,

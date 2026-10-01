@@ -11,7 +11,7 @@ import agent_cap  # noqa: E402
 GIB = 1024
 FINE = dict(mem_mib=lambda: 8 * GIB, ceiling_mib=lambda: 22 * GIB, load1=lambda: 4.0,
             cores=lambda: 8, slots_busy=lambda now: False, slot_waiters=lambda: 0,
-            _week_share=lambda: 0.1)
+            _week_share=lambda: 0.1, _pace_enforced=lambda: True)
 EV = {"hook_event_name": "PreToolUse", "session_id": "s", "tool_name": "Agent"}
 
 
@@ -75,6 +75,11 @@ def test_wave_above_weekly_pace_refused_unless_short_budget(tmp_path, monkeypatc
     assert agent_cap.handle(dict(long_brief), now=400.0)[0] == 0          # a minute apart: not a wave
     monkeypatch.setattr(agent_cap, "_week_share", lambda: 0.5)
     assert agent_cap.handle(dict(long_brief), now=401.0)[0] == 0          # under the pace
+    # enforce off (an uncalibrated limit): the wave is admitted with a nudge naming the share
+    monkeypatch.setattr(agent_cap, "_week_share", lambda: 0.9)
+    monkeypatch.setattr(agent_cap, "_pace_enforced", lambda: False)
+    code, msg = agent_cap.handle(dict(long_brief), now=402.0)
+    assert code == 0 and "nudge" in msg and "90 %" in msg
 
 
 def test_other_tools_pass_and_garbage_input_allows(tmp_path):

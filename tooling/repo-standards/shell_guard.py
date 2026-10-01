@@ -101,10 +101,19 @@ def tracked(path, cwd=None):
                           capture_output=True).returncode == 0
 
 
+CD = re.compile(r"(?:^|[;&|(\n]\s*)cd\s+([^\s;&|)]+)")
+
+
 def heredoc_edit(cmd, cwd=None):
     """The tracked file a heredoc writes, or None."""
     if "<<" not in cmd:
         return None
+    # `cd x && cat > f <<` writes x/f: follow every cd before the heredoc
+    base = cwd or REPO
+    for m in CD.finditer(cmd.split("<<", 1)[0]):
+        d = m.group(1).strip("'\"")
+        base = d if os.path.isabs(d) else os.path.normpath(os.path.join(base, d))
+    cwd = base
     for line in cmd.splitlines():
         if "<<" not in line:
             continue

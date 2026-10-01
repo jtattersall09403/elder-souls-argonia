@@ -140,6 +140,15 @@ def _week_share():
     return None if r is None else r[2]
 
 
+def _pace_enforced():
+    """weekly_limit.json `enforce`: False (the default) nudges, True refuses."""
+    try:
+        return bool(json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                                "weekly_limit.json"))).get("enforce"))
+    except Exception:
+        return False
+
+
 def pace_refusal(d, launches, share_fn):
     """Decision 0118: a new lane wave (this launch plus another within WAVE_S)
     above WEEK_PACE of the weekly limit is refused unless the brief carries
@@ -178,8 +187,9 @@ def handle(d, now=None, share_fn=None):
         msg, code = "", 0
         if ev == "PreToolUse":
             pace = pace_refusal(d, st["launches"], share_fn)
-            if pace:
+            if pace and _pace_enforced():
                 return 2, pace
+            nudge = pace.replace("refused:", "nudge (enforce off, the limit is uncalibrated):") if pace else ""
             st["launches"].append(now)
             why, nums = _admit(len(st["live"]) + len(st["pending"]), now)
             with open(os.path.join(DIR, "admissions.log"), "a") as log:
@@ -190,6 +200,7 @@ def handle(d, now=None, share_fn=None):
                 msg = f"[agent admission, 0106 d18] refused: {nums}. {why}.\n"
             else:
                 st["pending"].append(now)
+                msg = nudge
         elif ev == "SubagentStart":
             if st["pending"]:
                 st["pending"].pop(0)
@@ -215,6 +226,9 @@ def main():
     try:
         code, msg = handle(json.load(sys.stdin))
     except Exception:
+        return 0
+    if code == 0 and msg:   # a nudge reaches the model as context; the launch proceeds
+        print(json.dumps({"hookSpecificOutput": {"hookEventName": "PreToolUse", "additionalContext": msg.strip()}}))
         return 0
     sys.stderr.write(msg)
     return code
