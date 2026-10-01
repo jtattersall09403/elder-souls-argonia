@@ -371,11 +371,7 @@ detail and the post procedure are in
 5. **Please look at** (at most eight lines): only judgements no tool makes.
 6. **§ Gaps** only for 0102 decision 3's four reasons; **§ Owner calls** only for world-level choices.
 7. Pictures (0102 decision 11): the plan render and up to four Blender shots, committed.
-8. How to reply, then the stay-or-switch line (0083).
-
-Post with `owner_inbox.py --post <packet.md> ... --attach ... --walk <walk>`
-twice (the first run stages the pictures; commit and push them; the second
-posts); collapse old packets with `owner_inbox.py --collapse`.
+8. How to reply, then the stay-or-switch line (0083). Post per walk-packet.md (two runs, pictures pushed between).
 
 ## 7. The fix round (`continue 16k slice N after owner walk`)
 
