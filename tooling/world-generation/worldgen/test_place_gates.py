@@ -120,6 +120,33 @@ def test_kits_fresh_gate_fails_a_stale_publish(tmp_path, monkeypatch):
     assert "stale publish" in g.rows[1]["failures"][0]
 
 
+def test_collider_ceiling_gate_fails_a_place_over_the_ceiling(monkeypatch):
+    """16k walk 9: the exporter's collider part ceiling runs as gate
+    collider.ceiling on one place's runtime placements, under 5 s."""
+    import json
+    import time
+    from pathlib import Path
+    from . import export_settlement_bundle as esb
+    pid = "place.dunmer-north.riverwalk"
+    path = esb.DEFAULT_SETTLEMENTS / f"{pid}.settlement.json"
+    bp_path = Path(esb.BLUEPRINTS) / f"{pid}.json"
+    if not path.exists():
+        import pytest
+        pytest.skip("Riverwalk is not compiled on this machine")
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    bp = json.loads(bp_path.read_text(encoding="utf-8"))["blueprint"]
+    g = pg.Gates()
+    t = time.perf_counter()
+    pg.collider_ceiling_gate(g, doc, bp)
+    assert time.perf_counter() - t < 5
+    monkeypatch.setattr(esb, "COLLIDER_PART_CEILING", 1)
+    monkeypatch.setattr(esb, "COLLIDER_PART_CEILING_LARGE", 1)
+    pg.collider_ceiling_gate(g, doc, bp)
+    pg.collider_ceiling_gate(g, None, bp)
+    assert [r["ok"] for r in g.rows] == [True, False, False]
+    assert "exceeds the collider part ceiling of 1" in g.rows[1]["failures"][0]
+
+
 def test_tier_a_doors_is_the_one_rule():
     bp = {"doors": [{"id": "d1", "interiorClaim": {"tier": "A", "cellId": "C1"}},
                     {"id": "d2", "interiorClaim": {"tier": "B", "cellId": "C2"}},

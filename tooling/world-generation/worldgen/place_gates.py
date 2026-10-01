@@ -53,6 +53,8 @@ Runs, for one place and without the yard regression gates:
   workplace, shop or store parcel fails (reserved is tier B/C only);
 * ``interiors.closed`` - decision 0114 rule 3: a door on a shell no plugin
   links to an interior cell is a closed building and fails;
+* ``collider.ceiling`` - the exporter's collider part ceiling (0052) over this
+  place's runtime placements (``export_settlement_bundle.place_collider_errors``).
 * ``kits.fresh`` - the exporter's publish refusal, before the publish: every
   kit the place uses passes ``kit_compress --check`` and its published
   manifest is the build's (``export_settlement_bundle.kit_freshness_problems``);
@@ -811,6 +813,20 @@ def kits_fresh_gate(g: Gates, settlement: dict | None, kits_dir: Path | None = N
     g.add("kits.fresh", time.perf_counter() - t, failures)
 
 
+def collider_ceiling_gate(g: Gates, settlement: dict | None, bp: dict,
+                          kits_dir: Path | None = None) -> None:
+    """The exporter's collider part ceiling (0052), before the publish:
+    ``export_settlement_bundle.place_collider_errors`` over this place's
+    runtime placements, without building the bundle."""
+    from . import export_settlement_bundle as esb
+    t = time.perf_counter()
+    if settlement is None:
+        g.add("collider.ceiling", 0.0, ["the compile did not run: no placements to count"])
+        return
+    failures = esb.place_collider_errors(settlement, bp, kits_dir or esb.KITS)
+    g.add("collider.ceiling", time.perf_counter() - t, failures)
+
+
 # --- 0105 R4: planned interior variety --------------------------------------
 
 def region_of(place_id: str) -> str:
@@ -1418,6 +1434,7 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
     setting_gate(g, settlement, record, rows, bp=bp, place_id=place_id)
     sink_fallback_gate(g, settlement, rows)
     kits_fresh_gate(g, settlement)
+    collider_ceiling_gate(g, settlement, bp)
 
     doc = {"schemaVersion": SCHEMA_VERSION, "placeId": place_id, "startedAt": started,
            "wallS": round(time.perf_counter() - t0, 2), "ok": all(r["ok"] for r in g.rows),

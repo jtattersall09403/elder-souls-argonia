@@ -1132,6 +1132,65 @@ def _place_scope(places) -> set[str] | None:
     return scope
 
 
+def runtime_placement(source_id: str, raw: dict, asset: dict, footprint: list,
+                      parcel: dict, laid_runs: dict[str, list[dict]]) -> dict:
+    """One compiled kit placement as the runtime reads it (anchor, collision,
+    layer, mount and run contracts). `build_bundle` and place_gates'
+    `collider.ceiling` both build placements here, so the gate counts the
+    parts the export publishes."""
+    object_kind = raw.get("objectKind") or ("dressing" if "dressingFor" in raw else "parcel")
+    return {
+        "id": raw["id"], "sourceId": source_id,
+        # an authored assembly piece is part of its building: drawn and
+        # collided as the building is
+        "kind": "settlement" if object_kind in ("parcel", "assembly") else object_kind,
+        "assetId": raw["assetId"], "kit": raw["kit"],
+        "positionM": raw["positionM"], "yawDeg": raw.get("yawDeg", 0),
+        "scale": raw.get("scale", 1), "footprintM": footprint,
+        "anchor": _anchor_contract(asset, raw.get("groundFit", "direct")),
+        "collision": _collision_contract(asset, disabled=object_kind == "dressing",
+                                         scale=raw.get("scale", 1)),
+        **_layer_contract(raw),
+        **({"yFinal": True} if raw.get("yFinal") is True else {}),
+        "provenance": raw["provenance"],
+        **_mount_contract(raw),
+        **_run_contract(raw, parcel, laid_runs),
+        # a building's declared pad (0101): the compile's resolved datum and
+        # polygon, carried as its ground overlay by `attach_ground_overlays` (0102)
+        **({"pad": raw["pad"]} if isinstance(raw.get("pad"), dict) else {}),
+    }
+
+
+def place_collider_errors(doc: dict, bp: dict, kits_dir: Path = KITS,
+                          dwellings: int | None = None) -> list[str]:
+    """`collider_part_budget`'s ceiling errors for ONE compiled place, without
+    building the bundle (place_gates `collider.ceiling`). Footprints stay
+    empty: they never bear on collision parts. An unbuildable placement is a
+    failure, never a raise."""
+    raws = [r for r in doc.get("placements", []) if r.get("kit")]
+    try:
+        effect_rows: dict[str, dict] = {}
+        _kits, assets = _kit_assets({r["kit"] for r in raws}, kits_dir,
+                                    {(r["kit"], r["assetId"]) for r in raws}, effect_rows)
+        parcels = {p["id"]: p for p in bp.get("parcels", [])}
+        laid_runs: dict[str, list[dict]] = {}
+        placements = []
+        for raw in raws:
+            if raw.get("objectKind") == "effect":
+                placements.append(effect_contract(doc["id"], raw, effect_rows=effect_rows))
+                continue
+            asset = assets.get((raw["kit"], raw["assetId"]))
+            if asset is None:
+                return [f"{raw['id']}: asset absent from {raw['kit']} manifest"]
+            placements.append(runtime_placement(doc["id"], raw, asset, [],
+                                                parcels.get(raw.get("parcelId"), {}), laid_runs))
+    except ValueError as exc:
+        return [str(exc)]
+    settlements = [{"id": doc["id"], "placementIds": [p["id"] for p in placements]}]
+    return collider_part_budget(settlements, placements, kits_dir, COLLIDER_PART_CEILING,
+                                None if dwellings is None else {doc["id"]: dwellings})[1]
+
+
 def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                  structures_dir: Path = DEFAULT_STRUCTURES,
                  blueprints_dir: Path = BLUEPRINTS,
@@ -1436,27 +1495,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 footprint = _bounds_footprint(
                     asset, raw["positionM"], raw.get("yawDeg", 0), raw.get("scale", 1),
                 )
-            placement = {
-                "id": raw["id"], "sourceId": doc["id"],
-                # an authored assembly piece is part of its building: drawn and
-                # collided as the building is
-                "kind": ("settlement" if object_kind in ("parcel", "assembly")
-                         else object_kind),
-                "assetId": raw["assetId"], "kit": raw["kit"],
-                "positionM": raw["positionM"], "yawDeg": raw.get("yawDeg", 0),
-                "scale": raw.get("scale", 1), "footprintM": footprint,
-                "anchor": _anchor_contract(asset, fit),
-                "collision": _collision_contract(asset, disabled=is_dressing,
-                                                 scale=raw.get("scale", 1)),
-                **_layer_contract(raw),
-                **({"yFinal": True} if raw.get("yFinal") is True else {}),
-                "provenance": raw["provenance"],
-                **_mount_contract(raw),
-                **_run_contract(raw, parcel, laid_runs),
-                # a building's declared pad (0101): the compile's resolved
-                # datum and polygon, carried as its ground overlay by `attach_ground_overlays` (0102)
-                **({"pad": raw["pad"]} if isinstance(raw.get("pad"), dict) else {}),
-            }
+            placement = runtime_placement(doc["id"], raw, asset, footprint, parcel, laid_runs)
             ids.append(placement["id"])
             all_placements.append(placement)
             if footprint and not is_dressing:
