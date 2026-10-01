@@ -22,7 +22,7 @@ State: one JSON file per session under $ES_AGENT_CAP_DIR (default
 /tmp/es-agent-cap), read-modify-write under flock. Any error allows.
 `agent_cap.py --status` prints live counts and the current measurements.
 """
-import fcntl, json, os, sys, time
+import fcntl, glob, json, os, sys, time
 
 # Per-new-agent memory reserve. Measured 2026-10-01 from the live tree (the
 # Pss anon+shmem of each tool tree under the claude process, own_memory.py
@@ -79,6 +79,24 @@ def slots_busy(now):
     return True
 
 
+def slot_waiters():
+    """job_guard.sh processes (top-level, not their $(...) subshells) that
+    hold no slot: jobs waiting for a heavy slot."""
+    held, guards = set(), {}
+    for f in glob.glob(os.path.join(LOCK_DIR, "slot-*.lock")):
+        try:
+            held.add(int(open(f).readline().split()[3]))
+        except Exception:
+            pass
+    for d in glob.glob("/proc/[0-9]*"):
+        try:
+            if b"job_guard.sh" in open(d + "/cmdline", "rb").read():
+                guards[int(d[6:])] = int(open(d + "/stat").read().rsplit(")", 1)[1].split()[1])
+        except Exception:
+            pass
+    return sum(1 for p, pp in guards.items() if pp not in guards and p not in held)
+
+
 def _admit(n, now):
     """(refusal reason or "", numbers line)."""
     m, c = mem_mib(), ceiling_mib()
@@ -90,7 +108,7 @@ def _admit(n, now):
     if m + AGENT_RESERVE_MIB >= c:
         return ("memory: wait for a lane to finish, or run the heavy job under job_guard.sh "
                 "so it waits for its slot instead of a new agent"), nums
-    if l >= lim:
+    if l >= lim and (m * 2 > c or slot_waiters()):
         return "CPU load: wait for a lane to finish, or run the heavy job under job_guard.sh", nums
     if slots_busy(now):
         return "every job_guard heavy slot is starting a job: wait a minute and retry", nums
