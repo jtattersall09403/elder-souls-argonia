@@ -14,7 +14,8 @@ import { Storage3DTexture, type WebGPURenderer } from "three/webgpu";
 import * as tsl from "three/tsl";
 import type { TslNode } from "../../render/nodes/materialNodes";
 import { makeVolumeDetail } from "../../fx/fire/volumeFire";
-import { fogRegimes, type FogFieldInput, type FogRegimes } from "./fogField";
+import { fogRegimes, MOISTURE_FLOOR, type FogFieldInput, type FogRegimes } from "./fogField";
+import { SHADOWED_SKY, SUN_PROBES_M, SUN_PROBE_NEAR_M, probeSoftM } from "./terrainSun";
 import { TerrainGrids, NEAR_SIZE_M, FAR_SIZE_M, type TerrainSamplers } from "./terrainGrids";
 import { CanopyMap, CANOPY_SIZE_M, type Crown } from "./canopyMap";
 import type { VolumetricsSampler } from "./volumetricNodes";
@@ -212,6 +213,10 @@ export class Volumetrics implements VolumetricsSampler {
     const hAG = p.y.sub(ground);
     const waterMask = nearT.b.mul(inNear);
     const wet = nearT.a.mul(inNear);
+    // ground moisture (wet ground or standing water, the far grid's a; 0..1), squared: mist gathers over
+    // wet basins and thins over dry slopes (fogField moistureWeight; fable5-world-demo Froxels.ts:148)
+    const moist = mix(farT.a, max(nearT.a, nearT.b), inNear);
+    const moistW = float(MOISTURE_FLOOR).add(float(1 - MOISTURE_FLOOR).mul(moist.mul(moist)));
     const soft = (w: number) => max(float(w), fp.mul(0.6));
     // drift: two octaves advected by the wind in different directions, the time axis mutating the shape
     const w3 = vec3(u.wind.x, 0, u.wind.y).mul(u.time);
@@ -225,7 +230,7 @@ export class Volumetrics implements VolumetricsSampler {
     const top = farT.g.add(u.mistDepth).add(n1.mul(1.2)).add(n2.mul(0.6));
     const mist = float(1).sub(smoothstep(top.sub(soft(1.5)), top, p.y))
       .mul(smoothstep(-1, 1, hAG)).mul(smoothstep(0, 6, top.sub(ground)))
-      .mul(n).mul(u.mist).mul(0.045);
+      .mul(n).mul(u.mist).mul(moistW).mul(0.045);
     // steam fog: wisps over water, thin rising columns (stretched 5x vertically), patchy (~half
     // covered), each column fading with height at its own 1..5 m
     const rise = vec3(0, u.time.mul(0.35), 0);
@@ -323,17 +328,29 @@ export class Volumetrics implements VolumetricsSampler {
     const u = this.u;
     const rel = p.sub(u.camPos);
     const z = max(dot(rel, u.camFwd), this.near);
-    const ndc = vec2(dot(rel, u.camRight).div(z.mul(u.tanHalf.x)), dot(rel, u.camUp).div(z.mul(u.tanHalf.y)));
-    const uv = vec2(ndc.x.mul(0.5).add(0.5), float(0.5).sub(ndc.y.mul(0.5)));
+    const g = this.gridUvw(p);
+    const uv = g.xy;
     const lnRatio = log(this.far.div(this.near));
     const half = float(0.5).div(this.gridSize.z);
-    const s = log(z.div(this.near)).div(lnRatio);
+    const s = g.z;
     const s0 = clamp(s.sub(half), 0, 1), s1 = clamp(s.add(half), 0, 1);
     const t0 = this.sampleIntegrated(vec3(uv, s0)).a, t1 = this.sampleIntegrated(vec3(uv, s1)).a;
     // texel i holds the transmittance at the END of slice i: the depths are half a slice on
     const d0 = this.near.mul(exp(s0.add(half).mul(lnRatio))), d1 = this.near.mul(exp(s1.add(half).mul(lnRatio)));
     const ds = d1.sub(d0).mul(length(rel).div(z));
     return max(log(max(t0, float(1e-4))).sub(log(max(t1, float(1e-4)))), float(0)).div(max(ds, float(1e-3)));
+  }
+
+  /** Grid coordinates (uv, slice 0..1) of world `p` in the camera basis the grid was injected with
+   * (froxelUvw is the TS twin). The fog stage looks the medium up by this, never by the render camera's
+   * screen position, so a grid built a frame behind a turning camera still sits on the geometry. */
+  gridUvw(p: TslNode): TslNode {
+    const u = this.u;
+    const rel = p.sub(u.camPos);
+    const z = max(dot(rel, u.camFwd), this.near);
+    const ndc = vec2(dot(rel, u.camRight).div(z.mul(u.tanHalf.x)), dot(rel, u.camUp).div(z.mul(u.tanHalf.y)));
+    const s = log(z.div(this.near)).div(log(this.far.div(this.near)));
+    return vec3(ndc.x.mul(0.5).add(0.5), float(0.5).sub(ndc.y.mul(0.5)), s);
   }
 
   /** Share of the sun in-scatter at `p` (distance `t` from the eye) carried by the per-pixel shaft march
@@ -358,6 +375,27 @@ export class Volumetrics implements VolumetricsSampler {
       trans.mulAssign(float(1).sub(smoothstep(0.4, 0.5, c.r).mul(inside)));
     }
     return trans.mul(u.outdoor);
+  }
+
+  /** Terrain shadow on the sun at `p`: five probes up the sun ray against the ground height (terrainSun.ts
+   * is the TS twin). Probes inside SUN_PROBE_NEAR_M read the near grid where it covers them, the rest the
+   * far grid only. Indoors the term is 1 (the room's own geometry is not in the grids). */
+  private terrainSunT(p: TslNode): TslNode {
+    const u = this.u;
+    const vis = float(1).toVar();
+    for (const d of SUN_PROBES_M) {
+      const q = p.add(u.sunDir.mul(d));
+      const far = texture(this.grids.far.texture, q.xz.sub(u.farOrigin).div(FAR_SIZE_M)).r;
+      let g: TslNode = far;
+      if (d <= SUN_PROBE_NEAR_M) {
+        const nuv = q.xz.sub(u.nearOrigin).div(NEAR_SIZE_M);
+        const inNear = smoothstep(0, 0.06, min(min(nuv.x, nuv.y), min(float(1).sub(nuv.x), float(1).sub(nuv.y))));
+        g = mix(far, texture(this.grids.near.texture, nuv).r, inNear);
+      }
+      const sft = probeSoftM(d);
+      vis.mulAssign(smoothstep(-sft, sft, q.y.sub(g)));
+    }
+    return mix(float(1), vis, u.outdoor);
   }
 
   /** The air baseline's extinction (m^-1): thin haze thinning with altitude. */
@@ -388,9 +426,11 @@ export class Volumetrics implements VolumetricsSampler {
       const sigmaT = max(this.density(p, fp), float(1e-7)).toVar();
       const cSun = dot(v, u.sunDir);
       const phaseSun = sunPhase(cSun, u.sunDir.y);
-      const radiance = vec3(u.sunIrr).mul(phaseSun).mul(this.canopyT(p)).mul(step(float(0), u.sunDir.y))
+      const sunVis = this.terrainSunT(p);
+      const skyKeep = float(1).sub(smoothstep(0, 0.05, u.sunDir.y).mul(float(1 - SHADOWED_SKY).mul(float(1).sub(sunVis))));
+      const radiance = vec3(u.sunIrr).mul(phaseSun).mul(this.canopyT(p)).mul(sunVis).mul(step(float(0), u.sunDir.y))
         .mul(float(1).sub(this.shaftNear(p, length(dir).mul(depth))))
-        .add(vec3(u.skyIrr).mul(0.8 / Math.PI).mul(this.skyOpen(p))).toVar();
+        .add(vec3(u.skyIrr).mul(0.8 / Math.PI).mul(this.skyOpen(p)).mul(skyKeep)).toVar();
       // point lights: analytic airlight in the apply stage (volumetricNodes), not here
       Loop(u.apertureCount, ({ i }: { i: TslNode }) => {
         const ap = this.uApPos.element(i);

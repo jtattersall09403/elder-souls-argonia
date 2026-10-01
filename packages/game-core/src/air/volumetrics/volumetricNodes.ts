@@ -36,6 +36,9 @@ export interface VolumetricsSampler {
   /** Per-pixel extra in-scatter along the view ray (world dir, segment length, mean extinction):
    * sharp canopy shafts and beam motes the froxel grid is too coarse to hold. */
   extra?(dir: TslNode, segLen: TslNode, sigma: TslNode): TslNode;
+  /** Grid uvw of a world position in the camera basis the grid was injected with; when given the
+   * lookup uses it instead of the render camera's screen position (a stale grid stays on the geometry). */
+  gridUvw?(worldPos: TslNode): TslNode;
   /** 1 when a band is on, else 0 (the colour passes through). */
   on: TslNode;
 }
@@ -44,7 +47,7 @@ export interface VolumetricsSampler {
 export function applyVolumetrics(v: VolumetricsSampler, color: TslNode, viewDepth: TslNode, screenUV: TslNode): TslNode {
   // slice coordinate: the exact inverse of the inject's exponential depth (near * (far/near)^s)
   const s = log(max(viewDepth, v.near).div(v.near)).div(log(v.far.div(v.near)));
-  const uvw = vec3(screenUV.x, screenUV.y, s);
+  const uvw = v.gridUvw ? v.gridUvw(T.positionWorld) : vec3(screenUV.x, screenUV.y, s);
   // no per-pixel jitter: the grid is already tent-resolved and temporally jittered, so a screen-space
   // dither only adds a screen-door grain at crown edges
   const half = v.gridSize ? float(0.5).div(v.gridSize.z) : float(0);

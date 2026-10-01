@@ -55,6 +55,12 @@ asset registry.
 
 ### In use now
 
+- **fable5-world-demo** (Remi Sebastian Kits, MIT, commit `fd75fdb7`) — a
+  WebGPU world demo whose techniques we adapted, not its assets: the
+  terrain-probe sun shadow and moisture-weighted mist in the froxel fog
+  (`packages/game-core/src/air/volumetrics/terrainSun.ts`, `fogField.ts`) and
+  the per-pass GPU timing labels (`packages/game-core/src/fx/frameSegments.ts`);
+  each adapted file carries the MIT header.
 - **rtk** (rtk-ai, Apache-2.0, v0.49.0, sha256
   `7278231dfd7e6a730a4ab7f847b195bcf02289c2d57622b0dab75a6411100c8f` for the
   x86_64 musl tarball) — a local shell-output filter our coding agents run

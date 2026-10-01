@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { FrameSegments, RESOLVE_EVERY, frameOfUid, type TimedRenderer } from "./frameSegments";
+import { FrameSegments, RESOLVE_EVERY, computeLabel, frameOfUid, type TimedRenderer } from "./frameSegments";
 
 /** A renderer whose pool times each pass at a fixed ms, like three's pools do on resolve. */
 function fakeRenderer(msPerPass: number) {
@@ -94,5 +94,44 @@ describe("frame segments on renderer timestamps", () => {
     expect(fake.renderer.backend.trackTimestamp).toBe(true);
     segs.attach(null);
     expect(fake.renderer.backend.trackTimestamp).toBe(false);
+  });
+  it("files compute passes under their node names, resolved with the render pool (per-pass sum = frame)", async () => {
+    const fake = fakeRenderer(2);
+    const cpool = { timestamps: new Map<string, number>(), currentQueryIndex: 0, maxQueries: 2048 };
+    const data = new WeakMap<object, { timestampUID?: string }>();
+    let calls = 0;
+    const b = fake.renderer.backend as TimedRenderer["backend"] & Record<string, unknown>;
+    b.timestampQueryPool = { render: fake.pool, compute: cpool as never };
+    b.get = (o: object) => { if (!data.has(o)) data.set(o, {}); return data.get(o)!; };
+    let frame = 0;
+    b.updateTimeStampUID = (ctx: object) => { b.get!(ctx).timestampUID = `c:${calls++}:7:f${frame}`; };
+    const resolve = fake.renderer.resolveTimestampsAsync;
+    fake.renderer.resolveTimestampsAsync = async (type) => {
+      if (type === "compute") { for (const k of computed) cpool.timestamps.set(k, 0.5); computed.length = 0; return 0; }
+      return resolve(type);
+    };
+    const computed: string[] = [];
+    const inject = { isComputeNode: true, name: "volumetricsInject" };
+    const cull = [{ isComputeNode: true, name: "gpuCull" }, { isComputeNode: true, name: "gpuCullRows" }];
+    const segs = new FrameSegments();
+    segs.attach(fake.renderer);
+    segs.collect();
+    for (let f = 1; f <= RESOLVE_EVERY; f++) {
+      frame = f;
+      for (const c of [inject, cull] as object[]) { b.updateTimeStampUID!(c); computed.push(b.get!(c).timestampUID!); }
+      segs.gpuMark("scene");
+      fake.pass(`1:f${f}`);
+      segs.collect();
+    }
+    await new Promise((r) => setTimeout(r, 0));
+    const by = new Map(segs.stats().gpu.map((s) => [s.label, s.avg]));
+    expect(by.get("volumetricsInject")).toBeCloseTo(0.5);
+    expect(by.get("gpuCull")).toBeCloseTo(0.5);
+    expect(by.get("scene")).toBeCloseTo(2);
+    expect(segs.stats().gpuSumAvg).toBeCloseTo(3);
+    expect(cpool.timestamps.size).toBe(0);
+    segs.dispose();
+    expect(computeLabel([{}, { name: "x" }])).toBe("x");
+    expect(computeLabel({})).toBe("compute");
   });
 });

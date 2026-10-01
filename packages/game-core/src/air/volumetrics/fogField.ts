@@ -51,6 +51,18 @@ export interface FogRegimes {
   windXZ: [number, number];
 }
 
+/** Mist kept over bone-dry ground; wet ground or standing water carries it all (froxelGrid's moistW). */
+export const MOISTURE_FLOOR = 0.25;
+
+/** Weight of the radiation mist on ground of moisture `m` (0 dry .. 1 wet or water), squared as in
+ * fable5-world-demo src/gpu/passes/Froxels.ts:148 @ fd75fdb7 (MIT): mist pools over wet basins and
+ * thins on dry slopes. The moisture is the frozen water record's marsh class and water mask
+ * (studioSamplers.ts), never re-derived (0065/0066). */
+export function moistureWeight(m: number): number {
+  const c = clamp01(m);
+  return MOISTURE_FLOOR + (1 - MOISTURE_FLOOR) * c * c;
+}
+
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const smooth = (a: number, b: number, x: number) => {
   const t = clamp01((x - a) / (b - a));

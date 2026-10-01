@@ -174,8 +174,8 @@ export class GpuCullSystem {
     this.resetNode = Fn(() => {
       If(instanceIndex.greaterThanEqual(uint(maxDraws)), () => { Return(); });
       atomicStore(indirectAtomic.element(instanceIndex.mul(INDIRECT_STRIDE).add(1)), uint(0));
-    })().compute(maxDraws, [WG]);
-    this.cullNode = this.buildCull(indirectAtomic).compute(rows, [WG]);
+    })().compute(maxDraws, [WG]).setName("gpuCull");
+    this.cullNode = this.buildCull(indirectAtomic).compute(rows, [WG]).setName("gpuCullRows");
   }
 
   private buildCull(indirectAtomic: TslNode): TslNode {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fogRegimes, type FogFieldInput } from "./fogField";
+import { fogRegimes, moistureWeight, type FogFieldInput } from "./fogField";
 
 const BASE: FogFieldInput = {
   minuteOfDay: 6 * 60, sunriseMin: 6 * 60, sunsetMin: 18 * 60, prevNightClearCalm: 1,
@@ -38,5 +38,13 @@ describe("fogRegimes", () => {
   });
   it("is deterministic", () => {
     expect(fogRegimes(BASE)).toEqual(fogRegimes({ ...BASE }));
+  });
+  it("mist at dawn over a wet basin is at least 3x a dry slope's; marsh fog at noon is at most a quarter of dawn", () => {
+    const dawn = fogRegimes(BASE);
+    expect((dawn.radiationMist * moistureWeight(1)) / (dawn.radiationMist * moistureWeight(0))).toBeGreaterThanOrEqual(3);
+    expect(moistureWeight(0.5)).toBeLessThan(0.5);
+    const noon = fogRegimes({ ...BASE, minuteOfDay: 12 * 60 });
+    expect(noon.marshFog).toBeLessThanOrEqual(0.25 * dawn.marshFog);
+    expect(noon.radiationMist).toBeLessThanOrEqual(0.25 * dawn.radiationMist);
   });
 });

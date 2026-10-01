@@ -14,6 +14,14 @@
  * `EXT_disjoint_timer_query_webgl2` itself (we no longer issue our own
  * queries: two timers cannot share that extension).
  *
+ * Compute passes (the froxel inject/blur/integrate, the GPU cull) are timed
+ * by three in their own pool; each is filed under its ComputeNode's name
+ * (`setName`), read from the uid three assigns when it starts the pass, and
+ * resolved together with the render pool so a frame's rows add up to its
+ * whole GPU time (per-pass labels adapted from fable5-world-demo
+ * src/core/GpuProfiler.ts @ fd75fdb7, MIT, Copyright (c) the
+ * fable5-world-demo authors).
+ *
  * CPU: `performance.now()` between marks, committed synchronously.
  *
  * No module-level mutable state: the studio creates one `FrameSegments` and
@@ -37,6 +45,16 @@ interface TimestampPool {
   maxQueries: number;
 }
 
+/** What three passes to `updateTimeStampUID`: a ComputeNode, an array of them, or a render context. */
+interface TimedContext { isComputeNode?: boolean; name?: string }
+
+/** The label a compute dispatch is filed under: its node's name, the first named node of an array. */
+export function computeLabel(ctx: TimedContext | TimedContext[]): string {
+  const nodes = Array.isArray(ctx) ? ctx : [ctx];
+  for (const n of nodes) if (n?.name) return n.name;
+  return "compute";
+}
+
 /** The slice of WebGPURenderer this timer reads. */
 export interface TimedRenderer {
   resolveTimestampsAsync(type?: "render" | "compute"): Promise<number | undefined>;
@@ -45,7 +63,10 @@ export interface TimedRenderer {
     isWebGPUBackend?: boolean;
     trackTimestamp?: boolean;
     hasFeature?(name: string): boolean;
-    timestampQueryPool?: { render?: TimestampPool | null; compute?: unknown };
+    timestampQueryPool?: { render?: TimestampPool | null; compute?: TimestampPool | null };
+    /** Three's per-pass uid assignment (Backend.updateTimeStampUID); wrapped to label compute passes. */
+    updateTimeStampUID?(ctx: object): void;
+    get?(ctx: object): { timestampUID?: string };
   };
 }
 
@@ -140,8 +161,9 @@ export class FrameSegments {
   private framesSinceResolve = 0;
   private gpuWindow = new Window();
 
-  private framesSinceCompute = 0;
-  private resolvingCompute = false;
+  /** Compute timestamp uid -> its node's name, until resolved. */
+  private computeLabels = new Map<string, string>();
+  private unwrapUid: (() => void) | null = null;
   private cpuLabel: string | null = null;
   private cpuStart = 0;
   private cpuFrame = new Map<string, number>();
@@ -159,12 +181,26 @@ export class FrameSegments {
     // (the Suspense load) would fill three's query pool with nobody resolving
     // it ("Maximum number of queries exceeded").
     if (this.renderer && this.renderer !== renderer) this.renderer.backend.trackTimestamp = false;
+    this.unwrapUid?.();
+    this.unwrapUid = null;
     this.renderer = renderer && typeof renderer.resolveTimestampsAsync === "function"
       ? renderer : null;
     // WebGPU checks the device feature only at init; the WebGL backend
     // guards on its own disjoint-timer extension.
     const b = this.renderer?.backend;
     if (b) b.trackTimestamp = !b.isWebGPUBackend || (b.hasFeature?.("timestamp-query") ?? false);
+    if (b?.updateTimeStampUID && b.get) {
+      const assign = b.updateTimeStampUID;
+      const get = b.get.bind(b);
+      b.updateTimeStampUID = (ctx: object) => {
+        assign.call(b, ctx);
+        const c = ctx as TimedContext | TimedContext[];
+        if (!Array.isArray(c) && c.isComputeNode !== true) return;
+        const uid = get(ctx).timestampUID;
+        if (uid !== undefined) this.computeLabels.set(uid, computeLabel(c));
+      };
+      this.unwrapUid = () => { b.updateTimeStampUID = assign; };
+    }
     // Apple hardware means Metal in every browser: the timestamp is the
     // pass's wall time on the GPU queue there, not its work (0084 r11).
     const nav = typeof navigator === "undefined" ? null : navigator;
@@ -236,48 +272,50 @@ export class FrameSegments {
     if (!this.renderer) return;
     this.bindPool();
     this.framesSinceResolve += 1;
-    // Compute passes (the GPU cull) fill their own pool: nobody reads those
-    // times, but unresolved they overflow it ("Maximum number of queries").
-    this.framesSinceCompute += 1;
-    if (this.framesSinceCompute >= RESOLVE_EVERY && !this.resolvingCompute
-      && this.renderer.backend.timestampQueryPool?.compute) {
-      this.framesSinceCompute = 0;
-      this.resolvingCompute = true;
-      this.renderer.resolveTimestampsAsync("compute")
-        .catch(() => undefined)
-        .finally(() => { this.resolvingCompute = false; });
-    }
     const pool = this.pool;
-    if (!pool || this.resolving) return;
-    const halfFull = pool.currentQueryIndex * 2 >= pool.maxQueries;
-    if (this.framesSinceResolve < RESOLVE_EVERY && !halfFull) return;
+    // Compute passes fill their own pool: resolved on the render cadence (or
+    // sooner when it is half full) so both land in the same frames, and
+    // unresolved they would overflow it ("Maximum number of queries").
+    const compute = this.renderer.backend.timestampQueryPool?.compute ?? null;
+    if ((!pool && !compute) || this.resolving) return;
+    const halfFull = (p: TimestampPool | null) => !!p && p.currentQueryIndex * 2 >= p.maxQueries;
+    if (this.framesSinceResolve < RESOLVE_EVERY && !halfFull(pool) && !halfFull(compute)) return;
     this.framesSinceResolve = 0;
     this.resolving = true;
-    this.renderer.resolveTimestampsAsync("render")
-      .then(() => this.drain(pool))
+    const r = this.renderer;
+    Promise.all([
+      pool ? r.resolveTimestampsAsync("render") : undefined,
+      compute ? r.resolveTimestampsAsync("compute") : undefined,
+    ])
+      .then(() => this.drain(pool, compute))
       .catch(() => { this.renderer = null; })
       .finally(() => { this.resolving = false; });
   }
 
-  /** File every resolved pass under its frame and label, then forget it. */
-  private drain(pool: TimestampPool): void {
+  /** File every resolved pass (render and compute) under its frame and label, then forget it. */
+  private drain(pool: TimestampPool | null, compute: TimestampPool | null): void {
     const frames = new Map<number, Map<string, number>>();
-    for (const [uid, label] of this.uidLabels) {
-      const ms = pool.timestamps.get(uid);
-      if (ms === undefined) continue;
-      const frame = frameOfUid(uid);
-      let row = frames.get(frame);
-      if (!row) { row = new Map(); frames.set(frame, row); }
-      row.set(label, (row.get(label) ?? 0) + ms);
-      this.uidLabels.delete(uid);
-      // three never prunes this map; the uids are ours to forget once read.
-      pool.timestamps.delete(uid);
-    }
+    const file = (labels: Map<string, string>, p: TimestampPool | null) => {
+      if (!p) return;
+      for (const [uid, label] of labels) {
+        const ms = p.timestamps.get(uid);
+        if (ms === undefined) continue;
+        const frame = frameOfUid(uid);
+        let row = frames.get(frame);
+        if (!row) { row = new Map(); frames.set(frame, row); }
+        row.set(label, (row.get(label) ?? 0) + ms);
+        labels.delete(uid);
+        // three never prunes this map; the uids are ours to forget once read.
+        p.timestamps.delete(uid);
+      }
+      // Uids whose pass never resolved (pool overflow, lost device) must not pile up.
+      if (labels.size > 4096) labels.clear();
+    };
+    file(this.uidLabels, pool);
+    file(this.computeLabels, compute);
     for (const frame of [...frames.keys()].sort((a, b) => a - b)) {
       this.gpuWindow.push(frames.get(frame)!);
     }
-    // Uids whose pass never resolved (pool overflow, lost device) must not pile up.
-    if (this.uidLabels.size > 4096) this.uidLabels.clear();
   }
 
   /** The whole-frame GPU numbers only, written into `out`: the per-frame
@@ -309,8 +347,11 @@ export class FrameSegments {
   dispose(): void {
     this.unwrapPool?.();
     this.unwrapPool = null;
+    this.unwrapUid?.();
+    this.unwrapUid = null;
     this.pool = null;
     this.uidLabels.clear();
+    this.computeLabels.clear();
   }
 }
 

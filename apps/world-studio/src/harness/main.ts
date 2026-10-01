@@ -212,6 +212,48 @@ async function main(): Promise<HarnessResult> {
   }
   result.calls = renderer.info.render.drawCalls;
   result.triangles = renderer.info.render.triangles;
+  // ?timing=N: N more frames under the studio's per-pass GPU timer
+  // (FrameSegments: render passes by mark, compute passes by node name), and
+  // the renderer's own resolved totals beside it so the rows can be checked
+  // against the whole frame. Harness frames run outside three's animation
+  // loop, so the frame number in each timestamp uid is set here.
+  const timingFrames = Number(params.get("timing")) || 0;
+  if (timingFrames > 0) {
+    const { FrameSegments } = await import("@elder-souls/game-core/fx/frameSegments");
+    const segments = new FrameSegments();
+    segments.attach(renderer as never);
+    let resolvedTotal = 0;
+    const resolve = renderer.resolveTimestampsAsync.bind(renderer);
+    (renderer as { resolveTimestampsAsync: typeof resolve }).resolveTimestampsAsync = async (type) => {
+      const ms = await resolve(type);
+      resolvedTotal += ms ?? 0;
+      return ms;
+    };
+    const info = renderer.info as unknown as { frame: number };
+    for (let i = 0; i < timingFrames; i++) {
+      info.frame = 1000 + i;
+      built.frame?.((frames + i) / 30);
+      segments.gpuMark("scene");
+      renderer.render(built.scene, built.camera);
+      segments.gpuEnd();
+      segments.collect();
+      await new Promise((r) => requestAnimationFrame(() => r(null)));
+    }
+    // the last partial window: resolve whatever is left
+    for (let k = 0; k < 3; k++) {
+      for (let j = 0; j < 10; j++) segments.collect();
+      await new Promise((r) => setTimeout(r, 50));
+    }
+    const st = segments.stats();
+    const round = (v: number) => Math.round(v * 1000) / 1000;
+    (result as unknown as { gpuTiming: unknown }).gpuTiming = {
+      source: st.gpuSource,
+      passes: Object.fromEntries(st.gpu.map((g) => [g.label, round(g.avg)])),
+      sumOfPassesMs: round(st.gpuSumAvg),
+      resolvedTotalPerFrameMs: round(resolvedTotal / timingFrames),
+    };
+    segments.dispose();
+  }
   // The last frame, read back and shown on a 2D canvas in place of the
   // live one, on BOTH backends so the two screenshots come from the same
   // path. Mean luma and the fraction of pixels unlike the corner pixel land

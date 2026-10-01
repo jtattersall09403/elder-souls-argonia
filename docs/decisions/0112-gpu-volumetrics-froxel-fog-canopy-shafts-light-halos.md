@@ -20,8 +20,11 @@ colour comes from the light rig.
    fog, marsh fog, canopy haze, shafts and lantern halos are all this one
    medium lit by the same lights; there is no separate shaft or halo mesh.
 2. **Applied in every material's fog stage.** The integrated grid is sampled
-   in `scene.fogNode` together with the aerial fog (screen uv + view depth),
-   so opaque, water, particles and smoke all sit inside the medium; the sky
+   in `scene.fogNode` together with the aerial fog, looked up by the
+   fragment's world position projected through the camera basis the grid was
+   injected with (`gridUvw`), never by the render camera's screen uv: a grid
+   built before the camera's own update that frame still sits on the
+   geometry when the camera turns. So opaque, water, particles and smoke all sit inside the medium; the sky
    takes the far slice. Nothing is composited as a post pass.
 3. **Scene-referred radiance, never a display colour.** Sun, sky and fixture
    radiance enter the grid in the same physical units as the lit scene, so
@@ -34,7 +37,14 @@ colour comes from the light rig.
    epoch minutes + weather + climate rasters, the strength of each regime;
    the GPU shapes it from two terrain grids baked around the camera (near
    256 m at 2 m, far 2 km at 16 m: ground height, water surface and mask,
-   basin floor = local minimum of the ground). Regimes, from the lane's
+   ground wetness, basin floor = local minimum of the ground, and on the far
+   grid the ground moisture = max(the water record's marsh class, its water
+   mask), read from the frozen record, never re-derived). Radiation mist is
+   weighted by moisture squared over a floor of 0.25 (`moistureWeight`), so
+   it gathers over wet basins and thins on dry slopes. The sun term is
+   shadowed by the terrain: five probes 12–420 m up the sun ray against the
+   grids' ground height (`terrainSun.ts`), and a froxel the terrain hides
+   from the sun keeps 0.6 of the sky ambient while the sun is up. Regimes, from the lane's
    research (tooling/.reports/16k/walk6/vol-research-climate.md):
    radiation mist pooling in basins with a flat top (clear calm night, peak at
    sunrise, gone 1–3 h after; 10–60 m deep); steam fog wisps 0–8 m over water

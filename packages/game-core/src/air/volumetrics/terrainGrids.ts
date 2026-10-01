@@ -3,7 +3,8 @@
  * - near: 256 m at 2 m (128²): r ground height, g water surface height,
  *   b water mask, a ground wetness;
  * - far: 2 km at 16 m (128²): r ground height, g basin floor (min-filter of
- *   the ground over ~300 m, then a blur), b sea mask, a water mask.
+ *   the ground over ~300 m, then a blur), b sea mask, a ground moisture
+ *   (wet ground or standing water: max of the wetness and the water mask).
  * Baked on the CPU from injected samplers, re-centred when the camera moves
  * over a quarter of a grid, and chunked by rows under a per-frame budget.
  */
@@ -117,7 +118,7 @@ export class TerrainGrids {
     }
     if (this.far.wants(x, z)) {
       const done = this.far.bakeRows(deadline, (wx, wz, d, o) => {
-        d[o] = s.groundHeight(wx, wz); d[o + 1] = 0; d[o + 2] = s.seaMask(wx, wz); d[o + 3] = s.water(wx, wz).mask;
+        d[o] = s.groundHeight(wx, wz); d[o + 1] = 0; d[o + 2] = s.seaMask(wx, wz); d[o + 3] = Math.max(s.wetness(wx, wz), s.water(wx, wz).mask);
       });
       if (!done) return false;
       this.far.finish((d) => {
