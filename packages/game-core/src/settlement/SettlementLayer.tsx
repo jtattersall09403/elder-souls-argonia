@@ -1126,6 +1126,9 @@ export function SettlementLayer({
         const keep = new Set([...farKept.values()].map((entry) => entry.geometry));
         farCache.current = farKept;
         disposeChildren(group, keep);
+        // Every piece is baked into its instance matrices or merged geometry
+        // at identity: no per-frame local-matrix recompose (audit row 16).
+        for (const child of next.children) { child.matrixAutoUpdate = false; child.updateMatrix(); }
         swapInBuild(group, next);
         // Twins of materials no longer drawn go now, not at unmount.
         const drawn = new Set(group.children.map((child) => (child as THREE.Mesh).material));

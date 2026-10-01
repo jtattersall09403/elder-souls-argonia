@@ -209,6 +209,26 @@ baseline.
 | programs (renderer.info.programs) | 72 Claywater night; 96 / 106 Greenspring night / noon; 99 jungle | baseline.md |
 | HUD `gpu` line | wall time on Metal (ANGLE): includes back-pressure, not shader work | audit.md 8 |
 
+## 7a. Walk-8 rows (owner: Greenspring night rain, 35–42 fps on the M2)
+
+- **On-screen passes reuse pass 1's world matrices**: WaterPipeline sets
+  `scene.matrixWorldAutoUpdate = false` for the water, precipitation and
+  overlay renders, so three's whole-scene `updateMatrixWorld` walk runs once
+  a frame, not four times. Node bench over three r184: one walk is 0.39 ms
+  at 4k objects and 1.45 ms at 12k on the VM, so the three walks removed
+  were 1.2–4.3 ms of VM CPU (a ratio; the M2 runs JS ~2–3x faster).
+- **Settlement draws are static** (audit row 16): every InstancedMesh and
+  far merge sits at identity with `matrixAutoUpdate = false`. Settlement
+  pieces were already one InstancedMesh per kit part per chunk bucket, so
+  no instancing work was left.
+- **`shadowMapSize` is a quality field**: low/medium 2048 (unchanged),
+  high 4096 (+48 MB GPU, ~4x shadow fill on update frames); `?quality=high`
+  or `?q=high` or the HUD picks it, high also raises DPR to 1.25.
+- Audit row 15 (cascade update periods) does not apply in character view:
+  it draws one cascade, already refreshed every other frame.
+- Rain is one shader-animated draw built once; the ripple and light-field
+  code holds no per-frame allocations.
+
 ## 8. How performance is measured
 
 - **No full-studio headless probes.** The VM has no GPU; SwiftShader runs

@@ -209,9 +209,12 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const [touch, setTouch] = useState(false);
   // On-foot render quality (module 65 first slice — owner: walking lags).
   // Defaults to MEDIUM in character view: fog usually hides what medium
-  // cuts, and the fly modes keep their own full distances. `?q=` seeds it.
+  // cuts, and the fly modes keep their own full distances. `?quality=` (or `?q=`) seeds it.
   const [quality, setQuality] = useState<QualitySettings>(() =>
-    parseQuality(new URLSearchParams(window.location.search).get("q"), "medium"));
+    parseQuality((() => {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("quality") ?? params.get("q");
+    })(), "medium"));
   // DEV fill-rate switch (`?dpr=<n>`, 0.5..2): pins the canvas pixel density
   // to one value so a frame can be measured at a known fill cost. Null keeps
   // the quality preset's cap.
@@ -496,7 +499,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           {/* Natural light and sky (Phase 8a): terrain, character and sea are
               lit by the same sun/moon/sky rig, shadows and exposure as the
               flyover — WorldSky replaces the old per-mode light sets. */}
-          <WorldSky mode="character" extentM={authoredExtentM} verticalScale={verticalScale} hidden={insideInterior}>
+          <WorldSky mode="character" shadowMapSize={quality.shadowMapSize} extentM={authoredExtentM} verticalScale={verticalScale} hidden={insideInterior}>
           <group visible={!insideInterior}>
           <Suspense fallback={null}>
             <ApronTerrain

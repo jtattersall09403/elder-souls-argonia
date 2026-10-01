@@ -679,8 +679,11 @@ export function WorldSky({
   extentM,
   verticalScale = 1,
   hidden = false,
+  shadowMapSize = 2048,
   children,
 }: {
+  /** Cascade map edge from the quality preset; `?smsize=` still overrides. */
+  shadowMapSize?: number;
   mode: "fly" | "character";
   extentM: number;
   /** Inside an interior cell (0103 decision 4): the sky, its lights, rain and
@@ -751,7 +754,7 @@ export function WorldSky({
   const csm = useMemo(() => {
     // ?smsize= lets headless probes shrink the cascade maps (software GL).
     const params = new URLSearchParams(window.location.search);
-    const smsize = Number(params.get("smsize")) || 2048;
+    const smsize = Number(params.get("smsize")) || shadowMapSize;
     // Character play: ONE cascade over 160 m (2026-09-21). Every cascade
     // re-draws every caster in its slice, and at rest the jungle hands the
     // shadow pass 2.5 M caster triangles — so the second cascade was a second
@@ -787,7 +790,7 @@ export function WorldSky({
     // React may throw a suspended render away WITHOUT running any cleanup.
     for (const l of c.lights) l.name = "csm-cascade";
     return c;
-  }, [camera, scene, mode]);
+  }, [camera, scene, mode, shadowMapSize]);
   useEffect(() => {
     // Sweep orphaned cascade lights from discarded renders (owner gate defect
     // 2026-08-25: suspense retries leaked 8 CSMs = 24 stray shadow-casting

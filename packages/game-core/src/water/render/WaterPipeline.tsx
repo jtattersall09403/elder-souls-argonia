@@ -407,6 +407,11 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       // walk 4). No background exists while the on-screen passes run.
       const prevBackground = scene.background;
       scene.background = null;
+      // Pass 1 already brought every world matrix up to date this frame and
+      // nothing moves between passes, so the on-screen passes skip three's
+      // whole-scene updateMatrixWorld walk (three of them a frame; 16k walk 8).
+      const prevMatrixAuto = scene.matrixWorldAutoUpdate;
+      scene.matrixWorldAutoUpdate = false;
       renderer.autoClear = false;
       renderer.shadowMap.autoUpdate = false;
       if (!underwater && h) {
@@ -434,6 +439,7 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       renderer.render(scene, cam);
       segments?.cpuMark("post"); segments?.gpuMark("post");
       scene.background = prevBackground;
+      scene.matrixWorldAutoUpdate = prevMatrixAuto;
       renderer.autoClear = prevAuto;
       renderer.shadowMap.autoUpdate = prevShadow;
     }
