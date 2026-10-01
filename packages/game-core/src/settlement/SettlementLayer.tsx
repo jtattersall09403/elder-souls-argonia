@@ -70,7 +70,7 @@ import { mergeRunColliders } from "./runColliders";
 import { fixtureLightFieldOf, isFixtureLitMaterial, litPreparerOf } from "../render/fixtureLights";
 import { DrawTargetLinker } from "../render/drawTargetLinker";
 import { assertPoolsSchema, syncPlacePools } from "./pools";
-import { TransientFetchError, fetchJsonWithRetry, withRetry } from "./fetchRetry";
+import { TransientFetchError, fetchJsonWithRetry, loadGltfWithRetry } from "./fetchRetry";
 import {
   SETTLEMENT_REQUERY_MOVE_M, useSettlementBundleSource,
   type AssembledSettlementBundle, type SettlementBundleSource,
@@ -464,6 +464,7 @@ export function SettlementLayer({
   const pendingKits = useRef(new Set<string>());
   /** A kit or kit manifest that failed after its retries (reported, retried after KIT_RETRY_MS). */
   const [kitError, setKitError] = useState<string | null>(null);
+  const [bundleError, setBundleError] = useState<string | null>(null);
   const [kitRetry, setKitRetry] = useState(0);
   const kitRetryTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const pendingManifests = useRef(new Set<string>());
@@ -550,6 +551,7 @@ export function SettlementLayer({
       // sockets, navigation), and a set with an unchanged content key
       // does not rebuild.
       bundleSource.publish(data);
+      setBundleError(null);   // any successful pick clears the bundle line
       if (data.key === loadedBundle.current?.key) return;
       loadedBundle.current = data;
       setBundle(data);
@@ -560,7 +562,7 @@ export function SettlementLayer({
       if (cancelled) return;
       if (error instanceof TransientFetchError) {
         // the connection, not the data: reported, and the pick runs again
-        setKitError(`settlement bundle failed: ${error.message}; retrying`);
+        setBundleError(`settlement bundle failed: ${error.message}; retrying`);
         clearTimeout(kitRetryTimer.current);
         kitRetryTimer.current = setTimeout(() => setQueryRevision((n) => n + 1), KIT_RETRY_MS);
         return;
@@ -632,7 +634,7 @@ export function SettlementLayer({
       }
       if (gltfs.has(id)) continue;
       pendingKits.current.add(id);
-      kitCache.load(id, `${baseUrl}${kit.glb}`, (url) => withRetry(() => loader.loadAsync(url))).then((gltf) => {
+      kitCache.load(id, `${baseUrl}${kit.glb}`, (url) => loadGltfWithRetry(url, loader)).then((gltf) => {
         setGltfs((current) => new Map(current).set(id, gltf));
       }).catch(failed(""))
         .finally(() => pendingKits.current.delete(id));
@@ -773,12 +775,12 @@ export function SettlementLayer({
   // The host's readable line, and the console (decision 0052 addendum
   // 2026-09-28: a failure shown only as a shape was unreadable three times).
   useEffect(() => {
-    const recoverable = [kitError, effectErrors.flame, effectErrors.smoke].filter(Boolean);
+    const recoverable = [bundleError, kitError, effectErrors.flame, effectErrors.smoke].filter(Boolean);
     const report = fatalError ? { fatal: true, message: fatalError.message }
       : recoverable.length ? { fatal: false, message: recoverable.join("; ") } : null;
     if (report) console.error(`[settlement] ${report.fatal ? "LAYER FAILED" : "not fatal"}: ${report.message}`);
     onErrorRef.current?.(report);
-  }, [fatalError, effectErrors, kitError]);
+  }, [fatalError, effectErrors, kitError, bundleError]);
   // The host's line goes with the layer: hiding or unmounting it clears it.
   useEffect(() => () => onErrorRef.current?.(null), []);
 

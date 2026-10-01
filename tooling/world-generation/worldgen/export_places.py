@@ -18,6 +18,7 @@ is ``PlottedPlacesBundle`` in ``packages/contracts``.
 
 from __future__ import annotations
 
+import functools
 import json
 import re
 from pathlib import Path
@@ -182,6 +183,12 @@ def _quest_links(rec: dict, quests: dict[str, dict]) -> list[dict]:
     return links
 
 
+@functools.lru_cache(maxsize=1)
+def _bars() -> dict:
+    """The breadth bars, read and validated once per run (one place per record otherwise)."""
+    return breadth_bars.load()
+
+
 def _interior_scope(rec: dict) -> str | None:
     """One line that says how many interiors the place really has, so a
     settlement's single `interior` block (its principal interior) is not read as
@@ -192,7 +199,7 @@ def _interior_scope(rec: dict) -> str | None:
     if cls.get("class") == "settlement":
         # the band is the breadth-bars column the place gates build it under
         # (one home; `place_gates` gate `record.consistency`)
-        row = (breadth_bars.load()["tiers"].get(cls.get("magnitude") or "") or {})
+        row = (_bars()["tiers"].get(cls.get("magnitude") or "") or {})
         lo, hi = row.get("buildingsMin"), row.get("buildingsMax")
         n = f"{lo}–{hi}" if lo is not None and hi is not None else (f"{lo}+" if lo is not None else "several")
         return (f"settlement: {n} buildings; every building with a door opens onto its own room; "

@@ -61,3 +61,24 @@ export function fetchWithRetry(url: string, options: RetryOptions & { readonly f
 export async function fetchJsonWithRetry(url: string, options?: RetryOptions): Promise<unknown> {
   return (await fetchWithRetry(url, options)).json();
 }
+
+/** What `loadGltfWithRetry` needs of a GLTFLoader. */
+export interface BytesParser<T> {
+  parseAsync(data: ArrayBuffer, path: string): Promise<T>;
+}
+
+/**
+ * A kit GLB through `fetchWithRetry` (so a 404 is permanent at once and a
+ * dropped connection is transient), then parsed. Bytes that arrived but do
+ * not parse are the data's fault: permanent, never retried.
+ */
+export async function loadGltfWithRetry<T>(url: string, loader: BytesParser<T>,
+  options: RetryOptions & { readonly fetchFn?: typeof fetch } = {}): Promise<T> {
+  const bytes = await (await fetchWithRetry(url, options)).arrayBuffer();
+  try {
+    return await loader.parseAsync(bytes, url.replace(/[^/]*$/, ""));
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new PermanentFetchError(`${url} did not parse: ${message}`, { cause: error });
+  }
+}

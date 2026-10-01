@@ -24,7 +24,7 @@ State: one JSON file per session under $ES_AGENT_CAP_DIR (default
 /tmp/es-agent-cap), read-modify-write under flock. Any error allows.
 `agent_cap.py --status` prints live counts and the current measurements.
 """
-import fcntl, glob, json, os, sys, time
+import calendar, fcntl, glob, json, os, sys, time
 
 # Per-new-agent memory reserve. Measured 2026-10-01 from the live tree (the
 # Pss anon+shmem of each tool tree under the claude process, own_memory.py
@@ -73,7 +73,7 @@ def slots_busy(now):
         try:
             parts = open(os.path.join(LOCK_DIR, f"slot-{i}.lock")).readline().split()
             os.kill(int(parts[3]), 0)
-            started = time.mktime(time.strptime(parts[0], "%Y-%m-%dT%H:%M:%SZ")) - time.timezone
+            started = calendar.timegm(time.strptime(parts[0], "%Y-%m-%dT%H:%M:%SZ"))
         except Exception:
             return False
         if now - started >= SLOT_YOUNG_S:

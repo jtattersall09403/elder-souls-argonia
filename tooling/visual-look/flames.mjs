@@ -70,6 +70,19 @@ function common(f, t) {
 }
 
 /** True when `t` (`H` or `HH:MM`) falls in the lamps-out day, 06:30-17:30 (0105 R3). */
+/** The run's measured target (header): every wait is bounded by it, so a subject that never arrives fails with a reason instead of hanging. */
+export const TARGET_MS = 60_000;
+
+/** `page.waitForFunction` bounded by TARGET_MS; a miss throws `what` (the check's failure line). */
+export async function waitOrFail(page, fn, what, polling = 250, timeoutMs = TARGET_MS) {
+  try {
+    await page.waitForFunction(fn, undefined, { timeout: timeoutMs, polling });
+  } catch (e) {
+    if (e?.name !== "TimeoutError") throw e;
+    throw new Error(`${what} within the ${timeoutMs / 1000} s target`);
+  }
+}
+
 export function isLampDay(t) {
   const m = /^(\d{1,2})(?::(\d{2}))?$/.exec(String(t));
   if (!m) return false;
@@ -314,16 +327,16 @@ async function run(opts) {
     const q = opts.cell ? `&interior=${encodeURIComponent(opts.cell)}&veg=0&hud=0` : "&hud=0";
     result.url = `${base}?view=character&x=${opts.x}&z=${opts.z}&t=${opts.t}&q=low&aa=0&dpr=1${q}`;
     await page.goto(result.url, { waitUntil: "domcontentloaded" });
-    await page.waitForFunction(() => window.__STUDIO_CHARACTER_DEBUG__?.player?.() != null && window.__SCENE__ && window.__RENDERER__,
-      undefined, { timeout: 0, polling: 250 });
+    await waitOrFail(page, () => window.__STUDIO_CHARACTER_DEBUG__?.player?.() != null && window.__SCENE__ && window.__RENDERER__,
+      "no player in the studio");
     result.stage = "player-ready"; result.playerReadyS = +((Date.now() - started) / 1000).toFixed(1);
     if (opts.cell) {
-      await page.waitForFunction(() => { const s = window.__STUDIO_CHARACTER_DEBUG__?.interior?.(); return s?.cellId && s.fade === 0; },
-        undefined, { timeout: 0, polling: 250 });
+      await waitOrFail(page, () => { const s = window.__STUDIO_CHARACTER_DEBUG__?.interior?.(); return s?.cellId && s.fade === 0; },
+        `cell ${opts.cell} did not open`);
     } else {
       // the settlement's fixtures streamed: a flame system with cards
-      await page.waitForFunction(() => { let n = 0; window.__SCENE__.traverse((o) => { if (o.name === "fire-flame-cards" && o.visible) n++; }); return n > 0; },
-        undefined, { timeout: 0, polling: 500 });
+      await waitOrFail(page, () => { let n = 0; window.__SCENE__.traverse((o) => { if (o.name === "fire-flame-cards" && o.visible) n++; }); return n > 0; },
+        "no flame cards streamed at the place", 500);
     }
     result.stage = "subject-ready"; result.subjectReadyS = +((Date.now() - started) / 1000).toFixed(1);
     Object.assign(result, await page.evaluate(installProbe, opts.cell));

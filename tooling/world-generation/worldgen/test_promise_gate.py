@@ -127,6 +127,22 @@ def test_quest_rows_are_read_from_the_quest_records(tmp_path):
          "anchorPlaces": ["place.z.other", "place.z.halt"]}]}))
     got = bpr.quest_rows_for("place.z.halt", tmp_path)
     assert sorted(got) == ["LZ01", "LZ03"] and got["LZ01"][1] == "LZ01 The Toll: Two cities claim it"
+    # read once per run: a second place does not re-read the files; an edit does
+    reads = bpr._quest_docs.cache_info().misses
+    bpr.quest_rows_for("place.z.other", tmp_path)
+    assert bpr._quest_docs.cache_info().misses == reads
+    import os
+    path = tmp_path / "local-z.json"
+    path.write_text(json.dumps({"quests": []}))
+    os.utime(path, ns=(1, path.stat().st_mtime_ns + 10**9))
+    assert bpr.quest_rows_for("place.z.halt", tmp_path) == {}
+
+
+def test_the_gate_pins_confirmations_with_the_ledgers_own_text_sha(monkeypatch):
+    """One home for the pin: the gate calls blueprint_promises.text_sha."""
+    monkeypatch.setattr(bpr, "text_sha", lambda text: "pinned")
+    row = {"kind": "prose", "text": "x", "confirmed": {"sha": "pinned", "note": "n"}}
+    assert pg._confirmation_errors("p", row) == []
 
 
 def test_a_regeneration_keeps_the_builders_unfilled_blocks():

@@ -67,3 +67,18 @@ def test_other_tools_pass_and_garbage_input_allows(tmp_path):
     d = {"hook_event_name": "PreToolUse", "session_id": "s", "tool_name": "Bash"}
     assert subprocess.run([sys.executable, str(CAP_PY)], input=json.dumps(d), text=True, env=env).returncode == 0
     assert subprocess.run([sys.executable, str(CAP_PY)], input="not json", text=True, env=env).returncode == 0
+
+
+def test_slot_age_reads_the_utc_stamp_as_utc_under_any_local_zone(tmp_path, monkeypatch):
+    """The slot line's stamp is UTC: calendar.timegm, never mktime - timezone (wrong by an hour under DST)."""
+    import calendar, os, time
+    monkeypatch.setenv("TZ", "Europe/London"); time.tzset()
+    try:
+        monkeypatch.setattr(agent_cap, "LOCK_DIR", str(tmp_path))
+        monkeypatch.setenv("ES_JOB_SLOTS", "1")
+        (tmp_path / "slot-0.lock").write_text(f"2026-07-01T12:00:00Z x x {os.getpid()}\n")
+        t0 = calendar.timegm((2026, 7, 1, 12, 0, 0, 0, 0, 0))
+        assert agent_cap.slots_busy(t0 + 1) is True
+        assert agent_cap.slots_busy(t0 + agent_cap.SLOT_YOUNG_S) is False
+    finally:
+        monkeypatch.delenv("TZ"); time.tzset()

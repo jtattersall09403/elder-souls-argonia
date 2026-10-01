@@ -1,7 +1,7 @@
 // node --test tooling/visual-look/flames.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { isLampDay, parseFlameArgs, seenCards, verdict, windowsFrom } from "./flames.mjs";
+import { isLampDay, parseFlameArgs, seenCards, verdict, waitOrFail, windowsFrom } from "./flames.mjs";
 
 test("args: an interior cell with its door spot, a place at night by default", () => {
   const i = parseFlameArgs(["interior", "KeebaHouseFisher", "0.313", "3.006", "--url", "https://x/studio/", "--force"]);
@@ -52,4 +52,14 @@ test("windowsFrom: a card's window is cut from a top-down RGBA frame", () => {
   const [w] = windowsFrom(frame, 3, [{ win: [1, 0, 2, 2] }]);
   assert.deepEqual(w.filter((_, i) => i % 4 === 0), [10, 20, 40, 50]);
   assert.equal(parseFlameArgs(["place", "1", "2", "--data-base", "http://d/studio/"]).dataBase, "http://d/studio/");
+});
+
+test("a subject that never arrives fails with a reason inside the target, never hangs", async () => {
+  const timeout = Object.assign(new Error("Timeout 60000ms exceeded"), { name: "TimeoutError" });
+  let seen;
+  const page = { waitForFunction: async (_f, _a, o) => { seen = o; throw timeout; } };
+  await assert.rejects(waitOrFail(page, () => false, "no flame cards streamed at the place", 500),
+    /no flame cards streamed at the place within the 60 s target/);
+  assert.equal(seen.timeout, 60000);
+  assert.equal(seen.polling, 500);
 });

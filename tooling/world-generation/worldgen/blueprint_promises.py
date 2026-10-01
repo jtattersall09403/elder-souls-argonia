@@ -52,6 +52,7 @@ Run (from tooling/world-generation/):
 from __future__ import annotations
 
 import argparse
+import functools
 import json
 import re
 import sys
@@ -640,13 +641,19 @@ def text_sha(text: str) -> str:
     return hashlib.sha256(str(text).encode("utf-8")).hexdigest()[:12]
 
 
+@functools.lru_cache(maxsize=4)
+def _quest_docs(files: tuple[tuple[str, int], ...]) -> tuple[tuple[Path, object], ...]:
+    """Every quest file parsed once per run (keyed by path and mtime, so an edit is re-read)."""
+    return tuple((Path(f), json.loads(Path(f).read_text(encoding="utf-8"))) for f, _ in files)
+
+
 def quest_rows_for(place_id: str, quests_dir: Path = QUESTS_DIR) -> dict[str, tuple[str, str]]:
     """quest code -> (its home file, "<code> <title>: <premise>") for every
     quest record (`world/sources/quests/*.json`, the home table the quest
     index renders) whose `settlement` or `anchorPlaces` names this place."""
     out: dict[str, tuple[str, str]] = {}
-    for path in sorted(Path(quests_dir).glob("*.json")):
-        doc = json.loads(path.read_text(encoding="utf-8"))
+    files = tuple((str(p), p.stat().st_mtime_ns) for p in sorted(Path(quests_dir).glob("*.json")))
+    for path, doc in _quest_docs(files):
         rows = doc.get("quests") if isinstance(doc, dict) else None
         for q in rows or []:
             if not isinstance(q, dict) or not q.get("code"):
