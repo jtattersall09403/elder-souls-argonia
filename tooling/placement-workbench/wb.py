@@ -126,9 +126,12 @@ def reseat_after_pads(cat, scene) -> list[dict]:
     for p in scene.pieces:
         by = p.settledBy or ""
         # planner ruling 1 (round 6): only a piece that owns no pad is re-seated;
-        # a building, a run member or a retaining wall keeps its pad seat
-        if (not by.startswith("settle:") or p.pad is not None
-                or (p.role or {}).get("kind") == "run"):
+        # a building, a run member or a retaining wall keeps its pad seat. A
+        # padded assembly member (a stall, a rack: walk 9) is dressing and is
+        # re-seated by `prop_seat` on its own pad (`measure.is_prop`)
+        kind = (p.role or {}).get("kind")
+        if (not by.startswith("settle:") or kind == "run"
+                or (p.pad is not None and kind != "assembly")):
             continue
         before = p.y
         _settle(cat, scene, p, by.rsplit(":", 1)[-1], declared_pads=resolved)
@@ -437,6 +440,21 @@ def _sill(cat, g, p, row, cs) -> dict:
     else:
         heights = [g.survey_height(x, z) for x, z in samples]
         line = min(heights) if fit == "dug-in" else sum(heights) / len(heights)
+        if fit == "dug-in" and cat is not None:
+            # a dug-in piece whose door stands inside its own outline (a cave
+            # mouth: the load door at the end of its tunnel) is entered over
+            # its own floor, which walkwayRule measures step by step from the
+            # ground to the door; the ground under the hill is no sill
+            # (16k walk 9: rockcaveentrance02's 30 m mound read 0.43 m)
+            from types import SimpleNamespace
+            from shapely.geometry import Point, Polygon
+            from workbench import rules as _rules
+            door = next((d for d in _rules.piece_doors(cat, SimpleNamespace(paths=[]), p)
+                         if d.get("bound")), None)
+            if door is not None and len(samples) >= 3 and \
+                    Polygon(samples).buffer(0).contains(Point(*door["thresholdM"])):
+                return {"sillM": None, "sillMaxM": tpg.SILL_LIMIT_M, "sillRule": None,
+                        "sillWhy": "door inside its own outline: walkwayRule judges the way in"}
         sill = abs(line - g.survey_height(p.x, p.z))
     return {"sillM": round(sill, 3), "sillMaxM": tpg.SILL_LIMIT_M,
             "sillRule": None if sill <= tpg.SILL_LIMIT_M else
@@ -1287,7 +1305,11 @@ def cmd_site(a, scene, cat):
                                   "maxSlopeDeg": rules["maxSlopeDeg"],
                                   "fromCentreM": round(math.hypot(x - cx, z - cz), 2)})
                 continue
-            if any(g.wet(vx, vz) for vx, vz in poly):
+            # dry by both water records: the wet mask at the outline AND the
+            # fine depth `check` reports as waterDepthM (walk 9: the mask let
+            # a Claywater table and rain butt stand in 1.08 m and 0.84 m)
+            if (any(g.wet(vx, vz) or g.depth(vx, vz) > 0.0 for vx, vz in poly)
+                    or g.depth(x, z) > 0.0):
                 continue
             found.append({"at": [round(x, 2), round(z, 2)], "maxSlopeDeg": rules["maxSlopeDeg"],
                           "surveyDeltaM": rules.get("surveyDeltaM", 0.0), "sillM": rules.get("sillM"),

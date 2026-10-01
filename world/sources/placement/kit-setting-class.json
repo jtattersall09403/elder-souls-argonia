@@ -5,6 +5,7 @@
   "minerVersion": 3,
   "runDate": "2026-10-01",
   "kits": [
+   "camp-v1",
    "imperial-keep",
    "settlement-imperial-v1",
    "settlement-mud-v1",
@@ -1508,6 +1509,110 @@
    ],
    "otherFileRefs": 0,
    "evidence": "plugin"
+  },
+  "kotm:oaristys/forge/coalpile": {
+   "n": 28,
+   "interior": {
+    "town": 23
+   },
+   "exterior": {
+    "town": 3,
+    "village": 2
+   },
+   "settings": {
+    "interior": [
+     "town"
+    ],
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothLumberworks",
+    "interior:town:LilmothIronworks",
+    "exterior:town:LilmothLocation",
+    "interior:town:LilmothSilverRefinery",
+    "interior:town:LilmothOliisIronFoundryInt",
+    "exterior:village:SeekhatYolLocation",
+    "interior:town:LilmothGlassFoundry"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:oaristys/forge/ingotsiron01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "kotm:oaristys/forge/orebucket_iron": {
+   "n": 19,
+   "interior": {
+    "town": 12,
+    "ruin": 2
+   },
+   "exterior": {
+    "town": 4,
+    "village": 1
+   },
+   "settings": {
+    "interior": [
+     "town",
+     "ruin"
+    ],
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothSilverRefinery",
+    "interior:town:LilmothIronworks",
+    "exterior:town:LilmothLocation",
+    "interior:ruin:TeethofSithisInt03",
+    "interior:town:LilmothOliisIronFoundryInt",
+    "exterior:village:SeekhatYolLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:oaristys/forge/orestack_iron": {
+   "n": 9,
+   "interior": {
+    "town": 8,
+    "ruin": 1
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothIronworks",
+    "interior:town:LilmothSilverRefinery",
+    "interior:ruin:TeethofSithisInt03",
+    "interior:town:LilmothOliisIronFoundryInt"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin",
+   "classNotMeasured": {
+    "interior": {
+     "ruin": 1
+    }
+   }
   },
   "mudmother:gv_meshes/argoniannest/archwaysticks": {
    "n": 1,
@@ -4674,6 +4779,71 @@
    "otherFileRefs": 0,
    "evidence": "plugin"
   },
+  "vanilla:architecture/tents/largeimperialtent01": {
+   "n": 29,
+   "interior": {},
+   "exterior": {
+    "camp": 24,
+    "town": 5
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:MilitaryCampWinterholdImperialLocation",
+    "exterior:camp:MilitaryCampRiftImperialLocation",
+    "exterior:camp:MilitaryCampEastmarchImperialLocation",
+    "exterior:camp:MilitaryCampReachImperialLocation",
+    "exterior:camp:MilitaryCampWhiterunImperialLocation",
+    "exterior:camp:MilitaryCampHjaalmarchImperialLocation",
+    "exterior:camp:MilitaryCampPaleImperialLocation",
+    "exterior:camp:MilitaryCampFalkreathImperialLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/tents/smallimperialtent": {
+   "n": 86,
+   "interior": {
+    "wild": 1,
+    "ruin": 1
+   },
+   "exterior": {
+    "camp": 30,
+    "town": 48,
+    "wild": 3,
+    "ruin": 3
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "camp",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:WindhelmLocation",
+    "exterior:camp:MilitaryCampWinterholdImperialLocation",
+    "exterior:town:RiftenLocation",
+    "exterior:town:MarkarthLocation",
+    "exterior:town:WhiterunLocation",
+    "exterior:camp:MilitaryCampEastmarchImperialLocation",
+    "exterior:camp:MilitaryCampPaleImperialLocation",
+    "exterior:camp:MilitaryCampRiftImperialLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
   "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01": {
    "n": 8,
    "interior": {
@@ -5147,6 +5317,16 @@
    "otherFileRefs": 1,
    "evidence": "plugin"
   },
+  "vanilla:clutter/books/note01/note01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
   "vanilla:clutter/bucket01": {
    "n": 1493,
    "interior": {
@@ -5586,6 +5766,222 @@
     "Skyrim.esm"
    ],
    "otherFileRefs": 10,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/civilwar/civilwarbanner01": {
+   "n": 69,
+   "interior": {
+    "keep": 17,
+    "ruin": 4,
+    "camp": 1
+   },
+   "exterior": {
+    "wild": 12,
+    "keep": 17,
+    "camp": 16,
+    "ruin": 1,
+    "town": 1
+   },
+   "settings": {
+    "interior": [
+     "keep",
+     "ruin"
+    ],
+    "exterior": [
+     "keep",
+     "camp",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:keep:FortGreymoor01",
+    "exterior:wild:HelgenLocation",
+    "interior:ruin:Volskygge01",
+    "exterior:keep:FortDunstadLocation",
+    "exterior:keep:FortGreenwallLocation",
+    "interior:keep:FortGreymoor02",
+    "exterior:keep:FortAmolLocation",
+    "exterior:keep:FortHraggstadLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/civilwar/civilwarbannerimp01": {
+   "n": 144,
+   "interior": {
+    "keep": 89,
+    "town": 14,
+    "ruin": 6,
+    "wild": 10
+   },
+   "exterior": {
+    "camp": 8,
+    "wild": 4,
+    "keep": 8,
+    "town": 5
+   },
+   "settings": {
+    "interior": [
+     "keep",
+     "town",
+     "ruin",
+     "wild"
+    ],
+    "exterior": [
+     "keep",
+     "town",
+     "camp",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:keep:FortGreymoor01",
+    "interior:keep:FortDunstad01",
+    "interior:keep:FortGreenwall01",
+    "interior:town:Katariah01",
+    "interior:wild:HelgenKeep01",
+    "interior:keep:FortSnowhawk01",
+    "interior:keep:FortNeugrad01",
+    "interior:keep:FortGreenwall02"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/civilwar/civilwarbannerimp02": {
+   "n": 9,
+   "interior": {
+    "ruin": 2
+   },
+   "exterior": {
+    "keep": 2,
+    "wild": 2,
+    "town": 3
+   },
+   "settings": {
+    "interior": [
+     "ruin"
+    ],
+    "exterior": [
+     "keep",
+     "town",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:KatariahLocation",
+    "interior:ruin:NorthwatchKeep01",
+    "exterior:wild:ShorsWatchtowerLocation",
+    "exterior:keep:FortGreenwallLocation",
+    "exterior:keep:FortSungardLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/civilwar/civilwarcot01": {
+   "n": 7,
+   "interior": {
+    "keep": 6,
+    "town": 1
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "keep"
+    ]
+   },
+   "sourceCells": [
+    "interior:keep:WhiterunDragonsreachBasement",
+    "interior:keep:FalkreathJarlsLonghouse",
+    "interior:keep:WhiterunDragonsreach",
+    "interior:town:WinterholdJarlsLonghouse"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin",
+   "classNotMeasured": {
+    "interior": {
+     "town": 1
+    }
+   }
+  },
+  "vanilla:clutter/civilwar/civilwarmap01": {
+   "n": 8,
+   "interior": {
+    "town": 2,
+    "keep": 3
+   },
+   "exterior": {
+    "camp": 1,
+    "town": 2
+   },
+   "settings": {
+    "interior": [
+     "keep",
+     "town"
+    ],
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "interior:keep:WhiterunDragonsreach",
+    "exterior:town:KatariahLocation",
+    "interior:town:RiverwoodSleepingGiantInn",
+    "interior:town:WhiterunJorrvaskrBasement",
+    "interior:keep:FortHraggstad01",
+    "exterior:camp:SerpentsBluffRedoubtLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin",
+   "classNotMeasured": {
+    "exterior": {
+     "camp": 1
+    }
+   }
+  },
+  "vanilla:clutter/civilwar/civilwartable01": {
+   "n": 19,
+   "interior": {
+    "wild": 1
+   },
+   "exterior": {
+    "camp": 16,
+    "keep": 1,
+    "wild": 1
+   },
+   "settings": {
+    "exterior": [
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "interior:wild:CWGuardTemplates",
+    "exterior:camp:MilitaryCampWinterholdImperialLocation",
+    "exterior:camp:MilitaryCampPaleSonsLocation",
+    "exterior:camp:MilitaryCampFalkreathSonsLocation",
+    "exterior:camp:MilitaryCampWhiterunSonsLocation",
+    "exterior:camp:MilitaryCampRiftImperialLocation",
+    "exterior:camp:MilitaryCampRiftSonsLocation",
+    "exterior:keep:FortAmolLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
    "evidence": "plugin"
   },
   "vanilla:clutter/common/candlelanternwithcandle01": {
@@ -6723,6 +7119,83 @@
    "plugins": [],
    "otherFileRefs": 0,
    "evidence": "unplaced"
+  },
+  "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01": {
+   "n": 138,
+   "interior": {
+    "wild": 14
+   },
+   "exterior": {
+    "wild": 34,
+    "keep": 49,
+    "camp": 19,
+    "ruin": 2,
+    "town": 20
+   },
+   "settings": {
+    "interior": [
+     "wild"
+    ],
+    "exterior": [
+     "keep",
+     "town",
+     "camp",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "interior:wild:CWGuardTemplates",
+    "exterior:keep:FortDunstadLocation",
+    "exterior:keep:FortSungardLocation",
+    "exterior:keep:FortGreymoorLocation",
+    "exterior:town:WhiterunLocation",
+    "exterior:keep:FortGreenwallLocation",
+    "exterior:town:WindhelmLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/stockade/stockadepike01": {
+   "n": 187,
+   "interior": {
+    "ruin": 1,
+    "camp": 4
+   },
+   "exterior": {
+    "camp": 43,
+    "keep": 62,
+    "wild": 27,
+    "ruin": 34,
+    "town": 16
+   },
+   "settings": {
+    "exterior": [
+     "keep",
+     "town",
+     "camp",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:ruin:SouthfringeSanctumLocation",
+    "exterior:keep:DushnikhYalLocation",
+    "exterior:wild:JaphetsFollyLocation",
+    "exterior:camp:TrevasWatchLocation",
+    "exterior:town:FalkreathLocation",
+    "exterior:keep:NarzulburLocation",
+    "exterior:keep:FortDunstadLocation",
+    "exterior:camp:KarthspireLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
   },
   "vanilla:clutter/stockade/stockadescaffoldbase0sided01": {
    "n": 196,
@@ -8140,6 +8613,29 @@
    "otherFileRefs": 125,
    "evidence": "plugin"
   },
+  "vanilla:furniture/bedroll/bedrollground": {
+   "n": 36,
+   "interior": {
+    "ruin": 6,
+    "keep": 30
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "keep",
+     "ruin"
+    ]
+   },
+   "sourceCells": [
+    "interior:keep:NightcallerTemple01",
+    "interior:ruin:Raldbthar02"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
   "vanilla:furniture/farm/farmbench01": {
    "n": 250,
    "interior": {
@@ -8190,6 +8686,44 @@
     "Skyrim.esm"
    ],
    "otherFileRefs": 10,
+   "evidence": "plugin"
+  },
+  "vanilla:furniture/smeltermarker": {
+   "n": 25,
+   "interior": {
+    "wild": 1,
+    "camp": 2,
+    "ruin": 1
+   },
+   "exterior": {
+    "wild": 12,
+    "camp": 1,
+    "keep": 2,
+    "ruin": 1,
+    "village": 2,
+    "town": 3
+   },
+   "settings": {
+    "interior": [],
+    "exterior": [
+     "town",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "interior:wild:QASmoke",
+    "interior:camp:KnifepointRidge01",
+    "interior:ruin:Gloomreach01",
+    "interior:camp:BrokenOarGrotto01",
+    "exterior:camp:FortFellhammerLocation",
+    "exterior:keep:NarzulburLocation",
+    "exterior:ruin:DragonLair06Location"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 8,
    "evidence": "plugin"
   },
   "vanilla:furniture/tanningrackmarker": {

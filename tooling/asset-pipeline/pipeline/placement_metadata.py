@@ -597,6 +597,10 @@ def apply_placement_metadata(
             asset, anchors.get(asset["id"]))
         if "anchorClass" in row:
             anchor_class, anchor_evidence = row["anchorClass"], "policy"
+        elif row.get("placeUse") == "hanging-only" and anchor_evidence == "unplaced":
+            # A reviewed hanging-only piece no plugin placed hangs (16k walk 9
+            # type 9: argonianlanterns02 read as ground in all four kits).
+            anchor_class, anchor_evidence = "hanging", "policy"
         deck_line = None
         if "deckClearanceM" in row:
             deck_line = deck_support_line(asset["id"], row, tell, mined_record)
@@ -706,9 +710,13 @@ def refresh_built_manifests(
         # the same copy build_kit makes, so a newly mined block reaches the
         # manifests without a Blender rebuild (walk 2 integrate-lighting).
         config_path = kit_config_dir / f"{kit_id}.json"
+        from .build_kit import apply_display_names
         if config_path.exists():
             from .build_kit import apply_light_records
             apply_light_records(document, _read_json(config_path))
+            apply_display_names(document, _read_json(config_path))
+        else:
+            apply_display_names(document)
         # A flame emitter above its piece's geometry is seated on the top
         # (manifest data only, the same call build_kit.apply_fire_layer makes).
         from .build_kit import seat_flames_on_geometry

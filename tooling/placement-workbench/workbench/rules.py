@@ -38,6 +38,9 @@ PATH_BEARING_DEG = 45.0      # ... its last leg within this of the door's facing
 EDGE_STEP_M = 0.25           # floorEdgeRule: perimeter sample spacing
 EDGE_INSET_M = 0.3           # ... the underside is read this far inside the outline
 FLOOR_BANDS = {"direct": 0.15, "plinth": 0.60, "pad": 0.10}
+FLOORLESS_CATEGORIES = ("furniture", "clutter", "container")
+"""Manifest categories with no floor: a doorless parcel piece of these (a
+smelter or forge holding its works yard's pad) gets no floorEdgeRule row."""
 UNDERSIDE_BAND_M = 1.0       # ... only underside geometry within this over the piece's base
                              # is a floor edge; eaves and domes above it are out (planner
                              # ruling 2, 2026-09-26)
@@ -509,19 +512,41 @@ def _own_pieces(scene, uid: str) -> set[str]:
 
 def terminal(scene) -> tuple[float, float] | None:
     """The place's road terminal: the start of the layout's the-street, else
-    the blueprint's first networkTerminal (entryUV x the province extent)."""
+    the blueprint's first networkTerminal (entryUV x the province extent),
+    else, for an off-network place (`off_network`), where its first approach
+    arrives (`viaUV`): a lair reached across country (16k walk 9)."""
     for path in scene.paths:
         if path["id"].endswith(".the-street") and path["pointsM"]:
             return tuple(path["pointsM"][0])
-    import json
-    bp = paths.BLUEPRINTS / f"{scene.placeId}.json"
-    if bp.exists():
-        terms = json.loads(bp.read_text())["blueprint"].get("networkTerminals") or []
+    bp = _blueprint(scene)
+    if bp is not None:
+        extent = scene.ground().extent_m
+        terms = bp.get("networkTerminals") or []
         if terms:
-            extent = scene.ground().extent_m
             u, v = terms[0]["entryUV"]
             return (u * extent, v * extent)
+        if off_network(scene, bp):
+            u, v = bp["approaches"][0]["viaUV"][0]
+            return (u * extent, v * extent)
     return None
+
+
+def _blueprint(scene) -> dict | None:
+    import json
+    bp = paths.BLUEPRINTS / f"{scene.placeId}.json"
+    return json.loads(bp.read_text())["blueprint"] if bp.exists() else None
+
+
+def off_network(scene, bp: dict | None = None) -> bool:
+    """A place no way reaches (no layout path, no networkTerminal) whose first
+    approach comes across country (`fromDirection`, no `fromRouteId`, a
+    `viaUV`): a beast's lair. Its doors are reached on foot from the approach
+    (walkRule), never by a path end (pathReachRule, doorReach)."""
+    bp = _blueprint(scene) if bp is None else bp
+    if bp is None or scene.paths or bp.get("networkTerminals"):
+        return False
+    first = (bp.get("approaches") or [{}])[0]
+    return bool(first.get("fromDirection") and not first.get("fromRouteId") and first.get("viaUV"))
 
 
 # --------------------------------------------------------------------------
@@ -1105,6 +1130,12 @@ def floor_edge_piece(cat, scene, ctx, p, fit_for) -> tuple[dict, list]:
                                             f"plinth, pad only)"}}, []
     if floor_classes().get(p.asset) == "openShelter":
         return open_shelter_piece(cat, g, p, fit, band)
+    if not cat.doorways(p.asset) and cat.row(p.asset).get("category") in FLOORLESS_CATEGORIES:
+        # a works machine that holds its yard's pad (Bog Iron's smelter, walk 9)
+        # has no floor: its spout and slag ledge 0.84 m up are not a floor edge;
+        # burialRule and propSeatRule still judge its seat on the pad
+        return {p.uid: {"fit": fit, "note": f"a {cat.row(p.asset).get('category')} piece "
+                                            f"with no doorway has no floor edge"}}, []
     perim = _perimeter(measure.footprint_province(cat, p), EDGE_STEP_M)
     insets = (0.02, 0.1, 0.2, EDGE_INSET_M)
     pts = [(s[0] + n[0] * d, s[1] + n[1] * d) for s, n in perim for d in insets]
@@ -1176,6 +1207,8 @@ def path_reach(cat, scene) -> dict:
     within PATH_BEARING_DEG of the door's facing; every yard opening a path
     end within PATH_REACH_M of its outline."""
     from shapely.geometry import Point, Polygon
+    if off_network(scene):
+        return {"pieces": {}, "failures": [], "offNetwork": True}
     ends = []
     for path in scene.paths:
         pts = path["pointsM"]
@@ -1324,7 +1357,11 @@ def prop_seat_piece(cat, scene, ctx, p) -> tuple[dict, list]:
         rise = fl["groundRiseM"]
         allow = min(rise, UNEVEN_SINK_CAP_M)
         r.update(groundRiseM=rise, burialAllowM=round(allow, 3))
-        if gap < -down and ev.startswith("policy"):
+        # a reviewed assetPlacement row (evidence exactly "policy") designs its
+        # burial in full, as burialRule reads it (seat_rules.DESIGNED_ROW_EVIDENCE):
+        # the awning's posts go 0.59 m in by its row; a fallback designs nothing
+        from .seat_rules import DESIGNED_ROW_EVIDENCE
+        if gap < -down and ev.startswith("policy") and ev not in DESIGNED_ROW_EVIDENCE:
             if seat["designedSinkM"] > down:
                 failures.append(f"{p.uid}: sunk {-gap:.3f} m into the padded ground at its "
                                 f"lowest foot point by a designed sink with no evidence "

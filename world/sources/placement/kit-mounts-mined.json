@@ -91,8 +91,8 @@
  "source": "vanilla Skyrim.esm plus every source-mod plugin named by worldgen.asset_registry.POOLS (exterior and interior cells)",
  "method": "Real mesh-to-mesh contact per placed unit-scale kit reference: candidates are STAT/TREE refs (this cell and the 8 neighbours) whose bounds come within 0.5 m; both meshes placed with the recorded position, rotation and scale (kit GLB, else the vault NIF via the mesh cache); 300 seeded child surface samples; contact = within 0.03 m of the parent surface (trimesh proximity), or at/below the cell LAND. A patch is under/top/side by its mean outward normal in the child frame (z <= -0.5, >= 0.5, else side); terrain is under. A reference with any under contact stands: deck on a kit piece, else ground; its other contacts are abuts. Otherwise side contact is wall, top contact is hanging only with no side contact, none is ground; a top contact whose parent reaches no more than 0.05 m below the contact height lies ON the child (rests-on, an abut, never a vote). A child whose foot is set into a piece (lowest point within 0.05 m of its lowest, top above its top, contact on its top face) stands on it. An interior floor is a ray cast down from the child's footprint through each candidate mesh (0.3 m reach). A door with no frame contact hangs (category row). A pivot within 0.10 m of a placed water surface (a reference whose base model lies under meshes/water/, pivot inside its bounds) is water. Contacts decide first everywhere (terrain contact only on ground below the cell or placed water surface is water); a reference with no contact at all is water in a water column (the cell water, else the worldspace default, above the LAND, else the flat placeholder or worldspace default land, at its pivot), at any depth, and ground (free) outside one. Interior: a shell piece (architecture, dungeon-kit, ruin) that no non-shell static or LAND supports and whose every structural contact is a shell (kit shells, copies of itself, and vanilla dungeon-kit statics under meshes/dungeons/; kit clutter ignored), or whose support from below is only shells, is ground (support interior-zero). Outside a water column an exterior reference with no usable LAND (missing, or an unresolved flat placeholder) is dropped (droppedNoLand); one whose pivot lies more than 2 m below the LAND is ground (buriedGround). Base records resolve through each plugin's on-disk masters; exterior cells are merged over the load order (vanilla, .esm, .esp; last LAND, water and reference override wins; interiors too) before contact is measured. The vote per asset is the defining file's usable references, others only while it has fewer than 3; pairs use every file's. Asset class = majority over n >= 3 references, or all of n 1..2 agreeing (thin), else ground; water first from the mined waterline; when the drop leaves n < 3: water on the sink waterline (evidence sink-waterline), else the placement-policy row (water-zero water, else ground; evidence policy); an asset policy row naming a class (water-zero water, deck deck) decides whatever the vote share, a kit row naming one only an ambiguous vote (1 <= n < 3 or winning share < 0.6) of an asset with no asset row (evidence policy, votedClass); a thin water vote from references with no contact and no mined waterline takes its policy row (asset, else kit, else ground; evidence policy); unplaced assets are ground. A water-class asset with no sink waterline carries waterline: cell water minus pivot, median over the defining file's water-column references (n >= 3, evidence column), else the policy row's fallbackWaterlineM (evidence policy). Ground (with free) and deck references pool as one support vote before the plurality, then split ground vs deck (tie ground); an assetPlacement row's anchorClass decides ahead of everything (evidence policy, votedClass; its designedWaterlineM is the waterline). Non-kit statics under effects/, magic/ and sky/ are never candidates; kit clutter never supports a shell; an interior ray-cast floor within 0.10 m under the footprint supports; a non-kit static's mesh comes from its pool, then the BSA beside the pool's plugins, then vanilla. Pairs: every parent a wall (hanging) reference is in side (top) contact with (a kit parent must be ground or deck; a non-kit static is named plugin-static:<model>); a minority wall or hanging class with at least 20 references over every file also gets its pairs, marked mountClass. worldgen/mine_mounts.py",
  "pairKindCounts": {
-  "band": 203,
-  "points": 2267
+  "band": 205,
+  "points": 2270
  },
  "cellsWalked": 52531,
  "candidatePairs": 1452201,
@@ -279,8 +279,8 @@
  "anchorClassCounts": {
   "deck": 95,
   "fx": 22,
-  "ground": 1388,
-  "hanging": 43,
+  "ground": 1399,
+  "hanging": 45,
   "wall": 25,
   "water": 59
  },
@@ -5329,6 +5329,11 @@
    "anchorClassEvidence": "unplaced",
    "n": 0
   },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawning01": {
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "n": 0
+  },
   "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01": {
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -7070,6 +7075,27 @@
     "kotm:argonia/mudhuts/smpodint01": 1
    },
    "share": 0.615
+  },
+  "kotm:argonia/trees/hist trees/hist_vines01": {
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "n": 6,
+   "refClasses": {
+    "ground": 6
+   },
+   "abuts": {
+    "plugin-static:argonia/hotmudbubbling.nif": 4,
+    "plugin-static:landscape/rocks/rockanimalden01.nif": 4,
+    "plugin-static:argonia/trees/hist trees/hist_root01.nif": 2,
+    "plugin-static:landscape/rocks/rockcaveentrance02.nif": 1,
+    "kotm:plants/tamira/new plants/tropicalshrub03": 1,
+    "kotm:argonia/trees/hist trees/hist_root04": 1,
+    "kotm:argonia/trees/hist trees/hist_root05": 1,
+    "plugin-static:argonia/trees/hist trees/histgland02.nif": 1,
+    "plugin-static:landscape/dirtcliffs/dirtcliffsisland01.nif": 1
+   },
+   "share": 1.0,
+   "terrainOverNeighbour": 5
   },
   "kotm:loliceptresource/barrel/miscbarrelopen01": {
    "anchorClass": "ground",
@@ -11504,6 +11530,55 @@
    "terrainOverNeighbour": 3,
    "otherFileRefsNotVoting": 1
   },
+  "vanilla:architecture/tents/largeimperialtent01": {
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "n": 20,
+   "droppedNoLand": 1,
+   "refClasses": {
+    "ground": 20
+   },
+   "abuts": {
+    "plugin-static:architecture/tents/largenordictent01.nif": 5,
+    "plugin-static:landscape/trees/treepineforestdead04.nif": 4,
+    "plugin-static:landscape/trees/treepineforestsnow03.nif": 4,
+    "vanilla:clutter/stockade/stockadescaffoldtop0sided01": 4,
+    "plugin-static:landscape/trees/treeaspen05.nif": 3,
+    "plugin-static:landscape/trees/treepineforest03.nif": 3,
+    "plugin-static:landscape/trees/treepineforest05.nif": 3,
+    "plugin-static:landscape/trees/treepineforestdead03.nif": 3,
+    "plugin-static:landscape/trees/treepineforestsnowl02.nif": 3,
+    "plugin-static:architecture/farmhouse/farmhouse03.nif": 2
+   },
+   "share": 1.0,
+   "terrainOverNeighbour": 6,
+   "otherFileRefsNotVoting": 9
+  },
+  "vanilla:architecture/tents/smallimperialtent": {
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "n": 88,
+   "refClasses": {
+    "deck": 2,
+    "free": 1,
+    "ground": 85
+   },
+   "abuts": {
+    "plugin-static:architecture/tents/smallnordictent01.nif": 27,
+    "plugin-static:landscape/plants/deadshrub01snow.nif": 5,
+    "plugin-static:landscape/rocks/rockshelf01.nif": 5,
+    "plugin-static:landscape/trees/treepineforestsnowl02.nif": 4,
+    "vanilla:landscape/rocks/rockm02": 4,
+    "plugin-static:landscape/snowdrifts/snowdriftm02.nif": 4,
+    "plugin-static:landscape/trees/treepineforest03.nif": 3,
+    "plugin-static:landscape/mountains/mountaintrimslab.nif": 3,
+    "plugin-static:architecture/farmhouse/walkway/walkwaycend01.nif": 2,
+    "plugin-static:architecture/riften/rtgraveyardfence01.nif": 2
+   },
+   "share": 1.0,
+   "terrainOverNeighbour": 17,
+   "otherFileRefsNotVoting": 11
+  },
   "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01": {
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -11517,7 +11592,7 @@
     "vanilla:clutter/deadanimals/deadsalmon02": 4,
     "plugin-static:architecture/whiterun/wrinteriors/wrintloftmid01.nif": 1,
     "plugin-static:architecture/windhelm/interiorkits/wood/whintwoodroofmidtop02.nif": 1,
-    "plugin-static:clutter/deadanimals/hanginganimalsring02.nif": 1,
+    "vanilla:clutter/deadanimals/hanginganimalsring02": 1,
     "vanilla:clutter/deadanimals/deadsalmon01": 1,
     "vanilla:clutter/deadanimals/hangingrabbit02": 1
    },
@@ -12489,6 +12564,19 @@
    "restsOnOnly": 5,
    "otherFileRefsNotVoting": 80
   },
+  "vanilla:clutter/books/note01/note01": {
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "n": 3,
+   "refClasses": {
+    "free": 1,
+    "ground": 2
+   },
+   "abuts": {
+    "plugin-static:clutter/books/note01/note02.nif": 1
+   },
+   "share": 1.0
+  },
   "vanilla:clutter/bucket01": {
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -12816,6 +12904,108 @@
    "share": 0.908,
    "terrainOverNeighbour": 3,
    "otherFileRefsNotVoting": 11
+  },
+  "vanilla:clutter/civilwar/civilwarbanner01": {
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "n": 26,
+   "refClasses": {
+    "ground": 24,
+    "wall": 2
+   },
+   "abuts": {
+    "vanilla:clutter/banners/genericbannerred01": 4,
+    "plugin-static:dungeons/nordic/platforms/norplatbgcorout01.nif": 1,
+    "vanilla:clutter/civilwar/civilwarbannerimp01": 1,
+    "plugin-static:architecture/whiterun/wrbuildings/wrstableplatend01.nif": 1,
+    "plugin-static:architecture/whiterun/wrcitywalls/wrwallrubblepile04.nif": 1,
+    "vanilla:clutter/containers/miscsacklargeflat01": 1,
+    "plugin-static:dungeons/mines/scaffolding/minescaffoldfreeropeend01.nif": 1,
+    "plugin-static:clutter/helgen/burntrubblenodirt03.nif": 1,
+    "plugin-static:landscape/snowdrifts/snowdriftl01.nif": 1
+   },
+   "share": 0.923,
+   "terrainOverNeighbour": 4
+  },
+  "vanilla:clutter/civilwar/civilwarbannerimp01": {
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "n": 18,
+   "refClasses": {
+    "free": 3,
+    "hanging": 14,
+    "wall": 1
+   },
+   "abuts": {
+    "plugin-static:landscape/plants/vinemaple01snow.nif": 1,
+    "vanilla:landscape/plants/deadshrub01": 1,
+    "vanilla:clutter/banners/genericbannerred01": 1
+   },
+   "share": 0.778,
+   "hangingFrom": "arm",
+   "otherFileRefsNotVoting": 1
+  },
+  "vanilla:clutter/civilwar/civilwarbannerimp02": {
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "n": 4,
+   "refClasses": {
+    "free": 2,
+    "hanging": 2
+   },
+   "abuts": {
+    "vanilla:clutter/banners/genericbannerred01": 1
+   },
+   "share": 0.5,
+   "hangingFrom": "arm",
+   "otherFileRefsNotVoting": 2
+  },
+  "vanilla:clutter/civilwar/civilwarcot01": {
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "n": 7,
+   "refClasses": {
+    "deck": 3,
+    "ground": 4
+   },
+   "share": 1.0,
+   "otherFileRefsNotVoting": 3
+  },
+  "vanilla:clutter/civilwar/civilwarmap01": {
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "n": 1,
+   "refClasses": {
+    "ground": 1
+   },
+   "share": 1.0,
+   "evidence": "thin"
+  },
+  "vanilla:clutter/civilwar/civilwartable01": {
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "n": 19,
+   "refClasses": {
+    "deck": 8,
+    "free": 1,
+    "ground": 9,
+    "water": 1
+   },
+   "abuts": {
+    "vanilla:landscape/rocks/rockpilem02": 1,
+    "plugin-static:dungeons/nordic/platforms/norplatbgfloorraised02.nif": 1,
+    "vanilla:clutter/pelts/peltfloor02": 1,
+    "plugin-static:clutter/ruins/ruinsfurniturerubble15.nif": 1,
+    "plugin-static:landscape/snowdrifts/snowdriftm01.nif": 1,
+    "vanilla:clutter/floral/snowberrywreath": 1,
+    "vanilla:clutter/shrines/shrinebase": 1,
+    "vanilla:plants/coinbagmed": 1,
+    "vanilla:plants/snowberry": 1,
+    "vanilla:clutter/exteriorwoodenfurniture/exteriorwoodentable01": 1
+   },
+   "share": 0.947,
+   "terrainOverNeighbour": 4,
+   "otherFileRefsNotVoting": 2
   },
   "vanilla:clutter/common/broom": {
    "anchorClass": "ground",
@@ -15170,9 +15360,9 @@
    "anchorClassEvidence": "plugin",
    "n": 138,
    "refClasses": {
-    "deck": 2,
+    "deck": 3,
     "free": 2,
-    "ground": 119,
+    "ground": 118,
     "hanging": 2,
     "wall": 13
    },
@@ -15183,10 +15373,10 @@
     "plugin-static:dungeons/imperial/exterior/impextwallgate01.nif": 5,
     "plugin-static:markers/civilwarmarkers/cwdefmelee01b.nif": 5,
     "plugin-static:landscape/plants/thicket01snow.nif": 5,
-    "plugin-static:dungeons/imperial/exteriorice/impexticewalldivider01.nif": 4,
+    "plugin-static:markers/civilwarmarkers/cwdefmelee02b.nif": 4,
+    "plugin-static:landscape/roads/roadscurveramp01.nif": 4,
     "plugin-static:dungeons/imperial/exteriorice/impexticewallgate01.nif": 4,
-    "plugin-static:landscape/dirtcliffs/dirtcliffs03.nif": 4,
-    "plugin-static:landscape/roads/roadchunkl02.nif": 4
+    "plugin-static:dungeons/imperial/exteriorice/impexticewalldivider01.nif": 4
    },
    "share": 0.891,
    "terrainOverNeighbour": 35,
@@ -18453,6 +18643,15 @@
    "anchorClassEvidence": "category",
    "n": 0
   },
+  "vanilla:furniture/bedroll/bedrollground": {
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "n": 31,
+   "refClasses": {
+    "free": 31
+   },
+   "share": 1.0
+  },
   "vanilla:furniture/bedroll/bedrollhay01": {
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -19191,6 +19390,31 @@
    "share": 0.993,
    "terrainOverNeighbour": 39,
    "otherFileRefsNotVoting": 38
+  },
+  "vanilla:landscape/rocks/rockcaveentrance02": {
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "n": 26,
+   "refClasses": {
+    "ground": 25,
+    "hanging": 1
+   },
+   "abuts": {
+    "vanilla:landscape/rocks/rockcliff02": 4,
+    "plugin-static:landscape/mountains/mountaincliff02.nif": 3,
+    "vanilla:landscape/rocks/rockcliff08": 3,
+    "plugin-static:landscape/mountains/mountaincliffsm01.nif": 3,
+    "vanilla:landscape/plants/thicket01": 3,
+    "plugin-static:landscape/mountains/mountaincliff04.nif": 2,
+    "plugin-static:landscape/mountains/mountaintrimslab.nif": 2,
+    "plugin-static:landscape/trees/treepineforest05.nif": 2,
+    "plugin-static:landscape/trees/treepineforest04.nif": 2,
+    "vanilla:landscape/plants/deadshrub01": 2
+   },
+   "share": 0.962,
+   "buriedGround": 1,
+   "terrainOverNeighbour": 12,
+   "otherFileRefsNotVoting": 3
   },
   "vanilla:landscape/rocks/rockcliff01": {
    "anchorClass": "ground",
@@ -50455,6 +50679,122 @@
    ],
    "yawDeg": 87.15,
    "mountClass": "hanging"
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:clutter/civilwar/civilwarbannerimp01",
+   "parent": "plugin-static:clutter/civilwar/civilwarbanner02.nif",
+   "parentScale": 0.75,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 1.3333,
+   "points": [
+    {
+     "offsetM": [
+      0.1048,
+      -0.0064,
+      5.6137
+     ],
+     "n": 1,
+     "yawDeg": 180.0
+    }
+   ],
+   "offsetM": [
+    0.1048,
+    -0.0064,
+    5.6137
+   ],
+   "yawDeg": 180.0
+  },
+  {
+   "kind": "band",
+   "child": "vanilla:clutter/civilwar/civilwarbannerimp01",
+   "parent": "plugin-static:clutter/skuldafn/skuldafnbanneranchor02.nif",
+   "parentScale": 1.0,
+   "n": 5,
+   "evidence": "plugin",
+   "alongAxis": "x",
+   "outM": -0.0708,
+   "upM": 0.0037,
+   "alongMinM": -0.1503,
+   "alongMaxM": 0.013,
+   "offsetM": [
+    -0.007,
+    -0.0708,
+    0.0037
+   ],
+   "yawDeg": 3.35
+  },
+  {
+   "kind": "band",
+   "child": "vanilla:clutter/civilwar/civilwarbannerimp01",
+   "parent": "vanilla:clutter/civilwar/civilwarbanner01",
+   "parentScale": 0.65,
+   "n": 8,
+   "evidence": "plugin",
+   "childScaleInParent": 1.5385,
+   "alongAxis": "y",
+   "outM": 0.067,
+   "upM": 5.5823,
+   "alongMinM": -0.0197,
+   "alongMaxM": -0.0115,
+   "offsetM": [
+    0.067,
+    -0.0155,
+    5.5823
+   ],
+   "yawDeg": 179.34
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:clutter/civilwar/civilwarbannerimp02",
+   "parent": "plugin-static:clutter/civilwar/civilwarbanner02.nif",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "points": [
+    {
+     "offsetM": [
+      -0.0398,
+      0.0162,
+      5.6206
+     ],
+     "n": 1,
+     "yawDeg": 0.0
+    }
+   ],
+   "offsetM": [
+    -0.0398,
+    0.0162,
+    5.6206
+   ],
+   "yawDeg": 0.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:clutter/civilwar/civilwarbannerimp02",
+   "parent": "plugin-static:clutter/skuldafn/skuldafnbanneranchor02.nif",
+   "parentScale": 0.91,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 1.0989,
+   "points": [
+    {
+     "offsetM": [
+      0.0156,
+      -0.0782,
+      0.0
+     ],
+     "n": 1,
+     "yawDeg": 0.0
+    }
+   ],
+   "offsetM": [
+    0.0156,
+    -0.0782,
+    0.0
+   ],
+   "yawDeg": 0.0
   },
   {
    "kind": "points",

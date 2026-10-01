@@ -64,6 +64,7 @@
  },
  "kitPolicies": {
   "bmv-treehouse-int": "interior-zero",
+  "camp-v1": "direct",
   "docks-v1": "stilt",
   "dungeon-root-v1": "interior-zero",
   "enclosure-v1": "direct",
@@ -84,6 +85,7 @@
   "probe-notice": "direct",
   "probe-span": "direct",
   "probe-tall-tropical": "direct",
+  "route-dressing-v1": "dug-in",
   "route-spans-v1": "route-structure",
   "route-structures-v1": "route-structure",
   "ruin-monumental-v1": "dug-in",
@@ -101,6 +103,24 @@
   "xanmeer-interior-v1": "interior-zero"
  },
  "assetPolicies": {
+  "vanilla:clutter/civilwar/civilwarbannerimp01": "direct",
+  "vanilla:architecture/tents/largeimperialtent01": "plinth",
+  "vanilla:architecture/tents/smallimperialtent": "plinth",
+  "vanilla:clutter/civilwar/civilwarbanner01": "dug-in",
+  "vanilla:clutter/stockade/stockadepike01": "dug-in",
+  "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01": "dug-in",
+  "vanilla:landscape/rocks/rockcaveentrance02": "dug-in",
+  "kotm:argonia/trees/hist trees/hist_vines01": "dug-in",
+  "vanilla:clutter/bones/humanribcage": "direct",
+  "vanilla:clutter/bones/humanarmleft": "direct",
+  "vanilla:clutter/bones/humanlegleft": "direct",
+  "vanilla:clutter/bones/humanspine": "direct",
+  "vanilla:clutter/bones/bloodyribs": "direct",
+  "vanilla:clutter/bones/bloodybone": "direct",
+  "kotm:issgard/clutter/bones/issgard_boneargonianskullfull": "direct",
+  "vanilla:clutter/common/shovel01": "direct",
+  "vanilla:clutter/basket01": "direct",
+  "shores:shoresofskyrim/fishnet01": "direct",
   "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepile03": "dug-in",
   "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arsteppeddias01": "dug-in",
   "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararchcolumn02": "dug-in",
@@ -209,7 +229,6 @@
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01": "pad",
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile01": "dug-in",
   "rowboats:dungeons/clutter/shipoar01": "plinth",
-  "shores:shoresofskyrim/fishnet01": "direct",
   "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow": "dug-in",
   "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl01": "dug-in",
   "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl05": "dug-in",
@@ -304,7 +323,43 @@
   "vanilla:effects/fxfirewithembers01": "direct",
   "vanilla:architecture/docks/dockstrsol01": "stilt",
   "vanilla:architecture/docks/dockstepsdown01": "stilt",
-  "vanilla:architecture/docks/dockstr4way01": "stilt"
+  "vanilla:architecture/docks/dockstr4way01": "stilt",
+  "kotm:argonia/clutter/beehive": "direct",
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/farmhouseline": "direct",
+  "vanilla:architecture/riften/rtmarketstall01": "direct",
+  "vanilla:clutter/chopping block/choppingblock01": "direct",
+  "vanilla:clutter/exteriorwoodenfurniture/exteriorwoodentable01": "direct",
+  "vanilla:clutter/burialcairn/burialcairn01": "direct",
+  "vanilla:clutter/burialcairn/burialcairn02": "direct",
+  "vanilla:clutter/burialcairn/burialcairn03": "direct",
+  "vanilla:clutter/woodfires/campfire01landoff": "direct",
+  "vanilla:furniture/tanningrackmarker": "direct",
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawning01": "stilt",
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01": "direct",
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01": "direct",
+  "kotm:oaristys/forge/ingotsiron01": "direct",
+  "kotm:oaristys/forge/orebucket_iron": "direct",
+  "kotm:oaristys/forge/orestack_iron": "direct",
+  "vanilla:clutter/blacksmith/blacksmithnovicebellows01": "direct",
+  "vanilla:clutter/carts/handcart02": "direct",
+  "vanilla:clutter/containers/miscsacklargeflat01": "direct",
+  "vanilla:furniture/smeltermarker": "direct",
+  "vanilla:landscape/rocks/cairns/rockcairn01": "direct",
+  "vanilla:landscape/rocks/cairns/rockcairn02": "direct",
+  "vanilla:landscape/rocks/cairns/rockcairn04": "direct",
+  "vanilla:landscape/rocks/rockl01": "dug-in",
+  "vanilla:landscape/rocks/rockl04": "dug-in",
+  "vanilla:landscape/rocks/rockm01": "dug-in",
+  "vanilla:landscape/rocks/rockm02": "dug-in",
+  "vanilla:landscape/rocks/rockm03": "dug-in",
+  "vanilla:landscape/rocks/rockm04": "dug-in",
+  "vanilla:landscape/rocks/rockpiles01": "dug-in",
+  "vanilla:landscape/rocks/rockpiles02": "dug-in",
+  "vanilla:landscape/rocks/rockpiles03": "dug-in",
+  "vanilla:landscape/rocks/rocks01": "dug-in",
+  "vanilla:landscape/rocks/rocks02": "dug-in",
+  "vanilla:landscape/rocks/rocks03": "dug-in",
+  "vanilla:landscape/rocks/wetrocks/rockm02wet": "dug-in"
  },
  "kitAssetPolicies": {
   "dungeon-root-v1": {
@@ -328,6 +383,24 @@
   "fx:smoke-column": "runtime smoke effect (game-core settlement/smokeColumn.ts) at a mined fire socket, drawn from the works-v1 manifest's effectTextures puff atlas; no mesh, no ground contact"
  },
  "assetPolicyEvidence": {
+  "vanilla:architecture/tents/largeimperialtent01": "a Legion command tent: canvas staked on poles with no floor, so its own plugin pitches it on uneven hillside ground (27 plugin sinks, p25-p75 0 to 0.64 m): plinth, held by the ground delta, on a levelled pad where the ground is steep (16k walk 9, The Broke Column)",
+  "vanilla:architecture/tents/smallimperialtent": "a Legion tent: canvas staked on poles with no floor, pitched by its plugin on uneven ground (94 plugin sinks, p25-p75 0.01 to 0.35 m): plinth, held by the ground delta, on a levelled pad on a slope (16k walk 9, The Broke Column)",
+  "vanilla:clutter/civilwar/civilwarbanner01": "a banner pole planted in the ground: Skyrim.esm stands it on sloped camp ground, held by the ground delta, not on a level footprint (16k walk 9)",
+  "vanilla:clutter/stockade/stockadepike01": "a sharpened stake driven into the ground (72 plugin sinks, p50 1.03 m buried) on any slope a palisade runs over: dug-in (16k walk 9)",
+  "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01": "a log barricade staked across a way on whatever slope the way has (100 plugin sinks, p50 0.27 m): dug-in (16k walk 9)",
+  "vanilla:clutter/civilwar/civilwarbannerimp01": "the Imperial banner hangs from its pole civilwarbanner01 by the mined band pair (8 Skyrim.esm placements at 5.58 m); the mount sets the pose, so direct (16k walk 9, The Broke Column)",
+  "vanilla:landscape/rocks/rockcaveentrance02": "a cave mouth set into the ground the way its plugins set it (24 refs, kit-designed-sink p50 -2.38 m); settlement-root-v1's kit policy is the walkway system's stilt, which seats a deck, not a rock (16k walk 9)",
+  "kotm:argonia/trees/hist trees/hist_vines01": "a Hist vine mass set part-sunk into the ground beside its cave mouth (King of the Murkmire, 6 refs, sink p50 0.73 m): dug-in, not a walkway deck (16k walk 9)",
+  "vanilla:clutter/bones/humanribcage": "lair-threshold clutter laid on level ground in front of a cave mouth: a direct prop, not settlement-root-v1's walkway deck (16k walk 9)",
+  "vanilla:clutter/bones/humanarmleft": "lair-threshold clutter laid on level ground in front of a cave mouth: a direct prop, not settlement-root-v1's walkway deck (16k walk 9)",
+  "vanilla:clutter/bones/humanlegleft": "lair-threshold clutter laid on level ground in front of a cave mouth: a direct prop, not settlement-root-v1's walkway deck (16k walk 9)",
+  "vanilla:clutter/bones/humanspine": "lair-threshold clutter laid on level ground in front of a cave mouth: a direct prop, not settlement-root-v1's walkway deck (16k walk 9)",
+  "vanilla:clutter/bones/bloodyribs": "lair-threshold clutter laid on level ground in front of a cave mouth: a direct prop, not settlement-root-v1's walkway deck (16k walk 9)",
+  "vanilla:clutter/bones/bloodybone": "lair-threshold clutter laid on level ground in front of a cave mouth: a direct prop, not settlement-root-v1's walkway deck (16k walk 9)",
+  "kotm:issgard/clutter/bones/issgard_boneargonianskullfull": "lair-threshold clutter laid on level ground in front of a cave mouth: a direct prop, not settlement-root-v1's walkway deck (16k walk 9)",
+  "vanilla:clutter/common/shovel01": "lair-threshold clutter laid on level ground in front of a cave mouth: a direct prop, not settlement-root-v1's walkway deck (16k walk 9)",
+  "vanilla:clutter/basket01": "lair-threshold clutter laid on level ground in front of a cave mouth: a direct prop, not settlement-root-v1's walkway deck (16k walk 9)",
+  "shores:shoresofskyrim/fishnet01": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, Claywater dressing): no sink record",
   "kotm:argonia/blackwood/sign": "hanging shop sign mounted by its wall-mount pair (wb.py mount --like --twin --hook-only); the mount sets its pose, so the fit takes the origin as placed, no burial",
   "vanilla:clutter/signage/whiterun/signwrgeneralgoods": "hanging shop sign mounted by its wall-mount pair (wb.py mount); the mount sets its pose, so the fit takes the origin as placed, no burial",
   "bmv:architecture/ships/imperialship01base": "hull sections rest on each other over water, so contact reads deck/hanging; the hull floats",
@@ -362,7 +435,6 @@
   "mudmother:gv_meshes/argoniannest/paintedurn01": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, Claywater dressing): designed-sink p50 -0.0013 m, n 0, evidence mesh-sill",
   "mudmother:gv_meshes/argoniannest/wovenchair01": "frozen from the settlement-mud-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, Claywater dressing): designed-sink p50 0.0 m, n 0, evidence mesh-sill",
   "rowboats:dungeons/clutter/shipoar01": "frozen from the settlement-imperial-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, Claywater dressing): designed-sink p50 -0.0715 m, n 0, evidence mesh-sill",
-  "shores:shoresofskyrim/fishnet01": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, Claywater dressing): no sink record",
   "tropical:landscape/grass/cattailgrass": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
   "vanilla:architecture/farmhouse/farmhouse01walkway": "the farmhouse01 porch/walkway attachment: same plinth contact as the building it is fixed to",
   "vanilla:architecture/farmhouse/farmhouse02": "plain farmhouse02 shell, same contact family as farmhouse02-with-door",
@@ -412,9 +484,81 @@
   "vanilla:effects/fxfirewithembers01": "fire effect child of a hearth or campfire: seated by its mined pair (the mounts record's parent offset), never by ground contact, so no sink (fallbackSinkM 0); planner ruling 2026-09-28, GREENSPRING3 ruling 3",
   "vanilla:architecture/docks/dockstrsol01": "frozen from the docks-v1 manifest's fit (Riverwalk's cross walk, 16k slice 3): policy stilt, a piled deck (piledDecks), anchor class water, designed-sink p50 -1.64 m over 6 plugin references",
   "vanilla:architecture/docks/dockstepsdown01": "frozen from the docks-v1 manifest's fit (Riverwalk's walk, 16k slice 3): policy stilt, a piled deck (piledDecks), anchor class ground, designed-sink p50 -0.35 m, n 0, evidence mesh-sill (plugin-spread)",
-  "vanilla:architecture/docks/dockstr4way01": "frozen from the docks-v1 manifest's fit (Riverwalk's 4-way junction, 16k slice 3): policy stilt, a piled deck (piledDecks), anchor class water, designed-sink p50 -0.35 m, n 0, evidence mesh-sill"
+  "vanilla:architecture/docks/dockstr4way01": "frozen from the docks-v1 manifest's fit (Riverwalk's 4-way junction, 16k slice 3): policy stilt, a piled deck (piledDecks), anchor class water, designed-sink p50 -0.35 m, n 0, evidence mesh-sill",
+  "kotm:argonia/clutter/beehive": "yard dressing on the ground (16k walk 9, Greenspring): works-v1 fit direct; sink from its reviewed assetPlacement row (-0.074 m, the bench's feet)",
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/farmhouseline": "a washing line on two posts in a household's yard (16k walk 9 dressing follow-up): works-v1 fit direct; sink from its reviewed assetPlacement row (0.0 m, the posts' feet); licensed outdoors at a domestic parcel by its settingLicence row",
+  "vanilla:architecture/riften/rtmarketstall01": "a market stall on the ground or its own small pad (16k walk 9, Riverwalk): works-v1 fit direct; sink from its reviewed assetPlacement row (0.0 m)",
+  "vanilla:clutter/chopping block/choppingblock01": "yard dressing on the ground (16k walk 9, Claywater): works-v1 fit direct; plugin sink p50 0.012 m, n 29",
+  "vanilla:clutter/exteriorwoodenfurniture/exteriorwoodentable01": "yard dressing on the ground (16k walk 9, Claywater): works-v1 fit direct; plugin sink p50 0.048 m, n 42",
+  "vanilla:clutter/burialcairn/burialcairn02": "a grave cairn on the ground (16k walk 9, Greenspring): works-v1 fit direct; plugin sink p50 -0.009 m, n 9",
+  "vanilla:furniture/tanningrackmarker": "yard dressing on the ground (16k walk 9, Claywater): works-v1 fit direct; plugin sink p50 0.0 m, n 41 (the furniture Skyrim places outdoors)",
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawning01": "Riverwalk crews-house awning (16k walk 9): posted awning seated by its frame like orcawninghalf01",
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01": "Tag House yard prop on the ground (16k walk 9): free-standing wicker like wickerchair01",
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01": "Tag House yard prop on the ground (16k walk 9): free-standing wicker like wickerchair01",
+  "kotm:oaristys/forge/ingotsiron01": "Bog Iron Workings yard dressing on the ground (16k walk 9): works-v1 fit direct, the fit its compile used",
+  "kotm:oaristys/forge/orebucket_iron": "Bog Iron Workings yard dressing on the ground (16k walk 9): works-v1 fit direct, the fit its compile used",
+  "kotm:oaristys/forge/orestack_iron": "Bog Iron Workings yard dressing on the ground (16k walk 9): works-v1 fit direct, the fit its compile used",
+  "vanilla:clutter/blacksmith/blacksmithnovicebellows01": "Bog Iron Workings yard dressing on the ground (16k walk 9): works-v1 fit direct, the fit its compile used",
+  "vanilla:clutter/carts/handcart02": "Bog Iron Workings yard dressing on the ground (16k walk 9): works-v1 fit direct, the fit its compile used",
+  "vanilla:clutter/containers/miscsacklargeflat01": "Bog Iron Workings yard dressing on the ground (16k walk 9): works-v1 fit direct, the fit its compile used",
+  "vanilla:furniture/smeltermarker": "Bog Iron Workings yard dressing on the ground (16k walk 9): works-v1 fit direct, the fit its compile used",
+  "vanilla:landscape/rocks/cairns/rockcairn01": "Border road waymark (16k walk 9): a stacked cairn stands on the ground like the histtree cairns",
+  "vanilla:landscape/rocks/cairns/rockcairn02": "Border road waymark (16k walk 9): a stacked cairn stands on the ground like the histtree cairns",
+  "vanilla:landscape/rocks/cairns/rockcairn04": "Border road waymark (16k walk 9): a stacked cairn stands on the ground like the histtree cairns",
+  "vanilla:landscape/rocks/rockl01": "Border road roadside rock (16k walk 9): route-dressing-v1 fit dug-in, a loose rock beds into the ground",
+  "vanilla:landscape/rocks/rockl04": "Border road roadside rock (16k walk 9): route-dressing-v1 fit dug-in, a loose rock beds into the ground",
+  "vanilla:landscape/rocks/rockm01": "Border road roadside rock (16k walk 9): route-dressing-v1 fit dug-in, a loose rock beds into the ground",
+  "vanilla:landscape/rocks/rockm02": "Border road roadside rock (16k walk 9): route-dressing-v1 fit dug-in, a loose rock beds into the ground",
+  "vanilla:landscape/rocks/rockm03": "Border road roadside rock (16k walk 9): route-dressing-v1 fit dug-in, a loose rock beds into the ground",
+  "vanilla:landscape/rocks/rockm04": "Border road roadside rock (16k walk 9): route-dressing-v1 fit dug-in, a loose rock beds into the ground",
+  "vanilla:landscape/rocks/rockpiles01": "Border road roadside rock (16k walk 9): route-dressing-v1 fit dug-in, a loose rock beds into the ground",
+  "vanilla:landscape/rocks/rockpiles02": "Border road roadside rock (16k walk 9): route-dressing-v1 fit dug-in, a loose rock beds into the ground",
+  "vanilla:landscape/rocks/rockpiles03": "Border road roadside rock (16k walk 9): route-dressing-v1 fit dug-in, a loose rock beds into the ground",
+  "vanilla:landscape/rocks/rocks01": "Border road roadside rock (16k walk 9): route-dressing-v1 fit dug-in, a loose rock beds into the ground",
+  "vanilla:landscape/rocks/rocks02": "Border road roadside rock (16k walk 9): route-dressing-v1 fit dug-in, a loose rock beds into the ground",
+  "vanilla:landscape/rocks/rocks03": "Border road roadside rock (16k walk 9): route-dressing-v1 fit dug-in, a loose rock beds into the ground",
+  "vanilla:landscape/rocks/wetrocks/rockm02wet": "Border road roadside rock (16k walk 9): route-dressing-v1 fit dug-in, a loose rock beds into the ground"
  },
  "assetPlacement": {
+  "vanilla:architecture/tents/largeimperialtent01": {
+   "anchorClass": "ground",
+   "floorClass": "openShelter",
+   "why": "Legion command tent: canvas on poles with no floor slab, open at the front; 0105 R58 judges it at its poles and its canvas skirt (16k walk 9, The Broke Column). anchorClass ground is the mounts miner's plugin class."
+  },
+  "vanilla:architecture/tents/smallimperialtent": {
+   "anchorClass": "ground",
+   "floorClass": "openShelter",
+   "designedSinkM": 0.48,
+   "why": "Legion tent: canvas on poles with no floor slab, open at both gable ends; 0105 R58 judges it at its poles and its canvas skirt (16k walk 9, The Broke Column). Its long-side canvas edges end 0.43 m (front) and 0.50 m (back) over the mesh's lowest point, so on the plugin sink (p50 0.11 m) they hovered 0.41 m over a levelled pad (check, walk 9); the sink is lowered to 0.48 m so every canvas edge meets the ground and the gable poles go 0.5 m in. anchorClass ground is the mounts miner's plugin class (85 of 88 refs on ground)."
+  },
+  "vanilla:landscape/rocks/rockcaveentrance02": {
+   "designedSinkM": -0.02,
+   "why": "Skyrim's cave-mouth rock (30.7 x 32.2 x 19.5 m): its tunnel floor rises from 1.58 m under the pivot at the load door to the mouth's lip 7.8 m out along the tunnel axis (106 deg in its frame), 3.79 m above the mesh's lowest point, and an apron then falls 3.5 m away outside the lip into the hillside (vertical rays through the raw GLB, 16k walk 9, tooling/.reports/16k/walk9/place-type-5.md). The plugins set it into slopes (24 refs, mined sink p50 -2.38 m on their hillside land); on level ground the way in is flush only when the lip meets the lowest ground under the rock (the dug-in line), so the pivot, 0.02 m under the lip, stands 0.02 m above that line: designed sink -0.02 m (lesson L25). Seated at the mined row the lip stood 2.2 m above the approach at Takes-The-Tools."
+  },
+  "bmv:advertising_board": {
+   "designedSinkM": -0.041,
+   "why": "BM&V roofed notice board (1.56 x 1.39 x 2.47 m): a stone pedestal about 0.8 m tall carrying the papered board and its little roof; the pedestal's foot, the lowest mesh, lies 0.041 m under the pivot and stands on the ground. No plugin reference is mined (n 0); the mesh-sill tell read a 'foundation-top' at +1.82 m, the board's lower edge, and sank the pedestal and the board into the ground so only the roof showed (walk-9 Claywater close-up, tooling/placement-workbench/output/renders/dtp-cw/round-1/01-front-d9-notice.png, while `burialRule` allowed it as designed)."
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawning01": {
+   "designedSinkM": 0.0,
+   "why": "Here There Be Monsters' Argonian awning: a hide canopy on three bent log posts (5.34 x 4.94 x 5.83 m at unit scale). Its look sheet (tooling/.reports/look/settlement-stilt-v1__e_there_be_monsters_curse_of_cipactli_architecture_villages_argonian_orcawning01.png) shows the posts running 0.91 m under the pivot plane: post ends made to be sunk, so the pivot stands on the ground (sink 0) and the posts go 0.91 m x scale into it. The mod places it 3 times, all at scale 0.65 in its Hesperide village (kit-setting-class: exterior wild), so the sink miner drops every reference as non-unit scale (n 0, mesh-sill fallback). Place it at scale 0.65, as the mod does."
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/farmhouseline": {
+   "designedSinkM": 0.0,
+   "why": "Here There Be Monsters' washing line (2.51 x 1.27 x 2.28 m): two forked log posts with a rope slung between them (look sheet, walk 9). The posts' feet are the mesh's lowest points, at the pivot (originOffsetM z 0.0), and stand on the ground. No plugin places it (n 0), so the row is reviewed here: the posts stand on the ground, sink 0."
+  },
+  "kotm:argonia/clutter/beehive": {
+   "designedSinkM": -0.074,
+   "why": "King of the Murkmire's two hives on a bench (3.08 x 1.73 x 3.11 m): the bench's four feet are the lowest mesh, 0.074 m under the pivot, and they stand on the ground; nothing is meant to bury. The per-asset sink run (walk 9, `mine_designed_sink --assets ... --merge`) found no plugin reference on land (n 0) and fell back to this same mesh-sill value; the walk-9 close-up (tooling/placement-workbench/output/renders/dtp-look/round-1/01-front-lk373.png) shows the feet on the red ground line."
+  },
+  "vanilla:architecture/riften/rtmarketstall01": {
+   "designedSinkM": 0.0,
+   "why": "Riften market stall (2.05 x 2.23 x 3.07 m): its counter frame and posts end at the pivot plane, the lowest mesh, and stand on the ground with nothing buried. The per-asset sink run (walk 9) found its three Skyrim.esm references all standing over Riften's canal water (refsNoLand 3, n 0 on land) and fell back to this same mesh-sill value. The walk-9 close-up (tooling/placement-workbench/output/renders/dtp-look/round-1/05-front-lk409.png) shows the frame on the ground line."
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01": {
+   "designedSinkM": -0.1,
+   "why": "Here There Be Monsters' half pavilion (8.17 x 5.02 x 5.83 m): a thatched canopy on log posts whose feet, the lowest mesh, lie 0.911 m under the pivot, the same pivot the same mod's bamboohut01 and bamboohut02 carry on the same log stakes. The plugin places the pavilion on no land the sink miner can read (n 0, mesh-sill fallback at -0.911, posts standing on the ground); its two siblings are measured on their own plugin ground (bamboohut02 p50 -0.111, n 9; bamboohut01 p50 -0.093, n 7), so the mod stands that pivot about 0.1 m over the ground and drives the stakes 0.8 m in. This row takes the siblings' -0.10 (Tag House, 16k walk 9, place-type-6 lane; close-up tooling/.reports/16k/place.imperial-penal-south.rose-bone-waystation/look/)."
+  },
   "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": {
    "designedSinkM": 0.0,
    "why": "Bosmer walkway stair: its bottom tread band lies at the pivot (z 0 to 0.1 m) and its supports reach 1.54 m below. The stair's foot stands on the ground and the supports are buried, so the pivot sits at the ground (sink 0). The mesh-sill tell took the supports' feet (-1.54 m) and stood the bottom tread 1.54 m in the air."
@@ -576,5 +720,63 @@
    "vanilla:architecture/docks/dockstrsol01",
    "vanilla:architecture/docks/dockstrsol02"
   ]
+ },
+ "settingLicence": {
+  "_": "Planner ruling, 16k walk 9 dressing follow-up: a piece its own plugin licenses nowhere outdoors (a modder's resource no plugin places, or vanilla dressing placed only indoors) is licensed outdoors PER SETTING CLASS by a reviewed row here, never blanket. place_gates setting.class (0105 R1/R9) reads it: the row licenses the piece in each named setting where ANY 'when' alternative holds, and an alternative holds when ALL its keys do: placeTypes (the record's classification.type), recordServices (any of the record's services), cultures (the record's culture), recordTerms (any term in the record's why, vibe, questHooks, sockets, contents or playerPurpose), parcelUses (the placement's parcel use bucket, blueprint.USE_BUCKET), parcelWaterEdge (a stilt-founded parcel or a dock, quay, pier or landing). Each placement is judged on its own parcel.",
+  "bmv:advertising_board": {
+   "settings": [
+    "exterior"
+   ],
+   "when": [
+    {
+     "placeTypes": [
+      "road-station-village"
+     ]
+    },
+    {
+     "recordServices": [
+      "trader",
+      "shop",
+      "ferry",
+      "lodging",
+      "stable",
+      "travel"
+     ]
+    }
+   ],
+   "why": "Black Marsh Vanilla's notice board, built as a modder's resource (its readme names a board for notices outside inns and markets; register row G3) and placed by no plugin. It is the only notice board in the pool, so a road station and any place with trade or a travel service may stand one outside."
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/farmhouseline": {
+   "settings": [
+    "exterior"
+   ],
+   "when": [
+    {
+     "parcelUses": [
+      "dwelling"
+     ]
+    }
+   ],
+   "why": "Here There Be Monsters' Argonian washing line on two posts, in the mod's villages/argonian set but placed by none of its cells. A line of washing belongs in a household's yard, so it is licensed outdoors at a domestic parcel only."
+  },
+  "mudmother:gv_meshes/argoniannest/sithisshrine": {
+   "settings": [
+    "exterior"
+   ],
+   "when": [
+    {
+     "cultures": [
+      "argonian"
+     ],
+     "recordTerms": [
+      "sithis",
+      "dead cult",
+      "dead-cult",
+      "nisswo"
+     ]
+    }
+   ],
+   "why": "Mudmother's Sithis shrine stands only inside 00MudHut01. It is licensed outdoors where the record's culture is Argonian and the record names a Sithis or dead-cult provision (a Nisswo, a Sithis rite), never as generic village dressing."
+  }
  }
 }
