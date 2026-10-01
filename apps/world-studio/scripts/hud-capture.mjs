@@ -16,11 +16,12 @@ import { resolve } from "node:path";
 const [dist, query, out, settleS] = process.argv.slice(2);
 const roots = [["/elder-souls-argonia/studio/", dist], ["/elder-souls-argonia/", resolve("../../packages/character-assets/files")]];
 const server = createServer(staticHandler(roots));
-await new Promise((r) => server.listen(8099, "127.0.0.1", r));
+const port = Number(process.env.WEBGPU_BOOT_PORT ?? 8099);
+await new Promise((r) => server.listen(port, "127.0.0.1", r));
 const browser = await chromium.connectOverCDP(process.env.CHROME_CDP);
 const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
 await page.addInitScript(() => localStorage.setItem("es.hud.perfOpen", "1"));
-page.goto(`http://127.0.0.1:8099/elder-souls-argonia/studio/?${query}`, { timeout: 120000 }).catch(() => {});
+page.goto(`http://127.0.0.1:${port}/elder-souls-argonia/studio/?${query}`, { timeout: 120000 }).catch(() => {});
 const reads = [];
 for (let i = 0; i < 4; i++) {
   await new Promise((r) => setTimeout(r, Number(settleS) * 250));
