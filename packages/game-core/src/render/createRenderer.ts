@@ -7,6 +7,7 @@
 import { WebGPURenderer } from "three/webgpu";
 import { shareInstancedBuilds } from "./shareInstancedBuilds";
 import { compilePipelinesAsync } from "./asyncPipelines";
+import { syncCanvasDepth } from "./canvasDepthSync";
 import { queueShaderBuilds, SHADER_BUILDS_IN_FLIGHT } from "./shaderBuildQueue";
 import { trimTextureWrites } from "./writeTextureSpan";
 
@@ -49,6 +50,7 @@ export async function createRenderer(options: CreateRendererOptions): Promise<We
     powerPreference: options.powerPreference ?? "high-performance",
   });
   await renderer.init();
+  syncCanvasDepth((renderer as unknown as { backend: object }).backend);
   shareInstancedPrograms(renderer);
   shareInstancedBuilds(renderer);
   trimTextureWrites(renderer);

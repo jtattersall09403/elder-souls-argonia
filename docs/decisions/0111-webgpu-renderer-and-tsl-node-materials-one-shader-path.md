@@ -79,6 +79,12 @@ per-material texture or value into a node, makes a build per material
   frame's material (in the shadow pass that is the shadow material): the
   vegetation batch data texture (`setBatchTexture`; the layer's one
   `BatchDataUniforms` binds it per object) and the mip boost's map size.
+- `render/canvasDepthSync.ts`: three caches the canvas pass descriptor with
+  its depth view and drops it only on a resize event it ignores before init;
+  a descriptor made at the canvas default (300x150) outlived the resize, every
+  pass drawn to the canvas failed validation and was dropped (walk 9: Riverwalk
+  at night black but for rain, on one boot in two). The install drops the
+  cached descriptor whenever its depth no longer matches the drawing buffer.
 `?diag=1` shows the per-frame GPU churn and the queue on screen and downloads
 it as JSON (`render/gpuDiag.ts`, the studio's `diagOverlay.ts`); the boot
 check records the same counters once a second.
