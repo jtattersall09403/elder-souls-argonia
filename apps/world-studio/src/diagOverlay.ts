@@ -7,6 +7,7 @@
 import type { WebGPURenderer } from "three/webgpu";
 import { createGpuDiag, type GpuDiag } from "@elder-souls/game-core/render/gpuDiag";
 import { buildQueueOf } from "@elder-souls/game-core/render/shaderBuildQueue";
+import { pipelineCompilesOf } from "@elder-souls/game-core/render/asyncPipelines";
 
 export function diagRequested(search: string): boolean {
   return new URLSearchParams(search).get("diag") === "1";
@@ -16,6 +17,7 @@ export function mountDiagOverlay(renderer: WebGPURenderer): GpuDiag {
   const device = (renderer.backend as { device?: GPUDevice }).device ?? null;
   const nodes = (renderer as unknown as { _nodes?: { _createNodeBuilderState?: (...a: never[]) => unknown } })._nodes ?? null;
   const queue = buildQueueOf(renderer);
+  const compiles = pipelineCompilesOf(renderer);
   const diag = createGpuDiag(device, nodes, undefined, queue ? () => queue.deferred : undefined);
   const box = document.createElement("div");
   box.style.cssText = "position:fixed;left:8px;bottom:8px;z-index:99999;background:rgba(0,0,0,.72);color:#cfe;"
@@ -46,7 +48,7 @@ export function mountDiagOverlay(renderer: WebGPURenderer): GpuDiag {
       const r = diag.seconds().at(-2); // the last whole second
       if (r) {
         text.textContent = `diag ${device ? "webgpu" : "webgl2"}  ${r.fps} fps  worst ${r.ms} ms\n`
-          + `per s: pipelines ${r.pipelines}  shaders ${r.shaders}  builds ${r.builds}  held back ${r.deferred}  waiting ${queue?.pending ?? 0}\n`
+          + `per s: pipelines ${r.pipelines}  shaders ${r.shaders}  builds ${r.builds}  held back ${r.deferred}  waiting ${queue?.pending ?? 0}  pipelines compiling ${compiles?.pending ?? 0}\n`
           + `buffers +${r.buffers} (${(r.bufferBytes / 1e6).toFixed(1)} MB) -${r.bufferDestroys}  textures +${r.textures} -${r.textureDestroys}\n`
           + `bind groups ${r.bindGroups}  write ${(r.writeBytes / 1e6).toFixed(1)} MB  tex write ${(r.textureWriteBytes / 1e6).toFixed(1)} MB\n`
           + `submits ${r.submits}  draws/frame ${Math.round(r.draws / Math.max(1, r.fps))}`;

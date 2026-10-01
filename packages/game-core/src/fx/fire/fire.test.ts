@@ -170,20 +170,29 @@ describe("FlameSystem", () => {
     expect(fire.uniforms.uExposure.value).toBe(16);
   });
 
-  it("frees the previous instance buffers when the emitters are set again (review 2026-09-30)", () => {
+  it("rebinds instance rows on a fresh geometry and frees the old one (review 2026-09-30, walk 9)", () => {
+    // three caches a geometry's attribute list and cannot see a swapped InterleavedBufferAttribute
+    // (no id): rows rebound on the same geometry drew the old buffer with the new count
     const fire = new FlameSystem();
-    const geometries = new Set<THREE.BufferGeometry>();
-    fire.group.traverse((o) => { if ((o as THREE.Mesh).isMesh) geometries.add((o as THREE.Mesh).geometry); });
-    expect(geometries.size).toBe(2);
+    const meshes: THREE.Mesh[] = [];
+    fire.group.traverse((o) => { if ((o as THREE.Mesh).isMesh) meshes.push(o as THREE.Mesh); });
+    expect(meshes).toHaveLength(2);
+    const at = (n: number) => Array.from({ length: n }, (_, i) =>
+      ({ position: new THREE.Vector3(i, 1, 0), preset: "candle" as const, scale: 1, seed: 0.1, owner: i }));
     let disposed = 0;
-    for (const g of geometries) g.addEventListener("dispose", () => { disposed += 1; });
-    const emitters = [{ position: new THREE.Vector3(0, 1, 0), preset: "candle" as const, scale: 1, seed: 0.1, owner: 0 }];
-    fire.setEmitters(emitters);
-    expect(disposed).toBe(0); // nothing bound yet
-    fire.setEmitters(emitters);
+    const watch = () => { for (const m of meshes) m.geometry.addEventListener("dispose", () => { disposed += 1; }); };
+    watch();
+    const before = meshes.map((m) => m.geometry);
+    fire.setEmitters(at(1));
     expect(disposed).toBe(2); // flame + ember geometries, once each
-    fire.setEmitters(emitters);
+    meshes.forEach((m, i) => expect(m.geometry).not.toBe(before[i]));
+    watch();
+    fire.setEmitters(at(3));
     expect(disposed).toBe(4);
+    const flames = meshes[0].geometry as THREE.InstancedBufferGeometry;
+    const rows = flames.getAttribute("iPosSeed") as THREE.InterleavedBufferAttribute;
+    expect(rows.data.count).toBe(flames.instanceCount);
+    expect(flames.index).toBe(before[0].index);
   });
 
   it("expands a candle to its 3 cards, a campfire to its core + outer cards over its bed, with embers", () => {

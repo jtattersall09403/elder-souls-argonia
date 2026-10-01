@@ -6,6 +6,7 @@
  */
 import { WebGPURenderer } from "three/webgpu";
 import { shareInstancedBuilds } from "./shareInstancedBuilds";
+import { compilePipelinesAsync } from "./asyncPipelines";
 import { queueShaderBuilds, SHADER_BUILDS_IN_FLIGHT } from "./shaderBuildQueue";
 import { trimTextureWrites } from "./writeTextureSpan";
 
@@ -52,6 +53,7 @@ export async function createRenderer(options: CreateRendererOptions): Promise<We
   shareInstancedBuilds(renderer);
   trimTextureWrites(renderer);
   queueShaderBuilds(renderer, options.shaderBuildsInFlight ?? SHADER_BUILDS_IN_FLIGHT);
+  if (options.shaderBuildsInFlight !== 0) compilePipelinesAsync(renderer);
   return renderer;
 }
 

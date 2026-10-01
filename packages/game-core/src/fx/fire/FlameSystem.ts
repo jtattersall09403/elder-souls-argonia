@@ -65,8 +65,7 @@ const VOLUME_FLOATS = 12;
 /** One preset's volume draw (WebGPU only). */
 interface VolumeDraw {
   field: VolumeFireField;
-  geometry: THREE.InstancedBufferGeometry;
-  mesh: THREE.Mesh;
+  mesh: THREE.Mesh<THREE.InstancedBufferGeometry>;
 }
 
 /** The box a volume fire is drawn in, m: `[width, height]` at piece scale `scale`. */
@@ -81,10 +80,10 @@ export function volumeBoxSize(preset: FirePresetId, scale: number): [number, num
 export class FlameSystem {
   readonly group = new THREE.Group();
   readonly uniforms: FireUniforms;
-  private readonly flameGeometry = makeFlameQuad();
-  private readonly emberGeometry = makeFlameQuad();
-  private readonly flames: THREE.Mesh;
-  private readonly embers: THREE.Mesh;
+  private readonly flames: THREE.Mesh<THREE.InstancedBufferGeometry>;
+  private readonly embers: THREE.Mesh<THREE.InstancedBufferGeometry>;
+  private get flameGeometry(): THREE.InstancedBufferGeometry { return this.flames.geometry; }
+  private get emberGeometry(): THREE.InstancedBufferGeometry { return this.embers.geometry; }
   private flameOwner = new Int32Array(0);
   private emberOwner = new Int32Array(0);
   private flameData = new Float32Array(0);
@@ -104,8 +103,8 @@ export class FlameSystem {
     this.layer = layer;
     this.uniforms = uniforms;
     this.group.name = "fire-flames";
-    this.flames = new THREE.Mesh(this.flameGeometry, makeFlameMaterial(uniforms));
-    this.embers = new THREE.Mesh(this.emberGeometry, makeEmberMaterial(uniforms));
+    this.flames = new THREE.Mesh(makeFlameQuad(), makeFlameMaterial(uniforms));
+    this.embers = new THREE.Mesh(makeFlameQuad(), makeEmberMaterial(uniforms));
     this.flames.name = "fire-flame-cards";
     this.embers.name = "fire-embers";
     for (const mesh of [this.flames, this.embers]) {
@@ -143,7 +142,7 @@ export class FlameSystem {
   /** Whether the volume path is live (WebGPU backend and at least one volume fire). */
   get volumeFires(): number {
     let n = 0;
-    for (const v of this.volumes.values()) n += v.geometry.instanceCount;
+    for (const v of this.volumes.values()) n += v.mesh.geometry.instanceCount;
     return n;
   }
 
@@ -221,9 +220,9 @@ export class FlameSystem {
     this.flameOwner = Int32Array.from(flameOwner);
     this.emberOwner = Int32Array.from(emberOwner);
     this.lastStrength = new Float32Array(owners).fill(-1);
-    bindInterleaved(this.flameGeometry, this.flameData, FLAME_FLOATS,
+    bindInterleaved(this.flames, this.flameData, FLAME_FLOATS,
       [["iPosSeed", 0], ["iShape", 4], ["iParams", 8], ["iAnim", 12], ["iMotion", 16]]);
-    bindInterleaved(this.emberGeometry, this.emberData, EMBER_FLOATS,
+    bindInterleaved(this.embers, this.emberData, EMBER_FLOATS,
       [["iPosSeed", 0], ["iEmber", 4], ["iParams", 8]]);
     this.flameGeometry.instanceCount = flameOwner.length;
     this.emberGeometry.instanceCount = emberOwner.length;
@@ -248,13 +247,12 @@ export class FlameSystem {
       if (!draw) {
         this.volumeDetail ??= makeVolumeDetail();
         const field = new VolumeFireField(FIRE_PRESETS[id].volume!, `fire-volume-${id}`, this.volumeDetail);
-        const geometry = makeVolumeBox();
-        const mesh = new THREE.Mesh(geometry, makeVolumeMaterial(this.uniforms, field));
+        const mesh = new THREE.Mesh(makeVolumeBox(), makeVolumeMaterial(this.uniforms, field));
         mesh.name = `fire-volume-${id}`;
         mesh.frustumCulled = false;
         mesh.renderOrder = -1;
         if (this.layer !== undefined) mesh.layers.set(this.layer);
-        draw = { field, geometry, mesh };
+        draw = { field, mesh };
         const d = draw;
         // step the preset's shared field only when one of its fires is in reach
         mesh.onBeforeRender = (renderer, _scene, camera) => {
@@ -273,8 +271,8 @@ export class FlameSystem {
         this.volumes.set(id, draw);
         this.group.add(mesh);
       }
-      bindInterleaved(draw.geometry, rows.data, VOLUME_FLOATS, [["iPosSeed", 0], ["iBox", 4], ["iAnim", 8]]);
-      draw.geometry.instanceCount = rows.owner.length;
+      bindInterleaved(draw.mesh, rows.data, VOLUME_FLOATS, [["iPosSeed", 0], ["iBox", 4], ["iAnim", 8]]);
+      draw.mesh.geometry.instanceCount = rows.owner.length;
       draw.mesh.visible = true;
     }
     this.uniforms.uVolumeOn.value = 1;
@@ -289,7 +287,7 @@ export class FlameSystem {
         const s = this.lastStrength[rows.owner[i]];
         rows.data[i * VOLUME_FLOATS + 7] = s < 0 ? 1 : s;
       }
-      const attribute = draw.geometry.getAttribute("iBox") as THREE.InterleavedBufferAttribute | undefined;
+      const attribute = draw.mesh.geometry.getAttribute("iBox") as THREE.InterleavedBufferAttribute | undefined;
       if (attribute) attribute.data.needsUpdate = true;
     }
   }
@@ -322,7 +320,7 @@ export class FlameSystem {
     (this.flames.material as THREE.Material).dispose();
     (this.embers.material as THREE.Material).dispose();
     for (const v of this.volumes.values()) {
-      v.geometry.dispose();
+      v.mesh.geometry.dispose();
       (v.mesh.material as THREE.Material).dispose();
       v.field.dispose();
     }
@@ -332,17 +330,36 @@ export class FlameSystem {
   }
 }
 
-function bindInterleaved(geometry: THREE.InstancedBufferGeometry, data: Float32Array, stride: number,
+/**
+ * Point `mesh` at a NEW geometry carrying `data` as its instance rows (the
+ * quad or box attributes shared), and dispose the old one. Never new
+ * attributes on the same geometry: three's render objects cache a geometry's
+ * attribute list and detect a swapped attribute by its `id`, which an
+ * InterleavedBufferAttribute does not have, and the dispose handler re-reads
+ * the OLD list into that cache; so a rebind on the same geometry drew the
+ * previous rows' buffer with the new instance count, and on WebGPU the
+ * overrun invalidated the whole pass (walk 9 pod run: 54 rows bound, 60
+ * drawn, everything in renderContext_4 gone for the frame). Disposing the old
+ * geometry frees its buffers (review 2026-09-30: a rebind without it leaked).
+ */
+function bindInterleaved(mesh: THREE.Mesh<THREE.InstancedBufferGeometry>, data: Float32Array, stride: number,
   columns: [string, number][]): void {
-  // three frees an attribute's GL buffer only on the geometry's dispose
-  // event; a rebind without it leaked the old instance buffers for the
-  // session (review 2026-09-30). The next draw re-uploads the geometry.
-  if (geometry.getAttribute(columns[0][0])) geometry.dispose();
+  const old = mesh.geometry;
+  const geometry = new THREE.InstancedBufferGeometry();
+  geometry.setIndex(old.index);
+  for (const [name, attribute] of Object.entries(old.attributes)) {
+    if (!(attribute as THREE.InterleavedBufferAttribute).isInterleavedBufferAttribute) geometry.setAttribute(name, attribute);
+  }
   const buffer = new THREE.InstancedInterleavedBuffer(data, stride, 1);
   buffer.setUsage(THREE.DynamicDrawUsage);
   for (const [name, offset] of columns) {
     geometry.setAttribute(name, new THREE.InterleavedBufferAttribute(buffer, 4, offset));
   }
+  geometry.instanceCount = old.instanceCount;
+  if (old.boundingSphere) geometry.boundingSphere = old.boundingSphere.clone();
+  if (old.boundingBox) geometry.boundingBox = old.boundingBox.clone();
+  mesh.geometry = geometry;
+  old.dispose();
 }
 
 function markDirty(geometry: THREE.InstancedBufferGeometry): void {

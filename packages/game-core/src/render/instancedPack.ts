@@ -18,7 +18,10 @@ type PackedAttr = readonly [name: string, data: Float32Array, itemSize: number];
 
 /** Sets each named per-instance attribute on `geometry` as a view into one
  *  InstancedInterleavedBuffer (a single vertex buffer). Every array holds
- *  `count * itemSize` floats; the packed layout is the given order. */
+ *  `count * itemSize` floats; the packed layout is the given order. Pack into
+ *  a geometry that has not been drawn: three's render objects cannot see an
+ *  InterleavedBufferAttribute swapped on a drawn geometry (it has no `id`),
+ *  so new rows go on a new geometry (FlameSystem's `bindInterleaved`). */
 export function packInstancedAttributes(
   geometry: THREE.BufferGeometry, attrs: ReadonlyArray<PackedAttr>, count: number,
 ): THREE.InstancedInterleavedBuffer {

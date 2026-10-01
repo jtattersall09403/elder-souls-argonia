@@ -55,6 +55,10 @@ node material into shaders in JS the first frame an object with it is drawn,
   stage, so no task holds the main thread for a whole build and frames keep
   coming with everything already built. Harness pages pass
   `shaderBuildsInFlight: 0` (three's synchronous builds; they compile up front).
+- `render/asyncPipelines.ts`: every draw's pipeline goes through
+  `createRenderPipelineAsync` (three's own `compileAsync` path), so a new pipeline compiles on the
+  driver's threads instead of stalling the GPU queue; the draw waits for it, the frame does not
+  (RTX 3070 pod: under one frame a second for Riverwalk's first 50 s before, 60+ fps after).
 `?diag=1` shows the per-frame GPU churn and the queue on screen and downloads
 it as JSON (`render/gpuDiag.ts`, the studio's `diagOverlay.ts`); the boot
 check records the same counters once a second.

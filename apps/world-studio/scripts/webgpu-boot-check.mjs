@@ -154,13 +154,15 @@ const server = createServer(staticHandler(pagesRoots(dist, publicDir), {
     res.writeHead(200, { "Content-Type": "application/json" }); res.end(JSON.stringify(index)); return true;
   },
 }));
-await new Promise((r) => server.listen(0, "127.0.0.1", r));
+// WEBGPU_BOOT_PORT: a fixed port, for a remote Chrome reaching this server through `ssh -R <port>:127.0.0.1:<port>`
+await new Promise((r) => server.listen(Number(process.env.WEBGPU_BOOT_PORT ?? 0), "127.0.0.1", r));
 const url = `http://127.0.0.1:${server.address().port}/elder-souls-argonia/webgpu/?${query}`;
 
 const browser = process.env.CHROME_CDP ? await chromium.connectOverCDP(process.env.CHROME_CDP)
   : await chromium.launch({ headless: true, args: ["--enable-unsafe-webgpu", "--enable-features=UnsafeWebGPU",
     "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
-const page = await browser.newPage({ viewport: { width: 480, height: 270 } });
+const [vw, vh] = arg("size", "480x270").split("x").map(Number);
+const page = await browser.newPage({ viewport: { width: vw, height: vh } });
 const t0 = Date.now();
 const lines = [];
 page.on("console", (m) => lines.push({ t: Date.now() - t0, type: m.type(), text: m.text().slice(0, 400) }));
@@ -169,7 +171,8 @@ page.on("request", () => { inflight++; });
 page.on("requestfinished", () => { inflight--; });
 page.on("requestfailed", () => { inflight--; });
 page.on("pageerror", (e) => lines.push({ t: Date.now() - t0, type: "pageerror", text: String(e.stack || e).slice(0, 600) }));
-await page.addInitScript(([present, gpuTiming]) => {
+await page.addInitScript(([present, gpuTiming, light]) => {
+  try { localStorage.setItem("es.hud.perfOpen", "1"); } catch { /* the HUD's perf block open, read into `hud` */ }
   const g = { frames: 0, firstFrameMs: null, total: 0, count: 0, big: [], losses: [], destroys: [], devices: 0, errors: [], pipelines: 0, pipelineMs: 0,
     asyncPipelines: 0, computePipelines: 0, shaderModules: 0, textures: 0, bindGroups: 0, writeBytes: 0, bufferDestroys: 0 };
   window.__BOOT__ = g;
@@ -200,7 +203,8 @@ await page.addInitScript(([present, gpuTiming]) => {
     const el = data?.BYTES_PER_ELEMENT ?? 1;
     const n = (size ?? ((data?.byteLength ?? 0) / el - dataOffset)) * el;
     g.writeBytes += n;
-    if (g.hold) { const k = site(); const e = ((g.writeByHold ??= {})[k] ??= [0, 0]); e[0] += n; e[1]++; }
+    // one call in 64 is traced (a stack per call slowed the page to a crawl on a real GPU); counts are scaled back
+    if (!light && g.hold && (g.wbN = (g.wbN ?? 0) + 1) % 64 === 0) { const k = site(); const e = ((g.writeByHold ??= {})[k] ??= [0, 0]); e[0] += n * 64; e[1] += 64; }
     return wb.call(this, b, o, data, dataOffset, size, ...r);
   };
   const createBuffer = D.createBuffer;
@@ -209,7 +213,7 @@ await page.addInitScript(([present, gpuTiming]) => {
     // bytes created per call site (the first two frames outside the hook): buffer churn
     const site = new Error().stack.split("\n").slice(2, 4).map((l) => l.trim().replace(/^at /, "").replace(/\(?https?:\/\/[^/]+\/[^)]*\/([^/)]+)\)?/, "$1")).join(" < ");
     (g.bufferBy ??= {})[site] = (g.bufferBy[site] ?? 0) + d.size;
-    if (g.hold) { const k = g.site(); const e = ((g.bufferByHold ??= {})[k] ??= [0, 0]); e[0] += d.size; e[1]++; }
+    if (!light && g.hold) { const k = g.site(); const e = ((g.bufferByHold ??= {})[k] ??= [0, 0]); e[0] += d.size; e[1]++; }
     if (d.size >= 16 * 1024 * 1024) g.big.push([Math.round(performance.now()), d.size, d.label ?? "", stack().slice(0, 300)]);
     return createBuffer.call(this, d);
   };
@@ -240,6 +244,9 @@ await page.addInitScript(([present, gpuTiming]) => {
     const t = performance.now(); const r = f.apply(this, a); const ms = performance.now() - t;
     if (ms > 100 && g.slow.length < 40) g.slow.push([Math.round(t), Math.round(ms), name, what(a, this), stack().slice(0, 400)]);
     return r; }; };
+  // --light: none of the per-call timing and stack wrappers (they cost a real GPU most of its frame
+  // rate: pod run 5, performance.now 25 % of the main thread); counters and the series stay
+  if (!light) {
   timed(GPUQueue.prototype, "writeTexture", (a) => `${a[0].texture?.label ?? ""} ${a[3]?.width ?? a[3]?.[0]}x${a[3]?.height ?? a[3]?.[1]} ${a[1]?.byteLength ?? "?"} B`);
   timed(GPUQueue.prototype, "writeBuffer", (a) => `${a[0]?.label ?? ""} ${a[2]?.byteLength ?? "?"} B`);
   timed(GPUQueue.prototype, "submit", (a) => `${a[0]?.length} command buffers`);
@@ -252,6 +259,7 @@ await page.addInitScript(([present, gpuTiming]) => {
       if (k === "constructor" || typeof d.value !== "function" || (P === GPUQueue && ["writeTexture", "writeBuffer", "submit"].includes(k))) continue;
       timed(P.prototype, k, () => P.name);
     }
+  }
   }
   const dispatch = GPUComputePassEncoder.prototype.dispatchWorkgroups;
   GPUComputePassEncoder.prototype.dispatchWorkgroups = function (x, y = 1, z = 1) {
@@ -310,7 +318,7 @@ await page.addInitScript(([present, gpuTiming]) => {
     g.frames++; if (g.firstFrameMs === null) g.firstFrameMs = Math.round(performance.now());
   };
   // draws in the last whole animation frame (read by --hold): every pass, not just the canvas pass
-  const tick = () => { g.lastFrameDraws = g.curDraws ?? 0; g.curDraws = 0; g.deferred = window.__RENDERER__?.esBuildQueue?.deferred ?? 0; g.buildsWaiting = window.__RENDERER__?.esBuildQueue?.pending ?? 0; requestAnimationFrame(tick); };
+  const tick = () => { g.lastFrameDraws = g.curDraws ?? 0; g.curDraws = 0; g.deferred = window.__RENDERER__?.esBuildQueue?.deferred ?? 0; g.buildsWaiting = window.__RENDERER__?.esBuildQueue?.pending ?? 0; g.pipelinesCompiling = window.__RENDERER__?.esPipelineCompiles?.pending ?? 0; requestAnimationFrame(tick); };
   requestAnimationFrame(tick);
   if (present) {
     C.getCurrentTexture = function () { frame(); return getCurrentTexture.call(this); };
@@ -361,7 +369,7 @@ await page.addInitScript(([present, gpuTiming]) => {
       r._renderObjectDirect = (object, ...rest) => {
         curObj = object;
         let ro = null;
-        if (g.hold) {
+        if (g.hold && !light) {
           const [material, scene, camera, lightsNode, , clippingContext, passId] = rest;
           ro = r._objects.get(object, material, scene, camera, lightsNode, r._currentRenderContext, clippingContext, passId);
           if (r._nodes.get(ro).nodeBuilderState !== undefined || r._nodes.nodeBuilderCache.has(r._nodes.getForRenderCacheKey(ro))) ro = null;
@@ -387,6 +395,11 @@ await page.addInitScript(([present, gpuTiming]) => {
       if (cnb) r._nodes._createNodeBuilder = (ro, material, ...more) => {
         const nb = cnb(ro, material, ...more);
         const k = (material?.name || material?.type || "?").replace(/\d{3,}/g, "#");
+        // what multiplies builds: per material object, how many render contexts and how many builds
+        const mk = material?.uuid ?? "?";
+        const ctx = String(ro?.context?.id ?? "?"), cam = ro?.camera?.type ?? "?";
+        const pm = ((g.buildPerMaterial ??= {})[mk] ??= { n: 0, ctx: [], cams: [] });
+        pm.n++; if (!pm.ctx.includes(ctx)) pm.ctx.push(ctx); if (!pm.cams.includes(cam)) pm.cams.push(cam);
         const note = (ms) => { const e = ((g.nodeBuild ??= {})[k] ??= [0, 0]); e[0] += ms; e[1]++; g.nodeBuildMs = (g.nodeBuildMs ?? 0) + ms; g.nodeBuildN = (g.nodeBuildN ?? 0) + 1; };
         const build = nb.build.bind(nb);
         nb.build = (...x) => { const t = performance.now(); try { return build(...x); } finally { note(performance.now() - t); } };
@@ -398,7 +411,7 @@ await page.addInitScript(([present, gpuTiming]) => {
       const path = (o) => { const n = []; for (let x = o; x && n.length < 4; x = x.parent) n.push(x.name || x.type); return n.join(" < "); };
       const ca = r.backend.createAttribute.bind(r.backend);
       r.backend.createAttribute = (attr, ...rest) => {
-        if (g.hold && curObj) {
+        if (g.hold && curObj && !light) {
           const k = path(curObj); const e = ((g.newGeomByHold ??= {})[k] ??= [0, 0, 0, []]);
           e[0] += attr.array?.byteLength ?? 0; e[1]++;
           const uuid = curObj.geometry?.uuid;
@@ -434,11 +447,13 @@ await page.addInitScript(([present, gpuTiming]) => {
   window.__LONG_TASKS__ = [];
   new PerformanceObserver((l) => { for (const e of l.getEntries()) window.__LONG_TASKS__.push([Math.round(e.startTime), Math.round(e.duration)]); })
     .observe({ type: "longtask", buffered: true });
-}, [present, flag("gpu-timing")]);
+}, [present, flag("gpu-timing"), flag("light")]);
 
 const cdp = await page.context().newCDPSession(page);
+// --profile <s> [--profile-from <s>]: a CPU profile of <s> seconds starting <from> s after navigation
 const profileS = Number(arg("profile", "0"));
-if (profileS > 0) { await cdp.send("Profiler.enable"); await cdp.send("Profiler.setSamplingInterval", { interval: 500 }); await cdp.send("Profiler.start"); }
+const profileFrom = Number(arg("profile-from", "0"));
+const startProfile = async () => { await cdp.send("Profiler.enable"); await cdp.send("Profiler.setSamplingInterval", { interval: 500 }); await cdp.send("Profiler.start"); };
 let profileTop = null;
 const stopProfile = async () => {
   const { profile } = await cdp.send("Profiler.stop");
@@ -451,9 +466,30 @@ const stopProfile = async () => {
   });
   profileTop = [...self].sort((a, b) => b[1] - a[1]).slice(0, 25).map(([k, ms]) => [Math.round(ms), k]);
 };
-if (profileS > 0) setTimeout(() => { stopProfile().catch(() => {}); }, profileS * 1000);
+let profileDone = Promise.resolve();
+if (profileS > 0) {
+  profileDone = new Promise((done) => setTimeout(() => {
+    startProfile().then(() => new Promise((r) => setTimeout(r, profileS * 1000))).then(stopProfile)
+      .catch((e) => { profileTop = [[0, `profile failed: ${String(e).slice(0, 200)}`]]; }).finally(done);
+  }, profileFrom * 1000));
+}
 
 if (flag("alloc")) { await cdp.send("HeapProfiler.enable"); await cdp.send("HeapProfiler.startSampling", { samplingInterval: 65536, includeObjectsCollectedByMajorGC: true, includeObjectsCollectedByMinorGC: true }); }
+// --shots <dir>: a screenshot every 500 ms for the first 60 s, then every 2 s (a real-GPU timeline:
+// what appears, vanishes, reappears); each file is named by its ms since navigation.
+const shotsDir = arg("shots", null);
+let shooting = !!shotsDir;
+if (shotsDir) {
+  mkdirSync(shotsDir, { recursive: true });
+  (async () => {
+    while (shooting) {
+      const t = Date.now() - t0;
+      await page.screenshot({ path: join(shotsDir, `${String(t).padStart(6, "0")}.jpg`), type: "jpeg", quality: 70, timeout: 10_000 }).catch(() => {});
+      const next = (t < 60_000 ? 500 : 2000) - (Date.now() - t0 - t);
+      if (next > 0) await new Promise((r) => setTimeout(r, next));
+    }
+  })();
+}
 page.goto(url, { waitUntil: "load", timeout: 120_000 }).catch((e) => lines.push({ t: Date.now() - t0, type: "goto", text: String(e) }));
 // Heartbeat: a CDP ping every second; its latency is how long the page's main
 // thread was busy. A ping still unanswered at the end is a hang in progress.
@@ -463,9 +499,9 @@ const heap = [];
 // draws in the last frame. After the first complete frame every column but frames, bind groups and
 // MB written must stay flat: a rising one is per-frame material, geometry or target churn.
 const series = [];
-const SERIES_COLS = ["t", "frames", "pipelines", "shaders", "builds", "buffers", "bufDestroys", "bufMb", "textures", "bindGroups", "writeMb", "draws", "heldBack", "buildsWaiting"];
+const SERIES_COLS = ["t", "frames", "pipelines", "shaders", "builds", "buffers", "bufDestroys", "bufMb", "textures", "bindGroups", "writeMb", "draws", "heldBack", "buildsWaiting", "pipelinesCompiling"];
 const seriesRow = (t, b) => [Math.round(t / 100) / 10, b.frames, b.pipelines + b.asyncPipelines, b.shaderModules, b.builds, b.count, b.bufferDestroys,
-  Math.round(b.total / 1e5) / 10, b.textures, b.bindGroups, Math.round(b.writeBytes / 1e5) / 10, b.lastFrameDraws ?? 0, b.deferred ?? 0, b.buildsWaiting ?? 0];
+  Math.round(b.total / 1e5) / 10, b.textures, b.bindGroups, Math.round(b.writeBytes / 1e5) / 10, b.lastFrameDraws ?? 0, b.deferred ?? 0, b.buildsWaiting ?? 0, b.pipelinesCompiling ?? 0];
 let pendingSince = 0, maxPingMs = 0, pending = null, lastBoot = null, lastLong = [];
 // A ping out over 10 s: pause the page once and keep the JS stack it was stuck in (what hung).
 const hangStacks = [];
@@ -500,6 +536,33 @@ while (Date.now() < hangAt) {
   if (lastBoot.pipelines !== seenBuilds || inflight > 0 || lastBoot.frames === 0) { seenBuilds = lastBoot.pipelines; stableSince = Date.now(); continue; }
   if (Date.now() - stableSince >= STABLE_MS) { completeMs = Date.now() - t0; break; }
 }
+// --eval <file>: run the file's body as an async function in the page after the first complete frame
+// (a probe or an experiment on the live renderer); its return value lands in the summary as `evalResult`
+let evalResult = null;
+if (arg("eval", null) && completeMs !== null) {
+  const body = readFileSync(resolve(arg("eval")), "utf8");
+  evalResult = await page.evaluate(`(async () => { ${body} })()`).catch((e) => `eval failed: ${String(e).slice(0, 300)}`);
+}
+// the studio's own HUD perf lines (fps, GPU per pass, CPU per stage), read at the named moments
+const hud = [];
+const readHud = async (when) => {
+  const text = await withTimeout(page.evaluate(() => document.body.innerText).catch(() => ""), 10_000) ?? "";
+  hud.push([when, Math.round((Date.now() - t0) / 1000), ...text.split("\n").filter((l) => /^(perf|veg:|gpu by pass|cpu by stage|tris|settlement)/.test(l))]);
+};
+const withTimeout = (p, ms) => Promise.race([p, new Promise((r) => setTimeout(() => r(null), ms))]);
+if (completeMs !== null) await readHud("complete");
+// --walk <s>: walk the character forward (W, sprinting) for half of it and back (S) for the rest, before
+// the hold: new ground, tiles and materials stream in as on the owner's walk
+const walkS = Number(arg("walk", "0"));
+if (walkS > 0 && completeMs !== null) {
+  await page.evaluate(() => { window.__BOOT__.hold = true; }).catch(() => {});
+  for (const key of ["KeyW", "KeyS"]) {
+    await page.keyboard.down(key); await page.keyboard.down("Space");
+    await new Promise((r) => setTimeout(r, walkS * 500));
+    await page.keyboard.up("Space"); await page.keyboard.up(key);
+    await readHud(key === "KeyW" ? "walked out" : "walked back");
+  }
+}
 // --hold: keep the scene running and sample the draws per frame once a second
 const holdDraws = [];
 if (holdS > 0 && completeMs !== null) {
@@ -511,16 +574,18 @@ if (holdS > 0 && completeMs !== null) {
     if (lastBoot && lastBoot !== seenPing) { seenPing = lastBoot; holdDraws.push([Math.round((Date.now() - t0) / 1000), lastBoot.lastFrameDraws ?? 0, lastBoot.errors?.length ?? 0]); }
   }
 }
+if (holdS > 0 && completeMs !== null) await readHud("hold end");
 // let the GPU finish what was submitted, so every validation error has been raised
 await Promise.race([page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))).catch(() => {}),
   new Promise((r) => setTimeout(r, 15_000))]);
 clearInterval(beat);
+shooting = false;
+if (profileS > 0) await Promise.race([profileDone, new Promise((r) => setTimeout(r, 30_000))]);
 // A ping still out at the end gets a grace period: a SwiftShader GPU stall clears in seconds, a hang does not.
 const graceS = 20;
 if (pending) await Promise.race([pending, new Promise((r) => setTimeout(r, graceS * 1000))]);
 const hung = !!pending;
 const hungMs = pending ? Date.now() - t0 - (heap.at(-1)?.[0] ?? 0) : 0;
-const withTimeout = (p, ms) => Promise.race([p, new Promise((r) => setTimeout(() => r(null), ms))]);
 const boot = (await withTimeout(page.evaluate(() => window.__BOOT__), 20_000)) ?? lastBoot;
 let allocTop = null;
 if (flag("alloc")) {
@@ -571,7 +636,7 @@ if (holdS > 0) {
 if (maxTaskMs > MAX_TASK_MS) fails.push(`main-thread JS task ${maxTaskMs} ms > ${MAX_TASK_MS} ms`);
 if (pageErrors.length) fails.push(`${pageErrors.length} page errors, first: ${pageErrors[0].slice(0, 200)}`);
 if (heapPeakMb > HEAP_MB) fails.push(`JS heap ${heapPeakMb} MB > ${HEAP_MB} MB`);
-if (wallS - holdS > TARGET_S) fails.push(`wall time ${wallS} s (less the ${holdS} s hold) > target ${TARGET_S} s: shrink the scene or the method (lessons row), never the target`);
+if (wallS - holdS - walkS > TARGET_S) fails.push(`wall time ${wallS} s (less the ${holdS} s hold) > target ${TARGET_S} s: shrink the scene or the method (lessons row), never the target`);
 const summary = {
   url, place, inputHash, wallS, targetS: TARGET_S, completeFrameMs: completeMs, ok: fails.length === 0, fails,
   holdDraws, seriesCols: SERIES_COLS, series, steady: steadyChurn(), firstFrameMs: boot?.firstFrameMs ?? null, frames: boot?.frames ?? 0, maxTaskMs, maxGpuStallMs, maxPingMs, heapPeakMb,
@@ -589,13 +654,19 @@ const summary = {
   holdBuildsBy: boot?.buildByHold ? Object.entries(boot.buildByHold).sort((x, y) => y[1][1] - x[1][1]).slice(0, 15).map(([k, v]) => [k, Math.round(v[0]), v[1]]) : [],
   holdUnbuilt: boot?.unbuilt ? { ...boot.unbuilt, by: Object.entries(boot.unbuilt.by).sort((x, y) => y[1] - x[1]).slice(0, 15),
     why: Object.entries(boot.unbuilt.why ?? {}).sort((x, y) => (boot.unbuilt.by[y[0]] ?? 0) - (boot.unbuilt.by[x[0]] ?? 0)).slice(0, 8) } : null,
+  buildsPerMaterial: boot?.buildPerMaterial ? (() => {
+    const v = Object.values(boot.buildPerMaterial); const hist = {};
+    for (const m of v) hist[`${m.n} builds / ${m.ctx.length} contexts`] = (hist[`${m.n} builds / ${m.ctx.length} contexts`] ?? 0) + 1;
+    const cams = {}; for (const m of v) for (const c of m.cams) cams[c] = (cams[c] ?? 0) + 1;
+    return { materials: v.length, hist, cams };
+  })() : null,
   nodeBuild: boot?.nodeBuildN ? { n: boot.nodeBuildN, ms: Math.round(boot.nodeBuildMs), top: Object.entries(boot.nodeBuild).sort((x, y) => y[1][0] - x[1][0]).slice(0, 15).map(([k, v]) => [k, Math.round(v[0]), v[1]]) } : null,
   holdNewGeometryBy: boot?.newGeomByHold ? Object.entries(boot.newGeomByHold).sort((x, y) => y[1][0] - x[1][0]).slice(0, 15).map(([k, v]) => [Math.round(v[0] / 1e5) / 10, v[1], v[2], k]) : [],
   holdBuffersBy: boot?.bufferByHold ? Object.entries(boot.bufferByHold).sort((a, b) => b[1][1] - a[1][1]).slice(0, 12).map(([k, v]) => [Math.round(v[0] / 1e5) / 10, v[1], k]) : [],
   bufferMbBy: boot?.bufferBy ? Object.entries(boot.bufferBy).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([k, v]) => [Math.round(v / 1e6), k]) : [], bigBuffers: boot?.big.slice(0, 10) ?? [],
   losses: boot?.losses ?? [], destroys: boot?.destroys ?? [], gpuErrors: boot?.errors ?? [],
   longTasks: [...longTasks].sort((a, b) => b[1] - a[1]).slice(0, 10), heap: heap.filter((_, i) => i % 5 === 0),
-  hangStacks, pageErrors: pageErrors.slice(0, 10), consoleErrors: consoleErrors.slice(0, 20), notFound: [...missing].slice(0, 40), profileTop, allocMbBy: allocTop,
+  hud, evalResult, hangStacks, pageErrors: pageErrors.slice(0, 10), consoleErrors: consoleErrors.slice(0, 20), notFound: [...missing].slice(0, 40), profileTop, allocMbBy: allocTop,
 };
 writeFileSync(out, JSON.stringify({ summary, lines }, null, 1));
 console.log(JSON.stringify({ ...summary, heap: undefined, series: undefined, longTasks: summary.longTasks.slice(0, 5) }, null, 1));
