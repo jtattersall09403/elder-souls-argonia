@@ -76,14 +76,28 @@ export function packChannel(src: ImageData, srcChannel: number, dst: ImageData, 
   }
 }
 
-function dataTexture(img: ImageData, filter: THREE.MagnificationTextureFilter): THREE.DataTexture {
+/** RGBA -> RG8: the flow raster's shaders read `.xy` only (waterMaterial
+ * `esFl.xy`, FoamField `fl.xy`). The other water rasters stay RGBA8: the
+ * surface atlas uses all four channels, the class raster's R is a class id
+ * and its A the dark constituent, and the shore and habitat rasters are read
+ * by `texelFetch` on the surface grid (connectedStage.ts, ambientAir.ts), so
+ * neither a channel cut nor a smaller copy keeps their values. */
+export function packRG(rgba: Uint8ClampedArray | Uint8Array): Uint8Array {
+  const n = rgba.length / 4, out = new Uint8Array(n * 2);
+  for (let i = 0; i < n; i++) { out[i * 2] = rgba[i * 4]; out[i * 2 + 1] = rgba[i * 4 + 1]; }
+  return out;
+}
+
+function dataTexture(img: { width: number; height: number; data: Uint8ClampedArray | Uint8Array },
+  filter: THREE.MagnificationTextureFilter, format: THREE.PixelFormat = THREE.RGBAFormat): THREE.DataTexture {
   const tex = new THREE.DataTexture(
-    new Uint8Array(img.data.buffer.slice(0)),
+    img.data instanceof Uint8Array ? img.data : new Uint8Array(img.data.buffer.slice(0)),
     img.width,
     img.height,
-    THREE.RGBAFormat,
+    format,
     THREE.UnsignedByteType,
   );
+  tex.unpackAlignment = format === THREE.RGBAFormat ? 4 : 1;
   tex.magFilter = filter;
   tex.minFilter = filter as THREE.MinificationTextureFilter;
   tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
@@ -291,7 +305,8 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     dressing,
     bedRocks,
     surfaceTex: dataTexture(surfaceAtlas, THREE.NearestFilter),
-    flowTex: dataTexture(flowImg, THREE.LinearFilter),
+    flowTex: dataTexture({ width: flowImg.width, height: flowImg.height, data: packRG(flowImg.data) },
+      THREE.LinearFilter, THREE.RGFormat),
     klassTex: dataTexture(klassImg, THREE.LinearFilter),
     shoreTex: dataTexture(shoreImg, THREE.LinearFilter),
     hasOwner,

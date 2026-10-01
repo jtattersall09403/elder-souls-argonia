@@ -3,6 +3,9 @@ import type { CSM } from "three/examples/jsm/csm/CSM.js";
 import { applyAerialPerspective, type AerialUniforms } from "./sky/aerial";
 import { applyShoreWetness } from "./water/groundWetness";
 import { CONTROL_DECODE_GLSL } from "@elder-souls/game-core/terrain/groundRasters";
+import type { KitDecoders } from "@elder-souls/game-core/assets/kitLoader";
+import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
+import { useLoader } from "@react-three/fiber";
 
 /**
  * Ground-material splat shader (decision 0011), shared between the flyover's
@@ -71,11 +74,47 @@ export interface GroundUniforms {
   uCanopyStrength: { value: number };
 }
 
-/** Builds the splat material. The caller owns disposal of the material and of
- * `material.userData.tex` (the albedo array texture) when
- * `material.userData.ownsTex` is true; a material given a shared array borrows
- * it and disposes nothing. Live-tunable uniforms
- * are exposed on `material.userData.groundUniforms`.
+/** The set's albedo array: one KTX2 container (UASTC, encoder mips) whose
+ * layers are the materials in id order, then the cliff_rock and cliff_dirt
+ * normal maps (written by `pipeline.ground_compress`). `KTX2Loader` returns a
+ * `CompressedArrayTexture` that stays BC7/ASTC/ETC2 in VRAM: 42 layers are
+ * about 15 MB resident where the PNG upload was 59 MB of RGBA8. Load it with
+ * R3F's `useLoader(GroundArrayLoader, url, (l) => l.setDecoders(...))`; the
+ * loader cache hands the province ground and the apron the same texture. */
+export const groundArrayUrl = (base: string, set: string) => `${base}textures/ground/${set}/albedo-array.ktx2`;
+
+/** Suspends until the set's albedo array is decoded (see `GroundArrayLoader`). */
+export function useGroundArray(base: string, set: string): THREE.CompressedArrayTexture {
+  const decoders = useKitDecoders(base);
+  return useLoader(GroundArrayLoader, groundArrayUrl(base, set), (l) => { l.setDecoders(decoders); });
+}
+
+export class GroundArrayLoader extends THREE.Loader<THREE.CompressedArrayTexture> {
+  private decoders: KitDecoders | null = null;
+  setDecoders(decoders: KitDecoders): this { this.decoders = decoders; return this; }
+  load(url: string, onLoad: (t: THREE.CompressedArrayTexture) => void, _p?: unknown, onError?: (e: unknown) => void): void {
+    if (!this.decoders) { onError?.(new Error("GroundArrayLoader: setDecoders first")); return; }
+    this.decoders.ktx2.loadAsync(url).then((t) => {
+      const tex = t as THREE.CompressedArrayTexture;
+      // Sampled raw like the PNG array was: the container's sRGB tag on the
+      // colour layers must not select an sRGB-decoding GPU format.
+      tex.colorSpace = THREE.NoColorSpace;
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+      tex.minFilter = THREE.LinearMipmapLinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      tex.generateMipmaps = false;
+      tex.anisotropy = 4;
+      tex.needsUpdate = true;
+      onLoad(tex);
+    }, (e) => onError?.(e));
+  }
+}
+
+/** Builds the splat material. The albedo array (`arrayTex`, from
+ * `GroundArrayLoader`) belongs to the loader cache: the province ground and
+ * the apron's two materials share it and none of them disposes it; it rides
+ * on `material.userData.tex`. The material is the caller's to dispose.
+ * Live-tunable uniforms are exposed on `material.userData.groundUniforms`.
  *
  * The surface normal comes from one province-wide slope-gradient texture
  * (`gradTex`, written by `worldgen.export_web_chunks`) scaled by
@@ -83,8 +122,7 @@ export interface GroundUniforms {
  * disagree along shared edges, painting a visible seam down every chunk
  * border. Chunk geometry therefore carries no normal attribute at all. */
 export function createGroundMaterial(
-  images: HTMLImageElement[],
-  cliffNormals: HTMLImageElement[],
+  arrayTex: THREE.Texture,
   ctrl: THREE.Texture,
   tintTex: THREE.Texture,
   gradTex: THREE.Texture,
@@ -93,48 +131,23 @@ export function createGroundMaterial(
   aerialUniforms: AerialUniforms,
   csm?: CSM | null,
   options: { shoreWetness?: boolean } = {},
-  /** Reuse another material's albedo array instead of building a second one
-   * (16d: the apron's two materials share the province's ~40 MB array). The
-   * borrower sets `userData.ownsTex = false` and must not dispose it. */
-  sharedArrayTexture?: THREE.DataArrayTexture,
 ): THREE.MeshStandardMaterial {
-  const n = images.length;
-  const size = 512;
+  const n = manifest.materials.length;
   // Cliff materials (Phase 16b item 3): the two library slots the triplanar
   // SIDE projections sample instead of the texel's own ground texture, so a
   // steep face reads as rock or dirt cliff rather than a smeared top texture.
   const cliffRock = manifest.materials.find((m) => m.name === "cliff_rock");
   const cliffDirt = manifest.materials.find((m) => m.name === "cliff_dirt");
   const hasCliff = !!cliffRock && !!cliffDirt;
-  const cliffNrmOk = hasCliff && cliffNormals.length === 2;
   // The two cliff NORMAL maps ride in the SAME array texture as the albedos,
   // as layers n and n+1: a second sampler2DArray for them took the fragment
   // shader to 17 texture units with the flyover's 3 shadow cascades, over the
   // 16 most GPUs allow, so the ground material failed to compile and the
   // flyover drew no terrain at all (owner's console, 2026-09-13). Character
   // mode has 2 cascades, exactly 16, which is why it still worked.
-  const layers = n + (cliffNrmOk ? 2 : 0);
-  const ownsTex = !sharedArrayTexture;
-  let tex = sharedArrayTexture;
-  if (!tex) {
-    const data = new Uint8Array(size * size * 4 * layers);
-    const canvas = document.createElement("canvas");
-    canvas.width = canvas.height = size;
-    const g2d = canvas.getContext("2d", { willReadFrequently: true })!;
-    [...images, ...(cliffNrmOk ? cliffNormals : [])].forEach((img, i) => {
-      g2d.clearRect(0, 0, size, size);
-      g2d.drawImage(img, 0, 0, size, size);
-      data.set(g2d.getImageData(0, 0, size, size).data, size * size * 4 * i);
-    });
-    tex = new THREE.DataArrayTexture(data, size, size, layers);
-    tex.format = THREE.RGBAFormat;
-    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-    tex.minFilter = THREE.LinearMipmapLinearFilter;
-    tex.magFilter = THREE.LinearFilter;
-    tex.generateMipmaps = true;
-    tex.anisotropy = 4;
-    tex.needsUpdate = true;
-  }
+  const depth = (arrayTex.image as { depth?: number } | undefined)?.depth ?? n;
+  const cliffNrmOk = hasCliff && depth === n + 2;
+  const tex = arrayTex;
 
   // integer ids: never let the GPU filter or mip the control map
   ctrl.minFilter = THREE.NearestFilter;
@@ -395,7 +408,6 @@ vec3 nonPerturbedNormal = normal;`,
     `es-ground-${n}-${cliffNrmOk ? 1 : 0}-${options.shoreWetness !== false ? "wet" : "dry"}`;
 
   material.userData.tex = tex;
-  material.userData.ownsTex = ownsTex;
   material.userData.groundUniforms = groundUniforms;
   return material;
 }

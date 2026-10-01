@@ -1,7 +1,7 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
-import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "../groundMaterial";
+import { createGroundMaterial, useGroundArray, useGroundManifest, type GroundUniforms } from "../groundMaterial";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
 import {
   LOD_REEVALUATE_M, SUB_TILE_DIVISIONS, SUB_TILE_LODS, drawsAsSubTiles, lodForDistance, lodForSubTile,
@@ -90,15 +90,8 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
 }) {
   const base = import.meta.env.BASE_URL;
   const { set, manifest: ground } = useGroundManifest(base, matSet);
-  const images = useLoader(THREE.ImageLoader,
-    ground.materials.map((m) => `${base}textures/ground/${set}/${m.file}`));
-  // The two cliff normal maps (rock, dirt) — the side-projection relief.
-  // An older set without `normalFile` rows simply ships no perturbation.
-  const cliffNrmFiles = ["cliff_rock", "cliff_dirt"]
-    .map((name) => ground.materials.find((m) => m.name === name)?.normalFile)
-    .filter((f): f is string => !!f);
-  const cliffNormals = useLoader(THREE.ImageLoader,
-    cliffNrmFiles.map((f) => `${base}textures/ground/${set}/${f}`));
+  // The albedo layers and the two cliff normal maps, one KTX2 array.
+  const arrayTex = useGroundArray(base, set);
   const { ctrl, tint: tintTex, grad: gradTex } = useLoader(GroundRasterLoader, groundRasterKey(
     `${base}province/refined/ground-control.png`, `${base}province/refined/ground-tint.png`,
     `${base}province/chunks/normal-grad.png`));
@@ -106,10 +99,10 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   const hiddenLayers = useHiddenLayers(base);
   const shoreWetness = !hiddenLayers.has("water");
   const material = useMemo(
-    () => createGroundMaterial(images, cliffNormals, ctrl, tintTex, gradTex, ground,
+    () => createGroundMaterial(arrayTex, ctrl, tintTex, gradTex, ground,
       verticalScale ?? manifest.verticalScaleAtGeometry, sharedAerialUniforms, csm, { shoreWetness }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [images, cliffNormals, ctrl, tintTex, gradTex, ground, csm, shoreWetness],
+    [arrayTex, ctrl, tintTex, gradTex, ground, csm, shoreWetness],
   );
   const groundUniforms = material.userData.groundUniforms as GroundUniforms;
   useEffect(() => {
@@ -130,9 +123,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
       type: material.type,
     });
     return () => {
-      // Only the owner disposes the albedo array: the apron's materials borrow
-      // this one (16d, `sharedArrayTexture`).
-      if (material.userData.ownsTex !== false) (material.userData.tex as THREE.DataArrayTexture).dispose();
+      // The albedo array belongs to the loader cache (shared with the apron).
       material.dispose();
     };
   }, [material, csm]);

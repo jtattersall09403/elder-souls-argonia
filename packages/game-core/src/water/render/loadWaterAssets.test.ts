@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { decodeWaterRasters } from "./loadWaterAssets";
+import { decodeWaterRasters, packRG } from "./loadWaterAssets";
 import { BURIED_DEPTH_M, buriedThresholdM, decodeDepthByte, type WaterMeta } from "../waterData";
 
 function meta(version: 1 | 2): WaterMeta {
@@ -42,5 +42,17 @@ describe("water-surface.png decode (v1 unsigned, v2 signed)", () => {
     expect(d.shore[0]).toBe(160);
     expect(d.season[0]).toBeCloseTo(128 / 255, 5);
     expect(d.shore[3]).toBeCloseTo(32, 5);
+  });
+});
+
+describe("flow raster GPU packing", () => {
+  it("keeps R and G byte-exact in RG8 (the shaders read .xy only)", () => {
+    const rgba = new Uint8Array(25 * 4).map((_, i) => (i * 37 + 11) % 256);
+    const rg = packRG(rgba);
+    expect(rg.length).toBe(50);
+    for (let i = 0; i < 25; i++) {
+      expect(rg[i * 2]).toBe(rgba[i * 4]);
+      expect(rg[i * 2 + 1]).toBe(rgba[i * 4 + 1]);
+    }
   });
 });

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLoader } from "@react-three/fiber";
 import * as THREE from "three";
-import { createGroundMaterial, useGroundManifest, type GroundManifest } from "./groundMaterial";
+import { createGroundMaterial, useGroundArray, useGroundManifest, type GroundManifest } from "./groundMaterial";
 import { sharedAerialUniforms } from "./sky/WorldSky";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
 import type { ApronManifest } from "@elder-souls/game-core/terrain/apronManifest";
@@ -41,14 +41,10 @@ export function useApronMaterials(
   matSet: string | undefined,
   verticalScale: number,
   csm: CSM | null | undefined,
-  sharedArrayTexture: THREE.DataArrayTexture | undefined,
 ): { near: THREE.MeshStandardMaterial; far: THREE.MeshStandardMaterial } {
   const { set, manifest: ground } = useGroundManifest(baseUrl, matSet);
-  const images = useLoader(THREE.ImageLoader, ground.materials.map((m) => `${baseUrl}textures/ground/${set}/${m.file}`));
-  const cliffNrmFiles = ["cliff_rock", "cliff_dirt"]
-    .map((name) => ground.materials.find((m) => m.name === name)?.normalFile)
-    .filter((f): f is string => !!f);
-  const cliffNormals = useLoader(THREE.ImageLoader, cliffNrmFiles.map((f) => `${baseUrl}textures/ground/${set}/${f}`));
+  // The same cached texture the province ground holds (16d: one array).
+  const arrayTex = useGroundArray(baseUrl, set);
   const [near, far] = useLoader(GroundRasterLoader, (["near", "far"] as const).map((s) => groundRasterKey(
     ...([manifest.paint[s].control, manifest.paint[s].tint, manifest.paint[s].grad]
       .map((f) => `${baseUrl}province/apron/${f}`) as [string, string, string]))));
@@ -56,14 +52,14 @@ export function useApronMaterials(
   const { ctrl: farCtrl, tint: farTint, grad: farGrad } = far;
   const materials = useMemo(() => {
     const build = (ctrl: THREE.Texture, tint: THREE.Texture, grad: THREE.Texture) =>
-      createGroundMaterial(images, cliffNormals, ctrl, tint, grad, ground as GroundManifest,
+      createGroundMaterial(arrayTex, ctrl, tint, grad, ground as GroundManifest,
         verticalScale, sharedAerialUniforms, csm,
         // No shore wetness out here: the apron has no swash band, and the four
         // texture units it costs are the ones the fragment shader has left.
-        { shoreWetness: false }, sharedArrayTexture);
+        { shoreWetness: false });
     return { near: build(nearCtrl, nearTint, nearGrad), far: build(farCtrl, farTint, farGrad) };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [images, cliffNormals, ground, csm, sharedArrayTexture,
+  }, [arrayTex, ground, csm,
       nearCtrl, nearTint, nearGrad, farCtrl, farTint, farGrad]);
   useEffect(() => {
     const { near, far } = materials;

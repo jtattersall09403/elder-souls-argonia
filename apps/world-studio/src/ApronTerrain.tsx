@@ -81,8 +81,7 @@ export function ApronTerrain({ apron, ...terrain }: TerrainProps & { apron: Apro
           unmount) the ground the player is standing on. */}
       {apron && ground && (
         <Suspense fallback={null}>
-        <ApronMaterials apron={apron} matSet={terrain.matSet} verticalScale={scale}
-          sharedArrayTexture={ground.userData.tex as THREE.DataArrayTexture} onReady={setMaterials} />
+        <ApronMaterials apron={apron} matSet={terrain.matSet} verticalScale={scale} onReady={setMaterials} />
         </Suspense>
       )}
       {apron && materials && (
@@ -95,15 +94,14 @@ export function ApronTerrain({ apron, ...terrain }: TerrainProps & { apron: Apro
 
 /** Builds the two apron materials (it suspends on their textures) and hands
  * them up, so the terrain above stays mounted while they load. */
-function ApronMaterials({ apron, matSet, verticalScale, sharedArrayTexture, onReady }: {
+function ApronMaterials({ apron, matSet, verticalScale, onReady }: {
   apron: ApronManifest;
   matSet?: string;
   verticalScale: number;
-  sharedArrayTexture: THREE.DataArrayTexture;
   onReady: (m: { near: THREE.Material; far: THREE.Material } | null) => void;
 }) {
   const { csm } = useContext(SkyContext);
-  const materials = useApronMaterials(import.meta.env.BASE_URL, apron, matSet, verticalScale, csm, sharedArrayTexture);
+  const materials = useApronMaterials(import.meta.env.BASE_URL, apron, matSet, verticalScale, csm);
   useEffect(() => {
     onReady(materials);
     return () => onReady(null);

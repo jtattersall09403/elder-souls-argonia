@@ -79,5 +79,11 @@ the shaders read:
 | `ground-control.png` (province, apron) | RGBA: id0, id1, blend 0..127, macro | RG8, nearest: ids in bits 0-5, blend as 16 levels in bits 6-7 of R and G (`CONTROL_DECODE_GLSL`) |
 | `ground-tint.png` | RGBA tint and litter | RGBA8, mipped, macro brightness folded into RGB, halved to at most 1100² |
 | `climate-{air,weather,vis}.png` 1345² | RGB | RGBA8, mipped, halved to 672² |
+| ground albedo array (`textures/ground/<set>/albedo-array.ktx2`, 42 x 512²) | the set's PNGs (kept: the settlement ground paint reads rows of them) | one KTX2 array, UASTC with encoder mips, transcoded to BC7/ASTC/ETC2 (`pipeline.ground_compress`; `GroundArrayLoader` in apps/world-studio/src/groundMaterial.ts) |
+| `water-flow.png` 1345² | RGB, R and G read | RG8 (`packRG`, water/render/loadWaterAssets.ts) |
 
-`textureResidentBytes` counts what one of these holds on the WebGL path.
+The other water rasters stay RGBA8 on the GPU, for the reason in
+`loadWaterAssets.ts` above `packRG`. `textureResidentBytes` counts what one of
+these holds on the WebGL path. After any change to a set's PNGs run
+`python3 -m pipeline.ground_compress --set <set>` (from tooling/asset-pipeline);
+`--all --check` fails on a stale array.
