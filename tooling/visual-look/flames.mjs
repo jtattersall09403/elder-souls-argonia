@@ -7,7 +7,7 @@
 //   flameSystems  FlameSystem groups ("fire-flames") under the subject
 //   emitters      flame card instances those systems draw
 //   draws         draw calls of the flame-card mesh
-//   onScreen      cards within 30 m whose position (the system's instance
+//   onScreen      cards 2-30 m away whose position (the system's instance
 //                 data through the group's world matrix: where the flames
 //                 belong) projects inside the frame
 //   visible       on-screen cards whose pixels change when the flames are
@@ -67,10 +67,21 @@ function common(f, t) {
   };
 }
 
-/** The verdict of one result: the zero counts, or the failure. */
+/** True when `t` (`H` or `HH:MM`) falls in the lamps-out day, 06:30-17:30 (0105 R3). */
+export function isLampDay(t) {
+  const m = /^(\d{1,2})(?::(\d{2}))?$/.exec(String(t));
+  if (!m) return false;
+  const min = Number(m[1]) * 60 + Number(m[2] ?? 0);
+  return min > 6 * 60 + 30 && min < 17 * 60 + 30;
+}
+
+/** The verdict of one result: the zero counts, or the failure. A place by
+ * day expects its fixtures drawn but not seen: lanterns and candles are out
+ * from 06:30 to 17:30 (0105 R3), so `visible` is reported, not required. */
 export function verdict(result) {
   if (result.failed) return result.failed;
-  const zero = COUNTS.filter((k) => !(result[k] > 0));
+  const day = result.mode === "place" && isLampDay(result.t);
+  const zero = COUNTS.filter((k) => !(day && (k === "visible" || k === "onScreen")) && !(result[k] > 0));
   return zero.length ? `zero: ${zero.join(", ")}` : null;
 }
 
@@ -81,12 +92,16 @@ export function seenCards(on, offA, offB, minDelta) {
   return on.map((w, k) => {
     const a = offA[k]; const b = offB[k];
     if (!w || !a || !b || w.length !== a.length || w.length !== b.length) return { delta: 0, noise: 0, seen: false };
-    let delta = 0; let noise = 0;
+    // per pixel: the flame's change against that pixel's own off/off change
+    // (a flickering lamp moves the lit wall beside the flame between frames;
+    // a window-wide noise floor hid every night flame, walk 7)
+    let delta = 0; let noise = 0; let margin = -Infinity;
     for (let i = 0; i < w.length; i += 4) {
-      delta = Math.max(delta, Math.min(Math.abs(lum(w, i) - lum(a, i)), Math.abs(lum(w, i) - lum(b, i))));
-      noise = Math.max(noise, Math.abs(lum(a, i) - lum(b, i)));
+      const d = Math.min(Math.abs(lum(w, i) - lum(a, i)), Math.abs(lum(w, i) - lum(b, i)));
+      const n = Math.abs(lum(a, i) - lum(b, i));
+      if (d - n > margin) { margin = d - n; delta = d; noise = n; }
     }
-    return { delta: Math.round(delta), noise: Math.round(noise), seen: delta >= noise + minDelta };
+    return { delta: Math.round(delta), noise: Math.round(noise), seen: margin >= minDelta };
   });
 }
 
@@ -140,6 +155,7 @@ async function keyOf(opts, studioBase) {
  * ones, so a capture is the finished frame). */
 function installProbe(cell) {
   const RANGE_M = 30; // farther, a candle or lantern is a pixel or two: no measure of whether it draws
+  const NEAR_M = 2; // nearer, the camera is inside the fixture (its glow shell clips the pixels white)
   const scene = window.__SCENE__; const r = window.__RENDERER__; const T = window.__THREE__;
   const root = cell ? scene.getObjectByName(`interior:${cell}`) : scene;
   const systems = [];
@@ -170,7 +186,7 @@ function installProbe(cell) {
         v.set(a.getX(i), a.getY(i), a.getZ(i)).applyMatrix4(mesh.matrixWorld);
         const dist = v.distanceTo(camera.position);
         v.project(camera);
-        if (dist > RANGE_M || !(v.z < 1 && Math.abs(v.x) < 0.95 && Math.abs(v.y) < 0.9)) continue;
+        if (dist > RANGE_M || dist < NEAR_M || !(v.z < 1 && Math.abs(v.x) < 0.95 && Math.abs(v.y) < 0.9)) continue;
         const px = Math.round((v.x + 1) / 2 * W); const py = Math.round((v.y + 1) / 2 * H);
         const x0 = Math.max(0, px - R); const y0 = Math.max(0, py - R); // flames rise: window from the root up
         const w = Math.min(W, px + R + 1) - x0; const h = Math.min(H, py + 3 * R + 1) - y0;
@@ -188,6 +204,27 @@ function installProbe(cell) {
   return { flameSystems: systems.length, emitters, rootFound: !!root, groupWorld: world0,
     firstCardRaw: a0 ? [a0.getX(0), a0.getY(0), a0.getZ(0)].map((x) => +x.toFixed(2)) : null,
     uMaxDistance: mesh0?.material.uniforms?.uMaxDistance?.value ?? null };
+}
+
+/** Points the follow camera at the `k`-th nearest flame card 3-25 m from the
+ * player (horizontal); returns its distance, or null when there is none. */
+function aimAtEmitter(k) {
+  const D = window.__STUDIO_CHARACTER_DEBUG__; const p = D.player(); const T = window.__THREE__;
+  const v = new T.Vector3(); const found = [];
+  for (const g of window.__FLAME_PROBE__.systems) {
+    const mesh = g.getObjectByName("fire-flame-cards"); const a = mesh?.geometry.getAttribute("iPosSeed");
+    if (!a) continue;
+    for (let i = 0; i < mesh.geometry.instanceCount; i++) {
+      v.set(a.getX(i), a.getY(i), a.getZ(i)).applyMatrix4(mesh.matrixWorld);
+      const dx = v.x - p[0]; const dz = v.z - p[2]; const d = Math.hypot(dx, dz);
+      if (d >= 3 && d <= 25 && !found.some((f) => Math.abs(f.d - d) < 0.5)) found.push({ d, yaw: Math.atan2(-dx, -dz) });
+    }
+  }
+  found.sort((a, b) => a.d - b.d);
+  const f = found[k];
+  if (!f) return null;
+  D.aimCamera(f.yaw);
+  return +f.d.toFixed(1);
 }
 
 /** One capture with the flames shown or hidden: the first whole frame drawn
@@ -224,7 +261,7 @@ async function run(opts) {
     const why = verdict(result);
     if (!skipped) { mkdirSync(opts.out, { recursive: true }); writeFileSync(jsonPath, JSON.stringify(result, null, 1) + "\n"); }
     console.log(`flames: ${why ? "FAIL" : "PASS"}${skipped ? " (unchanged key, stored result)" : ""} ${opts.cell ?? `place ${opts.x},${opts.z}`} `
-      + COUNTS.map((k) => `${k} ${result[k] ?? 0}`).join(" ") + `${why ? ` (${why})` : ""} in ${result.elapsedS} s -> ${jsonPath}`);
+      + COUNTS.map((k) => `${k} ${result[k] ?? 0}`).join(" ") + (result.mode === "place" && isLampDay(result.t) ? " (day: lamps out, visible not required)" : "") + `${why ? ` (${why})` : ""} in ${result.elapsedS} s -> ${jsonPath}`);
     browser?.close().catch(() => undefined); server?.close();
     process.exit(why ? 1 : 0);
   };
@@ -290,7 +327,10 @@ async function run(opts) {
         result.cards = on.slice(0, 24).map((c, k) => ({ px: c.px, py: c.py, dist: c.dist, ...seen[k] }));
       }
       if (result.onScreen > 0 || views >= 4 || !(result.emitters > 0)) break;
-      await page.keyboard.down("ArrowLeft"); await page.waitForTimeout(400); await page.keyboard.up("ArrowLeft");
+      // face the next-nearest emitter 3-25 m from the player (a blind turn
+      // from a spawn on a lantern finds none: walk 7)
+      result.aimedAt = await page.evaluate(aimAtEmitter, views - 1);
+      await page.waitForTimeout(600);
     }
     result.views = views;
     Object.assign(result, { draws: await page.evaluate(() => window.__FLAME_PROBE__.draws), errors: errs.slice(0, 8) });

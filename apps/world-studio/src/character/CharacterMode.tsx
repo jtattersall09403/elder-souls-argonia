@@ -1391,6 +1391,8 @@ function RenderWarmup({ armed, onWarm }: { armed: boolean; onWarm: () => void })
 declare global {
   interface Window {
     __STUDIO_CHARACTER_DEBUG__?: {
+      /** Sets the follow camera's yaw (radians; it looks along -sin, -cos). */
+      aimCamera: (yaw: number) => void;
       playerY: () => number | null;
       grounded: () => boolean;
       frames: () => number;
@@ -1518,6 +1520,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
         return out;
       },
       cameraArm: () => camera3P.arm,
+      aimCamera: (yaw) => { camera3P.yaw = yaw; },
       cameraCast: (from, to) => cameraCast(
         new THREE.Vector3(...from), new THREE.Vector3(...to), FOLLOW_CAMERA.collisionRadius,
         FOLLOW_CAMERA.pivotRadius),

@@ -32,12 +32,12 @@ export function setClockInstant(instant: WorldInstant): void {
   notifyClock();
 }
 
-/** `t=HH:MM` → minute of day, or null. */
+/** `t=HH:MM` or a bare hour `t=H` → minute of day, or null. */
 export function parseTimeParam(t: string | null): number | null {
   if (!t) return null;
-  const m = /^(\d{1,2}):(\d{2})$/.exec(t);
+  const m = /^(\d{1,2})(?::(\d{2}))?$/.exec(t);
   if (!m) return null;
-  const minutes = Number(m[1]) * 60 + Number(m[2]);
+  const minutes = Number(m[1]) * 60 + Number(m[2] ?? 0);
   return minutes >= 0 && minutes < 1440 ? minutes : null;
 }
 

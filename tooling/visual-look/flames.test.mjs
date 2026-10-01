@@ -1,7 +1,7 @@
 // node --test tooling/visual-look/flames.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseFlameArgs, seenCards, verdict } from "./flames.mjs";
+import { isLampDay, parseFlameArgs, seenCards, verdict } from "./flames.mjs";
 
 test("args: an interior cell with its door spot, a place at night by default", () => {
   const i = parseFlameArgs(["interior", "KeebaHouseFisher", "0.313", "3.006", "--url", "https://x/studio/", "--force"]);
@@ -29,6 +29,19 @@ test("seen: a card counts only when on differs from BOTH off frames by more than
   // the background flickers by 30 between the off frames: a 35 change is noise
   const r = seenCards([[...px(40), ...px(75)]], [off.flat()], [[...px(40), ...px(70)]], 12)[0];
   assert.equal(r.seen, false);
+  // a lamp flickers a wall pixel by 150 while the flame lifts ANOTHER pixel
+  // by 120: seen (noise is per pixel; walk 7 night, every card hidden)
+  const flick = seenCards([[...px(160), ...px(40), ...px(40)]], [[...px(40), ...px(40), ...px(40)]], [[...px(40), ...px(190), ...px(40)]], 12)[0];
+  assert.equal(flick.seen, true);
   // mismatched windows (camera moved) never count
   assert.equal(seenCards([px(200)], [off.flat()], [off.flat()], 12)[0].seen, false);
+});
+
+test("verdict: a place by day needs its flames drawn, not seen (lamps out 06:30-17:30)", () => {
+  assert.equal(isLampDay("12"), true); assert.equal(isLampDay("22"), false); assert.equal(isLampDay("06:00"), false);
+  const day = { mode: "place", t: "12", flameSystems: 1, emitters: 61, draws: 4, onScreen: 0, visible: 0 };
+  assert.equal(verdict(day), null);
+  assert.equal(verdict({ ...day, t: "22" }), "zero: onScreen, visible");
+  assert.equal(verdict({ ...day, mode: "interior" }), "zero: onScreen, visible");
+  assert.equal(verdict({ ...day, draws: 0 }), "zero: draws");
 });
