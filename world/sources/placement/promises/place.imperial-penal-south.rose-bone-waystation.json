@@ -107,7 +107,10 @@
     "path": "places[place.imperial-penal-south.rose-bone-waystation].vibe.signatureFeature"
    },
    "text": "A handover shelter on a dry rise, with the tag-keeper's hut beside it and a brazier between them.",
-   "confirmed": null
+   "confirmed": {
+    "sha": "ceea8d9b60aa",
+    "note": "The handover shelter (half awning) and the keeper's bamboo hut stand 21 m apart on the rise, the brazier at the shelter."
+   }
   },
   {
    "id": "promise.rose-bone-waystation.prose-why-founding",
@@ -156,7 +159,10 @@
     "path": "places[place.imperial-penal-south.rose-bone-waystation].why.siteAdvantages"
    },
    "text": "A dry rise beside the Prison road, where the Rose's people hand a body to the villages' people.",
-   "confirmed": null
+   "confirmed": {
+    "sha": "c6d06d3bf0fa",
+    "note": "The shelter stands on dry land (depth -3) beside the Prison road."
+   }
   },
   {
    "id": "promise.rose-bone-waystation.prose-why-wouldchangeif",

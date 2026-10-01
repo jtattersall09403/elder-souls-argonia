@@ -131,7 +131,10 @@
     "path": "places[place.hist-heartland.greenspring].vibe.approach"
    },
    "text": "Coming up from the landing, the black river water gives way to a small clear pool under the Hist. Frond smoke from the cookfires reaches the landing before the houses are in sight.",
-   "confirmed": null
+   "confirmed": {
+    "sha": "c8d8c56c2576",
+    "note": "The inlet deck of the Border road crossings below lands on the bank; the clear pool lies under the Hist and the family-hut fire smokes between them."
+   }
   },
   {
    "id": "promise.greenspring.prose-vibe-condition",
@@ -154,7 +157,10 @@
     "path": "places[place.hist-heartland.greenspring].vibe.materials"
    },
    "text": "a hide tent beside the spring; mud-walled pods and bamboo huts; a plank landing on the bank",
-   "confirmed": null
+   "confirmed": {
+    "sha": "0b80ad45ac96",
+    "note": "The spring-house is a hide tent (argoniantent02) by the pool; the kotm mud pods and two bamboo huts stand round it; the landing is the crossings' plank deck."
+   }
   },
   {
    "id": "promise.greenspring.prose-vibe-mood",
@@ -177,7 +183,10 @@
     "path": "places[place.hist-heartland.greenspring].vibe.palette"
    },
    "text": "a pool of clear water, a green crown thinning to open sky above, painted urns along the yards, mud churned brown at the landing",
-   "confirmed": null
+   "confirmed": {
+    "sha": "b7238e304527",
+    "note": "Pool under the Hist, the sick crown over open sky, urns among the yard clutter, the landing on mud bank."
+   }
   },
   {
    "id": "promise.greenspring.prose-vibe-senses",
@@ -200,7 +209,10 @@
     "path": "places[place.hist-heartland.greenspring].vibe.signatureFeature"
    },
    "text": "Water drunk without ceremony, dipped from the clear pool under the Hist that visitors are expected to taste before they speak.",
-   "confirmed": null
+   "confirmed": {
+    "sha": "35e5cd2a92b8",
+    "note": "The pool lies at the foot of the built Hist landmark beside the spring-house; the custom is a later-phase dialogue system."
+   }
   },
   {
    "id": "promise.greenspring.prose-vibe-silhouette",
@@ -210,7 +222,10 @@
     "path": "places[place.hist-heartland.greenspring].vibe.silhouette"
    },
    "text": "a sick crown leaning over the spring and the huts round it",
-   "confirmed": null
+   "confirmed": {
+    "sha": "7f1072bebaca",
+    "note": "The sick Hist (ancient-sleeping-tree-sick) stands over the pool with the ten structures round it."
+   }
   },
   {
    "id": "promise.greenspring.prose-why-founding",

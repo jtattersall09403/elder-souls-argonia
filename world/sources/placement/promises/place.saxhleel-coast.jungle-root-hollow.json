@@ -41,7 +41,10 @@
     "path": "places[place.saxhleel-coast.jungle-root-hollow].playerPurpose.hook"
    },
    "text": "A lair dug into the root layer west of the hiring camp. The bone scatter at its mouth holds three generations of tools taken from foragers.",
-   "confirmed": null
+   "confirmed": {
+    "sha": "da29154ca2eb",
+    "note": "The cave mouth (rockcaveentrance02) is built with its tool scatter (evidence socket); the camp lies east, so the lair is west of it."
+   }
   },
   {
    "id": "promise.jungle-root-hollow.prose-questhooks-opportunity",
@@ -155,7 +158,10 @@
     "path": "places[place.saxhleel-coast.jungle-root-hollow].vibe.silhouette"
    },
    "text": "a cave mouth among the roots of the canopy giants, bones outside it",
-   "confirmed": null
+   "confirmed": {
+    "sha": "6aacc9b93460",
+    "note": "The cave mouth stands among canopy giants (anvil-canopy-tree 253, anvil-emergent-giant 5) with the bone and tool scatter outside."
+   }
   },
   {
    "id": "promise.jungle-root-hollow.prose-why-founding",

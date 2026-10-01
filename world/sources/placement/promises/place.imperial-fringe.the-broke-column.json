@@ -189,7 +189,10 @@
     "path": "places[place.imperial-fringe.the-broke-column].why.founding"
    },
    "text": "When the Legion was recalled, two centuries ago, part of the column on the border road deserted rather than march. They had not been paid. Nobody came back to pay them. Their grandsons keep the roster and wear the colours still.",
-   "confirmed": null
+   "confirmed": {
+    "sha": "1b52549f80c2",
+    "note": "The camp is Imperial issue: a command tent and three small Imperial tents in a line; the history is backstory the roster scene carries."
+   }
   },
   {
    "id": "promise.the-broke-column.prose-why-occupantsmotive",
@@ -212,7 +215,10 @@
     "path": "places[place.imperial-fringe.the-broke-column].why.pressures"
    },
    "text": "Gideon's governor will not pay to clear them. The toll company's officers would rather use them.",
-   "confirmed": null
+   "confirmed": {
+    "sha": "c6c00533f095",
+    "note": "Pressure on the camp from Gideon and the toll company is quest matter; nothing built contradicts it."
+   }
   },
   {
    "id": "promise.the-broke-column.prose-why-siteadvantages",
@@ -222,7 +228,10 @@
     "path": "places[place.imperial-fringe.the-broke-column].why.siteAdvantages"
    },
    "text": "A bench by a spring-fed tarn in the hills above the Mile House track, out of sight of the Gideon road, with cover uphill.",
-   "confirmed": null
+   "confirmed": {
+    "sha": "1a40819d9fd9",
+    "note": "The site is a spring head by an upland tarn (scour site spring-head-028), 165 m off the nearest route; the tents stand on the bench."
+   }
   },
   {
    "id": "promise.the-broke-column.prose-why-wouldchangeif",
