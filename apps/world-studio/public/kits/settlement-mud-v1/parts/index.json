@@ -3,8 +3,8 @@
  "kit": "settlement-mud-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 19480744,
-  "sha256": "31570402567aa6b9f7ad80132af01b5338099f04a8a886dfd5ef6d07efe42014"
+  "bytes": 20583564,
+  "sha256": "9406a379a6a9f86923e1d8bab425855520f95441baed91f00cb7bb0d9ee12749"
  },
  "totals": {
   "parts": 5,

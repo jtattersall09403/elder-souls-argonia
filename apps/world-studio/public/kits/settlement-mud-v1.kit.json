@@ -6010,6 +6010,225 @@
    "undersideCoverage": 0.185,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.548
+  },
+  {
+   "id": "kotm:argonia/blackwood/signinn",
+   "node": "es|6c7f04934d|kotm__argonia_blackwood_signinn",
+   "category": "misc",
+   "sizeM": [
+    0.248,
+    1.399,
+    1.425
+   ],
+   "originOffsetM": [
+    0.127,
+    1.399,
+    1.305
+   ],
+   "triangles": 428,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "riftencanalwood01.dds",
+    "signinn.dds"
+   ],
+   "materials": [
+    "SignBanneredMare:8.Mat",
+    "SignRTBeeandBarb01:2.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "SignBanneredMare:8.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "policy",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.305,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.305
+  },
+  {
+   "id": "kotm:argonia/blackwood/sign",
+   "node": "es|db97a1e038|kotm__argonia_blackwood_sign",
+   "category": "misc",
+   "sizeM": [
+    0.252,
+    1.399,
+    1.391
+   ],
+   "originOffsetM": [
+    0.11,
+    -0.0,
+    1.272
+   ],
+   "triangles": 760,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bwcs.dds",
+    "riftencanalwood01.dds",
+    "riverwoodblacksmith01.dds"
+   ],
+   "materials": [
+    "Ring01:1.Mat",
+    "Ring02:1.Mat",
+    "Ring03:1.Mat",
+    "Sign:25.Mat",
+    "SignRTBlacksmith01:0.Mat",
+    "SignRTBlacksmith01:1.Mat",
+    "SignRTBlacksmith01:2.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Ring01:1.Mat": 0.498,
+    "Ring02:1.Mat": 0.498,
+    "Ring03:1.Mat": 0.498,
+    "SignRTBlacksmith01:1.Mat": 0.498
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "policy",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.272,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.272
+  },
+  {
+   "id": "vanilla:clutter/signage/whiterun/signwrpost01",
+   "node": "es|537564ae15|a__clutter_signage_whiterun_signwrpost01",
+   "category": "clutter",
+   "sizeM": [
+    0.284,
+    0.271,
+    2.741
+   ],
+   "originOffsetM": [
+    0.142,
+    0.136,
+    -0.0
+   ],
+   "triangles": 188,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "riverwoodblacksmith01.dds",
+    "wrwoodbeam01.dds"
+   ],
+   "materials": [
+    "SignWRPost01:0.Mat",
+    "SignWRPost01:2.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.125,
+     1.206,
+     0.119
+    ],
+    "centreOffsetM": [
+     -0.0,
+     1.371,
+     0.0
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.2481,
+    "p50": 0.3537,
+    "p75": 0.4689,
+    "n": 5,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 8,
+    "interior": {},
+    "exterior": {
+     "town": 8
+    },
+    "sourceCells": [
+     "exterior:town:WhiterunLocation",
+     "exterior:town:WhiterunHonningbrewMeaderyLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "policy",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.173,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-mud-v1.glb",
@@ -6028,14 +6247,17 @@
   "textures/dlc02/architecture/telvannitower/telmushroomdetails01.dds": "textures/argonia/landscape/rivermud.dds",
   "textures/dlc02/architecture/telvannitower/telmushroomdetails01_n.dds": "textures/argonia/landscape/rivermud_n.dds",
   "textures/cubemaps/shinydull.dds": "textures/cubemaps/chitin_e_ebony.dds",
+  "textures/dwarvenmilitary/blackwoodfarm/bwcs.dds": "textures/architecture/riften/riftencanalwood01.dds",
+  "textures/dwarvenmilitary/blackwoodfarm/bwcs_n.dds": "textures/architecture/riften/riftencanalwood01_n.dds",
   "textures/argonia/landscape/riverbottom_n.dds": "textures/actors/dwarven centurion/land dreugh/mud/terrains/riverbottom_n.dds",
   "textures/cubemaps/shinybright_e.dds": "textures/armor/noldorarmormaty743/shinybright_e.dds",
   "textures/dungeons/metalwork01.dds": "textures/architecture/metalwork01.dds",
-  "textures/dungeons/metalwork01_n.dds": "textures/architecture/metalwork01_n.dds"
+  "textures/dungeons/metalwork01_n.dds": "textures/architecture/metalwork01_n.dds",
+  "textures/dwarvenmilitary/blackwoodfarm/signinn.dds": "textures/clutter/signage/riften/signinn40.dds"
  },
  "alphaModes": {
-  "MASK": 39,
-  "OPAQUE": 203,
+  "MASK": 44,
+  "OPAQUE": 209,
   "BLEND": 0
  },
  "trunkSolids": {
@@ -6069,16 +6291,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 42557272,
-  "bytesAfter": 19480744,
-  "images": 74,
-  "imageBytesAfter": 15815954,
+  "bytesBefore": 44540984,
+  "bytesAfter": 20583564,
+  "images": 79,
+  "imageBytesAfter": 16861953,
   "warnings": [],
-  "sha256": "31570402567aa6b9f7ad80132af01b5338099f04a8a886dfd5ef6d07efe42014",
+  "sha256": "9406a379a6a9f86923e1d8bab425855520f95441baed91f00cb7bb0d9ee12749",
+  "parts": {
+   "parts": 5,
+   "partBytes": 61796,
+   "textureFiles": 5,
+   "textureBytes": 1116939,
+   "bytes": 1178735,
+   "sourceSha256": "9406a379a6a9f86923e1d8bab425855520f95441baed91f00cb7bb0d9ee12749"
+  },
   "sidecarBytes": {
-   "connectors": 48109,
-   "footprints": 104670,
-   "interiors": 54688
+   "connectors": 49636,
+   "footprints": 107426,
+   "interiors": 57969
   }
  }
 }

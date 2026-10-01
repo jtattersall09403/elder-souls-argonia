@@ -1,6 +1,7 @@
 """seatFacingRule and socketCoherenceRule (16k walk 8) on synthetic geometry."""
 from types import SimpleNamespace
 
+import numpy as np
 import trimesh
 
 from workbench import dressing_rules as dr
@@ -47,3 +48,9 @@ def test_chair_facing_the_wall_fails_and_turned_away_passes():
     dr._kit_forward.cache_clear()
     cat, scene = _scene(0.0)                           # faces north, away from the wall
     assert dr.seat_facing(cat, scene)["ok"]
+
+
+def test_wall_normal_points_out_of_the_face_toward_the_point():
+    from workbench import snap
+    n, d = snap._wall_normal(_hut(), np.array([0.0, 4.0, 1.0]))   # 1 m north of the north wall
+    assert abs(n[0]) < 1e-6 and abs(n[1] - 1.0) < 1e-6 and abs(d - 1.0) < 1e-6

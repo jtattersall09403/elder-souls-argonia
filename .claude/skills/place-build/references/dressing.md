@@ -49,17 +49,19 @@ only when the roster keeps a work and a home socket for every slot.
 
 ## 3. Signs by use (`serviceSignRule`, R96)
 
-Skyrim hangs a trade's board on a bracket post or a wall bracket beside the
-door, never over the opening. It stands a signpost only at road junctions,
-with one arm per destination. A parcel whose `services` hold `lodging`,
+Skyrim hangs a trade's board on the wall beside the door (a bracket post
+only for the stable), never over the opening, and stands a signpost only at
+road junctions, with one arm per destination. A board with a mined wall pair
+on another building is hung with `wb.py mount <board> <host> --like <that
+building>` (R97). A parcel whose `services` hold `lodging`,
 `trader`, `stable` or `smith` carries its board within 4 m of its walls,
 mounted by the mined pair (`wb.py mount <board> <post>`), wherever the
 place's pool has a published sign family.
 
 | Pool (place id region) | Bracket post | Boards in a kit | Not yet in a kit (vault) |
 |---|---|---|---|
-| `imperial-fringe` (settlement-imperial-v1) | `vanilla:clutter/signage/whiterun/signwrpost01` | `signwrstables01` (stable, mined on the post), `signwrgeneralgoods` (trader, lodging; kitted walk 8, mined only on the `wrhousestores01` wall, not on the post), `signwrdrunkenhuntsman01` (a named inn: not used) | `signwrblacksmith01`, `signwralchemyshop01` |
-| Argonian pools (`hist-heartland`, Murkmire, `dunmer-north` Argonian places) | per the mined pair | KotM `argonia/blackwood/signinn`, `argonia/blackwood/sign` (being kitted walk 8; P-polish backlog "Argonian trade signage") | |
+| `imperial-fringe` (settlement-imperial-v1) | `vanilla:clutter/signage/whiterun/signwrpost01` | `signwrstables01` (stable, mined on the post), `signwrgeneralgoods` (trader, lodging; on the wall by `mount --like` its `wrhousestores01` pair, R97), `signwrdrunkenhuntsman01` (a named inn: not used) | `signwrblacksmith01`, `signwralchemyshop01` |
+| Argonian pools (`hist-heartland`, Murkmire, `dunmer-north` Argonian places) | none mined | KotM `argonia/blackwood/signinn`, `argonia/blackwood/sign` (settlement-mud-v1, walk 8) | KotM's plugin places neither, so no mined pair hangs them: P-polish backlog "Argonian trade signage"; the pool is not in `SIGN_POOLS` until one does |
 | Junction signpost (any pool on a road) | `vanilla:clutter/signage/roadsigns/roadsignpost` (works-v1) | `bmv:roadsign{small,medium,large}01{l,r}` | the vanilla named arms (Skyrim town names; never used) |
 | Dock | `vanilla:architecture/docks/dockcolstrsign01`, `dockcolstrsignrope01` (docks-v1) | as listed | |
 

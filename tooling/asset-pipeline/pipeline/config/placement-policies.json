@@ -516,6 +516,14 @@
    "designedSinkM": 0.1385,
    "why": "Mud Mother Grove hide shelter on poles, 8.2 x 7.0 m and 6.0 m tall; no plugin sink (placed once, off unit scale). Its ground line is the canvas skirt, not the pole feet (16k walk 6, same defect as argoniantent02). Measured on the mesh (wb.py bpy blender/examples/skirt_gap.py; kit frame per 15-degree sector, the outermost vertex within 0.6 m of the lowest): the skirt's highest outer edge stands 0.569 m over the pole feet, 0.4605 m below the pivot; the ground line sits 0.03 m over that edge. floorClass openShelter: 0105 R58: a hide canopy on poles with no floor slab.",
    "floorClass": "openShelter"
+  },
+  "kotm:argonia/blackwood/sign": {
+   "anchorClass": "hanging",
+   "why": "Hanging shop sign: a re-textured vanilla Riften/Whiterun sign (rings and a hinge constraint in the NIF, no post of its own). King of the Murkmire's plugin places it nowhere, so the mounts vote is 'unplaced'; vanilla hangs every such sign from the bracket post signwrpost01 (kit-mounts-mined pairs signwrpost01 -> signwr*, 2.39 m up), which this kit carries."
+  },
+  "kotm:argonia/blackwood/signinn": {
+   "anchorClass": "hanging",
+   "why": "Hanging shop sign: a re-textured vanilla Riften/Whiterun sign (rings and a hinge constraint in the NIF, no post of its own). King of the Murkmire's plugin places it nowhere, so the mounts vote is 'unplaced'; vanilla hangs every such sign from the bracket post signwrpost01 (kit-mounts-mined pairs signwrpost01 -> signwr*, 2.39 m up), which this kit carries."
   }
  },
  "piledDecks": {

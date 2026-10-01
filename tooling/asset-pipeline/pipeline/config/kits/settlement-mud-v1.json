@@ -27,7 +27,9 @@
   "textures/dlc02/architecture/ravenrock/dlc2rrbuildings02_n.dds": "textures/dungeons/rottingwood01_n.dds",
   "textures/dlc02/architecture/telvannitower/telmushroomdetails01.dds": "textures/argonia/landscape/rivermud.dds",
   "textures/dlc02/architecture/telvannitower/telmushroomdetails01_n.dds": "textures/argonia/landscape/rivermud_n.dds",
-  "textures/cubemaps/shinydull.dds": "textures/cubemaps/chitin_e_ebony.dds"
+  "textures/cubemaps/shinydull.dds": "textures/cubemaps/chitin_e_ebony.dds",
+  "textures/dwarvenmilitary/blackwoodfarm/bwcs.dds": "textures/architecture/riften/riftencanalwood01.dds",
+  "textures/dwarvenmilitary/blackwoodfarm/bwcs_n.dds": "textures/architecture/riften/riftencanalwood01_n.dds"
  },
  "texturesMissingAccepted": {
   "textures/creationclub/bgssse025/clutter/amber_n.dds": "Creation Club archive absent from the vault; KotM ships no normal map for its amber stand-in vakkastone_d, and a missing normal renders the window pane flat, which is what a pane is",
@@ -554,6 +556,16 @@
   },
   {
    "asset": "kotm:argonia/mudhuts/overhang03"
+  },
+  {
+   "asset": "kotm:argonia/blackwood/signinn"
+  },
+  {
+   "asset": "kotm:argonia/blackwood/sign"
+  },
+  {
+   "asset": "vanilla:clutter/signage/whiterun/signwrpost01",
+   "collision": "convex"
   }
  ]
 }

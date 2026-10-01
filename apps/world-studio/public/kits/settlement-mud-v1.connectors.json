@@ -922,6 +922,54 @@
     "widthM": 0.33
    }
   ],
+  "kotm:argonia/blackwood/sign": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.39,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -1.4
+    ],
+    "widthM": 0.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.39,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     -0.0
+    ],
+    "widthM": 0.25
+   }
+  ],
+  "kotm:argonia/blackwood/signinn": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.42,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     0.0
+    ],
+    "widthM": 0.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.42,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     1.4
+    ],
+    "widthM": 0.25
+   }
+  ],
   "kotm:argonia/mudhuts/door01": [
    {
     "evidence": "bounds",
@@ -2915,11 +2963,57 @@
     ],
     "widthM": 1.47
    }
+  ],
+  "vanilla:clutter/signage/whiterun/signwrpost01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.74,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.14
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.74,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.14,
+     0.0
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.74,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.14
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.74,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.14,
+     0.0
+    ],
+    "widthM": 0.28
+   }
   ]
  },
  "counts": {
-  "assets": 69,
-  "bounds": 250,
+  "assets": 72,
+  "bounds": 258,
   "co-placement": 2
  },
  "elongationRatio": 2.0,

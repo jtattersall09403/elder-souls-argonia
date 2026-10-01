@@ -485,6 +485,11 @@ def cmd_mount(a, scene, cat):
         got["pose"] = {"x": child.x, "z": child.z, "yaw": child.yaw, "y": child.y}
         got["contact"] = measure.contact(cat, child, parent)
         return got
+    if getattr(a, "like", None):
+        got = snap.like_wall_mount(cat, scene, child, parent, a.like)
+        got["pose"] = {"x": child.x, "z": child.z, "yaw": child.yaw, "y": child.y}
+        got["contact"] = measure.contact(cat, child, parent)
+        return got
     wall = bool(getattr(a, "wall", False))
     if wall and snap.mount_pairs(child.asset, parent.asset):
         raise ValueError(f"mount --wall is for an unmined child: a mined pair hangs "
@@ -1636,6 +1641,10 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--yaw", type=float, default=None,
                    help="world yaw for a pair recorded yawBy: designer (a road board: height "
                         "and face mined, the bearing is the road's)")
+    s.add_argument("--like", default=None, metavar="MINED_PARENT_ASSET",
+                   help="R97: hang the child on the parent's wall face nearest where it is "
+                        "placed by its mined WALL pair on MINED_PARENT_ASSET (offset off the "
+                        "wall, height and yaw to the wall measured on that mesh)")
     s.add_argument("--wall", action="store_true",
                    help="with --unmined: hang the child on the parent's nearest wall face where "
                         "it is placed (its height kept), not on its top (walk 2 round 4)")

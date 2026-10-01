@@ -482,6 +482,33 @@
    "parent": "st-signpost"
   },
   {
+   "op": "place",
+   "uid": "sh-sign",
+   "asset": "vanilla:clutter/signage/whiterun/signwrgeneralgoods",
+   "at": [
+    319.72,
+    3066.44
+   ],
+   "yaw": 32.0,
+   "settle": true
+  },
+  {
+   "op": "mount",
+   "child": "sh-sign",
+   "parent": "b1",
+   "like": "plugin-static:architecture/whiterun/wrbuildings/wrhousestores01.nif"
+  },
+  {
+   "op": "bind",
+   "uid": "sh-sign",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.station-house",
+   "layer": "clutter",
+   "on": "parent",
+   "evidence": "mined",
+   "host": "b1"
+  },
+  {
    "op": "bind",
    "uid": "st-signpost",
    "kind": "assembly",

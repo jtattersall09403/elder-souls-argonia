@@ -442,6 +442,25 @@
             "layer": "clutter",
             "evidence": "measured",
             "yMeasured": 37.5556
+          },
+          {
+            "id": "sh-sign",
+            "asset": "vanilla:clutter/signage/whiterun/signwrgeneralgoods",
+            "atM": [
+              -4.0036,
+              4.623
+            ],
+            "yaw": 177.118,
+            "on": "parent",
+            "layer": "clutter",
+            "evidence": "mined",
+            "mountPair": {
+              "kind": "like",
+              "mountedOn": "b1",
+              "n": 1,
+              "like": "plugin-static:architecture/whiterun/wrbuildings/wrhousestores01.nif"
+            },
+            "upM": 2.2811
           }
         ],
         "footprint": [
@@ -4963,12 +4982,12 @@
         "htbm-hut-int": "ea80ddee9fb3d16de90ae60647f316d6ec10d9891f703684dce693dbae21c8ef",
         "mudmother-hut-int": "9d84ead19358aec0f2065cac9eb0a93165154097d5a9efb6a2a900024d3e6fcb",
         "settlement-imperial-v1": "fc5c087017a7ef44152771e94c03624877006ef37849dcab7b2ed36341833ec8",
-        "settlement-mud-v1": "f69e109f5efc120cd85ab9492b25a04b027afbb1e2c6e6ef29c69bf2ef95fcfd",
+        "settlement-mud-v1": "009ec8149d2879fd7c5bc2ba008eb8ecac5efc61e4d89caec2334dd2d3ffae4c",
         "works-v1": "92f4eb48eadda959ceb0f7f978b2a02e2596e9ff366c0b9dc9ed5bdff207f0de"
       },
       "layout": {
         "path": "world/sources/blueprints/claywater-station.layout.json",
-        "sha256": "528d1ec1542f4bc712de2eedfc57ac6c9270e55d1183a8c724cf8763637f6270"
+        "sha256": "0b8da80604796fe1f7a58b32bd714798dfd26acc3eda078e2889bcdc278a2e67"
       }
     },
     "walkRoutes": {

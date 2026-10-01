@@ -1748,8 +1748,8 @@ ASSEMBLY_KEYS = frozenset({"id", "asset", "atM", "upM", "yaw", "pitch", "on", "l
 #: workbench export's `mount_pair`): the mined band or points pair it hangs
 #: by (`n`), the mined yard set it came from (`yardSet`), or an unmined
 #: mount and the render round that approved it (`unmined`).
-MOUNT_PAIR_KINDS = {"band": "n", "points": "n", "mined": "yardSet", "unmined": "unmined"}
-MOUNT_PAIR_KEYS = frozenset({"kind", "mountedOn", "n", "yardSet", "unmined"})
+MOUNT_PAIR_KINDS = {"band": "n", "points": "n", "mined": "yardSet", "unmined": "unmined", "like": "like"}
+MOUNT_PAIR_KEYS = frozenset({"kind", "mountedOn", "n", "yardSet", "unmined", "like"})
 UNMINED_APPROVAL = re.compile(r"^reader-approved r[0-9]+$")
 ASSEMBLY_ID = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 
@@ -1887,6 +1887,9 @@ def mount_pair_failures(pair) -> list[str]:
     if kind == "unmined":
         if not (isinstance(pair.get("unmined"), str) and UNMINED_APPROVAL.match(pair["unmined"])):
             out.append("unmined must name its approving render round ('reader-approved rN')")
+    elif kind == "like":
+        if not (isinstance(pair.get("like"), str) and pair["like"]):
+            out.append("a like mount names the mined pair's parent asset it borrows (R97)")
     elif kind == "mined":
         if not (isinstance(pair.get("yardSet"), str) and pair["yardSet"]):
             out.append("a mined yard-set mount names its yardSet")
