@@ -1,6 +1,6 @@
 {
   "id": "interior-kotm-v1",
-  "description": "Tier A interior kit for King of the Murkmire cells (decision 0103 decision 3): the interior shells, furniture, containers, clutter, carried items and light-bearing meshes that the two Keeba pod-house cells reference and that no other published kit already holds. The set is read from the cells themselves by `worldgen.export_interior_bundle` (every `no-kit-asset` gap of the cell), never picked by name. Cells: King of the Murkmire.esp KeebaHouseFisher, KeebaHouseCrafter and KeebaHouseSnailMinder, the cells linked to the smpodext02 pod (interiors round 7; SnailMinder and Crafter gaps added walk 2). A later claim adds its gaps here and rebuilds. Stand-ins: the same-class vault pieces that draw a cell's missing Creation Club clutter (kit-interiors/substitutions, planner ruling 2026-09-27). Walk 3 lane L14 (2026-09-28): the King of the Murkmire gaps of every linked Murkmire cell whose only acceptance failure was a missing mesh were added (interior shells, furniture, clutter, and the trees the RootWhisper huts are built around), read from the cells as above.",
+  "description": "Tier A interior kit for King of the Murkmire cells (decision 0103 decision 3): the interior shells, furniture, containers, clutter, carried items and light-bearing meshes that the two Keeba pod-house cells reference and that no other published kit already holds. The set is read from the cells themselves by `worldgen.export_interior_bundle` (every `no-kit-asset` gap of the cell), never picked by name. Cells: King of the Murkmire.esp KeebaHouseFisher, KeebaHouseCrafter and KeebaHouseSnailMinder, the cells linked to the smpodext02 pod (interiors round 7; SnailMinder and Crafter gaps added walk 2). A later claim adds its gaps here and rebuilds. Stand-ins: the same-class vault pieces that draw a cell's missing Creation Club clutter (kit-interiors/substitutions, planner ruling 2026-09-27). Walk 3 lane L14 (2026-09-28): the King of the Murkmire gaps of every linked Murkmire cell whose only acceptance failure was a missing mesh were added (interior shells, furniture, clutter, and the trees the RootWhisper huts are built around), read from the cells as above. 16k walk 9 type-5 slice: the gaps of MugsumpHollowInt01 (the cave King of the Murkmire links to its rockcaveentrance02 root mouth, whose exterior pieces are settlement-root-v1's: vanilla green-cave largeroom/largehall walls, mine pillars, Nordic vine floors, KotM stalactites, Hist roots and undergrowth, the bones settlement-root-v1 does not already hold: its lair-threshold set of rib cage, arm, leg, spine, bloody ribs and bone and the Argonian skull is the one copy both the cell and the place draw), read from the cell as above; the four Creation Club root clusters and four resource-pack cliffs it also references are absent from the vault and stay listed drops; its two tropicalplant01 refs resolve to the darkwater pool, which the kit builder does not source, so King of the Murkmire's own copy of the same mesh is kitted and the exporter takes it.",
   "culture": "argonian",
   "output": "tooling/asset-pipeline/output/kits/interior-kotm-v1.glb",
   "lodRatios": [
@@ -618,9 +618,159 @@
     },
     {
       "asset": "kotm:skinwalker21 creatures/sabrecat/megalania/skyrim/megalaniascales"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largehall/caveglhallentrance03"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largehall/caveglhallramp01"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largehall/caveglhall1way01"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largeroom/caveglroomdoorl03"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner03"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largeroom/caveglroomwall03"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner02c"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largeroom/caveglroomwall02"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner01"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largeroom/caveglroomincorner02"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largeroom/caveglroomwall02c"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largeroom/caveglroomwall01"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner04"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largeroom/caveglroomwall04c"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largeroom/caveglroomincorner04"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/largeroom/caveglroommid01"
+    },
+    {
+      "asset": "vanilla:landscape/dirtcliffs/dirtcliffsisland01"
+    },
+    {
+      "asset": "vanilla:landscape/volcanic/volcanicplateau02"
+    },
+    {
+      "asset": "vanilla:dungeons/mines/cavepillars/mineclpillar02"
+    },
+    {
+      "asset": "vanilla:dungeons/mines/cavepillars/mineclpillar04"
+    },
+    {
+      "asset": "vanilla:dungeons/mines/cavepillars/mineclpillar06"
+    },
+    {
+      "asset": "vanilla:dungeons/mines/cavepillars/mineclpillar03"
+    },
+    {
+      "asset": "vanilla:dungeons/mines/cavepillars/mineclpillar05"
+    },
+    {
+      "asset": "kotm:argonia/stalactites/stal6"
+    },
+    {
+      "asset": "kotm:argonia/stalactites/stal2"
+    },
+    {
+      "asset": "kotm:argonia/stalactites/stal3"
+    },
+    {
+      "asset": "kotm:argonia/stalactites/stal5"
+    },
+    {
+      "asset": "kotm:argonia/stalactites/stal7"
+    },
+    {
+      "asset": "vanilla:dungeons/caves/green/dirtmound/cavegdirtmound03"
+    },
+    {
+      "asset": "kotm:argonia/trees/greguire/swampplant08a"
+    },
+    {
+      "asset": "kotm:argonia/trees/greguire/swampplant08"
+    },
+    {
+      "asset": "kotm:plants/tamira/new plants/tropicalshrub05"
+    },
+    {
+      "asset": "kotm:plants/tamira/new plants/tropicalshrub03"
+    },
+    {
+      "asset": "kotm:plants/tamira/new plants/tropicalplant01"
+    },
+    {
+      "asset": "vanilla:plants/florahangingmoss02"
+    },
+    {
+      "asset": "vanilla:plants/florahangingmoss01"
+    },
+    {
+      "asset": "kotm:argonia/trees/greguire/junglelogmossflat01"
+    },
+    {
+      "asset": "vanilla:dungeons/nordic/rubble/norvinefloor01nocol"
+    },
+    {
+      "asset": "vanilla:dungeons/nordic/rubble/norvinefloor02nocol"
+    },
+    {
+      "asset": "kotm:argonia/trees/hist trees/hist_root03"
+    },
+    {
+      "asset": "kotm:argonia/trees/hist trees/hist_root04"
+    },
+    {
+      "asset": "kotm:argonia/trees/hist trees/hist_rootanim"
+    },
+    {
+      "asset": "kotm:argonia/trees/hist trees/hist_root05"
+    },
+    {
+      "asset": "vanilla:clutter/bones/humanfootleft"
+    },
+    {
+      "asset": "vanilla:clutter/bones/humanhandleft"
+    },
+    {
+      "asset": "vanilla:clutter/bones/humanlegright"
+    },
+    {
+      "asset": "vanilla:clutter/bones/bloodyleg"
+    },
+    {
+      "asset": "vanilla:clutter/bones/bloodyskull"
+    },
+    {
+      "asset": "vanilla:clutter/bones/bloodyarm"
+    },
+    {
+      "asset": "vanilla:clutter/bones/bloodyhand"
     }
   ],
-  "textureNote": "Aliases copy settlement-mud-v1's rows for the same archive-absent Creation Club, resource-pack and Dragonborn textures; desertcracked02 takes its desertcracked01 sibling's stand-in. boneflute01 is left out: its only diffuse is a Creation Club weapon texture (bgssse001 fangofhaynekhtnamet) absent from the vault, so the flute stays a named no-kit-asset gap in the bundle. Walk 3 lane L14: telwoodendoor01 (the Hist trunk's bark) takes dungeon-root-v1's stand-in; 22 more pieces the Murkmire cells reference are left out on the boneflute's rule, each because a diffuse it needs sits only in an archive the vault lacks (Creation Club bgssse001/bgssse037/bgssse025 fish, rods, weapons and ingredients; the AE _ResourcePack palm, snow-gum and willow trees; _byoh food; Dragonborn dlc2darkelffurniture01 and telinsideblob01; a Curse of Immortals turtle shell): boneflute01, doll_turtle, marshmerrowstew, saltricenoodles, crateopen01, ctq_treepalm03-05, jungletree04-06, histgland03, rainforesttree02, willow03-04, argonianspearsquiver, the three mounted fish, redwort01, argbonedagger, argknife. Walk 5: the AE _ResourcePack baldcypressbark01_d (the rustic furniture and firewood) exists in the vault only as King of the Murkmire's own 256 px LOD copy under textures/lod/ (pixel std 13-15 of 255, still a bark picture); the alias names that copy explicitly, since the stem fallback no longer takes a LOD texture. Walk 6: the AE _ResourcePack ceramic01teal_d (the Lilmoth shells' inner walls) is a Creation Club archive that the vault lacks. KotM's LOD copy of it is a flat swatch (pixel std 3 of 255: the owner saw flat green walls), so it takes vanilla Solitude's interior stucco wall sstuccowallint01, a full-resolution plastered inner wall.",
+  "textureNote": "Aliases copy settlement-mud-v1's rows for the same archive-absent Creation Club, resource-pack and Dragonborn textures; desertcracked02 takes its desertcracked01 sibling's stand-in. boneflute01 is left out: its only diffuse is a Creation Club weapon texture (bgssse001 fangofhaynekhtnamet) absent from the vault, so the flute stays a named no-kit-asset gap in the bundle. Walk 3 lane L14: telwoodendoor01 (the Hist trunk's bark) takes dungeon-root-v1's stand-in; 22 more pieces the Murkmire cells reference are left out on the boneflute's rule, each because a diffuse it needs sits only in an archive the vault lacks (Creation Club bgssse001/bgssse037/bgssse025 fish, rods, weapons and ingredients; the AE _ResourcePack palm, snow-gum and willow trees; _byoh food; Dragonborn dlc2darkelffurniture01 and telinsideblob01; a Curse of Immortals turtle shell): boneflute01, doll_turtle, marshmerrowstew, saltricenoodles, crateopen01, ctq_treepalm03-05, jungletree04-06, histgland03, rainforesttree02, willow03-04, argonianspearsquiver, the three mounted fish, redwort01, argbonedagger, argknife. Walk 5: the AE _ResourcePack baldcypressbark01_d (the rustic furniture and firewood) exists in the vault only as King of the Murkmire's own 256 px LOD copy under textures/lod/ (pixel std 13-15 of 255, still a bark picture); the alias names that copy explicitly, since the stem fallback no longer takes a LOD texture. Walk 6: the AE _ResourcePack ceramic01teal_d (the Lilmoth shells' inner walls) is a Creation Club archive that the vault lacks. KotM's LOD copy of it is a flat swatch (pixel std 3 of 255: the owner saw flat green walls), so it takes vanilla Solitude's interior stucco wall sstuccowallint01, a full-resolution plastered inner wall. Walk 9 (type-5 slice): the KotM stalactites wear Creation Club's ayleidruins cave08, absent from the vault; vanilla's cave rock wall cavebasewall01, the texture MugsumpHollowInt01's own cave walls wear, stands in at full resolution (KotM's 256 px LOD copy textures/lod/cave08lod read as a LOD stand-in on 2.2-3.0 m stalactites, wb.py audit-interior). undergrowth01-02 stay out on the boneflute's rule (their diffuse is the AE _ResourcePack snowgumbranches01_d).",
   "textureAliases": {
     "textures/_resourcepack/landscape/desertcracked01_d.dds": "textures/argonia/landscape/rivermud.dds",
     "textures/_resourcepack/landscape/desertcracked01_n.dds": "textures/argonia/landscape/rivermud_n.dds",
@@ -632,6 +782,8 @@
     "textures/_resourcepack/landscape/desertcracked02_n.dds": "textures/argonia/landscape/rivermud_n.dds",
     "textures/dlc02/architecture/telvannitower/telwoodendoor01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
     "textures/_resourcepack/_genericmaterials/ceramic/ceramic01teal_d.dds": "textures/architecture/solitude/sstuccowallint01.dds",
-    "textures/_resourcepack/landscape/trees/baldcypressbark01_d.dds": "textures/lod/baldcypressbark01_dlod.dds"
+    "textures/_resourcepack/landscape/trees/baldcypressbark01_d.dds": "textures/lod/baldcypressbark01_dlod.dds",
+    "textures/creationclub/_shared/dungeons/ayleidruins/cave08.dds": "textures/dungeons/caves/cavebasewall01.dds",
+    "textures/creationclub/_shared/dungeons/ayleidruins/cave08_n.dds": "textures/dungeons/caves/cavebasewall01_n.dds"
   }
 }

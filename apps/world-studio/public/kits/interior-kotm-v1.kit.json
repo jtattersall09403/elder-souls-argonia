@@ -2587,6 +2587,13 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 3,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
    "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "placement": {
@@ -4190,6 +4197,9 @@
      "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
     }
    ],
+   "emissiveMaterials": [
+    "GlazedCandles01:6.Mat"
+   ],
    "designedSinkM": {
     "p25": 0.0034,
     "p50": 0.0112,
@@ -4214,10 +4224,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "emissiveMaterials": [
-    "GlazedCandles01:6.Mat"
-   ]
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/ingredients/mudcrabchitin",
@@ -5443,6 +5450,9 @@
     "Puddle02:0.Mat"
    ],
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "Puddle02:0.Mat"
+   ],
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -5472,10 +5482,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.775,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "emissiveMaterials": [
-    "Puddle02:0.Mat"
-   ]
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/blacksmith/blacksmithnovicetongs01",
@@ -5768,6 +5775,10 @@
     "HoneyComb:1.Mat": 0.5
    },
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "HoneyComb:0.Mat",
+    "HoneyComb:1.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.1617,
     "p50": -0.1617,
@@ -5797,11 +5808,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.995,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.162,
-   "emissiveMaterials": [
-    "HoneyComb:0.Mat",
-    "HoneyComb:1.Mat"
-   ]
+   "pivotAboveBaseM": 0.162
   },
   {
    "id": "vanilla:plants/giantlichen01",
@@ -6459,6 +6466,13 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 16,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "placement": {
@@ -6507,6 +6521,9 @@
     "AbgekQuader01:1:0.Mat"
    ],
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "AbgekQuader01:1:0.Mat"
+   ],
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -6531,10 +6548,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 1.272,
-   "emissiveMaterials": [
-    "AbgekQuader01:1:0.Mat"
-   ]
+   "pivotAboveBaseM": 1.272
   },
   {
    "id": "kotm:argonia/blackwood/hausneu01innen",
@@ -6641,6 +6655,13 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
+   "placedScaleMedian": 1.2,
+   "placedScaleEvidence": {
+    "n": 15,
+    "p10": 1.0,
+    "p90": 1.2,
+    "source": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "placement": {
@@ -6698,6 +6719,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.2,
+   "placedScaleEvidence": {
+    "n": 9,
+    "p10": 1.0,
+    "p90": 1.4,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -7240,16 +7268,16 @@
    "node": "es|f9fb4f727c|gonia_blackwood_lumbermill01waterwheel01",
    "category": "misc",
    "sizeM": [
-    7.178,
-    7.434,
+    6.685,
+    7.283,
     7.283
    ],
    "originOffsetM": [
-    -1.913,
-    3.717,
+    -2.134,
+    3.641,
     5.92
    ],
-   "triangles": 3080,
+   "triangles": 1088,
    "lodRatios": [
     0.35,
     0.12
@@ -7257,7 +7285,20 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "Ragdoll_Object02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WheelEmitGeo01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WheelEmitGeoOld01:0",
+     "reason": "hidden"
+    }
+   ],
    "textures": [
     "dryoakpost01.dds",
     "whwoodboards02.dds"
@@ -7271,6 +7312,9 @@
     "SawWaterWheel03:19.Mat": 0.784
    },
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "SawWaterWheel03:19.Mat"
+   ],
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -7278,6 +7322,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 4,
+    "p10": 0.64,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -7293,28 +7344,25 @@
     }
    },
    "undersideClosed": true,
-   "undersideCoverage": 0.699,
+   "undersideCoverage": 0.613,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.92,
-   "emissiveMaterials": [
-    "SawWaterWheel03:19.Mat"
-   ]
+   "pivotAboveBaseM": 5.92
   },
   {
    "id": "kotm:argonia/blackwood/lumbermill01waterwheel02",
    "node": "es|ae26824cd9|gonia_blackwood_lumbermill01waterwheel02",
    "category": "misc",
    "sizeM": [
-    7.178,
-    7.434,
+    6.685,
+    7.283,
     7.283
    ],
    "originOffsetM": [
-    -1.856,
-    3.717,
+    -2.134,
+    3.641,
     5.92
    ],
-   "triangles": 3080,
+   "triangles": 1088,
    "lodRatios": [
     0.35,
     0.12
@@ -7322,7 +7370,20 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "Ragdoll_Object01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WheelEmitGeo02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WheelEmitGeoOld02:0",
+     "reason": "hidden"
+    }
+   ],
    "textures": [
     "dryoakpost01.dds",
     "whwoodboards02.dds"
@@ -7336,6 +7397,9 @@
     "SawWaterWheel02:19.Mat": 0.784
    },
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "SawWaterWheel02:19.Mat"
+   ],
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -7343,6 +7407,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 0.8,
+   "placedScaleEvidence": {
+    "n": 3,
+    "p10": 0.8,
+    "p90": 0.83,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -7358,12 +7429,9 @@
     }
    },
    "undersideClosed": true,
-   "undersideCoverage": 0.699,
+   "undersideCoverage": 0.613,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.92,
-   "emissiveMaterials": [
-    "SawWaterWheel02:19.Mat"
-   ]
+   "pivotAboveBaseM": 5.92
   },
   {
    "id": "kotm:argonia/blackwood/plankwall01a",
@@ -8370,6 +8438,10 @@
     ],
     "evidence": "Skyrim.esm: SolitudeInnFiretDefault is the nearest LIGH ref (< 200 units, same cell) to 9 of 19 townlantern04 refs (next: SolitudeInnFirePlacesShadowDefault 3; none 4); offset is the median of those 9 in the piece's frame, glTF Y-up metres, horizontal agreement 0.49 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
+   "emissiveMaterials": [
+    "yumihari_chouchin_default:1.Mat",
+    "yumihari_chouchin_default:2.Mat"
+   ],
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -8394,11 +8466,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.011,
-   "emissiveMaterials": [
-    "yumihari_chouchin_default:1.Mat",
-    "yumihari_chouchin_default:2.Mat"
-   ]
+   "pivotAboveBaseM": 0.011
   },
   {
    "id": "kotm:argonia/clutter/twigsbundle",
@@ -10289,6 +10357,13 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 11,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "placement": {
@@ -11089,6 +11164,13 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
+   "placedScaleMedian": 1.61,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.61,
+    "p90": 1.61,
+    "source": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "placement": {
@@ -11146,6 +11228,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 6,
+    "p10": 0.81,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -11845,6 +11934,3323 @@
    "undersideCoverage": 0.912,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.013
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largehall/caveglhallentrance03",
+   "node": "es|492cff7ed4|ves_green_largehall_caveglhallentrance03",
+   "category": "dungeon-kit",
+   "sizeM": [
+    23.742,
+    25.811,
+    18.027
+   ],
+   "originOffsetM": [
+    8.989,
+    22.17,
+    1.595
+   ],
+   "triangles": 7357,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseplants01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds",
+    "cavebasewall03.dds",
+    "mountainslab01.dds",
+    "mountainslab02.dds",
+    "rocks01.dds"
+   ],
+   "materials": [
+    "CaveGLHallEntrance03:2.Mat",
+    "CaveGLHallEntrance03:3.Mat",
+    "CaveGLHallEntrance03:4.Mat",
+    "CaveGLHallEntrance03:9.Mat",
+    "L2_Roots02:5.Mat",
+    "L2_Roots02:8.Mat",
+    "RockCaveEntrance07:0.Mat",
+    "RockCaveEntrance07:1.Mat",
+    "RockCaveEntrance07:3.Mat",
+    "RockCaveEntrance07:8.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots02:5.Mat": 0.129,
+    "L2_Roots02:8.Mat": 0.502,
+    "RockCaveEntrance07:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockCaveEntrance07:8.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.595,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.893,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.595
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largehall/caveglhallramp01",
+   "node": "es|9978119e56|s_caves_green_largehall_caveglhallramp01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    6.325,
+    7.322,
+    14.039
+   ],
+   "originOffsetM": [
+    3.038,
+    3.661,
+    -0.114
+   ],
+   "triangles": 3186,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseplants01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds",
+    "cavebasewall03.dds"
+   ],
+   "materials": [
+    "CaveGLHallRamp01:2.Mat",
+    "CaveGLHallRamp01:3.Mat",
+    "CaveGLHallRamp01:4.Mat",
+    "CaveGLHallRamp01:9.Mat",
+    "L2_Roots:5.Mat",
+    "L2_Roots:8.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots:5.Mat": 0.129,
+    "L2_Roots:8.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 17,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.114,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.941,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.114
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largehall/caveglhall1way01",
+   "node": "es|adea28cac5|s_caves_green_largehall_caveglhall1way01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    6.693,
+    7.283,
+    10.654
+   ],
+   "originOffsetM": [
+    3.03,
+    3.641,
+    -0.078
+   ],
+   "triangles": 3711,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseplants01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds",
+    "cavebasewall03.dds"
+   ],
+   "materials": [
+    "CaveGLHall1Way01:2.Mat",
+    "CaveGLHall1Way01:3.Mat",
+    "CaveGLHall1Way01:4.Mat",
+    "CaveGLHall1Way01:9.Mat",
+    "L2_Roots:5.Mat.001",
+    "L2_Roots:8.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots:5.Mat.001": 0.129,
+    "L2_Roots:8.Mat.001": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 6,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.078,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.959,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.078
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largeroom/caveglroomdoorl03",
+   "node": "es|50c9ad94e4|_caves_green_largeroom_caveglroomdoorl03",
+   "category": "dungeon-kit",
+   "sizeM": [
+    7.283,
+    7.283,
+    10.398
+   ],
+   "originOffsetM": [
+    3.641,
+    3.641,
+    -0.114
+   ],
+   "triangles": 2753,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseplants01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds",
+    "cavebasewall03.dds"
+   ],
+   "materials": [
+    "CaveGLRoomDoorL03:2.Mat",
+    "CaveGLRoomDoorL03:3.Mat",
+    "CaveGLRoomDoorL03:4.Mat",
+    "CaveGLRoomDoorL03:9.Mat",
+    "L2_Roots:5.Mat.002",
+    "L2_Roots:8.Mat.002"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots:5.Mat.002": 0.129,
+    "L2_Roots:8.Mat.002": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 3,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.114,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.914,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.114
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner03",
+   "node": "es|47dd081e64|caves_green_largeroom_caveglroomcorner03",
+   "category": "dungeon-kit",
+   "sizeM": [
+    6.755,
+    6.777,
+    9.661
+   ],
+   "originOffsetM": [
+    3.641,
+    3.135,
+    -0.41
+   ],
+   "triangles": 2804,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseplants01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds",
+    "cavebasewall03.dds"
+   ],
+   "materials": [
+    "CaveGLRoomCorner03:2.Mat",
+    "CaveGLRoomCorner03:3.Mat",
+    "CaveGLRoomCorner03:4.Mat",
+    "CaveGLRoomCorner03:9.Mat",
+    "L2_Roots:5.Mat.003",
+    "L2_Roots:8.Mat.003"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots:5.Mat.003": 0.129,
+    "L2_Roots:8.Mat.003": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 5,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.41,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.953,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.41
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largeroom/caveglroomwall03",
+   "node": "es|98388f457b|s_caves_green_largeroom_caveglroomwall03",
+   "category": "dungeon-kit",
+   "sizeM": [
+    7.283,
+    6.774,
+    10.342
+   ],
+   "originOffsetM": [
+    3.641,
+    3.132,
+    -0.001
+   ],
+   "triangles": 2668,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseplants01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds",
+    "cavebasewall03.dds"
+   ],
+   "materials": [
+    "CaveGLRoomWall03:2.Mat",
+    "CaveGLRoomWall03:3.Mat",
+    "CaveGLRoomWall03:4.Mat",
+    "CaveGLRoomWall03:9.Mat",
+    "L2_Roots:5.Mat.004",
+    "L2_Roots:8.Mat.004"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots:5.Mat.004": 0.129,
+    "L2_Roots:8.Mat.004": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 38,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.001,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.967,
+   "openBackYawDeg": 315.0,
+   "pivotAboveBaseM": -0.001
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner02c",
+   "node": "es|503718580e|aves_green_largeroom_caveglroomcorner02c",
+   "category": "dungeon-kit",
+   "sizeM": [
+    10.587,
+    10.705,
+    18.606
+   ],
+   "originOffsetM": [
+    4.196,
+    4.276,
+    -0.264
+   ],
+   "triangles": 2567,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseplants01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds",
+    "cavebasewall03.dds"
+   ],
+   "materials": [
+    "CaveGLRoomCorner02c:2.Mat",
+    "CaveGLRoomCorner02c:3.Mat",
+    "CaveGLRoomCorner02c:4.Mat",
+    "CaveGLRoomCorner02c:9.Mat",
+    "L2_Roots37:5.Mat",
+    "L2_Roots37:8.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots37:5.Mat": 0.129,
+    "L2_Roots37:8.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.264,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.818,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.264
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largeroom/caveglroomwall02",
+   "node": "es|5aeeaaefcb|s_caves_green_largeroom_caveglroomwall02",
+   "category": "dungeon-kit",
+   "sizeM": [
+    6.734,
+    7.283,
+    9.76
+   ],
+   "originOffsetM": [
+    3.092,
+    3.641,
+    -0.358
+   ],
+   "triangles": 2829,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseplants01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds",
+    "cavebasewall03.dds"
+   ],
+   "materials": [
+    "CaveGLRoomWall02:2.Mat",
+    "CaveGLRoomWall02:3.Mat",
+    "CaveGLRoomWall02:4.Mat",
+    "CaveGLRoomWall02:9.Mat",
+    "L2_Roots:5.Mat.005",
+    "L2_Roots:8.Mat.005"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots:5.Mat.005": 0.129,
+    "L2_Roots:8.Mat.005": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 24,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.358,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.998,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.358
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner01",
+   "node": "es|7caa3ececa|caves_green_largeroom_caveglroomcorner01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    6.698,
+    6.506,
+    9.839
+   ],
+   "originOffsetM": [
+    3.057,
+    3.641,
+    -0.394
+   ],
+   "triangles": 2455,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseplants01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds",
+    "cavebasewall03.dds"
+   ],
+   "materials": [
+    "CaveGLRoomCorner01:2.Mat",
+    "CaveGLRoomCorner01:3.Mat",
+    "CaveGLRoomCorner01:4.Mat",
+    "CaveGLRoomCorner01:9.Mat",
+    "L2_Roots:5.Mat.006",
+    "L2_Roots:8.Mat.006"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots:5.Mat.006": 0.129,
+    "L2_Roots:8.Mat.006": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 14,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.394,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.896,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.394
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largeroom/caveglroomincorner02",
+   "node": "es|41e6c40f7f|ves_green_largeroom_caveglroomincorner02",
+   "category": "dungeon-kit",
+   "sizeM": [
+    7.283,
+    7.283,
+    9.831
+   ],
+   "originOffsetM": [
+    3.641,
+    3.641,
+    -0.313
+   ],
+   "triangles": 2145,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseplants01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds",
+    "cavebasewall03.dds"
+   ],
+   "materials": [
+    "CaveGLRoomInCorner02:2.Mat",
+    "CaveGLRoomInCorner02:3.Mat",
+    "CaveGLRoomInCorner02:4.Mat",
+    "CaveGLRoomInCorner02:9.Mat",
+    "L2_Roots:5.Mat.007",
+    "L2_Roots:8.Mat.007"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots:5.Mat.007": 0.129,
+    "L2_Roots:8.Mat.007": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 5,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.313,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.968,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.313
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largeroom/caveglroomwall02c",
+   "node": "es|a25e84109e|_caves_green_largeroom_caveglroomwall02c",
+   "category": "dungeon-kit",
+   "sizeM": [
+    6.954,
+    7.883,
+    13.816
+   ],
+   "originOffsetM": [
+    3.092,
+    4.242,
+    -0.358
+   ],
+   "triangles": 2983,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseplants01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds",
+    "cavebasewall03.dds"
+   ],
+   "materials": [
+    "CaveGLRoomWall02c:2.Mat",
+    "CaveGLRoomWall02c:3.Mat",
+    "CaveGLRoomWall02c:4.Mat",
+    "CaveGLRoomWall02c:9.Mat",
+    "L2_Roots38:5.Mat",
+    "L2_Roots38:8.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots38:5.Mat": 0.129,
+    "L2_Roots38:8.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.358,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.904,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.358
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largeroom/caveglroomwall01",
+   "node": "es|decd11717e|s_caves_green_largeroom_caveglroomwall01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    7.283,
+    6.833,
+    10.09
+   ],
+   "originOffsetM": [
+    3.641,
+    3.641,
+    -0.277
+   ],
+   "triangles": 2769,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseplants01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds",
+    "cavebasewall03.dds"
+   ],
+   "materials": [
+    "CaveGLRoomWall01:2.Mat",
+    "CaveGLRoomWall01:3.Mat",
+    "CaveGLRoomWall01:4.Mat",
+    "CaveGLRoomWall01:9.Mat",
+    "L2_Roots:5.Mat.008",
+    "L2_Roots:8.Mat.008"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots:5.Mat.008": 0.129,
+    "L2_Roots:8.Mat.008": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 27,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.277,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.996,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.277
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner04",
+   "node": "es|0552e7da2f|caves_green_largeroom_caveglroomcorner04",
+   "category": "dungeon-kit",
+   "sizeM": [
+    7.12,
+    6.506,
+    9.804
+   ],
+   "originOffsetM": [
+    3.641,
+    3.641,
+    -0.39
+   ],
+   "triangles": 2505,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseplants01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds",
+    "cavebasewall03.dds"
+   ],
+   "materials": [
+    "CaveGLRoomCorner04:2.Mat",
+    "CaveGLRoomCorner04:3.Mat",
+    "CaveGLRoomCorner04:4.Mat",
+    "CaveGLRoomCorner04:9.Mat",
+    "L2_Roots:5.Mat.009",
+    "L2_Roots:8.Mat.009"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots:5.Mat.009": 0.129,
+    "L2_Roots:8.Mat.009": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 13,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.39,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.964,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.39
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largeroom/caveglroomwall04c",
+   "node": "es|d8feb49f5e|_caves_green_largeroom_caveglroomwall04c",
+   "category": "dungeon-kit",
+   "sizeM": [
+    11.9,
+    11.043,
+    14.579
+   ],
+   "originOffsetM": [
+    3.641,
+    6.508,
+    -0.342
+   ],
+   "triangles": 2930,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseplants01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds",
+    "cavebasewall03.dds"
+   ],
+   "materials": [
+    "CaveGLRoomWall04c:2.Mat",
+    "CaveGLRoomWall04c:3.Mat",
+    "CaveGLRoomWall04c:4.Mat",
+    "CaveGLRoomWall04c:9.Mat",
+    "L2_Roots33:5.Mat",
+    "L2_Roots33:8.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots33:5.Mat": 0.129,
+    "L2_Roots33:8.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.342,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.973,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.342
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largeroom/caveglroomincorner04",
+   "node": "es|d78e7892d4|ves_green_largeroom_caveglroomincorner04",
+   "category": "dungeon-kit",
+   "sizeM": [
+    7.283,
+    7.283,
+    9.981
+   ],
+   "originOffsetM": [
+    3.641,
+    3.641,
+    -0.258
+   ],
+   "triangles": 2052,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseplants01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds",
+    "cavebasewall03.dds"
+   ],
+   "materials": [
+    "CaveGLRoomInCorner04:2.Mat",
+    "CaveGLRoomInCorner04:3.Mat",
+    "CaveGLRoomInCorner04:4.Mat",
+    "CaveGLRoomInCorner04:9.Mat",
+    "L2_Roots:5.Mat.010",
+    "L2_Roots:8.Mat.010"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots:5.Mat.010": 0.129,
+    "L2_Roots:8.Mat.010": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 4,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.258,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.97,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.258
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/largeroom/caveglroommid01",
+   "node": "es|b854c9d995|ns_caves_green_largeroom_caveglroommid01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    7.283,
+    7.283,
+    9.834
+   ],
+   "originOffsetM": [
+    3.641,
+    3.641,
+    -0.313
+   ],
+   "triangles": 1970,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "cavebaseroots01.dds",
+    "cavebasewall01.dds",
+    "cavebasewall02.dds"
+   ],
+   "materials": [
+    "CaveGLRoomMid01:2.Mat",
+    "CaveGLRoomMid01:3.Mat",
+    "CaveGLRoomMid01:4.Mat",
+    "L2_Roots.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots.Mat": 0.129
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 29,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.313,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.313
+  },
+  {
+   "id": "vanilla:landscape/dirtcliffs/dirtcliffsisland01",
+   "node": "es|93c80690a3|_landscape_dirtcliffs_dirtcliffsisland01",
+   "category": "terrain-feature",
+   "sizeM": [
+    18.414,
+    10.671,
+    4.292
+   ],
+   "originOffsetM": [
+    9.039,
+    5.012,
+    0.412
+   ],
+   "triangles": 2656,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "dirtcliffs01.dds",
+    "dirtcliffsroots01.dds",
+    "fieldgrass02.dds"
+   ],
+   "materials": [
+    "DirtCliffsIsland01:0.Mat",
+    "DirtCliffsIsland01:1.Mat",
+    "L2_Roots:4.Mat",
+    "L2_Roots:9.Mat",
+    "Skirt.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Roots:4.Mat": 0.235,
+    "Skirt.Mat": 0.235
+   },
+   "decalMaterials": [
+    "Skirt.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     8.102,
+     1.888,
+     4.695
+    ],
+    "centreOffsetM": [
+     0.168,
+     1.734,
+     -0.324
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.412,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.247,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.412
+  },
+  {
+   "id": "vanilla:landscape/volcanic/volcanicplateau02",
+   "node": "es|82f1fea3b3|la__landscape_volcanic_volcanicplateau02",
+   "category": "terrain-feature",
+   "sizeM": [
+    29.685,
+    22.325,
+    3.866
+   ],
+   "originOffsetM": [
+    14.395,
+    10.824,
+    0.736
+   ],
+   "triangles": 1557,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "dirtcliffs01.dds",
+    "mountainslab02.dds",
+    "volcanictundradirt01.dds",
+    "volcanictundragravel01.dds",
+    "volcanictundrarocks01.dds"
+   ],
+   "materials": [
+    "DecalDirtTrim.Mat",
+    "DecalPebbles.Mat",
+    "L2_Rocks.Mat",
+    "VolcanicPlateau02:0.Mat",
+    "VolcanicPlateau02:6.Mat",
+    "VolcanicRocks.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "DecalDirtTrim.Mat": 0.102,
+    "DecalPebbles.Mat": 0.102,
+    "VolcanicRocks.Mat": 0.098
+   },
+   "decalMaterials": [
+    "DecalDirtTrim.Mat",
+    "DecalPebbles.Mat",
+    "VolcanicRocks.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     13.061,
+     1.701,
+     9.823
+    ],
+    "centreOffsetM": [
+     0.448,
+     1.197,
+     -0.339
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.736,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.018,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.736
+  },
+  {
+   "id": "vanilla:dungeons/mines/cavepillars/mineclpillar02",
+   "node": "es|d020beba63|ungeons_mines_cavepillars_mineclpillar02",
+   "category": "dungeon-kit",
+   "sizeM": [
+    4.664,
+    4.733,
+    11.351
+   ],
+   "originOffsetM": [
+    2.309,
+    2.279,
+    0.102
+   ],
+   "triangles": 721,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minefloordirt01.dds",
+    "minerockwall03.dds",
+    "minerockwall04.dds"
+   ],
+   "materials": [
+    "MineCLPillar02:2.Mat",
+    "MineCLPillar02:3.Mat",
+    "MineCLPillar02:9.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 14,
+    "p10": 1.0,
+    "p90": 1.2,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.102,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.21,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.102
+  },
+  {
+   "id": "vanilla:dungeons/mines/cavepillars/mineclpillar04",
+   "node": "es|13c75c4b33|ungeons_mines_cavepillars_mineclpillar04",
+   "category": "dungeon-kit",
+   "sizeM": [
+    4.165,
+    3.845,
+    10.468
+   ],
+   "originOffsetM": [
+    2.214,
+    1.979,
+    0.165
+   ],
+   "triangles": 781,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minefloordirt01.dds",
+    "minerockwall03.dds",
+    "minerockwall04.dds"
+   ],
+   "materials": [
+    "MineCLPillar04:2.Mat",
+    "MineCLPillar04:3.Mat",
+    "MineCLPillar04:9.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 20,
+    "p10": 1.0,
+    "p90": 1.25,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.165,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.027,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.165
+  },
+  {
+   "id": "vanilla:dungeons/mines/cavepillars/mineclpillar06",
+   "node": "es|f598f2863f|ungeons_mines_cavepillars_mineclpillar06",
+   "category": "dungeon-kit",
+   "sizeM": [
+    1.973,
+    1.973,
+    10.572
+   ],
+   "originOffsetM": [
+    0.971,
+    0.971,
+    0.04
+   ],
+   "triangles": 784,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minefloordirt01.dds",
+    "minerockwall03.dds",
+    "minerockwall04.dds"
+   ],
+   "materials": [
+    "MineCLPillar06:2.Mat",
+    "MineCLPillar06:3.Mat",
+    "MineCLPillar06:9.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.04,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.061,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.04
+  },
+  {
+   "id": "vanilla:dungeons/mines/cavepillars/mineclpillar03",
+   "node": "es|e7bea3af11|ungeons_mines_cavepillars_mineclpillar03",
+   "category": "dungeon-kit",
+   "sizeM": [
+    5.748,
+    5.827,
+    10.102
+   ],
+   "originOffsetM": [
+    2.813,
+    2.912,
+    0.308
+   ],
+   "triangles": 1848,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minefloordirt01.dds",
+    "minerockwall03.dds",
+    "minerockwall04.dds"
+   ],
+   "materials": [
+    "MineCLPillar03:2.Mat",
+    "MineCLPillar03:3.Mat",
+    "MineCLPillar03:9.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 16,
+    "p10": 1.0,
+    "p90": 1.27,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.308,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.101,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.308
+  },
+  {
+   "id": "vanilla:dungeons/mines/cavepillars/mineclpillar05",
+   "node": "es|8ec3e527b6|ungeons_mines_cavepillars_mineclpillar05",
+   "category": "dungeon-kit",
+   "sizeM": [
+    3.209,
+    3.209,
+    11.186
+   ],
+   "originOffsetM": [
+    1.668,
+    1.668,
+    0.048
+   ],
+   "triangles": 772,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minefloordirt01.dds",
+    "minerockwall03.dds",
+    "minerockwall04.dds"
+   ],
+   "materials": [
+    "MineCLPillar05:2.Mat",
+    "MineCLPillar05:3.Mat",
+    "MineCLPillar05:9.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 16,
+    "p10": 0.91,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.048,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.106,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.048
+  },
+  {
+   "id": "kotm:argonia/stalactites/stal6",
+   "node": "es|3fcab85277|kotm__argonia_stalactites_stal6",
+   "category": "misc",
+   "sizeM": [
+    0.931,
+    0.954,
+    2.438
+   ],
+   "originOffsetM": [
+    0.409,
+    0.477,
+    0.033
+   ],
+   "triangles": 187,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "cave08.dds"
+   ],
+   "materials": [
+    "polySurface4.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.033,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.021,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.033
+  },
+  {
+   "id": "kotm:argonia/stalactites/stal2",
+   "node": "es|b6ae9530ca|kotm__argonia_stalactites_stal2",
+   "category": "misc",
+   "sizeM": [
+    0.73,
+    0.74,
+    1.191
+   ],
+   "originOffsetM": [
+    0.354,
+    0.37,
+    0.034
+   ],
+   "triangles": 132,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "cave08.dds"
+   ],
+   "materials": [
+    "polySurface2.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.034,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.022,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.034
+  },
+  {
+   "id": "kotm:argonia/stalactites/stal3",
+   "node": "es|b34ee42515|kotm__argonia_stalactites_stal3",
+   "category": "misc",
+   "sizeM": [
+    0.877,
+    0.862,
+    1.592
+   ],
+   "originOffsetM": [
+    0.416,
+    0.431,
+    0.033
+   ],
+   "triangles": 122,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "cave08.dds"
+   ],
+   "materials": [
+    "polySurface6.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.033,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.033
+  },
+  {
+   "id": "kotm:argonia/stalactites/stal5",
+   "node": "es|703051962b|kotm__argonia_stalactites_stal5",
+   "category": "misc",
+   "sizeM": [
+    0.91,
+    0.887,
+    2.191
+   ],
+   "originOffsetM": [
+    0.41,
+    0.443,
+    0.001
+   ],
+   "triangles": 166,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "cave08.dds"
+   ],
+   "materials": [
+    "polySurface1.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.001,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.02,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.001
+  },
+  {
+   "id": "kotm:argonia/stalactites/stal7",
+   "node": "es|3388428196|kotm__argonia_stalactites_stal7",
+   "category": "misc",
+   "sizeM": [
+    0.933,
+    0.946,
+    3.019
+   ],
+   "originOffsetM": [
+    0.399,
+    0.473,
+    0.033
+   ],
+   "triangles": 230,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "cave08.dds"
+   ],
+   "materials": [
+    "polySurface8.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.033,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.029,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.033
+  },
+  {
+   "id": "vanilla:dungeons/caves/green/dirtmound/cavegdirtmound03",
+   "node": "es|5b14f5acfb|s_caves_green_dirtmound_cavegdirtmound03",
+   "category": "dungeon-kit",
+   "sizeM": [
+    6.247,
+    7.441,
+    1.007
+   ],
+   "originOffsetM": [
+    2.892,
+    4.078,
+    0.474
+   ],
+   "triangles": 130,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds"
+   ],
+   "materials": [
+    "CaveGDirtMound03:3.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.474,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.474
+  },
+  {
+   "id": "kotm:argonia/trees/greguire/swampplant08a",
+   "node": "es|2fb2c4a031|tm__argonia_trees_greguire_swampplant08a",
+   "category": "misc",
+   "sizeM": [
+    3.126,
+    3.579,
+    2.471
+   ],
+   "originOffsetM": [
+    1.465,
+    2.045,
+    0.133
+   ],
+   "triangles": 1890,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "da13tendrilvines01.dds",
+    "nightshade01.dds",
+    "tropicalplant01.dds"
+   ],
+   "materials": [
+    "SwampPlant08.001.Mat",
+    "SwampPlant08.002.Mat",
+    "SwampPlant08.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "SwampPlant08.001.Mat": 0.502,
+    "SwampPlant08.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "emissiveMaterials": [
+    "SwampPlant08.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.133,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.019,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.133
+  },
+  {
+   "id": "kotm:argonia/trees/greguire/swampplant08",
+   "node": "es|e5483498b0|otm__argonia_trees_greguire_swampplant08",
+   "category": "misc",
+   "sizeM": [
+    1.629,
+    1.598,
+    1.104
+   ],
+   "originOffsetM": [
+    0.855,
+    0.727,
+    0.009
+   ],
+   "triangles": 620,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "da13tendrilvines01.dds",
+    "nightshade01.dds",
+    "tropicalplant01.dds"
+   ],
+   "materials": [
+    "SwampPlant08:Flowers.Mat",
+    "SwampPlant08:LEaves.Mat",
+    "SwampPlant08:Stem.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "SwampPlant08:Flowers.Mat": 0.502,
+    "SwampPlant08:LEaves.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "emissiveMaterials": [
+    "SwampPlant08:LEaves.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.009,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.006,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.009
+  },
+  {
+   "id": "kotm:plants/tamira/new plants/tropicalshrub05",
+   "node": "es|ce270f2bee|plants_tamira_new plants_tropicalshrub05",
+   "category": "shrub",
+   "sizeM": [
+    2.742,
+    2.751,
+    1.658
+   ],
+   "originOffsetM": [
+    1.361,
+    1.391,
+    0.315
+   ],
+   "triangles": 608,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "tropicalshrub05.dds"
+   ],
+   "materials": [
+    "TropicalShrub01:5.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "TropicalShrub01:5.Mat": 0.314
+   },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.315,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.315
+  },
+  {
+   "id": "kotm:plants/tamira/new plants/tropicalshrub03",
+   "node": "es|001544ead4|plants_tamira_new plants_tropicalshrub03",
+   "category": "shrub",
+   "sizeM": [
+    2.594,
+    2.407,
+    2.763
+   ],
+   "originOffsetM": [
+    1.217,
+    1.19,
+    0.164
+   ],
+   "triangles": 1443,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "tropicalshrub03.dds"
+   ],
+   "materials": [
+    "TropicalShrub01:5.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "TropicalShrub01:5.Mat.001": 0.314
+   },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.164,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.112,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.164
+  },
+  {
+   "id": "kotm:plants/tamira/new plants/tropicalplant01",
+   "node": "es|7fc868d831|plants_tamira_new plants_tropicalplant01",
+   "category": "plant",
+   "sizeM": [
+    2.198,
+    2.128,
+    1.264
+   ],
+   "originOffsetM": [
+    1.056,
+    1.131,
+    0.062
+   ],
+   "triangles": 1152,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "tropicalplant01.dds"
+   ],
+   "materials": [
+    "TropicalPlant01:5.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "TropicalPlant01:5.Mat": 0.502
+   },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.062,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.02,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.062
+  },
+  {
+   "id": "vanilla:plants/florahangingmoss02",
+   "node": "es|1a878791e8|vanilla__plants_florahangingmoss02",
+   "category": "plant",
+   "sizeM": [
+    1.348,
+    0.651,
+    2.606
+   ],
+   "originOffsetM": [
+    0.674,
+    0.322,
+    1.303
+   ],
+   "triangles": 398,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "hangingmoss01.dds"
+   ],
+   "materials": [
+    "L1_FloraHangingMoss02:0 - L2_FloraHangingMoss02:0.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L1_FloraHangingMoss02:0 - L2_FloraHangingMoss02:0.Mat": 0.502
+   },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.303,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.309,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.303
+  },
+  {
+   "id": "vanilla:plants/florahangingmoss01",
+   "node": "es|813116cc28|vanilla__plants_florahangingmoss01",
+   "category": "plant",
+   "sizeM": [
+    1.595,
+    1.417,
+    2.651
+   ],
+   "originOffsetM": [
+    0.816,
+    0.634,
+    1.325
+   ],
+   "triangles": 272,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "hangingmoss01.dds"
+   ],
+   "materials": [
+    "L1_FloraHangingMoss01:0 - L2_FloraHangingMoss01:0.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L1_FloraHangingMoss01:0 - L2_FloraHangingMoss01:0.Mat": 0.502
+   },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.325,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.06,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.325
+  },
+  {
+   "id": "kotm:argonia/trees/greguire/junglelogmossflat01",
+   "node": "es|115454f00f|gonia_trees_greguire_junglelogmossflat01",
+   "category": "misc",
+   "sizeM": [
+    1.499,
+    0.801,
+    1.433
+   ],
+   "originOffsetM": [
+    0.799,
+    0.346,
+    1.306
+   ],
+   "triangles": 160,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "hangingmoss01.dds",
+    "rainforestvine5.dds"
+   ],
+   "materials": [
+    "JungleLogMossFlat01:Moss.Mat",
+    "JungleLogMossFlat01:Vines.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "JungleLogMossFlat01:Moss.Mat": 0.502,
+    "JungleLogMossFlat01:Vines.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.306,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.306
+  },
+  {
+   "id": "vanilla:dungeons/nordic/rubble/norvinefloor01nocol",
+   "node": "es|271d96bcac|ngeons_nordic_rubble_norvinefloor01nocol",
+   "category": "dungeon-kit",
+   "sizeM": [
+    6.736,
+    7.142,
+    0.379
+   ],
+   "originOffsetM": [
+    3.044,
+    3.446,
+    0.228
+   ],
+   "triangles": 2212,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "detailovergrowth01.dds"
+   ],
+   "materials": [
+    "NorVineFloor01NoCol:1.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "NorVineFloor01NoCol:1.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.228,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.791,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.228
+  },
+  {
+   "id": "vanilla:dungeons/nordic/rubble/norvinefloor02nocol",
+   "node": "es|f5b9fcf2dc|ngeons_nordic_rubble_norvinefloor02nocol",
+   "category": "dungeon-kit",
+   "sizeM": [
+    7.142,
+    6.471,
+    0.442
+   ],
+   "originOffsetM": [
+    3.696,
+    2.778,
+    0.228
+   ],
+   "triangles": 1348,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "detailovergrowth01.dds"
+   ],
+   "materials": [
+    "NorVineFloor02NoCol:1.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "NorVineFloor02NoCol:1.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.228,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.107,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.228
+  },
+  {
+   "id": "kotm:argonia/trees/hist trees/hist_root03",
+   "node": "es|01d67f207f|tm__argonia_trees_hist trees_hist_root03",
+   "category": "misc",
+   "sizeM": [
+    2.071,
+    6.517,
+    9.683
+   ],
+   "originOffsetM": [
+    0.84,
+    4.834,
+    1.919
+   ],
+   "triangles": 264,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "crackedbark.dds"
+   ],
+   "materials": [
+    "DLC2TelvanniRoot03:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 21,
+    "p10": 1.0,
+    "p90": 1.21,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.919,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.182,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.919
+  },
+  {
+   "id": "kotm:argonia/trees/hist trees/hist_root04",
+   "node": "es|5383ede82f|tm__argonia_trees_hist trees_hist_root04",
+   "category": "misc",
+   "sizeM": [
+    2.071,
+    7.655,
+    9.728
+   ],
+   "originOffsetM": [
+    0.84,
+    5.973,
+    1.919
+   ],
+   "triangles": 264,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "crackedbark.dds"
+   ],
+   "materials": [
+    "DLC2TelvanniRoot04:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 14,
+    "p10": 0.38,
+    "p90": 1.21,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.919,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.18,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.919
+  },
+  {
+   "id": "kotm:argonia/trees/hist trees/hist_rootanim",
+   "node": "es|f19c2647cb|__argonia_trees_hist trees_hist_rootanim",
+   "category": "misc",
+   "sizeM": [
+    6.999,
+    7.121,
+    4.708
+   ],
+   "originOffsetM": [
+    0.767,
+    6.518,
+    0.05
+   ],
+   "triangles": 666,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "crackedbark.dds"
+   ],
+   "materials": [
+    "WRTempleTree02RootAnim01:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 9,
+    "p10": 1.0,
+    "p90": 1.52,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.05,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.831,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.05
+  },
+  {
+   "id": "kotm:argonia/trees/hist trees/hist_root05",
+   "node": "es|d84c769279|tm__argonia_trees_hist trees_hist_root05",
+   "category": "misc",
+   "sizeM": [
+    6.729,
+    12.561,
+    9.769
+   ],
+   "originOffsetM": [
+    2.651,
+    6.251,
+    4.79
+   ],
+   "triangles": 1103,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "crackedbark.dds"
+   ],
+   "materials": [
+    "DLC2TelvanniRoot01:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 15,
+    "p10": 1.0,
+    "p90": 1.41,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 4.79,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.615,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.79
+  },
+  {
+   "id": "vanilla:clutter/bones/humanfootleft",
+   "node": "es|96b1295d0d|vanilla__clutter_bones_humanfootleft",
+   "category": "clutter",
+   "sizeM": [
+    0.147,
+    0.359,
+    0.115
+   ],
+   "originOffsetM": [
+    0.073,
+    0.18,
+    0.058
+   ],
+   "triangles": 288,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "skeleton.dds"
+   ],
+   "materials": [
+    "LeftFoot:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.058,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.549,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.058
+  },
+  {
+   "id": "vanilla:clutter/bones/humanhandleft",
+   "node": "es|3298c63b74|vanilla__clutter_bones_humanhandleft",
+   "category": "clutter",
+   "sizeM": [
+    0.218,
+    0.314,
+    0.136
+   ],
+   "originOffsetM": [
+    0.128,
+    0.156,
+    0.069
+   ],
+   "triangles": 650,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "skeleton.dds"
+   ],
+   "materials": [
+    "LeftHand:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.069,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.687,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.069
+  },
+  {
+   "id": "vanilla:clutter/bones/humanlegright",
+   "node": "es|d86e3c1fd9|vanilla__clutter_bones_humanlegright",
+   "category": "clutter",
+   "sizeM": [
+    0.174,
+    1.023,
+    0.338
+   ],
+   "originOffsetM": [
+    0.083,
+    0.542,
+    0.249
+   ],
+   "triangles": 398,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "skeleton.dds"
+   ],
+   "materials": [
+    "RightLeg:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.249,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.644,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.249
+  },
+  {
+   "id": "vanilla:clutter/bones/bloodyleg",
+   "node": "es|a523295448|vanilla__clutter_bones_bloodyleg",
+   "category": "clutter",
+   "sizeM": [
+    0.123,
+    0.591,
+    0.131
+   ],
+   "originOffsetM": [
+    0.059,
+    0.297,
+    0.066
+   ],
+   "triangles": 188,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bloodybones.dds"
+   ],
+   "materials": [
+    "BloodyLeg:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.066,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.066
+  },
+  {
+   "id": "vanilla:clutter/bones/bloodyskull",
+   "node": "es|d14d5b726a|vanilla__clutter_bones_bloodyskull",
+   "category": "clutter",
+   "sizeM": [
+    0.18,
+    0.253,
+    0.202
+   ],
+   "originOffsetM": [
+    0.09,
+    0.127,
+    0.101
+   ],
+   "triangles": 690,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bloodybones.dds"
+   ],
+   "materials": [
+    "BloodySkull:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.101,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.893,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.101
+  },
+  {
+   "id": "vanilla:clutter/bones/bloodyarm",
+   "node": "es|00b9dcbd1a|vanilla__clutter_bones_bloodyarm",
+   "category": "clutter",
+   "sizeM": [
+    0.098,
+    0.446,
+    0.116
+   ],
+   "originOffsetM": [
+    0.049,
+    0.223,
+    0.058
+   ],
+   "triangles": 196,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bloodybones.dds"
+   ],
+   "materials": [
+    "BloodyArm:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.058,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.058
+  },
+  {
+   "id": "vanilla:clutter/bones/bloodyhand",
+   "node": "es|b5cf34f97d|vanilla__clutter_bones_bloodyhand",
+   "category": "container",
+   "sizeM": [
+    0.207,
+    0.332,
+    0.112
+   ],
+   "originOffsetM": [
+    0.104,
+    0.166,
+    0.056
+   ],
+   "triangles": 488,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "bloodybones.dds"
+   ],
+   "materials": [
+    "BloodyHand:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.091,
+     0.049,
+     0.146
+    ],
+    "centreOffsetM": [
+     -0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.056,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.664,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.056
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\interior-kotm-v1.glb",
@@ -11869,6 +15275,8 @@
   "textures/dlc02/architecture/telvannitower/telwoodendoor01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
   "textures/_resourcepack/_genericmaterials/ceramic/ceramic01teal_d.dds": "textures/architecture/solitude/sstuccowallint01.dds",
   "textures/_resourcepack/landscape/trees/baldcypressbark01_d.dds": "textures/lod/baldcypressbark01_dlod.dds",
+  "textures/creationclub/_shared/dungeons/ayleidruins/cave08.dds": "textures/dungeons/caves/cavebasewall01.dds",
+  "textures/creationclub/_shared/dungeons/ayleidruins/cave08_n.dds": "textures/dungeons/caves/cavebasewall01_n.dds",
   "textures/clutter/blacksmith/blacksmithnovicehammer01.dds": "textures/mihail monsters and animals/death hound/guar/mount/blacksmithnovicehammer01.dds",
   "textures/clutter/blacksmith/blacksmithnovicehammer01_n.dds": "textures/mihail monsters and animals/death hound/guar/mount/blacksmithnovicehammer01_n.dds",
   "textures/actors/spriggan/spriggan.dds": "textures/actors/frostspriggan/spriggan.dds",
@@ -11894,12 +15302,17 @@
   "textures/landscape/trees/treepineforestcut01.dds": "textures/texturepack/landscape/trees/treepineforestcut01.dds",
   "textures/plants/giantlichen01.dds": "textures/texturepack/plants/giantlichen01.dds",
   "textures/plants/giantlichen01_n.dds": "textures/mihail monsters and animals/dwarven centurion/old god/giantlichen01_n.dds",
+  "textures/plants/hangingmoss01.dds": "textures/texturepack/plants/hangingmoss01.dds",
+  "textures/plants/hangingmoss01_n.dds": "textures/mihail monsters and animals/dwarven centurion/old god/hangingmoss01_n.dds",
+  "textures/plants/nightshade01.dds": "textures/texturepack/plants/nightshade01.dds",
   "textures/white.dds": "textures/mihail monsters and animals/boarriekling/centaur/faces/white.dds",
-  "textures/white_em.dds": "textures/clutter/ingredients/white_em.dds"
+  "textures/white_em.dds": "textures/clutter/ingredients/white_em.dds",
+  "textures/dungeons/caves/cavebaseground01.dds": "textures/landscape/cavebaseground01.dds",
+  "textures/dungeons/caves/cavebaseground01_n.dds": "textures/landscape/cavebaseground01_n.dds"
  },
  "alphaModes": {
-  "MASK": 87,
-  "OPAQUE": 420,
+  "MASK": 137,
+  "OPAQUE": 526,
   "BLEND": 0
  },
  "trunkSolids": {
@@ -11933,24 +15346,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 66812016,
-  "bytesAfter": 13677396,
-  "images": 130,
-  "imageBytesAfter": 6803160,
+  "bytesBefore": 85710592,
+  "bytesAfter": 17300312,
+  "images": 157,
+  "imageBytesAfter": 8870872,
   "warnings": [],
-  "sha256": "ff8040a2b8df9c62cb1f2a45a8c83e2e3ab3844f4df8d7d22a2687ae431c5431",
+  "sha256": "a52491b62dfd086de739fbd0cdff1c95131f5aa61e4fea9ad149f2426b60ea50",
   "parts": {
-   "parts": 121,
-   "partBytes": 2595736,
-   "textureFiles": 91,
-   "textureBytes": 4404407,
-   "bytes": 7000143,
-   "sourceSha256": "ff8040a2b8df9c62cb1f2a45a8c83e2e3ab3844f4df8d7d22a2687ae431c5431"
+   "parts": 146,
+   "partBytes": 3280508,
+   "textureFiles": 105,
+   "textureBytes": 5727813,
+   "bytes": 9008321,
+   "sourceSha256": "a52491b62dfd086de739fbd0cdff1c95131f5aa61e4fea9ad149f2426b60ea50"
   },
   "sidecarBytes": {
-   "connectors": 113353,
-   "footprints": 228201,
-   "interiors": 79504
+   "connectors": 148650,
+   "footprints": 285053,
+   "interiors": 100600
   }
  }
 }
