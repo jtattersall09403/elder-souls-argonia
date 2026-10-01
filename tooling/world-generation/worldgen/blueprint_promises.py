@@ -458,12 +458,15 @@ def check_promises(bp: dict, rec: dict | None = None) -> tuple[list[str], list[s
 def fill_subjects(record: dict | None) -> dict[str, str]:
     """{0104 ledger row id: its subject}: the last bracketed key of the row's
     source path (the catalogue socket id, the service id), which is the
-    subject `socket_promise_errors` names a build-ledger row by."""
+    subject `socket_promise_errors` names a build-ledger row by. A quest
+    provision's key is `quest.provision.<x>` and the build-ledger row is
+    `promise.provision.<x>`, so its subject is `<x>` (Gang Ground, walk 9:
+    a marker filling a STATE provision row never matched)."""
     out = {}
     for row in (record or {}).get("promises", []) or []:
         path = str((row.get("source") or {}).get("path", ""))
         if path.endswith("]") and "[" in path:
-            out[row["id"]] = path[path.rindex("[") + 1:-1]
+            out[row["id"]] = path[path.rindex("[") + 1:-1].removeprefix("quest.provision.")
     return out
 
 

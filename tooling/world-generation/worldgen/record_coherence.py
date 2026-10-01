@@ -398,6 +398,13 @@ def coherence_failures(place_id: str, index: Index, compiled: dict | None = None
                 continue
             if _water_near(rec, water, index):
                 continue
+            # a quest anchored at several places holds each premise feature at one
+            # of them: MQ01's Hist stands at the upriver Hist village, not at the
+            # gang's camp (walk 9); another anchor's own structural ids count
+            if any(any(re.search(rf"(?<![a-z]){t}", _feature_satisfiers(index.places[a], None, index))
+                       for t in toks)
+                   for a in q.get("anchorPlaces") or [] if a != place_id and a in index.places):
+                continue
             fails.append(f"record.coherence: quest {q['id']} premises a {feat} and the record, the "
                          f"build and the water within 3 km have none")
     fails += relation_failures(place_id, index, compiled)

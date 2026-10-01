@@ -256,6 +256,18 @@ def test_a_socket_meets_its_promise_row_only_from_the_rows_parcel_or_by_its_id()
     assert bpr.socket_promise_errors([sock], [{"id": "post.p.keeper", "kind": "marker"}]) == []
 
 
+def test_a_marker_filling_a_provision_row_meets_the_provision_promise():
+    """A STATE provision has no parcel; a marker whose `fills` names the 0104
+    row (source key `quest.provision.<x>`) meets `promise.provision.<x>`."""
+    rec = {"promises": [{"id": "promise.p.provision-camp", "source": {
+        "path": "places[p].questHooks.provisions[quest.provision.camp]"}}]}
+    row = bpr.Promise("promise.provision.camp", "provision", "STATE quest.provision.camp", "s",
+                      "r", socketKinds=["marker"])
+    sock = {"id": "socket.p.scene", "kind": "marker", "fills": ["promise.p.provision-camp"]}
+    assert bpr.socket_promise_errors([row], [sock]) != []
+    assert bpr.socket_promise_errors([row], [sock], bpr.fill_subjects(rec)) == []
+
+
 def test_the_urn_class_fills_by_its_household_default():
     """Planner ruling 1 (16k round 6)."""
     assert VOCAB["containerClasses"]["urn"]["defaultFillRule"] == "blanket.household-urn"

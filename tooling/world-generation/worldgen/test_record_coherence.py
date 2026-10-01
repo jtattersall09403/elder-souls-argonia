@@ -40,6 +40,15 @@ def test_synthetic_between_route_and_feature_fail():
     assert any("names Alderford" in f for f in fails)
 
 
+def test_a_premise_feature_held_by_another_anchor_place_passes():
+    """MQ01 (walk 9): the Hist of the premise stands at the quest's other anchor."""
+    ix = _index("A halt.", "A Hist withdraws over a dead clutch", True)
+    assert any("premises a Hist tree" in f for f in rc.coherence_failures("place.t.home", ix))
+    ix.places["place.t.aaa"]["sockets"] = {"landmark": ["landmark.aaa.the-hist-tree"]}
+    ix.quests[0][1]["anchorPlaces"].append("place.t.aaa")
+    assert not any("premises" in f for f in rc.coherence_failures("place.t.home", ix))
+
+
 def _rel_index(home_rel: dict, other_rel: dict) -> rc.Index:
     home = {"id": "place.t.home", "name": "Homestead", "positionM": [0.0, 0.0], "relations": home_rel,
             "interior": {"entranceCount": 1}}
