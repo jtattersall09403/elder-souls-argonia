@@ -32,40 +32,39 @@ export function recordPassDescriptor(d, texOf) {
   };
 }
 
-const num3 = (v) => (v && ["x", "y", "z"].every((k) => typeof v[k] === "number") ? [v.x, v.y, v.z] : v && ["r", "g", "b"].every((k) => typeof v[k] === "number") ? [v.r, v.g, v.b] : null);
-
-/** diag17 state block: camera matrices, viewport/scissor, drawing buffer, sun uniforms, each with NaN/Inf flags. */
-export function readState(r, camera, scene) {
-  const st = {};
-  if (!camera) st.camera = "unreachable";
-  else {
-    const projectionMatrix = camera.projectionMatrix?.elements ? Array.from(camera.projectionMatrix.elements) : null;
-    const matrixWorldInverse = camera.matrixWorldInverse?.elements ? Array.from(camera.matrixWorldInverse.elements) : null;
-    const vals = [...(projectionMatrix ?? []), ...(matrixWorldInverse ?? []), camera.near, camera.far];
-    st.camera = { projectionMatrix, matrixWorldInverse, near: camera.near, far: camera.far, anyNaN: vals.some(Number.isNaN), anyInf: vals.some((v) => v === Infinity || v === -Infinity) };
-  }
-  try {
-    const vec = () => ({ x: 0, y: 0, z: 0, w: 0, set(a, b, c, d) { this.x = a; this.y = b; this.z = c; this.w = d; return this; }, copy(o) { Object.assign(this, o); return this; } });
-    const flat = (v) => (v ? { x: v.x, y: v.y, w: v.z ?? v.width, h: v.w ?? v.height } : null);
-    st.viewport = r.getViewport ? flat(r.getViewport(vec())) : null;
-    st.scissor = r.getScissor ? flat(r.getScissor(vec())) : null;
-    st.scissorTest = r.getScissorTest ? Boolean(r.getScissorTest()) : null;
-    if (r.getDrawingBufferSize) { const t = { x: 0, y: 0, set(a, b) { this.x = a; this.y = b; return this; }, copy(o) { this.x = o.x; this.y = o.y; return this; } }; const o = r.getDrawingBufferSize(t) ?? t; st.drawingBuffer = { w: o.x ?? o.width, h: o.y ?? o.height }; } else st.drawingBuffer = null;
-  } catch (e) { st.viewportErr = String(e.message ?? e).slice(0, 80); }
-  const sun = {};
-  try {
-    for (const [k, v] of Object.entries(scene?.userData ?? {})) {
-      if (!/sun/i.test(k)) continue;
-      const a = num3(v) ?? num3(v?.value) ?? num3(v?.direction) ?? num3(v?.color);
-      if (a) sun[k] = { value: a, anyNaN: a.some(Number.isNaN), anyInf: a.some((x) => x === Infinity || x === -Infinity) };
-    }
-  } catch {}
-  st.sun = Object.keys(sun).length ? sun : "unreachable";
-  return st;
-}
-
 export function installTargetProbe(win, recordPass) {
   const P = (win.__targetProbe = { passes: [], rts: [], armed: false });
+  const num3 = (v) => (v && ["x", "y", "z"].every((k) => typeof v[k] === "number") ? [v.x, v.y, v.z] : v && ["r", "g", "b"].every((k) => typeof v[k] === "number") ? [v.r, v.g, v.b] : null);
+
+  /** diag17 state block: camera matrices, viewport/scissor, drawing buffer, sun uniforms, each with NaN/Inf flags. */
+  function readState(r, camera, scene) {
+    const st = {};
+    if (!camera) st.camera = "unreachable";
+    else {
+      const projectionMatrix = camera.projectionMatrix?.elements ? Array.from(camera.projectionMatrix.elements) : null;
+      const matrixWorldInverse = camera.matrixWorldInverse?.elements ? Array.from(camera.matrixWorldInverse.elements) : null;
+      const vals = [...(projectionMatrix ?? []), ...(matrixWorldInverse ?? []), camera.near, camera.far];
+      st.camera = { projectionMatrix, matrixWorldInverse, near: camera.near, far: camera.far, anyNaN: vals.some(Number.isNaN), anyInf: vals.some((v) => v === Infinity || v === -Infinity) };
+    }
+    try {
+      const vec = () => ({ x: 0, y: 0, z: 0, w: 0, set(a, b, c, d) { this.x = a; this.y = b; this.z = c; this.w = d; return this; }, copy(o) { Object.assign(this, o); return this; } });
+      const flat = (v) => (v ? { x: v.x, y: v.y, w: v.z ?? v.width, h: v.w ?? v.height } : null);
+      st.viewport = r.getViewport ? flat(r.getViewport(vec())) : null;
+      st.scissor = r.getScissor ? flat(r.getScissor(vec())) : null;
+      st.scissorTest = r.getScissorTest ? Boolean(r.getScissorTest()) : null;
+      if (r.getDrawingBufferSize) { const t = { x: 0, y: 0, set(a, b) { this.x = a; this.y = b; return this; }, copy(o) { this.x = o.x; this.y = o.y; return this; } }; const o = r.getDrawingBufferSize(t) ?? t; st.drawingBuffer = { w: o.x ?? o.width, h: o.y ?? o.height }; } else st.drawingBuffer = null;
+    } catch (e) { st.viewportErr = String(e.message ?? e).slice(0, 80); }
+    const sun = {};
+    try {
+      for (const [k, v] of Object.entries(scene?.userData ?? {})) {
+        if (!/sun/i.test(k)) continue;
+        const a = num3(v) ?? num3(v?.value) ?? num3(v?.direction) ?? num3(v?.color);
+        if (a) sun[k] = { value: a, anyNaN: a.some(Number.isNaN), anyInf: a.some((x) => x === Infinity || x === -Infinity) };
+      }
+    } catch {}
+    st.sun = Object.keys(sun).length ? sun : "unreachable";
+    return st;
+  }
   const texInfo = new WeakMap(), viewTex = new WeakMap(), canvasTex = new WeakSet();
   const info = (t) => texInfo.get(t) ?? { label: t?.label ?? "", format: t?.format, sampleCount: t?.sampleCount, size: [t?.width, t?.height], canvas: canvasTex.has(t) };
   const wrap = (proto, name, make) => { if (proto && typeof proto[name] === "function") proto[name] = make(proto[name]); };
@@ -157,7 +156,7 @@ export function installTargetProbe(win, recordPass) {
     if (typeof renderFn === "function") r.render = renderFn;
     if (typeof renderAsyncFn === "function") r.renderAsync = renderAsyncFn;
     if (typeof isReady0 === "function") pl.isReady = isReady0;
-    const notReadyPipelines = typeof isReady0 === "function" ? { perFrame: nr.count / FRAMES, names: [...nr.names.values()], fields: [...nr.fields] } : { err: "no renderer._pipelines.isReady" };
+    let notReadyPipelines; try { notReadyPipelines = typeof isReady0 === "function" ? { perFrame: nr.count / FRAMES, names: [...nr.names.values()], fields: [...nr.fields] } : { err: "no renderer._pipelines.isReady" }; } catch (e) { notReadyPipelines = { err: String(e.message ?? e).slice(0, 200) }; }
     const exposure = {};
     try { exposure.toneMappingExposure = r.toneMappingExposure ?? null; exposure.toneMapping = r.toneMapping ?? null; exposure.outputColorSpace = r.outputColorSpace ?? null; } catch (e) { exposure.err = String(e.message ?? e); }
     const draws = (t) => (drawsTo.get(t) ?? []).reduce((s, x) => s + x.draws, 0);
@@ -226,9 +225,10 @@ export function installTargetProbe(win, recordPass) {
     const targets = [];
     for (const t of [...fbs, ...all.filter((t) => !fbs.has(t))].slice(0, 16)) targets.push(await read(t));
     let samples = null; try { samples = r.samples ?? r._samples ?? null; } catch {}
-    const queue = q ? { skippedDraws: skipped1 - skipped0, frames: FRAMES, skippedPerFrame: (skipped1 - skipped0) / FRAMES, notReady: q.pending ?? null, timedOut: q.timedOut?.size ?? null } : { err: "no esBuildQueue on the renderer" };
-    const grid = scene && (scene.samples ?? 0) <= 1 ? await sceneGrid(scene) : { skipped: scene ? "multisampled" : "no scene target" };
-    return { backend: r.backend?.isWebGPUBackend ? "webgpu" : "webgl2", rendererSamples: samples, sceneBy, sceneGrid: grid, queue, notReadyPipelines, exposure, state: readState(r, big.camera, big.scene), targets, setRenderTarget: P.rts, passes: P.passes };
+    let queue; try { queue = q ? { skippedDraws: skipped1 - skipped0, frames: FRAMES, skippedPerFrame: (skipped1 - skipped0) / FRAMES, notReady: q.pending ?? null, timedOut: q.timedOut?.size ?? null } : { err: "no esBuildQueue on the renderer" }; } catch (e) { queue = { err: String(e.message ?? e).slice(0, 200) }; }
+    let grid; try { grid = scene && (scene.samples ?? 0) <= 1 ? await sceneGrid(scene) : { skipped: scene ? "multisampled" : "no scene target" }; } catch (e) { grid = { err: String(e.message ?? e).slice(0, 200) }; }
+    let state; try { state = readState(r, big.camera, big.scene); } catch (e) { state = { err: String(e.message ?? e).slice(0, 200) }; }
+    return { backend: r.backend?.isWebGPUBackend ? "webgpu" : "webgl2", rendererSamples: samples, sceneBy, sceneGrid: grid, queue, notReadyPipelines, exposure, state, targets, setRenderTarget: P.rts, passes: P.passes };
   };
 }
 

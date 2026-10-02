@@ -1,5 +1,6 @@
 // node --test tooling/gpu-lane/target-probe.test.mjs
 import { test } from "node:test";
+import vm from "node:vm";
 import assert from "node:assert/strict";
 import { installTargetProbe, recordPassDescriptor, targetsLine } from "./target-probe.mjs";
 
@@ -174,4 +175,32 @@ test("target probe: state block reads the largest render call's camera, viewport
   assert.equal(ok.state.sun.sunDirection.anyNaN, true);
   assert.match(targetsLine(bad), / cam nan Y vp 1280x720$/);
   assert.match(targetsLine(ok), / cam nan N vp 1280x720$/);
+});
+
+// The page runs the STRINGIFIED function (pod-capture.mjs: `(${installTargetProbe})(window, ${recordPassDescriptor})`), so a
+// module-level helper is a ReferenceError there (iter22 readState). Evaluate that exact source in a fresh context.
+function pageCapture(renderer) {
+  const win = { requestAnimationFrame: (f) => setTimeout(f, 0), __RENDERER__: renderer };
+  const ctx = vm.createContext({ window: win, setTimeout, Promise, Number, Math, Object, Array, Boolean, String, Set, Map, WeakMap, WeakSet, Uint8Array, Uint16Array, Uint32Array });
+  vm.runInContext(`(${installTargetProbe})(window, ${recordPassDescriptor});`, ctx);
+  return win.__targetProbe.capture();
+}
+const pageRenderer = (extra = {}) => ({
+  backend: {}, toneMappingExposure: 1, setRenderTarget() {}, render() {}, readRenderTargetPixelsAsync: async () => new Uint8Array(4), getViewport: (v) => v.set(0, 0, 8, 4),
+  getDrawingBufferSize: (t) => t.set(8, 4), ...extra,
+});
+
+test("target probe: the injected page source (fresh vm context) returns every block, state included", async () => {
+  const out = await pageCapture(pageRenderer({ esBuildQueue: { skippedDraws: 0, pending: 0, frameTargets: new Set() } }));
+  for (const k of ["sceneGrid", "state", "notReadyPipelines", "exposure", "queue", "passes"]) assert.ok(k in out, `block ${k}`);
+  assert.equal(out.err, undefined);
+  assert.equal(out.state.camera, "unreachable");
+  assert.deepEqual(JSON.parse(JSON.stringify(out.state.drawingBuffer)), { w: 8, h: 4 }); // cross-realm object
+});
+
+test("target probe: one block throwing records its error and the others still land", async () => {
+  const q = { skippedDraws: 0, frameTargets: new Set(), get pending() { throw new Error("boom"); } };
+  const out = await pageCapture(pageRenderer({ esBuildQueue: q }));
+  assert.match(out.queue.err, /boom/);
+  assert.ok(out.state.drawingBuffer && out.exposure.toneMappingExposure === 1 && out.sceneGrid && out.notReadyPipelines && out.passes);
 });
