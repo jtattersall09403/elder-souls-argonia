@@ -11,8 +11,12 @@ import { createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
 import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
 import { CAMERA_BLOCKING_GROUPS } from "@elder-souls/game-core/camera/cameraCollision";
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
-import { daylightShare, InteriorLoader, solidsAt, type LoadedInterior } from "@elder-souls/game-core/interior/interiorLoader";
+import {
+  colorFromRGB, daylightShare, INTERIOR_AMBIENT_SCALE, interiorAmbientShare, interiorCellLights, InteriorLoader, solidsAt,
+  type LoadedInterior,
+} from "@elder-souls/game-core/interior/interiorLoader";
 import { drawnLightRigOf } from "../sky/lightRig";
+import { compassDirection } from "@elder-souls/game-core/interior/doors";
 import { SharedKtx2Textures } from "@elder-souls/game-core/interior/sharedTextures";
 import { kitPartsDir } from "@elder-souls/game-core/interior/kitParts";
 import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
@@ -27,7 +31,7 @@ import { MAX_VOLUME_LIGHTS, type InteriorFogProfile, type VolumeLight } from "@e
 import { nearestVolumeLights, sunriseSunsetMin } from "@elder-souls/game-core/air/volumetrics/studioSamplers";
 import {
   BEAM_OVER_LAMP, INTERIOR_LIGHT, SKY_FILL_SCALE, WindowBeams, cellCompassOffsetDeg, cellFloorLevels, brightestLampFloor,
-  pluginWindowApertures, windowSkyLight, worldToCellDirection,
+  cellAmbientIrradiance, lampsOverFloors, pluginWindowApertures, windowSkyLight, worldToCellDirection,
 } from "@elder-souls/game-core/air/volumetrics/windowApertures";
 import { moonsAt, sunAt } from "@elder-souls/world-time";
 import { SkyContext } from "../sky/WorldSky";
@@ -87,7 +91,7 @@ export interface InteriorDoorsProbe {
  * through `overlay` (walk 2 D2).
  */
 export function InteriorDoors({
-  baseUrl, controller, doors, groundAt, bodyCentreHeightM, directCellId, onInside, interaction, kitCache,
+  baseUrl, controller, doors, groundAt, bodyCentreHeightM, directCellId, directYawDeg = null, onInside, interaction, kitCache,
   overlay, probeRef, sounds, onShown, fireTier,
 }: {
   baseUrl: string;
@@ -97,6 +101,8 @@ export function InteriorDoors({
   bodyCentreHeightM: number;
   /** `?interior=<cellId>`: open this cell at its arrival marker on load. */
   directCellId: string | null;
+  /** `?yaw=` (compass degrees, the cell's own axes): the facing at that arrival instead of the marker's. */
+  directYawDeg?: number | null;
   /** The host hides the exterior's drawn layers while this is true. */
   onInside: (inside: boolean) => void;
   /** The scene's one arbiter: the door answers `activate` only when it is the focus. */
@@ -318,15 +324,25 @@ export function InteriorDoors({
   const windows = useMemo(() => {
     if (!shown) return null;
     const { group, bundle } = shown.interior;
-    const floorY = bundle.arrivalMarker.positionM[1];
-    const lamps: { intensity: number; heightM: number }[] = [];
-    group.traverse((o) => {
-      const l = o as THREE.PointLight;
-      if (l.isPointLight && o.parent === group) lamps.push({ intensity: l.intensity, heightM: l.position.y - floorY });
-    });
     const apertures = pluginWindowApertures(bundle.cellId);
-    return apertures.length ? { beams: new WindowBeams(apertures, WINDOW_BEAM_LENGTH_M, cellFloorLevels(group)), unit: BEAM_OVER_LAMP * brightestLampFloor(lamps) } : null;
+    if (!apertures.length) return null;
+    // the record lamps live in the fixture light field (0108), not as PointLights under the group
+    const floors = cellFloorLevels(group);
+    const lamps = lampsOverFloors(interiorCellLights(bundle), floors, bundle.arrivalMarker.positionM[1]);
+    return { beams: new WindowBeams(apertures, WINDOW_BEAM_LENGTH_M, floors), unit: BEAM_OVER_LAMP * brightestLampFloor(lamps) };
   }, [shown]);
+  // the cell's own ambient lights its medium (vol10 F7): its cube (or flat colour) at the loader's scale
+  const cellAmbient = useMemo(() => {
+    if (!shown) return null;
+    const { bundle, daylight } = shown.interior;
+    return {
+      cube: bundle.lighting?.ambientCube ?? null, flat: colorFromRGB(bundle.ambient.colorRGB),
+      scale: bundle.ambient.intensity * INTERIOR_AMBIENT_SCALE,
+      hasWindows: daylight.windows.length + daylight.paneMaterials.length > 0, share: 0,
+    };
+  }, [shown]);
+  const ambientIrr = useMemo(() => new THREE.Color(), []);
+  const directFaced = useRef(false);
   const sky = useMemo(() => ({ dir: new THREE.Vector3(0, -1, 0), tint: new THREE.Color(), strength: 0, inFrames: 0 }), []);
   // the outside the cell's air follows (floor mist by dawn and season), refreshed with the sky light
   const climate = useMemo<InteriorClimate>(() => ({ minuteOfDay: 720, sunriseMin: 360, wetSeason: 0.5 }), []);
@@ -352,6 +368,14 @@ export function InteriorDoors({
       transition.openDirect(directCellId, { x: p.x, y: p.y, z: p.z });
     }
     transition.update(Math.min(delta, 0.1), answers);
+    // `?yaw=` at a direct arrival: turned in the tick the transition placed the body, so the camera's
+    // teleport reset (CharacterDriver) lands behind the new facing
+    if (directCellId && directYawDeg !== null && !directFaced.current && transition.cellId === directCellId) {
+      directFaced.current = true;
+      const d = compassDirection(directYawDeg);
+      controller.faceDirection(new THREE.Vector3(d.x, 0, d.z), false);
+      controller.releaseFacing();
+    }
     if (transition.candidate) interaction.offer(transition.candidate);
     if (swing && transition.fade === 0) {
       const p = controller.position(bodyPos);
@@ -367,7 +391,9 @@ export function InteriorDoors({
       // included (interiorLoader InteriorDaylight; WorldSky publishes the rig)
       if (rig) {
         daylightColour.setRGB(rig.sunColor[0], rig.sunColor[1], rig.sunColor[2]);
-        shown.interior.daylight.set(daylightShare(rig.sun.altitude, rig.directFactor), daylightColour);
+        const share = daylightShare(rig.sun.altitude, rig.directFactor);
+        shown.interior.daylight.set(share, daylightColour);
+        if (cellAmbient) cellAmbient.share = share;
       }
     }
     if (shown && environment.current && volumetrics && volumetrics.band !== "off") {
@@ -405,7 +431,9 @@ export function InteriorDoors({
           controller.position(bodyPos), frustum, Math.min(delta, 0.1));
       }
       volumetrics.update({
-        camera: camera as THREE.PerspectiveCamera, timeS: waterTimeS(), sunDir: up, sunIrradiance: dark, skyIrradiance: dark,
+        camera: camera as THREE.PerspectiveCamera, timeS: waterTimeS(), sunDir: up, sunIrradiance: dark,
+        skyIrradiance: cellAmbient ? cellAmbientIrradiance(cellAmbient.cube, cellAmbient.flat, cellAmbient.scale,
+          interiorAmbientShare(cellAmbient.share, cellAmbient.hasWindows), ambientIrr) : dark,
         lights: volLights.current, apertures,
         interior: interiorFogProfile(shown.interior, shown.interior.group.position.y, climate, volumetrics.band,
           INTERIOR_LIGHT, fogProfile),

@@ -34,7 +34,27 @@ export const FROXEL_NEAR_M = 0.5;
 export const MAX_VOLUME_LIGHTS = 16;
 export const MAX_APERTURES = 4;
 const HISTORY_BLEND = 0.9;
-const ALBEDO = 0.95;
+export const ALBEDO = 0.95;
+/** Dust lit inside a window beam (m^-1, vol10 F4): the beam scatters off at least this much medium, so a
+ * shaft shows at window height above a floor mist (Keeba's tops out at 0.35 m). In-scatter only: the
+ * beam adds no extinction (the room's medium keeps its own transmittance). */
+export const BEAM_DUST_PER_M = 0.04;
+/** The inject stage's window-beam phase: an isotropic floor mixed with a forward HG(0.7) lobe. */
+export function beamPhase(cosToEye: number): number {
+  const g = 0.7;
+  const hgv = (1 - g * g) / (4 * Math.PI * Math.pow(1 + g * g - 2 * g * cosToEye, 1.5));
+  return 0.4 / (4 * Math.PI) + 0.6 * hgv;
+}
+/** CPU twin of the inject stage's window-beam in-scatter per metre (radiance/m) for a beam of irradiance
+ * `irradiance` inside its cone, in a medium of extinction `sigmaT`. */
+export function beamInscatterPerM(irradiance: number, sigmaT: number, cosToEye: number): number {
+  return irradiance * beamPhase(cosToEye) * Math.max(sigmaT, BEAM_DUST_PER_M) * ALBEDO;
+}
+/** CPU twin of the inject stage's sky in-scatter per metre indoors (outdoor 0: skyOpen 1; sun straight up,
+ * unshadowed: skyKeep 1): the cell's ambient as `skyIrradiance` scattered by the room's medium. */
+export function interiorSkyInscatterPerM(skyIrradiance: number, sigmaT: number): number {
+  return skyIrradiance * SKY_INSCATTER * sigmaT * ALBEDO;
+}
 /** Sky in-scatter per unit sky irradiance E: a uniform upper-hemisphere sky of radiance E/π seen by an
  * isotropic scatterer gives E/(2π); 0.8/π carries the ground bounce on top. Under the same sky a
  * white Lambert floor reads E/π, so thick fog settles at 0.76 of the floor's radiance, never above it. */
@@ -205,7 +225,7 @@ export class Volumetrics implements VolumetricsSampler {
     prevViewProj: uniform(new THREE.Matrix4()), history: uniform(0),
     sunDir: uniform(new THREE.Vector3(0, 1, 0)), sunIrr: uniform(new THREE.Color(0, 0, 0)), skyIrr: uniform(new THREE.Color(0, 0, 0)),
     canopyHaze: uniform(0), air: uniform(1), haloSigma: uniform(0), haloViewM: uniform(0),
-    mistDepth: uniform(30),
+    mistDepth: uniform(30), mistHeightScale: uniform(1),
     // fog drift (FogDrift uploads, 0..1 texture units): per-octave and per-warp offsets, morph, coverage
     off: [0, 1, 2, 3].map(() => uniform(new THREE.Vector3())), warpOff: [0, 1].map(() => uniform(new THREE.Vector3())),
     phiA: uniform(0), phiB: uniform(0), wfade: uniform(0.5), slow: uniform(0.5),
@@ -379,7 +399,7 @@ export class Volumetrics implements VolumetricsSampler {
     const top = farT.g.add(u.mistDepth).add(nc.mul(4));
     const depth = max(top.sub(farT.g), float(1));
     const hF = max(p.y.sub(farT.g), float(0));
-    const mist = exp(hF.div(depth.mul(MIST_SCALE_SHARE)).negate())
+    const mist = exp(hF.div(depth.mul(MIST_SCALE_SHARE).mul(max(u.mistHeightScale, float(1e-3)))).negate())
       .mul(float(1).sub(smoothstep(top.sub(max(depth.mul(MIST_FADE_SHARE), soft(1.5))), top, p.y)))
       .mul(smoothstep(-1, 1, hAG)).mul(smoothstep(0, 6, top.sub(ground)))
       .mul(this.burn(n, u.cover.x, cov)).mul(moistW).mul(0.05);
@@ -614,7 +634,8 @@ export class Volumetrics implements VolumetricsSampler {
       // window beam keep their own colour)
       const airShare = clamp(this.airDensity(p).div(sigmaT), 0, 1);
       const tint = mix(vec3(1), vec3(0.5, 0.78, 1.4), airShare);
-      const cur = vec4(radiance.mul(tint).add(beam).mul(sigmaT.mul(ALBEDO)), sigmaT).toVar();
+      // the beam lights at least BEAM_DUST_PER_M of dust inside its cone (beamInscatterPerM is the CPU twin)
+      const cur = vec4(radiance.mul(tint).mul(sigmaT).add(beam.mul(max(sigmaT, float(BEAM_DUST_PER_M)))).mul(ALBEDO), sigmaT).toVar();
       If(u.history.greaterThan(0.5), () => {
         const prev = u.prevViewProj.mul(vec4(p, 1));
         const pn = prev.xy.div(prev.w);
@@ -692,6 +713,8 @@ export class Volumetrics implements VolumetricsSampler {
     u.outdoor.value = interior ? 0 : 1;
     this.stepFog(f, r);
     u.mistDepth.value = f.mistDepthM ?? 30;
+    // the region's radiation-mist scale height (fogField mistHeightProfile heightScale, G3 climate profile)
+    u.mistHeightScale.value = r?.heightScale ?? 1;
     u.floorY.value = interior?.floorY ?? 0; u.floorTop.value = interior ? interior.floorY + interior.floorMistTopM : 0;
     u.floorMist.value = interior?.floorMistDensity ?? 0; u.dust.value = interior?.dustDensity ?? 0;
     // steam rise and motes only: real seconds folded at an hour (their textures tile far below it)

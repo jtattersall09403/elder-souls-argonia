@@ -1,7 +1,10 @@
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
-import { readdirSync } from "node:fs";
-import { cellCompassOffsetDeg, cellFloorLevels, clusterFloorLevels, storeyOf, ApertureFader, BEAM_FADE_S, MAX_WINDOW_BEAMS, interiorLightOf, rankApertures, SKY_FILL_SCALE, WindowBeams, brightestLampFloor, pluginWindowApertures, windowSkyLight, worldToCellDirection } from "./windowApertures";
+import { readdirSync, readFileSync } from "node:fs";
+import { cellCompassOffsetDeg, cellFloorLevels, clusterFloorLevels, storeyOf, ApertureFader, BEAM_FADE_S, MAX_WINDOW_BEAMS, interiorLightOf, rankApertures, SKY_FILL_SCALE, WindowBeams, brightestLampFloor, pluginWindowApertures, windowSkyLight, worldToCellDirection, BEAM_OVER_LAMP, lampsOverFloors, cellAmbientIrradiance } from "./windowApertures";
+import { ALBEDO, beamInscatterPerM, interiorSkyInscatterPerM } from "./froxelGrid";
+import { LAMP_HALO, lampPhase } from "./volumetricNodes";
+import { colorFromRGB, INTERIOR_AMBIENT_SCALE, interiorAmbientShare, interiorCellLights } from "../../interior/interiorLoader";
 import interiorLight from "./interiorLight.json";
 
 describe("pluginWindowApertures", () => {
@@ -189,5 +192,38 @@ describe("floor levels", () => {
     const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(6, 6).rotateX(Math.PI / 2), new THREE.MeshBasicMaterial());
     ceiling.position.y = 2.8; g.add(ceiling);
     expect(cellFloorLevels(g)).toEqual([0, 3]);
+  });
+});
+
+describe("vol10 F3/F4/F7: the cell's own light feeds the medium", () => {
+  const bundleOf = (cell: string) => JSON.parse(readFileSync(new URL(
+    `../../../../../apps/world-studio/public/province/interiors/${cell}.json`, import.meta.url), "utf8"));
+  // Keeba's levels: the arrival floor and the hearth's floor (the fire record stands on it, y 83.01)
+  const keeba = bundleOf("KeebaHouseCrafter");
+  const keebaFloors = [83.01, keeba.arrivalMarker.positionM[1]];
+  const keebaUnit = BEAM_OVER_LAMP * brightestLampFloor(lampsOverFloors(interiorCellLights(keeba), keebaFloors, keeba.arrivalMarker.positionM[1]));
+
+  it("F3: the beam unit comes from the record lamps (interiorCellLights), never the pi/4 fallback", () => {
+    // the hearth light (fade 2.738) 0.32 m over the lower floor: pool at 1 m = 2.738 pi
+    expect(keebaUnit).toBeCloseTo(3 * 2.738 * Math.PI, 2);
+    expect(keebaUnit).toBeGreaterThan(3 * Math.PI / 4 * 2);
+  });
+  it("F4: mid-beam in-scatter (sky fill only) is over 2x a lamp halo at the same distance", () => {
+    const dustSigma = 0.005; // Keeba's dust "low"
+    const beam = beamInscatterPerM(keebaUnit * SKY_FILL_SCALE, dustSigma, 0);
+    const lampI = 2.738 * Math.PI, d = 2;
+    const halo = (lampI / (d * d)) * lampPhase(0) * Math.max(dustSigma, LAMP_HALO.high.sigmaFloorPerM) * ALBEDO;
+    expect(beam).toBeGreaterThan(2 * halo);
+  });
+  it("F7: Mugsump's fog scatters its own ambient (radiance > 0 at mid-room), faces read by name", () => {
+    const m = bundleOf("MugsumpHollowInt01");
+    const irr = cellAmbientIrradiance(m.lighting.ambientCube, colorFromRGB(m.ambient.colorRGB),
+      m.ambient.intensity * INTERIOR_AMBIENT_SCALE, interiorAmbientShare(0, false), new THREE.Color());
+    const swapped = { ...m.lighting.ambientCube, py: m.lighting.ambientCube.ny, ny: m.lighting.ambientCube.py };
+    const irr2 = cellAmbientIrradiance(swapped, new THREE.Color(), m.ambient.intensity * INTERIOR_AMBIENT_SCALE, 1, new THREE.Color());
+    expect(irr2.g).toBeCloseTo(irr.g, 9);
+    const midRoom = interiorSkyInscatterPerM(irr.g, 0.01); // dust "medium"
+    expect(midRoom).toBeGreaterThan(0);
+    expect(irr.r).toBeGreaterThan(0.3);
   });
 });

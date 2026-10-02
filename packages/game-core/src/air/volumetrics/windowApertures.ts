@@ -103,6 +103,38 @@ export const FLOOR_CLUSTER_M = 0.3;
 export const FEET_SLOP_M = 0.3;
 
 /**
+ * The cell's record lamps (interiorLoader `interiorCellLights`, held by the
+ * fixture light field since 0108) as brightestLampFloor takes them: each
+ * lamp's height over the floor level under it (`floorsY`, cellFloorLevels,
+ * ascending; FEET_SLOP_M below counts as on it), the lowest level where none
+ * lies under it, `fallbackFloorY` when the cell has no level.
+ */
+export function lampsOverFloors(
+  lights: readonly { position: { y: number }; intensity: number }[], floorsY: readonly number[], fallbackFloorY: number,
+): { intensity: number; heightM: number }[] {
+  return lights.map((l) => {
+    let floor = floorsY.length ? floorsY[0] : fallbackFloorY;
+    for (const y of floorsY) if (y <= l.position.y + FEET_SLOP_M) floor = y;
+    return { intensity: l.intensity, heightM: l.position.y - floor };
+  });
+}
+
+/**
+ * The cell's own ambient as the medium's sky irradiance inside (vol10 F7):
+ * the mean of the six ambient-cube faces (read by name) or the flat ambient
+ * colour, times `scale` (the loader's `ambient.intensity × INTERIOR_AMBIENT_SCALE`)
+ * and `share` (interiorAmbientShare: what InteriorDaylight draws now). Linear rgb into `out`.
+ */
+export function cellAmbientIrradiance(
+  cube: Readonly<Record<"px" | "nx" | "py" | "ny" | "pz" | "nz", readonly number[]>> | null | undefined,
+  flat: THREE.Color, scale: number, share: number, out: THREE.Color,
+): THREE.Color {
+  if (!cube) return out.copy(flat).multiplyScalar(scale * share);
+  const f = (c: number) => (cube.px[c] + cube.nx[c] + cube.py[c] + cube.ny[c] + cube.pz[c] + cube.nz[c]) / 6;
+  return out.setRGB(f(0), f(1), f(2)).multiplyScalar(scale * share);
+}
+
+/**
  * Floor levels from (height, area) samples: samples under FLOOR_MIN_AREA_M2
  * dropped, the rest sorted and chained into clusters whose neighbours lie
  * within FLOOR_CLUSTER_M; each level is its cluster's area-weighted mean. Ascending.

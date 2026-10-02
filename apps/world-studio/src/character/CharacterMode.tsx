@@ -71,6 +71,7 @@ import { PROVINCE_EXTENT_M, TERRAIN_SUPPORT_EXTENT_M } from "../provinceScale";
 import type { SettlementLayerError, SettlementSolid } from "@elder-souls/game-core/settlement/types";
 import { SettlementColliders } from "./SettlementColliders";
 import { InteriorDoors, type InteriorDoorsProbe } from "./InteriorDoors";
+import { parseSpawnYaw, spawnHeadingRad } from "./spawnFacing";
 import { SoundEventBus } from "@elder-souls/audio";
 import { DoorOverlay, createDoorOverlayChannel } from "./doorOverlay";
 import { ScreenOverlay, createScreenOverlayChannel } from "./screenOverlay";
@@ -297,6 +298,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // the shown cell's sockets, for the socket overlay (16k walk 6)
   const [shownCell, setShownCell] = useState<ShownCellSockets | null>(null);
   const directInterior = useMemo(() => new URLSearchParams(window.location.search).get("interior"), []);
+  // `?yaw=` (compass degrees, the fly view's meaning): the spawn facing, outdoors and at `?interior=`
+  const spawnYawDeg = useMemo(() => parseSpawnYaw(new URLSearchParams(window.location.search).get("yaw")), []);
   // Black from the first frame when a cell is opened directly (the fade lifts once it is resident).
   const doorOverlay = useMemo(() => createDoorOverlayChannel(directInterior ? 1 : 0), [directInterior]);
   const screenOverlay = useMemo(() => createScreenOverlayChannel(), []);
@@ -685,6 +688,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               groundAt={settlementGroundAt}
               bodyCentreHeightM={CHARACTER_BODY_CENTER_HEIGHT}
               directCellId={directInterior}
+              directYawDeg={spawnYawDeg}
               onInside={setInsideInterior}
               onShown={setShownCell}
               interaction={interaction}
@@ -712,7 +716,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 of the built ground, and the one line the player gets there. */}
             <BoundaryWalls extentM={terrainExtentM} verticalScale={verticalScale} />
             <BoundaryMessage positionRef={focusRef} extentM={terrainExtentM} onMessage={setEdgeMessage} />
-            <PlayerBody handleRef={player} position={[(spawnNow ?? spawn).x, (spawnNow ?? spawn).y, (spawnNow ?? spawn).z]} rotationY={Math.PI}>
+            <PlayerBody handleRef={player} position={[(spawnNow ?? spawn).x, (spawnNow ?? spawn).y, (spawnNow ?? spawn).z]} rotationY={spawnHeadingRad(spawnYawDeg)}>
               {/* The camera fades this group out when its arm is short
                   (16h check-in 2 item 3); per-mesh hiding stays armour's. */}
               <group ref={playerModelRef}>
@@ -744,6 +748,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               active={collidersReady && renderWarm}
               spawn={spawnNow ?? spawn}
               lastPose={lastPose}
+              spawnHeading={spawnHeadingRad(spawnYawDeg)}
               locomotion={locomotion}
               animationTimeRef={animationTimeRef}
               speedMultiplierRef={speedMultiplierRef}
@@ -1548,7 +1553,7 @@ function BoundaryMessage({ positionRef, extentM, onMessage }: {
   return null;
 }
 
-function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, extentM, onHud, onPositionKm, onWaterContact, playerModelRef, settlementRebuildRef, interaction, interiorProbeRef, bloom }: {
+function CharacterDriver({ handleRef, world, active, spawn, lastPose, spawnHeading, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, extentM, onHud, onPositionKm, onWaterContact, playerModelRef, settlementRebuildRef, interaction, interiorProbeRef, bloom }: {
   handleRef: React.RefObject<EcctrlHandle | null>;
   /** The glow pass, toggled in place by the debug hook's `post` (A/B probes). */
   bloom: BloomPass | null;
@@ -1558,6 +1563,8 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
   spawn: Vec3;
   /** Host-owned live body position, written 4x/s for the GPU-recovery remount. */
   lastPose: React.MutableRefObject<LivePose | null>;
+  /** The spawn heading (spawnHeadingRad of `?yaw=`): the camera starts behind it. */
+  spawnHeading: number;
   locomotion: ExplorerLocomotion;
   animationTimeRef: React.MutableRefObject<number>;
   speedMultiplierRef: React.MutableRefObject<number>;
@@ -1823,7 +1830,7 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
     if (!initialised.current) {
       initialised.current = true;
       lastPosition.current.copy(position);
-      camera3P.reset(visualPos, Math.PI);
+      camera3P.reset(visualPos, spawnHeading);
       // after a GPU-recovery remount the camera keeps the heading it had
       const angles = cameraAnglesOf(lastPose.current);
       if (angles) { camera3P.yaw = angles.yaw; camera3P.pitch = angles.pitch; }

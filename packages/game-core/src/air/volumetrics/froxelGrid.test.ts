@@ -41,6 +41,15 @@ describe("window beam", () => {
     const fs = await import("node:fs");
     const src = fs.readFileSync(new URL("./froxelGrid.ts", import.meta.url), "utf8");
     expect(src).not.toMatch(/sigmaT\.addAssign/);
-    expect(src).toMatch(/radiance\.mul\(tint\)\.add\(beam\)/);
+    expect(src).toMatch(/radiance\.mul\(tint\)\.mul\(sigmaT\)\.add\(beam\.mul\(max\(sigmaT, float\(BEAM_DUST_PER_M\)\)\)\)/);
+  });
+});
+
+describe("G3 region height scale (vol10 F4b)", () => {
+  it("the TSL radiation mist reads the regimes' heightScale uniform", async () => {
+    const fs = await import("node:fs");
+    const src = fs.readFileSync(new URL("./froxelGrid.ts", import.meta.url), "utf8");
+    expect(src).toMatch(/depth\.mul\(MIST_SCALE_SHARE\)\.mul\(max\(u\.mistHeightScale/);
+    expect(src).toMatch(/u\.mistHeightScale\.value = r\?\.heightScale \?\? 1;/);
   });
 });
