@@ -675,12 +675,13 @@ export function Vegetation({
       ? (x: number, z: number) => groundHeightM(store, chunksManifest, x, z)
       : () => null
   ), [store, chunksManifest]);
-  /** The occlusion-mask sweep's ground, in rendered space (O6). */
-  const maskGround = useMemo(() => (
-    chunksManifest
-      ? new FrameGroundSampler(store, chunksManifest, verticalScale)
-      : { dispose: () => {}, sample: () => null }
-  ), [store, chunksManifest, verticalScale]);
+  /** The occlusion-mask sweep's ground, in rendered space (O6). One class
+   * always (empty with no manifest), so the sweep's call site is monomorphic
+   * (diag11 O1). */
+  const maskGround = useMemo(
+    () => new FrameGroundSampler(store, chunksManifest ?? null, verticalScale),
+    [store, chunksManifest, verticalScale],
+  );
   useEffect(() => () => maskGround.dispose(), [maskGround]);
 
   // Per-species build parameters, recomputed only when the kit, the quality
@@ -1134,7 +1135,7 @@ export function Vegetation({
     // Rendered space, like the camera; one grid lookup per chunk, kept across
     // frames (diag10 C3).
     const sweep = mask.sweep(
-      MASK_CELLS_PER_FRAME, eye, maskGround.sample,
+      MASK_CELLS_PER_FRAME, eye, maskGround,
       tallestM, OCCLUSION_MIN_DISTANCE_M,
       occupiedList.current,
     );

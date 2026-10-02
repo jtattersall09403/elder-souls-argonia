@@ -4,6 +4,10 @@
  */
 import { describe, expect, it } from "vitest";
 import { OcclusionMask } from "@elder-souls/game-core/vegetation/occlusionMask";
+import {
+  FunctionTerrainMarcher,
+  occludedByTerrain,
+} from "@elder-souls/game-core/render/terrainOcclusion";
 import type { ChunkStore, ChunksManifest } from "../character/chunkStore";
 import { FrameGroundSampler, groundHeightM } from "./terrainHeight";
 
@@ -47,9 +51,38 @@ describe("FrameGroundSampler", () => {
     for (let z = -20; z < 1050; z += 7.3) {
       for (let x = -20; x < 1050; x += 6.1) {
         const h = groundHeightM(store, manifest, x, z);
-        expect(sampler.sample(x, z)).toBe(h === null ? null : h * 1.25);
+        expect(sampler.heightAt(x, z)).toBe(h === null ? NaN : h * 1.25);
       }
     }
+  });
+
+  it("marches inside itself to the same verdicts as occludedByTerrain (diag11 O1)", () => {
+    const { store, manifest } = fixture();
+    const sampler = new FrameGroundSampler(store, manifest, 1.25);
+    const ground = (x: number, z: number) => {
+      const h = groundHeightM(store, manifest, x, z);
+      return h === null ? null : h * 1.25;
+    };
+    let hidden = 0;
+    let rays = 0;
+    for (const eye of [{ x: 60, y: 30, z: 300 }, { x: 700, y: 5, z: 900 }, { x: 300, y: 80, z: 40 }]) {
+      for (let tz = 10; tz < 1030; tz += 37) {
+        for (let tx = 10; tx < 1030; tx += 41) {
+          const target = { x: tx, y: 10, z: tz };
+          for (const [step, margin] of [[12, 1], [5, 0.5]]) {
+            const old = occludedByTerrain(eye, target, ground, step, margin);
+            expect(sampler.occluded(eye.x, eye.y, eye.z, tx, 10, tz, step, margin)).toBe(old);
+            rays++;
+            if (old) hidden++;
+          }
+        }
+      }
+    }
+    expect(hidden).toBeGreaterThan(rays / 20);
+    expect(hidden).toBeLessThan(rays);
+    const empty = new FrameGroundSampler(store, null);
+    expect(empty.heightAt(100, 100)).toBeNaN();
+    expect(empty.occluded(0, 0, 0, 900, 0, 900, 12, 1)).toBe(false);
   });
 
   it("gives the occlusion sweep identical mask bits with far fewer grid lookups", () => {
@@ -61,13 +94,14 @@ describe("FrameGroundSampler", () => {
     const plain = new OcclusionMask(32, 32);
     plain.anchor(0, 0);
     const l0 = lookups();
-    plain.sweep(1024, eye, (x, z) => groundHeightM(store, manifest, x, z), 10, 120, list);
+    plain.sweep(1024, eye, new FunctionTerrainMarcher((x, z) => groundHeightM(store, manifest, x, z)),
+      10, 120, list);
     const plainLookups = lookups() - l0;
     const cached = new OcclusionMask(32, 32);
     cached.anchor(0, 0);
     const sampler = new FrameGroundSampler(store, manifest);
     const l1 = lookups();
-    cached.sweep(1024, eye, sampler.sample, 10, 120, list);
+    cached.sweep(1024, eye, sampler, 10, 120, list);
     expect(Array.from(cached.data)).toEqual(Array.from(plain.data));
     expect(plain.hiddenCount).toBeGreaterThan(0);
     expect(lookups() - l1).toBeLessThan(plainLookups / 100);

@@ -14,9 +14,8 @@
 import {
   OCCLUSION_CELL_M,
   OCCLUSION_MAX_CANOPY_M,
-  occludedByTerrain,
-  type GroundSampler,
   type OcclusionPoint,
+  type TerrainMarcher,
 } from "../render/terrainOcclusion";
 
 export class OcclusionMask {
@@ -28,8 +27,6 @@ export class OcclusionMask {
   hiddenCount = 0;
 
   private cursor = 0;
-  /** Reused per cell and per sweep (diag9 A2: the sweep runs every frame). */
-  private readonly target: OcclusionPoint = { x: 0, y: 0, z: 0 };
   private readonly result = { evaluated: 0, changed: 0, hidden: 0 };
 
   constructor(
@@ -103,7 +100,9 @@ export class OcclusionMask {
   sweep(
     n: number,
     eye: OcclusionPoint,
-    groundAt: GroundSampler,
+    /** The ray march runs inside it (perf10 diag11 O1): no per-step height
+     * crosses a call boundary. */
+    ground: TerrainMarcher,
     canopyM: number,
     minDistanceM: number,
     occupied: Int32Array,
@@ -129,11 +128,9 @@ export class OcclusionMask {
       const centreZ = (cz + 0.5) * this.cellM;
       let result = false;
       if (Math.hypot(centreX - eye.x, centreZ - eye.z) > minDistanceM) {
-        const ground = groundAt(centreX, centreZ);
-        if (ground !== null) {
-          const target = this.target;
-          target.x = centreX; target.y = ground + canopy; target.z = centreZ;
-          result = occludedByTerrain(eye, target, groundAt);
+        const h = ground.heightAt(centreX, centreZ);
+        if (h === h) { // NaN = undecoded ground, never occludes
+          result = ground.occluded(eye.x, eye.y, eye.z, centreX, h + canopy, centreZ, 12, 1.0);
         }
       }
       const value = result ? 255 : 0;

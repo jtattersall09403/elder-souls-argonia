@@ -498,6 +498,10 @@ headless.
   steps, never one refill per data arrival.
 - Nothing on the per-frame path allocates: vectors, arrays, stats objects
   and closures are hoisted and reused.
+- A per-step sampler in a march returns no boxed value (no `number | null`
+  per step): the march lives inside the sampler and returns the verdict
+  (`TerrainMarcher`, `FrameGroundSampler.occluded`; diag11 O1), and its
+  call site sees one class (an empty state, never a fallback closure).
 - Tier edges fade through the `lodFade` partition with the temporal
   history (one copy per pixel, every frame; coverage never dips), the
   incoming tier resident before the outgoing one steps out; the coverage

@@ -47,6 +47,42 @@ export interface OcclusionPoint {
 export type GroundSampler = (x: number, z: number) => number | null;
 
 /**
+ * The ground as a frame path asks it (perf10 diag11 O1): the march lives
+ * INSIDE the sampler and returns only the verdict, so no step hands back a
+ * `number | null` (a boxed double per step in V8). `heightAt` is asked once
+ * per cell, NaN where the ground is not decoded. Same verdicts as
+ * `occludedByTerrain` over the equivalent `GroundSampler`.
+ */
+export interface TerrainMarcher {
+  /** Ground height, NaN when unknown. */
+  heightAt(x: number, z: number): number;
+  /** `occludedByTerrain(eye, target, …, stepM, marginM)`, points unpacked. */
+  occluded(
+    ex: number, ey: number, ez: number,
+    tx: number, ty: number, tz: number,
+    stepM: number, marginM: number,
+  ): boolean;
+}
+
+/** A `TerrainMarcher` over a plain sampler function: tests and tooling only,
+ * never a frame path (every step calls the closure). */
+export class FunctionTerrainMarcher implements TerrainMarcher {
+  private readonly eye: OcclusionPoint = { x: 0, y: 0, z: 0 };
+  private readonly target: OcclusionPoint = { x: 0, y: 0, z: 0 };
+  constructor(private readonly groundAt: GroundSampler) {}
+  heightAt(x: number, z: number): number {
+    const h = this.groundAt(x, z);
+    return h === null ? NaN : h;
+  }
+  occluded(ex: number, ey: number, ez: number, tx: number, ty: number, tz: number,
+    stepM: number, marginM: number): boolean {
+    const e = this.eye, t = this.target;
+    e.x = ex; e.y = ey; e.z = ez; t.x = tx; t.y = ty; t.z = tz;
+    return occludedByTerrain(e, t, this.groundAt, stepM, marginM);
+  }
+}
+
+/**
  * True when the terrain between `eye` and `target` rises above the sight line.
  *
  * `marginM` is the slack that stops a target standing ON the ground from
