@@ -67,6 +67,21 @@ export function moistureWeight(m: number): number {
   return MOISTURE_FLOOR + (1 - MOISTURE_FLOOR) * c * c;
 }
 
+/** Scale height of the radiation mist as a share of its depth: density falls by e every depth/5 above
+ * the basin floor (30 m deep → 6 m), so it is thick at the floor and the water and thin by mid-depth. */
+export const MIST_SCALE_SHARE = 0.2;
+/** The mist fades out over the top 40 % of its depth, reaching zero at the top. */
+export const MIST_FADE_SHARE = 0.4;
+
+/** Vertical weight (0..1) of the radiation mist at `hAboveFloor` metres over the basin floor for a pool
+ * `depthM` deep: exponential fall from the floor, faded to zero by the top. froxelGrid's density() is
+ * the TSL twin (the top there is billowed by the noise). */
+export function mistHeightProfile(hAboveFloor: number, depthM: number): number {
+  const d = Math.max(depthM, 1e-3);
+  const h = Math.max(hAboveFloor, 0);
+  return Math.exp(-h / (d * MIST_SCALE_SHARE)) * (1 - smooth(d * (1 - MIST_FADE_SHARE), d, h));
+}
+
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const smooth = (a: number, b: number, x: number) => {
   const t = clamp01((x - a) / (b - a));

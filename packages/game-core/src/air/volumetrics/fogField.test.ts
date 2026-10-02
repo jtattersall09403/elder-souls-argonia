@@ -1,5 +1,28 @@
 import { describe, expect, it } from "vitest";
-import { fogRegimes, moistureWeight, type FogFieldInput } from "./fogField";
+import { fogRegimes, mistHeightProfile, moistureWeight, type FogFieldInput } from "./fogField";
+
+describe("mistHeightProfile", () => {
+  it("is dense at the basin floor, thin by mid-depth and gone at and above the top (no full-depth slab)", () => {
+    expect(mistHeightProfile(0, 30)).toBe(1);
+    expect(mistHeightProfile(2, 30)).toBeGreaterThan(0.7);
+    expect(mistHeightProfile(15, 30)).toBeLessThan(0.1);
+    expect(mistHeightProfile(30, 30)).toBe(0);
+    expect(mistHeightProfile(60, 30)).toBe(0);
+    for (let h = 0; h < 30; h += 1) expect(mistHeightProfile(h + 1, 30)).toBeLessThanOrEqual(mistHeightProfile(h, 30));
+  });
+  it("w=mist leaves the sea fog and the air baseline at their w=clear values", () => {
+    const clear = fogRegimes({ ...BASE_NOON });
+    const mist = fogRegimes({ ...BASE_NOON, weatherRadiation: 1 });
+    expect(mist.seaFog).toBe(clear.seaFog);
+    expect(mist.air).toBe(clear.air);
+    expect(mist.radiationMist).toBe(1);
+  });
+});
+
+const BASE_NOON: FogFieldInput = {
+  minuteOfDay: 12 * 60, sunriseMin: 6 * 60, sunsetMin: 18 * 60, prevNightClearCalm: 1,
+  hoursSinceRain: Infinity, rain: 0, windSpeedMS: 0.5, windDirXZ: [1, 0], humidity: 0.8, wetSeason: 1,
+};
 
 const BASE: FogFieldInput = {
   minuteOfDay: 6 * 60, sunriseMin: 6 * 60, sunsetMin: 18 * 60, prevNightClearCalm: 1,

@@ -14,7 +14,7 @@ import { Storage3DTexture, type WebGPURenderer } from "three/webgpu";
 import * as tsl from "three/tsl";
 import type { TslNode } from "../../render/nodes/materialNodes";
 import { makeVolumeDetail } from "../../fx/fire/volumeFire";
-import { fogRegimes, MOISTURE_FLOOR, type FogFieldInput, type FogRegimes } from "./fogField";
+import { fogRegimes, MOISTURE_FLOOR, MIST_FADE_SHARE, MIST_SCALE_SHARE,type FogFieldInput, type FogRegimes } from "./fogField";
 import { SHADOWED_SKY, SUN_PROBES_M, SUN_PROBE_NEAR_M, probeSoftM } from "./terrainSun";
 import { TerrainGrids, NEAR_SIZE_M, FAR_SIZE_M, type TerrainSamplers } from "./terrainGrids";
 import { CanopyMap, CANOPY_SIZE_M, type Crown } from "./canopyMap";
@@ -268,10 +268,15 @@ export class Volumetrics implements VolumetricsSampler {
     const n2 = texture3D(this.detail, p.sub(w3b.add(w3.mul(1.7))).div(vec3(15, 9, 15)).add(vec3(u.time.mul(0.011), 0, 0)), 0).y;
     const n = clamp(float(0.55).add(n1.mul(0.35)).add(n2.mul(0.2)), 0, 1.4);
     const outdoor = u.outdoor;
-    // radiation mist: a flat-topped pool over the basin floor; the top is billowed by the noise
-    // (+-3 m) and falls off over 8 m or a froxel; the lateral edge fades over the last 6 m of depth.
+    // radiation mist: pools over the basin floor, falling exponentially with height above it
+    // (fogField mistHeightProfile) and faded to zero by a top billowed by the noise; ground above the
+    // floor (slopes, rims) sits higher in the profile and carries less; the lateral edge fades over the
+    // last 6 m of depth.
     const top = farT.g.add(u.mistDepth).add(n1.mul(1.2)).add(n2.mul(0.6));
-    const mist = float(1).sub(smoothstep(top.sub(soft(1.5)), top, p.y))
+    const depth = max(top.sub(farT.g), float(1));
+    const hF = max(p.y.sub(farT.g), float(0));
+    const mist = exp(hF.div(depth.mul(MIST_SCALE_SHARE)).negate())
+      .mul(float(1).sub(smoothstep(top.sub(max(depth.mul(MIST_FADE_SHARE), soft(1.5))), top, p.y)))
       .mul(smoothstep(-1, 1, hAG)).mul(smoothstep(0, 6, top.sub(ground)))
       .mul(n).mul(u.mist).mul(moistW).mul(0.045);
     // steam fog: wisps over water, thin rising columns (stretched 5x vertically), patchy (~half
