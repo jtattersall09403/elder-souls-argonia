@@ -31,7 +31,7 @@ import { MAX_VOLUME_LIGHTS, type InteriorFogProfile, type VolumeLight } from "@e
 import { nearestVolumeLights, sunriseSunsetMin } from "@elder-souls/game-core/air/volumetrics/studioSamplers";
 import {
   BEAM_OVER_LAMP, INTERIOR_LIGHT, SKY_FILL_SCALE, WindowBeams, cellCompassOffsetDeg, cellFloorLevels, brightestLampFloor,
-  cellAmbientIrradiance, lampsOverFloors, pluginWindowApertures, windowSkyLight, worldToCellDirection,
+  cellAmbientIrradiance, lampsOverFloors, pluginWindowApertures, sunFacing, windowSkyLight, worldToCellDirection,
 } from "@elder-souls/game-core/air/volumetrics/windowApertures";
 import { moonsAt, sunAt } from "@elder-souls/world-time";
 import { SkyContext } from "../sky/WorldSky";
@@ -329,7 +329,7 @@ export function InteriorDoors({
     // the record lamps live in the fixture light field (0108), not as PointLights under the group
     const floors = cellFloorLevels(group);
     const lamps = lampsOverFloors(interiorCellLights(bundle), floors, bundle.arrivalMarker.positionM[1]);
-    return { beams: new WindowBeams(apertures, WINDOW_BEAM_LENGTH_M, floors), unit: BEAM_OVER_LAMP * brightestLampFloor(lamps) };
+    return { apertures, beams: new WindowBeams(apertures, WINDOW_BEAM_LENGTH_M, floors), unit: BEAM_OVER_LAMP * brightestLampFloor(lamps) };
   }, [shown]);
   // the cell's own ambient lights its medium (vol10 F7): its cube (or flat colour) at the loader's scale
   const cellAmbient = useMemo(() => {
@@ -343,6 +343,7 @@ export function InteriorDoors({
   }, [shown]);
   const ambientIrr = useMemo(() => new THREE.Color(), []);
   const directFaced = useRef(false);
+  const toSunCell = useMemo(() => new THREE.Vector3(), []);
   const sky = useMemo(() => ({ dir: new THREE.Vector3(0, -1, 0), tint: new THREE.Color(), strength: 0, inFrames: 0 }), []);
   // the outside the cell's air follows (floor mist by dawn and season), refreshed with the sky light
   const climate = useMemo<InteriorClimate>(() => ({ minuteOfDay: 720, sunriseMin: 360, wetSeason: 0.5 }), []);
@@ -393,6 +394,13 @@ export function InteriorDoors({
         daylightColour.setRGB(rig.sunColor[0], rig.sunColor[1], rig.sunColor[2]);
         const share = daylightShare(rig.sun.altitude, rig.directFactor);
         shown.interior.daylight.set(share, daylightColour);
+        // the sun as the cell's openings see it: toward the sun in the cell frame (sky.dir is its travel direction), at the
+        // sky strength when an aperture faces it, none otherwise (the record light stands)
+        if (windows) {
+          let faced = false;
+          if (sky.strength > 0) for (const a of windows.apertures) if (sunFacing(a, sky.dir)) { faced = true; break; }
+          shown.interior.daylight.setSun(faced ? toSunCell.copy(sky.dir).negate() : null, faced ? sky.strength : 0);
+        }
         if (cellAmbient) cellAmbient.share = share;
       }
     }

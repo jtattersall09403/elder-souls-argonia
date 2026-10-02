@@ -211,7 +211,7 @@ export interface BeamView {
 const _sphere = new THREE.Sphere();
 
 /** True when the light enters through this pane (it travels along -outward, from above). */
-function sunFacing(w: WindowAperture, lightDir: THREE.Vector3): boolean {
+export function sunFacing(w: WindowAperture, lightDir: THREE.Vector3): boolean {
   return -(lightDir.x * w.outward.x + lightDir.z * w.outward.z) > 0.1 && lightDir.y < 0;
 }
 
