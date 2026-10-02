@@ -44,9 +44,10 @@ const stubShader = () => ({
   ].join("\n"),
 });
 
-function compile(mode: "field" | "strip", a: WaterAssets = assets, tier = WATER_TIERS.high) {
+function compile(mode: "field" | "strip", a: WaterAssets = assets, tier = WATER_TIERS.high,
+  variant: "above" | "below" = "above") {
   const uniforms = createWaterUniforms(a);
-  const material = createWaterMaterial("above",
+  const material = createWaterMaterial(variant,
     { csm: null, applyAerial: () => {}, assets: a, uniforms, tier }, mode);
   const shader = stubShader();
   material.onBeforeCompile!(shader as unknown as THREE.WebGLProgramParametersWithUniforms,
@@ -369,7 +370,7 @@ describe("Water Pro transfers (Greenheck study §3.1, §6)", () => {
     const waveUses = frag.match(/uWaveTime/g) ?? [];
     // surf closed forms (esSurfFoam/esSwash) and uniform declaration only
     for (const line of frag.split("\n").filter((l) => l.includes("uWaveTime"))) {
-      expect(/uniform float uWaveTime|esSurfFoam\(|esSwash\(|esShoreSwell\(|esSurfGroup\(|esAlongPhase\(|esWaveFrag\(|esWaveCrestH\(|float t\b|, t\)|\bt\b/.test(line)).toBe(true);
+      expect(/uniform float uWaveTime|esSurfFoam\(|esSwash\(|esShoreSwell\(|esSurfGroup\(|esAlongPhase\(|esWaveFrag\(|esWaveCrestH\(|esFlowWave\(|float t\b|, t\)|\bt\b/.test(line)).toBe(true);
     }
     expect(waveUses.length).toBeGreaterThan(0);
   });
@@ -596,9 +597,38 @@ describe("shore swell tilt per pixel at rest xz (perf-diag14 V1)", () => {
       expect(vert).toContain("vEsRestXZ = esRestW.xz;");
       expect(vert).not.toContain("esW.normal.xz += esShoreDir");
       // heights unchanged (0047): the vertex still adds the swell
-      expect(vert).toContain("esStill += esShoreSwell(");
+      expect(vert).toContain("esStill += vEsSurfH;");
       expect(frag).toContain("smoothstep(0.02, 0.08, esGLR)");
       expect(frag).toContain("esWaveG -= esShoreDirR * esSwellD;");
+    }
+  });
+});
+
+describe("water fragment per pixel throughout (f33 audit)", () => {
+  it("the lift swaps the vertex swash + swell for its per-pixel value", () => {
+    for (const tier of [WATER_TIERS.high, WATER_TIERS.low]) {
+      const { shader } = compile("field", assets, tier);
+      const frag = code(shader.fragmentShader);
+      expect(frag).toContain("float esLift = vEsStill - vEsSurfH + esSurfHPx - esFS.x;");
+      expect(frag).toContain("esSurfHPx = esSwash(esSR.x");
+      // no hard raster cut on the shore frame
+      expect(frag).not.toContain("esSR.x < 90.0");
+    }
+  });
+  it("the flow undulation's slope is per pixel, never in the vertex normal", () => {
+    const { shader } = compile("field", assets, WATER_TIERS.high);
+    const vert = code(shader.vertexShader);
+    const frag = code(shader.fragmentShader);
+    expect(vert).not.toMatch(/esW\.normal = normalize\(vec3\(esSlope/);
+    expect(frag).toContain("esFlowWave(vEsRestXZ, esFDirN, esSpeed, uWaveTime, esFlowN);");
+  });
+  it("vEsNormalW reaches the shading only through esNBase, and every fresnel/sparkle/SSR reads esNW", () => {
+    for (const mode of ["field", "strip"] as const) for (const variant of ["above", "below"] as const) {
+      const frag = code(compile(mode, assets, WATER_TIERS.high, variant).shader.fragmentShader);
+      const uses = frag.split("\n").filter((l) => l.includes("vEsNormalW") && !l.includes("varying"));
+      expect(uses.every((l) => l.includes("esNBase = normalize(vEsNormalW)") || l.includes("esDm == 1"))).toBe(true);
+      for (const m of frag.matchAll(/pow\(1\.0 - ([^,]+), 5\.0\)/g)) expect(m[1]).toMatch(/esNW|esNup|esCi/);
+      expect(frag).not.toMatch(/dot\(esNBase|reflect\(-esView, esNBase/);
     }
   });
 });
@@ -630,6 +660,11 @@ describe("water debug views (wdbg=)", () => {
         .toBe("#include <dithering_fragment>");
       expect(frag).toContain("esDbgPre = gl_FragColor.rgb;\nesDbgPost = gl_FragColor.rgb;\n#include <tonemapping_fragment>");
       expect(frag).not.toMatch(/#define ES_DEBUG|#ifdef ES_DEBUG/);
+      expect(frag).toContain("#include <opaque_fragment>\nesDbgMix = gl_FragColor.rgb;");
+      for (const m of [13, 14, 15]) expect(frag).toContain(`esDm == ${m}`);
+      // HDR views are compressed, never raw
+      expect(frag).toContain("esDc = esDbgSky / (1.0 + esDbgSky);");
+      expect(frag).toContain("esDc = esDbgRefr / (1.0 + esDbgRefr);");
     }
   });
 

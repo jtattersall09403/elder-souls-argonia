@@ -192,8 +192,11 @@ export interface WaterUniforms extends FoamFieldUniforms {
  * writes an opaque colour: 1 vertex normal, 2 shading normal, 3 fresnel,
  * 4 foam, 5 crest (0.5 grey = still level, ±1 m to black/white), 6 reflected
  * sky/env, 7 refraction/transmitted colour, 8 final alpha, 9 aerial change
- * (|post − pre| × 4), 10 sparkle, 11 fract(rest xz / 4 m) as RG, 12 the
- * normal colour at alpha 1 (overdraw of stacked transparent layers). */
+ * (|post − pre|, 0.05 maps to grey), 10 sparkle, 11 fract(rest xz / 4 m) as
+ * RG, 12 the normal colour at alpha 1 (overdraw of stacked transparent
+ * layers), 13 reflection weight in the final mix (fresnel × cover), 14 the
+ * final colour before aerial and fog, 15 SSR weight. HDR views (6, 7, 14)
+ * show c / (1 + c) per channel so they never blow to white. */
 export const WATER_DEBUG_GLSL = /* glsl */ `
 if (uEsDebugMode > 0.5) {
   int esDm = int(uEsDebugMode + 0.5);
@@ -203,12 +206,15 @@ if (uEsDebugMode > 0.5) {
   else if (esDm == 3) esDc = vec3(esDbgFres);
   else if (esDm == 4) esDc = vec3(esFoam);
   else if (esDm == 5) esDc = vec3(clamp(esDbgCrest * 0.5 + 0.5, 0.0, 1.0));
-  else if (esDm == 6) esDc = esDbgSky;
-  else if (esDm == 7) esDc = esDbgRefr;
+  else if (esDm == 6) esDc = esDbgSky / (1.0 + esDbgSky);
+  else if (esDm == 7) esDc = esDbgRefr / (1.0 + esDbgRefr);
   else if (esDm == 8) esDc = vec3(gl_FragColor.a);
-  else if (esDm == 9) esDc = vec3(clamp(length(esDbgPost - esDbgPre) * 4.0, 0.0, 1.0));
+  else if (esDm == 9) { vec3 esDa = abs(esDbgPost - esDbgPre); esDc = esDa / (0.05 + esDa); }
   else if (esDm == 10) esDc = vec3(esDbgSpec);
   else if (esDm == 11) esDc = vec3(fract(vEsRestXZ * 0.25), 0.0);
+  else if (esDm == 13) esDc = vec3(esDbgReflW);
+  else if (esDm == 14) esDc = esDbgMix / (1.0 + esDbgMix);
+  else if (esDm == 15) esDc = vec3(esDbgSsrW);
   gl_FragColor = vec4(esDc, 1.0);
 }`;
 
@@ -673,6 +679,7 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant, strip: boolean)
   uniform vec4 uPlunges[${MAX_PLUNGE_SOURCES}];
   uniform int uPlungeCount;
   varying float vEsStill; // the vertex still level (m): lift and crest base; depth, shore and exposure are per pixel (diag4 V2)
+  varying float vEsSurfH; // the vertex swash + shore swell height (m), swapped for its per-pixel value in the lift (f33)
   varying vec4 vEsKlass;
 varying vec2 vEsColour;  // 16f: algae, dark  // turbidity(silt), salinity, tannin, class index
   varying vec3 vEsFlow;   // flow m/s (xy) + surface drop along flow (z)
@@ -772,7 +779,9 @@ varying vec2 vEsColour;  // 16f: algae, dark  // turbidity(silt), salinity, tann
         float t = prevDiff < 0.0 ? 1.0 : (-prevDiff / (diff - prevDiff));
         vec2 hitUV = mix(prevUV, uv, clamp(t, 0.0, 1.0));
         vec2 edge = smoothstep(0.0, 0.12, hitUV) * smoothstep(0.0, 0.12, 1.0 - hitUV);
-        float conf = edge.x * edge.y * (1.0 - float(i) / 18.0 * 0.4);
+        // the hit window's far side fades instead of cutting (f33: a hit/miss
+        // step at diff = 8 m drew straight-edged reflection seams)
+        float conf = edge.x * edge.y * (1.0 - float(i) / 18.0 * 0.4) * (1.0 - smoothstep(4.0, 8.0, diff));
         return vec4(texture2D(uSceneColor, hitUV).rgb, conf);
       }
       prevDiff = diff;
@@ -851,6 +860,7 @@ varying vec2 vEsRockFoam;
 #endif
 uniform float uVerticalScale;
 varying float vEsStill;
+varying float vEsSurfH;  // swash + shore swell at this vertex (f33: the fragment swaps it per pixel)
 varying vec4 vEsKlass;
 varying vec2 vEsColour;  // 16f: algae, dark
 varying vec3 vEsFlow;
@@ -929,9 +939,11 @@ if (esShore < 90.0) {
 float esSurfE = esSurfEnergy(uWindMS, esFetchM);
 float esAlong = esAlongPhase(esRestW.xz, esShoreDir, uWaveTime);
 float esSwellDHdd = 0.0;
+vEsSurfH = 0.0;
 #ifndef ES_STRIP
-esStill += esSwash(esShore, esFetch, uWaveTime, esSurfE, esAlong);
-esStill += esShoreSwell(esShore, max(esSurf.y, 0.0), esFetch, uWaveTime, esSurfE, esAlong, esSwellDHdd);
+vEsSurfH = esSwash(esShore, esFetch, uWaveTime, esSurfE, esAlong)
+         + esShoreSwell(esShore, max(esSurf.y, 0.0), esFetch, uWaveTime, esSurfE, esAlong, esSwellDHdd);
+esStill += vEsSurfH;
 #endif
 // SIGNED depth + lift (decision 0047): wet ⇔ > 0. Dry vertices stay
 // negative until fragment interpolation; the fragment's buried guard and the
@@ -983,10 +995,9 @@ ${strip ? "" : /* glsl */ `
 if (esFlowSp > ${FLOW_WAVE_MIN_GLSL}) {
   vec3 esFlowN;
   float esFlowFade = 1.0 - smoothstep(150.0, 400.0, esCamDist);
+  // height only: its 1.6 m wavelength is shorter than the grid, so its slope
+  // is added per pixel in the fragment (f33), never to the vertex normal
   esFlowH = esFlowWave(esRestW.xz, esFlowV / esFlowSp, esFlowSp, uWaveTime, esFlowN) * esFlowFade;
-  // summed slopes of two small-slope height fields (CPU twin does the same)
-  vec2 esSlope = esW.normal.xz / max(esW.normal.y, 1e-3) + (esFlowN.xz / max(esFlowN.y, 1e-3)) * esFlowFade;
-  esW.normal = normalize(vec3(esSlope.x, 1.0, esSlope.y));
 }`}
 vEsSurf = vec2(esFetch, esSurfE);
 vEsStill = esStill;
@@ -1029,6 +1040,7 @@ varying vec2 vEsRockFoam;
 ${strip ? STRIP_AERATION_GLSL + WHITEWATER_GLSL : ""}
 ${NOISE_GLSL}
 ${surfGlsl()}
+${strip ? "" : flowWaveGlsl()}
 ${SAMPLER_GLSL}
 ${prelude}
 ${strip ? "" : OWNER_MASK_GLSL + waveExposureGlsl() + tideResponseGlsl(classes)}
@@ -1052,7 +1064,8 @@ uniform float uEsDebugMode;`,
   // debug-view captures (wdbg=, WATER_DEBUG_GLSL); written where each term is made
   float esDbgFres = 0.0; float esDbgCrest = 0.0; float esDbgSpec = 0.0;
   vec3 esDbgSky = vec3(0.0); vec3 esDbgRefr = vec3(0.0);
-  vec3 esDbgPre = vec3(0.0); vec3 esDbgPost = vec3(0.0);
+  vec3 esDbgPre = vec3(0.0); vec3 esDbgPost = vec3(0.0); vec3 esDbgMix = vec3(0.0);
+  float esDbgReflW = 0.0; float esDbgSsrW = 0.0;
   float esGuard = 1.0;
   ${strip ? /* glsl */ `
   float esExpoPx = 0.05;   // narrow water: ripples, never swell (the vertex twin)` : /* glsl */ `
@@ -1060,7 +1073,30 @@ uniform float uEsDebugMode;`,
   // varyings they were one plane per triangle, and the foam thresholds over
   // them printed straight-edged pale triangles along the mesh grid.
   vec2 esFS = esSurfaceAt(vEsWorldPos.xz);
-  float esLift = vEsStill - esFS.x;   // tide + season + surf at this pixel
+  // The shore frame, swash and shore swell PER PIXEL at the rest xz (diag14
+  // V1, diag15 V4, f33): the swell changes faster than the grid, so its
+  // interpolated vertex height made the lift, hence depth, exposure and the
+  // buried guard, one plane per triangle. The vertex height still moves the
+  // surface (0047); only the fragment's lift swaps it for the exact value.
+  vec2 esShoreDirR = vec2(0.0);   // shared with the normal tilt and the surf foam phase
+  float esSwellD = 0.0;           // dH/d(shore distance) of the swell, for the normal
+  float esSurfHPx = 0.0;
+  {
+    vec3 esSR = esShoreAt(vEsRestXZ);
+    if (uHasApron > 0.5 && esOutside(vEsRestXZ) && esTideResponse(vEsKlass.w) < 0.5)
+      esSR = vec3(uSurfShoreMax, 0.0, 0.0);
+    float eGR = uSurfMpp * 2.0;
+    vec2 esGradR = vec2(
+      esShoreAt(vEsRestXZ + vec2(eGR, 0.0)).x - esSR.x,
+      esShoreAt(vEsRestXZ + vec2(0.0, eGR)).x - esSR.x) / eGR;
+    float esGLR = length(esGradR);
+    esShoreDirR = -esGradR / max(esGLR, 1e-4) * smoothstep(0.02, 0.08, esGLR);
+    float esAlongR = esAlongPhase(vEsRestXZ, esShoreDirR, uWaveTime);
+    esSurfHPx = esSwash(esSR.x, vEsSurf.x, uWaveTime, vEsSurf.y, esAlongR)
+              + esShoreSwell(esSR.x, max(esSurfaceAt(vEsRestXZ).y, 0.0), vEsSurf.x, uWaveTime, vEsSurf.y,
+                  esAlongR, esSwellD);
+  }
+  float esLift = vEsStill - vEsSurfH + esSurfHPx - esFS.x;   // tide + season + surf at this pixel
   float esDepthPx = esFS.y + esLift;  // signed depth + lift
   vec3 esSPx = esShoreAt(vEsWorldPos.xz);   // shore dist, season response, tannin
   // past the border on a land / inland edge texel: the vertex stage's apron rule
@@ -1203,25 +1239,17 @@ ${strip ? "" : /* glsl */ `
 // the raster's 2-texel gradient under a soft cut, the vertex stage's swell
 // profile; only its height stays per vertex (0047). In the vertex normal this
 // tilt snapped between grid vertices and drew pale triangular facets.
-vec2 esShoreDirR = vec2(0.0);   // shared with the surf foam phase (diag15 V4)
-{
-  vec3 esSR = esShoreAt(vEsRestXZ);
-  if (uHasApron > 0.5 && esOutside(vEsRestXZ) && esTideResponse(vEsKlass.w) < 0.5)
-    esSR = vec3(uSurfShoreMax, 0.0, 0.0);
-  if (esSR.x < 90.0) {
-    float eGR = uSurfMpp * 2.0;
-    vec2 esGradR = vec2(
-      esShoreAt(vEsRestXZ + vec2(eGR, 0.0)).x - esSR.x,
-      esShoreAt(vEsRestXZ + vec2(0.0, eGR)).x - esSR.x) / eGR;
-    float esGLR = length(esGradR);
-    esShoreDirR = -esGradR / max(esGLR, 1e-4) * smoothstep(0.02, 0.08, esGLR);
-    float esSwellD = 0.0;
-    esShoreSwell(esSR.x, max(esSurfaceAt(vEsRestXZ).y, 0.0), vEsSurf.x, uWaveTime, vEsSurf.y,
-      esAlongPhase(vEsRestXZ, esShoreDirR, uWaveTime), esSwellD);
-    // height slope = dH/dd * grad(d) = -shoreDir * dH/dd
-    esWaveG -= esShoreDirR * esSwellD;
-  }
-}`}
+// the along-flow undulation's slope per pixel (f33; the CPU twin sums the
+// same two small-slope fields)
+if (esFlowing) {
+  vec3 esFlowN;
+  esFlowWave(vEsRestXZ, esFDirN, esSpeed, uWaveTime, esFlowN);
+  esWaveG -= (esFlowN.xz / max(esFlowN.y, 1e-3)) * (1.0 - smoothstep(150.0, 400.0, esDist));
+}
+// the shore swell (the frame and dH/dd come from the prelude); height slope = dH/dd * grad(d)
+// = -shoreDir * dH/dd. The old shore < 90 m gate is gone: a hard cut on a
+// raster value is itself a straight edge, and the swell is zero there anyway.
+esWaveG -= esShoreDirR * esSwellD;`}
 vec3 esNW = normalize(vec3(
   esNBase.x - (esG.x + esGF.x) * esDetStrength - esWaveG.x - esRip.x - esRainG.x,
   esNBase.y,
@@ -1486,7 +1514,7 @@ vec3 esView = normalize(cameraPosition - vEsWorldPos);
 float esFresT = 0.02 + 0.98 * pow(1.0 - max(dot(esNW, esView), 0.0), 5.0);
 vec3 esTransmit = texture2D(uSceneColor, esScreenUV).rgb * esT * (1.0 - esFresT);
 outgoingLight = outgoingLight + esTransmit;
-esDbgFres = esFresT; esDbgSky = reflectedLight.indirectSpecular; esDbgRefr = esTransmit;
+esDbgFres = esFresT; esDbgSky = reflectedLight.indirectSpecular; esDbgRefr = esTransmit; esDbgReflW = esFresT * esBank;
 outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, esBank);
 #include <opaque_fragment>`
           : variant === "above"
@@ -1501,8 +1529,8 @@ if (esDist < ${SSR_FADE_END_M.toFixed(1)}) {
   vec4 esS = esSsr(vEsWorldPos, reflect(-esView, esNW));
   float esFres = 0.02 + 0.98 * pow(1.0 - max(dot(esNW, esView), 0.0), 5.0);
   float esSsrFade = 1.0 - smoothstep(${SSR_FADE_START_M.toFixed(1)}, ${SSR_FADE_END_M.toFixed(1)}, esDist);
-  esSpecEnv = mix(esSpecEnv, esS.rgb * esFres,
-    clamp(esS.a, 0.0, 1.0) * uSsrStrength * esSsrFade * (1.0 - esFoam));
+  esDbgSsrW = clamp(esS.a, 0.0, 1.0) * uSsrStrength * esSsrFade * (1.0 - esFoam);
+  esSpecEnv = mix(esSpecEnv, esS.rgb * esFres, esDbgSsrW);
 }
 #endif
 float esFresT = 0.02 + 0.98 * pow(1.0 - max(dot(esNW, esView), 0.0), 5.0);
@@ -1523,6 +1551,7 @@ vec3 esSssTint = mix(vec3(0.10, 0.45, 0.40), vec3(0.14, 0.11, 0.04), esMurk);
 float esSssW = esCrestSss(esView, uWaterSunDir, esCrestMesh, esExpo);
 outgoingLight += uWaterSunLight * (esSpark + esSssW * esSssTint) * (1.0 - esFoam);
 esDbgFres = esFresT; esDbgSky = esSpecEnv; esDbgRefr = esTransmit; esDbgSpec = esSpark;
+esDbgReflW = esFresT * esCover;   // the reflected share of the final mix (env + SSR ride it)
 // meniscus rim across the waterline band at the camera
 outgoingLight += uWaterAmbient * 10.0 * esMeniscusRim(esMen);
 outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, esCover);
@@ -1565,10 +1594,11 @@ outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, esCov
   // meniscus rim from below: the same band, the same highlight
   esCol += uWaterAmbient * 10.0 * esMeniscusRim(esMen);
   outgoingLight = esCol;
-  esDbgFres = esFresU; esDbgSky = esSky; esDbgRefr = esGlow;
+  esDbgFres = esFresU; esDbgSky = esSky; esDbgRefr = esGlow; esDbgReflW = esFresU;
 }
 #include <opaque_fragment>`,
       )
+      .replace("#include <opaque_fragment>", "#include <opaque_fragment>\nesDbgMix = gl_FragColor.rgb;")
       .replace("#include <tonemapping_fragment>", "esDbgPre = gl_FragColor.rgb;\n#include <tonemapping_fragment>")
       .replace("#include <dithering_fragment>", `#include <dithering_fragment>\n${WATER_DEBUG_GLSL}`);
   };
