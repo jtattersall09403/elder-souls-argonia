@@ -61,7 +61,7 @@ import {
   type WeatherLightIn,
 } from "./lightRig";
 import { worldClock, notifyClock } from "./timeState";
-import { waterTimeS } from "../water/waterClock";
+import { waterTimeS, waterTransportDeltaS, waterTransportTimeS } from "../water/waterClock";
 import { wetnessUniforms } from "../water/groundWetness";
 import { lightningNow, weatherAt } from "../weather/weatherState";
 import { CLIMATE_MAX_TEXELS, loadSmoothRaster } from "@elder-souls/game-core/terrain/groundRasters";
@@ -916,7 +916,7 @@ export function WorldSky({
         MAX_VOLUME_LIGHTS, volLights.current);
       const { sunriseMin, sunsetMin } = sunriseSunsetMin(epochMinutes, latitudeOverrideRad);
       volumetrics.update({
-        camera: persp, timeS: waterTimeS(), sunDir, sunIrradiance: irr, skyIrradiance: volSky.current,
+        camera: persp, timeS: waterTransportTimeS(), deltaS: waterTransportDeltaS(), sunDir, sunIrradiance: irr, skyIrradiance: volSky.current,
         lights: volLights.current,
         fog: {
           minuteOfDay: ((epochMinutes % 1440) + 1440) % 1440, sunriseMin, sunsetMin,
@@ -925,6 +925,7 @@ export function WorldSky({
           rain: wx.rainIntensity,
           windSpeedMS: wx.windSpeedMS, windDirXZ: wx.windDirXZ, humidity, wetSeason: (worldClock.season().s + 1) / 2,
           weatherRadiation: wx.mist.radiation, weatherAdvection: wx.mist.advection,
+          dayIndex: Math.floor(epochMinutes / 1440),
         },
       });
     }

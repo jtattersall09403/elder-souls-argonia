@@ -453,7 +453,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     if (!o.shots) return;
     const p = join(o.out, `${name}-${tag}.jpg`);
     // --clean 1: hide the overlays and the minimap for the screenshot only (pod-capture-lib HUD_HIDE_JS).
-    if (o.clean) await page.evaluate(HUD_HIDE_JS).catch(() => {});
+    if (o.clean) { const h = await page.evaluate(HUD_HIDE_JS); if (!h?.ok) throw new Error(`--clean: ${JSON.stringify(h)}`); }
     await page.screenshot({ path: p, type: "jpeg", quality: 75 }).catch(() => {});
     if (o.clean) await page.evaluate(HUD_SHOW_JS).catch(() => {});
     screenshots.push(p);

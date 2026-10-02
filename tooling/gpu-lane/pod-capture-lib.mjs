@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { topCause } from "./trace-frames.mjs";
 /** Pure parts of pod-capture.mjs (unit-tested in pod-capture-lib.test.mjs). */
 
 /**
@@ -132,23 +133,31 @@ export function settleGate(n = 300, floorS = 20) {
 }
 
 /** The shot settle gate (default on for every non-plain view; a view's `settle: false` turns it off, `settle: {seconds,
- * lumaTol, fpsTol, minS, timeoutS}` tunes it): no frame for the record is taken before `minS` after navigation (a steady
- * start can precede the transient) and then until, over the last `seconds` of 1 s samples,
- * both the screen-middle luma and the fps sit within their tolerance of their own mean ((max - min) / mean), or until
- * `timeoutS` after navigation (then `timedOut`). Walk 10 vol smoke: the frame darkened 12-22 s and brightened after
- * (exposure transient), so shots taken from 0 s recorded the transient, not the look. Shot times count from the gate. */
-export const SHOT_SETTLE_DEFAULT = { seconds: 8, lumaTol: 0.04, fpsTol: 0.15, minS: 30, timeoutS: 120 };
+ * lumaTol, lumaFloor, fpsTol, minS, timeoutS}` tunes it): no frame for the record is taken before `minS` after navigation
+ * (a steady start can precede the transient) and then until, over the last `seconds` of 1 s samples, the fps median
+ * of the window's second half sits within fpsTol x median of its first half's (drift), and the screen-middle luma's
+ * p10-p90 spread is within max(lumaTol x median, lumaFloor) luma units, or until `timeoutS` after navigation (then
+ * `timedOut`). Robust statistics, not (max - min) / mean: walk 10 vol r1 timed out 20 of 21 views on one-read fps
+ * hitches and on dark frames (luma 1.7, where 4 % is 0.07 units); an exposure ramp or an fps step still holds the gate
+ * shut. Shot times count from the gate. */
+export const SHOT_SETTLE_DEFAULT = { seconds: 8, lumaTol: 0.04, lumaFloor: 1.5, fpsTol: 0.15, minS: 30, timeoutS: 120 };
+const median = (v) => { const a = [...v].sort((x, y) => x - y), m = a.length >> 1; return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2; };
 export function shotSettle(cfg = {}) {
   const c = { ...SHOT_SETTLE_DEFAULT, ...cfg }, xs = [];
   let at = null, timedOut = false;
-  const steady = (k) => { const v = xs.map((x) => x[k]); const m = v.reduce((a, b) => a + b, 0) / v.length; return m > 0 && (Math.max(...v) - Math.min(...v)) / m <= c[k === "luma" ? "lumaTol" : "fpsTol"]; };
+  const steady = () => {
+    const h = xs.length >> 1, f = xs.map((x) => x.fps), l = xs.map((x) => x.luma).sort((a, b) => a - b);
+    const fm = median(f), drift = Math.abs(median(f.slice(xs.length - h)) - median(f.slice(0, h)));
+    const q = (p) => { const i = p * (l.length - 1), k = Math.floor(i); return l[k] + (l[Math.min(k + 1, l.length - 1)] - l[k]) * (i - k); };
+    return fm > 0 && drift <= c.fpsTol * fm && q(0.9) - q(0.1) <= Math.max(c.lumaTol * median(l), c.lumaFloor);
+  };
   return {
     get at() { return at; }, get timedOut() { return timedOut; }, config: c,
     feed(s, fps, luma) {
       if (at !== null) return true;
       if (Number.isFinite(fps) && Number.isFinite(luma)) xs.push({ s, fps, luma });
       while (xs.length && xs[0].s < s - c.seconds) xs.shift();
-      if (s >= c.minS && xs.length >= 2 && s - xs[0].s >= c.seconds - 1 && steady("luma") && steady("fps")) at = s;
+      if (s >= c.minS && xs.length >= 4 && s - xs[0].s >= c.seconds - 1 && steady()) at = s;
       else if (s >= c.timeoutS) { at = s; timedOut = true; }
       return at !== null;
     },
@@ -196,7 +205,8 @@ export function parseViews(text) {
     if (v.aim !== undefined && !(Array.isArray(v.aim) && v.aim.length >= 1 && v.aim.length <= 2 && v.aim.every(Number.isFinite)))
       throw new Error(`views[${i}]: "aim" must be [yawRad] or [yawRad, pitchRad]`);
     if (v.settle !== undefined && v.settle !== false && !(v.settle && typeof v.settle === "object" && Object.entries(v.settle).every(([k, x]) => k in SHOT_SETTLE_DEFAULT && x > 0)))
-      throw new Error(`views[${i}]: "settle" must be false or {seconds, lumaTol, fpsTol, minS, timeoutS} (each > 0)`);
+      throw new Error(`views[${i}]: "settle" must be false or {seconds, lumaTol, lumaFloor, fpsTol, minS, timeoutS} (each > 0)`);
+    if (v.readyFlag !== undefined && !(typeof v.readyFlag === "string" && /^[A-Za-z_$][\w$]*$/.test(v.readyFlag))) throw new Error(`views[${i}]: "readyFlag" must be a global name`);
     return { ...v, steps: v.steps ? parseSteps(JSON.stringify(v.steps)) : [] };
   });
 }
@@ -209,14 +219,36 @@ export function capVerdict(blankRafFps) {
 }
 
 const cell = (x) => (x === null || x === undefined ? "-" : typeof x === "number" ? String(Math.round(x * 100) / 100) : String(x));
-/** Markdown summary: one row per view from its result.json `summary`. fps and low1 name the read they came from
- * (window = the cost window after the settled read, settled, final); "window fps" is that window's own wall-clock rate
- * beside its cost ms; "contaminated" is the view's blank-page baseline verdict. */
+/** A view's summary from its result.json fields. Rates come from the cost window (it starts after the settled read;
+ * `from` is "window", or "unsettled" when the view ended before the settled read): fps is the window's wall-clock frame
+ * rate, GPU and CPU ms the window's per-frame means (measure.mjs workStats gpuFrameMs, workMs), low1 its frame intervals.
+ * Never one read at timeout (walk 10 vol r1 read vol=off "slower" from such a read; its window was faster). Heap MB/min
+ * is the post-quiet long-run slope (`heapSlope`, forced-GC samples after GPU resource counts held 5 s), never a 10 s fit
+ * over the GC sawtooth (r1: +451 and -241 MB/min from the same views whose long-run slope was 0-14). */
+export function summariseView(r) {
+  const w = r.window ?? {}, wk = w.work ?? null, st = w.stages?.perFrameMs ?? {}, top = Object.entries(st)[0];
+  const from = wk ? (w.unsettled ? "unsettled" : "window") : null;
+  const hitchTop = topCause(Object.fromEntries((w.hitches?.list ?? []).reduce((m, h) => (h.stage ? m.set(h.stage, (m.get(h.stage) ?? 0) + h.ms) : m), new Map())));
+  const s = (r.reads?.settled && !r.reads.settled.err ? r.reads.settled : r.final) ?? {}, g = s.gpuMs ?? {};
+  return {
+    contaminated: r.contaminated ?? null, lumaSettled: r.reads?.settled?.luma ?? null, lumaFinal: r.final?.luma ?? null, blackShare: r.final?.blackShare ?? null,
+    from, fps: wk?.wallFps ?? null, low1: wk?.low1 ?? null, gpuMs: wk?.gpuFrameMs?.mean ?? null, cpuMs: wk?.workMs?.mean ?? null,
+    costMs: wk?.costMs?.mean ?? null, uncappedFps: wk?.uncappedFps ?? null,
+    calls: g.calls ?? s.renderer?.calls ?? null, tris: g.tris ?? s.renderer?.triangles ?? null,
+    heapMbPerMin: r.heapSlope?.mbPerMin ?? null,
+    majorGCs: w.heap?.majorGCs ?? null, allocMBps: w.heap?.allocMBps ?? null, topStage: top ? `${top[0]} ${top[1]}` : null,
+    hitches: w.hitches ? `${w.hitches.over33}${hitchTop ? ` (${hitchTop})` : ""}` : null,
+    errors: `${r.gpuErrors?.length ?? "?"}/${r.console?.filter(([k]) => k.startsWith("error")).length ?? "?"}/${r.pageErrors?.length ?? "?"}/${r.http404s ?? "?"}`,
+    failed: r.failed ?? null, heapTop: w.heapTop?.length ? w.heapTop.slice(0, 3).map((h) => `${h.fn} ${h.selfMB} MB`).join("; ") : null,
+    settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
+  };
+}
+/** Markdown summary: one row per view from its result.json `summary` (`summariseView`). "from" names the window the rates
+ * came from; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "failed", "contaminated", "luma settled", "luma final", "black", "fps (from)", "low1 (from)", "GPU ms", "CPU ms", "cost ms (from)", "window fps", "uncapped fps", "calls", "tris M", "heap MB/min", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s"];
-  const from = (v, f) => (v == null ? null : `${cell(v)} (${f ?? "-"})`);
-  const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, from(s.fps, s.fpsFrom), from(s.low1, s.low1From), s.gpuMs, s.cpuMs,
-    from(s.costMs, s.costFrom), s.windowFps, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps].map(cell));
+  const cols = ["view", "failed", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s"];
+  const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
+    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps].map(cell));
   return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), "",
     `| ${cols.join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.join(" | ")} |`)].join("\n");
 }
@@ -269,10 +301,14 @@ export function podSetupCommand(pod, mode, script = "/root/site/tooling/gpu-lane
   return `${parts.join(" ")} -o StrictHostKeyChecking=no ${host} bash ${script} ${mode}`;
 }
 
-/** Page JS that hides every overlay for a screenshot and restores it: each fixed/absolute element that neither is nor
- * holds the render canvas (the largest canvas; so the minimap's own absolute canvas is hidden too), plus overflow
- * hidden on html and body (no scrollbar). The same rule as measure.mjs --clean. The HUD is still read between shots. */
-export const HUD_HIDE_JS = `(() => { const main = [...document.querySelectorAll("canvas")].sort((a, b) => b.width * b.height - a.width * a.height)[0]; window.__hid = [...document.querySelectorAll("body *")].filter((e) => e !== main && !(main && e.contains(main)) && ["fixed", "absolute"].includes(getComputedStyle(e).position)); window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); window.__ovf = [document.documentElement, document.body].map((e) => { const v = e.style.overflow; e.style.overflow = "hidden"; return v; }); return window.__hid.length; })()`;
+/** Page JS that hides everything but the render canvas for a screenshot, and HUD_SHOW_JS restores it. The render
+ * canvas is the one marked `data-render-canvas` by the studio, never picked by size (walk-10 vol smoke 2: the largest
+ * canvas was the 2D province preview map, so the game canvas was hidden) nor by probing getContext (that claims a
+ * canvas that has no context yet: the preview map then gets null for "2d" and the studio crashes). Every element that
+ * neither is nor holds it is hidden (the HUD, the minimap, the 2D preview page), html and body get overflow hidden.
+ * Returns {ok, hidden, before, after, err?}: before/after are the canvas's layout (client) and drawing-buffer sizes; ok
+ * is false when no render canvas is marked or either size changed (the caller fails loudly). */
+export const HUD_HIDE_JS = `(() => { const main = document.querySelector("canvas[data-render-canvas]"); if (!main) return { ok: false, hidden: 0, err: "no canvas[data-render-canvas]" }; const size = () => [main.clientWidth, main.clientHeight, main.width, main.height]; const before = size(); window.__hid = [...document.querySelectorAll("body *")].filter((e) => e !== main && !e.contains(main)); window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); window.__ovf = [document.documentElement, document.body].map((e) => { const v = e.style.overflow; e.style.overflow = "hidden"; return v; }); const after = size(); const same = before.every((v, i) => v === after[i]); return { ok: same, hidden: window.__hid.length, before, after, ...(same ? {} : { err: "render canvas size changed on hide" }) }; })()`;
 export const HUD_SHOW_JS = `(() => { window.__hid?.forEach((e) => { e.style.visibility = e.dataset.v; }); window.__hid = null; if (window.__ovf) [document.documentElement, document.body].forEach((e, i) => { e.style.overflow = window.__ovf[i]; }); window.__ovf = null; return true; })()`;
 
 /** Page JS that aims the studio's follow camera (CharacterMode __STUDIO_CHARACTER_DEBUG__.aimCamera; FollowCamera puts

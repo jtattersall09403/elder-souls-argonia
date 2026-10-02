@@ -26,7 +26,7 @@
  * torch (fx/carriedLight) draws the same config at its hand bone later.
  */
 
-export const FIRE_CONFIG_SCHEMA_VERSION = 3 as const;
+export const FIRE_CONFIG_SCHEMA_VERSION = 4 as const;
 
 /** Linear RGB, 0..1 (display-referred: the flame is drawn untonemapped). */
 export type FireRgb = readonly [number, number, number];
@@ -94,36 +94,69 @@ export interface FireConfig {
   volume?: FireVolumeConfig;
 }
 
+/** The quality tiers the volume path reads (the caller maps its band to one). */
+export type FireVolumeTier = "high" | "medium" | "low" | "mobile";
+export const FIRE_VOLUME_TIERS: readonly FireVolumeTier[] = ["high", "medium", "low", "mobile"];
+
 /**
- * One volume preset: a small temperature grid advected upward through a
- * curl-noise velocity field by ONE compute pass per frame per preset (every
- * fire of the preset samples the same field, mirrored by its seed), and a
- * box raymarched through it. Cost: `fireVolumeCost`.
+ * One volume preset: a stable-fluids grid (velocity, pressure, and a dye of
+ * smoke, temperature and age) stepped at a fixed rate by 8 compute passes per
+ * step (advect velocity with forces, divergence, Jacobi pressure, project,
+ * advect dye with emission), and a box raymarched through it
+ * (vol-fix-design.md part B). Every fire of a preset samples one shared field
+ * (8 mirror variants); the nearest few own a private field
+ * (`FIRE_VOLUME_PRIVATE`). Values per tier live here, never in code.
+ * Cost: `fireVolumeCost`.
  */
 export interface FireVolumeConfig {
   /** Grid cells across, up, deep. */
   grid: readonly [number, number, number];
   /** The box around the emitter: width in flame widths, height in flame heights. */
   box: { widthW: number; heightH: number };
-  /** Curl-noise octaves of the velocity field (1..3). */
+  /** Curl octaves summed in the age-keyed turbulence (1..3). */
   octaves: number;
-  /** Buoyant rise of hot cells, box heights per second at temperature 1. */
-  riseSpeed: number;
-  /** Curl-noise velocity, box widths per second (licking, parting tongues). */
+  /** Buoyant acceleration at temperature 1, box heights per s^2 (the flame's height with `dissipation`). */
+  buoyancy: number;
+  /** Age-keyed curl push, box widths per s^2 at temperature 1. */
   turbulence: number;
-  /** Curl-noise features across the box. */
+  /** Curl features across the box. */
   noiseScale: number;
-  /** Temperature lost per second (the flame's height: faster cooling, shorter tongues). */
+  /** Temperature lost per second (faster cooling, shorter tongues). */
   dissipation: number;
   /** Temperature fed per second into the source disc at the box floor. */
   emit: number;
   /** Source disc radius, box half-widths. */
   sourceRadius: number;
-  /** Raymarch steps through the box. */
-  steps: number;
   /** Optical density at temperature 1, per box height. */
   density: number;
+  /** Raymarch steps through the box per tier; 0: this tier draws the preset as cards. */
+  steps: Readonly<Record<FireVolumeTier, number>>;
 }
+
+/** Per-tier solver settings shared by every preset. */
+export interface FireVolumeTierConfig {
+  /** Solver steps per second (fixed step 1/simHz). */
+  simHz: number;
+  /** Jacobi pressure iterations per step (even: A/B ping-pong ends in A). */
+  jacobi: number;
+  /** Private fields for the nearest fires within `FIRE_VOLUME_PRIVATE_M`. */
+  privateFields: number;
+  /** Curl texture edge (texels). */
+  curlN: number;
+  /** Volume reach (m): beyond it the fire is its cards; null keeps the default reach. */
+  reachM: number | null;
+}
+
+export const FIRE_VOLUME_TIER_CONFIG: Readonly<Record<FireVolumeTier, FireVolumeTierConfig>> = {
+  high: { simHz: 60, jacobi: 4, privateFields: 2, curlN: 64, reachM: null },
+  medium: { simHz: 60, jacobi: 4, privateFields: 1, curlN: 64, reachM: null },
+  low: { simHz: 60, jacobi: 4, privateFields: 0, curlN: 64, reachM: 6 },
+  mobile: { simHz: 30, jacobi: 2, privateFields: 0, curlN: 32, reachM: null },
+};
+/** A fire nearer than this to the camera may own a private field (m). */
+export const FIRE_VOLUME_PRIVATE_M = 8;
+/** Steps a fixed-step solver may catch up in one frame. */
+export const FIRE_VOLUME_MAX_CATCHUP = 3;
 
 export const DEFAULT_RAMP_BANDS = { mid: 0.2, tip: 0.5 } as const;
 // small flames: a deeper red root, a warm yellow body and a deep orange tip
@@ -131,18 +164,23 @@ export const DEFAULT_RAMP_BANDS = { mid: 0.2, tip: 0.5 } as const;
 const CANDLE_RAMP = { base: [0.7, 0.06, 0.0], mid: [1.0, 0.8, 0.32], tip: [0.95, 0.3, 0.02] } as const;
 const SMALL_BANDS = { mid: 0.1, tip: 0.3 } as const;
 const WOOD_RAMP = { base: [0.6, 0.05, 0.0], mid: [1.0, 0.8, 0.3], tip: [1.0, 0.38, 0.03] } as const;
-/** The volume every wood fire starts from; presets override a few numbers. */
+/** The volume every wood fire starts from (the brazier); presets override a few numbers. */
 const WOOD_VOLUME: FireVolumeConfig = {
-  grid: [16, 32, 16], box: { widthW: 1.7, heightH: 1.25 }, octaves: 2,
-  riseSpeed: 1.6, turbulence: 0.9, noiseScale: 2.2, dissipation: 1.5, emit: 9, sourceRadius: 0.55,
-  // judge (a), 2026-09-29: 24 steps banded and density 7 let the sky through (pale, pink-grey by day)
-  steps: 32, density: 12,
+  grid: [20, 40, 20], box: { widthW: 1.7, heightH: 1.25 }, octaves: 2,
+  buoyancy: 2.6, turbulence: 0.9, noiseScale: 2.2, dissipation: 1.5, emit: 9, sourceRadius: 0.55,
+  // judge (a), 2026-09-29: density 7 let the sky through (pale, pink-grey by day)
+  density: 12, steps: { high: 24, medium: 16, low: 16, mobile: 12 },
 };
+const TORCH_VOLUME: FireVolumeConfig = {
+  ...WOOD_VOLUME, grid: [16, 32, 16], box: { widthW: 1.9, heightH: 1.3 }, buoyancy: 3.0, sourceRadius: 0.4,
+  dissipation: 1.7, steps: { high: 24, medium: 16, low: 16, mobile: 0 },
+};
+const BIG_STEPS = { high: 28, medium: 20, low: 20, mobile: 12 } as const;
 
 /** The presets, smallest and calmest first. */
 export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
   candle: {
-    schemaVersion: 3, id: "candle",
+    schemaVersion: 4, id: "candle",
     shape: { widthM: 0.04, heightM: 0.1, taper: 0.8 },
     layers: { core: 2, outer: 1, spreadM: 0.01 },
     turbulence: 0.4, riseSpeed: 1.6, motion: { swayW: 1.1, pulse: 0.4, rateHz: 3.4 }, ramp: CANDLE_RAMP, bands: SMALL_BANDS,
@@ -151,7 +189,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     smokeHandOffM: 0, gain: { day: 1.0, night: 0.95 },
   },
   lanternStanding: {
-    schemaVersion: 3, id: "lanternStanding",
+    schemaVersion: 4, id: "lanternStanding",
     shape: { widthM: 0.06, heightM: 0.15, taper: 0.8 },
     layers: { core: 2, outer: 1, spreadM: 0.012 },
     turbulence: 0.4, riseSpeed: 1.5, motion: { swayW: 1.0, pulse: 0.4, rateHz: 3.2 }, ramp: CANDLE_RAMP, bands: SMALL_BANDS,
@@ -165,7 +203,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     // one candle-lantern flame at the body's centre. Sized as the candle
     // lantern's candle (lanternStanding), never the body: a 0.4 m card filled
     // the cage and the cage read as glowing (walk 9, owner)
-    schemaVersion: 3, id: "lanternHanging",
+    schemaVersion: 4, id: "lanternHanging",
     shape: { widthM: 0.06, heightM: 0.15, taper: 0.8 },
     layers: { core: 2, outer: 1, spreadM: 0.012 },
     turbulence: 0.42, riseSpeed: 1.5, motion: { swayW: 1.0, pulse: 0.4, rateHz: 3.0 }, ramp: CANDLE_RAMP, bands: SMALL_BANDS,
@@ -174,27 +212,27 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     smokeHandOffM: 0, gain: { day: 1.0, night: 0.95 },
   },
   torchGround: {
-    schemaVersion: 3, id: "torchGround",
+    schemaVersion: 4, id: "torchGround",
     shape: { widthM: 0.24, heightM: 0.58, taper: 0.6 },
     layers: { core: 2, outer: 1, spreadM: 0.03 },
     turbulence: 0.45, riseSpeed: 2.0, motion: { swayW: 0.45, pulse: 0.22, rateHz: 2.6 }, ramp: WOOD_RAMP,
     flicker: { rateHz: 7, amount: 0.14 }, windResponse: 0.35,
     embers: { count: 3, riseM: 0.8, sizeM: 0.012, lifeS: 1.4 },
     smokeHandOffM: 0.45, gain: { day: 1.0, night: 0.95 },
-    volume: { ...WOOD_VOLUME, box: { widthW: 1.9, heightH: 1.3 }, sourceRadius: 0.4, dissipation: 1.7 },
+    volume: TORCH_VOLUME,
   },
   torchHandheld: {
-    schemaVersion: 3, id: "torchHandheld",
+    schemaVersion: 4, id: "torchHandheld",
     shape: { widthM: 0.22, heightM: 0.52, taper: 0.6 },
     layers: { core: 2, outer: 1, spreadM: 0.03 },
     turbulence: 0.45, riseSpeed: 2.0, motion: { swayW: 0.45, pulse: 0.22, rateHz: 2.6 }, ramp: WOOD_RAMP,
     flicker: { rateHz: 7, amount: 0.14 }, windResponse: 0.45,
     embers: { count: 3, riseM: 0.7, sizeM: 0.012, lifeS: 1.2 },
     smokeHandOffM: 0.4, gain: { day: 1.0, night: 0.95 },
-    volume: { ...WOOD_VOLUME, box: { widthW: 1.9, heightH: 1.3 }, sourceRadius: 0.4, dissipation: 1.7 },
+    volume: TORCH_VOLUME,
   },
   brazier: {
-    schemaVersion: 3, id: "brazier",
+    schemaVersion: 4, id: "brazier",
     shape: { widthM: 0.5, heightM: 1.0, taper: 0.55 },
     layers: { core: 2, outer: 2, spreadM: 0.12 },
     turbulence: 0.55, riseSpeed: 2.2, motion: { swayW: 0.5, pulse: 0.28, rateHz: 2.2 }, ramp: WOOD_RAMP,
@@ -204,24 +242,25 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     volume: { ...WOOD_VOLUME },
   },
   hearth: {
-    schemaVersion: 3, id: "hearth",
+    schemaVersion: 4, id: "hearth",
     shape: { widthM: 0.55, heightM: 1.05, taper: 0.55 },
     layers: { core: 2, outer: 3, spreadM: 0.2 },
     turbulence: 0.6, riseSpeed: 2.2, motion: { swayW: 0.5, pulse: 0.28, rateHz: 2.0 }, ramp: WOOD_RAMP,
     flicker: { rateHz: 5.5, amount: 0.12 }, windResponse: 0.1,
     embers: { count: 6, riseM: 1.2, sizeM: 0.014, lifeS: 1.8 },
     smokeHandOffM: 0.9, gain: { day: 1.0, night: 0.95 },
-    volume: { ...WOOD_VOLUME, turbulence: 1.0 },
+    volume: { ...WOOD_VOLUME, grid: [24, 48, 24], buoyancy: 2.4, turbulence: 1.0, steps: BIG_STEPS },
   },
   campfire: {
-    schemaVersion: 3, id: "campfire",
+    schemaVersion: 4, id: "campfire",
     shape: { widthM: 0.8, heightM: 1.7, taper: 0.5 },
     layers: { core: 3, outer: 3, spreadM: 0.3 },
     turbulence: 0.72, riseSpeed: 2.5, motion: { swayW: 0.55, pulse: 0.3, rateHz: 1.9 }, ramp: WOOD_RAMP,
     flicker: { rateHz: 5, amount: 0.15 }, windResponse: 0.4,
     embers: { count: 10, riseM: 2.2, sizeM: 0.016, lifeS: 2.4 },
     smokeHandOffM: 1.2, gain: { day: 1.0, night: 0.95 },
-    volume: { ...WOOD_VOLUME, turbulence: 1.1, octaves: 3, dissipation: 1.3 },
+    volume: { ...WOOD_VOLUME, grid: [24, 48, 24], buoyancy: 2.8, turbulence: 1.1, octaves: 3, dissipation: 1.3,
+      steps: BIG_STEPS },
   },
 };
 
@@ -366,27 +405,32 @@ export function nightShareOfExposure(exposure: number): number {
 /** The presets that draw as a volume on the WebGPU backend. */
 export const FIRE_VOLUME_PRESETS: readonly FirePresetId[] = FIRE_PRESET_ORDER.filter((id) => FIRE_PRESETS[id].volume);
 
-/** The stated cost of the volume path (decision 0110). */
+/** Bytes per cell of one field: velocity A/B, dye A/B, pressure A/B, divergence, all rgba16float. */
+export const FIRE_FIELD_BYTES_PER_CELL = 7 * 8;
+/** GPU memory of the shared curl texture (rgba16float, `curlN`^3), MiB. */
+export function fireCurlMiB(curlN: number): number { return (curlN ** 3 * 8) / (1024 * 1024); }
+
+/** The stated cost of the volume path (decision 0110, vol-fix-design.md B6). */
 export interface FireVolumeCost {
-  /** Grid cells of one preset's field. */
+  /** Grid cells of one field. */
   cells: number;
-  /** GPU memory of one preset's field: two rgba16float grids (ping-pong), MB. */
+  /** GPU memory of one field (shared or private), MiB. */
   fieldMB: number;
-  /** Compute passes per frame per preset in view (fires of a preset share its field). */
-  computePassesPerFrame: number;
+  /** Compute passes per solver step: advect, divergence, `jacobi`, project, dye. */
+  computePassesPerStep: number;
   /** Per-fire memory: one instance row, bytes. */
   perFireBytes: number;
-  /** 3-D texture samples per covered pixel (one per raymarch step). */
+  /** 3-D texture samples per covered pixel (march steps x 2: dye + detail). */
   samplesPerPixel: number;
 }
 
-export function fireVolumeCost(v: FireVolumeConfig): FireVolumeCost {
+export function fireVolumeCost(v: FireVolumeConfig, tier: FireVolumeTier = "high"): FireVolumeCost {
   const cells = v.grid[0] * v.grid[1] * v.grid[2];
   return {
     cells,
-    fieldMB: (cells * 8 * 2) / (1024 * 1024),
-    computePassesPerFrame: 1,
+    fieldMB: (cells * FIRE_FIELD_BYTES_PER_CELL) / (1024 * 1024),
+    computePassesPerStep: 4 + FIRE_VOLUME_TIER_CONFIG[tier].jacobi,
     perFireBytes: 12 * 4,
-    samplesPerPixel: v.steps,
+    samplesPerPixel: v.steps[tier] * 2,
   };
 }

@@ -4,7 +4,7 @@
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=4.384&z=2.05&t=06:00&w=mist",
   "clean": true,
   "shots": "20000@60,600000",
-  "seconds": 150,
+  "seconds": 180,
   "aim": [
    2.3562,
    0.15

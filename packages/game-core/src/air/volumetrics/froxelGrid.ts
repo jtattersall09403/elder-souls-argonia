@@ -13,8 +13,8 @@ import * as THREE from "three";
 import { Storage3DTexture, type WebGPURenderer } from "three/webgpu";
 import * as tsl from "three/tsl";
 import type { TslNode } from "../../render/nodes/materialNodes";
-import { makeVolumeDetail } from "../../fx/fire/volumeFire";
-import { fogRegimes, MOISTURE_FLOOR, MIST_FADE_SHARE, MIST_SCALE_SHARE,type FogFieldInput, type FogRegimes } from "./fogField";
+import { fogRegimesInto, MOISTURE_FLOOR, MIST_FADE_SHARE, MIST_SCALE_SHARE, type FogFieldInput, type FogRegimes } from "./fogField";
+import { FOG_NOISE, FogDrift, bakeFogShape, bakeFogWarp } from "./fogNoise";
 import { SHADOWED_SKY, SUN_PROBES_M, SUN_PROBE_NEAR_M, probeSoftM } from "./terrainSun";
 import { TerrainGrids, NEAR_SIZE_M, FAR_SIZE_M, type TerrainSamplers } from "./terrainGrids";
 import { CanopyMap, CANOPY_SIZE_M, type Crown } from "./canopyMap";
@@ -27,11 +27,13 @@ const {
 } = T;
 
 export type VolumetricBand = "off" | "low" | "medium" | "high";
-export interface BandSpec { grid: readonly [number, number, number]; farM: number; temporal: boolean }
+/** A band: froxel grid, reach, temporal reprojection, and the fog shape's spend (fogNoise FOG_NOISE.bands:
+ * octaves summed, warp layers). */
+export interface BandSpec { grid: readonly [number, number, number]; farM: number; temporal: boolean; fogOctaves: 2 | 3 | 4; fogWarps: 1 | 2 }
 export const VOLUMETRIC_BANDS: Record<Exclude<VolumetricBand, "off">, BandSpec> = {
-  low: { grid: [80, 45, 32], farM: 400, temporal: false },
-  medium: { grid: [128, 72, 48], farM: 800, temporal: true },
-  high: { grid: [160, 90, 64], farM: 1500, temporal: true },
+  low: { grid: [80, 45, 32], farM: 400, temporal: false, fogOctaves: FOG_NOISE.bands.low.octaves, fogWarps: FOG_NOISE.bands.low.warps },
+  medium: { grid: [128, 72, 48], farM: 800, temporal: true, fogOctaves: FOG_NOISE.bands.medium.octaves, fogWarps: FOG_NOISE.bands.medium.warps },
+  high: { grid: [160, 90, 64], farM: 1500, temporal: true, fogOctaves: FOG_NOISE.bands.high.octaves, fogWarps: FOG_NOISE.bands.high.warps },
 };
 /** The grids are allocated once at this size (the largest band) and never resized (see the class doc). */
 export const MAX_GRID = VOLUMETRIC_BANDS.high.grid;
@@ -87,7 +89,10 @@ export interface InteriorFogProfile { floorY: number; floorMistTopM: number; flo
 
 export interface VolumetricsFrame {
   camera: THREE.PerspectiveCamera;
+  /** Real seconds, unwrapped (the studio's water transport clock): drives steam rise, motes, floor mist. */
   timeS: number;
+  /** Real seconds since the last update; the fog drift integrates it. Absent: timeS's step (0..600 s). */
+  deltaS?: number;
   /** Unit vector toward the sun (or moon). */
   sunDir: THREE.Vector3;
   /** Sun irradiance at the ground, the directional light's colour × intensity. */
@@ -109,6 +114,22 @@ export interface VolumetricsDeps {
   backend: "webgpu" | "webgl";
   terrain: TerrainSamplers;
   crowns: (x: number, z: number, radiusM: number) => Iterable<Crown>;
+  /** fogShape texels per side: 128 (8 MiB, the default) or 64 (1 MiB, the mobile tier). */
+  fogShapeTexels?: 64 | 128;
+}
+
+/** An rgba8 repeat-wrapped linear 3-D noise texture (fogNoise bakes). */
+function makeNoise3(data: Uint8Array, n: number, name: string): THREE.Data3DTexture {
+  const t = new THREE.Data3DTexture(data, n, n, n);
+  t.name = name;
+  t.format = THREE.RGBAFormat;
+  t.type = THREE.UnsignedByteType;
+  t.minFilter = t.magFilter = THREE.LinearFilter;
+  t.wrapS = t.wrapT = t.wrapR = THREE.RepeatWrapping;
+  t.generateMipmaps = false;
+  t.unpackAlignment = 1;
+  t.needsUpdate = true;
+  return t;
 }
 
 function makeGrid(g: readonly [number, number, number], name: string): Storage3DTexture {
@@ -145,7 +166,14 @@ export class Volumetrics implements VolumetricsSampler {
   band: VolumetricBand = "off";
   readonly grids: TerrainGrids;
   readonly canopy: CanopyMap;
-  private readonly detail = makeVolumeDetail();
+  /** The fog's own noise (fogNoise): shape 128^3 (or 64^3) and warp 32^3, baked once at construction. */
+  private readonly fogShape: THREE.Data3DTexture;
+  private readonly fogWarp: THREE.Data3DTexture;
+  /** The fog field's clock and drift (integrated offsets, morph, eased coverage). */
+  readonly drift = new FogDrift();
+  private readonly regimes: FogRegimes = { radiationMist: 0, steamFog: 0, marshFog: 0, seaFog: 0, canopyHaze: 0, air: 1, windXZ: [0, 0] };
+  private readonly coverTarget = new Float64Array(5);
+  private lastTimeS = Number.NaN;
   private readonly clear = makeClear();
   /**
    * The four grids, allocated once at `MAX_GRID` (WebGPU only) and destroyed only by `dispose`: a
@@ -176,8 +204,14 @@ export class Volumetrics implements VolumetricsSampler {
     camFwd: uniform(new THREE.Vector3()), tanHalf: uniform(new THREE.Vector2(1, 1)), jitter: uniform(0), jitterXY: uniform(new THREE.Vector2()), time: uniform(0),
     prevViewProj: uniform(new THREE.Matrix4()), history: uniform(0),
     sunDir: uniform(new THREE.Vector3(0, 1, 0)), sunIrr: uniform(new THREE.Color(0, 0, 0)), skyIrr: uniform(new THREE.Color(0, 0, 0)),
-    mist: uniform(0), steam: uniform(0), marsh: uniform(0), sea: uniform(0), canopyHaze: uniform(0), air: uniform(1),
-    wind: uniform(new THREE.Vector2()), mistDepth: uniform(30),
+    canopyHaze: uniform(0), air: uniform(1),
+    mistDepth: uniform(30),
+    // fog drift (FogDrift uploads, 0..1 texture units): per-octave and per-warp offsets, morph, coverage
+    off: [0, 1, 2, 3].map(() => uniform(new THREE.Vector3())), warpOff: [0, 1].map(() => uniform(new THREE.Vector3())),
+    phiA: uniform(0), phiB: uniform(0), wfade: uniform(0.5), slow: uniform(0.5),
+    /** Eased coverage: x radiation mist, y steam, z marsh, w sea. */
+    cover: uniform(new THREE.Vector4()),
+    steamOff: uniform(new THREE.Vector3()), wispOff: uniform(new THREE.Vector3()),
     nearOrigin: uniform(new THREE.Vector2()), farOrigin: uniform(new THREE.Vector2()), canopyOrigin: uniform(new THREE.Vector2()),
     floorY: uniform(0), floorTop: uniform(0), floorMist: uniform(0), dust: uniform(0), outdoor: uniform(1),
     lightCount: uniform(0, "int"), apertureCount: uniform(0, "int"),
@@ -198,6 +232,9 @@ export class Volumetrics implements VolumetricsSampler {
     this.grids = new TerrainGrids(deps.terrain);
     this.canopy = new CanopyMap(deps.crowns);
     const gpu = deps.backend === "webgpu";
+    const n = gpu ? (deps.fogShapeTexels ?? 128) : 1;
+    this.fogShape = makeNoise3(gpu ? bakeFogShape(n) : new Uint8Array(4), n, "es-vol-fog-shape");
+    this.fogWarp = makeNoise3(gpu ? bakeFogWarp() : new Uint8Array(4), gpu ? FOG_NOISE.warpTexels : 1, "es-vol-fog-warp");
     this.scatter = gpu ? [makeGrid(MAX_GRID, "es-vol-scatter-a"), makeGrid(MAX_GRID, "es-vol-scatter-b")] : null;
     this.integ = gpu ? makeGrid(MAX_GRID, "es-vol-integrated") : null;
     this.blurred = gpu ? makeGrid(MAX_GRID, "es-vol-scatter-blurred") : null;
@@ -243,9 +280,61 @@ export class Volumetrics implements VolumetricsSampler {
     this.on.value = 1;
   }
 
+  /**
+   * The fog shape at world `p` (TSL), 0..1: the band's octave sum of the fog's own noise (fogNoise
+   * fogShapeNoise is the CPU twin), domain-warped, contrast-stretched about 0.5. `.x` the shape, `.y` the
+   * spatial coverage noise (warp a). Sampled at world p only; the 4th octave fades to its mean beyond
+   * FOG_NOISE.fineFadeM of the eye (level of detail, the mean density does not move).
+   */
+  private fogShapeAt(p: TslNode, spec: BandSpec): TslNode {
+    const u = this.u;
+    const rot = (v: TslNode, a: number) => {
+      const c = Math.cos(a), s = Math.sin(a);
+      return vec3(v.x.mul(c).sub(v.z.mul(s)), v.y, v.x.mul(s).add(v.z.mul(c)));
+    };
+    let q: TslNode = p;
+    let cov: TslNode = float(0.5);
+    for (let k = 0; k < spec.fogWarps; k++) {
+      const L = FOG_NOISE.warp[k].tileM;
+      const w = texture3D(this.fogWarp, rot(p, (k + 0.5) * FOG_NOISE.rotationRad).div(L).sub(u.warpOff[k]), 0);
+      q = q.add(w.xyz.sub(0.5).mul(2 * FOG_NOISE.warp[k].ampM));
+      if (k === 0) cov = w.w;
+    }
+    let sum: TslNode = float(0);
+    let wsum = 0;
+    for (let k = 0; k < spec.fogOctaves; k++) {
+      const o = FOG_NOISE.octaves[k];
+      const uvw = rot(q, k * FOG_NOISE.rotationRad).div(vec3(o.tileXZ, o.tileY, o.tileXZ)).sub(u.off[k]);
+      let sv: TslNode;
+      if (k < 2) {
+        const sA = texture3D(this.fogShape, uvw.add(vec3(u.phiA, 0, 0)), 0).x;
+        const sB = texture3D(this.fogShape, uvw.add(vec3(0, u.phiB, 0)), 0).y;
+        sv = mix(sA, sB, u.wfade);
+      } else {
+        sv = texture3D(this.fogShape, uvw, 0).z;
+        if (k === 3) {
+          const fine = float(1).sub(smoothstep(FOG_NOISE.fineFadeM[0], FOG_NOISE.fineFadeM[1], length(p.sub(u.camPos))));
+          sv = mix(float(0.5), sv, fine);
+        }
+      }
+      sum = sum.add(sv.mul(o.weight));
+      wsum += o.weight;
+    }
+    const n = clamp(sum.div(wsum).sub(0.5).mul(FOG_NOISE.contrast).add(0.5), 0, 1);
+    return vec2(n, cov);
+  }
+
+  /** Burn-off (fogNoise burnOff): the share of shape `n` left under coverage `c`, the spatial term `cov`
+   * and the slow day term moving c by up to +-FOG_NOISE.coverage.spatialShare. */
+  private burn(n: TslNode, c: TslNode, cov: TslNode): TslNode {
+    const share = FOG_NOISE.coverage.spatialShare;
+    const cp = clamp(c.mul(float(1).add(cov.sub(0.5).add(this.u.slow.sub(0.5)).mul(share))), 0, 1);
+    return max(n.sub(float(1).sub(cp)), float(0)).div(max(cp, float(0.05)));
+  }
+
   /** Density (m^-1) of the medium at world `p` (TSL); `fp` is the froxel's depth extent in metres,
    * which widens every hard transition to at least a froxel so the grid never stair-steps (prefilter). */
-  private density(p: TslNode, fp: TslNode = float(0)): TslNode {
+  private density(p: TslNode, spec: BandSpec, fp: TslNode = float(0)): TslNode {
     const u = this.u;
     const nuv = p.xz.sub(u.nearOrigin).div(NEAR_SIZE_M);
     const fuv = p.xz.sub(u.farOrigin).div(FAR_SIZE_M);
@@ -255,46 +344,45 @@ export class Volumetrics implements VolumetricsSampler {
     const ground = mix(farT.r, nearT.r, inNear);
     const hAG = p.y.sub(ground);
     const waterMask = nearT.b.mul(inNear);
-    const wet = nearT.a.mul(inNear);
-    // ground moisture (wet ground or standing water, the far grid's a; 0..1), squared: mist gathers over
-    // wet basins and thins over dry slopes (fogField moistureWeight; fable5-world-demo Froxels.ts:148)
-    const moist = mix(farT.a, max(nearT.a, nearT.b), inNear);
+    // ground moisture: wet ground, standing water (near b, far a) and the sea (far b), 0..1, squared: mist
+    // and marsh fog pool over water and wet basins and thin over dry slopes (fogField moistureWeight)
+    const moist = clamp(mix(max(farT.a, farT.b), max(max(nearT.a, nearT.b), farT.b), inNear), 0, 1);
     const moistW = float(MOISTURE_FLOOR).add(float(1 - MOISTURE_FLOOR).mul(moist.mul(moist)));
     const soft = (w: number) => max(float(w), fp.mul(0.6));
-    // drift: two octaves advected by the wind in different directions, the time axis mutating the shape
-    const w3 = vec3(u.wind.x, 0, u.wind.y).mul(u.time);
-    const w3b = vec3(u.wind.y.negate(), 0, u.wind.x).mul(u.time.mul(0.6));
-    const n1 = texture3D(this.detail, p.sub(w3).div(vec3(56, 30, 56)).add(vec3(0, 0, u.time.mul(0.004))), 0).x;
-    const n2 = texture3D(this.detail, p.sub(w3b.add(w3.mul(1.7))).div(vec3(15, 9, 15)).add(vec3(u.time.mul(0.011), 0, 0)), 0).y;
-    const n = clamp(float(0.55).add(n1.mul(0.35)).add(n2.mul(0.2)), 0, 1.4);
+    const shape = this.fogShapeAt(p, spec);
+    const n = shape.x, cov = shape.y;
+    const nc = n.sub(0.5);
     const outdoor = u.outdoor;
     // radiation mist: pools over the basin floor, falling exponentially with height above it
-    // (fogField mistHeightProfile) and faded to zero by a top billowed by the noise; ground above the
-    // floor (slopes, rims) sits higher in the profile and carries less; the lateral edge fades over the
-    // last 6 m of depth.
-    const top = farT.g.add(u.mistDepth).add(n1.mul(1.2)).add(n2.mul(0.6));
+    // (fogField mistHeightProfile), faded to zero by a top billowed by the shape; ground above the floor
+    // (slopes, rims) sits higher in the profile and carries less; the lateral edge fades over the last 6 m.
+    const top = farT.g.add(u.mistDepth).add(nc.mul(4));
     const depth = max(top.sub(farT.g), float(1));
     const hF = max(p.y.sub(farT.g), float(0));
     const mist = exp(hF.div(depth.mul(MIST_SCALE_SHARE)).negate())
       .mul(float(1).sub(smoothstep(top.sub(max(depth.mul(MIST_FADE_SHARE), soft(1.5))), top, p.y)))
       .mul(smoothstep(-1, 1, hAG)).mul(smoothstep(0, 6, top.sub(ground)))
-      .mul(n).mul(u.mist).mul(moistW).mul(0.045);
-    // steam fog: wisps over water, thin rising columns (stretched 5x vertically), patchy (~half
-    // covered), each column fading with height at its own 1..5 m
-    const rise = vec3(0, u.time.mul(0.35), 0);
-    const ns = texture3D(this.detail, p.sub(w3.mul(0.8)).sub(rise).div(vec3(2.2, 3, 2.2)), 0).x;
-    const nh = texture3D(this.detail, p.sub(w3.mul(1.2)).sub(rise.mul(1.5)).div(vec3(1.3, 2.2, 1.3)), 0).z;
+      .mul(this.burn(n, u.cover.x, cov)).mul(moistW).mul(0.05);
+    // steam fog: wisps over water, thin rising columns, patchy (~half covered), each column fading with
+    // height at its own 1..5 m; its own drift and rise (FogDrift steam/wisp offsets)
+    const signed = (v: TslNode) => v.sub(0.5).mul(3.2);
+    const ns = signed(texture3D(this.fogShape, p.div(vec3(...FOG_NOISE.steam.tile)).sub(u.steamOff), 0).z);
+    const nh = signed(texture3D(this.fogShape, p.div(vec3(...FOG_NOISE.wisp.tile)).sub(u.wispOff), 0).w);
     const overW = p.y.sub(nearT.g);
     const colTop = float(1).add(ns.mul(3)).add(nh);
     const steam = waterMask.mul(float(1).sub(smoothstep(colTop.mul(0.3), colTop, overW))).mul(smoothstep(-0.3, 0.1, overW))
-      .mul(smoothstep(0.55, 0.8, ns.add(nh.mul(0.5)))).mul(u.steam).mul(0.12);
-    // marsh ground fog: knee-to-waist (0.5..1.6 m), the top torn by both octaves into mounds and gaps,
-    // density falling linearly with height to that top (thick at the ankles, thin at the waist)
-    const marshTop = float(0.35).add(n1.mul(1.1)).add(n2.mul(0.9));
-    const marshFall = clamp(float(1).sub(hAG.div(max(marshTop, float(0.2)))), 0, 1);
-    const marsh = wet.mul(marshFall).mul(smoothstep(float(0).sub(soft(0.3)), float(0), hAG)).mul(smoothstep(0.25, 0.6, n2.add(n1.mul(0.5))))
-      .mul(n).mul(u.marsh).mul(0.14);
-    const sea = farT.b.mul(exp(max(p.y, 0).div(-150))).mul(n).mul(u.sea).mul(0.012);
+      .mul(smoothstep(0.55, 0.8, ns.add(nh.mul(0.5)))).mul(u.cover.y).mul(0.12);
+    // marsh ground fog: knee-to-waist over wet ground and standing water (measured from the water surface
+    // there), pooling in low ground (within 12 m of the basin floor); the top torn by the shape into
+    // mounds and gaps, density falling linearly with height to that top
+    const surf = mix(ground, max(ground, nearT.g), waterMask);
+    const hAS = p.y.sub(surf);
+    const low = float(1).sub(smoothstep(2, 12, ground.sub(farT.g)));
+    const marshTop = float(0.95).add(nc.mul(2.2));
+    const marshFall = clamp(float(1).sub(hAS.div(max(marshTop, float(0.2)))), 0, 1);
+    const marsh = moist.mul(low).mul(marshFall).mul(smoothstep(float(0).sub(soft(0.3)), float(0), hAS))
+      .mul(this.burn(n, u.cover.z, cov)).mul(0.16);
+    const sea = farT.b.mul(exp(max(p.y, 0).div(-150))).mul(this.burn(n, u.cover.w, cov)).mul(0.012);
     const cuv = p.xz.sub(u.canopyOrigin).div(CANOPY_SIZE_M);
     const under = smoothstep(0, 0.3, texture(this.canopy.texture, cuv).b.sub(ground));
     // canopy haze: humid air under the crowns, 0.01..0.03 /m at full strength (0112 §5)
@@ -303,8 +391,8 @@ export class Volumetrics implements VolumetricsSampler {
     const outside = mist.add(steam).add(marsh).add(sea).add(haze).mul(outdoor);
     // interior floor mist: 0..top, two octaves swirling in opposite directions, curling top
     const sw = vec3(u.time.mul(0.25), 0, u.time.mul(0.1));
-    const f1 = texture3D(this.detail, p.add(sw).div(vec3(3, 1.2, 3)).add(vec3(0, u.time.mul(0.02), 0)), 0).x;
-    const f2 = texture3D(this.detail, p.sub(sw.mul(1.6).zyx).div(vec3(1.1, 0.6, 1.1)), 0).y;
+    const f1 = signed(texture3D(this.fogShape, p.add(sw).div(vec3(6, 2.4, 6)).add(vec3(0, u.time.mul(0.01), 0)), 0).z);
+    const f2 = signed(texture3D(this.fogShape, p.sub(sw.mul(1.6).zyx).div(vec3(2.2, 1.2, 2.2)), 0).w);
     const fTop = u.floorTop.add(f1.mul(0.35)).add(f2.mul(0.15));
     const floor = float(1).sub(smoothstep(fTop.sub(0.5), fTop, p.y))
       .mul(smoothstep(u.floorY.sub(0.1), u.floorY.add(0.05), p.y))
@@ -471,7 +559,7 @@ export class Volumetrics implements VolumetricsSampler {
       const p = u.camPos.add(dir.mul(depth));
       const v = normalize(dir);
       const fp = depth.mul(Math.pow(spec.farM / FROXEL_NEAR_M, 1 / gz) - 1);
-      const sigmaT = max(this.density(p, fp), float(1e-7)).toVar();
+      const sigmaT = max(this.density(p, spec, fp), float(1e-7)).toVar();
       const cSun = dot(v, u.sunDir);
       const phaseSun = sunPhase(cSun, u.sunDir.y);
       const sunVis = this.terrainSunT(p);
@@ -479,7 +567,7 @@ export class Volumetrics implements VolumetricsSampler {
       // the medium's own shadow on the sun (sunInscatterGain): optical depth up the sun ray
       let sunOd: TslNode = float(0);
       SUN_OD_PROBES_M.forEach((d, k) => {
-        sunOd = sunOd.add(this.density(p.add(u.sunDir.mul(d)), fp).mul(SUN_OD_SPAN_M[k]));
+        sunOd = sunOd.add(this.density(p.add(u.sunDir.mul(d)), spec, fp).mul(SUN_OD_SPAN_M[k]));
       });
       const sunT = exp(sunOd.negate());
       const sunGain = sunT.mul(phaseSun).add(float(1).sub(sunT).mul(1 / (4 * Math.PI)));
@@ -496,7 +584,7 @@ export class Volumetrics implements VolumetricsSampler {
         const inBeam = step(float(0), along).mul(float(1).sub(smoothstep(ap.w.mul(0.8), ap.w, radial)))
           .mul(float(1).sub(smoothstep(ad.w.mul(0.7), ad.w, along)));
         // beam-local dust: fine motes drifting in the shaft (0.15..2.65 /m), the room around it stays clear
-        const mote = texture3D(this.detail, p.add(vec3(u.time.mul(0.03), u.time.mul(-0.02), 0)).div(vec3(0.14, 0.14, 0.14)), 0).x;
+        const mote = texture3D(this.fogShape, p.add(vec3(u.time.mul(0.03), u.time.mul(-0.02), 0)).div(vec3(0.28, 0.28, 0.28)), 0).z.sub(0.5).mul(3.2);
         sigmaT.addAssign(inBeam.mul(float(0.15).add(smoothstep(0.66, 0.78, mote).mul(2.5))));
         radiance.addAssign(this.uApCol.element(i).xyz.mul(inBeam).mul(mix(float(1 / (4 * Math.PI)), hg(0.7, dot(ad.xyz, v.negate())), 0.6)));
       });
@@ -573,16 +661,17 @@ export class Volumetrics implements VolumetricsSampler {
     u.nearOrigin.value.copy(this.grids.near.origin);
     u.farOrigin.value.copy(this.grids.far.origin);
     u.canopyOrigin.value.copy(this.canopy.origin);
-    const r = f.regimes ?? (f.fog ? fogRegimes(f.fog) : null);
+    const sunElevationDeg = THREE.MathUtils.radToDeg(Math.asin(Math.max(-1, Math.min(1, f.sunDir.y / (f.sunDir.length() || 1)))));
+    let r: FogRegimes | null = f.regimes ?? null;
+    if (!r && f.fog) r = fogRegimesInto(this.regimes, f.fog, f.fog.sunElevationDeg ?? sunElevationDeg);
     const interior = f.interior ?? null;
     u.outdoor.value = interior ? 0 : 1;
-    u.mist.value = r?.radiationMist ?? 0; u.steam.value = r?.steamFog ?? 0; u.marsh.value = r?.marshFog ?? 0;
-    u.sea.value = r?.seaFog ?? 0; u.canopyHaze.value = r?.canopyHaze ?? 0; u.air.value = r?.air ?? 1;
-    if (r) u.wind.value.set(r.windXZ[0], r.windXZ[1]);
+    this.stepFog(f, r);
     u.mistDepth.value = f.mistDepthM ?? 30;
     u.floorY.value = interior?.floorY ?? 0; u.floorTop.value = interior ? interior.floorY + interior.floorMistTopM : 0;
     u.floorMist.value = interior?.floorMistDensity ?? 0; u.dust.value = interior?.dustDensity ?? 0;
-    u.time.value = f.timeS;
+    // steam rise and motes only: real seconds folded at an hour (their textures tile far below it)
+    u.time.value = f.timeS % 3600;
     u.sunDir.value.copy(f.sunDir).normalize();
     u.sunIrr.value.copy(f.sunIrradiance);
     u.skyIrr.value.copy(f.skyIrradiance);
@@ -621,6 +710,25 @@ export class Volumetrics implements VolumetricsSampler {
     this.hasHistory = true;
   }
 
+  /** Advance the fog drift (FogDrift) by the frame's real seconds and upload its offsets, morph and
+   * eased coverage. Reads only the clock, the wind and the regimes: never the camera or the player. */
+  private stepFog(f: VolumetricsFrame, r: FogRegimes | null): void {
+    const u = this.u;
+    const dt = f.deltaS ?? (Number.isFinite(this.lastTimeS) ? Math.min(600, Math.max(0, f.timeS - this.lastTimeS)) : 0);
+    this.lastTimeS = f.timeS;
+    const d = this.drift;
+    d.step(dt, r?.windXZ[0] ?? 0, r?.windXZ[1] ?? 0, f.fog?.dayIndex ?? 0);
+    const t = this.coverTarget;
+    t[0] = r?.radiationMist ?? 0; t[1] = r?.steamFog ?? 0; t[2] = r?.marshFog ?? 0; t[3] = r?.seaFog ?? 0; t[4] = r?.canopyHaze ?? 0;
+    d.ease(t, dt, f.fog?.minuteOfDay ?? 0);
+    for (let k = 0; k < 4; k++) u.off[k].value.set(d.octaveOff[3 * k], 0, d.octaveOff[3 * k + 2]);
+    for (let k = 0; k < 2; k++) u.warpOff[k].value.set(d.warpOff[3 * k], 0, d.warpOff[3 * k + 2]);
+    u.phiA.value = d.phiA; u.phiB.value = d.phiB; u.wfade.value = d.wfade; u.slow.value = d.slow;
+    u.cover.value.set(d.cover[0], d.cover[1], d.cover[2], d.cover[3]);
+    u.canopyHaze.value = d.cover[4]; u.air.value = r?.air ?? 1;
+    u.steamOff.value.fromArray(d.steamOff); u.wispOff.value.fromArray(d.wispOff);
+  }
+
   /** The `MAX_VOLUME_LIGHTS` lights nearest the camera (whose reach can touch the grid). */
   private pickLights(lights: readonly VolumeLight[], at: THREE.Vector3): void {
     const order = this.order;
@@ -643,7 +751,8 @@ export class Volumetrics implements VolumetricsSampler {
     this.kernels = null; this.kernelsByBand.clear();
     this.grids.dispose();
     this.canopy.dispose();
-    this.detail.dispose();
+    this.fogShape.dispose();
+    this.fogWarp.dispose();
     this.clear.dispose();
   }
 }

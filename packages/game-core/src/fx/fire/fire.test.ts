@@ -16,8 +16,8 @@ import {
   FIRE_VOLUME_REACH_M, makeEmberMaterial, makeFireUniforms, makeFlameMaterial, volumeShareAt,
 } from "./flameMaterial";
 import { acesRoundTripGrey } from "./fireNodes";
-import { makeVolumeDetail } from "./volumeFire";
-import { FIRE_VOLUME_PRESETS, fireVolumeCost } from "./fireTypes";
+import { makeFireCurl } from "./volumeFire";
+import { FIRE_VOLUME_PRESETS, FIRE_VOLUME_TIER_CONFIG, fireCurlMiB, fireVolumeCost } from "./fireTypes";
 import { interiorFireEmitters, interiorFlameAnchorsLocal, burnsInInterior } from "./interiorFires";
 import {
   fallbackFlameAnchorLocal, flameAnchorFailures, manifestBoxYUp, pieceFlameAnchorsLocal, type FlameAnchorMeta,
@@ -74,15 +74,45 @@ describe("fire presets", () => {
     for (const id of ["candle", "lanternHanging", "lanternStanding"] as const) expect(FIRE_PRESETS[id].volume).toBeUndefined();
   });
 
-  it("the volume cost stays inside the budget decision 0110 states", () => {
+  it("the volume cost stays inside the budget vol-fix-design.md B3/B6 states, per tier", () => {
+    const cap: Record<string, { cells: number; mib: number; steps: [number, number, number] }> = {
+      torchGround: { cells: 16 * 32 * 16, mib: 0.45, steps: [24, 16, 0] },
+      torchHandheld: { cells: 16 * 32 * 16, mib: 0.45, steps: [24, 16, 0] },
+      brazier: { cells: 20 * 40 * 20, mib: 0.86, steps: [24, 16, 12] },
+      hearth: { cells: 24 * 48 * 24, mib: 1.48, steps: [28, 20, 12] },
+      campfire: { cells: 24 * 48 * 24, mib: 1.48, steps: [28, 20, 12] },
+    };
     for (const id of FIRE_VOLUME_PRESETS) {
-      const cost = fireVolumeCost(FIRE_PRESETS[id].volume!);
-      expect(cost.cells).toBeLessThanOrEqual(16 * 32 * 16);
-      expect(cost.fieldMB).toBeLessThanOrEqual(0.25);
-      expect(cost.samplesPerPixel).toBeLessThanOrEqual(32);
+      const v = FIRE_PRESETS[id].volume!;
+      const cost = fireVolumeCost(v);
+      expect(cost.cells).toBeLessThanOrEqual(cap[id].cells);
+      expect(cost.fieldMB).toBeLessThanOrEqual(cap[id].mib);
+      expect([v.steps.high, v.steps.medium, v.steps.mobile]).toEqual(cap[id].steps);
+      expect(cost.computePassesPerStep).toBe(8);
+      expect(fireVolumeCost(v, "mobile").computePassesPerStep).toBe(6);
     }
+    expect(FIRE_VOLUME_TIER_CONFIG.high.privateFields).toBe(2);
+    expect(FIRE_VOLUME_TIER_CONFIG.medium.privateFields).toBe(1);
+    expect(FIRE_VOLUME_TIER_CONFIG.mobile.privateFields).toBe(0);
+    expect(FIRE_VOLUME_TIER_CONFIG.low.reachM).toBe(6);
+    expect(fireCurlMiB(64)).toBe(2);
     expect(volumeShareAt(0)).toBe(1);
     expect(volumeShareAt(FIRE_VOLUME_REACH_M + 1)).toBe(0);
+  });
+
+  it("a mobile tier draws torches as cards and the bigger fires as volumes", () => {
+    const fire = new FlameSystem();
+    fire.setVolumeTier("mobile");
+    fire.setEmitters([
+      { position: new THREE.Vector3(0, 0, 0), preset: "torchGround", scale: 1, seed: 0.2, owner: 0 },
+      { position: new THREE.Vector3(2, 0, 0), preset: "brazier", scale: 1, seed: 0.4, owner: 1 },
+    ]);
+    // card column 15: 1 = yields to a volume inside the reach
+    const yieldOf = (i: number) => (fire.group.children[0] as THREE.Mesh<THREE.InstancedBufferGeometry>).geometry
+      .getAttribute("iAnim").getW(i);
+    expect(yieldOf(0)).toBe(0); // torch card
+    const brazierCard = FIRE_PRESETS.torchGround.layers.core + FIRE_PRESETS.torchGround.layers.outer;
+    expect(yieldOf(brazierCard)).toBe(1);
   });
 
   it("every fire vertex stage places the emitter through the group's world matrix (walk 7: interior flames 4 km below the cell)", () => {
@@ -192,7 +222,11 @@ describe("FlameSystem", () => {
     const flames = meshes[0].geometry as THREE.InstancedBufferGeometry;
     const rows = flames.getAttribute("iPosSeed") as THREE.InterleavedBufferAttribute;
     expect(rows.data.count).toBe(flames.instanceCount);
-    expect(flames.index).toBe(before[0].index);
+    // the old geometry's dispose frees every attribute it holds: none may live on in the new one
+    const live = new Set<unknown>([flames.index, ...Object.values(flames.attributes)]);
+    const oldOwned = [before[0].index, ...Object.values(before[0].attributes)];
+    for (const a of oldOwned) expect(live.has(a)).toBe(false);
+    expect(flames.index!.count).toBe(before[0].index!.count);
   });
 
   it("expands a candle to its 3 cards, a campfire to its core + outer cards over its bed, with embers", () => {
@@ -319,31 +353,49 @@ function publishedAnchorFailures(scope = anchorScope()): { checked: number; fail
   return { checked, failures };
 }
 
-describe("volume detail noise (L19 round: baked on the CPU, no compute kernel)", () => {
-  it("is finite, signed in rgb, 0..1-ish in alpha, and tiles across the wrap", () => {
-    const t = makeVolumeDetail();
-    const d = t.image.data as Uint16Array;
-    const n = t.image.width;
-    const f = (i: number) => THREE.DataUtils.fromHalfFloat(d[i]);
-    let min = Infinity, max = -Infinity, aMin = Infinity, aMax = -Infinity;
-    for (let i = 0; i < d.length; i += 4) {
-      for (let c = 0; c < 3; c++) { min = Math.min(min, f(i + c)); max = Math.max(max, f(i + c)); }
-      aMin = Math.min(aMin, f(i + 3)); aMax = Math.max(aMax, f(i + 3));
+describe("fire curl texture (vol-fix-design.md B2)", () => {
+  it("is deterministic, unit rms, divergence-free on its lattice, and tiles across the wrap", () => {
+    const a = makeFireCurl(16), b = makeFireCurl(16);
+    const d = a.image.data as Uint16Array;
+    expect(Array.from(d)).toEqual(Array.from(b.image.data as Uint16Array));
+    const n = 16;
+    const f = (x: number, y: number, z: number, c: number) =>
+      THREE.DataUtils.fromHalfFloat(d[((((z + n) % n) * n + ((y + n) % n)) * n + ((x + n) % n)) * 4 + c]);
+    let sq = 0, div = 0, mag = 0;
+    for (let z = 0; z < n; z++) for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+      for (let c = 0; c < 3; c++) sq += f(x, y, z, c) ** 2;
+      // the curl of a central-difference field has zero central-difference divergence
+      div += Math.abs(f(x + 1, y, z, 0) - f(x - 1, y, z, 0) + f(x, y + 1, z, 1) - f(x, y - 1, z, 1)
+        + f(x, y, z + 1, 2) - f(x, y, z - 1, 2));
+      mag += Math.abs(f(x + 1, y, z, 0) - f(x - 1, y, z, 0));
     }
-    expect(min).toBeLessThan(-0.5);
-    expect(max).toBeGreaterThan(0.5);
-    expect(Math.max(-min, max)).toBeLessThan(2.5);
-    expect(aMin).toBeGreaterThan(-0.6);
-    expect(aMax).toBeLessThan(1.6);
-    // the step across the wrap (x n-1 -> 0) is no larger than a step inside
-    const at = (x: number, y: number, z: number) => f(((z * n + y) * n + x) * 4);
-    let inside = 0, wrap = 0;
-    for (let z = 0; z < n; z++) for (let y = 0; y < n; y++) {
-      inside = Math.max(inside, Math.abs(at(1, y, z) - at(0, y, z)));
-      wrap = Math.max(wrap, Math.abs(at(0, y, z) - at(n - 1, y, z)));
+    expect(Math.sqrt(sq / (n * n * n * 3))).toBeCloseTo(1, 1);
+    expect(div).toBeLessThan(mag * 0.05);
+    a.dispose(); b.dispose();
+  });
+});
+
+describe("private volume fields (vol-fix-design.md B4)", () => {
+  it("the nearest fires within 8 m own a private field on high, one on medium; their shared row hides", () => {
+    const renderer = { compute: () => {}, toneMappingExposure: 1, toneMapping: THREE.NoToneMapping };
+    const camera = new THREE.PerspectiveCamera();
+    camera.updateMatrixWorld();
+    for (const [tier, expected] of [["high", 2], ["medium", 1]] as const) {
+      const fire = new FlameSystem();
+      fire.setVolumeTier(tier);
+      fire.setBackend("webgpu");
+      fire.setEmitters([1, 3, 5, 20].map((x, i) =>
+        ({ position: new THREE.Vector3(x, 0, 0), preset: "brazier" as const, scale: 1, seed: 0.1 * i, owner: i })));
+      fire.update(1, () => 1);
+      const shared = fire.group.getObjectByName("fire-volume-brazier") as THREE.Mesh<THREE.InstancedBufferGeometry>;
+      shared.onBeforeRender(renderer as never, new THREE.Scene(), camera, shared.geometry, shared.material as never, null as never);
+      const privates = fire.group.children.filter((o) => o.name.startsWith("fire-volume-brazier-private") && o.visible);
+      expect(privates).toHaveLength(expected);
+      const box = shared.geometry.getAttribute("iBox");
+      const hidden = [0, 1, 2, 3].filter((i) => box.getW(i) === 0);
+      expect(hidden).toEqual([0, 1].slice(0, expected));
+      fire.dispose();
     }
-    expect(wrap).toBeLessThan(inside * 1.5);
-    t.dispose();
   });
 });
 

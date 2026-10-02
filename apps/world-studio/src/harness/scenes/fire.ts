@@ -8,6 +8,13 @@
  * the fire's own `displayToScene`, so it shows the display colours the old
  * fire sheets used (tools/fire-sheet.mjs, retired) under the frame's tone map.
  * fire-night.ts and fire-close.ts reuse `buildFireScene`.
+ *
+ * Readiness (vol-diag1 row 14: the first shot was black): `build` resolves
+ * only after `compileAsync` of the whole scene has settled and, on WebGPU,
+ * every volume field has run its prewarm (`FlameSystem.warmVolumes`), so the
+ * first drawn frame already burns. `window.__FIRE_READY__` turns true after
+ * that first frame has been rendered and presented; a gpu-lane capture waits
+ * on it before its first shot (`fireReady`).
  */
 import * as THREE from "three";
 import { MeshBasicNodeMaterial } from "three/webgpu";
@@ -15,7 +22,28 @@ import { uniform, vec3 } from "three/tsl";
 import { FlameSystem } from "@elder-souls/game-core/fx/fire/FlameSystem";
 import { FIRE_PRESETS, FIRE_PRESET_ORDER, type FirePresetId } from "@elder-souls/game-core/fx/fire/fireTypes";
 import { displayToScene } from "@elder-souls/game-core/fx/fire/fireNodes";
+import type { WebGPURenderer } from "three/webgpu";
 import type { HarnessContext } from "../types";
+
+declare global {
+  interface Window { __FIRE_READY__?: boolean }
+}
+
+/**
+ * Compile the scene, prewarm the fire's volume fields, and return the frame
+ * hook that raises `window.__FIRE_READY__` once a frame has been drawn after
+ * both (the frame hook runs before each render, so its second call follows
+ * the first presented frame).
+ */
+export async function fireReady(ctx: HarnessContext, scene: THREE.Scene, camera: THREE.Camera, fire: FlameSystem):
+  Promise<() => void> {
+  window.__FIRE_READY__ = false;
+  // bounded as main.ts bounds its own compile: a hang here would hang the page before main.ts names it
+  await Promise.race([ctx.renderer.compileAsync(scene, camera), new Promise((r) => setTimeout(r, 60_000))]);
+  if (ctx.backend === "webgpu") fire.warmVolumes(ctx.renderer as unknown as WebGPURenderer);
+  let calls = 0;
+  return () => { if (++calls === 2) window.__FIRE_READY__ = true; };
+}
 
 export interface FireLook {
   exposure: number;
@@ -36,7 +64,7 @@ function backdropMaterial(hex: number, exposure: number): MeshBasicNodeMaterial 
 }
 
 /** A row of fires over a sky/ground backdrop at one exposure. */
-export function buildFireScene(ctx: HarnessContext, look: FireLook, presets: readonly FirePresetId[], heightM: number,
+export async function buildFireScene(ctx: HarnessContext, look: FireLook, presets: readonly FirePresetId[], heightM: number,
   spacingM: number, opts: { seeds?: readonly number[]; show?: (name: string) => boolean; cardsOnly?: boolean } = {}) {
   ctx.renderer.toneMappingExposure = look.exposure;
   const scene = new THREE.Scene();
@@ -68,10 +96,12 @@ export function buildFireScene(ctx: HarnessContext, look: FireLook, presets: rea
   camera.layers.enableAll();
   camera.updateMatrixWorld();
   fire.update(3.7, () => 1);
+  const drawn = await fireReady(ctx, scene, camera, fire);
   return {
     scene,
     camera,
     frame(t: number) {
+      drawn();
       fire.update(3.7 + t, () => 1, { x: 0.3, y: 0 });
       // diagnostic layer isolation (fire-diag-*.ts): hide the draws `show` rejects
       if (opts.show) for (const o of fire.group.children) o.visible = opts.show(o.name);

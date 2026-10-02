@@ -333,7 +333,8 @@ export function Fly3D(props: Fly3DProps) {
       // re-render each frame and mis-typed shadow samplers (WaterPipeline.tsx).
       shadows="percentage"
       style={{ width: "100%", height: "100%" }}
-      onCreated={({ camera }) => {
+      onCreated={({ camera, gl }) => {
+        gl.domElement.dataset.renderCanvas = "";
         if (camAim) {
           camera.lookAt(
             camStart[0] + camAim.x * 2000,

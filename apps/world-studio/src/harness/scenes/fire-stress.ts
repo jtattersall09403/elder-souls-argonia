@@ -8,12 +8,13 @@
  */
 import * as THREE from "three";
 import { FlameSystem } from "@elder-souls/game-core/fx/fire/FlameSystem";
+import { fireReady } from "./fire";
 import type { FirePresetId } from "@elder-souls/game-core/fx/fire/fireTypes";
 import type { HarnessContext } from "../types";
 
 const KINDS: FirePresetId[] = ["torchGround", "brazier", "hearth", "campfire", "torchHandheld"];
 
-export function buildFireStress(ctx: HarnessContext, backend: "webgpu" | "webgl") {
+export async function buildFireStress(ctx: HarnessContext, backend: "webgpu" | "webgl") {
   ctx.renderer.toneMappingExposure = 22;
   const scene = new THREE.Scene();
   const fire = new FlameSystem();
@@ -33,7 +34,8 @@ export function buildFireStress(ctx: HarnessContext, backend: "webgpu" | "webgl"
   camera.layers.enableAll();
   camera.updateMatrixWorld();
   fire.update(2, () => 1);
-  return { scene, camera, frame(t: number) { fire.update(2 + t, () => 1); } };
+  const drawn = await fireReady(ctx, scene, camera, fire); // fire.ts: no shot before compile + prewarm + one frame
+  return { scene, camera, frame(t: number) { drawn(); fire.update(2 + t, () => 1); } };
 }
 
 export default {
