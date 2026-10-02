@@ -16,7 +16,7 @@ rsync -a --delete -e "$S" "$d/" "$t:/root/site/dists/$n/"
 rsync -aR -e "$S" tooling/gpu-lane/serve.mjs tooling/gpu-lane/serve-lib.mjs tooling/gpu-lane/pod-setup.sh \
   apps/world-studio/scripts/lib/webgpu-static.mjs "$t:/root/site/"
 $S "$t" 'cd /root/site; [ -f /root/serve.pid ] && kill $(cat /root/serve.pid) 2>/dev/null
-fuser -k 8099/tcp 2>/dev/null
+for p in $(lsof -t -iTCP:8099 -sTCP:LISTEN 2>/dev/null); do kill $p; done
 ES_DATA_PUBLIC=/root/site/public setsid nohup node tooling/gpu-lane/serve.mjs dists/* --port 8099 >/root/serve.log 2>&1 </dev/null & echo $! >/root/serve.pid
 for d in dists/*; do b=$(grep -o "src=\"/[^\"]*/assets/" $d/index.html | head -1 | sed "s/^src=\"//; s/assets\/$//")
   curl -sf --retry 10 --retry-all-errors --retry-delay 1 -o /dev/null "http://127.0.0.1:8099${b}index.html" || { cat /root/serve.log; echo "pod-sync: $b ($d) not served" >&2; exit 1; }
