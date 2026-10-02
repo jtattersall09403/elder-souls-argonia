@@ -64,7 +64,12 @@ with an object that must not have it: clone first (the old rule, unchanged).
   `m.element(i)` on a buffer-backed matrix (it indexes the buffer).
 - Never `select()` on computed values: the builder may lower it to if/else that reads unassigned
   temporaries, giving NaN silently (black striped water). Use the branch-free `sel()` from
-  `packages/game-core/src/render/nodes/materialNodes.ts`.
+  `packages/game-core/src/render/nodes/materialNodes.ts`, for cheap operands only: it evaluates
+  both sides on every fragment. Where dev's GLSL branched (an `if` or early return around texture
+  fetches, a loop or a long ALU chain), use a real `If` inside the `Fn` writing a `toVar()` output,
+  and `toVar()` every input the branch shares with code outside it. Derivatives (`dFdx`, implicit-LOD
+  `.sample()`) stay at the top level, before the branch; inside a non-uniform branch read with
+  `.load()` or explicit LOD only (webgpu10 F3: water 59 -> 9 unconditional fetches).
 - `Loop` and `If` only inside an `Fn(() => ...)`; a bare loop in a graph hangs the node builder.
 - A shared `.toVar()` node (three's `normalWorld`, `positionView`, ...) is assigned where it is FIRST
   built. If that is inside an `If` (CSMShadowNode's per-cascade normal bias), every later reader outside

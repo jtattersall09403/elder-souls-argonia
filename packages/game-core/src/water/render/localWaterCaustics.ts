@@ -1,16 +1,17 @@
 import * as tsl from "three/tsl";
-import { sel, type TslNode } from "../../render/nodes/materialNodes";
+import type { TslNode } from "../../render/nodes/materialNodes";
 import { localWaterSurfaceNodes, type LocalWaterSurfaceUniforms } from "./localWaterSurfaceNodes";
 
 // Loosely typed on purpose (docs/standards/tsl-shaders.md §1).
-const { Fn, clamp, dFdx, dFdy, exp, float, length, max, min, normalize, refract, smoothstep, vec2, vec3 } = tsl as TslNode;
+const { Fn, If, clamp, dFdx, dFdy, exp, float, length, max, min, normalize, refract, smoothstep, vec2, vec3 } = tsl as TslNode;
 
 /** Refraction-map Jacobian for the interactive surface (node twin of the old
  * LOCAL_WATER_CAUSTICS_GLSL). Unlike decorative caustic noise, moving a body
  * changes these focused rays through the same height/slope field used by the
  * visible surface and physical queries. Receiver material supplies
- * direct-light shadowing; this is not emission. Branch-free: the GLSL's early
- * returns are selects, so the derivatives stay in uniform control flow. */
+ * direct-light shadowing; this is not emission. The footprint derivatives run
+ * first, at the top level; the GLSL's early returns are real `If` branches
+ * after them. */
 export function esLocalWaterCaustic(u: LocalWaterSurfaceUniforms, receiver: TslNode,
   receiverNormal: TslNode, level: TslNode, sunDirection: TslNode): TslNode {
   return Fn(() => {
@@ -31,20 +32,24 @@ export function esLocalWaterCaustic(u: LocalWaterSurfaceUniforms, receiver: TslN
   const p = r.xz.sub(flatRay.xz.div(max(flatRay.y.negate(), 0.15)).mul(depth)).toVar();
   const stepM = max(u.uLocalWaterInfo.z, 0.25).toVar();
   const ex = vec2(stepM, 0.0), ez = vec2(0.0, stepM);
-  // A dry/foreign neighbour is not a flat water sample. Differentiating
-  // across that discontinuity makes a spurious bright rectangular bank.
-  const neighbours = min(min(local.mask(p.add(ex)), local.mask(p.sub(ex))),
-    min(local.mask(p.add(ez)), local.mask(p.sub(ez))));
-  const dx = refractedOffset(p.add(ex), depth).sub(refractedOffset(p.sub(ex), depth)).div(stepM.mul(2.0));
-  const dz = refractedOffset(p.add(ez), depth).sub(refractedOffset(p.sub(ez), depth)).div(stepM.mul(2.0));
-  const jacobian = float(1.0).add(dx.x).mul(float(1.0).add(dz.y)).sub(dx.y.mul(dz.x));
-  const focused = clamp(float(1.0).div(max(jacobian.abs(), 0.1)), 0.25, 3.0).sub(1.0);
-  const value = focused.mul(float(1.0).sub(smoothstep(stepM.mul(0.5), stepM.mul(2.0), footprint)))
-    .mul(smoothstep(0.5, 0.9, vec3(receiverNormal).y)).mul(exp(clamp(depth, 0.0, 12.0).mul(-0.12)));
-  const off = float(u.uLocalWaterActive).lessThan(0.5).or(depth.lessThanEqual(0.03))
-    .or(depth.greaterThan(12.0)).or(sun.y.lessThanEqual(0.05))
-    .or(local.mask(p).lessThan(0.5)).or(neighbours.lessThan(0.5));
-  return sel(off, float(0.0), value);
+  const out = float(0.0).toVar();
+  // dev's early returns as real branches (loads only, no derivatives inside):
+  // the cheap gates, then the centre and four neighbour masks (a dry/foreign
+  // neighbour is not a flat water sample; differentiating across it makes a
+  // spurious bright rectangular bank), then the 16-load refraction Jacobian.
+  If(float(u.uLocalWaterActive).greaterThan(0.5).and(depth.greaterThan(0.03))
+    .and(depth.lessThanEqual(12.0)).and(sun.y.greaterThan(0.05)), () => {
+    If(local.mask(p).greaterThanEqual(0.5).and(min(min(local.mask(p.add(ex)), local.mask(p.sub(ex))),
+      min(local.mask(p.add(ez)), local.mask(p.sub(ez)))).greaterThanEqual(0.5)), () => {
+      const dx = refractedOffset(p.add(ex), depth).sub(refractedOffset(p.sub(ex), depth)).div(stepM.mul(2.0));
+      const dz = refractedOffset(p.add(ez), depth).sub(refractedOffset(p.sub(ez), depth)).div(stepM.mul(2.0));
+      const jacobian = float(1.0).add(dx.x).mul(float(1.0).add(dz.y)).sub(dx.y.mul(dz.x));
+      const focused = clamp(float(1.0).div(max(jacobian.abs(), 0.1)), 0.25, 3.0).sub(1.0);
+      out.assign(focused.mul(float(1.0).sub(smoothstep(stepM.mul(0.5), stepM.mul(2.0), footprint)))
+        .mul(smoothstep(0.5, 0.9, vec3(receiverNormal).y)).mul(exp(clamp(depth, 0.0, 12.0).mul(-0.12))));
+    });
+  });
+  return out;
   })();
 }
 
