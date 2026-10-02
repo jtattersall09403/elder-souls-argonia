@@ -45,6 +45,17 @@ export const SKY_INSCATTER = 0.8 / Math.PI;
 /** Range (m) over which the per-pixel shaft march carries the sun under the canopy, and its steps. */
 const SHAFT_NEAR_M = 40;
 const SHAFT_STEPS = 12;
+/** Sun-ray optical depth through the medium itself: density sampled at these distances (m) up the sun
+ * ray, each standing for the span `SUN_OD_SPAN_M` (midpoint rule over 0..255 m). */
+export const SUN_OD_PROBES_M = [12, 35, 90, 200] as const;
+export const SUN_OD_SPAN_M = [23.5, 39, 82.5, 110] as const;
+/** The sun light that reaches a point of the medium (per unit sun irradiance): the share the medium
+ * above it lets through (`sunT`) arrives as the direct beam with the phase lobe; the share it took out
+ * is scattered on, and arrives as near-isotropic diffuse light (1/4pi). Without this the forward lobe
+ * saw the full sun inside a 150 m haze and the haze read ~3x the horizon sky (walk 9). */
+export function sunInscatterGain(sunT: number, phase: number): number {
+  return sunT * phase + (1 - sunT) / (4 * Math.PI);
+}
 /** Sun phase: strongly forward (g 0.85) over an isotropic-ish floor, the peak clamped for a grazing
  * sun (below ~8 deg), which otherwise draws one saturated column along the sun's azimuth in steam. */
 function sunPhase(cSun: TslNode, sunY: TslNode): TslNode {
@@ -433,7 +444,14 @@ export class Volumetrics implements VolumetricsSampler {
       const phaseSun = sunPhase(cSun, u.sunDir.y);
       const sunVis = this.terrainSunT(p);
       const skyKeep = float(1).sub(smoothstep(0, 0.05, u.sunDir.y).mul(float(1 - SHADOWED_SKY).mul(float(1).sub(sunVis))));
-      const radiance = vec3(u.sunIrr).mul(phaseSun).mul(this.canopyT(p)).mul(sunVis).mul(step(float(0), u.sunDir.y))
+      // the medium's own shadow on the sun (sunInscatterGain): optical depth up the sun ray
+      let sunOd: TslNode = float(0);
+      SUN_OD_PROBES_M.forEach((d, k) => {
+        sunOd = sunOd.add(this.density(p.add(u.sunDir.mul(d)), fp).mul(SUN_OD_SPAN_M[k]));
+      });
+      const sunT = exp(sunOd.negate());
+      const sunGain = sunT.mul(phaseSun).add(float(1).sub(sunT).mul(1 / (4 * Math.PI)));
+      const radiance = vec3(u.sunIrr).mul(sunGain).mul(this.canopyT(p)).mul(sunVis).mul(step(float(0), u.sunDir.y))
         .mul(float(1).sub(this.shaftNear(p, length(dir).mul(depth))))
         .add(vec3(u.skyIrr).mul(SKY_INSCATTER).mul(this.skyOpen(p)).mul(skyKeep)).toVar();
       // point lights: analytic airlight in the apply stage (volumetricNodes), not here

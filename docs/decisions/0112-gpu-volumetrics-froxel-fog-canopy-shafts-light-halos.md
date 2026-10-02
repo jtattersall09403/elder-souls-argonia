@@ -47,8 +47,14 @@ colour comes from the light rig.
    grid the ground moisture = max(the water record's marsh class, its water
    mask), read from the frozen record, never re-derived). Radiation mist is
    weighted by moisture squared over a floor of 0.25 (`moistureWeight`), so
-   it gathers over wet basins and thins on dry slopes. The sun term is
-   shadowed by the terrain: five probes 12–420 m up the sun ray against the
+   it gathers over wet basins and thins on dry slopes. The sun term is the
+   sun light that reaches the froxel through the medium itself
+   (`sunInscatterGain`): the medium's optical depth up the sun ray (density
+   at 12, 35, 90 and 200 m, midpoint rule over 255 m) splits the sun into the
+   direct beam, which keeps the HG phase lobe, and the share the medium took
+   out, which arrives as isotropic diffuse light (1/4π); a 150 m haze so
+   reads at the horizon sky, not 3× it with the full sun in a forward lobe.
+   It is also shadowed by the terrain: five probes 12–420 m up the sun ray against the
    grids' ground height (`terrainSun.ts`), and a froxel the terrain hides
    from the sun keeps 0.6 of the sky ambient while the sun is up. Regimes, from the lane's
    research (tooling/.reports/16k/walk6/vol-research-climate.md):
