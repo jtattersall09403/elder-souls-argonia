@@ -144,6 +144,43 @@ colour comes from the light rig.
      `python3 tooling/volumetrics/interior_light.py`; `windowApertures.test.ts`
      fails while a published cell has no row or a row names a cell no longer
      published. Fixture lights give the halos in the same medium.
+   - **Ambient axis rule.** Skyrim XCLL/DALC directional-ambient colours name
+     the direction the light travels, so up-facing floors take Z-, ceilings
+     Z+, and X and Y follow by symmetry (`export_interior_bundle.py:ambient_cube`:
+     px from xn, nx from xp, py from zn, ny from zp, pz from yp, nz from yn).
+     Measured in Skyrim.esm: 71 daytime weathers have Z+/Z- median 0.51 (Z+
+     above Z- in none); 573 interior cells with a full XCLL have median 0.30.
+   - **Ambient share and lift.** A windowless cell keeps its full record
+     ambient and directional at every hour (`interiorAmbientShare`); a
+     windowed cell keeps the 0.15 night floor. An ambient-cube cell whose
+     walked floor nodes fail the 30 % dark-floor bar is lifted to the least
+     `ambient.intensity` (cube shape kept) that meets it (rule
+     `ambient-cube-lifted`, `interior_light.py:lift_to_bar`). Shipped lifts:
+     MugsumpHollowInt01 1.921, CIPHTBMHutInterior01/04 4.922,
+     CIPHTBMHutInteriorGreatHouse 6.342, the other cells 1. Damp-cell floor
+     mist is 0.045 / 0.05 / 0.055 per m (`FLOOR_MIST`), so a 10 m low ray at
+     the wettest gain keeps at least half its light.
+   - **Light rig.** When a plugin aperture faces the sun, the cell's record
+     directional is aimed along the cell-frame sun (`InteriorDaylight.setSun`,
+     called each frame from `InteriorDoors.tsx`) with the sky's sun colour and
+     intensity `sunIntensity × exposureTarget × share`; one 1024 shadow map
+     covers the cell bounds, shell categories cast, panes never cast,
+     `normalBias` 0.02. The light count and `castShadow` are fixed per cell,
+     so a light change recompiles no material. Pane lights sit 0.3 m inside
+     the wall (`PANE_LIGHT_INSET_M`). Record lights within 1.5 m of a fire
+     flicker with it (`interiorFires.ts:CellLightFlicker`, driven by
+     `InteriorDaylight.updateFlicker`).
+   - **Interior air.** The fog's sky irradiance is the cell's ambient cube
+     (`cellAmbientIrradiance`, mean of the six faces × ambient intensity ×
+     interior ambient share), so the medium in-scatters ambient light and
+     does not only absorb. The beam unit comes from the record lamps over the
+     floor they light (`interiorCellLights`, `lampsOverFloors`). Beam dust
+     floor `BEAM_DUST_PER_M` 0.04 per m. The cone edge is a smoothstep over
+     max(one froxel cell, 0.04 m per m along the beam) with an `exp(-0.04 d)`
+     length fade (`BEAM_PENUMBRA_PER_M`). The sky feed eases over 1 s
+     (`SKY_EASE_S`). Interior halo density is 0.012 per m
+     (`INTERIOR_HALO_DAMP` 0.6 × the 0.02 clear-air clamp), because interiors
+     pass no fog regimes.
 7. **Quality bands** (0108). WebGPU only: the WebGL backend is off (aerial
    fog alone). The renderer tier (`?q=` / `?quality=`, mobile on a touch
    device; `volumetricTier`) sets the starting band and its ceiling (mobile
@@ -188,6 +225,16 @@ colour comes from the light rig.
    fields, ~7 fields × 8 passes over ≤27.6 k cells each; the march costs
    steps × 2 samples per pixel. The round-2 GPU measurement replaces these
    estimates.
+
+   Fire volume meshes draw on layer 8 (`FIRE_VOLUME_LAYER`) only and march in
+   `FireVolumePass` (`render/post/FireVolumePass.ts`) into a half-resolution
+   target (mobile 0.25, `FIRE_VOLUME_SCALE`) with its own depth. The
+   composite is a 4-tap bilinear upsample weighted by view-Z depth
+   (1/(1+rel/0.04)), premultiplied over the canvas with the renderer's tone
+   mapping; the pass is skipped on WebGL. The colour ramp cools to red tips
+   (`VOLUME_RAMP_EDGES`, `VOLUME_TIP_COOLING` 0.6), the smoke plume rises
+   above the flame envelope (`flameShare`), and the hearth box is 2.4 flame
+   heights for a ~2.8:1 flame on its bed (`fireTypes.ts`, `volumeFire.ts`).
 9. **Sea fog, region haze, cap cloud and lamp halos** (walk 10, G2). Each
    system reads a raster or the light rig, never a per-scene flag.
 
@@ -196,7 +243,7 @@ colour comes from the light rig.
    | Onshore sea fog | `OnshoreProbe` reads the gradient of climate-weather B over 3 px; onshore = wind travel direction dot −gradient; cached per cell, 64 m (128 m mobile) | `climateSampler.ts:OnshoreProbe`, `ONSHORE`; fed as `fog.onshore` in `WorldSky.tsx` |
    | Region haze | the fog field's air term is scaled by `clamp(regionHaze / 0.65, 0.4, 2.5)`; rain keeps 35 % of ground mists (`RAIN_MIST_KEEP`), so rain thins mist and never deletes it | `fogField.ts` input `regionHaze`, `RAIN_MIST_KEEP` |
    | Cap cloud | always on; whiteout = bell × `mist.whiteoutBase` × belt mask. Surfaces take `esBeltMask` (4 rotated taps + smoothstep 0.05–0.85); the sky-dome march takes 1 tap + smoothstep. `WHITEOUT_ENABLED` is removed | `aerial.ts:esBeltMask`, `express.ts` whiteout, `climateSampler.ts:smoothBeltMask` (CPU twin) |
-   | Region fog profile | the region class under the camera (`hydro-regions.png`, nearest texel, row 0 = world z 0) picks its row of the climate home table; its `fog` multipliers scale the air baseline and ground fogs (`densityScale`), the radiation-mist scale height (`heightScale`), the clear-night mist (`radiationMist`), the onshore sea fog (`seaFog`), the sun's burn-off (`burnOffScale`) and add to humidity (`humidityBias`); neutral until the map decodes. The integrity gate (`packages/world-schema/integrity.py:climate_region_errors`) holds one row per painted class | `world/sources/climate/climate-regions.json` (read by `worldgen/regions.py`, published as hydrology-meta `climateProfiles[name].fog` by `regions.publish_climate_profiles`); `climateSampler.ts:RegionFogProbe`; `fogField.ts` input `profile` |
+   | Region fog profile | the region class under the camera (`hydro-regions.png`, nearest texel, row 0 = world z 0) picks its row of the climate home table; its `fog` multipliers scale the air baseline and ground fogs (`densityScale`), the radiation-mist scale height (`heightScale`, which reaches the TSL mist height profile through the `mistHeightScale` uniform), the clear-night mist (`radiationMist`), the onshore sea fog (`seaFog`), the sun's burn-off (`burnOffScale`) and add to humidity (`humidityBias`); neutral until the map decodes. The integrity gate (`packages/world-schema/integrity.py:climate_region_errors`) holds one row per painted class; the runtime path is `RegionFogProbe` → `WorldSky` → fogField `profile` | `world/sources/climate/climate-regions.json` (schemaVersion 1, one row per painted class; read by `worldgen/regions.py`, published as hydrology-meta `climateProfiles[name].fog` by `regions.publish_climate_profiles`); `climateSampler.ts:RegionFogProbe`; `fogField.ts` input `profile` |
    | Lamp halos | fog output `halo` = max(smoothstep(.55, .95, humid), mists, sea fog, rain) (`FogRegimes.halo`, dampness); σ = max(grid, floor × halo); radius R = max(3 light radii, minReach); full halo out to max(2 radii, viewM) | `volumetricNodes.ts:LAMP_HALO` |
 
    `LAMP_HALO`: high floor 0.02 /m, minReach 6 m, viewM 30; mobile 0.02 /m,
@@ -211,7 +258,7 @@ colour comes from the light rig.
 
 `packages/game-core/src/air/volumetrics/` (grid, fog field, fog noise,
 band governor, canopy map, nodes, scene-radiance helper); fire volumes in
-`packages/game-core/src/fx/fire/` (`volumeFire.ts`, `FlameSystem.ts`); wiring in `apps/world-studio/src/sky/WorldSky.tsx`;
+`packages/game-core/src/fx/fire/` (`volumeFire.ts`, `FlameSystem.ts`, `interiorFires.ts`); the fire march in `packages/game-core/src/render/post/FireVolumePass.ts`; interior lights in `packages/game-core/src/interior/interiorLoader.ts`; wiring in `apps/world-studio/src/sky/WorldSky.tsx`;
 harness scenes `apps/world-studio/src/harness/scenes/volumetrics*` and
 `interior-light.ts`; the window record `volumetrics/interiorLight.json` from
 `tooling/volumetrics/interior_light.py`, read by `windowApertures.ts` and
