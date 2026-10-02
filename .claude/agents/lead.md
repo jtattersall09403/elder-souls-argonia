@@ -126,7 +126,13 @@ Rules of the road:
   (f) a 1-view smoke capture (about 2 min) with the exact URL parameters
   precedes every full capture or walk run, and an image-reader confirms
   "clock running, weather as intended, HUD hidden, the feature visible"
-  before the full round starts;
+  before the full round starts, checking the smoke image against the
+  ACCEPTED reference capture (the base the bar was set on) and the intended
+  time of day and weather, not only against the previous build. Every
+  capture URL carries `rate=0.5` (the game's normal clock; without `rate=`
+  the studio pauses the clock, and `rate=30` runs it 60x too fast); a row
+  captured without a running clock is not a performance measurement and
+  never a bar row;
   (g) one pod per lane for iteration loops; a fan-out job (the agent walks
   audit over many places) runs one pod per parallel worker when that is
   faster end to end, each deleted the moment its worker ends (0119 rule 4);

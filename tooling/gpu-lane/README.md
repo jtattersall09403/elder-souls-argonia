@@ -100,7 +100,7 @@ Chrome started with `--remote-debugging-port` and serve with `node tooling/gpu-l
 
 | Switch | Where it acts | Effect |
 |---|---|---|
-| `rate=<n>` | studio (`src/sky/timeState.ts` `applyTimeParams` -> `worldClock.rate`) | World-clock rate in world MINUTES per real second; absent, the clock is paused. Captures pass `rate=0.5` (`CAPTURE_RATE` in `spots.mjs`): the game runs at `GAME_TIME_SCALE` = 30 world seconds per real second (`packages/world-time/src/clock.ts:109`), = 0.5 world minutes per real second (`GAME_RATE_MIN_PER_S`). A 2-3 min spot therefore drifts 60-90 game minutes; `rate=30` ran 60x the game speed. |
+| `rate=<n>` | studio (`src/sky/timeState.ts` `applyTimeParams` -> `worldClock.rate`) | World-clock rate in world MINUTES per real second; absent, the clock is paused. Captures pass `rate=0.5` (`CAPTURE_RATE` in `spots.mjs`): the game runs at `GAME_TIME_SCALE` = 30 world seconds per real second (`packages/world-time/src/clock.ts:109`), = 0.5 world minutes per real second (`GAME_RATE_MIN_PER_S`). A 2-3 min spot therefore drifts 60-90 game minutes; `rate=30` ran 60x the game speed. Every capture URL carries `rate=0.5`; a row captured without a running clock (paused, or an invalid rate) is not a performance measurement and never a bar row. |
 | `diag=1` | studio (`src/diagOverlay.ts`) | Diag overlay and `window.__DIAG`: fps, worst ms, per-second pipelines, shaders, builds, skipped draws, `builds pending`, `pipelines compiling`. |
 | `water=0` | studio (`CharacterMode.tsx`) | No water surface. |
 | `aa=0` | studio (`CharacterMode.tsx`) | Anti-aliasing off. |
