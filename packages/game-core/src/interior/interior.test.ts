@@ -5,7 +5,7 @@ import fixture from "./__fixtures__/interior.fixture.json";
 import type { ArchitectureAsset } from "../settlement/kit";
 import type { SettlementDoor } from "../settlement/types";
 import { isInteriorSwingDoor, parseInteriorBundle, type Vec3 } from "./bundle";
-import { daylightShare, interiorAmbientShare, INTERIOR_LIGHT_INTENSITY_PER_FADE, INTERIOR_NIGHT_AMBIENT, InteriorDaylight, InteriorLoader, isWindowPane, type LoadedInterior, WINDOW_LIGHT_CANDELA, WINDOW_OVERCAST_SHARE } from "./interiorLoader";
+import { daylightShare, INTERIOR_SUN_SHADOW_MAP, interiorAmbientShare, PANE_LIGHT_INSET_M, paneLightSeat, INTERIOR_LIGHT_INTENSITY_PER_FADE, INTERIOR_NIGHT_AMBIENT, InteriorDaylight, InteriorLoader, isWindowPane, type LoadedInterior, WINDOW_LIGHT_CANDELA, WINDOW_OVERCAST_SHARE } from "./interiorLoader";
 import { FIXTURE_LIGHTS_MAX, FixtureLightField } from "../render/fixtureLights/fixtureLightField";
 import { LIGHTS_CAP } from "../settlement/lighting";
 import { DOOR_FADE_S, DoorTransition, RETURN_LIFT_M } from "./doorTransition";
@@ -723,9 +723,70 @@ describe("interior daylight (walk 9, 0109 addendum)", () => {
     for (const cell of ["MugsumpHollowInt01", "CIPHTBMHutInteriorGreatHouse"]) {
       for (const h of [0, 8, 12]) expect(at(cell, h).ambient).toBe(1);
     }
-    // and the published record carries the lift to the dark bar (interior_light.py lift_to_bar)
-    expect(at("MugsumpHollowInt01", 12).record).toBeGreaterThan(2.5);
-    expect(at("CIPHTBMHutInteriorGreatHouse", 10).record).toBeGreaterThan(8);
+    // and the published record carries the lift to the dark bar (interior_light.py lift_to_bar),
+    // judged with the floor on the cube's sky face (vol10 F6)
+    expect(at("MugsumpHollowInt01", 12).record).toBeGreaterThan(1.5);
+    expect(at("CIPHTBMHutInteriorGreatHouse", 10).record).toBeGreaterThan(6);
     expect(interiorAmbientShare(0, false)).toBe(1);
+  });
+});
+
+describe("sun through the openings (vol10 F1, F5)", () => {
+  it("a pane's light sits PANE_LIGHT_INSET_M inside the wall, toward the room", () => {
+    // a pane 1 x 1 x 0.05 m, thin along local z, turned 90 deg so its thin axis is world x
+    const box = new THREE.Box3(new THREE.Vector3(-0.5, -0.5, -0.025), new THREE.Vector3(0.5, 0.5, 0.025));
+    const world = new THREE.Matrix4().makeRotationY(Math.PI / 2).setPosition(5, 2, 0);
+    const seat = paneLightSeat(box, world, new THREE.Vector3(0, 1, 0));
+    expect(seat.x).toBeCloseTo(5 - PANE_LIGHT_INSET_M, 6);
+    expect(seat.y).toBeCloseTo(2, 6);
+    expect(seat.z).toBeCloseTo(0, 6);
+    expect(paneLightSeat(box, world, new THREE.Vector3(9, 1, 0)).x).toBeCloseTo(5 + PANE_LIGHT_INSET_M, 6);
+  });
+  it("Keeba at 08:00: the directional comes from the sun side into the room at record x sun share", () => {
+    const rows = (lightRows as { cells: Record<string, { apertures: { outward: number[]; centreM: number[] }[] }> }).cells;
+    const day = Math.floor(new WorldClock().epochMinutes() / 1440) * 1440;
+    const sun = sunAt(day + 8 * 60);
+    const toSun = new THREE.Vector3(sun.direction.x, sun.direction.y, sun.direction.z);
+    const facing = rows.KeebaHouseCrafter.apertures.filter((a) => toSun.x * a.outward[0] + toSun.z * a.outward[2] > 0.1);
+    expect(facing.length).toBeGreaterThan(0);
+    const directional = new THREE.DirectionalLight(0xffffff, 3);
+    const centre = new THREE.Vector3(106, 88, 54);
+    const d = new InteriorDaylight(new THREE.Group(), new THREE.AmbientLight(0xffffff, 1), directional, [],
+      [new THREE.Vector3()], [], new THREE.Sphere(centre, 10));
+    d.setSun(toSun, 0.901);
+    const travel = directional.target.position.clone().sub(directional.position).normalize();
+    for (const a of facing) expect(travel.x * a.outward[0] + travel.z * a.outward[2]).toBeLessThan(0);
+    expect(travel.y).toBeLessThan(0);
+    expect(directional.intensity).toBeCloseTo(3 * 0.901, 6);
+    // no opening faces the sun: the record light from straight above at the day's share
+    d.setSun(null, 0);
+    d.set(1, new THREE.Color(1, 1, 1));
+    expect(directional.position.clone().sub(centre).normalize().y).toBeCloseTo(1, 6);
+    expect(directional.intensity).toBeCloseTo(3, 6);
+  });
+  it("a windowed cell's directional casts one shadow map from its shell; a windowless cell none", async () => {
+    const { instantiateInterior } = await import("./interiorLoader");
+    const b = parseInteriorBundle(structuredClone(fixture), "fixture");
+    const p = b.placements[0];
+    const glass = new THREE.MeshStandardMaterial({ map: new THREE.Texture() }); glass.name = "Glass:0.Mat";
+    const paneAsset: ArchitectureAsset = { id: p.assetId, levels: [[
+      { geometry: new THREE.BoxGeometry(1, 1, 0.05), material: glass, localMatrix: new THREE.Matrix4(), triangles: 12 }]] };
+    const ids = new Set([...b.placements, ...b.doors.filter(isInteriorSwingDoor)].map((q) => q.assetId));
+    const kit = new Map([...ids].map((id) => [id, id === p.assetId ? paneAsset : asset(id)] as const));
+    const kits = new Map([[p.kit, kit]]);
+    const rows = new Map([[p.kit, new Map([[p.assetId, { id: p.assetId, category: "architecture", anchorClass: "x",
+      sizeM: [1, 1, 0.05], originOffsetM: [0, 0, 0], windowMaterials: [glass.name] }]])]]);
+    const lit = instantiateInterior(b, kits, rows as never);
+    const plain = instantiateInterior(b, kits);
+    const dir = (c: { group: THREE.Group }) => c.group.children.find((o): o is THREE.DirectionalLight => (o as THREE.DirectionalLight).isDirectionalLight)!;
+    expect(dir(lit).castShadow).toBe(true);
+    expect(dir(lit).shadow.mapSize.x).toBe(INTERIOR_SUN_SHADOW_MAP);
+    expect(dir(plain).castShadow).toBe(false);
+    const meshes = lit.group.children.filter((c): c is THREE.InstancedMesh => (c as THREE.InstancedMesh).isInstancedMesh);
+    expect(meshes.every((m) => m.receiveShadow)).toBe(true);
+    const lights = lit.group.children.filter((c) => (c as THREE.Light).isLight).length;
+    lit.daylight.setSun(new THREE.Vector3(1, 1, 0), 0.9);
+    expect(lit.group.children.filter((c) => (c as THREE.Light).isLight).length).toBe(lights);
+    expect(dir(lit).castShadow).toBe(true);
   });
 });

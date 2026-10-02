@@ -86,8 +86,13 @@ SHELL_DWELLING = re.compile(r"hut|house|home|shack|pod", re.I)
 VOLUME_CLASS_M3 = (("small", 1000.0), ("medium", 15000.0))
 #: Floor mist (top above the floor in m, density 1/m) by medium x volumeClass: a damp cave pools
 #: knee-to-waist deep; a humid hut a shin-deep breath of marsh air; a bigger room lets it lie deeper.
+#: A damp mist reaches the height a low view ray travels in, so its density is held to
+#: MIST_LOW_RAY_KEEP: a 10 m ray inside it at the runtime's wettest gain (MIST_MAX_GAIN, froxelGrid
+#: floorMistGain) keeps at least half its light (vol4-voldark: 0.4 /m kept under 0.02 and drowned
+#: Mugsump's floor). The humid rows lie below the camera and are not held to it.
+MIST_LOW_RAY_M, MIST_LOW_RAY_KEEP, MIST_MAX_GAIN = 10.0, 0.5, 1.2
 FLOOR_MIST = {
-    "damp": {"small": (0.6, 0.3), "medium": (0.9, 0.35), "large": (1.3, 0.4)},
+    "damp": {"small": (0.6, 0.045), "medium": (0.9, 0.05), "large": (1.3, 0.055)},
     "humid": {"small": (0.25, 0.08), "medium": (0.35, 0.1), "large": (0.5, 0.12)},
 }
 #: cellId -> (dust band, why): a cell whose derived dust is wrong for a reason the rules cannot see.

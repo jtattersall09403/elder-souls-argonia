@@ -426,12 +426,19 @@ def decode_ambient_colors(payload: bytes, offset: int = 0) -> dict:
 
 
 def ambient_cube(skyrim_rgb: dict) -> dict:
-    """``lighting.ambientCube``: the Skyrim cube in GAME axes, linear 0-1.
+    """``lighting.ambientCube``: the Skyrim cube in GAME axes, linear 0-1, one value
+    per surface normal (a floor facing up gets ``py``).
+    Each Skyrim directional ambient (XCLL / DALC) names the direction the light
+    TRAVELS, so a surface receives the colour of the axis opposite its normal:
+    Z- (light travelling down, the sky term) lands on up-facing floors (vol4-axis:
+    Skyrim.esm's 71 daytime WTHR DALC have Z+/Z- median 0.51, clear-sky Z- is the
+    sky colour; its 573 full interior XCLL median 0.30).
     Skyrim is x east, y north, z up; the game frame (FRAME, and every placement's
     positionM) is x east, y up, z south: game (x, y, z) = Skyrim (x, z, -y). So
-    game +x/-x = Skyrim X+/X-, game +y/-y = Skyrim Z+/Z-, game +z (south) = Skyrim Y-,
-    game -z (north) = Skyrim Y+."""
-    src = {"px": "xp", "nx": "xn", "py": "zp", "ny": "zn", "pz": "yn", "nz": "yp"}
+    normal game +x (east) <- Skyrim X- (light travelling west), -x <- X+;
+    +y (up) <- Z-, -y (down) <- Z+; +z (south, Skyrim -Y) <- Y+ (light travelling
+    north), -z (north) <- Y-."""
+    src = {"px": "xn", "nx": "xp", "py": "zn", "ny": "zp", "pz": "yp", "nz": "yn"}
     return {k: [round(_srgb_linear(c), 5) for c in skyrim_rgb[v]] for k, v in src.items()}
 
 

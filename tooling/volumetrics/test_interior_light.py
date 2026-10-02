@@ -26,7 +26,7 @@ def test_dwelling_is_low_storage_high_damp_medium_with_mist():
     assert (store["kind"], store["dust"], store["floorMist"]) == ("storage", "high", None)
     cave = medium("C", [BED], template="CaveLightingTemplate", volume="large")
     assert (cave["kind"], cave["kindWhy"], cave["dust"]) == ("damp", "damp-template", "medium")
-    assert cave["floorMist"] == {"topM": 1.3, "density": 0.4}
+    assert cave["floorMist"] == {"topM": 1.3, "density": 0.055}
 
 
 def test_kind_is_the_claims_class_from_the_mined_mix():
@@ -76,3 +76,9 @@ def test_a_published_cell_no_shell_links_fails_loud():
     assert il.mined_link("P.esp", "Linked", shells)["pieces"] == [{"model": BED}]
     with pytest.raises(SystemExit):
         il.mined_link("P.esp", "Unlinked", shells)
+
+
+def test_a_damp_mist_keeps_half_a_low_ray():
+    import math
+    for top, density in il.FLOOR_MIST["damp"].values():
+        assert math.exp(-il.MIST_LOW_RAY_M * il.MIST_MAX_GAIN * density) >= il.MIST_LOW_RAY_KEEP

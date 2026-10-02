@@ -708,13 +708,15 @@ def _xcll(ambient=(10, 20, 30), cube=((1, 1, 1),) * 6, fade=(256.0, 512.0), inhe
 
 def test_the_ambient_cube_is_read_in_game_axes():
     # Skyrim X+ X- Y+(north) Y-(south) Z+(up) Z-(down)
-    cube = ((255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 255, 255), (0, 0, 0))
+    # each colour names the direction light travels: Z- (down, the sky term) is the
+    # brighter one, as in Skyrim.esm's cells, and lands on the up-facing floor
+    cube = ((255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (0, 0, 0), (255, 255, 255))
     got = ex.resolve_lighting(_xcll(cube=cube), None, None, None)
     c = got["ambientCube"]
-    assert c["px"] == [1.0, 0.0, 0.0] and c["nx"] == [0.0, 1.0, 0.0]
-    assert c["py"] == [1.0, 1.0, 1.0] and c["ny"] == [0.0, 0.0, 0.0]   # game up = Skyrim Z+
-    assert c["nz"] == [0.0, 0.0, 1.0] and c["pz"] == [1.0, 1.0, 0.0]   # game -z = north = Skyrim Y+
-    assert got["raw"]["ambientCubeSkyrimRGB"]["zp"] == [255, 255, 255]
+    assert c["px"] == [0.0, 1.0, 0.0] and c["nx"] == [1.0, 0.0, 0.0]   # east normal <- X- (travelling west)
+    assert c["py"] == [1.0, 1.0, 1.0] and c["ny"] == [0.0, 0.0, 0.0]   # floor <- Z-, ceiling <- Z+
+    assert c["pz"] == [0.0, 0.0, 1.0] and c["nz"] == [1.0, 1.0, 0.0]   # south normal <- Y+ (travelling north)
+    assert got["raw"]["ambientCubeSkyrimRGB"]["zn"] == [255, 255, 255]
     assert got["specularRGB"] == [5, 6, 7] and got["fresnelPower"] == 0.5
     assert (got["lightFadeBeginM"], got["lightFadeEndM"]) == (round(256 / ex.UNITS_PER_METRE, 3),
                                                              round(512 / ex.UNITS_PER_METRE, 3))
@@ -760,7 +762,7 @@ def test_separate_takes_two_coplanar_pieces_apart_by_five_mm():
 
 def test_export_keeps_the_ambient_cube_lift(monkeypatch):
     """export_bundle hands the floor nodes to the light rule, so a dark cube cell
-    (MugsumpHollowInt01, plugin cube 95 % dark) is re-exported lifted (vol10 chunk 3)."""
+    (MugsumpHollowInt01, below the dark bar at its plugin cube) is re-exported lifted (vol10 chunk 3)."""
     from worldgen import interior_light as il
     path = ex.OUT_DIR / "MugsumpHollowInt01.json"
     if not path.exists():
@@ -786,4 +788,4 @@ def test_export_keeps_the_ambient_cube_lift(monkeypatch):
     out = ex.export_bundle("x.esp", "MugsumpHollowInt01", ({}, {}, {}), {}, {}, None, None, object())
     assert seen and seen[0] is nodes
     assert out["ambient"]["rule"] == "ambient-cube-lifted"
-    assert out["ambient"]["intensity"] == pytest.approx(2.858, abs=1e-3)
+    assert out["ambient"]["intensity"] == pytest.approx(1.921, abs=1e-3)   # floor on the sky face (vol10 F6)

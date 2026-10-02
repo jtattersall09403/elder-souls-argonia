@@ -275,7 +275,12 @@ including the cell's directional-ambient cube: the XCLL (or its LGTM
 template's) DALC, exported as `lighting.ambientCube` (interior bundle
 schema 4). The loader turns it into a LightProbe (`ambientCubeToSH` in
 game-core `interior/bundle.ts`, SH bands 0–2), so a floor gets the cube's
-+Y and a wall its side faces. **A cell is lit by its cube plus its
++Y and a wall its side faces. **Axis rule:** each Skyrim DALC colour names
+the direction the light travels, so a surface takes the face opposite its
+normal: game +Y (floor) ← Skyrim Z− (the sky term), −Y ← Z+, +X ← X−,
+−X ← X+, +Z (south) ← Y+, −Z ← Y− (`ambient_cube` in
+`export_interior_bundle.py`; evidence: Skyrim.esm's 71 daytime weathers
+Z+/Z− median 0.51, its 573 interior cells 0.30). **A cell is lit by its cube plus its
 sources, with no fill.** The exporter applies one rule before it writes,
 `worldgen/interior_light.py apply_light_rule`:
 
@@ -285,7 +290,18 @@ sources, with no fill.** The exporter applies one rule before it writes,
 | 2 | A cell WITH a cube keeps its ambient at intensity 1 (`ambient.rule: ambient-cube`); if its floor fails the dark bar (below), the ambient is set to the smallest intensity that meets it, the cube's shape kept (`ambient.rule: ambient-cube-lifted`, `lift_to_bar`, from `floor_nodes(bundle)`). Fallback only for a cell with no cube: the flat ambient is raised until the unlit five-face mean reaches `FILL_E` 0.15 (`ambient.rule: interior-light-floor`) | the cell's own DALC; else its ambient and directional colours |
 | 3 | Each light's `fade` and `falloffExponent` set so the runtime curve follows Skyrim's point-light curve | `skyrim_curve` |
 
-At runtime a windowless cell keeps its full record ambient and directional at every hour; a windowed cell keeps the 0.15 night floor. A cube cell failing the 30 % dark-floor bar is lifted to the smallest intensity meeting it (rule `ambient-cube-lifted`).
+At runtime a windowless cell keeps its full record ambient and directional at every hour; a windowed cell keeps the 0.15 night floor. A cube cell failing the 30 % dark-floor bar is lifted to the smallest intensity meeting it (rule `ambient-cube-lifted`; shipped lifts: Mugsump 1.921, the CIPHTBM huts 4.922, their great house 6.342, the rest 1).
+
+**The light rig** (`interiorLoader.ts`): one LightProbe (the cube), one
+DirectionalLight and the record and window lights in the fixture light
+field. The directional is the record's, from straight above at the day's
+share; when an opening faces the sun (`InteriorDaylight.setSun`) it is aimed
+along the cell-frame sun at record × the openings' sun share. A windowed
+cell gives it one 1024 shadow map fitted to the cell's bounding sphere, the
+shell (architecture, dungeon-kit, rock, terrain-feature) casting and every
+mesh receiving; a windowless cell has none. The light count and `castShadow`
+are fixed for the cell's lifetime (0108 §1). Each pane's window light sits
+0.3 m inside the wall along the pane's inward normal.
 
 A hearth is the plugin's; a burning hearth piece gets its flame from the
 fire module (fire.md), never from this rule. A cell with no light record

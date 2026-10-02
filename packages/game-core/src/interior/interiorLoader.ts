@@ -116,6 +116,12 @@ export const WINDOW_LIGHT_RADIUS_M = 4;
 export const WINDOW_FULL_SUN_SIN = 0.5;
 /** Emissive gain of a lit pane over the daylight colour, modulated by its own diffuse. */
 export const WINDOW_PANE_GAIN = 1.2;
+/** A pane's window light sits this far inside the wall plane, along the pane's inward normal (vol10 D4). */
+export const PANE_LIGHT_INSET_M = 0.3;
+/** The one shadow map of a windowed cell's directional (sun through its openings), fitted to the cell. */
+export const INTERIOR_SUN_SHADOW_MAP = 1024;
+/** The placement categories that are the cell's shell: they cast the sun's shadow, so the walls clip it to window patches. */
+export const INTERIOR_SHADOW_CASTERS: ReadonlySet<string> = new Set(["architecture", "dungeon-kit", "rock", "terrain-feature"]);
 
 /** Share of a clear day's window light an overcast sky (no direct sun) still gives: the sky's diffuse light. */
 export const WINDOW_OVERCAST_SHARE = 0.5;
@@ -172,6 +178,9 @@ export class InteriorDaylight {
   private field: FixtureLightField | null = null;
   private readonly colour = new THREE.Color(1, 1, 1);
   private share = 0;
+  /** Cell-frame unit direction toward the sun and its share through the cell's openings (`setSun`). */
+  private readonly toSun = new THREE.Vector3(0, 1, 0);
+  private sunShare = 0;
   constructor(
     /** The cell's group: window positions are in its frame. */
     readonly group: THREE.Object3D,
@@ -182,6 +191,8 @@ export class InteriorDaylight {
     readonly windows: readonly THREE.Vector3[],
     /** The cell's record lights (`interiorCellLights`), cell-local: reserved before the windows, steady. */
     readonly cellLights: readonly InteriorCellLight[] = [],
+    /** The cell's bounds, cell-local: the directional stands on it and its shadow camera covers it. */
+    readonly bounds: THREE.Sphere = new THREE.Sphere(new THREE.Vector3(), 1),
   ) {
     this.ambientBase = ambient.intensity;
     this.directionalBase = directional?.intensity ?? 0;
@@ -197,7 +208,16 @@ export class InteriorDaylight {
     this.colour.copy(colour);
     const floor = interiorAmbientShare(share, this.windows.length + this.paneMaterials.length > 0);
     this.ambient.intensity = this.ambientBase * floor;
-    if (this.directional) this.directional.intensity = this.directionalBase * floor;
+    if (this.directional) {
+      // the sun through an opening that faces it: the record directional aimed along the
+      // sun and scaled by its share; else the record light from straight above (vol10 D1)
+      const sun = this.sunShare > 0;
+      const d = this.directional;
+      d.intensity = this.directionalBase * (sun ? this.sunShare : floor);
+      d.target.position.copy(this.bounds.center);
+      d.position.copy(sun ? this.toSun : _UP).multiplyScalar(this.bounds.radius).add(this.bounds.center);
+      d.target.updateMatrixWorld();
+    }
     for (const m of this.paneMaterials) {
       m.emissive.copy(colour).multiplyScalar(WINDOW_PANE_GAIN * share);
       m.emissiveIntensity = 1;
@@ -209,6 +229,18 @@ export class InteriorDaylight {
       }
       this.field.commit();
     }
+  }
+
+  /**
+   * The sun as the cell's openings see it: `toSunCell` the cell-frame unit
+   * direction toward the sun, `sunShare` the share the openings facing it pass
+   * (windowApertures; 0 or a null direction when none faces it: the record
+   * light stands). Allocation-free; the light count and `castShadow` never change.
+   */
+  setSun(toSunCell: THREE.Vector3 | null, sunShare: number): void {
+    this.sunShare = toSunCell && sunShare > 0 ? sunShare : 0;
+    if (toSunCell) this.toSun.copy(toSunCell).normalize();
+    this.set(this.share, this.colour);
   }
 
   /**
@@ -269,6 +301,23 @@ export function interiorQuaternion(rotationDeg: Vec3): THREE.Quaternion {
     new THREE.Euler(d(rotationDeg[0]), -d(rotationDeg[1]), d(rotationDeg[2]), "YXZ"));
 }
 
+const _UP = new THREE.Vector3(0, 1, 0);
+
+/**
+ * Each pane's window-light seat: its centre moved `PANE_LIGHT_INSET_M` along
+ * the pane's thin axis, signed toward `inside` (the centroid of the cell's
+ * placements), so the light sits in the room, not in the wall (vol10 D4).
+ * `localBox` is the pane geometry's box, `world` its placed instance matrix.
+ */
+export function paneLightSeat(localBox: THREE.Box3, world: THREE.Matrix4, inside: THREE.Vector3): THREE.Vector3 {
+  const size = localBox.getSize(new THREE.Vector3());
+  const k = size.x <= size.y && size.x <= size.z ? 0 : size.y <= size.z ? 1 : 2;
+  const centre = localBox.getCenter(new THREE.Vector3()).applyMatrix4(world);
+  const axis = new THREE.Vector3().setFromMatrixColumn(world, k).normalize();
+  if (axis.dot(new THREE.Vector3().subVectors(inside, centre)) < 0) axis.negate();
+  return centre.addScaledVector(axis, PANE_LIGHT_INSET_M);
+}
+
 export function interiorPlacementMatrix(p: InteriorPlacement): THREE.Matrix4 {
   return new THREE.Matrix4().compose(
     new THREE.Vector3(...p.positionM), interiorQuaternion(p.rotationDeg),
@@ -297,8 +346,11 @@ export function interiorAmbient(bundle: InteriorBundle): THREE.Light {
  * Build the cell: one InstancedMesh per (asset, LOD0 part) holding every
  * placement of that asset (stand-ins from `substitutions[]` count as
  * placements of their stand-in asset), a point light per record light, the cell's
- * ambient and directional light, its fog. Nothing casts or receives shadows
- * (no shadow-casting light exists inside). No terrain, sky or water: none exists inside.
+ * ambient and directional light, its fog. A cell with windows gives its
+ * directional one `INTERIOR_SUN_SHADOW_MAP` shadow map over the cell's
+ * bounds, its shell (`INTERIOR_SHADOW_CASTERS`) casting and every mesh
+ * receiving, fixed for the cell's lifetime (0108 §1); a windowless cell has
+ * no shadow. No terrain, sky or water: none exists inside.
  * A placement whose asset is not in its kit is a named error, never a gap
  * drawn as nothing (the exporter lists gaps; the bundle carries none).
  */
@@ -309,7 +361,8 @@ export function instantiateInterior(
   const group = new THREE.Group();
   group.name = `interior:${bundle.cellId}`;
   const byAsset = new Map<string, { asset: ArchitectureAsset; placements: InteriorPlacement[] }>();
-  for (const p of drawnPlacements(bundle)) {
+  const drawn = drawnPlacements(bundle);
+  for (const p of drawn) {
     const asset = kits.get(p.kit)?.get(p.assetId);
     if (!asset) throw new Error(`interior ${bundle.cellId}: ${p.id} names ${p.kit}/${p.assetId}, not in the loaded kit`);
     const key = `${p.kit}|${p.assetId}`;
@@ -321,6 +374,10 @@ export function instantiateInterior(
   const panes = { materials: new Set<THREE.MeshStandardMaterial>(), windows: [] as THREE.Vector3[] };
   const solids: SettlementSolid[] = [];
   const m = new THREE.Matrix4();
+  const inside = new THREE.Vector3();
+  for (const p of drawn) inside.add(new THREE.Vector3(...p.positionM));
+  if (drawn.length) inside.divideScalar(drawn.length);
+  const built: { mesh: THREE.InstancedMesh; category: string }[] = [];
   for (const { asset, placements } of byAsset.values()) {
     const parts = asset.levels[0] ?? [];
     const fireRow = fireRows.get(placements[0].kit)?.get(placements[0].assetId);
@@ -342,15 +399,13 @@ export function instantiateInterior(
       if (isWindowPane(fireRow, part.material)) {
         // the pane's own geometry gives the window light's seat (walk 9)
         part.geometry.computeBoundingBox();
-        const centre = part.geometry.boundingBox!.getCenter(new THREE.Vector3());
         panes.materials.add(part.material as THREE.MeshStandardMaterial);
         placements.forEach((_, i) => {
           mesh.getMatrixAt(i, m);
-          panes.windows.push(centre.clone().applyMatrix4(m));
+          panes.windows.push(paneLightSeat(part.geometry.boundingBox!, m, inside));
         });
       }
-      mesh.castShadow = false;
-      mesh.receiveShadow = false;
+      built.push({ mesh, category: placements[0].category });
       group.add(mesh);
       meshes += 1;
     }
@@ -372,19 +427,36 @@ export function instantiateInterior(
   // scene's fixture light field with the windows (`InteriorDaylight.bind`).
   const ambient = interiorAmbient(bundle);
   group.add(ambient);
-  // From straight above: the bundle's directionalRotXYDeg/ZDeg (0/0 in the
+  // From straight above, or along the sun through a window facing it
+  // (InteriorDaylight.setSun): the bundle's directionalRotXYDeg/ZDeg (0/0 in the
   // shipped cells, inherited from the lighting template) are not mapped to a
-  // direction yet (walk 2 RB report). The target is in the group so the
+  // direction (walk 2 RB report). The target is in the group so the
   // direction holds wherever the cell stands. A cell with no directional
   // keeps it at intensity 0.
   const directionalRGB = bundle.lighting?.directionalRGB;
   const directional = new THREE.DirectionalLight(
     directionalRGB ? colorFromRGB(directionalRGB) : 0xffffff, directionalRGB ? INTERIOR_AMBIENT_SCALE : 0);
-  directional.castShadow = false;
-  directional.position.set(0, 1, 0);
-  directional.target.position.set(0, 0, 0);
+  const bounds = new THREE.Box3().setFromObject(group).getBoundingSphere(new THREE.Sphere());
+  if (bounds.isEmpty()) bounds.set(inside, 1);
+  const windowed = panes.windows.length + panes.materials.size > 0;
+  directional.castShadow = windowed;
+  if (windowed) {
+    directional.shadow.mapSize.set(INTERIOR_SUN_SHADOW_MAP, INTERIOR_SUN_SHADOW_MAP);
+    const cam = directional.shadow.camera;
+    cam.left = cam.bottom = -bounds.radius;
+    cam.right = cam.top = bounds.radius;
+    cam.near = 0.05;
+    cam.far = 2 * bounds.radius;
+    cam.updateProjectionMatrix();
+  }
+  for (const { mesh, category } of built) {
+    mesh.castShadow = windowed && INTERIOR_SHADOW_CASTERS.has(category);
+    mesh.receiveShadow = windowed;
+  }
+  directional.position.copy(bounds.center).addScaledVector(_UP, bounds.radius);
+  directional.target.position.copy(bounds.center);
   group.add(directional, directional.target);
-  const emitters = interiorFireEmitters(drawnPlacements(bundle),
+  const emitters = interiorFireEmitters(drawn,
     (p) => fireRows.get(p.kit)?.get(p.assetId), interiorPlacementMatrix);
   let fire: FlameSystem | null = null;
   if (emitters.length) {
@@ -396,7 +468,7 @@ export function instantiateInterior(
   return {
     bundle, group, solids, background, loadS: null, swingDoors, fire,
     daylight: new InteriorDaylight(group, ambient, directional, [...panes.materials], panes.windows,
-      interiorCellLights(bundle)),
+      interiorCellLights(bundle), bounds),
     fog: new THREE.Fog(background.clone(), bundle.fog.nearM, bundle.fog.farM),
     counts: {
       placements: bundle.placements.length, substitutions: bundle.substitutions?.length ?? 0,
