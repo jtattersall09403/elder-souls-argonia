@@ -257,6 +257,7 @@ export function patchShared(
  * 0.184 does that for `select` on computed operands and the result is NaN,
  * silently; decision 0111 gotchas). Both operands are evaluated: keep them
  * finite (guard a division the unchosen side would make by zero).
+ * Cheap operands only: where dev's GLSL branched around fetches or loops, use `If` with a `toVar` output (docs/standards/tsl-shaders.md).
  */
 export function sel(c: TslNode, a: TslNode, b: TslNode): TslNode {
   // a·t + b·(1 − t) with t ∈ {0, 1} is EXACT for finite operands (mix(b, a, t)

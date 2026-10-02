@@ -5,7 +5,10 @@
  *
  *   node tooling/gpu-lane/trace-frames.mjs <dir>/url0-settled.trace.json [--profile <.cpuprofile>] [--over 20]
  *
- * Causes (first match wins per event; an event counts toward a frame only for the ms it overlaps):
+ * Only the renderer main thread and the GPU process count, each event by its SELF time (its span less its
+ * nested children on the same thread), so a wrapper (BeginMainFrame, FireAnimationFrame) around a FunctionCall
+ * gives the call's time to `js`, not to the wrapper's cause (webgpu diag8 T8: every hitch read "other").
+ * Causes (first match wins per event; an event counts toward a frame only for the self ms it overlaps):
  * gc (V8/Blink GC), shader (compile/link, program cache), upload (texture/buffer upload, image decode),
  * gpu (any other event in the GPU process), timer (TimerFire), js (FunctionCall/EvaluateScript/
  * v8.callFunction on the main thread), raster/compositor (viz, cc), other.
@@ -30,6 +33,29 @@ export function causeOf(e, ctx) {
 }
 
 const r1 = (x) => Math.round(x * 10) / 10;
+
+/** Each event's self pieces: `[from, to]` µs spans of the event not covered by a nested child on its thread.
+ * Returns `[{ e, pieces }]` for the given complete events (any threads; nesting is per pid:tid). */
+export function selfPieces(events) {
+  const byThread = new Map();
+  for (const e of events) { const k = `${e.pid}:${e.tid}`; if (!byThread.has(k)) byThread.set(k, []); byThread.get(k).push(e); }
+  const out = [];
+  for (const list of byThread.values()) {
+    list.sort((a, b) => a.ts - b.ts || b.dur - a.dur);
+    const stack = [];
+    const close = (n) => { if (n.end > n.cur) n.pieces.push([n.cur, n.end]); out.push({ e: n.e, pieces: n.pieces }); };
+    const pop = () => { const n = stack.pop(); close(n); const p = stack.at(-1); if (p) p.cur = Math.max(p.cur, Math.min(n.end, p.end)); };
+    for (const e of list) {
+      while (stack.length && stack.at(-1).end <= e.ts) pop();
+      const p = stack.at(-1);
+      if (p && e.ts > p.cur) p.pieces.push([p.cur, e.ts]);
+      if (p) p.cur = Math.max(p.cur, e.ts);
+      stack.push({ e, end: e.ts + e.dur, cur: e.ts, pieces: [] });
+    }
+    while (stack.length) pop();
+  }
+  return out;
+}
 
 /** Trace categories every gpu-lane trace records (measure.mjs --trace, pod-capture.mjs per view). */
 export const TRACE_CATEGORIES = ["devtools.timeline", "disabled-by-default-devtools.timeline.frame", "gpu",
@@ -110,8 +136,11 @@ export function classifyFrames(events, { profile = null, overMs = 20, windowEndP
   const gpuPids = new Set([...pname].filter(([, n]) => /GPU/i.test(n)).map(([p]) => p));
   const ctx = { pid, tid, gpuPids };
   const fs = fa.filter((e) => e.pid === pid && e.tid === tid).map((e) => e.ts).sort((a, b) => a - b);
-  // Generic task wrappers contain the events that say what ran; counting them would double every cause.
-  const X = events.filter((e) => e.ph === "X" && e.dur > 0 && e.name !== "FireAnimationFrame" && !CONTAINERS.test(e.name));
+  // the renderer main thread and the GPU process only; generic task wrappers are skipped (their children become
+  // top level), and every other event counts by its self time
+  const X = events.filter((e) => e.ph === "X" && e.dur > 0 && !CONTAINERS.test(e.name)
+    && ((e.pid === pid && e.tid === tid) || gpuPids.has(e.pid)));
+  const selfX = selfPieces(X);
   let samples = [];
   if (profile) {
     const N = new Map(profile.nodes.map((n) => [n.id, n]));
@@ -136,8 +165,10 @@ export function classifyFrames(events, { profile = null, overMs = 20, windowEndP
     if (isHarness(a, b)) { harnessAt.add(i); skipAt.add(i); continue; }
     if (b - a <= overMs * 1000) continue;
     const byCause = {}, top = [];
-    for (const e of X) {
-      const ov = Math.min(b, e.ts + e.dur) - Math.max(a, e.ts);
+    for (const { e, pieces } of selfX) {
+      if (e.ts >= b || e.ts + e.dur <= a) continue;
+      let ov = 0;
+      for (const [p0, p1] of pieces) ov += Math.max(0, Math.min(b, p1) - Math.max(a, p0));
       if (ov < 500) continue;
       const c = causeOf(e, ctx);
       byCause[c] = r1((byCause[c] ?? 0) + ov / 1000);

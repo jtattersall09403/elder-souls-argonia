@@ -131,6 +131,10 @@ Chrome started with `--remote-debugging-port` and serve with `node tooling/gpu-l
 
 ## Gotchas
 
+- **Clean up only what you launched.** Stop a capture or measure by the PID your own command started
+  (`kill <that pid>`), a tunnel with `tunnels.mjs close --purpose <yours>`. Never `pkill`, `killall` or a
+  `ps | grep <script> | kill` loop: several lanes run the same scripts at once, and a command-line match kills
+  theirs (walk 10: a lane's loop killed another lane's `pod-capture.mjs` captures mid-view).
 - **Check the frame cap before trusting fps.** `pod-setup.sh` starts Chrome with `--disable-gpu-vsync
   --disable-frame-rate-limit`; walk 10 still read rAF at 58.5 fps on a trivial page (Chrome 154 under Xvfb).
   `pod-capture` reads a blank page's rAF rate first and records `cap.capDetected`: when true, a view at

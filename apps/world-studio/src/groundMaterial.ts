@@ -3,6 +3,7 @@ import { MeshStandardNodeMaterial } from "three/webgpu";
 import * as TSL from "three/tsl";
 import type { AerialUniforms, UniformOf } from "./sky/aerial";
 import { sel, type TslNode } from "@elder-souls/game-core/render/nodes/materialNodes";
+import { setFixtureLightsPerObject } from "@elder-souls/game-core/render/fixtureLights/fixtureLightField";
 import { sharedUniform } from "@elder-souls/game-core/render/nodes/sharedUniform";
 import { applyShoreWetness } from "./water/groundWetness";
 
@@ -327,7 +328,7 @@ export function createGroundMaterial(
   // Fixture lights (render/fixtureLights, installed by the sky's scene walk):
   // a near terrain tile is 117 m across and holds a whole place's lamps, so
   // its fragments read up to 16 per tile, not the default 8.
-  material.userData.esFixtureLightsPerObject = 16;
+  setFixtureLightsPerObject(material, 16);
   material.colorNode = splatColor();
   const worldNormal = litNormal();
   material.normalNode = worldNormal.transformDirection(cameraViewMatrix);

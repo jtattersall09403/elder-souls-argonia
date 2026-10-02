@@ -157,11 +157,22 @@ export function waterReceiverNodes(u: GroundWetnessUniforms) {
     return p.x.greaterThanEqual(0.0).and(p.y.greaterThanEqual(0.0))
       .and(p.x.lessThan(extent)).and(p.y.lessThan(extent));
   };
-  const stage = (p: TslNode, salinity: TslNode, season: TslNode): TslNode => sel(
-    insideProvince(p).not(), vec3(-2.0, 1.0, 0.0),
-    sel(u.uWetAccessParams.x.lessThan(0.5), vec3(-2.0, smoothstep(0.02, 0.15, salinity), season),
-      esConnectedStage(p, u.uWetSurf, u.uWetSupport, u.uWetShore, P.z, P.w, u.uWetOrigin,
-        u.uWetAccessParams.y, u.uWetAccessParams.z)));
+  // Real branches, as dev's esWetStage returns early: the owner-weighted
+  // connected stage is 16+ texel loads and runs only where the bundle ships
+  // access data (sel() evaluated it on every lit fragment; webgpu10 F3).
+  // Loads only (no implicit-LOD samples), so the If is legal in WGSL.
+  const stage = (p: TslNode, salinity: TslNode, season: TslNode): TslNode => {
+    const out = vec3(-2.0, 1.0, 0.0).toVar();
+    If(insideProvince(p), () => {
+      If(u.uWetAccessParams.x.lessThan(0.5), () => {
+        out.assign(vec3(-2.0, smoothstep(0.02, 0.15, salinity), season));
+      }).Else(() => {
+        out.assign(esConnectedStage(p, u.uWetSurf, u.uWetSupport, u.uWetShore, P.z, P.w, u.uWetOrigin,
+          u.uWetAccessParams.y, u.uWetAccessParams.z));
+      });
+    });
+    return out;
+  };
   // P.z is 0 until a bundle is primed: never divide by it (a NaN here
   // survives every later zero gate, sel() included).
   const surfaceUv = (xz: TslNode): TslNode =>
@@ -178,31 +189,39 @@ export function waterReceiverNodes(u: GroundWetnessUniforms) {
   // esSurfaceAt and WaterData.surfaceBase): only texels whose signed depth is
   // above the buried threshold weigh into the level; the depth keeps the
   // plain bilinear (16c round 2). The native-coverage path is owner-weighted.
+  // Real branches, as dev's esWetSampleSurface: outside the province no
+  // loads, the native path's owner-weighted raster OR the 4-texel weighted
+  // bilinear, never both (webgpu10 F3). Loads only, legal inside If.
   const sampleSurface = (xz: TslNode): TslNode => {
-    const value = esOwnedRaster(xz, u.uWetSurf, u.uWetSupport, P.z, P.w, u.uWetOrigin);
-    const nLevel = value.rg.dot(vec2(65280.0, 255.0)).div(65535.0);
-    const native = vec2(float(P.x).add(nLevel.mul(P.y)), value.b.mul(u.uWetDepthSpan).add(u.uWetDepthMin));
-    const pixel = clamp(vec2(xz).sub(u.uWetOrigin).div(max(P.w, 0.000001)), vec2(0.0),
-      vec2(max(float(P.z).sub(1.0), 0.0)));
-    const corner = ivec2(floor(pixel)).toVar();
-    const f = fract(pixel).toVar();
-    const s00 = levelDepth(corner).toVar(), s10 = levelDepth(corner.add(ivec2(1, 0))).toVar();
-    const s01 = levelDepth(corner.add(ivec2(0, 1))).toVar(), s11 = levelDepth(corner.add(ivec2(1, 1))).toVar();
-    const bw = vec4(float(1.0).sub(f.x).mul(float(1.0).sub(f.y)), f.x.mul(float(1.0).sub(f.y)),
-      float(1.0).sub(f.x).mul(f.y), f.x.mul(f.y));
-    const wet = vec4(step(u.uWetBuried, s00.y), step(u.uWetBuried, s10.y),
-      step(u.uWetBuried, s01.y), step(u.uWetBuried, s11.y));
-    const ww = bw.mul(wet).toVar();
-    const wsum = ww.x.add(ww.y).add(ww.z).add(ww.w).toVar();
-    const plain = mix(mix(s00, s10, f.x), mix(s01, s11, f.x), f.y).toVar();
-    // wsum is 0 wherever all four texels are buried (all dry ground): the
-    // unchosen side of sel() is still evaluated, and 0/0 there was the NaN
-    // that blacked every dry terrain fragment (16k walk 5, lane L2d).
-    const weighted = ww.x.mul(s00.x).add(ww.y.mul(s10.x)).add(ww.z.mul(s01.x)).add(ww.w.mul(s11.x))
-      .div(max(wsum, 0.000001));
-    const bilinear = vec2(sel(wsum.greaterThan(0.0), weighted, plain.x), plain.y);
-    return sel(insideProvince(xz).not(), vec2(0.0, 25.5),
-      sel(u.uWetNativeCoverage.greaterThan(0.5), native, bilinear));
+    const out = vec2(0.0, 25.5).toVar();
+    If(insideProvince(xz), () => {
+      If(u.uWetNativeCoverage.greaterThan(0.5), () => {
+        const value = esOwnedRaster(xz, u.uWetSurf, u.uWetSupport, P.z, P.w, u.uWetOrigin);
+        const nLevel = value.rg.dot(vec2(65280.0, 255.0)).div(65535.0);
+        out.assign(vec2(float(P.x).add(nLevel.mul(P.y)), value.b.mul(u.uWetDepthSpan).add(u.uWetDepthMin)));
+      }).Else(() => {
+        const pixel = clamp(vec2(xz).sub(u.uWetOrigin).div(max(P.w, 0.000001)), vec2(0.0),
+          vec2(max(float(P.z).sub(1.0), 0.0)));
+        const corner = ivec2(floor(pixel)).toVar();
+        const f = fract(pixel).toVar();
+        const s00 = levelDepth(corner).toVar(), s10 = levelDepth(corner.add(ivec2(1, 0))).toVar();
+        const s01 = levelDepth(corner.add(ivec2(0, 1))).toVar(), s11 = levelDepth(corner.add(ivec2(1, 1))).toVar();
+        const bw = vec4(float(1.0).sub(f.x).mul(float(1.0).sub(f.y)), f.x.mul(float(1.0).sub(f.y)),
+          float(1.0).sub(f.x).mul(f.y), f.x.mul(f.y));
+        const wet = vec4(step(u.uWetBuried, s00.y), step(u.uWetBuried, s10.y),
+          step(u.uWetBuried, s01.y), step(u.uWetBuried, s11.y));
+        const ww = bw.mul(wet).toVar();
+        const wsum = ww.x.add(ww.y).add(ww.z).add(ww.w).toVar();
+        const plain = mix(mix(s00, s10, f.x), mix(s01, s11, f.x), f.y).toVar();
+        // wsum is 0 wherever all four texels are buried (all dry ground):
+        // 0/0 there was the NaN that blacked every dry terrain fragment
+        // (16k walk 5, lane L2d); the divisor stays guarded.
+        const weighted = ww.x.mul(s00.x).add(ww.y.mul(s10.x)).add(ww.z.mul(s01.x)).add(ww.w.mul(s11.x))
+          .div(max(wsum, 0.000001));
+        out.assign(vec2(sel(wsum.greaterThan(0.0), weighted, plain.x), plain.y));
+      });
+    });
+    return out;
   };
   // KEEP IN LOCKSTEP with waves.ts surfEnergyScale(wind, SEA.fetchMaxM): THE
   // surf energy knob, on the ocean's fetch. Constants rounded as the GLSL
@@ -268,14 +287,20 @@ export function waterReceiverCaustic(u: GroundWetnessUniforms, inputs: WaterRece
   const supported = sel(barred, float(0.0), mix(owned, 1.0, outside).mul(step(0.5, u.uWetParams.z))).toVar();
   const focus = esWaterCaustics(receiver, receiverNormal, level, klass.g, shore.b,
     u.uWetSun, supported, u.uWetTime, clamp(float(u.uWetWind).mul(0.3).add(0.45), 0.45, 1.0));
-  const localBody = mix(support.gb.dot(vec2(65280.0, 255.0)), 65535.0, outside);
-  const localFocus = esLocalWaterCaustic(u, receiver, receiverNormal, level, u.uWetSun);
-  // The physical patch must not make opaque tannin/turbidity transparent.
-  const localVisibility = esCausticVisibility(level.sub(receiver.y), klass.g, shore.b,
-    u.uWetSun.y, 1.0, supported, 1.0);
-  return focus.mul(CAUSTIC_STRENGTH).mul(u.uWetCausticDebug)
-    .add(localFocus.mul(localVisibility).mul(u.uWetCausticDebug)
+  const caustic = focus.mul(CAUSTIC_STRENGTH).mul(u.uWetCausticDebug).toVar();
+  // The interactive patch's caustic (9 masked samples) runs only while a
+  // patch is live, as dev's early return: a UNIFORM branch, so its
+  // derivatives stay in uniform control flow (webgpu10 F3).
+  If(float(u.uLocalWaterActive).greaterThan(0.5), () => {
+    const localBody = mix(support.gb.dot(vec2(65280.0, 255.0)), 65535.0, outside);
+    const localFocus = esLocalWaterCaustic(u, receiver, receiverNormal, level, u.uWetSun);
+    // The physical patch must not make opaque tannin/turbidity transparent.
+    const localVisibility = esCausticVisibility(level.sub(receiver.y), klass.g, shore.b,
+      u.uWetSun.y, 1.0, supported, 1.0);
+    caustic.addAssign(localFocus.mul(localVisibility).mul(u.uWetCausticDebug)
       .mul(float(1.0).sub(step(0.5, abs(localBody.sub(u.uLocalWaterBody))))));
+  });
+  return caustic;
   })();
 }
 

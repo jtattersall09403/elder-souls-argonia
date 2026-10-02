@@ -251,3 +251,14 @@ test("parseViews: settle false or a known config", () => {
   assert.equal(parseViews(JSON.stringify([{ name: "a", url: "http://x/", settle: false }]))[0].settle, false);
   assert.throws(() => parseViews(JSON.stringify([{ name: "a", url: "http://x/", settle: { wait: 3 } }])), /settle/);
 });
+
+test("needsChromeRestart: a stuck target or a failed context restarts Chrome; a live browser after a page error does not", async () => {
+  const { needsChromeRestart } = await import("./pod-capture-lib.mjs");
+  assert.equal(needsChromeRestart({ failed: "capture-timeout", targetStuck: true }, true), true);
+  assert.equal(needsChromeRestart({ failed: "capture-timeout", targetStuck: false }, true), false);
+  assert.equal(needsChromeRestart({ error: "Error: Target.createBrowserContext timed out" }, true), true);
+  assert.equal(needsChromeRestart({ error: "Error: Target.createTarget: failed" }, true), true);
+  assert.equal(needsChromeRestart({ error: "Error: Runtime.evaluate timed out" }, true), false);
+  assert.equal(needsChromeRestart({ error: "Error: Runtime.evaluate timed out" }, false), true);
+  assert.equal(needsChromeRestart({}, false), false);
+});

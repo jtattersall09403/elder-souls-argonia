@@ -1,3 +1,4 @@
+import { writeFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
 import * as THREE from "three";
 import { WebGPURenderer } from "three/webgpu";
@@ -110,6 +111,8 @@ describe("foam energy field (study §3.1 (1))", () => {
       Object.assign(builder, { scene: new THREE.Scene(), camera: new THREE.OrthographicCamera(), material: quad.material });
       builder.build();
       expect(String(builder.fragmentShader).length).toBeGreaterThan(1000);
+      const dir = process.env.ES_DUMP_SHADERS;
+      if (dir) writeFileSync(`${dir}/foam-${forceWebGL ? "glsl" : "wgsl"}.txt`, String(builder.fragmentShader));
       expect(warn).not.toHaveBeenCalled();
       warn.mockRestore();
       field.dispose();

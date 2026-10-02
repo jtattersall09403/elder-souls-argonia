@@ -1,26 +1,49 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import { holdUntilLinked } from "./linkGate";
+import { setDrawCount } from "@elder-souls/game-core/vegetation/drawCount";
+
+const instanced = () => new THREE.InstancedMesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial(), 4);
+const flush = async () => { for (let i = 0; i < 4; i++) await Promise.resolve(); };
 
 describe("holdUntilLinked", () => {
-  it("keeps a new rung mesh hidden until its link resolves", async () => {
-    const mesh = new THREE.Mesh();
+  it("keeps a drawing mesh hidden until its link resolves, then applies its rule", async () => {
+    const mesh = instanced();
     let resolve!: () => void;
     const linked = new Promise<void>((r) => { resolve = r; });
-    let linkedObject: THREE.Object3D | null = null;
-    holdUntilLinked(mesh, (o) => { linkedObject = o; return linked; }, () => { mesh.visible = true; });
-    expect(linkedObject).toBe(mesh);
-    await Promise.resolve(); await Promise.resolve();
+    const rule = () => mesh.count > 0;
+    holdUntilLinked(mesh, () => linked, () => mesh, rule);
+    setDrawCount(mesh, 3, rule);
+    await flush();
     expect(mesh.visible).toBe(false);
     resolve();
-    await linked; await Promise.resolve();
+    await flush();
     expect(mesh.visible).toBe(true);
   });
 
-  it("shows the mesh when the link fails, so a rung never stays dark", async () => {
-    const mesh = new THREE.Mesh();
-    holdUntilLinked(mesh, () => { throw new Error("lost context"); }, () => { mesh.visible = true; });
-    await Promise.resolve(); await Promise.resolve();
+  it("CPU path: a link that resolves with count 0 leaves the mesh hidden", async () => {
+    const mesh = instanced();
+    mesh.count = 0;
+    holdUntilLinked(mesh, () => Promise.resolve(), () => mesh, () => mesh.count > 0);
+    await flush();
+    expect(mesh.visible).toBe(false);
+  });
+
+  it("GPU path: registered shows on link, released stays hidden", async () => {
+    const a = instanced();
+    holdUntilLinked(a, () => Promise.resolve(), () => a, () => true);
+    const b = instanced();
+    holdUntilLinked(b, () => Promise.resolve(), () => b, () => false);
+    await flush();
+    expect(a.visible).toBe(true);
+    expect(b.visible).toBe(false);
+  });
+
+  it("a failed link still lifts the hold, so a rung never stays dark", async () => {
+    const mesh = instanced();
+    mesh.count = 2;
+    holdUntilLinked(mesh, () => { throw new Error("lost context"); }, () => mesh, () => mesh.count > 0);
+    await flush();
     expect(mesh.visible).toBe(true);
   });
 });

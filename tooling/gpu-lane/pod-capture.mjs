@@ -62,7 +62,7 @@
 import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable } from "./pod-capture-lib.mjs";
+import { HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit } from "./checks.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
@@ -228,6 +228,19 @@ async function closeViewPage(page) {
   await bsend("Target.closeTarget", { targetId: page.targetId }).catch(() => {});
   await bsend("Target.disposeBrowserContext", { browserContextId: page.browserContextId }).catch(() => {});
 }
+/** A timed-out view (webgpu diag8 T6b: closeTarget and disposeBrowserContext blocked behind a busy renderer, and
+ * every later createBrowserContext timed out): crash its renderer (Page.crash never replies), close it, and report
+ * whether its target is still listed in /json/list (true = stuck: the caller restarts the pod Chrome). */
+async function killViewPage(page) {
+  if (!page) return false;
+  try { ws?.send(JSON.stringify({ id: ++nextId, method: "Page.crash" })); } catch { /* socket already gone */ }
+  await new Promise((r) => setTimeout(r, 1000));
+  await Promise.race([closeViewPage(page), new Promise((r) => setTimeout(r, 15_000))]);
+  try {
+    const list = await (await fetch(`${cdpHttp}/json/list`, { signal: AbortSignal.timeout(PING_TIMEOUT_MS) })).json();
+    return list.some((t) => t.id === page.targetId);
+  } catch { return true; }
+}
 /** The blank page's baseline: 5 s quiet, then its rAF rate and the live heap after a forced GC. */
 async function baseline() {
   await new Promise((r) => setTimeout(r, 5000));
@@ -334,7 +347,7 @@ async function captureView(view) {
     if (await Promise.race([body.then(() => "done"), limit]) === "timeout") {
       result.failed = "capture-timeout";
       aborted = true;
-      await closeViewPage(ctl.page); ctl.page = null;
+      result.targetStuck = await killViewPage(ctl.page); ctl.page = null;
       await Promise.race([body.catch(() => {}), new Promise((r) => setTimeout(r, 70_000))]); // the body unwinds (every await is bounded)
     }
   } catch (e) {
@@ -471,7 +484,7 @@ try {
   for (const v of views) {
     if (!(await browserAlive())) await recoverChrome();
     let r = await captureView(v);
-    if (r.error && browserStoppedAnswering(r.error) && !(await browserAlive())) {
+    if (needsChromeRestart(r, r.error && browserStoppedAnswering(r.error) ? await browserAlive() : true)) {
       await recoverChrome();
       // a view that never opened its page is run again on the fresh Chrome; one that ran keeps its partial result
       if (/createBrowserContext|createTarget/.test(r.error)) r = await captureView(v);

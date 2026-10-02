@@ -133,7 +133,13 @@ interface RenderObjectInternals {
   group: unknown;
   initialCacheKey: unknown;
   readonly needsUpdate: boolean;
-  material: { version: number; removeEventListener(t: string, f: unknown): void };
+  initialNodesCacheKey?: unknown;
+  clippingContext?: { cacheKey: unknown } | null;
+  clippingContextCacheKey?: unknown;
+  object?: { receiveShadow?: boolean };
+  scene?: unknown;
+  lightsNode?: unknown;
+  material: { version: number; isShadowPassMaterial?: boolean; removeEventListener(t: string, f: unknown): void };
   geometry: { id?: number; removeEventListener(t: string, f: unknown): void };
   onMaterialDispose: unknown;
   onGeometryDispose: unknown;
@@ -145,6 +151,7 @@ interface RenderObjectInternals {
 /** The three 0.184 internals the queue reads (Renderer, RenderObjects, NodeManager, Pipelines). */
 interface RendererInternals {
   _renderObjectDirect: (...a: unknown[]) => void;
+  contextNode?: { id: unknown; version: unknown };
   _currentRenderContext: unknown;
   _currentRenderBundle: unknown;
   _renderTarget: object | null;
@@ -161,6 +168,7 @@ interface RendererInternals {
     getForRenderCacheKey(renderObject: object): unknown;
     getForRender(renderObject: object, useAsync?: boolean): unknown;
     needsRefresh(renderObject: object): boolean;
+    getCacheKey?(scene: unknown, lightsNode: unknown): unknown;
     updateBefore(renderObject: object): void;
     updateForRender(renderObject: object): void;
     updateAfter(renderObject: object): void;
@@ -208,10 +216,13 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
   // Build twins by cache key, held after their build until the real render object holds the same
   // key (then the twin's share of the builder state is released: usedTimes stays >= 1 and the
   // cache entry lives on with its real owner). A twin is never left listening on the material.
-  const twins = new Map<unknown, { twin: RenderObjectInternals; at: number }>();
+  const twins = new Map<unknown, { twin: RenderObjectInternals; at: number; object: object }>();
+  // scene objects with a twin held: the per-draw release check runs only for them
+  const twinned = new WeakSet<object>();
+  let sweptFrame = -1;
   const nodes0 = r._nodes;
   // one key array for every chain lookup: filled and read synchronously, so a re-entrant draw
-  // (a shadow pass inside draw.apply) overwriting it between two lookups is harmless
+  // (a shadow pass inside draw.call) overwriting it between two lookups is harmless
   const lookupKeys: unknown[] = [null, null, null, null];
   const chainGet = (chain: { get(keys: unknown[]): RenderObjectInternals | undefined }, object: unknown, material: unknown, context: unknown, lightsNode: unknown) => {
     lookupKeys[0] = object; lookupKeys[1] = material; lookupKeys[2] = context; lookupKeys[3] = lightsNode;
@@ -234,36 +245,71 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
     const t = twins.get(key);
     if (!t) return;
     twins.delete(key); queue.twinsHeld = twins.size;
+    twinned.delete(t.object);
     nodes0.delete(t.twin);
   };
-  const settleTwins = (current: RenderObjectInternals | undefined) => {
-    if (twins.size === 0) return;
-    if (current) {
-      const key = cacheKeyOf(current);
-      if (twins.has(key) && twins.get(key)!.twin !== current && nodes0.get(current).nodeBuilderState !== undefined) release(key);
-    }
-    // an object removed before it re-drew: its twin goes after TWIN_HOLD_MS (nobody needs the key then)
+  // the real render object now holds a twin's key: hand the twin's share back (twinned objects only)
+  const settleTwin = (current: RenderObjectInternals | undefined) => {
+    if (!current) return;
+    const key = cacheKeyOf(current);
+    const t = twins.get(key);
+    if (t && t.twin !== current && nodes0.get(current).nodeBuilderState !== undefined) release(key);
+  };
+  // an object removed before it re-drew: its twin goes after TWIN_HOLD_MS (nobody needs the key
+  // then). Once per frame (walk 10, C9c: per draw it cost a Date.now and a Map walk each).
+  const sweepTwins = (frame: number | undefined) => {
+    if (frame !== undefined && frame === sweptFrame) return;
+    sweptFrame = frame ?? -1;
     const now = Date.now();
     for (const [k, t] of twins) if (now - t.at > TWIN_HOLD_MS) release(k);
   };
-  r._renderObjectDirect = function (this: RendererInternals, ...a: unknown[]) {
+  // RenderObject.needsUpdate hashes the dynamic key on every read, and three reads it again in
+  // its own draw (walk 10, C9b). The dynamic key is a function of the environment key (cached by
+  // three per render call), the context node, receiveShadow and the camera count: re-hash only
+  // when one of those moved. The clipping check is read without consuming three's flag.
+  const dynamic = new WeakMap<object, { env: unknown; cid: unknown; cv: unknown; rs: boolean; cams: number; init: unknown; stale: boolean }>();
+  const needsUpdateOf = (ro: RenderObjectInternals, renderer: RendererInternals): boolean => {
+    const nodes = renderer._nodes;
+    if (typeof nodes.getCacheKey !== "function" || !renderer.contextNode || !ro.object) return ro.needsUpdate;
+    const clip = ro.clippingContext;
+    if (clip && clip.cacheKey !== ro.clippingContextCacheKey) return true;
+    const env = ro.material.isShadowPassMaterial === true ? 0 : nodes.getCacheKey(ro.scene, ro.lightsNode);
+    const cid = renderer.contextNode.id, cv = renderer.contextNode.version;
+    const rs = ro.object.receiveShadow === true;
+    const cam = ro.camera as { isArrayCamera?: boolean; cameras?: unknown[] } | null;
+    const cams = cam?.isArrayCamera ? cam.cameras!.length : -1;
+    const init = ro.initialNodesCacheKey;
+    let m = dynamic.get(ro);
+    if (m && m.env === env && m.cid === cid && m.cv === cv && m.rs === rs && m.cams === cams && m.init === init) return m.stale;
+    const stale = init !== ro.getDynamicCacheKey();
+    if (!m) dynamic.set(ro, { env, cid, cv, rs, cams, init, stale });
+    else { m.env = env; m.cid = cid; m.cv = cv; m.rs = rs; m.cams = cams; m.init = init; m.stale = stale; }
+    return stale;
+  };
+  // named parameters matching three 0.184's signature: no rest array or destructure per draw (walk 10, C9a)
+  r._renderObjectDirect = function (this: RendererInternals, object: unknown, material: unknown, scene: unknown, camera: unknown,
+    lightsNode: unknown, group: unknown, clippingContext: unknown, passId: unknown) {
     // an offscreen pass that is not the frame's own: three's synchronous build, then the draw
     // and a full-screen quad (composite, blit): one skipped blacks the frame
     const target = this._renderTarget;
-    if (target && !queue.frameTargets.has(target) && !this._renderObjectFunction) { draw.apply(this, a); return; }
-    const [object, material, scene, camera, lightsNode, group, clippingContext, passId] = a;
-    if ((object as { isQuadMesh?: boolean }).isQuadMesh) { draw.apply(this, a); return; }
+    if (target && !queue.frameTargets.has(target) && !this._renderObjectFunction) {
+      draw.call(this, object, material, scene, camera, lightsNode, group, clippingContext, passId); return;
+    }
+    if ((object as { isQuadMesh?: boolean }).isQuadMesh) {
+      draw.call(this, object, material, scene, camera, lightsNode, group, clippingContext, passId); return;
+    }
+    if (twins.size) sweepTwins((this.info as { frame?: number } | undefined)?.frame);
     const objects = this._objects, nodes = this._nodes;
     // the per-draw lookup reuses one key array (no allocation per draw); the lookups after
-    // draw.apply build their own, as draw.apply can re-enter this function (a shadow pass)
+    // draw.call build their own, as draw.call can re-enter this function (a shadow pass)
     const chain = objects.getChainMap(passId);
     const current = chainGet(chain, object, material, this._currentRenderContext, lightsNode);
     if (current && drawn.has(current)) {
-      const changed = current.version !== (material as { version: number }).version || current.needsUpdate;
+      const changed = current.version !== (material as { version: number }).version || needsUpdateOf(current, this);
       const newKey = changed ? cacheKeyOf(current) : undefined;
       if (!changed || current.initialCacheKey === newKey || nodes.nodeBuilderCache.has(newKey)) {
-        draw.apply(this, a);
-        if (twins.size) settleTwins(chainGet(chain, object, material, this._currentRenderContext, lightsNode));
+        draw.call(this, object, material, scene, camera, lightsNode, group, clippingContext, passId);
+        if (twins.size && twinned.has(object as object)) settleTwin(chainGet(chain, object, material, this._currentRenderContext, lightsNode));
         return;
       }
       // Re-keyed (a light, fog or material change) and the new program is not built: three would
@@ -273,7 +319,7 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
       // The real render object cannot build it: its node data already holds the old builder state.
       const ro = current;
       const key = newKey;
-      if (queue.timedOut.has(key)) { draw.apply(this, a); return; }
+      if (queue.timedOut.has(key)) { draw.call(this, object, material, scene, camera, lightsNode, group, clippingContext, passId); return; }
       // the twin is built later, after three's render() has restored its render context to null:
       // take the context now (walk 10, C7: getMaterialCacheKey read context.id off null)
       const context = this._currentRenderContext;
@@ -287,7 +333,7 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
         // the real render object takes it; `release` hands the share back once it has
         return Promise.resolve(nodes.getForRender(twin, true)).then(() => {
           if (twins.has(key)) release(key);
-          twins.set(key, { twin, at: Date.now() }); queue.twinsHeld = twins.size;
+          twins.set(key, { twin, at: Date.now(), object: object as object }); twinned.add(object as object); queue.twinsHeld = twins.size;
         });
       }, materialLabel(material));
       if (this._currentRenderBundle !== null) return;
@@ -305,11 +351,11 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
     const key = nodes.getForRenderCacheKey(ro);
     if (nodes.get(ro).nodeBuilderState !== undefined || nodes.nodeBuilderCache.has(key)) {
       drawn.add(ro);
-      draw.apply(this, a);
-      if (twins.size) settleTwins(chainGet(chain, object, material, this._currentRenderContext, lightsNode));
+      draw.call(this, object, material, scene, camera, lightsNode, group, clippingContext, passId);
+      if (twins.size && twinned.has(object as object)) settleTwin(chainGet(chain, object, material, this._currentRenderContext, lightsNode));
       return;
     }
-    if (queue.timedOut.has(key)) { drawn.add(ro); draw.apply(this, a); return; }
+    if (queue.timedOut.has(key)) { drawn.add(ro); draw.call(this, object, material, scene, camera, lightsNode, group, clippingContext, passId); return; }
     queue.request(key, distanceSq(object as Placed, camera as Viewer), () => nodes.getForRender(ro, true), materialLabel(material));
   };
   return queue;

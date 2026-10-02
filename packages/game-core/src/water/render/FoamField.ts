@@ -173,18 +173,18 @@ export function foamFieldNode(opts: FoamFieldOptions, p: PassUniforms): TslNode 
     const vUv = N(uv());
     const field = N(p.uField);
     const dt = field.w;
-    const wp = field.xy.add(vUv.sub(0.5).mul(field.z));
+    const wp = field.xy.add(vUv.sub(0.5).mul(field.z)).toVar();
     const surf = N(surfaceAt(wp));
     const dUv = clamp(wp.div(U.uFlowExtentM), vec2(0.0), vec2(1.0));
-    const kl = N(N(U.uKlassTex).sample(dUv));
+    const kl = N(N(U.uKlassTex).sample(dUv)).toVar();
     const fl = N(N(U.uFlowTex).sample(dUv));
-    const fetchM = esFetchAt(opts.uniforms, fl);
-    const ss = N(esShoreAt(opts.uniforms, wp));
+    const fetchM = N(esFetchAt(opts.uniforms, fl)).toVar();
+    const ss = N(esShoreAt(opts.uniforms, wp)).toVar();
     const still = surf.x.add(N(U.uLevelTide).mul(esTideResponse(opts.classes, kl.r.mul(255.0)))).add(N(U.uLevelSeason).mul(ss.y));
-    const depth = surf.y.add(still.sub(surf.x));
-    const turb = max(kl.g, ss.z);
-    const expo01 = N(esWaveExposure(ss.x, depth, turb));
-    const exposure = expo01.mul(esSeaRms(U.uWindMS, fetchM));
+    const depth = surf.y.add(still.sub(surf.x)).toVar();
+    const turb = N(max(kl.g, ss.z)).toVar();
+    const expo01 = N(esWaveExposure(ss.x, depth, turb)).toVar();
+    const exposure = expo01.mul(esSeaRms(U.uWindMS, fetchM)).toVar();
     const flow = fl.xy.sub(0.5).mul(2.0).mul(U.uFlowMax);
     // 1. history: recentre shift + semi-Lagrangian back-trace along the flow
     const prevUv = vUv.add(p.uShift).sub(N(flow).mul(dt).div(field.z));
@@ -196,20 +196,25 @@ export function foamFieldNode(opts: FoamFieldOptions, p: PassUniforms): TslNode 
     const tau = sel(depth.lessThanEqual(0.0), min(tau0, law2.y), tau0);
     const keep = N(exp(N(dt).negate().div(tau)));
     E.mulAssign(keep);
-    // 3. sources: equilibrium energies, integrated exactly over dt
-    const standing = esStandingRatio(opts.classes, kl.r.mul(255.0), ss.x);
-    const w = esWaveSampleEx(wp, exposure, fetchM, standing, U.uWaveTime, opts.waveBands ?? WAVES.bands);
-    const fold = smoothstep(0.16, 0.34, w.height);
-    const windward = clamp(N(dot(N(w.normal).xz, N(p.uWindDir).negate())).div(law2.z), 0.0, 1.0);
-    const gust = N(clamp(N(U.uWindWave).sub(0.8), 0.0, 2.0)).mul(0.5);
-    const eqWave = law.x.mul(fold).add(law.y.mul(windward).mul(gust)).mul(expo01);
-    const fetch = esFetchExp(fetchM, turb);
-    const windAmp = esSurfEnergy(U.uWindMS, fetchM);
-    const bn = N(esFbm(wp.mul(0.16), 3));
-    const surfE = N(esSurfFoam(ss.x.add(bn.mul(4.0)), fetch, U.uWaveTime, windAmp)).mul(esShoreFrothBand(depth, bn));
-    const eqSurf = law2.x.mul(surfE).mul(float(1.0).sub(N(clamp(turb, 0.0, 1.0)).mul(0.75)));
-    const eq = N(sel(exposure.greaterThan(0.002), eqWave, float(0.0)))
-      .add(sel(ss.x.lessThan(90.0).and(depth.greaterThan(-0.5)), eqSurf, float(0.0)));
+    // 3. sources: equilibrium energies, integrated exactly over dt. Each
+    // source is a real branch, as dev's GLSL: the wave bands and the surf fbm
+    // run only where they can contribute (ALU only, no derivatives).
+    const eq = float(0.0).toVar();
+    If(exposure.greaterThan(0.002), () => {
+      const standing = esStandingRatio(opts.classes, kl.r.mul(255.0), ss.x);
+      const w = esWaveSampleEx(wp, exposure, fetchM, standing, U.uWaveTime, opts.waveBands ?? WAVES.bands);
+      const fold = smoothstep(0.16, 0.34, w.height);
+      const windward = clamp(N(dot(N(w.normal).xz, N(p.uWindDir).negate())).div(law2.z), 0.0, 1.0);
+      const gust = N(clamp(N(U.uWindWave).sub(0.8), 0.0, 2.0)).mul(0.5);
+      eq.addAssign(law.x.mul(fold).add(law.y.mul(windward).mul(gust)).mul(expo01));
+    });
+    If(ss.x.lessThan(90.0).and(depth.greaterThan(-0.5)), () => {
+      const fetch = esFetchExp(fetchM, turb);
+      const windAmp = esSurfEnergy(U.uWindMS, fetchM);
+      const bn = N(esFbm(wp.mul(0.16), 3));
+      const surfE = N(esSurfFoam(ss.x.add(bn.mul(4.0)), fetch, U.uWaveTime, windAmp)).mul(esShoreFrothBand(depth, bn));
+      eq.addAssign(law2.x.mul(surfE).mul(float(1.0).sub(N(clamp(turb, 0.0, 1.0)).mul(0.75))));
+    });
     E.addAssign(eq.mul(float(1.0).sub(keep)));
     // 4. injections: swept segments with a soft radius
     Loop(MAX_FOAM_INJECTIONS, ({ i }: { i: TslNode }) => {

@@ -218,7 +218,7 @@ test("classifyFrames: long frames on the main thread with their causes", async (
   assert.equal(r.over33, 1);
   assert.equal(r.long.length, 1);
   assert.equal(r.long[0].ms, 50);
-  assert.deepEqual(r.long[0].byCause, { gc: 20, gpu: 10 });
+  assert.deepEqual(r.long[0].byCause, { gc: 20, gpu: 10, js: 1 }); // js: the frame marker itself (FireAnimationFrame self time)
 });
 
 test("parseSpots: x<N> repeats a spot under numbered names", async () => {

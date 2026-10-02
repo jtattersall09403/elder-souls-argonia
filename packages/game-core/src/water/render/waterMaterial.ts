@@ -733,8 +733,13 @@ export function createWaterMaterial(
       n(surfaceAtF(wpXZ.add(vec2(ge, 0.0)))).x.sub(n(surfaceAtF(wpXZ.sub(vec2(ge, 0.0)))).x),
       n(surfaceAtF(wpXZ.add(vec2(0.0, ge)))).x.sub(n(surfaceAtF(wpXZ.sub(vec2(0.0, ge)))).x))).div(n(ge).mul(2.0));
     guard = n(guard).mul(float(1.0).sub(smoothstep(fx(FIELD_SLOPE_FADE.start, 2), fx(FIELD_SLOPE_FADE.full, 2), length(gw))));
-    guard = n(guard).mul(sel(n(u.uHasOwner).greaterThan(0.5), float(1.0).sub(esOwnedFrac(u, wpXZ)), float(1.0)));
-    guard = n(guard).toVar("esGuard");
+    // uniform branch, as dev: the 5 owner-mask loads only where strips own water
+    const guardIn = guard;
+    guard = n(Fn(() => {
+      const gv = n(guardIn).toVar("esGuard");
+      If(n(u.uHasOwner).greaterThan(0.5), () => { gv.mulAssign(float(1.0).sub(esOwnedFrac(u, wpXZ))); });
+      return gv;
+    })());
     material.maskNode = n(guard).greaterThan(0.003);
   }
   const screenUv = screenUV;
@@ -769,7 +774,15 @@ export function createWaterMaterial(
   const gfFlow = n(mix(esDetailGrad(q1, vec2(0.0)), esDetailGrad(q2, vec2(0.0)), phB)).mul(detFade).mul(0.5);
   const gfStill = n(esDetailGrad(wpXZ.mul(2.3).add(17.0),
     n(u.uWindDir).negate().mul(stillDrift).mul(0.6).mul(u.uTransportTime))).mul(detFade).mul(0.5);
-  const gF = n(n(sel(detFade.greaterThan(0.02), sel(flowing, gfFlow, gfStill), vec2(0.0))).toVar());
+  // Real branches, as dev: one of the two detail fields, none past ~390 m
+  // (sel() ran three esDetailGrad noise evaluations on every pixel; F2).
+  const gF = n(Fn(() => {
+    const o = vec2(0.0).toVar();
+    If(detFade.greaterThan(0.02), () => {
+      If(flowing, () => { o.assign(gfFlow); }).Else(() => { o.assign(gfStill); });
+    });
+    return o;
+  })().toVar());
   let rip: TslNode = vec2(0.0);
   let ripCrest: TslNode = float(0.0);
   if (tier.ripples) {
@@ -778,18 +791,40 @@ export function createWaterMaterial(
     const on = info.w.greaterThan(0.5).and(all(rUv.greaterThan(vec2(0.02)))).and(all(rUv.lessThan(vec2(0.98))));
     const rT = 1.0 / 256.0;
     const R = (o: TslNode) => n(n(u.uRipple).sample(rUv.add(o))).r;
-    rip = sel(on, n(vec2(R(vec2(rT, 0.0)).sub(R(vec2(-rT, 0.0))), R(vec2(0.0, rT)).sub(R(vec2(0.0, -rT))))).mul(14.0), vec2(0.0));
-    ripCrest = sel(on, n(abs(n(n(u.uRipple).sample(rUv)).r)).mul(6.0), float(0.0));
+    // uniform gate (patch live) around the 5 samples, the per-pixel range as sel()
+    // packed: xy gradient, z crest
+    const ripAll = n(Fn(() => {
+      const o = vec3(0.0).toVar();
+      If(info.w.greaterThan(0.5), () => {
+        const g2 = n(vec2(R(vec2(rT, 0.0)).sub(R(vec2(-rT, 0.0))), R(vec2(0.0, rT)).sub(R(vec2(0.0, -rT))))).mul(14.0);
+        o.assign(sel(on, vec3(g2, n(abs(n(n(u.uRipple).sample(rUv)).r)).mul(6.0)), vec3(0.0)));
+      });
+      return o;
+    })().toVar());
+    rip = ripAll.xy;
+    ripCrest = ripAll.z;
   }
   let rainG: TslNode = vec2(0.0);
-  if (!strip) rainG = sel(n(u.uRainRipple).greaterThan(0.02), esRainRings(wpXZ, u.uTransportTime, u.uRainRipple, dist), vec2(0.0));
+  if (!strip) {
+    // uniform branch, as dev: the rain rings only while it rains
+    rainG = n(Fn(() => {
+      const o = vec2(0.0).toVar();
+      If(n(u.uRainRipple).greaterThan(0.02), () => { o.assign(esRainRings(wpXZ, u.uTransportTime, u.uRainRipple, dist)); });
+      return o;
+    })().toVar());
+  }
   const nb = n(nBase);
   let nw = n(normalize(vec3(
     nb.x.sub(n(g).x.add(gF.x).mul(detStrength)).sub(n(rip).x).sub(n(rainG).x),
     nb.y,
     nb.z.sub(n(g).y.add(gF.y).mul(detStrength)).sub(n(rip).y).sub(n(rainG).y))));
   const men = n(n(esMeniscusBand(wp.y.sub(n(cameraPosition).y).div(max(u.uVerticalScale, 1e-3)), dist)).toVar());
-  nw = n(sel(men.greaterThan(0.0), esMeniscusNormal(nw, normalize(n(cameraPosition).sub(wp)), men), nw));
+  const nwIn = nw;
+  nw = n(Fn(() => {
+    const o = n(nwIn).toVar();
+    If(men.greaterThan(0.0), () => { o.assign(esMeniscusNormal(o, normalize(n(cameraPosition).sub(wp)), men)); });
+    return o;
+  })());
   if (variant === "below") nw = nw.negate();
   nw = nw.toVar("esNW");
   material.normalNode = normalize(n(cameraViewMatrix).mul(vec4(nw, 0.0)).xyz);
@@ -921,11 +956,19 @@ export function createWaterMaterial(
       const view = n(normalize(n(cameraPosition).sub(wp)));
       let specEnv = n(reflected.indirectSpecular);
       if (tier.ssr) {
-        const s = n(esSsrFn(wp, reflect(view.negate(), nw)));
-        const fres = n(pow(float(1.0).sub(max(dot(nw, view), 0.0)), 5.0)).mul(0.98).add(0.02);
-        const ssrFade = float(1.0).sub(smoothstep(fx(SSR_FADE_START_M, 1), fx(SSR_FADE_END_M, 1), dist));
-        const mixed = mix(specEnv, s.rgb.mul(fres), n(clamp(s.a, 0.0, 1.0)).mul(u.uSsrStrength).mul(ssrFade).mul(float(1.0).sub(foam)));
-        specEnv = n(sel(dist.lessThan(fx(SSR_FADE_END_M, 1)), mixed, specEnv));
+        // Real branch, as dev: the 18-step march (up to 18 depth reads and a
+        // colour read) only inside the SSR fade range (F2: sel() marched every pixel).
+        const envIn = specEnv;
+        specEnv = n(Fn(() => {
+          const o = n(envIn).toVar();
+          If(dist.lessThan(fx(SSR_FADE_END_M, 1)), () => {
+            const s = n(esSsrFn(wp, reflect(view.negate(), nw)));
+            const fres = n(pow(float(1.0).sub(max(dot(nw, view), 0.0)), 5.0)).mul(0.98).add(0.02);
+            const ssrFade = float(1.0).sub(smoothstep(fx(SSR_FADE_START_M, 1), fx(SSR_FADE_END_M, 1), dist));
+            o.assign(mix(o, s.rgb.mul(fres), n(clamp(s.a, 0.0, 1.0)).mul(u.uSsrStrength).mul(ssrFade).mul(float(1.0).sub(foam))));
+          });
+          return o;
+        })());
       }
       const fresT = n(pow(float(1.0).sub(max(dot(nw, view), 0.0)), 5.0)).mul(0.98).add(0.02);
       const transmit = n(n(u.uSceneColor).sample(rUv)).rgb.mul(T).mul(float(1.0).sub(foam)).mul(float(1.0).sub(fresT));

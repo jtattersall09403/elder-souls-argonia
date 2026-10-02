@@ -58,6 +58,15 @@ export function fixtureLightsPerObject(material: THREE.Material | null | undefin
   return typeof n === "number" && n >= 1
     ? Math.min(FIXTURE_LIGHTS_PER_OBJECT_MAX, Math.floor(n)) : FIXTURE_LIGHTS_PER_OBJECT;
 }
+/** Set a material's fixture-light list length AND fold it into its node program cache key.
+ * WebGPURenderer's RenderObject.getMaterialCacheKey skips `userData` and folds a number
+ * property to on/off, but appends an own string property verbatim, so the bound rides in
+ * `esFixtureLightsKey` and two materials differing only in it compile separate programs. */
+export function setFixtureLightsPerObject(material: THREE.Material, n: number): void {
+  material.userData.esFixtureLightsPerObject = n;
+  (material as THREE.Material & { esFixtureLightsKey?: string }).esFixtureLightsKey =
+    `fl${fixtureLightsPerObject(material)}`;
+}
 /** three's PointLight decay the fixture lights reproduce unless a lamp names its own. */
 export const FIXTURE_LIGHT_DECAY = 2;
 
@@ -410,12 +419,15 @@ export class FixtureFieldLightsNode extends LightsNode {
     const slots = this.field.slotsNode;
     const slotsHi = this.field.slotsNodeHi;
     const tex = this.field.texture;
+    // a compile-constant bound of the material's list length (8 unless it names more), with the
+    // count break, as dev's GLSL loop (walk 10, F1: a 32 bound cost every lit fragment)
+    const n = fixtureLightsPerObject(builder.material);
     Fn(() => {
-      Loop(FIXTURE_LIGHTS_PER_OBJECT_MAX, ({ i }: { i: TslNode }) => {
+      Loop(n, ({ i }: { i: TslNode }) => {
         const k = int(i);
-        const kk = k.mod(16);
-        const slot = sel(k.lessThan(16), slots.element(kk.div(4)).element(kk.mod(4)),
-          slotsHi.element(kk.div(4)).element(kk.mod(4)));
+        const slot = n <= 16 ? slots.element(k.div(4)).element(k.mod(4))
+          : sel(k.lessThan(16), slots.element(k.mod(16).div(4)).element(k.mod(4)),
+            slotsHi.element(k.mod(16).div(4)).element(k.mod(4)));
         If(slot.lessThan(0), () => { Break(); });
         const index = int(slot);
         const posRadius = textureLoad(tex, ivec2(index, int(0)));

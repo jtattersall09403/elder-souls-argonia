@@ -11,7 +11,7 @@ import {
 import { ambientCubeToSH } from "./ambientCube";
 import { kitPartsDir, parseKitPartsIndex, type KitPartsIndex } from "./kitParts";
 import { FlameSystem } from "../fx/fire/FlameSystem";
-import { FIXTURE_LIGHTS_PER_OBJECT_MAX, type FixtureLightField } from "../render/fixtureLights/fixtureLightField";
+import { FIXTURE_LIGHTS_PER_OBJECT_MAX, setFixtureLightsPerObject, type FixtureLightField } from "../render/fixtureLights/fixtureLightField";
 import {
   interiorFireEmitters, isInteriorFlameCard, type InteriorFireRow,
 } from "../fx/fire/interiorFires";
@@ -322,7 +322,7 @@ export function instantiateInterior(
       // z-fights the floor under it (16k walk 6, DawnstarBrinasHouse)
       applySettlementDecal(part.material);
       // every record light of the cell reaches the part, as three's light list did
-      part.material.userData.esFixtureLightsPerObject = FIXTURE_LIGHTS_PER_OBJECT_MAX;
+      setFixtureLightsPerObject(part.material, FIXTURE_LIGHTS_PER_OBJECT_MAX);
       const mesh = new THREE.InstancedMesh(part.geometry, part.material, placements.length);
       mesh.renderOrder = settlementMeshDrawFlags(part.material).renderOrder;
       placements.forEach((p, i) => mesh.setMatrixAt(i, m.multiplyMatrices(interiorPlacementMatrix(p), part.localMatrix)));
