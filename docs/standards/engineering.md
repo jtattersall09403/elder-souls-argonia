@@ -510,6 +510,13 @@ headless.
   > 0.01 m2 unless one is a decal its runtime draws with polygonOffset;
   ~3 s a cell or place, 0.4 GiB (R90, worldgen/coplanar.py).
 
+**Before reading a performance number.**
+- A capture without a running clock is not a performance measurement: check
+  the URL carries `rate=0.5` and the shot shows the intended time of day
+  before reading any fps or 1 % low.
+- A 1 % low judged from one run is checked against a repeat of the same
+  spot before a cause is ruled noise.
+
 ## Memory discipline (tooling, 2026-09-30)
 
 Every heavy tool runs on one shared 30 GiB machine beside other lanes; a

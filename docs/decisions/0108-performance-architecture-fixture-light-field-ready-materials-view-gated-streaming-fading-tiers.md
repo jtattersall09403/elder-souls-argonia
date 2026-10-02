@@ -310,6 +310,17 @@ Agent-caused defects and the tool that changed (decision 0106 d11):
 | Profiler start frames counted as hitches | census window opens 2 s after `Profiler.start`; a856f2f4 |
 | Hand-patched `/tmp` probes | probes live in `tooling/gpu-lane/probes/`, run with `--diag`; d7f95f70 |
 
+## 7e. Rules from perf10 chunks 4-5
+
+- **A capture without a running clock is not a performance measurement.** Every gpu-lane capture runs the game clock at game speed (`rate=0.5` in `rate=` units, from `GAME_TIME_SCALE`); paused-clock rows are diagnosis rows, never bar rows.
+- **Data rasters are never decoded through ImageBitmap or canvas at runtime** (`decodePng`).
+- **Warm-up compiles run after the material preparer;** probes never wrap per-draw functions.
+- **No per-texel, per-star, per-cell or per-call allocation in clock- or frame-driven paths:** scratch lives on the instance or in caller-owned out-params.
+- **`scene.environment` keeps one persistent texture:** copy into it, never replace it.
+- **Periodic background passes** (occlusion sweeps, gate passes) run under a per-frame time budget, keep their caches across passes, and apply only changed results with a per-frame cap; two cadences never start on the same frame.
+- **Water inputs that vary non-linearly** (depth, shore distance, exposure, crest) are computed per pixel, never interpolated from mesh vertices; Gerstner bands shorter than 2.2x the grid cell go to the fragment normal.
+- **React state set from timers changes only when the value changed;** HUD timers stop while their panel is hidden.
+
 ## 8. How performance is measured
 
 - **No full-studio headless probes.** The VM has no GPU; SwiftShader runs
