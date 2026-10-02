@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS } from "./pod-capture-lib.mjs";
+import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, viewDeadlineS } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -283,4 +283,12 @@ test("cpuTop aggregates self time per url:line:col per frame from a fixture prof
   assert.equal(r.sampledMs, 4);
   assert.deepEqual(r.top, [{ fn: "draw http://h/assets/index.js:10:3", selfMs: 3, msPerFrame: 0.3 }, { fn: "cull http://h/assets/index.js:20:3", selfMs: 0.5, msPerFrame: 0.05 }]);
   assert.match(summariseView({ window: { cpuTop: r } }).cpuTop, /^draw index\.js:10:3 0\.3; cull index\.js:20:3 0\.05$/);
+});
+
+test("viewDeadlineS: grows with the view's seconds, floor holds", () => {
+  const o = { readyS: 90, windowS: 10, floorS: 180 };
+  assert.equal(viewDeadlineS(360, o), 520);
+  assert.equal(viewDeadlineS(120, o), 280);
+  assert.equal(viewDeadlineS(30, o), 190);
+  assert.equal(viewDeadlineS(30, { ...o, floorS: 600 }), 600);
 });

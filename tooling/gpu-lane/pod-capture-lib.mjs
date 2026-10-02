@@ -387,3 +387,8 @@ export function cpuTop(profile, frames, n = 25) {
   return { frames: frames ?? null, sampledMs: Math.round(total / 1000), top: [...self].sort((a, b) => b[1] - a[1]).slice(0, n)
     .map(([fn, us]) => ({ fn, selfMs: Math.round(us / 100) / 10, msPerFrame: per(us) })) };
 }
+
+/** Per-view deadline in s: max(floorS, readyS + totalS + windowS + profileS + slackS). A view's own `seconds` sets it; the floor is --capture-timeout. */
+export function viewDeadlineS(totalS, { readyS, windowS, profileS = 0, slackS = 60, floorS }) {
+  return Math.max(floorS, readyS + totalS + windowS + profileS + slackS);
+}

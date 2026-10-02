@@ -35,8 +35,9 @@
  *              carry each step and the wall time from the first step's start to the first capture
  * --ready-timeout  s from navigation until the studio renders (frames advancing, geometries > 0; not for plain views); past it the view fails
  *              with failed "not-ready" and lastState (last read: HUD, renderer, console tail). Default 90.
- * --capture-timeout  s per view from its context opening to its result; past it the view fails with "capture-timeout"
- *              (the partial result is kept). Default 180 (a 120 s view takes ~150 s). Either way the context is disposed and
+ * --capture-timeout  s FLOOR of the per-view limit from its context opening to its result: the limit is max(this, ready-timeout + the
+ *              view's seconds + window + profile + 60 s slack) (viewDeadlineS); past it the view fails with "capture-timeout"
+ *              (the partial result is kept). Default 180. Either way the context is disposed and
  *              the run moves on. <out>/result.json and summary.md are rewritten after every view, so a killed run keeps its rows.
  * --heap-profile  (or a view's heapProfile: true) HeapProfiler sampling (32 KiB interval) over the cost window: the top 25
  *              allocating functions by self size (bundle url:line:col; the dist ships no sourcemaps) -> result heapTop and heap.json
@@ -69,7 +70,7 @@
 import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop } from "./pod-capture-lib.mjs";
+import { viewDeadlineS, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit } from "./checks.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
@@ -390,7 +391,7 @@ async function captureView(view) {
   const ctl = { page: null };
   const body = viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl);
   let timer;
-  const limit = new Promise((r) => { timer = setTimeout(() => r("timeout"), captureTimeoutS * 1000); });
+  const limit = new Promise((r) => { timer = setTimeout(() => r("timeout"), viewDeadlineS(totalS, { readyS: readyTimeoutS, windowS, profileS: prof ? prof.seconds : 0, floorS: captureTimeoutS }) * 1000); });
   try {
     if (await Promise.race([body.then(() => "done"), limit]) === "timeout") {
       result.failed = "capture-timeout";
