@@ -8,7 +8,10 @@
  *   node tooling/gpu-lane/measure.mjs --run <name> --url "?view=character&x=..&z=..&t=22&w=rain" [--url ...]
  *     [--origin http://127.0.0.1:8099] [--base /elder-souls-argonia/studio/] [--renderer webgl|webgpu]
  *     [--settle 10] [--walk <s>] [--shots] [--cdp 127.0.0.1:9222] [--width 1280 --height 720 --dpr 1]
- *     [--ready-timeout 120] [--out tooling/.reports/gpu-lane/<run>/]
+ *     [--ready-timeout 120] [--profile <s>] [--out tooling/.reports/gpu-lane/<run>/]
+ *
+ * --profile <s>: a CDP CPU profile of <s> seconds (during the walk when --walk is set, else after the
+ * settle window); the .cpuprofile lands beside measure.json and its summary in the url entry.
  */
 import { spawnSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -20,7 +23,7 @@ const repo = resolve(new URL("../..", import.meta.url).pathname);
 
 export function parseArgs(argv) {
   const o = { url: [], origin: "http://127.0.0.1:8099", base: null, renderer: "webgl", settle: 10, walk: 0, shots: false,
-    cdp: "127.0.0.1:9222", run: null, out: null, width: 1280, height: 720, dpr: 1, readyTimeout: 120 };
+    cdp: "127.0.0.1:9222", run: null, out: null, width: 1280, height: 720, dpr: 1, readyTimeout: 120, profile: 0 };
   const camel = (k) => k.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i].replace(/^--/, "");
@@ -62,7 +65,7 @@ export function frameStats(ts) {
   const span = ts[ts.length - 1] - ts[0];
   const worst = sorted.slice(Math.max(0, sorted.length - Math.max(1, Math.ceil(sorted.length / 100))));
   const q = (p) => sorted[Math.min(sorted.length - 1, Math.floor(p * sorted.length))];
-  const r = (x) => Math.round(x * 100) / 100;
+  const r = r2;
   return {
     frames: dt.length, windowMs: r(span),
     settledFps: r((dt.length * 1000) / span),
@@ -72,10 +75,77 @@ export function frameStats(ts) {
   };
 }
 
-// Installed before the page's own scripts: a rAF timestamp recorder and the GPU adapter read.
+const r2 = (x) => Math.round(x * 100) / 100;
+const quant = (sorted, p) => sorted[Math.min(sorted.length - 1, Math.floor(p * sorted.length))];
+
+/**
+ * Cap-free frame cost. `frames` are {t, dt, work, gpu} per rAF frame: `work` = main-thread ms from the
+ * frame's first rAF callback to the later of its last callback's end and a MessageChannel task posted
+ * from the first one; `gpu` = the HUD GPU total (a 60-frame mean, null when unsupported). Cost =
+ * max(work, gpu); uncappedFps = 1000 / mean(cost); p1LowUncapped = 1000 / p99(cost). Hitches: dt > 33 ms.
+ */
+export function workStats(frames, hitchMs = 33) {
+  const f = frames.filter((x) => x.work > 0);
+  if (!f.length) return { workMs: null, uncappedFps: null, p1LowUncapped: null, hitches: [] };
+  const stat = (a) => {
+    const s = a.slice().sort((x, y) => x - y);
+    return { mean: r2(a.reduce((x, y) => x + y, 0) / a.length), p50: r2(quant(s, 0.5)), p99: r2(quant(s, 0.99)), max: r2(s[s.length - 1]) };
+  };
+  const cost = f.map((x) => Math.max(x.work, x.gpu ?? 0));
+  const cs = stat(cost);
+  const gpus = f.map((x) => x.gpu).filter((g) => g != null);
+  return {
+    workFrames: f.length, workMs: stat(f.map((x) => x.work)), gpuFrameMs: gpus.length ? stat(gpus) : null, costMs: cs,
+    uncappedFps: r2(1000 / cs.mean), p1LowUncapped: r2(1000 / cs.p99),
+    hitches: frames.filter((x) => x.dt > hitchMs).map((x) => ({ t: r2(x.t), dt: r2(x.dt), work: r2(x.work), gpu: x.gpu })),
+  };
+}
+
+/** Summarise a CDP Profiler profile: top functions by self time and self time by source file. */
+export function profileSummary(profile, top = 40) {
+  const byId = new Map(profile.nodes.map((n) => [n.id, n]));
+  const self = new Map();
+  const { samples = [], timeDeltas = [] } = profile;
+  for (let i = 0; i < samples.length; i++) {
+    const dt = (timeDeltas[i + 1] ?? 0) / 1000; // the delta AFTER a sample is how long it held
+    self.set(samples[i], (self.get(samples[i]) ?? 0) + dt);
+  }
+  const total = [...self.values()].reduce((a, b) => a + b, 0);
+  const fns = new Map(), files = new Map();
+  for (const [id, ms] of self) {
+    const cf = byId.get(id)?.callFrame ?? {};
+    const file = cf.url ? cf.url.replace(/^.*\//, "") : `(${cf.functionName || "native"})`;
+    const key = `${cf.functionName || "(anon)"} ${file}:${(cf.lineNumber ?? -1) + 1}:${(cf.columnNumber ?? -1) + 1}`;
+    fns.set(key, (fns.get(key) ?? 0) + ms);
+    files.set(file, (files.get(file) ?? 0) + ms);
+  }
+  const rank = (m, n) => [...m].sort((a, b) => b[1] - a[1]).slice(0, n)
+    .map(([k, ms]) => ({ name: k, selfMs: r2(ms), pct: r2((100 * ms) / (total || 1)) }));
+  return { totalMs: r2(total), topSelf: rank(fns, top), byFile: rank(files, 30) };
+}
+
+// Installed before the page's own scripts: a rAF timestamp recorder, the per-frame work-time
+// wrapper and the GPU adapter read.
 function pageProbe() {
-  const lane = { ts: [], on: false };
+  const lane = { ts: [], frames: [], on: false, wrapMs: 0 };
   Object.defineProperty(window, "__GPU_LANE__", { value: lane });
+  // Every rAF callback is wrapped; the callbacks of one frame share `stamp`.
+  const now = performance.now.bind(performance);
+  const raf = window.requestAnimationFrame.bind(window);
+  const ch = new MessageChannel();
+  let cur = null;
+  ch.port1.onmessage = () => { if (cur) cur.msg = now(); };
+  window.requestAnimationFrame = (cb) => raf((stamp) => {
+    const w0 = now();
+    if (!cur || cur.stamp !== stamp) {
+      if (cur && lane.on) lane.frames.push(cur);
+      const g = window.__STUDIO_GPU_MS__;
+      cur = { stamp, start: w0, end: w0, msg: 0, gpu: g?.supported ? g.avg : null };
+      ch.port2.postMessage(0);
+    }
+    lane.wrapMs += now() - w0;
+    try { cb(stamp); } finally { const c1 = now(); cur.end = c1; lane.wrapMs += now() - c1; }
+  });
   const tick = (t) => { if (lane.on) lane.ts.push(t); requestAnimationFrame(tick); };
   requestAnimationFrame(tick);
   localStorage.setItem("es.hud.perfOpen", "1");
@@ -94,10 +164,31 @@ async function gpuAdapter(page, renderer) {
   }, renderer).catch((e) => ({ error: String(e) }));
 }
 
-async function sample(page, seconds) {
-  await page.evaluate(() => { window.__GPU_LANE__.ts = []; window.__GPU_LANE__.on = true; });
+async function sample(page, seconds, during) {
+  await page.evaluate(() => { const l = window.__GPU_LANE__; l.ts = []; l.frames = []; l.wrapMs = 0; l.on = true; });
+  const extra = during ? await during() : null;
+  await page.waitForTimeout(Math.max(0, seconds * 1000 - (extra?.elapsedMs ?? 0)));
+  const raw = await page.evaluate(() => {
+    const l = window.__GPU_LANE__; l.on = false;
+    return { ts: l.ts, wrapMs: l.wrapMs, frames: l.frames.map((f) => ({ t: f.stamp, work: Math.max(f.end, f.msg) - f.start, gpu: f.gpu })) };
+  });
+  for (let i = 0; i < raw.frames.length; i++) raw.frames[i].dt = i ? raw.frames[i].t - raw.frames[i - 1].t : 0;
+  return { ts: raw.ts, extra,
+    work: { ...workStats(raw.frames), wrapperMsPerFrame: raw.frames.length ? r2(raw.wrapMs / raw.frames.length) : null } };
+}
+
+async function cpuProfile(page, o, seconds, tag, idx) {
+  const cdp = await page.context().newCDPSession(page);
+  const t0 = Date.now();
+  await cdp.send("Profiler.enable");
+  await cdp.send("Profiler.setSamplingInterval", { interval: 500 });
+  await cdp.send("Profiler.start");
   await page.waitForTimeout(seconds * 1000);
-  return page.evaluate(() => { window.__GPU_LANE__.on = false; return window.__GPU_LANE__.ts; });
+  const { profile } = await cdp.send("Profiler.stop");
+  await cdp.detach().catch(() => {});
+  const file = join(o.out, `url${idx}-${tag}.cpuprofile`);
+  writeFileSync(file, JSON.stringify(profile));
+  return { elapsedMs: Date.now() - t0, file, seconds, ...profileSummary(profile) };
 }
 
 async function measureUrl(ctx, o, query, idx) {
@@ -125,7 +216,10 @@ async function measureUrl(ctx, o, query, idx) {
     await page.waitForTimeout(500);
   }
   const readyS = Math.round((Date.now() - t0) / 100) / 10;
-  const stats = frameStats(await sample(page, o.settle));
+  const settle = await sample(page, o.settle);
+  const stats = { ...frameStats(settle.ts), ...settle.work };
+  let profile = null;
+  if (o.profile > 0 && !(o.walk > 0)) profile = await cpuProfile(page, o, o.profile, "settled", idx);
   const hudText = await page.evaluate(() => document.body.innerText).catch(() => "");
   const hud = parseHud(hudText);
   const info = await page.evaluate(() => {
@@ -148,15 +242,16 @@ async function measureUrl(ctx, o, query, idx) {
     await page.mouse.click(o.width / 2, o.height / 2).catch(() => {});
     const key = { key: "w", code: "KeyW", windowsVirtualKeyCode: 87, nativeVirtualKeyCode: 87, text: "w" };
     await cdp.send("Input.dispatchKeyEvent", { type: "keyDown", ...key });
-    const ts = await sample(page, o.walk);
+    const w = await sample(page, o.walk, o.profile > 0 ? () => cpuProfile(page, o, Math.min(o.profile, o.walk), "walk", idx) : null);
     await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", ...key });
-    walk = { seconds: o.walk, ...frameStats(ts), hud: parseHud(await page.evaluate(() => document.body.innerText).catch(() => "")) };
+    if (w.extra) profile = w.extra;
+    walk = { seconds: o.walk, ...frameStats(w.ts), ...w.work, hud: parseHud(await page.evaluate(() => document.body.innerText).catch(() => "")) };
     await shot("walk");
   }
   const gpu = await gpuAdapter(page, o.renderer);
   await page.close();
   return { url, query, ready, readyS, ...stats, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
-    walk, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots };
+    walk, profile, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots };
 }
 
 async function main() {
@@ -174,7 +269,7 @@ async function main() {
   for (const [i, q] of o.url.entries()) {
     const r = await measureUrl(ctx, o, q, i);
     result.urls.push(r);
-    console.log(`${q}: ${r.settledFps} fps settled, 1% low ${r.p1LowFps}, min ${r.minFps}, ready ${r.readyS} s${r.walk ? `, walk ${r.walk.settledFps}` : ""}`);
+    console.log(`${q}: ${r.settledFps} fps settled, uncapped ${r.uncappedFps} (work ${r.workMs?.mean} ms, wrapper ${r.wrapperMsPerFrame}), 1% low ${r.p1LowFps}, min ${r.minFps}, ready ${r.readyS} s${r.walk ? `, walk ${r.walk.settledFps}` : ""}`);
   }
   await ctx.close();
   const file = join(o.out, "measure.json");

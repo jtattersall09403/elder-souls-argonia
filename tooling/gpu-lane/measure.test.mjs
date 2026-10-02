@@ -49,6 +49,31 @@ test("frame stats: mean fps, min and 1 % low from rAF timestamps", async () => {
   assert.equal(s.settledFps, 98.04);
 });
 
+test("workStats: cost = max(work, gpu), uncapped fps from the mean, 1 % low from p99, hitches > 33 ms", async () => {
+  const { workStats } = await import("./measure.mjs");
+  const frames = [];
+  for (let i = 0; i < 100; i++) frames.push({ t: i * 17, dt: i === 50 ? 40 : 17, work: i === 50 ? 30 : 8, gpu: 10 });
+  const s = workStats(frames);
+  assert.equal(s.workFrames, 100);
+  assert.equal(s.costMs.mean, 10.2); // 99 × 10 (gpu wins) + 30
+  assert.equal(s.uncappedFps, 98.04);
+  assert.equal(s.p1LowUncapped, 33.33); // p99 index 99 of 100 sorted = 30
+  assert.deepEqual(s.workMs, { mean: 8.22, p50: 8, p99: 30, max: 30 });
+  assert.deepEqual(s.hitches, [{ t: 850, dt: 40, work: 30, gpu: 10 }]);
+  assert.equal(workStats([{ t: 0, dt: 0, work: 5, gpu: null }]).uncappedFps, 200, "no GPU timer: work alone");
+});
+
+test("profileSummary: self time per function and per file from samples and deltas", async () => {
+  const { profileSummary } = await import("./measure.mjs");
+  const cf = (functionName, url, lineNumber) => ({ functionName, url, lineNumber, columnNumber: 0 });
+  const profile = { nodes: [{ id: 1, callFrame: cf("(root)", "", -1) }, { id: 2, callFrame: cf("a", "http://x/assets/index.js", 9) },
+    { id: 3, callFrame: cf("b", "http://x/assets/Char.js", 0) }], samples: [2, 2, 3, 1], timeDeltas: [0, 1000, 1000, 2000, 0] };
+  const p = profileSummary(profile);
+  assert.equal(p.totalMs, 4);
+  assert.deepEqual(p.topSelf[0], { name: "a index.js:10:1", selfMs: 2, pct: 50 });
+  assert.deepEqual(p.byFile.map((x) => x.name), ["index.js", "Char.js", "((root))"]);
+});
+
 test("isReady: tris stable within 2 % for 5 s, no loading line", async () => {
   const { isReady } = await import("./measure.mjs");
   const at = (t, tris, extra = {}) => ({ t, tris, fps: 60, loading: false, ...extra });

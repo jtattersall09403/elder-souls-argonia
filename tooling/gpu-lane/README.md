@@ -71,6 +71,15 @@ Top level: `gitSha`, `dirty`, `builtAt` (served index.html mtime), `renderer`, `
 - `hud`: `tris`/`trisBudget`, `trisByGroup` (main and shadow per source), `gpuByPass` and
   `cpuByStage` (`{avg, max?}` ms per label), `gpuMs`/`cpuMs`, `drawCalls`, `raw` (the lines read).
   `gpuWall: true` means the GPU timer reports wall time, not work.
+- Cap-free (the frame cap above hides headroom): `workMs` {mean, p50, p99, max} is the main-thread
+  time per frame (first rAF callback start to the later of the last callback's end and a
+  MessageChannel task posted from the first), `gpuFrameMs` the HUD GPU total seen that frame (a
+  60-frame mean), `costMs` = max(work, gpu); `uncappedFps` = 1000 / mean cost, `p1LowUncapped` =
+  1000 / p99 cost. `wrapperMsPerFrame` is what the in-page wrapper itself costs. `hitches`: every
+  frame over 33 ms with its time, work and GPU ms (attribute with `--profile`).
+- `profile` (`--profile <s>`; during the walk when `--walk` is set): `file` (.cpuprofile, open in
+  Chrome DevTools), `topSelf` (top 40 functions by self ms, `name file:line:col`), `byFile`. The
+  build ships no sourcemaps, so three.js and app code share the bundle chunks; read the names.
 - `walk`: the same frame stats and HUD over the held-W window.
 - `consoleErrors`, `http404s`, `memory` (`performance.memory`), `gpuAdapter` (WebGL
   UNMASKED_RENDERER or the WebGPU adapter info: check it names the NVIDIA card, not SwiftShader),
