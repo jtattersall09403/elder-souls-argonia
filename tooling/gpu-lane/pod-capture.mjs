@@ -19,6 +19,9 @@
  * --fps-reads  after the capture, N further reads of fps / GPU ms 2 s apart (default 0)
  * --steps     JSON file: a list of {at, label, js, waitMs?}; at each `at` second the page evaluates js, waits waitMs (default 2500),
  *              then records a full read (with screen-middle luma) into result.steps; sorted by `at`
+ * --settled-frames N  after the settle gate (queue at 0 pending with geometry for 5 s, no earlier than 20 s; a build without
+ *              a queue counts as 0 pending) count N renderer frames, then a full read into reads.settled (default 300; 0 = off).
+ *              lumaRatio.settled is the comparable luma ratio; the fixed-second reads drift with streaming.
  * --compare   after the main capture, capture this URL with the same schedule into <out>/compare/; result.json gets lumaRatio
  *              (main luma / compare luma per read and final)
  *
@@ -34,7 +37,7 @@
  */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { counter, heapSlope, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseSteps, screenMiddle, stalledReads, summariseProfile } from "./pod-capture-lib.mjs";
+import { counter, heapSlope, settleGate, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseSteps, screenMiddle, stalledReads, summariseProfile } from "./pod-capture-lib.mjs";
 
 const args = process.argv.slice(2);
 const opt = (k, d) => { const i = args.indexOf(`--${k}`); return i < 0 ? d : args[i + 1]; };
@@ -46,7 +49,7 @@ const steps = opt("steps") ? parseSteps(readFileSync(opt("steps"), "utf8")) : []
 const readsAt = opt("reads", "15,30,60,120").split(",").map(Number).filter((s) => s < totalS); // a read at --seconds is result.final
 const prof = opt("profile") ? parseProfile(opt("profile")) : null, fpsReads = Number(opt("fps-reads", 0));
 const W = Number(opt("width", 1280)), H = Number(opt("height", 720));
-const compareUrl = opt("compare");
+const compareUrl = opt("compare"), settledFrames = Number(opt("settled-frames", 300));
 
 // Own window per capture tab: Target.createTarget on the browser websocket, newWindow, foreground.
 async function openWindow() {
@@ -149,7 +152,7 @@ try {
   const t0 = Date.now(), sec = () => (Date.now() - t0) / 1000;
   await send("Page.navigate", { url });
   const heapSamples = [];
-  let si = 0, ri = 0, lastPoll = -1, zeroSince = null, profState = prof ? "wait" : "done";
+  let si = 0, ri = 0, lastPoll = -1, zeroSince = null, gate = settledFrames > 0 ? settleGate(settledFrames) : null, profState = prof ? "wait" : "done";
   while (sec() < totalS) {
     const s = sec();
     if (profState === "wait" && s >= prof.at) { await send("Profiler.start"); profState = "on"; }
@@ -180,12 +183,17 @@ try {
     }
     if (Math.floor(s) > lastPoll) {
       lastPoll = Math.floor(s);
-      const q = await evaluate(`({ p: window.__RENDERER__?.esBuildQueue?.pending, g: window.__RENDERER__?.info?.memory?.geometries ?? 0, x: window.__RENDERER__?.info?.memory?.textures ?? 0 })`, 5_000);
+      const q = await evaluate(`({ f: window.__RENDERER__?.info?.render?.frame ?? window.__RAFN, p: window.__RENDERER__?.esBuildQueue?.pending, g: window.__RENDERER__?.info?.memory?.geometries ?? 0, x: window.__RENDERER__?.info?.memory?.textures ?? 0 })`, 5_000);
       // live heap after a forced GC, every 10 s: usedJSHeapSize counts uncollected garbage (walk 10 read
       // +140 MB/min of churn as a leak while the post-GC heap held at ~222 MB)
       let heapMB;
       if (lastPoll % 10 === 0) { await send("HeapProfiler.collectGarbage", {}, 30_000); heapMB = (await send("Runtime.getHeapUsage")).usedSize / 1e6; }
       if (q && !q.err) heapSamples.push({ s: lastPoll, heapMB, buffers: q.g, textures: q.x });
+      if (gate?.feed(s, q, q?.f)) {
+        const r = await evaluate(READ); r.stalled = isStalled(...(r.frames ?? [])); noteLow1(r);
+        try { Object.assign(r, await middleOf(await shoot(80))); } catch (e) { r.middleErr = String(e.message); }
+        result.reads.settled = { t: Math.round(sec() * 10) / 10, gateAt: gate.settledAt, afterFrames: settledFrames, ...r };
+      }
       if (q?.p === 0 && q.g > 0) { zeroSince ??= s; if (result.settledAt === null && s - zeroSince >= 5) result.settledAt = Math.round(zeroSince * 10) / 10; } else zeroSince = null;
     }
     await new Promise((r) => setTimeout(r, 100));

@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile } from "./pod-capture-lib.mjs";
+import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -72,4 +72,18 @@ test("parseSteps: sorted by at, rejects missing js", () => {
 test("onePercentLow: slowest 1 % mean as fps; empty is null", () => {
   assert.equal(onePercentLow([...Array(99).fill(16.7), 100]), 10);
   assert.equal(onePercentLow([]), null);
+});
+
+test("settleGate: reads once, N frames after 5 s at 0 pending, never before the floor", () => {
+  const g = settleGate(300, 20);
+  const fire = [];
+  for (let s = 0; s <= 40; s++) if (g.feed(s, { p: s < 8 ? 3 : 0, g: 10 }, s * 60)) fire.push(s);
+  assert.deepEqual(fire, [25]); // gate at 20 s (floor; zero since 8 s), frame 1200 + 300 = 1500 at 25 s
+  assert.equal(g.settledAt, 8);
+});
+test("settleGate: a build with no queue counts as 0 pending; pending resets the wait", () => {
+  const g = settleGate(60, 0);
+  const fire = [];
+  for (let s = 0; s <= 20; s++) if (g.feed(s, { p: s === 4 ? 1 : undefined, g: 5 }, s * 60)) fire.push(s);
+  assert.deepEqual(fire, [11]); // zero again from 5 s, gate at 10 s (frame 600), +60 frames at 11 s
 });

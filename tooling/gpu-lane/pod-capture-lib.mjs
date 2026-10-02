@@ -109,6 +109,27 @@ export function lumaRatios(mainReads, compareReads, mainFinal, compareFinal) {
   return out;
 }
 
+/** The settled read: once the build queue has sat at 0 pending (a build with no queue counts as 0) with geometry
+ * loaded for 5 s, and at least floorS seconds after navigation, count n renderer frames and then read. Luma read at a
+ * frame count after this gate compares like with like across builds; fixed seconds did not (walk 10: ratios 0.05-3.7).
+ * feed(s, {p, g}, frame) returns true once, on the poll where the read is due. */
+export function settleGate(n = 300, floorS = 20) {
+  let zeroSince = null, f0 = null, done = false;
+  return {
+    get settledAt() { return zeroSince !== null && f0 !== null ? Math.round(zeroSince * 10) / 10 : null; },
+    feed(s, q, frame) {
+      if (done) return false;
+      if (f0 === null) {
+        if ((q?.p ?? 0) === 0 && q?.g > 0) zeroSince ??= s; else zeroSince = null;
+        if (zeroSince !== null && s - zeroSince >= 5 && s >= floorS && Number.isFinite(frame)) f0 = frame;
+        return false;
+      }
+      if (Number.isFinite(frame) && frame - f0 >= n) { done = true; return true; }
+      return false;
+    },
+  };
+}
+
 /** Parse a --steps JSON file: array of {at: number, js: string, label?, waitMs?}, returned sorted by `at`. Throws on a bad shape. */
 export function parseSteps(text) {
   const a = JSON.parse(text);
