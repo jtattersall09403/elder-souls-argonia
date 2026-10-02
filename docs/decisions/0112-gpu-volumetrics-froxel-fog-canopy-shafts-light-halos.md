@@ -65,7 +65,20 @@ colour comes from the light rig.
    (cool dawns); marsh ground fog 0.5–3 m (dawn and dusk, wet ground); sea fog
    up estuaries (onshore wind); canopy haze under trees (humid mornings,
    30–90 min after rain) and a faint air baseline so shafts have a medium.
-   Wind-advected baked 3D noise gives the drift, soft edges and fading.
+   The sun burns these off: mist, steam, marsh and canopy haze keep
+   `1 − sunBurn × (1 − 0.5 humid)` as the sun climbs (sea fog does not).
+   **Fog shape** is the fog's own noise (`fogNoise.ts`), never the shared
+   volume-detail texture:
+
+   | Part | Value | Config home |
+   |---|---|---|
+   | Octaves | tiles 997 / 263 / 71 / 19 m (vertical 211 / 67 / 23 / 7 m), weights .45 / .30 / .17 / .08, golden-angle rotation; fine octave fades 60–120 m | `fogNoise.ts:FOG_NOISE.octaves` |
+   | Domain warp | 1777 m × 50 m and 433 m × 12 m, moving at 0.7 × wind | `FOG_NOISE` warp rows |
+   | Morph | two phases crossfaded (rateA 0.0011, rateB × √2, fade 389 s), day-phased modulator 431 / 797 / 1531 s | `FOG_NOISE.morph` |
+   | Coverage | density = max(0, n − (1 − C)) / max(C, 0.05), C eased with tau 180 s | `FOG_NOISE` coverage |
+   | Drift | `FogDrift` integrates wind × rate per octave, so a wind change never jumps the pattern; offsets wrap in [0, 1) | `fogNoise.ts:FogDrift` |
+   | Clock | the water transport clock (`waterTransportTimeS`), so fog and water drift together | `WorldSky.tsx` fog update |
+   | Bake | shape 128³ (64³ mobile), two channel-slices per frame (~1.9 ms each, ~4 s at 60 fps) through `FogShapeBake`; the texture holds the mean until the bake finishes | `fogNoise.ts:FogShapeBake` |
 5. **Canopy shafts from a canopy occlusion map.** The sun term is shadowed
    by a top-down canopy map rasterised on the CPU from the vegetation
    instances near the camera (crowns as discs with leaf-gap noise), sampled
@@ -115,15 +128,67 @@ colour comes from the light rig.
      modder's mud-hut pieces, five or more) is one band lower. Bands are froxel dust densities
      (`DUST_DENSITY`: 0.005 / 0.01 / 0.02 per m). `DUST_OVERRIDES` in the
      generator takes a cell whose derived band is wrong, with a reason.
+   - **Record schema 2** per cell: `kind` + `kindWhy`, `volumeClass` and
+     `boundsM` (the AABB of the placed parts), `humid` (the mined link's
+     Argonian hut family), and `floorMist` `{topM, density}` or null from
+     `FLOOR_MIST` by damp/humid × size. Floor mist is ×1.6 at sunrise and
+     ×0.8–1.2 from dry to wet season (`interiorEnvironment.ts:floorMistGain`);
+     the mobile band draws none (`INTERIOR_VOLUME_TIERS`).
+   - **Window beams are cones** (`froxelGrid.ts:beamMask`, radius = aperture
+     + distance × tan(`BEAM_SPREAD_RAD` 0.052)), lit in the beam's colour over
+     the room's own dust; the beam adds no extinction. Beam colour is the
+     outside sun or moon colour, scaled by how direct the outside light is
+     (`InteriorDoors.tsx`, sky fill `SKY_FILL_SCALE`). Dust motes are additive
+     inside the same cone.
    - **When a cell is published**, the publisher runs
      `python3 tooling/volumetrics/interior_light.py`; `windowApertures.test.ts`
      fails while a published cell has no row or a row names a cell no longer
      published. Fixture lights give the halos in the same medium.
-7. **Quality bands** (0108): off (WebGL backend and lowest tier; aerial fog
-   alone) / low 80×45×32, 400 m / medium 128×72×48, 800 m / high 160×90×64,
-   1500 m; temporal reprojection on medium and high. The band follows the
-   renderer tier and steps down when the frame is over budget.
-8. **Verified in the harness, not the studio**: the `volumetrics` harness
+7. **Quality bands** (0108). WebGPU only: the WebGL backend is off (aerial
+   fog alone). The renderer tier (`?q=` / `?quality=`, mobile on a touch
+   device; `volumetricTier`) sets the starting band and its ceiling (mobile
+   and low start at low); `?vol=off|low|medium|high` overrides. The governor
+   steps down when the 2 s median frame is over 20 ms, up (never past the
+   ceiling) after 8 s under 12 ms, and holds 8 s between changes. Mote and
+   shaft steps are uniforms, so a band change recompiles no material.
+   Home: `bandGovernor.ts:VOLUMETRIC_BANDS`.
+
+   | Row | Grid, reach | Temporal | Fog octaves / warps / shape | Noise fetches per froxel | Motes / shafts steps | Fire tier |
+   |---|---|---|---|---|---|---|
+   | mobile | 64×36×24, 300 m | no | 2 / 1 / 64³ | 3 | 0 / 4 | mobile |
+   | low | 80×45×32, 400 m | no | 2 / 1 / 128³ | 3 | 12 / 6 | low |
+   | medium | 128×72×48, 800 m | yes | 3 / 1 / 128³ | 4 | 20 / 10 | medium |
+   | high | 160×90×64, 1500 m | yes | 4 / 2 / 128³ | 6 | 28 / 12 | high |
+
+   Noise fetches = octaves + warps (estimate from the kernel shape; terrain
+   and canopy lookups come on top). Texture memory: the four froxel grids are
+   always allocated at the high size, rgba16f, 4 × 160×90×64 × 8 B = 28 MiB
+   on every row; the fog shape + 32³ warp add 8.1 MiB at 128³, 1.1 MiB at
+   64³ (`FOG_NOISE.textureBytes`).
+8. **Fire volumes** (0110): one stable-fluids solver per preset
+   (`volumeFire.ts:VolumeFireField`), fixed step 1/simHz, catch-up cap 3,
+   60 prewarm steps; passes per step advect velocity (buoyancy, age-keyed
+   curl, wind), divergence, Jacobi, project, advect dye (smoke life 2 s).
+   Fires of a preset share one field; the nearest fires within 8 m
+   (`FIRE_VOLUME_PRIVATE_M`) get a private one. Config home
+   `fireTypes.ts:FIRE_VOLUME_TIER_CONFIG` and the presets' volume rows
+   (schema 4).
+
+   | Tier | Sim Hz | Jacobi | Private fields | Curl | Notes |
+   |---|---|---|---|---|---|
+   | high | 60 | 4 | 2 | 64³ (2 MiB) | |
+   | medium | 60 | 4 | 1 | 64³ | |
+   | low | 60 | 4 | 0 | 64³ | volumes only within 6 m |
+   | mobile | 30 | 2 | 0 | 32³ (0.25 MiB) | torches are cards |
+
+   Field memory (7 rgba16f grids, 56 B/cell): torches 16×32×16 0.44 MiB,
+   brazier 20×40×20 0.85 MiB, hearth and campfire 24×48×24 1.48 MiB.
+   GPU time, estimate (not yet measured on a GPU): 4 + Jacobi compute passes
+   per field per step, so at high with five presets near and two private
+   fields, ~7 fields × 8 passes over ≤27.6 k cells each; the march costs
+   steps × 2 samples per pixel. The round-2 GPU measurement replaces these
+   estimates.
+9. **Verified in the harness, not the studio**: the `volumetrics` harness
    scene renders the named cases headless on the SwiftShader WebGPU adapter
    and Sonnet judges read them against a look-list; the `interior-light`
    scene lights a published cell's record apertures for a door facing and a
@@ -131,8 +196,9 @@ colour comes from the light rig.
 
 ## Code
 
-`packages/game-core/src/air/volumetrics/` (grid, fog field, canopy map,
-nodes, scene-radiance helper); wiring in `apps/world-studio/src/sky/WorldSky.tsx`;
+`packages/game-core/src/air/volumetrics/` (grid, fog field, fog noise,
+band governor, canopy map, nodes, scene-radiance helper); fire volumes in
+`packages/game-core/src/fx/fire/` (`volumeFire.ts`, `FlameSystem.ts`); wiring in `apps/world-studio/src/sky/WorldSky.tsx`;
 harness scenes `apps/world-studio/src/harness/scenes/volumetrics*` and
 `interior-light.ts`; the window record `volumetrics/interiorLight.json` from
 `tooling/volumetrics/interior_light.py`, read by `windowApertures.ts` and
