@@ -420,6 +420,12 @@ export class GpuCullSystem {
     return out;
   }
 
+  /** The page buffers member meshes bind (instance matrices, `esSlot`,
+   * payload channels, indirect args): owned by the page, never by a member. */
+  get sharedBuffers(): THREE.BufferAttribute[] {
+    return [this.matrices, this.slots, this.indirect, ...this.payloads] as unknown as THREE.BufferAttribute[];
+  }
+
   dispose(): void {
     (this.resetNode as any).dispose?.();
     (this.cullNode as any).dispose?.();

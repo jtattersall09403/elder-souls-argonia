@@ -3,6 +3,7 @@ import { NodeMaterial, QuadMesh, RenderTarget, type WebGPURenderer } from "three
 import * as TSLNS from "three/tsl";
 import { sel, type TslNode } from "../nodes/materialNodes";
 import { deferBuildsInto } from "../shaderBuildQueue";
+import { createDeferredDisposer } from "../../fx/batchData";
 import bloomConfig from "./bloom.config.json";
 // TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -312,6 +313,9 @@ export class BloomPass {
   private readonly texelRead: QuadMesh;
   private readonly texelAt = uniform(new THREE.Vector2());
   private censusTarget: RenderTarget | null = null;
+  /** A replaced census target is freed 3 renders later, never in the step
+   * that replaces it: a readback or bind group may still reference it. */
+  private readonly retired = createDeferredDisposer(3);
   private readonly texelTarget = new RenderTarget(1, 1, { depthBuffer: false, type: THREE.FloatType });
   private readonly bufferSize = new THREE.Vector2();
 
@@ -464,6 +468,7 @@ export class BloomPass {
     camera.updateMatrixWorld();
     (this.invProj.value as THREE.Matrix4).copy(camera.projectionMatrixInverse);
     (this.camRot.value as THREE.Matrix3).setFromMatrix4(camera.matrixWorld);
+    this.retired.tick();
     if (this.censusNext && depth && !this.censusBusy) {
       this.censusNext = false;
       this.censusBusy = true;
@@ -525,15 +530,20 @@ export class BloomPass {
    * the walk-9 sun blob) and those that glow now (`skyGlowing`: the disc).
    * Rows are turned to row 0 at the bottom on either backend.
    */
+  /** The census target at `w` x `h`; a replaced one is retired, not disposed. */
+  censusTargetFor(w: number, h: number): RenderTarget {
+    if (!this.censusTarget || this.censusTarget.width !== w || this.censusTarget.height !== h) {
+      if (this.censusTarget) this.retired.defer(this.censusTarget);
+      this.censusTarget = new RenderTarget(w, h, { depthBuffer: false });
+    }
+    return this.censusTarget;
+  }
+
   private async measureSky(renderer: WebGPURenderer, camera: THREE.Camera): Promise<SkyCensus> {
     const [w, h] = [this.mips[0].width, this.mips[0].height];
     const webgpu = Boolean((renderer.backend as { isWebGPUBackend?: boolean }).isWebGPUBackend);
     const exposure = renderer.toneMappingExposure;
-    if (!this.censusTarget || this.censusTarget.width !== w || this.censusTarget.height !== h) {
-      this.censusTarget?.dispose();
-      this.censusTarget = new RenderTarget(w, h, { depthBuffer: false });
-    }
-    const target = this.censusTarget;
+    const target = this.censusTargetFor(w, h);
     renderer.setRenderTarget(target);
     this.census.render(renderer);
     const sun = sunPixel(camera, this.sunDirection, w, h);
@@ -598,6 +608,7 @@ export class BloomPass {
     this.mips.length = 0;
     this.active = 0;
     this.censusTarget?.dispose();
+    this.retired.flush();
     this.texelTarget.dispose();
     const quads = [this.prefilter, this.composite, this.census, this.texelRead,
       ...this.down.map((d) => d.quad), ...this.up.map((u) => u.quad)];

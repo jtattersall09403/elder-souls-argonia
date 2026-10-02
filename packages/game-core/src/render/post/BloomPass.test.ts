@@ -180,3 +180,22 @@ describe("the sun-disc cone sits on the sun in float32 (walk 9 integration)", ()
     expect(sunPixel(camera, sun.clone().negate(), 240, 135)).toBeNull();
   });
 });
+
+describe("BloomPass census target (webgpu diag10 D4)", () => {
+  it("retires a replaced target and frees it renders later, never in the replacing step", () => {
+    const pass = new BloomPass();
+    const old = pass.censusTargetFor(8, 4);
+    let freed = false;
+    old.dispose = () => { freed = true; };
+    expect(pass.censusTargetFor(8, 4)).toBe(old);
+    const next = pass.censusTargetFor(16, 8);
+    expect(next).not.toBe(old);
+    expect(freed).toBe(false);
+    const retired = (pass as unknown as { retired: { tick(): void } }).retired;
+    retired.tick(); retired.tick();
+    expect(freed).toBe(false);
+    retired.tick();
+    expect(freed).toBe(true);
+    pass.dispose();
+  });
+});
