@@ -39,8 +39,8 @@ import type { WebGPURenderer } from "three/webgpu";
  * blit to the canvas) never defer either: they are a handful of tiny
  * programs, and one of them skipped blacks the whole frame.
  *
- * Every async slot has a timeout and logs its key: a build that has not
- * settled after BUILD_TIMEOUT_MS is logged once (key and material) and frees
+ * Every async slot has a timeout and logs its key: a build that throws, or has
+ * not settled after BUILD_TIMEOUT_MS, is logged once (key and material) and frees
  * its slot, so one hung build cannot hold the queue (walk 10, Greenspring:
  * the view went black with nothing logged). Its object then builds
  * synchronously on its next draw (three's own path) rather than queueing
@@ -67,13 +67,13 @@ export class BuildQueue<K = unknown> {
   twinsHeld = 0;
   /** Builds finished. */
   built = 0;
-  /** Keys whose build timed out: their objects build synchronously from then on. */
+  /** Keys whose build timed out or failed: their objects build synchronously from then on. */
   readonly timedOut = new Set<K>();
   /** Render targets the frame's scene pass draws into: their draws defer like the canvas's. */
   readonly frameTargets = new WeakSet<object>();
   constructor(
     readonly inFlight: number,
-    private readonly onError: (e: unknown) => void = () => {},
+    private readonly onError: (e: unknown, key: K, label: string) => void = () => {},
     private readonly timeoutMs = BUILD_TIMEOUT_MS,
     private readonly onTimeout: (key: K, label: string) => void = (key, label) =>
       console.error(`[shader build] timed out after ${timeoutMs} ms, key ${String(key)}, material ${label}; it builds synchronously on its next draw`),
@@ -114,7 +114,12 @@ export class BuildQueue<K = unknown> {
         return true;
       };
       const timer = setTimeout(() => { if (free()) { this.timedOut.add(key); this.onTimeout(key, label); } }, this.timeoutMs);
-      Promise.resolve().then(start).catch(this.onError).finally(() => { if (free()) this.built++; });
+      // a build that throws falls back to three's synchronous build once, like a timeout: never
+      // re-queued per frame (walk 10, C7: a failing twin build looped every frame)
+      Promise.resolve().then(start).then(
+        () => { if (free()) this.built++; },
+        (e) => { if (free()) { this.timedOut.add(key); this.onError(e, key, label); } },
+      );
     }
   }
 }
@@ -129,10 +134,11 @@ interface RenderObjectInternals {
   initialCacheKey: unknown;
   readonly needsUpdate: boolean;
   material: { version: number; removeEventListener(t: string, f: unknown): void };
-  geometry: { removeEventListener(t: string, f: unknown): void };
+  geometry: { id?: number; removeEventListener(t: string, f: unknown): void };
   onMaterialDispose: unknown;
   onGeometryDispose: unknown;
-  getCacheKey(): unknown;
+  getMaterialCacheKey(): string;
+  getDynamicCacheKey(): unknown;
   constructor: new (...a: unknown[]) => RenderObjectInternals;
 }
 
@@ -192,7 +198,8 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
   if (!(inFlight > 0)) return null;
   const r = renderer as unknown as RendererInternals;
   const draw = r._renderObjectDirect;
-  const queue = new BuildQueue(inFlight, (e) => console.error("[shader build]", e));
+  const queue = new BuildQueue(inFlight, (e, key, label) =>
+    console.error(`[shader build] failed, key ${String(key)}, material ${label}; it builds synchronously on its next draw`, e));
   // readable by the diagnostics (buildQueueOf), never enumerated
   Object.defineProperty(renderer, "esBuildQueue", { value: queue, configurable: true });
   // render objects that have drawn built: the fast path skips every lookup of ours for them.
@@ -203,7 +210,26 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
   // cache entry lives on with its real owner). A twin is never left listening on the material.
   const twins = new Map<unknown, { twin: RenderObjectInternals; at: number }>();
   const nodes0 = r._nodes;
+  // one key array for every chain lookup: filled and read synchronously, so a re-entrant draw
+  // (a shadow pass inside draw.apply) overwriting it between two lookups is harmless
   const lookupKeys: unknown[] = [null, null, null, null];
+  const chainGet = (chain: { get(keys: unknown[]): RenderObjectInternals | undefined }, object: unknown, material: unknown, context: unknown, lightsNode: unknown) => {
+    lookupKeys[0] = object; lookupKeys[1] = material; lookupKeys[2] = context; lookupKeys[3] = lightsNode;
+    return chain.get(lookupKeys);
+  };
+  // three's getCacheKey is getMaterialCacheKey() (a string walk over every material property,
+  // the geometry and the object) + getDynamicCacheKey() (a number). The material part only
+  // changes with material.version, the geometry or the render object's version: cache it per
+  // render object (per queue instance, weak) and add the dynamic part, which carries the light
+  // and fog re-keys, on each read (walk 10, C8: the full key ran several times per stale draw).
+  const materialKeys = new WeakMap<object, { mv: number; rv: number; gid: number | undefined; key: string }>();
+  const cacheKeyOf = (ro: RenderObjectInternals): unknown => {
+    const mv = ro.material.version, rv = ro.version, gid = ro.geometry?.id;
+    let c = materialKeys.get(ro);
+    if (!c) { c = { mv, rv, gid, key: ro.getMaterialCacheKey() }; materialKeys.set(ro, c); }
+    else if (c.mv !== mv || c.rv !== rv || c.gid !== gid) { c.mv = mv; c.rv = rv; c.gid = gid; c.key = ro.getMaterialCacheKey(); }
+    return c.key + (ro.getDynamicCacheKey() as string);
+  };
   const release = (key: unknown) => {
     const t = twins.get(key);
     if (!t) return;
@@ -213,7 +239,7 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
   const settleTwins = (current: RenderObjectInternals | undefined) => {
     if (twins.size === 0) return;
     if (current) {
-      const key = current.getCacheKey();
+      const key = cacheKeyOf(current);
       if (twins.has(key) && twins.get(key)!.twin !== current && nodes0.get(current).nodeBuilderState !== undefined) release(key);
     }
     // an object removed before it re-drew: its twin goes after TWIN_HOLD_MS (nobody needs the key then)
@@ -231,14 +257,13 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
     // the per-draw lookup reuses one key array (no allocation per draw); the lookups after
     // draw.apply build their own, as draw.apply can re-enter this function (a shadow pass)
     const chain = objects.getChainMap(passId);
-    lookupKeys[0] = object; lookupKeys[1] = material; lookupKeys[2] = this._currentRenderContext; lookupKeys[3] = lightsNode;
-    const current = chain.get(lookupKeys);
+    const current = chainGet(chain, object, material, this._currentRenderContext, lightsNode);
     if (current && drawn.has(current)) {
-      const stale = (current.version !== (material as { version: number }).version || current.needsUpdate)
-        && current.initialCacheKey !== current.getCacheKey();
-      if (!stale || nodes.nodeBuilderCache.has(current.getCacheKey())) {
+      const changed = current.version !== (material as { version: number }).version || current.needsUpdate;
+      const newKey = changed ? cacheKeyOf(current) : undefined;
+      if (!changed || current.initialCacheKey === newKey || nodes.nodeBuilderCache.has(newKey)) {
         draw.apply(this, a);
-        if (twins.size) settleTwins(chain.get([object, material, this._currentRenderContext, lightsNode]));
+        if (twins.size) settleTwins(chainGet(chain, object, material, this._currentRenderContext, lightsNode));
         return;
       }
       // Re-keyed (a light, fog or material change) and the new program is not built: three would
@@ -247,10 +272,13 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
       // map), so the swap happens on the first frame after the build: stale frames, never a vanish.
       // The real render object cannot build it: its node data already holds the old builder state.
       const ro = current;
-      const key = ro.getCacheKey();
+      const key = newKey;
       if (queue.timedOut.has(key)) { draw.apply(this, a); return; }
+      // the twin is built later, after three's render() has restored its render context to null:
+      // take the context now (walk 10, C7: getMaterialCacheKey read context.id off null)
+      const context = this._currentRenderContext;
       queue.request(key, distanceSq(object as Placed, camera as Viewer), () => {
-        const twin = new ro.constructor(objects.nodes, objects.geometries, objects.renderer, object, material, scene, camera, lightsNode, this._currentRenderContext, clippingContext);
+        const twin = new ro.constructor(objects.nodes, objects.geometries, objects.renderer, object, material, scene, camera, lightsNode, context, clippingContext);
         // the constructor listens for material/geometry dispose: drop both now, or the shared
         // material retains every twin (and its nodes, bindings, attributes) for the session
         twin.material.removeEventListener("dispose", twin.onMaterialDispose);
@@ -278,7 +306,7 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
     if (nodes.get(ro).nodeBuilderState !== undefined || nodes.nodeBuilderCache.has(key)) {
       drawn.add(ro);
       draw.apply(this, a);
-      if (twins.size) settleTwins(chain.get([object, material, this._currentRenderContext, lightsNode]));
+      if (twins.size) settleTwins(chainGet(chain, object, material, this._currentRenderContext, lightsNode));
       return;
     }
     if (queue.timedOut.has(key)) { drawn.add(ro); draw.apply(this, a); return; }

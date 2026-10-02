@@ -125,7 +125,7 @@ describe("queueShaderBuilds", () => {
     const ro = {
       key: "k1", version: 0, initialCacheKey: "k1", material: mat, camera: null, drawRange: null, group: null,
       get needsUpdate() { return key !== "k1"; },
-      getCacheKey: () => key,
+      getMaterialCacheKey: () => "", getDynamicCacheKey: () => key,
     };
     let built = 0;
     const quiet = { removeEventListener() {} };
@@ -177,14 +177,15 @@ describe("queueShaderBuilds", () => {
       initialCacheKey = key; onMaterialDispose = () => {}; onGeometryDispose = () => {};
       constructor() { mat.addEventListener("dispose", this.onMaterialDispose); }
       get needsUpdate() { return this.initialCacheKey !== key; }
-      getCacheKey() { return key; }
+      getMaterialCacheKey() { return ""; }
+      getDynamicCacheKey() { return key; }
     }
     const take = (ro: object) => { const s = cache.get(key) ?? { usedTimes: 0, key }; cache.set(key, s); s.usedTimes++; data.set(ro, { nodeBuilderState: s }); };
     let real = new RO(); take(real);
     const nodes = {
       nodeBuilderCache: cache,
       get: (ro: object) => data.get(ro) ?? {},
-      getForRenderCacheKey: (ro: RO) => ro.getCacheKey(),
+      getForRenderCacheKey: (ro: RO) => ro.getMaterialCacheKey() + ro.getDynamicCacheKey(),
       getForRender: async (ro: RO) => { await tick(); take(ro); },
       delete: (ro: RO) => { const s = data.get(ro)?.nodeBuilderState; data.delete(ro); if (s && --s.usedTimes === 0) cache.delete(s.key); },
       needsRefresh: () => false, updateBefore() {}, updateForRender() {}, updateAfter() {},
@@ -216,5 +217,89 @@ describe("queueShaderBuilds", () => {
     expect(cache.size).toBe(1);
     expect(cache.get("k5")!.usedTimes).toBe(1);
   });
-});
 
+  /** A re-keyable render object and a fake renderer whose render() context is null between frames. */
+  const rekeyRig = (getForRender: (ro: unknown) => unknown) => {
+    const mat = { version: 0 };
+    const state = { key: "k1", materialKeyCalls: 0, constructedWith: [] as unknown[], drawn: 0 };
+    const cache = new Map<unknown, unknown>([["k1", {}]]);
+    const quiet = { removeEventListener() {} };
+    const ro = {
+      version: 0, initialCacheKey: "k1", material: mat, geometry: { id: 7, ...quiet }, camera: null, drawRange: null, group: null,
+      get needsUpdate() { return state.key !== "k1"; },
+      getMaterialCacheKey: () => { state.materialKeyCalls++; return ""; },
+      getDynamicCacheKey: () => state.key,
+    };
+    class Twin {
+      material = quiet; geometry = quiet; onMaterialDispose = null; onGeometryDispose = null;
+      constructor(...a: unknown[]) { state.constructedWith.push(a[8]); }
+    }
+    Object.defineProperty(ro, "constructor", { value: Twin });
+    const fake = {
+      _objects: { get: () => ro, getChainMap: () => ({ get: () => ro }), nodes: {}, geometries: {}, renderer: {} },
+      _currentRenderContext: null as unknown, _currentRenderBundle: null,
+      _nodes: {
+        nodeBuilderCache: cache, get: () => ({ nodeBuilderState: {} }), getForRenderCacheKey: () => "k1",
+        getForRender, delete() {}, needsRefresh: () => false, updateBefore() {}, updateForRender() {}, updateAfter() {},
+      },
+      _geometries: { updateForRender() {} }, _bindings: { updateForRender() {} },
+      _pipelines: { updateForRender() {}, isReady: () => true },
+      backend: { draw() {} }, info: {},
+      _renderObjectDirect() { state.drawn++; },
+    };
+    const object = { geometry: { drawRange: {} }, matrixWorld: { elements: new Array(16).fill(0) } };
+    const camera = { matrixWorld: { elements: new Array(16).fill(0) } };
+    const queue = queueShaderBuilds(fake as unknown as WebGPURenderer, 1)!;
+    // a draw inside render(): the context is set for the draw and restored to null after it
+    const draw = () => {
+      fake._currentRenderContext = { id: 3 };
+      (fake._renderObjectDirect as (...a: unknown[]) => void)(object, mat, {}, camera, {}, null, null, "default");
+      fake._currentRenderContext = null;
+    };
+    return { state, queue, draw, mat };
+  };
+
+  it("builds a twin with the render context of its request, after render() restored it to null", async () => {
+    const rig = rekeyRig(async () => {});
+    rig.draw(); rig.draw();
+    rig.state.key = "k2";
+    rig.draw();
+    await tick(); await tick();
+    expect(rig.state.constructedWith).toEqual([{ id: 3 }]);
+  });
+
+  it("never retries a twin build that throws: it falls back to three's synchronous draw", async () => {
+    const errors: unknown[] = [];
+    const origError = console.error;
+    console.error = (...a: unknown[]) => { errors.push(a[0]); };
+    try {
+      let builds = 0;
+      const rig = rekeyRig(() => { builds++; throw new Error("boom"); });
+      rig.draw(); rig.draw();
+      rig.state.key = "k2";
+      rig.draw();
+      await tick(); await tick();
+      expect(rig.queue.timedOut.has("k2")).toBe(true);
+      const drawnBefore = rig.state.drawn;
+      for (let i = 0; i < 5; i++) { rig.draw(); await tick(); }
+      expect(builds).toBe(1);
+      expect(rig.state.drawn - drawnBefore).toBe(5);
+      expect(errors).toHaveLength(1);
+      expect(String(errors[0])).toContain("k2");
+    } finally { console.error = origError; }
+  });
+
+  it("computes a stale object's material key once until its material, geometry or version changes", async () => {
+    const rig = rekeyRig(() => new Promise(() => {}));
+    rig.draw(); rig.draw();
+    rig.state.key = "k2";
+    rig.draw();
+    const after = rig.state.materialKeyCalls;
+    expect(after).toBe(1);
+    rig.draw(); rig.draw();
+    expect(rig.state.materialKeyCalls).toBe(after);
+    rig.mat.version++;
+    rig.draw();
+    expect(rig.state.materialKeyCalls).toBe(after + 1);
+  });
+});
