@@ -471,8 +471,13 @@ headless.
   re-compares every material uniform on each material switch.
 - Share it: one material per kit glTF material (or per batch key), never a
   clone per part or per instance.
-- A per-pixel detail swap picks bands by curvature (amp*k^2) against the
-  mesh grid, never by amplitude (`crestBands`, diag12 Q2).
+- Any term of the water shading normal or crest that can change faster
+  than the vertex spacing (shore direction, shore-swell slope, short or
+  high-curvature bands) is evaluated per pixel at the REST xz
+  (`vEsRestXZ`), never carried in the vertex normal and never at the
+  displaced position; only heights stay per vertex (0047). Bands are
+  picked by curvature (amp*k^2) against the mesh grid, never by amplitude
+  (`crestBands`; diag12 Q2, diag14 V1/V2).
 - A patched material has a stable `customProgramCacheKey` that reads only
   its held state; re-applying the same state sets no `needsUpdate`.
 - Patch it before its first draw: streamed builds go through the lit

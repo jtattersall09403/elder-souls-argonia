@@ -534,7 +534,7 @@ describe("short Gerstner bands per pixel (perf-diag9 V1)", () => {
         expect(vert, `${tier.name}: ${b.wavelengthM} m off the vertex`).not.toContain(`${b.freq}, `);
         expect(frag, `${tier.name}: ${b.wavelengthM} m in the fragment`).toContain(`${b.freq}, ${b.amp}, ${b.phaseSpeed}, ${b.phase0}`);
       }
-      expect(frag).toContain("esWaveF = esWaveFrag(vEsWorldPos.xz, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime)");
+      expect(frag).toContain("esWaveF = esWaveFrag(vEsRestXZ, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime)");
       expect(frag).toContain("vec2 esWaveG = esWaveF.xy + esCrestD.xy;");
       expect(frag).toMatch(/esNBase\.x - [^;]*- esWaveG\.x/);
       expect(vert).toContain("vEsWaveIn = vec3(esWaveAmp, esFetchM, esStandW);");
@@ -571,7 +571,7 @@ describe("crest bands per pixel (perf-diag11 W1, diag12 Q2)", () => {
     // the vertex surface is unchanged (0047): every crest band is still in the vertex sum
     for (const b of picked) expect(vert).toContain(`w = esWaveBand(pos, exposure * clamp(fetchM / ${b.fetchM}`);
     expect(vert).toContain("vEsCrestV = esWaveCrestH(esRestW.xz, esWaveAmp, esFetchM, esStandW, uWaveTime);");
-    expect(frag).toMatch(/esCrestD = \(esWaveCrestH\(vEsWorldPos\.xz, [^;]*- vEsCrestV\)/);
+    expect(frag).toMatch(/esCrestD = \(esWaveCrestH\(vEsRestXZ,[^;]*- vEsCrestV\)/);
     expect(frag).toContain("vec2 esWaveG = esWaveF.xy + esCrestD.xy;");
     expect(frag).toMatch(/float esCrest = [^;]*\+ esCrestD\.z;/);
     for (const b of picked) expect(frag).toContain(`${b.freq}, ${b.phaseSpeed}, ${b.phase0});`);
@@ -579,6 +579,22 @@ describe("crest bands per pixel (perf-diag11 W1, diag12 Q2)", () => {
     for (const s of [compile("strip", assets, WATER_TIERS.high).shader, compile("strip", assets, low).shader]) {
       expect(code(s.vertexShader)).not.toContain("esWaveCrestH");
       expect(code(s.fragmentShader)).not.toContain("vEsCrestV");
+    }
+  });
+});
+
+describe("shore swell tilt per pixel at rest xz (perf-diag14 V1)", () => {
+  it("both tiers keep the tilt out of the vertex normal and add it in the fragment under a soft cut", () => {
+    for (const tier of [WATER_TIERS.high, WATER_TIERS.low]) {
+      const { shader } = compile("field", assets, tier);
+      const vert = code(shader.vertexShader);
+      const frag = code(shader.fragmentShader);
+      expect(vert).toContain("vEsRestXZ = esRestW.xz;");
+      expect(vert).not.toContain("esW.normal.xz += esShoreDir");
+      // heights unchanged (0047): the vertex still adds the swell
+      expect(vert).toContain("esStill += esShoreSwell(");
+      expect(frag).toContain("smoothstep(0.02, 0.08, esGLR)");
+      expect(frag).toContain("esWaveG -= esShoreDirR * esSwellD;");
     }
   });
 });

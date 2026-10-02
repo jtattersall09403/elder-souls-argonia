@@ -129,6 +129,8 @@ Chrome started with `--remote-debugging-port` and serve with `node tooling/gpu-l
 
 ## Gotchas
 
+- **Judge water facets on two wave phases.** Use the settled and walk screenshots of the same spot,
+  or two spots, never one screenshot: a favourable phase hid the shore facets in c5m2 and c6s2 (diag14 V3).
 - **Check the frame cap before trusting fps.** `pod-setup.sh` starts Chrome with `--disable-gpu-vsync
   --disable-frame-rate-limit`; walk 10 still read rAF at 58.5 fps on a trivial page (Chrome 154 under Xvfb).
   `pod-capture` reads a blank page's rAF rate first and records `cap.capDetected`: when true, a view at

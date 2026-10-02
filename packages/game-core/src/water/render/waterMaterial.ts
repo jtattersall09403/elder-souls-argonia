@@ -827,6 +827,7 @@ varying vec2 vEsColour;  // 16f: algae, dark
 varying vec3 vEsFlow;
 varying vec3 vEsNormalW;
 varying vec4 vEsSurf;
+varying vec2 vEsRestXZ;  // rest world xz: per-pixel shore frame and crest phase (diag14 V1, V2)
 varying vec3 vEsWaveIn;  // wave amp, fetch, standing: the fragment's short bands
 ${SAMPLER_GLSL}
 ${gerstnerGlsl(tier.waveBands, tier.gridCellM)}
@@ -841,6 +842,7 @@ ${flowWaveGlsl()}`,
         "#include <beginnormal_vertex>",
         /* glsl */ `
 vec3 esRestW = (modelMatrix * vec4(position, 1.0)).xyz;
+vEsRestXZ = esRestW.xz;
 #ifdef ES_STRIP
 vEsSide = aSide;
 vEsStrip = vec4(aSideM, aArc, aScroll, aEdge);
@@ -933,9 +935,9 @@ if (esWaveAmp > 0.0005) {
   esW.normal = vec3(0.0, 1.0, 0.0);
   esW.height = 0.0;
 }
-// swell tilts the normal along the shoreward axis
-esW.normal.xz += esShoreDir * esSwellDHdd;
-esW.normal = normalize(esW.normal);
+// the shore swell's tilt stays OUT of the vertex normal: the shore direction
+// and the swell slope change faster than the grid, so the fragment adds them
+// per pixel at the rest xz (diag14 V1); the swell height stays here (0047)
 #ifdef ES_STRIP
 vec2 esFlowV = aFlow;
 #else
@@ -1003,6 +1005,7 @@ ${prelude}
 ${strip ? "" : OWNER_MASK_GLSL + waveExposureGlsl() + tideResponseGlsl(classes)}
 ${strip ? "" : FOAM_FIELD_GLSL + RAIN_RINGS_GLSL + SPARKLE_SSS_GLSL + HORIZON_BLEND_GLSL + SHORE_FROTH_GLSL + FOAM_MASK_GLSL}
 ${MENISCUS_GLSL}
+varying vec2 vEsRestXZ;
 varying vec3 vEsWaveIn;
 ${gerstnerFragGlsl(tier.waveBands, tier.gridCellM)}
 ${crestPx ? `varying vec3 vEsCrestV;
@@ -1150,7 +1153,7 @@ if (uRainRipple > 0.02) esRainG = esRainRings(vEsWorldPos.xz, uTransportTime, uR
 // their height, which makes the foam crest non-planar inside a triangle
 vec3 esWaveF = vec3(0.0);
 if (vEsWaveIn.x > 0.0005 && esDist < 400.0)
-  esWaveF = esWaveFrag(vEsWorldPos.xz, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime)
+  esWaveF = esWaveFrag(vEsRestXZ, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime)
           * (1.0 - smoothstep(120.0, 400.0, esDist));
 // the tier's crest bands (its sharpest, by curvature) per pixel: exact minus
 // interpolated vertex slope and height, under the same fade; the vertex sum
@@ -1158,9 +1161,32 @@ if (vEsWaveIn.x > 0.0005 && esDist < 400.0)
 // (diag12 Q2: a 17.9 m band on the 3.6 m grid kinked the Gouraud normal)
 vec3 esCrestD = vec3(0.0);${crestPx ? `
 if (vEsWaveIn.x > 0.0005 && esDist < 400.0)
-  esCrestD = (esWaveCrestH(vEsWorldPos.xz, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime) - vEsCrestV)
+  esCrestD = (esWaveCrestH(vEsRestXZ, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime) - vEsCrestV)
            * (1.0 - smoothstep(120.0, 400.0, esDist));` : ""}
 vec2 esWaveG = esWaveF.xy + esCrestD.xy;
+${strip ? "" : /* glsl */ `
+// shore swell slope per pixel at the rest xz (diag14 V1): the shore frame from
+// the raster's 2-texel gradient under a soft cut, the vertex stage's swell
+// profile; only its height stays per vertex (0047). In the vertex normal this
+// tilt snapped between grid vertices and drew pale triangular facets.
+{
+  vec3 esSR = esShoreAt(vEsRestXZ);
+  if (uHasApron > 0.5 && esOutside(vEsRestXZ) && esTideResponse(vEsKlass.w) < 0.5)
+    esSR = vec3(uSurfShoreMax, 0.0, 0.0);
+  if (esSR.x < 90.0) {
+    float eGR = uSurfMpp * 2.0;
+    vec2 esGradR = vec2(
+      esShoreAt(vEsRestXZ + vec2(eGR, 0.0)).x - esSR.x,
+      esShoreAt(vEsRestXZ + vec2(0.0, eGR)).x - esSR.x) / eGR;
+    float esGLR = length(esGradR);
+    vec2 esShoreDirR = -esGradR / max(esGLR, 1e-4) * smoothstep(0.02, 0.08, esGLR);
+    float esSwellD = 0.0;
+    esShoreSwell(esSR.x, max(esSurfaceAt(vEsRestXZ).y, 0.0), vEsSurf.x, uWaveTime, vEsSurf.w,
+      esAlongPhase(vEsRestXZ, esShoreDirR, uWaveTime), esSwellD);
+    // height slope = dH/dd * grad(d) = -shoreDir * dH/dd
+    esWaveG -= esShoreDirR * esSwellD;
+  }
+}`}
 vec3 esNW = normalize(vec3(
   esNBase.x - (esG.x + esGF.x) * esDetStrength - esWaveG.x - esRip.x - esRainG.x,
   esNBase.y,
