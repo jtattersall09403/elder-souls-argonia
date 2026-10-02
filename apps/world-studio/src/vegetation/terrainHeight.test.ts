@@ -7,7 +7,7 @@ import { OcclusionMask } from "@elder-souls/game-core/vegetation/occlusionMask";
 import {
   FunctionTerrainMarcher,
   occludedByTerrain,
-} from "@elder-souls/game-core/render/terrainOcclusion";
+} from "@elder-souls/game-core/render/terrainOcclusionReference.testkit";
 import type { ChunkStore, ChunksManifest } from "../character/chunkStore";
 import { FrameGroundSampler, groundHeightM } from "./terrainHeight";
 

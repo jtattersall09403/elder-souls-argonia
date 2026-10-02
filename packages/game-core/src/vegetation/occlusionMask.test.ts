@@ -4,7 +4,7 @@
  * wipe reaches the GPU.
  */
 import { describe, expect, it } from "vitest";
-import { FunctionTerrainMarcher } from "../render/terrainOcclusion";
+import { FunctionTerrainMarcher } from "../render/terrainOcclusionReference.testkit";
 import { OcclusionMask } from "./occlusionMask";
 
 const CELL = 32;
