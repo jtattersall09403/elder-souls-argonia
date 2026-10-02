@@ -240,13 +240,37 @@ test("parseSpots: name, query, --aim and walk=; comments skipped; bad lines thro
 test("parseArgs: --spots builds one spot list, --leak keeps the first spot, --bar defaults 83,69", async () => {
   const { parseArgs } = await import("./measure.mjs");
   const o = parseArgs(["--run", "r", "--spots", new URL("./spots/perf10.txt", import.meta.url).pathname]);
-  assert.deepEqual(o.spotList.map((s) => s.name), ["a", "b", "c", "d", "e", "e2", "e3", "f", "g"]);
+  assert.deepEqual(o.spotList.map((s) => s.name), ["a", "b", "c", "d", "e", "e2", "e3", "f", "g", "h"]);
+  assert.equal(o.spotList[9].aim, "1.4,0.1");
   assert.equal(o.spotList[4].walk, 20);
   assert.equal(o.shots, true);
   assert.equal(o.clean, "1");
   assert.deepEqual(o.barParsed, { fps: 83, p1low: 69 });
-  assert.equal(parseArgs(["--run", "r", "--spots", new URL("./spots/perf10.txt", import.meta.url).pathname, "--leak", "60"]).spotList.length, 1);
+  assert.equal(parseArgs(["--run", "r", "--spots", new URL("./spots/perf10.txt", import.meta.url).pathname, "--leak", "60"]).spotList.length, 10, "--leak keeps every spot");
   assert.throws(() => parseArgs(["--run", "r", "--url", "?a=1", "--spots", "x"]), /replaces --url/);
   const u = parseArgs(["--run", "r", "--url", "?a=1", "--walk", "5", "--aim", "1,0"]);
   assert.deepEqual(u.spotList, [{ name: "url0", query: "?a=1", aim: "1,0", walk: 5 }]);
+});
+
+test("relink probe: every link names type and owner, shadow depth materials are flagged", async () => {
+  const { readFileSync } = await import("node:fs");
+  const vm = await import("node:vm");
+  class GL { shaderSource() {} attachShader() {} linkProgram() {} }
+  const win = { WebGL2RenderingContext: GL };
+  const ctx = vm.createContext({ window: win, performance: { now: () => 1234.5 }, Object, Array, String, WeakMap, Map, Math });
+  vm.runInContext(readFileSync(new URL("./probes/relink.js", import.meta.url), "utf8"), ctx);
+  const gl = new GL();
+  const R = {}; R.renderBufferDirect = function () { gl.linkProgram({}); };
+  const grass = { type: "Mesh", name: "grass", parent: { name: "tile", parent: { type: "Scene" } } };
+  const mat = { type: "MeshStandardMaterial", name: "leaf", transparent: true, defines: { USE_X: 1 }, customProgramCacheKey: () => "k".repeat(200) };
+  grass.material = mat;
+  R.renderBufferDirect(null, null, null, mat, grass);
+  R.renderBufferDirect(null, null, null, { type: "MeshDepthMaterial", defines: {} }, grass);
+  gl.linkProgram({});
+  const ev = JSON.parse(JSON.stringify(win.__DIAG__.relink().events.map((e) => e[3]))); // out of the vm realm
+  assert.equal(ev.length, 3);
+  assert.deepEqual([ev[0].type, ev[0].owner, ev[0].parents, ev[0].transparent, ev[0].defines, ev[0].key.length, ev[0].depth, ev[0].t], ["MeshStandardMaterial", "grass", ["tile", "Scene"], true, ["USE_X"], 80, false, 1235]);
+  assert.equal(ev[1].depth, true);
+  assert.equal(ev[2].owner, "(outside draw)");
+  assert.ok(ev.every((e) => e.type && e.owner));
 });

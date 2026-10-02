@@ -23,7 +23,7 @@ Key paths follow `/tmp/<lane><round>/rp_key`.
 | `pod-sync.sh <dist> <name>` | `POD_SSH="ssh -i <key> -p <port> root@<ip>"`: rsyncs a built studio (a composed site's `studio/`) to the pod's `/root/site/dists/<name>` (later runs only the diff) plus the server scripts and the character files, then restarts `serve.mjs` on the pod at 127.0.0.1:8099 over EVERY synced dist, detached (log `/root/serve.log`). Idempotent: kills the old server (pid file and port owner) before the new start, and a no-change re-run takes seconds. One dist per base: any other pod dist built for the same base is deleted first. Exits non-zero unless the new server is alive and every served base answers. |
 | `serve.mjs <dist> [<dist>...] [--port 8099]` | Serves built studios as Pages does, each at the base it was built for (read from its `index.html`; `serve-lib.mjs`): a dev build at `/studio/`, a branch build at `/webgpu/`, studio data behind them (`$ES_DATA_PUBLIC`; `apps/world-studio/scripts/lib/webgpu-static.mjs`). Two dists built for one base fail at start. For a composed site pass `<site>/studio`. |
 | `measure.mjs` | Drives Chrome over DevTools (playwright over CDP, a keeper page first); per URL or spot: first complete frame, then rAF frame times for `--settle` s, an optional held-W `--walk`, the HUD perf lines, console errors, 404s, memory, GPU adapter, screenshots. Writes `measure.json`, and with `--spots` `summary.md` / `summary.json`. |
-| `spots.mjs`, `spots/perf10.txt` | Spot-file parser (`<name> <?query> [--aim yaw,pitch] [walk=<s>] [x<N>]`), the summary table and the leak slope. `spots/perf10.txt` holds the perf10 spots a-g (e = d with a 20 s W-held walk, `x3` = three times: e, e2, e3). |
+| `spots.mjs`, `spots/perf10.txt` | Spot-file parser (`<name> <?query> [--aim yaw,pitch] [walk=<s>] [x<N>]`), the summary table and the leak slope. `spots/perf10.txt` holds the perf10 spots a-h (h = the aimed ESE night-rain view; e = d with a 20 s W-held walk, `x3` = three times: e, e2, e3). |
 | `checks.mjs` | The pure checks behind `--smoke`, `--census` and `--diag` (smoke verdict, black-frame luminance, foreign pages, hitch list, heap growth, census.txt). |
 | `probes/` | Scripts `measure.mjs` injects before the page's scripts (no app code change); see Probes. |
 | `hud-parse.mjs` | Parses the studio's perf HUD text (`PerfHudSection` in `apps/world-studio/src/character/CharacterMode.tsx`) into numbers. Change it with the HUD. |
@@ -61,7 +61,8 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
    It moves between spots in one tab (ready gate per spot), takes a clean (HUD-free) settled screenshot
    of each (`<run dir>/<name>-settled.jpg`) and writes `summary.md` / `summary.json`: settled fps, p1Low,
    uncapped, p1LowUncapped, max ms, over20, over33, pass against `--bar fps,p1low`; a walk spot is judged on its
-   walk window. `--leak <s> [--leak-every 15]` is ONE long capture at the first spot: post-GC heap every
+   walk window. `--leak <s> [--leak-every 15]` is ONE long capture at the first spot (run right after that spot's measurement; every
+   remaining spot of the file, walks and repeats included, then measures normally): post-GC heap every
    15 s, the slope in MB/min and the top growing allocation sites (`leak.json`, `leak.txt`).
    One `--url "?view=character&x=..&z=..&t=22&w=rain"` (repeatable; `--walk 10`, `--shots`) replaces `--spots` for a
    single look; `--renderer webgpu` measures `/elder-souls-argonia/webgpu/`.
@@ -106,7 +107,7 @@ Chrome started with `--remote-debugging-port` and serve with `node tooling/gpu-l
 
 | Probe | Reports |
 |---|---|
-| `relink` | `gl.linkProgram` calls: total, ms on the main thread, distinct programs, how many linked more than once, links after 30 s, the last 40 link times with the program's name. A rising `linksAfter30s` is a program relink storm. |
+| `relink` | `gl.linkProgram` calls: total, ms on the main thread, distinct programs, how many linked more than once, links after 30 s, the last 40 links, each `[t, ms, shaderName, {type, name, owner, parents (<=3), depth (shadow/override material), transparent, defines, key (<=80 chars), t}]`; owner comes from a `renderBufferDirect` hook (links happen inside it), links outside it read `(outside draw)`. A rising `linksAfter30s` is a program relink storm. |
 | `heap` | `performance.memory` once a second (last 120 samples). With `--census` it also adds `heap.sampledGrowth` to census.json: a CDP HeapProfiler sampling profile read at the start and end of the 30 s window, functions whose retained MB grew. It wraps no typed-array constructor (that broke GLTFLoader). |
 | `census` | Injected by `--census` itself: the `renderBufferDirect` hook behind the draw census and the matrixAutoUpdate census. |
 

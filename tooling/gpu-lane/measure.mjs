@@ -68,7 +68,6 @@ export function parseArgs(argv) {
     o.url = o.spotList.map((s) => s.query); o.shots = true; o.clean ||= "1";
   } else o.spotList = o.url.map((q, i) => ({ name: `url${i}`, query: q, aim: o.aim, walk: o.walk }));
   o.barParsed = parseBar(o.bar);
-  if (o.leak > 0) { o.spotList.splice(1); o.url.splice(1); }
   if (!o.url.length || !o.run) throw new Error("need --run <name> and at least one --url <query> (or --spots <file>)");
   o.diagList = diagList(o.diag, o.url);
   if (!["webgl", "webgpu"].includes(o.renderer)) throw new Error("--renderer is webgl or webgpu");
@@ -478,12 +477,12 @@ async function main() {
     const r = await measureUrl(page, ctx, o, spot, i, own, browser);
     result.urls.push(r);
     console.log(`${spot.name} ${q}: ${r.settledFps} fps settled, uncapped ${r.uncappedFps} (work ${r.workMs?.mean} ms, wrapper ${r.wrapperMsPerFrame}), 1% low ${r.p1LowFps}, min ${r.minFps}, ready ${r.readyS} s${r.walk ? `, walk ${r.walk.settledFps}` : ""}`);
-  }
-  if (o.leak > 0) {
-    const leak = await runLeak(page, o);
-    writeFileSync(join(o.out, "leak.json"), `${JSON.stringify(leak, null, 2)}\n`);
-    writeFileSync(join(o.out, "leak.txt"), `${leakText(leak)}\n`);
-    console.log(leakText(leak));
+    if (i === 0 && o.leak > 0) { // the ONE long capture, on the first spot's settled page; the remaining spots measure normally after it
+      const leak = await runLeak(page, o);
+      writeFileSync(join(o.out, "leak.json"), `${JSON.stringify(leak, null, 2)}\n`);
+      writeFileSync(join(o.out, "leak.txt"), `${leakText(leak)}\n`);
+      console.log(leakText(leak));
+    }
   }
   await page.close().catch(() => {});
   await ctx.close();
