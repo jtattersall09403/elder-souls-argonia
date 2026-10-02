@@ -53,6 +53,26 @@ export class DrawTargetLinker {
     }
   }
 
+  /**
+   * Link `objects` once the scene pass has been seen (or after `maxWaitMs`),
+   * polling on `schedule` (rAF in the app). For load-time meshes that first
+   * draw later, off screen at mount: the waterfalls, chute strips and pools
+   * linked on their first draw while walking (16k walk 10, a 48 ms frame).
+   * Returns a cancel for the effect's cleanup.
+   */
+  linkWhenObserved(objects: readonly THREE.Object3D[], camera: THREE.Camera, maxWaitMs = 4000,
+    schedule: (step: () => void) => unknown = (step) => requestAnimationFrame(step)): () => void {
+    let cancelled = false;
+    const start = performance.now();
+    const step = () => {
+      if (cancelled) return;
+      if (!this.observed && performance.now() - start < maxWaitMs) { schedule(step); return; }
+      for (const object of objects) this.compileAsync(object, camera).catch(() => undefined);
+    };
+    if (objects.length) schedule(step);
+    return () => { cancelled = true; };
+  }
+
   /** Stop recording (an effect's cleanup) and free the scratch target's GL objects. */
   detach(): void {
     if (this.previous && this.scene.onBeforeRender === this.hook) this.scene.onBeforeRender = this.previous;

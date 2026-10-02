@@ -45,4 +45,24 @@ describe("DrawTargetLinker (review 2026-09-30: settlement pre-link keys)", () =>
     linker.detach();
     expect(scene.onBeforeRender).toBe(THREE.Scene.prototype.onBeforeRender);
   });
+
+  it("links late-drawn meshes once, only after the scene pass is seen (16k walk 10)", () => {
+    const scene = new THREE.Scene();
+    const { gl, seen } = fakeGl();
+    const linker = new DrawTargetLinker(gl, scene).attach();
+    const queue: (() => void)[] = [];
+    linker.linkWhenObserved([new THREE.Group(), new THREE.Group()], camera, 60_000, (f) => queue.push(f));
+    queue.shift()!();
+    expect(seen.length).toBe(0); // not observed yet: polls again
+    expect(queue.length).toBe(1);
+    pass(scene, null);
+    queue.shift()!();
+    expect(seen.length).toBe(2);
+    expect(queue.length).toBe(0);
+    const cancel = linker.linkWhenObserved([new THREE.Group()], camera, 60_000, (f) => queue.push(f));
+    cancel();
+    queue.shift()!();
+    expect(seen.length).toBe(2);
+    linker.detach();
+  });
 });

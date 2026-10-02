@@ -13,7 +13,8 @@ import type { PlayerMovementController } from "@elder-souls/game-core/physics/Pl
 import { FollowCamera, FOLLOW_CAMERA } from "@elder-souls/game-core/camera/followCamera";
 import { playerOpacityForArm } from "@elder-souls/game-core/camera/cameraCollision";
 import { rapierCameraObstruction } from "./cameraObstruction";
-import { fadePlayerModel } from "./playerFade";
+import { fadePlayerModel, warmPlayerFadePrograms } from "./playerFade";
+import { DrawTargetLinker } from "@elder-souls/game-core/render/drawTargetLinker";
 import { ExplorerLocomotion } from "@elder-souls/game-core/locomotion/explorerLocomotion";
 import { input } from "@elder-souls/game-core/io/input";
 import { inputToIntent } from "@elder-souls/game-core/combat/intent";
@@ -1554,7 +1555,16 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     camera3P.setObstruction(cameraCast);
     return () => camera3P.setObstruction(null);
   }, [camera3P, cameraCast]);
-  const { camera, scene } = useThree();
+  const { camera, scene, gl } = useThree();
+  // Both fade programs of every player material linked ahead of the first
+  // fade (playerFade.ts warmPlayerFadePrograms); checked once a second so an
+  // equipment change's new materials are pinned too.
+  const fadeLinker = useMemo(() => new DrawTargetLinker(gl, scene), [gl, scene]);
+  useEffect(() => { fadeLinker.attach(); return () => fadeLinker.detach(); }, [fadeLinker]);
+  const fadePinFrame = useRef(0);
+  const fadePinCompile = useMemo(() => (object: THREE.Object3D) => {
+    fadeLinker.compileAsync(object, camera).catch(() => undefined);
+  }, [fadeLinker, camera]);
   const position = useMemo(() => new THREE.Vector3(), []);
   const lastPosition = useRef(new THREE.Vector3());
   const stepAccum = useRef(0);
@@ -1792,7 +1802,13 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
       camera3P.position.y = cameraGround + 0.6;
     }
     camera3P.applyTo(camera);
-    if (playerModelRef?.current) fadePlayerModel(playerModelRef.current, playerOpacityForArm(camera3P.arm));
+    if (playerModelRef?.current) {
+      if (fadeLinker.observed && fadePinFrame.current-- <= 0) {
+        fadePinFrame.current = 60;
+        warmPlayerFadePrograms(playerModelRef.current, fadePinCompile);
+      }
+      fadePlayerModel(playerModelRef.current, playerOpacityForArm(camera3P.arm));
+    }
     focusRef.current = { x: position.x, z: position.z };
 
     // Streaming safety net: anything that truly slips under the terrain is

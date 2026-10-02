@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useThree } from "@react-three/fiber";
+import { DrawTargetLinker } from "../../render/drawTargetLinker";
 import { buildPoolGeometry } from "./PoolDiscs";
 import type { LocalPoolRecord, LocalWaterSurfaces } from "../localSurfaces";
 import { useMarkedFrame } from "../../fx/frameSegments";
@@ -314,6 +316,15 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     materials.above.dispose();
     materials.below.dispose();
   }, [materials]);
+  // The falls, chute strips and pools are built at load but first drawn
+  // when they come into view; linked then, their programs cost a 48 ms frame
+  // mid-walk (16k walk 10). Link them against the scene pass's target now.
+  const { gl, scene, camera } = useThree();
+  const linker = useMemo(() => new DrawTargetLinker(gl, scene), [gl, scene]);
+  useEffect(() => { linker.attach(); return () => linker.detach(); }, [linker]);
+  useEffect(() => linker.linkWhenObserved(
+    [strips?.mesh, pools?.mesh, falls?.mesh].filter((m): m is NonNullable<typeof m> => !!m), camera),
+  [linker, strips, pools, falls, camera]);
   useEffect(() => () => geometry.dispose(), [geometry]);
 
   useMarkedFrame("surface", ({ camera, gl }, delta) => {
