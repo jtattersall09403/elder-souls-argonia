@@ -44,6 +44,13 @@
  *              so a capture never outlives the agent that ran it. With --pod it first asks the pod for its Chrome
  *              (curl 127.0.0.1:9222/json/version over ssh, 5 s); when it is not there it restarts it with pod-setup.sh as
  *              below, and exits 3 ("pod Chrome down after pod-setup.sh") only if it is still down.
+ * --cpu-profile  V8 CPU profile (200 us sampling) over each view's cost window: self ms per function (bundle url:line:col)
+ *              per window frame, top 25 -> window.cpuTop and window.cpuprofile, top 5 in the summary row. Compare its numbers
+ *              only against other --cpu-profile runs (the sampler costs main-thread time).
+ * --allow-paused  run studio views whose URL lacks rate= (paused world clock); without it such a views file exits 2 naming them
+ * WebGPU check: after every browser (re)connect (--chrome-mode webgpu) navigator.gpu.requestAdapter() is polled on a blank page
+ *              for up to 20 s (result adapterWaits). A view asking WebGPU (url renderer=webgpu, or expectBackend: "webgpu")
+ *              whose page reports another backend is retried once after an adapter re-check, then fails "no-webgpu".
  * --profile    a CPU profile of <s> seconds starting at <t> per view (summary in result.json, raw to profile.cpuprofile)
  * steps        per view, {at, label, js, waitMs?}: at `at` s the page evaluates js (its JSON return goes to probe[label]), waits waitMs
  *              (default 2500), then a full read goes into steps[]
@@ -62,7 +69,7 @@
 import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable } from "./pod-capture-lib.mjs";
+import { HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, ADAPTER_JS, cpuTop } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit } from "./checks.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
@@ -79,13 +86,17 @@ const prof = opt("profile") ? parseProfile(opt("profile")) : null, windowS = Num
 const W = Number(opt("width", 1280)), H = Number(opt("height", 720));
 const settledFrames = Number(opt("settled-frames", 300)), settleFloor = Number(opt("settle-floor", 60));
 const readyTimeoutS = Number(opt("ready-timeout", 90)), captureTimeoutS = Number(opt("capture-timeout", 180));
-const heapProfileAll = args.includes("--heap-profile");
+const heapProfileAll = args.includes("--heap-profile"), cpuProfile = args.includes("--cpu-profile");
+// a studio view without rate= runs a paused clock: not a game-speed measurement (diag10 T9)
+const paused = pausedClockViews(views);
+if (paused.length && !args.includes("--allow-paused")) { console.error(`pod-capture: views without rate= (paused clock): ${paused.join(", ")}; add rate=0.5 or pass --allow-paused`); process.exit(2); }
 
 const CDP_TIMEOUT_MS = 30_000;          // a CDP call that does not answer in this long has stopped answering
 const GC_TIMEOUT_MS = 10_000;           // a forced GC on a busy page; one timeout turns the view's forced GCs off
 const HEAP_SAMPLE_EVERY_S = 10;         // post-GC heap sample interval during a view
 const PING_TIMEOUT_MS = 10_000;         // Browser.getVersion health check between views
 const CHROME_RESTART_TIMEOUT_MS = 180_000; // pod-setup.sh restart of the pod Chrome
+const ADAPTER_WAIT_MS = 20_000;         // after every (re)connect, navigator.gpu.requestAdapter() must answer within this
 const chromeMode = opt("chrome-mode", "webgpu");
 
 let tunnel = null;
@@ -118,6 +129,7 @@ if (pod) {
 }
 const cdpHttp = (tunnel ? `http://127.0.0.1:${tunnel.localPort}` : opt("cdp", process.env.CHROME_CDP ?? "http://127.0.0.1:9222")).replace(/\/$/, "");
 
+const all = { cdp: cdpHttp, startedAt: new Date().toISOString(), cap: null, orphansClosed: 0, recoveries: 0, adapterWaits: [], firstCaptureAt: null, prep: null, views: [] };
 // The browser websocket (Target.*), open for the whole run; reopened after a Chrome restart (recoverChrome).
 let bws = null, bNext = 0; const bPending = new Map();
 async function connectBrowser() {
@@ -125,8 +137,32 @@ async function connectBrowser() {
   await new Promise((r, j) => { bws.onopen = r; bws.onerror = j; });
   bws.onmessage = (e) => { const m = JSON.parse(e.data); if (m.id) { bPending.get(m.id)?.(m); bPending.delete(m.id); } };
   bws.onclose = () => { for (const f of bPending.values()) f({ error: { message: "browser closed" } }); bPending.clear(); };
+  if (chromeMode === "webgpu") all.adapterWaits.push(await waitAdapter());
 }
-await connectBrowser();
+/** diag10 D5: right after a pod Chrome start the GPU process had no WebGPU adapter yet and the first view silently ran
+ * WebGL2. Poll requestAdapter() on a throwaway about:blank page until it answers (ADAPTER_WAIT_MS). */
+async function waitAdapter() {
+  const t0 = Date.now();
+  let targetId = null, pws = null, id = 0;
+  try {
+    ({ targetId } = await bsend("Target.createTarget", { url: "about:blank", background: true }));
+    pws = new WebSocket(pageWs(targetId));
+    await new Promise((r, j) => { pws.onopen = r; pws.onerror = j; });
+    const waiting = new Map();
+    pws.onmessage = (e) => { const m = JSON.parse(e.data); waiting.get(m.id)?.(m); waiting.delete(m.id); };
+    const ev = () => new Promise((res) => {
+      const k = ++id, t = setTimeout(() => res(false), 5000);
+      waiting.set(k, (m) => { clearTimeout(t); res(m.result?.result?.value === true); });
+      pws.send(JSON.stringify({ id: k, method: "Runtime.evaluate", params: { expression: ADAPTER_JS, awaitPromise: true, returnByValue: true } }));
+    });
+    while (Date.now() - t0 < ADAPTER_WAIT_MS) {
+      if (await ev()) return { ok: true, ms: Date.now() - t0 };
+      await new Promise((r) => setTimeout(r, 1000));
+    }
+    return { ok: false, ms: Date.now() - t0 };
+  } catch (e) { return { ok: false, ms: Date.now() - t0, error: String(e.message) }; }
+  finally { try { pws?.close(); } catch { /* gone */ } if (targetId) await bsend("Target.closeTarget", { targetId }).catch(() => {}); }
+}
 const bsend = (method, params = {}, timeoutMs = CDP_TIMEOUT_MS) => new Promise((res, rej) => {
   const id = ++bNext; const t = setTimeout(() => { bPending.delete(id); rej(new Error(`${method} timed out`)); }, timeoutMs);
   bPending.set(id, (m) => { clearTimeout(t); m.error ? rej(new Error(`${method}: ${m.error.message}`)) : res(m.result); });
@@ -146,6 +182,7 @@ async function recoverChrome() {
   all.recoveries++;
 }
 const pageWs = (targetId) => `${cdpHttp.replace(/^http/, "ws")}/devtools/page/${targetId}`;
+await connectBrowser();
 
 // init script: perf HUD open; rAF counters; renderer/context census; GPU errors from every device; measure.mjs's per-frame work probe
 const INIT = `(() => {
@@ -296,7 +333,12 @@ async function costWindow(dir, atS, heapProfile = false) {
   traceEv = []; const done = new Promise((r) => { traceDone = r; });
   let traced = true;
   try { await send("Tracing.start", { traceConfig: { includedCategories: TRACE_CATEGORIES, recordMode: "recordContinuously" }, transferMode: "ReportEvents" }); } catch { traced = false; }
+  // --cpu-profile (diag10 D2): V8 sampling profile at 200 us over the window; off while a --profile span is running
+  let cpu = cpuProfile;
+  if (cpu) { try { await send("Profiler.enable"); await send("Profiler.setSamplingInterval", { interval: 200 }); await send("Profiler.start"); } catch { cpu = false; } }
   await new Promise((r) => setTimeout(r, windowS * 1000));
+  let cpuProf = null;
+  if (cpu) { try { cpuProf = (await send("Profiler.stop", {}, 60_000)).profile; writeFileSync(join(dir, "window.cpuprofile"), JSON.stringify(cpuProf)); } catch (e) { cpuProf = { error: String(e.message) }; } }
   const raw = await evaluate(`(() => { const l = window.__GPU_LANE__; if (!l) return null; l.on = false;
     return { wrapMs: l.wrapMs, frames: l.frames.map((f) => ({ t: f.stamp, work: Math.max(f.end, f.msg) - f.start, gpu: f.gpu })) }; })()`, 30_000);
   const heapLine = heapFit(await evaluate(`(() => { clearInterval(window.__HEAPI); return window.__HEAPS ?? []; })()`));
@@ -327,7 +369,8 @@ async function costWindow(dir, atS, heapProfile = false) {
     work = { ...w, wrapperMsPerFrame: raw.frames.length ? Math.round((raw.wrapMs / raw.frames.length) * 100) / 100 : null,
       wallFps: r1(raw.frames.length / windowS), low1: onePercentLow(dts) };
   }
-  return { at: atS, seconds: windowS, work, stages, hitches, heapTop: heap, heap: { fitMBPerMin: heapLine.mbPerMin, samples: heapLine.n, majorGCs, allocMBps } };
+  const cpuTopRes = !cpuProf ? null : cpuProf.error ? { error: cpuProf.error } : cpuTop(cpuProf, raw?.frames?.length ?? null, 25);
+  return { at: atS, seconds: windowS, work, stages, cpuTop: cpuTopRes, hitches, heapTop: heap, heap: { fitMBPerMin: heapLine.mbPerMin, samples: heapLine.n, majorGCs, allocMBps } };
 }
 
 async function captureView(view) {
@@ -473,7 +516,6 @@ const writeAll = () => {
   writeFileSync(join(out, "result.json"), JSON.stringify(all, null, 1));
   writeFileSync(join(out, "summary.md"), `${summaryTable(all.views, all.cap, all.prep?.steps ? all.prep : null)}\n`);
 };
-const all = { cdp: cdpHttp, startedAt: new Date().toISOString(), cap: null, orphansClosed: 0, recoveries: 0, firstCaptureAt: null, prep: null, views: [] };
 let sentinel = null;
 try {
   sentinel = (await bsend("Target.createTarget", { url: "about:blank", background: true })).targetId;
@@ -489,6 +531,15 @@ try {
       // a view that never opened its page is run again on the fresh Chrome; one that ran keeps its partial result
       if (/createBrowserContext|createTarget/.test(r.error)) r = await captureView(v);
       r.recovered = true;
+      writeFileSync(join(out, v.name, "result.json"), JSON.stringify(r, null, 1));
+    }
+    // diag10 D5: a WebGPU view that ran another backend is retried once after an adapter re-check, then failed "no-webgpu"
+    if (backendFailure(v, r)) {
+      const wait = await waitAdapter();
+      all.adapterWaits.push({ ...wait, before: v.name });
+      const retry = await captureView(v);
+      r = backendFailure(v, retry) ? { ...retry, failed: "no-webgpu", retried: true } : { ...retry, retried: true };
+      r.summary = summariseView(r);
       writeFileSync(join(out, v.name, "result.json"), JSON.stringify(r, null, 1));
     }
     all.views.push(r);

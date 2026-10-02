@@ -156,6 +156,13 @@ TREE_WRITE = re.compile(
     r"show\s+\S*:\S+\s*>(?!\s*/tmp/|\s*/dev/null|\s*\$TMPDIR|\s*\"?\$\{?TMP))")
 
 
+# Killing by pattern or a stranger's pid (2026-10-02: a child's `pkill -f pod-capture.mjs`
+# killed another lane's captures). Allowed: `kill <pid>` beside a pid file of the
+# caller's own job, `kill -0`, and job_guard.sh --stop.
+KILL = re.compile(r"(^|[;&|(\n]\s*|\bsudo\s+|\bxargs\s+)(rtk\s+)?(pkill|killall|kill\s+-9\s+-1\b|kill\s+(?!-0\b)(-\S+\s+)*[\d$`\"'])")
+OWN_JOB = re.compile(r"job_guard\.sh\s+--stop\s|/tmp/[\w.-]+/[^\s;&|]*\.pid|tooling/\.reports/job-guard/")
+
+
 def main():
     try:
         d = json.load(sys.stdin)
@@ -166,6 +173,13 @@ def main():
     cmd = (d.get("tool_input") or {}).get("command", "")
     # the harness adds agent_id/agent_type to a subagent's hook input (verified 2026-09-19)
     is_sub = bool(d.get("agent_id")) or bool(d.get("agent_type"))
+    k = KILL.search(strip_data_heredocs(cmd))
+    if k and not (OWN_JOB.search(cmd) and not re.search(r"pkill|killall|-9\s+-1\b", k.group(0))):
+        sys.stderr.write(
+            "[shell guard] never kill by pattern: stop your own job with "
+            "`tooling/repo-standards/job_guard.sh --stop <lane>` (kills only that lane's scope); "
+            "another lane's job is its lead's to stop\n")
+        return 2
     if SLEEP.search(cmd):
         sys.stderr.write(
             "[shell guard, owner 2026-09-25] no agent runs `sleep`. A heavy job waits for room inside "

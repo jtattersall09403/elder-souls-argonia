@@ -811,7 +811,12 @@ export function SettlementLayer({
       for (const [id, texture] of textures) {
         texture.colorSpace = THREE.SRGBColorSpace;
         if (cancelled) { texture.dispose(); continue; }
-        lightFixtures.setFlameTexture(texture, id);   // disposes the one it replaces
+        // disposes the one it replaces; shown once both draws are linked
+        // (the flames draw in the scene pass, the bloom copy into the bloom target)
+        void lightFixtures.setFlameTexture(texture, id, (flame, bloom) => Promise.all([
+          linker.link({ object: flame }, sceneCamera),
+          linker.link({ object: bloom, pass: "target" }, sceneCamera),
+        ]));
       }
     }).catch((error: unknown) => {
       if (!cancelled) setEffectError("flame", `settlement flame texture failed: ${describeLoadError(error)}`);

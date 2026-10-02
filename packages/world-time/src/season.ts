@@ -55,8 +55,10 @@ export function seasonScalar(yearDay: number): number {
   const d = ((yearDay - 1) % DAYS_PER_YEAR + DAYS_PER_YEAR) % DAYS_PER_YEAR + 1;
   const n = CURVE.length;
   for (let i = 0; i < n; i += 1) {
-    const [d0, s0] = CURVE[i];
-    const [d1raw, s1] = CURVE[(i + 1) % n];
+    // Indexed, never destructured: read per frame by the water level (perf10 K1).
+    const d0 = CURVE[i][0], s0 = CURVE[i][1];
+    const next = CURVE[(i + 1) % n];
+    const d1raw = next[0], s1 = next[1];
     const d1 = i + 1 < n ? d1raw : d1raw + DAYS_PER_YEAR;
     const dd = i + 1 < n ? d : d < d0 ? d + DAYS_PER_YEAR : d;
     if (dd >= d0 && dd <= d1) {

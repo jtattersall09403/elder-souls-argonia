@@ -29,3 +29,20 @@ describe("makeChunkHeightSampler (0102 round 2)", () => {
     expect(makeChunkHeightSampler(store([grid("1", 17, 12)]), MANIFEST, 1)(40, 16)).toBeNaN();
   });
 });
+
+describe("makeChunkHeightSampler lookups (diag9 A3)", () => {
+  it("probes the store once per chunk per pass, and again after reset", () => {
+    const grids = [grid("4", 5, 10)];
+    let probes = 0;
+    const counting = { loaded: (_cx: number, _cy: number, lod: string) => {
+      probes++; return grids.find((g) => g.lod === lod);
+    } } as unknown as ChunkStore;
+    const sample = makeChunkHeightSampler(counting, MANIFEST, 1);
+    for (let i = 0; i < 1000; i++) sample(16, 16);
+    expect(probes).toBe(3);                    // lods 1, 2 miss, 4 hits: once
+    grids.push(grid("1", 17, 12));             // a finer raster streams in
+    expect(sample(16, 16)).toBeCloseTo(10, 5); // held until the next pass
+    sample.reset();
+    expect(sample(16, 16)).toBeCloseTo(12, 5);
+  });
+});

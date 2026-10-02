@@ -96,39 +96,60 @@ export interface OcclusionUnit {
   corners: readonly OcclusionPoint[];
 }
 
+/** Where a renderer hands its far draw units to the owner's one sweep. */
+export interface OcclusionRegistry {
+  register: (key: string, mesh: { visible: boolean }, box: THREE.Box3) => void;
+  unregister: (key: string) => void;
+}
+
 /**
- * One cadence pass spread over frames (perf10 O5: every chunk on the cadence
- * frame was a 4.5-7 ms hitch). `start` snapshots the eye and the units; each
- * `step` tests at most `perFrame` of them from that eye and returns the pass's
- * hidden count when the pass completes, else null. A unit keeps its last
- * verdict until its turn, so the visible result is the whole-pass one a few
- * frames later. One closure per consumer; the unit list is reused.
+ * One cadence pass spread over frames under a per-frame time budget (perf10
+ * O5; diag9 W1: a whole pass on the cadence frame was a 34 ms walk hitch).
+ * `start` snapshots the eye and the units; each `step` tests units in batches
+ * of `batch`, reads the clock once per batch and stops once `budgetMs` is
+ * spent (at least one batch per frame, so a pass always finishes). Verdicts
+ * are held until the pass completes and then applied together, so the old
+ * result stays on screen until the new one is whole (no half-pass pop).
+ * `step` returns the pass's hidden count on the frame it applies, else null.
+ * A `start` mid-pass restarts the pass from the new eye. One closure per
+ * consumer; the queue and the verdict buffer are reused.
  */
-export function createOcclusionSweep(perFrame = 4): {
+export function createOcclusionSweep(opts?: {
+  budgetMs?: number; batch?: number; now?: () => number;
+}): {
   start: (eye: OcclusionPoint, units: Iterable<OcclusionUnit>) => void;
   step: (heightAt: (x: number, z: number) => number) => number | null;
 } {
+  const budgetMs = opts?.budgetMs ?? 1.0;
+  const batch = Math.max(1, opts?.batch ?? 4);
+  const now = opts?.now ?? (() => performance.now());
   const queue: OcclusionUnit[] = [];
+  let verdicts = new Uint8Array(64);
   const eye = { x: 0, y: 0, z: 0 };
-  let next = 0; let hidden = 0;
+  let next = 0; let hidden = 0; let active = false;
   return {
     start(at, units) {
       eye.x = at.x; eye.y = at.y; eye.z = at.z;
       queue.length = 0;
       for (const unit of units) queue.push(unit);
-      next = 0; hidden = 0;
+      if (verdicts.length < queue.length) verdicts = new Uint8Array(queue.length * 2);
+      next = 0; hidden = 0; active = true;
     },
     step(heightAt) {
-      if (next >= queue.length) return null;
-      const end = Math.min(queue.length, next + perFrame);
-      for (; next < end; next++) {
-        const unit = queue[next];
-        const out = hiddenBehindTerrain(eye, unit.corners, heightAt);
-        if (out) hidden++;
-        unit.mesh.visible = !out;
+      if (!active) return null;
+      const t0 = now();
+      while (next < queue.length) {
+        const end = Math.min(queue.length, next + batch);
+        for (; next < end; next++) {
+          const out = hiddenBehindTerrain(eye, queue[next].corners, heightAt);
+          verdicts[next] = out ? 1 : 0;
+          if (out) hidden++;
+        }
+        if (now() - t0 >= budgetMs) break;
       }
       if (next < queue.length) return null;
-      queue.length = 0; next = 0;
+      for (let i = 0; i < queue.length; i++) queue[i].mesh.visible = verdicts[i] === 0;
+      queue.length = 0; next = 0; active = false;
       return hidden;
     },
   };

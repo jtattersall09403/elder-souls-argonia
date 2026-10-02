@@ -16,8 +16,9 @@
  *   - `setCandidate` / `setCandidateRange` when copies are handed rows,
  *     `clearCandidate` / `clearCandidateRange` when they are given back,
  *   - `removeDraw` before the mesh is pooled or disposed (it detaches the
- *     mesh from the page's shared buffers, so disposing the mesh's geometry
- *     never frees them),
+ *     mesh from the page's shared buffers; those are marked page-owned and
+ *     the renderer's store refuses to delete them, so disposing a member's
+ *     geometry never frees them, whatever three's cached lists still hold),
  *   - `update` once a frame before render, `refreshCounts` every few frames.
  */
 import * as THREE from "three";
@@ -67,6 +68,36 @@ export function cullSphereOf(geometry: THREE.BufferGeometry, material: THREE.Mat
   return geometry.boundingSphere!;
 }
 
+/** The renderer's attribute store (three 0.184 `Renderer._attributes`). */
+interface AttributeStore { delete(attribute: object): unknown; esPageGuard?: boolean }
+
+/** Marks a page buffer; the guarded store will not delete a marked buffer. */
+const PAGE_OWNED = "esPageOwned";
+
+/**
+ * Make this renderer's attribute store refuse to delete a page-owned buffer.
+ *
+ * three's geometry dispose handler (Geometries.js onDispose) deletes every
+ * attribute in the render object's CACHED attribute list (RenderObject
+ * `getAttributes`), which for a hidden, released member still names the
+ * page's `esSlot`, matrices and payloads even after `removeDraw` swapped
+ * stand-ins in. Deleting them unset a vertex slot of every other draw on the
+ * page ("Vertex buffer slot N ... not set ... DrawIndexedIndirect", the
+ * submit rejected, a black frame; webgpu diag10 D3). Per renderer instance,
+ * once; the page frees its own buffers in `releasePage`.
+ */
+export function guardPageBuffers(renderer: WebGPURenderer): AttributeStore | null {
+  const store = (renderer as unknown as { _attributes?: AttributeStore | null })._attributes;
+  if (!store) return null;
+  if (!store.esPageGuard) {
+    const del = store.delete.bind(store);
+    store.delete = (attribute: object) =>
+      (attribute as Record<string, unknown>)[PAGE_OWNED] ? null : del(attribute);
+    store.esPageGuard = true;
+  }
+  return store;
+}
+
 export class GpuCullPool {
   static supported = GpuCullSystem.supported;
 
@@ -75,6 +106,8 @@ export class GpuCullPool {
   private readonly pageRows: number;
   private readonly pageDraws: number;
   private reading = false;
+  /** The guarded attribute store, set by the first `update`. */
+  private store: AttributeStore | null = null;
 
   constructor(readonly options: GpuCullPoolOptions) {
     this.pageRows = options.pageRows ?? 1 << 16;
@@ -93,6 +126,7 @@ export class GpuCullPool {
       lodFade: this.options.lodFade,
       payloads: this.options.payloads,
     });
+    for (const b of system.sharedBuffers) (b as unknown as Record<string, unknown>)[PAGE_OWNED] = true;
     this.pages.push(system);
     this.draws.set(system, new Set());
     const draw = system.addDraw(mesh, opts);
@@ -161,12 +195,23 @@ export class GpuCullPool {
       const i = this.pages.indexOf(d.system);
       if (i >= 0) this.pages.splice(i, 1);
       this.draws.delete(d.system);
-      d.system.dispose();
+      this.releasePage(d.system);
     }
+  }
+
+  /** Free a page: its buffers lose the page mark and are deleted here, the
+   * one place they leave the pool. */
+  private releasePage(system: GpuCullSystem): void {
+    for (const b of system.sharedBuffers) {
+      delete (b as unknown as Record<string, unknown>)[PAGE_OWNED];
+      this.store?.delete(b);
+    }
+    system.dispose();
   }
 
   /** Dispatch every page's reset + cull, once, before this frame's render. */
   update(renderer: WebGPURenderer, camera: THREE.Camera, sweep: SunSweep | null): void {
+    this.store ??= guardPageBuffers(renderer);
     const nodes: unknown[] = [];
     for (const system of this.pages) {
       if (system.drawCount > 0) nodes.push(...system.prepare(camera, sweep));
@@ -213,7 +258,7 @@ export class GpuCullPool {
   }
 
   dispose(): void {
-    for (const system of this.pages) system.dispose();
+    for (const system of this.pages) this.releasePage(system);
     this.pages.length = 0;
     this.draws.clear();
   }

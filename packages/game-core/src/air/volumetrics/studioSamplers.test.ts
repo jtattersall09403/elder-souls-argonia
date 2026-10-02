@@ -10,7 +10,8 @@ const dry: WeatherProbe = { rain: 0, cloud: 0, windSpeedMS: 0 };
 
 describe("studioTerrainSamplers", () => {
   const water: WaterRecordQuery = {
-    sampleBoundary: (x) => (x < 0 ? { depth: 2, surfaceHeight: 3 } : { depth: 0, surfaceHeight: -1 }),
+    levelOffsets: () => ({ tide: 0, season: 0 }),
+    sampleBoundary: (x, _z, _levels, out) => Object.assign(out, x < 0 ? { depth: 2, surfaceHeight: 3 } : { depth: 0, surfaceHeight: -1 }),
     data: { sample: (x) => ({ className: x < -100 ? "coast" : x < 0 ? "river" : x < 50 ? "marsh" : "none" }) },
   };
   const s = studioTerrainSamplers({ groundHeight: () => 5, water: () => water, epochMinutes: () => 0 });

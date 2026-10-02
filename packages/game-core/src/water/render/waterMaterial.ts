@@ -21,7 +21,7 @@ import { esShoreFroth } from "./shoreFroth";
 import {
   esAlongPhase, esDetailGrad, esFbm, esFetchAt, esFetchExp, esFlowWave, esHash21, esOutside, esSeaRms,
   esShoreAt, esShoreSwell, esStandingRatio, esSurfEnergy, esSurfFoam, esSwash, esTideResponse, esWaveExposure,
-  esWaveSampleEx, esColourAt, makeSurfaceAt, placeholderTexture, sel,
+  esWaveFrag, esWaveSampleEx, esColourAt, makeSurfaceAt, placeholderTexture, sel,
 } from "./waterNodes";
 import * as TSLNS from "three/tsl";
 import { sharedUniform } from "../../render/nodes/sharedUniform";
@@ -74,6 +74,10 @@ export interface WaterTier {
   godRays: boolean;
   ripples: boolean;
   waveBands: number;
+  /** The surface grid's uniform cell (m), the one source WaterSurface builds
+   * from: bands under ~2x this leave the vertex path for the fragment
+   * (perf-diag9 V1, `vertexBandWeight`). */
+  gridCellM: number;
   rtScale: number;
   samples: number;
 }
@@ -81,8 +85,8 @@ export interface WaterTier {
 export const WATER_TIERS: Record<"low" | "high", WaterTier> = {
   // samples stay 0: a multisampled half-float RT costs serious VRAM/bandwidth
   // (owner round 1 perf); water/overlay edges still get the canvas MSAA.
-  high: { name: "high", ssr: true, godRays: true, ripples: true, waveBands: WAVES.bands, rtScale: 0.9, samples: 0 },
-  low: { name: "low", ssr: false, godRays: false, ripples: true, waveBands: WAVES.lowTierBands, rtScale: 0.75, samples: 0 },
+  high: { name: "high", ssr: true, godRays: true, ripples: true, waveBands: WAVES.bands, gridCellM: 2.6, rtScale: 0.9, samples: 0 },
+  low: { name: "low", ssr: false, godRays: false, ripples: true, waveBands: WAVES.lowTierBands, gridCellM: 3.6, rtScale: 0.75, samples: 0 },
 };
 
 export const WATER_LAYER = 3;
@@ -678,9 +682,12 @@ export function createWaterMaterial(
   const exposure = strip ? float(0.05) : n(esWaveExposure(shore, vDepth, turbV));
   const camDist = distance(n(cameraPosition).xz, restW.xz);
   const waveAmp = n(n(exposure).mul(esSeaRms(u.uWindMS, fetchM)).toVar());
-  const wave = esWaveSampleEx(restW.xz, waveAmp, fetchM, esStandingRatio(classes, kl.r.mul(255.0), shore), u.uWaveTime, tier.waveBands);
+  const standW = n(n(esStandingRatio(classes, kl.r.mul(255.0), shore)).toVar());
+  const wave = esWaveSampleEx(restW.xz, waveAmp, fetchM, standW, u.uWaveTime, tier.waveBands, tier.gridCellM);
   // below 0.0005 amplitude the GLSL skipped the spectrum (flat, up)
   const live = waveAmp.greaterThan(0.0005);
+  // wave amp, fetch, standing: the fragment's short bands (perf-diag9 V1)
+  const vEsWaveIn = n(varying(vec3(sel(live, waveAmp, float(0.0)), fetchM, sel(live, standW, float(0.0))), "vEsWaveIn"));
   const wDisp = n(n(sel(live, wave.disp, vec3(0.0))).toVar());
   let wNormal = n(n(sel(live, wave.normal, vec3(0.0, 1.0, 0.0))).toVar());
   wNormal = n(normalize(vec3(wNormal.x.add(shoreDir.x.mul(swellDHdd)), wNormal.y, wNormal.z.add(shoreDir.y.mul(swellDHdd)))));
@@ -703,7 +710,9 @@ export function createWaterMaterial(
     dropSlope = sel(flowSp.greaterThan(FLOW_MIN), clamp(surf.x.sub(downAt.x).div(7.0), 0.0, 1.0), float(0.0));
   }
   const vEsSurf = n(varying(vec4(fetch, shoreDir, surfE), "vEsSurf"));
-  const vEsData = n(varying(vec4(still, vDepth, exposure, shore), "vEsData"));
+  // the vertex still level (m): lift and crest base; depth, shore and
+  // exposure are per pixel (perf-diag4 V2)
+  const vEsStill = n(varying(still, "vEsStill"));
   const vEsKlass = n(varying(vec4(kl.g, kl.b, ss.z, kl.r.mul(255.0)), "vEsKlass"));
   const vEsColour = n(varying(esColourAt(u, restW.xz), "vEsColour"));
   const vEsFlow = n(varying(vec3(flowV, dropSlope), "vEsFlow"));
@@ -719,15 +728,30 @@ export function createWaterMaterial(
   const wp = n(positionWorld);
   const wpXZ = wp.xz;
   let guard: TslNode = float(1.0);
+  // Depth, shore distance and exposure PER PIXEL (perf-diag4 V2): read from
+  // varyings they were one plane per triangle, and the foam thresholds over
+  // them printed straight-edged pale triangles along the mesh grid. A strip
+  // keeps the vertex values (narrow water: ripples, never swell).
+  let depthPx: TslNode = strip ? varying(vDepth, "vEsDepth") : float(0.0);
+  let shorePx: TslNode = strip ? varying(shore, "vEsShore") : float(0.0);
+  let expoPx: TslNode = float(0.05);
   if (!strip) {
     // Decision 0047: the raster only guards against BURIED surface; the
     // visible edge is the terrain under the hardware depth test. Coverage
     // terms folded into esCover, never a hard cut (audit mechanisms 1-4).
     const fs = n(surfaceAtF(wpXZ));
-    const lift = vEsData.x.sub(fs.x);
+    const lift = vEsStill.sub(fs.x);   // tide + season + surf at this pixel
+    depthPx = n(n(fs.y.add(lift)).toVar());
+    let sPx = n(n(esShoreAt(u, wpXZ)).toVar());
+    // past the border on a land / inland edge texel: the vertex stage's apron rule
+    const beyondPx = n(u.uHasApron).greaterThan(0.5).and(esOutside(u, wpXZ))
+      .and(n(esTideResponse(classes, vEsKlass.w)).lessThan(0.5));
+    sPx = n(sel(beyondPx, vec3(u.uSurfShoreMax, 0.0, 0.0), sPx));
+    shorePx = n(sPx.x.toVar());
+    expoPx = n(n(esWaveExposure(shorePx, depthPx, max(vEsKlass.x, sPx.z))).toVar());
     const guardDist = distance(cameraPosition, wp);
     const floorM = max(n(guardDist).mul(-fx(BURIED_GUARD.perMetre, 4)).add(fx(BURIED_GUARD.nearM, 2)), fx(BURIED_GUARD.floorM, 2));
-    guard = n(smoothstep(n(floorM).sub(fx(BURIED_GUARD.fadeM, 2)), floorM, fs.y.add(lift)));
+    guard = n(smoothstep(n(floorM).sub(fx(BURIED_GUARD.fadeM, 2)), floorM, depthPx));
     const ge = u.uSurfMpp;
     const gw = n(vec2(
       n(surfaceAtF(wpXZ.add(vec2(ge, 0.0)))).x.sub(n(surfaceAtF(wpXZ.sub(vec2(ge, 0.0)))).x),
@@ -754,7 +778,7 @@ export function createWaterMaterial(
   const dist = n(n(distance(cameraPosition, wp)).toVar());
   const detFade = n(n(exp(dist.mul(-0.010))).toVar());
   const farFade = n(n(exp(dist.mul(-0.0025))).toVar());
-  const detStrength = vEsData.z.mul(0.10).add(0.10).add(n(min(speed, 1.0)).mul(0.05))
+  const detStrength = n(expoPx).mul(0.10).add(0.10).add(n(min(speed, 1.0)).mul(0.05))
     .mul(farFade.mul(0.8).add(0.2)).mul(cascade.mul(2.5).add(1.0));
   const flowing = speed.greaterThan(FLOW_MIN);
   const stillDrift = clamp(n(u.uWindMS).mul(0.06).add(0.15), 0.5, 1.5);
@@ -813,6 +837,18 @@ export function createWaterMaterial(
       return o;
     })().toVar());
   }
+  // short Gerstner bands the grid cannot carry (perf-diag9 V1): slope per
+  // pixel in xy, faded where a pixel spans several wavelengths; z is their
+  // height, which makes the foam crest non-planar inside a triangle
+  const waveF = n(Fn(() => {
+    const o = vec3(0.0).toVar();
+    If(vEsWaveIn.x.greaterThan(0.0005).and(dist.lessThan(400.0)), () => {
+      o.assign(n(esWaveFrag(wpXZ, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, u.uWaveTime, tier.waveBands, tier.gridCellM))
+        .mul(float(1.0).sub(smoothstep(120.0, 400.0, dist))));
+    });
+    return o;
+  })().toVar("esWaveF"));
+  rip = n(rip).add(waveF.xy);
   const nb = n(nBase);
   let nw = n(normalize(vec3(
     nb.x.sub(n(g).x.add(gF.x).mul(detStrength)).sub(n(rip).x).sub(n(rainG).x),
@@ -878,15 +914,15 @@ export function createWaterMaterial(
     const rUv = n(sel(rejected, screenUv, rUvRaw)).toVar("esRUV");
     const sceneEyeR = sel(rejected, sceneEye, sceneEyeRRaw);
     const thick = max(n(sceneEyeR).sub(fragEye), 0.0);
-    const colDepth = min(thick, n(max(vEsData.y, 0.05)).mul(4.0));
+    const colDepth = min(thick, n(max(depthPx, 0.05)).mul(4.0));
     const absorb = vec3(0.30, 0.10, 0.06).add(vec3(1.2, 1.7, 2.3).mul(turb)).add(vec3(2.2, 2.0, 4.6).mul(tan));
     const T = n(n(exp(n(absorb).negate().mul(colDepth))).toVar("esT"));
     let alb = n(n(mix(vec3(0.035, 0.115, 0.10), vec3(0.05, 0.14, 0.155), sal)).toVar());
     alb = n(mix(alb, vec3(0.115, 0.085, 0.048), clamp(turb, 0.0, 1.0)));
     alb = n(mix(alb, vec3(0.045, 0.065, 0.022), clamp(tan, 0.0, 1.0)));
     alb = n(mix(alb, vec3(0.16, 0.30, 0.10), algae.mul(0.55)));
-    const shoreD = vEsData.w;
-    const expo = vEsData.z;
+    const shoreD = n(shorePx);
+    const expo = n(expoPx);
     // 1. thin contact line
     const cn0 = n(n(esFbm(wpXZ.mul(1.3).add(3.0), 2)).toVar());
     let foamE = n(float(1.0).sub(smoothstep(0.0, fx(CONTACT_FOAM_M, 2), tv.add(cn0.sub(0.45).mul(0.10)))))
@@ -896,7 +932,9 @@ export function createWaterMaterial(
     foamE = foamE.add(n(esSurfFoam(shoreD.add(bn.mul(4.0)), vEsSurf.x, u.uWaveTime, vEsSurf.w,
       esAlongPhase(wpXZ, vEsSurf.yz, u.uWaveTime))).mul(0.85));
     // 3. whitecaps
-    const crestMesh = wp.y.div(max(u.uVerticalScale, 1e-3)).sub(vEsData.x);
+    // the mesh crest is one plane per triangle; the short bands' own height
+    // rides on top of it (perf-diag4 V2)
+    const crestMesh = wp.y.div(max(u.uVerticalScale, 1e-3)).sub(vEsStill).add(waveF.z);
     const crestFade = float(1.0).sub(smoothstep(1200.0, 2400.0, dist));
     const cp = n(n(wpXZ.sub(n(u.uWindDir).mul(fx(whitecapDriftMS(), 2)).mul(u.uTransportTime)).mul(0.085)).toVar());
     const cn = n(n(esFbm(cp, 3)).mul(0.5).add(n(esFbm(cp.mul(2.7).add(11.0), 2)).mul(0.5)).toVar());

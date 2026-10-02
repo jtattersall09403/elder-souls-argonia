@@ -29,10 +29,14 @@ vulkaninfo --summary 2>/dev/null | grep -E "deviceName|driverName|apiVersion" | 
 # presents to its canvas (pod run 1, 2026-10-01: four "destroyed" losses in 10 s), so screenshots
 # of the real frame need a real surface.
 command -v Xvfb >/dev/null || apt-get install -y -qq xvfb >/dev/null
+command -v xdpyinfo >/dev/null || apt-get install -y -qq x11-utils >/dev/null
 pkill -f "remote-debugging-port=9222" 2>/dev/null || true
 pkill Xvfb 2>/dev/null || true
 nohup Xvfb :99 -screen 0 1280x720x24 >/tmp/xvfb.log 2>&1 &
 export DISPLAY=:99
+# Chrome started before the X server answers gets no GPU adapter (diag10 D5: the first view ran WebGL2): wait for :99
+for _ in $(seq 1 50); do xdpyinfo -display :99 >/dev/null 2>&1 && break; sleep 0.2; done
+xdpyinfo -display :99 >/dev/null 2>&1 || { echo "Xvfb :99 did not answer"; tail -20 /tmp/xvfb.log; exit 1; }
 webgpu_flags=()
 [ "$renderer" = webgpu ] && webgpu_flags=(--enable-unsafe-webgpu --enable-features=Vulkan,UnsafeWebGPU)
 nohup google-chrome --no-sandbox --no-first-run --no-default-browser-check --user-data-dir=/tmp/chrome-profile --remote-debugging-port=9222 \

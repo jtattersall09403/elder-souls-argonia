@@ -72,7 +72,7 @@ describe("a place's pool answers the player's water query like shallow field wat
     expect(s.depth).toBeCloseTo(0.5, 6);
     expect(s.immersion).toBeCloseTo(immersionAt(2.95, top), 9);
     expect(s.immersion).toBeCloseTo(0.5 / IMMERSION_COLUMN_METRES, 6); // wading, below the swim threshold
-    expect(w.sampleBoundary(4719, 1868, 0).waterBodyId).toBe("pool.greenspring.spring");
+    expect(w.sampleBoundary(4719, 1868, w.levelOffsets(0), { waterBodyId: null, depth: 0, surfaceHeight: 0 }).waterBodyId).toBe("pool.greenspring.spring");
   });
 
   it("is dry outside the rim and where the ground stands above the level", () => {

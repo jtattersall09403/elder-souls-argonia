@@ -82,6 +82,8 @@ export function occludedByTerrain(
  */
 export class OcclusionCellCache {
   private readonly cells = new Map<number, boolean>();
+  /** The ray's target, reused per cell (diag9 A2: no object per test). */
+  private readonly target: OcclusionPoint = { x: 0, y: 0, z: 0 };
 
   constructor(
     private readonly eye: OcclusionPoint,
@@ -110,9 +112,9 @@ export class OcclusionCellCache {
     if (ground !== null) {
       const top =
         ground + Math.min(OCCLUSION_MAX_CANOPY_M, Math.max(0, this.canopyM));
-      result = occludedByTerrain(
-        this.eye, { x: centreX, y: top, z: centreZ }, this.groundAt,
-      );
+      const target = this.target;
+      target.x = centreX; target.y = top; target.z = centreZ;
+      result = occludedByTerrain(this.eye, target, this.groundAt);
     }
     this.cells.set(key, result);
     return result;

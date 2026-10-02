@@ -240,15 +240,16 @@ export function summariseView(r) {
     hitches: w.hitches ? `${w.hitches.over33}${hitchTop ? ` (${hitchTop})` : ""}` : null,
     errors: `${r.gpuErrors?.length ?? "?"}/${r.console?.filter(([k]) => k.startsWith("error")).length ?? "?"}/${r.pageErrors?.length ?? "?"}/${r.http404s ?? "?"}`,
     failed: r.failed ?? null, heapTop: w.heapTop?.length ? w.heapTop.slice(0, 3).map((h) => `${h.fn} ${h.selfMB} MB`).join("; ") : null,
+    cpuTop: w.cpuTop?.top?.length ? w.cpuTop.top.slice(0, 5).map((f) => `${f.fn.replace(/ \S*\/([^/ ]+)$/, " $1")} ${f.msPerFrame ?? f.selfMs}`).join("; ") : null,
     settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
   };
 }
 /** Markdown summary: one row per view from its result.json `summary` (`summariseView`). "from" names the window the rates
  * came from; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "failed", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s"];
+  const cols = ["view", "failed", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame"];
   const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
-    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps].map(cell));
+    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop].map(cell));
   return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), "",
     `| ${cols.join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.join(" | ")} |`)].join("\n");
 }
@@ -342,4 +343,47 @@ export function heapTop(profile, n = 25) {
   };
   if (profile?.head) walk(profile.head);
   return [...by].sort((a, b) => b[1] - a[1]).slice(0, n).map(([fn, b]) => ({ fn, selfMB: Math.round(b / 1e4) / 100 }));
+}
+
+/** Studio views whose URL has no `rate=` run a paused world clock, so their numbers are not game-speed measurements
+ * (diag10 T9). Returns the names of the non-plain views lacking it; pod-capture refuses them unless --allow-paused. */
+export function pausedClockViews(views) {
+  return views.filter((v) => !v.plain && !/[?&]rate=/.test(v.url)).map((v) => v.name);
+}
+
+/** True when the view asks for the WebGPU backend: `renderer=webgpu` in its URL, or `expectBackend: "webgpu"`. */
+export const wantsWebGPU = (view) => view.expectBackend === "webgpu" || /[?&]renderer=webgpu(&|$)/.test(view.url);
+
+/** The backend a view's page reported (settled read, else final, else any read), or null when none did. */
+export function reportedBackend(r) {
+  const reads = [r.reads?.settled, r.final, ...Object.values(r.reads ?? {})];
+  return reads.find((x) => x && typeof x.backend === "string")?.backend ?? null;
+}
+
+/** diag10 D5: a view that asked WebGPU but whose page ran another backend (no adapter after a Chrome start) is never a
+ * measurement. Returns "no-webgpu" when it must be retried (first try) or recorded failed, else null. */
+export function backendFailure(view, r) {
+  if (!wantsWebGPU(view) || r.failed) return null;
+  const b = reportedBackend(r);
+  return b && b !== "webgpu" ? "no-webgpu" : null;
+}
+
+/** Page JS for about:blank: resolves true once navigator.gpu.requestAdapter() returns an adapter. */
+export const ADAPTER_JS = `(async () => { try { return Boolean(await navigator.gpu?.requestAdapter()); } catch { return false; } })()`;
+
+/** CPU profile (Profiler.stop) over the cost window -> self ms per frame per function (url:line:col), top n, with the
+ * profile's sampled total. frames: frames in the window (the work probe's count); null leaves per-frame out. */
+export function cpuTop(profile, frames, n = 25) {
+  const nodes = new Map(profile.nodes.map((x) => [x.id, x.callFrame]));
+  const self = new Map();
+  let total = 0;
+  profile.samples.forEach((id, i) => {
+    const dt = profile.timeDeltas[i] ?? 0, c = nodes.get(id);
+    total += dt;
+    const k = `${c.functionName || "(anon)"} ${c.url || "(native)"}:${c.lineNumber}:${c.columnNumber}`;
+    self.set(k, (self.get(k) ?? 0) + dt);
+  });
+  const per = (us) => (frames > 0 ? Math.round(us / 1000 / frames * 1000) / 1000 : null);
+  return { frames: frames ?? null, sampledMs: Math.round(total / 1000), top: [...self].sort((a, b) => b[1] - a[1]).slice(0, n)
+    .map(([fn, us]) => ({ fn, selfMs: Math.round(us / 100) / 10, msPerFrame: per(us) })) };
 }

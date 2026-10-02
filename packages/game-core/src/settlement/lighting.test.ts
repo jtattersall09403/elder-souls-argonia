@@ -240,6 +240,29 @@ describe("light fixtures", () => {
     manager.dispose();
   });
 
+  it("keeps a sprite batch hidden until its warm links both draws with the texture bound (perf10 M5)", async () => {
+    const manager = new SettlementLightFixtures({ value: 1 });
+    const texture = new THREE.Texture();
+    let release!: () => void;
+    const warmed: { flame: THREE.Mesh; bloom: THREE.Mesh; map: THREE.Texture | null }[] = [];
+    const shown = manager.setFlameTexture(texture, "fx:candleflame01", (flame, bloom) => {
+      warmed.push({ flame, bloom, map: (flame.material as THREE.MeshBasicMaterial).map });
+      return new Promise<void>((resolve) => { release = resolve; });
+    });
+    const flames = manager.spriteMesh("fx:candleflame01")!;
+    const bloom = manager.group.getObjectByName(`${flames.name}:bloom`) as THREE.Mesh;
+    expect(warmed).toHaveLength(1);
+    expect(warmed[0].flame).toBe(flames);
+    expect(warmed[0].bloom).toBe(bloom);
+    expect(warmed[0].map).toBe(texture);   // the warm key is the draw key: map bound
+    expect([flames.visible, bloom.visible]).toEqual([false, false]);
+    release();
+    await shown;
+    // the batch is now textured; the per-frame update shows it while it draws a quad
+    expect((manager as unknown as { batches: Map<string, { textured: boolean }> }).batches.get("fx:candleflame01")?.textured).toBe(true);
+    manager.dispose();
+  });
+
   it("draws flames and glows on the post-water layer, untonemapped and premultiplied", () => {
     const manager = new SettlementLightFixtures({ value: 1 });
     manager.setFixtures(ring(1, 5));

@@ -262,3 +262,25 @@ test("needsChromeRestart: a stuck target or a failed context restarts Chrome; a 
   assert.equal(needsChromeRestart({ error: "Error: Runtime.evaluate timed out" }, false), true);
   assert.equal(needsChromeRestart({}, false), false);
 });
+
+import { pausedClockViews, backendFailure, cpuTop as cpuTopFn } from "./pod-capture-lib.mjs";
+test("pausedClockViews names studio views without rate=, skips plain pages", () => {
+  assert.deepEqual(pausedClockViews([{ name: "a", url: "http://x/?view=character&rate=0.5" }, { name: "b", url: "http://x/?view=character&t=12" }, { name: "c", url: "http://x/h.html", plain: true }]), ["b"]);
+});
+test("backendFailure: a WebGPU view on the WebGL backend is no-webgpu; others pass", () => {
+  const v = { name: "a", url: "http://x/?renderer=webgpu&rate=0.5" };
+  assert.equal(backendFailure(v, { reads: { settled: { backend: "webgl" } } }), "no-webgpu");
+  assert.equal(backendFailure(v, { reads: { settled: { backend: "webgpu" } } }), null);
+  assert.equal(backendFailure({ name: "b", url: "http://x/?renderer=webgl" }, { final: { backend: "webgl" } }), null);
+  assert.equal(backendFailure({ ...v, url: "http://x/", expectBackend: "webgpu" }, { final: { backend: "webgl" } }), "no-webgpu");
+  assert.equal(backendFailure(v, { failed: "not-ready", final: { backend: "webgl" } }), null);
+});
+test("cpuTop aggregates self time per url:line:col per frame from a fixture profile", () => {
+  const cf = (functionName, url, lineNumber) => ({ functionName, url, lineNumber, columnNumber: 3 });
+  const profile = { nodes: [{ id: 1, callFrame: cf("(root)", "", -1), children: [2, 3] }, { id: 2, callFrame: cf("draw", "http://h/assets/index.js", 10) }, { id: 3, callFrame: cf("cull", "http://h/assets/index.js", 20) }],
+    samples: [2, 2, 3, 2, 1], timeDeltas: [1000, 1000, 500, 1000, 200] };
+  const r = cpuTopFn(profile, 10, 2);
+  assert.equal(r.sampledMs, 4);
+  assert.deepEqual(r.top, [{ fn: "draw http://h/assets/index.js:10:3", selfMs: 3, msPerFrame: 0.3 }, { fn: "cull http://h/assets/index.js:20:3", selfMs: 0.5, msPerFrame: 0.05 }]);
+  assert.match(summariseView({ window: { cpuTop: r } }).cpuTop, /^draw index\.js:10:3 0\.3; cull index\.js:20:3 0\.05$/);
+});

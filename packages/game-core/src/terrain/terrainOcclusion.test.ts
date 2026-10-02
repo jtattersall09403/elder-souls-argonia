@@ -3,22 +3,57 @@ import * as THREE from "three";
 import { createOcclusionCadence, createOcclusionSweep, hiddenBehindTerrain, topCornersOfBox } from "./terrainOcclusion";
 
 describe("createOcclusionSweep", () => {
-  it("spreads one pass over frames, a few units each, with the same verdicts as one-shot", () => {
+  it("spreads one pass over frames under its budget and applies the one-shot verdicts at the end", () => {
     const ridge = (x: number) => (x > 400 && x < 500 ? 300 : 0);
     const units = Array.from({ length: 10 }, (_, i) => ({
       mesh: { visible: i % 2 === 0 ? false : true },
       corners: [{ x: i < 5 ? 1000 : 300 + i, y: 10, z: 0 }],
     }));
+    const before = units.map((u) => u.mesh.visible);
     const expected = units.map((u) => !hiddenBehindTerrain({ x: 0, y: 2, z: 0 }, u.corners, ridge));
-    const sweep = createOcclusionSweep(4);
+    // A fake clock that advances 1 ms per read: one batch of 4 exhausts a
+    // 1 ms budget, so each frame tests exactly one batch.
+    let t = 0;
+    const sweep = createOcclusionSweep({ budgetMs: 1, batch: 4, now: () => (t += 1) });
     expect(sweep.step(ridge)).toBeNull();            // no pass yet
     sweep.start({ x: 0, y: 2, z: 0 }, units);
     expect(sweep.step(ridge)).toBeNull();            // units 0-3
-    expect(units[4].mesh.visible).toBe(false);       // untouched until its turn
     expect(sweep.step(ridge)).toBeNull();            // 4-7
+    expect(units.map((u) => u.mesh.visible)).toEqual(before); // old result live mid-pass
     expect(sweep.step(ridge)).toBe(5);               // 8-9: pass done, 5 hidden
     expect(units.map((u) => u.mesh.visible)).toEqual(expected);
     expect(sweep.step(ridge)).toBeNull();
+  });
+
+  it("keeps one frame's step within its budget on a large grid and completes over K frames", () => {
+    const ridge = (x: number) => (x > 400 && x < 500 ? 300 : 0);
+    const units = Array.from({ length: 4000 }, (_, i) => ({
+      mesh: { visible: true },
+      corners: topCornersOfBox(new THREE.Box3(
+        new THREE.Vector3(200 + (i % 80) * 60, 0, Math.floor(i / 80) * 60 - 1500),
+        new THREE.Vector3(250 + (i % 80) * 60, 20, Math.floor(i / 80) * 60 - 1450))),
+    }));
+    const expected = units.map((u) => !hiddenBehindTerrain({ x: 0, y: 2, z: 0 }, u.corners, ridge));
+    // A clock charged per height sample (0.01 ms each), so the budget test is
+    // deterministic: the sweep reads only the clock, never the wall time.
+    const COST = 0.01;
+    let clock = 0;
+    const charged = (x: number) => { clock += COST; return ridge(x); };
+    const sweep = createOcclusionSweep({ budgetMs: 1, now: () => clock });
+    sweep.start({ x: 0, y: 2, z: 0 }, units);
+    let frames = 0; let worst = 0; let result: number | null = null;
+    while (result === null) {
+      const t0 = clock;
+      result = sweep.step(charged);
+      worst = Math.max(worst, clock - t0);
+      frames++;
+    }
+    expect(frames).toBeGreaterThan(10);
+    // The budget plus at most one 4-unit batch of overrun: 4 units x 5
+    // corners x <= 130 samples a corner (the march-cost bound below).
+    expect(worst).toBeLessThanOrEqual(1 + 4 * 5 * 130 * COST);
+    expect(result).toBe(expected.filter((v) => !v).length);
+    expect(units.map((u) => u.mesh.visible)).toEqual(expected);
   });
 });
 

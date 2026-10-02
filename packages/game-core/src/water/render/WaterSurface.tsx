@@ -24,6 +24,7 @@ import {
   MAX_PLUNGE_SOURCES,
   createWaterMaterial,
   createWaterUniforms,
+  WATER_TIERS,
   type WaterTier,
   type WaterUniforms,
 } from "./waterMaterial";
@@ -45,8 +46,9 @@ interface GridSpec {
 }
 
 const GRIDS: Record<"low" | "high", GridSpec> = {
-  high: { uniformCell: 2.6, uniformRadius: 260, n: 320, halfExtent: 30000 },
-  low: { uniformCell: 3.6, uniformRadius: 160, n: 208, halfExtent: 30000 },
+  // the cell is the tier's (waterMaterial WATER_TIERS): its wave bands are cut to it
+  high: { uniformCell: WATER_TIERS.high.gridCellM, uniformRadius: 260, n: 320, halfExtent: 30000 },
+  low: { uniformCell: WATER_TIERS.low.gridCellM, uniformRadius: 160, n: 208, halfExtent: 30000 },
 };
 
 /** Symmetric axis mapping: uniform centre, exponential fringe. */
@@ -326,9 +328,20 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
   const { gl, scene, camera } = useThree();
   const linker = useMemo(() => new DrawTargetLinker(gl as unknown as LinkingRenderer, scene), [gl, scene]);
   useEffect(() => { linker.attach(); return () => linker.detach(); }, [linker]);
-  useEffect(() => linker.linkWhenObserved(waterLinkWarms({
-    field: meshRef.current, fieldMaterials: materials, strips, pools, falls: falls?.mesh ?? null, bubbles,
-  }), camera), [linker, materials, strips, pools, falls, bubbles, camera]);
+  // The falls, strips and pools stay hidden until linked (`held`, read by the
+  // frame's visibility below); the rest link after the first scene pass.
+  const held = useRef(new Set<THREE.Object3D>());
+  useEffect(() => {
+    const warms = waterLinkWarms({
+      field: meshRef.current, fieldMaterials: materials, strips, pools, falls: falls?.mesh ?? null, bubbles,
+    });
+    const set = held.current;
+    const release = linker.holdUntilLinked(warms.held, camera, (object, on) => {
+      if (on) { set.add(object); object.visible = false; } else set.delete(object);
+    });
+    const cancel = linker.linkWhenObserved(warms.observed, camera);
+    return () => { release(); cancel(); };
+  }, [linker, materials, strips, pools, falls, bubbles, camera]);
   useEffect(() => () => geometry.dispose(), [geometry]);
 
   useMarkedFrame("surface", ({ camera, gl }, delta) => {
@@ -339,8 +352,9 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     // attribute a defect to ONE of them instead of guessing.
     const visible = runtime.waterLayers?.() ?? ALL_WATER_LAYERS;
     mesh.visible = visible.field;
-    if (strips) strips.mesh.visible = visible.strips;
-    if (falls) falls.mesh.visible = visible.falls;
+    if (strips) strips.mesh.visible = visible.strips && !held.current.has(strips.mesh);
+    if (pools) pools.mesh.visible = !held.current.has(pools.mesh);
+    if (falls) falls.mesh.visible = visible.falls && !held.current.has(falls.mesh);
     effects.object3d.visible = visible.effects;
     const cell = GRIDS[tier.name].uniformCell;
     mesh.position.set(

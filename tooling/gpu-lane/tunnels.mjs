@@ -4,6 +4,7 @@
  * Registry: $GPU_LANE_TUNNELS or /tmp/gpu-lane/tunnels.json, a list of {pid, purpose, localPort, remotePort, target, at}.
  *
  *   node tooling/gpu-lane/tunnels.mjs open --pod "ssh -i <key> -p <port> root@<ip>" [--local 9222] [--remote 9222] [--purpose cdp]
+ *   node tooling/gpu-lane/tunnels.mjs keep --pod "<ssh>" --local 9242 [--remote 9222]   (foreground; re-opens on every drop)
  *   node tooling/gpu-lane/tunnels.mjs list
  *   node tooling/gpu-lane/tunnels.mjs close [--purpose cdp]     (kills only recorded PIDs whose command line is still ssh)
  *
@@ -27,7 +28,7 @@ export function isOurSsh(pid) {
 export function tunnelArgs(pod, local, remote) {
   const parts = pod.trim().split(/\s+/);
   if (parts[0] !== "ssh" || parts.length < 2) throw new Error(`--pod wants "ssh [opts] user@host", got ${pod}`);
-  return [...parts.slice(1, -1), "-o", "StrictHostKeyChecking=no", "-o", "ServerAliveInterval=30", "-o", "ExitOnForwardFailure=yes",
+  return [...parts.slice(1, -1), "-o", "StrictHostKeyChecking=no", "-o", "ServerAliveInterval=15", "-o", "ServerAliveCountMax=4", "-o", "ExitOnForwardFailure=yes",
     "-N", "-L", `${local}:127.0.0.1:${remote}`, parts.at(-1)];
 }
 
@@ -54,6 +55,27 @@ export async function openTunnel({ pod, local, remote = 9222, purpose = "cdp", w
   throw new Error(`tunnel ${purpose} 127.0.0.1:${local} -> ${rec.target}:${remote} did not answer in ${waitMs} ms`);
 }
 
+/** Re-establish a dropped tunnel on the same local port: a live recorded ssh for that port whose CDP answers is
+ * kept; otherwise every recorded ssh for that port is closed and a new one opened. */
+export async function ensureTunnel({ pod, local, remote = 9222, purpose = "cdp", reg = registryPath() }) {
+  const live = load(reg).find((t) => t.localPort === local && isOurSsh(t.pid));
+  if (live && await fetch(`http://127.0.0.1:${local}/json/version`).then((r) => r.ok, () => false)) return live;
+  for (const t of load(reg).filter((x) => x.localPort === local)) closeTunnels({ pid: t.pid, reg });
+  return openTunnel({ pod, local, remote, purpose, reg });
+}
+
+/** Keep a tunnel up: check every everyMs and re-establish it on a drop. Returns stop(). */
+export function keepTunnel(args, everyMs = 10_000) {
+  let busy = false;
+  const h = setInterval(async () => {
+    if (busy) return;
+    busy = true;
+    try { await ensureTunnel(args); } catch { /* retried next tick */ }
+    busy = false;
+  }, everyMs);
+  return () => clearInterval(h);
+}
+
 /** Kill recorded tunnels (all, or those matching purpose / pid) and drop them and any dead entries from the registry. */
 export function closeTunnels({ purpose, pid, reg = registryPath(), kill = process.kill.bind(process), alive = isOurSsh } = {}) {
   const list = load(reg), keep = [], closed = [];
@@ -74,6 +96,12 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     if (!pod) { console.error("tunnels open: --pod or POD_SSH"); process.exit(2); }
     const t = await openTunnel({ pod, local: opt("local") && Number(opt("local")), remote: Number(opt("remote", 9222)), purpose: opt("purpose", "cdp") });
     console.log(JSON.stringify(t));
+  } else if (cmd === "keep") {
+    const pod = opt("pod", process.env.POD_SSH);
+    if (!pod || !opt("local")) { console.error("tunnels keep: --pod and --local"); process.exit(2); }
+    const args = { pod, local: Number(opt("local")), remote: Number(opt("remote", 9222)), purpose: opt("purpose", "cdp") };
+    console.log(JSON.stringify(await ensureTunnel(args)));
+    keepTunnel(args);
   } else if (cmd === "list") {
     for (const t of load(registryPath())) console.log(`${isOurSsh(t.pid) ? "up  " : "dead"} ${JSON.stringify(t)}`);
   } else if (cmd === "close") {

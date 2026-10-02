@@ -245,3 +245,4 @@ describe("whitewater strips (decision 0047 item 4)", () => {
     expect(stripStreakGain(2.5) * STREAK_LAYERS[0].rateMS).toBeCloseTo(2.5, 9);
   });
 });
+

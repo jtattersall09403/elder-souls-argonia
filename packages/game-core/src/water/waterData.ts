@@ -106,6 +106,12 @@ export interface WaterMeta {
   stats?: Record<string, unknown>;
 }
 
+/** A zeroed sample for a caller-owned `WaterData.sampleInto` scratch. */
+export function emptyStaticSample(): WaterStaticSample {
+  return { surfaceBase: 0, depthProxy: 0, flowX: 0, flowZ: 0, shoreDistM: 0, fetchM: 0, entityId: null,
+    classIndex: 0, className: "none", turbidity: 0, salinity: 0, seasonResponse: 0, tideResponse: 0 };
+}
+
 export interface WaterStaticSample {
   /** Still-water surface height before tide/season/waves (m). Over dry land
    * this is the buried surface (ground − buryM) — callers use `depthProxy`
@@ -378,7 +384,14 @@ export class WaterData {
     return this.depthAt(x, z, tideM, seasonM) > 0;
   }
 
+  /** A fresh sample; per-frame and per-texel callers use `sampleInto`. */
   sample(x: number, z: number): WaterStaticSample {
+    return this.sampleInto(x, z, emptyStaticSample());
+  }
+
+  /** Writes the sample at (x, z) into the caller-owned `out` and returns it:
+   * no allocation per call (perf10 M4: the ripple mask runs it per texel). */
+  sampleInto(x: number, z: number, out: WaterStaticSample): WaterStaticSample {
     const fm = this.meta.flow;
     const fx = Math.min(Math.max(Math.round(x / fm.metresPerPixel - 0.5), 0), fm.size - 1);
     const fz = Math.min(Math.max(Math.round(z / fm.metresPerPixel - 0.5), 0), fm.size - 1);
@@ -397,22 +410,18 @@ export class WaterData {
     const ki = (kz * km.size + kx) * 4;
     const classIndex = this.klass[ki];
     const className = km.classes[classIndex] ?? "none";
-    return {
-      surfaceBase: this.surfaceBase(x, z),
-      depthProxy: this.depthProxy(x, z),
-      flowX,
-      flowZ,
-      shoreDistM,
-      fetchM,
-      entityId: this.entityAt(x, z)?.id ?? null,
-      classIndex,
-      className,
-      turbidity: this.klass[ki + 1] / 255,
-      salinity: this.klass[ki + 2] / 255,
-      seasonResponse: this.season
-        ? this.bilinear(this.season, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z)
-        : 0,
-      tideResponse: tideResponseOfClass(this.klass[ki], this.meta.klass.classes ?? []),
-    };
+    out.surfaceBase = this.surfaceBase(x, z);
+    out.depthProxy = this.depthProxy(x, z);
+    out.flowX = flowX; out.flowZ = flowZ;
+    out.shoreDistM = shoreDistM; out.fetchM = fetchM;
+    out.entityId = this.entityAt(x, z)?.id ?? null;
+    out.classIndex = classIndex; out.className = className;
+    out.turbidity = this.klass[ki + 1] / 255;
+    out.salinity = this.klass[ki + 2] / 255;
+    out.seasonResponse = this.season
+      ? this.bilinear(this.season, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z)
+      : 0;
+    out.tideResponse = tideResponseOfClass(this.klass[ki], this.meta.klass.classes ?? []);
+    return out;
   }
 }

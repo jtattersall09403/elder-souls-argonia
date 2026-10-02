@@ -11,7 +11,7 @@ import { WaterInteractionStream } from "./interactionStream";
 import { WaterDisplacementRegistry } from "./displacementRegistry";
 import type { LocalWaterPatch } from "./LocalWaterPatch";
 import type { LocalWaterSurfaces } from "./localSurfaces";
-import type { WaterData } from "./waterData";
+import { emptyStaticSample, type WaterData } from "./waterData";
 import { immersionAt } from "../physics/waterSampler";
 import { FLOW_WAVE_MIN_SPEED_MS, alongShorePhase, fetchExposure, flowWaveAt, seaRmsHeightM, shoreSwellAt,
   standingWaveRatio, surfEnergyScale, surfaceWaveAt, swashAt, waveExposure, type WaveSample } from "./waves";
@@ -43,6 +43,15 @@ const CLASS_TEMPERATURE: Record<string, number> = {
   coast: 24, estuary: 25, river: 23, lake: 24, marsh: 27, none: 24,
 };
 
+/** What `sampleBoundary` writes into its caller's scratch record. */
+export interface BoundarySample {
+  waterBodyId: string | null;
+  depth: number;
+  surfaceHeight: number;
+  flowX?: number;
+  flowZ?: number;
+}
+
 export class WaterWorld implements WorldWaterQuery {
   private readonly interactions = new WaterInteractionStream();
   readonly displacementRegistry = new WaterDisplacementRegistry();
@@ -50,6 +59,8 @@ export class WaterWorld implements WorldWaterQuery {
   private scratch: WaveSample = { dx: 0, dz: 0, height: 0, nx: 0, ny: 1, nz: 0 };
   private flowScratch: WaveSample = { dx: 0, dz: 0, height: 0, nx: 0, ny: 1, nz: 0 };
   private readonly levelsScratch = { tide: 0, season: 0 };
+  /** sampleBoundary's and stillSurfaceAt's static sample, reused per call (perf10 M4). */
+  private readonly staticScratch = emptyStaticSample();
 
   constructor(
     readonly data: WaterData,
@@ -70,7 +81,7 @@ export class WaterWorld implements WorldWaterQuery {
   stillSurfaceAt(x: number, z: number, epochMinutes: number): number {
     const pool = this.opts.localSurfaces?.at(x, z);
     if (pool) return pool.levelM;
-    const s = this.data.sample(x, z);
+    const s = this.data.sampleInto(x, z, this.staticScratch);
     const { tide, season } = this.levelOffsets(epochMinutes);
     return s.surfaceBase + tide * s.tideResponse + season * s.seasonResponse;
   }
@@ -80,24 +91,29 @@ export class WaterWorld implements WorldWaterQuery {
    * body id, still-water depth and flow `sample()` would give at (x, z), with
    * none of the waves, surf, normals or nested vectors the mask never reads
    * (walk 5 perf). `surfaceHeight` is the still level. Same branches as
-   * `sample()`: a local pool, dry ground, wet water.
+   * `sample()`: a local pool, dry ground, wet water. Runs per mask texel, so
+   * the caller computes `levels` (`levelOffsets`) once per refresh and owns
+   * `out`, which is written and returned: no allocation per call (perf10 K1).
    */
-  sampleBoundary(x: number, z: number, epochMinutes: number): {
-    waterBodyId: string | null; depth: number; surfaceHeight: number; flowX: number; flowZ: number;
-  } {
+  sampleBoundary(x: number, z: number, levels: Readonly<{ tide: number; season: number }>, out: BoundarySample): BoundarySample {
     const pool = this.opts.localSurfaces?.at(x, z);
+    out.flowX = 0; out.flowZ = 0;
     if (pool) {
       const depth = this.poolDepth(pool, x, z);
-      if (depth <= 0.02) return { waterBodyId: null, depth: 0, surfaceHeight: pool.levelM, flowX: 0, flowZ: 0 };
-      return { waterBodyId: pool.pool.id, depth, surfaceHeight: pool.levelM, flowX: 0, flowZ: 0 };
+      const wet = depth > 0.02;
+      out.waterBodyId = wet ? pool.pool.id : null; out.depth = wet ? depth : 0; out.surfaceHeight = pool.levelM;
+      return out;
     }
-    const s = this.data.sample(x, z);
-    const { tide, season } = this.levelOffsets(epochMinutes);
+    const s = this.data.sampleInto(x, z, this.staticScratch);
+    const { tide, season } = levels;
     const still = s.surfaceBase + tide * s.tideResponse + season * s.seasonResponse;
     const ground = this.opts.groundHeight?.(x, z) ?? null;
     const depth = ground !== null ? still - ground : s.depthProxy + tide * s.tideResponse + season * s.seasonResponse;
-    if (depth <= 0.02) return { waterBodyId: null, depth: 0, surfaceHeight: still, flowX: 0, flowZ: 0 };
-    return { waterBodyId: s.entityId ?? s.className, depth: Math.max(depth, 0), surfaceHeight: still, flowX: s.flowX, flowZ: s.flowZ };
+    out.surfaceHeight = still;
+    if (depth <= 0.02) { out.waterBodyId = null; out.depth = 0; return out; }
+    out.waterBodyId = s.entityId ?? s.className; out.depth = Math.max(depth, 0);
+    out.flowX = s.flowX; out.flowZ = s.flowZ;
+    return out;
   }
 
   sample(position: Vec3, epochMinutes: number): WaterSample {

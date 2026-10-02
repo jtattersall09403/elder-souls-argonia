@@ -9,6 +9,7 @@
  * - crowns from vegetation instances; the nearest fixture lights.
  */
 import * as THREE from "three";
+import type { BoundarySample } from "../../water/waterWorld";
 import { sunTimes } from "@elder-souls/world-time";
 import type { TerrainSamplers } from "./terrainGrids";
 import type { Crown } from "./canopyMap";
@@ -18,7 +19,8 @@ import type { VolumeLight } from "./froxelGrid";
 
 /** What the samplers read from the water runtime (`WaterWorld` satisfies it). */
 export interface WaterRecordQuery {
-  sampleBoundary(x: number, z: number, epochMinutes: number): { depth: number; surfaceHeight: number };
+  levelOffsets(epochMinutes: number): Readonly<{ tide: number; season: number }>;
+  sampleBoundary(x: number, z: number, levels: Readonly<{ tide: number; season: number }>, out: BoundarySample): BoundarySample;
   readonly data: { sample(x: number, z: number): { className: string } };
 }
 
@@ -33,12 +35,14 @@ export function studioTerrainSamplers(src: {
   water: () => WaterRecordQuery | null;
   epochMinutes: () => number;
 }): TerrainSamplers {
+  // one scratch per sampler set, rewritten per call (perf10 M4: no allocation per sample)
+  const out: BoundarySample = { waterBodyId: null, depth: 0, surfaceHeight: 0 };
   return {
     groundHeight: (x, z) => src.groundHeight(x, z) ?? 0,
     water: (x, z) => {
       const w = src.water();
       if (!w) return { height: 0, mask: 0 };
-      const b = w.sampleBoundary(x, z, src.epochMinutes());
+      const b = w.sampleBoundary(x, z, w.levelOffsets(src.epochMinutes()), out);
       return { height: b.surfaceHeight, mask: b.depth > 0 ? 1 : 0 };
     },
     seaMask: (x, z) => (src.water()?.data.sample(x, z).className === SEA_CLASS ? 1 : 0),

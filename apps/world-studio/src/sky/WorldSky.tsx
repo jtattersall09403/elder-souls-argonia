@@ -10,8 +10,10 @@ import {
   toHorizontal,
   localSiderealAngle,
   epochDays,
+  LATITUDE,
   type MoonState,
 } from "@elder-souls/world-time";
+import { equatorialToHorizontal, equatorialUnit } from "./starRotation";
 import { setWindWaveScale } from "@elder-souls/game-core/water/index";
 import { installFixtureLighting, setLitPreparer } from "@elder-souls/game-core/render/fixtureLights/index";
 import { advanceWaveAmplitude } from "@elder-souls/game-core/water/waveWeather";
@@ -492,10 +494,17 @@ export function WorldSky({
 
   // Stars.
   const stars = useMemo(() => flattenCatalogue(), []);
-  const starLayer = useMemo(
-    () => createStarLayer("stars", starAttributes(stars, window.devicePixelRatio || 1), cloudUniforms),
-    [stars],
-  );
+  const starLayer = useMemo(() => {
+    const layer = createStarLayer("stars", starAttributes(stars, window.devicePixelRatio || 1), cloudUniforms);
+    // written once on the celestial sphere; the frame rotates them with uEqToHor (perf10 K2)
+    const e = { x: 0, y: 0, z: 0 };
+    stars.forEach((s, i) => {
+      equatorialUnit(s.ra, s.dec, e);
+      layer.position.setXYZ(i, e.x * STAR_RADIUS, e.y * STAR_RADIUS, e.z * STAR_RADIUS);
+    });
+    layer.position.needsUpdate = true;
+    return layer;
+  }, [stars]);
 
   // The Serpent: four dark "unstars" (canon), drawn as occluding smudges.
   const serpentLayer = useMemo(() => {
@@ -567,26 +576,29 @@ export function WorldSky({
     return () => document.removeEventListener('visibilitychange', visibility);
   }, []);
 
+  // Per-frame scratch for the celestial update (perf10 K2): no allocation.
+  const celestialScratch = useMemo(
+    () => ({ rows: new Array<number>(9).fill(0), hor: { altitude: 0, azimuth: 0, direction: { x: 0, y: 0, z: 0 } } }),
+    [],
+  );
   const updateCelestialBuffers = (epochMinutes: number, rig: LightRig) => {
     const lst = localSiderealAngle(epochMinutes);
     if (Math.abs(lst - state.current.lastLst) < 0.0005) return;
     state.current.lastLst = lst;
-    const pos = starLayer.position;
-    stars.forEach((s, i) => {
-      const h = toHorizontal(s.dec, lst - s.ra, latitudeOverrideRad);
-      pos.setXYZ(i, h.direction.x * STAR_RADIUS, h.direction.y * STAR_RADIUS, h.direction.z * STAR_RADIUS);
-    });
-    pos.needsUpdate = true;
+    const m = equatorialToHorizontal(lst, latitudeOverrideRad ?? LATITUDE, celestialScratch.rows);
+    starLayer.uniforms.uEqToHor.value.set(m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8]);
     // Serpent wander: deterministic slow Lissajous over epoch days.
     const w = catalogue.serpent.wander;
     const d = epochDays(epochMinutes);
     const ra = (w.baseRaDeg + w.raAmplitudeDeg * Math.sin((2 * Math.PI * d) / w.raPeriodDays)) * DEG;
     const dec = (w.baseDecDeg + w.decAmplitudeDeg * Math.sin((2 * Math.PI * d) / w.decPeriodDays + 1.3)) * DEG;
     const spos = serpentLayer.position;
-    (catalogue.serpent.unstars as [number, number, number][]).forEach(([dRa, dDec], i) => {
-      const h = toHorizontal(dec + dDec * DEG, lst - (ra + dRa * DEG), latitudeOverrideRad);
+    const unstars = catalogue.serpent.unstars as [number, number, number][];
+    const h = celestialScratch.hor;
+    for (let i = 0; i < unstars.length; i++) {
+      toHorizontal(dec + unstars[i][1] * DEG, lst - (ra + unstars[i][0] * DEG), latitudeOverrideRad, h);
       spos.setXYZ(i, h.direction.x * STAR_RADIUS, h.direction.y * STAR_RADIUS, h.direction.z * STAR_RADIUS);
-    });
+    }
     spos.needsUpdate = true;
     void rig;
   };

@@ -6,7 +6,7 @@ import { SEMIDIURNAL_MINUTES, tideOffset, seasonOffset } from "./tide";
 import { SEA, CREST_NOISE, seaRmsHeightM, whitecapCoverage, whitecapThreshold, stillWaterDriftMS, whitecapDriftMS } from "./waves";
 import { ALONG_DRIFT_OMEGA, ALONG_K, ALONG_SHORE, FLOW_WAVES, FLOW_WAVE_MIN_SPEED_MS, GROUP_OMEGA, OMEGA_QUANTUM,
   SHORE_SWELL, STANDING_BY_CLASS, SURF_ENERGY, SWASH, SWASH_OMEGA, WAVES, alongShorePhase, fetchExposure, flowWaveAt,
-  flowWaveOmega, gerstnerAt, hash21, jonswapShape, shoreSwellAt, shoreSwellProfile,
+  flowWaveOmega, gerstnerAt, vertexBandWeight, hash21, jonswapShape, shoreSwellAt, shoreSwellProfile,
   snapOmega, standingWaveRatio, surfEnergyScale, surfGroup, surfaceWaveAt, swashAt,
   swashMax, swashSkew, waveBands, waveExposure } from "./waves";
 
@@ -376,6 +376,17 @@ describe("waves", () => {
       for (let t = 0; t < 120; t += 0.25) temporal.push(gerstnerAt(150, 150, t, amp, out, SEA.fetchMaxM, standing).height);
       expect(std(spatial), `${cls}: spatial vs temporal std`).toBeGreaterThan(0.6 * std(temporal));
     }
+  });
+
+  it("no vertex band below 2x the cell for each tier grid; 2.5x and up stay whole (perf-diag9 V1)", () => {
+    for (const [bandCount, cell] of [[WAVES.bands, 2.6], [WAVES.lowTierBands, 3.6]] as const) {
+      for (const b of waveBands().slice(0, bandCount)) {
+        const w = vertexBandWeight(b.wavelengthM, cell);
+        if (b.wavelengthM < 2 * cell) expect(w).toBe(0);
+        if (b.wavelengthM >= 2.5 * cell) expect(w).toBe(1);
+      }
+    }
+    expect(vertexBandWeight(0.5, 0)).toBe(1);
   });
 });
 
@@ -800,7 +811,7 @@ describe("WaterWorld.sampleBoundary (ripple mask sampler, walk 5 perf)", () => {
       for (let x = 1; x < 40; x += 3.7) {
         for (let z = 1; z < 40; z += 5.3) {
           const full = world.sample({ x, y: 0, z }, epoch);
-          const cheap = world.sampleBoundary(x, z, epoch);
+          const cheap = world.sampleBoundary(x, z, world.levelOffsets(epoch), { waterBodyId: null, depth: 0, surfaceHeight: 0 });
           expect(cheap.waterBodyId).toBe(full.waterBodyId);
           expect(cheap.depth).toBe(full.depth);
           expect(cheap.flowX).toBe(full.flowVelocity.x);
@@ -808,5 +819,32 @@ describe("WaterWorld.sampleBoundary (ripple mask sampler, walk 5 perf)", () => {
         }
       }
     }
+  });
+
+  it("writes into the caller's scratch record and returns it (perf10 K1)", () => {
+    const world = tinyWorld();
+    const out = { waterBodyId: null, depth: 0, surfaceHeight: 0 };
+    const levels = world.levelOffsets(100);
+    for (let x = 1; x < 40; x += 3.7) expect(world.sampleBoundary(x, 7, levels, out)).toBe(out);
+  });
+
+  it("reads the rasters into one owned static scratch, never a fresh sample (perf10 M4)", () => {
+    const world = tinyWorld();
+    const data = (world as unknown as { data: WaterData }).data;
+    const outs = new Set<unknown>();
+    let fresh = 0;
+    const sampleInto = data.sampleInto.bind(data);
+    const sample = data.sample.bind(data);
+    data.sampleInto = (x, z, out) => { outs.add(out); return sampleInto(x, z, out); };
+    data.sample = (x, z) => { fresh++; return sample(x, z); };
+    const out = { waterBodyId: null, depth: 0, surfaceHeight: 0 };
+    const levels = world.levelOffsets(100);
+    for (let x = 1; x < 40; x += 3.7) for (let z = 1; z < 40; z += 5.3) world.sampleBoundary(x, z, levels, out);
+    expect(fresh).toBe(0);
+    expect(outs.size).toBe(1);
+    data.sampleInto = sampleInto; data.sample = sample;
+    // the in-place read is the fresh read, field for field
+    const scratch = data.sample(0, 0);
+    for (let x = 1; x < 40; x += 3.7) expect(data.sampleInto(x, 9, scratch)).toEqual(data.sample(x, 9));
   });
 });
