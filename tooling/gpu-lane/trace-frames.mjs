@@ -22,6 +22,8 @@ const CAUSES = [
   ["compositor", (e) => /^(viz|cc)\.|Display|DrawFrame|BeginFrame|Commit|SwapBuffers|Present/.test(e.name) || /viz|cc/.test(e.cat ?? "")],
 ];
 
+const CONTAINERS = /^(ThreadControllerImpl::RunTask|Receive mojo message|ThreadPool_RunTask|Scheduler::RunTask|RunTask|SequenceManager.*|TaskGraphRunner::RunTask|ThreadPool_RunTask|SimpleWatcher::OnHandleReady|MessagePipe.*|V8\.GC_.*_BACKGROUND.*)$/;
+
 export function causeOf(e, ctx) {
   for (const [c, f] of CAUSES) if (f(e, ctx)) return c;
   return "other";
@@ -40,7 +42,8 @@ export function classifyFrames(events, { profile = null, overMs = 20 } = {}) {
   const gpuPids = new Set([...pname].filter(([, n]) => /GPU/i.test(n)).map(([p]) => p));
   const ctx = { pid, tid, gpuPids };
   const fs = fa.filter((e) => e.pid === pid && e.tid === tid).map((e) => e.ts).sort((a, b) => a - b);
-  const X = events.filter((e) => e.ph === "X" && e.dur > 0 && !(e.name === "FireAnimationFrame"));
+  // Generic task wrappers contain the events that say what ran; counting them would double every cause.
+  const X = events.filter((e) => e.ph === "X" && e.dur > 0 && e.name !== "FireAnimationFrame" && !CONTAINERS.test(e.name));
   let samples = [];
   if (profile) {
     const N = new Map(profile.nodes.map((n) => [n.id, n]));

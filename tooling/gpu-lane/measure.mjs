@@ -249,7 +249,10 @@ export const TRACE_CATEGORIES = ["devtools.timeline", "disabled-by-default-devto
 async function startTrace(page, file) {
   const cdp = await page.context().newCDPSession(page);
   const ev = [];
-  cdp.on("Tracing.dataCollected", (d) => { for (const e of d.value) ev.push(e); });
+  // Keep what the classifier reads (metadata, frame markers, GC, anything >= 0.5 ms): a full 10 s trace of
+  // the studio is over 512 MB of JSON, past V8's string limit.
+  const keep = (e) => e.ph === "M" || e.name === "FireAnimationFrame" || (e.dur ?? 0) >= 500 || /GC|Gc/.test(e.name);
+  cdp.on("Tracing.dataCollected", (d) => { for (const e of d.value) if (keep(e)) ev.push(e); });
   const done = new Promise((r) => cdp.on("Tracing.tracingComplete", r));
   await cdp.send("Tracing.start", { traceConfig: { includedCategories: TRACE_CATEGORIES, recordMode: "recordContinuously" }, transferMode: "ReportEvents" });
   return async (profileFile) => {
