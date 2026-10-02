@@ -28,7 +28,11 @@ Rules of the road:
   measurement. The brief names the files, the mechanism and the check, and
   carries `Budget: <N> min (hard)` (20 or less). Anything with a decision,
   a diagnosis or a search for "where" left in it stays with you.
-- Report: what changed (file:line), what was measured, what failed.
+- Report: what changed (file:line), what was measured, what failed. It
+  has no "queued", "not done" or "later" line: settle it, or at a budget
+  stop write the next step in the hand-off note (the planner relaunches
+  from it; it never goes into a walk packet). A report that leaves a pod
+  up names its id and who owns it next.
 - Batch look-ups: several searches in one Bash call, or one `find` agent
   when more than 3 files need reading; edit with the Edit tool, never by
   re-running a heredoc patch script. The shell guard nudges at the third
@@ -39,10 +43,7 @@ Rules of the road:
   brief names (what is green, next step, files) and return; a fresh agent
   continues from the note.
 - A lane spawned by a lead reports to that lead, never to the planner.
-- No foreground waits: any job over 60 s runs with `run_in_background`
-  and the harness re-invokes you when it exits; never `tail -f`,
-  `tail --pid`, `until` loops or `true`/`echo waiting` loops (the shell
-  guard refuses them).
+- Run every job in the foreground with a timeout up to 600 s (chunk a longer job into steps that each return under that, or poll a log in the foreground with `python3 tooling/repo-standards/lane_wait.py --files <its done-marker>`); never launch a job with run_in_background and end your turn: a subagent that ends its turn is not woken when the job finishes.
 - A placement the workbench cannot make or measure (owner 2026-09-28): use
   `wb.py bpy <scene> <script.py> --out <json>` (headless Blender with the
   whole scene; placement-workbench skill § 5b) to answer it now, and add

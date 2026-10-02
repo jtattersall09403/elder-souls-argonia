@@ -236,6 +236,10 @@ export function makeFlameMaterial(u: FireUniforms): NodeMaterial {
   return material;
 }
 
+/** Embers write alpha 0, so under the premultiplied blend they purely add:
+ * order-free, one pass draws the same colours (three's transparent DoubleSide
+ * back-then-front pass relinked twice a frame, perf10 O10). The flame writes
+ * coverage (`a > 0`), so its two passes stay. */
 export function makeEmberMaterial(u: FireUniforms): NodeMaterial {
   const material = premultipliedFireMaterial(new NodeMaterial(), "fire-ember");
   const iPosSeed = attribute("iPosSeed", "vec4"); // emitter, seed
@@ -273,6 +277,7 @@ export function makeEmberMaterial(u: FireUniforms): NodeMaterial {
     const scene = displayToScene(col, u.uExposure, u.uToneMapped);
     return vec4(scene.mul(glow).mul(vAlpha), 0);
   })();
+  material.forceSinglePass = true;
   return material;
 }
 

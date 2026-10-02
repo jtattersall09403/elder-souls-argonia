@@ -13,6 +13,13 @@ may hand it an item from the owner's walk.
   `packages/game-core/src/{vegetation,settlement,fx}/**` cost paths,
   `apps/world-studio/src/{sky,water,vegetation}/**` composition, kit-build
   cost options (through the `kit-build` skill), this brief.
+- WebGPU branch (decision 0111): every improvement on `dev` flows into
+  `webgpu` automatically. The mechanism is
+  `python3 tooling/repo-standards/merge_forward.py` (merges `dev` into the
+  webgpu worktree, then runs the no-GLSL check and the world-studio
+  typecheck); the enforcement is the preflight gate `webgpu-merged`, which
+  fails any code batch while `dev` has commits not on `webgpu`. A conflict
+  goes to a deliver agent to port the change into the TSL twin.
 - Never touches: the frozen world data, place layouts, gameplay tuning, the
   look (decision 0108 §6: quality defaults are never lowered to win frames).
 - WebGPU branch ([0111](../../decisions/0111-webgpu-renderer-and-tsl-node-materials-one-shader-path.md)): From 16k walk 10 (owner 2026-10-02) every round merges dev into webgpu as part of its batch, and the walk packet names the webgpu commit deployed at /webgpu/.
@@ -29,6 +36,14 @@ may hand it an item from the owner's walk.
 - **Owner target: 60 fps at night in the rain in a place with lights** on
   the M2 (Riverwalk, Greenspring; walk 9 read 32–42 fps there).
 - The owner's device gives the fps verdict (deployed studio, HUD).
+
+## Calibration
+
+| r | Pod GPU | Pod fps | M2 fps | Spot | Build | Date |
+|---|---|---|---|---|---|---|
+| 1.38 | RTX 3070 | 51.1 | 37 | Riverwalk night rain `?view=character&x=7.1971&z=0.584&t=22&w=rain` | 68e7ab76 (pre-fix dev; see `tooling/.reports/16k/walk10/perf-lead.md`) | 2026-10-02 |
+
+Re-measured only when the GPU type or the reference build changes; every lane converts pod fps to M2 fps with the row's r.
 
 ## Open wins
 

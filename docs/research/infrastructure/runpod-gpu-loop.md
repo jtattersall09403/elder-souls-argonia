@@ -31,7 +31,7 @@ screenshot timeline. Proved by the walk-9 WebGPU lane, 2026-10-01.
    The account-wide SSH key list is not touched: the pod's own sshd reads `PUBLIC_KEY`. The
    `ssh.runpod.io` proxy authenticates against account keys only, so use the DIRECT address
    (`get-pod` → `ssh.direct`, populated once `runtime` is non-null, ~10-25 s).
-3. **Set it up**: `ssh -i rp_key -p <port> root@<ip> 'bash -s' < tooling/gpu-lane/runpod-setup.sh`
+3. **Set it up**: `ssh -i rp_key -p <port> root@<ip> 'bash -s webgpu' < tooling/gpu-lane/pod-setup.sh`
    (40 s: Chrome stable, Vulkan tools, Xvfb; prints the Vulkan device, starts headed Chrome on
    display :99 with WebGPU on Vulkan and DevTools on the pod's 127.0.0.1:9222). Headed on Xvfb,
    not headless: headless Chrome loses the WebGPU device whenever a page presents (four

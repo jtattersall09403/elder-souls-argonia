@@ -44,6 +44,10 @@ export const FOAM_FIELD_M = 512;
 export const MAX_FOAM_INJECTIONS = 32;
 /** Longest back-trace per frame (s): bounds the semi-Lagrangian step. */
 const MAX_STEP_S = 0.1;
+/** Gate margin beyond the field's half-size (m): covers the field's edge
+ * texel and drift of the focus within a frame; the presence query itself
+ * adds the surface raster's one-texel bilinear reach. */
+const FOAM_GATE_MARGIN_M = 8;
 
 /** Energy law constants — uniforms so the probe can retune without a
  * recompile. Equilibrium energy at a sustained sharp fold / a fully
@@ -139,6 +143,9 @@ export interface FoamFieldOptions {
   waveBands?: number;
   /** Compiled class order (`meta.klass.classes`) for the standing ratio. */
   classes: readonly string[];
+  /** Whether any surface can draw inside a world rectangle (true metres;
+   * `WaterData.anyWaterIn`). Absent: the field always steps. */
+  waterIn?: (minX: number, minZ: number, maxX: number, maxZ: number) => boolean;
 }
 
 /** The pass's own uniform nodes. */
@@ -245,8 +252,12 @@ export class FoamField {
   private readonly savedViewport = new THREE.Vector4();
   private readonly savedScissor = new THREE.Vector4();
   private disposed = false;
+  private readonly waterIn: FoamFieldOptions["waterIn"];
+  /** Steps run (the inland gate's measure). */
+  steps = 0;
 
   constructor(opts: FoamFieldOptions) {
+    this.waterIn = opts.waterIn;
     this.size = Math.max(64, Math.min(1024, Math.round(opts.size)));
     this.worldSizeM = opts.worldSizeM ?? FOAM_FIELD_M;
     this.info.z = this.worldSizeM;
@@ -298,6 +309,15 @@ export class FoamField {
     if (this.disposed || ![focusX, focusZ, deltaS].every(Number.isFinite)) return;
     const dt = Math.min(Math.max(deltaS, 0), MAX_STEP_S);
     const plan = foamFieldRecentre(this.center.x, this.center.y, focusX, focusZ, this.size, this.worldSizeM);
+    // Inland gate (perf10 f4b): no surface can draw anywhere under the field
+    // (plus a margin for the surface's bilinear reach), so nothing samples
+    // it. Going dormant drops the history to zero at once (inactive reads 0,
+    // the same as an all-zero field) and the next wet step starts cleared.
+    const reach = this.worldSizeM / 2 + FOAM_GATE_MARGIN_M;
+    if (this.waterIn && !this.waterIn(plan.cx - reach, plan.cz - reach, plan.cx + reach, plan.cz + reach)) {
+      this.suspend();
+      return;
+    }
     this.center.set(plan.cx, plan.cz);
     this.info.set(plan.cx, plan.cz, this.worldSizeM, 1);
     const u = this.u;
@@ -333,6 +353,7 @@ export class FoamField {
       u.uPrev.value = this.a.texture;
       renderer.setRenderTarget(this.b);
       this.quad.render(renderer);
+      this.steps++;
       const swap = this.a; this.a = this.b; this.b = swap;
     } finally {
       renderer.setRenderTarget(target);

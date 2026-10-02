@@ -18,6 +18,7 @@ import type { RippleSim } from "./RippleSim";
 import type { WaterSurfaceHandle } from "./WaterSurface";
 import { UnderwaterBubblePass } from "./UnderwaterBubblePass";
 import { useFrameSegments } from "../../fx/frameSegments";
+import { lightEveryLayer } from "./lightLayers";
 import type { BloomPass } from "../../render/post/BloomPass";
 
 /**
@@ -232,8 +233,9 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
 
   // three only applies lights whose layers intersect the camera's — the
   // water-only pass (mask = WATER_LAYER) was therefore rendered WITHOUT the
-  // CSM sun/moon (no glints, no shadows; owner round 1, defect 1). Enable
-  // the water layer on every light, re-checked as lights come and go.
+  // CSM sun/moon (no glints, no shadows; owner round 1, defect 1). Every
+  // light is enabled on every layer (lightLayers.ts says why every pass must
+  // see one light set), re-checked as lights come and go.
   const lightPatchTimer = useRef(0);
   const viewProj = useRef(new THREE.Matrix4());
   const debugState = useRef<WaterDebugState>({
@@ -252,10 +254,10 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
     lightPatchTimer.current -= delta;
     if (lightPatchTimer.current <= 0) {
       lightPatchTimer.current = 1;
+      lightEveryLayer(scene);
       const lights: THREE.DirectionalLight[] = [];
       shadowLights.current = lights;
       scene.traverse((o) => {
-        if ((o as THREE.Light).isLight) o.layers.enable(WATER_LAYER);
         const shadow = (o as THREE.DirectionalLight).shadow;
         if ((o as THREE.Light).isLight && o.castShadow && shadow) lights.push(o as THREE.DirectionalLight);
       });

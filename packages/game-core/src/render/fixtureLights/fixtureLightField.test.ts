@@ -34,6 +34,32 @@ describe("FixtureLightField", () => {
     expect(field.count).toBe(100);
   });
 
+  it("holds each lamp's decay in row 1 alpha and mirrors it into the point lights", () => {
+    const field = new FixtureLightField();
+    field.setLights([{ position: new THREE.Vector3(), radiusM: 5 }, { position: new THREE.Vector3(1, 0, 0), radiusM: 5, decay: 1 }]);
+    expect(field.decayOf(0)).toBe(2);
+    expect(field.decayOf(1)).toBe(1);
+    field.setIntensity(1, new THREE.Color(1, 1, 1), 3);
+    const group = field.usePointLights(new THREE.Scene());
+    field.commit();
+    expect((group.children[1] as THREE.PointLight).decay).toBe(1);
+  });
+
+  it("an interior part's 32-lamp list fills both slot matrices", () => {
+    const field = new FixtureLightField();
+    field.setLights(lamps(40, 0.1, 50));
+    const material = new THREE.MeshStandardMaterial();
+    material.userData.esFixtureLightsPerObject = 32;
+    const mesh = new THREE.Mesh(new THREE.SphereGeometry(1), material);
+    mesh.updateMatrixWorld();
+    expect(field.slotsOf(mesh, undefined, 32).count).toBe(32);
+    const lo = Array.from(field.slotMatrixFor(mesh, material).elements);
+    const hi = Array.from(field.slotMatrixFor(mesh, material, 16).elements);
+    expect(lo.every((v) => v >= 0)).toBe(true);
+    expect(hi.every((v) => v >= 0)).toBe(true);
+    expect(new Set([...lo, ...hi]).size).toBe(32);
+  });
+
   it("every lit material receives it, classic or node; an unlit one does not", () => {
     const field = new FixtureLightField();
     expect(field.install(new THREE.MeshStandardMaterial())).toBe(true);

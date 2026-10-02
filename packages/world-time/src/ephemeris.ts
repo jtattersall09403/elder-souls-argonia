@@ -133,6 +133,7 @@ export function toHorizontal(
   declination: number,
   hourAngle: number,
   latitude: number = LATITUDE,
+  out?: HorizontalPosition,
 ): HorizontalPosition {
   const sinAlt =
     Math.sin(latitude) * Math.sin(declination) +
@@ -146,15 +147,14 @@ export function toHorizontal(
     ) + Math.PI,
   );
   const cosAlt = Math.cos(altitude);
-  return {
-    altitude,
-    azimuth,
-    direction: {
-      x: Math.sin(azimuth) * cosAlt,
-      y: Math.sin(altitude),
-      z: -Math.cos(azimuth) * cosAlt,
-    },
-  };
+  // With `out`, written in place (its `direction` keeps its identity).
+  const o = out ?? { altitude: 0, azimuth: 0, direction: { x: 0, y: 0, z: 0 } };
+  o.altitude = altitude;
+  o.azimuth = azimuth;
+  o.direction.x = Math.sin(azimuth) * cosAlt;
+  o.direction.y = Math.sin(altitude);
+  o.direction.z = -Math.cos(azimuth) * cosAlt;
+  return o;
 }
 
 /** Hour angle of a body from its right ascension. RA ≈ ecliptic longitude (authored simplification). */
@@ -174,20 +174,30 @@ export function localSiderealAngle(epochMinutes: number): number {
 }
 
 /** Sun position and orbital state at an instant. */
-export function sunAt(epochMinutes: number, latitude: number = LATITUDE): SunState {
+export function sunAt(
+  epochMinutes: number,
+  latitude: number = LATITUDE,
+  out?: SunState,
+): SunState {
   const day = epochDays(epochMinutes);
   const eclipticLongitude = sunEclipticLongitude(day);
   const declination = Math.asin(Math.sin(AXIAL_TILT) * Math.sin(eclipticLongitude));
   const minuteOfDay = ((epochMinutes % MINUTES_PER_DAY) + MINUTES_PER_DAY) % MINUTES_PER_DAY;
   const hourAngle = (TAU * (minuteOfDay - 720)) / MINUTES_PER_DAY;
-  return { ...toHorizontal(declination, hourAngle, latitude), eclipticLongitude, declination };
+  // With `out`, written in place (per-frame callers hold one).
+  const o = out ?? ({ direction: { x: 0, y: 0, z: 0 } } as SunState);
+  toHorizontal(declination, hourAngle, latitude, o);
+  o.eclipticLongitude = eclipticLongitude;
+  o.declination = declination;
+  return o;
 }
 
-/** Moon position and phase at an instant. */
+/** Moon position and phase at an instant (written into `out` when given). */
 export function moonAt(
   epochMinutes: number,
   moon: MoonDef,
   latitude: number = LATITUDE,
+  out?: MoonState,
 ): MoonState {
   const day = epochDays(epochMinutes);
   const phaseAge = mod(day - NEW_MOON_EPOCH_DAY, SYNODIC_NIGHTS);
@@ -195,23 +205,29 @@ export function moonAt(
   const elongation = normalize((TAU * phaseAge) / SYNODIC_NIGHTS + moon.longitudeOffset);
   const eclipticLongitude = normalize(sunLon + elongation);
   const declination = moon.inclination * Math.sin(eclipticLongitude - moon.node);
-  const position = toHorizontal(declination, hourAngleOf(epochMinutes, eclipticLongitude), latitude);
-  return {
-    ...position,
-    id: moon.id,
-    name: moon.name,
-    angularDiameter: moon.angularDiameter,
-    phaseAge,
-    illuminatedFraction: (1 - Math.cos(elongation)) / 2,
-    elongation,
-    eclipticLongitude,
-    declination,
-  };
+  const o = out ?? ({ direction: { x: 0, y: 0, z: 0 } } as MoonState);
+  toHorizontal(declination, hourAngleOf(epochMinutes, eclipticLongitude), latitude, o);
+  o.id = moon.id;
+  o.name = moon.name;
+  o.angularDiameter = moon.angularDiameter;
+  o.phaseAge = phaseAge;
+  o.illuminatedFraction = (1 - Math.cos(elongation)) / 2;
+  o.elongation = elongation;
+  o.eclipticLongitude = eclipticLongitude;
+  o.declination = declination;
+  return o;
 }
 
-/** All moons at an instant. */
-export function moonsAt(epochMinutes: number, latitude: number = LATITUDE): MoonState[] {
-  return MOONS.map((m) => moonAt(epochMinutes, m, latitude));
+/** All moons at an instant; with `out`, its entries are written in place. */
+export function moonsAt(
+  epochMinutes: number,
+  latitude: number = LATITUDE,
+  out?: MoonState[],
+): MoonState[] {
+  const o = out ?? [];
+  for (let i = 0; i < MOONS.length; i++) o[i] = moonAt(epochMinutes, MOONS[i], latitude, o[i]);
+  o.length = MOONS.length;
+  return o;
 }
 
 function mod(v: number, m: number): number {

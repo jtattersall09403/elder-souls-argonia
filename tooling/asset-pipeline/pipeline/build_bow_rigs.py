@@ -155,6 +155,9 @@ def main() -> None:
     parser.add_argument("--only", nargs="*", default=None)
     args = parser.parse_args()
     build(args.only)
+    # The shipped copies are the compressed ones (KTX2 + meshopt, standard 16).
+    from .publish_characters import publish
+    publish(set(args.only) if args.only else None, ("bow-rigs",))
 
 
 if __name__ == "__main__":

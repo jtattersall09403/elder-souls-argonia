@@ -1,5 +1,5 @@
 import { assetUrl } from "./assetBase";
-import { useGLTF } from "@react-three/drei";
+import { useCharacterGLTF } from "./characterGltf";
 import { useFrame } from "@react-three/fiber";
 import { useLayoutEffect, useMemo, useRef, type MutableRefObject } from "react";
 import * as THREE from "three";
@@ -55,7 +55,7 @@ export function NockedArrow({
    */
   nockWorld?: MutableRefObject<THREE.Vector3>;
 }) {
-  const gltf = useGLTF(assetUrl(asset));
+  const gltf = useCharacterGLTF(assetUrl(asset));
   const model = useMemo(() => {
     const instance = gltf.scene.clone(true);
     const group = new THREE.Group();

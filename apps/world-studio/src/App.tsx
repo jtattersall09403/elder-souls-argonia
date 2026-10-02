@@ -31,6 +31,7 @@ import { getLatitudeOverrideDeg, setLatitudeOverrideDeg } from "./sky/WorldSky";
 import { setWetSeasonOverride, sharedWaterAssets, type WaterAssets } from "./water/waterAssets";
 import { getWeatherOverride, parseWeatherParam, setWeatherOverride } from "./weather/weatherState";
 import { SettlementNavigationHandoff } from "./navigation/settlementNavigationHandoff";
+import { samePositionKm } from "./positionKm";
 import {
   SettlementBundleSource, SettlementBundleSourceContext,
 } from "@elder-souls/game-core/settlement/settlementIndex";
@@ -756,7 +757,7 @@ export function App() {
       mapCanvas={canvasRef.current}
       mapMeta={meta}
       minimapOverlay={minimapOverlay}
-      onPositionKm={(x, z) => setSpawnKm({ x, z })}
+      onPositionKm={(x, z) => setSpawnKm((prev) => samePositionKm(prev, x, z) ? prev : { x, z })}
       onExit={() => setView("map")}
       onFlyHere={(x, z) => enterFly(x, z)}
     />

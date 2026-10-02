@@ -104,6 +104,7 @@ import {
 } from "@elder-souls/game-core/vegetation/slotGeometry";
 import { OcclusionMask } from "@elder-souls/game-core/vegetation/occlusionMask";
 import { compactRows } from "@elder-souls/game-core/vegetation/compactRows";
+import { setDrawCount } from "@elder-souls/game-core/vegetation/drawCount";
 import {
   clearUploadSpans,
   markUploadRow,
@@ -118,7 +119,7 @@ import { lastWeatherSample } from "../weather/weatherState";
 import { useFloraKit, useColliderShapes } from "./useFloraKit";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
-import { groundHeightM } from "./terrainHeight";
+import { FrameGroundSampler, groundHeightM } from "./terrainHeight";
 import { STUDIO_TOOLS } from "../studioTools";
 import { placeGround } from "../character/chunkStore";
 import {
@@ -679,6 +680,12 @@ export function Vegetation({
       ? (x: number, z: number) => groundHeightM(store, chunksManifest, x, z)
       : () => null
   ), [store, chunksManifest]);
+  /** The occlusion-mask sweep's ground, in rendered space (O6). */
+  const maskGround = useMemo(() => (
+    chunksManifest
+      ? new FrameGroundSampler(store, chunksManifest, verticalScale)
+      : { reset: () => {}, sample: () => null }
+  ), [store, chunksManifest, verticalScale]);
 
   // Per-species build parameters, recomputed only when the kit, the quality
   // tier or the chunk ring changes — never per frame and never per cell.
@@ -878,7 +885,10 @@ export function Vegetation({
     mesh.receiveShadow = !batch.isCard;
     mesh.userData.perfTag = "veg";
     mesh.renderOrder = batch.renderOrder;
-    mesh.count = 0;
+    // At the origin for life: every copy's world matrix is an instance row,
+    // so the object's own matrix is composed once, never per frame (O4).
+    mesh.matrixAutoUpdate = false;
+    setDrawCount(mesh, 0);
   };
 
   const makeGeo = (
@@ -953,7 +963,7 @@ export function Vegetation({
     (geometry.getAttribute("esSlot").array as Float32Array).set(
       (geo.geometry.getAttribute("esSlot").array as Float32Array)
         .subarray(0, geo.count));
-    mesh.count = geo.count;
+    setDrawCount(mesh, geo.count);
     mesh.instanceMatrix.needsUpdate = true;
     geometry.getAttribute("esSlot").needsUpdate = true;
     root.current?.add(mesh);
@@ -1156,13 +1166,10 @@ export function Vegetation({
         Math.floor(((cz + 0.5) * size) / OCCLUSION_CELL_M) - MASK_SIZE / 2,
       );
     }
+    // Rendered space, like the camera; one grid lookup per chunk per frame.
+    maskGround.reset();
     const sweep = mask.sweep(
-      MASK_CELLS_PER_FRAME, { x: eye.x, y: eye.y, z: eye.z },
-      (x, z) => {
-        // Rendered space, like the camera.
-        const h = sampleGround(x, z);
-        return h === null ? null : h * verticalScale;
-      },
+      MASK_CELLS_PER_FRAME, eye, maskGround.sample,
       tallestM, OCCLUSION_MIN_DISTANCE_M,
       occupiedList.current,
     );
@@ -1403,7 +1410,7 @@ export function Vegetation({
       // `count = 0` it costs nothing per frame and keeps its capacity.
       root.current?.remove(geo.mesh);
       releaseCull(geo);
-      geo.mesh.count = 0;
+      setDrawCount(geo.mesh, 0);
       geo.count = 0;
       clearUploadSpans(geo.dirty);
       geo.pooledAt = performance.now();
@@ -1828,7 +1835,7 @@ export function Vegetation({
       markUploadRow(geo.dirty, target);   // only the targets are written
     }
     geo.count = count;
-    geo.mesh.count = count;
+    setDrawCount(geo.mesh, count);
     dirtyGeos.current.add(geo);
   }
 
@@ -1880,7 +1887,7 @@ export function Vegetation({
       geo.count--;
       // Hiding the last visible row writes nothing: it just leaves the prefix.
     }
-    geo.mesh.count = geo.count;
+    setDrawCount(geo.mesh, geo.count);
     if (visible) markUploadRow(geo.dirty, row);
     dirtyGeos.current.add(geo);
   }
@@ -2394,5 +2401,5 @@ export function Vegetation({
   }
 
   void revision;
-  return <group ref={root} name="vegetation" />;
+  return <group ref={root} name="vegetation" matrixAutoUpdate={false} />;
 }

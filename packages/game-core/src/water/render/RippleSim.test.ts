@@ -234,6 +234,25 @@ function fakeRenderer() {
 }
 
 describe("ripple render scheduling", () => {
+  it("skips the GPU step over an all-dry patch once the field is zero, resumes when water appears (perf10 f3)", () => {
+    let wet = false;
+    const sim = new RippleSim({ boundarySize: 16, sampleBoundary: () => (wet
+      ? { waterBodyId: "water.pond", depth: 2, surfaceHeight: 0 }
+      : { waterBodyId: null, depth: 0, surfaceHeight: 0 }) as never });
+    const { renderer, calls } = fakeRenderer();
+    sim.step(renderer, 0, 0, 1 / 60); // the one pass that zeroes the dry field
+    expect(calls.some(c => c.kind === "update")).toBe(true);
+    calls.length = 0;
+    sim.addDrop(0, 0, 0.5, 0.1);
+    sim.step(renderer, 0.3, 0, 1 / 60);
+    sim.step(renderer, 0.6, 0, 1 / 60);
+    expect(calls).toEqual([]);
+    expect(sim.skippedSteps).toBe(2);
+    wet = true; sim.invalidateBoundary();
+    sim.step(renderer, 0.6, 0, 1 / 60);
+    expect(calls.some(c => c.kind === "update")).toBe(true);
+    sim.dispose();
+  });
   it('advects full visible time once before bounded wave updates only where current exists', () => {
     let flowX = 12;
     const sim = new RippleSim({ boundarySize: 16, sampleBoundary: () => ({

@@ -20,6 +20,8 @@ function createCrownMaterial(u: WaterParticleUniforms): MeshBasicNodeMaterial {
   material.depthWrite = false;
   material.depthTest = true;
   material.side = DoubleSide;
+  // one uniform lightColor: order-free, one pass draws what the back-then-front pair drew (perf10 O10)
+  material.forceSinglePass = true;
   material.fog = false;   // never fogged before (no fog chunk)
   const shape = attribute("crownShape", "vec4");
   const angle = positionGeometry.x;

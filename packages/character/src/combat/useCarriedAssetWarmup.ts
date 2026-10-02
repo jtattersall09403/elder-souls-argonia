@@ -1,6 +1,6 @@
 import { assetUrl } from "../assetBase";
 import type { Sex } from "@elder-souls/game-core/actors/races";
-import { useGLTF } from "@react-three/drei";
+import { preloadCharacterGLTF, useCharacterDecoders } from "../characterGltf";
 import { useEffect } from "react";
 import { itemAsset } from "@elder-souls/game-core/inventory/registry";
 import { useInventoryStore } from "@elder-souls/game-core/inventory/store";
@@ -15,6 +15,7 @@ import { useInventoryStore } from "@elder-souls/game-core/inventory/store";
  * would compete with whatever the scene still needs.
  */
 export function useCarriedAssetWarmup(enabled: boolean, sex: Sex) {
+  const decoders = useCharacterDecoders();
   const stacks = useInventoryStore((state) => state.inventory.stacks);
   useEffect(() => {
     if (!enabled) return undefined;
@@ -24,13 +25,13 @@ export function useCarriedAssetWarmup(enabled: boolean, sex: Sex) {
     let timer = 0;
     const step = () => {
       if (index >= urls.length) return;
-      useGLTF.preload(urls[index]);
+      preloadCharacterGLTF(urls[index], decoders);
       index += 1;
       timer = window.setTimeout(step, WARMUP_INTERVAL_MS);
     };
     timer = window.setTimeout(step, WARMUP_DELAY_MS);
     return () => window.clearTimeout(timer);
-  }, [enabled, sex, stacks]);
+  }, [enabled, sex, stacks, decoders]);
 }
 
 export const WARMUP_DELAY_MS = 2500;

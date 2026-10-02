@@ -46,6 +46,12 @@ export interface RippleSimOptions {
   sampleBoundary?: RippleBoundarySampler;
 }
 
+/** Whether any cell of a packed mask (RGBA, A = wet support) is wet. */
+export function anyWetSupport(data: Uint8Array): boolean {
+  for (let i = 3; i < data.length; i += 4) if (data[i] !== 0) return true;
+  return false;
+}
+
 /** CPU mask sampled at 0.5 m by default. Movement reuses overlapping samples;
  * tide/season movement past LEVEL_REFRESH_EPS_M refreshes the complete patch at
  * most once per `refreshS`; so does `requestRefresh()` (a terrain chunk arrived
@@ -479,6 +485,12 @@ export class RippleSim {
   private levels?: (epochMinutes: number) => { tide: number; season: number };
   private initialized = false;
   private disposed = false;
+  /** Any mask cell with wet support (recounted when the mask changes). */
+  private maskWet = true;
+  /** The last GPU step ran over an all-dry mask: the field is all zero. */
+  private fieldDry = false;
+  /** Steps skipped over a dry patch (tests, probes). */
+  skippedSteps = 0;
   readonly center: THREE.Vector2;
   readonly patchM: number;
 
@@ -601,7 +613,18 @@ export class RippleSim {
     const levels = this.levels?.(epoch);
     if (levels) this.setLevelOffsets(levels.tide, levels.season);
     const maskChanged = this.mask.update(this.center.x, this.center.y, epoch, deltaS);
-    if (maskChanged) this.uploadMask();
+    if (maskChanged) { this.uploadMask(); this.maskWet = anyWetSupport(this.mask.data); }
+    // Dry patch (perf10 f3): the update pass writes 0 on every cell without
+    // wet support, so once one pass has run over an all-dry mask the field is
+    // all zero and every further pass would rewrite zeros. Skip the GPU work
+    // until support appears; the zero field it resumes from is the field the
+    // passes would have kept. Drops land only on labelled (wet) cells.
+    if (!this.maskWet && this.fieldDry && !this.mask.hasCurrent) {
+      this.pendingDrops.length = 0;
+      this.skippedSteps++;
+      return;
+    }
+    this.fieldDry = !this.maskWet;
     this.maskOffset.value.set((this.center.x - this.mask.center.x) / this.patchM, (this.center.y - this.mask.center.y) / this.patchM);
     const target = renderer.getRenderTarget();
     const tone = renderer.toneMapping;

@@ -1,5 +1,5 @@
 import { DEFAULT_ARROW_GRAVITY_SCALE } from "@elder-souls/game-core/combat/arrowFlight";
-import { useGLTF } from "@react-three/drei";
+import { useCharacterGLTF } from "./characterGltf";
 import { useFrame } from "@react-three/fiber";
 import { BallCollider, RigidBody, useBeforePhysicsStep, useRapier, type RapierRigidBody } from "@react-three/rapier";
 import { useEffect, useMemo, useRef } from "react";
@@ -53,7 +53,7 @@ function Arrow({ live, retire, onHit, onLand, traceActor, gravityScale, onSample
 }) {
   const { world, rapier, rigidBodyStates } = useRapier();
   const body = useRef<RapierRigidBody>(null);
-  const gltf = useGLTF(assetUrl(live.arrow.asset));
+  const gltf = useCharacterGLTF(assetUrl(live.arrow.asset));
   const model = useMemo(() => {
     const instance = gltf.scene.clone(true);
     const bounds = new THREE.Box3().setFromObject(instance);

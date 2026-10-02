@@ -12,6 +12,7 @@ import {
   type ApronManifest,
   type ApronTile,
   type ApronPaintSet,
+  type ApronPaintFrame,
 } from "./apronManifest";
 
 /** Sectors per side each ring's index is split into for frustum culling. */
@@ -36,7 +37,7 @@ export const APRON_SECTORS = 8;
  *
  * `occluder`, when given, additionally hides a sector the terrain itself
  * occludes: it answers "is this box hidden from the camera?" and is asked on
- * the coarse occlusion cadence (0.5 s, or a 10 m move or 10° turn), never per
+ * the coarse occlusion cadence (a 10 m move, or 2 s), never per
  * frame. A hidden sector's mesh stays mounted with `visible = false`.
  */
 export function BorderApron({ manifest, baseUrl, materials, verticalScale, occluder }: {
@@ -73,8 +74,7 @@ export function BorderApron({ manifest, baseUrl, materials, verticalScale, occlu
             tile={tile}
             heights={heights}
             verticalScale={verticalScale}
-            uvOriginM={frame.originM}
-            uvExtentM={paintFrameExtent(frame)}
+            paintFrame={frame}
             material={materials[tile.paint]}
             occluder={occluder}
           />
@@ -156,18 +156,28 @@ export function buildApronTileSectors(
   return out;
 }
 
-function ApronTileMesh({ tile, heights, verticalScale, uvOriginM, uvExtentM, material, occluder }: {
+/** The inputs an apron tile's geometry is built from, as useMemo deps. Every
+ * entry is a manifest or decoded-grid reference, never a value derived per
+ * render: a fresh extent array here rebuilt every sector (and re-uploaded it
+ * to the GPU) on each parent re-render, a 33 ms hitch every 3 s (perf10 Q2). */
+export function apronTileGeometryDeps(
+  tile: ApronTile, heights: Float32Array, verticalScale: number, paintFrame: ApronPaintFrame,
+): unknown[] {
+  return [tile, heights, verticalScale, paintFrame];
+}
+
+function ApronTileMesh({ tile, heights, verticalScale, paintFrame, material, occluder }: {
   tile: ApronTile;
   heights: Float32Array;
   verticalScale: number;
-  uvOriginM: [number, number];
-  uvExtentM: number | [number, number];
+  paintFrame: ApronPaintFrame;
   material: THREE.Material;
   occluder?: (box: THREE.Box3) => boolean;
 }) {
   const sectors = useMemo(
-    () => buildApronTileSectors(tile, heights, verticalScale, uvOriginM, uvExtentM),
-    [tile, heights, verticalScale, uvOriginM, uvExtentM],
+    () => buildApronTileSectors(tile, heights, verticalScale, paintFrame.originM, paintFrameExtent(paintFrame)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    apronTileGeometryDeps(tile, heights, verticalScale, paintFrame),
   );
   // Disposed together: the sectors share one position/uv buffer pair.
   useEffect(() => () => { for (const sector of sectors) sector.dispose(); }, [sectors]);

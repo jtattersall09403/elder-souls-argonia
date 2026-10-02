@@ -4,21 +4,22 @@
  *
  * A settlement's burning fixtures (up to `FIXTURE_LIGHTS_MAX`) live in one
  * small float texture per scene, `FixtureLightField` (row 0 world position +
- * radius, row 1 colour x intensity), with a runtime count. How they reach the
+ * radius, row 1 colour x intensity +
+ * decay), with a runtime count. How they reach the
  * lit materials is the renderer's LIGHTING, chosen once per renderer by
  * `installFixtureLighting` (the studio's sky walk and the harness call it):
  *
  * - `"field"` (`FixtureFieldLighting`, both backends): the scene's lights
  *   node gains one loop over the drawn object's own list of its
  *   `FIXTURE_LIGHTS_PER_OBJECT` nearest lamps (16 for a material with
- *   `userData.esFixtureLightsPerObject = 16`, the terrain), chosen on the CPU
- *   and handed to the draw as a per-object mat4 uniform (`onObjectUpdate`),
+ *   `userData.esFixtureLightsPerObject = 16`, the terrain; 32 for an interior cell's parts), chosen on the CPU
+ *   and handed to the draw as two per-object mat4 uniforms (`onObjectUpdate`),
  *   each lamp through three's own `directPointLight` (getDistanceAttenuation,
- *   decay 2) and the material's lighting model `direct` (the same BRDF as a
+ *   the lamp's decay, row 1 alpha) and the material's lighting model `direct` (the same BRDF as a
  *   `PointLight`). The program never depends on the count: one program per
  *   material for 0..100 lamps.
  * - `"tiled"` (`FixtureTiledLighting`, WebGPU only): the field mirrors its
- *   slots into real `PointLight`s (no shadow, decay 2) that three's
+ *   slots into real `PointLight`s (no shadow, each lamp's decay) that three's
  *   `TiledLighting` bins per 32 px screen tile in a compute pass.
  * - `"plain"`: the same `PointLight`s through three's default light list (a
  *   program per light count; the measurement baseline only).
@@ -36,18 +37,20 @@ import { Lighting, LightsNode } from "three/webgpu";
 import type { WebGPURenderer } from "three/webgpu";
 import { TiledLighting } from "three/examples/jsm/lighting/TiledLighting.js";
 import {
-  Break, Fn, If, Loop, cameraViewMatrix, directPointLight, float, int, ivec2, positionView, textureLoad, uniform, vec4,
+  Break, Fn, If, Loop, cameraViewMatrix, directPointLight, int, ivec2, positionView, textureLoad, uniform, vec4,
 } from "three/tsl";
 import { activeBackend } from "../createRenderer";
-import type { TslNode } from "../nodes/materialNodes";
+import { sel, type TslNode } from "../nodes/materialNodes";
 
 /** Lamps the field holds at once: the nearest burning fixtures in the band. */
 export const FIXTURE_LIGHTS_MAX = 100;
 /** Lamps one drawn object (a mesh, an instanced cell) is lit by at most. */
 export const FIXTURE_LIGHTS_PER_OBJECT = 8;
 /** A material may raise its objects' list to this (`userData.esFixtureLightsPerObject`):
- * the terrain, whose near tiles are 117 m across and hold a whole place's lamps. */
-export const FIXTURE_LIGHTS_PER_OBJECT_MAX = 16;
+ * the terrain (16), whose near tiles are 117 m across and hold a whole place's lamps,
+ * and an interior cell's parts (32: every record light of the cell, 19 in
+ * KeebaHouseSnailMinder, plus its windows). */
+export const FIXTURE_LIGHTS_PER_OBJECT_MAX = 32;
 
 /** The list length a material's objects get: its `userData.esFixtureLightsPerObject`, else 8. */
 export function fixtureLightsPerObject(material: THREE.Material | null | undefined): number {
@@ -55,7 +58,7 @@ export function fixtureLightsPerObject(material: THREE.Material | null | undefin
   return typeof n === "number" && n >= 1
     ? Math.min(FIXTURE_LIGHTS_PER_OBJECT_MAX, Math.floor(n)) : FIXTURE_LIGHTS_PER_OBJECT;
 }
-/** three's PointLight decay the fixture lights reproduce. */
+/** three's PointLight decay the fixture lights reproduce unless a lamp names its own. */
 export const FIXTURE_LIGHT_DECAY = 2;
 
 /** How fixture light reaches the lit materials (module doc). */
@@ -64,6 +67,8 @@ export type FixtureLightingMode = "field" | "tiled" | "plain";
 export interface FixtureLightInput {
   position: THREE.Vector3;
   radiusM: number;
+  /** three's PointLight decay for this lamp (an interior record light's `interiorLightDecay`); default `FIXTURE_LIGHT_DECAY`. */
+  decay?: number;
 }
 
 interface ObjectSlots {
@@ -98,9 +103,11 @@ export function isFixtureLitMaterial(material: THREE.Material | null | undefined
 
 export class FixtureLightField {
   readonly texture: THREE.DataTexture;
-  /** Per drawn object: its lamp slots as a mat4 (column-major, slot k at
+  /** Per drawn object: its lamp slots 0..15 as a mat4 (column-major, slot k at
    * element k; -1 ends the list), written for each draw by `onObjectUpdate`. */
   readonly slotsNode: TslNode;
+  /** Slots 16..31 (an interior cell's parts list 32), same layout. */
+  readonly slotsNodeHi: TslNode;
   /** Bumps whenever a slot's position or radius changes: per-object lists re-chosen. */
   epoch = 0;
   private readonly data = new Float32Array(FIXTURE_LIGHTS_MAX * 2 * 4);
@@ -114,6 +121,7 @@ export class FixtureLightField {
   private readonly sphere = new THREE.Sphere();
   private readonly order = new Float64Array(FIXTURE_LIGHTS_MAX);
   private readonly slotMatrix = new THREE.Matrix4();
+  private readonly slotMatrixHi = new THREE.Matrix4();
   /** The `"tiled"`/`"plain"` modes' real lights (made on first use). */
   private pointLights: THREE.Group | null = null;
   /** Draw updates of the slot list so far (probes). */
@@ -128,6 +136,8 @@ export class FixtureLightField {
     this.texture.needsUpdate = true;
     this.slotsNode = (uniform as (value: unknown, type: string) => TslNode)(new THREE.Matrix4(), "mat4").onObjectUpdate(
       ({ object, material }: { object: THREE.Object3D; material?: THREE.Material }) => this.slotMatrixFor(object, material));
+    this.slotsNodeHi = (uniform as (value: unknown, type: string) => TslNode)(new THREE.Matrix4(), "mat4").onObjectUpdate(
+      ({ object, material }: { object: THREE.Object3D; material?: THREE.Material }) => this.slotMatrixFor(object, material, 16));
   }
 
   /** Lamps held now. */
@@ -175,8 +185,11 @@ export class FixtureLightField {
     const n = this.primary.length + this.reserved.length;
     let changed = n !== this.used;
     for (let i = 0; i < n; i++) {
-      const { position, radiusM } = i < this.primary.length ? this.primary[i] : this.reserved[i - this.primary.length];
+      const { position, radiusM, decay } = i < this.primary.length ? this.primary[i] : this.reserved[i - this.primary.length];
       const o = i * 4;
+      const c = (FIXTURE_LIGHTS_MAX + i) * 4 + 3;
+      const d = decay ?? FIXTURE_LIGHT_DECAY;
+      if (this.data[c] !== Math.fround(d)) { this.data[c] = d; this.dirty = true; }
       if (!changed && (this.data[o] !== Math.fround(position.x) || this.data[o + 1] !== Math.fround(position.y)
         || this.data[o + 2] !== Math.fround(position.z) || this.data[o + 3] !== Math.fround(radiusM))) changed = true;
       this.data[o] = position.x; this.data[o + 1] = position.y; this.data[o + 2] = position.z;
@@ -201,7 +214,7 @@ export class FixtureLightField {
   private writeRadiance(i: number, r: number, g: number, b: number): void {
     const o = (FIXTURE_LIGHTS_MAX + i) * 4;
     if (this.data[o] === Math.fround(r) && this.data[o + 1] === Math.fround(g) && this.data[o + 2] === Math.fround(b)) return;
-    this.data[o] = r; this.data[o + 1] = g; this.data[o + 2] = b; this.data[o + 3] = 1;
+    this.data[o] = r; this.data[o + 1] = g; this.data[o + 2] = b;
     this.dirty = true;
   }
 
@@ -213,6 +226,8 @@ export class FixtureLightField {
       visit(d[o], d[o + 1], d[o + 2], d[o + 3], d[c], d[c + 1], d[c + 2]);
     }
   }
+  /** Slot `i`'s decay as held (tests). */
+  decayOf(i: number): number { return this.data[(FIXTURE_LIGHTS_MAX + i) * 4 + 3]; }
 
   /** Slot `i`'s colour x intensity as held (tests). */
   radianceOf(i: number): [number, number, number] {
@@ -231,7 +246,7 @@ export class FixtureLightField {
 
   /**
    * The `"tiled"`/`"plain"` modes' lights: `FIXTURE_LIGHTS_MAX` PointLights
-   * (no shadow, decay 2) under one group added to `scene`, mirroring the
+   * (no shadow, each slot's decay) under one group added to `scene`, mirroring the
    * slots (a slot past the count, or dark, is hidden). Idempotent.
    */
   usePointLights(scene: THREE.Object3D): THREE.Group {
@@ -260,6 +275,7 @@ export class FixtureLightField {
       if (!on) { light.intensity = 0; continue; }
       light.position.set(this.data[p], this.data[p + 1], this.data[p + 2]);
       light.distance = this.data[p + 3];
+      light.decay = this.data[c + 3];
       light.color.setRGB(this.data[c], this.data[c + 1], this.data[c + 2], THREE.LinearSRGBColorSpace);
       light.intensity = 1;
       light.updateMatrixWorld();
@@ -320,12 +336,13 @@ export class FixtureLightField {
 
   /** The draw's slot matrix (element k = slot k, -1 past the list): what
    * `slotsNode` hands the GPU for `object` drawn with `material`. */
-  slotMatrixFor(object: THREE.Object3D, material?: THREE.Material): THREE.Matrix4 {
+  slotMatrixFor(object: THREE.Object3D, material?: THREE.Material, from: 0 | 16 = 0): THREE.Matrix4 {
     const s = this.refresh(object, (object as THREE.Mesh).geometry, fixtureLightsPerObject(material));
-    const e = this.slotMatrix.elements;
-    for (let k = 0; k < 16; k++) e[k] = k < s.count ? s.idx[k] : -1;
-    this.objectUpdates += 1;
-    return this.slotMatrix;
+    const m = from === 0 ? this.slotMatrix : this.slotMatrixHi;
+    const e = m.elements;
+    for (let k = 0; k < 16; k++) e[k] = from + k < s.count ? s.idx[from + k] : -1;
+    if (from === 0) this.objectUpdates += 1;
+    return m;
   }
 
   private refresh(object: THREE.Object3D, geometry: THREE.BufferGeometry | undefined, perObject: number): ObjectSlots {
@@ -391,11 +408,14 @@ export class FixtureFieldLightsNode extends LightsNode {
     reflected.directSpecular.toStack();
     super.setupLights(builder, lightNodes);
     const slots = this.field.slotsNode;
+    const slotsHi = this.field.slotsNodeHi;
     const tex = this.field.texture;
     Fn(() => {
       Loop(FIXTURE_LIGHTS_PER_OBJECT_MAX, ({ i }: { i: TslNode }) => {
         const k = int(i);
-        const slot = slots.element(k.div(4)).element(k.mod(4));
+        const kk = k.mod(16);
+        const slot = sel(k.lessThan(16), slots.element(kk.div(4)).element(kk.mod(4)),
+          slotsHi.element(kk.div(4)).element(kk.mod(4)));
         If(slot.lessThan(0), () => { Break(); });
         const index = int(slot);
         const posRadius = textureLoad(tex, ivec2(index, int(0)));
@@ -406,7 +426,7 @@ export class FixtureFieldLightsNode extends LightsNode {
           color: radiance.rgb,
           lightVector: viewPosition.sub(positionView),
           cutoffDistance: posRadius.w,
-          decayExponent: float(FIXTURE_LIGHT_DECAY),
+          decayExponent: radiance.a,
         }));
       });
     }, "void")();

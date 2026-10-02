@@ -11,7 +11,7 @@ import {
 import { ambientCubeToSH } from "./ambientCube";
 import { kitPartsDir, parseKitPartsIndex, type KitPartsIndex } from "./kitParts";
 import { FlameSystem } from "../fx/fire/FlameSystem";
-import type { FixtureLightField } from "../render/fixtureLights/fixtureLightField";
+import { FIXTURE_LIGHTS_PER_OBJECT_MAX, type FixtureLightField } from "../render/fixtureLights/fixtureLightField";
 import {
   interiorFireEmitters, isInteriorFlameCard, type InteriorFireRow,
 } from "../fx/fire/interiorFires";
@@ -52,6 +52,23 @@ export function interiorLightDecay(light: Pick<InteriorLight, "falloffExponent">
 /** A record light's runtime intensity (see `INTERIOR_LIGHT_INTENSITY_PER_FADE`). */
 export function interiorLightIntensity(light: Pick<InteriorLight, "fade">): number {
   return (light.fade ?? 1) * INTERIOR_LIGHT_INTENSITY_PER_FADE;
+}
+
+/** A record light as the fixture light field holds it: three's PointLight terms, cell-local. */
+export interface InteriorCellLight {
+  position: THREE.Vector3;
+  radiusM: number;
+  decay: number;
+  colour: THREE.Color;
+  intensity: number;
+}
+
+/** The cell's record lights with the colour, intensity, radius and decay its PointLights had. */
+export function interiorCellLights(bundle: Pick<InteriorBundle, "lights">): InteriorCellLight[] {
+  return bundle.lights.map((light) => ({
+    position: new THREE.Vector3(...light.positionM), radiusM: light.radiusM,
+    decay: interiorLightDecay(light), colour: colorFromRGB(light.colorRGB), intensity: interiorLightIntensity(light),
+  }));
 }
 
 /**
@@ -152,6 +169,8 @@ export class InteriorDaylight {
     readonly paneMaterials: readonly THREE.MeshStandardMaterial[],
     /** Each pane placement's centre, cell-local: one window light each. */
     readonly windows: readonly THREE.Vector3[],
+    /** The cell's record lights (`interiorCellLights`), cell-local: reserved before the windows, steady. */
+    readonly cellLights: readonly InteriorCellLight[] = [],
   ) {
     this.ambientBase = ambient.intensity;
     this.directionalBase = directional?.intensity ?? 0;
@@ -173,8 +192,9 @@ export class InteriorDaylight {
       m.emissiveIntensity = 1;
     }
     if (this.field) {
+      const first = this.cellLights.length;
       for (let j = 0; j < this.windows.length; j++) {
-        this.field.setReservedIntensity(j, colour, WINDOW_LIGHT_CANDELA * share);
+        this.field.setReservedIntensity(first + j, colour, WINDOW_LIGHT_CANDELA * share);
       }
       this.field.commit();
     }
@@ -186,9 +206,12 @@ export class InteriorDaylight {
    */
   bind(field: FixtureLightField): void {
     this.group.updateWorldMatrix(true, false);
-    field.setReserved(this.windows.map((w) => ({
-      position: w.clone().applyMatrix4(this.group.matrixWorld), radiusM: WINDOW_LIGHT_RADIUS_M,
-    })));
+    const world = this.group.matrixWorld;
+    field.setReserved([
+      ...this.cellLights.map((l) => ({ position: l.position.clone().applyMatrix4(world), radiusM: l.radiusM, decay: l.decay })),
+      ...this.windows.map((w) => ({ position: w.clone().applyMatrix4(world), radiusM: WINDOW_LIGHT_RADIUS_M })),
+    ]);
+    this.cellLights.forEach((l, j) => field.setReservedIntensity(j, l.colour, l.intensity));
     this.field = field;
     this.set(this.share, this.colour);
   }
@@ -298,6 +321,8 @@ export function instantiateInterior(
       // a decal (hay scatter, blood) gets the settlement depth bias so it never
       // z-fights the floor under it (16k walk 6, DawnstarBrinasHouse)
       applySettlementDecal(part.material);
+      // every record light of the cell reaches the part, as three's light list did
+      part.material.userData.esFixtureLightsPerObject = FIXTURE_LIGHTS_PER_OBJECT_MAX;
       const mesh = new THREE.InstancedMesh(part.geometry, part.material, placements.length);
       mesh.renderOrder = settlementMeshDrawFlags(part.material).renderOrder;
       placements.forEach((p, i) => mesh.setMatrixAt(i, m.multiplyMatrices(interiorPlacementMatrix(p), part.localMatrix)));
@@ -330,28 +355,24 @@ export function instantiateInterior(
     group.add(door.object);
     return door;
   });
-  for (const light of bundle.lights) {
-    const point = new THREE.PointLight(colorFromRGB(light.colorRGB), interiorLightIntensity(light),
-      light.radiusM, interiorLightDecay(light));
-    point.castShadow = false;
-    point.position.set(...light.positionM);
-    group.add(point);
-  }
+  // Every cell adds the same lights to three's list (one ambient, one
+  // directional) whatever it records, so a door transition never changes the
+  // lit programs' cache key (decision 0108 §1); its record lights go to the
+  // scene's fixture light field with the windows (`InteriorDaylight.bind`).
   const ambient = interiorAmbient(bundle);
   group.add(ambient);
-  let directional: THREE.DirectionalLight | null = null;
+  // From straight above: the bundle's directionalRotXYDeg/ZDeg (0/0 in the
+  // shipped cells, inherited from the lighting template) are not mapped to a
+  // direction yet (walk 2 RB report). The target is in the group so the
+  // direction holds wherever the cell stands. A cell with no directional
+  // keeps it at intensity 0.
   const directionalRGB = bundle.lighting?.directionalRGB;
-  if (directionalRGB) {
-    // From straight above: the bundle's directionalRotXYDeg/ZDeg (0/0 in both
-    // shipped cells, inherited from the lighting template) are not mapped to a
-    // direction yet (walk 2 RB report). The target is in the group so the
-    // direction holds wherever the cell stands.
-    directional = new THREE.DirectionalLight(colorFromRGB(directionalRGB), INTERIOR_AMBIENT_SCALE);
-    directional.castShadow = false;
-    directional.position.set(0, 1, 0);
-    directional.target.position.set(0, 0, 0);
-    group.add(directional, directional.target);
-  }
+  const directional = new THREE.DirectionalLight(
+    directionalRGB ? colorFromRGB(directionalRGB) : 0xffffff, directionalRGB ? INTERIOR_AMBIENT_SCALE : 0);
+  directional.castShadow = false;
+  directional.position.set(0, 1, 0);
+  directional.target.position.set(0, 0, 0);
+  group.add(directional, directional.target);
   const emitters = interiorFireEmitters(drawnPlacements(bundle),
     (p) => fireRows.get(p.kit)?.get(p.assetId), interiorPlacementMatrix);
   let fire: FlameSystem | null = null;
@@ -363,7 +384,8 @@ export function instantiateInterior(
   const background = colorFromRGB(bundle.fog.colorRGB);
   return {
     bundle, group, solids, background, loadS: null, swingDoors, fire,
-    daylight: new InteriorDaylight(group, ambient, directional, [...panes.materials], panes.windows),
+    daylight: new InteriorDaylight(group, ambient, directional, [...panes.materials], panes.windows,
+      interiorCellLights(bundle)),
     fog: new THREE.Fog(background.clone(), bundle.fog.nearM, bundle.fog.farM),
     counts: {
       placements: bundle.placements.length, substitutions: bundle.substitutions?.length ?? 0,

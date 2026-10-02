@@ -12,10 +12,7 @@ the result tersely. The caller's context is expensive; yours is cheap.
 - Run the commands the brief gives (prefix long-output commands with `rtk`
   when it is installed: `rtk test …`, `rtk err …`, `rtk git …`). Never
   guess a different command; if the named one fails to start, report that.
-- No foreground waits: any job over 60 s runs with `run_in_background`
-  and the harness re-invokes you when it exits; never `tail -f`,
-  `tail --pid`, `until` loops or `true`/`echo waiting` loops (the shell
-  guard refuses them).
+- Run every job in the foreground with a timeout up to 600 s (chunk a longer job into steps that each return under that, or poll a log in the foreground with `python3 tooling/repo-standards/lane_wait.py --files <its done-marker>`); never launch a job with run_in_background and end your turn: a subagent that ends its turn is not woken when the job finishes.
 - Another agent may be working in the same tree. Never `git add`, `commit`,
   `stash`, `checkout --` or `reset`; edit only files the brief names as
   yours.

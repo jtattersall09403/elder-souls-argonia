@@ -83,6 +83,9 @@ const GATES = {
   // WebGL, plus the two other tests that read the published bundles
   // (decision 0052 addendum 2026-09-28); path-selected on the bundles, the
   // kits and the settlement runtime, since game-core's npm test is not.
+  // dev must be merged into webgpu (decision 0111; walks 9 and 10 found the
+  // WebGPU branch 110 commits behind). Under 1 s: one git merge-base call.
+  "webgpu-merged": ["python3 tooling/repo-standards/merge_forward.py --check || { echo 'dev has commits not on webgpu: run python3 tooling/repo-standards/merge_forward.py'; exit 1; }", [/dev has commits/]],
   "bundle-load":   ["cd packages/game-core && npx vitest run src/settlement/publishedLoad.test.ts src/settlement/publishedResolve.test.ts src/settlement/shippedBundle.test.ts", [/FAIL/, /Error/, /Tests/]],
   // webgpu branch only (walk 8): every built place booted headless on WebGPU with a 60 s hold.
   // Each place is cached on the renderer sources and its own bundle and kit GLBs, so an

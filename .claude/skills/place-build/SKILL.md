@@ -64,7 +64,14 @@ fanned out; **`wb.py scan` before any building is sited or re-sited** (the
 `scanFreshRule` check fails a building op no fresh scan covers, 0105 R31);
 one round is one batch and one apply; a fresh agent per round; builders
 write only per-place files and file REQUEST rows for shared ones; a proven
-type takes the template fast path; six builders at once.
+type takes the template fast path; six builders at once. **A first-of-type
+place is launched as three briefs, never one**: (a) layout and kits (steps
+0-2), (b) render and fix rounds (steps 3-4), (c) export, publish and gates
+(step 5), each a fresh `place-builder` launched with the Agent tool (never
+inside a Workflow) that continues from the previous one's hand-off note;
+walk-9 place-builders briefed as one job ran 520k-830k context, 99.7 of
+106.4 units on turns over 200k (method review r7 P1).
+
 ## 0. Orient (unattended)
 
 The stage clock (16k § Build cost is measured as data): each `--start`

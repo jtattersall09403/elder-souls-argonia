@@ -142,6 +142,8 @@ function createParticleMaterial(u: WaterParticleUniforms): MeshBasicNodeMaterial
   material.depthWrite = false;
   material.depthTest = true;
   material.side = DoubleSide;
+  // one uniform lightColor: "over" with one colour is order-free, so one pass (perf10 O10)
+  material.forceSinglePass = true;
   // the particles were never fogged (no fog chunk); the aerial fog node
   // would also read the unprojected quad, not the sprite
   material.fog = false;

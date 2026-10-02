@@ -53,7 +53,13 @@ import {
   createSunCascades,
   writeDomeFromRig,
 } from "./skyObjects";
-import { computeLightRig, setDrawnLightRig, type LightRig } from "./lightRig";
+import {
+  computeLightRig,
+  createLightRig,
+  setDrawnLightRig,
+  type LightRig,
+  type WeatherLightIn,
+} from "./lightRig";
 import { worldClock, notifyClock } from "./timeState";
 import { waterTimeS } from "../water/waterClock";
 import { wetnessUniforms } from "../water/groundWetness";
@@ -554,6 +560,12 @@ export function WorldSky({
 
   // Per-frame scratch (walk 5 perf): the sun direction is rewritten, never allocated.
   const sunDirScratch = useMemo(() => new THREE.Vector3(), []);
+  const heldRig = useMemo(createLightRig, []);
+  const rigWeather = useMemo<WeatherLightIn>(
+    () => ({ sunDim: 0, ambientLift: 0, skyGrey: 0, fogMie: 0, cloudLow: 0, cloudMid: 0,
+      cloudHigh: 0, cloudDensity: 0, cloudDark: 0 }),
+    [],
+  );
   useFrame((_s, delta) => {
     patchFrame.current.frame += 1;
     // Sky stage of the frame, the PMREM re-bake included when it fires
@@ -607,27 +619,30 @@ export function WorldSky({
       [sunPre.direction.x, sunPre.direction.y, sunPre.direction.z],
       cloudParams,
     );
+    const wxIn = rigWeather;
+    wxIn.sunDim = wx.sunDim;
+    wxIn.ambientLift = wx.profile.ambientLift;
+    wxIn.skyGrey = wx.profile.skyGrey;
+    wxIn.fogMie = wx.mist.weather;
+    wxIn.cloudLow = wx.profile.cloudLow;
+    wxIn.cloudMid = wx.profile.cloudMid;
+    wxIn.cloudHigh = wx.profile.cloudHigh;
+    wxIn.cloudDensity = wx.profile.cloudDensity;
+    wxIn.cloudDark = wx.profile.cloudDark;
+    // The rig gets the province-wide CONDITION; per-pixel locality comes
+    // from the mist raster in the aerial shader (owner round 3).
+    wxIn.radiationMist = wx.mist.radiationBase;
+    wxIn.greenTint = wx.profile.greenTint;
+    wxIn.sunOcclusion = sunOcclusion;
+    // Written in place into the held rig: no per-frame allocation. Readers
+    // (setDrawnLightRig consumers) read it fresh every frame.
     const rig = computeLightRig(
       epochMinutes,
       humidity,
       worldClock.season().s,
       latitudeOverrideRad,
-      {
-        sunDim: wx.sunDim,
-        ambientLift: wx.profile.ambientLift,
-        skyGrey: wx.profile.skyGrey,
-        fogMie: wx.mist.weather,
-        cloudLow: wx.profile.cloudLow,
-        cloudMid: wx.profile.cloudMid,
-        cloudHigh: wx.profile.cloudHigh,
-        cloudDensity: wx.profile.cloudDensity,
-        cloudDark: wx.profile.cloudDark,
-        // The rig gets the province-wide CONDITION; per-pixel locality comes
-        // from the mist raster in the aerial shader (owner round 3).
-        radiationMist: wx.mist.radiationBase,
-        greenTint: wx.profile.greenTint,
-        sunOcclusion,
-      },
+      wxIn,
+      heldRig,
     );
     setDrawnLightRig(scene, rig);
     const sunDir = sunDirScratch.set(rig.sun.direction.x, rig.sun.direction.y, rig.sun.direction.z);

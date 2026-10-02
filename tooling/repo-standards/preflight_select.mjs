@@ -69,6 +69,8 @@ export const GATE_INPUTS = {
   "webgpu-boot": ["packages/game-core/src/", "apps/world-studio/src/", "tooling/gpu-lane/webgpu-boot-check.mjs",
     "apps/world-studio/scripts/lib/webgpu-static.mjs", "apps/world-studio/public/kits/",
     "apps/world-studio/public/province/settlements/"],
+  // any code change on dev must reach webgpu; docs-only batches skip it
+  "webgpu-merged": [/^(apps|packages|tooling)\//],
   "python-deps": ["tooling/world-generation/requirements-test.txt",
     "tooling/world-generation/worldgen/check_requirements.py"],
 };

@@ -7,6 +7,9 @@ sends for each comment). tooling/repo-standards/README.md § Owner inbox.
   owner_inbox.py --post <file.md> [--title <text>] [--attach <png>...]
                  [--walk <name>] [--branch <name>]
       post the file as a comment headed "## <title or Update> — <UTC time>".
+      Refused while lane_status.py lists a running subagent and the file has
+      no `## Live` section (each live agent and pod, its expected end, each
+      pod's id and who deletes it; method review r7 P4).
       Each --attach image (any path, gitignored render output included) is
       copied to tooling/.reports/16k/<walk>/pictures/ and `git add -f`-ed;
       <walk> is --walk, else the folder of a packet under tooling/.reports/16k/.
@@ -334,6 +337,31 @@ def build_story(progress_text, subjects, tunnel_url=None):
     return story, digest
 
 
+LIVE_HEADING = re.compile(r"^#{1,4}\s*Live\b", re.M | re.I)
+
+
+def running_agents():
+    """Running subagents of the newest session (lane_status); [] when unreadable."""
+    try:
+        import lane_status
+        pdir = lane_status.project_dir()
+        session = lane_status.newest_session(pdir)
+        return [r for r in lane_status.rows(pdir, session) if r["state"] in lane_status.RUNNING] if session else []
+    except Exception:
+        return []
+
+
+def live_section_missing(text, running):
+    """Method review r7 P4: a packet posted while agents run lists them, their
+    expected end and every pod id (deleted or handed over) under a `## Live`
+    heading; the reason it is refused, else ''."""
+    if not running or LIVE_HEADING.search(text):
+        return ""
+    ids = ", ".join(f"{r['id'][:10]} ({r['type']})" for r in running)
+    return (f"{len(running)} agent(s) still running ({ids}) and the packet has no `## Live` section: "
+            "list each live agent and pod with its expected end time, and each pod's id with who deletes it")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     g = ap.add_mutually_exclusive_group(required=True)
@@ -355,6 +383,10 @@ def main(argv=None):
     text = None
     if a.post:
         text = Path(a.post).read_text(encoding="utf-8")
+        missing = live_section_missing(text, running_agents())
+        if missing:
+            print(f"owner_inbox: {missing}; nothing posted", file=sys.stderr)
+            return 2
         try:
             text = prepare_pictures(text, a.post, a.attach, a.walk, a.branch)
         except ValueError as e:

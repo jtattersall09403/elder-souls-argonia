@@ -84,6 +84,7 @@ import { detachSharedAttribute, makeSlotGeometry } from "@elder-souls/game-core/
 import { sharedWindUniforms } from "./windUniforms";
 import { lastWeatherSample } from "../weather/weatherState";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
+import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
 import { treatmentClearancePolygons } from "@elder-souls/game-core/settlement/groundTreatment";
 import type { GroundTreatment } from "@elder-souls/game-core/settlement/types";
 import {
@@ -753,13 +754,15 @@ function slotGeometry(
  * `count` instances, not the attribute's length. */
 function bandAttribute(
   geometry: THREE.BufferGeometry, instances: number,
+  /** Grown attributes not yet attached: the fill attaches them at commit. */
+  pending: Map<THREE.BufferGeometry, THREE.InstancedBufferAttribute>,
 ): THREE.InstancedBufferAttribute {
-  const existing = geometry.getAttribute(LOD_BAND_ATTRIBUTE) as
-    | THREE.InstancedBufferAttribute | undefined;
+  const existing = pending.get(geometry)
+    ?? geometry.getAttribute(LOD_BAND_ATTRIBUTE) as THREE.InstancedBufferAttribute | undefined;
   if (existing && existing.count >= instances) return existing;
   const grown = new THREE.InstancedBufferAttribute(
     new Float32Array(Math.max(instances, 64) * 4), 4);
-  geometry.setAttribute(LOD_BAND_ATTRIBUTE, grown);
+  pending.set(geometry, grown);
   return grown;
 }
 
@@ -1037,6 +1040,7 @@ export function Groundcover({
   settlementsVisible?: boolean;
 }) {
   const segments = useFrameSegments();
+  const queue = useFrameWork();
   const ringRadiusM = quality?.groundcoverRadiusM ?? RING_RADIUS_M;
   const farRadiusM = quality?.groundcoverFarRadiusM ?? RING_FAR_RADIUS_M;
   const maxInstances = quality?.groundcoverMaxInstances ?? MAX_INSTANCES;
@@ -1460,7 +1464,9 @@ export function Groundcover({
     for (let i = 0; i < (gcCull ? 0 : list.length); i++) {
       const mesh = list[i];
       const show = SECTOR_SLOTS === 1 || culler.visible[mesh.userData.gcSector as number] === 1;
-      mesh.visible = show;
+      // An empty mesh is hidden too, so three's projectObject never queues
+      // a draw that submits nothing (perf10 O1).
+      mesh.visible = show && mesh.count > 0;
       live += mesh.count;
       if (show && mesh.count > 0) { submitted += mesh.count; draws++; }
     }
@@ -1477,14 +1483,50 @@ export function Groundcover({
     }
   });
 
+  // The fill runs as a frame-work job (perf10 O5): one step per draw slot
+  // under the shared per-frame budget, never in this effect's commit (a whole
+  // ring's copy in one passive effect was a 32 ms walking hitch). Every step
+  // writes only CPU arrays; nothing the GPU draws changes until the last
+  // step commits counts, uploads, grown attributes and grown meshes at once,
+  // so a fill spread over frames looks exactly like the old one-shot fill.
   useEffect(() => {
     const group = root.current;
     if (!group || !kit || !control || !chunks) return;
+    /** Grown meshes and band attributes, held out of the scene until commit;
+     * a cancelled fill disposes the meshes. */
+    const grownMeshes = new Map<string, { mesh: THREE.InstancedMesh; previous: THREE.InstancedMesh | null }>();
+    const handle = queue.add(fillJob(group), {
+      priority: 20, label: "groundcover-fill",
+    });
+    return () => {
+      handle.cancel();
+      for (const [meshKey, { mesh, previous }] of grownMeshes) {
+        const gc = gcDraws.current.get(mesh);
+        if (gc && gcCull) releaseGcDraw(gcCull, mesh, gc);
+        gcDraws.current.delete(mesh);
+        mesh.dispose();
+        // a GPU-path predecessor already left its page: drop it so the next fill regrows
+        if (previous && gcCull && !gcDraws.current.has(previous)) {
+          meshPool.current.delete(meshKey);
+          previous.removeFromParent();
+          previous.dispose();
+          meshList.current = [...meshPool.current.values()];
+        }
+      }
+      grownMeshes.clear();
+    };
 
+  function* fillJob(group: THREE.Group): Generator<void, void, void> {
+    if (!kit || !control || !chunks) return;
+    let workMs = 0;
+    let stepT0 = performance.now();
     // Nothing is destroyed here (mechanism 7). Every mesh this rebuild does
     // not fill is hidden by setting its `count` to 0 at the end; the meshes
     // themselves, their buffers and their bounding spheres survive.
     const liveMeshes = new Set<string>();
+    /** What the commit step applies, per mesh written. */
+    const grownBands = new Map<THREE.BufferGeometry, THREE.InstancedBufferAttribute>();
+    const commits: { mesh: THREE.InstancedMesh; drawn: number; bands: THREE.InstancedBufferAttribute | null; gc: GcDraw | null; gcBand: readonly [number, number, number, number]; geometry: THREE.BufferGeometry; cx: number; cy: number; cz: number; radius: number }[] = [];
 
     const focus = focusRef.current;
     // Tiles are kept out to the far radius PLUS the overlap, so the FAR tier
@@ -1518,7 +1560,6 @@ export function Groundcover({
     const rej = stats0.rejected;
     // Evict what left the ring. Without this the cache is the whole province.
     for (const key of cache.keys()) if (!liveKeys.has(key)) cache.delete(key);
-    const tGenerated = performance.now();
 
     // Pass two: tier membership per TILE, with the overlap, per species.
     // A tile is copied into every tier whose outer radius (plus the overlap)
@@ -1693,6 +1734,10 @@ export function Groundcover({
           }
           if (drawn === 0) continue;
           instances += drawn;
+          // One draw slot per step: the pump checks its budget between them.
+          workMs += performance.now() - stepT0;
+          yield;
+          stepT0 = performance.now();
           for (let partIndex = 0; partIndex < parts.length; partIndex++) {
             const part = parts[partIndex];
             const meshKey = `${plan.index}|${slot}|${partIndex}`;
@@ -1703,12 +1748,9 @@ export function Groundcover({
             let mesh = meshPool.current.get(meshKey);
             if (!mesh || gcMeshCapacity(mesh, gcDraws.current.get(mesh)) < drawn) {
               // Grow by 1.5x so a ring that keeps creeping up by a few
-              // instances does not reallocate on every rebuild.
-              // The OLD mesh is dropped after the new one is in the scene
-              // (below). Tidiness, not a fix: the fill runs in one effect
-              // pass, so the remove and the add land in the same commit and
-              // no frame renders between them. The vanishing was the
-              // whole-cache wipe (0084 round 11 addendum).
+              // instances does not reallocate on every rebuild. The new mesh
+              // waits in `grownMeshes` and the swap happens in the commit
+              // step, so the old one keeps drawing until then.
               const previous = mesh ?? null;
               // GPU path: the old mesh shares this geometry, so it leaves the
               // page before the new one joins it.
@@ -1737,10 +1779,12 @@ export function Groundcover({
               mesh.castShadow = false;
               mesh.receiveShadow = false;
               mesh.name = `groundcover-${plan.id}-b${bucket}-q${quadrant}`;
-              group.add(mesh);
-              meshPool.current.set(meshKey, mesh);
-              if (previous) { group.remove(previous); previous.dispose(); }
-              meshList.current = [...meshPool.current.values()];
+              // Placed at the origin once: the ring writes world matrices
+              // per instance, so the object's own matrix never changes (O4).
+              mesh.matrixAutoUpdate = false;
+              mesh.count = 0;
+              grownMeshes.set(meshKey, { mesh, previous });
+              // GPU path: its page slot and CPU arrays now; it joins the cull at commit.
               if (gcCull) gcDraws.current.set(mesh, registerGcDraw(gcCull, mesh, part.geometry, capacity));
             }
             const gc = gcDraws.current.get(mesh) ?? null;
@@ -1748,7 +1792,8 @@ export function Groundcover({
             const colours = gc ? gc.colours : mesh.instanceColor!.array as Float32Array;
             // The band is per TILE RECORD, not per mesh: the merged card mesh
             // holds MID and FAR records, which cross different boundaries.
-            const bands = gc ? null : bandAttribute(geometry, drawn);
+            // A grown attribute is attached in the commit step, with the rest.
+            const bands = gc ? null : bandAttribute(geometry, drawn, grownBands);
             const bandArray = gc ? gc.bands : bands!.array as Float32Array;
             let at = 0;
             for (const t of slotTiles.tiles) {
@@ -1773,25 +1818,17 @@ export function Groundcover({
                 at += restN;
               }
             }
-            if (gc) {
-              // The draw's band: its tier's, or for the merged card mesh the
-              // union of MID and FAR (the cull keeps a superset; the shader
-              // still fades each plant by its own band).
-              gcCull!.setBand(gc.draw, bucket === BUCKET_NEAR
-                ? tierBands[0]
-                : unionBand(tierBands[1], tierBands[2]));
-              fillGcDraw(gcCull!, gc, drawn);
-            } else {
-              bands!.needsUpdate = true;
-              mesh.count = drawn;
-              mesh.instanceMatrix.needsUpdate = true;
-              mesh.instanceColor!.needsUpdate = true;
-            }
             // The sphere from the tiles' extents (a wedge), never by
             // reading the matrices back; the height term covers the plants.
-            const sphere = mesh.boundingSphere ?? (mesh.boundingSphere = new THREE.Sphere());
-            sphere.center.set((minX + maxX) / 2, (minY + maxY) / 2, (minZ + maxZ) / 2);
-            sphere.radius = Math.hypot(maxX - minX, maxY - minY + speciesHeightM, maxZ - minZ) / 2 + speciesHeightM;
+            commits.push({
+              mesh, drawn, bands, geometry, gc,
+              // the draw's band: its tier's, or for the merged card mesh the
+              // union of MID and FAR (the cull keeps a superset; the shader
+              // still fades each plant by its own band)
+              gcBand: bucket === BUCKET_NEAR ? tierBands[0] : unionBand(tierBands[1], tierBands[2]),
+              cx: (minX + maxX) / 2, cy: (minY + maxY) / 2, cz: (minZ + maxZ) / 2,
+              radius: Math.hypot(maxX - minX, maxY - minY + speciesHeightM, maxZ - minZ) / 2 + speciesHeightM,
+            });
             liveMeshes.add(meshKey);
             const index = part.geometry.getIndex();
             const partTris =
@@ -1802,6 +1839,36 @@ export function Groundcover({
         }
       }
     }
+    // --- commit: everything the GPU sees changes here, in one step ---
+    workMs += performance.now() - stepT0;
+    yield;
+    stepT0 = performance.now();
+    if (grownMeshes.size > 0) {
+      for (const [meshKey, { mesh, previous }] of grownMeshes) {
+        group.add(mesh);
+        meshPool.current.set(meshKey, mesh);
+        if (previous) { group.remove(previous); previous.dispose(); }
+      }
+      grownMeshes.clear();
+      meshList.current = [...meshPool.current.values()];
+    }
+    for (const c of commits) {
+      if (c.gc) {
+        gcCull!.setBand(c.gc.draw, c.gcBand);
+        fillGcDraw(gcCull!, c.gc, c.drawn);
+        continue;
+      }
+      if (c.bands && c.geometry.getAttribute(LOD_BAND_ATTRIBUTE) !== c.bands) {
+        c.geometry.setAttribute(LOD_BAND_ATTRIBUTE, c.bands);
+      }
+      c.bands!.needsUpdate = true;
+      c.mesh.count = c.drawn;
+      c.mesh.instanceMatrix.needsUpdate = true;
+      c.mesh.instanceColor!.needsUpdate = true;
+      const sphere = c.mesh.boundingSphere ?? (c.mesh.boundingSphere = new THREE.Sphere());
+      sphere.center.set(c.cx, c.cy, c.cz);
+      sphere.radius = c.radius;
+    }
     // Everything the pool holds that this rebuild did not fill draws nothing
     // — `count = 0` — but keeps its buffers for the next crossing.
     for (const [meshKey, mesh] of meshPool.current) {
@@ -1811,9 +1878,9 @@ export function Groundcover({
       else mesh.count = 0;
     }
 
-    const tFilled = performance.now();
+    workMs += performance.now() - stepT0;
     const perfNow = perf.current;
-    perfNow.fillMs = Math.round((tFilled - tGenerated) * 10) / 10;
+    perfNow.fillMs = Math.round(workMs * 10) / 10;
     if (perfNow.fillMs > perfNow.fillMaxMs) perfNow.fillMaxMs = perfNow.fillMs;
     perfNow.fillInstances = instances;
     perfNow.nearMeshTriangles = Math.round(nearMeshTriangles);
@@ -1830,7 +1897,7 @@ export function Groundcover({
       rejected: rej,
       rebuildMs: {
         generate: Math.round(stats0.ms * 10) / 10,
-        fill: Math.round((tFilled - tGenerated) * 10) / 10,
+        fill: perfNow.fillMs,
       },
       perf: perfNow,
     };
@@ -1850,10 +1917,11 @@ export function Groundcover({
     // Same convention as __STUDIO_VEGETATION_DEBUG__: probes read numbers.
     (window as unknown as { __STUDIO_GROUNDCOVER_DEBUG__?: GroundcoverStats })
       .__STUDIO_GROUNDCOVER_DEBUG__ = stats;
+  }
   }, [kit, cards, control, chunks, exclusions, exclusionBounds, clearanceIndex,
       regionRaster, tint, revision, verticalScale,
       onStats, focusRef, store, ringRadiusM, farRadiusM, maxInstances, wind,
-      lodFade, culler]);
+      lodFade, culler, queue]);
 
   // The inputs must have SETTLED before a tile is cached: otherwise the
   // tile is built from defaults and has to be thrown away (0084 round 11).
@@ -2363,5 +2431,5 @@ export function Groundcover({
     }
   }, [exclusions, exclusionBounds, clearanceIndex, farRadiusM]);
 
-  return <group ref={root} name="groundcover" />;
+  return <group ref={root} name="groundcover" matrixAutoUpdate={false} />;
 }

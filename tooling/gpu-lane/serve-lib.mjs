@@ -1,4 +1,4 @@
-// Mount table for webgpu-serve.mjs: every built studio at the base it was built for.
+// Mount table for serve.mjs: every built studio at the base it was built for.
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 

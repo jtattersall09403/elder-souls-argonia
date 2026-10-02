@@ -254,7 +254,15 @@ describe("light fixtures", () => {
     }
     manager.setFlameTexture(new THREE.Texture());
     const flames = manager.spriteMesh()!;
-    expect(flames.layers.mask).toBe((1 << PRECIP_LAYER) | (1 << BLOOM_SOURCE_LAYER));
+    // canvas (tone-mapped) and bloom RT (linear) draws each own a material,
+    // so neither re-derives its program per frame (perf10 f3)
+    expect(flames.layers.mask).toBe(1 << PRECIP_LAYER);
+    const bloom = manager.group.getObjectByName(`${flames.name}:bloom`) as THREE.Mesh;
+    expect(bloom.layers.mask).toBe(1 << BLOOM_SOURCE_LAYER);
+    expect(bloom.geometry).toBe(flames.geometry);
+    expect(bloom.material).not.toBe(flames.material);
+    // the bloom draw follows the canvas draw: visible only while textured and drawing a quad
+    expect(bloom.visible).toBe(flames.visible);
     const first = (flames as THREE.Mesh).material as THREE.MeshBasicMaterial;
     const old = first.map!;
     let disposed = false;
@@ -262,6 +270,15 @@ describe("light fixtures", () => {
     const next = new THREE.Texture();
     manager.setFlameTexture(next);
     expect(first.map).toBe(next);
+    expect((bloom.material as THREE.MeshBasicMaterial).map).toBe(next);
+    expect((bloom.material as THREE.MeshBasicMaterial).blending).toBe(first.blending);
+    // one pass, one program: a transparent DoubleSide material without
+    // forceSinglePass is re-derived twice a frame (three's back/front split
+    // sets needsUpdate); additive blending keeps the single pass identical.
+    for (const m of [first, bloom.material as THREE.MeshBasicMaterial]) {
+      expect(m.blending).toBe(THREE.AdditiveBlending);
+      expect(m.side === THREE.DoubleSide && m.transparent ? m.forceSinglePass : true).toBe(true);
+    }
     expect(disposed).toBe(true);
     manager.dispose();
   });

@@ -199,6 +199,7 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt, groundArrival
       mesh.name = `ground-paint:${g.placeId}`;
       mesh.receiveShadow = true;
       mesh.renderOrder = 1;
+      mesh.matrixAutoUpdate = false;   // world-space patch at identity (perf10 O4)
       replacePaint(group, g.key, mesh);
     }
     if (built.length) {

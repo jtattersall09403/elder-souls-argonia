@@ -153,6 +153,8 @@ export function createRainStreaks(opts: {
   // Billboards spun by cross(velDir, view) flip winding with the view
   // direction — FrontSide silently culled half the streaks (round 3).
   material.side = THREE.DoubleSide;
+  // one uniform colour: order-free, one pass instead of back-then-front (perf10 O10)
+  material.forceSinglePass = true;
   material.fog = false;
   const geometry = createRainGeometry(opts.count);
   const mesh = new THREE.Mesh(geometry, material);

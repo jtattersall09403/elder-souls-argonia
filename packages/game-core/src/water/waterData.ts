@@ -194,6 +194,9 @@ export interface ApronGround {
   metresPerSample: number;
 }
 
+/** Surface texels a side per `anyWaterIn` presence block. */
+const WATER_BLOCK = 8;
+
 export class WaterData {
   private readonly buriedBelow: number;
   private apron: ApronGround | null = null;
@@ -219,6 +222,48 @@ export class WaterData {
     private readonly ids?: Uint16Array,
   ) {
     this.buriedBelow = buriedThresholdM(meta);
+  }
+
+  /** Per block of WATER_BLOCK² surface texels: 1 when any texel in it is
+   * not buried (wet, or a table cell a lift can wet). Built on first use. */
+  private presenceBlocks: Uint8Array | null = null;
+
+  /** Whether any water surface can draw inside the world rectangle: an
+   * unburied texel within one texel of it (the surface's bilinear reach),
+   * or the open sea beyond the province once the apron is attached. Exact
+   * at texel level, so a one-texel stream counts; O(blocks) per call. */
+  anyWaterIn(minX: number, minZ: number, maxX: number, maxZ: number): boolean {
+    const size = this.meta.surface.size;
+    const mpp = this.meta.surface.metresPerPixel;
+    const extent = size * mpp;
+    if (this.apron && (minX < 0 || minZ < 0 || maxX >= extent || maxZ >= extent)) return true;
+    const blocks = this.presence();
+    const nb = Math.ceil(size / WATER_BLOCK);
+    const clampT = (v: number) => Math.min(Math.max(v, 0), size - 1);
+    const bx0 = Math.floor(clampT(Math.floor(minX / mpp - 0.5)) / WATER_BLOCK);
+    const bz0 = Math.floor(clampT(Math.floor(minZ / mpp - 0.5)) / WATER_BLOCK);
+    const bx1 = Math.floor(clampT(Math.floor(maxX / mpp - 0.5) + 1) / WATER_BLOCK);
+    const bz1 = Math.floor(clampT(Math.floor(maxZ / mpp - 0.5) + 1) / WATER_BLOCK);
+    for (let bz = bz0; bz <= bz1; bz++) {
+      for (let bx = bx0; bx <= bx1; bx++) if (blocks[bz * nb + bx]) return true;
+    }
+    return false;
+  }
+
+  private presence(): Uint8Array {
+    if (this.presenceBlocks) return this.presenceBlocks;
+    const size = this.meta.surface.size;
+    const nb = Math.ceil(size / WATER_BLOCK);
+    const blocks = new Uint8Array(nb * nb);
+    for (let z = 0; z < size; z++) {
+      const row = z * size;
+      const brow = Math.floor(z / WATER_BLOCK) * nb;
+      for (let x = 0; x < size; x++) {
+        if (this.depth[row + x] > this.buriedBelow) blocks[brow + Math.floor(x / WATER_BLOCK)] = 1;
+      }
+    }
+    this.presenceBlocks = blocks;
+    return blocks;
   }
 
   /** The graph entity (body or reach) owning world (x, z), or null. */

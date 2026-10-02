@@ -182,12 +182,113 @@ function smoothstep(a: number, b: number, x: number): number {
   return t * t * (3 - 2 * t);
 }
 
-function mix3(
-  a: [number, number, number],
-  b: [number, number, number],
+/** Linear mix into a held tuple (safe when `out` aliases `a` or `b`). */
+function mix3To(
+  out: [number, number, number],
+  a: readonly number[],
+  b: readonly number[],
   t: number,
 ): [number, number, number] {
-  return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+  const x = a[0] + (b[0] - a[0]) * t;
+  const y = a[1] + (b[1] - a[1]) * t;
+  const z = a[2] + (b[2] - a[2]) * t;
+  out[0] = x;
+  out[1] = y;
+  out[2] = z;
+  return out;
+}
+
+function set3(
+  out: [number, number, number],
+  x: number,
+  y: number,
+  z: number,
+): [number, number, number] {
+  out[0] = x;
+  out[1] = y;
+  out[2] = z;
+  return out;
+}
+
+type V3 = [number, number, number];
+const v3 = (): V3 => [0, 0, 0];
+
+/** Private per-call scratch for intermediates (never exposed in a result;
+ * computeLightRig is synchronous, so sharing it is reentrancy-safe). */
+const S = {
+  skySample: v3(),
+  highSun: v3(),
+  rampColor: v3(),
+  warmSun: v3(),
+  hazeSky: v3(),
+  zenithScreen: v3(),
+  sunDir: v3(),
+  ref0: v3(),
+  ref1: v3(),
+  cloudTint: v3(),
+  cloudInner: v3(),
+  darkTint: v3(),
+  greenTarget: v3(),
+  greenBright: v3(),
+  sunsetTint: v3(),
+  fogSunTint: v3(),
+  fogDayScreen: v3(),
+  glowTintDay: v3(),
+  glowTint: v3(),
+};
+const ZENITH: readonly number[] = [0, 1, 0];
+const WHITE: readonly number[] = [1, 1, 1];
+
+/** A fresh result to hold and pass as computeLightRig's `out`. */
+export function createLightRig(): LightRig {
+  return {
+    sun: undefined as unknown as SunState,
+    moons: [],
+    sunColor: v3(),
+    sunIntensity: 0,
+    moonColor: v3(),
+    moonIntensity: 0,
+    turbidity: 0,
+    rayleigh: 0,
+    mieCoefficient: 0,
+    mieDirectionalG: 0,
+    skyLuminance: 0,
+    skyFade: 0,
+    hemiSky: v3(),
+    hemiGround: v3(),
+    hemiIntensity: 0,
+    exposureTarget: 0,
+    sceneIlluminance: 0,
+    mistStrength: 0,
+    starOpacity: 0,
+    hazeSunLight: v3(),
+    hazeAmbient: v3(),
+    nightZenith: v3(),
+    nightHorizon: v3(),
+    groundBounce: v3(),
+    dawnLum: 0,
+    dawnDir: [0, 0],
+    horizonHaze: v3(),
+    nightBoost: 0,
+    beltLum: 0,
+    twilightGrade: 0,
+    dawnCore: v3(),
+    dawnSpread: v3(),
+    dawnWash: v3(),
+    cloudCov: v3(),
+    cloudDensity: 0,
+    cloudBright: v3(),
+    cloudDarkCol: v3(),
+    sunCastsShadows: false,
+    directFactor: 0,
+    fogLum: v3(),
+    fogSunLum: v3(),
+    fogSkyLum: v3(),
+    cloudGlowDir: v3(),
+    cloudGlowCol: v3(),
+    cloudSunsetCol: v3(),
+    cloudSunsetAmt: [0, 0],
+  };
 }
 
 /** Sky's contribution to horizontal illuminance (lux) by sun altitude.
@@ -234,10 +335,12 @@ function authoredExposure(altDeg: number, moonIntensity: number): number {
   const nightExposure = nightExposureOf(moonIntensity);
   if (altDeg >= 75) return EXPOSURE_CURVE[EXPOSURE_CURVE.length - 1][1];
   if (altDeg <= -18) return nightExposure;
-  const curve: [number, number][] = [[-18, nightExposure], ...EXPOSURE_CURVE];
-  for (let i = 0; i < curve.length - 1; i++) {
-    const [a0, e0] = curve[i];
-    const [a1, e1] = curve[i + 1];
+  // Walk [-18, nightExposure] followed by EXPOSURE_CURVE without building it.
+  for (let i = 0; i < EXPOSURE_CURVE.length; i++) {
+    const a0 = i === 0 ? -18 : EXPOSURE_CURVE[i - 1][0];
+    const e0 = i === 0 ? nightExposure : EXPOSURE_CURVE[i - 1][1];
+    const a1 = EXPOSURE_CURVE[i][0];
+    const e1 = EXPOSURE_CURVE[i][1];
     if (altDeg <= a1) {
       const t = (altDeg - a0) / (a1 - a0);
       return Math.exp(Math.log(e0) + (Math.log(e1) - Math.log(e0)) * t);
@@ -252,10 +355,14 @@ export function computeLightRig(
   seasonScalar: number,
   latitude?: number,
   weather?: WeatherLightIn,
+  out?: LightRig,
 ): LightRig {
+  // With `out`, every field and tuple is written in place (tuples keep their
+  // identity) and nothing is allocated here; without it, a fresh result.
+  const o = out ?? createLightRig();
   const wx = weather ?? CLEAR_WEATHER;
-  const sun = sunAt(epochMinutes, latitude);
-  const moons = moonsAt(epochMinutes, latitude);
+  const sun = sunAt(epochMinutes, latitude, o.sun);
+  const moons = moonsAt(epochMinutes, latitude, o.moons);
   const altDeg = (sun.altitude * 180) / Math.PI;
   const sinAlt = Math.max(0, Math.sin(sun.altitude));
 
@@ -264,16 +371,17 @@ export function computeLightRig(
   // concentrates near the horizon, per the measured CCT curve (round 3: the
   // light's tone must visibly warm through the day, not just the sky's).
   const warmth = smoothstep(10, 42, altDeg);
-  const highSun = mix3(NOON_SUN, GOLDEN_SUN, 0.9 * warmthBias);
+  const highSun = mix3To(S.highSun, NOON_SUN, GOLDEN_SUN, 0.9 * warmthBias);
   const rampColor =
     altDeg < 10
-      ? mix3(HORIZON_SUN, GOLDEN_SUN, smoothstep(-1, 10, altDeg))
-      : mix3(GOLDEN_SUN, highSun, warmth);
+      ? mix3To(S.rampColor, HORIZON_SUN, GOLDEN_SUN, smoothstep(-1, 10, altDeg))
+      : mix3To(S.rampColor, GOLDEN_SUN, highSun, warmth);
   // Whole-day warm tint (round 7): the slider warms the sunlight at EVERY
   // altitude — sunrise and sunset deepen along with midday.
-  const sunColor = mix3(
+  const sunColor = mix3To(
+    o.sunColor,
     rampColor,
-    [rampColor[0], rampColor[1] * 0.86, rampColor[2] * 0.62],
+    set3(S.warmSun, rampColor[0], rampColor[1] * 0.86, rampColor[2] * 0.62),
     warmthBias,
   );
   const aboveHorizon = smoothstep(-1.5, 0.5, altDeg);
@@ -391,17 +499,19 @@ export function computeLightRig(
   const golden = (1 - smoothstep(4, 16, altDeg)) * smoothstep(-3, 1, altDeg);
   const kHaze = 0.06 * (1 + 2.2 * golden);
   const skyE = skyIlluminance(altDeg);
-  const hazeSunLight: [number, number, number] = [
+  const hazeSunLight = set3(
+    o.hazeSunLight,
     (sunColor[0] * sunIntensity + MOONLIGHT[0] * moonIntensity * 4) * kHaze,
     (sunColor[1] * sunIntensity + MOONLIGHT[1] * moonIntensity * 4) * kHaze,
     (sunColor[2] * sunIntensity + MOONLIGHT[2] * moonIntensity * 4) * kHaze,
-  ];
-  const hazeSky = mix3([0.06, 0.08, 0.14], [0.45, 0.62, 1.0], daylightOf(altDeg));
-  const hazeAmbient: [number, number, number] = [
+  );
+  const hazeSky = mix3To(S.hazeSky, HAZE_SKY_NIGHT, HAZE_SKY_DAY, daylightOf(altDeg));
+  const hazeAmbient = set3(
+    o.hazeAmbient,
     hazeSky[0] * skyE * 0.1,
     hazeSky[1] * skyE * 0.1,
     hazeSky[2] * skyE * 0.1,
-  ];
+  );
 
   // Night dome, authored in SCREEN-linear terms and divided by the night
   // exposure (round 7): the screen brightness a night sky renders at is the
@@ -410,21 +520,24 @@ export function computeLightRig(
   // MOONLESS sky render BRIGHTER than a moonlit one (owner: inverted).
   // Moonlit sky ≈ 1.7× a moonless one, pale moonlight blue.
   const moonGlow = masser.illuminatedFraction * Math.sqrt(moonUp);
-  const zenithScreen: [number, number, number] = [
+  const zenithScreen = set3(
+    S.zenithScreen,
     0.008 + 0.014 * moonGlow * MOONLIGHT[0],
     0.012 + 0.014 * moonGlow * MOONLIGHT[1],
     0.021 + 0.014 * moonGlow * MOONLIGHT[2],
-  ];
-  const nightZenith: [number, number, number] = [
+  );
+  const nightZenith = set3(
+    o.nightZenith,
     zenithScreen[0] / nightExposure,
     zenithScreen[1] / nightExposure,
     zenithScreen[2] / nightExposure,
-  ];
-  const nightHorizon: [number, number, number] = [
+  );
+  const nightHorizon = set3(
+    o.nightHorizon,
     (zenithScreen[0] * 1.85 + 0.004) / nightExposure,
     (zenithScreen[1] * 1.8 + 0.0035) / nightExposure,
     (zenithScreen[2] * 1.65 + 0.003) / nightExposure,
-  ];
+  );
 
   // Twilight glow (owner round 3): the authored night dome is otherwise
   // colour-static, which "pinned" the pre-dawn sky while the land brightened.
@@ -436,7 +549,8 @@ export function computeLightRig(
   const dawnBellAmount = Math.exp(-Math.pow((altDeg + 1) / 8.5, 2));
   const dawnLum = (0.58 / exposureTarget) * dawnBellAmount;
   const azLen = Math.hypot(sun.direction.x, sun.direction.z) || 1;
-  const dawnDir: [number, number] = [sun.direction.x / azLen, sun.direction.z / azLen];
+  o.dawnDir[0] = sun.direction.x / azLen;
+  o.dawnDir[1] = sun.direction.z / azLen;
 
   // ---- Tropical twilight grade (owner 2026-09-10) ----
   // MEASURED DEFECT, not a taste tweak. Sweeping the CPU dome replica
@@ -469,43 +583,28 @@ export function computeLightRig(
   const vSpread = hash01(dayIndex, 0x71ac);
   const vWash = hash01(dayIndex, 0x71ad);
   // Core: golden-peach → coral-orange. Never crimson (owner: "not too red").
-  const dawnCore: [number, number, number] = mix3(
-    [1.0, 0.62, 0.34],
-    [1.0, 0.50, 0.24],
-    vCore,
-  ) as [number, number, number];
+  mix3To(o.dawnCore, DAWN_CORE_A, DAWN_CORE_B, vCore);
   // Spread: coral-pink → rose-magenta.
-  const dawnSpread: [number, number, number] = mix3(
-    [1.0, 0.48, 0.52],
-    [0.98, 0.40, 0.62],
-    vSpread,
-  ) as [number, number, number];
+  mix3To(o.dawnSpread, DAWN_SPREAD_A, DAWN_SPREAD_B, vSpread);
   // Wash: lavender → violet-indigo, the anti-solar side of the gradient.
-  const dawnWash: [number, number, number] = mix3(
-    [0.58, 0.40, 0.68],
-    [0.46, 0.32, 0.72],
-    vWash,
-  ) as [number, number, number];
+  mix3To(o.dawnWash, DAWN_WASH_A, DAWN_WASH_B, vWash);
 
   // Ground bounce for the dome's lower hemisphere (marsh-earth albedo ≈ 0.22,
   // luminance = illuminance × albedo / π), on the same nit scale as the dome.
   const groundIll = sunIntensity * sinAlt + skyE + moonIntensity;
   const bounce = (groundIll * 0.22) / Math.PI;
   // Warm-earth relative tint (×1 average) on top of the 0.22 albedo above.
-  const groundBounce: [number, number, number] = [
-    bounce * 1.15,
-    bounce * 1.0,
-    bounce * 0.78,
-  ];
+  set3(o.groundBounce, bounce * 1.15, bounce * 1.0, bounce * 0.78);
   // Horizon-band colour: the first degrees below the horizon render as thick
   // distance haze (same colour family the aerial term fades terrain into),
   // so looking off the province edge reads as hazy distance, not a flat
   // brown void (owner round 3, "edge of the world").
-  const horizonHaze: [number, number, number] = [
+  set3(
+    o.horizonHaze,
     hazeAmbient[0] * 4 + hazeSunLight[0] * 0.015 + nightHorizon[0] * 2,
     hazeAmbient[1] * 4 + hazeSunLight[1] * 0.015 + nightHorizon[1] * 2,
     hazeAmbient[2] * 4 + hazeSunLight[2] * 0.015 + nightHorizon[2] * 2,
-  ];
+  );
 
   // Dome brightness is PINNED BY CONSTRUCTION (round 5): evaluate the
   // Preetham model (CPU port) at reference mid-sky directions and normalise
@@ -523,22 +622,20 @@ export function computeLightRig(
   // Rayleigh boost softened round 6 (was 1.3): the deep-red twilight band
   // read as crimson against the owner's pastel tropical references.
   const rayleigh = 1.1 + 0.9 * (1 - warmth);
-  const sunDirArr: [number, number, number] = [sun.direction.x, sun.direction.y, sun.direction.z];
+  const sunDirArr = set3(S.sunDir, sun.direction.x, sun.direction.y, sun.direction.z);
   const azL = Math.hypot(sun.direction.x, sun.direction.z) || 1;
   const e30 = Math.cos(Math.PI / 6);
   // Two mid-sky (30° elevation) references at ±90° azimuth from the sun,
   // plus the zenith — deliberately away from the circumsolar glow.
-  const refDirs: [number, number, number][] = [
-    [(-sun.direction.z / azL) * e30, 0.5, (sun.direction.x / azL) * e30],
-    [(sun.direction.z / azL) * e30, 0.5, (-sun.direction.x / azL) * e30],
-    [0, 1, 0],
-  ];
+  set3(S.ref0, (-sun.direction.z / azL) * e30, 0.5, (sun.direction.x / azL) * e30);
+  set3(S.ref1, (sun.direction.z / azL) * e30, 0.5, (-sun.direction.x / azL) * e30);
   let relTypical = 0;
-  for (const dir of refDirs) {
-    const c = preethamSky(dir, sunDirArr, turbidity, rayleigh, mieCoefficient, 0.72);
+  for (let r = 0; r < 3; r++) {
+    const dir = r === 0 ? S.ref0 : r === 1 ? S.ref1 : (ZENITH as V3);
+    const c = preethamSky(dir, sunDirArr, turbidity, rayleigh, mieCoefficient, 0.72, S.skySample);
     relTypical += Math.max(0, Math.min(50, Math.max(c[0], c[1], c[2])));
   }
-  relTypical /= refDirs.length;
+  relTypical /= 3;
   const skyLuminance = Math.min(
     45_000,
     skyScreenTarget / Math.max(relTypical, 1e-4) / exposureTarget,
@@ -558,9 +655,10 @@ export function computeLightRig(
   const cloudWarmth = 1 - smoothstep(2, 20, altDeg);
   // Warm day tint desaturates to cool moonlit silver at night (round 2:
   // night clouds must read blue-grey, not leftover sunset peach).
-  const cloudTint = mix3(
-    [0.85, 0.9, 1.02],
-    mix3([1, 1, 1], [1, 0.62, 0.38], 0.85 * cloudWarmth),
+  const cloudTint = mix3To(
+    S.cloudTint,
+    CLOUD_NIGHT_TINT,
+    mix3To(S.cloudInner, WHITE, CLOUD_WARM_TINT, 0.85 * cloudWarmth),
     skyFade,
   );
   const dayBrightScreen =
@@ -571,38 +669,43 @@ export function computeLightRig(
   const nightBrightScreen = 0.012 + 0.05 * moonGlowC;
   const brightScreen = nightBrightScreen + (dayBrightScreen - nightBrightScreen) * skyFade;
   const darkScreen = brightScreen * (0.42 - 0.3 * wx.cloudDark) + 0.006;
-  const darkTint = mix3(cloudTint, [0.92, 0.96, 1.05], 0.5);
+  const darkTint = mix3To(S.darkTint, cloudTint, CLOUD_DARK_TINT, 0.5);
   // Thunderstorm green cast (round 2, research §8.3): shifts the BRIGHTER
   // cloud tones toward grey-teal — the darkest bases stay neutral black.
   const green = Math.min(1, Math.max(0, wx.greenTint ?? 0));
-  const greenBright = mix3(cloudTint, [0.78 * cloudTint[0], cloudTint[1], 0.88 * cloudTint[2]], green);
-  const cloudBright: [number, number, number] = [
+  const greenBright = mix3To(
+    S.greenBright,
+    cloudTint,
+    set3(S.greenTarget, 0.78 * cloudTint[0], cloudTint[1], 0.88 * cloudTint[2]),
+    green,
+  );
+  set3(
+    o.cloudBright,
     Math.max((greenBright[0] * brightScreen) / exposureTarget, nightZenith[0] * 0.6),
     Math.max((greenBright[1] * brightScreen) / exposureTarget, nightZenith[1] * 0.6),
     Math.max((greenBright[2] * brightScreen) / exposureTarget, nightZenith[2] * 0.6),
-  ];
-  const cloudDarkCol: [number, number, number] = [
+  );
+  set3(
+    o.cloudDarkCol,
     Math.max((darkTint[0] * darkScreen) / exposureTarget, nightZenith[0] * 0.45),
     Math.max((darkTint[1] * darkScreen) / exposureTarget, nightZenith[1] * 0.45),
     Math.max((darkTint[2] * darkScreen) / exposureTarget, nightZenith[2] * 0.45),
-  ];
+  );
 
   // Sunrise/sunset light colour (owner round 3; research §9.2) — computed
   // BEFORE the fog block (round 4) because fog is lit by exactly the same
   // reddened light and must be tinted by it.
-  const sunsetBell = (alt: number) => Math.exp(-Math.pow((alt - 1) / 5.5, 2));
-  const cloudSunsetAmt: [number, number] = [
-    sunsetBell(altDeg) * (1 - 0.75 * wx.cloudDark),
-    sunsetBell(altDeg + 4),
-  ];
+  o.cloudSunsetAmt[0] = sunsetBell(altDeg) * (1 - 0.75 * wx.cloudDark);
+  o.cloudSunsetAmt[1] = sunsetBell(altDeg + 4);
   const deepening = 1 - smoothstep(-3, 5, altDeg);
-  const sunsetTint = mix3([1.0, 0.66, 0.33], [1.0, 0.36, 0.18], deepening);
+  const sunsetTint = mix3To(S.sunsetTint, SUNSET_GOLD, SUNSET_DEEP, deepening);
   const sunsetScreen = 0.62;
-  const cloudSunsetCol: [number, number, number] = [
+  set3(
+    o.cloudSunsetCol,
     (sunsetTint[0] * sunsetScreen) / exposureTarget,
     (sunsetTint[1] * sunsetScreen) / exposureTarget,
     (sunsetTint[2] * sunsetScreen) / exposureTarget,
-  ];
+  );
 
   // Dense-fog inscatter colour — DERIVED from the real light (owner round 5:
   // "shouldn't the mist just be lit by the actual light, so it takes the
@@ -624,10 +727,8 @@ export function computeLightRig(
   // is an authored gameplay floor ~10× brighter than physics, so night fog
   // keeps its authored moonlit screen level and the two are blended in
   // SCREEN space across twilight (smooth against the moving exposure).
-  const FOG_SCATTER = 0.3; // albedo/π for the shaded (neutral) side of a bank
-  const FOG_SKY_TINT: [number, number, number] = [0.86, 0.92, 1.0];
   const sunOnFog = sunIntensity * sinAlt; // direct sun on the bank, lux
-  const fogSunTint = mix3(sunColor, [1, 1, 1], 0.65); // multi-scatter whitening
+  const fogSunTint = mix3To(S.fogSunTint, sunColor, WHITE, 0.65); // multi-scatter whitening
   // The SKY-light half is anchored to the same screen curve the dome itself
   // renders at (skyScreenTarget), not raw skyE × exposure: the authored
   // exposure curve falls faster over the morning than sky illuminance rises,
@@ -636,15 +737,15 @@ export function computeLightRig(
   // dome's own brightness keeps bank and sky in one tonal world; the deck
   // absorption term is what makes overcast/storm fog genuinely gloomier.
   const fogSkyScreen = 0.42 * skyScreenTarget * (1 - 0.35 * wx.sunDim);
-  const fogDayScreen: [number, number, number] = [
+  const fogDayScreen = set3(
+    S.fogDayScreen,
     fogSunTint[0] * sunOnFog * FOG_SCATTER * exposureTarget + FOG_SKY_TINT[0] * fogSkyScreen,
     fogSunTint[1] * sunOnFog * FOG_SCATTER * exposureTarget + FOG_SKY_TINT[1] * fogSkyScreen,
     fogSunTint[2] * sunOnFog * FOG_SCATTER * exposureTarget + FOG_SKY_TINT[2] * fogSkyScreen,
-  ];
+  );
   const fogNightScreen = 0.028 + 0.045 * moonGlowC; // authored night level
-  const FOG_NIGHT_TINT: [number, number, number] = [0.82, 0.88, 1.0];
-  const fogLum: [number, number, number] = [0, 0, 0];
-  const fogSkyLum: [number, number, number] = [0, 0, 0];
+  const fogLum = o.fogLum;
+  const fogSkyLum = o.fogSkyLum;
   for (let i = 0; i < 3; i++) {
     const night = fogNightScreen * FOG_NIGHT_TINT[i];
     fogLum[i] = (night + (fogDayScreen[i] - night) * skyFade) / exposureTarget;
@@ -657,12 +758,12 @@ export function computeLightRig(
   // frontlit side of the same bank stays cool grey. The aerial shader blends
   // fogLum→fogSunLum by the view/sun angle. Exposure-anchored on both ends,
   // so the envelope holds by construction (the test asserts both in range).
-  const FOG_FORWARD = 0.09; // effective phase gain / π for the sun-side lobe
-  const fogSunLum: [number, number, number] = [
+  set3(
+    o.fogSunLum,
     fogLum[0] + (sunColor[0] * sunIntensity + MOONLIGHT[0] * moonIntensity * 2) * FOG_FORWARD,
     fogLum[1] + (sunColor[1] * sunIntensity + MOONLIGHT[1] * moonIntensity * 2) * FOG_FORWARD,
     fogLum[2] + (sunColor[2] * sunIntensity + MOONLIGHT[2] * moonIntensity * 2) * FOG_FORWARD,
-  ];
+  );
 
   // Cloud edge glow (silver lining, research §8.1): lit by the sun when it
   // is up, else by Masser. Screen-anchored and small — it lands only on the
@@ -670,15 +771,16 @@ export function computeLightRig(
   const sunGlow = smoothstep(-4, 2, altDeg);
   const glowFromMoon = (1 - sunGlow) * moonGlowC;
   const glowScreen = 0.85 * sunGlow + 0.12 * glowFromMoon;
-  const glowTintDay: [number, number, number] = [1, 0.92 - 0.25 * cloudWarmth, 0.8 - 0.35 * cloudWarmth];
-  const glowTint = mix3(MOONLIGHT, glowTintDay, sunGlow);
+  const glowTintDay = set3(S.glowTintDay, 1, 0.92 - 0.25 * cloudWarmth, 0.8 - 0.35 * cloudWarmth);
+  const glowTint = mix3To(S.glowTint, MOONLIGHT, glowTintDay, sunGlow);
   const glowSrc = sunGlow >= glowFromMoon ? sun.direction : masser.direction;
-  const cloudGlowDir: [number, number, number] = [glowSrc.x, glowSrc.y, glowSrc.z];
-  const cloudGlowCol: [number, number, number] = [
+  set3(o.cloudGlowDir, glowSrc.x, glowSrc.y, glowSrc.z);
+  set3(
+    o.cloudGlowCol,
     (glowTint[0] * glowScreen) / exposureTarget,
     (glowTint[1] * glowScreen) / exposureTarget,
     (glowTint[2] * glowScreen) / exposureTarget,
-  ];
+  );
 
   // (The sunrise/sunset cloud colouring — owner round 3, research §9.2 — is
   // computed above the fog block since round 4, because fog is lit by the
@@ -687,55 +789,59 @@ export function computeLightRig(
   // for a few degrees of sun depression after the deck greys out; heavy storm
   // decks barely colour — the wx.cloudDark damping.)
 
-  return {
-    sun,
-    moons,
-    sunColor,
-    sunIntensity,
-    moonColor: MOONLIGHT,
-    moonIntensity,
-    turbidity,
-    rayleigh,
-    mieCoefficient,
-    mieDirectionalG: 0.72,
-    skyLuminance,
-    skyFade,
-    hemiSky: mix3([0.05, 0.07, 0.12], [0.55, 0.72, 1.0], daylight),
-    hemiGround: mix3([0.02, 0.02, 0.03], [0.38, 0.34, 0.26], daylight),
-    hemiIntensity,
-    exposureTarget,
-    sceneIlluminance,
-    mistStrength,
-    starOpacity: 1 - skyFade,
-    hazeSunLight,
-    hazeAmbient,
-    nightZenith,
-    nightHorizon,
-    groundBounce,
-    dawnLum,
-    dawnDir,
-    horizonHaze,
-    nightBoost,
-    beltLum,
-    twilightGrade,
-    dawnCore,
-    dawnSpread,
-    dawnWash,
-    cloudCov: [wx.cloudLow, wx.cloudMid, wx.cloudHigh],
-    cloudDensity: wx.cloudDensity,
-    cloudBright,
-    cloudDarkCol,
-    sunCastsShadows,
-    directFactor,
-    fogLum,
-    fogSunLum,
-    fogSkyLum,
-    cloudGlowDir,
-    cloudGlowCol,
-    cloudSunsetCol,
-    cloudSunsetAmt,
-  };
+  o.sun = sun;
+  o.moons = moons;
+  o.sunIntensity = sunIntensity;
+  // moonColor is a fresh-per-result copy of MOONLIGHT (callers may mutate it).
+  set3(o.moonColor, MOONLIGHT[0], MOONLIGHT[1], MOONLIGHT[2]);
+  o.moonIntensity = moonIntensity;
+  o.turbidity = turbidity;
+  o.rayleigh = rayleigh;
+  o.mieCoefficient = mieCoefficient;
+  o.mieDirectionalG = 0.72;
+  o.skyLuminance = skyLuminance;
+  o.skyFade = skyFade;
+  mix3To(o.hemiSky, HEMI_SKY_NIGHT, HEMI_SKY_DAY, daylight);
+  mix3To(o.hemiGround, HEMI_GROUND_NIGHT, HEMI_GROUND_DAY, daylight);
+  o.hemiIntensity = hemiIntensity;
+  o.exposureTarget = exposureTarget;
+  o.sceneIlluminance = sceneIlluminance;
+  o.mistStrength = mistStrength;
+  o.starOpacity = 1 - skyFade;
+  o.dawnLum = dawnLum;
+  o.nightBoost = nightBoost;
+  o.beltLum = beltLum;
+  o.twilightGrade = twilightGrade;
+  set3(o.cloudCov, wx.cloudLow, wx.cloudMid, wx.cloudHigh);
+  o.cloudDensity = wx.cloudDensity;
+  o.sunCastsShadows = sunCastsShadows;
+  o.directFactor = directFactor;
+  return o;
 }
+
+const HAZE_SKY_NIGHT: readonly number[] = [0.06, 0.08, 0.14];
+const HAZE_SKY_DAY: readonly number[] = [0.45, 0.62, 1.0];
+const DAWN_CORE_A: readonly number[] = [1.0, 0.62, 0.34];
+const DAWN_CORE_B: readonly number[] = [1.0, 0.5, 0.24];
+const DAWN_SPREAD_A: readonly number[] = [1.0, 0.48, 0.52];
+const DAWN_SPREAD_B: readonly number[] = [0.98, 0.4, 0.62];
+const DAWN_WASH_A: readonly number[] = [0.58, 0.4, 0.68];
+const DAWN_WASH_B: readonly number[] = [0.46, 0.32, 0.72];
+const CLOUD_NIGHT_TINT: readonly number[] = [0.85, 0.9, 1.02];
+const CLOUD_WARM_TINT: readonly number[] = [1, 0.62, 0.38];
+const CLOUD_DARK_TINT: readonly number[] = [0.92, 0.96, 1.05];
+const SUNSET_GOLD: readonly number[] = [1.0, 0.66, 0.33];
+const SUNSET_DEEP: readonly number[] = [1.0, 0.36, 0.18];
+const FOG_SCATTER = 0.3; // albedo/π for the shaded (neutral) side of a bank
+const FOG_SKY_TINT: readonly number[] = [0.86, 0.92, 1.0];
+const FOG_NIGHT_TINT: readonly number[] = [0.82, 0.88, 1.0];
+const FOG_FORWARD = 0.09; // effective phase gain / π for the sun-side lobe
+const HEMI_SKY_NIGHT: readonly number[] = [0.05, 0.07, 0.12];
+const HEMI_SKY_DAY: readonly number[] = [0.55, 0.72, 1.0];
+const HEMI_GROUND_NIGHT: readonly number[] = [0.02, 0.02, 0.03];
+const HEMI_GROUND_DAY: readonly number[] = [0.38, 0.34, 0.26];
+
+const sunsetBell = (alt: number): number => Math.exp(-Math.pow((alt - 1) / 5.5, 2));
 
 const DRAWN_RIG_KEY = "esDrawnLightRig";
 type SceneLike = { userData: Record<string, unknown> };

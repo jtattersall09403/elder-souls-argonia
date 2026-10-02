@@ -38,6 +38,12 @@ re-runs only the gates red last time plus gates the last run did not run
 `runs.jsonl` row records `batchId` and `failed`), so the rules hold even before
 the hook lines are pasted.
 
+The preflight gate `webgpu-merged` (decision 0111; selected by any `apps/`,
+`packages/` or `tooling/` path, skipped by docs-only batches) runs
+`tooling/repo-standards/merge_forward.py --check` (under 1 s) and fails with
+"dev has commits not on webgpu: run python3
+tooling/repo-standards/merge_forward.py".
+
 ## Lines to paste
 
 In `.claude/settings.json` › `hooks` › `PreToolUse`, the `Bash` entry gains

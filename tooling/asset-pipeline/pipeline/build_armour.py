@@ -444,6 +444,10 @@ def main() -> None:
                         help="reuse the existing icons and rebuild geometry only")
     args = parser.parse_args()
     build(args.set, args.only, render_icons=not args.no_icons)
+    # The shipped copies are the compressed ones (KTX2 + meshopt, standard 16).
+    from .publish_characters import publish
+    publish({f"{i}-{sex}" for i in args.only for sex in ("male", "female")} if args.only else None,
+            ("armour",))
 
 
 if __name__ == "__main__":

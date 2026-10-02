@@ -85,7 +85,7 @@ def _run(tmp_path, *args):
     if not state.exists():
         state.write_text("{}")
     env = {**os.environ, "PATH": f"{binp}:{os.environ['PATH']}", "FAKE_GH_STATE": str(state),
-           "ES_INBOX_REPO": str(repo)}
+           "ES_INBOX_REPO": str(repo), "CLAUDE_CONFIG_DIR": str(tmp_path / "claude")}  # no live agents
     env.pop("ES_TUNNEL_URL", None)
     r = subprocess.run([sys.executable, str(HERE / "owner_inbox.py"), *args], env=env,
                        capture_output=True, text=True, timeout=60)
@@ -240,7 +240,7 @@ def _run_comments(tmp_path, *args):
             "11": {"created_at": "2026-09-25T10:00:00Z", "body": "## Claywater walk packet 1 — x\n\n| item | check |"},
             "12": {"created_at": "2026-09-26T10:00:00Z", "body": "## Progress update — y\n\nbody"}}}))
     env = {**os.environ, "PATH": f"{fake.parent}{os.pathsep}{os.environ['PATH']}",
-           "FAKE_GH_STATE": str(state)}
+           "FAKE_GH_STATE": str(state), "CLAUDE_CONFIG_DIR": str(tmp_path / "claude")}
     r = subprocess.run([sys.executable, str(HERE / "owner_inbox.py"), *args], env=env,
                        capture_output=True, text=True, timeout=60)
     return r, json.loads(state.read_text())
@@ -266,3 +266,12 @@ def test_collapse_folds_the_body_once(tmp_path):
     r, _ = _run_comments(tmp_path, "--list")
     assert r.stdout.splitlines()[0] == "11  2026-09-25 10:00  [collapsed] ## Claywater walk packet 1 — x"
     assert st["comments"]["12"]["body"].startswith("## Progress update")
+
+
+def test_post_while_agents_run_needs_a_live_section():
+    """Method review r7 P4: walk 9's close said "nothing pending" with a lead, a child and a pod live."""
+    running = [{"id": "a3f4bbaafa43", "type": "lead"}]
+    assert owner_inbox.live_section_missing("## Packet\n\nwalk it", []) == ""
+    why = owner_inbox.live_section_missing("## Packet\n\nnothing pending", running)
+    assert "a3f4bbaafa (lead)" in why and "## Live" in why
+    assert owner_inbox.live_section_missing("## Packet\n\n## Live\n\n- lead a3f4 until 14:30", running) == ""

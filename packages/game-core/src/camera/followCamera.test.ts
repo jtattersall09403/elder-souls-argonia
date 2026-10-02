@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import { FOLLOW_CAMERA, FollowCamera, type CameraObstructionQuery } from "./followCamera";
 import {
-  CAMERA_BLOCKING_GROUPS, CAMERA_QUERY_GROUPS, CAMERA_TRANSPARENT_GROUPS, PLAYER_FADE_END_ARM_M,
+  CAMERA_BLOCKING_GROUPS, CAMERA_PIVOT_QUERY_GROUPS, CAMERA_QUERY_GROUPS, CAMERA_TRANSPARENT_GROUPS,
+  TERRAIN_HEIGHTFIELD_GROUPS, PLAYER_FADE_END_ARM_M,
   PLAYER_FADE_START_ARM_M, playerOpacityForArm,
 } from "./cameraCollision";
 import { CHARACTER_CAPSULE_RADIUS } from "../physics/characterPhysics";
@@ -132,6 +133,14 @@ describe("camera collision groups", () => {
     expect(passes(CAMERA_QUERY_GROUPS, CAMERA_TRANSPARENT_GROUPS)).toBe(false);
     // vegetation still collides with the player (default groups)
     expect(passes(0xffffffff, CAMERA_TRANSPARENT_GROUPS)).toBe(true);
+  });
+  it("the pivot test sees settlement and the default but not terrain or vegetation; terrain still collides", () => {
+    expect(passes(CAMERA_PIVOT_QUERY_GROUPS, CAMERA_BLOCKING_GROUPS)).toBe(true);
+    expect(passes(CAMERA_PIVOT_QUERY_GROUPS, 0xffffffff)).toBe(true);
+    expect(passes(CAMERA_PIVOT_QUERY_GROUPS, TERRAIN_HEIGHTFIELD_GROUPS)).toBe(false);
+    expect(passes(CAMERA_PIVOT_QUERY_GROUPS, CAMERA_TRANSPARENT_GROUPS)).toBe(false);
+    expect(passes(CAMERA_QUERY_GROUPS, TERRAIN_HEIGHTFIELD_GROUPS)).toBe(true);
+    expect(passes(0xffffffff, TERRAIN_HEIGHTFIELD_GROUPS)).toBe(true);
   });
   it("fades the player linearly between the fade start and end arms", () => {
     expect(playerOpacityForArm(5.8)).toBe(1);

@@ -138,7 +138,7 @@ drift, breathe), always scrolled along the ribbon's own arc.
 
 | File | What it owns |
 | --- | --- |
-| `waterData.ts` | Decoded province rasters (W surface, SIGNED depth, flow, class, shore) + bilinear samplers; `depthAt`/`isWet` with lift; `BURIED_DEPTH_M`, `decodeDepthByte`. |
+| `waterData.ts` | Decoded province rasters (W surface, SIGNED depth, flow, class, shore) + bilinear samplers; `depthAt`/`isWet` with lift; `BURIED_DEPTH_M`, `decodeDepthByte`; `anyWaterIn(minX, minZ, maxX, maxZ)`, whether any surface can draw in a world rectangle (8×8-texel presence blocks built on first use, the sea beyond the province once the apron is attached), which gates `FoamField` stepping through `WaterSurface`'s `waterIn`. |
 | `waterWorld.ts` | `WorldWaterQuery`: still surface, tide/season offsets, waves, shore surf, depth from real ground, interaction stream, displacement registry. |
 | `waves.ts` | The wave model, CPU and GLSL in lockstep: JONSWAP band amplitudes around `WAVES.peakWavelengthM` (100 m) with per-band fetch limits and frequency-dependent spread, the travelling ↔ standing blend (`standingWaveRatio` by class), swash, shore swell, the along-flow undulation (`FLOW_WAVES`); every angular frequency snapped to 2π/`timePeriodS` (`snapOmega`). |
 | `tide.ts` | Semidiurnal tide and seasonal level offsets. |

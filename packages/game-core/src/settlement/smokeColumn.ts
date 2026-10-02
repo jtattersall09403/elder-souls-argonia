@@ -170,6 +170,10 @@ export class SmokeColumns {
     this.material = new MeshBasicNodeMaterial({
       map: texture, transparent: true, depthWrite: false, vertexColors: true,
       side: THREE.DoubleSide, fog: true,
+      // Every puff is a quad built from the camera's right/up axes, so all
+      // face the same way and three's back-then-front pass draws them in the
+      // same order as one pass, minus two relinks a frame (perf10 O10).
+      forceSinglePass: true,
     });
     this.material.name = "settlement-smoke-column";
     this.nightNode = (night as { isNode?: boolean }).isNode
@@ -191,6 +195,7 @@ export class SmokeColumns {
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.frustumCulled = false;
+    this.mesh.matrixAutoUpdate = false;   // world-space vertices at identity (perf10 O4)
     this.mesh.renderOrder = 10;
     this.mesh.name = "settlement-smoke";
     this.mesh.visible = false; // no quads until the first update draws one

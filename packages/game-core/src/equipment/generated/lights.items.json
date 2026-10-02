@@ -43,7 +43,7 @@
         "value": 2
       },
       "flame": "particles-not-exported",
-      "sha256": "bcc07c3f88fcf47074c195550be2cc085fa8a5819971ea6b8d74589bac949dd7",
+      "sha256": "e922779d372480c145ba35b8686c72e35df152ce4c0dfd98ab73a66446e6f496",
       "source": {
         "nif": "meshes/weapons/torch/torch.nif",
         "sha256": "3d930a946e5c122c4a792f99e9d2e07aca20168b1ee9cfbd6e4b8ed5633706de"

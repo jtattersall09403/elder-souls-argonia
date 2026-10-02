@@ -646,8 +646,15 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               the frame wins; the library overwrites next frame and we
               override again). The camera follow and the foot-IK support
               plane read that same visual pose, so they cannot disagree with
-              what is drawn. */}
-          <Physics key={verticalScale} gravity={GRAVITY} timeStep={1 / 60} paused>
+              what is drawn.
+
+              `interpolate={false}` (perf10): with it on, the library
+              snapshots translation() and rotation() of EVERY body before each
+              step, the ~1400 fixed flora bodies included, only to lerp at
+              alpha 1 (paused): 1.14 ms per step against a 0.15 ms step in a
+              1400-body node harness. Off, nothing drawn changes.
+              physicsMount.test.ts holds it. */}
+          <Physics key={verticalScale} gravity={GRAVITY} timeStep={1 / 60} paused interpolate={false}>
             {crateOrigin && (
               <FloatTestCrates origin={crateOrigin} waterWorld={() => waterWorldRef.current} verticalScale={verticalScale} />
             )}
@@ -896,17 +903,20 @@ const PERF_OPEN_KEY = "es.hud.perfOpen";
 function flipPerfOpen(was: boolean): boolean {
   const next = !was;
   try { window.localStorage.setItem(PERF_OPEN_KEY, next ? "1" : "0"); } catch { /* private mode */ }
+  window.dispatchEvent(new CustomEvent<boolean>(PERF_OPEN_EVENT, { detail: next }));
   return next;
 }
 
+/** Fired with the new open state on every flip: the in-canvas probe installs
+ * its per-draw triangle attribution only while the section is open. */
+const PERF_OPEN_EVENT = "es-perf-hud-open";
+
+function readPerfOpen(): boolean {
+  try { return window.localStorage.getItem(PERF_OPEN_KEY) === "1"; } catch { return false; }
+}
+
 function PerfHudSection({ children }: { children: ReactNode }) {
-  const [open, setOpen] = useState(() => {
-    try {
-      return window.localStorage.getItem(PERF_OPEN_KEY) === "1";
-    } catch {
-      return false;
-    }
-  });
+  const [open, setOpen] = useState(readPerfOpen);
   const [fps, setFps] = useState(0);
   const [backend, setBackend] = useState("");
   useEffect(() => {
@@ -1175,9 +1185,27 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     // Attribution (HUD line 3). `info.render.triangles` is the only count
     // three.js keeps, so the per-draw delta around the one call every draw
     // goes through (`_renderObjectDirect`) attributes the frame; a draw made
-    // with the shadow pass's override material is a shadow-map draw. The CPU
-    // clock flips to "shadow" while those draws run (decision 0084 round 10);
-    // the GPU clock files shadow-map passes itself (FrameSegments).
+    // with the shadow pass's override material is a shadow-map draw (the GPU
+    // clock files shadow-map passes itself, FrameSegments).
+    return () => {
+      segments?.dispose();
+      gl.info.autoReset = true;
+      delete host.__STUDIO_GPU_MS__;
+    };
+  }, [gl, segments]);
+
+  // The per-draw triangle attribution (HUD line 3) wraps the call every draw
+  // goes through, ~0.3 ms a frame (perf10 O7): installed only while the perf
+  // section is open, removed when it closes (its buckets then read zero).
+  const [bucketsOn, setBucketsOn] = useState(readPerfOpen);
+  useEffect(() => {
+    const onFlip = (e: Event) => setBucketsOn((e as CustomEvent<boolean>).detail);
+    window.addEventListener(PERF_OPEN_EVENT, onFlip);
+    return () => window.removeEventListener(PERF_OPEN_EVENT, onFlip);
+  }, []);
+  useEffect(() => {
+    if (!bucketsOn) return undefined;
+    const renderer = gl as unknown as WebGPURenderer;
     const frame = gpu.current.frameBuckets;
     let inShadow = false;
     const internals = renderer as unknown as {
@@ -1190,6 +1218,7 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     internals._renderObjectDirect = function wrapped(object: unknown, material: unknown, scene: unknown,
       cam: unknown, lightsNode: unknown, group: unknown, clippingContext: unknown, passId: unknown) {
       const shadow = (material as { isShadowPassMaterial?: boolean } | null)?.isShadowPassMaterial === true;
+      // the CPU clock flips to "shadow" while those draws run (decision 0084 round 10)
       if (shadow !== inShadow) {
         inShadow = shadow;
         segments?.cpuMark(shadow ? "shadow" : "scene");
@@ -1200,13 +1229,8 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
       frame[bucketSlot(shadow, bucketIndexOf(object))] += renderer.info.render.triangles - before;
       return out;
     };
-    return () => {
-      internals._renderObjectDirect = renderObjectDirect;
-      segments?.dispose();
-      gl.info.autoReset = true;
-      delete host.__STUDIO_GPU_MS__;
-    };
-  }, [gl, segments]);
+    return () => { internals._renderObjectDirect = renderObjectDirect; };
+  }, [gl, segments, bucketsOn]);
 
   useFrame((_, delta) => {
     // The frame starts here: the first segment of both clocks opens before

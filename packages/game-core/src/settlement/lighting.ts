@@ -376,6 +376,12 @@ const CORNERS: readonly [number, number][] = [[-0.5, -0.5], [0.5, -0.5], [0.5, 0
 /** One additive sprite draw: every quad showing one texture. */
 interface SpriteBatch {
   mesh: THREE.Mesh;
+  /** The bloom-source draw of the same quads (BLOOM_SOURCE_LAYER only), with
+   * a material of its own: the canvas draw is tone-mapped and the bloom RT
+   * draw is linear, so one material drawn both ways re-derives its program
+   * twice a frame (decision 0108 checklist). `setFlameTexture` keeps map and
+   * visibility in sync; colour and opacity never change (vertex colours). */
+  bloom: THREE.Mesh;
   geometry: THREE.BufferGeometry;
   capacity: number;
   drawn: number;
@@ -439,17 +445,31 @@ export class SettlementLightFixtures {
     const material = new THREE.MeshBasicMaterial({
       map: null, transparent: true, depthWrite: false, vertexColors: true,
       blending: THREE.AdditiveBlending, side: THREE.DoubleSide, fog: false,
+      // three draws a transparent DoubleSide material as a back pass then a
+      // front pass, flipping `side` and setting needsUpdate each time: two
+      // program re-derivations per material per frame (perf10 f4b). Additive
+      // blending is order-free, so one pass draws the same colours.
+      forceSinglePass: true,
     });
     material.name = `settlement-fixture-sprite:${textureId}`;
     const mesh = new THREE.Mesh(geometry, material);
     mesh.frustumCulled = false;
     mesh.name = `settlement-fixture-flames:${textureId}`;
     mesh.layers.set(PRECIP_LAYER);
-    mesh.layers.enable(BLOOM_SOURCE_LAYER); // a glow source (render/post/BloomPass.ts)
+    const bloomMaterial = material.clone();
+    bloomMaterial.name = `${material.name}:bloom`;
+    const bloom = new THREE.Mesh(geometry, bloomMaterial);
+    bloom.frustumCulled = false;
+    bloom.name = `${mesh.name}:bloom`;
+    bloom.layers.set(BLOOM_SOURCE_LAYER); // a glow source (render/post/BloomPass.ts)
+    // world-space quads at identity: no per-frame matrix recompose (perf10 O4)
+    mesh.matrixAutoUpdate = false;
+    bloom.matrixAutoUpdate = false;
     // no quad draws until its texture has loaded (a null map is a white square)
     mesh.visible = false;
-    this.group.add(mesh);
-    batch = { mesh, geometry, capacity: 0, drawn: 0, textured: false };
+    bloom.visible = false;
+    this.group.add(mesh, bloom);
+    batch = { mesh, bloom, geometry, capacity: 0, drawn: 0, textured: false };
     this.batches.set(textureId, batch);
     return batch;
   }
@@ -462,6 +482,9 @@ export class SettlementLightFixtures {
     material.map = texture;
     material.needsUpdate = true;
     batch.textured = true;
+    const bloom = batch.bloom.material as THREE.MeshBasicMaterial;
+    bloom.map = texture;
+    bloom.needsUpdate = true;
   }
 
   /** The sprite draw of one texture (tests, probes). */
@@ -540,6 +563,7 @@ export class SettlementLightFixtures {
       const material = batch.mesh.material as THREE.MeshBasicMaterial;
       material.map?.dispose();
       material.dispose();
+      (batch.bloom.material as THREE.Material).dispose();
       batch.geometry.dispose();
     }
   }
@@ -561,6 +585,7 @@ export class SettlementLightFixtures {
     for (const batch of this.batches.values()) {
       batch.geometry.setDrawRange(0, batch.drawn * 6);
       batch.mesh.visible = batch.textured && batch.drawn > 0;
+      batch.bloom.visible = batch.mesh.visible;
       if (batch.drawn > 0 || batch.mesh.userData.drawnLast > 0) {
         for (const name of ["position", "uv", "color"]) {
           const attribute = batch.geometry.getAttribute(name) as THREE.BufferAttribute | undefined;

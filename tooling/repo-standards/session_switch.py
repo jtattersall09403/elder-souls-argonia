@@ -155,6 +155,22 @@ def owner_line(r):
             f"nearest sensible break and give you the line for the new session.")
 
 
+def lanes_line(path):
+    """' [lanes] running N, over 200k context: M' from lane_status (~0.1 s; method
+    review r7 P2); '' when it cannot be read, so the hook never breaks."""
+    try:
+        from pathlib import Path
+        import lane_status
+        p = Path(path)
+        rs = lane_status.rows(p.parent, p.stem, hours=12)
+        big = lane_status.over_big(rs)
+        running = sum(x["state"] in lane_status.RUNNING for x in rs)
+        return (f" [lanes] running {running}, over 200k context: {len(big)}"
+                + (f" ({', '.join(x['id'][:10] for x in big)}: split from its note; lane_status.py)" if big else ""))
+    except Exception:
+        return ""
+
+
 def newest(directory):
     files = sorted(glob.glob(os.path.join(directory, "*.jsonl")), key=os.path.getmtime)
     return files[-1] if files else None
@@ -202,7 +218,7 @@ def main():
         if not r:
             return
         out = {"hookSpecificOutput": {"hookEventName": "UserPromptSubmit",
-                                      "additionalContext": planner_line(r)}}
+                                      "additionalContext": planner_line(r) + lanes_line(path)}}
         big = r["C_now"] >= BIG_CONTEXT
         state = os.path.join(os.environ.get("TMPDIR", "/tmp"),
                              f"session_switch_{d.get('session_id') or 'unknown'}.json")

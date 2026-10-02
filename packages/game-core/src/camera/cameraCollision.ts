@@ -13,6 +13,11 @@
  * crates) are left out by the query's flags, not by groups.
  */
 export const CAMERA_BLOCKING_BIT = 1 << 15;
+/** The camera pivot's start-overlap test. Terrain heightfields are NOT
+ * members: Rapier projects a ball onto a heightfield by brute force over
+ * every triangle (2×256² per chunk, ~4 ms a frame, perf10 diag Q1). The
+ * pivot in the ground is still caught by the arm's sweep, which keeps them. */
+export const CAMERA_PIVOT_BIT = 1 << 14;
 
 export function interactionGroups(memberships: number, filter: number): number {
   return (((memberships & 0xffff) << 16) | (filter & 0xffff)) >>> 0;
@@ -20,10 +25,14 @@ export function interactionGroups(memberships: number, filter: number): number {
 
 /** Member of every group, the camera's included; collides with everything. */
 export const CAMERA_BLOCKING_GROUPS = interactionGroups(0xffff, 0xffff);
+/** Terrain heightfields: block the camera's sweep, skip the pivot test. */
+export const TERRAIN_HEIGHTFIELD_GROUPS = interactionGroups(0xffff & ~CAMERA_PIVOT_BIT, 0xffff);
 /** Member of every group EXCEPT the camera's; collides with everything. */
-export const CAMERA_TRANSPARENT_GROUPS = interactionGroups(0xffff & ~CAMERA_BLOCKING_BIT, 0xffff);
-/** The camera's query: sees only colliders that are members of its group. */
+export const CAMERA_TRANSPARENT_GROUPS = interactionGroups(0xffff & ~CAMERA_BLOCKING_BIT & ~CAMERA_PIVOT_BIT, 0xffff);
+/** The camera's sweep: sees only colliders that are members of its group. */
 export const CAMERA_QUERY_GROUPS = interactionGroups(CAMERA_BLOCKING_BIT, CAMERA_BLOCKING_BIT);
+/** The pivot start-overlap test: camera-blocking colliders minus terrain. */
+export const CAMERA_PIVOT_QUERY_GROUPS = interactionGroups(CAMERA_PIVOT_BIT, CAMERA_PIVOT_BIT);
 
 /** Arm length (m) under which the player model starts to fade, and the
  * length at which it is gone: Skyrim blends the player out when the camera

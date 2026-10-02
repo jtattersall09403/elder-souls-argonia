@@ -21,7 +21,7 @@ in with OAuth; no API key is stored anywhere in the repo or on the VM.
 2. **Only when faster end to end than SwiftShader on this box.** Boot,
    setup and sync time count: a pod that needs a long setup every time is
    not worth it. The setup is one script,
-   `tooling/gpu-lane/runpod-setup.sh`, so a pod is ready in one step.
+   `tooling/gpu-lane/pod-setup.sh`, so a pod is ready in one step.
 3. **Price first.** The agent states the hourly price before creating
    anything billable.
 4. **One pod per lane, lanes in parallel, deleted (not stopped) when the
@@ -34,7 +34,14 @@ in with OAuth; no API key is stored anywhere in the repo or on the VM.
 5. **Every pod minute and dollar is logged in the lane report** (pod id,
    GPU type, $/h, start, end, minutes, dollars), so the month's spend is
    summable from the reports.
-6. **Blender work does not use RunPod.** Headless Blender on this box
+6. **A render probe over 5 min on SwiftShader runs on the pod** (owner
+   2026-10-02, method review r7 P6: walk 9 ran 15 `probe-bloom-sky` runs
+   at 380-753 s each on SwiftShader, about 75 min on the packet's critical
+   path).
+7. **A pod is deleted or handed over by id.** A lane report or walk packet
+   that leaves a pod up names its id, who owns it next and when it is
+   deleted (method review r7 P4: pod x3lo34wf7lpiai ran 8.7 idle hours).
+8. **Blender work does not use RunPod.** Headless Blender on this box
    renders a place in minutes on CPU (`wb.py bpy`), and the budget is for
    the GPU loop.
 

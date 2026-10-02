@@ -26,10 +26,7 @@ Rules of the road:
 - Batch look-ups: several searches in one Bash call, or one `find` agent
   when more than 3 files need reading; edit with the Edit tool, never by
   re-running a heredoc patch script.
-- No foreground waits: any job over 60 s runs with `run_in_background`
-  and the harness re-invokes you when it exits; never `tail -f`,
-  `tail --pid`, `until` loops or `true`/`echo waiting` loops (the shell
-  guard refuses them).
+- Run every job in the foreground with a timeout up to 600 s (chunk a longer job into steps that each return under that, or poll a log in the foreground with `python3 tooling/repo-standards/lane_wait.py --files <its done-marker>`); never launch a job with run_in_background and end your turn: a subagent that ends its turn is not woken when the job finishes.
 - Never launch other agents except one `find` for a look-up over more
   than 3 files.
 
