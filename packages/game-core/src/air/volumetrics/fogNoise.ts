@@ -83,9 +83,10 @@ function hash32(a: number, b: number, c: number, salt: number): number {
 
 /**
  * Fill channel `ch` of an rgba8 `n`^3 texture with periodic gradient noise of lattice period `period`
- * (repeat-wrapped, quintic fade). `billow`: 1 - |n| (the eroded mist top) instead of n.
+ * (repeat-wrapped, quintic fade). `billow`: 1 - |n| (the eroded mist top) instead of n. Only z slices
+ * `z0..z1-1` are written (a chunked bake writes the same bytes as a whole one).
  */
-function bakeChannel(out: Uint8Array, n: number, period: number, ch: number, salt: number, billow: boolean): void {
+function bakeChannel(out: Uint8Array, n: number, period: number, ch: number, salt: number, billow: boolean, z0 = 0, z1 = n): void {
   const P = period;
   const grad = new Float32Array(P * P * P * 3);
   for (let z = 0; z < P; z++) for (let y = 0; y < P; y++) for (let x = 0; x < P; x++) {
@@ -106,8 +107,8 @@ function bakeChannel(out: Uint8Array, n: number, period: number, ch: number, sal
     const o = ((((iz % P) * P) + (iy % P)) * P + (ix % P)) * 3;
     return grad[o] * dx + grad[o + 1] * dy + grad[o + 2] * dz;
   };
-  let o = ch;
-  for (let z = 0; z < n; z++) {
+  let o = z0 * n * n * 4 + ch;
+  for (let z = z0; z < z1; z++) {
     const zi = cell[z], fz = fr[z], w = fd[z];
     for (let y = 0; y < n; y++) {
       const yi = cell[y], fy = fr[y], v = fd[y];
@@ -133,6 +134,48 @@ export function bakeFogShape(n: number): Uint8Array {
   const out = new Uint8Array(n * n * n * 4);
   for (let ch = 0; ch < 4; ch++) bakeChannel(out, n, FOG_NOISE.shapePeriod, ch, 0x0f0 + ch, ch === 3);
   return out;
+}
+
+/** Shape slices (one channel, one z slice each) a `FogShapeBake.step` bakes by default: at 128^3 a slice
+ * costs ~1.9 ms (the whole bake measured 949 ms), so two per frame keep the frame and finish in ~4 s. */
+export const SHAPE_BAKE_SLICES_PER_STEP = 2;
+
+/**
+ * The fog shape baked over frames instead of in one 949 ms main-thread block (walk 10 vol-diag1 row 15).
+ * `data` is the texture's own array: it holds the mean (0.5 on every channel: an even, unshaped fog)
+ * until the bake completes, then the whole result is copied in at once and `step` returns true that
+ * once, so the caller sets `needsUpdate` on the SAME texture (its identity never changes, and a
+ * half-written shape is never uploaded). Output is byte-identical to `bakeFogShape(n)`.
+ */
+export class FogShapeBake {
+  readonly data: Uint8Array;
+  private scratch: Uint8Array | null;
+  private ch = 0;
+  private z = 0;
+  done = false;
+
+  constructor(readonly n: number) {
+    this.data = new Uint8Array(n * n * n * 4).fill(128);
+    this.scratch = new Uint8Array(n * n * n * 4);
+  }
+
+  /** Bake up to `slices` channel slices; true on the call that completes the bake. */
+  step(slices = SHAPE_BAKE_SLICES_PER_STEP): boolean {
+    const out = this.scratch;
+    if (!out) return false;
+    for (let k = 0; k < slices; k++) {
+      const ch = this.ch;
+      bakeChannel(out, this.n, FOG_NOISE.shapePeriod, ch, 0x0f0 + ch, ch === 3, this.z, this.z + 1);
+      if (++this.z === this.n) { this.z = 0; this.ch++; }
+      if (this.ch === 4) {
+        this.data.set(out);
+        this.scratch = null;
+        this.done = true;
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
 /** fogWarp: rgb the warp vector, a the slow spatial coverage noise. rgba8 32^3, lattice period 4. */

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { Volumetrics, MAX_GRID, type VolumetricBand } from "./froxelGrid";
+import { Volumetrics, MAX_GRID, BEAM_SPREAD_RAD, beamRadiusM, type VolumetricBand } from "./froxelGrid";
 
 const make = (backend: "webgpu" | "webgl") => new Volumetrics({
   renderer: {} as never, backend, terrain: {} as never, crowns: () => [],
@@ -27,5 +27,20 @@ describe("Volumetrics grids", () => {
     expect(v.textures.every((t) => t === null)).toBe(true);
     v.setBand("high");
     expect(v.band).toBe("off");
+  });
+});
+
+describe("window beam", () => {
+  it("is a cone: the aperture's radius at the window, widening by tan(spread) per metre", () => {
+    expect(beamRadiusM(0.4, 0)).toBe(0.4);
+    expect(beamRadiusM(0.4, 5)).toBeCloseTo(0.4 + 5 * Math.tan(BEAM_SPREAD_RAD), 9);
+    expect(beamRadiusM(0.4, 5)).toBeGreaterThan(0.6);
+    expect(BEAM_SPREAD_RAD).toBeGreaterThan(0.017); expect(BEAM_SPREAD_RAD).toBeLessThan(0.1);
+  });
+  it("inject adds no beam-only extinction and keeps the beam out of the air tint", async () => {
+    const fs = await import("node:fs");
+    const src = fs.readFileSync(new URL("./froxelGrid.ts", import.meta.url), "utf8");
+    expect(src).not.toMatch(/sigmaT\.addAssign/);
+    expect(src).toMatch(/radiance\.mul\(tint\)\.add\(beam\)/);
   });
 });

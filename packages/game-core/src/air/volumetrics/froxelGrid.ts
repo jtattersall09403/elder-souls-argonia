@@ -14,11 +14,12 @@ import { Storage3DTexture, type WebGPURenderer } from "three/webgpu";
 import * as tsl from "three/tsl";
 import type { TslNode } from "../../render/nodes/materialNodes";
 import { fogRegimesInto, MOISTURE_FLOOR, MIST_FADE_SHARE, MIST_SCALE_SHARE, type FogFieldInput, type FogRegimes } from "./fogField";
-import { FOG_NOISE, FogDrift, bakeFogShape, bakeFogWarp } from "./fogNoise";
+import { FOG_NOISE, FogDrift, FogShapeBake, bakeFogWarp } from "./fogNoise";
+import { VOLUMETRIC_BANDS, bandSpec, type BandSpec, type VolumetricTier } from "./bandGovernor";
 import { SHADOWED_SKY, SUN_PROBES_M, SUN_PROBE_NEAR_M, probeSoftM } from "./terrainSun";
 import { TerrainGrids, NEAR_SIZE_M, FAR_SIZE_M, type TerrainSamplers } from "./terrainGrids";
 import { CanopyMap, CANOPY_SIZE_M, type Crown } from "./canopyMap";
-import type { VolumetricsSampler } from "./volumetricNodes";
+import { LAMP_HALO, type VolumetricsSampler } from "./volumetricNodes";
 
 const T = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode> & Record<string, TslNode>;
 const {
@@ -27,14 +28,6 @@ const {
 } = T;
 
 export type VolumetricBand = "off" | "low" | "medium" | "high";
-/** A band: froxel grid, reach, temporal reprojection, and the fog shape's spend (fogNoise FOG_NOISE.bands:
- * octaves summed, warp layers). */
-export interface BandSpec { grid: readonly [number, number, number]; farM: number; temporal: boolean; fogOctaves: 2 | 3 | 4; fogWarps: 1 | 2 }
-export const VOLUMETRIC_BANDS: Record<Exclude<VolumetricBand, "off">, BandSpec> = {
-  low: { grid: [80, 45, 32], farM: 400, temporal: false, fogOctaves: FOG_NOISE.bands.low.octaves, fogWarps: FOG_NOISE.bands.low.warps },
-  medium: { grid: [128, 72, 48], farM: 800, temporal: true, fogOctaves: FOG_NOISE.bands.medium.octaves, fogWarps: FOG_NOISE.bands.medium.warps },
-  high: { grid: [160, 90, 64], farM: 1500, temporal: true, fogOctaves: FOG_NOISE.bands.high.octaves, fogWarps: FOG_NOISE.bands.high.warps },
-};
 /** The grids are allocated once at this size (the largest band) and never resized (see the class doc). */
 export const MAX_GRID = VOLUMETRIC_BANDS.high.grid;
 export const FROXEL_NEAR_M = 0.5;
@@ -46,9 +39,16 @@ const ALBEDO = 0.95;
  * isotropic scatterer gives E/(2π); 0.8/π carries the ground bounce on top. Under the same sky a
  * white Lambert floor reads E/π, so thick fog settles at 0.76 of the floor's radiance, never above it. */
 export const SKY_INSCATTER = 0.8 / Math.PI;
-/** Range (m) over which the per-pixel shaft march carries the sun under the canopy, and its steps. */
+/** Range (m) over which the per-pixel shaft march carries the sun under the canopy (steps: the band's
+ * `shaftSteps`). */
 const SHAFT_NEAR_M = 40;
-const SHAFT_STEPS = 12;
+/** A window beam's half-angle of spread (rad, ~3 deg): the sun disc (0.27 deg) plus the bright
+ * circumsolar sky and the sky seen through the opening widen the shaft along its length. */
+export const BEAM_SPREAD_RAD = 0.052;
+/** Radius (m) of a window beam `alongM` metres in from its aperture of `radiusM`: a cone. */
+export function beamRadiusM(radiusM: number, alongM: number, spreadRad = BEAM_SPREAD_RAD): number {
+  return radiusM + Math.max(0, alongM) * Math.tan(spreadRad);
+}
 /** Sun-ray optical depth through the medium itself: density sampled at these distances (m) up the sun
  * ray, each standing for the span `SUN_OD_SPAN_M` (midpoint rule over 0..255 m). */
 export const SUN_OD_PROBES_M = [12, 35, 90, 200] as const;
@@ -66,16 +66,6 @@ function sunPhase(cSun: TslNode, sunY: TslNode): TslNode {
   return mix(hg(0.2, cSun), hg(0.85, cSun), smoothstep(0.03, 0.14, sunY).mul(0.72).add(0.03));
 }
 
-/** The band for a renderer tier (0108): WebGL is always off. */
-export function volumetricBandFor(backend: "webgpu" | "webgl", tier: "low" | "medium" | "high" | "lowest"): VolumetricBand {
-  if (backend !== "webgpu" || tier === "lowest") return "off";
-  return tier;
-}
-/** One step down (the frame-budget downgrade). */
-export function bandBelow(b: VolumetricBand): VolumetricBand {
-  return b === "high" ? "medium" : b === "medium" ? "low" : "off";
-}
-
 /** View depth of the centre-free slice boundary `s` of `n` (exponential distribution). */
 export function sliceDepth(s: number, n: number, near: number, far: number): number {
   return near * Math.pow(far / near, s / n);
@@ -83,7 +73,13 @@ export function sliceDepth(s: number, n: number, near: number, far: number): num
 
 export interface VolumeLight { position: THREE.Vector3; radiance: THREE.Color; radiusM: number }
 /** A window: light entering along `direction` through a disc of `radiusM` at `position`. */
-export interface ApertureLight { position: THREE.Vector3; direction: THREE.Vector3; radiusM: number; lengthM: number; irradiance: THREE.Color }
+export interface ApertureLight {
+  position: THREE.Vector3; direction: THREE.Vector3; radiusM: number; lengthM: number;
+  /** The beam's colour: the drawn rig's sun or moon colour x its direct share (InteriorDoors). */
+  irradiance: THREE.Color;
+  /** Half-angle the beam widens by (rad); default BEAM_SPREAD_RAD. */
+  spreadRad?: number;
+}
 /** Per-cell interior profile (0112 §6). */
 export interface InteriorFogProfile { floorY: number; floorMistTopM: number; floorMistDensity: number; dustDensity: number }
 
@@ -114,8 +110,9 @@ export interface VolumetricsDeps {
   backend: "webgpu" | "webgl";
   terrain: TerrainSamplers;
   crowns: (x: number, z: number, radiusM: number) => Iterable<Crown>;
-  /** fogShape texels per side: 128 (8 MiB, the default) or 64 (1 MiB, the mobile tier). */
-  fogShapeTexels?: 64 | 128;
+  /** The renderer's volumetric tier (bandGovernor): picks the band rows and the fog shape's texels
+   * (128^3 8 MiB, mobile 64^3 1 MiB). Default high. */
+  tier?: VolumetricTier;
 }
 
 /** An rgba8 repeat-wrapped linear 3-D noise texture (fogNoise bakes). */
@@ -166,8 +163,11 @@ export class Volumetrics implements VolumetricsSampler {
   band: VolumetricBand = "off";
   readonly grids: TerrainGrids;
   readonly canopy: CanopyMap;
-  /** The fog's own noise (fogNoise): shape 128^3 (or 64^3) and warp 32^3, baked once at construction. */
+  /** The fog's own noise (fogNoise): shape 128^3 (or 64^3) baked over the first frames into this same
+   * texture (FogShapeBake), and warp 32^3 baked at construction (~15 ms). */
   private readonly fogShape: THREE.Data3DTexture;
+  private readonly shapeBake: FogShapeBake | null;
+  private readonly tier: VolumetricTier;
   private readonly fogWarp: THREE.Data3DTexture;
   /** The fog field's clock and drift (integrated offsets, morph, eased coverage). */
   readonly drift = new FogDrift();
@@ -204,7 +204,7 @@ export class Volumetrics implements VolumetricsSampler {
     camFwd: uniform(new THREE.Vector3()), tanHalf: uniform(new THREE.Vector2(1, 1)), jitter: uniform(0), jitterXY: uniform(new THREE.Vector2()), time: uniform(0),
     prevViewProj: uniform(new THREE.Matrix4()), history: uniform(0),
     sunDir: uniform(new THREE.Vector3(0, 1, 0)), sunIrr: uniform(new THREE.Color(0, 0, 0)), skyIrr: uniform(new THREE.Color(0, 0, 0)),
-    canopyHaze: uniform(0), air: uniform(1),
+    canopyHaze: uniform(0), air: uniform(1), haloSigma: uniform(0), haloViewM: uniform(LAMP_HALO.high.viewM),
     mistDepth: uniform(30),
     // fog drift (FogDrift uploads, 0..1 texture units): per-octave and per-warp offsets, morph, coverage
     off: [0, 1, 2, 3].map(() => uniform(new THREE.Vector3())), warpOff: [0, 1].map(() => uniform(new THREE.Vector3())),
@@ -215,6 +215,8 @@ export class Volumetrics implements VolumetricsSampler {
     nearOrigin: uniform(new THREE.Vector2()), farOrigin: uniform(new THREE.Vector2()), canopyOrigin: uniform(new THREE.Vector2()),
     floorY: uniform(0), floorTop: uniform(0), floorMist: uniform(0), dust: uniform(0), outdoor: uniform(1),
     lightCount: uniform(0, "int"), apertureCount: uniform(0, "int"),
+    /** The band's per-pixel march steps (uniform loop bounds: a band step recompiles no material). */
+    moteSteps: uniform(0, "int"), shaftSteps: uniform(12, "int"),
   };
   private readonly lightPos = Array.from({ length: MAX_VOLUME_LIGHTS }, () => new THREE.Vector4());
   private readonly lightCol = Array.from({ length: MAX_VOLUME_LIGHTS }, () => new THREE.Vector4());
@@ -222,6 +224,7 @@ export class Volumetrics implements VolumetricsSampler {
   private readonly apDir = Array.from({ length: MAX_APERTURES }, () => new THREE.Vector4());
   private readonly apCol = Array.from({ length: MAX_APERTURES }, () => new THREE.Vector4());
   /** The nearest point lights (xyz, reach) and radiance, read by the fog stage's analytic airlight. */
+  readonly halo = { sigmaFloor: this.u.haloSigma, viewM: this.u.haloViewM };
   readonly lights = { pos: uniformArray(this.lightPos, "vec4"), col: uniformArray(this.lightCol, "vec4"), count: this.u.lightCount, max: MAX_VOLUME_LIGHTS };
   private readonly uApPos = uniformArray(this.apPos, "vec4");
   private readonly uApDir = uniformArray(this.apDir, "vec4");
@@ -232,12 +235,22 @@ export class Volumetrics implements VolumetricsSampler {
     this.grids = new TerrainGrids(deps.terrain);
     this.canopy = new CanopyMap(deps.crowns);
     const gpu = deps.backend === "webgpu";
-    const n = gpu ? (deps.fogShapeTexels ?? 128) : 1;
-    this.fogShape = makeNoise3(gpu ? bakeFogShape(n) : new Uint8Array(4), n, "es-vol-fog-shape");
+    this.tier = deps.tier ?? "high";
+    const n = gpu ? VOLUMETRIC_BANDS[this.tier].fog.shapeTexels : 1;
+    this.shapeBake = gpu ? new FogShapeBake(n) : null;
+    this.fogShape = makeNoise3(this.shapeBake?.data ?? new Uint8Array(4), n, "es-vol-fog-shape");
     this.fogWarp = makeNoise3(gpu ? bakeFogWarp() : new Uint8Array(4), gpu ? FOG_NOISE.warpTexels : 1, "es-vol-fog-warp");
     this.scatter = gpu ? [makeGrid(MAX_GRID, "es-vol-scatter-a"), makeGrid(MAX_GRID, "es-vol-scatter-b")] : null;
     this.integ = gpu ? makeGrid(MAX_GRID, "es-vol-integrated") : null;
     this.blurred = gpu ? makeGrid(MAX_GRID, "es-vol-scatter-blurred") : null;
+  }
+
+  /** The fog shape texture (constant for the object's life, also across its bake). */
+  get fogShapeTexture(): THREE.Data3DTexture { return this.fogShape; }
+
+  /** Advance the fog shape's bake by `slices` channel slices; on completion re-upload the same texture. */
+  stepShapeBake(slices?: number): void {
+    if (this.shapeBake && !this.shapeBake.done && this.shapeBake.step(slices)) this.fogShape.needsUpdate = true;
   }
 
   /** The textures the grids live in, for tests and probes (constant for the object's life). */
@@ -261,7 +274,9 @@ export class Volumetrics implements VolumetricsSampler {
       this.dispatch.inject = 0; this.dispatch.integrate = 0;
       return;
     }
-    const spec = VOLUMETRIC_BANDS[band];
+    const spec = bandSpec(band, this.tier);
+    this.u.moteSteps.value = spec.moteSteps;
+    this.u.shaftSteps.value = spec.shaftSteps;
     this.far.value = spec.farM;
     this.gridSize.value.set(spec.grid[0], spec.grid[1], spec.grid[2]);
     let k = this.kernelsByBand.get(band);
@@ -294,7 +309,7 @@ export class Volumetrics implements VolumetricsSampler {
     };
     let q: TslNode = p;
     let cov: TslNode = float(0.5);
-    for (let k = 0; k < spec.fogWarps; k++) {
+    for (let k = 0; k < spec.fog.warps; k++) {
       const L = FOG_NOISE.warp[k].tileM;
       const w = texture3D(this.fogWarp, rot(p, (k + 0.5) * FOG_NOISE.rotationRad).div(L).sub(u.warpOff[k]), 0);
       q = q.add(w.xyz.sub(0.5).mul(2 * FOG_NOISE.warp[k].ampM));
@@ -302,7 +317,7 @@ export class Volumetrics implements VolumetricsSampler {
     }
     let sum: TslNode = float(0);
     let wsum = 0;
-    for (let k = 0; k < spec.fogOctaves; k++) {
+    for (let k = 0; k < spec.fog.octaves; k++) {
       const o = FOG_NOISE.octaves[k];
       const uvw = rot(q, k * FOG_NOISE.rotationRad).div(vec3(o.tileXZ, o.tileY, o.tileXZ)).sub(u.off[k]);
       let sv: TslNode;
@@ -412,25 +427,23 @@ export class Volumetrics implements VolumetricsSampler {
     // there and blends into it over the far edge: gaps between beams stay dark, crowns are not brightened.
     If(u.outdoor.mul(step(float(0), u.sunDir.y)).greaterThan(0), () => {
       const span = min(segLen, SHAFT_NEAR_M);
-      const dt = span.div(SHAFT_STEPS);
+      const dt = span.div(float(u.shaftSteps));
       const ph = sunPhase(dot(dir, u.sunDir), u.sunDir.y);
-      for (let k = 0; k < SHAFT_STEPS; k++) {
-        const t = dt.mul(k + 0.5);
+      Loop(u.shaftSteps, ({ i: k }: { i: TslNode }) => {
+        const t = dt.mul(float(k).add(0.5));
         const p = cam.add(dir.mul(t));
         const w = this.shaftNear(p, t);
         acc.addAssign(vec3(u.sunIrr).mul(ph).mul(this.gridDensity(p)).mul(w).mul(this.canopyT(p))
           .mul(dt).mul(exp(sigma.mul(t).negate())).mul(ALBEDO));
-      }
+      });
     });
     // motes: hashed points on a 0.3 m lattice, ~1 in 8 cells kept (~4.6 /m^3), lit only inside a beam,
-    // drifting and twinkling slowly
+    // drifting and twinkling slowly: an additive sparkle over the beam the grid draws (no extinction)
     Loop(u.apertureCount, ({ i }: { i: TslNode }) => {
-      const ap = this.uApPos.element(i);
-      const ad = this.uApDir.element(i);
       const span = min(segLen, 10);
-      const dt = span.div(28);
-      for (let k = 0; k < 28; k++) {
-        const p = cam.add(dir.mul(dt.mul(k + 0.5)));
+      const dt = span.div(float(max(u.moteSteps, int(1))));
+      Loop(u.moteSteps, ({ i: k }: { i: TslNode }) => {
+        const p = cam.add(dir.mul(dt.mul(float(k).add(0.5))));
         const cell = floor(p.div(0.3));
         const hsh = (o: number[]) => fract(sin(dot(cell, vec3(o[0], o[1], o[2]))).mul(43758.5453));
         const hx = hsh([127.1, 311.7, 74.7]), hy = hsh([269.5, 183.3, 246.1]), hz = hsh([113.5, 271.9, 124.6]), keep = hsh([419.2, 371.9, 157.3]);
@@ -441,13 +454,10 @@ export class Volumetrics implements VolumetricsSampler {
         const off = length(rel.sub(dir.mul(along)));
         const size = max(along.mul(0.0035), float(0.004));
         const disc = float(1).sub(smoothstep(size.mul(0.4), size, off)).mul(step(float(0), along)).mul(step(along, segLen));
-        const brel = m.sub(ap.xyz);
-        const bAlong = dot(brel, ad.xyz);
-        const inBeam = step(float(0), bAlong).mul(float(1).sub(smoothstep(ap.w.mul(0.8), ap.w, length(brel.sub(ad.xyz.mul(bAlong))))))
-          .mul(float(1).sub(smoothstep(ad.w.mul(0.7), ad.w, bAlong)));
+        const inBeam = this.beamMask(m, i);
         const twinkle = float(0.55).add(sin(u.time.mul(0.9).add(keep.mul(40))).mul(0.45));
         acc.addAssign(this.uApCol.element(i).xyz.mul(disc.mul(inBeam).mul(step(0.875, keep)).mul(twinkle).mul(0.5)));
-      }
+      });
     });
     return acc;
   }
@@ -545,6 +555,18 @@ export class Volumetrics implements VolumetricsSampler {
     return float(1).sub(smoothstep(0, 1, c.b.sub(p.y)).mul(smoothstep(0, 0.5, c.r)).mul(0.98).mul(this.u.outdoor));
   }
 
+  /** 0..1 inside window beam `i` at world `p`: a cone from the aperture disc (radius ap.w) widening by
+   * apCol.w = tan(spread) per metre (beamRadiusM is the CPU twin), soft-edged, faded over its length. */
+  private beamMask(p: TslNode, i: TslNode): TslNode {
+    const ap = this.uApPos.element(i);
+    const ad = this.uApDir.element(i);
+    const rel = p.sub(ap.xyz);
+    const along = dot(rel, ad.xyz);
+    const r = ap.w.add(max(along, float(0)).mul(this.uApCol.element(i).w));
+    return step(float(0), along).mul(float(1).sub(smoothstep(r.mul(0.8), r, length(rel.sub(ad.xyz.mul(along))))))
+      .mul(float(1).sub(smoothstep(ad.w.mul(0.7), ad.w, along)));
+  }
+
   private injectKernel(spec: BandSpec, write: Storage3DTexture, history: Storage3DTexture): TslNode {
     const [gx, gy, gz] = spec.grid;
     const u = this.u;
@@ -575,23 +597,19 @@ export class Volumetrics implements VolumetricsSampler {
         .mul(float(1).sub(this.shaftNear(p, length(dir).mul(depth))))
         .add(vec3(u.skyIrr).mul(SKY_INSCATTER).mul(this.skyOpen(p)).mul(skyKeep)).toVar();
       // point lights: analytic airlight in the apply stage (volumetricNodes), not here
+      // window beams: a cone (beamMask) lit in the beam's own colour; the medium inside it is the room's
+      // dust (density(), the interior record), so the beam reads as lit dust, never as an opaque column
+      const beam = vec3(0).toVar();
       Loop(u.apertureCount, ({ i }: { i: TslNode }) => {
-        const ap = this.uApPos.element(i);
         const ad = this.uApDir.element(i);
-        const rel = p.sub(ap.xyz);
-        const along = dot(rel, ad.xyz);
-        const radial = length(rel.sub(ad.xyz.mul(along)));
-        const inBeam = step(float(0), along).mul(float(1).sub(smoothstep(ap.w.mul(0.8), ap.w, radial)))
-          .mul(float(1).sub(smoothstep(ad.w.mul(0.7), ad.w, along)));
-        // beam-local dust: fine motes drifting in the shaft (0.15..2.65 /m), the room around it stays clear
-        const mote = texture3D(this.fogShape, p.add(vec3(u.time.mul(0.03), u.time.mul(-0.02), 0)).div(vec3(0.28, 0.28, 0.28)), 0).z.sub(0.5).mul(3.2);
-        sigmaT.addAssign(inBeam.mul(float(0.15).add(smoothstep(0.66, 0.78, mote).mul(2.5))));
-        radiance.addAssign(this.uApCol.element(i).xyz.mul(inBeam).mul(mix(float(1 / (4 * Math.PI)), hg(0.7, dot(ad.xyz, v.negate())), 0.6)));
+        beam.addAssign(this.uApCol.element(i).xyz.mul(this.beamMask(p, i))
+          .mul(mix(float(1 / (4 * Math.PI)), hg(0.7, dot(ad.xyz, v.negate())), 0.6)));
       });
-      // clear air scatters blue more than red (Rayleigh-like tint on the air share only; mist stays white)
+      // clear air scatters blue more than red (Rayleigh-like tint on the air share only; mist and the
+      // window beam keep their own colour)
       const airShare = clamp(this.airDensity(p).div(sigmaT), 0, 1);
       const tint = mix(vec3(1), vec3(0.5, 0.78, 1.4), airShare);
-      const cur = vec4(radiance.mul(tint).mul(sigmaT.mul(ALBEDO)), sigmaT).toVar();
+      const cur = vec4(radiance.mul(tint).add(beam).mul(sigmaT.mul(ALBEDO)), sigmaT).toVar();
       If(u.history.greaterThan(0.5), () => {
         const prev = u.prevViewProj.mul(vec4(p, 1));
         const pn = prev.xy.div(prev.w);
@@ -652,10 +670,11 @@ export class Volumetrics implements VolumetricsSampler {
 
   /** Per frame: the fog field, the grids, the lights, then the two compute passes. */
   update(f: VolumetricsFrame): void {
+    this.stepShapeBake();
     if (this.band === "off" || !this.kernels) return;
     const u = this.u;
     const cam = f.camera;
-    const spec = VOLUMETRIC_BANDS[this.band];
+    const spec = bandSpec(this.band, this.tier);
     this.grids.update(cam.position.x, cam.position.z);
     this.canopy.update(cam.position.x, cam.position.z);
     u.nearOrigin.value.copy(this.grids.near.origin);
@@ -690,7 +709,7 @@ export class Volumetrics implements VolumetricsSampler {
       const a = aps[i];
       this.apPos[i].set(a.position.x, a.position.y, a.position.z, a.radiusM);
       this.apDir[i].set(a.direction.x, a.direction.y, a.direction.z, a.lengthM);
-      this.apCol[i].set(a.irradiance.r, a.irradiance.g, a.irradiance.b, 0);
+      this.apCol[i].set(a.irradiance.r, a.irradiance.g, a.irradiance.b, Math.tan(a.spreadRad ?? BEAM_SPREAD_RAD));
     }
     u.apertureCount.value = na;
     // temporal: jitter the slice depth, blend with the reprojected history
@@ -726,6 +745,7 @@ export class Volumetrics implements VolumetricsSampler {
     u.phiA.value = d.phiA; u.phiB.value = d.phiB; u.wfade.value = d.wfade; u.slow.value = d.slow;
     u.cover.value.set(d.cover[0], d.cover[1], d.cover[2], d.cover[3]);
     u.canopyHaze.value = d.cover[4]; u.air.value = r?.air ?? 1;
+    u.haloSigma.value = (r?.halo ?? 0) * LAMP_HALO.high.sigmaFloorPerM;
     u.steamOff.value.fromArray(d.steamOff); u.wispOff.value.fromArray(d.wispOff);
   }
 

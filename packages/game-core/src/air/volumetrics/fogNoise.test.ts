@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
-import { FOG_NOISE, FogDrift, bakeFogShape, bakeFogWarp, fogShapeNoise, sunBurn, burnOff } from "./fogNoise";
+import { FOG_NOISE, FogDrift, FogShapeBake, bakeFogShape, bakeFogWarp, fogShapeNoise, sunBurn, burnOff } from "./fogNoise";
 import { fogRegimes, type FogFieldInput } from "./fogField";
 import { Volumetrics } from "./froxelGrid";
 
@@ -85,7 +85,7 @@ describe("fog noise (vol10 A)", () => {
   });
   it("(f) the fog uniforms do not move when only the camera moves", () => {
     const make = () => new Volumetrics({
-      renderer: { compute: () => undefined } as never, backend: "webgpu", fogShapeTexels: 64,
+      renderer: { compute: () => undefined } as never, backend: "webgpu", tier: "mobile",
       terrain: { groundHeight: () => 0, water: () => ({ height: 0, mask: 0 }), seaMask: () => 0, wetness: () => 0.5 },
       crowns: () => [],
     });
@@ -113,5 +113,32 @@ describe("fog noise (vol10 A)", () => {
   it("texture memory per tier: 8 MiB + 128 KiB high, 1 MiB + 128 KiB mobile", () => {
     expect(FOG_NOISE.textureBytes(128)).toBe(8 * 2 ** 20 + 128 * 1024);
     expect(FOG_NOISE.textureBytes(64)).toBe(2 ** 20 + 128 * 1024);
+  });
+});
+
+describe("fog shape bake over frames", () => {
+  it("writes the mean until done, then the whole bake at once, byte-identical to bakeFogShape", () => {
+    const b = new FogShapeBake(16);
+    const arr = b.data;
+    let steps = 0;
+    while (!b.step(3)) { steps++; expect(b.data[5]).toBe(128); }
+    expect(b.done).toBe(true);
+    expect(steps).toBe(Math.ceil((16 * 4) / 3) - 1);
+    expect(b.data).toBe(arr);
+    expect(Array.from(b.data)).toEqual(Array.from(bakeFogShape(16)));
+    expect(b.step()).toBe(false);
+  });
+  it("Volumetrics bakes into the same texture: identity unchanged, re-uploaded once on completion", () => {
+    const v = new Volumetrics({ renderer: {} as never, backend: "webgpu", tier: "mobile", terrain: {} as never, crowns: () => [] });
+    const tex = v.fogShapeTexture;
+    const data = tex.image.data;
+    const version = tex.version;
+    v.stepShapeBake(64 * 4 - 1);
+    expect(tex.version).toBe(version);
+    v.stepShapeBake(1);
+    expect(v.fogShapeTexture).toBe(tex);
+    expect(tex.image.data).toBe(data);
+    expect(tex.version).toBe(version + 1);
+    v.dispose();
   });
 });
