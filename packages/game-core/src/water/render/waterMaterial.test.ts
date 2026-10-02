@@ -598,3 +598,41 @@ describe("shore swell tilt per pixel at rest xz (perf-diag14 V1)", () => {
     }
   });
 });
+
+describe("water debug views (wdbg=)", () => {
+  /** The stub plus the tail chunks the debug patch hooks. */
+  function compileFull(mode: "field" | "strip", variant: "above" | "below") {
+    const uniforms = createWaterUniforms(assets);
+    const material = createWaterMaterial(variant,
+      { csm: null, applyAerial: () => {}, assets, uniforms, tier: WATER_TIERS.high }, mode);
+    const key0 = material.customProgramCacheKey();
+    const shader = stubShader();
+    shader.fragmentShader = shader.fragmentShader.replace(/\}$/,
+      "#include <tonemapping_fragment>\n#include <dithering_fragment>\n}");
+    material.onBeforeCompile!(shader as unknown as THREE.WebGLProgramParametersWithUniforms,
+      {} as THREE.WebGLRenderer);
+    return { frag: code(shader.fragmentShader), uniforms, material, key0 };
+  }
+
+  it("is one uniform compare at the end, in every variant, mode 0 by default", () => {
+    for (const mode of ["field", "strip"] as const) for (const variant of ["above", "below"] as const) {
+      const { frag, uniforms } = compileFull(mode, variant);
+      expect(uniforms.uEsDebugMode.value).toBe(0);
+      expect(frag).toContain("uniform float uEsDebugMode;");
+      const branch = frag.indexOf("if (uEsDebugMode > 0.5)");
+      expect(branch).toBeGreaterThan(frag.indexOf("#include <dithering_fragment>"));
+      // nothing but the branch follows the last chunk: mode 0 is today's output
+      expect(frag.slice(frag.indexOf("#include <dithering_fragment>"), branch).trim())
+        .toBe("#include <dithering_fragment>");
+      expect(frag).toContain("esDbgPre = gl_FragColor.rgb;\nesDbgPost = gl_FragColor.rgb;\n#include <tonemapping_fragment>");
+      expect(frag).not.toMatch(/#define ES_DEBUG|#ifdef ES_DEBUG/);
+    }
+  });
+
+  it("leaves the program cache key unchanged", () => {
+    const { material, key0, uniforms } = compileFull("field", "above");
+    uniforms.uEsDebugMode.value = 7;
+    expect(material.customProgramCacheKey()).toBe(key0);
+    expect(key0).toBe("es-water-above-high-field");
+  });
+});

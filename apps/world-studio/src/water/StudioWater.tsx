@@ -53,7 +53,9 @@ export function pickWaterTier(): WaterTier {
   return coarse || weak ? WATER_TIERS.low : WATER_TIERS.high;
 }
 
-export function StudioWater({ base, verticalScale, farExtentM, contactBodies, surfaceFocus, bloom }: {
+export function StudioWater({ base, verticalScale, farExtentM, contactBodies, surfaceFocus, bloom, debugMode = 0 }: {
+  /** Dev water debug view (`?wdbg=<n>`, waterMaterial WATER_DEBUG_GLSL); 0 = normal. */
+  debugMode?: number;
   base: string;
   verticalScale: number;
   /** Water draw distance — walk mode ~6 km, flyover 30 km (perf). */
@@ -118,7 +120,10 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
   const handleRef = useRef<WaterSurfaceHandle | null>(null);
   const onSurfaceReady = useCallback((h: WaterSurfaceHandle) => {
     handleRef.current = h;
-  }, []);
+    // dev debug view (`?wdbg=<n>`): one uniform shared by field, strips and fall kit
+    h.uniforms.uEsDebugMode.value = debugMode;
+    if (h.falls) h.falls.uniforms.uEsDebugMode.value = debugMode;
+  }, [debugMode]);
   const ripple = useMemo(() => (tier.ripples ? new RippleSim() : null), [tier]);
   useEffect(() => () => ripple?.dispose(), [ripple]);
   useEffect(() => { if (assets) ripple?.configureBoundary(assets.world, runtime.epochMinutes); }, [ripple, assets, runtime]);

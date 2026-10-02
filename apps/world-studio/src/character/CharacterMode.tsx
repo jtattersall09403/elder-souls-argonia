@@ -237,6 +237,12 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const waterPipelineEnabled = useMemo(() => (
     new URLSearchParams(window.location.search).get("water") !== "0"
   ), []);
+  // DEV water debug view (`?wdbg=<n>`, tooling/gpu-lane/README.md): one
+  // uniform on the water materials; 0 or absent = the normal output.
+  const waterDebugMode = useMemo(() => {
+    const n = Number(new URLSearchParams(window.location.search).get("wdbg") ?? 0);
+    return Number.isFinite(n) ? Math.max(0, Math.round(n)) : 0;
+  }, []);
   // Glow around bright lights (decision 0108 post row), default ON; DEV A/B
   // switch `?post=0` mounts no post pass, so its cost reads on the HUD.
   const postEnabled = useMemo(() => (
@@ -578,6 +584,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               farExtentM={12000}
               surfaceFocus={waterSurfaceFocus}
               bloom={bloom}
+              debugMode={waterDebugMode}
             />
           )}
           {showMarkers && <CityMarkers groundAt={markerGroundAt} />}

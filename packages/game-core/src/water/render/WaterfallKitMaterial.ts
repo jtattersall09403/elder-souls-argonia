@@ -41,6 +41,8 @@ export interface KitSharedUniforms {
   uUnderwater: { value: number };
   /** Season/tide lift of the receiving pools (m). */
   uLift: { value: number };
+  /** Dev debug view (`?wdbg=<n>`, waterMaterial WATER_DEBUG_GLSL); 0 = normal. */
+  uEsDebugMode: { value: number };
 }
 
 export function createKitSharedUniforms(): KitSharedUniforms {
@@ -58,6 +60,7 @@ export function createKitSharedUniforms(): KitSharedUniforms {
     uOpacity: { value: 1 },
     uUnderwater: { value: 0 },
     uLift: { value: 0 },
+    uEsDebugMode: { value: 0 },
   };
 }
 
@@ -106,6 +109,7 @@ uniform float uCamNear;
 uniform float uCamFar;
 uniform vec2 uResolution;
 uniform float uOpacity;
+uniform float uEsDebugMode;
 uniform float uUnderwater;
 uniform float uVerticalScale;
 uniform float uLift;
@@ -188,6 +192,17 @@ void main() {
   gl_FragColor = vec4(color, alpha);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
+  // wdbg= debug views in the water's numbering: 1/2 normal, 8 alpha,
+  // 11 grid, 12 alpha 1; a mode with no kit term is magenta
+  if (uEsDebugMode > 0.5) {
+    int esDm = int(uEsDebugMode + 0.5);
+    vec3 esDc = vec3(1.0, 0.0, 1.0);
+    if (esDm == 1 || esDm == 2) esDc = normalize(vNormalW) * 0.5 + 0.5;
+    else if (esDm == 8) esDc = vec3(alpha);
+    else if (esDm == 11) esDc = vec3(fract(vWorldPos.xz * 0.25), 0.0);
+    else if (esDm == 12) esDc = gl_FragColor.rgb;
+    gl_FragColor = vec4(esDc, 1.0);
+  }
 }
 `;
 

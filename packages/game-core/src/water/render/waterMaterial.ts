@@ -182,7 +182,35 @@ export interface WaterUniforms extends FoamFieldUniforms {
   uWaterSunDir: { value: THREE.Vector3 };
   uWaterSunLight: { value: THREE.Vector3 };
   uWaterAmbient: { value: THREE.Vector3 };
+  /** Dev debug view (`?wdbg=<n>`, WATER_DEBUG_GLSL): 0 = the normal output. */
+  uEsDebugMode: { value: number };
 }
+
+/** The water debug views (`?wdbg=<n>`, tooling/gpu-lane/README.md): a uniform
+ * compare at the very end of the fragment, so mode 0 is the shipped output
+ * and the program and its cache key are the same in every mode. Each mode
+ * writes an opaque colour: 1 vertex normal, 2 shading normal, 3 fresnel,
+ * 4 foam, 5 crest (0.5 grey = still level, ±1 m to black/white), 6 reflected
+ * sky/env, 7 refraction/transmitted colour, 8 final alpha, 9 aerial change
+ * (|post − pre| × 4), 10 sparkle, 11 fract(rest xz / 4 m) as RG, 12 the
+ * normal colour at alpha 1 (overdraw of stacked transparent layers). */
+export const WATER_DEBUG_GLSL = /* glsl */ `
+if (uEsDebugMode > 0.5) {
+  int esDm = int(uEsDebugMode + 0.5);
+  vec3 esDc = gl_FragColor.rgb;
+  if (esDm == 1) esDc = normalize(vEsNormalW) * 0.5 + 0.5;
+  else if (esDm == 2) esDc = esNW * 0.5 + 0.5;
+  else if (esDm == 3) esDc = vec3(esDbgFres);
+  else if (esDm == 4) esDc = vec3(esFoam);
+  else if (esDm == 5) esDc = vec3(clamp(esDbgCrest * 0.5 + 0.5, 0.0, 1.0));
+  else if (esDm == 6) esDc = esDbgSky;
+  else if (esDm == 7) esDc = esDbgRefr;
+  else if (esDm == 8) esDc = vec3(gl_FragColor.a);
+  else if (esDm == 9) esDc = vec3(clamp(length(esDbgPost - esDbgPre) * 4.0, 0.0, 1.0));
+  else if (esDm == 10) esDc = vec3(esDbgSpec);
+  else if (esDm == 11) esDc = vec3(fract(vEsRestXZ * 0.25), 0.0);
+  gl_FragColor = vec4(esDc, 1.0);
+}`;
 
 export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
   const m = assets.meta;
@@ -242,6 +270,7 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
     uWaterSunDir: { value: new THREE.Vector3(0, 1, 0) },
     uWaterSunLight: { value: new THREE.Vector3(0, 0, 0) },
     uWaterAmbient: { value: new THREE.Vector3(0, 0, 0) },
+    uEsDebugMode: { value: 0 },
   };
 }
 
@@ -1014,11 +1043,16 @@ ${foamTex && !strip ? "#define ES_FOAM_TEX 1" : ""}
 uniform vec3 uWaterSunDir;
 uniform vec3 uWaterSunLight;
 uniform vec3 uWaterAmbient;
-uniform float uVerticalScale;`,
+uniform float uVerticalScale;
+uniform float uEsDebugMode;`,
       )
       .replace(
         "void main() {",
         /* glsl */ `void main() {
+  // debug-view captures (wdbg=, WATER_DEBUG_GLSL); written where each term is made
+  float esDbgFres = 0.0; float esDbgCrest = 0.0; float esDbgSpec = 0.0;
+  vec3 esDbgSky = vec3(0.0); vec3 esDbgRefr = vec3(0.0);
+  vec3 esDbgPre = vec3(0.0); vec3 esDbgPost = vec3(0.0);
   float esGuard = 1.0;
   ${strip ? /* glsl */ `
   float esExpoPx = 0.05;   // narrow water: ripples, never swell (the vertex twin)` : /* glsl */ `
@@ -1331,6 +1365,7 @@ float esFoamE;
 // per-pixel height swap (esCrestD.z, diag11 W1 / diag12 Q2).
 float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsStill + esWaveF.z + esCrestD.z;
 float esCrestMesh = esCrest;   // the real crest, for the backlit scatter
+esDbgCrest = esCrest;
 float esCrestFade = 1.0 - smoothstep(1200.0, 2400.0, esDist);
 // whitecap density from the wind (waves.ts whitecapCoverage: 2 % of the sea
 // at the swell floor, 6 % at 12 m/s, 12 % in a squall): the crest noise
@@ -1449,6 +1484,7 @@ vec3 esView = normalize(cameraPosition - vEsWorldPos);
 float esFresT = 0.02 + 0.98 * pow(1.0 - max(dot(esNW, esView), 0.0), 5.0);
 vec3 esTransmit = texture2D(uSceneColor, esScreenUV).rgb * esT * (1.0 - esFresT);
 outgoingLight = outgoingLight + esTransmit;
+esDbgFres = esFresT; esDbgSky = reflectedLight.indirectSpecular; esDbgRefr = esTransmit;
 outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, esBank);
 #include <opaque_fragment>`
           : variant === "above"
@@ -1484,6 +1520,7 @@ float esSpark = esSparkle(esNW, esView, uWaterSunDir, esDist, esExpo) * esFresT;
 vec3 esSssTint = mix(vec3(0.10, 0.45, 0.40), vec3(0.14, 0.11, 0.04), esMurk);
 float esSssW = esCrestSss(esView, uWaterSunDir, esCrestMesh, esExpo);
 outgoingLight += uWaterSunLight * (esSpark + esSssW * esSssTint) * (1.0 - esFoam);
+esDbgFres = esFresT; esDbgSky = esSpecEnv; esDbgRefr = esTransmit; esDbgSpec = esSpark;
 // meniscus rim across the waterline band at the camera
 outgoingLight += uWaterAmbient * 10.0 * esMeniscusRim(esMen);
 outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, esCover);
@@ -1526,12 +1563,23 @@ outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, esCov
   // meniscus rim from below: the same band, the same highlight
   esCol += uWaterAmbient * 10.0 * esMeniscusRim(esMen);
   outgoingLight = esCol;
+  esDbgFres = esFresU; esDbgSky = esSky; esDbgRefr = esGlow;
 }
 #include <opaque_fragment>`,
-      );
+      )
+      .replace("#include <tonemapping_fragment>", "esDbgPre = gl_FragColor.rgb;\n#include <tonemapping_fragment>")
+      .replace("#include <dithering_fragment>", `#include <dithering_fragment>\n${WATER_DEBUG_GLSL}`);
   };
 
   applyAerial(material);
+  // the aerial term lands before tonemapping (sky/aerial.ts); this capture
+  // follows it, so wdbg=9 reads the aerial's change to the colour
+  const aerialHook = material.onBeforeCompile;
+  material.onBeforeCompile = (shader, renderer) => {
+    aerialHook.call(material, shader, renderer);
+    shader.fragmentShader = shader.fragmentShader
+      .replace("#include <tonemapping_fragment>", "esDbgPost = gl_FragColor.rgb;\n#include <tonemapping_fragment>");
+  };
   material.customProgramCacheKey = () => `es-water-${variant}-${tier.name}-${mode}${foamTex ? "-ftex" : ""}`;
   return material;
 }
