@@ -37,7 +37,9 @@ in `walk-lib.mjs`.
 **`walk_judge.py <dir>`** reads `<dir>/summary.json` and the rows of
 `.claude/skills/place-build/references/reader-checklist.md` (by id, at run time) and writes
 `<dir>/judge/<group>-<k>.md`, at most 12 images per brief. Groups: `exterior-day`,
-`exterior-night`, `interiors` (adds the run's door record), `fires-closeups`. Each brief names its
+`exterior-night` (overviews, freewalk end, door-base and sign close-ups by time of day), `interiors`
+(adds the run's door record), `fires` (each fire's frames tiled into one labelled contact sheet,
+`<dir>/judge/sheets/t<T>-fire<k>-series.jpg`; the brief lists sheets, not frames). Each brief names its
 reader's output `<dir>/judge/<group>-<k>.reader.md`. Launching the `image-reader` agents is the
 caller's job; they read only the images and the brief.
 

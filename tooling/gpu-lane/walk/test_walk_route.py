@@ -74,11 +74,25 @@ def test_judge_groups(tmp_path):
     rep = tmp_path / "rep"
     rep.mkdir()
     (rep / "summary.json").write_text(json.dumps({"placeId": PID, "passes": []}))
-    for f in ["t12-overview-nw.jpg", "t22-overview-nw.jpg", "t12-door1-int0.jpg", "t22-fire0-f0.jpg", "t12-door1-base.jpg"]:
+    from PIL import Image
+    for f in ["t12-overview-nw.jpg", "t22-overview-nw.jpg", "t12-door1-int0.jpg", "t12-door1-base.jpg"]:
         (rep / f).write_bytes(b"")
+    for t in (12, 22):
+        for k in range(2):
+            for i in range(6):
+                Image.new("RGB", (1000, 600), (i * 40, 0, 0)).save(rep / f"t{t}-fire{k}-f{i}.jpg")
     for i in range(13):
         (rep / f"t12-x{i:02d}.jpg").write_bytes(b"")
-    names = sorted(p.name for p in walk_judge.briefs(rep))
-    assert names == ["exterior-day-1.md", "exterior-day-2.md", "exterior-night-1.md", "fires-closeups-1.md", "interiors-1.md"]
+    written = walk_judge.briefs(rep)
+    names = sorted(p.name for p in written)
+    assert names == ["exterior-day-1.md", "exterior-day-2.md", "exterior-night-1.md", "fires-1.md", "interiors-1.md"]
+    sheets = sorted(p.name for p in (rep / "judge/sheets").glob("*.jpg"))
+    assert sheets == [f"t{t}-fire{k}-series.jpg" for t in (12, 22) for k in range(2)]
+    for s in sheets:
+        assert Image.open(rep / "judge/sheets" / s).width <= 2400
+    fires = (rep / "judge/fires-1.md").read_text()
+    assert "-f0.jpg" not in fires and "t12-fire0-series.jpg" in fires
+    for p in written:
+        assert p.read_text().count("\n- /") - p.read_text().count("\n- row") <= walk_judge.MAX_IMAGES
     text = (rep / "judge/interiors-1.md").read_text()
     assert "row 48:" in text and "reader.md" in text and "Nothing" in text
