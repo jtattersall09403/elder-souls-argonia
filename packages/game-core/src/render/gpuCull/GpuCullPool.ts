@@ -98,81 +98,6 @@ export function guardPageBuffers(renderer: WebGPURenderer): AttributeStore | nul
   return store;
 }
 
-interface VertexRenderObject {
-  attributes: unknown[] | null;
-  getAttributes(): unknown[];
-  getVertexBuffers(): ({ name?: string; id?: number } & object)[];
-}
-interface GuardedBackend {
-  draw(renderObject: VertexRenderObject, info: unknown): unknown;
-  get(object: object): { buffer?: unknown };
-  esVertexGuard?: boolean;
-}
-interface UploadStore extends AttributeStore { update(attribute: object, type: number): void }
-
-/** three's `AttributeType.VERTEX`. */
-const VERTEX_ATTRIBUTE = 1;
-
-/**
- * Before every draw, make sure each vertex buffer the render object binds has
- * a backend buffer. A render object caches its attribute list
- * (RenderObject.getAttributes) and resets it only on an attribute id change
- * or its own geometry's dispose; when a shared buffer it still lists is freed
- * elsewhere, WebGPUBackend binds `undefined`, the slot reads as unset and the
- * whole command buffer is rejected (black frame; webgpu diag11). The guard
- * drops the stale list, and re-uploads any buffer still missing through the
- * attribute store (both maps), logging the first hit so a capture names the
- * path that freed it. Per renderer instance, once.
- */
-export function guardVertexBuffers(renderer: WebGPURenderer): boolean {
-  const r = renderer as unknown as { backend?: GuardedBackend; _attributes?: UploadStore | null };
-  const backend = r.backend;
-  if (!backend || typeof backend.draw !== "function" || backend.esVertexGuard) return !!backend?.esVertexGuard;
-  const draw = backend.draw.bind(backend);
-  let logged = false;
-  backend.draw = (renderObject: VertexRenderObject, info: unknown) => {
-    const store = r._attributes;
-    if (store) repairVertexBuffers(renderObject, backend, store, () => {
-      if (logged) return false;
-      logged = true;
-      return true;
-    });
-    return draw(renderObject, info);
-  };
-  backend.esVertexGuard = true;
-  return true;
-}
-
-/** The guard's per-draw step (exported for its test). */
-export function repairVertexBuffers(
-  renderObject: VertexRenderObject, backend: Pick<GuardedBackend, "get">,
-  store: UploadStore, shouldLog: () => boolean,
-): number {
-  let buffers = renderObject.getVertexBuffers();
-  let missing = -1;
-  for (let i = 0; i < buffers.length; i++) if (!backend.get(buffers[i]).buffer) { missing = i; break; }
-  if (missing < 0) return 0;
-  const first = buffers[missing];
-  // the cached list may name a buffer the geometry no longer holds
-  renderObject.attributes = null;
-  renderObject.getAttributes();
-  buffers = renderObject.getVertexBuffers();
-  let repaired = 0;
-  for (let i = 0; i < buffers.length; i++) {
-    const vb = buffers[i];
-    if (backend.get(vb).buffer) continue;
-    store.delete(vb);
-    store.update(vb, VERTEX_ATTRIBUTE);
-    repaired++;
-  }
-  if (shouldLog()) {
-    console.warn("[gpuCull] vertex buffer without a backend buffer before draw", {
-      slot: missing, name: first.name ?? "", id: first.id, reuploaded: repaired,
-    });
-  }
-  return repaired;
-}
-
 export class GpuCullPool {
   static supported = GpuCullSystem.supported;
 
@@ -183,6 +108,10 @@ export class GpuCullPool {
   private reading = false;
   /** The guarded attribute store, set by the first `update`. */
   private store: AttributeStore | null = null;
+  /** Per mesh in or once in the pool: its own material and the layout it had. */
+  private readonly homes = new WeakMap<THREE.Mesh, { material: THREE.Material | THREE.Material[]; key: string }>();
+  /** Per source material, its clone per attribute layout; disposed with the pool. */
+  private readonly layoutMaterials = new Map<THREE.Material, Map<string, THREE.Material>>();
 
   constructor(readonly options: GpuCullPoolOptions) {
     this.pageRows = options.pageRows ?? 1 << 16;
@@ -192,7 +121,7 @@ export class GpuCullPool {
   /** Register a mesh; its page's buffers become its instance source. */
   addDraw(mesh: THREE.InstancedMesh, opts: GpuCullDrawOptions): PooledDraw {
     for (const system of this.pages) {
-      const draw = system.addDraw(mesh, opts);
+      const draw = this.changeLayout(mesh, () => system.addDraw(mesh, opts));
       if (draw) return this.track(system, draw, mesh);
     }
     const system = new GpuCullSystem({
@@ -204,7 +133,7 @@ export class GpuCullPool {
     for (const b of system.sharedBuffers) (b as unknown as Record<string, unknown>)[PAGE_OWNED] = true;
     this.pages.push(system);
     this.draws.set(system, new Set());
-    const draw = system.addDraw(mesh, opts);
+    const draw = this.changeLayout(mesh, () => system.addDraw(mesh, opts));
     if (!draw) throw new Error("GpuCullPool: a fresh page refused a draw");
     return this.track(system, draw, mesh);
   }
@@ -261,7 +190,9 @@ export class GpuCullPool {
   removeDraw(d: PooledDraw): void {
     d.system.removeDraw(d.draw);
     const geometry = d.mesh.geometry;
-    if (geometry.getAttribute("esSlot") === (d.system.slots as unknown)) detachSharedAttribute(geometry, "esSlot");
+    this.changeLayout(d.mesh, () => {
+      if (geometry.getAttribute("esSlot") === (d.system.slots as unknown)) detachSharedAttribute(geometry, "esSlot");
+    });
     geometry.setIndirect(null);
     d.mesh.instanceMatrix = placeholderMatrix();
     const set = this.draws.get(d.system);
@@ -272,6 +203,39 @@ export class GpuCullPool {
       this.draws.delete(d.system);
       this.releasePage(d.system);
     }
+  }
+
+  /**
+   * The one place a pooled mesh's attribute set changes. three (0.184)
+   * rebuilds a drawn render object's attribute list on a geometry change but
+   * keeps the pipeline built for the old vertex layout; it builds a new one
+   * only for a new material (RenderObjects.get keys on it), so a drawn mesh
+   * whose attributes change got "Vertex buffer slot N ... not set" and a
+   * black frame (webgpu fix12). After `mutate`, the mesh wears its source
+   * material when the layout is back to the one it came with, else that
+   * material's clone for the new layout (cached, one per layout, so a mesh
+   * cycling in and out of the pool makes no new clone).
+   */
+  private changeLayout<T>(mesh: THREE.Mesh, mutate: () => T): T {
+    let home = this.homes.get(mesh);
+    if (!home) {
+      home = { material: mesh.material, key: layoutKey(mesh.geometry) };
+      this.homes.set(mesh, home);
+    }
+    const result = mutate();
+    const key = layoutKey(mesh.geometry);
+    const src = home.material;
+    mesh.material = key === home.key ? src
+      : Array.isArray(src) ? src.map((m) => this.layoutMaterial(m, key)) : this.layoutMaterial(src, key);
+    return result;
+  }
+
+  private layoutMaterial(source: THREE.Material, key: string): THREE.Material {
+    let byKey = this.layoutMaterials.get(source);
+    if (!byKey) this.layoutMaterials.set(source, (byKey = new Map()));
+    let m = byKey.get(key);
+    if (!m) byKey.set(key, (m = source.clone()));
+    return m;
   }
 
   /** Free a page: its buffers lose the page mark and are deleted here, the
@@ -288,7 +252,6 @@ export class GpuCullPool {
   update(renderer: WebGPURenderer, camera: THREE.Camera, sweep: SunSweep | null): void {
     if (!this.store) {
       this.store = guardPageBuffers(renderer);
-      guardVertexBuffers(renderer);
     }
     const nodes: unknown[] = [];
     for (const system of this.pages) {
@@ -339,5 +302,16 @@ export class GpuCullPool {
     for (const system of this.pages) this.releasePage(system);
     this.pages.length = 0;
     this.draws.clear();
+    for (const byKey of this.layoutMaterials.values()) for (const m of byKey.values()) m.dispose();
+    this.layoutMaterials.clear();
   }
+}
+
+/** A geometry's vertex layout: its attributes' names, array types, sizes and step mode. */
+function layoutKey(geometry: THREE.BufferGeometry): string {
+  return Object.keys(geometry.attributes).sort().map((name) => {
+    const a = geometry.attributes[name] as THREE.BufferAttribute;
+    const t = (a.array as { constructor: { name: string } } | undefined)?.constructor.name ?? "";
+    return `${name}:${t}:${a.itemSize}:${(a as THREE.InstancedBufferAttribute).isInstancedBufferAttribute ? 1 : 0}`;
+  }).join(",");
 }

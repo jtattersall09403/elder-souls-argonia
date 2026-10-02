@@ -47,4 +47,32 @@ describe("GpuCullPool page buffers (webgpu diag10 D3)", () => {
     const first = guardPageBuffers(f.renderer)!.delete;
     expect(guardPageBuffers(f.renderer)!.delete).toBe(first);
   });
+
+  it("a drawn mesh whose cull attributes change wears its layout's material (webgpu fix12)", () => {
+    const pool = new GpuCullPool({ lodFade: createLodFadeUniforms() });
+    const a = member(), keep = member();
+    const source = a.material as THREE.Material;
+    pool.addDraw(keep, opts);
+    // three's RenderObjects.get chains on (object, material, ...): a new material is a new render object and pipeline
+    const d1 = pool.addDraw(a, opts);
+    const pooled = a.material;
+    expect(pooled).not.toBe(source);
+    pool.removeDraw(d1);
+    // the detached stand-in is another layout: another material, the source's if the layout is the source's
+    const left = a.material;
+    expect(left).not.toBe(pooled);
+    const d2 = pool.addDraw(a, opts);
+    expect(a.material).toBe(pooled);
+    pool.removeDraw(d2);
+    expect(a.material).toBe(left);
+    expect(left).not.toBe(source);
+    // back to the layout it came with: its own material again
+    const plain = member();
+    const own = plain.material;
+    const d3 = pool.addDraw(plain, opts);
+    plain.geometry.deleteAttribute("esSlot");
+    pool.removeDraw(d3);
+    expect(plain.material).toBe(own);
+    pool.dispose();
+  });
 });
