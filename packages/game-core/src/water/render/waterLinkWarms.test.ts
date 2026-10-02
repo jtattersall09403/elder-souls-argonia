@@ -49,6 +49,10 @@ describe("waterLinkWarms (16k walk 10: the underwater water variants linked on t
       mesh.material = m.above;
     }
     drawn.add(key(bubbleMesh, sceneTarget)); // the bubble pass's target: half-float, NoColorSpace
+    const fallsGroup = new THREE.Group();
+    const fallsMesh = new THREE.Mesh(new THREE.BufferGeometry(), waterMaterial("es-fall-kit-lit", true));
+    fallsMesh.name = "falls"; fallsGroup.add(fallsMesh); fallsGroup.visible = false;
+    drawn.add(key(fallsMesh, null)); drawn.add(key(fallsMesh, sceneTarget)); // above (screen) and below (target)
 
     let bound: THREE.WebGLRenderTarget | null = null;
     const warmed = new Set<string>();
@@ -66,16 +70,48 @@ describe("waterLinkWarms (16k walk 10: the underwater water variants linked on t
     setLitPreparer(scene, () => undefined); // the sky is mounted
     const linker = new DrawTargetLinker(gl, scene).attach();
     scene.onBeforeRender({} as never, scene, new THREE.PerspectiveCamera(), sceneTarget as never, undefined as never, undefined as never);
-    for (const warm of waterLinkWarms({
+    const warms = waterLinkWarms({
       field: fieldMesh, fieldMaterials: field, strips: { mesh: stripMesh, materials: strips },
-      pools: { mesh: poolMesh, materials: pools }, falls: null, bubbles: { object3d: bubbleMesh, scene: bubbleScene },
-    })) await linker.link(warm, new THREE.PerspectiveCamera());
+      pools: { mesh: poolMesh, materials: pools }, falls: fallsGroup, bubbles: { object3d: bubbleMesh, scene: bubbleScene },
+    });
+    // Falls, strips and pools can draw on the first frame: held, not observed (perf10 diag 6 C3).
+    expect(new Set(warms.held.map((w) => w.object))).toEqual(new Set([stripMesh, poolMesh, fallsGroup]));
+    expect(new Set(warms.observed.map((w) => w.object))).toEqual(new Set([fieldMesh, bubbleMesh]));
+    // Held warms name their pass, so their key is right before any scene pass is seen.
+    expect(warms.held.every((w) => w.pass === "screen" || w.pass === "target")).toBe(true);
+    for (const warm of [...warms.observed, ...warms.held]) await linker.link(warm, new THREE.PerspectiveCamera());
 
     expect([...warmed].sort()).toEqual([...drawn].sort());
-    expect(lit.at(-1)).toBe(bubbleScene);
+    expect(lit).toContain(bubbleScene);
     expect(fieldMesh.material).toBe(field.above); // own material restored
     expect(fieldMesh.visible).toBe(false); // visibility restored
     expect(bound).toBeNull();
+    linker.detach();
+  });
+
+  it("holds the falls hidden until their links settle, and releases them on a hung compile", async () => {
+    const scene = new THREE.Scene();
+    setLitPreparer(scene, () => undefined);
+    let finish!: () => void;
+    const first = new Promise<void>((r) => { finish = r; });
+    let calls = 0;
+    const gl = {
+      getRenderTarget: () => null, setRenderTarget: () => undefined,
+      // screen link settles when told; target link never settles (three 0.184 C1b)
+      compileAsync: () => (calls++ === 0 ? first : new Promise(() => undefined)),
+    } as unknown as THREE.WebGLRenderer;
+    const linker = new DrawTargetLinker(gl, scene, 4000, 30);
+    const falls = new THREE.Group();
+    const held = new Set<THREE.Object3D>();
+    const { held: warms } = waterLinkWarms({
+      field: null, fieldMaterials: variants("field"), strips: null, pools: null, falls, bubbles: null,
+    });
+    linker.holdUntilLinked(warms, new THREE.PerspectiveCamera(), (o, on) => { if (on) held.add(o); else held.delete(o); });
+    expect(held.has(falls)).toBe(true);
+    finish(); await first; await Promise.resolve();
+    expect(held.has(falls)).toBe(true); // the target link is still pending
+    await new Promise((r) => setTimeout(r, 60));
+    expect(held.has(falls)).toBe(false);
     linker.detach();
   });
 });

@@ -2,6 +2,16 @@ import * as THREE from "three";
 import { litPreparerOf, prepareLit, whenLitPreparer } from "./fixtureLights/fixtureLightField";
 
 /**
+ * How long one `compileAsync` may stay pending before its link counts as
+ * settled. three 0.184's `compileAsync` polls `properties.get(m).currentProgram
+ * .isReady()` inside a `setTimeout`; a material with no current program
+ * (disposed, or a vegetation rung regrown by `growGeo`) throws there and the
+ * promise never settles (perf10 diag 6, C1b). A held mesh is shown at the
+ * timeout: a late link costs one hitch, a mesh hidden for good is a defect.
+ */
+export const LINK_SETTLE_MS = 2000;
+
+/**
  * One object to link ahead of its first draw. `pass` names the target its
  * draw binds: "scene" the kind the layer-0 pass was seen to use, "screen" the
  * default framebuffer (tone-mapped, output colour space), "target" a linear
@@ -41,9 +51,11 @@ export class DrawTargetLinker {
   private previous: THREE.Scene["onBeforeRender"] | null = null;
 
   /** `preparerWaitMs`: how long a link waits for the sky's lit preparer before
-   * linking with fixture lights alone (an app with no sky). */
+   * linking with fixture lights alone (an app with no sky). `settleMs`: how
+   * long one compile may stay pending before its link counts as settled
+   * (LINK_SETTLE_MS). */
   constructor(private readonly gl: THREE.WebGLRenderer, private readonly scene: THREE.Scene,
-    private readonly preparerWaitMs = 4000) {
+    private readonly preparerWaitMs = 4000, private readonly settleMs = LINK_SETTLE_MS) {
     this.scratch.texture.colorSpace = THREE.NoColorSpace;
     this.hook = (...args) => {
       const [, , camera, target] = args as unknown as [unknown, unknown, THREE.Camera, THREE.WebGLRenderTarget | null];
@@ -98,7 +110,7 @@ export class DrawTargetLinker {
       for (const material of variants) {
         if (material) mesh.material = material;
         prepareLit(this.scene, object);
-        links.push(this.gl.compileAsync(object, camera, warm.scene ?? this.scene));
+        links.push(this.settled(this.gl.compileAsync(object, camera, warm.scene ?? this.scene)));
       }
       return Promise.all(links);
     } catch (err) {
@@ -110,12 +122,52 @@ export class DrawTargetLinker {
     }
   }
 
+  /** A compile that resolves at its end or after `settleMs`, whichever comes first. */
+  private settled(compile: Promise<unknown>): Promise<unknown> {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const timeout = new Promise<void>((resolve) => { timer = setTimeout(resolve, this.settleMs); });
+    return Promise.race([compile, timeout]).finally(() => clearTimeout(timer));
+  }
+
+  /**
+   * Link `warms` while their objects stay hidden, for meshes whose first draw
+   * may come before any scene pass is seen (the water's falls, chute strips
+   * and pools; perf10 diag 6 C3: `linkWhenObserved` linked them after their
+   * first draw). Each warm names its `pass` ("screen" or "target"), since no
+   * observation is waited for. `hold(object, true)` runs for every object at
+   * once, `hold(object, false)` when all its links settle, failed or timed
+   * out (`settleMs`), so a held object is never left dark. Returns a cancel
+   * for the effect's cleanup, which releases every object.
+   */
+  holdUntilLinked(warms: readonly LinkWarm[], camera: THREE.Camera,
+    hold: (object: THREE.Object3D, held: boolean) => void): () => void {
+    const pending = new Map<THREE.Object3D, Promise<unknown>[]>();
+    for (const warm of warms) {
+      let link: Promise<unknown>;
+      try { link = this.link(warm, camera); } catch (err) { link = Promise.reject(err); }
+      const list = pending.get(warm.object) ?? [];
+      list.push(link.catch(() => undefined));
+      pending.set(warm.object, list);
+    }
+    let cancelled = false;
+    for (const [object, links] of pending) {
+      hold(object, true);
+      void Promise.all(links).then(() => { if (!cancelled) hold(object, false); });
+    }
+    return () => {
+      if (cancelled) return;
+      cancelled = true;
+      for (const object of pending.keys()) hold(object, false);
+    };
+  }
+
   /**
    * Link `warms` once the scene pass has been seen (or after `maxWaitMs`),
    * polling on `schedule` (rAF in the app). For load-time meshes and
-   * material variants that first draw later: the water's underwater
-   * variants, the waterfalls, chute strips, pools and bubbles linked on
-   * their first draw while walking (16k walk 10, 48 ms frames). Returns a
+   * material variants that first draw later than their mount: the water
+   * field's underwater variant and the bubbles linked on the first dive
+   * (16k walk 10, 48 ms frames). A mesh that may draw before the first scene
+   * pass uses `holdUntilLinked` instead. Returns a
    * cancel for the effect's cleanup.
    */
   linkWhenObserved(warms: readonly (THREE.Object3D | LinkWarm)[], camera: THREE.Camera, maxWaitMs = 4000,
