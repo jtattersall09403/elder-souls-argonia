@@ -87,6 +87,35 @@ export function createBatchDataTexture(capacity: number): THREE.DataTexture {
   return texture;
 }
 
+/**
+ * Disposes textures a few ticks after they are replaced, so bind groups built
+ * off-frame that still reference the old texture never submit a destroyed one.
+ * One instance per owner; `tick()` once per frame, `flush()` on unmount.
+ */
+export function createDeferredDisposer(frames = 3): {
+  defer(texture: { dispose(): void }): void;
+  tick(): void;
+  flush(): void;
+} {
+  let queue: { texture: { dispose(): void }; age: number }[] = [];
+  return {
+    defer(texture) { queue.push({ texture, age: 0 }); },
+    tick() {
+      if (queue.length === 0) return;
+      const keep: typeof queue = [];
+      for (const item of queue) {
+        if (++item.age >= frames) item.texture.dispose();
+        else keep.push(item);
+      }
+      queue = keep;
+    },
+    flush() {
+      for (const item of queue) item.texture.dispose();
+      queue = [];
+    },
+  };
+}
+
 /** Write one slot's band and wind tune. */
 export function writeBatchInstance(
   texture: THREE.DataTexture,

@@ -53,6 +53,7 @@ import {
   BATCH_DATA_TEXELS,
   createBatchDataTexture,
   createBatchDataUniforms,
+  createDeferredDisposer,
   setBatchTexture,
   writeBatchInstance,
 } from "@elder-souls/game-core/fx/batchData";
@@ -533,6 +534,9 @@ export function Vegetation({
   const registry = useRef(new CellRegistry());
   const jobs = useRef(new Map<string, { cancel(): void }>());
   const batchMaterials = useRef(new Map<string, NodeMaterial>());
+  // replaced batch data textures live three more frames: off-frame bind groups may still hold them
+  const dataDisposer = useMemo(() => createDeferredDisposer(3), []);
+  useEffect(() => () => dataDisposer.flush(), [dataDisposer]);
   /** Patched node slots per signature: batch materials share one shader build. */
   const batchPatchMemo = useMemo<BatchPatchMemo>(() => new Map(), []);
   const mounted = useRef(true);
@@ -1055,6 +1059,7 @@ export function Vegetation({
   // ---- the frame ----------------------------------------------------------
 
   useFrame((state) => {
+    dataDisposer.tick();
     // Vegetation gate stage of the frame (decision 0084 round 10).
     segments?.cpuMark("veg");
     // Site (a): everything the frame-work pump moved since the last render.
@@ -1728,7 +1733,7 @@ export function Vegetation({
       (batch.data.image.data as Float32Array)
         .subarray(0, batch.nextData * BATCH_DATA_TEXELS * 4));
     data.needsUpdate = true;
-    batch.data.dispose();
+    dataDisposer.defer(batch.data);
     batch.data = data;
     batch.capacity = capacity;
     const owned = batchMaterials.current.get(batch.key);

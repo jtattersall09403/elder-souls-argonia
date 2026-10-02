@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createBatchDataTexture, createBatchDataUniforms } from "./batchData";
+import { createBatchDataTexture, createBatchDataUniforms, createDeferredDisposer } from "./batchData";
 
 describe("batch data uniforms", () => {
   it("are nodes whose value re-points without a rebuild", () => {
@@ -36,5 +36,25 @@ describe("batch data texture", () => {
     expect(texture.image.width).toBe(1024);
     expect(texture.image.width * texture.image.height)
       .toBeGreaterThanOrEqual(2_000_000);
+  });
+});
+
+describe("deferred disposer", () => {
+  it("disposes a deferred texture only after N ticks, and flush disposes the rest", () => {
+    const d = createDeferredDisposer(3);
+    let a = 0, b = 0;
+    d.defer({ dispose: () => { a++; } });
+    d.tick(); d.tick();
+    expect(a).toBe(0);
+    d.tick();
+    expect(a).toBe(1);
+    d.defer({ dispose: () => { b++; } });
+    d.tick();
+    expect(b).toBe(0);
+    d.flush();
+    expect(b).toBe(1);
+    d.tick();
+    expect(a).toBe(1);
+    expect(b).toBe(1);
   });
 });

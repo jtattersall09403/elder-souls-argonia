@@ -401,15 +401,16 @@ export function WorldSky({
   const patchScene = () => {
     // fixture lamps are the renderer's lighting (render/fixtureLights; idempotent, before the first list)
     installFixtureLighting(gl as unknown as WebGPURenderer);
+    const patchOne = (m: THREE.Material | undefined) => {
+      if (!m || patched.current.has(m)) return;
+      patched.current.add(m);
+      if (m.userData?.esAerial && isNodeMaterial(m)) applyMipAlphaBoost(m as NodeMaterial, mipShare);
+    };
     scene.traverseVisible((obj) => {
       const mesh = obj as THREE.Mesh;
       if (!mesh.isMesh) return;
-      const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-      for (const m of mats) {
-        if (!m || patched.current.has(m)) continue;
-        patched.current.add(m);
-        if (m.userData?.esAerial && isNodeMaterial(m)) applyMipAlphaBoost(m as NodeMaterial, mipShare);
-      }
+      if (Array.isArray(mesh.material)) for (const m of mesh.material) patchOne(m);
+      else patchOne(mesh.material);
     });
   };
   const patchRef = useRef(patchScene);
