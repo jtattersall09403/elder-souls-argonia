@@ -197,6 +197,8 @@ function ApronTileMesh({ tile, heights, verticalScale, paintFrame, material, occ
       {sectors.map((geometry, i) => (
         <mesh
           key={i}
+          // world-space sectors at identity: no per-frame matrix recompose (perf10 f6)
+          matrixAutoUpdate={false}
           ref={(mesh) => { if (mesh) meshes.current.set(i, mesh); else meshes.current.delete(i); }}
           geometry={geometry}
           material={material}

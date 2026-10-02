@@ -45,7 +45,9 @@
     if (!scene) return res(null);
     const snap = new Map(); let total = 0;
     scene.traverse((o) => { total++; if (o.matrixAutoUpdate) snap.set(o, o.matrix.elements.slice()); });
-    const top = (o) => { let x = o; let n = null; while (x && x.parent) { if (x.name) n = x.name; x = x.parent; } return n ?? `(anon ${o.type})`; };
+    // Anonymous objects are labelled by type, material, geometry and the parent's type so their owner can be named.
+    const desc = (o) => `(anon ${o.type}${o.material ? ` mat=${o.material.name || o.material.type}` : ""}${o.geometry ? ` geo=${o.geometry.type}` : ""} parent=${o.parent?.name || o.parent?.type} kids=${o.children.length})`;
+    const top = (o) => { let x = o; let n = null; while (x && x.parent) { if (x.name) n = x.name; x = x.parent; } return n ?? desc(o); };
     setTimeout(() => {
       let still = 0, moved = 0; const by = {};
       for (const [o, e] of snap) {
@@ -53,7 +55,7 @@
         const m = (by[top(o)] ??= [0, 0]); if (same) { still++; m[0]++; } else { moved++; m[1]++; }
       }
       res({ objects: total, matrixAutoUpdateOn: snap.size, staticOver: ms, notMoved: still, moved,
-        notMovedByTop: Object.entries(by).sort((a, b) => b[1][0] - a[1][0]).slice(0, 15) });
+        notMovedByTop: Object.entries(by).sort((a, b) => b[1][0] - a[1][0]).slice(0, 40) });
     }, ms);
   });
   D.censusReport = () => {

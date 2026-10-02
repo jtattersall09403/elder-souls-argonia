@@ -75,7 +75,9 @@ export function CityMarkers({ groundAt, baseUrl = import.meta.env.BASE_URL }: {
   const groupRef = useRef<THREE.Group>(null);
   useEffect(() => {
     camera.layers.enable(OVERLAY_LAYER);
-    groupRef.current?.traverse((o) => o.layers.set(OVERLAY_LAYER));
+    const group = groupRef.current;
+    group?.traverse((o) => o.layers.set(OVERLAY_LAYER));
+    if (group) freezeMatrices(group);
   }, [camera, markers]);
 
   // Distance culling, fade and label sizing, every frame (cheap: ~100 groups),
@@ -120,6 +122,7 @@ export function CityMarkers({ groundAt, baseUrl = import.meta.env.BASE_URL }: {
       for (const o of child.children) {
         if (o instanceof THREE.Sprite) {
           o.scale.set(width, width / 4, 1);
+          o.updateMatrix(); // matrices are frozen (freezeMatrices): recompose only this sprite
           (o.material as THREE.SpriteMaterial).opacity = fade;
         } else if (o instanceof THREE.Mesh) {
           const mat = o.material as THREE.MeshBasicMaterial;
@@ -145,4 +148,12 @@ export function CityMarkers({ groundAt, baseUrl = import.meta.env.BASE_URL }: {
       ))}
     </group>
   );
+}
+
+/** Compose every matrix under `root` once and stop three recomposing them each frame: the
+ * marker groups never move, and only the nearest few sprites rescale (they call
+ * updateMatrix themselves). perf10 f6: 313 of the 527 static objects with matrixAutoUpdate on. */
+export function freezeMatrices(root: THREE.Object3D): void {
+  root.traverse((o) => { o.updateMatrix(); o.matrixAutoUpdate = false; });
+  root.updateMatrixWorld(true);
 }
