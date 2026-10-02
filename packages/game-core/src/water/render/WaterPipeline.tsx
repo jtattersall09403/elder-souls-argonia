@@ -7,6 +7,7 @@ import type { RippleSim } from "./RippleSim";
 import type { WaterSurfaceHandle } from "./WaterSurface";
 import { UnderwaterBubblePass, UNDERWATER_BUBBLE_COMPOSITE_GLSL } from "./UnderwaterBubblePass";
 import { useFrameSegments } from "../../fx/frameSegments";
+import { lightEveryLayer } from "./lightLayers";
 import type { BloomPass } from "../../render/post/BloomPass";
 
 /**
@@ -247,8 +248,9 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
 
   // three only applies lights whose layers intersect the camera's — the
   // water-only pass (mask = WATER_LAYER) was therefore rendered WITHOUT the
-  // CSM sun/moon (no glints, no shadows; owner round 1, defect 1). Enable
-  // the water layer on every light, re-checked as lights come and go.
+  // CSM sun/moon (no glints, no shadows; owner round 1, defect 1). Every
+  // light is enabled on every layer (lightLayers.ts says why every pass must
+  // see one light set), re-checked as lights come and go.
   const lightPatchTimer = useRef(0);
   const viewProj = useRef(new THREE.Matrix4());
   // (The precip and overlay passes are never skipped: an empty-layer walk
@@ -260,9 +262,7 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
     lightPatchTimer.current -= delta;
     if (lightPatchTimer.current <= 0) {
       lightPatchTimer.current = 1;
-      scene.traverse((o) => {
-        if ((o as THREE.Light).isLight) o.layers.enable(WATER_LAYER);
-      });
+      lightEveryLayer(scene);
     }
     const size = renderer.getDrawingBufferSize(bufferSize);
     const rw = Math.max(2, Math.round(size.x * tier.rtScale));
