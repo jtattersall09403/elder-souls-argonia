@@ -33,7 +33,7 @@ const url = opt("url"), out = opt("out");
 if (!url || !out) { console.error("usage: pod-capture.mjs --url <url> --out <dir> [flags; see header]"); process.exit(2); }
 const totalS = Number(opt("seconds", 120)), cdpHttp = opt("cdp", process.env.CHROME_CDP ?? "http://127.0.0.1:9222").replace(/\/$/, "");
 const shotsSpec = opt("shots"), shots = shotsSpec === "none" ? [] : parseShots(shotsSpec, totalS);
-const readsAt = opt("reads", "15,30,60,120").split(",").map(Number).filter((s) => s <= totalS);
+const readsAt = opt("reads", "15,30,60,120").split(",").map(Number).filter((s) => s < totalS); // a read at --seconds is result.final
 const prof = opt("profile") ? parseProfile(opt("profile")) : null, fpsReads = Number(opt("fps-reads", 0));
 const W = Number(opt("width", 1280)), H = Number(opt("height", 720));
 mkdirSync(join(out, "frames"), { recursive: true });
