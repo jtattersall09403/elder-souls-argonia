@@ -69,6 +69,27 @@ export const BEAM_SPREAD_RAD = 0.052;
 export function beamRadiusM(radiusM: number, alongM: number, spreadRad = BEAM_SPREAD_RAD): number {
   return radiusM + Math.max(0, alongM) * Math.tan(spreadRad);
 }
+/** Penumbra (m per metre in from the window): the soft edge the sun disc and the opening's frame add. */
+export const BEAM_PENUMBRA_PER_M = 0.04;
+/** Soft-edge half-width (m) of a beam `alongM` in, sampled at cells of `cellM`: at least one cell, so the
+ * grid never resolves a binary edge into a step (vol10 diag3 Q5). */
+export function beamEdgeM(alongM: number, cellM: number): number {
+  return Math.max(cellM, Math.max(0, alongM) * BEAM_PENUMBRA_PER_M);
+}
+/** Cross-section energy kept by the soft edge: a smoothstep over r +- w is symmetric about r, so it adds
+ * about pi*w^2/3 of disc area; dividing by 1 + w^2/(3r^2) keeps the beam's flux. */
+export function beamEdgeNorm(radiusM: number, edgeM: number): number {
+  return 1 / (1 + (edgeM * edgeM) / (3 * radiusM * radiusM));
+}
+const smooth = (a: number, b: number, x: number) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+/** CPU twin of beamMask: membership 0..1 at `offM` off the axis, `alongM` in, for a beam of aperture
+ * radius `radiusM`, length `lengthM`, on cells of `cellM` (unnormalised edge; 0.5 at the cone's side). */
+export function beamMembership(offM: number, alongM: number, radiusM: number, lengthM: number, cellM: number, spreadRad = BEAM_SPREAD_RAD): number {
+  const r = beamRadiusM(radiusM, alongM, spreadRad);
+  const w = beamEdgeM(alongM, cellM);
+  return (1 - smooth(r - w, r + w, offM)) * smooth(0, cellM, alongM)
+    * Math.exp(-BEAM_DUST_PER_M * Math.max(0, alongM)) * (1 - smooth(0.4 * lengthM, lengthM, alongM));
+}
 /** Sun-ray optical depth through the medium itself: density sampled at these distances (m) up the sun
  * ray, each standing for the span `SUN_OD_SPAN_M` (midpoint rule over 0..255 m). */
 export const SUN_OD_PROBES_M = [12, 35, 90, 200] as const;
@@ -483,7 +504,7 @@ export class Volumetrics implements VolumetricsSampler {
         const off = length(rel.sub(dir.mul(along)));
         const size = max(along.mul(0.0035), float(0.004));
         const disc = float(1).sub(smoothstep(size.mul(0.4), size, off)).mul(step(float(0), along)).mul(step(along, segLen));
-        const inBeam = this.beamMask(m, i);
+        const inBeam = this.beamMask(m, i, float(0.05));
         const twinkle = float(0.55).add(sin(u.time.mul(0.9).add(keep.mul(40))).mul(0.45));
         acc.addAssign(this.uApCol.element(i).xyz.mul(disc.mul(inBeam).mul(step(0.875, keep)).mul(twinkle).mul(0.5)));
       });
@@ -584,16 +605,22 @@ export class Volumetrics implements VolumetricsSampler {
     return float(1).sub(smoothstep(0, 1, c.b.sub(p.y)).mul(smoothstep(0, 0.5, c.r)).mul(0.98).mul(this.u.outdoor));
   }
 
-  /** 0..1 inside window beam `i` at world `p`: a cone from the aperture disc (radius ap.w) widening by
-   * apCol.w = tan(spread) per metre (beamRadiusM is the CPU twin), soft-edged, faded over its length. */
-  private beamMask(p: TslNode, i: TslNode): TslNode {
+  /** 0..1 inside window beam `i` at world `p` on cells of `cellM` (beamMembership is the CPU twin): a cone
+   * from the aperture disc (radius ap.w) widening by apCol.w = tan(spread) per metre, its side a smoothstep
+   * over +- beamEdgeM (one cell, or the penumbra, whichever is wider) flux-normalised by beamEdgeNorm, its
+   * strength fading with the dust extinction along it and to 0 over its last 60 %. */
+  private beamMask(p: TslNode, i: TslNode, cellM: TslNode): TslNode {
     const ap = this.uApPos.element(i);
     const ad = this.uApDir.element(i);
     const rel = p.sub(ap.xyz);
     const along = dot(rel, ad.xyz);
-    const r = ap.w.add(max(along, float(0)).mul(this.uApCol.element(i).w));
-    return step(float(0), along).mul(float(1).sub(smoothstep(r.mul(0.8), r, length(rel.sub(ad.xyz.mul(along))))))
-      .mul(float(1).sub(smoothstep(ad.w.mul(0.7), ad.w, along)));
+    const a = max(along, float(0));
+    const r = ap.w.add(a.mul(this.uApCol.element(i).w));
+    const w = max(cellM, a.mul(BEAM_PENUMBRA_PER_M));
+    const norm = float(1).div(float(1).add(w.mul(w).div(r.mul(r).mul(3))));
+    return float(1).sub(smoothstep(r.sub(w), r.add(w), length(rel.sub(ad.xyz.mul(along))))).mul(norm)
+      .mul(smoothstep(float(0), cellM, along)).mul(exp(a.mul(-BEAM_DUST_PER_M)))
+      .mul(float(1).sub(smoothstep(ad.w.mul(0.4), ad.w, along)));
   }
 
   private injectKernel(spec: BandSpec, write: Storage3DTexture, history: Storage3DTexture): TslNode {
@@ -631,7 +658,7 @@ export class Volumetrics implements VolumetricsSampler {
       const beam = vec3(0).toVar();
       Loop(u.apertureCount, ({ i }: { i: TslNode }) => {
         const ad = this.uApDir.element(i);
-        beam.addAssign(this.uApCol.element(i).xyz.mul(this.beamMask(p, i))
+        beam.addAssign(this.uApCol.element(i).xyz.mul(this.beamMask(p, i, fp))
           .mul(mix(float(1 / (4 * Math.PI)), hg(0.7, dot(ad.xyz, v.negate())), 0.6)));
       });
       // clear air scatters blue more than red (Rayleigh-like tint on the air share only; mist and the
