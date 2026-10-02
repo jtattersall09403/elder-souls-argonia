@@ -8,8 +8,10 @@ This is the only pod harness, for WebGL and WebGPU alike; the site is always ser
 
 | Lane | Local tunnel port | Key path | Pod id |
 |---|---|---|---|
-| perf | 9222 | `/tmp/perf/rp_key` | from the lane note, per round |
-| webgpu | 9223 | `/tmp/webgpu/rp_key` | from the lane note, per round |
+| perf | 9232 | `/tmp/perf10/rp_key` | `2nektax0vb41u2` (walk 10) |
+| webgpu | 9222 | `/tmp/webgpu10/rp_key` (also `~/.ssh/runpod_webgpu10`) | from `webgpu-lead.md` |
+
+Key paths follow `/tmp/<lane><round>/rp_key`.
 
 | File | What it does |
 |---|---|

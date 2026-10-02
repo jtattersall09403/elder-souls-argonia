@@ -65,16 +65,19 @@ measured where they went:
    `<place>#walk-N` in the build ledger on the walk's first round;
    `--end-walk` ends it, so `build_ledger.py --report` lists an
    over-target fix round again.
-8. **A lead waits on its children; it never ends its turn while one runs.**
-   A lane spawned by a lead reports to that lead, never to the planner:
-   every child's brief names a report file it writes last under
-   `tooling/.reports/<lane>/<child>.md`, and the lead calls
-   `tooling/repo-standards/lane_wait.py --files <those files>` in the
-   foreground, re-calling it on every `timeout` line until `all done`. The
-   harness treats a lead that ends its turn as finished and routes the
-   children's reports to the planner; no hook can keep a stopped subagent
-   alive, so the lead stays in its turn. It integrates the reports and
-   calls SubagentHandback once, at the end (owner 2026-10-02).
+8. **A lead launches each wave as foreground Agent calls, all of the wave
+   in one message.** A lane spawned by a lead reports to that lead, never
+   to the planner. The lead never uses `run_in_background` and never a
+   Workflow for agents that spawn agents. A foreground Agent call blocks
+   until the child returns its result inline (code.claude.com/docs/en/sub-agents),
+   several foreground calls in one message run concurrently, and the
+   lead's turn resumes with every child's result, so it never ends its
+   turn while a child runs. Every child's brief names a report file it
+   writes last under `tooling/.reports/<lane>/<child>.md`.
+   `tooling/repo-standards/lane_wait.py` only polls a long job's
+   done-marker file, never agents. After each wave returns the lead checks
+   its own context (`lane_status.py --agent <id>`; hand back from its note
+   past 150k) and calls SubagentHandback once, at the end (owner 2026-10-02).
 8a. **No subagent ends its turn on a background job.** Run every job in the foreground with a timeout up to 600 s (chunk a longer job into steps that each return under that, or poll a log in the foreground with `python3 tooling/repo-standards/lane_wait.py --files <its done-marker>`); never launch a job with run_in_background and end your turn: a subagent that ends its turn is not woken when the job finishes.
 
 The process audit (r6 § 4) runs at the close of every second walk round,

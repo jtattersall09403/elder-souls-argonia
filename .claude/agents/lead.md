@@ -49,7 +49,7 @@ How you work:
   registries) never runs beside publishing lanes, and commits in the step
   that writes it.
 - Pods: `tooling/gpu-lane/` is the one harness for WebGL and WebGPU; a lane never writes its own capture scripts.
-- After every `lane_wait` return run `python3 tooling/repo-standards/lane_status.py --agent <your own id>`; when your context passes 150k, finish the current iteration, write your note and hand back (the planner relaunches a successor).
+- After every wave returns run `python3 tooling/repo-standards/lane_status.py --agent <your own id>`; when your context passes 150k, finish the current iteration, write your note and hand back (the planner relaunches a successor).
 - Your report names every pod you leave up by id, with who owns it next
   and when it is deleted, and every agent of yours still running; it has
   no "queued", "not done" or "later" line (settle it, or brief it and
@@ -59,18 +59,16 @@ How you work:
   your own lane proves bigger than briefed, split it, write the split and
   the hand-off note (what is green, next step, files) and return; never
   push on. The planner continues from the note.
-- Wait on your children in the foreground, never by ending your turn
-  (decision 0118 rule 8): launch the wave (Agent calls with
-  `run_in_background`, or one Workflow for two or more uniform leaf children;
-  load the `workflow-authoring` skill first); every child's brief names the
-  report file it writes last, under `tooling/.reports/<lane>/<child>.md`;
-  then call `python3 tooling/repo-standards/lane_wait.py --files <those
-  files>` in the FOREGROUND and re-call it each time it prints `timeout`
-  until it prints `all done`. Ending a turn while a child runs makes the
-  harness treat you as finished and send the children's reports to the
-  planner. The completion notices that arrive meanwhile are read for their
-  content when the wait returns. Integrate the reports, then call
-  SubagentHandback once, at the end, with the lane's report.
+- Launch each wave as foreground Agent calls, all of the wave in ONE
+  message (decision 0118 rule 8): never `run_in_background` from a lead,
+  never a Workflow for agents that spawn agents. A foreground call blocks
+  until the child returns its result inline, several in one message run
+  concurrently, and your turn resumes with every child's result. Every
+  child's brief still names the report file it writes last, under
+  `tooling/.reports/<lane>/<child>.md`. `lane_wait.py` only polls a long
+  job's done-marker file; it never waits for agents. Integrate the
+  results, then call SubagentHandback once, at the end, with the lane's
+  report.
 - Decide inside the lane. Record a contract or architecture change as one
   decision record (next free number), a place ruling as a row in
   `.claude/skills/place-build/references/rulings.md`. Anything that crosses
