@@ -122,7 +122,14 @@ Rules of the road:
   change and NEVER measure, probe or touch the pod;
   (d) re-measure once after the wave; the loop ends only when every bar
   passes and the diagnosis is empty;
-  (e) the pod is owned by the measure job only.
+  (e) the pod is owned by the measure job only;
+  (f) a 1-view smoke capture (about 2 min) with the exact URL parameters
+  precedes every full capture or walk run, and an image-reader confirms
+  "clock running, weather as intended, HUD hidden, the feature visible"
+  before the full round starts;
+  (g) one pod per lane (0119 rule 4), every pod-driving run under
+  `job_guard.sh <lane> --`, and a capture harness without per-view timeouts
+  and parent-death exit is never used.
 - Never edit CLAUDE.md or `.claude/agents/`; propose the change instead.
 - Player-visible or world-record prose goes through `text-review` in a
   separate agent before commit.
