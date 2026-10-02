@@ -30,6 +30,8 @@ BUDGET = ROOT / "tooling/.reports/budget"
 CODE = re.compile(r"^(packages|apps|tooling)/.+\.(py|ts|tsx|mjs|js)$|^(packages|apps|tooling)/?$")
 SCOPED = ("--assets", "--only", "--set", "--sample", "--rederive", "--refresh-derived",
           "--complete-only", "--dump-meshes", "--help")
+# the tool itself, never its args: a pytest of test_mine_*.py is no miner run (r6, r7 P9)
+MINER = re.compile(r"worldgen\.mine_(abuts|mounts|designed_sink)")
 
 RED = {"preflightPerCommit": 1.5, "scopedWallP50S": 30, "scopedOver60S": 0,
        "reviewFiresOnNonCode": 0, "reviewFiresPerBatchMax": 1, "minerFullRuns": 1, "lanesOverBudget": 2}
@@ -69,7 +71,7 @@ def measure(days: float) -> dict:
     non_code = [s for s in fires if s.get("paths") and not any(CODE.match(p) for p in s["paths"])]
     per_batch = Counter(s.get("batchId") or s.get("head") for s in fires)
     miners = [t for t in _jsonl(TIMINGS) if _epoch(t.get("date")) >= since
-              and re.search(r"mine_(abuts|mounts|designed_sink)", t.get("tool", "") + " ".join(t.get("args", [])))
+              and MINER.fullmatch(t.get("tool", ""))
               and not any(a.startswith(SCOPED) for a in t.get("args", []))]
     over = 0
     for f in BUDGET.glob("*.checkpoint") if BUDGET.is_dir() else []:

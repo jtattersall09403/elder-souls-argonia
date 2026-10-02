@@ -27,3 +27,17 @@ def test_double_fire_in_one_batch_counts_and_goes_red(tmp_path, monkeypatch):
     assert m["reviewFires"] == 2
     assert m["reviewFiresPerBatchMax"] == 2
     assert m["reviewFiresPerBatchMax"] > workflow_drift.RED["reviewFiresPerBatchMax"]
+
+
+def test_miner_matcher_counts_the_tool_never_its_args(tmp_path, monkeypatch):
+    """r7 P9: a pytest naming test_mine_mounts.py was counted as a full miner run."""
+    now = time.strftime("%Y-%m-%dT%H:%M:%S+00:00", time.gmtime())
+    rows = [{"date": now, "tool": "worldgen.mine_abuts", "args": ["--write"]},
+            {"date": now, "tool": "worldgen.mine_mounts", "args": ["--assets", "x", "--merge"]},
+            {"date": now, "tool": "pytest", "args": ["-q", "worldgen/test_mine_mounts.py"]},
+            {"date": now, "tool": "bash", "args": ["-c", "python3 -m worldgen.mine_designed_sink"]}]
+    t = tmp_path / "timings.jsonl"
+    t.write_text("".join(json.dumps(r) + "\n" for r in rows))
+    monkeypatch.setattr(workflow_drift, "TIMINGS", t)
+    monkeypatch.setattr(workflow_drift, "REVIEWS", tmp_path / "none.jsonl")
+    assert workflow_drift.measure(7)["minerFullRuns"] == 1
