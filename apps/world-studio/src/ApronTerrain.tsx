@@ -5,7 +5,10 @@ import { BorderApron } from "@elder-souls/game-core/terrain/BorderApron";
 import type { ApronManifest } from "@elder-souls/game-core/terrain/apronManifest";
 import { paintFrameExtent } from "@elder-souls/game-core/terrain/apronManifest";
 import { ChunkTerrain } from "./character/ChunkTerrain";
-import { hiddenBehindTerrain, topCornersOfBox } from "@elder-souls/game-core/terrain/terrainOcclusion";
+import {
+  createOcclusionCadence, createOcclusionSweep, topCornersOfBox,
+  type OcclusionRegistry, type OcclusionUnit,
+} from "@elder-souls/game-core/terrain/terrainOcclusion";
 import { makeChunkHeightSampler } from "./character/terrainHeightSampler";
 import { useApronMaterials } from "./apronMaterials";
 import { SkyContext } from "./sky/WorldSky";
@@ -44,34 +47,42 @@ export function ApronTerrain({ apron, ...terrain }: TerrainProps & { apron: Apro
     return () => { delete w.__APRON_DEBUG__; };
   }, [apron, ground, materials, store]);
   // Terrain occlusion for the apron's sectors (decision 0084): the same test
-  // and the same coarse LOD-8 height lookup the chunk renderer uses. The
-  // answer per sector box is kept so the HUD can report how many are hidden;
-  // `&occl=0` removes the occluder altogether.
+  // and the same height lookup the chunk renderer uses, as ONE pass over every
+  // sector on the coarse cadence, spread over frames under 0.5 ms, half of
+  // the 1 ms frame budget it shares with the chunk sweep (diag9 W1: a per-tile pass of every sector on one frame was a 34 ms walk
+  // hitch). `&occl=0` removes it altogether.
   const occlusionOn = useMemo(
     () => new URLSearchParams(window.location.search).get("occl") !== "0", []);
-  const eye = useRef(new THREE.Vector3());
-  useFrame(({ camera }) => { eye.current.copy(camera.position); });
-  const occluder = useMemo(() => {
+  const heightAt = useMemo(
+    () => makeChunkHeightSampler(store, manifest, scale), [store, manifest, scale]);
+  const sectorUnits = useRef(new Map<string, OcclusionUnit & { box: THREE.Box3 }>());
+  const occlusionDue = useRef(createOcclusionCadence());
+  const occlusionSweep = useRef(createOcclusionSweep({ budgetMs: 0.5 }));
+  const occlusion = useMemo<OcclusionRegistry | undefined>(() => {
     if (!occlusionOn) return undefined;
-    const heightAt = makeChunkHeightSampler(store, manifest, scale);
-    // Per box: its top corners (built once) and its last answer. The hidden
-    // count is kept running, not recounted over every box per call (perf10:
-    // that recount made one cadence pass quadratic in the sector count).
-    const byBox = new Map<THREE.Box3, { corners: ReturnType<typeof topCornersOfBox>; hidden: boolean }>();
-    let count = 0;
-    return (box: THREE.Box3) => {
-      let entry = byBox.get(box);
-      if (!entry) { entry = { corners: topCornersOfBox(box), hidden: false }; byBox.set(box, entry); }
-      // The apron meshes sit at the scene origin, so their boxes are world space.
-      const hidden = hiddenBehindTerrain(eye.current, entry.corners, heightAt);
-      count += Number(hidden) - Number(entry.hidden);
-      entry.hidden = hidden;
-      const stats = (window as unknown as { __STUDIO_GPU_MS__?: { hiddenSectors?: number } })
-        .__STUDIO_GPU_MS__;
-      if (stats) stats.hiddenSectors = count;
-      return hidden;
+    const units = sectorUnits.current;
+    return {
+      register(key, mesh, box) {
+        const known = units.get(key);
+        if (known && known.mesh === mesh && known.box === box) return;
+        // The apron meshes sit at the scene origin, so their boxes are world space.
+        units.set(key, { mesh, box, corners: topCornersOfBox(box) });
+      },
+      unregister(key) { units.delete(key); },
     };
-  }, [occlusionOn, store, manifest, scale]);
+  }, [occlusionOn]);
+  useFrame(({ camera }) => {
+    if (!occlusion) return;
+    if (occlusionDue.current(camera, performance.now())) {
+      heightAt.reset();
+      occlusionSweep.current.start(camera.position, sectorUnits.current.values());
+    }
+    const hidden = occlusionSweep.current.step(heightAt);
+    if (hidden === null) return;
+    const stats = (window as unknown as { __STUDIO_GPU_MS__?: { hiddenSectors?: number } })
+      .__STUDIO_GPU_MS__;
+    if (stats) stats.hiddenSectors = hidden;
+  });
   const nearFrame = apron?.paint.near;
   return (
     <>
@@ -91,7 +102,7 @@ export function ApronTerrain({ apron, ...terrain }: TerrainProps & { apron: Apro
       )}
       {apron && materials && (
         <BorderApron manifest={apron} baseUrl={import.meta.env.BASE_URL} materials={materials}
-          verticalScale={scale} occluder={occluder} />
+          verticalScale={scale} occlusion={occlusion} />
       )}
     </>
   );

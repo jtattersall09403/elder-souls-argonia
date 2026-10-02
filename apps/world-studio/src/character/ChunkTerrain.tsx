@@ -280,11 +280,13 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   const occlusionDue = useRef(createOcclusionCadence());
   const heightAt = useMemo(
     () => makeChunkHeightSampler(store, manifest, scale), [store, manifest, scale]);
-  // a pass is spread over frames, a few chunks each (perf10 O5)
-  const occlusionSweep = useRef(createOcclusionSweep());
+  // a pass is spread over frames under 0.5 ms, half of the 1 ms frame budget
+  // the apron sweep shares (perf10 O5, diag9 W1)
+  const occlusionSweep = useRef(createOcclusionSweep({ budgetMs: 0.5 }));
   useFrame(({ camera }) => {
     if (!occlusionOn) return;
     if (occlusionDue.current(camera, performance.now())) {
+      heightAt.reset();
       occlusionSweep.current.start(camera.position, occludable.current.values());
     }
     const hidden = occlusionSweep.current.step(heightAt);

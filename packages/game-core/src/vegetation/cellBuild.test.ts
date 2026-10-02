@@ -240,7 +240,7 @@ describe("buildCell", () => {
         const box: GateBox = {
           minX: sb.minX, minZ: sb.minZ, maxX: sb.maxX, maxZ: sb.maxZ,
         };
-        const { dMin, dMax } = rangeDistances(box, eyeX, eyeZ);
+        const { dMin, dMax } = rangeDistances(box, eyeX, eyeZ, { dMin: 0, dMax: 0 });
         for (let i = 0; i < sb.count; i++) {
           const d = Math.hypot(
             sb.placements[i * 7] - eyeX, sb.placements[i * 7 + 2] - eyeZ);

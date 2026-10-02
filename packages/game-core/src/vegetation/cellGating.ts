@@ -94,17 +94,24 @@ export interface GateSpecies {
   near: boolean;
 }
 
-/** XZ distances from an eye to a box: 0 inside, and the farthest corner. */
+/** XZ distances from an eye to a box: 0 inside, and the farthest corner.
+ * Written into the caller's `out` (diag9 A4: a new object per cell per frame
+ * was 30 MB of garbage on a walk). */
+export interface RangeDistances { dMin: number; dMax: number }
+
 export function rangeDistances(
   box: GateBox,
   eyeX: number,
   eyeZ: number,
-): { dMin: number; dMax: number } {
+  out: RangeDistances,
+): RangeDistances {
   const dx = Math.max(box.minX - eyeX, 0, eyeX - box.maxX);
   const dz = Math.max(box.minZ - eyeZ, 0, eyeZ - box.maxZ);
   const fx = Math.max(Math.abs(eyeX - box.minX), Math.abs(eyeX - box.maxX));
   const fz = Math.max(Math.abs(eyeZ - box.minZ), Math.abs(eyeZ - box.maxZ));
-  return { dMin: Math.hypot(dx, dz), dMax: Math.hypot(fx, fz) };
+  out.dMin = Math.hypot(dx, dz);
+  out.dMax = Math.hypot(fx, fz);
+  return out;
 }
 
 /** One tile's XZ box, instance bounds grown by the kit's reach at its scale. */
@@ -189,6 +196,37 @@ export interface GateView {
 /** Longest shadow the caster test sweeps a tile by, metres: the CSM cascade
  * reach in character mode is 160 m, and a low sun past that is haze. */
 export const SHADOW_REACH_MAX_M = 120;
+
+/** Tallest caster the shadow-pass test allows for, metres (the occlusion
+ * canopy cap: no kit tree stands taller). */
+export const CASTER_HEIGHT_MAX_M = 40;
+
+/** Radial over depth: the cascade is bounded by view DEPTH, and a copy at the
+ * frustum's corner lies up to this much farther in plan than its depth
+ * (≈ 1 / cos of the corner half-angle at the studio's 70° vertical fov, 16:9). */
+export const CASCADE_CORNER_FACTOR = 1.6;
+
+/**
+ * Whether a casting batch whose nearest visible copy is `nearestM` (XZ,
+ * metres; Infinity = none on) can put a shadow inside the sun cascade that
+ * ends at view depth `cascadeFarM` (diag9 C1). A copy farther than the
+ * cascade's corner reach plus the longest shadow a caster can throw towards
+ * the camera, plus the gate margin, shadows nothing the cascade covers, so a
+ * batch wholly beyond it is dropped from the shadow pass: one draw per batch
+ * saved, and the near cascade's content is unchanged. `shadow` null: no sun
+ * shadow is cast at all.
+ */
+export function casterReachesCascade(
+  nearestM: number,
+  cascadeFarM: number,
+  shadow: { perM: number } | null,
+): boolean {
+  if (!shadow) return false;
+  if (!Number.isFinite(cascadeFarM)) return nearestM !== Infinity;
+  const reach = cascadeFarM * CASCADE_CORNER_FACTOR
+    + Math.min(SHADOW_REACH_MAX_M, CASTER_HEIGHT_MAX_M * shadow.perM) + GATE_MARGIN_M;
+  return nearestM <= reach;
+}
 
 /** What `viewPlanesFor` reads: a THREE.PerspectiveCamera fits it. */
 export interface GateCamera {
@@ -300,9 +338,12 @@ export function gateSpecies(
   stats.visibleTriangles = 0;
   stats.checksCell = 0;
   stats.checksTile = 0;
+  // Two per pass, not one per cell and tile (diag9 A4).
+  const raw: RangeDistances = { dMin: 0, dMax: 0 };
+  const d: RangeDistances = { dMin: 0, dMax: 0 };
   for (const entry of list) {
     stats.checksCell++;
-    const raw = rangeDistances(entry.cellBox, eye.x, eye.z);
+    rangeDistances(entry.cellBox, eye.x, eye.z, raw);
     const dMin = Math.max(0, raw.dMin - marginM);
     const dMax = raw.dMax + marginM;
     // Legacy rule: no tile of a cell wholly inside the behind radius can be
@@ -352,9 +393,9 @@ export function gateSpecies(
             // kept the full-mesh rung of a whole tile of trees up to ~50 m
             // past its edge, submitted and collapsed (walk 5, 3.5x the
             // in-band triangles). The reach only matters to the view test.
-            const d = rangeDistances(
+            rangeDistances(
               tileBox(rung.tileBounds, t, 0, scratchBox),
-              eye.x, eye.z);
+              eye.x, eye.z, d);
             tileD = Math.max(0, d.dMin - marginM);
             on = rungVisible(rung.band, tileD, d.dMax + marginM, rung.castsFromZero);
           }

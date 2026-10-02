@@ -24,7 +24,8 @@
  *   3. the wind and camera uniforms.
  */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { SkyContext } from "../sky/WorldSky";
 import { useFrame, useThree } from "@react-three/fiber";
 import { DrawTargetLinker } from "@elder-souls/game-core/render/drawTargetLinker";
 import { holdUntilLinked } from "./linkGate";
@@ -80,6 +81,7 @@ import {
   type CellSpeciesSource,
 } from "@elder-souls/game-core/vegetation/cellBuild";
 import {
+  casterReachesCascade,
   gateSpecies,
   GATE_TILE_COUNT,
   rangeDistances,
@@ -559,6 +561,12 @@ export function Vegetation({
   /** Camera forward on XZ at the last gate pass; the behind test reads it. */
   const cameraFwd = useRef({ x: 0, z: -1 });
   const gateBox = useRef<GateBox>({ minX: 0, minZ: 0, maxX: 0, maxZ: 0 });
+  const pivotRange = useRef({ dMin: 0, dMax: 0 });
+  /** The sun cascade's far distance (CSM `maxFar`; Infinity with no CSM):
+   * a casting batch wholly beyond its reach leaves the shadow pass. */
+  const { csm } = useContext(SkyContext);
+  const cascadeFarM = useRef(Infinity);
+  cascadeFarM.current = csm?.maxFar ?? Infinity;
   /** Camera state at the last gate pass, and whether a build or drop has
    * invalidated it. */
   const lastGate = useRef({ x: NaN, z: NaN, fx: 0, fy: 0, fz: -1, frame: -1e9 });
@@ -1177,20 +1185,26 @@ export function Vegetation({
       // depth rejects the far foliage behind it instead of shading it twice.
       // The distances are the ones this pass already computes, and the two
       // loops below are over the ~120 batches, not over their copies.
-      if (VEG_ORDER_ENABLED) {
-        for (const batch of batches.current.values()) batch.orderMin = Infinity;
-        gateSpecies(allSpecies.current, eye, fwd, enqueueTile,
-          gateStats.current, undefined, markOrder, view ?? undefined);
-        for (const batch of batches.current.values()) {
-          if (batch.orderMin === Infinity) continue;
-          const next = Math.round(batch.orderMin);
-          if (batch.renderOrder === next) continue;
-          batch.renderOrder = next;
-          for (const geo of batch.geoList) geo.mesh.renderOrder = next;
+      for (const batch of batches.current.values()) batch.orderMin = Infinity;
+      gateSpecies(allSpecies.current, eye, fwd, enqueueTile,
+        gateStats.current, undefined, markOrder, view ?? undefined);
+      // The same nearest distance decides whether a casting batch draws into
+      // the sun shadow map at all (diag9 C1): every casting batch is one
+      // shadow draw whatever its copies' distance (the meshes are never
+      // frustum-culled), so a batch whose nearest copy cannot cast into the
+      // cascade is dropped from the shadow pass.
+      const shadow = view ? view.shadow ?? null : undefined;
+      for (const batch of batches.current.values()) {
+        if (batch.casts) {
+          const cast = VEG_CAST_SHADOW && (shadow === undefined
+            || casterReachesCascade(batch.orderMin, cascadeFarM.current, shadow));
+          for (const geo of batch.geoList) geo.mesh.castShadow = cast;
         }
-      } else {
-        gateSpecies(allSpecies.current, eye, fwd, enqueueTile, gateStats.current,
-          undefined, undefined, view ?? undefined);
+        if (!VEG_ORDER_ENABLED || batch.orderMin === Infinity) continue;
+        const next = Math.round(batch.orderMin);
+        if (batch.renderOrder === next) continue;
+        batch.renderOrder = next;
+        for (const geo of batch.geoList) geo.mesh.renderOrder = next;
       }
     }
     const gatingMs = performance.now() - gateStart;
@@ -2005,7 +2019,7 @@ export function Vegetation({
       for (const [rung, tiles] of rungs) {
         for (const [tile, visible] of tiles) {
           const pivots = rangeDistances(
-            tileBox(rung.tileBounds, tile, 0, gateBox.current), eye.x, eye.z);
+            tileBox(rung.tileBounds, tile, 0, gateBox.current), eye.x, eye.z, pivotRange.current);
           // 2 = urgent: the camera is inside (or within URGENT_LEAD_M of) this
           // rung's own band for some copy of the tile, so the shader draws it
           // now.
