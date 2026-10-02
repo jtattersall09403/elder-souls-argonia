@@ -728,6 +728,7 @@ EXEMPT_KEYS = {
     "credit", "credits", "nexus", "mod", "plugin", "editorId", "formId",
     "model", "mesh", "texture", "nif", "esp", "esm", "asset", "assets",
     "status", "region", "regions", "code", "version", "generator", "command",
+    "dustWhy",  # interiorLight.json: an id from interior_light.DUST_WHY, never prose
 }
 EXEMPT_KEY_SUFFIXES = ("Id", "Ids", "Ref", "Refs", "Path", "Paths", "Hash", "Url", "Uri", "File", "Files")
 

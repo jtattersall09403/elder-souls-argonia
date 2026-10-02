@@ -43,7 +43,7 @@ def test_a_mud_hut_is_one_band_lower():
 def test_override_wins_with_its_reason(monkeypatch):
     monkeypatch.setitem(il.DUST_OVERRIDES, "F", ("high", "a mill the furniture mix reads as a dwelling"))
     row = medium("F", [BED, HEARTH])
-    assert row["dust"] == "high" and row["dustWhy"].startswith("override:")
+    assert row["dust"] == "high" and row["dustWhy"] == "override"
 
 
 def test_a_published_cell_no_shell_links_fails_loud():
