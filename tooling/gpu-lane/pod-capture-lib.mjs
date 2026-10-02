@@ -1,3 +1,4 @@
+import { targetsLine } from "./target-probe.mjs";
 import { readFileSync } from "node:fs";
 import { topCause } from "./trace-frames.mjs";
 /** Pure parts of pod-capture.mjs (unit-tested in pod-capture-lib.test.mjs). */
@@ -242,6 +243,7 @@ export function summariseView(r) {
     failed: r.failed ?? null, heapTop: w.heapTop?.length ? w.heapTop.slice(0, 3).map((h) => `${h.fn} ${h.selfMB} MB`).join("; ") : null,
     cpuTop: w.cpuTop?.top?.length ? w.cpuTop.top.slice(0, 5).map((f) => `${f.fn.replace(/ \S*\/([^/ ]+)$/, " $1")} ${f.msPerFrame ?? f.selfMs}`).join("; ") : null,
     gpuProbe: r.gpuErrorProbe ? gpuProbeLine(r.gpuErrorProbe) : null,
+    targets: r.targetProbe ? targetsLine(r.targetProbe) : null,
     drawCensus: w.drawCensus ? drawCensusLine(w.drawCensus, wk?.workMs?.mean ?? null) : null,
     settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
   };
@@ -249,9 +251,9 @@ export function summariseView(r) {
 /** Markdown summary: one row per view from its result.json `summary` (`summariseView`). "from" names the window the rates
  * came from; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "failed", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "draw census"];
+  const cols = ["view", "failed", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "draw census", "targets"];
   const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
-    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.drawCensus].map(cell));
+    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.drawCensus, s.targets].map(cell));
   return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), "",
     `| ${cols.join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.join(" | ")} |`)].join("\n");
 }

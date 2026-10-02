@@ -47,9 +47,9 @@ const INITIAL_WATER_LAYERS = new URLSearchParams(window.location.search).get("wa
 
 export function pickWaterTier(): WaterTier {
   const base = pickBaseTier();
-  // `?refr=<scale>` (diagnosis, studioSwitches.ts) overrides the scene-target scale.
-  const refr = INITIAL_SWITCHES.refr;
-  return refr === null ? base : { ...base, rtScale: refr };
+  // `?refr=<scale>` overrides the scene-target scale; `?msaa=0` zeroes its samples (diagnosis, studioSwitches.ts).
+  const { refr, msaa0 } = INITIAL_SWITCHES;
+  return { ...base, ...(refr === null ? {} : { rtScale: refr }), ...(msaa0 ? { samples: 0 } : {}) };
 }
 
 function pickBaseTier(): WaterTier {
