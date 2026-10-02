@@ -241,15 +241,16 @@ export function summariseView(r) {
     errors: `${r.gpuErrors?.length ?? "?"}/${r.console?.filter(([k]) => k.startsWith("error")).length ?? "?"}/${r.pageErrors?.length ?? "?"}/${r.http404s ?? "?"}`,
     failed: r.failed ?? null, heapTop: w.heapTop?.length ? w.heapTop.slice(0, 3).map((h) => `${h.fn} ${h.selfMB} MB`).join("; ") : null,
     cpuTop: w.cpuTop?.top?.length ? w.cpuTop.top.slice(0, 5).map((f) => `${f.fn.replace(/ \S*\/([^/ ]+)$/, " $1")} ${f.msPerFrame ?? f.selfMs}`).join("; ") : null,
+    gpuProbe: r.gpuErrorProbe ? gpuProbeLine(r.gpuErrorProbe) : null,
     settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
   };
 }
 /** Markdown summary: one row per view from its result.json `summary` (`summariseView`). "from" names the window the rates
  * came from; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "failed", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame"];
+  const cols = ["view", "failed", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe"];
   const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
-    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop].map(cell));
+    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe].map(cell));
   return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), "",
     `| ${cols.join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.join(" | ")} |`)].join("\n");
 }
@@ -368,8 +369,112 @@ export function backendFailure(view, r) {
   return b && b !== "webgpu" ? "no-webgpu" : null;
 }
 
-/** Page JS for about:blank: resolves true once navigator.gpu.requestAdapter() returns an adapter. */
-export const ADAPTER_JS = `(async () => { try { return Boolean(await navigator.gpu?.requestAdapter()); } catch { return false; } })()`;
+/** `--probe-gpu-errors` (diagnosis only; never a bar row). Installed by the init script before the app's scripts, it wraps
+ * the WebGPU API on `win` and, before every draw of a render pass, compares the vertex slots the bound pipeline needs
+ * (0..vertex.buffers.length-1) with the slots set in that pass. The first mismatch of each of at most 3 pipeline labels
+ * is dumped into win.__gpuErrorProbe.dumps: pipeline label and vertex layout, the set slots (buffer label, size,
+ * destroyed), the missing slots, bind groups, index buffer, draw kind and args, the vertex WGSL, and the three.js render
+ * object being drawn (win.__RENDERER__.backend.draw is wrapped once the studio exposes the renderer). The first 5
+ * uncapturederror messages land in win.__gpuErrorProbe.errors with their time. Per draw: O(slots), no allocation.
+ * Self-contained: it is stringified into the page. */
+export function installGpuErrorProbe(win) {
+  const P = (win.__gpuErrorProbe = { dumps: [], errors: [], threeHooked: false, threeNote: "renderer not seen yet", draws: 0 });
+  const MAX_SLOTS = 16, now = () => (win.performance ? Math.round(win.performance.now()) : 0);
+  const shaderCode = new WeakMap(), pipelines = new WeakMap(), destroyed = new WeakSet(), bindGroups = new WeakMap(), passes = new WeakMap();
+  const labelled = new Set();
+  let lastRO = null;
+  const wrap = (proto, name, make) => { if (proto && typeof proto[name] === "function") proto[name] = make(proto[name]); };
+  const Dev = win.GPUDevice?.prototype;
+  wrap(Dev, "createShaderModule", (f) => function (d) { const m = f.call(this, d); try { shaderCode.set(m, d.code); } catch {} return m; });
+  const pipeInfo = (d) => {
+    const v = d?.vertex ?? {};
+    return { label: d?.label ?? "", entryPoint: v.entryPoint ?? null, module: v.module ?? null,
+      buffers: Array.from(v.buffers ?? [], (b) => (b ? { arrayStride: b.arrayStride, stepMode: b.stepMode ?? "vertex",
+        attributes: Array.from(b.attributes ?? [], (a) => ({ shaderLocation: a.shaderLocation, format: a.format, offset: a.offset })) } : null)) };
+  };
+  wrap(Dev, "createRenderPipeline", (f) => function (d) { const p = f.call(this, d); try { pipelines.set(p, pipeInfo(d)); } catch {} return p; });
+  wrap(Dev, "createRenderPipelineAsync", (f) => function (d) { return f.call(this, d).then((p) => { try { pipelines.set(p, pipeInfo(d)); } catch {} return p; }); });
+  wrap(Dev, "createBindGroup", (f) => function (d) {
+    const g = f.call(this, d);
+    try { bindGroups.set(g, { label: d.label ?? "", entries: Array.from(d.entries ?? [], (e) => ({ binding: e.binding, kind: e.resource?.buffer ? `buffer ${e.resource.buffer.label ?? ""} size ${e.resource.buffer.size}` : (e.resource?.constructor?.name ?? typeof e.resource) })) }); } catch {}
+    return g;
+  });
+  wrap(win.GPUBuffer?.prototype, "destroy", (f) => function () { destroyed.add(this); return f.call(this); });
+  wrap(win.GPUAdapter?.prototype, "requestDevice", (f) => async function (...a) {
+    const d = await f.apply(this, a);
+    d.addEventListener?.("uncapturederror", (e) => { if (P.errors.length < 5) P.errors.push({ t: now(), message: String(e.error?.message ?? e.message).slice(0, 600) }); });
+    return d;
+  });
+  wrap(win.GPUCommandEncoder?.prototype, "beginRenderPass", (f) => function (d) {
+    const pass = f.call(this, d);
+    passes.set(pass, { pipeline: null, info: null, vb: new Array(MAX_SLOTS).fill(null), vbOff: new Array(MAX_SLOTS).fill(0), vbSize: new Array(MAX_SLOTS).fill(0),
+      ib: null, ibFormat: null, groups: new Array(8).fill(null), label: d?.label ?? "" });
+    return pass;
+  });
+  const RP = win.GPURenderPassEncoder?.prototype;
+  wrap(RP, "setPipeline", (f) => function (p) { const s = passes.get(this); if (s) { s.pipeline = p; s.info = pipelines.get(p) ?? null; } return f.call(this, p); });
+  wrap(RP, "setVertexBuffer", (f) => function (slot, buf, off, size) { const s = passes.get(this); if (s && slot < MAX_SLOTS) { s.vb[slot] = buf ?? null; s.vbOff[slot] = off ?? 0; s.vbSize[slot] = size ?? -1; } return f.call(this, slot, buf, off, size); });
+  wrap(RP, "setIndexBuffer", (f) => function (buf, fmt, off, size) { const s = passes.get(this); if (s) { s.ib = buf; s.ibFormat = fmt; } return f.call(this, buf, fmt, off, size); });
+  wrap(RP, "setBindGroup", (f) => function (i, g, ...a) { const s = passes.get(this); if (s && i < 8) s.groups[i] = g ?? null; return f.call(this, i, g, ...a); });
+  const bufInfo = (b) => (b ? { label: b.label ?? "", size: b.size, usage: b.usage, destroyed: destroyed.has(b) } : null);
+  const threeSide = () => {
+    const ro = lastRO;
+    if (!ro) return { note: P.threeNote };
+    const t = {};
+    const safe = (k, fn) => { try { t[k] = fn(); } catch (e) { t[k] = `err ${e.message}`; } };
+    const o = ro.object, g = ro.geometry, m = ro.material, be = win.__RENDERER__?.backend;
+    safe("object", () => ({ name: o.name, type: o.type, id: o.id, isBatchedMesh: Boolean(o.isBatchedMesh), isInstancedMesh: Boolean(o.isInstancedMesh), count: o.count, userDataKeys: Object.keys(o.userData ?? {}) }));
+    safe("geometry", () => ({ id: g.id, attributes: Object.fromEntries(Object.entries(g.attributes ?? {}).map(([k, a]) => [k, { id: a.id, itemSize: a.itemSize, array: a.array?.constructor?.name, count: a.count, isInstancedBufferAttribute: Boolean(a.isInstancedBufferAttribute), isInterleaved: Boolean(a.isInterleavedBufferAttribute), version: a.version }])) }));
+    safe("material", () => ({ name: m.name, id: m.id, type: m.type, version: m.version, customProgramCacheKey: typeof m.customProgramCacheKey === "function" ? String(m.customProgramCacheKey()) : null }));
+    safe("cacheKey", () => (typeof ro.getCacheKey === "function" ? String(ro.getCacheKey()) : null));
+    safe("attributes", () => (typeof ro.getAttributes === "function" ? ro.getAttributes().map((a) => a?.name ?? a?.constructor?.name ?? "?") : null));
+    safe("vertexBuffers", () => (typeof ro.getVertexBuffers === "function" ? ro.getVertexBuffers().map((b) => {
+      const d = be?.get?.(b);
+      return { name: b?.name ?? "", id: b?.id ?? b?.uuid ?? null, ctor: b?.constructor?.name, isInstanced: Boolean(b?.isInstancedBufferAttribute || b?.isInstancedInterleavedBuffer), hasGpuBuffer: Boolean(d?.buffer), gpuBuffer: bufInfo(d?.buffer) };
+    }) : null));
+    return t;
+  };
+  const check = (pass, kind, a0, a1, a2, a3, a4) => {
+    P.draws++;
+    const s = passes.get(pass);
+    if (!s || !s.info) return;
+    const req = s.info.buffers.length;
+    let gap = false;
+    for (let i = 0; i < req && i < MAX_SLOTS; i++) if (s.info.buffers[i] && !s.vb[i]) { gap = true; break; }
+    if (!gap || labelled.has(s.info.label) || labelled.size >= 3) return;
+    labelled.add(s.info.label);
+    const missing = [], set = [];
+    for (let i = 0; i < MAX_SLOTS; i++) {
+      if (s.vb[i]) set.push({ slot: i, offset: s.vbOff[i], size: s.vbSize[i], buffer: bufInfo(s.vb[i]) });
+      else if (i < req && s.info.buffers[i]) missing.push(i);
+    }
+    const isIndirect = kind === "drawIndirect" || kind === "drawIndexedIndirect";
+    P.dumps.push({ t: now(), drawIndex: P.draws, pass: s.label, kind, args: isIndirect ? { indirectBuffer: bufInfo(a0), offset: a1 } : [a0, a1, a2, a3, a4].filter((x) => x !== undefined),
+      pipeline: { label: s.info.label, entryPoint: s.info.entryPoint, buffers: s.info.buffers }, missing, set,
+      indexBuffer: s.ib ? { ...bufInfo(s.ib), format: s.ibFormat } : null,
+      bindGroups: s.groups.map((g, i) => (g ? { group: i, ...(bindGroups.get(g) ?? { label: g.label ?? "" }) } : null)).filter(Boolean),
+      vertexWGSL: shaderCode.get(s.info.module) ?? null, three: threeSide() });
+  };
+  for (const k of ["draw", "drawIndexed", "drawIndirect", "drawIndexedIndirect"]) wrap(RP, k, (f) => function (a0, a1, a2, a3, a4) { check(this, k, a0, a1, a2, a3, a4); return f.call(this, a0, a1, a2, a3, a4); });
+  // three side: wrap backend.draw once the studio exposes the renderer (window.__RENDERER__)
+  const hook = () => {
+    const be = win.__RENDERER__?.backend;
+    if (!be || typeof be.draw !== "function") return false;
+    const draw = be.draw;
+    be.draw = function (ro, info) { lastRO = ro; return draw.call(this, ro, info); };
+    P.threeHooked = true; P.threeNote = "backend.draw wrapped";
+    return true;
+  };
+  if (!hook() && typeof win.setInterval === "function") { const id = win.setInterval(() => { if (hook()) win.clearInterval(id); }, 250); }
+}
+
+/** One summary line from a view's gpu-error-probe.json: the first dump's missing slot, pipeline label and three object name. */
+export function gpuProbeLine(p) {
+  if (!p || p.err) return `not-a-bar; probe unread${p?.err ? ` (${String(p.err).slice(0, 60)})` : ""}`;
+  const d = p.dumps?.[0];
+  if (!d) return `not-a-bar; no unset slot in ${p.draws ?? 0} draws; ${p.errors?.length ?? 0} errors`;
+  return `not-a-bar; slot ${d.missing.join(",")} missing ${d.pipeline.label} obj ${d.three?.object?.name ?? d.three?.note ?? "?"} (${p.dumps.length} dumps)`;
+}
 
 /** CPU profile (Profiler.stop) over the cost window -> self ms per frame per function (url:line:col), top n, with the
  * profile's sampled total. frames: frames in the window (the work probe's count); null leaves per-frame out. */
