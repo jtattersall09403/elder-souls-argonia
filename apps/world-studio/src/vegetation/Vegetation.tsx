@@ -25,7 +25,9 @@
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
+import { DrawTargetLinker } from "@elder-souls/game-core/render/drawTargetLinker";
+import { holdUntilLinked } from "./linkGate";
 import * as THREE from "three";
 import {
   speciesRings,
@@ -505,6 +507,10 @@ export function Vegetation({
   const cells = useRef(new Map<string, Cell>());
   const pending = useRef(new Set<string>());
   const batches = useRef(new Map<string, Batch>());
+  // Every rung mesh links its program before it first draws (linkGate.ts).
+  const { gl, scene, camera } = useThree();
+  const linker = useMemo(() => new DrawTargetLinker(gl, scene), [gl, scene]);
+  useEffect(() => { linker.attach(); return () => linker.detach(); }, [linker]);
   const registry = useRef(new CellRegistry());
   const jobs = useRef(new Map<string, { cancel(): void }>());
   const batchMaterials = useRef(new Map<string, BatchMaterials>());
@@ -884,7 +890,7 @@ export function Vegetation({
     mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     configureGeoMesh(batch, mesh);
     root.current?.add(mesh);
-    return {
+    const geo: GeoMesh = {
       geometryKey, source, geometry, mesh, capacity,
       pooledAt: 0, next: 0, free: [],
       src: new Array<Float32Array | null>(capacity).fill(null),
@@ -894,6 +900,8 @@ export function Vegetation({
       slotOf: new Int32Array(capacity),
       count: 0, dirty: newUploadSpans(),
     };
+    holdUntilLinked(mesh, (object) => linker.link({ object }, camera), () => { geo.mesh.visible = true; });
+    return geo;
   };
 
   /**
@@ -913,6 +921,7 @@ export function Vegetation({
       (geo.geometry.getAttribute("esSlot").array as Float32Array)
         .subarray(0, geo.count));
     setDrawCount(mesh, geo.count);
+    mesh.visible = geo.mesh.visible;     // still held while its link is pending
     mesh.instanceMatrix.needsUpdate = true;
     geometry.getAttribute("esSlot").needsUpdate = true;
     root.current?.add(mesh);

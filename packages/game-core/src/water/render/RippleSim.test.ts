@@ -208,7 +208,12 @@ function fakeRenderer() {
   let clearAlpha = 0.7;
   let scissorTest = true;
   let clears = 0;
+  const links: { material: THREE.Material; target: THREE.WebGLRenderTarget | null; tone: THREE.ToneMapping }[] = [];
   const renderer = {
+    compileAsync: (scene: THREE.Scene) => {
+      links.push({ material: (scene.children[0] as THREE.Mesh).material as THREE.Material, target, tone: renderer.toneMapping });
+      return Promise.resolve(scene);
+    },
     toneMapping: THREE.ACESFilmicToneMapping, autoClear: true,
     getRenderTarget: () => target,
     setRenderTarget: (next: THREE.WebGLRenderTarget | null) => { target = next; },
@@ -226,10 +231,28 @@ function fakeRenderer() {
           : { kind: "update" });
     },
   };
-  return { renderer: renderer as unknown as THREE.WebGLRenderer, calls, get clears() { return clears; } };
+  return { renderer: renderer as unknown as THREE.WebGLRenderer, calls, links, get clears() { return clears; } };
 }
 
 describe("ripple render scheduling", () => {
+  it("links all four pass programs on the first step, against the half-float target untone-mapped (perf10 f11)", () => {
+    const sim = new RippleSim({ boundarySize: 16, sampleBoundary: () => ({ waterBodyId: "water.pond", depth: 2, surfaceHeight: 0 }) as never });
+    const { renderer, links } = fakeRenderer();
+    sim.step(renderer, 0, 0, 0);
+    const kinds = links.map(l => {
+      const u = (l.material as THREE.ShaderMaterial).uniforms;
+      return u.uCurrent ? "advect" : u.uShift ? "copy" : u.uDropCount ? "drop" : "update";
+    });
+    expect(kinds.sort()).toEqual(["advect", "copy", "drop", "update"]);
+    for (const l of links) {
+      expect(l.target).toBeInstanceOf(THREE.WebGLRenderTarget);
+      expect(l.target!.texture.type).toBe(THREE.HalfFloatType);
+      expect(l.tone).toBe(THREE.NoToneMapping);
+    }
+    sim.step(renderer, 0, 0, 1 / 60);
+    expect(links).toHaveLength(4);
+  });
+
   it("skips the GPU step over an all-dry patch once the field is zero, resumes when water appears (perf10 f3)", () => {
     let wet = false;
     const sim = new RippleSim({ boundarySize: 16, sampleBoundary: () => (wet
