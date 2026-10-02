@@ -41,13 +41,26 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
    For a local SwiftShader smoke test, point `--cdp` at a local Chrome started with
    `--remote-debugging-port` and serve the site with `node tooling/gpu-lane/serve.mjs <site>`.
 
+## Gotchas
+
+- **The frame is capped at ~60 and fps cannot show headroom.** `pod-setup.sh` passes
+  `--disable-gpu-vsync --disable-frame-rate-limit`, but on Chrome 154 under Xvfb a trivial page still
+  runs rAF at 58.5 fps (walk 10, six launch variants: ANGLE GL, ANGLE Vulkan, `--headless=new`,
+  `--ozone-platform=headless`, the background-throttling flags). A view at 60 fps is "at least 60"; read
+  headroom from the HUD's `gpuMs` / `gpuByPass` and `cpuMs` instead, and treat fps as meaningful only
+  when it drops below the cap.
+- **The network never goes quiet.** Terrain and vegetation stream continuously, so "no requests for
+  3 s" never happens (walk-10 base run: every URL hit the timeout). The studio has no "loaded" flag;
+  `isReady` in `measure.mjs` waits for HUD tris stable within 2 % for 5 s with no "Loading terrain"
+  line, capped by `--ready-timeout` (120 s).
+
 ## Reading measure.json
 
 Top level: `gitSha`, `dirty`, `builtAt` (served index.html mtime), `renderer`, `window`, `dpr`,
 `browser`. Per entry of `urls[]`:
 
-- `ready` / `readyS`: whether, and after how long, the first complete frame arrived (studio fps
-  published, HUD tris line present, network quiet 3 s). `ready: false` means the numbers after it
+- `ready` / `readyS`: whether, and after how long, the world stopped arriving (see Gotchas: fps
+  published, no loading line, HUD tris stable 5 s). `ready: false` means the numbers after it
   were taken on a loading scene.
 - `settledFps` (mean over the window, from in-page rAF timestamps), `minFps` (slowest frame),
   `p1LowFps` (mean of the slowest 1 % of frames), `frameTimes` (mean/p50/p95/p99/max ms).

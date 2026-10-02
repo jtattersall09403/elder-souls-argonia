@@ -8,7 +8,7 @@
  *   node tooling/gpu-lane/measure.mjs --run <name> --url "?view=character&x=..&z=..&t=22&w=rain" [--url ...]
  *     [--origin http://127.0.0.1:8099] [--base /elder-souls-argonia/studio/] [--renderer webgl|webgpu]
  *     [--settle 10] [--walk <s>] [--shots] [--cdp 127.0.0.1:9222] [--width 1280 --height 720 --dpr 1]
- *     [--ready-timeout 240] [--out tooling/.reports/gpu-lane/<run>/]
+ *     [--ready-timeout 120] [--out tooling/.reports/gpu-lane/<run>/]
  */
 import { spawnSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -20,7 +20,7 @@ const repo = resolve(new URL("../..", import.meta.url).pathname);
 
 export function parseArgs(argv) {
   const o = { url: [], origin: "http://127.0.0.1:8099", base: null, renderer: "webgl", settle: 10, walk: 0, shots: false,
-    cdp: "127.0.0.1:9222", run: null, out: null, width: 1280, height: 720, dpr: 1, readyTimeout: 240 };
+    cdp: "127.0.0.1:9222", run: null, out: null, width: 1280, height: 720, dpr: 1, readyTimeout: 120 };
   const camel = (k) => k.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i].replace(/^--/, "");
@@ -36,6 +36,21 @@ export function parseArgs(argv) {
   o.base ??= o.renderer === "webgpu" ? "/elder-souls-argonia/webgpu/" : "/elder-souls-argonia/studio/";
   o.out = resolve(o.out ?? join(repo, "tooling/.reports/gpu-lane", o.run));
   return o;
+}
+
+/**
+ * Ready = the world has stopped arriving around the player. The studio exposes no "loaded" flag, so:
+ * fps published, no "Loading terrain" line, and HUD tris within `tol` of each other over the last
+ * `stableMs`. `samples` are {t, tris, fps, loading}, oldest first.
+ */
+export function isReady(samples, stableMs = 5000, tol = 0.02) {
+  const last = samples[samples.length - 1];
+  if (!last || !(last.fps > 0) || last.loading || !(last.tris > 0)) return false;
+  if (last.t - samples[0].t < stableMs) return false;
+  const win = samples.filter((s) => s.t >= last.t - stableMs);
+  if (win.some((s) => s.loading || !(s.tris > 0))) return false;
+  const tris = win.map((s) => s.tris);
+  return (Math.max(...tris) - Math.min(...tris)) / Math.max(...tris) <= tol;
 }
 
 /** Frame-time stats from rAF timestamps (ms). 1 % low = fps of the mean of the slowest 1 % of frames. */
@@ -88,24 +103,23 @@ async function sample(page, seconds) {
 async function measureUrl(ctx, o, query, idx) {
   const page = await ctx.newPage();
   const consoleErrors = [], http404s = [];
-  let inflight = 0, lastNet = Date.now();
   page.on("console", (m) => { if (m.type() === "error") consoleErrors.push(m.text().slice(0, 400)); });
   page.on("pageerror", (e) => consoleErrors.push(`pageerror: ${String(e).slice(0, 400)}`));
-  page.on("request", () => { inflight++; lastNet = Date.now(); });
-  const done = () => { inflight = Math.max(0, inflight - 1); lastNet = Date.now(); };
-  page.on("requestfinished", done);
-  page.on("requestfailed", done);
   page.on("response", (r) => { if (r.status() === 404) http404s.push(r.url()); });
   const url = `${o.origin}${o.base}${query.startsWith("?") ? query : `?${query}`}`;
   const t0 = Date.now();
   await page.goto(url, { timeout: o.readyTimeout * 1000, waitUntil: "load" }).catch((e) => consoleErrors.push(`goto: ${e}`));
-  // First complete frame: the studio's frame probe has published an fps, the HUD has its tris line,
-  // and the network has been quiet for 3 s.
+  // Ready: see isReady (the world has stopped arriving; streaming never lets the network go quiet).
   let ready = false;
+  const samples = [];
   while (Date.now() - t0 < o.readyTimeout * 1000) {
-    const s = await page.evaluate(() => ({ fps: window.__STUDIO_FPS__ ?? 0, tris: /\ntris [\d.]+M/.test(document.body.innerText) }))
-      .catch(() => ({ fps: 0, tris: false }));
-    if (s.fps > 0 && s.tris && inflight === 0 && Date.now() - lastNet > 3000) { ready = true; break; }
+    const s = await page.evaluate(() => {
+      const text = document.body.innerText;
+      const m = /(?:^|\n)tris ([\d.]+)M/.exec(text);
+      return { fps: window.__STUDIO_FPS__ ?? 0, tris: m ? Number(m[1]) * 1e6 : 0, loading: text.includes("Loading terrain") };
+    }).catch(() => ({ fps: 0, tris: 0, loading: true }));
+    samples.push({ t: Date.now(), ...s });
+    if (isReady(samples)) { ready = true; break; }
     await page.waitForTimeout(500);
   }
   const readyS = Math.round((Date.now() - t0) / 100) / 10;

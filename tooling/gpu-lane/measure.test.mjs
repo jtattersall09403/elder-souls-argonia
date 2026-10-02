@@ -48,3 +48,14 @@ test("frame stats: mean fps, min and 1 % low from rAF timestamps", async () => {
   assert.equal(s.p1LowFps, 33.33);
   assert.equal(s.settledFps, 98.04);
 });
+
+test("isReady: tris stable within 2 % for 5 s, no loading line", async () => {
+  const { isReady } = await import("./measure.mjs");
+  const at = (t, tris, extra = {}) => ({ t, tris, fps: 60, loading: false, ...extra });
+  const steady = [0, 1000, 2000, 3000, 4000, 5000].map((t) => at(t, 3.2e6 + t));
+  assert.equal(isReady(steady), true);
+  assert.equal(isReady(steady.slice(0, 5)), false, "under 5 s of samples");
+  assert.equal(isReady([...steady.slice(0, 5), at(5000, 4.0e6)]), false, "still streaming");
+  assert.equal(isReady([...steady.slice(0, 5), at(5000, 3.2e6, { loading: true })]), false, "loading line");
+  assert.equal(isReady([...steady.slice(0, 5), at(5000, 3.2e6, { fps: 0 })]), false, "no fps yet");
+});
