@@ -254,6 +254,8 @@ export class FixtureLightField {
     const perObject = fixtureLightsPerObject(m);
     const hook = markChain<THREE.Material["onBeforeCompile"]>(function (this: THREE.Material, shader, renderer) {
       previous?.call(this, shader, renderer);
+      // its program carries the chunk: a later re-wrap need not relink it
+      if (this) this.userData.esFixtureLinked = true;
       // never twice: a chain that holds this hook twice patches once
       if (shader.fragmentShader.includes(FIXTURE_LIGHTS_MARK)) return;
       shader.uniforms.esFxData = uniforms.esFxData;
@@ -274,7 +276,10 @@ export class FixtureLightField {
       }, priorKey, CACHE_KEY);
     }
     // A material that already compiled without the chunk must relink once.
-    if (!wasInstalled || m.version > 0) m.needsUpdate = true;
+    // One whose program already carries it (the 1 Hz sweep re-wrapping a
+    // hook CSM replaced) keeps its program: its key never changed, and a
+    // version bump re-derives the program parameters (perf10 f27, diag11 U2).
+    if (!wasInstalled || (m.version > 0 && !m.userData.esFixtureLinked)) m.needsUpdate = true;
     return true;
   }
 

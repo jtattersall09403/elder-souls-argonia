@@ -26,7 +26,10 @@ import { reapplyCylindricalBillboard } from "@elder-souls/game-core/fx/billboard
 import { reapplyImpostor } from "@elder-souls/game-core/vegetation/impostor";
 import { reapplyGroundTint } from "../vegetation/Groundcover";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
-import { AERIAL_DOME_PARS_GLSL, applyAerialPerspective, createAerialUniforms, type AerialUniforms } from "./aerial";
+import {
+  AERIAL_DOME_PARS_GLSL, aerialSamplerUniforms, applyAerialPerspective, bindAerialBlock, createAerialUniforms,
+  type AerialUniforms,
+} from "./aerial";
 import {
   CLOUD_UNIFORMS_GLSL,
   cloudAlphaTowards,
@@ -216,8 +219,10 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
   // The SHARED aerial uniforms ride along (round 5): the dome fog march reads
   // the same rasters, regime conditions and fog colours as every surface —
   // both domes (main + PMREM bake) share the very objects, so one WorldSky
-  // write per frame updates them all.
-  Object.assign(mat.uniforms, extras, cloudUniforms, sharedAerialUniforms);
+  // write per frame updates them all (the rasters as uniforms, the rest
+  // through the one EsAerial block, perf10 f27).
+  Object.assign(mat.uniforms, extras, cloudUniforms, aerialSamplerUniforms(sharedAerialUniforms));
+  bindAerialBlock(mat, sharedAerialUniforms);
   mat.uniforms.cloudCoverage.value = 0; // stock cloud layer stays off — ours below
   mat.fragmentShader =
     "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\nuniform float uTwiGrade;\nuniform vec3 uDawnCore;\nuniform vec3 uDawnSpread;\nuniform vec3 uDawnWash;\nuniform vec3 uMoonGlowDirA;\nuniform vec3 uMoonGlowDirB;\nuniform vec3 uMoonGlowColA;\nuniform vec3 uMoonGlowColB;\nuniform vec2 uMoonGlowWide;\nuniform vec3 uCloudBright;\nuniform vec3 uCloudDark;\nuniform vec3 uGlowDir;\nuniform vec3 uGlowCol;\nuniform float uFlash;\nuniform vec3 uCloudSunset;\nuniform vec2 uCloudSunsetAmt;\n" +

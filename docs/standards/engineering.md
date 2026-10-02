@@ -461,8 +461,14 @@ headless.
   sun/moon rig and the carried torch, parked at intensity 0 when unused).
   Never add, remove or hide a real light at runtime: every lit program
   relinks.
+- Never toggle light or `castShadow` state per frame; refresh shadows with
+  `shadow.needsUpdate` (or `shadowMap.needsUpdate`): three re-derives every
+  lit program whenever the light set's shape changes.
 
 **Before adding a material.**
+- Per-frame shared uniforms live in the one aerial uniform block
+  (`EsAerial`, `sky/aerial.ts`), never as per-material uniforms: three
+  re-compares every material uniform on each material switch.
 - Share it: one material per kit glTF material (or per batch key), never a
   clone per part or per instance.
 - A patched material has a stable `customProgramCacheKey` that reads only

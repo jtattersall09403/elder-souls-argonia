@@ -13,6 +13,11 @@ import { PROVINCE_EXTENT_M } from "../provinceScale";
  */
 
 export interface AerialUniforms {
+  /** The per-frame block (perf10 f27, diag11 U1): every non-sampler field
+   * below is a member of this ONE std140 uniform buffer (`EsAerial`), which
+   * three uploads once per frame and binds per program, so a material switch
+   * compares none of them. Writers keep writing `.value` in place. */
+  block: THREE.UniformsGroup;
   uSunDirW: { value: THREE.Vector3 };
   /** Sun/moon radiance available to the haze (colour × lux-scale factor). */
   uHazeSunLight: { value: THREE.Vector3 };
@@ -70,51 +75,87 @@ export interface AerialUniforms {
 
 /** One shared uniform set: WorldSky writes it, every patched material reads it. */
 export function createAerialUniforms(): AerialUniforms {
+  const fields = {
+    uWhiteout: new THREE.Uniform(new THREE.Vector4(470, 150, 55, 0)),
+    uSunDirW: new THREE.Uniform(new THREE.Vector3(0, 1, 0)),
+    uProvinceExtentM: new THREE.Uniform(PROVINCE_EXTENT_M),
+    uHazeSunLight: new THREE.Uniform(new THREE.Vector3(0, 0, 0)),
+    uBetaM: new THREE.Uniform(9e-5),
+    uHazeAmbient: new THREE.Uniform(new THREE.Vector3(0, 0, 0)),
+    uBoundaryLayerM: new THREE.Uniform(60),
+    uBetaR: new THREE.Uniform(new THREE.Vector3(6.5e-6, 1.5e-5, 3.5e-5)),
+    uMistStrength: new THREE.Uniform(0),
+    uFogLum: new THREE.Uniform(new THREE.Vector3(0, 0, 0)),
+    uAdvectionFog: new THREE.Uniform(0),
+    uFogSunLum: new THREE.Uniform(new THREE.Vector3(0, 0, 0)),
+    uRegionHaze: new THREE.Uniform(0.55),
+    uEsFogCam: new THREE.Uniform(new THREE.Vector3(0, 0, 0)),
+    uWeatherMie: new THREE.Uniform(0),
+    uWhiteoutDrift: new THREE.Uniform(new THREE.Vector2(0, 0)),
+  };
+  const block = new THREE.UniformsGroup();
+  block.setName(AERIAL_BLOCK_NAME);
+  // Added in AERIAL_COMMON_GLSL's block order (vec4, vec3+float pairs, vec2):
+  // every member sits on its std140 offset with no padding (144 B).
+  for (const name of AERIAL_BLOCK_MEMBERS) block.add(fields[name]);
   return {
-    uSunDirW: { value: new THREE.Vector3(0, 1, 0) },
-    uHazeSunLight: { value: new THREE.Vector3(0, 0, 0) },
-    uHazeAmbient: { value: new THREE.Vector3(0, 0, 0) },
+    block,
+    ...fields,
     uClimateAir: { value: null },
-    uProvinceExtentM: { value: PROVINCE_EXTENT_M },
-    uBetaR: { value: new THREE.Vector3(6.5e-6, 1.5e-5, 3.5e-5) },
-    uBetaM: { value: 9e-5 },
-    uBoundaryLayerM: { value: 60 },
-    uMistStrength: { value: 0 },
     uClimateWeather: { value: null },
-    uAdvectionFog: { value: 0 },
-    uWhiteout: { value: new THREE.Vector4(470, 150, 55, 0) },
     uClimateVis: { value: null },
-    uRegionHaze: { value: 0.55 },
-    uWeatherMie: { value: 0 },
-    uFogLum: { value: new THREE.Vector3(0, 0, 0) },
-    uFogSunLum: { value: new THREE.Vector3(0, 0, 0) },
-    uWhiteoutDrift: { value: new THREE.Vector2(0, 0) },
-    uEsFogCam: { value: new THREE.Vector3(0, 0, 0) },
   };
 }
 
+type AerialSampler = "uClimateAir" | "uClimateWeather" | "uClimateVis";
+const AERIAL_BLOCK_NAME = "EsAerial";
+export const AERIAL_BLOCK_MEMBERS = [
+  "uWhiteout", "uSunDirW", "uProvinceExtentM", "uHazeSunLight", "uBetaM",
+  "uHazeAmbient", "uBoundaryLayerM", "uBetaR", "uMistStrength", "uFogLum",
+  "uAdvectionFog", "uFogSunLum", "uRegionHaze", "uEsFogCam", "uWeatherMie",
+  "uWhiteoutDrift",
+] as const;
+
+/** The only per-material aerial uniforms: the three climate rasters
+ * (samplers cannot live in a uniform block). */
+export function aerialSamplerUniforms(u: AerialUniforms): Pick<AerialUniforms, AerialSampler> {
+  return { uClimateAir: u.uClimateAir, uClimateWeather: u.uClimateWeather, uClimateVis: u.uClimateVis };
+}
+
+/** Binds the aerial block on a material (idempotent), at patch time, so the
+ * material carries it before any warm compile or first draw. */
+export function bindAerialBlock(material: THREE.Material, u: AerialUniforms): void {
+  const m = material as THREE.Material & { uniformsGroups?: THREE.UniformsGroup[] };
+  if (!m.uniformsGroups) m.uniformsGroups = [u.block];
+  else if (!m.uniformsGroups.includes(u.block)) m.uniformsGroups.push(u.block);
+}
+
 /** Uniform declarations + helpers shared by the surface aerial term and the
- * dome fog march (round 5) — one set of functions, two integrators. */
+ * dome fog march (round 5) — one set of functions, two integrators. The
+ * per-frame scalars and vectors are ONE std140 block (perf10 f27); member
+ * order must match AERIAL_BLOCK_MEMBERS. */
 const AERIAL_COMMON_GLSL = /* glsl */ `
-uniform vec3 uSunDirW;
-uniform vec3 uHazeSunLight;
-uniform vec3 uHazeAmbient;
+layout(std140) uniform EsAerial {
+  vec4 uWhiteout;
+  vec3 uSunDirW;
+  float uProvinceExtentM;
+  vec3 uHazeSunLight;
+  float uBetaM;
+  vec3 uHazeAmbient;
+  float uBoundaryLayerM;
+  vec3 uBetaR;
+  float uMistStrength;
+  vec3 uFogLum;
+  float uAdvectionFog;
+  vec3 uFogSunLum;
+  float uRegionHaze;
+  vec3 uEsFogCam;
+  float uWeatherMie;
+  vec2 uWhiteoutDrift;
+};
 uniform sampler2D uClimateAir;
-uniform float uProvinceExtentM;
-uniform vec3 uBetaR;
-uniform float uBetaM;
-uniform float uBoundaryLayerM;
-uniform float uMistStrength;
 uniform sampler2D uClimateWeather;
-uniform float uAdvectionFog;
-uniform vec4 uWhiteout;
 uniform sampler2D uClimateVis;
-uniform float uRegionHaze;
-uniform float uWeatherMie;
-uniform vec3 uFogLum;
-uniform vec3 uFogSunLum;
-uniform vec2 uWhiteoutDrift;
-uniform vec3 uEsFogCam;
 
 // Province bounds fade (owner round 4): the climate rasters are
 // ClampToEdge, so every sample taken beyond the province edge repeated that
@@ -398,9 +439,10 @@ export function applyAerialPerspective(
   if (state.esAerialApplied) return;
   state.esAerialApplied = true;
   const previous = material.onBeforeCompile;
+  bindAerialBlock(material, uniforms);
   material.onBeforeCompile = (shader, renderer) => {
     previous?.call(material, shader, renderer);
-    Object.assign(shader.uniforms, uniforms);
+    Object.assign(shader.uniforms, aerialSamplerUniforms(uniforms));
     shader.vertexShader = shader.vertexShader
       .replace("#include <common>", `#include <common>\n${AERIAL_VARYING_PARS}`)
       .replace(

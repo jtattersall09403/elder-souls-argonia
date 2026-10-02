@@ -72,6 +72,22 @@ describe("FixtureLightField", () => {
     expect(compiled(a).uniforms.esFxCount).toBe(field.uniforms.esFxCount);
   });
 
+  it("re-wrapping a hook CSM replaced relinks only a program that lacks the chunk (perf10 f27)", () => {
+    const field = new FixtureLightField();
+    const linked = new THREE.MeshStandardMaterial();
+    field.install(linked); compiled(linked);
+    linked.onBeforeCompile = () => {}; // CSM's setupMaterial replaces the hook
+    const v = linked.version;
+    field.install(linked);
+    expect(linked.version).toBe(v);
+    const unlinked = new THREE.MeshStandardMaterial();
+    field.install(unlinked);
+    unlinked.onBeforeCompile = () => {};
+    const u = unlinked.version;
+    field.install(unlinked);
+    expect(unlinked.version).toBe(u + 1);
+  });
+
   it("an object gets its 8 nearest lamps that reach its bounding sphere, nearest first", () => {
     const field = new FixtureLightField();
     // lamps at x = 0, 3, 6, ... 57, radius 6 m
