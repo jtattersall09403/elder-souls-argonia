@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, parseViews, browserStoppedAnswering, podSetupCommand } from "./pod-capture-lib.mjs";
+import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -148,4 +148,26 @@ test("browserStoppedAnswering: timeouts and dropped sockets, not answered errors
 test("podSetupCommand runs pod-setup.sh over the pod ssh", () => {
   assert.equal(podSetupCommand("ssh -i /tmp/k -p 2222 root@1.2.3.4", "webgpu"),
     "ssh -i /tmp/k -p 2222 -o StrictHostKeyChecking=no root@1.2.3.4 bash /root/site/tooling/gpu-lane/pod-setup.sh webgpu");
+});
+test("parseViews: clean and aim", () => {
+  const v = parseViews(JSON.stringify([{ name: "a", url: "http://x/", clean: true, aim: [1.57, 0.2] }]));
+  assert.deepEqual(v[0].aim, [1.57, 0.2]);
+  assert.throws(() => parseViews(JSON.stringify([{ name: "a", url: "http://x/", aim: [1, 2, 3] }])), /aim/);
+  assert.throws(() => parseViews(JSON.stringify([{ name: "a", url: "http://x/", clean: 1 }])), /clean/);
+});
+test("aimJs calls aimCamera once the debug hook exists", () => {
+  const calls = []; const window = {};
+  const run = (js) => new Function("window", `return ${js}`)(window);
+  assert.equal(run(aimJs([0.5, -0.1])), false);
+  window.__STUDIO_CHARACTER_DEBUG__ = { aimCamera: (...a) => calls.push(a) };
+  assert.equal(run(aimJs([0.5, -0.1])), true); run(aimJs([2]));
+  assert.deepEqual(calls, [[0.5, -0.1], [2]]);
+});
+test("HUD hide hides fixed overlays without a canvas and show restores them", () => {
+  const el = (position, canvas = false) => ({ style: { visibility: "" }, dataset: {}, tagName: "DIV", position, querySelector: () => canvas });
+  const hud = el("fixed"), wrap = el("absolute", true), flow = el("static");
+  const window = {}, document = { querySelectorAll: () => [hud, wrap, flow] }, getComputedStyle = (e) => ({ position: e.position });
+  const run = (js) => new Function("window", "document", "getComputedStyle", `return ${js}`)(window, document, getComputedStyle);
+  assert.equal(run(HUD_HIDE_JS), 1); assert.equal(hud.style.visibility, "hidden"); assert.equal(wrap.style.visibility, "");
+  run(HUD_SHOW_JS); assert.equal(hud.style.visibility, "");
 });

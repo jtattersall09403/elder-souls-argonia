@@ -10,8 +10,9 @@
  *     [--window 10] [--width 1280 --height 720] [--prep /tmp/<lane>/prep-times.jsonl]
  *   node tooling/gpu-lane/pod-capture.mjs --url <url> [--compare <url>] --out <dir> [...]   (a views file of one or two views)
  *
- * --views      JSON list of {name, url, steps?, shots?, seconds?, plain?} (url any http(s) URL; plain: a non-studio page, no settle
- *              gate, runs its seconds); each view writes <out>/<name>/ (result.json, frames/, final.jpg,
+ * --views      JSON list of {name, url, steps?, shots?, seconds?, plain?, clean?, aim?} (url any http(s) URL; plain: a non-studio
+ *              page, no settle gate, runs its seconds; clean: HUD hidden around frames and final.jpg; aim: [yaw, pitch?] rad
+ *              through aimCamera before the first frame, conventions at pod-capture-lib aimJs); each view writes <out>/<name>/ (result.json, frames/, final.jpg,
  *              trace.json); <out>/result.json holds every view and <out>/summary.md the table. Example: views/webgpu10-iter7.json
  * --url/--compare  the single-URL case: views "main" (and "compare"); result.lumaRatio = main luma / compare luma per read
  * --pod        opens the CDP tunnel itself (tunnels.mjs: PID recorded, closed at exit); else --cdp (default $CHROME_CDP or :9222)
@@ -48,7 +49,7 @@
 import { execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { browserStoppedAnswering, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, settleGate, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summaryTable } from "./pod-capture-lib.mjs";
+import { HUD_HIDE_JS, HUD_SHOW_JS, aimJs, browserStoppedAnswering, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, settleGate, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summaryTable } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
 import { closeTunnels, openTunnel } from "./tunnels.mjs";
@@ -215,6 +216,12 @@ const middleOf = (b64) => evaluate(`(async () => {
   return screenMiddle(x.getImageData(0, 0, bm.width, bm.height).data, bm.width, bm.height);
 })()`, 20_000);
 const shoot = async (quality = 60) => (await send("Page.captureScreenshot", { format: "jpeg", quality }, 20_000)).data;
+/** A frame for the record: with the view's `clean`, the HUD is hidden around the screenshot only. */
+const frameShot = async (view, quality) => {
+  if (!view.clean) return shoot(quality);
+  await evaluate(HUD_HIDE_JS);
+  try { return await shoot(quality); } finally { await evaluate(HUD_SHOW_JS); }
+};
 // A full read: stalled flag, 1 %-low fps of the last ~300 rAF durations (raw durations dropped), screen-middle luma
 const fullRead = async () => {
   const r = await evaluate(READ);
@@ -285,9 +292,11 @@ async function captureView(view) {
         writeFileSync(join(dir, "profile.cpuprofile"), JSON.stringify(profile));
         result.profile = { at: prof.at, ...summariseProfile(profile) }; profState = "done";
       }
-      if (si < shots.length && s >= shots[si]) {
+      // `aim`: the camera is aimed once the studio's debug hook exists, and no frame is taken before it is
+      if (view.aim && !result.aimedAt) { if ((await evaluate(aimJs(view.aim), 5_000)) === true) result.aimedAt = r1(sec()); }
+      if (si < shots.length && s >= shots[si] && (!view.aim || result.aimedAt)) {
         while (si < shots.length && shots[si] <= s) si++;
-        try { writeFileSync(join(dir, "frames", `${String(Math.round(s * 1000)).padStart(6, "0")}.jpg`), Buffer.from(await shoot(), "base64")); result.frames++; } catch { /* busy page: skip this frame */ }
+        try { writeFileSync(join(dir, "frames", `${String(Math.round(s * 1000)).padStart(6, "0")}.jpg`), Buffer.from(await frameShot(view), "base64")); result.frames++; } catch { /* busy page: skip this frame */ }
       }
       if (ri < readsAt.length && s >= readsAt[ri]) { ri++; result.reads[readsAt[ri - 1]] = { t: r1(sec()), ...(await fullRead()) }; }
       if (steps.length && s >= steps[0].at) {
@@ -322,7 +331,7 @@ async function captureView(view) {
     if (windowS > 0 && !result.window) result.window = { ...(await costWindow(dir, r1(sec()))), unsettled: true };
     result.heapSlope = heapSlope(heapSamples);
     result.final = await fullRead();
-    try { writeFileSync(join(dir, "final.jpg"), Buffer.from(await shoot(80), "base64")); } catch { /* final read has the luma */ }
+    try { writeFileSync(join(dir, "final.jpg"), Buffer.from(await frameShot(view, 80), "base64")); } catch { /* final read has the luma */ }
     const g = await evaluate(`window.__GPUERR ?? []`);
     const gc = counter(); (Array.isArray(g) ? g : [JSON.stringify(g)]).forEach(gc.add);
     result.gpuErrors = gc.list();

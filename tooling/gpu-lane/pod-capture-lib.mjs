@@ -167,6 +167,9 @@ export function parseViews(text) {
     if (typeof v.url !== "string" || !/^https?:\/\//.test(v.url)) throw new Error(`views[${i}]: "url" must be an http(s) URL`);
     if (v.seconds !== undefined && !(v.seconds > 0)) throw new Error(`views[${i}]: "seconds" must be > 0`);
     if (v.plain !== undefined && typeof v.plain !== "boolean") throw new Error(`views[${i}]: "plain" must be true or false`);
+    if (v.clean !== undefined && typeof v.clean !== "boolean") throw new Error(`views[${i}]: "clean" must be true or false`);
+    if (v.aim !== undefined && !(Array.isArray(v.aim) && v.aim.length >= 1 && v.aim.length <= 2 && v.aim.every(Number.isFinite)))
+      throw new Error(`views[${i}]: "aim" must be [yawRad] or [yawRad, pitchRad]`);
     return { ...v, steps: v.steps ? parseSteps(JSON.stringify(v.steps)) : [] };
   });
 }
@@ -227,4 +230,18 @@ export function browserStoppedAnswering(error) {
 export function podSetupCommand(pod, mode, script = "/root/site/tooling/gpu-lane/pod-setup.sh") {
   const parts = pod.trim().split(/\s+/), host = parts.pop();
   return `${parts.join(" ")} -o StrictHostKeyChecking=no ${host} bash ${script} ${mode}`;
+}
+
+/** Page JS that hides the HUD overlays (fixed/absolute elements holding no canvas) for a screenshot, and restores them;
+ * the same rule as measure.mjs --clean. The HUD is still read as text between shots. */
+export const HUD_HIDE_JS = `(() => { window.__hid = [...document.querySelectorAll("body *")].filter((e) => !e.querySelector("canvas") && e.tagName !== "CANVAS" && ["fixed", "absolute"].includes(getComputedStyle(e).position)); window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); return window.__hid.length; })()`;
+export const HUD_SHOW_JS = `(() => { window.__hid?.forEach((e) => { e.style.visibility = e.dataset.v; }); window.__hid = null; return true; })()`;
+
+/** Page JS that aims the studio's follow camera (CharacterMode __STUDIO_CHARACTER_DEBUG__.aimCamera; FollowCamera puts
+ * the camera at player + (sin yaw, cos yaw) x distance, so it looks along (-sin yaw, -cos yaw): yaw 0 looks toward -z,
+ * +pi/2 toward -x; pitch > 0 raises the camera, clamped to the follow camera's limits). True once aimed, false while
+ * the debug hook is not there yet. */
+export function aimJs([yaw, pitch]) {
+  const args = pitch === undefined ? `${yaw}` : `${yaw}, ${pitch}`;
+  return `(() => { const d = window.__STUDIO_CHARACTER_DEBUG__; if (!d?.aimCamera) return false; d.aimCamera(${args}); return true; })()`;
 }
