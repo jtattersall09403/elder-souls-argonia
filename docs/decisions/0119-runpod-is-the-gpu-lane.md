@@ -26,8 +26,10 @@ in with OAuth; no API key is stored anywhere in the repo or on the VM.
    anything billable.
 4. **One pod per lane, lanes in parallel, deleted (not stopped) when the
    lane's loop ends** (owner 2026-10-02: the WebGPU lane and the performance
-   lane each run their own pod at the same time): a stopped pod still bills
-   its disk. Within a lane, a pod stays up across fix-measure iterations
+   lane each run their own pod at the same time; a fan-out job such as the
+   agent walks audit runs one pod per parallel worker when that is faster
+   end to end, each deleted the moment its worker ends, owner 2026-10-02):
+   a stopped pod still bills its disk. Within a lane, a pod stays up across fix-measure iterations
    when that saves wall time (sync the build to it rather than booting a
    new pod) and is deleted the moment the lane has no next measurement
    queued.

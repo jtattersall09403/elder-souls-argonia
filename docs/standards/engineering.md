@@ -518,6 +518,12 @@ headless.
   preparer (`litPreparerOf`) and `renderer.compileAsync(obj, camera,
   scene)` before they join the scene; set layers at creation, not in an
   effect.
+- A material whose transparent flag, defines or program hook key changes
+  at runtime, or which first draws late (water bands, weather fx,
+  night-only fx), is compiled in every variant at mount through the same
+  warm path (`DrawTargetLinker.link`: the real object, each material it
+  swaps to, the target its draw binds), with a test that the warm's
+  program key equals the draw's (`water/render/waterLinkWarms.test.ts`).
 - Variation (gain, tint, fade, flame strength) is a uniform, never a
   define or a value in the cache key.
 

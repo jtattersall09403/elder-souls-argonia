@@ -52,7 +52,7 @@ if [ "$($S "$t" "cat /root/site/dists/$n/.hash 2>/dev/null; kill -0 \$(cat /root
 $S "$t" "mkdir -p /root/site/dists; cd /root/site/dists; for o in *; do [ \"\$o\" != '$n' ] && [ -f \"\$o/index.html\" ] && grep -q 'src=\"$base'assets/ \"\$o/index.html\" && { echo \"pod-sync: removing \$o (also built for $base)\"; rm -rf \"\$o\"; }; done; true"
 b=$(rsync -a --stats --checksum --delete "${DATA_EXCL[@]}" --exclude /.hash --exclude /.srchash -e "$S" "$d/" "$t:/root/site/dists/$n/" | sent)
 rsync -aR -e "$S" tooling/gpu-lane/serve.mjs tooling/gpu-lane/serve-lib.mjs tooling/gpu-lane/pod-setup.sh \
-  apps/world-studio/scripts/lib/webgpu-static.mjs "$t:/root/site/"
+  apps/world-studio/scripts/lib/webgpu-static.mjs packages/character-assets/files "$t:/root/site/"
 $S "$t" "echo $h > /root/site/dists/$n/.hash"
 s=$(( $(date +%s) - t0 )); echo "pod-sync: $n synced in $s s, $b bytes sent"; note "sync:$n" "$s" "" "$b"; t0=$(date +%s)
 $S "$t" 'cd /root/site; [ -f /root/serve.pid ] && kill $(cat /root/serve.pid) 2>/dev/null

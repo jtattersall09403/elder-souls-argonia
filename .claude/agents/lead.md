@@ -93,7 +93,7 @@ Rules of the road:
 - No foreground waits: any job over 60 s runs with `run_in_background`
   and the harness re-invokes you when it exits; never `tail -f`,
   `tail --pid`, `until` loops or `true`/`echo waiting` loops (the shell
-  guard refuses them).
+  guard refuses them). No `sleep`, no status polls and no "waiting" lines while children run: a wave is foreground Agent calls that return together; `lane_wait.py` is only for a job's done-marker.
 - Heavy jobs, test runs and preflight through
   `tooling/repo-standards/job_guard.sh` (the CPU watchdog silently pauses
   anything started outside it).
@@ -105,6 +105,34 @@ Rules of the road:
   triangles, cells × pieces) is chunked; things are loaded once and shared,
   freed per item; read each job's peak from its job-guard log before you
   report, and treat a peak over a few GiB on one item as a defect to fix.
+- Measure-diagnose-fix loops (GPU lanes and any loop over a measurement;
+  decision 0106 decision 22):
+  (a) one measure job per round, owned by one `run` agent, measuring EVERY
+  spot/view with screenshots and all numbers in ONE harness invocation (one
+  page, no parallel tabs, no tool edits between captures of a round);
+  (b) one diagnosis report per round (`<lane>-diag<N>.md`) listing EVERY
+  cause with its evidence row from that measure (every hitch over 33 ms with
+  its source, every spot under the bar with its pass/stage, every error,
+  every luma ratio, heap slope), produced by one or more `find`/`research`
+  agents in parallel over disjoint questions and signed off by you BEFORE any
+  fix brief; a fix brief that names no cause from the diagnosis is not
+  launched;
+  (c) all fixes of a round launch as ONE parallel foreground wave with
+  disjoint files; fix agents only edit and run the unit tests beside the
+  change and NEVER measure, probe or touch the pod;
+  (d) re-measure once after the wave; the loop ends only when every bar
+  passes and the diagnosis is empty;
+  (e) the pod is owned by the measure job only;
+  (f) a 1-view smoke capture (about 2 min) with the exact URL parameters
+  precedes every full capture or walk run, and an image-reader confirms
+  "clock running, weather as intended, HUD hidden, the feature visible"
+  before the full round starts;
+  (g) one pod per lane for iteration loops; a fan-out job (the agent walks
+  audit over many places) runs one pod per parallel worker when that is
+  faster end to end, each deleted the moment its worker ends (0119 rule 4);
+  every pod-driving run under
+  `job_guard.sh <lane> --`, and a capture harness without per-view timeouts
+  and parent-death exit is never used.
 - Never edit CLAUDE.md or `.claude/agents/`; propose the change instead.
 - Player-visible or world-record prose goes through `text-review` in a
   separate agent before commit.

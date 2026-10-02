@@ -7,7 +7,7 @@
    "kind": "storage",
    "humid": false,
    "dust": "high",
-   "dustWhy": "storage ({'beds': 0, 'counters': 0, 'hearths': 0, 'shrines': 0, 'smithy': 0})",
+   "dustWhy": "use-class",
    "floorMist": false,
    "apertures": [],
    "reason": "no placed ref has a window piece or window-textured panes in its model"
@@ -17,7 +17,7 @@
    "kind": "storage",
    "humid": false,
    "dust": "high",
-   "dustWhy": "storage ({'beds': 0, 'counters': 0, 'hearths': 0, 'shrines': 0, 'smithy': 0})",
+   "dustWhy": "use-class",
    "floorMist": false,
    "apertures": [],
    "reason": "no placed ref has a window piece or window-textured panes in its model"
@@ -27,7 +27,7 @@
    "kind": "storage",
    "humid": false,
    "dust": "high",
-   "dustWhy": "storage ({'beds': 0, 'counters': 0, 'hearths': 0, 'shrines': 0, 'smithy': 0})",
+   "dustWhy": "use-class",
    "floorMist": false,
    "apertures": [],
    "reason": "no placed ref has a window piece or window-textured panes in its model"
@@ -37,7 +37,7 @@
    "kind": "dwelling",
    "humid": false,
    "dust": "low",
-   "dustWhy": "dwelling ({'beds': 2, 'counters': 0, 'hearths': 3, 'shrines': 0, 'smithy': 0})",
+   "dustWhy": "use-class",
    "floorMist": false,
    "apertures": [
     {
@@ -115,7 +115,7 @@
    "kind": "dwelling",
    "humid": true,
    "dust": "low",
-   "dustWhy": "dwelling ({'beds': 4, 'counters': 0, 'hearths': 21, 'shrines': 0, 'smithy': 0}); humid mud hut, one band lower",
+   "dustWhy": "use-class",
    "floorMist": false,
    "apertures": [
     {
@@ -210,7 +210,7 @@
    "kind": "dwelling",
    "humid": true,
    "dust": "low",
-   "dustWhy": "dwelling ({'beds': 4, 'counters': 0, 'hearths': 18, 'shrines': 0, 'smithy': 0}); humid mud hut, one band lower",
+   "dustWhy": "use-class",
    "floorMist": false,
    "apertures": [
     {
@@ -288,7 +288,7 @@
    "kind": "smithy",
    "humid": true,
    "dust": "medium",
-   "dustWhy": "smithy ({'beds': 3, 'counters': 0, 'hearths': 17, 'shrines': 0, 'smithy': 1}); humid mud hut, one band lower",
+   "dustWhy": "use-class",
    "floorMist": false,
    "apertures": [
     {
@@ -366,7 +366,7 @@
    "kind": "damp",
    "humid": false,
    "dust": "medium",
-   "dustWhy": "damp (lighting template GreenCaveMedium)",
+   "dustWhy": "damp-template",
    "floorMist": true,
    "apertures": [],
    "reason": "no placed ref has a window piece or window-textured panes in its model"

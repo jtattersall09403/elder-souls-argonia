@@ -186,3 +186,152 @@ test("heapFit: least-squares slope through a GC saw-tooth reads the underlying g
   assert.equal(f.n, 21);
   assert.equal(heapFit([[0, 1]]).mbPerS, null);
 });
+
+test("parseArgs: --trace is a flag, --aim and --clean take values", async () => {
+  const { parseArgs } = await import("./measure.mjs");
+  const o = parseArgs(["--run", "x", "--url", "?a=1", "--trace", "--aim", "0.5,-0.2", "--clean", "1", "--walk", "20"]);
+  assert.equal(o.trace, true);
+  assert.equal(o.aim, "0.5,-0.2");
+  assert.equal(o.clean, "1");
+  assert.equal(o.walk, 20);
+  assert.equal(parseArgs(["--run", "x", "--url", "?a=1"]).trace, false);
+});
+
+test("frameStats counts frames over 20 and 33 ms", async () => {
+  const { frameStats } = await import("./measure.mjs");
+  const s = frameStats([0, 10, 35, 60, 100]);
+  assert.equal(s.over20, 3);
+  assert.equal(s.over33, 1);
+});
+
+test("classifyFrames: long frames on the main thread with their causes", async () => {
+  const { classifyFrames } = await import("./trace-frames.mjs");
+  const fa = (ts) => ({ name: "FireAnimationFrame", ph: "X", pid: 1, tid: 1, ts, dur: 1000 });
+  const ev = [
+    { ph: "M", name: "process_name", pid: 2, args: { name: "GPU Process" } },
+    fa(0), fa(10000), fa(60000), fa(70000), fa(130000), // the last interval is the harness end frame
+    { name: "MajorGC", ph: "X", pid: 1, tid: 1, ts: 12000, dur: 20000 },
+    { name: "CommandBufferStub::OnAsyncFlush", ph: "X", pid: 2, tid: 5, ts: 30000, dur: 10000 },
+  ];
+  const r = classifyFrames(ev);
+  assert.equal(r.frames, 3);
+  assert.equal(r.over33, 1);
+  assert.equal(r.long.length, 1);
+  assert.equal(r.long[0].ms, 50);
+  assert.deepEqual(r.long[0].byCause, { gc: 20, gpu: 10 });
+});
+
+test("parseSpots: x<N> repeats a spot under numbered names", async () => {
+  const { parseSpots } = await import("./spots.mjs");
+  const s = parseSpots("a ?x=1\ne ?x=2 walk=20 x3\n");
+  assert.deepEqual(s.map((x) => x.name), ["a", "e", "e2", "e3"]);
+  assert.deepEqual(s[3].steps, [{ w: 20 }]);
+});
+test("parseSteps: w and signed yaw segments; bad tokens refused", async () => {
+  const { parseSpots, parseSteps, stepsSeconds } = await import("./spots.mjs");
+  const s = parseSteps("w:7,yaw:+1.2,w:6,yaw:-2.0,w:7");
+  assert.deepEqual(s, [{ w: 7 }, { yaw: 1.2 }, { w: 6 }, { yaw: -2 }, { w: 7 }]);
+  assert.equal(stepsSeconds(s), 20);
+  for (const bad of ["w:0", "yaw:1.2,w:3", "w:3,yaw:x", "w:3,,w:2", "run:3", "yaw:+1"]) assert.throws(() => parseSteps(bad), /bad step|at least one/, bad);
+  assert.deepEqual(parseSpots("m ?x=1 steps=w:2,yaw:-0.5,w:1\n")[0].steps, [{ w: 2 }, { yaw: -0.5 }, { w: 1 }]);
+  assert.throws(() => parseSpots("m ?x=1 steps=w:2,turn:1"), /spots line 1: bad step/);
+});
+test("driveSteps: W held across the whole sequence, yaw set absolute from the base", async () => {
+  const { driveSteps } = await import("./measure.mjs");
+  const calls = [];
+  const io = { key: async (d) => calls.push(d ? "down" : "up"), aim: async (y) => calls.push(`aim ${y.toFixed(2)}`), wait: async (ms) => calls.push(`wait ${ms}`) };
+  await driveSteps(io, [{ w: 7 }, { yaw: 1.2 }, { w: 6 }, { yaw: -2 }, { w: 7 }], 0.5);
+  assert.deepEqual(calls, ["aim 0.50", "down", "wait 7000", "aim 1.70", "wait 6000", "aim -0.30", "wait 7000", "up"]);
+  calls.length = 0;
+  await driveSteps(io, [{ w: 20 }]);
+  assert.deepEqual(calls, ["down", "wait 20000", "up"], "a plain walk does not re-aim the camera");
+});
+test("sample: the window closes in the page, and no page.evaluate runs between its start and its end", async () => {
+  const { sample } = await import("./measure.mjs");
+  const lane = { ts: [], frames: [], wrapMs: 0, on: false };
+  const log = [];
+  globalThis.window = { __GPU_LANE__: lane };
+  const page = { evaluate: async (fn, arg) => { log.push(["evaluate", lane.on]); return fn(arg); } };
+  const wait = async (ms) => { log.push(["wait"]); await new Promise((r) => setTimeout(r, ms)); };
+  const r = await sample(page, 0.05, null, wait);
+  delete globalThis.window;
+  assert.deepEqual(log.map((l) => l[0]), ["evaluate", "wait", "evaluate"]);
+  assert.equal(log[2][1], false, "the page's own timer had already closed the window before the harness read it");
+  assert.ok(Array.isArray(r.ts));
+});
+test("gen-matrix: 13 deterministic lines, coordinates from places.json", async () => {
+  const { matrix, PLACES, PLACES_JSON } = await import("./spots/gen-matrix.mjs");
+  const { parseSpots } = await import("./spots.mjs");
+  const { readFileSync } = await import("node:fs");
+  const text = readFileSync(new URL(`../../${PLACES_JSON}`, import.meta.url), "utf8");
+  const out = matrix(text);
+  assert.equal(out, matrix(text));
+  assert.equal(out, readFileSync(new URL("./spots/matrix.txt", import.meta.url), "utf8"), "matrix.txt is the generator's output");
+  const lines = out.split("\n").filter((l) => l && !l.startsWith("#"));
+  assert.equal(lines.length, 13);
+  const byId = new Map(JSON.parse(text).places.map((p) => [p.id, p]));
+  for (const [id, short] of PLACES) {
+    const [x, z] = byId.get(id).positionM;
+    assert.ok(lines.includes(`${short}-t22-rain ?view=character&x=${(x / 1000).toFixed(4)}&z=${(z / 1000).toFixed(4)}&t=22&w=rain steps=w:7,yaw:+1.2,w:6,yaw:-2.0,w:7`), short);
+  }
+  assert.equal(parseSpots(out).length, 15);
+});
+test("parseSpots: name, query, --aim and walk=; comments skipped; bad lines throw", async () => {
+  const { parseSpots, parseBar, spotRows, summaryTable, heapSlope } = await import("./spots.mjs");
+  const s = parseSpots("# c\na ?x=1&t=2  # night\n\ne ?x=1&t=2 --aim 0.5,-0.2 walk=20\n");
+  assert.deepEqual(s, [{ name: "a", query: "?x=1&t=2", aim: "", steps: [] }, { name: "e", query: "?x=1&t=2", aim: "0.5,-0.2", steps: [{ w: 20 }] }]);
+  assert.throws(() => parseSpots("a ?x=1\na ?x=2"), /duplicate/);
+  assert.throws(() => parseSpots("a ?x=1 walk=fast"), /cannot read/);
+  assert.throws(() => parseSpots("a"), /need/);
+  assert.deepEqual(parseBar("83,69"), { fps: 83, p1low: 69 });
+  assert.throws(() => parseBar("83"), /--bar/);
+  const bar = parseBar("83,69");
+  const [ok, ...none] = spotRows("a", { settledFps: 90, p1LowFps: 70, uncappedFps: 95, p1LowUncapped: 71, frameTimes: { maxMs: 21 }, over20: 3, over33: 0, ready: true }, bar);
+  assert.equal(ok.pass, true);
+  assert.equal(none.length, 0);
+  const [still, walk] = spotRows("e", { settledFps: 100, p1LowFps: 80, walk: { seconds: 20, settledFps: 88, p1LowFps: 51, frameTimes: { maxMs: 129 }, over20: 9, over33: 4 }, ready: true }, bar);
+  assert.equal(still.pass, true, "a walk spot's static settle is its own row");
+  assert.equal(walk.pass, false, "and its walk window another");
+  assert.equal(walk.fps, 88);
+  assert.match(summaryTable([ok, still, walk], bar), /\| a \| 90 \| 70 \| 95 \| 71 \| 21 \| 3 \| 0 \| pass \|[\s\S]*\| e \| 100 [\s\S]*e \(walk 20 s\).*FAIL[\s\S]*2 of 3 spots pass/);
+  assert.equal(heapSlope([{ tS: 0, MB: 100 }, { tS: 30, MB: 110 }, { tS: 60, MB: 120 }]), 20);
+  assert.equal(heapSlope([{ tS: 0, MB: 1 }]), null);
+});
+
+test("parseArgs: --spots builds one spot list, --leak keeps the first spot, --bar defaults 83,69", async () => {
+  const { parseArgs } = await import("./measure.mjs");
+  const o = parseArgs(["--run", "r", "--spots", new URL("./spots/perf10.txt", import.meta.url).pathname]);
+  assert.deepEqual(o.spotList.map((s) => s.name), ["a", "b", "c", "d", "e", "e2", "e3", "f", "g", "h"]);
+  assert.equal(o.spotList[9].aim, "1.4,0.1");
+  assert.deepEqual(o.spotList[4].steps, [{ w: 20 }]);
+  assert.equal(o.shots, true);
+  assert.equal(o.clean, "1");
+  assert.deepEqual(o.barParsed, { fps: 83, p1low: 69 });
+  assert.equal(parseArgs(["--run", "r", "--spots", new URL("./spots/perf10.txt", import.meta.url).pathname, "--leak", "60"]).spotList.length, 10, "--leak keeps every spot");
+  assert.throws(() => parseArgs(["--run", "r", "--url", "?a=1", "--spots", "x"]), /replaces --url/);
+  const u = parseArgs(["--run", "r", "--url", "?a=1", "--walk", "5", "--aim", "1,0"]);
+  assert.deepEqual(u.spotList, [{ name: "url0", query: "?a=1", aim: "1,0", steps: [{ w: 5 }] }]);
+});
+
+test("relink probe: every link names type and owner, shadow depth materials are flagged", async () => {
+  const { readFileSync } = await import("node:fs");
+  const vm = await import("node:vm");
+  class GL { shaderSource() {} attachShader() {} linkProgram() {} }
+  const win = { WebGL2RenderingContext: GL };
+  const ctx = vm.createContext({ window: win, performance: { now: () => 1234.5 }, Object, Array, String, WeakMap, Map, Math });
+  vm.runInContext(readFileSync(new URL("./probes/relink.js", import.meta.url), "utf8"), ctx);
+  const gl = new GL();
+  const R = {}; R.renderBufferDirect = function () { gl.linkProgram({}); };
+  const grass = { type: "Mesh", name: "grass", parent: { name: "tile", parent: { type: "Scene" } } };
+  const mat = { type: "MeshStandardMaterial", name: "leaf", transparent: true, defines: { USE_X: 1 }, customProgramCacheKey: () => "k".repeat(200) };
+  grass.material = mat;
+  R.renderBufferDirect(null, null, null, mat, grass);
+  R.renderBufferDirect(null, null, null, { type: "MeshDepthMaterial", defines: {} }, grass);
+  gl.linkProgram({});
+  const ev = JSON.parse(JSON.stringify(win.__DIAG__.relink().events.map((e) => e[3]))); // out of the vm realm
+  assert.equal(ev.length, 3);
+  assert.deepEqual([ev[0].type, ev[0].owner, ev[0].parents, ev[0].transparent, ev[0].defines, ev[0].key.length, ev[0].depth, ev[0].t], ["MeshStandardMaterial", "grass", ["tile", "Scene"], true, ["USE_X"], 80, false, 1235]);
+  assert.equal(ev[1].depth, true);
+  assert.equal(ev[2].owner, "(outside draw)");
+  assert.ok(ev.every((e) => e.type && e.owner));
+});

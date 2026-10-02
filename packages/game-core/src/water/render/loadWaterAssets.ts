@@ -2,6 +2,7 @@ import type { BedRock } from "./ChannelStrips";
 import * as THREE from "three";
 import { WaterData, assertWaterSchema, decodeDepthByte, type WaterMeta } from "../waterData";
 import { WaterWorld } from "../waterWorld";
+import { decodePng } from "../../terrain/groundRasters";
 import type { WaterAssets } from "./types";
 import { loadWaterfallTextures, type WaterfallTextureSlot } from "./WaterfallSheets";
 import { loadWaterfallKit } from "./WaterfallKit";
@@ -52,15 +53,9 @@ export function decodeWaterIds(size: number, rgba: Uint8ClampedArray | Uint8Arra
 async function fetchImageData(url: string): Promise<ImageData> {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`water asset ${url}: ${res.status}`);
-  const bitmap = await createImageBitmap(await res.blob(), {
-    premultiplyAlpha: "none",
-    colorSpaceConversion: "none",
-  });
-  const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
-  const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
-  ctx.drawImage(bitmap, 0, 0);
-  bitmap.close();
-  return ctx.getImageData(0, 0, canvas.width, canvas.height);
+  // Exact JS decode, no ImageBitmap/canvas (GPU shared images; perf10 C1).
+  const png = await decodePng(new Uint8Array(await res.arrayBuffer()));
+  return new ImageData(new Uint8ClampedArray(png.data.buffer as ArrayBuffer, png.data.byteOffset, png.data.length), png.width, png.height);
 }
 
 /** Copy one channel of `src` into one channel of `dst`, nearest-resampled

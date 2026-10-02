@@ -258,6 +258,58 @@ baseline.
 | Ripple, foam, bloom targets | kept: ripple 128², foam 512²/256² by tier (world sims, not screen-sized); bloom already half resolution; the water surface draws on screen at full resolution by definition | `RippleSim.ts`, `FoamField.ts`, `BloomPass.ts` |
 | Foliage depth prepass | not built: it re-issues every foliage triangle, and the M2 pays ~2.6 ms per million (`FRAME_TRIANGLE_BUDGET`), against a 2–4 ms fill estimate; worth it only if the HUD shows the frame fill-bound | owner HUD reading in the performance lane |
 
+## 7d. Walk-10 rows (pod RTX 3070, WebGL, 1280x720, DPR 1; M2 fps = pod fps / 1.38)
+
+Calibration, bar and tooling: [performance lane](../phases/lanes/performance-lane.md#calibration-pod-to-m2).
+Reports under `tooling/.reports/16k/walk10/` (`perf-lead.md`, `perf-f5a.md`,
+`perf-f5b.md`, `perf-f6.md`, `perf-f7.md`). Every change below is invisible: the
+image-reader found no difference at any spot (before/after, day and night with
+brightened night pairs, aimed village shots with lamps; `perf-img-r3.md`,
+`perf-img-shots.md`, `perf-water.md`), and the measured differences were noise.
+
+| change | cause | fix (file, commit) |
+|---|---|---|
+| Lights seen by every layer render | the precip, overlay and bloom layer renders saw zero lights, so `lights.state.version` bumped twice a frame and every lit material relinked: 508 program re-derivations a frame, 25-30 % of the main thread | `lightEveryLayer`, `water/render/lightLayers.ts`, `WaterPipeline.tsx:258`; 2b160b5a. 508 -> 42.5 a frame |
+| Physics step without body snapshots | Rapier `interpolate` default snapshots about 1400 fixed bodies every step: 1-2 ms and 206 KB of garbage a step; the occlusion march was dear too | `interpolate={false}`, `CharacterMode.tsx:615`; position-only occlusion cadence, coarser step; 0e59debb |
+| Fixture sprites relinking | a tone-map flip between canvas and bloom target, then three's two-pass DoubleSide transparent path bumping `version` | own bloom materials plus `forceSinglePass`, `settlement/lighting.ts`; 798f8850, 1a1dcb0d. 42.5 -> 5.7 a frame (first links only) |
+| Per-frame patch walk, light rig, ripple, foam | `traverseVisible` patch walk every frame; allocating light rig and CityMarkers; ripple sim ran when dry; foam field ran with no water | draw-time patch `sky/drawPatcher.ts` plus 1 Hz sweep; allocation-free rig (`lightRig.golden.json`); ripple skipped dry; foam gated on `WaterData.anyWaterIn`; 798f8850, 1a1dcb0d |
+| Camera-pivot overlap test | the test ran against the 257² terrain heightfield: 4 ms a frame, 26-34 % of the main thread | pivot collision-group bit that excludes heightfields; 0d44a501. 7.6 -> 0.006 ms a call (node bench) |
+| 3 s hitch | `App.setSpawnKm` stored an equal new object every 3 s, the tree re-rendered, and BorderApron passed a fresh extent array so every apron tile rebuilt its geometry | `samePositionKm`, stable apron deps; 0d44a501 |
+| 2 s hitch | `SettlementLayer` retried incomplete builds forever on a 2 s timer (8 route structures on unloaded ground 1-2 km out) | retries on ground arrival; 0d44a501 |
+| Empty instanced draws | 660 of 1508 `renderBufferDirect` calls at c drew nothing | `vegetation/drawCount.ts` `setDrawCount`; `mesh.visible = count > 0` in `Vegetation.tsx` and `Groundcover.tsx`; 99d6cff1 |
+| Static matrices | vegetation, groundcover, terrain chunk, fixture, smoke, paint, CityMarkers (313) and BorderApron (103) meshes updated matrices they never change | `matrixAutoUpdate={false}`; 99d6cff1, 6f54d9b1, 5577b1ce. 626 -> 210 auto-updating objects, 527 -> 111 static |
+| Occlusion sweep height lookups | per-step `store.loaded` key string in the march; a whole-chunk cadence frame cost 4.5-7 ms | `FrameGroundSampler` (`terrainHeight.ts`); `createOcclusionSweep(perFrame = 4)` (`terrainOcclusion.ts`); 99d6cff1, 83b33d7b |
+| Hitches from fills and bakes | groundcover generation ran inside a React effect; the settlement pump baked every collider in one step; a rebuild re-joined every run collider into number arrays (7.1 ms) | groundcover fill on the frameWork queue (99d6cff1); `solidSteps` one bake a step with a `solidCache` (83b33d7b); `RunColliderCache` plus typed-array join (252499fc) |
+| HUD wrapper and transparents | the per-draw `renderBufferDirect` wrapper (about 0.3 ms a frame) ran with the HUD closed; five transparent materials relinked | wrapper installed only while the perf section is open; `forceSinglePass` on ember, smoke, water effects and crowns, sun shafts, rain; 6f54d9b1 |
+| Walk links on first draw | at spot e the short camera arm first faded the player, and `transparent` is in the program key, so every player material linked in one frame; the waterfall kit, mist volume, chute strips and pools linked when they first came into view (41-57 ms trace frames, mostly GPU process) | `warmPlayerFadePrograms` (`character/playerFade.ts`) compiles each new player material in both states; `DrawTargetLinker.linkWhenObserved` links the water's late-drawn meshes at mount (`WaterSurface.tsx`); da35aee2. 16 named walk links -> 0; three unnamed links and one 51-56 ms trace frame remain at the walk's end. Walk p1Low 70-78 -> 66-69 (51-57 -> 48-50 converted), rAF max 34 -> 29-34 ms |
+| Found already done | O2 settlement material clones and O3 groundcover card materials: kit.ts clones once per kit and the GLB shares one material per atlas page; the "109 materials" came from a probe that counted per owner name | none; the probe was fixed (rows below) |
+
+Pod uncapped fps / uncapped 1 % low (converted = / 1.38 in brackets). base3 is the pre-fix build; r2-clean is 1a1dcb0d (clean tabs); r3 adds 99d6cff1 and 6f54d9b1; final is the 252499fc build with fd7e4044.
+
+| spot | base3 | r2-clean | r3 | final | final converted |
+|---|---|---|---|---|---|
+| a Riverwalk night rain | 51.1 (37) | 149 / 110 (108 / 80) | 260 / 200 (188 / 145) | 265 / 204 | 192 / 148 |
+| b Greenspring night rain | 36.9 (27) | 114 / 77 (83 / 56) | 225 / 159 (163 / 115) | 218 / 159 | 158 / 115 |
+| c Greenspring noon | not loaded | 83.4 / 51 (60 / 37) | 168 / 127 (122 / 92) | 166 / 99 | 120 / 72 |
+| d ESE marsh night rain | 52.2 (38) | 161 / 105 (117 / 76) | 278 / 175 (201 / 127) | 284 / 182 | 206 / 132 |
+| f Claywater day | not loaded | 160 / 119 (116 / 86) | 245 / 192 (178 / 139) | 245 / 189 | 177 / 137 |
+| g open river day | not loaded | 149 / 115 (108 / 83) | 297 / 204 (215 / 148) | 304 / 204 | 220 / 148 |
+| e 20 s walk | 45.9 (33) | 133 / 60 (96 / 43) | 241 / 114 (175 / 83) | 228-240 / 104-110 (3 walks) | 165-174 / 75-80 |
+
+The settle windows at final have 0 frames over 20 ms at a-g. The walk keeps one frame of about 34 ms per walk, and its capped 1 % low is 70-78 (converted 51-57).
+
+Agent-caused defects and the tool that changed (decision 0106 d11):
+
+| defect | what changed |
+|---|---|
+| A baseline taken before the page was ready | `measure.mjs` ready gate; `tooling/gpu-lane/README.md` Gotchas |
+| Children ended their turn on a background job | README wait rule; the brief template says to wait in the foreground; 04f0f22f |
+| Orphan studio tabs contaminated 1 % lows | `measure.mjs` `closeOrphanPages` with a keeper page; `--smoke` fails on a foreign tab |
+| The pod sync script's `pkill -f` matched its own remote shell, so the site server died after every sync | pattern anchored with `^node`; 5577b1ce |
+| The q1 probe counted materials per owner name and caused two wrong diagnoses (O2, O3) | `measure.mjs --census` counts by material uuid; README rule: census, profile and walk hitches before the first fix batch |
+| Profiler start frames counted as hitches | census window opens 2 s after `Profiler.start`; a856f2f4 |
+| Hand-patched `/tmp` probes | probes live in `tooling/gpu-lane/probes/`, run with `--diag`; d7f95f70 |
+
 ## 8. How performance is measured
 
 - **No full-studio headless probes.** The VM has no GPU; SwiftShader runs

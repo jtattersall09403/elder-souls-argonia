@@ -3,6 +3,37 @@ import * as THREE from "three";
 interface FadeBase { transparent: boolean; opacity: number; depthWrite: boolean }
 
 /**
+ * Link both programs a fade toggles between (opaque and transparent) before
+ * the first fade. A fade flips `transparent`, which changes the program key:
+ * without this the first short camera arm linked every player material in
+ * one frame (16k walk 10: 41-57 ms, mostly in the GPU process). three keeps
+ * every program a material has used (its per-material program map), so the
+ * warm flips each new material's `transparent`, compiles, flips it back and
+ * compiles again: the same state change a fade makes, with the material's own
+ * hooks (CSM, skin tint) run in the same order, ending on its drawn state.
+ * `compile` must compile synchronously (`gl.compile`, or `compileAsync`,
+ * whose compile step is synchronous). Returns how many materials it warmed.
+ */
+export function warmPlayerFadePrograms(group: THREE.Object3D, compile: (object: THREE.Object3D) => void): number {
+  const fresh: THREE.Material[] = [];
+  group.traverse((object) => {
+    const mesh = object as THREE.Mesh;
+    if (!mesh.isMesh) return;
+    const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+    for (const material of materials) if (!material.userData.esPlayerFadeWarm) {
+      material.userData.esPlayerFadeWarm = true;
+      fresh.push(material);
+    }
+  });
+  if (!fresh.length) return 0;
+  for (let pass = 0; pass < 2; pass++) {
+    for (const material of fresh) { material.transparent = !material.transparent; material.needsUpdate = true; }
+    compile(group);
+  }
+  return fresh.length;
+}
+
+/**
  * Fade the player model when the follow camera's arm is short (16h check-in
  * 2 item 3; Skyrim's blend-out). Works on the wrapper group only: `visible`
  * on the group, material opacity on its meshes, each material's own values

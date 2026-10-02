@@ -7,6 +7,9 @@
 # The machine is BUSY when any one of these holds (else idle):
 #   slot     a job_guard slot is held: a /tmp/es-jobs/slot-*.lock that flock
 #            cannot take (job_guard.sh holds it with flock for the job's life)
+#   guard    a job_guard.sh or memwatch.sh process is alive (pod jobs hold
+#            no slot and put almost no load here)
+#   agents   lane_status.py lists a live or unfinished subagent
 #   load     the 1-minute load average is >= ES_IDLE_LOAD (default 0.5)
 #   tunnel   (only when ES_IDLE_USE_TUNNEL=1, default off) the `code tunnel`
 #            process tree holds more established TCP connections than
@@ -49,6 +52,27 @@ for f in "$LOCKS"/slot-*.lock; do
   flock -n "$f" true 2>/dev/null || held=$((held + 1))
 done
 (( held > 0 )) && busy+=("slot:$held")
+
+# A guarded job (job_guard/memwatch) that holds no slot, e.g. a RunPod
+# capture driven from here at near-zero local load (walk 9: the VM stopped
+# under a live lane).
+guards=$(pgrep -fc '(job_guard|memwatch)\.sh' || true)
+(( guards > 0 )) && busy+=("guard:$guards")
+
+# A live subagent (lane_status), even one blocked in a long foreground wait
+# that writes no transcript line for minutes. Read as the repo's owner.
+REPO_DIR="${ES_IDLE_REPO:-/workspaces/elder-souls-argonia}"
+if [[ -r "$REPO_DIR/tooling/repo-standards/lane_status.py" ]]; then
+  owner=$(stat -c %U "$REPO_DIR")
+  live=$(runuser -u "$owner" -- env CLAUDE_CONFIG_DIR="$(dirname "$CLAUDE_DIR")" \
+    timeout 60 python3 "$REPO_DIR/tooling/repo-standards/lane_status.py" --json 2>/dev/null \
+    | python3 -c 'import json,sys
+try: rs=json.load(sys.stdin)
+except Exception: print(0); sys.exit()
+print(sum(1 for r in rs if r["state"] in ("live","unfinished") or r["state"].startswith("live (")))' 2>/dev/null | tail -1)
+  [[ "$live" =~ ^[0-9]+$ ]] || live=0
+  (( live > 0 )) && busy+=("agents:$live")
+fi
 
 load=$(cut -d' ' -f1 /proc/loadavg)
 awk -v l="$load" -v m="$MAX_LOAD" 'BEGIN{exit !(l >= m)}' && busy+=("load:$load")

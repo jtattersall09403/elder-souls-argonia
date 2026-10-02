@@ -33,6 +33,10 @@ BIG = 150_000          # the split line (method review r8)
 RUNNING = ("live", "unfinished")
 
 
+def running(state: str) -> bool:
+    return state in RUNNING or state.startswith("live (")
+
+
 def newest_session(pdir: Path) -> str | None:
     files = sorted(pdir.glob("*.jsonl"), key=lambda p: p.stat().st_mtime)
     return files[-1].stem if files else None
@@ -48,20 +52,24 @@ def rows(pdir: Path, session: str, hours: float = 12.0, live: dict | None = None
         for r in a.records:
             calls.add(r)
         last = calls.calls[-1] if calls.calls else {}
+        waiting = sum(1 for u, res in a.tool_calls() if u.get("name") in ("Agent", "Task") and res is None)
+        state = a.status
+        if waiting and state in ("unfinished", "completed", "live"):
+            state = f"live (waiting on {waiting} children)"   # blocked in a foreground Agent call
         out.append({"id": a.agent_id, "type": a.agent_type or "?", "label": a.label or "-",
                     "run": a.run, "started": a.first_ts,
                     "elapsedMin": round((a.last_ts - a.first_ts) / 60, 1),
                     "idleMin": round((time.time() - a.last_ts) / 60, 1),
                     "turns": len(calls.calls),
                     "context": sum(last.get(k, 0) for k in ("cache_read", "cache_create", "input")),
-                    "units": round(cost_units(calls.total()) / 1e6, 2), "state": a.status})
+                    "units": round(cost_units(calls.total()) / 1e6, 2), "state": state})
     out.sort(key=lambda r: r["started"])
     return out
 
 
 def over_big(rs: list[dict]) -> list[dict]:
     """Running agents past the split line."""
-    return [r for r in rs if r["state"] in RUNNING and r["context"] > BIG]
+    return [r for r in rs if running(r["state"]) and r["context"] > BIG]
 
 
 def _hm(ts: float) -> str:
@@ -74,10 +82,10 @@ def render(rs: list[dict], brief: bool) -> str:
                          f"{r['context'] // 1000}k {r['units']:.1f}u {r['label'][:40]}" for r in rs)
     head = f"{'agent':<18} {'type':<13} {'start':>5} {'min':>6} {'turns':>5} {'ctx':>6} {'units':>6}  state       label"
     lines = [head] + [f"{r['id'][:18]:<18} {r['type'][:13]:<13} {_hm(r['started']):>5} {r['elapsedMin']:>6.1f} "
-                      f"{r['turns']:>5} {r['context'] // 1000:>5}k {r['units']:>6.2f}  {r['state'][:11]:<11} "
+                      f"{r['turns']:>5} {r['context'] // 1000:>5}k {r['units']:>6.2f}  {r['state'][:30]:<11} "
                       f"{r['label'][:50]}" for r in rs]
     big = over_big(rs)
-    lines.append(f"running: {sum(r['state'] in RUNNING for r in rs)}; over {BIG // 1000}k context: {len(big)}"
+    lines.append(f"running: {sum(running(r['state']) for r in rs)}; over {BIG // 1000}k context: {len(big)}"
                  + (f" ({', '.join(r['id'][:10] for r in big)}: split from its note)" if big else ""))
     return "\n".join(lines)
 
@@ -100,6 +108,11 @@ def main(argv=None) -> int:
     if a.agent:
         rs = [r for r in rs if r["id"].startswith(a.agent)]
     print(json.dumps(rs, indent=1) if a.json else render(rs, a.brief))
+    if a.brief and not a.agent:
+        import lane_watch   # the watchdog's findings close the brief view
+        found = lane_watch.findings(pdir, session)
+        if found:
+            print("[watch]\n" + "\n".join(found))
     return 0
 
 
