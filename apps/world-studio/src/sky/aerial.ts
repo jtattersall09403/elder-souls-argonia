@@ -2,7 +2,7 @@ import * as THREE from "three";
 import type { NodeMaterial } from "three/webgpu";
 import * as TSL_TYPED from "three/tsl";
 import {
-  claimFeature, isNodeMaterial, patchShared, sel, wrapColor, type PatchMemo, type TslNode,
+  claimFeature, patchShared, sel, wrapColor, type PatchMemo, type TslNode,
 } from "@elder-souls/game-core/render/nodes/materialNodes";
 import { PROVINCE_EXTENT_M } from "../provinceScale";
 // TSL builders typed loosely (standard 0107 §1: chained TSL typings are too deep for tsc).
@@ -493,15 +493,4 @@ export function applyMipAlphaBoost(material: NodeMaterial, share: MipAlphaShare)
       return vec4(c.rgb, c.a.mul(float(1).add(min(mip, 4).mul(0.25))));
     });
   });
-}
-
-/**
- * @deprecated WebGPU port (decision 0107): the aerial term is `scene.fogNode`;
- * a material joins it by keeping `fog = true`. Kept only while callers outside
- * the sky lane migrate: it sets `fog = true` and, on alpha-tested node
- * materials, applies the mip-alpha coverage boost the old patch carried.
- */
-export function applyAerialPerspective(material: THREE.Material, _uniforms?: AerialUniforms): void {
-  (material as THREE.Material & { fog?: boolean }).fog = true;
-  if (isNodeMaterial(material)) applyMipAlphaBoost(material, createMipAlphaShare());
 }

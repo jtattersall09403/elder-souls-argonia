@@ -124,7 +124,7 @@ walks as it needs; it closes only on the owner's "looks right".
    deployed studio** (owner 2026-09-27): before posting, merge `dev` into
    `main`, push, and confirm the Pages action is green; the packet's links
    use the deployed URL, never `$ES_TUNNEL_URL`; a batch that touched the
-   WebGPU renderer or shader sources runs `node scripts/webgpu-boot-check.mjs`
+   WebGPU renderer or shader sources runs `node tooling/gpu-lane/webgpu-boot-check.mjs`
    (apps/world-studio, `webgpu` branch; it skips itself when its input hash
    is unchanged) once before the packet, and the packet quotes its line
    (0111 §4); run

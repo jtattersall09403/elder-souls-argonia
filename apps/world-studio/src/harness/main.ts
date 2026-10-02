@@ -222,6 +222,7 @@ async function main(): Promise<HarnessResult> {
     const { FrameSegments } = await import("@elder-souls/game-core/fx/frameSegments");
     const segments = new FrameSegments();
     segments.attach(renderer as never);
+    segments.requestGpuTiming();
     let resolvedTotal = 0;
     const resolve = renderer.resolveTimestampsAsync.bind(renderer);
     (renderer as { resolveTimestampsAsync: typeof resolve }).resolveTimestampsAsync = async (type) => {

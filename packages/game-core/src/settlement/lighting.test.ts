@@ -491,4 +491,16 @@ describe("sprite holders: mined flames on a piece that is no light fixture (16k 
     expect(color.getZ(0)).toBe(0);
     manager.dispose();
   });
+  it("gives every sprite batch a position attribute before its first quad (walk 10)", () => {
+    const manager = new SettlementLightFixtures({ value: 1 });
+    manager.setFlameTexture(new THREE.Texture());
+    let meshes = 0;
+    manager.group.traverse((o) => {
+      const mesh = o as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      meshes += 1;
+      expect(mesh.geometry.getAttribute("position")).toBeDefined();
+    });
+    expect(meshes).toBeGreaterThan(0);
+  });
 });

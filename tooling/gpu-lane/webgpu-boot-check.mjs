@@ -4,7 +4,7 @@
  * a GPU validation error, a device loss or no complete frame. Run it before handing the owner a
  * webgpu build; NEVER in preflight or CI (planner ruling 2026-10-01).
  *
- *   node scripts/webgpu-boot-check.mjs [--force] [--place <placeId>|all] [--query "view=character&x=..&z=.."]
+ *   node tooling/gpu-lane/webgpu-boot-check.mjs [--force] [--place <placeId>|all] [--query "view=character&x=..&z=.."]
  *     [--hold <s>] [--no-build --dist <dir>] [--out <file>] [--profile <s>] [--alloc] [--gpu-timing] [--present]
  *
  * `--place all` builds once and checks every built place in the settlement index (fixtures
@@ -52,7 +52,7 @@
  */
 import { spawn, spawnSync } from "node:child_process";
 import { createServer } from "node:http";
-import { dataPublicDir, pagesRoots, staticHandler } from "./lib/webgpu-static.mjs";
+import { dataPublicDir, pagesRoots, staticHandler } from "../../apps/world-studio/scripts/lib/webgpu-static.mjs";
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
@@ -61,8 +61,8 @@ import { chromium } from "playwright";
 const argv = process.argv.slice(2);
 const arg = (k, d) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : d; };
 const flag = (k) => argv.includes(`--${k}`);
-const appDir = resolve(new URL("..", import.meta.url).pathname);
-const repo = resolve(appDir, "../..");
+const repo = resolve(new URL("../..", import.meta.url).pathname);
+const appDir = join(repo, "apps/world-studio");
 const dist = resolve(arg("dist", "/tmp/webgpu-boot-dist"));
 const out = resolve(arg("out", "/tmp/webgpu-boot.json"));
 const place = arg("place", "place.imperial-fringe.claywater-station");
@@ -80,7 +80,7 @@ const INPUTS = ["packages/game-core/src/render", "packages/game-core/src/settlem
   "packages/game-core/src/water/render", "packages/game-core/src/interior", "apps/world-studio/src/sky",
   "apps/world-studio/src/groundMaterial.ts", "apps/world-studio/src/studioRenderer.ts",
   "apps/world-studio/src/character/CharacterMode.tsx", "apps/world-studio/src/vegetation",
-  "apps/world-studio/scripts/webgpu-boot-check.mjs", "node_modules/three/package.json"];
+  "tooling/gpu-lane/webgpu-boot-check.mjs", "apps/world-studio/scripts/lib/webgpu-static.mjs", "node_modules/three/package.json"];
 const files = (p) => statSync(p).isDirectory() ? readdirSync(p).sort().flatMap((f) => files(join(p, f))) : [p];
 const hash = createHash("sha256");
 for (const f of INPUTS.flatMap((p) => existsSync(join(repo, p)) ? files(join(repo, p)) : []).filter((f) => !/\.test\.tsx?$/.test(f))) {

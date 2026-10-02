@@ -3,7 +3,7 @@
 **Date:** 2026-09-29. **Status:** accepted (WebGPU lane lead, 16k walk 5, on the
 owner's instruction "migrate to WebGPU", tmp/16k-user-instruction.md, and the
 planner's brief). **Branch:** `webgpu`, served at `/webgpu/` beside main's
-studio until the owner accepts it on the M2 and the Honor phone.
+studio until the owner accepts it on the M2 and the Honor phone. From 16k walk 10 (owner 2026-10-02) every round merges dev into webgpu as part of its batch, and the walk packet names the webgpu commit deployed at /webgpu/.
 **Evidence:** `tooling/.reports/16k/walk5/webgpu/` (lane reports L1–L10,
 `report.md`). **Amends:** 0084 (GPU time source), 0108 §1 (the fixture light field is
 ported to TSL and kept on both backends), 0082 (the
@@ -144,7 +144,7 @@ and reads the pixels back. The visual and speed verdict is the owner's, on
 the deployed `/webgpu/` build.
 
 **Boot check (before any `/webgpu/` build goes to the owner; planner ruling
-2026-10-01).** `cd apps/world-studio && node scripts/webgpu-boot-check.mjs`
+2026-10-01).** `node tooling/gpu-lane/webgpu-boot-check.mjs`
 boots the BUILT bundle the way Pages serves it and fails on a main-thread
 freeze, a GPU validation error (a shader over 16 textures, a vertex-buffer
 overflow), a device loss or no complete frame. It is cheap by design, never a

@@ -158,6 +158,8 @@ export class FrameSegments {
   /** Timestamp uid (`<context>:f<frame>`) -> label, until resolved. */
   private uidLabels = new Map<string, string>();
   private resolving = false;
+  /** Open `requestGpuTiming` calls. */
+  private gpuDemand = 0;
   private framesSinceResolve = 0;
   private gpuWindow = new Window();
 
@@ -176,7 +178,8 @@ export class FrameSegments {
    * and the first in-canvas hook binds it.
    */
   attach(renderer: TimedRenderer | null): void {
-    // Timestamp queries run only while a collector is bound: the renderer is
+    // Timestamp queries run only while a collector is bound and asked
+    // (`requestGpuTiming`): the renderer is
     // made with them off, because frames rendered before this hook mounts
     // (the Suspense load) would fill three's query pool with nobody resolving
     // it ("Maximum number of queries exceeded").
@@ -185,10 +188,8 @@ export class FrameSegments {
     this.unwrapUid = null;
     this.renderer = renderer && typeof renderer.resolveTimestampsAsync === "function"
       ? renderer : null;
-    // WebGPU checks the device feature only at init; the WebGL backend
-    // guards on its own disjoint-timer extension.
+    this.syncTracking();
     const b = this.renderer?.backend;
-    if (b) b.trackTimestamp = !b.isWebGPUBackend || (b.hasFeature?.("timestamp-query") ?? false);
     if (b?.updateTimeStampUID && b.get) {
       const assign = b.updateTimeStampUID;
       const get = b.get.bind(b);
@@ -206,6 +207,36 @@ export class FrameSegments {
     const nav = typeof navigator === "undefined" ? null : navigator;
     const platform = nav ? (nav.platform || nav.userAgent || "") : "";
     this.wallTimeOnly = /mac|iphone|ipad/i.test(platform);
+  }
+
+  /**
+   * Ask for GPU timing; call the returned function to stop asking. Queries
+   * run only while a renderer is bound AND someone asks (the HUD perf lines,
+   * a probe): unasked, every pass would still allocate timestamp queries
+   * (walk 10: the pool overflowed after the HUD that read them unmounted).
+   */
+  requestGpuTiming(): () => void {
+    this.gpuDemand += 1;
+    this.syncTracking();
+    let released = false;
+    return () => {
+      if (released) return;
+      released = true;
+      this.gpuDemand -= 1;
+      this.syncTracking();
+    };
+  }
+
+  /** Whether timestamp queries are being recorded now. */
+  get gpuTiming(): boolean { return this.renderer?.backend.trackTimestamp === true; }
+
+  private syncTracking(): void {
+    const b = this.renderer?.backend;
+    if (!b) return;
+    // WebGPU checks the device feature only at init; the WebGL backend
+    // guards on its own disjoint-timer extension.
+    b.trackTimestamp = this.gpuDemand > 0
+      && (!b.isWebGPUBackend || (b.hasFeature?.("timestamp-query") ?? false));
   }
 
   /** Which clock the GPU rows come from ("none" until the first pass is timed). */
@@ -269,7 +300,7 @@ export class FrameSegments {
   collect(): void {
     this.cpuWindow.push(this.cpuFrame);
     this.cpuFrame = new Map();
-    if (!this.renderer) return;
+    if (!this.renderer || this.gpuDemand === 0) return;
     this.bindPool();
     this.framesSinceResolve += 1;
     const pool = this.pool;
@@ -288,7 +319,12 @@ export class FrameSegments {
       compute ? r.resolveTimestampsAsync("compute") : undefined,
     ])
       .then(() => this.drain(pool, compute))
-      .catch(() => { this.renderer = null; })
+      .catch(() => {
+        // A failed resolve ends the timing for good: leaving the backend
+        // recording with nobody resolving overflows three's query pool.
+        r.backend.trackTimestamp = false;
+        this.renderer = null;
+      })
       .finally(() => { this.resolving = false; });
   }
 
@@ -345,6 +381,8 @@ export class FrameSegments {
   }
 
   dispose(): void {
+    if (this.renderer) this.renderer.backend.trackTimestamp = false;
+    this.renderer = null;
     this.unwrapPool?.();
     this.unwrapPool = null;
     this.unwrapUid?.();

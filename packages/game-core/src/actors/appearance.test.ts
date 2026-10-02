@@ -74,6 +74,20 @@ describe("colouring a character", () => {
     expect(mesh.material).toBe(original);
   });
 
+  it("two actors with different tones share one overlay graph (walk 10: one build, not one per actor)", () => {
+    const a = body(["Body"]);
+    const b = body(["Body"]);
+    applyAppearance(a, { ...appearance, skinTintMode: "skyrim-rgb-tint", skinTint: [0.2, 0.3, 0.4] });
+    applyAppearance(b, { ...appearance, skinTintMode: "skyrim-rgb-tint", skinTint: [0.9, 0.1, 0.5] });
+    const ma = (a.children[0] as THREE.Mesh).material as MeshStandardNodeMaterial;
+    const mb = (b.children[0] as THREE.Mesh).material as MeshStandardNodeMaterial;
+    expect(ma).not.toBe(mb);
+    expect(ma.colorNode).toBe(mb.colorNode);
+    // each actor's tone rides on its own material, read per drawn object
+    expect(ma.userData.esSkinTone).toEqual([0.2, 0.3, 0.4]);
+    expect(mb.userData.esSkinTone).toEqual([0.9, 0.1, 0.5]);
+  });
+
   it("the overlay is Skyrim's equation: mid grey under a tone, with the detail factor", () => {
     // b² + 2·t·b − 2·t·b², × detail. A zero tone squares the base; a full
     // tone gives 2b − b²; the mid tone leaves the base as is.

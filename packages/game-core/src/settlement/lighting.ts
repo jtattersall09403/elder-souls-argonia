@@ -428,7 +428,10 @@ export class SettlementLightFixtures {
   private batch(textureId: string): SpriteBatch {
     let batch = this.batches.get(textureId);
     if (batch) return batch;
-    const geometry = new THREE.BufferGeometry();
+    // zero-length position until the first quad: a scene compile builds hidden
+    // meshes too, and a geometry without `position` warns there (walk 10)
+    const geometry = new THREE.BufferGeometry()
+      .setAttribute("position", new THREE.BufferAttribute(new Float32Array(0), 3));
     const material = new THREE.MeshBasicMaterial({
       map: null, transparent: true, depthWrite: false, vertexColors: true,
       blending: THREE.AdditiveBlending, side: THREE.DoubleSide, fog: false,

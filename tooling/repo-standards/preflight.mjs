@@ -89,7 +89,7 @@ const GATES = {
   // unchanged place is a skip; never in CI or --runner (planner ruling 2026-10-01). Its own
   // time is outside the scoped limit (a changed renderer is minutes of SwiftShader by nature).
   ...(process.argv.includes("--runner") ? {} : {
-    "webgpu-boot": ["cd apps/world-studio && ../../tooling/repo-standards/job_guard.sh webgpu-boot --mem 8 -- node scripts/webgpu-boot-check.mjs --place all", [/^place\./, /webgpu-boot-check: (FAIL|OK|SKIP)/]] }),
+    "webgpu-boot": ["tooling/repo-standards/job_guard.sh webgpu-boot --mem 8 -- node tooling/gpu-lane/webgpu-boot-check.mjs --place all", [/^place\./, /webgpu-boot-check: (FAIL|OK|SKIP)/]] }),
 };
 
 // RUNNER MODE: `npm run preflight -- --runner` runs every gate exactly as the

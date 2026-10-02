@@ -1,12 +1,12 @@
 // Serve a built WebGPU studio the way Pages does, for flames.mjs and other
-// probes: node scripts/webgpu-serve.mjs <dist> [--port 8193]
+// probes: node tooling/gpu-lane/webgpu-serve.mjs <dist> [--port 8193]
 // Data comes from the main tree (lib/webgpu-static.mjs dataPublicDir; override
 // with $ES_DATA_PUBLIC, e.g. the composed site/studio).
 //   /elder-souls-argonia/webgpu/  -> <dist>
 //   /elder-souls-argonia/studio/  -> data
 import { createServer } from "node:http";
 import { resolve } from "node:path";
-import { dataPublicDir, pagesRoots, staticHandler } from "./lib/webgpu-static.mjs";
+import { dataPublicDir, pagesRoots, staticHandler } from "../../apps/world-studio/scripts/lib/webgpu-static.mjs";
 
 const argv = process.argv.slice(2);
 const dist = argv[0] && !argv[0].startsWith("--") ? resolve(argv[0]) : null;

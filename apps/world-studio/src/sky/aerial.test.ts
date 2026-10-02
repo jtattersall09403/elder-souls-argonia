@@ -3,7 +3,6 @@ import * as THREE from "three";
 import { MeshStandardNodeMaterial } from "three/webgpu";
 import {
   aerialRasterLoaded,
-  applyAerialPerspective,
   applyMipAlphaBoost,
   createAerialFogNode,
   createAerialUniforms,
@@ -28,21 +27,6 @@ describe("aerial perspective as the scene fog node (decision 0107)", () => {
     u.uClimateAir.value = new THREE.Texture();
     expect(aerialRasterLoaded(u, "uClimateAir")).toBe(true);
     expect(aerialRasterLoaded(u, "uClimateVis")).toBe(false);
-  });
-
-  it("the deprecated call only joins the fog and boosts alpha-tested maps once", () => {
-    const plain = new MeshStandardNodeMaterial();
-    plain.fog = false;
-    applyAerialPerspective(plain);
-    expect(plain.fog).toBe(true);
-    expect(plain.colorNode).toBeNull();
-
-    const leaf = new MeshStandardNodeMaterial({ alphaTest: 0.5, map: new THREE.Texture() });
-    applyAerialPerspective(leaf);
-    const first = leaf.colorNode;
-    expect(first).not.toBeNull();
-    applyAerialPerspective(leaf);
-    expect(leaf.colorNode).toBe(first);
   });
 
   it("mip-alpha boost: materials with different maps share one graph; the map size comes from the drawn object", () => {

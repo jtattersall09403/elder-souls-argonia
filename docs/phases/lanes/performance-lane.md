@@ -15,6 +15,7 @@ may hand it an item from the owner's walk.
   cost options (through the `kit-build` skill), this brief.
 - Never touches: the frozen world data, place layouts, gameplay tuning, the
   look (decision 0108 §6: quality defaults are never lowered to win frames).
+- WebGPU branch ([0111](../../decisions/0111-webgpu-renderer-and-tsl-node-materials-one-shader-path.md)): From 16k walk 10 (owner 2026-10-02) every round merges dev into webgpu as part of its batch, and the walk packet names the webgpu commit deployed at /webgpu/.
 
 ## Bars
 

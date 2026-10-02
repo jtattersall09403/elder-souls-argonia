@@ -264,6 +264,15 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // The segmented frame timer (decision 0084 round 10). Made here, bound to
   // the renderer by the first in-canvas hook, provided to every renderer.
   const frameSegments = useMemo(() => new FrameSegments(), []);
+  // Unmounted (a crash boundary, leaving the mode) the canvas may keep
+  // drawing: stop the timestamp queries with it (walk 10 pool overflow).
+  useEffect(() => () => frameSegments.dispose(), [frameSegments]);
+  // `?gputiming=1`: probes that read the GPU figures without the HUD perf
+  // section open ask for the timing for the whole session.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("gputiming") !== "1") return undefined;
+    return frameSegments.requestGpuTiming();
+  }, [frameSegments]);
   const dprOverride = useMemo(() => {
     const raw = new URLSearchParams(window.location.search).get("dpr");
     if (raw === null) return null;
@@ -987,6 +996,8 @@ function segmentText(rows: SegmentStat[], order: string[]): string {
  * a second like the lines above it. */
 function FrameSegmentLines({ segments }: { segments: FrameSegments }) {
   const [stats, setStats] = useState<FrameSegmentStats | null>(null);
+  // GPU timing runs only while these lines are shown (perf section open).
+  useEffect(() => segments.requestGpuTiming(), [segments]);
   useEffect(() => {
     const read = () => setStats(segments.stats());
     read();

@@ -44,6 +44,7 @@ describe("frame segments on renderer timestamps", () => {
     const segs = new FrameSegments();
     const fake = fakeRenderer(2);
     segs.attach(fake.renderer);
+    segs.requestGpuTiming();
     segs.collect(); // binds the pool
     for (let f = 1; f <= RESOLVE_EVERY; f++) {
       segs.gpuMark("scene");
@@ -81,6 +82,7 @@ describe("frame segments on renderer timestamps", () => {
     const fake = fakeRenderer(1);
     const original = fake.pool.allocateQueriesForContext;
     segs.attach(fake.renderer);
+    segs.requestGpuTiming();
     segs.collect();
     expect(fake.pool.allocateQueriesForContext).not.toBe(original);
     segs.dispose();
@@ -91,6 +93,13 @@ describe("frame segments on renderer timestamps", () => {
     const segs = new FrameSegments();
     expect(fake.renderer.backend.trackTimestamp).toBe(false);
     segs.attach(fake.renderer);
+    expect(fake.renderer.backend.trackTimestamp).toBe(false);
+    const release = segs.requestGpuTiming();
+    expect(fake.renderer.backend.trackTimestamp).toBe(true);
+    release();
+    release();
+    expect(fake.renderer.backend.trackTimestamp).toBe(false);
+    segs.requestGpuTiming();
     expect(fake.renderer.backend.trackTimestamp).toBe(true);
     segs.attach(null);
     expect(fake.renderer.backend.trackTimestamp).toBe(false);
@@ -115,6 +124,7 @@ describe("frame segments on renderer timestamps", () => {
     const cull = [{ isComputeNode: true, name: "gpuCull" }, { isComputeNode: true, name: "gpuCullRows" }];
     const segs = new FrameSegments();
     segs.attach(fake.renderer);
+    segs.requestGpuTiming();
     segs.collect();
     for (let f = 1; f <= RESOLVE_EVERY; f++) {
       frame = f;
@@ -133,5 +143,22 @@ describe("frame segments on renderer timestamps", () => {
     segs.dispose();
     expect(computeLabel([{}, { name: "x" }])).toBe("x");
     expect(computeLabel({})).toBe("compute");
+  });
+  it("stops recording on dispose and when a resolve fails (walk 10 pool overflow)", async () => {
+    const a = fakeRenderer(1);
+    const segs = new FrameSegments();
+    segs.attach(a.renderer);
+    segs.requestGpuTiming();
+    segs.dispose();
+    expect(a.renderer.backend.trackTimestamp).toBe(false);
+    const b = fakeRenderer(1);
+    (b.renderer as unknown as { resolveTimestampsAsync: () => Promise<number> }).resolveTimestampsAsync =
+      () => Promise.reject(new Error("lost"));
+    const segs2 = new FrameSegments();
+    segs2.attach(b.renderer);
+    segs2.requestGpuTiming();
+    for (let i = 0; i < 200; i++) segs2.collect();
+    await new Promise((r) => setTimeout(r, 0));
+    expect(b.renderer.backend.trackTimestamp).toBe(false);
   });
 });

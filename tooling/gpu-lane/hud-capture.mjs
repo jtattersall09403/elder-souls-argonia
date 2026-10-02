@@ -6,15 +6,15 @@
  * opens the perf block, reads the page text four times over <settleS> and writes it to <out>.txt
  * with a screenshot beside it (<out>.jpg).
  *
- *   CHROME_CDP=http://127.0.0.1:9222 node scripts/hud-capture.mjs <dist> "<query>" <out>.txt <settleS>
+ *   CHROME_CDP=http://127.0.0.1:9222 node tooling/gpu-lane/hud-capture.mjs <dist> "<query>" <out>.txt <settleS>
  */
 import { createServer } from "node:http";
 import { writeFileSync } from "node:fs";
 import { chromium } from "playwright";
-import { staticHandler } from "./lib/webgpu-static.mjs";
+import { staticHandler } from "../../apps/world-studio/scripts/lib/webgpu-static.mjs";
 import { resolve } from "node:path";
-const [dist, query, out, settleS] = process.argv.slice(2);
-const roots = [["/elder-souls-argonia/studio/", dist], ["/elder-souls-argonia/", resolve("../../packages/character-assets/files")]];
+const [distArg, query, out, settleS] = process.argv.slice(2);
+const roots = [["/elder-souls-argonia/studio/", dist], ["/elder-souls-argonia/", resolve(new URL("../../packages/character-assets/files", import.meta.url).pathname)]];
 const server = createServer(staticHandler(roots));
 const port = Number(process.env.WEBGPU_BOOT_PORT ?? 8099);
 await new Promise((r) => server.listen(port, "127.0.0.1", r));

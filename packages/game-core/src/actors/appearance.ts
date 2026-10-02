@@ -4,11 +4,35 @@ import * as tsl from "three/tsl";
 
 import type { Appearance } from "./races";
 import {
-  cloneNodeMaterial, isNodeMaterial, toNodeMaterial, wrapColor, type TslNode,
+  cloneNodeMaterial, isNodeMaterial, patchShared, toNodeMaterial, wrapColor,
+  type PatchMemo, type TslNode,
 } from "../render/nodes/materialNodes";
 
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
-const { vec3, vec4 } = tsl as unknown as Record<string, TslNode>;
+const { uniform, vec3, vec4 } = tsl as unknown as Record<string, TslNode>;
+
+/** Where a tinted material carries its own skin tone (read per drawn object). */
+const SKIN_TONE_KEY = "esSkinTone";
+
+/**
+ * The FaceGen overlay's node graphs, one per source-material signature
+ * (`patchShared`), so every actor shares one shader build (walk 10 (g)).
+ * Standard 8: a write-once memo, not shared state. Each entry is a pure
+ * function of its key (the patch is fixed; the tone is not baked in but read
+ * per drawn object from that object's own material), so no caller can see
+ * another's effect through it, and it holds no per-actor value.
+ */
+const skinToneMemo: PatchMemo = new Map();
+
+/** Make the per-object tone uniform. Called once per memo entry (inside the patch). */
+function skinToneUniform(): TslNode {
+  const tone = new THREE.Vector3();
+  return uniform(tone).onObjectUpdate((frame: { material?: THREE.Material }) => {
+    const t = frame.material?.userData?.[SKIN_TONE_KEY] as readonly number[] | undefined;
+    if (t) tone.set(t[0], t[1], t[2]);
+    return tone;
+  });
+}
 
 /**
  * Colouring a character.
@@ -70,12 +94,15 @@ function skyrimRgbTintMaterial(
   // substantially darker than Skyrim does.
   const node = isNodeMaterial(material) ? cloneNodeMaterial(material) : toNodeMaterial(material.clone());
   (node as unknown as { color: THREE.Color }).color.set(0xffffff);
-  const tone = vec3(tint[0], tint[1], tint[2]);
-  const detail = vec3(...SKYRIM_SKIN_DETAIL);
-  wrapColor(node, (c: TslNode) => {
-    const b = c.rgb;
-    const overlay = b.mul(b).add(tone.mul(b).mul(2)).sub(tone.mul(b).mul(b).mul(2));
-    return vec4(overlay.mul(detail), c.a);
+  node.userData[SKIN_TONE_KEY] = [tint[0], tint[1], tint[2]];
+  patchShared(node, skinToneMemo, "skyrimRgbTint", (m) => {
+    const tone = skinToneUniform();
+    const detail = vec3(...SKYRIM_SKIN_DETAIL);
+    wrapColor(m, (c: TslNode) => {
+      const b = c.rgb;
+      const overlay = b.mul(b).add(tone.mul(b).mul(2)).sub(tone.mul(b).mul(b).mul(2));
+      return vec4(overlay.mul(detail), c.a);
+    });
   });
   return node;
 }

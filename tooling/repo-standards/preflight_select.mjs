@@ -66,7 +66,7 @@ export const GATE_INPUTS = {
     "apps/world-studio/public/province/interiors/", "packages/game-core/src/settlement/",
     "packages/game-core/src/interior/"],
   // the WebGPU boot check's own cache inputs (webgpu-boot-check.mjs INPUTS + kits + place bundles)
-  "webgpu-boot": ["packages/game-core/src/", "apps/world-studio/src/", "apps/world-studio/scripts/webgpu-boot-check.mjs",
+  "webgpu-boot": ["packages/game-core/src/", "apps/world-studio/src/", "tooling/gpu-lane/webgpu-boot-check.mjs",
     "apps/world-studio/scripts/lib/webgpu-static.mjs", "apps/world-studio/public/kits/",
     "apps/world-studio/public/province/settlements/"],
   "python-deps": ["tooling/world-generation/requirements-test.txt",

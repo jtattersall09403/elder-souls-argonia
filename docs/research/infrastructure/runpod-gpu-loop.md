@@ -31,7 +31,7 @@ screenshot timeline. Proved by the walk-9 WebGPU lane, 2026-10-01.
    The account-wide SSH key list is not touched: the pod's own sshd reads `PUBLIC_KEY`. The
    `ssh.runpod.io` proxy authenticates against account keys only, so use the DIRECT address
    (`get-pod` → `ssh.direct`, populated once `runtime` is non-null, ~10-25 s).
-3. **Set it up**: `ssh -i rp_key -p <port> root@<ip> 'bash -s' < tooling/webgpu/runpod-setup.sh`
+3. **Set it up**: `ssh -i rp_key -p <port> root@<ip> 'bash -s' < tooling/gpu-lane/runpod-setup.sh`
    (40 s: Chrome stable, Vulkan tools, Xvfb; prints the Vulkan device, starts headed Chrome on
    display :99 with WebGPU on Vulkan and DevTools on the pod's 127.0.0.1:9222). Headed on Xvfb,
    not headless: headless Chrome loses the WebGPU device whenever a page presents (four
@@ -41,9 +41,9 @@ screenshot timeline. Proved by the walk-9 WebGPU lane, 2026-10-01.
    `ssh -i rp_key -o ServerAliveInterval=30 -N -L 9222:127.0.0.1:9222 -R 8099:127.0.0.1:8099 -p <port> root@<ip>`.
    `-L` gives this machine the pod's DevTools; `-R` gives the pod's Chrome this machine's static
    server, so nothing is copied to the pod (the build and the data are served from the VM).
-5. **Run the boot check against it** (apps/world-studio, webgpu branch):
+5. **Run the boot check against it** (repo root, webgpu branch):
    ```
-   CHROME_CDP=http://127.0.0.1:9222 WEBGPU_BOOT_PORT=8099 node scripts/webgpu-boot-check.mjs \
+   CHROME_CDP=http://127.0.0.1:9222 WEBGPU_BOOT_PORT=8099 node tooling/gpu-lane/webgpu-boot-check.mjs \
      --force --light --present --size 960x540 --place place.dunmer-north.riverwalk \
      --shots /tmp/<lane>/shots --walk 40 --hold 30 --no-build --dist <built dist> \
      --query "view=character&x=7.1971&z=0.584&t=22&q=medium&dpr=1"
@@ -62,7 +62,7 @@ screenshot timeline. Proved by the walk-9 WebGPU lane, 2026-10-01.
      `--profile <s> --profile-from <s>` takes a CPU profile window (without `--light` the
      profile is dominated by the check's own wrappers).
    For the WebGL studio (dev): build it (`npx vite build --outDir <dist>` in apps/world-studio)
-   and run `scripts/hud-capture.mjs <dist> "<query>" <out>.txt <settleS>` with the same
+   and run `tooling/gpu-lane/hud-capture.mjs <dist> "<query>" <out>.txt <settleS>` with the same
    `CHROME_CDP`; it serves on 8099 itself.
 6. **Read the timeline**: make a contact sheet (PIL, 8-12 frames labelled with their time) and
    have a Sonnet agent judge it with a "what appears, vanishes, reappears, when" list; a lead

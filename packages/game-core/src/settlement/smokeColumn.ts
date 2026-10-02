@@ -143,7 +143,11 @@ export class SmokeColumns {
   readonly mesh: THREE.Mesh;
   private anchors: SmokeAnchor[] = [];
   private source: readonly SmokeAnchor[] | null = null;
-  private readonly geometry = new THREE.BufferGeometry();
+  // A zero-length position from the start: a hidden mesh still reaches the
+  // node builder on a scene compile, and one without `position` warns
+  // (walk 10 "AttributeNode position not found").
+  private readonly geometry = new THREE.BufferGeometry()
+    .setAttribute("position", new THREE.BufferAttribute(new Float32Array(0), 3));
   private readonly material: MeshBasicNodeMaterial;
   /** Sun direction (unit, toward the sun), sun and sky irradiance (scene units); lit = 1 once `setLighting` ran. */
   private readonly light = { sunDir: uniform(new THREE.Vector3(0, 1, 0)), sunIrr: uniform(new THREE.Color(0, 0, 0)), skyIrr: uniform(new THREE.Color(0, 0, 0)), lit: uniform(0) };
@@ -186,7 +190,7 @@ export class SmokeColumns {
     this.mesh.frustumCulled = false;
     this.mesh.renderOrder = 10;
     this.mesh.name = "settlement-smoke";
-    this.mesh.visible = false; // no attributes until the first update draws a quad
+    this.mesh.visible = false; // no quads until the first update draws one
     // Walk 2 D8: on layer 0 the smoke drew in the water pipeline's pass 1
     // (depth-write free) and the water surface in pass 3 painted over it.
     // The post-water layer draws after the surface, depth-tested against the
@@ -216,8 +220,8 @@ export class SmokeColumns {
 
   /** Rewrite the quads for this frame. Returns the number of quads drawn. */
   update(timeS: number, camera: THREE.Camera, wind: SmokeWind): number {
-    const position = this.geometry.getAttribute("position") as THREE.BufferAttribute | undefined;
-    if (!position) return 0;
+    if (this.capacity === 0) return 0;
+    const position = this.geometry.getAttribute("position") as THREE.BufferAttribute;
     const color = this.geometry.getAttribute("color") as THREE.BufferAttribute;
     const uv = this.geometry.getAttribute("uv") as THREE.BufferAttribute;
     const normal = this.geometry.getAttribute("normal") as THREE.BufferAttribute;

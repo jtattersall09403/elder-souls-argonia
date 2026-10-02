@@ -64,7 +64,7 @@ chunks are RG16 PNGs + `chunks-web-manifest.json` written by
 
 - `npm test` — data-contract tests (anchors, chunk manifest coverage) + the
   light-rig unit tests (`src/sky/lightRig.test.ts`).
-- `node scripts/webgpu-boot-check.mjs [--force] [--place <id>]` — boots the
+- `node tooling/gpu-lane/webgpu-boot-check.mjs [--force] [--place <id>]` — boots the
   BUILT `/webgpu/` studio headless (one place, small viewport, low tier) to
   its first complete frame and fails on a freeze, a GPU validation error, a
   device loss or a run over its measured target; skips itself when its
