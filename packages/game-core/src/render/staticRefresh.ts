@@ -9,7 +9,7 @@
  * (NodeManager.js:959) and answers false for a draw whose object carries
  * `userData.esStatic === true` once that draw has refreshed with the current
  * world matrix, material version, geometry (attribute and index versions,
- * draw range, instance fill), sampled-texture versions and the scene's
+ * draw range, instance fill and count, indirect args), sampled-texture versions and the scene's
  * fixture-light epoch. Model matrices are safe: modelViewMatrix is
  * cameraViewMatrix x modelWorldMatrix on the GPU (ModelNode.js:138).
  *
@@ -21,8 +21,13 @@
  *
  * Mark an object static only when every objectGroup uniform its material
  * reads is constant or derives from the key above: a plain `uniform()` whose
- * `.value` the app writes after the first frame (flame time, terrain tint)
- * would stay stale. Frame-varying values belong in `sharedUniform`.
+ * `.value` the app writes after the first frame would stay stale. A value
+ * the same for every draw of a render call belongs in `sharedUniform`
+ * (written from `onBeforeRender` of EVERY draw that reads it when it follows
+ * the render call, as FlameSystem's draw state); an `onObjectUpdate` value
+ * is safe only when it derives from the key (a texture picked by the object,
+ * the fixture-light slots by epoch). Marked: terrain chunks, vegetation,
+ * groundcover, settlement merged draws, fire draws.
  */
 import type * as THREE from "three";
 import { fixtureLightEpochOf } from "./fixtureLights/fixtureLightField";
@@ -67,11 +72,24 @@ interface Seen {
 
 const COUNTS_KEY = "esStaticRefresh";
 
+function versionOf(attribute: object): number {
+  const a = attribute as { version?: number; data?: { version: number } };
+  return a.data?.version ?? a.version ?? 0;
+}
+
 function geometryKey(object: THREE.Object3D, geometry: THREE.BufferGeometry): number {
   const { start, count } = geometry.drawRange;
   let k = (start * 31 + (Number.isFinite(count) ? count : -1)) | 0;
-  for (const name in geometry.attributes) k = (k * 31 + (geometry.attributes[name] as { version: number }).version) | 0;
+  // an interleaved attribute carries its version on its buffer (`data`)
+  for (const name in geometry.attributes) k = (k * 31 + versionOf(geometry.attributes[name])) | 0;
   if (geometry.index) k = (k * 31 + geometry.index.version) | 0;
+  const g = geometry as THREE.BufferGeometry & { instanceCount?: number; indirect?: { version: number } | null; indirectOffset?: number | number[] };
+  k = (k * 31 + (Number.isFinite(g.instanceCount) ? g.instanceCount! : -1)) | 0;
+  if (g.indirect) {
+    k = (k * 31 + g.indirect.version) | 0;
+    const off = g.indirectOffset ?? 0;
+    for (const o of Array.isArray(off) ? off : [off]) k = (k * 31 + o) | 0;
+  }
   const inst = object as THREE.InstancedMesh;
   if (inst.isInstancedMesh) {
     k = (k * 31 + inst.instanceMatrix.version) | 0;

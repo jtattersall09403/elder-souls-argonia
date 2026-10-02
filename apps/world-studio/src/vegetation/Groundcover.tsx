@@ -1782,6 +1782,8 @@ export function Groundcover({
               // Placed at the origin once: the ring writes world matrices
               // per instance, so the object's own matrix never changes (O4).
               mesh.matrixAutoUpdate = false;
+              // shared or constant uniforms only: skips the node refresh (render/staticRefresh.ts)
+              mesh.userData.esStatic = true;
               mesh.count = 0;
               grownMeshes.set(meshKey, { mesh, previous });
               // GPU path: its page slot and CPU arrays now; it joins the cull at commit.

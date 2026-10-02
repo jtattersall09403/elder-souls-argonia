@@ -115,14 +115,13 @@ export class FlameSystem {
       if (layer !== undefined) mesh.layers.set(layer);
       // also a glow source for the bloom pass (render/post/BloomPass.ts)
       mesh.layers.enable(BLOOM_SOURCE_LAYER);
+      // reads only shared or constant uniforms: skips the per-frame node refresh (render/staticRefresh.ts)
+      mesh.userData.esStatic = true;
       this.group.add(mesh);
     }
-    // the day/night blend follows the renderer's exposure, read at draw time
-    // (the water surface reads the same `toneMappingExposure`)
+    this.embers.onBeforeRender = (renderer) => this.syncDrawState(renderer);
     this.flames.onBeforeRender = (renderer) => {
-      this.uniforms.uNight.value = nightShareOfExposure(renderer.toneMappingExposure);
-      this.uniforms.uExposure.value = renderer.toneMappingExposure;
-      this.uniforms.uToneMapped.value = renderer.toneMapping === THREE.NoToneMapping ? 0 : 1;
+      this.syncDrawState(renderer);
       if (this.backend === null) this.setBackend(activeBackend(renderer as unknown as WebGPURenderer));
       // what the last draw saw, for the flames probe (tooling/visual-look/flames.mjs diag)
       const r = renderer as unknown as { currentToneMapping?: number; getRenderTarget(): { name?: string } | null };
@@ -131,6 +130,19 @@ export class FlameSystem {
     };
     this.group.userData.fireUniforms = this.uniforms;
     this.embers.renderOrder = 1;
+  }
+
+  /**
+   * The day/night blend and tone-mapping state of the render call about to
+   * draw, from the renderer's exposure (the water surface reads the same
+   * `toneMappingExposure`). Called by EVERY fire draw before it draws: the
+   * uniforms are shared (one renderGroup buffer per render call, written by
+   * whichever fire draw refreshes first; the volumes draw before the cards).
+   */
+  private syncDrawState(renderer: { toneMappingExposure: number; toneMapping: THREE.ToneMapping }): void {
+    this.uniforms.uNight.value = nightShareOfExposure(renderer.toneMappingExposure);
+    this.uniforms.uExposure.value = renderer.toneMappingExposure;
+    this.uniforms.uToneMapped.value = renderer.toneMapping === THREE.NoToneMapping ? 0 : 1;
   }
 
   /**
@@ -256,10 +268,12 @@ export class FlameSystem {
         mesh.frustumCulled = false;
         mesh.renderOrder = -1;
         if (this.layer !== undefined) mesh.layers.set(this.layer);
+        mesh.userData.esStatic = true; // reads only shared or constant uniforms (render/staticRefresh.ts)
         draw = { field, mesh };
         const d = draw;
         // step the preset's shared field only when one of its fires is in reach
         mesh.onBeforeRender = (renderer, _scene, camera) => {
+          this.syncDrawState(renderer);
           const r = this.uniforms.uVolumeReach.value as number;
           const data = this.volumeData.get(id)?.data;
           if (!data) return;

@@ -31,6 +31,7 @@ import * as tsl from "three/tsl";
 const { float, int, ivec2, texture, textureLoad, textureSize, uniform, vec2, vec4 } = tsl as unknown as Record<string, TslNode>;
 import type { TslNode } from "../render/nodes/materialNodes";
 import { optionalAttribute, whenInstanced } from "./instanceNodes";
+import { sharedUniform } from "../render/nodes/sharedUniform";
 
 /** RGBA float texels per batch instance. */
 export const BATCH_DATA_TEXELS = 2;
@@ -65,7 +66,7 @@ export interface BatchDataUniforms {
   esBatchSelect: TslNode;
   /** Terrain-occlusion mask texture node (R > 0.5 = occluded). */
   esOccMask: TextureUniformNode & TslNode;
-  /** (originCellX, originCellZ, size, cellM) of the occlusion mask, a `uniform()` node. */
+  /** (originCellX, originCellZ, size, cellM) of the occlusion mask, a `sharedUniform()` node (frame-wide; read by static draws). */
   esOccParams: { value: THREE.Vector4 } & TslNode;
 }
 
@@ -173,7 +174,7 @@ export function createBatchDataUniforms(
     esOccMask: shared?.esOccMask
       ?? (texture(placeholderTexture(true)) as BatchDataUniforms["esOccMask"]),
     esOccParams: shared?.esOccParams
-      ?? (uniform(new THREE.Vector4(0, 0, 128, 32)) as BatchDataUniforms["esOccParams"]),
+      ?? (sharedUniform(new THREE.Vector4(0, 0, 128, 32)) as BatchDataUniforms["esOccParams"]),
   };
 }
 

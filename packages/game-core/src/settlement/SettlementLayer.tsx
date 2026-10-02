@@ -1110,7 +1110,6 @@ export function SettlementLayer({
       // Inside the lamp band the cell is the chunk (its bounds pick its lamps);
       // beyond it the cell is SETTLEMENT_COARSE_CELL_M (drawCellOf).
       const batches = new Map<string, DrawBatch>();
-      const flameMaterials = new Set<THREE.Material>();
       for (const [bucketKey, bucket] of buckets) {
         yield;
         validateMaterialTextureCap(bucket.part.material, bundle.lod.atlasMaxSize);
@@ -1121,7 +1120,6 @@ export function SettlementLayer({
           : isSettlementGlowMaterial(bucket.part.material);
         const material = materialVariant(bucket.part.material, String(glowMaterial));
         bucket.material = material;
-        if (bucket.flame === true) flameMaterials.add(material);
         materialPatch?.(material);
         // decal, additive card, still water and the surface features; the
         // shadow pass reuses the colour material's own position and mask
@@ -1160,8 +1158,9 @@ export function SettlementLayer({
         mesh.renderOrder = batch.drawFlags.renderOrder;
         mesh.userData.esSettlementBatch = true;
         // never moves and reads only shared or constant uniforms: skips three's
-        // per-frame node refresh (render/staticRefresh.ts); a flame's time is per-object
-        if (!flameMaterials.has(batch.material)) mesh.userData.esStatic = true;
+        // per-frame node refresh (render/staticRefresh.ts); a flame card's
+        // strength is the shared lamp clock times its constant gain
+        mesh.userData.esStatic = true;
         next.add(mesh);
       }
       // No code-placed dressing at a building's foot (check-in 2 ruling 1):

@@ -65,7 +65,8 @@ function ChunkMesh({ grid, geometry, material, meshRef }: {
       material={material}
       castShadow={casts}
       receiveShadow
-      userData={{ perfTag: "terrain" }}
+      // esStatic: reads only shared or constant uniforms (groundMaterial.ts), skips the node refresh (render/staticRefresh.ts)
+      userData={{ perfTag: "terrain", esStatic: true }}
     />
   );
 }

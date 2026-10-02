@@ -3,6 +3,7 @@ import { MeshStandardNodeMaterial } from "three/webgpu";
 import * as TSL from "three/tsl";
 import type { AerialUniforms, UniformOf } from "./sky/aerial";
 import { sel, type TslNode } from "@elder-souls/game-core/render/nodes/materialNodes";
+import { sharedUniform } from "@elder-souls/game-core/render/nodes/sharedUniform";
 import { applyShoreWetness } from "./water/groundWetness";
 
 // TSL builders typed loosely (standard 0111 §1: the chained typings are too
@@ -10,7 +11,7 @@ import { applyShoreWetness } from "./water/groundWetness";
 type LooseFn = (...args: TslNode[]) => TslNode;
 const {
   Fn, If, abs, clamp, dot, float, floor, fract, int, ivec2, length, mix, mod, normalize, pow, sign, smoothstep,
-  texture, textureLoad, uniform, uniformArray, uv, vec2, vec3, vec4,
+  texture, textureLoad, uniformArray, uv, vec2, vec3, vec4,
 } = TSL as unknown as Record<string, LooseFn>;
 const { cameraPosition, cameraViewMatrix, positionWorld } = TSL as unknown as Record<string, TslNode>;
 
@@ -83,6 +84,20 @@ export interface GroundUniforms {
   uCanopyStrength: UniformOf<number>;
 }
 
+/**
+ * The ground's live-tunable uniforms. The scalars are one value for every
+ * chunk of a frame, so they sit in the shared group: a static chunk
+ * (render/staticRefresh.ts) skips its own refresh and still reads them.
+ */
+export function createGroundUniforms(gradTex: THREE.Texture, verticalScale: number): GroundUniforms {
+  return {
+    uGrad: texture(gradTex) as UniformOf<THREE.Texture>,
+    uVerticalScale: sharedUniform(verticalScale) as UniformOf<number>,
+    uTintStrength: sharedUniform(1.0) as UniformOf<number>,
+    uCanopyStrength: sharedUniform(0.7) as UniformOf<number>,
+  };
+}
+
 /** Signed-sqrt gradient decode (see export_gradients); must match
  * export_web_chunks.GRADIENT_CLAMP. */
 const GRADIENT_CLAMP = 8.0;
@@ -149,12 +164,7 @@ export function createGroundMaterial(
   gradTex.wrapS = gradTex.wrapT = THREE.ClampToEdgeWrapping;
   const img = ctrl.image as { width: number; height: number };
 
-  const groundUniforms: GroundUniforms = {
-    uGrad: texture(gradTex) as UniformOf<THREE.Texture>,
-    uVerticalScale: uniform(verticalScale) as UniformOf<number>,
-    uTintStrength: uniform(1.0) as UniformOf<number>,
-    uCanopyStrength: uniform(0.7) as UniformOf<number>,
-  };
+  const groundUniforms = createGroundUniforms(gradTex, verticalScale);
   const uTileM: TslNode = uniformArray(manifest.materials.map((m) => m.tileM), "float");
   const uAvgCol: TslNode = uniformArray(manifest.materials.map((m) =>
     new THREE.Vector3(m.avgColor[0] / 255, m.avgColor[1] / 255, m.avgColor[2] / 255)), "vec3");

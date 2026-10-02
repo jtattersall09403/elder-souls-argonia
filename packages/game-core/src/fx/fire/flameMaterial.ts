@@ -39,6 +39,7 @@ import { NodeMaterial } from "three/webgpu";
 import * as tsl from "three/tsl";
 import type { TslNode } from "../../render/nodes/materialNodes";
 import { sel } from "../../render/nodes/materialNodes";
+import { sharedUniform } from "../../render/nodes/sharedUniform";
 import { DEFAULT_RAMP_BANDS, FIRE_PRESETS, FIRE_PRESET_ORDER } from "./fireTypes";
 import {
   displayToScene, fireFbm, fireFlickerNode, fireMask, fireRamp, fireWobble,
@@ -48,7 +49,7 @@ import {
 const T = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode> & Record<string, TslNode>;
 const {
   Fn, If, Discard, attribute, clamp, float, int, length, max, min, mix, normalize, smoothstep, step,
-  uniform, uniformArray, varying, vec2, vec3, vec4,
+  uniformArray, varying, vec2, vec3, vec4,
 } = T;
 
 /** A flame never draws narrower than this angle (radians, ~4 px at 1080p),
@@ -104,10 +105,10 @@ export function makeFireUniforms(): FireUniforms {
     bands.push(new THREE.Vector2(b.mid, b.tip));
   }
   return {
-    uTime: uniform(0), uNight: uniform(0), uExposure: uniform(1), uToneMapped: uniform(1),
-    uWind: uniform(new THREE.Vector2()),
-    uMinAngle: uniform(FLAME_MIN_ANGLE_RAD), uMaxDistance: uniform(FLAME_MAX_DISTANCE_M),
-    uFade: uniform(FLAME_FADE_M), uVolumeOn: uniform(0), uVolumeReach: uniform(FIRE_VOLUME_REACH_M),
+    uTime: sharedUniform(0), uNight: sharedUniform(0), uExposure: sharedUniform(1), uToneMapped: sharedUniform(1),
+    uWind: sharedUniform(new THREE.Vector2()),
+    uMinAngle: sharedUniform(FLAME_MIN_ANGLE_RAD), uMaxDistance: sharedUniform(FLAME_MAX_DISTANCE_M),
+    uFade: sharedUniform(FLAME_FADE_M), uVolumeOn: sharedUniform(0), uVolumeReach: sharedUniform(FIRE_VOLUME_REACH_M),
     uRamp: uniformArray(ramp, "vec3"), uGain: uniformArray(gain, "vec2"), uBands: uniformArray(bands, "vec2"),
   };
 }

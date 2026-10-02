@@ -50,7 +50,17 @@ describe("skipStaticRefresh", () => {
       () => { fixtureLightFieldOf(scene).epoch += 1; },
       () => { ro.geometry.attributes.position.needsUpdate = true; },
       () => { ro.tex.needsUpdate = true; },
+      () => { (ro.geometry as unknown as { instanceCount: number }).instanceCount = 7; },
+      () => { interleaved.needsUpdate = true; },
+      () => { ro.geometry.setIndirect(indirect as never, 0); },
+      () => { indirect.needsUpdate = true; },
+      () => { ro.geometry.indirectOffset = 16; },
     ];
+    const interleaved = new THREE.InterleavedBuffer(new Float32Array(8), 4);
+    ro.geometry.setAttribute("esCard", new THREE.InterleavedBufferAttribute(interleaved, 4, 0));
+    const indirect = new THREE.BufferAttribute(new Uint32Array(8), 1);
+    frame.renderId += 1;
+    nodes.needsRefresh(ro);
     for (const [i, change] of changes.entries()) {
       frame.renderId += 1;
       change();

@@ -483,13 +483,15 @@ headless.
   values (`onObjectUpdate`) stay on objectGroup.
 - On the node renderer a draw that never moves sets
   `userData.esStatic = true` so it skips three's per-frame node refresh
-  (`render/staticRefresh`, installed by createRenderer; set today on
-  SettlementLayer's merged non-flame draws). Mark it only when every
-  objectGroup uniform its material reads is constant or per-object
-  (`onObjectUpdate` from the matrix or the light field): a plain
-  `uniform()` the app writes later (flame time, terrain tint, the
-  vegetation occlusion params) stays stale; move it to `sharedUniform`
-  first.
+  (`render/staticRefresh`, installed by createRenderer; set on terrain
+  chunks, vegetation, groundcover, SettlementLayer's merged draws and
+  FlameSystem's draws). Mark it only when every objectGroup uniform its
+  material reads is constant or per-object (`onObjectUpdate` from the
+  matrix, the light field or the object's own texture): a plain
+  `uniform()` the app writes later stays stale, so it goes on
+  `sharedUniform`, and a shared value that follows the render call
+  (exposure, tone mapping) is written in `onBeforeRender` of every draw
+  that reads it; a unit test asserts each such uniform is in renderGroup.
 - On the node renderer a GPU resource a bind group samples (texture,
   storage buffer) is allocated once at its largest size and never
   destroyed while a material can bind it; quality steps change uniforms

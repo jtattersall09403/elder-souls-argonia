@@ -888,6 +888,10 @@ export function Vegetation({
     // At the origin for life: every copy's world matrix is an instance row,
     // so the object's own matrix is composed once, never per frame (O4).
     mesh.matrixAutoUpdate = false;
+    // shared or constant uniforms only (esOccParams is a sharedUniform; the
+    // batch texture is bound per draw and kept): skips the node refresh
+    // while its instances, count and textures stand (render/staticRefresh.ts)
+    mesh.userData.esStatic = true;
     setDrawCount(mesh, 0);
   };
 
