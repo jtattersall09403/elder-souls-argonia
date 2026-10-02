@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { toEpochMinutes } from "@elder-souls/world-time";
 import { PROFILES, type WeatherKind } from "@elder-souls/world-weather";
 import { computeLightRig, createLightRig, type LightRig, type WeatherLightIn } from "./lightRig";
-import golden from "./lightRig.golden.json";
+import { golden } from "./lightRig.golden";
 import { cloudScreenRange, domeScreen, ENVELOPE_DIRS, envelopeDir } from "./skyScreenModel";
 
 const at = (month: number, day: number, hour: number) =>
@@ -345,7 +345,7 @@ describe("computeLightRig out-parameter (allocation-free per frame)", () => {
   }));
 
   it("writes the golden numbers, fresh and in place", () => {
-    // lightRig.golden.json: these 24 cases captured once from the light
+    // lightRig.golden.ts: these 24 cases captured once from the light
     // model; only a deliberate light-model change regenerates it.
     expect(golden.cases.map((g) => g.in)).toEqual(JSON.parse(JSON.stringify(cases)));
     const out = createLightRig();
