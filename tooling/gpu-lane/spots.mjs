@@ -5,8 +5,8 @@
  * starts with "?"; blank lines and lines starting with "#" are skipped; `x<N>` repeats the spot N times in a row (names
  * <name>, <name>2, <name>3, ...). `walk=<s>` is sugar for `steps=w:<s>`. Probe tokens make the spot a diagnosis row
  * (never judged against the bar, README "Probe rules"): `diag=<probe,..>`, `trace`, `trace-gpu` (implies trace),
- * `memory-infra` (implies trace), `heapsample`. Returns [{name, query, aim, steps, probes}], probes =
- * {diag: [names], trace, traceGpu, memoryInfra, heapsample}.
+ * `memory-infra` (implies trace), `heapsample`, `profile` (a 200 us CPU profile over the settled window). Returns [{name, query, aim, steps, probes}], probes =
+ * {diag: [names], trace, traceGpu, memoryInfra, heapsample, profile}.
  */
 export function parseSpots(text) {
   const spots = [];
@@ -14,7 +14,7 @@ export function parseSpots(text) {
     const line = raw.replace(/\s+#.*$/, "").trim();
     if (!line || line.startsWith("#")) continue;
     const tok = line.split(/\s+/);
-    const probes = { diag: [], trace: false, traceGpu: false, memoryInfra: false, heapsample: false };
+    const probes = { diag: [], trace: false, traceGpu: false, memoryInfra: false, heapsample: false, profile: false };
     const spot = { name: tok[0], query: "", aim: "", steps: [], probes };
     let times = 1;
     for (let k = 1; k < tok.length; k++) {
@@ -28,7 +28,8 @@ export function parseSpots(text) {
       else if (tok[k] === "trace-gpu") probes.traceGpu = probes.trace = true;
       else if (tok[k] === "memory-infra") probes.memoryInfra = probes.trace = true;
       else if (tok[k] === "heapsample") probes.heapsample = true;
-      else throw new Error(`spots line ${i + 1}: cannot read "${tok[k]}" (want ?query, --aim yaw,pitch, walk=<s>, steps=<seq>, diag=<probes>, trace, trace-gpu, memory-infra, heapsample)`);
+      else if (tok[k] === "profile") probes.profile = true;
+      else throw new Error(`spots line ${i + 1}: cannot read "${tok[k]}" (want ?query, --aim yaw,pitch, walk=<s>, steps=<seq>, diag=<probes>, trace, trace-gpu, memory-infra, heapsample, profile)`);
     }
     if (!/^[\w.-]+$/.test(spot.name) || !spot.query) throw new Error(`spots line ${i + 1}: need "<name> <?query>"`);
     for (let n = 1; n <= times; n++) {
@@ -81,7 +82,7 @@ export function spotRows(name, u, bar) {
  */
 export const isDiagnosisSpot = (spot, g = {}) => {
   const p = spot.probes ?? {};
-  return !!(p.diag?.length || p.trace || p.traceGpu || p.memoryInfra || p.heapsample || /[?&]diag=/.test(spot.query ?? "")
+  return !!(p.diag?.length || p.trace || p.traceGpu || p.memoryInfra || p.heapsample || p.profile || /[?&]diag=/.test(spot.query ?? "")
     || g.diag?.length || g.trace || g.profile > 0 || g.census);
 };
 

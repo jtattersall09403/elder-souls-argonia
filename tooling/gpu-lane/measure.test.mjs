@@ -74,6 +74,20 @@ test("profileSummary: self time per function and per file from samples and delta
   assert.deepEqual(p.byFile.map((x) => x.name), ["index.js", "Char.js", "((root))"]);
 });
 
+test("profile token: a diag spot, and its top self-time functions per frame with url:line", async () => {
+  const { profileTopPerFrame } = await import("./measure.mjs");
+  const { parseSpots, isDiagnosisSpot } = await import("./spots.mjs");
+  const [s] = parseSpots("aprof ?view=character&rate=30 profile\n");
+  assert.equal(s.probes.profile, true);
+  assert.equal(isDiagnosisSpot(s), true);
+  assert.equal(isDiagnosisSpot(parseSpots("a ?view=character&rate=30\n")[0]), false);
+  const cf = (functionName, url, lineNumber) => ({ functionName, url, lineNumber, columnNumber: 0 });
+  const profile = { nodes: [{ id: 1, callFrame: cf("(root)", "", -1) }, { id: 2, callFrame: cf("a", "http://x/assets/index.js", 9) },
+    { id: 3, callFrame: cf("b", "http://x/assets/Char.js", 0) }], samples: [2, 2, 3, 1], timeDeltas: [0, 1000, 1000, 2000, 0] };
+  const top = profileTopPerFrame(profile, 4, 2);
+  assert.deepEqual(top, [{ name: "a", at: "http://x/assets/index.js:10", msPerFrame: 0.5 }, { name: "b", at: "http://x/assets/Char.js:1", msPerFrame: 0.5 }]);
+});
+
 test("isReady: 20 s, tris stable 2 % for 5 s, no Loading, pre and gc under 2 ms for 5 s", async () => {
   const { isReady } = await import("./measure.mjs");
   const at = (t, tris, extra = {}) => ({ t, tris, fps: 60, loading: false, pre: 0.5, gc: 0.3, ...extra });
@@ -270,7 +284,7 @@ test("gen-matrix: 13 deterministic lines, coordinates from places.json", async (
 test("parseSpots: name, query, --aim and walk=; comments skipped; bad lines throw", async () => {
   const { parseSpots, parseBar, spotRows, summaryTable, heapSlope } = await import("./spots.mjs");
   const s = parseSpots("# c\na ?x=1&t=2  # night\n\ne ?x=1&t=2 --aim 0.5,-0.2 walk=20\n");
-  const off = { diag: [], trace: false, traceGpu: false, memoryInfra: false, heapsample: false };
+  const off = { diag: [], trace: false, traceGpu: false, memoryInfra: false, heapsample: false, profile: false };
   assert.deepEqual(s, [{ name: "a", query: "?x=1&t=2", aim: "", steps: [], probes: off }, { name: "e", query: "?x=1&t=2", aim: "0.5,-0.2", steps: [{ w: 20 }], probes: off }]);
   assert.throws(() => parseSpots("a ?x=1\na ?x=2"), /duplicate/);
   assert.throws(() => parseSpots("a ?x=1 walk=fast"), /cannot read/);
@@ -309,12 +323,12 @@ test("perf10-c4: probe tokens make diagnosis rows; they print `diag` and never c
   const { parseArgs, probeScript } = await import("./measure.mjs");
   const { spotRows, summaryTable } = await import("./spots.mjs");
   const o = parseArgs(["--run", "r", "--spots", new URL("./spots/perf10-c4.txt", import.meta.url).pathname]);
-  assert.deepEqual(o.spotList.map((s) => s.name), ["a", "b", "c", "d", "e", "e2", "e3", "f", "g", "h", "ediag", "cdiag", "adiag"]);
-  assert.deepEqual(o.spotList.map((s) => s.diagnosis), [...Array(10).fill(false), true, true, true]);
+  assert.deepEqual(o.spotList.map((s) => s.name), ["a", "b", "c", "d", "e", "e2", "e3", "f", "g", "h", "ediag", "cdiag", "adiag", "atrace", "aprof", "apaused"]);
+  assert.deepEqual(o.spotList.map((s) => s.diagnosis), [...Array(10).fill(false), true, true, true, true, true, false]);
   const [ed, cd, ad] = o.spotList.slice(10);
-  assert.deepEqual(ed.probes, { diag: [], trace: true, traceGpu: true, memoryInfra: true, heapsample: true });
+  assert.deepEqual(ed.probes, { diag: [], trace: true, traceGpu: true, memoryInfra: true, heapsample: true, profile: false });
   assert.deepEqual(ed.steps, [{ w: 20 }]);
-  assert.deepEqual(cd.probes, { diag: [], trace: true, traceGpu: true, memoryInfra: false, heapsample: false });
+  assert.deepEqual(cd.probes, { diag: [], trace: true, traceGpu: true, memoryInfra: false, heapsample: false, profile: false });
   assert.match(ad.query, /&diag=relink,heap$/, "the spot's probes ride its query so the guarded probe wakes there only");
   assert.deepEqual(ad.diagList, ["relink", "heap"]);
   assert.deepEqual(o.spotList[0].diagList, []);

@@ -11,3 +11,6 @@ h ?view=character&x=4.53&z=4.52&t=22&w=rain&rate=30 --aim 1.4,0.1   # ESE marsh 
 ediag ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=30 walk=20 trace-gpu memory-infra heapsample  # C2a discardable purge, C2b GC churn
 cdiag ?view=character&x=4.7789&z=1.9&t=12&w=clear&rate=30 trace-gpu   # C4 residual hitch at c
 adiag ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=30 diag=relink,heap   # C3: draw links tagged `first`
+atrace ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=30 trace-gpu   # diag: what the running clock costs
+aprof ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=30 profile   # K7: 200 us CPU profile over the settled window (sky owner)
+apaused ?view=character&x=7.1971&z=0.584&t=22&w=rain   # control: clock paused, compare with a

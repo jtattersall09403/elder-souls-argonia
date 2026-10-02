@@ -9,8 +9,10 @@ import {
   toHorizontal,
   localSiderealAngle,
   epochDays,
+  LATITUDE,
   type MoonState,
 } from "@elder-souls/world-time";
+import { equatorialToHorizontal, equatorialUnit } from "./starRotation";
 import { setWindWaveScale } from "@elder-souls/game-core/water/index";
 import { advanceWaveAmplitude } from "@elder-souls/game-core/water/waveWeather";
 import { reapplyWindSway } from "@elder-souls/game-core/fx/windSway";
@@ -528,6 +530,9 @@ attribute float aRank;
 uniform float uSunAltDeg;
 uniform float uStarFrac;
 uniform vec2 uDawnDir;
+// Equatorial -> horizontal rotation (perf10 K2): stars are stored once on the
+// celestial sphere; the serpent, written in horizontal space, uses identity.
+uniform mat3 uEqToHor;
 varying float vLum;
 ${CLOUD_UNIFORMS_GLSL}
 ${cloudFieldGlsl()}
@@ -537,8 +542,9 @@ void main() {
   // Staged star appearance (research §8c): brighter magnitudes switch on at
   // shallower sun depressions (mag -1 by ~3°, mag 6 by ~18°), and the
   // anti-solar sky — which darkens first — shows its stars first.
+  vec3 esHp = uEqToHor * position;
   float esD = -uSunAltDeg;
-  vec2 esAz = normalize(position.xz + vec2(1e-5, 0.0));
+  vec2 esAz = normalize(esHp.xz + vec2(1e-5, 0.0));
   float esCosAz = clamp(dot(esAz, uDawnDir), -1.0, 1.0);
   float esDEff = esD + 3.5 * (1.0 - smoothstep(5.0, 9.0, esD)) * (1.0 - esCosAz) * 0.5;
   float esOn = 3.0 + 2.14 * (aMag + 1.0);
@@ -546,8 +552,8 @@ void main() {
   // Per-star cloud occlusion (round 2): each star samples the SAME cloud
   // field the dome draws — broken night cover blots out patches of stars
   // while gaps keep theirs, which is what makes a cloudy night READ cloudy.
-  vLum *= 1.0 - esCloudAlpha(normalize(position));
-  vec4 mv = modelViewMatrix * vec4(position, 1.0);
+  vLum *= 1.0 - esCloudAlpha(normalize(esHp));
+  vec4 mv = modelViewMatrix * vec4(esHp, 1.0);
   gl_PointSize = aSize;
   gl_Position = projectionMatrix * mv;
 }`;
@@ -993,7 +999,14 @@ export function WorldSky({
   const stars = useMemo(() => flattenCatalogue(), []);
   const starGeom = useMemo(() => {
     const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(stars.length * 3), 3));
+    // Equatorial positions, written once; the frame rotates them (uEqToHor).
+    const eq = new Float32Array(stars.length * 3);
+    const e = { x: 0, y: 0, z: 0 };
+    stars.forEach((s, i) => {
+      equatorialUnit(s.ra, s.dec, e);
+      eq[i * 3] = e.x * STAR_RADIUS; eq[i * 3 + 1] = e.y * STAR_RADIUS; eq[i * 3 + 2] = e.z * STAR_RADIUS;
+    });
+    g.setAttribute("position", new THREE.BufferAttribute(eq, 3));
     const size = new Float32Array(stars.length);
     const lum = new Float32Array(stars.length);
     const mag = new Float32Array(stars.length);
@@ -1022,6 +1035,7 @@ export function WorldSky({
           uSunAltDeg: { value: 45 },
           uStarFrac: { value: 0.5 },
           uDawnDir: { value: new THREE.Vector2(0, 1) },
+          uEqToHor: { value: new THREE.Matrix3() },
           ...cloudUniforms,
         },
         vertexShader: starVertexGlsl(),
@@ -1052,6 +1066,7 @@ export function WorldSky({
           uSunAltDeg: { value: 45 },
           uStarFrac: { value: 1 },
           uDawnDir: { value: new THREE.Vector2(0, 1) },
+          uEqToHor: { value: new THREE.Matrix3() }, // serpent is written in horizontal space
           ...cloudUniforms,
         },
         vertexShader: starVertexGlsl(),
@@ -1150,26 +1165,30 @@ void main() {
     return () => document.removeEventListener('visibilitychange', visibility);
   }, []);
 
+  // Per-frame scratch for the celestial update (perf10 K2): no allocation.
+  const celestialScratch = useMemo(
+    () => ({ rows: new Array<number>(9).fill(0), hor: { altitude: 0, azimuth: 0, direction: { x: 0, y: 0, z: 0 } } }),
+    [],
+  );
   const updateCelestialBuffers = (epochMinutes: number, rig: LightRig) => {
     const lst = localSiderealAngle(epochMinutes);
     if (Math.abs(lst - state.current.lastLst) < 0.0005) return;
     state.current.lastLst = lst;
-    const pos = starGeom.getAttribute("position") as THREE.BufferAttribute;
-    stars.forEach((s, i) => {
-      const h = toHorizontal(s.dec, lst - s.ra, latitudeOverrideRad);
-      pos.setXYZ(i, h.direction.x * STAR_RADIUS, h.direction.y * STAR_RADIUS, h.direction.z * STAR_RADIUS);
-    });
-    pos.needsUpdate = true;
+    // Stars: one rotation of the fixed equatorial buffer, never per-star CPU.
+    const m = equatorialToHorizontal(lst, latitudeOverrideRad ?? LATITUDE, celestialScratch.rows);
+    (starMat.uniforms.uEqToHor.value as THREE.Matrix3).set(m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8]);
     // Serpent wander: deterministic slow Lissajous over epoch days.
     const w = catalogue.serpent.wander;
     const d = epochDays(epochMinutes);
     const ra = (w.baseRaDeg + w.raAmplitudeDeg * Math.sin((2 * Math.PI * d) / w.raPeriodDays)) * DEG;
     const dec = (w.baseDecDeg + w.decAmplitudeDeg * Math.sin((2 * Math.PI * d) / w.decPeriodDays + 1.3)) * DEG;
     const spos = serpentGeom.getAttribute("position") as THREE.BufferAttribute;
-    (catalogue.serpent.unstars as [number, number, number][]).forEach(([dRa, dDec], i) => {
-      const h = toHorizontal(dec + dDec * DEG, lst - (ra + dRa * DEG), latitudeOverrideRad);
+    const unstars = catalogue.serpent.unstars as [number, number, number][];
+    const h = celestialScratch.hor;
+    for (let i = 0; i < unstars.length; i++) {
+      toHorizontal(dec + unstars[i][1] * DEG, lst - (ra + unstars[i][0] * DEG), latitudeOverrideRad, h);
       spos.setXYZ(i, h.direction.x * STAR_RADIUS, h.direction.y * STAR_RADIUS, h.direction.z * STAR_RADIUS);
-    });
+    }
     spos.needsUpdate = true;
     void rig;
   };
@@ -1565,10 +1584,18 @@ void main() {
       copySkyUniforms(sky as Sky & { material: THREE.ShaderMaterial }, bake.sky);
       bake.sky.material.uniforms.showSunDisc.value = 0;
       bake.sky.material.uniforms.uFlash.value = 0; // flashes never tint the IBL
+      // One persistent environment texture (perf10 K3): a new texture per
+      // bake re-keys every lit material's program (three setProgram envMap
+      // identity check). three r184 fromScene always allocates its target,
+      // so each later bake is blitted into the first one and dropped.
       const rt = pmrem.fromScene(bake.scene, 0, 0.1, 1100);
-      scene.environment = rt.texture;
-      envRT.current?.dispose();
-      envRT.current = rt;
+      if (envRT.current) {
+        gl.copyTextureToTexture(rt.texture, envRT.current.texture);
+        rt.dispose();
+      } else {
+        envRT.current = rt;
+      }
+      scene.environment = envRT.current.texture;
       state.current.envBakes += 1;
     }
 

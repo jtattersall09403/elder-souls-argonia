@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import type { WorldWaterQuery } from "@elder-souls/contracts";
-import { RippleBoundaryMask, RippleFrameScheduler, RippleSim, type RippleBoundarySampler } from "./RippleSim";
+import { LEVEL_REFRESH_EPS_M, RippleBoundaryMask, RippleFrameScheduler, RippleSim, type RippleBoundarySampler } from "./RippleSim";
+import { tideOffset } from "../tide";
 import { ripplePathConnected } from './rippleIsolation';
 
 const pool: RippleBoundarySampler = () => ({ waterBodyId: "water.test.pool", depth: 1, surfaceHeight: 0 });
@@ -15,14 +16,14 @@ describe("ripple wet/body boundary", () => {
       return { waterBodyId: depth > 0.004 ? 'water.pool' : null, depth, surfaceHeight: stage };
     }, 2);
     mask.setLevelOffsets(0, 0);
-    mask.update(0, 0, 0, 0);
+    mask.update(0, 0, 0);
     expect(mask.labelAt(0, 0)).toBeGreaterThan(0);
     stage = -0.04;
     expect(mask.setLevelOffsets(0, stage)).toBe(true);
     expect(mask.labelAt(0, 0)).toBe(0); // no stale step before the refresh reaches this row
     for (let frame = 0; frame < 8; frame++) {
       queries = 0;
-      mask.update(0, 0, 0, 1 / 60);
+      mask.update(0, 0, 1 / 60);
       expect(queries).toBeLessThanOrEqual(16 * 2 + 17 * 3);
     }
     expect(mask.labelAt(-2, 0)).toBeGreaterThan(0);
@@ -36,7 +37,7 @@ describe("ripple wet/body boundary", () => {
       waterBodyId: 'water.pool', depth: 2, surfaceHeight: 0,
       wetMarginM: Math.abs(x) < 0.6 ? 0.005 : 1,
     }));
-    mask.setLevelOffsets(0, 0); mask.update(0, 0, 0, 0);
+    mask.setLevelOffsets(0, 0); mask.update(0, 0, 0);
     expect(mask.labelAt(0, 0)).toBe(0);
     expect(mask.labelAt(2, 0)).toBeGreaterThan(0);
   });
@@ -47,13 +48,13 @@ describe("ripple wet/body boundary", () => {
       queries++;
       return { waterBodyId: 'water.pool', depth: 2 + stage, surfaceHeight: stage };
     }, 2);
-    mask.setLevelOffsets(0, 0); mask.update(0, 0, 0, 0);
+    mask.setLevelOffsets(0, 0); mask.update(0, 0, 0);
     let refreshedFrames = 0;
     for (let frame = 0; frame < 240; frame++) {
       stage -= 0.0001;
       expect(mask.setLevelOffsets(stage, 0)).toBe(false);
       queries = 0;
-      mask.update(0, 0, 0, 1 / 60);
+      mask.update(0, 0, 1 / 60);
       if (queries) refreshedFrames++;
       expect(queries).toBeLessThanOrEqual(16 * 2 + 17 * 3);
       expect(mask.data.filter((_, i) => i % 4 === 3 && mask.data[i] === 255)).toHaveLength(256);
@@ -67,14 +68,14 @@ describe("ripple wet/body boundary", () => {
       visited.add(Math.floor((z + 4) * 2));
       return { waterBodyId: 'water.pool', depth: 2, surfaceHeight: 0 };
     }, 2);
-    mask.setLevelOffsets(0, 0); mask.update(0, 0, 0, 0);
+    mask.setLevelOffsets(0, 0); mask.update(0, 0, 0);
     visited.clear();
     for (let frame = 1; frame <= 8; frame++) {
-      mask.setLevelOffsets(0, -0.01 * frame);
-      mask.update(0, 0, 0, 1 / 60);
+      mask.setLevelOffsets(0, -0.02 * frame); // past the stale bound every frame
+      mask.update(0, 0, 1 / 60);
     }
     for (let row = 0; row < 16; row++) expect(visited.has(row)).toBe(true);
-    for (let frame = 0; frame < 8; frame++) mask.update(0, 0, 0, 1 / 60);
+    for (let frame = 0; frame < 8; frame++) mask.update(0, 0, 1 / 60);
     expect(mask.data.filter((_, i) => i % 4 === 3 && mask.data[i] === 255)).toHaveLength(256);
   });
 
@@ -83,7 +84,7 @@ describe("ripple wet/body boundary", () => {
       waterBodyId: Math.abs(x) < 0.05 ? null : x < 0 ? "water.test.left" : "water.test.right",
       depth: Math.abs(x) < 0.05 ? 0 : 1, surfaceHeight: 0,
     }));
-    mask.update(0, 0, 0, 0);
+    mask.update(0, 0, 0);
     expect(mask.labelAt(-0.25, 0)).toBe(0);
     expect(mask.labelAt(0.25, 0)).toBe(0);
     const left = mask.labelAt(-1, 0);
@@ -91,7 +92,7 @@ describe("ripple wet/body boundary", () => {
     expect(left).toBeGreaterThan(0);
     expect(right).toBeGreaterThan(0);
     expect(left).not.toBe(right);
-    mask.update(0.5, 0, 0, 0.01);
+    mask.update(0.5, 0, 0.01);
     expect(mask.labelAt(-1, 0)).toBe(left);
     expect(mask.labelAt(1, 0)).toBe(right);
     expect(mask.labelAt(0.25, 0)).toBe(0);
@@ -99,16 +100,16 @@ describe("ripple wet/body boundary", () => {
 
   it("resamples only exposed strips on movement and refreshes levels at 5 Hz", () => {
     let queries = 0;
-    const mask = new RippleBoundaryMask(16, 8, 0.2, (x, z, epoch) => { queries++; return pool(x, z, epoch); });
-    expect(mask.update(0, 0, 0, 0)).toBe(true);
+    const mask = new RippleBoundaryMask(16, 8, 0.2, (x, z, l, o) => { queries++; return pool(x, z, l, o); });
+    expect(mask.update(0, 0, 0)).toBe(true);
     const fullQueries = queries;
     expect(fullQueries).toBeLessThan(256 * 2.2);
-    expect(mask.update(0, 0, 0, 0.05)).toBe(false);
+    expect(mask.update(0, 0, 0.05)).toBe(false);
     expect(queries).toBe(fullQueries);
-    mask.update(0.5, 0, 0, 0.05);
+    mask.update(0.5, 0, 0.05);
     const stripQueries = queries - fullQueries;
     expect(stripQueries).toBeLessThanOrEqual(16 * 4);
-    mask.update(0.5, 0, 0, 0.1);
+    mask.update(0.5, 0, 0.1);
     expect(queries).toBe(fullQueries * 2 + stripQueries);
   });
 
@@ -117,10 +118,10 @@ describe("ripple wet/body boundary", () => {
     const mask = new RippleBoundaryMask(16, 8, 0.2, x => {
       queries++; return { waterBodyId: 'water.river', depth: 2, surfaceHeight: 0, flowX: x, flowZ: -12 };
     }, 2);
-    mask.setLevelOffsets(0, 0); mask.update(0, 0, 0, 0);
+    mask.setLevelOffsets(0, 0); mask.update(0, 0, 0);
     expect(queries).toBe(16 * 16 + 17 * 17);
     const old = mask.current[(8 * 16 + 9) * 2];
-    mask.update(0.5, 0, 0, 0);
+    mask.update(0.5, 0, 0);
     expect(mask.current[(8 * 16 + 8) * 2]).toBe(old);
     expect(mask.current[(8 * 16 + 8) * 2 + 1]).toBe(-12);
     expect(mask.hasCurrent).toBe(true);
@@ -131,26 +132,26 @@ describe("ripple wet/body boundary", () => {
   it("handles newly dry/flooded ground and explicit terrain invalidation", () => {
     let depth = 0;
     const mask = new RippleBoundaryMask(16, 8, 0.2, () => ({ waterBodyId: "water.test.pool", depth, surfaceHeight: depth }));
-    mask.update(0, 0, 0, 0);
+    mask.update(0, 0, 0);
     expect(mask.labelAt(0, 0)).toBe(0);
     depth = 1;
-    mask.update(0, 0, 0, 0.2);
+    mask.update(0, 0, 0.2);
     const label = mask.labelAt(0, 0);
     expect(label).toBeGreaterThan(0);
     depth = 0;
-    mask.invalidate(); mask.update(0, 0, 0, 0);
+    mask.invalidate(); mask.update(0, 0, 0);
     expect(mask.labelAt(0, 0)).toBe(0);
     depth = 1;
-    mask.update(0, 0, 0, 0.2);
+    mask.update(0, 0, 0.2);
     expect(mask.labelAt(0, 0)).toBe(label);
   });
 
   it("resolves world-space impulses after large relocations without stale mask samples", () => {
     const mask = new RippleBoundaryMask(16, 8, 0.2, (x) => ({ waterBodyId: x > 100 ? "water.test.lake" : null, depth: 2, surfaceHeight: 10 }));
     expect(mask.labelAt(0, 0)).toBe(0);
-    mask.update(0, 0, 0, 0);
+    mask.update(0, 0, 0);
     expect(mask.labelAt(0, 0)).toBe(0);
-    mask.update(200, 300, 0, 0.01);
+    mask.update(200, 300, 0.01);
     expect(mask.labelAt(200, 300)).toBeGreaterThan(0);
     expect(mask.labelAt(0, 0)).toBe(0);
   });
@@ -162,17 +163,17 @@ describe("ripple wet/body boundary", () => {
       queries++;
       return { waterBodyId: "water.test.pool", depth, surfaceHeight: depth };
     }, 2);
-    mask.update(0, 0, 0, 0);
+    mask.update(0, 0, 0);
     expect(mask.labelAt(0, 0)).toBeGreaterThan(0);
     queries = 0;
     depth = 0;
-    mask.update(0, 0, 0, 0.2);
+    mask.update(0, 0, 0.2);
     expect(queries).toBe(16 * 2);
-    for (let i = 0; i < 7; i++) mask.update(0, 0, 0, 1 / 60);
+    for (let i = 0; i < 7; i++) mask.update(0, 0, 1 / 60);
     expect(mask.labelAt(0, 0)).toBe(0);
     // Moving one cell cannot expose unknown support while a refresh is pending.
     depth = 1;
-    mask.update(0.5, 0, 0, 1 / 60);
+    mask.update(0.5, 0, 1 / 60);
     expect(mask.labelAt(4.25, 0)).toBeGreaterThan(0);
   });
 });
@@ -379,17 +380,17 @@ describe("ripple mask refresh cost (walk 5 perf)", () => {
   it("an origin change or an in-place row refresh gives the full-refresh output for the same inputs", () => {
     const level = { tide: 0 };
     const moved = new RippleBoundaryMask(32, 16, 0.2, shore(level), 4, 1);
-    moved.setLevelOffsets(0, 0); moved.update(0, 0, 0, 0);
-    moved.update(1.5, -2, 0, 1 / 60);
+    moved.setLevelOffsets(0, 0); moved.update(0, 0, 0);
+    moved.update(1.5, -2, 1 / 60);
     const fresh = new RippleBoundaryMask(32, 16, 0.2, shore(level), 4, 1);
-    fresh.setLevelOffsets(0, 0); fresh.update(1.5, -2, 0, 0);
+    fresh.setLevelOffsets(0, 0); fresh.update(1.5, -2, 0);
     sameMask(moved, fresh);
     // Level move past the epsilon: the in-place cycle converges on a fresh full build.
     level.tide = -0.05;
     moved.setLevelOffsets(level.tide, 0);
-    for (let f = 0; f < 40; f++) moved.update(1.5, -2, 0, 1 / 60);
+    for (let f = 0; f < 40; f++) moved.update(1.5, -2, 1 / 60);
     const after = new RippleBoundaryMask(32, 16, 0.2, shore(level), 4, 1);
-    after.setLevelOffsets(level.tide, 0); after.update(1.5, -2, 0, 0);
+    after.setLevelOffsets(level.tide, 0); after.update(1.5, -2, 0);
     sameMask(moved, after);
   });
 
@@ -397,7 +398,7 @@ describe("ripple mask refresh cost (walk 5 perf)", () => {
     let samples = 0;
     const level = { tide: 0 };
     const base = shore(level);
-    const sim = new RippleSim({ boundarySize: 32, patchM: 16, sampleBoundary: (x, z, e) => { samples++; return base(x, z, e); } });
+    const sim = new RippleSim({ boundarySize: 32, patchM: 16, sampleBoundary: (x, z, l, o) => { samples++; return base(x, z, l, o); } });
     sim.configureBoundary({ levelOffsets: () => ({ tide: level.tide, season: 0 }) } as unknown as WorldWaterQuery, () => 0);
     const { renderer } = fakeRenderer();
     const mask = (sim as unknown as { mask: RippleBoundaryMask }).mask;
@@ -458,7 +459,7 @@ describe("ripple mask refresh cost (walk 5 perf)", () => {
     const consume = () => { for (const t of [textures.maskTexture, textures.currentTexture]) { t.onUpdate?.(t); } };
     sim.step(renderer, 0, 0, 1 / 60); consume();
     for (let f = 0; f < 12; f++) sim.step(renderer, 0, 0, 1 / 60);
-    level.tide = -0.004; // past the 1 mm epsilon, under the 8 mm stale clear
+    level.tide = -0.008; // one quantised step: refreshed in place, never cleared
     const rowsPerFrame: number[] = [];
     for (let f = 0; f < 3; f++) {
       sim.step(renderer, 0, 0, 1 / 60);
@@ -474,6 +475,37 @@ describe("ripple mask refresh cost (walk 5 perf)", () => {
     }
     // 16-row batches: rows 0-15 (z < 0) unchanged, rows 16-31 each changed once.
     expect(rowsPerFrame).toEqual([0, 16, 0]);
+    sim.dispose();
+  });
+
+  it("a creeping tide refreshes once per quantised level step, through scratch records only (perf10 K1)", () => {
+    // Night, 1 game-second per frame for 600 frames, on the steepest stretch
+    // of a 1.5 m tide: the old 1 mm trigger re-armed every 0.2 s (50 cycles).
+    const start = 10 * 1440 + 23 * 60; // day 10, 23:00
+    let epoch = start;
+    const levelAt = (e: number) => tideOffset(e, 1.5);
+    const outs = new Set<object>(), levelRecords = new Set<object>();
+    const sim = new RippleSim({ boundarySize: 32, patchM: 16, sampleBoundary: (x, _z, levels, out) => {
+      outs.add(out); levelRecords.add(levels);
+      out.depth = 0.4 + 0.02 * x + levels.tide; out.waterBodyId = out.depth > 0.02 ? "water.test.shore" : null;
+      out.surfaceHeight = levels.tide;
+      return out;
+    } });
+    sim.configureBoundary({ levelOffsets: (e: number) => ({ tide: levelAt(e), season: 0 }) } as unknown as WorldWaterQuery, () => epoch);
+    const { renderer } = fakeRenderer();
+    const mask = (sim as unknown as { mask: RippleBoundaryMask }).mask;
+    sim.step(renderer, 0, 0, 1 / 60);
+    let lo = levelAt(start), hi = lo;
+    for (let f = 1; f <= 600; f++) {
+      epoch = start + f / 60;
+      lo = Math.min(lo, levelAt(epoch)); hi = Math.max(hi, levelAt(epoch));
+      sim.step(renderer, 0, 0, 1 / 60);
+    }
+    expect(hi - lo).toBeGreaterThan(0.02);          // the tide really moved
+    expect(mask.levelRefreshes).toBeLessThanOrEqual(Math.floor((hi - lo) / LEVEL_REFRESH_EPS_M) + 1);
+    expect(mask.levelRefreshes).toBeGreaterThan(0);  // a real shoreline move still shows
+    expect(outs.size).toBe(2);                       // centre + corner scratch, never a new record
+    expect(levelRecords.size).toBe(1);
     sim.dispose();
   });
 });

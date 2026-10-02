@@ -19,6 +19,7 @@ const CharacterMode = lazy(() => import("./character/CharacterMode").then((m) =>
 import { colour } from "./terrainColor";
 import { buildHydrographIndex, describeHydrograph, type EntitySource, type HydrographIndex, type TipSection } from "./map/hydrographIndex";
 import { decodeProvinceHeights, loadProvinceMeta, type ProvinceMapMeta } from "./map/provinceMap";
+import { fetchPngPixels, overlayLoadPlan } from "./map/overlayLoad";
 import { TimePanel } from "./sky/TimePanel";
 import {
   applyTimeParams,
@@ -122,6 +123,22 @@ function conditionHeights(base: Float32Array, w: number, h: number, mode: Exclud
   return out;
 }
 
+/** Generated province overlays by layer name; a missing file leaves a layer empty. */
+const OVERLAY_FILES: Record<string, string> = {
+  rivers: "hydro-rivers.png", wetlands: "hydro-wetlands.png",
+  regions: "hydro-regions.png", flood: "hydro-flood.png",
+  soil: "hydro-soil.png", watersheds: "hydro-watersheds.png",
+  salinity: "hydro-salinity.png", routes: "soc-routes.png",
+  danger: "soc-danger.png", cultures: "soc-cultures.png",
+  waterways: "soc-waterways.png", rootways: "soc-rootways.png",
+  junctions: "soc-junctions.png",
+  mist: "hydro-mist.png",
+  // The hydrology graph (Phase 16a, worldgen.hydrology_graph): drawn
+  // from world/sources/hydrology/hydrology-graph.json at derive time.
+  "hydrograph-rivers": "hydrograph-rivers.png", "hydrograph-bodies": "hydrograph-bodies.png",
+  "hydrograph-season": "hydrograph-season.png", "hydrograph-falls": "hydrograph-falls.png",
+  "hydrograph-wetline": "hydrograph-wetline.png",
+};
 
 export function App() {
   // The one settlement source every settlement reader shares (S8): the
@@ -388,8 +405,12 @@ export function App() {
     const qs = q.toString();
     window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
   }, [view, camMode, spawnKm, exaggeration, flyAltM, flyAim, flySpeed, matSet, wetSeason, tintStrength, showLanes, showCatalogue, placesUrl, routesUrl, showBlueprints, blueprintUrl, timeVersion, layers]);
+  // Overlay images exist only while their layer is on (perf10 K5); the
+  // repaint re-runs when one finishes loading (overlayGen).
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
-  const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
+  const pendingOverlaysRef = useRef<Set<string>>(new Set());
+  const [overlayGen, setOverlayGen] = useState(0);
+  const decodedPxRef = useRef<Record<string, Uint8Array>>({});
   const climateRef = useRef<Record<string, { humidity: number; mist: number; rain: string; visibility: number }>>({});
   const [overlaysReady, setOverlaysReady] = useState(false);
   const [legends, setLegends] = useState<Record<string, Record<string, { name: string; rgb: number[]; about?: string }>>>({});
@@ -414,43 +435,14 @@ export function App() {
       const m: ProvinceMeta = await loadProvinceMeta(base);
       // Shared with the Blueprint view's backdrop (map/provinceMap.ts); the
       // returned context is the same offscreen canvas the overlays decode into.
-      const { heights, ctx } = await decodeProvinceHeights(base, m);
+      const { heights } = await decodeProvinceHeights(base, m);
       heightsRef.current = heights;
       setMeta(m);
-      // Generated overlays; missing files just leave a layer empty.
-      const overlayFiles: Record<string, string> = {
-        rivers: "hydro-rivers.png", wetlands: "hydro-wetlands.png",
-        regions: "hydro-regions.png", flood: "hydro-flood.png",
-        soil: "hydro-soil.png", watersheds: "hydro-watersheds.png",
-        salinity: "hydro-salinity.png", routes: "soc-routes.png",
-        danger: "soc-danger.png", cultures: "soc-cultures.png",
-        waterways: "soc-waterways.png", rootways: "soc-rootways.png",
-        junctions: "soc-junctions.png",
-        mist: "hydro-mist.png",
-        // The hydrology graph (Phase 16a, worldgen.hydrology_graph): drawn
-        // from world/sources/hydrology/hydrology-graph.json at derive time.
-        "hydrograph-rivers": "hydrograph-rivers.png", "hydrograph-bodies": "hydrograph-bodies.png",
-        "hydrograph-season": "hydrograph-season.png", "hydrograph-falls": "hydrograph-falls.png",
-        "hydrograph-wetline": "hydrograph-wetline.png",
-      };
-      await Promise.all(
-        Object.entries(overlayFiles).map(async ([name, file]) => {
-          const overlay = new Image();
-          overlay.src = `${base}province/${file}`;
-          try {
-            await overlay.decode();
-            overlaysRef.current[name] = overlay;
-          } catch {
-            /* layer not generated yet */
-          }
-        }),
-      );
-      const decode = (name: string) => {
-        const img = overlaysRef.current[name];
-        if (!img) return;
-        ctx.clearRect(0, 0, m.imageWidth, m.imageHeight);
-        ctx.drawImage(img, 0, 0);
-        decodedPxRef.current[name] = ctx.getImageData(0, 0, m.imageWidth, m.imageHeight).data;
+      // Hover rasters: exact PNG decode from bytes (no Image, no canvas);
+      // a missing file just leaves its lookup empty.
+      const decode = async (name: string) => {
+        const png = await fetchPngPixels(`${base}province/${OVERLAY_FILES[name]}`);
+        if (png) decodedPxRef.current[name] = png.data;
       };
       try {
         const hydroMeta = await (await fetch(`${base}province/hydrology-meta.json`)).json();
@@ -478,15 +470,10 @@ export function App() {
           let entitySource: EntitySource | undefined;
           try {
             const wMeta = await (await fetch(`${base}province/water/water-meta.json`)).json();
-            const ids = new Image();
-            ids.src = `${base}province/water/water-id.png`;
-            await ids.decode();
+            const ids = await fetchPngPixels(`${base}province/water/water-id.png`);
             const size: number = wMeta.surface.size;
-            const idCanvas = document.createElement("canvas");
-            idCanvas.width = size; idCanvas.height = size;
-            const idCtx = idCanvas.getContext("2d", { willReadFrequently: true })!;
-            idCtx.drawImage(ids, 0, 0);
-            const idPx = idCtx.getImageData(0, 0, size, size).data;
+            if (!ids || ids.width !== size || ids.height !== size) throw new Error("water-id raster missing or wrong size");
+            const idPx = ids.data;
             const mppW: number = wMeta.surface.metresPerPixel;
             const rows: { id: string }[] = wMeta.entities ?? [];
             entitySource = {
@@ -503,14 +490,10 @@ export function App() {
             console.warn("[map] compiled water id raster unavailable; hover falls back to graph bounding boxes");
           }
           hydroIndexRef.current = buildHydrographIndex(graph, m.imageWidth, m.imageHeight, entitySource, hydroNames);
-          decode("hydrograph-bodies");
-          decode("hydrograph-falls");
-          decode("hydrograph-wetline");
+          await Promise.all(["hydrograph-bodies", "hydrograph-falls", "hydrograph-wetline"].map(decode));
         } catch { /* hydrology graph not derived yet */ }
         setLegends(collected);
-        decode("regions");
-        decode("danger");
-        decode("cultures");
+        await Promise.all(["regions", "danger", "cultures"].map(decode));
       } catch {
         /* hydrology metadata not generated yet */
       }
@@ -521,6 +504,26 @@ export function App() {
   /** Are the clickable vector route lines mounted? Then the painted route and
    *  waterway rasters stand down — one geometry, drawn once. */
   const drawsVectorRoutes = showCatalogue || routesUrl.showWater || routesUrl.subLayers.length > 0;
+
+  // Overlay images follow the layer toggles (perf10 K5): loaded when a layer
+  // is first switched on, released (src cleared) when it is switched off.
+  useEffect(() => {
+    const base = import.meta.env.BASE_URL;
+    const plan = overlayLoadPlan(layers, Object.keys(overlaysRef.current), pendingOverlaysRef.current, Object.keys(OVERLAY_FILES));
+    for (const name of plan.release) {
+      overlaysRef.current[name].src = "";
+      delete overlaysRef.current[name];
+    }
+    for (const name of plan.load) {
+      pendingOverlaysRef.current.add(name);
+      const img = new Image();
+      img.src = `${base}province/${OVERLAY_FILES[name]}`;
+      img.decode().then(
+        () => { overlaysRef.current[name] = img; setOverlayGen((g) => g + 1); },
+        () => { /* layer not generated yet */ },
+      ).finally(() => pendingOverlaysRef.current.delete(name));
+    }
+  }, [layers]);
 
   // Repaint terrain + anchors whenever data, sea level or conditioning changes.
   useEffect(() => {
@@ -599,7 +602,7 @@ export function App() {
       ctx.fillStyle = major ? "#ffe9b8" : "#d5e0ff";
       ctx.fillText(a.name, x + 8, y + 4);
     }
-  }, [meta, seaLevel, conditioning, layers, overlaysReady, drawsVectorRoutes]);
+  }, [meta, seaLevel, conditioning, layers, overlaysReady, overlayGen, drawsVectorRoutes]);
 
   // Reuse the scene's water truth, including native channels and seasonal
   // access. A separate legacy class raster labels dry banks as open water.

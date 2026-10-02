@@ -22,7 +22,7 @@
  * url<i>-<settled|walk>.trace.json beside measure.json, its long-frame classes (trace-frames.mjs) in `trace`.
  * --aim "yaw,pitch" (radians): aim the follow camera before the settle. --clean 1: HUD-free screenshots.
  * --spots <file>: ONE invocation measures every spot of the file (one line each: `<name> <?query> [--aim yaw,pitch]
- * [walk=<s>] [diag=<probes>] [trace] [trace-gpu] [memory-infra] [heapsample]`, spots/perf10-c4.txt) in ONE tab (the same page navigates spot to spot, ready gate per spot), takes a
+ * [walk=<s>] [diag=<probes>] [trace] [trace-gpu] [memory-infra] [heapsample] [profile]`, spots/perf10-c4.txt) in ONE tab (the same page navigates spot to spot, ready gate per spot), takes a
  * clean settled screenshot of each (<run dir>/<name>-settled.jpg) and writes summary.md: settled fps, p1Low,
  * uncapped, p1LowUncapped, max ms, over20, over33 and pass against --bar fps,p1low (default 83,69). A spot with a
  * probe token, a `diag=` query, or any global --diag/--trace/--profile/--census is a diagnosis row: pass reads `diag`
@@ -397,18 +397,46 @@ export async function sample(page, seconds, during, wait = nodeWait) {
     work: { ...workStats(raw.frames), wrapperMsPerFrame: raw.frames.length ? r2(raw.wrapMs / raw.frames.length) : null } };
 }
 
-async function cpuProfile(page, o, seconds, tag, name) {
+/** Starts a CDP CPU profile (sampling `intervalUs`); the returned stop(file) ends it, writes the
+ * .cpuprofile and returns the raw profile with the file. Every CDP send is at the call or the stop. */
+async function startCpuProfile(page, intervalUs) {
   const cdp = await page.context().newCDPSession(page);
-  const t0 = Date.now();
   await cdp.send("Profiler.enable");
-  await cdp.send("Profiler.setSamplingInterval", { interval: 500 });
+  await cdp.send("Profiler.setSamplingInterval", { interval: intervalUs });
   await cdp.send("Profiler.start");
+  return async (file) => {
+    const { profile } = await cdp.send("Profiler.stop");
+    await cdp.detach().catch(() => {});
+    writeFileSync(file, JSON.stringify(profile));
+    return profile;
+  };
+}
+
+async function cpuProfile(page, o, seconds, tag, name) {
+  const t0 = Date.now();
+  const stop = await startCpuProfile(page, 500);
   await nodeWait(seconds * 1000);
-  const { profile } = await cdp.send("Profiler.stop");
-  await cdp.detach().catch(() => {});
   const file = join(o.out, `${name}-${tag}.cpuprofile`);
-  writeFileSync(file, JSON.stringify(profile));
+  const profile = await stop(file);
   return { elapsedMs: Date.now() - t0, file, seconds, ...profileSummary(profile) };
+}
+
+/** `profile` spot token: the top `top` functions by self time over a stats window, as
+ * {name, at: "<url>:<line>", msPerFrame} with `frames` the window's frame count. */
+export function profileTopPerFrame(profile, frames, top = 25) {
+  const byId = new Map(profile.nodes.map((n) => [n.id, n]));
+  const self = new Map();
+  const { samples = [], timeDeltas = [] } = profile;
+  for (let i = 0; i < samples.length; i++) {
+    const cf = byId.get(samples[i])?.callFrame ?? {};
+    const key = `${cf.functionName || "(anon)"}\t${cf.url || "(native)"}:${(cf.lineNumber ?? -1) + 1}`;
+    self.set(key, (self.get(key) ?? 0) + (timeDeltas[i + 1] ?? 0) / 1000);
+  }
+  const n = Math.max(1, frames);
+  return [...self].sort((a, b) => b[1] - a[1]).slice(0, top).map(([k, ms]) => {
+    const [name, at] = k.split("\t");
+    return { name, at, msPerFrame: Math.round((ms / n) * 1000) / 1000 };
+  });
 }
 
 /**
@@ -466,12 +494,19 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   const P = spot.probes ?? {};
   const doTrace = o.trace || !!P.trace, traceOpt = { gpu: o.traceGpu || !!P.traceGpu, memoryInfra: !!P.memoryInfra };
   const stopSettleTrace = doTrace ? await startTrace(page, join(o.out, `${name}-settled.trace.json`), traceOpt) : null;
+  // `profile` token: started before the settled window, stopped after it (no CDP inside it).
+  const stopSettleProfile = P.profile ? await startCpuProfile(page, 200) : null;
   const settle = await sample(page, o.settle);
+  let profile = null;
+  if (stopSettleProfile) {
+    const file = join(o.out, `${name}-settled.cpuprofile`);
+    profile = { file, intervalUs: 200, frames: settle.ts.length,
+      topSelfPerFrame: profileTopPerFrame(await stopSettleProfile(file), settle.ts.length) };
+  }
   if (stopSettleTrace) traces.settled = await stopSettleTrace(null, settle.ts.at(-1));
   const stats = { ...frameStats(settle.ts), ...settle.work };
-  let profile = null;
   const walkS = stepsSeconds(spot.steps);
-  if (o.profile > 0 && !(walkS > 0)) profile = await cpuProfile(page, o, o.profile, "settled", name);
+  if (!profile && o.profile > 0 && !(walkS > 0)) profile = await cpuProfile(page, o, o.profile, "settled", name);
   const hudText = await page.evaluate(() => document.body.innerText).catch(() => "");
   const hud = parseHud(hudText);
   const info = await page.evaluate(() => {

@@ -876,7 +876,7 @@ describe("WaterWorld.sampleBoundary (ripple mask sampler, walk 5 perf)", () => {
       for (let x = 1; x < 40; x += 3.7) {
         for (let z = 1; z < 40; z += 5.3) {
           const full = world.sample({ x, y: 0, z }, epoch);
-          const cheap = world.sampleBoundary(x, z, epoch);
+          const cheap = world.sampleBoundary(x, z, world.levelOffsets(epoch), { waterBodyId: null, depth: 0, surfaceHeight: 0 });
           expect(cheap.waterBodyId).toBe(full.waterBodyId);
           expect(cheap.depth).toBe(full.depth);
           expect(cheap.flowX).toBe(full.flowVelocity.x);
@@ -884,5 +884,12 @@ describe("WaterWorld.sampleBoundary (ripple mask sampler, walk 5 perf)", () => {
         }
       }
     }
+  });
+
+  it("writes into the caller's scratch record and returns it (perf10 K1)", () => {
+    const world = tinyWorld();
+    const out = { waterBodyId: null, depth: 0, surfaceHeight: 0 };
+    const levels = world.levelOffsets(100);
+    for (let x = 1; x < 40; x += 3.7) expect(world.sampleBoundary(x, 7, levels, out)).toBe(out);
   });
 });

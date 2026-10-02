@@ -10,8 +10,21 @@ const MAX_DROPS = 32;
 const MAX_PATH_STAMPS = 6;
 const MIN_WET_MARGIN_M = 0.02;
 const MAX_STALE_STAGE_M = 0.008;
-/** Tide/season movement (m) that starts a level-driven mask refresh cycle. */
-const LEVEL_REFRESH_EPS_M = 0.001;
+/** The level step one mask cell can show (perf10 K1): the default cell is
+ * 64 m / 128 = 0.5 m, and the flattest shore the mask resolves (a marsh
+ * margin, about 1:64) moves its waterline one cell per 0.5 / 64 = 7.8 mm.
+ * Tide and season reach the mask quantised to this step, so a creeping tide
+ * starts a refresh only when a shoreline cell can actually move, as fast as
+ * a 1 mm trigger showed that move. It equals the stale-row clear bound, so
+ * one step refreshes rows in place and only a jump past it clears them. */
+export const LEVEL_REFRESH_EPS_M = 0.008;
+/** Float slack on the stale bound so one exact quantised step never clears. */
+const STAGE_SLACK_M = 1e-6;
+
+/** Level fed to the mask, snapped to LEVEL_REFRESH_EPS_M. */
+export function quantiseLevel(levelM: number): number {
+  return Math.round(levelM / LEVEL_REFRESH_EPS_M) * LEVEL_REFRESH_EPS_M;
+}
 
 export interface RippleBoundarySample {
   waterBodyId: string | null;
@@ -25,8 +38,12 @@ export interface RippleBoundarySample {
 interface RippleLevelSource {
   levelOffsets(epochMinutes: number): { tide: number; season: number };
 }
-/** Still-water depth against actual ground is sufficient; no wave/normal evaluation needed. */
-export type RippleBoundarySampler = (x: number, z: number, epochMinutes: number) => RippleBoundarySample;
+/** Still-water depth against actual ground is sufficient; no wave/normal
+ * evaluation needed. `levels` are the mask's quantised tide/season (computed
+ * once per refresh, never per texel); the sampler writes into `out` (the
+ * mask's own scratch) and returns it. */
+export type RippleBoundarySampler = (x: number, z: number,
+  levels: Readonly<{ tide: number; season: number }>, out: RippleBoundarySample) => RippleBoundarySample;
 
 export interface RippleSimOptions {
   size?: number;
@@ -47,7 +64,7 @@ export function anyWetSupport(data: Uint8Array): boolean {
 }
 
 /** CPU mask sampled at 0.5 m by default. Movement reuses overlapping samples;
- * tide/season movement past LEVEL_REFRESH_EPS_M refreshes the complete patch at
+ * tide/season movement by a LEVEL_REFRESH_EPS_M step refreshes the complete patch at
  * most once per `refreshS`; so does `requestRefresh()` (a terrain chunk arrived
  * under the patch). Still levels and no arrival mean no sampling at all.
  * Refreshes without movement rewrite their rows in place and flag only the rows
@@ -71,6 +88,13 @@ export class RippleBoundaryMask {
   private readonly scratchRowStages: Float64Array;
   private tide = 0;
   private season = 0;
+  /** The quantised levels handed to the sampler (one record, rewritten). */
+  private readonly levels = { tide: 0, season: 0 };
+  /** Sampler scratch: cell centre and shared corner. */
+  private readonly centreSample: RippleBoundarySample = { waterBodyId: null, depth: 0, surfaceHeight: 0 };
+  private readonly edgeSample: RippleBoundarySample = { waterBodyId: null, depth: 0, surfaceHeight: 0 };
+  /** Level-driven refresh cycles started (tests, probes). */
+  levelRefreshes = 0;
   private hasLevels = false;
   private dirty = false;
   /** Ground under the patch changed since the last cycle started. */
@@ -115,6 +139,7 @@ export class RippleBoundaryMask {
    * refresh cursor. A continuously moving tide cannot starve later rows. */
   setLevelOffsets(tide: number, season: number): boolean {
     if (!Number.isFinite(tide) || !Number.isFinite(season)) return false;
+    tide = quantiseLevel(tide); season = quantiseLevel(season);
     // Unchanged levels over unmoved stages: the last pass already cleared
     // every row this one could (refreshed rows carry exactly these levels).
     if (this.hasLevels && tide === this.tide && season === this.season && !this.stagesMoved) return false;
@@ -126,7 +151,7 @@ export class RippleBoundaryMask {
       // row, including mixed-age samples retained during lateral scrolling.
       const excursion = Math.max(Math.abs(tide - this.rowStages[i]), Math.abs(tide - this.rowStages[i + 1]))
         + Math.max(Math.abs(season - this.rowStages[i + 2]), Math.abs(season - this.rowStages[i + 3]));
-      if ((!this.hasLevels && Number.isFinite(this.center.x)) || excursion > MAX_STALE_STAGE_M) {
+      if ((!this.hasLevels && Number.isFinite(this.center.x)) || excursion > MAX_STALE_STAGE_M + STAGE_SLACK_M) {
         this.data.fill(0, row * this.size * 4, (row + 1) * this.size * 4);
         this.current.fill(0, row * this.size * 2, (row + 1) * this.size * 2);
         this.rowStages.fill(NaN, i, i + 4);
@@ -136,6 +161,7 @@ export class RippleBoundaryMask {
       }
     }
     this.tide = tide; this.season = season; this.hasLevels = true;
+    this.levels.tide = tide; this.levels.season = season;
     if (cleared) {
       this.dirty = true; this.rowsRemaining = this.size; this.age = 0;
       this.cycleTide = tide; this.cycleSeason = season;
@@ -149,7 +175,7 @@ export class RippleBoundaryMask {
     this.dirty = true; this.rowsRemaining = this.size; this.age = 0;
   }
 
-  update(focusX: number, focusZ: number, epoch: number, dt: number): boolean {
+  update(focusX: number, focusZ: number, dt: number): boolean {
     const texel = this.patchM / this.size;
     const cx = Math.round(focusX / texel) * texel;
     const cz = Math.round(focusZ / texel) * texel;
@@ -157,7 +183,8 @@ export class RippleBoundaryMask {
     const full = !Number.isFinite(this.age) || !Number.isFinite(this.center.x);
     if (!full && !this.rowsRemaining && this.age + 1e-9 >= this.refreshS && (this.refreshRequested
       || this.age + 1e-9 >= this.staticRefreshS
-      || !(Math.abs(this.tide - this.cycleTide) <= LEVEL_REFRESH_EPS_M && Math.abs(this.season - this.cycleSeason) <= LEVEL_REFRESH_EPS_M))) {
+      || this.tide !== this.cycleTide || this.season !== this.cycleSeason)) {
+      if (this.tide !== this.cycleTide || this.season !== this.cycleSeason) this.levelRefreshes++;
       this.rowsRemaining = this.size;
       this.refreshRow = 0;
       this.age = 0;
@@ -169,7 +196,7 @@ export class RippleBoundaryMask {
     const dx = Number.isFinite(this.center.x) ? Math.round((cx - this.center.x) / texel) : this.size;
     const dz = Number.isFinite(this.center.y) ? Math.round((cz - this.center.y) / texel) : this.size;
     if (!full && !rowCount && dx === 0 && dz === 0 && !this.dirty) { this.cellsWalked = 0; return false; }
-    if (!full && dx === 0 && dz === 0) return this.refreshRowsInPlace(cx, cz, epoch, rowStart, rowCount);
+    if (!full && dx === 0 && dz === 0) return this.refreshRowsInPlace(cx, cz, rowStart, rowCount);
     this.cellsWalked = this.size * this.size;
     this.rowHasCurrent.fill(0);
     const target = this.scratch;
@@ -193,7 +220,7 @@ export class RippleBoundaryMask {
         if (target[i + 3]) this.includeRowStage(z, oldZ);
         continue;
       }
-      this.sampleCell(target, this.currentScratch, x, z, cx, cz, texel, epoch, true);
+      this.sampleCell(target, this.currentScratch, x, z, cx, cz, texel,true);
     }
     this.scratch = this.data;
     this.data = target;
@@ -213,7 +240,7 @@ export class RippleBoundaryMask {
   /** No movement: resample only the refresh rows, in place. Byte-identical to
    * the scrolling walk with dx = dz = 0 (non-refresh cells and their row stages
    * are copies of themselves); rows are flagged dirty only when they changed. */
-  private refreshRowsInPlace(cx: number, cz: number, epoch: number, rowStart: number, rowCount: number): boolean {
+  private refreshRowsInPlace(cx: number, cz: number, rowStart: number, rowCount: number): boolean {
     const texel = this.patchM / this.size;
     const rowBytes = this.size * 4;
     this.cornerLabels.fill(65535);
@@ -224,7 +251,7 @@ export class RippleBoundaryMask {
       this.scratchRowStages.fill(NaN, i, i + 4);
       this.rowHasCurrent[z] = 0;
       // Sample into the scratch row, then compare and copy back.
-      for (let x = 0; x < this.size; x++) this.sampleCell(this.scratch, this.currentScratch, x, z, cx, cz, texel, epoch, false);
+      for (let x = 0; x < this.size; x++) this.sampleCell(this.scratch, this.currentScratch, x, z, cx, cz, texel,false);
       const b0 = z * rowBytes, c0 = z * this.size * 2;
       let rowChanged = false;
       for (let k = 0; k < rowBytes; k++) if (this.scratch[b0 + k] !== this.data[b0 + k]) { rowChanged = true; break; }
@@ -248,10 +275,11 @@ export class RippleBoundaryMask {
     return changed;
   }
 
-  private sampleCell(target: Uint8Array, current: Float32Array, x: number, z: number, cx: number, cz: number, texel: number, epoch: number, walk: boolean): void {
+  private sampleCell(target: Uint8Array, current: Float32Array, x: number, z: number, cx: number, cz: number, texel: number, walk: boolean): void {
       const i = (z * this.size + x) * 4;
       const ci = i / 2;
-      const sample = this.sampler?.(cx + (x + 0.5) * texel - this.patchM / 2, cz + (z + 0.5) * texel - this.patchM / 2, epoch);
+      const sample = this.sampler?.(cx + (x + 0.5) * texel - this.patchM / 2, cz + (z + 0.5) * texel - this.patchM / 2,
+        this.levels, this.centreSample);
       const id = this.sampler ? sample?.waterBodyId : "water.unbounded.default";
       const depth = this.sampler ? sample?.depth ?? 0 : 4;
       let label = 0;
@@ -265,7 +293,7 @@ export class RippleBoundaryMask {
           for (let cornerX = x; cornerX <= x + 1; cornerX++) {
             const corner = cornerZ * (this.size + 1) + cornerX;
             if (this.cornerLabels[corner] === 65535) {
-              const edge = this.sampler(cx + cornerX * texel - this.patchM / 2, cz + cornerZ * texel - this.patchM / 2, epoch);
+              const edge = this.sampler(cx + cornerX * texel - this.patchM / 2, cz + cornerZ * texel - this.patchM / 2, this.levels, this.edgeSample);
               this.cornerLabels[corner] = edge.waterBodyId && Number.isFinite(edge.depth) && edge.depth > 0.025
                 && (edge.wetMarginM ?? edge.depth - 0.004) > MIN_WET_MARGIN_M ? this.bodyLabel(edge.waterBodyId) : 0;
             }
@@ -539,10 +567,13 @@ export class RippleSim {
     this.initialized = false;
     this.pendingDrops.length = 0;
     this.mask.setSampler(this.fastSampler ?? (cheap.sampleBoundary
-      ? (x, z, epoch) => cheap.sampleBoundary!(x, z, epoch)
-      : (x, z, epoch) => {
-        const sample = query.sample({ x, y: 0, z }, epoch);
-        return { ...sample, flowX: sample.flowVelocity.x, flowZ: sample.flowVelocity.z };
+      ? (x, z, levels, out) => cheap.sampleBoundary!(x, z, levels, out)
+      // A generic query owns its own levels: it samples at the current epoch.
+      : (x, z, _levels, out) => {
+        const sample = query.sample({ x, y: 0, z }, this.epoch());
+        out.waterBodyId = sample.waterBodyId; out.depth = sample.depth; out.surfaceHeight = sample.surfaceHeight;
+        out.flowX = sample.flowVelocity.x; out.flowZ = sample.flowVelocity.z;
+        return out;
       }));
   }
 
@@ -596,7 +627,7 @@ export class RippleSim {
     const epoch = this.epoch();
     const levels = this.levels?.(epoch);
     if (levels) this.setLevelOffsets(levels.tide, levels.season);
-    const maskChanged = this.mask.update(this.center.x, this.center.y, epoch, deltaS);
+    const maskChanged = this.mask.update(this.center.x, this.center.y, deltaS);
     if (maskChanged) { this.uploadMask(); this.maskWet = anyWetSupport(this.mask.data); }
     // Dry patch (perf10 f3): the update pass writes 0 on every cell without
     // wet support, so once one pass has run over an all-dry mask the field is
