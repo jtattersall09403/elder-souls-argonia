@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useThree } from "@react-three/fiber";
 import { DrawTargetLinker } from "../../render/drawTargetLinker";
+import { waterLinkWarms } from "./waterLinkWarms";
 import { buildPoolGeometry } from "./PoolDiscs";
 import type { LocalPoolRecord, LocalWaterSurfaces } from "../localSurfaces";
 import { useMarkedFrame } from "../../fx/frameSegments";
@@ -316,15 +317,16 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     materials.above.dispose();
     materials.below.dispose();
   }, [materials]);
-  // The falls, chute strips and pools are built at load but first drawn
-  // when they come into view; linked then, their programs cost a 48 ms frame
-  // mid-walk (16k walk 10). Link them against the scene pass's target now.
+  // Every water program a later draw needs (the falls, strips and pools when
+  // they come into view, every underwater variant and the bubbles on the
+  // first dive), linked at mount against the target that draw binds
+  // (waterLinkWarms.ts; 16k walk 10: 48 ms frames mid-walk).
   const { gl, scene, camera } = useThree();
   const linker = useMemo(() => new DrawTargetLinker(gl, scene), [gl, scene]);
   useEffect(() => { linker.attach(); return () => linker.detach(); }, [linker]);
-  useEffect(() => linker.linkWhenObserved(
-    [strips?.mesh, pools?.mesh, falls?.mesh].filter((m): m is NonNullable<typeof m> => !!m), camera),
-  [linker, strips, pools, falls, camera]);
+  useEffect(() => linker.linkWhenObserved(waterLinkWarms({
+    field: meshRef.current, fieldMaterials: materials, strips, pools, falls: falls?.mesh ?? null, bubbles,
+  }), camera), [linker, materials, strips, pools, falls, bubbles, camera]);
   useEffect(() => () => geometry.dispose(), [geometry]);
 
   useMarkedFrame("surface", ({ camera, gl }, delta) => {

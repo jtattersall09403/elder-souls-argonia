@@ -10,6 +10,7 @@ import {
   type AirWaterSurface,
 } from "./ambientAir";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
+import { DrawTargetLinker } from "../render/drawTargetLinker";
 import { SunShafts, sunShaftIntensity } from "./sunShafts";
 import { waterParticleRadiance } from "../water/render/waterParticleLighting";
 
@@ -103,6 +104,16 @@ export function AmbientAir({
     },
     [swarms, shafts],
   );
+  // Each species and the shafts show only in their hours and weather, so
+  // their programs linked on first show (16k walk 10: air:fireflies at
+  // dusk, 154 s in). Linked at mount instead, for the screen their
+  // post-water pass (PRECIP_LAYER) draws to.
+  const scene = useThree((s) => s.scene);
+  const linker = useMemo(() => new DrawTargetLinker(gl, scene), [gl, scene]);
+  useEffect(() => { linker.attach(); return () => linker.detach(); }, [linker]);
+  useEffect(() => linker.linkWhenObserved(
+    [...swarms.map((s) => s.points), shafts.mesh].map((object) => ({ object, pass: "screen" as const })), camera),
+  [linker, swarms, shafts, camera]);
 
   useFrame((_, delta) => {
     const c = conditions.current;

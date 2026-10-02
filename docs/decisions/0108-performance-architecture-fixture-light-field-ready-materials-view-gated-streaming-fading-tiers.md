@@ -305,7 +305,7 @@ Agent-caused defects and the tool that changed (decision 0106 d11):
 | A baseline taken before the page was ready | `measure.mjs` ready gate; `tooling/gpu-lane/README.md` Gotchas |
 | Children ended their turn on a background job | README wait rule; the brief template says to wait in the foreground; 04f0f22f |
 | Orphan studio tabs contaminated 1 % lows | `measure.mjs` `closeOrphanPages` with a keeper page; `--smoke` fails on a foreign tab |
-| `sync-dist.sh` `pkill -f` matched its own remote shell, so the site server died after every sync | pattern anchored with `^node`; 5577b1ce |
+| The pod sync script's `pkill -f` matched its own remote shell, so the site server died after every sync | pattern anchored with `^node`; 5577b1ce |
 | The q1 probe counted materials per owner name and caused two wrong diagnoses (O2, O3) | `measure.mjs --census` counts by material uuid; README rule: census, profile and walk hitches before the first fix batch |
 | Profiler start frames counted as hitches | census window opens 2 s after `Profiler.start`; a856f2f4 |
 | Hand-patched `/tmp` probes | probes live in `tooling/gpu-lane/probes/`, run with `--diag`; d7f95f70 |
