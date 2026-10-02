@@ -128,3 +128,38 @@ describe("GpuCullPool submit (webgpu10 c5 fix14: zero-kept members not submitted
     expect(p.planes).toBe(before[1]);
   });
 });
+
+describe("GpuCullPool idle (webgpu10 fix16: interior shown)", () => {
+  function setup() {
+    const pool = new GpuCullPool({ lodFade: createLodFadeUniforms() });
+    const a = member();
+    const d = pool.addDraw(a, opts);
+    d.submit = true; d.kept = 3;
+    const computes: unknown[] = [];
+    let reads = 0;
+    const renderer = {
+      _attributes: { delete() { return {}; } },
+      compute: (n: unknown) => { computes.push(n); },
+      getArrayBufferAsync: async () => { reads++; return new Uint32Array(64).buffer; },
+    } as unknown as WebGPURenderer;
+    const camera = new THREE.PerspectiveCamera();
+    camera.updateMatrixWorld();
+    return { pool, d, computes, renderer, camera, reads: () => reads };
+  }
+  it("idle: no dispatch, no read-back, members not submitted; reactivated: dispatches next update", async () => {
+    const s = setup();
+    s.pool.setIdle(true);
+    expect(s.d.submit).toBe(false);
+    s.pool.update(s.renderer, s.camera, null);
+    s.pool.refreshCounts(s.renderer);
+    await new Promise((r) => setTimeout(r, 0));
+    expect(s.computes.length).toBe(0);
+    expect(s.reads()).toBe(0);
+    s.pool.setIdle(false);
+    s.pool.update(s.renderer, s.camera, null);
+    expect(s.computes.length).toBe(1);
+    s.pool.refreshCounts(s.renderer);
+    await new Promise((r) => setTimeout(r, 0));
+    expect(s.reads()).toBe(1);
+  });
+});

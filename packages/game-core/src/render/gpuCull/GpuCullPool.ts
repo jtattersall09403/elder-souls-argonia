@@ -178,6 +178,8 @@ export class GpuCullPool {
   private readonly pageRows: number;
   private readonly pageDraws: number;
   private reading = false;
+  /** True while the host shows something that hides the pool's draws (an interior cell). */
+  private idle = false;
   /** The guarded attribute store, set by the first `update`. */
   private store: AttributeStore | null = null;
   /** Per-frame scratch, made once: the compute nodes and the CPU frustum. */
@@ -307,9 +309,28 @@ export class GpuCullPool {
     system.dispose();
   }
 
+  /**
+   * Idle the pool while the host hides its draws (an interior cell is shown):
+   * `update` neither dispatches nor submits and `refreshCounts` reads nothing
+   * back. Going idle un-submits every member and zeroes its kept count; the
+   * first `update` after leaving idle runs the cull and submit as usual.
+   */
+  setIdle(idle: boolean): void {
+    if (idle === this.idle) return;
+    this.idle = idle;
+    if (!idle) return;
+    for (const d of this.members) {
+      d.kept = 0;
+      if (!d.submit) continue;
+      d.submit = false;
+      applyVisibility(d.mesh, d.rule);
+    }
+  }
+
   /** Dispatch every page's reset + cull, once, before this frame's render,
    * and decide each member's `submit` (no allocation). */
   update(renderer: WebGPURenderer, camera: THREE.Camera, sweep: SunSweep | null): void {
+    if (this.idle) return;
     this.store ??= guardPageBuffers(renderer);
     const nodes = this.nodes;
     nodes.length = 0;
@@ -359,7 +380,7 @@ export class GpuCullPool {
    * Returns the total kept at the last completed read.
    */
   refreshCounts(renderer: WebGPURenderer): void {
-    if (this.reading || this.pages.length === 0) return;
+    if (this.idle || this.reading || this.pages.length === 0) return;
     this.reading = true;
     const pages = [...this.pages];
     Promise.all(pages.map((system) => renderer.getArrayBufferAsync(system.indirect as never)))

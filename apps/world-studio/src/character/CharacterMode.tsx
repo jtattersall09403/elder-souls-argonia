@@ -571,6 +571,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                     onSolids={handleSolids}
                     shapesRef={floraShapesRef}
                     crownsRef={crownsRef}
+                    idle={insideInterior}
                   />
                 )}
                 {/* T3 groundcover ring around the walking character — same
@@ -582,6 +583,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                     verticalScale={verticalScale}
                     quality={quality}
                     settlementsVisible={!hiddenLayers.has("settlements")}
+                    idle={insideInterior}
                   />
                 )}
               </>

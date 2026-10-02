@@ -472,7 +472,10 @@ export function Vegetation({
   onSolids,
   shapesRef,
   crownsRef,
+  idle = false,
 }: {
+  /** An interior cell is shown: the GPU cull neither dispatches nor reads back. */
+  idle?: boolean;
   /** Filled with the tree crowns near a point (the volumetric canopy map, 0112 §5); read-only over the resident cells. */
   crownsRef?: React.MutableRefObject<CrownSource | null>;
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
@@ -1335,6 +1338,7 @@ export function Vegetation({
 
     // GPU path: this frame's cull, after every candidate write above.
     if (gpuCull) {
+      gpuCull.setIdle(idle);
       state.camera.updateMatrixWorld();
       gpuCull.update(gl, state.camera,
         VEG_CAST_SHADOW ? shadowOf(sunLight.current) ?? null : null);
