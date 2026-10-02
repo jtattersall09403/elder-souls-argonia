@@ -10,6 +10,7 @@ import { compilePipelinesAsync } from "./asyncPipelines";
 import { syncCanvasDepth } from "./canvasDepthSync";
 import { queueShaderBuilds, SHADER_BUILDS_IN_FLIGHT } from "./shaderBuildQueue";
 import { trimTextureWrites } from "./writeTextureSpan";
+import { installKitDecoders } from "../assets/kitLoader";
 
 export type RendererBackend = "webgpu" | "webgl";
 
@@ -37,6 +38,8 @@ export interface CreateRendererOptions {
   powerPreference?: GPUPowerPreference;
   /** Node-material builds run off the frame, this many at a time (shaderBuildQueue.ts); 0 = three's synchronous builds (harness scenes). */
   shaderBuildsInFlight?: number;
+  /** Site base (ending in `/`) the KTX2 transcoder is served under; the renderer owns its kit decoders from here (kitLoader.ts). Default: Vite BASE_URL, else "/". */
+  assetBaseUrl?: string;
 }
 
 /** Create and initialise the renderer (async: WebGPU needs a device). */
@@ -56,6 +59,9 @@ export async function createRenderer(options: CreateRendererOptions): Promise<We
   trimTextureWrites(renderer);
   queueShaderBuilds(renderer, options.shaderBuildsInFlight ?? SHADER_BUILDS_IN_FLIGHT);
   if (options.shaderBuildsInFlight !== 0) compilePipelinesAsync(renderer);
+  const base = options.assetBaseUrl ?? (import.meta as { env?: { BASE_URL?: string } }).env?.BASE_URL ?? "/";
+  // A transcoder that fails to load must not take the renderer down: each KTX2 load then rejects on its own.
+  await installKitDecoders(renderer, base).catch((e: unknown) => console.warn("[render] KTX2 transcoder init failed", e));
   return renderer;
 }
 

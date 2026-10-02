@@ -8,6 +8,7 @@ import type { WebGPURenderer } from "three/webgpu";
 import { createGpuDiag, type GpuDiag } from "@elder-souls/game-core/render/gpuDiag";
 import { buildQueueOf } from "@elder-souls/game-core/render/shaderBuildQueue";
 import { pipelineCompilesOf } from "@elder-souls/game-core/render/asyncPipelines";
+import { kitDecoderBuilds } from "@elder-souls/game-core/assets/kitLoader";
 
 export function diagRequested(search: string): boolean {
   return new URLSearchParams(search).get("diag") === "1";
@@ -28,7 +29,7 @@ export function mountDiagOverlay(renderer: WebGPURenderer): GpuDiag {
   button.style.cssText = "margin-top:4px;font:11px monospace";
   const download = () => {
     const blob = new Blob([JSON.stringify({ url: location.href, userAgent: navigator.userAgent,
-      backend: device ? "webgpu" : "webgl2", ...diag.dump() })], { type: "application/json" });
+      backend: device ? "webgpu" : "webgl2", kitDecoderBuilds: kitDecoderBuilds(renderer), ...diag.dump() })], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = `diag-${new Date().toISOString().replace(/[:.]/g, "-")}.json`;
@@ -38,7 +39,7 @@ export function mountDiagOverlay(renderer: WebGPURenderer): GpuDiag {
   button.onclick = download;
   box.append(text, button);
   document.body.append(box);
-  (window as unknown as { __DIAG?: unknown }).__DIAG = { dump: () => diag.dump(), download, diag };
+  (window as unknown as { __DIAG?: unknown }).__DIAG = { dump: () => diag.dump(), kitDecoderBuilds: () => kitDecoderBuilds(renderer), download, diag };
   let shown = -1;
   const tick = (now: number) => {
     diag.endFrame(now);

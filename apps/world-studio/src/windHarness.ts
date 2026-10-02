@@ -17,7 +17,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { RenderTarget, type WebGPURenderer } from "three/webgpu";
-import { configureKitLoader, createKitDecoders } from "@elder-souls/game-core/assets/kitLoader";
+import { configureKitLoader, kitDecodersFor } from "@elder-souls/game-core/assets/kitLoader";
 import { createRenderer, requestedBackend } from "@elder-souls/game-core/render/createRenderer";
 import { toNodeMaterial } from "@elder-souls/game-core/render/nodes/materialNodes";
 import {
@@ -57,7 +57,7 @@ async function main(): Promise<void> {
   const kit = await (await fetch("/kits/flora-province-v1.kit.json")).json() as {
     assets: { id: string; node: string; sizeM: number[] }[];
   };
-  const loader = configureKitLoader(new GLTFLoader(), createKitDecoders(renderer, "/"));
+  const loader = configureKitLoader(new GLTFLoader(), kitDecodersFor(renderer, "/"));
   const gltf = await loader.loadAsync("/kits/flora-province-v1.glb");
   gltf.scene.updateMatrixWorld(true);
 

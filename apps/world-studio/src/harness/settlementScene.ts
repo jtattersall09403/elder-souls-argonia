@@ -17,7 +17,7 @@
  */
 import * as THREE from "three";
 import { MeshStandardNodeMaterial, type WebGPURenderer } from "three/webgpu";
-import { createKitDecoders, createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
+import { createKitLoader, kitDecodersFor } from "@elder-souls/game-core/assets/kitLoader";
 import { buildArchitectureKit, kitAssetMetaFromManifest, type ArchitecturePart } from "@elder-souls/game-core/settlement/kit";
 import {
   createSettlementMaterialUniforms,
@@ -104,7 +104,7 @@ export async function buildSettlementScene(ctx: HarnessContext, night: boolean):
     asked === "field" || asked === "tiled" || asked === "plain" ? asked : undefined);
 
   const base = import.meta.env.BASE_URL ?? "/";
-  const decoders = createKitDecoders(renderer as WebGPURenderer, base);
+  const decoders = kitDecodersFor(renderer as WebGPURenderer, base);
   const loader = createKitLoader(decoders);
   const [gltf, manifest] = await Promise.all([
     loader.loadAsync(`${base}kits/${KIT}.glb`),

@@ -466,6 +466,10 @@ headless.
   switch a light or its shadow off with `intensity` / `shadow.intensity`
   (`render/lightSwitch`: `setShadowShown`, `LIGHT_HELD_OFF`; test
   `apps/world-studio/src/sky/lightCacheKeys.test.ts`).
+- Decoders (KTX2, meshopt) are owned by the renderer for its life and
+  injected; a component never creates or disposes one
+  (`assets/kitLoader`: `installKitDecoders` in createRenderer,
+  `kitDecodersFor` / `useKitDecoders` read them).
 - On the node renderer a uniform shared by every draw goes on frameGroup
   (or renderGroup if camera-dependent); the default objectGroup writes it
   into every draw's buffer. In this repo use `render/nodes/sharedUniform`

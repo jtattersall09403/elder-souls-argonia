@@ -23,8 +23,9 @@
  * already awaited `init()`, which `detectSupport` needs on WebGPU to read
  * the device's compression features (three r181+: no async variant).
  *
- * The decoders are cached on the renderer instance (a `KTX2Loader` owns a
- * worker pool; one per renderer, never per load), not in module state.
+ * The decoders are owned by the renderer instance for its life (a
+ * `KTX2Loader` owns a worker pool; one per renderer, never per load or per
+ * component), not in module state.
  */
 import type { WebGPURenderer } from "three/webgpu";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -44,9 +45,14 @@ export interface KitDecoders {
 
 export const TRANSCODER_DIR = "basis/";
 
-/** Build decoders for a renderer. Prefer `kitDecodersFor`, which caches. */
+/** KTX2 transcode workers per renderer (three's default is 4, each with its own wasm Memory). */
+export const KTX2_WORKERS = 2;
+
+/** Build decoders for a renderer. Runtime code uses `kitDecodersFor`, which owns them on the renderer. */
 export function createKitDecoders(renderer: KitRenderer, baseUrl: string): KitDecoders {
   const ktx2 = new KTX2Loader().setTranscoderPath(`${baseUrl}${TRANSCODER_DIR}`).detectSupport(renderer);
+  ktx2.setWorkerLimit(KTX2_WORKERS);
+  rejectOnWorkerError(ktx2);
   return {
     ktx2,
     meshopt: MeshoptDecoder,
@@ -55,41 +61,99 @@ export function createKitDecoders(renderer: KitRenderer, baseUrl: string): KitDe
   };
 }
 
-const DECODERS = Symbol.for("elder-souls.kitDecoders");
-interface Slot { decoders: KitDecoders; refs: number }
-type Carrier = KitRenderer & { [DECODERS]?: Slot };
-
-/** The renderer's decoders, created on first use and shared by every kit load. */
-export function kitDecodersFor(renderer: KitRenderer, baseUrl: string): KitDecoders {
-  const carrier = renderer as Carrier;
-  const existing = carrier[DECODERS];
-  if (existing && existing.decoders.baseUrl === baseUrl) return existing.decoders;
-  existing?.decoders.dispose();
-  const created = createKitDecoders(renderer, baseUrl);
-  carrier[DECODERS] = { decoders: created, refs: 0 };
-  return created;
+interface PoolInternals {
+  workers: Worker[];
+  workersResolve: Array<((msg: unknown) => void) | undefined>;
+  workerStatus: number;
+  queue: Array<{ resolve: (msg: unknown) => void; msg: unknown; transfer: Transferable[] }>;
+  _initWorker(id: number): void;
 }
 
 /**
- * Hold the renderer's decoders alive (one call per mounted consumer). A
- * `KTX2Loader` owns a worker pool: when the last consumer releases, the pool
- * is disposed, so a later Canvas on a new renderer never leaves two live.
+ * three's WorkerPool listens only for 'message': a worker whose wasm aborted
+ * (e.g. "Out of memory" while instantiating the transcoder) never posts back,
+ * its busy bit stays set and every task routed to it, with its whole glTF
+ * promise chain, parks forever (webgpu10 diag D §1). On 'error' the pending
+ * task gets an error reply (KTX2Loader rejects it, GLTFLoader's texture falls
+ * to null), the dead worker is dropped so the next task builds a fresh one,
+ * and the slot is freed.
  */
-export function retainKitDecoders(renderer: KitRenderer, baseUrl: string): KitDecoders {
+export function rejectOnWorkerError(ktx2: KTX2Loader): void {
+  const pool = (ktx2 as unknown as { workerPool: PoolInternals }).workerPool;
+  const init = pool._initWorker.bind(pool);
+  pool._initWorker = (id: number) => {
+    const fresh = !pool.workers[id];
+    init(id);
+    if (!fresh) return;
+    const worker = pool.workers[id];
+    worker.addEventListener("error", (event: Event) => {
+      if (pool.workers[id] !== worker) return;
+      event.preventDefault?.();
+      const resolve = pool.workersResolve[id];
+      pool.workersResolve[id] = undefined;
+      worker.terminate();
+      delete pool.workers[id];
+      const message = (event as ErrorEvent).message || "KTX2 worker failed";
+      resolve?.({ data: { type: "error", error: message } });
+      const next = pool.queue.shift();
+      if (next) {
+        pool._initWorker(id);
+        pool.workersResolve[id] = next.resolve;
+        pool.workers[id].postMessage(next.msg, next.transfer);
+      } else {
+        pool.workerStatus &= ~(1 << id);
+      }
+    });
+  };
+}
+
+const DECODERS = Symbol.for("elder-souls.kitDecoders");
+interface Slot { decoders: KitDecoders; builds: number }
+type Carrier = KitRenderer & { [DECODERS]?: Slot };
+
+/**
+ * The renderer's decoders: owned by the renderer for its whole life (built by
+ * `installKitDecoders` in createRenderer, disposed with the renderer) and
+ * handed to every GLTFLoader. A component never creates or disposes them, so
+ * a React remount cannot build a second loader, blob URL or wasm pool.
+ * Renderers made outside createRenderer (harness scenes) get theirs here on
+ * first use, under the same lifetime.
+ */
+export function kitDecodersFor(renderer: KitRenderer, baseUrl: string): KitDecoders {
+  const slot = (renderer as Carrier)[DECODERS];
+  if (slot) return slot.decoders;
+  return attach(renderer, baseUrl).decoders;
+}
+
+function attach(renderer: KitRenderer, baseUrl: string): Slot {
+  const carrier = renderer as Carrier;
+  const slot: Slot = { decoders: createKitDecoders(renderer, baseUrl), builds: 1 };
+  carrier[DECODERS] = slot;
+  const dispose = renderer.dispose?.bind(renderer);
+  if (dispose) {
+    renderer.dispose = () => {
+      slot.decoders.dispose();
+      delete carrier[DECODERS];
+      dispose();
+    };
+  }
+  return slot;
+}
+
+/**
+ * Build the renderer's decoders and load the transcoder now, while the heap is
+ * small, so the wasm instances exist before the world streams. Called once by
+ * createRenderer after `init()`.
+ */
+export async function installKitDecoders(renderer: KitRenderer, baseUrl: string): Promise<KitDecoders> {
   const decoders = kitDecodersFor(renderer, baseUrl);
-  (renderer as Carrier)[DECODERS]!.refs += 1;
+  await decoders.ktx2.init();
   return decoders;
 }
 
-/** Drop one hold; at zero, dispose and clear the slot. Below zero is a no-op. */
-export function releaseKitDecoders(renderer: KitRenderer, baseUrl: string): void {
-  const carrier = renderer as Carrier;
-  const slot = carrier[DECODERS];
-  if (!slot || slot.decoders.baseUrl !== baseUrl) return;
-  slot.refs -= 1;
-  if (slot.refs > 0) return;
-  slot.decoders.dispose();
-  delete carrier[DECODERS];
+/** How many decoder sets this renderer has built (diag: 1 for its whole life; more is churn). */
+export function kitDecoderBuilds(renderer: KitRenderer): number {
+  return (renderer as Carrier)[DECODERS]?.builds ?? 0;
 }
 
 /** Wire a GLTFLoader (R3F's `useLoader` extension callback, or any instance). */

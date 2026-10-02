@@ -1,19 +1,13 @@
 import { useThree } from "@react-three/fiber";
-import { useEffect } from "react";
-import { kitDecodersFor, releaseKitDecoders, retainKitDecoders, type KitDecoders, type KitRenderer } from "./kitLoader";
+import { kitDecodersFor, type KitDecoders, type KitRenderer } from "./kitLoader";
 
 /**
- * The current renderer's kit decoders (see kitLoader.ts); stable per renderer.
- * The hold is released when the consumer unmounts, so the KTX2 worker pool dies
- * with its Canvas instead of living on beside the next one's.
+ * The current renderer's kit decoders (see kitLoader.ts). The renderer owns
+ * them for its life; mounting or unmounting a consumer never builds or
+ * disposes one.
  */
 export function useKitDecoders(baseUrl: string): KitDecoders {
   // R3F types `gl` as its classic renderer; it is the node renderer (0107).
   const gl = useThree((s) => s.gl) as unknown as KitRenderer;
-  const decoders = kitDecodersFor(gl, baseUrl);
-  useEffect(() => {
-    retainKitDecoders(gl, baseUrl);
-    return () => releaseKitDecoders(gl, baseUrl);
-  }, [gl, baseUrl]);
-  return decoders;
+  return kitDecodersFor(gl, baseUrl);
 }
