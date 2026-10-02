@@ -823,6 +823,8 @@ export function SettlementLayer({
     if (fatalError) return;
     const env = environment?.();
     if (env) updateSettlementEnvironment(uniforms, env.rainIntensity, env.epochMinutes);
+    // a no-op unless the band moved (a change rebuilds the fire fields)
+    if (env?.fireTier) lightFixtures.fire.setVolumeTier(env.fireTier);
     lightFixtures.update(clock.elapsedTime, camera);
     if (smoke) {
       smoke.setAnchors(smokeAnchors.current);

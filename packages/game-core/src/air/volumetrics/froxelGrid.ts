@@ -19,7 +19,7 @@ import { VOLUMETRIC_BANDS, bandSpec, type BandSpec, type VolumetricTier } from "
 import { SHADOWED_SKY, SUN_PROBES_M, SUN_PROBE_NEAR_M, probeSoftM } from "./terrainSun";
 import { TerrainGrids, NEAR_SIZE_M, FAR_SIZE_M, type TerrainSamplers } from "./terrainGrids";
 import { CanopyMap, CANOPY_SIZE_M, type Crown } from "./canopyMap";
-import { LAMP_HALO, type VolumetricsSampler } from "./volumetricNodes";
+import { lampHalo, type VolumetricsSampler } from "./volumetricNodes";
 
 const T = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode> & Record<string, TslNode>;
 const {
@@ -171,7 +171,7 @@ export class Volumetrics implements VolumetricsSampler {
   private readonly fogWarp: THREE.Data3DTexture;
   /** The fog field's clock and drift (integrated offsets, morph, eased coverage). */
   readonly drift = new FogDrift();
-  private readonly regimes: FogRegimes = { radiationMist: 0, steamFog: 0, marshFog: 0, seaFog: 0, canopyHaze: 0, air: 1, windXZ: [0, 0] };
+  private readonly regimes: FogRegimes = { radiationMist: 0, steamFog: 0, marshFog: 0, seaFog: 0, canopyHaze: 0, air: 1, halo: 0, windXZ: [0, 0] };
   private readonly coverTarget = new Float64Array(5);
   private lastTimeS = Number.NaN;
   private readonly clear = makeClear();
@@ -204,7 +204,7 @@ export class Volumetrics implements VolumetricsSampler {
     camFwd: uniform(new THREE.Vector3()), tanHalf: uniform(new THREE.Vector2(1, 1)), jitter: uniform(0), jitterXY: uniform(new THREE.Vector2()), time: uniform(0),
     prevViewProj: uniform(new THREE.Matrix4()), history: uniform(0),
     sunDir: uniform(new THREE.Vector3(0, 1, 0)), sunIrr: uniform(new THREE.Color(0, 0, 0)), skyIrr: uniform(new THREE.Color(0, 0, 0)),
-    canopyHaze: uniform(0), air: uniform(1), haloSigma: uniform(0), haloViewM: uniform(LAMP_HALO.high.viewM),
+    canopyHaze: uniform(0), air: uniform(1), haloSigma: uniform(0), haloViewM: uniform(0),
     mistDepth: uniform(30),
     // fog drift (FogDrift uploads, 0..1 texture units): per-octave and per-warp offsets, morph, coverage
     off: [0, 1, 2, 3].map(() => uniform(new THREE.Vector3())), warpOff: [0, 1].map(() => uniform(new THREE.Vector3())),
@@ -224,7 +224,9 @@ export class Volumetrics implements VolumetricsSampler {
   private readonly apDir = Array.from({ length: MAX_APERTURES }, () => new THREE.Vector4());
   private readonly apCol = Array.from({ length: MAX_APERTURES }, () => new THREE.Vector4());
   /** The nearest point lights (xyz, reach) and radiance, read by the fog stage's analytic airlight. */
-  readonly halo = { sigmaFloor: this.u.haloSigma, viewM: this.u.haloViewM };
+  readonly halo: NonNullable<VolumetricsSampler["halo"]>;
+  /** The tier's lamp-halo row (volumetricNodes `lampHalo`). */
+  private readonly haloRow: ReturnType<typeof lampHalo>;
   readonly lights = { pos: uniformArray(this.lightPos, "vec4"), col: uniformArray(this.lightCol, "vec4"), count: this.u.lightCount, max: MAX_VOLUME_LIGHTS };
   private readonly uApPos = uniformArray(this.apPos, "vec4");
   private readonly uApDir = uniformArray(this.apDir, "vec4");
@@ -236,6 +238,9 @@ export class Volumetrics implements VolumetricsSampler {
     this.canopy = new CanopyMap(deps.crowns);
     const gpu = deps.backend === "webgpu";
     this.tier = deps.tier ?? "high";
+    this.haloRow = lampHalo(this.tier);
+    this.u.haloViewM.value = this.haloRow.viewM;
+    this.halo = { sigmaFloor: this.u.haloSigma, viewM: this.u.haloViewM, minReachM: this.haloRow.minReachM };
     const n = gpu ? VOLUMETRIC_BANDS[this.tier].fog.shapeTexels : 1;
     this.shapeBake = gpu ? new FogShapeBake(n) : null;
     this.fogShape = makeNoise3(this.shapeBake?.data ?? new Uint8Array(4), n, "es-vol-fog-shape");
@@ -745,7 +750,7 @@ export class Volumetrics implements VolumetricsSampler {
     u.phiA.value = d.phiA; u.phiB.value = d.phiB; u.wfade.value = d.wfade; u.slow.value = d.slow;
     u.cover.value.set(d.cover[0], d.cover[1], d.cover[2], d.cover[3]);
     u.canopyHaze.value = d.cover[4]; u.air.value = r?.air ?? 1;
-    u.haloSigma.value = (r?.halo ?? 0) * LAMP_HALO.high.sigmaFloorPerM;
+    u.haloSigma.value = (r?.halo ?? 0) * this.haloRow.sigmaFloorPerM;
     u.steamOff.value.fromArray(d.steamOff); u.wispOff.value.fromArray(d.wispOff);
   }
 

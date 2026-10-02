@@ -49,7 +49,7 @@ interface Shot {
   /** When given, the regimes come from the fog field at this clock (the where/when proof shots). */
   fog?: Partial<FogFieldInput>; lanterns?: boolean; interior?: InteriorFogProfile; window?: boolean;
 }
-const R0: FogRegimes = { radiationMist: 0, steamFog: 0, marshFog: 0, seaFog: 0, canopyHaze: 0.25, air: 1, windXZ: [0.6, 0.2] };
+const R0: FogRegimes = { radiationMist: 0, steamFog: 0, marshFog: 0, seaFog: 0, canopyHaze: 0.25, air: 1, halo: 0, windXZ: [0.6, 0.2] };
 const DAWN_SUN: [number, number, number] = [2.6, 1.5, 0.8];
 const VALLEY_CLIMATE: FogFieldInput = {
   minuteOfDay: 360, sunriseMin: 360, sunsetMin: 1110, prevNightClearCalm: 1, hoursSinceRain: Infinity, rain: 0,

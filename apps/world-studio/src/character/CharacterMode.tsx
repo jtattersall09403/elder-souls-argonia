@@ -55,6 +55,8 @@ import { drawnLightRigOf } from "../sky/lightRig";
 import { CityMarkers } from "../CityMarkers";
 import { Vegetation, VEGETATION_ENABLED } from "../vegetation/Vegetation";
 import { Groundcover, GROUNDCOVER_ENABLED } from "../vegetation/Groundcover";
+import { volumetricTier } from "@elder-souls/game-core/air/volumetrics/bandGovernor";
+import type { FireVolumeTier } from "@elder-souls/game-core/fx/fire/fireTypes";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
 import { groundArrivalsOf } from "@elder-souls/game-core/settlement/groundPaint";
 import {
@@ -337,12 +339,14 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const crownsRef = useRef<CrownSource | null>(null);
   const settlementSolidsRef = useRef<SettlementSolid[]>([]);
   const sunLightingRef = useRef<SunLighting | null>(null);
+  /** The fire volume tier of the sky's current volumetric band (WorldSky `fireTierOut`). */
+  const fireTierRef = useRef<FireVolumeTier>("medium");
   const settlementEnvironment = useCallback(() => {
     const sample = lastWeatherSample();
     return sample
       ? { rainIntensity: sample.rainIntensity, epochMinutes: worldClock.epochMinutes(),
         windDirXZ: sample.windDirXZ, windSpeedMS: sample.windSpeedMS,
-        sunLighting: sunLightingRef.current ?? undefined }
+        sunLighting: sunLightingRef.current ?? undefined, fireTier: fireTierRef.current }
       : null;
   }, []);
   const handleSettlementSolids = useCallback((solids: SettlementSolid[]) => {
@@ -544,7 +548,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           {/* Natural light and sky (Phase 8a): terrain, character and sea are
               lit by the same sun/moon/sky rig, shadows and exposure as the
               flyover — WorldSky replaces the old per-mode light sets. */}
-          <WorldSky sunLightingOut={sunLightingRef} mode="character" shadowMapSize={quality.shadowMapSize} shadowCascadeRota={quality.shadowCascadeRota} extentM={authoredExtentM} verticalScale={verticalScale} hidden={insideInterior} groundHeight={settlementGroundAt} crowns={crownsRef}>
+          <WorldSky sunLightingOut={sunLightingRef} tier={volumetricTier(quality.name, touch)} fireTierOut={fireTierRef} mode="character" shadowMapSize={quality.shadowMapSize} shadowCascadeRota={quality.shadowCascadeRota} extentM={authoredExtentM} verticalScale={verticalScale} hidden={insideInterior} groundHeight={settlementGroundAt} crowns={crownsRef}>
           <group visible={!insideInterior}>
           <Suspense fallback={null}>
             <ApronTerrain
@@ -687,6 +691,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               kitCache={kitCache}
               overlay={doorOverlay}
               probeRef={interiorProbeRef}
+              fireTier={fireTierRef}
               sounds={sounds}
             />
             {/* 16e: operator sockets, the talk prompt and the travel menu.

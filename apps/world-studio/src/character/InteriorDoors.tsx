@@ -18,6 +18,7 @@ import { kitPartsDir } from "@elder-souls/game-core/interior/kitParts";
 import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
 import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import { DoorTransition, type InteriorSource } from "@elder-souls/game-core/interior/doorTransition";
+import type { FireVolumeTier } from "@elder-souls/game-core/fx/fire/fireTypes";
 import { fixtureLightFieldOf, prepareLit } from "@elder-souls/game-core/render/fixtureLights/index";
 import {
   InteriorEnvironment, InteriorFogNode, interiorFogProfile, type InteriorClimate,
@@ -87,7 +88,7 @@ export interface InteriorDoorsProbe {
  */
 export function InteriorDoors({
   baseUrl, controller, doors, groundAt, bodyCentreHeightM, directCellId, onInside, interaction, kitCache,
-  overlay, probeRef, sounds, onShown,
+  overlay, probeRef, sounds, onShown, fireTier,
 }: {
   baseUrl: string;
   controller: PlayerMovementController;
@@ -106,6 +107,8 @@ export function InteriorDoors({
   overlay: DoorOverlayChannel;
   /** Dev hook for the headless probe: a getter, so nothing is measured unless a probe asks. */
   probeRef?: { current: (() => InteriorDoorsProbe) | null };
+  /** The fire volume tier of the sky's volumetric band (WorldSky `fireTierOut`); a change rebuilds the cell's fire fields. */
+  fireTier?: { readonly current: FireVolumeTier };
   /** The scene's typed sound bus: swing doors say `door.open`/`door.close` on it. */
   sounds?: { emit(e: SoundEvent): void };
   /** The cell on screen and its sockets (the socket overlay), null outside. */
@@ -337,6 +340,7 @@ export function InteriorDoors({
   const reportedHold = useRef<number | null>(null);
   useFrame((state, delta) => {
     // the shown cell's fires (interiorLoader `fire`): an interior burns at any hour
+    if (fireTier) shown?.interior.fire?.setVolumeTier(fireTier.current);
     shown?.interior.fire?.update(state.clock.elapsedTime, () => 1);
     if (directCellId && !opened.current && controller.ready) {
       opened.current = true;

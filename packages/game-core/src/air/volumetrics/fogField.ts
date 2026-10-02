@@ -63,7 +63,7 @@ export interface FogRegimes {
   air: number;
   /** 0..1: how damp the air is for lamp halos (humidity, mist, sea fog); volumetricNodes LAMP_HALO turns
    * it into the halo medium's floor extinction, so damp nights wear halos under a clear sky. */
-  halo?: number;
+  halo: number;
   /** Advection velocity of the noise, m/s, XZ. */
   windXZ: [number, number];
 }

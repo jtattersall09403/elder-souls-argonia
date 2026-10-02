@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { airlightIntegral, LAMP_HALO } from "./volumetricNodes";
+import { airlightIntegral, LAMP_HALO, lampHalo } from "./volumetricNodes";
 
 describe("airlightIntegral", () => {
   it("with an isotropic phase matches a numeric march of the inverse-square in-scatter", () => {
@@ -37,5 +37,9 @@ describe("lamp halo floor", () => {
   it("mobile values sit beside the high ones", () => {
     expect(LAMP_HALO.mobile.viewM).toBeLessThanOrEqual(LAMP_HALO.high.viewM);
     expect(LAMP_HALO.mobile.minReachM).toBeGreaterThan(0);
+  });
+  it("a mobile renderer draws the mobile row, every desktop tier the high row", () => {
+    expect(lampHalo("mobile")).toBe(LAMP_HALO.mobile);
+    for (const t of ["low", "medium", "high"] as const) expect(lampHalo(t)).toBe(LAMP_HALO.high);
   });
 });

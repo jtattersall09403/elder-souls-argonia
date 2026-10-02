@@ -1,6 +1,7 @@
 import type { GroundPaintDoc } from "./groundPaint";
 import type { LocalPoolRecord } from "../water/localSurfaces";
 import type * as THREE from "three";
+import type { FireVolumeTier } from "../fx/fire/fireTypes";
 
 export const SETTLEMENT_COLLISION_FRAME = "settlement-pivot-yup-v1";
 
@@ -382,6 +383,8 @@ export interface SettlementLayerProps {
     windDirXZ?: readonly [number, number]; windSpeedMS?: number;
     /** The sky's sun direction (unit, toward the sun) and sun/sky irradiance in scene units; lights the chimney smoke. */
     sunLighting?: { dir: THREE.Vector3; sunIrradiance: THREE.Color; skyIrradiance: THREE.Color };
+    /** The fire volume tier of the volumetric band (bandGovernor `fireTier`); absent, the FlameSystem keeps its own. */
+    fireTier?: FireVolumeTier;
   } | null;
   onSolids?: (solids: SettlementSolid[]) => void;
   onStats?: (stats: SettlementRenderStats) => void;

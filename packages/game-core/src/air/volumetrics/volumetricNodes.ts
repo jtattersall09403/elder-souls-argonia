@@ -10,6 +10,7 @@
  */
 import * as tsl from "three/tsl";
 import type { TslNode } from "../../render/nodes/materialNodes";
+import type { VolumetricTier } from "./bandGovernor";
 
 const T = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode> & Record<string, TslNode>;
 const { Loop, If, atan, clamp, cos, dot, exp, float, length, log, max, min, mix, pow, sin, smoothstep, sqrt, vec3, vec4 } = T;
@@ -34,8 +35,8 @@ export interface VolumetricsSampler {
   /** Point lights for the analytic airlight (vec4 pos+reach, vec4 radiance, int count, loop bound). */
   lights?: { pos: TslNode; col: TslNode; count: TslNode; max: number };
   /** Lamp-halo medium floor (extinction /m, LAMP_HALO x the fog field's `halo` dampness) and the camera
-   * distance (m) out to which a lamp keeps its full halo. */
-  halo?: { sigmaFloor: TslNode; viewM: TslNode };
+   * distance (m) out to which a lamp keeps its full halo; minReachM is the tier's `lampHalo` row. */
+  halo?: { sigmaFloor: TslNode; viewM: TslNode; minReachM: number };
   /** Per-pixel extra in-scatter along the view ray (world dir, segment length, mean extinction):
    * sharp canopy shafts and beam motes the froxel grid is too coarse to hold. */
   extra?(dir: TslNode, segLen: TslNode, sigma: TslNode): TslNode;
@@ -77,6 +78,10 @@ export const LAMP_HALO = {
   high: { sigmaFloorPerM: 0.02, minReachM: 6, viewM: 30 },
   mobile: { sigmaFloorPerM: 0.02, minReachM: 4, viewM: 20 },
 } as const;
+/** The LAMP_HALO row a renderer of `tier` draws: mobile its own, every desktop tier high. */
+export function lampHalo(tier: VolumetricTier): (typeof LAMP_HALO)[keyof typeof LAMP_HALO] {
+  return tier === "mobile" ? LAMP_HALO.mobile : LAMP_HALO.high;
+}
 export const LAMP_REACH_FADE = 0.6;
 const smooth = (e0: number, e1: number, x: number) => { const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1); return t * t * (3 - 2 * t); };
 /** Midpoint steps of the equiangular march per lamp. */
@@ -116,7 +121,7 @@ function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode
   // the medium's mean extinction along this pixel's ray, read from the grid's own transmittance
   const gridSigma = clamp(log(max(trans, float(1e-4))).negate().div(max(viewDepth, v.near)), 0.002, 0.5);
   const sigma = v.halo ? max(gridSigma, v.halo.sigmaFloor) : gridSigma;
-  const minReach = float(LAMP_HALO.high.minReachM);
+  const minReach = float(v.halo?.minReachM ?? LAMP_HALO.high.minReachM);
   const { g, forward } = LAMP_PHASE;
   const acc = vec3(0).toVar();
   Loop({ start: 0, end: L.max }, ({ i }: { i: TslNode }) => {

@@ -67,15 +67,16 @@ import { lightningNow, weatherAt } from "../weather/weatherState";
 import { CLIMATE_MAX_TEXELS, loadSmoothRaster } from "@elder-souls/game-core/terrain/groundRasters";
 import { RainSystem, rainDropBudget } from "../weather/RainSystem";
 import { AmbientAir, type AmbientAirConditions } from "@elder-souls/game-core/air/AmbientAir";
+import type { FireVolumeTier } from "@elder-souls/game-core/fx/fire/fireTypes";
 import type { AirWaterSurface } from "@elder-souls/game-core/air/ambientAir";
 import { STUDIO_TOOLS } from "../studioTools";
-import { climateAirAt, OnshoreProbe } from "../weather/climateSampler";
+import { climateAirAt, ONSHORE, OnshoreProbe } from "../weather/climateSampler";
 import { buriedThresholdM } from "@elder-souls/game-core/water/index";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { airAmounts } from "@elder-souls/game-core/air/ambientAir";
 import * as TSL_V from "three/tsl";
 import { Volumetrics, MAX_VOLUME_LIGHTS, SKY_INSCATTER, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
-import { BandGovernor, volBandOverride } from "@elder-souls/game-core/air/volumetrics/bandGovernor";
+import { BandGovernor, VOLUMETRIC_BANDS, volBandOverride, type VolumetricTier } from "@elder-souls/game-core/air/volumetrics/bandGovernor";
 import {
   FogClockHistory, nearestVolumeLights, studioTerrainSamplers, sunriseSunsetMin,
   type CrownSource, type WaterRecordQuery, type WeatherProbe,
@@ -210,6 +211,8 @@ export function WorldSky({
   groundHeight,
   crowns,
   sunLightingOut,
+  tier,
+  fireTierOut,
   shadowMapSize = 2048,
   shadowCascadeRota = DEFAULT_CASCADE_ROTA,
   children,
@@ -223,6 +226,10 @@ export function WorldSky({
   crowns?: React.MutableRefObject<CrownSource | null>;
   /** Receives this sky's sun lighting object, for a parent that builds the settlement environment outside the provider. */
   sunLightingOut?: React.MutableRefObject<SunLighting | null>;
+  /** The renderer's volumetric tier (bandGovernor `volumetricTier`): the band ceiling and the mobile rows; absent, medium. */
+  tier?: VolumetricTier;
+  /** Receives the fire volume tier of the current band, for the parent that hands it to its FlameSystems. */
+  fireTierOut?: React.MutableRefObject<FireVolumeTier>;
   /** Terrain height at x,z (m), for the volumetric fog field's terrain grids
    * (decision 0112); absent, the medium sits on a flat 0 m ground. */
   groundHeight?: (x: number, z: number) => number | null;
@@ -257,13 +264,15 @@ export function WorldSky({
         epochMinutes: () => worldClock.epochMinutes(),
       }),
       crowns: (x, z, r) => crownsRef.current?.current?.crowns(x, z, r) ?? [],
+      tier,
     });
     return v;
-  }, [gl, extentM]);
+  }, [gl, extentM, tier]);
   const governor = useMemo(() => new BandGovernor({
     backend: activeBackend(gl as unknown as WebGPURenderer),
+    tier,
     override: typeof location === "undefined" ? null : volBandOverride(location.search),
-  }), [gl]);
+  }), [gl, tier]);
   useEffect(() => {
     let live = true;
     void sharedWaterAssets(DATA_BASE).then((a) => {
@@ -282,7 +291,7 @@ export function WorldSky({
   const volSun = useRef(new THREE.Color());
   const volSky = useRef(new THREE.Color());
   // onshore component of the wind for the sea-fog regime: climate-weather B's gradient, per camera cell
-  const onshoreProbe = useRef(new OnshoreProbe());
+  const onshoreProbe = useMemo(() => new OnshoreProbe(tier === "mobile" ? ONSHORE.mobile : ONSHORE.high), [tier]);
   /** The sun and sky the lit effects (chimney smoke) read; refreshed every frame, owned by this sky. */
   const sunLighting = useMemo<SunLighting>(() => ({ dir: new THREE.Vector3(0, 1, 0), sunIrradiance: volSun.current, skyIrradiance: volSky.current }), []);
   useEffect(() => { if (sunLightingOut) sunLightingOut.current = sunLighting; }, [sunLightingOut, sunLighting]);
@@ -895,6 +904,7 @@ export function WorldSky({
     // scene, its regimes from the clock, weather and climate here.
     const band = governor.frame(delta * 1000);
     if (band !== volumetrics.band) volumetrics.setBand(band);
+    if (fireTierOut) fireTierOut.current = governor.spec?.fireTier ?? VOLUMETRIC_BANDS[governor.tier].fireTier;
     const crownSrc = crowns?.current;
     if (crownSrc && crownSrc.version !== crownVersion.current) {
       crownVersion.current = crownSrc.version;
@@ -925,7 +935,7 @@ export function WorldSky({
           rain: wx.rainIntensity,
           windSpeedMS: wx.windSpeedMS, windDirXZ: wx.windDirXZ, humidity, wetSeason: (worldClock.season().s + 1) / 2,
           weatherRadiation: wx.mist.radiation, weatherAdvection: wx.mist.advection,
-          onshore: onshoreProbe.current.at(base, camera.position.x, camera.position.z, extentM, wx.windDirXZ),
+          onshore: onshoreProbe.at(base, camera.position.x, camera.position.z, extentM, wx.windDirXZ),
           regionHaze: wx.regionHaze,
           dayIndex: Math.floor(epochMinutes / 1440),
         },
