@@ -18,7 +18,7 @@ export function mountDiagOverlay(renderer: WebGPURenderer): GpuDiag {
   const nodes = (renderer as unknown as { _nodes?: { _createNodeBuilderState?: (...a: never[]) => unknown } })._nodes ?? null;
   const queue = buildQueueOf(renderer);
   const compiles = pipelineCompilesOf(renderer);
-  const diag = createGpuDiag(device, nodes, undefined, queue ? () => queue.deferred : undefined);
+  const diag = createGpuDiag(device, nodes, undefined, queue ? () => queue.skippedDraws : undefined);
   const box = document.createElement("div");
   box.style.cssText = "position:fixed;left:8px;bottom:8px;z-index:99999;background:rgba(0,0,0,.72);color:#cfe;"
     + "font:11px/1.35 monospace;padding:6px 8px;white-space:pre;pointer-events:auto;border-radius:4px";
@@ -48,7 +48,7 @@ export function mountDiagOverlay(renderer: WebGPURenderer): GpuDiag {
       const r = diag.seconds().at(-2); // the last whole second
       if (r) {
         text.textContent = `diag ${device ? "webgpu" : "webgl2"}  ${r.fps} fps  worst ${r.ms} ms\n`
-          + `per s: pipelines ${r.pipelines}  shaders ${r.shaders}  builds ${r.builds}  held back ${r.deferred}  waiting ${queue?.pending ?? 0}  pipelines compiling ${compiles?.pending ?? 0}\n`
+          + `per s: pipelines ${r.pipelines}  shaders ${r.shaders}  builds ${r.builds}  skipped draws ${r.skippedDraws}/s (total ${queue?.skippedDraws ?? 0})  builds pending ${queue?.pending ?? 0}  pipelines compiling ${compiles?.pending ?? 0}\n`
           + `buffers +${r.buffers} (${(r.bufferBytes / 1e6).toFixed(1)} MB) -${r.bufferDestroys}  textures +${r.textures} -${r.textureDestroys}\n`
           + `bind groups ${r.bindGroups}  write ${(r.writeBytes / 1e6).toFixed(1)} MB  tex write ${(r.textureWriteBytes / 1e6).toFixed(1)} MB\n`
           + `submits ${r.submits}  draws/frame ${Math.round(r.draws / Math.max(1, r.fps))}`;

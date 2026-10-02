@@ -20,7 +20,7 @@ describe("BuildQueue", () => {
     expect(started).toEqual(["near", "mid"]);
     done.get("mid")!(); await tick(); await tick();
     expect(started).toEqual(["near", "mid", "far"]);
-    expect(q.deferred).toBe(4);
+    expect(q.skippedDraws).toBe(4);
     done.get("far")!(); await tick(); await tick();
     expect(q.pending).toBe(0);
     expect(q.built).toBe(3);
@@ -53,7 +53,7 @@ describe("queueShaderBuilds", () => {
     await tick(); await tick(); await tick();
     frame();
     expect(drawn.slice(1)).toEqual(["a", "b", "c"]);
-    expect(queue.deferred).toBe(2);
+    expect(queue.skippedDraws).toBe(2);
     expect(queueShaderBuilds(fake as unknown as WebGPURenderer, 0)).toBeNull();
   });
 
@@ -68,13 +68,15 @@ describe("queueShaderBuilds", () => {
       getCacheKey: () => key,
     };
     let built = 0;
-    class Twin { constructor() {} }
+    const quiet = { removeEventListener() {} };
+    class Twin { material = quiet; geometry = quiet; onMaterialDispose = null; onGeometryDispose = null; }
     Object.defineProperty(ro, "constructor", { value: Twin });
     const nodes = {
       nodeBuilderCache: cache,
       get: () => ({ nodeBuilderState: {} }),
       getForRenderCacheKey: (r: { key: string }) => r.key,
       getForRender: async () => { await tick(); built++; cache.set(key, {}); },
+      delete() {},
       needsRefresh: () => false, updateBefore() {}, updateForRender() {}, updateAfter() {},
     };
     const fake = {
@@ -102,4 +104,57 @@ describe("queueShaderBuilds", () => {
     draw();
     expect(drawnDirect[3]).toBe("three");
   });
+
+  it("leaves no twin listening on the material and none retained after N re-keys", async () => {
+    const listeners = new Set<unknown>();
+    const mat = { version: 0, addEventListener: (_t: string, f: unknown) => listeners.add(f), removeEventListener: (_t: string, f: unknown) => listeners.delete(f) };
+    const geo = { drawRange: {}, addEventListener() {}, removeEventListener() {} };
+    const cache = new Map<unknown, { usedTimes: number; key: string }>();
+    const data = new WeakMap<object, { nodeBuilderState?: { usedTimes: number; key: string } }>();
+    let key = "k0";
+    class RO {
+      version = 0; camera = null; drawRange = null; group = null; material = mat; geometry = geo;
+      initialCacheKey = key; onMaterialDispose = () => {}; onGeometryDispose = () => {};
+      constructor() { mat.addEventListener("dispose", this.onMaterialDispose); }
+      get needsUpdate() { return this.initialCacheKey !== key; }
+      getCacheKey() { return key; }
+    }
+    const take = (ro: object) => { const s = cache.get(key) ?? { usedTimes: 0, key }; cache.set(key, s); s.usedTimes++; data.set(ro, { nodeBuilderState: s }); };
+    let real = new RO(); take(real);
+    const nodes = {
+      nodeBuilderCache: cache,
+      get: (ro: object) => data.get(ro) ?? {},
+      getForRenderCacheKey: (ro: RO) => ro.getCacheKey(),
+      getForRender: async (ro: RO) => { await tick(); take(ro); },
+      delete: (ro: RO) => { const s = data.get(ro)?.nodeBuilderState; data.delete(ro); if (s && --s.usedTimes === 0) cache.delete(s.key); },
+      needsRefresh: () => false, updateBefore() {}, updateForRender() {}, updateAfter() {},
+    };
+    const fake = {
+      _objects: { get: () => real, getChainMap: () => ({ get: () => real }), nodes: {}, geometries: {}, renderer: {} },
+      _currentRenderContext: null, _currentRenderBundle: null, _nodes: nodes,
+      _geometries: { updateForRender() {} }, _bindings: { updateForRender() {} },
+      _pipelines: { updateForRender() {}, isReady: () => true },
+      backend: { draw() {} }, info: {},
+      // three's own draw: a stale render object with its key cached is replaced (the old one disposed)
+      _renderObjectDirect() {
+        if (real.needsUpdate) { mat.removeEventListener("dispose", real.onMaterialDispose); nodes.delete(real); real = new RO(); take(real); }
+      },
+    };
+    const queue = queueShaderBuilds(fake as unknown as WebGPURenderer, 1)!;
+    const object = { geometry: geo, matrixWorld: { elements: new Array(16).fill(0) } };
+    const camera = { matrixWorld: { elements: new Array(16).fill(0) } };
+    const draw = () => (fake._renderObjectDirect as (...a: unknown[]) => void)(object, mat, {}, camera, {}, null, null, "default");
+    draw(); draw();
+    for (let i = 1; i <= 5; i++) {
+      key = `k${i}`;
+      draw(); // stale draw, twin build queued
+      await tick(); await tick(); await tick(); await tick();
+      draw(); // three swaps onto the built key; the twin's share is released
+    }
+    expect(listeners.size).toBe(1); // the real render object's listener only
+    expect(queue.twinsHeld).toBe(0);
+    expect(cache.size).toBe(1);
+    expect(cache.get("k5")!.usedTimes).toBe(1);
+  });
 });
+

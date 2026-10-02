@@ -35,7 +35,7 @@
  *   never completes a frame is failed as a hang at HANG_FACTOR x TARGET_S.
  *
  * The churn record (walk 9): `series` holds cumulative counters once a second (frames, pipelines,
- * shader modules, node builds, buffers, textures, bind groups, MB written, draws, draws held back
+ * shader modules, node builds, buffers, textures, bind groups, MB written, draws, skipped draws (cumulative; read buildsWaiting for a backlog)
  * for an unbuilt material, builds waiting) and `steady` their rates over the hold; during the hold it
  * also records which objects waited for a build and which uploaded new geometry, the node-build ms
  * per material (`nodeBuild`), and a JS stack when the page stops answering (`hangStacks`).
@@ -340,7 +340,7 @@ await page.addInitScript(([present, gpuTiming, light]) => {
       return ro.call(this, object, scene, camera, ...rest);
     };
   };
-  const tick = () => { hookRenderObject(); g.layerDraws = g.curLayerDraws; g.curLayerDraws = {}; g.lastFrameDraws = g.curDraws ?? 0; g.curDraws = 0; g.deferred = window.__RENDERER__?.esBuildQueue?.deferred ?? 0; g.buildsWaiting = window.__RENDERER__?.esBuildQueue?.pending ?? 0; g.pipelinesCompiling = window.__RENDERER__?.esPipelineCompiles?.pending ?? 0; requestAnimationFrame(tick); };
+  const tick = () => { hookRenderObject(); g.layerDraws = g.curLayerDraws; g.curLayerDraws = {}; g.lastFrameDraws = g.curDraws ?? 0; g.curDraws = 0; g.skippedDraws = window.__RENDERER__?.esBuildQueue?.skippedDraws ?? 0; g.buildsWaiting = window.__RENDERER__?.esBuildQueue?.pending ?? 0; g.pipelinesCompiling = window.__RENDERER__?.esPipelineCompiles?.pending ?? 0; requestAnimationFrame(tick); };
   requestAnimationFrame(tick);
   if (present) {
     C.getCurrentTexture = function () { frame(); return getCurrentTexture.call(this); };
@@ -524,9 +524,9 @@ const heap = [];
 // draws in the last frame. After the first complete frame every column but frames, bind groups and
 // MB written must stay flat: a rising one is per-frame material, geometry or target churn.
 const series = [];
-const SERIES_COLS = ["t", "frames", "pipelines", "shaders", "builds", "buffers", "bufDestroys", "bufMb", "textures", "bindGroups", "writeMb", "draws", "heldBack", "buildsWaiting", "pipelinesCompiling"];
+const SERIES_COLS = ["t", "frames", "pipelines", "shaders", "builds", "buffers", "bufDestroys", "bufMb", "textures", "bindGroups", "writeMb", "draws", "skippedDrawsTotal", "buildsWaiting", "pipelinesCompiling"];
 const seriesRow = (t, b) => [Math.round(t / 100) / 10, b.frames, b.pipelines + b.asyncPipelines, b.shaderModules, b.builds, b.count, b.bufferDestroys,
-  Math.round(b.total / 1e5) / 10, b.textures, b.bindGroups, Math.round(b.writeBytes / 1e5) / 10, b.lastFrameDraws ?? 0, b.deferred ?? 0, b.buildsWaiting ?? 0, b.pipelinesCompiling ?? 0];
+  Math.round(b.total / 1e5) / 10, b.textures, b.bindGroups, Math.round(b.writeBytes / 1e5) / 10, b.lastFrameDraws ?? 0, b.skippedDraws ?? 0, b.buildsWaiting ?? 0, b.pipelinesCompiling ?? 0];
 let pendingSince = 0, maxPingMs = 0, pending = null, lastBoot = null, lastLong = [];
 // A ping out over 10 s: pause the page once and keep the JS stack it was stuck in (what hung).
 const hangStacks = [];
@@ -550,7 +550,7 @@ const beat = setInterval(() => {
       frames: b.frames, firstFrameMs: b.firstFrameMs, total: b.total, count: b.count, bufferDestroys: b.bufferDestroys,
       pipelines: b.pipelines, asyncPipelines: b.asyncPipelines, shaderModules: b.shaderModules, builds: b.builds,
       textures: b.textures, bindGroups: b.bindGroups, writeBytes: b.writeBytes, lastFrameDraws: b.lastFrameDraws, layerDraws: b.layerDraws,
-      deferred: b.deferred, buildsWaiting: b.buildsWaiting, pipelinesCompiling: b.pipelinesCompiling,
+      skippedDraws: b.skippedDraws, buildsWaiting: b.buildsWaiting, pipelinesCompiling: b.pipelinesCompiling,
       errors: b.errors, losses: b.losses, slow: b.slow, big: b.big, destroys: b.destroys, buildBy: {}, drawBy: {},
     }, window.__LONG_TASKS__]); }))
     .then((j) => { if (!j) return; const [bt, lt] = JSON.parse(j); if (bt) { lastBoot = bt; series.push(seriesRow(s - t0, bt)); } if (lt) lastLong = lt; })

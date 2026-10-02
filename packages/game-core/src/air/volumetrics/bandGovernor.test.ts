@@ -16,10 +16,10 @@ describe("BandGovernor", () => {
   it("WebGL is off", () => {
     expect(run(new BandGovernor({ backend: "webgl" }), 5, 20)).toBe("off");
   });
-  it("starts medium, steps down after 2 s over 20 ms, never below low", () => {
+  it("starts medium, steps down after 8 s (hold) over 20 ms, never below low", () => {
     const g = new BandGovernor({ backend: "webgpu" });
     expect(g.band).toBe("medium");
-    expect(run(g, 25, 1.9)).toBe("medium");
+    expect(run(g, 25, 7.9)).toBe("medium");
     expect(run(g, 25, 0.2)).toBe("low");
     expect(run(g, 40, 10)).toBe("low");
   });

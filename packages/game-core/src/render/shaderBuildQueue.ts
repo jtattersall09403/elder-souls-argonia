@@ -16,7 +16,8 @@ import type { WebGPURenderer } from "three/webgpu";
  *
  * An object that drew before and is re-keyed (a light set, fog or material
  * change) keeps drawing under its built program while the new key builds on
- * a detached render object: a re-key costs stale frames, never a vanish.
+ * a detached render object (released once the real one holds the new key): a
+ * re-key costs stale frames, never a vanish and never a retained object.
  * Here an object whose material is not built yet is not drawn; its build is
  * queued and runs with three's `buildAsync`, which yields to the browser
  * after every shader stage, so no task holds the main thread for a whole
@@ -28,20 +29,27 @@ import type { WebGPURenderer } from "three/webgpu";
  * the far tiles).
  */
 export const SHADER_BUILDS_IN_FLIGHT = 1;
+/** A build twin whose object never re-draws is released after this long. */
+export const TWIN_HOLD_MS = 10_000;
 
 /** The waiting builds, by cache key: the pure part of the queue (unit-tested). */
 export class BuildQueue<K = unknown> {
   private readonly waiting = new Map<K, { start: () => unknown; priority: number }>();
   private readonly running = new Set<K>();
-  /** Draws skipped because their material was not built (a measure for the HUD and the boot check). */
-  deferred = 0;
+  /**
+   * Draws skipped because their material was not built, CUMULATIVE (every skipped draw of every
+   * frame, not unique keys): read it as a rate; `pending` is the backlog.
+   */
+  skippedDraws = 0;
+  /** Detached build twins still held until the real render object takes their key (0 when settled). */
+  twinsHeld = 0;
   /** Builds finished. */
   built = 0;
   constructor(readonly inFlight: number, private readonly onError: (e: unknown) => void = () => {}) {}
 
   /** An unbuilt draw for `key`: queue its build (lower `priority` starts first; the latest start wins). */
   request(key: K, priority: number, start: () => unknown): void {
-    this.deferred++;
+    this.skippedDraws++;
     if (this.running.has(key)) return;
     const w = this.waiting.get(key);
     if (w) { w.start = start; w.priority = Math.min(w.priority, priority); }
@@ -81,7 +89,10 @@ interface RenderObjectInternals {
   group: unknown;
   initialCacheKey: unknown;
   readonly needsUpdate: boolean;
-  material: { version: number };
+  material: { version: number; removeEventListener(t: string, f: unknown): void };
+  geometry: { removeEventListener(t: string, f: unknown): void };
+  onMaterialDispose: unknown;
+  onGeometryDispose: unknown;
   getCacheKey(): unknown;
   constructor: new (...a: unknown[]) => RenderObjectInternals;
 }
@@ -97,6 +108,7 @@ interface RendererInternals {
     nodes: unknown; geometries: unknown; renderer: unknown;
   };
   _nodes: {
+    delete(renderObject: object): unknown;
     nodeBuilderCache: Map<unknown, unknown>;
     get(renderObject: object): { nodeBuilderState?: unknown };
     getForRenderCacheKey(renderObject: object): unknown;
@@ -139,24 +151,59 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
   // render objects that have drawn built: the fast path skips every lookup of ours for them.
   // Per queue instance (engineering standard 8), weak so disposed objects go.
   const drawn = new WeakSet<object>();
+  // Build twins by cache key, held after their build until the real render object holds the same
+  // key (then the twin's share of the builder state is released: usedTimes stays >= 1 and the
+  // cache entry lives on with its real owner). A twin is never left listening on the material.
+  const twins = new Map<unknown, { twin: RenderObjectInternals; at: number }>();
+  const nodes0 = r._nodes;
+  const release = (key: unknown) => {
+    const t = twins.get(key);
+    if (!t) return;
+    twins.delete(key); queue.twinsHeld = twins.size;
+    nodes0.delete(t.twin);
+  };
+  const settleTwins = (current: RenderObjectInternals | undefined) => {
+    if (twins.size === 0) return;
+    if (current) {
+      const key = current.getCacheKey();
+      if (twins.has(key) && twins.get(key)!.twin !== current && nodes0.get(current).nodeBuilderState !== undefined) release(key);
+    }
+    // an object removed before it re-drew: its twin goes after TWIN_HOLD_MS (nobody needs the key then)
+    const now = Date.now();
+    for (const [k, t] of twins) if (now - t.at > TWIN_HOLD_MS) release(k);
+  };
   r._renderObjectDirect = function (this: RendererInternals, ...a: unknown[]) {
     const [object, material, scene, camera, lightsNode, group, clippingContext, passId] = a;
     const objects = this._objects, nodes = this._nodes;
-    const current = objects.getChainMap(passId).get([object, material, this._currentRenderContext, lightsNode]);
+    const chain = objects.getChainMap(passId), chainKeys = [object, material, this._currentRenderContext, lightsNode];
+    const current = chain.get(chainKeys);
     if (current && drawn.has(current)) {
       const stale = (current.version !== (material as { version: number }).version || current.needsUpdate)
         && current.initialCacheKey !== current.getCacheKey();
-      if (!stale || nodes.nodeBuilderCache.has(current.getCacheKey())) { draw.apply(this, a); return; }
+      if (!stale || nodes.nodeBuilderCache.has(current.getCacheKey())) {
+        draw.apply(this, a);
+        if (twins.size) settleTwins(chain.get(chainKeys));
+        return;
+      }
       // Re-keyed (a light, fog or material change) and the new program is not built: three would
       // dispose this render object and draw nothing until the build lands. Keep drawing it under
       // its built program and build the new key on a detached render object (never in the chain
       // map), so the swap happens on the first frame after the build: stale frames, never a vanish.
+      // The real render object cannot build it: its node data already holds the old builder state.
       const ro = current;
-      queue.request(ro.getCacheKey(), distanceSq(object as Placed, camera as Viewer), () => {
+      const key = ro.getCacheKey();
+      queue.request(key, distanceSq(object as Placed, camera as Viewer), () => {
         const twin = new ro.constructor(objects.nodes, objects.geometries, objects.renderer, object, material, scene, camera, lightsNode, this._currentRenderContext, clippingContext);
-        // never disposed: disposing would drop the cache entry it just built (usedTimes -> 0);
-        // its node data is weakly held and goes with it
-        return nodes.getForRender(twin, true);
+        // the constructor listens for material/geometry dispose: drop both now, or the shared
+        // material retains every twin (and its nodes, bindings, attributes) for the session
+        twin.material.removeEventListener("dispose", twin.onMaterialDispose);
+        twin.geometry.removeEventListener("dispose", twin.onGeometryDispose);
+        // not disposed: dispose would drop the cache entry it just built (usedTimes -> 0) before
+        // the real render object takes it; `release` hands the share back once it has
+        return Promise.resolve(nodes.getForRender(twin, true)).then(() => {
+          if (twins.has(key)) release(key);
+          twins.set(key, { twin, at: Date.now() }); queue.twinsHeld = twins.size;
+        });
       });
       if (this._currentRenderBundle !== null) return;
       ro.camera = camera;
@@ -174,6 +221,7 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
     if (nodes.get(ro).nodeBuilderState !== undefined || nodes.nodeBuilderCache.has(key)) {
       drawn.add(ro);
       draw.apply(this, a);
+      if (twins.size) settleTwins(chain.get(chainKeys));
       return;
     }
     queue.request(key, distanceSq(object as Placed, camera as Viewer), () => nodes.getForRender(ro, true));

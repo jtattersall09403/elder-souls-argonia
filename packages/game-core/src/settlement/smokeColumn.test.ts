@@ -96,6 +96,7 @@ describe("SmokeColumns draw", () => {
   it("carries a position attribute from construction (walk 10 node-builder warning)", () => {
     const columns = new SmokeColumns(new THREE.Texture());
     expect(columns.mesh.geometry.getAttribute("position")).toBeDefined();
+    for (const a of ["normal", "uv", "color"]) expect(columns.mesh.geometry.getAttribute(a)).toBeDefined();
     const camera = new THREE.PerspectiveCamera();
     camera.updateMatrixWorld();
     expect(columns.update(1, camera, { dirXZ: [1, 0], speedMS: 2 })).toBe(0);

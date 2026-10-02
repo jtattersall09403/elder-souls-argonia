@@ -494,13 +494,19 @@ describe("sprite holders: mined flames on a piece that is no light fixture (16k 
   it("gives every sprite batch a position attribute before its first quad (walk 10)", () => {
     const manager = new SettlementLightFixtures({ value: 1 });
     manager.setFlameTexture(new THREE.Texture());
-    let meshes = 0;
+    let meshes = 0, batches = 0;
     manager.group.traverse((o) => {
       const mesh = o as THREE.Mesh;
       if (!mesh.isMesh) return;
       meshes += 1;
       expect(mesh.geometry.getAttribute("position")).toBeDefined();
+      // the sprite batches (vertex-coloured) read uv and color as well; the fire cards read neither
+      if (!(mesh.material as THREE.MeshBasicMaterial).vertexColors) return;
+      batches += 1;
+      expect(mesh.geometry.getAttribute("uv")).toBeDefined();
+      expect(mesh.geometry.getAttribute("color")).toBeDefined();
     });
     expect(meshes).toBeGreaterThan(0);
+    expect(batches).toBeGreaterThan(0);
   });
 });

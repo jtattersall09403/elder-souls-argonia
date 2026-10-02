@@ -2,7 +2,7 @@
  * The volumetric band per frame (decision 0112 §7): a `?vol=` URL override
  * wins; the WebGL backend is off; otherwise start medium, step down when the
  * median frame time over 2 s is above 20 ms, step up (to high at most) once
- * the 2 s median has stayed under 12 ms for 8 s. Frame times are what the host feeds
+ * the 2 s median has stayed under 12 ms for 8 s; never two changes within 8 s. Frame times are what the host feeds
  * (CPU frame deltas: the wall time the player sees).
  */
 import type { VolumetricBand } from "./froxelGrid";
@@ -12,6 +12,8 @@ export const DOWN_MS = 20;
 export const UP_MS = 12;
 export const DOWN_WINDOW_S = 2;
 export const UP_WINDOW_S = 8;
+/** No band change within this long of the last one, either way (hysteresis; walk 10 B stepped every 2 s). */
+export const HOLD_S = 8;
 
 /** The `vol` query parameter, when it names a band. */
 export function volBandOverride(search: string): VolumetricBand | null {
@@ -52,7 +54,7 @@ export class BandGovernor {
     const i = ORDER.indexOf(this.band);
     const med = median(this.frames.map((f) => f.ms));
     this.calmS = med < UP_MS ? this.calmS + frameMs / 1000 : 0;
-    if (this.sinceChange >= DOWN_WINDOW_S && i > 1 && med > DOWN_MS) return this.change(ORDER[i - 1]);
+    if (this.sinceChange >= HOLD_S && i > 1 && med > DOWN_MS) return this.change(ORDER[i - 1]);
     if (this.calmS >= UP_WINDOW_S && i < ORDER.length - 1) return this.change(ORDER[i + 1]);
     return this.band;
   }

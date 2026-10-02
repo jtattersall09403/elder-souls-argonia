@@ -30,12 +30,12 @@ export interface GpuDiagFrame {
   submits: number;
   draws: number;
   /** draws skipped because their material was still building (shaderBuildQueue) */
-  deferred: number;
+  skippedDraws: number;
 }
 
 const ZERO = (): Omit<GpuDiagFrame, "t" | "ms"> => ({
   pipelines: 0, shaders: 0, builds: 0, buffers: 0, bufferBytes: 0, bufferDestroys: 0, textures: 0,
-  textureDestroys: 0, bindGroups: 0, writeBytes: 0, textureWriteBytes: 0, submits: 0, draws: 0, deferred: 0,
+  textureDestroys: 0, bindGroups: 0, writeBytes: 0, textureWriteBytes: 0, submits: 0, draws: 0, skippedDraws: 0,
 });
 
 export interface GpuDiag {
@@ -83,8 +83,8 @@ export function rollupSeconds(frames: GpuDiagFrame[]): Array<GpuDiagFrame & { fp
  * builds). `capacity` frames are kept (default 7200: two minutes at 60 fps).
  */
 export function createGpuDiag(device: GPUDevice | null, nodes?: { _createNodeBuilderState?: Fn } | null, capacity = 7200,
-  deferredCount?: () => number): GpuDiag {
-  let deferredSeen = deferredCount?.() ?? 0;
+  skippedDrawCount?: () => number): GpuDiag {
+  let skippedSeen = skippedDrawCount?.() ?? 0;
   let cur = ZERO();
   const ring: GpuDiagFrame[] = [];
   let last = -1;
@@ -131,7 +131,7 @@ export function createGpuDiag(device: GPUDevice | null, nodes?: { _createNodeBui
   const api: GpuDiag = {
     get current() { return cur; },
     endFrame(now) {
-      if (deferredCount) { const d = deferredCount(); cur.deferred = d - deferredSeen; deferredSeen = d; }
+      if (skippedDrawCount) { const d = skippedDrawCount(); cur.skippedDraws = d - skippedSeen; skippedSeen = d; }
       const f: GpuDiagFrame = { t: Math.round(now), ms: last < 0 ? 0 : Math.round((now - last) * 10) / 10, ...cur };
       last = now; cur = ZERO();
       ring.push(f); if (ring.length > capacity) ring.splice(0, ring.length - capacity);

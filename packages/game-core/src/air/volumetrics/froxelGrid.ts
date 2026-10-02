@@ -33,6 +33,8 @@ export const VOLUMETRIC_BANDS: Record<Exclude<VolumetricBand, "off">, BandSpec> 
   medium: { grid: [128, 72, 48], farM: 800, temporal: true },
   high: { grid: [160, 90, 64], farM: 1500, temporal: true },
 };
+/** The grids are allocated once at this size (the largest band) and never resized (see the class doc). */
+export const MAX_GRID = VOLUMETRIC_BANDS.high.grid;
 export const FROXEL_NEAR_M = 0.5;
 export const MAX_VOLUME_LIGHTS = 16;
 export const MAX_APERTURES = 4;
@@ -128,6 +130,14 @@ function makeClear(): THREE.Data3DTexture {
   return t;
 }
 
+/**
+ * Band-relative `uvw` (0..1 over a `g`-texel grid) to the `MAX_GRID` texture the band fills the low
+ * corner of; clamped half a texel in, so linear filtering never reads texels outside the band.
+ */
+function subUvw(uvw: TslNode, g: TslNode): TslNode {
+  return clamp(uvw.mul(g), vec3(0.5), g.sub(0.5)).div(vec3(MAX_GRID[0], MAX_GRID[1], MAX_GRID[2]));
+}
+
 const hg = (g: number, c: TslNode) =>
   float((1 - g * g) / (4 * Math.PI)).div(pow(max(float(1 + g * g).sub(c.mul(2 * g)), float(1e-4)), float(1.5)));
 
@@ -137,13 +147,20 @@ export class Volumetrics implements VolumetricsSampler {
   readonly canopy: CanopyMap;
   private readonly detail = makeVolumeDetail();
   private readonly clear = makeClear();
-  private scatter: [Storage3DTexture, Storage3DTexture] | null = null;
-  private integ: Storage3DTexture | null = null;
-  private blurred: Storage3DTexture | null = null;
+  /**
+   * The four grids, allocated once at `MAX_GRID` (WebGPU only) and destroyed only by `dispose`: a
+   * band fills the low corner of each and samples it through `subUvw`. Bind groups sample these, and
+   * three clears a bind group when its texture is destroyed, so a band step that freed them left
+   * live materials sampling a destroyed texture (walk 10, "es-vol-integrated"). Texture identity
+   * never changes: a band step sets uniforms and picks that band's kernels (built once, cached).
+   */
+  private readonly scatter: readonly [Storage3DTexture, Storage3DTexture] | null;
+  private readonly integ: Storage3DTexture | null;
+  private readonly blurred: Storage3DTexture | null;
+  private readonly kernelsByBand = new Map<VolumetricBand, { inject: [TslNode, TslNode]; blur: [TslNode, TslNode]; integrate: TslNode }>();
   private kernels: { inject: [TslNode, TslNode]; blur: [TslNode, TslNode]; integrate: TslNode } | null = null;
   private parity = 0;
   private frameIndex = 0;
-  private readonly sampleNodes: TslNode[] = [];
   private readonly prevViewProj = new THREE.Matrix4();
   private hasHistory = false;
   /** Last dispatch sizes (invocations) for probes: inject, integrate. */
@@ -180,39 +197,49 @@ export class Volumetrics implements VolumetricsSampler {
   constructor(private readonly deps: VolumetricsDeps) {
     this.grids = new TerrainGrids(deps.terrain);
     this.canopy = new CanopyMap(deps.crowns);
+    const gpu = deps.backend === "webgpu";
+    this.scatter = gpu ? [makeGrid(MAX_GRID, "es-vol-scatter-a"), makeGrid(MAX_GRID, "es-vol-scatter-b")] : null;
+    this.integ = gpu ? makeGrid(MAX_GRID, "es-vol-integrated") : null;
+    this.blurred = gpu ? makeGrid(MAX_GRID, "es-vol-scatter-blurred") : null;
   }
 
+  /** The textures the grids live in, for tests and probes (constant for the object's life). */
+  get textures(): readonly (Storage3DTexture | null)[] {
+    return [this.scatter?.[0] ?? null, this.scatter?.[1] ?? null, this.integ, this.blurred];
+  }
+
+  /** The integrated grid at band-relative `uvw` (0..1 over the band's grid); clear (rgb 0, a 1) while off. */
   sampleIntegrated(uvw: TslNode): TslNode {
-    const n = texture3D(this.integ ?? this.clear, uvw, 0);
-    this.sampleNodes.push(n);
-    return n;
+    if (!this.integ) return texture3D(this.clear, uvw, 0);
+    return mix(vec4(0, 0, 0, 1), texture3D(this.integ, subUvw(uvw, this.gridSize), 0), this.on);
   }
 
   setBand(band: VolumetricBand): void {
     if (this.deps.backend !== "webgpu") band = "off";
     if (band === this.band) return;
-    this.freeGrids();
     this.band = band;
     this.hasHistory = false;
     if (band === "off") {
       this.on.value = 0;
-      for (const n of this.sampleNodes) n.value = this.clear;
+      this.dispatch.inject = 0; this.dispatch.integrate = 0;
       return;
     }
     const spec = VOLUMETRIC_BANDS[band];
     this.far.value = spec.farM;
     this.gridSize.value.set(spec.grid[0], spec.grid[1], spec.grid[2]);
-    this.scatter = [makeGrid(spec.grid, "es-vol-scatter-a"), makeGrid(spec.grid, "es-vol-scatter-b")];
-    this.integ = makeGrid(spec.grid, "es-vol-integrated");
-    this.blurred = makeGrid(spec.grid, "es-vol-scatter-blurred");
-    this.kernels = {
-      inject: [this.injectKernel(spec, this.scatter[0], this.scatter[1]), this.injectKernel(spec, this.scatter[1], this.scatter[0])],
-      blur: [this.blurKernel(spec, this.scatter[0]), this.blurKernel(spec, this.scatter[1])],
-      integrate: this.integrateKernel(spec, this.blurred),
-    };
+    let k = this.kernelsByBand.get(band);
+    if (!k) {
+      const [a, b] = this.scatter!;
+      k = {
+        inject: [this.injectKernel(spec, a, b), this.injectKernel(spec, b, a)],
+        blur: [this.blurKernel(spec, a), this.blurKernel(spec, b)],
+        integrate: this.integrateKernel(spec, this.blurred!),
+      };
+      this.kernelsByBand.set(band, k);
+    }
+    this.kernels = k;
     this.dispatch.inject = spec.grid[0] * spec.grid[1] * spec.grid[2];
     this.dispatch.integrate = spec.grid[0] * spec.grid[1];
-    for (const n of this.sampleNodes) n.value = this.integ;
     this.on.value = 1;
   }
 
@@ -479,7 +506,7 @@ export class Volumetrics implements VolumetricsSampler {
         const ps = log(max(prev.w, this.near).div(this.near)).div(log(this.far.div(this.near)));
         const inside = step(0, puv.x).mul(step(puv.x, 1)).mul(step(0, puv.y)).mul(step(puv.y, 1))
           .mul(step(0, ps)).mul(step(ps, 1)).mul(step(0, prev.w));
-        const hist = texture3D(history, vec3(puv, ps), 0);
+        const hist = texture3D(history, subUvw(vec3(puv, ps), vec3(gx, gy, gz)), 0);
         cur.assign(mix(cur, hist, inside.mul(HISTORY_BLEND)));
       });
       textureStore(write, coord, cur).toWriteOnly();
@@ -496,7 +523,7 @@ export class Volumetrics implements VolumetricsSampler {
       const c = vec3(float(coord.x).add(0.5).div(gx), float(coord.y).add(0.5).div(gy), float(coord.z).add(0.5).div(gz));
       const acc = vec4(0).toVar();
       for (const [dx, dy, w] of [[-1, -1, 1], [0, -1, 2], [1, -1, 1], [-1, 0, 2], [0, 0, 4], [1, 0, 2], [-1, 1, 1], [0, 1, 2], [1, 1, 1]]) {
-        acc.addAssign(texture3D(read, c.add(vec3(dx / gx, dy / gy, 0)), 0).mul(w / 16));
+        acc.addAssign(texture3D(read, subUvw(c.add(vec3(dx / gx, dy / gy, 0)), vec3(gx, gy, gz)), 0).mul(w / 16));
       }
       textureStore(out, coord, acc).toWriteOnly();
     })().compute(gx * gy * gz).setName("volumetricsBlur");
@@ -520,7 +547,7 @@ export class Volumetrics implements VolumetricsSampler {
         const d0 = this.near.mul(pow(ratio, fi.div(gz)));
         const d1 = this.near.mul(pow(ratio, fi.add(1).div(gz)));
         const ds = d1.sub(d0).mul(rayScale);
-        const sc = texture3D(read, vec3(uv, fi.add(0.5).div(gz)), 0);
+        const sc = texture3D(read, subUvw(vec3(uv, fi.add(0.5).div(gz)), vec3(gx, gy, gz)), 0);
         const sig = max(sc.a, float(1e-7));
         const tr = exp(sig.mul(ds).negate());
         accum.addAssign(trans.mul(sc.rgb.sub(sc.rgb.mul(tr)).div(sig)));
@@ -606,20 +633,13 @@ export class Volumetrics implements VolumetricsSampler {
     this.u.lightCount.value = n;
   }
 
-  private freeGrids(): void {
-    this.scatter?.forEach((t) => t.dispose());
-    this.integ?.dispose();
-    this.blurred?.dispose();
-    this.scatter = null; this.integ = null; this.blurred = null; this.kernels = null;
-  }
-
   dispose(): void {
-    this.freeGrids();
+    for (const t of this.textures) t?.dispose();
+    this.kernels = null; this.kernelsByBand.clear();
     this.grids.dispose();
     this.canopy.dispose();
     this.detail.dispose();
     this.clear.dispose();
-    this.sampleNodes.length = 0;
   }
 }
 

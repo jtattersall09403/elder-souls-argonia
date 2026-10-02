@@ -466,6 +466,10 @@ headless.
   switch a light or its shadow off with `intensity` / `shadow.intensity`
   (`render/lightSwitch`: `setShadowShown`, `LIGHT_HELD_OFF`; test
   `apps/world-studio/src/sky/lightCacheKeys.test.ts`).
+- On the node renderer a GPU resource a bind group samples (texture,
+  storage buffer) is allocated once at its largest size and never
+  destroyed while a material can bind it; quality steps change uniforms
+  and dispatch counts only (`air/volumetrics/froxelGrid.test.ts`).
 
 **Before adding a material.**
 - Share it: one material per kit glTF material (or per batch key), never a

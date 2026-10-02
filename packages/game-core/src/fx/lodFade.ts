@@ -62,7 +62,7 @@ import type { NodeMaterial } from "three/webgpu";
 import * as tsl from "three/tsl";
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
 const {
-  bool, distance, float, floor, fract, int, ivec2, max, positionLocal, screenCoordinate,
+  bool, clamp, distance, float, floor, fract, int, ivec2, max, positionLocal, screenCoordinate,
   smoothstep, step, textureLoad, uniform, uniformArray, vec2, vec3,
 } = tsl as unknown as Record<string, TslNode>;
 import { batchUniformsOf, instanceDataNode } from "./batchData";
@@ -415,10 +415,9 @@ export function applyLodFade(
     const size = int(params.z);
     const inside = cell.x.greaterThanEqual(0).and(cell.y.greaterThanEqual(0))
       .and(cell.x.lessThan(size)).and(cell.y.lessThan(size));
-    const safe = ivec2(
-      cell.x.max(0).min(size.sub(1)),
-      cell.y.max(0).min(size.sub(1)),
-    );
+    // clamp on ivec2 operands: three's GLSL builder casts a SCALAR second operand of min/max to
+    // float, and GLSL has no min(int, float) (walk 10 WebGL "'min': no matching overloaded function")
+    const safe = clamp(cell, ivec2(0, 0), ivec2(size.sub(1), size.sub(1)));
     const occluded = d.greaterThan(OCCLUSION_MIN_DISTANCE_M).and(inside)
       .and(textureLoad(batch.esOccMask, safe).r.greaterThan(0.5));
     collapse = collapse.or(occluded);

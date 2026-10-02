@@ -143,11 +143,14 @@ export class SmokeColumns {
   readonly mesh: THREE.Mesh;
   private anchors: SmokeAnchor[] = [];
   private source: readonly SmokeAnchor[] | null = null;
-  // A zero-length position from the start: a hidden mesh still reaches the
-  // node builder on a scene compile, and one without `position` warns
-  // (walk 10 "AttributeNode position not found").
+  // Every attribute the material reads, zero-length from the start: a hidden
+  // mesh still reaches the node builder on a scene compile, and a missing one
+  // warns (walk 10 "AttributeNode position/uv not found") and keys a second program.
   private readonly geometry = new THREE.BufferGeometry()
-    .setAttribute("position", new THREE.BufferAttribute(new Float32Array(0), 3));
+    .setAttribute("position", new THREE.BufferAttribute(new Float32Array(0), 3))
+    .setAttribute("normal", new THREE.BufferAttribute(new Float32Array(0), 3))
+    .setAttribute("uv", new THREE.BufferAttribute(new Float32Array(0), 2))
+    .setAttribute("color", new THREE.BufferAttribute(new Float32Array(0), 4));
   private readonly material: MeshBasicNodeMaterial;
   /** Sun direction (unit, toward the sun), sun and sky irradiance (scene units); lit = 1 once `setLighting` ran. */
   private readonly light = { sunDir: uniform(new THREE.Vector3(0, 1, 0)), sunIrr: uniform(new THREE.Color(0, 0, 0)), skyIrr: uniform(new THREE.Color(0, 0, 0)), lit: uniform(0) };

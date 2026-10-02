@@ -431,7 +431,11 @@ export class SettlementLightFixtures {
     // zero-length position until the first quad: a scene compile builds hidden
     // meshes too, and a geometry without `position` warns there (walk 10)
     const geometry = new THREE.BufferGeometry()
-      .setAttribute("position", new THREE.BufferAttribute(new Float32Array(0), 3));
+      .setAttribute("position", new THREE.BufferAttribute(new Float32Array(0), 3))
+      // every attribute the material reads, zero-length: a hidden batch compiled before its first
+      // quad otherwise warns "AttributeNode: uv not found" (walk 10) and keys a second program
+      .setAttribute("uv", new THREE.BufferAttribute(new Float32Array(0), 2))
+      .setAttribute("color", new THREE.BufferAttribute(new Float32Array(0), 4));
     const material = new THREE.MeshBasicMaterial({
       map: null, transparent: true, depthWrite: false, vertexColors: true,
       blending: THREE.AdditiveBlending, side: THREE.DoubleSide, fog: false,
