@@ -10,10 +10,14 @@
  *     [--window 10] [--width 1280 --height 720] [--prep /tmp/<lane>/prep-times.jsonl]
  *   node tooling/gpu-lane/pod-capture.mjs --url <url> [--compare <url>] --out <dir> [...]   (a views file of one or two views)
  *
- * --views      JSON list of {name, url, steps?, shots?, seconds?}; each view writes <out>/<name>/ (result.json, frames/, final.jpg,
+ * --views      JSON list of {name, url, steps?, shots?, seconds?, plain?} (url any http(s) URL; plain: a non-studio page, no settle
+ *              gate, runs its seconds); each view writes <out>/<name>/ (result.json, frames/, final.jpg,
  *              trace.json); <out>/result.json holds every view and <out>/summary.md the table. Example: views/webgpu10-iter7.json
  * --url/--compare  the single-URL case: views "main" (and "compare"); result.lumaRatio = main luma / compare luma per read
  * --pod        opens the CDP tunnel itself (tunnels.mjs: PID recorded, closed at exit); else --cdp (default $CHROME_CDP or :9222)
+ *              With --pod, a Chrome that stops answering (a CDP timeout, then a failed Browser.getVersion) is restarted with
+ *              pod-setup.sh <--chrome-mode, default webgpu> over the ssh, and the run continues; that view gets recovered: true
+ *              (rerun when its page never opened). A forced GC that times out turns the view's later GCs off (gcOff).
  * --seconds    capture length per view (default 120; a view's `seconds` overrides)
  * --shots      JPEG frame schedule: every <fastMs> to <fastUntilS>, then every <slowMs>; "none" for no frames (a view's `shots` overrides)
  * --reads      seconds at which to read screen-middle luma and blackShare (x 30-70 %, y 40-90 %, luma <= 3), HUD lines, heap,
@@ -41,9 +45,10 @@
  * loss), reads, settledAt, heapSlope (post-GC MB/min once GPU resource counts held 5 s), work, stages, hitches, probe, summary.
  * Exit 0 unless the tab could not be opened.
  */
+import { execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { capVerdict, contaminationVerdict, counter, heapSlope, settleGate, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summaryTable } from "./pod-capture-lib.mjs";
+import { browserStoppedAnswering, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, settleGate, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summaryTable } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
 import { closeTunnels, openTunnel } from "./tunnels.mjs";
@@ -59,6 +64,13 @@ const prof = opt("profile") ? parseProfile(opt("profile")) : null, windowS = Num
 const W = Number(opt("width", 1280)), H = Number(opt("height", 720));
 const settledFrames = Number(opt("settled-frames", 300)), settleFloor = Number(opt("settle-floor", 60));
 
+const CDP_TIMEOUT_MS = 30_000;          // a CDP call that does not answer in this long has stopped answering
+const GC_TIMEOUT_MS = 10_000;           // a forced GC on a busy page; one timeout turns the view's forced GCs off
+const HEAP_SAMPLE_EVERY_S = 10;         // post-GC heap sample interval during a view
+const PING_TIMEOUT_MS = 10_000;         // Browser.getVersion health check between views
+const CHROME_RESTART_TIMEOUT_MS = 180_000; // pod-setup.sh restart of the pod Chrome
+const chromeMode = opt("chrome-mode", "webgpu");
+
 let tunnel = null;
 const closeOwn = () => { if (tunnel) closeTunnels({ pid: tunnel.pid }); tunnel = null; };
 process.on("SIGINT", () => { closeOwn(); process.exit(130); });
@@ -67,16 +79,33 @@ const pod = opt("pod");
 if (pod) tunnel = await openTunnel({ pod, purpose: "cdp-capture" });
 const cdpHttp = (tunnel ? `http://127.0.0.1:${tunnel.localPort}` : opt("cdp", process.env.CHROME_CDP ?? "http://127.0.0.1:9222")).replace(/\/$/, "");
 
-// The browser websocket (Target.*), open for the whole run.
-const bws = new WebSocket((await (await fetch(`${cdpHttp}/json/version`)).json()).webSocketDebuggerUrl);
-await new Promise((r, j) => { bws.onopen = r; bws.onerror = j; });
-let bNext = 0; const bPending = new Map();
-bws.onmessage = (e) => { const m = JSON.parse(e.data); if (m.id) { bPending.get(m.id)?.(m); bPending.delete(m.id); } };
-const bsend = (method, params = {}) => new Promise((res, rej) => {
-  const id = ++bNext; const t = setTimeout(() => { bPending.delete(id); rej(new Error(`${method} timed out`)); }, 30_000);
+// The browser websocket (Target.*), open for the whole run; reopened after a Chrome restart (recoverChrome).
+let bws = null, bNext = 0; const bPending = new Map();
+async function connectBrowser() {
+  bws = new WebSocket((await (await fetch(`${cdpHttp}/json/version`)).json()).webSocketDebuggerUrl);
+  await new Promise((r, j) => { bws.onopen = r; bws.onerror = j; });
+  bws.onmessage = (e) => { const m = JSON.parse(e.data); if (m.id) { bPending.get(m.id)?.(m); bPending.delete(m.id); } };
+  bws.onclose = () => { for (const f of bPending.values()) f({ error: { message: "browser closed" } }); bPending.clear(); };
+}
+await connectBrowser();
+const bsend = (method, params = {}, timeoutMs = CDP_TIMEOUT_MS) => new Promise((res, rej) => {
+  const id = ++bNext; const t = setTimeout(() => { bPending.delete(id); rej(new Error(`${method} timed out`)); }, timeoutMs);
   bPending.set(id, (m) => { clearTimeout(t); m.error ? rej(new Error(`${method}: ${m.error.message}`)) : res(m.result); });
   bws.send(JSON.stringify({ id, method, params }));
 });
+const browserAlive = () => bsend("Browser.getVersion", {}, PING_TIMEOUT_MS).then(() => true, () => false);
+/** The pod Chrome stopped answering (walk 10 vol r1: a forced GC timed out, then every createBrowserContext did):
+ * restart it with pod-setup.sh over the --pod ssh (it owns Chrome; the CDP tunnel survives), reconnect, reopen the
+ * sentinel. Without --pod there is nothing to restart and the run stops. */
+async function recoverChrome() {
+  if (!pod) throw new Error("Chrome stopped answering and there is no --pod to restart it");
+  try { bws.close(); } catch { /* already closed */ }
+  console.log(`pod-capture: Chrome stopped answering; restarting it (pod-setup.sh ${chromeMode})`);
+  execSync(podSetupCommand(pod, chromeMode), { stdio: "inherit", timeout: CHROME_RESTART_TIMEOUT_MS });
+  await connectBrowser();
+  sentinel = (await bsend("Target.createTarget", { url: "about:blank", background: true })).targetId;
+  all.recoveries++;
+}
 const pageWs = (targetId) => `${cdpHttp.replace(/^http/, "ws")}/devtools/page/${targetId}`;
 
 // init script: perf HUD open; rAF counters; renderer/context census; GPU errors from every device; measure.mjs's per-frame work probe
@@ -164,10 +193,10 @@ async function baseline() {
   await new Promise((r) => setTimeout(r, 5000));
   const rafFps = r1(Number(await evaluate(BLANK_RAF, 10_000)));
   let heapMB = null;
-  try { await send("HeapProfiler.collectGarbage", {}, 30_000); heapMB = r1((await send("Runtime.getHeapUsage")).usedSize / 1e6); } catch { /* left null */ }
+  try { await send("HeapProfiler.collectGarbage", {}, GC_TIMEOUT_MS); heapMB = r1((await send("Runtime.getHeapUsage")).usedSize / 1e6); } catch { /* left null */ }
   return { rafFps, heapMB };
 }
-const send = (method, params = {}, timeoutMs = 30_000) => new Promise((res, rej) => {
+const send = (method, params = {}, timeoutMs = CDP_TIMEOUT_MS) => new Promise((res, rej) => {
   const id = ++nextId; const t = setTimeout(() => { pending.delete(id); rej(new Error(`${method} timed out`)); }, timeoutMs);
   pending.set(id, (m) => { clearTimeout(t); m.error ? rej(new Error(`${method}: ${m.error.message}`)) : res(m.result); });
   ws.send(JSON.stringify({ id, method, params }));
@@ -246,7 +275,8 @@ async function captureView(view) {
     await send("Page.navigate", { url: view.url });
     const heapSamples = [];
     let si = 0, ri = 0, lastPoll = -1, zeroSince = null, profState = prof ? "wait" : "done";
-    const gate = settledFrames > 0 ? settleGate(settledFrames, settleFloor) : null;
+    // plain views (a non-studio page: no HUD, no build queue) skip the settle gate and run their seconds
+    const gate = settledFrames > 0 && !view.plain ? settleGate(settledFrames, settleFloor) : null;
     while (sec() < totalS) {
       const s = sec();
       if (profState === "wait" && s >= prof.at) { await send("Profiler.start"); profState = "on"; }
@@ -273,8 +303,13 @@ async function captureView(view) {
         lastPoll = Math.floor(s);
         const q = await evaluate(`({ f: window.__RENDERER__?.info?.render?.frame ?? window.__RAFN, p: window.__RENDERER__?.esBuildQueue?.pending, g: window.__RENDERER__?.info?.memory?.geometries ?? 0, x: window.__RENDERER__?.info?.memory?.textures ?? 0 })`, 5_000);
         // live heap after a forced GC, every 10 s: usedJSHeapSize counts uncollected garbage (walk 10 read +140 MB/min of churn as a leak)
+        // A GC that times out is not a failed view: the page is busy, not gone; later samples are skipped
+        // (walk 10 vol r1: an uncaught GC timeout ended a 380 s view and its page was never released).
         let heapMB;
-        if (lastPoll % 10 === 0) { await send("HeapProfiler.collectGarbage", {}, 30_000); heapMB = (await send("Runtime.getHeapUsage")).usedSize / 1e6; }
+        if (!result.gcOff && lastPoll % HEAP_SAMPLE_EVERY_S === 0) {
+          try { await send("HeapProfiler.collectGarbage", {}, GC_TIMEOUT_MS); heapMB = (await send("Runtime.getHeapUsage")).usedSize / 1e6; }
+          catch (e) { result.gcOff = `${r1(s)} s: ${e.message}`; }
+        }
         if (q && !q.err) heapSamples.push({ s: lastPoll, heapMB, buffers: q.g, textures: q.x });
         if (gate?.feed(s, q, q?.f)) {
           result.reads.settled = { t: r1(sec()), gateAt: gate.settledAt, afterFrames: settledFrames, ...(await fullRead()) };
@@ -323,7 +358,7 @@ function summarise(r) {
   };
 }
 
-const all = { cdp: cdpHttp, startedAt: new Date().toISOString(), cap: null, orphansClosed: 0, firstCaptureAt: null, prep: null, views: [] };
+const all = { cdp: cdpHttp, startedAt: new Date().toISOString(), cap: null, orphansClosed: 0, recoveries: 0, firstCaptureAt: null, prep: null, views: [] };
 let sentinel = null;
 try {
   sentinel = (await bsend("Target.createTarget", { url: "about:blank", background: true })).targetId;
@@ -332,7 +367,15 @@ try {
     if (t.type === "page" && t.id !== sentinel) { await fetch(`${cdpHttp}/json/close/${t.id}`).catch(() => {}); all.orphansClosed++; }
   }
   for (const v of views) {
-    const r = await captureView(v);
+    if (!(await browserAlive())) await recoverChrome();
+    let r = await captureView(v);
+    if (r.error && browserStoppedAnswering(r.error) && !(await browserAlive())) {
+      await recoverChrome();
+      // a view that never opened its page is run again on the fresh Chrome; one that ran keeps its partial result
+      if (/createBrowserContext|createTarget/.test(r.error)) r = await captureView(v);
+      r.recovered = true;
+      writeFileSync(join(out, v.name, "result.json"), JSON.stringify(r, null, 1));
+    }
     all.views.push(r);
     console.log(`pod-capture ${v.name}: ${JSON.stringify(r.summary)}`);
   }
@@ -348,5 +391,5 @@ try {
   writeFileSync(join(out, "result.json"), JSON.stringify(all, null, 1));
   writeFileSync(join(out, "summary.md"), `${summaryTable(all.views, all.cap, all.prep?.steps ? all.prep : null)}\n`);
 }
-console.log(`pod-capture: ${all.views.length}/${views.length} views, cap detected ${all.cap?.capDetected} (blank rAF ${all.cap?.blankRafFps}), orphans closed ${all.orphansClosed}, contaminated ${all.views.filter((v) => v.contaminated).map((v) => v.name).join(",") || "none"}${all.error ? `, ERROR ${all.error.split("\n")[0]}` : ""} -> ${out}/summary.md`);
+console.log(`pod-capture: ${all.views.length}/${views.length} views, ${all.recoveries} Chrome restarts, cap detected ${all.cap?.capDetected} (blank rAF ${all.cap?.blankRafFps}), orphans closed ${all.orphansClosed}, contaminated ${all.views.filter((v) => v.contaminated).map((v) => v.name).join(",") || "none"}${all.error ? `, ERROR ${all.error.split("\n")[0]}` : ""} -> ${out}/summary.md`);
 process.exit(0);

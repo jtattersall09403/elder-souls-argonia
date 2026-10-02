@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { distBase, siteRoots } from "./serve-lib.mjs";
+import { distBase, serveFiles, siteRoots } from "./serve-lib.mjs";
 
 const dist = (base) => {
   const d = mkdtempSync(join(tmpdir(), "serve-lib-"));
@@ -28,4 +28,13 @@ test("distBase fails on an index.html with no assets script", () => {
   const d = mkdtempSync(join(tmpdir(), "serve-lib-"));
   mkdirSync(d, { recursive: true }); writeFileSync(join(d, "index.html"), "<html></html>");
   assert.throws(() => distBase(d), /no \/<base>\/assets\//);
+});
+test("serveFiles lists the server modules, three's package.json and basis dir, and the character files", () => {
+  const f = serveFiles();
+  for (const p of ["tooling/gpu-lane/serve.mjs", "apps/world-studio/scripts/lib/webgpu-static.mjs", "packages/character-assets/files"]) assert.ok(f.includes(p), p);
+  assert.ok(f.some((p) => p.endsWith("three/package.json")) && f.some((p) => p.endsWith("libs/basis")));
+});
+test("serveFiles fails naming a missing served dir", () => {
+  const root = mkdtempSync(join(tmpdir(), "serve-lib-"));
+  assert.throws(() => serveFiles(root, { basis: join(root, "b/x/y/z/basis"), characters: join(root, "chars") }), /missing .*chars/);
 });

@@ -5,6 +5,7 @@
 #   POD_SSH="..." bash tooling/gpu-lane/pod-sync.sh <dist> <dev|webgpu> <lane>                   (per iteration)
 # --data: the main tree's apps/world-studio/public (kits, province, textures: ~600 MB) to /root/site/public, skipped when
 #   its listing hash (path, size, mtime) equals the pod's /root/site/public/.hash.
+# Each dist also carries the server's own files (serve-lib.mjs serveFiles), so serve.mjs starts on the pod's node.
 # <dist>: the fixed folder build-dist.sh writes (never a per-iteration copy). Its content hash (studio data dirs
 #   excluded) is compared with /root/site/dists/<name>/.hash; equal and the server alive -> skip; else
 #   `rsync -a --checksum --delete` (data dirs excluded) and restart. Any other pod dist built for the same base is
@@ -36,8 +37,11 @@ if [ "$($S "$t" "cat /root/site/dists/$n/.hash 2>/dev/null; kill -0 \$(cat /root
   echo "pod-sync: $n unchanged ($h), server alive, skipped"; note "sync:$n" 0 1; exit 0; fi
 $S "$t" "mkdir -p /root/site/dists; cd /root/site/dists; for o in *; do [ \"\$o\" != '$n' ] && [ -f \"\$o/index.html\" ] && grep -q 'src=\"$base'assets/ \"\$o/index.html\" && { echo \"pod-sync: removing \$o (also built for $base)\"; rm -rf \"\$o\"; }; done; true"
 rsync -a --checksum --delete "${DATA_EXCL[@]}" --exclude /.hash --exclude /.srchash -e "$S" "$d/" "$t:/root/site/dists/$n/"
-rsync -aR -e "$S" tooling/gpu-lane/serve.mjs tooling/gpu-lane/serve-lib.mjs tooling/gpu-lane/pod-setup.sh \
-  apps/world-studio/scripts/lib/webgpu-static.mjs "$t:/root/site/"
+# Exactly what serve.mjs and the studio it serves read (serve-lib serveFiles: modules, three's package.json and basis
+# dir, the character files); it fails naming any missing path, and this script stops on it.
+mapfile -t serve_files < <(node -e 'import("./tooling/gpu-lane/serve-lib.mjs").then((m) => console.log(m.serveFiles().join("\n")))')
+[ ${#serve_files[@]} -gt 0 ] || { echo "pod-sync: serveFiles listed nothing" >&2; exit 1; }
+rsync -aR -e "$S" "${serve_files[@]}" "$t:/root/site/"
 $S "$t" "echo $h > /root/site/dists/$n/.hash"
 s=$(( $(date +%s) - t0 )); note "sync:$n" "$s"; t0=$(date +%s)
 $S "$t" 'cd /root/site; [ -f /root/serve.pid ] && kill $(cat /root/serve.pid) 2>/dev/null

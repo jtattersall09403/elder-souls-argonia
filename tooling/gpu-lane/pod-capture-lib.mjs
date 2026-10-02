@@ -166,6 +166,7 @@ export function parseViews(text) {
     seen.add(v.name);
     if (typeof v.url !== "string" || !/^https?:\/\//.test(v.url)) throw new Error(`views[${i}]: "url" must be an http(s) URL`);
     if (v.seconds !== undefined && !(v.seconds > 0)) throw new Error(`views[${i}]: "seconds" must be > 0`);
+    if (v.plain !== undefined && typeof v.plain !== "boolean") throw new Error(`views[${i}]: "plain" must be true or false`);
     return { ...v, steps: v.steps ? parseSteps(JSON.stringify(v.steps)) : [] };
   });
 }
@@ -213,4 +214,17 @@ export function prepSummary(jsonl, firstCaptureAt) {
 export function prepLine(prep) {
   if (!prep) return null;
   return `prep: ${prep.steps.map((s) => `${s.step} ${s.skipped ? "skip" : `${s.seconds} s`}`).join(", ")}; start to first capture ${prep.toFirstCaptureS ?? "-"} s`;
+}
+
+/** True when a CDP error means the browser or its page stopped answering (a timeout, a dropped socket), the case
+ * pod-capture recovers from by restarting Chrome; a protocol error with an answer is not. */
+export function browserStoppedAnswering(error) {
+  return /timed out|page closed|browser closed|socket|ECONNREFUSED|fetch failed/i.test(String(error ?? ""));
+}
+
+/** The shell command that restarts the pod's Chrome: pod-setup.sh (idempotent, it owns Chrome) over the --pod ssh,
+ * host-key check off as pod-sync.sh does. */
+export function podSetupCommand(pod, mode, script = "/root/site/tooling/gpu-lane/pod-setup.sh") {
+  const parts = pod.trim().split(/\s+/), host = parts.pop();
+  return `${parts.join(" ")} -o StrictHostKeyChecking=no ${host} bash ${script} ${mode}`;
 }

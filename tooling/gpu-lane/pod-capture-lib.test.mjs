@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate } from "./pod-capture-lib.mjs";
+import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, parseViews, browserStoppedAnswering, podSetupCommand } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -134,4 +134,18 @@ test("prepSummary: steps and start-to-first-capture; the summary carries the lin
   assert.equal(p.toFirstCaptureS, 115);
   assert.equal(prepSummary("", 1), null);
   assert.match(summaryTable([], null, p).split("\n")[1], /^prep: build:webgpu 15 s, sync:dev skip, serve 5 s; start to first capture 115 s$/);
+});
+test("parseViews: absolute URLs and the plain flag", () => {
+  const v = parseViews(JSON.stringify([{ name: "fire", url: "https://threejs.org/examples/webgpu_volume_fire.html", plain: true, seconds: 30 }]));
+  assert.equal(v[0].plain, true);
+  assert.throws(() => parseViews(JSON.stringify([{ name: "a", url: "http://x/", plain: "yes" }])), /plain/);
+});
+test("browserStoppedAnswering: timeouts and dropped sockets, not answered errors", () => {
+  assert.ok(browserStoppedAnswering(new Error("Target.createBrowserContext timed out")));
+  assert.ok(browserStoppedAnswering("HeapProfiler.collectGarbage timed out"));
+  assert.ok(!browserStoppedAnswering(new Error("Page.navigate: Cannot navigate to invalid URL")));
+});
+test("podSetupCommand runs pod-setup.sh over the pod ssh", () => {
+  assert.equal(podSetupCommand("ssh -i /tmp/k -p 2222 root@1.2.3.4", "webgpu"),
+    "ssh -i /tmp/k -p 2222 -o StrictHostKeyChecking=no root@1.2.3.4 bash /root/site/tooling/gpu-lane/pod-setup.sh webgpu");
 });

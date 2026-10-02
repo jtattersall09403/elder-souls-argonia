@@ -20,14 +20,24 @@ export function dataPublicDir() {
   return join(main, "apps/world-studio/public");
 }
 
+/** The folder the KTX2 transcoder is served from (three's basis libs, resolved as the app resolves three). */
+export function basisDir() {
+  return dirname(createRequire(join(appDir, "package.json")).resolve("three/examples/jsm/libs/basis/basis_transcoder.js"));
+}
+
+/** The character files (rig, bodies) Pages serves at the site root. */
+export function characterFilesDir() {
+  return resolve(appDir, "../../packages/character-assets/files");
+}
+
 /** A request handler over [prefix, root] pairs plus the KTX2 transcoder.
  * `intercept(path, res)` may answer first (returns true when it did). */
 export function staticHandler(roots, { intercept, onMissing } = {}) {
-  const basisDir = dirname(createRequire(join(appDir, "package.json")).resolve("three/examples/jsm/libs/basis/basis_transcoder.js"));
+  const transcoderDir = basisDir();
   return (req, res) => {
     const path = decodeURIComponent(req.url.split("?")[0]);
     const basis = /\/basis\/(basis_transcoder\.(?:js|wasm))$/.exec(path);
-    if (basis) { res.writeHead(200, { "Content-Type": MIME[extname(basis[1])] }); createReadStream(join(basisDir, basis[1])).pipe(res); return; }
+    if (basis) { res.writeHead(200, { "Content-Type": MIME[extname(basis[1])] }); createReadStream(join(transcoderDir, basis[1])).pipe(res); return; }
     if (intercept?.(path, res)) return;
     // An exact file under any matching root wins (a dev studio and its data share /studio/), else the
     // first matching root's index.html (SPA fallback).
@@ -48,5 +58,5 @@ export function staticHandler(roots, { intercept, onMissing } = {}) {
 /** Pages layout: /webgpu/ = dist, /studio/ = data, site root = character files. */
 export function pagesRoots(dist, data = dataPublicDir()) {
   return [["/elder-souls-argonia/webgpu/", dist], ["/elder-souls-argonia/studio/", data],
-    ["/elder-souls-argonia/", resolve(appDir, "../../packages/character-assets/files")]];
+    ["/elder-souls-argonia/", characterFilesDir()]];
 }

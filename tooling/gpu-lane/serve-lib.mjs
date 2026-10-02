@@ -1,6 +1,23 @@
 // Mount table for serve.mjs: every built studio at the base it was built for.
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { existsSync, readFileSync } from "node:fs";
+import { relative, resolve } from "node:path";
+import { basisDir, characterFilesDir } from "../../apps/world-studio/scripts/lib/webgpu-static.mjs";
+
+const repoRoot = resolve(new URL("../..", import.meta.url).pathname);
+/** Repo files serve.mjs runs from (its module graph). */
+const SERVER_MODULES = ["tooling/gpu-lane/serve.mjs", "tooling/gpu-lane/serve-lib.mjs", "tooling/gpu-lane/pod-setup.sh",
+  "apps/world-studio/scripts/lib/webgpu-static.mjs"];
+
+/** Every repo path serve.mjs and the studio it serves read, repo-relative, for pod-sync.sh to rsync -R: the server's
+ * modules, three's package.json (node resolves three through it) and basis dir (/basis/ route), the character files
+ * (site-root route). The studio data rides separately (pod-sync --data). Throws naming any path that is missing. */
+export function serveFiles(root = repoRoot, dirs = { basis: basisDir(), characters: characterFilesDir() }) {
+  const threePkg = resolve(dirs.basis, "../../../../package.json");
+  const paths = [...SERVER_MODULES.map((p) => resolve(root, p)), threePkg, dirs.basis, dirs.characters];
+  const missing = paths.filter((p) => !existsSync(p));
+  if (missing.length) throw new Error(`serveFiles: missing ${missing.join(", ")}`);
+  return paths.map((p) => relative(root, p));
+}
 
 /** The base a built studio was built for, read from its index.html module script src. */
 export function distBase(dist) {
