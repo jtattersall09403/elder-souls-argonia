@@ -30,3 +30,26 @@ describe("facing chain: compass -> faceDirection -> body heading -> follow camer
     });
   }
 });
+
+// vol10 diag4: ecctrl's setForwardDir copies the world vector (dist src: `forwardDirection.current.copy(dir)`), and its
+// step turns the body's +z toward it: angle = atan2(((z x dir) . y), z . dir) (turnCharacter). Same convention as
+// faceDirection's atan2(x, z), so the forward-dir step applies no turn and cannot mirror the heading.
+describe("ecctrl forward-dir step after faceDirection", () => {
+  for (const b of [0, 90, 129, 180, 270]) {
+    it(`compass ${b}: the turn toward the handed forward dir is zero`, () => {
+      const rot = { x: 0, y: 0, z: 0, w: 1 };
+      const fwdDir = new THREE.Vector3();
+      const body = { setAngvel: () => undefined, setRotation: (q: typeof rot) => Object.assign(rot, q) };
+      const handle = { body, setForwardDir: (v: THREE.Vector3) => fwdDir.copy(v), setLockForward: () => undefined };
+      const adapter = new EcctrlAdapter({ current: handle } as never);
+      const d = compassDirection(b);
+      adapter.faceDirection(new THREE.Vector3(d.x, 0, d.z), true);
+      const q = new THREE.Quaternion(rot.x, rot.y, rot.z, rot.w);
+      const z = new THREE.Vector3(0, 0, 1).applyQuaternion(q);
+      const y = new THREE.Vector3(0, 1, 0).applyQuaternion(q);
+      const turn = Math.atan2(new THREE.Vector3().crossVectors(z, fwdDir).dot(y), THREE.MathUtils.clamp(z.dot(fwdDir), -1, 1));
+      expect(Math.abs(turn)).toBeLessThan(1e-6);
+      expect(compassOf(fwdDir.x, fwdDir.z)).toBeCloseTo(b % 360, 4);
+    });
+  }
+});
