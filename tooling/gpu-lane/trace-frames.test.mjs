@@ -81,7 +81,9 @@ test("relink probe: warm vs draw program keys per material uuid, first differing
   assert.equal(rl.events[1][3].warm, false);
   assert.equal(rl.events[0][3].progKey, "MeshBasic,vs,fs,fog");
   assert.match(rl.events[0][3].progKeyHash, /^[0-9a-f]+$/);
-  assert.deepEqual(rl.materials.feedbeef, { warmHash: rl.events[0][3].progKeyHash, drawHash: rl.events[1][3].progKeyHash, same: false, field: 3, warmValue: "fog", drawValue: "nofog" });
+  const w = rl.events[0][3].progKeyHash, d = rl.events[1][3].progKeyHash;
+  assert.deepEqual(rl.materials.feedbeef, { warmHashes: [w], drawHashes: [d], same: false,
+    mismatches: [{ drawHash: d, nearestWarmHash: w, diffs: [{ index: 3, warm: "fog", draw: "nofog" }] }] });
 });
 test("relink probe keeps 400 events, not 40", () => {
   const { win, G } = runProbe();

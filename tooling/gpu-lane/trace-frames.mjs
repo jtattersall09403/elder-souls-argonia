@@ -35,6 +35,16 @@ const r1 = (x) => Math.round(x * 10) / 10;
 export const TRACE_CATEGORIES = ["devtools.timeline", "disabled-by-default-devtools.timeline.frame", "gpu",
   "disabled-by-default-v8.gc", "v8", "blink", "viz", "cc", "toplevel"];
 
+/** Extra categories for `measure.mjs --trace-gpu` (GPU service, device and ANGLE; names Chrome does not know are ignored). */
+export const GPU_TRACE_CATEGORIES = ["disabled-by-default-gpu.service", "disabled-by-default-gpu.device", "gpu.angle", "disabled-by-default-angle"];
+
+/** `--trace-gpu`: a streamed event of one of the GPU categories, any duration (kept in a side list; only those
+ * inside long frames reach the file, see `gpuEventsInSpans`). */
+export const isGpuCategoryEvent = (e) => e.ph === "X" && (e.dur ?? 0) > 0 && /gpu|angle/.test(e.cat ?? "");
+
+/** The events of GPU processes (`gpuPids`) that overlap any `[from, to]` µs span, of any duration. */
+export const gpuEventsInSpans = (events, gpuPids, spans) => events.filter((e) => gpuPids.has(e.pid) && e.ph === "X" && spans.some(([a, b]) => e.ts < b && e.ts + e.dur > a));
+
 /** Keep only what the classifier reads (metadata, frame markers, GC, anything >= 0.5 ms): a full 10 s trace of
  * the studio is over 512 MB of JSON, past V8's string limit. Filter while streaming, never after. */
 export const keepTraceEvent = (e) => e.ph === "M" || e.name === "FireAnimationFrame" || e.name === "TimeStamp" || (e.dur ?? 0) >= 500 || /GC|Gc/.test(e.name);
@@ -90,7 +100,7 @@ export function joinLinks(long, events, windowMs = 300) {
  * is the trace flush (Tracing.end), not the game, and is dropped. A frame holding a blink.mojom.DevTools
  * mojo message is the harness's own CDP call: classed `harness` (counted, never listed, not in the stats).
  */
-export function classifyFrames(events, { profile = null, overMs = 20, windowEndPageMs = null } = {}) {
+export function classifyFrames(events, { profile = null, overMs = 20, windowEndPageMs = null, gpuAnyDur = false } = {}) {
   const fa = events.filter((e) => e.name === "FireAnimationFrame" && e.ph === "X");
   if (!fa.length) return { frames: 0, long: [] };
   const cnt = new Map();
@@ -135,9 +145,13 @@ export function classifyFrames(events, { profile = null, overMs = 20, windowEndP
     }
     const self = new Map();
     for (const s of samples) if (s.t >= a && s.t < b) self.set(s.fn, (self.get(s.fn) ?? 0) + s.dt);
-    long.push({ atS: r1((a - fs[0]) / 1e6), pageMs: toPage(a), ms: r1((b - a) / 1000), byCause,
+    const entry = { atS: r1((a - fs[0]) / 1e6), pageMs: toPage(a), ms: r1((b - a) / 1000), spanUs: [a, b], byCause,
       top: top.sort((x, y) => y.ms - x.ms).slice(0, 8),
-      js: [...self].sort((x, y) => y[1] - x[1]).slice(0, 6).map(([name, ms]) => ({ name, ms: r1(ms) })) });
+      js: [...self].sort((x, y) => y[1] - x[1]).slice(0, 6).map(([name, ms]) => ({ name, ms: r1(ms) })) };
+    // --trace-gpu: the five longest GPU-process events overlapping the frame, of any duration.
+    if (gpuAnyDur) entry.gpuTop = X.filter((e) => gpuPids.has(e.pid) && e.ts < b && e.ts + e.dur > a)
+      .sort((x, y) => y.dur - x.dur).slice(0, 5).map((e) => ({ name: e.name, cat: e.cat, ms: r1(e.dur / 1000), args: JSON.stringify(e.args ?? {}).slice(0, 200) }));
+    long.push(entry);
   }
   const d = fs.slice(1, -1).map((t, i) => t - fs[i]).filter((_, i) => !skipAt.has(i + 1));
   if (!d.length) return { frames: 0, long: [] };

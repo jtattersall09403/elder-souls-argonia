@@ -27,14 +27,34 @@
   // Warm-up links: renderer.compile / compileAsync (their synchronous part initialises every material's
   // program). The material in play is the last one three asked `properties.get` about. Wrapped one tick
   // after the renderer's constructor, when its methods exist.
+  // The `properties.get` wrap runs thousands of times per frame, so it exists only while a compile is in
+  // flight: installed at compile entry, removed when the sync part returns (compile) or the promise
+  // settles (compileAsync). Draws outside a compile pay nothing.
   const hookWarm = (R) => {
+    let depth = 0, orig = null, wrapper = null;
+    const install = () => {
+      const P = R.properties;
+      if (depth++ > 0 || typeof P?.get !== "function") return;
+      orig = P.get;
+      wrapper = function (x) { if (cur.warm > 0 && x?.isMaterial) cur.warmMat = x; return orig.call(this, x); };
+      P.get = wrapper;
+    };
+    const remove = () => {
+      if (--depth > 0) return;
+      if (R.properties?.get === wrapper) R.properties.get = orig;
+      orig = wrapper = null;
+    };
     for (const k of ["compile", "compileAsync"]) {
       const f = R[k];
       if (typeof f !== "function") continue;
-      R[k] = function (...a) { cur.warm++; try { return f.apply(this, a); } finally { cur.warm--; } };
+      R[k] = function (...a) {
+        install(); cur.warm++;
+        let r;
+        try { r = f.apply(this, a); } catch (e) { remove(); throw e; } finally { cur.warm--; }
+        if (r && typeof r.then === "function") { const done = () => remove(); r.then(done, done); } else remove();
+        return r;
+      };
     }
-    const P = R.properties, get = P?.get;
-    if (typeof get === "function") P.get = function (x) { if (cur.warm > 0 && x?.isMaterial) cur.warmMat = x; return get.call(this, x); };
   };
   const prev = Object.getOwnPropertyDescriptor(Object.prototype, "renderBufferDirect");
   Object.defineProperty(Object.prototype, "renderBufferDirect", { configurable: true, set(v) {
@@ -70,24 +90,31 @@
     for (const r of st.recs) { if (!full.has(r.p)) full.set(r.p, keyOf(r.p)); }
     const fill = (info, p) => { const k = full.get(p) ?? keyOf(p); info.progKey = k == null ? null : k.slice(0, 400); info.progKeyHash = k == null ? null : hash(k); };
     for (const r of st.recs) fill(r.info, r.p);
-    // Per material uuid: the first warm key and the first draw key, and where they first differ.
+    // Per material uuid: every warm key and every draw key (full cacheKey, one per hash). A draw key not among
+    // the warm keys is a mismatch: the nearest warm key (fewest differing fields) and every differing
+    // ','-separated field (index, warm value, draw value).
     const by = new Map();
     for (const r of st.recs) {
-      const u = r.info.matUuid; if (!u) continue;
-      const e = by.get(u) ?? by.set(u, {}).get(u);
-      const side = r.info.warm ? "warm" : "draw";
-      if (!e[side] && full.get(r.p) != null) e[side] = full.get(r.p);
+      const u = r.info.matUuid, k = full.get(r.p); if (!u || k == null) continue;
+      const e = by.get(u) ?? by.set(u, { warm: new Map(), draw: new Map() }).get(u);
+      e[r.info.warm ? "warm" : "draw"].set(hash(k), k);
     }
+    const diffs = (w, d) => {
+      const a = w.split(","), b = d.split(","), out = [];
+      for (let i = 0; i < Math.max(a.length, b.length); i++) if (a[i] !== b[i]) out.push({ index: i, warm: String(a[i] ?? "").slice(0, 120), draw: String(b[i] ?? "").slice(0, 120) });
+      return out;
+    };
     const materials = {};
     for (const [u, e] of by) {
-      if (!e.warm || !e.draw) continue;
-      const row = { warmHash: hash(e.warm), drawHash: hash(e.draw), same: e.warm === e.draw };
-      if (!row.same) {
-        const a = e.warm.split(","), b = e.draw.split(",");
-        let i = 0; while (i < Math.max(a.length, b.length) && a[i] === b[i]) i++;
-        row.field = i; row.warmValue = String(a[i] ?? "").slice(0, 120); row.drawValue = String(b[i] ?? "").slice(0, 120);
+      if (!e.warm.size || !e.draw.size) continue;
+      const mismatches = [];
+      for (const [dh, dk] of e.draw) {
+        if (e.warm.has(dh)) continue;
+        let best = null;
+        for (const [wh, wk] of e.warm) { const d = diffs(wk, dk); if (!best || d.length < best.diffs.length) best = { nearestWarmHash: wh, diffs: d }; }
+        mismatches.push({ drawHash: dh, ...best });
       }
-      materials[u.slice(0, 8)] = row;
+      materials[u.slice(0, 8)] = { warmHashes: [...e.warm.keys()], drawHashes: [...e.draw.keys()], same: !mismatches.length, mismatches };
     }
     return { links: st.links, linkMs: Math.round(st.ms * 100) / 100, distinctPrograms: per.length,
       relinked: per.filter((n) => n > 1).length, maxLinksOfOneProgram: per.length ? Math.max(...per) : 0,
