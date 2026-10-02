@@ -75,16 +75,6 @@
       ]
     },
     {
-      "pattern": "froxel",
-      "why": "volumetric fog cut by the owner 2026-09-13",
-      "say": "the shipped mist, haze and fog",
-      "exempt": [
-        "docs/world/55-light-sky-time.md",
-        "docs/phases/README.md",
-        "docs/research/rendering/"
-      ]
-    },
-    {
       "pattern": "\\bnext up\\b",
       "why": "PROGRESS.md has no such section; the first todo row is next",
       "say": "the first todo row in PROGRESS.md",

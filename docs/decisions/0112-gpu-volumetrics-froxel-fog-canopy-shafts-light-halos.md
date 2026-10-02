@@ -188,7 +188,19 @@ colour comes from the light rig.
    fields, ~7 fields × 8 passes over ≤27.6 k cells each; the march costs
    steps × 2 samples per pixel. The round-2 GPU measurement replaces these
    estimates.
-9. **Verified in the harness, not the studio**: the `volumetrics` harness
+9. **Sea fog, region haze, cap cloud and lamp halos** (walk 10, G2). Each
+   system reads a raster or the light rig, never a per-scene flag.
+
+   | System | Rule | Config home |
+   |---|---|---|
+   | Onshore sea fog | `OnshoreProbe` reads the gradient of climate-weather B over 3 px; onshore = wind travel direction dot −gradient; cached per cell, 64 m (128 m mobile) | `climateSampler.ts:OnshoreProbe`, `ONSHORE`; fed as `fog.onshore` in `WorldSky.tsx` |
+   | Region haze | the fog field's air term is scaled by `clamp(regionHaze / 0.65, 0.4, 2.5)`; rain keeps 35 % of ground mists (`RAIN_MIST_KEEP`), so rain thins mist and never deletes it | `fogField.ts` input `regionHaze`, `RAIN_MIST_KEEP` |
+   | Cap cloud | always on; whiteout = bell × `mist.whiteoutBase` × belt mask. Surfaces take `esBeltMask` (4 rotated taps + smoothstep 0.05–0.85); the sky-dome march takes 1 tap + smoothstep. `WHITEOUT_ENABLED` is removed | `aerial.ts:esBeltMask`, `express.ts` whiteout, `climateSampler.ts:smoothBeltMask` (CPU twin) |
+   | Lamp halos | fog output `halo` = max(smoothstep(.55, .95, humid), mists, sea fog, rain) (`FogRegimes.halo`, dampness); σ = max(grid, floor × halo); radius R = max(3 light radii, minReach); full halo out to max(2 radii, viewM) | `volumetricNodes.ts:LAMP_HALO` |
+
+   `LAMP_HALO`: high floor 0.02 /m, minReach 6 m, viewM 30; mobile 0.02 /m,
+   4 m, 20 m.
+10. **Verified in the harness, not the studio**: the `volumetrics` harness
    scene renders the named cases headless on the SwiftShader WebGPU adapter
    and Sonnet judges read them against a look-list; the `interior-light`
    scene lights a published cell's record apertures for a door facing and a
