@@ -154,6 +154,22 @@ function pageProbe() {
   localStorage.setItem("es.hud.perfOpen", "1");
 }
 
+/**
+ * Close every page already open in the attached Chrome before this run opens its own: orphan studio
+ * tabs from an earlier run keep rendering beside the measured page and contaminate every number
+ * (perf-diag2 §0). Returns how many it closed.
+ */
+export async function closeOrphanPages(browser) {
+  let closed = 0;
+  for (const ctx of browser.contexts()) {
+    for (const page of ctx.pages()) {
+      await page.close().catch(() => {});
+      closed++;
+    }
+  }
+  return closed;
+}
+
 async function gpuAdapter(page, renderer) {
   return page.evaluate(async (renderer) => {
     if (renderer === "webgpu" && navigator.gpu) {
@@ -263,12 +279,14 @@ async function main() {
   const o = parseArgs(process.argv.slice(2));
   mkdirSync(o.out, { recursive: true });
   const browser = await chromium.connectOverCDP(`http://${o.cdp}`);
+  const orphansClosed = await closeOrphanPages(browser);
+  console.log(`measure: closed ${orphansClosed} page(s) left open in Chrome by earlier runs`);
   const ctx = await browser.newContext({ viewport: { width: o.width, height: o.height }, deviceScaleFactor: o.dpr });
   await ctx.addInitScript(pageProbe);
   const git = (a) => spawnSync("git", a, { cwd: repo, encoding: "utf8" }).stdout.trim();
   const result = { schemaVersion: 1, run: o.run, gitSha: git(["rev-parse", "HEAD"]), dirty: git(["status", "--porcelain"]) !== "",
     builtAt: null, measuredAt: new Date().toISOString(), renderer: o.renderer, origin: o.origin, base: o.base,
-    window: { width: o.width, height: o.height }, dpr: o.dpr, settleS: o.settle, walkS: o.walk, browser: browser.version(), urls: [] };
+    window: { width: o.width, height: o.height }, dpr: o.dpr, settleS: o.settle, walkS: o.walk, browser: browser.version(), orphansClosed, urls: [] };
   // builtAt: the served index.html's Last-Modified (the build that is actually being measured).
   result.builtAt = await fetch(`${o.origin}${o.base}`).then((r) => r.headers.get("last-modified")).catch(() => null);
   for (const [i, q] of o.url.entries()) {

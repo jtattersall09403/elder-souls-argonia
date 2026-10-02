@@ -92,3 +92,13 @@ test("isReady: 20 s, tris stable 2 % for 5 s, no Loading, pre and gc under 2 ms 
   assert.equal(isReady(loadingThenQuiet.filter((s) => s.t <= 20000)), false, "pre busy until 16 s");
   assert.equal(isReady(loadingThenQuiet), true, "quiet for the last 5 s");
 });
+
+test("closeOrphanPages closes every page in every existing context and counts them", async () => {
+  const { closeOrphanPages } = await import("./measure.mjs");
+  const closed = [];
+  const page = (id) => ({ close: async () => { closed.push(id); if (id === "b") throw new Error("gone"); } });
+  const browser = { contexts: () => [{ pages: () => [page("a"), page("b")] }, { pages: () => [] }, { pages: () => [page("c")] }] };
+  assert.equal(await closeOrphanPages(browser), 3);
+  assert.deepEqual(closed, ["a", "b", "c"]);
+  assert.equal(await closeOrphanPages({ contexts: () => [] }), 0);
+});
