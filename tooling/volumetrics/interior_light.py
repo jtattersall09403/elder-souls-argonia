@@ -201,7 +201,7 @@ def cell_medium(bundle: dict, pieces: list[dict]) -> dict:
     why = f"{kind} ({'lighting template ' + template if kind == 'damp' else evidence})"
     if humid:
         band = DUST_BANDS[max(0, DUST_BANDS.index(band) - 1)]
-        why += "; humid mud hut, one band lower"
+        why += "+humid-1"
     if bundle["cellId"] in DUST_OVERRIDES:
         band, why = DUST_OVERRIDES[bundle["cellId"]][0], f"override: {DUST_OVERRIDES[bundle['cellId']][1]}"
     return {"kind": kind, "humid": humid, "dust": band, "dustWhy": why, "floorMist": kind == "damp"}
