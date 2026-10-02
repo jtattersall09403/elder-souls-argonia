@@ -67,7 +67,7 @@ import {
   type LightFixture,
 } from "./lighting";
 import { isFlameCardMaterial } from "../fx/fire/flameAnchors";
-import { mergeRunColliders } from "./runColliders";
+import { mergeRunColliders, type RunColliderCache } from "./runColliders";
 import { fixtureLightFieldOf, isFixtureLitMaterial, litPreparerOf } from "../render/fixtureLights";
 import { DrawTargetLinker } from "../render/drawTargetLinker";
 import { assertPoolsSchema, syncPlacePools } from "./pools";
@@ -726,7 +726,9 @@ export function SettlementLayer({
   const farCache = useRef(new Map<string, { signature: string; geometry: THREE.BufferGeometry }>());
   // Colliders kept across builds while their placement's final matrix is unchanged.
   const solidCache = useRef<SolidCache>(new Map());
-  useEffect(() => { solidCache.current = new Map(); }, [bundle]);
+  // Joined run colliders kept while their member solids (from solidCache) are the same objects.
+  const runColliderCache = useRef<RunColliderCache>(new Map());
+  useEffect(() => { solidCache.current = new Map(); runColliderCache.current = new Map(); }, [bundle]);
 
   // The smoke texture: read from the effect placement's kit manifest
   // (`effectTextures`, build_kit.publish_effect_textures), loaded once per
@@ -1052,7 +1054,8 @@ export function SettlementLayer({
       solidCache.current = solidsKept;
       // a bound run collides as one rigid chain: one joined part (0101 rule 9)
       const collision = selectCollisionResidency(
-        mergeRunColliders(solidCandidates, (id) => runOfPlacement.get(id)), bundle.settlements, focus,
+        mergeRunColliders(solidCandidates, (id) => runOfPlacement.get(id), runColliderCache.current),
+        bundle.settlements, focus,
         bundle.lod.colliderRadiusM, bundle.lod.colliderPartBudget);
       if (collision.budgetExceeded) {
         const over = collision.budgetExceeded;
