@@ -47,6 +47,32 @@ def _catalogue(root: Path) -> dict[str, dict]:
     return out
 
 
+def climate_region_errors(root: Path, docs: list[tuple[Path, dict]]) -> list[str]:
+    """Every region class the region map defines (worldgen.regions
+    REGION_CLASSES, and every class painted in hydro-regions.png) has exactly
+    one climate row, and every row's class exists (standard 18)."""
+    import numpy as np
+    from PIL import Image
+    from worldgen.regions import REGION_CLASSES
+
+    out: list[str] = []
+    rows = [r["regionClass"] for _, doc in docs for r in doc.get("regions") or []]
+    for cid in sorted({c for c in rows if rows.count(c) > 1}):
+        out.append(f"climate-regions: region class {cid} has {rows.count(cid)} rows")
+    for cid in sorted(set(REGION_CLASSES) - set(rows)):
+        out.append(f"climate-regions: region class {cid} ({REGION_CLASSES[cid][0]}) has no climate row")
+    for cid in sorted(set(rows) - set(REGION_CLASSES)):
+        out.append(f"climate-regions: row regionClass {cid} is no region class")
+    png = root / "apps/world-studio/public/province/hydro-regions.png"
+    if png.exists():
+        by_rgb = {tuple(c): cid for cid, (_, c) in REGION_CLASSES.items()}
+        px = np.asarray(Image.open(png).convert("RGBA")).reshape(-1, 4)
+        for rgb in {tuple(int(v) for v in c[:3]) for c in np.unique(px[px[:, 3] > 0], axis=0)}:
+            if by_rgb.get(rgb) not in set(rows):
+                out.append(f"hydro-regions.png: colour {rgb} is no region class with a climate row")
+    return out
+
+
 def integrity_errors(root: Path = ws.REPO_ROOT) -> dict:
     root = Path(root)
     fams = ws.families()
@@ -151,6 +177,8 @@ def integrity_errors(root: Path = ws.REPO_ROOT) -> dict:
         if place_id not in ledgers:
             refs.append(f"{place_id} has a layout and no promise ledger (run "
                         f"`blueprint_promises --id {place_id} --write`)")
+
+    refs += climate_region_errors(root, docs.get("climate-regions", []))
 
     # --- every promise filled or excused ----------------------------------
     promises: dict[str, list[str]] = {}

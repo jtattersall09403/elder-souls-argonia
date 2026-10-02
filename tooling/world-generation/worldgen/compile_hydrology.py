@@ -28,7 +28,7 @@ from scipy import ndimage
 from .condition import base_terrain
 from .approved_bodies import apply_routing_corrections, load_routing
 from .hydrology import compute, sea_connected
-from .regions import CLIMATE, REGION_CLASSES, SOIL_CLASSES, compute_regions
+from .regions import CLIMATE, REGION_CLASSES, SOIL_CLASSES, climate_profiles, compute_regions
 from .scale import HSCALE as SCALE, RAW_METRES_PER_SAMPLE
 
 STEP = 3     # work at preview resolution (1345^2)
@@ -270,7 +270,7 @@ def main(argv: list[str] | None = None) -> None:
         "topBasinsKm2": {str(b): round(areas[b], 1) for b in top},
         "regionsLegend": {str(cid): {"name": name, "rgb": list(colour)}
                           for cid, (name, colour) in REGION_CLASSES.items()},
-        "climateProfiles": {REGION_CLASSES[cid][0]: prof for cid, prof in CLIMATE.items()},
+        "climateProfiles": climate_profiles(),
         "climateAir": {
             "file": "climate-air.png",
             "metresPerPixel": metres_per_px,

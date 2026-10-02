@@ -75,13 +75,12 @@ def write_region_png(regions: np.ndarray, path: Path) -> None:
 
 def update_meta(stats: dict, path: Path) -> None:
     """Rewrite the region-dependent blocks of `hydrology-meta.json` in place."""
-    from .regions import CLIMATE
+    from .regions import climate_profiles
 
     meta = json.loads(path.read_text())
     meta["regionsLegend"] = {str(cid): {"name": name, "rgb": list(colour)}
                              for cid, (name, colour) in REGION_CLASSES.items()}
-    meta["climateProfiles"] = {REGION_CLASSES[cid][0]: prof
-                               for cid, prof in CLIMATE.items()}
+    meta["climateProfiles"] = climate_profiles()
     meta["regionFractions"] = stats["regionFractions"]
     path.write_text(json.dumps(meta, indent=2) + "\n")
 

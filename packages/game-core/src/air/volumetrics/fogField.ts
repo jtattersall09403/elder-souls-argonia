@@ -15,6 +15,28 @@
  */
 import { sunBurn } from "./fogNoise";
 
+/** A region's fog profile (world/sources/climate/climate-regions.json `fog`, published in
+ * hydrology-meta `climateProfiles[name].fog`): relative multipliers about 1.0 on the regimes below. */
+export interface RegionFogProfile {
+  /** Scales the air baseline and the ground fogs' coverage (marsh fog, steam fog, canopy haze). */
+  densityScale: number;
+  /** Scales the radiation mist's scale height (mistHeightProfile). */
+  heightScale: number;
+  /** Radiation-mist propensity: scales the clear-calm-night mist. */
+  radiationMist: number;
+  /** Onshore sea-fog propensity: scales the advected sea fog. */
+  seaFog: number;
+  /** Scales how fast the climbing sun burns ground fog off. */
+  burnOffScale: number;
+  /** Added to the climate humidity before the regimes read it. */
+  humidityBias: number;
+}
+
+/** The profile where no region is known yet (raster still decoding): every regime as authored. */
+export const REGION_FOG_NEUTRAL: Readonly<RegionFogProfile> = Object.freeze({
+  densityScale: 1, heightScale: 1, radiationMist: 1, seaFog: 1, burnOffScale: 1, humidityBias: 0,
+});
+
 export interface FogFieldInput {
   /** Minutes since local midnight (0..1440). */
   minuteOfDay: number;
@@ -51,6 +73,8 @@ export interface FogFieldInput {
   regionHaze?: number;
   /** Game day number (floor of epoch minutes / 1440): re-phases the fog's slow modulators each day. */
   dayIndex?: number;
+  /** The fog profile of the region under the camera (RegionFogProbe). Absent: REGION_FOG_NEUTRAL. */
+  profile?: Readonly<RegionFogProfile>;
 }
 
 export interface FogRegimes {
@@ -66,6 +90,8 @@ export interface FogRegimes {
   halo: number;
   /** Advection velocity of the noise, m/s, XZ. */
   windXZ: [number, number];
+  /** The region's radiation-mist scale-height multiplier (mistHeightProfile's `heightScale`). */
+  heightScale?: number;
 }
 
 /** regionHaze at which the froxel air equals its humidity/rain baseline: an average humid lowland
@@ -97,10 +123,10 @@ export const MIST_FADE_SHARE = 0.4;
 /** Vertical weight (0..1) of the radiation mist at `hAboveFloor` metres over the basin floor for a pool
  * `depthM` deep: exponential fall from the floor, faded to zero by the top. froxelGrid's density() is
  * the TSL twin (the top there is billowed by the noise). */
-export function mistHeightProfile(hAboveFloor: number, depthM: number): number {
+export function mistHeightProfile(hAboveFloor: number, depthM: number, heightScale = 1): number {
   const d = Math.max(depthM, 1e-3);
   const h = Math.max(hAboveFloor, 0);
-  return Math.exp(-h / (d * MIST_SCALE_SHARE)) * (1 - smooth(d * (1 - MIST_FADE_SHARE), d, h));
+  return Math.exp(-h / (d * MIST_SCALE_SHARE * Math.max(heightScale, 1e-3))) * (1 - smooth(d * (1 - MIST_FADE_SHARE), d, h));
 }
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
@@ -137,39 +163,41 @@ export function fogRegimesInto(out: FogRegimes, i: FogFieldInput, sunElevationDe
   // mist needs still air: gone above ~5 m/s
   const calm = 1 - smooth(1.5, 5, wind);
   const rainDamp = 1 - (1 - RAIN_MIST_KEEP) * clamp01(i.rain * 1.5);
-  const humid = clamp01(i.humidity);
+  const p = i.profile ?? REGION_FOG_NEUTRAL;
+  const humid = clamp01(i.humidity + p.humidityBias);
   // the sun burns ground fog off as it climbs (4..25 deg), humid air holds on to half of it
-  const sunKeep = sunElevationDeg === undefined ? 1 : 1 - sunBurn(sunElevationDeg) * (1 - 0.5 * humid);
+  const sunKeep = sunElevationDeg === undefined ? 1
+    : 1 - clamp01(sunBurn(sunElevationDeg) * p.burnOffScale) * (1 - 0.5 * humid);
 
   const dawn = dawnEnvelope(hSunrise, 3, 2.5);
   const radiationMist = Math.max(clamp01(i.weatherRadiation ?? 0),
-    clamp01(i.prevNightClearCalm) * dawn * calm * (0.4 + 0.6 * humid)) * rainDamp * sunKeep;
+    clamp01(clamp01(i.prevNightClearCalm) * dawn * calm * (0.4 + 0.6 * humid) * p.radiationMist)) * rainDamp * sunKeep;
 
   const steamDawn = dawnEnvelope(hSunrise, 2, 2);
-  const steamFog = steamDawn * calm * (0.3 + 0.7 * clamp01(i.prevNightClearCalm)) * rainDamp * sunKeep;
+  const steamFog = p.densityScale * steamDawn * calm * (0.3 + 0.7 * clamp01(i.prevNightClearCalm)) * rainDamp * sunKeep;
 
   const dusk = Math.max(0, 1 - Math.abs(hSunset - 0.75) / 1.75);
-  const marshFog = Math.max(dawnEnvelope(hSunrise, 2.5, 2), dusk) * calm * (0.35 + 0.65 * humid)
+  const marshFog = p.densityScale * Math.max(dawnEnvelope(hSunrise, 2.5, 2), dusk) * calm * (0.35 + 0.65 * humid)
     * (0.6 + 0.4 * clamp01(i.wetSeason)) * sunKeep;
 
   const onshore = clamp01(i.onshore ?? 0);
   const seaFog = Math.max(clamp01(i.weatherAdvection ?? 0),
-    onshore * smooth(0.6, 0.95, humid) * (1 - smooth(8, 14, wind)) * (0.5 + 0.5 * clamp01(i.wetSeason)));
+    clamp01(onshore * smooth(0.6, 0.95, humid) * (1 - smooth(8, 14, wind)) * (0.5 + 0.5 * clamp01(i.wetSeason)) * p.seaFog));
 
   const afterRain = Number.isFinite(i.hoursSinceRain)
     ? smooth(0, 0.5, i.hoursSinceRain) * (1 - smooth(1.5, 2.5, i.hoursSinceRain))
     : 0;
   const humidMorning = dawnEnvelope(hSunrise, 1, 3) * smooth(0.5, 0.9, humid);
-  const canopyHaze = clamp01(0.25 + Math.max(afterRain, humidMorning) * 0.75 * sunKeep) * rainDamp;
+  const canopyHaze = clamp01((0.25 + Math.max(afterRain, humidMorning) * 0.75 * sunKeep) * rainDamp * p.densityScale);
 
   const hazeScale = i.regionHaze === undefined ? 1
     : Math.min(REGION_HAZE_SCALE.max, Math.max(REGION_HAZE_SCALE.min, i.regionHaze / REGION_HAZE_REF));
-  const air = (1 + 2 * humid + 3 * clamp01(i.rain)) * hazeScale;
-  const halo = Math.max(smooth(0.55, 0.95, humid), radiationMist, marshFog, seaFog, clamp01(i.rain));
+  const air = (1 + 2 * humid + 3 * clamp01(i.rain)) * hazeScale * p.densityScale;
+  const halo = Math.max(smooth(0.55, 0.95, humid), radiationMist, clamp01(marshFog), seaFog, clamp01(i.rain));
   // noise drifts at the wind speed, floored so still air still mutates slowly
   const drift = Math.max(0.3, wind);
-  out.radiationMist = radiationMist; out.steamFog = steamFog; out.marshFog = marshFog; out.seaFog = seaFog;
-  out.canopyHaze = canopyHaze; out.air = air; out.halo = halo;
+  out.radiationMist = radiationMist; out.steamFog = clamp01(steamFog); out.marshFog = clamp01(marshFog); out.seaFog = seaFog;
+  out.canopyHaze = canopyHaze; out.air = air; out.halo = halo; out.heightScale = p.heightScale;
   out.windXZ[0] = i.windDirXZ[0] * drift; out.windXZ[1] = i.windDirXZ[1] * drift;
   return out;
 }

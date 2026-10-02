@@ -87,6 +87,8 @@ def _root(tmp_path: Path, *, fixed: bool) -> Path:
         f"world/sources/placement/promises/{CLAYWATER}.json": ledger,
         "world/sources/routes/travel-services.json":
             {"schemaVersion": 1, "stations": [], "services": [service]},
+        "world/sources/climate/climate-regions.json":
+            json.loads((REPO / "world/sources/climate/climate-regions.json").read_text()),
     }
     for rel, doc in files.items():
         (tmp_path / rel).parent.mkdir(parents=True, exist_ok=True)
@@ -126,3 +128,18 @@ def test_an_npc_of_a_laid_out_place_must_stand_on_a_placed_socket(tmp_path):
     npc["home"]["socketId"] = "socket.claywater-station.npc-poler"
     reg.write_text(json.dumps({"schemaVersion": 1, "entries": [npc]}))
     assert integrity.integrity_errors(root)["references"] == []
+
+
+def test_a_region_class_without_a_climate_row_fails_and_a_stray_row_fails():
+    doc = json.loads((REPO / "world/sources/climate/climate-regions.json").read_text())
+    doc["regions"] = [r for r in doc["regions"] if r["regionClass"] != 6]
+    doc["regions"].append({**doc["regions"][0], "regionClass": 99})
+    out = integrity.climate_region_errors(REPO, [(Path("t"), doc)])
+    assert any("region class 6 " in e and "no climate row" in e for e in out), out
+    assert any("regionClass 99 is no region class" in e for e in out), out
+    assert any("hydro-regions.png" in e for e in out), out  # class 6 is painted on the map
+
+
+def test_every_painted_region_class_has_its_climate_row():
+    doc = json.loads((REPO / "world/sources/climate/climate-regions.json").read_text())
+    assert integrity.climate_region_errors(REPO, [(Path("t"), doc)]) == []

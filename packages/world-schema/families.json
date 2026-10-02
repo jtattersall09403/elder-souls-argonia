@@ -42,6 +42,13 @@
    "files": [
     "world/sources/vocab/socket-vocabulary.json"
    ]
+  },
+  "climate-regions": {
+   "schema": "climate-regions.v1.schema.json",
+   "files": [
+    "world/sources/climate/climate-regions.json"
+   ],
+   "homeOf": "region class climate"
   }
  }
 }

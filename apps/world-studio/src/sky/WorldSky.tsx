@@ -70,7 +70,7 @@ import { AmbientAir, type AmbientAirConditions } from "@elder-souls/game-core/ai
 import type { FireVolumeTier } from "@elder-souls/game-core/fx/fire/fireTypes";
 import type { AirWaterSurface } from "@elder-souls/game-core/air/ambientAir";
 import { STUDIO_TOOLS } from "../studioTools";
-import { climateAirAt, ONSHORE, OnshoreProbe } from "../weather/climateSampler";
+import { climateAirAt, ONSHORE, OnshoreProbe, RegionFogProbe, type RegionClimateMeta } from "../weather/climateSampler";
 import { buriedThresholdM } from "@elder-souls/game-core/water/index";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { airAmounts } from "@elder-souls/game-core/air/ambientAir";
@@ -297,6 +297,15 @@ export function WorldSky({
   useEffect(() => { if (sunLightingOut) sunLightingOut.current = sunLighting; }, [sunLightingOut, sunLighting]);
   const segments = useFrameSegments();
   const base = DATA_BASE;
+  // fog profile of the region under the camera (climate-regions home table via hydrology-meta)
+  const regionFog = useRef<RegionFogProbe | null>(null);
+  useEffect(() => {
+    let live = true;
+    fetch(`${base}province/hydrology-meta.json`).then((r) => r.json())
+      .then((m: RegionClimateMeta) => { if (live) regionFog.current = new RegionFogProbe(m); })
+      .catch(() => { /* the fog stays neutral */ });
+    return () => { live = false; };
+  }, [base]);
   const rainBudget = useMemo(() => rainDropBudget(), []);
   // Debug handles for the headless probes (probe-sky, probe-air-diff,
   // diagnose-sky, probe-sampler-count). The studio always carries these
@@ -944,6 +953,7 @@ export function WorldSky({
           onshore: onshoreProbe.at(base, camera.position.x, camera.position.z, extentM, wx.windDirXZ),
           regionHaze: wx.regionHaze,
           dayIndex: Math.floor(epochMinutes / 1440),
+          profile: regionFog.current?.at(base, camera.position.x, camera.position.z, extentM),
         },
       });
     }

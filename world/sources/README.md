@@ -23,6 +23,10 @@ the vault; the browser preview raster is committed at
   tolerances and confidence. Owner-approved; refined at visual gates.
 - [lore/](lore/README.md) — per-location canon dossiers (UESP-sourced) feeding
   generation and later quest/dialogue authoring.
+- [climate/climate-regions.json](climate/climate-regions.json) — the home table
+  of climate (humidity, mist, rain, visibility, canopy) and fog profile per
+  region class id of the region map; read by `worldgen/regions.py`, checked by
+  the world-schema integrity gate, published in hydrology-meta `climateProfiles`.
 - [climate/weather-states.json](climate/weather-states.json) — province weather
   states, seasonal calendar and lighting notes (plan §33.1).
 - [sky/star-catalogue.json](sky/star-catalogue.json) — the authored night sky:
