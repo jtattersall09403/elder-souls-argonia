@@ -59,7 +59,7 @@ async function main() {
   const state = () => dbg("state");
   const waitFor = async (pred, ms) => {
     const end = Date.now() + ms;
-    while (Date.now() < end) { const s = await state().catch(() => null); if (s && pred(s)) return s; await wait(250); }
+    while (Date.now() < end) { const s = await state().catch((e) => { if (cdpLost(e)) throw e; return null; }); if (s && pred(s)) return s; await wait(250); }
     return null;
   };
   const shot = async (file) => {

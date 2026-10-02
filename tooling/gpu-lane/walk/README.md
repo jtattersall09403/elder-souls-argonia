@@ -116,7 +116,17 @@ Tests: `node --test tooling/gpu-lane/walk/*.test.mjs` and `python3 -m pytest -q 
 
 ## Cost per place
 
-Measured on Claywater: see tooling/.reports/16k/walk10/deliver-runner.md
+Measured on Claywater (RTX 3070 community, $0.13/h, 2026-10-02): pod up to ssh ready 1.5 min, setup + sync
+3 min, smoke 1.8 min, day pass 7.3 min (one forced reconnect included), night pass 4.8 min, judges on the VM
+after the pod is deleted. About 12 min of walk per place; a whole pod session for one place 18 min, $0.04.
+
+## Tunnel drops
+
+`tunnels.mjs` opens ssh with keepalives (15 s x 4) and `keep`/`ensureTunnel` re-open a dropped tunnel on the
+same local port. Pass `--pod "<ssh>"` to `walk_run.mjs`: on a lost CDP link (`cdpLost` in `walk-lib.mjs`) it
+re-establishes the tunnel, reconnects, reopens the tab and re-runs the pass from its last completed waypoint
+(no repeat of settle, yaw check or free walk), at most twice per pass; `summary.json` `reconnects[]` and
+`passes[].reconnects` record each one.
 
 ## Exit rule the judge briefs carry
 
