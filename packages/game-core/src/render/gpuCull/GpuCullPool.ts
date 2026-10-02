@@ -238,6 +238,7 @@ export class GpuCullPool {
           for (const d of this.draws.get(pages[p]) ?? []) {
             d.kept = ind[d.draw.index * INDIRECT_STRIDE + 1] ?? 0;
             d.mesh.count = Math.max(1, d.kept);
+            d.mesh.userData.esKept = d.kept;
           }
         });
       })

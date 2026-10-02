@@ -47,4 +47,17 @@ describe("GpuCullPool page buffers (webgpu diag10 D3)", () => {
     const first = guardPageBuffers(f.renderer)!.delete;
     expect(guardPageBuffers(f.renderer)!.delete).toBe(first);
   });
+
+  it("the read-back stores each member's kept count on its mesh (userData.esKept)", async () => {
+    const pool = new GpuCullPool({ lodFade: createLodFadeUniforms() });
+    const a = member();
+    const da = pool.addDraw(a, opts);
+    const ind = new Uint32Array(64);
+    ind[da.draw.index * 5 + 1] = 0;
+    const renderer = { getArrayBufferAsync: async () => ind.buffer } as unknown as WebGPURenderer;
+    pool.refreshCounts(renderer);
+    await new Promise((r) => setTimeout(r, 0));
+    expect(a.userData.esKept).toBe(0);
+    expect(a.count).toBe(1);
+  });
 });

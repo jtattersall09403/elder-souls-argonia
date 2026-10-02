@@ -392,6 +392,27 @@ test("draw census: categories, kinds, refreshes, us/draw and created-in-window c
   assert.equal(c.otherTop[0][0], "Mesh:thing|MeshBasicNodeMaterial:x");
   // the inclusive renderObject figure, not backend.draw alone (diag13 D2: 1.81 printed for 13.08)
   const line = drawCensusLine({ ...c, usPerRenderObject: 13.08, usPerDraw: 1.81, renderMsPerFrame: 9, renderObjectMsPerFrame: 7, renderCallsPerFrame: 6 }, 12.5);
-  assert.match(line, /^not-a-bar; 5 draws \(all passes\), render\(\) 9 ms\/frame \(6 calls\), renderObject 13\.08 us incl \(7 ms\/frame\), backend\.draw 1\.81 us, work - render\(\) 3\.5 ms; 4 refreshes, 2 created in window; veg-gpucull 2, settlement-merge 1, terrain 1$/);
+  assert.match(line, /^not-a-bar; 5 draws \(all passes\), render\(\) 9 ms\/frame \(6 calls\), renderObject 13\.08 us incl \(7 ms\/frame\), backend\.draw 1\.81 us, work - render\(\) 3\.5 ms; 4 refreshes, 2 created in window; keptZero 0; veg-gpucull 2, settlement-merge 1, terrain 1; targets screen 5$/);
   assert.match(drawCensusLine(null), /^not-a-bar; census unread/);
+});
+
+test("draw census: byTarget draws by category and kept-zero vegetation draws", () => {
+  const rafs = [];
+  let target = null;
+  const r = { backend: { draw() {} }, _nodes: { needsRefresh: () => false }, _renderObjectDirect(ro) { this.backend.draw(ro); },
+    render() {}, getRenderTarget: () => target };
+  const win = { performance: { now: () => 0 }, requestAnimationFrame: (f) => rafs.push(f), __RENDERER__: r };
+  installDrawCensus(win);
+  const mk = (kept) => ({ object: { name: "", isInstancedMesh: true, count: 1, userData: { esGpuCull: true, esKept: kept } }, geometry: { indirect: {} }, material: { name: "" } });
+  win.__drawCensus.start();
+  target = { texture: { name: "shadow-cascade-0" } };
+  r._renderObjectDirect(mk(0)); r._renderObjectDirect(mk(5));
+  target = null;
+  r._renderObjectDirect(mk(7));
+  rafs.shift()();
+  const c = win.__drawCensus.stop();
+  assert.deepEqual(c.byTarget["shadow-cascade-0"], { drawsPerFrame: 2, keptZeroPerFrame: 1, "veg-gpucull": 2 });
+  assert.deepEqual(c.byTarget.screen, { drawsPerFrame: 1, keptZeroPerFrame: 0, "veg-gpucull": 1 });
+  assert.equal(c.keptZeroPerFrame, 1);
+  assert.match(drawCensusLine(c), /keptZero 1; veg-gpucull 3; targets shadow-cascade-0 2, screen 1$/);
 });

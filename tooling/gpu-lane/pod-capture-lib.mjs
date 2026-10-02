@@ -518,7 +518,7 @@ export function gpuProbeLine(p) {
 export function installDrawCensus(win) {
   const CATS = ["veg-gpucull", "groundcover", "vegetation", "impostor", "settlement-merge", "terrain", "ground-paint", "water", "sky", "fixture", "fire-fx", "air", "character", "other"];
   const N = CATS.length, MAXF = 4096, now = () => win.performance.now();
-  const C = { on: false, frames: 0, draws: new Float64Array(N), refresh: new Float64Array(N), drawMs: 0, roMs: 0, renderMs: 0, renderCalls: 0, renderDepth: 0, byTarget: new Map(),
+  const C = { on: false, frames: 0, draws: new Float64Array(N), refresh: new Float64Array(N), drawMs: 0, roMs: 0, renderMs: 0, renderCalls: 0, renderDepth: 0, byTarget: new Map(), keptZero: 0,
     kinds: { plain: 0, instanced: 0, indirect: 0, zero: 0 }, perFrame: new Float64Array(MAXF), created: { pipelines: 0, shaders: 0, labels: [] },
     hooked: { draw: false, renderObjectDirect: false, needsRefresh: false, render: false }, otherNames: new Map() };
   const catOf = new WeakMap();
@@ -543,6 +543,14 @@ export function installDrawCensus(win) {
     return 13;
   };
   const cat = (ro) => { const o = ro.object; if (!o || typeof o !== "object") return classify(ro); let c = catOf.get(o); if (c === undefined) { c = classify(ro); catOf.set(o, c); } return c; };
+  // per render target (texture name, else "rt", else "screen"; at most 16 tags): inclusive ms, objects, draws by category, kept-zero
+  const entry = (r) => {
+    const rt = typeof r.getRenderTarget === "function" ? r.getRenderTarget() : null;
+    const tag = rt ? String(rt.texture?.name || "rt") : "screen";
+    let e = C.byTarget.get(tag);
+    if (!e && C.byTarget.size < 16) { e = { ms: 0, n: 0, draws: new Float64Array(N), keptZero: 0 }; C.byTarget.set(tag, e); }
+    return e;
+  };
   const created = (kind, label) => { if (!C.on) return; C.created[kind]++; if (C.created.labels.length < 20) C.created.labels.push(`${kind}:${label ?? ""}`); };
   const wrap = (proto, name, make) => { if (proto && typeof proto[name] === "function") proto[name] = make(proto[name]); };
   const Dev = win.GPUDevice?.prototype;
@@ -563,7 +571,9 @@ export function installDrawCensus(win) {
       const t = now();
       try { return draw.call(this, ro, info); } finally {
         C.drawMs += now() - t; frameDraws++;
-        C.draws[cat(ro)]++;
+        const ci = cat(ro), kz = ci === 0 && ro.object?.userData?.esKept === 0, te = entry(win.__RENDERER__);
+        C.draws[ci]++; if (kz) C.keptZero++;
+        if (te) { te.draws[ci]++; if (kz) te.keptZero++; }
         const o = ro.object ?? {}, g = ro.geometry ?? {};
         if (g.indirect) C.kinds.indirect++; else if (o.isInstancedMesh || (o.count ?? 1) > 1) C.kinds.instanced++; else C.kinds.plain++;
         if ((o.isInstancedMesh && o.count === 0) || g.drawRange?.count === 0) C.kinds.zero++;
@@ -578,10 +588,8 @@ export function installDrawCensus(win) {
         const t = now();
         try { return rod.apply(this, a); } finally {
           const dt = now() - t; C.roMs += dt;
-          const rt = typeof this.getRenderTarget === "function" ? this.getRenderTarget() : null;
-          const tag = rt ? String(rt.texture?.name || "rt") : "screen";
-          const e = C.byTarget.get(tag) ?? (C.byTarget.size < 16 ? { ms: 0, n: 0 } : null);
-          if (e) { e.ms += dt; e.n++; C.byTarget.set(tag, e); }
+          const e = entry(this);
+          if (e) { e.ms += dt; e.n++; }
         }
       };
       C.hooked.renderObjectDirect = true;
@@ -606,7 +614,7 @@ export function installDrawCensus(win) {
   };
   win.__drawCensus = {
     state: C, categories: CATS,
-    start() { C.draws.fill(0); C.refresh.fill(0); C.drawMs = 0; C.roMs = 0; C.renderMs = 0; C.renderCalls = 0; C.byTarget.clear(); C.frames = 0; frameDraws = 0; C.otherNames.clear();
+    start() { C.draws.fill(0); C.refresh.fill(0); C.drawMs = 0; C.roMs = 0; C.renderMs = 0; C.renderCalls = 0; C.byTarget.clear(); C.keptZero = 0; C.frames = 0; frameDraws = 0; C.otherNames.clear();
       C.kinds = { plain: 0, instanced: 0, indirect: 0, zero: 0 }; C.created = { pipelines: 0, shaders: 0, labels: [] }; C.on = true; },
     stop() { C.on = false; return drawCensusResult(C, CATS); },
   };
@@ -615,7 +623,8 @@ export function installDrawCensus(win) {
     const per = Array.from(c.perFrame.subarray(0, Math.min(c.frames, MAXF))).sort((a, b) => a - b);
     const byCat = (arr) => Object.fromEntries(cats.map((k, i) => [k, r2(arr[i] / f)]).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]));
     return { frames: c.frames, hooked: { ...c.hooked }, drawsPerFrame: r2(total / f), drawsMax: per.length ? per[per.length - 1] : null,
-      byCategory: byCat(c.draws), kindsPerFrame: Object.fromEntries(Object.entries(c.kinds).map(([k, v]) => [k, r2(v / f)])),
+      byCategory: byCat(c.draws), keptZeroPerFrame: r2(c.keptZero / f),
+      byTarget: Object.fromEntries([...c.byTarget].sort((a, b) => b[1].draws.reduce((x, y) => x + y, 0) - a[1].draws.reduce((x, y) => x + y, 0)).map(([k, v]) => [k, { drawsPerFrame: r2(v.draws.reduce((x, y) => x + y, 0) / f), keptZeroPerFrame: r2(v.keptZero / f), ...byCat(v.draws) }])), kindsPerFrame: Object.fromEntries(Object.entries(c.kinds).map(([k, v]) => [k, r2(v / f)])),
       refreshesPerFrame: r2(c.refresh.reduce((a, b) => a + b, 0) / f), refreshByCategory: byCat(c.refresh),
       drawMsPerFrame: r2(c.drawMs / f), renderObjectMsPerFrame: r2(c.roMs / f), renderMsPerFrame: r2(c.renderMs / f), renderCallsPerFrame: r2(c.renderCalls / f),
       renderObjectByTarget: Object.fromEntries([...c.byTarget].sort((a, b) => b[1].ms - a[1].ms).map(([k, v]) => [k, { msPerFrame: r2(v.ms / f), us: r2((v.ms * 1000) / v.n) }])),
@@ -634,8 +643,9 @@ export function drawCensusLine(c, workMs = null) {
   if (!c || c.err) return `not-a-bar; census unread${c?.err ? ` (${String(c.err).slice(0, 60)})` : ""}`;
   const top = Object.entries(c.byCategory ?? {}).slice(0, 3).map(([k, v]) => `${k} ${v}`).join(", ");
   const cw = c.createdInWindow ?? {};
+  const tgt = Object.entries(c.byTarget ?? {}).slice(0, 3).map(([k, v]) => `${k} ${v.drawsPerFrame}`).join(", ");
   const outside = Number.isFinite(workMs) && Number.isFinite(c.renderMsPerFrame) ? Math.round((workMs - c.renderMsPerFrame) * 100) / 100 : "?";
-  return `not-a-bar; ${c.drawsPerFrame} draws (all passes), render() ${c.renderMsPerFrame ?? "?"} ms/frame (${c.renderCallsPerFrame ?? "?"} calls), renderObject ${c.usPerRenderObject ?? "?"} us incl (${c.renderObjectMsPerFrame} ms/frame), backend.draw ${c.usPerDraw ?? "?"} us, work - render() ${outside} ms; ${c.refreshesPerFrame} refreshes, ${(cw.pipelines ?? 0) + (cw.shaders ?? 0)} created in window; ${top}`;
+  return `not-a-bar; ${c.drawsPerFrame} draws (all passes), render() ${c.renderMsPerFrame ?? "?"} ms/frame (${c.renderCallsPerFrame ?? "?"} calls), renderObject ${c.usPerRenderObject ?? "?"} us incl (${c.renderObjectMsPerFrame} ms/frame), backend.draw ${c.usPerDraw ?? "?"} us, work - render() ${outside} ms; ${c.refreshesPerFrame} refreshes, ${(cw.pipelines ?? 0) + (cw.shaders ?? 0)} created in window; keptZero ${c.keptZeroPerFrame ?? "?"}; ${top}; targets ${tgt || "?"}`;
 }
 
 /** CPU profile (Profiler.stop) over the cost window -> self ms per frame per function (url:line:col), top n, with the
