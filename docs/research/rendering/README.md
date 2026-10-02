@@ -22,4 +22,5 @@ Prior art and technique studies behind the browser renderer: ground, sky, weathe
 | [building-ground-seam.md](building-ground-seam.md) | How games hide the join between a building and the ground, and what we built: the compile's trampled ring and baked contact shade on the place's paint surface, and the `look -- seam` view. | research reference |
 | [cheap-sky-and-post-effects-for-target-devices.md](cheap-sky-and-post-effects-for-target-devices.md) | Cheap 3D clouds and post effects within 16.7 ms on the target devices (Adreno 830 phone, M2 Air), WebGL2 and the WebGPU branch. | research reference |
 | [ambient-audio-soundscape-threejs.md](ambient-audio-soundscape-threejs.md) | How to build a region-distinct, time- and weather-aware ambient soundscape on Web Audio for GitHub Pages. | research reference |
+| [volumetric-bars/README.md](volumetric-bars/README.md) | Owner reference pictures that set the visual bar for the WebGPU froxel fog, god rays and local light scattering (decisions 0111, 0112). | evidence |
 | [reference/README.md](reference/README.md) | Reference imagery (waterfall target shots) used to judge the water and falls work. | evidence |
