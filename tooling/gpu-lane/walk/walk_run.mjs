@@ -209,10 +209,10 @@ async function main() {
 
   const passes = [];
   const findings = [];
-  for (const t of o.t) {
+  for (const [ti, t] of o.t.entries()) {
     const day = isDay(t);
     const pass = `t${t}`;
-    const P = { pass, t, w: o.w, waypoints: [], reconnects: 0 };
+    const P = { pass, t, weather: o.w[ti], waypoints: [], reconnects: 0 };
     passes.push(P);
     const tp = Date.now();
     // A CDP loss (tunnel drop, "Target closed") reconnects and re-runs the pass from its last completed
@@ -221,7 +221,7 @@ async function main() {
     const resumeAt = P.waypoints.length;
     try {
       const w0 = route.waypoints[0];
-      const url = `${o.origin}${o.base}?view=character&x=${(w0.xM / 1000).toFixed(4)}&z=${(w0.zM / 1000).toFixed(4)}&t=${t}&w=${o.w}`;
+      const url = `${o.origin}${o.base}?view=character&x=${(w0.xM / 1000).toFixed(4)}&z=${(w0.zM / 1000).toFixed(4)}&t=${t}&w=${o.w[ti]}&rate=${o.rate}`;
       P.url = url;
       await page.goto("about:blank").catch(() => {});
       await page.goto(url, { timeout: o.readyTimeout * 1000, waitUntil: "load" });
@@ -327,7 +327,7 @@ async function main() {
     return x ? gl.getParameter(x.UNMASKED_RENDERER_WEBGL) : null;
   }).catch(() => null);
   const git = (a) => spawnSync("git", a, { cwd: repo, encoding: "utf8" }).stdout.trim();
-  const summary = { schemaVersion: 2, placeId: route.placeId, smoke: o.smoke, gitSha: git(["rev-parse", "HEAD"]), dirty: git(["status", "--porcelain"]) !== "",
+  const summary = { schemaVersion: 3, placeId: route.placeId, smoke: o.smoke, gitSha: git(["rev-parse", "HEAD"]), dirty: git(["status", "--porcelain"]) !== "",
     measuredAt: new Date().toISOString(), gpuAdapter: gpu, origin: o.origin, base: o.base, weather: o.w, orphansClosed, reconnects,
     passes, coverage: coverage(route, passes), consoleErrors: [...new Set(consoleErrors)], http404s: [...new Set(http404s)], findings,
     wallMin: r2((Date.now() - t0) / 60000) };

@@ -43,7 +43,7 @@ Route rules (the walk-10 causes they fix are in `tooling/.reports/16k/walk10/wal
   yaw-check start) is chosen so 4 m north and 4 m east are clear of every collider.
 
 **`walk_run.mjs --route <route.json> --out <dir>`** flags: `--cdp host:port` (127.0.0.1:9242),
-`--t 12,22` (game hours, one pass each), `--w clear` (weather), `--origin` (http://127.0.0.1:8099),
+`--t 12,22` (game hours, one pass each), `--w clear` (weather id per pass: `--w clear,rain` pairs by index with `--t`; one value applies to every pass), `--rate 0.5` (the studio clock rate in the URL, the game's normal clock; the studio pauses the clock without it), `--origin` (http://127.0.0.1:8099),
 `--base` (/elder-souls-argonia/studio/), `--width 1280`, `--height 720`, `--settle 10` (s),
 `--speed 3.5` (m/s, sets the walking time budget), `--readyTimeout 150` (s). Per pass it
 loads the studio, waits for the ready gate, records a settle window and a 20 s free walk, then
