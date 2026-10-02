@@ -74,6 +74,15 @@ walks as it needs; it closes only on the owner's "looks right".
 
 ## The loop (every slice)
 
+The planner's briefs for a slice: a first-of-type place is three briefs,
+never one: (a) layout and kits (step 1 to the first apply), (b) render and
+fix rounds (step 1's inner loop), (c) publish and gates (step 2), each a
+fresh `place-builder` launched with the Agent tool from the previous one's
+hand-off note (walk-9 place-builders briefed as one ran 520k-830k context,
+99.7 of 106.4 units on turns over 200k; method review r7 P1). A lane that
+rewrites a catalogue-wide file (kit manifests, registries) never runs
+beside publishing lanes, and commits in the step that writes it.
+
 1. **Design as one whole layout (unattended; `place-build` skill, 0100
    decisions 2–3, 7).** Step 0: read the site packet (the 16g catalogue
    record, its promises and quest provisions, the macro plot, the
@@ -120,7 +129,13 @@ walks as it needs; it closes only on the owner's "looks right".
    preflight, review, text-review and deploy run once per batch (in 16k
    a batch is one walk packet's places).
 3. **Walk packet** (Owner check-ins below) → the owner walks **the
-   deployed studio** (owner 2026-09-27): before posting, merge `dev` into
+   deployed studio** (owner 2026-09-27): before posting, every "queued",
+   "not done" or "later" line in a lane report is settled (done, or a
+   lane relaunched from its note; never carried into the packet); merge
+   `dev` into `webgpu` and run the WebGPU boot check (the `webgpu`
+   build loads to a first frame with no console errors, `measure.mjs` per
+   `tooling/gpu-lane/README.md`; walk 9's WebGPU build failed to load
+   110 commits behind `dev`), then merge `dev` into
    `main`, push, and confirm the Pages action is green; the packet's links
    use the deployed URL, never `$ES_TUNNEL_URL`; run
    `python3 tooling/repo-standards/review_gate.py --close` when the packet
@@ -131,6 +146,14 @@ walks as it needs; it closes only on the owner's "looks right".
    and the `?sockets=1` overlay; a
    `§ Gaps` row carries one of 0102 decision 3's four reasons; the plan
    render and up to four shots are embedded (`owner_inbox.py --attach`).
+   The walk-independent lanes (step 6) are launched before the packet
+   posts, and the packet's `## Live` section lists every agent and pod
+   still running with its expected end time ("keep the VM up until
+   ~HH:MM"); each pod is deleted by id or handed over by id there, and
+   "nothing pending" is never written while one runs (`owner_inbox.py
+   --post` refuses a packet with no `## Live` section while
+   `lane_status.py` lists a running agent; walk 9: 81 VM-min idle on the
+   walk, pod x3lo34wf7lpiai 8.7 idle hours).
 4. **One fix round** (`continue 16k slice N after owner walk`): group the
    owner's defects by cause across the whole reply; a cause that needs a
    rule (97 §C or the skill), a test or a gate goes to the tooling

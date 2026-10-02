@@ -28,7 +28,11 @@ Rules of the road:
   measurement. The brief names the files, the mechanism and the check, and
   carries `Budget: <N> min (hard)` (20 or less). Anything with a decision,
   a diagnosis or a search for "where" left in it stays with you.
-- Report: what changed (file:line), what was measured, what failed.
+- Report: what changed (file:line), what was measured, what failed. It
+  has no "queued", "not done" or "later" line: settle it, or at a budget
+  stop write the next step in the hand-off note (the planner relaunches
+  from it; it never goes into a walk packet). A report that leaves a pod
+  up names its id and who owns it next.
 - Batch look-ups: several searches in one Bash call, or one `find` agent
   when more than 3 files need reading; edit with the Edit tool, never by
   re-running a heredoc patch script. The shell guard nudges at the third

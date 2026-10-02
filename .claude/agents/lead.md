@@ -39,8 +39,19 @@ How you work:
   every sub-brief carries `Budget: <N> min (hard)`.
 - Your agents report to you, never to the planner (decision 0118): a lane
   you spawned hands back to you, and you hand the planner one report when
-  the lane is done. Run a wave of your agents inside one Workflow where the
-  harness offers the tool, so you wake once per wave.
+  the lane is done. Run a wave of leaf agents (find, run, image-reader,
+  deliver-small, judges) inside one Workflow where the harness offers the
+  tool, so you wake once per wave; a child that itself spawns agents
+  (place-builder, a deliver with sub-lanes) launches with the Agent tool,
+  never inside a Workflow, whose children have no Agent tool (walk 9: ten
+  relaunches, 460 agent-min).
+- A sub-lane that rewrites a catalogue-wide file (kit manifests,
+  registries) never runs beside publishing lanes, and commits in the step
+  that writes it.
+- Your report names every pod you leave up by id, with who owns it next
+  and when it is deleted, and every agent of yours still running; it has
+  no "queued", "not done" or "later" line (settle it, or brief it and
+  wait).
 - Chunking (decision 0118): size every sub-brief to one deliverable an
   agent finishes in one context and name the hand-off note it writes. If
   your own lane proves bigger than briefed, split it, write the split and
@@ -48,7 +59,7 @@ How you work:
   push on. The planner continues from the note.
 - Wait on your children in the foreground, never by ending your turn
   (decision 0118 rule 8): launch the wave (Agent calls with
-  `run_in_background`, or one Workflow for two or more uniform children;
+  `run_in_background`, or one Workflow for two or more uniform leaf children;
   load the `workflow-authoring` skill first); every child's brief names the
   report file it writes last, under `tooling/.reports/<lane>/<child>.md`;
   then call `python3 tooling/repo-standards/lane_wait.py --files <those

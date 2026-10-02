@@ -1,109 +1,121 @@
-# Method review round 7: walk 8 and walk 9 agent spend (2026-10-01)
+# Method review round 7: where walk 8 and walk 9 spent time and money (2026-10-02)
 
-Headline: not at the efficient frontier. Long-context agents remain the largest cost; the owner ruled after this review (walk 9) that there is no turn cap: briefs are chunked to one context and the planner monitors elapsed against expected (0118 d1). In walk 8, one deliver ran 257 turns at up to 342k context per turn and cost 6.28 units, 17.5 % of both sessions. The week is at 904 of 825 calibrated units (110 %, `week_usage.py`), and `enforce` is false.
+Headline: walk 9 cost 212 units, 9× walk 8 (23.9). 132 of its 203 subagent units (65 %) were spent on turns carrying more than 200k context, nearly all by first-of-type place-builders that ran to 520k–830k context inside one Workflow. Second: the planner told the owner "nothing else is pending on my side" (01:02) while the WebGPU lane was still running. The owner stopped the VM at 01:11 and the lane died mid-job. The WebGPU build then failed to load because the `webgpu` branch is 110 commits behind `dev`.
 
-Read-only. Parser and raw tables: `/tmp/mr7/parse.py`, `/tmp/mr7/agents.txt` (every agent in both sessions), `/tmp/mr7/8cab.txt` (walk 5, for comparison). Units use the `week_usage.py:27` weights (cache read 0.1, cache create 2.0, input 1, output 5, per M tokens). Turns are distinct assistant message ids. Minutes run from an agent's first to its last transcript entry.
+This file replaces the partial round-7 review written at 17:28 on 10-01, which measured walk 9 before most of it ran. Read-only. Parsers and raw tables are in `/tmp/mr7b/` (`parse.py`, `all.txt` lists every agent in both sessions, Workflow children included; `tl-w8.txt` and `tl-w9.txt` are the planner timelines; `jobguard.txt`). Units use the `week_usage.py` weights: cache read 0.1, cache create 2, input 1, output 5, per M tokens.
 
 ## Reconciliation
 
-- Live docs that cover this: `method-reviews.md` (index, rounds 1–6), `method-review-r6.md`, decision 0118, `docs/standards/hooks.md`.
-- Confirmed: r6's look-up hook works. Opus single look-ups fell from 19–28 % of turns to at most 8 per agent.
-- Contradicted: `method-reviews.md:9-10` still says "A new round opens only when `build_ledger.py --report` lists a run over its target". Its own round-6 row and 0118 replaced that rule with the every-second-walk audit. `tooling/.reports/16k/walk9/find-process.md` gives `REFUSE_TURNS = 180`. The code (`agent_guard.py:25`) and the agent files (`deliver.md:39`, `lead.md:45`, `research.md:16`) say 220.
-- Single doc to edit: `method-reviews.md` (the trigger sentence and a round-7 row). This lane could not make that edit: no Edit tool, and `shell_guard` refuses heredoc writes to tracked files.
+- **Live docs that cover this:** `method-reviews.md` (index, rounds 1–7), `method-review-r6.md`, decision 0118, decision 0119, CLAUDE.md "How we work" and "Update on progress".
+- **Confirmed:** the r6/r7 finding that long contexts are the largest cost. It grew from 30 % of units (walk 8) to 65 % (walk 9).
+- **Contradicted:** 0118 d1's "monitored by the planner" did not happen. The planner answered 117 wakes with "Interim; nothing to act on" while D4 place-type-5 grew to 830k context. No tool shows it an agent's context.
+- **Superseded:** the round-7 index row ("walk 8 spent 24 units…"). The writer edits that row in `method-reviews.md`; no new file.
+- **Already landed, not re-proposed:** the lead foreground wait (`lane_wait.py`, `lead.md:49-60`, commit f4c9797f at 08:42 today).
 
-## 1. The two sessions
+## 1. Time ledger
 
-Walk 8 is planner `006d39bb` (Fable 5.1), 12:59–16:41: 222 min of session span, 136 min with any agent running, 38 agents, 23.8 units. Walk 9 is `07f5b4c0`, from 16:42, measured at 17:28: 45 min, 30 min busy, 20 agents, 12.0 units. The total is 35.8 units. Walk 5 (`8cab1619`, 09-29/30) spent 210 units, so per round the spend is down about 6×. 86 of walk 8's 222 VM minutes had no agent running: the owner was walking, plus the planner's own turns.
+| | Walk 8 (`006d39bb`) | Walk 9 (`07f5b4c0`) |
+|---|---|---|
+| Session span | 12:59–16:42, 223 min | 16:42–01:11 (VM stopped), 509 min |
+| Agents (Workflow children included) | 37 | 99 |
+| Agent-minutes | 335 | 2,130 |
+| Units | 23.9 | 212.0 |
+| Units by type | deliver 16.4, planner 2.2, find 1.6, research 1.0, gp 0.9, lead 0.9 | place-builder 136.1, deliver 50.3, lead 10.4, planner 8.9, find 2.7, gp 2.2 |
+| Peak concurrent agents | 7 | 13 (21:34) |
+| VM up with no agent running | 89 min: 7 min orientation, then 81 min (15:21–16:42) on the owner's walk of packet 9 | 17 min: owner set-up of RunPod and orientation (16:42–16:53, 16:57–17:03) |
+| VM up after the packet | — | 54 min (00:17–01:11): WebGPU lane 3 working. Its last job was cut by the VM stop |
+| Job-guard jobs (from 12:59) | 765 jobs, 712 min of job wall, 227 non-zero exits; peak 9.5 GiB (laneB) | |
+| Pods | none | ≥314 min, about $0.68: lanes 1 and 2 101 min; loop 3 48.5 + 39.8 + 64 min; x3lo34wf7lpiai from 00:08 for at least 61 min. Pod 9rg8lcctgoqnwi (from 21:20) has no end time recorded. No deletion is recorded for x3lo34wf7lpiai (`webgpu-loop-3-night3.md:30` "Left RUNNING for the lead") |
 
-| Session | Agent | Model | Turns | Cache read / create / out (M) | Max ctx | Units | Min | Delivered | Cheapest way? |
-|---|---|---|---|---|---|---|---|---|---|
-| w8 | Lane C chairs, sockets, dressing | Opus deliver | 257 | 54.9 / 0.34 / 0.02 | 342k | 6.28 | 64 | seats, sockets, dressing review | No. Split at 150 turns: about 3 units saved |
-| w8 | Lane F bloom, A2C, grade | Opus deliver | 91 | 9.8 / 0.61 / 0.01 | 161k | 2.24 | 46 | bloom and grade (the owner now calls the sun and lantern bloom too strong) | Yes; one tuning iteration short |
-| w8 | planner | Fable | 79 | 14.8 / 0.25 / 0.05 | 263k | 2.24 | 222 | orchestration and packet 9 | Context too long: 263k by the end |
-| w8 | Lane G ways of working | Opus deliver | 106 | 14.9 / 0.20 / 0.02 | 208k | 2.01 | 14 | 0118 hooks and tests | Yes, but the settings line was left to the owner and never pasted |
-| w8 | Lane B WebGPU | Opus deliver | 96 | 8.9 / 0.51 / 0.00 | 148k | 1.92 | 42 | a console-clean build; the owner reports it still broken | No. Fixed blind, with no GPU frame to check against |
-| w8 | coherence: lead A, synthesis, 3 Sonnet readers, tool+gate, follow-ups | Opus/Sonnet | 222 | 17.9 / 0.84 / 0.02 | 162k | 4.42 | 36 | record-coherence gate and five records edited | No. The owner found false Riverwalk prose: the gate read text, not the built scene |
-| w8 | 10 find agents | Haiku | 171 | 5.6 / 0.50 / 0.00 | 61k | 1.62 | ~2 each | orientation notes | Yes |
-| w8 | review fixes, preflight reds, two sign kits, text review, Lane D, Lane E, research ×5 | mixed | 287 | — | ≤106k | 3.54 | 1–10 | as named | Yes |
-| w8 | preflight ×2, run | Sonnet | 15 | — | 34k | 0.35 | 32 | merge and deploy | Yes; two runner preflights at 15:04 and 15:13 (290 s, 276 s) for one merge |
-| w9 | 11 find agents (orientation) | Haiku | 300 | 10.4 / 0.62 / 0.00 | 83k | 2.28 | ~2 each | `walk9/find-*.md` | Partly (§ Orientation) |
-| w9 | B1 lights-and-post | Opus deliver | 131 | 19.6 / 0.23 / 0.03 | 229k | 2.56 | 18 | running | Context past 200k; the cap would nudge at 150 |
-| w9 | C1 record-coherence | Opus deliver | 83 | 10.3 / 0.17 / 0.02 | 180k | 1.46 | 13 | running | Yes |
-| w9 | A1 WebGPU-loop lead | Opus lead | 74 | 8.7 / 0.19 / 0.00 | 186k | 1.25 | 25 | running | No: 17 python heredocs. The lead is working, which `agent_guard` would refuse |
-| w9 | C2 dressing-three-places | Opus place-builder | 56 | 6.6 / 0.27 / 0.00 | 158k | 1.20 | 12 | running | Yes |
-| w9 | D2 rasters, B2 wind-seam, D1 process | Opus deliver | 149 | 14.6 / 0.38 / 0.03 | 143k | 2.42 | 5–19 | running | Yes |
-| w9 | planner | Fable | 29 | 2.3 / 0.15 / 0.04 | 161k | 0.72 | 45 | briefs | Yes |
+The VM was off from 01:11 to 07:59, so no VM time was lost overnight. `idle-stop.sh` did not fire: its last log line is `01:03:12Z idle for 0 min`, and the 01:11 SIGTERM came from outside the machine.
 
-By kind: cache reads were 220 M tokens (22 units, 62 %), cache creation 6.4 M (12.8 units, 36 %), output 0.3 M (1.5 units). Opus wrote 216 python heredocs in 1,492 Opus turns (14 %). Heredocs that write a tracked file are refused. Heredocs that read are not.
+### Top ten single losses
 
-## 2. The ten largest costs
-
-| # | Cost | Units | Share of 35.8 |
+| # | Loss | Minutes | Units |
 |---|---|---|---|
-| 1 | Opus agents past 150 turns or 200k context (Lane C, B1, G) | 10.85 | 30 % |
-| 2 | Coherence work redone because the gate read prose, not the scene (walk 8; C1 repeats it in walk 9) | 5.88 | 16 % |
-| 3 | Find fan-outs for orientation (21 agents) | 3.90 | 11 % |
-| 4 | WebGPU fixed blind (Lane B, A1; walk 5's WebGPU lead spent another 14.98) | 3.17 | 9 % |
-| 5 | Planner context (walk 8 ended at 263k) | 2.96 | 8 % |
-| 6 | Bloom tuned without a judged frame, so the owner re-reports it (Lane F) | 2.24 | 6 % |
-| 7 | Python-heredoc read turns by Opus (216 turns at ~150k) | ~2.2 (est.) | 6 % |
-| 8 | Lead doing the work (A1) | 1.25 | 3 % |
-| 9 | Two runner preflights per merge | 0.2 units, 10 VM-min | <1 % |
-| 10 | VM idle while the owner walks (86 min in walk 8) | VM only | — |
+| 1 | First-of-type place-builders past 200k context: D4 type-5 (830k, 121 min), F1 type-7 (682k, 87), C3 type-4 (691k, 84), E1 type-6 (554k, 74), C2 dressing (517k, 78) | 444 agent-min | 99.7 of their 106.4 units were on turns over 200k |
+| 2 | Owner walk with the VM up and nothing queued to run: 15:21–16:42 | 81 VM-min | — |
+| 3 | Ten follow-up and follow-up-2 relaunches of Workflow lanes that returned NOT done (`lane-summaries.md:6-62`): lights ×2, rasters ×2, dressing ×2, wind, process, type-9, type-10 | 460 agent-min; integration waited about 80 min (19:58–21:21) | 31.1 |
+| 4 | Sun and bloom diagnosed on SwiftShader: 15 `probe-bloom-sky` runs at 380–753 s each, plus a 572 s sunray probe, across five lanes. Three close-fix lanes in sequence (22:00, 22:20, 22:47) | 82 job-min; about 75 min on the packet's critical path | ~4.6 |
+| 5 | Close: three runner preflights (299, 325 and 333 s), two scoped runs and two reviewer sessions (ae64361e at 23:14, fee8499f at 23:39), each told it was "the ONLY review" | 51 min, 23:14 → 00:05 | 3.4 for the reviewers |
+| 6 | Type-9 and type-10 publishes blocked: another lane's uncommitted `displayName` rewrite of 59 kit manifests (`place-type-10.md:66-68`; "Finish type-9" hand-back) | inside #3: 130 agent-min | 14.3 |
+| 7 | WebGPU lane cut by the VM stop. Its 01:02 job was lost and the next session re-oriented through two find Workflows (08:33–08:40) | 7 + 7 min | ~1 |
+| 8 | `interior-kotm-v1` kit rebuilt 6 times in one lane (588, 617, 391 s …) | 32 job-min | — |
+| 9 | Planner wakes answered "Interim; nothing to act on" (117 turns at up to 479k context) | — | ~4.4 |
+| 10 | A worktree checkout for "before" shots cut at the 30-min tool limit on a busy machine (`lights-followup` hand-back) | 30 agent-min | ~0.5 |
 
-## 3. The cheapest fix for each
+The WebGPU build failing on the owner's walk ("setKTX2Loader must be called before loading KTX2 textures") is a defect, not minutes. `webgpu` lacks 110 `dev` commits (`git log webgpu..dev`), including f27a312f (character bodies ship KTX2). Both branches were pushed at 00:10 without a merge.
 
-| # | Change | Kind | Saving per week (3 rounds) |
-|---|---|---|---|
-| 1, 8 | One deliverable per brief, sized to one context, with a named hand-off note; the planner monitors elapsed against expected (0118 d1). Leads only plan (`agent_guard.py`, lead rule). | brief template + monitoring | ~25 units |
-| 2 | The coherence gate checks each claim against the built layout (`wb.py whatchanged` / scene nouns), not against other prose. The C1 brief must name that. | tool + brief | ~10 units of rework, and fewer owner walk findings |
-| 3 | A cached orientation set: `standards`, `process` and `16k-brief` notes keyed by their source files' git blob hashes, re-run only on a hash change. Task-specific areas stay fresh. | find brief + a 20-line cache check | ~1.5 units |
-| 4 | The RunPod GPU loop (this round's A1) is the fix. No WebGPU fix lands without a judged GPU frame. | brief rule | ~5 units |
-| 5 | The planner hands off at ~150k context, not only at check-ins. The session-switch line already prints it. | rule in CLAUDE.md "One chunk or round" | ~2 units |
-| 6 | Visual tuning lanes get one Sonnet frame judge against the owner's complaint before they return. | brief template | ~2 units |
-| 7 | `shell_guard` counts a read heredoc as a single look-up, so the third-in-a-row nudge covers it. | hook (`shell_guard.py:135`) | ~2 units |
-| 9 | Merge: one runner preflight. A second runs only on a red. | `preflight` agent brief | 10 VM-min |
+## 2. Root causes
 
-## 4. Status of the r6 proposals
+| # | Root cause |
+|---|---|
+| 1 | A first-of-type place is briefed as one deliverable, but it is four: site and layout, kit sourcing and building, rounds to green, then publish and shots. "One context" in `place-builder.md:23` has no size and no stage boundary. Workflow children cannot be messaged, so the planner could not split them even if it had seen the size. |
+| 2 | The packet step has nothing that runs while the owner walks. Walk-independent lanes (WebGPU, perf, method review) were launched after the walk, not during it. |
+| 3 | Workflow children have no Agent tool, so lanes that needed reader fan-outs or image judges (coherence, lights, rasters, dressing) could not finish inside `walk9-round`. The lesson exists only at `packet-10.md:57`. CLAUDE.md "Update on progress" and `lead.md:41-43` still send fan-outs through a Workflow. |
+| 4 | Decision 0119 confines the pod to the WebGPU loop, so a GPU-visual defect on WebGL (the sun disc and bloom) was probed with 6–12-min SwiftShader renders, five times over. |
+| 5 | The review fired on a red first preflight and again on the re-run. The 23:59 runner went red on `placement` after the review-fixes lane. Lanes ran stale generated files (place names, blueprint export, purpose ledger: the planner's 23:26 line) without the regenerate step. |
+| 6 | Shared-file writers ran beside publishers. The serialise-catalogue-writers lesson is in memory, not in any brief template or tool. |
+| 7 | The planner's 01:02 close-out said "nothing else is pending on my side" while a lead, its child and a pod were live. No step makes a packet name the work still running. |
+| 8 | The kit build has no incremental path for one changed piece; the lane rebuilt the whole kit per change. Not sized here. |
+| 9 | Notifications for running lanes arrive at the planner whatever their content. Partly addressed by `lane_wait.py`, which routes children to their lead. |
+| 10 | A full worktree checkout was used for "before" shots; a partial checkout or `git archive` of three folders is enough (the lane's own note). |
 
-| r6 # | Proposal | Status | Evidence |
-|---|---|---|---|
-| 1 | Context cap | dropped by the owner (walk 9); replaced by chunking (0118 d1) | Lane C 257 t, B1 131 t at 229k |
-| 2 | Leads only plan | adopted, not wired | same hook; A1 lead wrote 17 heredocs |
-| 3 | Look-up nudge, heredoc-write refusal | adopted, wired | `settings.json:77`, `shell_guard.py:207`; Opus look-ups ≤8 per agent; it refused this lane's own index edit |
-| 4 | Pace to the weekly limit | wired, nudge only | `weekly_limit.json` `enforce: false`, 825 units calibrated; week at 110 % |
-| 5 | One close per batch | wired | `preflight.mjs:336` `rerunOnlyFailed`; `reviews.jsonl`; drift `reviewFiresPerBatchMax 1` |
-| 6 | Polls refused | wired | `shell_guard.py:44-53`; no poll loops in either session |
-| 7 | Fix rounds timed | wired, partly used | `wb.py:2402` `walk_clock`; Greenspring `#walk-1` rows 10-01 14:05; no Riverwalk or Claywater walk-8 rows |
-| 8 | Hand-backs to the lead | rule only (cannot be hooked, 0118 d8) | — |
+## 3. Proposals
 
-New defect: `workflow_drift.py:71-73` reports `minerFullRuns 30` RED. 21 of the 30 rows are pytest or preflight runs whose arguments name a `test_mine_*.py` file; the 9 real full runs all date 09-26 to 09-28. The fix is to match only `tool` starting `worldgen.mine_`. Until then the drift trigger for the audit is permanently red: it fires falsely, so nobody reads it. `scopedWallP50S 158` is also red, on runner-free scoped runs from 09-30. Walk 8's scoped runs were 92 s and 70 s.
+Minutes per week assume three walk rounds, two of them with new types.
 
-## 5. Adversarial challenges
+| P | Change | File and mechanism | Saves per week | Make now (<20 min) |
+|---|---|---|---|---|
+| P1 | A first-of-type place runs as three briefs, each a fresh place-builder continuing from the round folder: (a) site, layout and kits to compile-green; (b) `wb round` to check-green; (c) publish, text-review list and packet shots. | `.claude/skills/place-build/SKILL.md` (stage list) and the 16k place brief template in `16k-place-loop.md`. Sentence for `place-builder.md:23`: "A first-of-type place is three briefs (layout+kits, rounds, publish); return at each stage's green with the round folder as the note." | ~150–200 units (#1: ~100 recoverable per walk at a ~150k mean) | yes |
+| P2 | Give "monitor" a measurement: `lane_status.py` prints, per running agent, elapsed, turns, current context and units from its transcript. The planner runs it on a goal check-in instead of answering "Interim". An agent past 2× its expected minutes or 300k context is split from its note by the planner's decision, never by a cap. | New `tooling/repo-standards/lane_status.py`, reusing `agent_guard.py`'s transcript reader. One sentence in CLAUDE.md "Chunk, monitor, never cap". | makes P1 visible; ~4 units of empty wakes become useful ones | yes |
+| P3 | A Workflow carries only leaf agents (find, run, readers, judges). A lane that spawns agents (lead, place-builder, deliver with judges) launches with Agent `run_in_background`. | CLAUDE.md "Update on progress" last sentence; `lead.md:41-43` | ~30 units and ~80 min of wall (#3) | yes |
+| P4 | Work runs while the owner walks: the packet step launches the walk-independent lanes before posting. A packet or close-out lists every live agent and pod with its expected end ("keep the VM up until ~HH:MM", or "stopped at green, note X"); it never says "nothing pending" while one runs. Every pod is deleted, or handed over by id, before its creating agent returns. | `16k-place-loop.md` packet step; `owner_inbox.py --post` prints the count of subagent transcripts written in the last 3 min; one line in `deliver.md` on pods | 81 VM-min per walk becomes work; the #7 loss; an orphaned pod (~$0.13/h) | yes |
+| P5 | The packet merge job merges `dev` into `webgpu`, builds it and runs `webgpu-boot-check` (or at least its console-error pass), before pushing either branch. | `16k-place-loop.md` packet step; `run` brief for merge and deploy | the owner's failed WebGPU walk; one owner round trip | doc yes; the merge itself is a lane |
+| P6 | Any render probe that takes over 5 min on SwiftShader runs on the pod (about $0.01 a run), WebGL included. | `docs/decisions/0119-runpod-is-the-gpu-lane.md` scope sentence; CLAUDE.md RunPod line | ~60 min of critical path per visual defect | yes; the owner authorised RunPod rule changes in `tmp/16k-user-instruction.md` (Goal 3) |
+| P7 | A lane that rewrites a catalogue-wide file (every kit manifest, catalogue, ledger) runs before or after the publishing lanes, never beside them, and commits in the step that writes. | `lead.md` and the 16k brief template "Shared files" line | ~14 units and 130 agent-min (#6) | yes |
+| P8 | The review fires only on a green scoped preflight, once per batch id that survives commits. Verify first whether `batchId` falls back to `head` (`workflow_drift.py:69`) and so mints a new batch after every commit. | `tooling/repo-standards/review_gate.py`, `preflight.mjs` | ~1.3 units and ~6 min per close | after a find confirms the cause |
+| P9 | Fix the `minerFullRuns` matcher, which r7 recommended and nobody made: drift is still RED on it today. Match on `tool` starting with `worldgen.mine_`. | `tooling/repo-standards/workflow_drift.py:69-71` plus a test | makes the audit trigger readable | yes (5 min) |
+| P10 | Every "not done" or "queued" line in a lane report gets a decision before the packet: done now, or a backlog row with an owning-phase reason (`backlog.md:3-5`). The packet lists none. | 16k packet step; `deliver.md` hand-off rule | ends the queued class below | yes |
 
-1. **"The cap is a plaster; you pay for re-orientation."** Conceded in part. The relaunch re-reads the brief and the note: about 40k tokens of cache creation, ~0.1 units. Lane C's turns 150–257 at ~250k cost ~2.7 units. The owner's worry about lost context holds only if the note is thin. The real control is brief size, and Lane C's brief joined three jobs. Answer (owner ruling, walk 9): no cap; briefs carry one job each and the planner monitors (0118 d1).
-2. **"Your gates make agents do the work twice."** Conceded. Coherence cost 5.9 units in walk 8 and is being redone in walk 9, because the gate passed prose that contradicts the built scene. A gate that cannot fail on the defect class the owner reports is waste. See change 2.
-3. **"Orientation is the new waste: 21 find agents and 3.9 units to read docs that barely changed."** Partly answered. Haiku costs 0.1–0.3 units per area against ~1.5 for an Opus self-orientation. But the standards, process and brief areas are re-mined every session. See change 3.
+### Queued, not delivered (each a line the owner asked to see)
 
-## Orientation in this session
+- `tooling/.reports/16k/walk9/packet-10.md:56`: lead hand-back "fix queued for the next method review". Made since (f4c9797f).
+- `packet-10.md:57`: "Lanes that need fan-out now launch directly, not through Workflow". Written in no rule (P3).
+- `docs/research/phase16/method-review-r7.md` (the partial version), Recommendations: the `workflow_drift.py:71` matcher. Not made; still red (P9).
+- `place-type-10.md:66-67`: `record_coherence` route fallback and promise-ledger `structure` rows, "dirty in another lane, so I did not edit it".
+- `integration.md:10`: 11 request rows "queued to P-polish/backlog.md (tooling tasks)".
+- `place-type-9.md:93` and `dressing-three-places.md:51`: backlog rows (brazier, two-end bunting hang).
+- `webgpu-loop.md:17,96,139-165`: "queued below" and "Next WebGPU lane" items.
+- `lights-followup.md:15`: the sun disc gives 0 glow at 06:30, left open.
+- `wind-and-ground-seam.md:23`: the Chrome frame pair, not done.
+- `process-and-policy.md:22`: the PROGRESS packet-9 row rewrite, left to the planner.
 
-The 11 find agents spent 10.6 M billed tokens (2.28 units, 19 % of walk 9 so far, about 2 min of wall each, in parallel). Almost all of that is cache reads of each agent's own transcript. The planner received ~45 KB of notes. A per-area notes cache keyed by source-file hashes would have served `standards`, `process` and `16k-brief` (0.33 units, 15 %) unchanged. The other eight areas were task-specific and needed fresh reads. The saving is ~0.3 units per session, not a large lever.
+## 4. Adversarial pass
 
-## 6. Verdict
+- **P1. "Splitting re-pays orientation."** Each new builder re-reads the skill and the round folder: about 40–60k of cache creation, about 0.1 units. D4 spent 33 units above 200k. "Is it a cap?" No. It is the chunking 0118 d1 already orders, given a size. **Kept.**
+- **P2. "Monitoring adds planner turns at 400k context."** It replaces turns that already happen (117 "Interim" replies). "It is a cap in disguise." The planner decides, as 0118 d1 says; nothing refuses. **Kept.**
+- **P3. "Without Workflow the planner wakes twice per lane: the cost 0079 rule 13 removed."** 11 lanes × 2 wakes × ~0.04 units is about 1 unit, against 31 units of relaunches. Leads now absorb their children's wakes (`lane_wait.py`). **Kept.**
+- **P4. "Running lanes during the walk keeps the VM up longer."** The VM is up for the walk anyway (81 min). "The owner may want the VM off." The packet tells them what stopping it kills; the owner chooses. **Kept.**
+- **P5. "Merging every packet costs a conflict-resolution lane, and 0111 keeps `webgpu` apart."** 0111 separates the renderer, not the assets. The deployed `/webgpu/` build already serves `dev`'s assets, so divergence breaks it by construction. **Kept.** The cheaper half (boot check before push) holds even if the merge cadence changes.
+- **P6. "It moves the cost to dollars, and a pod boot takes 4–6 min."** A 7–12-min probe run 15 times against a $0.13/h pod: the dollars are cents, and 0119's own test ("faster end to end") passes. "It breaks 0119." It amends 0119, which the owner's instruction authorises. **Kept.**
+- **P7. "Serialising costs wall time."** The displayName lane ran 7 min; running it first costs 7 min and saved 130 agent-min. **Kept.**
+- **P8. "It may just move the review later and miss red code."** The review reads the diff, not test results. A red preflight's fixes are in the batch the review already covers. The cause is unverified. **Kept conditionally.**
+- **P9.** No counter-argument. **Kept.**
+- **P10. "It forces fixes the owner may not want now."** `backlog.md:3-5` already allows a row with an owning phase; P10 only forbids the unreasoned "queued". **Kept.**
+- **Dropped: the runner preflight count (#5, 16 min).** CLAUDE.md already says the runner runs once before a merge, and "a red is fixed first". The third run followed a real red. P8 and the regenerate step (root cause 5) remove the cause. A new rule would duplicate an existing one.
+- **Dropped: incremental kit build (#8).** Its size is unmeasured. It goes to the measured perf lane, not a rule.
 
-Not at the frontier. Spend per round fell from ~85–160 units (walks 5–7) to 24 units (walk 8). The largest remaining block, 30 %, is long contexts, cut by one-context briefs (0118 d1). The next three changes, in order:
+## 5. Verdict
 
-1. Make the coherence gate compare against the built scene, not prose.
-2. Calibrate the weekly limit from the owner's "% used" reading: units used now ÷ the shown % = limitUnits. Then set `enforce: true`.
-3. Fix the `minerFullRuns` matcher so the drift trigger can go green.
-
-The loop continues. The next audit runs at the close of walk 10, or at once when drift goes red after the matcher fix.
+No, we are not running as efficiently as possible. Walk 8 showed the frontier: 24 units for a fix round. Walk 9 spent 212, and two-thirds of that bought nothing that a stage-sized brief would not have bought at a third of the context. The single biggest remaining inefficiency is one-context briefs with no size: a first-of-type place briefed as one job inside a Workflow, where nobody can see or split it. P1 and P2 together close it. P3 and P4 remove the next two losses: relaunches, and VM time spent waiting on the walk.
 
 ## Recommendations
 
-- `workflow_drift.py:71`: replace the args regex with `t.get("tool","").startswith("worldgen.mine_")`, plus a test with a pytest row that names `test_mine_mounts.py`.
-- `week_usage.py`: add `--calibrate <percent>`, which writes `limitUnits = units_since_reset / (percent/100)`. That turns the owner's usage-page figure into the limit.
-- Brief template: one job per deliver brief. Lane C held three.
-- Research agents doing doc output need the Edit/Write tools, or the brief should say "report only".
+- Make P1, P2, P3, P4, P6, P7, P9 and P10 this session as one ways-of-working change. The evidence is in the table rows above.
+- Brief a `find` agent on P8 (`review_gate.py` batch key) before changing it.
+- Ask the owner, or check the RunPod plugin, for pod `x3lo34wf7lpiai` (created 00:08, no deletion on record) and pod `9rg8lcctgoqnwi`. Delete them if they are still running.
+- Merge `dev` into `webgpu` first in today's WebGPU lane (P5). It is the likely whole cause of the walk-10 load failure.
+- Update the round-7 row of `method-reviews.md` to this file's figures. Run the next audit at the close of walk 10.
 
-Covered: both planner transcripts and all 58 subagent transcripts and meta files of `006d39bb` and `07f5b4c0`; `.claude/settings.json`; `tooling/repo-standards/{agent_guard,shell_guard,workflow_drift,week_usage,build_ledger,preflight}`; `tooling/.reports/16k/walk8`, `walk9` listings · Skipped: walk 9 agents still running (measured at 17:28), job-guard logs (peaks only)
+Covered: planner transcripts 006d39bb and 07f5b4c0 with all 136 subagent transcripts (Workflow children included); reviewer sessions 7beb4bad, ae64361e and fee8499f; workflows wf_850401f3, wf_a1bcaee9 and wf_4ecaba8f; `tooling/.reports/16k/walk8/` and `walk9/` (every file listed; the lane reports cited above read); `tooling/.reports/job-guard/` (765 logs from 10-01 12:59); `preflight/runs.jsonl`; `review/reviews.jsonl`; the owner inbox list; git log since 10-01; `workflow_drift.py` and `build_ledger.py --report`; `/var/log/es-idle.log`; journalctl at 01:11; `last -x` · Skipped: the RunPod account (no pod tool in this agent); walk 10's current session (out of scope); `session_tokens.py` per-session splits (its 2-day table mixes in older sessions; units here come from the transcripts)

@@ -21,7 +21,10 @@ Before touching a layout:
   re-running a heredoc patch script (the shell guard refuses a heredoc that
   writes a tracked file, decision 0118).
 - Chunking (decision 0118): your brief is one deliverable for one context.
-  If it proves bigger, stop at a green step, write the hand-off note (what
+  A first-of-type place is three briefs, never one: (a) layout and kits,
+  (b) render and fix rounds, (c) publish and gates (walk-9 place-builders
+  ran 520k-830k context, 99.7 of 106.4 units on turns over 200k); your
+  brief names which one you are. If it proves bigger, stop at a green step, write the hand-off note (what
   is green, next step, files) and return; a fresh builder continues from
   the note. A fix round is timed: run `wb.py round ... --walk N` (and
   `--end-walk` on its last round), so the build ledger sees it.
