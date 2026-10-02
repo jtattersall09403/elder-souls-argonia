@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
+import { DrawTargetLinker, type LinkingRenderer } from "@elder-souls/game-core/render/drawTargetLinker";
+import { setLitPreparer } from "@elder-souls/game-core/render/fixtureLights/fixtureLightField";
 import { holdUntilLinked } from "./linkGate";
 import { setDrawCount } from "@elder-souls/game-core/vegetation/drawCount";
 
@@ -45,5 +47,24 @@ describe("holdUntilLinked", () => {
     holdUntilLinked(mesh, () => { throw new Error("lost context"); }, () => mesh, () => mesh.count > 0);
     await flush();
     expect(mesh.visible).toBe(true);
+  });
+
+  it("shows the mesh after the settle timeout when compileAsync never settles (perf10 diag 6 C1b)", async () => {
+    const scene = new THREE.Scene();
+    setLitPreparer(scene, () => undefined);
+    // a compile that never settles: the link settles on the timeout
+    const gl = {
+      getRenderTarget: () => null, setRenderTarget: () => undefined,
+      compileAsync: () => new Promise(() => undefined),
+    } as unknown as LinkingRenderer;
+    const linker = new DrawTargetLinker(gl, scene, 4000, 20);
+    const camera = new THREE.PerspectiveCamera();
+    const mesh = new THREE.Mesh();
+    holdUntilLinked(mesh, (object) => linker.link({ object }, camera), () => mesh, () => true);
+    await new Promise((r) => setTimeout(r, 5));
+    expect(mesh.visible).toBe(false);
+    await new Promise((r) => setTimeout(r, 40));
+    expect(mesh.visible).toBe(true);
+    linker.detach();
   });
 });

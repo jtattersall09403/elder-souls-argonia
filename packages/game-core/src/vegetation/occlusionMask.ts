@@ -28,6 +28,9 @@ export class OcclusionMask {
   hiddenCount = 0;
 
   private cursor = 0;
+  /** Reused per cell and per sweep (diag9 A2: the sweep runs every frame). */
+  private readonly target: OcclusionPoint = { x: 0, y: 0, z: 0 };
+  private readonly result = { evaluated: 0, changed: 0, hidden: 0 };
 
   constructor(
     readonly size = 128,
@@ -94,7 +97,8 @@ export class OcclusionMask {
    * the world cells that actually hold instances — round-robin from where the
    * last sweep stopped. Iterating the OCCUPIED list rather than the 16 k
    * texels is what keeps the sweep cheap where the window is mostly empty.
-   * Returns how many texels changed (the texture upload trigger).
+   * Returns how many texels changed (the texture upload trigger), in an
+   * object the mask owns and overwrites on the next sweep.
    */
   sweep(
     n: number,
@@ -127,8 +131,9 @@ export class OcclusionMask {
       if (Math.hypot(centreX - eye.x, centreZ - eye.z) > minDistanceM) {
         const ground = groundAt(centreX, centreZ);
         if (ground !== null) {
-          result = occludedByTerrain(
-            eye, { x: centreX, y: ground + canopy, z: centreZ }, groundAt);
+          const target = this.target;
+          target.x = centreX; target.y = ground + canopy; target.z = centreZ;
+          result = occludedByTerrain(eye, target, groundAt);
         }
       }
       const value = result ? 255 : 0;
@@ -138,6 +143,8 @@ export class OcclusionMask {
         changed++;
       }
     }
-    return { evaluated, changed, hidden: this.hiddenCount };
+    const out = this.result;
+    out.evaluated = evaluated; out.changed = changed; out.hidden = this.hiddenCount;
+    return out;
   }
 }

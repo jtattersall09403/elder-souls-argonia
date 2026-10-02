@@ -8,21 +8,24 @@
  * and probes agree.
  */
 
-import { MOONS, moonAt } from "@elder-souls/world-time";
+import { MOONS, moonIlluminatedFraction } from "@elder-souls/world-time";
 
 /** Semidiurnal tidal period in world minutes (12.42 h, Earth-canon shape). */
 export const SEMIDIURNAL_MINUTES = 745.2;
 
-/** Spring/neap factor 0 (neap) … 1 (spring) from both moons' phases. */
+/** Per-moon tide weight in MOONS order: Masser dominates ("well over twice" the size). */
+const MOON_TIDE_WEIGHTS: readonly number[] = [0.75, 0.25];
+
+/** Spring/neap factor 0 (neap) … 1 (spring) from both moons' phases.
+ * Allocation-free: the water uniforms and the ripple mask read it per frame. */
 export function springFactor(epochMinutes: number): number {
   let s = 0;
   let wsum = 0;
-  const weights = [0.75, 0.25]; // Masser dominates ("well over twice" the size)
-  MOONS.forEach((moon, i) => {
-    const f = moonAt(epochMinutes, moon).illuminatedFraction;
-    s += Math.abs(f - 0.5) * 2 * weights[i];
-    wsum += weights[i];
-  });
+  for (let i = 0; i < MOONS.length; i++) {
+    const f = moonIlluminatedFraction(epochMinutes, MOONS[i]);
+    s += Math.abs(f - 0.5) * 2 * MOON_TIDE_WEIGHTS[i];
+    wsum += MOON_TIDE_WEIGHTS[i];
+  }
   return s / wsum;
 }
 

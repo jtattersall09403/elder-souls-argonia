@@ -1,4 +1,5 @@
-// Tests for probes/relink.js (the compile-only properties.get wrap and the per-material warm keys),
+// Tests for probes/relink.js (no per-draw wrap at steady state, warm materials from compile arguments,
+// the `first` tag, the per-material warm keys),
 // the post-GC heap probe split and the --trace-gpu option. RELINK_PROBE=<file URL> runs the probe tests
 // against another copy of the probe (standard 14: seen to fail on the old code).
 import { test } from "node:test";
@@ -10,29 +11,50 @@ const probeUrl = process.env.RELINK_PROBE ? new URL(process.env.RELINK_PROBE) : 
 
 function page() {
   class GL { shaderSource() {} attachShader() {} linkProgram() {} }
-  const win = { WebGL2RenderingContext: GL };
-  const ctx = vm.createContext({ window: win, performance: { now: () => 1 }, Object, Array, String, WeakMap, Map, Math, Promise });
+  // One fake timer slot: fire() runs the pending idle timeout (the hook's disarm).
+  const timer = { fn: null, fire() { const f = this.fn; this.fn = null; f?.(); } };
+  const win = { WebGL2RenderingContext: GL, setTimeout: (f) => { timer.fn = f; return 1; }, clearTimeout: () => { timer.fn = null; } };
+  const ctx = vm.createContext({ window: win, performance: { now: () => 1 }, Object, Array, String, WeakMap, WeakSet, Set, Map, Math, Promise });
   vm.runInContext(readFileSync(probeUrl, "utf8"), ctx);
-  return { win, gl: new GL() };
+  return { win, gl: new GL(), timer };
 }
 const tick = async () => { await Promise.resolve(); await Promise.resolve(); };
+const scene = (...mats) => ({ children: mats.map((material) => ({ material, children: [] })) });
 
-test("properties.get is wrapped only inside compile / compileAsync", async () => {
-  const { gl } = page();
-  const orig = function (x) { return x; };
-  const R = { properties: { get: orig }, compile() { this.during = this.properties.get; },
-    compileAsync() { this.duringAsync = this.properties.get; return this.pending; } };
-  R.renderBufferDirect = function () { gl.linkProgram({}); };
+test("no per-draw wrap at steady state: properties.get never wrapped, renderBufferDirect is three's own once links stop", async () => {
+  const { win, gl, timer } = page();
+  const getOrig = (x) => x;
+  const R = { properties: { get: getOrig }, compile() { this.during = this.properties.get; } };
+  const rbd = function () { gl.linkProgram({}); };
+  R.renderBufferDirect = rbd;
   await tick();
-  assert.equal(R.properties.get, orig, "no wrap outside a compile");
-  R.compile();
-  assert.notEqual(R.during, orig, "wrapped while compile runs");
-  assert.equal(R.properties.get, orig, "original restored after compile returns");
-  let settle; R.pending = new Promise((r) => { settle = r; });
-  const p = R.compileAsync();
-  assert.notEqual(R.properties.get, orig, "still wrapped while compileAsync is pending");
-  settle(); await p; await tick();
-  assert.equal(R.properties.get, orig, "original restored once the promise settles");
+  R.compile(scene());
+  assert.equal(R.during, getOrig, "properties.get is not wrapped inside a compile");
+  assert.equal(R.properties.get, getOrig);
+  assert.notEqual(R.renderBufferDirect, rbd, "armed while links happen (load)");
+  timer.fire();
+  assert.equal(R.renderBufferDirect, rbd, "idle: three's own function, nothing per draw");
+  assert.equal(win.__DIAG__.relinkHookArmed(), false);
+  gl.linkProgram({}); // a link while disarmed re-arms
+  assert.notEqual(R.renderBufferDirect, rbd);
+  assert.equal(win.__DIAG__.relink().events.at(-1)[3].owner, "(outside draw)");
+});
+
+test("warm materials come from the compile arguments (arrays, nested, overrideMaterial); a draw of an unwarmed material is `first`", async () => {
+  const { win, gl } = page();
+  const M = (uuid, name = "") => ({ isMaterial: true, uuid, name, type: "M", defines: {} });
+  const a = M("aaaa-1", "A"), b = M("bbbb-1", "B"), o = M("oooo-1", "O"), cold = M("cccc-1");
+  const R = { info: { programs: [] } };
+  R.renderBufferDirect = function () { gl.linkProgram({}); };
+  const sc = { overrideMaterial: o, children: [{ material: [a], children: [{ material: b, children: [] }] }] };
+  R.compileAsync = function () { gl.linkProgram({}); return new Promise(() => {}); }; // never settles
+  await tick();
+  R.compileAsync(sc, { isCamera: true, material: cold });
+  for (const m of [a, b, o, cold]) R.renderBufferDirect(null, null, null, m, { name: "x" });
+  const ev = JSON.parse(JSON.stringify(win.__DIAG__.relink().events));
+  assert.equal(ev[0][3].warm, true);
+  assert.equal(ev[1][3].warm, false, "warm ends with the sync call, the pending promise does not hold it");
+  assert.deepEqual(ev.slice(1).map((e) => e[3].first ?? false), [false, false, false, true]);
 });
 
 test("every warm key per material is kept; a draw key outside them lists every differing field vs the nearest warm key", async () => {
@@ -40,10 +62,10 @@ test("every warm key per material is kept; a draw key outside them lists every d
   const mat = { isMaterial: true, uuid: "uuid-1234567", type: "M", defines: {}, customProgramCacheKey: () => "" };
   const R = { info: { programs: [] }, properties: { get: (x) => x } };
   const link = (k) => { const p = {}; R.info.programs.push({ program: p, cacheKey: k }); gl.linkProgram(p); };
-  R.compile = function () { this.properties.get(mat); link("a,1,x,9"); link("a,2,y,9"); };
+  R.compile = function () { link("a,1,x,9"); link("a,2,y,9"); };
   R.renderBufferDirect = function () { link("a,2,x,7,z"); };
   await tick();
-  R.compile();
+  R.compile(scene(mat));
   R.renderBufferDirect(null, null, null, mat, { name: "o" });
   R.renderBufferDirect(null, null, null, mat, { name: "o" }); // same draw key again: no duplicate row
   const m = JSON.parse(JSON.stringify(win.__DIAG__.relink().materials["uuid-123"]));
@@ -64,10 +86,10 @@ test("a draw key equal to one of several warm keys is not a mismatch", async () 
   const mat = { isMaterial: true, uuid: "uuid-aaaaaaa", type: "M", defines: {}, customProgramCacheKey: () => "" };
   const R = { info: { programs: [] }, properties: { get: (x) => x } };
   const link = (k) => { const p = {}; R.info.programs.push({ program: p, cacheKey: k }); gl.linkProgram(p); };
-  R.compile = function () { this.properties.get(mat); link("k1"); link("k2"); };
+  R.compile = function () { link("k1"); link("k2"); };
   R.renderBufferDirect = function () { link("k2"); };
   await tick();
-  R.compile();
+  R.compile(scene(mat));
   R.renderBufferDirect(null, null, null, mat, {});
   const m = JSON.parse(JSON.stringify(win.__DIAG__.relink().materials["uuid-aaa"]));
   assert.equal(m.same, true);

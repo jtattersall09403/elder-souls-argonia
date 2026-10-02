@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   BEHIND_MIN_M,
+  casterReachesCascade,
   GATE_MARGIN_M,
   GATE_TILE_COUNT,
   gateSpecies,
@@ -17,12 +18,42 @@ const box = { minX: 0, minZ: 0, maxX: 10, maxZ: 10 };
 
 describe("rangeDistances", () => {
   it("is zero inside the box, and the farthest corner is dMax", () => {
-    const inside = rangeDistances(box, 5, 5);
+    const inside = rangeDistances(box, 5, 5, { dMin: 0, dMax: 0 });
     expect(inside.dMin).toBe(0);
     expect(inside.dMax).toBeCloseTo(Math.hypot(5, 5));
-    const outside = rangeDistances(box, -10, 5);
+    const outside = rangeDistances(box, -10, 5, { dMin: 0, dMax: 0 });
     expect(outside.dMin).toBeCloseTo(10);
     expect(outside.dMax).toBeCloseTo(Math.hypot(20, 5));
+  });
+
+  it("writes into the caller's object and returns it, with no new object (diag9 A4)", () => {
+    const out = { dMin: -1, dMax: -1 };
+    for (let i = 0; i < 1000; i++) expect(rangeDistances(box, -10, 5, out)).toBe(out);
+    expect(out.dMin).toBeCloseTo(10);
+    expect(out.dMax).toBeCloseTo(Math.hypot(20, 5));
+  });
+});
+
+describe("casterReachesCascade (diag9 C1)", () => {
+  it("keeps the near casters of a 120 m cascade and drops the far-rung batches", () => {
+    const noon = { perM: 0.1 };            // sun 84° up: 4 m shadows
+    // nearest visible copy per casting batch in a fixture scene
+    const batches = { fern: 6, palm: 90, cypress: 185, farMangrove: 240, distantOak: 900, none: Infinity };
+    const casting = Object.entries(batches)
+      .filter(([, d]) => casterReachesCascade(d, 120, noon)).map(([k]) => k);
+    expect(casting).toEqual(["fern", "palm", "cypress"]);
+  });
+
+  it("allows for a long low-sun shadow towards the camera, capped", () => {
+    expect(casterReachesCascade(300, 120, { perM: 0.1 })).toBe(false);
+    expect(casterReachesCascade(300, 120, { perM: 3 })).toBe(true);   // 120 m shadow
+    expect(casterReachesCascade(330, 120, { perM: 50 })).toBe(false); // capped at 120 m
+  });
+
+  it("casts nothing with no sun shadow, and everything with no cascade bound", () => {
+    expect(casterReachesCascade(5, 120, null)).toBe(false);
+    expect(casterReachesCascade(5000, Infinity, { perM: 0.1 })).toBe(true);
+    expect(casterReachesCascade(Infinity, Infinity, { perM: 0.1 })).toBe(false);
   });
 });
 
@@ -227,7 +258,7 @@ describe("gateSpecies", () => {
           const d = rangeDistances({
             minX: bounds0[b], minZ: bounds0[b + 2],
             maxX: bounds0[b + 3], maxZ: bounds0[b + 5],
-          }, eye.x, eye.z);
+          }, eye.x, eye.z, { dMin: 0, dMax: 0 });
           let want = rungVisible(r.band, d.dMin, d.dMax);
           if (want) {
             const cx = (bounds0[b] + bounds0[b + 3]) / 2 - eye.x;

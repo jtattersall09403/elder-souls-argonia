@@ -18,7 +18,7 @@ import * as THREE from "three";
 import type { TslNode } from "../../render/nodes/materialNodes";
 import {
   ALONG_DRIFT_OMEGA, ALONG_K, ALONG_SHORE, FLOW_WAVES, GROUP_OMEGA, OMEGA_QUANTUM, SEA, SHORE_SWELL,
-  STANDING_BY_CLASS, SURF_ENERGY, SWASH, SWASH_OMEGA, WAVES, waveBands,
+  STANDING_BY_CLASS, SURF_ENERGY, SWASH, SWASH_OMEGA, WAVES, vertexBandWeight, waveBands,
 } from "../waves";
 import { TIDAL_CLASSES } from "../waterData";
 import * as TSLNS from "three/tsl";
@@ -170,18 +170,22 @@ export interface EsWave { disp: TslNode; normal: TslNode; height: TslNode }
 
 /**
  * `esWaveSampleEx(pos, exposure, fetchM, standing, t)` over the first
- * `bandCount` bands (low tier truncates). Returns disp, normalised normal
- * and height, like the GLSL struct.
+ * `bandCount` bands (low tier truncates). `gridCellM` (the surface grid's
+ * cell; 0 keeps every band) drops the bands that grid cannot carry
+ * (`vertexBandWeight`, perf-diag9 V1); `esWaveFrag` draws them per pixel.
+ * Returns disp, normalised normal and height, like the GLSL struct.
  */
 export function esWaveSampleEx(pos: TslNode, exposure: TslNode, fetchM: TslNode, standing0: TslNode,
-  t: TslNode, bandCount: number = WAVES.bands): EsWave {
+  t: TslNode, bandCount: number = WAVES.bands, gridCellM = 0): EsWave {
   const bands = waveBands().slice(0, bandCount);
   const standing = n(clamp(standing0, 0.0, 1.0));
   const tr = float(1.0).sub(standing);
   let disp: TslNode = vec3(0.0);
   let normal: TslNode = vec3(0.0, 1.0, 0.0);
   for (const b of bands) {
-    const a = n(exposure).mul(clamp(n(fetchM).div(b.fetchM), 0.0, 1.0)).mul(b.amp);
+    const w = vertexBandWeight(b.wavelengthM, gridCellM);
+    if (w <= 0) continue;
+    const a = n(exposure).mul(clamp(n(fetchM).div(b.fetchM), 0.0, 1.0)).mul(b.amp * w);
     const argS = n(dot(vec2(b.dirX, b.dirZ), pos)).mul(b.freq).add(b.phase0);
     const tau = n(t).mul(b.phaseSpeed);
     const sS = n(sin(argS)), cS = n(cos(argS)), sT = n(sin(tau)), cT = n(cos(tau));
@@ -192,6 +196,28 @@ export function esWaveSampleEx(pos: TslNode, exposure: TslNode, fetchM: TslNode,
     normal = n(normal).sub(vec3(wa.mul(dd).mul(b.dirX), wa.mul(hh).mul(b.q), wa.mul(dd).mul(b.dirZ)));
   }
   return { disp, normal: normalize(normal), height: n(disp).y };
+}
+
+/**
+ * Fragment twin of the bands `esWaveSampleEx` drops on a `gridCellM` grid
+ * (waves.ts gerstnerFragGlsl on dev): the height gradient (dh/dx, dh/dz) of
+ * those bands in xy and their height in z, per pixel. No band, zero.
+ */
+export function esWaveFrag(pos: TslNode, exposure: TslNode, fetchM: TslNode, standing0: TslNode,
+  t: TslNode, bandCount: number, gridCellM: number): TslNode {
+  const tr = float(1.0).sub(clamp(standing0, 0.0, 1.0));
+  let g: TslNode = vec3(0.0);
+  for (const b of waveBands().slice(0, bandCount)) {
+    const w = 1 - vertexBandWeight(b.wavelengthM, gridCellM);
+    if (w <= 0) continue;
+    const aa = n(exposure).mul(clamp(n(fetchM).div(b.fetchM), 0.0, 1.0)).mul(b.amp * w);
+    const argS = n(dot(vec2(b.dirX, b.dirZ), pos)).mul(b.freq).add(b.phase0);
+    const tau = n(t).mul(b.phaseSpeed);
+    const sS = n(sin(argS)), cS = n(cos(argS)), sT = n(sin(tau)), cT = n(cos(tau));
+    const slope = aa.mul(b.freq).mul(n(tr).mul(cS).mul(cT).sub(sS.mul(sT)));
+    g = n(g).add(vec3(slope.mul(b.dirX), slope.mul(b.dirZ), aa.mul(sS.mul(cT).add(n(tr).mul(cS).mul(sT)))));
+  }
+  return g;
 }
 
 /* ------------------------------------------------------------------ *

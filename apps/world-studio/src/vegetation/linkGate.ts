@@ -9,8 +9,9 @@ import { LINK_HELD, applyVisibility, type VisibleRule } from "@elder-souls/game-
  * runs off the critical path; every visibility write meanwhile goes through
  * `applyVisibility`, which keeps a held mesh dark. Once the link settles,
  * failed or not, the hold lifts and the mesh's own path `rule` decides
- * (drawCount.ts), never a forced `visible = true`. `current` re-reads the
- * mesh because `growGeo` may have replaced it.
+ * (drawCount.ts), never a forced `visible = true`; a compile that never
+ * settles counts as settled after DrawTargetLinker's LINK_SETTLE_MS (perf10
+ * diag 6 C1b). `current` re-reads the mesh because `growGeo` may have replaced it.
  */
 export function holdUntilLinked(
   mesh: THREE.Object3D,

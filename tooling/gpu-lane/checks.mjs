@@ -2,6 +2,8 @@
 export const SPOT_A = "?view=character&x=7.1971&z=0.584&t=22&w=rain";
 export const VSYNC_CAP_FPS = 58.5; // a trivial page under Xvfb (README Gotchas)
 export const BLACK_LUMA = 8; // mean 0-255; the night shots in tooling/.reports/gpu-lane/r3-ab measure 29 and 36
+import { sourcePosition } from "./source-maps.mjs";
+
 export const PROBES = ["relink", "heap"];
 /** Probes that are a script injected into the page (`probes/<name>.js`); `heap` is read by measure.mjs after GC. */
 export const INPAGE_PROBES = ["relink"];
@@ -80,18 +82,28 @@ export function hitchList(ts, profile, offsetMs, { hitchMs = 20, top = 4 } = {})
   return out;
 }
 
-/** Retained bytes by function of a CDP HeapProfiler sampling profile. */
-function heapByFunction(sampling) {
+/** Retained bytes by function of a CDP HeapProfiler sampling profile; `maps` (source-maps.mjs) names minified frames
+ * by their source position, "(<chunk>:<line>:<col>)" kept beside it. */
+function heapByFunction(sampling, maps = null) {
   const by = new Map();
   const walk = (n) => {
     const cf = n.callFrame ?? {};
-    const k = `${cf.functionName || "(anon)"} ${cf.url ? cf.url.replace(/^.*\//, "") : "(native)"}:${(cf.lineNumber ?? -1) + 1}`;
+    const src = sourcePosition(maps, cf.url, cf.lineNumber ?? -1, cf.columnNumber ?? -1);
+    const at = `${cf.url ? cf.url.replace(/^.*\//, "") : "(native)"}:${(cf.lineNumber ?? -1) + 1}`;
+    const k = `${cf.functionName || "(anon)"} ${src ? `${src} (${at}:${(cf.columnNumber ?? -1) + 1})` : at}`;
     by.set(k, (by.get(k) ?? 0) + (n.selfSize ?? 0));
     for (const c of n.children ?? []) walk(c);
   };
   if (sampling?.head) walk(sampling.head);
   return by;
 }
+
+/**
+ * `heapsample`: the top allocators of ONE sampling profile taken with includeObjectsCollectedByMajorGC/MinorGC,
+ * so selfSize is every byte allocated over the window, collected or not (the GC churn source). MB, largest first.
+ */
+export const heapTopAllocators = (sampling, top = 25, maps = null) => [...heapByFunction(sampling, maps)].sort((x, y) => y[1] - x[1])
+  .slice(0, top).map(([name, bytes]) => ({ name, MB: r2(bytes / 1e6) }));
 
 /** The heap diff: functions whose retained sampled bytes grew from `before` to `after` (MB, largest first). */
 export function heapGrowth(before, after, top = 15) {

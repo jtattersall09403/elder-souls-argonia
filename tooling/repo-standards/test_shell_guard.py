@@ -132,3 +132,14 @@ def test_third_single_lookup_in_a_row_nudges_opus_only(tmp_path):
     for c in ["cat a", "cat b", "cat c"]:
         r = run(c, agent_type="find", agent_id="f1", state=tmp_path)
     assert r.stdout == ""                                           # Haiku `find` is the cheap path
+
+
+def test_kill_by_pattern_or_stranger_pid_refused_for_everyone():
+    for sub in (False, True):
+        for cmd in ["pkill -f foo", "killall node", "kill 123", "kill -9 -1", "npm test; kill -TERM 99",
+                    "pkill -f x # job_guard.sh --stop a "]:
+            assert code(cmd, sub) == 2, cmd
+        assert code("bash tooling/repo-standards/job_guard.sh --stop perf10", sub) == 0
+        assert code("kill $(cat /tmp/perf10/job.pid)", sub) == 0
+        assert code("kill -0 123", sub) == 0
+        assert code("git commit -m 'never pkill -f'", sub) == 0

@@ -84,6 +84,7 @@ describe("DrawTargetLinker (review 2026-09-30: settlement pre-link keys)", () =>
     } as unknown as LinkingRenderer;
     return { gl, atCompile };
   }
+
   const csmPreparer = (root: THREE.Object3D) => root.traverse((o) => {
     const m = (o as THREE.Mesh).material as THREE.Material | undefined;
     if (m) m.defines = { ...m.defines, USE_CSM: "" };

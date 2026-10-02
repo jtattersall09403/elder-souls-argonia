@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useEffect, useMemo, useState } from "react";
 import * as THREE from "three";
-import { createOcclusionCadence } from "./terrainOcclusion";
+import type { OcclusionRegistry } from "./terrainOcclusion";
 import { decodeHeightPng } from "./chunkStore";
 import { buildTerrainGridGeometry, terrainGridIndices } from "./gridGeometry";
 import {
@@ -35,17 +34,18 @@ export const APRON_SECTORS = 8;
  * ring's vertex attributes and differ only in their index and their own
  * bounding volume, so splitting costs no extra memory (decision 0084).
  *
- * `occluder`, when given, additionally hides a sector the terrain itself
- * occludes: it answers "is this box hidden from the camera?" and is asked on
- * the coarse occlusion cadence (a 10 m move, or 2 s), never per
- * frame. A hidden sector's mesh stays mounted with `visible = false`.
+ * `occlusion`, when given, takes every sector mesh with its world box; its
+ * owner runs ONE budgeted occlusion sweep over all of them on the coarse
+ * cadence (`createOcclusionSweep`; diag9 W1: a per-tile pass over every
+ * sector on one frame was a 34 ms walk hitch). A hidden sector's mesh stays
+ * mounted with `visible = false`.
  */
-export function BorderApron({ manifest, baseUrl, materials, verticalScale, occluder }: {
+export function BorderApron({ manifest, baseUrl, materials, verticalScale, occlusion }: {
   manifest: ApronManifest;
   baseUrl: string;
   materials: Record<ApronPaintSet, THREE.Material>;
   verticalScale: number;
-  occluder?: (box: THREE.Box3) => boolean;
+  occlusion?: OcclusionRegistry;
 }) {
   const [grids, setGrids] = useState<Record<string, Float32Array>>({});
   useEffect(() => {
@@ -76,7 +76,7 @@ export function BorderApron({ manifest, baseUrl, materials, verticalScale, occlu
             verticalScale={verticalScale}
             paintFrame={frame}
             material={materials[tile.paint]}
-            occluder={occluder}
+            occlusion={occlusion}
           />
         );
       })}
@@ -166,13 +166,13 @@ export function apronTileGeometryDeps(
   return [tile, heights, verticalScale, paintFrame];
 }
 
-function ApronTileMesh({ tile, heights, verticalScale, paintFrame, material, occluder }: {
+function ApronTileMesh({ tile, heights, verticalScale, paintFrame, material, occlusion }: {
   tile: ApronTile;
   heights: Float32Array;
   verticalScale: number;
   paintFrame: ApronPaintFrame;
   material: THREE.Material;
-  occluder?: (box: THREE.Box3) => boolean;
+  occlusion?: OcclusionRegistry;
 }) {
   const sectors = useMemo(
     () => buildApronTileSectors(tile, heights, verticalScale, paintFrame.originM, paintFrameExtent(paintFrame)),
@@ -181,17 +181,13 @@ function ApronTileMesh({ tile, heights, verticalScale, paintFrame, material, occ
   );
   // Disposed together: the sectors share one position/uv buffer pair.
   useEffect(() => () => { for (const sector of sectors) sector.dispose(); }, [sectors]);
-  // Terrain occlusion (decision 0084), on its own cadence per tile.
-  const meshes = useRef(new Map<number, THREE.Mesh>());
-  const due = useRef(createOcclusionCadence());
-  useFrame(({ camera }) => {
-    if (!occluder) return;
-    if (!due.current(camera, performance.now())) return;
-    for (const [i, mesh] of meshes.current) {
-      const box = sectors[i]?.boundingBox;
-      mesh.visible = !box || !occluder(box);
-    }
-  });
+  // Terrain occlusion (decision 0084): the owner's one budgeted sweep.
+  const register = (mesh: THREE.Mesh | null, geometry: THREE.BufferGeometry, key: string): void => {
+    if (!occlusion) return;
+    if (!mesh) { occlusion.unregister(key); return; }
+    if (!geometry.boundingBox) geometry.computeBoundingBox();
+    occlusion.register(key, mesh, geometry.boundingBox!);
+  };
   return (
     <>
       {sectors.map((geometry, i) => (
@@ -199,7 +195,7 @@ function ApronTileMesh({ tile, heights, verticalScale, paintFrame, material, occ
           key={i}
           // world-space sectors at identity: no per-frame matrix recompose (perf10 f6)
           matrixAutoUpdate={false}
-          ref={(mesh) => { if (mesh) meshes.current.set(i, mesh); else meshes.current.delete(i); }}
+          ref={(mesh) => register(mesh, geometry, `${tile.id}:${i}`)}
           geometry={geometry}
           material={material}
           castShadow={false}

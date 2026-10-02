@@ -23,7 +23,9 @@ How you work:
   `docs/standards/engineering.md` (and the text style guide or hooks doc if
   your lane touches prose or tooling) in full and returns the standards
   that bear on your lane, one line each; every sub-brief you write quotes
-  the ones that apply to it.
+  the ones that apply to it. The look-up is written ONCE to
+  `tooling/.reports/16k/<round>/<lane>-standards.md`; every successor lead of
+  that lane reads that file instead of re-running the find.
 - Delegate the legwork. `find` for every look-up and every read of a big
   file, `run` for every whole job (compile, publish, test, render, probe),
   `deliver` (Opus) for implementation you have fully planned (files,
@@ -120,13 +122,21 @@ Rules of the road:
   (c) all fixes of a round launch as ONE parallel foreground wave with
   disjoint files; fix agents only edit and run the unit tests beside the
   change and NEVER measure, probe or touch the pod;
-  (d) re-measure once after the wave; the loop ends only when every bar
+  (d) re-measure once after the wave, and the round's capture starts only
+  after the wave's LAST fix is committed and built; a late fix re-captures
+  only the rows it affects; the loop ends only when every bar
   passes and the diagnosis is empty;
   (e) the pod is owned by the measure job only;
   (f) a 1-view smoke capture (about 2 min) with the exact URL parameters
   precedes every full capture or walk run, and an image-reader confirms
   "clock running, weather as intended, HUD hidden, the feature visible"
-  before the full round starts;
+  before the full round starts, checking the smoke image against the
+  ACCEPTED reference capture (the base the bar was set on) and the intended
+  time of day and weather, not only against the previous build. Every
+  capture URL carries `rate=0.5` (the game's normal clock; without `rate=`
+  the studio pauses the clock, and `rate=30` runs it 60x too fast); a row
+  captured without a running clock is not a performance measurement and
+  never a bar row;
   (g) one pod per lane for iteration loops; a fan-out job (the agent walks
   audit over many places) runs one pod per parallel worker when that is
   faster end to end, each deleted the moment its worker ends (0119 rule 4);

@@ -36,6 +36,7 @@
 #      cores idle at fork time up to 7 with it as the floor), and exits with
 #      the command's code. tooling/repo-standards/cpu_watchdog.sh is the
 #      machine-wide backstop behind it.
+# job_guard.sh --stop <lane> stops only that lane's scopes (es-job-<lane>-<pid>) and guards.
 # Lines it prints start "job_guard[<lane>]". Examples:
 #   bash tooling/repo-standards/job_guard.sh miner -- python3 -m worldgen.mine_mounts --jobs 2
 #   bash tooling/repo-standards/job_guard.sh kits -- python3 pipeline/build_kit.py settlement-stilt-v1
@@ -59,6 +60,24 @@
 # (ES_JOB_CORES; an explicit value is kept).
 set -uo pipefail
 
+# --stop <lane>: stop only the scopes (and slot guards) that lane started; never by pattern.
+if [[ "${1:-}" == "--stop" ]]; then
+  stop_lane="${2:-}"
+  [[ "$stop_lane" =~ ^[A-Za-z0-9_.-]+$ ]] || { echo "usage: job_guard.sh --stop <lane>" >&2; exit 2; }
+  stopped=0
+  for u in $(systemctl --user list-units --all --plain --no-legend "es-job-${stop_lane}-*.scope" 2>/dev/null | awk '{print $1}'); do
+    systemctl --user stop "$u" 2>/dev/null && { echo "job_guard[$stop_lane]: stopped scope $u"; stopped=$((stopped + 1)); }
+  done
+  for f in "${ES_JOB_LOCK_DIR:-/tmp/es-jobs}"/slot-*.lock; do
+    [[ -s "$f" ]] || continue
+    read -r _ l _ gp _ < "$f"
+    if [[ "$l" == "$stop_lane" && "$gp" =~ ^[0-9]+$ ]] && kill -0 "$gp" 2>/dev/null; then
+      kill "$gp" 2>/dev/null && { echo "job_guard[$stop_lane]: stopped guard pid $gp"; stopped=$((stopped + 1)); }
+    fi
+  done
+  (( stopped )) || echo "job_guard[$stop_lane]: nothing running for this lane"
+  exit 0
+fi
 lane="${1:-}"
 budget_min=""
 mem_gib="${ES_JOB_MEM_GIB:-24}"
@@ -168,7 +187,7 @@ if [[ -z "$mech" ]]; then
   else mech=none; fi
 fi
 case "$mech" in
-  systemd) cap_cmd=(systemd-run --user --scope -q -p "MemoryMax=${cap_mib}M" -p MemorySwapMax=0 -p OOMPolicy=continue --)
+  systemd) cap_cmd=(systemd-run --user --scope -q "--unit=es-job-${lane}-$$" -p "MemoryMax=${cap_mib}M" -p MemorySwapMax=0 -p OOMPolicy=continue --)
            export MEMWATCH_SCOPE=1 ;;
   prlimit) cap_cmd=(prlimit "--as=$(( cap_mib * 1048576 ))" --) ;;
   *)       cap_cmd=(); say "WARNING: no memory cap mechanism (systemd-run --user, prlimit): the job runs uncapped" ;;

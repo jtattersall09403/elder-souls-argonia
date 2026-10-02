@@ -494,6 +494,9 @@ export interface StarLayerUniforms {
   uSunAltDeg: U<number>;
   uStarFrac: U<number>;
   uDawnDir: U<THREE.Vector2>;
+  /** Equatorial -> horizontal rotation (perf10 K2): stars are stored once on
+   * the celestial sphere; the Serpent, written in horizontal space, keeps identity. */
+  uEqToHor: U<THREE.Matrix3>;
 }
 
 export interface StarLayer {
@@ -510,6 +513,8 @@ export interface StarLayer {
  * cloud occlusion samples the SAME cloud field the dome draws, in the
  * vertex stage.
  */
+const n3 = (x: unknown): TslNode => x as TslNode;
+
 export function createStarLayer(
   kind: "stars" | "serpent",
   attrs: { size: Float32Array; lum: Float32Array; mag?: Float32Array; rank?: Float32Array },
@@ -528,7 +533,9 @@ export function createStarLayer(
     uSunAltDeg: sharedUniform(45),
     uStarFrac: sharedUniform(kind === "stars" ? 0.5 : 1),
     uDawnDir: sharedUniform(new THREE.Vector2(0, 1)),
+    uEqToHor: sharedUniform(new THREE.Matrix3()),
   };
+  const hp = n3(uniforms.uEqToHor).mul(vec3(pos));
   const field = cloudFieldNodes(clouds, { vertex: true });
   // Vertex stage: density slider, staged twilight appearance (brighter
   // magnitudes at shallower depressions, anti-solar sky first), per-star
@@ -537,17 +544,17 @@ export function createStarLayer(
     Fn(() => {
       const density = sel(aRank.lessThanEqual(uniforms.uStarFrac), float(1), float(0));
       const D = uniforms.uSunAltDeg.negate();
-      const az = normalize(vec3(pos).xz.add(vec2(1e-5, 0)));
+      const az = normalize(n3(hp).xz.add(vec2(1e-5, 0)));
       const cosAz = clamp(dot(az, uniforms.uDawnDir), -1, 1);
       const dEff = D.add(float(3.5).mul(float(1).sub(smoothstep(5, 9, D))).mul(float(1).sub(cosAz)).mul(0.5));
       const on = float(3).add(aMag.add(1).mul(2.14));
       const lum = aLum.mul(density).mul(smoothstep(on.sub(2), on, dEff));
-      return lum.mul(float(1).sub(field.esCloudAlpha(normalize(vec3(pos)))));
+      return lum.mul(float(1).sub(field.esCloudAlpha(normalize(hp))));
     })(),
     "vEsStarLum",
   );
   const material = new PointsNodeMaterial();
-  material.positionNode = pos;
+  material.positionNode = hp;
   material.sizeNode = aSize.div(screenDPR);
   material.sizeAttenuation = false;
   material.transparent = true;

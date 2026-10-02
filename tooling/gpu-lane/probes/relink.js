@@ -16,66 +16,83 @@
     return ss.call(this, s, src);
   };
   G.attachShader = function (p, s) { if (!progName.has(p)) progName.set(p, names.get(s)); return at.call(this, p, s); };
-  // The object and material behind a link: three links programs inside renderBufferDirect (draw, shadow
-  // depth pass, warm-up render), so the hook records its material and object for the call's duration.
-  // A link outside it (renderer.compile) is tagged owner "(outside draw)" with the type read from the program name.
-  const cur = { mat: null, obj: null, warm: 0, warmMat: null };
+  // Nothing here wraps a function three calls per draw at steady state (README "Probe rules"; perf-diag6 C1).
+  // The owner of a draw link comes from a `renderBufferDirect` hook that exists only while links happen: armed
+  // when the renderer is built and re-armed by any link, removed after IDLE_MS with no link, so a settled frame
+  // calls three's own function. A link while it is disarmed (or inside renderer.compile) reads owner
+  // "(outside draw)" with the type from the program name; a disarmed link re-arms the hook.
+  const IDLE_MS = 5000;
+  const cur = { mat: null, obj: null, warm: 0, warmMats: [] };
+  // Every material a compile/compileAsync was handed (C3: a draw link of a material never warmed is `first`).
+  const warmed = new WeakSet();
   const chain = (o, max = 8) => { const a = []; for (let n = o?.parent; n && a.length < max; n = n.parent) a.push(n.name || n.type); return a; };
   // An owner with no name: enough to find it in the scene without a second run.
   const detail = (m, o) => ({ objName: o?.name || "", objType: o?.type || "", userData: Object.keys(o?.userData || {}).slice(0, 8),
     parents: chain(o, 8), matName: m?.name || "", matUuid: String(m?.uuid ?? "").slice(0, 8) });
-  // Warm-up links: renderer.compile / compileAsync (their synchronous part initialises every material's
-  // program). The material in play is the last one three asked `properties.get` about. Wrapped one tick
-  // after the renderer's constructor, when its methods exist.
-  // The `properties.get` wrap runs thousands of times per frame, so it exists only while a compile is in
-  // flight: installed at compile entry, removed when the sync part returns (compile) or the promise
-  // settles (compileAsync). Draws outside a compile pay nothing.
+  // The materials a compile call warms, read from its arguments: every object under the scene/object
+  // argument(s) (a material or a material array) and each scene's overrideMaterial.
+  const materialsOf = (args) => {
+    const out = new Set();
+    const add = (m) => { if (Array.isArray(m)) m.forEach(add); else if (m?.isMaterial) out.add(m); };
+    const walk = (o) => { if (!o || typeof o !== "object") return; add(o.material); for (const c of o.children ?? []) walk(c); };
+    for (const x of args) { if (x?.isCamera) continue; add(x?.overrideMaterial); walk(x); }
+    return [...out];
+  };
+  // compile / compileAsync are wrapped for good: three calls them only to warm, never per draw. Links inside
+  // the synchronous call are `warm` (compileAsync links in its sync part; its promise is never awaited, so a
+  // promise that never settles changes nothing). Wrapped one tick after the renderer's constructor.
   const hookWarm = (R) => {
-    let depth = 0, orig = null, wrapper = null;
-    const install = () => {
-      const P = R.properties;
-      if (depth++ > 0 || typeof P?.get !== "function") return;
-      orig = P.get;
-      wrapper = function (x) { if (cur.warm > 0 && x?.isMaterial) cur.warmMat = x; return orig.call(this, x); };
-      P.get = wrapper;
-    };
-    const remove = () => {
-      if (--depth > 0) return;
-      if (R.properties?.get === wrapper) R.properties.get = orig;
-      orig = wrapper = null;
-    };
     for (const k of ["compile", "compileAsync"]) {
       const f = R[k];
       if (typeof f !== "function") continue;
       R[k] = function (...a) {
-        install(); cur.warm++;
-        let r;
-        try { r = f.apply(this, a); } catch (e) { remove(); throw e; } finally { cur.warm--; }
-        if (r && typeof r.then === "function") { const done = () => remove(); r.then(done, done); } else remove();
-        return r;
+        const mats = materialsOf(a), before = cur.warmMats;
+        for (const m of mats) warmed.add(m);
+        cur.warm++; cur.warmMats = mats;
+        try { return f.apply(this, a); } finally { cur.warm--; cur.warmMats = before; }
       };
     }
   };
+  const hook = { R: null, orig: null, wrap: null, armed: false, timer: 0 };
+  const put = (fn) => Object.defineProperty(hook.R, "renderBufferDirect", { value: fn, writable: true, enumerable: true, configurable: true });
+  const disarm = () => { if (hook.armed) { put(hook.orig); hook.armed = false; } };
+  const arm = () => {
+    if (!hook.R) return;
+    const st_ = window.setTimeout ? window : globalThis;
+    st_.clearTimeout?.(hook.timer);
+    hook.timer = st_.setTimeout?.(disarm, IDLE_MS);
+    if (!hook.armed) { put(hook.wrap); hook.armed = true; }
+  };
+  D.relinkHookArmed = () => hook.armed;
   const prev = Object.getOwnPropertyDescriptor(Object.prototype, "renderBufferDirect");
   Object.defineProperty(Object.prototype, "renderBufferDirect", { configurable: true, set(v) {
     if (prev?.set) { prev.set.call(this, v); v = this.renderBufferDirect; }
     const R = this;
     st.renderer = R;
     Promise.resolve().then(() => hookWarm(R));
-    const w = function (cam, scene, geo, mat, obj, grp) {
+    hook.R = R; hook.orig = v; hook.armed = false;
+    hook.wrap = function (cam, scene, geo, mat, obj, grp) {
       const pm = cur.mat, po = cur.obj; cur.mat = mat; cur.obj = obj;
       try { return v.call(R, cam, scene, geo, mat, obj, grp); } finally { cur.mat = pm; cur.obj = po; }
     };
-    Object.defineProperty(this, "renderBufferDirect", { value: w, writable: true, enumerable: true, configurable: true });
+    arm();
   } });
+  // A warm link's material: the one material the compile was handed, else the one whose name (or type) is the program's SHADER_NAME.
+  const warmMat = (p) => {
+    const ms = cur.warmMats;
+    if (ms.length === 1) return ms[0];
+    const n = progName.get(p), hit = ms.filter((m) => (m.name || m.type) === n);
+    return hit.length === 1 ? hit[0] : null;
+  };
   const describe = (p, t) => {
     const m = cur.mat, o = cur.obj, warm = cur.warm > 0;
     if (!m) return { type: progName.get(p) || "unknown", name: "", owner: "(outside draw)", parents: [], depth: false, transparent: null, defines: [], key: "", t, warm,
-      matUuid: warm ? String(cur.warmMat?.uuid ?? "") : "" };
+      matUuid: warm ? String(warmMat(p)?.uuid ?? "") : "" };
     let key = ""; try { key = String(m.customProgramCacheKey?.() ?? "").slice(0, 80); } catch { key = "(throws)"; }
     const own = o?.material, override = m.type === "MeshDepthMaterial" || m.type === "MeshDistanceMaterial" || (own != null && (Array.isArray(own) ? !own.includes(m) : own !== m));
     const r = { type: m.type, name: m.name || "", owner: o?.name || o?.type || "(unnamed object)", parents: chain(o),
       depth: override, transparent: !!m.transparent, defines: Object.keys(m.defines || {}), key, t, warm, matUuid: String(m.uuid ?? "") };
+    if (!warm && !warmed.has(m)) r.first = true;
     if (!o?.name) r.detail = detail(m, o);
     return r;
   };
@@ -125,6 +142,7 @@
     const info = describe(p, Math.round(performance.now()));
     const t = performance.now();
     const r = o.call(this, p);
+    arm();
     const dt = performance.now() - t;
     st.links++; st.ms += dt;
     st.perProgram.set(p, (st.perProgram.get(p) ?? 0) + 1);

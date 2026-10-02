@@ -16,7 +16,7 @@ import type { PlayerMovementController } from "@elder-souls/game-core/physics/Pl
 import { FollowCamera, FOLLOW_CAMERA } from "@elder-souls/game-core/camera/followCamera";
 import { playerOpacityForArm } from "@elder-souls/game-core/camera/cameraCollision";
 import { rapierCameraObstruction } from "./cameraObstruction";
-import { fadePlayerModel, warmPlayerFadePrograms } from "./playerFade";
+import { fadePlayerModel, gatePlayerFirstShow, warmPlayerFadePrograms } from "./playerFade";
 import { DrawTargetLinker, type LinkingRenderer } from "@elder-souls/game-core/render/drawTargetLinker";
 import { ExplorerLocomotion } from "@elder-souls/game-core/locomotion/explorerLocomotion";
 import { input } from "@elder-souls/game-core/io/input";
@@ -1599,14 +1599,14 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
   }, [camera3P, cameraCast]);
   const { camera, scene, gl } = useThree();
   // Both fade programs of every player material linked ahead of the first
-  // fade (playerFade.ts warmPlayerFadePrograms); checked once a second so an
-  // equipment change's new materials are pinned too.
+  // fade (playerFade.ts warmPlayerFadePrograms), the player held hidden until
+  // the first set links (gatePlayerFirstShow); checked once a second after
+  // that so an equipment change's new materials are pinned too.
   const fadeLinker = useMemo(() => new DrawTargetLinker(gl as unknown as LinkingRenderer, scene), [gl, scene]);
   useEffect(() => { fadeLinker.attach(); return () => fadeLinker.detach(); }, [fadeLinker]);
-  const fadePinFrame = useRef(0);
-  const fadePinCompile = useMemo(() => (object: THREE.Object3D) => {
-    fadeLinker.compileAsync(object, camera).catch(() => undefined);
-  }, [fadeLinker, camera]);
+  const fadePinFrame = useRef(60);
+  const fadePinCompile = useMemo(() => (object: THREE.Object3D) =>
+    fadeLinker.compileAsync(object, camera).catch(() => undefined), [fadeLinker, camera]);
   const position = useMemo(() => new THREE.Vector3(), []);
   const lastPosition = useRef(new THREE.Vector3());
   const stepAccum = useRef(0);
@@ -1853,8 +1853,8 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
       camera3P.position.y = cameraGround + 0.6;
     }
     camera3P.applyTo(camera);
-    if (playerModelRef?.current) {
-      if (fadeLinker.observed && fadePinFrame.current-- <= 0) {
+    if (playerModelRef?.current && gatePlayerFirstShow(playerModelRef.current, fadeLinker.observed, fadePinCompile)) {
+      if (fadePinFrame.current-- <= 0) {
         fadePinFrame.current = 60;
         warmPlayerFadePrograms(playerModelRef.current, fadePinCompile);
       }

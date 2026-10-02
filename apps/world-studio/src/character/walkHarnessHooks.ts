@@ -37,8 +37,29 @@ export interface WalkHarnessDeps {
   interaction: InteractionArbiter;
 }
 
+/** What the arbiter weighed at its last resolve, and the door transition's state (walk_run's focus record). */
+export interface WalkHarnessDoors {
+  /** Every candidate offered before the last resolve: id, kind, planar xz, reach. */
+  offered: { id: string; kind: string; xz: [number, number]; reachM: number }[];
+  /** The interior-door transition's own candidate and fade (0 idle). */
+  candidate: string | null;
+  fade: number;
+}
+
 export function walkHarnessHooks(d: WalkHarnessDeps) {
+  // Snapshot the offers each resolve weighs: wraps this one arbiter instance (the harness's own), never the class.
+  const arb = d.interaction;
+  let pending: WalkHarnessDoors["offered"] = [];
+  let lastOffered: WalkHarnessDoors["offered"] = [];
+  const offer = arb.offer.bind(arb), resolve = arb.resolve.bind(arb);
+  arb.offer = (c) => { pending.push({ id: c.id, kind: c.kind, xz: [c.positionM[0], c.positionM[1]], reachM: c.reachM }); offer(c); };
+  arb.resolve = (p, a) => { lastOffered = pending; pending = []; resolve(p, a); };
   return {
+    /** The candidates the arbiter weighed at its last resolve and the door transition's state. */
+    doors: (): WalkHarnessDoors => {
+      const probe = d.interior();
+      return { offered: lastOffered, candidate: probe?.candidate ?? null, fade: probe?.fade ?? 0 };
+    },
     /** Put the body on the ground at (xM, zM); optionally set the camera yaw. */
     teleport: (xM: number, zM: number, yawRad?: number): boolean => {
       const g = d.groundAt(xM, zM);

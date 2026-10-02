@@ -16,6 +16,7 @@ import {
   SYNODIC_NIGHTS,
   localSiderealAngle,
   moonAt,
+  moonIlluminatedFraction,
   moonsAt,
   sunAt,
   sunEclipticLongitude,
@@ -151,6 +152,12 @@ describe("moons", () => {
     expect(moonAt(14 * 1440, masser).phaseAge).toBeCloseTo(14, 5);
     expect(moonAt(14 * 1440, masser).illuminatedFraction).toBeCloseTo(1, 5);
     expect(moonAt(SYNODIC_NIGHTS * 1440, masser).illuminatedFraction).toBeCloseTo(0, 5);
+  });
+
+  it("moonIlluminatedFraction is moonAt's phase, with no record allocated", () => {
+    for (const moon of MOONS) for (let e = 0; e < 40 * 1440; e += 997.3) {
+      expect(moonIlluminatedFraction(e, moon)).toBe(moonAt(e, moon).illuminatedFraction);
+    }
   });
 
   it("keeps Masser well over twice Secunda's apparent size", () => {

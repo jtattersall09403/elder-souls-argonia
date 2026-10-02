@@ -619,3 +619,15 @@ export function flowWaveAt(x: number, z: number, dirX: number, dirZ: number, spe
   return out;
 }
 
+/**
+ * Vertex share of a band on a grid of `gridCellM` (perf-diag9 V1): a band
+ * shorter than ~2x the cell aliases into flat-lit cell-sized facets in the
+ * per-vertex normal, so the vertex path fades it out over 2.0-2.5x the cell
+ * and the fragment carries the rest (`gerstnerFragGlsl`). `gridCellM` 0 keeps
+ * every band on the vertex (foam field).
+ */
+export function vertexBandWeight(wavelengthM: number, gridCellM: number): number {
+  if (gridCellM <= 0) return 1;
+  const t = clamp01((wavelengthM - 2.0 * gridCellM) / (0.5 * gridCellM));
+  return t * t * (3 - 2 * t);
+}

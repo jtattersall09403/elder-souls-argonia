@@ -192,6 +192,14 @@ export function sunAt(
   return o;
 }
 
+/** A moon's illuminated fraction at an instant: moonAt's phase with no
+ * position and no allocation (the tide reads it per frame). */
+export function moonIlluminatedFraction(epochMinutes: number, moon: MoonDef): number {
+  const phaseAge = mod(epochDays(epochMinutes) - NEW_MOON_EPOCH_DAY, SYNODIC_NIGHTS);
+  const elongation = normalize((TAU * phaseAge) / SYNODIC_NIGHTS + moon.longitudeOffset);
+  return (1 - Math.cos(elongation)) / 2;
+}
+
 /** Moon position and phase at an instant (written into `out` when given). */
 export function moonAt(
   epochMinutes: number,

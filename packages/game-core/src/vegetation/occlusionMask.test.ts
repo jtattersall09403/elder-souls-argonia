@@ -57,6 +57,20 @@ describe("OcclusionMask", () => {
       8, { x: 0, y: 2, z: 0 }, ground, 4, 16, list([[900, 900]]));
     expect(out.evaluated).toBe(0);
   });
+
+  it("returns the same result object every sweep, with the same verdicts (diag9 A2)", () => {
+    const mask = new OcclusionMask(64, CELL);
+    mask.anchor(0, 0);
+    const occupied = list([[25, 5], [3, 5]]);
+    const eye = { x: 0, y: 2, z: 176 };
+    const first = mask.sweep(8, eye, ground, 4, 16, occupied);
+    expect(first.hidden).toBe(1);
+    for (let i = 0; i < 1000; i++) {
+      expect(mask.sweep(8, eye, ground, 4, 16, occupied)).toBe(first);
+    }
+    expect(first.hidden).toBe(1);
+    expect(mask.hidden(25 * CELL + 16, 5 * CELL + 16)).toBe(true);
+  });
 });
 
 describe("OcclusionMask.clearCells", () => {
