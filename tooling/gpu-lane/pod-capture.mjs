@@ -7,7 +7,7 @@
  *
  *   node tooling/gpu-lane/pod-capture.mjs --views <views.json> --out <dir> [--pod "ssh -i <key> -p <port> root@<ip>" | --cdp http://127.0.0.1:9222]
  *     [--seconds 120] [--shots 500@60,2000] [--reads 15,30,60,120] [--profile <s>@<t>] [--settled-frames 300] [--settle-floor 60]
- *     [--window 10] [--width 1280 --height 720] [--prep /tmp/<lane>/prep-times.jsonl] [--ready-timeout 90] [--capture-timeout 180]
+ *     [--window 10] [--width 1280 --height 720] [--lane <lane> [--worktree <dir>]] [--ready-timeout 90] [--capture-timeout 180]
  *     [--heap-profile]
  *   node tooling/gpu-lane/pod-capture.mjs --url <url> [--compare <url>] --out <dir> [...]   (a views file of one or two views)
  *
@@ -31,8 +31,10 @@
  * --window     seconds of the cost window right after the settled read (at the end when the view never settles): per-frame
  *              main-thread work + GPU ms (measure.mjs workStats: costMs, uncappedFps, hitches) and a filtered Chrome trace
  *              (trace-frames.mjs: main-thread self ms by stage, hitches over 33 ms with their top stage). Default 10; 0 = off.
- * --prep       prep timings appended by build-dist.sh and pod-sync.sh (JSON lines); result.json `prep` and a summary line
- *              carry each step and the wall time from the first step's start to the first capture
+ * --lane       prep before the first view (diag13 D1): for each dist the views are served from (pod-capture-lib distNameOf), the
+ *              source key of --worktree (default this repo; build-dist.sh --key) against /tmp/<lane>/dist-<name>/.srchash; different
+ *              -> build-dist.sh once, else "fresh"; then with --pod, pod-sync.sh (skips when the pod's copy hash is equal). A failed
+ *              build or sync exits 4. result.json `prep` and the summary's first lines: HEAD, key per dist, this run's rows, total s.
  * --ready-timeout  s from navigation until the studio renders (frames advancing, geometries > 0; not for plain views); past it the view fails
  *              with failed "not-ready" and lastState (last read: HUD, renderer, console tail). Default 90.
  * --capture-timeout  s FLOOR of the per-view limit from its context opening to its result: the limit is max(this, ready-timeout + the
@@ -48,8 +50,12 @@
  * --cpu-profile  V8 CPU profile (200 us sampling) over each view's cost window: self ms per function (bundle url:line:col)
  *              per window frame, top 25 -> window.cpuTop and window.cpuprofile, top 5 in the summary row. Compare its numbers
  *              only against other --cpu-profile runs (the sampler costs main-thread time).
+ * --probe-targets   diagnosis only (rows read "not-a-bar"): after the settled read, one frame's render-target log and the
+ *              scene (by deferBuildsInto identity) / frame-buffer / bloom-mip-0 luma, per-pass draws, queue skippedDraws per frame and the canvas screen-middle luma, to <out>/<view>/target-probe.json (target-probe.mjs).
  * --probe-gpu-errors  diagnosis only (rows read "not-a-bar"): wraps the WebGPU API before the app's scripts and dumps the first draw of
  *              up to 3 pipelines that need an unset vertex slot (pod-capture-lib installGpuErrorProbe) -> <out>/<view>/gpu-error-probe.json
+ * --draw-census  diagnosis only (cells read "not-a-bar"): over the cost window, three's draws per frame by category and kind, us per
+ *              draw, node refreshes, pipelines/shaders created (pod-capture-lib installDrawCensus) -> <out>/<view>/draw-census.json
  * --allow-paused  run studio views whose URL lacks rate= (paused world clock); without it such a views file exits 2 naming them
  * WebGPU check: after every browser (re)connect (--chrome-mode webgpu) navigator.gpu.requestAdapter() is polled, after load, on the served origin's page
  *              for up to 20 s (result adapterWaits). A view asking WebGPU (url renderer=webgpu, or expectBackend: "webgpu")
@@ -72,7 +78,8 @@
 import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { viewDeadlineS, installGpuErrorProbe, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop } from "./pod-capture-lib.mjs";
+import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
+import { viewDeadlineS, installGpuErrorProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit } from "./checks.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
@@ -89,7 +96,8 @@ const prof = opt("profile") ? parseProfile(opt("profile")) : null, windowS = Num
 const W = Number(opt("width", 1280)), H = Number(opt("height", 720));
 const settledFrames = Number(opt("settled-frames", 300)), settleFloor = Number(opt("settle-floor", 60));
 const readyTimeoutS = Number(opt("ready-timeout", 90)), captureTimeoutS = Number(opt("capture-timeout", 180));
-const probeGpuErrors = args.includes("--probe-gpu-errors");
+const probeTargets = args.includes("--probe-targets");
+const probeGpuErrors = args.includes("--probe-gpu-errors"), drawCensus = args.includes("--draw-census");
 const heapProfileAll = args.includes("--heap-profile"), cpuProfile = args.includes("--cpu-profile");
 // a studio view without rate= runs a paused clock: not a game-speed measurement (diag10 T9)
 const paused = pausedClockViews(views);
@@ -118,6 +126,21 @@ setInterval(() => {
   Promise.race([closeViewPage(openPage), new Promise((r) => setTimeout(r, 3000))]).finally(() => { closeOwn(); process.exit(129); });
 }, 5000).unref();
 const pod = opt("pod");
+let prep = null;
+if (opt("lane")) {
+  const lane = opt("lane"), here = new URL(".", import.meta.url).pathname;
+  const wt = opt("worktree", execFileSync("git", ["-C", here, "rev-parse", "--show-toplevel"], { encoding: "utf8" }).trim());
+  const names = [...new Set(views.map((v) => distNameOf(v.url)).filter(Boolean))];
+  const sh = (args, env = {}) => execFileSync("bash", args, { cwd: wt, encoding: "utf8", env: { ...process.env, ...env }, stdio: ["ignore", "pipe", "inherit"] });
+  try {
+    prep = prepDists({ names, head: execFileSync("git", ["-C", wt, "rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
+      keyOf: (n) => sh([join(here, "build-dist.sh"), "--key", wt, n]).trim(),
+      srchashOf: (n) => { try { return readFileSync(`/tmp/${lane}/dist-${n}/.srchash`, "utf8").trim(); } catch { return null; } },
+      build: (n) => process.stdout.write(sh([join(here, "build-dist.sh"), wt, n, lane])),
+      sync: pod ? (n) => { const o = sh([join(here, "pod-sync.sh"), `/tmp/${lane}/dist-${n}`, n, lane], { POD_SSH: pod }); process.stdout.write(o); return /unchanged/.test(o) ? { skipped: true } : {}; } : null });
+  } catch (e) { console.error(`pod-capture: prep failed, no capture: ${String(e.message).split("\n")[0]}`); process.exit(4); }
+  console.log(`pod-capture prep: ${JSON.stringify(prep)}`);
+}
 if (pod) {
   const [sshBin, ...sshArgs] = pod.split(/\s+/);
   const chromeUp = () => {
@@ -133,7 +156,7 @@ if (pod) {
 }
 const cdpHttp = (tunnel ? `http://127.0.0.1:${tunnel.localPort}` : opt("cdp", process.env.CHROME_CDP ?? "http://127.0.0.1:9222")).replace(/\/$/, "");
 
-const all = { cdp: cdpHttp, startedAt: new Date().toISOString(), cap: null, orphansClosed: 0, recoveries: 0, adapterWaits: [], firstCaptureAt: null, prep: null, views: [] };
+const all = { cdp: cdpHttp, startedAt: new Date().toISOString(), cap: null, orphansClosed: 0, recoveries: 0, adapterWaits: [], prep, views: [] };
 // The browser websocket (Target.*), open for the whole run; reopened after a Chrome restart (recoverChrome).
 let bws = null, bNext = 0; const bPending = new Map();
 async function connectBrowser() {
@@ -222,7 +245,9 @@ const INIT = `(() => {
   };
 })();
 try { (${pageProbe})(); } catch {}${probeGpuErrors ? `
-try { (${installGpuErrorProbe})(window); } catch {}` : ""}`;
+try { (${installGpuErrorProbe})(window); } catch {}` : ""}${probeTargets ? `
+try { (${installTargetProbe})(window, ${recordPassDescriptor}); } catch {}` : ""}${drawCensus ? `
+try { (${installDrawCensus})(window); } catch {}` : ""}`;
 const READ = `(async () => {
   const r = window.__RENDERER__, i = r?.info, q = r?.esBuildQueue, pm = performance.memory;
   const frame = () => window.__RENDERER__?.info?.render?.frame ?? window.__RAFN;
@@ -336,6 +361,14 @@ const fullRead = async () => {
   return r;
 };
 
+/** `--probe-targets`: one frame's target luma and pass log (target-probe.mjs), plus the canvas from a screenshot. */
+async function probeTargetsNow(dir, result) {
+  const p = (await evaluate(`window.__targetProbe ? window.__targetProbe.capture() : { err: "no target probe on the page" }`, 30_000)) ?? { err: "probe read failed" };
+  try { p.canvas = await middleOf(await shoot(90)); } catch (e) { p.canvas = { err: String(e.message) }; }
+  result.targetProbe = p;
+  writeFileSync(join(dir, "target-probe.json"), JSON.stringify(p, null, 1));
+}
+
 /** The cost window: measure.mjs's per-frame work probe and a filtered trace, together, for windowS seconds. */
 async function costWindow(dir, atS, heapProfile = false) {
   // every allocation sampled, collected or not, so the profile total is the allocation rate (diag7 c9: gc hitches)
@@ -343,6 +376,7 @@ async function costWindow(dir, atS, heapProfile = false) {
   await evaluate(`(() => { const t0 = performance.now(); window.__HEAPS = []; clearInterval(window.__HEAPI);
     window.__HEAPI = setInterval(() => window.__HEAPS.push([(performance.now() - t0) / 1000, (performance.memory?.usedJSHeapSize ?? NaN) / 1e6]), 500); })()`);
   await evaluate(`(() => { const l = window.__GPU_LANE__; if (l) { l.frames = []; l.ts = []; l.wrapMs = 0; l.on = true; } })()`);
+  if (drawCensus) await evaluate(`window.__drawCensus?.start()`);
   traceEv = []; const done = new Promise((r) => { traceDone = r; });
   let traced = true;
   try { await send("Tracing.start", { traceConfig: { includedCategories: TRACE_CATEGORIES, recordMode: "recordContinuously" }, transferMode: "ReportEvents" }); } catch { traced = false; }
@@ -350,6 +384,8 @@ async function costWindow(dir, atS, heapProfile = false) {
   let cpu = cpuProfile;
   if (cpu) { try { await send("Profiler.enable"); await send("Profiler.setSamplingInterval", { interval: 200 }); await send("Profiler.start"); } catch { cpu = false; } }
   await new Promise((r) => setTimeout(r, windowS * 1000));
+  const census = drawCensus ? ((await evaluate(`window.__drawCensus ? window.__drawCensus.stop() : { err: "no census on the page" }`, 10_000)) ?? { err: "census read failed" }) : null;
+  if (census) writeFileSync(join(dir, "draw-census.json"), JSON.stringify(census, null, 1));
   let cpuProf = null;
   if (cpu) { try { cpuProf = (await send("Profiler.stop", {}, 60_000)).profile; writeFileSync(join(dir, "window.cpuprofile"), JSON.stringify(cpuProf)); } catch (e) { cpuProf = { error: String(e.message) }; } }
   const raw = await evaluate(`(() => { const l = window.__GPU_LANE__; if (!l) return null; l.on = false;
@@ -383,7 +419,7 @@ async function costWindow(dir, atS, heapProfile = false) {
       wallFps: r1(raw.frames.length / windowS), low1: onePercentLow(dts) };
   }
   const cpuTopRes = !cpuProf ? null : cpuProf.error ? { error: cpuProf.error } : cpuTop(cpuProf, raw?.frames?.length ?? null, 25);
-  return { at: atS, seconds: windowS, work, stages, cpuTop: cpuTopRes, hitches, heapTop: heap, heap: { fitMBPerMin: heapLine.mbPerMin, samples: heapLine.n, majorGCs, allocMBps } };
+  return { at: atS, seconds: windowS, work, drawCensus: census, stages, cpuTop: cpuTopRes, hitches, heapTop: heap, heap: { fitMBPerMin: heapLine.mbPerMin, samples: heapLine.n, majorGCs, allocMBps } };
 }
 
 async function captureView(view) {
@@ -432,7 +468,6 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
     all.cap ??= capVerdict(result.baseline.rafFps);
     Object.assign(result.baseline, contaminationVerdict(result.baseline, all.cap.blankRafFps));
     result.contaminated = result.baseline.contaminated;
-    all.firstCaptureAt ??= Date.now() / 1000;
     if (prof) { await send("Profiler.enable"); await send("Profiler.setSamplingInterval", { interval: 200 }); }
     const t0 = Date.now(), sec = () => (Date.now() - t0) / 1000;
     await send("Page.navigate", { url: view.url });
@@ -511,12 +546,14 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
         if (q && !q.err) lastFrame = q.f;
         if (gate?.feed(s, q, q?.f)) {
           result.reads.settled = { t: r1(sec()), gateAt: gate.settledAt, afterFrames: settledFrames, ...(await fullRead()) };
+          if (probeTargets) await probeTargetsNow(dir, result);
           if (windowS > 0 && !result.window) result.window = await costWindow(dir, r1(sec()), heapProfile);
         }
         if (q?.p === 0 && q.g > 0) { zeroSince ??= s; if (result.settledAt === null && s - zeroSince >= 5) result.settledAt = r1(zeroSince); } else zeroSince = null;
       }
       await new Promise((r) => setTimeout(r, 100));
     }
+    if (probeTargets && !result.targetProbe) await probeTargetsNow(dir, result); // never settled: probe at the end
     if (windowS > 0 && !result.window) result.window = { ...(await costWindow(dir, r1(sec()), heapProfile)), unsettled: true };
     result.heapSlope = heapSlope(heapSamples);
     result.final = await fullRead();
@@ -529,9 +566,8 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
 }
 
 const writeAll = () => {
-  if (opt("prep")) { try { all.prep = prepSummary(readFileSync(opt("prep"), "utf8"), all.firstCaptureAt); } catch (e) { all.prep = { error: String(e.message) }; } }
   writeFileSync(join(out, "result.json"), JSON.stringify(all, null, 1));
-  writeFileSync(join(out, "summary.md"), `${summaryTable(all.views, all.cap, all.prep?.steps ? all.prep : null)}\n`);
+  writeFileSync(join(out, "summary.md"), `${summaryTable(all.views, all.cap, all.prep)}\n`);
 };
 let sentinel = null;
 try {

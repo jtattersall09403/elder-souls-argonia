@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Build one studio dist into a FIXED local folder, skipping the build when the worktree's source is unchanged.
 #   bash tooling/gpu-lane/build-dist.sh <worktree> <dev|webgpu|harness> <lane>
+#   bash tooling/gpu-lane/build-dist.sh --key <worktree> <dev|webgpu|harness>   (prints the source key only; pod-capture's prep)
 # -> /tmp/<lane>/dist-<name> (dev at /elder-souls-argonia/studio/, webgpu at /elder-souls-argonia/webgpu/ reading data
 # from /studio/, harness: harness.html (fire/settlement/air scenes) at /elder-souls-argonia/harness/ reading data from
 # /studio/, built with the committed vite.harness.mjs). Key (also pod-sync.sh's) = sha1 of the
@@ -12,6 +13,13 @@
 # Never per-iteration dist folders, never cp -R. Appends {step:"build:<name>", seconds, at, skipped?} to
 # /tmp/<lane>/prep-times.jsonl.
 set -euo pipefail
+# the key covers only what the dist is built from: a views json or a doc committed between a smoke and a full round
+# leaves it equal (walk 10 vol r1: the whole-worktree key rebuilt and re-synced, prep 17 min)
+srckey() {
+  local src=(apps/world-studio packages package.json package-lock.json); [ "$2" = harness ] && src+=(tooling/gpu-lane/vite.harness.mjs)
+  (cd "$1" && { echo "$2"; git ls-tree HEAD -- "${src[@]}"; git diff HEAD -- "${src[@]}"; git ls-files --others --exclude-standard -- "${src[@]}" | git hash-object --stdin-paths; } | sha1sum | cut -c1-40)
+}
+if [ "${1:-}" = --key ]; then srckey "${2:?worktree}" "${3:?dev|webgpu|harness}"; exit 0; fi
 wt=${1:?worktree}; n=${2:?dev|webgpu}; lane=${3:?lane}
 case "$n" in
   dev) envs=(ES_STUDIO_BASE=/elder-souls-argonia/studio/) ;;
@@ -22,10 +30,7 @@ esac
 here=$(cd "$(dirname "$0")" && pwd)
 cfg=(); [ "$n" = harness ] && cfg=(--config "$here/vite.harness.mjs")
 mkdir -p "/tmp/$lane"; dist=/tmp/$lane/dist-$n; stage=/tmp/$lane/build-$n; log=/tmp/$lane/prep-times.jsonl
-# the key covers only what the dist is built from: a views json or a doc committed between a smoke and a full round
-# leaves it equal (walk 10 vol r1: the whole-worktree key rebuilt and re-synced, prep 17 min)
-src=(apps/world-studio packages package.json package-lock.json); [ "$n" = harness ] && src+=(tooling/gpu-lane/vite.harness.mjs)
-key=$(cd "$wt" && { echo "$n"; git ls-tree HEAD -- "${src[@]}"; git diff HEAD -- "${src[@]}"; git ls-files --others --exclude-standard -- "${src[@]}" | git hash-object --stdin-paths; } | sha1sum | cut -c1-40)
+key=$(srckey "$wt" "$n")
 t0=$(date +%s)
 if [ -f "$dist/.srchash" ] && [ "$(cat "$dist/.srchash")" = "$key" ]; then
   echo "build-dist: $n unchanged ($key), skipped"

@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, viewDeadlineS, installGpuErrorProbe, gpuProbeLine } from "./pod-capture-lib.mjs";
+import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, viewDeadlineS, installGpuErrorProbe, gpuProbeLine, installDrawCensus, drawCensusLine } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -128,12 +128,35 @@ test("contaminationVerdict: slow blank rAF or a retained heap flags the view", a
   assert.deepEqual(contaminationVerdict({ rafFps: 240, heapMB: 1579 }, 240).reasons, ["heap 1579 MB > 50"]);
   assert.equal(contaminationVerdict({ rafFps: null, heapMB: null }, 240).contaminated, false);
 });
-test("prepSummary: steps and start-to-first-capture; the summary carries the line", async () => {
-  const { prepSummary, summaryTable } = await import("./pod-capture-lib.mjs");
-  const p = prepSummary('{"step":"build:webgpu","seconds":15,"at":1000}\n{"step":"sync:dev","seconds":0,"at":1001,"skipped":true}\n{"step":"serve","seconds":5,"at":1020}\n', 1100);
-  assert.equal(p.toFirstCaptureS, 115);
-  assert.equal(prepSummary("", 1), null);
-  assert.match(summaryTable([], null, p).split("\n")[1], /^prep: build:webgpu 15 s, sync:dev skip, serve 5 s; start to first capture 115 s$/);
+test("prepDists: a source change after .srchash is stale and builds once; unchanged is fresh; the summary carries this run's rows", async () => {
+  const { prepDists, prepLine, summaryTable, distNameOf } = await import("./pod-capture-lib.mjs");
+  const { mkdtempSync, mkdirSync, writeFileSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const { execFileSync } = await import("node:child_process");
+  const { join, dirname } = await import("node:path");
+  const { fileURLToPath } = await import("node:url");
+  const here = dirname(fileURLToPath(import.meta.url));
+  const wt = mkdtempSync(join(tmpdir(), "prep-")), git = (...a) => execFileSync("git", ["-C", wt, ...a], { encoding: "utf8" });
+  git("init", "-q"); git("config", "user.email", "t@t"); git("config", "user.name", "t");
+  mkdirSync(join(wt, "packages")); writeFileSync(join(wt, "packages/a.ts"), "1"); git("add", "-A"); git("commit", "-qm", "one");
+  const keyOf = (n) => execFileSync("bash", [join(here, "build-dist.sh"), "--key", wt, n], { encoding: "utf8" }).trim();
+  const srchash = { webgpu: keyOf("webgpu") }; // the dist was built from commit one
+  const built = [];
+  const run = () => prepDists({ names: ["webgpu"], head: git("rev-parse", "HEAD").trim(), keyOf, srchashOf: (n) => srchash[n] ?? null,
+    build: (n) => { built.push(n); srchash[n] = keyOf(n); }, sync: () => ({ skipped: true }) });
+  const fresh = run();
+  assert.deepEqual(built, []); assert.deepEqual(fresh.steps.map((s) => [s.step, Boolean(s.fresh)]), [["build:webgpu", true], ["sync:webgpu", false]]);
+  writeFileSync(join(wt, "packages/a.ts"), "2"); git("commit", "-qam", "two"); // a fix committed after the build
+  const stale = run();
+  assert.deepEqual(built, ["webgpu"]); assert.equal(stale.dists.webgpu.built, true); assert.equal(stale.dists.webgpu.key, srchash.webgpu);
+  run(); assert.deepEqual(built, ["webgpu"]); // rebuilt once, then fresh again
+  writeFileSync(join(wt, "docs.md"), "x"); assert.equal(keyOf("webgpu"), srchash.webgpu); // a non-source file keeps the key
+  assert.throws(() => prepDists({ names: ["webgpu"], keyOf: () => "b", srchashOf: () => "a", build: () => { throw new Error("build-dist webgpu failed"); } }), /build-dist webgpu failed/);
+  const lines = summaryTable([], null, stale).split("\n");
+  assert.match(lines[1], new RegExp(`^HEAD [0-9a-f]{40}; source key webgpu ${srchash.webgpu.slice(0, 12)}$`));
+  assert.match(lines[2], /^prep: build:webgpu [\d.]+ s, sync:webgpu skip; total [\d.]+ s$/);
+  assert.match(prepLine(fresh), /prep: build:webgpu fresh, sync:webgpu skip/);
+  assert.deepEqual(["https://x/elder-souls-argonia/webgpu/?a", "http://h/elder-souls-argonia/studio/", "http://h/elder-souls-argonia/harness/?sys=fire", "about:blank"].map(distNameOf), ["webgpu", "dev", "harness", null]);
 });
 test("parseViews: absolute URLs and the plain flag", () => {
   const v = parseViews(JSON.stringify([{ name: "fire", url: "https://threejs.org/examples/webgpu_volume_fire.html", plain: true, seconds: 30 }]));
@@ -309,13 +332,14 @@ function fakeGpuWindow(renderer) {
 }
 test("gpu-error probe: a draw with an unset vertex slot is dumped once per pipeline, with the three render object", () => {
   const at = {};
-  const { win, pass, pipe, GPUBuffer } = fakeGpuWindow({ backend: { draw() { at.pass.drawIndexedIndirect(new GPUBuffer("indirect", 20), 40); }, get: () => ({}) } });
+  const { win, pass, pipe, GPUBuffer } = fakeGpuWindow({ backend: { draw() { at.pass.drawIndexedIndirect(new GPUBuffer("indirect", 20), 40); }, get: (k) => (k === "pipeKey" ? { pipeline: at.pipe } : {}) } });
+  at.pipe = pipe;
   at.pass = pass;
   assert.equal(win.__gpuErrorProbe.threeHooked, true);
   const old = new GPUBuffer("position", 120); old.destroy();
   pass.setPipeline(pipe); pass.setVertexBuffer(0, old, 0, 120);
   const ro = { object: { name: "BSX", type: "Mesh", id: 7, userData: { esGpuCull: true } }, geometry: { id: 3, attributes: { position: { id: 1, itemSize: 3, array: new Float32Array(3) } } },
-    material: { name: "Mat.001", id: 9, type: "MeshStandardNodeMaterial" }, getCacheKey: () => "k1", getVertexBuffers: () => [{ name: "position" }], getAttributes: () => [{ name: "position" }] };
+    material: { name: "Mat.001", id: 9, type: "MeshStandardNodeMaterial" }, pipeline: "pipeKey", getCacheKey: () => "k1", getVertexBuffers: () => [{ name: "position" }], getAttributes: () => [{ name: "position" }] };
   win.__RENDERER__.backend.draw(ro); win.__RENDERER__.backend.draw(ro);
   const p = win.__gpuErrorProbe;
   assert.equal(p.dumps.length, 1);
@@ -326,7 +350,9 @@ test("gpu-error probe: a draw with an unset vertex slot is dumped once per pipel
   assert.deepEqual(d.set.map((x) => [x.slot, x.buffer.label, x.buffer.destroyed]), [[0, "position", true]]);
   assert.equal(d.vertexWGSL, "@vertex fn main() {}");
   assert.equal(d.three.object.name, "BSX"); assert.deepEqual(d.three.object.userDataKeys, ["esGpuCull"]); assert.equal(d.three.cacheKey, "k1");
-  assert.match(gpuProbeLine(p), /^not-a-bar; slot 1 missing renderPipeline_BSX obj BSX/);
+  // the failing draw's object and pipeline from the SAME backend.draw call
+  assert.deepEqual(d.tuple, { sameCall: true, passPipelineLabel: "renderPipeline_BSX", materialName: "Mat.001", cacheKey: "k1", threePipelineLabel: "renderPipeline_BSX", threePipelineIsBound: true });
+  assert.match(gpuProbeLine(p), /^not-a-bar; slot 1 missing renderPipeline_BSX obj BSX mat Mat\.001 three-pipeline renderPipeline_BSX/);
 });
 test("gpu-error probe: every required slot set, no dump", () => {
   const { win, pass, pipe, GPUBuffer } = fakeGpuWindow();
@@ -334,4 +360,66 @@ test("gpu-error probe: every required slot set, no dump", () => {
   pass.drawIndexed(36, 2);
   assert.equal(win.__gpuErrorProbe.dumps.length, 0); assert.equal(win.__gpuErrorProbe.draws, 1);
   assert.match(gpuProbeLine(win.__gpuErrorProbe), /^not-a-bar; no unset slot in 1 draws/);
+});
+
+// --draw-census: a fake renderer and WebGPU device on a fake window, frames driven by hand
+test("draw census: categories, kinds, refreshes, us/draw and created-in-window counts", () => {
+  const rafs = [];
+  class GPUDevice { createRenderPipeline() { return {}; } createShaderModule() { return {}; } }
+  const r = { backend: { draw() {} }, _nodes: { needsRefresh: (ro) => ro.object.name !== "static" }, _renderObjectDirect(ro) { this.backend.draw(ro); },
+    render(list) { for (const ro of list) { this._nodes.needsRefresh(ro); this._renderObjectDirect(ro); } }, getRenderTarget: () => null };
+  const win = { GPUDevice, performance: { now: () => 0 }, requestAnimationFrame: (f) => rafs.push(f), __RENDERER__: r };
+  installDrawCensus(win);
+  const frame = () => rafs.shift()();
+  const dev = new GPUDevice();
+  dev.createRenderPipeline({ label: "warmup" }); // before start: not counted
+  const veg = { object: { name: "", isInstancedMesh: true, count: 40, userData: {} }, geometry: { indirect: {} }, material: { name: "" } };
+  const ground = { object: { name: "static", userData: {} }, geometry: {}, material: { name: "es-ground" } };
+  const empty = { object: { name: "", isInstancedMesh: true, count: 0, userData: { esSettlementBatch: true } }, geometry: {}, material: { name: "" } };
+  const odd = { object: { name: "thing", type: "Mesh", userData: {} }, geometry: {}, material: { name: "x", type: "MeshBasicNodeMaterial" } };
+  r._renderObjectDirect(ground); // before start: not counted
+  win.__drawCensus.start();
+  let t = 0; win.performance.now = () => (t += 0.005);
+  for (let i = 0; i < 2; i++) {
+    r.render([veg, veg, ground, empty, odd]);
+    frame();
+  }
+  dev.createRenderPipeline({ label: "renderPipeline_late" }); dev.createShaderModule({ label: "late.wgsl" });
+  const c = win.__drawCensus.stop();
+  assert.equal(c.frames, 2);
+  assert.deepEqual(c.hooked, { draw: true, renderObjectDirect: true, needsRefresh: true, render: true });
+  assert.equal(c.renderCallsPerFrame, 1); assert.ok(c.renderMsPerFrame > c.renderObjectMsPerFrame); assert.deepEqual(Object.keys(c.renderObjectByTarget), ["screen"]);
+  assert.equal(c.drawsPerFrame, 5); assert.equal(c.drawsMax, 5);
+  assert.deepEqual(c.byCategory, { "veg-gpucull": 2, "settlement-merge": 1, terrain: 1, other: 1 });
+  assert.deepEqual(c.kindsPerFrame, { plain: 2, instanced: 1, indirect: 2, zero: 1 });
+  assert.equal(c.refreshesPerFrame, 4); assert.equal(c.refreshByCategory.terrain, undefined);
+  assert.equal(c.usPerDraw, 5); // one now() pair inside draw = 5 us
+  assert.ok(c.usPerRenderObject > c.usPerDraw);
+  assert.deepEqual(c.createdInWindow, { pipelines: 1, shaders: 1, labels: ["pipelines:renderPipeline_late", "shaders:late.wgsl"] });
+  assert.equal(c.otherTop[0][0], "Mesh:thing|MeshBasicNodeMaterial:x");
+  // the inclusive renderObject figure, not backend.draw alone (diag13 D2: 1.81 printed for 13.08)
+  const line = drawCensusLine({ ...c, usPerRenderObject: 13.08, usPerDraw: 1.81, renderMsPerFrame: 9, renderObjectMsPerFrame: 7, renderCallsPerFrame: 6 }, 12.5);
+  assert.match(line, /^not-a-bar; 5 draws \(all passes\), render\(\) 9 ms\/frame \(6 calls\), renderObject 13\.08 us incl \(7 ms\/frame\), backend\.draw 1\.81 us, work - render\(\) 3\.5 ms; 4 refreshes, 2 created in window; keptZero 0; veg-gpucull 2, settlement-merge 1, terrain 1; targets screen 5$/);
+  assert.match(drawCensusLine(null), /^not-a-bar; census unread/);
+});
+
+test("draw census: byTarget draws by category and kept-zero vegetation draws", () => {
+  const rafs = [];
+  let target = null;
+  const r = { backend: { draw() {} }, _nodes: { needsRefresh: () => false }, _renderObjectDirect(ro) { this.backend.draw(ro); },
+    render() {}, getRenderTarget: () => target };
+  const win = { performance: { now: () => 0 }, requestAnimationFrame: (f) => rafs.push(f), __RENDERER__: r };
+  installDrawCensus(win);
+  const mk = (kept) => ({ object: { name: "", isInstancedMesh: true, count: 1, userData: { esGpuCull: true, esKept: kept } }, geometry: { indirect: {} }, material: { name: "" } });
+  win.__drawCensus.start();
+  target = { texture: { name: "shadow-cascade-0" } };
+  r._renderObjectDirect(mk(0)); r._renderObjectDirect(mk(5));
+  target = null;
+  r._renderObjectDirect(mk(7));
+  rafs.shift()();
+  const c = win.__drawCensus.stop();
+  assert.deepEqual(c.byTarget["shadow-cascade-0"], { drawsPerFrame: 2, keptZeroPerFrame: 1, "veg-gpucull": 2 });
+  assert.deepEqual(c.byTarget.screen, { drawsPerFrame: 1, keptZeroPerFrame: 0, "veg-gpucull": 1 });
+  assert.equal(c.keptZeroPerFrame, 1);
+  assert.match(drawCensusLine(c), /keptZero 1; veg-gpucull 3; targets shadow-cascade-0 2, screen 1$/);
 });

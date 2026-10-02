@@ -5,8 +5,9 @@
  * mesh and passes it; nothing here picks a path.
  * - CPU tile path: visible while it draws, `count > 0` (perf10 O1: three's
  *   projectObject skips an invisible object in every pass, shadows included).
- * - GPU-cull path: visible while the mesh is registered with the cull pool;
- *   the count is the compute pass's, never a reason to show or hide.
+ * - GPU-cull path: visible while the mesh is registered with the cull pool
+ *   and the pool submits it (`PooledDraw.submit`: off only when the last
+ *   read-back kept none and its candidates' bounds cannot be in view).
  * A mesh held by the link gate (`LINK_HELD` in userData) stays hidden
  * whatever its rule says until its program has linked (linkGate.ts).
  */

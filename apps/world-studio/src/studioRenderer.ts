@@ -4,12 +4,13 @@
  * HUD read — `window.__RENDERER__` (the renderer, as before) and
  * `window.__RENDERER_BACKEND__` ("webgpu" | "webgl2", the backend it ACTUALLY
  * runs on after any fallback). `?renderer=webgl|webgpu` switches;
- * `?buildq=0` skips the shader build queue (every build synchronous).
+ * `?buildq=0` skips the shader build queue (every build synchronous);
+ * `?msaa=0` (studioSwitches.ts) forces antialias off over the caller's choice.
  */
 import { backendLabel, canvasRenderer, type CanvasRendererOptions } from "@elder-souls/game-core/render/canvasRenderer";
 import { STUDIO_TOOLS } from "./studioTools";
 import type { DeviceLossInfo } from "./gpuRecovery";
-import { parseStudioSwitches } from "./studioSwitches";
+import { INITIAL_SWITCHES, parseStudioSwitches } from "./studioSwitches";
 import { diagRequested, mountDiagOverlay } from "./diagOverlay";
 
 export type StudioRendererHost = {
@@ -28,7 +29,10 @@ export function studioCanvasRenderer(
   return canvasRenderer({
     ...rendererOptions,
     ...(buildq === "0" ? { shaderBuildsInFlight: 0 } : {}),
-    ...(typeof location !== "undefined" && parseStudioSwitches(location.search).obuf8 ? { outputBuffer8: true } : {}),
+    ...(() => {
+      const sw = typeof location === "undefined" ? null : parseStudioSwitches(location.search);
+      return { ...(sw?.obuf8 ? { outputBuffer8: true } : {}), ...(sw?.msaa0 || INITIAL_SWITCHES.msaa0 ? { antialias: false } : {}) };
+    })(),
     onReady: (renderer, backend) => {
       if (onDeviceLost) {
         // three's dispose() destroys the device, which fires `device.lost`

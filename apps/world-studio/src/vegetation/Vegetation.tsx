@@ -54,7 +54,6 @@ import {
   BATCH_DATA_TEXELS,
   createBatchDataTexture,
   createBatchDataUniforms,
-  createDeferredDisposer,
   setBatchTexture,
   writeBatchInstance,
 } from "@elder-souls/game-core/fx/batchData";
@@ -510,9 +509,9 @@ export function Vegetation({
     () => (GpuCullPool.supported(gl) ? new GpuCullPool({ lodFade }) : null), [gl, lodFade]);
   useEffect(() => () => gpuCull?.dispose(), [gpuCull]);
   // ONE visibility rule per path (drawCount.ts): GPU-cull meshes show while
-  // registered with the pool, CPU tile meshes while they draw.
+  // registered with the pool and submitted by it, CPU tile meshes while they draw.
   const visibleRule = (geo: GeoMesh): VisibleRule =>
-    (gpuCull ? () => geo.cull !== null : () => geo.mesh.count > 0);
+    (gpuCull ? () => geo.cull !== null && geo.cull.submit : () => geo.mesh.count > 0);
   const mask = useMemo(() => new OcclusionMask(MASK_SIZE, OCCLUSION_CELL_M), []);
   const maskTexture = useMemo(() => {
     const texture = new THREE.DataTexture(
@@ -540,9 +539,8 @@ export function Vegetation({
   const registry = useRef(new CellRegistry());
   const jobs = useRef(new Map<string, { cancel(): void }>());
   const batchMaterials = useRef(new Map<string, NodeMaterial>());
-  // replaced batch data textures live three more frames: off-frame bind groups may still hold them
-  const dataDisposer = useMemo(() => createDeferredDisposer(3), []);
-  useEffect(() => () => dataDisposer.flush(), [dataDisposer]);
+  // a grown batch's old texture lives until no mesh's last bind names it (batchData.ts retirer)
+  useEffect(() => () => batchUniforms.retired.flush(), [batchUniforms]);
   /** Patched node slots per signature: batch materials share one shader build. */
   const batchPatchMemo = useMemo<BatchPatchMemo>(() => new Map(), []);
   const mounted = useRef(true);
@@ -860,7 +858,7 @@ export function Vegetation({
       batchMaterials.current.set(key, owned);
     }
     const clone = owned;
-    const data = createBatchDataTexture(capacity);
+    const data = createBatchDataTexture(capacity, key);
     // The data texture is PER BATCH, carried by the batch's material and
     // re-pointed when the batch grows; the occlusion mask and its window are
     // shared by reference, so one sweep feeds every batch.
@@ -1074,7 +1072,7 @@ export function Vegetation({
   // ---- the frame ----------------------------------------------------------
 
   useFrame((state) => {
-    dataDisposer.tick();
+    batchUniforms.retired.tick();
     // Vegetation gate stage of the frame (decision 0084 round 10).
     segments?.cpuMark("veg");
     // Site (a): everything the frame-work pump moved since the last render.
@@ -1749,12 +1747,12 @@ export function Vegetation({
   function growBatchData(batch: Batch, need: number): void {
     const capacity = Math.max(
       MIN_BATCH_CAPACITY, Math.ceil((batch.nextData + need) * 1.5));
-    const data = createBatchDataTexture(capacity);
+    const data = createBatchDataTexture(capacity, batch.key);
     (data.image.data as Float32Array).set(
       (batch.data.image.data as Float32Array)
         .subarray(0, batch.nextData * BATCH_DATA_TEXELS * 4));
     data.needsUpdate = true;
-    dataDisposer.defer(batch.data);
+    batchUniforms.retired.retire(batch.data);
     batch.data = data;
     batch.capacity = capacity;
     const owned = batchMaterials.current.get(batch.key);
@@ -1796,7 +1794,7 @@ export function Vegetation({
       band: next,
       casts: batch.casts,
       fromZero: batch.fromZero,
-    });
+    }, visibleRule(geo));
     applyVisibility(geo.mesh, visibleRule(geo));
   }
 

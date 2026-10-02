@@ -1,3 +1,4 @@
+import { targetsLine } from "./target-probe.mjs";
 import { readFileSync } from "node:fs";
 import { topCause } from "./trace-frames.mjs";
 /** Pure parts of pod-capture.mjs (unit-tested in pod-capture-lib.test.mjs). */
@@ -242,15 +243,17 @@ export function summariseView(r) {
     failed: r.failed ?? null, heapTop: w.heapTop?.length ? w.heapTop.slice(0, 3).map((h) => `${h.fn} ${h.selfMB} MB`).join("; ") : null,
     cpuTop: w.cpuTop?.top?.length ? w.cpuTop.top.slice(0, 5).map((f) => `${f.fn.replace(/ \S*\/([^/ ]+)$/, " $1")} ${f.msPerFrame ?? f.selfMs}`).join("; ") : null,
     gpuProbe: r.gpuErrorProbe ? gpuProbeLine(r.gpuErrorProbe) : null,
+    targets: r.targetProbe ? targetsLine(r.targetProbe) : null,
+    drawCensus: w.drawCensus ? drawCensusLine(w.drawCensus, wk?.workMs?.mean ?? null) : null,
     settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
   };
 }
 /** Markdown summary: one row per view from its result.json `summary` (`summariseView`). "from" names the window the rates
  * came from; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "failed", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe"];
+  const cols = ["view", "failed", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "draw census", "targets"];
   const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
-    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe].map(cell));
+    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.drawCensus, s.targets].map(cell));
   return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), "",
     `| ${cols.join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.join(" | ")} |`)].join("\n");
 }
@@ -265,19 +268,38 @@ export function contaminationVerdict(baseline, firstRafFps, { rafShare = 0.95, h
   return { contaminated: reasons.length > 0, reasons };
 }
 
-/** Prep timings (build-dist.sh, pod-sync.sh append {step, seconds, at, skipped?} JSON lines; `at` = epoch s at the step's
- * end) -> per step seconds and the wall time from the first step's start to the first capture (epoch s). */
-export function prepSummary(jsonl, firstCaptureAt) {
-  const steps = String(jsonl).split("\n").filter((l) => l.trim()).map((l) => JSON.parse(l));
-  if (!steps.length) return null;
-  const start = Math.min(...steps.map((s) => s.at - s.seconds));
-  return { steps, toFirstCaptureS: Number.isFinite(firstCaptureAt) ? Math.round(firstCaptureAt - start) : null };
+/** The dist a view is served from, by its URL's base (build-dist.sh names): /elder-souls-argonia/<studio|webgpu|harness>/
+ * -> dev | webgpu | harness; null for a URL no dist serves (a plain page). */
+export function distNameOf(url) {
+  const m = /\/elder-souls-argonia\/(studio|webgpu|harness)\//.exec(String(url ?? ""));
+  return m ? (m[1] === "studio" ? "dev" : m[1]) : null;
 }
 
-/** One line for summary.md. */
+/** pod-capture's prep (diag13 D1: a capture served a dist built before the fixes it was meant to measure). Per dist name:
+ * keyOf(name) (build-dist.sh --key, the one key logic) against srchashOf(name) (dist-<name>/.srchash, null when absent);
+ * different -> build(name) once (it throws on failure: the capture stops), else step "build:<name>" fresh; then sync(name)
+ * (pod-sync.sh, which skips when the pod's copy hash is equal and returns {skipped}). Rows are THIS run's only, each timed;
+ * totalS is their wall sum. now() in ms. */
+export function prepDists({ names, head, keyOf, srchashOf, build, sync = null, now = Date.now }) {
+  const t0 = now(), steps = [], dists = {};
+  const step = (name, fn) => { const t = now(); const r = fn() ?? {}; steps.push({ step: name, seconds: Math.round((now() - t) / 100) / 10, ...r }); return r; };
+  for (const n of names) {
+    const key = keyOf(n), had = srchashOf(n);
+    const stale = had !== key;
+    step(`build:${n}`, () => (stale ? (build(n), {}) : { fresh: true }));
+    dists[n] = { key, built: stale };
+    if (sync) step(`sync:${n}`, () => sync(n));
+  }
+  return { head, dists, steps, totalS: Math.round((now() - t0) / 100) / 10 };
+}
+
+/** The summary's first lines: HEAD, the key per dist, this run's prep rows and the total. */
 export function prepLine(prep) {
   if (!prep) return null;
-  return `prep: ${prep.steps.map((s) => `${s.step} ${s.skipped ? "skip" : `${s.seconds} s`}`).join(", ")}; start to first capture ${prep.toFirstCaptureS ?? "-"} s`;
+  if (prep.error) return `prep: FAILED ${prep.error}`;
+  const keys = Object.entries(prep.dists ?? {}).map(([n, d]) => `${n} ${String(d.key).slice(0, 12)}`).join(", ");
+  return [`HEAD ${prep.head ?? "?"}; source key ${keys || "-"}`,
+    `prep: ${prep.steps.map((s) => `${s.step} ${s.fresh ? "fresh" : s.skipped ? "skip" : `${s.seconds} s`}`).join(", ")}; total ${prep.totalS} s`].join("\n");
 }
 
 /** True when a CDP error means the browser or its page stopped answering (a timeout, a dropped socket), the case
@@ -382,7 +404,7 @@ export function installGpuErrorProbe(win) {
   const MAX_SLOTS = 16, now = () => (win.performance ? Math.round(win.performance.now()) : 0);
   const shaderCode = new WeakMap(), pipelines = new WeakMap(), destroyed = new WeakSet(), bindGroups = new WeakMap(), passes = new WeakMap();
   const labelled = new Set();
-  let lastRO = null;
+  let curRO = null; // the render object of the backend.draw call in progress (null outside one)
   const wrap = (proto, name, make) => { if (proto && typeof proto[name] === "function") proto[name] = make(proto[name]); };
   const Dev = win.GPUDevice?.prototype;
   wrap(Dev, "createShaderModule", (f) => function (d) { const m = f.call(this, d); try { shaderCode.set(m, d.code); } catch {} return m; });
@@ -417,9 +439,19 @@ export function installGpuErrorProbe(win) {
   wrap(RP, "setIndexBuffer", (f) => function (buf, fmt, off, size) { const s = passes.get(this); if (s) { s.ib = buf; s.ibFormat = fmt; } return f.call(this, buf, fmt, off, size); });
   wrap(RP, "setBindGroup", (f) => function (i, g, ...a) { const s = passes.get(this); if (s && i < 8) s.groups[i] = g ?? null; return f.call(this, i, g, ...a); });
   const bufInfo = (b) => (b ? { label: b.label ?? "", size: b.size, usage: b.usage, destroyed: destroyed.has(b) } : null);
+  // object and pipeline tied in one record: the render object of THIS backend.draw call, the pipeline bound in the pass
+  // when its GPU draw ran, and the pipeline three selected for it (backend.get(ro.pipeline).pipeline)
+  const tuple = (ro, s) => {
+    const t = { sameCall: Boolean(ro), passPipelineLabel: s.info?.label ?? null };
+    if (!ro) return t;
+    try { t.materialName = ro.material?.name ?? null; } catch {}
+    try { t.cacheKey = typeof ro.getCacheKey === "function" ? String(ro.getCacheKey()) : null; } catch (e) { t.cacheKey = `err ${e.message}`; }
+    try { const gp = win.__RENDERER__?.backend?.get?.(ro.pipeline)?.pipeline; t.threePipelineLabel = gp ? (pipelines.get(gp)?.label ?? gp.label ?? "") : null; t.threePipelineIsBound = gp ? gp === s.pipeline : null; } catch (e) { t.threePipelineLabel = `err ${e.message}`; }
+    return t;
+  };
   const threeSide = () => {
-    const ro = lastRO;
-    if (!ro) return { note: P.threeNote };
+    const ro = curRO;
+    if (!ro) return { note: `no backend.draw in progress (${P.threeNote})` };
     const t = {};
     const safe = (k, fn) => { try { t[k] = fn(); } catch (e) { t[k] = `err ${e.message}`; } };
     const o = ro.object, g = ro.geometry, m = ro.material, be = win.__RENDERER__?.backend;
@@ -453,7 +485,7 @@ export function installGpuErrorProbe(win) {
       pipeline: { label: s.info.label, entryPoint: s.info.entryPoint, buffers: s.info.buffers }, missing, set,
       indexBuffer: s.ib ? { ...bufInfo(s.ib), format: s.ibFormat } : null,
       bindGroups: s.groups.map((g, i) => (g ? { group: i, ...(bindGroups.get(g) ?? { label: g.label ?? "" }) } : null)).filter(Boolean),
-      vertexWGSL: shaderCode.get(s.info.module) ?? null, three: threeSide() });
+      vertexWGSL: shaderCode.get(s.info.module) ?? null, tuple: tuple(curRO, s), three: threeSide() });
   };
   for (const k of ["draw", "drawIndexed", "drawIndirect", "drawIndexedIndirect"]) wrap(RP, k, (f) => function (a0, a1, a2, a3, a4) { check(this, k, a0, a1, a2, a3, a4); return f.call(this, a0, a1, a2, a3, a4); });
   // three side: wrap backend.draw once the studio exposes the renderer (window.__RENDERER__)
@@ -461,7 +493,7 @@ export function installGpuErrorProbe(win) {
     const be = win.__RENDERER__?.backend;
     if (!be || typeof be.draw !== "function") return false;
     const draw = be.draw;
-    be.draw = function (ro, info) { lastRO = ro; return draw.call(this, ro, info); };
+    be.draw = function (ro, info) { const prev = curRO; curRO = ro; try { return draw.call(this, ro, info); } finally { curRO = prev; } };
     P.threeHooked = true; P.threeNote = "backend.draw wrapped";
     return true;
   };
@@ -473,7 +505,149 @@ export function gpuProbeLine(p) {
   if (!p || p.err) return `not-a-bar; probe unread${p?.err ? ` (${String(p.err).slice(0, 60)})` : ""}`;
   const d = p.dumps?.[0];
   if (!d) return `not-a-bar; no unset slot in ${p.draws ?? 0} draws; ${p.errors?.length ?? 0} errors`;
-  return `not-a-bar; slot ${d.missing.join(",")} missing ${d.pipeline.label} obj ${d.three?.object?.name ?? d.three?.note ?? "?"} (${p.dumps.length} dumps)`;
+  return `not-a-bar; slot ${d.missing.join(",")} missing ${d.pipeline.label} obj ${d.three?.object?.name ?? d.three?.note ?? "?"} mat ${d.tuple?.materialName ?? "?"} three-pipeline ${d.tuple?.threePipelineLabel ?? "?"} (${p.dumps.length} dumps)`;
+}
+
+/** `--draw-census` (diagnosis only; never a bar row). Installed by the init script before the app's scripts. Between
+ * win.__drawCensus.start() and .stop() (the harness's cost window) it counts, per rAF frame, three/webgpu's draws by
+ * category, by kind (plain / instanced / indirect) and zero-instance draws, by wrapping `__RENDERER__.backend.draw`
+ * (WebGPUBackend and WebGLBackend share it); the time inside that wrapper and inside `Renderer._renderObjectDirect`;
+ * the node refreshes (`renderer._nodes.needsRefresh` answered true) by category; and every pipeline or shader created
+ * (GPUDevice createRenderPipeline(+Async)/createComputePipeline(+Async)/createShaderModule, WebGL2 compileShader/linkProgram)
+ * with the labels of the first 20. stop() returns per-frame means (drawCensusResult). Per draw: one category lookup cached
+ * per object in a WeakMap, two performance.now() reads, integer adds into preallocated arrays. Self-contained: stringified
+ * into the page. */
+export function installDrawCensus(win) {
+  const CATS = ["veg-gpucull", "groundcover", "vegetation", "impostor", "settlement-merge", "terrain", "ground-paint", "water", "sky", "fixture", "fire-fx", "air", "character", "other"];
+  const N = CATS.length, MAXF = 4096, now = () => win.performance.now();
+  const C = { on: false, frames: 0, draws: new Float64Array(N), refresh: new Float64Array(N), drawMs: 0, roMs: 0, renderMs: 0, renderCalls: 0, renderDepth: 0, byTarget: new Map(), keptZero: 0,
+    kinds: { plain: 0, instanced: 0, indirect: 0, zero: 0 }, perFrame: new Float64Array(MAXF), created: { pipelines: 0, shaders: 0, labels: [] },
+    hooked: { draw: false, renderObjectDirect: false, needsRefresh: false, render: false }, otherNames: new Map() };
+  const catOf = new WeakMap();
+  const classify = (ro) => {
+    const o = ro.object ?? {}, m = ro.material ?? {}, g = ro.geometry ?? {}, u = o.userData ?? {};
+    const on = String(o.name ?? ""), mn = String(m.name ?? ""), n = `${on} ${mn}`;
+    if (g.indirect || g.attributes?.esSlot || g.userData?.esSlot != null || u.esGpuCull) return 0;
+    if (/groundcover/i.test(n)) return 1;
+    if (/es-impostor|impostor|card/i.test(n)) return 3;
+    if (/veg|tree|grass|bush|fern|plant/i.test(n)) return 2;
+    if (u.esSettlementBatch) return 4;
+    if (/ground-paint/.test(n) || m.userData?.esGroundPaint) return 6;
+    if (/es-ground|terrain/i.test(n)) return 5;
+    if (/water|falls|bubbles|ripple/i.test(n)) return 7;
+    if (/sky|sun|moon|star|cloud/i.test(n)) return 8;
+    if (/fixture|settlement-light|lantern|window-frame/i.test(n) || u.esFixtureLightsPerObject) return 9;
+    if (/fire|flame|ember|smoke/i.test(n)) return 10;
+    if (/^air:|weather:/.test(n)) return 11;
+    if (o.isSkinnedMesh || u.esPlayerShow || u.esPlayerFade || /NPC|Hair/.test(n)) return 12;
+    const k = `${o.type ?? "?"}:${on.slice(0, 24)}|${m.type ?? "?"}:${mn.slice(0, 24)}`;
+    if (C.otherNames.size < 30 || C.otherNames.has(k)) C.otherNames.set(k, (C.otherNames.get(k) ?? 0) + 1);
+    return 13;
+  };
+  const cat = (ro) => { const o = ro.object; if (!o || typeof o !== "object") return classify(ro); let c = catOf.get(o); if (c === undefined) { c = classify(ro); catOf.set(o, c); } return c; };
+  // per render target (texture name, else "rt", else "screen"; at most 16 tags): inclusive ms, objects, draws by category, kept-zero
+  const entry = (r) => {
+    const rt = typeof r.getRenderTarget === "function" ? r.getRenderTarget() : null;
+    const tag = rt ? String(rt.texture?.name || "rt") : "screen";
+    let e = C.byTarget.get(tag);
+    if (!e && C.byTarget.size < 16) { e = { ms: 0, n: 0, draws: new Float64Array(N), keptZero: 0 }; C.byTarget.set(tag, e); }
+    return e;
+  };
+  const created = (kind, label) => { if (!C.on) return; C.created[kind]++; if (C.created.labels.length < 20) C.created.labels.push(`${kind}:${label ?? ""}`); };
+  const wrap = (proto, name, make) => { if (proto && typeof proto[name] === "function") proto[name] = make(proto[name]); };
+  const Dev = win.GPUDevice?.prototype;
+  for (const k of ["createRenderPipeline", "createComputePipeline"]) wrap(Dev, k, (f) => function (d) { created("pipelines", d?.label); return f.call(this, d); });
+  for (const k of ["createRenderPipelineAsync", "createComputePipelineAsync"]) wrap(Dev, k, (f) => function (d) { created("pipelines", d?.label); return f.call(this, d); });
+  wrap(Dev, "createShaderModule", (f) => function (d) { created("shaders", d?.label); return f.call(this, d); });
+  const GL = win.WebGL2RenderingContext?.prototype;
+  wrap(GL, "compileShader", (f) => function (sh) { created("shaders", "gl"); return f.call(this, sh); });
+  wrap(GL, "linkProgram", (f) => function (pr) { created("pipelines", "gl"); return f.call(this, pr); });
+  let frameDraws = 0;
+  const tick = () => { if (C.on) { if (C.frames < MAXF) C.perFrame[C.frames] = frameDraws; C.frames++; } frameDraws = 0; win.requestAnimationFrame(tick); };
+  const hook = () => {
+    const r = win.__RENDERER__, be = r?.backend;
+    if (!be || typeof be.draw !== "function") return false;
+    const draw = be.draw;
+    be.draw = function (ro, info) {
+      if (!C.on) return draw.call(this, ro, info);
+      const t = now();
+      try { return draw.call(this, ro, info); } finally {
+        C.drawMs += now() - t; frameDraws++;
+        const ci = cat(ro), kz = ci === 0 && ro.object?.userData?.esKept === 0, te = entry(win.__RENDERER__);
+        C.draws[ci]++; if (kz) C.keptZero++;
+        if (te) { te.draws[ci]++; if (kz) te.keptZero++; }
+        const o = ro.object ?? {}, g = ro.geometry ?? {};
+        if (g.indirect) C.kinds.indirect++; else if (o.isInstancedMesh || (o.count ?? 1) > 1) C.kinds.instanced++; else C.kinds.plain++;
+        if ((o.isInstancedMesh && o.count === 0) || g.drawRange?.count === 0) C.kinds.zero++;
+      }
+    };
+    C.hooked.draw = true;
+    if (typeof r._renderObjectDirect === "function") {
+      const rod = r._renderObjectDirect;
+      // tagged by the render target bound (its texture name, else "rt", else "screen"; at most 16 tags)
+      r._renderObjectDirect = function (...a) {
+        if (!C.on) return rod.apply(this, a);
+        const t = now();
+        try { return rod.apply(this, a); } finally {
+          const dt = now() - t; C.roMs += dt;
+          const e = entry(this);
+          if (e) { e.ms += dt; e.n++; }
+        }
+      };
+      C.hooked.renderObjectDirect = true;
+    }
+    if (typeof r.render === "function") {
+      // inclusive: nested render() calls (a pass rendering inside a render) count as calls, their time once
+      const rr = r.render;
+      r.render = function (...a) {
+        if (!C.on) return rr.apply(this, a);
+        C.renderCalls++; const top = C.renderDepth++ === 0, t = top ? now() : 0;
+        try { return rr.apply(this, a); } finally { C.renderDepth--; if (top) C.renderMs += now() - t; }
+      };
+      C.hooked.render = true;
+    }
+    const nodes = r._nodes;
+    if (nodes && typeof nodes.needsRefresh === "function") {
+      const nr = nodes.needsRefresh;
+      nodes.needsRefresh = function (ro, ...a) { const v = nr.call(this, ro, ...a); if (v && C.on) C.refresh[cat(ro)]++; return v; };
+      C.hooked.needsRefresh = true;
+    }
+    return true;
+  };
+  win.__drawCensus = {
+    state: C, categories: CATS,
+    start() { C.draws.fill(0); C.refresh.fill(0); C.drawMs = 0; C.roMs = 0; C.renderMs = 0; C.renderCalls = 0; C.byTarget.clear(); C.keptZero = 0; C.frames = 0; frameDraws = 0; C.otherNames.clear();
+      C.kinds = { plain: 0, instanced: 0, indirect: 0, zero: 0 }; C.created = { pipelines: 0, shaders: 0, labels: [] }; C.on = true; },
+    stop() { C.on = false; return drawCensusResult(C, CATS); },
+  };
+  function drawCensusResult(c, cats) {
+    const f = Math.max(c.frames, 1), r2 = (x) => Math.round(x * 100) / 100, total = c.draws.reduce((a, b) => a + b, 0);
+    const per = Array.from(c.perFrame.subarray(0, Math.min(c.frames, MAXF))).sort((a, b) => a - b);
+    const byCat = (arr) => Object.fromEntries(cats.map((k, i) => [k, r2(arr[i] / f)]).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]));
+    return { frames: c.frames, hooked: { ...c.hooked }, drawsPerFrame: r2(total / f), drawsMax: per.length ? per[per.length - 1] : null,
+      byCategory: byCat(c.draws), keptZeroPerFrame: r2(c.keptZero / f),
+      byTarget: Object.fromEntries([...c.byTarget].sort((a, b) => b[1].draws.reduce((x, y) => x + y, 0) - a[1].draws.reduce((x, y) => x + y, 0)).map(([k, v]) => [k, { drawsPerFrame: r2(v.draws.reduce((x, y) => x + y, 0) / f), keptZeroPerFrame: r2(v.keptZero / f), ...byCat(v.draws) }])), kindsPerFrame: Object.fromEntries(Object.entries(c.kinds).map(([k, v]) => [k, r2(v / f)])),
+      refreshesPerFrame: r2(c.refresh.reduce((a, b) => a + b, 0) / f), refreshByCategory: byCat(c.refresh),
+      drawMsPerFrame: r2(c.drawMs / f), renderObjectMsPerFrame: r2(c.roMs / f), renderMsPerFrame: r2(c.renderMs / f), renderCallsPerFrame: r2(c.renderCalls / f),
+      renderObjectByTarget: Object.fromEntries([...c.byTarget].sort((a, b) => b[1].ms - a[1].ms).map(([k, v]) => [k, { msPerFrame: r2(v.ms / f), us: r2((v.ms * 1000) / v.n) }])),
+      usPerDraw: total ? r2((c.drawMs * 1000) / total) : null, usPerRenderObject: total ? r2((c.roMs * 1000) / total) : null,
+      createdInWindow: { pipelines: c.created.pipelines, shaders: c.created.shaders, labels: c.created.labels.slice() },
+      otherTop: [...c.otherNames].sort((a, b) => b[1] - a[1]).slice(0, 10).map(([k, v]) => [k, r2(v / f)]) };
+  }
+  if (typeof win.requestAnimationFrame === "function") win.requestAnimationFrame(tick);
+  if (!hook() && typeof win.setInterval === "function") { const id = win.setInterval(() => { if (hook()) win.clearInterval(id); }, 250); }
+}
+
+/** One summary cell from a view's draw-census.json (plus the window's work ms per frame, measure.mjs workStats): draws over
+ * all passes, Renderer.render inclusive ms/frame, _renderObjectDirect inclusive us per object, backend.draw alone, and
+ * work minus render() (everything outside rendering). */
+export function drawCensusLine(c, workMs = null) {
+  if (!c || c.err) return `not-a-bar; census unread${c?.err ? ` (${String(c.err).slice(0, 60)})` : ""}`;
+  const top = Object.entries(c.byCategory ?? {}).slice(0, 3).map(([k, v]) => `${k} ${v}`).join(", ");
+  const cw = c.createdInWindow ?? {};
+  const tgt = Object.entries(c.byTarget ?? {}).slice(0, 3).map(([k, v]) => `${k} ${v.drawsPerFrame}`).join(", ");
+  const outside = Number.isFinite(workMs) && Number.isFinite(c.renderMsPerFrame) ? Math.round((workMs - c.renderMsPerFrame) * 100) / 100 : "?";
+  return `not-a-bar; ${c.drawsPerFrame} draws (all passes), render() ${c.renderMsPerFrame ?? "?"} ms/frame (${c.renderCallsPerFrame ?? "?"} calls), renderObject ${c.usPerRenderObject ?? "?"} us incl (${c.renderObjectMsPerFrame} ms/frame), backend.draw ${c.usPerDraw ?? "?"} us, work - render() ${outside} ms; ${c.refreshesPerFrame} refreshes, ${(cw.pipelines ?? 0) + (cw.shaders ?? 0)} created in window; keptZero ${c.keptZeroPerFrame ?? "?"}; ${top}; targets ${tgt || "?"}`;
 }
 
 /** CPU profile (Profiler.stop) over the cost window -> self ms per frame per function (url:line:col), top n, with the

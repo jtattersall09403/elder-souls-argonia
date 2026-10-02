@@ -64,6 +64,8 @@ export interface BatchDataUniforms {
   esBatchData: TextureUniformNode & TslNode;
   /** Always 0; its per-object update binds the drawn object's batch texture. */
   esBatchSelect: TslNode;
+  /** Retire a grown batch's old texture here, never dispose it directly. */
+  retired: BatchTextureRetirer;
   /** Terrain-occlusion mask texture node (R > 0.5 = occluded). */
   esOccMask: TextureUniformNode & TslNode;
   /** (originCellX, originCellZ, size, cellM) of the occlusion mask, a `sharedUniform()` node (frame-wide; read by static draws). */
@@ -71,7 +73,7 @@ export interface BatchDataUniforms {
 }
 
 /** The per-instance data texture for one batch, sized for its capacity. */
-export function createBatchDataTexture(capacity: number): THREE.DataTexture {
+export function createBatchDataTexture(capacity: number, key = "batch"): THREE.DataTexture {
   const texels = Math.max(1, capacity) * BATCH_DATA_TEXELS;
   // Square-ish, so a small batch does not reserve a full 1024-texel row.
   const width = Math.min(MAX_TEXTURE_WIDTH, nextPow2(Math.ceil(Math.sqrt(texels))));
@@ -80,6 +82,7 @@ export function createBatchDataTexture(capacity: number): THREE.DataTexture {
     new Float32Array(width * height * 4),
     width, height, THREE.RGBAFormat, THREE.FloatType,
   );
+  texture.name = `batch:${key}:${capacity}`;
   texture.minFilter = THREE.NearestFilter;
   texture.magFilter = THREE.NearestFilter;
   texture.generateMipmaps = false;
@@ -88,8 +91,9 @@ export function createBatchDataTexture(capacity: number): THREE.DataTexture {
 }
 
 /**
- * Disposes textures a few ticks after they are replaced, so bind groups built
- * off-frame that still reference the old texture never submit a destroyed one.
+ * Disposes resources a few ticks after they are replaced, for a resource only
+ * the owner's own pass binds (BloomPass). Batch textures, which undrawn meshes
+ * may still bind, go through `createBatchTextureRetirer`.
  * One instance per owner; `tick()` once per frame, `flush()` on unmount.
  */
 export function createDeferredDisposer(frames = 3): {
@@ -111,6 +115,57 @@ export function createDeferredDisposer(frames = 3): {
     },
     flush() {
       for (const item of queue) item.texture.dispose();
+      queue = [];
+    },
+  };
+}
+
+/**
+ * Retires replaced batch textures (one per vegetation layer, inside its
+ * `BatchDataUniforms`). A render object keeps the bind group of its LAST draw,
+ * so a mesh not drawn since its batch grew still names the old texture; the
+ * old texture is destroyed only once no object's last bind is it AND `frames`
+ * ticks have passed (in-flight submits), else the next submit that draws that
+ * mesh is rejected ("Destroyed texture used in a submit", a black frame).
+ */
+export interface BatchTextureRetirer {
+  /** The per-object bind hook: `object` now binds `texture`. */
+  bound(object: object, texture: THREE.Texture): void;
+  /** `texture` was replaced; dispose it once nothing can bind it. */
+  retire(texture: { dispose(): void }): void;
+  /** Once per frame. */
+  tick(): void;
+  /** Dispose everything retired (unmount). */
+  flush(): void;
+}
+
+export function createBatchTextureRetirer(frames = 3): BatchTextureRetirer {
+  const lastBound = new WeakMap<object, object>();
+  const binders = new Map<object, number>();
+  let queue: { texture: { dispose(): void }; age: number }[] = [];
+  return {
+    bound(object, texture) {
+      const prev = lastBound.get(object);
+      if (prev === texture) return;
+      if (prev) {
+        const n = (binders.get(prev) ?? 1) - 1;
+        if (n > 0) binders.set(prev, n); else binders.delete(prev);
+      }
+      lastBound.set(object, texture);
+      binders.set(texture, (binders.get(texture) ?? 0) + 1);
+    },
+    retire(texture) { queue.push({ texture, age: 0 }); },
+    tick() {
+      if (queue.length === 0) return;
+      const keep: typeof queue = [];
+      for (const item of queue) {
+        if (++item.age >= frames && !binders.has(item.texture)) item.texture.dispose();
+        else keep.push(item);
+      }
+      queue = keep;
+    },
+    flush() {
+      for (const item of queue) { item.texture.dispose(); binders.delete(item.texture); }
       queue = [];
     },
   };
@@ -191,15 +246,19 @@ export function createBatchDataUniforms(
   // A TextureNode resets its own update type in setup, so the per-object bind
   // rides a uniform that is in every batch graph (it adds 0 to the texel index).
   // three updates OBJECT nodes before it updates the object's bindings.
+  const retired = createBatchTextureRetirer();
   const esBatchSelect = (uniform(0, "int") as TslNode).onObjectUpdate(
     (frame: { object?: THREE.Object3D }) => {
-      esBatchData.value = objectBatchTexture(frame.object) ?? empty;
+      const bound = objectBatchTexture(frame.object) ?? empty;
+      if (frame.object) retired.bound(frame.object, bound);
+      esBatchData.value = bound;
       return 0;
     },
   ) as TslNode;
   return {
     esBatchData,
     esBatchSelect,
+    retired,
     esOccMask: shared?.esOccMask
       ?? (texture(placeholderTexture(true)) as BatchDataUniforms["esOccMask"]),
     esOccParams: shared?.esOccParams

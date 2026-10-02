@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { createBatchDataTexture, createBatchDataUniforms, createDeferredDisposer } from "./batchData";
+import { createBatchDataTexture, createBatchDataUniforms, createDeferredDisposer, setBatchTexture } from "./batchData";
 
 describe("batch data uniforms", () => {
   it("are nodes whose value re-points without a rebuild", () => {
     const uniforms = createBatchDataUniforms();
-    for (const u of Object.values(uniforms)) expect((u as { isNode?: boolean }).isNode).toBe(true);
+    for (const u of Object.values({ ...uniforms, retired: undefined }).filter(Boolean)) expect((u as { isNode?: boolean }).isNode).toBe(true);
     const grown = createBatchDataTexture(64);
     uniforms.esBatchData.value = grown;
     expect(uniforms.esBatchData.value).toBe(grown);
@@ -56,5 +56,30 @@ describe("deferred disposer", () => {
     d.tick();
     expect(a).toBe(1);
     expect(b).toBe(1);
+  });
+});
+
+describe("batch texture retirer", () => {
+  it("keeps a grown batch's old texture while an undrawn mesh still binds it, then frees it", () => {
+    const uniforms = createBatchDataUniforms();
+    const select = uniforms.esBatchSelect as unknown as { updateType: string; update(f: unknown): unknown };
+    const oldTex = createBatchDataTexture(4, "k");
+    expect(oldTex.name).toBe("batch:k:4");
+    let disposed = 0;
+    oldTex.addEventListener("dispose", () => { disposed++; });
+    const material = { } as unknown as import("three").Material;
+    setBatchTexture(material, oldTex);
+    const drawn = { material }, hidden = { material };
+    select.update({ object: drawn });
+    select.update({ object: hidden });
+    // the batch grows; only `drawn` is drawn for the next ten frames
+    const newTex = createBatchDataTexture(8, "k");
+    setBatchTexture(material, newTex);
+    uniforms.retired.retire(oldTex);
+    for (let i = 0; i < 10; i++) { select.update({ object: drawn }); uniforms.retired.tick(); }
+    expect(disposed).toBe(0);
+    select.update({ object: hidden });
+    uniforms.retired.tick();
+    expect(disposed).toBe(1);
   });
 });

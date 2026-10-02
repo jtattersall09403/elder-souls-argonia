@@ -14,7 +14,7 @@
 #   .srchash plus the serve*.mjs it starts, no hash over the built files) is compared with /root/site/dists/<name>/.hash; equal and the server alive -> skip; else
 #   `rsync -a --checksum --delete` (data dirs excluded) and restart. Any other pod dist built for the same base is
 #   deleted first. Exits non-zero unless, after a restart, the new serve.mjs is alive and every served base answers.
-# Each step appends {step, seconds, at, skipped?, bytes?} (bytes: rsync "sent" for sync:data and sync:<dist>) to /tmp/<lane>/prep-times.jsonl (pod-capture --prep).
+# Each step appends {step, seconds, at, skipped?, bytes?} (bytes: rsync "sent" for sync:data and sync:<dist>) to /tmp/<lane>/prep-times.jsonl (a lane log; pod-capture times its own prep).
 set -euo pipefail
 : "${POD_SSH:?POD_SSH=\"ssh -i <key> -p <port> root@<ip>\"}"
 t=${POD_SSH##* }; S="${POD_SSH% *} -o StrictHostKeyChecking=no"
