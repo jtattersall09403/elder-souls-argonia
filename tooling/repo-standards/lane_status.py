@@ -2,7 +2,7 @@
 """One row per subagent of a session: how big each lane has grown (method review r7 P2).
 
 The planner runs it at every check-in (CLAUDE.md "Chunk, monitor, never cap")
-and splits from its note any agent whose context passed 200k; nothing is
+and splits from its note any agent whose context passed 150k; nothing is
 capped, the number informs the split (decision 0118 d1). Task subagents and
 Workflow children both count; lane_resume.scan finds and classifies them and
 session_tokens.Calls/cost_units count turns and units, so the numbers here are
@@ -29,7 +29,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from lane_resume import live_sessions, project_dir, scan  # noqa: E402
 from session_tokens import Calls, cost_units  # noqa: E402
 
-BIG = 200_000          # the split line (method review r7: 65 % of walk-9 units were past it)
+BIG = 150_000          # the split line (method review r8)
 RUNNING = ("live", "unfinished")
 
 
@@ -87,6 +87,7 @@ def main(argv=None) -> int:
     ap.add_argument("--session", help="session id (default: the newest session transcript)")
     ap.add_argument("--hours", type=float, default=12.0, help="agents written to in the last N hours")
     ap.add_argument("--dir", type=Path, default=None, help="project transcript dir (default: this repo's)")
+    ap.add_argument("--agent", help="print only the row of the agent whose id starts with this prefix")
     ap.add_argument("--brief", action="store_true", help="one short line per agent")
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args(argv)
@@ -96,6 +97,8 @@ def main(argv=None) -> int:
         print(f"lane_status: no session transcripts under {pdir}")
         return 1
     rs = rows(pdir, session, a.hours)
+    if a.agent:
+        rs = [r for r in rs if r["id"].startswith(a.agent)]
     print(json.dumps(rs, indent=1) if a.json else render(rs, a.brief))
     return 0
 

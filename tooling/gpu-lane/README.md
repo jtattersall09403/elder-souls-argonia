@@ -4,6 +4,13 @@ Real frame rates for the deployed WebGL (or WebGPU) studio, measured on a rented
 SwiftShader on the VM cannot give a frame rate. Policy: [decision 0119](../../docs/decisions/0119-runpod-is-the-gpu-lane.md).
 The walk-9 proof of the pod loop is `git show webgpu:docs/research/infrastructure/runpod-gpu-loop.md`.
 
+This is the only pod harness, for WebGL and WebGPU alike; the site is always served from the pod (below). A lane never writes its own capture scripts.
+
+| Lane | Local tunnel port | Key path | Pod id |
+|---|---|---|---|
+| perf | 9222 | `/tmp/perf/rp_key` | from the lane note, per round |
+| webgpu | 9223 | `/tmp/webgpu/rp_key` | from the lane note, per round |
+
 | File | What it does |
 |---|---|
 | `pod-setup.sh [webgl\|webgpu]` | Runs on the pod: installs Chrome, Xvfb, node, rsync; registers the NVIDIA Vulkan ICD; starts headed Chrome (ANGLE on Vulkan, WebGPU flags only for `webgpu`) on Xvfb :99 1280x720 with DevTools on the pod's 127.0.0.1:9222. Idempotent. |

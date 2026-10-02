@@ -29,6 +29,14 @@ may hand it an item from the owner's walk.
   the M2 (Riverwalk, Greenspring; walk 9 read 32–42 fps there).
 - The owner's device gives the fps verdict (deployed studio, HUD).
 
+## Calibration
+
+| r | Pod GPU | Pod fps | M2 fps | Spot | Build | Date |
+|---|---|---|---|---|---|---|
+| 1.38 | RTX 3070 | 51.1 | 37 | Riverwalk night rain `?view=character&x=7.1971&z=0.584&t=22&w=rain` | 68e7ab76 (pre-fix dev; see `tooling/.reports/16k/walk10/perf-lead.md`) | 2026-10-02 |
+
+Re-measured only when the GPU type or the reference build changes; every lane converts pod fps to M2 fps with the row's r.
+
 ## Open wins
 
 | Win | Source | Note |

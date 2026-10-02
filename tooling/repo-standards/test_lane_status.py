@@ -38,9 +38,18 @@ def test_row_numbers_from_the_transcript(tmp_path):
     assert lane_status.over_big(rs) == []
 
 
-def test_running_agent_over_200k_is_flagged(tmp_path):
+def test_running_agent_over_150k_is_flagged(tmp_path):
     rs = lane_status.rows(_project(tmp_path), "sess", hours=1e6, live={})
-    rs[0].update(state="live", context=250_000)
+    rs[0].update(state="live", context=200_000)
     assert lane_status.over_big(rs) == rs
-    assert "over 200k context: 1" in lane_status.render(rs, brief=False)
+    assert "over 150k context: 1" in lane_status.render(rs, brief=False)
     assert lane_status.render(rs, brief=True).startswith("a395a3b573 find live")
+
+
+def test_agent_prefix_prints_one_row(tmp_path, capsys):
+    pdir = _project(tmp_path)
+    base = ["--dir", str(pdir), "--session", "sess", "--hours", "1000000", "--brief"]
+    assert lane_status.main(base + ["--agent", "a395a3"]) == 0
+    assert capsys.readouterr().out.count("\n") == 1
+    lane_status.main(base + ["--agent", "zzz"])
+    assert capsys.readouterr().out.strip() == ""

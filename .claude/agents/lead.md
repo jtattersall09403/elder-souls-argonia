@@ -48,6 +48,8 @@ How you work:
 - A sub-lane that rewrites a catalogue-wide file (kit manifests,
   registries) never runs beside publishing lanes, and commits in the step
   that writes it.
+- Pods: `tooling/gpu-lane/` is the one harness for WebGL and WebGPU; a lane never writes its own capture scripts.
+- After every `lane_wait` return run `python3 tooling/repo-standards/lane_status.py --agent <your own id>`; when your context passes 150k, finish the current iteration, write your note and hand back (the planner relaunches a successor).
 - Your report names every pod you leave up by id, with who owns it next
   and when it is deleted, and every agent of yours still running; it has
   no "queued", "not done" or "later" line (settle it, or brief it and
