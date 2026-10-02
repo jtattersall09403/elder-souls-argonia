@@ -107,7 +107,7 @@ import {
 } from "@elder-souls/game-core/vegetation/slotGeometry";
 import { OcclusionMask } from "@elder-souls/game-core/vegetation/occlusionMask";
 import { compactRows } from "@elder-souls/game-core/vegetation/compactRows";
-import { setDrawCount } from "@elder-souls/game-core/vegetation/drawCount";
+import { LINK_HELD, applyVisibility, setDrawCount, type VisibleRule } from "@elder-souls/game-core/vegetation/drawCount";
 import {
   clearUploadSpans,
   markUploadRow,
@@ -507,6 +507,10 @@ export function Vegetation({
   const gpuCull = useMemo(
     () => (GpuCullPool.supported(gl) ? new GpuCullPool({ lodFade }) : null), [gl, lodFade]);
   useEffect(() => () => gpuCull?.dispose(), [gpuCull]);
+  // ONE visibility rule per path (drawCount.ts): GPU-cull meshes show while
+  // registered with the pool, CPU tile meshes while they draw.
+  const visibleRule = (geo: GeoMesh): VisibleRule =>
+    (gpuCull ? () => geo.cull !== null : () => geo.mesh.count > 0);
   const mask = useMemo(() => new OcclusionMask(MASK_SIZE, OCCLUSION_CELL_M), []);
   const maskTexture = useMemo(() => {
     const texture = new THREE.DataTexture(
@@ -902,7 +906,7 @@ export function Vegetation({
     // batch texture is bound per draw and kept): skips the node refresh
     // while its instances, count and textures stand (render/staticRefresh.ts)
     mesh.userData.esStatic = true;
-    setDrawCount(mesh, 0);
+    mesh.count = 0;
   };
 
   const makeGeo = (
@@ -928,7 +932,7 @@ export function Vegetation({
       count: 0, dirty: newUploadSpans(),
       cull: null, cullBand: null, cullSphere: null,
     };
-    holdUntilLinked(mesh, (object) => linker.link({ object }, camera), () => { geo.mesh.visible = true; });
+    holdUntilLinked(mesh, (object) => linker.link({ object }, camera), () => geo.mesh, visibleRule(geo));
     return geo;
   };
 
@@ -949,6 +953,8 @@ export function Vegetation({
       // ids survive, so the rungs' id arrays stay valid).
       const band = geo.cullBand;
       releaseCull(geo);
+      // still held while its link is pending
+      if (geo.mesh.userData[LINK_HELD]) mesh.userData[LINK_HELD] = true;
       root.current?.add(mesh);
       root.current?.remove(geo.mesh);
       disposeShallowGeometry(geo);
@@ -979,8 +985,9 @@ export function Vegetation({
     (geometry.getAttribute("esSlot").array as Float32Array).set(
       (geo.geometry.getAttribute("esSlot").array as Float32Array)
         .subarray(0, geo.count));
-    setDrawCount(mesh, geo.count);
-    mesh.visible = geo.mesh.visible;     // still held while its link is pending
+    // still held while its link is pending
+    if (geo.mesh.userData[LINK_HELD]) mesh.userData[LINK_HELD] = true;
+    setDrawCount(mesh, geo.count, () => geo.count > 0);
     mesh.instanceMatrix.needsUpdate = true;
     geometry.getAttribute("esSlot").needsUpdate = true;
     root.current?.add(mesh);
@@ -1428,8 +1435,8 @@ export function Vegetation({
       // `count = 0` it costs nothing per frame and keeps its capacity.
       root.current?.remove(geo.mesh);
       releaseCull(geo);
-      setDrawCount(geo.mesh, 0);
       geo.count = 0;
+      setDrawCount(geo.mesh, 0, visibleRule(geo));
       clearUploadSpans(geo.dirty);
       geo.pooledAt = performance.now();
       batch.geometryPool.set(geo.geometryKey, geo);
@@ -1776,6 +1783,7 @@ export function Vegetation({
       casts: batch.casts,
       fromZero: batch.fromZero,
     });
+    applyVisibility(geo.mesh, visibleRule(geo));
   }
 
   /** Detach a mesh from the pool (before it is pooled or disposed). */
@@ -1783,6 +1791,7 @@ export function Vegetation({
     if (!geo.cull) return;
     gpuCull?.removeDraw(geo.cull);
     geo.cull = null;
+    applyVisibility(geo.mesh, visibleRule(geo));
   }
 
   /** One slot's candidate: its composed matrix and data slot. */
@@ -1853,7 +1862,7 @@ export function Vegetation({
       markUploadRow(geo.dirty, target);   // only the targets are written
     }
     geo.count = count;
-    setDrawCount(geo.mesh, count);
+    setDrawCount(geo.mesh, count, visibleRule(geo));
     dirtyGeos.current.add(geo);
   }
 
@@ -1905,7 +1914,7 @@ export function Vegetation({
       geo.count--;
       // Hiding the last visible row writes nothing: it just leaves the prefix.
     }
-    setDrawCount(geo.mesh, geo.count);
+    setDrawCount(geo.mesh, geo.count, visibleRule(geo));
     if (visible) markUploadRow(geo.dirty, row);
     dirtyGeos.current.add(geo);
   }

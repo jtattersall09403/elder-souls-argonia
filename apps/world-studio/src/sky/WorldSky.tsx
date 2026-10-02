@@ -13,7 +13,7 @@ import {
   type MoonState,
 } from "@elder-souls/world-time";
 import { setWindWaveScale } from "@elder-souls/game-core/water/index";
-import { installFixtureLighting } from "@elder-souls/game-core/render/fixtureLights/index";
+import { installFixtureLighting, setLitPreparer } from "@elder-souls/game-core/render/fixtureLights/index";
 import { advanceWaveAmplitude } from "@elder-souls/game-core/water/waveWeather";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { applyCascadeRota } from "@elder-souls/game-core/render/lightSwitch";
@@ -398,7 +398,9 @@ export function WorldSky({
   const patched = useRef(new WeakSet<THREE.Material>());
   // one shared mip-boost graph for every alpha-tested map (one shader build)
   const mipShare = useMemo(() => createMipAlphaShare(), []);
-  const patchScene = () => {
+  // `root` is the scene each frame, or a detached/held layer the linker
+  // warms before its first draw (the lit preparer, drawTargetLinker)
+  const patchRoot = (root: THREE.Object3D, visibleOnly: boolean) => {
     // fixture lamps are the renderer's lighting (render/fixtureLights; idempotent, before the first list)
     installFixtureLighting(gl as unknown as WebGPURenderer);
     const patchOne = (m: THREE.Material | undefined) => {
@@ -406,15 +408,16 @@ export function WorldSky({
       patched.current.add(m);
       if (m.userData?.esAerial && isNodeMaterial(m)) applyMipAlphaBoost(m as NodeMaterial, mipShare);
     };
-    scene.traverseVisible((obj) => {
+    const visit = (obj: THREE.Object3D) => {
       const mesh = obj as THREE.Mesh;
       if (!mesh.isMesh) return;
       if (Array.isArray(mesh.material)) for (const m of mesh.material) patchOne(m);
       else patchOne(mesh.material);
-    });
+    };
+    if (visibleOnly) root.traverseVisible(visit); else root.traverse(visit);
   };
-  const patchRef = useRef(patchScene);
-  patchRef.current = patchScene;
+  const patchRef = useRef(patchRoot);
+  patchRef.current = patchRoot;
   const patchFrame = useRef({ frame: 0, patched: -1 });
   // a layout effect: installed at commit, before the first frame renders
   useLayoutEffect(() => {
@@ -424,9 +427,11 @@ export function WorldSky({
       // the water pipeline renders the scene several times a frame: patch once
       if (patchFrame.current.patched === patchFrame.current.frame) return;
       patchFrame.current.patched = patchFrame.current.frame;
-      patchRef.current();
+      patchRef.current(scene, true);
     };
-    return () => { scene.onBeforeRender = previous; };
+    // a rung held hidden until linked is patched before its warm (decision 0108)
+    const unregister = setLitPreparer(scene, (root) => { patchRef.current(root, false); });
+    return () => { scene.onBeforeRender = previous; unregister(); };
   }, [scene]);
 
   const dome = useMemo(() => createSkyDome(STAR_RADIUS * 1.6, sharedAerialUniforms, cloudUniforms), []);
