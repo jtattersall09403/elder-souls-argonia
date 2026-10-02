@@ -15,18 +15,50 @@ export const walkBudgetS = (distM, speedMps) => Math.max(2, (1.5 * distM) / spee
 
 export function parseArgs(argv) {
   const o = { route: null, cdp: "127.0.0.1:9242", t: ["12", "22"], w: "clear", out: null, origin: "http://127.0.0.1:8099",
-    base: "/elder-souls-argonia/studio/", width: 1280, height: 720, settle: 10, speed: 3.5, readyTimeout: 150, only: null };
+    base: "/elder-souls-argonia/studio/", width: 1280, height: 720, settle: 10, speed: 3.5, readyTimeout: 150, only: null, smoke: false };
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i].replace(/^--/, ""), v = argv[i + 1];
     if (!(k in o)) throw new Error(`walk_run: unknown flag --${k}`);
+    if (k === "smoke") { o.smoke = true; continue; }
     i++;
     if (k === "t") o.t = v.split(",");
     else if (["width", "height", "settle", "speed", "readyTimeout"].includes(k)) o[k] = Number(v);
     else o[k] = v;
   }
-  if (!o.route || !o.out) throw new Error("usage: walk_run.mjs --route <route.json> --out <dir> [--cdp host:port] [--t 12,22] [--w clear]");
+  if (!o.route || !o.out) throw new Error("usage: walk_run.mjs --route <route.json> --out <dir> [--cdp host:port] [--t 12,22] [--w clear] [--smoke]");
   return o;
 }
+
+/** The smoke route (README: a 1-view smoke run precedes every full walk run): the start, the first
+ * door action and the first fire action only, each waypoint reached by teleport, no freeWalk. */
+export function smokeRoute(route) {
+  let door = null, fire = null;
+  const waypoints = [];
+  for (const [i, w] of route.waypoints.entries()) {
+    const actions = [];
+    for (const a of w.actions ?? []) {
+      if (a.type === "door" && !door) { door = a; actions.push(a); }
+      else if (a.type === "fire" && !fire) { fire = a; actions.push(a); }
+    }
+    if (i === 0 || actions.length) waypoints.push({ ...w, arrive: "teleport", actions });
+  }
+  return { ...route, smoke: true, freeWalk: null, waypoints,
+    doors: door ? [door.doorId] : [], fixtures: fire ? [...fire.fixtureIds] : [] };
+}
+
+/** Exposure has settled when the newest luma read and the newest one at least 1 s older differ by under 2 %. */
+export function lumaSettled(reads, tol = 0.02) {
+  const b = reads[reads.length - 1];
+  const a = b && [...reads].reverse().find((r) => b.t - r.t >= 1000);
+  if (!a) return false;
+  return Math.abs(b.luma - a.luma) <= tol * Math.max(a.luma, b.luma, 1);
+}
+
+/** The leg targets of one waypoint, [x, z]: its detour points (route field `detourM`, if given), then the waypoint. */
+export const legTargets = (w) => [...(w.detourM ?? []), [w.xM, w.zM]];
+
+/** The out-shot stand point and aim of a door action (route schemaVersion 2), or null without one. Pitch: positive looks down. */
+export const outShotPlan = (a) => (a?.outShot?.standM ? { standM: a.outShot.standM, yaw: a.outShot.yaw, pitch: a.outShot.pitch ?? 0.1 } : null);
 
 /** A pass is "day" when its hour is 07-18; doors are entered on day passes only. */
 export const isDay = (t) => { const h = Number(String(t).split(":")[0]); return h >= 7 && h < 19; };
