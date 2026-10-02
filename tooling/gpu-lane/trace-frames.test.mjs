@@ -17,6 +17,29 @@ test("classifyFrames drops the window's last interval (harness end message) and 
   assert.equal(r.frames, 3); assert.equal(r.maxMs, 24); assert.equal(r.over20, 1);
   assert.equal(classifyFrames([FA(0), FA(100_000)]).frames, 0); // a lone interval is the end frame
 });
+test("trace-v8: V8 deopt/compile events overlapping a long frame, and the window total", async () => {
+  const { isV8Event, v8Summary, V8_TRACE_CATEGORIES } = await import("./trace-frames.mjs");
+  assert.ok(V8_TRACE_CATEGORIES.includes("v8.execute"));
+  const V = (name, ts, dur, ph = "X", cat = "v8") => ({ ph, cat, name, ts, ...(dur ? { dur } : {}) });
+  assert.equal(isV8Event(V("V8.DeoptimizeCode", 0, 0, "I")), true);
+  assert.equal(isV8Event(V("V8.CompileCode", 0, 5)), true);
+  assert.equal(isV8Event(V("FireAnimationFrame", 0, 5)), false);
+  assert.equal(isV8Event(V("V8.CompileCode", 0, 5, "X", "blink")), false);
+  // frames at 0, 16, 40 (long: 16..40 ms), 56, 156 (end frame)
+  const base = 1_000_000;
+  const ms = (x) => base + x * 1000;
+  const v8 = [V("V8.CompileCode", ms(10), 10_000), // 10..20: overlaps the long frame by 4 ms
+    V("V8.DeoptimizeCode", ms(30), 0, "I"), // instant inside
+    V("V8.OptimizeConcurrent", ms(45), 3000), // 45..48: after the long frame, inside the window
+    V("V8.CompileCode", ms(500), 2000)]; // outside the window
+  const r = classifyFrames([stamp(base, 50_000), ...[0, 16, 40, 56, 156].map((x) => FA(ms(x)))], { v8Events: v8 });
+  assert.equal(r.long[0].v8.n, 2);
+  assert.equal(r.long[0].v8.ms, 4);
+  assert.deepEqual(r.long[0].v8.byName["V8.CompileCode"], { n: 1, ms: 4 });
+  assert.equal(r.v8.n, 3);
+  assert.equal(r.v8.ms, 13);
+  assert.equal(classifyFrames([FA(0), FA(30_000), FA(60_000), FA(70_000)]).v8, undefined);
+});
 test("classifyFrames without an anchor has pageMs null", () => {
   assert.equal(classifyFrames([FA(0), FA(30_000), FA(60_000), FA(70_000)]).long[0].pageMs, null);
 });

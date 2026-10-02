@@ -285,7 +285,7 @@ test("gen-matrix: 13 deterministic lines, coordinates from places.json", async (
 test("parseSpots: name, query, --aim and walk=; comments skipped; bad lines throw", async () => {
   const { parseSpots, parseBar, spotRows, summaryTable, heapSlope } = await import("./spots.mjs");
   const s = parseSpots("# c\na ?x=1&t=2  # night\n\ne ?x=1&t=2 --aim 0.5,-0.2 walk=20\n");
-  const off = { diag: [], trace: false, traceGpu: false, memoryInfra: false, heapsample: false, profile: false, profileWalk: false };
+  const off = { diag: [], trace: false, traceGpu: false, traceV8: false, memoryInfra: false, heapsample: false, profile: false, profileWalk: false };
   assert.deepEqual(s, [{ name: "a", query: "?x=1&t=2", aim: "", steps: [], probes: off }, { name: "e", query: "?x=1&t=2", aim: "0.5,-0.2", steps: [{ w: 20 }], probes: off }]);
   assert.throws(() => parseSpots("a ?x=1\na ?x=2"), /duplicate/);
   assert.throws(() => parseSpots("a ?x=1 walk=fast"), /cannot read/);
@@ -327,9 +327,9 @@ test("perf10-c4: probe tokens make diagnosis rows; they print `diag` and never c
   assert.deepEqual(o.spotList.map((s) => s.name), ["a", "b", "c", "d", "e", "e2", "e3", "f", "g", "h", "ediag", "cdiag", "adiag", "atrace", "aprof", "apaused"]);
   assert.deepEqual(o.spotList.map((s) => s.diagnosis), [...Array(10).fill(false), true, true, true, true, true, false]);
   const [ed, cd, ad] = o.spotList.slice(10);
-  assert.deepEqual(ed.probes, { diag: [], trace: true, traceGpu: true, memoryInfra: true, heapsample: true, profile: false, profileWalk: false });
+  assert.deepEqual(ed.probes, { diag: [], trace: true, traceGpu: true, traceV8: false, memoryInfra: true, heapsample: true, profile: false, profileWalk: false });
   assert.deepEqual(ed.steps, [{ w: 20 }]);
-  assert.deepEqual(cd.probes, { diag: [], trace: true, traceGpu: true, memoryInfra: false, heapsample: false, profile: false, profileWalk: false });
+  assert.deepEqual(cd.probes, { diag: [], trace: true, traceGpu: true, traceV8: false, memoryInfra: false, heapsample: false, profile: false, profileWalk: false });
   assert.match(ad.query, /&diag=relink,heap$/, "the spot's probes ride its query so the guarded probe wakes there only");
   assert.deepEqual(ad.diagList, ["relink", "heap"]);
   assert.deepEqual(o.spotList[0].diagList, []);
@@ -421,9 +421,18 @@ test("host sampler: a worker-seen gap overlapping a steal spike is a host stall 
   const { hostSeries, hostSpikes, samplerCommand } = await import("./host-sampler.mjs");
   // pod epoch rows every 250 ms: steal jumps 6 jiffies (60 ms) in the interval ending at origin+1250, then 2 faults
   const origin = 1_700_000_000_000;
-  const rows = [[origin + 750, 100, 7], [origin + 1000, 100, 7], [origin + 1250, 106, 7], [origin + 1500, 106, 9], [origin + 1750, 107, 30]];
+  // row: epoch, steal, majfaults, load1, runnable, cpuTotal, cpuIdle, mhzMin, mhzMax, top
+  const rows = [[origin + 750, 100, 7, 1, 2, 1000, 900, 2400, 3000, "-"], [origin + 1000, 100, 7, 1.5, 3, 1100, 950, 2400, 3100, "5/node:20,6/ssh:5"],
+    [origin + 1250, 106, 7, 2, 4, 1200, 1000, 2400, 3200, "-"], [origin + 1500, 106, 9, 2, 4, 1200, 1000, 2400, 3200, "-"], [origin + 1750, 107, 30, 2, 4, 1300, 1000, 2400, 3200, "-"]];
+  rows.nproc = 8;
   const s = hostSeries(rows, origin);
-  assert.deepEqual(s, { t: [1000, 1250, 1500, 1750], stealMs: [0, 60, 0, 10], majFaults: [0, 0, 2, 21] });
+  assert.deepEqual({ ...s, top: s.top.map((x) => x.length) }, { nproc: 8, t: [1000, 1250, 1500, 1750], stealMs: [0, 60, 0, 10], majFaults: [0, 0, 2, 21],
+    load1: [1.5, 2, 2, 2], runnable: [3, 4, 4, 4], busyPct: [50, 50, null, 100], mhzMin: [2400, 2400, 2400, 2400], mhzMax: [3100, 3200, 3200, 3200], top: [2, 0, 0, 0] });
+  assert.deepEqual(s.top[0], [{ proc: "5/node", ms: 200 }, { proc: "6/ssh", ms: 50 }]);
+  const { hostSummary, parseSamplerLine } = await import("./host-sampler.mjs");
+  assert.equal(hostSummary([s, null]), "nproc 8, max load 2, max busy 100%");
+  assert.deepEqual(parseSamplerLine("1 2 3 0.5 4 100 90 2400 3000 -"), [1, 2, 3, 0.5, 4, 100, 90, 2400, 3000, "-"]);
+  assert.equal(parseSamplerLine("nproc 8"), null);
   const spikes = hostSpikes(s);
   assert.deepEqual(spikes, [[1000, 1250], [1500, 1750]]);
   const h = [{ t: 1300, dt: 100, work: 9 }, { t: 3000, dt: 40, work: 8 }, { t: 2600, dt: 50, work: 30 }];
@@ -435,7 +444,9 @@ test("host sampler: a worker-seen gap overlapping a steal spike is a host stall 
   const [cmd, args] = samplerCommand("ssh -i /tmp/k -p 2222 root@1.2.3.4");
   assert.equal(cmd, "ssh");
   assert.deepEqual(args.slice(0, 4), ["-i", "/tmp/k", "-p", "2222"]);
-  assert.match(args.at(-1), /\/proc\/stat.*\/proc\/vmstat/);
+  const script = Buffer.from(/echo (\S+) \| base64/.exec(args.at(-1))[1], "base64").toString();
+  assert.match(script, /\/proc\/stat[\s\S]*\/proc\/vmstat[\s\S]*\/proc\/loadavg[\s\S]*\/proc\/cpuinfo/);
+  assert.match(script, /^echo "nproc/);
   assert.equal(args.at(-2), "root@1.2.3.4");
 });
 

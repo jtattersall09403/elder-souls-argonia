@@ -1,0 +1,2 @@
+# perf10 chunk 6 diagnosis (pod, WebGL): the e rain night walk with V8 deopt/optimize/compile events per long frame (trace-v8). Diagnosis row only.
+ewv8 ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5 walk=20 trace-v8  # e walk, no x3

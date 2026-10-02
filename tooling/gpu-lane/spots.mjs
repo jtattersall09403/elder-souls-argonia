@@ -22,7 +22,7 @@ export function parseSpots(text) {
     const line = raw.replace(/\s+#.*$/, "").trim();
     if (!line || line.startsWith("#")) continue;
     const tok = line.split(/\s+/);
-    const probes = { diag: [], trace: false, traceGpu: false, memoryInfra: false, heapsample: false, profile: false, profileWalk: false };
+    const probes = { diag: [], trace: false, traceGpu: false, traceV8: false, memoryInfra: false, heapsample: false, profile: false, profileWalk: false };
     const spot = { name: tok[0], query: "", aim: "", steps: [], probes };
     let times = 1;
     for (let k = 1; k < tok.length; k++) {
@@ -33,12 +33,13 @@ export function parseSpots(text) {
       else if (tok[k].startsWith("steps=")) spot.steps = parseSteps(tok[k].slice(6), `spots line ${i + 1}`);
       else if (/^diag=[\w,]+$/.test(tok[k])) probes.diag = tok[k].slice(5).split(",").filter(Boolean);
       else if (tok[k] === "trace") probes.trace = true;
+      else if (tok[k] === "trace-v8") probes.traceV8 = probes.trace = true;
       else if (tok[k] === "trace-gpu") probes.traceGpu = probes.trace = true;
       else if (tok[k] === "memory-infra") probes.memoryInfra = probes.trace = true;
       else if (tok[k] === "heapsample") probes.heapsample = true;
       else if (tok[k] === "profile") probes.profile = true;
       else if (tok[k] === "profile-walk") probes.profileWalk = true;
-      else throw new Error(`spots line ${i + 1}: cannot read "${tok[k]}" (want ?query, --aim yaw,pitch, walk=<s>, steps=<seq>, diag=<probes>, trace, trace-gpu, memory-infra, heapsample, profile, profile-walk)`);
+      else throw new Error(`spots line ${i + 1}: cannot read "${tok[k]}" (want ?query, --aim yaw,pitch, walk=<s>, steps=<seq>, diag=<probes>, trace, trace-v8, trace-gpu, memory-infra, heapsample, profile, profile-walk)`);
     }
     if (!/^[\w.-]+$/.test(spot.name) || !spot.query) throw new Error(`spots line ${i + 1}: need "<name> <?query>"`);
     for (let n = 1; n <= times; n++) {

@@ -40,9 +40,9 @@ import { join, resolve } from "node:path";
 import { chromium } from "playwright";
 import { BLACK_LUMA, INPAGE_PROBES, SPOT_A, censusText, diagList, foreignPages, heapGrowth, heapTopAllocators, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
-import { hostSeries, hostSpikes, startHostSampler } from "./host-sampler.mjs";
+import { hostSeries, hostSpikes, hostSummary, startHostSampler } from "./host-sampler.mjs";
 import { loadSourceMaps, sourcePosition } from "./source-maps.mjs";
-import { ANCHOR_PREFIX, GPU_TRACE_CATEGORIES, MEMORY_DUMP_CONFIG, MEMORY_INFRA_CATEGORY, TRACE_CATEGORIES, classifyFrames, gpuEventsInSpans, isGpuCategoryEvent, joinLinks, keepTraceEvent } from "./trace-frames.mjs";
+import { ANCHOR_PREFIX, GPU_TRACE_CATEGORIES, MEMORY_DUMP_CONFIG, MEMORY_INFRA_CATEGORY, TRACE_CATEGORIES, V8_TRACE_CATEGORIES, classifyFrames, isV8Event, gpuEventsInSpans, isGpuCategoryEvent, joinLinks, keepTraceEvent } from "./trace-frames.mjs";
 import { CAPTURE_RATE, heapSlope, isDiagnosisSpot, parseBar, parseSpots, spotRows, stepsSeconds, summaryTable } from "./spots.mjs";
 
 export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems };
@@ -333,12 +333,12 @@ async function postGcHeap(page, hl) {
 }
 
 /** Start a Chrome trace on the page; the returned stop() writes <file> and returns the long-frame classes. */
-async function startTrace(page, file, { gpu = false, memoryInfra = false } = {}, hl) {
+async function startTrace(page, file, { gpu = false, memoryInfra = false, v8 = false } = {}, hl) {
   const cdp = await page.context().newCDPSession(page);
-  const ev = [], gpuEv = [];
-  cdp.on("Tracing.dataCollected", (d) => { for (const e of d.value) { if (keepTraceEvent(e)) ev.push(e); else if (gpu && isGpuCategoryEvent(e)) gpuEv.push(e); } });
+  const ev = [], gpuEv = [], v8Ev = [];
+  cdp.on("Tracing.dataCollected", (d) => { for (const e of d.value) { if (v8 && isV8Event(e)) v8Ev.push(e); if (keepTraceEvent(e)) ev.push(e); else if (gpu && isGpuCategoryEvent(e)) gpuEv.push(e); } });
   const done = new Promise((r) => cdp.on("Tracing.tracingComplete", r));
-  const includedCategories = [...TRACE_CATEGORIES, ...(gpu ? GPU_TRACE_CATEGORIES : []), ...(memoryInfra ? [MEMORY_INFRA_CATEGORY] : [])];
+  const includedCategories = [...TRACE_CATEGORIES, ...(gpu ? GPU_TRACE_CATEGORIES : []), ...(memoryInfra ? [MEMORY_INFRA_CATEGORY] : []), ...(v8 ? V8_TRACE_CATEGORIES : [])];
   // memory-infra: Chrome dumps on its own timer (MEMORY_DUMP_CONFIG), set here, before the window opens.
   await hl.wrap("trace:start", () => cdp.send("Tracing.start", { traceConfig: { includedCategories, recordMode: "recordContinuously",
     ...(memoryInfra ? { memoryDumpConfig: MEMORY_DUMP_CONFIG } : {}) }, transferMode: "ReportEvents" }));
@@ -348,7 +348,7 @@ async function startTrace(page, file, { gpu = false, memoryInfra = false } = {},
     await hl.wrap("trace:stop", async () => { await cdp.send("Tracing.end"); await done; });
     await cdp.detach().catch(() => {});
     const profile = profileFile ? JSON.parse(readFileSync(profileFile, "utf8")) : null;
-    const res = classifyFrames(gpu ? [...ev, ...gpuEv] : ev, { profile, windowEndPageMs, gpuAnyDur: gpu });
+    const res = classifyFrames(gpu ? [...ev, ...gpuEv] : ev, { profile, windowEndPageMs, gpuAnyDur: gpu, v8Events: v8 ? v8Ev : null });
     // --trace-gpu: GPU-process events of any duration are written only inside long frames, to keep the file small.
     const gpuPids = new Set(ev.filter((e) => e.ph === "M" && e.name === "process_name" && /GPU/i.test(e.args?.name ?? "")).map((e) => e.pid));
     const extra = gpu ? gpuEventsInSpans(gpuEv, gpuPids, (res.long ?? []).map((f) => f.spanUs)) : [];
@@ -607,7 +607,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   }
   const traces = {};
   const P = spot.probes ?? {};
-  const doTrace = o.trace || !!P.trace, traceOpt = { gpu: o.traceGpu || !!P.traceGpu, memoryInfra: !!P.memoryInfra };
+  const doTrace = o.trace || !!P.trace, traceOpt = { gpu: o.traceGpu || !!P.traceGpu, memoryInfra: !!P.memoryInfra, v8: !!P.traceV8 };
   const stopSettleTrace = doTrace ? await startTrace(page, join(o.out, `${name}-settled.trace.json`), traceOpt, hl) : null;
   // `profile` token: started before the settled window, stopped after it (no CDP inside it).
   const stopSettleProfile = P.profile ? await startCpuProfile(page, 200, hl) : null;
@@ -765,7 +765,7 @@ async function main() {
   const rows = result.urls.flatMap((u) => spotRows(u.name, u, o.barParsed));
   const table = summaryTable(rows, o.barParsed);
   const hitchLines = result.urls.flatMap((u) => hitchContextText(u.name, u.hitchContext ?? {}));
-  writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\nhost sampler: ${o.pod ? "on" : "off"}\n\n${table}\n\n## Hitches over 33 ms: nearest harness action (500 ms) and heartbeat worker\n\n${hitchLines.join("\n") || "none"}\n`);
+  writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\nhost sampler: ${o.pod ? `on (${hostSummary(result.urls.map((u) => u.hostSamples))})` : "off"}\n\n${table}\n\n## Hitches over 33 ms: nearest harness action (500 ms) and heartbeat worker\n\n${hitchLines.join("\n") || "none"}\n`);
   writeFileSync(join(o.out, "summary.json"), `${JSON.stringify({ schemaVersion: 1, run: o.run, bar: o.barParsed, rows }, null, 2)}\n`);
   console.log(`\n${table}\nmeasure: ${join(o.out, "summary.md")}`);
   await browser.close().catch(() => {});
