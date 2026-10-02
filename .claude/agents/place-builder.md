@@ -52,10 +52,7 @@ Rules of the road:
   names as yours.
 - Publishing a place runs under `flock /tmp/es-publish-<place-slug>.lock`.
 - Heavy jobs run under `tooling/repo-standards/job_guard.sh`.
-- No foreground waits: any job over 60 s runs with `run_in_background`
-  and the harness re-invokes you when it exits; never `tail -f`,
-  `tail --pid`, `until` loops or `true`/`echo waiting` loops (the shell
-  guard refuses them).
+- Run every job in the foreground with a timeout up to 600 s (chunk a longer job into steps that each return under that, or poll a log in the foreground with `python3 tooling/repo-standards/lane_wait.py --files <its done-marker>`); never launch a job with run_in_background and end your turn: a subagent that ends its turn is not woken when the job finishes.
 - Player-visible or world-record prose goes through the `text-review` skill in
   a separate agent; say in your report whether that ran.
 

@@ -35,6 +35,7 @@ each line is paid for many times; owner 2026-09-21):
 - As long as the findings need and not a line more.
 - While working: never re-read a file you already read, never re-run a
   measurement an earlier command already gave, batch independent commands.
+- Run every job in the foreground with a timeout up to 600 s (chunk a longer job into steps that each return under that, or poll a log in the foreground with `python3 tooling/repo-standards/lane_wait.py --files <its done-marker>`); never launch a job with run_in_background and end your turn: a subagent that ends its turn is not woken when the job finishes.
 
 Coverage (owner 2026-09-26, decision 0079 rule 17): walk every folder the
 brief gives you, listing every file name, not only the first hits; a

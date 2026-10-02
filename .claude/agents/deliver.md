@@ -43,10 +43,7 @@ Rules of the road:
   brief names (what is green, next step, files) and return; a fresh agent
   continues from the note.
 - A lane spawned by a lead reports to that lead, never to the planner.
-- No foreground waits: any job over 60 s runs with `run_in_background`
-  and the harness re-invokes you when it exits; never `tail -f`,
-  `tail --pid`, `until` loops or `true`/`echo waiting` loops (the shell
-  guard refuses them).
+- Run every job in the foreground with a timeout up to 600 s (chunk a longer job into steps that each return under that, or poll a log in the foreground with `python3 tooling/repo-standards/lane_wait.py --files <its done-marker>`); never launch a job with run_in_background and end your turn: a subagent that ends its turn is not woken when the job finishes.
 - A placement the workbench cannot make or measure (owner 2026-09-28): use
   `wb.py bpy <scene> <script.py> --out <json>` (headless Blender with the
   whole scene; placement-workbench skill § 5b) to answer it now, and add

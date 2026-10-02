@@ -75,6 +75,7 @@ measured where they went:
    children's reports to the planner; no hook can keep a stopped subagent
    alive, so the lead stays in its turn. It integrates the reports and
    calls SubagentHandback once, at the end (owner 2026-10-02).
+8a. **No subagent ends its turn on a background job.** Run every job in the foreground with a timeout up to 600 s (chunk a longer job into steps that each return under that, or poll a log in the foreground with `python3 tooling/repo-standards/lane_wait.py --files <its done-marker>`); never launch a job with run_in_background and end your turn: a subagent that ends its turn is not woken when the job finishes.
 
 The process audit (r6 § 4) runs at the close of every second walk round,
 or at once on a `workflow_drift` red, a day above 120 units, or a fix
