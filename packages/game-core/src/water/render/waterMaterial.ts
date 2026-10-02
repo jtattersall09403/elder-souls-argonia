@@ -3,7 +3,7 @@ import { WHITEWATER_GLSL, STREAK_LAYERS } from "./whitewaterStreaks";
 import { STRIP_BANK_FADE_START } from "./ChannelStrips";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
 import { FLOW_WAVE_MIN_SPEED_MS, SEA, WAVES, flowWaveGlsl, gerstnerGlsl, gerstnerFragGlsl, standingRatioGlsl, surfGlsl,
-  whitecapThreshold, whitecapDriftMS } from "@elder-souls/game-core/water/index";
+  waveExposureGlsl, whitecapThreshold, whitecapDriftMS } from "@elder-souls/game-core/water/index";
 import { buriedThresholdM, tideResponseGlsl } from "../waterData";
 
 import type { WaterAssets } from "./types";
@@ -640,7 +640,7 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant, strip: boolean)
   uniform float uSurfExtentM;
   uniform vec4 uPlunges[${MAX_PLUNGE_SOURCES}];
   uniform int uPlungeCount;
-  varying vec4 vEsData;   // stillW, signed depth + lift, exposure, shoreDist
+  varying float vEsStill; // the vertex still level (m): lift and crest base; depth, shore and exposure are per pixel (diag4 V2)
   varying vec4 vEsKlass;
 varying vec2 vEsColour;  // 16f: algae, dark  // turbidity(silt), salinity, tannin, class index
   varying vec3 vEsFlow;   // flow m/s (xy) + surface drop along flow (z)
@@ -815,7 +815,7 @@ varying vec4 vEsStrip;
 varying vec2 vEsRockFoam;
 #endif
 uniform float uVerticalScale;
-varying vec4 vEsData;
+varying float vEsStill;
 varying vec4 vEsKlass;
 varying vec2 vEsColour;  // 16f: algae, dark
 varying vec3 vEsFlow;
@@ -948,7 +948,7 @@ if (esFlowSp > ${FLOW_WAVE_MIN_GLSL}) {
   esW.normal = normalize(vec3(esSlope.x, 1.0, esSlope.y));
 }`}
 vEsSurf = vec4(esFetch, esShoreDir, esSurfE);
-vEsData = vec4(esStill, esVDepth, esExposure, esShore);
+vEsStill = esStill;
 vEsKlass = vec4(esKl.g, esKl.b, esSS.z, esKl.r * 255.0);   // turbidity, salinity, tannin, class
 vEsColour = esColourAt(esRestW.xz);
 // surface drop along the current → cascades/rapids where water descends
@@ -990,7 +990,7 @@ ${NOISE_GLSL}
 ${surfGlsl()}
 ${SAMPLER_GLSL}
 ${prelude}
-${strip ? "" : OWNER_MASK_GLSL}
+${strip ? "" : OWNER_MASK_GLSL + waveExposureGlsl() + tideResponseGlsl(classes)}
 ${strip ? "" : FOAM_FIELD_GLSL + RAIN_RINGS_GLSL + SPARKLE_SSS_GLSL + HORIZON_BLEND_GLSL + SHORE_FROTH_GLSL + FOAM_MASK_GLSL}
 ${MENISCUS_GLSL}
 varying vec3 vEsWaveIn;
@@ -1005,7 +1005,20 @@ uniform float uVerticalScale;`,
         "void main() {",
         /* glsl */ `void main() {
   float esGuard = 1.0;
-  ${strip ? "" : /* glsl */ `
+  ${strip ? /* glsl */ `
+  float esExpoPx = 0.05;   // narrow water: ripples, never swell (the vertex twin)` : /* glsl */ `
+  // Depth, shore distance and exposure PER PIXEL (perf-diag4 V2): read from
+  // varyings they were one plane per triangle, and the foam thresholds over
+  // them printed straight-edged pale triangles along the mesh grid.
+  vec2 esFS = esSurfaceAt(vEsWorldPos.xz);
+  float esLift = vEsStill - esFS.x;   // tide + season + surf at this pixel
+  float esDepthPx = esFS.y + esLift;  // signed depth + lift
+  vec3 esSPx = esShoreAt(vEsWorldPos.xz);   // shore dist, season response, tannin
+  // past the border on a land / inland edge texel: the vertex stage's apron rule
+  if (uHasApron > 0.5 && esOutside(vEsWorldPos.xz) && esTideResponse(vEsKlass.w) < 0.5)
+    esSPx = vec3(uSurfShoreMax, 0.0, 0.0);
+  float esShorePx = esSPx.x;
+  float esExpoPx = esWaveExposure(esShorePx, esDepthPx, max(vEsKlass.x, esSPx.z));
   {
     // Decision 0047: the raster no longer cuts the shoreline. It only guards
     // against drawing BURIED surface (signed depth + lift below the floor);
@@ -1015,12 +1028,10 @@ uniform float uVerticalScale;`,
     // discard on an unsampled target (audit mechanism 1), and the floor is
     // tight at every distance (a relaxed floor drew the dry table band as a
     // sheet over far shores, mechanism 4).
-    vec2 esFS = esSurfaceAt(vEsWorldPos.xz);
-    float esLift = vEsData.x - esFS.x;   // tide + season + surf at this pixel
     float esGuardDist = distance(cameraPosition, vEsWorldPos);
     float esFloor = max(${BURIED_GUARD.nearM.toFixed(2)} - ${BURIED_GUARD.perMetre.toFixed(4)} * esGuardDist,
                         ${BURIED_GUARD.floorM.toFixed(2)});
-    esGuard *= smoothstep(esFloor - ${BURIED_GUARD.fadeM.toFixed(2)}, esFloor, esFS.y + esLift);
+    esGuard *= smoothstep(esFloor - ${BURIED_GUARD.fadeM.toFixed(2)}, esFloor, esDepthPx);
     // A field surface is never a cliff: where the compiled STILL surface's
     // slope, read from the RASTER's own gradient, exceeds FIELD_SLOPE_FADE
     // the raster is bridging a drop the compiler owns as a sheet
@@ -1058,7 +1069,7 @@ float esDist = distance(cameraPosition, vEsWorldPos);
 // unfiltered procedural ripple at 1 px = the "TV static" (round 2, defect 1)
 float esDetFade = exp(-esDist * 0.010);
 float esFarFade = exp(-esDist * 0.0025);
-float esDetStrength = (0.10 + 0.10 * vEsData.z + 0.05 * min(esSpeed, 1.0))
+float esDetStrength = (0.10 + 0.10 * esExpoPx + 0.05 * min(esSpeed, 1.0))
                     * (0.2 + 0.8 * esFarFade) * (1.0 + 2.5 * esCascade);
 // flow advection (Water2 dual-phase); still water gets a gentle wobble, not
 // a stream (round 2: 'flowing' foam on static pools)
@@ -1123,11 +1134,13 @@ vec2 esRainG = vec2(0.0);
 ${strip ? "" : /* glsl */ `
 if (uRainRipple > 0.02) esRainG = esRainRings(vEsWorldPos.xz, uTransportTime, uRainRipple, esDist);`}
 // short Gerstner bands the grid cannot carry (perf-diag9 V1): their slope per
-// pixel, faded out where a pixel spans several of their wavelengths
-vec2 esWaveG = vec2(0.0);
+// pixel, faded out where a pixel spans several of their wavelengths; z is
+// their height, which makes the foam crest non-planar inside a triangle
+vec3 esWaveF = vec3(0.0);
 if (vEsWaveIn.x > 0.0005 && esDist < 400.0)
-  esWaveG = esWaveFragSlope(vEsWorldPos.xz, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime)
+  esWaveF = esWaveFrag(vEsWorldPos.xz, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime)
           * (1.0 - smoothstep(120.0, 400.0, esDist));
+vec2 esWaveG = esWaveF.xy;
 vec3 esNW = normalize(vec3(
   esNBase.x - (esG.x + esGF.x) * esDetStrength - esWaveG.x - esRip.x - esRainG.x,
   esNBase.y,
@@ -1226,7 +1239,7 @@ vec2 esRUV = clamp(esScreenUV + esNW.xz * esDistort, vec2(0.001), vec2(0.999));
 float esSceneEyeR = esEyeDepth(esRUV);
 if (esSceneEyeR < esFragEye) { esRUV = esScreenUV; esSceneEyeR = esSceneEye; }
 float esThick = max(esSceneEyeR - esFragEye, 0.0);
-float esColDepth = min(esThick, max(vEsData.y, 0.05) * 4.0);
+float esColDepth = min(esThick, max(esDepthPx, 0.05) * 4.0);
 // Beer–Lambert, three real tropical water types (research doc: Sioli/Amazon
 // typology): clear sea/mountain streams; SILT whitewater — lighter opaque
 // tan (café-au-lait); TANNIN blackwater — glassy dark tea, green-red.
@@ -1241,8 +1254,8 @@ esAlb = mix(esAlb, vec3(0.045, 0.065, 0.022), clamp(esTan, 0.0, 1.0));   // tea 
 esAlb = mix(esAlb, vec3(0.16, 0.30, 0.10), esAlgae * 0.55);              // algae green (16f)
 
 // ---- foam: a system, not a blanket (round 2 defect: white sheets) ------
-float esShoreD = vEsData.w;
-float esExpo = vEsData.z;
+float esShoreD = esShorePx;
+float esExpo = esExpoPx;
 // 1. thin contact line exactly at the waterline (vertical thickness under
 // CONTACT_FOAM_M, noise-broken so it never prints a grid) — fetch-boosted so
 // the active surf edge always carries a bright lip
@@ -1266,7 +1279,10 @@ float esFoamE;
 // The mesh crest alone thins out with vertex LOD, so whitecaps vanish at
 // distance. A screen-resolution, world-anchored fbm crest keeps the density
 // PIXEL-driven; it is advected on the transport clock and scaled by wind.
-float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsData.x;
+// The crest per pixel: the mesh crest is one plane per triangle (vertex
+// height minus vertex still level, both interpolated), so the short bands'
+// own height rides on top of it (perf-diag4 V2).
+float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsStill + esWaveF.z;
 float esCrestMesh = esCrest;   // the real crest, for the backlit scatter
 float esCrestFade = 1.0 - smoothstep(1200.0, 2400.0, esDist);
 // whitecap density from the wind (waves.ts whitecapCoverage: 2 % of the sea

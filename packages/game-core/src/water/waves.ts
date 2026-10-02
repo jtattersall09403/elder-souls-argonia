@@ -763,12 +763,28 @@ export function vertexBandWeight(wavelengthM: number, gridCellM: number): number
   return t * t * (3 - 2 * t);
 }
 
+/** GLSL twin of waveExposure(): `float esWaveExposure(shoreDistM, depthM,
+ * turbidity)`, shared by the vertex wave sum (gerstnerGlsl) and the field
+ * fragment's per-pixel foam gates (perf-diag4 V2). */
+export function waveExposureGlsl(): string {
+  return /* glsl */ `
+  // KEEP IN LOCKSTEP with waveExposure(): the swell hands over to the shore
+  // swell across the handover band; the fetch is a separate per-band limit.
+  float esWaveExposure(float shoreDistM, float depthM, float turbidity) {
+    return smoothstep(${f(WAVES.handoverNearM)}, ${f(WAVES.handoverFarM)}, shoreDistM)
+         * clamp(depthM / ${f(WAVES.depthSaturationM)}, 0.0, 1.0)
+         * (1.0 - 0.85 * clamp(turbidity, 0.0, 1.0));
+  }
+`;
+}
+
 /**
  * Fragment twin of the bands the vertex path drops on a `gridCellM` grid:
- * `vec2 esWaveFragSlope(vec2 pos, float exposure, float fetchM, float
- * standing, float t)` returns the height gradient (dh/dx, dh/dz) of those
- * bands, the slope term of `esWaveBand`'s normal, so the short-wave detail is
- * drawn per pixel whatever the rain is doing. An empty set returns zero.
+ * `vec3 esWaveFrag(vec2 pos, float exposure, float fetchM, float standing,
+ * float t)` returns the height gradient (dh/dx, dh/dz) of those bands (the
+ * slope term of `esWaveBand`'s normal) in xy and their height in z, so the
+ * short-wave detail and its crest are drawn per pixel. An empty set returns
+ * zero.
  */
 export function gerstnerFragGlsl(bandCount: number, gridCellM: number): string {
   const rows = waveBands()
@@ -777,21 +793,23 @@ export function gerstnerFragGlsl(bandCount: number, gridCellM: number): string {
     .filter(({ w }) => w > 0)
     .map(
       ({ b, w }) =>
-        `g += esWaveBandSlope(pos, exposure * clamp(fetchM / ${f(b.fetchM)}, 0.0, 1.0), tr, t, ` +
+        `g += esWaveBandFrag(pos, exposure * clamp(fetchM / ${f(b.fetchM)}, 0.0, 1.0), tr, t, ` +
         `vec2(${f(b.dirX)}, ${f(b.dirZ)}), ${f(b.freq)}, ${f(w === 1 ? b.amp : b.amp * w)}, ${f(b.phaseSpeed)}, ${f(b.phase0)});`,
     )
     .join("\n    ");
   return /* glsl */ `
-  // KEEP IN LOCKSTEP with esWaveBand(): the slope term of its normal.
-  vec2 esWaveBandSlope(vec2 pos, float a, float tr, float t, vec2 d,
-                       float freq, float amp, float omega, float phase0) {
+  // KEEP IN LOCKSTEP with esWaveBand(): the slope term of its normal (xy)
+  // and its height (z).
+  vec3 esWaveBandFrag(vec2 pos, float a, float tr, float t, vec2 d,
+                      float freq, float amp, float omega, float phase0) {
     float argS = freq * dot(d, pos) + phase0;
     float tau = t * omega;
-    float dd = tr * cos(argS) * cos(tau) - sin(argS) * sin(tau);
-    return d * (freq * amp * a * dd);
+    float sS = sin(argS), cS = cos(argS), sT = sin(tau), cT = cos(tau);
+    float aa = amp * a;
+    return vec3(d * (freq * aa * (tr * cS * cT - sS * sT)), aa * (sS * cT + tr * cS * sT));
   }
-  vec2 esWaveFragSlope(vec2 pos, float exposure, float fetchM, float standing, float t) {
-    vec2 g = vec2(0.0);
+  vec3 esWaveFrag(vec2 pos, float exposure, float fetchM, float standing, float t) {
+    vec3 g = vec3(0.0);
     float tr = 1.0 - clamp(standing, 0.0, 1.0);
     ${rows}
     return g;
@@ -821,14 +839,7 @@ export function gerstnerGlsl(bandCount: number = WAVES.bands, gridCellM = 0): st
     .join("\n    ");
   return /* glsl */ `
   struct EsWave { vec3 disp; vec3 normal; float height; };
-
-  // KEEP IN LOCKSTEP with waveExposure(): the swell hands over to the shore
-  // swell across the handover band; the fetch is a separate per-band limit.
-  float esWaveExposure(float shoreDistM, float depthM, float turbidity) {
-    return smoothstep(${f(WAVES.handoverNearM)}, ${f(WAVES.handoverFarM)}, shoreDistM)
-         * clamp(depthM / ${f(WAVES.depthSaturationM)}, 0.0, 1.0)
-         * (1.0 - 0.85 * clamp(turbidity, 0.0, 1.0));
-  }
+${waveExposureGlsl()}
 
   // KEEP IN LOCKSTEP with seaRmsHeightM(): JONSWAP fetch-limited growth
   // under the Pierson-Moskowitz cap, a wind floor for the ever-present swell.

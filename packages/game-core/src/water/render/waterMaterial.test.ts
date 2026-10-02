@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import * as THREE_NS from "three";
-import { WAVES, waveBands } from "../waves";
+import { WAVES, waveBands, waveExposure } from "../waves";
 import { SHORE_FROTH } from "./shoreFroth";
 import { FOAM_TEX } from "./waterMaterial";
 import {
@@ -88,7 +88,7 @@ describe("signed depth in the shader (decision 0047)", () => {
     expect(discards).toHaveLength(1);
     expect(frag).toContain("if (esGuard <= 0.003) discard;");
     // buried: a smooth fade over the floor, tight at every distance
-    expect(frag).toContain(`esGuard *= smoothstep(esFloor - ${BURIED_GUARD.fadeM.toFixed(2)}, esFloor, esFS.y + esLift);`);
+    expect(frag).toContain(`esGuard *= smoothstep(esFloor - ${BURIED_GUARD.fadeM.toFixed(2)}, esFloor, esDepthPx);`);
     expect(BURIED_GUARD.floorM).toBeGreaterThan(-1.0);
     // cliff: the raster's own gradient, never dFdx
     expect(frag).toContain(`smoothstep(${FIELD_SLOPE_FADE.start.toFixed(2)}, ${FIELD_SLOPE_FADE.full.toFixed(2)}, length(esGW))`);
@@ -333,7 +333,7 @@ describe("Water Pro transfers (Greenheck study §3.1, §6)", () => {
     expect(vert).toContain("float esStandingRatio(float classIndex, float shoreDist)");
     // every band is drawn: on the vertex, or per pixel when the grid cannot carry it (V1)
     const onVertex = vert.match(/esWaveBand\(pos/g)?.length ?? 0;
-    expect(onVertex + (below.match(/esWaveBandSlope\(pos/g)?.length ?? 0)).toBe(WAVES.bands);
+    expect(onVertex + (below.match(/esWaveBandFrag\(pos/g)?.length ?? 0)).toBe(WAVES.bands);
     for (const b of waveBands()) expect(vert + below).toContain(`clamp(fetchM / ${b.fetchM}`);
   });
 
@@ -365,7 +365,7 @@ describe("Water Pro transfers (Greenheck study §3.1, §6)", () => {
     const waveUses = frag.match(/uWaveTime/g) ?? [];
     // surf closed forms (esSurfFoam/esSwash) and uniform declaration only
     for (const line of frag.split("\n").filter((l) => l.includes("uWaveTime"))) {
-      expect(/uniform float uWaveTime|esSurfFoam\(|esSwash\(|esShoreSwell\(|esSurfGroup\(|esAlongPhase\(|esWaveFragSlope\(|float t\b|, t\)|\bt\b/.test(line)).toBe(true);
+      expect(/uniform float uWaveTime|esSurfFoam\(|esSwash\(|esShoreSwell\(|esSurfGroup\(|esAlongPhase\(|esWaveFrag\(|float t\b|, t\)|\bt\b/.test(line)).toBe(true);
     }
     expect(waveUses.length).toBeGreaterThan(0);
   });
@@ -491,6 +491,39 @@ describe("Water Pro transfers (Greenheck study §3.1, §6)", () => {
   });
 });
 
+describe("foam, depth tint, shore and exposure per pixel (perf-diag4 V2)", () => {
+  it("the field colour block reads no per-vertex depth, exposure or shore, and the crest is not one plane per triangle", () => {
+    for (const tier of [WATER_TIERS.high, WATER_TIERS.low]) {
+      {
+        const { shader } = compile("field", assets, tier);
+        const frag = code(shader.fragmentShader);
+        const vert = code(shader.vertexShader);
+        expect(frag).not.toContain("vEsData");
+        expect(vert).not.toContain("vEsData");
+        expect(vert).toContain("vEsStill = esStill;");
+        expect(frag).toContain("float esExpoPx = esWaveExposure(esShorePx, esDepthPx, max(vEsKlass.x, esSPx.z));");
+        expect(frag).toContain("float esColDepth = min(esThick, max(esDepthPx, 0.05) * 4.0);");
+        expect(frag).toContain("float esShoreD = esShorePx;");
+        expect(frag).toContain("float esExpo = esExpoPx;");
+        expect(frag).toMatch(/float esCrest = [^;]*- vEsStill \+ esWaveF\.z;/);
+        // the per-pixel inputs are declared before the colour block reads them
+        expect(frag.indexOf("float esExpoPx")).toBeLessThan(frag.indexOf("float esDetStrength"));
+      }
+    }
+  });
+
+  it("exposure at a triangle midpoint is the exposure of the midpoint's inputs, not the mean of the corners'", () => {
+    // a shallow shelf near the handover band: corners at 10 m / 0.2 m and 60 m / 3 m
+    const a = { shore: 10, depth: 0.2 };
+    const b = { shore: 60, depth: 3 };
+    const mid = { shore: (a.shore + b.shore) / 2, depth: (a.depth + b.depth) / 2 };
+    const perPixel = waveExposure(mid.shore, mid.depth, 0.1);
+    const interpolated = (waveExposure(a.shore, a.depth, 0.1) + waveExposure(b.shore, b.depth, 0.1)) / 2;
+    expect(perPixel).toBeCloseTo(waveExposure(35, 1.6, 0.1), 12);
+    expect(Math.abs(perPixel - interpolated)).toBeGreaterThan(0.01);
+  });
+});
+
 describe("short Gerstner bands per pixel (perf-diag9 V1)", () => {
   it("the vertex path carries no band under 2x the tier's grid cell and the fragment normal carries their slope", () => {
     for (const tier of [WATER_TIERS.high, WATER_TIERS.low]) {
@@ -501,7 +534,8 @@ describe("short Gerstner bands per pixel (perf-diag9 V1)", () => {
         expect(vert, `${tier.name}: ${b.wavelengthM} m off the vertex`).not.toContain(`${b.freq}, `);
         expect(frag, `${tier.name}: ${b.wavelengthM} m in the fragment`).toContain(`${b.freq}, ${b.amp}, ${b.phaseSpeed}, ${b.phase0}`);
       }
-      expect(frag).toContain("esWaveG = esWaveFragSlope(vEsWorldPos.xz, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime)");
+      expect(frag).toContain("esWaveF = esWaveFrag(vEsWorldPos.xz, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime)");
+      expect(frag).toContain("vec2 esWaveG = esWaveF.xy;");
       expect(frag).toMatch(/esNBase\.x - [^;]*- esWaveG\.x/);
       expect(vert).toContain("vEsWaveIn = vec3(esWaveAmp, esFetchM, esStandW);");
     }
