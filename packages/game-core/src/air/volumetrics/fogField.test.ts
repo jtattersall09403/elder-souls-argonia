@@ -81,3 +81,29 @@ describe("fogRegimes", () => {
     expect(noon.radiationMist).toBeLessThanOrEqual(0.25 * dawn.radiationMist);
   });
 });
+
+describe("fog field feeds (G2)", () => {
+  it("regional haze scales the froxel air: thicker for a rainy factor, thinner after the afternoon burn-off", () => {
+    const base = fogRegimes({ ...BASE_NOON }).air;
+    expect(fogRegimes({ ...BASE_NOON, regionHaze: 0.65 }).air).toBeCloseTo(base, 6);
+    expect(fogRegimes({ ...BASE_NOON, regionHaze: 1.2 }).air).toBeGreaterThan(1.5 * base);
+    expect(fogRegimes({ ...BASE_NOON, regionHaze: 0.4 }).air).toBeLessThan(0.7 * base);
+  });
+  it("rain adds depth haze and thins the dawn mist without deleting it", () => {
+    const dry = fogRegimes({ ...BASE, weatherRadiation: 1 });
+    const wet = fogRegimes({ ...BASE, weatherRadiation: 1, rain: 1 });
+    expect(wet.air).toBeGreaterThan(dry.air);
+    expect(wet.radiationMist).toBeGreaterThan(0.3);
+    expect(wet.radiationMist).toBeLessThan(dry.radiationMist);
+  });
+  it("onshore wind in humid air makes sea fog; offshore makes none", () => {
+    const humid = { ...BASE, humidity: 0.95, windSpeedMS: 4 };
+    expect(fogRegimes({ ...humid, onshore: 1 }).seaFog).toBeGreaterThan(0.5);
+    expect(fogRegimes({ ...humid, onshore: 0 }).seaFog).toBe(0);
+  });
+  it("a humid clear night is damp enough for lamp halos; dry air is not", () => {
+    const night = { ...BASE, minuteOfDay: 22 * 60, prevNightClearCalm: 0 };
+    expect(fogRegimes({ ...night, humidity: 0.95 }).halo).toBeGreaterThan(0.9);
+    expect(fogRegimes({ ...night, humidity: 0.4 }).halo).toBe(0);
+  });
+});

@@ -12,7 +12,6 @@ import {
   windDirAt,
 } from "./synoptic";
 import {
-  WHITEOUT_ENABLED,
   airmassFactor,
   regionHazeFactor,
   weatherSampleAt,
@@ -178,10 +177,7 @@ describe("mist regimes", () => {
     // weather brings cloud, genuinely CLEAR on settled clear days — never a
     // permanent whiteout, and never any belt off the massif (beltMask 0).
     const rainMtn = weatherSampleForState("rain", e, LOCAL_MOUNTAIN);
-    // Cap cloud is temporarily disabled (WHITEOUT_ENABLED, owner
-    // 2026-08-30 — hard square edges from ground level; polish-phase item).
-    // The condition machinery must stay live for the re-enable:
-    expect(rainMtn.mist.whiteout).toBe(WHITEOUT_ENABLED ? rainMtn.mist.whiteout : 0);
+    expect(rainMtn.mist.whiteout).toBeGreaterThan(0.4);
     expect(rainMtn.mist.whiteoutBase).toBeGreaterThan(0.5);
     const clearMtn = weatherSampleForState("clear", e, LOCAL_MOUNTAIN);
     expect(clearMtn.mist.whiteout).toBeLessThan(0.05);

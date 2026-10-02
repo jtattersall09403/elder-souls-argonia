@@ -45,6 +45,10 @@ export interface FogFieldInput {
   /** Sun elevation above the horizon (deg): the sun burns mist, steam, marsh fog and canopy haze off
    * between 4 and 25 deg (fogNoise sunBurn), less in humid air. Absent: no burn-off. */
   sunElevationDeg?: number;
+  /** The weather's live region-haze factor here (world-weather regionHazeFactor x airmass, WeatherSample.
+   * regionHaze): humid, rainy and steaming air thickens it, the afternoon burn-off thins it. Scales the
+   * air baseline about REGION_HAZE_REF. Absent: 1 x the baseline. */
+  regionHaze?: number;
   /** Game day number (floor of epoch minutes / 1440): re-phases the fog's slow modulators each day. */
   dayIndex?: number;
 }
@@ -57,9 +61,20 @@ export interface FogRegimes {
   canopyHaze: number;
   /** Baseline extinction multiplier (1 = the air baseline). */
   air: number;
+  /** 0..1: how damp the air is for lamp halos (humidity, mist, sea fog); volumetricNodes LAMP_HALO turns
+   * it into the halo medium's floor extinction, so damp nights wear halos under a clear sky. */
+  halo?: number;
   /** Advection velocity of the noise, m/s, XZ. */
   windXZ: [number, number];
 }
+
+/** regionHaze at which the froxel air equals its humidity/rain baseline: an average humid lowland
+ * morning (0.9 raw x VISIBILITY_LIFT 0.72 ~ 0.65). The air scales by regionHaze / this, clamped. */
+export const REGION_HAZE_REF = 0.65;
+export const REGION_HAZE_SCALE = { min: 0.4, max: 2.5 } as const;
+/** Share of the ground mists (radiation, steam, canopy haze) rain keeps: rain thins them, it never
+ * deletes them, and its depth haze comes through the air term. */
+export const RAIN_MIST_KEEP = 0.35;
 
 /** Mist kept over bone-dry ground; wet ground or standing water carries it all (froxelGrid's moistW). */
 export const MOISTURE_FLOOR = 0.25;
@@ -110,7 +125,7 @@ function dawnEnvelope(h: number, leadH: number, tailH: number): number {
 
 /** The regimes as a fresh object (tests, harness); per frame use `fogRegimesInto`. */
 export function fogRegimes(i: FogFieldInput): FogRegimes {
-  return fogRegimesInto({ radiationMist: 0, steamFog: 0, marshFog: 0, seaFog: 0, canopyHaze: 0, air: 1, windXZ: [0, 0] }, i);
+  return fogRegimesInto({ radiationMist: 0, steamFog: 0, marshFog: 0, seaFog: 0, canopyHaze: 0, air: 1, halo: 0, windXZ: [0, 0] }, i);
 }
 
 /** Write the regimes into `out` (allocation-free). Each regime is a coverage target 0..1: froxelGrid
@@ -121,7 +136,7 @@ export function fogRegimesInto(out: FogRegimes, i: FogFieldInput, sunElevationDe
   const wind = Math.max(0, i.windSpeedMS);
   // mist needs still air: gone above ~5 m/s
   const calm = 1 - smooth(1.5, 5, wind);
-  const rainDamp = 1 - clamp01(i.rain * 1.5);
+  const rainDamp = 1 - (1 - RAIN_MIST_KEEP) * clamp01(i.rain * 1.5);
   const humid = clamp01(i.humidity);
   // the sun burns ground fog off as it climbs (4..25 deg), humid air holds on to half of it
   const sunKeep = sunElevationDeg === undefined ? 1 : 1 - sunBurn(sunElevationDeg) * (1 - 0.5 * humid);
@@ -147,11 +162,14 @@ export function fogRegimesInto(out: FogRegimes, i: FogFieldInput, sunElevationDe
   const humidMorning = dawnEnvelope(hSunrise, 1, 3) * smooth(0.5, 0.9, humid);
   const canopyHaze = clamp01(0.25 + Math.max(afterRain, humidMorning) * 0.75 * sunKeep) * rainDamp;
 
-  const air = 1 + 2 * humid + 3 * clamp01(i.rain);
+  const hazeScale = i.regionHaze === undefined ? 1
+    : Math.min(REGION_HAZE_SCALE.max, Math.max(REGION_HAZE_SCALE.min, i.regionHaze / REGION_HAZE_REF));
+  const air = (1 + 2 * humid + 3 * clamp01(i.rain)) * hazeScale;
+  const halo = Math.max(smooth(0.55, 0.95, humid), radiationMist, marshFog, seaFog, clamp01(i.rain));
   // noise drifts at the wind speed, floored so still air still mutates slowly
   const drift = Math.max(0.3, wind);
   out.radiationMist = radiationMist; out.steamFog = steamFog; out.marshFog = marshFog; out.seaFog = seaFog;
-  out.canopyHaze = canopyHaze; out.air = air;
+  out.canopyHaze = canopyHaze; out.air = air; out.halo = halo;
   out.windXZ[0] = i.windDirXZ[0] * drift; out.windXZ[1] = i.windDirXZ[1] * drift;
   return out;
 }

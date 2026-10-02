@@ -94,6 +94,8 @@ export interface AerialUniforms {
   /** Phase 8c round 3: climate-vis raster (R orographic belt mask, G region
    * ambient-visibility extinction beta/0.02). */
   uClimateVis: UniformOf<THREE.Texture>;
+  /** One climate-vis texel in uv (1/width, 1/height), for the belt-mask smoothing taps. */
+  uClimateVisTexel: UniformOf<THREE.Vector2>;
   /** Weather multiplier on the region ambient haze (settled days thinner,
    * humid rainy days thicker). */
   uRegionHaze: UniformOf<number>;
@@ -150,6 +152,7 @@ export function createAerialUniforms(): AerialUniforms {
     uAdvectionFog: sharedUniform(0),
     uWhiteout: sharedUniform(new THREE.Vector4(470, 150, 55, 0)),
     uClimateVis: texture(placeholderRaster()),
+    uClimateVisTexel: sharedUniform(new THREE.Vector2(1 / 1024, 1 / 1024)),
     uRegionHaze: sharedUniform(0.55),
     uWeatherMie: sharedUniform(0),
     uFogLum: sharedUniform(new THREE.Vector3(0, 0, 0)),
@@ -215,6 +218,19 @@ const esPathDensity = Fn(([yA0, yB0, H]: [TslNode, TslNode, TslNode]) => {
   const slope = H.div(sel(abs(dy).lessThan(1), float(1), dy)).mul(exp(yA.negate().div(H)).sub(exp(yB.negate().div(H))));
   return sel(abs(dy).lessThan(1), flat, slope);
 });
+
+// Smoothed cloud-forest belt mask (climate-vis R): four rotated bilinear taps a texel out, then a
+// smoothstep, so the cap cloud's outline has no square raster edges (CPU twin: climateSampler
+// smoothBeltMask, BELT_MASK_TAPS, BELT_MASK_EDGE).
+function esBeltMask(u: AerialUniforms, uv: TslNode): TslNode {
+  const t = u.uClimateVisTexel;
+  const m = sampleAt(u.uClimateVis, uv.add(t.mul(vec2(1, 0.5)))).r
+    .add(sampleAt(u.uClimateVis, uv.add(t.mul(vec2(-0.5, 1)))).r)
+    .add(sampleAt(u.uClimateVis, uv.add(t.mul(vec2(-1, -0.5)))).r)
+    .add(sampleAt(u.uClimateVis, uv.add(t.mul(vec2(0.5, -1)))).r)
+    .mul(0.25);
+  return smoothstep(0.05, 0.85, m);
+}
 
 // Asymmetric cloud-forest belt profile (world-weather WHITEOUT_BELT twin):
 // soft skirt below the centre, sharp top so summits stand above the cloud.
@@ -317,7 +333,7 @@ export function aerialPerspectiveNode(
       const tx = clamp(u.uWhiteout.x.sub(camY).div(sel(abs(dy).lessThan(1), float(1), dy)), 0, 1);
       const pX = mix(camPos, worldPos, tx).toVar();
       const xUv = provinceUv(u, pX).toVar();
-      const maskX = pow(sampleAt(u.uClimateVis, xUv).r, 0.6).mul(esInBounds(xUv));
+      const maskX = esBeltMask(u, xUv).mul(esInBounds(xUv));
       const bells = esBeltBell(u, camY)
         .add(esBeltBell(u, camY.add(wY).mul(0.5)).mul(2))
         .add(esBeltBell(u, wY))
@@ -411,7 +427,8 @@ export function skyFogNode(u: AerialUniforms, color: TslNode, dir: TslNode): Tsl
           .add(exp(y.negate().div(22)).mul(adv).mul(b).mul(u.uAdvectionFog).mul(125))
           .add(
             esBeltBell(u, y)
-              .mul(pow(vis.r, 0.6))
+              // one tap here (12 march steps per dome pixel); the four-tap esBeltMask is on surfaces
+              .mul(smoothstep(0.05, 0.85, vis.r))
               .mul(b)
               .mul(esCloudLump(u, p))
               .mul(u.uWhiteout.w)

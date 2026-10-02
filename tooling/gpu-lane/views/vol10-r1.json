@@ -99,6 +99,17 @@
   ]
  },
  {
+  "name": "halos-claywater-lamp-10m",
+  "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=0.3135&z=3.060&t=22:00&w=clear",
+  "clean": true,
+  "shots": "5000@60,600000",
+  "seconds": 190,
+  "aim": [
+   0,
+   0
+  ]
+ },
+ {
   "name": "seafog-estuary",
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=4.475&z=1.6&t=07:00&w=fog",
   "clean": true,
@@ -157,7 +168,8 @@
     "js": "(()=>{const h=window.__HARNESS__||{};return JSON.stringify({ok:h.ok,frameMs:h.frameMs,calls:h.calls,triangles:h.triangles,errors:h.errors,timing:h.timing,cpu:h.cpu,backend:h.backend,adapter:h.adapter})})()",
     "waitMs": 500
    }
-  ]
+  ],
+  "readyFlag": "__FIRE_READY__"
  },
  {
   "name": "fire-stress",
@@ -172,7 +184,8 @@
     "js": "(()=>{const h=window.__HARNESS__||{};return JSON.stringify({ok:h.ok,frameMs:h.frameMs,calls:h.calls,triangles:h.triangles,errors:h.errors,timing:h.timing,cpu:h.cpu,backend:h.backend,adapter:h.adapter})})()",
     "waitMs": 500
    }
-  ]
+  ],
+  "readyFlag": "__FIRE_READY__"
  },
  {
   "name": "threejs-fire",

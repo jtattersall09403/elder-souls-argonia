@@ -33,6 +33,9 @@ export interface VolumetricsSampler {
   gridSize?: TslNode;
   /** Point lights for the analytic airlight (vec4 pos+reach, vec4 radiance, int count, loop bound). */
   lights?: { pos: TslNode; col: TslNode; count: TslNode; max: number };
+  /** Lamp-halo medium floor (extinction /m, LAMP_HALO x the fog field's `halo` dampness) and the camera
+   * distance (m) out to which a lamp keeps its full halo. */
+  halo?: { sigmaFloor: TslNode; viewM: TslNode };
   /** Per-pixel extra in-scatter along the view ray (world dir, segment length, mean extinction):
    * sharp canopy shafts and beam motes the froxel grid is too coarse to hold. */
   extra?(dir: TslNode, segLen: TslNode, sigma: TslNode): TslNode;
@@ -65,6 +68,15 @@ export const LAMP_PHASE: { readonly g: number; readonly forward: number } = { g:
  * of that: at 3 radii the in-scatter has fallen to a few percent of its peak, so the phase lobe and the
  * medium set the halo edge, not the cut; the cut still keeps distant ground free of lit haze. */
 export const LAMP_REACH = 3;
+/** Lamp halos in damp air. sigmaFloorPerM: the halo medium's extinction at full dampness (fogField
+ * `halo` = 1), so a humid clear night still scatters lamp light into a halo (a clear-air grid alone
+ * gives ~0.002 /m and no visible halo). minReachM: the marched sphere is never smaller than this, so a
+ * small candle's halo spans tens of pixels at 10-30 m. viewM: full halo out to this camera distance,
+ * fading to none at twice it. */
+export const LAMP_HALO = {
+  high: { sigmaFloorPerM: 0.02, minReachM: 6, viewM: 30 },
+  mobile: { sigmaFloorPerM: 0.02, minReachM: 4, viewM: 20 },
+} as const;
 export const LAMP_REACH_FADE = 0.6;
 const smooth = (e0: number, e1: number, x: number) => { const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1); return t * t * (3 - 2 * t); };
 /** Midpoint steps of the equiangular march per lamp. */
@@ -102,7 +114,9 @@ function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode
   const segLen = min(length(dirW), v.far);
   const dir = dirW.div(max(length(dirW), float(1e-4)));
   // the medium's mean extinction along this pixel's ray, read from the grid's own transmittance
-  const sigma = clamp(log(max(trans, float(1e-4))).negate().div(max(viewDepth, v.near)), 0.002, 0.5);
+  const gridSigma = clamp(log(max(trans, float(1e-4))).negate().div(max(viewDepth, v.near)), 0.002, 0.5);
+  const sigma = v.halo ? max(gridSigma, v.halo.sigmaFloor) : gridSigma;
+  const minReach = float(LAMP_HALO.high.minReachM);
   const { g, forward } = LAMP_PHASE;
   const acc = vec3(0).toVar();
   Loop({ start: 0, end: L.max }, ({ i }: { i: TslNode }) => {
@@ -112,10 +126,12 @@ function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode
       const t0 = dot(rel, dir);
       const h = max(length(rel.sub(dir.mul(t0))), float(0.05));
       const d = length(rel);
-      const reach = clamp(float(1).sub(d.sub(lp.w.mul(2)).div(lp.w.mul(2))), 0, 1);
+      // full halo out to max(2 radii, viewM) from the camera, none at twice that
+      const d0 = v.halo ? max(lp.w.mul(2), v.halo.viewM) : lp.w.mul(2);
+      const reach = clamp(float(1).sub(d.sub(d0).div(d0)), 0, 1);
       // the lamp lights only the air inside its reach sphere (LAMP_REACH x radius, soft over the outer
       // part): march the chord through it, not the whole ray, or distant ground reads as lit haze
-      const R = lp.w.mul(LAMP_REACH);
+      const R = max(lp.w.mul(LAMP_REACH), minReach);
       const half = sqrt(max(R.mul(R).sub(h.mul(h)), float(0)));
       const a = atan(max(t0.sub(half), float(0)).sub(t0).div(h));
       const b = max(atan(min(t0.add(half), segLen).sub(t0).div(h)), a);

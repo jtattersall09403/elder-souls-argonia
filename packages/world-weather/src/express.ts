@@ -191,20 +191,12 @@ export const WHITEOUT_BELT = {
  *  - wind mixes the boundary layer and thins the murk.
  */
 /**
- * Post-8c tweaks (owner 2026-08-30, Phase P backlog holds the follow-ups):
- *
- * WHITEOUT_ENABLED=false — the mountaintop cap cloud is OFF for now: seen
- * from ground level it showed hard square edges (raster-resolution artefacts
- * of the belt mask). It returns, improved, in the polish phase; the bell /
- * base / mask machinery stays live so probes and the re-enable keep working.
- *
  * VISIBILITY_LIFT=0.72 — a global ~30 % thinning of ambient haze/mist ("I
  * like the mist, the density is just a bit too much"). Applied at the SOURCES
  * (region haze factor, mist regime bases, weather fog) so the renderer and
  * the published visibility number move together, per §97's one-authority
  * rule.
  */
-export const WHITEOUT_ENABLED = false;
 export const VISIBILITY_LIFT = 0.72;
 
 /** Deterministic 1-D value noise on a continuous coordinate (smoothstepped
@@ -453,11 +445,8 @@ function express(
     radiationBase,
     advection,
     advectionBase,
-    // whiteoutBase/bell/mask still computed and published (probes, re-enable),
-    // but the expressed strength is zeroed while the cap cloud is off.
-    whiteout: WHITEOUT_ENABLED
-      ? clamp01(whiteoutBell(local.elevationM) * whiteoutBase * clamp01(local.beltMask))
-      : 0,
+    // the cap cloud's outline on screen is aerial.ts esBeltMask (smoothed, no square raster edges)
+    whiteout: clamp01(whiteoutBell(local.elevationM) * whiteoutBase * clamp01(local.beltMask)),
     whiteoutBase,
     weather: weatherFog,
   };

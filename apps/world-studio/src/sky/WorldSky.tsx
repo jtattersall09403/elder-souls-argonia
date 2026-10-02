@@ -69,7 +69,7 @@ import { RainSystem, rainDropBudget } from "../weather/RainSystem";
 import { AmbientAir, type AmbientAirConditions } from "@elder-souls/game-core/air/AmbientAir";
 import type { AirWaterSurface } from "@elder-souls/game-core/air/ambientAir";
 import { STUDIO_TOOLS } from "../studioTools";
-import { climateAirAt } from "../weather/climateSampler";
+import { climateAirAt, OnshoreProbe } from "../weather/climateSampler";
 import { buriedThresholdM } from "@elder-souls/game-core/water/index";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { airAmounts } from "@elder-souls/game-core/air/ambientAir";
@@ -83,7 +83,7 @@ import {
 import { fixtureLightFieldOf } from "@elder-souls/game-core/render/fixtureLights/index";
 import { applyVolumetrics } from "@elder-souls/game-core/air/volumetrics/volumetricNodes";
 import { activeBackend } from "@elder-souls/game-core/render/createRenderer";
-import { WHITEOUT_BELT, WHITEOUT_ENABLED, type WeatherSample } from "@elder-souls/world-weather";
+import { WHITEOUT_BELT, type WeatherSample } from "@elder-souls/world-weather";
 import { DATA_BASE } from "../dataBase";
 import { INITIAL_SWITCHES } from "../studioSwitches";
 
@@ -281,6 +281,8 @@ export function WorldSky({
   useEffect(() => () => volumetrics.dispose(), [volumetrics]);
   const volSun = useRef(new THREE.Color());
   const volSky = useRef(new THREE.Color());
+  // onshore component of the wind for the sea-fog regime: climate-weather B's gradient, per camera cell
+  const onshoreProbe = useRef(new OnshoreProbe());
   /** The sun and sky the lit effects (chimney smoke) read; refreshed every frame, owned by this sky. */
   const sunLighting = useMemo<SunLighting>(() => ({ dir: new THREE.Vector3(0, 1, 0), sunIrradiance: volSun.current, skyIrradiance: volSky.current }), []);
   useEffect(() => { if (sunLightingOut) sunLightingOut.current = sunLighting; }, [sunLightingOut, sunLighting]);
@@ -310,7 +312,11 @@ export function WorldSky({
     for (const [key, name] of rasters) {
       if (aerialRasterLoaded(sharedAerialUniforms, key)) continue;
       loadSmoothRaster(`${base}province/${name}.png`, CLIMATE_MAX_TEXELS)
-        .then((t) => { sharedAerialUniforms[key].value = t; })
+        .then((t) => {
+          sharedAerialUniforms[key].value = t;
+          const img = t.image as { width?: number; height?: number } | undefined;
+          if (key === "uClimateVis" && img?.width && img.height) sharedAerialUniforms.uClimateVisTexel.value.set(1 / img.width, 1 / img.height);
+        })
         .catch((e) => console.error(`climate raster ${name}`, e));
     }
   }, [base]);
@@ -735,7 +741,7 @@ export function WorldSky({
       // whiteoutBase is published RAW for probes/re-enable even while the cap
       // cloud is off — the renderer must apply the same gate as mist.whiteout,
       // or the belt slab draws for every non-clear deck (owner defect 2026-08-30).
-      WHITEOUT_ENABLED ? wx.mist.whiteoutBase : 0,
+      wx.mist.whiteoutBase,
     );
     // Region ambient haze (round 4): visibility IS local weather now — the
     // live multiplier comes off the weather sample (world-weather
@@ -919,6 +925,8 @@ export function WorldSky({
           rain: wx.rainIntensity,
           windSpeedMS: wx.windSpeedMS, windDirXZ: wx.windDirXZ, humidity, wetSeason: (worldClock.season().s + 1) / 2,
           weatherRadiation: wx.mist.radiation, weatherAdvection: wx.mist.advection,
+          onshore: onshoreProbe.current.at(base, camera.position.x, camera.position.z, extentM, wx.windDirXZ),
+          regionHaze: wx.regionHaze,
           dayIndex: Math.floor(epochMinutes / 1440),
         },
       });
