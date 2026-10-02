@@ -60,7 +60,7 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
 5. Tunnel: `node tooling/gpu-lane/tunnels.mjs open --pod "<same ssh>" --local <port>`; `tunnels.mjs close` after.
 6. Measure, ONE invocation for the round:
    `node tooling/gpu-lane/measure.mjs --run <round> --cdp 127.0.0.1:<port> --spots tooling/gpu-lane/spots/perf10-c4.txt [--bar 83,69]` (no global probe flag: the headline spots stay probe-off, the diagnosis spots carry their own tokens)
-   It moves between spots in one tab (ready gate per spot), takes a clean (HUD-free) settled screenshot
+   It moves between spots in one tab (ready gate per spot), takes a clean (HUD-free) settled screenshot (captures run with the clock running, `rate=30`, and the HUD hidden)
    of each (`<run dir>/<name>-settled.jpg`) and writes `summary.md` / `summary.json`: settled fps, p1Low,
    uncapped, p1LowUncapped, max ms, over20, over33, pass against `--bar fps,p1low`; a walk spot has two rows, its
    static settle and its walk window, each judged. `--leak <s> [--leak-every 15]` is ONE long capture at the first spot (run right after that spot's measurement; every
@@ -70,7 +70,7 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
    single look; `--renderer webgpu` measures `/elder-souls-argonia/webgpu/`.
 7. Diagnose: ONE report per round lists every cause found; then ONE parallel fix wave. Fix agents never measure.
 
-**Run `--smoke` before any full baseline** (`node tooling/gpu-lane/measure.mjs --smoke --cdp 127.0.0.1:<port>`;
+**Run `--smoke` before any full baseline** (clock running via `rate=30`, HUD hidden in its screenshot; `node tooling/gpu-lane/measure.mjs --smoke --cdp 127.0.0.1:<port>`;
 spot a, about 40 s, exits 1 and names the reason): it fails on the vsync cap (uncapped fps within 1.5 of the
 58.5 blank-page cap), a ready gate over 40 s, a black frame (settled screenshot mean luminance under 8), a
 GPU/WebGL console error or lost context, or a page in the browser this run did not open.
@@ -100,6 +100,7 @@ Chrome started with `--remote-debugging-port` and serve with `node tooling/gpu-l
 
 | Switch | Where it acts | Effect |
 |---|---|---|
+| `rate=<n>` | studio (`src/sky/timeState.ts`) | World-clock rate; absent, the clock is paused. Captures always pass `rate=30` (`GAME_TIME_SCALE`, `packages/world-time/src/clock.ts:109`) so they run with the clock running. |
 | `diag=1` | studio (`src/diagOverlay.ts`) | Diag overlay and `window.__DIAG`: fps, worst ms, per-second pipelines, shaders, builds, skipped draws, `builds pending`, `pipelines compiling`. |
 | `water=0` | studio (`CharacterMode.tsx`) | No water surface. |
 | `aa=0` | studio (`CharacterMode.tsx`) | Anti-aliasing off. |

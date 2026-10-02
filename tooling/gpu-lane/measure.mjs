@@ -62,7 +62,8 @@ export function parseArgs(argv) {
     else throw new Error(`unknown option --${k}`);
   }
   if (o.smoke) { // one spot, 60 s: ready gate <= 40 s, 5 s settle, one screenshot for the black-frame check
-    if (!o.url.length) o.url.push(SPOT_A);
+    if (!o.url.length) o.url.push(`${SPOT_A}&rate=30`); // rate=30: the studio clock runs at GAME_TIME_SCALE (paused without rate=)
+    o.clean ||= "1";
     o.url.splice(1); o.run ??= "smoke"; o.readyTimeout = 40; o.settle = 5; o.shots = true;
   }
   if (o.spots) { // one line per spot; each spot carries its own aim and walk; HUD-free screenshots of every spot

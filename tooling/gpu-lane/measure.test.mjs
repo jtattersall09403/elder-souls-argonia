@@ -110,8 +110,9 @@ test("closeOrphanPages opens a blank keeper page first, closes every other page 
 test("parseArgs: --smoke defaults to spot a, 40 s gate, 5 s settle, one shot; --census and --diag", async () => {
   const { parseArgs, SPOT_A } = await import("./measure.mjs");
   const s = parseArgs(["--smoke"]);
-  assert.deepEqual(s.url, [SPOT_A]);
+  assert.deepEqual(s.url, [`${SPOT_A}&rate=30`]);
   assert.equal(s.run, "smoke");
+  assert.equal(s.clean, "1");
   assert.equal(s.readyTimeout, 40);
   assert.equal(s.settle, 5);
   assert.equal(s.shots, true);
@@ -262,7 +263,7 @@ test("gen-matrix: 13 deterministic lines, coordinates from places.json", async (
   const byId = new Map(JSON.parse(text).places.map((p) => [p.id, p]));
   for (const [id, short] of PLACES) {
     const [x, z] = byId.get(id).positionM;
-    assert.ok(lines.includes(`${short}-t22-rain ?view=character&x=${(x / 1000).toFixed(4)}&z=${(z / 1000).toFixed(4)}&t=22&w=rain steps=w:7,yaw:+1.2,w:6,yaw:-2.0,w:7`), short);
+    assert.ok(lines.includes(`${short}-t22-rain ?view=character&x=${(x / 1000).toFixed(4)}&z=${(z / 1000).toFixed(4)}&t=22&w=rain&rate=30 steps=w:7,yaw:+1.2,w:6,yaw:-2.0,w:7`), short);
   }
   assert.equal(parseSpots(out).length, 15);
 });

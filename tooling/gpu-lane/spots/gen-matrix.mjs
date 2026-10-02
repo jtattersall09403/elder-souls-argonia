@@ -14,7 +14,7 @@ export const PLACES = [
 ];
 export const STEPS = "steps=w:7,yaw:+1.2,w:6,yaw:-2.0,w:7";
 // perf10.txt spot e: the ESE jungle marsh shallow-water walk.
-export const ESE = "ese ?view=character&x=4.02&z=4.61&t=22&w=rain walk=20 x3";
+export const ESE = "ese ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=30 walk=20 x3";
 
 /** places.json text -> matrix.txt text. Studio x,z = positionM / 1000 (site_packet.py:_xz). */
 export function matrix(placesText) {
@@ -26,7 +26,7 @@ export function matrix(placesText) {
     if (!p?.positionM) throw new Error(`${id}: no positionM in ${PLACES_JSON}`);
     const [x, z] = p.positionM.map((m) => (m / 1000).toFixed(4));
     for (const t of [12, 22]) for (const w of ["clear", "rain"]) {
-      L.push(`${short}-t${t}-${w} ?view=character&x=${x}&z=${z}&t=${t}&w=${w} ${STEPS}`);
+      L.push(`${short}-t${t}-${w} ?view=character&x=${x}&z=${z}&t=${t}&w=${w}&rate=30 ${STEPS}`);
     }
   }
   L.push(ESE);
