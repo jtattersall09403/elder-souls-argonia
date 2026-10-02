@@ -456,7 +456,7 @@ async function captureView(view) {
       writeFileSync(join(dir, "gpu-error-probe.json"), JSON.stringify(result.gpuErrorProbe, null, 1));
     }
     if (probeNan && ctl.page) {
-      result.nanProbe = await evaluate(`window.__nanProbe ?? { err: "no probe on the page" }`, 10_000);
+      result.nanProbe = await evaluate(`window.__nanProbe ? JSON.parse(JSON.stringify(window.__nanProbe)) : { err: "no probe on the page" }`, 10_000);
       writeFileSync(join(dir, "nan-probe.json"), JSON.stringify(result.nanProbe, null, 1));
     }
     // load timeline (owner 10 s bar): always, also for a failed view (complete stays null and the bar fails)

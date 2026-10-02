@@ -510,13 +510,21 @@ export function installGpuErrorProbe(win) {
  * buffer/texture (its first hit), at most 40: frame (GPUQueue.submit count so far), ms since timeOrigin, label, size,
  * usage, byte offset and float index, value, 8 neighbouring floats, stack (12 frames), and, for a three.js uniform buffer
  * (written inside `__RENDERER__.backend.updateBinding`), the binding name and the uniforms whose offset covers the bad
- * float. `badPerFrame[f]` counts bad writes per submit for the first 600; `scanned` / `bytes` are the scan totals.
- * Self-contained: it is stringified into the page. */
+ * float. Inside `renderer._bindings.updateForRender(renderObject)` the hit also names its OWNER (looked up on a hit only):
+ * `owner` = the object (name, type, uuid, userData keys, 3 parent names), material (name, type, uuid), the render context
+ * (width, height, label, its target) and, for the uniform, `node` (name, class, value class and Vector/Matrix/Color
+ * components); a `render` group adds `camera` (type, name, uuid, aspect, fov, near, far, zoom, view offset, ortho bounds,
+ * isArrayCamera) and `renderer` (current target size/depth/label/samples, viewport, drawing-buffer size). Binding writes keep
+ * the first record per (group, uniform, owner uuid), other writes one per buffer/texture, at most 60. `persistent` lists
+ * every owner (group + uuid) whose LAST write in the run was still non-finite, with its name and bad-write count, so
+ * start-up NaNs are told apart from values that stay bad. `badPerFrame[f]` counts bad writes per submit for the first
+ * 600; `scanned` / `bytes` are the scan totals. Self-contained: it is stringified into the page. */
 export function installNanProbe(win) {
-  const P = (win.__nanProbe = { records: [], badPerFrame: [], scanned: 0, bytes: 0, bad: 0, frame: 0, threeHooked: false });
-  const MAX = 40, FRAMES = 600, INDEX = 0x10, INDIRECT = 0x100, MAP_READ = 0x1;
+  const P = (win.__nanProbe = { records: [], badPerFrame: [], scanned: 0, bytes: 0, bad: 0, frame: 0, threeHooked: false, persistent: [] });
+  const MAX = 60, FRAMES = 600, INDEX = 0x10, INDIRECT = 0x100, MAP_READ = 0x1;
   const hit = new WeakSet(), maps = new WeakMap();
-  let curBinding = null;
+  let curBinding = null, curRO = null;
+  const seen = new Set(), owners = new Map(); // owners: group|uuid -> { name, group, bad, lastBad }
   const now = () => (win.performance ? Math.round(win.performance.now()) : 0);
   const wrap = (proto, name, make) => { if (proto && typeof proto[name] === "function") proto[name] = make(proto[name]); };
   const half = (h) => { const e = (h >> 10) & 31, m = h & 1023, s = h & 0x8000 ? -1 : 1; return e === 31 ? (m ? NaN : s * Infinity) : s * (e ? 2 ** (e - 15) * (1 + m / 1024) : 2 ** -14 * (m / 1024)); };
@@ -528,24 +536,66 @@ export function installNanProbe(win) {
     for (let i = 0; i < n; i++) { const v = vals(i); if (v !== v || v === Infinity || v === -Infinity) return i; }
     return -1;
   };
-  const uniformsAt = (b, fi) => {
+  const unifsAt = (b, fi) => (b.uniforms ?? []).filter((u) => { const o = u.offset, n = u.itemSize ?? 1; return typeof o === "number" && fi >= o && fi < o + Math.max(n, 1); });
+  const uniformsAt = (b, fi) => { try { return unifsAt(b, fi).map((u) => u.name ?? u.nodeUniform?.name ?? "?"); } catch (e) { return [`err ${e.message}`]; } };
+  const nums = (a) => Array.from(a ?? [], (x) => (Number.isFinite(x) ? x : name(x)));
+  const comps = (v) => {
+    if (!v || typeof v !== "object") return undefined;
+    if (v.isMatrix4 || v.isMatrix3 || v.isMatrix2) return nums(v.elements);
+    if (v.isColor) return nums([v.r, v.g, v.b]);
+    if (v.isVector2 || v.isVector3 || v.isVector4 || v.isQuaternion) return nums(["x", "y", "z", "w"].filter((k) => k in v).map((k) => v[k]));
+    return undefined;
+  };
+  const nodeOf = (u) => {
+    const nu = u?.nodeUniform, node = nu?.node, v = node ? node.value : nu?.value;
+    return { uniform: u?.name ?? nu?.name ?? null, name: node?.name ?? nu?.name ?? null, class: node?.constructor?.name ?? null,
+      valueType: v === null ? "null" : typeof v, valueClass: v && typeof v === "object" ? v.constructor?.name ?? null : null,
+      value: typeof v === "number" ? (Number.isFinite(v) ? v : name(v)) : comps(v) };
+  };
+  const tgt = (t) => (t ? { width: t.width ?? null, height: t.height ?? null, depth: t.depth ?? null, label: t.texture?.name || t.label || null, samples: t.samples ?? null, isCubeRenderTarget: Boolean(t.isCubeRenderTarget) } : null);
+  const camOf = (c) => (c ? { type: c.type ?? null, name: c.name ?? "", uuid: c.uuid ?? null, aspect: c.aspect ?? null, fov: c.fov ?? null, near: c.near ?? null, far: c.far ?? null, zoom: c.zoom ?? null,
+    view: c.view ? { ...c.view } : null, ortho: c.isOrthographicCamera ? { left: c.left, right: c.right, top: c.top, bottom: c.bottom } : null, isArrayCamera: Boolean(c.isArrayCamera) } : null);
+  const ownerKey = (group, ro) => { const isRender = group === "render", o = isRender ? ro.camera : ro.object; return { uuid: o?.uuid ?? null, name: o?.name || o?.type || "?" }; };
+  const ownerInfo = (ro, group) => {
+    const o = ro.object, m = ro.material, ctx = ro.context, out = {};
     try {
-      const out = [];
-      for (const u of b.uniforms ?? []) { const o = u.offset, n = u.itemSize ?? 1; if (typeof o === "number" && fi >= o && fi < o + Math.max(n, 1)) out.push(u.name ?? u.nodeUniform?.name ?? "?"); }
-      return out;
-    } catch (e) { return [`err ${e.message}`]; }
+      const parents = []; for (let p = o?.parent; p && parents.length < 3; p = p.parent) parents.push(p.name || p.type || "?");
+      out.object = o ? { name: o.name ?? "", type: o.type ?? null, uuid: o.uuid ?? null, userData: Object.keys(o.userData ?? {}), parents } : null;
+      out.material = m ? { name: m.name ?? "", type: m.type ?? null, uuid: m.uuid ?? null } : null;
+      out.context = ctx ? { width: ctx.width ?? null, height: ctx.height ?? null, label: ctx.label ?? null, target: tgt(ctx.renderTarget) } : null;
+      if (group === "render") {
+        out.camera = camOf(ro.camera);
+        const r = win.__RENDERER__, V = (k) => { try { const v = r[k](); return v ? nums([v.x, v.y, v.z, v.w].filter((x) => x !== undefined)) : null; } catch { return null; } };
+        out.renderer = r ? { target: tgt(r.getRenderTarget?.()), viewport: V("getViewport"), drawingBuffer: V("getDrawingBufferSize") } : null;
+      }
+    } catch (e) { out.err = e.message; }
+    return out;
+  };
+  // every binding write inside updateForRender updates its owner's last state (map lookup only; details on a hit)
+  const noteOwner = (bad) => {
+    if (!curRO || !curBinding) return null;
+    const group = curBinding.name ?? "?", k = ownerKey(group, curRO), key = `${group}|${k.uuid}`;
+    let e = owners.get(key);
+    if (!e) { if (!bad) return null; owners.set(key, (e = { group, uuid: k.uuid, name: k.name, bad: 0, lastBad: false })); }
+    e.lastBad = bad; if (bad) e.bad++;
+    return k;
   };
   const record = (target, kind, byteBase, idx, vals, n, bytesPer, extra) => {
     P.bad++;
     if (P.frame < FRAMES) P.badPerFrame[P.frame] = (P.badPerFrame[P.frame] ?? 0) + 1;
-    if (hit.has(target) || P.records.length >= MAX) return;
-    hit.add(target);
+    const own = kind === "writeBuffer" ? noteOwner(true) : null;
+    const fi = (byteBase + idx * bytesPer) / 4;
+    let dk = null;
+    if (own) { let un = "?"; try { un = uniformsAt(curBinding, fi).join("+"); } catch {} dk = `${curBinding.name}|${un}|${own.uuid}`; }
+    if ((dk ? seen.has(dk) : hit.has(target)) || P.records.length >= MAX) return;
+    if (dk) seen.add(dk); else hit.add(target);
     const v = vals(idx), near = [];
     for (let i = Math.max(0, idx - 4); i < Math.min(n, idx + 4); i++) { const x = vals(i); near.push(Number.isFinite(x) ? x : name(x)); }
     const r = { kind, frame: P.frame, t: now(), label: target.label ?? "", size: target.size ?? null, usage: target.usage ?? null,
       byteOffset: byteBase + idx * bytesPer, floatIndex: idx, value: name(v), near, stack: String(new Error().stack ?? "").split("\n").slice(1, 13).map((l) => l.trim()), ...extra };
     if (curBinding && kind === "writeBuffer") {
-      r.group = curBinding.name ?? null; r.uniforms = uniformsAt(curBinding, (byteBase + idx * bytesPer) / 4);
+      r.group = curBinding.name ?? null; r.uniforms = uniformsAt(curBinding, fi);
+      if (curRO) { r.owner = ownerInfo(curRO, r.group); try { r.owner.node = unifsAt(curBinding, fi).map(nodeOf); } catch (e) { r.owner.node = [`err ${e.message}`]; } }
     } else if (kind === "writeBuffer") r.mapping = P.threeHooked ? "not inside backend.updateBinding (stack only)" : "renderer not hooked (stack only)";
     P.records.push(r);
   };
@@ -555,7 +605,9 @@ export function installNanProbe(win) {
     const f = byteStart % 4 === 0 ? new Float32Array(buf, byteStart, n) : new Float32Array(buf.slice(byteStart, byteStart + n * 4));
     const vals = (i) => f[i], i = scan(n, vals, 4);
     if (i >= 0) record(target, kind, byteBase, i, vals, n, 4, extra);
+    else if (kind === "writeBuffer") noteOwner(false);
   };
+  Object.defineProperty(P, "persistent", { enumerable: true, get: () => [...owners.values()].filter((e) => e.lastBad).map(({ group, uuid, name: n, bad }) => ({ group, uuid, name: n, bad })) });
   const isInt = (d) => /^(Int8|Int16|Int32|Uint16|Uint32|BigInt64|BigUint64)Array$/.test(d?.constructor?.name ?? "");
   const Q = win.GPUQueue?.prototype;
   wrap(Q, "submit", (f) => function (...a) { P.frame++; return f.apply(this, a); });
@@ -603,6 +655,11 @@ export function installNanProbe(win) {
     if (!be || typeof be.updateBinding !== "function") return false;
     const orig = be.updateBinding;
     be.updateBinding = function (binding) { const prev = curBinding; curBinding = binding; try { return orig.call(this, binding); } finally { curBinding = prev; } };
+    const bs = win.__RENDERER__._bindings;
+    if (bs && typeof bs.updateForRender === "function") {
+      const ofr = bs.updateForRender;
+      bs.updateForRender = function (ro) { const prev = curRO; curRO = ro; try { return ofr.call(this, ro); } finally { curRO = prev; } };
+    }
     P.threeHooked = true;
     return true;
   };
@@ -616,7 +673,7 @@ export function nanProbeLine(p) {
   const r = p.records?.[0];
   if (!r) return `not-a-bar; clean (${totals})`;
   const where = r.group ? `${r.group}.${(r.uniforms ?? []).join("+") || "?"}` : "stack only";
-  return `not-a-bar; ${p.bad} bad writes, first f${r.frame} ${r.label || "(unlabelled)"}/${where} ${r.value} (${p.records.length} records; ${totals})`;
+  return `not-a-bar; ${p.bad} bad writes, first f${r.frame} ${r.label || "(unlabelled)"}/${where} ${r.value} (${p.records.length} records; persistent ${p.persistent?.length ?? 0}; ${totals})`;
 }
 
 /** One summary line from a view's gpu-error-probe.json: the first dump's missing slot, pipeline label and three object name. */

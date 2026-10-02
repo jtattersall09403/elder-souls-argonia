@@ -488,3 +488,32 @@ test("nan probe: finite writes stay clean; index buffers and int arrays are skip
   assert.deepEqual(rs.map((r) => [r.kind, r.label, r.value, r.floatIndex]), [["mapped", "mapped", "Inf", 1], ["writeTexture", "lightField", "NaN", 1]]);
   assert.equal(rs[0].mapping, undefined);
 });
+test("nan probe: a hit inside updateForRender names its owner (object, material, node; camera for render) and the persistent table", () => {
+  const at = {};
+  const obj = { name: "reedClump", type: "Mesh", uuid: "o1", userData: { kit: 1 }, parent: { name: "cell", parent: { name: "veg", parent: { type: "Scene" } } } };
+  const cam = { type: "PerspectiveCamera", name: "probeCam", uuid: "c1", aspect: 0, fov: 50, near: 0.1, far: 100, zoom: 1, isArrayCamera: false };
+  const ctx = { width: 0, height: 0, label: "rt", renderTarget: { width: 0, height: 4, depth: 1, samples: 0, texture: { name: "probeRT" } } };
+  const ro = { object: obj, material: { name: "reedMat", type: "MeshStandardNodeMaterial", uuid: "m1" }, context: ctx, camera: cam };
+  const vec = { isVector3: true, x: 1, y: NaN, z: 0, constructor: { name: "Vector3" } };
+  const objB = { name: "object", uniforms: [{ name: "nodeUniform6", offset: 0, itemSize: 4, nodeUniform: { name: "nodeUniform6", node: { name: "windDir", value: vec, constructor: { name: "UniformNode" } } } }] };
+  const renB = { name: "render", uniforms: [{ name: "cameraProjectionMatrix", offset: 0, itemSize: 16 }] };
+  const be = { updateBinding(b) { at.q.writeBuffer(at.buf, 0, at.data); } };
+  const bindings = { updateForRender(r) { for (const b of r.list) be.updateBinding(b); } };
+  const renderer = { backend: be, _bindings: bindings, getRenderTarget: () => ctx.renderTarget, getViewport: () => ({ x: 0, y: 0, z: 0, w: 4 }), getDrawingBufferSize: () => ({ x: 800, y: 600 }) };
+  const { win, q, GPUBuffer } = fakeNanWindow(renderer);
+  at.q = q; at.buf = new GPUBuffer("bindingBuffer18", 64, 0x40 | 0x8);
+  const run = (list, data) => { at.data = data; win.__RENDERER__._bindings.updateForRender({ ...ro, list }); };
+  run([objB], new Float32Array([1, NaN, 0, 0])); run([objB], new Float32Array([1, NaN, 0, 0])); run([objB], new Float32Array([1, 2, 0, 0])); // transient
+  const proj = new Float32Array(16); proj[0] = Infinity;
+  run([renB], proj); run([renB], proj); // persistent
+  const p = win.__nanProbe;
+  assert.equal(p.records.length, 2); assert.equal(p.bad, 4);
+  const [o, r] = p.records;
+  assert.equal(o.group, "object"); assert.equal(o.owner.object.name, "reedClump"); assert.deepEqual(o.owner.object.parents, ["cell", "veg", "Scene"]);
+  assert.deepEqual(o.owner.object.userData, ["kit"]); assert.equal(o.owner.material.name, "reedMat"); assert.equal(o.owner.context.target.label, "probeRT");
+  assert.deepEqual(o.owner.node, [{ uniform: "nodeUniform6", name: "windDir", class: "UniformNode", valueType: "object", valueClass: "Vector3", value: [1, "NaN", 0] }]);
+  assert.equal(r.group, "render"); assert.equal(r.owner.camera.name, "probeCam"); assert.equal(r.owner.camera.aspect, 0);
+  assert.deepEqual(r.owner.renderer.viewport, [0, 0, 0, 4]); assert.deepEqual(r.owner.renderer.drawingBuffer, [800, 600]); assert.equal(r.owner.renderer.target.height, 4);
+  assert.deepEqual(JSON.parse(JSON.stringify(p)).persistent, [{ group: "render", uuid: "c1", name: "probeCam", bad: 2 }]);
+  assert.match(nanProbeLine(p), /persistent 1;/);
+});
