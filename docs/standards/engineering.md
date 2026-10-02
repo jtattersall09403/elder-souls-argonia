@@ -475,7 +475,11 @@ headless.
   than the vertex spacing (shore direction, shore-swell slope, short or
   high-curvature bands) is evaluated per pixel at the REST xz
   (`vEsRestXZ`), never carried in the vertex normal and never at the
-  displaced position; only heights stay per vertex (0047). Bands are
+  displaced position; only heights stay per vertex (0047). A value that
+  changes direction or crosses a threshold between vertices (a direction,
+  a phase, a band pick) never enters the fragment as a varying; the vertex
+  stage passes only rest xz and heights (diag15 V4: the surf foam phase).
+  Bands are
   picked by curvature (amp*k^2) against the mesh grid, never by amplitude
   (`crestBands`; diag12 Q2, diag14 V1/V2).
 - A patched material has a stable `customProgramCacheKey` that reads only

@@ -343,9 +343,13 @@ describe("Water Pro transfers (Greenheck study §3.1, §6)", () => {
     expect(vert).toContain("float esSurfE = esSurfEnergy(uWindMS, esFetchM);");
     expect(vert).toContain("float esAlong = esAlongPhase(esRestW.xz, esShoreDir, uWaveTime);");
     expect(vert).toContain("esShoreSwell(esShore, max(esSurf.y, 0.0), esFetch, uWaveTime, esSurfE, esAlong, esSwellDHdd)");
-    expect(vert).toContain("vEsSurf = vec4(esFetch, esShoreDir, esSurfE);");
-    expect(frag).toContain("esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime, vEsSurf.w,");
-    expect(frag).toContain("esAlongPhase(vEsWorldPos.xz, vEsSurf.yz, uWaveTime)");
+    expect(vert).toContain("vEsSurf = vec2(esFetch, esSurfE);");
+    expect(frag).toContain("esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime, vEsSurf.y,");
+    // diag15 V4: the foam phase reads the per-pixel shore frame at the rest
+    // xz, never a direction interpolated across the triangle
+    expect(frag).toContain("esAlongPhase(vEsRestXZ, esShoreDirR, uWaveTime)) * 0.85");
+    expect(frag).not.toMatch(/vEsSurf\.(yz|z|w)/);
+    expect(frag).not.toContain("esAlongPhase(vEsWorldPos.xz");
     // the old wave-scale power is gone from both stages: one knob
     for (const src of [vert, frag]) {
       expect(src).not.toContain("pow(uWindWave, 0.8)");

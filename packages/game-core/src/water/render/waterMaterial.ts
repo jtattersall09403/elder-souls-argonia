@@ -677,7 +677,7 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant, strip: boolean)
 varying vec2 vEsColour;  // 16f: algae, dark  // turbidity(silt), salinity, tannin, class index
   varying vec3 vEsFlow;   // flow m/s (xy) + surface drop along flow (z)
   varying vec3 vEsNormalW; // world-space wave normal
-  varying vec4 vEsSurf;   // fetch exposure, shoreward dir (xz), surf energy
+  varying vec2 vEsSurf;   // fetch exposure, surf energy (the shore frame is per pixel)
 
   float esEyeDepth(vec2 uv){
     float d = texture2D(uSceneDepth, uv).x;
@@ -855,7 +855,7 @@ varying vec4 vEsKlass;
 varying vec2 vEsColour;  // 16f: algae, dark
 varying vec3 vEsFlow;
 varying vec3 vEsNormalW;
-varying vec4 vEsSurf;
+varying vec2 vEsSurf;   // fetch exposure, surf energy
 varying vec2 vEsRestXZ;  // rest world xz: per-pixel shore frame and crest phase (diag14 V1, V2)
 varying vec3 vEsWaveIn;  // wave amp, fetch, standing: the fragment's short bands
 ${SAMPLER_GLSL}
@@ -988,7 +988,7 @@ if (esFlowSp > ${FLOW_WAVE_MIN_GLSL}) {
   vec2 esSlope = esW.normal.xz / max(esW.normal.y, 1e-3) + (esFlowN.xz / max(esFlowN.y, 1e-3)) * esFlowFade;
   esW.normal = normalize(vec3(esSlope.x, 1.0, esSlope.y));
 }`}
-vEsSurf = vec4(esFetch, esShoreDir, esSurfE);
+vEsSurf = vec2(esFetch, esSurfE);
 vEsStill = esStill;
 vEsKlass = vec4(esKl.g, esKl.b, esSS.z, esKl.r * 255.0);   // turbidity, salinity, tannin, class
 vEsColour = esColourAt(esRestW.xz);
@@ -1203,6 +1203,7 @@ ${strip ? "" : /* glsl */ `
 // the raster's 2-texel gradient under a soft cut, the vertex stage's swell
 // profile; only its height stays per vertex (0047). In the vertex normal this
 // tilt snapped between grid vertices and drew pale triangular facets.
+vec2 esShoreDirR = vec2(0.0);   // shared with the surf foam phase (diag15 V4)
 {
   vec3 esSR = esShoreAt(vEsRestXZ);
   if (uHasApron > 0.5 && esOutside(vEsRestXZ) && esTideResponse(vEsKlass.w) < 0.5)
@@ -1213,9 +1214,9 @@ ${strip ? "" : /* glsl */ `
       esShoreAt(vEsRestXZ + vec2(eGR, 0.0)).x - esSR.x,
       esShoreAt(vEsRestXZ + vec2(0.0, eGR)).x - esSR.x) / eGR;
     float esGLR = length(esGradR);
-    vec2 esShoreDirR = -esGradR / max(esGLR, 1e-4) * smoothstep(0.02, 0.08, esGLR);
+    esShoreDirR = -esGradR / max(esGLR, 1e-4) * smoothstep(0.02, 0.08, esGLR);
     float esSwellD = 0.0;
-    esShoreSwell(esSR.x, max(esSurfaceAt(vEsRestXZ).y, 0.0), vEsSurf.x, uWaveTime, vEsSurf.w,
+    esShoreSwell(esSR.x, max(esSurfaceAt(vEsRestXZ).y, 0.0), vEsSurf.x, uWaveTime, vEsSurf.y,
       esAlongPhase(vEsRestXZ, esShoreDirR, uWaveTime), esSwellD);
     // height slope = dH/dd * grad(d) = -shoreDir * dH/dd
     esWaveG -= esShoreDirR * esSwellD;
@@ -1350,10 +1351,11 @@ float esFoamE;
 // move together; per-pixel phase jitter breaks the parallel-band look
 {
   float bn = esFbm(vEsWorldPos.xz * 0.16, 3);
-  // the vertex stage's energy and shore frame (vEsSurf.w, .yz): foam and
-  // geometry share one knob and one oblique phase
-  esFoamE += esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime, vEsSurf.w,
-    esAlongPhase(vEsWorldPos.xz, vEsSurf.yz, uWaveTime)) * 0.85;
+  // the vertex stage's energy (vEsSurf.y) and the per-pixel shore frame at
+  // the rest xz (diag15 V4: a vertex direction, interpolated, kinked the
+  // phase at every triangle edge and the thresholds cut pale wedges)
+  esFoamE += esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime, vEsSurf.y,
+    esAlongPhase(vEsRestXZ, esShoreDirR, uWaveTime)) * 0.85;
 }
 // 3. whitecaps on genuinely exposed water, never in the far shimmer zone
 // The mesh crest alone thins out with vertex LOD, so whitecaps vanish at
