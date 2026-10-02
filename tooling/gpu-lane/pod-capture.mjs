@@ -19,7 +19,7 @@
  * --fps-reads  after the capture, N further reads of fps / GPU ms 2 s apart (default 0)
  * --steps     JSON file: a list of {at, label, js, waitMs?}; at each `at` second the page evaluates js, waits waitMs (default 2500),
  *              then records a full read (with screen-middle luma) into result.steps; sorted by `at`
- * --settled-frames N  after the settle gate (queue at 0 pending with geometry for 5 s, no earlier than 20 s; a build without
+ * --settled-frames N  after the settle gate (queue at 0 pending with geometry for 5 s, no earlier than --settle-floor s (default 60); a build without
  *              a queue counts as 0 pending) count N renderer frames, then a full read into reads.settled (default 300; 0 = off).
  *              lumaRatio.settled is the comparable luma ratio; the fixed-second reads drift with streaming.
  * --compare   after the main capture, capture this URL with the same schedule into <out>/compare/; result.json gets lumaRatio
@@ -49,7 +49,7 @@ const steps = opt("steps") ? parseSteps(readFileSync(opt("steps"), "utf8")) : []
 const readsAt = opt("reads", "15,30,60,120").split(",").map(Number).filter((s) => s < totalS); // a read at --seconds is result.final
 const prof = opt("profile") ? parseProfile(opt("profile")) : null, fpsReads = Number(opt("fps-reads", 0));
 const W = Number(opt("width", 1280)), H = Number(opt("height", 720));
-const compareUrl = opt("compare"), settledFrames = Number(opt("settled-frames", 300));
+const compareUrl = opt("compare"), settledFrames = Number(opt("settled-frames", 300)), settleFloor = Number(opt("settle-floor", 60));
 
 // Own window per capture tab: Target.createTarget on the browser websocket, newWindow, foreground.
 async function openWindow() {
@@ -152,7 +152,7 @@ try {
   const t0 = Date.now(), sec = () => (Date.now() - t0) / 1000;
   await send("Page.navigate", { url });
   const heapSamples = [];
-  let si = 0, ri = 0, lastPoll = -1, zeroSince = null, gate = settledFrames > 0 ? settleGate(settledFrames) : null, profState = prof ? "wait" : "done";
+  let si = 0, ri = 0, lastPoll = -1, zeroSince = null, gate = settledFrames > 0 ? settleGate(settledFrames, settleFloor) : null, profState = prof ? "wait" : "done";
   while (sec() < totalS) {
     const s = sec();
     if (profState === "wait" && s >= prof.at) { await send("Profiler.start"); profState = "on"; }
