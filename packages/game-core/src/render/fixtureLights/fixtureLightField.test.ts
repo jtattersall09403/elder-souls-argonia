@@ -10,6 +10,7 @@ import { MeshStandardNodeMaterial } from "three/webgpu";
 import { describe, expect, it } from "vitest";
 import {
   FIXTURE_LIGHTS_MAX,
+  setFixtureLightsPerObject,
   FIXTURE_LIGHTS_PER_OBJECT,
   FixtureFieldLighting,
   FixtureFieldLightsNode,
@@ -218,5 +219,13 @@ describe("FixtureLightField.forEachLight", () => {
     mesh.instanceMatrix.needsUpdate = true;
     mesh.boundingSphere = null;
     expect(field.slotsOf(mesh).count).toBe(1);
+  });
+
+  it("the lamp bound is part of the program cache key", () => {
+    const a = new THREE.MeshStandardMaterial();
+    const b = new THREE.MeshStandardMaterial();
+    setFixtureLightsPerObject(a, 16);
+    setFixtureLightsPerObject(b, 32);
+    expect(a.customProgramCacheKey()).not.toBe(b.customProgramCacheKey());
   });
 });

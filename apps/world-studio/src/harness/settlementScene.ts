@@ -17,6 +17,7 @@
  */
 import * as THREE from "three";
 import { MeshStandardNodeMaterial, type WebGPURenderer } from "three/webgpu";
+import { setFixtureLightsPerObject } from "@elder-souls/game-core/render/fixtureLights/fixtureLightField";
 import { createKitLoader, kitDecodersFor } from "@elder-souls/game-core/assets/kitLoader";
 import { buildArchitectureKit, kitAssetMetaFromManifest, type ArchitecturePart } from "@elder-souls/game-core/settlement/kit";
 import {
@@ -125,7 +126,7 @@ export async function buildSettlementScene(ctx: HarnessContext, night: boolean):
   // ground: 10 m tiles, as terrain tiles are (the field picks lamps per
   // object; terrain objects take 16, their material's esFixtureLightsPerObject)
   const groundMaterial = new MeshStandardNodeMaterial({ color: 0x5b5242, roughness: 0.95 });
-  groundMaterial.userData.esFixtureLightsPerObject = 16;
+  setFixtureLightsPerObject(groundMaterial, 16);
   const tile = new THREE.PlaneGeometry(10, 10).rotateX(-Math.PI / 2);
   // 70 m square: the lamp ring (30 m) and its 6-7 m reach
   for (let i = 0; i < 7; i++) {

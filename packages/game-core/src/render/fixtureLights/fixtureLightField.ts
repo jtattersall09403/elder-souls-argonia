@@ -58,6 +58,17 @@ export function fixtureLightsPerObject(material: THREE.Material | null | undefin
   return typeof n === "number" && n >= 1
     ? Math.min(FIXTURE_LIGHTS_PER_OBJECT_MAX, Math.floor(n)) : FIXTURE_LIGHTS_PER_OBJECT;
 }
+/** Set a material's fixture-light list length AND fold it into its program cache key:
+ * three leaves `userData` out of the key, so without this two materials differing only in
+ * the bound could share one compiled program with the wrong loop bound. */
+export function setFixtureLightsPerObject(material: THREE.Material, n: number): void {
+  material.userData.esFixtureLightsPerObject = n;
+  const prior = material.customProgramCacheKey;
+  material.customProgramCacheKey = function (this: THREE.Material) {
+    const base = prior ? prior.call(this) : "";
+    return `${base}|fl${fixtureLightsPerObject(this)}`;
+  };
+}
 /** three's PointLight decay the fixture lights reproduce unless a lamp names its own. */
 export const FIXTURE_LIGHT_DECAY = 2;
 
