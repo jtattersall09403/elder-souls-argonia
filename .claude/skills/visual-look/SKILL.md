@@ -1,6 +1,6 @@
 ---
 name: visual-look
-description: Close-up visual check of a published kit piece, composite or placed place region — a six-view contact sheet with runtime materials and runtime flames (npm run look, ~2 s, no GPU, no studio), a Sonnet judge driven by the look list, and the self-improvement rule that turns every new defect into a look-list row and a skill lesson. Use after publishing or changing a kit piece, before a render round on a place, and whenever a fixture, flame, tent, door or walkway might look wrong.
+description: Close-up visual check of a published kit piece, composite or placed place region — a six-view contact sheet with runtime materials and runtime flames (npm run look, ~2 s, no GPU, no studio), an `image-reader` judge driven by the look list, and the self-improvement rule that turns every new defect into a look-list row and a skill lesson. Use after publishing or changing a kit piece, before a render round on a place, and whenever a fixture, flame, tent, door or walkway might look wrong.
 ---
 
 # visual-look
@@ -36,12 +36,12 @@ studio draws it in a cell or a place. That question has its own check,
 `place <placeId> --t 22`, at the built bundle's centre) on the built site, and only its PASS line means
 "flames verified" (place-build `references/fire.md` § 3 step 4).
 
-## 2. Judge it (Sonnet)
+## 2. Judge it (`image-reader`)
 
 The tool prints a ready-to-paste judge brief: image paths, the measured
 facts, and the questions of the subject's class from
 [look-lists.md](../../../tooling/visual-look/look-lists.md). Launch one
-`general-purpose` agent with `model: sonnet` and paste it (several briefs
+`image-reader` agent and paste it (several briefs
 may go to one agent). Numbers from the facts line beat the eye.
 
 ## 3. Fix, then teach (the self-improvement rule)

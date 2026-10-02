@@ -28,6 +28,7 @@ Well-specified multi-step tasks: medium; latency-bound chores: low. `deliver-sma
 | Run a whole job and report pass/fail | `run` / `preflight` (Sonnet 5.5, low) |
 | Fully specified edit to one file or a few named files: mechanical refactor/rename, a unit test beside a fix, a data-file or config change with the values given, a doc rewrite from a given spec, a scripted measurement to write and run | `deliver-small` (Sonnet 5.5, medium, budget ≤ 20 min) |
 | Implementation across several files where delivery choices remain, diagnosis inside a brief, sourcing | `deliver` (Opus 5.5, low) |
+| Every visual ingestion (screenshots, renders, contact sheets, reference images): a checklist plus open judgement, no orientation | `image-reader` (Sonnet 5.5, medium) |
 | Place authoring, layout, Blender and geometry judgement | `place-builder` (Opus 5.5, medium) |
 | A lane of a round | `lead` (Opus 5.5, medium) |
 | Audit, sourcing, mining, UESP | `research` (Opus 5.5) |

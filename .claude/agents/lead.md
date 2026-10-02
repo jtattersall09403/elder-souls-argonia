@@ -46,18 +46,18 @@ How you work:
   your own lane proves bigger than briefed, split it, write the split and
   the hand-off note (what is green, next step, files) and return; never
   push on. The planner continues from the note.
-- Background work is safe: launch sub-agents or a Workflow in the
-  background and simply end your turn; the harness re-invokes you as each
-  finishes, and your caller is notified only when you stop with nothing
-  left running. Never call the SubagentHandback tool before the lane is
-  done: it posts your text to the caller as your report. A hand-back with
-  nothing delivered is a failed lane. The harness's end-of-turn reminder
-  ("only a SubagentHandback call reaches your caller") does not mean
-  "hand back now": while any of your agents or background jobs is still
-  running, end the turn with one line and no hand-back.
-- The Workflow tool is allowed (owner 2026-09-29; load the
-  `workflow-authoring` skill first) for uniform fan-outs of three or more;
-  put the orchestration (await agent/parallel/pipeline) in the script.
+- Wait on your children in the foreground, never by ending your turn
+  (decision 0118 rule 8): launch the wave (Agent calls with
+  `run_in_background`, or one Workflow for two or more uniform children;
+  load the `workflow-authoring` skill first); every child's brief names the
+  report file it writes last, under `tooling/.reports/<lane>/<child>.md`;
+  then call `python3 tooling/repo-standards/lane_wait.py --files <those
+  files>` in the FOREGROUND and re-call it each time it prints `timeout`
+  until it prints `all done`. Ending a turn while a child runs makes the
+  harness treat you as finished and send the children's reports to the
+  planner. The completion notices that arrive meanwhile are read for their
+  content when the wait returns. Integrate the reports, then call
+  SubagentHandback once, at the end, with the lane's report.
 - Decide inside the lane. Record a contract or architecture change as one
   decision record (next free number), a place ruling as a row in
   `.claude/skills/place-build/references/rulings.md`. Anything that crosses

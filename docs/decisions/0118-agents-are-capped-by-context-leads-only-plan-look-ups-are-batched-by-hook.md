@@ -65,13 +65,16 @@ measured where they went:
    `<place>#walk-N` in the build ledger on the walk's first round;
    `--end-walk` ends it, so `build_ledger.py --report` lists an
    over-target fix round again.
-8. **Interim hand-backs go to the lead.** A lane spawned by a lead reports
-   to that lead, never to the planner, and a wave runs inside one Workflow
-   so its caller wakes once per wave. Known exception: the Workflow tool
-   was missing from some sessions; a wave then runs as background Agent
-   calls and the caller ignores wakes with nothing actionable (0079 rule
-   11). The harness routes a hand-back to whoever spawned the agent; no
-   hook can re-route it, so this is a brief and agent-file rule.
+8. **A lead waits on its children; it never ends its turn while one runs.**
+   A lane spawned by a lead reports to that lead, never to the planner:
+   every child's brief names a report file it writes last under
+   `tooling/.reports/<lane>/<child>.md`, and the lead calls
+   `tooling/repo-standards/lane_wait.py --files <those files>` in the
+   foreground, re-calling it on every `timeout` line until `all done`. The
+   harness treats a lead that ends its turn as finished and routes the
+   children's reports to the planner; no hook can keep a stopped subagent
+   alive, so the lead stays in its turn. It integrates the reports and
+   calls SubagentHandback once, at the end (owner 2026-10-02).
 
 The process audit (r6 § 4) runs at the close of every second walk round,
 or at once on a `workflow_drift` red, a day above 120 units, or a fix

@@ -23,7 +23,7 @@ This skill holds the procedure; its `references/` hold the grounding:
 | [references/lessons/](references/lessons/README.md) | the lessons store, one file per section (README: row format and what each file holds; 0106): every lesson still in force, each with its gate | step 0, only the rows the site packet lists for this type; a section file when a job needs it |
 | [references/design-index.md](references/design-index.md) | one line per binding source or prior: the rule id and when it applies | step 0, the rows for this type, culture and step |
 | [references/dressing.md](references/dressing.md) | the facing table, idle-socket placement, signs by use and pool, and the dressing each place still lacks with its kit | steps 1-2, the dressing groups |
-| [references/reader-checklist.md](references/reader-checklist.md) | what the Sonnet image reader is told to look for | steps 3–4, pasted into the reader's prompt |
+| [references/reader-checklist.md](references/reader-checklist.md) | what the `image-reader` agent is told to look for | steps 3–4, pasted into the reader's prompt |
 | [references/types/](references/types/) | one design sheet per place type on the 16k list | step 0, this place's type |
 | [references/doors-interiors-sockets.md](references/doors-interiors-sockets.md) | door records, shells chosen for their interiors, the fit rule, the tier A export, the interior runtime contract, the socket kinds and gates, the approach checklist | steps 1, 2 and 5 |
 | [references/round-recipe.md](references/round-recipe.md) | the timetable of one round: what fans out, what the builder does itself, what is never done in a round | steps 2–4 and 7, before the first edit |
@@ -248,7 +248,7 @@ a tier B or C interior only, `reserved` naming its pool; R2), and
 `--layout` renders what the last `apply` derived (refused when the layout
 changed since) and implies `--plan`. Renders carry no text (R8);
 `--labels` is for a human debugging a render only. Hand the PNG to one
-Sonnet reader with the **Plan** rows of `references/reader-checklist.md`
+`image-reader` agent with the **Plan** rows of `references/reader-checklist.md`
 and the brief's expectations written first; fix footprint, spacing, path
 and door-facing findings in the layout; `apply`; render again. No Blender
 render until the plan read is clean (0100 decision 3 as amended).
@@ -282,7 +282,7 @@ A red is fixed at source, never by moving a plugin piece.
 
 One Blender launch: the top view, one front per building, two isos, and a
 shot of every `unmined` mount (0102 decision 5). The readers run as one
-`Workflow`, one Sonnet reader per image or contact sheet, one merged NO
+`Workflow`, one `image-reader` per image or contact sheet, one merged NO
 list (`references/round-recipe.md` step 3); each gets only the
 `reader`-tagged rows of `references/reader-checklist.md` for its view:
 readers judge only what `check` cannot measure. A NO, an UNSURE, a black
