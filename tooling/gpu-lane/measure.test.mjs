@@ -426,7 +426,7 @@ test("host sampler: a worker-seen gap overlapping a steal spike is a host stall 
     [origin + 1250, 106, 7, 2, 4, 1200, 1000, 2400, 3200, "-"], [origin + 1500, 106, 9, 2, 4, 1200, 1000, 2400, 3200, "-"], [origin + 1750, 107, 30, 2, 4, 1300, 1000, 2400, 3200, "-"]];
   rows.nproc = 8;
   const s = hostSeries(rows, origin);
-  const { core, coreMhz, runMs, waitMs, migr, nvcsw, gpuCore, gpuCoreMhz, gpuWaitMs, throttledMs, rendererPid, rendererThreadsBusy, cpuset, governor, maxMhzDistinct, ...base } = s;
+  const { core, coreMhz, runMs, waitMs, migr, nvcsw, gpuCore, gpuCoreMhz, gpuWaitMs, throttledMs, rendererPid, rendererThreadsBusy, sibBusyMs, l3BusyPct, coreBusyMs, cpuset, governor, maxMhzDistinct, ...base } = s;
   assert.deepEqual({ ...base, top: s.top.map((x) => x.length) }, { nproc: 8, t: [1000, 1250, 1500, 1750], stealMs: [0, 60, 0, 10], majFaults: [0, 0, 2, 21],
     load1: [1.5, 2, 2, 2], runnable: [3, 4, 4, 4], busyPct: [50, 50, null, 100], mhzMin: [2400, 2400, 2400, 2400], mhzMax: [3100, 3200, 3200, 3200], top: [2, 0, 0, 0] });
   assert.deepEqual(s.top[0], [{ proc: "5/node", ms: 200 }, { proc: "6/ssh", ms: 50 }]);

@@ -180,7 +180,8 @@ Top level: `gitSha`, `dirty`, `builtAt` (served index.html mtime), `renderer`, `
   (/proc/cpuinfo), `top` (3 processes by CPU since the previous sample, `{proc: pid/comm, ms}`); for the renderer
   main thread (task tid == pid of the `--type=renderer` process whose CPU time grew most, re-picked each sample, so
   the studio tab and not the keeper page; thread comm is "chrome" on the pod): `rendererPid`, `rendererThreadsBusy`
-  (its threads whose CPU grew >= 20 ms), `core` (stat field 39), `coreMhz` (that core's cpuinfo MHz, scaling_cur_freq fallback),
+  (its threads whose CPU grew >= 20 ms), `sibBusyMs` (busy ms of the main core's SMT sibling), `l3BusyPct` (mean busy % of the
+  rest of its L3 group), `coreBusyMs` (the core's own busy ms; minus `runMs` = other work on that core; per-CPU /proc/stat), `core` (stat field 39), `coreMhz` (that core's cpuinfo MHz, scaling_cur_freq fallback),
   `runMs`/`waitMs` (schedstat: on CPU / waiting on the run queue), `migr` (nr_migrations), `nvcsw`
   (nonvoluntary switches), null where the picked thread changed or a file is unreadable; for the `--type=gpu-process` main thread:
   `gpuCore`, `gpuCoreMhz`, `gpuWaitMs`; container-wide `throttledMs` (cgroup cpu.stat); plus one-time `nproc`,
@@ -188,9 +189,10 @@ Top level: `gitSha`, `dirty`, `builtAt` (served index.html mtime), `renderer`, `
   `hostSpikes`: the `[start, end]` page-ms intervals at or over `HOST_SPIKE` (steal 20 ms or 5 major faults).
 - `coreCorrelation` (spot and `walk.coreCorrelation`, with `--pod`): frames with `work` >= 12 ms ("long") vs the
   rest, each matched to the host sample covering its `t`: `{long, normal}` each `{n, coreMhz, migrPct, waitMs,
-  throttledMs}` (means; share of frames whose sample shows a migration) and `longFrames` `[t, work, core, coreMhz,
-  waitMs, migr, throttledMs]` (max 60). `summary.md` prints one `core: long n=.. mhz a vs b, migr x% vs y%, wait ..,
-  throttled ..` line per window.
+  throttledMs, threadsBusy, gpuWaitMs, sibBusyMs, l3BusyPct, otherOnCoreMs}` (means; share of frames whose sample shows a
+  migration; otherOnCoreMs = coreBusyMs - runMs) and `longFrames` `[t, work, core, coreMhz, waitMs, migr, throttledMs,
+  sibBusyMs, l3BusyPct, otherOnCoreMs]` (max 60). `summary.md` prints one `core: long n=.. mhz a vs b, migr x% vs y%,
+  wait .., throttled .., threads, gpuwait, sib, l3, core-other ..` line per window.
 - `hitchContext.{settled,walk}`: per hitch over 33 ms, the nearest `harnessLog` action within 500 ms of its gap,
   whether the worker saw an overlapping gap (`workerGap`), whether a host spike overlaps it (`hostSpike`) and
   `cause`: `host` (worker gap + host spike), `process` (worker gap, no spike: the renderer process stopped), `main`
