@@ -28,6 +28,44 @@ describe("BuildQueue", () => {
 });
 
 describe("queueShaderBuilds", () => {
+  it("times out a build that never settles: logs its key once, frees the slot, runs the next; a late settle frees nothing", async () => {
+    const logged: string[] = [];
+    let settleHung: () => void = () => {};
+    const q = new BuildQueue<string>(1, () => {}, 50, (k, label) => logged.push(`${k}:${label}`));
+    const ran: string[] = [];
+    q.request("hung", 1, () => { ran.push("hung"); return new Promise<void>((r) => { settleHung = r; }); }, "Marsh (MeshStandardNodeMaterial)");
+    q.request("next", 2, () => { ran.push("next"); return new Promise<void>(() => {}); }, "Next");
+    await tick();
+    expect(ran).toEqual(["hung"]);
+    await new Promise((r) => setTimeout(r, 70));
+    expect(logged).toEqual(["hung:Marsh (MeshStandardNodeMaterial)"]);
+    expect(q.timedOut.has("hung")).toBe(true);
+    expect(ran).toEqual(["hung", "next"]);
+    settleHung(); await tick(); await tick();
+    expect(q.pending).toBe(1); // "next" still holds its slot: the late settle freed nothing
+    expect(q.built).toBe(0);
+  });
+
+  it("draws full-screen quads and timed-out keys synchronously", () => {
+    const drawn: string[] = [];
+    const fake = {
+      _objects: { get: (object: { id: string }) => ({ key: object.id }), getChainMap: () => ({ get: () => undefined }) },
+      _currentRenderContext: null,
+      _renderTarget: null as object | null,
+      _renderObjectFunction: null as unknown,
+      _nodes: { nodeBuilderCache: new Map(), get: () => ({ nodeBuilderState: undefined }), getForRenderCacheKey: (ro: { key: string }) => ro.key, getForRender: () => new Promise(() => {}) },
+      _renderObjectDirect(object: { id: string }) { drawn.push(object.id); },
+    };
+    const queue = queueShaderBuilds(fake as unknown as WebGPURenderer, 1)!;
+    const call = (o: object) => (fake._renderObjectDirect as (...a: unknown[]) => void)(o, {}, {}, {});
+    call({ id: "blit", isQuadMesh: true });
+    queue.timedOut.add("hung");
+    call({ id: "hung" });
+    call({ id: "mesh" });
+    expect(drawn).toEqual(["blit", "hung"]);
+    expect(queue.skippedDraws).toBe(1);
+  });
+
   it("builds an offscreen one-shot draw synchronously; defers canvas, frame-target and shadow draws", () => {
     const drawn: string[] = [];
     const fake = {

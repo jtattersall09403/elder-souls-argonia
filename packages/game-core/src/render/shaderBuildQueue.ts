@@ -35,14 +35,28 @@ import type { WebGPURenderer } from "three/webgpu";
  * census, a capture, a ripple or foam step) builds synchronously and draws: a
  * one-shot pass is never drawn again, so a skipped draw there leaves its
  * target empty for good (walk 10: the sky IBL stayed all zeros on WebGPU).
+ * Full-screen quads (three's QuadMesh: the bloom and water composites, the
+ * blit to the canvas) never defer either: they are a handful of tiny
+ * programs, and one of them skipped blacks the whole frame.
+ *
+ * Every async slot has a timeout and logs its key: a build that has not
+ * settled after BUILD_TIMEOUT_MS is logged once (key and material) and frees
+ * its slot, so one hung build cannot hold the queue (walk 10, Greenspring:
+ * the view went black with nothing logged). Its object then builds
+ * synchronously on its next draw (three's own path) rather than queueing
+ * again: a retry could hang the slot a second time, while a synchronous
+ * build costs one long frame and always ends with the object drawn.
+ * `?buildq=0` in the studio skips the queue (all builds synchronous).
  */
 export const SHADER_BUILDS_IN_FLIGHT = 1;
 /** A build twin whose object never re-draws is released after this long. */
 export const TWIN_HOLD_MS = 10_000;
+/** A queued build still unsettled after this long is logged and frees its slot (builds take 50 to 500 ms). */
+export const BUILD_TIMEOUT_MS = 10_000;
 
 /** The waiting builds, by cache key: the pure part of the queue (unit-tested). */
 export class BuildQueue<K = unknown> {
-  private readonly waiting = new Map<K, { start: () => unknown; priority: number }>();
+  private readonly waiting = new Map<K, { start: () => unknown; priority: number; label: string }>();
   private readonly running = new Set<K>();
   /**
    * Draws skipped because their material was not built, CUMULATIVE (every skipped draw of every
@@ -53,17 +67,25 @@ export class BuildQueue<K = unknown> {
   twinsHeld = 0;
   /** Builds finished. */
   built = 0;
+  /** Keys whose build timed out: their objects build synchronously from then on. */
+  readonly timedOut = new Set<K>();
   /** Render targets the frame's scene pass draws into: their draws defer like the canvas's. */
   readonly frameTargets = new WeakSet<object>();
-  constructor(readonly inFlight: number, private readonly onError: (e: unknown) => void = () => {}) {}
+  constructor(
+    readonly inFlight: number,
+    private readonly onError: (e: unknown) => void = () => {},
+    private readonly timeoutMs = BUILD_TIMEOUT_MS,
+    private readonly onTimeout: (key: K, label: string) => void = (key, label) =>
+      console.error(`[shader build] timed out after ${timeoutMs} ms, key ${String(key)}, material ${label}; it builds synchronously on its next draw`),
+  ) {}
 
-  /** An unbuilt draw for `key`: queue its build (lower `priority` starts first; the latest start wins). */
-  request(key: K, priority: number, start: () => unknown): void {
+  /** An unbuilt draw for `key`: queue its build (lower `priority` starts first; the latest start wins). `label` names the material in a timeout log. */
+  request(key: K, priority: number, start: () => unknown, label = ""): void {
     this.skippedDraws++;
     if (this.running.has(key)) return;
     const w = this.waiting.get(key);
     if (w) { w.start = start; w.priority = Math.min(w.priority, priority); }
-    else this.waiting.set(key, { start, priority });
+    else this.waiting.set(key, { start, priority, label });
     // choose after the frame's draws have all asked (a microtask runs once the render task ends)
     if (!this.scheduled) { this.scheduled = true; queueMicrotask(() => { this.scheduled = false; this.pump(); }); }
   }
@@ -77,15 +99,22 @@ export class BuildQueue<K = unknown> {
       let best: K | undefined, bestP = Infinity;
       for (const [k, w] of this.waiting) if (best === undefined || w.priority < bestP) { best = k; bestP = w.priority; }
       const key = best as K;
-      const { start } = this.waiting.get(key)!;
+      const { start, label } = this.waiting.get(key)!;
       this.waiting.delete(key);
       this.running.add(key);
-      // the next build starts from a plain task: three's buildAsync yields with scheduler.yield(),
-      // whose continuations outrank ordinary tasks, so back-to-back builds would starve timers,
-      // network callbacks and devtools for as long as the queue is full
-      Promise.resolve().then(start).catch(this.onError).finally(() => {
-        this.running.delete(key); this.built++; setTimeout(() => this.pump(), 0);
-      });
+      // the slot is freed once: by the settle or by the timeout, whichever comes first
+      let freed = false;
+      const free = () => {
+        if (freed) return false;
+        freed = true; clearTimeout(timer); this.running.delete(key);
+        // the next build starts from a plain task: three's buildAsync yields with scheduler.yield(),
+        // whose continuations outrank ordinary tasks, so back-to-back builds would starve timers,
+        // network callbacks and devtools for as long as the queue is full
+        setTimeout(() => this.pump(), 0);
+        return true;
+      };
+      const timer = setTimeout(() => { if (free()) { this.timedOut.add(key); this.onTimeout(key, label); } }, this.timeoutMs);
+      Promise.resolve().then(start).catch(this.onError).finally(() => { if (free()) this.built++; });
     }
   }
 }
@@ -140,6 +169,12 @@ interface RendererInternals {
 interface Placed { matrixWorld?: { elements: ArrayLike<number> } }
 interface Viewer { matrixWorld?: { elements: ArrayLike<number> } }
 
+/** The material's name and type, for a timeout log. */
+function materialLabel(material: unknown): string {
+  const m = material as { name?: string; type?: string };
+  return `${m.name || "(unnamed)"} (${m.type ?? "?"})`;
+}
+
 /** Squared distance from the camera to the object's origin (the queue's priority). */
 function distanceSq(object: Placed, camera: Viewer): number {
   const o = object.matrixWorld?.elements, c = camera.matrixWorld?.elements;
@@ -187,9 +222,11 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
   };
   r._renderObjectDirect = function (this: RendererInternals, ...a: unknown[]) {
     // an offscreen pass that is not the frame's own: three's synchronous build, then the draw
+    // and a full-screen quad (composite, blit): one skipped blacks the frame
     const target = this._renderTarget;
     if (target && !queue.frameTargets.has(target) && !this._renderObjectFunction) { draw.apply(this, a); return; }
     const [object, material, scene, camera, lightsNode, group, clippingContext, passId] = a;
+    if ((object as { isQuadMesh?: boolean }).isQuadMesh) { draw.apply(this, a); return; }
     const objects = this._objects, nodes = this._nodes;
     // the per-draw lookup reuses one key array (no allocation per draw); the lookups after
     // draw.apply build their own, as draw.apply can re-enter this function (a shadow pass)
@@ -211,6 +248,7 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
       // The real render object cannot build it: its node data already holds the old builder state.
       const ro = current;
       const key = ro.getCacheKey();
+      if (queue.timedOut.has(key)) { draw.apply(this, a); return; }
       queue.request(key, distanceSq(object as Placed, camera as Viewer), () => {
         const twin = new ro.constructor(objects.nodes, objects.geometries, objects.renderer, object, material, scene, camera, lightsNode, this._currentRenderContext, clippingContext);
         // the constructor listens for material/geometry dispose: drop both now, or the shared
@@ -223,7 +261,7 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
           if (twins.has(key)) release(key);
           twins.set(key, { twin, at: Date.now() }); queue.twinsHeld = twins.size;
         });
-      });
+      }, materialLabel(material));
       if (this._currentRenderBundle !== null) return;
       ro.camera = camera;
       ro.drawRange = (object as { geometry: { drawRange: unknown } }).geometry.drawRange;
@@ -243,7 +281,8 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
       if (twins.size) settleTwins(chain.get([object, material, this._currentRenderContext, lightsNode]));
       return;
     }
-    queue.request(key, distanceSq(object as Placed, camera as Viewer), () => nodes.getForRender(ro, true));
+    if (queue.timedOut.has(key)) { drawn.add(ro); draw.apply(this, a); return; }
+    queue.request(key, distanceSq(object as Placed, camera as Viewer), () => nodes.getForRender(ro, true), materialLabel(material));
   };
   return queue;
 }

@@ -20,6 +20,8 @@ export interface CanvasRendererOptions {
   trackTimestamp?: boolean;
   /** Called once the renderer is initialised, with the backend it actually
    * runs on (WebGPU falls back to WebGL 2 when no adapter is found). */
+  /** Node-material builds in flight (createRenderer); 0 skips the build queue (studio `?buildq=0`). */
+  shaderBuildsInFlight?: number;
   onReady?: (renderer: WebGPURenderer, backend: RendererBackend) => void;
 }
 
@@ -63,6 +65,7 @@ export function canvasRenderer(options: CanvasRendererOptions = {}) {
         antialias: options.antialias ?? defaults.antialias ?? true,
         alpha: options.alpha ?? defaults.alpha ?? true,
         trackTimestamp: options.trackTimestamp ?? false,
+        shaderBuildsInFlight: options.shaderBuildsInFlight,
       });
       const dispose = renderer.dispose.bind(renderer);
       renderer.dispose = () => { if (pending.get(canvas) === promise) pending.delete(canvas); dispose(); };

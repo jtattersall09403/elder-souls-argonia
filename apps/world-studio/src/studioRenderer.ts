@@ -3,7 +3,8 @@
  * shared node renderer from game-core, plus the dev hooks the probes and the
  * HUD read — `window.__RENDERER__` (the renderer, as before) and
  * `window.__RENDERER_BACKEND__` ("webgpu" | "webgl2", the backend it ACTUALLY
- * runs on after any fallback). `?renderer=webgl|webgpu` switches.
+ * runs on after any fallback). `?renderer=webgl|webgpu` switches;
+ * `?buildq=0` skips the shader build queue (every build synchronous).
  */
 import { backendLabel, canvasRenderer, type CanvasRendererOptions } from "@elder-souls/game-core/render/canvasRenderer";
 import { STUDIO_TOOLS } from "./studioTools";
@@ -22,8 +23,10 @@ export function studioCanvasRenderer(
   } = {},
 ) {
   const { onDeviceLost, ...rendererOptions } = options;
+  const buildq = typeof location === "undefined" ? null : new URLSearchParams(location.search).get("buildq");
   return canvasRenderer({
     ...rendererOptions,
+    ...(buildq === "0" ? { shaderBuildsInFlight: 0 } : {}),
     onReady: (renderer, backend) => {
       if (onDeviceLost) {
         // three's dispose() destroys the device, which fires `device.lost`
