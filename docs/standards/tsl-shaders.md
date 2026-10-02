@@ -52,6 +52,11 @@ with an object that must not have it: clone first (the old rule, unchanged).
 
 ### Gotchas proven on this port (each cost a lane an hour)
 
+- A GPU resource replaced under a node is destroyed only when no render object can still bind it:
+  an object not drawn this frame keeps its old bind group, so destroying the old texture a fixed
+  few frames later gives WebGPU "Destroyed texture used in a submit" and a black frame when that
+  object draws again. Retire it through a retirer that counts each object's last bind
+  (`createBatchTextureRetirer`, fx/batchData.ts) and name it (`texture.name`) so the error says whose.
 - A WebGPU draw binds at most 8 vertex buffers (default `maxVertexBuffers`). three counts one per
   distinct BufferAttribute or InterleavedBuffer, +1 for an InstancedMesh matrix (one stride-16
   buffer on the attribute path `shareInstancedPrograms` forces), +1 for `instanceColor`. Put
