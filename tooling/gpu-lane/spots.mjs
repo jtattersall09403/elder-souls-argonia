@@ -1,6 +1,14 @@
 // Spot lists, the per-round summary table and the leak slope: pure helpers of measure.mjs.
 
 /**
+ * The `rate=` every capture URL carries: the studio clock (timeState.ts applyTimeParams -> worldClock.rate) counts
+ * world MINUTES per real second, and the game runs at GAME_TIME_SCALE = 30 world SECONDS per real second
+ * (packages/world-time/src/clock.ts), so the game's own speed is 30 / 60 = 0.5 (GAME_RATE_MIN_PER_S). A 3 min spot
+ * drifts 90 game minutes. `rate=30` ran the clock 60 times the game's speed (30 game hours per real minute).
+ */
+export const CAPTURE_RATE = 0.5;
+
+/**
  * A spot file has one spot per line: `<name> <query> [--aim yaw,pitch] [walk=<s> | steps=<seq>] [x<N>]`; the query
  * starts with "?"; blank lines and lines starting with "#" are skipped; `x<N>` repeats the spot N times in a row (names
  * <name>, <name>2, <name>3, ...). `walk=<s>` is sugar for `steps=w:<s>`. Probe tokens make the spot a diagnosis row

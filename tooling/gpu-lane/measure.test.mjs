@@ -124,7 +124,7 @@ test("closeOrphanPages opens a blank keeper page first, closes every other page 
 test("parseArgs: --smoke defaults to spot a, 40 s gate, 5 s settle, one shot; --census and --diag", async () => {
   const { parseArgs, SPOT_A } = await import("./measure.mjs");
   const s = parseArgs(["--smoke"]);
-  assert.deepEqual(s.url, [`${SPOT_A}&rate=30`]);
+  assert.deepEqual(s.url, [`${SPOT_A}&rate=0.5`]);
   assert.equal(s.run, "smoke");
   assert.equal(s.clean, "1");
   assert.equal(s.readyTimeout, 40);
@@ -223,7 +223,8 @@ test("classifyFrames: long frames on the main thread with their causes", async (
   assert.equal(r.over33, 1);
   assert.equal(r.long.length, 1);
   assert.equal(r.long[0].ms, 50);
-  assert.deepEqual(r.long[0].byCause, { gc: 20, gpu: 10 });
+  assert.deepEqual(r.long[0].byCause, { gc: 20 });
+  assert.deepEqual(r.long[0].offMain, { gpu: 10 });
 });
 
 test("parseSpots: x<N> repeats a spot under numbered names", async () => {
@@ -277,7 +278,7 @@ test("gen-matrix: 13 deterministic lines, coordinates from places.json", async (
   const byId = new Map(JSON.parse(text).places.map((p) => [p.id, p]));
   for (const [id, short] of PLACES) {
     const [x, z] = byId.get(id).positionM;
-    assert.ok(lines.includes(`${short}-t22-rain ?view=character&x=${(x / 1000).toFixed(4)}&z=${(z / 1000).toFixed(4)}&t=22&w=rain&rate=30 steps=w:7,yaw:+1.2,w:6,yaw:-2.0,w:7`), short);
+    assert.ok(lines.includes(`${short}-t22-rain ?view=character&x=${(x / 1000).toFixed(4)}&z=${(z / 1000).toFixed(4)}&t=22&w=rain&rate=0.5 steps=w:7,yaw:+1.2,w:6,yaw:-2.0,w:7`), short);
   }
   assert.equal(parseSpots(out).length, 15);
 });
@@ -382,4 +383,35 @@ test("relink probe: every link names type and owner, shadow depth materials are 
   assert.equal(ev[1].depth, true);
   assert.equal(ev[2].owner, "(outside draw)");
   assert.ok(ev.every((e) => e.type && e.owner));
+});
+test("CAPTURE_RATE is the game's own speed in the studio clock's units (world min per real s = GAME_TIME_SCALE / 60)", async () => {
+  const { CAPTURE_RATE } = await import("./spots.mjs");
+  const { readFileSync } = await import("node:fs");
+  const clock = readFileSync(new URL("../../packages/world-time/src/clock.ts", import.meta.url), "utf8");
+  const scale = Number(/export const GAME_TIME_SCALE = (\d+(?:\.\d+)?);/.exec(clock)[1]);
+  assert.match(clock, /GAME_RATE_MIN_PER_S = GAME_TIME_SCALE \/ 60/, "worldClock.rate is world MINUTES per real second");
+  assert.equal(CAPTURE_RATE, scale / 60);
+  for (const f of ["./spots/perf10-c4.txt", "./spots/matrix.txt"]) {
+    const rates = [...readFileSync(new URL(f, import.meta.url), "utf8").matchAll(/[?&]rate=([\d.]+)/g)].map((m) => Number(m[1]));
+    assert.ok(rates.length && rates.every((r) => r === CAPTURE_RATE), `${f}: ${rates}`);
+  }
+});
+test("hitchContext: nearest harness action within 500 ms and the worker's overlapping gap", async () => {
+  const { harnessLogger, hitchContext, hitchContextText, frameSeries } = await import("./measure.mjs");
+  let now = 1000;
+  const hl = harnessLogger(() => now);
+  hl.origin = 0;
+  await hl.wrap("screenshot:settled", async () => { now = 1050; });
+  now = 5000; await hl.wrap("trace:start", async () => { now = 5010; });
+  const log = hl.entries();
+  assert.deepEqual(log, [{ action: "screenshot:settled", t: 1000, ms: 50 }, { action: "trace:start", t: 5000, ms: 10 }]);
+  const h = [{ t: 1300, dt: 100, work: 9 }, { t: 3000, dt: 40, work: 8 }, { t: 900, dt: 20, work: 5 }];
+  const c = hitchContext(h, log, [[1210, 80]]);
+  assert.equal(c.length, 2, "only dt > 33");
+  assert.deepEqual(c[0].harness, { action: "screenshot:settled", t: 1000, dMs: 150 });
+  assert.equal(c[0].workerGap, true);
+  assert.equal(c[1].harness, null); assert.equal(c[1].workerGap, false);
+  assert.equal(hitchContext(h, log, null)[0].workerGap, null);
+  assert.match(hitchContextText("a", { settled: c })[0], /a settled: 100 ms at 1300 .*screenshot:settled .*worker gap yes/);
+  assert.deepEqual(frameSeries([{ t: 1.234, dt: 16.667, work: 5.555, gpu: null }]), { t: [1.23], dt: [16.67], work: [5.56], gpu: [null] });
 });

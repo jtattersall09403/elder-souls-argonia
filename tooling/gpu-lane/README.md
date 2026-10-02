@@ -30,7 +30,7 @@ Key paths follow `/tmp/<lane><round>/rp_key`.
 | `hud-parse.mjs` | Parses the studio's perf HUD text (`PerfHudSection` in `apps/world-studio/src/character/CharacterMode.tsx`) into numbers. Change it with the HUD. |
 | `pod-capture.mjs --views <json> --out <dir> [--pod "<ssh>"]` | A round's measurement in ONE invocation (decision 0106 d22): every view `{name, url, steps?, shots?, seconds?}` captured in turn in ONE tab (orphan pages closed first). Per view `<out>/<name>/result.json` and a row of `<out>/summary.md`: luma settled/final and blackShare, fps, low1, GPU and CPU ms, cap-free `costMs` / `uncappedFps` (`--window` of 10 s after the settled read), draw calls and triangles, post-GC heap MB/min, main-thread self ms per frame by stage and hitches over 33 ms with their top stage (`trace-frames.mjs`), GPU/console/page errors, 404s, `probe`. Settled read: `--settled-frames` N (300) renderer frames after the queue sat at 0 pending for 5 s and no earlier than `--settle-floor` (60 s). `--url <a> [--compare <b>]` is the two-view case. `--pod` opens and closes its own CDP tunnel. Example: `views/webgpu10-iter6.json`. Never playwright `connectOverCDP` on the pod Chrome in this tool (it hangs); `measure.mjs` works around it with its keeper page. |
 | `tunnels.mjs open\|list\|close` | Every ssh tunnel the harness opens is recorded (PID, purpose, ports) in `/tmp/gpu-lane/tunnels.json`; `close [--purpose p]` kills only recorded PIDs whose command line is still ssh. `pod-capture --pod` uses it; `tunnels.mjs open --pod "<ssh>" --local 9232` replaces a hand-run `ssh -L` for `measure.mjs`. Never `pkill`. |
-| `trace-frames.mjs` | Trace categories, the streaming event filter, the long-frame classifier (`node tooling/gpu-lane/trace-frames.mjs <x.trace.json> [--profile <x.cpuprofile>] [--over 20]`; each window's last interval, the harness's own end-of-window message of 29-47 ms, is dropped from the list and counts; every long frame has `pageMs`, the page `performance.now()` at its start, from the `gpulane-anchor:` console.timeStamp `measure.mjs` fires just after the trace starts, null without it; `measure.mjs` adds `links`, the relink-probe events within 300 ms of the frame) and main-thread self ms by stage (gc, shader, upload, gpu, timer, js, compositor, other); shared by `measure.mjs --trace` and `pod-capture`. |
+| `trace-frames.mjs` | Trace categories, the streaming event filter, the long-frame classifier (`node tooling/gpu-lane/trace-frames.mjs <x.trace.json> [--profile <x.cpuprofile>] [--over 20]`; each window's last interval, the harness's own end-of-window message of 29-47 ms, is dropped from the list and counts; every long frame has `pageMs`, the page `performance.now()` at its start, from the `gpulane-anchor:` console.timeStamp `measure.mjs` fires just after the trace starts, null without it; `measure.mjs` adds `links`, the relink-probe events within 300 ms of the frame) frames grouped by their enclosing `ProxyMain::BeginMainFrame` / `PageAnimator::serviceScriptedAnimations` (`groupFrames`), never by a time gap; each long frame's `byCause` is main-thread SELF ms per cause (nested events counted once, so it sums to at most the frame) and `offMain` the other threads' self ms; and main-thread self ms by stage (gc, shader, upload, gpu, timer, js, compositor, other); shared by `measure.mjs --trace` and `pod-capture`. |
 | `hud-capture.mjs <dist> "<query>" <out>.txt <settleS>` | Reads the HUD perf lines four times over `<settleS>` with a screenshot. |
 | `webgpu-boot-check.mjs` | Boots the BUILT `/webgpu/` studio to its first complete frame; fails on a freeze, GPU validation error, device loss or black view. `CHROME_CDP` points it at the pod's Chrome. Cached on its inputs. |
 | `walk/` | The agent walk harness: `walk_route.py` (route from a place's published data), `walk_run.mjs` (one tab, every pass, shots and `summary.json`), `walk_judge.py` (reader briefs); see `walk/README.md`. |
@@ -60,7 +60,7 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
 5. Tunnel: `node tooling/gpu-lane/tunnels.mjs open --pod "<same ssh>" --local <port>`; `tunnels.mjs close` after.
 6. Measure, ONE invocation for the round:
    `node tooling/gpu-lane/measure.mjs --run <round> --cdp 127.0.0.1:<port> --spots tooling/gpu-lane/spots/perf10-c4.txt [--bar 83,69]` (no global probe flag: the headline spots stay probe-off, the diagnosis spots carry their own tokens)
-   It moves between spots in one tab (ready gate per spot), takes a clean (HUD-free) settled screenshot (captures run with the clock running, `rate=30`, and the HUD hidden)
+   It moves between spots in one tab (ready gate per spot), takes a clean (HUD-free) settled screenshot (captures run with the clock running, `rate=0.5`, and the HUD hidden)
    of each (`<run dir>/<name>-settled.jpg`) and writes `summary.md` / `summary.json`: settled fps, p1Low,
    uncapped, p1LowUncapped, max ms, over20, over33, pass against `--bar fps,p1low`; a walk spot has two rows, its
    static settle and its walk window, each judged. `--leak <s> [--leak-every 15]` is ONE long capture at the first spot (run right after that spot's measurement; every
@@ -70,7 +70,7 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
    single look; `--renderer webgpu` measures `/elder-souls-argonia/webgpu/`.
 7. Diagnose: ONE report per round lists every cause found; then ONE parallel fix wave. Fix agents never measure.
 
-**Run `--smoke` before any full baseline** (clock running via `rate=30`, HUD hidden in its screenshot; `node tooling/gpu-lane/measure.mjs --smoke --cdp 127.0.0.1:<port>`;
+**Run `--smoke` before any full baseline** (clock running via `rate=0.5`, HUD hidden in its screenshot; `node tooling/gpu-lane/measure.mjs --smoke --cdp 127.0.0.1:<port>`;
 spot a, about 40 s, exits 1 and names the reason): it fails on the vsync cap (uncapped fps within 1.5 of the
 58.5 blank-page cap), a ready gate over 40 s, a black frame (settled screenshot mean luminance under 8), a
 GPU/WebGL console error or lost context, or a page in the browser this run did not open.
@@ -100,7 +100,7 @@ Chrome started with `--remote-debugging-port` and serve with `node tooling/gpu-l
 
 | Switch | Where it acts | Effect |
 |---|---|---|
-| `rate=<n>` | studio (`src/sky/timeState.ts`) | World-clock rate; absent, the clock is paused. Captures always pass `rate=30` (`GAME_TIME_SCALE`, `packages/world-time/src/clock.ts:109`) so they run with the clock running. |
+| `rate=<n>` | studio (`src/sky/timeState.ts` `applyTimeParams` -> `worldClock.rate`) | World-clock rate in world MINUTES per real second; absent, the clock is paused. Captures pass `rate=0.5` (`CAPTURE_RATE` in `spots.mjs`): the game runs at `GAME_TIME_SCALE` = 30 world seconds per real second (`packages/world-time/src/clock.ts:109`), = 0.5 world minutes per real second (`GAME_RATE_MIN_PER_S`). A 2-3 min spot therefore drifts 60-90 game minutes; `rate=30` ran 60x the game speed. |
 | `diag=1` | studio (`src/diagOverlay.ts`) | Diag overlay and `window.__DIAG`: fps, worst ms, per-second pipelines, shaders, builds, skipped draws, `builds pending`, `pipelines compiling`. |
 | `water=0` | studio (`CharacterMode.tsx`) | No water surface. |
 | `aa=0` | studio (`CharacterMode.tsx`) | Anti-aliasing off. |
@@ -161,6 +161,15 @@ Top level: `gitSha`, `dirty`, `builtAt` (served index.html mtime), `renderer`, `
 - Cap-free: `workMs` {mean, p50, p99, max} is the main-thread time per frame, `gpuFrameMs` the HUD GPU total
   seen that frame, `costMs` = max(work, gpu); `uncappedFps` = 1000 / mean cost, `p1LowUncapped` = 1000 / p99
   cost. `wrapperMsPerFrame` is what the in-page wrapper itself costs. `hitches`: every frame over 33 ms.
+- `series` (settled; `walk.series` for the walk): the per-frame window as column arrays `{t, dt, work, gpu}` (page
+  ms). The studio exposes no per-frame stage times; the HUD `cpuByStage` holds their window means.
+- `workerGaps` (and `walk.workerGaps`): `[pageMs, ms]` gaps over 20 ms seen by a heartbeat Worker (5 ms tick, its
+  own thread) started at the window's open and read once after it; null where Worker is unavailable.
+- `harnessLog`: every harness action of the spot (goto, evaluate, screenshot, trace/profiler/heapsample start and
+  stop, collectGarbage, key input) as `{action, t (page ms), ms}`.
+- `hitchContext.{settled,walk}`: per hitch over 33 ms, the nearest `harnessLog` action within 500 ms of its gap and
+  whether the worker saw an overlapping gap; summary.md lists them. Both threads stalled = a process/host stall; an
+  action beside it = the harness; neither = the game.
 - `profile` (`--profile <s>`; during the walk when `--walk` is set): `file` (.cpuprofile), `topSelf` (top 40
   functions by self ms), `byFile`.
 - `walk`: the same frame stats and HUD over the held-W window.

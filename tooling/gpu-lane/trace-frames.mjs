@@ -31,8 +31,52 @@ export function causeOf(e, ctx) {
 
 const r1 = (x) => Math.round(x * 10) / 10;
 
-/** Two rAF callbacks closer than this (µs, previous end to next start) are the same frame. */
-export const FRAME_GAP_US = 1000;
+/** The main-thread event that encloses one frame's rAF callbacks: all FireAnimationFrame events inside one of these are
+ * one frame (perf-diag8 M3: a fixed gap merged ~140 fps frames whose callbacks start < 1 ms apart). */
+export const FRAME_MARKER = /^(ProxyMain::BeginMainFrame|BeginMainFrame|PageAnimator::serviceScriptedAnimations)$/;
+
+/**
+ * Frame starts and ends (µs) from the main thread's FireAnimationFrame events `fa` and frame markers `markers`
+ * (FRAME_MARKER, same thread): callbacks inside one outermost marker are one frame starting at the first callback; a
+ * callback inside no marker is a frame of its own.
+ */
+export function groupFrames(fa, markers) {
+  const outer = [];
+  for (const m of markers.slice().sort((a, b) => a.ts - b.ts || b.dur - a.dur)) {
+    if (outer.length && m.ts < outer.at(-1).ts + outer.at(-1).dur) continue;
+    outer.push(m);
+  }
+  const fs = [], fe = [];
+  let mi = 0, cur = null;
+  for (const e of fa.slice().sort((a, b) => a.ts - b.ts)) {
+    while (mi < outer.length && outer[mi].ts + outer[mi].dur <= e.ts) mi++;
+    const m = outer[mi] && outer[mi].ts <= e.ts ? outer[mi] : null;
+    if (m && cur === m) fe[fe.length - 1] = Math.max(fe.at(-1), e.ts + e.dur);
+    else { fs.push(e.ts); fe.push(e.ts + e.dur); }
+    cur = m;
+  }
+  return { fs, fe };
+}
+
+/**
+ * Self ms per cause inside [a, b] µs over one thread's events (sorted by ts, longer first): each event's clipped
+ * duration less its clipped children, so a nested event is never counted twice and the sum is at most b - a.
+ */
+export function selfByCause(threadEvents, a, b, ctx) {
+  const out = {}, stack = [];
+  const close = (n) => { const ms = Math.max(0, n.len - n.child) / 1000; if (ms > 0) out[n.cause] = (out[n.cause] ?? 0) + ms; };
+  for (const e of threadEvents) {
+    const s = Math.max(a, e.ts), t = Math.min(b, e.ts + e.dur);
+    if (t <= s) continue;
+    while (stack.length && stack.at(-1).end <= e.ts) close(stack.pop());
+    const parent = stack.at(-1);
+    if (parent) parent.child += Math.min(t, parent.clipEnd) - s;
+    stack.push({ end: e.ts + e.dur, clipEnd: t, len: t - s, child: 0, cause: causeOf(e, ctx) });
+  }
+  while (stack.length) close(stack.pop());
+  for (const k of Object.keys(out)) out[k] = r1(out[k]);
+  return out;
+}
 
 /** Trace categories every gpu-lane trace records (measure.mjs --trace, pod-capture.mjs per view). */
 export const TRACE_CATEGORIES = ["devtools.timeline", "disabled-by-default-devtools.timeline.frame", "gpu",
@@ -85,7 +129,7 @@ export function memoryDumps(events, toPage = () => null) {
 
 /** Keep only what the classifier reads (metadata, memory dumps, frame markers, GC, anything >= 0.5 ms): a full 10 s trace of
  * the studio is over 512 MB of JSON, past V8's string limit. Filter while streaming, never after. */
-export const keepTraceEvent = (e) => e.ph === "M" || e.ph === "v" || e.name === "FireAnimationFrame" || e.name === "TimeStamp" || (e.dur ?? 0) >= 500 || /GC|Gc/.test(e.name);
+export const keepTraceEvent = (e) => e.ph === "M" || e.ph === "v" || e.name === "FireAnimationFrame" || FRAME_MARKER.test(e.name ?? "") || e.name === "TimeStamp" || (e.dur ?? 0) >= 500 || /GC|Gc/.test(e.name);
 
 /**
  * Main-thread SELF ms per cause over the whole trace, and per frame (frames = FireAnimationFrame count on the main
@@ -102,17 +146,9 @@ export function mainThreadStages(events) {
   const ctx = { pid, tid, gpuPids: new Set() };
   const X = events.filter((e) => e.ph === "X" && e.dur > 0 && e.pid === pid && e.tid === tid && !CONTAINERS.test(e.name))
     .sort((a, b) => a.ts - b.ts || b.dur - a.dur);
-  const total = {}, stack = [];
-  const close = (n) => { total[n.cause] = (total[n.cause] ?? 0) + Math.max(0, n.dur - n.child); };
-  for (const e of X) {
-    while (stack.length && stack.at(-1).end <= e.ts) close(stack.pop());
-    const parent = stack.at(-1);
-    if (parent) parent.child += Math.min(e.dur, parent.end - e.ts);
-    stack.push({ end: e.ts + e.dur, dur: e.dur, child: 0, cause: causeOf(e, ctx) });
-  }
-  while (stack.length) close(stack.pop());
+  const total = selfByCause(X, -Infinity, Infinity, ctx);
   const totalMs = {}, perFrameMs = {};
-  for (const [c, us] of Object.entries(total).sort((a, b) => b[1] - a[1])) { totalMs[c] = r1(us / 1000); perFrameMs[c] = Math.round(us / 1000 / frames * 100) / 100; }
+  for (const [c, ms] of Object.entries(total).sort((a, b) => b[1] - a[1])) { totalMs[c] = ms; perFrameMs[c] = Math.round(ms / frames * 100) / 100; }
   return { frames, totalMs, perFrameMs };
 }
 
@@ -148,15 +184,16 @@ export function classifyFrames(events, { profile = null, overMs = 20, windowEndP
   const gpuPids = new Set([...pname].filter(([, n]) => /GPU/i.test(n)).map(([p]) => p));
   const ctx = { pid, tid, gpuPids };
   // Frames are measured start to start, like the harness's rAF intervals (perf-diag6 C2d): Chrome emits one
-  // FireAnimationFrame per rAF callback, and the callbacks of one frame run back to back, so a callback that starts
-  // within FRAME_GAP_US of the previous one's end belongs to the same frame. fs = frame starts, fe = frame ends.
-  const fs = [], fe = [];
-  for (const e of fa.filter((x) => x.pid === pid && x.tid === tid).sort((a, b) => a.ts - b.ts)) {
-    if (fs.length && e.ts <= fe.at(-1) + FRAME_GAP_US) fe[fe.length - 1] = Math.max(fe.at(-1), e.ts + e.dur);
-    else { fs.push(e.ts); fe.push(e.ts + e.dur); }
-  }
+  // FireAnimationFrame per rAF callback; the callbacks of one frame share one enclosing frame marker (groupFrames).
+  const onMain = (e) => e.pid === pid && e.tid === tid;
+  const { fs, fe } = groupFrames(fa.filter(onMain), events.filter((e) => e.ph === "X" && onMain(e) && FRAME_MARKER.test(e.name)));
   // Generic task wrappers contain the events that say what ran; counting them would double every cause.
   const X = events.filter((e) => e.ph === "X" && e.dur > 0 && e.name !== "FireAnimationFrame" && !CONTAINERS.test(e.name));
+  // byCause = main-thread self time (sums to at most the frame); other threads' top-level time goes to offMain.
+  const byThread = new Map();
+  for (const e of X) { const k = `${e.pid}:${e.tid}`; if (!byThread.has(k)) byThread.set(k, []); byThread.get(k).push(e); }
+  for (const l of byThread.values()) l.sort((x, y) => x.ts - y.ts || y.dur - x.dur);
+  const mainKey = `${pid}:${tid}`;
   let samples = [];
   if (profile) {
     const N = new Map(profile.nodes.map((n) => [n.id, n]));
@@ -180,17 +217,20 @@ export function classifyFrames(events, { profile = null, overMs = 20, windowEndP
     if (windowEndPageMs != null && toPage(a) != null && toPage(a) > windowEndPageMs) { skipAt.add(i); continue; }
     if (isHarness(a, b)) { harnessAt.add(i); skipAt.add(i); continue; }
     if (b - a <= overMs * 1000) continue;
-    const byCause = {}, top = [];
+    const byCause = selfByCause(byThread.get(mainKey) ?? [], a, b, ctx), offMain = {}, top = [];
+    for (const [k, l] of byThread) {
+      if (k === mainKey) continue;
+      for (const [c, ms] of Object.entries(selfByCause(l, a, b, ctx))) offMain[c] = r1((offMain[c] ?? 0) + ms);
+    }
     for (const e of X) {
       const ov = Math.min(b, e.ts + e.dur) - Math.max(a, e.ts);
       if (ov < 500) continue;
       const c = causeOf(e, ctx);
-      byCause[c] = r1((byCause[c] ?? 0) + ov / 1000);
       top.push({ cause: c, name: e.name, thread: e.pid === pid && e.tid === tid ? "main" : `${pname.get(e.pid) ?? e.pid}/${e.tid}`, ms: r1(ov / 1000) });
     }
     const self = new Map();
     for (const s of samples) if (s.t >= a && s.t < b) self.set(s.fn, (self.get(s.fn) ?? 0) + s.dt);
-    const entry = { atS: r1((a - fs[0]) / 1e6), pageMs: toPage(a), ms: r1((b - a) / 1000), durMs: r1((fe[i - 1] - a) / 1000), spanUs: [a, b], byCause,
+    const entry = { atS: r1((a - fs[0]) / 1e6), pageMs: toPage(a), ms: r1((b - a) / 1000), durMs: r1((fe[i - 1] - a) / 1000), spanUs: [a, b], byCause, offMain,
       top: top.sort((x, y) => y.ms - x.ms).slice(0, 8),
       js: [...self].sort((x, y) => y[1] - x[1]).slice(0, 6).map(([name, ms]) => ({ name, ms: r1(ms) })) };
     // --trace-gpu: the five longest GPU-process events overlapping the frame, of any duration.

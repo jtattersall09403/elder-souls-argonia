@@ -3,7 +3,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
-import { ANCHOR_PREFIX, classifyFrames, joinLinks, keepTraceEvent, mainThreadStages, memoryDumps, topCause } from "./trace-frames.mjs";
+import { ANCHOR_PREFIX, classifyFrames, groupFrames, joinLinks, keepTraceEvent, mainThreadStages, memoryDumps, topCause } from "./trace-frames.mjs";
 
 const FA = (ts) => ({ ph: "X", pid: 1, tid: 1, name: "FireAnimationFrame", ts, dur: 3000 });
 const stamp = (ts, pageMs) => ({ ph: "I", pid: 1, tid: 1, name: "TimeStamp", ts, args: { data: { message: ANCHOR_PREFIX + pageMs } } });
@@ -118,11 +118,36 @@ test("classifyFrames: frames start to start, every rAF callback of a frame group
   // Two callbacks per frame (the harness tick at +0, the game at +2 ms for 7 ms). Frame starts 0, 16, 51, 67, 83 ms:
   // the 35 ms interval is long; its frame's main-thread work is 9 ms. Callback-to-callback it read 33 ms (C2d).
   const cb = (ms, dur) => ({ ph: "X", pid: 1, tid: 1, name: "FireAnimationFrame", ts: ms * 1000, dur: dur * 1000 });
-  const ev = [0, 16, 51, 67, 83].flatMap((ms) => [cb(ms, 1), cb(ms + 2, 7)]);
+  const bmf = (ms) => ({ ph: "X", pid: 1, tid: 1, name: "ProxyMain::BeginMainFrame", ts: ms * 1000, dur: 9500 });
+  const ev = [0, 16, 51, 67, 83].flatMap((ms) => [bmf(ms), cb(ms, 1), cb(ms + 2, 7)]);
   const r = classifyFrames(ev);
   assert.equal(r.frames, 3);
   assert.deepEqual(r.long.map((f) => [f.ms, f.durMs]), [[35, 9]]);
   assert.equal(r.over33, 1, "seen to fail: per-callback intervals give 33 ms here, not over 33");
+});
+test("classifyFrames: frames 0.6 ms apart stay separate (grouped by BeginMainFrame, not by a gap)", () => {
+  // ~140 fps: 6.5 ms of work per 7.1 ms frame, the next frame's callback starts 0.6 ms after the last one ends.
+  // Seen to fail on the 1 ms gap rule: it merged all ten into one frame.
+  const ev = [];
+  for (let i = 0; i < 10; i++) {
+    const ts = i * 7100;
+    ev.push({ ph: "X", pid: 1, tid: 1, name: "ProxyMain::BeginMainFrame", ts, dur: 6500 },
+      { ph: "X", pid: 1, tid: 1, name: "FireAnimationFrame", ts, dur: 6500 });
+  }
+  assert.equal(groupFrames(ev.filter((e) => e.name === "FireAnimationFrame"), ev.filter((e) => e.name !== "FireAnimationFrame")).fs.length, 10);
+  assert.equal(classifyFrames(ev).frames, 8);
+});
+test("classifyFrames: byCause is main-thread self time, its sum at most the frame (nested events not summed twice)", () => {
+  const E = (name, ms, dur, tid = 1) => ({ ph: "X", pid: 1, tid, name, ts: ms * 1000, dur: dur * 1000 });
+  // Frames at 0, 16, 56 (40 ms long), 72. Inside the long one: FunctionCall 30 ms holding a 10 ms GC holding a 5 ms
+  // Decode; BeginMainFrame wraps it all. Old code summed js 30 + gc 10 + upload 5 + compositor 40 = 85 ms > 40.
+  const ev = [0, 16, 56, 72].flatMap((ms) => [E("ProxyMain::BeginMainFrame", ms, 2), E("FireAnimationFrame", ms, 1)]);
+  ev.push(E("ProxyMain::BeginMainFrame", 18, 37), E("FunctionCall", 18, 30), E("V8.GC_SCAVENGER", 20, 10), E("ImageDecode", 22, 5), E("FunctionCall", 16, 40, 2));
+  const [f] = classifyFrames(ev).long;
+  const sum = Object.values(f.byCause).reduce((a, b) => a + b, 0);
+  assert.ok(sum <= f.ms, `byCause ${JSON.stringify(f.byCause)} sums ${sum} > frame ${f.ms}`);
+  assert.equal(f.byCause.gc, 5); assert.equal(f.byCause.upload, 5); assert.equal(f.byCause.js, 20);
+  assert.deepEqual(f.offMain, { other: 40 }, "other threads are reported apart");
 });
 
 test("memoryDumps: discardable total and root allocators per dump (hex sizes, children summed when the root has no size)", () => {
