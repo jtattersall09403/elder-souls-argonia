@@ -25,6 +25,7 @@ import { join, resolve } from "node:path";
 import { chromium } from "playwright";
 import { BLACK_LUMA, SPOT_A, censusText, diagList, foreignPages, heapFit, heapGrowth, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
+import { HUD_HIDE_JS, HUD_SHOW_JS } from "./pod-capture-lib.mjs";
 
 export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems };
 
@@ -325,10 +326,10 @@ async function measureUrl(ctx, o, query, idx, own, browser) {
   const shot = async (tag) => {
     if (!o.shots) return;
     const p = join(o.out, `url${idx}-${tag}.jpg`);
-    // --clean 1: hide the HUD overlays (fixed/absolute elements without a canvas) for the screenshot only.
-    if (o.clean) await page.evaluate(() => { window.__hid = [...document.querySelectorAll("body *")].filter((e) => !e.querySelector("canvas") && e.tagName !== "CANVAS" && ["fixed", "absolute"].includes(getComputedStyle(e).position)); window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); }).catch(() => {});
+    // --clean 1: hide the overlays and the minimap for the screenshot only (pod-capture-lib HUD_HIDE_JS).
+    if (o.clean) await page.evaluate(HUD_HIDE_JS).catch(() => {});
     await page.screenshot({ path: p, type: "jpeg", quality: 75 }).catch(() => {});
-    if (o.clean) await page.evaluate(() => window.__hid?.forEach((e) => { e.style.visibility = e.dataset.v; })).catch(() => {});
+    if (o.clean) await page.evaluate(HUD_SHOW_JS).catch(() => {});
     screenshots.push(p);
   };
   await shot("settled");

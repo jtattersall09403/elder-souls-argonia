@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS } from "./pod-capture-lib.mjs";
+import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -163,13 +163,19 @@ test("aimJs calls aimCamera once the debug hook exists", () => {
   assert.equal(run(aimJs([0.5, -0.1])), true); run(aimJs([2]));
   assert.deepEqual(calls, [[0.5, -0.1], [2]]);
 });
-test("HUD hide hides fixed overlays without a canvas and show restores them", () => {
-  const el = (position, canvas = false) => ({ style: { visibility: "" }, dataset: {}, tagName: "DIV", position, querySelector: () => canvas });
-  const hud = el("fixed"), wrap = el("absolute", true), flow = el("static");
-  const window = {}, document = { querySelectorAll: () => [hud, wrap, flow] }, getComputedStyle = (e) => ({ position: e.position });
+test("HUD hide hides overlays and the minimap canvas, keeps the render canvas, sets overflow hidden; show restores", () => {
+  const el = (position, tag = "DIV", w = 0) => ({ style: { visibility: "", overflow: "" }, dataset: {}, tagName: tag, position, width: w, height: w, contains: () => false });
+  const main = el("absolute", "CANVAS", 1000), mini = el("absolute", "CANVAS", 200), hud = el("fixed"), wrap = el("absolute"), flow = el("static");
+  wrap.contains = (x) => x === main;
+  const html = el("static"), body = el("static");
+  const window = {}, document = { documentElement: html, body, querySelectorAll: (q) => (q === "canvas" ? [mini, main] : [hud, wrap, flow, mini, main]) };
+  const getComputedStyle = (e) => ({ position: e.position });
   const run = (js) => new Function("window", "document", "getComputedStyle", `return ${js}`)(window, document, getComputedStyle);
-  assert.equal(run(HUD_HIDE_JS), 1); assert.equal(hud.style.visibility, "hidden"); assert.equal(wrap.style.visibility, "");
-  run(HUD_SHOW_JS); assert.equal(hud.style.visibility, "");
+  assert.equal(run(HUD_HIDE_JS), 2);
+  assert.equal(hud.style.visibility, "hidden"); assert.equal(mini.style.visibility, "hidden");
+  assert.equal(wrap.style.visibility, ""); assert.equal(main.style.visibility, "");
+  assert.equal(html.style.overflow, "hidden"); assert.equal(body.style.overflow, "hidden");
+  run(HUD_SHOW_JS); assert.equal(hud.style.visibility, ""); assert.equal(mini.style.visibility, ""); assert.equal(body.style.overflow, "");
 });
 
 test("ancestorPids: walks /proc stat parents up to (not including) PID 1", async () => {
@@ -188,4 +194,19 @@ test("heapTop: sums self size per function and sorts", async () => {
 test("summaryTable: failed column carries the view's failure reason", async () => {
   const { summaryTable } = await import("./pod-capture-lib.mjs");
   assert.match(summaryTable([{ name: "A", summary: { failed: "not-ready" } }], null).split("\n")[4], /^\| A \| not-ready \|/);
+});
+
+test("shotSettle: waits out a luma transient, opens once fps and luma are steady, times out otherwise", () => {
+  const g = shotSettle({ seconds: 4, minS: 15, timeoutS: 40 });
+  const luma = (s) => (s < 12 ? 100 : s < 22 ? 100 - 4 * (s - 12) : 60 + 3 * Math.min(s - 22, 5));
+  let opened = null;
+  for (let s = 1; s <= 40 && opened === null; s++) if (g.feed(s, 60, luma(s))) opened = s;
+  assert.ok(opened >= 30 && opened < 40, `opened at ${opened}`); assert.equal(g.timedOut, false);
+  const t = shotSettle({ seconds: 4, minS: 1, timeoutS: 10 });
+  for (let s = 1; s <= 10; s++) t.feed(s, s % 2 ? 30 : 60, 100);
+  assert.equal(t.at, 10); assert.equal(t.timedOut, true);
+});
+test("parseViews: settle false or a known config", () => {
+  assert.equal(parseViews(JSON.stringify([{ name: "a", url: "http://x/", settle: false }]))[0].settle, false);
+  assert.throws(() => parseViews(JSON.stringify([{ name: "a", url: "http://x/", settle: { wait: 3 } }])), /settle/);
 });

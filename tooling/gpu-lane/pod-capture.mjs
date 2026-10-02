@@ -11,8 +11,9 @@
  *     [--heap-profile]
  *   node tooling/gpu-lane/pod-capture.mjs --url <url> [--compare <url>] --out <dir> [...]   (a views file of one or two views)
  *
- * --views      JSON list of {name, url, steps?, shots?, seconds?, plain?, clean?, aim?} (url any http(s) URL; plain: a non-studio
- *              page, no settle gate, runs its seconds; clean: HUD hidden around frames and final.jpg; aim: [yaw, pitch?] rad
+ * --views      JSON list of {name, url, steps?, shots?, seconds?, plain?, clean?, aim?, settle?} (url any http(s) URL; plain: a non-studio
+ *              page, no settle gate, runs its seconds; clean: HUD, minimap and scrollbar hidden around frames and final.jpg; settle: shots
+ *              count from the shot settle gate (fps and luma steady, pod-capture-lib shotSettle; default on, false = off); aim: [yaw, pitch?] rad
  *              through aimCamera before the first frame, conventions at pod-capture-lib aimJs); each view writes <out>/<name>/ (result.json, frames/, final.jpg,
  *              trace.json); <out>/result.json holds every view and <out>/summary.md the table. Example: views/webgpu10-iter7.json
  * --url/--compare  the single-URL case: views "main" (and "compare"); result.lumaRatio = main luma / compare luma per read
@@ -61,7 +62,7 @@
 import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summaryTable } from "./pod-capture-lib.mjs";
+import { HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summaryTable } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit } from "./checks.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
@@ -366,7 +367,10 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
     // plain views (a non-studio page: no HUD, no build queue) skip the settle gate and the ready limit, and run their seconds
     const gate = settledFrames > 0 && !view.plain ? settleGate(settledFrames, settleFloor) : null;
     const heapProfile = Boolean(view.heapProfile ?? heapProfileAll);
-    let lastFrame = null;
+    let lastFrame = null, settleFrame = null;
+    // shots wait for the shot settle gate (frame rate and luma steady; pod-capture-lib shotSettle); plain views and settle: false skip it
+    const shotGate = view.plain || view.settle === false ? null : shotSettle(view.settle === true ? {} : view.settle);
+    if (shotGate) result.shotSettle = { config: shotGate.config, at: null, timedOut: false };
     while (sec() < totalS) {
       if (aborted) return;
       const s = sec();
@@ -384,8 +388,9 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
       }
       // `aim`: the camera is aimed once the studio's debug hook exists, and no frame is taken before it is
       if (view.aim && !result.aimedAt) { if ((await evaluate(aimJs(view.aim), 5_000)) === true) result.aimedAt = r1(sec()); }
-      if (si < shots.length && s >= shots[si] && (!view.aim || result.aimedAt)) {
-        while (si < shots.length && shots[si] <= s) si++;
+      const shotT = shotGate ? (shotGate.at === null ? -1 : s - shotGate.at) : s;
+      if (si < shots.length && shotT >= shots[si] && (!view.aim || result.aimedAt)) {
+        while (si < shots.length && shots[si] <= shotT) si++;
         try { writeFileSync(join(dir, "frames", `${String(Math.round(s * 1000)).padStart(6, "0")}.jpg`), Buffer.from(await frameShot(view), "base64")); result.frames++; } catch { /* busy page: skip this frame */ }
       }
       if (ri < readsAt.length && s >= readsAt[ri]) { ri++; result.reads[readsAt[ri - 1]] = { t: r1(sec()), ...(await fullRead()) }; }
@@ -411,6 +416,13 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
         }
         if (q && !q.err) heapSamples.push({ s: lastPoll, heapMB, buffers: q.g, textures: q.x });
         if (result.readyS === null && q && !q.err && q.g > 0 && lastFrame !== null && q.f > lastFrame) result.readyS = r1(s);
+        if (shotGate && shotGate.at === null && (!view.aim || result.aimedAt) && q && !q.err && Number.isFinite(q.f)) {
+          const fps = settleFrame ? (q.f - settleFrame.f) / (s - settleFrame.s) : NaN;
+          settleFrame = { f: q.f, s };
+          let luma = NaN;
+          try { luma = (await middleOf(await shoot(30))).luma; } catch { /* busy page: no sample */ }
+          if (shotGate.feed(s, fps, luma)) Object.assign(result.shotSettle, { at: r1(shotGate.at), timedOut: shotGate.timedOut });
+        }
         if (q && !q.err) lastFrame = q.f;
         if (gate?.feed(s, q, q?.f)) {
           result.reads.settled = { t: r1(sec()), gateAt: gate.settledAt, afterFrames: settledFrames, ...(await fullRead()) };

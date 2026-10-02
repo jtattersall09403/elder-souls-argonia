@@ -131,6 +131,30 @@ export function settleGate(n = 300, floorS = 20) {
   };
 }
 
+/** The shot settle gate (default on for every non-plain view; a view's `settle: false` turns it off, `settle: {seconds,
+ * lumaTol, fpsTol, minS, timeoutS}` tunes it): no frame for the record is taken before `minS` after navigation (a steady
+ * start can precede the transient) and then until, over the last `seconds` of 1 s samples,
+ * both the screen-middle luma and the fps sit within their tolerance of their own mean ((max - min) / mean), or until
+ * `timeoutS` after navigation (then `timedOut`). Walk 10 vol smoke: the frame darkened 12-22 s and brightened after
+ * (exposure transient), so shots taken from 0 s recorded the transient, not the look. Shot times count from the gate. */
+export const SHOT_SETTLE_DEFAULT = { seconds: 8, lumaTol: 0.04, fpsTol: 0.15, minS: 30, timeoutS: 120 };
+export function shotSettle(cfg = {}) {
+  const c = { ...SHOT_SETTLE_DEFAULT, ...cfg }, xs = [];
+  let at = null, timedOut = false;
+  const steady = (k) => { const v = xs.map((x) => x[k]); const m = v.reduce((a, b) => a + b, 0) / v.length; return m > 0 && (Math.max(...v) - Math.min(...v)) / m <= c[k === "luma" ? "lumaTol" : "fpsTol"]; };
+  return {
+    get at() { return at; }, get timedOut() { return timedOut; }, config: c,
+    feed(s, fps, luma) {
+      if (at !== null) return true;
+      if (Number.isFinite(fps) && Number.isFinite(luma)) xs.push({ s, fps, luma });
+      while (xs.length && xs[0].s < s - c.seconds) xs.shift();
+      if (s >= c.minS && xs.length >= 2 && s - xs[0].s >= c.seconds - 1 && steady("luma") && steady("fps")) at = s;
+      else if (s >= c.timeoutS) { at = s; timedOut = true; }
+      return at !== null;
+    },
+  };
+}
+
 /** Parse a --steps JSON file: array of {at: number, js: string, label?, waitMs?}, returned sorted by `at`. Throws on a bad shape. */
 export function parseSteps(text) {
   const a = JSON.parse(text);
@@ -171,6 +195,8 @@ export function parseViews(text) {
     if (v.clean !== undefined && typeof v.clean !== "boolean") throw new Error(`views[${i}]: "clean" must be true or false`);
     if (v.aim !== undefined && !(Array.isArray(v.aim) && v.aim.length >= 1 && v.aim.length <= 2 && v.aim.every(Number.isFinite)))
       throw new Error(`views[${i}]: "aim" must be [yawRad] or [yawRad, pitchRad]`);
+    if (v.settle !== undefined && v.settle !== false && !(v.settle && typeof v.settle === "object" && Object.entries(v.settle).every(([k, x]) => k in SHOT_SETTLE_DEFAULT && x > 0)))
+      throw new Error(`views[${i}]: "settle" must be false or {seconds, lumaTol, fpsTol, minS, timeoutS} (each > 0)`);
     return { ...v, steps: v.steps ? parseSteps(JSON.stringify(v.steps)) : [] };
   });
 }
@@ -233,10 +259,11 @@ export function podSetupCommand(pod, mode, script = "/root/site/tooling/gpu-lane
   return `${parts.join(" ")} -o StrictHostKeyChecking=no ${host} bash ${script} ${mode}`;
 }
 
-/** Page JS that hides the HUD overlays (fixed/absolute elements holding no canvas) for a screenshot, and restores them;
- * the same rule as measure.mjs --clean. The HUD is still read as text between shots. */
-export const HUD_HIDE_JS = `(() => { window.__hid = [...document.querySelectorAll("body *")].filter((e) => !e.querySelector("canvas") && e.tagName !== "CANVAS" && ["fixed", "absolute"].includes(getComputedStyle(e).position)); window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); return window.__hid.length; })()`;
-export const HUD_SHOW_JS = `(() => { window.__hid?.forEach((e) => { e.style.visibility = e.dataset.v; }); window.__hid = null; return true; })()`;
+/** Page JS that hides every overlay for a screenshot and restores it: each fixed/absolute element that neither is nor
+ * holds the render canvas (the largest canvas; so the minimap's own absolute canvas is hidden too), plus overflow
+ * hidden on html and body (no scrollbar). The same rule as measure.mjs --clean. The HUD is still read between shots. */
+export const HUD_HIDE_JS = `(() => { const main = [...document.querySelectorAll("canvas")].sort((a, b) => b.width * b.height - a.width * a.height)[0]; window.__hid = [...document.querySelectorAll("body *")].filter((e) => e !== main && !(main && e.contains(main)) && ["fixed", "absolute"].includes(getComputedStyle(e).position)); window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); window.__ovf = [document.documentElement, document.body].map((e) => { const v = e.style.overflow; e.style.overflow = "hidden"; return v; }); return window.__hid.length; })()`;
+export const HUD_SHOW_JS = `(() => { window.__hid?.forEach((e) => { e.style.visibility = e.dataset.v; }); window.__hid = null; if (window.__ovf) [document.documentElement, document.body].forEach((e, i) => { e.style.overflow = window.__ovf[i]; }); window.__ovf = null; return true; })()`;
 
 /** Page JS that aims the studio's follow camera (CharacterMode __STUDIO_CHARACTER_DEBUG__.aimCamera; FollowCamera puts
  * the camera at player + (sin yaw, cos yaw) x distance, so it looks along (-sin yaw, -cos yaw): yaw 0 looks toward -z,
