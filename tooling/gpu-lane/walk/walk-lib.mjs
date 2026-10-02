@@ -13,9 +13,12 @@ export function legTo(a, b) {
 /** A walk is given 1.5x its expected time (distance / speed) and at least 2 s before the teleport fallback. */
 export const walkBudgetS = (distM, speedMps) => Math.max(2, (1.5 * distM) / speedMps);
 
+/** A lost DevTools connection (tunnel drop, closed tab or browser), as opposed to a page-side error. */
+export const cdpLost = (e) => /Target (page, context or browser )?(has been )?closed|Target closed|Browser has been closed|Session closed|WebSocket|ECONNRESET|ECONNREFUSED/i.test(String(e));
+
 export function parseArgs(argv) {
   const o = { route: null, cdp: "127.0.0.1:9242", t: ["12", "22"], w: "clear", out: null, origin: "http://127.0.0.1:8099",
-    base: "/elder-souls-argonia/studio/", width: 1280, height: 720, settle: 10, speed: 3.5, readyTimeout: 150, only: null, smoke: false };
+    base: "/elder-souls-argonia/studio/", width: 1280, height: 720, settle: 10, speed: 3.5, readyTimeout: 150, only: null, smoke: false, pod: null };
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i].replace(/^--/, ""), v = argv[i + 1];
     if (!(k in o)) throw new Error(`walk_run: unknown flag --${k}`);

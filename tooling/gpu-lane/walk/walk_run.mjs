@@ -9,7 +9,8 @@ import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import { closeOrphanPages, frameStats, isReady, pageProbe, sample } from "../measure.mjs";
 import { parseHud } from "../hud-parse.mjs";
-import { camYaw, coverage, isDay, legTargets, legTo, lumaSettled, outShotPlan, parseArgs, smokeRoute, walkBudgetS } from "./walk-lib.mjs";
+import { ensureTunnel } from "../tunnels.mjs";
+import { camYaw, cdpLost, coverage, isDay, legTargets, legTo, lumaSettled, outShotPlan, parseArgs, smokeRoute, walkBudgetS } from "./walk-lib.mjs";
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -18,23 +19,29 @@ const KEYS = {
   e: { key: "e", code: "KeyE", windowsVirtualKeyCode: 69, nativeVirtualKeyCode: 69, text: "e" },
 };
 const r2 = (x) => Math.round(x * 100) / 100;
-
 async function main() {
   const o = parseArgs(process.argv.slice(2));
   const full = JSON.parse(readFileSync(o.route, "utf8"));
   const route = o.smoke ? smokeRoute(full) : full;
   mkdirSync(o.out, { recursive: true });
   const t0 = Date.now();
-  const browser = await chromium.connectOverCDP(`http://${o.cdp}`);
-  const { closed: orphansClosed } = await closeOrphanPages(browser);
-  const ctx = await browser.newContext({ viewport: { width: o.width, height: o.height } });
-  await ctx.addInitScript(pageProbe);
-  const page = await ctx.newPage(); // ONE tab for every pass
-  const cdp = await ctx.newCDPSession(page);
   const consoleErrors = [], http404s = [];
-  page.on("console", (m) => { if (m.type() === "error") consoleErrors.push(m.text().slice(0, 300)); });
-  page.on("pageerror", (e) => consoleErrors.push(`pageerror: ${String(e).slice(0, 300)}`));
-  page.on("response", (r) => { if (r.status() === 404) http404s.push(r.url()); });
+  let browser, ctx, page, cdp, orphansClosed = 0;
+  /** ONE tab for every pass; called again only after a CDP loss (the tunnel re-established first when --pod is given). */
+  async function connect() {
+    if (o.pod) { const [, port] = o.cdp.split(":"); await ensureTunnel({ pod: o.pod, local: Number(port) }); }
+    browser = await chromium.connectOverCDP(`http://${o.cdp}`);
+    orphansClosed += (await closeOrphanPages(browser)).closed;
+    ctx = await browser.newContext({ viewport: { width: o.width, height: o.height } });
+    await ctx.addInitScript(pageProbe);
+    page = await ctx.newPage();
+    cdp = await ctx.newCDPSession(page);
+    page.on("console", (m) => { if (m.type() === "error") consoleErrors.push(m.text().slice(0, 300)); });
+    page.on("pageerror", (e) => consoleErrors.push(`pageerror: ${String(e).slice(0, 300)}`));
+    page.on("response", (r) => { if (r.status() === 404) http404s.push(r.url()); });
+  }
+  await connect();
+  const reconnects = [];
 
   const dbg = (fn, arg) => page.evaluate(([fn, arg]) => {
     const d = window.__STUDIO_CHARACTER_DEBUG__;
@@ -205,9 +212,13 @@ async function main() {
   for (const t of o.t) {
     const day = isDay(t);
     const pass = `t${t}`;
-    const P = { pass, t, w: o.w, waypoints: [] };
+    const P = { pass, t, w: o.w, waypoints: [], reconnects: 0 };
     passes.push(P);
     const tp = Date.now();
+    // A CDP loss (tunnel drop, "Target closed") reconnects and re-runs the pass from its last completed
+    // waypoint, at most twice per pass; the settle, yaw check and free walk are not repeated on a resume.
+    for (let attempt = 0; attempt <= 2; attempt++) {
+    const resumeAt = P.waypoints.length;
     try {
       const w0 = route.waypoints[0];
       const url = `${o.origin}${o.base}?view=character&x=${(w0.xM / 1000).toFixed(4)}&z=${(w0.zM / 1000).toFixed(4)}&t=${t}&w=${o.w}`;
@@ -231,6 +242,7 @@ async function main() {
       await page.mouse.click(o.width / 2, o.height / 2).catch(() => {});
       await dbg("teleport", [w0.xM, w0.zM, camYaw(w0.yawRad)]);
       await wait(3000);
+      if (attempt === 0) {
       const settle = await sample(page, o.settle);
       P.settle = { ...frameStats(settle.ts), ...settle.work };
       P.settle.hitches = undefined;
@@ -263,12 +275,14 @@ async function main() {
         if (P.freeWalk.movedM !== null && P.freeWalk.movedM < 5) findings.push({ pass, where: "freeWalk", finding: `the 20 s walk moved only ${P.freeWalk.movedM} m (blocked or keys not reaching input)` });
         await shot(`${pass}-freewalk-end.jpg`);
       }
-      // the route
+      }
+      // the route (from the last completed waypoint on a resume, reached by teleport)
       for (const [i, w] of route.waypoints.entries()) {
+        if (i < resumeAt) continue;
         const R = { id: w.id, actions: [] };
         P.waypoints.push(R);
         try {
-          if (w.arrive === "walk" && i > 0) {
+          if (w.arrive === "walk" && i > resumeAt) {
             R.walks = [];
             for (const leg of legTargets(w)) R.walks.push(await walkTo(leg));
             R.fallback = R.walks.some((x) => x.fallback);
@@ -288,11 +302,23 @@ async function main() {
                 if (!day) continue;
                 R.actions.push(await doorAction(a, pass, findings));
               }
-            } catch (e) { findings.push({ pass, where: `${w.id}/${a.type}`, finding: `harness error: ${String(e).slice(0, 200)}` }); }
+            } catch (e) { if (cdpLost(e)) throw e; findings.push({ pass, where: `${w.id}/${a.type}`, finding: `harness error: ${String(e).slice(0, 200)}` }); }
           }
-        } catch (e) { findings.push({ pass, where: w.id, finding: `harness error: ${String(e).slice(0, 200)}` }); }
+        } catch (e) { if (cdpLost(e)) { P.waypoints.pop(); throw e; } findings.push({ pass, where: w.id, finding: `harness error: ${String(e).slice(0, 200)}` }); }
       }
-    } catch (e) { findings.push({ pass, where: "pass", finding: `harness error: ${String(e).slice(0, 300)}` }); }
+      break;
+    } catch (e) {
+      if (cdpLost(e) && attempt < 2) {
+        P.reconnects++;
+        reconnects.push({ pass, atWaypoint: P.waypoints.length, error: String(e).slice(0, 200), at: new Date().toISOString() });
+        console.log(`walk: CDP lost in ${pass} at waypoint ${P.waypoints.length}; reconnecting (${attempt + 1}/2)`);
+        await browser.close().catch(() => {});
+        try { await connect(); continue; } catch (e2) { findings.push({ pass, where: "reconnect", finding: `reconnect failed: ${String(e2).slice(0, 200)}` }); break; }
+      }
+      findings.push({ pass, where: "pass", finding: `harness error: ${String(e).slice(0, 300)}` });
+      break;
+    }
+    }
     P.wallMin = r2((Date.now() - tp) / 60000);
     console.log(`walk: pass ${pass} done in ${P.wallMin} min; settle ${P.settle?.settledFps} fps, walk ${P.freeWalk?.settledFps} fps`);
   }
@@ -302,7 +328,7 @@ async function main() {
   }).catch(() => null);
   const git = (a) => spawnSync("git", a, { cwd: repo, encoding: "utf8" }).stdout.trim();
   const summary = { schemaVersion: 2, placeId: route.placeId, smoke: o.smoke, gitSha: git(["rev-parse", "HEAD"]), dirty: git(["status", "--porcelain"]) !== "",
-    measuredAt: new Date().toISOString(), gpuAdapter: gpu, origin: o.origin, base: o.base, weather: o.w, orphansClosed,
+    measuredAt: new Date().toISOString(), gpuAdapter: gpu, origin: o.origin, base: o.base, weather: o.w, orphansClosed, reconnects,
     passes, coverage: coverage(route, passes), consoleErrors: [...new Set(consoleErrors)], http404s: [...new Set(http404s)], findings,
     wallMin: r2((Date.now() - t0) / 60000) };
   writeFileSync(join(o.out, "summary.json"), `${JSON.stringify(summary, null, 1)}\n`);

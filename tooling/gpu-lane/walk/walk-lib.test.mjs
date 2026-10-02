@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { camYaw, coverage, isDay, legTargets, legTo, lumaSettled, outShotPlan, parseArgs, smokeRoute, walkBudgetS } from "./walk-lib.mjs";
+import { camYaw, cdpLost, coverage, isDay, legTargets, legTo, lumaSettled, outShotPlan, parseArgs, smokeRoute, walkBudgetS } from "./walk-lib.mjs";
 
 test("--smoke is a bare flag", () => {
   assert.equal(parseArgs(["--route", "r", "--smoke", "--out", "o"]).smoke, true);
@@ -63,4 +63,10 @@ test("day pass and coverage", () => {
 test("outShotPlan reads the door out shot, null without one", () => {
   assert.deepEqual(outShotPlan({ outShot: { standM: [1, 2], yaw: 0.5, pitch: 0.2 } }), { standM: [1, 2], yaw: 0.5, pitch: 0.2 });
   assert.equal(outShotPlan({}), null);
+});
+
+test("cdpLost tells a lost DevTools link from a page error", () => {
+  assert.equal(cdpLost(new Error("page.evaluate: Target page, context or browser has been closed")), true);
+  assert.equal(cdpLost(new Error("Protocol error: Target closed")), true);
+  assert.equal(cdpLost(new Error("page.evaluate: TypeError: d.state is not a function")), false);
 });
