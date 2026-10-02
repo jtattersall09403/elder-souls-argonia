@@ -98,6 +98,17 @@ export function heapGrowth(before, after, top = 15) {
     .sort((x, y) => y[1] - x[1]).slice(0, top).map(([name, d]) => ({ name, MB: r2(d / 1e6) }));
 }
 
+/** Heap growth as a least-squares slope over [seconds, MB] samples (every 0.5 s across a window): one major GC inside
+ * the window no longer collapses it the way end-minus-start did (diag7: one view read 27 vs 187 MB/min). */
+export function heapFit(samples) {
+  const p = (samples ?? []).filter(([t, m]) => Number.isFinite(t) && Number.isFinite(m));
+  if (p.length < 3) return { n: p.length, mbPerS: null, mbPerMin: null };
+  const mt = p.reduce((a, [t]) => a + t, 0) / p.length, mm = p.reduce((a, [, m]) => a + m, 0) / p.length;
+  const sxx = p.reduce((a, [t]) => a + (t - mt) ** 2, 0), sxy = p.reduce((a, [t, m]) => a + (t - mt) * (m - mm), 0);
+  const k = sxx ? sxy / sxx : 0;
+  return { n: p.length, mbPerS: Math.round(k * 1000) / 1000, mbPerMin: Math.round(k * 600) / 10 };
+}
+
 /** census.txt: the short human read of one census entry. */
 export function censusText(c) {
   const d = c.draws;
@@ -107,7 +118,7 @@ export function censusText(c) {
     "top materials (name, uuid8, draws, owners):", ...d.byMaterial.slice(0, 10).map((m) => `  ${m.join("\t")}`)];
   const m = c.matrix;
   if (m) L.push(`matrixAutoUpdate on ${m.matrixAutoUpdateOn} of ${m.objects}; not moved in ${m.staticOver} ms: ${m.notMoved}, moved ${m.moved}`);
-  L.push(`heap ${c.heap.startMB} MB -> ${c.heap.endMB} MB over ${c.heap.seconds} s: ${c.heap.slopeMBs} MB/s`);
+  L.push(`heap ${c.heap.startMB} MB -> ${c.heap.endMB} MB over ${c.heap.seconds} s: ${c.heap.slopeMBs} MB/s (least-squares over ${c.heap.fitSamples} samples)`);
   if (c.heap.sampledGrowth) L.push("heap growth by function (sampled, MB):", ...c.heap.sampledGrowth.slice(0, 6).map((g) => `  ${g.MB}\t${g.name}`));
   L.push(`hitches >20 ms in ${c.hitchWindowS} s: ${c.hitches.length}`);
   for (const h of c.hitches) L.push(`  ${h.frameMs} ms at ${h.atMs}: ${h.top.map((t) => `${t.name} ${t.selfMs}`).join(" | ")}`);

@@ -176,3 +176,13 @@ test("hitchList: frames over 20 ms with the top self-time functions of the sampl
   assert.deepEqual(hs[0].top[0], { name: "slow index.js:5:1", selfMs: 30 });
   assert.equal(hs[0].top[1].name, "fast index.js:10:1");
 });
+
+test("heapFit: least-squares slope through a GC saw-tooth reads the underlying growth", async () => {
+  const { heapFit } = await import("./checks.mjs");
+  // +3 MB/s growth on top of a 0-20 MB saw-tooth (a major GC every 4 s) over 10 s; end-minus-start would read ~0.7 MB/s
+  const s = []; for (let t = 0; t <= 10; t += 0.5) s.push([t, 100 + 3 * t + ((t % 4) / 4) * 20]);
+  const f = heapFit(s);
+  assert.ok(Math.abs(f.mbPerS - 3) < 1, `slope ${f.mbPerS}`);
+  assert.equal(f.n, 21);
+  assert.equal(heapFit([[0, 1]]).mbPerS, null);
+});

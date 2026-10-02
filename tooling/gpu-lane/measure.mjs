@@ -23,7 +23,7 @@ import { spawnSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { chromium } from "playwright";
-import { BLACK_LUMA, SPOT_A, censusText, diagList, foreignPages, heapGrowth, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
+import { BLACK_LUMA, SPOT_A, censusText, diagList, foreignPages, heapFit, heapGrowth, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
 
 export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems };
@@ -214,6 +214,7 @@ async function runCensus(page, o) {
     heapBefore = (await cdp.send("HeapProfiler.getSamplingProfile")).profile;
   }
   let offsetMs = 0, profile = null, heapSampling = null;
+  await page.evaluate(() => { const t0 = performance.now(); window.__HEAPS = []; window.__HEAPI = setInterval(() => window.__HEAPS.push([(performance.now() - t0) / 1000, (performance.memory?.usedJSHeapSize ?? NaN) / 1e6]), 500); });
   const w = await sample(page, seconds, async () => {
     await cdp.send("Profiler.start");
     offsetMs = 0;
@@ -226,11 +227,12 @@ async function runCensus(page, o) {
     return { elapsedMs: Date.now() - t0 };
   });
   const endMB = await heapMB();
+  const fit = heapFit(await page.evaluate(() => { clearInterval(window.__HEAPI); return window.__HEAPS; }));
   if (wantHeap) heapSampling = (await cdp.send("HeapProfiler.stopSampling")).profile;
   await cdp.detach().catch(() => {});
   const hitches = hitchList(w.ts, profile, offsetMs);
   return { draws, matrix, hitchWindowS: seconds, frames: w.ts.length, hitches,
-    heap: { startMB, endMB, seconds, slopeMBs: Math.round(((endMB - startMB) / seconds) * 1000) / 1000, sampledGrowth: heapSampling ? heapGrowth(heapBefore, heapSampling) : null } };
+    heap: { startMB, endMB, seconds, slopeMBs: fit.mbPerS, fitSamples: fit.n, sampledGrowth: heapSampling ? heapGrowth(heapBefore, heapSampling) : null } };
 }
 
 async function gpuAdapter(page, renderer) {
