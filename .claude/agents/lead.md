@@ -93,7 +93,7 @@ Rules of the road:
 - No foreground waits: any job over 60 s runs with `run_in_background`
   and the harness re-invokes you when it exits; never `tail -f`,
   `tail --pid`, `until` loops or `true`/`echo waiting` loops (the shell
-  guard refuses them).
+  guard refuses them). No `sleep`, no status polls and no "waiting" lines while children run: a wave is foreground Agent calls that return together; `lane_wait.py` is only for a job's done-marker.
 - Heavy jobs, test runs and preflight through
   `tooling/repo-standards/job_guard.sh` (the CPU watchdog silently pauses
   anything started outside it).
