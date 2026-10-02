@@ -68,7 +68,7 @@ import {
 } from "./lighting";
 import { isFlameCardMaterial } from "../fx/fire/flameAnchors";
 import { mergeRunColliders, type RunColliderCache } from "./runColliders";
-import { fixtureLightFieldOf, isFixtureLitMaterial, litPreparerOf } from "../render/fixtureLights";
+import { fixtureLightFieldOf } from "../render/fixtureLights";
 import { DrawTargetLinker } from "../render/drawTargetLinker";
 import { assertPoolsSchema, syncPlacePools } from "./pools";
 import { TransientFetchError, fetchJsonWithRetry, loadGltfWithRetry } from "./fetchRetry";
@@ -1183,17 +1183,8 @@ export function SettlementLayer({
         // Every material is patched (CSM, the settlement surface, fixture
         // lights) and every program linked BEFORE the build is on screen: a
         // material first drawn unpatched relinked a frame later, which was the
-        // startup "buildings flash darker" (16k walk 5).
-        const prepare = litPreparerOf(scene);
-        if (prepare) prepare(next);
-        else {
-          const field = fixtureLightFieldOf(scene);
-          next.traverse((object) => {
-            const mesh = object as THREE.Mesh;
-            if (mesh.isMesh && isFixtureLitMaterial(mesh.material as THREE.Material)
-              && field.install(mesh.material as THREE.Material)) field.attach(mesh);
-          });
-        }
+        // startup "buildings flash darker" (16k walk 5). The linker patches
+        // (the scene's lit preparer) before it compiles.
         // Linked against the target the scene pass draws into (the water
         // pipeline's linear target), so the first frame finds them linked.
         const linkStart = performance.now();

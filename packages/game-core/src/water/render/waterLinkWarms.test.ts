@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { describe, expect, it } from "vitest";
 import { DrawTargetLinker } from "../../render/drawTargetLinker";
 import { waterLinkWarms } from "./waterLinkWarms";
+import { setLitPreparer } from "../../render/fixtureLights/fixtureLightField";
 
 // The parts of three's program key (WebGLPrograms.getParameters) a warm can
 // get wrong: the object compiled and its flags, the material's hook key, and
@@ -62,6 +63,7 @@ describe("waterLinkWarms (16k walk 10: the underwater water variants linked on t
       },
     } as unknown as THREE.WebGLRenderer;
     const scene = new THREE.Scene();
+    setLitPreparer(scene, () => undefined); // the sky is mounted
     const linker = new DrawTargetLinker(gl, scene).attach();
     scene.onBeforeRender({} as never, scene, new THREE.PerspectiveCamera(), sceneTarget as never, undefined as never, undefined as never);
     for (const warm of waterLinkWarms({

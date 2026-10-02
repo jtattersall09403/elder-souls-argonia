@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
 import { DrawTargetLinker } from "./drawTargetLinker";
+import { setLitPreparer } from "./fixtureLights/fixtureLightField";
 
 function fakeGl() {
   let bound: THREE.WebGLRenderTarget | null = null;
@@ -20,6 +21,7 @@ describe("DrawTargetLinker (review 2026-09-30: settlement pre-link keys)", () =>
 
   it("links against a linear half-float target when the scene pass draws into the water target", async () => {
     const scene = new THREE.Scene();
+    setLitPreparer(scene, () => undefined);
     const { gl, seen, bound } = fakeGl();
     const linker = new DrawTargetLinker(gl, scene).attach();
     expect(linker.observed).toBe(false);
@@ -37,6 +39,7 @@ describe("DrawTargetLinker (review 2026-09-30: settlement pre-link keys)", () =>
 
   it("links against the screen when the bare scene draws to the screen", async () => {
     const scene = new THREE.Scene();
+    setLitPreparer(scene, () => undefined);
     const { gl, seen } = fakeGl();
     const linker = new DrawTargetLinker(gl, scene).attach();
     pass(scene, null);
@@ -48,6 +51,7 @@ describe("DrawTargetLinker (review 2026-09-30: settlement pre-link keys)", () =>
 
   it("links late-drawn meshes once, only after the scene pass is seen (16k walk 10)", () => {
     const scene = new THREE.Scene();
+    setLitPreparer(scene, () => undefined);
     const { gl, seen } = fakeGl();
     const linker = new DrawTargetLinker(gl, scene).attach();
     const queue: (() => void)[] = [];
@@ -64,5 +68,47 @@ describe("DrawTargetLinker (review 2026-09-30: settlement pre-link keys)", () =>
     queue.shift()!();
     expect(seen.length).toBe(2);
     linker.detach();
+  });
+
+  // 16k walk 10 E3: warm and draw must compile the same program key, so the
+  // sky's CSM preparer has run on the material by the time compileAsync runs.
+  function csmGl() {
+    const atCompile: (string | undefined)[] = [];
+    const gl = {
+      getRenderTarget: () => null,
+      setRenderTarget: () => undefined,
+      compileAsync: (object: THREE.Mesh) => {
+        atCompile.push((object.material as THREE.Material).defines?.USE_CSM as string | undefined);
+        return Promise.resolve();
+      },
+    } as unknown as THREE.WebGLRenderer;
+    return { gl, atCompile };
+  }
+  const csmPreparer = (root: THREE.Object3D) => root.traverse((o) => {
+    const m = (o as THREE.Mesh).material as THREE.Material | undefined;
+    if (m) m.defines = { ...m.defines, USE_CSM: "" };
+  });
+
+  it("compiles with the lit preparer's patch (USE_CSM) applied, every material variant", async () => {
+    const scene = new THREE.Scene();
+    setLitPreparer(scene, csmPreparer);
+    const { gl, atCompile } = csmGl();
+    const linker = new DrawTargetLinker(gl, scene);
+    const mesh = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshStandardMaterial());
+    await linker.link({ object: mesh, materials: [new THREE.MeshStandardMaterial(), new THREE.MeshStandardMaterial()] }, camera);
+    expect(atCompile).toEqual(["", ""]);
+  });
+
+  it("a link asked before the preparer registers compiles only after registration", async () => {
+    const scene = new THREE.Scene();
+    const { gl, atCompile } = csmGl();
+    const linker = new DrawTargetLinker(gl, scene, 60_000);
+    const mesh = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshStandardMaterial());
+    const linking = linker.link({ object: mesh }, camera);
+    await Promise.resolve();
+    expect(atCompile.length).toBe(0);
+    setLitPreparer(scene, csmPreparer);
+    await linking;
+    expect(atCompile).toEqual([""]);
   });
 });

@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { litPreparerOf, prepareLit, whenLitPreparer } from "./fixtureLights/fixtureLightField";
 
 /**
  * One object to link ahead of its first draw. `pass` names the target its
@@ -39,7 +40,10 @@ export class DrawTargetLinker {
   private readonly hook: THREE.Scene["onBeforeRender"];
   private previous: THREE.Scene["onBeforeRender"] | null = null;
 
-  constructor(private readonly gl: THREE.WebGLRenderer, private readonly scene: THREE.Scene) {
+  /** `preparerWaitMs`: how long a link waits for the sky's lit preparer before
+   * linking with fixture lights alone (an app with no sky). */
+  constructor(private readonly gl: THREE.WebGLRenderer, private readonly scene: THREE.Scene,
+    private readonly preparerWaitMs = 4000) {
     this.scratch.texture.colorSpace = THREE.NoColorSpace;
     this.hook = (...args) => {
       const [, , camera, target] = args as unknown as [unknown, unknown, THREE.Camera, THREE.WebGLRenderTarget | null];
@@ -70,6 +74,15 @@ export class DrawTargetLinker {
    * restore bracket it exactly.
    */
   link(warm: LinkWarm, camera: THREE.Camera): Promise<unknown> {
+    // The lit preparer (WorldSky's CSM patch, fixture lights) runs before the
+    // compile, so warm and draw link one program key (16k walk 10 E3: rocks,
+    // bedrolls and impostors warmed without USE_CSM and relinked at draw).
+    // A link asked before the sky registers it waits for the registration.
+    if (litPreparerOf(this.scene)) return this.linkNow(warm, camera);
+    return whenLitPreparer(this.scene, this.preparerWaitMs).then(() => this.linkNow(warm, camera));
+  }
+
+  private linkNow(warm: LinkWarm, camera: THREE.Camera): Promise<unknown> {
     const { object } = warm;
     const mesh = object as THREE.Mesh;
     const own = mesh.material;
@@ -84,6 +97,7 @@ export class DrawTargetLinker {
       const links: Promise<unknown>[] = [];
       for (const material of variants) {
         if (material) mesh.material = material;
+        prepareLit(this.scene, object);
         links.push(this.gl.compileAsync(object, camera, warm.scene ?? this.scene));
       }
       return Promise.all(links);
