@@ -209,7 +209,12 @@ function fakeRenderer() {
   let clearAlpha = 0.7;
   let scissorTest = true;
   let clears = 0;
+  const links: { material: THREE.Material; target: THREE.RenderTarget | null; tone: THREE.ToneMapping }[] = [];
   const renderer = {
+    compileAsync: (quad: THREE.Mesh) => {
+      links.push({ material: quad.material as THREE.Material, target: target as THREE.RenderTarget | null, tone: renderer.toneMapping });
+      return Promise.resolve(quad);
+    },
     toneMapping: THREE.ACESFilmicToneMapping, autoClear: true,
     getRenderTarget: () => target,
     setRenderTarget: (next: unknown) => { target = next; },
@@ -230,10 +235,25 @@ function fakeRenderer() {
         : kind === 'drop' ? { kind, count: u.dropCount.value, drop: u.drops[0].toArray() } : { kind });
     },
   };
-  return { renderer: renderer as unknown as WebGPURenderer, calls, get clears() { return clears; } };
+  return { renderer: renderer as unknown as WebGPURenderer, calls, links, get clears() { return clears; } };
 }
 
 describe("ripple render scheduling", () => {
+  it("links all four pass programs on the first step, against the half-float target untone-mapped (perf10 f11)", () => {
+    const sim = new RippleSim({ boundarySize: 16, sampleBoundary: () => ({ waterBodyId: "water.pond", depth: 2, surfaceHeight: 0 }) as never });
+    const { renderer, links } = fakeRenderer();
+    sim.step(renderer, 0, 0, 0);
+    const kinds = links.map(l => l.material.name.replace("ripple.", ""));
+    expect(kinds.sort()).toEqual(["advect", "copy", "drop", "update"]);
+    for (const l of links) {
+      expect(l.target).toBeInstanceOf(THREE.RenderTarget);
+      expect(l.target!.texture.type).toBe(THREE.HalfFloatType);
+      expect(l.tone).toBe(THREE.NoToneMapping);
+    }
+    sim.step(renderer, 0, 0, 1 / 60);
+    expect(links).toHaveLength(4);
+  });
+
   it("skips the GPU step over an all-dry patch once the field is zero, resumes when water appears (perf10 f3)", () => {
     let wet = false;
     const sim = new RippleSim({ boundarySize: 16, sampleBoundary: () => (wet

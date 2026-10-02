@@ -32,6 +32,23 @@ describe("one collider per modular run (0101 rule 9)", () => {
     expect(part.vertices[3 * 3 * 4]).toBeCloseTo(6);
   });
 
+  it("reuses a run's joined solid while its member solids are the same objects", () => {
+    const solids = ["w.1", "w.2"].map((id, i) => solid(id, i * 3));
+    const cands = () => solids.map((s, i) => ({ value: s, placementId: s.id, distanceM: 4 - i, parts: 2 }));
+    const runOf = () => "run.w";
+    const cache = new Map();
+    const a = mergeRunColliders(cands(), runOf, cache)[0];
+    const b = mergeRunColliders(cands(), runOf, cache)[0];
+    expect(b.value).toBe(a.value);
+    expect(b.distanceM).toBe(3);
+    solids[1] = solid("w.2", 9);
+    const c = mergeRunColliders(cands(), runOf, cache)[0];
+    expect(c.value).not.toBe(a.value);
+    expect((c.value.parts[0] as { vertices: Float32Array }).vertices[3 * 3 * 2]).toBeCloseTo(9);
+    mergeRunColliders([], runOf, cache);
+    expect(cache.size).toBe(0);
+  });
+
   it("keeps box members as they are", () => {
     const box: SettlementCollisionShape = { kind: "box", halfExtentsM: [1, 1, 1], offsetM: [0, 0, 0] };
     const candidates = ["w.1", "w.2"].map((id, i) => ({

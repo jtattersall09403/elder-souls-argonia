@@ -18,7 +18,7 @@ import { kitPartsDir } from "@elder-souls/game-core/interior/kitParts";
 import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
 import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import { DoorTransition, type InteriorSource } from "@elder-souls/game-core/interior/doorTransition";
-import { fixtureLightFieldOf, isFixtureLitMaterial, litPreparerOf } from "@elder-souls/game-core/render/fixtureLights/index";
+import { fixtureLightFieldOf, prepareLit } from "@elder-souls/game-core/render/fixtureLights/index";
 import { InteriorEnvironment, InteriorFogNode, interiorFogProfile } from "@elder-souls/game-core/interior/interiorEnvironment";
 import { MAX_VOLUME_LIGHTS, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
 import { nearestVolumeLights } from "@elder-souls/game-core/air/volumetrics/studioSamplers";
@@ -452,16 +452,7 @@ class InteriorLinker {
   /** Patch and link `group` (detached, lights under it) against `target`'s lights and fog. */
   link(group: THREE.Object3D, camera: THREE.Camera, target: THREE.Scene): Promise<number> {
     const programsBefore = (this.gl.info as unknown as { programs?: unknown[] }).programs?.length ?? 0;
-    const prepare = litPreparerOf(this.scene);
-    if (prepare) prepare(group);
-    else {
-      const field = fixtureLightFieldOf(this.scene);
-      group.traverse((object) => {
-        const mesh = object as THREE.Mesh;
-        if (mesh.isMesh && isFixtureLitMaterial(mesh.material as THREE.Material)
-          && field.install(mesh.material as THREE.Material)) field.attach(mesh);
-      });
-    }
+    prepareLit(this.scene, group);
     group.updateMatrixWorld(true);
     const bound = this.gl.getRenderTarget();
     if (this.drawsToTarget) this.gl.setRenderTarget(this.scratch);

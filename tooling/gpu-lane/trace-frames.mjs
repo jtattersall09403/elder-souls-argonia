@@ -35,9 +35,19 @@ const r1 = (x) => Math.round(x * 10) / 10;
 export const TRACE_CATEGORIES = ["devtools.timeline", "disabled-by-default-devtools.timeline.frame", "gpu",
   "disabled-by-default-v8.gc", "v8", "blink", "viz", "cc", "toplevel"];
 
+/** Extra categories for `measure.mjs --trace-gpu` (GPU service, device and ANGLE; names Chrome does not know are ignored). */
+export const GPU_TRACE_CATEGORIES = ["disabled-by-default-gpu.service", "disabled-by-default-gpu.device", "gpu.angle", "disabled-by-default-angle"];
+
+/** `--trace-gpu`: a streamed event of one of the GPU categories, any duration (kept in a side list; only those
+ * inside long frames reach the file, see `gpuEventsInSpans`). */
+export const isGpuCategoryEvent = (e) => e.ph === "X" && (e.dur ?? 0) > 0 && /gpu|angle/.test(e.cat ?? "");
+
+/** The events of GPU processes (`gpuPids`) that overlap any `[from, to]` µs span, of any duration. */
+export const gpuEventsInSpans = (events, gpuPids, spans) => events.filter((e) => gpuPids.has(e.pid) && e.ph === "X" && spans.some(([a, b]) => e.ts < b && e.ts + e.dur > a));
+
 /** Keep only what the classifier reads (metadata, frame markers, GC, anything >= 0.5 ms): a full 10 s trace of
  * the studio is over 512 MB of JSON, past V8's string limit. Filter while streaming, never after. */
-export const keepTraceEvent = (e) => e.ph === "M" || e.name === "FireAnimationFrame" || (e.dur ?? 0) >= 500 || /GC|Gc/.test(e.name);
+export const keepTraceEvent = (e) => e.ph === "M" || e.name === "FireAnimationFrame" || e.name === "TimeStamp" || (e.dur ?? 0) >= 500 || /GC|Gc/.test(e.name);
 
 /**
  * Main-thread SELF ms per cause over the whole trace, and per frame (frames = FireAnimationFrame count on the main
@@ -71,8 +81,26 @@ export function mainThreadStages(events) {
 /** The cause with the most ms in a classified long frame's byCause. */
 export const topCause = (byCause) => Object.entries(byCause ?? {}).sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
 
-/** Classify long frames. `events` = traceEvents; `profile` optional CDP cpuprofile (same clock, µs). */
-export function classifyFrames(events, { profile = null, overMs = 20 } = {}) {
+/** The page-time anchor: measure.mjs runs `console.timeStamp(ANCHOR_PREFIX + performance.now())` just after the trace starts. */
+export const ANCHOR_PREFIX = "gpulane-anchor:";
+
+/** Put on each long frame the relink events within `windowMs` of it (page ms). `events` = the probe's `[t, ms, name, info]` rows. */
+export function joinLinks(long, events, windowMs = 300) {
+  for (const f of long) {
+    if (f.pageMs == null) continue;
+    f.links = (events ?? []).filter(([t]) => t >= f.pageMs - windowMs && t <= f.pageMs + f.ms + windowMs)
+      .map(([t, ms, name, info]) => ({ t, ms, name, type: info?.type, owner: info?.owner, key: info?.key }));
+  }
+  return long;
+}
+
+/**
+ * Classify long frames. `events` = traceEvents; `profile` optional CDP cpuprofile (same clock, µs);
+ * `windowEndPageMs` = the page time of the last in-window rAF (measure.mjs): a long frame starting after it
+ * is the trace flush (Tracing.end), not the game, and is dropped. A frame holding a blink.mojom.DevTools
+ * mojo message is the harness's own CDP call: classed `harness` (counted, never listed, not in the stats).
+ */
+export function classifyFrames(events, { profile = null, overMs = 20, windowEndPageMs = null, gpuAnyDur = false } = {}) {
   const fa = events.filter((e) => e.name === "FireAnimationFrame" && e.ph === "X");
   if (!fa.length) return { frames: 0, long: [] };
   const cnt = new Map();
@@ -94,9 +122,18 @@ export function classifyFrames(events, { profile = null, overMs = 20 } = {}) {
       return { t, dt: (profile.timeDeltas[i + 1] ?? 0) / 1000, fn: `${cf.functionName || "(anon)"} ${(cf.url ?? "").replace(/^.*\//, "") || "(native)"}:${(cf.lineNumber ?? -1) + 1}:${(cf.columnNumber ?? -1) + 1}` };
     });
   }
-  const long = [];
-  for (let i = 1; i < fs.length; i++) {
+  // The last interval of a window ends at the rAF after the harness's own end-of-window message ("Receive mojo
+  // message", 29-47 ms): the harness, never the game, so it is dropped from the list and the stats.
+  const anchor = events.map((e) => e.name === "TimeStamp" && String(e.args?.data?.message ?? "").startsWith(ANCHOR_PREFIX)
+    ? { ts: e.ts, pageMs: Number(String(e.args.data.message).slice(ANCHOR_PREFIX.length)) } : null).find(Boolean);
+  const toPage = (us) => anchor && Number.isFinite(anchor.pageMs) ? r1(anchor.pageMs + (us - anchor.ts) / 1000) : null;
+  const devtools = events.filter((e) => e.ph === "X" && e.name === "Receive mojo message" && /blink\.mojom\.DevTools/.test(JSON.stringify(e.args ?? {})));
+  const isHarness = (a, b) => devtools.some((e) => Math.min(b, e.ts + e.dur) - Math.max(a, e.ts) >= 500);
+  const long = [], harnessAt = new Set(), skipAt = new Set();
+  for (let i = 1; i < fs.length - 1; i++) {
     const a = fs[i - 1], b = fs[i];
+    if (windowEndPageMs != null && toPage(a) != null && toPage(a) > windowEndPageMs) { skipAt.add(i); continue; }
+    if (isHarness(a, b)) { harnessAt.add(i); skipAt.add(i); continue; }
     if (b - a <= overMs * 1000) continue;
     const byCause = {}, top = [];
     for (const e of X) {
@@ -108,13 +145,18 @@ export function classifyFrames(events, { profile = null, overMs = 20 } = {}) {
     }
     const self = new Map();
     for (const s of samples) if (s.t >= a && s.t < b) self.set(s.fn, (self.get(s.fn) ?? 0) + s.dt);
-    long.push({ atS: r1((a - fs[0]) / 1e6), ms: r1((b - a) / 1000), byCause,
+    const entry = { atS: r1((a - fs[0]) / 1e6), pageMs: toPage(a), ms: r1((b - a) / 1000), spanUs: [a, b], byCause,
       top: top.sort((x, y) => y.ms - x.ms).slice(0, 8),
-      js: [...self].sort((x, y) => y[1] - x[1]).slice(0, 6).map(([name, ms]) => ({ name, ms: r1(ms) })) });
+      js: [...self].sort((x, y) => y[1] - x[1]).slice(0, 6).map(([name, ms]) => ({ name, ms: r1(ms) })) };
+    // --trace-gpu: the five longest GPU-process events overlapping the frame, of any duration.
+    if (gpuAnyDur) entry.gpuTop = X.filter((e) => gpuPids.has(e.pid) && e.ts < b && e.ts + e.dur > a)
+      .sort((x, y) => y.dur - x.dur).slice(0, 5).map((e) => ({ name: e.name, cat: e.cat, ms: r1(e.dur / 1000), args: JSON.stringify(e.args ?? {}).slice(0, 200) }));
+    long.push(entry);
   }
-  const d = fs.slice(1).map((t, i) => t - fs[i]);
+  const d = fs.slice(1, -1).map((t, i) => t - fs[i]).filter((_, i) => !skipAt.has(i + 1));
+  if (!d.length) return { frames: 0, long: [] };
   return { frames: d.length, over20: d.filter((x) => x > 20000).length, over33: d.filter((x) => x > 33000).length,
-    maxMs: r1(Math.max(...d) / 1000), long };
+    maxMs: r1(Math.max(...d) / 1000), harness: harnessAt.size, long };
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

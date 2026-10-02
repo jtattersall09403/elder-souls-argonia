@@ -16,7 +16,8 @@ import type { PlayerMovementController } from "@elder-souls/game-core/physics/Pl
 import { FollowCamera, FOLLOW_CAMERA } from "@elder-souls/game-core/camera/followCamera";
 import { playerOpacityForArm } from "@elder-souls/game-core/camera/cameraCollision";
 import { rapierCameraObstruction } from "./cameraObstruction";
-import { fadePlayerModel } from "./playerFade";
+import { fadePlayerModel, warmPlayerFadePrograms } from "./playerFade";
+import { DrawTargetLinker, type LinkingRenderer } from "@elder-souls/game-core/render/drawTargetLinker";
 import { ExplorerLocomotion } from "@elder-souls/game-core/locomotion/explorerLocomotion";
 import { input } from "@elder-souls/game-core/io/input";
 import { inputToIntent } from "@elder-souls/game-core/combat/intent";
@@ -72,6 +73,7 @@ import { SoundEventBus } from "@elder-souls/audio";
 import { DoorOverlay, createDoorOverlayChannel } from "./doorOverlay";
 import { ScreenOverlay, createScreenOverlayChannel } from "./screenOverlay";
 import { InteractionArbiter } from "@elder-souls/game-core/interaction/arbiter";
+import { walkHarnessHooks } from "./walkHarnessHooks";
 import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { SocketMarkers, socketsOverlayEnabled } from "./SocketMarkers";
 import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
@@ -1524,7 +1526,7 @@ declare global {
       /** Visible drawables that write depth (probe-bloom-sky HUNT). */
       depthWriters: () => { uuid: string; path: string; type: string; mat: string; transparent: boolean }[];
       setVisible: (uuids: string[], on: boolean) => void;
-    };
+    } & ReturnType<typeof walkHarnessHooks>;
   }
 }
 
@@ -1595,7 +1597,16 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
     camera3P.setObstruction(cameraCast);
     return () => camera3P.setObstruction(null);
   }, [camera3P, cameraCast]);
-  const { camera, scene } = useThree();
+  const { camera, scene, gl } = useThree();
+  // Both fade programs of every player material linked ahead of the first
+  // fade (playerFade.ts warmPlayerFadePrograms); checked once a second so an
+  // equipment change's new materials are pinned too.
+  const fadeLinker = useMemo(() => new DrawTargetLinker(gl as unknown as LinkingRenderer, scene), [gl, scene]);
+  useEffect(() => { fadeLinker.attach(); return () => fadeLinker.detach(); }, [fadeLinker]);
+  const fadePinFrame = useRef(0);
+  const fadePinCompile = useMemo(() => (object: THREE.Object3D) => {
+    fadeLinker.compileAsync(object, camera).catch(() => undefined);
+  }, [fadeLinker, camera]);
   const position = useMemo(() => new THREE.Vector3(), []);
   const lastPosition = useRef(new THREE.Vector3());
   const stepAccum = useRef(0);
@@ -1697,9 +1708,14 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
       setVisible: (uuids: string[], on: boolean) => {
         for (const u of uuids) { const o = scene.getObjectByProperty("uuid", u); if (o) o.visible = on; }
       },
+      ...walkHarnessHooks({ teleportBody: (p) => (adapter as EcctrlAdapter).teleport(p), groundAt: (x, z) => world.groundHeight(x, z),
+        bodyCentreHeight: CHARACTER_BODY_CENTER_HEIGHT, focusRef, camera: camera3P,
+        cameraPos: () => [camera.position.x, camera.position.y, camera.position.z],
+        player: () => (adapter.ready ? (adapter.position(new THREE.Vector3()).toArray() as [number, number, number]) : null),
+        interior: () => interiorProbeRef?.current?.() ?? null, interaction }),
     };
     return () => { delete window.__STUDIO_CHARACTER_DEBUG__; };
-  }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef, camera, interiorProbeRef, bloom, scene]);
+  }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef, camera, interiorProbeRef, bloom, scene, focusRef, interaction]);
 
   useEffect(() => {
     const detach = input.attach();
@@ -1837,7 +1853,13 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
       camera3P.position.y = cameraGround + 0.6;
     }
     camera3P.applyTo(camera);
-    if (playerModelRef?.current) fadePlayerModel(playerModelRef.current, playerOpacityForArm(camera3P.arm));
+    if (playerModelRef?.current) {
+      if (fadeLinker.observed && fadePinFrame.current-- <= 0) {
+        fadePinFrame.current = 60;
+        warmPlayerFadePrograms(playerModelRef.current, fadePinCompile);
+      }
+      fadePlayerModel(playerModelRef.current, playerOpacityForArm(camera3P.arm));
+    }
     focusRef.current = { x: position.x, z: position.z };
     poseTimer.current += rawDelta;
     if (poseTimer.current >= POSE_SAVE_INTERVAL_S && adapter.ready) {

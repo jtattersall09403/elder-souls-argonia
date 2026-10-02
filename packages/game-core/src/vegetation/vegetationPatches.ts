@@ -310,7 +310,7 @@ function nearest(
 
 /** The wobble on the built edge at this position, metres. */
 export function edgeJitter(x: number, z: number): number {
-  const [lx, lz] = EDGE_JITTER_WAVELENGTH_M;
+  const lx = EDGE_JITTER_WAVELENGTH_M[0], lz = EDGE_JITTER_WAVELENGTH_M[1];
   const wobble = (Math.sin(x / lx) * Math.cos(z / lz)
     + 0.5 * Math.sin(z / (lx * 0.6) + 1.7)) / 1.5;
   return EDGE_JITTER_M * (wobble + 1) / 2;
@@ -323,7 +323,8 @@ export function edgeJitter(x: number, z: number): number {
  */
 export function keepAt(x: number, z: number, clearance: VegetationClearancePatch): number {
   const keptList = clearance.kept;
-  if (keptList) for (const kept of keptList) {
+  if (keptList) for (let k = 0; k < keptList.length; k++) {
+    const kept = keptList[k];
     const radius = (kept.kind && KEPT_RADIUS_M[kept.kind]) || DEFAULT_KEPT_RADIUS_M;
     if (Math.hypot(x - kept.positionM[0], z - kept.positionM[1]) <= radius) return 1;
   }

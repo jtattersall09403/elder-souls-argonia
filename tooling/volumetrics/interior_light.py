@@ -79,6 +79,8 @@ HUMID_PATH = re.compile(r"/mudhuts?/", re.I)
 HUMID_MIN_PIECES = 5
 #: cellId -> (dust band, why): a cell whose derived dust is wrong for a reason the rules cannot see.
 DUST_OVERRIDES: dict[str, tuple[str, str]] = {}
+#: The record's `dustWhy` is one of these ids (machine data); the humid step-down is the separate `humid` boolean.
+DUST_WHY = ("use-class", "damp-template", "override")
 
 
 def piece_kind(asset_id: str) -> str | None:
@@ -194,16 +196,15 @@ def cell_medium(bundle: dict, pieces: list[dict]) -> dict:
     """Kind, humidity, dust band and floor mist of a cell (module doc); `pieces` its mined furniture mix."""
     places = bundle["placements"]
     template = str((bundle.get("lighting") or {}).get("template") or "")
-    use, evidence = cell_use_class(pieces)
+    use, _evidence = cell_use_class(pieces)
     kind = "damp" if DAMP_TEMPLATE.search(template) else use
     humid = sum(1 for p in places if HUMID_PATH.search(p["assetId"])) >= HUMID_MIN_PIECES
     band = DUST_OF_KIND.get(kind, "medium")
-    why = f"{kind} ({'lighting template ' + template if kind == 'damp' else evidence})"
+    why = DUST_WHY[1] if kind == "damp" else DUST_WHY[0]
     if humid:
         band = DUST_BANDS[max(0, DUST_BANDS.index(band) - 1)]
-        why += "; humid mud hut, one band lower"
     if bundle["cellId"] in DUST_OVERRIDES:
-        band, why = DUST_OVERRIDES[bundle["cellId"]][0], f"override: {DUST_OVERRIDES[bundle['cellId']][1]}"
+        band, why = DUST_OVERRIDES[bundle["cellId"]][0], DUST_WHY[2]
     return {"kind": kind, "humid": humid, "dust": band, "dustWhy": why, "floorMist": kind == "damp"}
 
 

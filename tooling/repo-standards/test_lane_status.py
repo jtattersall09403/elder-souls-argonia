@@ -53,3 +53,22 @@ def test_agent_prefix_prints_one_row(tmp_path, capsys):
     assert capsys.readouterr().out.count("\n") == 1
     lane_status.main(base + ["--agent", "zzz"])
     assert capsys.readouterr().out.strip() == ""
+
+
+def test_lead_blocked_in_foreground_agent_call_is_live(tmp_path):
+    sub = tmp_path / "sess" / "subagents"
+    sub.mkdir(parents=True)
+    (tmp_path / "sess.jsonl").write_text("")
+    lead = [
+        {"type": "user", "timestamp": "2026-10-02T10:00:00Z", "message": {"role": "user", "content": "go"}},
+        {"type": "assistant", "timestamp": "2026-10-02T10:00:05Z", "message": {
+            "role": "assistant", "stop_reason": "tool_use", "id": "m1", "usage": {"input_tokens": 5, "output_tokens": 5},
+            "content": [{"type": "tool_use", "id": "t1", "name": "Agent", "input": {"prompt": "x"}}]}},
+    ]
+    (sub / "agent-lead.jsonl").write_text("\n".join(json.dumps(r) for r in lead) + "\n")
+    (sub / "agent-lead.meta.json").write_text(json.dumps({"agentType": "lead", "description": "lane"}))
+    shutil.copy(FIX, sub / "agent-child.jsonl")
+    rs = {r["id"]: r for r in lane_status.rows(tmp_path, "sess", hours=1e6, live={})}
+    assert rs["lead"]["state"] == "live (waiting on 1 children)"
+    assert rs["child"]["state"] == "completed"
+    assert "running: 1" in lane_status.render(list(rs.values()), brief=False)

@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { MeshPhysicalNodeMaterial } from "three/webgpu";
+import { useThree } from "@react-three/fiber";
+import { DrawTargetLinker, type LinkingRenderer } from "../../render/drawTargetLinker";
+import { waterLinkWarms } from "./waterLinkWarms";
 import { buildPoolGeometry } from "./PoolDiscs";
 import type { LocalPoolRecord, LocalWaterSurfaces } from "../localSurfaces";
 import { useMarkedFrame } from "../../fx/frameSegments";
@@ -316,6 +319,16 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     materials.above.dispose();
     materials.below.dispose();
   }, [materials]);
+  // Every water program a later draw needs (the falls, strips and pools when
+  // they come into view, every underwater variant and the bubbles on the
+  // first dive), linked at mount against the target that draw binds
+  // (waterLinkWarms.ts; 16k walk 10: 48 ms frames mid-walk).
+  const { gl, scene, camera } = useThree();
+  const linker = useMemo(() => new DrawTargetLinker(gl as unknown as LinkingRenderer, scene), [gl, scene]);
+  useEffect(() => { linker.attach(); return () => linker.detach(); }, [linker]);
+  useEffect(() => linker.linkWhenObserved(waterLinkWarms({
+    field: meshRef.current, fieldMaterials: materials, strips, pools, falls: falls?.mesh ?? null, bubbles,
+  }), camera), [linker, materials, strips, pools, falls, bubbles, camera]);
   useEffect(() => () => geometry.dispose(), [geometry]);
 
   useMarkedFrame("surface", ({ camera, gl }, delta) => {

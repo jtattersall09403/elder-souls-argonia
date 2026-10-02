@@ -1,5 +1,6 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { decodeHeightPng } from "./chunkStore";
+import { png } from "./__fixtures__/png";
 import { terrainGridIndices } from "./gridGeometry";
 import { apronSkipQuad, maskBounds, paintFrameExtent, type ApronTile } from "./apronManifest";
 import { APRON_SECTORS, apronTileGeometryDeps, buildApronTileGeometry, buildApronTileSectors } from "./BorderApron";
@@ -20,20 +21,12 @@ const tile = (mask: number[] | undefined, shape: [number, number] = [9, 9]): Apr
   metresPerSample: 10, minM: -40, maxM: 200, maskInnerSamples: mask, paint: "near",
 });
 
-/** A synthetic RG16 raster: the decoder never sees a real PNG in the tests,
- * only the pixels a decoded one would yield. */
-function fakeImage(px: Uint8ClampedArray, width: number, height: number) {
-  const g = globalThis as unknown as Record<string, unknown>;
-  g.createImageBitmap = async () => ({ width, height, close() {} });
-  g.OffscreenCanvas = class {
-    width = width; height = height;
-    getContext() { return { drawImage() {}, getImageData: () => ({ data: px }) }; }
-  };
+/** A real RGB PNG of an RG16 raster, as `export_web_chunks` writes it. No
+ * ImageBitmap or canvas exists here, so the decode must not need one. */
+function heightPng(rgb: number[], width: number, height: number): Blob {
+  const rows = Array.from({ length: height }, (_, y) => rgb.slice(y * width * 3, (y + 1) * width * 3));
+  return new Blob([png(width, height, 2, rows, 1) as BlobPart]);
 }
-afterEach(() => {
-  const g = globalThis as unknown as Record<string, unknown>;
-  delete g.createImageBitmap; delete g.OffscreenCanvas;
-});
 
 describe("the apron tile index", () => {
   it("reads both mask forms", () => {
@@ -78,21 +71,19 @@ describe("decodeHeightPng", () => {
   it("round-trips a 16-bit RG height raster to true metres", async () => {
     const lodMeta = { file: "t.png", shape: [2, 3] as [number, number], metresPerSample: 10, minM: -40, maxM: 200 };
     const wanted = [-40, 0, 37.5, 100, 199.9, 200];
-    const px = new Uint8ClampedArray(6 * 4);
-    wanted.forEach((h, i) => {
+    const rgb: number[] = [];
+    wanted.forEach((h) => {
       const q = Math.round(((h - lodMeta.minM) / (lodMeta.maxM - lodMeta.minM)) * 65535);
-      px[i * 4] = q >> 8; px[i * 4 + 1] = q & 255; px[i * 4 + 3] = 255;
+      rgb.push(q >> 8, q & 255, 0);
     });
-    fakeImage(px, 3, 2);
-    const heights = await decodeHeightPng(new Blob(), lodMeta);
+    const heights = await decodeHeightPng(heightPng(rgb, 3, 2), lodMeta);
     expect(heights.length).toBe(6);
     const step = (lodMeta.maxM - lodMeta.minM) / 65535;
     wanted.forEach((h, i) => expect(Math.abs(heights[i] - h)).toBeLessThanOrEqual(step));
   });
 
   it("refuses a raster whose dimensions are not the ones the manifest declares", async () => {
-    fakeImage(new Uint8ClampedArray(4), 1, 1);
-    await expect(decodeHeightPng(new Blob(), {
+    await expect(decodeHeightPng(heightPng([0, 0, 0], 1, 1), {
       file: "t.png", shape: [2, 3], metresPerSample: 10, minM: 0, maxM: 1,
     })).rejects.toThrow(/unexpected raster dimensions/);
   });

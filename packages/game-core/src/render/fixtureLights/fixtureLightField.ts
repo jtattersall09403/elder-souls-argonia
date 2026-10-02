@@ -559,6 +559,7 @@ export function fixtureLightEpochOf(scene: THREE.Object3D): number {
 }
 
 const PREPARER_KEY = "esLitPreparer";
+const WAITERS_KEY = "esLitPreparerWaiters";
 /** Patches every lit material under a root the way the scene's own walk does
  * (the chained node features): a layer that builds detached calls it before
  * warming the programs, so nothing is first drawn unpatched. */
@@ -567,10 +568,44 @@ export type LitPreparer = (root: THREE.Object3D) => void;
 /** Register the scene's preparer (the sky's walk); returns the unregister. */
 export function setLitPreparer(scene: THREE.Object3D, prepare: LitPreparer): () => void {
   Object.defineProperty(scene.userData, PREPARER_KEY, { value: prepare, enumerable: false, configurable: true, writable: true });
+  const waiting = scene.userData[WAITERS_KEY] as ((p: LitPreparer) => void)[] | undefined;
+  delete scene.userData[WAITERS_KEY];
+  for (const resolve of waiting ?? []) resolve(prepare);
   return () => { if (scene.userData[PREPARER_KEY] === prepare) delete scene.userData[PREPARER_KEY]; };
 }
 
 /** The scene's preparer, if a sky is mounted. */
 export function litPreparerOf(scene: THREE.Object3D): LitPreparer | undefined {
   return scene.userData[PREPARER_KEY] as LitPreparer | undefined;
+}
+
+/** The scene's preparer once registered (notified by `setLitPreparer`, never
+ * polled), or undefined after `maxWaitMs` when no sky mounts. */
+export function whenLitPreparer(scene: THREE.Object3D, maxWaitMs: number): Promise<LitPreparer | undefined> {
+  const now = litPreparerOf(scene);
+  if (now) return Promise.resolve(now);
+  return new Promise((resolve) => {
+    const waiting = (scene.userData[WAITERS_KEY] ??= []) as ((p: LitPreparer) => void)[];
+    const done = (p: LitPreparer) => { clearTimeout(timer); resolve(p); };
+    waiting.push(done);
+    const timer = setTimeout(() => {
+      const at = waiting.indexOf(done);
+      if (at >= 0) waiting.splice(at, 1);
+      resolve(undefined);
+    }, maxWaitMs);
+  });
+}
+
+/** Patch every lit material under `root` before its programs are warmed: the
+ * scene's preparer (CSM, chained hooks, fixture lights), or with no sky the
+ * fixture-light install alone. */
+export function prepareLit(scene: THREE.Object3D, root: THREE.Object3D): void {
+  const prepare = litPreparerOf(scene);
+  if (prepare) { prepare(root); return; }
+  const field = fixtureLightFieldOf(scene);
+  root.traverse((object) => {
+    const mesh = object as THREE.Mesh;
+    if (mesh.isMesh && isFixtureLitMaterial(mesh.material as THREE.Material)
+      && field.install(mesh.material as THREE.Material)) field.attach(mesh);
+  });
 }

@@ -484,6 +484,8 @@ export class RippleSim {
   private epoch = () => 0;
   private levels?: (epochMinutes: number) => { tide: number; season: number };
   private initialized = false;
+  /** The four pass programs have been queued for linking (`linkPasses`). */
+  private linked = false;
   private disposed = false;
   /** Any mask cell with wet support (recounted when the mask changes). */
   private maskWet = true;
@@ -638,6 +640,7 @@ export class RippleSim {
       renderer.toneMapping = THREE.NoToneMapping;
       renderer.autoClear = false;
       renderer.setScissorTest(false);
+      if (!this.linked) this.linkPasses(renderer);
       if (!this.initialized) {
         renderer.setClearColor(0, 0);
         renderer.setRenderTarget(this.a); renderer.clear();
@@ -716,6 +719,28 @@ export class RippleSim {
     this.maskTexture.needsUpdate = true;
     this.currentTexture.needsUpdate = true;
     this.mask.clearDirty();
+  }
+
+  /**
+   * Link all four pass programs on the first step, against the half-float
+   * target and the tone mapping every pass draws with (perf10 f11, 16k walk
+   * 10 D6). The drop pass first runs at the first contact and the advect pass
+   * at the first current, often a minute after mount, and each then linked
+   * synchronously on the frame it first drew. `compileAsync` builds each
+   * pipeline off the frame; the one quad takes each material in turn.
+   */
+  private linkPasses(renderer: WebGPURenderer): void {
+    this.linked = true;
+    const own = this.quad.material;
+    renderer.setRenderTarget(this.b);
+    try {
+      for (const material of [this.copy, this.drop, this.update, this.advect]) {
+        this.quad.material = material;
+        renderer.compileAsync(this.quad, this.quad.camera).catch(() => undefined);
+      }
+    } finally {
+      this.quad.material = own;
+    }
   }
 
   private renderPass(renderer: WebGPURenderer, material: NodeMaterial): void {

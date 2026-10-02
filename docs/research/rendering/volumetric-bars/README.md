@@ -1,17 +1,17 @@
 # Volumetric visual bars
 
-Owner-supplied reference pictures (2026-10-02) used only as visual bars for the WebGPU volumetrics of decisions 0111 and 0112; they are not shipped assets.
+The reference pictures the WebGPU volumetric features (decisions 0111, 0112) are judged against by the `image-reader` agent; owner-supplied 2026-10-02, not shipped assets. Fire has no picture: its bar is https://threejs.org/examples/webgpu_volume_fire.html. Owners of new bars add a row here.
 
-| File | What it is the bar for | WebGPU feature it judges |
-| --- | --- | --- |
-| fog-over-water-1.png | Fog and mist lying over water | froxel fog |
-| fog-over-water-2.png | Fog and mist lying over water | froxel fog |
-| fog-over-water-3.png | Fog and mist lying over water | froxel fog |
-| fog-over-water-4.png | Fog and mist lying over water | froxel fog |
-| fog-local-light-scattering.png | Fog with local light scattering around lights | local light scattering |
-| god-rays-canopy.png | God rays outside, under a tree canopy | god rays |
-| interior-large-church.png | Large church-like interior | god rays, froxel fog |
-| overhead-light-shaft.png | Overhead external light falling into an area | god rays |
-| general-volumetric.png | General volumetric look | froxel fog, god rays, local light scattering |
-| interior-small-1.png | Small interior | local light scattering, froxel fog |
-| interior-small-2.png | Small interior | local light scattering, froxel fog |
+| File | What it is the bar for | Feature that uses it | Judged how |
+| --- | --- | --- | --- |
+| fog-over-water-1.png | Fog and mist lying over water | froxel fog | image-reader compares a studio capture at a water view with the picture |
+| fog-over-water-2.png | Fog and mist lying over water | froxel fog | same |
+| fog-over-water-3.png | Fog and mist lying over water | froxel fog | same |
+| fog-over-water-4.png | Fog and mist lying over water | froxel fog | same |
+| fog-local-light-scattering.png | Fog with local light scattering around lights | local light scattering | image-reader compares a capture beside a lit fixture in fog |
+| god-rays-canopy-exterior.png | God rays outside under a tree canopy | god rays | image-reader compares a capture under canopy at low sun |
+| god-rays-large-interior.png | God rays in a large church-like interior | god rays, froxel fog | image-reader compares a capture inside a large hall |
+| god-rays-overhead-shaft.png | Overhead external light falling into an area | god rays | image-reader compares a capture under an opening |
+| god-rays-general.png | General god-ray look | god rays, froxel fog, local light scattering | image-reader compares the overall look |
+| god-rays-small-interior-1.png | God rays and light in a small interior | local light scattering, froxel fog | image-reader compares a capture inside a small room |
+| god-rays-small-interior-2.png | God rays and light in a small interior | local light scattering, froxel fog | same |

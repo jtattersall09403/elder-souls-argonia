@@ -140,6 +140,15 @@ the addenda of 0105 (now rows of the rulings table).
 21. **A lean close**: review items go to one lane, crash and infra fixes
     to a side lane; each lane runs `select_tests.py` on its diff before
     returning; job logs carry a 1-min load-average sample.
+22. **Measure-diagnose-fix loops: one measure, one diagnosis of every
+    cause, one fix wave, re-measure** (owner 2026-10-02). Evidence:
+    `tooling/.reports/16k/walk10/monitor-fixbatch.md`: fix agents spent
+    60-80 % of wall time waiting on the pod, both GPU lanes drifted to
+    find-one-fix-one, and causes visible in an earlier measure were fixed
+    2 h later. The rules (one measure job per round, one diagnosis report
+    listing every cause, one parallel fix wave that never touches the pod,
+    one re-measure, pod owned by the measure job) live in
+    `.claude/agents/lead.md` § Measure-diagnose-fix loops.
 
 ## Where each lives
 

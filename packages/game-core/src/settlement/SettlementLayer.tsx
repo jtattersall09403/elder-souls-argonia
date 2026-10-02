@@ -63,8 +63,8 @@ import {
   type LightFixture,
 } from "./lighting";
 import { isFlameCardMaterial } from "../fx/fire/flameAnchors";
-import { mergeRunColliders } from "./runColliders";
-import { fixtureLightFieldOf, litPreparerOf } from "../render/fixtureLights";
+import { mergeRunColliders, type RunColliderCache } from "./runColliders";
+import { fixtureLightFieldOf } from "../render/fixtureLights";
 import { DrawTargetLinker, type LinkingRenderer } from "../render/drawTargetLinker";
 import { assertPoolsSchema, syncPlacePools } from "./pools";
 import { TransientFetchError, fetchJsonWithRetry, loadGltfWithRetry } from "./fetchRetry";
@@ -741,7 +741,9 @@ export function SettlementLayer({
   const farCache = useRef(new Map<string, { signature: string; geometry: THREE.BufferGeometry }>());
   // Colliders kept across builds while their placement's final matrix is unchanged.
   const solidCache = useRef<SolidCache>(new Map());
-  useEffect(() => { solidCache.current = new Map(); }, [bundle]);
+  // Joined run colliders kept while their member solids (from solidCache) are the same objects.
+  const runColliderCache = useRef<RunColliderCache>(new Map());
+  useEffect(() => { solidCache.current = new Map(); runColliderCache.current = new Map(); }, [bundle]);
 
   // The smoke texture: read from the effect placement's kit manifest
   // (`effectTextures`, build_kit.publish_effect_textures), loaded once per
@@ -1068,7 +1070,8 @@ export function SettlementLayer({
       solidCache.current = solidsKept;
       // a bound run collides as one rigid chain: one joined part (0101 rule 9)
       const collision = selectCollisionResidency(
-        mergeRunColliders(solidCandidates, (id) => runOfPlacement.get(id)), bundle.settlements, focus,
+        mergeRunColliders(solidCandidates, (id) => runOfPlacement.get(id), runColliderCache.current),
+        bundle.settlements, focus,
         bundle.lod.colliderRadiusM, bundle.lod.colliderPartBudget);
       if (collision.budgetExceeded) {
         const over = collision.budgetExceeded;
@@ -1171,13 +1174,11 @@ export function SettlementLayer({
       // Final step: the finished build replaces the live one atomically, in
       // one synchronous step, so no frame draws an empty layer.
       if (!reuseLive) {
-        // Every material is patched (the settlement surface above, the
-        // scene's own walk through its preparer) and every program linked
-        // BEFORE the build is on screen: a material first drawn unpatched
-        // relinked a frame later, the startup "buildings flash darker" (16k
-        // walk 5). Fixture light needs no per-material patch: it is the
-        // renderer's lighting (render/fixtureLights installFixtureLighting).
-        litPreparerOf(scene)?.(next);
+        // Every material is patched (CSM, the settlement surface, fixture
+        // lights) and every program linked BEFORE the build is on screen: a
+        // material first drawn unpatched relinked a frame later, which was the
+        // startup "buildings flash darker" (16k walk 5). The linker patches
+        // (the scene's lit preparer) before it compiles.
         // Linked against the target the scene pass draws into (the water
         // pipeline's linear target), so the first frame finds them linked.
         const linkStart = performance.now();

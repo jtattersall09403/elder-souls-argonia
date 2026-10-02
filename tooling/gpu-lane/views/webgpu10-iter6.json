@@ -1,0 +1,58 @@
+[
+ {
+  "name": "A-webgpu",
+  "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&x=7.1971&z=0.584&t=22&w=rain"
+ },
+ {
+  "name": "A-studio",
+  "url": "http://127.0.0.1:8099/elder-souls-argonia/studio/?view=character&x=7.1971&z=0.584&t=22&w=rain"
+ },
+ {
+  "name": "B-webgpu",
+  "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&x=4.7789&z=1.9&t=12"
+ },
+ {
+  "name": "B-studio",
+  "url": "http://127.0.0.1:8099/elder-souls-argonia/studio/?view=character&x=4.7789&z=1.9&t=12"
+ },
+ {
+  "name": "D-webgpu",
+  "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&x=7.1971&z=0.584&t=12"
+ },
+ {
+  "name": "D-studio",
+  "url": "http://127.0.0.1:8099/elder-souls-argonia/studio/?view=character&x=7.1971&z=0.584&t=12"
+ },
+ {
+  "name": "B-webgpu-diag",
+  "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&x=4.7789&z=1.9&t=12&diag=1",
+  "steps": [
+   {
+    "at": 10,
+    "label": "diag10s",
+    "js": "(() => { const t = document.body.innerText; const m = (re) => (re.exec(t) ?? [])[1] ?? null; return { buildsPending: m(/builds pending (\\d+)/), buildsPerS: m(/per s:[^\\n]*?builds (\\d+)/), pipelinesCompiling: m(/pipelines compiling (\\d+)/) }; })()",
+    "waitMs": 0
+   },
+   {
+    "at": 30,
+    "label": "diag30s",
+    "js": "(() => { const t = document.body.innerText; const m = (re) => (re.exec(t) ?? [])[1] ?? null; return { buildsPending: m(/builds pending (\\d+)/), buildsPerS: m(/per s:[^\\n]*?builds (\\d+)/), pipelinesCompiling: m(/pipelines compiling (\\d+)/) }; })()",
+    "waitMs": 0
+   },
+   {
+    "at": 60,
+    "label": "diag60s",
+    "js": "(() => { const t = document.body.innerText; const m = (re) => (re.exec(t) ?? [])[1] ?? null; return { buildsPending: m(/builds pending (\\d+)/), buildsPerS: m(/per s:[^\\n]*?builds (\\d+)/), pipelinesCompiling: m(/pipelines compiling (\\d+)/) }; })()",
+    "waitMs": 0
+   }
+  ]
+ },
+ {
+  "name": "B-webgpu-water0",
+  "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&x=4.7789&z=1.9&t=12&water=0"
+ },
+ {
+  "name": "B-webgpu-buildq0",
+  "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&x=4.7789&z=1.9&t=12&buildq=0"
+ }
+]
