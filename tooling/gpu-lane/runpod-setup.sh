@@ -30,9 +30,11 @@ pkill -f "remote-debugging-port=9222" 2>/dev/null || true
 pkill Xvfb 2>/dev/null || true
 nohup Xvfb :99 -screen 0 1280x720x24 >/tmp/xvfb.log 2>&1 &
 export DISPLAY=:99
+# Background-tab flags: two capture tabs in one window put one in the background and rAF stops (0 fps stalls, walk 10).
 nohup google-chrome --no-sandbox --no-first-run --no-default-browser-check --user-data-dir=/tmp/chrome-profile --remote-debugging-port=9222 \
   --enable-unsafe-webgpu --enable-features=Vulkan,UnsafeWebGPU --use-angle=vulkan --use-vulkan=native \
-  --ignore-gpu-blocklist --enable-gpu-rasterization --disable-gpu-sandbox --window-size=960,540 about:blank \
+  --ignore-gpu-blocklist --enable-gpu-rasterization --disable-gpu-sandbox --window-size=960,540 \
+  --disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --disable-features=CalculateNativeWinOcclusion,IntensiveWakeUpThrottling about:blank \
   >/tmp/chrome.log 2>&1 &
 curl -s --retry 30 --retry-all-errors --retry-delay 1 127.0.0.1:9222/json/version | grep -E '"Browser"' \
   || { echo "chrome did not start"; tail -20 /tmp/chrome.log; exit 1; }

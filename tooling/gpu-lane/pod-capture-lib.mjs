@@ -64,3 +64,47 @@ export function summariseProfile(profile, n = 30) {
   const top = (m, k) => [...m].sort((a, b) => b[1] - a[1]).slice(0, k).map(([f, us]) => [f, Math.round(us / 1000)]);
   return { totalMs: Math.round((profile.endTime - profile.startTime) / 1000), selfTop: top(self, n), totalTop: top(total, 15) };
 }
+
+/**
+ * Heap slope in MB/min over the samples taken after the GPU resource counts went quiet.
+ * samples: [{ s, heapMB, buffers, textures }] one per second. The window starts at the first second
+ * from which buffers and textures held unchanged for `quietS` seconds (walk 10: a slope read while the
+ * world still streams in measured load, not a leak). Least squares; null until `minS` quiet seconds exist.
+ */
+export function heapSlope(samples, { quietS = 5, minS = 20 } = {}) {
+  let quietAt = null;
+  for (let i = 0; i < samples.length; i++) {
+    const a = samples[i];
+    let j = i;
+    while (j + 1 < samples.length && samples[j + 1].buffers === a.buffers && samples[j + 1].textures === a.textures) j++;
+    if (samples[j].s - a.s >= quietS) { quietAt = a.s; break; }
+    i = j;
+  }
+  if (quietAt === null) return { quietAt: null, mbPerMin: null, seconds: 0 };
+  const w = samples.filter((x) => x.s >= quietAt && Number.isFinite(x.heapMB));
+  const seconds = w.length ? w.at(-1).s - w[0].s : 0;
+  if (seconds < minS) return { quietAt, mbPerMin: null, seconds };
+  const n = w.length, ms = w.reduce((t, x) => t + x.s, 0) / n, mh = w.reduce((t, x) => t + x.heapMB, 0) / n;
+  const num = w.reduce((t, x) => t + (x.s - ms) * (x.heapMB - mh), 0), den = w.reduce((t, x) => t + (x.s - ms) ** 2, 0);
+  return { quietAt, mbPerMin: Math.round((num / den) * 60 * 10) / 10, seconds };
+}
+
+/** A read is stalled when the renderer frame counter did not advance over the 1 s between its two samples (or is unreadable). */
+export function isStalled(a, b) {
+  return !(Number.isFinite(a) && Number.isFinite(b) && b > a);
+}
+
+/** Keys of the reads (incl. "final") marked `stalled: true`. */
+export function stalledReads(reads, final) {
+  const keys = Object.keys(reads).filter((k) => reads[k]?.stalled);
+  return final?.stalled ? [...keys, "final"] : keys;
+}
+
+/** Per-read luma ratio main/compare, keyed like the reads (plus "final"); null when either luma is missing or compare is 0. */
+export function lumaRatios(mainReads, compareReads, mainFinal, compareFinal) {
+  const ratio = (m, c) => (Number.isFinite(m?.luma) && Number.isFinite(c?.luma) && c.luma > 0 ? Math.round((m.luma / c.luma) * 1000) / 1000 : null);
+  const out = {};
+  for (const k of Object.keys(mainReads)) out[k] = ratio(mainReads[k], compareReads?.[k]);
+  out.final = ratio(mainFinal, compareFinal);
+  return out;
+}

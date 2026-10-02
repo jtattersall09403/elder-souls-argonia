@@ -5,7 +5,7 @@
  * walk 10). One capture at a time per Chrome.
  *
  *   node tooling/gpu-lane/pod-capture.mjs --url <url> --out <dir> [--seconds 120] [--cdp http://127.0.0.1:9222]
- *     [--shots 500@60,2000] [--reads 15,30,60,120] [--profile <s>@<t>] [--fps-reads N] [--width 1280 --height 720]
+ *     [--shots 500@60,2000] [--reads 15,30,60,120] [--profile <s>@<t>] [--fps-reads N] [--width 1280 --height 720] [--compare <url>]
  *
  * --url        page to load (e.g. http://127.0.0.1:8199/elder-souls-argonia/webgpu/?view=character&x=..&z=..&t=12&diag=1)
  * --out        directory for result.json, frames/<ms>.jpg and final.jpg (created)
@@ -17,15 +17,22 @@
  *              __STUDIO_FPS__ and __STUDIO_GPU_MS__ (default 15,30,60,120; clipped to --seconds)
  * --profile    a CPU profile of <s> seconds starting at <t>; the summary goes in result.json, the raw profile to profile.cpuprofile
  * --fps-reads  after the capture, N further reads of fps / GPU ms 2 s apart (default 0)
+ * --compare   after the main capture, capture this URL with the same schedule into <out>/compare/; result.json gets lumaRatio
+ *              (main luma / compare luma per read and final)
+ *
+ * The tab opens in its own window (Target.createTarget newWindow). Every read samples the renderer frame counter twice 1 s apart
+ * (__RENDERER__.info.render.frame, else an rAF counter the init script installs) and carries `stalled: true` when it did not
+ * advance; its luma/fps are reported but flagged, and result.stalledReads lists them.
  *
  * result.json: console (error/warning, deduped with counts), pageErrors, network (>=400 and failed loads),
  * gpuErrors (uncapturederror and device loss, hooked in requestDevice; the hook skips documents without
  * GPU globals), reads, settledAt (first second the build queue sat at 0 pending with geometry loaded for
- * 5 s), fpsReads, profile, frames. Exit 0 unless the tab could not be opened.
+ * 5 s), heapSlope ({ quietAt, mbPerMin, seconds }: least-squares heap MB/min from the first second
+ * geometry and texture counts held still for 5 s; null under 20 quiet seconds), fpsReads, profile, frames. Exit 0 unless the tab could not be opened.
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { counter, parseProfile, parseShots, screenMiddle, summariseProfile } from "./pod-capture-lib.mjs";
+import { counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, stalledReads, summariseProfile } from "./pod-capture-lib.mjs";
 
 const args = process.argv.slice(2);
 const opt = (k, d) => { const i = args.indexOf(`--${k}`); return i < 0 ? d : args[i + 1]; };
@@ -36,9 +43,23 @@ const shotsSpec = opt("shots"), shots = shotsSpec === "none" ? [] : parseShots(s
 const readsAt = opt("reads", "15,30,60,120").split(",").map(Number).filter((s) => s < totalS); // a read at --seconds is result.final
 const prof = opt("profile") ? parseProfile(opt("profile")) : null, fpsReads = Number(opt("fps-reads", 0));
 const W = Number(opt("width", 1280)), H = Number(opt("height", 720));
-mkdirSync(join(out, "frames"), { recursive: true });
+const compareUrl = opt("compare");
 
-const target = await (await fetch(`${cdpHttp}/json/new?about:blank`, { method: "PUT" })).json();
+// Own window per capture tab: Target.createTarget on the browser websocket, newWindow, foreground.
+async function openWindow() {
+  const bws = new WebSocket((await (await fetch(`${cdpHttp}/json/version`)).json()).webSocketDebuggerUrl);
+  await new Promise((r, j) => { bws.onopen = r; bws.onerror = j; });
+  const targetId = await new Promise((res, rej) => {
+    bws.onmessage = (e) => { const m = JSON.parse(e.data); if (m.id === 1) m.error ? rej(new Error(m.error.message)) : res(m.result.targetId); };
+    bws.send(JSON.stringify({ id: 1, method: "Target.createTarget", params: { url: "about:blank", newWindow: true, background: false } }));
+  });
+  bws.close();
+  return { id: targetId, webSocketDebuggerUrl: `${cdpHttp.replace(/^http/, "ws")}/devtools/page/${targetId}` };
+}
+
+async function capture(url, out) {
+mkdirSync(join(out, "frames"), { recursive: true });
+const target = await openWindow();
 const ws = new WebSocket(target.webSocketDebuggerUrl);
 await new Promise((r, j) => { ws.onopen = r; ws.onerror = j; });
 let nextId = 0; const pending = new Map();
@@ -68,7 +89,8 @@ const evaluate = async (expression, timeoutMs = 15_000) => {
 // init script: perf HUD open; GPU errors from every device (skipped where the document has no WebGPU)
 const INIT = `(() => {
   try { localStorage.setItem("es.hud.perfOpen", "1"); } catch {}
-  window.__GPUERR = [];
+  window.__GPUERR = []; window.__RAFN = 0;
+  const tick = () => { window.__RAFN++; requestAnimationFrame(tick); }; requestAnimationFrame(tick);
   if (typeof GPUAdapter === "undefined") return;
   const req = GPUAdapter.prototype.requestDevice;
   GPUAdapter.prototype.requestDevice = async function (...a) {
@@ -81,7 +103,9 @@ const INIT = `(() => {
 const SCREEN_MIDDLE = String(screenMiddle);
 const READ = `(async () => {
   const r = window.__RENDERER__, i = r?.info, q = r?.esBuildQueue, pm = performance.memory;
-  return { backend: window.__RENDERER_BACKEND__ ?? (r?.backend?.isWebGPUBackend ? "webgpu" : undefined),
+  const frame = () => window.__RENDERER__?.info?.render?.frame ?? window.__RAFN;
+  const f1 = frame(); await new Promise((res) => setTimeout(res, 1000)); const f2 = frame();
+  return { frames: [f1, f2], backend: window.__RENDERER_BACKEND__ ?? (r?.backend?.isWebGPUBackend ? "webgpu" : undefined),
     fps: window.__STUDIO_FPS__, gpuMs: window.__STUDIO_GPU_MS__ && JSON.parse(JSON.stringify(window.__STUDIO_GPU_MS__)),
     renderer: i && { geometries: i.memory?.geometries, textures: i.memory?.textures, triangles: i.render?.triangles, calls: i.render?.drawCalls ?? i.render?.calls },
     buildQueue: q && { pending: q.pending, twinsHeld: q.twinsHeld, skippedDraws: q.skippedDraws },
@@ -105,6 +129,7 @@ try {
   if (prof) { await send("Profiler.enable"); await send("Profiler.setSamplingInterval", { interval: 200 }); }
   const t0 = Date.now(), sec = () => (Date.now() - t0) / 1000;
   await send("Page.navigate", { url });
+  const heapSamples = [];
   let si = 0, ri = 0, lastPoll = -1, zeroSince = null, profState = prof ? "wait" : "done";
   while (sec() < totalS) {
     const s = sec();
@@ -120,13 +145,14 @@ try {
     }
     if (ri < readsAt.length && s >= readsAt[ri]) {
       ri++;
-      const r = await evaluate(READ);
+      const r = await evaluate(READ); r.stalled = isStalled(...(r.frames ?? []));
       try { Object.assign(r, await middleOf(await shoot(80))); } catch (e) { r.middleErr = String(e.message); }
       result.reads[readsAt[ri - 1]] = { t: Math.round(sec() * 10) / 10, ...r };
     }
     if (Math.floor(s) > lastPoll) {
       lastPoll = Math.floor(s);
-      const q = await evaluate(`({ p: window.__RENDERER__?.esBuildQueue?.pending, g: window.__RENDERER__?.info?.memory?.geometries ?? 0 })`, 5_000);
+      const q = await evaluate(`({ p: window.__RENDERER__?.esBuildQueue?.pending, g: window.__RENDERER__?.info?.memory?.geometries ?? 0, x: window.__RENDERER__?.info?.memory?.textures ?? 0, h: performance.memory?.usedJSHeapSize })`, 5_000);
+      if (q?.h) heapSamples.push({ s: Math.round(s), heapMB: q.h / 1e6, buffers: q.g, textures: q.x });
       if (q?.p === 0 && q.g > 0) { zeroSince ??= s; if (result.settledAt === null && s - zeroSince >= 5) result.settledAt = Math.round(zeroSince * 10) / 10; } else zeroSince = null;
     }
     await new Promise((r) => setTimeout(r, 100));
@@ -135,11 +161,13 @@ try {
     result.fpsReads.push(await evaluate(`({ fps: window.__STUDIO_FPS__, gpuMs: window.__STUDIO_GPU_MS__ && JSON.parse(JSON.stringify(window.__STUDIO_GPU_MS__)), perf: document.body.innerText.split("\\n").find((l) => /^perf/.test(l)) })`));
     await new Promise((r) => setTimeout(r, 2000));
   }
-  result.final = await evaluate(READ);
+  result.heapSlope = heapSlope(heapSamples);
+  result.final = await evaluate(READ); result.final.stalled = isStalled(...(result.final.frames ?? []));
   try { const b64 = await shoot(80); writeFileSync(join(out, "final.jpg"), Buffer.from(b64, "base64")); Object.assign(result.final, await middleOf(b64)); } catch (e) { result.final.middleErr = String(e.message); }
   const g = await evaluate(`window.__GPUERR ?? []`);
   const gc = counter(); (Array.isArray(g) ? g : [JSON.stringify(g)]).forEach(gc.add);
   result.gpuErrors = gc.list();
+  result.stalledReads = stalledReads(result.reads, result.final);
 } catch (e) {
   result.error = String(e.stack ?? e);
 } finally {
@@ -148,6 +176,16 @@ try {
   ws.close();
   await fetch(`${cdpHttp}/json/close/${target.id}`).catch(() => {});
 }
+return result;
+}
+
+const result = await capture(url, out);
+if (compareUrl) {
+  const cmp = await capture(compareUrl, join(out, "compare"));
+  result.lumaRatio = lumaRatios(result.reads, cmp.reads, result.final, cmp.final);
+  result.compare = { url: compareUrl, stalledReads: cmp.stalledReads };
+  writeFileSync(join(out, "result.json"), JSON.stringify(result, null, 1));
+}
 const last = result.final ?? {};
-console.log(`pod-capture: ${result.frames} frames, settledAt ${result.settledAt}, middle luma ${last.luma} blackShare ${last.blackShare}, fps ${last.fps}, gpuErrors ${result.gpuErrors?.length ?? "?"}, console ${result.console.length}, pageErrors ${result.pageErrors.length}, network ${result.network.length}${result.error ? `, ERROR ${result.error.split("\n")[0]}` : ""} -> ${out}/result.json`);
+console.log(`pod-capture: ${result.frames} frames, settledAt ${result.settledAt}, middle luma ${last.luma} blackShare ${last.blackShare}, fps ${last.fps}, heap ${result.heapSlope?.mbPerMin} MB/min from ${result.heapSlope?.quietAt}s, gpuErrors ${result.gpuErrors?.length ?? "?"}, stalled reads [${(result.stalledReads ?? []).join(",")}], console ${result.console.length}, pageErrors ${result.pageErrors.length}, network ${result.network.length}${result.error ? `, ERROR ${result.error.split("\n")[0]}` : ""} -> ${out}/result.json`);
 process.exit(0);
