@@ -245,14 +245,15 @@ export function summariseView(r) {
     gpuProbe: r.gpuErrorProbe ? gpuProbeLine(r.gpuErrorProbe) : null,
     targets: r.targetProbe ? targetsLine(r.targetProbe) : null,
     drawCensus: w.drawCensus ? drawCensusLine(w.drawCensus, wk?.workMs?.mean ?? null) : null,
+    load: r.loadTimeline ? loadLine(r.loadTimeline) : null,
     settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
   };
 }
 /** Markdown summary: one row per view from its result.json `summary` (`summariseView`). "from" names the window the rates
  * came from; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "failed", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "draw census", "targets"];
-  const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
+  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "draw census", "targets"];
+  const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.load, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
     s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.drawCensus, s.targets].map(cell));
   return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), "",
     `| ${cols.join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.join(" | ")} |`)].join("\n");
@@ -670,4 +671,94 @@ export function cpuTop(profile, frames, n = 25) {
 /** Per-view deadline in s: max(floorS, readyS + totalS + windowS + profileS + slackS). A view's own `seconds` sets it; the floor is --capture-timeout. */
 export function viewDeadlineS(totalS, { readyS, windowS, profileS = 0, slackS = 60, floorS }) {
   return Math.max(floorS, readyS + totalS + windowS + profileS + slackS);
+}
+
+/** Load timeline probe (always on, every view, both backends; a few counters per call, never a per-draw cost). Wraps
+ * shader/pipeline creation (GPUDevice createRenderPipeline(+Async)/createComputePipeline(+Async)/createShaderModule,
+ * WebGL/WebGL2 compileShader/linkProgram) into count, total ms and the end time of the last one; the first present is
+ * the first GPUQueue.submit or WebGL draw call; KTX2 transcodes are the KTX2Loader worker round trips
+ * (postMessage {type: "transcode", id} to the worker's reply with that id). Times are performance.now(), so seconds from
+ * navigation start (timeOrigin). Raises the resource timing buffer so the end read sees every fetch.
+ * Self-contained: it is stringified into the page. */
+export function installLoadTimeline(win) {
+  const t = { firstPresent: null, builds: { count: 0, ms: 0, last: null }, transcode: { count: 0, ms: 0, last: null, workers: 0 } };
+  win.__loadTimeline = t;
+  try { win.performance.setResourceTimingBufferSize(100000); } catch { /* old browser: 250 entries */ }
+  const now = () => win.performance.now();
+  const present = () => { if (t.firstPresent === null) t.firstPresent = now(); };
+  const end = (t0) => { const e = now(); t.builds.count++; t.builds.ms += e - t0; t.builds.last = e; };
+  const timed = (proto, name, isAsync) => {
+    const f = proto?.[name]; if (typeof f !== "function") return;
+    proto[name] = function (...a) {
+      const t0 = now(), r = f.apply(this, a);
+      if (isAsync && r && typeof r.then === "function") r.then(() => end(t0), () => end(t0)); else end(t0);
+      return r;
+    };
+  };
+  if (typeof win.GPUDevice !== "undefined") {
+    for (const n of ["createRenderPipeline", "createComputePipeline", "createShaderModule"]) timed(win.GPUDevice.prototype, n, false);
+    for (const n of ["createRenderPipelineAsync", "createComputePipelineAsync"]) timed(win.GPUDevice.prototype, n, true);
+    const sub = win.GPUQueue?.prototype.submit;
+    if (sub) win.GPUQueue.prototype.submit = function (...a) { present(); return sub.apply(this, a); };
+  }
+  for (const C of [win.WebGLRenderingContext, win.WebGL2RenderingContext]) {
+    if (!C) continue;
+    timed(C.prototype, "compileShader", false); timed(C.prototype, "linkProgram", false);
+    for (const n of ["drawArrays", "drawElements", "drawArraysInstanced", "drawElementsInstanced"]) {
+      const f = C.prototype[n]; if (f) C.prototype[n] = function (...a) { present(); return f.apply(this, a); };
+    }
+  }
+  const W = win.Worker; if (!W) return;
+  const pm = W.prototype.postMessage, seen = new WeakSet(), open = new Map();
+  W.prototype.postMessage = function (msg, ...a) {
+    if (msg && msg.type === "transcode") {
+      if (!seen.has(this)) {
+        seen.add(this); t.transcode.workers++;
+        this.addEventListener("message", (e) => {
+          const d = e.data, t0 = d && d.type === "transcode" ? open.get(d.id) : undefined;
+          if (t0 === undefined) return;
+          open.delete(d.id); const e1 = now(); t.transcode.count++; t.transcode.ms += e1 - t0; t.transcode.last = e1;
+        });
+      }
+      open.set(msg.id, now());
+    }
+    return pm.call(this, msg, ...a);
+  };
+}
+/** The page side of the load timeline read: the probe's counters plus the asset fetches from resource timing
+ * (kits, terrain, textures, meshes, data: count, bytes, last responseEnd). */
+export const LOAD_TIMELINE_READ_JS = `(() => {
+  const t = window.__loadTimeline ?? null;
+  const asset = /\\/(kits|terrain|textures|data|places|world|water|veg)[\\/]|\\.(ktx2|glb|gltf|bin|png|jpe?g|webp|json|basis|wasm)(\\?|$)/i;
+  const rs = performance.getEntriesByType("resource").filter((e) => asset.test(e.name));
+  return { probe: t && JSON.parse(JSON.stringify(t)), fetch: { count: rs.length, bytes: rs.reduce((s, e) => s + (e.transferSize || e.encodedBodySize || 0), 0), last: rs.reduce((m, e) => Math.max(m, e.responseEnd), 0) || null } };
+})()`;
+/** Owner bar (2026-10-02): navigation to a complete scene in under 10 s on the pod, both backends. */
+export const LOAD_BAR_S = 10;
+/** A view's load timeline from the page read (`LOAD_TIMELINE_READ_JS`, ms from timeOrigin) and the harness's own per-second
+ * polls (seconds from Page.navigate): `streamFirst` the first frame with geometries, `streamQuiet` the last second the
+ * renderer's geometry or texture count changed, `queueEmpty` the start of the final stretch at 0 pending builds.
+ * complete = max(streamQuiet, queueEmpty, last pipeline build); a missing stage leaves complete null (never complete). */
+export function loadTimeline(page, harness, bar = LOAD_BAR_S) {
+  const s = (ms) => (Number.isFinite(ms) ? Math.round(ms / 100) / 10 : null), p = page?.probe ?? null;
+  const out = {
+    present: s(p?.firstPresent),
+    fetch: { at: s(page?.fetch?.last), count: page?.fetch?.count ?? null, mb: page?.fetch ? Math.round(page.fetch.bytes / 1e5) / 10 : null },
+    transcode: p ? { count: p.transcode.count, ms: Math.round(p.transcode.ms), last: s(p.transcode.last) } : { unobservable: "no load-timeline probe on the page" },
+    builds: p ? { count: p.builds.count, ms: Math.round(p.builds.ms), last: s(p.builds.last) } : null,
+    streamFirst: harness?.streamFirst ?? null, streamQuiet: harness?.streamQuiet ?? null, queueEmpty: harness?.queueEmpty ?? null,
+  };
+  if (p && p.transcode.workers === 0) out.transcode.unobservable = "no KTX2 transcode worker started (no KTX2 texture on this view, or a loader that does not post {type: transcode})";
+  const parts = [out.streamQuiet, out.queueEmpty, out.builds?.last];
+  out.complete = parts.every((x) => Number.isFinite(x)) ? Math.max(...parts) : null;
+  out.barS = bar;
+  out.barFail = out.complete === null || out.complete > bar;
+  return out;
+}
+/** The summary cell: "complete X (fetch a, transcode b/n, builds c/n last d, stream e, present f)", BAR FAIL over the bar. */
+export function loadLine(t) {
+  if (!t) return null;
+  const c = (x) => (x === null || x === undefined ? "-" : String(x));
+  const tc = t.transcode?.unobservable && !t.transcode.count ? "unobs" : `${c(t.transcode?.ms)}ms/${c(t.transcode?.count)}`;
+  return `${t.barFail ? "BAR FAIL " : ""}complete ${c(t.complete)} (fetch ${c(t.fetch?.at)}, transcode ${tc}, builds ${c(t.builds?.ms)}ms/${c(t.builds?.count)} last ${c(t.builds?.last)}, stream ${c(t.streamFirst)}-${c(t.streamQuiet)}, present ${c(t.present)})`;
 }

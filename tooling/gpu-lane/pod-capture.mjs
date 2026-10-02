@@ -79,7 +79,7 @@ import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
-import { viewDeadlineS, installGpuErrorProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop } from "./pod-capture-lib.mjs";
+import { viewDeadlineS, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit } from "./checks.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
@@ -244,7 +244,8 @@ const INIT = `(() => {
     return d;
   };
 })();
-try { (${pageProbe})(); } catch {}${probeGpuErrors ? `
+try { (${pageProbe})(); } catch {}
+try { (${installLoadTimeline})(window); } catch {}${probeGpuErrors ? `
 try { (${installGpuErrorProbe})(window); } catch {}` : ""}${probeTargets ? `
 try { (${installTargetProbe})(window, ${recordPassDescriptor}); } catch {}` : ""}${drawCensus ? `
 try { (${installDrawCensus})(window); } catch {}` : ""}`;
@@ -452,6 +453,12 @@ async function captureView(view) {
       result.gpuErrorProbe = await evaluate(`window.__gpuErrorProbe ?? { err: "no probe on the page" }`, 10_000);
       writeFileSync(join(dir, "gpu-error-probe.json"), JSON.stringify(result.gpuErrorProbe, null, 1));
     }
+    // load timeline (owner 10 s bar): always, also for a failed view (complete stays null and the bar fails)
+    if (ctl.page) {
+      const page = await evaluate(LOAD_TIMELINE_READ_JS, 10_000).catch(() => null);
+      result.loadTimeline = loadTimeline(page && !page.err ? page : null, result.loadHarness);
+      writeFileSync(join(dir, "load-timeline.json"), JSON.stringify(result.loadTimeline, null, 1));
+    }
     result.http404s = result.network.filter(([k]) => k.startsWith("404 ")).length;
     sink = null;
     result.summary = summariseView(result);
@@ -543,7 +550,14 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
           try { luma = (await middleOf(await shoot(30))).luma; } catch { /* busy page: no sample */ }
           if (shotGate.feed(s, fps, luma)) Object.assign(result.shotSettle, { at: r1(shotGate.at), timedOut: shotGate.timedOut });
         }
-        if (q && !q.err) lastFrame = q.f;
+        if (q && !q.err) {
+          // load timeline harness side: first fill = readyS, quiet = last change of geometry/texture count, queue empty = start of the pending-0 stretch
+          const lh = (result.loadHarness ??= { streamFirst: null, streamQuiet: null, queueEmpty: null, gx: null });
+          lh.streamFirst = result.readyS;
+          if (lh.gx !== `${q.g}/${q.x}`) { lh.gx = `${q.g}/${q.x}`; lh.streamQuiet = r1(s); }
+          lh.queueEmpty = q.p === 0 || q.p === undefined ? (lh.queueEmpty ?? r1(s)) : null;
+          lastFrame = q.f;
+        }
         if (gate?.feed(s, q, q?.f)) {
           result.reads.settled = { t: r1(sec()), gateAt: gate.settledAt, afterFrames: settledFrames, ...(await fullRead()) };
           if (probeTargets) await probeTargetsNow(dir, result);

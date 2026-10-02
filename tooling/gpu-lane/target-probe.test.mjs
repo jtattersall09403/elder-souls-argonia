@@ -94,9 +94,10 @@ test("target probe: WebGPU draws count per pass until end()", () => {
 
 test("targetsLine: the summary cell", () => {
   const p = { targets: [{ label: "scene", mean9: 0.41, draws: 773 }, { label: "fb", skipped: "multisampled" }, { label: "bloom", mean9: 0.02 }], canvas: { luma: 17.5 }, queue: { skippedPerFrame: 3, notReady: 2 } };
-  assert.equal(targetsLine(p), "not-a-bar; scene 0.41 (773 draws) / fb skip / bloom 0.02 / canvas luma 17.5 / skipped 3.0/frame, 2 not ready notReady ? exp ?");
-  assert.match(targetsLine({ ...p, notReadyPipelines: { perFrame: 1 }, exposure: { toneMappingExposure: 0.0001 } }), / notReady 1 exp 0.0001$/);
-  assert.equal(targetsLine({ targets: [{ label: "scene", err: "x" }] }), "not-a-bar; scene err (? draws) / fb - / bloom - / canvas luma - notReady ? exp ?");
+  assert.equal(targetsLine(p), "not-a-bar; scene 0.41 (773 draws) / fb skip / bloom 0.02 / canvas luma 17.5 / skipped 3.0/frame, 2 not ready notReady ? exp ? scene grid - cam nan ? vp ?");
+  assert.match(targetsLine({ ...p, notReadyPipelines: { perFrame: 1 }, exposure: { toneMappingExposure: 0.0001 } }), / notReady 1 exp 0.0001 scene grid - cam nan \? vp \?$/);
+  assert.equal(targetsLine({ targets: [{ label: "scene", err: "x" }] }), "not-a-bar; scene err (? draws) / fb - / bloom - / canvas luma - notReady ? exp ? scene grid - cam nan ? vp ?");
+  assert.match(targetsLine({ ...p, sceneGrid: { grid: [64, 36], nan: 3, inf: 0, black: 10 } }), / scene nan 3 inf 0 black 10\/2304 cam nan \? vp \?$/);
   assert.equal(targetsLine({ err: "no target probe on the page" }), "not-a-bar; probe unread (no target probe on the page)");
   assert.equal(targetsLine(null), null);
 });
@@ -120,4 +121,57 @@ test("target probe: not-ready pipelines counted per frame with material name, nu
   assert.deepEqual([p.notReadyPipelines.names[0].material, p.notReadyPipelines.names[0].pipelineNull, p.notReadyPipelines.names[0].error], ["badMat", true, "boom"]);
   assert.deepEqual(p.exposure, { toneMappingExposure: 0.0001, toneMapping: 4, outputColorSpace: "srgb" });
   assert.equal(pipelines.isReady, orig, "isReady restored after the window");
+});
+
+test("target probe: id-less targets (three RenderTarget) all seen; scene grid counts NaN, Inf and black exactly over padded rows; depth skipped with reason", async () => {
+  const W = 64, H = 36, stride = 128 * 4; // rows padded like WebGPU's 256-byte alignment
+  const ONE = 0x3c00, NAN = 0x7e00, INF = 0x7c00;
+  const px = new Uint16Array((H - 1) * stride + W * 4);
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) px.set([ONE, ONE, ONE, ONE], y * stride + x * 4);
+  for (const i of [0, 100, 2303]) px[Math.floor(i / W) * stride + (i % W) * 4 + 1] = NAN;
+  for (let i = 500; i < 510; i++) px.set([0, 0, 0, ONE], Math.floor(i / W) * stride + (i % W) * 4);
+  px[Math.floor(1000 / W) * stride + (1000 % W) * 4] = INF;
+  const mk = (w, h, depth) => ({ width: w, height: h, samples: 0, depthBuffer: depth, texture: { type: 1016, name: "" } });
+  const env = mk(256, 256, true), scene = mk(W, H, true);
+  const queue = { skippedDraws: 0, pending: 0, timedOut: new Set(), frameTargets: new WeakSet([scene]) };
+  const r = { esBuildQueue: queue, setRenderTarget() {}, getRenderTarget: () => null,
+    readRenderTargetPixelsAsync: async (t, x, y, w, h) => (t === scene && w === W && h === H ? px : new Uint16Array([ONE, ONE, ONE, ONE])) };
+  const { win } = fakeWindow(r);
+  const gl = new win.WebGL2RenderingContext();
+  const tick = setInterval(() => { r.setRenderTarget(env); gl.drawArrays(); r.setRenderTarget(scene); gl.drawArrays(); r.setRenderTarget(null); }, 0);
+  const p = await win.__targetProbe.capture();
+  clearInterval(tick);
+  assert.equal(p.sceneBy, "deferBuildsInto", "the second id-less target is still seen");
+  const g = p.sceneGrid;
+  assert.deepEqual([g.nan, g.inf, g.black, g.lit], [3, 1, 10, 2304 - 14]);
+  assert.equal(g.samples.length, 8);
+  assert.equal(g.meanLuma, Math.round(((2304 - 14) / (2304 - 4)) * 1e4) / 1e4);
+  assert.match(g.depth.skipped, /no depthTexture/);
+  assert.match(targetsLine(p), / scene nan 3 inf 1 black 10\/2304 cam nan \? vp \?$/);
+});
+
+test("target probe: state block reads the largest render call's camera, viewport, drawing buffer, sun; NaN flagged", async () => {
+  const mat = (nan) => ({ elements: Array.from({ length: 16 }, (_, i) => (nan && i === 5 ? NaN : i)) });
+  const mkCam = (nan) => ({ projectionMatrix: mat(nan), matrixWorldInverse: mat(false), near: 0.1, far: 1000 });
+  const run = async (nan) => {
+    let gl;
+    const r = { setRenderTarget() {}, getRenderTarget: () => null, render() { gl.drawArrays(); gl.drawArrays(); }, small() {},
+      getViewport: (v) => v.set(0, 0, 640, 360, 0), getScissor: (v) => v.set(1, 2, 3, 4), getScissorTest: () => false,
+      getDrawingBufferSize: (v) => v.set(1280, 720) };
+    const { win } = fakeWindow(r);
+    gl = new win.WebGL2RenderingContext();
+    const sc = { userData: { sunDirection: { x: 0, y: 1, z: NaN }, other: 1 } };
+    const tick = setInterval(() => { r.render(sc, mkCam(nan)); }, 0);
+    const p = await win.__targetProbe.capture();
+    clearInterval(tick);
+    return p;
+  };
+  const ok = await run(false), bad = await run(true);
+  assert.equal(ok.state.camera.anyNaN, false);
+  assert.equal(bad.state.camera.anyNaN, true);
+  assert.deepEqual(ok.state.drawingBuffer, { w: 1280, h: 720 });
+  assert.deepEqual(ok.state.viewport, { x: 0, y: 0, w: 640, h: 360 });
+  assert.equal(ok.state.sun.sunDirection.anyNaN, true);
+  assert.match(targetsLine(bad), / cam nan Y vp 1280x720$/);
+  assert.match(targetsLine(ok), / cam nan N vp 1280x720$/);
 });
