@@ -127,7 +127,10 @@ Rules of the road:
   precedes every full capture or walk run, and an image-reader confirms
   "clock running, weather as intended, HUD hidden, the feature visible"
   before the full round starts;
-  (g) one pod per lane (0119 rule 4), every pod-driving run under
+  (g) one pod per lane for iteration loops; a fan-out job (the agent walks
+  audit over many places) runs one pod per parallel worker when that is
+  faster end to end, each deleted the moment its worker ends (0119 rule 4);
+  every pod-driving run under
   `job_guard.sh <lane> --`, and a capture harness without per-view timeouts
   and parent-death exit is never used.
 - Never edit CLAUDE.md or `.claude/agents/`; propose the change instead.
