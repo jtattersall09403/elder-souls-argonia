@@ -243,6 +243,7 @@ export function summariseView(r) {
     failed: r.failed ?? null, heapTop: w.heapTop?.length ? w.heapTop.slice(0, 3).map((h) => `${h.fn} ${h.selfMB} MB`).join("; ") : null,
     cpuTop: w.cpuTop?.top?.length ? w.cpuTop.top.slice(0, 5).map((f) => `${f.fn.replace(/ \S*\/([^/ ]+)$/, " $1")} ${f.msPerFrame ?? f.selfMs}`).join("; ") : null,
     gpuProbe: r.gpuErrorProbe ? gpuProbeLine(r.gpuErrorProbe) : null,
+    nanProbe: r.nanProbe ? nanProbeLine(r.nanProbe) : null,
     targets: r.targetProbe ? targetsLine(r.targetProbe) : null,
     drawCensus: w.drawCensus ? drawCensusLine(w.drawCensus, wk?.workMs?.mean ?? null) : null,
     load: r.loadTimeline ? loadLine(r.loadTimeline) : null,
@@ -252,9 +253,9 @@ export function summariseView(r) {
 /** Markdown summary: one row per view from its result.json `summary` (`summariseView`). "from" names the window the rates
  * came from; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "draw census", "targets"];
+  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets"];
   const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.load, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
-    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.drawCensus, s.targets].map(cell));
+    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets].map(cell));
   return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), "",
     `| ${cols.join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.join(" | ")} |`)].join("\n");
 }
@@ -499,6 +500,123 @@ export function installGpuErrorProbe(win) {
     return true;
   };
   if (!hook() && typeof win.setInterval === "function") { const id = win.setInterval(() => { if (hook()) win.clearInterval(id); }, 250); }
+}
+
+/** `--probe-nan` (diagnosis only; never a bar row). Installed by the init script before the app's scripts, it wraps the
+ * WebGPU upload paths on `win` and scans every CPU write for a non-finite float: GPUQueue.writeBuffer (bytes as Float32),
+ * GPUQueue.writeTexture (*16float formats as half floats, *32float as Float32; other formats skipped) and mapped ranges
+ * (mappedAtCreation or mapAsync WRITE; each getMappedRange scanned as Float32 at unmap). Skipped: INDEX, INDIRECT and
+ * MAP_READ buffers and integer typed-array writes. Early exit at the first bad value of a write; one record per
+ * buffer/texture (its first hit), at most 40: frame (GPUQueue.submit count so far), ms since timeOrigin, label, size,
+ * usage, byte offset and float index, value, 8 neighbouring floats, stack (12 frames), and, for a three.js uniform buffer
+ * (written inside `__RENDERER__.backend.updateBinding`), the binding name and the uniforms whose offset covers the bad
+ * float. `badPerFrame[f]` counts bad writes per submit for the first 600; `scanned` / `bytes` are the scan totals.
+ * Self-contained: it is stringified into the page. */
+export function installNanProbe(win) {
+  const P = (win.__nanProbe = { records: [], badPerFrame: [], scanned: 0, bytes: 0, bad: 0, frame: 0, threeHooked: false });
+  const MAX = 40, FRAMES = 600, INDEX = 0x10, INDIRECT = 0x100, MAP_READ = 0x1;
+  const hit = new WeakSet(), maps = new WeakMap();
+  let curBinding = null;
+  const now = () => (win.performance ? Math.round(win.performance.now()) : 0);
+  const wrap = (proto, name, make) => { if (proto && typeof proto[name] === "function") proto[name] = make(proto[name]); };
+  const half = (h) => { const e = (h >> 10) & 31, m = h & 1023, s = h & 0x8000 ? -1 : 1; return e === 31 ? (m ? NaN : s * Infinity) : s * (e ? 2 ** (e - 15) * (1 + m / 1024) : 2 ** -14 * (m / 1024)); };
+  const name = (v) => (Number.isNaN(v) ? "NaN" : v > 0 ? "Inf" : "-Inf");
+  const skipUsage = (u) => Boolean((u ?? 0) & (INDEX | INDIRECT | MAP_READ));
+  // returns the first bad index or -1; vals(i) reads element i
+  const scan = (n, vals, bytesPer) => {
+    P.scanned++; P.bytes += n * bytesPer;
+    for (let i = 0; i < n; i++) { const v = vals(i); if (v !== v || v === Infinity || v === -Infinity) return i; }
+    return -1;
+  };
+  const uniformsAt = (b, fi) => {
+    try {
+      const out = [];
+      for (const u of b.uniforms ?? []) { const o = u.offset, n = u.itemSize ?? 1; if (typeof o === "number" && fi >= o && fi < o + Math.max(n, 1)) out.push(u.name ?? u.nodeUniform?.name ?? "?"); }
+      return out;
+    } catch (e) { return [`err ${e.message}`]; }
+  };
+  const record = (target, kind, byteBase, idx, vals, n, bytesPer, extra) => {
+    P.bad++;
+    if (P.frame < FRAMES) P.badPerFrame[P.frame] = (P.badPerFrame[P.frame] ?? 0) + 1;
+    if (hit.has(target) || P.records.length >= MAX) return;
+    hit.add(target);
+    const v = vals(idx), near = [];
+    for (let i = Math.max(0, idx - 4); i < Math.min(n, idx + 4); i++) { const x = vals(i); near.push(Number.isFinite(x) ? x : name(x)); }
+    const r = { kind, frame: P.frame, t: now(), label: target.label ?? "", size: target.size ?? null, usage: target.usage ?? null,
+      byteOffset: byteBase + idx * bytesPer, floatIndex: idx, value: name(v), near, stack: String(new Error().stack ?? "").split("\n").slice(1, 13).map((l) => l.trim()), ...extra };
+    if (curBinding && kind === "writeBuffer") {
+      r.group = curBinding.name ?? null; r.uniforms = uniformsAt(curBinding, (byteBase + idx * bytesPer) / 4);
+    } else if (kind === "writeBuffer") r.mapping = P.threeHooked ? "not inside backend.updateBinding (stack only)" : "renderer not hooked (stack only)";
+    P.records.push(r);
+  };
+  const scanBytes = (target, kind, buf, byteStart, byteLen, byteBase, extra) => {
+    const n = byteLen >> 2;
+    if (n <= 0) return;
+    const f = byteStart % 4 === 0 ? new Float32Array(buf, byteStart, n) : new Float32Array(buf.slice(byteStart, byteStart + n * 4));
+    const vals = (i) => f[i], i = scan(n, vals, 4);
+    if (i >= 0) record(target, kind, byteBase, i, vals, n, 4, extra);
+  };
+  const isInt = (d) => /^(Int8|Int16|Int32|Uint16|Uint32|BigInt64|BigUint64)Array$/.test(d?.constructor?.name ?? "");
+  const Q = win.GPUQueue?.prototype;
+  wrap(Q, "submit", (f) => function (...a) { P.frame++; return f.apply(this, a); });
+  wrap(Q, "writeBuffer", (f) => function (buffer, bufferOffset, data, dataOffset, size) {
+    try {
+      if (!skipUsage(buffer?.usage) && !isInt(data)) {
+        const view = ArrayBuffer.isView(data), bpe = view ? (data.BYTES_PER_ELEMENT ?? 1) : 1;
+        const ab = view ? data.buffer : data, start = (view ? data.byteOffset : 0) + (dataOffset ?? 0) * bpe;
+        const len = size != null ? size * bpe : (view ? data.byteLength : data.byteLength) - (dataOffset ?? 0) * bpe;
+        scanBytes(buffer, "writeBuffer", ab, start, len, bufferOffset ?? 0, {});
+      }
+    } catch {}
+    return f.call(this, buffer, bufferOffset, data, dataOffset, size);
+  });
+  wrap(Q, "writeTexture", (f) => function (dest, data, layout, sz) {
+    try {
+      const tex = dest?.texture, fmt = String(tex?.format ?? "");
+      const is16 = /16float$/.test(fmt), is32 = /32float$/.test(fmt);
+      if (tex && (is16 || is32)) {
+        const view = ArrayBuffer.isView(data), ab = view ? data.buffer : data, start = (view ? data.byteOffset : 0) + (layout?.offset ?? 0);
+        const len = (view ? data.byteLength : data.byteLength) - (layout?.offset ?? 0);
+        const extra = { format: fmt, width: tex.width, height: tex.height };
+        if (is32) scanBytes(tex, "writeTexture", ab, start, len, 0, extra);
+        else {
+          const n = len >> 1, h = start % 2 === 0 ? new Uint16Array(ab, start, n) : new Uint16Array(ab.slice(start, start + n * 2));
+          const vals = (i) => half(h[i]), i = scan(n, vals, 2);
+          if (i >= 0) record(tex, "writeTexture", 0, i, vals, n, 2, extra);
+        }
+      }
+    } catch {}
+    return f.call(this, dest, data, layout, sz);
+  });
+  const B = win.GPUBuffer?.prototype;
+  wrap(B, "getMappedRange", (f) => function (off, size) {
+    const r = f.call(this, off, size);
+    try { if (!skipUsage(this.usage)) { let l = maps.get(this); if (!l) maps.set(this, (l = [])); l.push([r, off ?? 0]); } } catch {}
+    return r;
+  });
+  wrap(B, "unmap", (f) => function () {
+    try { const l = maps.get(this); if (l) { maps.delete(this); for (const [ab, off] of l) scanBytes(this, "mapped", ab, 0, ab.byteLength, off, {}); } } catch {}
+    return f.call(this);
+  });
+  const hook = () => {
+    const be = win.__RENDERER__?.backend;
+    if (!be || typeof be.updateBinding !== "function") return false;
+    const orig = be.updateBinding;
+    be.updateBinding = function (binding) { const prev = curBinding; curBinding = binding; try { return orig.call(this, binding); } finally { curBinding = prev; } };
+    P.threeHooked = true;
+    return true;
+  };
+  if (!hook() && typeof win.setInterval === "function") { const id = win.setInterval(() => { if (hook()) win.clearInterval(id); }, 250); }
+}
+
+/** One summary line from a view's nan-probe.json. */
+export function nanProbeLine(p) {
+  if (!p || p.err) return `not-a-bar; probe unread${p?.err ? ` (${String(p.err).slice(0, 60)})` : ""}`;
+  const totals = `${p.scanned ?? 0} writes, ${Math.round((p.bytes ?? 0) / 1e6 * 10) / 10} MB scanned`;
+  const r = p.records?.[0];
+  if (!r) return `not-a-bar; clean (${totals})`;
+  const where = r.group ? `${r.group}.${(r.uniforms ?? []).join("+") || "?"}` : "stack only";
+  return `not-a-bar; ${p.bad} bad writes, first f${r.frame} ${r.label || "(unlabelled)"}/${where} ${r.value} (${p.records.length} records; ${totals})`;
 }
 
 /** One summary line from a view's gpu-error-probe.json: the first dump's missing slot, pipeline label and three object name. */

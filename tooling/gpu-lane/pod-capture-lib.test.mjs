@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, installGpuErrorProbe, gpuProbeLine, installDrawCensus, drawCensusLine } from "./pod-capture-lib.mjs";
+import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, installGpuErrorProbe, gpuProbeLine, installNanProbe, nanProbeLine, installDrawCensus, drawCensusLine } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -448,4 +448,43 @@ test("installLoadTimeline: pipeline builds, first present and KTX2 worker round 
     assert.deepEqual([t.transcode.count, t.transcode.ms, t.transcode.workers], [1, 60, 1]);
     return d.createRenderPipelineAsync().then(() => Promise.resolve()).then(() => assert.equal(t.builds.count, 3));
   });
+});
+
+// --probe-nan: a fake GPUQueue/GPUBuffer on a fake window; the probe must fire on a NaN write and stay quiet otherwise
+function fakeNanWindow(renderer) {
+  class GPUQueue { submit() {} writeBuffer() {} writeTexture() {} }
+  class GPUBuffer { constructor(label, size, usage) { this.label = label; this.size = size; this.usage = usage; this._ab = new ArrayBuffer(size); } getMappedRange() { return this._ab; } unmap() {} }
+  const win = { GPUQueue, GPUBuffer, __RENDERER__: renderer, performance: { now: () => 5 } };
+  installNanProbe(win);
+  return { win, q: new GPUQueue(), GPUBuffer };
+}
+test("nan probe: a NaN in a Float32 uniform write is recorded with label, frame and the uniform name", () => {
+  const binding = { name: "objectUniforms", uniforms: [{ name: "fogTime", offset: 0, itemSize: 1 }, { name: "windDir", offset: 4, itemSize: 4 }] };
+  const at = {};
+  const be = { updateBinding(b) { at.q.writeBuffer(at.buf, 0, new Float32Array([1, 2, 3, 4, 0.5, NaN, 0, 0])); } };
+  const { win, q, GPUBuffer } = fakeNanWindow({ backend: be });
+  at.q = q; at.buf = new GPUBuffer("bindingBuffer7_objectUniforms_(vertex)", 32, 0x40 | 0x8);
+  q.submit([]); q.submit([]);
+  win.__RENDERER__.backend.updateBinding(binding);
+  win.__RENDERER__.backend.updateBinding(binding);
+  const p = win.__nanProbe;
+  assert.equal(p.records.length, 1); assert.equal(p.bad, 2); assert.equal(p.badPerFrame[2], 2);
+  const r = p.records[0];
+  assert.equal(r.label, "bindingBuffer7_objectUniforms_(vertex)"); assert.equal(r.frame, 2); assert.equal(r.floatIndex, 5); assert.equal(r.byteOffset, 20);
+  assert.equal(r.value, "NaN"); assert.equal(r.group, "objectUniforms"); assert.deepEqual(r.uniforms, ["windDir"]);
+  assert.match(nanProbeLine(p), /^not-a-bar; 2 bad writes, first f2 bindingBuffer7_objectUniforms_\(vertex\)\/objectUniforms\.windDir NaN/);
+});
+test("nan probe: finite writes stay clean; index buffers and int arrays are skipped; mapped and half-float paths fire", () => {
+  const { win, q, GPUBuffer } = fakeNanWindow();
+  q.writeBuffer(new GPUBuffer("ok", 16, 0x40), 0, new Float32Array([1, 2, 3, 4]));
+  assert.equal(win.__nanProbe.records.length, 0);
+  assert.match(nanProbeLine(win.__nanProbe), /^not-a-bar; clean \(1 writes/);
+  q.writeBuffer(new GPUBuffer("idx", 16, 0x10 | 0x8), 0, new Float32Array([NaN, 0, 0, 0]));
+  q.writeBuffer(new GPUBuffer("ints", 16, 0x80), 0, new Uint32Array([0x7fc00000, 0, 0, 0]));
+  assert.equal(win.__nanProbe.records.length, 0); assert.equal(win.__nanProbe.scanned, 1);
+  const m = new GPUBuffer("mapped", 8, 0x80); new Float32Array(m.getMappedRange())[1] = Infinity; m.unmap();
+  q.writeTexture({ texture: { label: "lightField", format: "rgba16float", width: 1, height: 1 } }, new Uint16Array([0x3c00, 0x7e00, 0, 0]), { offset: 0 }, [1, 1]);
+  const rs = win.__nanProbe.records;
+  assert.deepEqual(rs.map((r) => [r.kind, r.label, r.value, r.floatIndex]), [["mapped", "mapped", "Inf", 1], ["writeTexture", "lightField", "NaN", 1]]);
+  assert.equal(rs[0].mapping, undefined);
 });

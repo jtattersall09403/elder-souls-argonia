@@ -51,6 +51,8 @@
  *              only against other --cpu-profile runs (the sampler costs main-thread time).
  * --probe-targets   diagnosis only (rows read "not-a-bar"): after the settled read, one frame's render-target log and the
  *              scene (by deferBuildsInto identity) / frame-buffer / bloom-mip-0 luma, per-pass draws, queue skippedDraws per frame and the canvas screen-middle luma, to <out>/<view>/target-probe.json (target-probe.mjs).
+ * --probe-nan  diagnosis only (rows read "not-a-bar"): scans every CPU upload (writeBuffer, writeTexture float formats, mapped
+ *              ranges) for NaN/Inf (pod-capture-lib installNanProbe) -> <out>/<view>/nan-probe.json
  * --probe-gpu-errors  diagnosis only (rows read "not-a-bar"): wraps the WebGPU API before the app's scripts and dumps the first draw of
  *              up to 3 pipelines that need an unset vertex slot (pod-capture-lib installGpuErrorProbe) -> <out>/<view>/gpu-error-probe.json
  * --draw-census  diagnosis only (cells read "not-a-bar"): over the cost window, three's draws per frame by category and kind, us per
@@ -78,7 +80,7 @@ import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
-import { installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop } from "./pod-capture-lib.mjs";
+import { installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit } from "./checks.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
@@ -96,7 +98,7 @@ const W = Number(opt("width", 1280)), H = Number(opt("height", 720));
 const settledFrames = Number(opt("settled-frames", 300)), settleFloor = Number(opt("settle-floor", 60));
 const readyTimeoutS = Number(opt("ready-timeout", 90)), captureTimeoutS = Number(opt("capture-timeout", 180));
 const probeTargets = args.includes("--probe-targets");
-const probeGpuErrors = args.includes("--probe-gpu-errors"), drawCensus = args.includes("--draw-census");
+const probeGpuErrors = args.includes("--probe-gpu-errors"), drawCensus = args.includes("--draw-census"), probeNan = args.includes("--probe-nan");
 const heapProfileAll = args.includes("--heap-profile"), cpuProfile = args.includes("--cpu-profile");
 // a studio view without rate= runs a paused clock: not a game-speed measurement (diag10 T9)
 const paused = pausedClockViews(views);
@@ -245,7 +247,8 @@ const INIT = `(() => {
 })();
 try { (${pageProbe})(); } catch {}
 try { (${installLoadTimeline})(window); } catch {}${probeGpuErrors ? `
-try { (${installGpuErrorProbe})(window); } catch {}` : ""}${probeTargets ? `
+try { (${installGpuErrorProbe})(window); } catch {}` : ""}${probeNan ? `
+try { (${installNanProbe})(window); } catch {}` : ""}${probeTargets ? `
 try { (${installTargetProbe})(window, ${recordPassDescriptor}); } catch {}` : ""}${drawCensus ? `
 try { (${installDrawCensus})(window); } catch {}` : ""}`;
 const READ = `(async () => {
@@ -451,6 +454,10 @@ async function captureView(view) {
     if (probeGpuErrors && ctl.page) {
       result.gpuErrorProbe = await evaluate(`window.__gpuErrorProbe ?? { err: "no probe on the page" }`, 10_000);
       writeFileSync(join(dir, "gpu-error-probe.json"), JSON.stringify(result.gpuErrorProbe, null, 1));
+    }
+    if (probeNan && ctl.page) {
+      result.nanProbe = await evaluate(`window.__nanProbe ?? { err: "no probe on the page" }`, 10_000);
+      writeFileSync(join(dir, "nan-probe.json"), JSON.stringify(result.nanProbe, null, 1));
     }
     // load timeline (owner 10 s bar): always, also for a failed view (complete stays null and the bar fails)
     if (ctl.page) {
