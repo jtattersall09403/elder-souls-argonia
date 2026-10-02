@@ -33,6 +33,7 @@ Key paths follow `/tmp/<lane><round>/rp_key`.
 | `trace-frames.mjs` | Trace categories, the streaming event filter, the long-frame classifier (`node tooling/gpu-lane/trace-frames.mjs <x.trace.json> [--profile <x.cpuprofile>] [--over 20]`; each window's last interval, the harness's own end-of-window message of 29-47 ms, is dropped from the list and counts; every long frame has `pageMs`, the page `performance.now()` at its start, from the `gpulane-anchor:` console.timeStamp `measure.mjs` fires just after the trace starts, null without it; `measure.mjs` adds `links`, the relink-probe events within 300 ms of the frame) and main-thread self ms by stage (gc, shader, upload, gpu, timer, js, compositor, other); shared by `measure.mjs --trace` and `pod-capture`. |
 | `hud-capture.mjs <dist> "<query>" <out>.txt <settleS>` | Reads the HUD perf lines four times over `<settleS>` with a screenshot. |
 | `webgpu-boot-check.mjs` | Boots the BUILT `/webgpu/` studio to its first complete frame; fails on a freeze, GPU validation error, device loss or black view. `CHROME_CDP` points it at the pod's Chrome. Cached on its inputs. |
+| `walk/` | The agent walk harness: `walk_route.py` (route from a place's published data), `walk_run.mjs` (one tab, every pass, shots and `summary.json`), `walk_judge.py` (reader briefs); see `walk/README.md`. |
 | `*.test.mjs` | `node --test tooling/gpu-lane/*.test.mjs` (< 1 s). |
 
 ## The loop

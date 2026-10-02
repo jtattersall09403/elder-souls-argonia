@@ -9,9 +9,9 @@ cd "$(dirname "${BASH_SOURCE[0]}")" || exit 2
 if [[ -z "${ES_JOB_GUARD:-}" && -z "${CI:-}" ]]; then
   exec bash job_guard.sh repo-standards-test -- bash test.sh
 fi
-python3 -m pytest -q -p no:cacheprovider -p no:randomly . ../bootstrap; p=$?
+python3 -m pytest -q -p no:cacheprovider -p no:randomly . ../bootstrap ../gpu-lane/walk; p=$?
 node check.mjs; c=$?
 node --test preflight_select.test.mjs preflight_heads.test.mjs ../province-artefact/common.test.mjs \
-  ../pages-site/kit-ref.test.mjs ../pages-site/kit-reach.test.mjs ../gpu-lane/measure.test.mjs; n=$?
+  ../pages-site/kit-ref.test.mjs ../pages-site/kit-reach.test.mjs ../gpu-lane/measure.test.mjs ../gpu-lane/walk/*.test.mjs; n=$?
 node check_site_refs.mjs; r=$?
 exit $(( p | c | n | r ))
