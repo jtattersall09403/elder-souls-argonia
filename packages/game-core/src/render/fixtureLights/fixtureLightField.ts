@@ -6,12 +6,12 @@
  * terrain, tree, ground-cover and wall fragment on screen, and each new count
  * cost a program per lit material. Here the lamps live in one small float
  * texture (`FIXTURE_LIGHTS_MAX` slots: row 0 world position + radius, row 1
- * colour x intensity) with a runtime count, and each drawn object carries the
+ * colour x intensity + decay) with a runtime count, and each drawn object carries the
  * slots of its `FIXTURE_LIGHTS_PER_OBJECT` nearest lamps that reach its
  * bounding sphere. The fragment loops those few, with an early exit on the
  * count and on the radius, using three's own `getDistanceAttenuation` and
  * `RE_Direct`, so a lit wall looks exactly as it did under a `PointLight` of
- * the same colour, intensity, distance and decay 2. The shader text and the
+ * the same colour, intensity, distance and decay (2, or the lamp's own). The shader text and the
  * program cache key never depend on the count: one program for 0 to 100.
  *
  * - `install(material)`: the fragment chunk and its uniforms, chained onto the
@@ -37,8 +37,10 @@ export const FIXTURE_LIGHTS_MAX = 100;
 /** Lamps one drawn object (a mesh, an instanced cell) is lit by at most. */
 export const FIXTURE_LIGHTS_PER_OBJECT = 8;
 /** A material may raise its objects' list to this (`userData.esFixtureLightsPerObject`):
- * the terrain, whose near tiles are 117 m across and hold a whole place's lamps. */
-export const FIXTURE_LIGHTS_PER_OBJECT_MAX = 16;
+ * the terrain (16), whose near tiles are 117 m across and hold a whole place's lamps,
+ * and an interior cell's parts (32: every record light of the cell, 19 in
+ * KeebaHouseSnailMinder, plus its windows). */
+export const FIXTURE_LIGHTS_PER_OBJECT_MAX = 32;
 
 /** The list length a material's objects get: its `userData.esFixtureLightsPerObject`, else 8. */
 export function fixtureLightsPerObject(material: THREE.Material): number {
@@ -46,13 +48,15 @@ export function fixtureLightsPerObject(material: THREE.Material): number {
   return typeof n === "number" && n >= 1
     ? Math.min(FIXTURE_LIGHTS_PER_OBJECT_MAX, Math.floor(n)) : FIXTURE_LIGHTS_PER_OBJECT;
 }
-/** three's PointLight decay the fixture lights reproduce. */
+/** three's PointLight decay the fixture lights reproduce unless a lamp names its own. */
 export const FIXTURE_LIGHT_DECAY = 2;
 const CACHE_KEY = "es-fixture-lights-v1";
 
 export interface FixtureLightInput {
   position: THREE.Vector3;
   radiusM: number;
+  /** three's PointLight decay for this lamp (an interior record light's `interiorLightDecay`); default `FIXTURE_LIGHT_DECAY`. */
+  decay?: number;
 }
 
 interface ObjectSlots {
@@ -81,8 +85,8 @@ for ( int esFxI = 0; esFxI < ${n}; esFxI ++ ) {
 	if ( esFxD >= esFxP.w ) continue;
 	IncidentLight esFxLight;
 	esFxLight.direction = esFxV / max( esFxD, 1e-4 );
-	esFxLight.color = texelFetch( esFxData, ivec2( esFxL, 1 ), 0 ).rgb
-		* getDistanceAttenuation( esFxD, esFxP.w, ${FIXTURE_LIGHT_DECAY.toFixed(1)} );
+	vec4 esFxC = texelFetch( esFxData, ivec2( esFxL, 1 ), 0 );
+	esFxLight.color = esFxC.rgb * getDistanceAttenuation( esFxD, esFxP.w, esFxC.a );
 	esFxLight.visible = true;
 	RE_Direct( esFxLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );
 }
@@ -187,8 +191,11 @@ export class FixtureLightField {
     const n = this.primary.length + this.reserved.length;
     let changed = n !== this.used;
     for (let i = 0; i < n; i++) {
-      const { position, radiusM } = i < this.primary.length ? this.primary[i] : this.reserved[i - this.primary.length];
+      const { position, radiusM, decay } = i < this.primary.length ? this.primary[i] : this.reserved[i - this.primary.length];
       const o = i * 4;
+      const c = (FIXTURE_LIGHTS_MAX + i) * 4 + 3;
+      const d = decay ?? FIXTURE_LIGHT_DECAY;
+      if (this.data[c] !== Math.fround(d)) { this.data[c] = d; this.dirty = true; }
       if (!changed && (this.data[o] !== Math.fround(position.x) || this.data[o + 1] !== Math.fround(position.y)
         || this.data[o + 2] !== Math.fround(position.z) || this.data[o + 3] !== Math.fround(radiusM))) changed = true;
       this.data[o] = position.x; this.data[o + 1] = position.y; this.data[o + 2] = position.z;
@@ -213,9 +220,12 @@ export class FixtureLightField {
   private writeRadiance(i: number, r: number, g: number, b: number): void {
     const o = (FIXTURE_LIGHTS_MAX + i) * 4;
     if (this.data[o] === Math.fround(r) && this.data[o + 1] === Math.fround(g) && this.data[o + 2] === Math.fround(b)) return;
-    this.data[o] = r; this.data[o + 1] = g; this.data[o + 2] = b; this.data[o + 3] = 1;
+    this.data[o] = r; this.data[o + 1] = g; this.data[o + 2] = b;
     this.dirty = true;
   }
+
+  /** Slot `i`'s decay as held (tests). */
+  decayOf(i: number): number { return this.data[(FIXTURE_LIGHTS_MAX + i) * 4 + 3]; }
 
   /** Slot `i`'s colour x intensity as held (tests). */
   radianceOf(i: number): [number, number, number] {

@@ -1,0 +1,375 @@
+{
+ "schemaVersion": 1,
+ "source": "tooling/volumetrics/interior_light.py over public/province/interiors",
+ "cells": {
+  "CIPHTBMHutInterior01": {
+   "plugin": "Here There Be Monsters - Curse of Cipactli.esp",
+   "kind": "storage",
+   "humid": false,
+   "dust": "high",
+   "dustWhy": "storage ({'beds': 0, 'counters': 0, 'hearths': 0, 'shrines': 0, 'smithy': 0})",
+   "floorMist": false,
+   "apertures": [],
+   "reason": "no placed ref has a window piece or window-textured panes in its model"
+  },
+  "CIPHTBMHutInterior04": {
+   "plugin": "Here There Be Monsters - Curse of Cipactli.esp",
+   "kind": "storage",
+   "humid": false,
+   "dust": "high",
+   "dustWhy": "storage ({'beds': 0, 'counters': 0, 'hearths': 0, 'shrines': 0, 'smithy': 0})",
+   "floorMist": false,
+   "apertures": [],
+   "reason": "no placed ref has a window piece or window-textured panes in its model"
+  },
+  "CIPHTBMHutInteriorGreatHouse": {
+   "plugin": "Here There Be Monsters - Curse of Cipactli.esp",
+   "kind": "storage",
+   "humid": false,
+   "dust": "high",
+   "dustWhy": "storage ({'beds': 0, 'counters': 0, 'hearths': 0, 'shrines': 0, 'smithy': 0})",
+   "floorMist": false,
+   "apertures": [],
+   "reason": "no placed ref has a window piece or window-textured panes in its model"
+  },
+  "DawnstarBrinasHouse": {
+   "plugin": "Skyrim.esm",
+   "kind": "dwelling",
+   "humid": false,
+   "dust": "low",
+   "dustWhy": "dwelling ({'beds': 2, 'counters': 0, 'hearths': 3, 'shrines': 0, 'smithy': 0})",
+   "floorMist": false,
+   "apertures": [
+    {
+     "refId": "000E0416",
+     "base": "FarmIntEnd01",
+     "kind": "window-panes",
+     "centreM": [
+      -29.1734,
+      3.6128,
+      7.6668
+     ],
+     "outward": [
+      -1.0,
+      0.0,
+      -0.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    },
+    {
+     "refId": "000E0416",
+     "base": "FarmIntEnd01",
+     "kind": "window-panes",
+     "centreM": [
+      -29.1734,
+      3.6128,
+      10.5401
+     ],
+     "outward": [
+      -1.0,
+      0.0,
+      -0.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    },
+    {
+     "refId": "000E0417",
+     "base": "FarmIntEnd02",
+     "kind": "window-panes",
+     "centreM": [
+      -14.5227,
+      3.6128,
+      7.6668
+     ],
+     "outward": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 2
+    },
+    {
+     "refId": "000E0417",
+     "base": "FarmIntEnd02",
+     "kind": "window-panes",
+     "centreM": [
+      -14.5227,
+      3.6128,
+      10.5401
+     ],
+     "outward": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "radiusM": 0.2,
+     "lightsNear": 0
+    }
+   ]
+  },
+  "KeebaHouseCrafter": {
+   "plugin": "King of the Murkmire.esp",
+   "kind": "dwelling",
+   "humid": true,
+   "dust": "low",
+   "dustWhy": "dwelling ({'beds': 4, 'counters': 0, 'hearths': 21, 'shrines': 0, 'smithy': 0}); humid mud hut, one band lower",
+   "floorMist": false,
+   "apertures": [
+    {
+     "refId": "0809B530",
+     "base": "MudHutWindow02",
+     "kind": "window-piece",
+     "centreM": [
+      100.9706,
+      88.1825,
+      53.2752
+     ],
+     "outward": [
+      0.1863,
+      0.0,
+      -0.9825
+     ],
+     "radiusM": 0.247,
+     "lightsNear": 0
+    },
+    {
+     "refId": "0809B531",
+     "base": "MudHutWindow01",
+     "kind": "window-piece",
+     "centreM": [
+      111.296,
+      88.1746,
+      54.8812
+     ],
+     "outward": [
+      -0.3181,
+      0.0,
+      -0.9481
+     ],
+     "radiusM": 0.365,
+     "lightsNear": 0
+    },
+    {
+     "refId": "0809B532",
+     "base": "MudHutWindow02",
+     "kind": "window-piece",
+     "centreM": [
+      106.4461,
+      92.0628,
+      55.1721
+     ],
+     "outward": [
+      0.4358,
+      0.0,
+      -0.9
+     ],
+     "radiusM": 0.277,
+     "lightsNear": 1
+    },
+    {
+     "refId": "0809B533",
+     "base": "MudHutWindow02",
+     "kind": "window-piece",
+     "centreM": [
+      108.8885,
+      86.821,
+      63.3312
+     ],
+     "outward": [
+      0.5517,
+      0.0,
+      0.834
+     ],
+     "radiusM": 0.247,
+     "lightsNear": 0
+    },
+    {
+     "refId": "0809B534",
+     "base": "MudHutWindow01",
+     "kind": "window-piece",
+     "centreM": [
+      99.8371,
+      87.3729,
+      61.6519
+     ],
+     "outward": [
+      -0.8296,
+      0.0,
+      0.5584
+     ],
+     "radiusM": 0.455,
+     "lightsNear": 0
+    }
+   ]
+  },
+  "KeebaHouseFisher": {
+   "plugin": "King of the Murkmire.esp",
+   "kind": "dwelling",
+   "humid": true,
+   "dust": "low",
+   "dustWhy": "dwelling ({'beds': 4, 'counters': 0, 'hearths': 18, 'shrines': 0, 'smithy': 0}); humid mud hut, one band lower",
+   "floorMist": false,
+   "apertures": [
+    {
+     "refId": "080A5B32",
+     "base": "MudHutWindow01",
+     "kind": "window-piece",
+     "centreM": [
+      110.4053,
+      88.2847,
+      52.8585
+     ],
+     "outward": [
+      0.9481,
+      0.0,
+      -0.3181
+     ],
+     "radiusM": 0.359,
+     "lightsNear": 0
+    },
+    {
+     "refId": "080A5B33",
+     "base": "MudHutWindow02",
+     "kind": "window-piece",
+     "centreM": [
+      104.6777,
+      84.8322,
+      49.5244
+     ],
+     "outward": [
+      -0.0929,
+      0.0,
+      -0.9957
+     ],
+     "radiusM": 0.314,
+     "lightsNear": 0
+    },
+    {
+     "refId": "080A5B34",
+     "base": "MudHutWindow01",
+     "kind": "window-piece",
+     "centreM": [
+      106.8314,
+      86.6982,
+      62.161
+     ],
+     "outward": [
+      0.6517,
+      0.0,
+      0.7585
+     ],
+     "radiusM": 0.365,
+     "lightsNear": 0
+    },
+    {
+     "refId": "080A5B35",
+     "base": "MudHutWindow02",
+     "kind": "window-piece",
+     "centreM": [
+      99.5128,
+      85.4424,
+      60.1315
+     ],
+     "outward": [
+      -0.7905,
+      0.0,
+      0.6124
+     ],
+     "radiusM": 0.314,
+     "lightsNear": 0
+    }
+   ]
+  },
+  "KeebaHouseSnailMinder": {
+   "plugin": "King of the Murkmire.esp",
+   "kind": "smithy",
+   "humid": true,
+   "dust": "medium",
+   "dustWhy": "smithy ({'beds': 3, 'counters': 0, 'hearths': 17, 'shrines': 0, 'smithy': 1}); humid mud hut, one band lower",
+   "floorMist": false,
+   "apertures": [
+    {
+     "refId": "0809B499",
+     "base": "MudHutWindow01",
+     "kind": "window-piece",
+     "centreM": [
+      106.8851,
+      88.0009,
+      64.0741
+     ],
+     "outward": [
+      0.1688,
+      0.0,
+      0.9857
+     ],
+     "radiusM": 0.314,
+     "lightsNear": 0
+    },
+    {
+     "refId": "0809B49A",
+     "base": "MudHutWindow01",
+     "kind": "window-piece",
+     "centreM": [
+      101.2335,
+      86.7628,
+      52.4375
+     ],
+     "outward": [
+      0.5757,
+      0.0,
+      -0.8176
+     ],
+     "radiusM": 0.382,
+     "lightsNear": 0
+    },
+    {
+     "refId": "0809B49B",
+     "base": "MudHutWindow02",
+     "kind": "window-piece",
+     "centreM": [
+      106.2824,
+      92.5581,
+      55.3624
+     ],
+     "outward": [
+      0.419,
+      0.0,
+      -0.908
+     ],
+     "radiusM": 0.247,
+     "lightsNear": 0
+    },
+    {
+     "refId": "0809B49C",
+     "base": "MudHutWindow02",
+     "kind": "window-piece",
+     "centreM": [
+      110.7682,
+      86.6026,
+      52.9012
+     ],
+     "outward": [
+      0.7167,
+      0.0,
+      -0.6974
+     ],
+     "radiusM": 0.289,
+     "lightsNear": 1
+    }
+   ]
+  },
+  "MugsumpHollowInt01": {
+   "plugin": "King of the Murkmire.esp",
+   "kind": "damp",
+   "humid": false,
+   "dust": "medium",
+   "dustWhy": "damp (lighting template GreenCaveMedium)",
+   "floorMist": true,
+   "apertures": [],
+   "reason": "no placed ref has a window piece or window-textured panes in its model"
+  }
+ }
+}

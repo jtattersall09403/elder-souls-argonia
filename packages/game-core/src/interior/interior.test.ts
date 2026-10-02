@@ -157,9 +157,44 @@ describe("InteriorLoader", () => {
     (nullFade.lights[1] as { fade: number | null }).fade = null;
     const { loader } = fixtureLoader(nullFade);
     const cell = await loader.request("fixture.hut-int");
-    const points = cell.group.children.filter((c) => (c as THREE.PointLight).isPointLight) as THREE.PointLight[];
+    const points = cell.daylight.cellLights;
     expect(points[0].intensity).toBeCloseTo(1.5 * INTERIOR_LIGHT_INTENSITY_PER_FADE);
     expect(points[1].intensity).toBeCloseTo(INTERIOR_LIGHT_INTENSITY_PER_FADE);
+    // the field holds colour x intensity in the cell's first reserved slots
+    const field = new FixtureLightField();
+    cell.daylight.bind(field);
+    const c = points[0].colour;
+    expect(field.radianceOf(field.reservedSlot(0))).toEqual(
+      [c.r, c.g, c.b].map((v) => Math.fround(v * points[0].intensity)));
+  });
+
+  it("a door transition between cells with different light counts leaves three's light list and the lit program key unchanged (0108 §1)", async () => {
+    const one = structuredClone(fixture) as typeof fixture & Record<string, unknown>;
+    one.cellId = "fixture.one";
+    one.lights = one.lights.slice(0, 1);
+    const two = structuredClone(fixture) as typeof fixture & Record<string, unknown>;
+    two.lights = [...two.lights, { ...two.lights[0], refId: "extra" }];
+    (two as Record<string, unknown>).lighting = { ...(two.lighting as object), directionalRGB: [77, 62, 55] };
+    const a = await fixtureLoader(one).loader.request("fixture.one");
+    const b = await fixtureLoader(two).loader.request("fixture.hut-int");
+    expect([a.counts.lights, b.counts.lights]).toEqual([1, 3]);
+    const keyOf = (cell: LoadedInterior) => {
+      const lights: THREE.Light[] = [];
+      cell.group.traverse((o) => { if ((o as THREE.Light).isLight) lights.push(o as THREE.Light); });
+      // three's program key inputs: the count of each light type
+      const n = (t: string) => lights.filter((l) => (l as unknown as Record<string, boolean>)[t]).length;
+      return { point: n("isPointLight"), spot: n("isSpotLight"), dir: n("isDirectionalLight"),
+        hemi: n("isHemisphereLight"), rect: n("isRectAreaLight"), shadow: lights.filter((l) => l.castShadow).length };
+    };
+    expect(keyOf(a)).toEqual(keyOf(b));
+    expect(keyOf(a).point).toBe(0);
+    // the record lights live in the field, carried across the transition
+    const field = new FixtureLightField();
+    a.daylight.bind(field);
+    expect(field.reservedCount).toBe(1 + a.daylight.windows.length);
+    a.daylight.unbind();
+    b.daylight.bind(field);
+    expect(field.reservedCount).toBe(3 + b.daylight.windows.length);
   });
 
   it("lights like the cell (walk 2 D2): radius as distance, decay 2 × the plugin falloff, the bundle's directional, no shadows", async () => {
@@ -173,10 +208,12 @@ describe("InteriorLoader", () => {
     (keeba.lights[1] as Record<string, unknown>).falloffExponent = 1.5;
     const { loader } = fixtureLoader(keeba);
     const cell = await loader.request("fixture.hut-int");
-    const points = cell.group.children.filter((c) => (c as THREE.PointLight).isPointLight) as THREE.PointLight[];
-    expect(points.map((l) => l.distance)).toEqual([6, 3]);
+    const points = cell.daylight.cellLights;
+    expect(points.map((l) => l.radiusM)).toEqual([6, 3]);
     expect(points.map((l) => l.decay)).toEqual([2, 3]);
-    expect(points.every((l) => !l.castShadow)).toBe(true);
+    const field = new FixtureLightField();
+    cell.daylight.bind(field);
+    expect([0, 1].map((j) => field.decayOf(field.reservedSlot(j)))).toEqual([2, 3]);
     const dirs = cell.group.children.filter((c) => (c as THREE.DirectionalLight).isDirectionalLight) as THREE.DirectionalLight[];
     expect(dirs.length).toBe(1);
     expect(dirs[0].castShadow).toBe(false);
@@ -186,11 +223,11 @@ describe("InteriorLoader", () => {
     expect(cell.group.children.some((c) => (c as THREE.HemisphereLight).isHemisphereLight)).toBe(false);
     const meshes = cell.group.children.filter((c) => (c as THREE.InstancedMesh).isInstancedMesh) as THREE.InstancedMesh[];
     expect(meshes.every((m) => !m.receiveShadow && !m.castShadow)).toBe(true);
-    // a bundle with no lighting block and no falloff keeps decay 2 and adds no directional
+    // a bundle with no lighting block and no falloff keeps decay 2 and its directional dark
     const plain = await fixtureLoader().loader.request("fixture.hut-int");
-    const plainPoints = plain.group.children.filter((c) => (c as THREE.PointLight).isPointLight) as THREE.PointLight[];
-    expect(plainPoints.map((l) => l.decay)).toEqual([2, 2]);
-    expect(plain.group.children.some((c) => (c as THREE.DirectionalLight).isDirectionalLight)).toBe(false);
+    expect(plain.daylight.cellLights.map((l) => l.decay)).toEqual([2, 2]);
+    const plainDirs = plain.group.children.filter((c) => (c as THREE.DirectionalLight).isDirectionalLight) as THREE.DirectionalLight[];
+    expect(plainDirs.map((d) => d.intensity)).toEqual([0]);
   });
 
   it("instantiates the fixture: 6 placements over 4 assets, 2 point lights, ambient and fog", async () => {
@@ -205,8 +242,7 @@ describe("InteriorLoader", () => {
     const meshes = cell.group.children.filter((c) => (c as THREE.InstancedMesh).isInstancedMesh) as THREE.InstancedMesh[];
     expect(meshes.length).toBe(4);
     expect(meshes.reduce((n, m) => n + m.count, 0)).toBe(6);
-    const points = cell.group.children.filter((c) => (c as THREE.PointLight).isPointLight) as THREE.PointLight[];
-    expect(points.map((l) => l.distance)).toEqual([6, 3]);
+    expect(cell.daylight.cellLights.map((l) => l.radiusM)).toEqual([6, 3]);
     // schema 4: the cell's ambient cube is a LightProbe in place of the flat AmbientLight
     expect(cell.group.children.filter((c) => (c as THREE.LightProbe).isLightProbe).length).toBe(1);
     expect(cell.group.children.filter((c) => (c as THREE.AmbientLight).isAmbientLight).length).toBe(0);

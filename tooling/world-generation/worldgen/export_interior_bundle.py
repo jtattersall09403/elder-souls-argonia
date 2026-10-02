@@ -1686,7 +1686,22 @@ def main() -> int:
         for p in problems:
             print(f"  FAIL {p}")
         failed += bool(problems)
+    if out_dir.resolve() == OUT_DIR.resolve():
+        # a published cell gets its interior light record row in the same step (0112 §6)
+        failed += refresh_interior_light_record([cell for _, cell in claims])
     return 1 if failed else 0
+
+
+INTERIOR_LIGHT_RECORD = REPO_ROOT / "tooling" / "volumetrics" / "interior_light.py"
+
+
+def refresh_interior_light_record(cells: list[str]) -> int:
+    """Merge the published cells' rows into the interior light record
+    (packages/game-core/src/air/volumetrics/interiorLight.json); 1 when it fails."""
+    import subprocess
+    run = subprocess.run([sys.executable, str(INTERIOR_LIGHT_RECORD), "--cells", ",".join(sorted(cells)), "--merge"],
+                         cwd=REPO_ROOT, check=False)
+    return int(run.returncode != 0)
 
 
 if __name__ == "__main__":

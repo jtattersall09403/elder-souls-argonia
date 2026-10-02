@@ -11,6 +11,21 @@ import pytest
 
 from . import export_interior_bundle as ex
 
+
+def test_interior_light_record_has_a_row_per_published_cell():
+    """export_interior_bundle publishes and refreshes interiorLight.json in one step (0112 §6)."""
+    record = ex.REPO_ROOT / "packages" / "game-core" / "src" / "air" / "volumetrics" / "interiorLight.json"
+    cells = json.loads(record.read_text())["cells"]
+    assert sorted(cells) == sorted(p.stem for p in ex.OUT_DIR.glob("*.json"))
+
+
+def test_publishing_refreshes_the_interior_light_record(monkeypatch):
+    import subprocess
+    seen = []
+    monkeypatch.setattr(subprocess, "run", lambda cmd, **kw: seen.append(cmd) or subprocess.CompletedProcess(cmd, 0))
+    assert ex.refresh_interior_light_record(["B", "A"]) == 0
+    assert seen[0][1:] == [str(ex.INTERIOR_LIGHT_RECORD), "--cells", "A,B", "--merge"]
+
 BUNDLES = sorted(ex.OUT_DIR.glob("*.json")) if ex.OUT_DIR.exists() else []
 
 
