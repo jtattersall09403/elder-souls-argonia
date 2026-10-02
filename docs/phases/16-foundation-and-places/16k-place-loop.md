@@ -13,62 +13,47 @@ their items are this loop's backlog, under their original numbers.
 owner's reply and republishes for the next walk. A slice spans as many
 walks as it needs; it closes only on the owner's "looks right".
 
-## Starting state (2026-10-01, walk-8 fix round delivered; packet 9 posted by the planner, owner walk pending; the closing agent of each round replaces this section)
+## Starting state (2026-10-02, walk-9 fix round delivered; packet 10 posted, owner walk pending; the closing agent of each round replaces this section)
 
-- **All three places pass every place gate** (`place_gates` 27/27 each:
-  Claywater, Greenspring, Riverwalk; the new row is `record.coherence`)
-  and are published. Reports are in `tooling/.reports/16k/walk8/`
-  (lanes A to G, the packet, the find notes).
-- **Walk-8 root causes, each fixed at source:**
-  - *Record coherence (decision 0117):* nothing checked a record against
-    the world, its quests or the build. Now SKILL step 5b runs the
-    protocol in `place-build/references/record-coherence.md`
-    (`record_coherence.py --place <id>` builds the reader packet; readers
-    over five dimensions; ONE change set; one text-review) and the gate
-    `record.coherence` fails on unrelated or missing names, a "between"
-    with no route, a quest feature the place lacks, door counts that
-    differ from the build, one-way relations. JSON records are edited
-    through a parser, never by offset splice (engineering standard 18).
-  - *WebGPU:* the far-tier merge (`settlement/lod.ts`) unpacked normals to
-    a 3-byte stride; `alignVertexStrides` pads after every merge (both
-    branches). The boot check boots every place (`--place all --hold 60`).
-  - *Seats and sockets:* `seatFacingRule`, `socketCoherenceRule` and
-    `serviceSignRule` in `workbench/dressing_rules.py`; signs mount by
-    `wb.py mount --like` (own mined wall pair) or `--twin --hook-only` (a
-    vanilla twin's beam and hook within 1 cm; rulings R94-R99). The
-    dressing reference is `place-build/references/dressing.md`; road
-    dressing is `docs/research/placement-settlements/road-dressing.md`
-    and belongs to the type-10 slice.
-  - *Performance and look (0108 §7a-7b):* one scene matrix walk per
-    frame, static settlement matrices, `BloomPass` (half-res dual-filter,
-    threshold 4 exposed units, strength 0.35, `&post=0`), `?quality=high`.
-    The wind is hierarchical (`fx/windSway.ts`; trunk, branch, leaf, gust
-    field). The webgpu branch must port all of these at the merge
-    (backlog rows).
-  - *Ways of working (decision 0118):* method review r6 found the review
-    loop blind and long-context agents at 41 % of spend. Briefs are chunked to one
-    context and monitored by the planner, never capped; `agent_guard.py`
-    keeps leads to planning; `shell_guard.py` batches look-ups and refuses wait
-    loops and heredoc edits; `week_usage.py` paces to the weekly limit
-    (derived from the owner's latest "% used" reading this week, which
-    also switches the gate from nudge to refuse); one close per batch;
-    `wb.py round --walk N` records fix rounds in the build ledger; a
-    process audit runs at the close of every second walk round or on a
-    drift red.
-- **Settled at walk 9:** sunlight through windows follows the ephemeris
-  alone (00-core rule 3, one deterministic clock): no per-window
-  exception, each window gets the direct sun the ephemeris gives at the
-  place's latitude. Phase 14 is the budget lock and chunk format; every
-  performance technique goes through the standing
-  [performance lane](../lanes/performance-lane.md). 3D clouds dropped
-  (owner).
-- **Open owner calls:** the `agent_guard` settings line (lead rule) and a weekly
-  "% used" reading in `weekly_limit.json`; carried: Godot, dawn valley fog.
-- **Open for the planner:** `workflow_drift` red on scopedWallP50S,
-  scopedOver60S and minerFullRuns (30 full miner runs in 7 days: the
-  process audit's trigger has fired); baked vertex AO in the kit build and
-  the ground-raster GPU memory (backlog); foliage `alphaToCoverage` needs
-  MSAA on the scene target.
+- **Built types:** 1 to 7 (Claywater, Greenspring, Riverwalk, the Broke
+  Column, Jungle Root Hollow, the Tag House, Bog Iron Workings), 9 as an
+  owner-steered draft (Gang Ground) and 10 (the Border road crossings).
+  Type 8 (the city) is not built; it is an owner hands-on round. All nine
+  pass `place_gates` 30/30 and are published. Reports are in
+  `tooling/.reports/16k/walk9/` (lane notes, `integration.md`).
+- **New gates:** `kits.fresh` (a published kit older than its config
+  fails) and `collider.ceiling` (a place's collider parts stay under the
+  ceiling; 0.42 s at Greenspring).
+- **Protocol changes this round, each fixed at source:**
+  - *Record coherence ([0117](../../decisions/0117-record-coherence-protocol-and-gate.md)):* six readers per place plus a set check
+    (`record_coherence.py --all-built`, 9/9, 0 failures) and one change
+    set over the whole record set; route places are read too.
+  - *Burial check* measures real mesh contact, never a bounding box.
+  - *Setting licence* is per setting class (what a camp, works or road
+    may hold), not per place.
+  - *displayName* comes from the plugin EDIDs.
+  - *Seam paint* is laid at compile (the building-ground seam).
+  - *`flames.mjs`* reads the built centre of the place, not the record's
+    `positionM`.
+  - *The settlement build* no longer cancels itself (it retries an
+    incomplete build once it has swapped).
+  - *Ways of working ([0118](../../decisions/0118-agents-are-capped-by-context-leads-only-plan-look-ups-are-batched-by-hook.md)):* briefs are chunked to one context and
+    monitored by the planner; the GPU lane is RunPod
+    ([0119](../../decisions/0119-runpod-is-the-gpu-lane.md)).
+- **Settled:** sunlight through windows follows the ephemeris alone
+  (00-core rule 3); Phase 14 is the budget lock and chunk format and
+  every performance technique goes through the standing
+  [performance lane](../lanes/performance-lane.md); 3D clouds dropped.
+- **Open owner calls:** Gang Ground's four decisions (packet 10); the
+  type-8 city hands-on round; the weekly "% used" reading in
+  `weekly_limit.json`; carried: Godot, dawn valley fog.
+- **Open for the planner:** the sun disc (glow escapes the bloom cone at
+  noon; needs an open-horizon probe site); `flames.mjs` reruns at Gang
+  Ground and Bog Iron on a quiet machine; layout requests (Claywater
+  landing stage, Greenspring plank landing, Jungle Root Hollow bone
+  scatter, Gang Ground gang-walk, Border road ferry row); WebGPU fps and
+  night on branch `webgpu`; foliage `alphaToCoverage` needs MSAA on the
+  scene target.
 - **Next:** "continue 16k after owner walk" (walk 9), or on acceptance
   "deliver 16k slice 4 by the contrast rule".
 
