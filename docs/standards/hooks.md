@@ -44,6 +44,19 @@ The preflight gate `webgpu-merged` (decision 0111; selected by any `apps/`,
 "dev has commits not on webgpu: run python3
 tooling/repo-standards/merge_forward.py".
 
+The watchdog `tooling/repo-standards/lane_watch.py` (owner 2026-10-02; under
+0.5 s, never kills or deletes) prints one line per finding: `STALE` (a live
+agent's wait or Bash call over 12 min with its awaited files absent and no
+output in 10 min), `ORPHAN` (a heavy job whose lane has no live agent),
+`OVERCTX` (a live lead/deliver past 150k context for over 10 min),
+`UNGUARDED` (a python/blender/node process over 2 GiB outside a job_guard
+scope) and `POD` (a pod id on a walk report's "Pod:" line with no live lane).
+Its count rides on the session-switch line as `[watch] N findings`, and
+`lane_status.py --brief` ends with the lines. The planner acts on every
+finding at every wake: kills the orphan through a `run` agent, relaunches the
+stalled job with its timeout fixed, splits the over-context lead from its note,
+and deletes or hands over the pod.
+
 ## Lines to paste
 
 In `.claude/settings.json` › `hooks` › `PreToolUse`, the `Bash` entry gains

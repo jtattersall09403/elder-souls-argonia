@@ -108,6 +108,11 @@ def main(argv=None) -> int:
     if a.agent:
         rs = [r for r in rs if r["id"].startswith(a.agent)]
     print(json.dumps(rs, indent=1) if a.json else render(rs, a.brief))
+    if a.brief and not a.agent:
+        import lane_watch   # the watchdog's findings close the brief view
+        found = lane_watch.findings(pdir, session)
+        if found:
+            print("[watch]\n" + "\n".join(found))
     return 0
 
 

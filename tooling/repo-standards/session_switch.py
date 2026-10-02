@@ -171,6 +171,18 @@ def lanes_line(path):
         return ""
 
 
+def watch_line(path):
+    """' [watch] N findings' from lane_watch (~0.4 s); '' when none or unreadable."""
+    try:
+        from pathlib import Path
+        import lane_watch
+        p = Path(path)
+        n = len(lane_watch.findings(p.parent, p.stem))
+        return f" [watch] {n} findings (lane_watch.py)" if n else ""
+    except Exception:
+        return ""
+
+
 def newest(directory):
     files = sorted(glob.glob(os.path.join(directory, "*.jsonl")), key=os.path.getmtime)
     return files[-1] if files else None
@@ -218,7 +230,7 @@ def main():
         if not r:
             return
         out = {"hookSpecificOutput": {"hookEventName": "UserPromptSubmit",
-                                      "additionalContext": planner_line(r) + lanes_line(path)}}
+                                      "additionalContext": planner_line(r) + lanes_line(path) + watch_line(path)}}
         big = r["C_now"] >= BIG_CONTEXT
         state = os.path.join(os.environ.get("TMPDIR", "/tmp"),
                              f"session_switch_{d.get('session_id') or 'unknown'}.json")
