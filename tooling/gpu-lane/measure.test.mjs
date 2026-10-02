@@ -269,7 +269,8 @@ test("gen-matrix: 13 deterministic lines, coordinates from places.json", async (
 test("parseSpots: name, query, --aim and walk=; comments skipped; bad lines throw", async () => {
   const { parseSpots, parseBar, spotRows, summaryTable, heapSlope } = await import("./spots.mjs");
   const s = parseSpots("# c\na ?x=1&t=2  # night\n\ne ?x=1&t=2 --aim 0.5,-0.2 walk=20\n");
-  assert.deepEqual(s, [{ name: "a", query: "?x=1&t=2", aim: "", steps: [] }, { name: "e", query: "?x=1&t=2", aim: "0.5,-0.2", steps: [{ w: 20 }] }]);
+  const off = { diag: [], trace: false, traceGpu: false, memoryInfra: false, heapsample: false };
+  assert.deepEqual(s, [{ name: "a", query: "?x=1&t=2", aim: "", steps: [], probes: off }, { name: "e", query: "?x=1&t=2", aim: "0.5,-0.2", steps: [{ w: 20 }], probes: off }]);
   assert.throws(() => parseSpots("a ?x=1\na ?x=2"), /duplicate/);
   assert.throws(() => parseSpots("a ?x=1 walk=fast"), /cannot read/);
   assert.throws(() => parseSpots("a"), /need/);
@@ -283,7 +284,7 @@ test("parseSpots: name, query, --aim and walk=; comments skipped; bad lines thro
   assert.equal(still.pass, true, "a walk spot's static settle is its own row");
   assert.equal(walk.pass, false, "and its walk window another");
   assert.equal(walk.fps, 88);
-  assert.match(summaryTable([ok, still, walk], bar), /\| a \| 90 \| 70 \| 95 \| 71 \| 21 \| 3 \| 0 \| pass \|[\s\S]*\| e \| 100 [\s\S]*e \(walk 20 s\).*FAIL[\s\S]*2 of 3 spots pass/);
+  assert.match(summaryTable([ok, still, walk], bar), /\| a \| 90 \| 70 \| 95 \| 71 \| 21 \| 3 \| 0 \| pass \|[\s\S]*\| e \| 100 [\s\S]*e \(walk 20 s\).*FAIL[\s\S]*2 of 3 spots pass \(0 diagnosis/);
   assert.equal(heapSlope([{ tS: 0, MB: 100 }, { tS: 30, MB: 110 }, { tS: 60, MB: 120 }]), 20);
   assert.equal(heapSlope([{ tS: 0, MB: 1 }]), null);
 });
@@ -300,7 +301,49 @@ test("parseArgs: --spots builds one spot list, --leak keeps the first spot, --ba
   assert.equal(parseArgs(["--run", "r", "--spots", new URL("./spots/perf10.txt", import.meta.url).pathname, "--leak", "60"]).spotList.length, 10, "--leak keeps every spot");
   assert.throws(() => parseArgs(["--run", "r", "--url", "?a=1", "--spots", "x"]), /replaces --url/);
   const u = parseArgs(["--run", "r", "--url", "?a=1", "--walk", "5", "--aim", "1,0"]);
-  assert.deepEqual(u.spotList, [{ name: "url0", query: "?a=1", aim: "1,0", steps: [{ w: 5 }] }]);
+  assert.deepEqual(u.spotList, [{ name: "url0", query: "?a=1", aim: "1,0", steps: [{ w: 5 }], diagList: [], diagnosis: false }]);
+});
+
+test("perf10-c4: probe tokens make diagnosis rows; they print `diag` and never count toward N of M", async () => {
+  const { parseArgs, probeScript } = await import("./measure.mjs");
+  const { spotRows, summaryTable } = await import("./spots.mjs");
+  const o = parseArgs(["--run", "r", "--spots", new URL("./spots/perf10-c4.txt", import.meta.url).pathname]);
+  assert.deepEqual(o.spotList.map((s) => s.name), ["a", "b", "c", "d", "e", "e2", "e3", "f", "g", "h", "ediag", "cdiag", "adiag"]);
+  assert.deepEqual(o.spotList.map((s) => s.diagnosis), [...Array(10).fill(false), true, true, true]);
+  const [ed, cd, ad] = o.spotList.slice(10);
+  assert.deepEqual(ed.probes, { diag: [], trace: true, traceGpu: true, memoryInfra: true, heapsample: true });
+  assert.deepEqual(ed.steps, [{ w: 20 }]);
+  assert.deepEqual(cd.probes, { diag: [], trace: true, traceGpu: true, memoryInfra: false, heapsample: false });
+  assert.match(ad.query, /&diag=relink,heap$/, "the spot's probes ride its query so the guarded probe wakes there only");
+  assert.deepEqual(ad.diagList, ["relink", "heap"]);
+  assert.deepEqual(o.spotList[0].diagList, []);
+  assert.equal(o.trace, false, "a spot token never turns a global trace on");
+  assert.deepEqual(o.globalDiag, []);
+  // A global probe flag makes every spot a diagnosis row.
+  assert.ok(parseArgs(["--run", "r", "--url", "?a=1", "--profile", "5"]).spotList[0].diagnosis);
+  assert.ok(parseArgs(["--run", "r", "--url", "?a=1&diag=relink"]).spotList[0].diagnosis);
+  assert.throws(() => parseArgs(["--run", "r", "--url", "?a=1&diag=nope"]), /unknown --diag probe/);
+  // Guarded injection: only a page whose diag= names the probe runs it; a global probe runs everywhere.
+  const guarded = probeScript("relink", "window.ran = 1;", []);
+  const run = (search) => { const w = {}; new Function("window", "location", guarded)(w, { search }); return w.ran === 1; };
+  assert.equal(run("?x=1"), false);
+  assert.equal(run("?x=1&diag=heap,relink"), true);
+  assert.equal(probeScript("relink", "S", ["relink"]), "S");
+  // Rows: the diagnosis spot fails the bar but prints diag and is excluded from the count.
+  const bar = { fps: 83, p1low: 69 };
+  const good = { ready: true, settledFps: 90, p1LowFps: 70, frameTimes: { maxMs: 20 } };
+  const rows = [...spotRows("a", good, bar), ...spotRows("adiag", { ...good, settledFps: 10, diagnosis: true }, bar)];
+  assert.deepEqual(rows.map((r) => r.pass), [true, "diag"]);
+  assert.match(summaryTable(rows, bar), /\| adiag \|.*\| diag \|[\s\S]*1 of 1 spots pass \(1 diagnosis rows, not judged\)/);
+  // Seen to fail: a diagnosis row counted as judged would read "1 of 2".
+  assert.doesNotMatch(summaryTable(rows, bar), /of 2 spots/);
+});
+
+test("heapTopAllocators: allocated bytes by function and url:line, largest first, top N", async () => {
+  const { heapTopAllocators } = await import("./checks.mjs");
+  const n = (fn, line, selfSize, children = []) => ({ callFrame: { functionName: fn, url: "http://x/assets/a.js", lineNumber: line - 1 }, selfSize, children });
+  const prof = { head: n("(root)", 0, 0, [n("grow", 10, 3e6, [n("tiny", 5, 1e3)]), n("decode", 20, 5e6), n("grow", 10, 1e6)]) };
+  assert.deepEqual(heapTopAllocators(prof, 2), [{ name: "decode a.js:20", MB: 5 }, { name: "grow a.js:10", MB: 4 }]);
 });
 
 test("relink probe: every link names type and owner, shadow depth materials are flagged", async () => {

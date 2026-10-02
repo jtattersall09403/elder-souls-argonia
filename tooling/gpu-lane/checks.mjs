@@ -93,6 +93,13 @@ function heapByFunction(sampling) {
   return by;
 }
 
+/**
+ * `heapsample`: the top allocators of ONE sampling profile taken with includeObjectsCollectedByMajorGC/MinorGC,
+ * so selfSize is every byte allocated over the window, collected or not (the GC churn source). MB, largest first.
+ */
+export const heapTopAllocators = (sampling, top = 25) => [...heapByFunction(sampling)].sort((x, y) => y[1] - x[1])
+  .slice(0, top).map(([name, bytes]) => ({ name, MB: r2(bytes / 1e6) }));
+
 /** The heap diff: functions whose retained sampled bytes grew from `before` to `after` (MB, largest first). */
 export function heapGrowth(before, after, top = 15) {
   const a = heapByFunction(before), b = heapByFunction(after);

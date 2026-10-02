@@ -22,9 +22,11 @@
  * url<i>-<settled|walk>.trace.json beside measure.json, its long-frame classes (trace-frames.mjs) in `trace`.
  * --aim "yaw,pitch" (radians): aim the follow camera before the settle. --clean 1: HUD-free screenshots.
  * --spots <file>: ONE invocation measures every spot of the file (one line each: `<name> <?query> [--aim yaw,pitch]
- * [walk=<s>]`, spots/perf10.txt) in ONE tab (the same page navigates spot to spot, ready gate per spot), takes a
+ * [walk=<s>] [diag=<probes>] [trace] [trace-gpu] [memory-infra] [heapsample]`, spots/perf10-c4.txt) in ONE tab (the same page navigates spot to spot, ready gate per spot), takes a
  * clean settled screenshot of each (<run dir>/<name>-settled.jpg) and writes summary.md: settled fps, p1Low,
- * uncapped, p1LowUncapped, max ms, over20, over33 and pass against --bar fps,p1low (default 83,69).
+ * uncapped, p1LowUncapped, max ms, over20, over33 and pass against --bar fps,p1low (default 83,69). A spot with a
+ * probe token, a `diag=` query, or any global --diag/--trace/--profile/--census is a diagnosis row: pass reads `diag`
+ * and it is not counted (README "Probe rules").
  * --leak <s> [--leak-every 15]: ONE long capture at the first spot: post-GC heap samples (HeapProfiler.collectGarbage)
  * every --leak-every s, the slope in MB/min and the top growing allocation sites (sampling heap profile, first
  * vs last post-GC sample) in leak.json / leak.txt. Snapshots are not diffed: the studio heap is over 1 GB,
@@ -34,10 +36,10 @@ import { spawnSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { chromium } from "playwright";
-import { BLACK_LUMA, INPAGE_PROBES, SPOT_A, censusText, diagList, foreignPages, heapGrowth, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
+import { BLACK_LUMA, INPAGE_PROBES, SPOT_A, censusText, diagList, foreignPages, heapGrowth, heapTopAllocators, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
-import { ANCHOR_PREFIX, GPU_TRACE_CATEGORIES, TRACE_CATEGORIES, classifyFrames, gpuEventsInSpans, isGpuCategoryEvent, joinLinks, keepTraceEvent } from "./trace-frames.mjs";
-import { heapSlope, parseBar, parseSpots, spotRows, stepsSeconds, summaryTable } from "./spots.mjs";
+import { ANCHOR_PREFIX, GPU_TRACE_CATEGORIES, MEMORY_DUMP_CONFIG, MEMORY_INFRA_CATEGORY, TRACE_CATEGORIES, classifyFrames, gpuEventsInSpans, isGpuCategoryEvent, joinLinks, keepTraceEvent } from "./trace-frames.mjs";
+import { heapSlope, isDiagnosisSpot, parseBar, parseSpots, spotRows, stepsSeconds, summaryTable } from "./spots.mjs";
 
 export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems };
 
@@ -70,7 +72,17 @@ export function parseArgs(argv) {
   } else o.spotList = o.url.map((q, i) => ({ name: `url${i}`, query: q, aim: o.aim, steps: o.walk > 0 ? [{ w: o.walk }] : [] }));
   o.barParsed = parseBar(o.bar);
   if (!o.url.length || !o.run) throw new Error("need --run <name> and at least one --url <query> (or --spots <file>)");
-  o.diagList = diagList(o.diag, o.url);
+  // Global probes (--diag) load on every spot; a spot's own probes (its `diag=` token or query flag) only on it.
+  o.globalDiag = diagList(o.diag);
+  for (const s of o.spotList) {
+    const own = s.probes?.diag ?? [];
+    // The navigated query carries the spot's own probes, so the guarded in-page probe wakes on this spot only.
+    if (own.length && !/[?&]diag=/.test(s.query)) s.query = `${s.query}&diag=${own.join(",")}`;
+    s.diagList = [...new Set([...o.globalDiag, ...diagList(own.join(","), [s.query])])];
+    s.diagnosis = isDiagnosisSpot(s, { diag: o.globalDiag, trace: o.trace, profile: o.profile, census: o.census });
+  }
+  o.url = o.spotList.map((s) => s.query);
+  o.diagList = [...new Set(o.spotList.flatMap((s) => s.diagList))];
   if (!["webgl", "webgpu"].includes(o.renderer)) throw new Error("--renderer is webgl or webgpu");
   o.base ??= o.renderer === "webgpu" ? "/elder-souls-argonia/webgpu/" : "/elder-souls-argonia/studio/";
   o.out = resolve(o.out ?? join(repo, "tooling/.reports/gpu-lane", o.run));
@@ -304,12 +316,15 @@ async function postGcHeap(page) {
 }
 
 /** Start a Chrome trace on the page; the returned stop() writes <file> and returns the long-frame classes. */
-async function startTrace(page, file, gpu = false) {
+async function startTrace(page, file, { gpu = false, memoryInfra = false } = {}) {
   const cdp = await page.context().newCDPSession(page);
   const ev = [], gpuEv = [];
   cdp.on("Tracing.dataCollected", (d) => { for (const e of d.value) { if (keepTraceEvent(e)) ev.push(e); else if (gpu && isGpuCategoryEvent(e)) gpuEv.push(e); } });
   const done = new Promise((r) => cdp.on("Tracing.tracingComplete", r));
-  await cdp.send("Tracing.start", { traceConfig: { includedCategories: gpu ? [...TRACE_CATEGORIES, ...GPU_TRACE_CATEGORIES] : TRACE_CATEGORIES, recordMode: "recordContinuously" }, transferMode: "ReportEvents" });
+  const includedCategories = [...TRACE_CATEGORIES, ...(gpu ? GPU_TRACE_CATEGORIES : []), ...(memoryInfra ? [MEMORY_INFRA_CATEGORY] : [])];
+  // memory-infra: Chrome dumps on its own timer (MEMORY_DUMP_CONFIG), set here, before the window opens.
+  await cdp.send("Tracing.start", { traceConfig: { includedCategories, recordMode: "recordContinuously",
+    ...(memoryInfra ? { memoryDumpConfig: MEMORY_DUMP_CONFIG } : {}) }, transferMode: "ReportEvents" });
   // The anchor fires inside one rAF, once tracing has started, so it lands on the renderer main thread.
   await page.evaluate((p) => new Promise((r) => requestAnimationFrame(() => { console.timeStamp(p + performance.now()); r(); })), ANCHOR_PREFIX).catch(() => {});
   return async (profileFile, windowEndPageMs = null) => {
@@ -323,6 +338,23 @@ async function startTrace(page, file, gpu = false) {
     const extra = gpu ? gpuEventsInSpans(gpuEv, gpuPids, (res.long ?? []).map((f) => f.spanUs)) : [];
     writeFileSync(file, JSON.stringify({ traceEvents: [...ev, ...extra] }));
     return { file, events: ev.length + extra.length, ...res };
+  };
+}
+
+/**
+ * `heapsample` spot token: a HeapProfiler sampling profile over the walk window, objects collected by major and minor
+ * GC included, so it names the allocation churn behind a GC frame. Started before the window opens; the returned
+ * stop(file) runs after it closes, writes the profile and returns its top 25 allocators by allocated MB.
+ */
+async function startHeapSample(page) {
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send("HeapProfiler.enable");
+  await cdp.send("HeapProfiler.startSampling", { samplingInterval: 32768, includeObjectsCollectedByMajorGC: true, includeObjectsCollectedByMinorGC: true });
+  return async (file) => {
+    const { profile } = await cdp.send("HeapProfiler.stopSampling");
+    await cdp.detach().catch(() => {});
+    writeFileSync(file, JSON.stringify(profile));
+    return { file, topAllocated: heapTopAllocators(profile, 25) };
   };
 }
 
@@ -430,7 +462,9 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     await page.waitForTimeout(1500);
   }
   const traces = {};
-  const stopSettleTrace = o.trace ? await startTrace(page, join(o.out, `${name}-settled.trace.json`), o.traceGpu) : null;
+  const P = spot.probes ?? {};
+  const doTrace = o.trace || !!P.trace, traceOpt = { gpu: o.traceGpu || !!P.traceGpu, memoryInfra: !!P.memoryInfra };
+  const stopSettleTrace = doTrace ? await startTrace(page, join(o.out, `${name}-settled.trace.json`), traceOpt) : null;
   const settle = await sample(page, o.settle);
   if (stopSettleTrace) traces.settled = await stopSettleTrace(null, settle.ts.at(-1));
   const stats = { ...frameStats(settle.ts), ...settle.work };
@@ -456,7 +490,8 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     screenshots.push(p);
   };
   await shot("settled");
-  let walk = null;
+  let walk = null, heapsample = null;
+  if (P.heapsample && !(walkS > 0)) heapsample = { error: "heapsample needs a walk spot (walk=<s> or steps=)" };
   if (walkS > 0) {
     const cdp = await ctx.newCDPSession(page);
     await page.mouse.click(o.width / 2, o.height / 2).catch(() => {});
@@ -466,12 +501,14 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
       aim: (yaw) => page.evaluate((y) => window.__STUDIO_CHARACTER_DEBUG__?.aimCamera(y), yaw).catch(() => {}),
       wait: nodeWait,
     };
-    const stopWalkTrace = o.trace ? await startTrace(page, join(o.out, `${name}-walk.trace.json`), o.traceGpu) : null;
+    const stopWalkTrace = doTrace ? await startTrace(page, join(o.out, `${name}-walk.trace.json`), traceOpt) : null;
+    const stopHeap = P.heapsample ? await startHeapSample(page) : null;
     // One window (stats, trace, profile) spans the whole sequence: the driver runs beside the sampler.
     const [w] = await Promise.all([
       sample(page, walkS, o.profile > 0 ? () => cpuProfile(page, o, Math.min(o.profile, walkS), "walk", name) : null),
       driveSteps(io, spot.steps, spot.aim ? Number(spot.aim.split(",")[0]) : 0),
     ]);
+    if (stopHeap) heapsample = await stopHeap(join(o.out, `${name}-walk.heapsample.json`));
     if (stopWalkTrace) traces.walk = await stopWalkTrace(w.extra?.file, w.ts.at(-1));
     if (w.extra) profile = w.extra;
     walk = { seconds: walkS, steps: spot.steps, ...frameStats(w.ts), ...w.work, hud: parseHud(await page.evaluate(() => document.body.innerText).catch(() => "")) };
@@ -479,9 +516,9 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   }
   const gpu = await gpuAdapter(page, o.renderer);
   const census = o.census ? await runCensus(page, o).catch((e) => ({ error: String(e) })) : null;
-  const diag = o.diagList.length ? await page.evaluate((names) => Object.fromEntries(names.map((n) => [n, window.__DIAG__?.[n]?.() ?? null])), o.diagList.filter((n) => INPAGE_PROBES.includes(n))).catch((e) => ({ error: String(e) })) : null;
+  const diag = spot.diagList?.length ? await page.evaluate((names) => Object.fromEntries(names.map((n) => [n, window.__DIAG__?.[n]?.() ?? null])), spot.diagList.filter((n) => INPAGE_PROBES.includes(n))).catch((e) => ({ error: String(e) })) : null;
   // `heap` has no in-page probe: one post-GC reading after every stats window has closed (never inside one).
-  if (diag && o.diagList.includes("heap")) diag.heap = await postGcHeap(page).catch((e) => ({ error: String(e) }));
+  if (diag && spot.diagList.includes("heap")) diag.heap = await postGcHeap(page).catch((e) => ({ error: String(e) }));
   // Page-time join: relink events within 300 ms of each long frame go on the frame as `links`.
   for (const t of Object.values(traces)) joinLinks(t.long ?? [], diag?.relink?.events);
   let smoke = null;
@@ -500,7 +537,16 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   }
   page.off("console", onConsole); page.off("pageerror", onPageError); page.off("response", onResponse);
   return { name, url, query, ready, readyS, ...stats, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
-    walk, profile, trace: o.trace ? traces : null, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
+    walk, profile, trace: doTrace ? traces : null, heapsample, diagnosis: !!spot.diagnosis, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
+}
+
+/**
+ * The init script of in-page probe `n`: as is when it is a global probe (--diag), else guarded so it runs only on a
+ * page whose query `diag=` names it (the one tab navigates spot to spot; the probe-off spots load none of it).
+ */
+export function probeScript(n, src, globalDiag = []) {
+  if (globalDiag.includes(n)) return src;
+  return `if ((new URLSearchParams(location.search).get("diag") ?? "").split(",").includes(${JSON.stringify(n)})) {\n${src}\n}`;
 }
 
 async function main() {
@@ -513,7 +559,7 @@ async function main() {
   const ctx = await browser.newContext({ viewport: { width: o.width, height: o.height }, deviceScaleFactor: o.dpr });
   await ctx.addInitScript(pageProbe);
   if (o.census) await ctx.addInitScript({ content: readFileSync(probePath("census"), "utf8") });
-  for (const n of o.diagList.filter((n) => INPAGE_PROBES.includes(n))) await ctx.addInitScript({ content: readFileSync(probePath(n), "utf8") });
+  for (const n of o.diagList.filter((n) => INPAGE_PROBES.includes(n))) await ctx.addInitScript({ content: probeScript(n, readFileSync(probePath(n), "utf8"), o.globalDiag) });
   const git = (a) => spawnSync("git", a, { cwd: repo, encoding: "utf8" }).stdout.trim();
   const result = { schemaVersion: 1, run: o.run, gitSha: git(["rev-parse", "HEAD"]), dirty: git(["status", "--porcelain"]) !== "",
     builtAt: null, measuredAt: new Date().toISOString(), renderer: o.renderer, origin: o.origin, base: o.base,

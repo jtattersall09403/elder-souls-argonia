@@ -3,7 +3,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
-import { ANCHOR_PREFIX, classifyFrames, joinLinks, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
+import { ANCHOR_PREFIX, classifyFrames, joinLinks, keepTraceEvent, mainThreadStages, memoryDumps, topCause } from "./trace-frames.mjs";
 
 const FA = (ts) => ({ ph: "X", pid: 1, tid: 1, name: "FireAnimationFrame", ts, dur: 3000 });
 const stamp = (ts, pageMs) => ({ ph: "I", pid: 1, tid: 1, name: "TimeStamp", ts, args: { data: { message: ANCHOR_PREFIX + pageMs } } });
@@ -71,10 +71,9 @@ test("relink probe: warm vs draw program keys per material uuid, first differing
   R.renderBufferDirect = () => G.linkProgram(pd);
   const mat = { isMaterial: true, type: "MeshBasicMaterial", name: "m", uuid: "feedbeef-0000", defines: {} };
   R.info = { programs: [{ program: pw, cacheKey: "MeshBasic,vs,fs,fog" }, { program: pd, cacheKey: "MeshBasic,vs,fs,nofog" }] };
-  R.properties = { get: (x) => x };
-  R.compile = () => { R.properties.get(mat); G.linkProgram(pw); };
+  R.compile = () => { G.linkProgram(pw); };
   await Promise.resolve();
-  R.compile();
+  R.compile({ children: [{ material: mat }] });
   R.renderBufferDirect({}, {}, {}, mat, { name: "", type: "Mesh", userData: { a: 1 }, parent: { name: "p", parent: null } });
   const rl = JSON.parse(JSON.stringify(win.__DIAG__.relink()));
   assert.equal(rl.events[0][3].warm, true);
@@ -112,4 +111,32 @@ test("topCause and keepTraceEvent", () => {
   assert.equal(keepTraceEvent({ ph: "X", name: "x", dur: 100 }), false);
   assert.equal(keepTraceEvent({ ph: "X", name: "MinorGC", dur: 100 }), true);
   assert.equal(keepTraceEvent({ ph: "M", name: "process_name" }), true);
+  assert.equal(keepTraceEvent({ ph: "v", name: "periodic_interval" }), true, "memory dumps survive the streaming filter");
+});
+
+test("classifyFrames: frames start to start, every rAF callback of a frame grouped (agrees with the harness rAF interval)", () => {
+  // Two callbacks per frame (the harness tick at +0, the game at +2 ms for 7 ms). Frame starts 0, 16, 51, 67, 83 ms:
+  // the 35 ms interval is long; its frame's main-thread work is 9 ms. Callback-to-callback it read 33 ms (C2d).
+  const cb = (ms, dur) => ({ ph: "X", pid: 1, tid: 1, name: "FireAnimationFrame", ts: ms * 1000, dur: dur * 1000 });
+  const ev = [0, 16, 51, 67, 83].flatMap((ms) => [cb(ms, 1), cb(ms + 2, 7)]);
+  const r = classifyFrames(ev);
+  assert.equal(r.frames, 3);
+  assert.deepEqual(r.long.map((f) => [f.ms, f.durMs]), [[35, 9]]);
+  assert.equal(r.over33, 1, "seen to fail: per-callback intervals give 33 ms here, not over 33");
+});
+
+test("memoryDumps: discardable total and root allocators per dump (hex sizes, children summed when the root has no size)", () => {
+  const hex = (mb) => ({ attrs: { size: { type: "scalar", units: "bytes", value: (mb * 1048576).toString(16) } } });
+  const dump = (ts, disc) => ({ ph: "v", pid: 7, ts, name: "periodic_interval", args: { dumps: { allocators: {
+    discardable: hex(disc), malloc: hex(40), "malloc/allocated_objects": hex(30), "cc/image_memory": hex(12), "cc/tile_memory": hex(3),
+    "cc/image_memory/cache_0": hex(99), v8: hex(200), skia: hex(5) } } } });
+  const ev = [{ ph: "M", name: "process_name", pid: 7, args: { name: "Renderer" } }, dump(3e6, 120), stamp(1e6, 50_000), dump(1e6, 80)];
+  const d = memoryDumps(ev, (us) => us / 1000);
+  assert.deepEqual(d.map((x) => [x.pageMs, x.discardableMB]), [[1000, 80], [3000, 120]]);
+  assert.equal(d[1].process, "Renderer");
+  assert.deepEqual(d[1].MB, { discardable: 120, malloc: 40, skia: 5, cc: 15, v8: 200 });
+  assert.deepEqual(d[1].top.map((t) => t.name), ["v8", "discardable", "malloc", "cc", "skia"]);
+  const fa = [0, 16, 32, 48].map((ms) => FA(1e6 + ms * 1000));
+  assert.equal(classifyFrames([...ev, ...fa]).memoryDumps.length, 2, "classifyFrames carries the dumps");
+  assert.equal(classifyFrames(fa).memoryDumps, undefined);
 });
