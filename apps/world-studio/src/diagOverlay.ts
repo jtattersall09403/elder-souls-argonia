@@ -4,6 +4,7 @@
  * the ring as JSON, so a session on a real GPU (the owner's machine) records
  * what was created and uploaded each frame. Off unless the query asks.
  */
+import { Vector2 } from "three";
 import type { WebGPURenderer } from "three/webgpu";
 import { createGpuDiag, type GpuDiag } from "@elder-souls/game-core/render/gpuDiag";
 import { buildQueueOf } from "@elder-souls/game-core/render/shaderBuildQueue";
@@ -39,7 +40,14 @@ export function mountDiagOverlay(renderer: WebGPURenderer): GpuDiag {
   button.onclick = download;
   box.append(text, button);
   document.body.append(box);
-  (window as unknown as { __DIAG?: unknown }).__DIAG = { dump: () => diag.dump(), kitDecoderBuilds: () => kitDecoderBuilds(renderer), download, diag };
+  (window as unknown as { __DIAG?: unknown }).__DIAG = {
+    dump: () => diag.dump(), kitDecoderBuilds: () => kitDecoderBuilds(renderer), download, diag,
+    /** Every size the canvas pass depends on (walk 10: the 300x150 canvas depth); a getter, so pod-capture's JSON read carries it. */
+    get sizes() { return canvasSizes(renderer); },
+    /** The last GPU buffer destroys with their stacks (walk 10: "[Buffer] used in submit while destroyed"). */
+    get bufferDestroys() { return bufferDestroys.slice(); },
+  };
+  traceBufferDestroys();
   let shown = -1;
   const tick = (now: number) => {
     diag.endFrame(now);
@@ -59,4 +67,34 @@ export function mountDiagOverlay(renderer: WebGPURenderer): GpuDiag {
   };
   requestAnimationFrame(tick);
   return diag;
+}
+
+/** The renderer's drawing buffer, the canvas element and the canvas depth texture, side by side. */
+function canvasSizes(renderer: WebGPURenderer) {
+  const r = renderer as unknown as {
+    getDrawingBufferSize(v: Vector2): Vector2;
+    getPixelRatio(): number; domElement: HTMLCanvasElement;
+    getCanvasTarget?: () => { depthTexture: { image: { width: number; height: number } } };
+  };
+  const d = r.getDrawingBufferSize(new Vector2());
+  return {
+    drawing: [d.x, d.y], pixelRatio: r.getPixelRatio(),
+    canvas: [r.domElement.width, r.domElement.height],
+    depthImage: r.getCanvasTarget ? [r.getCanvasTarget().depthTexture.image.width, r.getCanvasTarget().depthTexture.image.height] : null,
+  };
+}
+
+const bufferDestroys: { t: number; size: number; usage: number; label: string; stack: string }[] = [];
+
+/** Diag only: record every GPUBuffer.destroy with a short stack, so a submit-while-destroyed error names its owner. */
+function traceBufferDestroys(): void {
+  const proto = (globalThis as { GPUBuffer?: { prototype: { destroy(): void } } }).GPUBuffer?.prototype;
+  if (!proto) return;
+  const destroy = proto.destroy;
+  proto.destroy = function (this: GPUBuffer) {
+    bufferDestroys.push({ t: Math.round(performance.now()), size: this.size, usage: this.usage, label: this.label,
+      stack: (new Error().stack ?? "").split("\n").slice(2, 9).join(" | ") });
+    if (bufferDestroys.length > 60) bufferDestroys.shift();
+    destroy.call(this);
+  };
 }

@@ -479,6 +479,11 @@ headless.
   storage buffer) is allocated once at its largest size and never
   destroyed while a material can bind it; quality steps change uniforms
   and dispatch counts only (`air/volumetrics/froxelGrid.test.ts`).
+- One renderer per canvas: an async R3F `gl` factory is called again on
+  every `<Canvas>` render during its await, so it returns the canvas's
+  pending renderer (`render/canvasRenderer`, test beside it); a second
+  renderer keeps the 300x150 default size and its canvas depth fails
+  every canvas pass.
 
 **Before adding a material.**
 - Share it: one material per kit glTF material (or per batch key), never a

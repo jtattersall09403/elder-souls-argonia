@@ -14,6 +14,14 @@
  * the same build on the next boot drew 974 calls). The install checks, before
  * three hands out the cached descriptor, that the depth texture it was made
  * with still matches the drawing buffer, and drops it when not.
+ *
+ * Size alone is not enough (walk 10, Riverwalk night rain, 13,759 errors):
+ * `copyFramebufferToTexture` with a depth destination calls
+ * `textureUtils.getDepthBuffer` directly, which re-makes the canvas depth
+ * texture at the new size and sets its `image` to match, while the cached
+ * descriptor keeps the view of the old (300x150, now destroyed) texture. So
+ * the install also remembers which GPU depth texture each descriptor was made
+ * with and drops the descriptor when the canvas depth texture is another one.
  */
 
 interface SizeLike { width: number; height: number }
@@ -23,19 +31,25 @@ interface DepthTextureLike { image: { width: number; height: number } }
 /** The parts of three's WebGPUBackend this install touches (0.184 internals). */
 export interface BackendLike {
   renderer: { getCanvasTarget(): { depthTexture: DepthTextureLike } };
-  get(target: object): { descriptor?: { depthStencilAttachment?: unknown } };
+  get(target: object): { descriptor?: { depthStencilAttachment?: unknown }; texture?: unknown };
   getDrawingBufferSize(): SizeLike;
   updateSize(): void;
   _getDefaultRenderPassDescriptor(): unknown;
 }
 
-/** True when a cached canvas descriptor's depth no longer matches the drawing buffer. */
-export function canvasDepthStale(backend: BackendLike): boolean {
+/** The GPU depth texture each cached canvas descriptor was made with. */
+type MadeWith = WeakMap<object, unknown>;
+
+/** True when a cached canvas descriptor's depth no longer matches the drawing buffer or the live depth texture. */
+export function canvasDepthStale(backend: BackendLike, madeWith?: MadeWith): boolean {
   const target = backend.renderer.getCanvasTarget();
-  if (!backend.get(target).descriptor?.depthStencilAttachment) return false;
+  const descriptor = backend.get(target).descriptor;
+  if (!descriptor?.depthStencilAttachment) return false;
   const { width, height } = backend.getDrawingBufferSize();
   const image = target.depthTexture.image;
-  return image.width !== width || image.height !== height;
+  if (image.width !== width || image.height !== height) return true;
+  return madeWith !== undefined && madeWith.has(descriptor)
+    && madeWith.get(descriptor) !== backend.get(target.depthTexture).texture;
 }
 
 /** Install on a WebGPU backend (no-op on the WebGL 2 fallback, which has no such cache). */
@@ -44,8 +58,14 @@ export function syncCanvasDepth(backend: object): void {
   if (typeof b._getDefaultRenderPassDescriptor !== "function") return;
   const full = b as BackendLike;
   const original = full._getDefaultRenderPassDescriptor.bind(full);
+  const madeWith: MadeWith = new WeakMap();
   full._getDefaultRenderPassDescriptor = () => {
-    if (canvasDepthStale(full)) full.updateSize();
-    return original();
+    if (canvasDepthStale(full, madeWith)) full.updateSize();
+    const descriptor = original();
+    const target = full.renderer.getCanvasTarget();
+    if (descriptor && typeof descriptor === "object" && !madeWith.has(descriptor)) {
+      madeWith.set(descriptor, full.get(target.depthTexture).texture);
+    }
+    return descriptor;
   };
 }

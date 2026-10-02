@@ -4,23 +4,31 @@ import { syncCanvasDepth, type BackendLike } from "./canvasDepthSync";
 function fakeBackend(depthSize: [number, number], buffer: [number, number]) {
   const target = { depthTexture: { image: { width: depthSize[0], height: depthSize[1] } } };
   const data: { descriptor?: { depthStencilAttachment?: unknown } } = {};
+  const depthData: { texture?: unknown } = {};
   let made = 0;
+  let gpu = 0;
+  // three's textureUtils.getDepthBuffer: re-makes the GPU depth at the drawing-buffer size when the image differs
+  const getDepthBuffer = () => {
+    const img = target.depthTexture.image;
+    if (depthData.texture === undefined || img.width !== buffer[0] || img.height !== buffer[1]) {
+      img.width = buffer[0]; img.height = buffer[1];
+      depthData.texture = { gpu: ++gpu };
+    }
+    return depthData.texture;
+  };
   const backend: BackendLike = {
     renderer: { getCanvasTarget: () => target },
-    get: () => data,
+    get: (o: object) => (o === target ? data : depthData),
     getDrawingBufferSize: () => ({ width: buffer[0], height: buffer[1] }),
     updateSize: () => { delete data.descriptor; },
     _getDefaultRenderPassDescriptor() {
       if (!data.descriptor) {
-        // three makes the depth at the CURRENT drawing-buffer size
-        target.depthTexture.image.width = buffer[0];
-        target.depthTexture.image.height = buffer[1];
-        data.descriptor = { depthStencilAttachment: { made: ++made } };
+        data.descriptor = { depthStencilAttachment: { view: getDepthBuffer(), made: ++made } };
       }
       return data.descriptor;
     },
   };
-  return { backend, target, data, resize: (w: number, h: number) => { buffer[0] = w; buffer[1] = h; }, made: () => made };
+  return { backend, target, data, getDepthBuffer, resize: (w: number, h: number) => { buffer[0] = w; buffer[1] = h; }, made: () => made };
 }
 
 describe("syncCanvasDepth", () => {
@@ -41,5 +49,16 @@ describe("syncCanvasDepth", () => {
     f.backend._getDefaultRenderPassDescriptor();
     f.backend._getDefaultRenderPassDescriptor();
     expect(f.made()).toBe(1);
+  });
+
+  it("drops the descriptor when a depth copy re-made the canvas depth behind it (walk 10 night rain)", () => {
+    const f = fakeBackend([0, 0], [300, 150]);
+    syncCanvasDepth(f.backend);
+    f.backend._getDefaultRenderPassDescriptor();
+    f.resize(1265, 720);
+    const live = f.getDepthBuffer(); // copyFramebufferToTexture: image now 1265x720, descriptor still holds the 300x150 view
+    const d = f.backend._getDefaultRenderPassDescriptor() as { depthStencilAttachment: { view: unknown } };
+    expect(d.depthStencilAttachment.view).toBe(live);
+    expect(f.made()).toBe(2);
   });
 });

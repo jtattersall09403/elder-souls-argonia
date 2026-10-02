@@ -37,19 +37,41 @@ export function pageBackend(): RendererBackend {
   return requestedBackend(search, hasGpu);
 }
 
+/**
+ * One renderer per canvas while it lives. R3F 9.7's `configure` awaits the
+ * `gl` function and runs again on every `<Canvas>` render, so a re-render
+ * during that await created a SECOND renderer on the same canvas (walk 10,
+ * Riverwalk night rain): R3F sized one, the frame loop drew with the other,
+ * still at the canvas default 300x150 (scene target 270x135, bloom mips from
+ * 150x75), and its canvas depth (300x150) failed every canvas pass against
+ * the 1265x720 swap chain. Concurrent calls for one canvas now share one
+ * promise; the entry goes when that renderer is disposed.
+ */
+const pending = new WeakMap<object, Promise<WebGPURenderer>>();
+
 /** `gl` prop for an R3F `<Canvas>`: builds the node renderer for this page. */
 export function canvasRenderer(options: CanvasRendererOptions = {}) {
-  return async (defaults: R3fDefaultProps): Promise<WebGPURenderer> => {
-    const backend = pageBackend();
-    const renderer = await createRenderer({
-      canvas: defaults.canvas as HTMLCanvasElement,
-      backend,
-      antialias: options.antialias ?? defaults.antialias ?? true,
-      alpha: options.alpha ?? defaults.alpha ?? true,
-      trackTimestamp: options.trackTimestamp ?? false,
-    });
-    options.onReady?.(renderer, activeBackend(renderer));
-    return renderer;
+  return (defaults: R3fDefaultProps): Promise<WebGPURenderer> => {
+    const canvas = defaults.canvas as object;
+    const made = pending.get(canvas);
+    if (made) return made;
+    const promise = (async () => {
+      const backend = pageBackend();
+      const renderer = await createRenderer({
+        canvas: canvas as HTMLCanvasElement,
+        backend,
+        antialias: options.antialias ?? defaults.antialias ?? true,
+        alpha: options.alpha ?? defaults.alpha ?? true,
+        trackTimestamp: options.trackTimestamp ?? false,
+      });
+      const dispose = renderer.dispose.bind(renderer);
+      renderer.dispose = () => { if (pending.get(canvas) === promise) pending.delete(canvas); dispose(); };
+      options.onReady?.(renderer, activeBackend(renderer));
+      return renderer;
+    })();
+    pending.set(canvas, promise);
+    promise.catch(() => { if (pending.get(canvas) === promise) pending.delete(canvas); });
+    return promise;
   };
 }
 
