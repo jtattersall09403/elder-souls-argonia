@@ -20,6 +20,7 @@ import { spawnSync } from "node:child_process";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { LOOK_IMPORT_MAP } from "./importMap.mjs";
 import { gcModule } from "./gcModule.mjs";
 import { classesFor, FIXTURE_SHEET_KEY, PLACE_SHEET_KEY, judgeBrief, parseArgs, readLookList } from "./lookArgs.mjs";
 
@@ -100,7 +101,7 @@ const threeDir = join(repo, "node_modules/three");
 
 const page = /* html */ `<!doctype html><html><body style="margin:0;background:#000">
 <canvas id="gl" width="480" height="400"></canvas><canvas id="sheet" width="1440" height="800"></canvas>
-<script type="importmap">{"imports":{"three":"/three/build/three.webgpu.js","three/webgpu":"/three/build/three.webgpu.js","three/tsl":"/three/build/three.tsl.js","three/addons/":"/three/examples/jsm/"}}</script>
+<script type="importmap">${JSON.stringify(LOOK_IMPORT_MAP)}</script>
 <script type="module">
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
