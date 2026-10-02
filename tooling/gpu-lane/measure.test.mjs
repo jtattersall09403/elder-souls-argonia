@@ -199,7 +199,7 @@ test("classifyFrames: long frames on the main thread with their causes", async (
   const fa = (ts) => ({ name: "FireAnimationFrame", ph: "X", pid: 1, tid: 1, ts, dur: 1000 });
   const ev = [
     { ph: "M", name: "process_name", pid: 2, args: { name: "GPU Process" } },
-    fa(0), fa(10000), fa(60000), fa(70000),
+    fa(0), fa(10000), fa(60000), fa(70000), fa(130000), // the last interval is the harness end frame
     { name: "MajorGC", ph: "X", pid: 1, tid: 1, ts: 12000, dur: 20000 },
     { name: "CommandBufferStub::OnAsyncFlush", ph: "X", pid: 2, tid: 5, ts: 30000, dur: 10000 },
   ];

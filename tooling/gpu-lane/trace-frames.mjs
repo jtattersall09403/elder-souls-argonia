@@ -37,7 +37,7 @@ export const TRACE_CATEGORIES = ["devtools.timeline", "disabled-by-default-devto
 
 /** Keep only what the classifier reads (metadata, frame markers, GC, anything >= 0.5 ms): a full 10 s trace of
  * the studio is over 512 MB of JSON, past V8's string limit. Filter while streaming, never after. */
-export const keepTraceEvent = (e) => e.ph === "M" || e.name === "FireAnimationFrame" || (e.dur ?? 0) >= 500 || /GC|Gc/.test(e.name);
+export const keepTraceEvent = (e) => e.ph === "M" || e.name === "FireAnimationFrame" || e.name === "TimeStamp" || (e.dur ?? 0) >= 500 || /GC|Gc/.test(e.name);
 
 /**
  * Main-thread SELF ms per cause over the whole trace, and per frame (frames = FireAnimationFrame count on the main
@@ -71,6 +71,19 @@ export function mainThreadStages(events) {
 /** The cause with the most ms in a classified long frame's byCause. */
 export const topCause = (byCause) => Object.entries(byCause ?? {}).sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
 
+/** The page-time anchor: measure.mjs runs `console.timeStamp(ANCHOR_PREFIX + performance.now())` just after the trace starts. */
+export const ANCHOR_PREFIX = "gpulane-anchor:";
+
+/** Put on each long frame the relink events within `windowMs` of it (page ms). `events` = the probe's `[t, ms, name, info]` rows. */
+export function joinLinks(long, events, windowMs = 300) {
+  for (const f of long) {
+    if (f.pageMs == null) continue;
+    f.links = (events ?? []).filter(([t]) => t >= f.pageMs - windowMs && t <= f.pageMs + f.ms + windowMs)
+      .map(([t, ms, name, info]) => ({ t, ms, name, type: info?.type, owner: info?.owner, key: info?.key }));
+  }
+  return long;
+}
+
 /** Classify long frames. `events` = traceEvents; `profile` optional CDP cpuprofile (same clock, µs). */
 export function classifyFrames(events, { profile = null, overMs = 20 } = {}) {
   const fa = events.filter((e) => e.name === "FireAnimationFrame" && e.ph === "X");
@@ -94,8 +107,13 @@ export function classifyFrames(events, { profile = null, overMs = 20 } = {}) {
       return { t, dt: (profile.timeDeltas[i + 1] ?? 0) / 1000, fn: `${cf.functionName || "(anon)"} ${(cf.url ?? "").replace(/^.*\//, "") || "(native)"}:${(cf.lineNumber ?? -1) + 1}:${(cf.columnNumber ?? -1) + 1}` };
     });
   }
+  // The last interval of a window ends at the rAF after the harness's own end-of-window message ("Receive mojo
+  // message", 29-47 ms): the harness, never the game, so it is dropped from the list and the stats.
+  const anchor = events.map((e) => e.name === "TimeStamp" && String(e.args?.data?.message ?? "").startsWith(ANCHOR_PREFIX)
+    ? { ts: e.ts, pageMs: Number(String(e.args.data.message).slice(ANCHOR_PREFIX.length)) } : null).find(Boolean);
+  const toPage = (us) => anchor && Number.isFinite(anchor.pageMs) ? r1(anchor.pageMs + (us - anchor.ts) / 1000) : null;
   const long = [];
-  for (let i = 1; i < fs.length; i++) {
+  for (let i = 1; i < fs.length - 1; i++) {
     const a = fs[i - 1], b = fs[i];
     if (b - a <= overMs * 1000) continue;
     const byCause = {}, top = [];
@@ -108,11 +126,12 @@ export function classifyFrames(events, { profile = null, overMs = 20 } = {}) {
     }
     const self = new Map();
     for (const s of samples) if (s.t >= a && s.t < b) self.set(s.fn, (self.get(s.fn) ?? 0) + s.dt);
-    long.push({ atS: r1((a - fs[0]) / 1e6), ms: r1((b - a) / 1000), byCause,
+    long.push({ atS: r1((a - fs[0]) / 1e6), pageMs: toPage(a), ms: r1((b - a) / 1000), byCause,
       top: top.sort((x, y) => y.ms - x.ms).slice(0, 8),
       js: [...self].sort((x, y) => y[1] - x[1]).slice(0, 6).map(([name, ms]) => ({ name, ms: r1(ms) })) });
   }
-  const d = fs.slice(1).map((t, i) => t - fs[i]);
+  const d = fs.slice(1, -1).map((t, i) => t - fs[i]);
+  if (!d.length) return { frames: 0, long: [] };
   return { frames: d.length, over20: d.filter((x) => x > 20000).length, over33: d.filter((x) => x > 33000).length,
     maxMs: r1(Math.max(...d) / 1000), long };
 }

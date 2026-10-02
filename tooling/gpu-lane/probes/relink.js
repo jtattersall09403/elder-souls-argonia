@@ -20,7 +20,10 @@
   // depth pass, warm-up render), so the hook records its material and object for the call's duration.
   // A link outside it (renderer.compile) is tagged owner "(outside draw)" with the type read from the program name.
   const cur = { mat: null, obj: null };
-  const chain = (o) => { const a = []; for (let n = o?.parent; n && a.length < 3; n = n.parent) a.push(n.name || n.type); return a; };
+  const chain = (o, max = 3) => { const a = []; for (let n = o?.parent; n && a.length < max; n = n.parent) a.push(n.name || n.type); return a; };
+  // An owner with no name: enough to find it in the scene without a second run.
+  const detail = (m, o) => ({ objName: o?.name || "", objType: o?.type || "", userData: Object.keys(o?.userData || {}).slice(0, 5),
+    parents: chain(o, 5), matName: m?.name || "", matUuid: String(m?.uuid ?? "").slice(0, 8) });
   const prev = Object.getOwnPropertyDescriptor(Object.prototype, "renderBufferDirect");
   Object.defineProperty(Object.prototype, "renderBufferDirect", { configurable: true, set(v) {
     if (prev?.set) { prev.set.call(this, v); v = this.renderBufferDirect; }
@@ -36,8 +39,10 @@
     if (!m) return { type: progName.get(p) || "unknown", name: "", owner: "(outside draw)", parents: [], depth: false, transparent: null, defines: [], key: "", t };
     let key = ""; try { key = String(m.customProgramCacheKey?.() ?? "").slice(0, 80); } catch { key = "(throws)"; }
     const own = o?.material, override = m.type === "MeshDepthMaterial" || m.type === "MeshDistanceMaterial" || (own != null && (Array.isArray(own) ? !own.includes(m) : own !== m));
-    return { type: m.type, name: m.name || "", owner: o?.name || o?.type || "(unnamed object)", parents: chain(o),
+    const r = { type: m.type, name: m.name || "", owner: o?.name || o?.type || "(unnamed object)", parents: chain(o),
       depth: override, transparent: !!m.transparent, defines: Object.keys(m.defines || {}), key, t };
+    if (!o?.name) r.detail = detail(m, o);
+    return r;
   };
   G.linkProgram = function (p) {
     const info = describe(p, Math.round(performance.now()));
@@ -54,6 +59,6 @@
     return { links: st.links, linkMs: Math.round(st.ms * 100) / 100, distinctPrograms: per.length,
       relinked: per.filter((n) => n > 1).length, maxLinksOfOneProgram: per.length ? Math.max(...per) : 0,
       lastLinkAtMs: st.events.length ? st.events[st.events.length - 1][0] : null,
-      linksAfter30s: st.events.filter(([t]) => t > 30000).length, events: st.events.slice(-40) };
+      linksAfter30s: st.events.filter(([t]) => t > 30000).length, events: st.events.slice(-400) };
   };
 })();

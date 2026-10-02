@@ -36,7 +36,7 @@ import { join, resolve } from "node:path";
 import { chromium } from "playwright";
 import { BLACK_LUMA, SPOT_A, censusText, diagList, foreignPages, heapGrowth, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
-import { classifyFrames } from "./trace-frames.mjs";
+import { ANCHOR_PREFIX, classifyFrames, joinLinks } from "./trace-frames.mjs";
 import { heapSlope, parseBar, parseSpots, spotRow, summaryTable } from "./spots.mjs";
 
 export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems };
@@ -306,6 +306,7 @@ async function startTrace(page, file) {
   cdp.on("Tracing.dataCollected", (d) => { for (const e of d.value) if (keep(e)) ev.push(e); });
   const done = new Promise((r) => cdp.on("Tracing.tracingComplete", r));
   await cdp.send("Tracing.start", { traceConfig: { includedCategories: TRACE_CATEGORIES, recordMode: "recordContinuously" }, transferMode: "ReportEvents" });
+  await page.evaluate((p) => console.timeStamp(p + performance.now()), ANCHOR_PREFIX).catch(() => {});
   return async (profileFile) => {
     await cdp.send("Tracing.end");
     await done;
@@ -434,6 +435,8 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   const gpu = await gpuAdapter(page, o.renderer);
   const census = o.census ? await runCensus(page, o).catch((e) => ({ error: String(e) })) : null;
   const diag = o.diagList.length ? await page.evaluate((names) => Object.fromEntries(names.map((n) => [n, window.__DIAG__?.[n]?.() ?? null])), o.diagList).catch((e) => ({ error: String(e) })) : null;
+  // Page-time join: relink events within 300 ms of each long frame go on the frame as `links`.
+  for (const t of Object.values(traces)) joinLinks(t.long ?? [], diag?.relink?.events);
   let smoke = null;
   if (o.smoke) {
     const png = await page.screenshot({ type: "png" });
