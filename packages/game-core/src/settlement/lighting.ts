@@ -434,6 +434,11 @@ export class SettlementLightFixtures {
     const material = new THREE.MeshBasicMaterial({
       map: null, transparent: true, depthWrite: false, vertexColors: true,
       blending: THREE.AdditiveBlending, side: THREE.DoubleSide, fog: false,
+      // three draws a transparent DoubleSide material as a back pass then a
+      // front pass, flipping `side` and setting needsUpdate each time: two
+      // program re-derivations per material per frame (perf10 f4b). Additive
+      // blending is order-free, so one pass draws the same colours.
+      forceSinglePass: true,
     });
     material.name = `settlement-fixture-sprite:${textureId}`;
     const mesh = new THREE.Mesh(geometry, material);

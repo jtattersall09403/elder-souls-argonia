@@ -25,11 +25,6 @@ function sunIntensityOf(zenithAngleCos: number): number {
   return EE * Math.max(0, 1 - Math.exp(-((CUTOFF_ANGLE - Math.acos(z)) / STEEPNESS)));
 }
 
-function totalMie(turbidity: number): Vec3 {
-  const c = 0.2 * turbidity * 10e-18;
-  return [0.434 * c * MIE_CONST[0], 0.434 * c * MIE_CONST[1], 0.434 * c * MIE_CONST[2]];
-}
-
 /** Relative-HDR sky colour for a view direction (unit) and sun direction
  * (unit), matching the shader's `texColor` before WorldSky's patch. */
 export function preethamSky(
@@ -39,20 +34,17 @@ export function preethamSky(
   rayleigh: number,
   mieCoefficient: number,
   mieDirectionalG: number,
+  out?: Vec3,
 ): Vec3 {
+  // Scalar per channel, written into `out` when given: computeLightRig calls
+  // this per frame and allocates nothing.
   // ---- vertex stage ----
   const sunE = sunIntensityOf(sunDir[1]);
   // vSunfade uses the un-normalised sunPosition.y; WorldSky passes a UNIT
   // direction, so y/450000 ≈ 0 and sunfade ≈ exp(y) clamps near ~1 for y>0.
   const sunfade = 1.0 - Math.min(1, Math.max(0, 1 - Math.exp(sunDir[1] / 450000)));
   const rayleighCoefficient = rayleigh - 1.0 * (1.0 - sunfade);
-  const betaR: Vec3 = [
-    TOTAL_RAYLEIGH[0] * rayleighCoefficient,
-    TOTAL_RAYLEIGH[1] * rayleighCoefficient,
-    TOTAL_RAYLEIGH[2] * rayleighCoefficient,
-  ];
-  const tm = totalMie(turbidity);
-  const betaM: Vec3 = [tm[0] * mieCoefficient, tm[1] * mieCoefficient, tm[2] * mieCoefficient];
+  const mieC = 0.2 * turbidity * 10e-18;
 
   // ---- fragment stage ----
   const zenithAngle = Math.acos(Math.max(0, dir[1]));
@@ -62,12 +54,6 @@ export function preethamSky(
   const sR = RAYLEIGH_ZENITH_LENGTH * inv;
   const sM = MIE_ZENITH_LENGTH * inv;
 
-  const fex: Vec3 = [
-    Math.exp(-(betaR[0] * sR + betaM[0] * sM)),
-    Math.exp(-(betaR[1] * sR + betaM[1] * sM)),
-    Math.exp(-(betaR[2] * sR + betaM[2] * sM)),
-  ];
-
   const cosTheta = dir[0] * sunDir[0] + dir[1] * sunDir[1] + dir[2] * sunDir[2];
   const c5 = cosTheta * 0.5 + 0.5;
   const rPhase = THREE_OVER_SIXTEENPI * (1.0 + c5 * c5);
@@ -75,20 +61,21 @@ export function preethamSky(
   const g2 = g * g;
   const mPhase = ONE_OVER_FOURPI * ((1 - g2) / Math.pow(1 - 2 * g * cosTheta + g2, 1.5));
 
-  const lin: Vec3 = [0, 0, 0];
   const sunsetMix = Math.min(1, Math.max(0, Math.pow(1.0 - sunDir[1], 5.0)));
+  const o: Vec3 = out ?? [0, 0, 0];
   for (let i = 0; i < 3; i++) {
-    const betaTheta = betaR[i] * rPhase + betaM[i] * mPhase;
-    const ratio = betaTheta / (betaR[i] + betaM[i]);
-    const a = Math.pow(sunE * ratio * (1 - fex[i]), 1.5);
-    const b = Math.pow(sunE * ratio * fex[i], 0.5);
-    lin[i] = a * (1 - sunsetMix + sunsetMix * b);
+    const betaR = TOTAL_RAYLEIGH[i] * rayleighCoefficient;
+    const betaM = 0.434 * mieC * MIE_CONST[i] * mieCoefficient;
+    const fex = Math.exp(-(betaR * sR + betaM * sM));
+    const betaTheta = betaR * rPhase + betaM * mPhase;
+    const ratio = betaTheta / (betaR + betaM);
+    const a = Math.pow(sunE * ratio * (1 - fex), 1.5);
+    const b = Math.pow(sunE * ratio * fex, 0.5);
+    const lin = a * (1 - sunsetMix + sunsetMix * b);
+    const l0 = 0.1 * fex; // sun disc off
+    o[i] = (lin + l0) * 0.04 + SKY_FLOOR[i];
   }
-
-  const l0: Vec3 = [0.1 * fex[0], 0.1 * fex[1], 0.1 * fex[2]]; // sun disc off
-  return [
-    (lin[0] + l0[0]) * 0.04 + 0.0,
-    (lin[1] + l0[1]) * 0.04 + 0.0003,
-    (lin[2] + l0[2]) * 0.04 + 0.00075,
-  ];
+  return o;
 }
+
+const SKY_FLOOR: Vec3 = [0.0, 0.0003, 0.00075];

@@ -211,6 +211,7 @@ const v3 = (): V3 => [0, 0, 0];
 /** Private per-call scratch for intermediates (never exposed in a result;
  * computeLightRig is synchronous, so sharing it is reentrancy-safe). */
 const S = {
+  skySample: v3(),
   highSun: v3(),
   rampColor: v3(),
   warmSun: v3(),
@@ -354,8 +355,8 @@ export function computeLightRig(
   // identity) and nothing is allocated here; without it, a fresh result.
   const o = out ?? createLightRig();
   const wx = weather ?? CLEAR_WEATHER;
-  const sun = sunAt(epochMinutes, latitude);
-  const moons = moonsAt(epochMinutes, latitude);
+  const sun = sunAt(epochMinutes, latitude, o.sun);
+  const moons = moonsAt(epochMinutes, latitude, o.moons);
   const altDeg = (sun.altitude * 180) / Math.PI;
   const sinAlt = Math.max(0, Math.sin(sun.altitude));
 
@@ -625,7 +626,7 @@ export function computeLightRig(
   let relTypical = 0;
   for (let r = 0; r < 3; r++) {
     const dir = r === 0 ? S.ref0 : r === 1 ? S.ref1 : (ZENITH as V3);
-    const c = preethamSky(dir, sunDirArr, turbidity, rayleigh, mieCoefficient, 0.72);
+    const c = preethamSky(dir, sunDirArr, turbidity, rayleigh, mieCoefficient, 0.72, S.skySample);
     relTypical += Math.max(0, Math.min(50, Math.max(c[0], c[1], c[2])));
   }
   relTypical /= 3;

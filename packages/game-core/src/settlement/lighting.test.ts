@@ -269,6 +269,13 @@ describe("light fixtures", () => {
     expect(first.map).toBe(next);
     expect((bloom.material as THREE.MeshBasicMaterial).map).toBe(next);
     expect((bloom.material as THREE.MeshBasicMaterial).blending).toBe(first.blending);
+    // one pass, one program: a transparent DoubleSide material without
+    // forceSinglePass is re-derived twice a frame (three's back/front split
+    // sets needsUpdate); additive blending keeps the single pass identical.
+    for (const m of [first, bloom.material as THREE.MeshBasicMaterial]) {
+      expect(m.blending).toBe(THREE.AdditiveBlending);
+      expect(m.side === THREE.DoubleSide && m.transparent ? m.forceSinglePass : true).toBe(true);
+    }
     expect(disposed).toBe(true);
     manager.dispose();
   });

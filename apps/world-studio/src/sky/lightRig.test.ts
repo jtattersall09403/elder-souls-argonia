@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { toEpochMinutes } from "@elder-souls/world-time";
 import { PROFILES, type WeatherKind } from "@elder-souls/world-weather";
 import { computeLightRig, createLightRig, type LightRig, type WeatherLightIn } from "./lightRig";
-import { computeLightRigReference } from "./lightRig.reference";
+import golden from "./lightRig.golden.json";
 import { cloudScreenRange, domeScreen, ENVELOPE_DIRS, envelopeDir } from "./skyScreenModel";
 
 const at = (month: number, day: number, hour: number) =>
@@ -344,13 +344,17 @@ describe("computeLightRig out-parameter (allocation-free per frame)", () => {
     wx: wxOf(i),
   }));
 
-  it("writes the same numbers as the fresh and the pre-change rig", () => {
+  it("writes the golden numbers, fresh and in place", () => {
+    // lightRig.golden.json: these 24 cases captured once from the light
+    // model; only a deliberate light-model change regenerates it.
+    expect(golden.cases.map((g) => g.in)).toEqual(JSON.parse(JSON.stringify(cases)));
     const out = createLightRig();
-    for (const c of cases) {
+    golden.cases.forEach((g, i) => {
+      const c = cases[i];
       const held = computeLightRig(c.t, c.h, c.s, c.lat, c.wx, out);
-      expect(held).toEqual(computeLightRig(c.t, c.h, c.s, c.lat, c.wx));
-      expect(held).toEqual(computeLightRigReference(c.t, c.h, c.s, c.lat, c.wx));
-    }
+      expect(JSON.parse(JSON.stringify(held))).toEqual(g.out);
+      expect(computeLightRig(c.t, c.h, c.s, c.lat, c.wx)).toEqual(held);
+    });
   });
 
   it("returns the held object and keeps every tuple's identity", () => {

@@ -269,6 +269,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     uniforms: uniforms as unknown as Record<string, THREE.IUniform>,
     waveBands: tier.waveBands,
     classes: assets.meta.klass.classes,
+    waterIn: (minX, minZ, maxX, maxZ) => assets.data.anyWaterIn(minX, minZ, maxX, maxZ),
   }), [tier, uniforms, assets]);
   useEffect(() => () => foam.dispose(), [foam]);
   useEffect(() => {
