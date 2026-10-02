@@ -19,7 +19,9 @@ may hand it an item from the owner's walk.
   webgpu worktree, then runs the no-GLSL check and the world-studio
   typecheck); the enforcement is the preflight gate `webgpu-merged`, which
   fails any code batch while `dev` has commits not on `webgpu`. A conflict
-  goes to a deliver agent to port the change into the TSL twin.
+  goes to a deliver agent to port the change into the TSL twin. The WebGPU
+  volumetric features are judged against the reference pictures in
+  `docs/research/rendering/volumetric-bars/` (README there).
 - Never touches: the frozen world data, place layouts, gameplay tuning, the
   look (decision 0108 §6: quality defaults are never lowered to win frames).
 
