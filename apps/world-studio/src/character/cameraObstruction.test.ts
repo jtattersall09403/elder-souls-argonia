@@ -1,7 +1,9 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import * as THREE from "three";
 import RAPIER from "@dimforge/rapier3d-compat";
-import { CAMERA_BLOCKING_GROUPS } from "@elder-souls/game-core/camera/cameraCollision";
+import {
+  CAMERA_BLOCKING_GROUPS, CAMERA_PIVOT_QUERY_GROUPS, CAMERA_QUERY_GROUPS, TERRAIN_HEIGHTFIELD_GROUPS,
+} from "@elder-souls/game-core/camera/cameraCollision";
 import { FOLLOW_CAMERA, FollowCamera } from "@elder-souls/game-core/camera/followCamera";
 import { playerOpacityForArm } from "@elder-souls/game-core/camera/cameraCollision";
 import { rapierCameraObstruction } from "./cameraObstruction";
@@ -46,6 +48,25 @@ describe("studio camera obstruction (Rapier ball cast)", () => {
     for (let i = 0; i < 120; i++) camera.update({ x: 0, y: 0 }, body, 1 / 60);
     expect(camera.arm).toBeGreaterThan(FOLLOW_CAMERA.minArm + 1);
     expect(playerOpacityForArm(camera.arm)).toBeGreaterThan(0);
+  });
+
+  // perf10 Q1: the pivot test skips terrain heightfields (brute-force ball
+  // projection, ~4 ms a frame); the sweep still stops on them.
+  it("the pivot test skips a terrain heightfield, the sweep still hits it", () => {
+    const n = 33; const heights = new Float32Array(n * n).fill(0.5);
+    const ground = world.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(0, -100, 0));
+    world.createCollider(RAPIER.ColliderDesc.heightfield(n - 1, n - 1, heights, { x: 40, y: 2, z: 40 })
+      .setCollisionGroups(TERRAIN_HEIGHTFIELD_GROUPS), ground);
+    world.step();
+    const ball = new RAPIER.Ball(FOLLOW_CAMERA.pivotRadius);
+    // Ground surface at y = −99; a pivot centred 0.1 m under it.
+    const inGround = { x: 0, y: -99.1, z: 0 };
+    expect(world.intersectionWithShape(inGround, { x: 0, y: 0, z: 0, w: 1 }, ball, undefined, CAMERA_PIVOT_QUERY_GROUPS)).toBeNull();
+    expect(world.intersectionWithShape(inGround, { x: 0, y: 0, z: 0, w: 1 }, ball, undefined, CAMERA_QUERY_GROUPS)).not.toBeNull();
+    const hit = cast(new THREE.Vector3(0, -97, 0), new THREE.Vector3(0, -102, 0), FOLLOW_CAMERA.collisionRadius,
+      FOLLOW_CAMERA.pivotRadius);
+    expect(hit).not.toBeNull();
+    expect(hit!).toBeGreaterThan(0);
   });
 
   it("a lintel just above the head still catches the start overlap", () => {

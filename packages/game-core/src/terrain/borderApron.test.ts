@@ -2,7 +2,18 @@ import { afterEach, describe, expect, it } from "vitest";
 import { decodeHeightPng } from "./chunkStore";
 import { terrainGridIndices } from "./gridGeometry";
 import { apronSkipQuad, maskBounds, paintFrameExtent, type ApronTile } from "./apronManifest";
-import { APRON_SECTORS, buildApronTileGeometry, buildApronTileSectors } from "./BorderApron";
+import { APRON_SECTORS, apronTileGeometryDeps, buildApronTileGeometry, buildApronTileSectors } from "./BorderApron";
+
+describe("apron tile geometry deps (perf10 Q2)", () => {
+  it("a parent re-render with the same manifest frame gives Object.is-equal deps, so no sector rebuild", () => {
+    const frame = { originM: [0, 0] as [number, number], extentM: [100, 80] as [number, number], control: "", tint: "", grad: "" };
+    const t = tile(undefined); const heights = new Float32Array(81);
+    const a = apronTileGeometryDeps(t, heights, 5, frame);
+    const b = apronTileGeometryDeps(t, heights, 5, frame);
+    expect(a.length).toBe(b.length);
+    a.forEach((dep, i) => expect(Object.is(dep, b[i])).toBe(true));
+  });
+});
 
 const tile = (mask: number[] | undefined, shape: [number, number] = [9, 9]): ApronTile => ({
   id: "ring1", file: "ring1-height.png", originM: [-100, -100], shape,

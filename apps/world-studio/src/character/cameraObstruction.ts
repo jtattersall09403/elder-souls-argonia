@@ -1,7 +1,7 @@
 import type * as THREE from "three";
 import type { useRapier } from "@react-three/rapier";
 import type { CameraObstructionQuery } from "@elder-souls/game-core/camera/followCamera";
-import { CAMERA_QUERY_GROUPS } from "@elder-souls/game-core/camera/cameraCollision";
+import { CAMERA_PIVOT_QUERY_GROUPS, CAMERA_QUERY_GROUPS } from "@elder-souls/game-core/camera/cameraCollision";
 
 type RapierContext = ReturnType<typeof useRapier>;
 
@@ -34,7 +34,7 @@ export function rapierCameraObstruction({ world, rapier }: RapierContext): Camer
     const length = Math.hypot(dx, dy, dz);
     if (length < 1e-4) return null;
     const at = { x: from.x, y: from.y, z: from.z };
-    if (world.intersectionWithShape(at, identity, ballOf(pivotRadius), flags, CAMERA_QUERY_GROUPS)) return 0;
+    if (world.intersectionWithShape(at, identity, ballOf(pivotRadius), flags, CAMERA_PIVOT_QUERY_GROUPS)) return 0;
     // Unit direction as the velocity, so time of impact is a distance.
     const hit = world.castShape(
       at, identity, { x: dx / length, y: dy / length, z: dz / length },

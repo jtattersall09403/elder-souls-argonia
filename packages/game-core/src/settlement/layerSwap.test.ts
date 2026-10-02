@@ -5,7 +5,7 @@
  */
 import * as THREE from "three";
 import { describe, expect, it, vi } from "vitest";
-import { buildStartMark, flameManifestPath, retryIncompleteBuild, swapInBuild } from "./SettlementLayer";
+import { buildStartMark, flameManifestPath, groundArrivalResolves, swapInBuild } from "./SettlementLayer";
 
 describe("settlement build swap", () => {
   it("swaps an empty build in without three's 'not an instance' error", () => {
@@ -27,11 +27,12 @@ describe("settlement build swap", () => {
     expect(buildStartMark({ x: 1, z: 2 }, null).coveredRadiusM).toBe(Number.POSITIVE_INFINITY);
   });
 
-  it("an incomplete build is retried only after it swaps in, never while it runs", () => {
-    expect(retryIncompleteBuild(true, true, 10_000, 0)).toBe(false);
-    expect(retryIncompleteBuild(true, false, 10_000, 0)).toBe(true);
-    expect(retryIncompleteBuild(true, false, 1_000, 0)).toBe(false);
-    expect(retryIncompleteBuild(false, false, 10_000, 0)).toBe(false);
+  it("an incomplete build is retried only by ground arriving over an unseated placement (perf10 Q2)", () => {
+    const missing: [number, number][] = [[1000, 500]];
+    expect(groundArrivalResolves([900, 400, 1100, 600], missing)).toBe(true);
+    expect(groundArrivalResolves([1050, 400, 1300, 600], missing)).toBe(true); // within the margin
+    expect(groundArrivalResolves([2000, 400, 3000, 600], missing)).toBe(false); // elsewhere: no rebuild
+    expect(groundArrivalResolves([900, 400, 1100, 600], [])).toBe(false); // complete build
   });
 
   it("finds the flame kit's manifest whether or not the bundle lists works-v1", () => {

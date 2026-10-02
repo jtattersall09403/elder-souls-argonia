@@ -47,6 +47,7 @@ import {
 import { isLanternShellMaterial } from "./fixtureGlow";
 import {
   SETTLEMENT_COLLISION_FRAME,
+  type GroundArea,
   type SettlementBundle,
   type SettlementCollisionShape,
   type SettlementFrameEvidence,
@@ -122,17 +123,26 @@ export function buildStartMark(
     coveredRadiusM: liveCoveredRadiusM ?? Number.POSITIVE_INFINITY };
 }
 
+/** Margin (m) round an unresolved placement's position inside which an
+ * arriving ground area can resolve it (a footprint's corner samples). */
+export const MISSING_GROUND_MARGIN_M = 64;
+
 /**
- * Whether an incomplete build (a placement whose ground had not arrived) is
- * retried now: only once it has swapped in, and 2 s after the last retry.
- * Retrying while a build runs cancelled it: a slow sliced build that met an
- * unresolved far route piece early was restarted every 2 s and never swapped,
- * so a place kept no buildings and no fixtures (walk 9: Gang Ground, 300 s
- * at `loading`; Bog Iron 134 s).
+ * Whether an arriving ground area can resolve an incomplete build: it covers
+ * (with the margin) the position of a placement the build could not seat.
+ * An incomplete build is retried only on such an arrival, never on a timer: a
+ * 2 s timer rebuilt Riverwalk forever inside rAF, a 2 s hitch, for a
+ * placement whose ground was outside the loaded chunks (perf10 diag Q2). A
+ * retry is still deferred while a build runs: retrying cancelled it (walk 9:
+ * Gang Ground, 300 s at `loading`).
  */
-export function retryIncompleteBuild(incomplete: boolean, building: boolean,
-  nowMs: number, lastRetryMs: number): boolean {
-  return incomplete && !building && nowMs - lastRetryMs > 2000;
+export function groundArrivalResolves(area: readonly [number, number, number, number],
+  missing: readonly (readonly [number, number])[]): boolean {
+  const m = MISSING_GROUND_MARGIN_M;
+  for (const [x, z] of missing) {
+    if (x >= area[0] - m && x <= area[2] + m && z >= area[1] - m && z <= area[3] + m) return true;
+  }
+  return false;
 }
 
 /**
@@ -490,8 +500,13 @@ export function SettlementLayer({
   const builtAt = useRef<{ x: number; z: number; coveredRadiusM: number } | null>(null);
   // The covered radius of the build on screen, held while a new one runs.
   const liveCoveredRadiusM = useRef<number | null>(null);
-  const incomplete = useRef(false);
-  const retryAt = useRef(0);
+  // Positions [x, z] of the placements the last build could not seat, and
+  // whether a ground arrival over one of them asks for a retry.
+  const missing = useRef<[number, number][]>([]);
+  const missingLogged = useRef("");
+  const arrivals = useRef<GroundArea[]>([]);
+  const retryDue = useRef(false);
+  useEffect(() => groundArrivals?.((area) => { arrivals.current.push(area); }), [groundArrivals]);
   const collisionFailure = useRef<SettlementProofState["collision"] | null>(null);
   // One shadow-depth twin per colour material for the layer's life: a new
   // twin per build meant new programs to link on every rebuild.
@@ -779,8 +794,15 @@ export function SettlementLayer({
     if (queried && Math.hypot(focus.x - queried.x, focus.z - queried.z) > SETTLEMENT_REQUERY_MOVE_M) {
       queriedAt.current = null; setQueryRevision((v) => v + 1);
     }
-    if (retryIncompleteBuild(incomplete.current, running.current !== null, performance.now(), retryAt.current)) {
-      retryAt.current = performance.now();
+    // Arrivals are judged once the build that may need them is live.
+    if (arrivals.current.length && running.current === null) {
+      for (const area of arrivals.current) {
+        if (groundArrivalResolves(area, missing.current)) { retryDue.current = true; break; }
+      }
+      arrivals.current.length = 0;
+    }
+    if (retryDue.current && running.current === null) {
+      retryDue.current = false;
       setRevision((v) => v + 1);
     }
   });
@@ -867,7 +889,12 @@ export function SettlementLayer({
       const isFixture = (p: SettlementPlacement): boolean =>
         isLightFixturePlacement(p, kitAssetMetaOf(manifests, p));
       let placementCount = 0;
-      incomplete.current = false;
+      const missingHere: [number, number][] = [];
+      const missingIds: string[] = [];
+      const unresolved = (p: SettlementPlacement) => {
+        missingHere.push([p.positionM[0], p.positionM[2]]);
+        missingIds.push(p.id);
+      };
       let sinceYield = 0;
 
       const resolvePlaced = createPlacementResolver(bundle.placements,
@@ -899,7 +926,7 @@ export function SettlementLayer({
           // mounted child's final transform (the chimney top).
           if (distance > SMOKE_MAX_DISTANCE_M + REBUILD_MOVE_M) continue;
           const at = resolvePlaced(placement);
-          if (!at) { incomplete.current = true; continue; }
+          if (!at) { unresolved(placement); continue; }
           const socketAt = new THREE.Vector3().setFromMatrixPosition(at.matrix);
           smokeHere.push({ id: placement.id, position: socketAt });
           // A fire socket is a fixture unless it sits on one (the brazier's
@@ -914,7 +941,7 @@ export function SettlementLayer({
         const asset = kits.get(placement.kit)?.get(placement.assetId);
         if (!asset) continue;
         const here = resolvePlaced(placement);
-        if (!here) { incomplete.current = true; continue; }
+        if (!here) { unresolved(placement); continue; }
         const { matrix: transform, anchored } = here;
         if (anchored) placementGrounding.push(placementGroundAudit(placement, anchored));
         if (placement.run) {
@@ -1160,6 +1187,14 @@ export function SettlementLayer({
       liveCoveredRadiusM.current = collision.coveredRadiusM;
       if (builtAt.current) builtAt.current.coveredRadiusM = collision.coveredRadiusM;
       lightFixtures.setFixtures(fixturesHere);
+      // Unseated placements wait for their ground (the arrival listener).
+      const missingKey = missingIds.join(",");
+      if (missingIds.length && missingKey !== missingLogged.current) {
+        console.info(`[settlement] ${missingIds.length} placement(s) wait for ground: `
+          + missingIds.slice(0, 8).map((id, i) => `${id}@${missingHere[i][0].toFixed(0)},${missingHere[i][1].toFixed(0)}`).join(" "));
+      }
+      missingLogged.current = missingKey;
+      missing.current = missingHere;
       onSolids?.(collision.chosen);
       const collisionAudit = {
         status: collision.activeSettlementIds.length ? "resident" as const : "ring" as const,
