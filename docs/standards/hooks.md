@@ -57,6 +57,14 @@ finding at every wake: kills the orphan through a `run` agent, relaunches the
 stalled job with its timeout fixed, splits the over-context lead from its note,
 and deletes or hands over the pod.
 
+The planner session itself is restarted by `claude-session.sh --supervise`
+(owner 2026-10-02): a non-zero exit or OOM kill is logged to
+`tooling/.reports/session-restarts.log` with the pods that may still bill,
+and `claude -c` relaunches after 30 s, at most 3 times in 6 h, then the owner
+inbox is told and the loop stops. `lane_keepalive.sh` keeps the VM above the
+AWS 3 % CPU stop only while an agent or guarded job is live; `idle-stop.sh`
+never stops the VM while either is live (tooling/bootstrap/README § Sessions).
+
 ## Lines to paste
 
 In `.claude/settings.json` › `hooks` › `PreToolUse`, the `Bash` entry gains
