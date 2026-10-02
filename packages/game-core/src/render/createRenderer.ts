@@ -4,6 +4,7 @@
  * (`forceWebGL`) otherwise or when `?renderer=webgl` asks for it. Both
  * backends run the same TSL node materials, so there is one shader code path.
  */
+import { UnsignedByteType } from "three";
 import { WebGPURenderer } from "three/webgpu";
 import { shareInstancedBuilds } from "./shareInstancedBuilds";
 import { compilePipelinesAsync } from "./asyncPipelines";
@@ -37,6 +38,8 @@ export interface CreateRendererOptions {
   /** Timestamp queries for the HUD's GPU time (WebGPU: timestamp-query; WebGL: EXT_disjoint_timer_query_webgl2). */
   trackTimestamp?: boolean;
   powerPreference?: GPUPowerPreference;
+  /** Diagnosis: 8-bit output buffer instead of three's half-float default (studio `?obuf=8`). */
+  outputBuffer8?: boolean;
   /** Node-material builds run off the frame, this many at a time (shaderBuildQueue.ts); 0 = three's synchronous builds (harness scenes). */
   shaderBuildsInFlight?: number;
   /** Site base (ending in `/`) the KTX2 transcoder is served under; the renderer owns its kit decoders from here (kitLoader.ts). Default: Vite BASE_URL, else "/". */
@@ -52,6 +55,7 @@ export async function createRenderer(options: CreateRendererOptions): Promise<We
     forceWebGL: options.backend === "webgl",
     trackTimestamp: options.trackTimestamp ?? false,
     powerPreference: options.powerPreference ?? "high-performance",
+    ...(options.outputBuffer8 ? { outputBufferType: UnsignedByteType } : {}),
   });
   await renderer.init();
   syncCanvasDepth((renderer as unknown as { backend: object }).backend);

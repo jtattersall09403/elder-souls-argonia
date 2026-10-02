@@ -9,6 +9,7 @@
 import { backendLabel, canvasRenderer, type CanvasRendererOptions } from "@elder-souls/game-core/render/canvasRenderer";
 import { STUDIO_TOOLS } from "./studioTools";
 import type { DeviceLossInfo } from "./gpuRecovery";
+import { parseStudioSwitches } from "./studioSwitches";
 import { diagRequested, mountDiagOverlay } from "./diagOverlay";
 
 export type StudioRendererHost = {
@@ -27,6 +28,7 @@ export function studioCanvasRenderer(
   return canvasRenderer({
     ...rendererOptions,
     ...(buildq === "0" ? { shaderBuildsInFlight: 0 } : {}),
+    ...(typeof location !== "undefined" && parseStudioSwitches(location.search).obuf8 ? { outputBuffer8: true } : {}),
     onReady: (renderer, backend) => {
       if (onDeviceLost) {
         // three's dispose() destroys the device, which fires `device.lost`

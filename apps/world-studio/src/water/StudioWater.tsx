@@ -14,6 +14,7 @@ import type { WaterDebugState, WaterRuntime } from "@elder-souls/game-core/water
 import type { Vec3 } from "@elder-souls/contracts";
 import { WATER_TIERS, type WaterTier } from "@elder-souls/game-core/water/render/waterMaterial";
 import { WaterPipeline } from "@elder-souls/game-core/water/render/WaterPipeline";
+import { INITIAL_SWITCHES } from "../studioSwitches";
 import type { BloomPass } from "@elder-souls/game-core/render/post/BloomPass";
 import { WaterSurfaceMesh, type ContactBody, type WaterSurfaceHandle } from "@elder-souls/game-core/water/render/WaterSurface";
 
@@ -45,6 +46,13 @@ const INITIAL_WQ = new URLSearchParams(window.location.search).get("wq");
 const INITIAL_WATER_LAYERS = new URLSearchParams(window.location.search).get("waterLayers");
 
 export function pickWaterTier(): WaterTier {
+  const base = pickBaseTier();
+  // `?refr=<scale>` (diagnosis, studioSwitches.ts) overrides the scene-target scale.
+  const refr = INITIAL_SWITCHES.refr;
+  return refr === null ? base : { ...base, rtScale: refr };
+}
+
+function pickBaseTier(): WaterTier {
   const q = INITIAL_WQ;
   if (q === "low" || q === "high") return WATER_TIERS[q];
   const coarse = window.matchMedia?.("(pointer: coarse)").matches ?? false;

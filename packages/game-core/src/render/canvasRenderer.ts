@@ -22,6 +22,8 @@ export interface CanvasRendererOptions {
    * runs on (WebGPU falls back to WebGL 2 when no adapter is found). */
   /** Node-material builds in flight (createRenderer); 0 skips the build queue (studio `?buildq=0`). */
   shaderBuildsInFlight?: number;
+  /** Diagnosis: 8-bit output buffer (createRenderer `outputBuffer8`; studio `?obuf=8`). */
+  outputBuffer8?: boolean;
   onReady?: (renderer: WebGPURenderer, backend: RendererBackend) => void;
 }
 
@@ -66,6 +68,7 @@ export function canvasRenderer(options: CanvasRendererOptions = {}) {
         alpha: options.alpha ?? defaults.alpha ?? true,
         trackTimestamp: options.trackTimestamp ?? false,
         shaderBuildsInFlight: options.shaderBuildsInFlight,
+        outputBuffer8: options.outputBuffer8,
       });
       const dispose = renderer.dispose.bind(renderer);
       renderer.dispose = () => { if (pending.get(canvas) === promise) pending.delete(canvas); dispose(); };

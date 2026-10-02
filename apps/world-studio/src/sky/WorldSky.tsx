@@ -85,6 +85,7 @@ import { applyVolumetrics } from "@elder-souls/game-core/air/volumetrics/volumet
 import { activeBackend } from "@elder-souls/game-core/render/createRenderer";
 import { WHITEOUT_BELT, WHITEOUT_ENABLED, type WeatherSample } from "@elder-souls/world-weather";
 import { DATA_BASE } from "../dataBase";
+import { INITIAL_SWITCHES } from "../studioSwitches";
 
 /**
  * The natural light and sky system (world module 55, Phase 8a): Preetham sky
@@ -332,9 +333,11 @@ export function WorldSky({
   // both modes (module 55 §96 — tone mapping is part of the light system).
   // Layout effect: shadowMap.enabled/type are in every program's cache key.
   useLayoutEffect(() => {
-    gl.toneMapping = THREE.ACESFilmicToneMapping;
+    // `?tone=0` (diagnosis, studioSwitches.ts): no tone mapping, linear output.
+    const tone0 = INITIAL_SWITCHES.tone0;
+    gl.toneMapping = tone0 ? THREE.NoToneMapping : THREE.ACESFilmicToneMapping;
     gl.toneMappingExposure = 1e-4;
-    gl.outputColorSpace = THREE.SRGBColorSpace;
+    gl.outputColorSpace = tone0 ? THREE.LinearSRGBColorSpace : THREE.SRGBColorSpace;
     gl.shadowMap.enabled = true;
     // PCF, not PCFSoft: three r184 deprecates PCFSoft and silently renders
     // PCF anyway; leaving the deprecated value set made materials compile

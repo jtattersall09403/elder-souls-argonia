@@ -1,0 +1,7 @@
+[
+ { "name": "D-gl-base",   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&x=7.1971&z=0.584&t=12&renderer=webgl" },
+ { "name": "D-gl-obuf8",  "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&x=7.1971&z=0.584&t=12&renderer=webgl&obuf=8" },
+ { "name": "D-gl-tone0",  "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&x=7.1971&z=0.584&t=12&renderer=webgl&tone=0" },
+ { "name": "D-gl-refr05", "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&x=7.1971&z=0.584&t=12&renderer=webgl&refr=0.5" },
+ { "name": "D-gl-bloom0", "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&x=7.1971&z=0.584&t=12&renderer=webgl&post=0" }
+]
