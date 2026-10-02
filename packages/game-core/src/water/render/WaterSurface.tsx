@@ -24,6 +24,7 @@ import {
   SAMPLER_GLSL,
   createWaterMaterial,
   createWaterUniforms,
+  WATER_TIERS,
   type WaterTier,
   type WaterUniforms,
 } from "./waterMaterial";
@@ -45,8 +46,9 @@ interface GridSpec {
 }
 
 const GRIDS: Record<"low" | "high", GridSpec> = {
-  high: { uniformCell: 2.6, uniformRadius: 260, n: 320, halfExtent: 30000 },
-  low: { uniformCell: 3.6, uniformRadius: 160, n: 208, halfExtent: 30000 },
+  // the cell is the tier's (waterMaterial WATER_TIERS): its wave bands are cut to it
+  high: { uniformCell: WATER_TIERS.high.gridCellM, uniformRadius: 260, n: 320, halfExtent: 30000 },
+  low: { uniformCell: WATER_TIERS.low.gridCellM, uniformRadius: 160, n: 208, halfExtent: 30000 },
 };
 
 /** Symmetric axis mapping: uniform centre, exponential fringe. */

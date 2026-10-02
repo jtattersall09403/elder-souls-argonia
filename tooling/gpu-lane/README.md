@@ -22,7 +22,7 @@ Key paths follow `/tmp/<lane><round>/rp_key`.
 | `pod-setup.sh [webgl\|webgpu]` | Runs on the pod: installs Chrome, Xvfb, node, rsync; registers the NVIDIA Vulkan ICD; starts headed Chrome (ANGLE on Vulkan, WebGPU flags only for `webgpu`, background-throttling off so a background tab keeps rendering) on Xvfb :99 1280x720 with DevTools on the pod's 127.0.0.1:9222. Idempotent. |
 | `pod-sync.sh <dist> <name>` | `POD_SSH="ssh -i <key> -p <port> root@<ip>"`: rsyncs a built studio (a composed site's `studio/`) to the pod's `/root/site/dists/<name>` (later runs only the diff) plus the server scripts and the character files, then restarts `serve.mjs` on the pod at 127.0.0.1:8099 over EVERY synced dist, detached (log `/root/serve.log`). Idempotent: kills the old server (pid file and port owner) before the new start, and a no-change re-run takes seconds. One dist per base: any other pod dist built for the same base is deleted first. Exits non-zero unless the new server is alive and every served base answers. |
 | `serve.mjs <dist> [<dist>...] [--port 8099]` | Serves built studios as Pages does, each at the base it was built for (read from its `index.html`; `serve-lib.mjs`): a dev build at `/studio/`, a branch build at `/webgpu/`, studio data behind them (`$ES_DATA_PUBLIC`; `apps/world-studio/scripts/lib/webgpu-static.mjs`). Two dists built for one base fail at start. For a composed site pass `<site>/studio`. |
-| `measure.mjs` | Drives Chrome over DevTools (playwright over CDP, a keeper page first); per URL or spot: first complete frame, then rAF frame times for `--settle` s, an optional held-W `--walk`, the HUD perf lines, console errors, 404s, memory, GPU adapter, screenshots. Writes `measure.json`, and with `--spots` `summary.md` / `summary.json`. |
+| `measure.mjs` | Drives Chrome over DevTools (playwright over CDP, a keeper page first); per URL or spot: first complete frame, then rAF frame times for `--settle` s, an optional held-W `--walk`, the HUD perf lines, console errors, 404s, memory, GPU adapter, screenshots. Writes `measure.json`, and with `--spots` `summary.md` / `summary.json`. `--pod "<ssh>"` samples the pod's steal and major faults per spot (`host-sampler.mjs`); `--maps <dir>` maps minified frames to source (`source-maps.mjs`). |
 | `spots.mjs`, `spots/perf10.txt`, `spots/perf10-c4.txt` | Spot-file parser (`<name> <?query> [--aim yaw,pitch] [walk=<s> \| steps=<seq>] [x<N>] [diag=<probes>] [trace] [trace-gpu] [memory-infra] [heapsample] [profile]`; a probe token makes the spot a diagnosis row, see Probe rules), the summary table and the leak slope. `steps=` is a motion sequence of comma-separated segments: `w:<s>` holds W for s seconds, `yaw:<+\|-rad>` turns the follow camera by rad while W stays held (the character turns with it; `aimCamera` is absolute, so a sequence with a turn first sets the yaw to the spot's `--aim` yaw, else 0); e.g. `steps=w:7,yaw:+1.2,w:6,yaw:-2.0,w:7`. `walk=<s>` is `steps=w:<s>`. The walk window (stats, trace, profile, `walk` screenshot) spans the whole sequence, after the static settle. `spots/perf10.txt` holds the perf10 spots a-h (h = the aimed ESE night-rain view; e = d with a 20 s W-held walk, `x3` = three times: e, e2, e3). |
 | `spots/gen-matrix.mjs` → `spots/matrix.txt` | `node tooling/gpu-lane/spots/gen-matrix.mjs` writes the one-off owner acceptance set (performance-lane.md § Owner acceptance run) from `apps/world-studio/public/province/places.json`: 3 places × t 12/22 × clear/rain with a 20 s turning walk, plus the ESE marsh walk. Generated; never hand-edit. |
 | `checks.mjs` | The pure checks behind `--smoke`, `--census` and `--diag` (smoke verdict, black-frame luminance, foreign pages, hitch list, heap growth, census.txt). |
@@ -45,7 +45,8 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
 
 1. Build exactly as the deploy does (`.github/workflows/deploy-pages.yml`: `npm run build`, then
    `npm run site:compose`; studio base `/elder-souls-argonia/studio/`), into a site dir:
-   `tooling/repo-standards/job_guard.sh <lane> -- bash -c "npm run build && npm run site:compose -- --out /tmp/<lane>/site"`
+   `tooling/repo-standards/job_guard.sh <lane> -- bash -c "ES_GPU_LANE_SOURCEMAP=1 npm run build && npm run site:compose -- --out /tmp/<lane>/site"`
+   (`ES_GPU_LANE_SOURCEMAP=1` adds hidden source maps for `measure.mjs --maps /tmp/<lane>/site`; same bytes otherwise)
    (walk 10: 29 s wall, peak 0.79 GiB, 642 MB site).
 2. Key and pod. `ssh-keygen -t ed25519 -N "" -f /tmp/<lane>/rp_key`; create the pod (RunPod MCP
    `create-pod`): image `runpod/base:1.0.2-ubuntu2404`, cloud COMMUNITY, disk 20 GB, ports
@@ -167,14 +168,24 @@ Top level: `gitSha`, `dirty`, `builtAt` (served index.html mtime), `renderer`, `
   own thread) started at the window's open and read once after it; null where Worker is unavailable.
 - `harnessLog`: every harness action of the spot (goto, evaluate, screenshot, trace/profiler/heapsample start and
   stop, collectGarbage, key input) as `{action, t (page ms), ms}`.
-- `hitchContext.{settled,walk}`: per hitch over 33 ms, the nearest `harnessLog` action within 500 ms of its gap and
-  whether the worker saw an overlapping gap; summary.md lists them. Both threads stalled = a process/host stall; an
-  action beside it = the harness; neither = the game.
+- `hostSamples` (`--pod "<ssh>"`, null without it): the pod's own counters every 250 ms over the whole spot
+  (`host-sampler.mjs`, one ssh running a shell loop, started after the goto and killed at the spot's end), as
+  column arrays `{t (page ms, interval end), stealMs (summed /proc/stat cpu steal over all CPUs), majFaults
+  (/proc/vmstat pgmajfault)}` per interval; `hostSpikes`: the `[start, end]` page-ms intervals at or over
+  `HOST_SPIKE` (steal 20 ms or 5 major faults).
+- `hitchContext.{settled,walk}`: per hitch over 33 ms, the nearest `harnessLog` action within 500 ms of its gap,
+  whether the worker saw an overlapping gap (`workerGap`), whether a host spike overlaps it (`hostSpike`) and
+  `cause`: `host` (worker gap + host spike), `process` (worker gap, no spike: the renderer process stopped), `main`
+  (the worker ran: main-thread work); summary.md lists them. An action beside it = the harness.
 - `profile` (`--profile <s>`; during the walk when `--walk` is set): `file` (.cpuprofile), `topSelf` (top 40
   functions by self ms), `byFile`.
+- Source positions (`--maps <dir>`): build with `ES_GPU_LANE_SOURCEMAP=1` (world-studio writes hidden
+  `<chunk>.js.map` files, no sourceMappingURL; the Pages build never sets it) and pass the built site or
+  `apps/world-studio/dist`; `heapsample.topAllocated`, `profile.topSelf` and `profile.topSelfPerFrame` then name a
+  minified frame `name <source>:<line> (<chunk>:<line>:<col>)` (`source-maps.mjs`). The maps stay on the VM.
 - `walk`: the same frame stats and HUD over the held-W window.
-- `consoleErrors`, `http404s`, `memory`, `gpuAdapter` (check it names the NVIDIA card, not SwiftShader),
-  `screenshots`.
+- `consoleErrors` (a `pageerror` keeps up to 12 stack frames), `http404s`, `memory`, `gpuAdapter` (check it names
+  the NVIDIA card, not SwiftShader), `screenshots`.
 
 ## Converting to the owner's M2
 

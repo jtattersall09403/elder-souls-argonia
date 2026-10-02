@@ -112,7 +112,9 @@ export default defineConfig(({ command }) => ({
   // Deployed under the Pages site at /studio/; local dev serves from root.
   base: command === "build" ? STUDIO_BASE : "/",
   plugins: [freshPublicFiles(), react(), characterAssets({ sharedBase: SANDBOX_BASE }), basisTranscoder()],
-  build: { target: "es2022", sourcemap: false },
+  // ES_GPU_LANE_SOURCEMAP=1 (gpu-lane pod builds only): hidden maps so heap samples and profiles map minified
+  // frames to source (tooling/gpu-lane/source-maps.mjs); the Pages build never sets it.
+  build: { target: "es2022", sourcemap: process.env.ES_GPU_LANE_SOURCEMAP === "1" ? "hidden" : false },
   // Pre-bundle the heavy deps up front: discovering them on the first page
   // load makes the dev server re-optimise and reload the page mid-load.
   optimizeDeps: { include: ["three", "@react-three/fiber", "@react-three/drei", "@dimforge/rapier3d-compat", "react", "react-dom/client"] },

@@ -6,7 +6,7 @@ import { SEMIDIURNAL_MINUTES, tideOffset, seasonOffset } from "./tide";
 import { SEA, CREST_NOISE, seaRmsHeightM, whitecapCoverage, whitecapThreshold, stillWaterDriftMS, whitecapDriftMS } from "./waves";
 import { ALONG_DRIFT_OMEGA, ALONG_K, ALONG_SHORE, FLOW_WAVES, FLOW_WAVE_MIN_SPEED_MS, GROUP_OMEGA, OMEGA_QUANTUM,
   SHORE_SWELL, STANDING_BY_CLASS, SURF_ENERGY, SWASH, SWASH_OMEGA, WAVES, alongShorePhase, fetchExposure, flowWaveAt,
-  flowWaveGlsl, flowWaveOmega, gerstnerAt, gerstnerGlsl, hash21, jonswapShape, shoreSwellAt, shoreSwellProfile,
+  flowWaveGlsl, flowWaveOmega, gerstnerAt, gerstnerGlsl, gerstnerFragGlsl, vertexBandWeight, hash21, jonswapShape, shoreSwellAt, shoreSwellProfile,
   snapOmega, standingRatioGlsl, standingWaveRatio, surfEnergyScale, surfGlsl, surfGroup, surfaceWaveAt, swashAt,
   swashMax, swashSkew, waveBands, waveExposure } from "./waves";
 
@@ -422,6 +422,26 @@ describe("waves", () => {
     expect(glsl).toContain("float dd = tr * cS * cT - sS * sT;");
     // low tier truncates
     expect(gerstnerGlsl(WAVES.lowTierBands).match(/esWaveBand\(pos/g)?.length).toBe(WAVES.lowTierBands);
+  });
+
+  it("no vertex band below 2x the cell for each tier grid; the cut bands go to the fragment twin (perf-diag9 V1)", () => {
+    for (const [bandCount, cell] of [[WAVES.bands, 2.6], [WAVES.lowTierBands, 3.6]] as const) {
+      const vert = gerstnerGlsl(bandCount, cell);
+      const frag = gerstnerFragGlsl(bandCount, cell);
+      for (const b of waveBands().slice(0, bandCount)) {
+        const w = vertexBandWeight(b.wavelengthM, cell);
+        if (b.wavelengthM < 2 * cell) {
+          expect(w).toBe(0);
+          expect(vert).not.toContain(`${b.freq}, `);
+          expect(frag).toContain(`${b.freq}, ${b.amp}, ${b.phaseSpeed}, ${b.phase0}`);
+        }
+        if (b.wavelengthM >= 2.5 * cell) {
+          expect(w).toBe(1);
+          expect(vert).toContain(`${b.freq}, ${b.amp}, ${b.phaseSpeed}, ${b.q}, ${b.phase0}`);
+          expect(frag).not.toContain(`${b.freq}, `);
+        }
+      }
+    }
   });
 });
 

@@ -751,19 +751,72 @@ export function surfGlsl(): string {
 }
 
 /**
+ * Vertex share of a band on a grid of `gridCellM` (perf-diag9 V1): a band
+ * shorter than ~2x the cell aliases into flat-lit cell-sized facets in the
+ * per-vertex normal, so the vertex path fades it out over 2.0-2.5x the cell
+ * and the fragment carries the rest (`gerstnerFragGlsl`). `gridCellM` 0 keeps
+ * every band on the vertex (foam field).
+ */
+export function vertexBandWeight(wavelengthM: number, gridCellM: number): number {
+  if (gridCellM <= 0) return 1;
+  const t = clamp01((wavelengthM - 2.0 * gridCellM) / (0.5 * gridCellM));
+  return t * t * (3 - 2 * t);
+}
+
+/**
+ * Fragment twin of the bands the vertex path drops on a `gridCellM` grid:
+ * `vec2 esWaveFragSlope(vec2 pos, float exposure, float fetchM, float
+ * standing, float t)` returns the height gradient (dh/dx, dh/dz) of those
+ * bands, the slope term of `esWaveBand`'s normal, so the short-wave detail is
+ * drawn per pixel whatever the rain is doing. An empty set returns zero.
+ */
+export function gerstnerFragGlsl(bandCount: number, gridCellM: number): string {
+  const rows = waveBands()
+    .slice(0, bandCount)
+    .map((b) => ({ b, w: 1 - vertexBandWeight(b.wavelengthM, gridCellM) }))
+    .filter(({ w }) => w > 0)
+    .map(
+      ({ b, w }) =>
+        `g += esWaveBandSlope(pos, exposure * clamp(fetchM / ${f(b.fetchM)}, 0.0, 1.0), tr, t, ` +
+        `vec2(${f(b.dirX)}, ${f(b.dirZ)}), ${f(b.freq)}, ${f(w === 1 ? b.amp : b.amp * w)}, ${f(b.phaseSpeed)}, ${f(b.phase0)});`,
+    )
+    .join("\n    ");
+  return /* glsl */ `
+  // KEEP IN LOCKSTEP with esWaveBand(): the slope term of its normal.
+  vec2 esWaveBandSlope(vec2 pos, float a, float tr, float t, vec2 d,
+                       float freq, float amp, float omega, float phase0) {
+    float argS = freq * dot(d, pos) + phase0;
+    float tau = t * omega;
+    float dd = tr * cos(argS) * cos(tau) - sin(argS) * sin(tau);
+    return d * (freq * amp * a * dd);
+  }
+  vec2 esWaveFragSlope(vec2 pos, float exposure, float fetchM, float standing, float t) {
+    vec2 g = vec2(0.0);
+    float tr = 1.0 - clamp(standing, 0.0, 1.0);
+    ${rows}
+    return g;
+  }
+  `;
+}
+
+/**
  * The GLSL twin: declares `esWaveSampleEx(vec2 pos, float exposure, float
  * shoreDist, float standing, float t)` (+ the legacy `esWaveSample(pos,
  * exposure, t)` = fully developed, travelling) plus the shared exposure
  * helper and `esSnapOmega`. Constants are baked from the SAME table the CPU
- * uses. `bandCount` lets the low tier truncate the spectrum.
+ * uses. `bandCount` lets the low tier truncate the spectrum; `gridCellM`
+ * (the surface grid's cell) drops the bands that grid cannot carry
+ * (`vertexBandWeight`), which `gerstnerFragGlsl` then draws per pixel.
  */
-export function gerstnerGlsl(bandCount: number = WAVES.bands): string {
-  const bands = waveBands().slice(0, bandCount);
-  const rows = bands
+export function gerstnerGlsl(bandCount: number = WAVES.bands, gridCellM = 0): string {
+  const rows = waveBands()
+    .slice(0, bandCount)
+    .map((b) => ({ b, w: vertexBandWeight(b.wavelengthM, gridCellM) }))
+    .filter(({ w }) => w > 0)
     .map(
-      (b) =>
+      ({ b, w }) =>
         `w = esWaveBand(pos, exposure * clamp(fetchM / ${f(b.fetchM)}, 0.0, 1.0), standing, t, ` +
-        `vec2(${f(b.dirX)}, ${f(b.dirZ)}), ${f(b.freq)}, ${f(b.amp)}, ${f(b.phaseSpeed)}, ${f(b.q)}, ${f(b.phase0)}, w);`,
+        `vec2(${f(b.dirX)}, ${f(b.dirZ)}), ${f(b.freq)}, ${f(w === 1 ? b.amp : b.amp * w)}, ${f(b.phaseSpeed)}, ${f(b.q)}, ${f(b.phase0)}, w);`,
     )
     .join("\n    ");
   return /* glsl */ `

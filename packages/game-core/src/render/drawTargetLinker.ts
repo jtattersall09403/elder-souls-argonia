@@ -2,12 +2,12 @@ import * as THREE from "three";
 import { litPreparerOf, prepareLit, whenLitPreparer } from "./fixtureLights/fixtureLightField";
 
 /**
- * How long one `compileAsync` may stay pending before its link counts as
- * settled. three 0.184's `compileAsync` polls `properties.get(m).currentProgram
- * .isReady()` inside a `setTimeout`; a material with no current program
- * (disposed, or a vegetation rung regrown by `growGeo`) throws there and the
- * promise never settles (perf10 diag 6, C1b). A held mesh is shown at the
- * timeout: a late link costs one hitch, a mesh hidden for good is a defect.
+ * How long one link may stay pending before it counts as settled. The linker
+ * runs its own readiness poll (`compileGuarded`) because three 0.184's
+ * `compileAsync` polls `properties.get(m).currentProgram.isReady()` in a
+ * timer and throws there for a material disposed or regrown (`growGeo`)
+ * while pending (perf10 diag 6 C1b, perf-diag9 E2). A held mesh is shown at
+ * the timeout: a late link costs one hitch, a mesh hidden for good is a defect.
  */
 export const LINK_SETTLE_MS = 2000;
 
@@ -110,7 +110,7 @@ export class DrawTargetLinker {
       for (const material of variants) {
         if (material) mesh.material = material;
         prepareLit(this.scene, object);
-        links.push(this.settled(this.gl.compileAsync(object, camera, warm.scene ?? this.scene)));
+        links.push(this.compileGuarded(object, camera, warm.scene ?? this.scene));
       }
       return Promise.all(links);
     } catch (err) {
@@ -122,11 +122,37 @@ export class DrawTargetLinker {
     }
   }
 
-  /** A compile that resolves at its end or after `settleMs`, whichever comes first. */
-  private settled(compile: Promise<unknown>): Promise<unknown> {
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    const timeout = new Promise<void>((resolve) => { timer = setTimeout(resolve, this.settleMs); });
-    return Promise.race([compile, timeout]).finally(() => clearTimeout(timer));
+  /**
+   * three's `compileAsync` with a poll that survives the material: `compile`
+   * (synchronous) then a 10 ms readiness poll, as three 0.184 does, except a
+   * material disposed while pending ('dispose' event) or left without a
+   * current program (a regrown rung) leaves the wait instead of throwing
+   * "reading 'isReady'" inside a timer (perf-diag9 E2). Resolves when every
+   * material is ready or gone, or after `settleMs`.
+   */
+  private compileGuarded(object: THREE.Object3D, camera: THREE.Camera, scene: THREE.Scene): Promise<unknown> {
+    const gl = this.gl;
+    const waiting = new Set(gl.compile(object, camera, scene) as Iterable<THREE.Material>);
+    const all = [...waiting];
+    const gone = (e: { target: THREE.Material }) => { waiting.delete(e.target); };
+    for (const m of all) m.addEventListener("dispose", gone);
+    const deadline = performance.now() + this.settleMs;
+    return new Promise((resolve) => {
+      const check = () => {
+        for (const m of waiting) {
+          const program = (gl.properties.get(m) as { currentProgram?: { isReady(): boolean } }).currentProgram;
+          if (!program || program.isReady()) waiting.delete(m);
+        }
+        if (waiting.size === 0 || performance.now() >= deadline) {
+          for (const m of all) m.removeEventListener("dispose", gone);
+          resolve(object);
+          return;
+        }
+        setTimeout(check, 10);
+      };
+      // without the parallel-compile extension isReady() forces the link: give the driver a tick first, as three does
+      if (gl.extensions.has("KHR_parallel_shader_compile")) check(); else setTimeout(check, 10);
+    });
   }
 
   /**

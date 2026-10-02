@@ -60,11 +60,12 @@ describe("waterLinkWarms (16k walk 10: the underwater water variants linked on t
     const gl = {
       getRenderTarget: () => bound,
       setRenderTarget: (t: THREE.WebGLRenderTarget | null) => { bound = t; },
-      compileAsync: (object: THREE.Object3D, _camera: THREE.Camera, scene: THREE.Scene) => {
+      compile: (object: THREE.Object3D, _camera: THREE.Camera, scene: THREE.Scene) => {
         object.traverseVisible((o) => { if ((o as THREE.Mesh).isMesh) warmed.add(key(o as THREE.Mesh, bound)); });
         lit.push(scene);
-        return Promise.resolve();
+        return new Set();
       },
+      extensions: { has: () => true },
     } as unknown as THREE.WebGLRenderer;
     const scene = new THREE.Scene();
     setLitPreparer(scene, () => undefined); // the sky is mounted
@@ -92,13 +93,16 @@ describe("waterLinkWarms (16k walk 10: the underwater water variants linked on t
   it("holds the falls hidden until their links settle, and releases them on a hung compile", async () => {
     const scene = new THREE.Scene();
     setLitPreparer(scene, () => undefined);
-    let finish!: () => void;
-    const first = new Promise<void>((r) => { finish = r; });
+    let firstReady = false;
+    const finish = () => { firstReady = true; };
     let calls = 0;
+    const mats = [new THREE.MeshBasicMaterial(), new THREE.MeshBasicMaterial()];
     const gl = {
       getRenderTarget: () => null, setRenderTarget: () => undefined,
-      // screen link settles when told; target link never settles (three 0.184 C1b)
-      compileAsync: () => (calls++ === 0 ? first : new Promise(() => undefined)),
+      // screen link's program is ready when told; the target link's never is
+      compile: () => new Set([mats[calls++ === 0 ? 0 : 1]]),
+      properties: { get: (m: THREE.Material) => ({ currentProgram: { isReady: () => m === mats[0] && firstReady } }) },
+      extensions: { has: () => true },
     } as unknown as THREE.WebGLRenderer;
     const linker = new DrawTargetLinker(gl, scene, 4000, 30);
     const falls = new THREE.Group();
@@ -108,7 +112,7 @@ describe("waterLinkWarms (16k walk 10: the underwater water variants linked on t
     });
     linker.holdUntilLinked(warms, new THREE.PerspectiveCamera(), (o, on) => { if (on) held.add(o); else held.delete(o); });
     expect(held.has(falls)).toBe(true);
-    finish(); await first; await Promise.resolve();
+    finish(); await new Promise((r) => setTimeout(r, 15));
     expect(held.has(falls)).toBe(true); // the target link is still pending
     await new Promise((r) => setTimeout(r, 60));
     expect(held.has(falls)).toBe(false);

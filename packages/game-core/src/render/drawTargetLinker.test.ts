@@ -9,7 +9,8 @@ function fakeGl() {
   const gl = {
     getRenderTarget: () => bound,
     setRenderTarget: (t: THREE.WebGLRenderTarget | null) => { bound = t; },
-    compileAsync: () => { seen.push(bound); return Promise.resolve(); },
+    compile: () => { seen.push(bound); return new Set(); },
+    extensions: { has: () => true },
   } as unknown as THREE.WebGLRenderer;
   return { gl, seen, bound: () => bound };
 }
@@ -77,13 +78,33 @@ describe("DrawTargetLinker (review 2026-09-30: settlement pre-link keys)", () =>
     const gl = {
       getRenderTarget: () => null,
       setRenderTarget: () => undefined,
-      compileAsync: (object: THREE.Mesh) => {
+      compile: (object: THREE.Mesh) => {
         atCompile.push((object.material as THREE.Material).defines?.USE_CSM as string | undefined);
-        return Promise.resolve();
+        return new Set();
       },
+      extensions: { has: () => true },
     } as unknown as THREE.WebGLRenderer;
     return { gl, atCompile };
   }
+
+  it("a material disposed or left without a program mid-link leaves the wait, never throws (perf-diag9 E2)", async () => {
+    const scene = new THREE.Scene();
+    setLitPreparer(scene, () => undefined);
+    const disposed = new THREE.MeshBasicMaterial(), regrown = new THREE.MeshBasicMaterial();
+    const programs = new Map<THREE.Material, { isReady(): boolean } | undefined>([[disposed, { isReady: () => false }], [regrown, undefined]]);
+    const gl = {
+      getRenderTarget: () => null, setRenderTarget: () => undefined,
+      compile: () => new Set([disposed, regrown]),
+      properties: { get: (m: THREE.Material) => ({ currentProgram: programs.get(m) }) },
+      extensions: { has: () => true },
+    } as unknown as THREE.WebGLRenderer;
+    const linker = new DrawTargetLinker(gl, scene, 4000, 10_000);
+    const t0 = performance.now();
+    const link = linker.link({ object: new THREE.Mesh() }, camera);
+    setTimeout(() => disposed.dispose(), 25);
+    await expect(link).resolves.toBeDefined();
+    expect(performance.now() - t0).toBeLessThan(500); // settled by the dispose, not the 10 s timeout
+  });
   const csmPreparer = (root: THREE.Object3D) => root.traverse((o) => {
     const m = (o as THREE.Mesh).material as THREE.Material | undefined;
     if (m) m.defines = { ...m.defines, USE_CSM: "" };

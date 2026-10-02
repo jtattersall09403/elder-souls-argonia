@@ -29,11 +29,13 @@ describe("holdUntilLinked", () => {
   it("shows the mesh after the settle timeout when compileAsync never settles (perf10 diag 6 C1b)", async () => {
     const scene = new THREE.Scene();
     setLitPreparer(scene, () => undefined);
-    // three 0.184: a material with no currentProgram throws inside compileAsync's
-    // setTimeout, so its promise never settles.
+    // a program that never reports ready: the link settles on the timeout
+    const material = new THREE.MeshBasicMaterial();
     const gl = {
       getRenderTarget: () => null, setRenderTarget: () => undefined,
-      compileAsync: () => new Promise(() => undefined),
+      compile: () => new Set([material]),
+      properties: { get: () => ({ currentProgram: { isReady: () => false } }) },
+      extensions: { has: () => true },
     } as unknown as THREE.WebGLRenderer;
     const linker = new DrawTargetLinker(gl, scene, 4000, 20);
     const camera = new THREE.PerspectiveCamera();

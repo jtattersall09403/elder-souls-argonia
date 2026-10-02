@@ -415,3 +415,85 @@ test("hitchContext: nearest harness action within 500 ms and the worker's overla
   assert.match(hitchContextText("a", { settled: c })[0], /a settled: 100 ms at 1300 .*screenshot:settled .*worker gap yes/);
   assert.deepEqual(frameSeries([{ t: 1.234, dt: 16.667, work: 5.555, gpu: null }]), { t: [1.23], dt: [16.67], work: [5.56], gpu: [null] });
 });
+
+test("host sampler: a worker-seen gap overlapping a steal spike is a host stall (perf-diag9 S1)", async () => {
+  const { hitchContext, hitchContextText } = await import("./measure.mjs");
+  const { hostSeries, hostSpikes, samplerCommand } = await import("./host-sampler.mjs");
+  // pod epoch rows every 250 ms: steal jumps 6 jiffies (60 ms) in the interval ending at origin+1250, then 2 faults
+  const origin = 1_700_000_000_000;
+  const rows = [[origin + 750, 100, 7], [origin + 1000, 100, 7], [origin + 1250, 106, 7], [origin + 1500, 106, 9], [origin + 1750, 107, 30]];
+  const s = hostSeries(rows, origin);
+  assert.deepEqual(s, { t: [1000, 1250, 1500, 1750], stealMs: [0, 60, 0, 10], majFaults: [0, 0, 2, 21] });
+  const spikes = hostSpikes(s);
+  assert.deepEqual(spikes, [[1000, 1250], [1500, 1750]]);
+  const h = [{ t: 1300, dt: 100, work: 9 }, { t: 3000, dt: 40, work: 8 }, { t: 2600, dt: 50, work: 30 }];
+  const c = hitchContext(h, [], [[1210, 80], [2955, 40]], spikes);
+  assert.deepEqual(c.map((x) => x.cause), ["host", "process", "main"]);
+  assert.match(hitchContextText("a", { settled: c })[0], /host spike yes; cause host/);
+  assert.equal(hitchContext(h, [], [[1210, 80]])[0].cause, "process", "no --pod: never host");
+  assert.equal(hostSeries(rows, null), null);
+  const [cmd, args] = samplerCommand("ssh -i /tmp/k -p 2222 root@1.2.3.4");
+  assert.equal(cmd, "ssh");
+  assert.deepEqual(args.slice(0, 4), ["-i", "/tmp/k", "-p", "2222"]);
+  assert.match(args.at(-1), /\/proc\/stat.*\/proc\/vmstat/);
+  assert.equal(args.at(-2), "root@1.2.3.4");
+});
+
+test("pageProbe does not throw on an opaque-origin page (perf-diag9 E1)", async () => {
+  const { pageProbe } = await import("./measure.mjs");
+  const g = globalThis, saved = {};
+  const stub = {
+    window: { addEventListener() {}, requestAnimationFrame: () => 0 },
+    location: { protocol: "about:" },
+    localStorage: { setItem() { throw new Error("SecurityError: storage denied on an opaque origin"); } },
+    requestAnimationFrame: () => 0,
+    // a real MessageChannel with an onmessage keeps the test process alive
+    MessageChannel: class { port1 = {}; port2 = { postMessage() {} }; },
+  };
+  for (const k of Object.keys(stub)) { saved[k] = Object.getOwnPropertyDescriptor(g, k); Object.defineProperty(g, k, { value: stub[k], configurable: true, writable: true }); }
+  try {
+    assert.doesNotThrow(() => pageProbe());
+    stub.location.protocol = "http:";
+    stub.window = { addEventListener() {}, requestAnimationFrame: () => 0 };
+    g.window = stub.window;
+    assert.doesNotThrow(() => pageProbe(), "a storage throw on http is swallowed too");
+  } finally {
+    for (const k of Object.keys(stub)) { if (saved[k]) Object.defineProperty(g, k, saved[k]); else delete g[k]; }
+  }
+});
+
+test("pageerror entries keep the stack (perf-diag9 E2)", async () => {
+  const { pageErrorText } = await import("./measure.mjs");
+  const e = new TypeError("Cannot read properties of undefined (reading 'isReady')");
+  e.stack = `TypeError: Cannot read properties of undefined (reading 'isReady')\n    at r (index-x.js:1:200)\n    at Object.poll (index-x.js:1:900)`;
+  const t = pageErrorText(e);
+  assert.match(t, /^pageerror: TypeError: Cannot read .*isReady/);
+  assert.match(t, /\n {4}at r \(index-x\.js:1:200\)\n {4}at Object\.poll/);
+  assert.equal(pageErrorText("plain"), "pageerror: plain");
+});
+
+test("hidden source maps name minified heap and profile frames by source file:line (perf-diag9 A1)", async () => {
+  const { mkdtempSync, mkdirSync, writeFileSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const { join } = await import("node:path");
+  const { loadSourceMaps, sourcePosition, decodeMappings } = await import("./source-maps.mjs");
+  const { heapTopAllocators } = await import("./checks.mjs");
+  const { profileTopPerFrame } = await import("./measure.mjs");
+  // gen line 0: col 0 -> a.ts:1, col 10 -> a.ts:5; gen line 1: col 0 -> a.ts:6
+  assert.deepEqual(decodeMappings("AAAA,UAIA;AACA"), [[[0, 0, 0, 0], [10, 0, 4, 0]], [[0, 0, 5, 0]]]);
+  const dir = mkdtempSync(join(tmpdir(), "maps-"));
+  mkdirSync(join(dir, "studio/assets"), { recursive: true });
+  writeFileSync(join(dir, "studio/assets/index-AB.js.map"), JSON.stringify({ version: 3, sources: ["../../packages/game-core/src/a.ts"], mappings: "AAAA,UAIA;AACA" }));
+  const maps = loadSourceMaps(dir);
+  const url = "http://127.0.0.1:8099/elder-souls-argonia/studio/assets/index-AB.js";
+  assert.equal(sourcePosition(maps, url, 0, 12), "packages/game-core/src/a.ts:5");
+  assert.equal(sourcePosition(maps, url, 0, 3), "packages/game-core/src/a.ts:1");
+  assert.equal(sourcePosition(maps, url, 1, 0), "packages/game-core/src/a.ts:6");
+  assert.equal(sourcePosition(maps, "http://x/other.js", 0, 0), null);
+  const cf = { functionName: "qp", url, lineNumber: 0, columnNumber: 11 };
+  const heap = { head: { callFrame: {}, selfSize: 0, children: [{ callFrame: cf, selfSize: 285e6, children: [] }] } };
+  assert.equal(heapTopAllocators(heap, 1, maps)[0].name, "qp packages/game-core/src/a.ts:5 (index-AB.js:1:12)");
+  assert.equal(heapTopAllocators(heap, 1)[0].name, "qp index-AB.js:1");
+  const prof = { nodes: [{ id: 1, callFrame: cf }], samples: [1, 1], timeDeltas: [0, 1000, 1000] };
+  assert.equal(profileTopPerFrame(prof, 1, 1, maps)[0].at, "packages/game-core/src/a.ts:5");
+});

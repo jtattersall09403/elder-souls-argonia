@@ -324,14 +324,17 @@ describe("Water Pro transfers (Greenheck study §3.1, §6)", () => {
   })();
 
   it("vertex: the sea's rms from wind and the compiled fetch, per-band fetch, the class standing ratio, no distance fade", () => {
-    expect(vert).toContain("esWaveSampleEx(esRestW.xz, esWaveAmp, esFetchM, esStandingRatio(esKl.r * 255.0, esShore), uWaveTime)");
+    expect(vert).toContain("float esStandW = esStandingRatio(esKl.r * 255.0, esShore);");
+    expect(vert).toContain("esWaveSampleEx(esRestW.xz, esWaveAmp, esFetchM, esStandW, uWaveTime)");
     expect(vert).toContain("float esWaveAmp = esExposure * esSeaRms(uWindMS, esFetchM);");
     expect(vert).toContain("float esFetchM = esFetchAt(esFl);");
     expect(vert).not.toContain("esWaveSample(esRestW.xz");
     expect(vert).not.toContain("exp(-esCamDist * 0.0003)");
     expect(vert).toContain("float esStandingRatio(float classIndex, float shoreDist)");
-    expect(vert.match(/esWaveBand\(pos/g)?.length).toBe(WAVES.bands);
-    for (const b of waveBands()) expect(vert).toContain(`clamp(fetchM / ${b.fetchM}`);
+    // every band is drawn: on the vertex, or per pixel when the grid cannot carry it (V1)
+    const onVertex = vert.match(/esWaveBand\(pos/g)?.length ?? 0;
+    expect(onVertex + (below.match(/esWaveBandSlope\(pos/g)?.length ?? 0)).toBe(WAVES.bands);
+    for (const b of waveBands()) expect(vert + below).toContain(`clamp(fetchM / ${b.fetchM}`);
   });
 
   it("shore surf round 2: one energy knob from wind and fetch, an oblique phase, shared by geometry and foam (16c)", () => {
@@ -362,7 +365,7 @@ describe("Water Pro transfers (Greenheck study §3.1, §6)", () => {
     const waveUses = frag.match(/uWaveTime/g) ?? [];
     // surf closed forms (esSurfFoam/esSwash) and uniform declaration only
     for (const line of frag.split("\n").filter((l) => l.includes("uWaveTime"))) {
-      expect(/uniform float uWaveTime|esSurfFoam\(|esSwash\(|esShoreSwell\(|esSurfGroup\(|esAlongPhase\(|float t\b|, t\)|\bt\b/.test(line)).toBe(true);
+      expect(/uniform float uWaveTime|esSurfFoam\(|esSwash\(|esShoreSwell\(|esSurfGroup\(|esAlongPhase\(|esWaveFragSlope\(|float t\b|, t\)|\bt\b/.test(line)).toBe(true);
     }
     expect(waveUses.length).toBeGreaterThan(0);
   });
@@ -485,5 +488,27 @@ describe("Water Pro transfers (Greenheck study §3.1, §6)", () => {
     }
     // the tilt happens BEFORE the underside flip
     expect(below.indexOf("esMeniscusNormal(")).toBeLessThan(below.indexOf("esNW = -esNW;"));
+  });
+});
+
+describe("short Gerstner bands per pixel (perf-diag9 V1)", () => {
+  it("the vertex path carries no band under 2x the tier's grid cell and the fragment normal carries their slope", () => {
+    for (const tier of [WATER_TIERS.high, WATER_TIERS.low]) {
+      const { shader } = compile("field", assets, tier);
+      const vert = code(shader.vertexShader);
+      const frag = code(shader.fragmentShader);
+      for (const b of waveBands().slice(0, tier.waveBands).filter((b) => b.wavelengthM < 2 * tier.gridCellM)) {
+        expect(vert, `${tier.name}: ${b.wavelengthM} m off the vertex`).not.toContain(`${b.freq}, `);
+        expect(frag, `${tier.name}: ${b.wavelengthM} m in the fragment`).toContain(`${b.freq}, ${b.amp}, ${b.phaseSpeed}, ${b.phase0}`);
+      }
+      expect(frag).toContain("esWaveG = esWaveFragSlope(vEsWorldPos.xz, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime)");
+      expect(frag).toMatch(/esNBase\.x - [^;]*- esWaveG\.x/);
+      expect(vert).toContain("vEsWaveIn = vec3(esWaveAmp, esFetchM, esStandW);");
+    }
+    // high tier (2.6 m) moves the 4.8 m and 3.1 m bands; low tier (3.6 m, 6 bands) moves none
+    const moved = (t: typeof WATER_TIERS.high, k: number) =>
+      waveBands().slice(0, t.waveBands).filter((b) => b.wavelengthM < k * t.gridCellM).length;
+    expect(moved(WATER_TIERS.high, 2.2)).toBe(2);
+    expect(moved(WATER_TIERS.low, 2.5)).toBe(0);
   });
 });

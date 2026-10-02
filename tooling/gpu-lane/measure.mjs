@@ -9,7 +9,9 @@
  *     [--origin http://127.0.0.1:8099] [--base /elder-souls-argonia/studio/] [--renderer webgl|webgpu]
  *     [--settle 10] [--walk <s>] [--shots] [--cdp 127.0.0.1:9222] [--width 1280 --height 720 --dpr 1]
  *     [--ready-timeout 150] [--profile <s>] [--out tooling/.reports/gpu-lane/<run>/]
+ *     [--pod "ssh -i <key> -p <port> root@<ip>"] [--maps <built site dir>]
  *
+ * --pod: host sampler (host-sampler.mjs) beside workerGaps; --maps: hidden source maps (source-maps.mjs, A1).
  * --profile <s>: a CDP CPU profile of <s> seconds (during the walk when --walk is set, else after the
  * settle window); the .cpuprofile lands beside measure.json and its summary in the url entry.
  * --smoke: one spot (default spot a), 60 s; exits 1 and says why on the vsync cap, a ready gate over 40 s,
@@ -38,6 +40,8 @@ import { join, resolve } from "node:path";
 import { chromium } from "playwright";
 import { BLACK_LUMA, INPAGE_PROBES, SPOT_A, censusText, diagList, foreignPages, heapGrowth, heapTopAllocators, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
+import { hostSeries, hostSpikes, startHostSampler } from "./host-sampler.mjs";
+import { loadSourceMaps, sourcePosition } from "./source-maps.mjs";
 import { ANCHOR_PREFIX, GPU_TRACE_CATEGORIES, MEMORY_DUMP_CONFIG, MEMORY_INFRA_CATEGORY, TRACE_CATEGORIES, classifyFrames, gpuEventsInSpans, isGpuCategoryEvent, joinLinks, keepTraceEvent } from "./trace-frames.mjs";
 import { CAPTURE_RATE, heapSlope, isDiagnosisSpot, parseBar, parseSpots, spotRows, stepsSeconds, summaryTable } from "./spots.mjs";
 
@@ -49,7 +53,7 @@ const probePath = (n) => new URL(`./probes/${n}.js`, import.meta.url).pathname;
 export function parseArgs(argv) {
   const o = { url: [], origin: "http://127.0.0.1:8099", base: null, renderer: "webgl", settle: 10, walk: 0, shots: false,
     cdp: "127.0.0.1:9222", run: null, out: null, width: 1280, height: 720, dpr: 1, readyTimeout: 150, profile: 0,
-    smoke: false, census: false, trace: false, traceGpu: false, diag: "", aim: "", clean: "", spots: "", bar: "83,69", leak: 0, leakEvery: 15 };
+    smoke: false, census: false, trace: false, traceGpu: false, diag: "", aim: "", clean: "", spots: "", bar: "83,69", leak: 0, leakEvery: 15, pod: "", maps: "" };
   const camel = (k) => k.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i].replace(/^--/, "");
@@ -154,7 +158,7 @@ export function workStats(frames, hitchMs = 33) {
 }
 
 /** Summarise a CDP Profiler profile: top functions by self time and self time by source file. */
-export function profileSummary(profile, top = 40) {
+export function profileSummary(profile, top = 40, maps = null) {
   const byId = new Map(profile.nodes.map((n) => [n.id, n]));
   const self = new Map();
   const { samples = [], timeDeltas = [] } = profile;
@@ -167,7 +171,9 @@ export function profileSummary(profile, top = 40) {
   for (const [id, ms] of self) {
     const cf = byId.get(id)?.callFrame ?? {};
     const file = cf.url ? cf.url.replace(/^.*\//, "") : `(${cf.functionName || "native"})`;
-    const key = `${cf.functionName || "(anon)"} ${file}:${(cf.lineNumber ?? -1) + 1}:${(cf.columnNumber ?? -1) + 1}`;
+    const src = sourcePosition(maps, cf.url, cf.lineNumber ?? -1, cf.columnNumber ?? -1);
+    const at = `${file}:${(cf.lineNumber ?? -1) + 1}:${(cf.columnNumber ?? -1) + 1}`;
+    const key = `${cf.functionName || "(anon)"} ${src ? `${src} (${at})` : at}`;
     fns.set(key, (fns.get(key) ?? 0) + ms);
     files.set(file, (files.get(file) ?? 0) + ms);
   }
@@ -201,7 +207,8 @@ export function pageProbe() {
   });
   const tick = (t) => { if (lane.on) lane.ts.push(t); requestAnimationFrame(tick); };
   requestAnimationFrame(tick);
-  localStorage.setItem("es.hud.perfOpen", "1");
+  // about:blank between spots has an opaque origin: storage throws there (perf-diag9 E1)
+  if (location.protocol.startsWith("http")) try { localStorage.setItem("es.hud.perfOpen", "1"); } catch {}
 }
 
 /**
@@ -346,7 +353,7 @@ async function startTrace(page, file, { gpu = false, memoryInfra = false } = {},
  * GC included, so it names the allocation churn behind a GC frame. Started before the window opens; the returned
  * stop(file) runs after it closes, writes the profile and returns its top 25 allocators by allocated MB.
  */
-async function startHeapSample(page, hl) {
+async function startHeapSample(page, hl, maps = null) {
   const cdp = await page.context().newCDPSession(page);
   await cdp.send("HeapProfiler.enable");
   await hl.wrap("heapsample:start", () => cdp.send("HeapProfiler.startSampling", { samplingInterval: 32768, includeObjectsCollectedByMajorGC: true, includeObjectsCollectedByMinorGC: true }));
@@ -354,7 +361,7 @@ async function startHeapSample(page, hl) {
     const { profile } = await hl.wrap("heapsample:stop", () => cdp.send("HeapProfiler.stopSampling"));
     await cdp.detach().catch(() => {});
     writeFileSync(file, JSON.stringify(profile));
-    return { file, topAllocated: heapTopAllocators(profile, 25) };
+    return { file, topAllocated: heapTopAllocators(profile, 25, maps) };
   };
 }
 
@@ -427,8 +434,10 @@ export function harnessLogger(nowMs = Date.now) {
 /**
  * Per hitch over `overMs` (dt; the gap is [t - dt, t] page ms): the nearest harness action within `nearMs` of the gap
  * ({action, t, dMs}, null when none) and whether the heartbeat worker saw a gap overlapping it (null: no worker data).
+ * `hostSpikes` ([start, end] page ms from host-sampler.mjs, null without --pod): `cause` is "host" for a worker-seen
+ * gap overlapping a pod steal/major-fault spike, "process" for any other worker-seen gap, "main" when the worker ran.
  */
-export function hitchContext(hitches, harnessLog, workerGaps, overMs = 33, nearMs = 500) {
+export function hitchContext(hitches, harnessLog, workerGaps, hostSpikes = null, overMs = 33, nearMs = 500) {
   return hitches.filter((h) => h.dt > overMs).map((h) => {
     const a = h.t - h.dt, b = h.t;
     let harness = null;
@@ -437,14 +446,17 @@ export function hitchContext(hitches, harnessLog, workerGaps, overMs = 33, nearM
       const d = Math.max(0, e.t - b, a - (e.t + e.ms));
       if (d <= nearMs && (!harness || d < harness.dMs)) harness = { action: e.action, t: e.t, dMs: r2(d) };
     }
-    return { t: h.t, dt: h.dt, work: h.work, harness, workerGap: workerGaps == null ? null : workerGaps.some(([s, ms]) => s < b && s + ms > a) };
+    const workerGap = workerGaps == null ? null : workerGaps.some(([s, ms]) => s < b && s + ms > a);
+    const hostSpike = hostSpikes == null ? null : hostSpikes.some(([s, e]) => s < b && e > a);
+    const cause = workerGap == null ? null : !workerGap ? "main" : hostSpike ? "host" : "process";
+    return { t: h.t, dt: h.dt, work: h.work, harness, workerGap, hostSpike, cause };
   });
 }
 
 /** summary.md lines for one spot's hitch contexts ({settled, walk} -> lists). */
 export function hitchContextText(name, ctx) {
   return Object.entries(ctx).filter(([, l]) => l?.length).flatMap(([phase, l]) => l.map((h) =>
-    `- ${name} ${phase}: ${h.dt} ms at ${h.t} (work ${h.work}); harness ${h.harness ? `${h.harness.action} at ${h.harness.t} (${h.harness.dMs} ms away)` : "none within 500 ms"}; worker gap ${h.workerGap == null ? "n/a" : h.workerGap ? "yes (process/host stall)" : "no"}`));
+    `- ${name} ${phase}: ${h.dt} ms at ${h.t} (work ${h.work}); harness ${h.harness ? `${h.harness.action} at ${h.harness.t} (${h.harness.dMs} ms away)` : "none within 500 ms"}; worker gap ${h.workerGap == null ? "n/a" : h.workerGap ? "yes" : "no"}; host spike ${h.hostSpike == null ? "n/a" : h.hostSpike ? "yes" : "no"}; cause ${h.cause ?? "n/a"}`));
 }
 
 /** Starts a CDP CPU profile (sampling `intervalUs`); the returned stop(file) ends it, writes the
@@ -468,18 +480,18 @@ async function cpuProfile(page, o, seconds, tag, name, hl) {
   await nodeWait(seconds * 1000);
   const file = join(o.out, `${name}-${tag}.cpuprofile`);
   const profile = await stop(file);
-  return { elapsedMs: Date.now() - t0, file, seconds, ...profileSummary(profile) };
+  return { elapsedMs: Date.now() - t0, file, seconds, ...profileSummary(profile, 40, o.sourceMaps) };
 }
 
 /** `profile` spot token: the top `top` functions by self time over a stats window, as
  * {name, at: "<url>:<line>", msPerFrame} with `frames` the window's frame count. */
-export function profileTopPerFrame(profile, frames, top = 25) {
+export function profileTopPerFrame(profile, frames, top = 25, maps = null) {
   const byId = new Map(profile.nodes.map((n) => [n.id, n]));
   const self = new Map();
   const { samples = [], timeDeltas = [] } = profile;
   for (let i = 0; i < samples.length; i++) {
     const cf = byId.get(samples[i])?.callFrame ?? {};
-    const key = `${cf.functionName || "(anon)"}\t${cf.url || "(native)"}:${(cf.lineNumber ?? -1) + 1}`;
+    const key = `${cf.functionName || "(anon)"}\t${sourcePosition(maps, cf.url, cf.lineNumber ?? -1, cf.columnNumber ?? -1) ?? `${cf.url || "(native)"}:${(cf.lineNumber ?? -1) + 1}`}`;
     self.set(key, (self.get(key) ?? 0) + (timeDeltas[i + 1] ?? 0) / 1000);
   }
   const n = Math.max(1, frames);
@@ -505,11 +517,18 @@ export async function driveSteps(io, steps, baseYaw = 0) {
   if (held) await io.key(false);
 }
 
+/** A pageerror entry with its stack kept (perf-diag9 E2: the message alone could not name the throwing caller). */
+export function pageErrorText(e) {
+  const msg = String(e).slice(0, 400);
+  const stack = typeof e?.stack === "string" ? e.stack.split("\n").filter((l) => /^\s+at /.test(l)).slice(0, 12).join("\n") : "";
+  return stack ? `pageerror: ${msg}\n${stack}` : `pageerror: ${msg}`;
+}
+
 async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   const { query, name } = spot;
   const consoleErrors = [], http404s = [];
   const onConsole = (m) => { if (m.type() === "error") consoleErrors.push(m.text().slice(0, 400)); };
-  const onPageError = (e) => consoleErrors.push(`pageerror: ${String(e).slice(0, 400)}`);
+  const onPageError = (e) => consoleErrors.push(pageErrorText(e));
   const onResponse = (r) => { if (r.status() === 404) http404s.push(r.url()); };
   page.on("console", onConsole); page.on("pageerror", onPageError); page.on("response", onResponse);
   const url = `${o.origin}${o.base}${query.startsWith("?") ? query : `?${query}`}`;
@@ -520,6 +539,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     .catch((e) => { consoleErrors.push(`goto: ${e}`); return false; });
   if (!loaded) throw new Error(`site not reachable at ${url} (is serve.mjs running on the pod?)`);
   hl.origin = await page.evaluate(() => performance.timeOrigin).catch(() => null);
+  const host = o.pod ? startHostSampler(o.pod) : null; // --pod: steal/major faults on the pod beside workerGaps (S1)
   // Ready: see isReady (the world has stopped arriving; streaming never lets the network go quiet).
   let ready = false;
   const samples = [];
@@ -553,7 +573,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   if (stopSettleProfile) {
     const file = join(o.out, `${name}-settled.cpuprofile`);
     profile = { file, intervalUs: 200, frames: settle.ts.length,
-      topSelfPerFrame: profileTopPerFrame(await stopSettleProfile(file), settle.ts.length) };
+      topSelfPerFrame: profileTopPerFrame(await stopSettleProfile(file), settle.ts.length, 25, o.sourceMaps) };
   }
   if (stopSettleTrace) traces.settled = await stopSettleTrace(null, settle.ts.at(-1));
   const stats = { ...frameStats(settle.ts), ...settle.work };
@@ -593,7 +613,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
       wait: nodeWait,
     };
     const stopWalkTrace = doTrace ? await startTrace(page, join(o.out, `${name}-walk.trace.json`), traceOpt, hl) : null;
-    const stopHeap = P.heapsample ? await startHeapSample(page, hl) : null;
+    const stopHeap = P.heapsample ? await startHeapSample(page, hl, o.sourceMaps) : null;
     // One window (stats, trace, profile) spans the whole sequence: the driver runs beside the sampler.
     const [w] = await Promise.all([
       sample(page, walkS, o.profile > 0 ? () => cpuProfile(page, o, Math.min(o.profile, walkS), "walk", name, hl) : null, nodeWait, hl),
@@ -629,9 +649,11 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   }
   page.off("console", onConsole); page.off("pageerror", onPageError); page.off("response", onResponse);
   const harnessLog = hl.entries();
-  const hitchCtx = { settled: hitchContext(settle.work.hitches ?? [], harnessLog, settle.workerGaps),
-    ...(walk ? { walk: hitchContext(walk.hitches ?? [], harnessLog, walk.workerGaps) } : {}) };
-  return { name, url, query, ready, readyS, ...stats, series: settle.series, workerGaps: settle.workerGaps, harnessLog, hitchContext: hitchCtx, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
+  const hostSamples = host ? hostSeries(host.stop(), hl.origin) : null;
+  const spikes = hostSpikes(hostSamples);
+  const hitchCtx = { settled: hitchContext(settle.work.hitches ?? [], harnessLog, settle.workerGaps, spikes),
+    ...(walk ? { walk: hitchContext(walk.hitches ?? [], harnessLog, walk.workerGaps, spikes) } : {}) };
+  return { name, url, query, ready, readyS, ...stats, series: settle.series, workerGaps: settle.workerGaps, hostSamples, hostSpikes: spikes, harnessLog, hitchContext: hitchCtx, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
     walk, profile, trace: doTrace ? traces : null, heapsample, diagnosis: !!spot.diagnosis, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
 }
 
@@ -646,6 +668,7 @@ export function probeScript(n, src, globalDiag = []) {
 
 async function main() {
   const o = parseArgs(process.argv.slice(2));
+  o.sourceMaps = loadSourceMaps(o.maps); // --maps <dir>: hidden source maps of the measured build (A1)
   mkdirSync(o.out, { recursive: true });
   const browser = await chromium.connectOverCDP(`http://${o.cdp}`);
   const { closed: orphansClosed, keep } = await closeOrphanPages(browser);

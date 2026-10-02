@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { WHITEWATER_GLSL, STREAK_LAYERS } from "./whitewaterStreaks";
 import { STRIP_BANK_FADE_START } from "./ChannelStrips";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
-import { FLOW_WAVE_MIN_SPEED_MS, SEA, WAVES, flowWaveGlsl, gerstnerGlsl, standingRatioGlsl, surfGlsl,
+import { FLOW_WAVE_MIN_SPEED_MS, SEA, WAVES, flowWaveGlsl, gerstnerGlsl, gerstnerFragGlsl, standingRatioGlsl, surfGlsl,
   whitecapThreshold, whitecapDriftMS } from "@elder-souls/game-core/water/index";
 import { buriedThresholdM, tideResponseGlsl } from "../waterData";
 
@@ -54,6 +54,10 @@ export interface WaterTier {
   godRays: boolean;
   ripples: boolean;
   waveBands: number;
+  /** The surface grid's uniform cell (m), the one source WaterSurface builds
+   * from: bands under ~2x this leave the vertex path for the fragment
+   * (perf-diag9 V1, `vertexBandWeight`). */
+  gridCellM: number;
   rtScale: number;
   samples: number;
 }
@@ -61,8 +65,8 @@ export interface WaterTier {
 export const WATER_TIERS: Record<"low" | "high", WaterTier> = {
   // samples stay 0: a multisampled half-float RT costs serious VRAM/bandwidth
   // (owner round 1 perf); water/overlay edges still get the canvas MSAA.
-  high: { name: "high", ssr: true, godRays: true, ripples: true, waveBands: WAVES.bands, rtScale: 0.9, samples: 0 },
-  low: { name: "low", ssr: false, godRays: false, ripples: true, waveBands: WAVES.lowTierBands, rtScale: 0.75, samples: 0 },
+  high: { name: "high", ssr: true, godRays: true, ripples: true, waveBands: WAVES.bands, gridCellM: 2.6, rtScale: 0.9, samples: 0 },
+  low: { name: "low", ssr: false, godRays: false, ripples: true, waveBands: WAVES.lowTierBands, gridCellM: 3.6, rtScale: 0.75, samples: 0 },
 };
 
 export const WATER_LAYER = 3;
@@ -817,8 +821,9 @@ varying vec2 vEsColour;  // 16f: algae, dark
 varying vec3 vEsFlow;
 varying vec3 vEsNormalW;
 varying vec4 vEsSurf;
+varying vec3 vEsWaveIn;  // wave amp, fetch, standing: the fragment's short bands
 ${SAMPLER_GLSL}
-${gerstnerGlsl(tier.waveBands)}
+${gerstnerGlsl(tier.waveBands, tier.gridCellM)}
 ${standingRatioGlsl(classes)}
 ${tideResponseGlsl(classes)}
 ${surfGlsl()}
@@ -906,10 +911,13 @@ float esCamDist = distance(cameraPosition.xz, esRestW.xz);
 // the horizon blend is what the far sea meets) — CPU twin: waterWorld.sample
 float esWaveAmp = esExposure * esSeaRms(uWindMS, esFetchM);
 EsWave esW;
+vEsWaveIn = vec3(0.0, esFetchM, 0.0);
 if (esWaveAmp > 0.0005) {
   // per-band fetch (long swell needs long fetch) + the class standing ratio
   // (lakes/marsh bob, coast marches) — CPU twin: waterWorld.sample
-  esW = esWaveSampleEx(esRestW.xz, esWaveAmp, esFetchM, esStandingRatio(esKl.r * 255.0, esShore), uWaveTime);
+  float esStandW = esStandingRatio(esKl.r * 255.0, esShore);
+  vEsWaveIn = vec3(esWaveAmp, esFetchM, esStandW);
+  esW = esWaveSampleEx(esRestW.xz, esWaveAmp, esFetchM, esStandW, uWaveTime);
 } else {
   esW.disp = vec3(0.0);
   esW.normal = vec3(0.0, 1.0, 0.0);
@@ -985,6 +993,8 @@ ${prelude}
 ${strip ? "" : OWNER_MASK_GLSL}
 ${strip ? "" : FOAM_FIELD_GLSL + RAIN_RINGS_GLSL + SPARKLE_SSS_GLSL + HORIZON_BLEND_GLSL + SHORE_FROTH_GLSL + FOAM_MASK_GLSL}
 ${MENISCUS_GLSL}
+varying vec3 vEsWaveIn;
+${gerstnerFragGlsl(tier.waveBands, tier.gridCellM)}
 ${foamTex && !strip ? "#define ES_FOAM_TEX 1" : ""}
 uniform vec3 uWaterSunDir;
 uniform vec3 uWaterSunLight;
@@ -1112,10 +1122,16 @@ float esRipCrest = 0.0;
 vec2 esRainG = vec2(0.0);
 ${strip ? "" : /* glsl */ `
 if (uRainRipple > 0.02) esRainG = esRainRings(vEsWorldPos.xz, uTransportTime, uRainRipple, esDist);`}
+// short Gerstner bands the grid cannot carry (perf-diag9 V1): their slope per
+// pixel, faded out where a pixel spans several of their wavelengths
+vec2 esWaveG = vec2(0.0);
+if (vEsWaveIn.x > 0.0005 && esDist < 400.0)
+  esWaveG = esWaveFragSlope(vEsWorldPos.xz, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime)
+          * (1.0 - smoothstep(120.0, 400.0, esDist));
 vec3 esNW = normalize(vec3(
-  esNBase.x - (esG.x + esGF.x) * esDetStrength - esRip.x - esRainG.x,
+  esNBase.x - (esG.x + esGF.x) * esDetStrength - esWaveG.x - esRip.x - esRainG.x,
   esNBase.y,
-  esNBase.z - (esG.y + esGF.y) * esDetStrength - esRip.y - esRainG.y));
+  esNBase.z - (esG.y + esGF.y) * esDetStrength - esWaveG.y - esRip.y - esRainG.y));
 // waterline meniscus (study §3.1 (8)): within +-0.4 m of the camera height
 // and arm's reach, the normal tilts toward the camera; the rim is added in
 // the lighting stage. Both variants: the half-in-half-out swimming shot.
