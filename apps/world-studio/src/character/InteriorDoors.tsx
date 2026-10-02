@@ -16,7 +16,6 @@ import {
   type LoadedInterior,
 } from "@elder-souls/game-core/interior/interiorLoader";
 import { drawnLightRigOf } from "../sky/lightRig";
-import { compassDirection } from "@elder-souls/game-core/interior/doors";
 import { SharedKtx2Textures } from "@elder-souls/game-core/interior/sharedTextures";
 import { kitPartsDir } from "@elder-souls/game-core/interior/kitParts";
 import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
@@ -342,7 +341,6 @@ export function InteriorDoors({
     };
   }, [shown]);
   const ambientIrr = useMemo(() => new THREE.Color(), []);
-  const directFaced = useRef(false);
   const toSunCell = useMemo(() => new THREE.Vector3(), []);
   const sky = useMemo(() => ({ dir: new THREE.Vector3(0, -1, 0), tint: new THREE.Color(), strength: 0, inFrames: 0 }), []);
   // the sky light eased toward the last read every frame (diag3 Q5): the read refreshes twice a second, a step each time
@@ -369,17 +367,9 @@ export function InteriorDoors({
       // origin, 3 km from the door it belongs to (walk 2 D2 probe).
       const p = new THREE.Vector3();
       controller.readPose(p, new THREE.Quaternion());
-      transition.openDirect(directCellId, { x: p.x, y: p.y, z: p.z });
+      transition.openDirect(directCellId, { x: p.x, y: p.y, z: p.z }, directYawDeg);
     }
     transition.update(Math.min(delta, 0.1), answers);
-    // `?yaw=` at a direct arrival: turned in the tick the transition placed the body, so the camera's
-    // teleport reset (CharacterDriver) lands behind the new facing
-    if (directCellId && directYawDeg !== null && !directFaced.current && transition.cellId === directCellId) {
-      directFaced.current = true;
-      const d = compassDirection(directYawDeg);
-      controller.faceDirection(new THREE.Vector3(d.x, 0, d.z), false);
-      controller.releaseFacing();
-    }
     if (transition.candidate) interaction.offer(transition.candidate);
     if (swing && transition.fade === 0) {
       const p = controller.position(bodyPos);

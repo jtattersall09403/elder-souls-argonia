@@ -64,6 +64,8 @@ type Inside = {
   enteredBy: SettlementDoor | null;
   /** Where the player stands on arrival, in the cell frame. */
   arrival: InteriorMarker;
+  /** The facing asked for at a direct open (`?yaw`): the arrival facing of every arrival placement, over the marker's. */
+  requestedYawDeg: number | null;
   /** Where leaving puts the player when no pairing names another door, and the height floor for it. */
   returnTo: ReturnPoint;
   /** The cell's load doors the place entered from claims (`openLoadDoorRefs`); the rest show the closed line. */
@@ -71,7 +73,7 @@ type Inside = {
 };
 
 type Pending =
-  | { kind: "enter"; cellId: string; originM: Vec3; returnTo: ReturnPoint; door: SettlementDoor | null }
+  | { kind: "enter"; cellId: string; originM: Vec3; returnTo: ReturnPoint; door: SettlementDoor | null; requestedYawDeg: number | null }
   | { kind: "leave"; loadDoorRef: string };
 
 /** An `activate` press: a plain edge, or asked per door (the interaction arbiter's `answers`). */
@@ -227,11 +229,11 @@ export class DoorTransition {
   get entranceFacingDeg(): number | null { return this.inside?.returnTo.facingDeg ?? null; }
 
   /** Open a cell directly (studio `?interior=<cellId>`); leaving returns to `anchor`. */
-  openDirect(cellId: string, anchor: { x: number; y: number; z: number }): void {
+  openDirect(cellId: string, anchor: { x: number; y: number; z: number }, requestedYawDeg: number | null = null): void {
     this.hosts.interiors.request(cellId).catch(() => undefined);
     this.begin({
       kind: "enter", cellId, originM: [anchor.x, INTERIOR_SPACE_LIFT_M, anchor.z],
-      returnTo: { x: anchor.x, z: anchor.z, y: anchor.y, facingDeg: 0 }, door: null,
+      returnTo: { x: anchor.x, z: anchor.z, y: anchor.y, facingDeg: 0 }, door: null, requestedYawDeg,
     });
     this.fade = 1;
     this.phase = "hold";
@@ -281,7 +283,7 @@ export class DoorTransition {
       kind: "enter", cellId: access.cellId,
       originM: [door.thresholdM[0], INTERIOR_SPACE_LIFT_M, door.thresholdM[1]],
       returnTo: { x: door.thresholdM[0], z: door.thresholdM[1], y: p.y, facingDeg: door.facingDeg ?? 0 },
-      door,
+      door, requestedYawDeg: null,
     });
   }
 
@@ -331,7 +333,7 @@ export class DoorTransition {
     this.hosts.showInterior(interior, pending.originM);
     this.inside = {
       cellId: pending.cellId, originM: pending.originM, interior, enteredBy: pending.door,
-      arrival: arrivalFor(interior.bundle, pending.door), returnTo: pending.returnTo,
+      arrival: arrivalFor(interior.bundle, pending.door), requestedYawDeg: pending.requestedYawDeg, returnTo: pending.returnTo,
       openRefs: openLoadDoorRefs(pending.cellId, this.doors, pending.door),
     };
     this.placeAtArrival();
@@ -342,7 +344,7 @@ export class DoorTransition {
     const a = this.inside.arrival;
     const o = this.inside.originM;
     this.place({ x: o[0] + a.positionM[0], y: o[1] + a.positionM[1] + this.hosts.bodyCentreHeightM,
-      z: o[2] + a.positionM[2] }, a.yawDeg);
+      z: o[2] + a.positionM[2] }, this.inside.requestedYawDeg ?? a.yawDeg);
   }
 
   private leave(loadDoorRef: string): void {

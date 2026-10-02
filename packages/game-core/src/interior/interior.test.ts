@@ -10,7 +10,7 @@ import { daylightShare, INTERIOR_SUN_SHADOW_MAP, interiorAmbientShare, PANE_LIGH
 import { FIXTURE_LIGHTS_MAX, FixtureLightField } from "../render/fixtureLights/fixtureLightField";
 import { LIGHTS_CAP } from "../settlement/lighting";
 import { DOOR_FADE_S, DoorTransition, RETURN_LIFT_M } from "./doorTransition";
-import { INTERIOR_SPACE_LIFT_M, cellsToPrefetch, doorAccess } from "./doors";
+import { INTERIOR_SPACE_LIFT_M, cellsToPrefetch, compassDirection, doorAccess } from "./doors";
 import { InteriorEnvironment } from "./interiorEnvironment";
 import { sunAt, WorldClock } from "@elder-souls/world-time";
 import lightRows from "../air/volumetrics/interiorLight.json";
@@ -340,6 +340,21 @@ describe("DoorTransition", () => {
     expect(t.fade).toBe(0);
     expect(t.loadingTextId).toBeNull();
     expect(t.enterS).toBeGreaterThanOrEqual(0);         // the loader timer, press to reveal (F3)
+  });
+
+  it("a requested ?yaw is the arrival facing on every placement while the cell is not resident", async () => {
+    const want = compassDirection(129);
+    const resident = { now: false };
+    const asked = rig([], undefined, resident);
+    asked.t.openDirect("fixture.hut-int", { x: 50, y: 12, z: 60 }, 129);
+    await run(asked.t, 0.5);
+    expect(asked.t.fade).toBe(1);                       // still settling: placeAtArrival repeats each frame
+    expect(asked.controller.facing.x).toBeCloseTo(want.x);
+    expect(asked.controller.facing.z).toBeCloseTo(want.z);
+    const plain = rig([], undefined, { now: false });
+    plain.t.openDirect("fixture.hut-int", { x: 50, y: 12, z: 60 });
+    await run(plain.t, 0.5);
+    expect(plain.controller.facing.x).not.toBeCloseTo(want.x);   // the marker's own yaw
   });
 
   it("opens a cell directly at its arrival marker (studio ?interior=)", async () => {
