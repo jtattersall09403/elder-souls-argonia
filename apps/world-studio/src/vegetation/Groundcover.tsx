@@ -81,7 +81,9 @@ import {
   applyCylindricalBillboard,
 } from "@elder-souls/game-core/fx/billboardQuad";
 import { makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry";
+import { decodePng } from "@elder-souls/game-core/terrain/groundRasters";
 import { sharedWindUniforms } from "./windUniforms";
+import { FillScratch, ROLE_ALL, ROLE_NAMES, ROLE_REST, ROLE_THIN } from "./groundcoverFill";
 import { lastWeatherSample } from "../weather/weatherState";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
@@ -671,22 +673,16 @@ function sharedTintRaster(baseUrl: string): Promise<TintRaster> {
     tintBase = baseUrl;
     tintPromise = (async () => {
       const res = await fetch(`${baseUrl}province/refined/ground-tint.png`);
-      const bitmap = await createImageBitmap(await res.blob(), {
-        premultiplyAlpha: "none",
-        colorSpaceConversion: "none",
-      });
-      const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
-      const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
-      ctx.drawImage(bitmap, 0, 0);
-      const px = ctx.getImageData(0, 0, bitmap.width, bitmap.height).data;
-      bitmap.close();
-      const rgb = new Uint8Array(canvas.width * canvas.height * 3);
-      for (let i = 0; i < canvas.width * canvas.height; i++) {
+      // Exact JS decode, no ImageBitmap/canvas (GPU shared images; perf10 C1).
+      const png = await decodePng(new Uint8Array(await res.arrayBuffer()));
+      const px = png.data;
+      const rgb = new Uint8Array(png.width * png.height * 3);
+      for (let i = 0; i < png.width * png.height; i++) {
         rgb[i * 3] = px[i * 4];
         rgb[i * 3 + 1] = px[i * 4 + 1];
         rgb[i * 3 + 2] = px[i * 4 + 2];
       }
-      return { rgb, size: canvas.width, metresPerTexel: PROVINCE_EXTENT_M / canvas.width };
+      return { rgb, size: png.width, metresPerTexel: PROVINCE_EXTENT_M / png.width };
     })();
   }
   return tintPromise;
@@ -722,26 +718,15 @@ function sharedRegionRaster(baseUrl: string): Promise<ControlRaster> {
         const [r, g, b] = entry.rgb;
         byColour.set((r << 16) | (g << 8) | b, Number(id));
       }
-      const bitmap = await createImageBitmap(await res.blob(), {
-        premultiplyAlpha: "none",
-        colorSpaceConversion: "none",
-      });
-      const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
-      const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
-      ctx.drawImage(bitmap, 0, 0);
-      const px = ctx.getImageData(0, 0, bitmap.width, bitmap.height).data;
-      bitmap.close();
-      // The shipped raster carries a partial alpha (120, an overlay-style
-      // PNG since 2026-09-13). A 2D canvas stores premultiplied colour and
-      // getImageData un-premultiplies it with rounding, so an exact legend
-      // match failed on every texel (55,175,45 read back as 55,174,45),
-      // every texel decoded as region 0, and the ring bound no species
-      // anywhere (measured 2026-09-16: 68 tiles, 0 instances). Match the
-      // NEAREST legend colour instead; anything farther than a few units
-      // from every legend entry is genuinely unknown.
+      // Exact JS decode, no ImageBitmap/canvas (GPU shared images; perf10 C1;
+      // a canvas also un-premultiplied this partial-alpha raster with
+      // rounding). Match the NEAREST legend colour, so a texel a few units
+      // off a legend entry still binds; farther is genuinely unknown.
+      const png = await decodePng(new Uint8Array(await res.arrayBuffer()));
+      const px = png.data;
       const entries = [...byColour.entries()].map(([key, id]) => [key >> 16, (key >> 8) & 255, key & 255, id]);
       const exact = new Map<number, number>();
-      const ids = new Uint8Array(canvas.width * canvas.height);
+      const ids = new Uint8Array(png.width * png.height);
       for (let i = 0; i < ids.length; i++) {
         const r = px[i * 4], g = px[i * 4 + 1], b = px[i * 4 + 2];
         const key = (r << 16) | (g << 8) | b;
@@ -759,8 +744,8 @@ function sharedRegionRaster(baseUrl: string): Promise<ControlRaster> {
       }
       return {
         ids,
-        size: canvas.width,
-        metresPerTexel: PROVINCE_EXTENT_M / canvas.width,
+        size: png.width,
+        metresPerTexel: PROVINCE_EXTENT_M / png.width,
       };
     })();
   }
@@ -1157,6 +1142,9 @@ export function Groundcover({
   /** The pool as a flat list, so the per-frame visibility loop allocates
    * no iterator. Rebuilt whenever the pool changes. */
   const meshList = useRef<THREE.InstancedMesh[]>([]);
+  /** The fill's working arrays, reset per rebuild, never reallocated (perf10 C3). */
+  const [fillScratch] = useState(() =>
+    new FillScratch<TileSpecies, THREE.InstancedMesh, THREE.InstancedBufferAttribute, THREE.BufferGeometry>());
   const forward = useMemo(() => new THREE.Vector3(), []);
   /** Generation counters since the last fill, reported by the fill. */
   const genStats = useRef({ generated: 0, ms: 0, tileMs: 0, tileMaxMs: 0, rejected: { keep: 0, bare: 0, accept: 0, footprint: 0, patch: 0, height: 0, slope: 0, water: 0 } });
@@ -1502,10 +1490,13 @@ export function Groundcover({
     // Nothing is destroyed here (mechanism 7). Every mesh this rebuild does
     // not fill is hidden by setting its `count` to 0 at the end; the meshes
     // themselves, their buffers and their bounding spheres survive.
-    const liveMeshes = new Set<string>();
-    /** What the commit step applies, per mesh written. */
-    const grownBands = new Map<THREE.BufferGeometry, THREE.InstancedBufferAttribute>();
-    const commits: { mesh: THREE.InstancedMesh; drawn: number; bands: THREE.InstancedBufferAttribute; geometry: THREE.BufferGeometry; cx: number; cy: number; cz: number; radius: number }[] = [];
+    // Live meshes, grown bands, records, budget rows and commits live on the
+    // instance's scratch, emptied here (perf10 C3: no per-rebuild garbage).
+    const scratch = fillScratch;
+    const quadCount = SECTOR_SLOTS;
+    scratch.reset(SPECIES_PLANS.length, BUCKET_COUNT * quadCount);
+    const liveMeshes = scratch.liveMeshes;
+    const grownBands = scratch.grownBands;
 
     const focus = focusRef.current;
     // Tiles are kept out to the far radius PLUS the overlap, so the FAR tier
@@ -1523,16 +1514,13 @@ export function Groundcover({
     // at the ring's edge, inside the overlap margin, where the shader draws
     // it faded to nothing anyway.
     let tiles = 0;
-    const live: { key: number; nearest: number; tx: number; tz: number }[] = [];
-    const liveKeys = new Set<number>();
+    const liveKeys = scratch.liveKeys;
     for (let tz = ftz - tileReach; tz <= ftz + tileReach; tz++) {
       for (let tx = ftx - tileReach; tx <= ftx + tileReach; tx++) {
         const nearest = tileNearestM(focus, tx, tz);
         if (nearest > keepRadiusM) continue;
         tiles++;
-        const key = tileKey(tx, tz);
-        live.push({ key, nearest, tx, tz });
-        liveKeys.add(key);
+        scratch.pushLive(tileKey(tx, tz), nearest, tx, tz);
       }
     }
     const tilesGenerated = stats0.generated;
@@ -1563,11 +1551,7 @@ export function Groundcover({
       const level = nearMeshLevel(entry);
       return { parts: level.parts, reach: nearReachFraction(level.tris) };
     });
-    const quadCount = SECTOR_SLOTS;
     culler.clear();
-    interface SlotTiles { tiles: { species: TileSpecies; far: boolean; tier: number; role: "all" | "thin" | "rest"; tx: number; tz: number; nearest: number; thin: number; thinNearM: number; thinMidM: number; minY: number; maxY: number }[]; count: number }
-    const slots: SlotTiles[][] = SPECIES_PLANS.map(
-      () => Array.from({ length: BUCKET_COUNT * quadCount }, () => ({ tiles: [], count: 0 })));
     // The ring's geometric weights per species (its own radii): what one
     // plant of full tile density costs the ring, and what the thin can take.
     const weights = SPECIES_PLANS.map((plan) => {
@@ -1576,31 +1560,33 @@ export function Groundcover({
       return ringWeights(nearM, ringRadiusM * radiusScale,
         (plan.short ? shortFarRadiusM : farRadiusM) * radiusScale, TIER_OVERLAP_M, TILE_M, FAR_THIN);
     });
-    /** One row per (tile, species) the budget counts: plants, not copies. */
-    const budgetRows: { species: TileSpecies; inMid: boolean; nearest: number; thin: number; nearM: number; midM: number }[] = [];
-    for (const entry of live) {
-      const tile = cache.get(entry.key);
+    // One budget row per (tile, species) the budget counts: plants, not copies.
+    for (let li = 0; li < scratch.liveCount; li++) {
+      const tile = cache.get(scratch.liveKey[li]);
       if (!tile) continue;
-      const centreX = (entry.tx + 0.5) * TILE_M;
-      const centreZ = (entry.tz + 0.5) * TILE_M;
-      const quadrant = sectorOf(centreX, centreZ, focus.x, focus.z, entry.nearest,
+      const etx = scratch.liveTx[li], etz = scratch.liveTz[li], nearest = scratch.liveNearest[li];
+      const centreX = (etx + 0.5) * TILE_M;
+      const centreZ = (etz + 0.5) * TILE_M;
+      const quadrant = sectorOf(centreX, centreZ, focus.x, focus.z, nearest,
         GROUNDCOVER_SECTORS);
       // The wedge's cull volume is its tiles' boxes; 4 m over the ground
       // covers the tallest plant in the table.
-      culler.add(quadrant, entry.tx * TILE_M, tile.minY - 1, entry.tz * TILE_M,
-        (entry.tx + 1) * TILE_M, tile.maxY + 4, (entry.tz + 1) * TILE_M);
+      culler.add(quadrant, etx * TILE_M, tile.minY - 1, etz * TILE_M,
+        (etx + 1) * TILE_M, tile.maxY + 4, (etz + 1) * TILE_M);
       // The tile's own budget factor, from its full density as the far
       // subset predicts it (a FAR-built and a full-built tile share that
       // subset, so regeneration never moves it), never from the ring's
       // total: nothing about the focus changes which plants survive.
       let nk = 0; let nkr = 0;
-      for (const plan of SPECIES_PLANS) {
+      for (let pi = 0; pi < SPECIES_PLANS.length; pi++) {
+        const plan = SPECIES_PLANS[pi];
         const full = tile.perSpecies[plan.index].farCount / FAR_THIN;
         nk += full * weights[plan.index].k;
         nkr += full * weights[plan.index].kr;
       }
       const thin = tileThinFactor(nk, nkr, maxInstances);
-      for (const plan of SPECIES_PLANS) {
+      for (let pi = 0; pi < SPECIES_PLANS.length; pi++) {
+        const plan = SPECIES_PLANS[pi];
         const species = tile.perSpecies[plan.index];
         if (species.count === 0) continue;
         const radiusScale = plan.submerged ? SUBMERGED_RADIUS_SCALE : 1;
@@ -1609,36 +1595,37 @@ export function Groundcover({
         const speciesNearM = nearRadiusM * radiusScale * (nearPlan?.reach ?? 0);
         const speciesMidM = ringRadiusM * radiusScale;
         const inNear = nearPlan !== null
-          && entry.nearest <= speciesNearM + TIER_OVERLAP_M;
-        const inMid = entry.nearest <= speciesMidM + TIER_OVERLAP_M;
-        const inFar = entry.nearest <= speciesFarM + TIER_OVERLAP_M;
-        const bucket = slots[plan.index];
+          && nearest <= speciesNearM + TIER_OVERLAP_M;
+        const inMid = nearest <= speciesMidM + TIER_OVERLAP_M;
+        const inFar = nearest <= speciesFarM + TIER_OVERLAP_M;
+        const si = plan.index;
         // A large species with a card and a NEAR mesh runs the thinned far
         // mesh tier; its card records then skip the mesh subset.
         const farMesh = plan.large && nearPlan !== null && cards.has(plan.id);
-        const cardRole = farMesh ? "rest" as const : "all" as const;
-        const record = { species, far: false, tier: TIER_NEAR, role: "all" as "all" | "thin" | "rest", tx: entry.tx, tz: entry.tz, nearest: entry.nearest, thin, thinNearM: speciesNearM, thinMidM: speciesMidM, minY: tile.minY, maxY: tile.maxY };
+        const cardRole = farMesh ? ROLE_REST : ROLE_ALL;
         const nearSlot = BUCKET_NEAR * quadCount + quadrant;
         const cardSlot = BUCKET_CARD * quadCount + quadrant;
-        if (inNear) { bucket[nearSlot].tiles.push(record); bucket[nearSlot].count += species.count; }
-        if (farMesh && inFar && entry.nearest + TILE_M * Math.SQRT2 >= speciesNearM - TIER_OVERLAP_M) {
-          bucket[nearSlot].tiles.push({ ...record, tier: TIER_FAR_MESH, role: "thin" });
-          bucket[nearSlot].count += species.farCount;
+        const minY = tile.minY, maxY = tile.maxY;
+        if (inNear) {
+          scratch.pushRecord(si, nearSlot, species.count, species, false, TIER_NEAR, ROLE_ALL,
+            etx, etz, nearest, thin, speciesNearM, speciesMidM, minY, maxY);
+        }
+        if (farMesh && inFar && nearest + TILE_M * Math.SQRT2 >= speciesNearM - TIER_OVERLAP_M) {
+          scratch.pushRecord(si, nearSlot, species.farCount, species, false, TIER_FAR_MESH, ROLE_THIN,
+            etx, etz, nearest, thin, speciesNearM, speciesMidM, minY, maxY);
         }
         if (inMid) {
-          bucket[cardSlot].tiles.push({ ...record, tier: TIER_MID, role: cardRole });
-          bucket[cardSlot].count += species.count;
+          scratch.pushRecord(si, cardSlot, species.count, species, false, TIER_MID, cardRole,
+            etx, etz, nearest, thin, speciesNearM, speciesMidM, minY, maxY);
         }
         if (inFar) {
-          bucket[cardSlot].tiles.push({ ...record, far: true, tier: TIER_FAR, role: cardRole });
-          bucket[cardSlot].count += species.farCount;
+          scratch.pushRecord(si, cardSlot, species.farCount, species, true, TIER_FAR, cardRole,
+            etx, etz, nearest, thin, speciesNearM, speciesMidM, minY, maxY);
         }
         // The budget counts PLANTS, not copies: a tile inside the mid band is
         // its whole list once (its extra tier copies are the overlap cost the
         // shader collapses), a far tile its thinned subset.
-        if (inFar) {
-          budgetRows.push({ species, inMid, nearest: entry.nearest, thin, nearM: speciesNearM, midM: speciesMidM });
-        }
+        if (inFar) scratch.pushBudget(species, inMid, nearest, thin, speciesNearM, speciesMidM);
       }
     }
 
@@ -1649,11 +1636,11 @@ export function Groundcover({
     // budget, quantised, with hysteresis (groundcoverSchedule.ts).
     const drawnAt = (g: number): number => {
       let n = 0;
-      for (const row of budgetRows) {
-        const sp = row.species;
-        const below = thinThreshold(row.nearest, row.thin * g, row.nearM, row.midM);
+      for (let r = 0; r < scratch.budgetCount; r++) {
+        const sp = scratch.budgetSpecies[r];
+        const below = thinThreshold(scratch.budgetNearest[r], scratch.budgetThin[r] * g, scratch.budgetNearM[r], scratch.budgetMidM[r]);
         n += keptCount(sp.keeps, 0, sp.farCount, below);
-        if (row.inMid) n += keptCount(sp.keeps, sp.farCount, sp.count, below);
+        if (scratch.budgetInMid[r] === 1) n += keptCount(sp.keeps, sp.farCount, sp.count, below);
       }
       return n;
     };
@@ -1692,24 +1679,27 @@ export function Groundcover({
           : (card ? [card] : entry.levels[0].parts);
         for (let quadrant = 0; quadrant < quadCount; quadrant++) {
           const slot = bucket * quadCount + quadrant;
-          const slotTiles = slots[plan.index][slot];
-          if (slotTiles.count === 0) continue;
+          if (scratch.slotCounts[plan.index][slot] === 0) continue;
+          const slotRecords = scratch.slotRecords[plan.index][slot];
           // Count after the budget thin (a prefix per block).
           let drawn = 0;
           let minX = Infinity; let maxX = -Infinity; let minZ = Infinity; let maxZ = -Infinity;
           let minY = Infinity; let maxY = -Infinity;
-          for (const t of slotTiles.tiles) {
-            const sp = t.species;
-            const keepBelow = thinThreshold(t.nearest, t.thin * densityScale, t.thinNearM, t.thinMidM);
-            const { farN, restN } = recordCopyRange(sp.keeps, sp.farCount, sp.count, t.far, keepBelow, t.role, FAR_MESH_KEEP);
+          for (let k = 0; k < slotRecords.length; k++) {
+            const r = slotRecords[k];
+            const sp = scratch.recSpecies[r];
+            const keepBelow = thinThreshold(scratch.recNearest[r], scratch.recThin[r] * densityScale, scratch.recThinNearM[r], scratch.recThinMidM[r]);
+            const { farN, restN } = recordCopyRange(sp.keeps, sp.farCount, sp.count, scratch.recFar[r] === 1, keepBelow, ROLE_NAMES[scratch.recRole[r]], FAR_MESH_KEEP);
             drawn += farN + restN;
-            byTier[t.tier === TIER_FAR_MESH ? TIER_NEAR : t.tier] += farN + restN;
-            if (t.tx * TILE_M < minX) minX = t.tx * TILE_M;
-            if ((t.tx + 1) * TILE_M > maxX) maxX = (t.tx + 1) * TILE_M;
-            if (t.tz * TILE_M < minZ) minZ = t.tz * TILE_M;
-            if ((t.tz + 1) * TILE_M > maxZ) maxZ = (t.tz + 1) * TILE_M;
-            if (t.minY < minY) minY = t.minY;
-            if (t.maxY > maxY) maxY = t.maxY;
+            const tier = scratch.recTier[r];
+            byTier[tier === TIER_FAR_MESH ? TIER_NEAR : tier] += farN + restN;
+            const tx = scratch.recTx[r], tz = scratch.recTz[r];
+            if (tx * TILE_M < minX) minX = tx * TILE_M;
+            if ((tx + 1) * TILE_M > maxX) maxX = (tx + 1) * TILE_M;
+            if (tz * TILE_M < minZ) minZ = tz * TILE_M;
+            if ((tz + 1) * TILE_M > maxZ) maxZ = (tz + 1) * TILE_M;
+            if (scratch.recMinY[r] < minY) minY = scratch.recMinY[r];
+            if (scratch.recMaxY[r] > maxY) maxY = scratch.recMaxY[r];
           }
           if (drawn === 0) continue;
           instances += drawn;
@@ -1773,11 +1763,12 @@ export function Groundcover({
             const bands = bandAttribute(geometry, drawn, grownBands);
             const bandArray = bands.array as Float32Array;
             let at = 0;
-            for (const t of slotTiles.tiles) {
-              const sp = t.species;
-              const keepBelow = thinThreshold(t.nearest, t.thin * densityScale, t.thinNearM, t.thinMidM);
-              const { farLo, farN, restN } = recordCopyRange(sp.keeps, sp.farCount, sp.count, t.far, keepBelow, t.role, FAR_MESH_KEEP);
-              const band = tierBands[t.tier];
+            for (let k = 0; k < slotRecords.length; k++) {
+              const r = slotRecords[k];
+              const sp = scratch.recSpecies[r];
+              const keepBelow = thinThreshold(scratch.recNearest[r], scratch.recThin[r] * densityScale, scratch.recThinNearM[r], scratch.recThinMidM[r]);
+              const { farLo, farN, restN } = recordCopyRange(sp.keeps, sp.farCount, sp.count, scratch.recFar[r] === 1, keepBelow, ROLE_NAMES[scratch.recRole[r]], FAR_MESH_KEEP);
+              const band = tierBands[scratch.recTier[r]];
               for (let i = at; i < at + farN + restN; i++) {
                 bandArray[i * 4] = band[0];
                 bandArray[i * 4 + 1] = band[1];
@@ -1797,11 +1788,9 @@ export function Groundcover({
             }
             // The sphere from the tiles' extents (a wedge), never by
             // reading the matrices back; the height term covers the plants.
-            commits.push({
-              mesh, drawn, bands, geometry,
-              cx: (minX + maxX) / 2, cy: (minY + maxY) / 2, cz: (minZ + maxZ) / 2,
-              radius: Math.hypot(maxX - minX, maxY - minY + speciesHeightM, maxZ - minZ) / 2 + speciesHeightM,
-            });
+            scratch.pushCommit(mesh, drawn, bands, geometry,
+              (minX + maxX) / 2, (minY + maxY) / 2, (minZ + maxZ) / 2,
+              Math.hypot(maxX - minX, maxY - minY + speciesHeightM, maxZ - minZ) / 2 + speciesHeightM);
             liveMeshes.add(meshKey);
             const index = part.geometry.getIndex();
             const partTris =
@@ -1823,19 +1812,22 @@ export function Groundcover({
         if (previous) { group.remove(previous); previous.dispose(); }
       }
       grownMeshes.clear();
-      meshList.current = [...meshPool.current.values()];
+      const list = meshList.current;
+      list.length = 0;
+      for (const mesh of meshPool.current.values()) list.push(mesh);
     }
-    for (const c of commits) {
-      if (c.geometry.getAttribute(LOD_BAND_ATTRIBUTE) !== c.bands) {
-        c.geometry.setAttribute(LOD_BAND_ATTRIBUTE, c.bands);
+    for (let c = 0; c < scratch.commitCount; c++) {
+      const geometry = scratch.commitGeometry[c], bands = scratch.commitBands[c], mesh = scratch.commitMesh[c];
+      if (geometry.getAttribute(LOD_BAND_ATTRIBUTE) !== bands) {
+        geometry.setAttribute(LOD_BAND_ATTRIBUTE, bands);
       }
-      c.bands.needsUpdate = true;
-      c.mesh.count = c.drawn;
-      c.mesh.instanceMatrix.needsUpdate = true;
-      c.mesh.instanceColor!.needsUpdate = true;
-      const sphere = c.mesh.boundingSphere ?? (c.mesh.boundingSphere = new THREE.Sphere());
-      sphere.center.set(c.cx, c.cy, c.cz);
-      sphere.radius = c.radius;
+      bands.needsUpdate = true;
+      mesh.count = scratch.commitDrawn[c];
+      mesh.instanceMatrix.needsUpdate = true;
+      mesh.instanceColor!.needsUpdate = true;
+      const sphere = mesh.boundingSphere ?? (mesh.boundingSphere = new THREE.Sphere());
+      sphere.center.set(scratch.commitCx[c], scratch.commitCy[c], scratch.commitCz[c]);
+      sphere.radius = scratch.commitRadius[c];
     }
     // Everything the pool holds that this rebuild did not fill draws nothing
     // — `count = 0` — but keeps its buffers for the next crossing.

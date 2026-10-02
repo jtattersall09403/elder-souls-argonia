@@ -11,7 +11,7 @@
  * decode waits for it, so no reader ever sees a chunk without its pads.
  */
 import { applyGroundOverlays, type GroundOverlayRegistry } from "./heightOverlays";
-import { PngCache } from "./groundRasters";
+import { PngCache, decodePng } from "./groundRasters";
 
 export interface ChunkLodMeta {
   file: string;
@@ -193,24 +193,17 @@ export function subsampleGrid(heights: Float32Array, nx: number, ny: number, str
 /** Decode one RG16 height raster to true metres, row-major [z][x].
  * R is the high byte and G the low byte of a 16-bit quantisation between
  * `minM` and `maxM` (`worldgen.export_web_chunks.encode_rg16`). Shared by the
- * chunk store and the border apron's standalone tiles (16d). */
+ * chunk store and the border apron's standalone tiles (16d).
+ * The PNG is decoded in JS (`decodePng`), never through an ImageBitmap and a
+ * canvas: those are GPU shared images in Chrome, and destroying one per chunk
+ * stalled the GPU process 603 ms mid-walk (perf10 diag3 C1). */
 export async function decodeHeightPng(blob: Blob, lodMeta: ChunkLodMeta): Promise<Float32Array> {
-  const bitmap = await createImageBitmap(blob, { premultiplyAlpha: "none", colorSpaceConversion: "none" });
+  const png = await decodePng(new Uint8Array(await blob.arrayBuffer()));
   const [ny, nx] = lodMeta.shape;
-  let canvas: OffscreenCanvas | undefined;
-  try {
-    if (bitmap.width !== nx || bitmap.height !== ny) throw new Error(`Terrain raster ${lodMeta.file}: unexpected raster dimensions`);
-    canvas = new OffscreenCanvas(nx, ny);
-    const ctx = canvas.getContext("2d", { willReadFrequently: true });
-    if (!ctx) throw new Error("Terrain raster decoding context unavailable");
-    ctx.drawImage(bitmap, 0, 0);
-    const px = ctx.getImageData(0, 0, nx, ny).data;
-    const heights = new Float32Array(nx * ny);
-    const span = lodMeta.maxM - lodMeta.minM;
-    for (let i = 0; i < heights.length; i++) heights[i] = lodMeta.minM + ((px[i * 4] * 256 + px[i * 4 + 1]) / 65535) * span;
-    return heights;
-  } finally {
-    bitmap.close();
-    if (canvas) { canvas.width = 1; canvas.height = 1; }
-  }
+  if (png.width !== nx || png.height !== ny) throw new Error(`Terrain raster ${lodMeta.file}: unexpected raster dimensions`);
+  const px = png.data;
+  const heights = new Float32Array(nx * ny);
+  const span = lodMeta.maxM - lodMeta.minM;
+  for (let i = 0; i < heights.length; i++) heights[i] = lodMeta.minM + ((px[i * 4] * 256 + px[i * 4 + 1]) / 65535) * span;
+  return heights;
 }
