@@ -13,7 +13,7 @@ import { kitPartsDir, parseKitPartsIndex, type KitPartsIndex } from "./kitParts"
 import { FlameSystem } from "../fx/fire/FlameSystem";
 import { FIXTURE_LIGHTS_PER_OBJECT_MAX, setFixtureLightsPerObject, type FixtureLightField } from "../render/fixtureLights/fixtureLightField";
 import {
-  interiorFireEmitters, isInteriorFlameCard, type InteriorFireRow,
+  CellLightFlicker, interiorFireEmitters, isInteriorFlameCard, type InteriorFireRow,
 } from "../fx/fire/interiorFires";
 
 import { applyLanternShell, isLanternShellMaterial } from "../settlement/fixtureGlow";
@@ -193,6 +193,8 @@ export class InteriorDaylight {
     readonly cellLights: readonly InteriorCellLight[] = [],
     /** The cell's bounds, cell-local: the directional stands on it and its shadow camera covers it. */
     readonly bounds: THREE.Sphere = new THREE.Sphere(new THREE.Vector3(), 1),
+    /** Each record light paired with its fire, built once per cell (`CellLightFlicker`); null: all steady. */
+    private readonly flicker: CellLightFlicker | null = null,
   ) {
     this.ambientBase = ambient.intensity;
     this.directionalBase = directional?.intensity ?? 0;
@@ -229,6 +231,19 @@ export class InteriorDaylight {
       }
       this.field.commit();
     }
+  }
+
+  /**
+   * Flicker the record lights that stand at a fire with that fire's own signal (vol10 F8c): the
+   * host calls this each frame with the flames' clock (`fire.update`'s `t`). Allocation-free.
+   */
+  updateFlicker(timeS: number): void {
+    if (!this.field || !this.flicker) return;
+    for (let j = 0; j < this.cellLights.length; j++) {
+      const l = this.cellLights[j];
+      this.field.setReservedIntensity(j, l.colour, l.intensity * this.flicker.factor(j, timeS));
+    }
+    this.field.commit();
   }
 
   /**
@@ -465,10 +480,11 @@ export function instantiateInterior(
     group.add(fire.group);
   }
   const background = colorFromRGB(bundle.fog.colorRGB);
+  const cellLights = interiorCellLights(bundle);
   return {
     bundle, group, solids, background, loadS: null, swingDoors, fire,
     daylight: new InteriorDaylight(group, ambient, directional, [...panes.materials], panes.windows,
-      interiorCellLights(bundle), bounds),
+      cellLights, bounds, new CellLightFlicker(cellLights, emitters)),
     fog: new THREE.Fog(background.clone(), bundle.fog.nearM, bundle.fog.farM),
     counts: {
       placements: bundle.placements.length, substitutions: bundle.substitutions?.length ?? 0,

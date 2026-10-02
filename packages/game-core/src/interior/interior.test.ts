@@ -5,6 +5,7 @@ import fixture from "./__fixtures__/interior.fixture.json";
 import type { ArchitectureAsset } from "../settlement/kit";
 import type { SettlementDoor } from "../settlement/types";
 import { isInteriorSwingDoor, parseInteriorBundle, type Vec3 } from "./bundle";
+import { CellLightFlicker } from "../fx/fire/interiorFires";
 import { daylightShare, INTERIOR_SUN_SHADOW_MAP, interiorAmbientShare, PANE_LIGHT_INSET_M, paneLightSeat, INTERIOR_LIGHT_INTENSITY_PER_FADE, INTERIOR_NIGHT_AMBIENT, InteriorDaylight, InteriorLoader, isWindowPane, type LoadedInterior, WINDOW_LIGHT_CANDELA, WINDOW_OVERCAST_SHARE } from "./interiorLoader";
 import { FIXTURE_LIGHTS_MAX, FixtureLightField } from "../render/fixtureLights/fixtureLightField";
 import { LIGHTS_CAP } from "../settlement/lighting";
@@ -672,6 +673,22 @@ describe("interior daylight (walk 9, 0109 addendum)", () => {
     expect(field.selectFor(box, new Int32Array(8))).toBe(1);
     d.unbind();
     expect(field.count).toBe(0);
+  });
+  it("record lights within 1.5 m of a fire flicker with t; a far light holds its intensity (vol10 F8c)", () => {
+    const light = (x: number) => ({ position: new THREE.Vector3(x, 1, 0), radiusM: 5, decay: 2, colour: new THREE.Color(1, 1, 1), intensity: 4 });
+    const lights = [light(1), light(9)];
+    const emitter = { position: new THREE.Vector3(1, 0.3, 0), preset: "hearth" as const, scale: 1, seed: 0.42, owner: 0 };
+    const d = new InteriorDaylight(new THREE.Group(), new THREE.AmbientLight(0xffffff, 1), null, [], [], lights,
+      new THREE.Sphere(new THREE.Vector3(), 1), new CellLightFlicker(lights, [emitter]));
+    const field = new FixtureLightField();
+    d.bind(field);
+    const near = new Set<number>();
+    for (let t = 0; t < 3; t += 0.1) {
+      d.updateFlicker(t);
+      near.add(Math.round(field.radianceOf(field.reservedSlot(0))[0] * 1000));
+      expect(field.radianceOf(field.reservedSlot(1))[0]).toBeCloseTo(4, 5);
+    }
+    expect(near.size).toBeGreaterThan(3);
   });
   it("window lights sit in the scene's capped field beside the settlement's and never pass the cap", () => {
     const field = new FixtureLightField();

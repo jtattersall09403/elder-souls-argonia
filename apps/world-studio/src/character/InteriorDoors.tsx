@@ -359,6 +359,7 @@ export function InteriorDoors({
     // the shown cell's fires (interiorLoader `fire`): an interior burns at any hour
     if (fireTier) shown?.interior.fire?.setVolumeTier(fireTier.current);
     shown?.interior.fire?.update(state.clock.elapsedTime, () => 1);
+    shown?.interior.daylight.updateFlicker(state.clock.elapsedTime);
     if (directCellId && !opened.current && controller.ready) {
       opened.current = true;
       // The body's own pose: `position()` is the controller's per-frame copy,
