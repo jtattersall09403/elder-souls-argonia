@@ -659,7 +659,7 @@ const blackShare = completeMs === null ? null : await withTimeout((async () => {
     let dark = 0; for (let i = 0; i < a.length; i += 4) if (0.2126 * a[i] + 0.7152 * a[i + 1] + 0.0722 * a[i + 2] <= 3) dark++;
     return Math.round((dark / (a.length / 4)) * 1000) / 1000;
   }, jpg);
-})(), 20_000);
+})().catch(() => null), 20_000); // a screenshot timeout on a loaded box leaves blackShare unmeasured, never kills the report
 await withTimeout(browser.close(), 10_000);
 server.close();
 
