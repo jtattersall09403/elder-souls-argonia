@@ -11,10 +11,11 @@
  *     [--heap-profile]
  *   node tooling/gpu-lane/pod-capture.mjs --url <url> [--compare <url>] --out <dir> [...]   (a views file of one or two views)
  *
- * --views      JSON list of {name, url, steps?, shots?, seconds?, plain?, clean?, aim?, settle?} (url any http(s) URL; plain: a non-studio
+ * --views      JSON list of {name, url, steps?, shots?, seconds?, plain?, clean?, aim?, settle?, readyFlag?} (url any http(s) URL; plain: a non-studio
  *              page, no settle gate, runs its seconds; clean: HUD, minimap and scrollbar hidden around frames and final.jpg; settle: shots
  *              count from the shot settle gate (fps and luma steady, pod-capture-lib shotSettle; default on, false = off); aim: [yaw, pitch?] rad
- *              through aimCamera before the first frame, conventions at pod-capture-lib aimJs); each view writes <out>/<name>/ (result.json, frames/, final.jpg,
+ *              through aimCamera before the first frame; readyFlag: a window global the page sets truthy when its first frame is drawn,
+ *              no shot before it (or --ready-timeout), conventions at pod-capture-lib aimJs); each view writes <out>/<name>/ (result.json, frames/, final.jpg,
  *              trace.json); <out>/result.json holds every view and <out>/summary.md the table. Example: views/webgpu10-iter7.json
  * --url/--compare  the single-URL case: views "main" (and "compare"); result.lumaRatio = main luma / compare luma per read
  * --pod        opens the CDP tunnel itself (tunnels.mjs: PID recorded, closed at exit); else --cdp (default $CHROME_CDP or :9222)
@@ -52,9 +53,8 @@
  * baseline {rafFps (blank-page rAF), heapMB (live heap after a forced GC)} -> result.baseline and result.contaminated
  * (pod-capture-lib contaminationVerdict against the first view's blank rAF, which is also cap: capDetected is false when
  * rAF ran above 61 fps, so fps can show headroom).
- * Summary windows: fps from the settled read (else final; fpsFrom), low1 from the cost window's frame intervals (it starts
- * after the settled read, so settle is excluded; else the read's last 300 rAF intervals; low1From), costMs from the window
- * (costFrom window|unsettled) with windowFps, that window's own wall-clock frame rate.
+ * Summary (pod-capture-lib summariseView): fps, low1, GPU/CPU/cost ms from the cost window after the settled read (`from`
+ * window|unsettled), heap MB/min the post-quiet long-run slope.
  * Per view: console (deduped), pageErrors, network (>= 400 and failed loads), http404s, gpuErrors (uncapturederror and device
  * loss), reads, settledAt, heapSlope (post-GC MB/min once GPU resource counts held 5 s), work, stages, hitches, probe, summary.
  * Exit 0 unless the tab could not be opened.
@@ -62,7 +62,7 @@
 import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summaryTable } from "./pod-capture-lib.mjs";
+import { HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit } from "./checks.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
@@ -345,7 +345,7 @@ async function captureView(view) {
     Object.assign(result, { console: sink.cons.list(), pageErrors: sink.pageErrors.list(), network: sink.network.list() });
     result.http404s = result.network.filter(([k]) => k.startsWith("404 ")).length;
     sink = null;
-    result.summary = summarise(result);
+    result.summary = summariseView(result);
     writeFileSync(join(dir, "result.json"), JSON.stringify(result, null, 1));
     await closeViewPage(ctl.page);
   }
@@ -372,6 +372,8 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
     // shots wait for the shot settle gate (frame rate and luma steady; pod-capture-lib shotSettle); plain views and settle: false skip it
     const shotGate = view.plain || view.settle === false ? null : shotSettle(view.settle === true ? {} : view.settle);
     if (shotGate) result.shotSettle = { config: shotGate.config, at: null, timedOut: false };
+    let flagPoll = -1;
+    if (view.readyFlag) result.readyFlag = { name: view.readyFlag, at: null, timedOut: false };
     while (sec() < totalS) {
       if (aborted) return;
       const s = sec();
@@ -389,8 +391,17 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
       }
       // `aim`: the camera is aimed once the studio's debug hook exists, and no frame is taken before it is
       if (view.aim && !result.aimedAt) { if ((await evaluate(aimJs(view.aim), 5_000)) === true) result.aimedAt = r1(sec()); }
-      const shotT = shotGate ? (shotGate.at === null ? -1 : s - shotGate.at) : s;
-      if (si < shots.length && shotT >= shots[si] && (!view.aim || result.aimedAt)) {
+      // `readyFlag`: no frame for the record before the page sets that global truthy (a harness scene's first compiled draw;
+      // walk 10 vol r1: fire harness frames 1-3 black), or `--ready-timeout` passes (then `readyFlag.timedOut`)
+      if (view.readyFlag && result.readyFlag.at === null && !result.readyFlag.timedOut && Math.floor(s * 2) > flagPoll) {
+        flagPoll = Math.floor(s * 2);
+        if ((await evaluate(`Boolean(window[${JSON.stringify(view.readyFlag)}])`, 5_000)) === true) result.readyFlag.at = r1(sec());
+        else if (s > readyTimeoutS) result.readyFlag.timedOut = true;
+      }
+      const flagOpen = !view.readyFlag || result.readyFlag.at !== null || result.readyFlag.timedOut;
+      // shot times count from the shot settle gate, else from the ready flag, else from navigation
+      const shotT = shotGate ? (shotGate.at === null ? -1 : s - shotGate.at) : view.readyFlag && result.readyFlag.at !== null ? s - result.readyFlag.at : s;
+      if (si < shots.length && flagOpen && shotT >= shots[si] && (!view.aim || result.aimedAt)) {
         while (si < shots.length && shots[si] <= shotT) si++;
         try { writeFileSync(join(dir, "frames", `${String(Math.round(s * 1000)).padStart(6, "0")}.jpg`), Buffer.from(await frameShot(view), "base64")); result.frames++; } catch { /* busy page: skip this frame */ }
       }
@@ -442,26 +453,6 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
     result.gpuErrors = gc.list();
     result.stalledReads = stalledReads(result.reads, result.final);
   }
-}
-
-function summarise(r) {
-  const fpsFrom = r.reads?.settled && !r.reads.settled.err ? "settled" : r.final ? "final" : null;
-  const s = (fpsFrom === "settled" ? r.reads.settled : r.final) ?? {};
-  const g = s.gpuMs ?? {}, w = r.window ?? {}, st = w.stages?.perFrameMs ?? {}, top = Object.entries(st)[0];
-  const hitchTop = topCause(Object.fromEntries((w.hitches?.list ?? []).reduce((m, h) => (h.stage ? m.set(h.stage, (m.get(h.stage) ?? 0) + h.ms) : m), new Map())));
-  const winLow1 = w.work?.low1 ?? null;
-  return {
-    contaminated: r.contaminated ?? null, lumaSettled: r.reads?.settled?.luma ?? null, lumaFinal: r.final?.luma ?? null, blackShare: r.final?.blackShare ?? null,
-    fps: s.fps ?? null, fpsFrom, low1: winLow1 ?? s.low1 ?? null, low1From: winLow1 != null ? "window" : fpsFrom, gpuMs: g.supported ? g.avg : null, cpuMs: g.cpu ?? null,
-    costMs: w.work?.costMs?.mean ?? null, costFrom: w.work ? (w.unsettled ? "unsettled" : "window") : null, windowFps: w.work?.wallFps ?? null, uncappedFps: w.work?.uncappedFps ?? null,
-    calls: g.calls ?? s.renderer?.calls ?? null, tris: g.tris ?? s.renderer?.triangles ?? null,
-    heapMbPerMin: r.window?.heap?.fitMBPerMin ?? r.heapSlope?.mbPerMin ?? null, heapFrom: r.window?.heap?.fitMBPerMin != null ? "window-fit" : "post-gc",
-    majorGCs: r.window?.heap?.majorGCs ?? null, allocMBps: r.window?.heap?.allocMBps ?? null, topStage: top ? `${top[0]} ${top[1]}` : null,
-    hitches: w.hitches ? `${w.hitches.over33}${hitchTop ? ` (${hitchTop})` : ""}` : null,
-    errors: `${r.gpuErrors?.length ?? "?"}/${r.console?.filter(([k]) => k.startsWith("error")).length ?? "?"}/${r.pageErrors?.length ?? "?"}/${r.http404s ?? "?"}`,
-    failed: r.failed ?? null, heapTop: r.window?.heapTop?.[0] ? `${r.window.heapTop[0].fn} ${r.window.heapTop[0].selfMB} MB` : null,
-    settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
-  };
 }
 
 const writeAll = () => {

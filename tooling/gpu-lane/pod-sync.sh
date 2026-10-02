@@ -9,8 +9,8 @@
 # --data: the main tree's apps/world-studio/public (kits, province, textures: ~600 MB) to /root/site/public, skipped when
 #   its listing hash (path, size, mtime) equals the pod's /root/site/public/.hash.
 # Each dist also carries the server's own files (serve-lib.mjs serveFiles), so serve.mjs starts on the pod's node.
-# <dist>: the fixed folder build-dist.sh writes (never a per-iteration copy). Its content hash (studio data dirs
-#   excluded) is compared with /root/site/dists/<name>/.hash; equal and the server alive -> skip; else
+# <dist>: the fixed folder build-dist.sh writes (never a per-iteration copy). Its key (build-dist's source key in
+#   .srchash plus the serve*.mjs it starts, no hash over the built files) is compared with /root/site/dists/<name>/.hash; equal and the server alive -> skip; else
 #   `rsync -a --checksum --delete` (data dirs excluded) and restart. Any other pod dist built for the same base is
 #   deleted first. Exits non-zero unless, after a restart, the new serve.mjs is alive and every served base answers.
 # Each step appends {step, seconds, at, skipped?, bytes?} (bytes: rsync "sent" for sync:data and sync:<dist>) to /tmp/<lane>/prep-times.jsonl (pod-capture --prep).
@@ -47,7 +47,8 @@ fi
 
 d=${1:?dist dir}; n=${2:?name}; lane=${3:?lane}; t0=$(date +%s)
 base=$(node -e 'import("./tooling/gpu-lane/serve-lib.mjs").then((m) => console.log(m.distBase(process.argv[1])))' "$d")
-h=$(cd "$d" && find . -type f ! -name .srchash ! -path './kits/*' ! -path './province/*' ! -path './textures/*' -print0 | sort -z | xargs -0 sha1sum | sha1sum | cut -c1-40)
+[ -f "$d/.srchash" ] || { echo "pod-sync: $d has no .srchash; build it with build-dist.sh" >&2; exit 1; }
+h=$({ cat "$d/.srchash"; sha1sum tooling/gpu-lane/serve.mjs tooling/gpu-lane/serve-lib.mjs; } | sha1sum | cut -c1-40)
 if [ "$($S "$t" "cat /root/site/dists/$n/.hash 2>/dev/null; kill -0 \$(cat /root/serve.pid 2>/dev/null) 2>/dev/null && echo alive" || true)" = "$h"$'\n'alive ]; then
   echo "pod-sync: $n unchanged ($h), server alive, skipped"; note "sync:$n" 0 1; exit 0; fi
 $S "$t" "mkdir -p /root/site/dists; cd /root/site/dists; for o in *; do [ \"\$o\" != '$n' ] && [ -f \"\$o/index.html\" ] && grep -q 'src=\"$base'assets/ \"\$o/index.html\" && { echo \"pod-sync: removing \$o (also built for $base)\"; rm -rf \"\$o\"; }; done; true"

@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS } from "./pod-capture-lib.mjs";
+import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -109,7 +109,7 @@ test("summaryTable: header, cap line and one row per view with dashes for missin
   const t = summaryTable([{ name: "A", summary: { lumaSettled: 40.123, tris: 940000, fps: 59 } }, { name: "B" }], { capDetected: false, blankRafFps: 240 }).split("\n");
   assert.equal(t[0], "cap detected: false (blank-page rAF 240 fps)");
   assert.equal(t.length, 6);
-  assert.match(t[4], /^\| A \| - \| - \| 40\.12 \| - \| - \| 59 \(-\) \|.*\| 0\.94 \|/);
+  assert.match(t[4], /^\| A \| - \| - \| 40\.12 \| - \| - \| - \| 59 \|.*\| 0\.94 \|/);
   assert.match(t[5], /^\| B( \| -)+ \|$/);
 });
 test("the iter7 views file parses: A, B, D x webgpu, webgl backend, studio, plus B-webgpu-diag", async () => {
@@ -211,8 +211,41 @@ test("shotSettle: waits out a luma transient, opens once fps and luma are steady
   for (let s = 1; s <= 40 && opened === null; s++) if (g.feed(s, 60, luma(s))) opened = s;
   assert.ok(opened >= 30 && opened < 40, `opened at ${opened}`); assert.equal(g.timedOut, false);
   const t = shotSettle({ seconds: 4, minS: 1, timeoutS: 10 });
-  for (let s = 1; s <= 10; s++) t.feed(s, s % 2 ? 30 : 60, 100);
+  for (let s = 1; s <= 10; s++) t.feed(s, 10 * s, 100);
   assert.equal(t.at, 10); assert.equal(t.timedOut, true);
+});
+// series shaped on walk 10 vol r1 reads (result.json reads at 30/60/120/settled): halos fps ~31 with hitch reads at 4,
+// int-brinas fps 162-227, mist-forced luma 1.73-1.97, mist-radiation luma ramping 14 -> 43 over 60 s
+const runGate = (fps, luma, cfg = {}) => { const g = shotSettle({ minS: 30, timeoutS: 120, ...cfg }); for (let s = 1; s <= 120; s++) if (g.feed(s, fps(s), luma(s))) break; return g; };
+test("shotSettle: a hitchy but steady series opens (r1 halos: 31 fps, one read in three at 4)", () => {
+  const g = runGate((s) => (s % 3 === 0 ? 4 : 31 + (s % 2)), () => 14.7);
+  assert.equal(g.timedOut, false); assert.ok(g.at <= 32, `at ${g.at}`);
+  const i = runGate((s) => [162, 171, 227, 166, 175][s % 5], (s) => 70.4 + (s % 3) * 0.3);
+  assert.equal(i.timedOut, false, "interior 162-227 fps");
+});
+test("shotSettle: a dark steady frame opens on the absolute luma floor (r1 mist-forced 1.73-1.97)", () => {
+  const g = runGate(() => 15, (s) => 1.73 + (s % 4) * 0.08);
+  assert.equal(g.timedOut, false);
+  assert.equal(runGate(() => 15, (s) => 1.73 + (s % 4) * 0.08, { lumaFloor: 0.01 }).timedOut, true, "without the floor the same series fails");
+});
+test("shotSettle: a genuine exposure ramp holds the gate shut (r1 mist-radiation 14 -> 43 luma over 60 s)", () => {
+  const g = runGate(() => 16, (s) => 14 + 0.5 * Math.min(s, 70));
+  assert.ok(g.at >= 70 && !g.timedOut, `ramp ends at 70 s: opened at ${g.at}`);
+  const f = runGate((s) => (s < 28 ? 8 : 16), () => 50);
+  assert.ok(f.at >= 32 && !f.timedOut, `fps step at 28 s: opened at ${f.at}`);
+});
+test("summariseView: rates from the cost window, heap from the post-quiet slope, never a read at timeout", () => {
+  const r = { reads: { settled: { fps: 4, gpuMs: { supported: true, avg: 99, cpu: 88, calls: 10 } } }, heapSlope: { mbPerMin: 1.8 },
+    window: { work: { wallFps: 21.1, low1: 9, gpuFrameMs: { mean: 12.5 }, workMs: { mean: 37 }, costMs: { mean: 40 } }, heap: { fitMBPerMin: 451 } } };
+  const s = summariseView(r);
+  assert.deepEqual([s.from, s.fps, s.gpuMs, s.cpuMs, s.heapMbPerMin, s.calls], ["window", 21.1, 12.5, 37, 1.8, 10]);
+  const u = summariseView({ final: { fps: 4 }, window: { unsettled: true, work: { wallFps: 7 } } });
+  assert.deepEqual([u.from, u.fps, u.heapMbPerMin], ["unsettled", 7, null]);
+  assert.equal(summariseView({ final: { fps: 4 } }).fps, null);
+});
+test("parseViews: readyFlag is a global name", () => {
+  assert.equal(parseViews(JSON.stringify([{ name: "a", url: "http://x/", readyFlag: "__harnessReady" }]))[0].readyFlag, "__harnessReady");
+  assert.throws(() => parseViews(JSON.stringify([{ name: "a", url: "http://x/", readyFlag: "a.b()" }])), /readyFlag/);
 });
 test("parseViews: settle false or a known config", () => {
   assert.equal(parseViews(JSON.stringify([{ name: "a", url: "http://x/", settle: false }]))[0].settle, false);
