@@ -376,6 +376,12 @@ const CORNERS: readonly [number, number][] = [[-0.5, -0.5], [0.5, -0.5], [0.5, 0
 /** One additive sprite draw: every quad showing one texture. */
 interface SpriteBatch {
   mesh: THREE.Mesh;
+  /** The bloom-source draw of the same quads (BLOOM_SOURCE_LAYER only), with
+   * a material of its own: the canvas draw is tone-mapped and the bloom RT
+   * draw is linear, so one material drawn both ways re-derives its program
+   * twice a frame (decision 0108 checklist). `setFlameTexture` keeps map and
+   * visibility in sync; colour and opacity never change (vertex colours). */
+  bloom: THREE.Mesh;
   geometry: THREE.BufferGeometry;
   capacity: number;
   drawn: number;
@@ -434,11 +440,17 @@ export class SettlementLightFixtures {
     mesh.frustumCulled = false;
     mesh.name = `settlement-fixture-flames:${textureId}`;
     mesh.layers.set(PRECIP_LAYER);
-    mesh.layers.enable(BLOOM_SOURCE_LAYER); // a glow source (render/post/BloomPass.ts)
+    const bloomMaterial = material.clone();
+    bloomMaterial.name = `${material.name}:bloom`;
+    const bloom = new THREE.Mesh(geometry, bloomMaterial);
+    bloom.frustumCulled = false;
+    bloom.name = `${mesh.name}:bloom`;
+    bloom.layers.set(BLOOM_SOURCE_LAYER); // a glow source (render/post/BloomPass.ts)
     // no quad draws until its texture has loaded (a null map is a white square)
     mesh.visible = false;
-    this.group.add(mesh);
-    batch = { mesh, geometry, capacity: 0, drawn: 0 };
+    bloom.visible = false;
+    this.group.add(mesh, bloom);
+    batch = { mesh, bloom, geometry, capacity: 0, drawn: 0 };
     this.batches.set(textureId, batch);
     return batch;
   }
@@ -451,6 +463,10 @@ export class SettlementLightFixtures {
     material.map = texture;
     material.needsUpdate = true;
     batch.mesh.visible = true;
+    const bloom = batch.bloom.material as THREE.MeshBasicMaterial;
+    bloom.map = texture;
+    bloom.needsUpdate = true;
+    batch.bloom.visible = true;
   }
 
   /** The sprite draw of one texture (tests, probes). */
@@ -529,6 +545,7 @@ export class SettlementLightFixtures {
       const material = batch.mesh.material as THREE.MeshBasicMaterial;
       material.map?.dispose();
       material.dispose();
+      (batch.bloom.material as THREE.Material).dispose();
       batch.geometry.dispose();
     }
   }

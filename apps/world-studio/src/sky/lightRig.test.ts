@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { toEpochMinutes } from "@elder-souls/world-time";
 import { PROFILES, type WeatherKind } from "@elder-souls/world-weather";
-import { computeLightRig, type WeatherLightIn } from "./lightRig";
+import { computeLightRig, createLightRig, type LightRig, type WeatherLightIn } from "./lightRig";
+import { computeLightRigReference } from "./lightRig.reference";
 import { cloudScreenRange, domeScreen, ENVELOPE_DIRS, envelopeDir } from "./skyScreenModel";
 
 const at = (month: number, day: number, hour: number) =>
@@ -314,5 +315,55 @@ describe("weathered light (Phase 8c, decision 0032)", () => {
       );
       expect(Math.max(...rig.cloudDarkCol)).toBeLessThan(Math.max(...rig.cloudBright));
     }
+  });
+});
+
+describe("computeLightRig out-parameter (allocation-free per frame)", () => {
+  const wxOf = (i: number): WeatherLightIn | undefined =>
+    i % 4 === 0
+      ? undefined
+      : {
+          sunDim: (i * 0.13) % 1,
+          ambientLift: (i * 0.07) % 0.6,
+          skyGrey: (i * 0.11) % 1,
+          fogMie: (i * 0.17) % 1.6,
+          cloudLow: (i * 0.19) % 1,
+          cloudMid: (i * 0.23) % 1,
+          cloudHigh: (i * 0.29) % 1,
+          cloudDensity: (i * 0.31) % 1,
+          cloudDark: (i * 0.37) % 1,
+          radiationMist: i % 3 === 0 ? undefined : (i * 0.41) % 1,
+          greenTint: i % 5 === 0 ? 0.6 : undefined,
+          sunOcclusion: i % 2 === 0 ? (i * 0.43) % 1 : undefined,
+        };
+  const cases = Array.from({ length: 24 }, (_, i) => ({
+    t: 1440 * (37 + i * 11) + ((i * 97) % 1440),
+    h: (i * 0.137) % 1,
+    s: Math.sin(i),
+    lat: i % 3 === 0 ? undefined : i % 3 === 1 ? 0.3 : -0.1,
+    wx: wxOf(i),
+  }));
+
+  it("writes the same numbers as the fresh and the pre-change rig", () => {
+    const out = createLightRig();
+    for (const c of cases) {
+      const held = computeLightRig(c.t, c.h, c.s, c.lat, c.wx, out);
+      expect(held).toEqual(computeLightRig(c.t, c.h, c.s, c.lat, c.wx));
+      expect(held).toEqual(computeLightRigReference(c.t, c.h, c.s, c.lat, c.wx));
+    }
+  });
+
+  it("returns the held object and keeps every tuple's identity", () => {
+    const out = createLightRig();
+    const rec = out as unknown as Record<keyof LightRig, unknown>;
+    const tuples = (Object.keys(out) as (keyof LightRig)[])
+      .filter((k) => k !== "moons" && Array.isArray(rec[k]))
+      .map((k) => [k, rec[k]] as const);
+    const a = computeLightRig(cases[1].t, 0.4, 0.2, 0.3, cases[1].wx, out);
+    const b = computeLightRig(cases[2].t, 0.7, -0.5, undefined, cases[2].wx, out);
+    expect(a).toBe(out);
+    expect(b).toBe(out);
+    expect(tuples.length).toBe(23);
+    for (const [k, v] of tuples) expect(rec[k]).toBe(v);
   });
 });

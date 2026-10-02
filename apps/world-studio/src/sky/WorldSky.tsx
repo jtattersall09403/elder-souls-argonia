@@ -32,7 +32,14 @@ import {
   createCloudUniforms,
   type CloudParams,
 } from "./cloudField";
-import { computeLightRig, setDrawnLightRig, type LightRig } from "./lightRig";
+import {
+  computeLightRig,
+  createLightRig,
+  setDrawnLightRig,
+  type LightRig,
+  type WeatherLightIn,
+} from "./lightRig";
+import { installDrawPatcher } from "./drawPatcher";
 import { worldClock, notifyClock } from "./timeState";
 import { waterTimeS } from "../water/waterClock";
 import { wetnessUniforms } from "../water/groundWetness";
@@ -823,12 +830,13 @@ export function WorldSky({
   // Any lit material that enters the scene (character GLBs, sea, props) must
   // be CSM-patched or the per-cascade lights each add full-strength lighting.
   //
-  // It runs before EVERY render (the scene's onBeforeRender, once per frame),
-  // not on a 1 s cadence: a material first drawn unpatched compiled without
-  // CSM (every cascade light at full strength) and relinked up to a second
-  // later, which is the startup "buildings and trees flash darker" (16k walk
-  // 5). Only new materials cost anything; the walk is a WeakSet look-up per
-  // mesh. Layers that build detached (the settlement layer) call the same
+  // It runs at every draw of the scene before the program is chosen
+  // (`installDrawPatcher`): a material first drawn unpatched compiled without
+  // CSM (every cascade light at full strength) and relinked later, which is
+  // the startup "buildings and trees flash darker" (16k walk 5). A per-frame
+  // scene walk did this before and cost a traverse of the scene each frame
+  // (perf10 f3); now a draw is a WeakSet look-up and a 1 Hz sweep re-wraps
+  // dropped fixture hooks. Layers that build detached (the settlement layer) call the same
   // patch on their group before warming its programs (`setLitPreparer`).
   // Every lit material also takes the fixture-light chunk (render/
   // fixtureLights) and every mesh drawing one its per-object lamp list: the
@@ -912,6 +920,22 @@ export function WorldSky({
     });
     return anyNew;
   };
+  /** One draw of the scene, before its program is chosen (`installDrawPatcher`):
+   * a new material is patched, a fixture-lit object gets its lamp list. */
+  const prepareDraw = (object: THREE.Object3D, material: THREE.Material) => {
+    const fixtureLit = isFixtureLitMaterial(material);
+    if (!patched.current.has(material)) patchMaterial(material);
+    if (fixtureLit && !fixtureField.isAttached(object)) {
+      const own = object.onBeforeRender === THREE.Object3D.prototype.onBeforeRender;
+      fixtureField.attach(object);
+      // three ran onBeforeRender before this call: give this first draw its
+      // lamp list too (only when no hook of the object's own would run twice)
+      if (own) object.onBeforeRender(gl, scene as THREE.Scene, null as unknown as THREE.Camera, (object as THREE.Mesh).geometry, material, null as unknown as THREE.Group);
+    }
+  };
+  // The 1 Hz safety sweep (walk the visible scene): re-wraps a material whose
+  // fixture-light hook a later reapply dropped. Draw-time patching covers
+  // every first draw; the sweep never gates correctness of a first frame.
   const patchScene = () => {
     patchObject(scene, true);
     // Programs linked outside the water pipeline's frame (the settlement
@@ -926,20 +950,24 @@ export function WorldSky({
   patchRef.current = patchScene;
   const patchObjectRef = useRef(patchObject);
   patchObjectRef.current = patchObject;
-  const patchFrame = useRef({ frame: 0, patched: -1 });
+  const prepareDrawRef = useRef(prepareDraw);
+  prepareDrawRef.current = prepareDraw;
+  const sweepAt = useRef(-Infinity);
   // a layout effect: installed at commit, before the first frame renders
   useLayoutEffect(() => {
     const previous = scene.onBeforeRender;
     scene.onBeforeRender = function (...args) {
       previous.apply(this, args);
-      // the water pipeline renders the scene several times a frame: patch once
-      if (patchFrame.current.patched === patchFrame.current.frame) return;
-      patchFrame.current.patched = patchFrame.current.frame;
+      if (gl.shadowMap.type === THREE.PCFSoftShadowMap) gl.shadowMap.type = THREE.PCFShadowMap;
+      const now = performance.now();
+      if (now - sweepAt.current < 1000) return;
+      sweepAt.current = now;
       patchRef.current();
     };
+    const uninstall = installDrawPatcher(gl, scene, (o, m) => prepareDrawRef.current(o, m));
     const unregister = setLitPreparer(scene, (root) => { patchObjectRef.current(root); });
-    return () => { scene.onBeforeRender = previous; unregister(); };
-  }, [scene]);
+    return () => { scene.onBeforeRender = previous; uninstall(); unregister(); };
+  }, [scene, gl]);
 
   const { sky, extras } = useMemo(() => createSkyDome(STAR_RADIUS * 1.6), []);
   const bake = useMemo(() => {
@@ -1148,8 +1176,13 @@ void main() {
 
   // Per-frame scratch (walk 5 perf): the sun direction is rewritten, never allocated.
   const sunDirScratch = useMemo(() => new THREE.Vector3(), []);
+  const heldRig = useMemo(createLightRig, []);
+  const rigWeather = useMemo<WeatherLightIn>(
+    () => ({ sunDim: 0, ambientLift: 0, skyGrey: 0, fogMie: 0, cloudLow: 0, cloudMid: 0,
+      cloudHigh: 0, cloudDensity: 0, cloudDark: 0 }),
+    [],
+  );
   useFrame((_s, delta) => {
-    patchFrame.current.frame += 1;
     // Sky stage of the frame, the PMREM re-bake included when it fires
     // (decision 0084 round 10).
     segments?.cpuMark("sky");
@@ -1190,27 +1223,30 @@ void main() {
       [sunPre.direction.x, sunPre.direction.y, sunPre.direction.z],
       cloudParams,
     );
+    const wxIn = rigWeather;
+    wxIn.sunDim = wx.sunDim;
+    wxIn.ambientLift = wx.profile.ambientLift;
+    wxIn.skyGrey = wx.profile.skyGrey;
+    wxIn.fogMie = wx.mist.weather;
+    wxIn.cloudLow = wx.profile.cloudLow;
+    wxIn.cloudMid = wx.profile.cloudMid;
+    wxIn.cloudHigh = wx.profile.cloudHigh;
+    wxIn.cloudDensity = wx.profile.cloudDensity;
+    wxIn.cloudDark = wx.profile.cloudDark;
+    // The rig gets the province-wide CONDITION; per-pixel locality comes
+    // from the mist raster in the aerial shader (owner round 3).
+    wxIn.radiationMist = wx.mist.radiationBase;
+    wxIn.greenTint = wx.profile.greenTint;
+    wxIn.sunOcclusion = sunOcclusion;
+    // Written in place into the held rig: no per-frame allocation. Readers
+    // (setDrawnLightRig consumers) read it fresh every frame.
     const rig = computeLightRig(
       epochMinutes,
       humidity,
       worldClock.season().s,
       latitudeOverrideRad,
-      {
-        sunDim: wx.sunDim,
-        ambientLift: wx.profile.ambientLift,
-        skyGrey: wx.profile.skyGrey,
-        fogMie: wx.mist.weather,
-        cloudLow: wx.profile.cloudLow,
-        cloudMid: wx.profile.cloudMid,
-        cloudHigh: wx.profile.cloudHigh,
-        cloudDensity: wx.profile.cloudDensity,
-        cloudDark: wx.profile.cloudDark,
-        // The rig gets the province-wide CONDITION; per-pixel locality comes
-        // from the mist raster in the aerial shader (owner round 3).
-        radiationMist: wx.mist.radiationBase,
-        greenTint: wx.profile.greenTint,
-        sunOcclusion,
-      },
+      wxIn,
+      heldRig,
     );
     setDrawnLightRig(scene, rig);
     const sunDir = sunDirScratch.set(rig.sun.direction.x, rig.sun.direction.y, rig.sun.direction.z);

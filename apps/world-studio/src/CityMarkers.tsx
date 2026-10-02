@@ -78,21 +78,42 @@ export function CityMarkers({ groundAt, baseUrl = import.meta.env.BASE_URL }: {
     groupRef.current?.traverse((o) => o.layers.set(OVERLAY_LAYER));
   }, [camera, markers]);
 
-  // Distance culling, fade and label sizing, every frame (cheap: ~100 groups).
+  // Distance culling, fade and label sizing, every frame (cheap: ~100 groups),
+  // allocation-free (perf10 f3): the nearest MAX_VISIBLE in range are kept in
+  // held arrays by insertion, never a per-frame candidate list and sort.
+  const nearest = useMemo(() => ({
+    child: new Array<THREE.Object3D | null>(MAX_VISIBLE).fill(null),
+    d: new Float64Array(MAX_VISIBLE),
+    range: new Float64Array(MAX_VISIBLE),
+  }), []);
   useFrame(() => {
     const group = groupRef.current;
     if (!group) return;
     const cx = camera.position.x;
     const cz = camera.position.z;
-    const candidates: { child: THREE.Object3D; d: number; range: number }[] = [];
+    let kept = 0;
     for (const child of group.children) {
       child.visible = false;
       const range = child.userData.major ? RANGE_M.major : RANGE_M.minor;
       const d = Math.hypot(child.position.x - cx, child.position.z - cz);
-      if (d <= range) candidates.push({ child, d, range });
+      if (d > range) continue;
+      // stable insertion: equal distances keep child order, as the sort did
+      let at = kept;
+      while (at > 0 && nearest.d[at - 1] > d) at--;
+      if (at >= MAX_VISIBLE) continue;
+      for (let j = Math.min(kept, MAX_VISIBLE - 1); j > at; j--) {
+        nearest.child[j] = nearest.child[j - 1];
+        nearest.d[j] = nearest.d[j - 1];
+        nearest.range[j] = nearest.range[j - 1];
+      }
+      nearest.child[at] = child; nearest.d[at] = d; nearest.range[at] = range;
+      if (kept < MAX_VISIBLE) kept++;
     }
-    candidates.sort((a, b) => a.d - b.d);
-    for (const { child, d, range } of candidates.slice(0, MAX_VISIBLE)) {
+    for (let i = 0; i < kept; i++) {
+      const child = nearest.child[i]!;
+      const d = nearest.d[i];
+      const range = nearest.range[i];
+      nearest.child[i] = null;
       child.visible = true;
       const fade = Math.min(1, (range - d) / (range * FADE_FRACTION));
       const width = Math.max(LABEL_WIDTH_MIN_M, Math.min(LABEL_WIDTH_MAX_M, d * LABEL_WIDTH_PER_M));
