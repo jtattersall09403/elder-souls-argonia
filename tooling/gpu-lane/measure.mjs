@@ -12,29 +12,45 @@
  *
  * --profile <s>: a CDP CPU profile of <s> seconds (during the walk when --walk is set, else after the
  * settle window); the .cpuprofile lands beside measure.json and its summary in the url entry.
+ * --smoke: one spot (default spot a), 60 s; exits 1 and says why on the vsync cap, a ready gate over 40 s,
+ * a black frame, a GPU/WebGL error or lost context, or a tab this run did not open. Run before a baseline.
+ * --census: after the ready gate, a per-draw census, matrixAutoUpdate census, heap slope and a 30 s hitch
+ * list with top functions; writes census.json and census.txt beside measure.json (WebGL renderer).
+ * --diag relink,heap: inject probes/<name>.js before the page's scripts (also read from a `diag=` query
+ * flag); the reports land in each url entry's `diag`.
  */
 import { spawnSync } from "node:child_process";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { chromium } from "playwright";
+import { BLACK_LUMA, SPOT_A, censusText, diagList, foreignPages, heapGrowth, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
 
+export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems };
+
 const repo = resolve(new URL("../..", import.meta.url).pathname);
+const probePath = (n) => new URL(`./probes/${n}.js`, import.meta.url).pathname;
 
 export function parseArgs(argv) {
   const o = { url: [], origin: "http://127.0.0.1:8099", base: null, renderer: "webgl", settle: 10, walk: 0, shots: false,
-    cdp: "127.0.0.1:9222", run: null, out: null, width: 1280, height: 720, dpr: 1, readyTimeout: 150, profile: 0 };
+    cdp: "127.0.0.1:9222", run: null, out: null, width: 1280, height: 720, dpr: 1, readyTimeout: 150, profile: 0,
+    smoke: false, census: false, diag: "" };
   const camel = (k) => k.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i].replace(/^--/, "");
-    if (k === "shots") { o.shots = true; continue; }
+    if (k === "shots" || k === "smoke" || k === "census") { o[k] = true; continue; }
     const v = argv[++i];
     if (v === undefined) throw new Error(`--${k} needs a value`);
     if (k === "url") o.url.push(v);
     else if (camel(k) in o) o[camel(k)] = typeof o[camel(k)] === "number" ? Number(v) : v;
     else throw new Error(`unknown option --${k}`);
   }
+  if (o.smoke) { // one spot, 60 s: ready gate <= 40 s, 5 s settle, one screenshot for the black-frame check
+    if (!o.url.length) o.url.push(SPOT_A);
+    o.url.splice(1); o.run ??= "smoke"; o.readyTimeout = 40; o.settle = 5; o.shots = true;
+  }
   if (!o.url.length || !o.run) throw new Error("need --run <name> and at least one --url <query>");
+  o.diagList = diagList(o.diag, o.url);
   if (!["webgl", "webgpu"].includes(o.renderer)) throw new Error("--renderer is webgl or webgpu");
   o.base ??= o.renderer === "webgpu" ? "/elder-souls-argonia/webgpu/" : "/elder-souls-argonia/studio/";
   o.out = resolve(o.out ?? join(repo, "tooling/.reports/gpu-lane", o.run));
@@ -130,7 +146,8 @@ export function profileSummary(profile, top = 40) {
 // Installed before the page's own scripts: a rAF timestamp recorder, the per-frame work-time
 // wrapper and the GPU adapter read.
 function pageProbe() {
-  const lane = { ts: [], frames: [], on: false, wrapMs: 0 };
+  const lane = { ts: [], frames: [], on: false, wrapMs: 0, lost: 0 };
+  window.addEventListener("webglcontextlost", () => { lane.lost++; }, true);
   Object.defineProperty(window, "__GPU_LANE__", { value: lane });
   // Every rAF callback is wrapped; the callbacks of one frame share `stamp`.
   const now = performance.now.bind(performance);
@@ -157,17 +174,63 @@ function pageProbe() {
 /**
  * Close every page already open in the attached Chrome before this run opens its own: orphan studio
  * tabs from an earlier run keep rendering beside the measured page and contaminate every number
- * (perf-diag2 §0). Returns how many it closed.
+ * (perf-diag2 §0). Returns {closed: how many, keep: the blank page it opened first}: closing the last
+ * window exits headed Chrome, and the DevTools port with it.
  */
 export async function closeOrphanPages(browser) {
   let closed = 0;
+  const keep = (await browser.contexts()[0]?.newPage?.().catch(() => null)) ?? null;
   for (const ctx of browser.contexts()) {
     for (const page of ctx.pages()) {
+      if (page === keep) continue;
       await page.close().catch(() => {});
       closed++;
     }
   }
-  return closed;
+  return { closed, keep };
+}
+
+/**
+ * The census (--census): after the ready gate. Draw census over ~60 frames and the matrixAutoUpdate census
+ * (2 s) together, then a 30 s window with rAF timestamps, a CDP CPU profile and heap readings at 0 s and 30 s
+ * (plus a HeapProfiler sampling profile when the heap probe is on); hitches are frames over 20 ms.
+ */
+async function runCensus(page, o) {
+  const cdp = await page.context().newCDPSession(page);
+  const heapMB = async () => Math.round(((await cdp.send("Runtime.getHeapUsage")).usedSize / 1e6) * 100) / 100;
+  const wantHeap = o.diagList.includes("heap");
+  await page.evaluate(() => { window.__DIAG__.census.on = true; });
+  const matrix = await page.evaluate(() => window.__DIAG__.matrixCensus(2000)).catch(() => null);
+  await page.evaluate(() => { window.__DIAG__.census.on = false; });
+  const draws = await page.evaluate(() => window.__DIAG__.censusReport());
+  const seconds = 30;
+  const startMB = await heapMB();
+  await cdp.send("Profiler.enable");
+  await cdp.send("Profiler.setSamplingInterval", { interval: 500 });
+  let heapBefore = null;
+  if (wantHeap) {
+    await cdp.send("HeapProfiler.enable");
+    await cdp.send("HeapProfiler.startSampling", { samplingInterval: 32768 });
+    heapBefore = (await cdp.send("HeapProfiler.getSamplingProfile")).profile;
+  }
+  let offsetMs = 0, profile = null, heapSampling = null;
+  const w = await sample(page, seconds, async () => {
+    await cdp.send("Profiler.start");
+    offsetMs = 0;
+    const pn = await page.evaluate(() => performance.now());
+    const t0 = Date.now();
+    await page.waitForTimeout(seconds * 1000);
+    profile = (await cdp.send("Profiler.stop")).profile;
+    // The profile clock starts with Profiler.start, ~ the instant before the page read.
+    offsetMs = profile.startTime / 1000 - pn;
+    return { elapsedMs: Date.now() - t0 };
+  });
+  const endMB = await heapMB();
+  if (wantHeap) heapSampling = (await cdp.send("HeapProfiler.stopSampling")).profile;
+  await cdp.detach().catch(() => {});
+  const hitches = hitchList(w.ts, profile, offsetMs);
+  return { draws, matrix, hitchWindowS: seconds, frames: w.ts.length, hitches,
+    heap: { startMB, endMB, seconds, slopeMBs: Math.round(((endMB - startMB) / seconds) * 1000) / 1000, sampledGrowth: heapSampling ? heapGrowth(heapBefore, heapSampling) : null } };
 }
 
 async function gpuAdapter(page, renderer) {
@@ -210,8 +273,9 @@ async function cpuProfile(page, o, seconds, tag, idx) {
   return { elapsedMs: Date.now() - t0, file, seconds, ...profileSummary(profile) };
 }
 
-async function measureUrl(ctx, o, query, idx) {
+async function measureUrl(ctx, o, query, idx, own, browser) {
   const page = await ctx.newPage();
+  own.add(page);
   const consoleErrors = [], http404s = [];
   page.on("console", (m) => { if (m.type() === "error") consoleErrors.push(m.text().slice(0, 400)); });
   page.on("pageerror", (e) => consoleErrors.push(`pageerror: ${String(e).slice(0, 400)}`));
@@ -270,19 +334,38 @@ async function measureUrl(ctx, o, query, idx) {
     await shot("walk");
   }
   const gpu = await gpuAdapter(page, o.renderer);
+  const census = o.census ? await runCensus(page, o).catch((e) => ({ error: String(e) })) : null;
+  const diag = o.diagList.length ? await page.evaluate((names) => Object.fromEntries(names.map((n) => [n, window.__DIAG__?.[n]?.() ?? null])), o.diagList).catch((e) => ({ error: String(e) })) : null;
+  let smoke = null;
+  if (o.smoke) {
+    const png = await page.screenshot({ type: "png" });
+    const rgba = await page.evaluate(async (b64) => {
+      const bmp = await createImageBitmap(await (await fetch(`data:image/png;base64,${b64}`)).blob());
+      const c = new OffscreenCanvas(160, 90), g = c.getContext("2d");
+      g.drawImage(bmp, 0, 0, 160, 90);
+      return Array.from(g.getImageData(0, 0, 160, 90).data);
+    }, png.toString("base64")).catch(() => null);
+    const contextLost = await page.evaluate(() => window.__GPU_LANE__.lost).catch(() => 0);
+    const r = { ready, readyS, uncappedFps: stats.uncappedFps, luma: rgba ? meanLuma(rgba) : null, consoleErrors, contextLost,
+      foreign: foreignPages(browser, own) };
+    smoke = { ...r, luma: r.luma == null ? null : Math.round(r.luma * 10) / 10, problems: smokeProblems(r) };
+  }
   await page.close();
   return { url, query, ready, readyS, ...stats, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
-    walk, profile, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots };
+    walk, profile, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
 }
 
 async function main() {
   const o = parseArgs(process.argv.slice(2));
   mkdirSync(o.out, { recursive: true });
   const browser = await chromium.connectOverCDP(`http://${o.cdp}`);
-  const orphansClosed = await closeOrphanPages(browser);
+  const { closed: orphansClosed, keep } = await closeOrphanPages(browser);
+  const own = new Set(keep ? [keep] : []);
   console.log(`measure: closed ${orphansClosed} page(s) left open in Chrome by earlier runs`);
   const ctx = await browser.newContext({ viewport: { width: o.width, height: o.height }, deviceScaleFactor: o.dpr });
   await ctx.addInitScript(pageProbe);
+  if (o.census) await ctx.addInitScript({ content: readFileSync(probePath("census"), "utf8") });
+  for (const n of o.diagList) await ctx.addInitScript({ content: readFileSync(probePath(n), "utf8") });
   const git = (a) => spawnSync("git", a, { cwd: repo, encoding: "utf8" }).stdout.trim();
   const result = { schemaVersion: 1, run: o.run, gitSha: git(["rev-parse", "HEAD"]), dirty: git(["status", "--porcelain"]) !== "",
     builtAt: null, measuredAt: new Date().toISOString(), renderer: o.renderer, origin: o.origin, base: o.base,
@@ -290,7 +373,7 @@ async function main() {
   // builtAt: the served index.html's Last-Modified (the build that is actually being measured).
   result.builtAt = await fetch(`${o.origin}${o.base}`).then((r) => r.headers.get("last-modified")).catch(() => null);
   for (const [i, q] of o.url.entries()) {
-    const r = await measureUrl(ctx, o, q, i);
+    const r = await measureUrl(ctx, o, q, i, own, browser);
     result.urls.push(r);
     console.log(`${q}: ${r.settledFps} fps settled, uncapped ${r.uncappedFps} (work ${r.workMs?.mean} ms, wrapper ${r.wrapperMsPerFrame}), 1% low ${r.p1LowFps}, min ${r.minFps}, ready ${r.readyS} s${r.walk ? `, walk ${r.walk.settledFps}` : ""}`);
   }
@@ -298,7 +381,18 @@ async function main() {
   const file = join(o.out, "measure.json");
   writeFileSync(file, `${JSON.stringify(result, null, 2)}\n`);
   console.log(`measure: ${file}`);
+  if (o.census) {
+    const entries = result.urls.map((u) => ({ query: u.query, ready: u.ready, ...u.census }));
+    writeFileSync(join(o.out, "census.json"), `${JSON.stringify({ schemaVersion: 1, run: o.run, gitSha: result.gitSha, urls: entries }, null, 2)}\n`);
+    writeFileSync(join(o.out, "census.txt"), `${entries.map((e) => (e.draws ? censusText(e) : `# ${e.query}: census failed ${e.error}`)).join("\n\n")}\n`);
+    console.log(`measure: ${join(o.out, "census.json")} and census.txt`);
+  }
   await browser.close().catch(() => {});
+  if (o.smoke) {
+    const bad = result.urls.flatMap((u) => u.smoke?.problems ?? ["no smoke result"]);
+    if (bad.length) { console.error(`SMOKE FAIL:\n  ${bad.join("\n  ")}`); process.exit(1); }
+    console.log(`SMOKE PASS (ready ${result.urls[0].readyS} s, uncapped ${result.urls[0].uncappedFps} fps, luma ${result.urls[0].smoke.luma})`);
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main().catch((e) => { console.error(e); process.exit(1); });

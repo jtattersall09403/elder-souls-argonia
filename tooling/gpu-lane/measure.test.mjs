@@ -93,12 +93,86 @@ test("isReady: 20 s, tris stable 2 % for 5 s, no Loading, pre and gc under 2 ms 
   assert.equal(isReady(loadingThenQuiet), true, "quiet for the last 5 s");
 });
 
-test("closeOrphanPages closes every page in every existing context and counts them", async () => {
+test("closeOrphanPages opens a blank keeper page first, closes every other page and counts them", async () => {
   const { closeOrphanPages } = await import("./measure.mjs");
   const closed = [];
   const page = (id) => ({ close: async () => { closed.push(id); if (id === "b") throw new Error("gone"); } });
-  const browser = { contexts: () => [{ pages: () => [page("a"), page("b")] }, { pages: () => [] }, { pages: () => [page("c")] }] };
-  assert.equal(await closeOrphanPages(browser), 3);
-  assert.deepEqual(closed, ["a", "b", "c"]);
-  assert.equal(await closeOrphanPages({ contexts: () => [] }), 0);
+  const keeper = page("keeper");
+  const ctx0 = { newPage: async () => keeper, pages: () => [page("a"), page("b"), keeper] };
+  const browser = { contexts: () => [ctx0, { pages: () => [] }, { pages: () => [page("c")] }] };
+  const r = await closeOrphanPages(browser);
+  assert.equal(r.closed, 3);
+  assert.equal(r.keep, keeper);
+  assert.deepEqual(closed, ["a", "b", "c"], "the keeper is never closed");
+  assert.deepEqual(await closeOrphanPages({ contexts: () => [] }), { closed: 0, keep: null });
+});
+
+test("parseArgs: --smoke defaults to spot a, 40 s gate, 5 s settle, one shot; --census and --diag", async () => {
+  const { parseArgs, SPOT_A } = await import("./measure.mjs");
+  const s = parseArgs(["--smoke"]);
+  assert.deepEqual(s.url, [SPOT_A]);
+  assert.equal(s.run, "smoke");
+  assert.equal(s.readyTimeout, 40);
+  assert.equal(s.settle, 5);
+  assert.equal(s.shots, true);
+  assert.equal(parseArgs(["--smoke", "--url", "?x=1", "--url", "?x=2"]).url.length, 1, "one spot only");
+  const c = parseArgs(["--run", "r", "--url", "?x=1&diag=heap", "--census", "--diag", "relink"]);
+  assert.equal(c.census, true);
+  assert.deepEqual(c.diagList.sort(), ["heap", "relink"]);
+  assert.throws(() => parseArgs(["--run", "r", "--url", "?x=1", "--diag", "nope"]), /unknown --diag probe/);
+  assert.deepEqual(parseArgs(["--run", "r", "--url", "?x=1"]).diagList, []);
+});
+
+test("meanLuma and the black-frame check: night shots (29, 36) pass, a black frame fails", async () => {
+  const { meanLuma, smokeProblems } = await import("./measure.mjs");
+  const px = (r, g, b, n = 100) => Array.from({ length: n }, () => [r, g, b, 255]).flat();
+  assert.equal(Math.round(meanLuma(px(255, 255, 255))), 255);
+  assert.equal(meanLuma(px(0, 0, 0)), 0);
+  const ok = { ready: true, readyS: 25, uncappedFps: 90, consoleErrors: [], contextLost: 0, foreign: [] };
+  // tooling/.reports/gpu-lane/r3-ab/url0-settled.jpg measures 29.07 and url1-settled.jpg 36.57 (PIL mean of L): both pass.
+  assert.deepEqual(smokeProblems({ ...ok, luma: 29.07 }), []);
+  assert.deepEqual(smokeProblems({ ...ok, luma: 36.57 }), []);
+  assert.match(smokeProblems({ ...ok, luma: 2 })[0], /black frame/);
+  assert.match(smokeProblems({ ...ok, luma: null })[0], /no screenshot/);
+});
+
+test("smokeProblems: vsync cap, ready gate, GPU errors, lost context, foreign pages", async () => {
+  const { smokeProblems } = await import("./measure.mjs");
+  const ok = { ready: true, readyS: 25, uncappedFps: 90, luma: 30, consoleErrors: ["404 foo"], contextLost: 0, foreign: [] };
+  assert.deepEqual(smokeProblems(ok), []);
+  assert.match(smokeProblems({ ...ok, uncappedFps: 58.4 })[0], /vsync cap/);
+  assert.match(smokeProblems({ ...ok, readyS: 41 })[0], /ready gate took 41 s/);
+  assert.match(smokeProblems({ ...ok, ready: false, readyS: 40 })[0], /never passed/);
+  assert.match(smokeProblems({ ...ok, consoleErrors: ["THREE.WebGLRenderer: Context Lost."] })[0], /GPU\/WebGL console error/);
+  assert.match(smokeProblems({ ...ok, contextLost: 1 })[0], /context lost 1x/);
+  assert.match(smokeProblems({ ...ok, foreign: ["https://x/studio/"] })[0], /did not open/);
+});
+
+test("foreignPages lists pages the run did not open", async () => {
+  const { foreignPages } = await import("./measure.mjs");
+  const p = (u) => ({ url: () => u });
+  const mine = p("about:blank"), theirs = p("http://x/studio/");
+  assert.deepEqual(foreignPages({ contexts: () => [{ pages: () => [mine, theirs] }] }, new Set([mine])), ["http://x/studio/"]);
+});
+
+test("heapGrowth: functions whose retained sampled bytes grew between two sampling profiles", async () => {
+  const { heapGrowth } = await import("./checks.mjs");
+  const p = (a, b) => ({ head: { callFrame: { functionName: "root" }, selfSize: 0, children: [
+    { callFrame: { functionName: "a", url: "http://x/i.js", lineNumber: 0 }, selfSize: a },
+    { callFrame: { functionName: "b", url: "http://x/i.js", lineNumber: 1 }, selfSize: b }] } });
+  assert.deepEqual(heapGrowth(p(1e6, 5e6), p(3e6, 1e6)), [{ name: "a i.js:1", MB: 2 }]);
+});
+
+test("hitchList: frames over 20 ms with the top self-time functions of the samples inside them", async () => {
+  const { hitchList } = await import("./measure.mjs");
+  const cf = (functionName, lineNumber) => ({ functionName, url: "http://x/assets/index.js", lineNumber, columnNumber: 0 });
+  // profile clock = page clock + 1000 ms; one sample per ms from page t=100.
+  const nodes = [{ id: 1, callFrame: cf("(root)", -1) }, { id: 2, callFrame: cf("slow", 4) }, { id: 3, callFrame: cf("fast", 9) }];
+  const samples = [], timeDeltas = [];
+  for (let t = 100; t < 140; t++) { samples.push(t < 130 ? 2 : 3); timeDeltas.push(t === 100 ? 0 : 1000); }
+  const hs = hitchList([90, 100, 140, 150], { nodes, samples, timeDeltas, startTime: 1100 * 1000 }, 1000);
+  assert.equal(hs.length, 1);
+  assert.equal(hs[0].frameMs, 40);
+  assert.deepEqual(hs[0].top[0], { name: "slow index.js:5:1", selfMs: 30 });
+  assert.equal(hs[0].top[1].name, "fast index.js:10:1");
 });

@@ -19,6 +19,8 @@ Key paths follow `/tmp/<lane><round>/rp_key`.
 | `sync-dist.sh <target> <port> <key> [site]` | rsyncs the composed site to the pod's `/root/site` (first run ~650 MB, later runs only the diff) plus `serve.mjs`/`pod-setup.sh`, then (re)starts `serve.mjs` on the pod at 127.0.0.1:8099. |
 | `serve.mjs <site> [--port 8099]` | Serves a composed site as GitHub Pages does: `<site>` at `/elder-souls-argonia/` (sandbox and character files at the root, studio at `studio/`). |
 | `measure.mjs` | Drives Chrome over DevTools; per URL: first complete frame, then rAF frame times for `--settle` s, an optional held-W `--walk`, the HUD perf lines, console errors, 404s, memory, GPU adapter, screenshots. Writes one `measure.json` per run. |
+| `checks.mjs` | The pure checks behind `--smoke`, `--census` and `--diag` (smoke verdict, black-frame luminance, foreign pages, hitch list, heap growth, census.txt). |
+| `probes/` | Scripts `measure.mjs` injects before the page's scripts (no app code change); see Probes. |
 | `hud-parse.mjs` | Parses the studio's perf HUD text (`PerfHudSection` in `apps/world-studio/src/character/CharacterMode.tsx`) into numbers. Change it with the HUD. |
 | `measure.test.mjs` | `node --test tooling/gpu-lane/measure.test.mjs` (parser and frame stats, < 1 s). |
 
@@ -47,8 +49,32 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
 6. Measure:
    `node tooling/gpu-lane/measure.mjs --run <name> --url "?view=character&x=4.7789&z=1.9&t=22&w=rain" --url "<query 2>" --shots`
    (`--walk 10` adds a held-W walk; `--renderer webgpu` measures `/elder-souls-argonia/webgpu/`).
+   **Run `--smoke` before any full baseline** (`node tooling/gpu-lane/measure.mjs --smoke --cdp 127.0.0.1:<port>`;
+   spot a, about 40 s, exits 1 and names the reason): it fails on the vsync cap (uncapped fps within 1.5 of the
+   58.5 blank-page cap), a ready gate over 40 s, a black frame (settled screenshot mean luminance under 8; the
+   r3-ab night shots measure 29 and 36), a GPU/WebGL console error or lost context, or a page in the browser
+   this run did not open.
+   **A lane diagnoses with `--census` + `--profile` + walk hitches BEFORE its first fix batch.** `--census`
+   (WebGL) adds, after the ready gate, `census.json` and `census.txt` beside measure.json: draws per frame by
+   owner and layer mask (`| L1`), empty draws (`instanceCount` 0 or `count` 0), distinct materials counted by
+   material uuid across owners (not by owner name), program count, objects with `matrixAutoUpdate` on and how
+   many did not move over 2 s, JS heap at 0 s and 30 s (MB/s slope) and every frame over 20 ms in a 30 s window
+   with the top self-time functions of the CDP CPU profile samples inside it (a hitch with no functions is the
+   profiler starting, not the app). `--diag relink,heap` adds the probes below.
    For a local SwiftShader smoke test, point `--cdp` at a local Chrome started with
    `--remote-debugging-port` and serve the site with `node tooling/gpu-lane/serve.mjs <site>`.
+
+## Probes
+
+`measure.mjs --diag relink,heap` (or `diag=relink,heap` in the `--url` query) injects `probes/<name>.js` with
+`addInitScript`; each url entry in measure.json gets a `diag` object. Never hand-patch a probe script in
+`/tmp` again: change the file here, with a test if it has logic.
+
+| Probe | Reports |
+|---|---|
+| `relink` | `gl.linkProgram` calls: total, ms on the main thread, distinct programs, how many linked more than once, links after 30 s, the last 40 link times. A rising `linksAfter30s` is a program relink storm. |
+| `heap` | `performance.memory` once a second (last 120 samples). With `--census` it also adds `heap.sampledGrowth` to census.json: a CDP HeapProfiler sampling profile read at the start and end of the 30 s window, functions whose retained MB grew. It wraps no typed-array constructor (that broke GLTFLoader). |
+| `census` | Injected by `--census` itself: the `renderBufferDirect` hook behind the draw census and the matrixAutoUpdate census. |
 
 ## Gotchas
 
@@ -72,7 +98,8 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
 - **Orphan tabs contaminate every number.** In walk 10 the pod Chrome held four studio tabs left by
   earlier runs, rendering beside every probe (a Greenspring trace measured 90.8 ms frames with them
   open, 12.2 ms without). `measure.mjs` now closes every page already open in the attached Chrome
-  before it opens its own, logs how many it closed and records `orphansClosed` in measure.json.
+  before it opens its own, logs how many it closed and records `orphansClosed` in measure.json. It opens a
+  blank keeper page first, because closing the last page exits headed Chrome and the DevTools port with it.
 - **Profiling needs sourcemaps.** `vite.config.ts` sets `build.sourcemap: false`; build the profiled
   dist with `cd apps/world-studio && npx vite build --sourcemap` (the CLI flag overrides the
   config) so `.cpuprofile` function names resolve. Not for shipped builds.
