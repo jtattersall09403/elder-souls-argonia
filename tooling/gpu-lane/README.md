@@ -170,11 +170,23 @@ Top level: `gitSha`, `dirty`, `builtAt` (served index.html mtime), `renderer`, `
   own thread) started at the window's open and read once after it; null where Worker is unavailable.
 - `harnessLog`: every harness action of the spot (goto, evaluate, screenshot, trace/profiler/heapsample start and
   stop, collectGarbage, key input) as `{action, t (page ms), ms}`.
-- `hostSamples` (`--pod "<ssh>"`, null without it): the pod's own counters every 250 ms over the whole spot
-  (`host-sampler.mjs`, one ssh running a shell loop, started after the goto and killed at the spot's end), as
-  column arrays `{t (page ms, interval end), stealMs (summed /proc/stat cpu steal over all CPUs), majFaults
-  (/proc/vmstat pgmajfault), load1 and runnable (/proc/loadavg), busyPct (all CPUs), mhzMin/mhzMax (/proc/cpuinfo), top (3 processes by CPU since the previous sample, `{proc: pid/comm, ms}`)}` per interval plus `nproc`; `summary.md` heads the run with nproc, max load and max busy %; `hostSpikes`: the `[start, end]` page-ms intervals at or over
-  `HOST_SPIKE` (steal 20 ms or 5 major faults).
+- `hostSamples` (`--pod "<ssh>"`, null without it): the pod's own counters every 100 ms over the whole spot
+  (`host-sampler.mjs`, one ssh running a shell loop with one extra awk pass per sample, started after the goto and
+  killed at the spot's end), as column arrays per interval (`t` page ms, interval end): `stealMs` (summed /proc/stat
+  cpu steal), `majFaults` (pgmajfault), `load1`/`runnable` (/proc/loadavg), `busyPct` (all CPUs), `mhzMin`/`mhzMax`
+  (/proc/cpuinfo), `top` (3 processes by CPU since the previous sample, `{proc: pid/comm, ms}`); for the renderer
+  main thread (the `CrRendererMain` thread whose CPU time grew most, re-picked each sample, so the studio tab and
+  not the keeper page): `core` (stat field 39), `coreMhz` (that core's cpuinfo MHz, scaling_cur_freq fallback),
+  `runMs`/`waitMs` (schedstat: on CPU / waiting on the run queue), `migr` (nr_migrations), `nvcsw`
+  (nonvoluntary switches), null where the picked thread changed or a file is unreadable; for `CrGpuMain`:
+  `gpuCore`, `gpuCoreMhz`, `gpuWaitMs`; container-wide `throttledMs` (cgroup cpu.stat); plus one-time `nproc`,
+  `cpuset`, `governor`, `maxMhzDistinct`. `summary.md` heads the run with nproc, max load and max busy %.
+  `hostSpikes`: the `[start, end]` page-ms intervals at or over `HOST_SPIKE` (steal 20 ms or 5 major faults).
+- `coreCorrelation` (spot and `walk.coreCorrelation`, with `--pod`): frames with `work` >= 12 ms ("long") vs the
+  rest, each matched to the host sample covering its `t`: `{long, normal}` each `{n, coreMhz, migrPct, waitMs,
+  throttledMs}` (means; share of frames whose sample shows a migration) and `longFrames` `[t, work, core, coreMhz,
+  waitMs, migr, throttledMs]` (max 60). `summary.md` prints one `core: long n=.. mhz a vs b, migr x% vs y%, wait ..,
+  throttled ..` line per window.
 - `hitchContext.{settled,walk}`: per hitch over 33 ms, the nearest `harnessLog` action within 500 ms of its gap,
   whether the worker saw an overlapping gap (`workerGap`), whether a host spike overlaps it (`hostSpike`) and
   `cause`: `host` (worker gap + host spike), `process` (worker gap, no spike: the renderer process stopped), `main`

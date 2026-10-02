@@ -40,7 +40,7 @@ import { join, resolve } from "node:path";
 import { chromium } from "playwright";
 import { BLACK_LUMA, INPAGE_PROBES, SPOT_A, censusText, diagList, foreignPages, heapGrowth, heapTopAllocators, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
-import { hostSeries, hostSpikes, hostSummary, startHostSampler } from "./host-sampler.mjs";
+import { coreCorrelation, coreCorrelationText, hostSeries, hostSpikes, hostSummary, startHostSampler } from "./host-sampler.mjs";
 import { loadSourceMaps, sourcePosition } from "./source-maps.mjs";
 import { ANCHOR_PREFIX, GPU_TRACE_CATEGORIES, MEMORY_DUMP_CONFIG, MEMORY_INFRA_CATEGORY, TRACE_CATEGORIES, V8_TRACE_CATEGORIES, classifyFrames, isV8Event, gpuEventsInSpans, isGpuCategoryEvent, joinLinks, keepTraceEvent } from "./trace-frames.mjs";
 import { CAPTURE_RATE, heapSlope, isDiagnosisSpot, parseBar, parseSpots, spotRows, stepsSeconds, summaryTable } from "./spots.mjs";
@@ -704,9 +704,11 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   const harnessLog = hl.entries();
   const hostSamples = host ? hostSeries(host.stop(), hl.origin) : null;
   const spikes = hostSpikes(hostSamples);
+  const coreCorr = coreCorrelation(settle.series, hostSamples);
+  if (walk) walk.coreCorrelation = coreCorrelation(walk.series, hostSamples);
   const hitchCtx = { settled: hitchContext(settle.work.hitches ?? [], harnessLog, settle.workerGaps, spikes),
     ...(walk ? { walk: hitchContext(walk.hitches ?? [], harnessLog, walk.workerGaps, spikes) } : {}) };
-  return { name, url, query, ready, readyS, ...stats, series: settle.series, workerGaps: settle.workerGaps, hostSamples, hostSpikes: spikes, harnessLog, hitchContext: hitchCtx, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
+  return { name, url, query, ready, readyS, ...stats, series: settle.series, workerGaps: settle.workerGaps, hostSamples, hostSpikes: spikes, coreCorrelation: coreCorr, harnessLog, hitchContext: hitchCtx, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
     walk, profile, profileWalk, trace: doTrace ? traces : null, heapsample, diagnosis: !!spot.diagnosis, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
 }
 
@@ -765,7 +767,8 @@ async function main() {
   const rows = result.urls.flatMap((u) => spotRows(u.name, u, o.barParsed));
   const table = summaryTable(rows, o.barParsed);
   const hitchLines = result.urls.flatMap((u) => hitchContextText(u.name, u.hitchContext ?? {}));
-  writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\nhost sampler: ${o.pod ? `on (${hostSummary(result.urls.map((u) => u.hostSamples))})` : "off"}\n\n${table}\n\n## Hitches over 33 ms: nearest harness action (500 ms) and heartbeat worker\n\n${hitchLines.join("\n") || "none"}\n`);
+  const coreLines = result.urls.flatMap((u) => [coreCorrelationText(`${u.name} settled`, u.coreCorrelation), coreCorrelationText(`${u.name} walk`, u.walk?.coreCorrelation)].filter(Boolean));
+  writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\nhost sampler: ${o.pod ? `on (${hostSummary(result.urls.map((u) => u.hostSamples))})` : "off"}\n\n${coreLines.length ? `${coreLines.join("\n")}\n\n` : ""}${table}\n\n## Hitches over 33 ms: nearest harness action (500 ms) and heartbeat worker\n\n${hitchLines.join("\n") || "none"}\n`);
   writeFileSync(join(o.out, "summary.json"), `${JSON.stringify({ schemaVersion: 1, run: o.run, bar: o.barParsed, rows }, null, 2)}\n`);
   console.log(`\n${table}\nmeasure: ${join(o.out, "summary.md")}`);
   await browser.close().catch(() => {});
