@@ -50,7 +50,7 @@
  *              per window frame, top 25 -> window.cpuTop and window.cpuprofile, top 5 in the summary row. Compare its numbers
  *              only against other --cpu-profile runs (the sampler costs main-thread time).
  * --probe-targets   diagnosis only (rows read "not-a-bar"): after the settled read, one frame's render-target log and the
- *              scene / frame-buffer / bloom-mip-0 / canvas centre and 9-point luma, to <out>/<view>/target-probe.json (target-probe.mjs).
+ *              scene (by deferBuildsInto identity) / frame-buffer / bloom-mip-0 luma, per-pass draws, queue skippedDraws per frame and the canvas screen-middle luma, to <out>/<view>/target-probe.json (target-probe.mjs).
  * --probe-gpu-errors  diagnosis only (rows read "not-a-bar"): wraps the WebGPU API before the app's scripts and dumps the first draw of
  *              up to 3 pipelines that need an unset vertex slot (pod-capture-lib installGpuErrorProbe) -> <out>/<view>/gpu-error-probe.json
  * --draw-census  diagnosis only (cells read "not-a-bar"): over the cost window, three's draws per frame by category and kind, us per
@@ -77,7 +77,7 @@
 import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { installTargetProbe, recordPassDescriptor, canvasNine } from "./target-probe.mjs";
+import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
 import { installGpuErrorProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit } from "./checks.mjs";
@@ -363,13 +363,7 @@ const fullRead = async () => {
 /** `--probe-targets`: one frame's target luma and pass log (target-probe.mjs), plus the canvas from a screenshot. */
 async function probeTargetsNow(dir, result) {
   const p = (await evaluate(`window.__targetProbe ? window.__targetProbe.capture() : { err: "no target probe on the page" }`, 30_000)) ?? { err: "probe read failed" };
-  try {
-    const b64 = await shoot(90);
-    p.canvas = await evaluate(`(async () => { const canvasNine = ${String(canvasNine)};
-      const bm = await createImageBitmap(await (await fetch("data:image/jpeg;base64,${'${b64}'}")).blob());
-      const oc = new OffscreenCanvas(bm.width, bm.height), x = oc.getContext("2d"); x.drawImage(bm, 0, 0);
-      return canvasNine(x.getImageData(0, 0, bm.width, bm.height).data, bm.width, bm.height); })()`, 20_000);
-  } catch (e) { p.canvas = { err: String(e.message) }; }
+  try { p.canvas = await middleOf(await shoot(90)); } catch (e) { p.canvas = { err: String(e.message) }; }
   result.targetProbe = p;
   writeFileSync(join(dir, "target-probe.json"), JSON.stringify(p, null, 1));
 }
