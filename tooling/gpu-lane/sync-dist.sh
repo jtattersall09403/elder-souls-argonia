@@ -12,5 +12,5 @@ $ssh_cmd "$target" 'command -v rsync >/dev/null || (apt-get update -qq && apt-ge
 rsync -az --delete --info=stats1 -e "$ssh_cmd" "$site/" "$target:/root/site/"
 rsync -az -e "$ssh_cmd" "$here/serve.mjs" "$here/pod-setup.sh" "$target:/root/gpu-lane/"
 $ssh_cmd "$target" 'pkill -f "gpu-lane/serve.mjs" || true
-  nohup node /root/gpu-lane/serve.mjs /root/site --port 8099 >/tmp/serve.log 2>&1 &
-  curl -sf --retry 10 --retry-all-errors --retry-delay 1 -o /dev/null http://127.0.0.1:8099/elder-souls-argonia/studio/ && cat /tmp/serve.log'
+  setsid nohup node /root/gpu-lane/serve.mjs /root/site --port 8099 >/root/serve.log 2>&1 </dev/null &
+  curl -sf --retry 10 --retry-all-errors --retry-delay 1 -o /dev/null http://127.0.0.1:8099/elder-souls-argonia/studio/ && cat /root/serve.log'

@@ -108,7 +108,9 @@ async function measureUrl(ctx, o, query, idx) {
   page.on("response", (r) => { if (r.status() === 404) http404s.push(r.url()); });
   const url = `${o.origin}${o.base}${query.startsWith("?") ? query : `?${query}`}`;
   const t0 = Date.now();
-  await page.goto(url, { timeout: o.readyTimeout * 1000, waitUntil: "load" }).catch((e) => consoleErrors.push(`goto: ${e}`));
+  const loaded = await page.goto(url, { timeout: o.readyTimeout * 1000, waitUntil: "load" }).then(() => true)
+    .catch((e) => { consoleErrors.push(`goto: ${e}`); return false; });
+  if (!loaded) throw new Error(`site not reachable at ${url} (is serve.mjs running on the pod?)`);
   // Ready: see isReady (the world has stopped arriving; streaming never lets the network go quiet).
   let ready = false;
   const samples = [];
