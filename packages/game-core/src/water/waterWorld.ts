@@ -11,7 +11,7 @@ import { WaterInteractionStream } from "./interactionStream";
 import { WaterDisplacementRegistry } from "./displacementRegistry";
 import type { LocalWaterPatch } from "./LocalWaterPatch";
 import type { LocalWaterSurfaces } from "./localSurfaces";
-import type { WaterData } from "./waterData";
+import { emptyStaticSample, type WaterData } from "./waterData";
 import { immersionAt } from "../physics/waterSampler";
 import { FLOW_WAVE_MIN_SPEED_MS, alongShorePhase, fetchExposure, flowWaveAt, seaRmsHeightM, shoreSwellAt,
   standingWaveRatio, surfEnergyScale, surfaceWaveAt, swashAt, waveExposure, type WaveSample } from "./waves";
@@ -59,6 +59,8 @@ export class WaterWorld implements WorldWaterQuery {
   private scratch: WaveSample = { dx: 0, dz: 0, height: 0, nx: 0, ny: 1, nz: 0 };
   private flowScratch: WaveSample = { dx: 0, dz: 0, height: 0, nx: 0, ny: 1, nz: 0 };
   private readonly levelsScratch = { tide: 0, season: 0 };
+  /** sampleBoundary's and stillSurfaceAt's static sample, reused per call (perf10 M4). */
+  private readonly staticScratch = emptyStaticSample();
 
   constructor(
     readonly data: WaterData,
@@ -79,7 +81,7 @@ export class WaterWorld implements WorldWaterQuery {
   stillSurfaceAt(x: number, z: number, epochMinutes: number): number {
     const pool = this.opts.localSurfaces?.at(x, z);
     if (pool) return pool.levelM;
-    const s = this.data.sample(x, z);
+    const s = this.data.sampleInto(x, z, this.staticScratch);
     const { tide, season } = this.levelOffsets(epochMinutes);
     return s.surfaceBase + tide * s.tideResponse + season * s.seasonResponse;
   }
@@ -102,7 +104,7 @@ export class WaterWorld implements WorldWaterQuery {
       out.waterBodyId = wet ? pool.pool.id : null; out.depth = wet ? depth : 0; out.surfaceHeight = pool.levelM;
       return out;
     }
-    const s = this.data.sample(x, z);
+    const s = this.data.sampleInto(x, z, this.staticScratch);
     const { tide, season } = levels;
     const still = s.surfaceBase + tide * s.tideResponse + season * s.seasonResponse;
     const ground = this.opts.groundHeight?.(x, z) ?? null;

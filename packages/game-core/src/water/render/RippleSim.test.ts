@@ -176,6 +176,28 @@ describe("ripple wet/body boundary", () => {
     mask.update(0.5, 0, 1 / 60);
     expect(mask.labelAt(4.25, 0)).toBeGreaterThan(0);
   });
+
+  it("a walk re-samples only the texels it exposes, never the whole mask per refresh (perf10 M4)", () => {
+    // production shape: 128 texels over 32 m, 0.2 s refresh, 16 rows a frame, no static refresh
+    let calls = 0;
+    const mask = new RippleBoundaryMask(128, 32, 0.2, (x, z, l, o) => { calls++; return pool(x, z, l, o); }, 16, Infinity);
+    mask.setLevelOffsets(0, 0);
+    mask.update(0, 0, 0);
+    calls = 0;
+    const texel = 32 / 128, speed = 3, dt = 1 / 60;
+    let x = 0, steps = 0, last = 0;
+    for (let frame = 1; frame <= 200; frame++) {
+      x += speed * dt;
+      mask.update(x, 0, dt);
+      const at = Math.round(x / texel);
+      steps += at - last; last = at;
+    }
+    expect(steps).toBeGreaterThan(30);
+    // each one-texel step exposes one 128-cell column: a centre sample per cell
+    // plus at most its two new corners (129 x 2); a sub-texel frame samples nothing
+    expect(calls).toBeLessThanOrEqual(steps * (128 + 2 * 129));
+    expect(calls).toBeLessThan(200 * 128 * 128 / 20);
+  });
 });
 
 describe("ripple frame scheduling", () => {

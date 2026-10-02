@@ -463,18 +463,29 @@ export class SettlementLightFixtures {
     return batch;
   }
 
-  /** A sprite texture (works-v1 `effectTextures`); until it is set, its sprites do not draw. */
-  setFlameTexture(texture: THREE.Texture, textureId: string = FLAME_TEXTURE_ASSET_ID): void {
+  /** A sprite texture (works-v1 `effectTextures`); until it is set, its sprites do not draw.
+   * `warm` links the flame and bloom draws with the texture bound (the app's
+   * DrawTargetLinker): the batch stays hidden until it settles, so the first
+   * draw finds its programs linked (perf10 M5: the batch was hidden during the
+   * settlement warm and linked on its first draw). Without `warm` it shows at once. */
+  setFlameTexture(texture: THREE.Texture, textureId: string = FLAME_TEXTURE_ASSET_ID,
+    warm?: (flame: THREE.Mesh, bloom: THREE.Mesh) => Promise<unknown>): Promise<void> {
     const batch = this.batch(textureId);
     const material = batch.mesh.material as THREE.MeshBasicMaterial;
     if (material.map && material.map !== texture) material.map.dispose();
     material.map = texture;
     material.needsUpdate = true;
-    batch.mesh.visible = true;
     const bloom = batch.bloom.material as THREE.MeshBasicMaterial;
     bloom.map = texture;
     bloom.needsUpdate = true;
-    batch.bloom.visible = true;
+    const show = () => {
+      // a later texture for this batch owns the reveal
+      if (material.map !== texture) return;
+      batch.mesh.visible = true;
+      batch.bloom.visible = true;
+    };
+    if (!warm) { show(); return Promise.resolve(); }
+    return warm(batch.mesh, batch.bloom).then(show, show);
   }
 
   /** The sprite draw of one texture (tests, probes). */

@@ -1,5 +1,6 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
-import { useFrame, useLoader } from "@react-three/fiber";
+import { useFrame, useLoader, useThree } from "@react-three/fiber";
+import { DrawTargetLinker } from "@elder-souls/game-core/render/drawTargetLinker";
 import * as THREE from "three";
 import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "../groundMaterial";
 import { useGroundArray } from "@elder-souls/game-core/terrain/groundArray";
@@ -68,6 +69,38 @@ function ChunkMesh({ grid, geometry, material, meshRef }: {
   );
 }
 
+/**
+ * Link each terrain material's program before any tile drawing it is shown
+ * (decision 0108 §2; perf10 F21: the ground program linked on first draw at
+ * ~13.6 s). All tiles of one material share one program, so only the first
+ * tile mounted per material is linked; `link` is DrawTargetLinker `link`,
+ * which runs the lit preparer (CSM, fixture lights) first, so the warm key is
+ * the draw key. While a first link is pending `setHeld(true)` hides the
+ * terrain group; it is released when every link settles, failed or not, and
+ * the linker's settle timeout bounds a hung compile.
+ */
+export function createTerrainLinkGate(
+  link: (object: THREE.Object3D) => Promise<unknown>,
+  setHeld: (held: boolean) => void,
+) {
+  const seen = new WeakSet<object>();
+  let pending = 0;
+  return {
+    get held() { return pending > 0; },
+    onMesh(mesh: THREE.Mesh) {
+      const material = mesh.material as THREE.Material;
+      if (seen.has(material)) return;
+      seen.add(material);
+      pending++;
+      setHeld(true);
+      const done = () => { if (--pending === 0) setHeld(false); };
+      let settled: Promise<unknown>;
+      try { settled = link(mesh); } catch (err) { settled = Promise.reject(err); }
+      settled.then(done, done);
+    },
+  };
+}
+
 export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, verticalScale, onLodMap, loadingFallback, apron, onGroundMaterial }: {
   store: ChunkStore;
   manifest: ChunksManifest;
@@ -109,6 +142,16 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [arrayTex, ctrl, tintTex, gradTex, ground, csm, shoreWetness],
   );
+  // The first tile of each material links its program before it shows.
+  const { gl, scene, camera } = useThree();
+  const linker = useMemo(() => new DrawTargetLinker(gl, scene), [gl, scene]);
+  useEffect(() => { linker.attach(); return () => linker.detach(); }, [linker]);
+  const groupRef = useRef<THREE.Group | null>(null);
+  const linkGate = useMemo(() => createTerrainLinkGate(
+    (object) => linker.link({ object }, camera),
+    (held) => { if (groupRef.current) groupRef.current.visible = !held; }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [linker]);
   const groundUniforms = material.userData.groundUniforms as GroundUniforms;
   useEffect(() => {
     groundUniforms.uVerticalScale.value =
@@ -383,6 +426,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
         geometry={geometry}
         material={isApron && apron ? apron.material : material}
         meshRef={(mesh) => {
+          if (mesh) linkGate.onMesh(mesh);
           if (mesh && box) occluded.set(key, { mesh, corners: topCornersOfBox(box) });
           else occluded.delete(key);
         }}
@@ -393,5 +437,10 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   // decodes (an apron tile is not the ground the player stands on), but never
   // draw it beneath detail meshes.
   if (!provinceDrawn) return <>{loadingFallback ?? null}</>;
-  return <group matrixAutoUpdate={false}>{meshes}</group>;
+  return (
+    <group
+      ref={(g) => { groupRef.current = g; if (g) g.visible = !linkGate.held; }}
+      matrixAutoUpdate={false}
+    >{meshes}</group>
+  );
 }
