@@ -109,7 +109,7 @@ test("summaryTable: header, cap line and one row per view with dashes for missin
   const t = summaryTable([{ name: "A", summary: { lumaSettled: 40.123, tris: 940000, fps: 59 } }, { name: "B" }], { capDetected: false, blankRafFps: 240 }).split("\n");
   assert.equal(t[0], "cap detected: false (blank-page rAF 240 fps)");
   assert.equal(t.length, 6);
-  assert.match(t[4], /^\| A \| - \| - \| 40\.12 \| - \| - \| - \| 59 \|.*\| 0\.94 \|/);
+  assert.match(t[4], /^\| A \| - \| - \| - \| 40\.12 \| - \| - \| - \| 59 \|.*\| 0\.94 \|/);
   assert.match(t[5], /^\| B( \| -)+ \|$/);
 });
 test("the iter7 views file parses: A, B, D x webgpu, webgl backend, studio, plus B-webgpu-diag", async () => {
@@ -415,4 +415,37 @@ test("draw census: byTarget draws by category and kept-zero vegetation draws", (
   assert.deepEqual(c.byTarget.screen, { drawsPerFrame: 1, keptZeroPerFrame: 0, "veg-gpucull": 1 });
   assert.equal(c.keptZeroPerFrame, 1);
   assert.match(drawCensusLine(c), /keptZero 1; veg-gpucull 3; targets shadow-cascade-0 2, screen 1$/);
+});
+
+test("loadTimeline: complete = max of streaming-quiet, queue empty, last build; over 10 s is BAR FAIL", async () => {
+  const { loadTimeline, loadLine } = await import("./pod-capture-lib.mjs");
+  const page = (last) => ({ probe: { firstPresent: 1200, builds: { count: 40, ms: 3100, last }, transcode: { count: 12, ms: 900, last: 5000, workers: 2 } }, fetch: { count: 80, bytes: 42e6, last: 6400 } });
+  const ok = loadTimeline(page(7300), { streamFirst: 3, streamQuiet: 8, queueEmpty: 6 });
+  assert.equal(ok.complete, 8); assert.equal(ok.barFail, false);
+  assert.equal(loadLine(ok), "complete 8 (fetch 6.4, transcode 900ms/12, builds 3100ms/40 last 7.3, stream 3-8, present 1.2)");
+  const late = loadTimeline(page(11200), { streamFirst: 3, streamQuiet: 8, queueEmpty: 6 });
+  assert.equal(late.complete, 11.2); assert.equal(late.barFail, true); assert.match(loadLine(late), /^BAR FAIL complete 11.2/);
+  const q = loadTimeline(page(2000), { streamFirst: 3, streamQuiet: 4, queueEmpty: 10.5 });
+  assert.equal(q.complete, 10.5); assert.equal(q.barFail, true);
+  const none = loadTimeline(null, { streamFirst: 3, streamQuiet: 4, queueEmpty: 5 });
+  assert.equal(none.complete, null); assert.equal(none.barFail, true); assert.ok(none.transcode.unobservable);
+  assert.ok(loadTimeline({ ...page(1000), probe: { ...page(1000).probe, transcode: { count: 0, ms: 0, last: null, workers: 0 } } }, { streamQuiet: 1, queueEmpty: 1 }).transcode.unobservable);
+});
+test("installLoadTimeline: pipeline builds, first present and KTX2 worker round trips are counted", () => {
+  return import("./pod-capture-lib.mjs").then(({ installLoadTimeline }) => {
+    let clock = 0; const listeners = [];
+    class GPUDevice { createRenderPipeline() { clock += 50; return {}; } createShaderModule() { clock += 10; return {}; } createRenderPipelineAsync() { clock += 5; return Promise.resolve({}); } createComputePipeline() {} createComputePipelineAsync() { return Promise.resolve(); } }
+    class GPUQueue { submit() {} }
+    class Worker { postMessage() {} addEventListener(_, f) { listeners.push(f); } }
+    const win = { performance: { now: () => clock, setResourceTimingBufferSize() {} }, GPUDevice, GPUQueue, Worker };
+    installLoadTimeline(win);
+    const d = new GPUDevice(); d.createShaderModule(); clock = 100; d.createRenderPipeline();
+    clock = 120; new GPUQueue().submit();
+    const w = new Worker(); clock = 200; w.postMessage({ type: "transcode", id: 7 }); clock = 260; listeners[0]({ data: { type: "transcode", id: 7 } });
+    const t = win.__loadTimeline;
+    assert.equal(t.builds.count, 2); assert.equal(t.builds.ms, 60); assert.equal(t.builds.last, 150);
+    assert.equal(t.firstPresent, 120);
+    assert.deepEqual([t.transcode.count, t.transcode.ms, t.transcode.workers], [1, 60, 1]);
+    return d.createRenderPipelineAsync().then(() => Promise.resolve()).then(() => assert.equal(t.builds.count, 3));
+  });
 });
