@@ -19,6 +19,7 @@ import { isHeavyAttack, resolveHit } from "@elder-souls/game-core/combat/resolve
 import { resetFighter, type EnemyMode } from "@elder-souls/game-core/combat/fighter";
 import { CombatEventBus } from "@elder-souls/game-core/combat/events";
 import { ACTION_DURATIONS, BACKSTEP_ATTACK_DASH_FRACTION, PLAYER_DODGE_SPEED, RIPOSTE_WINDOW } from "@elder-souls/game-core/combat/tuning";
+import { tryItemById } from "@elder-souls/game-core/inventory/registry";
 import { useEquippedArrow, useEquippedLoadout, useInventoryStore, useWornArmour, wornArmourFor } from "@elder-souls/game-core/inventory/store";
 import { IDLE_BOW_CYCLE, advanceBowCycle, aimBlend, bowPose, bowTravelFor, isAiming, nockedArrowVisible, type BowCycle } from "@elder-souls/game-core/combat/bowShot";
 import { AIM_CONVERGENCE_FAR_METERS, aimAngles, aimConvergencePoint, angleBetweenDegrees, directionTo } from "@elder-souls/game-core/combat/aimConvergence";
@@ -222,6 +223,14 @@ export function CombatRuntime({
     },
     [portrait?.armourItemId],
   );
+  // A portrait carries nothing unless the shot named one weapon by id; it is
+  // shown through the same visual profile the fighter uses for its main hand.
+  const portraitWeapon = useMemo(() => {
+    if (!portrait?.weaponItemId) return null;
+    const equip = tryItemById(portrait.weaponItemId)?.equip;
+    if (equip?.kind !== "weapon") throw new Error(`Portrait: "${portrait.weaponItemId}" is not a weapon`);
+    return equip.weapon.visual;
+  }, [portrait?.weaponItemId]);
   const playerQuiver = useEquippedArrow();
   // The physics world, for the crosshair ray: where the sight line lands is
   // what the shot is aimed at.
@@ -3445,13 +3454,13 @@ export function CombatRuntime({
           animationCommandRef={playerAnimationCommand}
           animationTimeRef={playerActionTime}
           animationPoseTimeRef={playerBowPoseTime}
-          weaponProfile={playerWeapon.visual}
+          weaponProfile={portraitWeapon ?? playerWeapon.visual}
           offHandProfile={portrait ? null : playerLoadout.offHand?.visual ?? null}
           animationPacks={playerAnimationPacks}
           armour={portrait ? portraitArmour : playerArmour}
           quiver={portrait ? null : playerQuiverMount}
           nockedArrow={portrait ? null : playerNockedArrow}
-          carriedHidden={Boolean(portrait)}
+          carriedHidden={Boolean(portrait) && !portraitWeapon}
           bowDraw={playerBowDraw}
           firstPerson={aimingSnapshot && aimView === "eye"}
           hidden={firstPersonActive}

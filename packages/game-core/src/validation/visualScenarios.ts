@@ -1404,6 +1404,8 @@ export type PortraitStaging = {
    * that is judging how armour meets the body asks for it explicitly.
    */
   armourItemId: string | null;
+  /** One carried main-hand weapon, by item id, or null for empty hands (the default). */
+  weaponItemId: string | null;
   /**
    * Scene clear colour for this shot, or null for the arena's own sky.
    *
@@ -1425,7 +1427,7 @@ export type PortraitStaging = {
  */
 const PORTRAIT_SHOTS: Record<
   PortraitShot,
-  Omit<PortraitStaging, "buildId" | "shot" | "armourItemId" | "backdrop">
+  Omit<PortraitStaging, "buildId" | "shot" | "armourItemId" | "weaponItemId" | "backdrop">
 > = {
   // Head height measured off the body shot: the reference male stands 1.90 m,
   // crown 1.90, chin 1.66. A level lens at 1.80 over a 0.46 m tall frame holds
@@ -1451,7 +1453,7 @@ export function portraitScenario(
   buildId: string,
   shot: PortraitShot,
   build?: { heightScale: number },
-  kit: { armourItemId?: string | null; backdrop?: string | null } = {},
+  kit: { armourItemId?: string | null; weaponItemId?: string | null; backdrop?: string | null } = {},
 ): VisualScenario {
   const framing = PORTRAIT_SHOTS[shot];
   // An Altmer stands 8% taller than a Dunmer, so a single eye height would put
@@ -1480,6 +1482,7 @@ export function portraitScenario(
       shot,
       ...staging,
       armourItemId: kit.armourItemId ?? null,
+      weaponItemId: kit.weaponItemId ?? null,
       backdrop: kit.backdrop ?? null,
     },
   };
@@ -1504,6 +1507,7 @@ export function visualScenarioFromSearch(
     const backdrop = parameters.get("bg");
     return portraitScenario(buildId, shot as PortraitShot, lookupBuild(buildId), {
       armourItemId: parameters.get("armour"),
+      weaponItemId: parameters.get("weapon"),
       backdrop: backdrop && /^[0-9a-fA-F]{6}$/.test(backdrop) ? `#${backdrop}` : null,
     });
   }
