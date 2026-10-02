@@ -57,12 +57,131 @@ export function viewPriority(
 /** Per-frame generation budget, ms. */
 export const GC_BUDGET_STARTUP_MS = 24;
 export const GC_BUDGET_COLD_MS = 12;
-export const GC_BUDGET_STEADY_MS = 4;
+export const GC_BUDGET_STEADY_MS = 2.5;
 /** The startup window the large budget holds for, from the first generate. */
 export const GC_STARTUP_S = 6;
 /** More tiles than this still wanted = a spawn, a teleport, a raster
  * arriving: the cold budget applies. */
 export const GC_COLD_TILES = 40;
+
+/**
+ * A resumable unit of work run under a deadline (diag16 W). A tile used to be
+ * generated in one call with the budget checked only BETWEEN tiles, so one
+ * slow tile (a road-track clearance) overran the frame; the tile is now a
+ * generator whose `next()` is a slice (a phase, 64 candidates, one species'
+ * composition) and the deadline is checked after every slice. Runs at least
+ * one slice per call so it always progresses; `done` carries the value.
+ */
+export function runSlices<T>(
+  work: Iterator<void, T>, deadlineMs: number, now: () => number,
+): { done: true; value: T } | { done: false } {
+  for (;;) {
+    const r = work.next();
+    if (r.done) return { done: true, value: r.value };
+    if (now() >= deadlineMs) return { done: false };
+  }
+}
+
+/** Per-frame GPU upload budget of the ring's commit, bytes (diag16 W: a
+ * whole-ring re-upload every 8 m of walking was the walking hitch). */
+export const GC_UPLOAD_BUDGET_BYTES = 256 * 1024;
+/** Bytes one instance uploads: matrix 64 + colour 12 + LOD band 16. */
+export const GC_INSTANCE_BYTES = 92;
+/** Marks closer than this (instances) merge into one range: a range is one
+ * driver call, and a few unchanged instances cost less than a call. */
+export const GC_RANGE_MERGE_GAP = 16;
+
+/**
+ * The instance ranges of one pooled mesh whose CPU data changed since its
+ * last upload (diag16 W). Marks accumulate across fills (a cancelled fill's
+ * writes still reach the GPU at the next commit); `apply` points three's
+ * update ranges at them so only they upload; `clear` after the commit.
+ */
+export class RangeTracker {
+  private readonly bounds: number[] = [];
+  /** Upload the whole attribute (a new buffer). */
+  full = false;
+
+  mark(start: number, count: number): void {
+    if (count <= 0) return;
+    const b = this.bounds;
+    const end = start + count;
+    const n = b.length;
+    // A fill marks in ascending order: extend the last range when they touch.
+    if (n > 0 && start >= b[n - 2] && start <= b[n - 1] + GC_RANGE_MERGE_GAP) {
+      if (end > b[n - 1]) b[n - 1] = end;
+      return;
+    }
+    b.push(start, end);
+  }
+
+  /** Sorted, merged [start, end) pairs, flat. */
+  ranges(): readonly number[] {
+    const b = this.bounds;
+    let ordered = true;
+    for (let i = 2; i < b.length; i += 2) if (b[i] <= b[i - 1] + GC_RANGE_MERGE_GAP) { ordered = false; break; }
+    if (ordered) return b;
+    const pairs: [number, number][] = [];
+    for (let i = 0; i < b.length; i += 2) pairs.push([b[i], b[i + 1]]);
+    pairs.sort((x, y) => x[0] - y[0]);
+    b.length = 0;
+    for (const [s, e] of pairs) {
+      const n = b.length;
+      if (n > 0 && s <= b[n - 1] + GC_RANGE_MERGE_GAP) { if (e > b[n - 1]) b[n - 1] = e; } else b.push(s, e);
+    }
+    return b;
+  }
+
+  /** Instances to upload (`capacity` when full). */
+  instances(capacity: number): number {
+    if (this.full) return capacity;
+    const r = this.ranges();
+    let n = 0;
+    for (let i = 0; i < r.length; i += 2) n += r[i + 1] - r[i];
+    return n;
+  }
+
+  /** Point `attribute` at the changed ranges (in instances) and flag it. */
+  apply(attribute: THREE.BufferAttribute, itemSize: number): void {
+    attribute.clearUpdateRanges();
+    if (this.full) { attribute.needsUpdate = true; return; }
+    const r = this.ranges();
+    for (let i = 0; i < r.length; i += 2) attribute.addUpdateRange(r[i] * itemSize, (r[i + 1] - r[i]) * itemSize);
+    if (r.length > 0) attribute.needsUpdate = true;
+  }
+
+  clear(): void { this.bounds.length = 0; this.full = false; }
+}
+
+/** `to.set(from.subarray(src, src + n), dst)` without the view object,
+ * writing only the values that differ; reports whether any did. */
+export function copyFloatsChanged(
+  from: Float32Array, src: number, n: number, to: Float32Array, dst: number,
+): boolean {
+  let changed = false;
+  for (let i = 0; i < n; i++) {
+    const v = from[src + i];
+    if (to[dst + i] !== v) { to[dst + i] = v; changed = true; }
+  }
+  return changed;
+}
+
+/**
+ * The commits one frame takes from `cursor`: whole entries while the bytes
+ * fit `budget`, and always at least one (a mesh commits whole, never half).
+ * Returns the end index.
+ */
+export function takeCommitBatch(
+  bytes: ArrayLike<number>, cursor: number, total: number, budget: number,
+): number {
+  let spent = 0;
+  let c = cursor;
+  while (c < total) {
+    if (c > cursor && spent + bytes[c] > budget) break;
+    spent += bytes[c++];
+  }
+  return c;
+}
 
 export function generateBudgetMs(sinceStartS: number, remainingTiles: number): number {
   if (sinceStartS < GC_STARTUP_S) return GC_BUDGET_STARTUP_MS;

@@ -123,6 +123,12 @@ import {
   SectorCuller,
   sectorOf,
   viewPriority,
+  copyFloatsChanged,
+  runSlices,
+  takeCommitBatch,
+  RangeTracker,
+  GC_INSTANCE_BYTES,
+  GC_UPLOAD_BUDGET_BYTES,
 } from "./groundcoverSchedule";
 
 /** Ring tiling. Tiles are world-aligned so placement is position-independent. */
@@ -168,10 +174,6 @@ const NEAR_TRI_REF = 250;
 const NEAR_REACH_MIN = 0.25;
 const NEAR_TRI_MAX = 1000;
 
-/** `to.set(from.subarray(src, src + n), dst)` without the view object. */
-export function copyFloats(from: Float32Array, src: number, n: number, to: Float32Array, dst: number): void {
-  for (let i = 0; i < n; i++) to[dst + i] = from[src + i];
-}
 
 /** The NEAR band's fraction of `NEAR_FRACTION x r` for a mesh of `meshTris`. */
 export function nearReachFraction(meshTris: number): number {
@@ -261,11 +263,10 @@ const TIER_OVERLAP_M = REBUILD_MOVE_M + 6;
  * 16 m of walking. Generation runs in `useFrame`, nearest and in-view first,
  * and the fill is requested by `fillDue`: in phases on a cold start, at the
  * queue's drain or every 0.25 s while walking; the overlap margin hides the
- * tiles still in the queue at the ring's edge. */
-/** Tiles generated in ONE call, however much of the budget is left: the
- * budget is only checked BETWEEN tiles, and a single tile beside a road-track
- * clearance was measured at 110-555 ms on the owner's GPU (2026-09-21). */
-const GENERATE_MAX_TILES_PER_CALL = 12;
+ * tiles still in the queue at the ring's edge. A tile is generated in
+ * slices (`runSlices`) with the deadline checked inside it, and a tile cut
+ * by the deadline resumes on the next frame (diag16 W: a tile beside a
+ * road-track clearance was measured at 110-555 ms on the owner's GPU). */
 const EMPTY_PATCHES: readonly IndexedPatch[] = [];
 /** Metres between the per-tile ground samples (height, slope, water depth).
  * The terrain the ring re-grounds on is 1.83 m per sample, so a 2 m grid
@@ -847,6 +848,12 @@ function bandAttribute(
   return grown;
 }
 
+/** A pooled mesh's changed instance ranges since its last upload (diag16 W). */
+function rangesOf(mesh: THREE.InstancedMesh): RangeTracker {
+  const data = mesh.userData as { gcRanges?: RangeTracker };
+  return data.gcRanges ?? (data.gcRanges = new RangeTracker());
+}
+
 // Terrain height: shared with the baked-scatter renderer — see terrainHeight.ts.
 
 // --- component ---------------------------------------------------------------
@@ -959,15 +966,16 @@ export interface GroundcoverPerf {
   rebuildsPerSec: number;
   generateMs: number;
   generateMaxMs: number;
-  /** The last SINGLE tile's generation cost and the worst seen, ms. The 5 ms
-   * budget is only checked between tiles, so one slow tile is the hitch. */
+  /** The last SINGLE tile's generation work (summed over its slices) and the
+   * worst seen, ms. A tile is sliced, so this is no longer one frame's cost. */
   tileMs: number;
   tileMaxMs: number;
   /** The tile generator split by phase, MAX ms over the same window as
-   * `tileMaxMs`: the grid sampling, the mask rasteriser, the candidate loop
-   * and the typed-array composition. `phaseExact` is the worst tile's count
-   * of candidates that ran the exact footprint/patch test (the ones the cell
-   * mask could not reject). */
+   * `tileMaxMs`, from tiles that finished inside one frame (a sliced tile's
+   * phases span frames): the grid sampling, the mask rasteriser, the
+   * candidate loop and the typed-array composition. `phaseExact` is the worst
+   * tile's count of candidates that ran the exact footprint/patch test (the
+   * ones the cell mask could not reject). */
   phaseGridMaxMs: number;
   phaseMaskMaxMs: number;
   phaseCandMaxMs: number;
@@ -975,6 +983,14 @@ export interface GroundcoverPerf {
   phaseExact: number;
   fillMs: number;
   fillMaxMs: number;
+  /** This frame's commit (diag16 W): bytes uploaded (changed ranges only,
+   * under GC_UPLOAD_BUDGET_BYTES) and its ms; `frameMs` is the layer's whole
+   * main-thread time this frame (generate + commit), `frameMaxMs` the worst
+   * over the 120-frame window. */
+  uploadBytes: number;
+  commitMs: number;
+  frameMs: number;
+  frameMaxMs: number;
   fillInstances: number;
   tilesLive: number;
   tilesPending: number;
@@ -1158,6 +1174,13 @@ export function Groundcover({
   const generateRef = useRef<((budgetMs: number, forwardX: number, forwardZ: number) => {
     generated: number; remaining: number; missing: number; missingWithin: readonly number[];
   }) | null>(null);
+  /** A finished fill's commit, drained in `useFrame` under
+   * GC_UPLOAD_BUDGET_BYTES a frame (diag16 W); null when none is pending.
+   * `step(Infinity)` finishes it at once. */
+  const commitDrain = useRef<{ step(budgetBytes: number): boolean; then: (() => void) | null } | null>(null);
+  /** Bumped whenever cached tiles go stale: a tile in flight across that
+   * bump is cached stale, so it is generated again on the new inputs. */
+  const cacheEpoch = useRef(0);
   const [revision, setRevision] = useState(0);
   /** Counts chunk decode completions only (the `store.load()` completion
    * site below) — never bumped by any other `setRevision` call. */
@@ -1179,6 +1202,7 @@ export function Groundcover({
     phaseGridMaxMs: 0, phaseMaskMaxMs: 0, phaseCandMaxMs: 0, phaseComposeMaxMs: 0,
     phaseExact: 0,
     fillMs: 0, fillMaxMs: 0,
+    uploadBytes: 0, commitMs: 0, frameMs: 0, frameMaxMs: 0,
     fillInstances: 0, tilesLive: 0, tilesPending: 0, nearMeshTriangles: 0,
     instancesLive: 0, instancesSubmitted: 0, drawsSubmitted: 0, fills: 0,
     tilesBuilt: 0, cacheStaled: 0, tilesRetiled: 0,
@@ -1354,8 +1378,24 @@ export function Groundcover({
       const pm = phaseMax.current;
       pm.grid = 0; pm.mask = 0; pm.cand = 0; pm.compose = 0; pm.exact = 0;
       p.fillMaxMs = 0;
+      p.frameMaxMs = 0;
     }
     p.generateMs = 0;
+    p.uploadBytes = 0;
+    p.commitMs = 0;
+    // A finished fill's commit, a few meshes a frame under the byte budget;
+    // its time comes out of this frame's generation budget.
+    const drain = commitDrain.current;
+    if (drain) {
+      const tCommit0 = performance.now();
+      if (drain.step(GC_UPLOAD_BUDGET_BYTES)) {
+        commitDrain.current = null;
+        const then = drain.then;
+        drain.then = null;
+        then?.();
+      }
+      p.commitMs = Math.round((performance.now() - tCommit0) * 10) / 10;
+    }
     let pendingTiles = 0;
     // An incomplete tile is retried when a chunk arrives, the only event
     // that can supply its heights: re-arm even if the ring otherwise
@@ -1370,7 +1410,8 @@ export function Groundcover({
       state.camera.getWorldDirection(forward);
       const flat = Math.hypot(forward.x, forward.z) || 1;
       const { generated, remaining, missing, missingWithin } = generateRef.current(
-        generateBudgetMs(state.clock.elapsedTime - genStartS.current, lastRemaining.current),
+        Math.max(0.5, generateBudgetMs(state.clock.elapsedTime - genStartS.current, lastRemaining.current)
+          - p.commitMs),
         forward.x / flat, forward.z / flat);
       lastRemaining.current = remaining;
       p.generateMs = Math.round((performance.now() - tGen0) * 10) / 10;
@@ -1414,6 +1455,8 @@ export function Groundcover({
         ? null : state.clock.elapsedTime + drained.fillInS;
       if (missing === 0) coldStart.current = false;
     }
+    p.frameMs = Math.round((p.generateMs + p.commitMs) * 10) / 10;
+    if (p.frameMs > p.frameMaxMs) p.frameMaxMs = p.frameMs;
     if (!fill && fillDeadlineS.current !== null
         && state.clock.elapsedTime >= fillDeadlineS.current) fill = true;
     p.tilesPending = pendingTiles + generatedSinceFill.current;
@@ -1471,20 +1514,30 @@ export function Groundcover({
   // The fill runs as a frame-work job (perf10 O5): one step per draw slot
   // under the shared per-frame budget, never in this effect's commit (a whole
   // ring's copy in one passive effect was a 32 ms walking hitch). Every step
-  // writes only CPU arrays; nothing the GPU draws changes until the last
-  // step commits counts, uploads, grown attributes and grown meshes at once,
-  // so a fill spread over frames looks exactly like the old one-shot fill.
+  // writes only CPU arrays, marking the instance ranges it changed per mesh
+  // (`RangeTracker`); the last step hands the commit to `commitDrain`, which
+  // `useFrame` runs a few whole meshes a frame under GC_UPLOAD_BUDGET_BYTES,
+  // uploading only the changed ranges (diag16 W: the whole-ring re-upload
+  // every 8 m was the walking hitch). A mesh's count, sphere and ranges
+  // change in the same frame, so no mesh ever draws half a fill. The next
+  // fill starts only once the drain is done (its CPU writes would otherwise
+  // reach the GPU under the old counts).
   useEffect(() => {
     const group = root.current;
     if (!group || !kit || !control || !chunks) return;
     /** Grown meshes and band attributes, held out of the scene until commit;
      * a cancelled fill disposes the meshes. */
     const grownMeshes = new Map<string, { mesh: THREE.InstancedMesh; previous: THREE.InstancedMesh | null }>();
-    const handle = queue.add(fillJob(group), {
-      priority: 20, label: "groundcover-fill",
-    });
+    let handle: { cancel(): void } | null = null;
+    const start = () => {
+      handle = queue.add(fillJob(group), { priority: 20, label: "groundcover-fill" });
+    };
+    const pendingDrain = commitDrain.current;
+    if (pendingDrain) pendingDrain.then = start;
+    else start();
     return () => {
-      handle.cancel();
+      if (pendingDrain && pendingDrain.then === start) pendingDrain.then = null;
+      handle?.cancel();
       for (const { mesh } of grownMeshes.values()) mesh.dispose();
       grownMeshes.clear();
     };
@@ -1760,6 +1813,8 @@ export function Groundcover({
               // per instance, so the object's own matrix never changes (O4).
               mesh.matrixAutoUpdate = false;
               mesh.count = 0;
+              // A new buffer uploads whole.
+              rangesOf(mesh).full = true;
               grownMeshes.set(meshKey, { mesh, previous });
             }
             const matrices = mesh.instanceMatrix.array as Float32Array;
@@ -1769,6 +1824,8 @@ export function Groundcover({
             // A grown attribute is attached in the commit step, with the rest.
             const bands = bandAttribute(geometry, drawn, grownBands);
             const bandArray = bands.array as Float32Array;
+            // What this fill changes, so the commit uploads only that.
+            const ranges = rangesOf(mesh);
             let at = 0;
             for (let k = 0; k < slotRecords.length; k++) {
               const r = slotRecords[k];
@@ -1776,22 +1833,31 @@ export function Groundcover({
               const keepBelow = thinThreshold(scratch.recNearest[r], scratch.recThin[r] * densityScale, scratch.recThinNearM[r], scratch.recThinMidM[r]);
               const { farLo, farN, restN } = recordCopyRange(sp.keeps, sp.farCount, sp.count, scratch.recFar[r] === 1, keepBelow, ROLE_NAMES[scratch.recRole[r]], FAR_MESH_KEEP, copyRange);
               const band = tierBands[scratch.recTier[r]];
+              let bandChanged = false;
               for (let i = at; i < at + farN + restN; i++) {
-                bandArray[i * 4] = band[0];
-                bandArray[i * 4 + 1] = band[1];
-                bandArray[i * 4 + 2] = band[2];
-                bandArray[i * 4 + 3] = band[3];
+                const o = i * 4;
+                if (bandArray[o] !== band[0] || bandArray[o + 1] !== band[1]
+                  || bandArray[o + 2] !== band[2] || bandArray[o + 3] !== band[3]) {
+                  bandArray[o] = band[0];
+                  bandArray[o + 1] = band[1];
+                  bandArray[o + 2] = band[2];
+                  bandArray[o + 3] = band[3];
+                  bandChanged = true;
+                }
               }
+              if (bandChanged) ranges.mark(at, farN + restN);
               // Plain copy loops, not `set(subarray(...))`: a subarray is a
               // new view object per record per rebuild (diag10 C3).
               if (farN > 0) {
-                copyFloats(sp.matrices, farLo * 16, farN * 16, matrices, at * 16);
-                copyFloats(sp.colours, farLo * 3, farN * 3, colours, at * 3);
+                const m = copyFloatsChanged(sp.matrices, farLo * 16, farN * 16, matrices, at * 16);
+                const c = copyFloatsChanged(sp.colours, farLo * 3, farN * 3, colours, at * 3);
+                if (m || c) ranges.mark(at, farN);
                 at += farN;
               }
               if (restN > 0) {
-                copyFloats(sp.matrices, sp.farCount * 16, restN * 16, matrices, at * 16);
-                copyFloats(sp.colours, sp.farCount * 3, restN * 3, colours, at * 3);
+                const m = copyFloatsChanged(sp.matrices, sp.farCount * 16, restN * 16, matrices, at * 16);
+                const c = copyFloatsChanged(sp.colours, sp.farCount * 3, restN * 3, colours, at * 3);
+                if (m || c) ranges.mark(at, restN);
                 at += restN;
               }
             }
@@ -1810,39 +1876,75 @@ export function Groundcover({
         }
       }
     }
-    // --- commit: everything the GPU sees changes here, in one step ---
+    // --- commit: handed to `commitDrain`, a few whole meshes a frame ---
+    // The drain reads the scratch directly: the next fill (which resets it)
+    // starts only once the drain is done. Grown meshes move to the drain, so
+    // this effect's cleanup no longer disposes them.
     workMs += performance.now() - stepT0;
     yield;
     stepT0 = performance.now();
-    if (grownMeshes.size > 0) {
-      for (const [meshKey, { mesh, previous }] of grownMeshes) {
-        group.add(mesh);
-        meshPool.current.set(meshKey, mesh);
-        if (previous) { group.remove(previous); previous.dispose(); }
-      }
-      grownMeshes.clear();
-      const list = meshList.current;
-      list.length = 0;
-      for (const mesh of meshPool.current.values()) list.push(mesh);
+    const grown = new Map<THREE.InstancedMesh, { key: string; previous: THREE.InstancedMesh | null }>();
+    for (const [meshKey, { mesh, previous }] of grownMeshes) grown.set(mesh, { key: meshKey, previous });
+    grownMeshes.clear();
+    const total = scratch.commitCount;
+    // Grown meshes first: each replaces a mesh that is removed when it lands.
+    const order: number[] = [];
+    for (let c = 0; c < total; c++) if (grown.has(scratch.commitMesh[c])) order.push(c);
+    for (let c = 0; c < total; c++) if (!grown.has(scratch.commitMesh[c])) order.push(c);
+    const bytes = new Float64Array(total);
+    for (let k = 0; k < total; k++) {
+      const c = order[k];
+      const mesh = scratch.commitMesh[c], bands = scratch.commitBands[c];
+      const capacity = mesh.instanceMatrix.count;
+      bytes[k] = rangesOf(mesh).instances(capacity) * GC_INSTANCE_BYTES
+        + (scratch.commitGeometry[c].getAttribute(LOD_BAND_ATTRIBUTE) !== bands ? bands.count * 16 : 0);
     }
-    for (let c = 0; c < scratch.commitCount; c++) {
+    const commitOne = (c: number) => {
       const geometry = scratch.commitGeometry[c], bands = scratch.commitBands[c], mesh = scratch.commitMesh[c];
-      if (geometry.getAttribute(LOD_BAND_ATTRIBUTE) !== bands) {
-        geometry.setAttribute(LOD_BAND_ATTRIBUTE, bands);
+      const swap = grown.get(mesh);
+      if (swap) {
+        group.add(mesh);
+        meshPool.current.set(swap.key, mesh);
+        if (swap.previous) { group.remove(swap.previous); swap.previous.dispose(); }
+        const list = meshList.current;
+        list.length = 0;
+        for (const m of meshPool.current.values()) list.push(m);
       }
-      bands.needsUpdate = true;
+      const ranges = rangesOf(mesh);
+      if (geometry.getAttribute(LOD_BAND_ATTRIBUTE) !== bands) {
+        // A new attribute uploads whole on its first draw.
+        geometry.setAttribute(LOD_BAND_ATTRIBUTE, bands);
+        bands.clearUpdateRanges();
+        bands.needsUpdate = true;
+      } else {
+        ranges.apply(bands, 4);
+      }
+      ranges.apply(mesh.instanceMatrix, 16);
+      ranges.apply(mesh.instanceColor!, 3);
+      ranges.clear();
       mesh.count = scratch.commitDrawn[c];
-      mesh.instanceMatrix.needsUpdate = true;
-      mesh.instanceColor!.needsUpdate = true;
       const sphere = mesh.boundingSphere ?? (mesh.boundingSphere = new THREE.Sphere());
       sphere.center.set(scratch.commitCx[c], scratch.commitCy[c], scratch.commitCz[c]);
       sphere.radius = scratch.commitRadius[c];
-    }
-    // Everything the pool holds that this rebuild did not fill draws nothing
-    // — `count = 0` — but keeps its buffers for the next crossing.
-    for (const [meshKey, mesh] of meshPool.current) {
-      if (!liveMeshes.has(meshKey)) mesh.count = 0;
-    }
+    };
+    let cursor = 0;
+    commitDrain.current = {
+      then: null,
+      step(budgetBytes: number): boolean {
+        const end = takeCommitBatch(bytes, cursor, total, budgetBytes);
+        let sent = 0;
+        for (let k = cursor; k < end; k++) { commitOne(order[k]); sent += bytes[k]; }
+        perf.current.uploadBytes += sent;
+        cursor = end;
+        if (cursor < total) return false;
+        // Everything the pool holds that this rebuild did not fill draws
+        // nothing — `count = 0` — but keeps its buffers for the next crossing.
+        for (const [meshKey, mesh] of meshPool.current) {
+          if (!liveMeshes.has(meshKey)) mesh.count = 0;
+        }
+        return true;
+      },
+    };
 
     workMs += performance.now() - stepT0;
     const perfNow = perf.current;
@@ -1968,7 +2070,14 @@ export function Groundcover({
     const DEV = STUDIO_TOOLS;
     const mark = (): number => (DEV ? performance.now() : 0);
 
-    const generateTile = (tx: number, tz: number, wantFar: boolean, rej: typeof genStats.current.rejected): CachedTile | null => {
+    /** Set by the driver when the tile in flight spans frames: its phase
+     * marks then include other frames' time and are not recorded. */
+    let tileSliced = false;
+    // A generator, one slice per `next()` (diag16 W): the driver checks the
+    // frame's deadline after every slice and resumes a cut tile next frame.
+    // Only one tile is in flight at a time, so the shared scratch below is
+    // safe to hold across frames.
+    const generateTile = function* (tx: number, tz: number, wantFar: boolean, rej: typeof genStats.current.rejected): Generator<void, CachedTile | null, void> {
       const tPhase0 = mark();
       let exactTests = 0;
       const maxSpeciesRadiusM = maxPlanRadiusM.current;
@@ -2022,6 +2131,7 @@ export function Groundcover({
         }
       }
       const tPhaseGrid = mark();
+      yield;
       // The patch and footprint lists are narrowed ONCE per tile, not once
       // per candidate (2026-09-21): a road-track clearance carries thousands
       // of vertices, and the per-candidate grid lookup plus its array ran
@@ -2053,6 +2163,7 @@ export function Groundcover({
         tileMask, x0, z0, maxSpeciesRadiusM, tileExclusionBounds, tilePatchBounds,
       );
       const tPhaseMask = mark();
+      yield;
       for (let i = 0; i < placementCount.length; i++) placementCount[i] = 0;
       for (const plan of SPECIES_PLANS) {
         let bound = false;
@@ -2067,6 +2178,7 @@ export function Groundcover({
         const keepThreshold = wantFar ? keepP * FAR_THIN : keepP;
         const speciesRadiusM = radii.current.get(plan.id) ?? 0;
         for (let k = 0; k < g * g; k++) {
+          if ((k & 63) === 63) yield;
           const genKeep = u01(hash32(tx, tz, plan.index, k * 8));
           if (genKeep >= keepThreshold) { rej.keep++; continue; }
           // Stratified: one candidate per cell, uniform over the WHOLE cell.
@@ -2162,8 +2274,11 @@ export function Groundcover({
       const tPhaseCand = mark();
       // Compose the tile's arrays once: far subset first, each block sorted
       // by `keep`, so every later fill is a block copy.
-      const composed: TileSpecies[] = placementCount.map((count, speciesIndex) => {
-        if (count === 0) return EMPTY_TILE_SPECIES;
+      const composed: TileSpecies[] = [];
+      for (let speciesIndex = 0; speciesIndex < placementCount.length; speciesIndex++) {
+        const count = placementCount[speciesIndex];
+        if (count === 0) { composed.push(EMPTY_TILE_SPECIES); continue; }
+        yield;
         const data = placements[speciesIndex];
         // Partition in place: far subset first, then each block sorted by
         // `keep`, which is what makes every later fill a block copy.
@@ -2195,9 +2310,9 @@ export function Groundcover({
           colours[i * 3 + 1] = data[o + 8];
           colours[i * 3 + 2] = data[o + 9];
         }
-        return { count, farCount: far, keeps, matrices, colours };
-      });
-      if (DEV) {
+        composed.push({ count, farCount: far, keeps, matrices, colours });
+      }
+      if (DEV && !tileSliced) {
         const pm = phaseMax.current;
         const grid = tPhaseGrid - tPhase0;
         const mask = tPhaseMask - tPhaseGrid;
@@ -2218,8 +2333,12 @@ export function Groundcover({
     const nearPhaseM = ringRadiusM * NEAR_FRACTION + TIER_OVERLAP_M;
     const midPhaseM = ringRadiusM + TIER_OVERLAP_M;
     const missingWithin = [0, 0];
-    /** Running mean of one generated tile's cost, ms (the stop rule). */
-    let tileMeanMs = 2;
+    /** The tile cut by a deadline, resumed first on the next call. */
+    let inFlight: {
+      work: Generator<void, CachedTile | null, void>;
+      tx: number; tz: number; workMs: number; epoch: number;
+    } | null = null;
+    const now = () => performance.now();
     generateRef.current = (budgetMs: number, forwardX: number, forwardZ: number) => {
       const t0 = performance.now();
       const focus = focusRef.current;
@@ -2240,6 +2359,7 @@ export function Groundcover({
           // A stale entry counts as missing here (it is rebuilt), but stays in
           // the cache so the fill keeps drawing it meanwhile.
           if (cached && !cached.stale && !(cached.far && !wantFar)) continue;
+          if (inFlight && inFlight.tx === tx && inFlight.tz === tz) continue;
           // Nearest first, in front of the camera before behind it.
           const key = viewPriority(nearest, (tx + 0.5) * TILE_M - focus.x,
             (tz + 0.5) * TILE_M - focus.z, forwardX, forwardZ);
@@ -2248,7 +2368,6 @@ export function Groundcover({
       }
       wanted.sort((a, b) => a.key - b.key);
       let generated = 0;
-      let attempted = 0;
       let waiting = 0;
       missingWithin[0] = 0; missingWithin[1] = 0;
       const countMissing = (nearest: number) => {
@@ -2258,30 +2377,45 @@ export function Groundcover({
       let i = 0;
       const rej = genStats.current.rejected;
       const heightRejBefore = rej.height;
-      for (; i < wanted.length; i++) {
-        // Stop BEFORE a tile that would likely overrun the budget (the
-        // running mean of generated tiles), not after it: the budget is only
-        // checked between tiles, so the overshoot was one whole tile.
-        if (attempted > 0 && (performance.now() - t0 + tileMeanMs > budgetMs
-          || generated >= GENERATE_MAX_TILES_PER_CALL)) break;
-        const w = wanted[i];
-        const tileT0 = performance.now();
-        const tile = generateTile(w.tx, w.tz, w.far, rej);
-        attempted++;
-        const tileMs = performance.now() - tileT0;
-        genStats.current.tileMs = tileMs;
-        if (tileMs > genStats.current.tileMaxMs) genStats.current.tileMaxMs = tileMs;
+      // The deadline is checked after every slice of a tile (`runSlices`),
+      // never only between tiles (diag16 W); a cut tile resumes next call.
+      const deadline = t0 + budgetMs;
+      let ran = false;
+      for (;;) {
+        if (!inFlight) {
+          if (i >= wanted.length || (ran && now() >= deadline)) break;
+          const w = wanted[i++];
+          inFlight = {
+            work: generateTile(w.tx, w.tz, w.far, rej),
+            tx: w.tx, tz: w.tz, workMs: 0, epoch: cacheEpoch.current,
+          };
+          tileSliced = false;
+        }
+        const slice0 = now();
+        const result = runSlices(inFlight.work, deadline, now);
+        inFlight.workMs += now() - slice0;
+        ran = true;
+        if (!result.done) { tileSliced = true; break; }
+        const done = inFlight;
+        inFlight = null;
+        genStats.current.tileMs = done.workMs;
+        if (done.workMs > genStats.current.tileMaxMs) genStats.current.tileMaxMs = done.workMs;
+        const tile = result.value;
         if (tile) {
-          tileCache.current.set(tileKey(w.tx, w.tz), tile);
+          // Inputs that went stale while the tile was in flight: cache it
+          // stale, so it draws now and is generated again on the new inputs.
+          if (done.epoch !== cacheEpoch.current) tile.stale = true;
+          tileCache.current.set(tileKey(done.tx, done.tz), tile);
           builtTotal.current++;
           generated++;
-          tileMeanMs += (tileMs - tileMeanMs) * 0.2;
         } else {
           waiting++;
-          countMissing(w.nearest);
+          countMissing(tileNearestM(focus, done.tx, done.tz));
         }
       }
       for (let k = i; k < wanted.length; k++) countMissing(wanted[k].nearest);
+      if (inFlight) countMissing(tileNearestM(focus, inFlight.tx, inFlight.tz));
+      const queued = wanted.length - i + (inFlight ? 1 : 0);
       genStats.current.generated += generated;
       genStats.current.ms += performance.now() - t0;
       // A tile that came back null (chunk not decoded yet) is simply not
@@ -2291,10 +2425,10 @@ export function Groundcover({
       incompleteAtChunkArrivals.current = rej.height > heightRejBefore ? chunkArrivals.current : null;
       return {
         generated,
-        remaining: wanted.length - i,
+        remaining: queued,
         // Tiles still to come, including those waiting on a chunk: a fill
         // phase is complete only when none of its tiles is missing.
-        missing: wanted.length - i + waiting,
+        missing: queued + waiting,
         missingWithin,
       };
     };
@@ -2306,6 +2440,9 @@ export function Groundcover({
 
   // The pool outlives every rebuild, so it is dropped once, on unmount.
   useEffect(() => () => {
+    // A pending commit lands first, so its grown meshes join the pool.
+    commitDrain.current?.step(Number.POSITIVE_INFINITY);
+    commitDrain.current = null;
     for (const mesh of meshPool.current.values()) {
       mesh.removeFromParent();
       mesh.dispose();
@@ -2320,6 +2457,7 @@ export function Groundcover({
     if (tileCache.current.size === 0) return;
     wipes.current += tileCache.current.size;
     tileCache.current.clear();
+    cacheEpoch.current++;
     genPending.current = true;
   }, [verticalScale, ringRadiusM]);
 
@@ -2333,6 +2471,7 @@ export function Groundcover({
       tile.stale = true;
       wipes.current++;
     }
+    cacheEpoch.current++;
     genPending.current = true;
   }, [control, regionRaster, tint, waterReady]);
 

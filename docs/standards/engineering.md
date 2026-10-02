@@ -513,6 +513,11 @@ headless.
   a step likely to overrun (large while loading, small after); index an
   expensive per-candidate test spatially once. Show changes in a few whole
   steps, never one refill per data arrival.
+- A streamed layer's commit uploads only the changed ranges
+  (`addUpdateRange`) under a per-frame byte budget, a whole mesh per frame
+  at most, and its generation budget is checked inside the unit of work
+  (a resumable generator), never only between units
+  (`groundcoverSchedule.ts` `RangeTracker`, `runSlices`; diag16 W).
 - Nothing on the per-frame path allocates: vectors, arrays, stats objects
   and closures are hoisted and reused.
 - A per-step sampler in a march returns no boxed value (no `number | null`
