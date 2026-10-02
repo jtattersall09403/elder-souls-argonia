@@ -3,30 +3,35 @@
  *
  * The large presets (`FireConfig.volume`: torches, brazier, hearth,
  * campfire) draw near the camera as a box raymarched through a small
- * simulated temperature grid, a cut-down port of three.js
- * webgpu_volume_fire: the example's full stable-fluids solver (velocity
- * advection, divergence, Jacobi pressure, projection: ~25 passes on a
- * 100x200x100 grid) becomes ONE advection kernel per sub-step on a
- * 16x32x16 grid. Velocity is not simulated: it is buoyant rise plus the curl
- * of a noise potential, which is divergence-free by construction, so no
- * pressure solve is needed. Hot cells rise, cool (`dissipation`) and are
- * fed by a flickering source disc at the floor (`emit`).
+ * stable-fluids grid, a scaled port of three.js webgpu_volume_fire
+ * (vol-fix-design.md part B, vol-fire-research.md). One fixed solver step
+ * (1/`simHz` s, at most `FIRE_VOLUME_MAX_CATCHUP` per frame) is 4 + `jacobi`
+ * compute passes:
+ *   1. advect velocity (semi-Lagrangian) with forces: buoyancy b*T - 0.15*smoke,
+ *      age-keyed curl from the fire's own curl texture (`makeFireCurl`), an
+ *      ambient curl on smoke, wind (uWind x windResponse, rising with height),
+ *      damping 0.25/s, wall fade;
+ *   2. divergence; 3. Jacobi pressure x `jacobi` (A/B, ends in A);
+ *   4. project (subtract the pressure gradient);
+ *   5. advect the dye (smoke, temperature, age) with the source disc's
+ *      flickering emission fused in.
+ * Velocity always ends in `velA`; the dye ping-pongs and `dyeView` (the node
+ * the march samples) is pointed at the current one after each step.
  *
- * Sharing: every fire of a preset samples the SAME field (mirrored and
- * swapped by its seed, 8 variants), so the compute cost is per preset in
- * reach, never per fire. A field steps only in frames where one of its fires
- * is inside `FIRE_VOLUME_REACH_M`; beyond that the fire is its cards
- * (flameMaterial.ts `volumeShareNode` cross-fades the two).
+ * Sharing: every fire of a preset samples one shared field (mirrored and
+ * swapped by its seed, 8 variants, plus a per-seed offset into the march
+ * detail); the nearest fires own a private field (FlameSystem). A field
+ * steps only in frames where one of its fires is inside the volume reach.
  *
  * Compile cost (L19 round): every preset-specific number is a uniform
  * (`VolumeFieldUniforms`), so all presets' kernels and raymarch materials emit
- * one shader text each, and the renderer builds one render pipeline and one
- * advection compute pipeline for any number of presets and fires. The ray
- * loop's bound is a uniform too: a constant bound let SwiftShader unroll it.
+ * one shader text each. The ray loop's bound is a uniform too: a constant
+ * bound let SwiftShader unroll it.
  *
  * Output is the cards' display-referred treatment (core covers, glow adds,
  * `displayToScene` through the frame's tone map), so a volume sits in the
- * same day/night envelope the card fire was judged in.
+ * same day/night envelope the card fire was judged in; smoke adds a dim
+ * cover above the flame.
  *
  * Instance attributes (FlameSystem.ts writes them):
  *   iPosSeed vec4  emitter position (m) in the FlameSystem group's space, seed 0..1
@@ -38,7 +43,7 @@ import { NodeMaterial, Storage3DTexture, type WebGPURenderer } from "three/webgp
 import * as tsl from "three/tsl";
 import type { TslNode } from "../../render/nodes/materialNodes";
 import { sel } from "../../render/nodes/materialNodes";
-import type { FireVolumeConfig } from "./fireTypes";
+import { FIRE_VOLUME_MAX_CATCHUP, type FireVolumeConfig, type FireVolumeTierConfig } from "./fireTypes";
 import { displayToScene, fireFlickerNode } from "./fireNodes";
 import { FLAME_ROOT_SHARE, premultipliedFireMaterial, volumeShareNode, type FireUniforms } from "./flameMaterial";
 
@@ -48,13 +53,10 @@ const {
   normalize, smoothstep, step, texture3D, textureStore, uniform, uvec3, varying, vec3, vec4,
 } = T;
 
-/** Sub-steps per frame: two, A->B then B->A, so the drawn field is always A. */
-export const VOLUME_SUBSTEPS = 2;
-/** Steps run when a field is first used, so a fire lit on screen is already burning. */
+/** Steps run when a field is first used (1 s at 60 Hz), so a fire lit on screen is already burning. */
 export const VOLUME_PREWARM_STEPS = 60;
-/** Detail noise texture edge (texels) and its noise period (cells). */
-const DETAIL_N = 32;
-const DETAIL_PERIOD = 4;
+/** The curl texture's noise lattice period (cells across the texture). */
+const CURL_PERIOD = 8;
 /** Box bottom sits this share of the flame height below the emitter (as the cards' root). */
 const ROOT = FLAME_ROOT_SHARE;
 
@@ -94,29 +96,42 @@ function periodicNoise(x: number, y: number, z: number, period: number, salt: nu
 }
 
 /**
- * The tiling detail noise (fix 3), baked on the CPU once per FlameSystem and
- * shared by every preset's field (L19 round: the GPU kernel that filled it,
- * and the advection kernel's inline curl noise, were ~70 MaterialX noise
- * calls that took SwiftShader 20-50 s to compile, inside compileAsync).
- * rgb: a vec3 noise in about -1.6..1.6 (the ray's displacement, and the
- * advection's curl potential); a: an erosion fbm in about 0..1.
- * Period `DETAIL_PERIOD` noise cells over the texture, repeat-wrapped.
+ * The fire's own curl texture (vol-fix-design.md B2): the curl of a periodic
+ * vec3 gradient noise (lattice period `CURL_PERIOD`), by central differences
+ * on the texture's own lattice, normalised to unit rms; `n`^3 rgba16float,
+ * repeat-wrapped. Deterministic (std 6); baked once per FlameSystem. The fog
+ * never samples it.
  */
-export function makeVolumeDetail(): THREE.Data3DTexture {
-  const n = DETAIL_N, P = DETAIL_PERIOD;
-  const data = new Uint16Array(n * n * n * 4);
-  const h = THREE.DataUtils.toHalfFloat;
+export function makeFireCurl(n: number): THREE.Data3DTexture {
+  const P = CURL_PERIOD;
+  const pot = new Float32Array(n * n * n * 3);
   let o = 0;
   for (let z = 0; z < n; z++) for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
-    const qx = ((x + 0.5) / n) * P, qy = ((y + 0.5) / n) * P, qz = ((z + 0.5) / n) * P;
-    data[o++] = h(periodicNoise(qx, qy, qz, P, 1));
-    data[o++] = h(periodicNoise(qx, qy, qz, P, 2));
-    data[o++] = h(periodicNoise(qx, qy, qz, P, 3));
-    const ero = periodicNoise(qx * 2, qy * 2, qz * 2, 2 * P, 4) * 0.33 + periodicNoise(qx, qy, qz, P, 5) * 0.67;
-    data[o++] = h(ero * 0.8 + 0.5);
+    const qx = (x / n) * P, qy = (y / n) * P, qz = (z / n) * P;
+    pot[o++] = periodicNoise(qx, qy, qz, P, 11);
+    pot[o++] = periodicNoise(qx, qy, qz, P, 12);
+    pot[o++] = periodicNoise(qx, qy, qz, P, 13);
+  }
+  const at = (x: number, y: number, z: number, c: number) =>
+    pot[((((z + n) % n) * n + ((y + n) % n)) * n + ((x + n) % n)) * 3 + c];
+  const curl = new Float32Array(n * n * n * 3);
+  let sum = 0;
+  o = 0;
+  for (let z = 0; z < n; z++) for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+    const cx = (at(x, y + 1, z, 2) - at(x, y - 1, z, 2)) - (at(x, y, z + 1, 1) - at(x, y, z - 1, 1));
+    const cy = (at(x, y, z + 1, 0) - at(x, y, z - 1, 0)) - (at(x + 1, y, z, 2) - at(x - 1, y, z, 2));
+    const cz = (at(x + 1, y, z, 1) - at(x - 1, y, z, 1)) - (at(x, y + 1, z, 0) - at(x, y - 1, z, 0));
+    curl[o++] = cx; curl[o++] = cy; curl[o++] = cz;
+    sum += cx * cx + cy * cy + cz * cz;
+  }
+  const k = 1 / Math.sqrt(sum / (n * n * n) / 3 || 1);
+  const data = new Uint16Array(n * n * n * 4);
+  const h = THREE.DataUtils.toHalfFloat;
+  for (let i = 0, j = 0; i < curl.length; i += 3) {
+    data[j++] = h(curl[i] * k); data[j++] = h(curl[i + 1] * k); data[j++] = h(curl[i + 2] * k); data[j++] = h(1);
   }
   const t = new THREE.Data3DTexture(data, n, n, n);
-  t.name = "fire-volume-detail";
+  t.name = "fire-curl";
   t.format = THREE.RGBAFormat;
   t.type = THREE.HalfFloatType;
   t.minFilter = THREE.LinearFilter;
@@ -127,129 +142,228 @@ export function makeVolumeDetail(): THREE.Data3DTexture {
   return t;
 }
 
-/** A divergence-free velocity: the curl of the detail texture's vec3 potential, by central differences. */
-function curlNoise(detail: THREE.Data3DTexture, p: TslNode, octave3: TslNode): TslNode {
-  const e = 0.08;
-  const tex = (q: TslNode) => texture3D(detail, q.div(DETAIL_PERIOD), 0).xyz;
-  const pot = (q: TslNode) => tex(q)
-    .add(tex(q.mul(2.07).add(11.3)).mul(0.5))
-    .add(tex(q.mul(4.13).add(23.9)).mul(octave3.mul(0.25)));
-  const dx = vec3(e, 0, 0), dy = vec3(0, e, 0), dz = vec3(0, 0, e);
-  const px0 = pot(p.sub(dx)), px1 = pot(p.add(dx));
-  const py0 = pot(p.sub(dy)), py1 = pot(p.add(dy));
-  const pz0 = pot(p.sub(dz)), pz1 = pot(p.add(dz));
-  const x = py1.z.sub(py0.z).sub(pz1.y).add(pz0.y);
-  const y = pz1.x.sub(pz0.x).sub(px1.z).add(px0.z);
-  const z = px1.y.sub(px0.y).sub(py1.x).add(py0.x);
-  return vec3(x, y, z).div(2 * e);
-}
-
 /**
  * The preset's tuning as uniforms (webgpu lead L19 round): every number that
  * differs between presets is a uniform, never a WGSL constant, so every
- * preset's kernels and raymarch material emit the SAME shader text and the
- * renderer compiles one compute and one render pipeline for all of them
- * (20 fires of 5 presets compile what 1 fire compiles). Only the grid and
- * the ray step count stay structural (all presets share them).
+ * preset's kernels and raymarch material emit the SAME shader text. Only the
+ * grid and the Jacobi count stay structural.
  */
 export interface VolumeFieldUniforms {
-  riseSpeed: TslNode; turbulence: TslNode; noiseScale: TslNode; dissipation: TslNode;
+  buoyancy: TslNode; turbulence: TslNode; noiseScale: TslNode; dissipation: TslNode;
   emit: TslNode; sourceRadius: TslNode; density: TslNode; rootShare: TslNode;
-  /** Ray samples: a uniform bound, so the compiler cannot unroll the march
-   * (SwiftShader's JIT unrolled the constant 32-step loop: 50-70 s per compile). */
+  /** Ray samples: a uniform bound, so the compiler cannot unroll the march. */
   steps: TslNode;
-  /** Weight of the third curl-noise octave: 1 when `octaves` > 2, else 0. */
+  /** Weight of the third curl octave: 1 when `octaves` > 2, else 0. */
   octave3: TslNode;
+  /** Wind response of the preset (FireConfig.windResponse). */
+  windResponse: TslNode;
+  /** This field's offset into the curl texture (0 shared; per-seed on a private field). */
+  seedOffset: TslNode;
 }
 
-function fieldUniforms(c: FireVolumeConfig): VolumeFieldUniforms {
+function fieldUniforms(c: FireVolumeConfig, steps: number, windResponse: number): VolumeFieldUniforms {
   return {
-    riseSpeed: uniform(c.riseSpeed), turbulence: uniform(c.turbulence), noiseScale: uniform(c.noiseScale),
+    buoyancy: uniform(c.buoyancy), turbulence: uniform(c.turbulence), noiseScale: uniform(c.noiseScale),
     dissipation: uniform(c.dissipation), emit: uniform(c.emit), sourceRadius: uniform(c.sourceRadius),
     density: uniform(c.density), rootShare: uniform(ROOT / c.box.heightH), octave3: uniform(c.octaves > 2 ? 1 : 0),
-    steps: uniform(c.steps, "int"),
+    steps: uniform(steps, "int"), windResponse: uniform(windResponse), seedOffset: uniform(new THREE.Vector3()),
   };
 }
 
-/** One preset's field: two grids and the two advection kernels between them. */
+/** Options of one field. */
+export interface VolumeFieldOptions {
+  config: FireVolumeConfig;
+  name: string;
+  /** The fire's curl texture (`makeFireCurl`), owned by the caller. */
+  curl: THREE.Data3DTexture;
+  /** The tier's solver settings (Jacobi count is structural: a tier change builds new fields). */
+  tier: FireVolumeTierConfig;
+  /** March steps for this tier. */
+  steps: number;
+  /** FireConfig.windResponse of the preset. */
+  windResponse: number;
+  /** World wind, xz m/s (FireUniforms.uWind). */
+  wind: TslNode;
+}
+
+/**
+ * One field: velocity, pressure and dye grids and the solver passes over
+ * them. GPU memory `fireVolumeCost(config).fieldMB`.
+ */
 export class VolumeFireField {
-  readonly a: Storage3DTexture;
-  private readonly b: Storage3DTexture;
-  private readonly kernels: TslNode[];
-  private readonly uDt = uniform(1 / 60);
+  readonly config: FireVolumeConfig;
+  readonly curl: THREE.Data3DTexture;
+  readonly u: VolumeFieldUniforms;
+  /** The current dye (smoke, temperature, age): the march samples through this node. */
+  readonly dyeView: TslNode;
+  private readonly textures: Storage3DTexture[];
+  private readonly dye: [Storage3DTexture, Storage3DTexture];
+  /** Per dye parity, the step's passes in order. */
+  private readonly passes: [TslNode[], TslNode[]];
+  private parity = 0;
+  private readonly uDt: TslNode;
   private readonly uSimTime = uniform(0);
+  private readonly uAmbient = uniform(new THREE.Vector3());
+  private readonly stepS: number;
   private simTime = 0;
   private warmed = false;
-  readonly u: VolumeFieldUniforms;
 
-  constructor(readonly config: FireVolumeConfig, name: string,
-    /** The shared detail noise (`makeVolumeDetail`), owned by the caller. */
-    readonly detail: THREE.Data3DTexture) {
-    this.u = fieldUniforms(config);
-    this.a = makeGrid(config.grid, `${name}-a`);
-    this.b = makeGrid(config.grid, `${name}-b`);
-    this.kernels = [this.kernel(this.a, this.b), this.kernel(this.b, this.a)];
+  constructor(o: VolumeFieldOptions) {
+    this.config = o.config;
+    this.curl = o.curl;
+    this.stepS = 1 / o.tier.simHz;
+    this.uDt = uniform(this.stepS);
+    this.u = fieldUniforms(o.config, o.steps, o.windResponse);
+    const g = o.config.grid;
+    const velA = makeGrid(g, `${o.name}-vel-a`), velB = makeGrid(g, `${o.name}-vel-b`);
+    const pA = makeGrid(g, `${o.name}-p-a`), pB = makeGrid(g, `${o.name}-p-b`);
+    const div = makeGrid(g, `${o.name}-div`);
+    this.dye = [makeGrid(g, `${o.name}-dye-a`), makeGrid(g, `${o.name}-dye-b`)];
+    this.textures = [velA, velB, pA, pB, div, ...this.dye];
+    this.dyeView = texture3D(this.dye[0]);
+    const build = (dyeR: Storage3DTexture, dyeW: Storage3DTexture): TslNode[] => {
+      const list = [this.advectVelocity(velA, dyeR, velB, o.wind), this.divergence(velB, div)];
+      for (let i = 0; i < o.tier.jacobi; i++) list.push(i % 2 === 0 ? this.jacobi(pA, div, pB) : this.jacobi(pB, div, pA));
+      list.push(this.project(velB, o.tier.jacobi % 2 === 0 ? pA : pB, velA), this.advectDye(velA, dyeR, dyeW));
+      return list;
+    };
+    this.passes = [build(this.dye[0], this.dye[1]), build(this.dye[1], this.dye[0])];
   }
 
-  private kernel(read: Storage3DTexture, write: Storage3DTexture): TslNode {
+  /** Compute passes per solver step. */
+  get passesPerStep(): number { return this.passes[0].length; }
+
+  private cell(): { coord: TslNode; uvw: TslNode; cells: number; inv: TslNode } {
     const [gx, gy, gz] = this.config.grid;
-    const cells = gx * gy * gz;
-    const { uDt, uSimTime } = this;
-    const c = this.u;
-    return Fn(() => {
-      const id = instanceIndex;
-      const coord = uvec3(id.mod(gx), id.div(gx).mod(gy), id.div(gx * gy));
-      const uvw = vec3(coord).add(0.5).div(vec3(gx, gy, gz));
-      const here = texture3D(read, uvw, 0).r;
-      // velocity in box units per second: buoyant rise (hot rises faster)
-      // plus curl-noise licking that scrolls up with time
-      const np = uvw.mul(vec3(c.noiseScale, c.noiseScale.mul(2), c.noiseScale))
-        .add(vec3(uSimTime.mul(0.13), uSimTime.mul(-0.9), uSimTime.mul(0.07)));
-      const curl = curlNoise(this.detail, np, c.octave3).mul(c.turbulence);
-      const rise = c.riseSpeed.mul(clamp(here, 0, 1.2).mul(0.8).add(0.35));
-      const vel = vec3(curl.x, curl.y.mul(0.35).add(rise), curl.z);
-      // semi-Lagrangian: fetch where this cell's contents came from
-      const prev = uvw.sub(vel.mul(uDt));
-      const back = texture3D(read, prev, 0).r;
-      const cooled = back.mul(exp(uDt.mul(c.dissipation).negate()));
-      // flickering source disc on the floor
-      const r = length(uvw.xz.sub(0.5).mul(2)).div(c.sourceRadius);
-      const flick = texture3D(this.detail, vec3(uvw.x.mul(5), uvw.z.mul(5), uSimTime.mul(3.1)).div(DETAIL_PERIOD), 0).x
-        .mul(0.6 / 1.6).add(0.75);
-      const src = float(1).sub(smoothstep(0.55, 1.0, r)).mul(float(1).sub(smoothstep(0.0, 0.14, uvw.y)))
-        .mul(c.emit).mul(uDt).mul(flick);
-      // walls: nothing survives at the sides and the lid
-      const wall = smoothstep(0.0, 0.08, min(min(uvw.x, float(1).sub(uvw.x)), min(uvw.z, float(1).sub(uvw.z))))
-        .mul(float(1).sub(smoothstep(0.9, 1.0, uvw.y)));
-      const t = min(cooled.add(src), float(1.6)).mul(wall);
-      textureStore(write, coord, vec4(t, 0, 0, 1)).toWriteOnly();
-    })().compute(cells).setName("fireVolumeAdvect");
+    const id = instanceIndex;
+    const coord = uvec3(id.mod(gx), id.div(gx).mod(gy), id.div(gx * gy));
+    return { coord, uvw: vec3(coord).add(0.5).div(vec3(gx, gy, gz)), cells: gx * gy * gz, inv: vec3(1 / gx, 1 / gy, 1 / gz) };
   }
 
-  /** Advance the field to `timeS` (sub-steps of at most 1/30 s; prewarms on first use). */
-  step(renderer: WebGPURenderer, timeS: number): void {
-    if (!this.warmed) {
-      this.warmed = true;
-      this.uDt.value = 1 / 30;
-      for (let i = 0; i < VOLUME_PREWARM_STEPS; i++) {
-        this.simTime += 1 / 30;
-        this.uSimTime.value = this.simTime;
-        renderer.compute(this.kernels[i % 2]);
-      }
-      this.simTime = timeS;
-      return;
-    }
-    const dt = Math.min(1 / 30, Math.max(0, timeS - this.simTime));
-    if (dt <= 0) return;
+  private wall(uvw: TslNode): TslNode {
+    return smoothstep(0.0, 0.08, min(min(uvw.x, float(1).sub(uvw.x)), min(uvw.z, float(1).sub(uvw.z))))
+      .mul(float(1).sub(smoothstep(0.92, 1.0, uvw.y)));
+  }
+
+  private curlAt(q: TslNode): TslNode {
+    const c = this.u;
+    return texture3D(this.curl, q, 0).xyz
+      .add(texture3D(this.curl, q.mul(2.07).add(0.31), 0).xyz.mul(0.5))
+      .add(texture3D(this.curl, q.mul(4.13).add(0.67), 0).xyz.mul(c.octave3.mul(0.25)));
+  }
+
+  private advectVelocity(velR: Storage3DTexture, dyeR: Storage3DTexture, velW: Storage3DTexture, wind: TslNode): TslNode {
+    const { coord, uvw, cells } = this.cell();
+    const c = this.u;
+    const { uDt, uAmbient } = this;
+    return Fn(() => {
+      const v0 = texture3D(velR, uvw, 0).xyz;
+      const v = texture3D(velR, uvw.sub(v0.mul(uDt)), 0).xyz.toVar();
+      const d = texture3D(dyeR, uvw, 0);
+      const smoke = d.x, temp = d.y, age = d.z;
+      v.y.addAssign(c.buoyancy.mul(temp).sub(smoke.mul(0.15)).mul(uDt));
+      // age-keyed curl: each parcel gets its own evolving push (vol-fire-research.md 1)
+      const q = uvw.mul(c.noiseScale.div(CURL_PERIOD)).add(vec3(0, age.mul(-0.6), age.mul(0.13)).div(CURL_PERIOD))
+        .add(c.seedOffset);
+      v.addAssign(this.curlAt(q).mul(c.turbulence.mul(3.2).mul(temp).mul(exp(age.mul(-0.1)))).mul(uDt));
+      // ambient drift on the smoke (CPU-wrapped time scroll)
+      v.addAssign(texture3D(this.curl, uvw.mul(0.5 / CURL_PERIOD).add(uAmbient), 0).xyz
+        .mul(c.turbulence.mul(0.2).mul(smoke)).mul(uDt));
+      // wind leans and sheds the tongues: a horizontal force rising with height
+      const lean = wind.mul(c.windResponse).mul(uvw.y.mul(uvw.y)).mul(1.5).mul(uDt);
+      v.x.addAssign(lean.x);
+      v.z.addAssign(lean.y);
+      const out = v.mul(float(1).sub(uDt.mul(0.25))).mul(this.wall(uvw));
+      textureStore(velW, coord, vec4(out, 1)).toWriteOnly();
+    })().compute(cells).setName("fireVolumeAdvectVelocity");
+  }
+
+  private divergence(velR: Storage3DTexture, divW: Storage3DTexture): TslNode {
+    const { coord, uvw, cells, inv } = this.cell();
+    const [gx, gy, gz] = this.config.grid;
+    return Fn(() => {
+      const at = (dx: number, dy: number, dz: number) => texture3D(velR, uvw.add(vec3(dx, dy, dz).mul(inv)), 0);
+      const dv = at(1, 0, 0).x.sub(at(-1, 0, 0).x).mul(gx)
+        .add(at(0, 1, 0).y.sub(at(0, -1, 0).y).mul(gy))
+        .add(at(0, 0, 1).z.sub(at(0, 0, -1).z).mul(gz)).mul(0.5);
+      textureStore(divW, coord, vec4(dv, 0, 0, 1)).toWriteOnly();
+    })().compute(cells).setName("fireVolumeDivergence");
+  }
+
+  private jacobi(pR: Storage3DTexture, divR: Storage3DTexture, pW: Storage3DTexture): TslNode {
+    const { coord, uvw, cells, inv } = this.cell();
+    return Fn(() => {
+      const at = (dx: number, dy: number, dz: number) => texture3D(pR, uvw.add(vec3(dx, dy, dz).mul(inv)), 0).x;
+      const sum = at(1, 0, 0).add(at(-1, 0, 0)).add(at(0, 1, 0)).add(at(0, -1, 0)).add(at(0, 0, 1)).add(at(0, 0, -1));
+      const p = sum.sub(texture3D(divR, uvw, 0).x).div(6);
+      textureStore(pW, coord, vec4(p, 0, 0, 1)).toWriteOnly();
+    })().compute(cells).setName("fireVolumeJacobi");
+  }
+
+  private project(velR: Storage3DTexture, pR: Storage3DTexture, velW: Storage3DTexture): TslNode {
+    const { coord, uvw, cells, inv } = this.cell();
+    return Fn(() => {
+      const at = (dx: number, dy: number, dz: number) => texture3D(pR, uvw.add(vec3(dx, dy, dz).mul(inv)), 0).x;
+      const grad = vec3(at(1, 0, 0).sub(at(-1, 0, 0)), at(0, 1, 0).sub(at(0, -1, 0)), at(0, 0, 1).sub(at(0, 0, -1)))
+        .mul(0.5).mul(inv);
+      textureStore(velW, coord, vec4(texture3D(velR, uvw, 0).xyz.sub(grad), 1)).toWriteOnly();
+    })().compute(cells).setName("fireVolumeProject");
+  }
+
+  private advectDye(velR: Storage3DTexture, dyeR: Storage3DTexture, dyeW: Storage3DTexture): TslNode {
+    const { coord, uvw, cells } = this.cell();
+    const c = this.u;
+    const { uDt, uSimTime } = this;
+    return Fn(() => {
+      const v = texture3D(velR, uvw, 0).xyz;
+      const d = texture3D(dyeR, uvw.sub(v.mul(uDt)), 0);
+      const smoke = d.x.mul(float(1).sub(uDt.div(2.0)));
+      const temp = d.y.mul(float(1).sub(uDt.mul(c.dissipation)));
+      // the source disc, flickering from the fire's own noise at (seed, t)
+      const r = length(uvw.xz.sub(0.5).mul(2)).div(c.sourceRadius);
+      const flick = texture3D(this.curl, vec3(uvw.x.mul(0.6), uvw.z.mul(0.6), uSimTime.mul(0.35)).add(c.seedOffset), 0).x
+        .mul(0.25).add(0.85);
+      const src = float(1).sub(smoothstep(0.55, 1.0, r)).mul(float(1).sub(smoothstep(0.0, 0.14, uvw.y)));
+      const feed = src.mul(c.emit).mul(uDt).mul(flick);
+      const t = min(temp.add(feed), float(1.6));
+      const s = min(smoke.add(feed.mul(0.4)), float(2));
+      const aged = mix(d.z.add(uDt), float(0), src);
+      const age = sel(s.lessThan(0.01), float(0), aged);
+      const wall = this.wall(uvw);
+      textureStore(dyeW, coord, vec4(s.mul(wall), t.mul(wall), age, 1)).toWriteOnly();
+    })().compute(cells).setName("fireVolumeAdvectDye");
+  }
+
+  private runStep(renderer: WebGPURenderer): void {
+    this.simTime += this.stepS;
+    this.uSimTime.value = this.simTime;
+    const t = this.simTime;
+    (this.uAmbient.value as THREE.Vector3).set(0, (0.25 * t / CURL_PERIOD) % 1, (0.06 * t / CURL_PERIOD) % 1);
+    const list = this.passes[this.parity];
+    for (let i = 0; i < list.length; i++) renderer.compute(list[i]);
+    this.parity ^= 1;
+    (this.dyeView as unknown as { value: THREE.Texture }).value = this.dye[this.parity];
+  }
+
+  /** Run the prewarm now (FlameSystem.warm at mount; else the first `step`). */
+  warm(renderer: WebGPURenderer, timeS: number): void {
+    if (this.warmed) return;
+    this.warmed = true;
+    for (let i = 0; i < VOLUME_PREWARM_STEPS; i++) this.runStep(renderer);
     this.simTime = timeS;
-    this.uSimTime.value = timeS;
-    this.uDt.value = dt / VOLUME_SUBSTEPS;
-    for (let i = 0; i < VOLUME_SUBSTEPS; i++) renderer.compute(this.kernels[i % 2]);
+  }
+
+  /** Advance the field to `timeS` in fixed steps (at most FIRE_VOLUME_MAX_CATCHUP; prewarms on first use). */
+  step(renderer: WebGPURenderer, timeS: number): void {
+    if (!this.warmed) { this.warm(renderer, timeS); return; }
+    if (timeS < this.simTime - 1) this.simTime = timeS; // a clock jump back (harness reset)
+    let n = 0;
+    while (this.simTime + this.stepS <= timeS && n < FIRE_VOLUME_MAX_CATCHUP) { this.runStep(renderer); n++; }
+    if (timeS - this.simTime > this.stepS) this.simTime = timeS - this.stepS; // drop the backlog, never spiral
   }
 
   dispose(): void {
-    this.a.dispose();
-    this.b.dispose();
+    for (const t of this.textures) t.dispose();
   }
 }
 
@@ -263,7 +377,7 @@ export function makeVolumeBox(): THREE.InstancedBufferGeometry {
 }
 
 /**
- * The raymarch material of one preset's volumes, sampling `field.a`.
+ * The raymarch material of one field's volumes, sampling its current dye (`field.dyeView`).
  * Drawn on the box's back faces, so a camera inside the box still sees it.
  */
 export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): NodeMaterial {
@@ -293,8 +407,8 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
   // (seeds 0.25 and 0.5 sit on a step edge, so rows flipped variant)
   const vVariant = varying(T.floor(T.fract(iPosSeed.w).mul(8)), "vVolVariant");
   const vPalette = varying(iBox.z, "vVolPalette");
+  const vSeed = varying(iPosSeed.w, "vVolSeed");
   const vIntensity = varying(intensity, "vVolIntensity");
-  const vLean = varying(u.uWind.mul(iAnim.z), "vVolLean");
   const steps = fu.steps;
 
   material.fragmentNode = Fn(() => {
@@ -325,8 +439,7 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
     const swap = step(3.5, variant);
     const tAcc = float(0).toVar();
     const cell = vec3(1 / c.grid[0], 1 / c.grid[1], 1 / c.grid[2]).mul(1.2);
-    const dScale = fu.noiseScale.mul(3);
-    const dRise = fu.riseSpeed.mul(0.5);
+    const smokeA = float(0).toVar();
     const alpha = float(0).toVar();
     const row = int(vPalette.add(0.5));
     const base = u.uRamp.element(row.mul(3));
@@ -338,27 +451,26 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
       const tr = tEnter.add(float(i).add(jitter).mul(stepLen));
       const pos = o.add(d.mul(tr));
       const box = pos.sub(bmin).div(vSize);
-      // wind leans the upper field, quadratic in height
-      const leaned = vec3(box.x.sub(vLean.x.mul(box.y).mul(box.y).mul(0.15)), box.y,
-        box.z.sub(vLean.y.mul(box.y).mul(box.y).mul(0.15)));
+      // the wind lean is in the field (its velocity carries the force); the box stays upright
+      const leaned = box;
       const mx = mix(leaned.x, float(1).sub(leaned.x), flipX);
       const mz = mix(leaned.z, float(1).sub(leaned.z), flipZ);
       const uvw0 = vec3(mix(mx, mz, swap), leaned.y, mix(mz, mx, swap));
-      // detail pass (fix 3): noise carried up with the flow at the preset's
-      // rise speed; it displaces the fetch by about one grid cell and erodes
-      // the cool edge into separate tongues, detail the 16x32x16 grid lacks
-      const dp = vec3(uvw0.x.mul(dScale), uvw0.y.mul(dScale.mul(0.55)).sub(u.uTime.mul(dRise)), uvw0.z.mul(dScale))
-        .add(variant.mul(3.7));
-      const det = texture3D(field.detail, dp.div(DETAIL_PERIOD)).level(0);
+      // detail: one fetch of the fire's curl texture, offset per seed (B4) so two fires of
+      // one shared field never match outline for outline; it displaces the dye fetch by about
+      // a cell and erodes the cool edge into separate tongues
+      const dp = uvw0.mul(2.3 / 8).add(vec3(0, u.uTime.mul(-0.05), 0)).add(vSeed.mul(0.618));
+      const det = texture3D(field.curl, dp).level(0);
       const uvw = uvw0.add(det.xyz.mul(cell));
-      const hi = det.w;
+      const hi = clamp(det.y.mul(0.3).add(0.5), 0, 1);
       // flame envelope (judge (a), 2026-09-29: the raw field filled its box as a column): a
       // teardrop narrowing to the tip, widest a quarter up, and a fade over the top 30 %
       const r = length(T.vec2(box.x.sub(0.5), box.z.sub(0.5)));
       const halfW = T.sqrt(clamp(box.y.mul(4), 0.35, 1)).mul(T.pow(float(1).sub(clamp(box.y, 0, 1)), float(0.8))).mul(0.5);
       const env = float(1).sub(smoothstep(0.55, 1.0, r.div(max(halfW, 1e-3))))
         .mul(float(1).sub(smoothstep(0.7, 1.0, box.y)));
-      const raw = texture3D(field.a, uvw).level(0).r.mul(env);
+      const dye = field.dyeView.sample(uvw).level(0);
+      const raw = dye.y.mul(env);
       // erosion: hot cells survive, cool cells only where the detail noise is high
       const temp = raw.mul(smoothstep(0.35, 0.65, hi.mul(0.8).add(raw.mul(0.5))));
       const a = float(1).sub(exp(temp.mul(sigma).mul(stepLen).negate()));
@@ -369,8 +481,11 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
       const wgt = float(1).sub(alpha).mul(a);
       tAcc.addAssign(temp.mul(wgt));
       alpha.addAssign(wgt);
+      // smoke: absorbs behind the fire's own cover, above all over the tip
+      const sa = float(1).sub(exp(dye.x.mul(sigma).mul(0.15).mul(stepLen).negate()));
+      smokeA.addAssign(float(1).sub(alpha).sub(smokeA).max(0).mul(sa));
     });
-    If(alpha.lessThan(0.004), () => { Discard(); });
+    If(alpha.add(smokeA).lessThan(0.004), () => { Discard(); });
     // the ray's temperature through a sharp ramp: red fringe, orange body,
     // then a narrow step into the near-white kernel (fix 2, judge (a): the
     // per-sample colour average read as a diffuse orange core)
@@ -396,10 +511,14 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
     // a sample that neither covers nor adds half an 8-bit step is not drawn
     // (L19 round: the faint outer shell of every box wrote alpha > 0 with a
     // near-black colour, 0.224 of fire-stress's drawn pixels on WebGPU)
-    const visible = max(clamp(cover, 0, 1), max(max(display.x, display.y), display.z).mul(k));
+    const smokeCover = clamp(smokeA.mul(0.6).mul(vIntensity), 0, 1);
+    const visible = max(max(clamp(cover, 0, 1), smokeCover), max(max(display.x, display.y), display.z).mul(k));
     If(visible.lessThan(0.5 / 255), () => { Discard(); });
     const scene = displayToScene(display, u.uExposure, u.uToneMapped);
-    return vec4(scene.mul(k), clamp(cover, 0, 1));
+    const smokeScene = displayToScene(mix(vec3(0.3, 0.28, 0.26), vec3(0.025, 0.022, 0.02), u.uNight), u.uExposure, u.uToneMapped);
+    const c0 = clamp(cover, 0, 1);
+    return vec4(scene.mul(k).add(smokeScene.mul(smokeCover).mul(float(1).sub(c0))),
+      c0.add(smokeCover.mul(float(1).sub(c0))));
   })();
   return material;
 }
