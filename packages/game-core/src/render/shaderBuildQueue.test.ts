@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { WebGPURenderer } from "three/webgpu";
-import { BuildQueue, queueShaderBuilds } from "./shaderBuildQueue";
+import { BuildQueue, deferBuildsInto, queueShaderBuilds } from "./shaderBuildQueue";
 
 const tick = () => new Promise((r) => setTimeout(r, 0));
 
@@ -28,6 +28,28 @@ describe("BuildQueue", () => {
 });
 
 describe("queueShaderBuilds", () => {
+  it("builds an offscreen one-shot draw synchronously; defers canvas, frame-target and shadow draws", () => {
+    const drawn: string[] = [];
+    const fake = {
+      _objects: { get: (object: { id: string }) => ({ key: object.id }), getChainMap: () => ({ get: () => undefined }) },
+      _currentRenderContext: null,
+      _renderTarget: null as object | null,
+      _renderObjectFunction: null as unknown,
+      _nodes: { nodeBuilderCache: new Map(), get: () => ({ nodeBuilderState: undefined }), getForRenderCacheKey: (ro: { key: string }) => ro.key, getForRender: () => new Promise(() => {}) },
+      _renderObjectDirect(object: { id: string }) { drawn.push(object.id); },
+    };
+    const queue = queueShaderBuilds(fake as unknown as WebGPURenderer, 1)!;
+    const call = (id: string) => (fake._renderObjectDirect as (...a: unknown[]) => void)({ id }, {}, {}, {});
+    const bake = {}, sceneTarget = {}, shadowMap = {};
+    fake._renderTarget = bake; call("pmrem"); // a one-shot bake: drawn on first use
+    fake._renderTarget = null; call("canvas"); // the canvas: deferred
+    deferBuildsInto(fake, sceneTarget);
+    fake._renderTarget = sceneTarget; call("scene"); // the registered scene pass target: deferred
+    fake._renderTarget = shadowMap; fake._renderObjectFunction = () => {}; call("shadow"); // shadow pass: deferred
+    expect(drawn).toEqual(["pmrem"]);
+    expect(queue.skippedDraws).toBe(3);
+  });
+
   it("draws built objects, queues unbuilt ones off the frame, draws them once built", async () => {
     const built = new Set<string>();
     const drawn: string[] = [];

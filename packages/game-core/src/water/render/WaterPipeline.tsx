@@ -15,6 +15,7 @@ const n = (v: TslNode): any => v;
 import { ALL_WATER_LAYERS, type WaterAssets, type WaterDebugState, type WaterRuntime } from "./types";
 import { OVERLAY_LAYER, PRECIP_LAYER, WATER_LAYER, type WaterTier } from "./waterMaterial";
 import type { RippleSim } from "./RippleSim";
+import { deferBuildsInto } from "../../render/shaderBuildQueue";
 import type { WaterSurfaceHandle } from "./WaterSurface";
 import { UnderwaterBubblePass } from "./UnderwaterBubblePass";
 import { useFrameSegments } from "../../fx/frameSegments";
@@ -358,6 +359,7 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
       h.uniforms.uSceneColor.value = h.uniforms.placeholders.color;
       h.uniforms.uSceneDepth.value = h.uniforms.placeholders.depth;
     }
+    deferBuildsInto(renderer, drawTarget); // the frame's scene pass: its builds queue like the canvas's
     renderer.setRenderTarget(drawTarget);
     renderer.clear();
     segments?.cpuMark("scene"); segments?.gpuMark("scene");

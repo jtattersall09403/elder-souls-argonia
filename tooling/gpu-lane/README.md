@@ -24,10 +24,12 @@ Key paths follow `/tmp/<lane><round>/rp_key`.
 | `checks.mjs` | The pure checks behind `--smoke`, `--census` and `--diag` (smoke verdict, black-frame luminance, foreign pages, hitch list, heap growth, census.txt). |
 | `probes/` | Scripts `measure.mjs` injects before the page's scripts (no app code change); see Probes. |
 | `hud-parse.mjs` | Parses the studio's perf HUD text (`PerfHudSection` in `apps/world-studio/src/character/CharacterMode.tsx`) into numbers. Change it with the HUD. |
-| `pod-capture.mjs --url <url> --out <dir>` | WebGPU correctness capture over raw per-tab CDP: frames on a schedule, deduped console/GPU errors, screen-middle luma and black share, HUD lines, heap, `contexts` (one renderer per canvas reads 1 and 1), `__DIAG`, optional profile; `--compare <url>` writes per-read `lumaRatio`. Flags in its header. Never playwright `connectOverCDP` on the pod Chrome (it hangs). |
+| `pod-capture.mjs --url <url> --out <dir>` | WebGPU correctness capture over raw per-tab CDP: frames on a schedule, deduped console/GPU errors, screen-middle luma and black share, HUD lines, heap, `contexts` (one renderer per canvas reads 1 and 1), `__DIAG`, optional profile; `--compare <url>` writes per-read `lumaRatio`. `--steps <json>` runs a list of `{at, label, js, waitMs?}` (js evaluated at `at` s, then a full read into `result.steps`); every read carries `low1`, the 1 %-low fps from the last ~300 rAF frame durations. Flags in its header. Never playwright `connectOverCDP` on the pod Chrome (it hangs). |
 | `hud-capture.mjs <dist> "<query>" <out>.txt <settleS>` | Reads the HUD perf lines four times over `<settleS>` with a screenshot. |
 | `webgpu-boot-check.mjs` | Boots the BUILT `/webgpu/` studio to its first complete frame; fails on a freeze, GPU validation error, device loss or black view. `CHROME_CDP` points it at the pod's Chrome. Cached on its inputs. |
 | `measure.test.mjs`, `pod-capture-lib.test.mjs`, `serve-lib.test.mjs` | `node --test tooling/gpu-lane/*.test.mjs` (< 1 s). |
+
+**Toggle-then-read.** To prove a cause, one `pod-capture.mjs --steps` file toggles one thing at a time (unhook a queue, null `scene.environment`) and reads the screen-middle luma after each, all in one capture.
 
 ## The loop
 

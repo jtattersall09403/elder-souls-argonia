@@ -5,7 +5,7 @@
  * walk 10). One capture at a time per Chrome.
  *
  *   node tooling/gpu-lane/pod-capture.mjs --url <url> --out <dir> [--seconds 120] [--cdp http://127.0.0.1:9222]
- *     [--shots 500@60,2000] [--reads 15,30,60,120] [--profile <s>@<t>] [--fps-reads N] [--width 1280 --height 720] [--compare <url>]
+ *     [--shots 500@60,2000] [--reads 15,30,60,120] [--profile <s>@<t>] [--fps-reads N] [--steps <json>] [--width 1280 --height 720] [--compare <url>]
  *
  * --url        page to load (e.g. http://127.0.0.1:8199/elder-souls-argonia/webgpu/?view=character&x=..&z=..&t=12&diag=1)
  * --out        directory for result.json, frames/<ms>.jpg and final.jpg (created)
@@ -17,6 +17,8 @@
  *              __STUDIO_FPS__ and __STUDIO_GPU_MS__ (default 15,30,60,120; clipped to --seconds)
  * --profile    a CPU profile of <s> seconds starting at <t>; the summary goes in result.json, the raw profile to profile.cpuprofile
  * --fps-reads  after the capture, N further reads of fps / GPU ms 2 s apart (default 0)
+ * --steps     JSON file: a list of {at, label, js, waitMs?}; at each `at` second the page evaluates js, waits waitMs (default 2500),
+ *              then records a full read (with screen-middle luma) into result.steps; sorted by `at`
  * --compare   after the main capture, capture this URL with the same schedule into <out>/compare/; result.json gets lumaRatio
  *              (main luma / compare luma per read and final)
  *
@@ -30,9 +32,9 @@
  * 5 s), heapSlope ({ quietAt, mbPerMin, seconds }: least-squares post-GC heap MB/min (a forced GC every 10 s) from the first second
  * geometry and texture counts held still for 5 s; null under 20 quiet seconds), fpsReads, profile, frames. Exit 0 unless the tab could not be opened.
  */
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, stalledReads, summariseProfile } from "./pod-capture-lib.mjs";
+import { counter, heapSlope, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseSteps, screenMiddle, stalledReads, summariseProfile } from "./pod-capture-lib.mjs";
 
 const args = process.argv.slice(2);
 const opt = (k, d) => { const i = args.indexOf(`--${k}`); return i < 0 ? d : args[i + 1]; };
@@ -40,6 +42,7 @@ const url = opt("url"), out = opt("out");
 if (!url || !out) { console.error("usage: pod-capture.mjs --url <url> --out <dir> [flags; see header]"); process.exit(2); }
 const totalS = Number(opt("seconds", 120)), cdpHttp = opt("cdp", process.env.CHROME_CDP ?? "http://127.0.0.1:9222").replace(/\/$/, "");
 const shotsSpec = opt("shots"), shots = shotsSpec === "none" ? [] : parseShots(shotsSpec, totalS);
+const steps = opt("steps") ? parseSteps(readFileSync(opt("steps"), "utf8")) : [];
 const readsAt = opt("reads", "15,30,60,120").split(",").map(Number).filter((s) => s < totalS); // a read at --seconds is result.final
 const prof = opt("profile") ? parseProfile(opt("profile")) : null, fpsReads = Number(opt("fps-reads", 0));
 const W = Number(opt("width", 1280)), H = Number(opt("height", 720));
@@ -90,7 +93,8 @@ const evaluate = async (expression, timeoutMs = 15_000) => {
 const INIT = `(() => {
   try { localStorage.setItem("es.hud.perfOpen", "1"); } catch {}
   window.__GPUERR = []; window.__RAFN = 0;
-  const tick = () => { window.__RAFN++; requestAnimationFrame(tick); }; requestAnimationFrame(tick);
+  window.__RAFMS = []; let lastT = 0;
+  const tick = (t) => { window.__RAFN++; if (lastT) { window.__RAFMS.push(t - lastT); if (window.__RAFMS.length > 600) window.__RAFMS.shift(); } lastT = t; requestAnimationFrame(tick); }; requestAnimationFrame(tick);
   // renderers: getContext calls per canvas and GPU devices requested (one renderer per canvas = 1 and 1)
   window.__CTX = { canvases: [], devices: 0 };
   const seen = new WeakMap(), getContext = HTMLCanvasElement.prototype.getContext;
@@ -116,7 +120,8 @@ const READ = `(async () => {
   const r = window.__RENDERER__, i = r?.info, q = r?.esBuildQueue, pm = performance.memory;
   const frame = () => window.__RENDERER__?.info?.render?.frame ?? window.__RAFN;
   const f1 = frame(); await new Promise((res) => setTimeout(res, 1000)); const f2 = frame();
-  return { frames: [f1, f2], backend: window.__RENDERER_BACKEND__ ?? (r?.backend?.isWebGPUBackend ? "webgpu" : undefined),
+  const rafMs = (window.__RAFMS ?? []).slice(-300);
+  return { rafMs, frames: [f1, f2], backend: window.__RENDERER_BACKEND__ ?? (r?.backend?.isWebGPUBackend ? "webgpu" : undefined),
     fps: window.__STUDIO_FPS__, gpuMs: window.__STUDIO_GPU_MS__ && JSON.parse(JSON.stringify(window.__STUDIO_GPU_MS__)),
     renderer: i && { geometries: i.memory?.geometries, textures: i.memory?.textures, triangles: i.render?.triangles, calls: i.render?.drawCalls ?? i.render?.calls },
     buildQueue: q && { pending: q.pending, twinsHeld: q.twinsHeld, skippedDraws: q.skippedDraws },
@@ -125,6 +130,8 @@ const READ = `(async () => {
     heapMB: pm && Math.round(pm.usedJSHeapSize / 1e6), heapLimitMB: pm && Math.round(pm.jsHeapSizeLimit / 1e6),
     hud: document.body.innerText.split("\\n").filter((l) => /fps|ms|draw|tri|calls|gpu|cpu|pass|stage|skipped|pending|twin|perf|scene/i.test(l)).slice(0, 40) };
 })()`;
+// 1 %-low fps of the last ~300 rAF frame durations (the settle window), kept beside fps; the raw durations are dropped
+const noteLow1 = (r) => { if (r && !r.err) { r.low1 = onePercentLow(r.rafMs ?? []); delete r.rafMs; } };
 const middleOf = (b64) => evaluate(`(async () => {
   const screenMiddle = ${SCREEN_MIDDLE};
   const bm = await createImageBitmap(await (await fetch("data:image/jpeg;base64,${b64}")).blob());
@@ -157,9 +164,19 @@ try {
     }
     if (ri < readsAt.length && s >= readsAt[ri]) {
       ri++;
-      const r = await evaluate(READ); r.stalled = isStalled(...(r.frames ?? []));
+      const r = await evaluate(READ); r.stalled = isStalled(...(r.frames ?? [])); noteLow1(r);
       try { Object.assign(r, await middleOf(await shoot(80))); } catch (e) { r.middleErr = String(e.message); }
       result.reads[readsAt[ri - 1]] = { t: Math.round(sec() * 10) / 10, ...r };
+    }
+    if (steps.length && s >= steps[0].at) {
+      const st = steps.shift();
+      const rec = { label: st.label, at: Math.round(s * 10) / 10 };
+      try { rec.value = await evaluate(st.js); } catch (e) { rec.err = String(e.message); }
+      await new Promise((r) => setTimeout(r, st.waitMs ?? 2500));
+      const r = await evaluate(READ); r.stalled = isStalled(...(r.frames ?? [])); noteLow1(r);
+      try { Object.assign(r, await middleOf(await shoot(80))); } catch (e) { r.middleErr = String(e.message); }
+      rec.read = { middle: r.middle ?? r.luma ?? null, ...Object.fromEntries(Object.entries(r).filter(([k]) => !["hud", "diag", "contexts"].includes(k))) };
+      (result.steps ??= []).push(rec);
     }
     if (Math.floor(s) > lastPoll) {
       lastPoll = Math.floor(s);
@@ -178,7 +195,7 @@ try {
     await new Promise((r) => setTimeout(r, 2000));
   }
   result.heapSlope = heapSlope(heapSamples);
-  result.final = await evaluate(READ); result.final.stalled = isStalled(...(result.final.frames ?? []));
+  result.final = await evaluate(READ); result.final.stalled = isStalled(...(result.final.frames ?? [])); noteLow1(result.final);
   try { const b64 = await shoot(80); writeFileSync(join(out, "final.jpg"), Buffer.from(b64, "base64")); Object.assign(result.final, await middleOf(b64)); } catch (e) { result.final.middleErr = String(e.message); }
   const g = await evaluate(`window.__GPUERR ?? []`);
   const gc = counter(); (Array.isArray(g) ? g : [JSON.stringify(g)]).forEach(gc.add);

@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile } from "./pod-capture-lib.mjs";
+import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -59,4 +59,17 @@ test("stalledReads lists stalled keys and final", () => {
 test("lumaRatios: per read, null on missing or zero compare", () => {
   const r = lumaRatios({ 15: { luma: 10 }, 30: { luma: 5 }, 60: { luma: 4 } }, { 15: { luma: 20 }, 30: { luma: 0 } }, { luma: 9 }, { luma: 3 });
   assert.deepEqual(r, { 15: 0.5, 30: null, 60: null, final: 3 });
+});
+
+test("parseSteps: sorted by at, rejects missing js", () => {
+  const s = parseSteps(JSON.stringify([{ at: 20, label: "b", js: "2" }, { at: 5, label: "a", js: "1", waitMs: 100 }]));
+  assert.deepEqual(s.map((x) => x.at), [5, 20]);
+  assert.throws(() => parseSteps(JSON.stringify([{ at: 1, label: "x" }])), /js/);
+  assert.throws(() => parseSteps(JSON.stringify([{ at: "1", js: "x" }])), /at/);
+  assert.throws(() => parseSteps("{}"), /array/);
+});
+
+test("onePercentLow: slowest 1 % mean as fps; empty is null", () => {
+  assert.equal(onePercentLow([...Array(99).fill(16.7), 100]), 10);
+  assert.equal(onePercentLow([]), null);
 });

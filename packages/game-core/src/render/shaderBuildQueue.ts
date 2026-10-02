@@ -27,6 +27,14 @@ import type { WebGPURenderer } from "three/webgpu";
  * continuations would leave no gap for ordinary tasks); the nearest waiting
  * object's build starts first (the character and the ground around it, not
  * the far tiles).
+ *
+ * Only the frame's own passes defer: a draw to the canvas, to a target the
+ * scene pass registered with `deferBuildsInto` (the water pipeline's scene
+ * target, the bloom source), or inside three's shadow pass (a custom render
+ * object function). Every other draw into a render target (a PMREM bake, a
+ * census, a capture, a ripple or foam step) builds synchronously and draws: a
+ * one-shot pass is never drawn again, so a skipped draw there leaves its
+ * target empty for good (walk 10: the sky IBL stayed all zeros on WebGPU).
  */
 export const SHADER_BUILDS_IN_FLIGHT = 1;
 /** A build twin whose object never re-draws is released after this long. */
@@ -45,6 +53,8 @@ export class BuildQueue<K = unknown> {
   twinsHeld = 0;
   /** Builds finished. */
   built = 0;
+  /** Render targets the frame's scene pass draws into: their draws defer like the canvas's. */
+  readonly frameTargets = new WeakSet<object>();
   constructor(readonly inFlight: number, private readonly onError: (e: unknown) => void = () => {}) {}
 
   /** An unbuilt draw for `key`: queue its build (lower `priority` starts first; the latest start wins). */
@@ -65,7 +75,7 @@ export class BuildQueue<K = unknown> {
   private pump(): void {
     while (this.running.size < this.inFlight && this.waiting.size > 0) {
       let best: K | undefined, bestP = Infinity;
-      for (const [k, w] of this.waiting) if (w.priority < bestP) { best = k; bestP = w.priority; }
+      for (const [k, w] of this.waiting) if (best === undefined || w.priority < bestP) { best = k; bestP = w.priority; }
       const key = best as K;
       const { start } = this.waiting.get(key)!;
       this.waiting.delete(key);
@@ -102,6 +112,8 @@ interface RendererInternals {
   _renderObjectDirect: (...a: unknown[]) => void;
   _currentRenderContext: unknown;
   _currentRenderBundle: unknown;
+  _renderTarget: object | null;
+  _renderObjectFunction: unknown;
   _objects: {
     get: (...a: unknown[]) => RenderObjectInternals;
     getChainMap(passId?: unknown): { get(keys: unknown[]): RenderObjectInternals | undefined };
@@ -174,6 +186,9 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
     for (const [k, t] of twins) if (now - t.at > TWIN_HOLD_MS) release(k);
   };
   r._renderObjectDirect = function (this: RendererInternals, ...a: unknown[]) {
+    // an offscreen pass that is not the frame's own: three's synchronous build, then the draw
+    const target = this._renderTarget;
+    if (target && !queue.frameTargets.has(target) && !this._renderObjectFunction) { draw.apply(this, a); return; }
     const [object, material, scene, camera, lightsNode, group, clippingContext, passId] = a;
     const objects = this._objects, nodes = this._nodes;
     // the per-draw lookup reuses one key array (no allocation per draw); the lookups after
@@ -231,6 +246,11 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
     queue.request(key, distanceSq(object as Placed, camera as Viewer), () => nodes.getForRender(ro, true));
   };
   return queue;
+}
+
+/** Let draws into `target` defer like the canvas's (a per-frame scene pass target; no-op without a queue). */
+export function deferBuildsInto(renderer: object, target: object): void {
+  buildQueueOf(renderer)?.frameTargets.add(target);
 }
 
 /** The queue installed on `renderer`, if any (the diagnostics read its counters). */

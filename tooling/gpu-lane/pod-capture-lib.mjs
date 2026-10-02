@@ -108,3 +108,24 @@ export function lumaRatios(mainReads, compareReads, mainFinal, compareFinal) {
   out.final = ratio(mainFinal, compareFinal);
   return out;
 }
+
+/** Parse a --steps JSON file: array of {at: number, js: string, label?, waitMs?}, returned sorted by `at`. Throws on a bad shape. */
+export function parseSteps(text) {
+  const a = JSON.parse(text);
+  if (!Array.isArray(a)) throw new Error("steps: expected a JSON array");
+  a.forEach((s, i) => {
+    if (!s || typeof s !== "object") throw new Error(`steps[${i}]: expected an object`);
+    if (typeof s.at !== "number" || !Number.isFinite(s.at)) throw new Error(`steps[${i}]: "at" must be a number`);
+    if (typeof s.js !== "string" || !s.js) throw new Error(`steps[${i}]: "js" must be a non-empty string`);
+    if (s.waitMs !== undefined && typeof s.waitMs !== "number") throw new Error(`steps[${i}]: "waitMs" must be a number`);
+  });
+  return [...a].sort((x, y) => x.at - y.at);
+}
+
+/** fps of the mean of the slowest 1 % of frame durations (ms), at least one frame; null for no frames. */
+export function onePercentLow(frameMs) {
+  if (!frameMs?.length) return null;
+  const k = Math.max(1, Math.ceil(frameMs.length * 0.01));
+  const worst = [...frameMs].sort((a, b) => b - a).slice(0, k);
+  return Math.round((1000 / (worst.reduce((s, v) => s + v, 0) / k)) * 10) / 10;
+}

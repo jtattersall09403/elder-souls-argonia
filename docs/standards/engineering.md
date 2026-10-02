@@ -470,6 +470,12 @@ headless.
   injected; a component never creates or disposes one
   (`assets/kitLoader`: `installKitDecoders` in createRenderer,
   `kitDecodersFor` / `useKitDecoders` read them).
+- The deferred-build queue (`render/shaderBuildQueue`) defers only the
+  frame's own passes: the canvas, a scene-pass target registered with
+  `deferBuildsInto`, and three's shadow pass. Any other render-target pass
+  (a PMREM bake, a census, a capture, a ripple or foam step) builds
+  synchronously, because a one-shot pass is never drawn again. Register a
+  new per-frame scene target; never register a one-shot one.
 - On the node renderer a uniform shared by every draw goes on frameGroup
   (or renderGroup if camera-dependent); the default objectGroup writes it
   into every draw's buffer. In this repo use `render/nodes/sharedUniform`

@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { NodeMaterial, QuadMesh, RenderTarget, type WebGPURenderer } from "three/webgpu";
 import * as TSLNS from "three/tsl";
 import { sel, type TslNode } from "../nodes/materialNodes";
+import { deferBuildsInto } from "../shaderBuildQueue";
 import bloomConfig from "./bloom.config.json";
 // TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -470,6 +471,7 @@ export class BloomPass {
         .then((c) => { this.lastSkyCensus = c; })
         .finally(() => { this.censusBusy = false; });
     }
+    deferBuildsInto(renderer, this.mips[0]); // the per-frame bloom source pass draws scene objects
     renderer.setRenderTarget(this.mips[0]);
     renderer.clear(true, true, false);
     this.prefilter.render(renderer);
