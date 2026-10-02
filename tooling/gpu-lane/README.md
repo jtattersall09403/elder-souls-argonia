@@ -11,7 +11,7 @@ Four scripts for booting and probing the `/webgpu/` studio on a real GPU, run fr
 | File | What it does |
 |---|---|
 | `runpod-setup.sh` | Runs on the pod: installs Chrome and Xvfb, registers the NVIDIA Vulkan ICD and starts Chrome with WebGPU on Vulkan, DevTools on the pod's 127.0.0.1:9222. |
-| `webgpu-boot-check.mjs` | Boots the BUILT `/webgpu/` studio (one place, or `--place all`) to its first complete frame and fails on a freeze, a GPU validation error or a device loss. `CHROME_CDP` points it at the pod's Chrome. Cached on its inputs. |
+| `webgpu-boot-check.mjs` | Boots the BUILT `/webgpu/` studio (one place, or `--place all`) to its first complete frame and fails on a freeze, a GPU validation error, a device loss or a black view (over 95 % of the screen middle near-black). `CHROME_CDP` points it at the pod's Chrome. Cached on its inputs. |
 | `webgpu-serve.mjs <dist> [--port 8193]` | Serves a built WebGPU studio as Pages does (`/webgpu/` from `<dist>`, `/studio/` data from the main tree). |
 | `hud-capture.mjs <dist> "<query>" <out>.txt <settleS>` | Reads the studio's HUD perf lines from the pod's Chrome four times over `<settleS>` and writes them with a screenshot beside them. |
 

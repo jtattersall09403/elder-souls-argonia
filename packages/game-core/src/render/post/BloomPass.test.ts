@@ -31,13 +31,14 @@ describe("bloomMipSizes", () => {
 
 /** A renderer stand-in that records what the pass asks of it. */
 function fakeRenderer(w = 1920, h = 1080, exposure = 2.5) {
-  const log: { op: string; target: unknown; mask?: number; tone?: THREE.ToneMapping; space?: string }[] = [];
+  const log: { op: string; target: unknown; mask?: number; tone?: THREE.ToneMapping; space?: string; samples?: number }[] = [];
   let target: unknown = "prev";
   const r = {
     toneMapping: THREE.ACESFilmicToneMapping as THREE.ToneMapping,
     outputColorSpace: THREE.SRGBColorSpace as string,
     toneMappingExposure: exposure,
     autoClear: true,
+    _samples: 4,
     backend: { isWebGPUBackend: true },
     getDrawingBufferSize: (v: THREE.Vector2) => v.set(w, h),
     getRenderTarget: () => target,
@@ -45,7 +46,7 @@ function fakeRenderer(w = 1920, h = 1080, exposure = 2.5) {
     clear: () => { log.push({ op: "clear", target }); },
     render: (scene: THREE.Object3D, camera: THREE.Camera) => {
       const quad = (scene as unknown as { material?: THREE.Material }).material;
-      log.push({ op: quad ? quad.name : "scene", target, mask: camera.layers.mask, tone: r.toneMapping, space: r.outputColorSpace });
+      log.push({ op: quad ? quad.name : "scene", target, mask: camera.layers.mask, tone: r.toneMapping, space: r.outputColorSpace, samples: r._samples });
     },
   };
   return { r, log, renderer: r as unknown as WebGPURenderer };
@@ -116,6 +117,10 @@ describe("BloomPass node version (decision 0111)", () => {
     expect(last.target).toBeNull();
     expect(last.tone).toBe(THREE.NoToneMapping);
     expect(last.space).toBe(THREE.LinearSRGBColorSpace);
+    // A 4-sample canvas pass would load three's stale MSAA buffer and resolve
+    // it over the frame: black view on WebGPU (walk 10).
+    expect(last.samples).toBe(0);
+    expect(r._samples).toBe(4);
     expect(r.toneMapping).toBe(THREE.ACESFilmicToneMapping);
     expect(r.outputColorSpace).toBe(THREE.SRGBColorSpace);
     expect(r.getRenderTarget()).toBe("prev");

@@ -491,12 +491,22 @@ export class BloomPass {
     // Straight onto the canvas: with tone mapping and the output colour space
     // off, three draws to the canvas itself (no frame-buffer output pass that
     // would re-tone-map the frame), and the graph encodes sRGB on its own.
+    // MSAA off for this one draw (walk 10, black view): the frame's earlier
+    // canvas writes are three's output pass, which runs at 0 samples straight
+    // into the swap texture. A 4-sample canvas pass would load three's own
+    // MSAA colour buffer, which never saw this frame, and its resolve would
+    // overwrite the whole canvas with it: a black view plus the glow.
+    // three 0.184 exposes no samples setter, so `_samples` is set directly.
+    const msaa = renderer as unknown as { _samples: number };
+    const prevSamples = msaa._samples;
     const prevTone = renderer.toneMapping;
     const prevSpace = renderer.outputColorSpace;
     renderer.toneMapping = THREE.NoToneMapping;
     renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
+    msaa._samples = 0;
     renderer.setRenderTarget(null);
     this.composite.render(renderer);
+    msaa._samples = prevSamples;
     renderer.toneMapping = prevTone;
     renderer.outputColorSpace = prevSpace;
 

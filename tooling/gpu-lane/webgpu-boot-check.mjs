@@ -643,6 +643,21 @@ if (flag("alloc")) {
 }
 // the heartbeat's last copy when the page is too busy to answer at the end (an empty list read as 0 ms)
 const longTasks = (await withTimeout(page.evaluate(() => window.__LONG_TASKS__), 5_000)) ?? lastLong;
+// Black view (walk 10: a 4-sample bloom composite resolved a stale MSAA buffer over the frame, 0 GPU
+// errors): the share of near-black pixels (luma <= 3) in the screen's middle (x 30-70 %, y 40-90 %,
+// clear of the HUD). Measured on the pod: black frames 0.97-1.0, a rainy night 0.84, noon 0.0.
+const BLACK_SHARE_MAX = 0.95;
+const blackShare = completeMs === null ? null : await withTimeout((async () => {
+  const jpg = (await page.screenshot({ type: "jpeg", quality: 80, timeout: 10_000 })).toString("base64");
+  return page.evaluate(async (d) => {
+    const bm = await createImageBitmap(await (await fetch(`data:image/jpeg;base64,${d}`)).blob());
+    const oc = new OffscreenCanvas(bm.width, bm.height); const x = oc.getContext("2d"); x.drawImage(bm, 0, 0);
+    const x0 = Math.floor(bm.width * 0.3), y0 = Math.floor(bm.height * 0.4);
+    const a = x.getImageData(x0, y0, Math.floor(bm.width * 0.7) - x0, Math.floor(bm.height * 0.9) - y0).data;
+    let dark = 0; for (let i = 0; i < a.length; i += 4) if (0.2126 * a[i] + 0.7152 * a[i + 1] + 0.0722 * a[i + 2] <= 3) dark++;
+    return Math.round((dark / (a.length / 4)) * 1000) / 1000;
+  }, jpg);
+})(), 20_000);
 await withTimeout(browser.close(), 10_000);
 server.close();
 
@@ -676,12 +691,13 @@ if (holdS > 0) {
   // updates and async pipeline compiles (124..229 on a healthy run, 2026-10-01).
   if (holdDraws.length < holdS / 4) fails.push(`hold: only ${holdDraws.length} readings in ${holdS} s (page stalled)`);
 }
+if (blackShare !== null && blackShare > BLACK_SHARE_MAX) fails.push(`black view: ${Math.round(blackShare * 100)} % of the screen middle is near-black (> ${BLACK_SHARE_MAX * 100} %)`);
 if (maxTaskMs > MAX_TASK_MS) fails.push(`main-thread JS task ${maxTaskMs} ms > ${MAX_TASK_MS} ms`);
 if (pageErrors.length) fails.push(`${pageErrors.length} page errors, first: ${pageErrors[0].slice(0, 200)}`);
 if (heapPeakMb > HEAP_MB) fails.push(`JS heap ${heapPeakMb} MB > ${HEAP_MB} MB`);
 if (wallS - holdS - walkS > TARGET_S) fails.push(`wall time ${wallS} s (less the ${holdS} s hold) > target ${TARGET_S} s: shrink the scene or the method (lessons row), never the target`);
 const summary = {
-  url, place, inputHash, wallS, targetS: TARGET_S, completeFrameMs: completeMs, ok: fails.length === 0, fails,
+  url, place, inputHash, wallS, targetS: TARGET_S, completeFrameMs: completeMs, blackShare, ok: fails.length === 0, fails,
   holdDraws, seriesCols: SERIES_COLS, series, steady: steadyChurn(), firstFrameMs: boot?.firstFrameMs ?? null, frames: boot?.frames ?? 0, maxTaskMs, maxGpuStallMs, maxPingMs, heapPeakMb,
   builds: boot?.builds ?? null, buildMs: boot ? Math.round(boot.buildMs) : null,
   buildsBy: boot ? Object.entries(boot.buildBy ?? {}).sort((a, b) => b[1][0] - a[1][0]).slice(0, 25).map(([k, v]) => [k, Math.round(v[0]), v[1]]) : [],
