@@ -106,6 +106,7 @@ import {
 import { clearancesOfBundle, withPlaceClearances } from "@elder-souls/game-core/vegetation/clearanceFilter";
 import type { WaterData } from "@elder-souls/game-core/water/index";
 import groundcoverTable from "../../../../world/sources/flora/groundcover.json";
+import { INITIAL_SWITCHES } from "../studioSwitches";
 import {
   fillDue,
   settleGeneration,
@@ -1276,7 +1277,7 @@ export function Groundcover({
   // (the mesh's `instanceColor`), payload 1 the per-plant LOD band.
   const gl = useThree((st) => st.gl) as unknown as WebGPURenderer;
   const gcCull = useMemo(
-    () => (GpuCullPool.supported(gl) ? new GpuCullPool({ lodFade, payloads: 2 }) : null),
+    () => (INITIAL_SWITCHES.gcGpu && INITIAL_SWITCHES.gpuCull && GpuCullPool.supported(gl) ? new GpuCullPool({ lodFade, payloads: 2 }) : null),
     [gl, lodFade]);
   /** GPU path: each pooled mesh's draw and its CPU staging rows. */
   const gcDraws = useRef(new Map<THREE.InstancedMesh, GcDraw>());

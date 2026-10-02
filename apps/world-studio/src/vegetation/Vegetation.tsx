@@ -126,6 +126,7 @@ import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { FrameGroundSampler, groundHeightM } from "./terrainHeight";
 import { STUDIO_TOOLS } from "../studioTools";
 import { placeGround } from "../character/chunkStore";
+import { INITIAL_SWITCHES } from "../studioSwitches";
 import {
   ANCHOR_PIVOT_TERRAIN,
   decodeVegetationBundle,
@@ -506,7 +507,7 @@ export function Vegetation({
   // flip writes or uploads a row. Everywhere else the CPU tile path below.
   const gl = useThree((s) => s.gl) as unknown as WebGPURenderer;
   const gpuCull = useMemo(
-    () => (GpuCullPool.supported(gl) ? new GpuCullPool({ lodFade }) : null), [gl, lodFade]);
+    () => (INITIAL_SWITCHES.gpuCull && GpuCullPool.supported(gl) ? new GpuCullPool({ lodFade }) : null), [gl, lodFade]);
   useEffect(() => () => gpuCull?.dispose(), [gpuCull]);
   // ONE visibility rule per path (drawCount.ts): GPU-cull meshes show while
   // registered with the pool and submitted by it, CPU tile meshes while they draw.
