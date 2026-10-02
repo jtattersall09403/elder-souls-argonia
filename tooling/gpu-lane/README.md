@@ -46,9 +46,13 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
 - **The frame is capped at ~60 and fps cannot show headroom.** `pod-setup.sh` passes
   `--disable-gpu-vsync --disable-frame-rate-limit`, but on Chrome 154 under Xvfb a trivial page still
   runs rAF at 58.5 fps (walk 10, six launch variants: ANGLE GL, ANGLE Vulkan, `--headless=new`,
-  `--ozone-platform=headless`, the background-throttling flags). A view at 60 fps is "at least 60"; read
-  headroom from the HUD's `gpuMs` / `gpuByPass` and `cpuMs` instead, and treat fps as meaningful only
-  when it drops below the cap.
+  `--ozone-platform=headless`, the background-throttling flags). A view at 58-60 fps is "at least
+  60"; read headroom from the HUD's `gpuMs` / `gpuByPass` and `cpuMs`. Below the cap fps is real
+  (walk 10: Riverwalk 52, Greenspring 39).
+- **A dead site server looks like a capped frame.** `serve.mjs` started by a plain `nohup` died with
+  the ssh session, and the walk-10 base run measured an `ERR_CONNECTION_REFUSED` page at 58 fps on
+  every URL. `sync-dist.sh` now starts it with `setsid` (log `/root/serve.log`), and `measure.mjs`
+  stops when the page fails to load.
 - **The network never goes quiet.** Terrain and vegetation stream continuously, so "no requests for
   3 s" never happens (walk-10 base run: every URL hit the timeout). The studio has no "loaded" flag;
   `isReady` in `measure.mjs` waits for HUD tris stable within 2 % for 5 s with no "Loading terrain"
