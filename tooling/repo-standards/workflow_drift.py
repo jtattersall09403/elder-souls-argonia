@@ -28,8 +28,7 @@ REVIEWS = ROOT / "tooling/.reports/review/reviews.jsonl"  # append-only (review_
 TIMINGS = ROOT / "tooling/repo-standards/output/tool-timings.jsonl"
 BUDGET = ROOT / "tooling/.reports/budget"
 CODE = re.compile(r"^(packages|apps|tooling)/.+\.(py|ts|tsx|mjs|js)$|^(packages|apps|tooling)/?$")
-SCOPED = ("--assets", "--only", "--set", "--sample", "--rederive", "--refresh-derived",
-          "--complete-only", "--dump-meshes", "--help")
+SCOPED = "--assets"  # a miner run is per-asset exactly when it carries this; --merge alone is a full run
 # the tool itself, never its args: a pytest of test_mine_*.py is no miner run (r6, r7 P9)
 MINER = re.compile(r"worldgen\.mine_(abuts|mounts|designed_sink)")
 

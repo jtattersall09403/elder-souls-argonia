@@ -112,7 +112,8 @@ the addenda of 0105 (now rows of the rulings table).
     4's batch touched 21 core modules and selected 89 of 178 placement
     files legitimately (187 s); a 60 s bar there only breeds re-runs.
     The review's diff cap is a fix round's code diff (1.2 MB), measured on
-    code files only.
+    code files only. The reviewer's turn cap is 80 (walk 9: the 40-turn cap
+    ended the first review unfinished, the retry took 46).
 16. **Reports live in `tooling/.reports/`** (per run, per area), never in
     `.claude/`, the repo root or a docs folder; `.claude/` holds only
     settings, agents and skills.

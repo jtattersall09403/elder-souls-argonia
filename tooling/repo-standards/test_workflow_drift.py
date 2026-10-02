@@ -34,10 +34,12 @@ def test_miner_matcher_counts_the_tool_never_its_args(tmp_path, monkeypatch):
     now = time.strftime("%Y-%m-%dT%H:%M:%S+00:00", time.gmtime())
     rows = [{"date": now, "tool": "worldgen.mine_abuts", "args": ["--write"]},
             {"date": now, "tool": "worldgen.mine_mounts", "args": ["--assets", "x", "--merge"]},
+            {"date": now, "tool": "worldgen.mine_mounts", "args": ["--assets", "y"]},
+            {"date": now, "tool": "worldgen.mine_mounts", "args": ["--merge"]},
             {"date": now, "tool": "pytest", "args": ["-q", "worldgen/test_mine_mounts.py"]},
             {"date": now, "tool": "bash", "args": ["-c", "python3 -m worldgen.mine_designed_sink"]}]
     t = tmp_path / "timings.jsonl"
     t.write_text("".join(json.dumps(r) + "\n" for r in rows))
     monkeypatch.setattr(workflow_drift, "TIMINGS", t)
     monkeypatch.setattr(workflow_drift, "REVIEWS", tmp_path / "none.jsonl")
-    assert workflow_drift.measure(7)["minerFullRuns"] == 1
+    assert workflow_drift.measure(7)["minerFullRuns"] == 2  # --write and --merge alone; --assets, with or without --merge, is scoped

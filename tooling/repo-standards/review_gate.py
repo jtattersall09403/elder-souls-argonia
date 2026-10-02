@@ -64,6 +64,7 @@ FINDINGS_RANGE = os.path.join(REPORT_DIR, "review-findings-range.md")
 # a fix round's whole code diff; the reviewer's window is 1M tokens; 0106 decision 13
 MAX_DIFF_BYTES = 1_200_000
 TIMEOUT_S = 900
+MAX_TURNS = 80  # walk-9 reviewer 1 hit max_turns_reached at 40 (no timeout); its retry needed ~46
 MODEL = "claude-opus-5-5[1m]"  # owner 2026-09-19: Opus has headroom, review is judgement; 2026-09-23: Opus 5.5 at medium effort
 EFFORT = "high"   # 0106: one exhaustive review per batch, never rounds
 
@@ -488,7 +489,7 @@ def review(diff, what):
     env = dict(os.environ); env.pop("CLAUDECODE", None)
     try:
         p = subprocess.run(
-            ["claude", "-p", "--model", MODEL, "--effort", EFFORT, "--allowedTools", "Read,Grep,Glob", "--max-turns", "40",
+            ["claude", "-p", "--model", MODEL, "--effort", EFFORT, "--allowedTools", "Read,Grep,Glob", "--max-turns", str(MAX_TURNS),
              "--output-format", "text"],
             input=prompt + diff, cwd=ROOT, capture_output=True, text=True, timeout=TIMEOUT_S, env=env)
         return (p.stdout or "").strip(), p.returncode, (p.stderr or "")[-400:]

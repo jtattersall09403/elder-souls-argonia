@@ -2,7 +2,7 @@
 
 Headline: walk 9 cost 212 units, 9× walk 8 (23.9). 132 of its 203 subagent units (65 %) were spent on turns carrying more than 200k context, nearly all by first-of-type place-builders that ran to 520k–830k context inside one Workflow. Second: the planner told the owner "nothing else is pending on my side" (01:02) while the WebGPU lane was still running. The owner stopped the VM at 01:11 and the lane died mid-job. The WebGPU build then failed to load because the `webgpu` branch is 110 commits behind `dev`.
 
-This file replaces the partial round-7 review written at 17:28 on 10-01, which measured walk 9 before most of it ran. Read-only. Parsers and raw tables are in `/tmp/mr7b/` (`parse.py`, `all.txt` lists every agent in both sessions, Workflow children included; `tl-w8.txt` and `tl-w9.txt` are the planner timelines; `jobguard.txt`). Units use the `week_usage.py` weights: cache read 0.1, cache create 2, input 1, output 5, per M tokens.
+This file replaces the partial round-7 review written at 17:28 on 10-01, which measured walk 9 before most of it ran. Read-only. Parsers and raw tables are in `tooling/.reports/16k/walk9/method-review-r7-raw/` (`parse.py`, `all.txt` lists every agent in both sessions, Workflow children included; `tl-w8.txt` and `tl-w9.txt` are the planner timelines; `jobguard.txt`). Units use the `week_usage.py` weights: cache read 0.1, cache create 2, input 1, output 5, per M tokens.
 
 ## Reconciliation
 
