@@ -178,11 +178,39 @@ export function capVerdict(blankRafFps) {
 }
 
 const cell = (x) => (x === null || x === undefined ? "-" : typeof x === "number" ? String(Math.round(x * 100) / 100) : String(x));
-/** Markdown summary: one row per view from its result.json `summary`. */
-export function summaryTable(views, cap) {
-  const cols = ["view", "luma settled", "luma final", "black", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404"];
-  const rows = views.map(({ name, summary: s = {} }) => [name, s.lumaSettled, s.lumaFinal, s.blackShare, s.fps, s.low1, s.gpuMs, s.cpuMs, s.costMs, s.uncappedFps, s.calls,
-    s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors].map(cell));
-  return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, "",
+/** Markdown summary: one row per view from its result.json `summary`. fps and low1 name the read they came from
+ * (window = the cost window after the settled read, settled, final); "window fps" is that window's own wall-clock rate
+ * beside its cost ms; "contaminated" is the view's blank-page baseline verdict. */
+export function summaryTable(views, cap, prep = null) {
+  const cols = ["view", "contaminated", "luma settled", "luma final", "black", "fps (from)", "low1 (from)", "GPU ms", "CPU ms", "cost ms (from)", "window fps", "uncapped fps", "calls", "tris M", "heap MB/min", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404"];
+  const from = (v, f) => (v == null ? null : `${cell(v)} (${f ?? "-"})`);
+  const rows = views.map(({ name, summary: s = {} }) => [name, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, from(s.fps, s.fpsFrom), from(s.low1, s.low1From), s.gpuMs, s.cpuMs,
+    from(s.costMs, s.costFrom), s.windowFps, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors].map(cell));
+  return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), "",
     `| ${cols.join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.join(" | ")} |`)].join("\n");
+}
+
+/** A view's blank-page baseline (fresh browser context, 5 s after the previous view closed, before navigating) against
+ * the run's first blank rAF: contaminated when rAF fell under 0.95 x the first (the GPU process still busy or short of
+ * memory) or the live heap after a forced GC is over 50 MB (the isolate kept a previous page). */
+export function contaminationVerdict(baseline, firstRafFps, { rafShare = 0.95, heapMB = 50 } = {}) {
+  const reasons = [];
+  if (Number.isFinite(baseline?.rafFps) && Number.isFinite(firstRafFps) && baseline.rafFps < rafShare * firstRafFps) reasons.push(`blank rAF ${baseline.rafFps} < ${rafShare} x ${firstRafFps}`);
+  if (Number.isFinite(baseline?.heapMB) && baseline.heapMB > heapMB) reasons.push(`heap ${baseline.heapMB} MB > ${heapMB}`);
+  return { contaminated: reasons.length > 0, reasons };
+}
+
+/** Prep timings (build-dist.sh, pod-sync.sh append {step, seconds, at, skipped?} JSON lines; `at` = epoch s at the step's
+ * end) -> per step seconds and the wall time from the first step's start to the first capture (epoch s). */
+export function prepSummary(jsonl, firstCaptureAt) {
+  const steps = String(jsonl).split("\n").filter((l) => l.trim()).map((l) => JSON.parse(l));
+  if (!steps.length) return null;
+  const start = Math.min(...steps.map((s) => s.at - s.seconds));
+  return { steps, toFirstCaptureS: Number.isFinite(firstCaptureAt) ? Math.round(firstCaptureAt - start) : null };
+}
+
+/** One line for summary.md. */
+export function prepLine(prep) {
+  if (!prep) return null;
+  return `prep: ${prep.steps.map((s) => `${s.step} ${s.skipped ? "skip" : `${s.seconds} s`}`).join(", ")}; start to first capture ${prep.toFirstCaptureS ?? "-"} s`;
 }

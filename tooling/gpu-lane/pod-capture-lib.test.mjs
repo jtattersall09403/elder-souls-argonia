@@ -109,13 +109,29 @@ test("summaryTable: header, cap line and one row per view with dashes for missin
   const t = summaryTable([{ name: "A", summary: { lumaSettled: 40.123, tris: 940000, fps: 59 } }, { name: "B" }], { capDetected: false, blankRafFps: 240 }).split("\n");
   assert.equal(t[0], "cap detected: false (blank-page rAF 240 fps)");
   assert.equal(t.length, 6);
-  assert.match(t[4], /^\| A \| 40\.12 \| - \| - \| 59 \|.*\| 0\.94 \|/);
+  assert.match(t[4], /^\| A \| - \| 40\.12 \| - \| - \| 59 \(-\) \|.*\| 0\.94 \|/);
   assert.match(t[5], /^\| B( \| -)+ \|$/);
 });
-test("the iter6 views file parses", async () => {
+test("the iter7 views file parses: A, B, D x webgpu, webgl backend, studio, plus B-webgpu-diag", async () => {
   const { parseViews } = await import("./pod-capture-lib.mjs");
   const { readFileSync } = await import("node:fs");
-  const v = parseViews(readFileSync(new URL("./views/webgpu10-iter6.json", import.meta.url), "utf8"));
-  assert.equal(v.length, 9);
+  const v = parseViews(readFileSync(new URL("./views/webgpu10-iter7.json", import.meta.url), "utf8"));
+  assert.equal(v.length, 10);
+  assert.equal(v.filter((x) => x.url.includes("renderer=webgl")).length, 3);
   assert.equal(v.find((x) => x.name === "B-webgpu-diag").steps.length, 3);
+});
+test("contaminationVerdict: slow blank rAF or a retained heap flags the view", async () => {
+  const { contaminationVerdict } = await import("./pod-capture-lib.mjs");
+  assert.deepEqual(contaminationVerdict({ rafFps: 240, heapMB: 2 }, 240), { contaminated: false, reasons: [] });
+  assert.equal(contaminationVerdict({ rafFps: 227, heapMB: 2 }, 240).contaminated, true);
+  assert.equal(contaminationVerdict({ rafFps: 229, heapMB: 2 }, 240).contaminated, false);
+  assert.deepEqual(contaminationVerdict({ rafFps: 240, heapMB: 1579 }, 240).reasons, ["heap 1579 MB > 50"]);
+  assert.equal(contaminationVerdict({ rafFps: null, heapMB: null }, 240).contaminated, false);
+});
+test("prepSummary: steps and start-to-first-capture; the summary carries the line", async () => {
+  const { prepSummary, summaryTable } = await import("./pod-capture-lib.mjs");
+  const p = prepSummary('{"step":"build:webgpu","seconds":15,"at":1000}\n{"step":"sync:dev","seconds":0,"at":1001,"skipped":true}\n{"step":"serve","seconds":5,"at":1020}\n', 1100);
+  assert.equal(p.toFirstCaptureS, 115);
+  assert.equal(prepSummary("", 1), null);
+  assert.match(summaryTable([], null, p).split("\n")[1], /^prep: build:webgpu 15 s, sync:dev skip, serve 5 s; start to first capture 115 s$/);
 });

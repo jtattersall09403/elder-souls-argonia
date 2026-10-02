@@ -1,15 +1,17 @@
 /**
- * A round's measurement in ONE invocation (decision 0106 d22): every view of a views file captured in turn in ONE
- * tab of an ALREADY-RUNNING real-GPU Chrome (the RunPod pod's, over an ssh -L tunnel), navigating the same tab, over
- * raw per-tab CDP. Not playwright's connectOverCDP (it hangs on the shared pod Chrome, walk 10). One capture per Chrome.
+ * A round's measurement in ONE invocation (decision 0106 d22): every view of a views file captured in turn, each in its
+ * OWN fresh browser context (Target.createBrowserContext: new renderer process, no bfcache, its memory freed by
+ * disposeBrowserContext after the view; iter6 reused one tab and the heap climbed 1.6 -> 8.5 GB), of an ALREADY-RUNNING
+ * real-GPU Chrome (the RunPod pod's, over an ssh -L tunnel), over raw CDP. Not playwright's connectOverCDP (it hangs on
+ * the shared pod Chrome, walk 10). One capture per Chrome; views run sequentially, never in parallel tabs.
  *
  *   node tooling/gpu-lane/pod-capture.mjs --views <views.json> --out <dir> [--pod "ssh -i <key> -p <port> root@<ip>" | --cdp http://127.0.0.1:9222]
  *     [--seconds 120] [--shots 500@60,2000] [--reads 15,30,60,120] [--profile <s>@<t>] [--settled-frames 300] [--settle-floor 60]
- *     [--window 10] [--width 1280 --height 720]
+ *     [--window 10] [--width 1280 --height 720] [--prep /tmp/<lane>/prep-times.jsonl]
  *   node tooling/gpu-lane/pod-capture.mjs --url <url> [--compare <url>] --out <dir> [...]   (a views file of one or two views)
  *
  * --views      JSON list of {name, url, steps?, shots?, seconds?}; each view writes <out>/<name>/ (result.json, frames/, final.jpg,
- *              trace.json); <out>/result.json holds every view and <out>/summary.md the table. Example: views/webgpu10-iter6.json
+ *              trace.json); <out>/result.json holds every view and <out>/summary.md the table. Example: views/webgpu10-iter7.json
  * --url/--compare  the single-URL case: views "main" (and "compare"); result.lumaRatio = main luma / compare luma per read
  * --pod        opens the CDP tunnel itself (tunnels.mjs: PID recorded, closed at exit); else --cdp (default $CHROME_CDP or :9222)
  * --seconds    capture length per view (default 120; a view's `seconds` overrides)
@@ -21,19 +23,27 @@
  * --window     seconds of the cost window right after the settled read (at the end when the view never settles): per-frame
  *              main-thread work + GPU ms (measure.mjs workStats: costMs, uncappedFps, hitches) and a filtered Chrome trace
  *              (trace-frames.mjs: main-thread self ms by stage, hitches over 33 ms with their top stage). Default 10; 0 = off.
+ * --prep       prep timings appended by build-dist.sh and pod-sync.sh (JSON lines); result.json `prep` and a summary line
+ *              carry each step and the wall time from the first step's start to the first capture
  * --profile    a CPU profile of <s> seconds starting at <t> per view (summary in result.json, raw to profile.cpuprofile)
  * steps        per view, {at, label, js, waitMs?}: at `at` s the page evaluates js (its JSON return goes to probe[label]), waits waitMs
  *              (default 2500), then a full read goes into steps[]
  *
- * Before the first view: every other page in the Chrome is closed (orphan tabs contaminate every number) and a blank-page rAF
- * rate is read: cap.capDetected is false when rAF ran above 61 fps, so fps can show headroom.
+ * Before the first view: every other page in the Chrome is closed (orphan tabs contaminate every number); one blank sentinel
+ * page in the default context keeps the browser alive between views. Per view, on its fresh about:blank, after 5 s: the
+ * baseline {rafFps (blank-page rAF), heapMB (live heap after a forced GC)} -> result.baseline and result.contaminated
+ * (pod-capture-lib contaminationVerdict against the first view's blank rAF, which is also cap: capDetected is false when
+ * rAF ran above 61 fps, so fps can show headroom).
+ * Summary windows: fps from the settled read (else final; fpsFrom), low1 from the cost window's frame intervals (it starts
+ * after the settled read, so settle is excluded; else the read's last 300 rAF intervals; low1From), costMs from the window
+ * (costFrom window|unsettled) with windowFps, that window's own wall-clock frame rate.
  * Per view: console (deduped), pageErrors, network (>= 400 and failed loads), http404s, gpuErrors (uncapturederror and device
  * loss), reads, settledAt, heapSlope (post-GC MB/min once GPU resource counts held 5 s), work, stages, hitches, probe, summary.
  * Exit 0 unless the tab could not be opened.
  */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { capVerdict, counter, heapSlope, settleGate, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, screenMiddle, stalledReads, summariseProfile, summaryTable } from "./pod-capture-lib.mjs";
+import { capVerdict, contaminationVerdict, counter, heapSlope, settleGate, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summaryTable } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
 import { closeTunnels, openTunnel } from "./tunnels.mjs";
@@ -57,17 +67,17 @@ const pod = opt("pod");
 if (pod) tunnel = await openTunnel({ pod, purpose: "cdp-capture" });
 const cdpHttp = (tunnel ? `http://127.0.0.1:${tunnel.localPort}` : opt("cdp", process.env.CHROME_CDP ?? "http://127.0.0.1:9222")).replace(/\/$/, "");
 
-// Own window: Target.createTarget on the browser websocket, newWindow, foreground.
-async function openWindow() {
-  const bws = new WebSocket((await (await fetch(`${cdpHttp}/json/version`)).json()).webSocketDebuggerUrl);
-  await new Promise((r, j) => { bws.onopen = r; bws.onerror = j; });
-  const targetId = await new Promise((res, rej) => {
-    bws.onmessage = (e) => { const m = JSON.parse(e.data); if (m.id === 1) m.error ? rej(new Error(m.error.message)) : res(m.result.targetId); };
-    bws.send(JSON.stringify({ id: 1, method: "Target.createTarget", params: { url: "about:blank", newWindow: true, background: false } }));
-  });
-  bws.close();
-  return { id: targetId, webSocketDebuggerUrl: `${cdpHttp.replace(/^http/, "ws")}/devtools/page/${targetId}` };
-}
+// The browser websocket (Target.*), open for the whole run.
+const bws = new WebSocket((await (await fetch(`${cdpHttp}/json/version`)).json()).webSocketDebuggerUrl);
+await new Promise((r, j) => { bws.onopen = r; bws.onerror = j; });
+let bNext = 0; const bPending = new Map();
+bws.onmessage = (e) => { const m = JSON.parse(e.data); if (m.id) { bPending.get(m.id)?.(m); bPending.delete(m.id); } };
+const bsend = (method, params = {}) => new Promise((res, rej) => {
+  const id = ++bNext; const t = setTimeout(() => { bPending.delete(id); rej(new Error(`${method} timed out`)); }, 30_000);
+  bPending.set(id, (m) => { clearTimeout(t); m.error ? rej(new Error(`${method}: ${m.error.message}`)) : res(m.result); });
+  bws.send(JSON.stringify({ id, method, params }));
+});
+const pageWs = (targetId) => `${cdpHttp.replace(/^http/, "ws")}/devtools/page/${targetId}`;
 
 // init script: perf HUD open; rAF counters; renderer/context census; GPU errors from every device; measure.mjs's per-frame work probe
 const INIT = `(() => {
@@ -113,14 +123,11 @@ const READ = `(async () => {
 const BLANK_RAF = `new Promise((res) => { let n = 0; const t0 = performance.now(); const f = () => { n++; performance.now() - t0 < 2000 ? requestAnimationFrame(f) : res(n * 1000 / (performance.now() - t0)); }; requestAnimationFrame(f); })`;
 const r1 = (x) => (Number.isFinite(x) ? Math.round(x * 10) / 10 : null);
 
-// ---- the one tab ----
+// ---- the view's page: openViewPage() points ws/send at a fresh target in a fresh browser context ----
 mkdirSync(out, { recursive: true });
-const target = await openWindow();
-const ws = new WebSocket(target.webSocketDebuggerUrl);
-await new Promise((r, j) => { ws.onopen = r; ws.onerror = j; });
-let nextId = 0, sink = null, traceEv = null, traceDone = null;
+let ws = null, nextId = 0, sink = null, traceEv = null, traceDone = null;
 const pending = new Map();
-ws.onmessage = (e) => {
+const onPageMessage = (e) => {
   const m = JSON.parse(e.data);
   if (m.id) { pending.get(m.id)?.(m); pending.delete(m.id); return; }
   const p = m.params;
@@ -133,6 +140,33 @@ ws.onmessage = (e) => {
   else if (m.method === "Network.responseReceived" && p.response.status >= 400) sink.network.add(`${p.response.status} ${p.response.url}`);
   else if (m.method === "Network.loadingFailed" && !p.canceled) sink.network.add(`FAILED ${sink.reqUrl.get(p.requestId) ?? p.requestId} ${p.errorText}`);
 };
+/** A fresh browser context and its about:blank page, attached, domains on, init script and device metrics set. */
+async function openViewPage() {
+  const { browserContextId } = await bsend("Target.createBrowserContext", { disposeOnDetach: false });
+  const { targetId } = await bsend("Target.createTarget", { url: "about:blank", browserContextId, newWindow: true, background: false });
+  ws = new WebSocket(pageWs(targetId));
+  await new Promise((r, j) => { ws.onopen = r; ws.onerror = j; });
+  ws.onmessage = onPageMessage;
+  await send("Runtime.enable"); await send("HeapProfiler.enable"); await send("Page.enable"); await send("Network.enable");
+  await send("Page.addScriptToEvaluateOnNewDocument", { source: INIT });
+  await send("Emulation.setDeviceMetricsOverride", { width: W, height: H, deviceScaleFactor: 1, mobile: false });
+  return { targetId, browserContextId };
+}
+async function closeViewPage(page) {
+  if (!page) return;
+  try { ws?.close(); } catch { /* already closed */ }
+  ws = null; for (const f of pending.values()) f({ error: { message: "page closed" } }); pending.clear();
+  await bsend("Target.closeTarget", { targetId: page.targetId }).catch(() => {});
+  await bsend("Target.disposeBrowserContext", { browserContextId: page.browserContextId }).catch(() => {});
+}
+/** The blank page's baseline: 5 s quiet, then its rAF rate and the live heap after a forced GC. */
+async function baseline() {
+  await new Promise((r) => setTimeout(r, 5000));
+  const rafFps = r1(Number(await evaluate(BLANK_RAF, 10_000)));
+  let heapMB = null;
+  try { await send("HeapProfiler.collectGarbage", {}, 30_000); heapMB = r1((await send("Runtime.getHeapUsage")).usedSize / 1e6); } catch { /* left null */ }
+  return { rafFps, heapMB };
+}
 const send = (method, params = {}, timeoutMs = 30_000) => new Promise((res, rej) => {
   const id = ++nextId; const t = setTimeout(() => { pending.delete(id); rej(new Error(`${method} timed out`)); }, timeoutMs);
   pending.set(id, (m) => { clearTimeout(t); m.error ? rej(new Error(`${method}: ${m.error.message}`)) : res(m.result); });
@@ -183,7 +217,9 @@ async function costWindow(dir, atS) {
   if (raw?.frames) {
     for (let i = 0; i < raw.frames.length; i++) raw.frames[i].dt = i ? raw.frames[i].t - raw.frames[i - 1].t : 0;
     const { hitches: _h, ...w } = workStats(raw.frames);
-    work = { ...w, wrapperMsPerFrame: raw.frames.length ? Math.round((raw.wrapMs / raw.frames.length) * 100) / 100 : null };
+    const dts = raw.frames.slice(1).map((f) => f.dt).filter((d) => d > 0);
+    work = { ...w, wrapperMsPerFrame: raw.frames.length ? Math.round((raw.wrapMs / raw.frames.length) * 100) / 100 : null,
+      wallFps: r1(raw.frames.length / windowS), low1: onePercentLow(dts) };
   }
   return { at: atS, seconds: windowS, work, stages, hitches };
 }
@@ -196,8 +232,15 @@ async function captureView(view) {
   const readsAt = readsSpec.split(",").map(Number).filter((s) => s < totalS);
   const steps = [...view.steps];
   sink = { cons: counter(), pageErrors: counter(), network: counter(), reqUrl: new Map() };
-  const result = { name: view.name, url: view.url, seconds: totalS, frames: 0, reads: {}, settledAt: null, probe: {}, profile: null, window: null };
+  const result = { name: view.name, url: view.url, seconds: totalS, frames: 0, reads: {}, settledAt: null, probe: {}, profile: null, window: null, baseline: null, contaminated: null };
+  let page = null;
   try {
+    page = await openViewPage();
+    result.baseline = await baseline();
+    all.cap ??= capVerdict(result.baseline.rafFps);
+    Object.assign(result.baseline, contaminationVerdict(result.baseline, all.cap.blankRafFps));
+    result.contaminated = result.baseline.contaminated;
+    all.firstCaptureAt ??= Date.now() / 1000;
     if (prof) { await send("Profiler.enable"); await send("Profiler.setSamplingInterval", { interval: 200 }); }
     const t0 = Date.now(), sec = () => (Date.now() - t0) / 1000;
     await send("Page.navigate", { url: view.url });
@@ -257,18 +300,21 @@ async function captureView(view) {
     sink = null;
     result.summary = summarise(result);
     writeFileSync(join(dir, "result.json"), JSON.stringify(result, null, 1));
+    await closeViewPage(page);
   }
   return result;
 }
 
 function summarise(r) {
-  const s = r.reads?.settled && !r.reads.settled.err ? r.reads.settled : r.final ?? {};
+  const fpsFrom = r.reads?.settled && !r.reads.settled.err ? "settled" : r.final ? "final" : null;
+  const s = (fpsFrom === "settled" ? r.reads.settled : r.final) ?? {};
   const g = s.gpuMs ?? {}, w = r.window ?? {}, st = w.stages?.perFrameMs ?? {}, top = Object.entries(st)[0];
   const hitchTop = topCause(Object.fromEntries((w.hitches?.list ?? []).reduce((m, h) => (h.top ? m.set(h.top, (m.get(h.top) ?? 0) + h.ms) : m), new Map())));
+  const winLow1 = w.work?.low1 ?? null;
   return {
-    lumaSettled: r.reads?.settled?.luma ?? null, lumaFinal: r.final?.luma ?? null, blackShare: r.final?.blackShare ?? null,
-    fps: s.fps ?? null, low1: s.low1 ?? null, gpuMs: g.supported ? g.avg : null, cpuMs: g.cpu ?? null,
-    costMs: w.work?.costMs?.mean ?? null, uncappedFps: w.work?.uncappedFps ?? null,
+    contaminated: r.contaminated ?? null, lumaSettled: r.reads?.settled?.luma ?? null, lumaFinal: r.final?.luma ?? null, blackShare: r.final?.blackShare ?? null,
+    fps: s.fps ?? null, fpsFrom, low1: winLow1 ?? s.low1 ?? null, low1From: winLow1 != null ? "window" : fpsFrom, gpuMs: g.supported ? g.avg : null, cpuMs: g.cpu ?? null,
+    costMs: w.work?.costMs?.mean ?? null, costFrom: w.work ? (w.unsettled ? "unsettled" : "window") : null, windowFps: w.work?.wallFps ?? null, uncappedFps: w.work?.uncappedFps ?? null,
     calls: g.calls ?? s.renderer?.calls ?? null, tris: g.tris ?? s.renderer?.triangles ?? null,
     heapMbPerMin: r.heapSlope?.mbPerMin ?? null, topStage: top ? `${top[0]} ${top[1]}` : null,
     hitches: w.hitches ? `${w.hitches.over33}${hitchTop ? ` (${hitchTop})` : ""}` : null,
@@ -277,16 +323,14 @@ function summarise(r) {
   };
 }
 
-const all = { cdp: cdpHttp, startedAt: new Date().toISOString(), cap: null, orphansClosed: 0, views: [] };
+const all = { cdp: cdpHttp, startedAt: new Date().toISOString(), cap: null, orphansClosed: 0, firstCaptureAt: null, prep: null, views: [] };
+let sentinel = null;
 try {
+  sentinel = (await bsend("Target.createTarget", { url: "about:blank", background: true })).targetId;
   // orphan tabs keep rendering beside the measured page (walk 10: 90.8 ms frames with four open, 12.2 ms without)
   for (const t of await (await fetch(`${cdpHttp}/json/list`)).json()) {
-    if (t.type === "page" && t.id !== target.id) { await fetch(`${cdpHttp}/json/close/${t.id}`).catch(() => {}); all.orphansClosed++; }
+    if (t.type === "page" && t.id !== sentinel) { await fetch(`${cdpHttp}/json/close/${t.id}`).catch(() => {}); all.orphansClosed++; }
   }
-  await send("Runtime.enable"); await send("HeapProfiler.enable"); await send("Page.enable"); await send("Network.enable");
-  all.cap = capVerdict(Number(await evaluate(BLANK_RAF, 10_000)));
-  await send("Page.addScriptToEvaluateOnNewDocument", { source: INIT });
-  await send("Emulation.setDeviceMetricsOverride", { width: W, height: H, deviceScaleFactor: 1, mobile: false });
   for (const v of views) {
     const r = await captureView(v);
     all.views.push(r);
@@ -297,11 +341,12 @@ try {
 } catch (e) {
   all.error = String(e.stack ?? e);
 } finally {
-  ws.close();
-  await fetch(`${cdpHttp}/json/close/${target.id}`).catch(() => {});
+  if (sentinel) await bsend("Target.closeTarget", { targetId: sentinel }).catch(() => {});
+  bws.close();
   closeOwn();
+  if (opt("prep")) { try { all.prep = prepSummary(readFileSync(opt("prep"), "utf8"), all.firstCaptureAt); } catch (e) { all.prep = { error: String(e.message) }; } }
   writeFileSync(join(out, "result.json"), JSON.stringify(all, null, 1));
-  writeFileSync(join(out, "summary.md"), `${summaryTable(all.views, all.cap)}\n`);
+  writeFileSync(join(out, "summary.md"), `${summaryTable(all.views, all.cap, all.prep?.steps ? all.prep : null)}\n`);
 }
-console.log(`pod-capture: ${all.views.length}/${views.length} views, cap detected ${all.cap?.capDetected} (blank rAF ${all.cap?.blankRafFps}), orphans closed ${all.orphansClosed}${all.error ? `, ERROR ${all.error.split("\n")[0]}` : ""} -> ${out}/summary.md`);
+console.log(`pod-capture: ${all.views.length}/${views.length} views, cap detected ${all.cap?.capDetected} (blank rAF ${all.cap?.blankRafFps}), orphans closed ${all.orphansClosed}, contaminated ${all.views.filter((v) => v.contaminated).map((v) => v.name).join(",") || "none"}${all.error ? `, ERROR ${all.error.split("\n")[0]}` : ""} -> ${out}/summary.md`);
 process.exit(0);
