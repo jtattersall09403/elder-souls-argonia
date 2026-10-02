@@ -38,6 +38,7 @@ import * as THREE from "three";
 import type { WebGPURenderer } from "three/webgpu";
 import { activeBackend, type RendererBackend } from "../../render/createRenderer";
 import { BLOOM_SOURCE_LAYER } from "../../render/post/BloomPass";
+import { FIRE_VOLUME_LAYER } from "../../render/post/FireVolumePass";
 import {
   FIRE_BED_PRESETS, FIRE_PRESETS, FIRE_PRESET_ORDER, FIRE_VOLUME_PRESETS, FIRE_VOLUME_PRIVATE_M,
   FIRE_VOLUME_TIER_CONFIG, nightShareOfExposure, type FirePresetId, type FireVolumeTier,
@@ -108,7 +109,6 @@ export class FlameSystem {
   private lastStrength: Float32Array = new Float32Array(0);
   private emitterList: FireEmitter[] = [];
   private backend: RendererBackend | null = null;
-  private readonly layer: number | undefined;
   /** Per volume preset: its instance rows and owners (built on every backend, drawn on WebGPU). */
   private volumeData = new Map<FirePresetId, { data: Float32Array; owner: Int32Array }>();
   private readonly volumes = new Map<FirePresetId, VolumeDraw>();
@@ -121,7 +121,6 @@ export class FlameSystem {
   private readonly pick = { d2: new Float64Array(4), preset: new Int32Array(4), row: new Int32Array(4) };
 
   constructor(uniforms: FireUniforms = makeFireUniforms(), layer?: number) {
-    this.layer = layer;
     this.uniforms = uniforms;
     this.group.name = "fire-flames";
     this.flames = new THREE.Mesh(makeFlameQuad(), makeFlameMaterial(uniforms));
@@ -310,7 +309,10 @@ export class FlameSystem {
     mesh.name = name;
     mesh.frustumCulled = false;
     mesh.renderOrder = -1;
-    if (this.layer !== undefined) mesh.layers.set(this.layer);
+    // drawn only by the reduced-resolution fire pass (render/post/FireVolumePass.ts), never by a
+    // scene pass; it syncs its own draw state, since that pass runs after every card draw
+    mesh.layers.set(FIRE_VOLUME_LAYER);
+    mesh.onBeforeRender = (renderer) => this.syncDrawState(renderer);
     mesh.userData.esStatic = true; // reads only shared or constant uniforms (render/staticRefresh.ts)
     bindInterleaved(mesh, new Float32Array(rows * VOLUME_FLOATS), VOLUME_FLOATS, [["iPosSeed", 0], ["iBox", 4], ["iAnim", 8]]);
     this.group.add(mesh);

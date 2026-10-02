@@ -18,7 +18,10 @@ import {
 import { acesRoundTripGrey } from "./fireNodes";
 import { makeFireCurl } from "./volumeFire";
 import { FIRE_VOLUME_PRESETS, FIRE_VOLUME_TIER_CONFIG, fireCurlMiB, fireVolumeCost } from "./fireTypes";
-import { interiorFireEmitters, interiorFlameAnchorsLocal, burnsInInterior } from "./interiorFires";
+import { interiorFireEmitters, interiorFlameAnchorsLocal, burnsInInterior, CellLightFlicker } from "./interiorFires";
+import { FIRE_VOLUME_LAYER } from "../../render/post/FireVolumePass";
+import { FIRE_PRESETS as PRESETS_F8, fireFlicker as flickerF8 } from "./fireTypes";
+import { volumeBoxSize } from "./FlameSystem";
 import {
   fallbackFlameAnchorLocal, flameAnchorFailures, manifestBoxYUp, pieceFlameAnchorsLocal, type FlameAnchorMeta,
 } from "./flameAnchors";
@@ -568,5 +571,37 @@ describe("every lit piece burns a flame", () => {
       writeFileSync(process.env.FIRE_COVERAGE_OUT, JSON.stringify(coverage, null, 1));
     }
     expect(coverage.flatMap((c) => c.uncovered)).toEqual([]);
+  });
+});
+
+describe("vol10 F8 fire look and draw", () => {
+  it("volume boxes draw only on the fire-volume layer, never in a scene pass", () => {
+    const fire = new FlameSystem(undefined, 5);
+    fire.setBackend("webgpu");
+    fire.setEmitters([{ position: new THREE.Vector3(), preset: "hearth", scale: 1, seed: 0.3, owner: 0 }]);
+    const vols = fire.group.children.filter((o) => o.name.startsWith("fire-volume-"));
+    expect(vols.length).toBeGreaterThan(0);
+    for (const v of vols) expect(v.layers.mask).toBe(1 << FIRE_VOLUME_LAYER);
+    fire.dispose();
+  });
+  it("the hearth flame stands ~3:1 against its bed, with a smoke plume above it", () => {
+    const v = PRESETS_F8.hearth.volume!;
+    const [, h] = volumeBoxSize("hearth", 1);
+    const flameM = h * (v.flameShare ?? 1);
+    expect(flameM / PRESETS_F8.hearth.shape.widthM).toBeGreaterThan(2.6);
+    expect(flameM / PRESETS_F8.hearth.shape.widthM).toBeLessThan(3.2);
+    expect(v.flameShare).toBeLessThan(1);
+  });
+  it("a record light at a fire flickers with that fire's own signal; a far light stays steady", () => {
+    const e = { position: new THREE.Vector3(1, 0, 0), preset: "hearth" as const, scale: 1, seed: 0.42, owner: 0 };
+    const f = new CellLightFlicker([{ position: new THREE.Vector3(1, 0.8, 0) }, { position: new THREE.Vector3(9, 1, 0) }], [e]);
+    const { rateHz, amount } = PRESETS_F8.hearth.flicker;
+    const seen = new Set<number>();
+    for (let t = 0; t < 2; t += 0.1) {
+      expect(f.factor(0, t)).toBe(flickerF8(t, 0.42, rateHz, amount));
+      expect(f.factor(1, t)).toBe(1);
+      seen.add(Math.round(f.factor(0, t) * 1000));
+    }
+    expect(seen.size).toBeGreaterThan(3);
   });
 });

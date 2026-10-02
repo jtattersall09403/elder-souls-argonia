@@ -127,6 +127,8 @@ export interface FireVolumeConfig {
   emit: number;
   /** Source disc radius, box half-widths. */
   sourceRadius: number;
+  /** Share of the box height the flame envelope spans (default 1); the rest is the smoke plume. */
+  flameShare?: number;
   /** Optical density at temperature 1, per box height. */
   density: number;
   /** Raymarch steps through the box per tier; 0: this tier draws the preset as cards. */
@@ -249,7 +251,13 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     flicker: { rateHz: 5.5, amount: 0.12 }, windResponse: 0.1,
     embers: { count: 6, riseM: 1.2, sizeM: 0.014, lifeS: 1.8 },
     smokeHandOffM: 0.9, gain: { day: 1.0, night: 0.95 },
-    volume: { ...WOOD_VOLUME, grid: [24, 48, 24], buoyancy: 2.4, turbulence: 1.0, steps: BIG_STEPS },
+    // vol10 F8b (D11, Brinas hearth read short and small): the reference flame stands ~3:1, so the
+    // box is 2.4 flame heights (2.5 m at piece scale 1) with the flame in its lower 62 % (1.56 m,
+    // ~2.8x the 0.55 m bed) and the smoke plume above. Density keeps its per-metre value
+    // (12 x 2.4 / 1.25 = 23: `density` is per box height); buoyancy 1.8 sits between the
+    // box-relative 2.4 and the metre-preserving 1.25 (tune on fire-diag-vol at the pod measure).
+    volume: { ...WOOD_VOLUME, grid: [24, 48, 24], box: { widthW: 1.7, heightH: 2.4 }, flameShare: 0.62,
+      density: 23, buoyancy: 1.8, turbulence: 1.0, steps: BIG_STEPS },
   },
   campfire: {
     schemaVersion: 4, id: "campfire",

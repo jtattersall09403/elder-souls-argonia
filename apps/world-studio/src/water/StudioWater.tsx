@@ -16,6 +16,7 @@ import { WATER_TIERS, type WaterTier } from "@elder-souls/game-core/water/render
 import { WaterPipeline } from "@elder-souls/game-core/water/render/WaterPipeline";
 import { INITIAL_SWITCHES } from "../studioSwitches";
 import type { BloomPass } from "@elder-souls/game-core/render/post/BloomPass";
+import type { FireVolumePass } from "@elder-souls/game-core/render/post/FireVolumePass";
 import { WaterSurfaceMesh, type ContactBody, type WaterSurfaceHandle } from "@elder-souls/game-core/water/render/WaterSurface";
 
 /**
@@ -60,7 +61,7 @@ function pickBaseTier(): WaterTier {
   return coarse || weak ? WATER_TIERS.low : WATER_TIERS.high;
 }
 
-export function StudioWater({ base, verticalScale, farExtentM, contactBodies, surfaceFocus, bloom }: {
+export function StudioWater({ base, verticalScale, farExtentM, contactBodies, surfaceFocus, bloom, fireVolumes }: {
   base: string;
   verticalScale: number;
   /** Water draw distance — walk mode ~6 km, flyover 30 km (perf). */
@@ -71,6 +72,8 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
   surfaceFocus?: () => Vec3 | null;
   /** The host's glow pass, drawn by the pipeline (BloomPass.ts). */
   bloom?: BloomPass | null;
+  /** The host's fire-volume pass (FireVolumePass.ts), drawn by the pipeline. */
+  fireVolumes?: FireVolumePass | null;
 }) {
   useEffect(() => {
     const visibility = () => setWaterClockHidden(document.hidden);
@@ -181,6 +184,7 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
         handle={() => handleRef.current}
         ripple={ripple}
         bloom={bloom}
+        fireVolumes={fireVolumes}
       />
     </>
   );

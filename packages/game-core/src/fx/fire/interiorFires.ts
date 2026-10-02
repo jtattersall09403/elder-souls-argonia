@@ -23,6 +23,7 @@
  */
 import * as THREE from "three";
 import type { FireEmitter } from "./FlameSystem";
+import { FIRE_PRESETS, fireFlicker } from "./fireTypes";
 import {
   FLAME_ANCHOR_SLACK_M, flameCardBedAnchorLocal, isFlameCardMaterial, manifestBoxYUp, pieceFlameAnchorsLocal,
   type FlameAnchorMeta, type LocalFlameAnchor,
@@ -96,4 +97,44 @@ export function interiorFireEmitters<P extends InteriorFirePlacement>(
     }
   }
   return out;
+}
+
+/** A record light within this distance (m, cell space) of a fire's emitter is that fire's light and
+ * flickers with it: a hearth's LIGH ref stands over its bed, a candle's at its wick (Skyrim places
+ * them within ~0.5 m; 1.5 m covers a hearth light hung above a wide bed). */
+export const LIGHT_FLAME_PAIR_M = 1.5;
+
+/**
+ * The cast-light flicker of an interior cell's record lights (vol10 F8c): each light paired once
+ * with its nearest fire emitter within `LIGHT_FLAME_PAIR_M` reads that fire's own flicker signal
+ * (`fireFlicker`, the seed and preset rate the flame's shader uses), so light and flame agree;
+ * an unpaired light (a window, a glowing mushroom) stays steady. `factor` allocates nothing.
+ */
+export class CellLightFlicker {
+  private readonly seed: Float64Array;
+  private readonly rateHz: Float64Array;
+  private readonly amount: Float64Array;
+
+  constructor(lights: readonly { position: THREE.Vector3 }[], emitters: readonly FireEmitter[]) {
+    const n = lights.length;
+    this.seed = new Float64Array(n).fill(-1);
+    this.rateHz = new Float64Array(n);
+    this.amount = new Float64Array(n);
+    lights.forEach((l, j) => {
+      let best = LIGHT_FLAME_PAIR_M * LIGHT_FLAME_PAIR_M;
+      for (const e of emitters) {
+        const d2 = e.position.distanceToSquared(l.position);
+        if (d2 > best) continue;
+        best = d2;
+        const f = FIRE_PRESETS[e.preset].flicker;
+        this.seed[j] = e.seed; this.rateHz[j] = f.rateHz; this.amount[j] = f.amount;
+      }
+    });
+  }
+
+  /** Light `j`'s intensity factor at `timeS` (real seconds, the flames' clock); 1 when unpaired. */
+  factor(j: number, timeS: number): number {
+    const s = this.seed[j];
+    return s < 0 ? 1 : fireFlicker(timeS, s, this.rateHz[j], this.amount[j]);
+  }
 }

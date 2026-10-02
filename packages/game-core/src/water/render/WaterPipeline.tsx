@@ -21,6 +21,7 @@ import { UnderwaterBubblePass } from "./UnderwaterBubblePass";
 import { useFrameSegments } from "../../fx/frameSegments";
 import { lightEveryLayer } from "./lightLayers";
 import type { BloomPass } from "../../render/post/BloomPass";
+import type { FireVolumePass } from "../../render/post/FireVolumePass";
 
 /**
  * The shared render-pass architecture (module 60 §41, decision 0025) — ONE
@@ -128,7 +129,7 @@ function createBlit(rt: RenderTarget, tier: WaterTier, sunDirection: { value: TH
   return { quad, material, uniforms };
 }
 
-export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ripple, bloom }: {
+export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ripple, bloom, fireVolumes }: {
   runtime: WaterRuntime;
   assets: WaterAssets;
   tier: WaterTier;
@@ -138,6 +139,9 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
   /** The host's glow pass (render/post/BloomPass.ts), drawn above water
    * after the overlay; null/absent or disabled: no post pass at all. */
   bloom?: BloomPass | null;
+  /** The host's reduced-resolution fire-volume pass (render/post/FireVolumePass.ts),
+   * drawn after the precipitation pass: the only draw of the volume fires. */
+  fireVolumes?: FireVolumePass | null;
 }) {
   const { gl } = useThree();
   // Pass attribution only (decision 0084 round 10): the marks below change
@@ -440,6 +444,12 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
         cam.layers.mask = 1 << PRECIP_LAYER;
         segments?.cpuMark("precip"); segments?.gpuMark("precip");
         renderer.render(scene, cam);
+      }
+      // the volume fires, marched at reduced resolution and upsampled
+      // against the scene depth the opaque pass wrote
+      if (fireVolumes?.enabled && !underwater) {
+        segments?.cpuMark("fire"); segments?.gpuMark("fire");
+        fireVolumes.render(renderer, scene, cam, drawTarget.depthTexture as THREE.Texture);
       }
       // markers etc. draw straight to screen (no tone mapping crush),
       // depth-tested against the scene depth the blit wrote

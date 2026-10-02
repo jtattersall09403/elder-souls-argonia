@@ -53,6 +53,26 @@ const {
   normalize, smoothstep, step, texture3D, textureStore, uniform, uvec3, varying, vec3, vec4,
 } = T;
 
+/**
+ * The flame's look against the reference (three.js webgpu_volume_fire, captured in vol10 r2b;
+ * vol-fire-research.md §1): its ramp runs black -> red #ff0000 (T .05-.35) -> orange #ff7305
+ * (.35-.65) -> pale yellow #ffe68c (.65-1). Ours ramps the ray's opacity-weighted temperature
+ * through the preset's palette (base = red, tip = orange, mid = yellow) at these edges, the
+ * reference's three bands shifted down by the 0.1 our erosion removes from the cool shell.
+ */
+export const VOLUME_RAMP_EDGES = { redToOrange: [0.18, 0.4], orangeToYellow: [0.42, 0.6], yellowToWhite: [0.66, 0.8] } as const;
+/** How much the ray's temperature drops at the top of the flame envelope (opacity-weighted height
+ * 0.55 -> 1): the reference's tips are red because its T dissipates with age as the tongue rises
+ * (fire lifespan 1.3 s); our coarse grid keeps hot cells to the tip, so the tip cools here. */
+export const VOLUME_TIP_COOLING = 0.6;
+/** Smoke extinction as a share of the flame's (`density` per box height): the reference's smoke is
+ * low density (splat 7/120 per step against T 5.5/120, lifespan 3.5 s), a thin grey veil. */
+export const VOLUME_SMOKE_SIGMA_SHARE = 0.35;
+/** Smoke albedo-times-light by day (grey, the reference's lit plume) and by night (lit from below by
+ * its own flame: a dim warm grey, never the near-black that vanished against a dark room, D11). */
+export const VOLUME_SMOKE_DAY = [0.3, 0.28, 0.26] as const;
+export const VOLUME_SMOKE_NIGHT = [0.11, 0.075, 0.05] as const;
+
 /** Steps run when a field is first used (1 s at 60 Hz), so a fire lit on screen is already burning. */
 export const VOLUME_PREWARM_STEPS = 60;
 /** The curl texture's noise lattice period (cells across the texture). */
@@ -159,6 +179,8 @@ export interface VolumeFieldUniforms {
   windResponse: TslNode;
   /** This field's offset into the curl texture (0 shared; per-seed on a private field). */
   seedOffset: TslNode;
+  /** Share of the box height the flame envelope spans (`FireVolumeConfig.flameShare`); the smoke plume above. */
+  flameShare: TslNode;
 }
 
 function fieldUniforms(c: FireVolumeConfig, steps: number, windResponse: number): VolumeFieldUniforms {
@@ -167,6 +189,7 @@ function fieldUniforms(c: FireVolumeConfig, steps: number, windResponse: number)
     dissipation: uniform(c.dissipation), emit: uniform(c.emit), sourceRadius: uniform(c.sourceRadius),
     density: uniform(c.density), rootShare: uniform(ROOT / c.box.heightH), octave3: uniform(c.octaves > 2 ? 1 : 0),
     steps: uniform(steps, "int"), windResponse: uniform(windResponse), seedOffset: uniform(new THREE.Vector3()),
+    flameShare: uniform(c.flameShare ?? 1),
   };
 }
 
@@ -438,6 +461,7 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
     const flipZ = T.mod(T.floor(variant.mul(0.5)), float(2));
     const swap = step(3.5, variant);
     const tAcc = float(0).toVar();
+    const hAcc = float(0).toVar();
     const cell = vec3(1 / c.grid[0], 1 / c.grid[1], 1 / c.grid[2]).mul(1.2);
     const smokeA = float(0).toVar();
     const alpha = float(0).toVar();
@@ -465,10 +489,17 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
       const hi = clamp(det.y.mul(0.3).add(0.5), 0, 1);
       // flame envelope (judge (a), 2026-09-29: the raw field filled its box as a column): a
       // teardrop narrowing to the tip, widest a quarter up, and a fade over the top 30 %
+      // the envelope spans the lower `flameShare` of the box (fy 0..1); the smoke plume rises above it
       const r = length(T.vec2(box.x.sub(0.5), box.z.sub(0.5)));
-      const halfW = T.sqrt(clamp(box.y.mul(4), 0.35, 1)).mul(T.pow(float(1).sub(clamp(box.y, 0, 1)), float(0.8))).mul(0.5);
+      const fy = box.y.div(fu.flameShare);
+      const halfW = T.sqrt(clamp(fy.mul(4), 0.35, 1)).mul(T.pow(float(1).sub(clamp(fy, 0, 1)), float(0.8))).mul(0.5);
       const env = float(1).sub(smoothstep(0.55, 1.0, r.div(max(halfW, 1e-3))))
-        .mul(float(1).sub(smoothstep(0.7, 1.0, box.y)));
+        .mul(float(1).sub(smoothstep(0.7, 1.0, fy)));
+      // plume: a column widening as it rises (radius 0.15 -> 0.45 box widths), from half the
+      // flame's height to a fade over the box's top 15 %
+      const plume = float(1).sub(smoothstep(0.6, 1.0, r.div(box.y.mul(0.3).add(0.15))))
+        .mul(smoothstep(fu.flameShare.mul(0.5), fu.flameShare, box.y))
+        .mul(float(1).sub(smoothstep(0.85, 1.0, box.y)));
       const dye = field.dyeView.sample(uvw).level(0);
       const raw = dye.y.mul(env);
       // erosion: hot cells survive, cool cells only where the detail noise is high
@@ -480,18 +511,23 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
       // average of red, orange and white
       const wgt = float(1).sub(alpha).mul(a);
       tAcc.addAssign(temp.mul(wgt));
+      hAcc.addAssign(clamp(fy, 0, 1).mul(wgt));
       alpha.addAssign(wgt);
       // smoke: absorbs behind the fire's own cover, above all over the tip
-      const sa = float(1).sub(exp(dye.x.mul(sigma).mul(0.15).mul(stepLen).negate()));
+      const sa = float(1).sub(exp(dye.x.mul(plume).mul(sigma).mul(VOLUME_SMOKE_SIGMA_SHARE).mul(stepLen).negate()));
       smokeA.addAssign(float(1).sub(alpha).sub(smokeA).max(0).mul(sa));
     });
     If(alpha.add(smokeA).lessThan(0.004), () => { Discard(); });
     // the ray's temperature through a sharp ramp: red fringe, orange body,
     // then a narrow step into the near-white kernel (fix 2, judge (a): the
     // per-sample colour average read as a diffuse orange core)
-    const tRay = tAcc.div(max(alpha, 1e-3));
-    const avg = mix(mix(mix(base, tip, smoothstep(0.1, 0.3, tRay)), midC, smoothstep(0.35, 0.55, tRay)),
-      vec3(1.0, 0.93, 0.72), smoothstep(0.62, 0.78, tRay));
+    // the tip cools toward red (VOLUME_TIP_COOLING), then the three bands of VOLUME_RAMP_EDGES
+    const hRay = hAcc.div(max(alpha, 1e-3));
+    const tRay = tAcc.div(max(alpha, 1e-3)).mul(float(1).sub(smoothstep(0.55, 1.0, hRay).mul(VOLUME_TIP_COOLING)));
+    const E = VOLUME_RAMP_EDGES;
+    const avg = mix(mix(mix(base, tip, smoothstep(E.redToOrange[0], E.redToOrange[1], tRay)), midC,
+      smoothstep(E.orangeToYellow[0], E.orangeToYellow[1], tRay)),
+    vec3(1.0, 0.93, 0.72), smoothstep(E.yellowToWhite[0], E.yellowToWhite[1], tRay));
     const gainDN = u.uGain.element(row);
     const gain = mix(gainDN.x, gainDN.y, u.uNight);
     // the cards' core/fringe split applied to the ray's opacity: by day the
@@ -515,7 +551,7 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
     const visible = max(max(clamp(cover, 0, 1), smokeCover), max(max(display.x, display.y), display.z).mul(k));
     If(visible.lessThan(0.5 / 255), () => { Discard(); });
     const scene = displayToScene(display, u.uExposure, u.uToneMapped);
-    const smokeScene = displayToScene(mix(vec3(0.3, 0.28, 0.26), vec3(0.025, 0.022, 0.02), u.uNight), u.uExposure, u.uToneMapped);
+    const smokeScene = displayToScene(mix(vec3(...VOLUME_SMOKE_DAY), vec3(...VOLUME_SMOKE_NIGHT), u.uNight), u.uExposure, u.uToneMapped);
     const c0 = clamp(cover, 0, 1);
     return vec4(scene.mul(k).add(smokeScene.mul(smokeCover).mul(float(1).sub(c0))),
       c0.add(smokeCover.mul(float(1).sub(c0))));

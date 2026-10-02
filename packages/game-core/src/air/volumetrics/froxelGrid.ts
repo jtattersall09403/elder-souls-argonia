@@ -101,6 +101,10 @@ export interface ApertureLight {
   spreadRad?: number;
 }
 /** Per-cell interior profile (0112 §6). */
+/** Halo dampness (fogField `halo`, 0..1) of an interior cell's air: hearth smoke, cooking steam
+ * and breath in a closed room, scattering lamp and fire light like a humid night outdoors (fogField
+ * reaches 0.6 at humidity ~0.75). Gives 0.012 /m with LAMP_HALO high's 0.02 /m floor. */
+export const INTERIOR_HALO_DAMP = 0.6;
 export interface InteriorFogProfile { floorY: number; floorMistTopM: number; floorMistDensity: number; dustDensity: number }
 
 export interface VolumetricsFrame {
@@ -773,7 +777,11 @@ export class Volumetrics implements VolumetricsSampler {
     u.phiA.value = d.phiA; u.phiB.value = d.phiB; u.wfade.value = d.wfade; u.slow.value = d.slow;
     u.cover.value.set(d.cover[0], d.cover[1], d.cover[2], d.cover[3]);
     u.canopyHaze.value = d.cover[4]; u.air.value = r?.air ?? 1;
-    u.haloSigma.value = (r?.halo ?? 0) * this.haloRow.sigmaFloorPerM;
+    // indoors no fog regimes arrive (InteriorDoors passes the cell profile only), so the halo
+    // medium was 0 and a hearth or candle wore no glow in the air (vol10 D11): a lived-in cell's
+    // air carries its hearth's smoke and steam, a damp medium at INTERIOR_HALO_DAMP
+    const damp = f.interior ? Math.max(r?.halo ?? 0, INTERIOR_HALO_DAMP) : (r?.halo ?? 0);
+    u.haloSigma.value = damp * this.haloRow.sigmaFloorPerM;
     u.steamOff.value.fromArray(d.steamOff); u.wispOff.value.fromArray(d.wispOff);
   }
 

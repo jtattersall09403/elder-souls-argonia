@@ -4,6 +4,7 @@ import { Physics, useRapier } from "@react-three/rapier";
 import { ShapeType } from '@dimforge/rapier3d-compat';
 import * as THREE from "three";
 import { BloomPass, type SkyCensus } from "@elder-souls/game-core/render/post/BloomPass";
+import { FireVolumePass } from "@elder-souls/game-core/render/post/FireVolumePass";
 import type { EcctrlHandle } from "ecctrl";
 import { cameraAnglesOf, POSE_SAVE_INTERVAL_S, saveCameraAngles, useGpuRecovery, type LivePose } from "../gpuRecovery";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
@@ -266,6 +267,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   ), []);
   const bloom = useMemo(() => (postEnabled ? new BloomPass() : null), [postEnabled]);
   useEffect(() => () => bloom?.dispose(), [bloom]);
+  // The volume fires' only draw (reduced resolution, render/post/FireVolumePass.ts): not a post
+  // effect, so `?post=0` keeps it.
+  const fireVolumes = useMemo(() => new FireVolumePass(), []);
+  useEffect(() => () => fireVolumes.dispose(), [fireVolumes]);
   // The segmented frame timer (decision 0084 round 10). Made here, bound to
   // the renderer by the first in-canvas hook, provided to every renderer.
   const frameSegments = useMemo(() => new FrameSegments(), []);
@@ -619,6 +624,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               farExtentM={12000}
               surfaceFocus={waterSurfaceFocus}
               bloom={bloom}
+              fireVolumes={fireVolumes}
             />
           )}
           {showMarkers && <CityMarkers groundAt={markerGroundAt} />}
@@ -988,12 +994,12 @@ function PerfHudSection({ children }: { children: ReactNode }) {
  * can be compared column by column. A label the frame never marked is left
  * out of the line. */
 const GPU_SEGMENT_ORDER = [
-  "pre", "sky", "shadow", "scene", "blit", "water", "precip", "overlay",
+  "pre", "sky", "shadow", "scene", "blit", "water", "precip", "fire", "overlay",
   "ripple", "foam", "bloom", "post", "other",
 ];
 const CPU_SEGMENT_ORDER = [
   "pre", "veg", "gc", "sky", "char", "ripple", "foam", "shadow", "scene",
-  "blit", "water", "precip", "overlay", "bloom", "post",
+  "blit", "water", "precip", "fire", "overlay", "bloom", "post",
 ];
 
 function segmentText(rows: SegmentStat[], order: string[]): string {
