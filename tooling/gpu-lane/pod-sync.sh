@@ -4,25 +4,42 @@
 #   POD_SSH="ssh -i <key> -p <port> root@<ip>" bash tooling/gpu-lane/pod-sync.sh --data <lane> [<worktree>]   (once per pod)
 #   POD_SSH="..." bash tooling/gpu-lane/pod-sync.sh <dist> <dev|webgpu> <lane>                   (per iteration)
 #   POD_SSH="..." bash tooling/gpu-lane/pod-sync.sh --check <lane> [webgl|webgpu]               (before build/sync)
+# Sync only adds or overwrites on the pod; nothing is ever deleted unless `--prune [--prune-max <N>]` is given (any
+#   position). --prune first runs the same rsync with `--delete --dry-run --itemize-changes`, prints the count of
+#   `*deleting` lines and the first 20 paths, exits non-zero when the count exceeds N (default 50), else runs it for real.
 # --check: the pod's Chrome must answer 127.0.0.1:9222/json/version; when it does not, pod-setup.sh is re-run on the pod
 #   (default webgpu flags) and the check repeated; exits non-zero if Chrome is still down (iter7 lost 10 min to this).
 # --data: the main tree's apps/world-studio/public (kits, province, textures and the gitignored generated data: ~600 MB)
-#   to /root/site/public (rsync --delete), then the <worktree>'s (default: this script's repo root) tracked public files
-#   that differ from the main tree overlaid (no delete); skipped when "<main listing hash> <overlay hash>" equals the
+#   to /root/site/public (add/overwrite; --prune deletes), then the <worktree>'s (default: this script's repo root)
+#   tracked public files that differ from the main tree overlaid (never deletes); skipped when "<main listing hash> <overlay hash>" equals the
 #   pod's /root/site/public/.hash.
 # Each dist also carries the server's own files (serve-lib.mjs serveFiles), so serve.mjs starts on the pod's node.
 # <dist>: the fixed folder build-dist.sh writes (never a per-iteration copy). Its key (build-dist's source key in
 #   .srchash plus the serve*.mjs it starts, no hash over the built files) is compared with /root/site/dists/<name>/.hash; equal and the server alive -> skip; else
-#   `rsync -a --checksum --delete` (data dirs excluded) and restart. Any other pod dist built for the same base is
+#   `rsync -a --checksum` (data dirs excluded; --prune adds --delete) and restart. Any other pod dist built for the same base is
 #   deleted first. Exits non-zero unless, after a restart, the new serve.mjs is alive and every served base answers.
 # Each step appends {step, seconds, at, skipped?, bytes?} (bytes: rsync "sent" for sync:data and sync:<dist>) to /tmp/<lane>/prep-times.jsonl (a lane log; pod-capture times its own prep).
 set -euo pipefail
 : "${POD_SSH:?POD_SSH=\"ssh -i <key> -p <port> root@<ip>\"}"
 t=${POD_SSH##* }; S="${POD_SSH% *} -o StrictHostKeyChecking=no"
 cd "$(git rev-parse --show-toplevel)"
+prune=0; pmax=50; pos=()
+while [ $# -gt 0 ]; do
+  case $1 in --prune) prune=1 ;; --prune-max) pmax=${2:?--prune-max <N>}; shift ;; *) pos+=("$1") ;; esac; shift; done
+set -- ${pos[@]+"${pos[@]}"}
 note() { mkdir -p "/tmp/$lane"; echo "{\"step\":\"$1\",\"seconds\":$2,\"at\":$(date +%s)${3:+,\"skipped\":true}${4:+,\"bytes\":$4}}" >> "/tmp/$lane/prep-times.jsonl"; }
 # bytes sent by an rsync run with --stats (its "Total bytes sent: 1,234" line)
 sent() { tee /dev/stderr | sed -n 's/^Total bytes sent: //p' | tr -d ',' | tail -1; }
+# prune_gate <rsync args without --delete>: DEL=() unless --prune; with it, a counted dry run decides (exit 1 over --prune-max)
+DEL=()
+prune_gate() {
+  DEL=(); [ "$prune" = 1 ] || return 0
+  local out n; out=$(rsync "$@" --delete --dry-run --itemize-changes | grep '^\*deleting' || true)
+  n=$(printf '%s' "$out" | grep -c . || true)
+  echo "pod-sync: --prune would delete $n path(s)"; printf '%s\n' "$out" | sed -n '1,20p' >&2
+  [ "$n" -le "$pmax" ] || { echo "pod-sync: --prune refused: $n > --prune-max $pmax" >&2; exit 1; }
+  DEL=(--delete)
+}
 chrome_up() { $S -o ConnectTimeout=5 "$t" "curl -s -m 3 127.0.0.1:9222/json/version" 2>/dev/null | grep -q webSocketDebuggerUrl; }
 
 if [ "${1:-}" = --check ]; then
@@ -56,7 +73,8 @@ if [ "${1:-}" = --data ]; then
   if [ "$($S "$t" "cat /root/site/public/.hash 2>/dev/null" || true)" = "$h" ]; then
     echo "pod-sync: data unchanged ($h), skipped"; note sync:data 0 1; exit 0; fi
   $S "$t" "mkdir -p /root/site/public"
-  b=$(rsync -a --stats --delete --exclude /.hash -e "$S" "$pub/" "$t:/root/site/public/" | sent)
+  prune_gate -a --exclude /.hash -e "$S" "$pub/" "$t:/root/site/public/"
+  b=$(rsync -a --stats ${DEL[@]+"${DEL[@]}"} --exclude /.hash -e "$S" "$pub/" "$t:/root/site/public/" | sent)
   if [ -s "$ov" ]; then
     echo "pod-sync: overlaying $(wc -l < "$ov") tracked file(s) from $wt"
     bo=$(rsync -a --stats --files-from="$ov" -e "$S" "$wpub/" "$t:/root/site/public/" | sent); b=$(( b + bo )); fi
@@ -71,7 +89,8 @@ h=$({ cat "$d/.srchash"; sha1sum tooling/gpu-lane/serve.mjs tooling/gpu-lane/ser
 if [ "$($S "$t" "cat /root/site/dists/$n/.hash 2>/dev/null; kill -0 \$(cat /root/serve.pid 2>/dev/null) 2>/dev/null && echo alive" || true)" = "$h"$'\n'alive ]; then
   echo "pod-sync: $n unchanged ($h), server alive, skipped"; note "sync:$n" 0 1; exit 0; fi
 $S "$t" "mkdir -p /root/site/dists; cd /root/site/dists; for o in *; do [ \"\$o\" != '$n' ] && [ -f \"\$o/index.html\" ] && grep -q 'src=\"$base'assets/ \"\$o/index.html\" && { echo \"pod-sync: removing \$o (also built for $base)\"; rm -rf \"\$o\"; }; done; true"
-b=$(rsync -a --stats --checksum --delete "${DATA_EXCL[@]}" --exclude /.hash --exclude /.srchash -e "$S" "$d/" "$t:/root/site/dists/$n/" | sent)
+prune_gate -a --checksum "${DATA_EXCL[@]}" --exclude /.hash --exclude /.srchash -e "$S" "$d/" "$t:/root/site/dists/$n/"
+b=$(rsync -a --stats --checksum ${DEL[@]+"${DEL[@]}"} "${DATA_EXCL[@]}" --exclude /.hash --exclude /.srchash -e "$S" "$d/" "$t:/root/site/dists/$n/" | sent)
 # Exactly what serve.mjs and the studio it serves read (serve-lib serveFiles: modules, three's package.json and basis
 # dir, the character files); it fails naming any missing path, and this script stops on it.
 mapfile -t serve_files < <(node -e 'import("./tooling/gpu-lane/serve-lib.mjs").then((m) => console.log(m.serveFiles().join("\n")))')
