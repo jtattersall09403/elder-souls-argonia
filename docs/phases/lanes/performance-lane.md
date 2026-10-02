@@ -53,8 +53,9 @@ never run routinely.
 - **Each spot static and under motion**: the settle, then a 20 s walk
   through the place with W held and two turns
   (`steps=w:7,yaw:+1.2,w:6,yaw:-2.0,w:7`).
-- **Bars**: pod settled fps >= 83 and p1Low >= 69 (r = 1.38), static and
-  moving.
+- **Bars**: the player-felt `settledFps` >= 83 and `p1LowFps` >= 69 (r = 1.38;
+  both from real rAF intervals), static and moving. The uncapped fields
+  (`uncappedFps`, `p1LowUncapped`) are headroom only, never the bar.
 - **Run**: `node tooling/gpu-lane/measure.mjs --run <name> --cdp 127.0.0.1:<port> --spots tooling/gpu-lane/spots/matrix.txt --trace --diag relink --bar 83,69`.
 
 ## Calibration (pod to M2)
@@ -64,8 +65,9 @@ rain, `?view=character&x=7.1971&z=0.584&t=22&w=rain`. Build: base3, the
 pre-fix build the owner measured at 37 fps on the M2. Pod: RTX 3070, WebGL,
 1280x720, DPR 1, uncapped, 51.1 fps. So **r = 1.38**.
 
-- Bar: converted settled fps >= 60 means pod >= 83; converted 1 % low >= 50
-  means pod 1 % low (uncapped) >= 69.
+- Bar: converted settled fps >= 60 means pod `settledFps` >= 83; converted
+  1 % low >= 50 means pod `p1LowFps` (the player-felt 1 % low from real rAF
+  intervals, `spots.mjs`) >= 69. Uncapped fields are headroom only.
 - Kit: `tooling/gpu-lane/measure.mjs`. `--smoke` before any baseline;
   `--census`, `--trace` and `--diag` before the first fix batch; settled fps
   and 1 % low come from the same 10 s window after the ready gate.

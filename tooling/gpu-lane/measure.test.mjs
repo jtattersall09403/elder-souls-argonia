@@ -236,6 +236,19 @@ test("driveSteps: W held across the whole sequence, yaw set absolute from the ba
   await driveSteps(io, [{ w: 20 }]);
   assert.deepEqual(calls, ["down", "wait 20000", "up"], "a plain walk does not re-aim the camera");
 });
+test("sample: the window closes in the page, and no page.evaluate runs between its start and its end", async () => {
+  const { sample } = await import("./measure.mjs");
+  const lane = { ts: [], frames: [], wrapMs: 0, on: false };
+  const log = [];
+  globalThis.window = { __GPU_LANE__: lane };
+  const page = { evaluate: async (fn, arg) => { log.push(["evaluate", lane.on]); return fn(arg); } };
+  const wait = async (ms) => { log.push(["wait"]); await new Promise((r) => setTimeout(r, ms)); };
+  const r = await sample(page, 0.05, null, wait);
+  delete globalThis.window;
+  assert.deepEqual(log.map((l) => l[0]), ["evaluate", "wait", "evaluate"]);
+  assert.equal(log[2][1], false, "the page's own timer had already closed the window before the harness read it");
+  assert.ok(Array.isArray(r.ts));
+});
 test("gen-matrix: 13 deterministic lines, coordinates from places.json", async () => {
   const { matrix, PLACES, PLACES_JSON } = await import("./spots/gen-matrix.mjs");
   const { parseSpots } = await import("./spots.mjs");

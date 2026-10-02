@@ -36,7 +36,7 @@ import { join, resolve } from "node:path";
 import { chromium } from "playwright";
 import { BLACK_LUMA, SPOT_A, censusText, diagList, foreignPages, heapGrowth, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
-import { ANCHOR_PREFIX, classifyFrames, joinLinks } from "./trace-frames.mjs";
+import { ANCHOR_PREFIX, classifyFrames, joinLinks, keepTraceEvent } from "./trace-frames.mjs";
 import { heapSlope, parseBar, parseSpots, spotRows, stepsSeconds, summaryTable } from "./spots.mjs";
 
 export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems };
@@ -241,7 +241,7 @@ async function runCensus(page, o) {
   await page.waitForTimeout(CENSUS_LEAD_MS);
   const w = await sample(page, seconds, async () => {
     const t0 = Date.now();
-    await page.waitForTimeout(seconds * 1000);
+    await nodeWait(seconds * 1000);
     profile = (await cdp.send("Profiler.stop")).profile;
     offsetMs = profile.startTime / 1000 - pn;
     return { elapsedMs: Date.now() - t0 };
@@ -300,20 +300,18 @@ export const TRACE_CATEGORIES = ["devtools.timeline", "disabled-by-default-devto
 async function startTrace(page, file) {
   const cdp = await page.context().newCDPSession(page);
   const ev = [];
-  // Keep what the classifier reads (metadata, frame markers, GC, anything >= 0.5 ms): a full 10 s trace of
-  // the studio is over 512 MB of JSON, past V8's string limit.
-  const keep = (e) => e.ph === "M" || e.name === "FireAnimationFrame" || (e.dur ?? 0) >= 500 || /GC|Gc/.test(e.name);
-  cdp.on("Tracing.dataCollected", (d) => { for (const e of d.value) if (keep(e)) ev.push(e); });
+  cdp.on("Tracing.dataCollected", (d) => { for (const e of d.value) if (keepTraceEvent(e)) ev.push(e); });
   const done = new Promise((r) => cdp.on("Tracing.tracingComplete", r));
   await cdp.send("Tracing.start", { traceConfig: { includedCategories: TRACE_CATEGORIES, recordMode: "recordContinuously" }, transferMode: "ReportEvents" });
-  await page.evaluate((p) => console.timeStamp(p + performance.now()), ANCHOR_PREFIX).catch(() => {});
-  return async (profileFile) => {
+  // The anchor fires inside one rAF, once tracing has started, so it lands on the renderer main thread.
+  await page.evaluate((p) => new Promise((r) => requestAnimationFrame(() => { console.timeStamp(p + performance.now()); r(); })), ANCHOR_PREFIX).catch(() => {});
+  return async (profileFile, windowEndPageMs = null) => {
     await cdp.send("Tracing.end");
     await done;
     await cdp.detach().catch(() => {});
     writeFileSync(file, JSON.stringify({ traceEvents: ev }));
     const profile = profileFile ? JSON.parse(readFileSync(profileFile, "utf8")) : null;
-    return { file, events: ev.length, ...classifyFrames(ev, { profile }) };
+    return { file, events: ev.length, ...classifyFrames(ev, { profile, windowEndPageMs }) };
   };
 }
 
@@ -330,12 +328,24 @@ async function gpuAdapter(page, renderer) {
   }, renderer).catch((e) => ({ error: String(e) }));
 }
 
-async function sample(page, seconds, during) {
-  await page.evaluate(() => { const l = window.__GPU_LANE__; l.ts = []; l.frames = []; l.wrapMs = 0; l.on = true; });
+const nodeWait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * One stats window. The page records the whole window into its own buffer and closes it with its own
+ * timer; the harness waits on the Node side and reads the buffer once after the window ended, so no
+ * CDP round-trip (a 45-52 ms main-thread message) lands inside it (perf-diag4 D2). `during` (the CPU
+ * profile, the driver) may only send its start/stop at the window's edges or the scenario's own input.
+ */
+export async function sample(page, seconds, during, wait = nodeWait) {
+  await page.evaluate((ms) => {
+    const l = window.__GPU_LANE__; l.ts = []; l.frames = []; l.wrapMs = 0; l.on = true;
+    setTimeout(() => { l.on = false; }, ms);
+  }, seconds * 1000);
+  const t0 = Date.now();
   const extra = during ? await during() : null;
-  await page.waitForTimeout(Math.max(0, seconds * 1000 - (extra?.elapsedMs ?? 0)));
+  await wait(Math.max(0, seconds * 1000 - (Date.now() - t0)) + 150);
   const raw = await page.evaluate(() => {
-    const l = window.__GPU_LANE__; l.on = false;
+    const l = window.__GPU_LANE__;
     return { ts: l.ts, wrapMs: l.wrapMs, frames: l.frames.map((f) => ({ t: f.stamp, work: Math.max(f.end, f.msg) - f.start, gpu: f.gpu })) };
   });
   for (let i = 0; i < raw.frames.length; i++) raw.frames[i].dt = i ? raw.frames[i].t - raw.frames[i - 1].t : 0;
@@ -349,7 +359,7 @@ async function cpuProfile(page, o, seconds, tag, name) {
   await cdp.send("Profiler.enable");
   await cdp.send("Profiler.setSamplingInterval", { interval: 500 });
   await cdp.send("Profiler.start");
-  await page.waitForTimeout(seconds * 1000);
+  await nodeWait(seconds * 1000);
   const { profile } = await cdp.send("Profiler.stop");
   await cdp.detach().catch(() => {});
   const file = join(o.out, `${name}-${tag}.cpuprofile`);
@@ -411,7 +421,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   const traces = {};
   const stopSettleTrace = o.trace ? await startTrace(page, join(o.out, `${name}-settled.trace.json`)) : null;
   const settle = await sample(page, o.settle);
-  if (stopSettleTrace) traces.settled = await stopSettleTrace();
+  if (stopSettleTrace) traces.settled = await stopSettleTrace(null, settle.ts.at(-1));
   const stats = { ...frameStats(settle.ts), ...settle.work };
   let profile = null;
   const walkS = stepsSeconds(spot.steps);
@@ -443,7 +453,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     const io = {
       key: (down) => cdp.send("Input.dispatchKeyEvent", { type: down ? "keyDown" : "keyUp", ...key }),
       aim: (yaw) => page.evaluate((y) => window.__STUDIO_CHARACTER_DEBUG__?.aimCamera(y), yaw).catch(() => {}),
-      wait: (ms) => page.waitForTimeout(ms),
+      wait: nodeWait,
     };
     const stopWalkTrace = o.trace ? await startTrace(page, join(o.out, `${name}-walk.trace.json`)) : null;
     // One window (stats, trace, profile) spans the whole sequence: the driver runs beside the sampler.
@@ -451,7 +461,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
       sample(page, walkS, o.profile > 0 ? () => cpuProfile(page, o, Math.min(o.profile, walkS), "walk", name) : null),
       driveSteps(io, spot.steps, spot.aim ? Number(spot.aim.split(",")[0]) : 0),
     ]);
-    if (stopWalkTrace) traces.walk = await stopWalkTrace(w.extra?.file);
+    if (stopWalkTrace) traces.walk = await stopWalkTrace(w.extra?.file, w.ts.at(-1));
     if (w.extra) profile = w.extra;
     walk = { seconds: walkS, steps: spot.steps, ...frameStats(w.ts), ...w.work, hud: parseHud(await page.evaluate(() => document.body.innerText).catch(() => "")) };
     await shot("walk");

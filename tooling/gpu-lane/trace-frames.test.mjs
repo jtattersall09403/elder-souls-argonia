@@ -43,11 +43,45 @@ function runProbe() {
   R.renderBufferDirect({}, {}, {}, { type: "MeshStandardMaterial", name: "mat", uuid: "abcdef0123456789" }, obj);
   return { win, G, R };
 }
-test("relink probe: unnamed owner records type, userData keys (5), parents (5), material name and uuid prefix", () => {
+test("relink probe: unnamed owner records type, userData keys (8), parents (8), material name and uuid prefix", () => {
   const { win } = runProbe();
   const e = JSON.parse(JSON.stringify(win.__DIAG__.relink().events[0][3])); // out of the vm realm
   assert.equal(e.owner, "Mesh");
-  assert.deepEqual(e.detail, { objName: "", objType: "Mesh", userData: ["a", "b", "c", "d", "e"], parents: ["Group", "p2", "p3", "p4", "p5"], matName: "mat", matUuid: "abcdef01" });
+  assert.deepEqual(e.detail, { objName: "", objType: "Mesh", userData: ["a", "b", "c", "d", "e", "f"], parents: ["Group", "p2", "p3", "p4", "p5", "p6"], matName: "mat", matUuid: "abcdef01" });
+});
+test("classifyFrames: a DevTools mojo message makes the frame `harness`, not a long frame; frames after the window end are dropped", () => {
+  const mojo = { ph: "X", pid: 1, tid: 1, name: "Receive mojo message", ts: 1_040_000, dur: 48_000, args: { data: { tag: "blink.mojom.DevTools" } } };
+  const ev = [stamp(1_000_000, 50_000), mojo, ...[0, 16, 30, 90, 106, 150, 166, 250, 266].map((ms) => FA(1_000_000 + ms * 1000))];
+  // intervals (ms): 16, 14, 60 (holds the mojo message: harness), 16, 44 (starts at page 50_106), 16, 84 (starts at page 50_166, after the window end), 16 (end frame)
+  const r = classifyFrames(ev, { windowEndPageMs: 50_160 });
+  assert.equal(r.harness, 1);
+  assert.deepEqual(r.long.map((f) => f.ms), [44]);
+  assert.equal(r.maxMs, 44);
+  assert.deepEqual(classifyFrames(ev).long.map((f) => f.ms), [44, 84], "without the window end the post-window frame stays");
+});
+
+// The relink probe: full program keys, warm (renderer.compile) vs draw links of one material.
+test("relink probe: warm vs draw program keys per material uuid, first differing field", async () => {
+  const G = { shaderSource() {}, attachShader() {}, linkProgram() {} };
+  const win = { WebGL2RenderingContext: { prototype: G } };
+  const ctx = vm.createContext({ window: win, performance: { now: () => 10 }, queueMicrotask });
+  vm.runInContext(readFileSync(new URL("./probes/relink.js", import.meta.url), "utf8"), ctx);
+  const R = vm.runInContext("({})", ctx);
+  const pw = { id: "w" }, pd = { id: "d" };
+  R.renderBufferDirect = () => G.linkProgram(pd);
+  const mat = { isMaterial: true, type: "MeshBasicMaterial", name: "m", uuid: "feedbeef-0000", defines: {} };
+  R.info = { programs: [{ program: pw, cacheKey: "MeshBasic,vs,fs,fog" }, { program: pd, cacheKey: "MeshBasic,vs,fs,nofog" }] };
+  R.properties = { get: (x) => x };
+  R.compile = () => { R.properties.get(mat); G.linkProgram(pw); };
+  await Promise.resolve();
+  R.compile();
+  R.renderBufferDirect({}, {}, {}, mat, { name: "", type: "Mesh", userData: { a: 1 }, parent: { name: "p", parent: null } });
+  const rl = JSON.parse(JSON.stringify(win.__DIAG__.relink()));
+  assert.equal(rl.events[0][3].warm, true);
+  assert.equal(rl.events[1][3].warm, false);
+  assert.equal(rl.events[0][3].progKey, "MeshBasic,vs,fs,fog");
+  assert.match(rl.events[0][3].progKeyHash, /^[0-9a-f]+$/);
+  assert.deepEqual(rl.materials.feedbeef, { warmHash: rl.events[0][3].progKeyHash, drawHash: rl.events[1][3].progKeyHash, same: false, field: 3, warmValue: "fog", drawValue: "nofog" });
 });
 test("relink probe keeps 400 events, not 40", () => {
   const { win, G } = runProbe();

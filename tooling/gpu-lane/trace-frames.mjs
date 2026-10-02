@@ -84,8 +84,13 @@ export function joinLinks(long, events, windowMs = 300) {
   return long;
 }
 
-/** Classify long frames. `events` = traceEvents; `profile` optional CDP cpuprofile (same clock, µs). */
-export function classifyFrames(events, { profile = null, overMs = 20 } = {}) {
+/**
+ * Classify long frames. `events` = traceEvents; `profile` optional CDP cpuprofile (same clock, µs);
+ * `windowEndPageMs` = the page time of the last in-window rAF (measure.mjs): a long frame starting after it
+ * is the trace flush (Tracing.end), not the game, and is dropped. A frame holding a blink.mojom.DevTools
+ * mojo message is the harness's own CDP call: classed `harness` (counted, never listed, not in the stats).
+ */
+export function classifyFrames(events, { profile = null, overMs = 20, windowEndPageMs = null } = {}) {
   const fa = events.filter((e) => e.name === "FireAnimationFrame" && e.ph === "X");
   if (!fa.length) return { frames: 0, long: [] };
   const cnt = new Map();
@@ -112,9 +117,13 @@ export function classifyFrames(events, { profile = null, overMs = 20 } = {}) {
   const anchor = events.map((e) => e.name === "TimeStamp" && String(e.args?.data?.message ?? "").startsWith(ANCHOR_PREFIX)
     ? { ts: e.ts, pageMs: Number(String(e.args.data.message).slice(ANCHOR_PREFIX.length)) } : null).find(Boolean);
   const toPage = (us) => anchor && Number.isFinite(anchor.pageMs) ? r1(anchor.pageMs + (us - anchor.ts) / 1000) : null;
-  const long = [];
+  const devtools = events.filter((e) => e.ph === "X" && e.name === "Receive mojo message" && /blink\.mojom\.DevTools/.test(JSON.stringify(e.args ?? {})));
+  const isHarness = (a, b) => devtools.some((e) => Math.min(b, e.ts + e.dur) - Math.max(a, e.ts) >= 500);
+  const long = [], harnessAt = new Set(), skipAt = new Set();
   for (let i = 1; i < fs.length - 1; i++) {
     const a = fs[i - 1], b = fs[i];
+    if (windowEndPageMs != null && toPage(a) != null && toPage(a) > windowEndPageMs) { skipAt.add(i); continue; }
+    if (isHarness(a, b)) { harnessAt.add(i); skipAt.add(i); continue; }
     if (b - a <= overMs * 1000) continue;
     const byCause = {}, top = [];
     for (const e of X) {
@@ -130,10 +139,10 @@ export function classifyFrames(events, { profile = null, overMs = 20 } = {}) {
       top: top.sort((x, y) => y.ms - x.ms).slice(0, 8),
       js: [...self].sort((x, y) => y[1] - x[1]).slice(0, 6).map(([name, ms]) => ({ name, ms: r1(ms) })) });
   }
-  const d = fs.slice(1, -1).map((t, i) => t - fs[i]);
+  const d = fs.slice(1, -1).map((t, i) => t - fs[i]).filter((_, i) => !skipAt.has(i + 1));
   if (!d.length) return { frames: 0, long: [] };
   return { frames: d.length, over20: d.filter((x) => x > 20000).length, over33: d.filter((x) => x > 33000).length,
-    maxMs: r1(Math.max(...d) / 1000), long };
+    maxMs: r1(Math.max(...d) / 1000), harness: harnessAt.size, long };
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

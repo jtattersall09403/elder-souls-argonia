@@ -84,7 +84,12 @@ starting the profiler costs one ~400 ms frame of its own. `--diag relink,heap` a
 **A hitch the CPU profile cannot explain** needs `--trace`: a Chrome trace of the settle window and of the walk,
 written as `url<i>-settled.trace.json` / `url<i>-walk.trace.json`; the entry's `trace` holds the long-frame
 classes from `trace-frames.mjs`. `--aim "yaw,pitch"` (radians) aims the follow camera before the settle;
-`--clean 1` hides the HUD for the screenshots only. For a local SwiftShader smoke test, point `--cdp` at a local
+`--clean 1` hides the HUD for the screenshots only. **No CDP call or `page.evaluate` runs inside a stats window**
+(a DevTools message is a 45-52 ms main-thread task that lands in the rAF intervals): the in-page sampler records the
+whole window into a page buffer and closes it with its own timer, the harness waits on the Node side and reads the
+buffer once after the window; only the walk's own input (W key events, `steps=` yaw turns) runs inside it. In the
+trace, a frame holding a `blink.mojom.DevTools` mojo message is classed `harness` (counted in `harness`, never listed,
+not in the stats), and long frames starting after the window's last rAF (the `Tracing.end` flush) are dropped. For a local SwiftShader smoke test, point `--cdp` at a local
 Chrome started with `--remote-debugging-port` and serve with `node tooling/gpu-lane/serve.mjs <site>/studio`.
 
 **Toggle-then-read.** To prove a cause, one `pod-capture.mjs --views` file with `steps` toggles one thing at a time
@@ -108,7 +113,7 @@ Chrome started with `--remote-debugging-port` and serve with `node tooling/gpu-l
 
 | Probe | Reports |
 |---|---|
-| `relink` | `gl.linkProgram` calls: total, ms on the main thread, distinct programs, how many linked more than once, links after 30 s, the last 400 links, each `[t, ms, shaderName, {type, name, owner, parents (<=3), depth (shadow/override material), transparent, defines, key (<=80 chars), t}]`; owner comes from a `renderBufferDirect` hook (links happen inside it), links outside it read `(outside draw)`; an owner with no object name also carries `detail {objName, objType, userData (first 5 keys), parents (<=5 names), matName, matUuid (8 chars)}`. A rising `linksAfter30s` is a program relink storm. |
+| `relink` | `gl.linkProgram` calls: total, ms on the main thread, distinct programs, how many linked more than once, links after 30 s, the last 400 links, each `[t, ms, shaderName, {type, name, owner, parents (<=3), depth (shadow/override material), transparent, defines, key (<=80 chars), t, warm (inside `renderer.compile`/`compileAsync`), matUuid, progKey (three's full program cacheKey from `renderer.info.programs`, <=400 chars), progKeyHash}]`; owner comes from a `renderBufferDirect` hook (links happen inside it), links outside it read `(outside draw)`; an owner with no object name also carries `detail {objName, objType, userData (first 8 keys), parents (<=8 names), matName, matUuid (8 chars)}`. `materials` holds per material uuid the warm vs draw program key hashes and, when they differ, the first differing `,`-separated field index with both values. A rising `linksAfter30s` is a program relink storm. |
 | `heap` | `performance.memory` once a second (last 120 samples). With `--census` it also adds `heap.sampledGrowth` to census.json: a CDP HeapProfiler sampling profile read at the start and end of the 30 s window, functions whose retained MB grew. It wraps no typed-array constructor (that broke GLTFLoader). |
 | `census` | Injected by `--census` itself: the `renderBufferDirect` hook behind the draw census and the matrixAutoUpdate census. |
 
