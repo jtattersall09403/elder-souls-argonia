@@ -1609,7 +1609,7 @@ def export_bundle(plugin: str, cell: str, env, kit_assets, fixture_lights,
     arrival marker (its exterior partner's teleport, `profile_cell`) and the
     fixture light rule. Place-independent: `claims` only checks load door refs."""
     from .interior_cells import game_marker, profile_cell, world_for
-    from .interior_light import apply_light_rule
+    from .interior_light import apply_light_rule, floor_nodes
     paths, pools, registry = env
     bundle = export_cell(plugin, cell, paths, registry, kit_assets, lambda n: pools.get(n),
                          doors=claims, cache=cache)
@@ -1643,7 +1643,7 @@ def export_bundle(plugin: str, cell: str, env, kit_assets, fixture_lights,
         bundle["counts"]["dropsByReason"] = dict(sorted(Counter(d["reason"] for d in bundle["drops"]).items()))
     bundle["coplanarFixed"] = coplanar.separate(bundle, geo)
     bundle["counts"]["coplanarFixed"] = len(bundle["coplanarFixed"])
-    apply_light_rule(bundle, fixture_lights)  # doors-interiors-sockets.md § 7
+    apply_light_rule(bundle, fixture_lights, floor_nodes(bundle))  # doors-interiors-sockets.md § 7
     return bundle
 
 

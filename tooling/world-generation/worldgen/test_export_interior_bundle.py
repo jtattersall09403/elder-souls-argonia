@@ -756,3 +756,34 @@ def test_separate_takes_two_coplanar_pieces_apart_by_five_mm():
     assert [(r["id"], r["against"], r["overlapM2"]) for r in rows] == [("C.2", "C.1", 1.0)]
     assert abs(bundle["placements"][0]["positionM"][1]) == 0.005 == abs(rows[0]["nudgeM"][1])
     assert cp.separate(bundle, Geo()) == []
+
+
+def test_export_keeps_the_ambient_cube_lift(monkeypatch):
+    """export_bundle hands the floor nodes to the light rule, so a dark cube cell
+    (MugsumpHollowInt01, plugin cube 95 % dark) is re-exported lifted (vol10 chunk 3)."""
+    from worldgen import interior_light as il
+    path = ex.OUT_DIR / "MugsumpHollowInt01.json"
+    if not path.exists():
+        pytest.skip("no bundles published")
+    bundle = _load(path)
+    bundle["ambient"] = {"colorRGB": bundle["ambient"]["colorRGB"], "intensity": 1.0, "rule": "ambient-cube"}
+    try:
+        nodes = il.floor_nodes(bundle)
+    except FileNotFoundError as exc:  # pragma: no cover - no kit build on the runner
+        pytest.skip(f"raw kits not built: {exc}")
+    seen = []
+    real = il.apply_light_rule
+    monkeypatch.setattr(il, "apply_light_rule", lambda b, lights, n=None: seen.append(n) or real(b, lights, n))
+    monkeypatch.setattr(il, "floor_nodes", lambda b: nodes)
+    monkeypatch.setattr(ex, "export_cell", lambda *a, **k: bundle)
+    monkeypatch.setattr("worldgen.interior_cells.profile_cell", lambda *a, **k: {})
+    monkeypatch.setattr("worldgen.interior_cells.world_for", lambda *a, **k: None)
+    monkeypatch.setattr("worldgen.coplanar.drop_duplicates", lambda b: [])
+    monkeypatch.setattr("worldgen.coplanar.separate", lambda b, g: [])
+    monkeypatch.setattr("worldgen.coplanar.bundle_mesh", lambda p: (None, None))
+    monkeypatch.setattr("worldgen.coplanar.pieces_from_bundle", lambda *a: [])
+    monkeypatch.setattr("worldgen.interior_support.settle", lambda *a: [])
+    out = ex.export_bundle("x.esp", "MugsumpHollowInt01", ({}, {}, {}), {}, {}, None, None, object())
+    assert seen and seen[0] is nodes
+    assert out["ambient"]["rule"] == "ambient-cube-lifted"
+    assert out["ambient"]["intensity"] == pytest.approx(2.858, abs=1e-3)

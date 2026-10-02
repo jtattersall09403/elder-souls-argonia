@@ -282,8 +282,10 @@ sources, with no fill.** The exporter applies one rule before it writes,
 | Step | What | From |
 |---|---|---|
 | 1 | Every lit fixture (lantern, candle) whose kit asset has a mined LIGH and no plugin light within 1.0 m gets that light, `refId: fixture:<placement id>` | kit manifest `light` (radius, colour, `offsetM`) |
-| 2 | A cell WITH a cube keeps its ambient at intensity 1 (`ambient.rule: ambient-cube`). Fallback only for a cell with no cube: the flat ambient is raised until the unlit five-face mean reaches `FILL_E` 0.15 (`ambient.rule: interior-light-floor`) | the cell's own DALC; else its ambient and directional colours |
+| 2 | A cell WITH a cube keeps its ambient at intensity 1 (`ambient.rule: ambient-cube`); if its floor fails the dark bar (below), the ambient is set to the smallest intensity that meets it, the cube's shape kept (`ambient.rule: ambient-cube-lifted`, `lift_to_bar`, from `floor_nodes(bundle)`). Fallback only for a cell with no cube: the flat ambient is raised until the unlit five-face mean reaches `FILL_E` 0.15 (`ambient.rule: interior-light-floor`) | the cell's own DALC; else its ambient and directional colours |
 | 3 | Each light's `fade` and `falloffExponent` set so the runtime curve follows Skyrim's point-light curve | `skyrim_curve` |
+
+At runtime a windowless cell keeps its full record ambient and directional at every hour; a windowed cell keeps the 0.15 night floor. A cube cell failing the 30 % dark-floor bar is lifted to the smallest intensity meeting it (rule `ambient-cube-lifted`).
 
 A hearth is the plugin's; a burning hearth piece gets its flame from the
 fire module (fire.md), never from this rule. A cell with no light record
@@ -316,8 +318,8 @@ bundle: three views (from the doorway looking in, from two opposite
 corners, each stepped in past a blocker), row `day` = the loader's light
 model (records at fade × π with the range window, ambient unoccluded,
 directional from above, no shadows, no bounces), row `night` = the sources
-alone (ambient and directional off: the runtime lights an interior the same
-at every hour, so this row shows what the cell's own lights reach), and a
+alone (ambient and directional off: this row shows what the cell's own
+lights reach), and a
 flame proxy at every fire the loader burns (orange; magenta = a lit
 fixture's fallback). `--day` / `--night` render one row. A reader judges
 readable, warm, lit by its sources, not flat. The proxy shows where a flame
