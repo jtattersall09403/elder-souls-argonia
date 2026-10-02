@@ -12,6 +12,7 @@
  * shader that fails to compile on one backend reads as `ok: false`.
  */
 import { activeBackend, createRenderer, requestedBackend } from "@elder-souls/game-core/render/createRenderer";
+import { staticRefreshOf } from "@elder-souls/game-core/render/staticRefresh";
 import type { HarnessResult, HarnessScene } from "./types";
 
 declare global {
@@ -153,6 +154,8 @@ async function main(): Promise<HarnessResult> {
   const { default: harnessScene } = await load();
   const built = await harnessScene.build({ renderer, backend, width, height });
   result.report = built.report;
+  // ?static=0: no draw skips the node refresh (render/staticRefresh.ts before/after)
+  if (params.get("static") === "0") built.scene.traverse((o) => { delete o.userData.esStatic; });
   const t0 = performance.now();
   if (params.get("compile") !== "0") {
     // A compileAsync that never settles hung the whole page until the
@@ -218,6 +221,7 @@ async function main(): Promise<HarnessResult> {
   const cpuFrames = Number(params.get("cpu")) || 0;
   if (cpuFrames > 0) {
     const ms: number[] = [];
+    const refresh0 = { ...(staticRefreshOf(renderer) ?? { refreshes: 0, skips: 0 }) };
     for (let i = 0; i < cpuFrames; i++) {
       built.frame?.((frames + i) / 30);
       const t0 = performance.now();
@@ -231,6 +235,9 @@ async function main(): Promise<HarnessResult> {
       min: Math.round(ms[0] * 100) / 100,
       frames: cpuFrames,
       calls: renderer.info.render.drawCalls,
+      // node refreshes run / static draws skipped per frame (render/staticRefresh.ts)
+      refreshesPerFrame: ((staticRefreshOf(renderer)?.refreshes ?? 0) - refresh0.refreshes) / cpuFrames,
+      skipsPerFrame: ((staticRefreshOf(renderer)?.skips ?? 0) - refresh0.skips) / cpuFrames,
     };
   }
   // ?timing=N: N more frames under the studio's per-pass GPU timer

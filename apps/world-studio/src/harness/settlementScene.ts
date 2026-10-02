@@ -161,6 +161,7 @@ export async function buildSettlementScene(ctx: HarnessContext, night: boolean):
     const mesh = new THREE.Mesh(geometry, material);
     mesh.castShadow = flags.castShadow; mesh.receiveShadow = true;
     mesh.renderOrder = flags.renderOrder;
+    mesh.userData.esStatic = true; // as SettlementLayer's merged draws (render/staticRefresh.ts)
     scene.add(mesh);
   }
 

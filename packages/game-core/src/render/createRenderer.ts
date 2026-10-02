@@ -10,6 +10,7 @@ import { compilePipelinesAsync } from "./asyncPipelines";
 import { syncCanvasDepth } from "./canvasDepthSync";
 import { queueShaderBuilds, SHADER_BUILDS_IN_FLIGHT } from "./shaderBuildQueue";
 import { trimTextureWrites } from "./writeTextureSpan";
+import { skipStaticRefresh } from "./staticRefresh";
 import { installKitDecoders } from "../assets/kitLoader";
 
 export type RendererBackend = "webgpu" | "webgl";
@@ -56,6 +57,7 @@ export async function createRenderer(options: CreateRendererOptions): Promise<We
   syncCanvasDepth((renderer as unknown as { backend: object }).backend);
   shareInstancedPrograms(renderer);
   shareInstancedBuilds(renderer);
+  skipStaticRefresh(renderer);
   trimTextureWrites(renderer);
   queueShaderBuilds(renderer, options.shaderBuildsInFlight ?? SHADER_BUILDS_IN_FLIGHT);
   if (options.shaderBuildsInFlight !== 0) compilePipelinesAsync(renderer);

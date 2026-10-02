@@ -552,6 +552,12 @@ export function fixtureLightFieldOf(scene: THREE.Object3D): FixtureLightField {
   return field;
 }
 
+/** The scene's field epoch (0 without a field), read without making one: a
+ * static draw's per-object lamp list is current while this is unchanged. */
+export function fixtureLightEpochOf(scene: THREE.Object3D): number {
+  return (scene.userData[FIELD_KEY] as FixtureLightField | undefined)?.epoch ?? 0;
+}
+
 const PREPARER_KEY = "esLitPreparer";
 /** Patches every lit material under a root the way the scene's own walk does
  * (the chained node features): a layer that builds detached calls it before

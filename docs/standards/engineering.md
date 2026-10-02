@@ -475,6 +475,15 @@ headless.
   into every draw's buffer. In this repo use `render/nodes/sharedUniform`
   (renderGroup: three 0.184 ticks the frame per render call); per-object
   values (`onObjectUpdate`) stay on objectGroup.
+- On the node renderer a draw that never moves sets
+  `userData.esStatic = true` so it skips three's per-frame node refresh
+  (`render/staticRefresh`, installed by createRenderer; set today on
+  SettlementLayer's merged non-flame draws). Mark it only when every
+  objectGroup uniform its material reads is constant or per-object
+  (`onObjectUpdate` from the matrix or the light field): a plain
+  `uniform()` the app writes later (flame time, terrain tint, the
+  vegetation occlusion params) stays stale; move it to `sharedUniform`
+  first.
 - On the node renderer a GPU resource a bind group samples (texture,
   storage buffer) is allocated once at its largest size and never
   destroyed while a material can bind it; quality steps change uniforms

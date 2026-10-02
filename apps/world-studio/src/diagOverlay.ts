@@ -10,6 +10,7 @@ import { createGpuDiag, type GpuDiag } from "@elder-souls/game-core/render/gpuDi
 import { buildQueueOf } from "@elder-souls/game-core/render/shaderBuildQueue";
 import { pipelineCompilesOf } from "@elder-souls/game-core/render/asyncPipelines";
 import { kitDecoderBuilds } from "@elder-souls/game-core/assets/kitLoader";
+import { staticRefreshOf } from "@elder-souls/game-core/render/staticRefresh";
 
 export function diagRequested(search: string): boolean {
   return new URLSearchParams(search).get("diag") === "1";
@@ -46,6 +47,8 @@ export function mountDiagOverlay(renderer: WebGPURenderer): GpuDiag {
     get sizes() { return canvasSizes(renderer); },
     /** The last GPU buffer destroys with their stacks (walk 10: "[Buffer] used in submit while destroyed"). */
     get bufferDestroys() { return bufferDestroys.slice(); },
+    /** Node refreshes run and static draws skipped since start (render/staticRefresh.ts); diff two reads for per-frame counts. */
+    get staticRefresh() { const c = staticRefreshOf(renderer); return c ? { ...c } : null; },
   };
   traceBufferDestroys();
   let shown = -1;
