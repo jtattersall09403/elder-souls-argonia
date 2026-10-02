@@ -43,7 +43,7 @@ export function ViewConeIndicator({ runtime }: { runtime: EnemyRuntime }) {
   });
   return (
     <mesh ref={mesh} geometry={geometry} renderOrder={1}>
-      <meshBasicMaterial transparent opacity={0.22} depthWrite={false} side={THREE.DoubleSide} />
+      <meshBasicMaterial transparent opacity={0.22} depthWrite={false} side={THREE.DoubleSide} forceSinglePass />
     </mesh>
   );
 }

@@ -221,6 +221,9 @@ export function createKitPieceMaterial(role: KitShapeRole, texture: THREE.Textur
     transparent: true,
     depthWrite: false,
     side: THREE.DoubleSide,
+    // one pass: the back/front split re-derives the program every draw
+    // (render/singlePass.ts); depth-write off makes the single pass identical
+    forceSinglePass: true,
   });
   // Named so a shader-compile error in the probe/console identifies this
   // material instead of reporting a blank name (0064 bring-up).

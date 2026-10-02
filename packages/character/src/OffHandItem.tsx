@@ -79,6 +79,7 @@ function createGlowMaterial(map: THREE.Texture | null) {
     depthWrite: false,
     toneMapped: false,
     side: THREE.DoubleSide,
+    forceSinglePass: true, // additive: one pass draws the same, no per-draw relink
   });
 }
 

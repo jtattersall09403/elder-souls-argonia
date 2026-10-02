@@ -113,6 +113,7 @@ import {
   generateBudgetMs,
   keptCount,
   recordCopyRange,
+  type CopyRange,
   ringWeights,
   safetyFactor,
   thinThreshold,
@@ -1498,6 +1499,7 @@ export function Groundcover({
     // Live meshes, grown bands, records, budget rows and commits live on the
     // instance's scratch, emptied here (perf10 C3: no per-rebuild garbage).
     const scratch = fillScratch;
+    const copyRange: CopyRange = { farLo: 0, farN: 0, restN: 0 };
     const quadCount = SECTOR_SLOTS;
     scratch.reset(SPECIES_PLANS.length, BUCKET_COUNT * quadCount);
     const liveMeshes = scratch.liveMeshes;
@@ -1694,7 +1696,7 @@ export function Groundcover({
             const r = slotRecords[k];
             const sp = scratch.recSpecies[r];
             const keepBelow = thinThreshold(scratch.recNearest[r], scratch.recThin[r] * densityScale, scratch.recThinNearM[r], scratch.recThinMidM[r]);
-            const { farN, restN } = recordCopyRange(sp.keeps, sp.farCount, sp.count, scratch.recFar[r] === 1, keepBelow, ROLE_NAMES[scratch.recRole[r]], FAR_MESH_KEEP);
+            const { farN, restN } = recordCopyRange(sp.keeps, sp.farCount, sp.count, scratch.recFar[r] === 1, keepBelow, ROLE_NAMES[scratch.recRole[r]], FAR_MESH_KEEP, copyRange);
             drawn += farN + restN;
             const tier = scratch.recTier[r];
             byTier[tier === TIER_FAR_MESH ? TIER_NEAR : tier] += farN + restN;
@@ -1772,7 +1774,7 @@ export function Groundcover({
               const r = slotRecords[k];
               const sp = scratch.recSpecies[r];
               const keepBelow = thinThreshold(scratch.recNearest[r], scratch.recThin[r] * densityScale, scratch.recThinNearM[r], scratch.recThinMidM[r]);
-              const { farLo, farN, restN } = recordCopyRange(sp.keeps, sp.farCount, sp.count, scratch.recFar[r] === 1, keepBelow, ROLE_NAMES[scratch.recRole[r]], FAR_MESH_KEEP);
+              const { farLo, farN, restN } = recordCopyRange(sp.keeps, sp.farCount, sp.count, scratch.recFar[r] === 1, keepBelow, ROLE_NAMES[scratch.recRole[r]], FAR_MESH_KEEP, copyRange);
               const band = tierBands[scratch.recTier[r]];
               for (let i = at; i < at + farN + restN; i++) {
                 bandArray[i * 4] = band[0];

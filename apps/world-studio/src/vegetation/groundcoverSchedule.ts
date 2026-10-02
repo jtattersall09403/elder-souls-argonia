@@ -347,13 +347,20 @@ export function recordCopyRange(
   keepBelow: number,
   role: "all" | "thin" | "rest",
   meshKeep: number,
-): { farLo: number; farN: number; restN: number } {
+  out: CopyRange,
+): CopyRange {
   if (role === "thin") {
-    return { farLo: 0, farN: keptCount(keeps, 0, farCount, Math.min(keepBelow, meshKeep)), restN: 0 };
+    out.farLo = 0; out.farN = keptCount(keeps, 0, farCount, Math.min(keepBelow, meshKeep)); out.restN = 0;
+    return out;
   }
   const restN = farOnly ? 0 : keptCount(keeps, farCount, count, keepBelow);
   const kept = keptCount(keeps, 0, farCount, keepBelow);
-  if (role === "all") return { farLo: 0, farN: kept, restN };
+  out.restN = restN;
+  if (role === "all") { out.farLo = 0; out.farN = kept; return out; }
   const lo = keptCount(keeps, 0, farCount, meshKeep);
-  return { farLo: lo, farN: Math.max(0, kept - lo), restN };
+  out.farLo = lo; out.farN = Math.max(0, kept - lo);
+  return out;
 }
+
+/** One record's copy slice, written in place by `recordCopyRange` (no object per record). */
+export interface CopyRange { farLo: number; farN: number; restN: number }

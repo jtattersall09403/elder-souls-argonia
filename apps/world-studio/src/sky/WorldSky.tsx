@@ -20,6 +20,7 @@ import { fixtureLightFieldOf, isFixtureLitMaterial, setLitPreparer } from "@elde
 import { reapplyLodFade } from "@elder-souls/game-core/fx/lodFade";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { adaptExposure, stepShadowSun } from "@elder-souls/game-core/render/lightAdaptation";
+import { ensureSinglePass } from "@elder-souls/game-core/render/singlePass";
 import { reapplyBatchData } from "@elder-souls/game-core/fx/batchData";
 import { reapplyCylindricalBillboard } from "@elder-souls/game-core/fx/billboardQuad";
 import { reapplyImpostor } from "@elder-souls/game-core/vegetation/impostor";
@@ -856,6 +857,8 @@ export function WorldSky({
       return isFixtureLitMaterial(m) && !fixtureField.installed(m) && fixtureField.install(m);
     }
     patched.current.add(m);
+    // kit glTFs (alphaMode BLEND + doubleSided) arrive transparent DoubleSide
+    ensureSinglePass(m);
     const lit = m as THREE.MeshStandardMaterial;
     if (csm.shaders.has(m)) return fixtureField.install(m);
     if (lit.isMeshStandardMaterial || (m as THREE.MeshLambertMaterial).isMeshLambertMaterial) {

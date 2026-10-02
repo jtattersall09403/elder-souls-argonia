@@ -196,14 +196,17 @@ describe("recordCopyRange (thinned far mesh tier)", () => {
   // keeps ascending per block: far block 0..4, rest block 5..9
   const keeps = new Float32Array([0.05, 0.1, 0.2, 0.5, 0.9, 0.02, 0.3, 0.4, 0.6, 0.8]);
   it("mesh and card copies of a thinned species partition the far block", () => {
-    const thin = recordCopyRange(keeps, 5, 10, false, 1, "thin", 0.15);
-    const rest = recordCopyRange(keeps, 5, 10, false, 1, "rest", 0.15);
+    const o = () => ({ farLo: -1, farN: -1, restN: -1 });
+    const thin = recordCopyRange(keeps, 5, 10, false, 1, "thin", 0.15, o());
+    const rest = recordCopyRange(keeps, 5, 10, false, 1, "rest", 0.15, o());
     expect(thin).toEqual({ farLo: 0, farN: 2, restN: 0 });
     expect(rest).toEqual({ farLo: 2, farN: 3, restN: 5 });
   });
-  it("the budget thin caps both, the plain role is unchanged", () => {
-    expect(recordCopyRange(keeps, 5, 10, false, 0.08, "thin", 0.15).farN).toBe(1);
-    expect(recordCopyRange(keeps, 5, 10, true, 0.08, "rest", 0.15)).toEqual({ farLo: 2, farN: 0, restN: 0 });
-    expect(recordCopyRange(keeps, 5, 10, false, 0.35, "all", 0.15)).toEqual({ farLo: 0, farN: 3, restN: 2 });
+  it("the budget thin caps both, the plain role is unchanged; one out object serves every record", () => {
+    const out = { farLo: -1, farN: -1, restN: -1 };
+    expect(recordCopyRange(keeps, 5, 10, false, 0.08, "thin", 0.15, out)).toBe(out);
+    expect(out.farN).toBe(1);
+    expect(recordCopyRange(keeps, 5, 10, true, 0.08, "rest", 0.15, out)).toEqual({ farLo: 2, farN: 0, restN: 0 });
+    expect(recordCopyRange(keeps, 5, 10, false, 0.35, "all", 0.15, out)).toEqual({ farLo: 0, farN: 3, restN: 2 });
   });
 });

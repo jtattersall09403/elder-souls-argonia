@@ -28,6 +28,7 @@ import {
 import { resolveCapabilityProfile } from "@elder-souls/game-core/physics/capabilityProfiles";
 import { visualSupportY } from "@elder-souls/game-core/physics/visualSupport";
 import { spawnBodyY } from "./spawnHeight";
+import { useHudPoll } from "./hudPoll";
 import { TRI_BUCKETS, bucketIndexOf, bucketSlot, emptyBuckets } from "./triangleBuckets";
 import type { VegetationStats } from "../vegetation/Vegetation";
 import type { GroundcoverPerf } from "../vegetation/Groundcover";
@@ -883,14 +884,7 @@ function readPerfOpen(): boolean {
 
 function PerfHudSection({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(readPerfOpen);
-  const [fps, setFps] = useState(0);
-  useEffect(() => {
-    const host = window as unknown as { __STUDIO_FPS__?: number };
-    const read = () => setFps(host.__STUDIO_FPS__ ?? 0);
-    read();
-    const timer = window.setInterval(read, 1000);
-    return () => window.clearInterval(timer);
-  }, []);
+  const fps = useHudPoll(() => (window as unknown as { __STUDIO_FPS__?: number }).__STUDIO_FPS__ ?? 0, []);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       // Held keys auto-repeat `keydown`; without this guard, holding F3 for
@@ -967,13 +961,7 @@ function segmentText(rows: SegmentStat[], order: string[]): string {
  * main-thread milliseconds went, pass by pass and stage by stage. Polled once
  * a second like the lines above it. */
 function FrameSegmentLines({ segments }: { segments: FrameSegments }) {
-  const [stats, setStats] = useState<FrameSegmentStats | null>(null);
-  useEffect(() => {
-    const read = () => setStats(segments.stats());
-    read();
-    const timer = window.setInterval(read, 1000);
-    return () => window.clearInterval(timer);
-  }, [segments]);
+  const stats = useHudPoll<FrameSegmentStats | null>(() => segments.stats(), [segments]);
   if (!stats) return null;
   return (
     <>
@@ -993,19 +981,12 @@ function FrameSegmentLines({ segments }: { segments: FrameSegments }) {
 /** DEV HUD line: post on/off and the glow pass's GPU and CPU ms (segment
  * `bloom`), so `?post=0` can be A/B'd on a device. */
 function PostHudLine({ segments, on }: { segments: FrameSegments; on: boolean }) {
-  const [text, setText] = useState("");
-  useEffect(() => {
-    const read = () => {
-      const s = segments.stats();
-      const gpu = s.gpu.find((r) => r.label === "bloom");
-      const cpu = s.cpu.find((r) => r.label === "bloom");
-      setText(on
-        ? `post on · bloom gpu ${s.gpuSupported && gpu ? gpu.avg.toFixed(2) : "n/a"} ms · cpu ${cpu ? cpu.avg.toFixed(2) : "—"} ms`
-        : "post off (?post=0)");
-    };
-    read();
-    const timer = window.setInterval(read, 1000);
-    return () => window.clearInterval(timer);
+  const text = useHudPoll(() => {
+    if (!on) return "post off (?post=0)";
+    const s = segments.stats();
+    const gpu = s.gpu.find((r) => r.label === "bloom");
+    const cpu = s.cpu.find((r) => r.label === "bloom");
+    return `post on · bloom gpu ${s.gpuSupported && gpu ? gpu.avg.toFixed(2) : "n/a"} ms · cpu ${cpu ? cpu.avg.toFixed(2) : "—"} ms`;
   }, [segments, on]);
   return <span style={{ display: "block", opacity: 0.75 }}>{text}</span>;
 }
@@ -1285,28 +1266,18 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
  * the A/B the owner reads. One line, DEV only.
  */
 function VegetationHudLine() {
-  const [sample, setSample] = useState<
-    {
-      veg: VegetationStats | null;
-      fps: number;
-      gpu: FrameGpuStats | null;
-    } | null>(null);
-  useEffect(() => {
+  const sample = useHudPoll<{ veg: VegetationStats | null; fps: number; gpu: FrameGpuStats | null }>(() => {
     const host = window as unknown as {
       __STUDIO_VEGETATION_DEBUG__?: VegetationStats;
       __STUDIO_FPS__?: number;
       __STUDIO_GPU_MS__?: FrameGpuStats;
     };
-    const read = () => setSample({
+    return {
       veg: host.__STUDIO_VEGETATION_DEBUG__ ?? null,
       fps: host.__STUDIO_FPS__ ?? 0,
       gpu: host.__STUDIO_GPU_MS__ ?? null,
-    });
-    read();
-    const timer = window.setInterval(read, 1000);
-    return () => window.clearInterval(timer);
+    };
   }, []);
-  if (!sample) return null;
   const { veg, fps, gpu } = sample;
   const gpuText = gpu
     ? `${gpu.supported ? `gpu ${gpu.wall ? "~" : ""}${gpu.avg}/${gpu.max} ms` : "gpu n/a"}`
@@ -1332,16 +1303,9 @@ function VegetationHudLine() {
 
 /** The same DEV line for the groundcover ring, polled once a second. */
 function GroundcoverHudLine() {
-  const [gc, setGc] = useState<GroundcoverPerf | null>(null);
-  useEffect(() => {
-    const host = window as unknown as {
-      __STUDIO_GROUNDCOVER_DEBUG__?: { perf?: GroundcoverPerf };
-    };
-    const read = () => setGc(host.__STUDIO_GROUNDCOVER_DEBUG__?.perf ?? null);
-    read();
-    const timer = window.setInterval(read, 1000);
-    return () => window.clearInterval(timer);
-  }, []);
+  const gc = useHudPoll<GroundcoverPerf | null>(() => (window as unknown as {
+    __STUDIO_GROUNDCOVER_DEBUG__?: { perf?: GroundcoverPerf };
+  }).__STUDIO_GROUNDCOVER_DEBUG__?.perf ?? null, []);
   if (!gc) return null;
   return (
     <span style={{ display: "block", opacity: 0.75 }}>
@@ -1368,23 +1332,13 @@ function GroundcoverHudLine() {
  * A/B readable.
  */
 function TriangleAttributionLine() {
-  const [gpu, setGpu] = useState<FrameGpuStats | null>(null);
-  const [veg, setVeg] = useState<VegetationStats | null>(null);
-  useEffect(() => {
+  // useHudPoll snapshots: the published objects are rewritten in place
+  const { gpu, veg } = useHudPoll<{ gpu: FrameGpuStats | null; veg: VegetationStats | null }>(() => {
     const host = window as unknown as {
       __STUDIO_GPU_MS__?: FrameGpuStats;
       __STUDIO_VEGETATION_DEBUG__?: VegetationStats;
     };
-    const read = () => {
-      // A snapshot: the published object is rewritten in place every frame,
-      // so its identity never changes and React would skip the update.
-      const live = host.__STUDIO_GPU_MS__;
-      setGpu(live ? { ...live, buckets: live.buckets.slice() } : null);
-      setVeg(host.__STUDIO_VEGETATION_DEBUG__ ?? null);
-    };
-    read();
-    const timer = window.setInterval(read, 1000);
-    return () => window.clearInterval(timer);
+    return { gpu: host.__STUDIO_GPU_MS__ ?? null, veg: host.__STUDIO_VEGETATION_DEBUG__ ?? null };
   }, []);
   if (!gpu) return null;
   const rung = veg?.trianglesByRung;
