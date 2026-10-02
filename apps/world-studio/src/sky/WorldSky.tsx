@@ -287,6 +287,7 @@ export function WorldSky({
   if (STUDIO_TOOLS) {
     (window as unknown as { __SCENE__?: THREE.Scene }).__SCENE__ = scene;
     (window as unknown as { __THREE__?: typeof THREE }).__THREE__ = THREE;
+    (window as unknown as { __AERIAL__?: AerialUniforms }).__AERIAL__ = sharedAerialUniforms;
   }
 
   // Climate rasters as GPU textures for the haze term (shared uniforms):
