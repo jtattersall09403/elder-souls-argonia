@@ -48,7 +48,10 @@ type Owner = { mesh: THREE.InstancedMesh; kind: "matrix" | "color" };
  *  and each mesh's own replacement buffers. */
 export interface InstancedShareState {
   owners: WeakMap<ArrayLike<number>, Owner>;
-  own: WeakMap<THREE.InstancedMesh, { matrix?: THREE.InstancedInterleavedBuffer; color?: THREE.InstancedBufferAttribute }>;
+  /** per mesh: one matrix replacement per source instance buffer of the shared build (a build may read
+   *  the matrices through several, e.g. three's InstanceNode and EsInstanceMatrixNode; the swapped list
+   *  keeps their count and order, which the shared pipeline's vertex-buffer slots require) */
+  own: WeakMap<THREE.InstancedMesh, { matrix: Map<THREE.InterleavedBuffer, THREE.InstancedInterleavedBuffer>; color?: THREE.InstancedBufferAttribute }>;
   /** a stable number per storage buffer (its builds are shared only with draws reading the same one) */
   storageIds: WeakMap<object, number>;
   storageCount: number;
@@ -88,20 +91,27 @@ function follow<T extends { version: number; updateRanges: unknown[] }>(target: 
   return target;
 }
 
-function ownMatrix(state: InstancedShareState, mesh: THREE.InstancedMesh): THREE.InstancedInterleavedBuffer {
-  const own = state.own.get(mesh) ?? {};
-  state.own.set(mesh, own);
-  if (!own.matrix || own.matrix.array !== mesh.instanceMatrix.array) {
-    own.matrix = follow(new THREE.InstancedInterleavedBuffer(mesh.instanceMatrix.array as Float32Array, 16, 1), mesh.instanceMatrix);
-    own.matrix.setUsage(mesh.instanceMatrix.usage);
+function ownState(state: InstancedShareState, mesh: THREE.InstancedMesh) {
+  let own = state.own.get(mesh);
+  if (!own) state.own.set(mesh, (own = { matrix: new Map() }));
+  return own;
+}
+
+/** This mesh's replacement for one source instance buffer of the shared build. */
+function ownMatrix(state: InstancedShareState, mesh: THREE.InstancedMesh, source: THREE.InterleavedBuffer): THREE.InstancedInterleavedBuffer {
+  const own = ownState(state, mesh);
+  let m = own.matrix.get(source);
+  if (!m || m.array !== mesh.instanceMatrix.array) {
+    m = follow(new THREE.InstancedInterleavedBuffer(mesh.instanceMatrix.array as Float32Array, source.stride, 1), mesh.instanceMatrix);
+    m.setUsage(mesh.instanceMatrix.usage);
+    own.matrix.set(source, m);
   }
-  return own.matrix;
+  return m;
 }
 
 function ownColor(state: InstancedShareState, mesh: THREE.InstancedMesh): THREE.InstancedBufferAttribute | null {
   if (!mesh.instanceColor) return null;
-  const own = state.own.get(mesh) ?? {};
-  state.own.set(mesh, own);
+  const own = ownState(state, mesh);
   if (!own.color || own.color.array !== mesh.instanceColor.array) {
     own.color = follow(new THREE.InstancedBufferAttribute(mesh.instanceColor.array as Float32Array, 3), mesh.instanceColor);
     own.color.setUsage(mesh.instanceColor.usage);
@@ -145,7 +155,7 @@ export function shareRenderObject(ro: RenderObjectLike, state: InstancedShareSta
       swapped = true;
       if (owner.kind === "matrix") {
         const ia = a as THREE.InterleavedBufferAttribute;
-        const view = new THREE.InterleavedBufferAttribute(ownMatrix(state, mesh), ia.itemSize, ia.offset, ia.normalized);
+        const view = new THREE.InterleavedBufferAttribute(ownMatrix(state, mesh, ia.data), ia.itemSize, ia.offset, ia.normalized);
         return view;
       }
       return ownColor(state, mesh) ?? a;

@@ -60,6 +60,36 @@ describe("shareInstancedBuilds", () => {
   });
 });
 
+describe("shareInstancedBuilds, two instance-matrix buffers in one build", () => {
+  it("keeps the shared pipeline's vertex-buffer count and order (6, not 5) and reuses the replacements", () => {
+    const state = createInstancedShareState();
+    const a = mesh(3), b = mesh(4);
+    // three's InstanceNode and EsInstanceMatrixNode: two buffers over mesh A's matrix array
+    const three = new THREE.InstancedInterleavedBuffer(a.instanceMatrix.array as Float32Array, 16, 1);
+    const ours = new THREE.InstancedInterleavedBuffer(a.instanceMatrix.array as Float32Array, 16, 1);
+    const plain = [...["position", "normal", "uv"].map((n) => geometry.getAttribute(n)), new THREE.BufferAttribute(new Float32Array(24), 1)];
+    const group = (buf: THREE.InterleavedBuffer) => [0, 4, 8, 12].map((o) => new THREE.InterleavedBufferAttribute(buf, 4, o));
+    const ro = (object: THREE.InstancedMesh) => ({
+      object, attributes: null as unknown[] | null, vertexBuffers: null as unknown[] | null, initialCacheKey: null as unknown,
+      getMaterialCacheKey() { return "mat"; }, getCacheKey() { return "k"; },
+      getAttributes() { return [...plain, ...group(three), ...group(ours)]; },
+    });
+    const roA = ro(a), roB = ro(b);
+    shareRenderObject(roA as never, state); shareRenderObject(roB as never, state);
+    roB.getAttributes();
+    const vb = roB.vertexBuffers as { array: ArrayLike<number> }[];
+    expect(vb.length).toBe(6);
+    expect(vb.slice(0, 4)).toEqual(plain);
+    expect(vb[4]).not.toBe(vb[5]);
+    expect(vb.slice(4).every((x) => x.array === b.instanceMatrix.array)).toBe(true);
+    // a later attribute build for the same mesh reuses the same replacements (no new buffer per call)
+    const roB2 = ro(b); shareRenderObject(roB2 as never, state); roB2.getAttributes();
+    const vb2 = roB2.vertexBuffers as unknown[];
+    expect(vb2[4]).toBe(vb[4]);
+    expect(vb2[5]).toBe(vb[5]);
+  });
+});
+
 describe("shareInstancedBuilds, storage matrices", () => {
   it("shares a build between draws of one storage buffer and keeps pools apart", () => {
     const state = createInstancedShareState();

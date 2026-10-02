@@ -58,6 +58,10 @@ with an object that must not have it: clone first (the old rule, unchanged).
   per-instance data in ONE buffer with `packInstancedAttributes` (render/instancedPack.ts) and
   assert `vertexBufferCount(mesh) <= MAX_VERTEX_BUFFERS` in the factory's test (the mist volume
   hit 10 and failed only on WebGPU; WebGL was fine).
+- A render-object attribute swap must keep the vertex-buffer count and order of the pipeline it
+  shares (`render/shareInstancedBuilds.ts`: one replacement per source instance buffer). WebGL binds
+  per location and hides a collapse; WebGPU rejects the command buffer (black frame). Verify with
+  `pod-capture --probe-gpu-errors` (diag12: 6 buffers collapsed to 5, slot 5 unset).
 - `positionNode` is object space BEFORE the instance matrix (three 0.184, proven from the generated
   shader, although `NodeMaterial.setupPosition` reads the other way). Read instance matrices with
   `instanceMatrixNode` / `matrixColumn` from `packages/game-core/src/fx/instanceNodes.ts`; never
