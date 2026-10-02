@@ -72,7 +72,7 @@ import { PROVINCE_EXTENT_M, TERRAIN_SUPPORT_EXTENT_M } from "../provinceScale";
 import type { SettlementLayerError, SettlementSolid } from "@elder-souls/game-core/settlement/types";
 import { SettlementColliders } from "./SettlementColliders";
 import { InteriorDoors, type InteriorDoorsProbe } from "./InteriorDoors";
-import { parseSpawnYaw, spawnHeadingRad } from "./spawnFacing";
+import { bodyHeadingOf, parseSpawnYaw, spawnHeadingRad } from "./spawnFacing";
 import { SoundEventBus } from "@elder-souls/audio";
 import { DoorOverlay, createDoorOverlayChannel } from "./doorOverlay";
 import { ScreenOverlay, createScreenOverlayChannel } from "./screenOverlay";
@@ -1854,7 +1854,7 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, spawnHeadi
       visualPos.copy(currPos);
       visualQuat.copy(currQuat);
       adapter.applyVisualPose(visualPos, visualQuat);
-      camera3P.reset(visualPos, yawOf(currQuat));
+      camera3P.reset(visualPos, bodyHeadingOf(currQuat));
     }
     lastPosition.current.copy(position);
     locomotion.update(adapter, intent, camera3P.yaw, delta);
@@ -1954,8 +1954,3 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, spawnHeadi
   return null;
 }
 
-/** Heading of a body's +z axis about world up, radians (the FollowCamera `reset` convention). */
-function yawOf(q: THREE.Quaternion): number {
-  const z = new THREE.Vector3(0, 0, 1).applyQuaternion(q);
-  return Math.atan2(z.x, z.z);
-}

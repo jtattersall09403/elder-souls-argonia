@@ -345,6 +345,8 @@ export function InteriorDoors({
   const directFaced = useRef(false);
   const toSunCell = useMemo(() => new THREE.Vector3(), []);
   const sky = useMemo(() => ({ dir: new THREE.Vector3(0, -1, 0), tint: new THREE.Color(), strength: 0, inFrames: 0 }), []);
+  // the sky light eased toward the last read every frame (diag3 Q5): the read refreshes twice a second, a step each time
+  const skyEased = useMemo(() => ({ dir: new THREE.Vector3(0, -1, 0), strength: 0, primed: false }), []);
   // the outside the cell's air follows (floor mist by dawn and season), refreshed with the sky light
   const climate = useMemo<InteriorClimate>(() => ({ minuteOfDay: 720, sunriseMin: 360, wetSeason: 0.5 }), []);
   const fogProfile = useMemo<InteriorFogProfile>(() => ({ floorY: 0, floorMistTopM: 0, floorMistDensity: 0, dustDensity: 0 }), []);
@@ -388,6 +390,15 @@ export function InteriorDoors({
     const swingDoor = swing && focus ? swing.controller.doors.find((d) => d.id === focus.id) : undefined;
     environment.current?.frame();
     const rig = shown ? drawnLightRigOf(scene) : null;
+    if (!shown) skyEased.primed = false;
+    else if (sky.inFrames > 0) {
+      // the first read of a cell snaps; later reads ease in over SKY_EASE_S
+      const k = skyEased.primed ? 1 - Math.exp(-Math.min(delta, 0.1) / SKY_EASE_S) : 1;
+      skyEased.primed = true;
+      skyEased.strength += (sky.strength - skyEased.strength) * k;
+      skyEased.dir.lerp(sky.dir, k);
+      if (skyEased.dir.lengthSq() > 1e-8) skyEased.dir.normalize(); else skyEased.dir.copy(sky.dir);
+    }
     if (shown) {
       // the cell's daylight follows the sky the exterior draws, weather
       // included (interiorLoader InteriorDaylight; WorldSky publishes the rig)
@@ -395,12 +406,14 @@ export function InteriorDoors({
         daylightColour.setRGB(rig.sunColor[0], rig.sunColor[1], rig.sunColor[2]);
         const share = daylightShare(rig.sun.altitude, rig.directFactor);
         shown.interior.daylight.set(share, daylightColour);
-        // the sun as the cell's openings see it: toward the sun in the cell frame (sky.dir is its travel direction), at the
-        // sky strength when an aperture faces it, none otherwise (the record light stands)
+        // the sun as the cell's openings see it: toward the sun in the cell frame (skyEased.dir is its travel direction), at the
+        // eased sky strength when an aperture faces it, none otherwise (the record light stands)
         if (windows) {
           let faced = false;
-          if (sky.strength > 0) for (const a of windows.apertures) if (sunFacing(a, sky.dir)) { faced = true; break; }
-          shown.interior.daylight.setSun(faced ? toSunCell.copy(sky.dir).negate() : null, faced ? sky.strength : 0);
+          if (skyEased.strength > 0) for (const a of windows.apertures) if (sunFacing(a, skyEased.dir)) { faced = true; break; }
+          // the exterior sun's own colour and intensity, in the cell's exposure-1 frame (diag3 Q2)
+          shown.interior.daylight.setSun(faced ? toSunCell.copy(skyEased.dir).negate() : null, faced ? skyEased.strength : 0,
+            daylightColour, rig.sunIntensity * rig.exposureTarget);
         }
         if (cellAmbient) cellAmbient.share = share;
       }
@@ -436,7 +449,7 @@ export function InteriorDoors({
       if (windows) {
         camera.updateMatrixWorld();
         frustum.setFromProjectionMatrix(viewProj.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
-        apertures = windows.beams.update(shown.interior.group.position, sky.dir, sky.strength * windows.unit, sky.tint,
+        apertures = windows.beams.update(shown.interior.group.position, skyEased.dir, skyEased.strength * windows.unit, sky.tint,
           controller.position(bodyPos), frustum, Math.min(delta, 0.1));
       }
       volumetrics.update({
@@ -478,6 +491,8 @@ export function InteriorDoors({
 
 const WINDOW_BEAM_LENGTH_M = 10;
 const SKY_LIGHT_REFRESH_FRAMES = 30;
+/** Time constant (s) of the eased sky light between reads. */
+const SKY_EASE_S = 1;
 const probeBox = new THREE.Box3();
 const fmtS = (s: number | null) => (s === null ? "-" : `${s.toFixed(2)} s`);
 

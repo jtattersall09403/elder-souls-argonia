@@ -759,24 +759,31 @@ describe("sun through the openings (vol10 F1, F5)", () => {
     expect(seat.z).toBeCloseTo(0, 6);
     expect(paneLightSeat(box, world, new THREE.Vector3(9, 1, 0)).x).toBeCloseTo(5 + PANE_LIGHT_INSET_M, 6);
   });
-  it("Keeba at 08:00: the directional comes from the sun side into the room at record x sun share", () => {
+  it("Keeba at 08:00: the directional is the sky's sun from the sun side, at outdoor intensity x share, over the ambient", () => {
     const rows = (lightRows as { cells: Record<string, { apertures: { outward: number[]; centreM: number[] }[] }> }).cells;
     const day = Math.floor(new WorldClock().epochMinutes() / 1440) * 1440;
     const sun = sunAt(day + 8 * 60);
     const toSun = new THREE.Vector3(sun.direction.x, sun.direction.y, sun.direction.z);
     const facing = rows.KeebaHouseCrafter.apertures.filter((a) => toSun.x * a.outward[0] + toSun.z * a.outward[2] > 0.1);
     expect(facing.length).toBeGreaterThan(0);
-    const directional = new THREE.DirectionalLight(0xffffff, 3);
+    const record = new THREE.Color(0.074, 0.048, 0.038);
+    const directional = new THREE.DirectionalLight(record, 3);
+    const ambient = new THREE.AmbientLight(0xffffff, 0.845);
     const centre = new THREE.Vector3(106, 88, 54);
-    const d = new InteriorDaylight(new THREE.Group(), new THREE.AmbientLight(0xffffff, 1), directional, [],
+    const d = new InteriorDaylight(new THREE.Group(), ambient, directional, [],
       [new THREE.Vector3()], [], new THREE.Sphere(centre, 10));
-    d.setSun(toSun, 0.901);
+    const sunColour = new THREE.Color(1, 0.86, 0.7);
+    d.set(1, sunColour);
+    d.setSun(toSun, 0.901, sunColour, 6);
     const travel = directional.target.position.clone().sub(directional.position).normalize();
     for (const a of facing) expect(travel.x * a.outward[0] + travel.z * a.outward[2]).toBeLessThan(0);
     expect(travel.y).toBeLessThan(0);
-    expect(directional.intensity).toBeCloseTo(3 * 0.901, 6);
-    // no opening faces the sun: the record light from straight above at the day's share
-    d.setSun(null, 0);
+    expect(directional.color.equals(sunColour)).toBe(true);
+    expect(directional.intensity).toBeCloseTo(6 * 0.901, 6);
+    expect(directional.intensity * Math.max(sunColour.r, sunColour.g, sunColour.b)).toBeGreaterThan(ambient.intensity);
+    // no opening faces the sun: the record light, its own colour, from straight above at the day's share
+    d.setSun(null, 0, sunColour, 6);
+    expect(directional.color.equals(record)).toBe(true);
     d.set(1, new THREE.Color(1, 1, 1));
     expect(directional.position.clone().sub(centre).normalize().y).toBeCloseTo(1, 6);
     expect(directional.intensity).toBeCloseTo(3, 6);
@@ -802,7 +809,10 @@ describe("sun through the openings (vol10 F1, F5)", () => {
     const meshes = lit.group.children.filter((c): c is THREE.InstancedMesh => (c as THREE.InstancedMesh).isInstancedMesh);
     expect(meshes.every((m) => m.receiveShadow)).toBe(true);
     const lights = lit.group.children.filter((c) => (c as THREE.Light).isLight).length;
-    lit.daylight.setSun(new THREE.Vector3(1, 1, 0), 0.9);
+    // the pane casts no shadow, or its glass would stop the sun it lets in (diag3 Q2)
+    expect(meshes.find((m) => m.material === glass)!.castShadow).toBe(false);
+    expect(dir(lit).shadow.normalBias).toBeGreaterThan(0);
+    lit.daylight.setSun(new THREE.Vector3(1, 1, 0), 0.9, new THREE.Color(1, 1, 1), 5);
     expect(lit.group.children.filter((c) => (c as THREE.Light).isLight).length).toBe(lights);
     expect(dir(lit).castShadow).toBe(true);
   });

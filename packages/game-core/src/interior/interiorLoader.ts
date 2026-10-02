@@ -120,6 +120,9 @@ export const WINDOW_PANE_GAIN = 1.2;
 export const PANE_LIGHT_INSET_M = 0.3;
 /** The one shadow map of a windowed cell's directional (sun through its openings), fitted to the cell. */
 export const INTERIOR_SUN_SHADOW_MAP = 1024;
+/** That map's biases: one 1024 texel spans ~3.5 cm over a 36 m cell, so bias 0 shows acne once the patch is bright (vol10 diag3 Q2). */
+export const INTERIOR_SUN_NORMAL_BIAS = 0.02;
+export const INTERIOR_SUN_BIAS = -0.0005;
 /** The placement categories that are the cell's shell: they cast the sun's shadow, so the walls clip it to window patches. */
 export const INTERIOR_SHADOW_CASTERS: ReadonlySet<string> = new Set(["architecture", "dungeon-kit", "rock", "terrain-feature"]);
 
@@ -181,6 +184,11 @@ export class InteriorDaylight {
   /** Cell-frame unit direction toward the sun and its share through the cell's openings (`setSun`). */
   private readonly toSun = new THREE.Vector3(0, 1, 0);
   private sunShare = 0;
+  /** The sun's linear colour and intensity (exposure-1 frame) while an opening faces it (`setSun`). */
+  private readonly sunColour = new THREE.Color();
+  private sunIntensity = 0;
+  /** The record directional's own colour: it stands when no opening faces the sun. */
+  private readonly directionalColour = new THREE.Color();
   constructor(
     /** The cell's group: window positions are in its frame. */
     readonly group: THREE.Object3D,
@@ -198,6 +206,7 @@ export class InteriorDaylight {
   ) {
     this.ambientBase = ambient.intensity;
     this.directionalBase = directional?.intensity ?? 0;
+    if (directional) this.directionalColour.copy(directional.color);
     for (const m of paneMaterials) {
       if (m.emissiveMap !== m.map) { m.emissiveMap = m.map; m.needsUpdate = true; }
     }
@@ -211,11 +220,13 @@ export class InteriorDaylight {
     const floor = interiorAmbientShare(share, this.windows.length + this.paneMaterials.length > 0);
     this.ambient.intensity = this.ambientBase * floor;
     if (this.directional) {
-      // the sun through an opening that faces it: the record directional aimed along the
-      // sun and scaled by its share; else the record light from straight above (vol10 D1)
+      // the sun through an opening that faces it: the sky's sun, its colour and outdoor
+      // intensity times its share, aimed along it; else the record light from straight
+      // above (vol10 D1, diag3 Q2)
       const sun = this.sunShare > 0;
       const d = this.directional;
-      d.intensity = this.directionalBase * (sun ? this.sunShare : floor);
+      d.color.copy(sun ? this.sunColour : this.directionalColour);
+      d.intensity = sun ? this.sunIntensity * this.sunShare : this.directionalBase * floor;
       d.target.position.copy(this.bounds.center);
       d.position.copy(sun ? this.toSun : _UP).multiplyScalar(this.bounds.radius).add(this.bounds.center);
       d.target.updateMatrixWorld();
@@ -250,11 +261,16 @@ export class InteriorDaylight {
    * The sun as the cell's openings see it: `toSunCell` the cell-frame unit
    * direction toward the sun, `sunShare` the share the openings facing it pass
    * (windowApertures; 0 or a null direction when none faces it: the record
-   * light stands). Allocation-free; the light count and `castShadow` never change.
+   * light stands). `colour` is the sky rig's linear sun colour and `intensity`
+   * the exterior sun's intensity in the cell's exposure-1 frame (lightRig
+   * `sunIntensity x exposureTarget`). Allocation-free; the light count and
+   * `castShadow` never change.
    */
-  setSun(toSunCell: THREE.Vector3 | null, sunShare: number): void {
+  setSun(toSunCell: THREE.Vector3 | null, sunShare: number, colour: THREE.Color, intensity: number): void {
     this.sunShare = toSunCell && sunShare > 0 ? sunShare : 0;
     if (toSunCell) this.toSun.copy(toSunCell).normalize();
+    this.sunColour.copy(colour);
+    this.sunIntensity = intensity;
     this.set(this.share, this.colour);
   }
 
@@ -392,7 +408,7 @@ export function instantiateInterior(
   const inside = new THREE.Vector3();
   for (const p of drawn) inside.add(new THREE.Vector3(...p.positionM));
   if (drawn.length) inside.divideScalar(drawn.length);
-  const built: { mesh: THREE.InstancedMesh; category: string }[] = [];
+  const built: { mesh: THREE.InstancedMesh; category: string; pane: boolean }[] = [];
   for (const { asset, placements } of byAsset.values()) {
     const parts = asset.levels[0] ?? [];
     const fireRow = fireRows.get(placements[0].kit)?.get(placements[0].assetId);
@@ -411,7 +427,8 @@ export function instantiateInterior(
       placements.forEach((p, i) => mesh.setMatrixAt(i, m.multiplyMatrices(interiorPlacementMatrix(p), part.localMatrix)));
       mesh.instanceMatrix.needsUpdate = true;
       mesh.computeBoundingSphere();
-      if (isWindowPane(fireRow, part.material)) {
+      const pane = isWindowPane(fireRow, part.material);
+      if (pane) {
         // the pane's own geometry gives the window light's seat (walk 9)
         part.geometry.computeBoundingBox();
         panes.materials.add(part.material as THREE.MeshStandardMaterial);
@@ -420,7 +437,7 @@ export function instantiateInterior(
           panes.windows.push(paneLightSeat(part.geometry.boundingBox!, m, inside));
         });
       }
-      built.push({ mesh, category: placements[0].category });
+      built.push({ mesh, category: placements[0].category, pane });
       group.add(mesh);
       meshes += 1;
     }
@@ -457,6 +474,8 @@ export function instantiateInterior(
   directional.castShadow = windowed;
   if (windowed) {
     directional.shadow.mapSize.set(INTERIOR_SUN_SHADOW_MAP, INTERIOR_SUN_SHADOW_MAP);
+    directional.shadow.normalBias = INTERIOR_SUN_NORMAL_BIAS;
+    directional.shadow.bias = INTERIOR_SUN_BIAS;
     const cam = directional.shadow.camera;
     cam.left = cam.bottom = -bounds.radius;
     cam.right = cam.top = bounds.radius;
@@ -464,8 +483,9 @@ export function instantiateInterior(
     cam.far = 2 * bounds.radius;
     cam.updateProjectionMatrix();
   }
-  for (const { mesh, category } of built) {
-    mesh.castShadow = windowed && INTERIOR_SHADOW_CASTERS.has(category);
+  // a pane never casts: the sun it lets in would stop at its own glass (vol10 diag3 Q2)
+  for (const { mesh, category, pane } of built) {
+    mesh.castShadow = windowed && !pane && INTERIOR_SHADOW_CASTERS.has(category);
     mesh.receiveShadow = windowed;
   }
   directional.position.copy(bounds.center).addScaledVector(_UP, bounds.radius);
