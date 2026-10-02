@@ -175,6 +175,12 @@ reports `cards: false` while that is the case, with `byTier` and
   bounding sphere comes from the tile extents, never from reading matrices
   back. A mesh only grows (by 1.5x) when a rebuild needs more room, and one
   this rebuild did not fill draws nothing rather than being destroyed.
+  The fill itself is a frame-work job (`useFrameWork`, one draw slot per
+  step under the shared budget): steps write CPU arrays only, and the last
+  step commits counts, uploads, grown attributes and grown meshes together,
+  so a fill spread over frames shows nothing half-done. Any mesh at
+  `count = 0` is also `visible = false` (`setDrawCount`, game-core), so no
+  pass walks an empty draw.
 - **Budgeted generation.** Tiles are generated in `useFrame`, nearest first,
   within 5 ms a frame (14 ms while the ring is cold), and a fill is requested
   when the queue drains or every 0.25 s while it is long; the overlap margin

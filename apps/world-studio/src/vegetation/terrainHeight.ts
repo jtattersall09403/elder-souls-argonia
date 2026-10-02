@@ -17,6 +17,12 @@ export function groundHeightM(
   const cy = Math.max(0, Math.min(manifest.grid[1] - 1, Math.floor(z / manifest.chunkMetres)));
   const grid = store.loaded(cx, cy, "1") ?? store.loaded(cx, cy, "2") ?? store.loaded(cx, cy, "4");
   if (!grid) return null;
+  return heightInGrid(grid, x, z);
+}
+
+type Grid = NonNullable<ReturnType<ChunkStore["loaded"]>>;
+
+function heightInGrid(grid: Grid, x: number, z: number): number {
   const lx = (x - grid.meta.originM[0]) / grid.metresPerSample;
   const lz = (z - grid.meta.originM[1]) / grid.metresPerSample;
   const x0 = Math.max(0, Math.min(grid.nx - 2, Math.floor(lx)));
@@ -29,4 +35,42 @@ export function groundHeightM(
   const h01 = h[(z0 + 1) * grid.nx + x0];
   const h11 = h[(z0 + 1) * grid.nx + x0 + 1];
   return (h00 * (1 - fx) + h10 * fx) * (1 - fz) + (h01 * (1 - fx) + h11 * fx) * fz;
+}
+
+/**
+ * `groundHeightM` with each chunk's best decoded grid looked up once per
+ * frame instead of once per sample (perf10 O6): an occlusion ray marches
+ * dozens of 12 m steps through one or two chunks, and every step used to
+ * build a `cx,cy,lod` key string and probe up to three maps. Bit-identical
+ * to `groundHeightM` as long as nothing decodes between `reset()` calls, so
+ * the owner calls `reset()` at the start of each frame's use.
+ * Allocation-free after warm-up; `sample` is a stable bound function.
+ */
+export class FrameGroundSampler {
+  private readonly grids = new Map<number, Grid | null>();
+
+  constructor(
+    private readonly store: ChunkStore,
+    private readonly manifest: ChunksManifest,
+    /** Applied to every height (rendered space); 1 = true metres. */
+    private readonly scale = 1,
+  ) {}
+
+  reset(): void {
+    this.grids.clear();
+  }
+
+  readonly sample = (x: number, z: number): number | null => {
+    const m = this.manifest;
+    const cx = Math.max(0, Math.min(m.grid[0] - 1, Math.floor(x / m.chunkMetres)));
+    const cy = Math.max(0, Math.min(m.grid[1] - 1, Math.floor(z / m.chunkMetres)));
+    const key = cx * 65_536 + cy;
+    let grid = this.grids.get(key);
+    if (grid === undefined) {
+      grid = this.store.loaded(cx, cy, "1") ?? this.store.loaded(cx, cy, "2")
+        ?? this.store.loaded(cx, cy, "4") ?? null;
+      this.grids.set(key, grid);
+    }
+    return grid === null ? null : heightInGrid(grid, x, z) * this.scale;
+  };
 }
