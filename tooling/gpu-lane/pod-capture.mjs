@@ -27,7 +27,7 @@
  * result.json: console (error/warning, deduped with counts), pageErrors, network (>=400 and failed loads),
  * gpuErrors (uncapturederror and device loss, hooked in requestDevice; the hook skips documents without
  * GPU globals), reads, settledAt (first second the build queue sat at 0 pending with geometry loaded for
- * 5 s), heapSlope ({ quietAt, mbPerMin, seconds }: least-squares heap MB/min from the first second
+ * 5 s), heapSlope ({ quietAt, mbPerMin, seconds }: least-squares post-GC heap MB/min (a forced GC every 10 s) from the first second
  * geometry and texture counts held still for 5 s; null under 20 quiet seconds), fpsReads, profile, frames. Exit 0 unless the tab could not be opened.
  */
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -123,7 +123,7 @@ const shoot = async (quality = 60) => (await send("Page.captureScreenshot", { fo
 
 const result = { url, cdp: cdpHttp, seconds: totalS, frames: 0, reads: {}, settledAt: null, fpsReads: [], profile: null };
 try {
-  await send("Runtime.enable"); await send("Page.enable"); await send("Network.enable");
+  await send("Runtime.enable"); await send("HeapProfiler.enable"); await send("Page.enable"); await send("Network.enable");
   await send("Page.addScriptToEvaluateOnNewDocument", { source: INIT });
   await send("Emulation.setDeviceMetricsOverride", { width: W, height: H, deviceScaleFactor: 1, mobile: false });
   if (prof) { await send("Profiler.enable"); await send("Profiler.setSamplingInterval", { interval: 200 }); }
@@ -151,8 +151,12 @@ try {
     }
     if (Math.floor(s) > lastPoll) {
       lastPoll = Math.floor(s);
-      const q = await evaluate(`({ p: window.__RENDERER__?.esBuildQueue?.pending, g: window.__RENDERER__?.info?.memory?.geometries ?? 0, x: window.__RENDERER__?.info?.memory?.textures ?? 0, h: performance.memory?.usedJSHeapSize })`, 5_000);
-      if (q?.h) heapSamples.push({ s: Math.round(s), heapMB: q.h / 1e6, buffers: q.g, textures: q.x });
+      const q = await evaluate(`({ p: window.__RENDERER__?.esBuildQueue?.pending, g: window.__RENDERER__?.info?.memory?.geometries ?? 0, x: window.__RENDERER__?.info?.memory?.textures ?? 0 })`, 5_000);
+      // live heap after a forced GC, every 10 s: usedJSHeapSize counts uncollected garbage (walk 10 read
+      // +140 MB/min of churn as a leak while the post-GC heap held at ~222 MB)
+      let heapMB;
+      if (lastPoll % 10 === 0) { await send("HeapProfiler.collectGarbage", {}, 30_000); heapMB = (await send("Runtime.getHeapUsage")).usedSize / 1e6; }
+      if (q && !q.err) heapSamples.push({ s: lastPoll, heapMB, buffers: q.g, textures: q.x });
       if (q?.p === 0 && q.g > 0) { zeroSince ??= s; if (result.settledAt === null && s - zeroSince >= 5) result.settledAt = Math.round(zeroSince * 10) / 10; } else zeroSince = null;
     }
     await new Promise((r) => setTimeout(r, 100));

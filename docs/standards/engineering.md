@@ -484,6 +484,13 @@ headless.
   pending renderer (`render/canvasRenderer`, test beside it); a second
   renderer keeps the 300x150 default size and its canvas depth fails
   every canvas pass.
+- A heap leak is read from the live heap after a forced GC, from the
+  second GPU resource counts went quiet, never from
+  `performance.memory.usedJSHeapSize` (it counts uncollected garbage:
+  walk 10 read 140 MB/min of churn as a leak while the post-GC heap held
+  at ~222 MB). Use `tooling/gpu-lane/pod-capture.mjs` `heapSlope`
+  (`heapSlope` test in `pod-capture-lib.test.mjs`); the bar is under
+  20 MB/min, camera still, after settle.
 
 **Before adding a material.**
 - Share it: one material per kit glTF material (or per batch key), never a
