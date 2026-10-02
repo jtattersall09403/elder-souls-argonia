@@ -29,11 +29,13 @@ export function staticHandler(roots, { intercept, onMissing } = {}) {
     const basis = /\/basis\/(basis_transcoder\.(?:js|wasm))$/.exec(path);
     if (basis) { res.writeHead(200, { "Content-Type": MIME[extname(basis[1])] }); createReadStream(join(basisDir, basis[1])).pipe(res); return; }
     if (intercept?.(path, res)) return;
-    for (const [prefix, root] of roots) {
-      if (!path.startsWith(prefix)) continue;
-      let file = join(root, path.slice(prefix.length) || "index.html");
-      if (!existsSync(file) || statSync(file).isDirectory()) file = join(root, "index.html");
-      if (!existsSync(file)) break;
+    // An exact file under any matching root wins (a dev studio and its data share /studio/), else the
+    // first matching root's index.html (SPA fallback).
+    const hits = roots.filter(([prefix]) => path.startsWith(prefix));
+    const isFile = (f) => existsSync(f) && !statSync(f).isDirectory();
+    const file = hits.map(([prefix, root]) => join(root, path.slice(prefix.length) || "index.html")).find(isFile)
+      ?? hits.map(([, root]) => join(root, "index.html")).find(isFile);
+    if (file) {
       res.writeHead(200, { "Content-Type": MIME[extname(file)] ?? "application/octet-stream" });
       createReadStream(file).pipe(res);
       return;

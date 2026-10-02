@@ -91,10 +91,21 @@ const INIT = `(() => {
   try { localStorage.setItem("es.hud.perfOpen", "1"); } catch {}
   window.__GPUERR = []; window.__RAFN = 0;
   const tick = () => { window.__RAFN++; requestAnimationFrame(tick); }; requestAnimationFrame(tick);
+  // renderers: getContext calls per canvas and GPU devices requested (one renderer per canvas = 1 and 1)
+  window.__CTX = { canvases: [], devices: 0 };
+  const seen = new WeakMap(), getContext = HTMLCanvasElement.prototype.getContext;
+  HTMLCanvasElement.prototype.getContext = function (kind, ...a) {
+    if (kind === "webgpu" || kind === "webgl2") {
+      if (!seen.has(this)) { seen.set(this, { kind, calls: 0 }); window.__CTX.canvases.push(seen.get(this)); }
+      seen.get(this).calls++;
+    }
+    return getContext.call(this, kind, ...a);
+  };
   if (typeof GPUAdapter === "undefined") return;
   const req = GPUAdapter.prototype.requestDevice;
   GPUAdapter.prototype.requestDevice = async function (...a) {
     const d = await req.apply(this, a);
+    window.__CTX.devices++;
     d.addEventListener("uncapturederror", (e) => window.__GPUERR.push(String(e.error?.message).slice(0, 300)));
     d.lost.then((i) => window.__GPUERR.push("LOST " + i.reason + " " + i.message));
     return d;
@@ -109,6 +120,7 @@ const READ = `(async () => {
     fps: window.__STUDIO_FPS__, gpuMs: window.__STUDIO_GPU_MS__ && JSON.parse(JSON.stringify(window.__STUDIO_GPU_MS__)),
     renderer: i && { geometries: i.memory?.geometries, textures: i.memory?.textures, triangles: i.render?.triangles, calls: i.render?.drawCalls ?? i.render?.calls },
     buildQueue: q && { pending: q.pending, twinsHeld: q.twinsHeld, skippedDraws: q.skippedDraws },
+    contexts: window.__CTX && JSON.parse(JSON.stringify(window.__CTX)),
     diag: (() => { try { return window.__DIAG && JSON.parse(JSON.stringify(window.__DIAG)); } catch (e) { return String(e); } })(),
     heapMB: pm && Math.round(pm.usedJSHeapSize / 1e6), heapLimitMB: pm && Math.round(pm.jsHeapSizeLimit / 1e6),
     hud: document.body.innerText.split("\\n").filter((l) => /fps|ms|draw|tri|calls|gpu|cpu|pass|stage|skipped|pending|twin|perf|scene/i.test(l)).slice(0, 40) };
