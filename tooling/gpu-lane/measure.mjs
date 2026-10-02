@@ -145,7 +145,7 @@ export function profileSummary(profile, top = 40) {
 
 // Installed before the page's own scripts: a rAF timestamp recorder, the per-frame work-time
 // wrapper and the GPU adapter read.
-function pageProbe() {
+export function pageProbe() {
   const lane = { ts: [], frames: [], on: false, wrapMs: 0, lost: 0 };
   window.addEventListener("webglcontextlost", () => { lane.lost++; }, true);
   Object.defineProperty(window, "__GPU_LANE__", { value: lane });

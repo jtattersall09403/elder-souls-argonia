@@ -6,7 +6,7 @@ The walk-9 proof of the pod loop is `git show webgpu:docs/research/infrastructur
 
 This is the only pod harness, for WebGL and WebGPU alike; the site is always served from the pod (below). A lane never writes its own capture scripts.
 
-**Which driver.** `measure.mjs` for frame rate and cost (settled fps, 1 % lows, HUD, census, profile; the perf lane). `pod-capture.mjs` for correctness on the WebGPU branch (errors, black share, luma, contexts per canvas, `--compare` dev against branch). `webgpu-boot-check.mjs` is the local and CI boot gate.
+**Which driver.** `measure.mjs` for frame rate and cost (settled fps, 1 % lows, HUD, census, profile; the perf lane). `pod-capture.mjs --views` for a round's whole measurement in one invocation (every view x both dists in one tab: luma, errors, fps, cap-free cost, stages, hitches, heap, probes; `summary.md`). `webgpu-boot-check.mjs` is the local and CI boot gate.
 
 | Lane | Local tunnel port | Key path | Pod id |
 |---|---|---|---|
@@ -24,10 +24,12 @@ Key paths follow `/tmp/<lane><round>/rp_key`.
 | `checks.mjs` | The pure checks behind `--smoke`, `--census` and `--diag` (smoke verdict, black-frame luminance, foreign pages, hitch list, heap growth, census.txt). |
 | `probes/` | Scripts `measure.mjs` injects before the page's scripts (no app code change); see Probes. |
 | `hud-parse.mjs` | Parses the studio's perf HUD text (`PerfHudSection` in `apps/world-studio/src/character/CharacterMode.tsx`) into numbers. Change it with the HUD. |
-| `pod-capture.mjs --url <url> --out <dir>` | WebGPU correctness capture over raw per-tab CDP: frames on a schedule, deduped console/GPU errors, screen-middle luma and black share, HUD lines, heap, `contexts` (one renderer per canvas reads 1 and 1), `__DIAG`, optional profile; `--compare <url>` writes per-read `lumaRatio`; compare luma on `reads.settled` / `lumaRatio.settled` (read `--settled-frames` N renderer frames, default 300, after the queue sat at 0 pending for 5 s and no earlier than `--settle-floor`, default 60 s), never on the fixed-second reads, which drift with streaming. `--steps <json>` runs a list of `{at, label, js, waitMs?}` (js evaluated at `at` s, then a full read into `result.steps`); every read carries `low1`, the 1 %-low fps from the last ~300 rAF frame durations. Flags in its header. Never playwright `connectOverCDP` on the pod Chrome (it hangs). |
+| `pod-capture.mjs --views <json> --out <dir> [--pod "<ssh>"]` | A round's measurement in ONE invocation (decision 0106 d22): every view `{name, url, steps?, shots?, seconds?}` captured in turn in ONE tab (orphan pages closed first), navigating the same tab. Per view `<out>/<name>/result.json` and a row of `<out>/summary.md`: luma settled/final and blackShare (screen middle), fps, low1, GPU and CPU ms (`__STUDIO_GPU_MS__`, both backends), cap-free `costMs` / `uncappedFps` (measure.mjs `workStats` over a `--window` of 10 s after the settled read), draw calls and triangles, post-GC heap MB/min, main-thread self ms per frame by stage and hitches over 33 ms with their top stage (a filtered trace, `trace-frames.mjs`), GPU/console/page errors, 404s, `probe` (each step's JSON return by label). Settled read: `--settled-frames` N (300) renderer frames after the queue sat at 0 pending for 5 s and no earlier than `--settle-floor` (60 s); compare luma there, never on the fixed-second reads. `result.json` top level carries `cap` (blank-page rAF fps, `capDetected`). `--url <a> [--compare <b>]` is the two-view case (`lumaRatio` on main). `--pod` opens and closes its own CDP tunnel. Example views file: `views/webgpu10-iter6.json`. Never playwright `connectOverCDP` on the pod Chrome (it hangs). |
+| `tunnels.mjs open\|list\|close` | Every ssh tunnel the harness opens is recorded (PID, purpose, ports) in `/tmp/gpu-lane/tunnels.json`; `close [--purpose p]` kills only recorded PIDs whose command line is still ssh. `pod-capture --pod` uses it and closes its own at exit; `tunnels.mjs open --pod "<ssh>" --local 9222` replaces a hand-run `ssh -L`. Never `pkill`. (`pod-sync.sh` and `pod-setup.sh` open no tunnel.) |
+| `trace-frames.mjs` | Trace categories, the streaming event filter, the long-frame classifier and main-thread self ms by stage (gc, shader, upload, gpu, timer, js, compositor, other); shared by `measure.mjs --trace` and `pod-capture`. |
 | `hud-capture.mjs <dist> "<query>" <out>.txt <settleS>` | Reads the HUD perf lines four times over `<settleS>` with a screenshot. |
 | `webgpu-boot-check.mjs` | Boots the BUILT `/webgpu/` studio to its first complete frame; fails on a freeze, GPU validation error, device loss or black view. `CHROME_CDP` points it at the pod's Chrome. Cached on its inputs. |
-| `measure.test.mjs`, `pod-capture-lib.test.mjs`, `serve-lib.test.mjs` | `node --test tooling/gpu-lane/*.test.mjs` (< 1 s). |
+| `*.test.mjs` | `node --test tooling/gpu-lane/*.test.mjs` (< 1 s). |
 
 **Toggle-then-read.** To prove a cause, one `pod-capture.mjs --steps` file toggles one thing at a time (unhook a queue, null `scene.environment`) and reads the screen-middle luma after each, all in one capture.
 
@@ -51,8 +53,8 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
 3. Set up: `ssh -i /tmp/<lane>/rp_key -p <port> root@<ip> 'bash -s' < tooling/gpu-lane/pod-setup.sh`
    (~40 s; `'bash -s webgpu'` for the WebGPU studio).
 4. Sync: `POD_SSH="ssh -i /tmp/<lane>/rp_key -p <port> root@<ip>" bash tooling/gpu-lane/pod-sync.sh /tmp/<lane>/site/studio dev` (and `pod-sync.sh <branch dist> webgpu` to serve the branch beside it).
-5. Tunnel (run_in_background, timeout above the whole loop):
-   `ssh -i /tmp/<lane>/rp_key -p <port> -o ServerAliveInterval=30 -N -L 9222:127.0.0.1:9222 root@<ip>`.
+5. Tunnel: `pod-capture.mjs --pod "ssh -i /tmp/<lane>/rp_key -p <port> root@<ip>"` opens and closes its own; for
+   `measure.mjs`, `node tooling/gpu-lane/tunnels.mjs open --pod "<same>" --local 9222` and `tunnels.mjs close` after.
 6. Measure:
    `node tooling/gpu-lane/measure.mjs --run <name> --url "?view=character&x=4.7789&z=1.9&t=22&w=rain" --url "<query 2>" --shots`
    (`--walk 10` adds a held-W walk; `--renderer webgpu` measures `/elder-souls-argonia/webgpu/`).
@@ -71,6 +73,18 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
    For a local SwiftShader smoke test, point `--cdp` at a local Chrome started with
    `--remote-debugging-port` and serve the site with `node tooling/gpu-lane/serve.mjs <site>/studio`.
 
+## URL switches
+
+| Switch | Where it acts | Effect |
+|---|---|---|
+| `diag=1` | studio (`src/diagOverlay.ts`) | Diag overlay and `window.__DIAG`: fps, worst ms, per-second pipelines, shaders, builds, skipped draws, `builds pending`, `pipelines compiling`; `__DIAG.staticRefresh` counts. |
+| `water=0` | studio (`CharacterMode.tsx`) | No water surface. |
+| `aa=0` | studio (`CharacterMode.tsx`) | Anti-aliasing off. |
+| `renderer=webgl` | studio, branch build | The WebGPU build on its WebGL backend. |
+| `buildq=0` | studio (game-core shader build queue) | Build queue off (being added on the branch). |
+| `static=0` | `harness.html` only (`src/harness/main.ts`) | Deletes `esStatic` on every object, so no draw skips the node refresh. Not in the studio view. |
+| `lighting=field\|tiled\|plain` | `harness.html?sys=` settlement scenes only (`settlementScene.ts`) | Fixture-light mode. Not in the studio view. |
+
 ## Probes
 
 `measure.mjs --diag relink,heap` (or `diag=relink,heap` in the `--url` query) injects `probes/<name>.js` with
@@ -85,12 +99,11 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
 
 ## Gotchas
 
-- **The frame is capped at ~60 and fps cannot show headroom.** `pod-setup.sh` passes
-  `--disable-gpu-vsync --disable-frame-rate-limit`, but on Chrome 154 under Xvfb a trivial page still
-  runs rAF at 58.5 fps (walk 10, six launch variants: ANGLE GL, ANGLE Vulkan, `--headless=new`,
-  `--ozone-platform=headless`, the background-throttling flags). A view at 58-60 fps is "at least
-  60"; read headroom from the HUD's `gpuMs` / `gpuByPass` and `cpuMs`. Below the cap fps is real
-  (walk 10: Riverwalk 52, Greenspring 39).
+- **Check the frame cap before trusting fps.** `pod-setup.sh` starts Chrome with `--disable-gpu-vsync
+  --disable-frame-rate-limit`; walk 10 still read rAF at 58.5 fps on a trivial page (Chrome 154 under Xvfb).
+  `pod-capture` reads a blank page's rAF rate first and records `cap.capDetected`: when true, a view at
+  58-60 fps means "at least 60" and headroom is read from `costMs` / `uncappedFps` and GPU ms; when false,
+  fps is the real rate.
 - **A dead site server looks like a capped frame.** `serve.mjs` started by a plain `nohup` died with
   the ssh session, and the walk-10 base run measured an `ERR_CONNECTION_REFUSED` page at 58 fps on
   every URL. `pod-sync.sh` starts it with `setsid` (log `/root/serve.log`), and `measure.mjs`

@@ -87,3 +87,35 @@ test("settleGate: a build with no queue counts as 0 pending; pending resets the 
   for (let s = 0; s <= 20; s++) if (g.feed(s, { p: s === 4 ? 1 : undefined, g: 5 }, s * 60)) fire.push(s);
   assert.deepEqual(fire, [11]); // zero again from 5 s, gate at 10 s (frame 600), +60 frames at 11 s
 });
+
+test("parseViews: inline steps sorted, bad shapes refused", async () => {
+  const { parseViews } = await import("./pod-capture-lib.mjs");
+  const v = parseViews(JSON.stringify([{ name: "A-webgpu", url: "http://h/x", steps: [{ at: 30, js: "1" }, { at: 10, js: "2" }] }, { name: "B", url: "http://h/y" }]));
+  assert.deepEqual(v[0].steps.map((s) => s.at), [10, 30]); assert.deepEqual(v[1].steps, []);
+  assert.throws(() => parseViews("[]"), /non-empty/);
+  assert.throws(() => parseViews(JSON.stringify([{ name: "a/b", url: "http://h" }])), /name/);
+  assert.throws(() => parseViews(JSON.stringify([{ name: "a", url: "http://h" }, { name: "a", url: "http://h" }])), /duplicate/);
+  assert.throws(() => parseViews(JSON.stringify([{ name: "a", url: "h" }])), /url/);
+  assert.throws(() => parseViews(JSON.stringify([{ name: "a", url: "http://h", steps: [{ at: 1 }] }])), /js/);
+});
+test("capVerdict: a blank page at 58.5 fps is capped, at 240 it is not", async () => {
+  const { capVerdict } = await import("./pod-capture-lib.mjs");
+  assert.deepEqual(capVerdict(58.5), { blankRafFps: 58.5, capDetected: true });
+  assert.deepEqual(capVerdict(240.04), { blankRafFps: 240, capDetected: false });
+  assert.deepEqual(capVerdict(NaN), { blankRafFps: null, capDetected: null });
+});
+test("summaryTable: header, cap line and one row per view with dashes for missing values", async () => {
+  const { summaryTable } = await import("./pod-capture-lib.mjs");
+  const t = summaryTable([{ name: "A", summary: { lumaSettled: 40.123, tris: 940000, fps: 59 } }, { name: "B" }], { capDetected: false, blankRafFps: 240 }).split("\n");
+  assert.equal(t[0], "cap detected: false (blank-page rAF 240 fps)");
+  assert.equal(t.length, 6);
+  assert.match(t[4], /^\| A \| 40\.12 \| - \| - \| 59 \|.*\| 0\.94 \|/);
+  assert.match(t[5], /^\| B( \| -)+ \|$/);
+});
+test("the iter6 views file parses", async () => {
+  const { parseViews } = await import("./pod-capture-lib.mjs");
+  const { readFileSync } = await import("node:fs");
+  const v = parseViews(readFileSync(new URL("./views/webgpu10-iter6.json", import.meta.url), "utf8"));
+  assert.equal(v.length, 9);
+  assert.equal(v.find((x) => x.name === "B-webgpu-diag").steps.length, 3);
+});

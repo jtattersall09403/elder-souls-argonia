@@ -150,3 +150,39 @@ export function onePercentLow(frameMs) {
   const worst = [...frameMs].sort((a, b) => b - a).slice(0, k);
   return Math.round((1000 / (worst.reduce((s, v) => s + v, 0) / k)) * 10) / 10;
 }
+
+/**
+ * Parse a --views JSON file: [{name, url, steps?, shots?, seconds?}]. `steps` is an inline list in the --steps
+ * schema ({at, label, js, waitMs?}), returned sorted. Names must be unique and path-safe (each is a subdirectory).
+ */
+export function parseViews(text) {
+  const a = JSON.parse(text);
+  if (!Array.isArray(a) || !a.length) throw new Error("views: expected a non-empty JSON array");
+  const seen = new Set();
+  return a.map((v, i) => {
+    if (!v || typeof v !== "object") throw new Error(`views[${i}]: expected an object`);
+    if (typeof v.name !== "string" || !/^[\w.-]+$/.test(v.name)) throw new Error(`views[${i}]: "name" must be [A-Za-z0-9_.-]+`);
+    if (seen.has(v.name)) throw new Error(`views[${i}]: duplicate name ${v.name}`);
+    seen.add(v.name);
+    if (typeof v.url !== "string" || !/^https?:\/\//.test(v.url)) throw new Error(`views[${i}]: "url" must be an http(s) URL`);
+    if (v.seconds !== undefined && !(v.seconds > 0)) throw new Error(`views[${i}]: "seconds" must be > 0`);
+    return { ...v, steps: v.steps ? parseSteps(JSON.stringify(v.steps)) : [] };
+  });
+}
+
+/** rAF rate of a blank page (frames per second) -> the cap verdict. Above 61 fps the vsync / frame-rate cap is off and
+ * fps readings can show headroom; at or under it every fps near 60 means "at least 60". */
+export function capVerdict(blankRafFps) {
+  if (!Number.isFinite(blankRafFps)) return { blankRafFps: null, capDetected: null };
+  return { blankRafFps: Math.round(blankRafFps * 10) / 10, capDetected: blankRafFps <= 61 };
+}
+
+const cell = (x) => (x === null || x === undefined ? "-" : typeof x === "number" ? String(Math.round(x * 100) / 100) : String(x));
+/** Markdown summary: one row per view from its result.json `summary`. */
+export function summaryTable(views, cap) {
+  const cols = ["view", "luma settled", "luma final", "black", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404"];
+  const rows = views.map(({ name, summary: s = {} }) => [name, s.lumaSettled, s.lumaFinal, s.blackShare, s.fps, s.low1, s.gpuMs, s.cpuMs, s.costMs, s.uncappedFps, s.calls,
+    s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors].map(cell));
+  return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, "",
+    `| ${cols.join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.join(" | ")} |`)].join("\n");
+}
