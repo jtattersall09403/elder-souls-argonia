@@ -69,7 +69,7 @@
 import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, ADAPTER_JS, cpuTop } from "./pod-capture-lib.mjs";
+import { HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit } from "./checks.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
@@ -139,13 +139,17 @@ async function connectBrowser() {
   bws.onclose = () => { for (const f of bPending.values()) f({ error: { message: "browser closed" } }); bPending.clear(); };
   if (chromeMode === "webgpu") all.adapterWaits.push(await waitAdapter());
 }
+// about:blank is not a secure context (no navigator.gpu): the probe runs on the first view's origin, which is (http://localhost via the tunnel).
+const ADAPTER_PROBE_JS = `(async () => { const gpuPresent = typeof navigator.gpu !== "undefined"; try { return { gpuPresent, adapter: Boolean(await navigator.gpu?.requestAdapter()) }; } catch { return { gpuPresent, adapter: false }; } })()`;
+const adapterPage = () => `${new URL(views[0].url).origin}/`;
 /** diag10 D5: right after a pod Chrome start the GPU process had no WebGPU adapter yet and the first view silently ran
- * WebGL2. Poll requestAdapter() on a throwaway about:blank page until it answers (ADAPTER_WAIT_MS). */
+ * WebGL2. Poll requestAdapter() on a throwaway page of the served origin until it answers (ADAPTER_WAIT_MS). */
 async function waitAdapter() {
   const t0 = Date.now();
-  let targetId = null, pws = null, id = 0;
+  let targetId = null, pws = null, id = 0, last = { gpuPresent: false, adapter: false };
+  const page = adapterPage();
   try {
-    ({ targetId } = await bsend("Target.createTarget", { url: "about:blank", background: true }));
+    ({ targetId } = await bsend("Target.createTarget", { url: page, background: true }));
     pws = new WebSocket(pageWs(targetId));
     await new Promise((r, j) => { pws.onopen = r; pws.onerror = j; });
     const waiting = new Map();
@@ -153,14 +157,15 @@ async function waitAdapter() {
     const ev = () => new Promise((res) => {
       const k = ++id, t = setTimeout(() => res(false), 5000);
       waiting.set(k, (m) => { clearTimeout(t); res(m.result?.result?.value === true); });
-      pws.send(JSON.stringify({ id: k, method: "Runtime.evaluate", params: { expression: ADAPTER_JS, awaitPromise: true, returnByValue: true } }));
+      pws.send(JSON.stringify({ id: k, method: "Runtime.evaluate", params: { expression: ADAPTER_PROBE_JS, awaitPromise: true, returnByValue: true } }));
     });
     while (Date.now() - t0 < ADAPTER_WAIT_MS) {
-      if (await ev()) return { ok: true, ms: Date.now() - t0 };
+      const r = await ev();
+      if (r.adapter) return { ok: true, ms: Date.now() - t0, page, ...r };
       await new Promise((r) => setTimeout(r, 1000));
     }
-    return { ok: false, ms: Date.now() - t0 };
-  } catch (e) { return { ok: false, ms: Date.now() - t0, error: String(e.message) }; }
+    return { ok: false, ms: Date.now() - t0, page, ...last };
+  } catch (e) { return { ok: false, ms: Date.now() - t0, page, ...last, error: String(e.message) }; }
   finally { try { pws?.close(); } catch { /* gone */ } if (targetId) await bsend("Target.closeTarget", { targetId }).catch(() => {}); }
 }
 const bsend = (method, params = {}, timeoutMs = CDP_TIMEOUT_MS) => new Promise((res, rej) => {

@@ -98,6 +98,81 @@ export function guardPageBuffers(renderer: WebGPURenderer): AttributeStore | nul
   return store;
 }
 
+interface VertexRenderObject {
+  attributes: unknown[] | null;
+  getAttributes(): unknown[];
+  getVertexBuffers(): ({ name?: string; id?: number } & object)[];
+}
+interface GuardedBackend {
+  draw(renderObject: VertexRenderObject, info: unknown): unknown;
+  get(object: object): { buffer?: unknown };
+  esVertexGuard?: boolean;
+}
+interface UploadStore extends AttributeStore { update(attribute: object, type: number): void }
+
+/** three's `AttributeType.VERTEX`. */
+const VERTEX_ATTRIBUTE = 1;
+
+/**
+ * Before every draw, make sure each vertex buffer the render object binds has
+ * a backend buffer. A render object caches its attribute list
+ * (RenderObject.getAttributes) and resets it only on an attribute id change
+ * or its own geometry's dispose; when a shared buffer it still lists is freed
+ * elsewhere, WebGPUBackend binds `undefined`, the slot reads as unset and the
+ * whole command buffer is rejected (black frame; webgpu diag11). The guard
+ * drops the stale list, and re-uploads any buffer still missing through the
+ * attribute store (both maps), logging the first hit so a capture names the
+ * path that freed it. Per renderer instance, once.
+ */
+export function guardVertexBuffers(renderer: WebGPURenderer): boolean {
+  const r = renderer as unknown as { backend?: GuardedBackend; _attributes?: UploadStore | null };
+  const backend = r.backend;
+  if (!backend || typeof backend.draw !== "function" || backend.esVertexGuard) return !!backend?.esVertexGuard;
+  const draw = backend.draw.bind(backend);
+  let logged = false;
+  backend.draw = (renderObject: VertexRenderObject, info: unknown) => {
+    const store = r._attributes;
+    if (store) repairVertexBuffers(renderObject, backend, store, () => {
+      if (logged) return false;
+      logged = true;
+      return true;
+    });
+    return draw(renderObject, info);
+  };
+  backend.esVertexGuard = true;
+  return true;
+}
+
+/** The guard's per-draw step (exported for its test). */
+export function repairVertexBuffers(
+  renderObject: VertexRenderObject, backend: Pick<GuardedBackend, "get">,
+  store: UploadStore, shouldLog: () => boolean,
+): number {
+  let buffers = renderObject.getVertexBuffers();
+  let missing = -1;
+  for (let i = 0; i < buffers.length; i++) if (!backend.get(buffers[i]).buffer) { missing = i; break; }
+  if (missing < 0) return 0;
+  const first = buffers[missing];
+  // the cached list may name a buffer the geometry no longer holds
+  renderObject.attributes = null;
+  renderObject.getAttributes();
+  buffers = renderObject.getVertexBuffers();
+  let repaired = 0;
+  for (let i = 0; i < buffers.length; i++) {
+    const vb = buffers[i];
+    if (backend.get(vb).buffer) continue;
+    store.delete(vb);
+    store.update(vb, VERTEX_ATTRIBUTE);
+    repaired++;
+  }
+  if (shouldLog()) {
+    console.warn("[gpuCull] vertex buffer without a backend buffer before draw", {
+      slot: missing, name: first.name ?? "", id: first.id, reuploaded: repaired,
+    });
+  }
+  return repaired;
+}
+
 export class GpuCullPool {
   static supported = GpuCullSystem.supported;
 
@@ -211,7 +286,10 @@ export class GpuCullPool {
 
   /** Dispatch every page's reset + cull, once, before this frame's render. */
   update(renderer: WebGPURenderer, camera: THREE.Camera, sweep: SunSweep | null): void {
-    this.store ??= guardPageBuffers(renderer);
+    if (!this.store) {
+      this.store = guardPageBuffers(renderer);
+      guardVertexBuffers(renderer);
+    }
     const nodes: unknown[] = [];
     for (const system of this.pages) {
       if (system.drawCount > 0) nodes.push(...system.prepare(camera, sweep));
