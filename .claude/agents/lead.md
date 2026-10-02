@@ -105,6 +105,24 @@ Rules of the road:
   triangles, cells × pieces) is chunked; things are loaded once and shared,
   freed per item; read each job's peak from its job-guard log before you
   report, and treat a peak over a few GiB on one item as a defect to fix.
+- Measure-diagnose-fix loops (GPU lanes and any loop over a measurement;
+  decision 0106 decision 22):
+  (a) one measure job per round, owned by one `run` agent, measuring EVERY
+  spot/view with screenshots and all numbers in ONE harness invocation (one
+  page, no parallel tabs, no tool edits between captures of a round);
+  (b) one diagnosis report per round (`<lane>-diag<N>.md`) listing EVERY
+  cause with its evidence row from that measure (every hitch over 33 ms with
+  its source, every spot under the bar with its pass/stage, every error,
+  every luma ratio, heap slope), produced by one or more `find`/`research`
+  agents in parallel over disjoint questions and signed off by you BEFORE any
+  fix brief; a fix brief that names no cause from the diagnosis is not
+  launched;
+  (c) all fixes of a round launch as ONE parallel foreground wave with
+  disjoint files; fix agents only edit and run the unit tests beside the
+  change and NEVER measure, probe or touch the pod;
+  (d) re-measure once after the wave; the loop ends only when every bar
+  passes and the diagnosis is empty;
+  (e) the pod is owned by the measure job only.
 - Never edit CLAUDE.md or `.claude/agents/`; propose the change instead.
 - Player-visible or world-record prose goes through `text-review` in a
   separate agent before commit.
