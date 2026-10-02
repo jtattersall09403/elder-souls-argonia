@@ -1,0 +1,3 @@
+# perf10 c7: core test. e walk x3 probe-off, then eprof (profile-walk) x3.
+e ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5 walk=20 x3
+eprof ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5 walk=20 profile-walk x3
