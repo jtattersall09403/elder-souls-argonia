@@ -1,0 +1,29 @@
+# perf10 c7 d3: water debug views (judged visually) plus the e core walks x3.
+awater0 ?view=character&x=7.1971&z=0.584&t=12&w=clear&water=0&rate=0.5
+ad0 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=0&rate=0.5
+ad1 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=1&rate=0.5
+ad2 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=2&rate=0.5
+ad3 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=3&rate=0.5
+ad4 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=4&rate=0.5
+ad5 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=5&rate=0.5
+ad6 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=6&rate=0.5
+ad7 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=7&rate=0.5
+ad8 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=8&rate=0.5
+ad9 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=9&rate=0.5
+ad10 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=10&rate=0.5
+ad11 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=11&rate=0.5
+ad12 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=12&rate=0.5
+aq0 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wq=low&wdbg=0&rate=0.5
+aq1 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wq=low&wdbg=1&rate=0.5
+aq2 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wq=low&wdbg=2&rate=0.5
+aq3 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wq=low&wdbg=3&rate=0.5
+aq6 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wq=low&wdbg=6&rate=0.5
+aq8 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wq=low&wdbg=8&rate=0.5
+aq12 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wq=low&wdbg=12&rate=0.5
+w0 ?view=character&x=2.53&z=0.32&t=12&w=clear&wdbg=0&rate=0.5
+w1 ?view=character&x=2.53&z=0.32&t=12&w=clear&wdbg=1&rate=0.5
+w2 ?view=character&x=2.53&z=0.32&t=12&w=clear&wdbg=2&rate=0.5
+w8 ?view=character&x=2.53&z=0.32&t=12&w=clear&wdbg=8&rate=0.5
+w11 ?view=character&x=2.53&z=0.32&t=12&w=clear&wdbg=11&rate=0.5
+w12 ?view=character&x=2.53&z=0.32&t=12&w=clear&wdbg=12&rate=0.5
+e ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5 walk=20 x3
