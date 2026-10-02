@@ -215,24 +215,62 @@ test("parseSpots: x<N> repeats a spot under numbered names", async () => {
   const { parseSpots } = await import("./spots.mjs");
   const s = parseSpots("a ?x=1\ne ?x=2 walk=20 x3\n");
   assert.deepEqual(s.map((x) => x.name), ["a", "e", "e2", "e3"]);
-  assert.equal(s[3].walk, 20);
+  assert.deepEqual(s[3].steps, [{ w: 20 }]);
+});
+test("parseSteps: w and signed yaw segments; bad tokens refused", async () => {
+  const { parseSpots, parseSteps, stepsSeconds } = await import("./spots.mjs");
+  const s = parseSteps("w:7,yaw:+1.2,w:6,yaw:-2.0,w:7");
+  assert.deepEqual(s, [{ w: 7 }, { yaw: 1.2 }, { w: 6 }, { yaw: -2 }, { w: 7 }]);
+  assert.equal(stepsSeconds(s), 20);
+  for (const bad of ["w:0", "yaw:1.2,w:3", "w:3,yaw:x", "w:3,,w:2", "run:3", "yaw:+1"]) assert.throws(() => parseSteps(bad), /bad step|at least one/, bad);
+  assert.deepEqual(parseSpots("m ?x=1 steps=w:2,yaw:-0.5,w:1\n")[0].steps, [{ w: 2 }, { yaw: -0.5 }, { w: 1 }]);
+  assert.throws(() => parseSpots("m ?x=1 steps=w:2,turn:1"), /spots line 1: bad step/);
+});
+test("driveSteps: W held across the whole sequence, yaw set absolute from the base", async () => {
+  const { driveSteps } = await import("./measure.mjs");
+  const calls = [];
+  const io = { key: async (d) => calls.push(d ? "down" : "up"), aim: async (y) => calls.push(`aim ${y.toFixed(2)}`), wait: async (ms) => calls.push(`wait ${ms}`) };
+  await driveSteps(io, [{ w: 7 }, { yaw: 1.2 }, { w: 6 }, { yaw: -2 }, { w: 7 }], 0.5);
+  assert.deepEqual(calls, ["aim 0.50", "down", "wait 7000", "aim 1.70", "wait 6000", "aim -0.30", "wait 7000", "up"]);
+  calls.length = 0;
+  await driveSteps(io, [{ w: 20 }]);
+  assert.deepEqual(calls, ["down", "wait 20000", "up"], "a plain walk does not re-aim the camera");
+});
+test("gen-matrix: 13 deterministic lines, coordinates from places.json", async () => {
+  const { matrix, PLACES, PLACES_JSON } = await import("./spots/gen-matrix.mjs");
+  const { parseSpots } = await import("./spots.mjs");
+  const { readFileSync } = await import("node:fs");
+  const text = readFileSync(new URL(`../../${PLACES_JSON}`, import.meta.url), "utf8");
+  const out = matrix(text);
+  assert.equal(out, matrix(text));
+  assert.equal(out, readFileSync(new URL("./spots/matrix.txt", import.meta.url), "utf8"), "matrix.txt is the generator's output");
+  const lines = out.split("\n").filter((l) => l && !l.startsWith("#"));
+  assert.equal(lines.length, 13);
+  const byId = new Map(JSON.parse(text).places.map((p) => [p.id, p]));
+  for (const [id, short] of PLACES) {
+    const [x, z] = byId.get(id).positionM;
+    assert.ok(lines.includes(`${short}-t22-rain ?view=character&x=${(x / 1000).toFixed(4)}&z=${(z / 1000).toFixed(4)}&t=22&w=rain steps=w:7,yaw:+1.2,w:6,yaw:-2.0,w:7`), short);
+  }
+  assert.equal(parseSpots(out).length, 15);
 });
 test("parseSpots: name, query, --aim and walk=; comments skipped; bad lines throw", async () => {
-  const { parseSpots, parseBar, spotRow, summaryTable, heapSlope } = await import("./spots.mjs");
+  const { parseSpots, parseBar, spotRows, summaryTable, heapSlope } = await import("./spots.mjs");
   const s = parseSpots("# c\na ?x=1&t=2  # night\n\ne ?x=1&t=2 --aim 0.5,-0.2 walk=20\n");
-  assert.deepEqual(s, [{ name: "a", query: "?x=1&t=2", aim: "", walk: 0 }, { name: "e", query: "?x=1&t=2", aim: "0.5,-0.2", walk: 20 }]);
+  assert.deepEqual(s, [{ name: "a", query: "?x=1&t=2", aim: "", steps: [] }, { name: "e", query: "?x=1&t=2", aim: "0.5,-0.2", steps: [{ w: 20 }] }]);
   assert.throws(() => parseSpots("a ?x=1\na ?x=2"), /duplicate/);
   assert.throws(() => parseSpots("a ?x=1 walk=fast"), /cannot read/);
   assert.throws(() => parseSpots("a"), /need/);
   assert.deepEqual(parseBar("83,69"), { fps: 83, p1low: 69 });
   assert.throws(() => parseBar("83"), /--bar/);
   const bar = parseBar("83,69");
-  const ok = spotRow("a", { settledFps: 90, p1LowFps: 70, uncappedFps: 95, p1LowUncapped: 71, frameTimes: { maxMs: 21 }, over20: 3, over33: 0, ready: true }, bar);
+  const [ok, ...none] = spotRows("a", { settledFps: 90, p1LowFps: 70, uncappedFps: 95, p1LowUncapped: 71, frameTimes: { maxMs: 21 }, over20: 3, over33: 0, ready: true }, bar);
   assert.equal(ok.pass, true);
-  const walk = spotRow("e", { settledFps: 100, p1LowFps: 80, walk: { seconds: 20, settledFps: 88, p1LowFps: 51, frameTimes: { maxMs: 129 }, over20: 9, over33: 4 }, ready: true }, bar);
-  assert.equal(walk.pass, false, "a walk spot is judged on its walk window");
+  assert.equal(none.length, 0);
+  const [still, walk] = spotRows("e", { settledFps: 100, p1LowFps: 80, walk: { seconds: 20, settledFps: 88, p1LowFps: 51, frameTimes: { maxMs: 129 }, over20: 9, over33: 4 }, ready: true }, bar);
+  assert.equal(still.pass, true, "a walk spot's static settle is its own row");
+  assert.equal(walk.pass, false, "and its walk window another");
   assert.equal(walk.fps, 88);
-  assert.match(summaryTable([ok, walk], bar), /\| a \| 90 \| 70 \| 95 \| 71 \| 21 \| 3 \| 0 \| pass \|[\s\S]*e \(walk 20 s\).*FAIL[\s\S]*1 of 2 spots pass/);
+  assert.match(summaryTable([ok, still, walk], bar), /\| a \| 90 \| 70 \| 95 \| 71 \| 21 \| 3 \| 0 \| pass \|[\s\S]*\| e \| 100 [\s\S]*e \(walk 20 s\).*FAIL[\s\S]*2 of 3 spots pass/);
   assert.equal(heapSlope([{ tS: 0, MB: 100 }, { tS: 30, MB: 110 }, { tS: 60, MB: 120 }]), 20);
   assert.equal(heapSlope([{ tS: 0, MB: 1 }]), null);
 });
@@ -242,14 +280,14 @@ test("parseArgs: --spots builds one spot list, --leak keeps the first spot, --ba
   const o = parseArgs(["--run", "r", "--spots", new URL("./spots/perf10.txt", import.meta.url).pathname]);
   assert.deepEqual(o.spotList.map((s) => s.name), ["a", "b", "c", "d", "e", "e2", "e3", "f", "g", "h"]);
   assert.equal(o.spotList[9].aim, "1.4,0.1");
-  assert.equal(o.spotList[4].walk, 20);
+  assert.deepEqual(o.spotList[4].steps, [{ w: 20 }]);
   assert.equal(o.shots, true);
   assert.equal(o.clean, "1");
   assert.deepEqual(o.barParsed, { fps: 83, p1low: 69 });
   assert.equal(parseArgs(["--run", "r", "--spots", new URL("./spots/perf10.txt", import.meta.url).pathname, "--leak", "60"]).spotList.length, 10, "--leak keeps every spot");
   assert.throws(() => parseArgs(["--run", "r", "--url", "?a=1", "--spots", "x"]), /replaces --url/);
   const u = parseArgs(["--run", "r", "--url", "?a=1", "--walk", "5", "--aim", "1,0"]);
-  assert.deepEqual(u.spotList, [{ name: "url0", query: "?a=1", aim: "1,0", walk: 5 }]);
+  assert.deepEqual(u.spotList, [{ name: "url0", query: "?a=1", aim: "1,0", steps: [{ w: 5 }] }]);
 });
 
 test("relink probe: every link names type and owner, shadow depth materials are flagged", async () => {

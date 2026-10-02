@@ -1,9 +1,9 @@
 // Spot lists, the per-round summary table and the leak slope: pure helpers of measure.mjs.
 
 /**
- * A spot file has one spot per line: `<name> <query> [--aim yaw,pitch] [walk=<s>] [x<N>]`; the query starts with
- * "?"; blank lines and lines starting with "#" are skipped; `x<N>` repeats the spot N times in a row (names <name>, <name>2,
- * <name>3, ...). Returns [{name, query, aim, walk}].
+ * A spot file has one spot per line: `<name> <query> [--aim yaw,pitch] [walk=<s> | steps=<seq>] [x<N>]`; the query
+ * starts with "?"; blank lines and lines starting with "#" are skipped; `x<N>` repeats the spot N times in a row (names
+ * <name>, <name>2, <name>3, ...). `walk=<s>` is sugar for `steps=w:<s>`. Returns [{name, query, aim, steps}].
  */
 export function parseSpots(text) {
   const spots = [];
@@ -11,14 +11,15 @@ export function parseSpots(text) {
     const line = raw.replace(/\s+#.*$/, "").trim();
     if (!line || line.startsWith("#")) continue;
     const tok = line.split(/\s+/);
-    const spot = { name: tok[0], query: "", aim: "", walk: 0 };
+    const spot = { name: tok[0], query: "", aim: "", steps: [] };
     let times = 1;
     for (let k = 1; k < tok.length; k++) {
       if (tok[k].startsWith("?")) spot.query = tok[k];
       else if (tok[k] === "--aim") spot.aim = tok[++k] ?? "";
       else if (/^x\d+$/.test(tok[k])) times = Number(tok[k].slice(1));
-      else if (/^walk=\d+(\.\d+)?$/.test(tok[k])) spot.walk = Number(tok[k].slice(5));
-      else throw new Error(`spots line ${i + 1}: cannot read "${tok[k]}" (want ?query, --aim yaw,pitch, walk=<s>)`);
+      else if (/^walk=\d+(\.\d+)?$/.test(tok[k])) spot.steps = [{ w: Number(tok[k].slice(5)) }];
+      else if (tok[k].startsWith("steps=")) spot.steps = parseSteps(tok[k].slice(6), `spots line ${i + 1}`);
+      else throw new Error(`spots line ${i + 1}: cannot read "${tok[k]}" (want ?query, --aim yaw,pitch, walk=<s>, steps=<seq>)`);
     }
     if (!/^[\w.-]+$/.test(spot.name) || !spot.query) throw new Error(`spots line ${i + 1}: need "<name> <?query>"`);
     for (let n = 1; n <= times; n++) {
@@ -31,6 +32,25 @@ export function parseSpots(text) {
   return spots;
 }
 
+/**
+ * A motion sequence "w:7,yaw:+1.2,w:6": `w:<s>` holds W for s seconds, `yaw:<+|-rad>` turns the follow camera by rad
+ * (relative; W stays held). At least one w segment. Returns [{w} | {yaw}].
+ */
+export function parseSteps(seq, where = "steps") {
+  const steps = String(seq).split(",").map((seg) => {
+    let m = /^w:(\d+(?:\.\d+)?)$/.exec(seg);
+    if (m && Number(m[1]) > 0) return { w: Number(m[1]) };
+    m = /^yaw:([+-]\d+(?:\.\d+)?)$/.exec(seg);
+    if (m) return { yaw: Number(m[1]) };
+    throw new Error(`${where}: bad step "${seg}" (want w:<s> or yaw:<+|-rad>)`);
+  });
+  if (!steps.some((x) => x.w)) throw new Error(`${where}: steps need at least one w:<s>`);
+  return steps;
+}
+
+/** Seconds of W held over a step sequence: the length of the motion window. */
+export const stepsSeconds = (steps) => steps.reduce((a, x) => a + (x.w ?? 0), 0);
+
 /** "--bar fps,p1low" -> {fps, p1low}. */
 export function parseBar(s) {
   const [fps, p1low] = String(s).split(",").map(Number);
@@ -39,14 +59,16 @@ export function parseBar(s) {
 }
 
 /**
- * One row per spot from a url entry. A walk spot reports its walk window (the walk is the measurement);
+ * The rows of one url entry: its static settle, and for a walk spot its walk window too (each judged on its own);
  * pass = settled fps >= bar.fps and p1Low (fps of the slowest 1 % of frame intervals) >= bar.p1low.
  */
-export function spotRow(name, u, bar) {
-  const w = u.walk;
-  const s = w ?? u;
+export function spotRows(name, u, bar) {
+  return [row(name, u, u, bar), ...(u.walk ? [row(`${name} (walk ${u.walk.seconds} s)`, u, u.walk, bar)] : [])];
+}
+
+function row(spot, u, s, bar) {
   const pass = s.settledFps >= bar.fps && s.p1LowFps >= bar.p1low;
-  return { spot: w ? `${name} (walk ${w.seconds} s)` : name, fps: s.settledFps, p1Low: s.p1LowFps, uncapped: s.uncappedFps ?? null,
+  return { spot, fps: s.settledFps, p1Low: s.p1LowFps, uncapped: s.uncappedFps ?? null,
     p1LowUncapped: s.p1LowUncapped ?? null, maxMs: s.frameTimes?.maxMs ?? null, over20: s.over20, over33: s.over33,
     ready: u.ready, pass };
 }

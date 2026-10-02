@@ -37,7 +37,7 @@ import { chromium } from "playwright";
 import { BLACK_LUMA, SPOT_A, censusText, diagList, foreignPages, heapGrowth, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
 import { ANCHOR_PREFIX, classifyFrames, joinLinks } from "./trace-frames.mjs";
-import { heapSlope, parseBar, parseSpots, spotRow, summaryTable } from "./spots.mjs";
+import { heapSlope, parseBar, parseSpots, spotRows, stepsSeconds, summaryTable } from "./spots.mjs";
 
 export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems };
 
@@ -66,7 +66,7 @@ export function parseArgs(argv) {
     if (o.url.length) throw new Error("--spots replaces --url");
     o.spotList = parseSpots(readFileSync(resolve(o.spots), "utf8"));
     o.url = o.spotList.map((s) => s.query); o.shots = true; o.clean ||= "1";
-  } else o.spotList = o.url.map((q, i) => ({ name: `url${i}`, query: q, aim: o.aim, walk: o.walk }));
+  } else o.spotList = o.url.map((q, i) => ({ name: `url${i}`, query: q, aim: o.aim, steps: o.walk > 0 ? [{ w: o.walk }] : [] }));
   o.barParsed = parseBar(o.bar);
   if (!o.url.length || !o.run) throw new Error("need --run <name> and at least one --url <query> (or --spots <file>)");
   o.diagList = diagList(o.diag, o.url);
@@ -357,6 +357,22 @@ async function cpuProfile(page, o, seconds, tag, name) {
   return { elapsedMs: Date.now() - t0, file, seconds, ...profileSummary(profile) };
 }
 
+/**
+ * Runs a step sequence through io {key(down), aim(yaw), wait(ms)}: W goes down at the first w segment and stays
+ * down to the end. aimCamera is absolute, so a sequence with a yaw step first sets the camera to baseYaw (the
+ * spot's --aim yaw, else 0) and each yaw step sets baseYaw + the running sum; the character turns with the camera.
+ */
+export async function driveSteps(io, steps, baseYaw = 0) {
+  let yaw = baseYaw, held = false;
+  if (steps.some((s) => s.yaw !== undefined)) await io.aim(yaw);
+  for (const s of steps) {
+    if (s.yaw !== undefined) { yaw += s.yaw; await io.aim(yaw); continue; }
+    if (!held) { await io.key(true); held = true; }
+    await io.wait(s.w * 1000);
+  }
+  if (held) await io.key(false);
+}
+
 async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   const { query, name } = spot;
   const consoleErrors = [], http404s = [];
@@ -398,7 +414,8 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   if (stopSettleTrace) traces.settled = await stopSettleTrace();
   const stats = { ...frameStats(settle.ts), ...settle.work };
   let profile = null;
-  if (o.profile > 0 && !(spot.walk > 0)) profile = await cpuProfile(page, o, o.profile, "settled", name);
+  const walkS = stepsSeconds(spot.steps);
+  if (o.profile > 0 && !(walkS > 0)) profile = await cpuProfile(page, o, o.profile, "settled", name);
   const hudText = await page.evaluate(() => document.body.innerText).catch(() => "");
   const hud = parseHud(hudText);
   const info = await page.evaluate(() => {
@@ -419,17 +436,24 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   };
   await shot("settled");
   let walk = null;
-  if (spot.walk > 0) {
+  if (walkS > 0) {
     const cdp = await ctx.newCDPSession(page);
     await page.mouse.click(o.width / 2, o.height / 2).catch(() => {});
     const key = { key: "w", code: "KeyW", windowsVirtualKeyCode: 87, nativeVirtualKeyCode: 87, text: "w" };
-    await cdp.send("Input.dispatchKeyEvent", { type: "keyDown", ...key });
+    const io = {
+      key: (down) => cdp.send("Input.dispatchKeyEvent", { type: down ? "keyDown" : "keyUp", ...key }),
+      aim: (yaw) => page.evaluate((y) => window.__STUDIO_CHARACTER_DEBUG__?.aimCamera(y), yaw).catch(() => {}),
+      wait: (ms) => page.waitForTimeout(ms),
+    };
     const stopWalkTrace = o.trace ? await startTrace(page, join(o.out, `${name}-walk.trace.json`)) : null;
-    const w = await sample(page, spot.walk, o.profile > 0 ? () => cpuProfile(page, o, Math.min(o.profile, spot.walk), "walk", name) : null);
+    // One window (stats, trace, profile) spans the whole sequence: the driver runs beside the sampler.
+    const [w] = await Promise.all([
+      sample(page, walkS, o.profile > 0 ? () => cpuProfile(page, o, Math.min(o.profile, walkS), "walk", name) : null),
+      driveSteps(io, spot.steps, spot.aim ? Number(spot.aim.split(",")[0]) : 0),
+    ]);
     if (stopWalkTrace) traces.walk = await stopWalkTrace(w.extra?.file);
-    await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", ...key });
     if (w.extra) profile = w.extra;
-    walk = { seconds: spot.walk, ...frameStats(w.ts), ...w.work, hud: parseHud(await page.evaluate(() => document.body.innerText).catch(() => "")) };
+    walk = { seconds: walkS, steps: spot.steps, ...frameStats(w.ts), ...w.work, hud: parseHud(await page.evaluate(() => document.body.innerText).catch(() => "")) };
     await shot("walk");
   }
   const gpu = await gpuAdapter(page, o.renderer);
@@ -498,7 +522,7 @@ async function main() {
     writeFileSync(join(o.out, "census.txt"), `${entries.map((e) => (e.draws ? censusText(e) : `# ${e.query}: census failed ${e.error}`)).join("\n\n")}\n`);
     console.log(`measure: ${join(o.out, "census.json")} and census.txt`);
   }
-  const rows = result.urls.map((u) => spotRow(u.name, u, o.barParsed));
+  const rows = result.urls.flatMap((u) => spotRows(u.name, u, o.barParsed));
   const table = summaryTable(rows, o.barParsed);
   writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\n${table}\n`);
   writeFileSync(join(o.out, "summary.json"), `${JSON.stringify({ schemaVersion: 1, run: o.run, bar: o.barParsed, rows }, null, 2)}\n`);
