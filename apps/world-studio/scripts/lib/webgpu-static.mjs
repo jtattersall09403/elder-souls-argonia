@@ -23,10 +23,12 @@ export function dataPublicDir() {
 /** A request handler over [prefix, root] pairs plus the KTX2 transcoder.
  * `intercept(path, res)` may answer first (returns true when it did). */
 export function staticHandler(roots, { intercept, onMissing } = {}) {
-  const basisDir = dirname(createRequire(join(appDir, "package.json")).resolve("three/examples/jsm/libs/basis/basis_transcoder.js"));
+  // The pod has no node_modules: a built dist carries its own basis/ files, so a missing three is not an error there.
+  let basisDir = null;
+  try { basisDir = dirname(createRequire(join(appDir, "package.json")).resolve("three/examples/jsm/libs/basis/basis_transcoder.js")); } catch { /* served from the dist */ }
   return (req, res) => {
     const path = decodeURIComponent(req.url.split("?")[0]);
-    const basis = /\/basis\/(basis_transcoder\.(?:js|wasm))$/.exec(path);
+    const basis = basisDir && /\/basis\/(basis_transcoder\.(?:js|wasm))$/.exec(path);
     if (basis) { res.writeHead(200, { "Content-Type": MIME[extname(basis[1])] }); createReadStream(join(basisDir, basis[1])).pipe(res); return; }
     if (intercept?.(path, res)) return;
     // An exact file under any matching root wins (a dev studio and its data share /studio/), else the
