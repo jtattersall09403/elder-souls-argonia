@@ -203,10 +203,17 @@ export function pageProbe() {
   const ch = new MessageChannel();
   let cur = null;
   ch.port1.onmessage = () => { if (cur) cur.msg = now(); };
+  // The groundcover's cumulative refill timers (GroundcoverPerf.tf), snapshotted as each frame closes; the window
+  // read differences consecutive snapshots into per-frame values (GC_COLUMNS order).
+  const gcSnap = () => {
+    const f = window.__STUDIO_GROUNDCOVER_DEBUG__?.perf?.tf;
+    return f ? [f.useFrameMs, f.genMs, f.commitMs, f.swapMs, f.rangesMs, f.fillMs, f.allocMs, f.statsMs, f.renderMs,
+      f.effectMs, f.cullMs, f.bytes, f.refills, f.drains, f.meshes, f.allocs] : null;
+  };
   window.requestAnimationFrame = (cb) => raf((stamp) => {
     const w0 = now();
     if (!cur || cur.stamp !== stamp) {
-      if (cur && lane.on) lane.frames.push(cur);
+      if (cur && lane.on) { cur.gc = gcSnap(); lane.frames.push(cur); }
       const g = window.__STUDIO_GPU_MS__;
       cur = { stamp, start: w0, end: w0, msg: 0, gpu: g?.supported ? g.avg : null };
       ch.port2.postMessage(0);
@@ -412,17 +419,78 @@ export async function sample(page, seconds, during, wait = nodeWait, hl = harnes
     const l = window.__GPU_LANE__;
     const hb = l.hb; l.hb = null;
     const workerGaps = hb ? await new Promise((r) => { hb.onmessage = (e) => { hb.terminate(); r(e.data.map(([s, ms]) => [s - performance.timeOrigin, ms])); }; hb.postMessage(0); }) : null;
-    return { ts: l.ts, wrapMs: l.wrapMs, workerGaps, frames: l.frames.map((f) => ({ t: f.stamp, work: Math.max(f.end, f.msg) - f.start, gpu: f.gpu })) };
+    return { ts: l.ts, wrapMs: l.wrapMs, workerGaps, frames: l.frames.map((f) => ({ t: f.stamp, work: Math.max(f.end, f.msg) - f.start, gpu: f.gpu, gcCum: f.gc })) };
   }));
   for (let i = 0; i < raw.frames.length; i++) raw.frames[i].dt = i ? raw.frames[i].t - raw.frames[i - 1].t : 0;
+  gcDeltas(raw.frames);
   const workerGaps = raw.workerGaps?.map(([s, ms]) => [r2(s), r2(ms)]) ?? null;
   return { ts: raw.ts, extra, series: frameSeries(raw.frames), workerGaps,
     work: { ...workStats(raw.frames), wrapperMsPerFrame: raw.frames.length ? r2(raw.wrapMs / raw.frames.length) : null } };
 }
 
-/** The per-frame series of a stats window as compact column arrays (page ms, 0.01 ms): {t, dt, work, gpu}. */
+/** Order of pageProbe's gcSnap array: the cumulative GroundcoverPerf.tf fields as series columns. */
+export const GC_SNAP = ["gcUseFrame", "gcGen", "gcCommit", "gcSwap", "gcRanges", "gcFill", "gcAlloc", "gcStats", "gcRender",
+  "gcEffect", "gcCull", "gcBytes", "refills", "drains", "gcMeshes", "gcAllocs"];
+/** The ms sub-timers, and those that are not nested in another (their sum is the groundcover's main-thread ms). */
+export const GC_MS = ["gcUseFrame", "gcGen", "gcCommit", "gcSwap", "gcRanges", "gcFill", "gcAlloc", "gcStats", "gcRender", "gcEffect", "gcCull"];
+export const GC_TOP = ["gcUseFrame", "gcFill", "gcStats", "gcRender", "gcEffect"];
+/** Per-frame series columns from the groundcover: GC_MS, then gcBytes, gcRefill (1 a fill started, 2 a commit
+ * drain finished: the fill swapped in), gcMeshes, gcAllocs. */
+export const GC_COLUMNS = [...GC_MS, "gcBytes", "gcRefill", "gcMeshes", "gcAllocs"];
+
+/** In place: each frame's `gcCum` snapshot (or null) becomes `gc` {column: this frame's value} against the previous
+ * frame's snapshot; the first frame and a frame with no snapshot get null. */
+export function gcDeltas(frames) {
+  let prev = null;
+  for (const f of frames) {
+    const c = f.gcCum ?? null;
+    delete f.gcCum;
+    f.gc = null;
+    if (c && prev) {
+      const d = Object.fromEntries(GC_SNAP.map((k, i) => [k, c[i] - prev[i]]));
+      f.gc = { ...Object.fromEntries(GC_MS.map((k) => [k, d[k]])), gcBytes: d.gcBytes,
+        gcRefill: (d.refills > 0 ? 1 : 0) | (d.drains > 0 ? 2 : 0), gcMeshes: d.gcMeshes, gcAllocs: d.gcAllocs };
+    }
+    prev = c;
+  }
+  return frames;
+}
+
+/** The per-frame series of a stats window as compact column arrays (page ms, 0.01 ms): {t, dt, work, gpu} plus the
+ * GC_COLUMNS when the page published groundcover timers (null per frame where it did not). */
 export function frameSeries(frames) {
-  return { t: frames.map((f) => r2(f.t)), dt: frames.map((f) => r2(f.dt)), work: frames.map((f) => r2(f.work)), gpu: frames.map((f) => f.gpu ?? null) };
+  const s = { t: frames.map((f) => r2(f.t)), dt: frames.map((f) => r2(f.dt)), work: frames.map((f) => r2(f.work)), gpu: frames.map((f) => f.gpu ?? null) };
+  if (frames.some((f) => f.gc)) for (const k of GC_COLUMNS) s[k] = frames.map((f) => (f.gc ? r2(f.gc[k]) : null));
+  return s;
+}
+
+/**
+ * The groundcover digest of a window series: `frames` lists every frame with work >= minWork ms, its GC_COLUMNS
+ * values (zeros dropped), `gcMs` (the sum of the non-nested GC_TOP timers) and `otherMs` = work - gcMs; `totals` sums
+ * each column over the window. Null when the series carries no groundcover columns.
+ */
+export function gcFramesDigest(series, minWork = 12) {
+  if (!series?.gcGen) return null;
+  const totals = Object.fromEntries(GC_COLUMNS.map((k) => [k, 0]));
+  const frames = [];
+  for (let i = 0; i < series.t.length; i++) {
+    if (series.gcGen[i] == null) continue;
+    for (const k of GC_COLUMNS) totals[k] += k === "gcRefill" ? (series[k][i] & 1) : series[k][i];
+    if (!(series.work[i] >= minWork)) continue;
+    const gc = Object.fromEntries(GC_COLUMNS.filter((k) => series[k][i]).map((k) => [k, series[k][i]]));
+    const gcMs = r2(GC_TOP.reduce((a, k) => a + series[k][i], 0));
+    frames.push({ t: series.t[i], work: series.work[i], gcMs, otherMs: r2(series.work[i] - gcMs), gc });
+  }
+  for (const k of GC_COLUMNS) totals[k] = r2(totals[k]);
+  return { minWork, frames, totals };
+}
+
+/** summary.md lines for one window's gcFrames digest. */
+export function gcFramesText(label, d) {
+  if (!d) return [];
+  const tot = Object.entries(d.totals).filter(([, v]) => v).map(([k, v]) => `${k} ${v}`).join(", ");
+  return [`- ${label}: ${d.frames.length} frames >= ${d.minWork} ms; totals ${tot || "0"} (gcRefill = fills started)`,
+    ...d.frames.map((f) => `  - t ${f.t} work ${f.work} gc ${f.gcMs} other ${f.otherMs}: ${Object.entries(f.gc).map(([k, v]) => `${k} ${v}`).join(", ")}`)];
 }
 
 /**
@@ -675,7 +743,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     if (stopHeap) heapsample = await stopHeap(join(o.out, `${name}-walk.heapsample.json`));
     if (stopWalkTrace) traces.walk = await stopWalkTrace(w.extra?.file, w.ts.at(-1));
     if (w.extra) profile = w.extra;
-    walk = { seconds: walkS, steps: spot.steps, ...frameStats(w.ts), ...w.work, series: w.series, workerGaps: w.workerGaps,
+    walk = { seconds: walkS, steps: spot.steps, ...frameStats(w.ts), ...w.work, series: w.series, gcFrames: gcFramesDigest(w.series), workerGaps: w.workerGaps,
       hud: parseHud(await hl.wrap("evaluate:hud", () => page.evaluate(() => document.body.innerText)).catch(() => "")) };
     await shot("walk");
   }
@@ -708,7 +776,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   if (walk) walk.coreCorrelation = coreCorrelation(walk.series, hostSamples);
   const hitchCtx = { settled: hitchContext(settle.work.hitches ?? [], harnessLog, settle.workerGaps, spikes),
     ...(walk ? { walk: hitchContext(walk.hitches ?? [], harnessLog, walk.workerGaps, spikes) } : {}) };
-  return { name, url, query, ready, readyS, ...stats, series: settle.series, workerGaps: settle.workerGaps, hostSamples, hostSpikes: spikes, coreCorrelation: coreCorr, harnessLog, hitchContext: hitchCtx, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
+  return { name, url, query, ready, readyS, ...stats, series: settle.series, gcFrames: gcFramesDigest(settle.series), workerGaps: settle.workerGaps, hostSamples, hostSpikes: spikes, coreCorrelation: coreCorr, harnessLog, hitchContext: hitchCtx, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
     walk, profile, profileWalk, trace: doTrace ? traces : null, heapsample, diagnosis: !!spot.diagnosis, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
 }
 
@@ -766,9 +834,10 @@ async function main() {
   }
   const rows = result.urls.flatMap((u) => spotRows(u.name, u, o.barParsed));
   const table = summaryTable(rows, o.barParsed);
+  const gcLines = result.urls.flatMap((u) => [...gcFramesText(`${u.name} settled`, u.gcFrames), ...gcFramesText(`${u.name} walk`, u.walk?.gcFrames)]);
   const hitchLines = result.urls.flatMap((u) => hitchContextText(u.name, u.hitchContext ?? {}));
   const coreLines = result.urls.flatMap((u) => [coreCorrelationText(`${u.name} settled`, u.coreCorrelation), coreCorrelationText(`${u.name} walk`, u.walk?.coreCorrelation)].filter(Boolean));
-  writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\nhost sampler: ${o.pod ? `on (${hostSummary(result.urls.map((u) => u.hostSamples))})` : "off"}\n\n${coreLines.length ? `${coreLines.join("\n")}\n\n` : ""}${table}\n\n## Hitches over 33 ms: nearest harness action (500 ms) and heartbeat worker\n\n${hitchLines.join("\n") || "none"}\n`);
+  writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\nhost sampler: ${o.pod ? `on (${hostSummary(result.urls.map((u) => u.hostSamples))})` : "off"}\n\n${coreLines.length ? `${coreLines.join("\n")}\n\n` : ""}${table}\n\n## Hitches over 33 ms: nearest harness action (500 ms) and heartbeat worker\n\n${hitchLines.join("\n") || "none"}\n${gcLines.length ? `\n## Groundcover sub-timers on frames over 12 ms (ms; gcRefill 1 fill started, 2 swapped in)\n\n${gcLines.join("\n")}\n` : ""}`);
   writeFileSync(join(o.out, "summary.json"), `${JSON.stringify({ schemaVersion: 1, run: o.run, bar: o.barParsed, rows }, null, 2)}\n`);
   console.log(`\n${table}\nmeasure: ${join(o.out, "summary.md")}`);
   await browser.close().catch(() => {});

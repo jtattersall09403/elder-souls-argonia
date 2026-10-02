@@ -115,7 +115,7 @@ Chrome started with `--remote-debugging-port` and serve with `node tooling/gpu-l
 | `rate=<n>` | studio (`src/sky/timeState.ts` `applyTimeParams` -> `worldClock.rate`) | World-clock rate in world MINUTES per real second; absent, the clock is paused. Captures pass `rate=0.5` (`CAPTURE_RATE` in `spots.mjs`): the game runs at `GAME_TIME_SCALE` = 30 world seconds per real second (`packages/world-time/src/clock.ts:109`), = 0.5 world minutes per real second (`GAME_RATE_MIN_PER_S`). A 2-3 min spot therefore drifts 60-90 game minutes; `rate=30` ran 60x the game speed. Every capture URL carries `rate=0.5`; a row captured without a running clock (paused, or an invalid rate) is not a performance measurement and never a bar row. |
 | `diag=1` | studio (`src/diagOverlay.ts`) | Diag overlay and `window.__DIAG`: fps, worst ms, per-second pipelines, shaders, builds, skipped draws, `builds pending`, `pipelines compiling`. |
 | `water=0` | studio (`CharacterMode.tsx`) | No water surface. |
-| `wdbg=<n>` | studio (`CharacterMode.tsx` -> `StudioWater` -> uniform `uEsDebugMode` on the field and strip materials, `waterMaterial.ts` `WATER_DEBUG_GLSL`, and the waterfall kit, `WaterfallKitMaterial.ts`) | Water debug view, opaque colour, same program in every mode: 0 normal; 1 vertex normal; 2 shading normal; 3 fresnel; 4 foam; 5 crest (0.5 grey = still, ±1 m); 6 reflected sky/env; 7 refraction/transmitted colour; 8 final alpha; 9 aerial change (\|post − pre\|, 0.05 maps to grey); 10 sparkle; 11 fract(rest xz / 4 m) as RG (mesh grid); 12 normal colour at alpha 1 (stacked-layer overdraw); 13 reflection weight in the final mix (fresnel × cover, grey); 14 final colour before aerial and fog; 15 SSR weight (grey). HDR views 6, 7 and 14 show c / (1 + c) per channel. The fall kit draws 1/2, 8, 11, 12 and magenta for the rest; the mist volume has no debug view. |
+| `wdbg=<n>` | studio (`CharacterMode.tsx` -> `StudioWater` -> uniform `uEsDebugMode` on the field and strip materials, `waterMaterial.ts` `WATER_DEBUG_GLSL`, and the waterfall kit, `WaterfallKitMaterial.ts`) | Water debug view, opaque colour, same program in every mode: 0 normal; 1 vertex normal; 2 shading normal; 3 fresnel; 4 foam; 5 crest (0.5 grey = still, ±1 m); 6 reflected sky/env; 7 refraction/transmitted colour; 8 final alpha; 9 aerial change (\|post − pre\| x scene exposure, linear, 0.25 = white); 10 sparkle; 11 fract(rest xz / 4 m) as RG (mesh grid); 12 normal colour at alpha 1 (stacked-layer overdraw); 13 reflection weight in the final mix (fresnel × cover, grey); 14 final colour before aerial and fog, tone mapped with the scene exposure and output encoded like the final colour; 15 SSR weight (grey). HDR views 6 and 7 show c / (1 + c) per channel. The fall kit draws 1/2, 8, 11, 12 and magenta for the rest; the mist volume has no debug view. |
 | `aa=0` | studio (`CharacterMode.tsx`) | Anti-aliasing off. |
 | `renderer=webgl` | studio, branch build | The WebGPU build on its WebGL backend. |
 | `buildq=0` | studio (game-core shader build queue) | Build queue off. |
@@ -179,7 +179,17 @@ Top level: `gitSha`, `dirty`, `builtAt` (served index.html mtime), `renderer`, `
   seen that frame, `costMs` = max(work, gpu); `uncappedFps` = 1000 / mean cost, `p1LowUncapped` = 1000 / p99
   cost. `wrapperMsPerFrame` is what the in-page wrapper itself costs. `hitches`: every frame over 33 ms.
 - `series` (settled; `walk.series` for the walk): the per-frame window as column arrays `{t, dt, work, gpu}` (page
-  ms). The studio exposes no per-frame stage times; the HUD `cpuByStage` holds their window means.
+  ms), plus the groundcover refill path per frame, differenced from `GroundcoverPerf.tf`
+  (`apps/world-studio/src/vegetation/Groundcover.tsx`) as each frame closes (null per frame where the layer is not
+  mounted): ms `gcUseFrame` (its whole `useFrame`, holding `gcGen` tile generation, `gcCommit` the commit drain and
+  `gcCull` the wedge cull), `gcCommit` holds `gcSwap` (grown-mesh swap) and `gcRanges` (setAttribute, update ranges,
+  count, sphere); `gcFill` the fill job's queued steps (holds `gcAlloc`, new InstancedMesh), `gcStats` the fill's
+  stats/console tail, `gcRender` the component re-render, `gcEffect` the fill effect's setup and cleanup; then
+  `gcBytes` uploaded, `gcRefill` (1 a fill started, 2 its commit finished), `gcMeshes` meshes changed, `gcAllocs`.
+  Other stages expose no per-frame times; the HUD `cpuByStage` holds their window means.
+- `gcFrames` (settled; `walk.gcFrames`): every frame with work >= 12 ms with its non-zero gc columns, `gcMs`
+  (gcUseFrame + gcFill + gcStats + gcRender + gcEffect) and `otherMs` = work - gcMs, plus `totals` per column over
+  the window; summary.md lists them under "Groundcover sub-timers".
 - `workerGaps` (and `walk.workerGaps`): `[pageMs, ms]` gaps over 20 ms seen by a heartbeat Worker (5 ms tick, its
   own thread) started at the window's open and read once after it; null where Worker is unavailable.
 - `harnessLog`: every harness action of the spot (goto, evaluate, screenshot, trace/profiler/heapsample start and

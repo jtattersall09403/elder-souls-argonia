@@ -1,0 +1,12 @@
+# perf10 chunk 8: the ONE groundcover refill diagnosis capture (pod, WebGL, 1280x720). The e walk x3 probe-off reads
+# the per-frame groundcover sub-timers (walk.series gc* columns, walk.gcFrames) without a profiler; ediag adds the
+# walk CPU profile; cdiag runs the settled CPU profile and the GPU trace over the same settled window; the aday rows
+# are water debug views 14 and 9; cheap is the e walk with the groundcover unmounted (control). README "Probe rules".
+e ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5 walk=20 x3  # d with a 20 s W-held walk into the water (e, e2, e3)
+ediag ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5 walk=20 profile-walk   # per-spike stacks beside the gc sub-timers
+cdiag ?view=character&x=4.7789&z=1.9&t=12&w=clear&rate=0.5 profile trace-gpu   # Greenspring noon: profile and GPU trace, one settled window
+aday14 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=14&rate=0.5
+aday9 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=9&rate=0.5
+adayq14 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wq=low&wdbg=14&rate=0.5
+adayq9 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wq=low&wdbg=9&rate=0.5
+cheap ?view=character&x=4.02&z=4.61&t=22&w=rain&gc=0&rate=0.5 walk=20   # control: e with the groundcover not mounted

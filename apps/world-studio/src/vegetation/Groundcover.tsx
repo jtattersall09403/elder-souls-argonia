@@ -1015,6 +1015,49 @@ export interface GroundcoverPerf {
    * instances x their mesh's triangles, summed at the last rebuild. The HUD's
    * `mesh <n>M` — what the per-species reach rule cut. */
   nearMeshTriangles: number;
+  /** Cumulative refill-path timers since mount (perf10 c8). Never reset: the
+   * gpu-lane sampler (tooling/gpu-lane/measure.mjs) snapshots them at every
+   * frame boundary and differences consecutive snapshots into its per-frame
+   * series, so they cost a few `performance.now()` calls and adds per frame. */
+  tf: GroundcoverFrameTimers;
+}
+
+/** Cumulative ms / counts, see `GroundcoverPerf.tf`. Nesting: `commitMs`
+ * includes `swapMs` + `rangesMs`; `fillMs` includes `allocMs`; `useFrameMs`
+ * includes `genMs`, `commitMs` and `cullMs`. */
+export interface GroundcoverFrameTimers {
+  /** The whole groundcover `useFrame` body. */
+  useFrameMs: number;
+  /** Tile generation (`generateRef`, the budgeted region). */
+  genMs: number;
+  /** `commitDrain.step`: the per-frame commit of a finished fill. */
+  commitMs: number;
+  /** Inside the commit: grown-mesh swap (group add/remove, dispose, list rebuild). */
+  swapMs: number;
+  /** Inside the commit: setAttribute / updateRange / needsUpdate / count / sphere. */
+  rangesMs: number;
+  /** The fill job's steps run by the frame-work queue (passes 2-3, slot copies). */
+  fillMs: number;
+  /** Inside the fill: new InstancedMesh + colour attribute allocation. */
+  allocMs: number;
+  /** The fill's tail: stats object, onStats, console.debug, debug global. */
+  statsMs: number;
+  /** The component's render body (re-render after `setRevision`). */
+  renderMs: number;
+  /** The fill effect's setup and cleanup (re-runs on every `revision`). */
+  effectMs: number;
+  /** Per-frame wedge cull + visibility loop. */
+  cullMs: number;
+  /** Bytes the commit uploaded (changed ranges). */
+  bytes: number;
+  /** Fills started (the 8 m trigger or a generation fill). */
+  refills: number;
+  /** Commit drains finished (the fill fully swapped in). */
+  drains: number;
+  /** Meshes whose count or attributes the commit changed. */
+  meshes: number;
+  /** InstancedMesh objects allocated. */
+  allocs: number;
 }
 
 /**
@@ -1067,6 +1110,7 @@ export function Groundcover({
    * fetched only then. */
   settlementsVisible?: boolean;
 }) {
+  const renderT0 = performance.now();
   const segments = useFrameSegments();
   const queue = useFrameWork();
   const ringRadiusM = quality?.groundcoverRadiusM ?? RING_RADIUS_M;
@@ -1206,6 +1250,11 @@ export function Groundcover({
     fillInstances: 0, tilesLive: 0, tilesPending: 0, nearMeshTriangles: 0,
     instancesLive: 0, instancesSubmitted: 0, drawsSubmitted: 0, fills: 0,
     tilesBuilt: 0, cacheStaled: 0, tilesRetiled: 0,
+    tf: {
+      useFrameMs: 0, genMs: 0, commitMs: 0, swapMs: 0, rangesMs: 0, fillMs: 0, allocMs: 0,
+      statsMs: 0, renderMs: 0, effectMs: 0, cullMs: 0, bytes: 0, refills: 0, drains: 0,
+      meshes: 0, allocs: 0,
+    },
   });
   /** Cumulative counters behind `tilesBuilt`/`cacheStaled`. */
   const builtTotal = useRef(0);
@@ -1321,6 +1370,7 @@ export function Groundcover({
   const cards = useMemo(() => buildCardIndex(gltf), [gltf]);
 
   useFrame((state) => {
+    const ufT0 = performance.now();
     // Ground-cover stage of the frame (decision 0084 round 10).
     segments?.cpuMark("gc");
     const weather = lastWeatherSample();
@@ -1394,7 +1444,9 @@ export function Groundcover({
         drain.then = null;
         then?.();
       }
-      p.commitMs = Math.round((performance.now() - tCommit0) * 10) / 10;
+      const commitMs = performance.now() - tCommit0;
+      p.tf.commitMs += commitMs;
+      p.commitMs = Math.round(commitMs * 10) / 10;
     }
     let pendingTiles = 0;
     // An incomplete tile is retried when a chunk arrives, the only event
@@ -1414,7 +1466,9 @@ export function Groundcover({
           - p.commitMs),
         forward.x / flat, forward.z / flat);
       lastRemaining.current = remaining;
-      p.generateMs = Math.round((performance.now() - tGen0) * 10) / 10;
+      const genMs = performance.now() - tGen0;
+      p.tf.genMs += genMs;
+      p.generateMs = Math.round(genMs * 10) / 10;
       p.tileMs = Math.round(genStats.current.tileMs * 10) / 10;
       p.tileMaxMs = Math.round(genStats.current.tileMaxMs * 10) / 10;
       const pm = phaseMax.current;
@@ -1468,6 +1522,7 @@ export function Groundcover({
       setRevision((r) => r + 1);
       p.rebuildsStarted++;
       p.fills++;
+      p.tf.refills++;
       const now = performance.now();
       rebuildTimes.current.push(now);
       while (rebuildTimes.current.length && now - rebuildTimes.current[0] > 1000) {
@@ -1482,6 +1537,7 @@ export function Groundcover({
     p.rebuildsPerSec = rebuildTimes.current.length;
     // Wedge culling: a wedge none of whose tiles meets the (widened) view is
     // not submitted. Tested every frame against the live camera.
+    const cullT0 = performance.now();
     let live = 0; let submitted = 0; let draws = 0;
     const list = meshList.current;
     if (SECTOR_SLOTS > 1) {
@@ -1498,6 +1554,7 @@ export function Groundcover({
       live += mesh.count;
       if (show && mesh.count > 0) { submitted += mesh.count; draws++; }
     }
+    p.tf.cullMs += performance.now() - cullT0;
     p.instancesLive = live;
     p.instancesSubmitted = submitted;
     p.drawsSubmitted = draws;
@@ -1509,6 +1566,7 @@ export function Groundcover({
       if (host.__STUDIO_GROUNDCOVER_DEBUG__) host.__STUDIO_GROUNDCOVER_DEBUG__.perf = p;
       else host.__STUDIO_GROUNDCOVER_DEBUG__ = { perf: p } as unknown as GroundcoverStats;
     }
+    p.tf.useFrameMs += performance.now() - ufT0;
   });
 
   // The fill runs as a frame-work job (perf10 O5): one step per draw slot
@@ -1523,6 +1581,8 @@ export function Groundcover({
   // fill starts only once the drain is done (its CPU writes would otherwise
   // reach the GPU under the old counts).
   useEffect(() => {
+    const effectT0 = performance.now();
+    const tf = perf.current.tf;
     const group = root.current;
     if (!group || !kit || !control || !chunks) return;
     /** Grown meshes and band attributes, held out of the scene until commit;
@@ -1535,17 +1595,22 @@ export function Groundcover({
     const pendingDrain = commitDrain.current;
     if (pendingDrain) pendingDrain.then = start;
     else start();
+    tf.effectMs += performance.now() - effectT0;
     return () => {
+      const cleanupT0 = performance.now();
       if (pendingDrain && pendingDrain.then === start) pendingDrain.then = null;
       handle?.cancel();
       for (const { mesh } of grownMeshes.values()) mesh.dispose();
       grownMeshes.clear();
+      tf.effectMs += performance.now() - cleanupT0;
     };
 
   function* fillJob(group: THREE.Group): Generator<void, void, void> {
     if (!kit || !control || !chunks) return;
     let workMs = 0;
     let stepT0 = performance.now();
+    /** Closes a fill step: its ms go to `workMs` and to `tf.fillMs`. */
+    const stepMs = () => { const ms = performance.now() - stepT0; workMs += ms; tf.fillMs += ms; };
     // Nothing is destroyed here (mechanism 7). Every mesh this rebuild does
     // not fill is hidden by setting its `count` to 0 at the end; the meshes
     // themselves, their buffers and their bounding spheres survive.
@@ -1764,7 +1829,7 @@ export function Groundcover({
           if (drawn === 0) continue;
           instances += drawn;
           // One draw slot per step: the pump checks its budget between them.
-          workMs += performance.now() - stepT0;
+          stepMs();
           yield;
           stepT0 = performance.now();
           for (let partIndex = 0; partIndex < parts.length; partIndex++) {
@@ -1788,6 +1853,7 @@ export function Groundcover({
               // instances does not reallocate on every rebuild. The new mesh
               // waits in `grownMeshes` and the swap happens in the commit
               // step, so the old one keeps drawing until then.
+              const allocT0 = performance.now();
               const previous = mesh ?? null;
               const capacity = Math.max(64, Math.ceil(drawn * 1.5));
               mesh = new THREE.InstancedMesh(geometry, part.material, capacity);
@@ -1816,6 +1882,8 @@ export function Groundcover({
               // A new buffer uploads whole.
               rangesOf(mesh).full = true;
               grownMeshes.set(meshKey, { mesh, previous });
+              tf.allocs++;
+              tf.allocMs += performance.now() - allocT0;
             }
             const matrices = mesh.instanceMatrix.array as Float32Array;
             const colours = mesh.instanceColor!.array as Float32Array;
@@ -1880,7 +1948,7 @@ export function Groundcover({
     // The drain reads the scratch directly: the next fill (which resets it)
     // starts only once the drain is done. Grown meshes move to the drain, so
     // this effect's cleanup no longer disposes them.
-    workMs += performance.now() - stepT0;
+    stepMs();
     yield;
     stepT0 = performance.now();
     const grown = new Map<THREE.InstancedMesh, { key: string; previous: THREE.InstancedMesh | null }>();
@@ -1902,6 +1970,7 @@ export function Groundcover({
     const commitOne = (c: number) => {
       const geometry = scratch.commitGeometry[c], bands = scratch.commitBands[c], mesh = scratch.commitMesh[c];
       const swap = grown.get(mesh);
+      const swapT0 = performance.now();
       if (swap) {
         group.add(mesh);
         meshPool.current.set(swap.key, mesh);
@@ -1910,6 +1979,8 @@ export function Groundcover({
         list.length = 0;
         for (const m of meshPool.current.values()) list.push(m);
       }
+      const rangesT0 = performance.now();
+      tf.swapMs += rangesT0 - swapT0;
       const ranges = rangesOf(mesh);
       if (geometry.getAttribute(LOD_BAND_ATTRIBUTE) !== bands) {
         // A new attribute uploads whole on its first draw.
@@ -1926,6 +1997,8 @@ export function Groundcover({
       const sphere = mesh.boundingSphere ?? (mesh.boundingSphere = new THREE.Sphere());
       sphere.center.set(scratch.commitCx[c], scratch.commitCy[c], scratch.commitCz[c]);
       sphere.radius = scratch.commitRadius[c];
+      tf.meshes++;
+      tf.rangesMs += performance.now() - rangesT0;
     };
     let cursor = 0;
     commitDrain.current = {
@@ -1935,18 +2008,21 @@ export function Groundcover({
         let sent = 0;
         for (let k = cursor; k < end; k++) { commitOne(order[k]); sent += bytes[k]; }
         perf.current.uploadBytes += sent;
+        tf.bytes += sent;
         cursor = end;
         if (cursor < total) return false;
         // Everything the pool holds that this rebuild did not fill draws
         // nothing — `count = 0` — but keeps its buffers for the next crossing.
         for (const [meshKey, mesh] of meshPool.current) {
-          if (!liveMeshes.has(meshKey)) mesh.count = 0;
+          if (!liveMeshes.has(meshKey) && mesh.count !== 0) { mesh.count = 0; tf.meshes++; }
         }
+        tf.drains++;
         return true;
       },
     };
 
-    workMs += performance.now() - stepT0;
+    stepMs();
+    const statsT0 = performance.now();
     const perfNow = perf.current;
     perfNow.fillMs = Math.round(workMs * 10) / 10;
     if (perfNow.fillMs > perfNow.fillMaxMs) perfNow.fillMaxMs = perfNow.fillMs;
@@ -1985,6 +2061,7 @@ export function Groundcover({
     // Same convention as __STUDIO_VEGETATION_DEBUG__: probes read numbers.
     (window as unknown as { __STUDIO_GROUNDCOVER_DEBUG__?: GroundcoverStats })
       .__STUDIO_GROUNDCOVER_DEBUG__ = stats;
+    tf.statsMs += performance.now() - statsT0;
   }
   }, [kit, cards, control, chunks, exclusions, exclusionBounds, clearanceIndex,
       regionRaster, tint, revision, verticalScale,
@@ -2534,5 +2611,6 @@ export function Groundcover({
     }
   }, [exclusions, exclusionBounds, clearanceIndex, farRadiusM]);
 
+  perf.current.tf.renderMs += performance.now() - renderT0;
   return <group ref={root} name="groundcover" matrixAutoUpdate={false} />;
 }

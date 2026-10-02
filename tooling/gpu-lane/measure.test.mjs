@@ -416,6 +416,35 @@ test("hitchContext: nearest harness action within 500 ms and the worker's overla
   assert.deepEqual(frameSeries([{ t: 1.234, dt: 16.667, work: 5.555, gpu: null }]), { t: [1.23], dt: [16.67], work: [5.56], gpu: [null] });
 });
 
+test("groundcover sub-timers: cumulative snapshots become per-frame columns and a >= 12 ms digest (perf10 c8)", async () => {
+  const { gcDeltas, frameSeries, gcFramesDigest, gcFramesText, GC_SNAP, GC_COLUMNS } = await import("./measure.mjs");
+  // Cumulative snapshot in GC_SNAP order; frame 2 is a refill frame (fill started, a 14 ms React render + effect).
+  const snap = (o) => GC_SNAP.map((k) => o[k] ?? 0);
+  const base = { gcUseFrame: 10, gcGen: 5, gcCull: 1, refills: 3, drains: 3 };
+  const frames = gcDeltas([
+    { t: 0, dt: 0, work: 4, gpu: null, gcCum: snap(base) },
+    { t: 16, dt: 16, work: 5, gpu: null, gcCum: snap({ ...base, gcUseFrame: 12, gcGen: 6.5, gcCull: 1.2 }) },
+    { t: 40, dt: 24, work: 20, gpu: null, gcCum: snap({ ...base, gcUseFrame: 13, gcGen: 7, gcCull: 1.4, gcRender: 9, gcEffect: 5, refills: 4 }) },
+    { t: 60, dt: 20, work: 13, gpu: null, gcCum: snap({ ...base, gcUseFrame: 16, gcGen: 7, gcCommit: 3, gcRanges: 2, gcCull: 1.6, gcRender: 9, gcEffect: 5, refills: 4, drains: 4, gcBytes: 4096, gcMeshes: 7 }) },
+  ]);
+  assert.equal(frames[0].gc, null, "the first frame has no previous snapshot");
+  assert.equal(frames[0].gcCum, undefined, "the raw snapshot is dropped");
+  assert.deepEqual([frames[2].gc.gcRender, frames[2].gc.gcEffect, frames[2].gc.gcRefill], [9, 5, 1]);
+  assert.deepEqual([frames[3].gc.gcCommit, frames[3].gc.gcBytes, frames[3].gc.gcRefill, frames[3].gc.gcMeshes], [3, 4096, 2, 7]);
+  const s = frameSeries(frames);
+  for (const k of GC_COLUMNS) assert.equal(s[k].length, 4, k);
+  assert.equal(s.gcGen[0], null);
+  const d = gcFramesDigest(s);
+  assert.deepEqual(d.frames.map((f) => f.t), [40, 60]);
+  assert.equal(d.frames[0].gcMs, 15, "useFrame 1 + render 9 + effect 5 (gen and cull nest inside useFrame)");
+  assert.equal(d.frames[0].otherMs, 5);
+  assert.equal(d.frames[0].gc.gcCommit, undefined, "zero columns are dropped");
+  assert.equal(d.totals.gcRefill, 1, "fills started, not swaps");
+  assert.equal(d.totals.gcBytes, 4096);
+  assert.match(gcFramesText("e walk", d)[0], /e walk: 2 frames >= 12 ms; totals .*gcRender 9/);
+  assert.equal(gcFramesDigest(frameSeries([{ t: 0, dt: 0, work: 30, gpu: null, gc: null }])), null, "no gc columns, no digest");
+});
+
 test("host sampler: a worker-seen gap overlapping a steal spike is a host stall (perf-diag9 S1)", async () => {
   const { hitchContext, hitchContextText } = await import("./measure.mjs");
   const { hostSeries, hostSpikes, samplerCommand } = await import("./host-sampler.mjs");
