@@ -55,8 +55,14 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
   stops when the page fails to load.
 - **The network never goes quiet.** Terrain and vegetation stream continuously, so "no requests for
   3 s" never happens (walk-10 base run: every URL hit the timeout). The studio has no "loaded" flag;
-  `isReady` in `measure.mjs` waits for HUD tris stable within 2 % for 5 s with no "Loading terrain"
-  line, capped by `--ready-timeout` (120 s).
+  `isReady` in `measure.mjs` requires ALL of: 20 s since navigation; HUD tris within 2 % for 5 s;
+  no "Loading" line; HUD CPU 'pre' and 'gc' stages (line 5) both under 2 ms for 5 consecutive
+  seconds. An earlier tris-only gate fired at 9-12 s on scenes still streaming (pre 11-16 ms, gc
+  8 ms, 200-650 ms hitches) and measured loading scenes at 7-36 fps. Capped by `--ready-timeout`
+  (150 s); a scene that never settles records `ready: false`.
+- **Profiling needs sourcemaps.** `vite.config.ts` sets `build.sourcemap: false`; build the profiled
+  dist with `cd apps/world-studio && npx vite build --sourcemap` (the CLI flag overrides the
+  config) so `.cpuprofile` function names resolve. Not for shipped builds.
 
 ## Reading measure.json
 

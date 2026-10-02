@@ -8,7 +8,7 @@
  *   node tooling/gpu-lane/measure.mjs --run <name> --url "?view=character&x=..&z=..&t=22&w=rain" [--url ...]
  *     [--origin http://127.0.0.1:8099] [--base /elder-souls-argonia/studio/] [--renderer webgl|webgpu]
  *     [--settle 10] [--walk <s>] [--shots] [--cdp 127.0.0.1:9222] [--width 1280 --height 720 --dpr 1]
- *     [--ready-timeout 120] [--profile <s>] [--out tooling/.reports/gpu-lane/<run>/]
+ *     [--ready-timeout 150] [--profile <s>] [--out tooling/.reports/gpu-lane/<run>/]
  *
  * --profile <s>: a CDP CPU profile of <s> seconds (during the walk when --walk is set, else after the
  * settle window); the .cpuprofile lands beside measure.json and its summary in the url entry.
@@ -23,7 +23,7 @@ const repo = resolve(new URL("../..", import.meta.url).pathname);
 
 export function parseArgs(argv) {
   const o = { url: [], origin: "http://127.0.0.1:8099", base: null, renderer: "webgl", settle: 10, walk: 0, shots: false,
-    cdp: "127.0.0.1:9222", run: null, out: null, width: 1280, height: 720, dpr: 1, readyTimeout: 120, profile: 0 };
+    cdp: "127.0.0.1:9222", run: null, out: null, width: 1280, height: 720, dpr: 1, readyTimeout: 150, profile: 0 };
   const camel = (k) => k.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i].replace(/^--/, "");
@@ -42,16 +42,19 @@ export function parseArgs(argv) {
 }
 
 /**
- * Ready = the world has stopped arriving around the player. The studio exposes no "loaded" flag, so:
- * fps published, no "Loading terrain" line, and HUD tris within `tol` of each other over the last
- * `stableMs`. `samples` are {t, tris, fps, loading}, oldest first.
+ * Ready = the world has stopped arriving around the player. The studio exposes no "loaded" flag, so ALL of:
+ * at least `minMs` since navigation (`startT`, default the first sample); fps published; no "Loading"
+ * line; HUD tris within `tol` over the last `stableMs`; and the HUD CPU 'pre' and 'gc' stages (line 5)
+ * under `quietMs` ms in every sample of that window. `samples` are {t, tris, fps, loading, pre, gc},
+ * oldest first; pre/gc are null when the HUD line is absent (counts as not quiet).
  */
-export function isReady(samples, stableMs = 5000, tol = 0.02) {
+export function isReady(samples, { stableMs = 5000, tol = 0.02, minMs = 20000, quietMs = 2, startT } = {}) {
   const last = samples[samples.length - 1];
   if (!last || !(last.fps > 0) || last.loading || !(last.tris > 0)) return false;
+  if (last.t - (startT ?? samples[0].t) < minMs) return false;
   if (last.t - samples[0].t < stableMs) return false;
   const win = samples.filter((s) => s.t >= last.t - stableMs);
-  if (win.some((s) => s.loading || !(s.tris > 0))) return false;
+  if (win.some((s) => s.loading || !(s.tris > 0) || typeof s.pre !== "number" || typeof s.gc !== "number" || !(s.pre < quietMs) || !(s.gc < quietMs))) return false;
   const tris = win.map((s) => s.tris);
   return (Math.max(...tris) - Math.min(...tris)) / Math.max(...tris) <= tol;
 }
@@ -209,10 +212,12 @@ async function measureUrl(ctx, o, query, idx) {
     const s = await page.evaluate(() => {
       const text = document.body.innerText;
       const m = /(?:^|\n)tris ([\d.]+)M/.exec(text);
-      return { fps: window.__STUDIO_FPS__ ?? 0, tris: m ? Number(m[1]) * 1e6 : 0, loading: text.includes("Loading terrain") };
-    }).catch(() => ({ fps: 0, tris: 0, loading: true }));
-    samples.push({ t: Date.now(), ...s });
-    if (isReady(samples)) { ready = true; break; }
+      return { fps: window.__STUDIO_FPS__ ?? 0, tris: m ? Number(m[1]) * 1e6 : 0, loading: text.includes("Loading"), text };
+    }).catch(() => ({ fps: 0, tris: 0, loading: true, text: "" }));
+    const { text, ...rest } = s;
+    const st = parseHud(text).cpuByStage;
+    samples.push({ t: Date.now(), ...rest, pre: st ? (st.pre?.avg ?? 0) : null, gc: st ? (st.gc?.avg ?? 0) : null });
+    if (isReady(samples, { startT: t0 })) { ready = true; break; }
     await page.waitForTimeout(500);
   }
   const readyS = Math.round((Date.now() - t0) / 100) / 10;

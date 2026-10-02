@@ -74,13 +74,21 @@ test("profileSummary: self time per function and per file from samples and delta
   assert.deepEqual(p.byFile.map((x) => x.name), ["index.js", "Char.js", "((root))"]);
 });
 
-test("isReady: tris stable within 2 % for 5 s, no loading line", async () => {
+test("isReady: 20 s, tris stable 2 % for 5 s, no Loading, pre and gc under 2 ms for 5 s", async () => {
   const { isReady } = await import("./measure.mjs");
-  const at = (t, tris, extra = {}) => ({ t, tris, fps: 60, loading: false, ...extra });
-  const steady = [0, 1000, 2000, 3000, 4000, 5000].map((t) => at(t, 3.2e6 + t));
-  assert.equal(isReady(steady), true);
-  assert.equal(isReady(steady.slice(0, 5)), false, "under 5 s of samples");
-  assert.equal(isReady([...steady.slice(0, 5), at(5000, 4.0e6)]), false, "still streaming");
-  assert.equal(isReady([...steady.slice(0, 5), at(5000, 3.2e6, { loading: true })]), false, "loading line");
-  assert.equal(isReady([...steady.slice(0, 5), at(5000, 3.2e6, { fps: 0 })]), false, "no fps yet");
+  const at = (t, tris, extra = {}) => ({ t, tris, fps: 60, loading: false, pre: 0.5, gc: 0.3, ...extra });
+  const run = (from, to, f = (t) => at(t, 3.2e6)) => { const o = []; for (let t = from; t <= to; t += 1000) o.push(f(t)); return o; };
+  assert.equal(isReady(run(0, 25000)), true, "settled scene");
+  assert.equal(isReady(run(0, 12000)), false, "under 20 s since navigation");
+  assert.equal(isReady(run(15000, 25000), { startT: 0 }), true, "startT counts from navigation");
+  assert.equal(isReady(run(9000, 14000), { startT: 0 }), false, "stable but only 14 s in");
+  assert.equal(isReady(run(0, 25000, (t) => at(t, 3.2e6 + (t > 21000 ? 5e5 : 0)))), false, "tris still moving");
+  assert.equal(isReady(run(0, 25000, (t) => at(t, 3.2e6, { loading: t === 25000 }))), false, "loading line");
+  assert.equal(isReady(run(0, 25000, (t) => at(t, 3.2e6, { fps: t === 25000 ? 0 : 60 }))), false, "no fps yet");
+  assert.equal(isReady(run(0, 25000, (t) => at(t, 3.2e6, { pre: t === 22000 ? 12 : 0.5 }))), false, "pre stage busy");
+  assert.equal(isReady(run(0, 25000, (t) => at(t, 3.2e6, { gc: t === 24000 ? 8 : 0.3 }))), false, "gc stage busy");
+  assert.equal(isReady(run(0, 25000, (t) => at(t, 3.2e6, { pre: null, gc: null }))), false, "no CPU stage line");
+  const loadingThenQuiet = run(0, 30000, (t) => at(t, 3.2e6, { pre: t < 16000 ? 14 : 0.5 }));
+  assert.equal(isReady(loadingThenQuiet.filter((s) => s.t <= 20000)), false, "pre busy until 16 s");
+  assert.equal(isReady(loadingThenQuiet), true, "quiet for the last 5 s");
 });
