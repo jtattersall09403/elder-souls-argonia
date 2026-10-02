@@ -20,6 +20,7 @@ Key paths follow `/tmp/<lane><round>/rp_key`.
 | `serve.mjs <site> [--port 8099]` | Serves a composed site as GitHub Pages does: `<site>` at `/elder-souls-argonia/` (sandbox and character files at the root, studio at `studio/`). |
 | `measure.mjs` | Drives Chrome over DevTools; per URL: first complete frame, then rAF frame times for `--settle` s, an optional held-W `--walk`, the HUD perf lines, console errors, 404s, memory, GPU adapter, screenshots. Writes one `measure.json` per run. |
 | `checks.mjs` | The pure checks behind `--smoke`, `--census` and `--diag` (smoke verdict, black-frame luminance, foreign pages, hitch list, heap growth, census.txt). |
+| `trace-frames.mjs` | Long-frame classifier for a `--trace` trace: every frame over 20 ms on the renderer main thread, its overlapping events sorted into gc / shader / upload / gpu (GPU process) / timer / js / compositor / other, and the CPU-profile functions inside it. `node tooling/gpu-lane/trace-frames.mjs <x.trace.json> [--profile <x.cpuprofile>] [--over 20]`. |
 | `probes/` | Scripts `measure.mjs` injects before the page's scripts (no app code change); see Probes. |
 | `hud-parse.mjs` | Parses the studio's perf HUD text (`PerfHudSection` in `apps/world-studio/src/character/CharacterMode.tsx`) into numbers. Change it with the HUD. |
 | `measure.test.mjs` | `node --test tooling/gpu-lane/measure.test.mjs` (parser and frame stats, < 1 s). |
@@ -59,8 +60,15 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
    owner and layer mask (`| L1`), empty draws (`instanceCount` 0 or `count` 0), distinct materials counted by
    material uuid across owners (not by owner name), program count, objects with `matrixAutoUpdate` on and how
    many did not move over 2 s, JS heap at 0 s and 30 s (MB/s slope) and every frame over 20 ms in a 30 s window
-   with the top self-time functions of the CDP CPU profile samples inside it (a hitch with no functions is the
-   profiler starting, not the app). `--diag relink,heap` adds the probes below.
+   with the top self-time functions of the CDP CPU profile samples inside it. The hitch window opens 2 s
+   (`CENSUS_LEAD_MS`) after `Profiler.start`, because starting the profiler costs one ~400 ms frame of its own.
+   `--diag relink,heap` adds the probes below.
+   **A hitch the CPU profile cannot explain** (frame interval far above main-thread work) needs `--trace`: a
+   Chrome trace (devtools.timeline, timeline.frame, gpu, v8.gc, blink, viz, cc) of the settle window and of the
+   walk, written as `url<i>-settled.trace.json` / `url<i>-walk.trace.json`; the entry's `trace` holds the
+   long-frame classes from `trace-frames.mjs` (with the walk's CPU profile when `--profile` is set).
+   `--aim "yaw,pitch"` (radians) aims the follow camera before the settle; `--clean 1` hides the HUD for the
+   screenshots only. `settledFps` entries also carry `over20` / `over33`: frames over 20 / 33 ms in the window.
    For a local SwiftShader smoke test, point `--cdp` at a local Chrome started with
    `--remote-debugging-port` and serve the site with `node tooling/gpu-lane/serve.mjs <site>`.
 

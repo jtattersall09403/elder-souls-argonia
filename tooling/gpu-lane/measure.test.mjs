@@ -176,3 +176,37 @@ test("hitchList: frames over 20 ms with the top self-time functions of the sampl
   assert.deepEqual(hs[0].top[0], { name: "slow index.js:5:1", selfMs: 30 });
   assert.equal(hs[0].top[1].name, "fast index.js:10:1");
 });
+
+test("parseArgs: --trace is a flag, --aim and --clean take values", async () => {
+  const { parseArgs } = await import("./measure.mjs");
+  const o = parseArgs(["--run", "x", "--url", "?a=1", "--trace", "--aim", "0.5,-0.2", "--clean", "1", "--walk", "20"]);
+  assert.equal(o.trace, true);
+  assert.equal(o.aim, "0.5,-0.2");
+  assert.equal(o.clean, "1");
+  assert.equal(o.walk, 20);
+  assert.equal(parseArgs(["--run", "x", "--url", "?a=1"]).trace, false);
+});
+
+test("frameStats counts frames over 20 and 33 ms", async () => {
+  const { frameStats } = await import("./measure.mjs");
+  const s = frameStats([0, 10, 35, 60, 100]);
+  assert.equal(s.over20, 3);
+  assert.equal(s.over33, 1);
+});
+
+test("classifyFrames: long frames on the main thread with their causes", async () => {
+  const { classifyFrames } = await import("./trace-frames.mjs");
+  const fa = (ts) => ({ name: "FireAnimationFrame", ph: "X", pid: 1, tid: 1, ts, dur: 1000 });
+  const ev = [
+    { ph: "M", name: "process_name", pid: 2, args: { name: "GPU Process" } },
+    fa(0), fa(10000), fa(60000), fa(70000),
+    { name: "MajorGC", ph: "X", pid: 1, tid: 1, ts: 12000, dur: 20000 },
+    { name: "CommandBufferStub::OnAsyncFlush", ph: "X", pid: 2, tid: 5, ts: 30000, dur: 10000 },
+  ];
+  const r = classifyFrames(ev);
+  assert.equal(r.frames, 3);
+  assert.equal(r.over33, 1);
+  assert.equal(r.long.length, 1);
+  assert.equal(r.long[0].ms, 50);
+  assert.deepEqual(r.long[0].byCause, { gc: 20, gpu: 10 });
+});

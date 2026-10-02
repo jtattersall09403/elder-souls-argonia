@@ -18,6 +18,9 @@
  * list with top functions; writes census.json and census.txt beside measure.json (WebGL renderer).
  * --diag relink,heap: inject probes/<name>.js before the page's scripts (also read from a `diag=` query
  * flag); the reports land in each url entry's `diag`.
+ * --trace: a Chrome trace (timeline, frame, gpu, v8.gc, blink, viz) of the settle window and of the walk;
+ * url<i>-<settled|walk>.trace.json beside measure.json, its long-frame classes (trace-frames.mjs) in `trace`.
+ * --aim "yaw,pitch" (radians): aim the follow camera before the settle. --clean 1: HUD-free screenshots.
  */
 import { spawnSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -25,6 +28,7 @@ import { join, resolve } from "node:path";
 import { chromium } from "playwright";
 import { BLACK_LUMA, SPOT_A, censusText, diagList, foreignPages, heapGrowth, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
+import { classifyFrames } from "./trace-frames.mjs";
 
 export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems };
 
@@ -34,11 +38,11 @@ const probePath = (n) => new URL(`./probes/${n}.js`, import.meta.url).pathname;
 export function parseArgs(argv) {
   const o = { url: [], origin: "http://127.0.0.1:8099", base: null, renderer: "webgl", settle: 10, walk: 0, shots: false,
     cdp: "127.0.0.1:9222", run: null, out: null, width: 1280, height: 720, dpr: 1, readyTimeout: 150, profile: 0,
-    smoke: false, census: false, diag: "", aim: "", clean: "" };
+    smoke: false, census: false, trace: false, diag: "", aim: "", clean: "" };
   const camel = (k) => k.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i].replace(/^--/, "");
-    if (k === "shots" || k === "smoke" || k === "census") { o[k] = true; continue; }
+    if (k === "shots" || k === "smoke" || k === "census" || k === "trace") { o[k] = true; continue; }
     const v = argv[++i];
     if (v === undefined) throw new Error(`--${k} needs a value`);
     if (k === "url") o.url.push(v);
@@ -86,7 +90,7 @@ export function frameStats(ts) {
   const q = (p) => sorted[Math.min(sorted.length - 1, Math.floor(p * sorted.length))];
   const r = r2;
   return {
-    frames: dt.length, windowMs: r(span),
+    frames: dt.length, windowMs: r(span), over20: dt.filter((x) => x > 20).length, over33: dt.filter((x) => x > 33).length,
     settledFps: r((dt.length * 1000) / span),
     minFps: r(1000 / sorted[sorted.length - 1]),
     p1LowFps: r(1000 / (worst.reduce((a, b) => a + b, 0) / worst.length)),
@@ -214,14 +218,16 @@ async function runCensus(page, o) {
     heapBefore = (await cdp.send("HeapProfiler.getSamplingProfile")).profile;
   }
   let offsetMs = 0, profile = null, heapSampling = null;
+  // The hitch window opens CENSUS_LEAD_MS after Profiler.start: starting the profiler costs one ~400 ms
+  // frame of its own (perf-f6), which is the harness, not the app.
+  await cdp.send("Profiler.start");
+  // The profile clock starts with Profiler.start, ~ the instant before this page read.
+  const pn = await page.evaluate(() => performance.now());
+  await page.waitForTimeout(CENSUS_LEAD_MS);
   const w = await sample(page, seconds, async () => {
-    await cdp.send("Profiler.start");
-    offsetMs = 0;
-    const pn = await page.evaluate(() => performance.now());
     const t0 = Date.now();
     await page.waitForTimeout(seconds * 1000);
     profile = (await cdp.send("Profiler.stop")).profile;
-    // The profile clock starts with Profiler.start, ~ the instant before the page read.
     offsetMs = profile.startTime / 1000 - pn;
     return { elapsedMs: Date.now() - t0 };
   });
@@ -231,6 +237,29 @@ async function runCensus(page, o) {
   const hitches = hitchList(w.ts, profile, offsetMs);
   return { draws, matrix, hitchWindowS: seconds, frames: w.ts.length, hitches,
     heap: { startMB, endMB, seconds, slopeMBs: Math.round(((endMB - startMB) / seconds) * 1000) / 1000, sampledGrowth: heapSampling ? heapGrowth(heapBefore, heapSampling) : null } };
+}
+
+export const CENSUS_LEAD_MS = 2000;
+
+/** Trace categories for --trace. */
+export const TRACE_CATEGORIES = ["devtools.timeline", "disabled-by-default-devtools.timeline.frame", "gpu",
+  "disabled-by-default-v8.gc", "v8", "blink", "viz", "cc", "toplevel"];
+
+/** Start a Chrome trace on the page; the returned stop() writes <file> and returns the long-frame classes. */
+async function startTrace(page, file) {
+  const cdp = await page.context().newCDPSession(page);
+  const ev = [];
+  cdp.on("Tracing.dataCollected", (d) => { for (const e of d.value) ev.push(e); });
+  const done = new Promise((r) => cdp.on("Tracing.tracingComplete", r));
+  await cdp.send("Tracing.start", { traceConfig: { includedCategories: TRACE_CATEGORIES, recordMode: "recordContinuously" }, transferMode: "ReportEvents" });
+  return async (profileFile) => {
+    await cdp.send("Tracing.end");
+    await done;
+    await cdp.detach().catch(() => {});
+    writeFileSync(file, JSON.stringify({ traceEvents: ev }));
+    const profile = profileFile ? JSON.parse(readFileSync(profileFile, "utf8")) : null;
+    return { file, events: ev.length, ...classifyFrames(ev, { profile }) };
+  };
 }
 
 async function gpuAdapter(page, renderer) {
@@ -307,7 +336,10 @@ async function measureUrl(ctx, o, query, idx, own, browser) {
     await page.evaluate(([y, p]) => window.__STUDIO_CHARACTER_DEBUG__?.aimCamera(y, p), [yaw, pitch]).catch(() => {});
     await page.waitForTimeout(1500);
   }
+  const traces = {};
+  const stopSettleTrace = o.trace ? await startTrace(page, join(o.out, `url${idx}-settled.trace.json`)) : null;
   const settle = await sample(page, o.settle);
+  if (stopSettleTrace) traces.settled = await stopSettleTrace();
   const stats = { ...frameStats(settle.ts), ...settle.work };
   let profile = null;
   if (o.profile > 0 && !(o.walk > 0)) profile = await cpuProfile(page, o, o.profile, "settled", idx);
@@ -336,7 +368,9 @@ async function measureUrl(ctx, o, query, idx, own, browser) {
     await page.mouse.click(o.width / 2, o.height / 2).catch(() => {});
     const key = { key: "w", code: "KeyW", windowsVirtualKeyCode: 87, nativeVirtualKeyCode: 87, text: "w" };
     await cdp.send("Input.dispatchKeyEvent", { type: "keyDown", ...key });
+    const stopWalkTrace = o.trace ? await startTrace(page, join(o.out, `url${idx}-walk.trace.json`)) : null;
     const w = await sample(page, o.walk, o.profile > 0 ? () => cpuProfile(page, o, Math.min(o.profile, o.walk), "walk", idx) : null);
+    if (stopWalkTrace) traces.walk = await stopWalkTrace(w.extra?.file);
     await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", ...key });
     if (w.extra) profile = w.extra;
     walk = { seconds: o.walk, ...frameStats(w.ts), ...w.work, hud: parseHud(await page.evaluate(() => document.body.innerText).catch(() => "")) };
@@ -361,7 +395,7 @@ async function measureUrl(ctx, o, query, idx, own, browser) {
   }
   await page.close();
   return { url, query, ready, readyS, ...stats, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
-    walk, profile, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
+    walk, profile, trace: o.trace ? traces : null, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
 }
 
 async function main() {
