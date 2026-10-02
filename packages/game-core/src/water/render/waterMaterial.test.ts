@@ -675,3 +675,51 @@ describe("water debug views (wdbg=)", () => {
     expect(key0).toBe("es-water-above-high-field");
   });
 });
+
+describe("every es* function is declared before its first call (GLSL compile, perf10 f33b)", () => {
+  /** Drop the lines a `#ifdef/#ifndef NAME` leaves out (NAME defined by an earlier `#define NAME`); `#if` counts as live. */
+  const liveSource = (src: string): string => {
+    const defined = new Set<string>();
+    const stack: boolean[] = [];
+    const out: string[] = [];
+    for (const line of src.split("\n")) {
+      const t = line.trim();
+      const live = stack.every(Boolean);
+      let m: RegExpMatchArray | null;
+      if ((m = t.match(/^#\s*ifdef\s+(\w+)/))) stack.push(defined.has(m[1]));
+      else if ((m = t.match(/^#\s*ifndef\s+(\w+)/))) stack.push(!defined.has(m[1]));
+      else if (/^#\s*if\b/.test(t)) stack.push(true);
+      else if (/^#\s*else\b/.test(t)) stack.push(!stack.pop()!);
+      else if (/^#\s*endif\b/.test(t)) stack.pop();
+      else if (live) {
+        if ((m = t.match(/^#\s*define\s+(\w+)/))) defined.add(m[1]);
+        out.push(line);
+      }
+    }
+    return out.join("\n");
+  };
+  const DEF = /(?:^|\n)[ \t]*(?:float|int|bool|void|vec[234]|mat[234]|Es\w+)[ \t]+(es\w+)[ \t]*\(/g;
+  for (const mode of ["field", "strip"] as const) {
+    for (const [tierName, tier] of Object.entries(WATER_TIERS)) {
+      for (const variant of ["above", "below"] as const) {
+        it(`${mode} ${tierName} ${variant} fragment`, () => {
+          const frag = liveSource(code(compile(mode, assets, tier, variant).shader.fragmentShader));
+          const firstDef = new Map<string, number>();
+          const defIdx = new Set<number>();
+          for (const m of frag.matchAll(DEF)) {
+            const at = m.index! + m[0].indexOf(m[1]);
+            if (!firstDef.has(m[1])) firstDef.set(m[1], at);
+            defIdx.add(at);
+          }
+          const bad: string[] = [];
+          for (const m of frag.matchAll(/\b(es[A-Z]\w*)[ \t]*\(/g)) {
+            if (defIdx.has(m.index!)) continue;
+            const d = firstDef.get(m[1]);
+            if (d === undefined || d > m.index!) bad.push(m[1]);
+          }
+          expect([...new Set(bad)]).toEqual([]);
+        });
+      }
+    }
+  }
+});

@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { WHITEWATER_GLSL, STREAK_LAYERS } from "./whitewaterStreaks";
 import { STRIP_BANK_FADE_START } from "./ChannelStrips";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
-import { FLOW_WAVE_MIN_SPEED_MS, SEA, WAVES, flowWaveGlsl, gerstnerGlsl, gerstnerFragGlsl, gerstnerCrestGlsl, standingRatioGlsl, surfGlsl,
+import { FLOW_WAVE_MIN_SPEED_MS, SEA, WAVES, flowWaveGlsl, snapOmegaGlsl, gerstnerGlsl, gerstnerFragGlsl, gerstnerCrestGlsl, standingRatioGlsl, surfGlsl,
   waveExposureGlsl, whitecapThreshold, whitecapDriftMS } from "@elder-souls/game-core/water/index";
 import { buriedThresholdM, tideResponseGlsl } from "../waterData";
 
@@ -1040,7 +1040,7 @@ varying vec2 vEsRockFoam;
 ${strip ? STRIP_AERATION_GLSL + WHITEWATER_GLSL : ""}
 ${NOISE_GLSL}
 ${surfGlsl()}
-${strip ? "" : flowWaveGlsl()}
+${strip ? "" : snapOmegaGlsl() + flowWaveGlsl()}
 ${SAMPLER_GLSL}
 ${prelude}
 ${strip ? "" : OWNER_MASK_GLSL + waveExposureGlsl() + tideResponseGlsl(classes)}

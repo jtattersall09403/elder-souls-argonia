@@ -870,6 +870,16 @@ export function gerstnerCrestGlsl(bandCount: number, gridCellM: number, count: n
   `;
 }
 
+/** GLSL `esSnapOmega`, shared by every stage that draws flow or Gerstner waves. */
+export function snapOmegaGlsl(): string {
+  return /* glsl */ `
+  // KEEP IN LOCKSTEP with snapOmega(): the loop grid of the folded wave clock.
+  float esSnapOmega(float omega) {
+    return max(1.0, floor(omega / ${f(OMEGA_QUANTUM)} + 0.5)) * ${f(OMEGA_QUANTUM)};
+  }
+`;
+}
+
 /**
  * The GLSL twin: declares `esWaveSampleEx(vec2 pos, float exposure, float
  * shoreDist, float standing, float t)` (+ the legacy `esWaveSample(pos,
@@ -903,10 +913,7 @@ ${waveExposureGlsl()}
     return min(hsFetch, hsFull) * 0.25;
   }
 
-  // KEEP IN LOCKSTEP with snapOmega(): the loop grid of the folded wave clock.
-  float esSnapOmega(float omega) {
-    return max(1.0, floor(omega / ${f(OMEGA_QUANTUM)} + 0.5)) * ${f(OMEGA_QUANTUM)};
-  }
+${snapOmegaGlsl()}
 
   // KEEP IN LOCKSTEP with gerstnerAt(): travelling ↔ standing blend.
   EsWave esWaveBand(vec2 pos, float exposure, float standing, float t, vec2 d,
