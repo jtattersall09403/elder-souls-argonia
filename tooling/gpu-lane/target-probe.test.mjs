@@ -94,8 +94,30 @@ test("target probe: WebGPU draws count per pass until end()", () => {
 
 test("targetsLine: the summary cell", () => {
   const p = { targets: [{ label: "scene", mean9: 0.41, draws: 773 }, { label: "fb", skipped: "multisampled" }, { label: "bloom", mean9: 0.02 }], canvas: { luma: 17.5 }, queue: { skippedPerFrame: 3, notReady: 2 } };
-  assert.equal(targetsLine(p), "not-a-bar; scene 0.41 (773 draws) / fb skip / bloom 0.02 / canvas luma 17.5 / skipped 3.0/frame, 2 not ready");
-  assert.equal(targetsLine({ targets: [{ label: "scene", err: "x" }] }), "not-a-bar; scene err (? draws) / fb - / bloom - / canvas luma -");
+  assert.equal(targetsLine(p), "not-a-bar; scene 0.41 (773 draws) / fb skip / bloom 0.02 / canvas luma 17.5 / skipped 3.0/frame, 2 not ready notReady ? exp ?");
+  assert.match(targetsLine({ ...p, notReadyPipelines: { perFrame: 1 }, exposure: { toneMappingExposure: 0.0001 } }), / notReady 1 exp 0.0001$/);
+  assert.equal(targetsLine({ targets: [{ label: "scene", err: "x" }] }), "not-a-bar; scene err (? draws) / fb - / bloom - / canvas luma - notReady ? exp ?");
   assert.equal(targetsLine({ err: "no target probe on the page" }), "not-a-bar; probe unread (no target probe on the page)");
   assert.equal(targetsLine(null), null);
+});
+
+test("target probe: not-ready pipelines counted per frame with material name, null pipeline and error; exposure read; isReady restored", async () => {
+  const bad = { material: { name: "badMat" } }, good = { material: { name: "goodMat" } };
+  const pipelines = {
+    isReady: (ro) => ro !== bad,
+    get: (ro) => ({ pipeline: { id: ro.material.name } }),
+    backend: { get: (p) => (p.id === "badMat" ? { pipeline: null, error: new Error("boom") } : { pipeline: {} }) },
+  };
+  const orig = pipelines.isReady;
+  const r = { _pipelines: pipelines, setRenderTarget() {}, getRenderTarget: () => null, toneMappingExposure: 0.0001, toneMapping: 4, outputColorSpace: "srgb",
+    readRenderTargetPixelsAsync: async () => new Uint16Array([0, 0, 0, 0]) };
+  const { win } = fakeWindow(r);
+  const tick = setInterval(() => { r._pipelines.isReady(bad); r._pipelines.isReady(good); }, 0);
+  const p = await win.__targetProbe.capture();
+  clearInterval(tick);
+  assert.ok(p.notReadyPipelines.perFrame >= 1);
+  assert.equal(p.notReadyPipelines.names.length, 1);
+  assert.deepEqual([p.notReadyPipelines.names[0].material, p.notReadyPipelines.names[0].pipelineNull, p.notReadyPipelines.names[0].error], ["badMat", true, "boom"]);
+  assert.deepEqual(p.exposure, { toneMappingExposure: 0.0001, toneMapping: 4, outputColorSpace: "srgb" });
+  assert.equal(pipelines.isReady, orig, "isReady restored after the window");
 });

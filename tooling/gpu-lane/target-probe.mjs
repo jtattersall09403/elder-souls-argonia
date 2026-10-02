@@ -82,11 +82,41 @@ export function installTargetProbe(win, recordPass) {
       }
       return set.call(this, rt, ...a);
     };
+    // Not-ready pipelines: Pipelines.isReady false at the draw (Renderer._renderObjectDirect), counted over the window.
+    const pl = r._pipelines, isReady0 = pl?.isReady, nr = { count: 0, names: new Map(), fields: new Set() };
+    if (typeof isReady0 === "function") pl.isReady = function (ro) {
+      const ok = isReady0.call(this, ro);
+      if (!ok && P.armed) {
+        nr.count++;
+        try {
+          const name = ro?.material?.name || ro?.material?.type || "?";
+          if (nr.names.size < 20 || nr.names.has(name)) {
+            let pipelineNull = null, error = null;
+            try {
+              const data = this.get(ro), rop = data?.pipeline, bd = rop ? this.backend?.get?.(rop) : null;
+              if (data) for (const k of Object.keys(data)) nr.fields.add("data." + k);
+              if (bd) for (const k of Object.keys(bd)) nr.fields.add("backend." + k);
+              pipelineNull = !bd || bd.pipeline === undefined || bd.pipeline === null;
+              const e = bd?.error ?? data?.error ?? null;
+              error = e == null ? null : String(e.message ?? e).slice(0, 200);
+            } catch (e) { error = "probe: " + String(e.message ?? e).slice(0, 100); }
+            const cur = nr.names.get(name) ?? { material: name, pipelineNull, error, count: 0 };
+            cur.count++; cur.pipelineNull = pipelineNull; cur.error = error ?? cur.error;
+            nr.names.set(name, cur);
+          }
+        } catch {}
+      }
+      return ok;
+    };
     await raf();
     const skipped0 = q ? q.skippedDraws : null;
     P.armed = true; await raf(); await raf(); P.armed = false; P.curRt = null; P.curPass = null;
     const skipped1 = q ? q.skippedDraws : null;
     r.setRenderTarget = set;
+    if (typeof isReady0 === "function") pl.isReady = isReady0;
+    const notReadyPipelines = typeof isReady0 === "function" ? { perFrame: nr.count / FRAMES, names: [...nr.names.values()], fields: [...nr.fields] } : { err: "no renderer._pipelines.isReady" };
+    const exposure = {};
+    try { exposure.toneMappingExposure = r.toneMappingExposure ?? null; exposure.toneMapping = r.toneMapping ?? null; exposure.outputColorSpace = r.outputColorSpace ?? null; } catch (e) { exposure.err = String(e.message ?? e); }
     const draws = (t) => (drawsTo.get(t) ?? []).reduce((s, x) => s + x.draws, 0);
     const fbs = new Set();
     try { for (const t of r._frameBufferTargets?.values?.() ?? []) fbs.add(t); } catch {}
@@ -116,7 +146,7 @@ export function installTargetProbe(win, recordPass) {
     for (const t of [...fbs, ...all.filter((t) => !fbs.has(t))].slice(0, 16)) targets.push(await read(t));
     let samples = null; try { samples = r.samples ?? r._samples ?? null; } catch {}
     const queue = q ? { skippedDraws: skipped1 - skipped0, frames: FRAMES, skippedPerFrame: (skipped1 - skipped0) / FRAMES, notReady: q.pending ?? null, timedOut: q.timedOut?.size ?? null } : { err: "no esBuildQueue on the renderer" };
-    return { backend: r.backend?.isWebGPUBackend ? "webgpu" : "webgl2", rendererSamples: samples, sceneBy, queue, targets, setRenderTarget: P.rts, passes: P.passes };
+    return { backend: r.backend?.isWebGPUBackend ? "webgpu" : "webgl2", rendererSamples: samples, sceneBy, queue, notReadyPipelines, exposure, targets, setRenderTarget: P.rts, passes: P.passes };
   };
 }
 
@@ -129,5 +159,6 @@ export function targetsLine(p) {
   const parts = ["scene", "fb", "bloom"].map((l) => { const t = of(l); return `${l} ${!t ? "-" : t.skipped ? "skip" : t.err ? "err" : f(t.mean9)}${t && l === "scene" ? ` (${t.draws ?? "?"} draws)` : ""}`; });
   parts.push(`canvas luma ${Number.isFinite(p.canvas?.luma) ? p.canvas.luma : "-"}`);
   if (p.queue && !p.queue.err) parts.push(`skipped ${p.queue.skippedPerFrame.toFixed(1)}/frame, ${p.queue.notReady ?? "?"} not ready`);
-  return `not-a-bar; ${parts.join(" / ")}`;
+  const tail = ` notReady ${p.notReadyPipelines?.perFrame ?? "?"} exp ${p.exposure?.toneMappingExposure ?? "?"}`;
+  return `not-a-bar; ${parts.join(" / ")}${tail}`;
 }
