@@ -63,7 +63,7 @@ import * as tsl from "three/tsl";
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
 const {
   bool, clamp, distance, float, floor, fract, int, ivec2, max, positionLocal, screenCoordinate,
-  smoothstep, step, textureLoad, uniform, uniformArray, vec2, vec3,
+  smoothstep, step, textureLoad, uniformArray, vec2, vec3,
 } = tsl as unknown as Record<string, TslNode>;
 import { batchUniformsOf, instanceDataNode } from "./batchData";
 import { instanceMatrixNode, matrixColumn } from "./instanceNodes";
@@ -71,6 +71,7 @@ import { OCCLUSION_MIN_DISTANCE_M } from "../render/terrainOcclusion";
 import {
   andMask, claimFeature, sel, wrapPosition, type TslNode,
 } from "../render/nodes/materialNodes";
+import { sharedUniform } from "../render/nodes/sharedUniform";
 
 /** The uniform block a group of vegetation materials shares. */
 export interface LodFadeUniforms {
@@ -230,7 +231,7 @@ export function lodLadder(
 export function createLodFadeUniforms(): LodFadeUniforms {
   const hist = Array.from({ length: LOD_FADE_SAMPLES }, () => new THREE.Vector2());
   return {
-    esLodViewPos: uniform(new THREE.Vector3()) as LodFadeUniforms["esLodViewPos"],
+    esLodViewPos: sharedUniform(new THREE.Vector3()) as LodFadeUniforms["esLodViewPos"],
     esLodHist: uniformArray(hist, "vec2") as LodFadeUniforms["esLodHist"],
   };
 }

@@ -14,7 +14,7 @@
  * tree. In node materials the shadow pass reuses `positionNode` (and
  * `castShadowPositionNode`, which this also wraps when a feature set one), so
  * there is no depth twin to forget; the distance fade reads the player's eye
- * uniform, never the pass camera, so shadows keep swaying in the shadow pass.
+ * never the pass camera, so shadows keep swaying in the shadow pass.
  * The branch and leaf weights are read from the geometry (distance from the
  * trunk axis, height), because the sourced meshes carry no authored wind
  * vertex colours.
@@ -32,11 +32,12 @@ import { instanceMatrixNode, matrixColumn } from "./instanceNodes";
 import {
   claimFeature, sel, wrapPosition, wrapShadowPosition, type TslNode,
 } from "../render/nodes/materialNodes";
+import { sharedUniform } from "../render/nodes/sharedUniform";
 
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
 const {
   clamp, cos, dot, float, floor, fract, inverseSqrt, length, mat3, max, min, mix, pow, sin,
-  smoothstep, transpose, uniform, vec2, vec3,
+  smoothstep, transpose, vec2, vec3,
 } = tsl as unknown as Record<string, TslNode>;
 
 /** The uniform block a group of vegetation materials shares (`uniform()` nodes; write `.value`). */
@@ -126,10 +127,10 @@ export function windStiffness(trunkRadiusM: number, scale = 1): number {
 
 export function createWindUniforms(): WindUniforms {
   return {
-    esWindTime: uniform(0) as WindUniforms["esWindTime"],
-    esWindVec: uniform(new THREE.Vector3(1, 0, 0)) as WindUniforms["esWindVec"],
-    esWindFadeM: uniform(WIND_FADE_M) as WindUniforms["esWindFadeM"],
-    esWindEye: uniform(new THREE.Vector3()) as WindUniforms["esWindEye"],
+    esWindTime: sharedUniform(0) as WindUniforms["esWindTime"],
+    esWindVec: sharedUniform(new THREE.Vector3(1, 0, 0)) as WindUniforms["esWindVec"],
+    esWindFadeM: sharedUniform(WIND_FADE_M) as WindUniforms["esWindFadeM"],
+    esWindEye: sharedUniform(new THREE.Vector3()) as WindUniforms["esWindEye"],
   };
 }
 

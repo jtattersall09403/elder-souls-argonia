@@ -10,11 +10,12 @@ import { esLocalWaterCaustic } from "./localWaterCaustics";
 import { wrapLightingFinish } from "./receiverLighting";
 import { claimFeature, sel, wrapColor, type TslNode } from "../../render/nodes/materialNodes";
 import type { LocalWaterSurfaceState } from "./types";
+import { sharedUniform } from "../../render/nodes/sharedUniform";
 
 // Loosely typed on purpose (docs/standards/tsl-shaders.md §1).
 const {
   abs, cameraPosition, clamp, distance, dot, float, floor, fract, If, int, ivec2, max, min, mix,
-  normalWorld, positionWorld, sin, smoothstep, step, texture, uniform, vec2, vec3, vec4,
+  normalWorld, positionWorld, sin, smoothstep, step, texture, vec2, vec3, vec4,
   Fn, materialRoughness,
 } = tsl as TslNode;
 
@@ -64,44 +65,44 @@ export function createGroundWetnessUniforms() {
   const placeholder = placeholderTexture();
   return {
     uLocalWaterField: rasterNode(placeholder),
-    uLocalWaterInfo: uniform(new THREE.Vector4(0, 0, 1, 1)),
-    uLocalWaterEdge: uniform(LOCAL_WATER_EDGE_M),
-    uLocalWaterActive: uniform(0),
-    uLocalWaterBody: uniform(0),
+    uLocalWaterInfo: sharedUniform(new THREE.Vector4(0, 0, 1, 1)),
+    uLocalWaterEdge: sharedUniform(LOCAL_WATER_EDGE_M),
+    uLocalWaterActive: sharedUniform(0),
+    uLocalWaterBody: sharedUniform(0),
     uWetSurf: rasterNode(placeholder),
     uWetShore: rasterNode(placeholder),
     uWetKlass: rasterNode(placeholder),
     uWetSupport: rasterNode(placeholder),
     uWetCharacter: rasterNode(placeholder),
     uWetAccess: rasterNode(placeholder),
-    uWetAccessParams: uniform(new THREE.Vector3(0, -2, 4)),
-    uWetNativeCoverage: uniform(0),
+    uWetAccessParams: sharedUniform(new THREE.Vector3(0, -2, 4)),
+    uWetNativeCoverage: sharedUniform(0),
     /** Surface minimum, range, texture size and metres per sample. */
-    uWetParams: uniform(new THREE.Vector4(0, 1, 0, 1)),
-    uWetOrigin: uniform(0),
+    uWetParams: sharedUniform(new THREE.Vector4(0, 1, 0, 1)),
+    uWetOrigin: sharedUniform(0),
     /** Signed-depth decode of the surface B channel (decision 0047). */
-    uWetDepthMin: uniform(0),
-    uWetDepthSpan: uniform(25.5),
+    uWetDepthMin: sharedUniform(0),
+    uWetDepthSpan: sharedUniform(25.5),
     /** Signed depth above which a texel's level counts (waterData
      * buriedThresholdM): buried texels never weigh into the wet band's level. */
-    uWetBuried: uniform(0.001),
+    uWetBuried: sharedUniform(0.001),
     /** Class texture size, metres per sample and grid origin in metres. */
-    uWetKlassParams: uniform(new THREE.Vector3(1, 1, 0)),
-    uWetShoreMax: uniform(160),
-    uWetHasSupport: uniform(0),
-    uWetHasCharacter: uniform(0),
-    uWetLevels: uniform(new THREE.Vector2(0, 0)),
-    uRainWet: uniform(0),
+    uWetKlassParams: sharedUniform(new THREE.Vector3(1, 1, 0)),
+    uWetShoreMax: sharedUniform(160),
+    uWetHasSupport: sharedUniform(0),
+    uWetHasCharacter: sharedUniform(0),
+    uWetLevels: sharedUniform(new THREE.Vector2(0, 0)),
+    uRainWet: sharedUniform(0),
     /** Wave-scale knob (caustic wind only). */
-    uWetWind: uniform(1),
+    uWetWind: sharedUniform(1),
     /** The weather's 10 m wind (m/s): the beach band's surf energy, the same
      * knob as the water surface's (waves.ts surfEnergyScale). 0 = the floor
      * wind, a calm sea. */
-    uWetWindMS: uniform(0),
-    uWetTime: uniform(0),
+    uWetWindMS: sharedUniform(0),
+    uWetTime: sharedUniform(0),
     /** Dev-only A/B scalar on the caustic terms only (1 = shipped look). */
-    uWetCausticDebug: uniform(1),
-    uWetSun: uniform(new THREE.Vector3(0, -1, 0)),
+    uWetCausticDebug: sharedUniform(1),
+    uWetSun: sharedUniform(new THREE.Vector3(0, -1, 0)),
   };
 }
 

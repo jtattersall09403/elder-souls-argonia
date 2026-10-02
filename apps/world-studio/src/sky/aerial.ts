@@ -5,6 +5,7 @@ import {
   claimFeature, patchShared, sel, wrapColor, type PatchMemo, type TslNode,
 } from "@elder-souls/game-core/render/nodes/materialNodes";
 import { PROVINCE_EXTENT_M } from "../provinceScale";
+import { sharedUniform } from "@elder-souls/game-core/render/nodes/sharedUniform";
 // TSL builders typed loosely (standard 0107 §1: chained TSL typings are too deep for tsc).
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const {
@@ -136,25 +137,25 @@ export function aerialRasterLoaded(u: AerialUniforms, key: AerialRasterKey): boo
 /** One shared uniform set: WorldSky writes it, the fog node and the dome read it. */
 export function createAerialUniforms(): AerialUniforms {
   return {
-    uSunDirW: uniform(new THREE.Vector3(0, 1, 0)),
-    uHazeSunLight: uniform(new THREE.Vector3(0, 0, 0)),
-    uHazeAmbient: uniform(new THREE.Vector3(0, 0, 0)),
+    uSunDirW: sharedUniform(new THREE.Vector3(0, 1, 0)),
+    uHazeSunLight: sharedUniform(new THREE.Vector3(0, 0, 0)),
+    uHazeAmbient: sharedUniform(new THREE.Vector3(0, 0, 0)),
     uClimateAir: texture(placeholderRaster()),
-    uProvinceExtentM: uniform(PROVINCE_EXTENT_M),
-    uBetaR: uniform(new THREE.Vector3(6.5e-6, 1.5e-5, 3.5e-5)),
-    uBetaM: uniform(9e-5),
-    uBoundaryLayerM: uniform(60),
-    uMistStrength: uniform(0),
+    uProvinceExtentM: sharedUniform(PROVINCE_EXTENT_M),
+    uBetaR: sharedUniform(new THREE.Vector3(6.5e-6, 1.5e-5, 3.5e-5)),
+    uBetaM: sharedUniform(9e-5),
+    uBoundaryLayerM: sharedUniform(60),
+    uMistStrength: sharedUniform(0),
     uClimateWeather: texture(placeholderRaster()),
-    uAdvectionFog: uniform(0),
-    uWhiteout: uniform(new THREE.Vector4(470, 150, 55, 0)),
+    uAdvectionFog: sharedUniform(0),
+    uWhiteout: sharedUniform(new THREE.Vector4(470, 150, 55, 0)),
     uClimateVis: texture(placeholderRaster()),
-    uRegionHaze: uniform(0.55),
-    uWeatherMie: uniform(0),
-    uFogLum: uniform(new THREE.Vector3(0, 0, 0)),
-    uFogSunLum: uniform(new THREE.Vector3(0, 0, 0)),
-    uWhiteoutDrift: uniform(new THREE.Vector2(0, 0)),
-    uEsFogCam: uniform(new THREE.Vector3(0, 0, 0)),
+    uRegionHaze: sharedUniform(0.55),
+    uWeatherMie: sharedUniform(0),
+    uFogLum: sharedUniform(new THREE.Vector3(0, 0, 0)),
+    uFogSunLum: sharedUniform(new THREE.Vector3(0, 0, 0)),
+    uWhiteoutDrift: sharedUniform(new THREE.Vector2(0, 0)),
+    uEsFogCam: sharedUniform(new THREE.Vector3(0, 0, 0)),
   };
 }
 

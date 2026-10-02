@@ -17,6 +17,7 @@ import { skyFogNode, type AerialUniforms, type UniformOf } from "./aerial";
 import { cloudFieldNodes, type CloudUniforms } from "./cloudField";
 import type { LightRig } from "./lightRig";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
+import { sharedUniform } from "@elder-souls/game-core/render/nodes/sharedUniform";
 // TSL builders typed loosely (standard 0107 §1: chained TSL typings are too deep for tsc).
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const {
@@ -47,7 +48,6 @@ const {
   smoothstep,
   sqrt,
   toneMappingExposure,
-  uniform,
   uv,
   varying,
   vec2,
@@ -237,33 +237,33 @@ export interface SkyExtras {
 
 function createSkyExtras(): SkyExtras {
   return {
-    uSkyLum: uniform(16_000),
-    uSkyFade: uniform(1),
-    uSunAltDeg: uniform(45),
-    uNightBoost: uniform(1),
-    uBeltLum: uniform(0),
-    uNightZenith: uniform(new THREE.Color(0, 0, 0)),
-    uNightHorizon: uniform(new THREE.Color(0, 0, 0)),
-    uGroundLum: uniform(new THREE.Color(0, 0, 0)),
-    uHorizonLum: uniform(new THREE.Color(0, 0, 0)),
-    uDawnLum: uniform(0),
-    uDawnDir: uniform(new THREE.Vector2(0, 1)),
-    uTwiGrade: uniform(0),
-    uMoonGlowDirA: uniform(new THREE.Vector3(0, -1, 0)),
-    uMoonGlowDirB: uniform(new THREE.Vector3(0, -1, 0)),
-    uMoonGlowColA: uniform(new THREE.Color(0, 0, 0)),
-    uMoonGlowColB: uniform(new THREE.Color(0, 0, 0)),
-    uMoonGlowWide: uniform(new THREE.Vector2(14, 20)),
-    uDawnCore: uniform(new THREE.Color(1.0, 0.58, 0.28)),
-    uDawnSpread: uniform(new THREE.Color(1.0, 0.45, 0.5)),
-    uDawnWash: uniform(new THREE.Color(0.55, 0.35, 0.62)),
-    uCloudBright: uniform(new THREE.Color(0, 0, 0)),
-    uCloudDark: uniform(new THREE.Color(0, 0, 0)),
-    uGlowDir: uniform(new THREE.Vector3(0, 1, 0)),
-    uGlowCol: uniform(new THREE.Color(0, 0, 0)),
-    uFlash: uniform(0),
-    uCloudSunset: uniform(new THREE.Color(0, 0, 0)),
-    uCloudSunsetAmt: uniform(new THREE.Vector2(0, 0)),
+    uSkyLum: sharedUniform(16_000),
+    uSkyFade: sharedUniform(1),
+    uSunAltDeg: sharedUniform(45),
+    uNightBoost: sharedUniform(1),
+    uBeltLum: sharedUniform(0),
+    uNightZenith: sharedUniform(new THREE.Color(0, 0, 0)),
+    uNightHorizon: sharedUniform(new THREE.Color(0, 0, 0)),
+    uGroundLum: sharedUniform(new THREE.Color(0, 0, 0)),
+    uHorizonLum: sharedUniform(new THREE.Color(0, 0, 0)),
+    uDawnLum: sharedUniform(0),
+    uDawnDir: sharedUniform(new THREE.Vector2(0, 1)),
+    uTwiGrade: sharedUniform(0),
+    uMoonGlowDirA: sharedUniform(new THREE.Vector3(0, -1, 0)),
+    uMoonGlowDirB: sharedUniform(new THREE.Vector3(0, -1, 0)),
+    uMoonGlowColA: sharedUniform(new THREE.Color(0, 0, 0)),
+    uMoonGlowColB: sharedUniform(new THREE.Color(0, 0, 0)),
+    uMoonGlowWide: sharedUniform(new THREE.Vector2(14, 20)),
+    uDawnCore: sharedUniform(new THREE.Color(1.0, 0.58, 0.28)),
+    uDawnSpread: sharedUniform(new THREE.Color(1.0, 0.45, 0.5)),
+    uDawnWash: sharedUniform(new THREE.Color(0.55, 0.35, 0.62)),
+    uCloudBright: sharedUniform(new THREE.Color(0, 0, 0)),
+    uCloudDark: sharedUniform(new THREE.Color(0, 0, 0)),
+    uGlowDir: sharedUniform(new THREE.Vector3(0, 1, 0)),
+    uGlowCol: sharedUniform(new THREE.Color(0, 0, 0)),
+    uFlash: sharedUniform(0),
+    uCloudSunset: sharedUniform(new THREE.Color(0, 0, 0)),
+    uCloudSunsetAmt: sharedUniform(new THREE.Vector2(0, 0)),
   };
 }
 
@@ -524,10 +524,10 @@ export function createStarLayer(
   const aRank = instancedBufferAttribute(new THREE.InstancedBufferAttribute(attrs.rank ?? new Float32Array(n), 1));
   const pos = instancedDynamicBufferAttribute(position);
   const uniforms: StarLayerUniforms = {
-    uOpacity: uniform(0),
-    uSunAltDeg: uniform(45),
-    uStarFrac: uniform(kind === "stars" ? 0.5 : 1),
-    uDawnDir: uniform(new THREE.Vector2(0, 1)),
+    uOpacity: sharedUniform(0),
+    uSunAltDeg: sharedUniform(45),
+    uStarFrac: sharedUniform(kind === "stars" ? 0.5 : 1),
+    uDawnDir: sharedUniform(new THREE.Vector2(0, 1)),
   };
   const field = cloudFieldNodes(clouds, { vertex: true });
   // Vertex stage: density slider, staged twilight appearance (brighter
@@ -601,9 +601,9 @@ const esMoonNoise = (p: TslNode): TslNode => {
  */
 export function createMoonMaterial(tint: THREE.Color): { material: NodeMaterial; uniforms: MoonUniforms } {
   const uniforms: MoonUniforms = {
-    uSunDir: uniform(new THREE.Vector3(0, 1, 0)),
-    uTint: uniform(tint),
-    uDayDim: uniform(1),
+    uSunDir: sharedUniform(new THREE.Vector3(0, 1, 0)),
+    uTint: sharedUniform(tint),
+    uDayDim: sharedUniform(1),
   };
   const material = new MeshBasicNodeMaterial();
   material.colorNode = Fn(() => {

@@ -466,6 +466,11 @@ headless.
   switch a light or its shadow off with `intensity` / `shadow.intensity`
   (`render/lightSwitch`: `setShadowShown`, `LIGHT_HELD_OFF`; test
   `apps/world-studio/src/sky/lightCacheKeys.test.ts`).
+- On the node renderer a uniform shared by every draw goes on frameGroup
+  (or renderGroup if camera-dependent); the default objectGroup writes it
+  into every draw's buffer. In this repo use `render/nodes/sharedUniform`
+  (renderGroup: three 0.184 ticks the frame per render call); per-object
+  values (`onObjectUpdate`) stay on objectGroup.
 - On the node renderer a GPU resource a bind group samples (texture,
   storage buffer) is allocated once at its largest size and never
   destroyed while a material can bind it; quality steps change uniforms

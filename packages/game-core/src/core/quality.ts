@@ -41,6 +41,12 @@ export interface QualitySettings {
    * 120 m). 2048 is ~6 cm a texel; 4096 is ~3 cm and costs 48 MB more GPU
    * memory (depth 32-bit) and ~4x the shadow fill on the frames it updates. */
   readonly shadowMapSize: number;
+  /** Frames between shadow-map updates per cascade, nearest first (1 = every
+   * frame; `render/lightSwitch` applyCascadeRota). Far cascades cover the most
+   * casters at the coarsest texels, and the sun moves ~0.008 deg in 4 frames
+   * (game time x30), so 1/2/4 halves to quarters their pass cost unseen. The
+   * character view has one cascade, so there it changes nothing. */
+  readonly shadowCascadeRota: readonly number[];
 }
 
 export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> = {
@@ -54,6 +60,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     groundcoverMaxInstances: 30_000,
     dprMax: 1,
     shadowMapSize: 2048,
+    shadowCascadeRota: [1, 2, 4],
   },
   medium: {
     name: "medium",
@@ -65,6 +72,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     groundcoverMaxInstances: 45_000,
     dprMax: 1,
     shadowMapSize: 2048,
+    shadowCascadeRota: [1, 2, 4],
   },
   high: {
     name: "high",
@@ -76,6 +84,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     groundcoverMaxInstances: 60_000,
     dprMax: 1.25,
     shadowMapSize: 4096,
+    shadowCascadeRota: [1, 2, 4],
   },
 };
 

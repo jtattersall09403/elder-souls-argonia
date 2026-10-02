@@ -16,6 +16,11 @@ import { setWindWaveScale } from "@elder-souls/game-core/water/index";
 import { installFixtureLighting } from "@elder-souls/game-core/render/fixtureLights/index";
 import { advanceWaveAmplitude } from "@elder-souls/game-core/water/waveWeather";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
+import { applyCascadeRota } from "@elder-souls/game-core/render/lightSwitch";
+import { QUALITY_PRESETS } from "@elder-souls/game-core/core/quality";
+
+/** The flyover has no quality preset: it takes the presets' shared rota. */
+const DEFAULT_CASCADE_ROTA = QUALITY_PRESETS.medium.shadowCascadeRota;
 import { isNodeMaterial } from "@elder-souls/game-core/render/nodes/materialNodes";
 import { adaptExposure, stepShadowSun } from "@elder-souls/game-core/render/lightAdaptation";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
@@ -199,10 +204,13 @@ export function WorldSky({
   crowns,
   sunLightingOut,
   shadowMapSize = 2048,
+  shadowCascadeRota = DEFAULT_CASCADE_ROTA,
   children,
 }: {
   /** Cascade map edge from the quality preset; `?smsize=` still overrides. */
   shadowMapSize?: number;
+  /** Frames between cascade map updates, nearest first (quality `shadowCascadeRota`). */
+  shadowCascadeRota?: readonly number[];
   /** Tree crowns near the camera for the canopy map (decision 0112 §5); the
    * vegetation layer fills it (Vegetation `crownsRef`). */
   crowns?: React.MutableRefObject<CrownSource | null>;
@@ -653,6 +661,7 @@ export function WorldSky({
     // frame re-rasterises every edge on a new texel grid (walk 6 flicker).
     stepShadowSun(state.current.shadowSun, sunDir);
     aimSun(sun, state.current.shadowSun, camera.position, rig);
+    applyCascadeRota(sun, patchFrame.current.frame, shadowCascadeRota);
     const nowMs = performance.now();
     if (nowMs - state.current.lastFrustumUpdate > 500) {
       state.current.lastFrustumUpdate = nowMs;

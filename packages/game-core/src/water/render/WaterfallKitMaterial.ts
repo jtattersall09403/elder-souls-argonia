@@ -8,11 +8,12 @@ import { STREAK_BREATHE_PERIOD_S, STREAK_BREATHE_AMPLITUDE, fallsIrradianceNode,
   type FallsSunShadow } from "./whitewaterStreaks";
 import type { KitShapeRole } from "./WaterfallKit";
 import { POOL_FADE_M } from "./WaterfallKitStack";
+import { sharedUniform } from "../../render/nodes/sharedUniform";
 
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
 const {
   abs, attribute, cameraPosition, clamp, cos, cross, dFdx, dFdy, dot, float, max, normalize, positionLocal,
-  positionView, positionWorld, pow, smoothstep, texture, uniform, uv, varying, vec2,
+  positionView, positionWorld, pow, smoothstep, texture, uv, varying, vec2,
   vec3, vec4,
 } = tsl as unknown as Record<string, TslNode>;
 /**
@@ -72,19 +73,19 @@ export interface KitSharedUniforms {
 export function createKitSharedUniforms(): KitSharedUniforms {
   const depthPlaceholder = createDepthPlaceholder();
   return {
-    uTime: uniform(0),
-    uVerticalScale: uniform(1),
-    uAmbient: uniform(new THREE.Vector3(0.2, 0.2, 0.2)),
-    uSunLight: uniform(new THREE.Vector3(1, 1, 1)),
-    uSunDir: uniform(new THREE.Vector3(0, 1, 0)),
+    uTime: sharedUniform(0),
+    uVerticalScale: sharedUniform(1),
+    uAmbient: sharedUniform(new THREE.Vector3(0.2, 0.2, 0.2)),
+    uSunLight: sharedUniform(new THREE.Vector3(1, 1, 1)),
+    uSunDir: sharedUniform(new THREE.Vector3(0, 1, 0)),
     uSceneDepth: texture(depthPlaceholder),
-    uHasDepth: uniform(0),
-    uCamNear: uniform(0.3),
-    uCamFar: uniform(60000),
-    uResolution: uniform(new THREE.Vector2(1, 1)),
-    uOpacity: uniform(1),
-    uUnderwater: uniform(0),
-    uLift: uniform(0),
+    uHasDepth: sharedUniform(0),
+    uCamNear: sharedUniform(0.3),
+    uCamFar: sharedUniform(60000),
+    uResolution: sharedUniform(new THREE.Vector2(1, 1)),
+    uOpacity: sharedUniform(1),
+    uUnderwater: sharedUniform(0),
+    uLift: sharedUniform(0),
     sunShadow: { node: null },
     depthPlaceholder,
   };

@@ -1,13 +1,14 @@
 import * as THREE from "three";
 import type { NodeMaterial } from "three/webgpu";
 import {
-  attribute, float, materialColor, materialEmissive, materialReference, materialRoughness, max, mix, positionWorld, smoothstep, uniform,
+  attribute, float, materialColor, materialEmissive, materialReference, materialRoughness, max, mix, positionWorld, smoothstep,
   varying, vec3, vec4,
 } from "three/tsl";
 import { ALWAYS_LIT_DAY_FACTOR, artificialLightFactor } from "./lighting";
 import { cloneNodeMaterial, isNodeMaterial, type TslNode } from "../render/nodes/materialNodes";
 import type { SettlementKitMaterialExtras } from "./types";
 import { applyLanternShell } from "./fixtureGlow";
+import { sharedUniform } from "../render/nodes/sharedUniform";
 
 /** A float `uniform()` node (TSL): writers set `.value`, every material reads the one node. */
 export type SettlementUniform = TslNode & { value: number };
@@ -20,7 +21,7 @@ export interface SettlementMaterialUniforms {
 
 /** Fresh environment uniforms (rain 0, night 0); the layer owns one set. */
 export function createSettlementMaterialUniforms(): SettlementMaterialUniforms {
-  return { esSettlementRain: uniform(0) as SettlementUniform, esSettlementNight: uniform(0) as SettlementUniform };
+  return { esSettlementRain: sharedUniform(0) as SettlementUniform, esSettlementNight: sharedUniform(0) as SettlementUniform };
 }
 
 export const SETTLEMENT_GROUND_ATTRIBUTE = "esSettlementGroundY";

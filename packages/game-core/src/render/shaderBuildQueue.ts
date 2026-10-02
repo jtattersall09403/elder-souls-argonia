@@ -156,6 +156,7 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
   // cache entry lives on with its real owner). A twin is never left listening on the material.
   const twins = new Map<unknown, { twin: RenderObjectInternals; at: number }>();
   const nodes0 = r._nodes;
+  const lookupKeys: unknown[] = [null, null, null, null];
   const release = (key: unknown) => {
     const t = twins.get(key);
     if (!t) return;
@@ -175,14 +176,17 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
   r._renderObjectDirect = function (this: RendererInternals, ...a: unknown[]) {
     const [object, material, scene, camera, lightsNode, group, clippingContext, passId] = a;
     const objects = this._objects, nodes = this._nodes;
-    const chain = objects.getChainMap(passId), chainKeys = [object, material, this._currentRenderContext, lightsNode];
-    const current = chain.get(chainKeys);
+    // the per-draw lookup reuses one key array (no allocation per draw); the lookups after
+    // draw.apply build their own, as draw.apply can re-enter this function (a shadow pass)
+    const chain = objects.getChainMap(passId);
+    lookupKeys[0] = object; lookupKeys[1] = material; lookupKeys[2] = this._currentRenderContext; lookupKeys[3] = lightsNode;
+    const current = chain.get(lookupKeys);
     if (current && drawn.has(current)) {
       const stale = (current.version !== (material as { version: number }).version || current.needsUpdate)
         && current.initialCacheKey !== current.getCacheKey();
       if (!stale || nodes.nodeBuilderCache.has(current.getCacheKey())) {
         draw.apply(this, a);
-        if (twins.size) settleTwins(chain.get(chainKeys));
+        if (twins.size) settleTwins(chain.get([object, material, this._currentRenderContext, lightsNode]));
         return;
       }
       // Re-keyed (a light, fog or material change) and the new program is not built: three would
@@ -221,7 +225,7 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
     if (nodes.get(ro).nodeBuilderState !== undefined || nodes.nodeBuilderCache.has(key)) {
       drawn.add(ro);
       draw.apply(this, a);
-      if (twins.size) settleTwins(chain.get(chainKeys));
+      if (twins.size) settleTwins(chain.get([object, material, this._currentRenderContext, lightsNode]));
       return;
     }
     queue.request(key, distanceSq(object as Placed, camera as Viewer), () => nodes.getForRender(ro, true));

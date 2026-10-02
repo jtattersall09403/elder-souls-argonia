@@ -24,10 +24,11 @@ import {
   esWaveSampleEx, esColourAt, makeSurfaceAt, placeholderTexture, sel,
 } from "./waterNodes";
 import * as TSLNS from "three/tsl";
+import { sharedUniform } from "../../render/nodes/sharedUniform";
 // TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const {
-  Break, Fn, If, Loop, abs, all, attribute, cameraFar, cameraNear, cameraPosition, cameraProjectionMatrix, cameraViewMatrix, clamp, cos, distance, dot, exp, float, floor, fract, getScreenPosition, int, ivec2, length, max, min, mix, modelWorldMatrix, normalize, pmremTexture, positionGeometry, positionWorld, pow, reflect, refract, screenUV, sin, smoothstep, texture, uniform, uniformArray, varying, vec2, vec3, vec4,
+  Break, Fn, If, Loop, abs, all, attribute, cameraFar, cameraNear, cameraPosition, cameraProjectionMatrix, cameraViewMatrix, clamp, cos, distance, dot, exp, float, floor, fract, getScreenPosition, int, ivec2, length, max, min, mix, modelWorldMatrix, normalize, pmremTexture, positionGeometry, positionWorld, pow, reflect, refract, screenUV, sin, smoothstep, texture, uniformArray, varying, vec2, vec3, vec4,
 } = TSLNS as any;
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -319,13 +320,13 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
     depth: createDepthPlaceholder(),
     ripple: placeholderTexture(),
   };
-  const u = (v: number) => uniform(v) as WaterUniformNode<number>;
+  const u = (v: number) => sharedUniform(v) as WaterUniformNode<number>;
   return {
     uWaveTime: u(0),
     uTransportTime: u(0),
     uWindWave: u(1),
     uWindMS: u(0),
-    uWindDir: uniform(new THREE.Vector2(WAVES.windDir[0], WAVES.windDir[1])) as WaterUniformNode<THREE.Vector2>,
+    uWindDir: sharedUniform(new THREE.Vector2(WAVES.windDir[0], WAVES.windDir[1])) as WaterUniformNode<THREE.Vector2>,
     uCapThreshold: u(whitecapThreshold(0)),
     uFetchMax: u(m.flow.fetchMaxM ?? SEA.fetchMaxM),
     uLevelTide: u(0),
@@ -335,8 +336,8 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
     uSceneDepth: texture(placeholders.depth) as WaterUniformNode<THREE.Texture>,
     uCamNear: u(0.3),
     uCamFar: u(60000),
-    uResolution: uniform(new THREE.Vector2(1, 1)) as WaterUniformNode<THREE.Vector2>,
-    uProjMatrix: uniform(new THREE.Matrix4()) as WaterUniformNode<THREE.Matrix4>,
+    uResolution: sharedUniform(new THREE.Vector2(1, 1)) as WaterUniformNode<THREE.Vector2>,
+    uProjMatrix: sharedUniform(new THREE.Matrix4()) as WaterUniformNode<THREE.Matrix4>,
     uSurfTex: texture(assets.surfaceTex) as WaterUniformNode<THREE.Texture>,
     uSurfMin: u(m.surface.minM),
     uSurfSpan: u(m.surface.maxM - m.surface.minM),
@@ -356,14 +357,14 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
     uApronRow0: u(assets.apron?.atlasRow0 ?? 0),
     uApronMin: u(assets.apron?.minM ?? 0),
     uApronSpan: u(assets.apron ? assets.apron.maxM - assets.apron.minM : 1),
-    uApronOrigin: uniform(new THREE.Vector2(assets.apron?.ground.originM[0] ?? 0, assets.apron?.ground.originM[1] ?? 0)) as WaterUniformNode<THREE.Vector2>,
+    uApronOrigin: sharedUniform(new THREE.Vector2(assets.apron?.ground.originM[0] ?? 0, assets.apron?.ground.originM[1] ?? 0)) as WaterUniformNode<THREE.Vector2>,
     uApronMpp: u(assets.apron?.ground.metresPerSample ?? 1),
-    uApronSize: uniform(new THREE.Vector2(assets.apron?.ground.nx ?? 1, assets.apron?.ground.ny ?? 1)) as WaterUniformNode<THREE.Vector2>,
-    uApronCoast: uniform(new THREE.Vector3(assets.apron?.coastClassIndex ?? 1, assets.apron?.coastTurbidity ?? 0, assets.apron?.coastSalinity ?? 1)) as WaterUniformNode<THREE.Vector3>,
+    uApronSize: sharedUniform(new THREE.Vector2(assets.apron?.ground.nx ?? 1, assets.apron?.ground.ny ?? 1)) as WaterUniformNode<THREE.Vector2>,
+    uApronCoast: sharedUniform(new THREE.Vector3(assets.apron?.coastClassIndex ?? 1, assets.apron?.coastTurbidity ?? 0, assets.apron?.coastSalinity ?? 1)) as WaterUniformNode<THREE.Vector3>,
     uSsrStrength: u(0.85),
     uRefractStrength: u(0.35),
     uRipple: texture(placeholders.ripple) as WaterUniformNode<THREE.Texture>,
-    uRippleInfo: uniform(new THREE.Vector4(0, 0, RIPPLE_PATCH_M, 0)) as WaterUniformNode<THREE.Vector4>,
+    uRippleInfo: sharedUniform(new THREE.Vector4(0, 0, RIPPLE_PATCH_M, 0)) as WaterUniformNode<THREE.Vector4>,
     uRainRipple: u(0),
     uBodies: uniformArray(Array.from({ length: MAX_CONTACT_BODIES }, () => new THREE.Vector4()), "vec4") as TslNode,
     uBodyCount: u(0),
@@ -373,9 +374,9 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
     uPlungeCount: u(0),
     ...createFoamFieldUniforms(),
     uFoamTex: texture(assets.waterfallTextures?.foam ?? placeholderTexture()) as WaterUniformNode<THREE.Texture>,
-    uWaterSunDir: uniform(new THREE.Vector3(0, 1, 0)) as WaterUniformNode<THREE.Vector3>,
-    uWaterSunLight: uniform(new THREE.Vector3(0, 0, 0)) as WaterUniformNode<THREE.Vector3>,
-    uWaterAmbient: uniform(new THREE.Vector3(0, 0, 0)) as WaterUniformNode<THREE.Vector3>,
+    uWaterSunDir: sharedUniform(new THREE.Vector3(0, 1, 0)) as WaterUniformNode<THREE.Vector3>,
+    uWaterSunLight: sharedUniform(new THREE.Vector3(0, 0, 0)) as WaterUniformNode<THREE.Vector3>,
+    uWaterAmbient: sharedUniform(new THREE.Vector3(0, 0, 0)) as WaterUniformNode<THREE.Vector3>,
     placeholders,
   };
 }

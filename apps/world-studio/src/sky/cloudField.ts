@@ -2,6 +2,7 @@ import * as THREE from "three";
 import * as TSL_TYPED from "three/tsl";
 import { sel, type TslNode } from "@elder-souls/game-core/render/nodes/materialNodes";
 import type { UniformOf } from "./aerial";
+import { sharedUniform } from "@elder-souls/game-core/render/nodes/sharedUniform";
 // TSL builders typed loosely (standard 0107 §1: chained TSL typings are too deep for tsc).
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const {
@@ -13,7 +14,6 @@ const {
   pow,
   smoothstep,
   texture,
-  uniform,
   vec2
 } = TSL_TYPED as unknown as Record<string, any>;
 
@@ -128,13 +128,13 @@ export function cloudNoiseTexture(): THREE.DataTexture {
 export function createCloudUniforms() {
   return {
     uCloudNoise: texture(cloudNoiseTexture()) as UniformOf<THREE.Texture>,
-    uCloudCov: uniform(new THREE.Vector3(0, 0, 0)) as UniformOf<THREE.Vector3>,
-    uCloudDens: uniform(0) as UniformOf<number>,
-    uCloudPuff: uniform(1) as UniformOf<number>,
-    uCloudScroll: uniform(1) as UniformOf<number>,
-    uCloudFront: uniform(0) as UniformOf<number>,
-    uCloudDir: uniform(new THREE.Vector2(1, 0)) as UniformOf<THREE.Vector2>,
-    uCloudTime: uniform(0) as UniformOf<number>,
+    uCloudCov: sharedUniform(new THREE.Vector3(0, 0, 0)) as UniformOf<THREE.Vector3>,
+    uCloudDens: sharedUniform(0) as UniformOf<number>,
+    uCloudPuff: sharedUniform(1) as UniformOf<number>,
+    uCloudScroll: sharedUniform(1) as UniformOf<number>,
+    uCloudFront: sharedUniform(0) as UniformOf<number>,
+    uCloudDir: sharedUniform(new THREE.Vector2(1, 0)) as UniformOf<THREE.Vector2>,
+    uCloudTime: sharedUniform(0) as UniformOf<number>,
   };
 }
 export type CloudUniforms = ReturnType<typeof createCloudUniforms>;

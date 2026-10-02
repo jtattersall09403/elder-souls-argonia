@@ -3,10 +3,11 @@ import { NodeMaterial } from "three/webgpu";
 import {
   Discard, Fn, If, abs, attribute, cameraProjectionMatrix, clamp, cos, dot, exp, float, floor, fract, ivec2, length,
   max, min, mix, mod, modelViewMatrix, normalize, positionGeometry, pow, sin, smoothstep, step, texture,
-  textureLoad, uniform, varying, vec2, vec3, vec4, viewportSize,
+  textureLoad, varying, vec2, vec3, vec4, viewportSize,
 } from "three/tsl";
 import { sel, type TslNode } from "../render/nodes/materialNodes";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
+import { sharedUniform } from "../render/nodes/sharedUniform";
 
 /**
  * Ambient air particles — fireflies, pollen, motes, midges (module 55 polish
@@ -493,34 +494,34 @@ export class AirSwarm {
 
     this.blank = blankTexture();
     this.uniforms = {
-      uCam: uniform(new THREE.Vector3()),
-      uTime: uniform(0),
-      uBox: uniform(new THREE.Vector3(bx, by, bz)),
-      uYOffset: uniform(0),
-      uNearClip: uniform(species.nearClipM),
-      uPatchM: uniform(species.patchM),
-      uPatchBand: uniform(new THREE.Vector2(...airPatchBand(species))),
-      uSizePx: uniform(species.sizePx),
-      uPixelRatio: uniform(1),
-      uWander: uniform(new THREE.Vector3(...species.wander)),
-      uWanderHz: uniform(species.wanderHz),
-      uDrift: uniform(new THREE.Vector3(...species.drift)),
-      uClusterR: uniform(species.clusterRadius),
-      uAmount: uniform(0),
-      uSunDir: uniform(new THREE.Vector3(0, 1, 0)),
-      uBacklight: uniform(species.backlight),
-      uBacklitGain: uniform(species.backlight),
-      uVisibility: uniform(1200),
+      uCam: sharedUniform(new THREE.Vector3()),
+      uTime: sharedUniform(0),
+      uBox: sharedUniform(new THREE.Vector3(bx, by, bz)),
+      uYOffset: sharedUniform(0),
+      uNearClip: sharedUniform(species.nearClipM),
+      uPatchM: sharedUniform(species.patchM),
+      uPatchBand: sharedUniform(new THREE.Vector2(...airPatchBand(species))),
+      uSizePx: sharedUniform(species.sizePx),
+      uPixelRatio: sharedUniform(1),
+      uWander: sharedUniform(new THREE.Vector3(...species.wander)),
+      uWanderHz: sharedUniform(species.wanderHz),
+      uDrift: sharedUniform(new THREE.Vector3(...species.drift)),
+      uClusterR: sharedUniform(species.clusterRadius),
+      uAmount: sharedUniform(0),
+      uSunDir: sharedUniform(new THREE.Vector3(0, 1, 0)),
+      uBacklight: sharedUniform(species.backlight),
+      uBacklitGain: sharedUniform(species.backlight),
+      uVisibility: sharedUniform(1200),
       uAirWaterTex: texture(this.blank),
-      uAirWaterInfo: uniform(new THREE.Vector4(1, 1, 0, 1)),
-      uAirWaterDepth: uniform(new THREE.Vector4(0, 1, -2.5, 0)),
-      uAirHover: uniform(new THREE.Vector3(species.hoverAboveWaterM ?? 0, species.hoverBandM ?? 0, 0)),
+      uAirWaterInfo: sharedUniform(new THREE.Vector4(1, 1, 0, 1)),
+      uAirWaterDepth: sharedUniform(new THREE.Vector4(0, 1, -2.5, 0)),
+      uAirHover: sharedUniform(new THREE.Vector3(species.hoverAboveWaterM ?? 0, species.hoverBandM ?? 0, 0)),
       uAirHabitat: texture(this.blank),
-      uAirHabitatW: uniform(new THREE.Vector4(...(species.habitat ?? [0, 0, 0]), 0)),
-      uAirHabitatScale: uniform(new THREE.Vector2(1, 1)),
-      uCore: uniform(new THREE.Color(0, 0, 0)),
-      uHalo: uniform(new THREE.Color(0, 0, 0)),
-      uOpacity: uniform(species.opacity),
+      uAirHabitatW: sharedUniform(new THREE.Vector4(...(species.habitat ?? [0, 0, 0]), 0)),
+      uAirHabitatScale: sharedUniform(new THREE.Vector2(1, 1)),
+      uCore: sharedUniform(new THREE.Color(0, 0, 0)),
+      uHalo: sharedUniform(new THREE.Color(0, 0, 0)),
+      uOpacity: sharedUniform(species.opacity),
     };
 
     this.material = buildSwarmMaterial(this.uniforms);

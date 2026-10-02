@@ -212,6 +212,27 @@ async function main(): Promise<HarnessResult> {
   }
   result.calls = renderer.info.render.drawCalls;
   result.triangles = renderer.info.render.triangles;
+  // ?cpu=N: N more frames timed on the CPU (renderer.render wall time, the
+  // encode/submit side; SwiftShader GPU work runs off this thread on WebGPU).
+  // Median, so one GC pause does not move it.
+  const cpuFrames = Number(params.get("cpu")) || 0;
+  if (cpuFrames > 0) {
+    const ms: number[] = [];
+    for (let i = 0; i < cpuFrames; i++) {
+      built.frame?.((frames + i) / 30);
+      const t0 = performance.now();
+      renderer.render(built.scene, built.camera);
+      ms.push(performance.now() - t0);
+      await new Promise((r) => requestAnimationFrame(() => r(null)));
+    }
+    ms.sort((a, b) => a - b);
+    (result as unknown as { cpuRenderMs: unknown }).cpuRenderMs = {
+      median: Math.round(ms[ms.length >> 1] * 100) / 100,
+      min: Math.round(ms[0] * 100) / 100,
+      frames: cpuFrames,
+      calls: renderer.info.render.drawCalls,
+    };
+  }
   // ?timing=N: N more frames under the studio's per-pass GPU timer
   // (FrameSegments: render passes by mark, compute passes by node name), and
   // the renderer's own resolved totals beside it so the rows can be checked

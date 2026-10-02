@@ -2,9 +2,10 @@ import * as THREE from "three";
 import { NodeMaterial } from "three/webgpu";
 import {
   cameraPosition, cameraProjectionMatrix, cameraViewMatrix, clamp, cross, distance, float, length, max, min, mod,
-  normalize, smoothstep, step, texture, uniform, varying, vec2, vec3, vec4, attribute,
+  normalize, smoothstep, step, texture, varying, vec2, vec3, vec4, attribute,
 } from "three/tsl";
 import type { TslNode } from "@elder-souls/game-core/render/nodes/materialNodes";
+import { sharedUniform } from "@elder-souls/game-core/render/nodes/sharedUniform";
 
 /**
  * The rain streaks' geometry and node material, without React, so the
@@ -133,17 +134,17 @@ export function createRainStreaks(opts: {
   const blank = new THREE.DataTexture(new Uint8Array(4), 1, 1, THREE.RGBAFormat, THREE.UnsignedByteType);
   blank.needsUpdate = true;
   const uniforms: RainUniforms = {
-    uTime: uniform(0),
-    uWindV: uniform(new THREE.Vector2(0, 0)),
-    uFall: uniform(9),
-    uIntensity: uniform(0),
-    uSpan: uniform(opts.span),
+    uTime: sharedUniform(0),
+    uWindV: sharedUniform(new THREE.Vector2(0, 0)),
+    uFall: sharedUniform(9),
+    uIntensity: sharedUniform(0),
+    uSpan: sharedUniform(opts.span),
     uAir: texture(blank),
-    uExtentM: uniform(opts.extentM),
-    uPixelWorld: uniform(0.0013),
-    uShutter: uniform(RAIN_SHUTTER_S),
-    uColor: uniform(new THREE.Color(0.6, 0.65, 0.7)),
-    uOpacity: uniform(0.6 * opts.opacityScale),
+    uExtentM: sharedUniform(opts.extentM),
+    uPixelWorld: sharedUniform(0.0013),
+    uShutter: sharedUniform(RAIN_SHUTTER_S),
+    uColor: sharedUniform(new THREE.Color(0.6, 0.65, 0.7)),
+    uOpacity: sharedUniform(0.6 * opts.opacityScale),
   };
   const material = buildRainMaterial(uniforms);
   material.name = "weather:rain";
