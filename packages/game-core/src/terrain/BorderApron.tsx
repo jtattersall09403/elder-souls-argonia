@@ -36,7 +36,7 @@ export const APRON_SECTORS = 8;
  *
  * `occluder`, when given, additionally hides a sector the terrain itself
  * occludes: it answers "is this box hidden from the camera?" and is asked on
- * the coarse occlusion cadence (0.5 s, or a 10 m move or 10° turn), never per
+ * the coarse occlusion cadence (a 10 m move, or 2 s), never per
  * frame. A hidden sector's mesh stays mounted with `visible = false`.
  */
 export function BorderApron({ manifest, baseUrl, materials, verticalScale, occluder }: {

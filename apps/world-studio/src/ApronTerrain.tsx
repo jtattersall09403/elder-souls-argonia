@@ -54,13 +54,18 @@ export function ApronTerrain({ apron, ...terrain }: TerrainProps & { apron: Apro
   const occluder = useMemo(() => {
     if (!occlusionOn) return undefined;
     const heightAt = makeChunkHeightSampler(store, manifest, scale);
-    const byBox = new Map<THREE.Box3, boolean>();
+    // Per box: its top corners (built once) and its last answer. The hidden
+    // count is kept running, not recounted over every box per call (perf10:
+    // that recount made one cadence pass quadratic in the sector count).
+    const byBox = new Map<THREE.Box3, { corners: ReturnType<typeof topCornersOfBox>; hidden: boolean }>();
+    let count = 0;
     return (box: THREE.Box3) => {
+      let entry = byBox.get(box);
+      if (!entry) { entry = { corners: topCornersOfBox(box), hidden: false }; byBox.set(box, entry); }
       // The apron meshes sit at the scene origin, so their boxes are world space.
-      const hidden = hiddenBehindTerrain(eye.current, topCornersOfBox(box), heightAt);
-      byBox.set(box, hidden);
-      let count = 0;
-      for (const v of byBox.values()) if (v) count++;
+      const hidden = hiddenBehindTerrain(eye.current, entry.corners, heightAt);
+      count += Number(hidden) - Number(entry.hidden);
+      entry.hidden = hidden;
       const stats = (window as unknown as { __STUDIO_GPU_MS__?: { hiddenSectors?: number } })
         .__STUDIO_GPU_MS__;
       if (stats) stats.hiddenSectors = count;

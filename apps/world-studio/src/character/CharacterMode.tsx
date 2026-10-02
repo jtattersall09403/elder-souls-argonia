@@ -611,8 +611,15 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               the frame wins; the library overwrites next frame and we
               override again). The camera follow and the foot-IK support
               plane read that same visual pose, so they cannot disagree with
-              what is drawn. */}
-          <Physics key={verticalScale} gravity={GRAVITY} timeStep={1 / 60} paused>
+              what is drawn.
+
+              `interpolate={false}` (perf10): with it on, the library
+              snapshots translation() and rotation() of EVERY body before each
+              step, the ~1400 fixed flora bodies included, only to lerp at
+              alpha 1 (paused): 1.14 ms per step against a 0.15 ms step in a
+              1400-body node harness. Off, nothing drawn changes.
+              physicsMount.test.ts holds it. */}
+          <Physics key={verticalScale} gravity={GRAVITY} timeStep={1 / 60} paused interpolate={false}>
             {crateOrigin && (
               <FloatTestCrates origin={crateOrigin} waterWorld={() => waterWorldRef.current} verticalScale={verticalScale} />
             )}

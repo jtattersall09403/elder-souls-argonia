@@ -13,6 +13,10 @@ import type * as THREE from "three";
  *  - the march starts `skipNearM` (60 m) out and stops 30 m short of the
  *    corner, so near ground and the unit's own crest never block it,
  *  - a sample with no data (NaN / -Infinity) never blocks.
+ * The march step grows with distance (`stepM`, or `stepFraction` of the
+ * distance already marched, whichever is larger): a coarser march can only
+ * miss a blocker, so it hides less, never something visible (perf10: the
+ * fixed 15 m step cost more main-thread time than the hidden draws saved).
  * It is evaluated on a coarse cadence (`createOcclusionCadence`), never per
  * frame, and `&occl=0` turns it off in the studio.
  */
@@ -24,9 +28,10 @@ export function hiddenBehindTerrain(
   eye: OcclusionPoint,
   corners: readonly OcclusionPoint[],
   heightAt: (x: number, z: number) => number,
-  opts?: { stepM?: number; eyeMarginM?: number; skipNearM?: number },
+  opts?: { stepM?: number; stepFraction?: number; eyeMarginM?: number; skipNearM?: number },
 ): boolean {
   const stepM = opts?.stepM ?? 15;
+  const stepFraction = opts?.stepFraction ?? 0.04;
   const eyeMarginM = opts?.eyeMarginM ?? 5;
   const skipNearM = opts?.skipNearM ?? 60;
   if (corners.length === 0) return false;
@@ -38,7 +43,7 @@ export function hiddenBehindTerrain(
     if (!(stop > skipNearM)) return false;   // too close to test: keep it drawn
     const dy = corner.y - eyeY;
     let blocked = false;
-    for (let t = skipNearM; t <= stop; t += stepM) {
+    for (let t = skipNearM; t <= stop; t += Math.max(stepM, t * stepFraction)) {
       const f = t / dist;
       const h = heightAt(eye.x + dx * f, eye.z + dz * f);
       if (!Number.isFinite(h)) continue;     // no data is never a blocker
@@ -62,28 +67,26 @@ export function topCornersOfBox(box: THREE.Box3): OcclusionPoint[] {
 }
 
 /**
- * The cadence the test runs at: re-evaluate every 0.5 s, or sooner once the
- * camera has moved more than 10 m or turned more than 10°. One closure per
+ * The cadence the test runs at. The answer depends on the eye POSITION only,
+ * never on where the camera looks, so a turn never re-evaluates (perf10: the
+ * old 10° turn trigger re-ran the whole march on every orbit flick). It
+ * re-evaluates once the camera has moved more than 10 m, or every 2 s so
+ * height rasters that streamed in meanwhile are used. One closure per
  * consumer, so there is no shared mutable state.
  */
 export function createOcclusionCadence(
-  opts?: { intervalMs?: number; moveM?: number; turnDeg?: number },
+  opts?: { intervalMs?: number; moveM?: number },
 ): (camera: THREE.Camera, nowMs: number) => boolean {
-  const intervalMs = opts?.intervalMs ?? 500;
+  const intervalMs = opts?.intervalMs ?? 2000;
   const moveM = opts?.moveM ?? 10;
-  const cosTurn = Math.cos(((opts?.turnDeg ?? 10) * Math.PI) / 180);
-  let last: { t: number; x: number; y: number; z: number; fx: number; fy: number; fz: number } | null = null;
+  const last = { t: 0, x: 0, y: 0, z: 0, seeded: false };
   return (camera, nowMs) => {
     const p = camera.position;
-    const e = camera.matrixWorld.elements;
-    // Column 2 of the world matrix is the camera's backward axis.
-    const fx = -e[8], fy = -e[9], fz = -e[10];
-    if (last) {
+    if (last.seeded) {
       const moved = Math.hypot(p.x - last.x, p.y - last.y, p.z - last.z);
-      const dot = fx * last.fx + fy * last.fy + fz * last.fz;
-      if (nowMs - last.t < intervalMs && moved < moveM && dot > cosTurn) return false;
+      if (nowMs - last.t < intervalMs && moved < moveM) return false;
     }
-    last = { t: nowMs, x: p.x, y: p.y, z: p.z, fx, fy, fz };
+    last.t = nowMs; last.x = p.x; last.y = p.y; last.z = p.z; last.seeded = true;
     return true;
   };
 }

@@ -44,19 +44,30 @@ describe("hiddenBehindTerrain", () => {
 });
 
 describe("createOcclusionCadence", () => {
-  it("fires first, then only on time, movement or a turn", () => {
+  it("fires first, then only on time or movement, never on a turn", () => {
     const camera = new THREE.PerspectiveCamera();
     camera.updateMatrixWorld();
     const due = createOcclusionCadence();
     expect(due(camera, 0)).toBe(true);
     expect(due(camera, 100)).toBe(false);
-    expect(due(camera, 600)).toBe(true);
+    camera.rotation.y = Math.PI / 2;
+    camera.updateMatrixWorld();
+    expect(due(camera, 200)).toBe(false);
+    expect(due(camera, 2100)).toBe(true);
     camera.position.set(0, 0, 20);
-    camera.updateMatrixWorld();
-    expect(due(camera, 610)).toBe(true);
-    camera.rotation.y = Math.PI / 4;
-    camera.updateMatrixWorld();
-    expect(due(camera, 620)).toBe(true);
-    expect(due(camera, 630)).toBe(false);
+    expect(due(camera, 2110)).toBe(true);
+    expect(due(camera, 2120)).toBe(false);
+  });
+});
+
+describe("march cost (perf10)", () => {
+  it("marches a 6 km line in at most 130 samples and still finds a 150 m ridge at 3 km", () => {
+    let calls = 0;
+    const heightAt = (x: number) => { calls++; return x > 2950 && x < 3100 ? 200 : 0; };
+    expect(hiddenBehindTerrain({ x: 0, y: 2, z: 0 }, [{ x: 6000, y: 10, z: 0 }], heightAt)).toBe(true);
+    calls = 0;
+    // An unblocked corner marches the whole line: the fixed 15 m step took 394 samples.
+    expect(hiddenBehindTerrain({ x: 0, y: 2, z: 0 }, [{ x: 6000, y: 10, z: 0 }], () => { calls++; return 0; })).toBe(false);
+    expect(calls).toBeLessThanOrEqual(130);
   });
 });
