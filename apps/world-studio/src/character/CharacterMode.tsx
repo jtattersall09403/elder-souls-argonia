@@ -867,17 +867,20 @@ const PERF_OPEN_KEY = "es.hud.perfOpen";
 function flipPerfOpen(was: boolean): boolean {
   const next = !was;
   try { window.localStorage.setItem(PERF_OPEN_KEY, next ? "1" : "0"); } catch { /* private mode */ }
+  window.dispatchEvent(new CustomEvent<boolean>(PERF_OPEN_EVENT, { detail: next }));
   return next;
 }
 
+/** Fired with the new open state on every flip: the in-canvas probe installs
+ * its per-draw triangle attribution only while the section is open. */
+const PERF_OPEN_EVENT = "es-perf-hud-open";
+
+function readPerfOpen(): boolean {
+  try { return window.localStorage.getItem(PERF_OPEN_KEY) === "1"; } catch { return false; }
+}
+
 function PerfHudSection({ children }: { children: ReactNode }) {
-  const [open, setOpen] = useState(() => {
-    try {
-      return window.localStorage.getItem(PERF_OPEN_KEY) === "1";
-    } catch {
-      return false;
-    }
-  });
+  const [open, setOpen] = useState(readPerfOpen);
   const [fps, setFps] = useState(0);
   useEffect(() => {
     const host = window as unknown as { __STUDIO_FPS__?: number };
@@ -1088,6 +1091,8 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
   // the old single whole-frame query is gone (only one TIME_ELAPSED query
   // can be active at a time, so two timers cannot coexist).
   const segments = useFrameSegments();
+  /** Whether the shadow-map pass is running, read by the per-draw wrapper. */
+  const shadowPass = useRef<() => boolean>(() => false);
   const gpu = useRef<{
     triSamples: number[];
     callSamples: number[];
@@ -1134,9 +1139,8 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     gpu.current.stats.buckets.fill(0);
     // Attribution (HUD line 3). `info.render.triangles` is the only count
     // three.js keeps, so the per-draw delta around the one call every draw
-    // goes through is what attributes the frame; the shadow-map pass is
-    // recognised by wrapping the call that runs it.
-    const frame = gpu.current.frameBuckets;
+    // goes through (the wrapper below) attributes the frame; the shadow-map
+    // pass is recognised by wrapping the call that runs it.
     let inShadow = false;
     const shadowMap = gl.shadowMap;
     const shadowRender = shadowMap.render;
@@ -1155,6 +1159,28 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
         segments?.cpuMark("scene");
       }
     } as typeof shadowMap.render;
+    shadowPass.current = () => inShadow;
+    return () => {
+      shadowMap.render = shadowRender;
+      shadowPass.current = () => false;
+      segments?.dispose();
+      gl.info.autoReset = true;
+      delete host.__STUDIO_GPU_MS__;
+    };
+  }, [gl, segments]);
+
+  // The per-draw triangle attribution (HUD line 3) wraps the call every draw
+  // goes through, ~0.3 ms a frame (perf10 O7): installed only while the perf
+  // section is open, removed when it closes (its buckets then read zero).
+  const [bucketsOn, setBucketsOn] = useState(readPerfOpen);
+  useEffect(() => {
+    const onFlip = (e: Event) => setBucketsOn((e as CustomEvent<boolean>).detail);
+    window.addEventListener(PERF_OPEN_EVENT, onFlip);
+    return () => window.removeEventListener(PERF_OPEN_EVENT, onFlip);
+  }, []);
+  useEffect(() => {
+    if (!bucketsOn) return undefined;
+    const frame = gpu.current.frameBuckets;
     const renderBufferDirect = gl.renderBufferDirect;
     // Named parameters, not a rest array: this runs once per DRAW, and a
     // `...args` array per draw was hundreds of arrays a frame.
@@ -1163,18 +1189,12 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
       material: unknown, object: unknown, group: unknown) {
       const before = gl.info.render.triangles;
       const out = direct.call(gl, camera, scene, geometry, material, object, group);
-      frame[bucketSlot(inShadow, bucketIndexOf(object))] +=
+      frame[bucketSlot(shadowPass.current(), bucketIndexOf(object))] +=
         gl.info.render.triangles - before;
       return out;
     } as typeof gl.renderBufferDirect;
-    return () => {
-      shadowMap.render = shadowRender;
-      gl.renderBufferDirect = renderBufferDirect;
-      segments?.dispose();
-      gl.info.autoReset = true;
-      delete host.__STUDIO_GPU_MS__;
-    };
-  }, [gl, segments]);
+    return () => { gl.renderBufferDirect = renderBufferDirect; };
+  }, [gl, bucketsOn]);
 
   useFrame((_, delta) => {
     // The frame starts here: the first segment of both clocks opens before

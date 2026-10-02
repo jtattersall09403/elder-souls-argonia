@@ -158,6 +158,8 @@ export class SunShafts {
       depthTest: true,
       blending: THREE.AdditiveBlending,
       side: THREE.DoubleSide,
+      // additive is order-free: one pass, no back-then-front relinks (perf10 O10)
+      forceSinglePass: true,
     });
 
     this.mesh = new THREE.InstancedMesh(this.geometry, this.material, config.count);

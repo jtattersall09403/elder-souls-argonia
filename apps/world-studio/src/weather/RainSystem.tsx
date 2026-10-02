@@ -222,6 +222,9 @@ function RainStreaks({ count, extentM, span, opacityScale }: {
         // Billboards spun by cross(velDir, view) flip winding with the view
         // direction — FrontSide silently culled half the streaks (round 3).
         side: THREE.DoubleSide,
+        // Every streak is the one uniform uColor, and "over" with one colour
+        // is order-free: one pass, no back-then-front relinks (perf10 O10).
+        forceSinglePass: true,
       }),
     // span/opacityScale are per-mount constants (core vs shell).
     // eslint-disable-next-line react-hooks/exhaustive-deps

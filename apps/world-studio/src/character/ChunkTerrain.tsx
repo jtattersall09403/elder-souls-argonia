@@ -12,7 +12,7 @@ import { useHiddenLayers } from "../ladder";
 import { buildTerrainGridGeometry, subGrid } from "@elder-souls/game-core/terrain/gridGeometry";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
 import { GroundRasterLoader, groundRasterKey } from "@elder-souls/game-core/terrain/groundRasters";
-import { createOcclusionCadence, hiddenBehindTerrain, topCornersOfBox } from "@elder-souls/game-core/terrain/terrainOcclusion";
+import { createOcclusionCadence, createOcclusionSweep, topCornersOfBox } from "@elder-souls/game-core/terrain/terrainOcclusion";
 import { makeChunkHeightSampler } from "./terrainHeightSampler";
 import type { FrameJobHandle } from "@elder-souls/game-core/scheduling/frameWork";
 
@@ -57,6 +57,8 @@ function ChunkMesh({ grid, geometry, material, meshRef }: {
   return (
     <mesh
       ref={meshRef}
+      // world-space geometry at identity: no per-frame matrix recompose (perf10 O4)
+      matrixAutoUpdate={false}
       geometry={geometry}
       material={material}
       castShadow={casts}
@@ -235,15 +237,15 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   const occlusionDue = useRef(createOcclusionCadence());
   const heightAt = useMemo(
     () => makeChunkHeightSampler(store, manifest, scale), [store, manifest, scale]);
+  // a pass is spread over frames, a few chunks each (perf10 O5)
+  const occlusionSweep = useRef(createOcclusionSweep());
   useFrame(({ camera }) => {
     if (!occlusionOn) return;
-    if (!occlusionDue.current(camera, performance.now())) return;
-    let hidden = 0;
-    for (const { mesh, corners } of occludable.current.values()) {
-      const out = hiddenBehindTerrain(camera.position, corners, heightAt);
-      if (out) hidden++;
-      mesh.visible = !out;
+    if (occlusionDue.current(camera, performance.now())) {
+      occlusionSweep.current.start(camera.position, occludable.current.values());
     }
+    const hidden = occlusionSweep.current.step(heightAt);
+    if (hidden === null) return;
     const stats = (window as unknown as { __STUDIO_GPU_MS__?: { hiddenChunks?: number } })
       .__STUDIO_GPU_MS__;
     if (stats) stats.hiddenChunks = hidden;
@@ -391,5 +393,5 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   // decodes (an apron tile is not the ground the player stands on), but never
   // draw it beneath detail meshes.
   if (!provinceDrawn) return <>{loadingFallback ?? null}</>;
-  return <group>{meshes}</group>;
+  return <group matrixAutoUpdate={false}>{meshes}</group>;
 }

@@ -90,3 +90,46 @@ export function createOcclusionCadence(
     return true;
   };
 }
+
+export interface OcclusionUnit {
+  mesh: { visible: boolean };
+  corners: readonly OcclusionPoint[];
+}
+
+/**
+ * One cadence pass spread over frames (perf10 O5: every chunk on the cadence
+ * frame was a 4.5-7 ms hitch). `start` snapshots the eye and the units; each
+ * `step` tests at most `perFrame` of them from that eye and returns the pass's
+ * hidden count when the pass completes, else null. A unit keeps its last
+ * verdict until its turn, so the visible result is the whole-pass one a few
+ * frames later. One closure per consumer; the unit list is reused.
+ */
+export function createOcclusionSweep(perFrame = 4): {
+  start: (eye: OcclusionPoint, units: Iterable<OcclusionUnit>) => void;
+  step: (heightAt: (x: number, z: number) => number) => number | null;
+} {
+  const queue: OcclusionUnit[] = [];
+  const eye = { x: 0, y: 0, z: 0 };
+  let next = 0; let hidden = 0;
+  return {
+    start(at, units) {
+      eye.x = at.x; eye.y = at.y; eye.z = at.z;
+      queue.length = 0;
+      for (const unit of units) queue.push(unit);
+      next = 0; hidden = 0;
+    },
+    step(heightAt) {
+      if (next >= queue.length) return null;
+      const end = Math.min(queue.length, next + perFrame);
+      for (; next < end; next++) {
+        const unit = queue[next];
+        const out = hiddenBehindTerrain(eye, unit.corners, heightAt);
+        if (out) hidden++;
+        unit.mesh.visible = !out;
+      }
+      if (next < queue.length) return null;
+      queue.length = 0; next = 0;
+      return hidden;
+    },
+  };
+}

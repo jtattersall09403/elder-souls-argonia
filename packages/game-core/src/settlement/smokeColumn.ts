@@ -142,6 +142,10 @@ export class SmokeColumns {
     this.material = new THREE.MeshBasicMaterial({
       map: texture, transparent: true, depthWrite: false, vertexColors: true,
       side: THREE.DoubleSide, fog: true,
+      // Every puff is a quad built from the camera's right/up axes, so all
+      // face the same way and three's back-then-front pass draws them in the
+      // same order as one pass, minus two relinks a frame (perf10 O10).
+      forceSinglePass: true,
     });
     this.material.name = "settlement-smoke-column";
     this.material.onBeforeCompile = (shader) => {
@@ -153,6 +157,7 @@ export class SmokeColumns {
     this.material.customProgramCacheKey = () => "settlement-smoke-night";
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.frustumCulled = false;
+    this.mesh.matrixAutoUpdate = false;   // world-space vertices at identity (perf10 O4)
     this.mesh.renderOrder = 10;
     this.mesh.name = "settlement-smoke";
     // Walk 2 D8: on layer 0 the smoke drew in the water pipeline's pass 1

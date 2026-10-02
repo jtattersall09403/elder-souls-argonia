@@ -396,6 +396,36 @@ function trimeshParts(
   });
 }
 
+export type SolidCache = Map<string, { signature: string; solid: SettlementSolid | null }>;
+
+/**
+ * One placement's collider as pump steps (perf10 O5). A trimesh collider is up
+ * to ~30 ms of vertex baking, so it yields once BEFORE baking: each trimesh is
+ * its own `next()` and the frame budget check runs between them. A collider
+ * whose placement, asset and final matrix are unchanged since the last build
+ * is reused from `cache` with no step. Every result is recorded in `kept`.
+ */
+export function* solidSteps(
+  placement: SettlementPlacement,
+  transform: THREE.Matrix4,
+  buryM: number,
+  parts: ArchitecturePart[],
+  cache: SolidCache,
+  kept: SolidCache,
+): Generator<void, SettlementSolid | null> {
+  const signature = `${placement.kit}|${placement.assetId}|${placement.scale}|`
+    + `${placement.collision.kind}|${transform.elements.join(",")}|${buryM}`;
+  const reused = cache.get(placement.id);
+  let solid: SettlementSolid | null;
+  if (reused?.signature === signature) solid = reused.solid;
+  else {
+    if (TRIMESH_COLLISION_KINDS.has(placement.collision.kind)) yield;
+    solid = solidFrom(placement, transform, buryM, parts);
+  }
+  kept.set(placement.id, { signature, solid });
+  return solid;
+}
+
 export function solidFrom(
   placement: SettlementPlacement,
   transform: THREE.Matrix4,
@@ -694,6 +724,9 @@ export function SettlementLayer({
   }, []);
   // Far merges kept across builds while their instances are unchanged.
   const farCache = useRef(new Map<string, { signature: string; geometry: THREE.BufferGeometry }>());
+  // Colliders kept across builds while their placement's final matrix is unchanged.
+  const solidCache = useRef<SolidCache>(new Map());
+  useEffect(() => { solidCache.current = new Map(); }, [bundle]);
 
   // The smoke texture: read from the effect placement's kit manifest
   // (`effectTextures`, build_kit.publish_effect_textures), loaded once per
@@ -896,6 +929,7 @@ export function SettlementLayer({
         missingIds.push(p.id);
       };
       let sinceYield = 0;
+      const solidsKept: SolidCache = new Map();
 
       const resolvePlaced = createPlacementResolver(bundle.placements,
         (p) => kitAssetMetaOf(manifests, p),
@@ -1009,11 +1043,13 @@ export function SettlementLayer({
           });
           placementCount += 1;
         }
-        const solid = solidFrom(placement, transform, anchored?.buryM ?? 0, asset.levels[0]);
+        const solid = yield* solidSteps(placement, transform, anchored?.buryM ?? 0,
+          asset.levels[0], solidCache.current, solidsKept);
         if (solid) solidCandidates.push({ value: solid, placementId: placement.id,
           distanceM: distance, parts: solid.parts.length });
       }
 
+      solidCache.current = solidsKept;
       // a bound run collides as one rigid chain: one joined part (0101 rule 9)
       const collision = selectCollisionResidency(
         mergeRunColliders(solidCandidates, (id) => runOfPlacement.get(id)), bundle.settlements, focus,

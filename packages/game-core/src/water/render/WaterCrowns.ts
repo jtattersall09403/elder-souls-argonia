@@ -25,7 +25,10 @@ export class WaterCrowns {
     geometry.setIndex(indices);
     geometry.setAttribute("crownPosition", this.positions); geometry.setAttribute("crownShape", this.shapes);
     geometry.instanceCount = 0;
+    // forceSinglePass: every fragment is the one uniform lightColor, so the
+    // ring's back-then-front order cannot change the blend (perf10 O10).
     const material = new ShaderMaterial({ uniforms, transparent: true, depthWrite: false, depthTest: true, side: DoubleSide,
+      forceSinglePass: true,
       vertexShader: /* glsl */`
         attribute vec3 crownPosition;
         attribute vec4 crownShape;

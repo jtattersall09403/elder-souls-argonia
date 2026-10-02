@@ -134,6 +134,10 @@ export class WaterEffects {
     geometry.instanceCount = 0;
     const material = new ShaderMaterial({
       transparent: true, depthWrite: false, depthTest: true, side: DoubleSide,
+      // Every fragment is the one uniform lightColor, and "over" with one
+      // colour is order-free: one pass draws what three's back-then-front
+      // pair drew, without its two relinks a frame (perf10 O10).
+      forceSinglePass: true,
       uniforms: {
         sceneDepth: { value: null }, hasDepth: { value: 0 },
         cameraNear: { value: 0.1 }, cameraFar: { value: 2000 },

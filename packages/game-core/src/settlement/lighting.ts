@@ -451,6 +451,9 @@ export class SettlementLightFixtures {
     bloom.frustumCulled = false;
     bloom.name = `${mesh.name}:bloom`;
     bloom.layers.set(BLOOM_SOURCE_LAYER); // a glow source (render/post/BloomPass.ts)
+    // world-space quads at identity: no per-frame matrix recompose (perf10 O4)
+    mesh.matrixAutoUpdate = false;
+    bloom.matrixAutoUpdate = false;
     // no quad draws until its texture has loaded (a null map is a white square)
     mesh.visible = false;
     bloom.visible = false;

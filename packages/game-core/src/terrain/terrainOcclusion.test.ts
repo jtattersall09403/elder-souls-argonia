@@ -1,6 +1,26 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
-import { createOcclusionCadence, hiddenBehindTerrain, topCornersOfBox } from "./terrainOcclusion";
+import { createOcclusionCadence, createOcclusionSweep, hiddenBehindTerrain, topCornersOfBox } from "./terrainOcclusion";
+
+describe("createOcclusionSweep", () => {
+  it("spreads one pass over frames, a few units each, with the same verdicts as one-shot", () => {
+    const ridge = (x: number) => (x > 400 && x < 500 ? 300 : 0);
+    const units = Array.from({ length: 10 }, (_, i) => ({
+      mesh: { visible: i % 2 === 0 ? false : true },
+      corners: [{ x: i < 5 ? 1000 : 300 + i, y: 10, z: 0 }],
+    }));
+    const expected = units.map((u) => !hiddenBehindTerrain({ x: 0, y: 2, z: 0 }, u.corners, ridge));
+    const sweep = createOcclusionSweep(4);
+    expect(sweep.step(ridge)).toBeNull();            // no pass yet
+    sweep.start({ x: 0, y: 2, z: 0 }, units);
+    expect(sweep.step(ridge)).toBeNull();            // units 0-3
+    expect(units[4].mesh.visible).toBe(false);       // untouched until its turn
+    expect(sweep.step(ridge)).toBeNull();            // 4-7
+    expect(sweep.step(ridge)).toBe(5);               // 8-9: pass done, 5 hidden
+    expect(units.map((u) => u.mesh.visible)).toEqual(expected);
+    expect(sweep.step(ridge)).toBeNull();
+  });
+});
 
 /** A synthetic ridge 200 m high between x = 300 and x = 320, flat elsewhere. */
 const ridge = (x: number): number => (x > 300 && x < 320 ? 200 : 0);

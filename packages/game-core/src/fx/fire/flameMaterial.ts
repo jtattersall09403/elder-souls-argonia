@@ -371,11 +371,17 @@ export function makeFlameMaterial(uniforms: FireUniforms): THREE.ShaderMaterial 
   return material;
 }
 
+/** Embers write alpha 0, so under the premultiplied blend they purely add:
+ * order-free, one pass draws the same colours (three's transparent DoubleSide
+ * back-then-front pass relinked twice a frame, perf10 O10). The flame writes
+ * coverage (`a > 0`), so its two passes stay. */
 export function makeEmberMaterial(uniforms: FireUniforms): THREE.ShaderMaterial {
-  return premultiplied(new THREE.ShaderMaterial({
+  const material = premultiplied(new THREE.ShaderMaterial({
     name: "fire-ember", uniforms: uniforms as unknown as Record<string, THREE.IUniform>,
     vertexShader: EMBER_VERTEX, fragmentShader: EMBER_FRAGMENT,
   }));
+  material.forceSinglePass = true;
+  return material;
 }
 
 /** The flame card: x -0.5..0.5, y 0 (root) .. 1 (tip). */
