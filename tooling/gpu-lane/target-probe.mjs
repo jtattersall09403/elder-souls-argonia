@@ -13,6 +13,9 @@
  * target followed by one of half its width. A multisampled target (samples > 1) is never read directly: it is listed
  * with `skipped`. Readback (renderer.readRenderTargetPixelsAsync) gives centre and 9-point mean luma (Rec.709 of
  * linear RGB as stored). `queue`: skippedDraws delta over the window, per frame, and the not-ready (pending) count.
+ * `sceneGrid`: the scene target read whole and sampled on a 64x36 grid: NaN, Inf, black (luma < 0.001), lit, mean luma,
+ * 8 raw RGBA samples, and the depth texture's raw min/max/mean with counts below 0.001 / above 0.999 when the backend can
+ * copy it (else `skipped` with the reason).
  * The canvas luma is the harness's screenshot screen-middle luma (pod-capture.mjs). Self-contained: stringified.
  */
 
@@ -70,15 +73,16 @@ export function installTargetProbe(win, recordPass) {
   P.capture = async () => {
     const r = win.__RENDERER__;
     if (!r) return { err: "no __RENDERER__" };
-    const set = r.setRenderTarget, seen = new Map();
+    // Targets keyed by OBJECT: a three RenderTarget has no id/uuid, so keying by id kept only the first target set (sceneBy null, diag16).
+    const set = r.setRenderTarget, seen = new Set(), tid = (rt) => (rt ? rt.id ?? rt.texture?.id ?? rt.uuid ?? null : null);
     const drawsTo = new Map(), q = r.esBuildQueue ?? null, FRAMES = 2;
     P.passes = []; P.rts = []; P.curRt = null; P.curPass = null;
     r.setRenderTarget = function (rt, ...a) {
       P.curRt = null;
       if (P.armed && P.rts.length < 400) {
-        const rec = { id: rt ? rt.id ?? rt.uuid : null, w: rt?.width, h: rt?.height, samples: rt?.samples ?? 0, type: rt?.texture?.type, depth: Boolean(rt?.depthBuffer), name: rt?.texture?.name ?? "", draws: 0, canvas: !rt };
+        const rec = { id: tid(rt), w: rt?.width, h: rt?.height, samples: rt?.samples ?? 0, type: rt?.texture?.type, depth: Boolean(rt?.depthBuffer), name: rt?.texture?.name ?? "", draws: 0, canvas: !rt };
         P.rts.push(rec); P.curRt = rec;
-        if (rt) { if (!seen.has(rec.id)) seen.set(rec.id, rt); const l = drawsTo.get(rt) ?? []; l.push(rec); drawsTo.set(rt, l); }
+        if (rt) { seen.add(rt); const l = drawsTo.get(rt) ?? []; l.push(rec); drawsTo.set(rt, l); }
       }
       return set.call(this, rt, ...a);
     };
@@ -121,19 +125,19 @@ export function installTargetProbe(win, recordPass) {
     const fbs = new Set();
     try { for (const t of r._frameBufferTargets?.values?.() ?? []) fbs.add(t); } catch {}
     if (r._frameBufferTarget) fbs.add(r._frameBufferTarget);
-    const all = [...seen.values()], order = P.rts.filter(Boolean).map((x) => x.id);
+    const all = [...seen], firstSet = (t) => P.rts.findIndex((x) => drawsTo.get(t)?.includes(x));
     const label = new Map();
     for (const t of fbs) label.set(t, "fb");
     let scene = q?.frameTargets ? all.find((t) => !fbs.has(t) && q.frameTargets.has(t)) : undefined, sceneBy = scene ? "deferBuildsInto" : null;
-    if (!scene) { scene = all.filter((t) => !fbs.has(t) && t.depthBuffer).sort((a, b) => draws(b) - draws(a))[0]; if (scene) sceneBy = "maxDraws"; }
+    if (!scene) { scene = all.filter((t) => !fbs.has(t) && t.depthBuffer && (t.samples ?? 0) <= 1).sort((a, b) => draws(b) - draws(a))[0]; if (scene) sceneBy = "maxDraws"; }
     if (scene) label.set(scene, "scene");
     const rest = all.filter((t) => !label.has(t)).sort((a, b) => b.width * b.height - a.width * a.height);
-    const bloom = rest.find((t) => { const i = order.indexOf(t.id ?? t.uuid); return all.some((u) => u !== t && Math.abs(u.width - Math.round(t.width / 2)) <= 1 && order.indexOf(u.id ?? u.uuid) > i); });
+    const bloom = rest.find((t) => { const i = firstSet(t); return all.some((u) => u !== t && Math.abs(u.width - Math.round(t.width / 2)) <= 1 && firstSet(u) > i); });
     if (bloom) label.set(bloom, "bloom");
     const read = async (rt) => {
       const pts = [];
       for (const fy of [0.25, 0.5, 0.75]) for (const fx of [0.25, 0.5, 0.75]) pts.push([Math.min(rt.width - 1, Math.floor(rt.width * fx)), Math.min(rt.height - 1, Math.floor(rt.height * fy))]);
-      const out = { label: label.get(rt) ?? "other", id: rt.id ?? rt.uuid, size: [rt.width, rt.height], samples: rt.samples ?? 0, type: rt.texture?.type, name: rt.texture?.name ?? "", draws: draws(rt) };
+      const out = { label: label.get(rt) ?? "other", id: tid(rt), size: [rt.width, rt.height], samples: rt.samples ?? 0, type: rt.texture?.type, name: rt.texture?.name ?? "", draws: draws(rt) };
       if ((rt.samples ?? 0) > 1) { out.skipped = `multisampled (samples ${rt.samples}): never read directly; read its resolve`; return out; }
       try {
         const ls = [];
@@ -142,11 +146,50 @@ export function installTargetProbe(win, recordPass) {
       } catch (e) { out.err = String(e.message ?? e).slice(0, 200); }
       return out;
     };
+    // The scene target on a 64x36 grid (diag16: black = NaN, Inf, black colour, or near depth over the screen?).
+    const sceneGrid = async (rt) => {
+      const W = rt.width, H = rt.height, GX = 64, GY = 36, half = rt.texture?.type === 1016;
+      const out = { grid: [GX, GY], nan: 0, inf: 0, black: 0, lit: 0, meanLuma: null, samples: [] };
+      let a;
+      try { a = await r.readRenderTargetPixelsAsync(rt, 0, 0, W, H); } catch (e) { return { err: String(e.message ?? e).slice(0, 200) }; }
+      if (!a || a.length < W * 4) return { err: `readback ${a?.length ?? 0} values for ${W}x${H}` };
+      const stride = H > 1 ? Math.floor((a.length - W * 4) / (H - 1)) : W * 4; // WebGPU rows are padded to 256 bytes
+      if (stride < W * 4) return { err: `readback ${a.length} values for ${W}x${H}` };
+      const v = (i) => (half || (a instanceof Uint16Array && rt.texture?.type == null) ? halfToFloat(a[i]) : a instanceof Uint8Array || a instanceof Uint8ClampedArray ? a[i] / 255 : a[i]);
+      let sum = 0, n = 0;
+      for (let gy = 0; gy < GY; gy++) for (let gx = 0; gx < GX; gx++) {
+        const x = Math.min(W - 1, Math.floor(((gx + 0.5) * W) / GX)), y = Math.min(H - 1, Math.floor(((gy + 0.5) * H) / GY)), o = y * stride + x * 4;
+        const px = [v(o), v(o + 1), v(o + 2), v(o + 3)];
+        if (px.some(Number.isNaN)) out.nan++;
+        else if (px.some((c) => !Number.isFinite(c))) out.inf++;
+        else { const l = luma(px); sum += l; n++; if (l < 0.001) out.black++; else out.lit++; }
+        if ((gy * GX + gx) % 288 === 144) out.samples.push({ x, y, rgba: px.map((c) => (Number.isFinite(c) ? r4(c) : String(c))) });
+      }
+      out.meanLuma = n ? r4(sum / n) : null;
+      // Depth: three's readback reads colour attachments only; the depth texture goes through the backend copy (raw values; reversed-z flips near).
+      const dt = rt.depthTexture;
+      if (!dt) out.depth = { skipped: "target has no depthTexture" };
+      else if (typeof r.backend?.copyTextureToBuffer !== "function") out.depth = { skipped: "backend has no copyTextureToBuffer" };
+      else {
+        try {
+          const d = await r.backend.copyTextureToBuffer(dt, 0, 0, W, H, 0), ds = H > 1 ? Math.floor((d.length - W) / (H - 1)) : W;
+          let mn = Infinity, mx = -Infinity, s = 0, k = 0, lo = 0, hi = 0;
+          const scale = d instanceof Uint32Array ? 2 ** -32 : d instanceof Uint16Array ? 1 / 65535 : 1;
+          for (let gy = 0; gy < GY; gy++) for (let gx = 0; gx < GX; gx++) {
+            const x = Math.min(W - 1, Math.floor(((gx + 0.5) * W) / GX)), y = Math.min(H - 1, Math.floor(((gy + 0.5) * H) / GY)), z = d[y * ds + x] * scale;
+            if (!Number.isFinite(z)) continue; mn = Math.min(mn, z); mx = Math.max(mx, z); s += z; k++; if (z < 0.001) lo++; if (z > 0.999) hi++;
+          }
+          out.depth = { min: r4(mn), max: r4(mx), mean: k ? r4(s / k) : null, below0001: lo, above0999: hi, reversed: Boolean(r.reversedDepthBuffer ?? r.backend?.reversedDepthBuffer ?? false) };
+        } catch (e) { out.depth = { skipped: "depth copy failed: " + String(e.message ?? e).slice(0, 150) }; }
+      }
+      return out;
+    };
     const targets = [];
     for (const t of [...fbs, ...all.filter((t) => !fbs.has(t))].slice(0, 16)) targets.push(await read(t));
     let samples = null; try { samples = r.samples ?? r._samples ?? null; } catch {}
     const queue = q ? { skippedDraws: skipped1 - skipped0, frames: FRAMES, skippedPerFrame: (skipped1 - skipped0) / FRAMES, notReady: q.pending ?? null, timedOut: q.timedOut?.size ?? null } : { err: "no esBuildQueue on the renderer" };
-    return { backend: r.backend?.isWebGPUBackend ? "webgpu" : "webgl2", rendererSamples: samples, sceneBy, queue, notReadyPipelines, exposure, targets, setRenderTarget: P.rts, passes: P.passes };
+    const grid = scene && (scene.samples ?? 0) <= 1 ? await sceneGrid(scene) : { skipped: scene ? "multisampled" : "no scene target" };
+    return { backend: r.backend?.isWebGPUBackend ? "webgpu" : "webgl2", rendererSamples: samples, sceneBy, sceneGrid: grid, queue, notReadyPipelines, exposure, targets, setRenderTarget: P.rts, passes: P.passes };
   };
 }
 
@@ -160,5 +203,7 @@ export function targetsLine(p) {
   parts.push(`canvas luma ${Number.isFinite(p.canvas?.luma) ? p.canvas.luma : "-"}`);
   if (p.queue && !p.queue.err) parts.push(`skipped ${p.queue.skippedPerFrame.toFixed(1)}/frame, ${p.queue.notReady ?? "?"} not ready`);
   const tail = ` notReady ${p.notReadyPipelines?.perFrame ?? "?"} exp ${p.exposure?.toneMappingExposure ?? "?"}`;
-  return `not-a-bar; ${parts.join(" / ")}${tail}`;
+  const g = p.sceneGrid, gn = g?.grid ? g.grid[0] * g.grid[1] : 2304;
+  const scene = g && !g.err && !g.skipped ? ` scene nan ${g.nan} inf ${g.inf} black ${g.black}/${gn}` : ` scene grid ${g?.err ?? g?.skipped ?? "-"}`.slice(0, 80);
+  return `not-a-bar; ${parts.join(" / ")}${tail}${scene}`;
 }
