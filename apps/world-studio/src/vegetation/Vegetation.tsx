@@ -510,9 +510,9 @@ export function Vegetation({
     () => (GpuCullPool.supported(gl) ? new GpuCullPool({ lodFade }) : null), [gl, lodFade]);
   useEffect(() => () => gpuCull?.dispose(), [gpuCull]);
   // ONE visibility rule per path (drawCount.ts): GPU-cull meshes show while
-  // registered with the pool, CPU tile meshes while they draw.
+  // registered with the pool and submitted by it, CPU tile meshes while they draw.
   const visibleRule = (geo: GeoMesh): VisibleRule =>
-    (gpuCull ? () => geo.cull !== null : () => geo.mesh.count > 0);
+    (gpuCull ? () => geo.cull !== null && geo.cull.submit : () => geo.mesh.count > 0);
   const mask = useMemo(() => new OcclusionMask(MASK_SIZE, OCCLUSION_CELL_M), []);
   const maskTexture = useMemo(() => {
     const texture = new THREE.DataTexture(
@@ -1796,7 +1796,7 @@ export function Vegetation({
       band: next,
       casts: batch.casts,
       fromZero: batch.fromZero,
-    });
+    }, visibleRule(geo));
     applyVisibility(geo.mesh, visibleRule(geo));
   }
 

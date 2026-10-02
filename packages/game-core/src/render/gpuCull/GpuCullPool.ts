@@ -26,7 +26,14 @@ import type { WebGPURenderer } from "three/webgpu";
 import type { LodFadeUniforms } from "../../fx/lodFade";
 import { detachSharedAttribute } from "../../vegetation/slotGeometry";
 import { GpuCullSystem, type GpuCullDraw, type GpuCullDrawOptions } from "./GpuCullSystem";
-import { INDIRECT_STRIDE, type SunSweep } from "./cullMath";
+import { INDIRECT_STRIDE, sphereSweptInFrustum, type SunSweep } from "./cullMath";
+import { applyVisibility, type VisibleRule } from "../../vegetation/drawCount";
+import { LOD_OPEN_M } from "../../fx/lodFade";
+
+/** Metres the CPU submit test widens a member's bounds and band edges by, on
+ * top of the GPU cull's own: the LOD history and a read-back's lag move the
+ * camera that far between the cull and the test (0108 §4). */
+export const SUBMIT_MARGIN_M = 8;
 
 export interface GpuCullPoolOptions {
   lodFade: LodFadeUniforms;
@@ -46,6 +53,69 @@ export interface PooledDraw {
   kept: number;
   /** Candidates the last `fillDraw` wrote (rows `[0, filled)`). */
   filled: number;
+  /** World AABB of every candidate written since the last fill (minX, minY,
+   * minZ, maxX, maxY, maxZ; min > max = none): grows on write, never shrinks
+   * on a clear, so it can only err towards drawing. */
+  bounds: Float32Array;
+  /** Object-space cull sphere (radius, centre Y) and the draw's band/flags. */
+  radius: number;
+  centreY: number;
+  band: readonly [number, number, number, number] | null;
+  casts: boolean;
+  fromZero: boolean;
+  /** Whether three gets this member this frame (`update`): false only when
+   * the last read-back kept none AND no candidate can be in view or band. */
+  submit: boolean;
+  /** The member's one visibility rule (drawCount.ts), re-applied when `submit` flips. */
+  rule: VisibleRule;
+}
+
+/**
+ * The per-frame submit test, on scalars only: may any candidate inside the
+ * AABB `b` be kept by the GPU cull (frustum `planes`, sun `sweep` for a
+ * caster, LOD `band` around the camera at `vx`, `vz`)? Widened by
+ * `SUBMIT_MARGIN_M`; empty bounds never submit.
+ */
+export function boundsMayKeep(
+  b: ArrayLike<number>, planes: ArrayLike<number>, sweep: SunSweep | null,
+  band: readonly [number, number, number, number] | null, fromZero: boolean,
+  vx: number, vz: number,
+): boolean {
+  if (b[0] > b[3]) return false;
+  const cx = (b[0] + b[3]) / 2, cy = (b[1] + b[4]) / 2, cz = (b[2] + b[5]) / 2;
+  const r = Math.hypot(b[3] - b[0], b[4] - b[1], b[5] - b[2]) / 2 + SUBMIT_MARGIN_M;
+  if (!sphereSweptInFrustum(planes, cx, cy, cz, r, sweep && sweep.perM > 0 ? sweep : null)) return false;
+  if (!band) return true;
+  const [dIn, dOut, wIn, wOut] = band;
+  const dx = Math.max(b[0] - vx, 0, vx - b[3]);
+  const dz = Math.max(b[2] - vz, 0, vz - b[5]);
+  const near = Math.hypot(dx, dz);
+  const far = Math.hypot(Math.max(vx - b[0], b[3] - vx), Math.max(vz - b[2], b[5] - vz));
+  const inner = fromZero || dIn <= 0 ? 0 : dIn - Math.abs(wIn) - SUBMIT_MARGIN_M;
+  const outer = dOut <= 0 || dOut >= LOD_OPEN_M ? Infinity : dOut + Math.abs(wOut) + SUBMIT_MARGIN_M;
+  return far >= inner && near <= outer;
+}
+
+/** Grow `b` by a candidate's cull sphere (matrix `m` at offset `o`). */
+function growBounds(b: Float32Array, m: ArrayLike<number>, o: number, radius: number, centreY: number): void {
+  const scale = Math.max(
+    Math.hypot(m[o], m[o + 1], m[o + 2]), Math.hypot(m[o + 4], m[o + 5], m[o + 6]),
+    Math.hypot(m[o + 8], m[o + 9], m[o + 10]));
+  const r = radius * scale;
+  const x = m[o + 12] + m[o + 4] * centreY;
+  const y = m[o + 13] + m[o + 5] * centreY;
+  const z = m[o + 14] + m[o + 6] * centreY;
+  if (x - r < b[0]) b[0] = x - r;
+  if (y - r < b[1]) b[1] = y - r;
+  if (z - r < b[2]) b[2] = z - r;
+  if (x + r > b[3]) b[3] = x + r;
+  if (y + r > b[4]) b[4] = y + r;
+  if (z + r > b[5]) b[5] = z + r;
+}
+
+function emptyBounds(b: Float32Array): void {
+  b.fill(Infinity, 0, 3);
+  b.fill(-Infinity, 3, 6);
 }
 
 /** Stand-in for a detached mesh's instance matrix: the mesh is out of the
@@ -103,22 +173,31 @@ export class GpuCullPool {
 
   private readonly pages: GpuCullSystem[] = [];
   private readonly draws = new Map<GpuCullSystem, Set<PooledDraw>>();
+  /** Every member, flat, for the per-frame submit loop (no iterator per frame). */
+  private readonly members: PooledDraw[] = [];
   private readonly pageRows: number;
   private readonly pageDraws: number;
   private reading = false;
   /** The guarded attribute store, set by the first `update`. */
   private store: AttributeStore | null = null;
+  /** Per-frame scratch, made once: the compute nodes and the CPU frustum. */
+  private readonly nodes: unknown[] = [];
+  private readonly projView = new THREE.Matrix4();
+  private readonly frustum = new THREE.Frustum();
+  private readonly planes = new Float32Array(24);
 
   constructor(readonly options: GpuCullPoolOptions) {
     this.pageRows = options.pageRows ?? 1 << 16;
     this.pageDraws = options.pageDraws ?? 256;
   }
 
-  /** Register a mesh; its page's buffers become its instance source. */
-  addDraw(mesh: THREE.InstancedMesh, opts: GpuCullDrawOptions): PooledDraw {
+  /** Register a mesh; its page's buffers become its instance source.
+   * `rule` is the mesh's one visibility rule and must read `submit` (the
+   * default is `submit` alone); the pool re-applies it when `submit` flips. */
+  addDraw(mesh: THREE.InstancedMesh, opts: GpuCullDrawOptions, rule?: VisibleRule): PooledDraw {
     for (const system of this.pages) {
       const draw = system.addDraw(mesh, opts);
-      if (draw) return this.track(system, draw, mesh);
+      if (draw) return this.track(system, draw, mesh, opts, rule);
     }
     const system = new GpuCullSystem({
       rows: Math.max(this.pageRows, opts.capacity),
@@ -131,17 +210,30 @@ export class GpuCullPool {
     this.draws.set(system, new Set());
     const draw = system.addDraw(mesh, opts);
     if (!draw) throw new Error("GpuCullPool: a fresh page refused a draw");
-    return this.track(system, draw, mesh);
+    return this.track(system, draw, mesh, opts, rule);
   }
 
-  private track(system: GpuCullSystem, draw: GpuCullDraw, mesh: THREE.InstancedMesh): PooledDraw {
-    const pooled: PooledDraw = { system, draw, mesh, kept: 0, filled: 0 };
+  private track(
+    system: GpuCullSystem, draw: GpuCullDraw, mesh: THREE.InstancedMesh,
+    opts: GpuCullDrawOptions, rule?: VisibleRule,
+  ): PooledDraw {
+    const s = opts.sphere;
+    const pooled: PooledDraw = {
+      system, draw, mesh, kept: 0, filled: 0, bounds: new Float32Array(6),
+      radius: Math.max(0, s.radius) + Math.hypot(s.center.x, s.center.z), centreY: s.center.y,
+      band: opts.band, casts: opts.casts, fromZero: opts.fromZero,
+      submit: false, rule: rule ?? (() => pooled.submit),
+    };
+    emptyBounds(pooled.bounds);
+    this.members.push(pooled);
+    applyVisibility(mesh, pooled.rule);
     this.draws.get(system)!.add(pooled);
     return pooled;
   }
 
   setCandidate(d: PooledDraw, k: number, matrix: THREE.Matrix4, dataSlot: number): void {
     d.system.setCandidate(d.draw, k, matrix, dataSlot);
+    growBounds(d.bounds, matrix.elements, 0, d.radius, d.centreY);
   }
 
   setCandidateRange(
@@ -149,10 +241,12 @@ export class GpuCullPool {
     payloads: readonly Float32Array[] = [], dataSlot = 0,
   ): void {
     d.system.setCandidateRange(d.draw, k0, matrices, payloads, dataSlot);
+    for (let o = 0; o < matrices.length; o += 16) growBounds(d.bounds, matrices, o, d.radius, d.centreY);
   }
 
   setBand(d: PooledDraw, band: readonly [number, number, number, number] | null): void {
     d.system.setBand(d.draw, band);
+    d.band = band;
   }
 
   /**
@@ -164,6 +258,8 @@ export class GpuCullPool {
   fillDraw(d: PooledDraw, matrices: Float32Array, payloads: readonly Float32Array[] = []): void {
     const n = Math.min(matrices.length / 16, d.draw.capacity);
     d.system.setCandidateRange(d.draw, 0, matrices.subarray(0, n * 16), payloads, 0);
+    emptyBounds(d.bounds);
+    for (let o = 0; o < n * 16; o += 16) growBounds(d.bounds, matrices, o, d.radius, d.centreY);
     if (d.filled > n) d.system.clearCandidateRange(d.draw, n, d.filled - n);
     d.filled = n;
   }
@@ -191,6 +287,8 @@ export class GpuCullPool {
     d.mesh.instanceMatrix = placeholderMatrix();
     const set = this.draws.get(d.system);
     set?.delete(d);
+    const at = this.members.indexOf(d);
+    if (at >= 0) { this.members[at] = this.members[this.members.length - 1]; this.members.pop(); }
     if (set && set.size === 0) {
       const i = this.pages.indexOf(d.system);
       if (i >= 0) this.pages.splice(i, 1);
@@ -209,14 +307,47 @@ export class GpuCullPool {
     system.dispose();
   }
 
-  /** Dispatch every page's reset + cull, once, before this frame's render. */
+  /** Dispatch every page's reset + cull, once, before this frame's render,
+   * and decide each member's `submit` (no allocation). */
   update(renderer: WebGPURenderer, camera: THREE.Camera, sweep: SunSweep | null): void {
     this.store ??= guardPageBuffers(renderer);
-    const nodes: unknown[] = [];
+    const nodes = this.nodes;
+    nodes.length = 0;
     for (const system of this.pages) {
-      if (system.drawCount > 0) nodes.push(...system.prepare(camera, sweep));
+      if (system.drawCount === 0) continue;
+      const [reset, cull] = system.prepare(camera, sweep);
+      nodes.push(reset, cull);
     }
     if (nodes.length > 0) renderer.compute(nodes as never);
+    this.updateSubmit(camera, sweep);
+  }
+
+  /**
+   * A member whose last read-back kept nothing is not handed to three while
+   * its candidates' bounds cannot be in the (widened) view or LOD band; it is
+   * handed back the frame they can, whatever the lagging read-back says. A
+   * member with no candidates is never handed over.
+   */
+  updateSubmit(camera: THREE.Camera, sweep: SunSweep | null): void {
+    this.projView.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+    this.frustum.setFromProjectionMatrix(this.projView, (camera as unknown as { coordinateSystem: number }).coordinateSystem as never);
+    const planes = this.planes;
+    for (let p = 0; p < 6; p++) {
+      const pl = this.frustum.planes[p];
+      planes[p * 4] = pl.normal.x; planes[p * 4 + 1] = pl.normal.y;
+      planes[p * 4 + 2] = pl.normal.z; planes[p * 4 + 3] = pl.constant;
+    }
+    const vx = camera.matrixWorld.elements[12];
+    const vz = camera.matrixWorld.elements[14];
+    for (let i = 0; i < this.members.length; i++) {
+      const d = this.members[i];
+      const empty = d.bounds[0] > d.bounds[3];
+      const submit = !empty && (d.kept > 0
+        || boundsMayKeep(d.bounds, planes, d.casts ? sweep : null, d.band, d.fromZero, vx, vz));
+      if (submit === d.submit) continue;
+      d.submit = submit;
+      applyVisibility(d.mesh, d.rule);
+    }
   }
 
   /**
@@ -262,5 +393,6 @@ export class GpuCullPool {
     for (const system of this.pages) this.releasePage(system);
     this.pages.length = 0;
     this.draws.clear();
+    this.members.length = 0;
   }
 }

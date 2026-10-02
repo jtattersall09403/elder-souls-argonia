@@ -61,3 +61,70 @@ describe("GpuCullPool page buffers (webgpu diag10 D3)", () => {
     expect(a.count).toBe(1);
   });
 });
+
+describe("GpuCullPool submit (webgpu10 c5 fix14: zero-kept members not submitted)", () => {
+  const renderer = { compute() {} } as unknown as WebGPURenderer;
+  function camera() {
+    const c = new THREE.PerspectiveCamera(60, 1, 0.1, 500);
+    c.position.set(0, 2, 0);
+    c.lookAt(0, 2, -10); // looks down -Z
+    c.updateMatrixWorld();
+    return c;
+  }
+  function placed(x: number, z: number) {
+    const pool = new GpuCullPool({ lodFade: createLodFadeUniforms() });
+    const mesh = member();
+    const d = pool.addDraw(mesh, opts);
+    pool.setCandidate(d, 0, new THREE.Matrix4().makeTranslation(x, 0, z), 0);
+    return { pool, mesh, d };
+  }
+
+  it("kept 0 and bounds behind the camera: hidden", () => {
+    const { pool, mesh } = placed(0, 100);
+    pool.update(renderer, camera(), null);
+    expect(mesh.visible).toBe(false);
+  });
+
+  it("kept 0 (lagging read-back) but bounds in view: drawn", () => {
+    const { pool, mesh } = placed(0, -50);
+    pool.update(renderer, camera(), null);
+    expect(mesh.visible).toBe(true);
+  });
+
+  it("kept > 0: drawn even with bounds out of view", () => {
+    const { pool, mesh, d } = placed(0, 100);
+    d.kept = 3;
+    pool.update(renderer, camera(), null);
+    expect(mesh.visible).toBe(true);
+  });
+
+  it("a member with no candidates never reaches three", () => {
+    const pool = new GpuCullPool({ lodFade: createLodFadeUniforms() });
+    const mesh = member();
+    const d = pool.addDraw(mesh, opts);
+    d.kept = 2; // stale read-back
+    pool.update(renderer, camera(), null);
+    expect(mesh.visible).toBe(false);
+  });
+
+  it("out of its LOD band: hidden; a fresh write in view shows it the same frame", () => {
+    const { pool, mesh, d } = placed(0, -50);
+    pool.setBand(d, [0, 20, 0, 5]);
+    pool.update(renderer, camera(), null);
+    expect(mesh.visible).toBe(false);
+    pool.setCandidate(d, 1, new THREE.Matrix4().makeTranslation(0, 0, -10), 0);
+    pool.update(renderer, camera(), null);
+    expect(mesh.visible).toBe(true);
+  });
+
+  it("the per-frame update reuses its scratch (no allocation)", () => {
+    const { pool } = placed(0, -50);
+    const p = pool as unknown as { nodes: unknown; planes: unknown; frustum: unknown };
+    const before = [p.nodes, p.planes, p.frustum];
+    pool.update(renderer, camera(), null);
+    pool.update(renderer, camera(), null);
+    expect([p.nodes, p.planes, p.frustum]).toEqual(before);
+    expect(p.nodes).toBe(before[0]);
+    expect(p.planes).toBe(before[1]);
+  });
+});
