@@ -302,4 +302,39 @@ describe("queueShaderBuilds", () => {
     rig.draw();
     expect(rig.state.materialKeyCalls).toBe(after + 1);
   });
+
+  it("re-hashes a drawn object's dynamic key only when the environment key or context node moved (C9b)", () => {
+    const mat = { version: 0 };
+    let hashes = 0, env = 1;
+    const ro = {
+      version: 0, initialCacheKey: "k1", initialNodesCacheKey: 5, material: mat, geometry: { id: 1 }, object: { receiveShadow: true },
+      clippingContext: null, camera: null, scene: {}, lightsNode: {},
+      get needsUpdate(): boolean { throw new Error("needsUpdate read"); },
+      getMaterialCacheKey: () => "", getDynamicCacheKey: () => { hashes++; return env === 1 ? 5 : 6; },
+    };
+    const contextNode = { id: 9, version: 0 };
+    const fake = {
+      _objects: { get: () => ro, getChainMap: () => ({ get: () => ro }), nodes: {}, geometries: {}, renderer: {} },
+      _currentRenderContext: { id: 3 }, _currentRenderBundle: null, contextNode,
+      _nodes: {
+        nodeBuilderCache: new Map([["k1", {}], ["6", {}]]), get: () => ({ nodeBuilderState: {} }), getForRenderCacheKey: () => "k1",
+        getCacheKey: () => env, getForRender() {}, delete() {}, needsRefresh: () => false, updateBefore() {}, updateForRender() {}, updateAfter() {},
+      },
+      _geometries: { updateForRender() {} }, _bindings: { updateForRender() {} },
+      _pipelines: { updateForRender() {}, isReady: () => true },
+      backend: { draw() {} }, info: { frame: 0 },
+      _renderObjectDirect() {},
+    };
+    queueShaderBuilds(fake as unknown as WebGPURenderer, 1);
+    const object = { geometry: { drawRange: {} } };
+    const draw = () => (fake._renderObjectDirect as (...a: unknown[]) => void)(object, mat, {}, {}, {}, null, null, "default");
+    draw(); draw(); draw(); draw();
+    expect(hashes).toBe(1);
+    contextNode.version++;
+    draw(); draw();
+    expect(hashes).toBe(2);
+    env = 2;
+    draw();
+    expect(hashes).toBeGreaterThan(2); // re-hashed (plus the re-key lookup's own read)
+  });
 });

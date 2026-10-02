@@ -113,3 +113,15 @@ test("topCause and keepTraceEvent", () => {
   assert.equal(keepTraceEvent({ ph: "X", name: "MinorGC", dur: 100 }), true);
   assert.equal(keepTraceEvent({ ph: "M", name: "process_name" }), true);
 });
+
+test("classifyFrames: a wrapper (BeginMainFrame > FireAnimationFrame) around a FunctionCall classifies the hitch as js (self time, T8)", () => {
+  const X = (name, ts, dur, pid = 1, tid = 1) => ({ ph: "X", name, ts, dur, pid, tid });
+  const ev = [FA(0), FA(10_000), X("BeginMainFrame", 14_000, 50_000), X("FireAnimationFrame", 15_000, 48_000), X("FunctionCall", 16_000, 44_000),
+    X("BeginMainFrame", 0, 200_000, 9, 9), FA(70_000), FA(80_000)];
+  const r = classifyFrames(ev, { overMs: 33 });
+  assert.equal(r.long.length, 1);
+  const f = r.long[0];
+  assert.equal(topCause(f.byCause), "js");
+  assert.equal(f.byCause.js, 48, "the frame runs 15-70 ms: FunctionCall 44 + its FireAnimationFrame self 4");
+  assert.equal(f.byCause.other, 1, "BeginMainFrame self inside the frame only; the other process's event is not counted");
+});

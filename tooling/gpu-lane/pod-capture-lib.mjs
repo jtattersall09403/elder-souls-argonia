@@ -252,6 +252,16 @@ export function browserStoppedAnswering(error) {
   return /timed out|page closed|browser closed|socket|ECONNREFUSED|fetch failed/i.test(String(error ?? ""));
 }
 
+/** After a view: restart the pod Chrome when a timed-out view's target is still listed (`targetStuck`), when the
+ * view could not open its browser context or page (failed or timed out: later ones would too, webgpu diag8 T6b), or
+ * when the error says the browser stopped answering and a ping agrees (`alive` false). */
+export function needsChromeRestart(result, alive) {
+  if (result?.targetStuck) return true;
+  const error = String(result?.error ?? "");
+  if (/createBrowserContext|createTarget/.test(error)) return true;
+  return Boolean(error) && browserStoppedAnswering(error) && !alive;
+}
+
 /** The shell command that restarts the pod's Chrome: pod-setup.sh (idempotent, it owns Chrome) over the --pod ssh,
  * host-key check off as pod-sync.sh does. */
 export function podSetupCommand(pod, mode, script = "/root/site/tooling/gpu-lane/pod-setup.sh") {
