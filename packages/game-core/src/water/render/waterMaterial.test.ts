@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import * as THREE_NS from "three";
-import { WAVES, waveBands, waveExposure } from "../waves";
+import { WAVES, crestBands, vertexBandWeight, waveBands, waveExposure } from "../waves";
 import { SHORE_FROTH } from "./shoreFroth";
 import { FOAM_TEX } from "./waterMaterial";
 import {
@@ -544,5 +544,30 @@ describe("short Gerstner bands per pixel (perf-diag9 V1)", () => {
       waveBands().slice(0, t.waveBands).filter((b) => b.wavelengthM < k * t.gridCellM).length;
     expect(moved(WATER_TIERS.high, 2.2)).toBe(2);
     expect(moved(WATER_TIERS.low, 2.5)).toBe(0);
+  });
+});
+
+describe("low tier crest per pixel (perf-diag11 W1)", () => {
+  it("the crest bands are the two largest whole-vertex bands, read per pixel in place of the mesh's", () => {
+    const low = WATER_TIERS.low;
+    const picked = crestBands(low.waveBands, low.gridCellM, low.crestBands);
+    expect(picked.length).toBe(2);
+    const whole = waveBands().slice(0, low.waveBands)
+      .filter((b) => vertexBandWeight(b.wavelengthM, low.gridCellM) === 1)
+      .map((b) => b.amp).sort((a, b) => b - a);
+    expect(picked.map((b) => b.amp)).toEqual(whole.slice(0, 2));
+    const { shader } = compile("field", assets, low);
+    const vert = code(shader.vertexShader);
+    const frag = code(shader.fragmentShader);
+    // the vertex surface is unchanged (0047): every crest band is still in the vertex sum
+    for (const b of picked) expect(vert).toContain(`w = esWaveBand(pos, exposure * clamp(fetchM / ${b.fetchM}`);
+    expect(vert).toContain("vEsCrestV = esWaveCrestH(esRestW.xz, esWaveAmp, esFetchM, esStandW, uWaveTime);");
+    expect(frag).toMatch(/esCrest \+= \(esWaveCrestH\(vEsWorldPos\.xz, [^;]*- vEsCrestV\)/);
+    for (const b of picked) expect(frag).toContain(`${b.freq}, ${b.phaseSpeed}, ${b.phase0});`);
+    // no crest work where nothing reads it: the high tier and the strips
+    for (const s of [compile("field", assets, WATER_TIERS.high).shader, compile("strip", assets, low).shader]) {
+      expect(code(s.vertexShader)).not.toContain("esWaveCrestH");
+      expect(code(s.fragmentShader)).not.toContain("vEsCrestV");
+    }
   });
 });

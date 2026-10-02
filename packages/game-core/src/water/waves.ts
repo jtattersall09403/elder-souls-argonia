@@ -818,6 +818,55 @@ export function gerstnerFragGlsl(bandCount: number, gridCellM: number): string {
 }
 
 /**
+ * The crest-defining bands (perf-diag11 W1): the `count` largest-amplitude
+ * bands of the first `bandCount` that stay whole on the vertex path
+ * (`vertexBandWeight` 1). Their height decides where the whitecap threshold
+ * falls, and on a coarse grid the mesh carries it as one plane per triangle,
+ * which draws the crest as wide flat bands.
+ */
+export function crestBands(bandCount: number, gridCellM: number, count: number): WaveBand[] {
+  if (count <= 0) return [];
+  return waveBands()
+    .slice(0, bandCount)
+    .filter((b) => vertexBandWeight(b.wavelengthM, gridCellM) === 1)
+    .sort((a, b) => b.amp - a.amp)
+    .slice(0, count);
+}
+
+/**
+ * `float esWaveCrestH(vec2 pos, float exposure, float fetchM, float
+ * standing, float t)`: the height (m) of the `crestBands` set, the same
+ * height term `esWaveBand` adds to the vertex displacement. The vertex shader
+ * evaluates it at the rest position into a varying; the fragment evaluates it
+ * per pixel and swaps the interpolated value for the exact one in the crest,
+ * so the crest is per pixel while the surface stays the one vertex sum
+ * (decision 0047). Height only: the bands' normal stays on the vertex.
+ */
+export function gerstnerCrestGlsl(bandCount: number, gridCellM: number, count: number): string {
+  const rows = crestBands(bandCount, gridCellM, count)
+    .map(
+      (b) =>
+        `h += ${f(b.amp)} * exposure * clamp(fetchM / ${f(b.fetchM)}, 0.0, 1.0) * esWaveBandH(pos, tr, t, ` +
+        `vec2(${f(b.dirX)}, ${f(b.dirZ)}), ${f(b.freq)}, ${f(b.phaseSpeed)}, ${f(b.phase0)});`,
+    )
+    .join("\n    ");
+  return /* glsl */ `
+  // KEEP IN LOCKSTEP with esWaveBand(): its height term per unit amplitude.
+  float esWaveBandH(vec2 pos, float tr, float t, vec2 d, float freq, float omega, float phase0) {
+    float argS = freq * dot(d, pos) + phase0;
+    float tau = t * omega;
+    return sin(argS) * cos(tau) + tr * cos(argS) * sin(tau);
+  }
+  float esWaveCrestH(vec2 pos, float exposure, float fetchM, float standing, float t) {
+    float h = 0.0;
+    float tr = 1.0 - clamp(standing, 0.0, 1.0);
+    ${rows}
+    return h;
+  }
+  `;
+}
+
+/**
  * The GLSL twin: declares `esWaveSampleEx(vec2 pos, float exposure, float
  * shoreDist, float standing, float t)` (+ the legacy `esWaveSample(pos,
  * exposure, t)` = fully developed, travelling) plus the shared exposure

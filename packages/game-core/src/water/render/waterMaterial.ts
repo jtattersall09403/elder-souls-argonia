@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { WHITEWATER_GLSL, STREAK_LAYERS } from "./whitewaterStreaks";
 import { STRIP_BANK_FADE_START } from "./ChannelStrips";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
-import { FLOW_WAVE_MIN_SPEED_MS, SEA, WAVES, flowWaveGlsl, gerstnerGlsl, gerstnerFragGlsl, standingRatioGlsl, surfGlsl,
+import { FLOW_WAVE_MIN_SPEED_MS, SEA, WAVES, flowWaveGlsl, gerstnerGlsl, gerstnerFragGlsl, gerstnerCrestGlsl, standingRatioGlsl, surfGlsl,
   waveExposureGlsl, whitecapThreshold, whitecapDriftMS } from "@elder-souls/game-core/water/index";
 import { buriedThresholdM, tideResponseGlsl } from "../waterData";
 
@@ -58,6 +58,9 @@ export interface WaterTier {
    * from: bands under ~2x this leave the vertex path for the fragment
    * (perf-diag9 V1, `vertexBandWeight`). */
   gridCellM: number;
+  /** Crest-defining bands (`crestBands`) whose height the crest reads per
+   * pixel instead of from the mesh (perf-diag11 W1); 0 = mesh crest. */
+  crestBands: number;
   rtScale: number;
   samples: number;
 }
@@ -65,8 +68,8 @@ export interface WaterTier {
 export const WATER_TIERS: Record<"low" | "high", WaterTier> = {
   // samples stay 0: a multisampled half-float RT costs serious VRAM/bandwidth
   // (owner round 1 perf); water/overlay edges still get the canvas MSAA.
-  high: { name: "high", ssr: true, godRays: true, ripples: true, waveBands: WAVES.bands, gridCellM: 2.6, rtScale: 0.9, samples: 0 },
-  low: { name: "low", ssr: false, godRays: false, ripples: true, waveBands: WAVES.lowTierBands, gridCellM: 3.6, rtScale: 0.75, samples: 0 },
+  high: { name: "high", ssr: true, godRays: true, ripples: true, waveBands: WAVES.bands, gridCellM: 2.6, crestBands: 0, rtScale: 0.9, samples: 0 },
+  low: { name: "low", ssr: false, godRays: false, ripples: true, waveBands: WAVES.lowTierBands, gridCellM: 3.6, crestBands: 2, rtScale: 0.75, samples: 0 },
 };
 
 export const WATER_LAYER = 3;
@@ -767,6 +770,9 @@ export function createWaterMaterial(
 ): THREE.MeshPhysicalMaterial {
   const { csm, applyAerial, uniforms, tier } = ctx;
   const strip = mode === "strip";
+  /** The field crest reads the tier's crest bands per pixel (diag11 W1); a
+   * strip draws its own whitewater and has no crest. */
+  const crestPx = tier.crestBands > 0 && !strip;
   const foamTex = !!ctx.assets.waterfallTextures?.foam;
   const classes = ctx.assets.meta.klass.classes;
   const material = new THREE.MeshPhysicalMaterial({
@@ -824,6 +830,8 @@ varying vec4 vEsSurf;
 varying vec3 vEsWaveIn;  // wave amp, fetch, standing: the fragment's short bands
 ${SAMPLER_GLSL}
 ${gerstnerGlsl(tier.waveBands, tier.gridCellM)}
+${crestPx ? `varying float vEsCrestV;  // crest bands' vertex height (diag11 W1)
+${gerstnerCrestGlsl(tier.waveBands, tier.gridCellM, tier.crestBands)}` : ""}
 ${standingRatioGlsl(classes)}
 ${tideResponseGlsl(classes)}
 ${surfGlsl()}
@@ -911,13 +919,15 @@ float esCamDist = distance(cameraPosition.xz, esRestW.xz);
 // the horizon blend is what the far sea meets) — CPU twin: waterWorld.sample
 float esWaveAmp = esExposure * esSeaRms(uWindMS, esFetchM);
 EsWave esW;
-vEsWaveIn = vec3(0.0, esFetchM, 0.0);
+vEsWaveIn = vec3(0.0, esFetchM, 0.0);${crestPx ? `
+vEsCrestV = 0.0;` : ""}
 if (esWaveAmp > 0.0005) {
   // per-band fetch (long swell needs long fetch) + the class standing ratio
   // (lakes/marsh bob, coast marches) — CPU twin: waterWorld.sample
   float esStandW = esStandingRatio(esKl.r * 255.0, esShore);
   vEsWaveIn = vec3(esWaveAmp, esFetchM, esStandW);
-  esW = esWaveSampleEx(esRestW.xz, esWaveAmp, esFetchM, esStandW, uWaveTime);
+  esW = esWaveSampleEx(esRestW.xz, esWaveAmp, esFetchM, esStandW, uWaveTime);${crestPx ? `
+  vEsCrestV = esWaveCrestH(esRestW.xz, esWaveAmp, esFetchM, esStandW, uWaveTime);` : ""}
 } else {
   esW.disp = vec3(0.0);
   esW.normal = vec3(0.0, 1.0, 0.0);
@@ -995,6 +1005,8 @@ ${strip ? "" : FOAM_FIELD_GLSL + RAIN_RINGS_GLSL + SPARKLE_SSS_GLSL + HORIZON_BL
 ${MENISCUS_GLSL}
 varying vec3 vEsWaveIn;
 ${gerstnerFragGlsl(tier.waveBands, tier.gridCellM)}
+${crestPx ? `varying float vEsCrestV;
+${gerstnerCrestGlsl(tier.waveBands, tier.gridCellM, tier.crestBands)}` : ""}
 ${foamTex && !strip ? "#define ES_FOAM_TEX 1" : ""}
 uniform vec3 uWaterSunDir;
 uniform vec3 uWaterSunLight;
@@ -1281,8 +1293,15 @@ float esFoamE;
 // PIXEL-driven; it is advected on the transport clock and scaled by wind.
 // The crest per pixel: the mesh crest is one plane per triangle (vertex
 // height minus vertex still level, both interpolated), so the short bands'
-// own height rides on top of it (perf-diag4 V2).
-float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsStill + esWaveF.z;
+// own height rides on top of it (perf-diag4 V2). Where the tier names
+// crest bands (low: its 3.6 m grid drew the crest as wide pale planes,
+// diag11 W1), their interpolated vertex height is swapped for the exact one
+// at this pixel, inside the short bands' fade, so the surface is still the
+// one vertex sum (0047) and only the crest's source moves.
+float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsStill + esWaveF.z;${crestPx ? `
+if (vEsWaveIn.x > 0.0005 && esDist < 400.0)
+  esCrest += (esWaveCrestH(vEsWorldPos.xz, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime) - vEsCrestV)
+           * (1.0 - smoothstep(120.0, 400.0, esDist));` : ""}
 float esCrestMesh = esCrest;   // the real crest, for the backlit scatter
 float esCrestFade = 1.0 - smoothstep(1200.0, 2400.0, esDist);
 // whitecap density from the wind (waves.ts whitecapCoverage: 2 % of the sea
