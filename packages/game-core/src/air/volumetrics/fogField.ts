@@ -33,10 +33,14 @@ export interface FogFieldInput {
   humidity: number;
   /** 0 dry season .. 1 wet season. */
   wetSeason: number;
-  /** The weather state's name; `ground-mist` forces the mist regimes. */
-  weatherState?: string;
+  /** The weather's own expressed radiation-mist strength here, 0..1 (WeatherSample.mist.radiation);
+   * the studio's `w=mist` override sets it. It lifts the radiation mist to at least this strength. */
+  weatherRadiation?: number;
   /** 0..1: does the wind blow in from the sea here (onshore component). */
   onshore?: number;
+  /** The weather's own expressed advection sea-fog strength here, 0..1 (WeatherSample.mist.advection);
+   * the studio's `w=fog` override sets it. It lifts the sea fog to at least this strength. */
+  weatherAdvection?: number;
 }
 
 export interface FogRegimes {
@@ -89,22 +93,23 @@ export function fogRegimes(i: FogFieldInput): FogRegimes {
   const wind = Math.max(0, i.windSpeedMS);
   // mist needs still air: gone above ~5 m/s
   const calm = 1 - smooth(1.5, 5, wind);
-  const forced = i.weatherState === "ground-mist" ? 1 : 0;
   const rainDamp = 1 - clamp01(i.rain * 1.5);
   const humid = clamp01(i.humidity);
 
   const dawn = dawnEnvelope(hSunrise, 3, 2.5);
-  const radiationMist = Math.max(forced, clamp01(i.prevNightClearCalm) * dawn * calm * (0.4 + 0.6 * humid)) * rainDamp;
+  const radiationMist = Math.max(clamp01(i.weatherRadiation ?? 0),
+    clamp01(i.prevNightClearCalm) * dawn * calm * (0.4 + 0.6 * humid)) * rainDamp;
 
   const steamDawn = dawnEnvelope(hSunrise, 2, 2);
-  const steamFog = Math.max(forced * 0.8, steamDawn * calm * (0.3 + 0.7 * clamp01(i.prevNightClearCalm))) * rainDamp;
+  const steamFog = steamDawn * calm * (0.3 + 0.7 * clamp01(i.prevNightClearCalm)) * rainDamp;
 
   const dusk = Math.max(0, 1 - Math.abs(hSunset - 0.75) / 1.75);
-  const marshFog = Math.max(forced, Math.max(dawnEnvelope(hSunrise, 2.5, 2), dusk) * calm * (0.35 + 0.65 * humid)
-    * (0.6 + 0.4 * clamp01(i.wetSeason)));
+  const marshFog = Math.max(dawnEnvelope(hSunrise, 2.5, 2), dusk) * calm * (0.35 + 0.65 * humid)
+    * (0.6 + 0.4 * clamp01(i.wetSeason));
 
   const onshore = clamp01(i.onshore ?? 0);
-  const seaFog = onshore * smooth(0.6, 0.95, humid) * (1 - smooth(8, 14, wind)) * (0.5 + 0.5 * clamp01(i.wetSeason));
+  const seaFog = Math.max(clamp01(i.weatherAdvection ?? 0),
+    onshore * smooth(0.6, 0.95, humid) * (1 - smooth(8, 14, wind)) * (0.5 + 0.5 * clamp01(i.wetSeason)));
 
   const afterRain = Number.isFinite(i.hoursSinceRain)
     ? smooth(0, 0.5, i.hoursSinceRain) * (1 - smooth(1.5, 2.5, i.hoursSinceRain))

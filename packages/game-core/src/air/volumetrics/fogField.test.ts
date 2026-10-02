@@ -17,8 +17,18 @@ describe("fogRegimes", () => {
     expect(fogRegimes({ ...BASE, prevNightClearCalm: 0 }).radiationMist).toBe(0);
     expect(fogRegimes({ ...BASE, windSpeedMS: 8 }).radiationMist).toBe(0);
   });
-  it("ground-mist weather forces mist at any hour", () => {
-    expect(fogRegimes({ ...BASE, minuteOfDay: 13 * 60, weatherState: "ground-mist" }).radiationMist).toBe(1);
+  it("the weather's own mist strength (w=mist) raises radiation mist at noon", () => {
+    const noon = { ...BASE, minuteOfDay: 12 * 60 };
+    expect(fogRegimes(noon).radiationMist).toBe(0);
+    expect(fogRegimes({ ...noon, weatherRadiation: 0.9 }).radiationMist).toBeCloseTo(0.9, 6);
+  });
+  it("the weather's own fog strength (w=fog) raises sea fog with onshore undefined", () => {
+    expect(fogRegimes(BASE).seaFog).toBe(0);
+    expect(fogRegimes({ ...BASE, weatherAdvection: 0.8 }).seaFog).toBeCloseTo(0.8, 6);
+  });
+  it("clear weather leaves the regimes unchanged", () => {
+    const noon = { ...BASE, minuteOfDay: 12 * 60 };
+    expect(fogRegimes({ ...noon, weatherRadiation: 0, weatherAdvection: 0 })).toEqual(fogRegimes(noon));
   });
   it("marsh fog shows at dusk, not at noon", () => {
     expect(fogRegimes({ ...BASE, minuteOfDay: 18 * 60 + 45 }).marshFog).toBeGreaterThan(0.5);

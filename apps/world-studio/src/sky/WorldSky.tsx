@@ -918,7 +918,7 @@ export function WorldSky({
           hoursSinceRain: fogClock.hoursSinceRain(epochMinutes, wx.rainIntensity > 0.02),
           rain: wx.rainIntensity,
           windSpeedMS: wx.windSpeedMS, windDirXZ: wx.windDirXZ, humidity, wetSeason: (worldClock.season().s + 1) / 2,
-          weatherState: wx.state,
+          weatherRadiation: wx.mist.radiation, weatherAdvection: wx.mist.advection,
         },
       });
     }
