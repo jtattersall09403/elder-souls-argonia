@@ -47,8 +47,10 @@
  * --cpu-profile  V8 CPU profile (200 us sampling) over each view's cost window: self ms per function (bundle url:line:col)
  *              per window frame, top 25 -> window.cpuTop and window.cpuprofile, top 5 in the summary row. Compare its numbers
  *              only against other --cpu-profile runs (the sampler costs main-thread time).
+ * --probe-gpu-errors  diagnosis only (rows read "not-a-bar"): wraps the WebGPU API before the app's scripts and dumps the first draw of
+ *              up to 3 pipelines that need an unset vertex slot (pod-capture-lib installGpuErrorProbe) -> <out>/<view>/gpu-error-probe.json
  * --allow-paused  run studio views whose URL lacks rate= (paused world clock); without it such a views file exits 2 naming them
- * WebGPU check: after every browser (re)connect (--chrome-mode webgpu) navigator.gpu.requestAdapter() is polled on a blank page
+ * WebGPU check: after every browser (re)connect (--chrome-mode webgpu) navigator.gpu.requestAdapter() is polled, after load, on the served origin's page
  *              for up to 20 s (result adapterWaits). A view asking WebGPU (url renderer=webgpu, or expectBackend: "webgpu")
  *              whose page reports another backend is retried once after an adapter re-check, then fails "no-webgpu".
  * --profile    a CPU profile of <s> seconds starting at <t> per view (summary in result.json, raw to profile.cpuprofile)
@@ -69,7 +71,7 @@
 import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop } from "./pod-capture-lib.mjs";
+import { installGpuErrorProbe, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit } from "./checks.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
@@ -86,6 +88,7 @@ const prof = opt("profile") ? parseProfile(opt("profile")) : null, windowS = Num
 const W = Number(opt("width", 1280)), H = Number(opt("height", 720));
 const settledFrames = Number(opt("settled-frames", 300)), settleFloor = Number(opt("settle-floor", 60));
 const readyTimeoutS = Number(opt("ready-timeout", 90)), captureTimeoutS = Number(opt("capture-timeout", 180));
+const probeGpuErrors = args.includes("--probe-gpu-errors");
 const heapProfileAll = args.includes("--heap-profile"), cpuProfile = args.includes("--cpu-profile");
 // a studio view without rate= runs a paused clock: not a game-speed measurement (diag10 T9)
 const paused = pausedClockViews(views);
@@ -140,7 +143,10 @@ async function connectBrowser() {
   if (chromeMode === "webgpu") all.adapterWaits.push(await waitAdapter());
 }
 // about:blank is not a secure context (no navigator.gpu): the probe runs on the first view's origin, which is (http://localhost via the tunnel).
-const ADAPTER_PROBE_JS = `(async () => { const gpuPresent = typeof navigator.gpu !== "undefined"; try { return { gpuPresent, adapter: Boolean(await navigator.gpu?.requestAdapter()) }; } catch { return { gpuPresent, adapter: false }; } })()`;
+// It waits for the page's load and for location.origin to be the served origin, so it never reads the initial about:blank.
+const ADAPTER_PROBE_JS = `(async () => { if (location.protocol === "about:") return { gpuPresent: false, adapter: false, at: "about:blank" };
+  if (document.readyState !== "complete") await new Promise((r) => addEventListener("load", r, { once: true }));
+  const gpuPresent = typeof navigator.gpu !== "undefined"; try { return { gpuPresent, adapter: Boolean(await navigator.gpu?.requestAdapter()) }; } catch { return { gpuPresent, adapter: false }; } })()`;
 const adapterPage = () => `${new URL(views[0].url).origin}/`;
 /** diag10 D5: right after a pod Chrome start the GPU process had no WebGPU adapter yet and the first view silently ran
  * WebGL2. Poll requestAdapter() on a throwaway page of the served origin until it answers (ADAPTER_WAIT_MS). */
@@ -155,8 +161,8 @@ async function waitAdapter() {
     const waiting = new Map();
     pws.onmessage = (e) => { const m = JSON.parse(e.data); waiting.get(m.id)?.(m); waiting.delete(m.id); };
     const ev = () => new Promise((res) => {
-      const k = ++id, t = setTimeout(() => res(false), 5000);
-      waiting.set(k, (m) => { clearTimeout(t); res(m.result?.result?.value === true); });
+      const k = ++id, t = setTimeout(() => res(last), 5000);
+      waiting.set(k, (m) => { clearTimeout(t); const v = m.result?.result?.value; res(v && typeof v === "object" ? (last = v) : last); });
       pws.send(JSON.stringify({ id: k, method: "Runtime.evaluate", params: { expression: ADAPTER_PROBE_JS, awaitPromise: true, returnByValue: true } }));
     });
     while (Date.now() - t0 < ADAPTER_WAIT_MS) {
@@ -214,7 +220,8 @@ const INIT = `(() => {
     return d;
   };
 })();
-try { (${pageProbe})(); } catch {}`;
+try { (${pageProbe})(); } catch {}${probeGpuErrors ? `
+try { (${installGpuErrorProbe})(window); } catch {}` : ""}`;
 const READ = `(async () => {
   const r = window.__RENDERER__, i = r?.info, q = r?.esBuildQueue, pm = performance.memory;
   const frame = () => window.__RENDERER__?.info?.render?.frame ?? window.__RAFN;
@@ -404,6 +411,10 @@ async function captureView(view) {
     clearTimeout(timer);
     aborted = false;
     Object.assign(result, { console: sink.cons.list(), pageErrors: sink.pageErrors.list(), network: sink.network.list() });
+    if (probeGpuErrors && ctl.page) {
+      result.gpuErrorProbe = await evaluate(`window.__gpuErrorProbe ?? { err: "no probe on the page" }`, 10_000);
+      writeFileSync(join(dir, "gpu-error-probe.json"), JSON.stringify(result.gpuErrorProbe, null, 1));
+    }
     result.http404s = result.network.filter(([k]) => k.startsWith("404 ")).length;
     sink = null;
     result.summary = summariseView(result);

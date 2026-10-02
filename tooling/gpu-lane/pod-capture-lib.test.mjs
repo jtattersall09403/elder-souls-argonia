@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS } from "./pod-capture-lib.mjs";
+import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, installGpuErrorProbe, gpuProbeLine } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -283,4 +283,48 @@ test("cpuTop aggregates self time per url:line:col per frame from a fixture prof
   assert.equal(r.sampledMs, 4);
   assert.deepEqual(r.top, [{ fn: "draw http://h/assets/index.js:10:3", selfMs: 3, msPerFrame: 0.3 }, { fn: "cull http://h/assets/index.js:20:3", selfMs: 0.5, msPerFrame: 0.05 }]);
   assert.match(summariseView({ window: { cpuTop: r } }).cpuTop, /^draw index\.js:10:3 0\.3; cull index\.js:20:3 0\.05$/);
+});
+
+// --probe-gpu-errors: a fake WebGPU API on a fake window
+function fakeGpuWindow(renderer) {
+  class GPUDevice { createShaderModule(d) { return { code: d.code }; } createRenderPipeline() { return {}; } createBindGroup() { return {}; } }
+  class GPUBuffer { constructor(label, size) { this.label = label; this.size = size; } destroy() {} }
+  class GPURenderPassEncoder { setPipeline() {} setVertexBuffer() {} setIndexBuffer() {} setBindGroup() {} draw() {} drawIndexed() {} drawIndirect() {} drawIndexedIndirect() {} }
+  class GPUCommandEncoder { beginRenderPass() { return new GPURenderPassEncoder(); } }
+  const win = { GPUDevice, GPUBuffer, GPURenderPassEncoder, GPUCommandEncoder, __RENDERER__: renderer };
+  installGpuErrorProbe(win);
+  const dev = new GPUDevice(), mod = dev.createShaderModule({ code: "@vertex fn main() {}" });
+  const pipe = dev.createRenderPipeline({ label: "renderPipeline_BSX", vertex: { module: mod, entryPoint: "main", buffers: [
+    { arrayStride: 12, attributes: [{ shaderLocation: 0, format: "float32x3", offset: 0 }] },
+    { arrayStride: 64, stepMode: "instance", attributes: [{ shaderLocation: 1, format: "float32x4", offset: 0 }] }] } });
+  const pass = new GPUCommandEncoder().beginRenderPass({ label: "main" });
+  return { win, pass, pipe, GPUBuffer };
+}
+test("gpu-error probe: a draw with an unset vertex slot is dumped once per pipeline, with the three render object", () => {
+  const at = {};
+  const { win, pass, pipe, GPUBuffer } = fakeGpuWindow({ backend: { draw() { at.pass.drawIndexedIndirect(new GPUBuffer("indirect", 20), 40); }, get: () => ({}) } });
+  at.pass = pass;
+  assert.equal(win.__gpuErrorProbe.threeHooked, true);
+  const old = new GPUBuffer("position", 120); old.destroy();
+  pass.setPipeline(pipe); pass.setVertexBuffer(0, old, 0, 120);
+  const ro = { object: { name: "BSX", type: "Mesh", id: 7, userData: { esGpuCull: true } }, geometry: { id: 3, attributes: { position: { id: 1, itemSize: 3, array: new Float32Array(3) } } },
+    material: { name: "Mat.001", id: 9, type: "MeshStandardNodeMaterial" }, getCacheKey: () => "k1", getVertexBuffers: () => [{ name: "position" }], getAttributes: () => [{ name: "position" }] };
+  win.__RENDERER__.backend.draw(ro); win.__RENDERER__.backend.draw(ro);
+  const p = win.__gpuErrorProbe;
+  assert.equal(p.dumps.length, 1);
+  const d = p.dumps[0];
+  assert.deepEqual(d.missing, [1]);
+  assert.equal(d.kind, "drawIndexedIndirect"); assert.equal(d.args.indirectBuffer.label, "indirect"); assert.equal(d.args.offset, 40);
+  assert.equal(d.pipeline.label, "renderPipeline_BSX"); assert.equal(d.pipeline.buffers[1].stepMode, "instance");
+  assert.deepEqual(d.set.map((x) => [x.slot, x.buffer.label, x.buffer.destroyed]), [[0, "position", true]]);
+  assert.equal(d.vertexWGSL, "@vertex fn main() {}");
+  assert.equal(d.three.object.name, "BSX"); assert.deepEqual(d.three.object.userDataKeys, ["esGpuCull"]); assert.equal(d.three.cacheKey, "k1");
+  assert.match(gpuProbeLine(p), /^not-a-bar; slot 1 missing renderPipeline_BSX obj BSX/);
+});
+test("gpu-error probe: every required slot set, no dump", () => {
+  const { win, pass, pipe, GPUBuffer } = fakeGpuWindow();
+  pass.setPipeline(pipe); pass.setVertexBuffer(0, new GPUBuffer("a", 12)); pass.setVertexBuffer(1, new GPUBuffer("b", 64));
+  pass.drawIndexed(36, 2);
+  assert.equal(win.__gpuErrorProbe.dumps.length, 0); assert.equal(win.__gpuErrorProbe.draws, 1);
+  assert.match(gpuProbeLine(win.__gpuErrorProbe), /^not-a-bar; no unset slot in 1 draws/);
 });
