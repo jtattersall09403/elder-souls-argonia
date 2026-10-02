@@ -177,10 +177,11 @@ Top level: `gitSha`, `dirty`, `builtAt` (served index.html mtime), `renderer`, `
   killed at the spot's end), as column arrays per interval (`t` page ms, interval end): `stealMs` (summed /proc/stat
   cpu steal), `majFaults` (pgmajfault), `load1`/`runnable` (/proc/loadavg), `busyPct` (all CPUs), `mhzMin`/`mhzMax`
   (/proc/cpuinfo), `top` (3 processes by CPU since the previous sample, `{proc: pid/comm, ms}`); for the renderer
-  main thread (the `CrRendererMain` thread whose CPU time grew most, re-picked each sample, so the studio tab and
-  not the keeper page): `core` (stat field 39), `coreMhz` (that core's cpuinfo MHz, scaling_cur_freq fallback),
+  main thread (task tid == pid of the `--type=renderer` process whose CPU time grew most, re-picked each sample, so
+  the studio tab and not the keeper page; thread comm is "chrome" on the pod): `rendererPid`, `rendererThreadsBusy`
+  (its threads whose CPU grew >= 20 ms), `core` (stat field 39), `coreMhz` (that core's cpuinfo MHz, scaling_cur_freq fallback),
   `runMs`/`waitMs` (schedstat: on CPU / waiting on the run queue), `migr` (nr_migrations), `nvcsw`
-  (nonvoluntary switches), null where the picked thread changed or a file is unreadable; for `CrGpuMain`:
+  (nonvoluntary switches), null where the picked thread changed or a file is unreadable; for the `--type=gpu-process` main thread:
   `gpuCore`, `gpuCoreMhz`, `gpuWaitMs`; container-wide `throttledMs` (cgroup cpu.stat); plus one-time `nproc`,
   `cpuset`, `governor`, `maxMhzDistinct`. `summary.md` heads the run with nproc, max load and max busy %.
   `hostSpikes`: the `[start, end]` page-ms intervals at or over `HOST_SPIKE` (steal 20 ms or 5 major faults).

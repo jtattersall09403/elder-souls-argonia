@@ -1,13 +1,35 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { coreCorrelation, coreCorrelationText, hostSeries, parseSamplerLine } from "./host-sampler.mjs";
+import { execFileSync } from "node:child_process";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { coreCorrelation, coreCorrelationText, hostSeries, parseSamplerLine, THREAD_AWK } from "./host-sampler.mjs";
 
 
-test("parseSamplerLine: 22-token line carries the thread columns, '-' is null", () => {
-  const r = parseSamplerLine("1 2 3 0.5 4 100 90 2400 3000 - 77 12 3100 5000000 2000000 1 4 88 30 2500 100000 3000");
-  assert.deepEqual(r.slice(10), [77, 12, 3100, 5000000, 2000000, 1, 4, 88, 30, 2500, 100000, 3000]);
-  const d = parseSamplerLine("1 2 3 0.5 4 100 90 2400 3000 - - - - - - - - - - - - -");
-  assert.deepEqual(d.slice(10), Array(12).fill(null));
+test("THREAD_AWK picks main threads by tid==pid with every comm 'chrome'", () => {
+  // expected, written first: renderer 200 (busier) main = task 200, core 5, 2 threads busy (200 +20ms, 201 +30ms; 202 +10ms not (jiffies are 10 ms));
+  // renderer 100 (idle keeper) loses; GPU main = task 300, core 9; non-main GPU thread 301 ignored.
+  const d = mkdtempSync(join(tmpdir(), "hs-"));
+  const stat = (tid, ut, core) => `${tid} (chrome) S 1 1 1 0 -1 0 0 0 0 0 ${ut} 0 0 0 20 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ${core} 0 0 0`;
+  const mk = (pid, tid, line) => { mkdirSync(join(d, "proc", String(pid), "task", String(tid)), { recursive: true }); writeFileSync(join(d, "proc", String(pid), "task", String(tid), "stat"), line + "\n"); };
+  mk(100, 100, stat(100, 5, 1)); mk(200, 200, stat(200, 12, 5)); mk(200, 201, stat(201, 6, 6)); mk(200, 202, stat(202, 2, 7)); mk(300, 300, stat(300, 4, 9)); mk(300, 301, stat(301, 50, 2));
+  writeFileSync(join(d, "prev"), "100 5\n200 10\n201 3\n202 1\n");
+  writeFileSync(join(d, "pids"), "100 R\n200 R\n300 G\n");
+  const awk = THREAD_AWK.replaceAll("/proc/", d + "/proc/").replace('"/proc/cpuinfo"', '"/dev/null"').replaceAll("/sys/", d + "/sys/");
+  writeFileSync(join(d, "a.awk"), awk);
+  const files = [[100, 100], [200, 200], [200, 201], [200, 202], [300, 300], [300, 301]].map(([p, t]) => join(d, "proc", String(p), "task", String(t), "stat"));
+  const out = execFileSync("awk", ["-f", join(d, "a.awk"), join(d, "prev"), join(d, "pids"), ...files], { encoding: "utf8" }).trim().split("\n").at(-1).split(" ");
+  rmSync(d, { recursive: true });
+  assert.equal(out.length, 14);
+  assert.deepEqual([out[0], out[1], out[7], out[8], out[12], out[13]], ["200", "5", "300", "9", "200", "2"]);
+});
+
+test("parseSamplerLine: 24-token line carries the thread columns, '-' is null", () => {
+  const r = parseSamplerLine("1 2 3 0.5 4 100 90 2400 3000 - 77 12 3100 5000000 2000000 1 4 88 30 2500 100000 3000 77 6");
+  assert.deepEqual(r.slice(10), [77, 12, 3100, 5000000, 2000000, 1, 4, 88, 30, 2500, 100000, 3000, 77, 6]);
+  const d = parseSamplerLine("1 2 3 0.5 4 100 90 2400 3000 - - - - - - - - - - - - - - -");
+  assert.deepEqual(d.slice(10), Array(14).fill(null));
   assert.equal(parseSamplerLine("1 2 3 0.5 4 100 90 2400 3000 - 1 2"), null);
 });
 
