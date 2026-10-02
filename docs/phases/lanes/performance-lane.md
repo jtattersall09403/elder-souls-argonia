@@ -36,13 +36,27 @@ may hand it an item from the owner's walk.
   the M2 (Riverwalk, Greenspring; walk 9 read 32–42 fps there).
 - The owner's device gives the fps verdict (deployed studio, HUD).
 
-## Calibration
+## Calibration (pod to M2)
 
-| r | Pod GPU | Pod fps | M2 fps | Spot | Build | Date |
-|---|---|---|---|---|---|---|
-| 1.38 | RTX 3070 | 51.1 | 37 | Riverwalk night rain `?view=character&x=7.1971&z=0.584&t=22&w=rain` | 68e7ab76 (pre-fix dev; see `tooling/.reports/16k/walk10/perf-lead.md`) | 2026-10-02 |
+r = pod fps / owner M2 fps at the same spot and build. Spot: Riverwalk night
+rain, `?view=character&x=7.1971&z=0.584&t=22&w=rain`. Build: base3, the
+pre-fix build the owner measured at 37 fps on the M2. Pod: RTX 3070, WebGL,
+1280x720, DPR 1, uncapped, 51.1 fps. So **r = 1.38**.
 
-Re-measured only when the GPU type or the reference build changes; every lane converts pod fps to M2 fps with the row's r.
+- Bar: converted settled fps >= 60 means pod >= 83; converted 1 % low >= 50
+  means pod 1 % low (uncapped) >= 69.
+- Kit: `tooling/gpu-lane/measure.mjs`. `--smoke` before any baseline;
+  `--census`, `--trace` and `--diag` before the first fix batch; settled fps
+  and 1 % low come from the same 10 s window after the ready gate.
+- Cross-check: the WebGPU lane measured dev WebGL on its pod at the same spot
+  at 54-60 fps on later dev builds, r 1.46-1.62 (it uses 1.5), 6-17 % above
+  1.38 and inside the 20 % agreement bar. The gap is expected: its builds
+  already carried some of the fixes (higher pod fps against the same 37 fps
+  M2 figure, taken on base3), and its runs had the perf HUD and shared Chrome
+  tabs.
+- Recalibrate whenever the owner re-measures the M2 on a named build.
+
+Walk-10 results converted with this r: [0108 § 7d](../../decisions/0108-performance-architecture-fixture-light-field-ready-materials-view-gated-streaming-fading-tiers.md).
 
 ## Open wins
 
