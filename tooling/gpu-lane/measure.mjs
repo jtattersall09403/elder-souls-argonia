@@ -21,6 +21,14 @@
  * --trace: a Chrome trace (timeline, frame, gpu, v8.gc, blink, viz) of the settle window and of the walk;
  * url<i>-<settled|walk>.trace.json beside measure.json, its long-frame classes (trace-frames.mjs) in `trace`.
  * --aim "yaw,pitch" (radians): aim the follow camera before the settle. --clean 1: HUD-free screenshots.
+ * --spots <file>: ONE invocation measures every spot of the file (one line each: `<name> <?query> [--aim yaw,pitch]
+ * [walk=<s>]`, spots/perf10.txt) in ONE tab (the same page navigates spot to spot, ready gate per spot), takes a
+ * clean settled screenshot of each (<run dir>/<name>-settled.jpg) and writes summary.md: settled fps, p1Low,
+ * uncapped, p1LowUncapped, max ms, over20, over33 and pass against --bar fps,p1low (default 83,69).
+ * --leak <s> [--leak-every 15]: ONE long capture at the first spot: post-GC heap samples (HeapProfiler.collectGarbage)
+ * every --leak-every s, the slope in MB/min and the top growing allocation sites (sampling heap profile, first
+ * vs last post-GC sample) in leak.json / leak.txt. Snapshots are not diffed: the studio heap is over 1 GB,
+ * past V8's string limit for a snapshot.
  */
 import { spawnSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -29,6 +37,7 @@ import { chromium } from "playwright";
 import { BLACK_LUMA, SPOT_A, censusText, diagList, foreignPages, heapGrowth, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
 import { classifyFrames } from "./trace-frames.mjs";
+import { heapSlope, parseBar, parseSpots, spotRow, summaryTable } from "./spots.mjs";
 
 export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems };
 
@@ -38,7 +47,7 @@ const probePath = (n) => new URL(`./probes/${n}.js`, import.meta.url).pathname;
 export function parseArgs(argv) {
   const o = { url: [], origin: "http://127.0.0.1:8099", base: null, renderer: "webgl", settle: 10, walk: 0, shots: false,
     cdp: "127.0.0.1:9222", run: null, out: null, width: 1280, height: 720, dpr: 1, readyTimeout: 150, profile: 0,
-    smoke: false, census: false, trace: false, diag: "", aim: "", clean: "" };
+    smoke: false, census: false, trace: false, diag: "", aim: "", clean: "", spots: "", bar: "83,69", leak: 0, leakEvery: 15 };
   const camel = (k) => k.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i].replace(/^--/, "");
@@ -53,7 +62,14 @@ export function parseArgs(argv) {
     if (!o.url.length) o.url.push(SPOT_A);
     o.url.splice(1); o.run ??= "smoke"; o.readyTimeout = 40; o.settle = 5; o.shots = true;
   }
-  if (!o.url.length || !o.run) throw new Error("need --run <name> and at least one --url <query>");
+  if (o.spots) { // one line per spot; each spot carries its own aim and walk; HUD-free screenshots of every spot
+    if (o.url.length) throw new Error("--spots replaces --url");
+    o.spotList = parseSpots(readFileSync(resolve(o.spots), "utf8"));
+    o.url = o.spotList.map((s) => s.query); o.shots = true; o.clean ||= "1";
+  } else o.spotList = o.url.map((q, i) => ({ name: `url${i}`, query: q, aim: o.aim, walk: o.walk }));
+  o.barParsed = parseBar(o.bar);
+  if (o.leak > 0) { o.spotList.splice(1); o.url.splice(1); }
+  if (!o.url.length || !o.run) throw new Error("need --run <name> and at least one --url <query> (or --spots <file>)");
   o.diagList = diagList(o.diag, o.url);
   if (!["webgl", "webgpu"].includes(o.renderer)) throw new Error("--renderer is webgl or webgpu");
   o.base ??= o.renderer === "webgpu" ? "/elder-souls-argonia/webgpu/" : "/elder-souls-argonia/studio/";
@@ -149,7 +165,7 @@ export function profileSummary(profile, top = 40) {
 
 // Installed before the page's own scripts: a rAF timestamp recorder, the per-frame work-time
 // wrapper and the GPU adapter read.
-function pageProbe() {
+export function pageProbe() {
   const lane = { ts: [], frames: [], on: false, wrapMs: 0, lost: 0 };
   window.addEventListener("webglcontextlost", () => { lane.lost++; }, true);
   Object.defineProperty(window, "__GPU_LANE__", { value: lane });
@@ -241,6 +257,42 @@ async function runCensus(page, o) {
 
 export const CENSUS_LEAD_MS = 2000;
 
+/**
+ * --leak <s>: ONE long capture on the page already settled at the first spot. A post-GC heap reading
+ * (HeapProfiler.collectGarbage, then Runtime.getHeapUsage) every o.leakEvery s; a sampling heap profile
+ * started at the first reading and read at the last, so the sites listed are the ones whose retained
+ * bytes grew between the first and last post-GC reading.
+ */
+async function runLeak(page, o) {
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send("HeapProfiler.enable");
+  const reading = async (t0) => {
+    await cdp.send("HeapProfiler.collectGarbage");
+    return { tS: Math.round((Date.now() - t0) / 100) / 10, MB: Math.round(((await cdp.send("Runtime.getHeapUsage")).usedSize / 1e6) * 100) / 100 };
+  };
+  const t0 = Date.now();
+  const first = await reading(t0);
+  await cdp.send("HeapProfiler.startSampling", { samplingInterval: 32768 });
+  const before = (await cdp.send("HeapProfiler.getSamplingProfile")).profile;
+  const samples = [first];
+  while (Date.now() - t0 < o.leak * 1000) {
+    await page.waitForTimeout(Math.min(o.leakEvery * 1000, Math.max(0, o.leak * 1000 - (Date.now() - t0))));
+    samples.push(await reading(t0));
+  }
+  await cdp.send("HeapProfiler.collectGarbage");
+  const after = (await cdp.send("HeapProfiler.getSamplingProfile")).profile;
+  await cdp.send("HeapProfiler.stopSampling").catch(() => {});
+  await cdp.detach().catch(() => {});
+  return { seconds: o.leak, everyS: o.leakEvery, samples, slopeMBPerMin: heapSlope(samples),
+    grewMB: r2(samples[samples.length - 1].MB - samples[0].MB), topGrowing: heapGrowth(before, after, 20) };
+}
+
+export function leakText(l) {
+  return [`leak capture ${l.seconds} s, post-GC heap every ${l.everyS} s: ${l.samples.map((s) => `${s.tS}s ${s.MB} MB`).join(", ")}`,
+    `slope ${l.slopeMBPerMin} MB/min (grew ${l.grewMB} MB)`, "top growing allocation sites (retained MB, first to last):",
+    ...l.topGrowing.map((g) => `  ${g.MB}\t${g.name}`)].join("\n");
+}
+
 /** Trace categories for --trace. */
 export const TRACE_CATEGORIES = ["devtools.timeline", "disabled-by-default-devtools.timeline.frame", "gpu",
   "disabled-by-default-v8.gc", "v8", "blink", "viz", "cc", "toplevel"];
@@ -291,7 +343,7 @@ async function sample(page, seconds, during) {
     work: { ...workStats(raw.frames), wrapperMsPerFrame: raw.frames.length ? r2(raw.wrapMs / raw.frames.length) : null } };
 }
 
-async function cpuProfile(page, o, seconds, tag, idx) {
+async function cpuProfile(page, o, seconds, tag, name) {
   const cdp = await page.context().newCDPSession(page);
   const t0 = Date.now();
   await cdp.send("Profiler.enable");
@@ -300,19 +352,20 @@ async function cpuProfile(page, o, seconds, tag, idx) {
   await page.waitForTimeout(seconds * 1000);
   const { profile } = await cdp.send("Profiler.stop");
   await cdp.detach().catch(() => {});
-  const file = join(o.out, `url${idx}-${tag}.cpuprofile`);
+  const file = join(o.out, `${name}-${tag}.cpuprofile`);
   writeFileSync(file, JSON.stringify(profile));
   return { elapsedMs: Date.now() - t0, file, seconds, ...profileSummary(profile) };
 }
 
-async function measureUrl(ctx, o, query, idx, own, browser) {
-  const page = await ctx.newPage();
-  own.add(page);
+async function measureUrl(page, ctx, o, spot, idx, own, browser) {
+  const { query, name } = spot;
   const consoleErrors = [], http404s = [];
-  page.on("console", (m) => { if (m.type() === "error") consoleErrors.push(m.text().slice(0, 400)); });
-  page.on("pageerror", (e) => consoleErrors.push(`pageerror: ${String(e).slice(0, 400)}`));
-  page.on("response", (r) => { if (r.status() === 404) http404s.push(r.url()); });
+  const onConsole = (m) => { if (m.type() === "error") consoleErrors.push(m.text().slice(0, 400)); };
+  const onPageError = (e) => consoleErrors.push(`pageerror: ${String(e).slice(0, 400)}`);
+  const onResponse = (r) => { if (r.status() === 404) http404s.push(r.url()); };
+  page.on("console", onConsole); page.on("pageerror", onPageError); page.on("response", onResponse);
   const url = `${o.origin}${o.base}${query.startsWith("?") ? query : `?${query}`}`;
+  if (idx > 0) await page.goto("about:blank").catch(() => {}); // drop the previous world (and its GPU memory) before the next spot
   const t0 = Date.now();
   const loaded = await page.goto(url, { timeout: o.readyTimeout * 1000, waitUntil: "load" }).then(() => true)
     .catch((e) => { consoleErrors.push(`goto: ${e}`); return false; });
@@ -334,18 +387,18 @@ async function measureUrl(ctx, o, query, idx, own, browser) {
   }
   const readyS = Math.round((Date.now() - t0) / 100) / 10;
   // --aim "yaw,pitch" (radians): points the follow camera via __STUDIO_CHARACTER_DEBUG__ before the settle.
-  if (o.aim) {
-    const [yaw, pitch] = o.aim.split(",").map(Number);
+  if (spot.aim) {
+    const [yaw, pitch] = spot.aim.split(",").map(Number);
     await page.evaluate(([y, p]) => window.__STUDIO_CHARACTER_DEBUG__?.aimCamera(y, p), [yaw, pitch]).catch(() => {});
     await page.waitForTimeout(1500);
   }
   const traces = {};
-  const stopSettleTrace = o.trace ? await startTrace(page, join(o.out, `url${idx}-settled.trace.json`)) : null;
+  const stopSettleTrace = o.trace ? await startTrace(page, join(o.out, `${name}-settled.trace.json`)) : null;
   const settle = await sample(page, o.settle);
   if (stopSettleTrace) traces.settled = await stopSettleTrace();
   const stats = { ...frameStats(settle.ts), ...settle.work };
   let profile = null;
-  if (o.profile > 0 && !(o.walk > 0)) profile = await cpuProfile(page, o, o.profile, "settled", idx);
+  if (o.profile > 0 && !(spot.walk > 0)) profile = await cpuProfile(page, o, o.profile, "settled", name);
   const hudText = await page.evaluate(() => document.body.innerText).catch(() => "");
   const hud = parseHud(hudText);
   const info = await page.evaluate(() => {
@@ -357,7 +410,7 @@ async function measureUrl(ctx, o, query, idx, own, browser) {
   const screenshots = [];
   const shot = async (tag) => {
     if (!o.shots) return;
-    const p = join(o.out, `url${idx}-${tag}.jpg`);
+    const p = join(o.out, `${name}-${tag}.jpg`);
     // --clean 1: hide the HUD overlays (fixed/absolute elements without a canvas) for the screenshot only.
     if (o.clean) await page.evaluate(() => { window.__hid = [...document.querySelectorAll("body *")].filter((e) => !e.querySelector("canvas") && e.tagName !== "CANVAS" && ["fixed", "absolute"].includes(getComputedStyle(e).position)); window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); }).catch(() => {});
     await page.screenshot({ path: p, type: "jpeg", quality: 75 }).catch(() => {});
@@ -366,17 +419,17 @@ async function measureUrl(ctx, o, query, idx, own, browser) {
   };
   await shot("settled");
   let walk = null;
-  if (o.walk > 0) {
+  if (spot.walk > 0) {
     const cdp = await ctx.newCDPSession(page);
     await page.mouse.click(o.width / 2, o.height / 2).catch(() => {});
     const key = { key: "w", code: "KeyW", windowsVirtualKeyCode: 87, nativeVirtualKeyCode: 87, text: "w" };
     await cdp.send("Input.dispatchKeyEvent", { type: "keyDown", ...key });
-    const stopWalkTrace = o.trace ? await startTrace(page, join(o.out, `url${idx}-walk.trace.json`)) : null;
-    const w = await sample(page, o.walk, o.profile > 0 ? () => cpuProfile(page, o, Math.min(o.profile, o.walk), "walk", idx) : null);
+    const stopWalkTrace = o.trace ? await startTrace(page, join(o.out, `${name}-walk.trace.json`)) : null;
+    const w = await sample(page, spot.walk, o.profile > 0 ? () => cpuProfile(page, o, Math.min(o.profile, spot.walk), "walk", name) : null);
     if (stopWalkTrace) traces.walk = await stopWalkTrace(w.extra?.file);
     await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", ...key });
     if (w.extra) profile = w.extra;
-    walk = { seconds: o.walk, ...frameStats(w.ts), ...w.work, hud: parseHud(await page.evaluate(() => document.body.innerText).catch(() => "")) };
+    walk = { seconds: spot.walk, ...frameStats(w.ts), ...w.work, hud: parseHud(await page.evaluate(() => document.body.innerText).catch(() => "")) };
     await shot("walk");
   }
   const gpu = await gpuAdapter(page, o.renderer);
@@ -396,8 +449,8 @@ async function measureUrl(ctx, o, query, idx, own, browser) {
       foreign: foreignPages(browser, own) };
     smoke = { ...r, luma: r.luma == null ? null : Math.round(r.luma * 10) / 10, problems: smokeProblems(r) };
   }
-  await page.close();
-  return { url, query, ready, readyS, ...stats, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
+  page.off("console", onConsole); page.off("pageerror", onPageError); page.off("response", onResponse);
+  return { name, url, query, ready, readyS, ...stats, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
     walk, profile, trace: o.trace ? traces : null, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
 }
 
@@ -418,11 +471,21 @@ async function main() {
     window: { width: o.width, height: o.height }, dpr: o.dpr, settleS: o.settle, walkS: o.walk, browser: browser.version(), orphansClosed, urls: [] };
   // builtAt: the served index.html's Last-Modified (the build that is actually being measured).
   result.builtAt = await fetch(`${o.origin}${o.base}`).then((r) => r.headers.get("last-modified")).catch(() => null);
-  for (const [i, q] of o.url.entries()) {
-    const r = await measureUrl(ctx, o, q, i, own, browser);
+  const page = await ctx.newPage(); // ONE tab for every spot
+  own.add(page);
+  for (const [i, spot] of o.spotList.entries()) {
+    const q = spot.query;
+    const r = await measureUrl(page, ctx, o, spot, i, own, browser);
     result.urls.push(r);
-    console.log(`${q}: ${r.settledFps} fps settled, uncapped ${r.uncappedFps} (work ${r.workMs?.mean} ms, wrapper ${r.wrapperMsPerFrame}), 1% low ${r.p1LowFps}, min ${r.minFps}, ready ${r.readyS} s${r.walk ? `, walk ${r.walk.settledFps}` : ""}`);
+    console.log(`${spot.name} ${q}: ${r.settledFps} fps settled, uncapped ${r.uncappedFps} (work ${r.workMs?.mean} ms, wrapper ${r.wrapperMsPerFrame}), 1% low ${r.p1LowFps}, min ${r.minFps}, ready ${r.readyS} s${r.walk ? `, walk ${r.walk.settledFps}` : ""}`);
   }
+  if (o.leak > 0) {
+    const leak = await runLeak(page, o);
+    writeFileSync(join(o.out, "leak.json"), `${JSON.stringify(leak, null, 2)}\n`);
+    writeFileSync(join(o.out, "leak.txt"), `${leakText(leak)}\n`);
+    console.log(leakText(leak));
+  }
+  await page.close().catch(() => {});
   await ctx.close();
   const file = join(o.out, "measure.json");
   writeFileSync(file, `${JSON.stringify(result, null, 2)}\n`);
@@ -433,6 +496,11 @@ async function main() {
     writeFileSync(join(o.out, "census.txt"), `${entries.map((e) => (e.draws ? censusText(e) : `# ${e.query}: census failed ${e.error}`)).join("\n\n")}\n`);
     console.log(`measure: ${join(o.out, "census.json")} and census.txt`);
   }
+  const rows = result.urls.map((u) => spotRow(u.name, u, o.barParsed));
+  const table = summaryTable(rows, o.barParsed);
+  writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\n${table}\n`);
+  writeFileSync(join(o.out, "summary.json"), `${JSON.stringify({ schemaVersion: 1, run: o.run, bar: o.barParsed, rows }, null, 2)}\n`);
+  console.log(`\n${table}\nmeasure: ${join(o.out, "summary.md")}`);
   await browser.close().catch(() => {});
   if (o.smoke) {
     const bad = result.urls.flatMap((u) => u.smoke?.problems ?? ["no smoke result"]);

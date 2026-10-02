@@ -210,3 +210,43 @@ test("classifyFrames: long frames on the main thread with their causes", async (
   assert.equal(r.long[0].ms, 50);
   assert.deepEqual(r.long[0].byCause, { gc: 20, gpu: 10 });
 });
+
+test("parseSpots: x<N> repeats a spot under numbered names", async () => {
+  const { parseSpots } = await import("./spots.mjs");
+  const s = parseSpots("a ?x=1\ne ?x=2 walk=20 x3\n");
+  assert.deepEqual(s.map((x) => x.name), ["a", "e", "e2", "e3"]);
+  assert.equal(s[3].walk, 20);
+});
+test("parseSpots: name, query, --aim and walk=; comments skipped; bad lines throw", async () => {
+  const { parseSpots, parseBar, spotRow, summaryTable, heapSlope } = await import("./spots.mjs");
+  const s = parseSpots("# c\na ?x=1&t=2  # night\n\ne ?x=1&t=2 --aim 0.5,-0.2 walk=20\n");
+  assert.deepEqual(s, [{ name: "a", query: "?x=1&t=2", aim: "", walk: 0 }, { name: "e", query: "?x=1&t=2", aim: "0.5,-0.2", walk: 20 }]);
+  assert.throws(() => parseSpots("a ?x=1\na ?x=2"), /duplicate/);
+  assert.throws(() => parseSpots("a ?x=1 walk=fast"), /cannot read/);
+  assert.throws(() => parseSpots("a"), /need/);
+  assert.deepEqual(parseBar("83,69"), { fps: 83, p1low: 69 });
+  assert.throws(() => parseBar("83"), /--bar/);
+  const bar = parseBar("83,69");
+  const ok = spotRow("a", { settledFps: 90, p1LowFps: 70, uncappedFps: 95, p1LowUncapped: 71, frameTimes: { maxMs: 21 }, over20: 3, over33: 0, ready: true }, bar);
+  assert.equal(ok.pass, true);
+  const walk = spotRow("e", { settledFps: 100, p1LowFps: 80, walk: { seconds: 20, settledFps: 88, p1LowFps: 51, frameTimes: { maxMs: 129 }, over20: 9, over33: 4 }, ready: true }, bar);
+  assert.equal(walk.pass, false, "a walk spot is judged on its walk window");
+  assert.equal(walk.fps, 88);
+  assert.match(summaryTable([ok, walk], bar), /\| a \| 90 \| 70 \| 95 \| 71 \| 21 \| 3 \| 0 \| pass \|[\s\S]*e \(walk 20 s\).*FAIL[\s\S]*1 of 2 spots pass/);
+  assert.equal(heapSlope([{ tS: 0, MB: 100 }, { tS: 30, MB: 110 }, { tS: 60, MB: 120 }]), 20);
+  assert.equal(heapSlope([{ tS: 0, MB: 1 }]), null);
+});
+
+test("parseArgs: --spots builds one spot list, --leak keeps the first spot, --bar defaults 83,69", async () => {
+  const { parseArgs } = await import("./measure.mjs");
+  const o = parseArgs(["--run", "r", "--spots", new URL("./spots/perf10.txt", import.meta.url).pathname]);
+  assert.deepEqual(o.spotList.map((s) => s.name), ["a", "b", "c", "d", "e", "e2", "e3", "f", "g"]);
+  assert.equal(o.spotList[4].walk, 20);
+  assert.equal(o.shots, true);
+  assert.equal(o.clean, "1");
+  assert.deepEqual(o.barParsed, { fps: 83, p1low: 69 });
+  assert.equal(parseArgs(["--run", "r", "--spots", new URL("./spots/perf10.txt", import.meta.url).pathname, "--leak", "60"]).spotList.length, 1);
+  assert.throws(() => parseArgs(["--run", "r", "--url", "?a=1", "--spots", "x"]), /replaces --url/);
+  const u = parseArgs(["--run", "r", "--url", "?a=1", "--walk", "5", "--aim", "1,0"]);
+  assert.deepEqual(u.spotList, [{ name: "url0", query: "?a=1", aim: "1,0", walk: 5 }]);
+});

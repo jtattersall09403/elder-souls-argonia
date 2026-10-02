@@ -1,0 +1,8 @@
+# perf10 spots a-g (pod, WebGL, 1280x720). One line per spot: <name> <?query> [--aim yaw,pitch] [walk=<s>] [x<N>]
+a ?view=character&x=7.1971&z=0.584&t=22&w=rain       # Riverwalk night rain
+b ?view=character&x=4.7789&z=1.9&t=22&w=rain         # Greenspring Hist night rain
+c ?view=character&x=4.7789&z=1.9&t=12&w=clear        # Greenspring noon clear
+d ?view=character&x=4.02&z=4.61&t=22&w=rain          # ESE jungle marsh
+e ?view=character&x=4.02&z=4.61&t=22&w=rain walk=20 x3  # d with a 20 s W-held walk into the water, three times (e, e2, e3)
+f ?view=character&x=0.304&z=3.042&t=12               # Claywater day
+g ?view=character&x=4.475&z=1.6&t=12                 # open river

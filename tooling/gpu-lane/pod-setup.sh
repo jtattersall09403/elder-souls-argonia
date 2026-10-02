@@ -38,7 +38,8 @@ webgpu_flags=()
 nohup google-chrome --no-sandbox --no-first-run --no-default-browser-check --user-data-dir=/tmp/chrome-profile --remote-debugging-port=9222 \
   "${webgpu_flags[@]}" --use-angle=vulkan --use-vulkan=native --enable-precise-memory-info \
   --disable-gpu-vsync --disable-frame-rate-limit \
-  --ignore-gpu-blocklist --enable-gpu-rasterization --disable-gpu-sandbox --window-size=1280,720 about:blank \
+  --ignore-gpu-blocklist --enable-gpu-rasterization --disable-gpu-sandbox --window-size=1280,720 \
+  --disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --disable-features=CalculateNativeWinOcclusion,IntensiveWakeUpThrottling about:blank \
   >/tmp/chrome.log 2>&1 &
 curl -s --retry 30 --retry-all-errors --retry-delay 1 127.0.0.1:9222/json/version | grep -E '"Browser"' \
   || { echo "chrome did not start"; tail -20 /tmp/chrome.log; exit 1; }
