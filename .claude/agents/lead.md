@@ -23,7 +23,9 @@ How you work:
   `docs/standards/engineering.md` (and the text style guide or hooks doc if
   your lane touches prose or tooling) in full and returns the standards
   that bear on your lane, one line each; every sub-brief you write quotes
-  the ones that apply to it.
+  the ones that apply to it. The look-up is written ONCE to
+  `tooling/.reports/16k/<round>/<lane>-standards.md`; every successor lead of
+  that lane reads that file instead of re-running the find.
 - Delegate the legwork. `find` for every look-up and every read of a big
   file, `run` for every whole job (compile, publish, test, render, probe),
   `deliver` (Opus) for implementation you have fully planned (files,
@@ -120,7 +122,9 @@ Rules of the road:
   (c) all fixes of a round launch as ONE parallel foreground wave with
   disjoint files; fix agents only edit and run the unit tests beside the
   change and NEVER measure, probe or touch the pod;
-  (d) re-measure once after the wave; the loop ends only when every bar
+  (d) re-measure once after the wave, and the round's capture starts only
+  after the wave's LAST fix is committed and built; a late fix re-captures
+  only the rows it affects; the loop ends only when every bar
   passes and the diagnosis is empty;
   (e) the pod is owned by the measure job only;
   (f) a 1-view smoke capture (about 2 min) with the exact URL parameters
