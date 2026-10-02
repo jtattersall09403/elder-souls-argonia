@@ -68,7 +68,7 @@ export interface WaterTier {
 export const WATER_TIERS: Record<"low" | "high", WaterTier> = {
   // samples stay 0: a multisampled half-float RT costs serious VRAM/bandwidth
   // (owner round 1 perf); water/overlay edges still get the canvas MSAA.
-  high: { name: "high", ssr: true, godRays: true, ripples: true, waveBands: WAVES.bands, gridCellM: 2.6, crestBands: 0, rtScale: 0.9, samples: 0 },
+  high: { name: "high", ssr: true, godRays: true, ripples: true, waveBands: WAVES.bands, gridCellM: 2.6, crestBands: 2, rtScale: 0.9, samples: 0 },
   low: { name: "low", ssr: false, godRays: false, ripples: true, waveBands: WAVES.lowTierBands, gridCellM: 3.6, crestBands: 2, rtScale: 0.75, samples: 0 },
 };
 

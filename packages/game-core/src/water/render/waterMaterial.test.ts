@@ -365,7 +365,7 @@ describe("Water Pro transfers (Greenheck study §3.1, §6)", () => {
     const waveUses = frag.match(/uWaveTime/g) ?? [];
     // surf closed forms (esSurfFoam/esSwash) and uniform declaration only
     for (const line of frag.split("\n").filter((l) => l.includes("uWaveTime"))) {
-      expect(/uniform float uWaveTime|esSurfFoam\(|esSwash\(|esShoreSwell\(|esSurfGroup\(|esAlongPhase\(|esWaveFrag\(|float t\b|, t\)|\bt\b/.test(line)).toBe(true);
+      expect(/uniform float uWaveTime|esSurfFoam\(|esSwash\(|esShoreSwell\(|esSurfGroup\(|esAlongPhase\(|esWaveFrag\(|esWaveCrestH\(|float t\b|, t\)|\bt\b/.test(line)).toBe(true);
     }
     expect(waveUses.length).toBeGreaterThan(0);
   });
@@ -564,8 +564,8 @@ describe("low tier crest per pixel (perf-diag11 W1)", () => {
     expect(vert).toContain("vEsCrestV = esWaveCrestH(esRestW.xz, esWaveAmp, esFetchM, esStandW, uWaveTime);");
     expect(frag).toMatch(/esCrest \+= \(esWaveCrestH\(vEsWorldPos\.xz, [^;]*- vEsCrestV\)/);
     for (const b of picked) expect(frag).toContain(`${b.freq}, ${b.phaseSpeed}, ${b.phase0});`);
-    // no crest work where nothing reads it: the high tier and the strips
-    for (const s of [compile("field", assets, WATER_TIERS.high).shader, compile("strip", assets, low).shader]) {
+    // no crest work where nothing reads it: the strips
+    for (const s of [compile("strip", assets, WATER_TIERS.high).shader, compile("strip", assets, low).shader]) {
       expect(code(s.vertexShader)).not.toContain("esWaveCrestH");
       expect(code(s.fragmentShader)).not.toContain("vEsCrestV");
     }

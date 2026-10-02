@@ -130,6 +130,15 @@ export function bindAerialBlock(material: THREE.Material, u: AerialUniforms): vo
   else if (!m.uniformsGroups.includes(u.block)) m.uniformsGroups.push(u.block);
 }
 
+/** Compile-time form of bindAerialBlock: the material carries the ONE shared
+ * block whatever its clone history (Material.copy drops uniformsGroups,
+ * ShaderMaterial.copy clones them): any other EsAerial group is replaced. */
+function bindSharedAerialBlock(material: THREE.Material, u: AerialUniforms): void {
+  const m = material as THREE.Material & { uniformsGroups?: THREE.UniformsGroup[] };
+  const others = (m.uniformsGroups ?? []).filter((g) => g !== u.block && (g as { name?: string }).name !== AERIAL_BLOCK_NAME);
+  m.uniformsGroups = [...others, u.block];
+}
+
 /** Uniform declarations + helpers shared by the surface aerial term and the
  * dome fog march (round 5) — one set of functions, two integrators. The
  * per-frame scalars and vectors are ONE std140 block (perf10 f27); member
@@ -440,8 +449,12 @@ export function applyAerialPerspective(
   state.esAerialApplied = true;
   const previous = material.onBeforeCompile;
   bindAerialBlock(material, uniforms);
-  material.onBeforeCompile = (shader, renderer) => {
-    previous?.call(material, shader, renderer);
+  material.onBeforeCompile = function (this: THREE.Material | undefined, shader, renderer) {
+    // The renderer calls the hook as a method, so `this` is the material
+    // being compiled (a clone included), not the one patched.
+    const self = this ?? material;
+    previous?.call(self, shader, renderer);
+    bindSharedAerialBlock(self, uniforms);
     Object.assign(shader.uniforms, aerialSamplerUniforms(uniforms));
     shader.vertexShader = shader.vertexShader
       .replace("#include <common>", `#include <common>\n${AERIAL_VARYING_PARS}`)

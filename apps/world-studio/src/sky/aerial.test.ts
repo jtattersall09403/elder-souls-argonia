@@ -57,3 +57,72 @@ describe("the aerial varying's placement branch (decision 0082 round 2)", () => 
     expect(key.length).toBeGreaterThan("|es-aerial".length);
   });
 });
+
+describe("the shared aerial block (perf10 f29)", () => {
+  const fakeShader = () => ({
+    uniforms: {} as Record<string, unknown>,
+    vertexShader: "#include <common>\n#include <worldpos_vertex>",
+    fragmentShader: "#include <common>\n#include <alphatest_fragment>\n#include <tonemapping_fragment>",
+  });
+  const compile = (m: THREE.Material) =>
+    (m.onBeforeCompile as unknown as (s: unknown, r: unknown) => void)(fakeShader(), {});
+  const groups = (m: THREE.Material) =>
+    (m as THREE.Material & { uniformsGroups?: THREE.UniformsGroup[] }).uniformsGroups ?? [];
+
+  it("binds the one shared block on a clone at compile time", () => {
+    const u = createAerialUniforms();
+    const std = new THREE.MeshStandardMaterial();
+    const sh = new THREE.ShaderMaterial({ uniforms: {}, vertexShader: "", fragmentShader: "" });
+    applyAerialPerspective(std, u);
+    applyAerialPerspective(sh, u);
+    for (const original of [std, sh]) {
+      const clone = original.clone();
+      clone.onBeforeCompile = original.onBeforeCompile;
+      compile(clone);
+      const g = groups(clone);
+      expect(g.includes(u.block)).toBe(true);
+      expect(g.filter((x) => (x as { name?: string }).name === "EsAerial")).toEqual([u.block]);
+    }
+  });
+
+  it("replaces a cloned EsAerial group and keeps other groups", () => {
+    const u = createAerialUniforms();
+    const sh = new THREE.ShaderMaterial({ uniforms: {}, vertexShader: "", fragmentShader: "" });
+    const other = new THREE.UniformsGroup();
+    other.setName("Other");
+    const stale = new THREE.UniformsGroup();
+    stale.setName("EsAerial");
+    sh.uniformsGroups = [stale, other];
+    applyAerialPerspective(sh, u);
+    compile(sh);
+    expect(groups(sh)).toContain(u.block);
+    expect(groups(sh)).toContain(other);
+    expect(groups(sh)).not.toContain(stale);
+  });
+
+  it("lays the block out on std140 offsets matching the GLSL text order (144 B)", () => {
+    const wide = new Set(["uWhiteout"]);
+    const v3 = new Set(["uSunDirW", "uHazeSunLight", "uHazeAmbient", "uBetaR", "uFogLum", "uFogSunLum", "uEsFogCam"]);
+    const spec = (n: string): [number, number] =>
+      wide.has(n) ? [16, 16] : v3.has(n) ? [16, 12] : n === "uWhiteoutDrift" ? [8, 8] : [4, 4];
+    let off = 0;
+    const offsets: Record<string, number> = {};
+    for (const name of AERIAL_BLOCK_MEMBERS) {
+      const [align, bytes] = spec(name);
+      off = Math.ceil(off / align) * align;
+      offsets[name] = off;
+      off += bytes;
+    }
+    expect(Math.ceil(off / 16) * 16).toBe(144);
+    const body = /uniform EsAerial \{([^}]*)\}/.exec(AERIAL_PARS_GLSL)![1];
+    const decls = [...body.matchAll(/(vec4|vec3|vec2|float)\s+(\w+);/g)];
+    expect(decls.map((m) => m[2])).toEqual([...AERIAL_BLOCK_MEMBERS]);
+    let o = 0;
+    for (const m of decls) {
+      const [a, b] = m[1] === "vec4" ? [16, 16] : m[1] === "vec3" ? [16, 12] : m[1] === "vec2" ? [8, 8] : [4, 4];
+      o = Math.ceil(o / a) * a;
+      expect(offsets[m[2]]).toBe(o);
+      o += b;
+    }
+  });
+});
