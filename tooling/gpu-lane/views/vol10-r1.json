@@ -3,8 +3,8 @@
   "name": "mist-radiation",
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=4.384&z=2.05&t=05:30&w=clear",
   "clean": true,
-  "shots": "5000@60,60000",
-  "seconds": 430,
+  "shots": "5000@60,600000",
+  "seconds": 190,
   "aim": [
    2.3562,
    0.15
@@ -14,19 +14,8 @@
   "name": "mist-forced",
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=4.384&z=2.05&t=06:00&w=mist",
   "clean": true,
-  "shots": "5000@60,600000",
-  "seconds": 150,
-  "aim": [
-   2.3562,
-   0.15
-  ]
- },
- {
-  "name": "mist-off",
-  "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=4.384&z=2.05&t=06:00&w=mist&vol=off",
-  "clean": true,
-  "shots": "30000@60,60000",
-  "seconds": 150,
+  "shots": "5000@60,60000",
+  "seconds": 550,
   "aim": [
    2.3562,
    0.15
@@ -37,7 +26,7 @@
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=7.1971&z=0.584&t=05:30&w=clear",
   "clean": true,
   "shots": "5000@60,60000",
-  "seconds": 430,
+  "seconds": 550,
   "aim": [
    -1.5707963267948966,
    0.05
@@ -48,7 +37,7 @@
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=7.1971&z=0.584&t=06:00&w=rain",
   "clean": true,
   "shots": "5000@60,600000",
-  "seconds": 65,
+  "seconds": 190,
   "aim": [
    -1.5707963267948966,
    0.05
@@ -58,8 +47,8 @@
   "name": "canopy-forest-08",
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=4.02&z=4.61&t=08:00",
   "clean": true,
-  "shots": "30000@90,60000",
-  "seconds": 100,
+  "shots": "5000@60,600000",
+  "seconds": 190,
   "aim": [
    -1.5707963267948966,
    -0.26
@@ -69,8 +58,8 @@
   "name": "canopy-forest-12",
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=4.02&z=4.61&t=12:00",
   "clean": true,
-  "shots": "30000@90,60000",
-  "seconds": 100,
+  "shots": "5000@60,600000",
+  "seconds": 190,
   "aim": [
    -1.5707963267948966,
    -0.26
@@ -80,8 +69,8 @@
   "name": "canopy-greenspring-16",
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=4.7789&z=1.9&t=16:00",
   "clean": true,
-  "shots": "30000@90,60000",
-  "seconds": 100,
+  "shots": "5000@60,600000",
+  "seconds": 190,
   "aim": [
    1.5707963267948966,
    -0.1
@@ -91,8 +80,8 @@
   "name": "halos-claywater-night",
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=0.304&z=3.042&t=22:00&w=clear",
   "clean": true,
-  "shots": "30000@90,60000",
-  "seconds": 100,
+  "shots": "5000@60,600000",
+  "seconds": 190,
   "aim": [
    0,
    0
@@ -102,8 +91,8 @@
   "name": "halos-claywater-night-mist",
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=0.304&z=3.042&t=22:00&w=mist",
   "clean": true,
-  "shots": "30000@90,60000",
-  "seconds": 100,
+  "shots": "5000@60,600000",
+  "seconds": 190,
   "aim": [
    0,
    0
@@ -114,7 +103,7 @@
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=4.475&z=1.6&t=07:00&w=fog",
   "clean": true,
   "shots": "5000@60,600000",
-  "seconds": 65,
+  "seconds": 190,
   "aim": [
    3.141592653589793,
    0.05
@@ -125,35 +114,35 @@
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&interior=DawnstarBrinasHouse&t=08:00",
   "clean": true,
   "shots": "30000@90,60000",
-  "seconds": 100
+  "seconds": 220
  },
  {
   "name": "int-keeba-crafter-08",
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&interior=KeebaHouseCrafter&t=08:00",
   "clean": true,
   "shots": "30000@90,60000",
-  "seconds": 100
+  "seconds": 220
  },
  {
   "name": "int-keeba-hearth",
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&interior=KeebaHouseCrafter&t=08:00",
   "clean": true,
   "shots": "100@1,60000",
-  "seconds": 80
+  "seconds": 131
  },
  {
   "name": "int-greathouse-10",
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&interior=CIPHTBMHutInteriorGreatHouse&t=10:00",
   "clean": true,
   "shots": "30000@90,60000",
-  "seconds": 100
+  "seconds": 220
  },
  {
   "name": "int-mugsump-12",
   "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&interior=MugsumpHollowInt01&t=12:00",
   "clean": true,
   "shots": "5000@60,600000",
-  "seconds": 65
+  "seconds": 190
  },
  {
   "name": "fire-close",
@@ -191,5 +180,34 @@
   "plain": true,
   "seconds": 30,
   "shots": "100@1,5000"
+ },
+ {
+  "name": "mist-forced-voloff",
+  "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=4.384&z=2.05&t=06:00&w=mist&vol=off",
+  "clean": true,
+  "shots": "20000@60,600000",
+  "seconds": 190,
+  "aim": [
+   2.3562,
+   0.15
+  ]
+ },
+ {
+  "name": "halos-claywater-night-voloff",
+  "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=0.304&z=3.042&t=22:00&w=clear&vol=off",
+  "clean": true,
+  "shots": "20000@60,600000",
+  "seconds": 190,
+  "aim": [
+   0,
+   0
+  ]
+ },
+ {
+  "name": "int-keeba-crafter-08-voloff",
+  "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&interior=KeebaHouseCrafter&t=08:00&vol=off",
+  "clean": true,
+  "shots": "20000@60,600000",
+  "seconds": 190
  }
 ]
