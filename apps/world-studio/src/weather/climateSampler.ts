@@ -3,8 +3,11 @@
  * (R humidity, G mist propensity, B canopy closure) and climate-weather.png
  * (R rain amplitude, G storm exposure, B advection sea fog). One decode each,
  * shared by the sky turbidity term, the weather machine's local expression
- * and the environment query.
+ * and the environment query. hydro-regions.png (the region map) gives the
+ * region class under the camera and so its fog profile (RegionFogProbe).
+ * Every raster's row 0 is world z = 0 (no flipY).
  */
+import { REGION_FOG_NEUTRAL, type RegionFogProfile } from "@elder-souls/game-core/air/volumetrics/fogField";
 
 export interface RasterPixels {
   data: Uint8ClampedArray;
@@ -152,4 +155,59 @@ export function climateWeatherAt(base: string, xM: number, zM: number, extentM: 
  * (Phase 8c round 3 — fog locality + region ambient visibility). */
 export function climateVisAt(base: string, xM: number, zM: number, extentM: number): [number, number, number] | null {
   return sample(ensure(base, "climate-vis.png"), xM, zM, extentM);
+}
+
+/** The published region legend and climate profiles (hydrology-meta.json `regionsLegend`,
+ * `climateProfiles`; home table world/sources/climate/climate-regions.json). */
+export interface RegionClimateMeta {
+  regionsLegend: Record<string, { name: string; rgb: [number, number, number] }>;
+  climateProfiles: Record<string, { fog?: RegionFogProfile }>;
+}
+
+const rgbKey = (r: number, g: number, b: number) => (r << 16) | (g << 8) | b;
+
+/** Region class id at (x, z) world metres from the decoded region map: nearest texel (classes are
+ * categorical, never blended), transparent = ocean (class 0), an unknown colour = -1. */
+export function regionClassAt(px: RasterPixels, xM: number, zM: number, extentM: number,
+  classByRgb: ReadonlyMap<number, number>): number {
+  const ix = Math.max(0, Math.min(px.w - 1, Math.round((xM / extentM) * (px.w - 1))));
+  const iz = Math.max(0, Math.min(px.h - 1, Math.round((zM / extentM) * (px.h - 1))));
+  const i = (iz * px.w + ix) * 4, d = px.data;
+  if (d[i + 3] === 0) return 0;
+  return classByRgb.get(rgbKey(d[i], d[i + 1], d[i + 2])) ?? -1;
+}
+
+/** Fog profile of the region under the camera, refreshed only when the camera enters a new cell
+ * (allocation-free per frame). One instance per sky host (std 8). Neutral until the map decodes
+ * or where the class has no profile. */
+export class RegionFogProbe {
+  private readonly classByRgb = new Map<number, number>();
+  private readonly profileByClass = new Map<number, Readonly<RegionFogProfile>>();
+  private cellX = NaN;
+  private cellZ = NaN;
+  private current: Readonly<RegionFogProfile> = REGION_FOG_NEUTRAL;
+  regionClass = -1;
+  constructor(meta: RegionClimateMeta, private readonly cellM = 32) {
+    for (const [id, row] of Object.entries(meta.regionsLegend)) {
+      const cid = Number(id);
+      this.classByRgb.set(rgbKey(row.rgb[0], row.rgb[1], row.rgb[2]), cid);
+      const fog = meta.climateProfiles[row.name]?.fog;
+      if (fog) this.profileByClass.set(cid, Object.freeze({ ...fog }));
+    }
+  }
+
+  at(base: string, xM: number, zM: number, extentM: number): Readonly<RegionFogProfile> {
+    const px = ensure(base, "hydro-regions.png");
+    return px ? this.atRaster(px, xM, zM, extentM) : this.current;
+  }
+
+  /** As `at`, on a decoded region map. */
+  atRaster(px: RasterPixels, xM: number, zM: number, extentM: number): Readonly<RegionFogProfile> {
+    const cx = Math.floor(xM / this.cellM), cz = Math.floor(zM / this.cellM);
+    if (cx === this.cellX && cz === this.cellZ) return this.current;
+    this.cellX = cx; this.cellZ = cz;
+    this.regionClass = regionClassAt(px, xM, zM, extentM, this.classByRgb);
+    this.current = this.profileByClass.get(this.regionClass) ?? REGION_FOG_NEUTRAL;
+    return this.current;
+  }
 }

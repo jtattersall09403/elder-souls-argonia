@@ -1,0 +1,88 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "world-schema/climate-regions.v1",
+ "title": "Climate and fog profile per region class (worldgen.regions)",
+ "type": "object",
+ "required": [
+  "schemaVersion",
+  "regions"
+ ],
+ "properties": {
+  "schemaVersion": {
+   "const": 1
+  },
+  "regions": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "regionClass",
+     "climate",
+     "fog"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "regionClass": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 255
+     },
+     "climate": {
+      "type": "object",
+      "required": [
+       "humidity",
+       "mist",
+       "rain",
+       "visibility",
+       "canopy"
+      ]
+     },
+     "fog": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "densityScale",
+       "heightScale",
+       "radiationMist",
+       "seaFog",
+       "burnOffScale",
+       "humidityBias"
+      ],
+      "properties": {
+       "densityScale": {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "maximum": 3
+       },
+       "heightScale": {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "maximum": 3
+       },
+       "radiationMist": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 3
+       },
+       "seaFog": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 3
+       },
+       "burnOffScale": {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "maximum": 3
+       },
+       "humidityBias": {
+        "type": "number",
+        "minimum": -0.5,
+        "maximum": 0.5
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

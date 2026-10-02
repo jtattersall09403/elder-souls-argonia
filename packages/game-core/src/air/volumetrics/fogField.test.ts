@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fogRegimes, mistHeightProfile, moistureWeight, type FogFieldInput } from "./fogField";
+import { fogRegimes, mistHeightProfile, moistureWeight, REGION_FOG_NEUTRAL, type FogFieldInput } from "./fogField";
 
 describe("mistHeightProfile", () => {
   it("is dense at the basin floor, thin by mid-depth and gone at and above the top (no full-depth slab)", () => {
@@ -105,5 +105,23 @@ describe("fog field feeds (G2)", () => {
     const night = { ...BASE, minuteOfDay: 22 * 60, prevNightClearCalm: 0 };
     expect(fogRegimes({ ...night, humidity: 0.95 }).halo).toBeGreaterThan(0.9);
     expect(fogRegimes({ ...night, humidity: 0.4 }).halo).toBe(0);
+  });
+});
+
+describe("region fog profile", () => {
+  const DAWN: FogFieldInput = { ...BASE_NOON, minuteOfDay: 6 * 60, humidity: 0.7, onshore: 1, windSpeedMS: 1, sunElevationDeg: 10 };
+  const P = { ...REGION_FOG_NEUTRAL };
+  it("the neutral profile changes nothing", () => {
+    expect(fogRegimes({ ...DAWN, profile: REGION_FOG_NEUTRAL })).toEqual({ ...fogRegimes(DAWN), heightScale: 1 });
+  });
+  it("each column moves its own regime", () => {
+    const n = fogRegimes(DAWN);
+    expect(fogRegimes({ ...DAWN, profile: { ...P, densityScale: 1.4 } }).air).toBeCloseTo(n.air * 1.4);
+    expect(fogRegimes({ ...DAWN, profile: { ...P, radiationMist: 0.5 } }).radiationMist).toBeLessThan(n.radiationMist);
+    expect(fogRegimes({ ...DAWN, profile: { ...P, seaFog: 0.2 } }).seaFog).toBeCloseTo(n.seaFog * 0.2);
+    expect(fogRegimes({ ...DAWN, profile: { ...P, burnOffScale: 2 } }).marshFog).toBeLessThan(n.marshFog);
+    expect(fogRegimes({ ...DAWN, profile: { ...P, humidityBias: 0.2 } }).air).toBeGreaterThan(n.air);
+    expect(fogRegimes({ ...DAWN, profile: { ...P, heightScale: 0.7 } }).heightScale).toBe(0.7);
+    expect(mistHeightProfile(6, 30, 2)).toBeGreaterThan(mistHeightProfile(6, 30));
   });
 });

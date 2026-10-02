@@ -131,6 +131,12 @@
    "_": "Place blueprints (schema 3, 0104) and layouts (schema 1, 0100): the layout is the home table of a place's sockets; the blueprint of its doors."
   },
   {
+   "path": "world/sources/climate/climate-regions.json",
+   "enforced": true,
+   "schema": "climate-regions",
+   "_": "Climate class and fog profile per region class id (worldgen.regions)."
+  },
+  {
    "path": "world/sources/routes/travel-services.json",
    "enforced": true,
    "schema": "travel-services",

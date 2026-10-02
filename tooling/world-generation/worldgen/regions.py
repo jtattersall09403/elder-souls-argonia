@@ -122,28 +122,36 @@ REGION_CLASSES = {
     14: ("mangrove forest", (0, 120, 105)),
 }
 
-# Macro climate/atmosphere profile per region class (master plan §33.1):
-# humidity and mist 0..1, visibility in rough metres under canopy/weather.
-# canopy = canopy closure 0..1 (module 55 §96: "canopy is a light property of
-# place") — permanent-dusk forest classes (rootland deep marsh, tropical
-# jungle) near 1.0; swamp forest and mangrove fringe mid;
-# open marsh, floodplain, delta reed low; crag, mountains and open water ~0.
-CLIMATE = {
-    0: {"humidity": 0.7, "mist": 0.2, "rain": "sea squalls", "visibility": 2000, "canopy": 0.0},
-    1: {"humidity": 0.5, "mist": 0.4, "rain": "orographic", "visibility": 1200, "canopy": 0.05},
-    2: {"humidity": 0.6, "mist": 0.3, "rain": "showers", "visibility": 1000, "canopy": 0.25},
-    3: {"humidity": 0.9, "mist": 0.6, "rain": "tidal storms", "visibility": 500, "canopy": 0.2},
-    4: {"humidity": 0.9, "mist": 0.6, "rain": "tidal storms", "visibility": 600, "canopy": 0.5},
-    5: {"humidity": 0.8, "mist": 0.5, "rain": "monsoonal", "visibility": 700, "canopy": 0.4},
-    6: {"humidity": 1.0, "mist": 0.9, "rain": "constant drip", "visibility": 120, "canopy": 0.95},
-    7: {"humidity": 1.0, "mist": 0.8, "rain": "monsoonal", "visibility": 200, "canopy": 0.65},
-    8: {"humidity": 0.9, "mist": 0.6, "rain": "monsoonal", "visibility": 350, "canopy": 0.3},
-    9: {"humidity": 0.8, "mist": 0.5, "rain": "seasonal flood rains", "visibility": 600, "canopy": 0.15},
-    11: {"humidity": 0.7, "mist": 0.3, "rain": "seasonal", "visibility": 900, "canopy": 0.35},
-    12: {"humidity": 1.0, "mist": 0.8, "rain": "monsoonal", "visibility": 300, "canopy": 0.05},
-    13: {"humidity": 0.95, "mist": 0.7, "rain": "monsoonal downpour", "visibility": 90, "canopy": 1.0},
-    14: {"humidity": 0.95, "mist": 0.6, "rain": "tidal storms", "visibility": 150, "canopy": 0.8},
-}
+# Climate and fog profile per region class live in their home table,
+# world/sources/climate/climate-regions.json (engineering standard 18), one
+# row per REGION_CLASSES id. `climate`: humidity and mist 0..1, visibility in
+# rough metres, canopy closure 0..1 (module 55 §96). `fog`: relative
+# multipliers about 1.0 that the runtime fog field applies (decision 0112).
+CLIMATE_TABLE = Path(__file__).resolve().parents[3] / "world/sources/climate/climate-regions.json"
+
+
+def load_climate_table(path: Path = CLIMATE_TABLE) -> dict[int, dict]:
+    """{region class id: {"climate": {...}, "fog": {...}}} from the home table."""
+    doc = json.loads(Path(path).read_text())
+    return {int(r["regionClass"]): {"climate": r["climate"], "fog": r["fog"]} for r in doc["regions"]}
+
+
+CLIMATE_ROWS = load_climate_table()
+CLIMATE = {cid: row["climate"] for cid, row in CLIMATE_ROWS.items()}
+
+
+def climate_profiles(rows: dict[int, dict] = CLIMATE_ROWS) -> dict:
+    """The published `climateProfiles` block of hydrology-meta.json: keyed by
+    region class name, each the class climate plus its fog profile."""
+    return {REGION_CLASSES[cid][0]: {**row["climate"], "fog": row["fog"]} for cid, row in sorted(rows.items())}
+
+
+def publish_climate_profiles(meta_path: Path) -> None:
+    """Rewrite only `climateProfiles` in a published hydrology-meta.json
+    (meta-only: no raster, no chain stage; decision 0102)."""
+    meta = json.loads(Path(meta_path).read_text())
+    meta["climateProfiles"] = climate_profiles()
+    Path(meta_path).write_text(json.dumps(meta, indent=2) + "\n")
 
 
 @dataclass
