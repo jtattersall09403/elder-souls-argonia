@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The interior light record: window apertures, kind and dustiness per published cell (decision 0112 §6).
+"""The interior light record: window apertures, kind, size, humidity, dust and floor mist per published cell (decision 0112 §6).
 
 One home table, keyed by cell id, for every bundle under
 ``apps/world-studio/public/province/interiors/``. The runtime reads it for the
@@ -24,18 +24,23 @@ Frame: the published part's own (Y up), placed as the runtime places it
 Outward = the aperture's thin horizontal axis, signed away from the centroid of
 the cell's placements. A cell with none is written ``apertures: []`` with a reason.
 
-Kind and dust (how visible the rays are), derived, overridable per cell in DUST_OVERRIDES:
-- kind: ``damp`` when the cell's lighting template is a cave, mine, barrow or ruin
-  one (DAMP_TEMPLATE); else the use class the door claim gave the cell
-  (worldgen.blueprint_interiors.cell_use_class over the cell's mined furniture
-  mix in exterior-interior-links.json: shrine, inn, shop, smithy, barracks,
-  dwelling, storage). The mined mix, never the published bundle: the bundle
-  drops markers (a tanning-rack marker makes KeebaHouseSnailMinder a smithy),
-  and one cell has one class;
-- dust band from DUST_OF_KIND; a humid cell (an Argonian mud hut: its room is
-  built of the modder's mud-hut pieces, HUMID_MIN_PIECES or more) is one band
-  lower: wet air holds little dust;
-- floor mist on damp cells only.
+Kind, size, humidity, dust and floor mist, derived (schema 2), dust overridable per cell in DUST_OVERRIDES:
+- kind (``kindWhy`` says which rule): ``damp`` when the cell's lighting template
+  is a cave, mine, barrow or ruin one (DAMP_TEMPLATE); else the use class the
+  door claim gives the cell (worldgen.blueprint_interiors.cell_use_class over
+  the cell's mined furniture mix in exterior-interior-links.json). The mined
+  mix, never the published bundle: the bundle drops markers (a tanning-rack
+  marker makes KeebaHouseSnailMinder a smithy). A mix with no use evidence at
+  all (no bed, counter, hearth, shrine or smithy piece: the CIPHTBM huts) says
+  nothing, so it is never "no bed = storage": the kind comes from the shell the
+  plugin's door stands in (SHELL_DWELLING on its editor id: a hut or house is a
+  dwelling), else ``unknown``;
+- volumeClass: small / medium / large from the volume of the cell's AABB (every
+  placement's part bounds, placed), VOLUME_CLASS_M3; ``boundsM`` records it;
+- humid: the room is built of an Argonian hut family (HUMID_PATH on the mined
+  link's ``interiorFamily``: KotM mud huts, CIPHTBM village huts);
+- dust band from DUST_OF_KIND, one band lower when humid (wet air holds little dust);
+- floorMist {topM, density} from FLOOR_MIST by (damp | humid) x volumeClass, null on a dry cell.
 
 Deterministic: cells, refs and panes sorted.
 """
@@ -72,15 +77,25 @@ DAMP_TEMPLATE = re.compile(r"cave|mine|dungeon|sewer|barrow|nordic|dwemer|falmer
 DUST_OF_KIND = {"dwelling": "low", "shop": "low", "barracks": "medium", "inn": "medium", "shrine": "medium",
                 "damp": "medium", "storage": "high", "smithy": "high", "workshop": "high"}
 DUST_BANDS = ("low", "medium", "high")
-#: A cell is humid (an Argonian mud hut) when its room is built of the modder's
-#: mud-hut pieces: at least HUMID_MIN_PIECES of them (the KotM pods place 17-19;
-#: a dry cell none). Vanilla fences and chimneys inside a pod do not count against it.
-HUMID_PATH = re.compile(r"/mudhuts?/", re.I)
-HUMID_MIN_PIECES = 5
+#: Argonian hut room families (the mined link's interiorFamily): KotM argonia/mudhuts, CIPHTBM villages/argonian.
+HUMID_PATH = re.compile(r"/(mudhuts?|villages/argonian)(/|$)", re.I)
+#: A shell (the plugin's door stands in it) that is somebody's home, on its editor id.
+SHELL_DWELLING = re.compile(r"hut|house|home|shack|pod", re.I)
+#: Cell AABB volume (m^3) upper bounds of small and medium; above is large (one-room hut ~600, a
+#: great house ~1300, a KotM pod with its shell 6-10k, a cave system 100k+).
+VOLUME_CLASS_M3 = (("small", 1000.0), ("medium", 15000.0))
+#: Floor mist (top above the floor in m, density 1/m) by medium x volumeClass: a damp cave pools
+#: knee-to-waist deep; a humid hut a shin-deep breath of marsh air; a bigger room lets it lie deeper.
+FLOOR_MIST = {
+    "damp": {"small": (0.6, 0.3), "medium": (0.9, 0.35), "large": (1.3, 0.4)},
+    "humid": {"small": (0.25, 0.08), "medium": (0.35, 0.1), "large": (0.5, 0.12)},
+}
 #: cellId -> (dust band, why): a cell whose derived dust is wrong for a reason the rules cannot see.
 DUST_OVERRIDES: dict[str, tuple[str, str]] = {}
 #: The record's `dustWhy` is one of these ids (machine data); the humid step-down is the separate `humid` boolean.
 DUST_WHY = ("use-class", "damp-template", "override")
+#: The record's `kindWhy` ids.
+KIND_WHY = ("damp-template", "use-class", "shell", "unknown")
 
 
 def piece_kind(asset_id: str) -> str | None:
@@ -156,6 +171,30 @@ def aperture(p: dict, local_c, size, kind: str, bundle: dict, cx: float, cz: flo
             "radiusM": round(radius, 3), "lightsNear": near}
 
 
+def cell_bounds(bundle: dict, parts: dict, index_cache: dict) -> tuple[list[float], list[float]] | None:
+    """The cell's AABB (cell frame): every placement's part bounds, scaled and turned by its yaw."""
+    lo, hi = [math.inf] * 3, [-math.inf] * 3
+    for p in bundle["placements"]:
+        f = part_file(p.get("kit", ""), p["assetId"], index_cache)
+        geo = parts.get(str(f)) if f else None
+        if not geo:
+            continue
+        b, s = geo["bounds"], p.get("scale", 1.0)
+        for corner in ((x, y, z) for x in (b["lo"][0], b["hi"][0]) for y in (b["lo"][1], b["hi"][1]) for z in (b["lo"][2], b["hi"][2])):
+            d = yaw_rotate(tuple(c * s for c in corner), p["rotationDeg"][1])
+            for k in range(3):
+                v = p["positionM"][k] + d[k]
+                lo[k], hi[k] = min(lo[k], v), max(hi[k], v)
+    return (lo, hi) if lo[0] < math.inf else None
+
+
+def volume_class(bounds: tuple[list[float], list[float]] | None) -> str:
+    if bounds is None:
+        return "medium"
+    vol = math.prod(h - l for l, h in zip(*bounds))
+    return next((name for name, top in VOLUME_CLASS_M3 if vol <= top), "large")
+
+
 def cell_apertures(bundle: dict, parts: dict, index_cache: dict) -> dict:
     places = sorted(bundle["placements"], key=lambda q: q["id"])
     n = max(1, len(places))
@@ -175,37 +214,51 @@ def cell_apertures(bundle: dict, parts: dict, index_cache: dict) -> dict:
             kind, panes = "window-panes", merge_panes(geo["panes"])
         for pane in panes:
             found.append(aperture(p, pane["centre"], pane["size"], kind, bundle, cx, cz))
-    row = {"plugin": bundle["plugin"], **cell_medium(bundle, mined_pieces(bundle["plugin"], bundle["cellId"])),
-           "apertures": found}
+    bounds = cell_bounds(bundle, parts, index_cache)
+    row = {"plugin": bundle["plugin"], **cell_medium(bundle, mined_link(bundle["plugin"], bundle["cellId"]), volume_class(bounds)),
+           "boundsM": [[round(v, 2) for v in b] for b in bounds] if bounds else None, "apertures": found}
     if not found:
         row["reason"] = "no placed ref has a window piece or window-textured panes in its model"
     return row
 
 
-def mined_pieces(plugin: str, cell: str, shells: dict | None = None) -> list[dict]:
-    """The cell's furniture mix as the door claim reads it (its row in the mined door links)."""
+def mined_link(plugin: str, cell: str, shells: dict | None = None) -> dict:
+    """The cell's row in the mined door links: its furniture mix (`pieces`), shell editor id, room family."""
     for rows in (linked_shells() if shells is None else shells).values():
         for row in rows:
             if row.get("plugin") == plugin and row.get("interiorCell") == cell:
-                return row.get("pieces") or []
+                return row
     raise SystemExit(f"interior_light: {plugin} {cell} has no row in exterior-interior-links.json; "
                      "a published cell is always one a shell links (0114)")
 
 
-def cell_medium(bundle: dict, pieces: list[dict]) -> dict:
-    """Kind, humidity, dust band and floor mist of a cell (module doc); `pieces` its mined furniture mix."""
-    places = bundle["placements"]
+def cell_kind(template: str, link: dict) -> tuple[str, str]:
+    """(kind, kindWhy) of a cell (module doc): the template, then the mined mix, then the shell."""
+    if DAMP_TEMPLATE.search(template):
+        return "damp", "damp-template"
+    use, evidence = cell_use_class(link.get("pieces") or [])
+    if any(evidence.values()):
+        return use, "use-class"
+    if SHELL_DWELLING.search(str(link.get("shellEditorId") or "")):
+        return "dwelling", "shell"
+    return "unknown", "unknown"
+
+
+def cell_medium(bundle: dict, link: dict, volume: str) -> dict:
+    """Kind, size, humidity, dust band and floor mist of a cell (module doc); `link` its mined door-link row."""
     template = str((bundle.get("lighting") or {}).get("template") or "")
-    use, _evidence = cell_use_class(pieces)
-    kind = "damp" if DAMP_TEMPLATE.search(template) else use
-    humid = sum(1 for p in places if HUMID_PATH.search(p["assetId"])) >= HUMID_MIN_PIECES
+    kind, kind_why = cell_kind(template, link)
+    humid = bool(HUMID_PATH.search(str(link.get("interiorFamily") or "")))
     band = DUST_OF_KIND.get(kind, "medium")
     why = DUST_WHY[1] if kind == "damp" else DUST_WHY[0]
     if humid:
         band = DUST_BANDS[max(0, DUST_BANDS.index(band) - 1)]
     if bundle["cellId"] in DUST_OVERRIDES:
         band, why = DUST_OVERRIDES[bundle["cellId"]][0], DUST_WHY[2]
-    return {"kind": kind, "humid": humid, "dust": band, "dustWhy": why, "floorMist": kind == "damp"}
+    medium = "damp" if kind == "damp" else "humid" if humid else None
+    mist = FLOOR_MIST[medium][volume] if medium else None
+    return {"kind": kind, "kindWhy": kind_why, "volumeClass": volume, "humid": humid, "dust": band, "dustWhy": why,
+            "floorMist": {"topM": mist[0], "density": mist[1]} if mist else None}
 
 
 def main() -> int:
@@ -227,13 +280,14 @@ def main() -> int:
     for b in bundles:
         cells[b["cellId"]] = cell_apertures(b, parts, index_cache)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({"schemaVersion": 1,
+    out.write_text(json.dumps({"schemaVersion": 2,
                                "source": "tooling/volumetrics/interior_light.py over public/province/interiors",
                                "cells": dict(sorted(cells.items()))}, indent=1) + "\n")
     for b in bundles:
         row = cells[b["cellId"]]
         bases = sorted({a["base"] for a in row["apertures"]})
-        print(f"{b['cellId']}: {row['kind']}, dust {row['dust']}; {len(row['apertures'])} apertures from {bases or row.get('reason')}")
+        print(f"{b['cellId']}: {row['kind']} ({row['kindWhy']}), {row['volumeClass']}, humid {row['humid']}, "
+              f"dust {row['dust']}, mist {row['floorMist']}; {len(row['apertures'])} apertures from {bases or row.get('reason')}")
     return 0
 
 

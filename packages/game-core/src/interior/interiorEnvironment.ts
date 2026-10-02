@@ -3,29 +3,69 @@ import * as tsl from "three/tsl";
 import type { LoadedInterior } from "./interiorLoader";
 import { LIGHT_HELD_OFF, setShadowShown, type MaybeShadowLight } from "../render/lightSwitch";
 import type { TslNode } from "../render/nodes/materialNodes";
-import type { InteriorFogProfile } from "../air/volumetrics/froxelGrid";
+import type { InteriorFogProfile, VolumetricBand } from "../air/volumetrics/froxelGrid";
 import { applyVolumetrics, type VolumetricsSampler } from "../air/volumetrics/volumetricNodes";
-import { DUST_DENSITY, interiorLightOf, type InteriorLightRecord } from "../air/volumetrics/windowApertures";
+import { DUST_DENSITY, INTERIOR_LIGHT, interiorLightOf, type InteriorLightRecord } from "../air/volumetrics/windowApertures";
 
 const T = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode> & Record<string, TslNode>;
 
+/** The outside the cell's air follows (refreshed by the host a few times a second, never per frame). */
+export interface InteriorClimate {
+  /** Minutes since local midnight, and today's sunrise (studioSamplers.sunriseSunsetMin). */
+  minuteOfDay: number;
+  sunriseMin: number;
+  /** 0 dry season .. 1 wet season (the outside fog field's `wetSeason`). */
+  wetSeason: number;
+}
+
+/**
+ * Per renderer tier, in one object (0112 §7): whether the floor mist is drawn.
+ * The low band (mobile) drops it; dust and window beams stay at every band.
+ */
+export const INTERIOR_VOLUME_TIERS: Readonly<Record<Exclude<VolumetricBand, "off">, { floorMist: boolean }>> = {
+  low: { floorMist: false },
+  medium: { floorMist: true },
+  high: { floorMist: true },
+};
+
+/** Half-width (min) of the dawn swell of the floor mist around sunrise. */
+const DAWN_WIDTH_MIN = 90;
+
+/**
+ * The floor mist's density gain from outside: denser around sunrise (cold
+ * floor, still air: up to 1.6x at sunrise against 1x by day) and in the wet
+ * season (0.8x dry .. 1.2x wet). 1 when the climate is unknown.
+ */
+export function floorMistGain(c: InteriorClimate | null): number {
+  if (!c) return 1;
+  const d = ((c.minuteOfDay - c.sunriseMin + 720) % 1440 + 1440) % 1440 - 720;
+  const dawn = Math.exp(-((d / DAWN_WIDTH_MIN) ** 2));
+  const wet = Math.min(1, Math.max(0, c.wetSeason));
+  return (1 + 0.6 * dawn) * (0.8 + 0.4 * wet);
+}
+
 /**
  * The cell's volumetric profile (decision 0112 §6) from its row in the
- * interior light record: knee-high floor mist on a damp cell (cave, mine,
- * barrow), and the dust haze its kind carries (DUST_DENSITY), so lamp halos and
- * window shafts read as strongly as the room is dusty. A cell the record lacks
- * gets medium dust and no mist. `floorY` is the arrival marker's height (it
- * stands on the floor) in the cell's placed frame.
+ * interior light record (schema 2): the floor mist the record gives the cell
+ * (a damp cave knee-deep, a humid Argonian hut shin-deep, deeper in a bigger
+ * room) scaled by the outside (floorMistGain) and dropped on a tier that
+ * draws none, and the dust haze its kind carries (DUST_DENSITY). A cell the
+ * record lacks gets medium dust and no mist. `floorY` is the arrival marker's
+ * height (it stands on the floor) in the cell's placed frame. Written into
+ * `out` (the host keeps one: no allocation per frame).
  */
 export function interiorFogProfile(interior: Pick<LoadedInterior, "bundle">, originY: number,
-  record?: InteriorLightRecord): InteriorFogProfile {
+  climate: InteriorClimate | null = null, band: Exclude<VolumetricBand, "off"> = "high",
+  record: InteriorLightRecord = INTERIOR_LIGHT,
+  out: InteriorFogProfile = { floorY: 0, floorMistTopM: 0, floorMistDensity: 0, dustDensity: 0 }): InteriorFogProfile {
   const b = interior.bundle;
   const row = interiorLightOf(b.cellId, record);
-  const floorY = originY + b.arrivalMarker.positionM[1];
-  const dustDensity = DUST_DENSITY[row?.dust ?? "medium"];
-  return row?.floorMist
-    ? { floorY, floorMistTopM: 0.9, floorMistDensity: 0.35, dustDensity }
-    : { floorY, floorMistTopM: 0, floorMistDensity: 0, dustDensity };
+  const mist = INTERIOR_VOLUME_TIERS[band].floorMist ? row?.floorMist ?? null : null;
+  out.floorY = originY + b.arrivalMarker.positionM[1];
+  out.dustDensity = DUST_DENSITY[row?.dust ?? "medium"];
+  out.floorMistTopM = mist ? mist.topM : 0;
+  out.floorMistDensity = mist ? mist.density * floorMistGain(climate) : 0;
+  return out;
 }
 
 /**

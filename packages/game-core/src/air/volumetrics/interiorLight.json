@@ -1,44 +1,109 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "source": "tooling/volumetrics/interior_light.py over public/province/interiors",
  "cells": {
   "CIPHTBMHutInterior01": {
    "plugin": "Here There Be Monsters - Curse of Cipactli.esp",
-   "kind": "storage",
-   "humid": false,
-   "dust": "high",
+   "kind": "dwelling",
+   "kindWhy": "shell",
+   "volumeClass": "small",
+   "humid": true,
+   "dust": "low",
    "dustWhy": "use-class",
-   "floorMist": false,
+   "floorMist": {
+    "topM": 0.25,
+    "density": 0.08
+   },
+   "boundsM": [
+    [
+     -4.97,
+     -0.91,
+     -4.97
+    ],
+    [
+     4.97,
+     4.92,
+     4.97
+    ]
+   ],
    "apertures": [],
    "reason": "no placed ref has a window piece or window-textured panes in its model"
   },
   "CIPHTBMHutInterior04": {
    "plugin": "Here There Be Monsters - Curse of Cipactli.esp",
-   "kind": "storage",
-   "humid": false,
-   "dust": "high",
+   "kind": "dwelling",
+   "kindWhy": "shell",
+   "volumeClass": "small",
+   "humid": true,
+   "dust": "low",
    "dustWhy": "use-class",
-   "floorMist": false,
+   "floorMist": {
+    "topM": 0.25,
+    "density": 0.08
+   },
+   "boundsM": [
+    [
+     -4.97,
+     -0.91,
+     -4.97
+    ],
+    [
+     4.97,
+     4.92,
+     4.97
+    ]
+   ],
    "apertures": [],
    "reason": "no placed ref has a window piece or window-textured panes in its model"
   },
   "CIPHTBMHutInteriorGreatHouse": {
    "plugin": "Here There Be Monsters - Curse of Cipactli.esp",
-   "kind": "storage",
-   "humid": false,
-   "dust": "high",
+   "kind": "dwelling",
+   "kindWhy": "shell",
+   "volumeClass": "medium",
+   "humid": true,
+   "dust": "low",
    "dustWhy": "use-class",
-   "floorMist": false,
+   "floorMist": {
+    "topM": 0.35,
+    "density": 0.1
+   },
+   "boundsM": [
+    [
+     -6.47,
+     -1.18,
+     -6.47
+    ],
+    [
+     6.47,
+     6.4,
+     6.47
+    ]
+   ],
    "apertures": [],
    "reason": "no placed ref has a window piece or window-textured panes in its model"
   },
   "DawnstarBrinasHouse": {
    "plugin": "Skyrim.esm",
    "kind": "dwelling",
+   "kindWhy": "use-class",
+   "volumeClass": "medium",
    "humid": false,
    "dust": "low",
    "dustWhy": "use-class",
-   "floorMist": false,
+   "floorMist": null,
+   "boundsM": [
+    [
+     -31.64,
+     -0.08,
+     3.64
+    ],
+    [
+     -12.05,
+     10.92,
+     14.57
+    ]
+   ],
    "apertures": [
     {
      "refId": "000E0416",
@@ -113,10 +178,27 @@
   "KeebaHouseCrafter": {
    "plugin": "King of the Murkmire.esp",
    "kind": "dwelling",
+   "kindWhy": "use-class",
+   "volumeClass": "medium",
    "humid": true,
    "dust": "low",
    "dustWhy": "use-class",
-   "floorMist": false,
+   "floorMist": {
+    "topM": 0.35,
+    "density": 0.1
+   },
+   "boundsM": [
+    [
+     94.4,
+     81.33,
+     42.6
+    ],
+    [
+     116.34,
+     95.99,
+     67.71
+    ]
+   ],
    "apertures": [
     {
      "refId": "0809B530",
@@ -208,10 +290,27 @@
   "KeebaHouseFisher": {
    "plugin": "King of the Murkmire.esp",
    "kind": "dwelling",
+   "kindWhy": "use-class",
+   "volumeClass": "medium",
    "humid": true,
    "dust": "low",
    "dustWhy": "use-class",
-   "floorMist": false,
+   "floorMist": {
+    "topM": 0.35,
+    "density": 0.1
+   },
+   "boundsM": [
+    [
+     94.4,
+     80.61,
+     45.85
+    ],
+    [
+     117.73,
+     92.59,
+     67.71
+    ]
+   ],
    "apertures": [
     {
      "refId": "080A5B32",
@@ -286,10 +385,27 @@
   "KeebaHouseSnailMinder": {
    "plugin": "King of the Murkmire.esp",
    "kind": "smithy",
+   "kindWhy": "use-class",
+   "volumeClass": "medium",
    "humid": true,
    "dust": "medium",
    "dustWhy": "use-class",
-   "floorMist": false,
+   "floorMist": {
+    "topM": 0.35,
+    "density": 0.1
+   },
+   "boundsM": [
+    [
+     94.02,
+     81.33,
+     45.72
+    ],
+    [
+     116.27,
+     97.04,
+     72.92
+    ]
+   ],
    "apertures": [
     {
      "refId": "0809B499",
@@ -364,10 +480,27 @@
   "MugsumpHollowInt01": {
    "plugin": "King of the Murkmire.esp",
    "kind": "damp",
+   "kindWhy": "damp-template",
+   "volumeClass": "large",
    "humid": false,
    "dust": "medium",
    "dustWhy": "damp-template",
-   "floorMist": true,
+   "floorMist": {
+    "topM": 1.3,
+    "density": 0.4
+   },
+   "boundsM": [
+    [
+     -87.15,
+     85.04,
+     -40.83
+    ],
+    [
+     -37.44,
+     109.97,
+     48.92
+    ]
+   ],
    "apertures": [],
    "reason": "no placed ref has a window piece or window-textured panes in its model"
   }

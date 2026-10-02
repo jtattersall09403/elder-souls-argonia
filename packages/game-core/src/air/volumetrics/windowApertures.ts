@@ -19,14 +19,21 @@ export interface WindowAperture {
 }
 
 export type DustBand = "low" | "medium" | "high";
+export type VolumeClass = "small" | "medium" | "large";
+/** A cell's row (schema 2): kind and why, size class of its AABB, humid (Argonian hut room), dust, floor mist or null. */
 export interface InteriorLightRow {
   apertures: { centreM: number[]; outward: number[]; radiusM: number }[];
   kind: string;
+  volumeClass: VolumeClass;
+  humid: boolean;
   dust: DustBand;
-  floorMist: boolean;
+  /** Floor mist top above the floor (m) and density (1/m); null on a dry cell. */
+  floorMist: { topM: number; density: number } | null;
 }
-export interface InteriorLightRecord { schemaVersion: 1; cells: Record<string, InteriorLightRow> }
-const RECORD = interiorLight as InteriorLightRecord;
+export interface InteriorLightRecord { schemaVersion: 2; cells: Record<string, InteriorLightRow> }
+/** The shipped record (interiorLight.json). */
+export const INTERIOR_LIGHT = interiorLight as InteriorLightRecord;
+const RECORD = INTERIOR_LIGHT;
 
 /** The cell's row, or null when the record has none (a cell published after the record was regenerated). */
 export function interiorLightOf(cellId: string, record: InteriorLightRecord = RECORD): InteriorLightRow | null {

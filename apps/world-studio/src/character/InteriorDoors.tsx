@@ -19,11 +19,14 @@ import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorS
 import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import { DoorTransition, type InteriorSource } from "@elder-souls/game-core/interior/doorTransition";
 import { fixtureLightFieldOf, prepareLit } from "@elder-souls/game-core/render/fixtureLights/index";
-import { InteriorEnvironment, InteriorFogNode, interiorFogProfile } from "@elder-souls/game-core/interior/interiorEnvironment";
-import { MAX_VOLUME_LIGHTS, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
-import { nearestVolumeLights } from "@elder-souls/game-core/air/volumetrics/studioSamplers";
 import {
-  BEAM_OVER_LAMP, WindowBeams, cellCompassOffsetDeg, cellFloorLevels, brightestLampFloor, pluginWindowApertures, windowSkyLight, worldToCellDirection,
+  InteriorEnvironment, InteriorFogNode, interiorFogProfile, type InteriorClimate,
+} from "@elder-souls/game-core/interior/interiorEnvironment";
+import { MAX_VOLUME_LIGHTS, type InteriorFogProfile, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
+import { nearestVolumeLights, sunriseSunsetMin } from "@elder-souls/game-core/air/volumetrics/studioSamplers";
+import {
+  BEAM_OVER_LAMP, INTERIOR_LIGHT, SKY_FILL_SCALE, WindowBeams, cellCompassOffsetDeg, cellFloorLevels, brightestLampFloor,
+  pluginWindowApertures, windowSkyLight, worldToCellDirection,
 } from "@elder-souls/game-core/air/volumetrics/windowApertures";
 import { moonsAt, sunAt } from "@elder-souls/world-time";
 import { SkyContext } from "../sky/WorldSky";
@@ -322,6 +325,9 @@ export function InteriorDoors({
     return apertures.length ? { beams: new WindowBeams(apertures, WINDOW_BEAM_LENGTH_M, cellFloorLevels(group)), unit: BEAM_OVER_LAMP * brightestLampFloor(lamps) } : null;
   }, [shown]);
   const sky = useMemo(() => ({ dir: new THREE.Vector3(0, -1, 0), tint: new THREE.Color(), strength: 0, inFrames: 0 }), []);
+  // the outside the cell's air follows (floor mist by dawn and season), refreshed with the sky light
+  const climate = useMemo<InteriorClimate>(() => ({ minuteOfDay: 720, sunriseMin: 360, wetSeason: 0.5 }), []);
+  const fogProfile = useMemo<InteriorFogProfile>(() => ({ floorY: 0, floorMistTopM: 0, floorMistDensity: 0, dustDensity: 0 }), []);
 
   // Per-frame scratch (walk 5 perf): no vector or closure made per frame.
   const bodyPos = useMemo(() => new THREE.Vector3(), []);
@@ -351,10 +357,10 @@ export function InteriorDoors({
     const focus = interaction.focused;
     const swingDoor = swing && focus ? swing.controller.doors.find((d) => d.id === focus.id) : undefined;
     environment.current?.frame();
+    const rig = shown ? drawnLightRigOf(scene) : null;
     if (shown) {
       // the cell's daylight follows the sky the exterior draws, weather
       // included (interiorLoader InteriorDaylight; WorldSky publishes the rig)
-      const rig = drawnLightRigOf(scene);
       if (rig) {
         daylightColour.setRGB(rig.sunColor[0], rig.sunColor[1], rig.sunColor[2]);
         shown.interior.daylight.set(daylightShare(rig.sun.altitude, rig.directFactor), daylightColour);
@@ -365,16 +371,30 @@ export function InteriorDoors({
       nearestVolumeLights((v) => field.forEachLight(v), camera.position.x, camera.position.y, camera.position.z,
         MAX_VOLUME_LIGHTS, volLights.current);
       let apertures: ReturnType<WindowBeams["update"]> | undefined;
-      if (windows) {
-        // the ephemeris allocates: the sky light is re-read twice a second
-        if (--sky.inFrames <= 0) {
-          sky.inFrames = SKY_LIGHT_REFRESH_FRAMES;
-          const epoch = worldClock.epochMinutes();
-          sky.strength = windowSkyLight(sunAt(epoch), moonsAt(epoch), sky.dir, sky.tint);
+      // the ephemeris and sunrise allocate: the sky light and the climate are re-read twice a second
+      if (--sky.inFrames <= 0) {
+        sky.inFrames = SKY_LIGHT_REFRESH_FRAMES;
+        const epoch = worldClock.epochMinutes();
+        climate.minuteOfDay = ((epoch % 1440) + 1440) % 1440;
+        climate.sunriseMin = sunriseSunsetMin(epoch).sunriseMin;
+        climate.wetSeason = (worldClock.season().s + 1) / 2;
+        if (windows) {
+          const sun = sunAt(epoch);
+          sky.strength = windowSkyLight(sun, moonsAt(epoch), sky.dir, sky.tint);
+          // the light the exterior draws (lightRig): its sun or moon colour, and the
+          // weather's direct share (overcast and rain leave the sky fill only)
+          if (rig) {
+            const c = sun.altitude > 0 ? rig.sunColor : rig.moonColor;
+            const peak = Math.max(c[0], c[1], c[2]);
+            if (peak > 0) sky.tint.setRGB(c[0] / peak, c[1] / peak, c[2] / peak);
+            sky.strength *= SKY_FILL_SCALE + (1 - SKY_FILL_SCALE) * Math.min(1, Math.max(0, rig.directFactor));
+          }
           // the sky as the cell sees it: its compass turned to the door it was entered by (0112 §6)
           worldToCellDirection(sky.dir, cellCompassOffsetDeg(transition.entranceFacingDeg ?? 0,
             shown.interior.bundle.arrivalMarker.yawDeg), sky.dir);
         }
+      }
+      if (windows) {
         camera.updateMatrixWorld();
         frustum.setFromProjectionMatrix(viewProj.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
         apertures = windows.beams.update(shown.interior.group.position, sky.dir, sky.strength * windows.unit, sky.tint,
@@ -382,7 +402,9 @@ export function InteriorDoors({
       }
       volumetrics.update({
         camera: camera as THREE.PerspectiveCamera, timeS: waterTimeS(), sunDir: up, sunIrradiance: dark, skyIrradiance: dark,
-        lights: volLights.current, apertures, interior: interiorFogProfile(shown.interior, shown.interior.group.position.y),
+        lights: volLights.current, apertures,
+        interior: interiorFogProfile(shown.interior, shown.interior.group.position.y, climate, volumetrics.band,
+          INTERIOR_LIGHT, fogProfile),
       });
     }
     overlay.setFade(directCellId && !opened.current ? 1 : transition.fade);

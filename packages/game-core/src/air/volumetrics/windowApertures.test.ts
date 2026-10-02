@@ -6,7 +6,7 @@ import interiorLight from "./interiorLight.json";
 
 describe("pluginWindowApertures", () => {
   it("reads the cell's placed window refs; none for an unknown cell", () => {
-    const refs = { schemaVersion: 1 as const, cells: { A: { apertures: [{ centreM: [1, 2, 3], outward: [0, 0, -1], radiusM: 0.5 }], kind: "dwelling", dust: "low" as const, floorMist: false } } };
+    const refs = { schemaVersion: 2 as const, cells: { A: { apertures: [{ centreM: [1, 2, 3], outward: [0, 0, -1], radiusM: 0.5 }], kind: "dwelling", volumeClass: "small" as const, humid: false, dust: "low" as const, floorMist: null } } };
     const w = pluginWindowApertures("A", refs);
     expect(w[0].centre.toArray()).toEqual([1, 2, 3]);
     expect(w[0].areaM2).toBeCloseTo(Math.PI * 0.25, 6);
