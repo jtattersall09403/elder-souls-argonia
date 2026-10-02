@@ -192,11 +192,12 @@ export interface WaterUniforms extends FoamFieldUniforms {
  * writes an opaque colour: 1 vertex normal, 2 shading normal, 3 fresnel,
  * 4 foam, 5 crest (0.5 grey = still level, ±1 m to black/white), 6 reflected
  * sky/env, 7 refraction/transmitted colour, 8 final alpha, 9 aerial change
- * (|post − pre|, 0.05 maps to grey), 10 sparkle, 11 fract(rest xz / 4 m) as
+ * (|post − pre| x exposure, 0.25 = white), 10 sparkle, 11 fract(rest xz / 4 m) as
  * RG, 12 the normal colour at alpha 1 (overdraw of stacked transparent
  * layers), 13 reflection weight in the final mix (fresnel × cover), 14 the
- * final colour before aerial and fog, 15 SSR weight. HDR views (6, 7, 14)
- * show c / (1 + c) per channel so they never blow to white. */
+ * final colour before aerial and fog (tone mapped with the scene exposure
+ * and output encoded like the final colour), 15 SSR weight. HDR views 6 and
+ * 7 show c / (1 + c) per channel. */
 export const WATER_DEBUG_GLSL = /* glsl */ `
 if (uEsDebugMode > 0.5) {
   int esDm = int(uEsDebugMode + 0.5);
@@ -209,11 +210,23 @@ if (uEsDebugMode > 0.5) {
   else if (esDm == 6) esDc = esDbgSky / (1.0 + esDbgSky);
   else if (esDm == 7) esDc = esDbgRefr / (1.0 + esDbgRefr);
   else if (esDm == 8) esDc = vec3(gl_FragColor.a);
-  else if (esDm == 9) { vec3 esDa = abs(esDbgPost - esDbgPre); esDc = esDa / (0.05 + esDa); }
+  else if (esDm == 9) {
+    vec3 esDa = abs(esDbgPost - esDbgPre);
+#ifdef TONE_MAPPING
+    esDa *= toneMappingExposure;
+#endif
+    esDc = clamp(esDa * 4.0, 0.0, 1.0);
+  }
   else if (esDm == 10) esDc = vec3(esDbgSpec);
   else if (esDm == 11) esDc = vec3(fract(vEsRestXZ * 0.25), 0.0);
   else if (esDm == 13) esDc = vec3(esDbgReflW);
-  else if (esDm == 14) esDc = esDbgMix / (1.0 + esDbgMix);
+  else if (esDm == 14) {
+    esDc = esDbgMix;
+#ifdef TONE_MAPPING
+    esDc = toneMapping(esDc);
+#endif
+    esDc = linearToOutputTexel(vec4(esDc, 1.0)).rgb;
+  }
   else if (esDm == 15) esDc = vec3(esDbgSsrW);
   gl_FragColor = vec4(esDc, 1.0);
 }`;
