@@ -32,6 +32,38 @@ export function recordPassDescriptor(d, texOf) {
   };
 }
 
+const num3 = (v) => (v && ["x", "y", "z"].every((k) => typeof v[k] === "number") ? [v.x, v.y, v.z] : v && ["r", "g", "b"].every((k) => typeof v[k] === "number") ? [v.r, v.g, v.b] : null);
+
+/** diag17 state block: camera matrices, viewport/scissor, drawing buffer, sun uniforms, each with NaN/Inf flags. */
+export function readState(r, camera, scene) {
+  const st = {};
+  if (!camera) st.camera = "unreachable";
+  else {
+    const projectionMatrix = camera.projectionMatrix?.elements ? Array.from(camera.projectionMatrix.elements) : null;
+    const matrixWorldInverse = camera.matrixWorldInverse?.elements ? Array.from(camera.matrixWorldInverse.elements) : null;
+    const vals = [...(projectionMatrix ?? []), ...(matrixWorldInverse ?? []), camera.near, camera.far];
+    st.camera = { projectionMatrix, matrixWorldInverse, near: camera.near, far: camera.far, anyNaN: vals.some(Number.isNaN), anyInf: vals.some((v) => v === Infinity || v === -Infinity) };
+  }
+  try {
+    const vec = () => ({ x: 0, y: 0, z: 0, w: 0, set(a, b, c, d) { this.x = a; this.y = b; this.z = c; this.w = d; return this; }, copy(o) { Object.assign(this, o); return this; } });
+    const flat = (v) => (v ? { x: v.x, y: v.y, w: v.z ?? v.width, h: v.w ?? v.height } : null);
+    st.viewport = r.getViewport ? flat(r.getViewport(vec())) : null;
+    st.scissor = r.getScissor ? flat(r.getScissor(vec())) : null;
+    st.scissorTest = r.getScissorTest ? Boolean(r.getScissorTest()) : null;
+    if (r.getDrawingBufferSize) { const t = { x: 0, y: 0, set(a, b) { this.x = a; this.y = b; return this; }, copy(o) { this.x = o.x; this.y = o.y; return this; } }; const o = r.getDrawingBufferSize(t) ?? t; st.drawingBuffer = { w: o.x ?? o.width, h: o.y ?? o.height }; } else st.drawingBuffer = null;
+  } catch (e) { st.viewportErr = String(e.message ?? e).slice(0, 80); }
+  const sun = {};
+  try {
+    for (const [k, v] of Object.entries(scene?.userData ?? {})) {
+      if (!/sun/i.test(k)) continue;
+      const a = num3(v) ?? num3(v?.value) ?? num3(v?.direction) ?? num3(v?.color);
+      if (a) sun[k] = { value: a, anyNaN: a.some(Number.isNaN), anyInf: a.some((x) => x === Infinity || x === -Infinity) };
+    }
+  } catch {}
+  st.sun = Object.keys(sun).length ? sun : "unreachable";
+  return st;
+}
+
 export function installTargetProbe(win, recordPass) {
   const P = (win.__targetProbe = { passes: [], rts: [], armed: false });
   const texInfo = new WeakMap(), viewTex = new WeakMap(), canvasTex = new WeakSet();
@@ -39,7 +71,7 @@ export function installTargetProbe(win, recordPass) {
   const wrap = (proto, name, make) => { if (proto && typeof proto[name] === "function") proto[name] = make(proto[name]); };
   wrap(win.GPUCanvasContext?.prototype, "getCurrentTexture", (f) => function () { const t = f.call(this); try { canvasTex.add(t); texInfo.delete(t); } catch {} return t; });
   wrap(win.GPUTexture?.prototype, "createView", (f) => function (...a) { const v = f.apply(this, a); try { viewTex.set(v, this); } catch {} return v; });
-  const drew = () => { if (!P.armed) return; if (P.curPass) P.curPass.draws++; if (P.curRt) P.curRt.draws++; };
+  const drew = () => { if (!P.armed) return; P.totalDraws = (P.totalDraws ?? 0) + 1; if (P.curPass) P.curPass.draws++; if (P.curRt) P.curRt.draws++; };
   for (const n of ["draw", "drawIndexed", "drawIndirect", "drawIndexedIndirect"]) wrap(win.GPURenderPassEncoder?.prototype, n, (f) => function (...a) { drew(); return f.apply(this, a); });
   wrap(win.GPURenderPassEncoder?.prototype, "end", (f) => function (...a) { P.curPass = null; return f.apply(this, a); });
   for (const n of ["drawArrays", "drawElements", "drawArraysInstanced", "drawElementsInstanced", "drawRangeElements"]) wrap(win.WebGL2RenderingContext?.prototype, n, (f) => function (...a) { drew(); return f.apply(this, a); });
@@ -112,11 +144,18 @@ export function installTargetProbe(win, recordPass) {
       }
       return ok;
     };
+    // State (diag17): the camera/scene of the largest renderer.render call in the window.
+    const renderFn = r.render, renderAsyncFn = r.renderAsync, big = { draws: -1, camera: null, scene: null };
+    const keep = (sc, cam, d) => { if (P.armed && d >= big.draws) { big.draws = d; big.camera = cam; big.scene = sc; } };
+    if (typeof renderFn === "function") r.render = function (sc, cam, ...a) { const d0 = P.totalDraws ?? 0; const out = renderFn.call(this, sc, cam, ...a); keep(sc, cam, (P.totalDraws ?? 0) - d0); return out; };
+    if (typeof renderAsyncFn === "function") r.renderAsync = async function (sc, cam, ...a) { const d0 = P.totalDraws ?? 0; const out = await renderAsyncFn.call(this, sc, cam, ...a); keep(sc, cam, (P.totalDraws ?? 0) - d0); return out; };
     await raf();
     const skipped0 = q ? q.skippedDraws : null;
     P.armed = true; await raf(); await raf(); P.armed = false; P.curRt = null; P.curPass = null;
     const skipped1 = q ? q.skippedDraws : null;
     r.setRenderTarget = set;
+    if (typeof renderFn === "function") r.render = renderFn;
+    if (typeof renderAsyncFn === "function") r.renderAsync = renderAsyncFn;
     if (typeof isReady0 === "function") pl.isReady = isReady0;
     const notReadyPipelines = typeof isReady0 === "function" ? { perFrame: nr.count / FRAMES, names: [...nr.names.values()], fields: [...nr.fields] } : { err: "no renderer._pipelines.isReady" };
     const exposure = {};
@@ -189,7 +228,7 @@ export function installTargetProbe(win, recordPass) {
     let samples = null; try { samples = r.samples ?? r._samples ?? null; } catch {}
     const queue = q ? { skippedDraws: skipped1 - skipped0, frames: FRAMES, skippedPerFrame: (skipped1 - skipped0) / FRAMES, notReady: q.pending ?? null, timedOut: q.timedOut?.size ?? null } : { err: "no esBuildQueue on the renderer" };
     const grid = scene && (scene.samples ?? 0) <= 1 ? await sceneGrid(scene) : { skipped: scene ? "multisampled" : "no scene target" };
-    return { backend: r.backend?.isWebGPUBackend ? "webgpu" : "webgl2", rendererSamples: samples, sceneBy, sceneGrid: grid, queue, notReadyPipelines, exposure, targets, setRenderTarget: P.rts, passes: P.passes };
+    return { backend: r.backend?.isWebGPUBackend ? "webgpu" : "webgl2", rendererSamples: samples, sceneBy, sceneGrid: grid, queue, notReadyPipelines, exposure, state: readState(r, big.camera, big.scene), targets, setRenderTarget: P.rts, passes: P.passes };
   };
 }
 
@@ -205,5 +244,7 @@ export function targetsLine(p) {
   const tail = ` notReady ${p.notReadyPipelines?.perFrame ?? "?"} exp ${p.exposure?.toneMappingExposure ?? "?"}`;
   const g = p.sceneGrid, gn = g?.grid ? g.grid[0] * g.grid[1] : 2304;
   const scene = g && !g.err && !g.skipped ? ` scene nan ${g.nan} inf ${g.inf} black ${g.black}/${gn}` : ` scene grid ${g?.err ?? g?.skipped ?? "-"}`.slice(0, 80);
-  return `not-a-bar; ${parts.join(" / ")}${tail}${scene}`;
+  const c = p.state?.camera, d = p.state?.drawingBuffer;
+  const st = ` cam nan ${c && typeof c === "object" ? (c.anyNaN || c.anyInf ? "Y" : "N") : "?"} vp ${d ? `${d.w}x${d.h}` : "?"}`;
+  return `not-a-bar; ${parts.join(" / ")}${tail}${scene}${st}`;
 }
