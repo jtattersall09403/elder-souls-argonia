@@ -1,0 +1,13 @@
+[
+ {
+  "name": "mist-forced",
+  "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&x=4.464&z=1.93&t=06:00&w=mist",
+  "clean": true,
+  "shots": "20000@60,600000",
+  "seconds": 65,
+  "aim": [
+   0.9,
+   0.05
+  ]
+ }
+]
