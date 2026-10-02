@@ -59,15 +59,20 @@ export function occludedByTerrain(
   stepM = 12,
   marginM = 1.0,
 ): boolean {
-  const dx = target.x - eye.x;
-  const dz = target.z - eye.z;
+  // Plain number locals only: the march allocates nothing (diag10 C3). The
+  // sampler is the caller's stable bound function, so the call site stays
+  // monomorphic and the engine inlines it.
+  const ex = eye.x, ey = eye.y, ez = eye.z;
+  const dx = target.x - ex;
+  const dy = target.y - ey;
+  const dz = target.z - ez;
   const distance = Math.hypot(dx, dz);
   if (!(distance > OCCLUSION_SKIP_M) || !(stepM > 0)) return false;
   for (let s = OCCLUSION_SKIP_M; s < distance; s += stepM) {
     const t = s / distance;
-    const ground = groundAt(eye.x + dx * t, eye.z + dz * t);
+    const ground = groundAt(ex + dx * t, ez + dz * t);
     if (ground === null) continue; // unknown ground never occludes
-    if (ground + marginM > eye.y + (target.y - eye.y) * t) return true;
+    if (ground + marginM > ey + dy * t) return true;
   }
   return false;
 }

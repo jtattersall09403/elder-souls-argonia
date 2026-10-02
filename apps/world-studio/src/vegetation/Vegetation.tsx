@@ -679,8 +679,9 @@ export function Vegetation({
   const maskGround = useMemo(() => (
     chunksManifest
       ? new FrameGroundSampler(store, chunksManifest, verticalScale)
-      : { reset: () => {}, sample: () => null }
+      : { dispose: () => {}, sample: () => null }
   ), [store, chunksManifest, verticalScale]);
+  useEffect(() => () => maskGround.dispose(), [maskGround]);
 
   // Per-species build parameters, recomputed only when the kit, the quality
   // tier or the chunk ring changes — never per frame and never per cell.
@@ -1130,8 +1131,8 @@ export function Vegetation({
         Math.floor(((cz + 0.5) * size) / OCCLUSION_CELL_M) - MASK_SIZE / 2,
       );
     }
-    // Rendered space, like the camera; one grid lookup per chunk per frame.
-    maskGround.reset();
+    // Rendered space, like the camera; one grid lookup per chunk, kept across
+    // frames (diag10 C3).
     const sweep = mask.sweep(
       MASK_CELLS_PER_FRAME, eye, maskGround.sample,
       tallestM, OCCLUSION_MIN_DISTANCE_M,

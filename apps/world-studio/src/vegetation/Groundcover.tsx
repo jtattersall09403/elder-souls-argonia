@@ -167,6 +167,11 @@ const NEAR_TRI_REF = 250;
 const NEAR_REACH_MIN = 0.25;
 const NEAR_TRI_MAX = 1000;
 
+/** `to.set(from.subarray(src, src + n), dst)` without the view object. */
+export function copyFloats(from: Float32Array, src: number, n: number, to: Float32Array, dst: number): void {
+  for (let i = 0; i < n; i++) to[dst + i] = from[src + i];
+}
+
 /** The NEAR band's fraction of `NEAR_FRACTION x r` for a mesh of `meshTris`. */
 export function nearReachFraction(meshTris: number): number {
   if (!(meshTris > 0)) return 1;
@@ -1775,14 +1780,16 @@ export function Groundcover({
                 bandArray[i * 4 + 2] = band[2];
                 bandArray[i * 4 + 3] = band[3];
               }
+              // Plain copy loops, not `set(subarray(...))`: a subarray is a
+              // new view object per record per rebuild (diag10 C3).
               if (farN > 0) {
-                matrices.set(sp.matrices.subarray(farLo * 16, (farLo + farN) * 16), at * 16);
-                colours.set(sp.colours.subarray(farLo * 3, (farLo + farN) * 3), at * 3);
+                copyFloats(sp.matrices, farLo * 16, farN * 16, matrices, at * 16);
+                copyFloats(sp.colours, farLo * 3, farN * 3, colours, at * 3);
                 at += farN;
               }
               if (restN > 0) {
-                matrices.set(sp.matrices.subarray(sp.farCount * 16, (sp.farCount + restN) * 16), at * 16);
-                colours.set(sp.colours.subarray(sp.farCount * 3, (sp.farCount + restN) * 3), at * 3);
+                copyFloats(sp.matrices, sp.farCount * 16, restN * 16, matrices, at * 16);
+                copyFloats(sp.colours, sp.farCount * 3, restN * 3, colours, at * 3);
                 at += restN;
               }
             }

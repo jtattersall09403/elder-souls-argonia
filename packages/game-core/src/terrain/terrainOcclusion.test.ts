@@ -11,18 +11,73 @@ describe("createOcclusionSweep", () => {
     }));
     const before = units.map((u) => u.mesh.visible);
     const expected = units.map((u) => !hiddenBehindTerrain({ x: 0, y: 2, z: 0 }, u.corners, ridge));
-    // A fake clock that advances 1 ms per read: one batch of 4 exhausts a
-    // 1 ms budget, so each frame tests exactly one batch.
+    // A fake clock that advances 1 ms per read: the first (one-unit) batch
+    // exhausts a 1 ms budget, so each frame tests exactly one unit.
     let t = 0;
     const sweep = createOcclusionSweep({ budgetMs: 1, batch: 4, now: () => (t += 1) });
     expect(sweep.step(ridge)).toBeNull();            // no pass yet
     sweep.start({ x: 0, y: 2, z: 0 }, units);
-    expect(sweep.step(ridge)).toBeNull();            // units 0-3
-    expect(sweep.step(ridge)).toBeNull();            // 4-7
+    for (let f = 0; f < 9; f++) expect(sweep.step(ridge)).toBeNull(); // units 0-8
     expect(units.map((u) => u.mesh.visible)).toEqual(before); // old result live mid-pass
-    expect(sweep.step(ridge)).toBe(5);               // 8-9: pass done, 5 hidden
+    expect(sweep.step(ridge)).toBe(5);               // unit 9: pass done, 5 hidden
     expect(units.map((u) => u.mesh.visible)).toEqual(expected);
     expect(sweep.step(ridge)).toBeNull();
+  });
+
+  it("a cadence restart on a cold cache stays within the budgeted height samples per frame (diag10 C1)", () => {
+    const ridge = (x: number) => (x > 400 && x < 500 ? 300 : 0);
+    const units = Array.from({ length: 400 }, (_, i) => ({
+      mesh: { visible: true },
+      corners: topCornersOfBox(new THREE.Box3(
+        new THREE.Vector3(200 + (i % 20) * 200, 0, Math.floor(i / 20) * 150 - 1500),
+        new THREE.Vector3(260 + (i % 20) * 200, 20, Math.floor(i / 20) * 150 - 1440))),
+    }));
+    const expected = units.map((u) => !hiddenBehindTerrain({ x: 0, y: 2, z: 0 }, u.corners, ridge));
+    // A cold sample costs 0.05 ms: the clock only moves on height samples.
+    const COST = 0.05;
+    let clock = 0; let calls = 0;
+    const counting = (x: number) => { calls++; clock += COST; return ridge(x); };
+    const sweep = createOcclusionSweep({ budgetMs: 0.5, now: () => clock });
+    const unitMax = 5 * 130;            // samples one unit can cost (march bound)
+    const cap = 0.5 / COST + unitMax * 5;   // budget + first unit + one batch of 4
+    for (let restart = 0; restart < 3; restart++) {
+      sweep.start({ x: 0, y: 2, z: 0 }, units);
+      let result: number | null = null;
+      while (result === null) {
+        calls = 0;
+        result = sweep.step(counting);
+        expect(calls).toBeLessThanOrEqual(cap);
+      }
+      expect(result).toBe(expected.filter((v) => !v).length);
+      expect(units.map((u) => u.mesh.visible)).toEqual(expected);
+    }
+  });
+
+  it("writes only changed verdicts, at most 16 a frame, and lands the one-shot result", () => {
+    const ridge = (x: number) => (x > 400 && x < 500 ? 300 : 0);
+    const writes: number[] = [];
+    let frameWrites = 0;
+    const units = Array.from({ length: 100 }, (_, i) => {
+      let v = true;
+      return {
+        mesh: { get visible() { return v; }, set visible(n: boolean) { v = n; frameWrites++; } },
+        corners: [{ x: i % 2 === 0 ? 1000 : 300, y: 10, z: 0 }],
+      };
+    });
+    const expected = units.map((u) => !hiddenBehindTerrain({ x: 0, y: 2, z: 0 }, u.corners, ridge));
+    const changed = expected.filter((v) => !v).length;      // 50 start visible, end hidden
+    const sweep = createOcclusionSweep({ budgetMs: 1e9, now: () => 0 });
+    sweep.start({ x: 0, y: 2, z: 0 }, units);
+    let result: number | null = null;
+    while (result === null) { frameWrites = 0; result = sweep.step(ridge); writes.push(frameWrites); }
+    expect(Math.max(...writes)).toBeLessThanOrEqual(16);
+    expect(writes.reduce((a, b) => a + b, 0)).toBe(changed);
+    expect(units.map((u) => u.mesh.visible)).toEqual(expected);
+    // A second pass from the same eye changes nothing and writes nothing.
+    sweep.start({ x: 0, y: 2, z: 0 }, units);
+    frameWrites = 0;
+    expect(sweep.step(ridge)).toBe(changed);
+    expect(frameWrites).toBe(0);
   });
 
   it("keeps one frame's step within its budget on a large grid and completes over K frames", () => {
@@ -99,6 +154,22 @@ describe("hiddenBehindTerrain", () => {
 });
 
 describe("createOcclusionCadence", () => {
+  it("a phased, delayed second cadence never fires on the same frame as the first (diag10 C1)", () => {
+    const camera = new THREE.PerspectiveCamera();
+    const chunk = createOcclusionCadence();
+    const apron = createOcclusionCadence({ phaseMs: 1000, delayFrames: 1 });
+    let a = 0; let b = 0;
+    for (let f = 0; f < 2000; f++) {
+      if (f % 300 === 150) camera.position.x += 25;          // a move both see
+      const t = f * 16.7;
+      const fa = chunk(camera, t), fb = apron(camera, t);
+      expect(fa && fb).toBe(false);
+      if (fa) a++; if (fb) b++;
+    }
+    expect(a).toBeGreaterThan(10);
+    expect(b).toBeGreaterThan(10);
+  });
+
   it("fires first, then only on time or movement, never on a turn", () => {
     const camera = new THREE.PerspectiveCamera();
     camera.updateMatrixWorld();

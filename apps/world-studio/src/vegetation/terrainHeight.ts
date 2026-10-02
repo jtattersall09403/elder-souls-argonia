@@ -22,6 +22,9 @@ export function groundHeightM(
 
 type Grid = NonNullable<ReturnType<ChunkStore["loaded"]>>;
 
+/** The LODs `groundHeightM` reads, finest first. */
+const SAMPLED_LODS = ["1", "2", "4"];
+
 function heightInGrid(grid: Grid, x: number, z: number): number {
   const lx = (x - grid.meta.originM[0]) / grid.metresPerSample;
   const lz = (z - grid.meta.originM[1]) / grid.metresPerSample;
@@ -38,26 +41,35 @@ function heightInGrid(grid: Grid, x: number, z: number): number {
 }
 
 /**
- * `groundHeightM` with each chunk's best decoded grid looked up once per
- * frame instead of once per sample (perf10 O6): an occlusion ray marches
- * dozens of 12 m steps through one or two chunks, and every step used to
- * build a `cx,cy,lod` key string and probe up to three maps. Bit-identical
- * to `groundHeightM` as long as nothing decodes between `reset()` calls, so
- * the owner calls `reset()` at the start of each frame's use.
- * Allocation-free after warm-up; `sample` is a stable bound function.
+ * `groundHeightM` with each chunk's best decoded grid looked up once
+ * instead of once per sample (perf10 O6): an occlusion ray marches dozens of
+ * 12 m steps through one or two chunks, and every step used to build a
+ * `cx,cy,lod` key string and probe up to three maps. The cache is kept across
+ * frames (diag10 C3: emptying it every frame re-built those key strings for
+ * every chunk on every frame); a grid that decodes later replaces its chunk's
+ * entry when it is finer, through the store's `onArrival`, so the answer stays
+ * bit-identical to `groundHeightM`. The store never evicts a grid. The owner
+ * calls `dispose()` on unmount. Allocation-free after warm-up; `sample` is a
+ * stable bound function.
  */
 export class FrameGroundSampler {
   private readonly grids = new Map<number, Grid | null>();
+  readonly dispose: () => void;
 
   constructor(
     private readonly store: ChunkStore,
     private readonly manifest: ChunksManifest,
     /** Applied to every height (rendered space); 1 = true metres. */
     private readonly scale = 1,
-  ) {}
-
-  reset(): void {
-    this.grids.clear();
+  ) {
+    this.dispose = store.onArrival?.((g) => {
+      const rank = SAMPLED_LODS.indexOf(g.lod);
+      if (rank < 0) return;
+      const key = g.meta.cx * 65_536 + g.meta.cy;
+      const cached = this.grids.get(key);
+      if (cached === undefined) return; // never sampled: read on demand
+      if (cached === null || rank < SAMPLED_LODS.indexOf(cached.lod)) this.grids.set(key, g);
+    }) ?? (() => undefined);
   }
 
   readonly sample = (x: number, z: number): number | null => {

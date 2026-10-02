@@ -66,7 +66,6 @@ describe("FrameGroundSampler", () => {
     const cached = new OcclusionMask(32, 32);
     cached.anchor(0, 0);
     const sampler = new FrameGroundSampler(store, manifest);
-    sampler.reset();
     const l1 = lookups();
     cached.sweep(1024, eye, sampler.sample, 10, 120, list);
     expect(Array.from(cached.data)).toEqual(Array.from(plain.data));
