@@ -26,6 +26,17 @@ describe("light rig (module 55 §96)", () => {
     expect(night.exposureTarget).toBeLessThanOrEqual(30);
   });
 
+  it("feeds the froxel sky in-scatter the dome-anchored sky share of fogLum, night floor included (0112 §3)", () => {
+    const noon = computeLightRig(at(7, 17, 12), 0.6, 0.5);
+    for (let i = 0; i < 3; i++) expect(noon.fogSkyLum[i]).toBeLessThan(noon.fogLum[i]);
+    // displayable bank: the horizon-lit share sits well above the hemisphere-light ambient it replaced
+    expect(noon.fogSkyLum[1] * noon.exposureTarget).toBeGreaterThan(0.05);
+    expect(noon.fogSkyLum[1] * Math.PI).toBeGreaterThan(noon.hemiIntensity * noon.hemiSky[1]);
+    const night = computeLightRig(at(7, 17, 1), 0.6, 0.5);
+    expect(night.fogSkyLum).toEqual(night.fogLum);
+    expect(night.fogSkyLum[1] * night.exposureTarget).toBeGreaterThan(0.015);
+  });
+
   it("reddens and dims the sun at the horizon", () => {
     const dusk = computeLightRig(at(7, 17, 17.5), 0.6, 0.5);
     expect(dusk.sunColor[0]).toBeGreaterThan(dusk.sunColor[2] * 1.8);

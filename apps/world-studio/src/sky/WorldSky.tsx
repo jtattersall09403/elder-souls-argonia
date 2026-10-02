@@ -62,7 +62,7 @@ import { buriedThresholdM } from "@elder-souls/game-core/water/index";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { airAmounts } from "@elder-souls/game-core/air/ambientAir";
 import * as TSL_V from "three/tsl";
-import { Volumetrics, MAX_VOLUME_LIGHTS, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
+import { Volumetrics, MAX_VOLUME_LIGHTS, SKY_INSCATTER, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
 import { BandGovernor, volBandOverride } from "@elder-souls/game-core/air/volumetrics/bandGovernor";
 import {
   FogClockHistory, nearestVolumeLights, studioTerrainSamplers, sunriseSunsetMin,
@@ -854,9 +854,10 @@ export function WorldSky({
     }
     sunLighting.dir.copy(sunDir);
     volSun.current.setRGB(...rig.sunColor).multiplyScalar(rig.sunIntensity);
-    // three.js reads a hemisphere light's colour x intensity as IRRADIANCE (lux; the Lambert BRDF
-    // divides by pi), so that product is the sky irradiance itself, never x pi (0112 §4)
-    volSky.current.setRGB(...rig.hemiSky).multiplyScalar(rig.hemiIntensity);
+    // The medium's sky light is the dome's horizon as WebGL's anchored fog sees it (0112 §3):
+    // the irradiance whose in-scatter (x SKY_INSCATTER) is the sky-lit bank radiance fogSkyLum,
+    // night floor included. The hemisphere light is a surface-ambient term, far below it.
+    volSky.current.setRGB(...rig.fogSkyLum).multiplyScalar(1 / SKY_INSCATTER);
     // Outside only: inside a cell the interior host drives the medium
     // (InteriorDoors, with the cell's profile and no sun).
     if (volumetrics.band !== "off" && !hidden) {

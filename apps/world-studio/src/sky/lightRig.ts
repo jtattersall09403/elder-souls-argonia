@@ -97,6 +97,11 @@ export interface LightRig {
    * blends between this and `fogLum` by the view/sun angle, which is what
    * makes a backlit bank glow gold at sunset instead of staying white. */
   fogSunLum: [number, number, number];
+  /** The sky-lit share of `fogLum` alone (no direct sun): the radiance a
+   * dense bank shows lit by the dome's horizon, exposure-anchored, with the
+   * authored night floor. The froxel medium's sky in-scatter is fed from it
+   * (0112 §3); its sun term carries the sun separately. */
+  fogSkyLum: [number, number, number];
   /** Cloud edge-glow light (silver lining): direction + exposure-anchored
    * colour — the sun by day, Masser by night (research §8.1). */
   cloudGlowDir: [number, number, number];
@@ -636,9 +641,11 @@ export function computeLightRig(
   const fogNightScreen = 0.028 + 0.045 * moonGlowC; // authored night level
   const FOG_NIGHT_TINT: [number, number, number] = [0.82, 0.88, 1.0];
   const fogLum: [number, number, number] = [0, 0, 0];
+  const fogSkyLum: [number, number, number] = [0, 0, 0];
   for (let i = 0; i < 3; i++) {
     const night = fogNightScreen * FOG_NIGHT_TINT[i];
     fogLum[i] = (night + (fogDayScreen[i] - night) * skyFade) / exposureTarget;
+    fogSkyLum[i] = (night + (FOG_SKY_TINT[i] * fogSkyScreen - night) * skyFade) / exposureTarget;
   }
   // Looking INTO the light: the forward-scatter lobe throws the source's OWN
   // radiance (and colour) at the viewer — this term is the entire sunset-glow
@@ -718,6 +725,7 @@ export function computeLightRig(
     sunCastsShadows,
     fogLum,
     fogSunLum,
+    fogSkyLum,
     cloudGlowDir,
     cloudGlowCol,
     cloudSunsetCol,

@@ -33,12 +33,14 @@ colour comes from the light rig.
    emissive colour (smoke, motes, cards) is converted with the shared
    scene-radiance helper, never written as a raw 0–1 colour under physical
    exposure (~4e-5 at noon). The light feeds are irradiances in three.js's
-   own convention: the sun is the directional light's colour × intensity and
-   the sky is the hemisphere light's colour × intensity (three treats that
-   product as irradiance and its Lambert BRDF divides by π, so it is never
-   multiplied by π again). The sky term is `SKY_INSCATTER` = 0.8/π per unit
-   irradiance, so thick sky-lit fog settles at ~0.76 of a white floor under
-   the same sky (test `skyInscatter.test.ts`).
+   own convention: the sun is the directional light's colour × intensity.
+   The sky is the dome's horizon as the WebGL path's anchored fog sees it:
+   the light rig's `fogSkyLum` (the sky-lit share of `fogLum`, no direct sun,
+   with the authored night floor) divided by `SKY_INSCATTER` = 0.8/π, so thick
+   sky-lit fog settles at that radiance (tests `skyInscatter.test.ts`,
+   `lightRig.test.ts`). The hemisphere light is a surface ambient (2360 lx at
+   Riverwalk 10:00) and far below the horizon radiance, so it is never the
+   medium's sky feed; smoke takes the same feed.
 4. **Where and when (the fog field).** CPU works out, per frame and from
    epoch minutes + weather + climate rasters, the strength of each regime;
    the GPU shapes it from two terrain grids baked around the camera (near
