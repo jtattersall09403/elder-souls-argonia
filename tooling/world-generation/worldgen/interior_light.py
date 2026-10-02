@@ -27,7 +27,9 @@ carries a mined LIGH (``light`` in its kit manifest) and has no plugin light wit
 ``FIXTURE_LIT_M`` gets that light, ``refId: "fixture:<placement id>"``; (2) a cell with
 no ambient cube (``lighting.ambientCube``) has its ambient's intensity raised so the unlit
 mean reaches ``FILL_E`` (the fallback fill, rule ``interior-light-floor``); a cell with a cube
-keeps the plugin's own ambient at intensity 1 (rule ``ambient-cube``, 2026-09-30); (3) every light's
+keeps the plugin's own ambient at intensity 1 (rule ``ambient-cube``, 2026-09-30), lifted with its
+shape kept only when its walked floor fails the dark bar there (``lift_to_bar``, rule
+``ambient-cube-lifted``: Skyrim's eye adaptation brightens such a cell; vol10 chunk 3); (3) every light's
 exported ``fade`` and ``falloffExponent`` are set so the runtime curve above follows
 Skyrim's own point-light curve (``skyrim_curve``). All are derived from records,
 idempotent, and run by the exporter before it writes the bundle.
@@ -39,6 +41,8 @@ A node is DARK when ``E < DARK_E``: an albedo-0.3 wall then reflects under
 """
 
 from __future__ import annotations
+
+import math
 
 import numpy as np
 
@@ -173,8 +177,33 @@ def kit_lights(kits_dir) -> dict[str, dict]:
     return out
 
 
-def apply_light_rule(bundle: dict, lights_by_asset: dict[str, dict]) -> dict:
-    """Apply the interior lighting rule in place (module docstring); returns what it did."""
+def lift_to_bar(bundle: dict, nodes) -> float:
+    """The least ambient intensity (>= 1, the cube's shape kept) at which at most
+    ``MAX_DARK_FRACTION`` of the floor ``nodes`` read dark: the stand-in for the eye
+    adaptation Skyrim's interior image space applies to a dim cell (vol10 chunk 3:
+    MugsumpHollowInt01 95 % and CIPHTBMHutInteriorGreatHouse 67 % dark at the plugin's
+    own cube). A cell already within the bar keeps 1."""
+    pts = np.asarray(nodes, float).reshape(-1, 3) + [0.0, EYE_M, 0.0]
+    if not len(pts):
+        return 1.0
+    amb = bundle["ambient"]
+    def dark(k: float) -> float:
+        return float((irradiance({**bundle, "ambient": {**amb, "intensity": k}}, pts) < DARK_E).mean())
+    if dark(1.0) <= MAX_DARK_FRACTION:
+        return 1.0
+    lo, hi = 1.0, 2.0
+    while dark(hi) > MAX_DARK_FRACTION and hi < 64:
+        lo, hi = hi, hi * 2
+    for _ in range(20):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if dark(mid) > MAX_DARK_FRACTION else (lo, mid)
+    return math.ceil(hi * 1000) / 1000
+
+
+def apply_light_rule(bundle: dict, lights_by_asset: dict[str, dict], nodes=None) -> dict:
+    """Apply the interior lighting rule in place (module docstring); returns what it did.
+    ``nodes``: the cell's floor nodes; given, a cube cell that fails the dark bar is lifted
+    (``lift_to_bar``, rule ``ambient-cube-lifted``)."""
     from worldgen.esp_index import UNITS_PER_METRE
     from worldgen.interior_walk import euler_matrix
     plugin = [lt for lt in bundle.get("lights") or [] if not str(lt.get("refId", "")).startswith("fixture:")]
@@ -203,6 +232,8 @@ def apply_light_rule(bundle: dict, lights_by_asset: dict[str, dict]) -> dict:
     amb = bundle["ambient"]
     if (bundle.get("lighting") or {}).get("ambientCube"):
         amb["intensity"], amb["rule"] = 1.0, "ambient-cube"
+        if nodes is not None and (k := lift_to_bar(bundle, nodes)) > 1.0:
+            amb["intensity"], amb["rule"] = k, "ambient-cube-lifted"
     else:
         amb_lum = float(_LUMA @ srgb_to_linear(amb["colorRGB"]))
         d_rgb = (bundle.get("lighting") or {}).get("directionalRGB")
@@ -261,19 +292,23 @@ def light_report(bundle: dict, nodes: np.ndarray, strict_balance: bool = False) 
     return out
 
 
-def light_bundle(bundle: dict, kits_dir=None, reached: bool = False, strict_balance: bool = False) -> dict:
-    """Measure the light over the bundle's standable floor nodes (interior_walk's
-    layered grid); `reached` keeps only nodes reached from the doors (slower: the joins)."""
+def floor_nodes(bundle: dict, kits_dir=None, reached: bool = False) -> np.ndarray:
+    """The bundle's standable floor nodes (interior_walk's layered grid); `reached` keeps
+    only nodes reached from the doors (slower: the joins)."""
     from worldgen import interior_walk as iw
     mesh, owner, _missing = iw.bundle_mesh(bundle, kits_dir or iw.RAW_KITS)
     starts = [d["arrivalMarker"]["positionM"] for d in bundle.get("doors") or [] if d.get("arrivalMarker")] or \
         [bundle["arrivalMarker"]["positionM"]]
     if reached:
-        walk = iw.walk_mesh(mesh, owner, starts, [], want_reached=True)
-        nodes = walk.get("reachedPositions") or []
+        nodes = iw.walk_mesh(mesh, owner, starts, [], want_reached=True).get("reachedPositions") or []
     else:
         nodes = iw.walk_mesh(mesh, owner, starts, [], nodes_only=True).get("positions") or []
-    return light_report(bundle, np.asarray(nodes, float), strict_balance)
+    return np.asarray(nodes, float)
+
+
+def light_bundle(bundle: dict, kits_dir=None, reached: bool = False, strict_balance: bool = False) -> dict:
+    """Measure the light over the bundle's standable floor nodes (``floor_nodes``)."""
+    return light_report(bundle, floor_nodes(bundle, kits_dir, reached), strict_balance)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -294,7 +329,7 @@ def main(argv: list[str] | None = None) -> int:
     for path in a.bundles:
         if a.apply:
             b = json.loads(path.read_text())
-            did = apply_light_rule(b, lights_by_asset)
+            did = apply_light_rule(b, lights_by_asset, floor_nodes(b))
             path.write_text(json.dumps(b, indent=1) + "\n")
             print(json.dumps({"cell": path.stem, "applied": did}))
         rep = light_bundle(json.loads(path.read_text()), reached=a.reached, strict_balance=a.balance)

@@ -5,12 +5,14 @@ import fixture from "./__fixtures__/interior.fixture.json";
 import type { ArchitectureAsset } from "../settlement/kit";
 import type { SettlementDoor } from "../settlement/types";
 import { isInteriorSwingDoor, parseInteriorBundle, type Vec3 } from "./bundle";
-import { daylightShare, INTERIOR_LIGHT_INTENSITY_PER_FADE, INTERIOR_NIGHT_AMBIENT, InteriorDaylight, InteriorLoader, isWindowPane, type LoadedInterior, WINDOW_LIGHT_CANDELA, WINDOW_OVERCAST_SHARE } from "./interiorLoader";
+import { daylightShare, interiorAmbientShare, INTERIOR_LIGHT_INTENSITY_PER_FADE, INTERIOR_NIGHT_AMBIENT, InteriorDaylight, InteriorLoader, isWindowPane, type LoadedInterior, WINDOW_LIGHT_CANDELA, WINDOW_OVERCAST_SHARE } from "./interiorLoader";
 import { FIXTURE_LIGHTS_MAX, FixtureLightField } from "../render/fixtureLights/fixtureLightField";
 import { LIGHTS_CAP } from "../settlement/lighting";
 import { DOOR_FADE_S, DoorTransition, RETURN_LIFT_M } from "./doorTransition";
 import { INTERIOR_SPACE_LIFT_M, cellsToPrefetch, doorAccess } from "./doors";
 import { InteriorEnvironment } from "./interiorEnvironment";
+import { sunAt, WorldClock } from "@elder-souls/world-time";
+import lightRows from "../air/volumetrics/interiorLight.json";
 
 const BODY = 0.9;
 
@@ -701,5 +703,29 @@ describe("interior daylight (walk 9, 0109 addendum)", () => {
     expect(overcast).toBeCloseTo(WINDOW_OVERCAST_SHARE, 6);
     expect(daylightShare(noon, 0.3)).toBeLessThan(clear);
     expect(daylightShare(-0.1, 1)).toBe(0);
+  });
+  it("per cell at 08:00, 12:00 and midnight on the studio's default day (vol10 chunk 3)", () => {
+    const dir = new URL("../../../../apps/world-studio/public/province/interiors/", import.meta.url);
+    const rows = (lightRows as { cells: Record<string, { apertures: unknown[] }> }).cells;
+    const day = Math.floor(new WorldClock().epochMinutes() / 1440) * 1440;
+    const at = (cell: string, hour: number) => {
+      const b = parseInteriorBundle(JSON.parse(readFileSync(new URL(`${cell}.json`, dir), "utf8")), cell);
+      const ambient = new THREE.AmbientLight(0xffffff, 1);
+      const windows = rows[cell].apertures.map(() => new THREE.Vector3());
+      const d = new InteriorDaylight(new THREE.Group(), ambient, null, [], windows);
+      d.set(daylightShare(sunAt(day + hour * 60).altitude, 1), new THREE.Color(1, 1, 1));
+      return { ambient: ambient.intensity, record: b.ambient.intensity };
+    };
+    // a cell with windows reads as day by 08:00 (sun 26.8 deg: share 0.90)
+    expect(at("KeebaHouseCrafter", 8).ambient).toBeGreaterThan(0.9);
+    expect(at("KeebaHouseCrafter", 0).ambient).toBeCloseTo(INTERIOR_NIGHT_AMBIENT, 6);
+    // no opening: the plugin's ambient at every hour (the old formula gave 0.15 at night)
+    for (const cell of ["MugsumpHollowInt01", "CIPHTBMHutInteriorGreatHouse"]) {
+      for (const h of [0, 8, 12]) expect(at(cell, h).ambient).toBe(1);
+    }
+    // and the published record carries the lift to the dark bar (interior_light.py lift_to_bar)
+    expect(at("MugsumpHollowInt01", 12).record).toBeGreaterThan(2.5);
+    expect(at("CIPHTBMHutInteriorGreatHouse", 10).record).toBeGreaterThan(8);
+    expect(interiorAmbientShare(0, false)).toBe(1);
   });
 });

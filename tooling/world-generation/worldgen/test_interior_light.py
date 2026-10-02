@@ -120,3 +120,16 @@ def test_a_cell_with_a_cube_gets_no_fill():
     fallback = _bundle()
     apply_light_rule(fallback, {"lantern": LANTERN})
     assert fallback["ambient"]["rule"] == "interior-light-floor" and fallback["ambient"]["intensity"] > 1.0
+
+
+def test_a_dark_cube_cell_is_lifted_to_the_bar_and_a_lit_one_is_not():
+    from worldgen.interior_light import MAX_DARK_FRACTION, lift_to_bar
+    dim = _bundle()
+    dim["lights"] = []
+    dim["lighting"]["ambientCube"] = {k: [0.02, 0.015, 0.01] for k in ("px", "nx", "py", "ny", "pz", "nz")}
+    did = apply_light_rule(dim, {}, _floor())
+    assert dim["ambient"]["rule"] == "ambient-cube-lifted" and did["ambientIntensity"] > 1.0
+    assert light_report(dim, _floor())["darkFraction"] <= MAX_DARK_FRACTION
+    lit = _bundle()
+    lit["lighting"]["ambientCube"] = {k: [0.5, 0.5, 0.5] for k in ("px", "nx", "py", "ny", "pz", "nz")}
+    assert lift_to_bar(lit, _floor()) == 1.0

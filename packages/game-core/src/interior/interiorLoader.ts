@@ -134,6 +134,17 @@ export function daylightShare(sunAltitudeRad: number, directFactor = 1): number 
 }
 
 /**
+ * The share of a cell's record ambient and directional drawn now. A cell with
+ * windows follows the day down to `INTERIOR_NIGHT_AMBIENT`; a cell with no
+ * opening is lit as its plugin lit it at every hour (Skyrim's interior
+ * ambient never follows the sun), so it keeps the full record (vol10 chunk 3:
+ * MugsumpHollowInt01 and the CIPHTBM huts were held at the night share).
+ */
+export function interiorAmbientShare(share: number, hasWindows: boolean): number {
+  return hasWindows ? INTERIOR_NIGHT_AMBIENT + (1 - INTERIOR_NIGHT_AMBIENT) * share : 1;
+}
+
+/**
  * A window pane: a material the manifest lists in `windowMaterials`, read
  * from the NIF's own shader (nif_blocks.window_glass_shapes: an opaque
  * emitting shape with External_Emittance or a backlight map; the station
@@ -184,7 +195,7 @@ export class InteriorDaylight {
   set(share: number, colour: THREE.Color): void {
     this.share = share;
     this.colour.copy(colour);
-    const floor = INTERIOR_NIGHT_AMBIENT + (1 - INTERIOR_NIGHT_AMBIENT) * share;
+    const floor = interiorAmbientShare(share, this.windows.length + this.paneMaterials.length > 0);
     this.ambient.intensity = this.ambientBase * floor;
     if (this.directional) this.directional.intensity = this.directionalBase * floor;
     for (const m of this.paneMaterials) {

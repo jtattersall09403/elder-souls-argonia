@@ -55,8 +55,8 @@
    55,
    36
   ],
-  "intensity": 1.0,
-  "rule": "ambient-cube"
+  "intensity": 8.872,
+  "rule": "ambient-cube-lifted"
  },
  "fog": {
   "colorRGB": [
