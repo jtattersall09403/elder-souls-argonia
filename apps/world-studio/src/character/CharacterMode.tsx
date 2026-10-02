@@ -69,6 +69,7 @@ import { SoundEventBus } from "@elder-souls/audio";
 import { DoorOverlay, createDoorOverlayChannel } from "./doorOverlay";
 import { ScreenOverlay, createScreenOverlayChannel } from "./screenOverlay";
 import { InteractionArbiter } from "@elder-souls/game-core/interaction/arbiter";
+import { walkHarnessHooks } from "./walkHarnessHooks";
 import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { SocketMarkers, socketsOverlayEnabled } from "./SocketMarkers";
 import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
@@ -1486,7 +1487,7 @@ declare global {
       /** Visible drawables that write depth (probe-bloom-sky HUNT). */
       depthWriters: () => { uuid: string; path: string; type: string; mat: string; transparent: boolean }[];
       setVisible: (uuids: string[], on: boolean) => void;
-    };
+    } & ReturnType<typeof walkHarnessHooks>;
   }
 }
 
@@ -1665,9 +1666,14 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
       setVisible: (uuids: string[], on: boolean) => {
         for (const u of uuids) { const o = scene.getObjectByProperty("uuid", u); if (o) o.visible = on; }
       },
+      ...walkHarnessHooks({ teleportBody: (p) => (adapter as EcctrlAdapter).teleport(p), groundAt: (x, z) => world.groundHeight(x, z),
+        bodyCentreHeight: CHARACTER_BODY_CENTER_HEIGHT, focusRef, camera: camera3P,
+        cameraPos: () => [camera.position.x, camera.position.y, camera.position.z],
+        player: () => (adapter.ready ? (adapter.position(new THREE.Vector3()).toArray() as [number, number, number]) : null),
+        interior: () => interiorProbeRef?.current?.() ?? null, interaction }),
     };
     return () => { delete window.__STUDIO_CHARACTER_DEBUG__; };
-  }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef, camera, interiorProbeRef, bloom, scene]);
+  }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef, camera, interiorProbeRef, bloom, scene, focusRef, interaction]);
 
   useEffect(() => {
     const detach = input.attach();
