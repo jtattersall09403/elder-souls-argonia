@@ -175,6 +175,8 @@ await page.addInitScript(([present, gpuTiming, light]) => {
   const g = { frames: 0, firstFrameMs: null, total: 0, count: 0, big: [], losses: [], destroys: [], devices: 0, errors: [], pipelines: 0, pipelineMs: 0,
     asyncPipelines: 0, computePipelines: 0, shaderModules: 0, textures: 0, bindGroups: 0, writeBytes: 0, bufferDestroys: 0 };
   window.__BOOT__ = g;
+  // documents without WebGPU (about:blank, a non-secure frame, a remote Chrome's first tab) have no GPU globals
+  if (typeof GPUAdapter === "undefined") return;
   const stack = () => new Error().stack.split("\n").slice(2, 12).join(" | ").slice(0, 900);
   const req = GPUAdapter.prototype.requestDevice;
   GPUAdapter.prototype.requestDevice = async function (...a) {
