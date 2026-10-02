@@ -61,16 +61,19 @@ How you work:
   your own lane proves bigger than briefed, split it, write the split and
   the hand-off note (what is green, next step, files) and return; never
   push on. The planner continues from the note.
-- Launch each wave as foreground Agent calls, all of the wave in ONE
-  message (decision 0118 rule 8): never `run_in_background` from a lead,
-  never a Workflow for agents that spawn agents. A foreground call blocks
-  until the child returns its result inline, several in one message run
-  concurrently, and your turn resumes with every child's result. Every
-  child's brief still names the report file it writes last, under
-  `tooling/.reports/<lane>/<child>.md`. `lane_wait.py` only polls a long
-  job's done-marker file; it never waits for agents. Integrate the
-  results, then call SubagentHandback once, at the end, with the lane's
-  report.
+- Launch each wave as Agent calls, every child in ONE message (decision
+  0118 rule 8), each brief naming the report file the child writes last,
+  `tooling/.reports/<lane>/<child>.md`; never a Workflow for agents that
+  spawn agents. In this harness an Agent call made by a subagent returns
+  "Async agent launched successfully" at once; it does NOT block. Then
+  wait in the FOREGROUND: `python3 tooling/repo-standards/lane_wait.py
+  --files <those report files> --timeout 540`, re-calling it on each
+  `timeout` until it prints `all done`. Never end your turn and never call
+  SubagentHandback while a child runs (a placeholder hand-back ended two
+  leads' runs). The completion notices that arrive are read when the wait
+  returns. lane_wait is the only wait: no sleep, echo or `true` turns, no
+  polling loops. Integrate the reports, then call SubagentHandback once,
+  at the end, with the lane's real report, never a placeholder.
 - Decide inside the lane. Record a contract or architecture change as one
   decision record (next free number), a place ruling as a row in
   `.claude/skills/place-build/references/rulings.md`. Anything that crosses
