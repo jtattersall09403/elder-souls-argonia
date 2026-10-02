@@ -142,3 +142,26 @@ def test_judge_groups(tmp_path):
         assert p.read_text().count("\n- /") - p.read_text().count("\n- row") <= walk_judge.MAX_IMAGES
     text = (rep / "judge/interiors-1.md").read_text()
     assert "row 48:" in text and "reader.md" in text and "Nothing" in text
+
+
+def test_close_up_pitch_from_eye_to_actual_target():
+    ground = [(0.0, 10.0, 0.0)]
+    centre, box = (0.0, 20.0), (-50, 50, -50, 50)
+    # raised lantern 2.4 m over the ground: looks UP (negative) from 1.6 m eye height
+    sx, sz, yaw, pitch = walk_route.close_up(0.0, 12.4, 0.0, walk_route.FIRE_SIZE_M, centre, ground, 10.0, [], box)
+    assert pitch < 0 and math.isclose(pitch, -math.atan2(12.4 - 11.6, math.hypot(sx, sz)), abs_tol=1e-3)
+    assert math.isclose(yaw, walk_route.bearing(sx, sz, 0.0, 0.0), abs_tol=1e-3)
+    # ground campfire (flame 0.3 m over its origin): looks DOWN from the eye
+    sx, sz, _, pitch = walk_route.close_up(0.0, 10.3, 0.0, walk_route.FIRE_SIZE_M, centre, ground, 10.0, [], box)
+    assert pitch > 0 and math.isclose(pitch, math.atan2(11.6 - 10.3, math.hypot(sx, sz)), abs_tol=1e-3)
+    # a high mount never asks for a look-up steeper than the camera arm allows
+    _, _, _, steep = walk_route.close_up(0.0, 14.0, 0.0, walk_route.SIGN_SIZE_M, centre, ground, 10.0, [], box)
+    assert -walk_route.CLOSE_MAX_UP_RAD - 0.01 <= steep < 0
+
+
+def test_first_overview_has_clear_yaw_check_legs(tmp_path):
+    pub = fixture(tmp_path)
+    r = walk_route.build_route(PID, pub)
+    polys = walk_route.colliders(json.loads((pub / f"province/settlements/{PID}.json").read_text()))
+    w0 = r["waypoints"][0]
+    assert w0["id"] == "overview-nw" and walk_route.yaw_check_clear((w0["xM"], w0["zM"]), polys)

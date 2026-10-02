@@ -38,6 +38,14 @@ WALK_SPEED_MPS = 3.5  # walk_run.mjs --speed default
 # Follow camera (packages/game-core/src/camera/followCamera.ts:9, :25): the view ray passes through
 # the look target 1.45 m over the feet; positive pitch looks down, negative looks up.
 LOOK_ABOVE_FEET_M = 1.45
+EYE_M = 1.6  # close-up pitches are computed from this eye height over the stand ground
+CLOSE_FILL = 1 / 3  # a close-up subject fills this share of the frame height
+CLOSE_FOV_RAD = math.radians(60)  # vertical field of view the fill is sized for
+CLOSE_MIN_M, CLOSE_MAX_M = 3.0, 10.0
+CLOSE_MAX_UP_RAD = 0.35  # the camera arm hangs behind the body: a steeper look-up puts it under the hill
+FIRE_SIZE_M, SIGN_SIZE_M = 0.6, 1.5
+FLAME_ABOVE_ORIGIN_M = 0.3  # a flame sits this far over its fixture's origin
+YAW_CHECK_M = 4.0  # the runner's yaw check walks ~1 s (3.5 m) north then east from the first waypoint
 OVERVIEW_PITCH = 0.08
 INTERIOR_PITCH = 0.12
 # A placement burns when its kit's fires map gives it a light or flame cards,
@@ -181,10 +189,39 @@ def ground_y(x: float, z: float, ground: list[tuple], default: float) -> float:
     return best[1]
 
 
-def aim_pitch(sx: float, sz: float, tx: float, ty: float, tz: float, gy: float) -> float:
-    """Follow-camera pitch (positive = down) that puts (tx, ty, tz) on the view ray through the look
-    target LOOK_ABOVE_FEET_M over the feet standing at (sx, gy, sz)."""
-    return round(math.atan2(gy + LOOK_ABOVE_FEET_M - ty, max(0.5, math.hypot(tx - sx, tz - sz))), 4)
+def aim_pitch(sx: float, sz: float, tx: float, ty: float, tz: float, gy: float, eye: float = LOOK_ABOVE_FEET_M) -> float:
+    """Follow-camera pitch (positive = down) that puts (tx, ty, tz) on the view ray through the point
+    `eye` m over the feet standing at (sx, gy, sz)."""
+    return round(math.atan2(gy + eye - ty, max(0.5, math.hypot(tx - sx, tz - sz))), 4)
+
+
+def close_stand_m(rise: float, size: float) -> float:
+    """Planar stand-off for a close-up of a subject `size` m tall whose centre is `rise` m above the eye:
+    it fills CLOSE_FILL of the frame, and far enough that the look-up stays under CLOSE_MAX_UP_RAD."""
+    fill = size / (CLOSE_FILL * 2 * math.tan(CLOSE_FOV_RAD / 2))
+    up = max(0.0, rise) / math.tan(CLOSE_MAX_UP_RAD)
+    return max(CLOSE_MIN_M, min(CLOSE_MAX_M, max(fill, up)))
+
+
+def close_up(tx: float, ty: float, tz: float, size: float, centre: Pt, ground: list[tuple], default_gy: float,
+             polys: list[Poly], box: tuple) -> tuple[float, float, float, float]:
+    """(stand x, stand z, compass yaw, pitch) for a close-up of the world point (tx, ty, tz): the target is
+    the fixture's actual position (mount height included), the pitch is measured from EYE_M over the
+    stand ground."""
+    gy = ground_y(tx, tz, ground, default_gy)
+    for _ in range(3):  # the stand ground differs from the target's on a slope: settle the distance on it
+        d = close_stand_m(ty - (gy + EYE_M), size)
+        sx, sz = clear_stand(tx, tz, *stand_off(tx, tz, centre, d), polys, box)
+        gy = ground_y(sx, sz, ground, default_gy)
+    return sx, sz, bearing(sx, sz, tx, tz), aim_pitch(sx, sz, tx, ty, tz, gy, EYE_M)
+
+
+def yaw_check_clear(p: Pt, polys: list[Poly]) -> bool:
+    """True when walking YAW_CHECK_M north and east from p stays clear of every collider footprint."""
+    for end in ((p[0], p[1] - YAW_CHECK_M), (p[0] + YAW_CHECK_M, p[1])):
+        if clearance(*end, polys) < CLEAR_M or blocking(p, end, polys):
+            return False
+    return True
 
 
 def stand_off(cx: float, cz: float, centre: Pt, dist: float) -> Pt:
@@ -313,7 +350,10 @@ def build_route(place_id: str, public: Path = PUBLIC, only: list[str] | None = N
     # 4 overviews: the clear painted-way point nearest each boundary corner (land, never water)
     for name, corner in (("overview-nw", (x0, z0)), ("overview-ne", (x1, z0)),
                          ("overview-se", (x1, z1)), ("overview-sw", (x0, z1))):
-        x, z = min(land, key=lambda p: (math.dist(p, corner), p)) if land else stand(*centre, corner[0], corner[1])
+        pool = land
+        if name == "overview-nw":  # the first waypoint hosts the yaw check: its north and east legs must be clear
+            pool = [p for p in land if yaw_check_clear(p, polys)] or land
+        x, z = min(pool, key=lambda p: (math.dist(p, corner), p)) if pool else stand(*centre, corner[0], corner[1])
         b = bearing(x, z, *centre)
         wp(name, x, z, b, [{"type": "shot", "name": name, "yaw": b, "pitch": OVERVIEW_PITCH}])
 
@@ -355,25 +395,22 @@ def build_route(place_id: str, public: Path = PUBLIC, only: list[str] | None = N
         cx = sum(p[1] for p in g) / len(g)
         cz = sum(p[2] for p in g) / len(g)
         cy = sum(p[3] for p in g) / len(g)
-        sx, sz = stand(cx, cz, *stand_off(cx, cz, centre, FIRE_STAND_M))
-        b = bearing(sx, sz, cx, cz)
-        gy = ground_y(sx, sz, ground, min(p[3] for p in g))
+        sx, sz, b, pitch = close_up(cx, cy + FLAME_ABOVE_ORIGIN_M, cz, FIRE_SIZE_M, centre, ground,
+                                    min(p[3] for p in g), polys, box)
         wp(f"fire{i}", sx, sz, b, [{"type": "fire", "name": f"fire{i}", "fixtureIds": [p[0] for p in g],
                                     "centreM": [r2(cx), r2(cy), r2(cz)], "yaw": b,
-                                    "pitch": aim_pitch(sx, sz, cx, cy + 0.3, cz, gy), "n": FIRE_FRAMES, "dtS": FIRE_DT_S}])
+                                    "pitch": pitch, "n": FIRE_FRAMES, "dtS": FIRE_DT_S}])
 
-    # signs: close-ups, aimed at the board 1.5 m over the post foot
+    # signs: close-ups, aimed at the highest placement of the cluster (the board, at its world y)
     signs = sorted((p["id"], p["positionM"][0], p["positionM"][2], p["positionM"][1])
                    for p in bundle["placements"] if SIGN_RE.search(p["assetId"]))
     for i, g in enumerate(clusters(signs, SIGN_CLUSTER_M)):
         x = sum(p[1] for p in g) / len(g)
         z = sum(p[2] for p in g) / len(g)
-        y = sum(p[3] for p in g) / len(g)
-        sx, sz = stand(x, z, *stand_off(x, z, centre, FIRE_STAND_M))
-        b = bearing(sx, sz, x, z)
-        gy = ground_y(sx, sz, ground, y)
+        y = max(p[3] for p in g)
+        sx, sz, b, pitch = close_up(x, y, z, SIGN_SIZE_M, centre, ground, y, polys, box)
         wp(f"sign{i}", sx, sz, b, [{"type": "shot", "name": f"sign{i}", "subjects": [p[0] for p in g], "yaw": b,
-                                    "pitch": aim_pitch(sx, sz, x, y + 1.5, z, gy)}])
+                                    "pitch": pitch}])
 
     # visiting order: overviews first, then nearest-neighbour from the last overview
     head, rest = wps[:4], wps[4:]

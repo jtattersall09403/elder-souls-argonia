@@ -36,7 +36,11 @@ Route rules (the walk-10 causes they fix are in `tooling/.reports/16k/walk10/wal
 - Pitch is the follow camera's: positive looks down (`followCamera.ts` minPitch/maxPitch). Aimed
   pitches put the target on the view ray through the look target 1.45 m over the feet:
   `atan2(ground + 1.45 − targetY, planar distance)`, ground from the nearest walk-route sample. Fires
-  aim at the fixture's y + 0.3 m, door bases at 1.2 m over the threshold, signs at 1.5 m over the foot.
+  door bases at 1.2 m over the threshold. Fire and sign close-ups (`close_up`) aim at the fixture's actual
+  world y (flame +0.3 m; sign = the cluster's highest placement), measure the pitch from 1.6 m eye height over
+  the stand ground, and stand 3-10 m off: far enough that the subject fills a third of a 60 deg frame and the
+  look-up stays under 0.35 rad (a steeper one puts the camera arm under the hill). The first overview (the
+  yaw-check start) is chosen so 4 m north and 4 m east are clear of every collider.
 
 **`walk_run.mjs --route <route.json> --out <dir>`** flags: `--cdp host:port` (127.0.0.1:9242),
 `--t 12,22` (game hours, one pass each), `--w clear` (weather), `--origin` (http://127.0.0.1:8099),
