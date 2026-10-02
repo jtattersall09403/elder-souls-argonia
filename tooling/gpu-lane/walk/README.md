@@ -62,10 +62,17 @@ camera yaw is the negative of the compass bearing it looks along (`camYaw(b) = -
 ## Running it on a pod
 
 1. Pod, setup, site sync and a tunnel as in [../README.md](../README.md) § The loop steps 1-5
-   (`pod-setup.sh`, `pod-sync.sh <site>/studio dev`, `tunnels.mjs open --local <port>`). The walk lane
-   uses local port 9242; use a port no other lane holds.
+   (`pod-setup.sh`, `pod-sync.sh <site>/studio dev`, `tunnels.mjs open --local <port>`). Pick a local
+   port nothing holds on IPv4 (`ss -ltn | grep :<port>`): in walk 10 a local SwiftShader Chrome held
+   127.0.0.1:9242 while the tunnel bound only [::1]:9242, and the runner drove the local Chrome
+   (`gpuAdapter` null, ERR_CONNECTION_REFUSED). Check `curl 127.0.0.1:<port>/json/version` names Chrome 154.
 2. Route: `python3 tooling/gpu-lane/walk/walk_route.py <placeId> --out /tmp/<lane>/route.json`
-3. Run: `node tooling/gpu-lane/walk/walk_run.mjs --route /tmp/<lane>/route.json --cdp 127.0.0.1:9242 --t 12,22 --out tooling/.reports/gpu-lane/walk/<place>`
+3. Every run goes through `tooling/repo-standards/job_guard.sh <lane> -- node tooling/gpu-lane/walk/walk_run.mjs …`
+   (no orphan when the parent dies; lane_watch sees it). First a one-door, one-fire smoke route at `--t 12`
+   (about 2 min; `summary.json` `passes[].yawCheck` must show `stateYaw` = `movedBearing` = `bearing`), then the full
+   run: `--route /tmp/<lane>/route.json --cdp 127.0.0.1:<port> --t 12,22 --out tooling/.reports/gpu-lane/walk/<place>`.
+   The full run passes 10 min, so start it with `setsid nohup … &` and wait with
+   `python3 tooling/repo-standards/lane_wait.py --files <out>/summary.json`.
 4. Judge: `python3 tooling/gpu-lane/walk/walk_judge.py tooling/.reports/gpu-lane/walk/<place>`, then one
    `image-reader` agent per brief; read the `summary.json` findings beside the reader outputs.
 

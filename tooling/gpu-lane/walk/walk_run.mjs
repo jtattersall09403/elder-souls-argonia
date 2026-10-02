@@ -55,7 +55,7 @@ async function main() {
   };
   const shot = async (file) => {
     const p = join(o.out, file);
-    await page.evaluate(() => { window.__hid = [...document.querySelectorAll("body *")].filter((e) => !e.querySelector("canvas") && e.tagName !== "CANVAS" && ["fixed", "absolute"].includes(getComputedStyle(e).position)); window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); }).catch(() => {});
+    await page.evaluate(() => { window.__hid = [...document.querySelectorAll("body *")].filter((e) => { const r = e.getBoundingClientRect(); return r.width * r.height < 0.5 * innerWidth * innerHeight && ["fixed", "absolute"].includes(getComputedStyle(e).position); }); /* HUD and minimap (a canvas), never the full-screen world canvas */ window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); }).catch(() => {});
     await page.screenshot({ path: p, type: "jpeg", quality: 80 });
     await page.evaluate(() => window.__hid?.forEach((e) => { e.style.visibility = e.dataset.v; })).catch(() => {});
     return file;
@@ -160,6 +160,17 @@ async function main() {
       const settle = await sample(page, o.settle);
       P.settle = { ...frameStats(settle.ts), ...settle.work };
       P.settle.hitches = undefined;
+      // yaw convention, measured: after aim(camYaw(b)) state().yaw must read b, and 1 s of W must head along b
+      P.yawCheck = [];
+      for (const b of [0, Math.PI / 2]) {
+        await aim(b, -0.1); await wait(400);
+        const a = await state();
+        await key("w", true); await wait(1000); await key("w", false); await wait(300);
+        const z = await state();
+        const moved = a?.pos && z?.pos ? legTo(pos2(a), pos2(z)) : null;
+        P.yawCheck.push({ bearing: r2(b), stateYaw: a ? r2(a.yaw) : null, movedBearing: moved ? r2(moved.bearing) : null, movedM: moved ? r2(moved.distM) : null });
+        if (a && Math.abs(Math.atan2(Math.sin(a.yaw - b), Math.cos(a.yaw - b))) > 0.2) findings.push({ pass, where: "yaw", finding: `aim(camYaw(${r2(b)})) gave state().yaw ${r2(a.yaw)}` });
+      }
       // the 20 s turning walk along the main path: input only inside the window
       const fw = route.freeWalk;
       if (fw) {
