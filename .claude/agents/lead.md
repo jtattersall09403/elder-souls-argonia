@@ -148,6 +148,12 @@ Rules of the road:
   (g) one pod per lane for iteration loops; a fan-out job (the agent walks
   audit over many places) runs one pod per parallel worker when that is
   faster end to end, each deleted the moment its worker ends (0119 rule 4);
+  (h) after any commit that touches a shader or material, a headless
+  compile check (the lane's build plus the no-GLSL/TSL validation, or an
+  `npm run look` tile) runs on the VM BEFORE any pod capture; a broken
+  shader voided a 10-minute pod capture;
+  (i) a pod is usable only after one SSH check of its public port mapping;
+  a pod with no public SSH is deleted at once and another created;
   every pod-driving run under
   `job_guard.sh <lane> --`, and a capture harness without per-view timeouts
   and parent-death exit is never used.

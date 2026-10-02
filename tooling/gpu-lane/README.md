@@ -52,6 +52,7 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
    `create-pod`): image `runpod/base:1.0.2-ubuntu2404`, cloud COMMUNITY, disk 20 GB, ports
    `["22/tcp"]`, env `NVIDIA_DRIVER_CAPABILITIES=all` and `PUBLIC_KEY=<contents of rp_key.pub>`.
    Use the direct address from `get-pod` (`ssh.direct`), not the `ssh.runpod.io` proxy.
+   A pod is usable only after one SSH check of its public port mapping; a pod with no public SSH is deleted at once and another created.
    Price: RTX 3070 community ~$0.13/h. Keep ONE pod across iterations of a round; delete it (never
    stop it) when nothing is queued. Log minutes and dollars in the lane report.
 3. Set up: `ssh -i /tmp/<lane>/rp_key -p <port> root@<ip> 'bash -s' < tooling/gpu-lane/pod-setup.sh`
