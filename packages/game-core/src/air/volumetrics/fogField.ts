@@ -13,6 +13,7 @@
  * - canopy haze: humid mornings and 30–90 min after rain;
  * - air baseline: always, so shafts and halos have a medium.
  */
+import { sunBurn } from "./fogNoise";
 
 export interface FogFieldInput {
   /** Minutes since local midnight (0..1440). */
@@ -41,6 +42,11 @@ export interface FogFieldInput {
   /** The weather's own expressed advection sea-fog strength here, 0..1 (WeatherSample.mist.advection);
    * the studio's `w=fog` override sets it. It lifts the sea fog to at least this strength. */
   weatherAdvection?: number;
+  /** Sun elevation above the horizon (deg): the sun burns mist, steam, marsh fog and canopy haze off
+   * between 4 and 25 deg (fogNoise sunBurn), less in humid air. Absent: no burn-off. */
+  sunElevationDeg?: number;
+  /** Game day number (floor of epoch minutes / 1440): re-phases the fog's slow modulators each day. */
+  dayIndex?: number;
 }
 
 export interface FogRegimes {
@@ -102,7 +108,14 @@ function dawnEnvelope(h: number, leadH: number, tailH: number): number {
   return 1 - smooth(0, tailH, h);
 }
 
+/** The regimes as a fresh object (tests, harness); per frame use `fogRegimesInto`. */
 export function fogRegimes(i: FogFieldInput): FogRegimes {
+  return fogRegimesInto({ radiationMist: 0, steamFog: 0, marshFog: 0, seaFog: 0, canopyHaze: 0, air: 1, windXZ: [0, 0] }, i);
+}
+
+/** Write the regimes into `out` (allocation-free). Each regime is a coverage target 0..1: froxelGrid
+ * eases it (FogDrift) and burns the shape noise off at threshold 1 - coverage. */
+export function fogRegimesInto(out: FogRegimes, i: FogFieldInput, sunElevationDeg = i.sunElevationDeg): FogRegimes {
   const hSunrise = hoursFrom(i.minuteOfDay, i.sunriseMin);
   const hSunset = hoursFrom(i.minuteOfDay, i.sunsetMin);
   const wind = Math.max(0, i.windSpeedMS);
@@ -110,17 +123,19 @@ export function fogRegimes(i: FogFieldInput): FogRegimes {
   const calm = 1 - smooth(1.5, 5, wind);
   const rainDamp = 1 - clamp01(i.rain * 1.5);
   const humid = clamp01(i.humidity);
+  // the sun burns ground fog off as it climbs (4..25 deg), humid air holds on to half of it
+  const sunKeep = sunElevationDeg === undefined ? 1 : 1 - sunBurn(sunElevationDeg) * (1 - 0.5 * humid);
 
   const dawn = dawnEnvelope(hSunrise, 3, 2.5);
   const radiationMist = Math.max(clamp01(i.weatherRadiation ?? 0),
-    clamp01(i.prevNightClearCalm) * dawn * calm * (0.4 + 0.6 * humid)) * rainDamp;
+    clamp01(i.prevNightClearCalm) * dawn * calm * (0.4 + 0.6 * humid)) * rainDamp * sunKeep;
 
   const steamDawn = dawnEnvelope(hSunrise, 2, 2);
-  const steamFog = steamDawn * calm * (0.3 + 0.7 * clamp01(i.prevNightClearCalm)) * rainDamp;
+  const steamFog = steamDawn * calm * (0.3 + 0.7 * clamp01(i.prevNightClearCalm)) * rainDamp * sunKeep;
 
   const dusk = Math.max(0, 1 - Math.abs(hSunset - 0.75) / 1.75);
   const marshFog = Math.max(dawnEnvelope(hSunrise, 2.5, 2), dusk) * calm * (0.35 + 0.65 * humid)
-    * (0.6 + 0.4 * clamp01(i.wetSeason));
+    * (0.6 + 0.4 * clamp01(i.wetSeason)) * sunKeep;
 
   const onshore = clamp01(i.onshore ?? 0);
   const seaFog = Math.max(clamp01(i.weatherAdvection ?? 0),
@@ -130,13 +145,13 @@ export function fogRegimes(i: FogFieldInput): FogRegimes {
     ? smooth(0, 0.5, i.hoursSinceRain) * (1 - smooth(1.5, 2.5, i.hoursSinceRain))
     : 0;
   const humidMorning = dawnEnvelope(hSunrise, 1, 3) * smooth(0.5, 0.9, humid);
-  const canopyHaze = clamp01(0.25 + Math.max(afterRain, humidMorning) * 0.75) * rainDamp;
+  const canopyHaze = clamp01(0.25 + Math.max(afterRain, humidMorning) * 0.75 * sunKeep) * rainDamp;
 
   const air = 1 + 2 * humid + 3 * clamp01(i.rain);
   // noise drifts at the wind speed, floored so still air still mutates slowly
   const drift = Math.max(0.3, wind);
-  return {
-    radiationMist, steamFog, marshFog, seaFog, canopyHaze, air,
-    windXZ: [i.windDirXZ[0] * drift, i.windDirXZ[1] * drift],
-  };
+  out.radiationMist = radiationMist; out.steamFog = steamFog; out.marshFog = marshFog; out.seaFog = seaFog;
+  out.canopyHaze = canopyHaze; out.air = air;
+  out.windXZ[0] = i.windDirXZ[0] * drift; out.windXZ[1] = i.windDirXZ[1] * drift;
+  return out;
 }
