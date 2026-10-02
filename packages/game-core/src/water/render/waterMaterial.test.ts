@@ -505,7 +505,7 @@ describe("foam, depth tint, shore and exposure per pixel (perf-diag4 V2)", () =>
         expect(frag).toContain("float esColDepth = min(esThick, max(esDepthPx, 0.05) * 4.0);");
         expect(frag).toContain("float esShoreD = esShorePx;");
         expect(frag).toContain("float esExpo = esExpoPx;");
-        expect(frag).toMatch(/float esCrest = [^;]*- vEsStill \+ esWaveF\.z;/);
+        expect(frag).toMatch(/float esCrest = [^;]*- vEsStill \+ esWaveF\.z \+ esCrestD\.z;/);
         // the per-pixel inputs are declared before the colour block reads them
         expect(frag.indexOf("float esExpoPx")).toBeLessThan(frag.indexOf("float esDetStrength"));
       }
@@ -535,7 +535,7 @@ describe("short Gerstner bands per pixel (perf-diag9 V1)", () => {
         expect(frag, `${tier.name}: ${b.wavelengthM} m in the fragment`).toContain(`${b.freq}, ${b.amp}, ${b.phaseSpeed}, ${b.phase0}`);
       }
       expect(frag).toContain("esWaveF = esWaveFrag(vEsWorldPos.xz, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime)");
-      expect(frag).toContain("vec2 esWaveG = esWaveF.xy;");
+      expect(frag).toContain("vec2 esWaveG = esWaveF.xy + esCrestD.xy;");
       expect(frag).toMatch(/esNBase\.x - [^;]*- esWaveG\.x/);
       expect(vert).toContain("vEsWaveIn = vec3(esWaveAmp, esFetchM, esStandW);");
     }
@@ -547,22 +547,33 @@ describe("short Gerstner bands per pixel (perf-diag9 V1)", () => {
   });
 });
 
-describe("low tier crest per pixel (perf-diag11 W1)", () => {
-  it("the crest bands are the two largest whole-vertex bands, read per pixel in place of the mesh's", () => {
+describe("crest bands per pixel (perf-diag11 W1, diag12 Q2)", () => {
+  it("both tiers pick the two highest-curvature (amp*k^2) whole-vertex bands", () => {
+    for (const tier of [WATER_TIERS.high, WATER_TIERS.low]) {
+      const picked = crestBands(tier.waveBands, tier.gridCellM, tier.crestBands);
+      expect(picked.length).toBe(2);
+      const curv = (b: { amp: number; freq: number }) => b.amp * b.freq * b.freq;
+      const whole = waveBands().slice(0, tier.waveBands)
+        .filter((b) => vertexBandWeight(b.wavelengthM, tier.gridCellM) === 1)
+        .map(curv).sort((a, b) => b - a);
+      expect(picked.map(curv)).toEqual(whole.slice(0, 2));
+    }
+    // low: the 17.9 m and 27.7 m bands, not the largest-amplitude 103/66 m
+    const low = WATER_TIERS.low;
+    expect(crestBands(low.waveBands, low.gridCellM, 2).map((b) => Math.round(b.wavelengthM))).toEqual([18, 28]);
+  });
+  it("the low tier swaps the crest bands' vertex slope and height for the per-pixel ones", () => {
     const low = WATER_TIERS.low;
     const picked = crestBands(low.waveBands, low.gridCellM, low.crestBands);
-    expect(picked.length).toBe(2);
-    const whole = waveBands().slice(0, low.waveBands)
-      .filter((b) => vertexBandWeight(b.wavelengthM, low.gridCellM) === 1)
-      .map((b) => b.amp).sort((a, b) => b - a);
-    expect(picked.map((b) => b.amp)).toEqual(whole.slice(0, 2));
     const { shader } = compile("field", assets, low);
     const vert = code(shader.vertexShader);
     const frag = code(shader.fragmentShader);
     // the vertex surface is unchanged (0047): every crest band is still in the vertex sum
     for (const b of picked) expect(vert).toContain(`w = esWaveBand(pos, exposure * clamp(fetchM / ${b.fetchM}`);
     expect(vert).toContain("vEsCrestV = esWaveCrestH(esRestW.xz, esWaveAmp, esFetchM, esStandW, uWaveTime);");
-    expect(frag).toMatch(/esCrest \+= \(esWaveCrestH\(vEsWorldPos\.xz, [^;]*- vEsCrestV\)/);
+    expect(frag).toMatch(/esCrestD = \(esWaveCrestH\(vEsWorldPos\.xz, [^;]*- vEsCrestV\)/);
+    expect(frag).toContain("vec2 esWaveG = esWaveF.xy + esCrestD.xy;");
+    expect(frag).toMatch(/float esCrest = [^;]*\+ esCrestD\.z;/);
     for (const b of picked) expect(frag).toContain(`${b.freq}, ${b.phaseSpeed}, ${b.phase0});`);
     // no crest work where nothing reads it: the strips
     for (const s of [compile("strip", assets, WATER_TIERS.high).shader, compile("strip", assets, low).shader]) {

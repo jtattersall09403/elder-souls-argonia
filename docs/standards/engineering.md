@@ -471,6 +471,8 @@ headless.
   re-compares every material uniform on each material switch.
 - Share it: one material per kit glTF material (or per batch key), never a
   clone per part or per instance.
+- A per-pixel detail swap picks bands by curvature (amp*k^2) against the
+  mesh grid, never by amplitude (`crestBands`, diag12 Q2).
 - A patched material has a stable `customProgramCacheKey` that reads only
   its held state; re-applying the same state sets no `needsUpdate`.
 - Patch it before its first draw: streamed builds go through the lit

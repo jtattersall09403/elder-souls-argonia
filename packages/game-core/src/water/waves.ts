@@ -818,50 +818,54 @@ export function gerstnerFragGlsl(bandCount: number, gridCellM: number): string {
 }
 
 /**
- * The crest-defining bands (perf-diag11 W1): the `count` largest-amplitude
+ * The crest-defining bands (perf-diag11 W1): the `count` highest-curvature
  * bands of the first `bandCount` that stay whole on the vertex path
- * (`vertexBandWeight` 1). Their height decides where the whitecap threshold
- * falls, and on a coarse grid the mesh carries it as one plane per triangle,
- * which draws the crest as wide flat bands.
+ * (`vertexBandWeight` 1), ranked by amp*k^2 (perf-diag12 Q2): the mesh
+ * carries each band as one plane per triangle, and the error of that plane
+ * (pale crest triangles, kinked Gouraud normals) scales with the band's
+ * curvature against the grid, not with its amplitude.
  */
 export function crestBands(bandCount: number, gridCellM: number, count: number): WaveBand[] {
   if (count <= 0) return [];
   return waveBands()
     .slice(0, bandCount)
     .filter((b) => vertexBandWeight(b.wavelengthM, gridCellM) === 1)
-    .sort((a, b) => b.amp - a.amp)
+    .sort((a, b) => b.amp * b.freq * b.freq - a.amp * a.freq * a.freq)
     .slice(0, count);
 }
 
 /**
- * `float esWaveCrestH(vec2 pos, float exposure, float fetchM, float
- * standing, float t)`: the height (m) of the `crestBands` set, the same
- * height term `esWaveBand` adds to the vertex displacement. The vertex shader
- * evaluates it at the rest position into a varying; the fragment evaluates it
- * per pixel and swaps the interpolated value for the exact one in the crest,
- * so the crest is per pixel while the surface stays the one vertex sum
- * (decision 0047). Height only: the bands' normal stays on the vertex.
+ * `vec3 esWaveCrestH(vec2 pos, float exposure, float fetchM, float
+ * standing, float t)`: the `crestBands` set's height gradient (xy, the slope
+ * term of `esWaveBand`'s normal) and height (z, the term it adds to the
+ * vertex displacement). The vertex shader evaluates it at the rest position
+ * into a varying; the fragment evaluates it per pixel and swaps the
+ * interpolated value for the exact one in both the crest and the normal
+ * (perf-diag12 Q2), so the sharpest bands are per pixel while the surface
+ * stays the one vertex sum (decision 0047).
  */
 export function gerstnerCrestGlsl(bandCount: number, gridCellM: number, count: number): string {
   const rows = crestBands(bandCount, gridCellM, count)
     .map(
       (b) =>
-        `h += ${f(b.amp)} * exposure * clamp(fetchM / ${f(b.fetchM)}, 0.0, 1.0) * esWaveBandH(pos, tr, t, ` +
+        `g += ${f(b.amp)} * exposure * clamp(fetchM / ${f(b.fetchM)}, 0.0, 1.0) * esWaveBandGH(pos, tr, t, ` +
         `vec2(${f(b.dirX)}, ${f(b.dirZ)}), ${f(b.freq)}, ${f(b.phaseSpeed)}, ${f(b.phase0)});`,
     )
     .join("\n    ");
   return /* glsl */ `
-  // KEEP IN LOCKSTEP with esWaveBand(): its height term per unit amplitude.
-  float esWaveBandH(vec2 pos, float tr, float t, vec2 d, float freq, float omega, float phase0) {
+  // KEEP IN LOCKSTEP with esWaveBand(): its slope (xy) and height (z) terms
+  // per unit amplitude.
+  vec3 esWaveBandGH(vec2 pos, float tr, float t, vec2 d, float freq, float omega, float phase0) {
     float argS = freq * dot(d, pos) + phase0;
     float tau = t * omega;
-    return sin(argS) * cos(tau) + tr * cos(argS) * sin(tau);
+    float sS = sin(argS), cS = cos(argS), sT = sin(tau), cT = cos(tau);
+    return vec3(d * (freq * (tr * cS * cT - sS * sT)), sS * cT + tr * cS * sT);
   }
-  float esWaveCrestH(vec2 pos, float exposure, float fetchM, float standing, float t) {
-    float h = 0.0;
+  vec3 esWaveCrestH(vec2 pos, float exposure, float fetchM, float standing, float t) {
+    vec3 g = vec3(0.0);
     float tr = 1.0 - clamp(standing, 0.0, 1.0);
     ${rows}
-    return h;
+    return g;
   }
   `;
 }

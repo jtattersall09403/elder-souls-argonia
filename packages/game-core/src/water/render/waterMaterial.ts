@@ -830,7 +830,7 @@ varying vec4 vEsSurf;
 varying vec3 vEsWaveIn;  // wave amp, fetch, standing: the fragment's short bands
 ${SAMPLER_GLSL}
 ${gerstnerGlsl(tier.waveBands, tier.gridCellM)}
-${crestPx ? `varying float vEsCrestV;  // crest bands' vertex height (diag11 W1)
+${crestPx ? `varying vec3 vEsCrestV;  // crest bands' vertex slope (xy) + height (z) (diag11 W1, diag12 Q2)
 ${gerstnerCrestGlsl(tier.waveBands, tier.gridCellM, tier.crestBands)}` : ""}
 ${standingRatioGlsl(classes)}
 ${tideResponseGlsl(classes)}
@@ -920,7 +920,7 @@ float esCamDist = distance(cameraPosition.xz, esRestW.xz);
 float esWaveAmp = esExposure * esSeaRms(uWindMS, esFetchM);
 EsWave esW;
 vEsWaveIn = vec3(0.0, esFetchM, 0.0);${crestPx ? `
-vEsCrestV = 0.0;` : ""}
+vEsCrestV = vec3(0.0);` : ""}
 if (esWaveAmp > 0.0005) {
   // per-band fetch (long swell needs long fetch) + the class standing ratio
   // (lakes/marsh bob, coast marches) — CPU twin: waterWorld.sample
@@ -1005,7 +1005,7 @@ ${strip ? "" : FOAM_FIELD_GLSL + RAIN_RINGS_GLSL + SPARKLE_SSS_GLSL + HORIZON_BL
 ${MENISCUS_GLSL}
 varying vec3 vEsWaveIn;
 ${gerstnerFragGlsl(tier.waveBands, tier.gridCellM)}
-${crestPx ? `varying float vEsCrestV;
+${crestPx ? `varying vec3 vEsCrestV;
 ${gerstnerCrestGlsl(tier.waveBands, tier.gridCellM, tier.crestBands)}` : ""}
 ${foamTex && !strip ? "#define ES_FOAM_TEX 1" : ""}
 uniform vec3 uWaterSunDir;
@@ -1152,7 +1152,15 @@ vec3 esWaveF = vec3(0.0);
 if (vEsWaveIn.x > 0.0005 && esDist < 400.0)
   esWaveF = esWaveFrag(vEsWorldPos.xz, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime)
           * (1.0 - smoothstep(120.0, 400.0, esDist));
-vec2 esWaveG = esWaveF.xy;
+// the tier's crest bands (its sharpest, by curvature) per pixel: exact minus
+// interpolated vertex slope and height, under the same fade; the vertex sum
+// is unchanged (0047), only where the normal and the crest read it from
+// (diag12 Q2: a 17.9 m band on the 3.6 m grid kinked the Gouraud normal)
+vec3 esCrestD = vec3(0.0);${crestPx ? `
+if (vEsWaveIn.x > 0.0005 && esDist < 400.0)
+  esCrestD = (esWaveCrestH(vEsWorldPos.xz, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime) - vEsCrestV)
+           * (1.0 - smoothstep(120.0, 400.0, esDist));` : ""}
+vec2 esWaveG = esWaveF.xy + esCrestD.xy;
 vec3 esNW = normalize(vec3(
   esNBase.x - (esG.x + esGF.x) * esDetStrength - esWaveG.x - esRip.x - esRainG.x,
   esNBase.y,
@@ -1293,15 +1301,9 @@ float esFoamE;
 // PIXEL-driven; it is advected on the transport clock and scaled by wind.
 // The crest per pixel: the mesh crest is one plane per triangle (vertex
 // height minus vertex still level, both interpolated), so the short bands'
-// own height rides on top of it (perf-diag4 V2). Where the tier names
-// crest bands (low: its 3.6 m grid drew the crest as wide pale planes,
-// diag11 W1), their interpolated vertex height is swapped for the exact one
-// at this pixel, inside the short bands' fade, so the surface is still the
-// one vertex sum (0047) and only the crest's source moves.
-float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsStill + esWaveF.z;${crestPx ? `
-if (vEsWaveIn.x > 0.0005 && esDist < 400.0)
-  esCrest += (esWaveCrestH(vEsWorldPos.xz, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime) - vEsCrestV)
-           * (1.0 - smoothstep(120.0, 400.0, esDist));` : ""}
+// own height rides on top of it (perf-diag4 V2), and the crest bands'
+// per-pixel height swap (esCrestD.z, diag11 W1 / diag12 Q2).
+float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsStill + esWaveF.z + esCrestD.z;
 float esCrestMesh = esCrest;   // the real crest, for the backlit scatter
 float esCrestFade = 1.0 - smoothstep(1200.0, 2400.0, esDist);
 // whitecap density from the wind (waves.ts whitecapCoverage: 2 % of the sea
