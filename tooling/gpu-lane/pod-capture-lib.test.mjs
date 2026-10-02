@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, installGpuErrorProbe, gpuProbeLine } from "./pod-capture-lib.mjs";
+import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, installGpuErrorProbe, gpuProbeLine, installDrawCensus, drawCensusLine } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -327,4 +327,41 @@ test("gpu-error probe: every required slot set, no dump", () => {
   pass.drawIndexed(36, 2);
   assert.equal(win.__gpuErrorProbe.dumps.length, 0); assert.equal(win.__gpuErrorProbe.draws, 1);
   assert.match(gpuProbeLine(win.__gpuErrorProbe), /^not-a-bar; no unset slot in 1 draws/);
+});
+
+// --draw-census: a fake renderer and WebGPU device on a fake window, frames driven by hand
+test("draw census: categories, kinds, refreshes, us/draw and created-in-window counts", () => {
+  const rafs = [];
+  class GPUDevice { createRenderPipeline() { return {}; } createShaderModule() { return {}; } }
+  const r = { backend: { draw() {} }, _nodes: { needsRefresh: (ro) => ro.object.name !== "static" }, _renderObjectDirect(ro) { this.backend.draw(ro); } };
+  const win = { GPUDevice, performance: { now: () => 0 }, requestAnimationFrame: (f) => rafs.push(f), __RENDERER__: r };
+  installDrawCensus(win);
+  const frame = () => rafs.shift()();
+  const dev = new GPUDevice();
+  dev.createRenderPipeline({ label: "warmup" }); // before start: not counted
+  const veg = { object: { name: "", isInstancedMesh: true, count: 40, userData: {} }, geometry: { indirect: {} }, material: { name: "" } };
+  const ground = { object: { name: "static", userData: {} }, geometry: {}, material: { name: "es-ground" } };
+  const empty = { object: { name: "", isInstancedMesh: true, count: 0, userData: { esSettlementBatch: true } }, geometry: {}, material: { name: "" } };
+  const odd = { object: { name: "thing", type: "Mesh", userData: {} }, geometry: {}, material: { name: "x", type: "MeshBasicNodeMaterial" } };
+  r._renderObjectDirect(ground); // before start: not counted
+  win.__drawCensus.start();
+  let t = 0; win.performance.now = () => (t += 0.005);
+  for (let i = 0; i < 2; i++) {
+    for (const ro of [veg, veg, ground, empty, odd]) { r._nodes.needsRefresh(ro); r._renderObjectDirect(ro); }
+    frame();
+  }
+  dev.createRenderPipeline({ label: "renderPipeline_late" }); dev.createShaderModule({ label: "late.wgsl" });
+  const c = win.__drawCensus.stop();
+  assert.equal(c.frames, 2);
+  assert.deepEqual(c.hooked, { draw: true, renderObjectDirect: true, needsRefresh: true });
+  assert.equal(c.drawsPerFrame, 5); assert.equal(c.drawsMax, 5);
+  assert.deepEqual(c.byCategory, { "veg-gpucull": 2, "settlement-merge": 1, terrain: 1, other: 1 });
+  assert.deepEqual(c.kindsPerFrame, { plain: 2, instanced: 1, indirect: 2, zero: 1 });
+  assert.equal(c.refreshesPerFrame, 4); assert.equal(c.refreshByCategory.terrain, undefined);
+  assert.equal(c.usPerDraw, 5); // one now() pair inside draw = 5 us
+  assert.ok(c.usPerRenderObject > c.usPerDraw);
+  assert.deepEqual(c.createdInWindow, { pipelines: 1, shaders: 1, labels: ["pipelines:renderPipeline_late", "shaders:late.wgsl"] });
+  assert.equal(c.otherTop[0][0], "Mesh:thing|MeshBasicNodeMaterial:x");
+  assert.match(drawCensusLine(c, 12.5), /^not-a-bar; 5 draws, 5 us\/draw \(0\.03 of 12\.5 ms CPU\), 4 refreshes, 2 created in window; veg-gpucull 2, settlement-merge 1, terrain 1$/);
+  assert.match(drawCensusLine(null), /^not-a-bar; census unread/);
 });

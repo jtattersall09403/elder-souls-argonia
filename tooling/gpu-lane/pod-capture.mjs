@@ -49,6 +49,8 @@
  *              only against other --cpu-profile runs (the sampler costs main-thread time).
  * --probe-gpu-errors  diagnosis only (rows read "not-a-bar"): wraps the WebGPU API before the app's scripts and dumps the first draw of
  *              up to 3 pipelines that need an unset vertex slot (pod-capture-lib installGpuErrorProbe) -> <out>/<view>/gpu-error-probe.json
+ * --draw-census  diagnosis only (cells read "not-a-bar"): over the cost window, three's draws per frame by category and kind, us per
+ *              draw, node refreshes, pipelines/shaders created (pod-capture-lib installDrawCensus) -> <out>/<view>/draw-census.json
  * --allow-paused  run studio views whose URL lacks rate= (paused world clock); without it such a views file exits 2 naming them
  * WebGPU check: after every browser (re)connect (--chrome-mode webgpu) navigator.gpu.requestAdapter() is polled, after load, on the served origin's page
  *              for up to 20 s (result adapterWaits). A view asking WebGPU (url renderer=webgpu, or expectBackend: "webgpu")
@@ -71,7 +73,7 @@
 import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { installGpuErrorProbe, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop } from "./pod-capture-lib.mjs";
+import { installGpuErrorProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit } from "./checks.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
@@ -88,7 +90,7 @@ const prof = opt("profile") ? parseProfile(opt("profile")) : null, windowS = Num
 const W = Number(opt("width", 1280)), H = Number(opt("height", 720));
 const settledFrames = Number(opt("settled-frames", 300)), settleFloor = Number(opt("settle-floor", 60));
 const readyTimeoutS = Number(opt("ready-timeout", 90)), captureTimeoutS = Number(opt("capture-timeout", 180));
-const probeGpuErrors = args.includes("--probe-gpu-errors");
+const probeGpuErrors = args.includes("--probe-gpu-errors"), drawCensus = args.includes("--draw-census");
 const heapProfileAll = args.includes("--heap-profile"), cpuProfile = args.includes("--cpu-profile");
 // a studio view without rate= runs a paused clock: not a game-speed measurement (diag10 T9)
 const paused = pausedClockViews(views);
@@ -221,7 +223,8 @@ const INIT = `(() => {
   };
 })();
 try { (${pageProbe})(); } catch {}${probeGpuErrors ? `
-try { (${installGpuErrorProbe})(window); } catch {}` : ""}`;
+try { (${installGpuErrorProbe})(window); } catch {}` : ""}${drawCensus ? `
+try { (${installDrawCensus})(window); } catch {}` : ""}`;
 const READ = `(async () => {
   const r = window.__RENDERER__, i = r?.info, q = r?.esBuildQueue, pm = performance.memory;
   const frame = () => window.__RENDERER__?.info?.render?.frame ?? window.__RAFN;
@@ -342,6 +345,7 @@ async function costWindow(dir, atS, heapProfile = false) {
   await evaluate(`(() => { const t0 = performance.now(); window.__HEAPS = []; clearInterval(window.__HEAPI);
     window.__HEAPI = setInterval(() => window.__HEAPS.push([(performance.now() - t0) / 1000, (performance.memory?.usedJSHeapSize ?? NaN) / 1e6]), 500); })()`);
   await evaluate(`(() => { const l = window.__GPU_LANE__; if (l) { l.frames = []; l.ts = []; l.wrapMs = 0; l.on = true; } })()`);
+  if (drawCensus) await evaluate(`window.__drawCensus?.start()`);
   traceEv = []; const done = new Promise((r) => { traceDone = r; });
   let traced = true;
   try { await send("Tracing.start", { traceConfig: { includedCategories: TRACE_CATEGORIES, recordMode: "recordContinuously" }, transferMode: "ReportEvents" }); } catch { traced = false; }
@@ -349,6 +353,8 @@ async function costWindow(dir, atS, heapProfile = false) {
   let cpu = cpuProfile;
   if (cpu) { try { await send("Profiler.enable"); await send("Profiler.setSamplingInterval", { interval: 200 }); await send("Profiler.start"); } catch { cpu = false; } }
   await new Promise((r) => setTimeout(r, windowS * 1000));
+  const census = drawCensus ? ((await evaluate(`window.__drawCensus ? window.__drawCensus.stop() : { err: "no census on the page" }`, 10_000)) ?? { err: "census read failed" }) : null;
+  if (census) writeFileSync(join(dir, "draw-census.json"), JSON.stringify(census, null, 1));
   let cpuProf = null;
   if (cpu) { try { cpuProf = (await send("Profiler.stop", {}, 60_000)).profile; writeFileSync(join(dir, "window.cpuprofile"), JSON.stringify(cpuProf)); } catch (e) { cpuProf = { error: String(e.message) }; } }
   const raw = await evaluate(`(() => { const l = window.__GPU_LANE__; if (!l) return null; l.on = false;
@@ -382,7 +388,7 @@ async function costWindow(dir, atS, heapProfile = false) {
       wallFps: r1(raw.frames.length / windowS), low1: onePercentLow(dts) };
   }
   const cpuTopRes = !cpuProf ? null : cpuProf.error ? { error: cpuProf.error } : cpuTop(cpuProf, raw?.frames?.length ?? null, 25);
-  return { at: atS, seconds: windowS, work, stages, cpuTop: cpuTopRes, hitches, heapTop: heap, heap: { fitMBPerMin: heapLine.mbPerMin, samples: heapLine.n, majorGCs, allocMBps } };
+  return { at: atS, seconds: windowS, work, drawCensus: census, stages, cpuTop: cpuTopRes, hitches, heapTop: heap, heap: { fitMBPerMin: heapLine.mbPerMin, samples: heapLine.n, majorGCs, allocMBps } };
 }
 
 async function captureView(view) {
