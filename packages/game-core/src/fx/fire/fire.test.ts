@@ -192,7 +192,11 @@ describe("FlameSystem", () => {
     const flames = meshes[0].geometry as THREE.InstancedBufferGeometry;
     const rows = flames.getAttribute("iPosSeed") as THREE.InterleavedBufferAttribute;
     expect(rows.data.count).toBe(flames.instanceCount);
-    expect(flames.index).toBe(before[0].index);
+    // the old geometry's dispose frees every attribute it holds: none may live on in the new one
+    const live = new Set<unknown>([flames.index, ...Object.values(flames.attributes)]);
+    const oldOwned = [before[0].index, ...Object.values(before[0].attributes)];
+    for (const a of oldOwned) expect(live.has(a)).toBe(false);
+    expect(flames.index!.count).toBe(before[0].index!.count);
   });
 
   it("expands a candle to its 3 cards, a campfire to its core + outer cards over its bed, with embers", () => {

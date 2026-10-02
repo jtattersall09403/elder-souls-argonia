@@ -350,7 +350,11 @@ export class FlameSystem {
 
 /**
  * Point `mesh` at a NEW geometry carrying `data` as its instance rows (the
- * quad or box attributes shared), and dispose the old one. Never new
+ * quad or box index and attributes CLONED, never shared), and dispose the old
+ * one. Sharing them broke WebGPU: the old geometry's dispose handler deletes
+ * every attribute in its render object's list, so shared index/position/uv
+ * buffers were destroyed under the live geometry ("[Buffer] used in submit
+ * while destroyed" 4440x, blank main scene; vol-diag1 row 1). Never new
  * attributes on the same geometry: three's render objects cache a geometry's
  * attribute list and detect a swapped attribute by its `id`, which an
  * InterleavedBufferAttribute does not have, and the dispose handler re-reads
@@ -364,9 +368,11 @@ function bindInterleaved(mesh: THREE.Mesh<THREE.InstancedBufferGeometry>, data: 
   columns: [string, number][]): void {
   const old = mesh.geometry;
   const geometry = new THREE.InstancedBufferGeometry();
-  geometry.setIndex(old.index);
+  if (old.index) geometry.setIndex(old.index.clone());
   for (const [name, attribute] of Object.entries(old.attributes)) {
-    if (!(attribute as THREE.InterleavedBufferAttribute).isInterleavedBufferAttribute) geometry.setAttribute(name, attribute);
+    if (!(attribute as THREE.InterleavedBufferAttribute).isInterleavedBufferAttribute) {
+      geometry.setAttribute(name, (attribute as THREE.BufferAttribute).clone());
+    }
   }
   const buffer = new THREE.InstancedInterleavedBuffer(data, stride, 1);
   buffer.setUsage(THREE.DynamicDrawUsage);
