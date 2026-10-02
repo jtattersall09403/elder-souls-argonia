@@ -11,7 +11,8 @@
   it; one rule covers a table on the floor, a lantern on its beam, a window
   in its wall. ``inf`` when nothing lies within ``REACH_M``.
 * ``down_support``: per placement, how far its underside lies above the first
-  surface of another piece straight below, and which piece that is (rays from its lowest points).
+  surface of another piece straight below, and which piece that is (rays from its lowest points and a
+  ``FOOT_GRID`` grid over its plan footprint at its underside).
 * ``settle``: the exporter pass. A plugin clutter or furniture piece that
   touches nothing but has a surface 0-``SETTLE_MAX_M`` below its underside is
   lowered onto it (Skyrim's havok does this at load; the plugin stores the
@@ -31,6 +32,7 @@ REACH_M = 0.30
 SETTLE_MAX_M = 0.12
 SETTLE_CATEGORIES = frozenset({"clutter", "furniture", "item", "container"})
 PROBE = 0.03
+FOOT_GRID = 5      # footprint ray grid a side under each piece (down_support)
 SETTLE_PASSES = 8  # dependent chains followed at most (plate on table on crate)
 
 
@@ -108,6 +110,12 @@ def down_support(mesh, owner, idx) -> dict[int, tuple[float, int]]:
         low = v[v[:, 1] < v[:, 1].min() + 0.01]
         if len(low) > 12:
             low = low[np.linspace(0, len(low) - 1, 12).astype(int)]
+        # and a grid over its plan footprint at its underside: a stem or a
+        # pot's base can sit over a gap in a slatted shelf whose slats hold
+        # the piece's wider body (16k walk 9, CIPHTBMHutInterior01)
+        lo, hi = v.min(0), v.max(0)
+        gx, gz = np.meshgrid(np.linspace(lo[0], hi[0], FOOT_GRID), np.linspace(lo[2], hi[2], FOOT_GRID))
+        low = np.vstack([low, np.column_stack([gx.ravel(), np.full(gx.size, lo[1]), gz.ravel()])])
         origins.append(low + [0, PROBE, 0])
         who.append(np.full(len(low), i))
     out = {i: (np.inf, -1) for i in idx}

@@ -22,7 +22,8 @@ This skill holds the procedure; its `references/` hold the grounding:
 |---|---|---|
 | [references/lessons/](references/lessons/README.md) | the lessons store, one file per section (README: row format and what each file holds; 0106): every lesson still in force, each with its gate | step 0, only the rows the site packet lists for this type; a section file when a job needs it |
 | [references/design-index.md](references/design-index.md) | one line per binding source or prior: the rule id and when it applies | step 0, the rows for this type, culture and step |
-| [references/reader-checklist.md](references/reader-checklist.md) | what the Sonnet image reader is told to look for | steps 3–4, pasted into the reader's prompt |
+| [references/dressing.md](references/dressing.md) | the facing table, idle-socket placement, signs by use and pool, and the dressing each place still lacks with its kit | steps 1-2, the dressing groups |
+| [references/reader-checklist.md](references/reader-checklist.md) | what the `image-reader` agent is told to look for | steps 3–4, pasted into the reader's prompt |
 | [references/types/](references/types/) | one design sheet per place type on the 16k list | step 0, this place's type |
 | [references/doors-interiors-sockets.md](references/doors-interiors-sockets.md) | door records, shells chosen for their interiors, the fit rule, the tier A export, the interior runtime contract, the socket kinds and gates, the approach checklist | steps 1, 2 and 5 |
 | [references/round-recipe.md](references/round-recipe.md) | the timetable of one round: what fans out, what the builder does itself, what is never done in a round | steps 2–4 and 7, before the first edit |
@@ -153,17 +154,16 @@ per building, enclosure, path, light, water edge and dressing group:
   lanterns hang where you judge they look good, at the mod's height,
   verified by the reader pass.
 - **Sinks** (R12, R36): a tree, piece of architecture or piece 3 m or
-  taller whose sink row is the mesh-sill fallback is listed by gate
-  `sink.fallback` and holds the place red: choose a measured piece, or
-  re-mine its row (`mine_designed_sink --assets <id> --merge`). A piece its
-  makers never stand on LAND (a dock deck or stair over water) measures
-  nothing: give it a reviewed `assetPlacement` row in
-  `tooling/asset-pipeline/pipeline/config/placement-policies.json` (sink,
-  why, a render of its foot) and refresh the kits that carry it
-  (`--refresh-built-manifests --kit <kit>`), as the builder does, in the
-  same round (L83).
+  taller whose sink row is the mesh-sill fallback holds the place red
+  (gate `sink.fallback`): choose a measured piece or re-mine its row; a
+  piece never stood on land gets a reviewed `assetPlacement` row (L83;
+  commands in [references/builder-practice.md](references/builder-practice.md) § Sinks).
 - Dressing is authored as named **yard sets** per building kind, defined
-  in the type sheet and placed with `group place` (0100 decision 5).
+  in the type sheet and placed with `group place` (0100 decision 5), and
+  obeys [references/dressing.md](references/dressing.md): every seat,
+  spit and lantern faces its user (R94), every idle socket stands at its
+  prop (R95), every lodging, trade, stable or smith parcel carries its
+  pool's board by the door (R96); `check` measures all three.
 - The bars: this place's tier and type objects in
   `world/sources/placement/breadth-bars.json` (16k § 1b) and 0098 § 1's
   table, each written with the number the brief plans to reach; the
@@ -183,13 +183,12 @@ per building, enclosure, path, light, water edge and dressing group:
   § Quests, § Seams: what each says is in
   [references/brief-sections.md](references/brief-sections.md). The rules
   in short: one Interiors row per door, `reserved` only for a tier B or C
-  interior (R2, R10). **No closed buildings** (CLAUDE.md, 0114 rule 3,
-  L50): every building is open (no door) or a plugin-linked shell opening
-  onto its linked cell (R83); run the shell-choice checklist
-  (`references/doors-interiors-sockets.md` §2) per building before the
-  layout. Containers and visible items are meshes now; three creative
-  calls unlike the register's rows; every roster slot has a work and a
-  home socket.
+  interior (R2, R10). **No closed buildings** (0114 rule 3, L50): every
+  building is open or a plugin-linked shell; run the shell-choice
+  checklist (`references/doors-interiors-sockets.md` §2) per building
+  before the layout. Containers and visible items are meshes now; three
+  creative calls unlike the register's rows; every roster slot has a work
+  and a home socket.
 
 Ends when: every row has all four columns, every bar a planned number,
 every door an Interiors row, every promise a fulfilment or an `unfilled`
@@ -232,16 +231,10 @@ record row or an UNVERIFIED mark.
 
    It writes each door's `interiorClaim` from the shell's linked set by the
    fit rule; compare with § Interiors and fix the brief or the shell, never
-   the claim. The plugin's link is the interior (R83): a bound cell bigger
-   than its shell is the modder's pairing and stands; a cell that is not
-   one of the shell's own linked cells is a rule defect, fixed in
-   `blueprint_interiors.py`, never by hand-picking. A `hollow` door (a
-   shell no plugin gives a load door) is a closed building and a build
-   error (0114 rule 3): `--claim` exits 3 and gate `interiors.closed`
-   fails; re-shell to a linked shell. Exit 3 also names a linked shell no linked
-   cell passes (source the cell's missing pieces or re-shell, never widen
-   the rule) and every socket op standing in a cell no door claims (move
-   it to a claimed cell of the place or an exterior spot).
+   the claim. The plugin's link is the interior (R83). A `hollow` door is
+   a closed building (0114 rule 3): `--claim` exits 3 and gate
+   `interiors.closed` fails; re-shell. Other exit-3 causes and their
+   fixes: [references/doors-interiors-sockets.md](references/doors-interiors-sockets.md) § 2.
 
 Ends when: `apply` reports 0 compile errors, `check` has ZERO failures
 (placement-workbench § 5), every lived-in door has a tier A claim (or, for
@@ -255,7 +248,7 @@ a tier B or C interior only, `reserved` naming its pool; R2), and
 `--layout` renders what the last `apply` derived (refused when the layout
 changed since) and implies `--plan`. Renders carry no text (R8);
 `--labels` is for a human debugging a render only. Hand the PNG to one
-Sonnet reader with the **Plan** rows of `references/reader-checklist.md`
+`image-reader` agent with the **Plan** rows of `references/reader-checklist.md`
 and the brief's expectations written first; fix footprint, spacing, path
 and door-facing findings in the layout; `apply`; render again. No Blender
 render until the plan read is clean (0100 decision 3 as amended).
@@ -278,25 +271,18 @@ place's doors claim (one contact sheet each, ~40 s; `references/doors-interiors-
 (reader row 48). This is the required interior check. Flames are
 verified only by `tooling/visual-look/flames.mjs` on the built site, one
 PASS per cell and one outdoors at night (`references/fire.md` § 3 step 4;
-the render's flame proxy is not that check). Before the
-renders, `wb.py audit-interior <cell ...>` (~20 s a cell; it and
-`seat-interior` run under `job_guard.sh`, or the CPU watchdog pauses them) must exit 0:
-every placed piece's texture published and no shell on a flat LOD swatch, every
-piece touching a support within 5 cm, every stair landing at both ends,
-every hearth with its fire, one lit fixture per 12 m² of the floor the player
-reaches from the doors (one surface per storey; a rug or table top is not floor)
-(reader row 49; 16k walk 6, the garbled Greenspring hut), and no coplanar
-pair. Before any render, `wb.py coplanar` (places; `check`'s `coplanar`
-rule) / `audit-interior` (cells) exits 0: two surfaces never share a plane
-within 2 mm over an overlap (the fix moves one at least 5 mm or drops a repeat) unless one is a declared decal drawn with
-polygonOffset; decal-on-decal is merged or clipped at authoring (reader
-row 50, R90). A red is fixed at
-source (kit texture alias, exporter stand-in, additions file), never by
-moving a plugin piece.
+the render's flame proxy is not that check). Before the renders,
+`wb.py audit-interior <cell ...>` (~20 s a cell, under `job_guard.sh`)
+must exit 0: textures published, pieces seated within 5 cm, stairs
+landed, hearths with fire, one lit fixture per 12 m² of reachable floor
+(reader row 49) and no coplanar pair; `wb.py coplanar` / `check`'s
+`coplanar` rule does the same for places (reader row 50, R90). Rules and
+fixes: [references/builder-practice.md](references/builder-practice.md) § Interior audit.
+A red is fixed at source, never by moving a plugin piece.
 
 One Blender launch: the top view, one front per building, two isos, and a
 shot of every `unmined` mount (0102 decision 5). The readers run as one
-`Workflow`, one Sonnet reader per image or contact sheet, one merged NO
+`Workflow`, one `image-reader` per image or contact sheet, one merged NO
 list (`references/round-recipe.md` step 3); each gets only the
 `reader`-tagged rows of `references/reader-checklist.md` for its view:
 readers judge only what `check` cannot measure. A NO, an UNSURE, a black
@@ -347,16 +333,24 @@ without that is an escalation to the planner, never a packet.
   compared with the walked rev; a height over water against the DRAWN
   water and pose (same reference § Verify).
 
-**5b. Record = built (two-way authority, 0104 decision 6; owner walk 7).**
-The catalogue record, the 2D map popup (`places.json`, regenerated from
-the record by `export_places` above) and the built place say the same
-thing. Whatever the build changed (fewer buildings, no underwater way
-in, an added islet shrine), edit the RECORD in the same change, prose
-and fields, re-run `blueprint_promises --write`, review every quest that
-anchors here (its row in `world/sources/quests/`, then `export_quest_index`),
-and confirm each prose and quest row (checklist and gate:
-[references/promise-ledger.md](references/promise-ledger.md) § Record = built).
-Gates `promises` and `record.consistency` fail until it is done.
+**5b. Record coherence (0104 decision 6, 0117; owner walks 7, 8 and 9).**
+The catalogue record is the one truth the 2D map popup (`places.json`,
+from `export_places` above) and the builders read; it must agree with
+itself, the world around it (routes, neighbours, water), the scene as
+built (what stands on land, water or islet, what the plank walks join,
+what grows within 200 m), every quest that uses it, lore and the built
+place, and its change set must leave every other place and quest as
+coherent as it found them. Run the protocol in
+[references/record-coherence.md](references/record-coherence.md): build
+the packet (`worldgen.record_coherence --place <id>`; read its § Scene
+before writing one word about where things stand or what grows), six
+readers return NO lists, ONE Opus synthesis writes one change set, then
+`record_coherence --changed` (every touched record and every place that
+references one, green; the `set` reader reads its before/after packet),
+`export_places`, `blueprint_promises --write` ([references/promise-ledger.md](references/promise-ledger.md)
+§ Record = built), `record_coherence --receipt` and one `text-review`.
+Never one issue at a time. Gates `record.coherence` (every built place),
+`record.regression`, `record.consistency` and `promises` fail until done.
 
 Ends when: 0 compile errors, every per-place gate green, the place
 published and every claim read back; the batch gates run when the
@@ -377,11 +371,7 @@ detail and the post procedure are in
 5. **Please look at** (at most eight lines): only judgements no tool makes.
 6. **§ Gaps** only for 0102 decision 3's four reasons; **§ Owner calls** only for world-level choices.
 7. Pictures (0102 decision 11): the plan render and up to four Blender shots, committed.
-8. How to reply, then the stay-or-switch line (0083).
-
-Post with `owner_inbox.py --post <packet.md> ... --attach ... --walk <walk>`
-twice (the first run stages the pictures; commit and push them; the second
-posts); collapse old packets with `owner_inbox.py --collapse`.
+8. How to reply, then the stay-or-switch line (0083). Post per walk-packet.md (two runs, pictures pushed between).
 
 ## 7. The fix round (`continue 16k slice N after owner walk`)
 
@@ -406,7 +396,9 @@ posts); collapse old packets with `owner_inbox.py --collapse`.
    ruling naming the cause. The inner loop of steps 2–4 runs to zero
    `check` failures and zero reader NOs; a reader NO on something the
    owner called right goes to the planner, not fixed.
-4. Then `place_gates` and the § 5 read-back of every fix against the
+4. When the round touched the record, a quest or what is built, run
+   step 5b's record-coherence protocol once over the place. Then
+   `place_gates` and the § 5 read-back of every fix against the
    published bundle (R74; a fix not visible there is not done), then the
    place joins the next **batch** deploy and its walk packet, whose
    § What changed is `wb.py whatchanged` (R35).

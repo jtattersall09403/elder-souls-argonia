@@ -112,11 +112,11 @@ network in [argonia-4e201-state.md](argonia-4e201-state.md) §6:
 
 | Name | Position (canon) | Proposed 4E 201 role | Class |
 |---|---|---|---|
-| **Greenspring** | SW of Helstrom, on the Panther fork | Freshwater village at the fork; the last friendly stop before Helstrom's approach; springs that are actually drinkable (a genuinely notable thing here) | M3 |
+| **Greenspring** | SW of Helstrom, on the Panther fork (canon); on our map 1.8 km NE of Helstrom, by the Panther Race | Freshwater Hist village with a lodge; a spring that is actually drinkable (a genuinely notable thing here), and a Hist that has begun to sicken | M2 |
 | **Alten Markmont** | SE of Helstrom | Interior trade-stage where the southern water route meets the Helstrom approach; the *alten-* prefix marks it, like Alten Corimont and Alten Meerhleel, as an **outsider-facing port name** — so: an old, mostly abandoned foreign trading station the interior tolerates | M2 + S |
 | **Tenmar Wall** | N of Helstrom / E of Stormhold / W of Alten Corimont | The northern hinge. See §3 | M3 |
 | **Rockguard** | NW of Stormhold | = Hutan-Tzel. See §3 | M3 |
-| **Riverwalk** | E of Alten Corimont, W of Thorn | The northern trunk's mid-point: a boardwalk village strung along a channel, ferry stage and toll | M3 |
+| **Riverwalk** | E of Alten Corimont, W of Thorn (canon); on our map 0.95 km E of Thorn | Boardwalk village on the sea cove at the mouth of the pilgrim water: ferry stage, toll on boats entering the water, crews fed and lodged | M1 |
 | **Chasecreek** | NE of Alten Corimont | Creek-mouth fishing hamlet and smuggler's lay-by | M2 |
 | **Rockpoint** | SE of Alten Corimont | Alten Corimont's rival (canon names the rivalry) — a competing landing that lost | M2 |
 | **Branchmont** | SW of Thorn | Saltrice country: an ex-Archein estate village, now disputed | M3 |

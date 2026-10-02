@@ -19,7 +19,7 @@ CLAYWATER = "place.imperial-fringe.claywater-station"
 #: promises no socket, door or parcel fills yet, per place. A ledger that lands
 #: before its place's fills pins its open count here; the count only falls, to
 #: 0 at the slice's acceptance. Claywater fills all 14 rows since walk 2
-#: (2026-09-27), so it pins nothing.
+#: (2026-09-27), so it pins nothing; nor does any other place today.
 OPEN_PROMISES_PINNED: dict[str, int] = {}
 
 

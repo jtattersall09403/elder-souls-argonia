@@ -1138,6 +1138,25 @@ def test_an_opening_above_the_floor_is_found_at_its_sill():
     assert doors[0]["clearM"] == pytest.approx(2.2, abs=0.1)
 
 
+def test_a_doorway_is_confirmed_at_its_storey_surface_not_the_ladder_rung():
+    """16k walk 9: KotM's shed tread stands 1.06 m off the rung its ring closed
+    at and the lizardhouse pod floor 1.18 m, so a sill band hung off the rung
+    tested both real openings as closed wall. The band hangs off the surface
+    the probe's down ray stands on."""
+    tris = np.vstack([room(ceiling=4.0, hole_east=True, sill=1.0),
+                      np.asarray(_slab(1.0), dtype=np.float64)])
+    door = {"sideDeg": 90.0, "offsetM": [5.0, 0.0], "arcM": 1.2}
+    probe = ix.probe_from_inside(tris, (0.0, 0.0), 0.0 + ix.EYE_HEIGHT_M)
+    assert ix.doorway_rays(tris, door, 0.0, ix.LEAF_SILL_MAX_M) is None  # the rung's band
+    door_y = ix.door_storey_y(probe, 0.0, 0.0)
+    assert door_y == pytest.approx(1.0, abs=0.01)
+    proof = ix.doorway_rays(tris, door, door_y, door_y + ix.LEAF_SILL_MAX_M)
+    assert proof is not None and proof["sillYM"] == pytest.approx(1.0, abs=0.06)
+    # a hit at the knees, or no floor at all, keeps the rung
+    assert ix.door_storey_y(dict(probe, floorDropM=0.2), 0.0, 0.0) == 0.0
+    assert ix.door_storey_y(dict(probe, floor=False), 0.0, 0.0) == 0.0
+
+
 def test_the_sill_is_the_tread_not_the_gap_under_a_floor_slab():
     """The Riften stable's shape: a horizontal ray slides under the stall floor,
     so the sill is where the down ray finds the tread."""
@@ -1196,3 +1215,40 @@ def test_the_approach_outranks_the_ray_pick():
                            {"kind": "approach", "sideDeg": 95.8, "arcM": 1.7}]}
     ix.finalise_entrance(record)
     assert record["entrance"]["kind"] == "approach"
+
+
+def test_a_rock_with_an_invisible_load_door_is_a_cave_mouth_and_no_other_rock_is():
+    # 16k walk 9: rockcaveentrance02 holds King of the Murkmire's AutoLoadDoor01
+    rock = {"category": "rock", "interior": "none"}
+    assert ix.cave_mouth_link(rock, {"doorModel": "vanilla:autoloadmarker01"})
+    assert not ix.cave_mouth_link(rock, {"doorModel": "vanilla:architecture/farmhouse/farmhouseldoor01"})
+    assert not ix.cave_mouth_link({"category": "misc"}, {"doorModel": "vanilla:autoloadmarker01"})
+
+
+def test_a_radial_cave_mouth_door_is_fixed_on_its_doors_axis_toward_the_show_side():
+    # rockcaveentrance02's plugins face their doors out (about 110) or in (about 290)
+    record = {"category": "rock", "caveDoorYawsDeg": [107.0, 113.0, 287.0, 293.0],
+              "entrance": {"kind": "esp-door", "radial": True, "radiusM": 1.5}}
+    ix.fix_cave_mouth_entrance(record, 79.7)
+    ent = record["entrance"]
+    assert "radial" not in ent and "caveDoorYawsDeg" not in record
+    assert abs(ent["sideDeg"] - 110.0) < 0.01 and ent["yawDeg"] == ent["sideDeg"]
+    record = {"category": "rock", "entrance": {"kind": "esp-door", "radial": True, "radiusM": 1.5}}
+    ix.fix_cave_mouth_entrance(record, 90.0)
+    assert record["entrance"]["offsetM"] == [1.5, -0.0]
+
+
+def test_cave_door_yaws_never_reach_the_sidecar():
+    # walk 9 review: a cave-mouth rock with no derivable front, or a door that is
+    # not radial, kept the working field and published it
+    yaws = [107.0, 113.0]
+    for record, front in (
+            ({"category": "rock", "caveDoorYawsDeg": yaws,
+              "entrance": {"kind": "esp-door", "radial": True, "radiusM": 1.5}}, None),
+            ({"category": "rock", "caveDoorYawsDeg": yaws,
+              "entrance": {"kind": "esp-door", "radiusM": 1.5}}, {"deg": 80.0}),
+            ({"category": "rock", "caveDoorYawsDeg": yaws,
+              "entrance": {"kind": "esp-door", "radial": True, "radiusM": 1.5}}, {"deg": 79.7})):
+        ix.settle_cave_mouth(record, lambda: front)
+        assert "caveDoorYawsDeg" not in record
+    assert abs(record["entrance"]["sideDeg"] - 110.0) < 0.01

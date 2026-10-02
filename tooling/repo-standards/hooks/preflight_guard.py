@@ -60,6 +60,27 @@ def changed(paths: list[str]) -> list[str]:
                   | set(git("ls-files", "-o", "--exclude-standard", "--", *paths)))
 
 
+def batch_base() -> str | None:
+    """The commit the batch started at: review_gate's last close (reviewed HEAD) when
+    it is an ancestor of HEAD, else None (no close recorded: the dirty tree is the batch)."""
+    try:
+        import review_gate
+        last = review_gate.read_reviewed_head()
+        return last if last and review_gate._is_ancestor(last) else None
+    except Exception:
+        return None
+
+
+def batch_files(paths: list[str], base: str | None) -> tuple[list[str], str]:
+    """(files, source) the docs-only rule judges: everything under `paths` changed since
+    the last close (committed plus dirty plus untracked), else the dirty tree alone."""
+    if not base:
+        return changed(paths), "the uncommitted tree (no batch close recorded)"
+    files = sorted(set(git("diff", "--name-only", base, "--", *paths))
+                   | set(git("ls-files", "-o", "--exclude-standard", "--", *paths)))
+    return files, f"the changes under --paths since the last close {base[:8]}"
+
+
 def batch_key(paths: list[str]) -> str:
     return "\0".join(sorted(paths))
 
@@ -109,10 +130,10 @@ def check_preflight(cmd: str) -> str | None:
     paths = preflight_paths(cmd)
     if not paths:                       # a computed pathspec: preflight.mjs itself decides
         return None
-    files = changed(paths)
+    files, source = batch_files(paths, batch_base())
     if files and all(is_prose(f) for f in files):
-        return (f"[0106] no preflight for a docs-, report- or rulings-only batch ({len(files)} files, "
-                "none read by a test): commit it; the prose linter (`npm run docs:check`) is its gate.")
+        return (f"[0106] no preflight for a docs-, report- or rulings-only batch ({len(files)} files from "
+                f"{source}, none read by a test): commit it; the prose linter (`npm run docs:check`) is its gate.")
     st = read_stamps().get(batch_key(paths))
     if st and st.get("fingerprint") == fingerprint(paths):
         verdict = "passed" if st.get("passed") else "failed"
@@ -121,13 +142,40 @@ def check_preflight(cmd: str) -> str | None:
     return None
 
 
+def _miner_argv(cmd: str) -> list[str] | None:
+    """The argv after the miner of the first command segment that INVOKES a
+    miner (`python3 -m worldgen.mine_X ...` or `python3 .../mine_X.py ...`,
+    wrappers such as job_guard.sh before it allowed); None when no segment
+    does. The miner's name inside a heredoc, a string or an import is not an
+    invocation (walk 8 false positive)."""
+    import shlex
+    for seg in re.split(r"\n|&&|\|\||;|\|", cmd):
+        try:
+            argv = shlex.split(seg)
+        except ValueError:
+            argv = seg.split()
+        for i, tok in enumerate(argv):
+            if not re.fullmatch(r"(.*/)?python3?(\.\d+)?", tok):
+                continue
+            rest = argv[i + 1:]
+            # walk interpreter flags (-u, -O, -X opt, -W arg, -Xopt) to -m or the script
+            while rest and rest[0].startswith("-") and rest[0] != "-m":
+                rest = [] if rest[0] == "-c" else rest[2:] if rest[0] in ("-X", "-W") else rest[1:]
+            if rest[:1] == ["-m"] and len(rest) > 1 and MINERS.search(rest[1]) \
+                    and rest[1].rsplit(".", 1)[-1].startswith("mine_"):
+                return rest[2:]
+            if rest and rest[0].endswith(".py") and MINERS.search(rest[0].rsplit("/", 1)[-1]):
+                return rest[1:]
+            break
+    return None
+
+
 def check_miner(cmd: str) -> str | None:
-    if not MINERS.search(cmd) or not re.search(r"python3?\b", cmd):
+    tail = _miner_argv(cmd)
+    if tail is None:
         return None
-    tail = cmd[MINERS.search(cmd).end():]
-    if any(re.search(rf"(^|\s){re.escape(flag)}(\s|=|$)", tail) for flag in (*MINER_SCOPED, "--rule-change")):
-        return None
-    if re.search(r"(^|\s)(--sample-max|--sample-seed)(\s|=|$)", tail):
+    flags = {t.split("=", 1)[0] for t in tail}
+    if flags & {*MINER_SCOPED, "--rule-change", "--sample-max", "--sample-seed"}:
         return None
     return ("[0106] a full miner run is only for a miner RULE change: add `--rule-change` and name it "
             "in the brief. A piece joining the pool is mined with `--assets <ids> --merge` (seconds).")

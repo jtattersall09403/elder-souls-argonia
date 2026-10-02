@@ -13,69 +13,49 @@ their items are this loop's backlog, under their original numbers.
 owner's reply and republishes for the next walk. A slice spans as many
 walks as it needs; it closes only on the owner's "looks right".
 
-## Starting state (2026-09-28 late, slices 1c and 2 with the owner: Claywater walk 5 and Greenspring walk 3 in one packet; the closing agent of each slice replaces this section)
+## Starting state (2026-10-02, walk-9 fix round delivered; packet 10 posted, owner walk pending; the closing agent of each round replaces this section)
 
-- **Both places pass every place gate** (`place_gates` 23/23 each, with
-  the walk-4 rules added: burial, landing, hanging, sign, fixture seat,
-  archway, all on the scene AND the compiled record) and are published
-  with `--places` and deployed. Packet 5 is
-  `tooling/.reports/16k/walk4/packet-5.md` (issue #1).
-- **Walk-4 root causes, all fixed at source this round** (reports in
-  `tooling/.reports/16k/walk4/deliver-*.md`, orient reports beside them):
-  - *Fire:* the kit exporter dropped every NIF flame (particles and
-    AddOn nodes). `build_kit` now mines `flames[]`/`glows[]` per piece
-    (`nif_blocks.py`), publishes the flame atlases with the palette baked,
-    and `lighting.ts` draws flipbook sprites with flicker; glow discs are
-    sprites; additive cards draw unlit; every outdoor fixture emits one
-    warm orange (`FIXTURE_LIGHT_RGB`). Kit output format 3; all 26 kits
-    rebuilt (site 709 MB with parts, warn 750).
-  - *Interiors:* the grey screen was `scene.background` as a Color making
-    three clear the frame on every water pass (fixed in
-    `interiorEnvironment.ts` and, for the whole class, in
-    `WaterPipeline.tsx`); leaving a hut landed above Greenspring because
-    the return followed a shared cell claim (now: the door entered by,
-    `doorTransition.ts`); "Loading…" line during the fade; the navigation
-    toast is `?dev=1` only; cells load per-asset parts
-    (`kits/<kit>/parts/`, scoped to the 10 kits cells name; KeebaHouseFisher
-    108.9 MB → 6.9 MB, cell open 22.7 s → 3.4 s headless).
-  - *Swing doors* ship now (`swingDoors.ts`, exporter keeps DOOR refs with
-    no teleport; 7 in 3 of the 95 Argonian cells; none in the owner's 8).
-  - *Compile re-seat:* the compile re-derived heights (stable 3.48 m
-    under, deck 3.01 m over); it now takes the workbench seat (`yFinal`)
-    for every piece, mount and run (R69).
-  - *Workbench:* `wb.py bpy` (an agent's own script over the loaded
-    scene, 6.6 s Claywater), `mount --hang` (branch hang by ray, R53
-    built), the six check rules above, `pool` op; mounted children keep
-    their own scale (brazier flames); the interiors measurer keeps only
-    ray-confirmed doorways (mudhut01's true opening found; kotm door01
-    does not fit it, so its huts take the hut-with-entrance composite or
-    the Black Marsh hut).
-  - *Ground:* clearance cut per instance against pads, ways and floors
-    (Claywater 8,801 → 2,416 m²); paths painted by the `groundPaint`
-    overlay (13 and 16 entries); the Greenspring spring is a `pool`
-    (terrain cut + local water surface at load, `localSurfaces.ts`,
-    `PoolDiscs.ts`).
-  - *Sockets:* no socket visible or interactable without `?sockets=1`;
-    socket height from the walkable surface; the poler's work socket is
-    the raft's (R72).
-- **Rulings:** R63–R73 in `rulings.md`; the type-2 breadth bar is shells
-  ≥ 3, top share ≤ 0.50 (`breadth-bars.json`, owner question in the
-  packet); the collider ceiling is 500 for 5+ dwellings (0052 note).
-- **Ways of working (owner 2026-09-28):** CLAUDE.md "get it right first
-  time" rule; a batch is a fix round; one exhaustive review per batch
-  (findings under `tooling/.reports/review/`); a budget stop is
-  diagnosed, never a gap; 0106 decisions 11–16.
-- **Open, owned by the planner next session:** the owner's reply to
-  packet 5; the reader prompt asks for screen-left/right + camera bearing
-  on any direction claim (a reader misread the sign this round); collider
-  parts per convex piece (rec: one hull per piece); the claim table
-  rebuild (`batch_prepass --places …`, 7 min saved per chain run); the
-  door-link miner should divide offsets by shell scale; the 12 hlaalu and
-  imperial-keep leaf-entrance shells re-measured; `kit_parts --all`
-  after every cell publish; the `.claude/settings.json` duplicate Bash
-  hooks (owner pastes).
-- **Next:** "continue 16k slices 1c and 2 after owner walk" (walk 5 / walk 3),
-  or on acceptance "deliver 16k slice 3 by the contrast rule".
+- **Built types:** 1 to 7 (Claywater, Greenspring, Riverwalk, the Broke
+  Column, Jungle Root Hollow, the Tag House, Bog Iron Workings), 9 as an
+  owner-steered draft (Gang Ground) and 10 (the Border road crossings).
+  Type 8 (the city) is not built; it is an owner hands-on round. All nine
+  pass `place_gates` 30/30 and are published. Reports are in
+  `tooling/.reports/16k/walk9/` (lane notes, `integration.md`).
+- **New gates:** `kits.fresh` (a published kit older than its config
+  fails) and `collider.ceiling` (a place's collider parts stay under the
+  ceiling; 0.42 s at Greenspring).
+- **Protocol changes this round, each fixed at source:**
+  - *Record coherence ([0117](../../decisions/0117-record-coherence-protocol-and-gate.md)):* six readers per place plus a set check
+    (`record_coherence.py --all-built`, 9/9, 0 failures) and one change
+    set over the whole record set; route places are read too.
+  - *Burial check* measures real mesh contact, never a bounding box.
+  - *Setting licence* is per setting class (what a camp, works or road
+    may hold), not per place.
+  - *displayName* comes from the plugin EDIDs.
+  - *Seam paint* is laid at compile (the building-ground seam).
+  - *`flames.mjs`* reads the built centre of the place, not the record's
+    `positionM`.
+  - *The settlement build* no longer cancels itself (it retries an
+    incomplete build once it has swapped).
+  - *Ways of working ([0118](../../decisions/0118-agents-are-capped-by-context-leads-only-plan-look-ups-are-batched-by-hook.md)):* briefs are chunked to one context and
+    monitored by the planner; the GPU lane is RunPod
+    ([0119](../../decisions/0119-runpod-is-the-gpu-lane.md)).
+- **Settled:** sunlight through windows follows the ephemeris alone
+  (00-core rule 3); Phase 14 is the budget lock and chunk format and
+  every performance technique goes through the standing
+  [performance lane](../lanes/performance-lane.md); 3D clouds dropped.
+- **Open owner calls:** Gang Ground's four decisions (packet 10); the
+  type-8 city hands-on round; the weekly "% used" reading in
+  `weekly_limit.json`; carried: Godot, dawn valley fog.
+- **Open for the planner:** the sun disc (glow escapes the bloom cone at
+  noon; needs an open-horizon probe site); `flames.mjs` reruns at Gang
+  Ground and Bog Iron on a quiet machine; layout requests (Claywater
+  landing stage, Greenspring plank landing, Jungle Root Hollow bone
+  scatter, Gang Ground gang-walk, Border road ferry row); WebGPU fps and
+  night on branch `webgpu`; foliage `alphaToCoverage` needs MSAA on the
+  scene target.
+- **Next:** "continue 16k after owner walk" (walk 9), or on acceptance
+  "deliver 16k slice 4 by the contrast rule".
 
 ## Read (fresh agent: this is your whole map)
 
@@ -219,7 +199,10 @@ step 2 from the slice that first builds it.
 | Colliders on everything a walker meets | `colliderRule`: every placed asset over 0.3 m in plan and height collides (owner 2026-09-27) | yes |
 | Fire and smoke (chimney, cook fire, forge glow) | chimney smoke in dressing-v1; cook fire and forge: new R3 | yes |
 | Mist, fog and light volumes (GPU volumetrics lane, owner walk 6) | decision 0112: the froxel medium on the WebGPU build; a place does not author fog, it inherits it from the fog field (basins, water, marsh, canopy, weather, time); a cave or damp interior cell sets its floor-mist profile; fixture lights halo in mist | yes, on the `volumetrics` harness shots (Sonnet look-list) and the /webgpu/ build; the WebGL studio shows the aerial fog alone |
-| Signage, banners, totems, shrines | mount sheets; totems 97:757 | yes |
+| Signage, banners, totems, shrines | mount sheets; totems 97:757; a lodging, trader, stable or smith parcel carries its pool's board on a bracket post by the door (`serviceSignRule`, R96; families per pool in the skill's `references/dressing.md` § 3; Argonian pools have none: backlog "Argonian trade signage") | yes |
+| Facing (seats, spits, ovens, lanterns, boards) | `seatFacingRule` (R94): a seat faces its table, else away from the wall within 2 m, else toward the way, read from the mesh; the rest by reader row 52 | yes |
+| Idle sockets mark their prop | `socketCoherenceRule` (R95): sit, cook, fish/pole, sleep, work-at/tend each stand at what they name; the studio labels each post `kind · activity · building` | yes, on the sockets record |
+| Yard dressing breadth, walk 8 | the lacks listed in the skill's `references/dressing.md` § 4, each with its pool: carts, rain barrel, hide and herb racks, notice board (works-v1); awning (settlement-stilt-v1); chicken nest (settlement-imperial-v1); Sithis shrine (settlement-mud-v1); bunting line (interior-kotm-v1); pens from the kit fences; graves, market stalls, chopping block, beehive (vault, not kitted: kit when a slice's brief plans one); bird perch (no asset: sourcing row) | yes: a type's sheet names which it plans |
 | Gardens, crops, kept trees | kept trees item 14; crops: new R4 (Argonian crops are a sourcing gap) | yes |
 | Water edge (docks, reeds, boats pulled up, moorings, wheels) | items 10, 16; boats pulled up and moorings: new R5 | yes where the place touches water |
 | Wear (moss, mud, puddles, wet ground) | 0098 condition axis; new R6 | yes |
@@ -316,7 +299,7 @@ From the catalogue's active kind counts (419 active records: settlement
 | 7 | Works and landing (craft, extraction, illicit, storage; ferry stages and landings) | 49 works and 20 landings; industry props, fire, freight and moorings |
 | 8 | Town or city, always a WHOLE city, never a district (Imperial town, Blackrose, Lilmoth) | owner hands-on (0062 §9); built with the owner, not unattended; exits the loop by owner acceptance |
 | 9 | Early-game location (owner-guided): candidates `place.pirate-freeholds.opening-work-barge` (M1 works, `vasteiTutorialScene`), `.opening-work-camp` (M2 muster yard), `.corimont-crosstrees` (M1 transit) | the opening scenes of 0062 §9 and quest MQ01; owner hands-on; exits the loop by owner acceptance |
-| 10 | Road structure or crossing outside any place (owner confirmed 2026-09-28, 0105 R7) (the Nine-Trunks stair flight, the Xul-Vaat walkway, a bridge, a lip-step, a ferry crossing with both berths and hulls) | added 2026-09-27 restoring 16h items 10, 16 and 19, which the retirement left with no owner: the route structures 16e recorded and the berths of `travel-services.json` reach Phase 15 unproven otherwise; one slice proves the four kinds as one "place" whose record is `world/sources/routes/route-structure-exemplars.json` |
+| 10 | Road structure or crossing outside any place (owner confirmed 2026-09-28, 0105 R7) (the Nine-Trunks stair flight, the Xul-Vaat walkway, a bridge, a lip-step, a ferry crossing with both berths and hulls) | added 2026-09-27 restoring 16h items 10, 16 and 19, which the retirement left with no owner: the route structures 16e recorded and the berths of `travel-services.json` reach Phase 15 unproven otherwise; one slice proves the four kinds as one "place" whose record is `world/sources/routes/route-structure-exemplars.json`; the same slice proves road dressing along one leg beside its structures (a roadside mine of Skyrim.esm first, then the rule set by route `condition` and region grammar, clusters at features, junction signposts from `junctions.json`: `docs/research/placement-settlements/road-dressing.md`) |
 
 ### Carried backlog (numbers as in the retired briefs)
 
@@ -344,10 +327,11 @@ Phase 15 packet template in `references/rollout-packet-template.md`.
     `underwaterAccessDetail`; and 16e's route structures with their
     `walkSurface`. **Exemplar first:** this chunk stands up the
     **route-structure exemplar set**, recorded in
-    `world/sources/routes/route-structure-exemplars.json`: one structure of
-    each recorded kind (stair, deck, lip-step, bridge), chosen to include
-    the Nine-Trunks stair flight and the Xul-Vaat walkway (both on the
-    road, outside the village plots), plus the Drowning Gate ferry
+    `world/sources/routes/route-structure-exemplars.json`: the Border road
+    crossings below Greenspring (walk 9, type 10: two plank crossings laid
+    with the modular-runs system, a route-compiled stair, road dressing;
+    the route records carry only stairs and lip steps since 0115, so a
+    water crossing is built per place), plus the Drowning Gate ferry
     crossing with its two berths and hulls. The berths that belong to the
     six exemplar places are 16i's, with the places. The other structures
     and berths keep their records
@@ -459,7 +443,7 @@ Phase 15 packet template in `references/rollout-packet-template.md`.
     `settlement-pad` under the Imperial house, one `vegetation-clearance`
     by tier over the yard with one tree named `kept`, one `dressing-add`
     rock group at the cave entrance piece. On the route exemplars: the
-    clearance the Xul-Vaat walkway and the Nine-Trunks stair flight need
+    clearance the Border road crossings' plank runs and stair need
     (their `walkSurface` footprint plus the C13 margin); a `dressing-add`
     at the Drowning Gate landings (reeds or rocks by the bank, from the
     region palette, with `why` and `sources`). These are the only patches
@@ -1061,11 +1045,14 @@ per stage from `rounds.jsonl`, Opus and cheap-agent turns, CPU minutes,
 rounds, and, filled at the walk, the owner's defect count. `build_ledger.py
 --report` prints the trend per path and per skill version and lists every
 run over its target; a run over target files a tooling task (S-list row)
-the same day. Method reviews (`tooling/.reports/16k/walk2/method-review*.md`,
-rounds 1–3 on 2026-09-27, ~3,500 s per place saved, exited on
+the same day. Method reviews (rounds 1–6, 2026-09-27 to 2026-10-01,
+the first three saving ~3,500 s per place, exited on
 measurement) are indexed in `docs/research/phase16/method-reviews.md`
-(round, date, savings, exit reason); a read-only review round reopens
-only when the ledger shows a run over target. Each slice's Starting state
+(round, date, savings, exit reason); a process audit (a research agent, under
+40 min) runs at the close of every second walk round, or at once on a
+`workflow_drift.py` red, a day above 120 units (`session_tokens.py --days 1`)
+or a fix round over target (`wb.py round --walk N` times fix rounds;
+decision 0118). Each slice's Starting state
 quotes the last ledger rows, so a new session sees the numbers. Phase 15
 inherits the ledger and the targets per region packet.
 

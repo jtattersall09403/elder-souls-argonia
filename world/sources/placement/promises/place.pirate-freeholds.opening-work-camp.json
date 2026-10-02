@@ -1,0 +1,385 @@
+{
+ "schemaVersion": 1,
+ "placeId": "place.pirate-freeholds.opening-work-camp",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
+ "derivedFrom": [
+  {
+   "file": "world/sources/catalogue/places-pirate-freeholds.json",
+   "sha256": "e4743ea13f68542f4748ae7e68ce03a0568ef25ccfc9439c9c6af142ca894189"
+  },
+  {
+   "file": "world/sources/quests/quests-main.json",
+   "sha256": "4bb99c8c624518852aabaacef17610ee2d21857b51d044262d325a64cdfbe5d1"
+  }
+ ],
+ "promises": [
+  {
+   "id": "promise.opening-work-camp.evidence-opening-dead-clutch",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].sockets.evidence[evidence.opening.dead-clutch]"
+   },
+   "text": "Gang Ground has the evidence socket evidence.opening.dead-clutch.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.interior-principal",
+   "kind": "interior",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].interior"
+   },
+   "text": "Gang Ground's principal interior is a dwelling (S1), entered by 2 door.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.marks-opening-hatching-shed",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].sockets.marks[mark.opening.hatching-shed]"
+   },
+   "text": "Gang Ground has the marks socket mark.opening.hatching-shed.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.marks-opening-root-route",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].sockets.marks[mark.opening.root-route]"
+   },
+   "text": "Gang Ground has the marks socket mark.opening.root-route.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.occupant-n1",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].contents.npcs[n1]"
+   },
+   "text": "Gang Ground has band family occupants.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.occupant-n3",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].contents.npcs[n3]"
+   },
+   "text": "Gang Ground has pair patrol occupants.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.occupant-npc-opening-clutch-keeper",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].notableNpcSlots[npc-opening-clutch-keeper]"
+   },
+   "text": "Npc.opening.clutch-keeper lives and works at Gang Ground.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.occupant-npc-opening-witness",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].notableNpcSlots[npc-opening-witness]"
+   },
+   "text": "Npc.opening.witness lives and works at Gang Ground.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.post-rest-gang-ground",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].sockets.post[post.rest.gang-ground]"
+   },
+   "text": "Gang Ground has the post socket post.rest.gang-ground.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.prose-playerpurpose-hook",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].playerPurpose.hook"
+   },
+   "text": "The gang's families live on this slope above the marsh. The warm shed at the top holds the gang's egg clutch. The families will not move away from it.",
+   "confirmed": {
+    "sha": "c7ce0e9c605d",
+    "note": "The hatching shed (b-hatch) stands on the top terrace below the Border road; the families' sheds and tents step down the slope below it."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.prose-vibe-approach",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].vibe.approach"
+   },
+   "text": "the way in drops from the Border road to the hatching shed door; the yard way steps down the terraces from there",
+   "confirmed": {
+    "sha": "d7056361131c",
+    "note": "the-road-way runs from the Border road to the hatching shed door; the yard way runs down the terraces from it."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.prose-vibe-condition",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].vibe.condition"
+   },
+   "text": "poor, well kept",
+   "confirmed": {
+    "sha": "78bd72e11e5f",
+    "note": "Open thatched sheds and hide tents on levelled pads, with stores in baskets beside each shelter."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.prose-vibe-materials",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].vibe.materials"
+   },
+   "text": "bamboo, reed thatch, hide over poles, packed earth",
+   "confirmed": {
+    "sha": "b729123769dc",
+    "note": "Bamboo huts, thatched half pavilions, hide tents and packed-earth pads."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.prose-vibe-mood",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].vibe.mood"
+   },
+   "text": "domestic; the ledger is a walk away",
+   "confirmed": {
+    "sha": "ca2f20335f0b",
+    "note": "A cookfire with pot, urn and bench, stores and drying nets; the gang's walk to the barge leaves from the road above."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.prose-vibe-palette",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].vibe.palette"
+   },
+   "text": "mud, undyed cloth, the warm amber of the hatching shed's lamps at night",
+   "confirmed": {
+    "sha": "491f419db163",
+    "note": "Two hanging lanterns (h-lamp1, h-lamp2) burn amber at the hatching shed door at night."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.prose-vibe-senses",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].vibe.senses"
+   },
+   "text": "cooking, wet reed; from the hatching shed a low continuous sound",
+   "confirmed": {
+    "sha": "6620341b7f89",
+    "note": "Cookfire y-fire with its pot and reed thatch on every shed; the shed's sound is the audio phase's (later system)."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.prose-vibe-signaturefeature",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].vibe.signatureFeature"
+   },
+   "text": "the hatching shed, kept warmer and cleaner than the sleeping sheds",
+   "confirmed": {
+    "sha": "20dfa34eee9b",
+    "note": "The hatching shed sits on its own top terrace with two lanterns, a candle and a totem at the door."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.prose-vibe-silhouette",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].vibe.silhouette"
+   },
+   "text": "low shelters stepped down a slope on levelled terraces, with the hatching shed on the top terrace below the road",
+   "confirmed": {
+    "sha": "2f1857631eca",
+    "note": "Six shelters on six levelled pads stepping down the slope below the road."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.prose-why-founding",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].why.founding"
+   },
+   "text": "A gang that works a channel has to sleep on land. The families follow it. The camp is forty years old and is still named for the ground worked by the gang.",
+   "confirmed": {
+    "sha": "fbf379bfa364",
+    "note": "Two sleeping sheds, two family tents and the overseers' hut; the gang's walk joins the camp to the barge track."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.prose-why-occupantsmotive",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].why.occupantsMotive"
+   },
+   "text": "Families whose people are on the roll, keeping a life going within walking distance of it.",
+   "confirmed": {
+    "sha": "0a30e48bef12",
+    "note": "npc sockets n1 (the families), n3 (the overseers) and both notable slots; the gang-walk terminal leads to the barge."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.prose-why-pressures",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].why.pressures"
+   },
+   "text": "The camp has a Hist a day upriver but no claim on it. The families stay because the clutch is in the shed.",
+   "confirmed": {
+    "sha": "04a76bf44dc0",
+    "note": "The clutch is in the hatching shed (clutch-dies scene and dead-clutch evidence markers); no Hist stands at the camp."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.prose-why-siteadvantages",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].why.siteAdvantages"
+   },
+   "text": "A slope of firm ground between the Border road and the marsh. Its top terrace stays dry enough for a hatching shed.",
+   "confirmed": {
+    "sha": "9f0c18d4fe10",
+    "note": "Pads on the firm slope; the hatching shed's terrace is the highest and driest, below the Border road."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.prose-why-wouldchangeif",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].why.wouldChangeIf"
+   },
+   "text": "If the clutch is lost, the families go somewhere the ledger cannot follow.",
+   "confirmed": {
+    "sha": "eef354e0bbd3",
+    "note": "Carried by the clutch-dies scene marker and the epilogue marker in the yard."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.provision-mq32-epilogue-sockets",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].questHooks.provisions[quest.provision.mq32-epilogue-sockets]"
+   },
+   "text": "Gang Ground holds what quest provision quest.provision.mq32-epilogue-sockets needs.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.provision-opening-camp",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].questHooks.provisions[quest.provision.opening-camp]"
+   },
+   "text": "Gang Ground holds what quest provision quest.provision.opening-camp needs.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.provision-opening-egg-clutch",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].questHooks.provisions[quest.provision.opening-egg-clutch]"
+   },
+   "text": "Gang Ground holds what quest provision quest.provision.opening-egg-clutch needs.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.provision-opening-work-camp",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].questHooks.provisions[quest.provision.opening-work-camp]"
+   },
+   "text": "Gang Ground holds what quest provision quest.provision.opening-work-camp needs.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.quest-mq01",
+   "kind": "quest",
+   "source": {
+    "file": "world/sources/quests/quests-main.json",
+    "path": "quest[MQ01]"
+   },
+   "text": "MQ01 No Name on the Work Roll: An Owing-gang processing runs into the cult's attack while a Hist withdraws over a dead egg clutch",
+   "confirmed": {
+    "sha": "8c3c059f6137",
+    "note": "camp-night, clutch-dies and choose-a-witness scene markers, the dead-clutch evidence and root-route mark are placed; the Hist is at the upriver Hist village."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.quest-mq32",
+   "kind": "quest",
+   "source": {
+    "file": "world/sources/quests/quests-main.json",
+    "path": "quest[MQ32]"
+   },
+   "text": "MQ32 Names Written in Sap: An epilogue read back through the places that changed",
+   "confirmed": {
+    "sha": "c3a5890d2e07",
+    "note": "The epilogue marker stands in the yard (socket.opening-work-camp.scene-epilogue)."
+   }
+  },
+  {
+   "id": "promise.opening-work-camp.scene-opening-camp-night",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].sockets.scene[scene.opening.camp-night]"
+   },
+   "text": "Gang Ground has the scene socket scene.opening.camp-night.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.scene-opening-choose-a-witness",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].sockets.scene[scene.opening.choose-a-witness]"
+   },
+   "text": "Gang Ground has the scene socket scene.opening.choose-a-witness.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.opening-work-camp.scene-opening-clutch-dies",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-pirate-freeholds.json",
+    "path": "places[place.pirate-freeholds.opening-work-camp].sockets.scene[scene.opening.clutch-dies]"
+   },
+   "text": "Gang Ground has the scene socket scene.opening.clutch-dies.",
+   "unfilled": null
+  }
+ ]
+}

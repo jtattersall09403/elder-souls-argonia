@@ -1,0 +1,91 @@
+{
+ "schemaVersion": 2,
+ "kit": "settlement-root-v1",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 20027232,
+  "sha256": "61e33ae470f9dbbe9448919aeeab28aa88cca196ec1b7d0a5681544ca083c59a"
+ },
+ "totals": {
+  "parts": 8,
+  "partBytes": 136740,
+  "textureFiles": 4,
+  "textureBytes": 792618,
+  "bytes": 929358
+ },
+ "assets": {
+  "kotm:issgard/clutter/bones/issgard_boneargonianskullfull": {
+   "file": "kotm_issgard_clutter_bones_issgard_boneargonianskullfull-f12a814d.glb",
+   "bytes": 32924,
+   "vertices": 1807,
+   "triangles": 2594,
+   "textures": [
+    "f67b9b6722952f8c"
+   ]
+  },
+  "vanilla:clutter/basket01": {
+   "file": "vanilla_clutter_basket01-31268527.glb",
+   "bytes": 8456,
+   "vertices": 321,
+   "triangles": 500,
+   "textures": [
+    "9a27911525728b4f"
+   ]
+  },
+  "vanilla:clutter/bones/bloodybone": {
+   "file": "vanilla_clutter_bones_bloodybone-d0683d16.glb",
+   "bytes": 4456,
+   "vertices": 69,
+   "triangles": 104,
+   "textures": [
+    "2c57d63a940c0e8a"
+   ]
+  },
+  "vanilla:clutter/bones/bloodyribs": {
+   "file": "vanilla_clutter_bones_bloodyribs-7fa5dc4b.glb",
+   "bytes": 32204,
+   "vertices": 1731,
+   "triangles": 2559,
+   "textures": [
+    "2c57d63a940c0e8a"
+   ]
+  },
+  "vanilla:clutter/bones/humanarmleft": {
+   "file": "vanilla_clutter_bones_humanarmleft-d5732ba3.glb",
+   "bytes": 5968,
+   "vertices": 167,
+   "triangles": 250,
+   "textures": [
+    "63d644afaac283a8"
+   ]
+  },
+  "vanilla:clutter/bones/humanlegleft": {
+   "file": "vanilla_clutter_bones_humanlegleft-ed10a743.glb",
+   "bytes": 7388,
+   "vertices": 260,
+   "triangles": 398,
+   "textures": [
+    "63d644afaac283a8"
+   ]
+  },
+  "vanilla:clutter/bones/humanribcage": {
+   "file": "vanilla_clutter_bones_humanribcage-06796cd8.glb",
+   "bytes": 33748,
+   "vertices": 1838,
+   "triangles": 2704,
+   "textures": [
+    "63d644afaac283a8"
+   ]
+  },
+  "vanilla:clutter/bones/humanspine": {
+   "file": "vanilla_clutter_bones_humanspine-cc167c1d.glb",
+   "bytes": 11596,
+   "vertices": 483,
+   "triangles": 934,
+   "textures": [
+    "63d644afaac283a8"
+   ]
+  }
+ },
+ "fires": {}
+}

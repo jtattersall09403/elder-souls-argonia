@@ -236,6 +236,38 @@ def test_every_type_recipe_row_carries_a_setting_class():
     assert built["ducal-ruin"] == "keep" and built["drowned-village"] == "village"
 
 
+def test_a_setting_licence_row_licenses_a_piece_per_parcel_and_record_never_blanket():
+    """16k walk 9: placement-policies.json ``settingLicence`` licenses an
+    unplaced resource or indoor-only piece outdoors per setting class."""
+    licences = {"board": {"settings": ["exterior"], "when": [{"recordServices": ["trader"]}]},
+                "line": {"settings": ["exterior"], "when": [{"parcelUses": ["dwelling"]}]},
+                "shrine": {"settings": ["exterior"],
+                           "when": [{"cultures": ["argonian"], "recordTerms": ["sithis"]}]}}
+    rows = {("k", x): _sc(0) for x in ("board", "line", "shrine")}
+    bp = {"id": "place.t", "parcels": [{"id": "parcel.t.hut", "use": "dwelling"},
+                                       {"id": "parcel.t.well", "use": "civic"}]}
+    placements = [_piece("board", id="place.t.parcel.t.well.assembly.a"),
+                  _piece("line", id="place.t.parcel.t.hut.assembly.b"),
+                  _piece("line", id="place.t.parcel.t.well.assembly.c"),
+                  _piece("shrine", id="place.t.parcel.t.hut.assembly.d")]
+    rec = {"services": ["trader"], "culture": "argonian", "vibe": "river folk"}
+    f, _, _ = pg.setting_failures(placements, rows, "village", licences=licences,
+                                  ctx=pg.licence_context("place.t", rec, bp))
+    assert len(f) == 2, f                       # the line at the well; the shrine (no Sithis)
+    assert all("line" in x or "shrine" in x for x in f)
+    rec["vibe"] = "a Sithis shrine at the water"
+    f, _, _ = pg.setting_failures(placements, rows, "village", licences=licences,
+                                  ctx=pg.licence_context("place.t", rec, bp))
+    assert len(f) == 1 and "line" in f[0]
+    f, _, _ = pg.setting_failures(placements, rows, "village")   # no licence rows: all fail
+    assert len(f) == 3
+
+
+def test_the_published_setting_licence_rows_parse_and_name_a_reason():
+    rows = pg.setting_licences()
+    assert rows and all(r.get("why") and r.get("when") and r.get("settings") for r in rows.values())
+
+
 def _piece(x, **kw):
     return {"id": x, "objectKind": "assembly", "kit": "k", "assetId": x, "positionM": [0, 0, 0], **kw}
 

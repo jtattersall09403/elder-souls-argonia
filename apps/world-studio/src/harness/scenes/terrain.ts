@@ -16,6 +16,9 @@ import { ChunkStore, type ChunkGrid, type ChunksManifest } from "@elder-souls/ga
 import { buildTerrainGridGeometry } from "@elder-souls/game-core/terrain/gridGeometry";
 import { paintFrameExtent, type ApronManifest } from "@elder-souls/game-core/terrain/apronManifest";
 import { toEpochMinutes } from "@elder-souls/world-time";
+import { groundArrayUrl, GroundArrayLoader } from "@elder-souls/game-core/terrain/groundArray";
+import { loadGroundTextures } from "@elder-souls/game-core/terrain/groundRasters";
+import { kitDecodersFor } from "@elder-souls/game-core/assets/kitLoader";
 import { createGroundMaterial, type GroundIndex, type GroundManifest } from "../../groundMaterial";
 import { wetnessUniforms } from "../../water/groundWetness";
 import { sharedWaterAssets } from "../../water/waterAssets";
@@ -45,24 +48,20 @@ const terrain: HarnessScene = {
   name: "terrain",
   async build(ctx: HarnessContext): Promise<HarnessBuilt> {
     const { width, height } = ctx;
-    const images = new THREE.ImageLoader();
     const textures = new THREE.TextureLoader();
 
     // Ground set, exactly as useGroundManifest + ChunkTerrain load it.
     const index = await json<GroundIndex>("textures/ground/index.json");
     const set = index.default;
     const ground = await json<GroundManifest>(`textures/ground/${set}/materials.json`);
-    const albedo = await Promise.all(ground.materials.map((m) =>
-      images.loadAsync(`${base}textures/ground/${set}/${m.file}`)));
-    const cliffNrmFiles = ["cliff_rock", "cliff_dirt"]
-      .map((name) => ground.materials.find((m) => m.name === name)?.normalFile)
-      .filter((f): f is string => !!f);
-    const cliffNormals = await Promise.all(cliffNrmFiles.map((f) =>
-      images.loadAsync(`${base}textures/ground/${set}/${f}`)));
-    const [ctrl, tint, grad, climateAir] = await Promise.all([
-      "province/refined/ground-control.png", "province/refined/ground-tint.png",
-      "province/chunks/normal-grad.png", "province/climate-air.png",
-    ].map((f) => textures.loadAsync(`${base}${f}`)));
+    // The albedo array (KTX2) and the packed rasters, as useGroundArray and
+    // GroundRasterLoader give them to ChunkTerrain.
+    const decoders = kitDecodersFor(ctx.renderer, base);
+    const albedo = await new Promise<THREE.CompressedArrayTexture>((res, rej) =>
+      new GroundArrayLoader().setDecoders(decoders).load(groundArrayUrl(base, set), res, undefined, rej));
+    const { ctrl, tint, grad } = await loadGroundTextures(`${base}province/refined/ground-control.png`,
+      `${base}province/refined/ground-tint.png`, `${base}province/chunks/normal-grad.png`);
+    const climateAir = await textures.loadAsync(`${base}province/climate-air.png`);
     climateAir.colorSpace = THREE.NoColorSpace;
 
     // Noon light rig and the aerial haze (the scene's one fog node).
@@ -86,7 +85,7 @@ const terrain: HarnessScene = {
     await sharedWaterAssets(base);
     wetnessUniforms.uWetSun.value.copy(sunDir);
     const scale = manifest.verticalScaleAtGeometry;
-    const material = createGroundMaterial(albedo, cliffNormals, ctrl, tint, grad, ground, scale, aerial,
+    const material = createGroundMaterial(albedo, ctrl, tint, grad, ground, scale, aerial,
       { shoreWetness: true });
     let uvExtentM = 0;
     for (const c of manifest.chunks) {
@@ -109,10 +108,10 @@ const terrain: HarnessScene = {
     const apron = await json<ApronManifest>("province/apron/apron-manifest.json");
     store.register(apron.ring0.chunks, apron.ring0.dir);
     const near = apron.paint.near;
-    const [nCtrl, nTint, nGrad] = await Promise.all([near.control, near.tint, near.grad]
-      .map((f) => textures.loadAsync(`${base}province/apron/${f}`)));
-    const apronMaterial = createGroundMaterial(albedo, cliffNormals, nCtrl, nTint, nGrad, ground, scale, aerial,
-      { shoreWetness: false }, material.userData.tex as THREE.DataArrayTexture);
+    const { ctrl: nCtrl, tint: nTint, grad: nGrad } = await loadGroundTextures(
+      ...([near.control, near.tint, near.grad].map((f) => `${base}province/apron/${f}`) as [string, string, string]));
+    const apronMaterial = createGroundMaterial(albedo, nCtrl, nTint, nGrad, ground, scale, aerial,
+      { shoreWetness: false });
     let apronTiles = 0;
     for (const [cx, cy] of [[-1, 0], [0, -1], [-1, -1]]) {
       const meta = apron.ring0.chunks.find((c) => c.cx === cx && c.cy === cy);

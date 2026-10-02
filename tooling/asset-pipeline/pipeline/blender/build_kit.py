@@ -388,6 +388,22 @@ def dilate_edge_rgb(image, iterations=12):
     return True
 
 
+HIDDEN_DROPPED = []
+"""Shapes `import_nif_meshes` dropped for the NIF's HIDDEN flag since the
+current asset began (the main loop clears it per asset)."""
+
+
+def is_hidden_in_nif(obj):
+    """True when the NIF hides this object or any node above it (PyNifly's
+    `pynNodeFlags` names the NiAVObject flags, e.g. "HIDDEN | ...")."""
+    node = obj
+    while node is not None:
+        if "HIDDEN" in str(node.get("pynNodeFlags", "")).split(" | "):
+            return True
+        node = node.parent
+    return False
+
+
 def import_nif_meshes(filepath):
     """Import a NIF, bake unit scale into the meshes, drop everything else."""
     # Namespace everything already in the scene FIRST. PyNifly de-duplicates
@@ -417,6 +433,21 @@ def import_nif_meshes(filepath):
     )
     imported = [o for o in bpy.data.objects if o not in before]
     meshes = [o for o in imported if o.type == "MESH"]
+    # A shape the NIF hides (NiAVObject flag bit 0, HIDDEN, on the shape or on
+    # any node above it) is authoring scaffolding the game never draws:
+    # vanilla `furniture/smeltermarker.nif` carries a whole hidden preview
+    # skeleton and body (`BodyMale_Big`, `FemaleHead`, weapon nodes) beside
+    # the smelter (16k walk 9, Bog Iron Workings). PyNifly imports it anyway
+    # and keeps the flags as `pynNodeFlags`; it is dropped here, before the
+    # unparenting below loses the ancestors, and listed in `droppedShapes`.
+    hidden = [o for o in meshes if is_hidden_in_nif(o)]
+    hidden_names = {o.name for o in hidden}
+    imported = [o for o in imported if o.name not in hidden_names]
+    meshes = [o for o in meshes if o.name not in hidden_names]
+    for obj in hidden:
+        HIDDEN_DROPPED.append({"shape": obj.name, "reason": "hidden"})
+        print("[kit]   dropped hidden shape %s" % obj.name)
+        bpy.data.objects.remove(obj, do_unlink=True)
     if os.environ.get("KIT_DEBUG_IMPORT"):
         for o in imported:
             print("[kit] DBG", o.type, o.name,
@@ -1101,6 +1132,7 @@ for asset in PLAN["assets"]:
     # Bake transforms and convert units in one step, then detach from any
     # imported parents so each asset is a clean root.
     solid_meshes = None
+    HIDDEN_DROPPED.clear()
     if asset.get("parts"):
         meshes, solid_meshes = import_composite(asset["parts"])
     else:
@@ -1188,7 +1220,7 @@ for asset in PLAN["assets"]:
                for slot in obj.material_slots):
             merge_vertex_alpha(obj)
 
-    dropped = list(refraction)
+    dropped = list(refraction) + list(HIDDEN_DROPPED)
     if not asset.get("parts"):
         # Composites drop their strays per part, inside import_composite —
         # doing it again here would read a legitimately offset crown as a stray.
@@ -1228,8 +1260,12 @@ for asset in PLAN["assets"]:
     # An alpha-tested asset gets no decimated levels at all (16f round 5):
     # its parts are hundreds of separate leaf/twig/bark cards that collapse
     # decimation shreds (leaves and branches vanished at mid distance). The
-    # runtime substitutes the base geometry for any that still ship.
-    lod_ratios = [] if asset.get("doubleSided") else asset["lodRatios"]
+    # runtime substitutes the base geometry for any that still ship. A row
+    # that authors its chain (`lodRatiosAuthored`, e.g. [1.0, 1.0]: every
+    # level shares LOD0's mesh) keeps it: the settlement runtime requires
+    # three tiers of every placed piece (walk 9, chickennest01).
+    lod_ratios = ([] if asset.get("doubleSided") and not asset.get("lodRatiosAuthored")
+                  else asset["lodRatios"])
     source_tris = [len(obj.data.loop_triangles) or len(obj.data.polygons) for obj in meshes]
     level_parts = {0: list(meshes)}
     for row in plan_lod_levels(source_tris, lod_ratios, MIN_LOD_TRIANGLES):

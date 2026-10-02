@@ -18,6 +18,7 @@ import type { RippleSim } from "./RippleSim";
 import type { WaterSurfaceHandle } from "./WaterSurface";
 import { UnderwaterBubblePass } from "./UnderwaterBubblePass";
 import { useFrameSegments } from "../../fx/frameSegments";
+import type { BloomPass } from "../../render/post/BloomPass";
 
 /**
  * The shared render-pass architecture (module 60 §41, decision 0025) — ONE
@@ -125,13 +126,16 @@ function createBlit(rt: RenderTarget, tier: WaterTier, sunDirection: { value: TH
   return { quad, material, uniforms };
 }
 
-export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ripple }: {
+export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ripple, bloom }: {
   runtime: WaterRuntime;
   assets: WaterAssets;
   tier: WaterTier;
   verticalScale: number;
   handle: () => WaterSurfaceHandle | null;
   ripple?: RippleSim | null;
+  /** The host's glow pass (render/post/BloomPass.ts), drawn above water
+   * after the overlay; null/absent or disabled: no post pass at all. */
+  bloom?: BloomPass | null;
 }) {
   const { gl } = useThree();
   // Pass attribution only (decision 0084 round 10): the marks below change
@@ -409,6 +413,11 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
       // walk 4). No background exists while the on-screen passes run.
       const prevBackground = scene.background;
       scene.background = null;
+      // Pass 1 already brought every world matrix up to date this frame and
+      // nothing moves between passes, so the on-screen passes skip three's
+      // whole-scene updateMatrixWorld walk (three of them a frame; 16k walk 8).
+      const prevMatrixAuto = scene.matrixWorldAutoUpdate;
+      scene.matrixWorldAutoUpdate = false;
       renderer.autoClear = false;
       if (!underwater && h) {
         cam.layers.mask = 1 << WATER_LAYER;
@@ -433,8 +442,15 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
       cam.layers.mask = 1 << OVERLAY_LAYER;
       segments?.cpuMark("overlay"); segments?.gpuMark("overlay");
       renderer.render(scene, cam);
+      // 4. glow around bright lights (decision 0108 post row), from the
+      // linear HDR target this frame drew, onto the canvas
+      if (bloom?.enabled && !underwater) {
+        segments?.cpuMark("bloom"); segments?.gpuMark("bloom");
+        bloom.render(renderer, scene, cam, drawTarget.texture, drawTarget.depthTexture as THREE.Texture);
+      }
       segments?.cpuMark("post"); segments?.gpuMark("post");
       scene.background = prevBackground;
+      scene.matrixWorldAutoUpdate = prevMatrixAuto;
       renderer.autoClear = prevAuto;
     }
     cam.layers.mask = prevLayers;

@@ -1,0 +1,1976 @@
+{
+ "kit": "route-dressing-v1",
+ "assets": [
+  {
+   "id": "vanilla:landscape/rocks/rocks01",
+   "node": "es|95b8566f0a|vanilla__landscape_rocks_rocks01",
+   "category": "rock",
+   "sizeM": [
+    1.287,
+    1.263,
+    1.95
+   ],
+   "originOffsetM": [
+    0.494,
+    0.648,
+    0.205
+   ],
+   "triangles": 76,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockS01:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.566,
+     0.858,
+     0.556
+    ],
+    "centreOffsetM": [
+     0.15,
+     0.77,
+     0.017
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.4778,
+    "p50": 0.8173,
+    "p75": 1.0753,
+    "n": 300,
+    "slopeTermMPerDeg": 0.00729,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.205,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.424,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.205,
+   "displayName": "Rock s 01"
+  },
+  {
+   "id": "vanilla:landscape/rocks/rocks02",
+   "node": "es|15e9b4377a|vanilla__landscape_rocks_rocks02",
+   "category": "rock",
+   "sizeM": [
+    1.393,
+    1.187,
+    0.753
+   ],
+   "originOffsetM": [
+    0.699,
+    0.636,
+    0.09
+   ],
+   "triangles": 80,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockS02:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.613,
+     0.331,
+     0.522
+    ],
+    "centreOffsetM": [
+     -0.002,
+     0.286,
+     0.042
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.1598,
+    "p50": 0.3265,
+    "p75": 0.4856,
+    "n": 466,
+    "slopeTermMPerDeg": 0.01351,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.09,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.313,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.09,
+   "displayName": "Rock s 02"
+  },
+  {
+   "id": "vanilla:landscape/rocks/rocks03",
+   "node": "es|abec145a85|vanilla__landscape_rocks_rocks03",
+   "category": "rock",
+   "sizeM": [
+    1.451,
+    1.697,
+    1.465
+   ],
+   "originOffsetM": [
+    0.748,
+    0.702,
+    0.383
+   ],
+   "triangles": 68,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockS03:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.638,
+     0.645,
+     0.747
+    ],
+    "centreOffsetM": [
+     -0.023,
+     0.35,
+     -0.146
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.3704,
+    "p50": 0.5579,
+    "p75": 0.7499,
+    "n": 388,
+    "slopeTermMPerDeg": 0.01786,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.383,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.372,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.383,
+   "displayName": "Rock s 03"
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockm01",
+   "node": "es|86af698e0b|vanilla__landscape_rocks_rockm01",
+   "category": "rock",
+   "sizeM": [
+    3.518,
+    2.341,
+    1.765
+   ],
+   "originOffsetM": [
+    1.821,
+    1.055,
+    0.188
+   ],
+   "triangles": 126,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockM01:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     1.548,
+     0.777,
+     1.03
+    ],
+    "centreOffsetM": [
+     -0.062,
+     0.694,
+     -0.116
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.4521,
+    "p50": 0.7591,
+    "p75": 1.0528,
+    "n": 711,
+    "slopeTermMPerDeg": 0.014,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.188,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.021,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.188,
+   "displayName": "Rock m 01"
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockm02",
+   "node": "es|941b8f2cf2|vanilla__landscape_rocks_rockm02",
+   "category": "rock",
+   "sizeM": [
+    2.35,
+    2.337,
+    1.881
+   ],
+   "originOffsetM": [
+    1.149,
+    1.132,
+    0.336
+   ],
+   "triangles": 123,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockM02:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     1.034,
+     0.827,
+     1.028
+    ],
+    "centreOffsetM": [
+     0.025,
+     0.605,
+     -0.036
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.558,
+    "p50": 0.8723,
+    "p75": 1.1358,
+    "n": 728,
+    "slopeTermMPerDeg": 0.0095,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.336,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.051,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.336,
+   "displayName": "DB torture victim container 3"
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockm03",
+   "node": "es|ca33321979|vanilla__landscape_rocks_rockm03",
+   "category": "rock",
+   "sizeM": [
+    4.003,
+    3.576,
+    2.446
+   ],
+   "originOffsetM": [
+    2.055,
+    1.649,
+    0.47
+   ],
+   "triangles": 348,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockM03:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     1.761,
+     1.076,
+     1.573
+    ],
+    "centreOffsetM": [
+     -0.054,
+     0.753,
+     -0.138
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.7307,
+    "p50": 1.0964,
+    "p75": 1.4484,
+    "n": 562,
+    "slopeTermMPerDeg": 0.01351,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.47,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.791,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.47,
+   "displayName": "Rock m 03"
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockm04",
+   "node": "es|25ba9f9dfc|vanilla__landscape_rocks_rockm04",
+   "category": "rock",
+   "sizeM": [
+    2.758,
+    2.961,
+    1.891
+   ],
+   "originOffsetM": [
+    1.462,
+    1.44,
+    0.26
+   ],
+   "triangles": 195,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockM04:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     1.213,
+     0.832,
+     1.303
+    ],
+    "centreOffsetM": [
+     -0.084,
+     0.685,
+     -0.041
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.4071,
+    "p50": 0.6557,
+    "p75": 0.8942,
+    "n": 375,
+    "slopeTermMPerDeg": 0.01421,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.26,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.009,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.26,
+   "displayName": "Rock m 04"
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockl01",
+   "node": "es|045210a545|vanilla__landscape_rocks_rockl01",
+   "category": "rock",
+   "sizeM": [
+    4.74,
+    6.062,
+    4.11
+   ],
+   "originOffsetM": [
+    2.351,
+    2.972,
+    0.848
+   ],
+   "triangles": 387,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockL01:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     2.086,
+     1.809,
+     2.667
+    ],
+    "centreOffsetM": [
+     0.019,
+     1.207,
+     -0.059
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 1.0694,
+    "p50": 1.7224,
+    "p75": 2.3129,
+    "n": 1052,
+    "slopeTermMPerDeg": -0.01422,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.848,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.848,
+   "displayName": "DB torture victim container 1"
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockl02",
+   "node": "es|344c2007f1|vanilla__landscape_rocks_rockl02",
+   "category": "rock",
+   "sizeM": [
+    8.823,
+    7.196,
+    3.749
+   ],
+   "originOffsetM": [
+    4.265,
+    3.433,
+    0.573
+   ],
+   "triangles": 449,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab01.dds",
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockL02:0.Mat",
+    "RockL02:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     3.882,
+     1.65,
+     3.166
+    ],
+    "centreOffsetM": [
+     0.146,
+     1.302,
+     -0.164
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.4848,
+    "p50": 1.0643,
+    "p75": 1.5251,
+    "n": 875,
+    "slopeTermMPerDeg": -0.00237,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.573,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.573,
+   "displayName": "Rock l 02"
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockl04",
+   "node": "es|3fa2200190|vanilla__landscape_rocks_rockl04",
+   "category": "rock",
+   "sizeM": [
+    3.078,
+    4.056,
+    5.963
+   ],
+   "originOffsetM": [
+    1.837,
+    1.928,
+    0.69
+   ],
+   "triangles": 335,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockL04:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     1.354,
+     2.624,
+     1.784
+    ],
+    "centreOffsetM": [
+     -0.298,
+     2.291,
+     -0.1
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.9502,
+    "p50": 1.7251,
+    "p75": 2.5735,
+    "n": 459,
+    "slopeTermMPerDeg": 0.00877,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.69,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.429,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.69,
+   "displayName": "Rock l 04"
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockpiles01",
+   "node": "es|e190556c5c|vanilla__landscape_rocks_rockpiles01",
+   "category": "rock",
+   "sizeM": [
+    3.235,
+    3.982,
+    0.851
+   ],
+   "originOffsetM": [
+    1.456,
+    2.185,
+    0.247
+   ],
+   "triangles": 216,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "dirt02.dds",
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockPileS01:0.Mat",
+    "RockPileS01:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     1.423,
+     0.374,
+     1.752
+    ],
+    "centreOffsetM": [
+     0.161,
+     0.179,
+     0.194
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0771,
+    "p50": 0.168,
+    "p75": 0.2623,
+    "n": 1344,
+    "slopeTermMPerDeg": -0.00384,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.247,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.043,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.247,
+   "displayName": "Rock pile s 01"
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockpiles02",
+   "node": "es|2c43ff7ffc|vanilla__landscape_rocks_rockpiles02",
+   "category": "rock",
+   "sizeM": [
+    3.558,
+    3.595,
+    1.128
+   ],
+   "originOffsetM": [
+    1.722,
+    1.903,
+    0.32
+   ],
+   "triangles": 240,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "dirt02.dds",
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockPileS02:0.Mat",
+    "RockPileS02:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     1.566,
+     0.496,
+     1.582
+    ],
+    "centreOffsetM": [
+     0.057,
+     0.244,
+     0.106
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0908,
+    "p50": 0.2015,
+    "p75": 0.2974,
+    "n": 720,
+    "slopeTermMPerDeg": 0.00609,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.32,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.055,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.32,
+   "displayName": "Rock pile s 02"
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockpiles03",
+   "node": "es|bc45b9cfce|vanilla__landscape_rocks_rockpiles03",
+   "category": "rock",
+   "sizeM": [
+    3.623,
+    4.068,
+    1.055
+   ],
+   "originOffsetM": [
+    1.812,
+    2.034,
+    0.279
+   ],
+   "triangles": 286,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "dirt02.dds",
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockPileS03:0.Mat",
+    "RockPileS03:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     1.594,
+     0.464,
+     1.79
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.248,
+     0.0
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.226,
+    "p50": 0.3568,
+    "p75": 0.4955,
+    "n": 616,
+    "slopeTermMPerDeg": -0.01395,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.279,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.07,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.279,
+   "displayName": "Rock pile s 03"
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockpilem01",
+   "node": "es|8f46d8418e|vanilla__landscape_rocks_rockpilem01",
+   "category": "rock",
+   "sizeM": [
+    7.63,
+    8.629,
+    1.312
+   ],
+   "originOffsetM": [
+    3.826,
+    4.268,
+    0.584
+   ],
+   "triangles": 968,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "dirt02.dds",
+    "mountainslab02.dds",
+    "rocks01.dds"
+   ],
+   "materials": [
+    "RockPileM01:0.Mat",
+    "RockPileM01:1 - L2_RockPileM01:1.Mat",
+    "RockPileM01:8.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "RockPileM01:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockPileM01:8.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     3.357,
+     0.577,
+     3.797
+    ],
+    "centreOffsetM": [
+     -0.011,
+     0.072,
+     -0.047
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.1489,
+    "p50": 0.2828,
+    "p75": 0.4741,
+    "n": 683,
+    "slopeTermMPerDeg": -0.03565,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.584,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.002,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.584,
+   "displayName": "Rock pile m 01"
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockpilem02",
+   "node": "es|66e202d792|vanilla__landscape_rocks_rockpilem02",
+   "category": "rock",
+   "sizeM": [
+    5.454,
+    6.767,
+    1.455
+   ],
+   "originOffsetM": [
+    2.569,
+    3.481,
+    0.49
+   ],
+   "triangles": 938,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "dirt02.dds",
+    "mountainslab02.dds",
+    "rocks01.dds"
+   ],
+   "materials": [
+    "RockPileM02:0.Mat",
+    "RockPileM02:1 - L2_RockPileM02:1.Mat",
+    "RockPileM02:8.Mat",
+    "RockPileM02:9.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "RockPileM02:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockPileM02:8.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     2.4,
+     0.64,
+     2.978
+    ],
+    "centreOffsetM": [
+     0.158,
+     0.238,
+     0.097
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.1397,
+    "p50": 0.2529,
+    "p75": 0.3763,
+    "n": 2046,
+    "slopeTermMPerDeg": -0.00528,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.49,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.002,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.49,
+   "displayName": "Rock pile m 02"
+  },
+  {
+   "id": "vanilla:landscape/rocks/wetrocks/rockm02wet",
+   "node": "es|528f105a9a|lla__landscape_rocks_wetrocks_rockm02wet",
+   "category": "rock",
+   "sizeM": [
+    2.35,
+    2.337,
+    1.881
+   ],
+   "originOffsetM": [
+    1.149,
+    1.132,
+    0.336
+   ],
+   "triangles": 123,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockM02Wet:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     1.034,
+     0.827,
+     1.028
+    ],
+    "centreOffsetM": [
+     0.025,
+     0.605,
+     -0.036
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.5158,
+    "p50": 0.8496,
+    "p75": 0.9903,
+    "n": 12,
+    "slopeTermMPerDeg": -0.01713,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.336,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.051,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.336,
+   "displayName": "Rock m 02 wet"
+  },
+  {
+   "id": "vanilla:landscape/rocks/wetrocks/rockl01wet",
+   "node": "es|ecb2624e7b|lla__landscape_rocks_wetrocks_rockl01wet",
+   "category": "rock",
+   "sizeM": [
+    4.74,
+    6.062,
+    4.11
+   ],
+   "originOffsetM": [
+    2.351,
+    2.972,
+    0.848
+   ],
+   "triangles": 387,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockL01Wet:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     2.086,
+     1.809,
+     2.667
+    ],
+    "centreOffsetM": [
+     0.019,
+     1.207,
+     -0.059
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 1.6109,
+    "p50": 2.0747,
+    "p75": 2.414,
+    "n": 44,
+    "slopeTermMPerDeg": -0.028,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.848,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.848,
+   "displayName": "Rock l 01 wet"
+  },
+  {
+   "id": "vanilla:landscape/rocks/wetrocks/rockpilem02wet",
+   "node": "es|c0016e54a7|_landscape_rocks_wetrocks_rockpilem02wet",
+   "category": "rock",
+   "sizeM": [
+    5.454,
+    6.767,
+    1.455
+   ],
+   "originOffsetM": [
+    2.569,
+    3.481,
+    0.49
+   ],
+   "triangles": 938,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "dirt02.dds",
+    "mountainslab02.dds",
+    "rocks01.dds"
+   ],
+   "materials": [
+    "RockPileM02Wet:0.Mat",
+    "RockPileM02Wet:18 - L2_RockPileM06:18.Mat",
+    "RockPileM02Wet:8.Mat",
+    "RockPileM02Wet:9.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "RockPileM02Wet:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockPileM02Wet:8.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     2.4,
+     0.64,
+     2.978
+    ],
+    "centreOffsetM": [
+     0.158,
+     0.238,
+     0.097
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.2164,
+    "p50": 0.2788,
+    "p75": 0.4441,
+    "n": 61,
+    "slopeTermMPerDeg": -0.00472,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.49,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.002,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.49,
+   "displayName": "Rock pile m 02 wet"
+  },
+  {
+   "id": "vanilla:landscape/rocks/cairns/rockcairn01",
+   "node": "es|51ac57df23|illa__landscape_rocks_cairns_rockcairn01",
+   "category": "rock",
+   "sizeM": [
+    2.568,
+    2.768,
+    2.606
+   ],
+   "originOffsetM": [
+    1.284,
+    1.384,
+    0.031
+   ],
+   "triangles": 1143,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockCairn01:1 - L1_Rocks:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     1.13,
+     1.147,
+     1.218
+    ],
+    "centreOffsetM": [
+     0.0,
+     1.273,
+     -0.0
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.031,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.561,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.031,
+   "displayName": "Rock cairn 01"
+  },
+  {
+   "id": "vanilla:landscape/rocks/cairns/rockcairn02",
+   "node": "es|b499d6cbc3|illa__landscape_rocks_cairns_rockcairn02",
+   "category": "rock",
+   "sizeM": [
+    3.341,
+    2.874,
+    2.495
+   ],
+   "originOffsetM": [
+    1.67,
+    1.437,
+    0.031
+   ],
+   "triangles": 1522,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockCairn02:1 - L1_Rocks:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     1.47,
+     1.098,
+     1.264
+    ],
+    "centreOffsetM": [
+     -0.0,
+     1.216,
+     -0.0
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.031,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.74,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.031,
+   "displayName": "Rock cairn 02"
+  },
+  {
+   "id": "vanilla:landscape/rocks/cairns/rockcairn03",
+   "node": "es|6240f4b98b|illa__landscape_rocks_cairns_rockcairn03",
+   "category": "rock",
+   "sizeM": [
+    1.798,
+    2.675,
+    2.563
+   ],
+   "originOffsetM": [
+    0.83,
+    1.404,
+    0.078
+   ],
+   "triangles": 1346,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockCairn03:1 - L1_Rocks:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.791,
+     1.128,
+     1.177
+    ],
+    "centreOffsetM": [
+     0.069,
+     1.203,
+     0.067
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.078,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.83,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.078,
+   "displayName": "Rock cairn 03"
+  },
+  {
+   "id": "vanilla:landscape/rocks/cairns/rockcairn04",
+   "node": "es|1ed53a8900|illa__landscape_rocks_cairns_rockcairn04",
+   "category": "rock",
+   "sizeM": [
+    1.415,
+    1.917,
+    2.578
+   ],
+   "originOffsetM": [
+    0.708,
+    0.958,
+    0.029
+   ],
+   "triangles": 1101,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockCairn04:1 - L1_Rocks:1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.623,
+     1.134,
+     0.843
+    ],
+    "centreOffsetM": [
+     -0.0,
+     1.26,
+     0.0
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.029,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.782,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.029,
+   "displayName": "Rock cairn 04"
+  },
+  {
+   "id": "vanilla:clutter/burialcairn/burialcairn01",
+   "node": "es|65ab9966f0|nilla__clutter_burialcairn_burialcairn01",
+   "category": "clutter",
+   "sizeM": [
+    2.745,
+    4.191,
+    1.344
+   ],
+   "originOffsetM": [
+    1.323,
+    2.142,
+    0.479
+   ],
+   "triangles": 4033,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds",
+    "ratwaybmudfloor01.dds",
+    "scrollworktrim01.dds"
+   ],
+   "materials": [
+    "BurialCairn01:0.Mat",
+    "BurialCairn01:1.Mat",
+    "BurialCairn01:2.Mat",
+    "L1.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "BurialCairn01:2.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "keep",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 21,
+    "interior": {},
+    "exterior": {
+     "wild": 11,
+     "keep": 4,
+     "ruin": 4,
+     "town": 2
+    },
+    "sourceCells": [
+     "exterior:wild:HamvirsRestLocation",
+     "exterior:wild:Tamriel",
+     "exterior:ruin:ColdRockPassLocation",
+     "exterior:wild:ArcwindPointLocation",
+     "exterior:keep:NarzulburLocation",
+     "exterior:keep:FortSnowhawkLocation",
+     "exterior:town:FalkreathLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.479,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.148,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.479,
+   "displayName": "Burial cairn 01"
+  },
+  {
+   "id": "vanilla:clutter/burialcairn/burialcairn02",
+   "node": "es|5587fa5d29|nilla__clutter_burialcairn_burialcairn02",
+   "category": "clutter",
+   "sizeM": [
+    2.745,
+    4.191,
+    1.75
+   ],
+   "originOffsetM": [
+    1.323,
+    2.142,
+    0.479
+   ],
+   "triangles": 4022,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds",
+    "ratwaybmudfloor01.dds",
+    "scrollworktrim01.dds"
+   ],
+   "materials": [
+    "BurialCairn02:0.Mat",
+    "BurialCairn02:1.Mat",
+    "BurialCairn02:2.Mat",
+    "L1.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "BurialCairn02:2.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0573,
+    "p50": -0.009,
+    "p75": 0.055,
+    "n": 9,
+    "slopeTermMPerDeg": 0.02495,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "keep",
+      "town",
+      "wild"
+     ]
+    },
+    "n": 18,
+    "interior": {},
+    "exterior": {
+     "wild": 12,
+     "keep": 4,
+     "town": 2
+    },
+    "sourceCells": [
+     "exterior:wild:HamvirsRestLocation",
+     "exterior:wild:ArcwindPointLocation",
+     "exterior:keep:FortSnowhawkLocation",
+     "exterior:wild:Tamriel",
+     "exterior:town:FalkreathLocation",
+     "exterior:keep:NarzulburLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.479,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.148,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.479,
+   "displayName": "Burial cairn 02"
+  },
+  {
+   "id": "vanilla:clutter/burialcairn/burialcairn03",
+   "node": "es|ce90011aa6|nilla__clutter_burialcairn_burialcairn03",
+   "category": "clutter",
+   "sizeM": [
+    2.745,
+    4.191,
+    0.959
+   ],
+   "originOffsetM": [
+    1.323,
+    2.142,
+    0.479
+   ],
+   "triangles": 3863,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds",
+    "ratwaybmudfloor01.dds",
+    "scrollworktrim01.dds"
+   ],
+   "materials": [
+    "BurialCairn03:0.Mat",
+    "BurialCairn03:1.Mat",
+    "BurialCairn03:2.Mat",
+    "L1.Mat.002"
+   ],
+   "alphaMaskMaterials": {
+    "BurialCairn03:2.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "keep",
+      "wild"
+     ]
+    },
+    "n": 22,
+    "interior": {},
+    "exterior": {
+     "wild": 17,
+     "keep": 3,
+     "ruin": 1,
+     "town": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "exterior:wild:ArcwindPointLocation",
+     "exterior:wild:HamvirsRestLocation",
+     "exterior:keep:FortSnowhawkLocation",
+     "exterior:keep:NarzulburLocation",
+     "exterior:ruin:RefugeesRestLocation",
+     "exterior:town:FalkreathLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.479,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.148,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.479,
+   "displayName": "Burial cairn 03"
+  },
+  {
+   "id": "vanilla:clutter/woodfires/campfire01landoff",
+   "node": "es|60079d20b7|lla__clutter_woodfires_campfire01landoff",
+   "category": "clutter",
+   "sizeM": [
+    4.76,
+    4.861,
+    1.044
+   ],
+   "originOffsetM": [
+    2.594,
+    2.537,
+    0.228
+   ],
+   "triangles": 685,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "ash01.dds",
+    "dirt02.dds",
+    "mountainslab02.dds",
+    "woodfires01.dds"
+   ],
+   "materials": [
+    "Ash.Mat",
+    "Campfire01LandOff:1 - L1_RocksBottomLogsLand:1.Mat",
+    "L1_RocksBottomLogsLand:0.Mat",
+    "L1_RocksBottomLogsLand:5.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Ash.Mat": 0.149
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.228,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.06,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.228,
+   "displayName": "Campfire 01 land off"
+  }
+ ],
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\route-dressing-v1.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [],
+ "texturesSubstituted": {},
+ "alphaModes": {
+  "MASK": 7,
+  "OPAQUE": 43,
+  "BLEND": 0
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
+ },
+ "compression": {
+  "schemaVersion": 1,
+  "tool": "gltfpack 1.2",
+  "args": [
+   "-cc",
+   "-tc",
+   "-tq",
+   "8",
+   "-kn",
+   "-km",
+   "-ke",
+   "-vtf",
+   "-vpf",
+   "-tj",
+   "4",
+   "-tu",
+   "color,normal,attrib"
+  ],
+  "textures": {
+   "color": "uastc",
+   "normal": "uastc",
+   "attrib": "uastc"
+  },
+  "textureQuality": 8,
+  "textureContainer": "ktx2",
+  "geometry": "EXT_meshopt_compression",
+  "bytesBefore": 6217812,
+  "bytesAfter": 2739072,
+  "images": 8,
+  "imageBytesAfter": 2207005,
+  "warnings": [],
+  "sha256": "97dc1ce2e0cf82cdcf84d75ed9ff660d5c0338d679a358a87f6c4069fb8e1dc4",
+  "sidecarBytes": {
+   "connectors": 19547,
+   "footprints": 32382,
+   "interiors": 18573
+  }
+ }
+}

@@ -63,7 +63,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.845,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.992
+   "pivotAboveBaseM": 0.992,
+   "displayName": "Housechampint 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v001",
@@ -126,7 +127,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.523,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "displayName": "Housechampintwalla 15v 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v002",
@@ -189,7 +191,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.626,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "displayName": "Housechampintwalla 15v 002"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandint001",
@@ -259,7 +262,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.984,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.08
+   "pivotAboveBaseM": 4.08,
+   "displayName": "Houseglandint 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintet001",
@@ -330,7 +334,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.637,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.024
+   "pivotAboveBaseM": -3.024,
+   "displayName": "Housetroncintet 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintet90v001",
@@ -395,7 +400,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.593,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.395
+   "pivotAboveBaseM": -3.395,
+   "displayName": "Housetroncintet 90v 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintrcet90v001",
@@ -460,7 +466,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.628,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.643
+   "pivotAboveBaseM": 0.643,
+   "displayName": "Housetroncintrcet 90v 001"
   },
   {
    "id": "bmv:telvanni/tel_int_connector_01",
@@ -521,7 +528,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.296
+   "pivotAboveBaseM": 0.296,
+   "displayName": "Tel int connector 01"
   },
   {
    "id": "bmv:telvanni/tel_int_gourdhouse01",
@@ -584,7 +592,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.915,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.254
+   "pivotAboveBaseM": 0.254,
+   "displayName": "Tel int gourdhouse 01"
   },
   {
    "id": "bmv:telvanni/telv_platform01",
@@ -647,7 +656,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.367
+   "pivotAboveBaseM": 0.367,
+   "displayName": "Telv platform 01"
   },
   {
    "id": "vanilla:furniture/commontabletwobenches",
@@ -716,7 +726,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.816,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Common table two benches"
   },
   {
    "id": "vanilla:furniture/common/commonbench01",
@@ -785,7 +796,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Common bench 01"
   },
   {
    "id": "bmv:clutter/oaristys/the witcher/lamps/lantern02_blue",
@@ -846,7 +858,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.996,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.008
+   "pivotAboveBaseM": -0.008,
+   "displayName": "Lantern 02 blue"
   },
   {
    "id": "bmv:clutter/oaristys/the witcher/lamps/lamp_elven",
@@ -909,7 +922,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.921,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.001
+   "pivotAboveBaseM": -0.001,
+   "displayName": "Lamp elven"
   },
   {
    "id": "bmv:clutter/oaristys/the witcher/furniture/brazier",
@@ -978,7 +992,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.625,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.059
+   "pivotAboveBaseM": 0.059,
+   "displayName": "Brazier"
   },
   {
    "id": "vanilla:clutter/barrel01",
@@ -1095,7 +1110,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Barrel empty 01"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\bmv-treehouse-int.glb",

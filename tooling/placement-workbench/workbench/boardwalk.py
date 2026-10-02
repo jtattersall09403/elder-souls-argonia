@@ -260,7 +260,10 @@ def obstacles_of(cat, scene, skip_prefix: str):
 def replace_in_layout(doc: dict, run_id: str, prefix: str, ops: list, binds: list) -> dict:
     """The layout with every op of the run's old members (bound to ``run_id``
     or uid starting ``prefix``) removed and the new ops put where the first
-    old one stood (binds after the last place/snap of the file's first bind)."""
+    old one stood; the binds at the file's first bind AFTER the new ops (a
+    bind must follow the place it names: a second run appended to a layout
+    whose first run's binds come earlier put its binds before its places,
+    16k walk 9 type 10), else at the end."""
     old = {o.get("uid") for o in doc["ops"] if o.get("op") == "bind" and o.get("id") == run_id}
     old |= {o.get("uid") for o in doc["ops"] if str(o.get("uid", "")).startswith(prefix)}
 
@@ -271,7 +274,8 @@ def replace_in_layout(doc: dict, run_id: str, prefix: str, ops: list, binds: lis
     kept = [o for o in doc["ops"] if not mine(o)]
     at = sum(1 for o in doc["ops"][:first] if not mine(o))
     kept[at:at] = ops
-    fb = next((i for i, o in enumerate(kept) if o.get("op") == "bind"), len(kept))
+    fb = next((i for i, o in enumerate(kept) if i >= at + len(ops) and o.get("op") == "bind"),
+              len(kept))
     kept[fb:fb] = binds
     return dict(doc, ops=kept)
 

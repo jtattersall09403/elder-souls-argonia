@@ -241,6 +241,8 @@ export interface AirSwarmUniforms {
   uAirHabitat: { value: THREE.Texture } & TslNode;
   /** species weights on the habitat channels, w = enabled (0/1) */
   uAirHabitatW: { value: THREE.Vector4 } & TslNode;
+  /** habitat width / surface size, habitat width (the habitat uploads halved) */
+  uAirHabitatScale: { value: THREE.Vector2 } & TslNode;
   /** Scene-linear radiance, written every frame by update(). */
   uCore: { value: THREE.Color } & TslNode;
   uHalo: { value: THREE.Color } & TslNode;
@@ -313,7 +315,7 @@ function buildSwarmMaterial(u: AirSwarmUniforms): NodeMaterial {
   const world0: TslNode = centre.add(rel);
 
   // The compiled surface texel under xz (nearest): W16 in RG, signed depth in
-  // B. The habitat raster shares the grid, so one texel address serves both.
+  // B. The habitat raster has its own (halved) address below.
   const info: TslNode = u.uAirWaterInfo;
   const texelF: TslNode = clamp(world0.xz.div(info.y).sub(0.5), vec2(0.0), vec2(info.x.sub(1.001)));
   const texelI: TslNode = ivec2(texelF.add(0.5));
@@ -379,7 +381,11 @@ function buildSwarmMaterial(u: AirSwarmUniforms): NodeMaterial {
   );
   // 16f: the RECORD says where life is: the habitat weights gate the patch
   // centres and the value noise only textures the density inside them.
-  const hab: TslNode = textureLoad(u.uAirHabitat, texelI).rgb;
+  // The habitat uploads halved (walk 9 rasters): its own texel address,
+  // scaled from the surface grid by uAirHabitatScale (width ratio, width).
+  const habS: TslNode = u.uAirHabitatScale;
+  const habF: TslNode = clamp(world0.xz.div(info.y).mul(habS.x).sub(0.5), vec2(0.0), vec2(habS.y.sub(1.001)));
+  const hab: TslNode = textureLoad(u.uAirHabitat, ivec2(habF.add(0.5))).rgb;
   const habW: TslNode = clamp(dot(hab, u.uAirHabitatW.xyz), 0.0, 1.0);
   const patch: TslNode = sel(
     u.uAirHabitatW.w.greaterThan(0.5),
@@ -511,6 +517,7 @@ export class AirSwarm {
       uAirHover: uniform(new THREE.Vector3(species.hoverAboveWaterM ?? 0, species.hoverBandM ?? 0, 0)),
       uAirHabitat: texture(this.blank),
       uAirHabitatW: uniform(new THREE.Vector4(...(species.habitat ?? [0, 0, 0]), 0)),
+      uAirHabitatScale: uniform(new THREE.Vector2(1, 1)),
       uCore: uniform(new THREE.Color(0, 0, 0)),
       uHalo: uniform(new THREE.Color(0, 0, 0)),
       uOpacity: uniform(species.opacity),
@@ -555,6 +562,10 @@ export class AirSwarm {
     const habTex = habitat ? water!.habitat! : this.blank;
     if (u.uAirHabitat.value !== habTex) u.uAirHabitat.value = habTex;
     u.uAirHabitatW.value.w = habitat ? 1 : 0;
+    if (habitat) {
+      const width = (water!.habitat!.image as { width?: number } | undefined)?.width ?? water!.size;
+      u.uAirHabitatScale.value.set(width / water!.size, width);
+    }
     if (hover || habitat) {
       u.uAirWaterInfo.value.set(water!.size, water!.metresPerPixel, water!.minM, water!.spanM);
     }

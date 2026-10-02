@@ -5,6 +5,7 @@ import { applyWeaponSocketTransform } from "@elder-souls/game-core/anim/weaponMo
 import { footContactChain, liftFootContact } from "@elder-souls/game-core/anim/footContact";
 import { constrainDrawingHand } from "./bowConstraints";
 import { assetUrl } from "./assetBase";
+import { useCharacterGLTF } from "./characterGltf";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useMarkedFrame } from "@elder-souls/game-core/fx/frameSegments";
 import { Suspense, useCallback, useLayoutEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -419,7 +420,7 @@ function PosedActor({
   const rigUrls = useMemo(() => packUrls(packs), [packs]);
   const rigs = useGLTF(rigUrls) as unknown as { animations: THREE.AnimationClip[] }[];
   const rigClips = useMemo(() => rigs.flatMap((pack) => pack.animations), [rigs]);
-  const gltf = useGLTF(raceUrl(race));
+  const gltf = useCharacterGLTF(raceUrl(race));
   // A bow with a rigged build is mounted rigged, string and all; the archer's
   // draw drives it (`riggedBow`). Every other weapon is its static build.
   const weaponRig = weaponProfile.rig ?? null;

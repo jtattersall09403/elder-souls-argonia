@@ -9,7 +9,7 @@
  * copies are switched on and off, so no ordering the GPU can see is stable
  * (which is also why the TSL `instanceIndex` is NOT the key).
  * Two RGBA float texels per slot: texel 2i is the band (dIn, dOut, wIn, wOut),
- * texel 2i+1 is (stiffness − 1, sink, 0, 0).
+ * texel 2i+1 is (stiffness − 1, sink, plant height m, 0).
  *
  * The same uniforms also carry the terrain-occlusion mask (`occlusionMask.ts`),
  * because it is read from the same place and by the same instances.
@@ -93,6 +93,7 @@ export function writeBatchInstance(
   band: readonly [number, number, number, number],
   stiffness: number,
   sink: number,
+  plantHeightM: number,
 ): void {
   const data = texture.image.data as Float32Array;
   const at = id * BATCH_DATA_TEXELS * 4;
@@ -102,7 +103,7 @@ export function writeBatchInstance(
   data[at + 3] = band[3];
   data[at + 4] = stiffness;
   data[at + 5] = sink;
-  data[at + 6] = 0;
+  data[at + 6] = plantHeightM;
   data[at + 7] = 0;
 }
 
@@ -206,15 +207,16 @@ export function instanceDataNode(
   material: THREE.Material,
   k: number,
   attributeName: string,
-  type: "vec4" | "vec2",
+  type: "vec4" | "vec3" | "vec2",
 ): TslNode {
-  const zero = () => (type === "vec4" ? vec4(0, 0, 0, 0) : vec4(0, 0, 0, 0).xy);
+  const swz = (v: TslNode) => (type === "vec4" ? v : type === "vec3" ? v.xyz : v.xy);
+  const zero = () => swz(vec4(0, 0, 0, 0));
   return whenInstanced(
     () => {
       const batch = batchUniformsOf(material);
       if (batch) {
         const texel = batchTexelNode(batch, k);
-        return type === "vec4" ? texel : texel.xy;
+        return swz(texel);
       }
       return optionalAttribute(attributeName, type, zero);
     },

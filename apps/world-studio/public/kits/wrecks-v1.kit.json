@@ -98,7 +98,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.474
+   "pivotAboveBaseM": 0.474,
+   "displayName": "Shipwreck large 01"
   },
   {
    "id": "vanilla:dungeons/ship/shipwrecklarge02",
@@ -194,7 +195,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.474
+   "pivotAboveBaseM": 0.474,
+   "displayName": "Shipwreck large 02"
   },
   {
    "id": "vanilla:dungeons/ship/shipwrecklarge03",
@@ -289,7 +291,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.972,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.474
+   "pivotAboveBaseM": 0.474,
+   "displayName": "Shipwreck large 03"
   },
   {
    "id": "vanilla:dungeons/ship/shipwrecklarge04",
@@ -383,7 +386,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.119
+   "pivotAboveBaseM": 0.119,
+   "displayName": "Shipwreck large 04"
   },
   {
    "id": "vanilla:dungeons/ship/shiplongboatwreck01",
@@ -469,7 +473,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.838,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.114
+   "pivotAboveBaseM": 0.114,
+   "displayName": "Ship long boat wreck 01"
   },
   {
    "id": "vanilla:dungeons/ship/shiplongboatwreck02",
@@ -555,7 +560,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.012
+   "pivotAboveBaseM": 0.012,
+   "displayName": "Ship long boat wreck 02"
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards01",
@@ -621,7 +627,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.971,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "displayName": "Shipwreck boards 01"
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards02",
@@ -687,7 +694,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.96,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "displayName": "Shipwreck boards 02"
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards03",
@@ -753,7 +761,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.943,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "displayName": "Shipwreck boards 03"
   },
   {
    "id": "depths:dos/ships/shipatmoranlongshipwreck01",
@@ -820,7 +829,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.951,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.065
+   "pivotAboveBaseM": -0.065,
+   "displayName": "Shipatmoranlongshipwreck 01"
   },
   {
    "id": "depths:dos/ships/shipatmoranlongshipwreck02",
@@ -887,7 +897,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.986,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.065
+   "pivotAboveBaseM": -0.065,
+   "displayName": "Shipatmoranlongshipwreck 02"
   },
   {
    "id": "depths:dos/ships/shipatmoranrowboatwreck01",
@@ -952,7 +963,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.984,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "displayName": "Shipatmoranrowboatwreck 01"
   },
   {
    "id": "depths:dos/ships/shipatmoranrowboatwreck02",
@@ -1017,7 +1029,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.991,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "displayName": "Shipatmoranrowboatwreck 02"
   },
   {
    "id": "depths:dos/ships/shipatmoranwarshipwreck01",
@@ -1094,7 +1107,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.957,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005
+   "pivotAboveBaseM": 0.005,
+   "displayName": "TBP ship atmoran warship wreck 01"
   },
   {
    "id": "depths:dos/ships/shipatmoranwarshipwreck02",
@@ -1171,7 +1185,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.99,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.033
+   "pivotAboveBaseM": 0.033,
+   "displayName": "TBP ship atmoran warship wreck 02"
   },
   {
    "id": "depths:dos/ships/shipbreticcarrack_halfwreck01",
@@ -1236,7 +1251,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.955,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.61
+   "pivotAboveBaseM": 4.61,
+   "displayName": "TBP ship bretic half wreck 01"
   },
   {
    "id": "depths:dos/ships/shipbreticcarrack_halfwreck02",
@@ -1305,7 +1321,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.96,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.614
+   "pivotAboveBaseM": 4.614,
+   "displayName": "TBP ship bretic half wreck 02"
   },
   {
    "id": "depths:dos/boats/rowboatbrokenback",
@@ -1370,7 +1387,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.882,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.764
+   "pivotAboveBaseM": 0.764,
+   "displayName": "Rowboatbrokenback"
   },
   {
    "id": "depths:dos/boats/rowboatbrokenfront",
@@ -1435,7 +1453,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.757
+   "pivotAboveBaseM": 0.757,
+   "displayName": "Rowboatbrokenfront"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\wrecks-v1.glb",

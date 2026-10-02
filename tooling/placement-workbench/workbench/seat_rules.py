@@ -28,8 +28,18 @@ from .mesh_query import cast_rays
 
 BURY_MIN_M = 0.15            # burialRule: a base may sit this far under the ground with no design
 BURY_TOL_M = 0.03            # ... over the allowance by more than the miner's contact (0097 rule 3)
-DESIGNED_EVIDENCE = ("plugin", "mesh", "base:", "part:", "swap:")
+DESIGNED_EVIDENCE = ("plugin", "base:", "part:", "swap:")
 DESIGNED_ROW_EVIDENCE = ("policy",)
+GUESS_EVIDENCE = ("mesh-sill", "mesh")
+"""A sink read off the mesh alone (the mesh-sill ground-line tell: n 0, no
+plugin placement measured it) is a guess, never a design (16k walk 9: the
+notice board's mesh-sill sink of 1.82 m buried it to its roof and passed;
+the Bosmer stair and the cave door before it). burialRule grants a guess
+only as far as the real mesh contact allows (0085): at most
+GUESS_BURY_MAX_M, or GUESS_BURY_SHARE of the mesh's height for a tall
+piece whose base band is a foundation."""
+GUESS_BURY_MAX_M = 0.3
+GUESS_BURY_SHARE = 0.2
 """burialRule (CLAYWATER2, planner ruling 1 2026-09-28): an ``assetPlacement``
 row (evidence exactly "policy", never "policy-fallback") is a reviewed
 designed sink: the Riften stable's floor on the pad, its 0.91 m foundation
@@ -158,6 +168,37 @@ def _base_depth(cat, g, q) -> tuple[float, float, float]:
     return float(g.chunk_height(x, -north)) - low, x, north
 
 
+def designed_burial(cat, asset: str, scale: float) -> tuple[float, str, float | None]:
+    """(designed base depth, sink evidence, the guess cap or None): the
+    depth under the ground the piece's base is designed to stand, (p50 +
+    pivot over base) x scale. Plugin-measured sinks (and rows derived from
+    them) and reviewed ``assetPlacement`` rows design it in full; a mesh-only
+    guess (GUESS_EVIDENCE) is capped at max(GUESS_BURY_MAX_M,
+    GUESS_BURY_SHARE x the mesh height); anything else designs nothing."""
+    sink, ev = _sink_row(cat, asset)
+    row = cat.row(asset)
+    depth = (sink + float(row["originOffsetM"][2])) * scale
+    if ev.startswith(DESIGNED_EVIDENCE) or ev in DESIGNED_ROW_EVIDENCE:
+        return depth, ev, None
+    if ev.startswith(GUESS_EVIDENCE):
+        height = float((row.get("sizeM") or [0, 0, 0])[2]) * scale
+        cap = max(GUESS_BURY_MAX_M, GUESS_BURY_SHARE * height)
+        return min(depth, cap), ev, cap
+    return 0.0, ev, None
+
+
+def buried_share(cat, g, q, most: int = 400) -> float:
+    """The real mesh contact (0085): the share of the posed mesh's vertices
+    under the ground straight below each (a seeded-stride subsample of at
+    most ``most``); a foundation band reads a few per cent, a piece sunk to
+    its roof most of them."""
+    v = q.world_points(np.asarray(cat.mesh(q.asset).vertices))
+    step = max(1, len(v) // most)
+    v = v[::step]
+    under = np.array([float(g.chunk_height(float(x), -float(n))) for x, n, _ in v])
+    return round(float((v[:, 2] < under).mean()), 3) if len(v) else 0.0
+
+
 def burial_piece(cat, scene, ctx, p) -> tuple[dict, list]:
     """burialRule for one piece: its lowest mesh point against the padded
     ground straight under it, at the workbench pose (or the runtime seat
@@ -173,10 +214,7 @@ def burial_piece(cat, scene, ctx, p) -> tuple[dict, list]:
     q, how = _posed(cat, g, p)
     if q is None:
         return {}, []
-    sink, ev = _sink_row(cat, q.asset)
-    pab = float(cat.row(q.asset)["originOffsetM"][2])
-    reviewed = ev.startswith(DESIGNED_EVIDENCE) or ev in DESIGNED_ROW_EVIDENCE
-    designed = (sink + pab) * q.scale if reviewed else 0.0
+    designed, ev, guess_cap = designed_burial(cat, q.asset, q.scale)
     allow = max(designed, BURY_MIN_M)
     poses = [(how, q)]
     cy = ctx.get("compiled", {}).get(p.uid)
@@ -185,20 +223,37 @@ def burial_piece(cat, scene, ctx, p) -> tuple[dict, list]:
         c.y = cy
         poses.append(("compiled", c))
     r = {"allowM": round(allow, 3), "designedBaseDepthM": round(designed, 3), "sinkEvidence": ev}
+    if guess_cap is not None:
+        r["guessCapM"] = round(guess_cap, 3)
     fails = []
+    dug_in = (cat.row(q.asset).get("placement") or {}).get("evidence", {}).get("policyId") == "dug-in"
     for where, pose in poses:
         depth, x, north = _base_depth(cat, g, pose)
+        if dug_in:
+            # a dug-in piece is seated on the lowest ground under its outline
+            # (`wb.py _sill`'s line), so its designed burial is measured from
+            # that line: ground rising under one end of a 30 m cave mound is
+            # the hill it is set into, not a sinking (16k walk 9)
+            poly = measure.footprint_province(cat, pose)
+            if poly:
+                line = min(float(g.chunk_height(px, pz)) for px, pz in poly)
+                depth = min(depth, line - (float(np.min(pose.world_points(
+                    np.asarray(cat.mesh(pose.asset).vertices))[:, 2]))))
         key = "baseDepthM" if where != "compiled" else "compiledBaseDepthM"
         r[key] = round(depth, 3)
+        if where != "compiled":
+            r["buriedShare"] = buried_share(cat, g, pose)
         r["judgedAt" if where != "compiled" else "compiledOffM"] = (
             where if where != "compiled" else round(pose.y - q.y, 3))
         if depth > allow + BURY_TOL_M:
             tag = {"runtime-seat": " [at the runtime seat: the op never settles it]",
                    "compiled": f" [at the last compile's pivot y {pose.y:.2f}, "
                                f"{pose.y - q.y:+.2f} m off the workbench's]"}.get(where, "")
+            capped = (f"; the {ev} sink is a guess, granted only {guess_cap:.2f} m by the "
+                      f"mesh contact rule" if guess_cap is not None else "")
             fails.append(f"{p.uid}: its base stands {depth:.2f} m under the ground at "
                          f"({x:.1f}, {-north:.1f}) (allowed {allow:.2f} m: designed {designed:.2f} m "
-                         f"by a {ev} sink, least {BURY_MIN_M} m){tag}")
+                         f"by a {ev} sink, least {BURY_MIN_M} m{capped}){tag}")
     return {p.uid: r}, fails
 
 
@@ -409,8 +464,6 @@ def fixture_piece(cat, scene, ctx, p) -> tuple[dict, list]:
     world = measure._transform4(p)
     v = np.asarray(cat.mesh(p.asset).vertices) @ world[:3, :3].T + world[:3, 3]
     x, north = float(v[:, 0].mean()), float(v[:, 1].mean())
-    sink, ev = _sink_row(cat, p.asset)
-    pab = float(cat.row(p.asset)["originOffsetM"][2])
     compiled = ctx.get("compiled") or {}
     lift = {u: cy - q.y for q in scene.pieces if q.y is not None
             for u, cy in [(q.uid, compiled.get(q.uid))]
@@ -423,7 +476,7 @@ def fixture_piece(cat, scene, ctx, p) -> tuple[dict, list]:
         base = float(v[:, 2].min()) + (lf or {}).get(p.uid, 0.0)
         surf, what = _surface_under(cat, scene, g, p, x, north, base, lf)
         gap = base - surf
-        designed = (sink + pab) * p.scale if (what == "ground" and ev.startswith(DESIGNED_EVIDENCE)) else 0.0
+        designed = designed_burial(cat, p.asset, p.scale)[0] if what == "ground" else 0.0
         allow = max(FIXTURE_SINK_M, designed + FIXTURE_SINK_M)
         if where:
             if round(gap, 3) == r.get("gapM") and what == r.get("on"):

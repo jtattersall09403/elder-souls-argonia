@@ -89,7 +89,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.696,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.539
+   "pivotAboveBaseM": 0.539,
+   "displayName": "Mudhut 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/thatchroofing",
@@ -169,7 +170,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.683
+   "pivotAboveBaseM": 0.683,
+   "displayName": "Thatchroofing"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/roundfloor01",
@@ -252,7 +254,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.805,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.002
+   "pivotAboveBaseM": 3.002,
+   "displayName": "Roundfloor 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/archwaysticks",
@@ -336,7 +339,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.198,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.995
+   "pivotAboveBaseM": -3.995,
+   "displayName": "Archwaysticks"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianplatform",
@@ -416,7 +420,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.172
+   "pivotAboveBaseM": 0.172,
+   "displayName": "Argonianplatform"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianplatformsmall",
@@ -496,7 +501,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.157
+   "pivotAboveBaseM": 0.157,
+   "displayName": "Argonianplatformsmall"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbridge",
@@ -573,7 +579,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.993,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.345
+   "pivotAboveBaseM": 1.345,
+   "displayName": "Argonianbridge"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbridgestart",
@@ -653,7 +660,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.564
+   "pivotAboveBaseM": 1.564,
+   "displayName": "Argonianbridgestart"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfence01",
@@ -730,7 +738,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.379,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.05
+   "pivotAboveBaseM": 0.05,
+   "displayName": "Argonianfence 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfence02",
@@ -818,7 +827,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.608,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.016
+   "pivotAboveBaseM": -0.016,
+   "displayName": "Argonianfence 02"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfenceend",
@@ -906,7 +916,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.509,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.046
+   "pivotAboveBaseM": 0.046,
+   "displayName": "Argonianfenceend"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/snakefence01",
@@ -988,7 +999,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.091,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.155
+   "pivotAboveBaseM": 0.155,
+   "displayName": "Snakefence 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantent01",
@@ -1077,7 +1089,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.79,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.46
+   "pivotAboveBaseM": 0.46,
+   "displayName": "Argoniantent 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantent02",
@@ -1167,7 +1180,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.656,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.449
+   "pivotAboveBaseM": 0.449,
+   "displayName": "Argoniantent 02"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/carapaceoven",
@@ -1241,7 +1255,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.016
+   "pivotAboveBaseM": 0.016,
+   "displayName": "Carapaceoven"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/fishracksmall",
@@ -1320,7 +1335,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.228
+   "pivotAboveBaseM": -0.228,
+   "displayName": "Fishracksmall"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/woventable01",
@@ -1412,7 +1428,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Woventable 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wovenchair01",
@@ -1506,7 +1523,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Wovenchair 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketfull",
@@ -1599,7 +1617,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.035
+   "pivotAboveBaseM": 0.035,
+   "displayName": "Basketfull"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketsmall01",
@@ -1676,7 +1695,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Basketsmall 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/paintedurn01",
@@ -1767,7 +1787,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "displayName": "Paintedurn 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
@@ -1846,7 +1867,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.315,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.011
+   "pivotAboveBaseM": -0.011,
+   "displayName": "Argoniantotem 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
@@ -1943,7 +1965,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.674,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.269
+   "pivotAboveBaseM": 0.269,
+   "displayName": "Argonianbonechime 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianskull01",
@@ -2010,7 +2033,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.777,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.17
+   "pivotAboveBaseM": 0.17,
+   "displayName": "Argonianskull 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
@@ -2069,8 +2093,8 @@
     ],
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "policy",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -2090,7 +2114,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.52,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.627
+   "pivotAboveBaseM": 2.627,
+   "displayName": "Argonianlanterns 02"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
@@ -2196,7 +2221,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.638,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.149
+   "pivotAboveBaseM": 2.149,
+   "displayName": "Argonianlanterns 03"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
@@ -2308,7 +2334,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.667,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.889
+   "pivotAboveBaseM": 0.889,
+   "displayName": "Argonianlanterns 04"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniancandle01",
@@ -2434,7 +2461,11 @@
    "undersideClosed": false,
    "undersideCoverage": 0.396,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029
+   "pivotAboveBaseM": 0.029,
+   "emissiveMaterials": [
+    "RieklingCandle:0.Mat"
+   ],
+   "displayName": "Argoniancandle 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/sithisshrine",
@@ -2516,7 +2547,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.937,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.065
+   "pivotAboveBaseM": -0.065,
+   "displayName": "Sithisshrine"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/histtree",
@@ -2598,7 +2630,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.521,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.822
+   "pivotAboveBaseM": 8.822,
+   "displayName": "Histtree"
   },
   {
    "id": "bmv:architecture/huts/exterior/hutexterior",
@@ -2688,7 +2721,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.938,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.938
+   "pivotAboveBaseM": 2.938,
+   "displayName": "Hutexterior"
   },
   {
    "id": "bmv:architecture/huts/exterior/hutdecking",
@@ -2780,7 +2814,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005
+   "pivotAboveBaseM": 0.005,
+   "displayName": "Hutdecking"
   },
   {
    "id": "ferries:yamadori/ferries/plank_ferry_swamp_01",
@@ -2858,7 +2893,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.783,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.764
+   "pivotAboveBaseM": 0.764,
+   "displayName": "Plank ferry swamp 01"
   },
   {
    "id": "ferries:yamadori/ferries/rowboat_ferry_swamp_01",
@@ -2948,7 +2984,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.036
+   "pivotAboveBaseM": 0.036,
+   "displayName": "Rowboat ferry swamp 01"
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree",
@@ -3035,7 +3072,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.901,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.418
+   "pivotAboveBaseM": 1.418,
+   "displayName": "Tree reach tree 01 magic skyfall"
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower01",
@@ -3121,7 +3159,11 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -5.854
+   "pivotAboveBaseM": -5.854,
+   "emissiveMaterials": [
+    "Cylinder.Mat"
+   ],
+   "displayName": "Hist flower 01 skyfall"
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower02",
@@ -3207,7 +3249,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.473,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -6.009
+   "pivotAboveBaseM": -6.009,
+   "displayName": "Hist flower 02 skyfall"
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick",
@@ -3283,19 +3326,20 @@
    "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": 1.418,
-    "buryCapM": 0.5,
+    "buryCapM": 0.25,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": true,
    "undersideCoverage": 0.901,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.418
+   "pivotAboveBaseM": 1.418,
+   "displayName": "Tree reach tree 01 magic skyfall"
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower01-sick",
@@ -3387,7 +3431,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -5.854
+   "pivotAboveBaseM": -5.854,
+   "displayName": "Hist flower 01 skyfall"
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower02-sick",
@@ -3474,7 +3519,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.473,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -6.009
+   "pivotAboveBaseM": -6.009,
+   "displayName": "Hist flower 02 skyfall"
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn01",
@@ -3561,7 +3607,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.363,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "displayName": "Rock cairn 01 skyfall"
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn02",
@@ -3648,7 +3695,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.738,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029
+   "pivotAboveBaseM": 0.029,
+   "displayName": "Rock cairn 02 skyfall"
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
@@ -3728,7 +3776,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.841,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.077
+   "pivotAboveBaseM": 0.077,
+   "displayName": "Rock cairn 03 skyfall"
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn04",
@@ -3808,7 +3857,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.787,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029
+   "pivotAboveBaseM": 0.029,
+   "displayName": "Rock cairn 04 skyfall"
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rune circle",
@@ -3890,7 +3940,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.059,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.606
+   "pivotAboveBaseM": 0.606,
+   "displayName": "Rune circle skyfall"
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/windchimehavok",
@@ -3991,7 +4042,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.394,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.879
+   "pivotAboveBaseM": 1.879,
+   "displayName": "Windchime"
   },
   {
    "id": "canoe:actors/sfss/canoe/canoe1",
@@ -4089,7 +4141,11 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.166
+   "pivotAboveBaseM": 0.166,
+   "emissiveMaterials": [
+    "Object009:2.Mat"
+   ],
+   "displayName": "Canoe 1"
   },
   {
    "id": "ferryraft:snt/ferry/ferryraft01",
@@ -4222,7 +4278,11 @@
    "undersideClosed": true,
    "undersideCoverage": 0.892,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.473
+   "pivotAboveBaseM": 0.473,
+   "emissiveMaterials": [
+    "CandleLanternWithCandle:7.Mat"
+   ],
+   "displayName": "SNT ferry raft"
   },
   {
    "id": "composite:mud/hut-with-entrance",
@@ -4323,7 +4383,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.912,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.924
+   "pivotAboveBaseM": 3.924,
+   "displayName": "Hut with entrance"
   },
   {
    "id": "kotm:argonia/mudhuts/mudhut01",
@@ -4407,7 +4468,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.044,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.379
+   "pivotAboveBaseM": 4.379,
+   "displayName": "Mud hut 01 ext"
   },
   {
    "id": "kotm:argonia/mudhuts/mudhut02",
@@ -4491,7 +4553,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.247,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.013
+   "pivotAboveBaseM": 0.013,
+   "displayName": "Mud hut 02 ext"
   },
   {
    "id": "kotm:argonia/mudhuts/mudhut03",
@@ -4560,7 +4623,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.298,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.415
+   "pivotAboveBaseM": -0.415,
+   "displayName": "Mud hut 03 ext"
   },
   {
    "id": "kotm:argonia/mudhuts/smpodext01",
@@ -4642,7 +4706,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.964,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.116
+   "pivotAboveBaseM": 5.116,
+   "displayName": "Mud hut 05 ext"
   },
   {
    "id": "kotm:argonia/mudhuts/smpodext02",
@@ -4722,7 +4787,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.976,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.179
+   "pivotAboveBaseM": 7.179,
+   "displayName": "Mud hut 06 ext"
   },
   {
    "id": "composite:mud/pod-as-placed",
@@ -4794,7 +4860,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.725
+   "pivotAboveBaseM": 6.725,
+   "displayName": "Mud hut 06 ext"
   },
   {
    "id": "composite:mud/kotm-house-pod",
@@ -4876,7 +4943,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.725
+   "pivotAboveBaseM": 6.725,
+   "displayName": "Mud hut 06 ext"
   },
   {
    "id": "kotm:argonia/mudhuts/lizardhouse",
@@ -4979,7 +5047,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.271,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.898
+   "pivotAboveBaseM": 1.898,
+   "displayName": "Mud hut house 01"
   },
   {
    "id": "kotm:argonia/mudhuts/manorext",
@@ -5043,7 +5112,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.98,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.902
+   "pivotAboveBaseM": 5.902,
+   "displayName": "Mud hut 04 ext"
   },
   {
    "id": "kotm:argonia/mudhuts/shed",
@@ -5120,7 +5190,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.963,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.614
+   "pivotAboveBaseM": 2.614,
+   "displayName": "Mud hut cover 01"
   },
   {
    "id": "kotm:argonia/mudhuts/smpodextdoor",
@@ -5208,7 +5279,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.31,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": 0.636
+   "pivotAboveBaseM": 0.636,
+   "displayName": "Hist hall entrance 01"
   },
   {
    "id": "kotm:argonia/mudhuts/door01",
@@ -5297,7 +5369,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.486,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": -0.006
+   "pivotAboveBaseM": -0.006,
+   "displayName": "Mud hut l door 01"
   },
   {
    "id": "kotm:argonia/mudhuts/door02",
@@ -5386,7 +5459,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Mud hut l door 02"
   },
   {
    "id": "kotm:argonia/mudhuts/window01",
@@ -5475,7 +5549,14 @@
    "undersideClosed": false,
    "undersideCoverage": 0.418,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.554
+   "pivotAboveBaseM": 0.554,
+   "emissiveMaterials": [
+    "Objekt01:1.Mat"
+   ],
+   "windowMaterials": [
+    "Objekt01:1.Mat"
+   ],
+   "displayName": "Mud hut window 01"
   },
   {
    "id": "kotm:argonia/mudhuts/window02",
@@ -5564,7 +5645,14 @@
    "undersideClosed": false,
    "undersideCoverage": 0.373,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.175
+   "pivotAboveBaseM": 0.175,
+   "emissiveMaterials": [
+    "Kugel02:1.Mat"
+   ],
+   "windowMaterials": [
+    "Kugel02:1.Mat"
+   ],
+   "displayName": "Mud hut window 02"
   },
   {
    "id": "kotm:argonia/mudhuts/mudhutchimney",
@@ -5652,7 +5740,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.237,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.353
+   "pivotAboveBaseM": 1.353,
+   "displayName": "Mud hut chimney 01"
   },
   {
    "id": "kotm:argonia/mudhuts/stairs01",
@@ -5743,7 +5832,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.289,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.109
+   "pivotAboveBaseM": 1.109,
+   "displayName": "Mud hut stairs 03"
   },
   {
    "id": "kotm:argonia/mudhuts/stairs02",
@@ -5832,7 +5922,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.4,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.67
+   "pivotAboveBaseM": 3.67,
+   "displayName": "Mud hut stairs 01"
   },
   {
    "id": "kotm:argonia/mudhuts/overhang01",
@@ -5925,7 +6016,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.443,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.386
+   "pivotAboveBaseM": 2.386,
+   "displayName": "Mud hut awning 01"
   },
   {
    "id": "kotm:argonia/mudhuts/overhang03",
@@ -6009,7 +6101,79 @@
    "undersideClosed": false,
    "undersideCoverage": 0.185,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.548
+   "pivotAboveBaseM": 0.548,
+   "displayName": "Mud hut awning 05"
+  },
+  {
+   "id": "kotm:argonia/blackwood/sign",
+   "node": "es|db97a1e038|kotm__argonia_blackwood_sign",
+   "category": "misc",
+   "sizeM": [
+    0.252,
+    1.399,
+    1.391
+   ],
+   "originOffsetM": [
+    0.11,
+    -0.0,
+    1.272
+   ],
+   "triangles": 760,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bwcs.dds",
+    "riftencanalwood01.dds",
+    "riverwoodblacksmith01.dds"
+   ],
+   "materials": [
+    "Ring01:1.Mat",
+    "Ring02:1.Mat",
+    "Ring03:1.Mat",
+    "Sign:25.Mat",
+    "SignRTBlacksmith01:0.Mat",
+    "SignRTBlacksmith01:1.Mat",
+    "SignRTBlacksmith01:2.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Ring01:1.Mat": 0.498,
+    "Ring02:1.Mat": 0.498,
+    "Ring03:1.Mat": 0.498,
+    "SignRTBlacksmith01:1.Mat": 0.498
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -1.272,
+    "p50": -1.272,
+    "p75": -1.272,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "policy",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.272,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.272,
+   "displayName": "Sign"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-mud-v1.glb",
@@ -6028,14 +6192,16 @@
   "textures/dlc02/architecture/telvannitower/telmushroomdetails01.dds": "textures/argonia/landscape/rivermud.dds",
   "textures/dlc02/architecture/telvannitower/telmushroomdetails01_n.dds": "textures/argonia/landscape/rivermud_n.dds",
   "textures/cubemaps/shinydull.dds": "textures/cubemaps/chitin_e_ebony.dds",
+  "textures/dwarvenmilitary/blackwoodfarm/bwcs.dds": "textures/architecture/riften/riftencanalwood01.dds",
+  "textures/dwarvenmilitary/blackwoodfarm/bwcs_n.dds": "textures/architecture/riften/riftencanalwood01_n.dds",
   "textures/argonia/landscape/riverbottom_n.dds": "textures/actors/dwarven centurion/land dreugh/mud/terrains/riverbottom_n.dds",
   "textures/cubemaps/shinybright_e.dds": "textures/armor/noldorarmormaty743/shinybright_e.dds",
   "textures/dungeons/metalwork01.dds": "textures/architecture/metalwork01.dds",
   "textures/dungeons/metalwork01_n.dds": "textures/architecture/metalwork01_n.dds"
  },
  "alphaModes": {
-  "MASK": 39,
-  "OPAQUE": 203,
+  "MASK": 43,
+  "OPAQUE": 206,
   "BLEND": 0
  },
  "trunkSolids": {
@@ -6069,16 +6235,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 42557272,
-  "bytesAfter": 19480744,
-  "images": 74,
-  "imageBytesAfter": 15815954,
+  "bytesBefore": 43856864,
+  "bytesAfter": 20168020,
+  "images": 77,
+  "imageBytesAfter": 16467808,
   "warnings": [],
-  "sha256": "31570402567aa6b9f7ad80132af01b5338099f04a8a886dfd5ef6d07efe42014",
+  "sha256": "9c66627fd833d317cecef91586f7164401645dbfbb0e0ade3dff89adf9d5bf02",
+  "parts": {
+   "parts": 5,
+   "partBytes": 61796,
+   "textureFiles": 5,
+   "textureBytes": 1116939,
+   "bytes": 1178735,
+   "sourceSha256": "9c66627fd833d317cecef91586f7164401645dbfbb0e0ade3dff89adf9d5bf02"
+  },
   "sidecarBytes": {
-   "connectors": 48109,
-   "footprints": 104670,
-   "interiors": 54688
+   "connectors": 48496,
+   "footprints": 105484,
+   "interiors": 57243
   }
  }
 }

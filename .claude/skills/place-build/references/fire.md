@@ -137,7 +137,7 @@ the campfire the largest and wildest.
 
        npm run build -w @elder-souls/world-studio && npm run site:compose
        bash tooling/repo-standards/job_guard.sh <lane> -- node tooling/visual-look/flames.mjs interior <cellId> <xKm> <zKm>
-       bash tooling/repo-standards/job_guard.sh <lane> -- node tooling/visual-look/flames.mjs place <xKm> <zKm> --t 22
+       bash tooling/repo-standards/job_guard.sh <lane> -- node tooling/visual-look/flames.mjs place <placeId> --t 22
 
    It loads `site/` (the files that deploy), opens the cell, and reads the
    framebuffer at every on-screen flame with the flames on and off. PASS

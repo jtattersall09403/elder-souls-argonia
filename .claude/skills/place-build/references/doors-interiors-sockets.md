@@ -143,6 +143,14 @@ run) and 5 (the gates).
 5. Mark the D0 safe interior the settlement owes (quests 20 §12) on its
    record. `acousticProfile` and `lightingProfile` stay typed empty slots.
 
+Exit 3 of `blueprint_interiors --claim` also names: a bound cell bigger
+than its shell (the modder's pairing; it stands); a cell that is not one of
+the shell's own linked cells (a rule defect, fixed in
+`blueprint_interiors.py`, never by hand-picking); a linked shell no linked
+cell passes (source the cell's missing pieces or re-shell, never widen the
+rule); and every socket op standing in a cell no door claims (move it to a
+claimed cell of the place or an exterior spot).
+
 ## 3. The tier A cell, copied verbatim (0103 decision 3)
 
     python3 -m worldgen.export_interior_bundle --blueprint ../../world/sources/blueprints/<place-id>.json   # (worldgen)

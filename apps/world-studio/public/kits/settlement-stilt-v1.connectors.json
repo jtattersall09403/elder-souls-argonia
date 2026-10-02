@@ -1836,6 +1836,52 @@
     "widthM": 0.68
    }
   ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawning01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.83,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.38
+    ],
+    "widthM": 5.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.83,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.67,
+     -1.91
+    ],
+    "widthM": 4.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.83,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.56
+    ],
+    "widthM": 5.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.83,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.67,
+     -1.91
+    ],
+    "widthM": 4.94
+   }
+  ],
   "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01": [
    {
     "evidence": "bounds",
@@ -4155,8 +4201,8 @@
   ]
  },
  "counts": {
-  "assets": 84,
-  "bounds": 291,
+  "assets": 85,
+  "bounds": 295,
   "co-placement": 56
  },
  "elongationRatio": 2.0,

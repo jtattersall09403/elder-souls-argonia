@@ -105,6 +105,8 @@ Claywater signatures; none repeats here (§ Bars).
 | Spring house `b-shed` | shelter for the spring's jars and stone lip | `mudmother:gv_meshes/argoniannest/argoniantent02` at 0.85 (5.2 × 4.5 m), open side facing the pool | record why/vibe; LH37, LH38 |
 | The Hist `hist` | the village's tribal Hist, sick | `histtree:skyfall/sleeping tree overhaul/ancient sleeping tree` 24.9 × 27.1 × 24.4 m, on a pad (mound) | 97 C4 the Hist wins; L17 |
 | Hist shrine | the shrine service at the Hist's foot | `rune circle` (anchor), two `argoniantotem01`, `windchimehavok`, two Hist flowers, two candles | L17: a shrine, not a temple |
+| Graves (walk 9) | the village's dead under two low cairns, one north-west of the Hist and one north of the spring-keeper's house: burial runs through the Hist | `burialcairn02` (works-v1) ×2 | `argonia-4e201-state.md:165-167`; `references/dressing.md` § 4 |
+| Household yards (walk 9) | the east family's two hives on their bench and two hens' nests behind the hut; fish drying at the family hut by the nets. No herb rack, washing line or Sithis shrine outdoors: no piece is licensed for it (R1; `references/dressing.md` § 4) | `kotm:argonia/clutter/beehive`, `chickennest01`, `fishrack01` | `references/dressing.md` § 4 (Hist village row set) |
 | The way | spine from the track's end through the common to the bank footpath | track 2.5 m | 97 C3; owner call 11 |
 | Door paths | one footpath per door, last leg on the door's facing | footpath 1.2 m | pathReachRule |
 | Landing | canoe and plank boat beached | `canoe1`, `plank_ferry_swamp_01` | R5 beached craft |

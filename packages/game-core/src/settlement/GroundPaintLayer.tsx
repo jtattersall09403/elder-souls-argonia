@@ -1,16 +1,18 @@
 /**
  * Draws the places' painted ways (`groundPaint.ts`, 16k walk 4; one surface
  * per place since walk 6): one mesh per place, built once the ground under it
- * is decoded, blending the ground materials' own albedo textures
- * (`textures/ground/<set>/materials.json`, the files the terrain's road paint
- * samples; never a new texture). Mounted by `SettlementLayer`.
+ * is decoded, blending the ground materials' own albedos: the layers of the
+ * set's albedo array the terrain samples (`terrain/groundArray`, rows from
+ * `textures/ground/<set>/materials.json`; never a new texture). Mounted by
+ * `SettlementLayer`.
  */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { useGroundArray } from "../terrain/groundArray";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import type { GroundArea, GroundArrivals, TerrainHeight } from "./types";
-import { PAINT_LIFT_M, groundPaintOfBundle, type GroundPaintDoc, type GroundPaintEntry } from "./groundPaint";
+import { PAINT_LIFT_M, groundPaintOfBundle, paintTextures, type GroundPaintDoc, type GroundPaintEntry } from "./groundPaint";
 import { paintGeometry, paintMaterial, type GroundMaterialRow } from "./groundPaintMaterial";
 import { fetchJsonWithRetry } from "./fetchRetry";
 
@@ -52,7 +54,7 @@ export function paintGroups(
       continue;
     }
     if (!entries.length) continue;
-    const textures = [...new Set(entries.map((e) => e.texture))].sort();
+    const textures = paintTextures(entries);
     out.set(s.id, { key: s.id, placeId: s.id, textures, entries });
   }
   return out;
@@ -135,6 +137,7 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt, groundArrival
 }) {
   const group = useMemo(() => new THREE.Group(), []);
   const [materials, setMaterials] = useState<{ set: string; rows: GroundMaterialRow[] } | null>(null);
+  const [array, setArray] = useState<THREE.Texture | null>(null);
   /** Every place's paint of the current bundle, and its extent. */
   const groups = useRef(new Map<string, { group: PaintGroup; bounds: GroundArea }>());
   /** The places to (re)build on the next frame. */
@@ -165,7 +168,7 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt, groundArrival
     }
   }), [groundArrivals, groundAt, group]);
   useFrame(() => {
-    if (!materials || dirty.current.size === 0) return;
+    if (!materials || !array || dirty.current.size === 0) return;
     // a place whose corners or middle have no ground yet waits without paying
     // for a surface build (arrivals of coarse levels touch it many times)
     const want: PaintGroup[] = [];
@@ -187,11 +190,10 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt, groundArrival
       waiting.current.delete(g.key);
       const rows = g.textures.map((t) => materials.rows.find((r) => r.name === t)!);
       const matKey = `${materials.set}|${g.textures.join(",")}`;
-      // The replaced mesh's material (textures loaded) is reused: a fresh one
-      // would draw unloaded textures for the frames its images take.
+      // The replaced mesh's material is reused (its program is compiled).
       const live = group.children.find((c) => c.userData.paintKey === g.key && c.userData.paintMat === matKey);
       const material = (live as THREE.Mesh | undefined)?.material as THREE.MeshStandardMaterial | undefined
-        ?? paintMaterial(baseUrl, materials.set, rows);
+        ?? paintMaterial(array, rows);
       const mesh = new THREE.Mesh(geometry, material);
       mesh.userData.paintMat = matKey;
       mesh.name = `ground-paint:${g.placeId}`;
@@ -204,7 +206,24 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt, groundArrival
     }
   });
   useEffect(() => () => disposeGroup(group), [group]);
-  return <primitive object={group} />;
+  return (
+    <>
+      <primitive object={group} />
+      {materials && (
+        <Suspense fallback={null}>
+          <GroundArrayFeed baseUrl={baseUrl} set={materials.set} onArray={setArray} />
+        </Suspense>
+      )}
+    </>
+  );
+}
+
+/** Hands the set's albedo array (the terrain's, from the loader cache) to the
+ * layer; its own Suspense keeps the suspension off the settlement layer. */
+function GroundArrayFeed({ baseUrl, set, onArray }: { baseUrl: string; set: string; onArray: (t: THREE.Texture) => void }) {
+  const array = useGroundArray(baseUrl, set);
+  useEffect(() => { onArray(array); }, [array, onArray]);
+  return null;
 }
 
 /**
@@ -232,10 +251,8 @@ export function replacePaint(group: THREE.Group, key: string, mesh: THREE.Mesh |
 function disposeMesh(group: THREE.Group, mesh: THREE.Mesh, keep?: THREE.Material | THREE.Material[]): void {
   mesh.geometry.dispose();
   const m = mesh.material as THREE.MeshStandardMaterial;
-  if (m !== keep) {
-    for (const t of (m.userData.paintMaps as THREE.Texture[] | undefined) ?? [m.map]) t?.dispose();
-    m.dispose();
-  }
+  // the albedo array is the terrain's (loader cache): only the material goes
+  if (m !== keep) m.dispose();
   group.remove(mesh);
 }
 

@@ -11,6 +11,7 @@ import {
 import { ambientCubeToSH } from "./ambientCube";
 import { kitPartsDir, parseKitPartsIndex, type KitPartsIndex } from "./kitParts";
 import { FlameSystem } from "../fx/fire/FlameSystem";
+import type { FixtureLightField } from "../render/fixtureLights/fixtureLightField";
 import {
   interiorFireEmitters, isInteriorFlameCard, type InteriorFireRow,
 } from "../fx/fire/interiorFires";
@@ -84,6 +85,121 @@ export interface LoadedInterior {
    * `fire.update(t, () => 1)` each frame (an interior burns at any hour).
    */
   fire: FlameSystem | null;
+  /** The cell's daylight (walk 9): the host calls `daylight.set` each frame. */
+  daylight: InteriorDaylight;
+}
+
+/** Share of the cell's ambient (and its template's directional) left at
+ * night: "basically just the natural light sources" (owner, walk 9), not black. */
+export const INTERIOR_NIGHT_AMBIENT = 0.15;
+/** A window light's peak intensity (cd, at the sun's `WINDOW_FULL_SUN_SIN`) and radius. */
+export const WINDOW_LIGHT_CANDELA = 4;
+export const WINDOW_LIGHT_RADIUS_M = 4;
+/** sin(sun altitude) at and above which windows give their full daylight (30 deg). */
+export const WINDOW_FULL_SUN_SIN = 0.5;
+/** Emissive gain of a lit pane over the daylight colour, modulated by its own diffuse. */
+export const WINDOW_PANE_GAIN = 1.2;
+
+/** Share of a clear day's window light an overcast sky (no direct sun) still gives: the sky's diffuse light. */
+export const WINDOW_OVERCAST_SHARE = 0.5;
+
+/**
+ * 0 (sun at or below the horizon) .. 1 (sun at 30 deg or higher in a clear
+ * sky), linear in sin(altitude), times the weather: `directFactor` is the
+ * drawn sky rig's share of direct sun left by cloud and rain (lightRig
+ * `directFactor`, 1 clear, 0 full overcast), which takes the window light
+ * down to `WINDOW_OVERCAST_SHARE`.
+ */
+export function daylightShare(sunAltitudeRad: number, directFactor = 1): number {
+  const sun = Math.min(1, Math.max(0, Math.sin(sunAltitudeRad) / WINDOW_FULL_SUN_SIN));
+  const weather = WINDOW_OVERCAST_SHARE + (1 - WINDOW_OVERCAST_SHARE) * Math.min(1, Math.max(0, directFactor));
+  return sun * weather;
+}
+
+/**
+ * A window pane: a material the manifest lists in `windowMaterials`, read
+ * from the NIF's own shader (nif_blocks.window_glass_shapes: an opaque
+ * emitting shape with External_Emittance or a backlight map; the station
+ * house's amber panes, the farmhouse FarmWindowInterior01 glass). The pane's
+ * geometry seats its light.
+ */
+export function isWindowPane(row: { windowMaterials?: readonly string[] | null } | undefined,
+  material: THREE.Material): boolean {
+  return (row?.windowMaterials ?? []).includes(material.name.replace(/(\.Mat)\.\d{3,}$/, "$1"));
+}
+
+/**
+ * Daylight inside (owner, walk 9; supersedes decision 0103 R11): by night a
+ * cell keeps only its fires and record lights plus `INTERIOR_NIGHT_AMBIENT`
+ * of its ambient; by day its ambient and directional rise with the sun, its
+ * panes glow the sky's daylight colour and each pane is a light of that
+ * colour (`WINDOW_LIGHT_CANDELA` x `daylightShare`) in the scene's fixture
+ * light field (decision 0108: no PointLight per object), held as the field's
+ * reserved lights while the cell is bound (`bind`) and served first from its
+ * cap.
+ */
+export class InteriorDaylight {
+  private readonly ambientBase: number;
+  private readonly directionalBase: number;
+  private field: FixtureLightField | null = null;
+  private readonly colour = new THREE.Color(1, 1, 1);
+  private share = 0;
+  constructor(
+    /** The cell's group: window positions are in its frame. */
+    readonly group: THREE.Object3D,
+    readonly ambient: THREE.Light,
+    readonly directional: THREE.DirectionalLight | null,
+    readonly paneMaterials: readonly THREE.MeshStandardMaterial[],
+    /** Each pane placement's centre, cell-local: one window light each. */
+    readonly windows: readonly THREE.Vector3[],
+  ) {
+    this.ambientBase = ambient.intensity;
+    this.directionalBase = directional?.intensity ?? 0;
+    for (const m of paneMaterials) {
+      if (m.emissiveMap !== m.map) { m.emissiveMap = m.map; m.needsUpdate = true; }
+    }
+    this.set(0, new THREE.Color(1, 1, 1));
+  }
+
+  /** `share`: `daylightShare` of the sun now; `colour`: the sun's linear colour (the sky rig's). */
+  set(share: number, colour: THREE.Color): void {
+    this.share = share;
+    this.colour.copy(colour);
+    const floor = INTERIOR_NIGHT_AMBIENT + (1 - INTERIOR_NIGHT_AMBIENT) * share;
+    this.ambient.intensity = this.ambientBase * floor;
+    if (this.directional) this.directional.intensity = this.directionalBase * floor;
+    for (const m of this.paneMaterials) {
+      m.emissive.copy(colour).multiplyScalar(WINDOW_PANE_GAIN * share);
+      m.emissiveIntensity = 1;
+    }
+    if (this.field) {
+      for (let j = 0; j < this.windows.length; j++) {
+        this.field.setReservedIntensity(j, colour, WINDOW_LIGHT_CANDELA * share);
+      }
+      this.field.commit();
+    }
+  }
+
+  /**
+   * Hold the window lights in `field` (the scene's, `fixtureLightFieldOf`) at
+   * the group's world placement now; call again after the group moves.
+   */
+  bind(field: FixtureLightField): void {
+    this.group.updateWorldMatrix(true, false);
+    field.setReserved(this.windows.map((w) => ({
+      position: w.clone().applyMatrix4(this.group.matrixWorld), radiusM: WINDOW_LIGHT_RADIUS_M,
+    })));
+    this.field = field;
+    this.set(this.share, this.colour);
+  }
+
+  /** Give the field's slots back (the cell is hidden or disposed). */
+  unbind(): void {
+    if (!this.field) return;
+    this.field.setReserved([]);
+    this.field.commit();
+    this.field = null;
+  }
 }
 
 /** The assets a cell's swing doors draw, as placements (so the loader fetches them). */
@@ -168,6 +284,7 @@ export function instantiateInterior(
     byAsset.set(key, row);
   }
   let meshes = 0;
+  const panes = { materials: new Set<THREE.MeshStandardMaterial>(), windows: [] as THREE.Vector3[] };
   const solids: SettlementSolid[] = [];
   const m = new THREE.Matrix4();
   for (const { asset, placements } of byAsset.values()) {
@@ -186,6 +303,16 @@ export function instantiateInterior(
       placements.forEach((p, i) => mesh.setMatrixAt(i, m.multiplyMatrices(interiorPlacementMatrix(p), part.localMatrix)));
       mesh.instanceMatrix.needsUpdate = true;
       mesh.computeBoundingSphere();
+      if (isWindowPane(fireRow, part.material)) {
+        // the pane's own geometry gives the window light's seat (walk 9)
+        part.geometry.computeBoundingBox();
+        const centre = part.geometry.boundingBox!.getCenter(new THREE.Vector3());
+        panes.materials.add(part.material as THREE.MeshStandardMaterial);
+        placements.forEach((_, i) => {
+          mesh.getMatrixAt(i, m);
+          panes.windows.push(centre.clone().applyMatrix4(m));
+        });
+      }
       mesh.castShadow = false;
       mesh.receiveShadow = false;
       group.add(mesh);
@@ -210,14 +337,16 @@ export function instantiateInterior(
     point.position.set(...light.positionM);
     group.add(point);
   }
-  group.add(interiorAmbient(bundle));
+  const ambient = interiorAmbient(bundle);
+  group.add(ambient);
+  let directional: THREE.DirectionalLight | null = null;
   const directionalRGB = bundle.lighting?.directionalRGB;
   if (directionalRGB) {
     // From straight above: the bundle's directionalRotXYDeg/ZDeg (0/0 in both
     // shipped cells, inherited from the lighting template) are not mapped to a
     // direction yet (walk 2 RB report). The target is in the group so the
     // direction holds wherever the cell stands.
-    const directional = new THREE.DirectionalLight(colorFromRGB(directionalRGB), INTERIOR_AMBIENT_SCALE);
+    directional = new THREE.DirectionalLight(colorFromRGB(directionalRGB), INTERIOR_AMBIENT_SCALE);
     directional.castShadow = false;
     directional.position.set(0, 1, 0);
     directional.target.position.set(0, 0, 0);
@@ -234,6 +363,7 @@ export function instantiateInterior(
   const background = colorFromRGB(bundle.fog.colorRGB);
   return {
     bundle, group, solids, background, loadS: null, swingDoors, fire,
+    daylight: new InteriorDaylight(group, ambient, directional, [...panes.materials], panes.windows),
     fog: new THREE.Fog(background.clone(), bundle.fog.nearM, bundle.fog.farM),
     counts: {
       placements: bundle.placements.length, substitutions: bundle.substitutions?.length ?? 0,

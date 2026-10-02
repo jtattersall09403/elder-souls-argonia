@@ -1,0 +1,38 @@
+{
+ "schemaVersion": 1,
+ "_": "The home table of route places (16k type 10, standard 18): a stretch of a major road built as one place, its crossings and its road dressing, between built places or a built place and a city. A route place has no catalogue record; this row is its record. worldgen.blueprint.catalogue_ids() reads its ids. `structures[]` lists one structure of each route-structure kind the exemplar set proves and who builds it: `this-place` (laid in this place's layout with the modular-runs rules, decision 0115), `route-compile` (a stair, lip step or stepped ascent of world/sources/routes/route-structures.json, built by worldgen.compile_route_structures), or another place id (a ferry crossing inside a settlement). A kind not on this stretch is `pending: packet` with the stretch that holds it.",
+ "places": [
+  {
+   "id": "place.route.border-road-greenspring-crossings",
+   "name": "the Border road crossings below Greenspring",
+   "wayId": "route.road.stormhold-thorn",
+   "chainageM": [3940, 4815],
+   "positionM": [4620.0, 1690.0],
+   "footprintRadiusM": 190,
+   "region": "hist-heartland",
+   "culture": "argonian",
+   "settingClass": "wild",
+   "condition": "worn",
+   "why": {
+    "founding": "The Border road was laid on a Dunmer line from Stormhold to Thorn. West of the Greenspring track it drops off the ridge into the river marsh.",
+    "siteAdvantages": "The road keeps to the dry strip at the mountain foot and crosses water only where it must: two reaches of the river marsh, where the water stands up to a metre and a quarter deep.",
+    "occupantsMotive": "Nobody lives on the crossings. Greenspring keeps the planks because its trade goes out along this road.",
+    "pressures": "The marsh rots the piles in a few seasons. Greenspring has to keep replacing them.",
+    "wouldChangeIf": "A stone causeway would replace the planks if anyone paid for one."
+   },
+   "ends": {
+    "east": {"placeId": "place.hist-heartland.greenspring", "via": "track.hist-heartland.greenspring", "atM": [4801.0, 1785.0]},
+    "west": {"wayId": "route.road.stormhold-thorn", "towards": "stormhold", "atM": [4444.0, 1516.0]}
+   },
+   "structures": [
+    {"kind": "bridge", "id": "structure.border-road-greenspring-crossings.river", "crossingId": "crossing.major.009", "builtBy": "this-place"},
+    {"kind": "deck", "id": "structure.border-road-greenspring-crossings.inlet", "crossingId": "crossing.major.012", "junctionId": "junction.pin.stormhold-thorn.inlet-mouth", "builtBy": "this-place"},
+    {"kind": "stair", "id": "structure.road-stormhold-thorn.12", "builtBy": "route-compile"},
+    {"kind": "lip-step", "id": "structure.road-stormhold-thorn.15", "builtBy": "route-compile", "status": "pending: packet", "pendingWhy": "not on this stretch: it stands 480 m east of Greenspring inside the Two-Gate Bridge's ground, which places it when that place is built"},
+    {"kind": "ferry-crossing", "id": "ferry.imperial-fringe.drowning-gate", "builtBy": "place.imperial-fringe.claywater-station", "status": "pending: packet", "pendingWhy": "not on this stretch: the Drowning Gate ferry serves the Gideon-Blackwood road and is built at Claywater Station"}
+   ],
+   "dressingRules": "docs/research/placement-settlements/road-dressing.md",
+   "dressingEvidence": "world/sources/placement/vanilla-roadside-dressing.json"
+  }
+ ]
+}

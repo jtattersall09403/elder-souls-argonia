@@ -19,9 +19,12 @@ function transpile(file, relDir) {
   });
 }
 
-/** Body for /fire/<name>.js or /gc/<path>.js, or null when not a module path. */
+/** Body for /fire/<name>.js, /gc/<path>.js or /gc/<file>.json.js, or null when not a module path. */
 export function gcModule(path, fireDir = join(srcRoot, "fx/fire")) {
-  let m = path.match(/^\/fire\/(\w+)\.js$/);
+  // a JSON import (BloomPass's bloom.config.json) is served as an ES module
+  let m = path.match(/^\/gc\/([\w/.-]+\.json)\.js$/);
+  if (m) return `export default ${readFileSync(join(srcRoot, m[1]), "utf8")};`;
+  m = path.match(/^\/fire\/(\w+)\.js$/);
   if (m) return transpile(join(fireDir, `${m[1]}.ts`), "fx/fire");
   m = path.match(/^\/gc\/([\w/]+)\.js$/);
   if (!m) return null;

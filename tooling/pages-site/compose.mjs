@@ -207,6 +207,26 @@ for (const r of CHAIN_ONLY) {
   chainDropped.push(r);
 }
 
+// 3b. Ground layer PNGs: build inputs of the set's albedo array
+// (pipeline.ground_compress) and of the workbench's paint look; the runtime
+// reads only albedo-array.ktx2 (terrain, apron and settlement paint,
+// game-core terrain/groundArray). A set without its array fails instead.
+const groundDir = join(studio, "textures/ground");
+let groundPngBytes = 0;
+if (existsSync(groundDir)) {
+  for (const e of readdirSync(groundDir, { withFileTypes: true })) {
+    if (!e.isDirectory()) continue;
+    const setDir = join(groundDir, e.name);
+    if (!existsSync(join(setDir, "albedo-array.ktx2"))) { fail(`textures/ground/${e.name} has no albedo-array.ktx2: run python3 -m pipeline.ground_compress`); continue; }
+    for (const f of readdirSync(setDir)) {
+      if (!f.endsWith(".png")) continue;
+      groundPngBytes += statSync(join(setDir, f)).size;
+      rmSync(join(setDir, f));
+    }
+  }
+  excludedBytes += groundPngBytes;
+}
+
 // 4. Post-prune gates: nothing shipped may still name an excluded kit, and no
 // shipped JSON may hold a reference that does not resolve (kit-reach.mjs
 // danglingRefs: kit manifests' relative asset paths, every `kits/…` string in
@@ -262,6 +282,7 @@ console.log(`compose: kits kept (${referenced.size}): ${[...referenced].map(([id
 if (reachedBy.size) console.log(`compose: kept by manifest reference (${reachedBy.size}): ${[...reachedBy].map(([id, by]) => `${id} <- ${by}`).join("; ")}`);
 console.log(`compose: kits excluded (${excluded.length}): ${excluded.map((id) => `${id}${darkNamed.has(id) ? "" : " (named by nothing)"}`).join(", ") || "none"}; files pruned ${prunedFiles.length}`);
 if (chainDropped.length) console.log(`compose: chain-only rasters excluded: ${chainDropped.join(", ")}`);
+console.log(`compose: ground layer PNGs excluded ${fmt(groundPngBytes)} (the albedo arrays ship)`);
 console.log(`compose: excluded ${fmt(excludedBytes)}`);
 // Kit sidecars (connectors/footprints/interiors) ship beside every kept kit
 // pair since 16h and are inside `after` like everything else under kits/;

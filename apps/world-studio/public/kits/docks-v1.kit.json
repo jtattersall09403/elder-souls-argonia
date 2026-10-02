@@ -95,7 +95,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.793,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.233
+   "pivotAboveBaseM": 6.233,
+   "displayName": "Dock str sol 01"
   },
   {
    "id": "vanilla:architecture/docks/dockstrsol02",
@@ -173,7 +174,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.453,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.706
+   "pivotAboveBaseM": 6.706,
+   "displayName": "Dock str sol 02"
   },
   {
    "id": "vanilla:architecture/docks/dockstrent01",
@@ -267,7 +269,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.732,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.233
+   "pivotAboveBaseM": 6.233,
+   "displayName": "Dock str ent 01"
   },
   {
    "id": "vanilla:architecture/docks/dockstrent02",
@@ -338,7 +341,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.696,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.233
+   "pivotAboveBaseM": 6.233,
+   "displayName": "Dock str ent 02"
   },
   {
    "id": "vanilla:architecture/docks/dockstrent03",
@@ -416,7 +420,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.763,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.218
+   "pivotAboveBaseM": 6.218,
+   "displayName": "Dock str ent 03"
   },
   {
    "id": "vanilla:architecture/docks/dockstrent04",
@@ -494,7 +499,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.759,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.233
+   "pivotAboveBaseM": 6.233,
+   "displayName": "Dock str ent 04"
   },
   {
    "id": "vanilla:architecture/docks/dockstr4way01",
@@ -584,7 +590,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.815,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.157
+   "pivotAboveBaseM": 6.157,
+   "displayName": "Dock str 4way 01"
   },
   {
    "id": "vanilla:architecture/docks/dockcorsol01",
@@ -673,7 +680,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.756,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.218
+   "pivotAboveBaseM": 6.218,
+   "displayName": "Dock cor sol 01"
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdown01",
@@ -766,7 +774,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.87,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.317
+   "pivotAboveBaseM": 6.317,
+   "displayName": "Dock steps down 01"
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdown02",
@@ -837,7 +846,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.862,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.227
+   "pivotAboveBaseM": 7.227,
+   "displayName": "Dock steps down 02"
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdownend01",
@@ -907,7 +917,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.774,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.31
+   "pivotAboveBaseM": 6.31,
+   "displayName": "Dock steps down end 01"
   },
   {
    "id": "vanilla:architecture/docks/dockcolstr01",
@@ -985,7 +996,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.152,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 10.615
+   "pivotAboveBaseM": 10.615,
+   "displayName": "Dock col str 01"
   },
   {
    "id": "vanilla:architecture/docks/dockcolstr02",
@@ -1049,7 +1061,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.122,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.092
+   "pivotAboveBaseM": 6.092,
+   "displayName": "Dock col str 02"
   },
   {
    "id": "vanilla:architecture/docks/dockcolstrsign01",
@@ -1113,7 +1126,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.727,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.218
+   "pivotAboveBaseM": 6.218,
+   "displayName": "Dock col str sign 01"
   },
   {
    "id": "vanilla:architecture/docks/dockcolstrsignrope01",
@@ -1176,7 +1190,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -2.859
+   "pivotAboveBaseM": -2.859,
+   "displayName": "Dock col str sign rope 01"
   },
   {
    "id": "vanilla:architecture/docks/dockropestr01",
@@ -1251,7 +1266,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.389,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.464
+   "pivotAboveBaseM": -0.464,
+   "displayName": "Dock rope str 01"
   },
   {
    "id": "vanilla:architecture/docks/dockropestr02",
@@ -1312,7 +1328,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.369,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.464
+   "pivotAboveBaseM": -0.464,
+   "displayName": "Dock rope str 02"
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockscentre",
@@ -1388,7 +1405,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.886,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "displayName": "Dockscentre"
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockscentrealt",
@@ -1464,7 +1482,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.773,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "displayName": "Dockscentrealt"
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockscentrenopost",
@@ -1538,7 +1557,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.902,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "displayName": "Dockscentrenopost"
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockscentresmall",
@@ -1612,7 +1632,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.751,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "displayName": "Dockscentresmall"
   },
   {
    "id": "bmv:sheogorad/dagon fel/docks3way",
@@ -1688,7 +1709,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.907,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "displayName": "Docks 3way"
   },
   {
    "id": "bmv:sheogorad/dagon fel/docks4way",
@@ -1765,7 +1787,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.909,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "displayName": "Docks 4way"
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockscorner",
@@ -1841,7 +1864,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.902,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "displayName": "Dockscorner"
   },
   {
    "id": "bmv:sheogorad/dagon fel/docksend",
@@ -1917,7 +1941,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.886,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "displayName": "Docksend"
   },
   {
    "id": "bmv:sheogorad/dagon fel/docksendnopost",
@@ -1991,7 +2016,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.917,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "displayName": "Docksendnopost"
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockspilings",
@@ -2056,7 +2082,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.29,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.12
+   "pivotAboveBaseM": 4.12,
+   "displayName": "Dockspilings"
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockspilingsdamage",
@@ -2121,7 +2148,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.062,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.2
+   "pivotAboveBaseM": 4.2,
+   "displayName": "Dockspilingsdamage"
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockssteps",
@@ -2177,7 +2205,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.289,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.109
+   "pivotAboveBaseM": 1.109,
+   "displayName": "Dockssteps"
   },
   {
    "id": "bmv:sheogorad/dagon fel/cleat",
@@ -2235,7 +2264,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.979,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.184
+   "pivotAboveBaseM": 0.184,
+   "displayName": "Cleat"
   },
   {
    "id": "bmv:architecture/jets/miscstuff/dockextension",
@@ -2304,7 +2334,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.228
+   "pivotAboveBaseM": 3.228,
+   "displayName": "Dockextension"
   },
   {
    "id": "bmv:architecture/jets/miscstuff/dockpostextension",
@@ -2365,7 +2396,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.164,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.002
+   "pivotAboveBaseM": 0.002,
+   "displayName": "Dockpostextension"
   },
   {
    "id": "bmv:architecture/jets/miscstuff/dockramp",
@@ -2429,7 +2461,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.947,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.228
+   "pivotAboveBaseM": 3.228,
+   "displayName": "Dockramp"
   },
   {
    "id": "bmv:architecture/jets/miscstuff/dockstepsfree",
@@ -2492,7 +2525,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.969,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.33
+   "pivotAboveBaseM": 0.33,
+   "displayName": "Dockstepsfree"
   },
   {
    "id": "bmv:architecture/jets/miscstuff/dockwsteps",
@@ -2564,7 +2598,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.936,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.228
+   "pivotAboveBaseM": 3.228,
+   "displayName": "Dockwsteps"
   },
   {
    "id": "bmv:architecture/jets/miscstuff/dockracked02",
@@ -2621,7 +2656,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.864,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.858
+   "pivotAboveBaseM": 0.858,
+   "displayName": "Dockracked 02"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
@@ -2689,7 +2725,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.602,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.068
+   "pivotAboveBaseM": 0.068,
+   "displayName": "Tamu wooddock 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02",
@@ -2764,7 +2801,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.573,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.108
+   "pivotAboveBaseM": 0.108,
+   "displayName": "Tamu wooddock 02"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
@@ -2839,7 +2877,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.557,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.108
+   "pivotAboveBaseM": 0.108,
+   "displayName": "Tamu wooddockshort 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank01",
@@ -2900,7 +2939,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.835,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.042
+   "pivotAboveBaseM": 0.042,
+   "displayName": "Tamu woodplank 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank02",
@@ -2961,7 +3001,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.054
+   "pivotAboveBaseM": 0.054,
+   "displayName": "Tamu woodplank 02"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank03",
@@ -3022,7 +3063,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.885,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.01
+   "pivotAboveBaseM": 0.01,
+   "displayName": "Tamu woodplank 03"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank04",
@@ -3083,7 +3125,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.943,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.01
+   "pivotAboveBaseM": 0.01,
+   "displayName": "Tamu woodplank 04"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken01",
@@ -3144,7 +3187,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.702,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.01
+   "pivotAboveBaseM": 0.01,
+   "displayName": "Tamu woodplankbroken 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken02",
@@ -3205,7 +3249,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.853,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.023
+   "pivotAboveBaseM": 0.023,
+   "displayName": "Tamu woodplankbroken 02"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken03",
@@ -3266,7 +3311,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.943,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029
+   "pivotAboveBaseM": 0.029,
+   "displayName": "Tamu woodplankbroken 03"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
@@ -3329,7 +3375,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.109,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Tamu woodpole 01"
   },
   {
    "id": "composite:docks/quay-run-2",
@@ -3403,7 +3450,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.744,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.303
+   "pivotAboveBaseM": 6.303,
+   "displayName": "Dock str ent 01"
   },
   {
    "id": "composite:docks/quay-run-3",
@@ -3479,7 +3527,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.712,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.303
+   "pivotAboveBaseM": 6.303,
+   "displayName": "Dock str ent 01"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\docks-v1.glb",

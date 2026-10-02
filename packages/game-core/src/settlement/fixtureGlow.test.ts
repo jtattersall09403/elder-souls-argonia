@@ -9,16 +9,25 @@ const flagged = (flags: string) => {
   m.userData.pyn_shader = { Shader_Flags_1: flags };
   return m;
 };
-const lantern = { light: { fixtureKind: "lantern" } };
+// settlement-imperial-v1's candle lantern as the kit manifest lists it: both
+// materials are OWN_EMIT in the NIF, only the candle (:7) has a non-black emissive
+const lantern = { light: { fixtureKind: "lantern" }, emissiveMaterials: ["CandleLanternWithCandle:7.Mat"] };
+const named = (name: string) => {
+  const m = flagged("SPECULAR | RECEIVE_SHADOWS | OWN_EMIT | ZBUFFER_TEST");
+  m.name = name;
+  return m;
+};
 
 describe("lantern shell", () => {
-  it("is an OWN_EMIT material on a lantern piece only", () => {
-    const own = flagged("SPECULAR | RECEIVE_SHADOWS | OWN_EMIT | ZBUFFER_TEST");
-    expect(isLanternShellMaterial(own, lantern)).toBe(true);
-    expect(isLanternShellMaterial(own, { light: { fixtureKind: "brazier" } })).toBe(false);
-    expect(isLanternShellMaterial(own, undefined)).toBe(false);
-    expect(isLanternShellMaterial(flagged("SPECULAR | CAST_SHADOWS"), lantern)).toBe(false);
-    expect(isLanternShellMaterial(new THREE.MeshStandardMaterial(), lantern)).toBe(false);
+  it("is a material the manifest lists as emitting, on a lantern piece only (walk 9)", () => {
+    const candle = named("CandleLanternWithCandle:7.Mat");
+    expect(isLanternShellMaterial(candle, lantern)).toBe(true);
+    expect(isLanternShellMaterial(named("CandleLanternWithCandle:7.Mat.001"), lantern)).toBe(true);
+    // the metal frame: OWN_EMIT in the NIF, black emissive, never lit
+    expect(isLanternShellMaterial(named("CandleLanternWithCandle:11.Mat"), lantern)).toBe(false);
+    expect(isLanternShellMaterial(candle, { ...lantern, light: { fixtureKind: "brazier" } })).toBe(false);
+    expect(isLanternShellMaterial(candle, undefined)).toBe(false);
+    expect(isLanternShellMaterial(candle, { light: { fixtureKind: "lantern" } })).toBe(false);
   });
 
   it("glows the fixture colour x gain, modulated by its own diffuse", () => {

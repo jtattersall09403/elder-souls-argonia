@@ -53,10 +53,10 @@ ALLOWED = {
 
 def _known() -> tuple[set[str], set[str]]:
     """(every catalogue id, the ids that are cut)."""
-    every, cut = set(), set()
+    from worldgen.blueprint import catalogue_ids
+    every, cut = set(catalogue_ids()), set()   # catalogue places + route places
     for rf in catalogue.load_region_files():
         for rec in rf.places:
-            every.add(rec["id"])
             if rec.get("status") == "cut":
                 cut.add(rec["id"])
     # A fixture is a place outside the catalogue by design (decision 0085 §5):

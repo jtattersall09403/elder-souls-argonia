@@ -137,3 +137,27 @@ its opening. Read once per slice; the rules are binding.
    pool holds an unused one with a usable interior. Two or three slices of
    different types may run at once while walks are pending. Replace the
    16k brief's Starting state with the next slice's.
+
+## Sinks (SKILL step 1)
+
+A piece on the `sink.fallback` list is fixed by choosing a measured piece
+or re-mining its row: `mine_designed_sink --assets <id> --merge`. A piece
+its makers never stand on LAND (a dock deck or stair over water) measures
+nothing: give it a reviewed `assetPlacement` row in
+`tooling/asset-pipeline/pipeline/config/placement-policies.json` (sink, why,
+a render of its foot) and refresh the kits that carry it
+(`--refresh-built-manifests --kit <kit>`), in the same round (L83).
+
+## Interior audit (SKILL step 4)
+
+`wb.py audit-interior <cell ...>` and `seat-interior` run under
+`job_guard.sh`, or the CPU watchdog pauses them. It checks: every placed
+piece's texture published and no shell on a flat LOD swatch; every piece
+touching a support within 5 cm; every stair landing at both ends; every
+hearth with its fire; one lit fixture per 12 m² of the floor the player
+reaches from the doors (one surface per storey; a rug or table top is not
+floor; 16k walk 6, the garbled Greenspring hut); no coplanar pair. Coplanar:
+two surfaces never share a plane within 2 mm over an overlap (the fix moves
+one at least 5 mm or drops a repeat) unless one is a declared decal drawn
+with polygonOffset; decal-on-decal is merged or clipped at authoring. A red
+is fixed at source (kit texture alias, exporter stand-in, additions file).

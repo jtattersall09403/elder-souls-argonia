@@ -53,6 +53,11 @@ Runs, for one place and without the yard regression gates:
   workplace, shop or store parcel fails (reserved is tier B/C only);
 * ``interiors.closed`` - decision 0114 rule 3: a door on a shell no plugin
   links to an interior cell is a closed building and fails;
+* ``collider.ceiling`` - the exporter's collider part ceiling (0052) over this
+  place's runtime placements (``export_settlement_bundle.place_collider_errors``).
+* ``kits.fresh`` - the exporter's publish refusal, before the publish: every
+  kit the place uses passes ``kit_compress --check`` and its published
+  manifest is the build's (``export_settlement_bundle.kit_freshness_problems``);
 * ``record.consistency`` - walk 7: a settlement record's magnitude is the
   breadth-bars column its counted buildings are built under (the record's
   other claims are promise-ledger rows: ``promises``).
@@ -173,14 +178,25 @@ def derived_blueprint_path(place_id: str) -> Path:
     return gates_output(place_id) / "apply" / f"{place_id}.blueprint.json"
 
 
+def apply_cmd(doc: dict, layout: Path, scene: str, compile_: bool) -> list[str]:
+    """The ``wb.py apply`` command for a layout. An ownerGuided place carries
+    the owner's go-ahead in its layout (`ownerGoAhead`), so the reason travels
+    with the place and its gates can run (16k walk 9, type 9)."""
+    cmd = [sys.executable, str(WB), "apply", str(layout), "--scene", scene]
+    if not compile_:
+        cmd.append("--no-compile")
+    if str(doc.get("ownerGoAhead") or "").strip():
+        cmd += ["--owner-guided", doc["ownerGoAhead"]]
+    return cmd
+
+
 def run_apply(layout: Path, scene: str, compile_: bool) -> tuple[dict | None, str]:
     """``wb.py apply``; (its summary when this run wrote it, the tail of its
     output). The summary and the derived blueprint a previous run left are
     removed first, so either file existing afterwards is this run's."""
-    cmd = [sys.executable, str(WB), "apply", str(layout), "--scene", scene]
-    if not compile_:
-        cmd.append("--no-compile")
-    place_id = json.loads(layout.read_text(encoding="utf-8"))["placeId"]
+    doc = json.loads(layout.read_text(encoding="utf-8"))
+    cmd = apply_cmd(doc, layout, scene, compile_)
+    place_id = doc["placeId"]
     summary_path = gates_output(place_id) / "apply" / f"{place_id}.json"
     for stale in (summary_path, derived_blueprint_path(place_id)):
         stale.unlink(missing_ok=True)
@@ -793,6 +809,35 @@ def sink_fallback_gate(g: Gates, settlement: dict | None, rows: dict) -> None:
           sink_fallback_failures(settlement.get("placements") or [], rows))
 
 
+def kits_fresh_gate(g: Gates, settlement: dict | None, kits_dir: Path | None = None,
+                    public_dir: Path | None = None) -> None:
+    """The exporter's publish refusal, run before the publish: every kit the
+    place uses passes ``kit_compress --check`` and its published manifest is
+    the build's (``export_settlement_bundle.kit_freshness_problems``)."""
+    from . import export_settlement_bundle as esb
+    t = time.perf_counter()
+    if settlement is None:
+        g.add("kits.fresh", 0.0, ["the compile did not run: no kits to read"])
+        return
+    kits = {p["kit"] for p in settlement.get("placements") or [] if p.get("kit")}
+    failures = esb.kit_freshness_problems(kits, kits_dir or esb.KITS, public_dir or esb.PUBLIC_KITS)
+    g.add("kits.fresh", time.perf_counter() - t, failures)
+
+
+def collider_ceiling_gate(g: Gates, settlement: dict | None, bp: dict,
+                          kits_dir: Path | None = None) -> None:
+    """The exporter's collider part ceiling (0052), before the publish:
+    ``export_settlement_bundle.place_collider_errors`` over this place's
+    runtime placements, without building the bundle."""
+    from . import export_settlement_bundle as esb
+    t = time.perf_counter()
+    if settlement is None:
+        g.add("collider.ceiling", 0.0, ["the compile did not run: no placements to count"])
+        return
+    failures = esb.place_collider_errors(settlement, bp, kits_dir or esb.KITS)
+    g.add("collider.ceiling", time.perf_counter() - t, failures)
+
+
 # --- 0105 R4: planned interior variety --------------------------------------
 
 def region_of(place_id: str) -> str:
@@ -1025,8 +1070,79 @@ def recipe_of(record: dict | None) -> dict | None:
     return None
 
 
+#: the reviewed per-setting licences for pieces their own plugin licenses
+#: nowhere outdoors (modder's resources, indoor-only vanilla dressing):
+#: ``settingLicence`` in placement-policies.json (16k walk 9 planner ruling)
+POLICIES_PATH = REPO_ROOT / "tooling" / "asset-pipeline" / "pipeline" / "config" / "placement-policies.json"
+
+
+def setting_licences(path: Path = POLICIES_PATH) -> dict:
+    """{asset id: licence row} of placement-policies.json ``settingLicence``."""
+    rows = json.loads(path.read_text(encoding="utf-8")).get("settingLicence") or {}
+    return {k: v for k, v in rows.items() if isinstance(v, dict)}
+
+
+def licence_context(place_id: str | None, record: dict | None, bp: dict | None) -> dict:
+    """What a ``settingLicence`` row's ``when`` clauses read: the place
+    record (type, services, culture, prose) and the blueprint's parcels."""
+    return {"placeId": place_id or (bp or {}).get("id") or "", "record": record or {},
+            "parcels": {p["id"]: p for p in (bp or {}).get("parcels") or [] if p.get("id")}}
+
+
+def parcel_of(p: dict, ctx: dict) -> dict | None:
+    """The blueprint parcel a compiled placement belongs to: its id is
+    ``<place id>.<parcel id>.<rest>`` (compile_settlement)."""
+    pid = str(p.get("id") or "")
+    for parcel_id, parcel in (ctx.get("parcels") or {}).items():
+        if pid.startswith(f"{ctx.get('placeId')}.{parcel_id}.") or pid.startswith(f"{parcel_id}."):
+            return parcel
+    return None
+
+
+#: a water-edge parcel (awning licence): a stilt-founded parcel or a dock or quay
+WATER_EDGE_USES = frozenset({"dock", "quay", "pier", "landing"})
+
+
+def licence_matches(clause: dict, p: dict, ctx: dict) -> bool:
+    """One ``when`` alternative: every key it names holds for placement
+    ``p`` (an all-of); the row licenses the piece when any alternative holds."""
+    from .blueprint import USE_BUCKET
+    record = ctx.get("record") or {}
+    parcel = parcel_of(p, ctx) or {}
+    if "placeTypes" in clause and ((record.get("classification") or {}).get("type")
+                                   not in clause["placeTypes"]):
+        return False
+    if "recordServices" in clause and not set(record.get("services") or []) & set(clause["recordServices"]):
+        return False
+    if "cultures" in clause and record.get("culture") not in clause["cultures"]:
+        return False
+    if "recordTerms" in clause:
+        prose = json.dumps({k: record.get(k) for k in ("why", "vibe", "questHooks", "sockets",
+                                                       "contents", "playerPurpose")}).lower()
+        if not any(t.lower() in prose for t in clause["recordTerms"]):
+            return False
+    if "parcelUses" in clause and USE_BUCKET.get(str(parcel.get("use") or "").lower()) not in clause["parcelUses"]:
+        return False
+    if clause.get("parcelWaterEdge") and not (parcel.get("groundFit") == "stilt"
+                                              or str(parcel.get("use") or "").lower() in WATER_EDGE_USES):
+        return False
+    return True
+
+
+def licensed_by_policy(p: dict, setting: str, licences: dict | None, ctx: dict | None) -> str | None:
+    """The ``settingLicence`` row's reason when it licenses ``p`` in
+    ``setting`` here, else None."""
+    row = (licences or {}).get(p.get("assetId"))
+    if not row or ctx is None or setting not in (row.get("settings") or []):
+        return None
+    if any(licence_matches(c, p, ctx) for c in row.get("when") or []):
+        return row.get("why") or "settingLicence"
+    return None
+
+
 def setting_failures(placements: list[dict], rows: dict, place_class: str | None,
-                     interior: bool = False, pool: frozenset | None = None
+                     interior: bool = False, pool: frozenset | None = None,
+                     licences: dict | None = None, ctx: dict | None = None
                      ) -> tuple[list[str], list[str], list[str]]:
     """(failures, warnings, not measured asset ids) of 0105 R1 as R9 reads it.
 
@@ -1045,7 +1161,11 @@ def setting_failures(placements: list[dict], rows: dict, place_class: str | None
     ``builtBy`` widens it, ``place_pool``); a piece licensed only ``wild``
     is judged on axis i alone, and so is one whose only classes the miner
     left unlicensed for resting on fewer than 2 references (R23, the row's
-    ``classNotMeasured``: a warning names it NOT_MEASURED on axis ii). Rows without ``settingClass`` are NOT_MEASURED."""
+    ``classNotMeasured``: a warning names it NOT_MEASURED on axis ii). Rows without ``settingClass`` are NOT_MEASURED.
+    A reviewed ``settingLicence`` row (``licences``, read against ``ctx``:
+    the record and the placement's parcel, ``licence_context``) licenses a
+    piece its plugin does not, per setting class, on both axes; each
+    placement of such a piece is judged on its own parcel."""
     setting = "interior" if interior else "exterior"
     if pool is None:
         pool = SETTING_POOLS.get(place_class or "")
@@ -1054,10 +1174,13 @@ def setting_failures(placements: list[dict], rows: dict, place_class: str | None
     for p in placements:
         if p.get("objectKind") == "effect":
             continue
-        key = (p.get("kit"), p.get("assetId"), float(p.get("scale") or 1.0))
+        own = p.get("id") if p.get("assetId") in (licences or {}) else None
+        key = (p.get("kit"), p.get("assetId"), float(p.get("scale") or 1.0), own)
         if key in seen:
             continue
         seen.add(key)
+        if own and licensed_by_policy(p, setting, licences, ctx):
+            continue
         row = rows.get(key[:2]) or {}
         sc = row.get("settingClass")
         if not isinstance(sc, dict):
@@ -1103,7 +1226,8 @@ def small_dressing(p: dict, row: dict) -> bool:
     return max(float(x) for x in size) * scale < SMALL_DRESSING_M
 
 
-def setting_gate(g: Gates, settlement: dict | None, record: dict | None, rows: dict | None = None) -> None:
+def setting_gate(g: Gates, settlement: dict | None, record: dict | None, rows: dict | None = None,
+                 bp: dict | None = None, place_id: str | None = None) -> None:
     t = time.perf_counter()
     if settlement is None:
         g.add("setting.class", 0.0, ["the compile did not run: no placements to read"])
@@ -1114,7 +1238,9 @@ def setting_gate(g: Gates, settlement: dict | None, record: dict | None, rows: d
     recipe = recipe_of(record)
     place_class = place_setting_class(recipe)
     failures, warnings, unmeasured = setting_failures(placements, rows, place_class,
-                                                      pool=place_pool(recipe))
+                                                      pool=place_pool(recipe),
+                                                      licences=setting_licences(),
+                                                      ctx=licence_context(place_id, record, bp))
     if place_class is None:
         warnings.append("NOT_MEASURED: the place's type-recipes.json row carries no settingClass, "
                         "so the social-scale axis (0105 R9 ii) is not judged")
@@ -1193,6 +1319,32 @@ def record_gate(g: Gates, bp: dict, record: dict | None) -> None:
     t = time.perf_counter()
     counted = pk.counted_parcels(bp, pk.kinds_of(bp), include=("building",))
     g.add("record.consistency", time.perf_counter() - t, record_consistency_failures(record, len(counted)))
+
+
+def coherence_gate(g: Gates, place_id: str, settlement: dict | None) -> None:
+    """Walk 8: what the record and its quests say (places, routes, "between
+    A and B", premised features, the plants it says grow there) matches the
+    world (``record_coherence``), for this place AND every other built place
+    (walk 9: a later place's change set must not break an earlier fit).
+    ``record.regression``: no record green at HEAD is red in the tree. Only the
+    records this tree can have moved are graded (``gate_statuses``: the place, the
+    built places, the change set's re-check set), each bundle read once; the tracked
+    receipt is rewritten only when a status changes, so a rollback shows in git."""
+    from . import record_coherence as rc
+    t = time.perf_counter()
+    index = rc.build_index()
+    before = rc.committed_receipt()
+    now, fails = rc.gate_statuses(index, place_id, settlement, before)
+    out = list(fails.get(place_id, []))
+    for other in rc.built_places(index):
+        if other != place_id:
+            out += [f"{other}: {f}" for f in fails.get(other, [])]
+    g.add("record.coherence", time.perf_counter() - t, out)
+    t = time.perf_counter()
+    reg = rc.regression_failures(now, before, fails)
+    rc.write_receipt(now)
+    index.vegetation.clear()        # free the frozen cells the ecology reader loaded
+    g.add("record.regression", time.perf_counter() - t, reg)
 
 
 def closed_gate(g: Gates, bp: dict) -> None:
@@ -1289,10 +1441,13 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
     reserved_gate(g, bp)
     closed_gate(g, bp)
     record_gate(g, bp, record)
+    coherence_gate(g, place_id, settlement)
     rows = kit_rows({p.get("kit") for p in (settlement or {}).get("placements") or []})
     lights_gate(g, settlement, rows, place_id=place_id)
-    setting_gate(g, settlement, record, rows)
+    setting_gate(g, settlement, record, rows, bp=bp, place_id=place_id)
     sink_fallback_gate(g, settlement, rows)
+    kits_fresh_gate(g, settlement)
+    collider_ceiling_gate(g, settlement, bp)
 
     doc = {"schemaVersion": SCHEMA_VERSION, "placeId": place_id, "startedAt": started,
            "wallS": round(time.perf_counter() - t0, 2), "ok": all(r["ok"] for r in g.rows),

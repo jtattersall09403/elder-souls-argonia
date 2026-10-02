@@ -130,9 +130,12 @@ the addenda of 0105 (now rows of the rulings table).
     kills cost 504 min; memory and load were the cause, so they are the gate.
 19. **One review per round**: the batch spans the round's pathspec commits
     until `review_gate.py --close` (walk 5's close ran four reviews in 40
-    min).
+    min); inside the open batch a re-run fires no reviewer and preflight
+    re-runs only the gates red last time (decision 0118).
 20. **No foreground waits**: jobs over 60 s run in the background; the
-    shell guard refuses `tail -f`, `tail --pid`, `until` and busy loops.
+    shell guard refuses `tail -f`, `tail --pid`, `until` and busy loops,
+    and pgrep loops, python sleep one-liners, waiting while-loops and
+    `date; grep` ticks (decision 0118).
 21. **A lean close**: review items go to one lane, crash and infra fixes
     to a side lane; each lane runs `select_tests.py` on its diff before
     returning; job logs carry a 1-min load-average sample.

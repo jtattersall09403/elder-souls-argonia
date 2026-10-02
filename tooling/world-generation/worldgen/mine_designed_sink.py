@@ -92,6 +92,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import math
 import sys
@@ -101,6 +102,7 @@ from pathlib import Path
 from typing import Callable, Iterable, Iterator
 
 from . import asset_registry
+from .atomic_write import locked_write_text, write_lock
 from .esp_index import UNITS_PER_METRE, Plugin, height_at, slope_degrees_at
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -1319,11 +1321,17 @@ def _main(argv: Iterable[str] | None = None) -> int:
         missing = [a for a in args.assets if a not in kits]
         if missing:
             raise SystemExit(f"not a kit asset: {missing}")
-        record = json.loads(args.out.read_text())
         got = build_document({a: kits[a] for a in args.assets}, args.vault,
                              progress=not args.quiet,
                              min_samples=1 if args.whole_population else MIN_SAMPLES,
-                             known=record["assets"])["assets"]
+                             known=json.loads(args.out.read_text())["assets"])["assets"]
+        # read, merge and write under the record's write lock: two lanes merging
+        # at once each wrote the record they had read before measuring, and the
+        # later dump dropped the other's rows (16k walk 9: the type-5 lane's
+        # rockcaveentrance02 row lost to the dressing lane's 1 s later)
+        held = contextlib.ExitStack()
+        held.enter_context(write_lock(args.out))
+        record = json.loads(args.out.read_text())
         for asset in args.assets:
             if asset not in got:
                 raise SystemExit(f"{asset}: the run measured no row")
@@ -1375,7 +1383,8 @@ def _main(argv: Iterable[str] | None = None) -> int:
         findings = evidence_findings(record["assets"])
         if findings:
             raise ValueError("; ".join(findings[:20]))
-        args.out.write_text(json.dumps(record, indent=1, sort_keys=False) + "\n", encoding="utf-8")
+        locked_write_text(args.out, json.dumps(record, indent=1, sort_keys=False) + "\n")
+        held.close()
         print(json.dumps({a: record["assets"][a] for a in args.assets}, indent=1))
         return 0
     if args.sample is not None:

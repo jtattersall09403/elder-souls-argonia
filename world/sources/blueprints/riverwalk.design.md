@@ -84,6 +84,7 @@ Overnight (all skeleton). No `20-world-provisions.md` provision names Riverwalk.
 | Shrine | shrine service | two `argoniantotem01` and a `windchimehavok` beside the long house yard | — |
 | Canoe | the canoe poler's craft | `canoe:actors/sfss/canoe/canoe1`, beached on the islet | R5 |
 | Dressing | 21 single pieces sited with `wb.py site --free --clear 0.7` on flat padded ground | Argonian urns, baskets, chairs, pots, nets, an oar | slopeRule, propSeatRule |
+| Walk-9 dressing | the crews-house's trade at a market stall on the crews path, on its own small pad; the islet's catch drying on a fish rack north of the islet path, where the long walk lands, on its own small pad. The shrine parcel keeps its totems: the Sithis shrine is licensed indoors only (R1) | `rtmarketstall01`, `fishrack01` | `references/dressing.md` § 4 (water village row set); pads scanned, `tooling/.reports/16k/place.dunmer-north.riverwalk/walk9-dressing/` |
 
 Lights: `argoniancandle01` at the long house door (1.9 m from the
 threshold) and at the stage shelter; the raft carries two mined flames of its own. The

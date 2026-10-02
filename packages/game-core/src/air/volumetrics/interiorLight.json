@@ -360,6 +360,16 @@
      "lightsNear": 1
     }
    ]
+  },
+  "MugsumpHollowInt01": {
+   "plugin": "King of the Murkmire.esp",
+   "kind": "damp",
+   "humid": false,
+   "dust": "medium",
+   "dustWhy": "damp (lighting template GreenCaveMedium)",
+   "floorMist": true,
+   "apertures": [],
+   "reason": "no placed ref has a window piece or window-textured panes in its model"
   }
  }
 }

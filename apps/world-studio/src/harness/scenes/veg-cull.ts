@@ -165,7 +165,7 @@ const scene: HarnessScene = {
     // Draws: per species × rung × part, a CPU mesh and a GPU mesh.
     const pairs: Pair[] = [];
     const specs: Array<{ si: number; geometry: THREE.BufferGeometry; material: THREE.Material;
-      band: [number, number, number, number]; isCard: boolean; stiffness: number;
+      band: [number, number, number, number]; isCard: boolean; stiffness: number; heightM: number;
       casts: boolean; fromZero: boolean }> = [];
     SPECIES.forEach((id, si) => {
       const entry = kit.get(id);
@@ -190,7 +190,7 @@ const scene: HarnessScene = {
           specs.push({
             si, geometry: part.geometry, material: part.material,
             band: [...rung.band] as [number, number, number, number],
-            isCard, stiffness, casts, fromZero: casts && level === 1,
+            isCard, stiffness, heightM: entry.heightM, casts, fromZero: casts && level === 1,
           });
         }
       });
@@ -203,7 +203,7 @@ const scene: HarnessScene = {
       const n = COPIES;
       const data = createBatchDataTexture(n);
       const slots = new THREE.InstancedBufferAttribute(new Float32Array(n), 1);
-      for (let i = 0; i < n; i++) writeBatchInstance(data, i, sp.band, sp.isCard ? -1 : sp.stiffness, 0);
+      for (let i = 0; i < n; i++) writeBatchInstance(data, i, sp.band, sp.isCard ? -1 : sp.stiffness, 0, sp.heightM);
       data.needsUpdate = true;
       const mk = () => {
         const owned = makeBatchMaterial(sp.material as never, {
@@ -397,7 +397,7 @@ const scene: HarnessScene = {
       scene: s,
       camera,
       frame(t: number) {
-        updateWindSway(wind, t, { windDirXZ: [0.8, 0.6], windSpeedMS: 9, gustiness: 0.5 });
+        updateWindSway(wind, t, { windDirXZ: [0.8, 0.6], windSpeedMS: 9, gustiness: 0.5 }, camera.position);
         place(t);
         aerial.uEsFogCam.value.copy(camera.position);
         sky.frame(t);

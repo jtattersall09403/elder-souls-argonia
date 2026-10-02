@@ -7,7 +7,8 @@ finds a defect no row asked about, fix it at source and add the row here in
 the same change** ([the visual-look skill](../../.claude/skills/visual-look/SKILL.md)).
 
 Classes: `fire-fixture`, `hanging-fixture`, `doorway`, `walkway`,
-`ground-contact`, `interior-surface`, `furniture-contact`. `look.mjs`
+`ground-contact`, `interior-surface`, `furniture-contact`, `ground-paint`,
+`building-seam` (the `seam` mode). `look.mjs`
 picks the class from the kit manifest row (`--class` overrides).
 
 | class | id | question | pass bar |
@@ -37,3 +38,5 @@ picks the class from the kit manifest row (`--class` overrides).
 | ground-paint | paint-edge | Render: `node apps/world-studio/src/settlement/paintHarness/run.mjs <placeId>` (the published paint through WorldSky's CSM + aerial chain). At eye height, is the path a soft worn-earth track that frays into the ground round it, or a hard-edged band of square cells or cobble tiles? | No straight cell edges or stair steps; the edge fades over at least 1 m; never darker than the control strip of track texture. |
 | ground-paint | paint-haze | In the same run's numbers, does the paint's contrast against the bare ground fall with range as the control strip's does (it hazes like the terrain)? | Paint contrast at 150 m at most 0.25 x its 8 m contrast, and at 300 m below 1.0 luminance. |
 | ground-paint | paint-road | Does any place paint lie on the province road paint (the road always wins)? | Published paint on road texels 0 m2 (the measurement in lead-rendering walk 7: `province_road_paint` against the bundle's polygons). |
+| building-seam | seam-contact | `npm run look -- seam <placeId> <suffix>`: in the _live image, does the wall sit IN the ground: a soft dark contact band at its foot, worn earth round it, no hard bright line where wall meets grass? Compare with the _bare image. | The live image is visibly darker in a band at most ~1 m wide at the wall foot and shows worn earth round the base; the bare image shows the stark join. |
+| building-seam | seam-spill | Does the trampled ring or the shade spill where it should not: onto water, across a way as a second track, or as a hard-edged blob? | No paint on water; the ring frays into the grass with no straight cell edge; the shade has no visible outer edge. |

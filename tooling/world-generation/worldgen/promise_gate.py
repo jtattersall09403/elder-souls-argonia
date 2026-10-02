@@ -130,9 +130,9 @@ def promise_gate_errors(bp: dict, ledger: dict | None,
 
 def _confirmation_errors(pid: str, row: dict) -> list[str]:
     """A prose or quest row: confirmed against its current text, with a note."""
-    import hashlib
+    from .blueprint_promises import text_sha
     conf = row.get("confirmed") or {}
-    sha = hashlib.sha256(str(row.get("text")).encode("utf-8")).hexdigest()[:12]
+    sha = text_sha(row.get("text"))
     if conf.get("sha") != sha:
         return [f"promises.confirm: {pid} ({row.get('kind')}: {str(row.get('text'))[:90]}) is not "
                 f"confirmed against the built place{' (its text changed)' if conf else ''}: re-read "

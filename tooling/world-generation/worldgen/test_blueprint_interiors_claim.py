@@ -597,3 +597,17 @@ def test_a_socket_op_in_a_cell_no_door_claims_is_named():
                       {"op": "socket", "id": "s.out"}, {"op": "place", "id": "p", "interiorCell": "Loft"}]}
     assert bi.orphan_socket_ops(bp, layout) == [
         "socket op s.gone stands in Loft, which no door claims at tier A"]
+
+
+def test_a_stable_is_judged_by_its_doorway_not_by_the_dropped_claim():
+    """0114 / R83, pinned: a stable whose door the claim dropped (no-interior
+    pool) passes only when its shell has no doorway (an open entrance kind);
+    a stable shell with a door-kind entrance and no linked cell looks shut and
+    opens nowhere, so it is a closed building whatever the claim dropped."""
+    bp = {"parcels": [{"id": "p.stable", "assetRef": "test:stable"}], "doors": []}
+    lib = bi.InteriorLibrary(Path("/nonexistent"))
+    lib.by_asset = {"test:stable": {"entrance": {"kind": "open-front"}}}
+    assert bi.closed_shell_failures(bp, frozenset(), lib) == []
+    lib.by_asset = {"test:stable": {"entrance": {"kind": "esp-door"}}}
+    got = bi.closed_shell_failures(bp, frozenset(), lib)
+    assert len(got) == 1 and got[0].startswith("closed building: p.stable")

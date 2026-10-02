@@ -1,0 +1,245 @@
+{
+ "schemaVersion": 1,
+ "placeId": "place.saxhleel-coast.jungle-root-hollow",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
+ "derivedFrom": [
+  {
+   "file": "world/sources/catalogue/places-saxhleel-coast.json",
+   "sha256": "ebcfabda2fc2ec302ee9cd19abef266bb8e2f3d3a8be001bc3228230021e6c64"
+  },
+  {
+   "file": "world/sources/quests/local-saxhleel-coast.json",
+   "sha256": "3c8e979f8b72e632ef16a1a1b7480f843c29e38440702580991f04bc542c512c"
+  }
+ ],
+ "promises": [
+  {
+   "id": "promise.jungle-root-hollow.evidence-the-tools",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].sockets.evidence[evidence.jungle-root-hollow.the-tools]"
+   },
+   "text": "Takes-The-Tools has the evidence socket evidence.jungle-root-hollow.the-tools.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.jungle-root-hollow.interior-principal",
+   "kind": "interior",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].interior"
+   },
+   "text": "Takes-The-Tools's principal interior is a root-cavern (S2), entered by 1 cave-mouth.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.jungle-root-hollow.prose-playerpurpose-hook",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].playerPurpose.hook"
+   },
+   "text": "A lair dug into the root layer west of the hiring camp. The bone scatter at its mouth holds three generations of tools taken from foragers.",
+   "confirmed": {
+    "sha": "da29154ca2eb",
+    "note": "The cave mouth (rockcaveentrance02) is built with its tool scatter (evidence socket); the camp lies east, so the lair is west of it."
+   }
+  },
+  {
+   "id": "promise.jungle-root-hollow.prose-questhooks-opportunity",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].questHooks.opportunity"
+   },
+   "text": "Clearing it doubles a hiring camp's foraging range. The camp has no coin; that is what it can offer instead.",
+   "confirmed": {
+    "sha": "3e66ecb93797",
+    "note": "The hiring camp Sells-Their-Hours lies 895 m east; the lair sits in the jungle west of it, where SX08's foragers were taken."
+   }
+  },
+  {
+   "id": "promise.jungle-root-hollow.prose-vibe-approach",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].vibe.approach"
+   },
+   "text": "the smell carries before the mouth shows",
+   "confirmed": {
+    "sha": "81e42d581b9d",
+    "note": "Concealment 0.85 under a 0.98 canopy (dossier): the mound shows only from 30-40 m through the trees."
+   }
+  },
+  {
+   "id": "promise.jungle-root-hollow.prose-vibe-condition",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].vibe.condition"
+   },
+   "text": "occupied",
+   "confirmed": {
+    "sha": "20323a24be10",
+    "note": "Occupied: an encounter socket for the beast in the cell's den and a fauna socket for the ticks at the mouth."
+   }
+  },
+  {
+   "id": "promise.jungle-root-hollow.prose-vibe-materials",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].vibe.materials"
+   },
+   "text": "root-walled rock, bone, dragged belongings",
+   "confirmed": {
+    "sha": "01ad693f4253",
+    "note": "rockcaveentrance02's mossy rock, the cell's Hist roots and cave rock, bones in and outside, the foragers' spade, basket and net."
+   }
+  },
+  {
+   "id": "promise.jungle-root-hollow.prose-vibe-mood",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].vibe.mood"
+   },
+   "text": "unwelcoming",
+   "confirmed": {
+    "sha": "6c2217af5d3f",
+    "note": "No light, no path, no sign; bones at the threshold."
+   }
+  },
+  {
+   "id": "promise.jungle-root-hollow.prose-vibe-palette",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].vibe.palette"
+   },
+   "text": "black, bone white, root brown",
+   "confirmed": {
+    "sha": "6ed39fc14f05",
+    "note": "Dark mouth, bone-white scatter, root-brown Hist vines and the cell's roots."
+   }
+  },
+  {
+   "id": "promise.jungle-root-hollow.prose-vibe-senses",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].vibe.senses"
+   },
+   "text": "something breathing in a hollow space",
+   "confirmed": {
+    "sha": "e2e54f855139",
+    "note": "The den is the cell's far chamber, 44 m in, reached through one tunnel."
+   }
+  },
+  {
+   "id": "promise.jungle-root-hollow.prose-vibe-signaturefeature",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].vibe.signatureFeature"
+   },
+   "text": "the bone scatter outside contains three generations of other people's tools",
+   "confirmed": {
+    "sha": "64efcf93f826",
+    "note": "The bone scatter (8 bones) and the tool scatter (spade, basket, net) lie together on the level ground in front of the mouth."
+   }
+  },
+  {
+   "id": "promise.jungle-root-hollow.prose-vibe-silhouette",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].vibe.silhouette"
+   },
+   "text": "a cave mouth among the roots of the canopy giants, bones outside it",
+   "confirmed": {
+    "sha": "6aacc9b93460",
+    "note": "The cave mouth stands among canopy giants (anvil-canopy-tree 253, anvil-emergent-giant 5) with the bone and tool scatter outside."
+   }
+  },
+  {
+   "id": "promise.jungle-root-hollow.prose-why-founding",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].why.founding"
+   },
+   "text": "A void opened where the root layer lifted the ground deep in the jungle. Something moved into it.",
+   "confirmed": {
+    "sha": "1af512dd56b3",
+    "note": "The way in leads down into a dry root cave under the jungle floor (MugsumpHollowInt01)."
+   }
+  },
+  {
+   "id": "promise.jungle-root-hollow.prose-why-occupantsmotive",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].why.occupantsMotive"
+   },
+   "text": "An occupant that has made a lair of it and dragged in what it has taken.",
+   "confirmed": {
+    "sha": "4fa13a3a47c1",
+    "note": "The cell's den holds the remains the occupant dragged in; the tools outside are what it dropped."
+   }
+  },
+  {
+   "id": "promise.jungle-root-hollow.prose-why-pressures",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].why.pressures"
+   },
+   "text": "The evicted families at the hiring camp a kilometre east no longer forage this way. Any of them will tell a stranger why, at length.",
+   "confirmed": {
+    "sha": "162e9ab6666c",
+    "note": "Sells-Their-Hours lies 895 m east (bearing 79 deg); no village is nearer."
+   }
+  },
+  {
+   "id": "promise.jungle-root-hollow.prose-why-siteadvantages",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].why.siteAdvantages"
+   },
+   "text": "A dry void under the root layer, root-walled and rock-floored, with one defensible mouth.",
+   "confirmed": {
+    "sha": "cd7caba98d08",
+    "note": "One mouth, one tunnel; the cell is dry (wetFraction 0), rock-floored and root-walled."
+   }
+  },
+  {
+   "id": "promise.jungle-root-hollow.prose-why-wouldchangeif",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-saxhleel-coast.json",
+    "path": "places[place.saxhleel-coast.jungle-root-hollow].why.wouldChangeIf"
+   },
+   "text": "If it were cleared, the hiring camp's foraging range would double.",
+   "confirmed": {
+    "sha": "c1b84ac0e7bb",
+    "note": "The hiring camp east of the lair is the one SX08 names."
+   }
+  },
+  {
+   "id": "promise.jungle-root-hollow.quest-sx08",
+   "kind": "quest",
+   "source": {
+    "file": "world/sources/quests/local-saxhleel-coast.json",
+    "path": "quest[SX08]"
+   },
+   "text": "SX08 Takes The Tools: The hiring camp cannot forage west because something in a root hollow has been taking foragers.",
+   "confirmed": {
+    "sha": "4d75ce9984aa",
+    "note": "The camp lies east of the lair, so its foragers went west into it; the mouth, its tool scatter (evidence socket) and the den's encounter socket are built."
+   }
+  }
+ ]
+}

@@ -114,7 +114,7 @@
  "source": "vanilla Skyrim.esm plus every source-mod plugin named by worldgen.asset_registry.POOLS",
  "method": "designedSinkM = groundZ - pivotZ (metres, z-up, positive = pivot below the ground line) per exterior reference at unit scale; terrain from esp_index.height_at (bilinear on the LAND of the cell under the pivot, which for a reference in a worldspace's persistent cell is not its parent cell, refsOutsideCell, whose water it reads too, refsParentCellWater where no file defines it; where the placing file carries no real LAND there, the LAND of its last-loaded on-disk master that has one, R12, refsMasterLand; references with no LAND anywhere are counted, refsNoLand); a reference with mesh contact from below on a static or kit piece (worldgen/mine_mounts.py contact) is left out, and so is one whose bounds bottom stands more than 0.10 m above the highest LAND under its corners and pivot with no contact seen (refsDroppedPluginUnsupported); percentiles over n >= 3 references; slopeTermMPerDeg = least-squares gradient of sink on local terrain slope in degrees; designedWaterlineM from the cell water height on the same sign convention (the defining file's references only when it has 3 or more). Assets without n >= 3 samples: a composite whose bounds and origin equal its base piece's (compose.parts[0]) takes the base piece's plugin sink (evidence base:<id>; so does one whose part 0 carries the plugin's pitch/roll, the pose its references hold; one whose part 0 is its base at a non-unit scale takes the base's plugin sink over the references at that scale, byScale, evidence base:<id>@<scale>, planner ruling 2026-09-27), else a measured twin shipping the same mesh (evidence swap:<id>), else the mesh-sill ground-line tell of the raw kit GLB (pipeline/mesh_ground_line.py, evidence mesh-sill, n 0; evidence 'mesh-sill (plugin refs static-supported)' when the left-out references are what left it short, 'mesh-sill (plugin-unsupported)' when the unsupported ones are); a structure piece (architecture, ruin, dungeon-kit, bridge) whose plugin IQR exceeds 1.0 m with n < 6 or over half its mesh height takes its mesh-sill tell (evidence 'mesh-sill (plugin-spread)', the plugin percentiles kept in pluginSpread); a stilt-fit asset's mesh tell is its deck top minus the stilt policy's deckClearanceM (tell deck-top); every mesh-sill row carries fallback: true and the record counts them (sinkFallback, R12); a texture variant (manifest variantOf) takes its base's row (a plugin row as swap:<base>); neither: no p50 (policy fallback at write time). worldgen/mine_designed_sink.py",
  "kitAssetsConsidered": 1626,
- "assetsMeasured": 1456,
+ "assetsMeasured": 1478,
  "refsJoined": 65561,
  "refsJoinedMasterBase": 32728,
  "refsStaticSupported": 8042,
@@ -123,10 +123,10 @@
  "refsNoLand": 2149,
  "refsOutsideCell": 526,
  "sinkFallback": {
-  "rows": 1040,
-  "of": 1456,
+  "rows": 1049,
+  "of": 1478,
   "byEvidence": {
-   "mesh-sill": 960,
+   "mesh-sill": 969,
    "mesh-sill (plugin refs static-supported)": 44,
    "mesh-sill (plugin-spread)": 7,
    "mesh-sill (plugin-unsupported)": 29
@@ -9644,8 +9644,8 @@
    "slopeTermMPerDeg": 0.00537,
    "evidence": "plugin",
    "byScaleRefsDropped": 3,
-   "refsDroppedStaticSupported": 10,
-   "refsDroppedPluginUnsupported": 3,
+   "refsDroppedStaticSupported": 9,
+   "refsDroppedPluginUnsupported": 4,
    "baseObject": [
     "bmv:clutter/chopping block/choppingblock01.nif",
     "htbm:clutter/chopping block/choppingblock01.nif",
@@ -12252,12 +12252,12 @@
    }
   },
   "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01": {
-   "p25": 0.1155,
-   "p50": 0.2688,
+   "p25": 0.1327,
+   "p50": 0.2694,
    "p75": 0.426,
    "n": 100,
-   "iqrM": 0.3105,
-   "slopeTermMPerDeg": 0.00475,
+   "iqrM": 0.2933,
+   "slopeTermMPerDeg": 0.00471,
    "evidence": "plugin",
    "waterline": {
     "p25": -0.2845,
@@ -12267,8 +12267,8 @@
     "iqrM": 0.0569,
     "definingFileOnly": false
    },
-   "refsDroppedStaticSupported": 11,
-   "refsDroppedPluginUnsupported": 9,
+   "refsDroppedStaticSupported": 12,
+   "refsDroppedPluginUnsupported": 8,
    "baseObject": [
     "htbm:clutter/stockade/stockadebarricade/stockadebarricade01.nif",
     "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01.nif"
@@ -39476,7 +39476,6 @@
    }
   },
   "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01": {
-   "fallback": true,
    "p25": -0.9105,
    "p50": -0.9105,
    "p75": -0.9105,
@@ -39488,7 +39487,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.9105
-   }
+   },
+   "fallback": true
   },
   "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve01": {
    "fallback": true,
@@ -44807,6 +44807,489 @@
     "tell": "floor-plane",
     "valueM": -0.0003
    }
+  },
+  "kotm:argonia/clutter/beehive": {
+   "p25": -0.074,
+   "p50": -0.074,
+   "p75": -0.074,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.074
+   },
+   "fallback": true
+  },
+  "vanilla:clutter/exteriorwoodenfurniture/exteriorwoodentable01": {
+   "p25": 0.0,
+   "p50": 0.0475,
+   "p75": 0.1035,
+   "n": 42,
+   "iqrM": 0.1035,
+   "slopeTermMPerDeg": -0.05625,
+   "evidence": "plugin",
+   "spreadIqrM": 0.1035,
+   "spreadN": 41,
+   "byScaleRefsDropped": 2,
+   "refsDroppedStaticSupported": 18,
+   "refsDroppedPluginUnsupported": 3,
+   "baseObject": [
+    "bmv:clutter/exteriorwoodenfurniture/exteriorwoodentable01.nif",
+    "tropical:clutter/exteriorwoodenfurniture/exteriorwoodentable01.nif",
+    "vanilla:clutter/exteriorwoodenfurniture/exteriorwoodentable01.nif"
+   ],
+   "plugins": [
+    "Skyrim.esm",
+    "Tropical Skyrim.esp",
+    "Valenwood.esp"
+   ],
+   "refsDroppedNonUnitScale": 6,
+   "refsMasterLand": 1,
+   "refsNoLand": 4
+  },
+  "vanilla:clutter/burialcairn/burialcairn02": {
+   "p25": -0.0573,
+   "p50": -0.009,
+   "p75": 0.055,
+   "n": 9,
+   "iqrM": 0.1123,
+   "slopeTermMPerDeg": 0.02495,
+   "evidence": "plugin",
+   "baseObject": [
+    "vanilla:clutter/burialcairn/burialcairn02.nif"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "refsDroppedNonUnitScale": 9
+  },
+  "vanilla:architecture/riften/rtmarketstall01": {
+   "waterline": {
+    "p25": -6.8276,
+    "p50": -6.8276,
+    "p75": -6.8276,
+    "n": 3,
+    "iqrM": 0.0,
+    "definingFileOnly": true
+   },
+   "baseObject": [
+    "vanilla:architecture/riften/rtmarketstall01.nif"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "refsNoLand": 3,
+   "p25": 0.0,
+   "p50": 0.0,
+   "p75": 0.0,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
+   "fallback": true
+  },
+  "vanilla:landscape/rocks/rockcaveentrance02": {
+   "p25": -3.5196,
+   "p50": -2.3795,
+   "p75": -2.0047,
+   "n": 24,
+   "iqrM": 1.5149,
+   "slopeTermMPerDeg": -0.06232,
+   "evidence": "plugin",
+   "spreadIqrM": 2.0189,
+   "spreadN": 2,
+   "waterline": {
+    "p25": -2.3671,
+    "p50": 11.1309,
+    "p75": 17.6949,
+    "n": 3,
+    "iqrM": 20.0621,
+    "definingFileOnly": true
+   },
+   "byScaleRefsDropped": 1,
+   "baseObject": [
+    "darkwater:landscape/rocks/rockcaveentrance02.nif",
+    "depths:landscape/rocks/rockcaveentrance02.nif",
+    "htbm:landscape/rocks/rockcaveentrance02.nif",
+    "vanilla:landscape/rocks/rockcaveentrance02.nif"
+   ],
+   "plugins": [
+    "DarkwaterDen.esp",
+    "DepthsOfSkyrim.esp",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "Skyrim.esm"
+   ],
+   "refsDroppedNonUnitScale": 6
+  },
+  "kotm:argonia/trees/hist trees/hist_vines01": {
+   "p25": 0.2008,
+   "p50": 0.7328,
+   "p75": 0.8135,
+   "n": 6,
+   "iqrM": 0.6127,
+   "slopeTermMPerDeg": null,
+   "evidence": "plugin",
+   "baseObject": [
+    "kotm:argonia/trees/hist trees/hist_vines01.nif"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ]
+  },
+  "vanilla:furniture/tanningrackmarker": {
+   "p25": -0.0249,
+   "p50": 0.0,
+   "p75": 0.0336,
+   "n": 41,
+   "iqrM": 0.0585,
+   "slopeTermMPerDeg": -0.00339,
+   "evidence": "plugin",
+   "waterline": {
+    "p25": -7.1689,
+    "p50": -1.3693,
+    "p75": -1.0914,
+    "n": 4,
+    "iqrM": 6.0775,
+    "definingFileOnly": true
+   },
+   "refsDroppedPluginUnsupported": 30,
+   "baseObject": [
+    "htbm:furniture/tanningrackmarker.nif",
+    "kotm:furniture/tanningrackmarker.nif",
+    "mudmother:furniture/tanningrackmarker.nif",
+    "vanilla:furniture/tanningrackmarker.nif"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "Skyrim.esm"
+   ],
+   "refsNoLand": 4
+  },
+  "vanilla:architecture/tents/largeimperialtent01": {
+   "p25": 0.0,
+   "p50": 0.5558,
+   "p75": 0.6396,
+   "n": 27,
+   "iqrM": 0.6396,
+   "slopeTermMPerDeg": 0.01511,
+   "evidence": "plugin",
+   "byScale": {
+    "1.30": {
+     "p25": 0.6768,
+     "p50": 0.8036,
+     "p75": 0.8331,
+     "n": 10,
+     "iqrM": 0.1563
+    }
+   },
+   "refsDroppedStaticSupported": 1,
+   "baseObject": [
+    "bmv:architecture/tents/largeimperialtent01.nif",
+    "vanilla:architecture/tents/largeimperialtent01.nif"
+   ],
+   "plugins": [
+    "Black Marsh.esm",
+    "Skyrim.esm",
+    "Valenwood.esp"
+   ],
+   "refsDroppedNonUnitScale": 11
+  },
+  "vanilla:architecture/tents/smallimperialtent": {
+   "p25": 0.0102,
+   "p50": 0.1104,
+   "p75": 0.3534,
+   "n": 94,
+   "iqrM": 0.3432,
+   "slopeTermMPerDeg": -0.00613,
+   "evidence": "plugin",
+   "refsDroppedStaticSupported": 1,
+   "baseObject": [
+    "bmv:architecture/tents/smallimperialtent.nif",
+    "kotm:architecture/tents/smallimperialtent.nif",
+    "vanilla:architecture/tents/smallimperialtent.nif"
+   ],
+   "plugins": [
+    "Black Marsh.esm",
+    "King of the Murkmire.esp",
+    "Skyrim.esm"
+   ]
+  },
+  "vanilla:clutter/civilwar/civilwarbannerimp01": {
+   "byScaleRefsDropped": 13,
+   "refsDroppedPluginUnsupported": 12,
+   "pluginUnsupportedFallback": true,
+   "baseObject": [
+    "vanilla:clutter/civilwar/civilwarbannerimp01.nif"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "refsDroppedNonUnitScale": 13
+  },
+  "vanilla:clutter/civilwar/civilwarbannerimp02": {
+   "byScaleRefsDropped": 5,
+   "refsDroppedPluginUnsupported": 2,
+   "baseObject": [
+    "htbm:clutter/civilwar/civilwarbannerimp02.nif",
+    "vanilla:clutter/civilwar/civilwarbannerimp02.nif"
+   ],
+   "plugins": [
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "Skyrim.esm"
+   ],
+   "refsDroppedNonUnitScale": 5
+  },
+  "vanilla:clutter/civilwar/civilwarcot01": {
+   "p25": 0.0,
+   "p50": 0.0,
+   "p75": 0.0,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
+   "fallback": true
+  },
+  "vanilla:clutter/civilwar/civilwartable01": {
+   "p25": 0.0057,
+   "p50": 0.0561,
+   "p75": 0.0604,
+   "n": 10,
+   "iqrM": 0.0547,
+   "slopeTermMPerDeg": -0.0019,
+   "evidence": "plugin",
+   "refsDroppedStaticSupported": 8,
+   "refsDroppedPluginUnsupported": 1,
+   "baseObject": [
+    "bmv:clutter/civilwar/civilwartable01.nif",
+    "vanilla:clutter/civilwar/civilwartable01.nif"
+   ],
+   "plugins": [
+    "Black Marsh.esm",
+    "Skyrim.esm"
+   ]
+  },
+  "vanilla:clutter/civilwar/civilwarmap01": {
+   "byScaleRefsDropped": 4,
+   "baseObject": [
+    "htbm:clutter/civilwar/civilwarmap01.nif",
+    "vanilla:clutter/civilwar/civilwarmap01.nif"
+   ],
+   "plugins": [
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "Skyrim.esm"
+   ],
+   "refsDroppedNonUnitScale": 4,
+   "refsNoLand": 2,
+   "p25": 0.0,
+   "p50": 0.0,
+   "p75": 0.0,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
+   "fallback": true
+  },
+  "vanilla:clutter/books/note01/note01": {
+   "refsDroppedStaticSupported": 1,
+   "baseObject": [
+    "bmv:clutter/books/note01/note01.nif"
+   ],
+   "plugins": [
+    "Valenwood.esp"
+   ]
+  },
+  "vanilla:clutter/civilwar/civilwarbanner01": {
+   "p25": 0.1173,
+   "p50": 0.1924,
+   "p75": 0.3268,
+   "n": 4,
+   "iqrM": 0.2095,
+   "slopeTermMPerDeg": null,
+   "evidence": "plugin",
+   "byScale": {
+    "0.65": {
+     "p25": 0.0941,
+     "p50": 0.1071,
+     "p75": 0.1277,
+     "n": 14,
+     "iqrM": 0.0336
+    },
+    "1.11": {
+     "p25": 0.1324,
+     "p50": 0.1786,
+     "p75": 0.2048,
+     "n": 4,
+     "iqrM": 0.0723
+    }
+   },
+   "byScaleRefsDropped": 7,
+   "refsDroppedStaticSupported": 16,
+   "refsDroppedPluginUnsupported": 2,
+   "baseObject": [
+    "vanilla:clutter/civilwar/civilwarbanner01.nif"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "refsDroppedNonUnitScale": 25
+  },
+  "vanilla:furniture/smeltermarker": {
+   "p25": -0.0249,
+   "p50": -0.0078,
+   "p75": 0.0006,
+   "n": 25,
+   "iqrM": 0.0255,
+   "slopeTermMPerDeg": -0.00545,
+   "evidence": "plugin",
+   "refsDroppedPluginUnsupported": 6,
+   "baseObject": [
+    "bmv:furniture/smeltermarker.nif",
+    "htbm:furniture/smeltermarker.nif",
+    "kotm:furniture/smeltermarker.nif",
+    "vanilla:furniture/smeltermarker.nif"
+   ],
+   "plugins": [
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "Skyrim.esm",
+    "Valenwood.esp"
+   ],
+   "refsNoLand": 1
+  },
+  "kotm:oaristys/forge/coalpile": {
+   "refsDroppedStaticSupported": 1,
+   "baseObject": [
+    "kotm:oaristys/forge/coalpile.nif"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "refsDroppedNonUnitScale": 3,
+   "p25": -0.0,
+   "p50": -0.0,
+   "p75": -0.0,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
+   "fallback": true
+  },
+  "kotm:oaristys/forge/orebucket_iron": {
+   "waterline": {
+    "p25": -4.651,
+    "p50": -0.9931,
+    "p75": -0.3316,
+    "n": 3,
+    "iqrM": 4.3194,
+    "definingFileOnly": true
+   },
+   "refsDroppedStaticSupported": 1,
+   "refsDroppedPluginUnsupported": 1,
+   "baseObject": [
+    "kotm:oaristys/forge/orebucket_iron.nif"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "p25": -0.0,
+   "p50": -0.0,
+   "p75": -0.0,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
+   "fallback": true
+  },
+  "kotm:oaristys/forge/orestack_iron": {
+   "p25": -0.0019,
+   "p50": -0.0019,
+   "p75": -0.0019,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0019
+   },
+   "fallback": true
+  },
+  "kotm:oaristys/forge/ingotsiron01": {
+   "p25": -0.0022,
+   "p50": -0.0022,
+   "p75": -0.0022,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0022
+   },
+   "fallback": true
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawning01": {
+   "byScale": {
+    "0.65": {
+     "p25": 0.9281,
+     "p50": 0.9326,
+     "p75": 1.2319,
+     "n": 3,
+     "iqrM": 0.3038
+    }
+   },
+   "baseObject": [
+    "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawning01.nif"
+   ],
+   "plugins": [
+    "Here There Be Monsters - Curse of Cipactli.esp"
+   ],
+   "refsDroppedNonUnitScale": 3,
+   "p25": -0.9105,
+   "p50": -0.9105,
+   "p75": -0.9105,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.9105
+   },
+   "fallback": true
   }
  }
 }

@@ -66,6 +66,7 @@ door); natural smuggling-quest hub between Stormhold, Thorn and the coast.
 - The All Flags Navy loss gives the town a **memorial and a grudge against the
   sea**, and a legitimate reason for old Yokudan/Colovian/Breton naval debris and
   heirlooms to be in Argonian hands here.
-- Its neighbour list makes it the **eastern anchor of the northern trunk route**
-  (Stormhold → Tenmar Wall → Alten Corimont → Riverwalk → Thorn), which matches
-  the road network the acceptance rules require.
+- Its neighbour list puts it on the **northern trunk route** (Stormhold → Tenmar
+  Wall → Alten Corimont → Thorn). Riverwalk (canon: E of Alten Corimont) sits on
+  our map 3.3 km to the east-north-east, beyond Thorn, on the sea cove at the
+  mouth of the pilgrim water; it is not a stop on this leg.

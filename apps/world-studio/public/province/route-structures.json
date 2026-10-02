@@ -16,7 +16,7 @@
       "riseM": -1.58,
       "spanM": 5.2,
       "wayId": "route.road.gideon-blackwood-road",
-      "why": "The Blackwood road crosses the flood ground between Gideon and the border. Water lies over that ground for half the year, in sheets tens of metres wide. The road is carried above it on deck."
+      "why": "The Blackwood road crosses the flood ground between Gideon and the border. Where it climbs off that ground onto the banks that stay dry, the rise is too steep to walk, so the road goes up it on built steps."
     },
     {
       "family": "stone-civic",
@@ -32,7 +32,7 @@
       "riseM": -1.33,
       "spanM": 3.7,
       "wayId": "route.road.gideon-blackwood-road",
-      "why": "The Blackwood road crosses the flood ground between Gideon and the border. Water lies over that ground for half the year, in sheets tens of metres wide. The road is carried above it on deck."
+      "why": "The Blackwood road crosses the flood ground between Gideon and the border. Where it climbs off that ground onto the banks that stay dry, the rise is too steep to walk, so the road goes up it on built steps."
     },
     {
       "family": "stone-civic",
@@ -48,7 +48,7 @@
       "riseM": -1.2,
       "spanM": 2.6,
       "wayId": "route.road.gideon-blackwood-road",
-      "why": "The Blackwood road crosses the flood ground between Gideon and the border. Water lies over that ground for half the year, in sheets tens of metres wide. The road is carried above it on deck."
+      "why": "The Blackwood road crosses the flood ground between Gideon and the border. Where it climbs off that ground onto the banks that stay dry, the rise is too steep to walk, so the road goes up it on built steps."
     },
     {
       "family": "stone-civic",
@@ -64,7 +64,7 @@
       "riseM": -1.34,
       "spanM": 11.0,
       "wayId": "route.road.gideon-soulrest",
-      "why": "Two channels cross the road between Gideon and Soulrest. Each is about a metre deep and some tens of metres wide. The road is carried over both."
+      "why": "Between Gideon and Soulrest the road drops into two channel beds and climbs out again. The channel banks are too steep to walk, so the road takes them on built steps instead of cutting them back."
     },
     {
       "family": "stone-civic",
@@ -80,7 +80,7 @@
       "riseM": 1.31,
       "spanM": 2.6,
       "wayId": "route.road.gideon-soulrest",
-      "why": "Two channels cross the road between Gideon and Soulrest. Each is about a metre deep and some tens of metres wide. The road is carried over both."
+      "why": "Between Gideon and Soulrest the road drops into two channel beds and climbs out again. The channel banks are too steep to walk, so the road takes them on built steps instead of cutting them back."
     },
     {
       "family": "stone-civic",
@@ -96,7 +96,7 @@
       "riseM": -1.74,
       "spanM": 1.8,
       "wayId": "route.road.gideon-stormhold",
-      "why": "The Gideon road to Stormhold runs level the whole way. It meets water instead of rock. Channels stand across it at intervals, a metre or so deep and far wider than that. The road goes over them on deck."
+      "why": "The Gideon road to Stormhold runs level almost the whole way. In one place it climbs a channel bank too steep to walk; there it goes up on built steps."
     },
     {
       "family": "stone-civic",
@@ -112,7 +112,7 @@
       "riseM": -2.13,
       "spanM": 23.8,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -128,7 +128,7 @@
       "riseM": 7.61,
       "spanM": 9.1,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -144,7 +144,7 @@
       "riseM": 1.34,
       "spanM": 17.2,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -164,7 +164,7 @@
       "riseM": -8.3,
       "spanM": 29.4,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -180,7 +180,7 @@
       "riseM": -4.7,
       "spanM": 11.0,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -200,7 +200,7 @@
       "riseM": -8.92,
       "spanM": 58.4,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -216,7 +216,7 @@
       "riseM": -2.14,
       "spanM": 7.3,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -232,7 +232,7 @@
       "riseM": 1.94,
       "spanM": 5.5,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -248,7 +248,7 @@
       "riseM": 1.4,
       "spanM": 22.1,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -264,7 +264,7 @@
       "riseM": 1.44,
       "spanM": 5.2,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -280,7 +280,7 @@
       "riseM": 1.64,
       "spanM": 5.2,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -304,7 +304,7 @@
       "riseM": 9.6,
       "spanM": 61.3,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -320,7 +320,7 @@
       "riseM": 4.08,
       "spanM": 12.9,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -336,7 +336,7 @@
       "riseM": 1.68,
       "spanM": 5.2,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -352,7 +352,7 @@
       "riseM": 1.21,
       "spanM": 2.6,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -368,7 +368,7 @@
       "riseM": -1.21,
       "spanM": 2.6,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -384,7 +384,7 @@
       "riseM": -1.68,
       "spanM": 5.2,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -400,7 +400,7 @@
       "riseM": 1.28,
       "spanM": 1.8,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -416,7 +416,7 @@
       "riseM": -4.08,
       "spanM": 12.9,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -440,7 +440,7 @@
       "riseM": -9.6,
       "spanM": 61.3,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -456,7 +456,7 @@
       "riseM": -1.64,
       "spanM": 5.2,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -472,7 +472,7 @@
       "riseM": -9.05,
       "spanM": 1.8,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -488,7 +488,7 @@
       "riseM": 8.05,
       "spanM": 1.8,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",
@@ -504,7 +504,7 @@
       "riseM": 2.19,
       "spanM": 1.8,
       "wayId": "route.road.stormhold-thorn",
-      "why": "The Stormhold road to Thorn runs the length of the reed flats. The flats hold water the whole way. The road is spanned wherever that water stands deep enough to stop a cart."
+      "why": "The Stormhold road to Thorn runs the length of the reed flats and climbs off them onto the banks that stay dry. Where a bank is too steep to walk, the road goes up it on built steps; cutting the bank back would open it to the flats' water."
     },
     {
       "family": "stone-civic",

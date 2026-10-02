@@ -385,6 +385,169 @@ def unmined_wall_mount(cat, child: Piece, parent: Piece, approval: str) -> dict:
     return {"pair": prov}
 
 
+def _like_parent_mesh(cat, asset: str):
+    """The mined pair's parent mesh: the kit's, else the mount miner's own
+    triangle cache of the plugin static (`mine_mounts.MESH_CACHE`, metres,
+    z up, the NIF's frame)."""
+    try:
+        return cat.mesh(asset)
+    except Exception:  # noqa: BLE001 - not kitted: the miner's cache
+        import trimesh
+        cache = paths.REPO_ROOT / "tooling" / "world-generation" / "output" / "mesh-cache"
+        row = json.loads((cache / "index.json").read_text()).get(asset)
+        if not row:
+            raise ValueError(f"mount --like: {asset} is neither kitted nor in the mount miner's "
+                             f"mesh cache ({cache}); mine it with --assets ... --merge")
+        z = np.load(cache / row["npz"])
+        return trimesh.Trimesh(z["vertices"], z["faces"], process=False)
+
+
+def _wall_normal(mesh, point) -> tuple[np.ndarray, float]:
+    """(horizontal unit normal out of the mesh's nearest face toward
+    `point`, the horizontal distance to it)."""
+    from trimesh.proximity import closest_point
+    near, _d, tri = closest_point(mesh, np.array([point]))
+    d = np.asarray(point[:2]) - near[0][:2]
+    n = float(np.linalg.norm(d))
+    if n < 1e-6:
+        fn = mesh.face_normals[int(tri[0])][:2]
+        return fn / max(float(np.linalg.norm(fn)), 1e-9), 0.0
+    return d / n, n
+
+
+TWIN_TOL_M = 0.01
+"""R99: a re-textured NIF is its vanilla twin's geometry when its bounds and
+its hook (the centre of its top 10 % of height) match within this."""
+HOOK_BAND_M = 0.25
+"""R99 amended: `--hook-only` judges the top band that carries a hanging
+sign (its beam, rings and hooks); the board below hangs free."""
+
+
+def _twin_mesh(cat, twin: str):
+    """The twin's mesh: the kit's, else the mount miner's dump of the
+    vanilla NIF (`plugin-static:<path>.nif`)."""
+    try:
+        return cat.mesh(twin)
+    except Exception:  # noqa: BLE001 - not kitted
+        return _like_parent_mesh(cat, "plugin-static:" + twin.split(":", 1)[1] + ".nif")
+
+
+def twin_refusal(cat, child_asset: str, twin: str, hook_only: bool = False) -> str | None:
+    """Why `child_asset` is not `twin`'s geometric twin (R99), or None; with
+    `hook_only` only the top HOOK_BAND_M of each is compared."""
+    a = np.asarray(cat.mesh(child_asset).vertices)
+    b = np.asarray(_twin_mesh(cat, twin).vertices)
+    if hook_only:
+        a = a[a[:, 2] >= a[:, 2].max() - HOOK_BAND_M]
+        b = b[b[:, 2] >= b[:, 2].max() - HOOK_BAND_M]
+
+    def hook(v):
+        z = v[:, 2]
+        return v[z >= z.max() - 0.1 * (z.max() - z.min())].mean(0)
+    for what, x, y in (("bounds min", a.min(0), b.min(0)), ("bounds max", a.max(0), b.max(0)),
+                       ("hook", hook(a), hook(b))):
+        off = float(np.max(np.abs(x - y)))
+        if off > TWIN_TOL_M:
+            part = "hook band " if hook_only else ""
+            return f"{child_asset} is not {twin}'s twin: {part}{what} differ by {off:.3f} m (> {TWIN_TOL_M})"
+    return None
+
+
+HANG_GROUND_CLEAR_M = 0.1
+"""R99 amended: a free-hanging board under a borrowed hook clears the ground by this."""
+
+
+def like_wall_mount(cat, scene, child: Piece, parent: Piece, like: str,
+                    twin: str | None = None, hook_only: bool = False) -> dict:
+    """R97: hang a child on the WALL of a host it has no mined pair with,
+    by the mined wall pair it does have (`like` = that pair's parent asset):
+    the pair's distance off its wall plane, its height and its yaw relative
+    to the wall normal, all measured on the mined parent's mesh, applied to
+    the host's wall face nearest where the child is placed (the host's
+    actual mesh). The 0102 cap for unmined mounts is untouched: this needs a
+    mined pair."""
+    if twin:
+        why = twin_refusal(cat, child.asset, twin, hook_only)
+        if why:
+            raise ValueError(f"mount --twin: {why}")
+    pairs = mount_pairs(twin or child.asset, like)
+    if not pairs:
+        raise ValueError(f"mount --like: no mined pair hangs {twin or child.asset} on {like}")
+    pair = max(pairs, key=lambda q: q.get("n", 0))
+    if pair["kind"] == "band":
+        off, ryaw = list(pair["offsetM"]), float(pair["yawDeg"])
+    else:
+        pt = pair["points"][0]
+        off, ryaw = list(pt["offsetM"]), float(pt.get("yawDeg", 0.0))
+    lmesh = _like_parent_mesh(cat, like)
+    cverts = np.asarray(cat.mesh(child.asset).vertices) * child.scale
+    ck = (cverts.min(0) + cverts.max(0)) / 2.0                  # the child's centre, kit frame
+    c = yaw_matrix(ryaw) @ ck + np.array(off, dtype=float)     # in the mined parent's frame
+    ln, ld = _wall_normal(lmesh, c)                             # out of the wall through the centre
+    wall_bearing = math.degrees(math.atan2(ln[0], ln[1])) % 360.0
+    rel = (ryaw - wall_bearing) % 360.0
+    from . import pads
+    g = pads.ground_for(cat, scene, None)
+    base = float(g.chunk_height(child.x, child.z))
+    hmesh = cat.mesh(parent.asset).copy().apply_transform(_t4(parent))
+    probe = np.array([child.x, -child.z, base + float(c[2])])
+    hn, _hd = _wall_normal(hmesh, probe)
+    from trimesh.proximity import closest_point
+    q = closest_point(hmesh, np.array([probe]))[0][0]
+    child.yaw = (math.degrees(math.atan2(hn[0], hn[1])) + rel) % 360.0
+    v = yaw_matrix(child.yaw) @ ck
+    child.x = float(q[0] + ld * hn[0] - v[0])
+    child.z = float(-(q[1] + ld * hn[1] - v[1]))
+    child.y = base + float(off[2])
+    # the mined pair stands its child touching the wall (`ld` is the centre's
+    # clearance, ~0 for a bracket board): bisect along the host normal to the
+    # spot where it touches (gap and penetration both under 2 cm)
+    from . import measure
+    x0, z0 = child.x, child.z
+
+    def at(t):
+        child.x, child.z = x0 + float(hn[0]) * t, z0 - float(hn[1]) * t
+        c = measure.contact(cat, child, parent)
+        pen = c.get("penetrationM")
+        if pen is None:
+            pen = 1.0 if c.get("intersecting") else 0.0      # crossing, depth unmeasured
+        return float(pen), float(c.get("gapM") or 0.0)
+
+    lo, hi = -0.5, 1.5
+    for _ in range(14):
+        mid = (lo + hi) / 2.0
+        pen, gap = at(mid)
+        if pen > 0.02:
+            lo = mid
+        elif gap > 0.008:
+            hi = mid
+        else:
+            break
+    clear = None
+    if hook_only:
+        # the board hangs free under the borrowed hook: measure that it clears
+        # the wall and the ground (R99 amended)
+        c = measure.contact(cat, child, parent)
+        pen = c.get("penetrationM")
+        if c.get("intersecting") and (pen is None or pen > 0.02):
+            raise ValueError(f"mount --hook-only: {child.uid} passes into {parent.uid} "
+                             f"(penetration {pen})")
+        low = float(cat.mesh(child.asset).copy().apply_transform(_t4(child)).vertices[:, 2].min())
+        clear = round(low - float(g.chunk_height(child.x, child.z)), 3)
+        if clear < HANG_GROUND_CLEAR_M:
+            raise ValueError(f"mount --hook-only: {child.uid} hangs {clear} m over the ground "
+                             f"(< {HANG_GROUND_CLEAR_M})")
+    child.settledBy = f"mount:{parent.uid}"
+    prov = {"kind": "like", "like": like, "n": int(pair.get("n", 0)),
+            **({"evidence": f"twin{'-hook' if hook_only else ''}:{twin}"} if twin else {}),
+            **({"groundClearM": clear} if clear is not None else {}),
+            "offWallM": round(ld, 3), "heightM": round(float(off[2]), 3), "yawOffNormalDeg": round(rel, 1)}
+    child.role = {**child.role, "mountedOn": parent.uid, "mountPair": prov}
+    child.notes.append(f"wall mount on {parent.uid} like {like} (R97)"
+                       + (f", twin {twin} (R99)" if twin else ""))
+    return {"pair": prov}
+
+
 def unmined_mount(cat, child: Piece, parent: Piece, approval: str) -> dict:
     """Stand a small child on its parent's top where it is placed (plan
     position and yaw kept): the parent's highest surface straight under the

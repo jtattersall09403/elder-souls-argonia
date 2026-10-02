@@ -404,6 +404,17 @@ def test_an_asset_placement_row_overrides_the_mined_class_sink_and_waterline():
     assert validate_asset_placement(asset) == []
 
 
+def test_a_hanging_only_row_hangs_an_unplaced_piece_and_leaves_a_mined_one():
+    rows = _with_rows({_MUDHUT: {"placeUse": "hanging-only", "why": "lantern"}})
+    unplaced = apply_placement_metadata({"assets": [_asset()]}, "settlement-mud-v1",
+                                        rows, mined={}, anchors={})["assets"][0]
+    assert (unplaced["anchorClass"], unplaced["anchorClassEvidence"]) == ("hanging", "policy")
+    anchors = {_MUDHUT: {"anchorClass": "wall", "anchorClassEvidence": "plugin"}}
+    mined = apply_placement_metadata({"assets": [_asset()]}, "settlement-mud-v1",
+                                     rows, mined={}, anchors=anchors)["assets"][0]
+    assert mined["anchorClass"] == "wall"
+
+
 def test_a_row_without_a_class_leaves_the_mined_class():
     inventory = _with_rows({_MUDHUT: {"designedSinkM": 0.4, "why": "test"}})
     anchors = {_MUDHUT: {"anchorClass": "hanging", "anchorClassEvidence": "plugin"}}

@@ -8,7 +8,7 @@
  * (`mergeTransformedGeometry`, with the ground-line attribute) with the material
  * through `prepareSettlementMaterial`. Night adds the lanterns' fixture
  * lights through the scene's FixtureLightField (the same `fixtureFromPiece`
- * position, colour and radius, FIXTURE_CANDELA), lit by the renderer's
+ * position, colour and radius, candela), lit by the renderer's
  * fixture lighting (`installFixtureLighting`).
  *
  * `?lighting=field|tiled|plain` overrides the lighting mode and `?bench=N`
@@ -25,7 +25,7 @@ import {
   prepareSettlementMaterial,
 } from "@elder-souls/game-core/settlement/materials";
 import { mergeTransformedGeometry } from "@elder-souls/game-core/settlement/lod";
-import { FIXTURE_CANDELA, fixtureFromPiece } from "@elder-souls/game-core/settlement/lighting";
+import { fixtureFromPiece } from "@elder-souls/game-core/settlement/lighting";
 import {
   FIXTURE_LIGHTS_MAX,
   fixtureLightFieldOf,
@@ -183,7 +183,7 @@ export async function buildSettlementScene(ctx: HarnessContext, night: boolean):
   }
   const fixtures = night ? lanterns.map((m, i) => fixtureFromPiece(`lamp${i}`, meta.get(LANTERN), m, box)) : [];
   field.setLights(fixtures);
-  fixtures.forEach((f, i) => field.setIntensity(i, f.colour, FIXTURE_CANDELA));
+  fixtures.forEach((f, i) => field.setIntensity(i, f.colour, f.candela));
   field.commit();
 
   const camera = new THREE.PerspectiveCamera(55, width / height, 0.3, 500);

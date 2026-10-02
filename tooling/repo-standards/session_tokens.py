@@ -263,6 +263,12 @@ def main():
               f"{g['sleeps']} sleeps, {g['guard']} guard refusals "
               f"(baseline {BASELINE['cached']}M, {BASELINE['turns']} turns, {BASELINE['shell']}%). "
               f"Full report: python3 tooling/repo-standards/session_tokens.py")
+        from week_usage import week_share
+        w = week_share()
+        if w:
+            print(f"[weekly pace, decision 0118] this week {w[0]:.0f} of ~{w[1]:.0f} units ({100 * w[2]:.0f} % of the "
+                  f"weekly limit); above 85 % no new lane wave launches (agent_cap.py refuses it) unless its "
+                  f"Budget is under 30 min, and none before an unattended stretch.")
         return
 
     now = dt.datetime.now(dt.timezone.utc); w = dt.timedelta(days=a.days)

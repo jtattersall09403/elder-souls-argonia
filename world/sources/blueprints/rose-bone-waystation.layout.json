@@ -1,0 +1,688 @@
+{
+ "schemaVersion": 1,
+ "placeId": "place.imperial-penal-south.rose-bone-waystation",
+ "window": {
+  "centreKm": [
+   2.565,
+   6.56
+  ],
+  "halfM": 60.0
+ },
+ "ops": [
+  {
+   "op": "place",
+   "uid": "s-shelter",
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01",
+   "at": [
+    2560.0,
+    6565.0
+   ],
+   "yaw": 180.0,
+   "settle": true,
+   "pad": {
+    "apronM": 1.5,
+    "batter": true
+   }
+  },
+  {
+   "op": "bind",
+   "uid": "s-shelter",
+   "kind": "parcel",
+   "id": "parcel.rose-bone-waystation.handover-shelter"
+  },
+  {
+   "op": "place",
+   "uid": "b-keeper",
+   "asset": "composite:stilt/bamboohut02-with-door",
+   "at": [
+    2577.0,
+    6552.0
+   ],
+   "yaw": 290.0,
+   "settle": true,
+   "pad": {
+    "apronM": 2.0,
+    "batter": true,
+    "apronBySide": {
+     "s": 6.0,
+     "w": 3.0
+    }
+   }
+  },
+  {
+   "op": "bind",
+   "uid": "b-keeper",
+   "kind": "parcel",
+   "id": "parcel.rose-bone-waystation.keepers-house"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "handover-arrival-side",
+   "at": [
+    2558.0,
+    6564.6
+   ],
+   "yaw": 0.0,
+   "prefix": "s-",
+   "parcel": "parcel.rose-bone-waystation.handover-shelter"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "handover-departure-side",
+   "at": [
+    2561.7,
+    6565.4
+   ],
+   "yaw": 0.0,
+   "prefix": "s-",
+   "parcel": "parcel.rose-bone-waystation.handover-shelter"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "keepers-yard",
+   "at": [
+    2577.6,
+    6559.0
+   ],
+   "yaw": 0.0,
+   "prefix": "k-",
+   "parcel": "parcel.rose-bone-waystation.keepers-house"
+  },
+  {
+   "op": "bind",
+   "uid": "s-hp-basket3",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-hp-basket1",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-hp-basket2",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-hp-urn",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-hv-table",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-hv-flat1",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-hv-flat2",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-hv-urn1",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-hv-urn2",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-hv-basket",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "k-ty-table",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "k-ty-chair1",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "k-ty-chair2",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "k-ty-basket",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "k-ty-sack",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "k-ty-wicker",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "k-ty-urn",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "k-ty-wood",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "s-line1",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    2560.0,
+    6563.0
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "s-line2",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    2559.6,
+    6565.9
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "s-line3",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    2559.6,
+    6567.0
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "s-line1",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-line2",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-line3",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "s-chime1",
+   "asset": "histtree:skyfall/sleeping tree overhaul/windchimehavok",
+   "at": [
+    2558.0,
+    6564.9
+   ],
+   "yaw": 0.0
+  },
+  {
+   "op": "mount",
+   "child": "s-chime1",
+   "parent": "s-shelter",
+   "hang": true,
+   "unmined": "reader-approved r2",
+   "max_h": 4.0
+  },
+  {
+   "op": "place",
+   "uid": "s-chime2",
+   "asset": "histtree:skyfall/sleeping tree overhaul/windchimehavok",
+   "at": [
+    2557.6,
+    6566.2
+   ],
+   "yaw": 0.0
+  },
+  {
+   "op": "mount",
+   "child": "s-chime2",
+   "parent": "s-shelter",
+   "hang": true,
+   "unmined": "reader-approved r2",
+   "max_h": 4.0
+  },
+  {
+   "op": "bind",
+   "uid": "s-chime1",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "parent",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-chime2",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "parent",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "p-bench",
+   "asset": "vanilla:furniture/farm/farmbench01",
+   "at": [
+    2552.3,
+    6566.0
+   ],
+   "yaw": 30.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "p-brazier",
+   "asset": "vanilla:clutter/imperial/impbrazier01",
+   "at": [
+    2554.6,
+    6567.2
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "p-bench",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "p-brazier",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "k-candle",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    2573.4,
+    6553.6
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "k-totem",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+   "at": [
+    2571.2,
+    6555.6
+   ],
+   "yaw": 220.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "k-chimes",
+   "asset": "histtree:skyfall/sleeping tree overhaul/windchimehavok",
+   "at": [
+    2575.7,
+    6555.7
+   ],
+   "yaw": 220.0
+  },
+  {
+   "op": "mount",
+   "child": "k-chimes",
+   "parent": "b-keeper",
+   "hang": true,
+   "unmined": "reader-approved r2",
+   "max_h": 4.0
+  },
+  {
+   "op": "bind",
+   "uid": "k-candle",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.keepers-house",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "k-totem",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "k-chimes",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.keepers-house",
+   "layer": "clutter",
+   "on": "parent",
+   "evidence": "measured"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.rose-bone-waystation.the-villages-way",
+   "points": [
+    [
+     2580.0,
+     6566.5
+    ],
+    [
+     2571.5,
+     6563.2
+    ],
+    [
+     2566.0,
+     6563.0
+    ],
+    [
+     2561.8,
+     6563.3
+    ]
+   ],
+   "width": 2.0,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.rose-bone-waystation.the-keepers-path",
+   "points": [
+    [
+     2568.8,
+     6563.1
+    ],
+    [
+     2574.9,
+     6553.9
+    ]
+   ],
+   "width": 1.5,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.rose-bone-waystation.the-rose-way",
+   "points": [
+    [
+     2558.2,
+     6563.3
+    ],
+    [
+     2550.0,
+     6558.5
+    ],
+    [
+     2540.0,
+     6549.0
+    ],
+    [
+     2527.0,
+     6535.5
+    ]
+   ],
+   "width": 2.0,
+   "kind": "footpath"
+  },
+  {
+   "op": "socket",
+   "id": "socket.rose-bone-waystation.idle-keeper-tags",
+   "kind": "idle",
+   "host": "s-hp-basket1",
+   "activity": "tend",
+   "parcel": "parcel.rose-bone-waystation.handover-shelter",
+   "why": "The tag-keeper opens each basket from the Rose and hangs its tag on the chimes under the eave."
+  },
+  {
+   "op": "socket",
+   "id": "socket.rose-bone-waystation.idle-wrapper",
+   "kind": "idle",
+   "host": "s-hv-flat1",
+   "activity": "tend",
+   "parcel": "parcel.rose-bone-waystation.handover-shelter",
+   "why": "The villages' carrier ties off the wrapped bundles beside the bench, ready for the road home."
+  },
+  {
+   "op": "socket",
+   "id": "socket.rose-bone-waystation.idle-family-waits",
+   "kind": "idle",
+   "host": "p-bench",
+   "activity": "sit",
+   "parcel": "parcel.rose-bone-waystation.handover-shelter",
+   "why": "A family from the Rose waits on the bench by the brazier until the fee is paid."
+  },
+  {
+   "op": "socket",
+   "id": "socket.rose-bone-waystation.idle-keeper-counts",
+   "kind": "idle",
+   "host": "k-ty-table",
+   "activity": "work-at",
+   "parcel": "parcel.rose-bone-waystation.keepers-house",
+   "why": "The keeper counts out the carriage charge at the table by the door and writes it down."
+  },
+  {
+   "op": "socket",
+   "id": "socket.rose-bone-waystation.container-grave-goods",
+   "kind": "container",
+   "host": "s-hv-urn1",
+   "containerClass": "urn",
+   "fillRule": "authored",
+   "lootTable": {
+    "itemClasses": [
+     "misc-household"
+    ],
+    "valueBand": "moderate",
+    "storyNote": "The few things that travel home with the dead, sealed in the urn beside their bundle."
+   },
+   "parcel": "parcel.rose-bone-waystation.handover-shelter",
+   "why": "Grave goods wait in an urn by the wrapped bundles."
+  },
+  {
+   "op": "socket",
+   "id": "socket.rose-bone-waystation.idle-keeper-home",
+   "kind": "idle",
+   "activity": "sleep",
+   "parcel": "parcel.rose-bone-waystation.handover-shelter",
+   "why": "The tag-keeper sleeps under the shelter's thatch beside the dead who wait to travel.",
+   "at": [
+    2562.3,
+    6564.4
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.rose-bone-waystation.npc-tag-keeper",
+   "kind": "npc",
+   "at": [
+    2561.3,
+    6563.6
+   ],
+   "rosterSlotId": "tag-keeper",
+   "role": "the tag-keeper",
+   "parcel": "parcel.rose-bone-waystation.handover-shelter",
+   "why": "The Chainbreakers' tag-keeper receives the dead, pays the carriage charge and writes it down.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.rose-bone-waystation.idle-keeper-tags",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "afternoon",
+     "socketId": "socket.rose-bone-waystation.idle-keeper-counts",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.rose-bone-waystation.idle-keeper-home",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.rose-bone-waystation.prose-why-occupantsmotive",
+    "promise.rose-bone-waystation.occupant-tag-keeper"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.rose-bone-waystation.evidence-carriage-charges",
+   "kind": "marker",
+   "host": "k-ty-table",
+   "zone": "evidence",
+   "parcel": "parcel.rose-bone-waystation.keepers-house",
+   "why": "The ledger of carriage charges lies on the keeper's table by the door.",
+   "fills": [
+    "promise.rose-bone-waystation.evidence-tag-house-carriage-charges"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.rose-bone-waystation.scene-procession",
+   "kind": "marker",
+   "at": [
+    2560.0,
+    6562.4
+   ],
+   "zone": "scene",
+   "parcel": "parcel.rose-bone-waystation.handover-shelter",
+   "why": "The shelter front, where the procession from White Rose Prison stops and the bones change hands.",
+   "fills": [
+    "promise.rose-bone-waystation.provision-whiterose-prison-ruin"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.rose-bone-waystation.marker-keeper-door",
+   "kind": "marker",
+   "at": [
+    2574.4,
+    6554.3
+   ],
+   "zone": "entrance",
+   "parcel": "parcel.rose-bone-waystation.keepers-house",
+   "why": "The keeper's door, where the track from the villages ends."
+  },
+  {
+   "op": "note",
+   "uid": "s-shelter",
+   "text": "The Tag House: an open HTBM half pavilion on a levelled pad is the handover shelter, its front north onto two ways that end at its two front corners. The arrival half (west, toward the Rose) has closed baskets and chimes hung from the eave for the tags; the departure half (east, toward the villages) has the wicker bench, wrapped bundles and urns. Three candle stands run across the floor between the halves. The keeper's hut (HTBM bamboohut02, linked cell) stands east on the villages' side, chimes on its eave."
+  }
+ ]
+}

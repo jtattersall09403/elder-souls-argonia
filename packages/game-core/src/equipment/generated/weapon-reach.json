@@ -14,7 +14,7 @@
     "inputsSha256": "ac856a4f371d14d11b1b6c5817796096f487b52e7acf8e4ddb45a1a9d7743610",
     "animationManifestSha256": "5d353c1b6dbc6c5ac4d5553a379463f84928d811d893d19188375949bd142ccb",
     "assets": {
-      "races/dunmer-male.glb": "e4748eb1253ea1699b58a47fc51b1944bc35a5414b2db6e8f4dd715ecf5f8ac4",
+      "races/dunmer-male.glb": "ffaebb940e4ec432aafb95b1c7c8c4ce45f6b4c7953be14adcdfbb7095edd593",
       "weapons/iron-dagger.glb": "d405a720f11bf7217ca7157ccc32b67ba8cbc94ba0f4b932cd4c1c54bfac6449",
       "rig-skyrim-humanoid.oneHanded.glb": "e9e401be7d8e63aa8170ac89315b73bd3c3580e0b364eb3cf66131ede094b450",
       "rig-skyrim-humanoid.criticals.glb": "a95ddf321bbbce8a22b1a93996d86f2dce9886c6f1a92ea45b6a7f6392efd8eb",
@@ -625,7 +625,7 @@
             0.595881,
             1.112494
           ],
-          "range": 1.824927,
+          "range": 1.824926,
           "stationaryRange": 1.666832,
           "atSeconds": 0.720868,
           "sourceTime": 0.720868
@@ -4255,7 +4255,7 @@
             0.653209,
             1.145483
           ],
-          "range": 2.151857,
+          "range": 2.151856,
           "stationaryRange": 2.329494,
           "atSeconds": 1.018606,
           "sourceTime": 1.140839

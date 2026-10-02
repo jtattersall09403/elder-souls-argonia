@@ -37,6 +37,10 @@ export interface QualitySettings {
    * only `high` buys a little beyond it.
    */
   readonly dprMax: number;
+  /** Shadow cascade map edge in pixels (character view has one cascade over
+   * 120 m). 2048 is ~6 cm a texel; 4096 is ~3 cm and costs 48 MB more GPU
+   * memory (depth 32-bit) and ~4x the shadow fill on the frames it updates. */
+  readonly shadowMapSize: number;
 }
 
 export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> = {
@@ -49,6 +53,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     groundcoverFarRadiusM: 110,
     groundcoverMaxInstances: 30_000,
     dprMax: 1,
+    shadowMapSize: 2048,
   },
   medium: {
     name: "medium",
@@ -59,6 +64,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     groundcoverFarRadiusM: 145,
     groundcoverMaxInstances: 45_000,
     dprMax: 1,
+    shadowMapSize: 2048,
   },
   high: {
     name: "high",
@@ -69,6 +75,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     groundcoverFarRadiusM: 165,
     groundcoverMaxInstances: 60_000,
     dprMax: 1.25,
+    shadowMapSize: 4096,
   },
 };
 

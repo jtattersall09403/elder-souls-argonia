@@ -440,9 +440,13 @@ KIT_SETS = {
     "argonian-root":      {"culture": "argonian", "cultureGroup": "argonian", "kits": ["settlement-root-v1", "dungeon-root-v1"]},
     "argonian-stone":     {"culture": "argonian", "kits": ["ruin-monumental-v1", "xanmeer-interior-v1"]},
     "imperial":           {"culture": "imperial", "kits": ["settlement-imperial-v1", "imperial-keep", "vanilla-farmhouse-int", "vanilla-imperial-int", "enclosure-v1"]},
+    # the Legion camp set (type 4 camps, 16k walk 9): Skyrim's own military-camp
+    # tents and colours with the enclosure kit's stakes and barricades
+    "imperial-camp":      {"culture": "imperial", "kits": ["camp-v1", "enclosure-v1"]},
     "dunmer-hlaalu":      {"culture": "dunmer",   "kits": ["hlaalu-domestic", "vanilla-imperial-int", "enclosure-v1"]},
     "neutral-works":      {"culture": "neutral",  "kits": ["works-v1", "enclosure-v1"]},
     "neutral-underwater": {"culture": "neutral",  "kits": ["underwater-v1"]},
+    "neutral-route":      {"culture": "neutral",  "kits": ["route-dressing-v1"]},
 }
 # 97 C1, decision 2026-09-07: kit purity is held over what a place is BUILT of.
 # The dressing pool — the works kit's props, which are vanilla clutter and
@@ -461,7 +465,11 @@ KIT_SETS = {
 # and root are one Argonian group; the monumental stone set has none). It no
 # longer pools interior cells: a shell opens only onto cells its own plugin
 # links (decision 0114).
-DRESSING_KITS = ("works-v1",)
+# `route-dressing-v1` (16k walk 9, type 10) is the road furniture pool (verge
+# rocks, cairns, the cold fire ring): vanilla and neutral, so it is dressing
+# for every set, and the neutral layer puts it ahead of flora-province-v1's
+# one-level copies of the same rocks in `place_kit_preference`.
+DRESSING_KITS = ("works-v1", "route-dressing-v1")
 CULTURE_KITS = set(KIT_SETS)
 
 
@@ -1218,6 +1226,16 @@ def _nearest_way(bp: dict, point_uv):
     return best
 
 
+def off_network(bp: dict) -> bool:
+    """No way of any kind and no network terminal, and the first approach
+    comes across country (`fromDirection`, no `fromRouteId`, a `viaUV`): the
+    blueprint twin of `workbench.rules.off_network`."""
+    if any(bp.get(k) for k in WAY_KEYS) or bp.get("networkTerminals"):
+        return False
+    first = (bp.get("approaches") or [{}])[0]
+    return bool(first.get("fromDirection") and not first.get("fromRouteId") and first.get("viaUV"))
+
+
 def _door_way_failures(bp: dict) -> list[str]:
     """The orientation contract, read off the geometry: a door's derived entrance
     must look at the way it opens onto, and its threshold must stand at that way.
@@ -1228,7 +1246,10 @@ def _door_way_failures(bp: dict) -> list[str]:
     out: list[str] = []
     bid = bp.get("id", "<missing id>")
     lib = bi.library()
-    if not lib:
+    if not lib or off_network(bp):
+        # an off-network place (a lair reached across country) has no way for
+        # its door to give onto; the workbench's walkRule walks it from its
+        # approach instead (`workbench.rules.off_network`, 16k walk 9)
         return out
     parcels = {p.get("id"): p for p in bp.get("parcels", []) or []}
     for d in bp.get("doors", []) or []:
@@ -1435,8 +1456,22 @@ def _front_failures(bp: dict) -> tuple[list[str], list[str]]:
     return hard, warn
 
 
+#: The home table of route places (16k type 10): a stretch of road built as
+#: one place has no catalogue record; its row here is its record.
+ROUTE_PLACES = REPO_ROOT / "world" / "sources" / "routes" / "route-structure-exemplars.json"
+
+
+def route_place_records(path: Path = ROUTE_PLACES) -> dict[str, dict]:
+    """{place id: record} of the route places (type 10)."""
+    if not path.exists():
+        return {}
+    return {p["id"]: p for p in json.loads(path.read_text(encoding="utf-8")).get("places", [])}
+
+
 def catalogue_ids() -> set[str]:
-    return {p["id"] for rf in load_region_files(CATALOGUE_DIR) for p in rf.places if "id" in p}
+    """Every id a blueprint may detail: the catalogue's places and the route places."""
+    return ({p["id"] for rf in load_region_files(CATALOGUE_DIR) for p in rf.places if "id" in p}
+            | set(route_place_records()))
 
 
 #: A fixture yard's site record: `<SITES_DIR>/<slug>.json` for `place.fixture.<slug>`.
@@ -1748,8 +1783,8 @@ ASSEMBLY_KEYS = frozenset({"id", "asset", "atM", "upM", "yaw", "pitch", "on", "l
 #: workbench export's `mount_pair`): the mined band or points pair it hangs
 #: by (`n`), the mined yard set it came from (`yardSet`), or an unmined
 #: mount and the render round that approved it (`unmined`).
-MOUNT_PAIR_KINDS = {"band": "n", "points": "n", "mined": "yardSet", "unmined": "unmined"}
-MOUNT_PAIR_KEYS = frozenset({"kind", "mountedOn", "n", "yardSet", "unmined"})
+MOUNT_PAIR_KINDS = {"band": "n", "points": "n", "mined": "yardSet", "unmined": "unmined", "like": "like"}
+MOUNT_PAIR_KEYS = frozenset({"kind", "mountedOn", "n", "yardSet", "unmined", "like", "evidence"})
 UNMINED_APPROVAL = re.compile(r"^reader-approved r[0-9]+$")
 ASSEMBLY_ID = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 
@@ -1887,6 +1922,9 @@ def mount_pair_failures(pair) -> list[str]:
     if kind == "unmined":
         if not (isinstance(pair.get("unmined"), str) and UNMINED_APPROVAL.match(pair["unmined"])):
             out.append("unmined must name its approving render round ('reader-approved rN')")
+    elif kind == "like":
+        if not (isinstance(pair.get("like"), str) and pair["like"]):
+            out.append("a like mount names the mined pair's parent asset it borrows (R97)")
     elif kind == "mined":
         if not (isinstance(pair.get("yardSet"), str) and pair["yardSet"]):
             out.append("a mined yard-set mount names its yardSet")
@@ -2270,6 +2308,11 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
     # checked by `blueprint_integration.check_network_stitch`.
     terminals = bp.get("networkTerminals") or []
     way_ids = {w.get("id") for key in ("routes", "boardwalks", "canals") for w in bp.get(key, []) or []}
+    # a route place (type 10) is a stretch of its province way, so the way its
+    # terminals continue onto is that way itself, never an inner street
+    own_way = (route_place_records().get(bid) or {}).get("wayId")
+    if own_way:
+        way_ids.add(own_way)
     known_routes = pn.route_ids()
     terminal_routes = set()
     for t in terminals:
@@ -2624,8 +2667,14 @@ def validate_all(blueprint_dir: Path = BLUEPRINT_DIR, known_place_ids: set[str] 
     # signature + the known ids; the caller gets a fresh list either way, and
     # the warnings path is recorded alongside so `--check` prints the same
     # report it always did.
+    # The key also names the collaborators validation reads beyond the dir
+    # (the interior library, the catalogue and kit look-ups): a stubbed one
+    # (tests monkeypatch them) is never served the real result, and never
+    # leaves its own result behind for the real one.
     key = (str(blueprint_dir), _dir_signature(blueprint_dir),
-           None if known_place_ids is None else frozenset(known_place_ids))
+           None if known_place_ids is None else frozenset(known_place_ids),
+           tuple(id(f) for f in (bi.library, catalogue_records,
+                                 kit_config_names, built_kit_names)))
     hit = _VALIDATE_ALL_CACHE.get(key)
     if hit is not None:
         cached_errors, cached_warnings = hit

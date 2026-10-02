@@ -63,11 +63,11 @@
         "maxUniqueMaterials": 180
       },
       "causalModel": {
-        "founding": "The northern trunk's mid-point: a village strung along a channel because the channel is the street.",
-        "occupantsMotive": "It lives on the ferry, the toll and feeding boat crews.",
-        "pressures": "Alten Corimont's captain and Thorn's field-owners both think the toll should be theirs.",
-        "siteAdvantages": "A day's run from either end of the trunk boat lane, which passes close enough to hail.",
-        "wouldChangeIf": "Would be bypassed if a deeper channel opened south."
+        "founding": "A halt in a sheltered sea cove at the mouth of the pilgrim water, the channel up to Hissmir. Boats off the Padomaic run put in here. The houses stand along the plank walk, which serves as the village street.",
+        "occupantsMotive": "It lives on the ferry stage and the toll on boats entering the pilgrim water. It also feeds and lodges the crews.",
+        "pressures": "Thorn's field-owners and the stewards of Hissmir both say the toll on the pilgrim water is theirs.",
+        "siteAdvantages": "The only sheltered water on this stretch of coast, under a kilometre from Thorn by the Tear road. Canoes leave the same stage for Hissmir and Murkwater.",
+        "wouldChangeIf": "Would be bypassed if the cove silted up. The villagers sound the way across the cove to the ferry stage every morning."
       },
       "clearance": {
         "hardClear": [],
@@ -5595,7 +5595,7 @@
       "id": "place.hist-heartland.greenspring",
       "landmarks": [
         {
-          "assetRef": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree",
+          "assetRef": "histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick",
           "id": "landmark.greenspring.the-hist",
           "kind": "hist-tree",
           "notes": "The village's tribal Hist, ailing (MR01); hist-placement R2 tribal, R3 state sick.",
@@ -6718,6 +6718,18 @@
             1852.0
           ],
           "questId": null
+        },
+        {
+          "id": "socket.greenspring.sick-root",
+          "kind": "evidence",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            4742.0,
+            1870.5
+          ],
+          "questId": null
         }
       ],
       "scaleGrounding": {
@@ -6765,7 +6777,7 @@
         "landmarks": 1,
         "networkTerminals": 2,
         "parcels": 8,
-        "questSockets": 3,
+        "questSockets": 4,
         "sitingCandidates": 2,
         "ways": 10
       },
@@ -7294,6 +7306,857 @@
           ],
           "waterOk": null,
           "why": "The way from the track's end down through the common to the footpath on the bank.",
+          "widthM": 2.5
+        }
+      ]
+    },
+    {
+      "approaches": [
+        {
+          "firstSeen": "parcel.bog-iron-workings.the-bloomery",
+          "fromDirection": null,
+          "fromRouteId": "track.road.glenbridge-the-road-nisswo-house",
+          "id": "approach.bog-iron-workings.from-the-seep-track",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "Leaving the track on the seep's west shore, the way climbs north beside the water; the furnace shows first at the top of the rise, then the hut beyond it.",
+          "wayfinding": "One way runs north from the track along the shore and up the bench; it passes the furnace floor and ends at the hut door."
+        }
+      ],
+      "assetConstraints": [],
+      "boundary": [
+        [
+          1972.0,
+          2505.0
+        ],
+        [
+          2022.0,
+          2505.0
+        ],
+        [
+          2022.0,
+          2612.0
+        ],
+        [
+          2000.0,
+          2612.0
+        ],
+        [
+          2000.0,
+          2553.0
+        ],
+        [
+          1972.0,
+          2553.0
+        ]
+      ],
+      "budget": {
+        "maxColliders": 60,
+        "maxInstances": 80,
+        "maxTextureMB": 32,
+        "maxUniqueMaterials": 80
+      },
+      "causalModel": {
+        "founding": "Bog iron forms itself in this ground. A road that eats iron will pay for it.",
+        "occupantsMotive": "The diggers come from three villages for one season a year. They consider the work shameful.",
+        "pressures": "The seep is being worked out; each season's cakes are smaller and further from the path.",
+        "siteAdvantages": "A stagnant iron-rich seep where the ore can be lifted from the mud in cakes.",
+        "wouldChangeIf": "Would be abandoned without ceremony."
+      },
+      "clearance": {
+        "hardClear": [],
+        "kept": [],
+        "thinned": []
+      },
+      "combatSpaces": [
+        {
+          "clearanceClass": "open",
+          "id": "combat.bog-iron-workings.the-furnace-floor",
+          "notes": null,
+          "polygon": [
+            [
+              2008.283,
+              2533.888
+            ],
+            [
+              2007.148,
+              2534.399
+            ],
+            [
+              2006.405,
+              2534.936
+            ],
+            [
+              2005.865,
+              2535.458
+            ],
+            [
+              2004.878,
+              2536.446
+            ],
+            [
+              2002.664,
+              2540.548
+            ],
+            [
+              2002.407,
+              2541.523
+            ],
+            [
+              2002.21,
+              2542.684
+            ],
+            [
+              2002.21,
+              2544.328
+            ],
+            [
+              2003.045,
+              2545.951
+            ],
+            [
+              2004.075,
+              2547.161
+            ],
+            [
+              2006.89,
+              2548.642
+            ],
+            [
+              2010.277,
+              2548.094
+            ],
+            [
+              2012.501,
+              2547.329
+            ],
+            [
+              2013.602,
+              2545.707
+            ],
+            [
+              2014.103,
+              2544.675
+            ],
+            [
+              2015.162,
+              2539.9
+            ],
+            [
+              2015.199,
+              2539.017
+            ],
+            [
+              2015.103,
+              2538.089
+            ],
+            [
+              2014.852,
+              2537.213
+            ],
+            [
+              2014.295,
+              2536.154
+            ],
+            [
+              2013.586,
+              2535.242
+            ],
+            [
+              2012.933,
+              2534.771
+            ],
+            [
+              2012.213,
+              2534.257
+            ],
+            [
+              2010.624,
+              2533.74
+            ],
+            [
+              2009.558,
+              2533.74
+            ]
+          ],
+          "why": "The levelled furnace floor, the one open footing between the hut and the bank."
+        }
+      ],
+      "contextM": {
+        "x0": 383.5,
+        "x1": 3610.5,
+        "z0": 945.0,
+        "z1": 4172.0
+      },
+      "districts": [
+        {
+          "centreM": [
+            1996.376,
+            2552.562
+          ],
+          "cultureKit": "argonian",
+          "id": "district.bog-iron-workings.the-bench",
+          "kind": "works",
+          "notes": "One mud hut and a furnace floor on the level bench above the seep's north end.",
+          "polygon": [
+            [
+              1986.818,
+              2527.529
+            ],
+            [
+              1985.226,
+              2527.847
+            ],
+            [
+              1981.857,
+              2529.763
+            ],
+            [
+              1980.431,
+              2531.081
+            ],
+            [
+              1979.017,
+              2532.597
+            ],
+            [
+              1977.208,
+              2535.453
+            ],
+            [
+              1977.157,
+              2537.572
+            ],
+            [
+              1977.399,
+              2540.799
+            ],
+            [
+              1981.535,
+              2553.0
+            ],
+            [
+              2000.0,
+              2553.0
+            ],
+            [
+              2000.0,
+              2607.47
+            ],
+            [
+              2001.332,
+              2611.4
+            ],
+            [
+              2016.857,
+              2611.4
+            ],
+            [
+              2022.0,
+              2606.257
+            ],
+            [
+              2022.0,
+              2595.375
+            ],
+            [
+              2019.283,
+              2548.597
+            ],
+            [
+              2017.823,
+              2538.486
+            ],
+            [
+              2012.837,
+              2531.364
+            ],
+            [
+              2004.691,
+              2529.86
+            ],
+            [
+              1991.354,
+              2527.64
+            ],
+            [
+              1989.073,
+              2527.302
+            ]
+          ],
+          "wealth": "poor",
+          "why": {
+            "microGeography": "A firm bench, level to within a degree, falling east to a steep bank and the seep.",
+            "playerPurpose": "A place to take bog iron. The way down leads to the seep where LF67 starts.",
+            "what": "The bench above the seep: the diggers' hut, the furnace floor and the way down from the road.",
+            "whyHere": "The seep's ore is carried up to the first level ground, where a furnace can stand dry.",
+            "whyNeighbours": "The keeper's lodge of the lower Onkobra is 95 m west; the porter yard at Red Cart is 200 m north-west."
+          }
+        }
+      ],
+      "docks": [],
+      "doors": [
+        {
+          "facingDeg": 110.2,
+          "id": "door.imperial-fringe.bog-iron-workings.1",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": null,
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.bog-iron-workings.diggers-hut",
+          "thresholdM": [
+            1994.963,
+            2539.198
+          ]
+        }
+      ],
+      "id": "place.imperial-fringe.bog-iron-workings",
+      "landmarks": [],
+      "networkTerminals": [
+        {
+          "id": "terminal.bog-iron-workings.seep-track",
+          "kind": "footpath",
+          "positionM": [
+            2004.2,
+            2607.4
+          ],
+          "routeId": "track.road.glenbridge-the-road-nisswo-house",
+          "wayId": "route.bog-iron-workings.the-way",
+          "why": "The way leaves the track along the seep's west shore and climbs north up the bench to the furnace floor and the hut."
+        }
+      ],
+      "parcels": [
+        {
+          "assetRef": "composite:mud/kotm-house-pod",
+          "buildingFamily": "kotm-mud-pod",
+          "centreM": [
+            1989.0,
+            2537.0
+          ],
+          "districtId": "district.bog-iron-workings.the-bench",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": 110.2,
+            "interiorRef": "interior-kotm-v1",
+            "kind": "esp-door",
+            "worldM": [
+              1994.963,
+              2539.198
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.bog-iron-workings.diggers-hut",
+          "interior": {
+            "kind": "dwelling"
+          },
+          "notes": null,
+          "orientationWhy": "Its door turns east-south-east toward the furnace floor and the way from the road.",
+          "polygon": [
+            [
+              1985.621,
+              2544.43
+            ],
+            [
+              1984.319,
+              2543.918
+            ],
+            [
+              1982.875,
+              2543.161
+            ],
+            [
+              1982.327,
+              2542.615
+            ],
+            [
+              1981.35,
+              2539.995
+            ],
+            [
+              1981.161,
+              2537.47
+            ],
+            [
+              1981.18,
+              2536.657
+            ],
+            [
+              1982.196,
+              2535.053
+            ],
+            [
+              1983.255,
+              2533.918
+            ],
+            [
+              1984.235,
+              2533.012
+            ],
+            [
+              1986.642,
+              2531.643
+            ],
+            [
+              1987.411,
+              2531.489
+            ],
+            [
+              1988.978,
+              2531.332
+            ],
+            [
+              1990.732,
+              2531.592
+            ],
+            [
+              1991.689,
+              2531.949
+            ],
+            [
+              1993.289,
+              2533.27
+            ],
+            [
+              1993.821,
+              2533.894
+            ],
+            [
+              1994.405,
+              2534.949
+            ],
+            [
+              1995.954,
+              2538.192
+            ],
+            [
+              1995.963,
+              2538.582
+            ],
+            [
+              1995.885,
+              2539.189
+            ],
+            [
+              1995.622,
+              2539.9
+            ],
+            [
+              1995.287,
+              2540.463
+            ],
+            [
+              1995.027,
+              2540.725
+            ],
+            [
+              1993.227,
+              2542.315
+            ],
+            [
+              1991.417,
+              2543.76
+            ],
+            [
+              1990.593,
+              2544.127
+            ],
+            [
+              1988.586,
+              2544.528
+            ],
+            [
+              1986.887,
+              2544.586
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "A mud pod on a levelled pad on the bench.",
+            "playerPurpose": "A shut room with beds where the crew keeps its stores.",
+            "what": "The diggers' hut, a mud pod where the season's crew sleeps.",
+            "whyHere": "The diggers come for one season and need a roof near the furnace.",
+            "whyNeighbours": "The furnace floor is 15 m east; the way from the seep track ends at its door.",
+            "whySpot": "The flattest part of the bench, west of the furnace floor and clear of the road."
+          },
+          "yawDeg": 282.0
+        },
+        {
+          "assetRef": "vanilla:furniture/smeltermarker",
+          "buildingFamily": "vanilla-smelter",
+          "centreM": [
+            2008.0,
+            2541.0
+          ],
+          "districtId": "district.bog-iron-workings.the-bench",
+          "entrance": null,
+          "front": {
+            "deg": 226.5,
+            "evidence": "asymmetry",
+            "outside": true,
+            "worldDeg": 316.5
+          },
+          "groundFit": null,
+          "id": "parcel.bog-iron-workings.the-bloomery",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The furnace mouth and its charcoal bed face west-south-west, toward the hut and the path in from the way.",
+          "polygon": [
+            [
+              2009.79,
+              2537.74
+            ],
+            [
+              2009.99,
+              2537.74
+            ],
+            [
+              2010.39,
+              2537.87
+            ],
+            [
+              2010.6,
+              2538.02
+            ],
+            [
+              2010.78,
+              2538.15
+            ],
+            [
+              2010.92,
+              2538.33
+            ],
+            [
+              2011.12,
+              2538.71
+            ],
+            [
+              2011.16,
+              2538.85
+            ],
+            [
+              2011.19,
+              2539.14
+            ],
+            [
+              2011.18,
+              2539.38
+            ],
+            [
+              2010.3,
+              2543.35
+            ],
+            [
+              2010.13,
+              2543.7
+            ],
+            [
+              2009.94,
+              2543.98
+            ],
+            [
+              2009.3,
+              2544.2
+            ],
+            [
+              2007.57,
+              2544.48
+            ],
+            [
+              2006.62,
+              2543.98
+            ],
+            [
+              2006.39,
+              2543.71
+            ],
+            [
+              2006.21,
+              2543.36
+            ],
+            [
+              2006.21,
+              2543.02
+            ],
+            [
+              2006.32,
+              2542.37
+            ],
+            [
+              2006.41,
+              2542.03
+            ],
+            [
+              2008.12,
+              2538.86
+            ],
+            [
+              2008.67,
+              2538.31
+            ],
+            [
+              2008.98,
+              2538.01
+            ],
+            [
+              2009.16,
+              2537.88
+            ],
+            [
+              2009.36,
+              2537.79
+            ],
+            [
+              2009.38,
+              2537.79
+            ]
+          ],
+          "spans": null,
+          "use": "work",
+          "why": {
+            "microGeography": "A levelled floor of trodden earth on the bench, falling away on the east to the bank over the seep.",
+            "playerPurpose": "Bog iron to take; the furnace is broken open each season to free the bloom.",
+            "what": "The furnace floor: Skyrim's smelter (a crafting station, kind pinned prop: its 6.7 m plan is the furnace with its charcoal bed and slag bucket spread round it) with bellows, fuel, ore and an ore cart.",
+            "whyHere": "Ore is smelted where it is dug, so only iron is carried to the road.",
+            "whyNeighbours": "The diggers' hut is just west; the seep lies below the bank to the east.",
+            "whySpot": "The east end of the bench, at the head of the bank above the seep."
+          },
+          "yawDeg": 90.0
+        }
+      ],
+      "provision": {},
+      "questSockets": [
+        {
+          "id": "socket.bog-iron-workings.q-evidence-the-stained-boots",
+          "kind": "evidence",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            1996.9,
+            2540.6
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.bog-iron-workings.q-post-ore-digger",
+          "kind": "post",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            2016.5,
+            2535.5
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.bog-iron-workings.q-scene-the-mound",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            2008.0,
+            2541.0
+          ],
+          "questId": null
+        }
+      ],
+      "scaleGrounding": {
+        "buildingsPlanned": 1,
+        "households": 0,
+        "loreSource": "catalogue record Bog Iron Workings (works, M1; occupants D2 seasonal diggers, few; interior a dwelling S1, one door)",
+        "npcsPlanned": 1,
+        "population": "3-6",
+        "why": "A season's crew of three to six from three villages: one sleeping hut with a furnace floor beside it."
+      },
+      "seed": "place.imperial-fringe.bog-iron-workings",
+      "siting": {
+        "candidates": [
+          {
+            "chosen": false,
+            "id": "candidate.bog-iron-workings.plotted-anchor",
+            "positionM": [
+              2004.2,
+              2598.7
+            ],
+            "rejectedBecause": "Ground falling 6-8 degrees with no level cell for a hut pad, 0.23 m over the water table.",
+            "why": "The plotted anchor, 60 m south on the seep's west shore."
+          },
+          {
+            "chosen": true,
+            "id": "candidate.bog-iron-workings.the-bench",
+            "positionM": [
+              1998.0,
+              2538.0
+            ],
+            "rejectedBecause": null,
+            "why": "A level bench, firm and dry, at the head of the bank above the seep's north end, 25 m south of the road."
+          }
+        ],
+        "dossier": "world/sources/sites/dossiers/bog-iron-workings.json"
+      },
+      "summary": {
+        "approaches": 1,
+        "combatSpaces": 1,
+        "districts": 1,
+        "docks": 0,
+        "doors": 1,
+        "fences": 0,
+        "keptTrees": 0,
+        "landmarks": 0,
+        "networkTerminals": 1,
+        "parcels": 2,
+        "questSockets": 3,
+        "sitingCandidates": 2,
+        "ways": 2
+      },
+      "ways": [
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.bog-iron-workings.the-bloomery"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.bog-iron-workings.furnace-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              2002.28,
+              2536.64
+            ],
+            [
+              2007.172,
+              2540.617
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              2002.28,
+              2536.64
+            ],
+            [
+              2006.4,
+              2540.2
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the way across the furnace floor to the furnace mouth.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.bog-iron-workings.diggers-hut"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.bog-iron-workings.the-way",
+          "kind": "track",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              2004.2,
+              2607.4
+            ],
+            [
+              2015.2,
+              2607.4
+            ],
+            [
+              2018.5,
+              2604.1
+            ],
+            [
+              2016.5,
+              2585.0
+            ],
+            [
+              2015.3,
+              2549.0
+            ],
+            [
+              2014.0,
+              2540.0
+            ],
+            [
+              2010.5,
+              2535.0
+            ],
+            [
+              2004.0,
+              2533.8
+            ],
+            [
+              1999.7,
+              2540.9
+            ],
+            [
+              1994.963,
+              2539.198
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              2004.2,
+              2607.4
+            ],
+            [
+              2015.2,
+              2607.4
+            ],
+            [
+              2018.5,
+              2604.1
+            ],
+            [
+              2016.5,
+              2585.0
+            ],
+            [
+              2016.0,
+              2565.0
+            ],
+            [
+              2015.3,
+              2549.0
+            ],
+            [
+              2014.0,
+              2540.0
+            ],
+            [
+              2010.5,
+              2535.0
+            ],
+            [
+              2004.0,
+              2533.8
+            ],
+            [
+              1999.7,
+              2540.9
+            ],
+            [
+              1995.0,
+              2539.2
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the track on the seep's west shore up the bench, past the furnace floor, to the hut door.",
           "widthM": 2.5
         }
       ]
@@ -10869,6 +11732,4198 @@
           "widthM": 1.2
         }
       ]
+    },
+    {
+      "approaches": [
+        {
+          "firstSeen": "parcel.the-broke-column.command-tent",
+          "fromDirection": "west",
+          "fromRouteId": null,
+          "id": "approach.the-broke-column.from-mile-house",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "Coming east along the track, the banners show on the hill first, then the tent line, then the barricade across half the track below it.",
+          "wayfinding": "The track runs under the bench; a footpath climbs from the barricade to the fire."
+        },
+        {
+          "firstSeen": "parcel.the-broke-column.tent-3",
+          "fromDirection": "north",
+          "fromRouteId": null,
+          "id": "approach.the-broke-column.from-swampmoth",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "Coming down the track from the north to the stream, the barricade stands at the junction ahead and the tents above it on the right.",
+          "wayfinding": "The junction is at the stream; the barricade is a few steps west of it."
+        }
+      ],
+      "assetConstraints": [],
+      "boundary": [
+        [
+          1168.0,
+          3062.003
+        ],
+        [
+          1226.0,
+          3062.003
+        ],
+        [
+          1226.0,
+          3106.001
+        ],
+        [
+          1168.0,
+          3106.001
+        ]
+      ],
+      "budget": {
+        "maxColliders": 80,
+        "maxInstances": 120,
+        "maxTextureMB": 32,
+        "maxUniqueMaterials": 60
+      },
+      "causalModel": {
+        "founding": "A Legion column left unpaid at the recall never marched home; its grandsons keep the roster and the colours.",
+        "occupantsMotive": "They keep watches, wear the colours and call what they take a levy.",
+        "pressures": "Gideon will not pay to clear them. The toll company would rather use them.",
+        "siteAdvantages": "A bench on the hill above a junction of two tracks, out of sight of the Gideon road, with the stream's ravine below it for a retreat.",
+        "wouldChangeIf": "Would disband inside a season if Gideon offered them a pardon and a wage."
+      },
+      "clearance": {
+        "hardClear": [],
+        "kept": [],
+        "thinned": []
+      },
+      "combatSpaces": [
+        {
+          "clearanceClass": "open",
+          "id": "combat.the-broke-column.the-fire",
+          "notes": null,
+          "polygon": [
+            [
+              1181.784,
+              3082.397
+            ],
+            [
+              1177.37,
+              3083.246
+            ],
+            [
+              1177.37,
+              3086.568
+            ],
+            [
+              1177.397,
+              3093.084
+            ],
+            [
+              1179.315,
+              3095.002
+            ],
+            [
+              1182.518,
+              3095.893
+            ],
+            [
+              1191.642,
+              3096.34
+            ],
+            [
+              1203.399,
+              3096.34
+            ],
+            [
+              1206.677,
+              3095.247
+            ],
+            [
+              1206.818,
+              3091.349
+            ],
+            [
+              1206.83,
+              3090.927
+            ],
+            [
+              1206.83,
+              3089.083
+            ],
+            [
+              1206.818,
+              3088.575
+            ],
+            [
+              1206.716,
+              3085.959
+            ],
+            [
+              1204.567,
+              3083.81
+            ],
+            [
+              1188.918,
+              3082.363
+            ],
+            [
+              1188.009,
+              3082.298
+            ],
+            [
+              1187.689,
+              3082.281
+            ],
+            [
+              1182.975,
+              3082.248
+            ]
+          ],
+          "why": "The trodden ground between the tent line and the fire, the one level footing on the hillside."
+        }
+      ],
+      "contextM": {
+        "x0": -392.0,
+        "x1": 2786.0,
+        "z0": 1495.002,
+        "z1": 4673.002
+      },
+      "districts": [
+        {
+          "centreM": [
+            1192.946,
+            3088.494
+          ],
+          "cultureKit": "imperial-camp",
+          "id": "district.the-broke-column.the-line",
+          "kind": "camp",
+          "notes": "Four Legion tents in one dressed line on a hillside bench, a fire in front of them and a barricade on the track below.",
+          "polygon": [
+            [
+              1185.341,
+              3068.302
+            ],
+            [
+              1177.37,
+              3085.676
+            ],
+            [
+              1177.37,
+              3086.568
+            ],
+            [
+              1177.397,
+              3093.084
+            ],
+            [
+              1179.315,
+              3095.002
+            ],
+            [
+              1182.518,
+              3095.893
+            ],
+            [
+              1191.642,
+              3096.34
+            ],
+            [
+              1203.399,
+              3096.34
+            ],
+            [
+              1206.677,
+              3095.247
+            ],
+            [
+              1206.818,
+              3091.349
+            ],
+            [
+              1206.83,
+              3090.927
+            ],
+            [
+              1206.83,
+              3089.127
+            ],
+            [
+              1206.793,
+              3066.563
+            ]
+          ],
+          "wealth": "poor",
+          "why": {
+            "microGeography": "A narrow level bench on a hillside of aspen, the ground falling away to the stream and the track below.",
+            "playerPurpose": "A hostile camp that asks for a levy on the track and will parley before it fights.",
+            "what": "The camp: the tent line, its fire and the levy post on the track.",
+            "whyHere": "The column holds a track junction a bend off the Gideon road, where carts for Mile House and the town to the north must pass.",
+            "whyNeighbours": "The track bends away to the west and the hill rises to the south-west, so no neighbour sees the tents."
+          }
+        }
+      ],
+      "docks": [],
+      "doors": [],
+      "id": "place.imperial-fringe.the-broke-column",
+      "landmarks": [],
+      "networkTerminals": [
+        {
+          "id": "terminal.the-broke-column.mile-house-track",
+          "kind": "footpath",
+          "positionM": [
+            1188.0,
+            3072.1
+          ],
+          "routeId": "track.imperial-fringe.mile-house-of-the-eagle",
+          "wayId": "route.the-broke-column.camp-path",
+          "why": "The camp path leaves the Mile House track below the bench, runs east along it to the end of the barricade and climbs through the gap in the stakes to the tent line."
+        }
+      ],
+      "parcels": [
+        {
+          "assetRef": "vanilla:architecture/tents/largeimperialtent01",
+          "buildingFamily": "vanilla-legion-tent",
+          "centreM": [
+            1185.5,
+            3089.0
+          ],
+          "districtId": "district.the-broke-column.the-line",
+          "entrance": {
+            "arcM": 1.45,
+            "bearingDeg": 25.0,
+            "interiorRef": null,
+            "kind": "open-front",
+            "worldM": [
+              1186.39,
+              3086.17
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.the-broke-column.command-tent",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open long side faces north to the brazier and the track below, at the head of the line.",
+          "polygon": [
+            [
+              1183.21,
+              3086.25
+            ],
+            [
+              1187.57,
+              3086.28
+            ],
+            [
+              1187.76,
+              3086.29
+            ],
+            [
+              1188.59,
+              3086.35
+            ],
+            [
+              1189.67,
+              3086.55
+            ],
+            [
+              1189.67,
+              3086.56
+            ],
+            [
+              1189.6,
+              3091.42
+            ],
+            [
+              1189.6,
+              3091.43
+            ],
+            [
+              1187.7,
+              3091.84
+            ],
+            [
+              1183.37,
+              3091.92
+            ],
+            [
+              1183.16,
+              3091.92
+            ],
+            [
+              1181.4,
+              3091.43
+            ],
+            [
+              1181.39,
+              3091.42
+            ],
+            [
+              1181.37,
+              3086.56
+            ],
+            [
+              1181.37,
+              3086.55
+            ],
+            [
+              1182.41,
+              3086.35
+            ]
+          ],
+          "spans": null,
+          "use": "command",
+          "why": {
+            "microGeography": "The west end of the bench, on ground levelled for the tent and its brazier.",
+            "playerPurpose": "The serjeant's tent, where the pay book and the toll office's schedules are kept.",
+            "what": "The serjeant's command tent, with the campaign table and the pay book on it.",
+            "whyHere": "The column keeps its orders, its roster and its accounts the way the Legion taught it.",
+            "whyNeighbours": "The three sleeping tents stand in line beside it; its brazier burns at its mouth.",
+            "whySpot": "The west end of the bench, at the head of the line."
+          },
+          "yawDeg": 90.0
+        },
+        {
+          "assetRef": "vanilla:architecture/tents/smallimperialtent",
+          "buildingFamily": "vanilla-legion-tent",
+          "centreM": [
+            1193.0,
+            3090.0
+          ],
+          "districtId": "district.the-broke-column.the-line",
+          "entrance": null,
+          "front": {
+            "deg": 266.2,
+            "evidence": "co-placement",
+            "outside": true,
+            "worldDeg": 356.2
+          },
+          "groundFit": null,
+          "id": "parcel.the-broke-column.tent-1",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open gable faces north to the line walk, dressed on the command tent.",
+          "polygon": [
+            [
+              1191.75,
+              3087.66
+            ],
+            [
+              1194.26,
+              3087.66
+            ],
+            [
+              1194.28,
+              3087.68
+            ],
+            [
+              1194.32,
+              3088.7
+            ],
+            [
+              1194.33,
+              3089.13
+            ],
+            [
+              1194.33,
+              3090.87
+            ],
+            [
+              1194.32,
+              3091.22
+            ],
+            [
+              1194.28,
+              3092.33
+            ],
+            [
+              1194.25,
+              3092.34
+            ],
+            [
+              1191.74,
+              3092.34
+            ],
+            [
+              1191.72,
+              3092.32
+            ],
+            [
+              1191.68,
+              3091.3
+            ],
+            [
+              1191.68,
+              3089.16
+            ],
+            [
+              1191.69,
+              3088.91
+            ],
+            [
+              1191.69,
+              3088.7
+            ],
+            [
+              1191.69,
+              3088.56
+            ],
+            [
+              1191.72,
+              3087.67
+            ]
+          ],
+          "spans": null,
+          "use": "barracks",
+          "why": {
+            "microGeography": "Levelled canvas floor on the bench beside the command tent.",
+            "playerPurpose": "A sleeping tent to search, where the first squad of the column keeps its kit.",
+            "what": "The first sleeping tent of the line, next to the serjeant's.",
+            "whyHere": "The column sleeps under issue canvas, a squad to a tent, as it was taught.",
+            "whyNeighbours": "The command tent at the head of the line, the brazier beyond it.",
+            "whySpot": "Beside the command tent on the bench, where the ground was levelled first."
+          },
+          "yawDeg": 90.0
+        },
+        {
+          "assetRef": "vanilla:architecture/tents/smallimperialtent",
+          "buildingFamily": "vanilla-legion-tent",
+          "centreM": [
+            1197.5,
+            3090.0
+          ],
+          "districtId": "district.the-broke-column.the-line",
+          "entrance": null,
+          "front": {
+            "deg": 266.2,
+            "evidence": "co-placement",
+            "outside": true,
+            "worldDeg": 356.2
+          },
+          "groundFit": null,
+          "id": "parcel.the-broke-column.tent-2",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open gable faces north, square to the camp path that ends at it.",
+          "polygon": [
+            [
+              1196.25,
+              3087.66
+            ],
+            [
+              1198.76,
+              3087.66
+            ],
+            [
+              1198.78,
+              3087.68
+            ],
+            [
+              1198.82,
+              3088.7
+            ],
+            [
+              1198.83,
+              3089.13
+            ],
+            [
+              1198.83,
+              3090.87
+            ],
+            [
+              1198.82,
+              3091.22
+            ],
+            [
+              1198.78,
+              3092.33
+            ],
+            [
+              1198.75,
+              3092.34
+            ],
+            [
+              1196.24,
+              3092.34
+            ],
+            [
+              1196.22,
+              3092.32
+            ],
+            [
+              1196.18,
+              3091.3
+            ],
+            [
+              1196.18,
+              3089.16
+            ],
+            [
+              1196.19,
+              3088.91
+            ],
+            [
+              1196.19,
+              3088.7
+            ],
+            [
+              1196.19,
+              3088.56
+            ],
+            [
+              1196.22,
+              3087.67
+            ]
+          ],
+          "spans": null,
+          "use": "barracks",
+          "why": {
+            "microGeography": "Levelled canvas floor in the middle of the line.",
+            "playerPurpose": "A sleeping tent at the head of the camp path, the first one a player reaches.",
+            "what": "The middle sleeping tent, at the head of the camp path.",
+            "whyHere": "A second squad's canvas, pitched to the same line and the same yaw as the first.",
+            "whyNeighbours": "The tents either side of it, the camp path in front.",
+            "whySpot": "The middle of the bench, where the camp path comes up from the track."
+          },
+          "yawDeg": 90.0
+        },
+        {
+          "assetRef": "vanilla:architecture/tents/smallimperialtent",
+          "buildingFamily": "vanilla-legion-tent",
+          "centreM": [
+            1201.5,
+            3090.0
+          ],
+          "districtId": "district.the-broke-column.the-line",
+          "entrance": null,
+          "front": {
+            "deg": 266.2,
+            "evidence": "co-placement",
+            "outside": true,
+            "worldDeg": 356.2
+          },
+          "groundFit": null,
+          "id": "parcel.the-broke-column.tent-3",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open gable faces north, the last of the line, toward the barricade below.",
+          "polygon": [
+            [
+              1200.25,
+              3087.66
+            ],
+            [
+              1202.76,
+              3087.66
+            ],
+            [
+              1202.78,
+              3087.68
+            ],
+            [
+              1202.82,
+              3088.7
+            ],
+            [
+              1202.83,
+              3089.13
+            ],
+            [
+              1202.83,
+              3090.87
+            ],
+            [
+              1202.82,
+              3091.22
+            ],
+            [
+              1202.78,
+              3092.33
+            ],
+            [
+              1202.75,
+              3092.34
+            ],
+            [
+              1200.24,
+              3092.34
+            ],
+            [
+              1200.22,
+              3092.32
+            ],
+            [
+              1200.18,
+              3091.3
+            ],
+            [
+              1200.18,
+              3089.16
+            ],
+            [
+              1200.19,
+              3088.91
+            ],
+            [
+              1200.19,
+              3088.7
+            ],
+            [
+              1200.19,
+              3088.56
+            ],
+            [
+              1200.22,
+              3087.67
+            ]
+          ],
+          "spans": null,
+          "use": "barracks",
+          "why": {
+            "microGeography": "Levelled canvas floor at the east end of the bench, above the camp path.",
+            "playerPurpose": "The last sleeping tent, nearest the barricade, where the watch sleeps off its turn.",
+            "what": "The last sleeping tent, at the east end of the line by the banner.",
+            "whyHere": "The third squad's canvas; the line ends here because the bench does.",
+            "whyNeighbours": "The banner stands beyond it; the levy post is below on the track.",
+            "whySpot": "The east end of the bench, where the ground starts to fall to the stream."
+          },
+          "yawDeg": 90.0
+        }
+      ],
+      "provision": {},
+      "questSockets": [
+        {
+          "id": "socket.the-broke-column.q-fg07-anchor-pay-book",
+          "kind": "evidence",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            1185.5,
+            3089.0
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.the-broke-column.q-lq15-anchor-schedules",
+          "kind": "evidence",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            1185.0,
+            3089.4
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.the-broke-column.q-scene-the-roster-tree",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            1198.7,
+            3081.2
+          ],
+          "questId": null
+        }
+      ],
+      "scaleGrounding": {
+        "buildingsPlanned": 4,
+        "households": 0,
+        "loreSource": "catalogue record The Broke Column (camp, M1): four Legion tents pitched in a line",
+        "npcsPlanned": 2,
+        "population": "8-12",
+        "why": "One command tent and three sleeping tents hold a serjeant and what is left of a column."
+      },
+      "seed": "place.imperial-fringe.the-broke-column",
+      "siting": {
+        "candidates": [
+          {
+            "chosen": false,
+            "id": "candidate.the-broke-column.plotted-anchor",
+            "positionM": [
+              1231.1,
+              3073.5
+            ],
+            "rejectedBecause": "It lies on the stream at the track junction, wet and on the tracks.",
+            "why": "The plotted anchor, on the stream at the track junction."
+          },
+          {
+            "chosen": true,
+            "id": "candidate.the-broke-column.the-bench",
+            "positionM": [
+              1195.0,
+              3088.0
+            ],
+            "rejectedBecause": null,
+            "why": "The one bench on the hillside above the track junction: an 8 m pad cuts and fills at most half a metre."
+          }
+        ],
+        "dossier": "world/sources/sites/dossiers/the-broke-column.json"
+      },
+      "summary": {
+        "approaches": 2,
+        "combatSpaces": 1,
+        "districts": 1,
+        "docks": 0,
+        "doors": 0,
+        "fences": 0,
+        "keptTrees": 0,
+        "landmarks": 0,
+        "networkTerminals": 1,
+        "parcels": 4,
+        "questSockets": 3,
+        "sitingCandidates": 2,
+        "ways": 4
+      },
+      "ways": [
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.the-broke-column.tent-3"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.the-broke-column.camp-path",
+          "kind": "track",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              1188.0,
+              3072.1
+            ],
+            [
+              1202.8,
+              3070.9
+            ],
+            [
+              1200.5,
+              3079.5
+            ],
+            [
+              1201.5,
+              3087.66
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              1188.0,
+              3072.1
+            ],
+            [
+              1202.8,
+              3070.9
+            ],
+            [
+              1200.5,
+              3079.5
+            ],
+            [
+              1201.0,
+              3083.0
+            ],
+            [
+              1201.5,
+              3087.0
+            ]
+          ],
+          "waterOk": null,
+          "why": "The trodden way up from the Mile House track to the end of the tent line, the only way into the camp.",
+          "widthM": 2.5
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.the-broke-column.tent-3",
+            "parcel.the-broke-column.tent-2",
+            "parcel.the-broke-column.tent-1",
+            "parcel.the-broke-column.command-tent"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.the-broke-column.line-walk",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              1201.5,
+              3087.66
+            ],
+            [
+              1189.6,
+              3086.0
+            ],
+            [
+              1187.4,
+              3084.4
+            ],
+            [
+              1196.22,
+              3087.67
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              1201.5,
+              3087.0
+            ],
+            [
+              1197.5,
+              3086.5
+            ],
+            [
+              1193.0,
+              3086.5
+            ],
+            [
+              1189.6,
+              3086.0
+            ],
+            [
+              1187.4,
+              3084.4
+            ],
+            [
+              1186.6,
+              3085.6
+            ]
+          ],
+          "waterOk": null,
+          "why": "The walk along the front of the tent line from the camp path to the mouth of the command tent.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.the-broke-column.tent-1"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.the-broke-column.tent-1-step",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              1193.0,
+              3086.5
+            ],
+            [
+              1193.0,
+              3087.66
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              1193.0,
+              3086.5
+            ],
+            [
+              1193.0,
+              3087.1
+            ]
+          ],
+          "waterOk": null,
+          "why": "A step off the line walk to the mouth of the first sleeping tent.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.the-broke-column.tent-2"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.the-broke-column.tent-2-step",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              1197.5,
+              3086.5
+            ],
+            [
+              1197.5,
+              3087.66
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              1197.5,
+              3086.5
+            ],
+            [
+              1197.5,
+              3087.1
+            ]
+          ],
+          "waterOk": null,
+          "why": "A step off the line walk to the mouth of the middle sleeping tent.",
+          "widthM": 1.2
+        }
+      ]
+    },
+    {
+      "approaches": [
+        {
+          "firstSeen": "parcel.rose-bone-waystation.handover-shelter",
+          "fromDirection": "north-west",
+          "fromRouteId": null,
+          "id": "approach.rose-bone-waystation.from-the-prison-road",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "Coming off the Prison road across the grass, the shelter's thatch shows on the rise, then the way, then the brazier and the bench at its west corner.",
+          "wayfinding": "A worn way climbs from the north-west to the shelter's west corner."
+        },
+        {
+          "firstSeen": "parcel.rose-bone-waystation.keepers-house",
+          "fromDirection": null,
+          "fromRouteId": "track.imperial-penal-south.rose-bone-waystation",
+          "id": "approach.rose-bone-waystation.from-the-villages",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "Coming west along the track from the villages, the keeper's hut shows first on the rise, then drops behind the slope, then the thatch of the shelter appears beyond it with the candles under it.",
+          "wayfinding": "The track ends below the keeper's door; the shelter stands a short walk west."
+        }
+      ],
+      "assetConstraints": [],
+      "boundary": [
+        [
+          2530.005,
+          6538.007
+        ],
+        [
+          2600.002,
+          6538.007
+        ],
+        [
+          2600.002,
+          6592.003
+        ],
+        [
+          2530.005,
+          6592.003
+        ]
+      ],
+      "budget": {
+        "maxColliders": 120,
+        "maxInstances": 120,
+        "maxTextureMB": 48,
+        "maxUniqueMaterials": 120
+      },
+      "causalModel": {
+        "founding": "Argonians die in the Rose and their bones must reach the dirt; the Chainbreakers built a station near the Blackrose road to receive them.",
+        "occupantsMotive": "The Rose's families release the dead here for a fee they call a carriage charge; the Chainbreakers pay it and record every payment.",
+        "pressures": "The fee is the most resented transaction in the south, but both sides need it to continue.",
+        "siteAdvantages": "A dry rise between the Prison road and the tracks east to the villages, where the Rose's people will hand a body to the villages' people.",
+        "wouldChangeIf": "The Rose refusing to release the dead would end the arrangement and put the Chainbreakers and the families in open conflict."
+      },
+      "clearance": {
+        "hardClear": [],
+        "kept": [],
+        "thinned": []
+      },
+      "combatSpaces": [
+        {
+          "clearanceClass": "open",
+          "id": "combat.rose-bone-waystation.the-rise",
+          "notes": null,
+          "polygon": [
+            [
+              2573.98,
+              6545.378
+            ],
+            [
+              2572.931,
+              6545.93
+            ],
+            [
+              2554.327,
+              6561.323
+            ],
+            [
+              2553.104,
+              6562.394
+            ],
+            [
+              2552.711,
+              6564.36
+            ],
+            [
+              2552.878,
+              6567.82
+            ],
+            [
+              2553.873,
+              6569.685
+            ],
+            [
+              2556.887,
+              6571.614
+            ],
+            [
+              2558.107,
+              6572.05
+            ],
+            [
+              2561.893,
+              6572.05
+            ],
+            [
+              2563.113,
+              6571.614
+            ],
+            [
+              2565.397,
+              6570.153
+            ],
+            [
+              2582.159,
+              6557.178
+            ],
+            [
+              2582.977,
+              6556.19
+            ],
+            [
+              2584.272,
+              6552.633
+            ],
+            [
+              2584.28,
+              6551.337
+            ],
+            [
+              2583.498,
+              6547.845
+            ],
+            [
+              2582.086,
+              6546.272
+            ],
+            [
+              2578.891,
+              6544.931
+            ],
+            [
+              2577.598,
+              6544.734
+            ]
+          ],
+          "why": "Open grass on all sides of the shelter and the hut."
+        }
+      ],
+      "contextM": {
+        "x0": 970.005,
+        "x1": 4160.002,
+        "z0": 4970.007,
+        "z1": 8160.004
+      },
+      "districts": [
+        {
+          "centreM": [
+            2564.632,
+            6555.291
+          ],
+          "cultureKit": "argonian",
+          "id": "district.rose-bone-waystation.the-rise",
+          "kind": "shrine",
+          "notes": "A thatched handover shelter on a low dry rise, with the keeper's hut beside it and a way leaving on each side.",
+          "polygon": [
+            [
+              2554.347,
+              6569.989
+            ],
+            [
+              2556.887,
+              6571.614
+            ],
+            [
+              2558.107,
+              6572.05
+            ],
+            [
+              2561.365,
+              6572.05
+            ],
+            [
+              2583.931,
+              6570.189
+            ],
+            [
+              2584.276,
+              6551.966
+            ],
+            [
+              2584.28,
+              6551.337
+            ],
+            [
+              2583.498,
+              6547.845
+            ],
+            [
+              2582.086,
+              6546.272
+            ],
+            [
+              2579.086,
+              6545.013
+            ],
+            [
+              2552.349,
+              6538.007
+            ],
+            [
+              2530.005,
+              6538.007
+            ],
+            [
+              2530.005,
+              6544.45
+            ]
+          ],
+          "wealth": "poor",
+          "why": {
+            "microGeography": "Firm, gently sloping grassland, drier than the marsh to the west.",
+            "playerPurpose": "The handover of the dead, the fee and the record of it.",
+            "what": "The rise, the handover shelter on it and the keeper's hut.",
+            "whyHere": "The rise lies between the Prison road and the tracks east to the villages, so both parties can reach it without entering the other's ground.",
+            "whyNeighbours": "Blackrose stands 300 m to the north-west and the Rose 500 m to the south-west. The ferry stage and the bonded stores lie to the north-east."
+          }
+        }
+      ],
+      "docks": [],
+      "doors": [
+        {
+          "facingDeg": 229.3,
+          "id": "door.imperial-penal-south.rose-bone-waystation.1",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": null,
+            "sizeClass": "medium"
+          },
+          "parcelId": "parcel.rose-bone-waystation.keepers-house",
+          "thresholdM": [
+            2574.849,
+            6553.85
+          ]
+        }
+      ],
+      "id": "place.imperial-penal-south.rose-bone-waystation",
+      "landmarks": [],
+      "networkTerminals": [
+        {
+          "id": "terminal.rose-bone-waystation.villages-track",
+          "kind": "footpath",
+          "positionM": [
+            2579.996,
+            6566.515
+          ],
+          "routeId": "track.imperial-penal-south.rose-bone-waystation",
+          "wayId": "route.rose-bone-waystation.the-villages-way",
+          "why": "The track from the villages to the east ends here, below the keeper's door."
+        }
+      ],
+      "parcels": [
+        {
+          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01",
+          "buildingFamily": "htbm-argonian-village",
+          "centreM": [
+            2560.0,
+            6565.0
+          ],
+          "districtId": "district.rose-bone-waystation.the-rise",
+          "entrance": null,
+          "front": {
+            "deg": 192.1,
+            "evidence": "asymmetry",
+            "outside": true,
+            "worldDeg": 12.1
+          },
+          "groundFit": null,
+          "id": "parcel.rose-bone-waystation.handover-shelter",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open front faces north onto the two ways, which end at its two front corners: the Rose's way at the west corner and the villages' way at the east corner.",
+          "polygon": [
+            [
+              2563.27,
+              6564.66
+            ],
+            [
+              2563.17,
+              6566.73
+            ],
+            [
+              2563.09,
+              6566.88
+            ],
+            [
+              2561.34,
+              6568.0
+            ],
+            [
+              2561.2,
+              6568.05
+            ],
+            [
+              2558.8,
+              6568.05
+            ],
+            [
+              2558.66,
+              6568.0
+            ],
+            [
+              2556.91,
+              6566.88
+            ],
+            [
+              2556.83,
+              6566.73
+            ],
+            [
+              2556.73,
+              6564.66
+            ],
+            [
+              2556.76,
+              6564.51
+            ],
+            [
+              2556.9,
+              6564.39
+            ],
+            [
+              2556.92,
+              6564.37
+            ],
+            [
+              2560.0,
+              6563.82
+            ],
+            [
+              2563.08,
+              6564.37
+            ],
+            [
+              2563.1,
+              6564.39
+            ],
+            [
+              2563.24,
+              6564.51
+            ]
+          ],
+          "spans": null,
+          "use": "shrine",
+          "why": {
+            "microGeography": "Trodden earth under thatch, with a row of candles across the floor between the two halves.",
+            "playerPurpose": "Where the Rose's dead are received, tagged and wrapped for the road home.",
+            "what": "The handover shelter: a thatched half pavilion on log posts, open at the front.",
+            "whyHere": "The dead change hands under one roof, in sight of both parties.",
+            "whyNeighbours": "The keeper's hut stands a short walk east, on the villages' side.",
+            "whySpot": "On a pad of levelled earth at the top of the rise."
+          },
+          "yawDeg": 180.0
+        },
+        {
+          "assetRef": "composite:stilt/bamboohut02-with-door",
+          "buildingFamily": "htbm-argonian-village",
+          "centreM": [
+            2577.0,
+            6552.0
+          ],
+          "districtId": "district.rose-bone-waystation.the-rise",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": 229.3,
+            "interiorRef": "htbm-hut-int",
+            "kind": "esp-door",
+            "worldM": [
+              2574.849,
+              6553.85
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.rose-bone-waystation.keepers-house",
+          "interior": {
+            "kind": "shell"
+          },
+          "notes": null,
+          "orientationWhy": "Its door faces south-west, toward the shelter and the way to it.",
+          "polygon": [
+            [
+              2575.562,
+              6554.957
+            ],
+            [
+              2575.431,
+              6554.877
+            ],
+            [
+              2573.897,
+              6553.041
+            ],
+            [
+              2573.84,
+              6552.904
+            ],
+            [
+              2573.58,
+              6550.84
+            ],
+            [
+              2573.635,
+              6550.69
+            ],
+            [
+              2575.161,
+              6549.277
+            ],
+            [
+              2575.292,
+              6549.207
+            ],
+            [
+              2577.648,
+              6548.788
+            ],
+            [
+              2577.799,
+              6548.811
+            ],
+            [
+              2579.71,
+              6549.613
+            ],
+            [
+              2579.823,
+              6549.739
+            ],
+            [
+              2580.277,
+              6551.767
+            ],
+            [
+              2580.276,
+              6551.916
+            ],
+            [
+              2579.456,
+              6554.171
+            ],
+            [
+              2579.361,
+              6554.285
+            ],
+            [
+              2577.71,
+              6555.547
+            ],
+            [
+              2577.541,
+              6555.571
+            ]
+          ],
+          "spans": null,
+          "use": "civic",
+          "why": {
+            "microGeography": "A bamboo hut on a mud pad, with a wicker table and chairs outside the door.",
+            "playerPurpose": "The keeper, the ledger of carriage charges and the carriers' stores.",
+            "what": "The keeper's hut: a bamboo store hut on short stilts, where the Chainbreakers' keeper holds the carriers' stores and writes down every fee paid.",
+            "whyHere": "On the villages' side of the shelter, which is the Chainbreakers' charge.",
+            "whyNeighbours": "The shelter is a short walk south-west; the track east starts below the door.",
+            "whySpot": "On a levelled pad north-east of the shelter, above the villages' way."
+          },
+          "yawDeg": 290.0
+        }
+      ],
+      "provision": {},
+      "questSockets": [
+        {
+          "id": "socket.rose-bone-waystation.q-evidence-carriage-charges",
+          "kind": "evidence",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            2578.5,
+            6559.508
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.rose-bone-waystation.whiterose-prison-ruin-procession",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            2560.0,
+            6562.605
+          ],
+          "questId": null
+        }
+      ],
+      "scaleGrounding": {
+        "buildingsPlanned": 2,
+        "households": 1,
+        "loreSource": "catalogue record The Tag House (bone-repatriation waystation, M1, one door); world/sources/lore/topics/prisons.md (White Rose: Argonian bones in stone prisons must be brought to the dirt)",
+        "npcsPlanned": 1,
+        "population": "1-3",
+        "why": "The tag-keeper works and sleeps at the shelter and keeps the stores in the hut; the Rose's porters and the villages' carriers come and go."
+      },
+      "seed": "place.imperial-penal-south.rose-bone-waystation",
+      "siting": {
+        "candidates": [
+          {
+            "chosen": false,
+            "id": "candidate.rose-bone-waystation.marsh-edge",
+            "positionM": [
+              2525.2,
+              6303.3
+            ],
+            "rejectedBecause": "It lies inside the Blackrose disc after the 2026-09-20 island reseat, so the record was moved to this rise.",
+            "why": "The record's near point, beside the Rose causeway south of Blackrose."
+          },
+          {
+            "chosen": true,
+            "id": "candidate.rose-bone-waystation.the-rise",
+            "positionM": [
+              2565.0,
+              6560.0
+            ],
+            "rejectedBecause": null,
+            "why": "The plotted anchor's own rise: dry firm ground 3 m above the water table, where the place's track from the villages already ends, with room on its west side for a way down toward the Prison road."
+          }
+        ],
+        "dossier": "world/sources/sites/dossiers/rose-bone-waystation.json"
+      },
+      "summary": {
+        "approaches": 2,
+        "combatSpaces": 1,
+        "districts": 1,
+        "docks": 0,
+        "doors": 1,
+        "fences": 0,
+        "keptTrees": 0,
+        "landmarks": 0,
+        "networkTerminals": 1,
+        "parcels": 2,
+        "questSockets": 2,
+        "sitingCandidates": 2,
+        "ways": 3
+      },
+      "ways": [
+        {
+          "assetRef": null,
+          "endsAt": [
+            "route.rose-bone-waystation.the-villages-way",
+            "parcel.rose-bone-waystation.keepers-house"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.rose-bone-waystation.the-keepers-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              2568.8,
+              6563.1
+            ],
+            [
+              2574.849,
+              6553.85
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              2568.8,
+              6563.1
+            ],
+            [
+              2574.9,
+              6553.9
+            ]
+          ],
+          "waterOk": null,
+          "why": "A short path up from the villages' way to the keeper's door.",
+          "widthM": 1.5
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.rose-bone-waystation.handover-shelter"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.rose-bone-waystation.the-rose-way",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              2558.346,
+              6564.115
+            ],
+            [
+              2550.0,
+              6558.5
+            ],
+            [
+              2527.0,
+              6535.5
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              2558.2,
+              6563.3
+            ],
+            [
+              2550.0,
+              6558.5
+            ],
+            [
+              2540.0,
+              6549.0
+            ],
+            [
+              2527.0,
+              6535.5
+            ]
+          ],
+          "waterOk": null,
+          "why": "The way the Rose's porters use, from the shelter's west corner down the slope toward the Prison road.",
+          "widthM": 2.0
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "terminal.rose-bone-waystation.villages-track",
+            "parcel.rose-bone-waystation.handover-shelter"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.rose-bone-waystation.the-villages-way",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              2580.0,
+              6566.5
+            ],
+            [
+              2571.5,
+              6563.2
+            ],
+            [
+              2566.0,
+              6563.0
+            ],
+            [
+              2561.654,
+              6564.115
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              2580.0,
+              6566.5
+            ],
+            [
+              2571.5,
+              6563.2
+            ],
+            [
+              2566.0,
+              6563.0
+            ],
+            [
+              2561.8,
+              6563.3
+            ]
+          ],
+          "waterOk": null,
+          "why": "The end of the track from the villages, run on past the keeper's hut to the east corner of the shelter.",
+          "widthM": 2.0
+        }
+      ]
+    },
+    {
+      "approaches": [
+        {
+          "firstSeen": "parcel.opening-work-camp.family-tent-east",
+          "fromDirection": null,
+          "fromRouteId": "track.track.pirate-freeholds.gang-walk",
+          "id": "approach.opening-work-camp.from-the-gang-walk",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "The gang's walk from the barge comes up onto the Border road east of the camp. The camp's roofs are below the road to the west.",
+          "wayfinding": "Follow the road west, down to the hatching shed."
+        }
+      ],
+      "assetConstraints": [],
+      "boundary": [
+        [
+          3912.003,
+          1372.001
+        ],
+        [
+          3966.004,
+          1372.001
+        ],
+        [
+          3966.004,
+          1434.001
+        ],
+        [
+          3912.003,
+          1434.001
+        ]
+      ],
+      "budget": {
+        "maxColliders": 160,
+        "maxInstances": 160,
+        "maxTextureMB": 48,
+        "maxUniqueMaterials": 120
+      },
+      "causalModel": {
+        "founding": "A gang that works the channel has to sleep on land. The families follow it. The camp is forty years old.",
+        "occupantsMotive": "Families whose people are on the roll, living within walking distance of it.",
+        "pressures": "The camp has no claim on the Hist a day upriver. The families stay because the clutch is in the shed.",
+        "siteAdvantages": "A slope of firm ground above the marsh, below the Border road. The top terrace stays dry enough for a hatching shed.",
+        "wouldChangeIf": "If the clutch is lost, the families go somewhere the ledger cannot follow."
+      },
+      "clearance": {
+        "hardClear": [],
+        "kept": [],
+        "thinned": []
+      },
+      "combatSpaces": [
+        {
+          "clearanceClass": "cramped",
+          "id": "combat.opening-work-camp.the-terraces",
+          "notes": null,
+          "polygon": [
+            [
+              3927.525,
+              1379.122
+            ],
+            [
+              3926.353,
+              1379.676
+            ],
+            [
+              3923.676,
+              1382.353
+            ],
+            [
+              3923.122,
+              1383.525
+            ],
+            [
+              3922.354,
+              1387.02
+            ],
+            [
+              3922.73,
+              1388.253
+            ],
+            [
+              3931.991,
+              1415.086
+            ],
+            [
+              3932.905,
+              1417.429
+            ],
+            [
+              3941.163,
+              1429.367
+            ],
+            [
+              3941.836,
+              1430.159
+            ],
+            [
+              3945.114,
+              1432.052
+            ],
+            [
+              3946.389,
+              1432.285
+            ],
+            [
+              3949.964,
+              1432.121
+            ],
+            [
+              3951.758,
+              1431.003
+            ],
+            [
+              3953.633,
+              1428.09
+            ],
+            [
+              3953.857,
+              1427.426
+            ],
+            [
+              3960.194,
+              1406.865
+            ],
+            [
+              3959.685,
+              1403.532
+            ],
+            [
+              3951.789,
+              1384.557
+            ],
+            [
+              3951.127,
+              1383.315
+            ],
+            [
+              3948.113,
+              1381.386
+            ],
+            [
+              3947.198,
+              1381.059
+            ],
+            [
+              3930.74,
+              1378.416
+            ]
+          ],
+          "why": "Narrow terraces on a steep slope, with drops between them."
+        }
+      ],
+      "contextM": {
+        "x0": 2348.003,
+        "x1": 5530.004,
+        "z0": -187.999,
+        "z1": 2994.001
+      },
+      "districts": [
+        {
+          "centreM": [
+            3939.903,
+            1402.462
+          ],
+          "cultureKit": "argonian",
+          "id": "district.opening-work-camp.the-terraces",
+          "kind": "camp",
+          "notes": "Terraces of levelled earth cut into the slope between the Border road and the marsh, one shelter on each.",
+          "polygon": [
+            [
+              3927.525,
+              1379.122
+            ],
+            [
+              3926.353,
+              1379.676
+            ],
+            [
+              3923.676,
+              1382.353
+            ],
+            [
+              3923.122,
+              1383.525
+            ],
+            [
+              3922.354,
+              1387.02
+            ],
+            [
+              3922.73,
+              1388.253
+            ],
+            [
+              3931.991,
+              1415.086
+            ],
+            [
+              3932.905,
+              1417.429
+            ],
+            [
+              3941.163,
+              1429.367
+            ],
+            [
+              3941.836,
+              1430.159
+            ],
+            [
+              3945.114,
+              1432.052
+            ],
+            [
+              3946.389,
+              1432.285
+            ],
+            [
+              3949.964,
+              1432.121
+            ],
+            [
+              3951.381,
+              1431.238
+            ],
+            [
+              3962.833,
+              1419.83
+            ],
+            [
+              3959.654,
+              1403.457
+            ],
+            [
+              3951.789,
+              1384.557
+            ],
+            [
+              3951.127,
+              1383.315
+            ],
+            [
+              3948.113,
+              1381.386
+            ],
+            [
+              3947.198,
+              1381.059
+            ],
+            [
+              3930.74,
+              1378.416
+            ]
+          ],
+          "wealth": "poor",
+          "why": {
+            "microGeography": "A steep slope cut into terraces, each a few paces wide.",
+            "playerPurpose": "Where the gang's families live. The clutch is kept here too.",
+            "what": "The gang's camp: two sleeping sheds, two family tents, the overseers' hut and the hatching shed.",
+            "whyHere": "Firm ground within a walk of the barge, below the Border road.",
+            "whyNeighbours": "Alten Corimont is across the water to the north."
+          }
+        }
+      ],
+      "docks": [],
+      "doors": [
+        {
+          "facingDeg": 329.5,
+          "id": "door.pirate-freeholds.opening-work-camp.1",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": null,
+            "sizeClass": "medium"
+          },
+          "parcelId": "parcel.opening-work-camp.hatching-shed",
+          "thresholdM": [
+            3945.566,
+            1422.566
+          ]
+        },
+        {
+          "facingDeg": 89.3,
+          "id": "door.pirate-freeholds.opening-work-camp.2",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": null,
+            "sizeClass": "medium"
+          },
+          "parcelId": "parcel.opening-work-camp.overseers-hut",
+          "thresholdM": [
+            3936.837,
+            1397.966
+          ]
+        }
+      ],
+      "id": "place.pirate-freeholds.opening-work-camp",
+      "landmarks": [],
+      "networkTerminals": [
+        {
+          "id": "terminal.opening-work-camp.gang-walk",
+          "kind": "footpath",
+          "positionM": [
+            3989.264,
+            1395.551
+          ],
+          "routeId": "track.track.pirate-freeholds.gang-walk",
+          "wayId": "route.opening-work-camp.the-gang-walk",
+          "why": "The gang's walk from the barge ends here, beside the Border road."
+        }
+      ],
+      "parcels": [
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/argoniantent02",
+          "buildingFamily": "mudmother-argonian",
+          "centreM": [
+            3954.0,
+            1406.0
+          ],
+          "districtId": "district.opening-work-camp.the-terraces",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.opening-work-camp.family-tent-east",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open front faces west onto the yard.",
+          "polygon": [
+            [
+              3951.805,
+              1407.788
+            ],
+            [
+              3951.7,
+              1407.654
+            ],
+            [
+              3951.498,
+              1407.389
+            ],
+            [
+              3951.485,
+              1407.341
+            ],
+            [
+              3952.849,
+              1403.43
+            ],
+            [
+              3952.986,
+              1403.379
+            ],
+            [
+              3955.696,
+              1404.431
+            ],
+            [
+              3955.805,
+              1404.618
+            ],
+            [
+              3956.102,
+              1406.563
+            ],
+            [
+              3954.872,
+              1408.099
+            ],
+            [
+              3954.685,
+              1408.207
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "A small levelled terrace with baskets at the front.",
+            "playerPurpose": "Where one of the gang's families lives, with its baskets at the door.",
+            "what": "The east family tent: hide over poles, on its own small terrace below the road.",
+            "whyHere": "The camp is forty years old, but the families still live in tents and sheds.",
+            "whyNeighbours": "The hatching shed is above it. The cookfire is below it.",
+            "whySpot": "On the east terrace, below the Border road."
+          },
+          "yawDeg": 285.0
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/argoniantent02",
+          "buildingFamily": "mudmother-argonian",
+          "centreM": [
+            3938.0,
+            1414.0
+          ],
+          "districtId": "district.opening-work-camp.the-terraces",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.opening-work-camp.family-tent-south",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open front faces north-east onto the yard way.",
+          "polygon": [
+            [
+              3937.549,
+              1411.205
+            ],
+            [
+              3937.718,
+              1411.181
+            ],
+            [
+              3938.048,
+              1411.139
+            ],
+            [
+              3938.096,
+              1411.151
+            ],
+            [
+              3940.801,
+              1414.289
+            ],
+            [
+              3940.777,
+              1414.433
+            ],
+            [
+              3938.511,
+              1416.254
+            ],
+            [
+              3938.295,
+              1416.254
+            ],
+            [
+              3936.461,
+              1415.539
+            ],
+            [
+              3935.746,
+              1413.705
+            ],
+            [
+              3935.746,
+              1413.489
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "A small levelled terrace beside the yard way.",
+            "playerPurpose": "Where the clutch-keeper's family lives, close to the eggs in the shed.",
+            "what": "The south family tent: hide over poles, a few paces from the hatching shed.",
+            "whyHere": "The clutch-keeper's family pitched beside the shed so that someone is always near the eggs.",
+            "whyNeighbours": "The hatching shed is a few paces to the east.",
+            "whySpot": "On the south terrace, beside the hatching shed."
+          },
+          "yawDeg": 45.0
+        },
+        {
+          "assetRef": "composite:stilt/bamboohut01-with-door",
+          "buildingFamily": "htbm-argonian-village",
+          "centreM": [
+            3947.0,
+            1425.0
+          ],
+          "districtId": "district.opening-work-camp.the-terraces",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": 329.5,
+            "interiorRef": "htbm-hut-int",
+            "kind": "esp-door",
+            "worldM": [
+              3945.566,
+              1422.566
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.opening-work-camp.hatching-shed",
+          "interior": {
+            "kind": "dwelling"
+          },
+          "notes": null,
+          "orientationWhy": "Its door faces north-west, down over the terraces to the camp's fire.",
+          "polygon": [
+            [
+              3944.338,
+              1423.071
+            ],
+            [
+              3944.439,
+              1422.956
+            ],
+            [
+              3946.513,
+              1421.763
+            ],
+            [
+              3946.659,
+              1421.731
+            ],
+            [
+              3948.736,
+              1421.834
+            ],
+            [
+              3948.874,
+              1421.914
+            ],
+            [
+              3950.001,
+              1423.661
+            ],
+            [
+              3950.047,
+              1423.803
+            ],
+            [
+              3950.051,
+              1426.196
+            ],
+            [
+              3950.002,
+              1426.341
+            ],
+            [
+              3948.88,
+              1428.083
+            ],
+            [
+              3948.736,
+              1428.173
+            ],
+            [
+              3946.66,
+              1428.268
+            ],
+            [
+              3946.514,
+              1428.241
+            ],
+            [
+              3944.436,
+              1427.041
+            ],
+            [
+              3944.34,
+              1426.928
+            ],
+            [
+              3943.384,
+              1425.083
+            ],
+            [
+              3943.39,
+              1424.913
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "A levelled terrace of packed earth, with two lanterns at the door and a totem beside it.",
+            "playerPurpose": "Where the clutch-keeper keeps the camp's eggs.",
+            "what": "The hatching shed: a bamboo hut on stilt legs, kept warmer and cleaner than the sleeping sheds.",
+            "whyHere": "The clutch has to be kept dry and warm, so the shed stands on the highest terrace.",
+            "whyNeighbours": "The family tents and the cookfire are on the terrace below.",
+            "whySpot": "On the top terrace, beside the Border road and furthest from the water."
+          },
+          "yawDeg": 30.0
+        },
+        {
+          "assetRef": "composite:stilt/bamboohut02-with-door",
+          "buildingFamily": "htbm-argonian-village",
+          "centreM": [
+            3934.0,
+            1398.0
+          ],
+          "districtId": "district.opening-work-camp.the-terraces",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": 89.3,
+            "interiorRef": "htbm-hut-int",
+            "kind": "esp-door",
+            "worldM": [
+              3936.837,
+              1397.966
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.opening-work-camp.overseers-hut",
+          "interior": {
+            "kind": "dwelling"
+          },
+          "notes": null,
+          "orientationWhy": "Its door faces east onto the yard way, in sight of the fire and the sheds.",
+          "polygon": [
+            [
+              3937.002,
+              1396.659
+            ],
+            [
+              3937.051,
+              1396.804
+            ],
+            [
+              3937.047,
+              1399.197
+            ],
+            [
+              3937.001,
+              1399.339
+            ],
+            [
+              3935.874,
+              1401.086
+            ],
+            [
+              3935.736,
+              1401.166
+            ],
+            [
+              3933.659,
+              1401.269
+            ],
+            [
+              3933.513,
+              1401.237
+            ],
+            [
+              3931.439,
+              1400.044
+            ],
+            [
+              3931.338,
+              1399.929
+            ],
+            [
+              3930.39,
+              1398.087
+            ],
+            [
+              3930.384,
+              1397.917
+            ],
+            [
+              3931.34,
+              1396.072
+            ],
+            [
+              3931.436,
+              1395.959
+            ],
+            [
+              3933.514,
+              1394.759
+            ],
+            [
+              3933.66,
+              1394.732
+            ],
+            [
+              3935.736,
+              1394.827
+            ],
+            [
+              3935.88,
+              1394.917
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "A levelled terrace with the yard way running past the door.",
+            "playerPurpose": "Where the camp's overseers sleep and keep their accounts.",
+            "what": "The overseers' hut: a bamboo hut on stilt legs for the camp's two overseers.",
+            "whyHere": "The brokers keep their overseers among the families.",
+            "whyNeighbours": "The cookfire is a few paces east. The sleeping sheds are below.",
+            "whySpot": "On the middle terrace, between the sleeping sheds and the tents."
+          },
+          "yawDeg": 150.0
+        },
+        {
+          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01",
+          "buildingFamily": "htbm-argonian-village",
+          "centreM": [
+            3945.0,
+            1388.0
+          ],
+          "districtId": "district.opening-work-camp.the-terraces",
+          "entrance": null,
+          "front": {
+            "deg": 192.1,
+            "evidence": "asymmetry",
+            "outside": true,
+            "worldDeg": 192.1
+          },
+          "groundFit": null,
+          "id": "parcel.opening-work-camp.sleeping-shed-east",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open front faces south, up the yard way.",
+          "polygon": [
+            [
+              3941.73,
+              1388.34
+            ],
+            [
+              3941.83,
+              1386.27
+            ],
+            [
+              3941.91,
+              1386.12
+            ],
+            [
+              3943.66,
+              1385.0
+            ],
+            [
+              3943.8,
+              1384.95
+            ],
+            [
+              3946.2,
+              1384.95
+            ],
+            [
+              3946.34,
+              1385.0
+            ],
+            [
+              3948.09,
+              1386.12
+            ],
+            [
+              3948.17,
+              1386.27
+            ],
+            [
+              3948.27,
+              1388.34
+            ],
+            [
+              3948.24,
+              1388.49
+            ],
+            [
+              3948.1,
+              1388.61
+            ],
+            [
+              3948.08,
+              1388.63
+            ],
+            [
+              3945.0,
+              1389.18
+            ],
+            [
+              3941.92,
+              1388.63
+            ],
+            [
+              3941.9,
+              1388.61
+            ],
+            [
+              3941.76,
+              1388.49
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "Packed earth under thatch, with a cooking pot and stores in front.",
+            "playerPurpose": "Where the gang's families sleep and cook.",
+            "what": "The east sleeping shed: the second thatched half pavilion, with the families' cooking things in front of it.",
+            "whyHere": "It stands below the cookfire, so the families who cook sleep closest to it.",
+            "whyNeighbours": "The first sleeping shed is beside it to the west. The cookfire is above it.",
+            "whySpot": "On the lowest terrace, at the foot of the yard way."
+          },
+          "yawDeg": 0.0
+        },
+        {
+          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01",
+          "buildingFamily": "htbm-argonian-village",
+          "centreM": [
+            3930.0,
+            1386.0
+          ],
+          "districtId": "district.opening-work-camp.the-terraces",
+          "entrance": null,
+          "front": {
+            "deg": 192.1,
+            "evidence": "asymmetry",
+            "outside": true,
+            "worldDeg": 147.1
+          },
+          "groundFit": null,
+          "id": "parcel.opening-work-camp.sleeping-shed-west",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open front faces south-east onto the yard way.",
+          "polygon": [
+            [
+              3927.928,
+              1388.553
+            ],
+            [
+              3926.535,
+              1387.018
+            ],
+            [
+              3926.486,
+              1386.856
+            ],
+            [
+              3926.931,
+              1384.826
+            ],
+            [
+              3926.995,
+              1384.692
+            ],
+            [
+              3928.692,
+              1382.995
+            ],
+            [
+              3928.826,
+              1382.931
+            ],
+            [
+              3930.856,
+              1382.486
+            ],
+            [
+              3931.018,
+              1382.535
+            ],
+            [
+              3932.553,
+              1383.928
+            ],
+            [
+              3932.638,
+              1384.055
+            ],
+            [
+              3932.623,
+              1384.239
+            ],
+            [
+              3932.623,
+              1384.268
+            ],
+            [
+              3930.834,
+              1386.834
+            ],
+            [
+              3928.268,
+              1388.623
+            ],
+            [
+              3928.239,
+              1388.623
+            ],
+            [
+              3928.055,
+              1388.638
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "Packed earth under thatch, with nets drying at the corner.",
+            "playerPurpose": "Where most of the gang's families sleep at night.",
+            "what": "The west sleeping shed: a thatched half pavilion on log posts, open at the front, where most of the families sleep.",
+            "whyHere": "The families sleep under open thatch on the lowest terrace, where the root path climbs down to the reeds.",
+            "whyNeighbours": "The second sleeping shed is beside it to the east.",
+            "whySpot": "On the lowest terrace, nearest the water."
+          },
+          "yawDeg": 315.0
+        }
+      ],
+      "provision": {},
+      "questSockets": [
+        {
+          "id": "socket.opening-work-camp.egg-clutch-dies",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": "parcel.opening-work-camp.hatching-shed",
+          "positionM": [
+            3944.404,
+            1420.601
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.opening-work-camp.mq32-epilogue-sockets",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            3942.004,
+            1403.001
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.opening-work-camp.q-camp-night",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            3944.604,
+            1402.401
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.opening-work-camp.q-choose-a-witness",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            3941.604,
+            1406.001
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.opening-work-camp.q-dead-clutch",
+          "kind": "evidence",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            3945.204,
+            1421.601
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.opening-work-camp.q-hatching-shed",
+          "kind": "mark",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            3945.604,
+            1422.601
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.opening-work-camp.q-rest",
+          "kind": "post",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            3931.503,
+            1387.501
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.opening-work-camp.q-root-route",
+          "kind": "mark",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            3923.503,
+            1380.501
+          ],
+          "questId": null
+        }
+      ],
+      "scaleGrounding": {
+        "buildingsPlanned": 6,
+        "households": 4,
+        "loreSource": "catalogue record Gang Ground (muster yard, M2); world/sources/lore/topics/labour-and-bondage.md (the Owing)",
+        "npcsPlanned": 6,
+        "population": "10-16",
+        "why": "Four families of the gang, the clutch-keeper and two overseers. The rest of the gang sleeps on the barge."
+      },
+      "seed": "place.pirate-freeholds.opening-work-camp",
+      "siting": {
+        "candidates": [
+          {
+            "chosen": false,
+            "id": "candidate.opening-work-camp.anchor",
+            "positionM": [
+              3991.5,
+              1395.6
+            ],
+            "rejectedBecause": "The anchor point itself stands on a 16 degree slope, 21 m above the water.",
+            "why": "The plotted anchor point, at the eastern end of the slope."
+          },
+          {
+            "chosen": true,
+            "id": "candidate.opening-work-camp.west-slope",
+            "positionM": [
+              3940.0,
+              1405.0
+            ],
+            "rejectedBecause": null,
+            "why": "The plotted anchor's own slope, on its gentler western side between the Border road and the marsh, where levelled terraces hold every shelter."
+          }
+        ],
+        "dossier": "world/sources/sites/dossiers/opening-work-camp.json"
+      },
+      "summary": {
+        "approaches": 1,
+        "combatSpaces": 1,
+        "districts": 1,
+        "docks": 0,
+        "doors": 2,
+        "fences": 0,
+        "keptTrees": 0,
+        "landmarks": 0,
+        "networkTerminals": 1,
+        "parcels": 6,
+        "questSockets": 8,
+        "sitingCandidates": 2,
+        "ways": 7
+      },
+      "ways": [
+        {
+          "assetRef": null,
+          "endsAt": [
+            "route.opening-work-camp.the-yard-way",
+            "parcel.opening-work-camp.family-tent-east"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.opening-work-camp.the-east-tent",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              3943.0,
+              1412.0
+            ],
+            [
+              3947.0,
+              1408.0
+            ],
+            [
+              3952.058,
+              1405.699
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              3943.0,
+              1412.0
+            ],
+            [
+              3947.0,
+              1408.0
+            ],
+            [
+              3951.2,
+              1405.4
+            ]
+          ],
+          "waterOk": null,
+          "why": "A spur off the yard way across to the east family tent.",
+          "widthM": 1.5
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "terminal.opening-work-camp.gang-walk",
+            "route.road.stormhold-thorn"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.opening-work-camp.the-gang-walk",
+          "kind": "track",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              3989.26,
+              1395.55
+            ],
+            [
+              3980.5,
+              1402.3
+            ],
+            [
+              3971.0,
+              1403.3
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              3989.26,
+              1395.55
+            ],
+            [
+              3980.5,
+              1402.3
+            ],
+            [
+              3971.0,
+              1403.3
+            ]
+          ],
+          "waterOk": null,
+          "why": "The end of the gang's walk from the barge, joined to the Border road above the camp.",
+          "widthM": 2.5
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "route.opening-work-camp.the-yard-way",
+            "parcel.opening-work-camp.overseers-hut"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.opening-work-camp.the-overseers-door",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              3941.0,
+              1400.0
+            ],
+            [
+              3939.8,
+              1398.0
+            ],
+            [
+              3936.837,
+              1397.966
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              3941.0,
+              1400.0
+            ],
+            [
+              3939.8,
+              1398.0
+            ],
+            [
+              3936.837,
+              1397.966
+            ]
+          ],
+          "waterOk": null,
+          "why": "A short spur off the yard way to the overseers' door.",
+          "widthM": 1.5
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "route.road.stormhold-thorn",
+            "parcel.opening-work-camp.hatching-shed"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.opening-work-camp.the-road-way",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              3958.5,
+              1418.5
+            ],
+            [
+              3952.0,
+              1417.5
+            ],
+            [
+              3946.0,
+              1418.5
+            ],
+            [
+              3944.1,
+              1420.0
+            ],
+            [
+              3945.566,
+              1422.566
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              3958.5,
+              1418.5
+            ],
+            [
+              3952.0,
+              1417.5
+            ],
+            [
+              3946.0,
+              1418.5
+            ],
+            [
+              3944.1,
+              1420.0
+            ],
+            [
+              3945.566,
+              1422.566
+            ]
+          ],
+          "waterOk": null,
+          "why": "The way in from the Border road, to the door of the hatching shed.",
+          "widthM": 2.0
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "route.opening-work-camp.the-yard-way",
+            "parcel.opening-work-camp.family-tent-south"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.opening-work-camp.the-south-tent",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              3943.0,
+              1412.0
+            ],
+            [
+              3939.256,
+              1412.497
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              3943.0,
+              1412.0
+            ],
+            [
+              3939.6,
+              1412.2
+            ]
+          ],
+          "waterOk": null,
+          "why": "A spur off the yard way to the south family tent's mouth.",
+          "widthM": 1.5
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "route.opening-work-camp.the-yard-way",
+            "parcel.opening-work-camp.sleeping-shed-west"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.opening-work-camp.the-west-shed",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              3942.0,
+              1394.0
+            ],
+            [
+              3930.834,
+              1386.834
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              3942.0,
+              1394.0
+            ],
+            [
+              3937.0,
+              1391.0
+            ],
+            [
+              3931.1,
+              1387.2
+            ]
+          ],
+          "waterOk": null,
+          "why": "A spur across the lowest terrace to the west sleeping shed.",
+          "widthM": 1.5
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "route.opening-work-camp.the-road-way",
+            "parcel.opening-work-camp.sleeping-shed-east"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.opening-work-camp.the-yard-way",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              3947.0,
+              1418.333
+            ],
+            [
+              3943.0,
+              1412.0
+            ],
+            [
+              3941.0,
+              1400.0
+            ],
+            [
+              3942.0,
+              1394.0
+            ],
+            [
+              3945.0,
+              1389.18
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              3947.0,
+              1418.333
+            ],
+            [
+              3943.0,
+              1412.0
+            ],
+            [
+              3941.5,
+              1405.0
+            ],
+            [
+              3941.0,
+              1400.0
+            ],
+            [
+              3942.0,
+              1394.0
+            ],
+            [
+              3945.0,
+              1390.0
+            ]
+          ],
+          "waterOk": null,
+          "why": "The camp's main way, down the terraces from the hatching shed to the sleeping sheds.",
+          "widthM": 2.0
+        }
+      ]
+    },
+    {
+      "approaches": [
+        {
+          "firstSeen": "parcel.border-road-greenspring-crossings.inlet-deck",
+          "fromDirection": null,
+          "fromRouteId": "track.hist-heartland.greenspring",
+          "id": "approach.border-road-greenspring-crossings.from-greenspring",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "Coming down the track from Greenspring, a cairn and a totem mark where it meets the road. West along the road the planks of the inlet deck show low over the marsh.",
+          "wayfinding": "The road runs west from the track head, down to the inlet deck and on to the river crossing."
+        },
+        {
+          "firstSeen": "parcel.border-road-greenspring-crossings.river-bridge",
+          "fromDirection": null,
+          "fromRouteId": "route.road.stormhold-thorn",
+          "id": "approach.border-road-greenspring-crossings.from-the-west",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "Coming south-east along the road from Stormhold, a cairn marks the head of the river crossing and the planks run straight across the marsh to the stone steps.",
+          "wayfinding": "Across the planks, up the steps and along the top of the bank."
+        }
+      ],
+      "assetConstraints": [],
+      "boundary": [
+        [
+          4440.0,
+          1505.0
+        ],
+        [
+          4810.0,
+          1505.0
+        ],
+        [
+          4810.0,
+          1830.0
+        ],
+        [
+          4440.0,
+          1830.0
+        ]
+      ],
+      "budget": {
+        "maxColliders": 60,
+        "maxInstances": 80,
+        "maxTextureMB": 24,
+        "maxUniqueMaterials": 40
+      },
+      "causalModel": {
+        "founding": "The Border road was laid on a Dunmer line from Stormhold to Thorn. Below Greenspring it meets the river marsh and an inlet stream. Its keepers carry it over both on piled timber.",
+        "occupantsMotive": "Nobody lives on the crossings. The village above keeps the planks because its trade goes out along this road.",
+        "pressures": "The marsh rots the piles in a few seasons. The village above has to keep replacing them.",
+        "siteAdvantages": "The road keeps to the dry strip at the mountain foot and crosses water only where it must, at the inlet mouth and at one reach of the river marsh.",
+        "wouldChangeIf": "A causeway of stone would replace the planks if anyone paid for one."
+      },
+      "clearance": {
+        "hardClear": [],
+        "kept": [],
+        "thinned": []
+      },
+      "combatSpaces": [
+        {
+          "clearanceClass": "open",
+          "id": "combat.border-road-greenspring-crossings.the-bank-top",
+          "notes": null,
+          "polygon": [
+            [
+              4470.187,
+              1556.136
+            ],
+            [
+              4467.718,
+              1558.569
+            ],
+            [
+              4469.048,
+              1618.547
+            ],
+            [
+              4469.058,
+              1618.867
+            ],
+            [
+              4469.402,
+              1622.566
+            ],
+            [
+              4469.885,
+              1626.495
+            ],
+            [
+              4472.37,
+              1628.645
+            ],
+            [
+              4475.481,
+              1628.539
+            ],
+            [
+              4480.053,
+              1624.719
+            ],
+            [
+              4481.361,
+              1623.322
+            ],
+            [
+              4481.561,
+              1618.505
+            ],
+            [
+              4480.267,
+              1560.126
+            ],
+            [
+              4480.205,
+              1558.266
+            ],
+            [
+              4477.659,
+              1555.888
+            ]
+          ],
+          "why": "The flat top of the river bank between the steps and the inlet, the one open footing between the two crossings."
+        }
+      ],
+      "contextM": {
+        "x0": 2880.0,
+        "x1": 6370.0,
+        "z0": -77.5,
+        "z1": 3412.5
+      },
+      "districts": [
+        {
+          "centreM": [
+            4598.936,
+            1690.915
+          ],
+          "cultureKit": "argonian-mud",
+          "id": "district.border-road-greenspring-crossings.the-crossings",
+          "kind": "route-structure",
+          "notes": "The stretch of the Border road from the Greenspring track west to the river marsh, with its two plank crossings and the stone steps up the river bank.",
+          "polygon": [
+            [
+              4468.456,
+              1548.491
+            ],
+            [
+              4466.798,
+              1550.103
+            ],
+            [
+              4466.654,
+              1552.051
+            ],
+            [
+              4469.059,
+              1618.873
+            ],
+            [
+              4469.402,
+              1622.566
+            ],
+            [
+              4469.881,
+              1626.464
+            ],
+            [
+              4656.462,
+              1792.486
+            ],
+            [
+              4703.189,
+              1814.305
+            ],
+            [
+              4703.481,
+              1814.437
+            ],
+            [
+              4706.949,
+              1815.768
+            ],
+            [
+              4710.546,
+              1817.027
+            ],
+            [
+              4810.0,
+              1782.589
+            ],
+            [
+              4810.0,
+              1773.915
+            ],
+            [
+              4474.231,
+              1543.74
+            ]
+          ],
+          "wealth": "poor",
+          "why": {
+            "microGeography": "Firm lowland and bank between black marsh water, the road a worn earth strip on the dry ground.",
+            "playerPurpose": "The way between Greenspring and the west, dry underfoot only where the planks carry it.",
+            "what": "The Border road between the Greenspring track and the river marsh, with its two plank crossings, the stone steps and the marks beside the way.",
+            "whyHere": "The road keeps to the dry strip at the mountain foot and has to cross water twice before it can climb the river bank.",
+            "whyNeighbours": "Greenspring stands up its own track at the east end; the road runs on west toward Stormhold."
+          }
+        }
+      ],
+      "docks": [],
+      "doors": [],
+      "id": "place.route.border-road-greenspring-crossings",
+      "landmarks": [],
+      "networkTerminals": [
+        {
+          "id": "terminal.border-road-greenspring-crossings.greenspring-track",
+          "kind": "road",
+          "positionM": [
+            4801.004,
+            1785.002
+          ],
+          "routeId": "track.hist-heartland.greenspring",
+          "wayId": "route.road.stormhold-thorn",
+          "why": "The Greenspring track meets the road at its east end."
+        },
+        {
+          "id": "terminal.border-road-greenspring-crossings.west",
+          "kind": "road",
+          "positionM": [
+            4479.679,
+            1557.676
+          ],
+          "routeId": "route.road.stormhold-thorn",
+          "wayId": "route.road.stormhold-thorn",
+          "why": "The road from Stormhold reaches the north end of the river crossing."
+        }
+      ],
+      "parcels": [
+        {
+          "assetRef": "vanilla:clutter/woodfires/campfire01landoff",
+          "buildingFamily": "road-dressing",
+          "centreM": [
+            4630.0,
+            1739.0
+          ],
+          "districtId": "district.border-road-greenspring-crossings.the-crossings",
+          "entrance": null,
+          "front": null,
+          "groundFit": "direct",
+          "id": "parcel.border-road-greenspring-crossings.bank-road",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "A cold fire ring on the flat above the inlet, with rocks along both bends and a cairn at the west head of the inlet deck.",
+          "polygon": [
+            [
+              4627.41,
+              1739.07
+            ],
+            [
+              4628.24,
+              1737.64
+            ],
+            [
+              4629.1,
+              1736.96
+            ],
+            [
+              4630.01,
+              1736.68
+            ],
+            [
+              4630.94,
+              1736.86
+            ],
+            [
+              4631.73,
+              1737.39
+            ],
+            [
+              4632.07,
+              1738.19
+            ],
+            [
+              4632.17,
+              1739.13
+            ],
+            [
+              4631.94,
+              1739.95
+            ],
+            [
+              4631.51,
+              1740.7
+            ],
+            [
+              4630.73,
+              1741.29
+            ],
+            [
+              4630.01,
+              1741.54
+            ],
+            [
+              4629.08,
+              1741.35
+            ],
+            [
+              4628.29,
+              1740.82
+            ],
+            [
+              4627.56,
+              1740.07
+            ]
+          ],
+          "spans": null,
+          "use": "waymark",
+          "why": {
+            "microGeography": "Firm lowland on the bank top, the road a worn earth strip.",
+            "playerPurpose": "A cold fire ring to rest at between the two crossings.",
+            "what": "The bank road between the two crossings: rocks at the bends, a cold fire ring where travellers stop above the inlet and a cairn at the head of the inlet deck.",
+            "whyHere": "Nobody keeps this stretch. Stones lie where they fell and the cairn marks the deck for anyone coming off the bank.",
+            "whyNeighbours": "The steps down to the river crossing lie west and the inlet deck lies east.",
+            "whySpot": "The fire ring stands on the flat ground above the inlet, where the road levels out before the deck."
+          },
+          "yawDeg": 0.0
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-docks",
+          "centreM": [
+            4662.81,
+            1788.51
+          ],
+          "districtId": "district.border-road-greenspring-crossings.the-crossings",
+          "entrance": null,
+          "front": null,
+          "groundFit": "stilt",
+          "id": "parcel.border-road-greenspring-crossings.inlet-deck",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Laid east-south-east along the road's line, straight across the inlet mouth between its two dry banks.",
+          "polygon": [
+            [
+              4660.547,
+              1785.002
+            ],
+            [
+              4660.388,
+              1785.062
+            ],
+            [
+              4658.629,
+              1788.941
+            ],
+            [
+              4658.684,
+              1789.109
+            ],
+            [
+              4704.861,
+              1810.671
+            ],
+            [
+              4705.025,
+              1810.745
+            ],
+            [
+              4708.327,
+              1812.012
+            ],
+            [
+              4710.553,
+              1812.792
+            ],
+            [
+              4710.716,
+              1812.723
+            ],
+            [
+              4710.787,
+              1812.568
+            ],
+            [
+              4709.768,
+              1808.351
+            ],
+            [
+              4709.703,
+              1808.178
+            ],
+            [
+              4706.888,
+              1806.638
+            ]
+          ],
+          "spans": null,
+          "use": "dock",
+          "why": {
+            "microGeography": "Planks about a metre over the black water of the inlet mouth, on sunk piles.",
+            "playerPurpose": "The road itself across the inlet mouth, the last wet stretch before Greenspring.",
+            "what": "The inlet deck: plank spans on piles over the mouth of the inlet stream.",
+            "whyHere": "The inlet stream spreads into marsh at its mouth, up to a metre deep across the road's line.",
+            "whyNeighbours": "A cairn marks its west head. The track up to Greenspring turns off a short walk to the east.",
+            "whySpot": "From the dry ground below the bank east across the mouth to the dry ground under the Greenspring rise."
+          },
+          "yawDeg": 114.4
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-docks",
+          "centreM": [
+            4474.12,
+            1563.64
+          ],
+          "districtId": "district.border-road-greenspring-crossings.the-crossings",
+          "entrance": null,
+          "front": null,
+          "groundFit": "stilt",
+          "id": "parcel.border-road-greenspring-crossings.river-bridge",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Laid north to south along the road's line, so the planks meet the foot of the stone steps square.",
+          "polygon": [
+            [
+              4476.138,
+              1559.941
+            ],
+            [
+              4471.881,
+              1560.082
+            ],
+            [
+              4471.755,
+              1560.207
+            ],
+            [
+              4473.046,
+              1618.436
+            ],
+            [
+              4473.052,
+              1618.616
+            ],
+            [
+              4473.379,
+              1622.137
+            ],
+            [
+              4473.667,
+              1624.478
+            ],
+            [
+              4473.801,
+              1624.594
+            ],
+            [
+              4473.971,
+              1624.588
+            ],
+            [
+              4477.3,
+              1621.807
+            ],
+            [
+              4477.426,
+              1621.672
+            ],
+            [
+              4477.56,
+              1618.466
+            ],
+            [
+              4476.268,
+              1560.237
+            ],
+            [
+              4476.262,
+              1560.057
+            ]
+          ],
+          "spans": null,
+          "use": "dock",
+          "why": {
+            "microGeography": "Planks a hand's breadth over black marsh water on sunk piles.",
+            "playerPurpose": "The road itself across the river marsh, dry underfoot from the cairn to the steps.",
+            "what": "The river crossing: plank spans on piles carrying the road over a reach of the river marsh, up to the foot of the stone steps.",
+            "whyHere": "The road meets the river marsh at its narrowest reach; water stands up to a metre and a quarter deep.",
+            "whyNeighbours": "The cairn at its north head marks it; the stone steps climb the bank from its south end.",
+            "whySpot": "From the dry ground at the north end straight south across the marsh to the foot of the steps up the bank."
+          },
+          "yawDeg": 178.1
+        },
+        {
+          "assetRef": "vanilla:landscape/rocks/cairns/rockcairn01",
+          "buildingFamily": "road-dressing",
+          "centreM": [
+            4472.11,
+            1552.22
+          ],
+          "districtId": "district.border-road-greenspring-crossings.the-crossings",
+          "entrance": null,
+          "front": {
+            "deg": 254.8,
+            "evidence": "asymmetry",
+            "outside": true,
+            "worldDeg": 16.8
+          },
+          "groundFit": "dug-in",
+          "id": "parcel.border-road-greenspring-crossings.river-crossing-head",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The cairn stands beside the north end of the river crossing; a grave mound lies on the flat ground beside it.",
+          "polygon": [
+            [
+              4472.958,
+              1551.24
+            ],
+            [
+              4473.37,
+              1551.675
+            ],
+            [
+              4473.535,
+              1552.073
+            ],
+            [
+              4473.572,
+              1552.296
+            ],
+            [
+              4473.588,
+              1552.459
+            ],
+            [
+              4473.101,
+              1552.993
+            ],
+            [
+              4471.182,
+              1553.008
+            ],
+            [
+              4470.796,
+              1552.908
+            ],
+            [
+              4470.73,
+              1552.56
+            ],
+            [
+              4470.659,
+              1552.127
+            ],
+            [
+              4470.675,
+              1551.913
+            ],
+            [
+              4471.125,
+              1551.475
+            ],
+            [
+              4471.879,
+              1551.061
+            ],
+            [
+              4472.398,
+              1550.985
+            ]
+          ],
+          "spans": null,
+          "use": "waymark",
+          "why": {
+            "microGeography": "The edge of the marsh, where dry ground meets black water.",
+            "playerPurpose": "Marks the start of the crossing for anyone coming from Stormhold. The grave marks someone the marsh took.",
+            "what": "A stone cairn at the north end of the river crossing, a low grave mound on the flat ground beside it and wet rocks at both ends of the planks.",
+            "whyHere": "The road reaches the river marsh here; the cairn tells a walker from the west where the planks begin.",
+            "whyNeighbours": "The river crossing runs south from here to the stone steps.",
+            "whySpot": "On the dry verge beside the first plank."
+          },
+          "yawDeg": 122.0
+        },
+        {
+          "assetRef": "vanilla:landscape/rocks/cairns/rockcairn02",
+          "buildingFamily": "road-dressing",
+          "centreM": [
+            4806.36,
+            1778.09
+          ],
+          "districtId": "district.border-road-greenspring-crossings.the-crossings",
+          "entrance": null,
+          "front": {
+            "deg": 228.8,
+            "evidence": "asymmetry",
+            "outside": true,
+            "worldDeg": 257.8
+          },
+          "groundFit": "dug-in",
+          "id": "parcel.border-road-greenspring-crossings.track-head-marks",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The cairn and the totem stand on the verge where the track comes down to the road.",
+          "polygon": [
+            [
+              4804.914,
+              1777.254
+            ],
+            [
+              4805.321,
+              1776.828
+            ],
+            [
+              4806.093,
+              1776.57
+            ],
+            [
+              4807.688,
+              1777.18
+            ],
+            [
+              4807.957,
+              1777.912
+            ],
+            [
+              4808.034,
+              1778.515
+            ],
+            [
+              4807.662,
+              1779.166
+            ],
+            [
+              4806.356,
+              1779.437
+            ],
+            [
+              4805.822,
+              1779.37
+            ],
+            [
+              4805.239,
+              1779.081
+            ],
+            [
+              4804.773,
+              1778.354
+            ],
+            [
+              4804.683,
+              1777.835
+            ]
+          ],
+          "spans": null,
+          "use": "waymark",
+          "why": {
+            "microGeography": "Dry ground at the mountain foot, firm underfoot.",
+            "playerPurpose": "Shows the walker where the track to Greenspring leaves the road.",
+            "what": "Greenspring's end of the road: a stone cairn and a tribe totem at the track head, with a few loose rocks on the verge toward the inlet.",
+            "whyHere": "The village keeps this stretch, so the verge is clear and the marks stand upright.",
+            "whyNeighbours": "Greenspring lies up the track; the inlet deck is a short walk west.",
+            "whySpot": "Beside the track head, off the road on the uphill side."
+          },
+          "yawDeg": 29.0
+        }
+      ],
+      "provision": {},
+      "questSockets": [],
+      "scaleGrounding": {
+        "buildingsPlanned": 0,
+        "households": 0,
+        "loreSource": "route record route.road.stormhold-thorn (worn; long timber bridges patched) and world/sources/routes/route-structure-exemplars.json",
+        "npcsPlanned": 0,
+        "population": "0",
+        "why": "A stretch of road with two plank crossings, stone steps and road marks; nobody lives on it."
+      },
+      "seed": "place.route.border-road-greenspring-crossings",
+      "siting": {
+        "candidates": [
+          {
+            "chosen": false,
+            "id": "candidate.border-road-greenspring-crossings.claywater-leg",
+            "positionM": [
+              645.0,
+              3190.0
+            ],
+            "rejectedBecause": "Its crossings are fords and a ferry already built by Claywater, so no bridge or deck is needed. Five unbuilt places (Cartwright's Cross, Fort Greenditch, the Ridge-runners' Post, the Ashen Tower, the Drowned Embankment) hold the ground beside its stairs.",
+            "why": "The Blackwood Road from Claywater Station east to the Greenditch stairs."
+          },
+          {
+            "chosen": true,
+            "id": "candidate.border-road-greenspring-crossings.greenspring-crossings",
+            "positionM": [
+              4620.0,
+              1690.0
+            ],
+            "rejectedBecause": null,
+            "why": "The Border road below Greenspring crosses two marsh reaches the crossing record bands as spans (crossing.major.009, 36 m, 1.32 m deep; crossing.major.012, 26 m, 0.6 m deep), climbs the river bank on a recorded stair and meets the built village's track: a bridge, a deck and a stair on one stretch with no other place's ground on it."
+          }
+        ],
+        "dossier": "world/sources/sites/dossiers/border-road-greenspring-crossings.json"
+      },
+      "summary": {
+        "approaches": 2,
+        "combatSpaces": 1,
+        "districts": 1,
+        "docks": 0,
+        "doors": 0,
+        "fences": 0,
+        "keptTrees": 0,
+        "landmarks": 0,
+        "networkTerminals": 2,
+        "parcels": 5,
+        "questSockets": 0,
+        "sitingCandidates": 2,
+        "ways": 3
+      },
+      "ways": [
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.border-road-greenspring-crossings.bank-road"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.border-road-greenspring-crossings.bank-road-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4620.64,
+              1749.76
+            ],
+            [
+              4628.305,
+              1740.83
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4620.64,
+              1749.76
+            ],
+            [
+              4627.95,
+              1741.36
+            ]
+          ],
+          "waterOk": null,
+          "why": "Trodden ground from the road to the cold fire ring where travellers stop at the bend.",
+          "widthM": 1.5
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.border-road-greenspring-crossings.river-crossing-head"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.border-road-greenspring-crossings.river-crossing-head-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4474.45,
+              1548.74
+            ],
+            [
+              4472.933,
+              1551.229
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4474.45,
+              1548.74
+            ],
+            [
+              4473.27,
+              1550.49
+            ]
+          ],
+          "waterOk": null,
+          "why": "A few steps of trodden ground from the road to the cairn at the head of the river crossing.",
+          "widthM": 1.5
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.border-road-greenspring-crossings.track-head-marks"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.border-road-greenspring-crossings.track-head-marks-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4799.73,
+              1779.0
+            ],
+            [
+              4804.76,
+              1778.28
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4799.73,
+              1779.0
+            ],
+            [
+              4804.01,
+              1778.41
+            ]
+          ],
+          "waterOk": null,
+          "why": "A few steps of trodden ground from the road to the cairn at the track head.",
+          "widthM": 1.5
+        }
+      ]
+    },
+    {
+      "approaches": [
+        {
+          "firstSeen": "parcel.jungle-root-hollow.the-cave-mouth",
+          "fromDirection": "east",
+          "fromRouteId": null,
+          "id": "approach.jungle-root-hollow.from-the-camp",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "Coming west through the trees from the hiring camp, the rock bank shows first, then the root mass against it, then the dark mouth between them.",
+          "wayfinding": "No path reaches it. The bank is the one patch of grey rock among the trees."
+        }
+      ],
+      "assetConstraints": [],
+      "boundary": [
+        [
+          3649.996,
+          4530.002
+        ],
+        [
+          3729.999,
+          4530.002
+        ],
+        [
+          3729.999,
+          4599.999
+        ],
+        [
+          3649.996,
+          4599.999
+        ]
+      ],
+      "budget": {
+        "maxColliders": 40,
+        "maxInstances": 60,
+        "maxTextureMB": 32,
+        "maxUniqueMaterials": 60
+      },
+      "causalModel": {
+        "founding": "A void opened where the root layer lifted the ground deep in the jungle. Something moved into it.",
+        "occupantsMotive": "An occupant that has made a lair of it and dragged in what it has taken.",
+        "pressures": "The evicted families at the hiring camp a kilometre east no longer forage this way. Any of them will tell a stranger why, at length.",
+        "siteAdvantages": "A dry void under the root layer, root-walled and rock-floored, with one defensible mouth.",
+        "wouldChangeIf": "If it were cleared, the hiring camp's foraging range would double."
+      },
+      "clearance": {
+        "hardClear": [],
+        "kept": [],
+        "thinned": []
+      },
+      "combatSpaces": [
+        {
+          "clearanceClass": "open",
+          "id": "combat.jungle-root-hollow.the-threshold",
+          "notes": null,
+          "polygon": [
+            [
+              3677.813,
+              4558.836
+            ],
+            [
+              3670.955,
+              4563.112
+            ],
+            [
+              3690.98,
+              4575.906
+            ],
+            [
+              3696.629,
+              4572.296
+            ],
+            [
+              3698.782,
+              4567.874
+            ],
+            [
+              3699.675,
+              4562.883
+            ],
+            [
+              3697.823,
+              4557.433
+            ],
+            [
+              3692.48,
+              4552.03
+            ]
+          ],
+          "why": "The level pocket in front of the mouth, the only open footing under the trees."
+        }
+      ],
+      "contextM": {
+        "x0": 2089.996,
+        "x1": 5289.999,
+        "z0": 2964.999,
+        "z1": 6165.002
+      },
+      "districts": [
+        {
+          "centreM": [
+            3690.642,
+            4563.796
+          ],
+          "cultureKit": "argonian-root",
+          "id": "district.jungle-root-hollow.the-mouth",
+          "kind": "lair",
+          "notes": "A Hist root mouth against a mossy rock bank, with a scatter of bones and tools in front of it.",
+          "polygon": [
+            [
+              3677.813,
+              4558.836
+            ],
+            [
+              3670.955,
+              4563.112
+            ],
+            [
+              3690.98,
+              4575.906
+            ],
+            [
+              3696.629,
+              4572.296
+            ],
+            [
+              3698.782,
+              4567.874
+            ],
+            [
+              3699.675,
+              4562.883
+            ],
+            [
+              3697.823,
+              4557.433
+            ],
+            [
+              3692.48,
+              4552.03
+            ]
+          ],
+          "wealth": "none",
+          "why": {
+            "microGeography": "Dark leaf litter on firm ground, under a closed canopy.",
+            "playerPurpose": "The way into the lair; the evidence of what it has taken.",
+            "what": "The mouth of the hollow, its rock bank and the scatter in front of it.",
+            "whyHere": "The root layer lifted the ground here and left a dry void under it.",
+            "whyNeighbours": "No one lives within a valley of it; the hiring camp is nearly a kilometre east."
+          }
+        }
+      ],
+      "docks": [],
+      "doors": [
+        {
+          "facingDeg": 96.4,
+          "id": "door.saxhleel-coast.jungle-root-hollow.1",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": null,
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.jungle-root-hollow.the-cave-mouth",
+          "thresholdM": [
+            3683.495,
+            4564.169
+          ]
+        }
+      ],
+      "id": "place.saxhleel-coast.jungle-root-hollow",
+      "landmarks": [],
+      "networkTerminals": [],
+      "parcels": [
+        {
+          "assetRef": "vanilla:landscape/rocks/rockcaveentrance02",
+          "buildingFamily": "vanilla-cave-entrance",
+          "centreM": [
+            3682.0,
+            4564.0
+          ],
+          "districtId": "district.jungle-root-hollow.the-mouth",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": 96.4,
+            "interiorRef": "vanilla-imperial-int",
+            "kind": "esp-door",
+            "worldM": [
+              3683.495,
+              4564.169
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.jungle-root-hollow.the-cave-mouth",
+          "interior": {
+            "kind": "shell"
+          },
+          "notes": null,
+          "orientationWhy": "Its mouth faces east, toward the hiring camp, home of the lost foragers.",
+          "polygon": [
+            [
+              3678.449,
+              4563.154
+            ],
+            [
+              3679.721,
+              4562.361
+            ],
+            [
+              3691.613,
+              4556.842
+            ],
+            [
+              3694.332,
+              4559.592
+            ],
+            [
+              3695.556,
+              4563.194
+            ],
+            [
+              3694.942,
+              4566.622
+            ],
+            [
+              3693.526,
+              4569.533
+            ],
+            [
+              3690.98,
+              4571.159
+            ]
+          ],
+          "spans": null,
+          "use": "lair",
+          "why": {
+            "microGeography": "Rock and living root over a dark opening, with trodden earth at the threshold.",
+            "playerPurpose": "The way down into the lair; also the only way out of it again.",
+            "what": "The mouth: a rock arch collared with Hist root, with the way down inside it.",
+            "whyHere": "The roots hold up the roof of the void; this arch is its single opening.",
+            "whyNeighbours": "The bank closes it on the west; the scatter spreads east of it.",
+            "whySpot": "Against the rock bank, on the level pocket in front of it."
+          },
+          "yawDeg": 350.0
+        }
+      ],
+      "provision": {},
+      "questSockets": [
+        {
+          "id": "socket.jungle-root-hollow.q-evidence-the-tools",
+          "kind": "evidence",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            3687.859,
+            4562.062
+          ],
+          "questId": null
+        }
+      ],
+      "scaleGrounding": {
+        "buildingsPlanned": 1,
+        "households": 0,
+        "loreSource": "catalogue record Takes-The-Tools (lair, M1, one mouth); interior MugsumpHollowInt01, the cell King of the Murkmire links to the hist_vines01 root mouth",
+        "npcsPlanned": 0,
+        "population": "0",
+        "why": "One mouth, its rock bank and the scatter in front of it; the lair itself is the cell below."
+      },
+      "seed": "place.saxhleel-coast.jungle-root-hollow",
+      "siting": {
+        "candidates": [
+          {
+            "chosen": false,
+            "id": "candidate.jungle-root-hollow.plotted-anchor",
+            "positionM": [
+              3682.2,
+              4554.1
+            ],
+            "rejectedBecause": "Its east side drops into a hummock, so the mouth would face into rising ground.",
+            "why": "The plotted anchor, 12 m north-west of the chosen pocket."
+          },
+          {
+            "chosen": true,
+            "id": "candidate.jungle-root-hollow.the-pocket",
+            "positionM": [
+              3690.0,
+              4562.0
+            ],
+            "rejectedBecause": null,
+            "why": "A level pocket 10 m south-east of the plotted anchor, firm and dry, with the ground rising on its west side for the bank."
+          }
+        ],
+        "dossier": "world/sources/sites/dossiers/jungle-root-hollow.json"
+      },
+      "summary": {
+        "approaches": 1,
+        "combatSpaces": 1,
+        "districts": 1,
+        "docks": 0,
+        "doors": 1,
+        "fences": 0,
+        "keptTrees": 0,
+        "landmarks": 0,
+        "networkTerminals": 0,
+        "parcels": 1,
+        "questSockets": 1,
+        "sitingCandidates": 2,
+        "ways": 0
+      },
+      "ways": []
     }
   ],
   "layers": [

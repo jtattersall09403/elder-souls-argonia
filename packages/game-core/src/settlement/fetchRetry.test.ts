@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { PermanentFetchError, TransientFetchError, fetchWithRetry, withRetry } from "./fetchRetry";
+import { PermanentFetchError, TransientFetchError, fetchWithRetry, loadGltfWithRetry, withRetry } from "./fetchRetry";
 
 const noWait = { pause: async () => {} };
 const answer = (status: number) => ({ ok: status >= 200 && status < 300, status, json: async () => ({ status }) }) as Response;
@@ -32,5 +32,21 @@ describe("settlement fetch retry (16k walk 7: one dropped request killed the lay
     let n = 0;
     await expect(withRetry(async () => { n++; if (n < 2) throw new Error("net"); return "gltf"; }, noWait))
       .resolves.toBe("gltf");
+  });
+
+  it("a 404 kit GLB fails at once as permanent (the layer reports LAYER FAILED, never retries)", async () => {
+    let n = 0;
+    const fetchFn = (async () => { n++; return answer(404); }) as typeof fetch;
+    const loader = { parseAsync: async () => ({}) };
+    await expect(loadGltfWithRetry("kits/a.glb", loader, { ...noWait, fetchFn })).rejects.toBeInstanceOf(PermanentFetchError);
+    expect(n).toBe(1);
+  });
+
+  it("a GLB that arrives but does not parse is permanent; a dropped one is transient", async () => {
+    const ok = (async () => ({ ok: true, status: 200, arrayBuffer: async () => new ArrayBuffer(4) }) as unknown as Response) as typeof fetch;
+    const bad = { parseAsync: async () => { throw new Error("Unexpected token"); } };
+    await expect(loadGltfWithRetry("kits/a.glb", bad, { ...noWait, fetchFn: ok })).rejects.toBeInstanceOf(PermanentFetchError);
+    const dropped = (async () => { throw new TypeError("Failed to fetch"); }) as typeof fetch;
+    await expect(loadGltfWithRetry("kits/a.glb", bad, { ...noWait, fetchFn: dropped })).rejects.toBeInstanceOf(TransientFetchError);
   });
 });

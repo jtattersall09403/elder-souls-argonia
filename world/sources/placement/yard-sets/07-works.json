@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "type": "07-works",
+  "about": "Yard sets for works and landings (decision 0101): the dressing groups that `wb.py group place` lays. Members sit in the anchor's plan frame (offsetM is x east and z south with the anchor at yaw 0); none is mounted, every member is settled on the ground. A works lays out its process in order: fuel and ore in, the furnace, the product and the spoil out. First laid at Bog Iron Workings (16k walk 9).",
+  "source": "world/sources/blueprints/bog-iron-workings.layout.json (first laid there by `group place`)",
+  "sets": [
+    {
+      "id": "works-bloomery-yard",
+      "anchor": "bl-bellows",
+      "why": "What stands round a bloomery furnace (the furnace, its charcoal bed and bucket are the parcel's own piece, Skyrim's smelter): the bellows at the furnace's side, the woodpile and chopping block that make its charcoal, and the iron it gives, stacked by its foot. Offsets are from the bellows.",
+      "members": [
+        {
+          "uid": "bl-bellows",
+          "piece": "vanilla:clutter/blacksmith/blacksmithnovicebellows01",
+          "offsetM": [
+            0.0,
+            0.0
+          ],
+          "yaw": 0.0
+        },
+        {
+          "uid": "bl-wood",
+          "piece": "vanilla:clutter/firewood/firewoodpilelarge01",
+          "offsetM": [
+            4.6,
+            6.7
+          ],
+          "yaw": 90.0
+        },
+        {
+          "uid": "bl-chop",
+          "piece": "vanilla:clutter/chopping block/choppingblock01",
+          "offsetM": [
+            4.0,
+            9.4
+          ],
+          "yaw": 0.0
+        },
+        {
+          "uid": "bl-ingots",
+          "piece": "kotm:oaristys/forge/ingotsiron01",
+          "offsetM": [
+            1.6,
+            8.0
+          ],
+          "yaw": 30.0
+        }
+      ]
+    },
+    {
+      "id": "works-diggers-cookfire",
+      "anchor": "cf-fire",
+      "why": "The diggers' cookfire on the furnace floor, upwind of the furnace: a pot and a jar of food beside it.",
+      "members": [
+        {
+          "uid": "cf-fire",
+          "piece": "vanilla:clutter/woodfires/campfire01burning",
+          "offsetM": [
+            0.0,
+            0.0
+          ],
+          "yaw": 0.0
+        },
+        {
+          "uid": "cf-pot",
+          "piece": "kotm:argonia/clutter/saxhleelmetalpot01",
+          "offsetM": [
+            -1.3,
+            -1.0
+          ],
+          "yaw": 0.0
+        },
+        {
+          "uid": "cf-urn",
+          "piece": "mudmother:gv_meshes/argoniannest/paintedurn01",
+          "offsetM": [
+            -1.1,
+            1.4
+          ],
+          "yaw": 0.0
+        }
+      ]
+    },
+    {
+      "id": "works-ore-carry",
+      "anchor": "oc-cart",
+      "why": "Where the ore comes up from the seep: the hand cart that takes it to the furnace, bog-iron cakes heaped and in a bucket, full baskets waiting to be tipped, and a pail for the wash.",
+      "members": [
+        {
+          "uid": "oc-cart",
+          "piece": "vanilla:clutter/carts/handcart02",
+          "offsetM": [
+            0.0,
+            0.0
+          ],
+          "yaw": 30.0
+        },
+        {
+          "uid": "oc-bask1",
+          "piece": "mudmother:gv_meshes/argoniannest/basketfull",
+          "offsetM": [
+            1.3,
+            2.0
+          ],
+          "yaw": 0.0
+        },
+        {
+          "uid": "oc-bask2",
+          "piece": "kotm:argonia/clutter/basket02",
+          "offsetM": [
+            2.3,
+            2.9
+          ],
+          "yaw": 0.0
+        },
+        {
+          "uid": "oc-pail",
+          "piece": "vanilla:clutter/bucket01",
+          "offsetM": [
+            -0.7,
+            2.2
+          ],
+          "yaw": 0.0
+        },
+        {
+          "uid": "oc-ore1",
+          "piece": "kotm:oaristys/forge/orestack_iron",
+          "offsetM": [
+            2.9,
+            0.6
+          ],
+          "yaw": 10.0
+        },
+        {
+          "uid": "oc-ore2",
+          "piece": "kotm:oaristys/forge/orestack_iron",
+          "offsetM": [
+            3.6,
+            1.6
+          ],
+          "yaw": 200.0
+        },
+        {
+          "uid": "oc-orebucket",
+          "piece": "kotm:oaristys/forge/orebucket_iron",
+          "offsetM": [
+            1.4,
+            0.8
+          ],
+          "yaw": 0.0
+        }
+      ]
+    },
+    {
+      "id": "works-crew-stores",
+      "anchor": "cs-basket",
+      "why": "The crew's own stores either side of their hut door: food in jars and a full basket, a sack and a crate of kit, a pail, and the small woodpile for their hearth.",
+      "members": [
+        {
+          "uid": "cs-basket",
+          "piece": "mudmother:gv_meshes/argoniannest/basketfull",
+          "offsetM": [
+            0.0,
+            0.0
+          ],
+          "yaw": 0.0
+        },
+        {
+          "uid": "cs-urn1",
+          "piece": "mudmother:gv_meshes/argoniannest/paintedurn01",
+          "offsetM": [
+            0.9,
+            -1.1
+          ],
+          "yaw": 0.0
+        },
+        {
+          "uid": "cs-urn2",
+          "piece": "mudmother:gv_meshes/argoniannest/paintedurn01",
+          "offsetM": [
+            -0.6,
+            -1.4
+          ],
+          "yaw": 40.0
+        },
+        {
+          "uid": "cs-sack",
+          "piece": "vanilla:clutter/containers/miscsacklarge",
+          "offsetM": [
+            1.3,
+            0.7
+          ],
+          "yaw": 300.0
+        },
+        {
+          "uid": "cs-wood",
+          "piece": "vanilla:clutter/firewood/firewoodpilesmall01",
+          "offsetM": [
+            -2.3,
+            -2.8
+          ],
+          "yaw": 20.0
+        },
+        {
+          "uid": "cs-pail",
+          "piece": "vanilla:clutter/bucket01",
+          "offsetM": [
+            1.2,
+            7.3
+          ],
+          "yaw": 0.0
+        },
+        {
+          "uid": "cs-basket2",
+          "piece": "kotm:argonia/clutter/basket01",
+          "offsetM": [
+            -1.6,
+            7.9
+          ],
+          "yaw": 0.0
+        },
+        {
+          "uid": "cs-crate",
+          "piece": "vanilla:clutter/common/cratesmall01",
+          "offsetM": [
+            0.6,
+            1.9
+          ],
+          "yaw": 15.0
+        }
+      ]
+    }
+  ]
+}

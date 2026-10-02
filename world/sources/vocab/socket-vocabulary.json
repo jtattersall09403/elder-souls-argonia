@@ -115,6 +115,14 @@
    "assetSource": "vanilla:meshes/clutter/books (note01..04, notetornpaper)",
    "valueBand": "trivial",
    "textBearing": true
+  },
+  "weapon": {
+   "assetSource": "packages/game-core generated/arsenal.items.json (the arsenal items)",
+   "valueBand": "moderate"
+  },
+  "armour": {
+   "assetSource": "packages/game-core generated/arsenal.items.json (the arsenal items)",
+   "valueBand": "moderate"
   }
  },
  "containerClasses": {
@@ -163,6 +171,12 @@
     "strongbox"
    ],
    "defaultFillRule": null
+  },
+  "beehive": {
+   "nameFamilies": [
+    "beehive"
+   ],
+   "defaultFillRule": "blanket.beehive"
   }
  },
  "furnitureActivities": {
@@ -225,6 +239,13 @@
   },
   "blanket.water-barrel": {
    "itemClasses": [],
+   "valueBand": "trivial",
+   "hiddenGemChance": 0.0
+  },
+  "blanket.beehive": {
+   "itemClasses": [
+    "food"
+   ],
    "valueBand": "trivial",
    "hiddenGemChance": 0.0
   },

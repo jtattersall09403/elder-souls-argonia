@@ -7912,18 +7912,18 @@
       "sources": [
         "Lore:Greenspring (Arena neighbour name)",
         "world/sources/lore/extrapolation/settlement-register.md §4",
-        "Lore:Hist; Lore:Argonian; settlement-register M3 band",
+        "Lore:Hist; Lore:Argonian; settlement-register M2 band",
         "world/sources/lore/helstrom.md",
         "world/sources/lore/topics/hist-placement.md",
         "world/sources/lore/extrapolation/settlement-register.md"
       ],
       "confidence": "medium",
       "why": {
-        "founding": "Founded at the Panther fork on springs that can be drunk unboiled, rare enough here to found a village.",
-        "siteAdvantages": "Firm ground where clean water rises from a stone lip, at the last dry footing before the Helstrom approach.",
-        "occupantsMotive": "A tribe that has made itself indispensable as the interior's last friendly stop. It charges nothing for water and a great deal for beds and rope.",
-        "pressures": "Traffic for Helstrom comes through the village, including people whom the tribe would rather not host: cult couriers, tappers and the Veiled Reed's factors.",
-        "wouldChangeIf": "If the springs soured the village would move within a season. The Helstrom approach would then have no guaranteed clean water in a day's radius."
+        "founding": "Founded beside the Panther Race on springs whose water can be drunk unboiled, which is rare in this region. The tribe's Hist grows over the spring.",
+        "siteAdvantages": "Firm ground where clean water rises from a stone lip, a short walk from the road and from the river landing.",
+        "occupantsMotive": "A tribe that has made itself indispensable to travellers bound for Helstrom. It charges nothing for water and a great deal for beds and rope.",
+        "pressures": "Salt is reaching the water from upstream. The Hist has begun to sicken. The village blames the salt works. Traffic for Helstrom also brings people the tribe would rather not host: cult couriers, tappers and the Veiled Reed's factors.",
+        "wouldChangeIf": "If the springs soured the village would move within a season. Travellers bound for Helstrom would then lose their surest clean water."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7956,16 +7956,19 @@
       "relations": {
         "dependsOn": [],
         "supplies": [
-          "place.hist-heartland.cut-and-carried"
+          "place.hist-heartland.cut-and-carried",
+          "place.hist-heartland.helstrom"
         ],
         "rivals": [
+          "place.dunmer-north.ten-maur-wolk",
+          "place.hist-heartland.nine-trunks",
           "place.hist-heartland.stilt-channel-edge-uxaneet"
         ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.hist-heartland.whitewater-reach-panther"
+          "route.road.stormhold-thorn"
         ],
         "travelServiceEdges": []
       },
@@ -8002,13 +8005,13 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "a sick crown leaning out over a river fork, with the spring ringed in grey stones below it",
-        "palette": "grey stones round a pool of clear water, a green crown thinning to open sky above, painted urns along the yards, mud churned brown at the landing",
-        "materials": "a hide awning over the spring house; mud-walled pods and bamboo huts; rough stones set round the spring; a plank landing on the bank",
-        "signatureFeature": "Water drunk without ceremony, dipped from a stone-ringed pool that visitors are expected to taste before they speak.",
+        "silhouette": "a sick crown leaning over the spring and the huts round it",
+        "palette": "a pool of clear water, a green crown thinning to open sky above, painted urns along the yards, mud churned brown at the landing",
+        "materials": "a hide tent beside the spring; mud-walled pods and bamboo huts; a plank landing on the bank",
+        "signatureFeature": "Water drunk without ceremony, dipped from the clear pool under the Hist that visitors are expected to taste before they speak.",
         "condition": "well kept in the yards used daily, threadbare a step off the path",
         "mood": "hospitable, tired, professionally patient",
-        "approach": "Coming in from the fork, the standing water goes from black to clear over about a hundred metres. Frond smoke from the cookfires reaches the fork before the houses are in sight.",
+        "approach": "Coming up from the landing, the black river water gives way to a small clear pool under the Hist. Frond smoke from the cookfires reaches the landing before the houses are in sight.",
         "senses": "cold mineral water tasted before a word is spoken; wet rope and boat tar at the landing; voices bartering over bed and rope prices; frond smoke drifting from cookfires at dusk"
       },
       "assetPlan": [
@@ -8036,7 +8039,9 @@
         "scene": [
           "scene.greenspring.greenspring-fork-market"
         ],
-        "evidence": [],
+        "evidence": [
+          "evidence.greenspring.sick-root"
+        ],
         "post": [
           "post.greenspring.greenspring-river-landing"
         ],
@@ -8097,7 +8102,7 @@
         "score": 3.491
       },
       "hostility": {
-        "baseline": "wary",
+        "baseline": "friendly",
         "owner": null,
         "flips": [],
         "clearable": false,
@@ -8117,7 +8122,7 @@
         "family": "dwelling",
         "sizeBand": "S2",
         "wetFraction": 0.0,
-        "entranceCount": 1,
+        "entranceCount": 6,
         "exteriorShell": true,
         "programRef": null,
         "verticalRelationship": "behind"
@@ -8164,7 +8169,7 @@
           "placeRef": "place.hist-heartland.helstrom"
         },
         {
-          "sourcePath": "why.siteAdvantages",
+          "sourcePath": "why.occupantsMotive",
           "placeRef": "place.hist-heartland.helstrom"
         },
         {
@@ -24606,7 +24611,7 @@
             "to": "hostile",
             "when": {
               "questStage": [
-                "quest.mq.18",
+                "quest.main.mq18",
                 "≥",
                 70
               ]
@@ -24617,7 +24622,7 @@
             "to": "neutral",
             "when": {
               "questStage": [
-                "quest.mq.22",
+                "quest.main.mq22",
                 "≥",
                 20
               ]

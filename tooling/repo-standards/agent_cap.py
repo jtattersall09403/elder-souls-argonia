@@ -15,6 +15,9 @@ One script, three hook events (the event is read from `hook_event_name`):
       is held by a job in its first SLOT_YOUNG_S (a slot that is free, or a
       job waiting for one, admits: slots serialise heavy jobs);
     - backstop: live + pending >= RUNAWAY_CAP;
+    - weekly pace (decision 0118): a wave (a second launch within WAVE_S)
+      while week_usage.py puts the week above WEEK_PACE of the limit, unless
+      the brief's `Budget:` is under SHORT_BUDGET_MIN;
     else record a pending launch (expires after PENDING_S).
   SubagentStart            pending -> live (`agent_id`)
   SubagentStop             remove `agent_id`
@@ -24,7 +27,7 @@ State: one JSON file per session under $ES_AGENT_CAP_DIR (default
 /tmp/es-agent-cap), read-modify-write under flock. Any error allows.
 `agent_cap.py --status` prints live counts and the current measurements.
 """
-import fcntl, glob, json, os, sys, time
+import calendar, fcntl, glob, json, os, re, sys, time
 
 # Per-new-agent memory reserve. Measured 2026-10-01 from the live tree (the
 # Pss anon+shmem of each tool tree under the claude process, own_memory.py
@@ -37,6 +40,10 @@ SLOT_YOUNG_S = 60
 # Not a budget: a backstop against a spawn loop. Admission is CPU and memory.
 RUNAWAY_CAP = 24
 PENDING_S = 120
+# Weekly pace (decision 0118): a wave is two or more launches within WAVE_S.
+WAVE_S = 60
+WEEK_PACE = 0.85
+SHORT_BUDGET_MIN = 30
 STALE_S = 4 * 3600
 DIR = os.environ.get("ES_AGENT_CAP_DIR", "/tmp/es-agent-cap")
 LOCK_DIR = os.environ.get("ES_JOB_LOCK_DIR", "/tmp/es-jobs")
@@ -73,7 +80,7 @@ def slots_busy(now):
         try:
             parts = open(os.path.join(LOCK_DIR, f"slot-{i}.lock")).readline().split()
             os.kill(int(parts[3]), 0)
-            started = time.mktime(time.strptime(parts[0], "%Y-%m-%dT%H:%M:%SZ")) - time.timezone
+            started = calendar.timegm(time.strptime(parts[0], "%Y-%m-%dT%H:%M:%SZ"))
         except Exception:
             return False
         if now - started >= SLOT_YOUNG_S:
@@ -120,9 +127,48 @@ def _admit(n, now):
 def _prune(st, now):
     st["live"] = {k: t for k, t in st.get("live", {}).items() if now - t < STALE_S}
     st["pending"] = [t for t in st.get("pending", []) if now - t < PENDING_S]
+    st["launches"] = [t for t in st.get("launches", []) if now - t < WAVE_S]
 
 
-def handle(d, now=None):
+BUDGET = re.compile(r"Budget:\s*(\d+)\s*min", re.I)
+
+
+def _week_share():
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from week_usage import week_share
+    r = week_share()
+    return None if r is None else r[2]
+
+
+def _pace_enforced():
+    """True (refuse) once an owner % reading this week calibrates the limit; else nudge."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from week_usage import week_status
+    s = week_status()
+    return bool(s and s["enforce"])
+
+
+def pace_refusal(d, launches, share_fn):
+    """Decision 0118: a new lane wave (this launch plus another within WAVE_S)
+    above WEEK_PACE of the weekly limit is refused unless the brief carries
+    `Budget:` under SHORT_BUDGET_MIN. "" when allowed."""
+    if not launches:
+        return ""
+    inp = d.get("tool_input") or {}
+    m = BUDGET.search(str(inp.get("prompt") or inp.get("script") or ""))
+    if m and int(m.group(1)) < SHORT_BUDGET_MIN:
+        return ""
+    share = share_fn()
+    if share is None or share < WEEK_PACE:
+        return ""
+    return (f"[weekly pace, decision 0118] refused: this week's usage is {100 * share:.0f} % of the weekly limit "
+            f"(over {100 * WEEK_PACE:.0f} %) and this launch makes a wave ({len(launches) + 1} agents within "
+            f"{WAVE_S} s). Launch no new lane wave now: finish the running lanes, or give this one a "
+            f"`Budget:` under {SHORT_BUDGET_MIN} min. Usage: python3 tooling/repo-standards/week_usage.py\n")
+
+
+def handle(d, now=None, share_fn=None):
+    share_fn = share_fn or _week_share
     now = time.time() if now is None else now
     ev = d.get("hook_event_name", "")
     if ev == "PreToolUse" and d.get("tool_name") not in ("Agent", "Task"):
@@ -139,6 +185,11 @@ def handle(d, now=None):
         _prune(st, now)
         msg, code = "", 0
         if ev == "PreToolUse":
+            pace = pace_refusal(d, st["launches"], share_fn)
+            if pace and _pace_enforced():
+                return 2, pace
+            nudge = pace.replace("refused:", "nudge (no % reading this week, the limit is uncalibrated):") if pace else ""
+            st["launches"].append(now)
             why, nums = _admit(len(st["live"]) + len(st["pending"]), now)
             with open(os.path.join(DIR, "admissions.log"), "a") as log:
                 log.write(f"{time.strftime('%FT%TZ', time.gmtime(now))} {sid} "
@@ -148,6 +199,7 @@ def handle(d, now=None):
                 msg = f"[agent admission, 0106 d18] refused: {nums}. {why}.\n"
             else:
                 st["pending"].append(now)
+                msg = nudge
         elif ev == "SubagentStart":
             if st["pending"]:
                 st["pending"].pop(0)
@@ -173,6 +225,9 @@ def main():
     try:
         code, msg = handle(json.load(sys.stdin))
     except Exception:
+        return 0
+    if code == 0 and msg:   # a nudge reaches the model as context; the launch proceeds
+        print(json.dumps({"hookSpecificOutput": {"hookEventName": "PreToolUse", "additionalContext": msg.strip()}}))
         return 0
     sys.stderr.write(msg)
     return code

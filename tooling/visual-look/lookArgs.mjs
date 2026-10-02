@@ -3,7 +3,7 @@
 import { readFileSync } from "node:fs";
 
 export const CLASSES = ["fire-fixture", "hanging-fixture", "doorway", "walkway",
-  "ground-contact", "interior-surface", "furniture-contact", "ground-paint"];
+  "ground-contact", "interior-surface", "furniture-contact", "ground-paint", "building-seam"];
 
 export const USAGE = `usage:
   npm run look -- piece <kit> <assetId> [--class C[,C]] [--out DIR]
@@ -15,6 +15,9 @@ export const USAGE = `usage:
        front / 3-4 / flame close-up; no pairs = the default fixture list)
   npm run look -- preset [<presetId> ...] [--out DIR]
       (a fire preset alone over 6 frames, day and night; no ids = every preset)
+  npm run look -- seam <placeId> <placement-id-suffix> [--bearing DEG] [--out DIR]
+      (a building's base on its own padded ground from 6 m at 1.2 m, with and without the
+       place's ground paint: trampled ring + contact shade; 480x270, one frame each)
 default --out tooling/.reports/look/`;
 
 /** argv (after the script) -> { mode, kit, asset, scene, x, z, radius, classes, out }. */
@@ -27,6 +30,7 @@ export function parseArgs(argv) {
     else if (a === "--out") opts.out = argv[++i];
     else if (a === "--radius") opts.radius = Number(argv[++i]);
     else if (a === "--fire-dir") opts.fireDir = argv[++i];
+    else if (a === "--bearing") opts.bearing = Number(argv[++i]);
     else if (a.startsWith("--")) throw new Error(`unknown flag ${a}\n${USAGE}`);
     else pos.push(a);
   }
@@ -43,6 +47,10 @@ export function parseArgs(argv) {
     return { ...opts, mode, fixtures };
   }
   if (mode === "preset") return { ...opts, mode, presets: rest };
+  if (mode === "seam") {
+    if (rest.length !== 2) throw new Error(`seam needs <placeId> <placement-id-suffix>\n${USAGE}`);
+    return { ...opts, mode, place: rest[0], suffix: rest[1] };
+  }
   if (mode === "place") {
     const [scene, x, z] = rest;
     if (rest.length !== 3 || !Number.isFinite(Number(x)) || !Number.isFinite(Number(z))) {

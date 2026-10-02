@@ -210,6 +210,39 @@ def test_batch_key_moves_with_the_tree_and_head_not_the_pathspec(repo, monkeypat
     assert list(stamps) == [review_gate.batch_key()]         # the old HEAD's stamp is dropped
 
 
+def test_review_log_is_append_only_and_batch_id_spans_the_round(repo, monkeypatch):
+    """Decision 0118: --close empties the stamps, so fires are counted from
+    reviews.jsonl; the batch id stays fixed until the close."""
+    root, calls = repo
+    (root / "tooling/a" / "f.py").write_text("x = 2\n")
+    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/a") == 0
+    b1 = json.load(open(review_gate.STAMP))["batchId"]
+    subprocess.run(["git", "commit", "-qam", "c"], cwd=root, check=True, capture_output=True)
+    monkeypatch.setattr(sys, "argv", ["review_gate.py", "--run", "--force"])
+    assert review_gate.main() == 0 and len(calls) == 2              # a second fire inside the batch
+    assert json.load(open(review_gate.STAMP))["batchId"] == b1
+    monkeypatch.setattr(sys, "argv", ["review_gate.py", "--close"])
+    assert review_gate.main() == 0
+    assert json.load(open(review_gate.STAMP))["stamps"] == {}
+    log = os.path.join(os.path.dirname(review_gate.STAMP), review_gate.REVIEW_LOG)
+    rows = [json.loads(l) for l in open(log)]
+    assert len(rows) == 2 and {r["batchId"] for r in rows} == {b1}
+
+
+def test_failed_review_is_not_a_fire(repo, monkeypatch):
+    """A failed attempt then its --run retry logs ONE fire (workflow_drift max 1)."""
+    root, calls = repo
+    (root / "tooling/a" / "f.py").write_text("x = 2\n")
+    monkeypatch.setattr(review_gate, "review", lambda diff, what: ("", 1, "boom"))
+    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/a") == 0
+    monkeypatch.setattr(review_gate, "review", lambda diff, what: ("NO FINDINGS", 0, ""))
+    monkeypatch.setattr(sys, "argv", ["review_gate.py", "--run"])
+    assert review_gate.main() == 0
+    log = os.path.join(os.path.dirname(review_gate.STAMP), review_gate.REVIEW_LOG)
+    rows = [json.loads(l) for l in open(log)]
+    assert [r["status"] for r in rows] == ["ok"]
+
+
 def test_size_limit_measured_on_the_whole_batch(repo, monkeypatch):
     root, calls = repo
     (root / "tooling/a" / "f.py").write_text("x = 2\n")

@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "placeId": "place.saxhleel-coast.jungle-root-hollow",
+  "window": {
+    "centreKm": [
+      3.69,
+      4.562
+    ],
+    "halfM": 60.0
+  },
+  "ops": [
+    {
+      "op": "place",
+      "uid": "b-mouth",
+      "asset": "vanilla:landscape/rocks/rockcaveentrance02",
+      "at": [
+        3682.0,
+        4564.0
+      ],
+      "yaw": 350.0,
+      "settle": true
+    },
+    {
+      "op": "bind",
+      "uid": "b-mouth",
+      "kind": "parcel",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth"
+    },
+    {
+      "op": "note",
+      "uid": "b-mouth",
+      "text": "Takes-The-Tools: the King of the Murkmire root cave mouth as its plugin builds it (rockcaveentrance02 round its AutoLoadDoor01, hist_vines01 beside it, rockcliff08 and rockcliff02 behind), facing east to the hiring camp; bones and tools at the threshold. No light, no way, no sign."
+    },
+    {
+      "op": "place",
+      "uid": "r-vines",
+      "asset": "kotm:argonia/trees/hist trees/hist_vines01",
+      "at": [
+        3695.5,
+        4569.0
+      ],
+      "yaw": 0.0,
+      "settle": true
+    },
+    {
+      "op": "bind",
+      "uid": "r-vines",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "wear",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "group",
+      "action": "place",
+      "name": "lair-bone-scatter",
+      "at": [
+        3697.4,
+        4559.6
+      ],
+      "yaw": 96.0,
+      "prefix": "s1-",
+      "parcel": "parcel.jungle-root-hollow.the-cave-mouth"
+    },
+    {
+      "op": "group",
+      "action": "place",
+      "name": "lair-tool-scatter",
+      "at": [
+        3700.3,
+        4558.4
+      ],
+      "yaw": 300.0,
+      "prefix": "s1-",
+      "parcel": "parcel.jungle-root-hollow.the-cave-mouth"
+    },
+    {
+      "op": "bind",
+      "uid": "s1-lb-ribs",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "clutter",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "bind",
+      "uid": "s1-lb-skull",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "clutter",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "bind",
+      "uid": "s1-lb-arm",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "clutter",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "bind",
+      "uid": "s1-lb-leg",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "clutter",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "bind",
+      "uid": "s1-lb-spine",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "clutter",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "bind",
+      "uid": "s1-lb-fresh",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "clutter",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "bind",
+      "uid": "s1-lb-scrap",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "clutter",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "bind",
+      "uid": "s1-lb-arm2",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "clutter",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "bind",
+      "uid": "s1-lt-shovel",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "clutter",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "bind",
+      "uid": "s1-lt-basket",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "clutter",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "bind",
+      "uid": "s1-lt-net",
+      "kind": "assembly",
+      "id": "parcel.jungle-root-hollow.the-cave-mouth",
+      "layer": "clutter",
+      "on": "ground",
+      "evidence": "measured"
+    },
+    {
+      "op": "socket",
+      "id": "socket.jungle-root-hollow.ticks",
+      "kind": "fauna",
+      "dangerBand": "D2",
+      "zone": "threshold",
+      "parcel": "parcel.jungle-root-hollow.the-cave-mouth",
+      "why": "Hoarvor ticks (creature.hoarvor, contents c2) live in the bone scatter at the mouth.",
+      "at": [
+        3697.4,
+        4560.6
+      ]
+    },
+    {
+      "op": "socket",
+      "id": "socket.jungle-root-hollow.tool-shovel",
+      "kind": "item",
+      "itemClass": "tool",
+      "valueBand": "low",
+      "host": "s1-lt-shovel",
+      "parcel": "parcel.jungle-root-hollow.the-cave-mouth",
+      "why": "A lost forager's spade, dropped at the mouth: evidence for SX08."
+    },
+    {
+      "op": "socket",
+      "id": "socket.jungle-root-hollow.tool-basket",
+      "kind": "item",
+      "itemClass": "tool",
+      "valueBand": "low",
+      "host": "s1-lt-basket",
+      "parcel": "parcel.jungle-root-hollow.the-cave-mouth",
+      "why": "A lost forager's basket, dropped at the mouth: evidence for SX08."
+    },
+    {
+      "op": "socket",
+      "id": "socket.jungle-root-hollow.occupant",
+      "kind": "encounter",
+      "dangerBand": "D4",
+      "zone": "deep",
+      "interiorCell": "MugsumpHollowInt01",
+      "host": "MugsumpHollowInt01.08570749",
+      "parcel": "parcel.jungle-root-hollow.the-cave-mouth",
+      "why": "The wamasu that takes the tools (creature.wamasu, contents c1) lies up in the den, among the remains it has dragged there."
+    },
+    {
+      "op": "socket",
+      "id": "socket.jungle-root-hollow.unique-item",
+      "kind": "item",
+      "itemClass": "misc-household",
+      "valueBand": "high",
+      "interiorCell": "MugsumpHollowInt01",
+      "host": "MugsumpHollowInt01.08570742",
+      "parcel": "parcel.jungle-root-hollow.the-cave-mouth",
+      "why": "One thing worth the fight lies under the Hist roots at the far end of the hollow (contents l1)."
+    },
+    {
+      "op": "socket",
+      "id": "socket.jungle-root-hollow.tool-net",
+      "kind": "item",
+      "itemClass": "fishing-gear",
+      "valueBand": "low",
+      "host": "s1-lt-net",
+      "parcel": "parcel.jungle-root-hollow.the-cave-mouth",
+      "why": "A lost forager's net, dropped at the mouth: evidence for SX08."
+    },
+    {
+      "op": "socket",
+      "id": "socket.jungle-root-hollow.cave-mouth",
+      "kind": "marker",
+      "zone": "threshold",
+      "parcel": "parcel.jungle-root-hollow.the-cave-mouth",
+      "at": [
+        3689.6,
+        4564.9
+      ],
+      "why": "The lip of the cave mouth, where the way down into the hollow begins."
+    },
+    {
+      "op": "socket",
+      "id": "socket.jungle-root-hollow.the-tools",
+      "kind": "marker",
+      "zone": "threshold",
+      "parcel": "parcel.jungle-root-hollow.the-cave-mouth",
+      "at": [
+        3700.3,
+        4558.4
+      ],
+      "fills": [
+        "promise.jungle-root-hollow.evidence-the-tools"
+      ],
+      "why": "Tools dropped in front of the mouth, the evidence for SX08."
+    }
+  ]
+}

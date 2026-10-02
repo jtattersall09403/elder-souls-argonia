@@ -31,10 +31,10 @@
    "glb": "kits/settlement-mud-v1.glb",
    "manifest": "kits/settlement-mud-v1.kit.json"
   },
-  "underwater-v1": {
-   "id": "underwater-v1",
-   "glb": "kits/underwater-v1.glb",
-   "manifest": "kits/underwater-v1.kit.json"
+  "settlement-root-v1": {
+   "id": "settlement-root-v1",
+   "glb": "kits/settlement-root-v1.glb",
+   "manifest": "kits/settlement-root-v1.kit.json"
   },
   "works-v1": {
    "id": "works-v1",
@@ -1760,7 +1760,7 @@
   {
    "id": "KeebaHouseFisher.080A5B8D",
    "assetId": "vanilla:clutter/basket01",
-   "kit": "underwater-v1",
+   "kit": "settlement-root-v1",
    "positionM": [
     106.016,
     82.7636,

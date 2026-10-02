@@ -705,12 +705,15 @@ class NamePicker:
             return name, form
         raise RuntimeError(f"name pool '{key}' exhausted for {npc_id}")
 
-    def register(self, name: str, form: str, place_id: str, region: str) -> None:
+    def register(self, name: str, form: str, place_id: str, region: str,
+                 counted: bool = False) -> None:
         """Count a name this run did not draw (a sticky identity) against the
         same caps a drawn one pays, so the imagery and Verb-the-Noun limits
         still hold over the whole roster."""
         self.used.add(name)
         self.place_imagery.setdefault(place_id, set()).update(imagery_of(name))
+        if counted:  # already paid in generate()'s pre-pass
+            return
         counts = self.region_counts.setdefault(region, {})
         counts[form] = counts.get(form, 0) + 1
 
@@ -827,10 +830,23 @@ def generate(places: list[dict] | None = None) -> tuple[list[dict], dict]:
     existing = _existing_entries()
     region_slots: dict[str, int] = {}
     generated_ids: set[str] = set()
+    fixed_ids: set[str] = set()
     for place in places:
-        region_slots[region_of(place["id"])] = region_slots.get(
-            region_of(place["id"]), 0) + len(place.get("notableNpcSlots") or [])
+        region = region_of(place["id"])
+        region_slots[region] = region_slots.get(region, 0) + len(place.get("notableNpcSlots") or [])
         generated_ids.update(_slot_ids(place))
+        # Cast and held names are fixed before the first draw, so they pay the
+        # region's Verb-the-Noun cap up front: a draw earlier in sort order
+        # must not take a translated slot a later fixed name already holds.
+        for slot, npc_id in zip(place.get("notableNpcSlots") or [], _slot_ids(place)):
+            cast = CAST_JOIN.get((place["id"], slot["slotId"]))
+            held = existing.get(npc_id)
+            form = cast["form"] if cast else (
+                held.get("nameForm") if held and held.get("name") else None)
+            if form:
+                counts = picker.region_counts.setdefault(region, {})
+                counts[form] = counts.get(form, 0) + 1
+                fixed_ids.add(npc_id)
     # Sticky identity (2026-09-20): a held name is reserved BEFORE the first
     # draw, so a new slot can only take what is left — but only for entries
     # this run still generates (a live slot id, or a cast/derived principal).
@@ -865,7 +881,8 @@ def generate(places: list[dict] | None = None) -> tuple[list[dict], dict]:
                     name = held["name"]
                     race, sex = held["race"], held["sex"]
                     form = held.get("nameForm") or pick_form(place, text, race)
-                    picker.register(name, form, place["id"], region)
+                    picker.register(name, form, place["id"], region,
+                                    counted=npc_id in fixed_ids)
                 else:
                     race = pick_race(place, text, npc_id, priors)
                     sex = pick_sex(text, npc_id)

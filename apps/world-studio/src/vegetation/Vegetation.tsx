@@ -73,6 +73,7 @@ import {
   copiesPerKey,
   CELL_TILES,
   TILE_BOUNDS_STRIDE,
+  WIND_TUNE_STRIDE,
   type CellBuild,
   type CopiesSpecies,
   type CellInstance,
@@ -1039,7 +1040,7 @@ export function Vegetation({
     allPending.current.clear();
     flushAllDirty();
     const weather = lastWeatherSample();
-    if (weather) updateWindSway(wind, state.clock.elapsedTime, weather);
+    if (weather) updateWindSway(wind, state.clock.elapsedTime, weather, state.camera.position);
     lodFade.esLodViewPos.value.copy(state.camera.position);
     pushLodHistory(lodHistory, state.camera.position.x, state.camera.position.z,
       state.clock.elapsedTime, lodFade.esLodHist.array);
@@ -1987,9 +1988,10 @@ export function Vegetation({
       geo.src[slot] = sb.placements;
       geo.srcIndex[slot] = i;
       // The card rung never sways, whatever the species does.
-      const stiffness = batch.isCard ? -1 : sb.windTune[i * 2];
-      writeBatchInstance(
-        batch.data, dataSlot, rung.band, stiffness, sb.windTune[i * 2 + 1]);
+      const tune = i * WIND_TUNE_STRIDE;
+      const stiffness = batch.isCard ? -1 : sb.windTune[tune];
+      writeBatchInstance(batch.data, dataSlot, rung.band, stiffness,
+        sb.windTune[tune + 1], sb.windTune[tune + 2]);
       ids[i] = slot;
       if (gpuCull) writeCandidate(geo, slot);
     }

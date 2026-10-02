@@ -14,7 +14,9 @@ for (const [id, q] of Object.entries(variants)) {
   page.on("pageerror", e => errs.push("pageerror: " + e.message.slice(0,300)));
   page.on("console", m => { if (m.type()==="error") errs.push("console: " + m.text().slice(0,300)); });
   const t0 = Date.now();
-  await page.goto(`${BASE}?${q}`);
+  // A local vite dev server transforms hundreds of modules on first load; the
+  // default 30 s "load" wait timed out under machine load (walk 9).
+  await page.goto(`${BASE}?${q}`, { waitUntil: "commit", timeout: 300000 });
   const samples = [];
   for (let i = 0; i < waitMs/5000; i++) {
     await page.waitForTimeout(5000);

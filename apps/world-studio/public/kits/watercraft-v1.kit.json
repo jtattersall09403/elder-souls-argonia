@@ -97,7 +97,11 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.166
+   "pivotAboveBaseM": 0.166,
+   "emissiveMaterials": [
+    "Object009:2.Mat"
+   ],
+   "displayName": "Canoe 1"
   },
   {
    "id": "canoe:weapons/sfss/shipoar01",
@@ -160,7 +164,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041
+   "pivotAboveBaseM": 0.041,
+   "displayName": "SFSS 1st person oar"
   },
   {
    "id": "canoe:weapons/sfss/shipoar01ground",
@@ -223,7 +228,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041
+   "pivotAboveBaseM": 0.041,
+   "displayName": "SFSS all aboard oar"
   },
   {
    "id": "canoe:weapons/sfss/shipoar01towhanded",
@@ -286,7 +292,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041
+   "pivotAboveBaseM": 0.041,
+   "displayName": "SFSS 1st persontwohanded oar"
   },
   {
    "id": "canoe:weapons/sfss/anchor",
@@ -347,7 +354,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.18,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.015
+   "pivotAboveBaseM": 0.015,
+   "displayName": "SFSS 1st anchor"
   },
   {
    "id": "ferryraft:snt/ferry/ferryraft01",
@@ -480,7 +488,11 @@
    "undersideClosed": true,
    "undersideCoverage": 0.892,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.473
+   "pivotAboveBaseM": 0.473,
+   "emissiveMaterials": [
+    "CandleLanternWithCandle:7.Mat"
+   ],
+   "displayName": "SNT ferry raft"
   },
   {
    "id": "ferryraft:snt/ferry/ferryraft01_no_col",
@@ -596,7 +608,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.892,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.473
+   "pivotAboveBaseM": 0.473,
+   "displayName": "SNT ferry with light"
   },
   {
    "id": "ferryraft:snt/ferry/norbridgewoodplanks01",
@@ -658,7 +671,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.9,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.079
+   "pivotAboveBaseM": 0.079,
+   "displayName": "SNT ferrydock"
   },
   {
    "id": "ferryraft:snt/ferry/norbridgewoodplanks02",
@@ -719,7 +733,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.906,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.079
+   "pivotAboveBaseM": 0.079,
+   "displayName": "Nor bridge wood planks 02 SNT"
   },
   {
    "id": "ferries:yamadori/ferries/plank_ferry_swamp_01",
@@ -797,7 +812,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.783,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.764
+   "pivotAboveBaseM": 0.764,
+   "displayName": "Plank ferry swamp 01"
   },
   {
    "id": "ferries:yamadori/ferries/plank_ferry_swamp_03",
@@ -872,7 +888,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.783,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.764
+   "pivotAboveBaseM": 0.764,
+   "displayName": "Plank ferry swamp 03"
   },
   {
    "id": "ferries:yamadori/ferries/rowboat_ferry_swamp_01",
@@ -962,7 +979,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.036
+   "pivotAboveBaseM": 0.036,
+   "displayName": "Rowboat ferry swamp 01"
   },
   {
    "id": "ferries:yamadori/ferries/common_rowboat_inialta_01",
@@ -1041,7 +1059,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.643,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.036
+   "pivotAboveBaseM": 0.036,
+   "displayName": "Common rowboat inialta 01"
   },
   {
    "id": "ferries:yamadori/ferries/river_ferry_rift_01",
@@ -1124,7 +1143,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.507
+   "pivotAboveBaseM": 0.507,
+   "displayName": "River ferry rift 01"
   },
   {
    "id": "ferries:yamadori/ferries/volkihar_ferry_01",
@@ -1219,7 +1239,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.647,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.036
+   "pivotAboveBaseM": 0.036,
+   "displayName": "Volkihar ferry 01"
   },
   {
    "id": "rowboats:dungeons/ship/shiprowboat01",
@@ -1291,7 +1312,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.179
+   "pivotAboveBaseM": 0.179,
+   "displayName": "Shiprowboat 01"
   },
   {
    "id": "rowboats:dungeons/ship/shiprowboatanim01",
@@ -1355,7 +1377,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.179
+   "pivotAboveBaseM": 0.179,
+   "displayName": "Shiprowboatanim 01"
   },
   {
    "id": "rowboats:dungeons/clutter/shipoar01",
@@ -1425,7 +1448,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.345,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.071
+   "pivotAboveBaseM": 0.071,
+   "displayName": "Shipoar 01"
   },
   {
    "id": "sailboats:sailboats/sailboat",
@@ -1508,7 +1532,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.907,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.093
+   "pivotAboveBaseM": 0.093,
+   "displayName": "Sailboat"
   },
   {
    "id": "sailboats:sailboats/sailboatfurled",
@@ -1589,7 +1614,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.906,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.093
+   "pivotAboveBaseM": 0.093,
+   "displayName": "Sailboatfurled"
   },
   {
    "id": "sailboats:sailboats/sailboatelf",
@@ -1697,7 +1723,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.875,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.272
+   "pivotAboveBaseM": 0.272,
+   "displayName": "Sailboatelf"
   },
   {
    "id": "sailboats:sailboats/sailboatelffurled",
@@ -1803,7 +1830,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.875,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.272
+   "pivotAboveBaseM": 0.272,
+   "displayName": "Sailboatelffurled"
   },
   {
    "id": "sailboats:sailboats/longboat",
@@ -1903,7 +1931,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.878,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.214
+   "pivotAboveBaseM": 0.214,
+   "displayName": "Longboat"
   },
   {
    "id": "sailboats:sailboats/longboatfurled",
@@ -2001,7 +2030,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.878,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.214
+   "pivotAboveBaseM": 0.214,
+   "displayName": "Longboatfurled"
   },
   {
    "id": "sailboats:sailboats/rowboat",
@@ -2087,7 +2117,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.932,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.14
+   "pivotAboveBaseM": -0.14,
+   "displayName": "Rowboat"
   },
   {
    "id": "sailboats:sailboats/rowboatnord",
@@ -2173,7 +2204,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.071
+   "pivotAboveBaseM": 0.071,
+   "displayName": "Rowboatnord"
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiiliccityferry01",
@@ -2259,7 +2291,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.507
+   "pivotAboveBaseM": 0.507,
+   "displayName": "Shipcyrodiiliccityferry 01"
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicriverferry01",
@@ -2345,7 +2378,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.909,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.583
+   "pivotAboveBaseM": 0.583,
+   "displayName": "Shipcyrodiilicriverferry 01"
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrowboat01",
@@ -2422,7 +2456,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.402
+   "pivotAboveBaseM": 0.402,
+   "displayName": "Shipcyrodiilicrowboat 01"
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicgalleon01_docked",
@@ -2512,7 +2547,11 @@
    "undersideClosed": true,
    "undersideCoverage": 0.947,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.114
+   "pivotAboveBaseM": 4.114,
+   "emissiveMaterials": [
+    "shipwindows.Mat"
+   ],
+   "displayName": "Shipcyrodiilicgalleon 01 docked"
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicnavyshipsmall01_docked",
@@ -2596,7 +2635,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.907,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.752
+   "pivotAboveBaseM": 1.752,
+   "displayName": "Shipcyrodiilicnavyshipsmall 01 docked"
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipeectradeship01",
@@ -2676,7 +2716,11 @@
    "undersideClosed": true,
    "undersideCoverage": 0.891,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.174
+   "pivotAboveBaseM": 3.174,
+   "emissiveMaterials": [
+    "Windowpane.Mat"
+   ],
+   "displayName": "Shipeectradeship 01"
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/breticships/shipbreticrennenboat01",
@@ -2746,7 +2790,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.906,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.636
+   "pivotAboveBaseM": 0.636,
+   "displayName": "Shipbreticrennenboat 01"
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/breticships/shipbreticgreyteship_hull01",
@@ -2817,7 +2862,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.614
+   "pivotAboveBaseM": 4.614,
+   "displayName": "Shipbreticgreyteship hull 01"
   },
   {
    "id": "bmv:architecture/ships/imperialship01base",
@@ -2907,7 +2953,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.991,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.638
+   "pivotAboveBaseM": 5.638,
+   "emissiveMaterials": [
+    "Windows.Mat"
+   ],
+   "windowMaterials": [
+    "Windows.Mat"
+   ],
+   "displayName": "Imperialship 01base"
   },
   {
    "id": "bmv:architecture/ships/imperialship01masts",
@@ -2984,7 +3037,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.282,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.361
+   "pivotAboveBaseM": 0.361,
+   "displayName": "Imperialship 01masts"
   },
   {
    "id": "bmv:architecture/boats/rowboat01",
@@ -3049,7 +3103,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.764
+   "pivotAboveBaseM": 0.764,
+   "displayName": "Rowboat 01"
   },
   {
    "id": "bmv:architecture/boats/rowboatbrokenback",
@@ -3114,7 +3169,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.882,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.764
+   "pivotAboveBaseM": 0.764,
+   "displayName": "Rowboatbrokenback"
   },
   {
    "id": "bmv:architecture/boats/rowboatbrokenfront",
@@ -3179,7 +3235,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.757
+   "pivotAboveBaseM": 0.757,
+   "displayName": "Rowboatbrokenfront"
   },
   {
    "id": "bmv:nordships/shipnordrowboat",
@@ -3248,7 +3305,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.508
+   "pivotAboveBaseM": 0.508,
+   "displayName": "Shipnordrowboat"
   },
   {
    "id": "bmv:nordships/shipnordtradeship",
@@ -3324,7 +3382,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.878,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.214
+   "pivotAboveBaseM": 0.214,
+   "displayName": "Shipnordtradeship"
   },
   {
    "id": "bmv:nordships/shipnordtradeshipbeached",
@@ -3395,7 +3454,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.828,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.063
+   "pivotAboveBaseM": -0.063,
+   "displayName": "Shipnordtradeshipbeached"
   },
   {
    "id": "bmv:breticships/shipbreticjollyboat",
@@ -3470,7 +3530,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.907,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.636
+   "pivotAboveBaseM": 0.636,
+   "displayName": "Shipbreticjollyboat"
   },
   {
    "id": "bmv:transport/ships/ghostship",
@@ -3534,7 +3595,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.535,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.42
+   "pivotAboveBaseM": 3.42,
+   "displayName": "Ghostship"
   },
   {
    "id": "bmv:transport/ships/merchant_ship",
@@ -3601,7 +3663,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.956,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.057
+   "pivotAboveBaseM": 5.057,
+   "displayName": "Merchant ship"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\watercraft-v1.glb",

@@ -357,6 +357,10 @@ def main() -> None:
     for set_name, (label, materials) in MATERIAL_SETS.items():
         if sset is None or set_name == sset:
             build_set(set_name, label, materials, archive, only)
+            # The GPU reads the set as one KTX2 array built from these PNGs.
+            import subprocess
+            subprocess.run([sys.executable, "-m", "pipeline.ground_compress", "--set", set_name], check=True,
+                           cwd=Path(__file__).resolve().parents[2] / "asset-pipeline")
         index["sets"][set_name] = {"label": label}
     (GROUND_DIR / "index.json").write_text(json.dumps(index, indent=1))
     print(f"default set: {DEFAULT_SET}")

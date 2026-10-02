@@ -1166,6 +1166,28 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (1.0 m\u00b2 plan, 0.7 m tall)"
   },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawning01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 2.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 2.09,
+   "heightM": 5.83,
+   "interior": "none",
+   "medianWallM": 1.54,
+   "planAreaM2": 14.98,
+   "planCentreM": [
+    0.0,
+    -2.62
+   ],
+   "provenance": [],
+   "ringFraction": 0.333,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 2.1 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
   "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01": {
    "category": "architecture",
    "entrance": null,
@@ -2234,7 +2256,7 @@
  "provenance": {
   "exterior-interior-links.json": {
    "miner": "worldgen.mine_door_links",
-   "minerVersion": "9abb006dbad2",
+   "minerVersion": "0cd64d1a336f",
    "plugins": [
     "ArgonianHome.esp",
     "ArgonianLakeHouse.esl",
@@ -2293,7 +2315,7 @@
     "igs_tileset_ayleid.esp"
    ],
    "poolRegister": {
-    "date": "2026-09-25",
+    "date": "2026-09-27",
     "pools": [
      "bmv",
      "vanilla",
@@ -2325,7 +2347,7 @@
      "hlaalu"
     ],
     "source": "worldgen.asset_registry.POOLS",
-    "uncommittedChanges": true
+    "uncommittedChanges": false
    },
    "poolsMined": [
     "ayleidcc",
@@ -2351,7 +2373,7 @@
     "xalfek",
     "xanmeer"
    ],
-   "runDate": "2026-09-26"
+   "runDate": "2026-10-01"
   },
   "kit-assemblies-mined.json": {
    "miner": "worldgen.mine_assemblies",

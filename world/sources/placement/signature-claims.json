@@ -1,6 +1,11 @@
 {
  "claims": [
   {
+   "claimedAt": "2026-10-01T19:14:29Z",
+   "placeId": "place.imperial-penal-south.rose-bone-waystation",
+   "signature": "bamboohut02-with-door | clutter:argoniantotem01, clutter:basketsmall01, clutter:firewoodpilemedium01, clutter:miscsacklarge, clutter:paintedurn01, clutter:wickerbasket01, clutter:wickerchair01, clutter:wickerchair01, clutter:wickertable01, clutter:windchimehavok, light:argoniancandle01"
+  },
+  {
    "claimedAt": "2026-09-27T19:34:00Z",
    "placeId": "place.imperial-fringe.claywater-station",
    "signature": "farmhouse01-with-door | clutter:barrel02, clutter:farmbench01, clutter:firewoodpilemedium01, clutter:miscsacklarge, light:candlelanternwithcandle01"
@@ -74,6 +79,12 @@
    "placeId": "place.hist-heartland.greenspring"
   },
   {
+   "cellId": "CIPHTBMHutInterior01",
+   "claimedAt": "2026-10-01T18:36:20Z",
+   "doorId": "door.imperial-penal-south.rose-bone-waystation.1",
+   "placeId": "place.imperial-penal-south.rose-bone-waystation"
+  },
+  {
    "cellId": "CIPHTBMHutInterior04",
    "claimedAt": "2026-10-01T08:48:49Z",
    "doorId": "door.hist-heartland.greenspring.6",
@@ -129,9 +140,21 @@
   },
   {
    "cellId": "KeebaHouseSnailMinder",
+   "claimedAt": "2026-10-01T18:30:28Z",
+   "doorId": "door.imperial-fringe.bog-iron-workings.1",
+   "placeId": "place.imperial-fringe.bog-iron-workings"
+  },
+  {
+   "cellId": "KeebaHouseSnailMinder",
    "claimedAt": "2026-09-28T12:55:27Z",
    "doorId": "door.imperial-fringe.claywater-station.5",
    "placeId": "place.imperial-fringe.claywater-station"
+  },
+  {
+   "cellId": "MugsumpHollowInt01",
+   "claimedAt": "2026-10-01T19:17:35Z",
+   "doorId": "door.saxhleel-coast.jungle-root-hollow.1",
+   "placeId": "place.saxhleel-coast.jungle-root-hollow"
   }
  ],
  "schemaVersion": 1

@@ -11,7 +11,8 @@ import { createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
 import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
 import { CAMERA_BLOCKING_GROUPS } from "@elder-souls/game-core/camera/cameraCollision";
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
-import { InteriorLoader, solidsAt, type LoadedInterior } from "@elder-souls/game-core/interior/interiorLoader";
+import { daylightShare, InteriorLoader, solidsAt, type LoadedInterior } from "@elder-souls/game-core/interior/interiorLoader";
+import { drawnLightRigOf } from "../sky/lightRig";
 import { SharedKtx2Textures } from "@elder-souls/game-core/interior/sharedTextures";
 import { kitPartsDir } from "@elder-souls/game-core/interior/kitParts";
 import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
@@ -38,6 +39,9 @@ import type { InteractionArbiter } from "@elder-souls/game-core/interaction/arbi
 import type { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { settlementColliderDesc } from "./SettlementColliders";
 import type { DoorOverlayChannel } from "./doorOverlay";
+
+/** Scratch: the sun's colour handed to the shown cell's daylight each frame. */
+const daylightColour = new THREE.Color();
 
 type Shown = { interior: LoadedInterior; originM: Vec3 };
 
@@ -290,6 +294,8 @@ export function InteriorDoors({
     let live = true;
     const startedMs = performance.now();
     shown.interior.group.position.set(...shown.originM);
+    // the window lights take their slots in the scene's fixture light field (0108)
+    shown.interior.daylight.bind(fixtureLightFieldOf(scene));
     linker.link(shown.interior.group, camera, scene).then((added) => {
       if (!live) return;
       linkS.current = (performance.now() - startedMs) / 1000;
@@ -297,7 +303,7 @@ export function InteriorDoors({
       loadNet.current = loadNetOf(shown.interior, baseUrl);
       setLinked(shown);
     });
-    return () => { live = false; };
+    return () => { live = false; shown.interior.daylight.unbind(); };
   }, [shown, linker, camera, scene, baseUrl]);
   // after the commit that mounted the linked group: the fade may lift
   useEffect(() => { drawn.current = shown !== null && linked === shown; }, [shown, linked]);
@@ -345,6 +351,15 @@ export function InteriorDoors({
     const focus = interaction.focused;
     const swingDoor = swing && focus ? swing.controller.doors.find((d) => d.id === focus.id) : undefined;
     environment.current?.frame();
+    if (shown) {
+      // the cell's daylight follows the sky the exterior draws, weather
+      // included (interiorLoader InteriorDaylight; WorldSky publishes the rig)
+      const rig = drawnLightRigOf(scene);
+      if (rig) {
+        daylightColour.setRGB(rig.sunColor[0], rig.sunColor[1], rig.sunColor[2]);
+        shown.interior.daylight.set(daylightShare(rig.sun.altitude, rig.directFactor), daylightColour);
+      }
+    }
     if (shown && environment.current && volumetrics && volumetrics.band !== "off") {
       const field = fixtureLightFieldOf(scene);
       nearestVolumeLights((v) => field.forEachLight(v), camera.position.x, camera.position.y, camera.position.z,

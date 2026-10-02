@@ -66,7 +66,7 @@ import { mergeRunColliders } from "./runColliders";
 import { fixtureLightFieldOf, litPreparerOf } from "../render/fixtureLights";
 import { DrawTargetLinker, type LinkingRenderer } from "../render/drawTargetLinker";
 import { assertPoolsSchema, syncPlacePools } from "./pools";
-import { TransientFetchError, fetchJsonWithRetry, withRetry } from "./fetchRetry";
+import { TransientFetchError, fetchJsonWithRetry, loadGltfWithRetry } from "./fetchRetry";
 import {
   SETTLEMENT_REQUERY_MOVE_M, useSettlementBundleSource,
   type AssembledSettlementBundle, type SettlementBundleSource,
@@ -150,6 +150,19 @@ export function buildStartMark(
   // full REBUILD_MOVE_M rather than 1 m and the first build is not restarted.
   return { x: focus.x, z: focus.z,
     coveredRadiusM: liveCoveredRadiusM ?? Number.POSITIVE_INFINITY };
+}
+
+/**
+ * Whether an incomplete build (a placement whose ground had not arrived) is
+ * retried now: only once it has swapped in, and 2 s after the last retry.
+ * Retrying while a build runs cancelled it: a slow sliced build that met an
+ * unresolved far route piece early was restarted every 2 s and never swapped,
+ * so a place kept no buildings and no fixtures (walk 9: Gang Ground, 300 s
+ * at `loading`; Bog Iron 134 s).
+ */
+export function retryIncompleteBuild(incomplete: boolean, building: boolean,
+  nowMs: number, lastRetryMs: number): boolean {
+  return incomplete && !building && nowMs - lastRetryMs > 2000;
 }
 
 /**
@@ -484,6 +497,7 @@ export function SettlementLayer({
   const pendingKits = useRef(new Set<string>());
   /** A kit or kit manifest that failed after its retries (reported, retried after KIT_RETRY_MS). */
   const [kitError, setKitError] = useState<string | null>(null);
+  const [bundleError, setBundleError] = useState<string | null>(null);
   const [kitRetry, setKitRetry] = useState(0);
   const kitRetryTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const pendingManifests = useRef(new Set<string>());
@@ -565,6 +579,7 @@ export function SettlementLayer({
       // sockets, navigation), and a set with an unchanged content key
       // does not rebuild.
       bundleSource.publish(data);
+      setBundleError(null);   // any successful pick clears the bundle line
       if (data.key === loadedBundle.current?.key) return;
       loadedBundle.current = data;
       setBundle(data);
@@ -575,7 +590,7 @@ export function SettlementLayer({
       if (cancelled) return;
       if (error instanceof TransientFetchError) {
         // the connection, not the data: reported, and the pick runs again
-        setKitError(`settlement bundle failed: ${error.message}; retrying`);
+        setBundleError(`settlement bundle failed: ${error.message}; retrying`);
         clearTimeout(kitRetryTimer.current);
         kitRetryTimer.current = setTimeout(() => setQueryRevision((n) => n + 1), KIT_RETRY_MS);
         return;
@@ -647,7 +662,7 @@ export function SettlementLayer({
       }
       if (gltfs.has(id)) continue;
       pendingKits.current.add(id);
-      kitCache.load(id, `${baseUrl}${kit.glb}`, (url) => withRetry(() => loader.loadAsync(url))).then((gltf) => {
+      kitCache.load(id, `${baseUrl}${kit.glb}`, (url) => loadGltfWithRetry(url, loader)).then((gltf) => {
         setGltfs((current) => new Map(current).set(id, gltf));
       }).catch(failed(""))
         .finally(() => pendingKits.current.delete(id));
@@ -780,7 +795,7 @@ export function SettlementLayer({
     if (queried && Math.hypot(focus.x - queried.x, focus.z - queried.z) > SETTLEMENT_REQUERY_MOVE_M) {
       queriedAt.current = null; setQueryRevision((v) => v + 1);
     }
-    if (incomplete.current && performance.now() - retryAt.current > 2000) {
+    if (retryIncompleteBuild(incomplete.current, running.current !== null, performance.now(), retryAt.current)) {
       retryAt.current = performance.now();
       setRevision((v) => v + 1);
     }
@@ -789,12 +804,12 @@ export function SettlementLayer({
   // The host's readable line, and the console (decision 0052 addendum
   // 2026-09-28: a failure shown only as a shape was unreadable three times).
   useEffect(() => {
-    const recoverable = [kitError, effectErrors.flame, effectErrors.smoke].filter(Boolean);
+    const recoverable = [bundleError, kitError, effectErrors.flame, effectErrors.smoke].filter(Boolean);
     const report = fatalError ? { fatal: true, message: fatalError.message }
       : recoverable.length ? { fatal: false, message: recoverable.join("; ") } : null;
     if (report) console.error(`[settlement] ${report.fatal ? "LAYER FAILED" : "not fatal"}: ${report.message}`);
     onErrorRef.current?.(report);
-  }, [fatalError, effectErrors, kitError]);
+  }, [fatalError, effectErrors, kitError, bundleError]);
   // The host's line goes with the layer: hiding or unmounting it clears it.
   useEffect(() => () => onErrorRef.current?.(null), []);
 
@@ -1107,6 +1122,9 @@ export function SettlementLayer({
         const keep = new Set([...farKept.values()].map((entry) => entry.geometry));
         farCache.current = farKept;
         disposeChildren(group, keep);
+        // Every piece is baked into its instance matrices or merged geometry
+        // at identity: no per-frame local-matrix recompose (audit row 16).
+        for (const child of next.children) { child.matrixAutoUpdate = false; child.updateMatrix(); }
         swapInBuild(group, next);
         liveSignature.current = signature;
         liveDraws.current = draws;

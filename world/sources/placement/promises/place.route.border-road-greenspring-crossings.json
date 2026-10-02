@@ -1,0 +1,78 @@
+{
+ "schemaVersion": 1,
+ "placeId": "place.route.border-road-greenspring-crossings",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
+ "derivedFrom": [
+  {
+   "file": "world/sources/routes/route-structure-exemplars.json",
+   "sha256": "5465c8ea36ae8a605377f2cb01375e3be8f1569e1ee4378d8c7c9512a70cf6ab"
+  }
+ ],
+ "promises": [
+  {
+   "id": "promise.border-road-greenspring-crossings.prose-why-founding",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/routes/route-structure-exemplars.json",
+    "path": "places[place.route.border-road-greenspring-crossings].why.founding"
+   },
+   "text": "The Border road was laid on a Dunmer line from Stormhold to Thorn. West of the Greenspring track it drops off the ridge into the river marsh.",
+   "confirmed": {
+    "sha": "ac953c1d6da8",
+    "note": "The road comes down off the ridge west of the Greenspring track and crosses the river marsh on the river plank run."
+   }
+  },
+  {
+   "id": "promise.border-road-greenspring-crossings.prose-why-occupantsmotive",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/routes/route-structure-exemplars.json",
+    "path": "places[place.route.border-road-greenspring-crossings].why.occupantsMotive"
+   },
+   "text": "Nobody lives on the crossings. Greenspring keeps the planks because its trade goes out along this road.",
+   "confirmed": {
+    "sha": "8d1f6b0f4505",
+    "note": "No dwelling or bed on the crossings; the layout holds plank runs, rocks, cairns, a cold fire ring and a grave only."
+   }
+  },
+  {
+   "id": "promise.border-road-greenspring-crossings.prose-why-pressures",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/routes/route-structure-exemplars.json",
+    "path": "places[place.route.border-road-greenspring-crossings].why.pressures"
+   },
+   "text": "The marsh rots the piles in a few seasons. Greenspring has to keep replacing them.",
+   "confirmed": {
+    "sha": "9b68bfd34139",
+    "note": "Both runs stand on piles in standing marsh water (17 dock pieces, wet ground under each run)."
+   }
+  },
+  {
+   "id": "promise.border-road-greenspring-crossings.prose-why-siteadvantages",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/routes/route-structure-exemplars.json",
+    "path": "places[place.route.border-road-greenspring-crossings].why.siteAdvantages"
+   },
+   "text": "The road keeps to the dry strip at the mountain foot and crosses water only where it must: two reaches of the river marsh, where the water stands up to a metre and a quarter deep.",
+   "confirmed": {
+    "sha": "667a8a16c818",
+    "note": "Two plank runs (river 9 pieces, inlet 8), dry ground at both ends; the ground under the runs lies 0.05 to 1.22 m below the water surface."
+   }
+  },
+  {
+   "id": "promise.border-road-greenspring-crossings.prose-why-wouldchangeif",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/routes/route-structure-exemplars.json",
+    "path": "places[place.route.border-road-greenspring-crossings].why.wouldChangeIf"
+   },
+   "text": "A stone causeway would replace the planks if anyone paid for one.",
+   "confirmed": {
+    "sha": "ce221edd861f",
+    "note": "Both crossings are timber plank runs; no stone causeway is placed."
+   }
+  }
+ ]
+}

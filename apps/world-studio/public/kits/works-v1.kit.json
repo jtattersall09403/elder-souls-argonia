@@ -8,14 +8,14 @@
    "sizeM": [
     4.767,
     3.54,
-    4.334
+    3.852
    ],
    "originOffsetM": [
     1.741,
     1.776,
-    0.626
+    0.143
    ],
-   "triangles": 2790,
+   "triangles": 2782,
    "lodRatios": [
     0.35,
     0.12
@@ -43,6 +43,10 @@
       1.722,
       0.0
      ]
+    },
+    {
+     "shape": "Trigger:0",
+     "reason": "hidden"
     }
    ],
    "textures": [
@@ -105,6 +109,35 @@
     "L2_Flames:2.Mat": 1.6
    },
    "lodLevels": 3,
+   "light": {
+    "fixtureKind": "forge",
+    "formId": "000b15ee",
+    "editorId": "LightForgeFire01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     226,
+     140,
+     63
+    ],
+    "flicker": {
+     "frequency": 2.0,
+     "intensityAmplitude": 0.3,
+     "movementAmplitude": 12.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1.35,
+    "offsetM": [
+     0.0,
+     1.13,
+     0.0
+    ],
+    "evidence": "Skyrim.esm: LightForgeFire01 is the nearest LIGH ref (< 200 units, same cell) to 6 of 9 blacksmithforge01 refs (none 3); offset is the median of those 6 in the piece's frame, glTF Y-up metres, horizontal agreement 0.45 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
+   },
    "glows": [
     {
      "offsetM": [
@@ -173,7 +206,7 @@
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.626,
+    "groundContactOffsetM": 0.143,
     "buryCapM": 0.25,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
@@ -184,36 +217,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.107,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.626,
-   "light": {
-    "fixtureKind": "forge",
-    "formId": "000b15ee",
-    "editorId": "LightForgeFire01",
-    "burnSeconds": -1,
-    "radiusUnits": 512,
-    "colourRgb": [
-     226,
-     140,
-     63
-    ],
-    "flicker": {
-     "frequency": 2.0,
-     "intensityAmplitude": 0.3,
-     "movementAmplitude": 12.0
-    },
-    "flags": [
-     "dynamic",
-     "flicker",
-     "portalStrict"
-    ],
-    "fade": 1.35,
-    "offsetM": [
-     0.0,
-     1.13,
-     0.0
-    ],
-    "evidence": "Skyrim.esm: LightForgeFire01 is the nearest LIGH ref (< 200 units, same cell) to 6 of 9 blacksmithforge01 refs (none 3); offset is the median of those 6 in the piece's frame, glTF Y-up metres, horizontal agreement 0.45 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
-   }
+   "pivotAboveBaseM": 0.143,
+   "displayName": "Crafting blacksmith forge STATIC"
   },
   {
    "id": "vanilla:clutter/blacksmith/blacksmithnovicebellows01",
@@ -300,7 +305,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.938,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.423
+   "pivotAboveBaseM": 0.423,
+   "displayName": "Blacksmith bellows 01"
   },
   {
    "id": "vanilla:clutter/blacksmith/blacksmithsharpeningwheelstatic",
@@ -380,7 +386,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.736,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "displayName": "Blacksmith sharpening wheel 01"
   },
   {
    "id": "vanilla:clutter/blacksmith/blacksmithworkbench01",
@@ -468,23 +475,24 @@
    "undersideClosed": true,
    "undersideCoverage": 0.689,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Blacksmith workbench 01"
   },
   {
    "id": "vanilla:clutter/smelter/smelter01",
    "node": "es|19e9e59b57|vanilla__clutter_smelter_smelter01",
    "category": "clutter",
    "sizeM": [
-    4.313,
-    5.826,
-    3.796
+    2.797,
+    3.131,
+    2.567
    ],
    "originOffsetM": [
-    2.913,
-    2.913,
+    1.397,
+    1.388,
     0.0
    ],
-   "triangles": 995,
+   "triangles": 987,
    "lodRatios": [
     0.35,
     0.12
@@ -492,7 +500,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "OrderedAlphaBound",
+     "reason": "hidden"
+    }
+   ],
    "textures": [
     "smelter01.dds",
     "stoneedgetrim01.dds"
@@ -548,7 +561,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.692,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Resource object mine"
   },
   {
    "id": "vanilla:clutter/smelter/smelter01coal01",
@@ -625,7 +639,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Smelter 01coal 01"
   },
   {
    "id": "vanilla:clutter/smelter/coal01",
@@ -702,7 +717,783 @@
    "undersideClosed": false,
    "undersideCoverage": 0.564,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Coal 01"
+  },
+  {
+   "id": "vanilla:furniture/smeltermarker",
+   "node": "es|3ed88fef27|vanilla__furniture_smeltermarker",
+   "category": "furniture",
+   "sizeM": [
+    6.742,
+    4.976,
+    2.567
+   ],
+   "originOffsetM": [
+    3.26,
+    1.791,
+    0.0
+   ],
+   "triangles": 1174,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [
+    {
+     "shape": "AnimObjectA:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "AnimObjectB:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "AnimObjectL:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "AnimObjectR:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "BodyMale_Big",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakBone04:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakLBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakLBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakLBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakLBone04:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakRBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakRBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakRBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "CloakRBone04:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "Coal",
+     "reason": "hidden"
+    },
+    {
+     "shape": "DwarvenSkirt_PrevIz",
+     "reason": "hidden"
+    },
+    {
+     "shape": "FemaleFoot",
+     "reason": "hidden"
+    },
+    {
+     "shape": "FemaleHand",
+     "reason": "hidden"
+    },
+    {
+     "shape": "FemaleHead",
+     "reason": "hidden"
+    },
+    {
+     "shape": "FemaleUnderwear",
+     "reason": "hidden"
+    },
+    {
+     "shape": "FemaleUnderwearBody:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "FootMale_Big",
+     "reason": "hidden"
+    },
+    {
+     "shape": "HandMale_Big",
+     "reason": "hidden"
+    },
+    {
+     "shape": "HelmetTopBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "HelmetTopBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "HelmetTopBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "MagicEffectsNode:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "MaleHeadIMF",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC Camera3rd Ctrl:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC Camera3rd FOV:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC COM [COM ]:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC Head MagicNode [Hmag]:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC L FootBox:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC L HeelPivot:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC L MagicNode [LMag]:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC L PauldronOverride:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC L ToePivot:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC R FootBox:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC R HeelPivot:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC R MagicNode [RMag]:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC R PauldronOverride:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC R ToePivot:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPC Root [Root]:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "NPCEyeBone:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "OrderedAlphaBound",
+     "reason": "hidden"
+    },
+    {
+     "shape": "Quiver:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeBone04:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeLBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeLBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeLBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeLBone04:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeRBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeRBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeRBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "RobeRBone04:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "Shield:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "Shovel:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "TailBone01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "TailBone02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "TailBone03:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "TailBone04:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "TailBone05:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "Weapon:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WeaponAxe:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WeaponBack:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WeaponBow:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WeaponDagger:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WeaponMace:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WeaponStaff:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WeaponSword:0",
+     "reason": "hidden"
+    }
+   ],
+   "textures": [
+    "charcoal01.dds",
+    "fxsmelter01.dds",
+    "smelter01.dds",
+    "stoneedgetrim01.dds"
+   ],
+   "materials": [
+    "Bucket:0.Mat.001",
+    "Cracks.Mat.001",
+    "Door:0.Mat.001",
+    "Handle:0.Mat",
+    "Slag (Bucket):0.Mat",
+    "Slag (Mould):0.Mat",
+    "Smelter01Coal01:0.Mat.001",
+    "Smelter01Coal01:1.Mat.001",
+    "Spout.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "Cracks.Mat.001": 1.0,
+    "Slag (Bucket):0.Mat": 0.114,
+    "Smelter01Coal01:0.Mat.001": 0.122,
+    "Smelter01Coal01:1.Mat.001": 0.122
+   },
+   "decalMaterials": [
+    "Cracks.Mat.001",
+    "Smelter01Coal01:1.Mat.001"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     2.967,
+     1.13,
+     2.19
+    ],
+    "centreOffsetM": [
+     0.111,
+     1.284,
+     -0.698
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0249,
+    "p50": -0.0078,
+    "p75": 0.0006,
+    "n": 25,
+    "slopeTermMPerDeg": -0.00545,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [],
+     "exterior": [
+      "town",
+      "wild"
+     ]
+    },
+    "n": 25,
+    "interior": {
+     "wild": 1,
+     "camp": 2,
+     "ruin": 1
+    },
+    "exterior": {
+     "wild": 12,
+     "camp": 1,
+     "keep": 2,
+     "ruin": 1,
+     "village": 2,
+     "town": 3
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:wild:QASmoke",
+     "interior:camp:KnifepointRidge01",
+     "interior:ruin:Gloomreach01",
+     "interior:camp:BrokenOarGrotto01",
+     "exterior:camp:FortFellhammerLocation",
+     "exterior:keep:NarzulburLocation",
+     "exterior:ruin:DragonLair06Location"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.027,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Crafting smelter marker 1"
+  },
+  {
+   "id": "kotm:oaristys/forge/coalpile",
+   "node": "es|8f12b20f5c|kotm__oaristys_forge_coalpile",
+   "category": "clutter",
+   "sizeM": [
+    3.525,
+    4.099,
+    0.439
+   ],
+   "originOffsetM": [
+    1.465,
+    2.029,
+    0.0
+   ],
+   "triangles": 201,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "charcoal01.dds"
+   ],
+   "materials": [
+    "Coal01.Mat",
+    "Coal02.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Coal01.Mat": 0.122,
+    "Coal02.Mat": 0.122
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 28,
+    "interior": {
+     "town": 23
+    },
+    "exterior": {
+     "town": 3,
+     "village": 2
+    },
+    "sourceCells": [
+     "interior:town:LilmothLumberworks",
+     "interior:town:LilmothIronworks",
+     "exterior:town:LilmothLocation",
+     "interior:town:LilmothSilverRefinery",
+     "interior:town:LilmothOliisIronFoundryInt",
+     "exterior:village:SeekhatYolLocation",
+     "interior:town:LilmothGlassFoundry"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Coal pile STATIC"
+  },
+  {
+   "id": "kotm:oaristys/forge/orebucket_iron",
+   "node": "es|9d18881eb2|kotm__oaristys_forge_orebucket_iron",
+   "category": "clutter",
+   "sizeM": [
+    0.728,
+    0.753,
+    0.437
+   ],
+   "originOffsetM": [
+    0.364,
+    0.377,
+    0.0
+   ],
+   "triangles": 3616,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "bucket01.dds",
+    "oreiron01.dds"
+   ],
+   "materials": [
+    "Bucket.Mat",
+    "Ore.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "ruin"
+     ],
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 19,
+    "interior": {
+     "town": 12,
+     "ruin": 2
+    },
+    "exterior": {
+     "town": 4,
+     "village": 1
+    },
+    "sourceCells": [
+     "interior:town:LilmothSilverRefinery",
+     "interior:town:LilmothIronworks",
+     "exterior:town:LilmothLocation",
+     "interior:ruin:TeethofSithisInt03",
+     "interior:town:LilmothOliisIronFoundryInt",
+     "exterior:village:SeekhatYolLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.781,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Orebucket iron"
+  },
+  {
+   "id": "kotm:oaristys/forge/orestack_iron",
+   "node": "es|242727a85a|kotm__oaristys_forge_orestack_iron",
+   "category": "clutter",
+   "sizeM": [
+    0.616,
+    0.786,
+    0.314
+   ],
+   "originOffsetM": [
+    0.296,
+    0.406,
+    0.002
+   ],
+   "triangles": 2700,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "oreiron01.dds"
+   ],
+   "materials": [
+    "Ore.Mat.001"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0019,
+    "p50": -0.0019,
+    "p75": -0.0019,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ]
+    },
+    "n": 9,
+    "interior": {
+     "town": 8,
+     "ruin": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:town:LilmothIronworks",
+     "interior:town:LilmothSilverRefinery",
+     "interior:ruin:TeethofSithisInt03",
+     "interior:town:LilmothOliisIronFoundryInt"
+    ],
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "interior": {
+      "ruin": 1
+     }
+    }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0019
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.002,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.738,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.002,
+   "displayName": "Orestack iron"
+  },
+  {
+   "id": "kotm:oaristys/forge/ingotsiron01",
+   "node": "es|e50fd2c529|kotm__oaristys_forge_ingotsiron01",
+   "category": "clutter",
+   "sizeM": [
+    0.356,
+    0.48,
+    0.228
+   ],
+   "originOffsetM": [
+    0.178,
+    0.239,
+    0.002
+   ],
+   "triangles": 612,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ingotsilver01.dds"
+   ],
+   "materials": [
+    "Ingots.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0022,
+    "p50": -0.0022,
+    "p75": -0.0022,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0022
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.002,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.002,
+   "displayName": "Ingotsiron 01"
   },
   {
    "id": "vanilla:clutter/common/tanningrack01",
@@ -778,7 +1569,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.148,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "displayName": "Tanning rack DONOTUSE"
   },
   {
    "id": "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01",
@@ -867,7 +1659,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.344,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.058
+   "pivotAboveBaseM": 0.058,
+   "displayName": "WR herb drying rack 01"
   },
   {
    "id": "vanilla:clutter/deadanimals/fishrack01",
@@ -968,7 +1761,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.228
+   "pivotAboveBaseM": -0.228,
+   "displayName": "Fish rack 01"
   },
   {
    "id": "vanilla:clutter/deadanimals/fishrack02",
@@ -1060,7 +1854,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.377,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.226
+   "pivotAboveBaseM": -0.226,
+   "displayName": "Fish rack 02"
   },
   {
    "id": "vanilla:clutter/carts/handcart01",
@@ -1161,7 +1956,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.529,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.464
+   "pivotAboveBaseM": 0.464,
+   "displayName": "Hand cart 01"
   },
   {
    "id": "vanilla:clutter/carts/handcart01wheel",
@@ -1268,7 +2064,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.879,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.464
+   "pivotAboveBaseM": 0.464,
+   "displayName": "Hand cart 01 wheel"
   },
   {
    "id": "vanilla:clutter/carts/handcart02",
@@ -1368,7 +2165,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.812,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.469
+   "pivotAboveBaseM": 0.469,
+   "displayName": "Hand cart 02"
   },
   {
    "id": "vanilla:clutter/carts/handcartcanopy",
@@ -1462,7 +2260,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.63
+   "pivotAboveBaseM": -0.63,
+   "displayName": "Hand cart canopy"
   },
   {
    "id": "vanilla:clutter/carts/handcartcrate",
@@ -1545,7 +2344,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.818,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.124
+   "pivotAboveBaseM": -0.124,
+   "displayName": "Hand cart crate"
   },
   {
    "id": "vanilla:clutter/carts/vendorcartstatic01",
@@ -1637,7 +2437,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.581
+   "pivotAboveBaseM": 0.581,
+   "displayName": "Vendor cart static 01"
   },
   {
    "id": "vanilla:clutter/common/wagonwheel01",
@@ -1727,7 +2528,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.961,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.689
+   "pivotAboveBaseM": 0.689,
+   "displayName": "Wagon wheel"
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilesmall01",
@@ -1836,7 +2638,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.962,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.017
+   "pivotAboveBaseM": 0.017,
+   "displayName": "Firewood pile small 01"
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilemedium01",
@@ -1945,7 +2748,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.753,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024
+   "pivotAboveBaseM": 0.024,
+   "displayName": "Firewood pile medium 01"
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilelarge01",
@@ -2054,7 +2858,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.633,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.019
+   "pivotAboveBaseM": 0.019,
+   "displayName": "Firewood pile large 01"
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilehuge01",
@@ -2136,7 +2941,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.945,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024
+   "pivotAboveBaseM": 0.024,
+   "displayName": "Firewood pile huge 1"
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodbeam01",
@@ -2230,7 +3036,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.962,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "displayName": "Mine woodbeam 01"
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodbeam02",
@@ -2327,7 +3134,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.894,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "displayName": "Mine woodbeam 02"
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodbeam03",
@@ -2422,7 +3230,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.999,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "displayName": "Mine woodbeam 03"
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodbeamshort01",
@@ -2519,7 +3328,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.999,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.136
+   "pivotAboveBaseM": 0.136,
+   "displayName": "Mine woodbeam short 01"
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodbeamshort02",
@@ -2611,7 +3421,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.136
+   "pivotAboveBaseM": 0.136,
+   "displayName": "Mine woodbeam short 02"
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodplanks01",
@@ -2711,7 +3522,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.514
+   "pivotAboveBaseM": 0.514,
+   "displayName": "Mine woodplanks 01"
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodplanks02",
@@ -2811,7 +3623,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.51
+   "pivotAboveBaseM": 0.51,
+   "displayName": "Mine woodplanks 02"
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodplanks03",
@@ -2911,7 +3724,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.514
+   "pivotAboveBaseM": 0.514,
+   "displayName": "Mine woodplanks 03"
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodplanks04",
@@ -3010,7 +3824,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.933
+   "pivotAboveBaseM": 0.933,
+   "displayName": "Mine woodplanks 04"
   },
   {
    "id": "vanilla:dungeons/mines/clutter/genericwell01",
@@ -3094,7 +3909,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.704,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.986
+   "pivotAboveBaseM": 3.986,
+   "displayName": "Generic well 01"
   },
   {
    "id": "vanilla:dungeons/mines/scaffolding/minescaffoldsupport01",
@@ -3183,7 +3999,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.115,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.205
+   "pivotAboveBaseM": 0.205,
+   "displayName": "Mine scaffold support 01"
   },
   {
    "id": "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupport01",
@@ -3247,7 +4064,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.115,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.205
+   "pivotAboveBaseM": 0.205,
+   "displayName": "Minescaffoldbasesupport 01"
   },
   {
    "id": "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupportw01",
@@ -3342,7 +4160,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.182,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Mine scaffold base support w 01"
   },
   {
    "id": "vanilla:dungeons/mines/ore/mineoreiron01",
@@ -3446,7 +4265,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.725
+   "pivotAboveBaseM": 0.725,
+   "displayName": "Mine ore iron 01"
   },
   {
    "id": "vanilla:dungeons/mines/ore/mineoredepleted01",
@@ -3522,7 +4342,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.725
+   "pivotAboveBaseM": 0.725,
+   "displayName": "Mineoredepleted 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase0sided01",
@@ -3622,7 +4443,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.289,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stockade scaffold base 0 sided 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase1sided01",
@@ -3706,7 +4528,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.333,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stockade scaffold base 1 sided 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase2sided01",
@@ -3792,7 +4615,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.355,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stockade scaffold base 2 sided 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase3sided01",
@@ -3881,7 +4705,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.107,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stockade scaffold base 3 sided 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
@@ -3970,7 +4795,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stockade scaffold base 4 sided 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbasesupport01",
@@ -4044,7 +4870,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.115,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.205
+   "pivotAboveBaseM": 0.205,
+   "displayName": "Stockade scaffold base support 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
@@ -4146,7 +4973,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219
+   "pivotAboveBaseM": 0.219,
+   "displayName": "Stockade scaffold top 0 sided 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop1sided01",
@@ -4234,7 +5062,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219
+   "pivotAboveBaseM": 0.219,
+   "displayName": "Stockade scaffold top 1 sided 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop2sided01",
@@ -4324,7 +5153,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219
+   "pivotAboveBaseM": 0.219,
+   "displayName": "Stockade scaffold top 2 sided 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop3sided01",
@@ -4415,7 +5245,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219
+   "pivotAboveBaseM": 0.219,
+   "displayName": "Stockade scaffold top 3 sided 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop4sided01",
@@ -4488,7 +5319,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.956,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.12
+   "pivotAboveBaseM": 0.12,
+   "displayName": "Stockade scaffold top 4 sided 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldramp01",
@@ -4581,7 +5413,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.908,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "displayName": "Stockade scaffold ramp 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldstairs01",
@@ -4673,7 +5506,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.843,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stockade scaffold stairs 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridge01",
@@ -4764,7 +5598,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.875,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.546
+   "pivotAboveBaseM": 0.546,
+   "displayName": "Stockade scaffold bridge 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridge02",
@@ -4854,7 +5689,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.815,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.774
+   "pivotAboveBaseM": 0.774,
+   "displayName": "Stockade scaffold bridge 02"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridgenarrow",
@@ -4937,7 +5773,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.8,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.877
+   "pivotAboveBaseM": 0.877,
+   "displayName": "Stockade scaffold bridge narrow light SN"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtoppost01",
@@ -5027,7 +5864,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.056
+   "pivotAboveBaseM": -0.056,
+   "displayName": "Stockade scaffold top post 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtoppost02",
@@ -5118,23 +5956,24 @@
    "undersideClosed": false,
    "undersideCoverage": 0.006,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.056
+   "pivotAboveBaseM": -0.056,
+   "displayName": "Stockade scaffold top post 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/lumbermill01waterwheel01",
    "node": "es|896a982209|cture_farmhouse_lumbermill01waterwheel01",
    "category": "architecture",
    "sizeM": [
-    9.229,
-    9.229,
+    6.685,
+    7.283,
     7.283
    ],
    "originOffsetM": [
-    0.41,
-    3.717,
+    -2.134,
+    3.641,
     5.92
    ],
-   "triangles": 3080,
+   "triangles": 1088,
    "lodRatios": [
     0.35,
     0.12
@@ -5142,7 +5981,20 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "mesh",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "Ragdoll_Object02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WheelEmitGeo01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WheelEmitGeoOld01:0",
+     "reason": "hidden"
+    }
+   ],
    "textures": [
     "woodpost02.dds",
     "woodwalkway01.dds"
@@ -5211,23 +6063,24 @@
    "undersideClosed": true,
    "undersideCoverage": 0.613,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.92
+   "pivotAboveBaseM": 5.92,
+   "displayName": "Farm lumbermill 01 water wheel 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/lumbermill01waterwheel02",
    "node": "es|7937faa4ae|cture_farmhouse_lumbermill01waterwheel02",
    "category": "architecture",
    "sizeM": [
-    9.229,
-    9.229,
+    6.685,
+    7.283,
     7.283
    ],
    "originOffsetM": [
-    0.41,
-    3.717,
+    -2.134,
+    3.641,
     5.92
    ],
-   "triangles": 3080,
+   "triangles": 1088,
    "lodRatios": [
     0.35,
     0.12
@@ -5235,7 +6088,20 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "mesh",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "Ragdoll_Object01:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WheelEmitGeo02:0",
+     "reason": "hidden"
+    },
+    {
+     "shape": "WheelEmitGeoOld02:0",
+     "reason": "hidden"
+    }
+   ],
    "textures": [
     "woodpost02.dds",
     "woodwalkway01.dds"
@@ -5298,7 +6164,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.613,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.92
+   "pivotAboveBaseM": 5.92,
+   "displayName": "Farm lumbermill 01 water wheel 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaycwallgate01",
@@ -5402,7 +6269,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.827,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821
+   "pivotAboveBaseM": 1.821,
+   "displayName": "Walkway c wall gate 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaycwallgate02",
@@ -5509,7 +6377,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.84,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821
+   "pivotAboveBaseM": 1.821,
+   "displayName": "Walkway c wall gate 02"
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdown01",
@@ -5602,7 +6471,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.87,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.317
+   "pivotAboveBaseM": 6.317,
+   "displayName": "Dock steps down 01"
   },
   {
    "id": "vanilla:architecture/docks/dockstrent01",
@@ -5696,7 +6566,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.732,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.233
+   "pivotAboveBaseM": 6.233,
+   "displayName": "Dock str ent 01"
   },
   {
    "id": "vanilla:clutter/ingredients/saltpile",
@@ -5798,7 +6669,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.042
+   "pivotAboveBaseM": 0.042,
+   "displayName": "MS 03 black briar secret ingredient"
   },
   {
    "id": "vanilla:clutter/barrel01",
@@ -5915,7 +6787,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Barrel empty 01"
   },
   {
    "id": "vanilla:clutter/largerainbarrel01",
@@ -5993,7 +6866,673 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Large rain barrel 01"
+  },
+  {
+   "id": "vanilla:clutter/chopping block/choppingblock01",
+   "node": "es|dd75a44131|__clutter_chopping block_choppingblock01",
+   "category": "clutter",
+   "sizeM": [
+    0.751,
+    0.751,
+    0.469
+   ],
+   "originOffsetM": [
+    0.375,
+    0.375,
+    0.0
+   ],
+   "triangles": 94,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "choppingblock01.dds"
+   ],
+   "materials": [
+    "ChoppingBlock01:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": 0.0124,
+    "p75": 0.0456,
+    "n": 29,
+    "slopeTermMPerDeg": 0.00537,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "town",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 123,
+    "interior": {
+     "town": 29,
+     "camp": 16,
+     "keep": 17,
+     "ruin": 11,
+     "wild": 7
+    },
+    "exterior": {
+     "keep": 1,
+     "ruin": 5,
+     "wild": 14,
+     "town": 21,
+     "camp": 2
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "exterior:town:WindhelmLocation",
+     "interior:keep:BloodletThrone01",
+     "exterior:town:SolitudeLocation",
+     "interior:camp:GallowsRock01",
+     "interior:wild:OLDBluePalaceWing01",
+     "interior:camp:SwindlersDen01",
+     "interior:keep:MarkarthUnderStoneKeep"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Chopping block 01"
+  },
+  {
+   "id": "kotm:argonia/clutter/beehive",
+   "node": "es|43a43fb42d|kotm__argonia_clutter_beehive",
+   "category": "container",
+   "sizeM": [
+    3.084,
+    1.732,
+    3.108
+   ],
+   "originOffsetM": [
+    1.559,
+    0.73,
+    0.074
+   ],
+   "triangles": 5749,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "baldcypressbark01_d.dds",
+    "dryoakpost01.dds",
+    "riftenrope01.dds",
+    "treepineforestcut01.dds",
+    "wrwoodbeamint01.dds"
+   ],
+   "materials": [
+    "ExteriorWoodenTable01:0.Mat",
+    "L2_Support.Mat",
+    "ShipWoodplanks02:5.Mat",
+    "grp11.Mat",
+    "grp2.Mat",
+    "grp21.Mat",
+    "grp31.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     1.357,
+     1.368,
+     0.762
+    ],
+    "centreOffsetM": [
+     -0.017,
+     1.48,
+     -0.136
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.074,
+    "p50": -0.074,
+    "p75": -0.074,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": []
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "village": 1
+    },
+    "sourceCells": [
+     "exterior:village:RootWhisperVillageLocation"
+    ],
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "village": 1
+     }
+    }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.074,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.812,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.074,
+   "displayName": "Beehive"
+  },
+  {
+   "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/farmhouseline",
+   "node": "es|047312c841|itecture_villages_argonian_farmhouseline",
+   "category": "architecture",
+   "sizeM": [
+    2.513,
+    1.27,
+    2.28
+   ],
+   "originOffsetM": [
+    1.501,
+    0.856,
+    -0.0
+   ],
+   "triangles": 4288,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "rope01.dds",
+    "woodpost02.dds"
+   ],
+   "materials": [
+    "Tri FarmhouseLine:0.Mat",
+    "Tri FarmhouseLine:1.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.142,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farmhouseline"
+  },
+  {
+   "id": "vanilla:clutter/exteriorwoodenfurniture/exteriorwoodentable01",
+   "node": "es|e140a28d46|iorwoodenfurniture_exteriorwoodentable01",
+   "category": "clutter",
+   "sizeM": [
+    3.084,
+    1.732,
+    1.006
+   ],
+   "originOffsetM": [
+    1.559,
+    0.73,
+    -0.0
+   ],
+   "triangles": 2643,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "rope01.dds",
+    "woodpost02.dds"
+   ],
+   "materials": [
+    "ExteriorWoodenTable01:0 - L2_Support:0.Mat",
+    "L2_Support.Mat.001"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0475,
+    "p75": 0.1035,
+    "n": 42,
+    "slopeTermMPerDeg": -0.05625,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "camp",
+      "ruin"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 137,
+    "interior": {
+     "ruin": 31,
+     "camp": 32,
+     "village": 2,
+     "town": 4,
+     "keep": 1
+    },
+    "exterior": {
+     "keep": 11,
+     "wild": 11,
+     "ruin": 16,
+     "camp": 20,
+     "town": 8,
+     "village": 1
+    },
+    "sourceCells": [
+     "interior:camp:BrokenOarGrotto01",
+     "interior:ruin:Pinewatch01",
+     "exterior:ruin:LostValleyRedoubtLocation",
+     "exterior:wild:Tamriel",
+     "exterior:town:SolitudeLocation",
+     "interior:camp:EmbershardMine01",
+     "interior:ruin:ChillwindDepths01",
+     "exterior:camp:HagRockRedoubtLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.669,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Exterior wooden table 01"
+  },
+  {
+   "id": "vanilla:clutter/burialcairn/burialcairn02",
+   "node": "es|5587fa5d29|nilla__clutter_burialcairn_burialcairn02",
+   "category": "clutter",
+   "sizeM": [
+    2.745,
+    4.191,
+    1.75
+   ],
+   "originOffsetM": [
+    1.323,
+    2.142,
+    0.479
+   ],
+   "triangles": 4022,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds",
+    "ratwaybmudfloor01.dds",
+    "scrollworktrim01.dds"
+   ],
+   "materials": [
+    "BurialCairn02:0.Mat",
+    "BurialCairn02:1.Mat",
+    "BurialCairn02:2.Mat",
+    "L1.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "BurialCairn02:2.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0573,
+    "p50": -0.009,
+    "p75": 0.055,
+    "n": 9,
+    "slopeTermMPerDeg": 0.02495,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "keep",
+      "town",
+      "wild"
+     ]
+    },
+    "n": 18,
+    "interior": {},
+    "exterior": {
+     "wild": 12,
+     "keep": 4,
+     "town": 2
+    },
+    "sourceCells": [
+     "exterior:wild:HamvirsRestLocation",
+     "exterior:wild:ArcwindPointLocation",
+     "exterior:keep:FortSnowhawkLocation",
+     "exterior:wild:Tamriel",
+     "exterior:town:FalkreathLocation",
+     "exterior:keep:NarzulburLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.479,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.148,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.479,
+   "displayName": "Burial cairn 02"
+  },
+  {
+   "id": "vanilla:architecture/riften/rtmarketstall01",
+   "node": "es|7d038e2e33|lla__architecture_riften_rtmarketstall01",
+   "category": "architecture",
+   "sizeM": [
+    2.048,
+    2.227,
+    3.066
+   ],
+   "originOffsetM": [
+    1.024,
+    1.094,
+    -0.0
+   ],
+   "triangles": 1386,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "riftenlattice01.dds",
+    "riftenlogdetails01.dds",
+    "riftensiding01.dds",
+    "rtmarketstallroof01.dds"
+   ],
+   "materials": [
+    "L1_Lattice.Mat",
+    "L2_Supports.Mat",
+    "RTMarketStall01:1 - L2_Supports:1.Mat",
+    "RTMarketStall01:22.Mat",
+    "RTMarketStall01:35.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L1_Lattice.Mat": 0.498,
+    "L2_Supports.Mat": 0.247,
+    "RTMarketStall01:35.Mat": 0.498
+   },
+   "decalMaterials": [
+    "L2_Supports.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 3,
+    "interior": {},
+    "exterior": {
+     "town": 3
+    },
+    "sourceCells": [
+     "exterior:town:RiftenLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "displayName": "RT market stall 01"
+  },
+  {
+   "id": "vanilla:furniture/tanningrackmarker",
+   "node": "es|ee6cbfbee7|vanilla__furniture_tanningrackmarker",
+   "category": "furniture",
+   "sizeM": [
+    1.609,
+    0.903,
+    1.715
+   ],
+   "originOffsetM": [
+    0.804,
+    -0.668,
+    0.001
+   ],
+   "triangles": 1000,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "leatherrack01.dds",
+    "rope01.dds",
+    "woodwall01.dds"
+   ],
+   "materials": [
+    "TanningRack:0.Mat.001",
+    "TanningRack:1.Mat.001",
+    "TanningRack:2.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "TanningRack:0.Mat.001": 0.502
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.708,
+     0.755,
+     0.397
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.856,
+     -1.12
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0249,
+    "p50": 0.0,
+    "p75": 0.0336,
+    "n": 41,
+    "slopeTermMPerDeg": -0.00339,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "camp",
+      "ruin"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 99,
+    "interior": {
+     "ruin": 9,
+     "wild": 2,
+     "camp": 15,
+     "keep": 2,
+     "town": 1
+    },
+    "exterior": {
+     "wild": 20,
+     "camp": 8,
+     "town": 22,
+     "village": 7,
+     "ruin": 8,
+     "keep": 5
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:camp:GallowsRock01",
+     "exterior:town:FalkreathLocation",
+     "interior:ruin:Alftand02",
+     "interior:camp:DruadachRedoubt01",
+     "interior:ruin:TolvaldsCave01",
+     "exterior:town:DawnstarLocation",
+     "exterior:town:RiverwoodLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.001,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.148,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.001,
+   "displayName": "Crafting tanning rack marker"
   },
   {
    "id": "vanilla:clutter/common/cratesmall01",
@@ -6099,7 +7638,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.946,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.345
+   "pivotAboveBaseM": 0.345,
+   "displayName": "Crate small 01"
   },
   {
    "id": "vanilla:clutter/common/cratesmalllong01",
@@ -6205,7 +7745,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.944,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.345
+   "pivotAboveBaseM": 0.345,
+   "displayName": "Crate small long 01"
   },
   {
    "id": "vanilla:clutter/basket01",
@@ -6301,7 +7842,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Basket 01"
   },
   {
    "id": "vanilla:clutter/basket03",
@@ -6396,7 +7938,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Basket 03"
   },
   {
    "id": "vanilla:clutter/basketclosed01",
@@ -6500,7 +8043,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Basket closed 01"
   },
   {
    "id": "vanilla:clutter/bucket01",
@@ -6604,7 +8148,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.775,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Bucket 01"
   },
   {
    "id": "vanilla:clutter/common/pitchfork01",
@@ -6699,7 +8244,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.233,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.68
+   "pivotAboveBaseM": 0.68,
+   "displayName": "Pitchfork 001"
   },
   {
    "id": "vanilla:clutter/common/shovel01",
@@ -6802,7 +8348,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.536,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.762
+   "pivotAboveBaseM": 0.762,
+   "displayName": "Shovel 01"
   },
   {
    "id": "vanilla:clutter/containers/miscsacklarge",
@@ -6919,7 +8466,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.785,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.403
+   "pivotAboveBaseM": 0.403,
+   "displayName": "Misc sack large"
   },
   {
    "id": "vanilla:clutter/containers/miscsacklargeflat01",
@@ -7035,7 +8583,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.842,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.403
+   "pivotAboveBaseM": 0.403,
+   "displayName": "Misc sack large flat 01"
   },
   {
    "id": "vanilla:clutter/horsetrough/horsetrough01",
@@ -7128,7 +8677,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Horse trough 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/fishracksmall",
@@ -7207,7 +8757,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.228
+   "pivotAboveBaseM": -0.228,
+   "displayName": "Fishracksmall"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/carapaceoven",
@@ -7281,7 +8832,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.016
+   "pivotAboveBaseM": 0.016,
+   "displayName": "Carapaceoven"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/ovennew",
@@ -7399,7 +8951,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.785,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "displayName": "Ovennew"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketfull",
@@ -7492,7 +9045,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.035
+   "pivotAboveBaseM": 0.035,
+   "displayName": "Basketfull"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketsmall01",
@@ -7569,7 +9123,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Basketsmall 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/paintedurn01",
@@ -7660,7 +9215,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "displayName": "Paintedurn 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wovenfence01",
@@ -7748,7 +9304,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.091,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.155
+   "pivotAboveBaseM": 0.155,
+   "displayName": "Wovenfence 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/snakefence01",
@@ -7830,7 +9387,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.091,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.155
+   "pivotAboveBaseM": 0.155,
+   "displayName": "Snakefence 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/snakefence02",
@@ -7907,7 +9465,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.094,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.196
+   "pivotAboveBaseM": 0.196,
+   "displayName": "Snakefence 02"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/cattail",
@@ -7979,7 +9538,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.857
+   "pivotAboveBaseM": 0.857,
+   "displayName": "Cattail"
   },
   {
    "id": "bmv:advertising_board",
@@ -8026,12 +9586,12 @@
    ],
    "lodLevels": 3,
    "designedSinkM": {
-    "p25": 1.8217,
-    "p50": 1.8217,
-    "p75": 1.8217,
+    "p25": -0.041,
+    "p50": -0.041,
+    "p75": -0.041,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
    },
    "settingClass": {
     "settings": {},
@@ -8043,11 +9603,6 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 1.8217
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -8062,7 +9617,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.89,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041
+   "pivotAboveBaseM": 0.041,
+   "displayName": "Advertising board"
   },
   {
    "id": "vanilla:clutter/woodfires/cookingstand01",
@@ -8151,7 +9707,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.427,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.003
+   "pivotAboveBaseM": -0.003,
+   "displayName": "Cooking stand"
   },
   {
    "id": "vanilla:clutter/woodfires/spit01",
@@ -8253,7 +9810,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.053,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "displayName": "Spit 01"
   },
   {
    "id": "vanilla:clutter/imperial/impbrazier01",
@@ -8381,7 +9939,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.945,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Imp brazier 01"
   },
   {
    "id": "bmv:roadsignsmall01l",
@@ -8450,7 +10009,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.143
+   "pivotAboveBaseM": 0.143,
+   "displayName": "Roadsignsmall 01l"
   },
   {
    "id": "bmv:roadsignsmall01r",
@@ -8519,7 +10079,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.157
+   "pivotAboveBaseM": 0.157,
+   "displayName": "Roadsignsmall 01r"
   },
   {
    "id": "bmv:roadsignmedium01l",
@@ -8588,7 +10149,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.143
+   "pivotAboveBaseM": 0.143,
+   "displayName": "Roadsignmedium 01l"
   },
   {
    "id": "bmv:roadsignmedium01r",
@@ -8652,7 +10214,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.155
+   "pivotAboveBaseM": 0.155,
+   "displayName": "Roadsignmedium 01r"
   },
   {
    "id": "bmv:roadsignlarge01l",
@@ -8716,7 +10279,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.501,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.164
+   "pivotAboveBaseM": 0.164,
+   "displayName": "Roadsignlarge 01l"
   },
   {
    "id": "bmv:roadsignlarge01r",
@@ -8785,7 +10349,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.137
+   "pivotAboveBaseM": 0.137,
+   "displayName": "Roadsignlarge 01r"
   },
   {
    "id": "vanilla:effects/fxfirewithembers01",
@@ -8942,7 +10507,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.056,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.003
+   "pivotAboveBaseM": 0.003,
+   "displayName": "F xfire with embers heavy"
   },
   {
    "id": "vanilla:clutter/woodfires/campfire01burning",
@@ -9151,7 +10717,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.392,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.052
+   "pivotAboveBaseM": 0.052,
+   "displayName": "Campfire 01 burning"
   },
   {
    "id": "vanilla:clutter/signage/roadsigns/roadsignpost",
@@ -9252,7 +10819,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Road sign post"
   },
   {
    "id": "shores:shoresofskyrim/fishnet01",
@@ -9325,7 +10893,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.915,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.021
+   "pivotAboveBaseM": -0.021,
+   "displayName": "Fishnet 01"
   },
   {
    "id": "vanilla:clutter/woodfires/spitpotopen01",
@@ -9334,14 +10903,14 @@
    "sizeM": [
     0.453,
     0.467,
-    1.57
+    0.719
    ],
    "originOffsetM": [
     0.221,
     0.234,
-    0.043
+    -0.808
    ],
-   "triangles": 686,
+   "triangles": 678,
    "lodRatios": [
     0.35,
     0.12
@@ -9349,7 +10918,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "ANCHOR:0",
+     "reason": "hidden"
+    }
+   ],
    "textures": [
     "wrfireplaceclutter01.dds"
    ],
@@ -9413,7 +10987,7 @@
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.043,
+    "groundContactOffsetM": -0.808,
     "buryCapM": 0.25,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
@@ -9424,7 +10998,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.043
+   "pivotAboveBaseM": -0.808,
+   "displayName": "Spit pot open 01"
   },
   {
    "id": "vanilla:clutter/woodfires/spitpotopenloose01",
@@ -9519,7 +11094,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.099
+   "pivotAboveBaseM": 0.099,
+   "displayName": "Spit pot open loose 01"
   },
   {
    "id": "vanilla:clutter/kitchen/castironpotmedium01",
@@ -9615,7 +11191,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.781,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Cast iron pot medium 01"
   },
   {
    "id": "kotm:argonia/clutter/saxhleelmetalpot01",
@@ -9708,7 +11285,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.099
+   "pivotAboveBaseM": 0.099,
+   "displayName": "Saxhleel metal pot 01"
   },
   {
    "id": "vanilla:clutter/basket05",
@@ -9803,7 +11381,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Basket 05"
   },
   {
    "id": "vanilla:clutter/basket06",
@@ -9894,7 +11473,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Basket 06"
   },
   {
    "id": "kotm:argonia/clutter/basket01",
@@ -9989,7 +11569,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.797,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.262
+   "pivotAboveBaseM": 0.262,
+   "displayName": "Basket 01"
   },
   {
    "id": "kotm:argonia/clutter/basket02",
@@ -10078,7 +11659,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.262
+   "pivotAboveBaseM": 0.262,
+   "displayName": "Basket 02"
   },
   {
    "id": "kotm:argonia/clutter/basketcontainer",
@@ -10185,7 +11767,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.501
+   "pivotAboveBaseM": 0.501,
+   "displayName": "Basket coal"
   },
   {
    "id": "composite:works/stockade-scaffold-2stage",
@@ -10281,7 +11864,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stockade scaffold base 4 sided 01"
   },
   {
    "id": "composite:works/stockade-scaffold-3stage",
@@ -10379,7 +11963,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stockade scaffold base 4 sided 01"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\works-v1.glb",
@@ -10389,6 +11974,7 @@
   "textures/_byoh/clutter/food/dumpling01_n.dds",
   "textures/_byoh/furniture/oven01.dds",
   "textures/_byoh/furniture/oven01_n.dds",
+  "textures/_resourcepack/landscape/trees/baldcypressbark01_n.dds",
   "textures/shoresofskyrim/limpets01.dds",
   "textures/shoresofskyrim/limpets01_n.dds"
  ],
@@ -10397,11 +11983,13 @@
   "textures/clutter/stockade/stockadeplanks01_n.dds": "textures/architecture/farmhouse/woodwall01_n.dds",
   "textures/clutter/stockade/stockadewood01.dds": "textures/architecture/farmhouse/woodpost02.dds",
   "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds",
-  "textures/\bERR": "textures/clutter/blacksmith/blacksmithforge01.dds"
+  "textures/\bERR": "textures/clutter/blacksmith/blacksmithforge01.dds",
+  "textures/_resourcepack/landscape/trees/baldcypressbark01_d.dds": "textures/lod/baldcypressbark01_dlod.dds",
+  "textures/landscape/trees/treepineforestcut01.dds": "textures/texturepack/landscape/trees/treepineforestcut01.dds"
  },
  "alphaModes": {
-  "MASK": 26,
-  "OPAQUE": 224,
+  "MASK": 37,
+  "OPAQUE": 252,
   "BLEND": 17
  },
  "effectTextures": {
@@ -10573,24 +12161,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 42652568,
-  "bytesAfter": 20814784,
-  "images": 90,
-  "imageBytesAfter": 18278643,
+  "bytesBefore": 48826144,
+  "bytesAfter": 23691616,
+  "images": 103,
+  "imageBytesAfter": 20666274,
   "warnings": [],
-  "sha256": "9029f469203e6124c9f0281c301c1d4055da1b99f29fffabf5c55c59aad2726c",
+  "sha256": "ca5ced5f39a4f9196679cb32157d187fac3d8153b0d8cb3f9fb0a5763160383f",
   "parts": {
-   "parts": 14,
-   "partBytes": 236152,
-   "textureFiles": 13,
-   "textureBytes": 1525692,
-   "bytes": 1761844,
-   "sourceSha256": "9029f469203e6124c9f0281c301c1d4055da1b99f29fffabf5c55c59aad2726c"
+   "parts": 11,
+   "partBytes": 192348,
+   "textureFiles": 11,
+   "textureBytes": 1393228,
+   "bytes": 1585576,
+   "sourceSha256": "ca5ced5f39a4f9196679cb32157d187fac3d8153b0d8cb3f9fb0a5763160383f"
   },
   "sidecarBytes": {
-   "connectors": 76342,
-   "footprints": 136376,
-   "interiors": 64044
+   "connectors": 85341,
+   "footprints": 153981,
+   "interiors": 69607
   }
  }
 }

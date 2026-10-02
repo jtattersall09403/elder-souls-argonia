@@ -1,0 +1,319 @@
+{
+ "schemaVersion": 1,
+ "placeId": "place.imperial-fringe.the-broke-column",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
+ "derivedFrom": [
+  {
+   "file": "world/sources/catalogue/places-imperial-fringe.json",
+   "sha256": "966ecbef7029d82fb5f6f70d85993c6868692f0430664107988ee1ed77008143"
+  },
+  {
+   "file": "world/sources/quests/local-imperial-fringe.json",
+   "sha256": "05d17c80525aaf221ca2e8e56e71d4f85e26a04fe48c9f22e926adc04bca660c"
+  },
+  {
+   "file": "world/sources/quests/quests-factions.json",
+   "sha256": "92f935e9fe9b1ac016732f03f7c72ea3fc5a038cbad4ea4bb6302e86642c07c1"
+  },
+  {
+   "file": "world/sources/quests/quests-standalone.json",
+   "sha256": "e98f97d82cb57bac8991371db51adb19d56d83200dc7f01d6947e62fc1ea91e8"
+  }
+ ],
+ "promises": [
+  {
+   "id": "promise.the-broke-column.evidence-the-pay-book",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].sockets.evidence[evidence.the-broke-column.the-pay-book]"
+   },
+   "text": "The Broke Column has the evidence socket evidence.the-broke-column.the-pay-book.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.the-broke-column.occupant-n1",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].contents.npcs[n1]"
+   },
+   "text": "The Broke Column has single boss occupants.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.the-broke-column.occupant-n2",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].contents.npcs[n2]"
+   },
+   "text": "The Broke Column has band rank-and-file occupants.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.the-broke-column.prose-playerpurpose-hook",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].playerPurpose.hook"
+   },
+   "text": "The grandsons of a Legion column left unpaid at the recall hold a track junction off the Gideon road and call what they take a levy.",
+   "confirmed": {
+    "sha": "e17540dca9d5",
+    "note": "Built: the camp stands on the bench above the Mile House and Swampmoth track junction, out of sight of the Gideon road; the barricade on the track is the levy post."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.prose-questhooks-opportunity",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].questHooks.opportunity"
+   },
+   "text": "The column will parley before it fights, so the pardon question can be resolved without clearing the camp.",
+   "confirmed": {
+    "sha": "758c4a86bc40",
+    "note": "Built: the serjeant's npc socket stands at the command tent's mouth, reachable on the line walk, so a parley can happen before any fight."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.prose-vibe-approach",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].vibe.approach"
+   },
+   "text": "The track narrows at a barricade below the tents. A man steps out and asks for the levy in correct Legion phrasing.",
+   "confirmed": {
+    "sha": "227bd3b23f87",
+    "note": "Built: stockadebarricade01 narrows the Mile House track below the tents; the n2 levy socket stands beside it."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.prose-vibe-condition",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].vibe.condition"
+   },
+   "text": "Militarily tidy, but starving.",
+   "confirmed": {
+    "sha": "02f49ed347e4",
+    "note": "Built: four tents in one dressed line at one yaw on levelled pads; the stores are a near-empty sack and a water barrel."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.prose-vibe-materials",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].vibe.materials"
+   },
+   "text": "Issue canvas, issue tools and a palisade of sharpened poles.",
+   "confirmed": {
+    "sha": "fa36bc328500",
+    "note": "Built: Legion issue canvas (largeimperialtent01, smallimperialtent) and a row of sharpened stockadepike01 stakes along the bench foot."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.prose-vibe-mood",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].vibe.mood"
+   },
+   "text": "Disciplined and humiliated.",
+   "confirmed": {
+    "sha": "0100122d8ab2",
+    "note": "Built: a drilled line of tents and the colours at both ends on a hillside camp with almost nothing in its stores."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.prose-vibe-palette",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].vibe.palette"
+   },
+   "text": "Faded Imperial red gone brown, dull steel, churned mud.",
+   "confirmed": {
+    "sha": "c5bb51ca7fef",
+    "note": "Built: the Legion red banners (civilwarbannerimp01) and canvas over trodden ground on the levelled pads."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.prose-vibe-senses",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].vibe.senses"
+   },
+   "text": "Woodsmoke; the watch called on the hour; little talk.",
+   "confirmed": {
+    "sha": "e806f9b02945",
+    "note": "Built: the brazier at the command tent burns day and night; the watch is the n2 levy socket. Sounds belong to Phase 13's ambience."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.prose-vibe-signaturefeature",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].vibe.signatureFeature"
+   },
+   "text": "The duty roster nailed to a tree, kept up to date in a clerk's hand.",
+   "confirmed": {
+    "sha": "8b70c1583078",
+    "note": "Built: the roster tree is a kept frozen aspen beside the camp path, carrying the scene marker and the roster's note item socket; the paper itself is placed by the item catalogue."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.prose-vibe-silhouette",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].vibe.silhouette"
+   },
+   "text": "Four Legion tents pitched in a line, dressed, on ground no quartermaster would choose.",
+   "confirmed": {
+    "sha": "94d7053ef338",
+    "note": "Built: the command tent and three small Legion tents in one line on a hillside bench above a stream, with banners at both ends."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.prose-why-founding",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].why.founding"
+   },
+   "text": "When the Legion was recalled, two centuries ago, part of the column on the border road deserted rather than march. They had not been paid. Nobody came back to pay them. Their grandsons keep the roster and wear the colours still.",
+   "confirmed": {
+    "sha": "1b52549f80c2",
+    "note": "The camp is Imperial issue: a command tent and three small Imperial tents in a line; the history is backstory the roster scene carries."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.prose-why-occupantsmotive",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].why.occupantsMotive"
+   },
+   "text": "They keep watches and wear the colours. What they take, they call a levy.",
+   "confirmed": {
+    "sha": "65b570f81dad",
+    "note": "Built: the banners carry the colours; the levy socket at the barricade is where they take what they call a levy."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.prose-why-pressures",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].why.pressures"
+   },
+   "text": "Gideon's governor will not pay to clear them. The toll company's officers would rather use them.",
+   "confirmed": {
+    "sha": "c6c00533f095",
+    "note": "Pressure on the camp from Gideon and the toll company is quest matter; nothing built contradicts it."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.prose-why-siteadvantages",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].why.siteAdvantages"
+   },
+   "text": "A bench by a spring-fed tarn in the hills above the Mile House track, out of sight of the Gideon road, with cover uphill.",
+   "confirmed": {
+    "sha": "1a40819d9fd9",
+    "note": "The site is a spring head by an upland tarn (scour site spring-head-028), 165 m off the nearest route; the tents stand on the bench."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.prose-why-wouldchangeif",
+   "kind": "prose",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].why.wouldChangeIf"
+   },
+   "text": "Would disband inside a season if Gideon offered them a pardon and a wage.",
+   "confirmed": {
+    "sha": "5e471164a793",
+    "note": "World: Gideon is the city 0.32 km east that could offer the pardon (LF21)."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.provision-fg07-anchor",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].questHooks.provisions[quest.provision.fg07-anchor]"
+   },
+   "text": "The Broke Column holds what quest provision quest.provision.fg07-anchor needs.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.the-broke-column.provision-lq15-anchor",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].questHooks.provisions[quest.provision.lq15-anchor]"
+   },
+   "text": "The Broke Column holds what quest provision quest.provision.lq15-anchor needs.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.the-broke-column.quest-fg07",
+   "kind": "quest",
+   "source": {
+    "file": "world/sources/quests/quests-factions.json",
+    "path": "quest[FG07]"
+   },
+   "text": "FG07 The Price of Protection: Local officers encourage bandits to keep villages dependent on charter contracts",
+   "confirmed": {
+    "sha": "70c8a001cc37",
+    "note": "Built: the serjeant (n1) and the pay book item socket in the command tent (fills evidence-the-pay-book and provision fg07)."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.quest-lf21",
+   "kind": "quest",
+   "source": {
+    "file": "world/sources/quests/local-imperial-fringe.json",
+    "path": "quest[LF21]"
+   },
+   "text": "LF21 Levy in Correct Phrasing: Someone must decide whether a pardon can be offered to men who still keep a Legion duty roster",
+   "confirmed": {
+    "sha": "c1890c28ba49",
+    "note": "Built: the roster tree scene marker and the serjeant's socket at the command tent."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.quest-lq15",
+   "kind": "quest",
+   "source": {
+    "file": "world/sources/quests/quests-standalone.json",
+    "path": "quest[LQ15]"
+   },
+   "text": "LQ15 The Bandits Who Count Boats: Bandits work the trunk road's Gideon leg because a toll office publishes its schedules",
+   "confirmed": {
+    "sha": "646fe72cd858",
+    "note": "Built: the camp holds the track off the Gideon leg of the Blackwood trunk; the toll office's schedules are an item socket in the command tent (provision lq15)."
+   }
+  },
+  {
+   "id": "promise.the-broke-column.scene-the-roster-tree",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].sockets.scene[scene.the-broke-column.the-roster-tree]"
+   },
+   "text": "The Broke Column has the scene socket scene.the-broke-column.the-roster-tree.",
+   "unfilled": null
+  }
+ ]
+}

@@ -1275,6 +1275,14 @@ def test_a_door_with_no_threshold_fails_loudly():
     assert len(unlit) == 1 and "no bound threshold" in unlit[0]
 
 
+def test_a_cave_mouth_in_rock_is_not_a_building_and_needs_no_entrance_light():
+    # 0102 decision 7 lights buildings; Takes-The-Tools' rockcaveentrance02 (16k walk 9)
+    door = {"id": "d", "parcelId": "p", "thresholdM": [0.0, 0.0], "facingDeg": 80.0}
+    rows = {"rock:cave": {"category": "rock"}, "hut": {"category": "architecture"}}
+    assert cs.unlit_entrance_errors([door], [], rows.get, {"p": "rock:cave"}) == []
+    assert len(cs.unlit_entrance_errors([door], [], rows.get, {"p": "hut"})) == 1
+
+
 def test_a_probe_kit_is_never_placeable_and_an_alpha_tested_piece_is(tmp_path):
     """0105 R20: the probe filter keys on the `probe-` kit id, not the LOD
     chain; an alpha-tested piece built with one level (`lodLevels` 1, its

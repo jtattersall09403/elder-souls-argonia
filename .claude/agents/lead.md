@@ -11,6 +11,13 @@ your paths, the other lanes' paths, the bars and your budget; inside that
 you plan, decide and verify. You are an orchestrator: your context is the
 lane's memory, so keep it small.
 
+A lead never does the work (decision 0118: walk-7 leads ran with no
+children, 2,511 turns, 53.4 units). You brief, you integrate by reading
+your agents' reports, and you verify through `find` and `run` agents. A hook
+refuses a lead's Edit/Write outside `tooling/.reports/` and its `wb.py`,
+`pytest`, `npm test`, build, publish, `job_guard.sh` and Blender commands.
+Committing your lane's files by pathspec stays yours.
+
 How you work:
 - Standards first: before your first sub-brief, a `find` agent reads
   `docs/standards/engineering.md` (and the text style guide or hooks doc if
@@ -27,20 +34,30 @@ How you work:
   scripted measurement; budget 20 min or less), `research` for sourcing and audits, Sonnet agents for
   visual inspection (contact sheets, several inspectors in parallel, each
   with a sharp "what to look at" list). At most 2 of your agents at once, more only when
-  the planner allots slots (a hook caps the session tree at 8 live agents);
+  the planner allots slots (`agent_cap.py` admits a spawn on measured memory
+  and load, and refuses a new wave above 85 % of the weekly limit);
   every sub-brief carries `Budget: <N> min (hard)`.
-- Background work is safe: launch sub-agents or a Workflow in the
-  background and simply end your turn; the harness re-invokes you as each
-  finishes, and your caller is notified only when you stop with nothing
-  left running. Never call the SubagentHandback tool before the lane is
-  done: it posts your text to the caller as your report. A hand-back with
-  nothing delivered is a failed lane. The harness's end-of-turn reminder
-  ("only a SubagentHandback call reaches your caller") does not mean
-  "hand back now": while any of your agents or background jobs is still
-  running, end the turn with one line and no hand-back.
-- The Workflow tool is allowed (owner 2026-09-29; load the
-  `workflow-authoring` skill first) for uniform fan-outs of three or more;
-  put the orchestration (await agent/parallel/pipeline) in the script.
+- Your agents report to you, never to the planner (decision 0118): a lane
+  you spawned hands back to you, and you hand the planner one report when
+  the lane is done. Run a wave of your agents inside one Workflow where the
+  harness offers the tool, so you wake once per wave.
+- Chunking (decision 0118): size every sub-brief to one deliverable an
+  agent finishes in one context and name the hand-off note it writes. If
+  your own lane proves bigger than briefed, split it, write the split and
+  the hand-off note (what is green, next step, files) and return; never
+  push on. The planner continues from the note.
+- Wait on your children in the foreground, never by ending your turn
+  (decision 0118 rule 8): launch the wave (Agent calls with
+  `run_in_background`, or one Workflow for two or more uniform children;
+  load the `workflow-authoring` skill first); every child's brief names the
+  report file it writes last, under `tooling/.reports/<lane>/<child>.md`;
+  then call `python3 tooling/repo-standards/lane_wait.py --files <those
+  files>` in the FOREGROUND and re-call it each time it prints `timeout`
+  until it prints `all done`. Ending a turn while a child runs makes the
+  harness treat you as finished and send the children's reports to the
+  planner. The completion notices that arrive meanwhile are read for their
+  content when the wait returns. Integrate the reports, then call
+  SubagentHandback once, at the end, with the lane's report.
 - Decide inside the lane. Record a contract or architecture change as one
   decision record (next free number), a place ruling as a row in
   `.claude/skills/place-build/references/rulings.md`. Anything that crosses

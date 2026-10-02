@@ -5,11 +5,11 @@
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-dunmer-north.json",
-   "sha256": "ec57f848e0ebf4966a3caf6230734177f01b2a3c6deb7d4e914f2d790842afb0"
+   "sha256": "84a1fe6aedc01eae03e895f2c2001f4c4335c313fb7144b66cd55a23cf0fd6f7"
   },
   {
    "file": "world/sources/quests/local-dunmer-north.json",
-   "sha256": "342baa5a2e1c8a954c5ed8fe6dd61b2860205f56d5d9bb61246595279d510844"
+   "sha256": "1c8f5e88f15d28dc684e6939be325705279744c21ee43459295fed08c07380a5"
   },
   {
    "file": "world/sources/routes/travel-services.json",
@@ -34,7 +34,7 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].interior"
    },
-   "text": "Riverwalk's principal interior is a dwelling (S1), entered by 1 door.",
+   "text": "Riverwalk's principal interior is a dwelling (S1), entered by 2 door.",
    "unfilled": null
   },
   {
@@ -124,10 +124,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].playerPurpose.hook"
    },
-   "text": "The coast lane's natural halt, where the toll is argued nightly and two cities claim it.",
+   "text": "The cove where boats put in off the Padomaic run, where the toll is argued nightly and Thorn and Hissmir both claim it.",
    "confirmed": {
-    "sha": "8394fdca74a3",
-    "note": "The crews' house (a door onto its own room) is the safe bed; the toll-holder's post stands at the head of the boards."
+    "sha": "4cac5d6f5ed9",
+    "note": "Ferry raft and dock run on the cove (ocean body at 0 m); route.boat.archon-thorn 0.92 km; toll claim per why.pressures."
    }
   },
   {
@@ -137,10 +137,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].questHooks.opportunity"
    },
-   "text": "a cove village on the coast lane is taxed by two authorities; paying either one is treated as a choice · the nightly toll argument turns into an accusation somebody can prove",
+   "text": "Thorn and Hissmir both tax the cove village at the mouth of the pilgrim water; paying either one counts as taking its side · the nightly toll argument turns into an accusation somebody can prove",
    "confirmed": {
-    "sha": "0d1eaa553583",
-    "note": "Toll-holder post and the crews' house on the spit; both quest hooks need only these and the stage."
+    "sha": "9c3d614a0cf1",
+    "note": "relations.tolls the pilgrim water (route 0.09 km); Thorn 0.95 km and Hissmir 0.28 km are the two claimants."
    }
   },
   {
@@ -150,10 +150,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].vibe.approach"
    },
-   "text": "Boats come in off the coast lane and pole across the cove to the ferry stage on the islet.",
+   "text": "Boats come in off the Padomaic run and pole across the cove to the ferry stage off the islet.",
    "confirmed": {
-    "sha": "c04cc275d074",
-    "note": "Ferry raft, canoe and ferry stage on the islet at the cove's south end."
+    "sha": "38833f3ad1c9",
+    "note": "Scene: ferry stage (ferryraft01) on water 21 m off the islet, joined to it by the 3-piece ferry-landing run; Padomaic run lane passes 0.92 km off."
    }
   },
   {
@@ -176,10 +176,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].vibe.materials"
    },
-   "text": "Piles, planks and lashed handrails over the water. The crews' house stands on the dry spit; the long house stands on piles in the shallows beside it.",
+   "text": "Piles, planks and lashed handrails over the water. The crews' house and the family house stand on dry ground at the shore; the long house stands on piles in the shallows beside them.",
    "confirmed": {
-    "sha": "5aef24db92a0",
-    "note": "Dock planks on piles across the cove; bamboo huts on padded dry ground on the spit; the swamp house on piles."
+    "sha": "5fc6723d846a",
+    "note": "Scene: crews' house and family house (bamboohut) on land; the long house (swamp-house-with-landing) on water 1.3 m deep, 11.6 m off the land; dock planks on piles."
    }
   },
   {
@@ -215,10 +215,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].vibe.senses"
    },
-   "text": "Boards underfoot from the spit to the islet; poles in the mud; talk carrying over still water.",
+   "text": "Boards underfoot from the shore to the islet; poles in the mud; talk carrying over still water.",
    "confirmed": {
-    "sha": "db573db76f22",
-    "note": "The long walk runs from the spit to the islet; poles and canoe at the stage."
+    "sha": "704c136e2824",
+    "note": "Scene: the-long-walk, 14 pieces, 95 m, starts 3.7 m off the land beside the totem and ends on the islet."
    }
   },
   {
@@ -228,10 +228,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].vibe.signatureFeature"
    },
-   "text": "The walk is the street. It crosses open water, so everyone who lands at the stage walks past the toll-holder's post.",
+   "text": "The plank walk is the only way between the shore and the ferry stage. It crosses open water, so everyone who lands at the stage walks past the toll-holder's post at the shore end.",
    "confirmed": {
-    "sha": "8dd15d30a4e9",
-    "note": "The long walk crosses open water from the islet stage to the spit, past socket post-toll-holder at its head."
+    "sha": "66a5ff83d829",
+    "note": "Scene: the-long-walk is the only run joining land and islet; socket post-toll-holder stands at its shore end (7204, 522)."
    }
   },
   {
@@ -241,10 +241,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].vibe.silhouette"
    },
-   "text": "A plank walk across a shallow cove, with the houses and the shrine on the spit at one end and the ferry stage on the islet at the other.",
+   "text": "Two houses and a totem stand on the shore, with the long house on piles in the shallows beside them. A plank walk runs out across the cove to a tent on a low islet. The ferry stage is moored off the islet's far side.",
    "confirmed": {
-    "sha": "f3d75113ea17",
-    "note": "Huts, long house and the shrine totems on the spit; the stage tent, raft and stage on the islet; the walk between."
+    "sha": "746e47a5833f",
+    "note": "Scene: two bamboo huts and one argoniantotem01 on land; long house on water; the long walk to the islet tent (argoniantent02); ferry raft moored off the islet."
    }
   },
   {
@@ -254,10 +254,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].why.founding"
    },
-   "text": "A halt in a sheltered sea cove, half-way along the coast lane between Stormhold and Alten Corimont. The village grew along its plank walk because the walk is its street.",
+   "text": "A halt in a sheltered sea cove at the mouth of the pilgrim water, the channel up to Hissmir. Boats off the Padomaic run put in here. The houses stand on the shore. A plank walk runs out from them across the cove to the islet where the ferry stage moors.",
    "confirmed": {
-    "sha": "04567eb8d1e1",
-    "note": "Sited in a sea cove on the coast lane (plot facts: cove, ocean); the walk is the only street."
+    "sha": "2287bca5e43e",
+    "note": "Scene: houses on land; the long walk runs from the shore across the cove to the islet; the ferry stage moors off the islet."
    }
   },
   {
@@ -267,10 +267,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].why.occupantsMotive"
    },
-   "text": "It lives on the ferry stage, the toll and feeding boat crews. The village grows no food of its own.",
+   "text": "It lives on the ferry stage and the toll on boats entering the pilgrim water. It also feeds and lodges the crews. The village grows no food of its own.",
    "confirmed": {
-    "sha": "79590eb8b08f",
-    "note": "Ferry stage, toll post and crews' house built; no fields or gardens are placed."
+    "sha": "5a527b330281",
+    "note": "Ferry raft, crews' house and family house (2 load doors) built; tolls the pilgrim water."
    }
   },
   {
@@ -280,10 +280,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].why.pressures"
    },
-   "text": "Alten Corimont's captain and Thorn's field-owners both think the toll should be theirs.",
+   "text": "Thorn's field-owners and the stewards of Hissmir both say the toll on the pilgrim water is theirs.",
    "confirmed": {
-    "sha": "a8c5aab8021b",
-    "note": "Carried by the toll-holder post and quests LV38 and LV39; no placed thing contradicts it."
+    "sha": "144c0980fc6e",
+    "note": "Thorn 0.95 km and Hissmir 0.28 km both within reach; tolls route.track.hissmir-pilgrim-water."
    }
   },
   {
@@ -293,10 +293,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].why.siteAdvantages"
    },
-   "text": "A day's sail from either end of the coast lane. No other water on that stretch is sheltered. Boats on the lane pass close enough to hail.",
+   "text": "The only sheltered water on this stretch of coast, under a kilometre from Thorn by the Tear road. Canoes leave the same stage for Hissmir and Murkwater.",
    "confirmed": {
-    "sha": "e641d7aa97d8",
-    "note": "The cove is the sheltered water; the stage on the islet faces the open lane."
+    "sha": "548a201377e0",
+    "note": "Tear road 0.69 km to Thorn; canoe service riverwalk-the-tide-fair calls at Hissmir and Murkwater."
    }
   },
   {
@@ -306,10 +306,10 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].why.wouldChangeIf"
    },
-   "text": "Would be bypassed if the cove silted up. The villagers sound the channel to the landing every morning.",
+   "text": "Would be bypassed if the cove silted up. The villagers sound the way across the cove to the ferry stage every morning.",
    "confirmed": {
-    "sha": "a0956b55a2e2",
-    "note": "The ferry landing channel on the islet is the water the line names."
+    "sha": "6969fb5b603d",
+    "note": "Built plank walk crosses the cove to the ferry stage; a canoe and a ship oar on the dock."
    }
   },
   {
@@ -319,10 +319,10 @@
     "file": "world/sources/quests/local-dunmer-north.json",
     "path": "quest[LV38]"
    },
-   "text": "LV38 Two Cities Claim the Halt: A cove village on the coast lane is taxed by two authorities; paying either one is treated as a choice",
+   "text": "LV38 Thorn and Hissmir Claim the Halt: Thorn and Hissmir both tax the cove village at the mouth of the pilgrim water; paying either one counts as taking its side",
    "confirmed": {
-    "sha": "f51f92018d2f",
-    "note": "The toll-holder's post at the head of the boards and the crews' house are its stage."
+    "sha": "4834608ea994",
+    "note": "Toll on the pilgrim water at the built ferry stage; Thorn and Hissmir are the near claimants."
    }
   },
   {
@@ -345,10 +345,10 @@
     "file": "world/sources/quests/local-dunmer-north.json",
     "path": "quest[LV40]"
    },
-   "text": "LV40 The Channel Silted Overnight: The channel to the landing stops being navigable, which the boat-holders do not believe was natural",
+   "text": "LV40 The Cove Silted Overnight: The sounded way across the cove to the ferry stage silts up overnight, which the boat-holders do not believe was natural",
    "confirmed": {
-    "sha": "2bb01ff30812",
-    "note": "The ferry landing and stage on the islet are the channel and landing the premise names."
+    "sha": "f3795e6e3119",
+    "note": "Ferry stage on the islet across the cove, reached by boat and by the plank walk."
    }
   },
   {
@@ -408,7 +408,7 @@
     "file": "world/sources/catalogue/places-dunmer-north.json",
     "path": "places[place.dunmer-north.riverwalk].travelStation"
    },
-   "text": "Riverwalk is a travel station (boat, canoe, ferry) to 7 destinations.",
+   "text": "Riverwalk is a travel station (boat, canoe, ferry) to 3 destinations.",
    "unfilled": null
   }
  ]

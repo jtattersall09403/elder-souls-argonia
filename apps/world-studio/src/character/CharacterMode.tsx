@@ -3,6 +3,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Physics, useRapier } from "@react-three/rapier";
 import { ShapeType } from '@dimforge/rapier3d-compat';
 import * as THREE from "three";
+import { BloomPass, type SkyCensus } from "@elder-souls/game-core/render/post/BloomPass";
 import type { EcctrlHandle } from "ecctrl";
 import { cameraAnglesOf, POSE_SAVE_INTERVAL_S, saveCameraAngles, useGpuRecovery, type LivePose } from "../gpuRecovery";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
@@ -49,6 +50,7 @@ import type { WaterWorld } from "@elder-souls/game-core/water/index";
 import type { CrownSource } from "@elder-souls/game-core/air/volumetrics/studioSamplers";
 import { WaterContactEmitter } from "@elder-souls/game-core/water/contactEmitter";
 import { worldClock } from "../sky/timeState";
+import { drawnLightRigOf } from "../sky/lightRig";
 import { CityMarkers } from "../CityMarkers";
 import { Vegetation, VEGETATION_ENABLED } from "../vegetation/Vegetation";
 import { Groundcover, GROUNDCOVER_ENABLED } from "../vegetation/Groundcover";
@@ -214,9 +216,12 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const [touch, setTouch] = useState(false);
   // On-foot render quality (module 65 first slice — owner: walking lags).
   // Defaults to MEDIUM in character view: fog usually hides what medium
-  // cuts, and the fly modes keep their own full distances. `?q=` seeds it.
+  // cuts, and the fly modes keep their own full distances. `?quality=` (or `?q=`) seeds it.
   const [quality, setQuality] = useState<QualitySettings>(() =>
-    parseQuality(new URLSearchParams(window.location.search).get("q"), "medium"));
+    parseQuality((() => {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("quality") ?? params.get("q");
+    })(), "medium"));
   // DEV fill-rate switch (`?dpr=<n>`, 0.5..2): pins the canvas pixel density
   // to one value so a frame can be measured at a known fill cost. Null keeps
   // the quality preset's cap.
@@ -249,6 +254,13 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const waterPipelineEnabled = useMemo(() => (
     new URLSearchParams(window.location.search).get("water") !== "0"
   ), []);
+  // Glow around bright lights (decision 0108 post row), default ON; DEV A/B
+  // switch `?post=0` mounts no post pass, so its cost reads on the HUD.
+  const postEnabled = useMemo(() => (
+    new URLSearchParams(window.location.search).get("post") !== "0"
+  ), []);
+  const bloom = useMemo(() => (postEnabled ? new BloomPass() : null), [postEnabled]);
+  useEffect(() => () => bloom?.dispose(), [bloom]);
   // The segmented frame timer (decision 0084 round 10). Made here, bound to
   // the renderer by the first in-canvas hook, provided to every renderer.
   const frameSegments = useMemo(() => new FrameSegments(), []);
@@ -521,7 +533,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           {/* Natural light and sky (Phase 8a): terrain, character and sea are
               lit by the same sun/moon/sky rig, shadows and exposure as the
               flyover — WorldSky replaces the old per-mode light sets. */}
-          <WorldSky sunLightingOut={sunLightingRef} mode="character" extentM={authoredExtentM} verticalScale={verticalScale} hidden={insideInterior} groundHeight={settlementGroundAt} crowns={crownsRef}>
+          <WorldSky sunLightingOut={sunLightingRef} mode="character" shadowMapSize={quality.shadowMapSize} extentM={authoredExtentM} verticalScale={verticalScale} hidden={insideInterior} groundHeight={settlementGroundAt} crowns={crownsRef}>
           <group visible={!insideInterior}>
           <Suspense fallback={null}>
             <ApronTerrain
@@ -588,6 +600,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               verticalScale={verticalScale}
               farExtentM={12000}
               surfaceFocus={waterSurfaceFocus}
+              bloom={bloom}
             />
           )}
           {showMarkers && <CityMarkers groundAt={markerGroundAt} />}
@@ -702,6 +715,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               </group>
             </PlayerBody>
             <CharacterDriver
+              bloom={bloom}
               handleRef={player}
               world={world}
               active={collidersReady && renderWarm}
@@ -787,7 +801,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         <span title="Solid plants and rocks around you (trunks and boulders are solid; reeds and ferns are not)">
           solid {floraColliderCount}
         </span>
-        <CharacterHud channel={hudChannel} segments={frameSegments} />
+        <CharacterHud channel={hudChannel} segments={frameSegments} postOn={postEnabled} />
       </div>
       <div style={{
         position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)",
@@ -823,9 +837,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
 
 /** The readout — the only thing that re-renders on a HUD tick. Identical
  * text to the version that lived in the parent; only the ownership moved. */
-function CharacterHud({ channel, segments }: {
+function CharacterHud({ channel, segments, postOn }: {
   channel: HudChannel;
   segments: FrameSegments;
+  postOn: boolean;
 }) {
   const hud = useHud(channel);
   if (!hud) return null;
@@ -845,6 +860,7 @@ function CharacterHud({ channel, segments }: {
         <GroundcoverHudLine />
         <TriangleAttributionLine />
         <FrameSegmentLines segments={segments} />
+        <PostHudLine segments={segments} on={postOn} />
       </PerfHudSection>
     </span>
   );
@@ -942,11 +958,11 @@ function PerfHudSection({ children }: { children: ReactNode }) {
  * out of the line. */
 const GPU_SEGMENT_ORDER = [
   "pre", "sky", "shadow", "scene", "blit", "water", "precip", "overlay",
-  "ripple", "foam", "post", "other",
+  "ripple", "foam", "bloom", "post", "other",
 ];
 const CPU_SEGMENT_ORDER = [
   "pre", "veg", "gc", "sky", "char", "ripple", "foam", "shadow", "scene",
-  "blit", "water", "precip", "overlay", "post",
+  "blit", "water", "precip", "overlay", "bloom", "post",
 ];
 
 function segmentText(rows: SegmentStat[], order: string[]): string {
@@ -992,6 +1008,26 @@ function FrameSegmentLines({ segments }: { segments: FrameSegments }) {
       </span>
     </>
   );
+}
+
+/** DEV HUD line: post on/off and the glow pass's GPU and CPU ms (segment
+ * `bloom`), so `?post=0` can be A/B'd on a device. */
+function PostHudLine({ segments, on }: { segments: FrameSegments; on: boolean }) {
+  const [text, setText] = useState("");
+  useEffect(() => {
+    const read = () => {
+      const s = segments.stats();
+      const gpu = s.gpu.find((r) => r.label === "bloom");
+      const cpu = s.cpu.find((r) => r.label === "bloom");
+      setText(on
+        ? `post on · bloom gpu ${s.gpuSupported && gpu ? gpu.avg.toFixed(2) : "n/a"} ms · cpu ${cpu ? cpu.avg.toFixed(2) : "—"} ms`
+        : "post off (?post=0)");
+    };
+    read();
+    const timer = window.setInterval(read, 1000);
+    return () => window.clearInterval(timer);
+  }, [segments, on]);
+  return <span style={{ display: "block", opacity: 0.75 }}>{text}</span>;
 }
 
 /** A 60-frame rolling frame rate for the HUD line, published from inside the
@@ -1423,7 +1459,13 @@ declare global {
   interface Window {
     __STUDIO_CHARACTER_DEBUG__?: {
       /** Sets the follow camera's yaw (radians; it looks along -sin, -cos). */
-      aimCamera: (yaw: number) => void;
+      aimCamera: (yaw: number, pitch?: number) => void;
+      /** Turns the glow pass on/off in place (A/B probes; no-op under `?post=0`). */
+      post: (on: boolean, tune?: { threshold?: number; knee?: number; strength?: number; skyMask?: number;
+        skyThreshold?: number; skyKnee?: number }) => number;
+      /** The glow pass's sky census (BloomPass `lastSkyCensus`); `request`
+       * clears it and asks for the next frame's (probe-bloom-sky.mjs polls). */
+      postSkyCensus: (request?: boolean) => SkyCensus | null;
       playerY: () => number | null;
       grounded: () => boolean;
       frames: () => number;
@@ -1444,6 +1486,9 @@ declare global {
       player: () => [number, number, number] | null;
       /** The door transition and the shown cell (InteriorDoors probe state). */
       interior: () => InteriorDoorsProbe | null;
+      /** Visible drawables that write depth (probe-bloom-sky HUNT). */
+      depthWriters: () => { uuid: string; path: string; type: string; mat: string; transparent: boolean }[];
+      setVisible: (uuids: string[], on: boolean) => void;
     };
   }
 }
@@ -1461,8 +1506,10 @@ function BoundaryMessage({ positionRef, extentM, onMessage }: {
   return null;
 }
 
-function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, extentM, onHud, onPositionKm, onWaterContact, playerModelRef, settlementRebuildRef, interaction, interiorProbeRef }: {
+function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, extentM, onHud, onPositionKm, onWaterContact, playerModelRef, settlementRebuildRef, interaction, interiorProbeRef, bloom }: {
   handleRef: React.RefObject<EcctrlHandle | null>;
+  /** The glow pass, toggled in place by the debug hook's `post` (A/B probes). */
+  bloom: BloomPass | null;
   world: ChunkWorld;
   /** Colliders mounted AND rendering warm — physics steps only when true. */
   active: boolean;
@@ -1496,6 +1543,14 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
     [handleRef, rapier.rigidBodyStates],
   );
   const segments = useFrameSegments();
+  // the glow pass's sun disc follows the light rig's sun (BloomPass sunHaloDeg)
+  useFrame(() => {
+    // the rig the sky drew this frame (its latitude), never a default rebuild
+    const rig = bloom ? drawnLightRigOf(scene) : null;
+    if (!bloom || !rig) return;
+    const d = rig.sun.direction;
+    bloom.sunDirection.set(d.x, d.y, d.z);
+  });
   // Sky look-up is the shared default (owner 2026-08-25) — no override needed.
   const camera3P = useMemo(() => new FollowCamera(), []);
   // The arm collides with settlement and terrain colliders (16h check-in 2
@@ -1505,7 +1560,7 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
     camera3P.setObstruction(cameraCast);
     return () => camera3P.setObstruction(null);
   }, [camera3P, cameraCast]);
-  const { camera } = useThree();
+  const { camera, scene } = useThree();
   const position = useMemo(() => new THREE.Vector3(), []);
   const lastPosition = useRef(new THREE.Vector3());
   const stepAccum = useRef(0);
@@ -1554,7 +1609,26 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
         return out;
       },
       cameraArm: () => camera3P.arm,
-      aimCamera: (yaw) => { camera3P.yaw = yaw; },
+      aimCamera: (yaw, pitch) => {
+        camera3P.yaw = yaw;
+        if (pitch !== undefined) camera3P.pitch = Math.min(FOLLOW_CAMERA.maxPitch, Math.max(FOLLOW_CAMERA.minPitch, pitch));
+      },
+      post: (on, tune) => {
+        if (!bloom) return 0;
+        bloom.enabled = on;
+        if (tune?.threshold !== undefined) bloom.threshold.value = tune.threshold;
+        if (tune?.knee !== undefined) bloom.knee.value = tune.knee;
+        if (tune?.strength !== undefined) bloom.strength.value = tune.strength;
+        if (tune?.skyMask !== undefined) bloom.skyMask.value = tune.skyMask;
+        if (tune?.skyThreshold !== undefined) bloom.skyThreshold.value = tune.skyThreshold;
+        if (tune?.skyKnee !== undefined) bloom.skyKnee.value = tune.skyKnee;
+        return bloom.lastExposure;
+      },
+      postSkyCensus: (request) => {
+        if (!bloom) return null;
+        if (request) bloom.requestSkyCensus();
+        return bloom.lastSkyCensus;
+      },
       cameraCast: (from, to) => cameraCast(
         new THREE.Vector3(...from), new THREE.Vector3(...to), FOLLOW_CAMERA.collisionRadius,
         FOLLOW_CAMERA.pivotRadius),
@@ -1570,9 +1644,27 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
         return [p.x, p.y, p.z];
       },
       interior: () => interiorProbeRef?.current?.() ?? null,
+      // Probe-only: visible drawables that write depth (the sun-texel depth
+      // hunt), and a toggle by uuid so a probe can bisect which covers a pixel.
+      depthWriters: () => {
+        const out: { uuid: string; path: string; type: string; mat: string; transparent: boolean }[] = [];
+        scene.traverseVisible((o) => {
+          const m = (o as THREE.Mesh).material as THREE.Material | THREE.Material[] | undefined;
+          if (!m) return;
+          const mats = Array.isArray(m) ? m : [m];
+          if (!mats.some((x) => x.depthWrite && x.visible)) return;
+          let path = "";
+          for (let q: THREE.Object3D | null = o; q; q = q.parent) path = `${q.name || q.type}/${path}`;
+          out.push({ uuid: o.uuid, path, type: o.type, mat: mats.map((x) => x.type).join(","), transparent: mats.some((x) => x.transparent) });
+        });
+        return out;
+      },
+      setVisible: (uuids: string[], on: boolean) => {
+        for (const u of uuids) { const o = scene.getObjectByProperty("uuid", u); if (o) o.visible = on; }
+      },
     };
     return () => { delete window.__STUDIO_CHARACTER_DEBUG__; };
-  }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef, camera, interiorProbeRef]);
+  }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef, camera, interiorProbeRef, bloom, scene]);
 
   useEffect(() => {
     const detach = input.attach();

@@ -20,8 +20,6 @@ import { fetchJsonWithRetry } from "./fetchRetry";
 export const SETTLEMENT_INDEX_SCHEMA_VERSION = 1;
 /** A bundle loads when its centre is within this range plus its radius. */
 export const SETTLEMENT_RANGE_M = 2000;
-/** Below this many entries of a kind, every one loads (no range pick). */
-export const SETTLEMENT_LOAD_ALL_BELOW = 20;
 /** A reader that moves further than this from its last query re-queries. */
 export const SETTLEMENT_REQUERY_MOVE_M = 500;
 
@@ -75,15 +73,17 @@ export interface RangePosition { x: number; z: number }
 function pickKind(
   entries: SettlementIndexEntry[], at: RangePosition | null, rangeM: number,
 ): SettlementIndexEntry[] {
-  if (!at || entries.length < SETTLEMENT_LOAD_ALL_BELOW) return entries;
+  // Always by range: loading every place below a count made each place wait
+  // on the kits and build of all eleven (walk 9: Bog Iron's fires never
+  // streamed in 60 s while the far proving grounds and Greenspring built).
+  if (!at) return entries;
   return entries.filter((e) =>
     Math.hypot(e.positionM[0] - at.x, e.positionM[1] - at.z) <= rangeM + e.radiusM);
 }
 
 /**
- * The index entries to load at `at`: every place (and every route) when the
- * index lists fewer than SETTLEMENT_LOAD_ALL_BELOW of them, else those whose
- * centre is within `rangeM` plus their radius. `at` null loads everything.
+ * The index entries to load at `at`: the places and routes whose centre is
+ * within `rangeM` plus their radius. `at` null loads everything.
  */
 export function bundlesInRange(
   index: SettlementIndex, at: RangePosition | null, rangeM = SETTLEMENT_RANGE_M,

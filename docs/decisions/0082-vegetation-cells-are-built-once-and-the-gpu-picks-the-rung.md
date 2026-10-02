@@ -42,7 +42,7 @@ three.js facts behind the design and settles its three open questions.
   shader needs.
 - **The repo's patches are instancing-only.** `fx/lodFade.ts` reads
   `esLodBand` (vec4) and `instanceMatrix[3].xyz`; `fx/windSway.ts` reads
-  `esWindTune` (vec2) and the `instanceMatrix` basis; both are gated on
+  `esWindTune` (vec3: stiffness − 1, sink, plant height) and the `instanceMatrix` basis; both are gated on
   `#ifdef USE_INSTANCING` and fall to a neutral branch otherwise (fade
   always visible, sway unrotated and neutral). On a `BatchedMesh` they do
   nothing until ported. The CSM `setupMaterial` clobber and the
@@ -163,7 +163,7 @@ with the reusable parts in `packages/game-core/src/vegetation/`
   because a card never sways and never receives shadow.
 - **Per-instance data** is two RGBA32F texels per instance on a
   `DataTexture` per batch, indexed by `getIndirectIndex(gl_DrawID)`: texel 2i
-  is the LOD band, texel 2i+1 is (stiffness − 1, sink). `lodFade.ts` and
+  is the LOD band, texel 2i+1 is (stiffness − 1, sink, plant height m, 0). `lodFade.ts` and
   `windSway.ts` both emit the same `#ifndef ES_BATCH_DATA` head, so either
   may be applied first and the preprocessor drops the duplicate.
 - **Gating is hierarchical: cell, then 58 m tile.** A cell is 468 m across and

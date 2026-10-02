@@ -450,6 +450,84 @@
    "parcel": "parcel.claywater-station.family-hut"
   },
   {
+   "op": "move",
+   "uid": "b5-ahy-chair",
+   "yaw": 281.0,
+   "resettle": true
+  },
+  {
+   "op": "place",
+   "uid": "st-signpost",
+   "asset": "vanilla:clutter/signage/whiterun/signwrpost01",
+   "at": [
+    326.6,
+    3083.6
+   ],
+   "yaw": 238.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "st-sign",
+   "asset": "vanilla:clutter/signage/whiterun/signwrstables01",
+   "at": [
+    326.6,
+    3083.6
+   ],
+   "yaw": 238.0
+  },
+  {
+   "op": "mount",
+   "child": "st-sign",
+   "parent": "st-signpost"
+  },
+  {
+   "op": "place",
+   "uid": "sh-sign",
+   "asset": "vanilla:clutter/signage/whiterun/signwrgeneralgoods",
+   "at": [
+    319.72,
+    3066.44
+   ],
+   "yaw": 32.0,
+   "settle": true
+  },
+  {
+   "op": "mount",
+   "child": "sh-sign",
+   "parent": "b1",
+   "like": "plugin-static:architecture/whiterun/wrbuildings/wrhousestores01.nif"
+  },
+  {
+   "op": "bind",
+   "uid": "sh-sign",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.station-house",
+   "layer": "clutter",
+   "on": "parent",
+   "evidence": "mined",
+   "host": "b1"
+  },
+  {
+   "op": "bind",
+   "uid": "st-signpost",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.stable",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "st-sign",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.stable",
+   "layer": "clutter",
+   "on": "parent",
+   "evidence": "mined",
+   "host": "st-signpost"
+  },
+  {
    "op": "place",
    "uid": "b6-basket",
    "asset": "mudmother:gv_meshes/argoniannest/basketfull",
@@ -2424,7 +2502,7 @@
    "id": "socket.claywater-station.idle-poler-nets",
    "kind": "idle",
    "host": "al-rack1",
-   "activity": "fish",
+   "activity": "work-at",
    "parcel": "parcel.claywater-station.polers-hut",
    "why": "In the dry season the poler dries the catch at the landing racks."
   },
@@ -2838,6 +2916,19 @@
    ],
    "parcel": "parcel.claywater-station.the-well",
    "why": "Two boards on the post at the well junction point along the road, north-west over the ford toward Blackwood and south-east to Gideon."
-  }
+  },
+  {"op": "note", "uid": "well", "text": "walk 9 dressing (dressing.md § 4, road station): a travellers' table and its bench beside the well, east of the station house; a chopping block at the station-house woodpile; a hide rack in the stable yard. Every site is dry and level ground chosen by `wb.py scan` or `wb.py site`."},
+  {"op": "place", "uid": "d9-table", "asset": "vanilla:clutter/exteriorwoodenfurniture/exteriorwoodentable01", "at": [325.0, 3070.0], "yaw": 90.0, "settle": true},
+  {"op": "place", "uid": "d9-bench", "asset": "vanilla:furniture/farm/farmbench01", "at": [326.25, 3070.0], "yaw": 270.0, "settle": true},
+  {"op": "place", "uid": "d9-chop", "asset": "vanilla:clutter/chopping block/choppingblock01", "at": [306.0, 3061.0], "yaw": 20.0, "settle": true},
+  {"op": "place", "uid": "d9-hide", "asset": "vanilla:furniture/tanningrackmarker", "at": [333.0, 3095.0], "yaw": 238.0, "settle": true},
+  {"op": "bind", "uid": "d9-table", "kind": "assembly", "id": "parcel.claywater-station.the-well", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "d9-bench", "kind": "assembly", "id": "parcel.claywater-station.the-well", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "d9-chop", "kind": "assembly", "id": "parcel.claywater-station.station-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "d9-hide", "kind": "assembly", "id": "parcel.claywater-station.stable", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "place", "uid": "d9-notice", "asset": "bmv:advertising_board", "at": [323.9, 3072.4], "yaw": 59.0, "settle": true},
+  {"op": "place", "uid": "d9-washline", "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/farmhouseline", "at": [330.6, 2975.3], "yaw": 0.0, "settle": true},
+  {"op": "bind", "uid": "d9-notice", "kind": "assembly", "id": "parcel.claywater-station.station-house", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "d9-washline", "kind": "assembly", "id": "parcel.claywater-station.family-hut", "layer": "clutter", "on": "ground", "evidence": "measured"}
  ]
 }

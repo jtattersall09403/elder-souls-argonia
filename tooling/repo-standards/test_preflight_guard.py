@@ -22,6 +22,7 @@ def repo(tmp_path, monkeypatch):
     git("add", "."); git("commit", "-qm", "init")
     monkeypatch.setattr(pg, "ROOT", str(tmp_path))
     monkeypatch.setattr(pg, "STAMPS", str(tmp_path / "stamps.json"))
+    monkeypatch.setattr(pg, "batch_base", lambda: None)
     return tmp_path
 
 
@@ -42,6 +43,22 @@ def test_a_docs_only_batch_is_refused(repo):
     assert refused("Bash", command="npm run preflight -- --paths docs tooling/a") is None
 
 
+def test_a_committed_code_batch_is_not_docs_only(repo, monkeypatch):
+    """Walk 7: everything committed, only a ledger dirty; the old dirty-tree rule refused."""
+    base = subprocess.run(["git", "rev-parse", "HEAD"], cwd=repo, capture_output=True, text=True).stdout.strip()
+    (repo / "tooling/a/f.py").write_text("x = 2\n")
+    subprocess.run(["git", "commit", "-qam", "code"], cwd=repo, check=True, capture_output=True)
+    (repo / "docs/d.md").write_text("dirty\n")
+    cmd = "npm run preflight -- --paths tooling/a docs"
+    assert "docs-" in refused("Bash", command=cmd)           # the old logic (no close known)
+    monkeypatch.setattr(pg, "batch_base", lambda: base)
+    assert refused("Bash", command=cmd) is None
+    (repo / "tooling/a/f.py").write_text("x = 1\n")        # code reverted to base: only docs differ
+    subprocess.run(["git", "commit", "-qam", "back"], cwd=repo, check=True, capture_output=True)
+    msg = refused("Bash", command=cmd)
+    assert "since the last close" in msg and "1 files" in msg
+
+
 def test_the_same_batch_twice_is_refused_until_an_edit(repo):
     (repo / "tooling/a/f.py").write_text("x = 2\n")
     cmd = "npm run preflight -- --paths tooling/a"
@@ -60,6 +77,15 @@ def test_a_full_miner_run_needs_rule_change(repo):
     assert refused("Bash", command="python3 -m worldgen.mine_mounts --sample 25 --out /tmp/s") is None
     assert "rule change" in refused("Bash", command="python3 -m worldgen.mine_designed_sink --jobs 2").lower()
     assert refused("Bash", command="echo mine_abuts is fast now") is None
+    # walk 8: the name in a heredoc or an import is not an invocation
+    heredoc = "python3 - <<'E'\nfrom worldgen import mine_mounts as m\nprint(m.MESH_CACHE)\nE"
+    assert refused("Bash", command=heredoc) is None
+    assert refused("Bash", command='python3 -c "import worldgen.mine_mounts"') is None
+    wrapped = "tooling/repo-standards/job_guard.sh L -- python3 tooling/world-generation/worldgen/mine_mounts.py"
+    assert "rule change" in refused("Bash", command=wrapped).lower()
+    # interpreter flags before -m or the script do not hide the miner
+    for flags in ("-u", "-X importtime", "-W ignore", "-u -O"):
+        assert "rule change" in refused("Bash", command=f"python3 {flags} -m worldgen.mine_mounts").lower(), flags
 
 
 def test_a_deliver_lane_needs_a_budget_line(repo):

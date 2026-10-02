@@ -68,10 +68,12 @@
   "textures/clutter/stockade/stockadeplanks01_n.dds": "textures/architecture/farmhouse/woodwall01_n.dds",
   "textures/clutter/stockade/stockadewood01.dds": "textures/architecture/farmhouse/woodpost02.dds",
   "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds",
-  "textures/\bERR": "textures/clutter/blacksmith/blacksmithforge01.dds"
+  "textures/\bERR": "textures/clutter/blacksmith/blacksmithforge01.dds",
+  "textures/_resourcepack/landscape/trees/baldcypressbark01_d.dds": "textures/lod/baldcypressbark01_dlod.dds"
  },
  "textureAliasReasons": {
-  "textures/\bERR": "vanilla clutter/blacksmith/blacksmithforge01.nif `Shading.Mat` (BSLightingShaderProperty, DECAL + vertex colours: the soot shading over the forge's floor stones) names the broken diffuse `\\x08ERR` (4 bytes, no folder, no .dds; its normal slot is `\\x08NOR`). The forge's own texture in the same vanilla folder (textures/clutter/blacksmith/ holds anvil, bellows, forge01, novice*, sharpeningwheel, stone, workbench*) is blacksmithforge01.dds, which the same NIF's L2_FloorStones.Mat already UVs, so the decal takes it (16k fix 2 round 5 ruling 6: resolve, never drop)."
+  "textures/\bERR": "vanilla clutter/blacksmith/blacksmithforge01.nif `Shading.Mat` (BSLightingShaderProperty, DECAL + vertex colours: the soot shading over the forge's floor stones) names the broken diffuse `\\x08ERR` (4 bytes, no folder, no .dds; its normal slot is `\\x08NOR`). The forge's own texture in the same vanilla folder (textures/clutter/blacksmith/ holds anvil, bellows, forge01, novice*, sharpeningwheel, stone, workbench*) is blacksmithforge01.dds, which the same NIF's L2_FloorStones.Mat already UVs, so the decal takes it (16k fix 2 round 5 ruling 6: resolve, never drop).",
+  "textures/_resourcepack/landscape/trees/baldcypressbark01_d.dds": "King of the Murkmire's beehive (kotm:argonia/clutter/beehive, the Argonian hive the walk-9 dressing lane placed at Greenspring) is barked in the AE _ResourcePack baldcypressbark01_d, an archive the vault lacks; it takes KotM's own LOD copy of that bark exactly as interior-kotm-v1's alias row does (its textureNote, walk 5). The vanilla beehive01 was rejected: it is the burnable Goldenglow hive, whose NIF carries its burning state (AddOnNode04 -> MPSFireWallSparks, PFlames emitters and flame cards toggled by its behaviour graph), so the fire layer mines a fire onto it."
  },
  "snapLogic": {
   "grid": "None — these are freestanding props, not a tileset. Placement is by hand/compiler rule against the site, not by connector.",
@@ -137,6 +139,21 @@
   },
   {
    "asset": "vanilla:clutter/smelter/coal01"
+  },
+  {
+   "asset": "vanilla:furniture/smeltermarker"
+  },
+  {
+   "asset": "kotm:oaristys/forge/coalpile"
+  },
+  {
+   "asset": "kotm:oaristys/forge/orebucket_iron"
+  },
+  {
+   "asset": "kotm:oaristys/forge/orestack_iron"
+  },
+  {
+   "asset": "kotm:oaristys/forge/ingotsiron01"
   },
   {
    "asset": "vanilla:clutter/common/tanningrack01"
@@ -308,6 +325,27 @@
   },
   {
    "asset": "vanilla:clutter/largerainbarrel01"
+  },
+  {
+   "asset": "vanilla:clutter/chopping block/choppingblock01"
+  },
+  {
+   "asset": "kotm:argonia/clutter/beehive"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/farmhouseline"
+  },
+  {
+   "asset": "vanilla:clutter/exteriorwoodenfurniture/exteriorwoodentable01"
+  },
+  {
+   "asset": "vanilla:clutter/burialcairn/burialcairn02"
+  },
+  {
+   "asset": "vanilla:architecture/riften/rtmarketstall01"
+  },
+  {
+   "asset": "vanilla:furniture/tanningrackmarker"
   },
   {
    "asset": "vanilla:clutter/common/cratesmall01"

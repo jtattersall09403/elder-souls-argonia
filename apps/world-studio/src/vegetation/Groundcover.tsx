@@ -69,7 +69,7 @@ import {
   isLargePlant,
 } from "./floraKit";
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
-import { placeGround, sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
+import { placeGround, sharedChunkStore, type ChunkStore, type ChunksManifest } from "../character/chunkStore";
 import { PROVINCE_EXTENT_M } from "../provinceScale";
 import { updateWindSway } from "@elder-souls/game-core/fx/windSway";
 import {
@@ -559,21 +559,16 @@ let controlPromise: Promise<ControlRaster> | null = null;
 let controlBase: string | null = null;
 
 /** Loaded ONCE per session and sampled CPU-side; both scenes share it. */
-function sharedControlRaster(baseUrl: string): Promise<ControlRaster> {
+function sharedControlRaster(store: ChunkStore): Promise<ControlRaster> {
+  const baseUrl = store.baseUrl;
   if (!controlPromise || controlBase !== baseUrl) {
     controlBase = baseUrl;
     controlPromise = (async () => {
-      const res = await fetch(`${baseUrl}province/refined/ground-control.png`);
-      const bitmap = await createImageBitmap(await res.blob(), {
-        premultiplyAlpha: "none",
-        colorSpaceConversion: "none",
-      });
-      const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
-      const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
-      ctx.drawImage(bitmap, 0, 0);
-      const px = ctx.getImageData(0, 0, bitmap.width, bitmap.height).data;
-      bitmap.close();
-      const ids = new Uint8Array(canvas.width * canvas.height);
+      // Exact decode: a canvas premultiplies alpha and zeroed the ids of
+      // every texel whose macro brightness (A) is 0. The decode is the
+      // store's, shared with the ground material and the walk world.
+      const { width, data: px } = await store.pngs.decode(`${baseUrl}province/refined/ground-control.png`);
+      const ids = new Uint8Array(width * width);
       for (let i = 0; i < ids.length; i++) ids[i] = px[i * 4];
       // metresPerTexel comes from the image's OWN size against the province
       // extent: ground-control ships at full resolution (4033²) while
@@ -582,8 +577,8 @@ function sharedControlRaster(baseUrl: string): Promise<ControlRaster> {
       // no groundcover anywhere south-east of the map centre).
       return {
         ids,
-        size: canvas.width,
-        metresPerTexel: PROVINCE_EXTENT_M / canvas.width,
+        size: width,
+        metresPerTexel: PROVINCE_EXTENT_M / width,
       };
     })();
   }
@@ -1217,7 +1212,7 @@ export function Groundcover({
       })
       .catch((e) => { if (!cancelled) settleInput("patches", e); })
       .finally(() => { if (!cancelled) settleInput("patches"); });
-    sharedControlRaster(baseUrl)
+    sharedControlRaster(store)
       .then((c) => { if (!cancelled) setControl(c); })
       .catch(() => undefined);
     sharedRegionRaster(baseUrl)
@@ -1306,7 +1301,7 @@ export function Groundcover({
     // Ground-cover stage of the frame (decision 0084 round 10).
     segments?.cpuMark("gc");
     const weather = lastWeatherSample();
-    if (weather) updateWindSway(wind, state.clock.elapsedTime, weather);
+    if (weather) updateWindSway(wind, state.clock.elapsedTime, weather, state.camera.position);
     // The crossfade and the billboard both measure from the REAL camera, not
     // from `cameraPosition` (the light, in the shadow pass) and not from the
     // focus (the character's feet, which is a metre and a half out).

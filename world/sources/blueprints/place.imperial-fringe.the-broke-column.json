@@ -1,0 +1,2711 @@
+{
+  "schemaVersion": 1,
+  "blueprint": {
+    "id": "place.imperial-fringe.the-broke-column",
+    "seed": "place.imperial-fringe.the-broke-column",
+    "causalModel": {
+      "founding": "A Legion column left unpaid at the recall never marched home; its grandsons keep the roster and the colours.",
+      "siteAdvantages": "A bench on the hill above a junction of two tracks, out of sight of the Gideon road, with the stream's ravine below it for a retreat.",
+      "occupantsMotive": "They keep watches, wear the colours and call what they take a levy.",
+      "pressures": "Gideon will not pay to clear them. The toll company would rather use them.",
+      "wouldChangeIf": "Would disband inside a season if Gideon offered them a pardon and a wage."
+    },
+    "boundary": [
+      [
+        0.158405,
+        0.415271
+      ],
+      [
+        0.166271,
+        0.415271
+      ],
+      [
+        0.166271,
+        0.421238
+      ],
+      [
+        0.158405,
+        0.421238
+      ]
+    ],
+    "districts": [
+      {
+        "id": "district.the-broke-column.the-line",
+        "kind": "camp",
+        "cultureKit": "imperial-camp",
+        "wealth": "poor",
+        "boundary": [
+          [
+            0.16075682,
+            0.416125273
+          ],
+          [
+            0.159675724,
+            0.418481509
+          ],
+          [
+            0.159675724,
+            0.418602494
+          ],
+          [
+            0.15967936,
+            0.419486121
+          ],
+          [
+            0.159939467,
+            0.419746229
+          ],
+          [
+            0.160373883,
+            0.419867173
+          ],
+          [
+            0.161611325,
+            0.419927747
+          ],
+          [
+            0.16320581,
+            0.419927747
+          ],
+          [
+            0.163650422,
+            0.419779543
+          ],
+          [
+            0.163669474,
+            0.419250889
+          ],
+          [
+            0.16367111,
+            0.419193655
+          ],
+          [
+            0.16367111,
+            0.418949476
+          ],
+          [
+            0.163666073,
+            0.415889387
+          ]
+        ],
+        "notes": "Four Legion tents in one dressed line on a hillside bench, a fire in front of them and a barricade on the track below.",
+        "why": {
+          "what": "The camp: the tent line, its fire and the levy post on the track.",
+          "whyHere": "The column holds a track junction a bend off the Gideon road, where carts for Mile House and the town to the north must pass.",
+          "whySpot": "The one level bench on the hillside above the junction.",
+          "whyNeighbours": "The track bends away to the west and the hill rises to the south-west, so no neighbour sees the tents.",
+          "playerPurpose": "A hostile camp that asks for a levy on the track and will parley before it fights.",
+          "microGeography": "A narrow level bench on a hillside of aspen, the ground falling away to the stream and the track below."
+        }
+      }
+    ],
+    "parcels": [
+      {
+        "id": "parcel.the-broke-column.command-tent",
+        "districtId": "district.the-broke-column.the-line",
+        "use": "command",
+        "buildingFamily": "vanilla-legion-tent",
+        "interior": {
+          "kind": "none"
+        },
+        "orientationWhy": "Its open long side faces north to the brazier and the track below, at the head of the line.",
+        "why": {
+          "what": "The serjeant's command tent, with the campaign table and the pay book on it.",
+          "whyHere": "The column keeps its orders, its roster and its accounts the way the Legion taught it.",
+          "whySpot": "The west end of the bench, at the head of the line.",
+          "whyNeighbours": "The three sleeping tents stand in line beside it; its brazier burns at its mouth.",
+          "playerPurpose": "The serjeant's tent, where the pay book and the toll office's schedules are kept.",
+          "microGeography": "The west end of the bench, on ground levelled for the tent and its brazier."
+        },
+        "assetRef": "vanilla:architecture/tents/largeimperialtent01",
+        "centreUV": [
+          0.16077832,
+          0.418932292
+        ],
+        "yawDeg": 90.0,
+        "pad": {
+          "datumM": 79.236,
+          "apronM": 2.0,
+          "batter": true
+        },
+        "yMeasured": 78.6802,
+        "assembly": [
+          {
+            "id": "bn1",
+            "asset": "vanilla:clutter/civilwar/civilwarbannerimp01",
+            "atM": [
+              0.0436,
+              0.0101
+            ],
+            "yaw": 179.34,
+            "on": "parent",
+            "layer": "clutter",
+            "evidence": "mined",
+            "mountPair": {
+              "kind": "band",
+              "mountedOn": "bn1-pole",
+              "n": 8
+            },
+            "upM": 3.6285,
+            "host": "bn1-pole",
+            "scale": 1.000025
+          },
+          {
+            "id": "bn1-pole",
+            "asset": "vanilla:clutter/civilwar/civilwarbanner01",
+            "atM": [
+              -1.5,
+              5.5
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "scale": 0.65,
+            "yMeasured": 79.0809
+          },
+          {
+            "id": "c-brazier",
+            "asset": "vanilla:clutter/imperial/impbrazier01",
+            "atM": [
+              -3.9,
+              1.9
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured",
+            "yMeasured": 79.1633
+          },
+          {
+            "id": "cf-bench",
+            "asset": "vanilla:furniture/farm/farmbench01",
+            "atM": [
+              -3.9,
+              3.6
+            ],
+            "yaw": 0.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 79.2007
+          },
+          {
+            "id": "cf-wood",
+            "asset": "vanilla:clutter/firewood/firewoodpilemedium01",
+            "atM": [
+              -0.0,
+              5.1
+            ],
+            "yaw": 0.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 79.1429
+          }
+        ],
+        "footprint": [
+          [
+            0.160467749,
+            0.418559335
+          ],
+          [
+            0.161059055,
+            0.418563404
+          ],
+          [
+            0.161084823,
+            0.41856476
+          ],
+          [
+            0.161197388,
+            0.418572897
+          ],
+          [
+            0.161343858,
+            0.418600021
+          ],
+          [
+            0.161343858,
+            0.418601378
+          ],
+          [
+            0.161334365,
+            0.419260494
+          ],
+          [
+            0.161334365,
+            0.41926185
+          ],
+          [
+            0.161076686,
+            0.419317455
+          ],
+          [
+            0.160489448,
+            0.419328304
+          ],
+          [
+            0.160460968,
+            0.419328304
+          ],
+          [
+            0.160222275,
+            0.41926185
+          ],
+          [
+            0.160220919,
+            0.419260494
+          ],
+          [
+            0.160218207,
+            0.418601378
+          ],
+          [
+            0.160218207,
+            0.418600021
+          ],
+          [
+            0.160359252,
+            0.418572897
+          ]
+        ],
+        "worksWith": [
+          "parcel.the-broke-column.tent-1"
+        ],
+        "worksWithWhy": "The command tent heads the line; the first squad's tent stands at its side within call, the spacing Skyrim's Legion camps keep."
+      },
+      {
+        "id": "parcel.the-broke-column.tent-1",
+        "districtId": "district.the-broke-column.the-line",
+        "use": "barracks",
+        "buildingFamily": "vanilla-legion-tent",
+        "interior": {
+          "kind": "none"
+        },
+        "orientationWhy": "Its open gable faces north to the line walk, dressed on the command tent.",
+        "why": {
+          "what": "The first sleeping tent of the line, next to the serjeant's.",
+          "whyHere": "The column sleeps under issue canvas, a squad to a tent, as it was taught.",
+          "whySpot": "Beside the command tent on the bench, where the ground was levelled first.",
+          "whyNeighbours": "The command tent at the head of the line, the brazier beyond it.",
+          "playerPurpose": "A sleeping tent to search, where the first squad of the column keeps its kit.",
+          "microGeography": "Levelled canvas floor on the bench beside the command tent."
+        },
+        "assetRef": "vanilla:architecture/tents/smallimperialtent",
+        "centreUV": [
+          0.161795476,
+          0.419067912
+        ],
+        "yawDeg": 90.0,
+        "pad": {
+          "datumM": 79.392,
+          "apronM": 0.8,
+          "batter": true
+        },
+        "yMeasured": 78.912,
+        "footprint": [
+          [
+            0.16162595,
+            0.41875056
+          ],
+          [
+            0.161966358,
+            0.41875056
+          ],
+          [
+            0.16196907,
+            0.418753272
+          ],
+          [
+            0.161974495,
+            0.418891605
+          ],
+          [
+            0.161975852,
+            0.418949922
+          ],
+          [
+            0.161975852,
+            0.419185902
+          ],
+          [
+            0.161974495,
+            0.419233369
+          ],
+          [
+            0.16196907,
+            0.419383908
+          ],
+          [
+            0.161965002,
+            0.419385264
+          ],
+          [
+            0.161624594,
+            0.419385264
+          ],
+          [
+            0.161621882,
+            0.419382552
+          ],
+          [
+            0.161616457,
+            0.419244219
+          ],
+          [
+            0.161616457,
+            0.418953991
+          ],
+          [
+            0.161617813,
+            0.418920085
+          ],
+          [
+            0.161617813,
+            0.418891605
+          ],
+          [
+            0.161617813,
+            0.418872618
+          ],
+          [
+            0.161621882,
+            0.418751916
+          ]
+        ],
+        "worksWith": [
+          "parcel.the-broke-column.command-tent",
+          "parcel.the-broke-column.tent-2"
+        ],
+        "worksWithWhy": "Pitched beside the command tent and the middle tent in one dressed line, as Skyrim's Legion camps pitch theirs (mined line template vanilla:t0224: small tents 4.13 m apart at one yaw).",
+        "assembly": [
+          {
+            "id": "pk-w1",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -10.6,
+              11.5
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 77.6631
+          },
+          {
+            "id": "pk-w10",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -10.6,
+              -0.2
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 76.318
+          },
+          {
+            "id": "pk-w11",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -10.6,
+              -1.5
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 76.1666
+          },
+          {
+            "id": "pk-w12",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -10.6,
+              -2.8
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 76.028
+          },
+          {
+            "id": "pk-w2",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -10.6,
+              10.2
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 77.9361
+          },
+          {
+            "id": "pk-w3",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -10.6,
+              8.9
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 78.1797
+          },
+          {
+            "id": "pk-w4",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -10.6,
+              7.6
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 77.7795
+          },
+          {
+            "id": "pk-w5",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -10.6,
+              6.3
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 77.5841
+          },
+          {
+            "id": "pk-w7",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -10.6,
+              3.7
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 77.0863
+          },
+          {
+            "id": "pk-w8",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -10.6,
+              2.4
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 76.6533
+          },
+          {
+            "id": "pk-w9",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -10.6,
+              1.1
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 76.4807
+          },
+          {
+            "id": "t1-sack",
+            "asset": "vanilla:clutter/containers/miscsacklarge",
+            "atM": [
+              -2.0,
+              -2.3
+            ],
+            "yaw": 290.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 79.5844
+          }
+        ]
+      },
+      {
+        "id": "parcel.the-broke-column.tent-2",
+        "districtId": "district.the-broke-column.the-line",
+        "use": "barracks",
+        "buildingFamily": "vanilla-legion-tent",
+        "interior": {
+          "kind": "none"
+        },
+        "orientationWhy": "Its open gable faces north, square to the camp path that ends at it.",
+        "why": {
+          "what": "The middle sleeping tent, at the head of the camp path.",
+          "whyHere": "A second squad's canvas, pitched to the same line and the same yaw as the first.",
+          "whySpot": "The middle of the bench, where the camp path comes up from the track.",
+          "whyNeighbours": "The tents either side of it, the camp path in front.",
+          "playerPurpose": "A sleeping tent at the head of the camp path, the first one a player reaches.",
+          "microGeography": "Levelled canvas floor in the middle of the line."
+        },
+        "assetRef": "vanilla:architecture/tents/smallimperialtent",
+        "centreUV": [
+          0.162405769,
+          0.419067912
+        ],
+        "yawDeg": 90.0,
+        "pad": {
+          "datumM": 79.479,
+          "apronM": 0.8,
+          "batter": true
+        },
+        "yMeasured": 78.999,
+        "footprint": [
+          [
+            0.162236243,
+            0.41875056
+          ],
+          [
+            0.162576651,
+            0.41875056
+          ],
+          [
+            0.162579363,
+            0.418753272
+          ],
+          [
+            0.162584788,
+            0.418891605
+          ],
+          [
+            0.162586145,
+            0.418949922
+          ],
+          [
+            0.162586145,
+            0.419185902
+          ],
+          [
+            0.162584788,
+            0.419233369
+          ],
+          [
+            0.162579363,
+            0.419383908
+          ],
+          [
+            0.162575295,
+            0.419385264
+          ],
+          [
+            0.162234887,
+            0.419385264
+          ],
+          [
+            0.162232175,
+            0.419382552
+          ],
+          [
+            0.16222675,
+            0.419244219
+          ],
+          [
+            0.16222675,
+            0.418953991
+          ],
+          [
+            0.162228106,
+            0.418920085
+          ],
+          [
+            0.162228106,
+            0.418891605
+          ],
+          [
+            0.162228106,
+            0.418872618
+          ],
+          [
+            0.162232175,
+            0.418751916
+          ]
+        ],
+        "worksWith": [
+          "parcel.the-broke-column.tent-1",
+          "parcel.the-broke-column.tent-3"
+        ],
+        "worksWithWhy": "The middle of the dressed line, a tent's width from its neighbours on either side, the spacing Skyrim's own Legion camps keep.",
+        "assembly": [
+          {
+            "id": "t2-barrel",
+            "asset": "vanilla:clutter/barrel01",
+            "atM": [
+              -2.0,
+              -2.0
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 79.5635
+          }
+        ]
+      },
+      {
+        "id": "parcel.the-broke-column.tent-3",
+        "districtId": "district.the-broke-column.the-line",
+        "use": "barracks",
+        "buildingFamily": "vanilla-legion-tent",
+        "interior": {
+          "kind": "none"
+        },
+        "orientationWhy": "Its open gable faces north, the last of the line, toward the barricade below.",
+        "why": {
+          "what": "The last sleeping tent, at the east end of the line by the banner.",
+          "whyHere": "The third squad's canvas; the line ends here because the bench does.",
+          "whySpot": "The east end of the bench, where the ground starts to fall to the stream.",
+          "whyNeighbours": "The banner stands beyond it; the levy post is below on the track.",
+          "playerPurpose": "The last sleeping tent, nearest the barricade, where the watch sleeps off its turn.",
+          "microGeography": "Levelled canvas floor at the east end of the bench, above the camp path."
+        },
+        "assetRef": "vanilla:architecture/tents/smallimperialtent",
+        "centreUV": [
+          0.162948251,
+          0.419067912
+        ],
+        "yawDeg": 90.0,
+        "pad": {
+          "datumM": 79.598,
+          "apronM": 0.8,
+          "batter": true
+        },
+        "yMeasured": 79.118,
+        "footprint": [
+          [
+            0.162778725,
+            0.41875056
+          ],
+          [
+            0.163119133,
+            0.41875056
+          ],
+          [
+            0.163121845,
+            0.418753272
+          ],
+          [
+            0.16312727,
+            0.418891605
+          ],
+          [
+            0.163128627,
+            0.418949922
+          ],
+          [
+            0.163128627,
+            0.419185902
+          ],
+          [
+            0.16312727,
+            0.419233369
+          ],
+          [
+            0.163121845,
+            0.419383908
+          ],
+          [
+            0.163117777,
+            0.419385264
+          ],
+          [
+            0.162777369,
+            0.419385264
+          ],
+          [
+            0.162774657,
+            0.419382552
+          ],
+          [
+            0.162769232,
+            0.419244219
+          ],
+          [
+            0.162769232,
+            0.418953991
+          ],
+          [
+            0.162770588,
+            0.418920085
+          ],
+          [
+            0.162770588,
+            0.418891605
+          ],
+          [
+            0.162770588,
+            0.418872618
+          ],
+          [
+            0.162774657,
+            0.418751916
+          ]
+        ],
+        "worksWith": [
+          "parcel.the-broke-column.tent-2"
+        ],
+        "worksWithWhy": "The end of the dressed line, pitched at the line's spacing from the middle tent; the bench ends a few steps further east.",
+        "assembly": [
+          {
+            "id": "bn2",
+            "asset": "vanilla:clutter/civilwar/civilwarbannerimp01",
+            "atM": [
+              0.0436,
+              0.0101
+            ],
+            "yaw": 179.34,
+            "on": "parent",
+            "layer": "clutter",
+            "evidence": "mined",
+            "mountPair": {
+              "kind": "band",
+              "mountedOn": "bn2-pole",
+              "n": 8
+            },
+            "upM": 3.6285,
+            "host": "bn2-pole",
+            "scale": 1.000025
+          },
+          {
+            "id": "bn2-pole",
+            "asset": "vanilla:clutter/civilwar/civilwarbanner01",
+            "atM": [
+              -3.4,
+              -3.5
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "scale": 0.65,
+            "yMeasured": 79.5311
+          },
+          {
+            "id": "lv-barricade",
+            "asset": "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01",
+            "atM": [
+              -16.0,
+              -10.3
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 73.732
+          },
+          {
+            "id": "pk-e1",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -9.6,
+              -0.9
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 75.8129
+          },
+          {
+            "id": "pk-e2",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -9.6,
+              -2.2
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 75.7555
+          },
+          {
+            "id": "pk-e3",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -9.6,
+              -3.5
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 75.7109
+          },
+          {
+            "id": "pk-e4",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -9.6,
+              -4.8
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 75.682
+          },
+          {
+            "id": "pk-e5",
+            "asset": "vanilla:clutter/stockade/stockadepike01",
+            "atM": [
+              -9.6,
+              -6.1
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 75.6694
+          }
+        ]
+      }
+    ],
+    "doors": [],
+    "routes": [
+      {
+        "id": "route.the-broke-column.camp-path",
+        "kind": "track",
+        "routing": "straight",
+        "widthM": 2.5,
+        "endsAt": [
+          "parcel.the-broke-column.tent-3"
+        ],
+        "why": "The trodden way up from the Mile House track to the end of the tent line, the only way into the camp.",
+        "via": [
+          [
+            0.161117372,
+            0.416640302
+          ],
+          [
+            0.163124558,
+            0.416477557
+          ],
+          [
+            0.162812631,
+            0.417643895
+          ],
+          [
+            0.162880441,
+            0.418118567
+          ],
+          [
+            0.162948251,
+            0.41866105
+          ]
+        ],
+        "points": [
+          [
+            0.161117372,
+            0.416640302
+          ],
+          [
+            0.163124558,
+            0.416477557
+          ],
+          [
+            0.162812631,
+            0.417643895
+          ],
+          [
+            0.162948251,
+            0.41875056
+          ]
+        ]
+      },
+      {
+        "id": "route.the-broke-column.line-walk",
+        "kind": "footpath",
+        "routing": "straight",
+        "widthM": 1.2,
+        "endsAt": [
+          "parcel.the-broke-column.tent-3",
+          "parcel.the-broke-column.tent-2",
+          "parcel.the-broke-column.tent-1",
+          "parcel.the-broke-column.command-tent"
+        ],
+        "why": "The walk along the front of the tent line from the camp path to the mouth of the command tent.",
+        "via": [
+          [
+            0.162948251,
+            0.41866105
+          ],
+          [
+            0.162405769,
+            0.41859324
+          ],
+          [
+            0.161795476,
+            0.41859324
+          ],
+          [
+            0.161334365,
+            0.41852543
+          ],
+          [
+            0.161036,
+            0.418308436
+          ],
+          [
+            0.160927503,
+            0.418471181
+          ]
+        ],
+        "points": [
+          [
+            0.162948251,
+            0.41875056
+          ],
+          [
+            0.161334365,
+            0.41852543
+          ],
+          [
+            0.161036,
+            0.418308436
+          ],
+          [
+            0.162232175,
+            0.418751916
+          ]
+        ]
+      },
+      {
+        "id": "route.the-broke-column.tent-1-step",
+        "kind": "footpath",
+        "routing": "straight",
+        "widthM": 1.2,
+        "endsAt": [
+          "parcel.the-broke-column.tent-1"
+        ],
+        "why": "A step off the line walk to the mouth of the first sleeping tent.",
+        "via": [
+          [
+            0.161795476,
+            0.41859324
+          ],
+          [
+            0.161795476,
+            0.418674612
+          ]
+        ],
+        "points": [
+          [
+            0.161795476,
+            0.41859324
+          ],
+          [
+            0.161795476,
+            0.41875056
+          ]
+        ]
+      },
+      {
+        "id": "route.the-broke-column.tent-2-step",
+        "kind": "footpath",
+        "routing": "straight",
+        "widthM": 1.2,
+        "endsAt": [
+          "parcel.the-broke-column.tent-2"
+        ],
+        "why": "A step off the line walk to the mouth of the middle sleeping tent.",
+        "via": [
+          [
+            0.162405769,
+            0.41859324
+          ],
+          [
+            0.162405769,
+            0.418674612
+          ]
+        ],
+        "points": [
+          [
+            0.162405769,
+            0.41859324
+          ],
+          [
+            0.162405769,
+            0.41875056
+          ]
+        ]
+      }
+    ],
+    "canals": [],
+    "boardwalks": [],
+    "fences": [],
+    "docks": [],
+    "landmarks": [],
+    "questSockets": [
+      {
+        "id": "socket.the-broke-column.q-scene-the-roster-tree",
+        "kind": "scene",
+        "socketRef": "scene.the-broke-column.the-roster-tree",
+        "position": [
+          0.162568513,
+          0.41787445
+        ],
+        "parcel": "parcel.the-broke-column.command-tent"
+      },
+      {
+        "id": "socket.the-broke-column.q-fg07-anchor-pay-book",
+        "kind": "evidence",
+        "socketRef": "evidence.the-broke-column.the-pay-book",
+        "position": [
+          0.16077832,
+          0.418932292
+        ],
+        "parcel": "parcel.the-broke-column.command-tent"
+      },
+      {
+        "id": "socket.the-broke-column.q-lq15-anchor-schedules",
+        "kind": "evidence",
+        "socketRef": "evidence.the-broke-column.the-pay-book",
+        "position": [
+          0.16071051,
+          0.41898654
+        ],
+        "parcel": "parcel.the-broke-column.command-tent"
+      }
+    ],
+    "travelServices": [],
+    "occupants": [
+      {
+        "slotId": "n1",
+        "ladderRef": "hostile-d3 boss",
+        "cultureRole": "the serjeant, who will parley before he fights",
+        "worksAt": "parcel.the-broke-column.command-tent",
+        "livesAt": "parcel.the-broke-column.command-tent",
+        "ownerFaction": "faction.imperial-legion-remnant"
+      },
+      {
+        "slotId": "n2",
+        "ladderRef": "hostile-d2 rank-and-file",
+        "cultureRole": "what is left of the column",
+        "worksAt": "parcel.the-broke-column.tent-3",
+        "livesAt": "parcel.the-broke-column.tent-1",
+        "ownerFaction": "faction.imperial-legion-remnant"
+      }
+    ],
+    "approaches": [
+      {
+        "id": "approach.the-broke-column.from-mile-house",
+        "mode": "walk",
+        "firstSeen": "parcel.the-broke-column.command-tent",
+        "viaUV": [
+          [
+            0.161117,
+            0.41664
+          ]
+        ],
+        "sequence": "Coming east along the track, the banners show on the hill first, then the tent line, then the barricade across half the track below it.",
+        "wayfinding": "The track runs under the bench; a footpath climbs from the barricade to the fire.",
+        "fromDirection": "west"
+      },
+      {
+        "id": "approach.the-broke-column.from-swampmoth",
+        "mode": "walk",
+        "firstSeen": "parcel.the-broke-column.tent-3",
+        "viaUV": [
+          [
+            0.166134,
+            0.415891
+          ]
+        ],
+        "sequence": "Coming down the track from the north to the stream, the barricade stands at the junction ahead and the tents above it on the right.",
+        "wayfinding": "The junction is at the stream; the barricade is a few steps west of it.",
+        "fromDirection": "north"
+      }
+    ],
+    "networkTerminals": [
+      {
+        "id": "terminal.the-broke-column.mile-house-track",
+        "routeId": "track.imperial-fringe.mile-house-of-the-eagle",
+        "entryUV": [
+          0.161117372,
+          0.416640302
+        ],
+        "wayId": "route.the-broke-column.camp-path",
+        "kind": "footpath",
+        "why": "The camp path leaves the Mile House track below the bench, runs east along it to the end of the barricade and climbs through the gap in the stakes to the tent line."
+      }
+    ],
+    "combatSpaces": [
+      {
+        "id": "combat.the-broke-column.the-fire",
+        "aroundIds": [
+          "parcel.the-broke-column.command-tent",
+          "parcel.the-broke-column.tent-1",
+          "parcel.the-broke-column.tent-2",
+          "parcel.the-broke-column.tent-3"
+        ],
+        "clearanceClass": "open",
+        "why": "The trodden ground between the tent line and the fire, the one level footing on the hillside.",
+        "boundary": [
+          [
+            0.160274294,
+            0.418036812
+          ],
+          [
+            0.159675724,
+            0.418151922
+          ],
+          [
+            0.159675724,
+            0.418602494
+          ],
+          [
+            0.15967936,
+            0.419486121
+          ],
+          [
+            0.159939467,
+            0.419746229
+          ],
+          [
+            0.160373883,
+            0.419867173
+          ],
+          [
+            0.161611325,
+            0.419927747
+          ],
+          [
+            0.16320581,
+            0.419927747
+          ],
+          [
+            0.163650422,
+            0.419779543
+          ],
+          [
+            0.163669474,
+            0.419250889
+          ],
+          [
+            0.16367111,
+            0.419193655
+          ],
+          [
+            0.16367111,
+            0.418943611
+          ],
+          [
+            0.163669505,
+            0.418874665
+          ],
+          [
+            0.16365559,
+            0.41851983
+          ],
+          [
+            0.163364177,
+            0.418228418
+          ],
+          [
+            0.161241918,
+            0.418032218
+          ],
+          [
+            0.161118636,
+            0.418023306
+          ],
+          [
+            0.161075184,
+            0.418021019
+          ],
+          [
+            0.160435835,
+            0.41801662
+          ]
+        ]
+      }
+    ],
+    "clearance": {
+      "hardClear": [],
+      "thinned": [],
+      "kept": []
+    },
+    "variants": [
+      {
+        "id": "variant.the-broke-column.base",
+        "changedRefs": [],
+        "serviceOverrides": {},
+        "ambience": "camp"
+      }
+    ],
+    "scaleGrounding": {
+      "loreSource": "catalogue record The Broke Column (camp, M1): four Legion tents pitched in a line",
+      "population": "8-12",
+      "households": 0,
+      "buildingsPlanned": 4,
+      "npcsPlanned": 2,
+      "why": "One command tent and three sleeping tents hold a serjeant and what is left of a column."
+    },
+    "siting": {
+      "dossier": "world/sources/sites/dossiers/the-broke-column.json",
+      "candidates": [
+        {
+          "id": "candidate.the-broke-column.the-bench",
+          "positionM": [
+            1195.0,
+            3088.0
+          ],
+          "chosen": true,
+          "why": "The one bench on the hillside above the track junction: an 8 m pad cuts and fills at most half a metre."
+        },
+        {
+          "id": "candidate.the-broke-column.plotted-anchor",
+          "positionM": [
+            1231.1,
+            3073.5
+          ],
+          "why": "The plotted anchor, on the stream at the track junction.",
+          "rejectedBecause": "It lies on the stream at the track junction, wet and on the tracks."
+        }
+      ]
+    },
+    "macroEvidence": [
+      {
+        "sourcePaths": [
+          "assetPlan",
+          "contents",
+          "contents.npcs[n1]",
+          "contents.npcs[n2]",
+          "discovery",
+          "eraLayers",
+          "hostility",
+          "ownerFaction",
+          "playerPurpose",
+          "questHooks",
+          "relations",
+          "rewardProfile",
+          "season",
+          "sitingPrefs",
+          "status",
+          "traversalModes",
+          "underwaterAccess",
+          "vibe",
+          "why"
+        ],
+        "evidenceRefs": [
+          "parcel.the-broke-column.command-tent",
+          "parcel.the-broke-column.tent-1",
+          "parcel.the-broke-column.tent-2",
+          "parcel.the-broke-column.tent-3",
+          "approach.the-broke-column.from-mile-house",
+          "approach.the-broke-column.from-swampmoth"
+        ]
+      },
+      {
+        "sourcePaths": [
+          "sockets",
+          "sockets.scene",
+          "sockets.evidence",
+          "questHooks.provisions"
+        ],
+        "evidenceRefs": [
+          "socket.the-broke-column.q-scene-the-roster-tree",
+          "socket.the-broke-column.q-fg07-anchor-pay-book",
+          "socket.the-broke-column.q-lq15-anchor-schedules"
+        ]
+      }
+    ],
+    "budget": {
+      "maxInstances": 120,
+      "maxUniqueMaterials": 60,
+      "maxTextureMB": 32,
+      "maxColliders": 80
+    },
+    "assetConstraints": [],
+    "proseRefs": [
+      {
+        "sourcePath": "causalModel.siteAdvantages",
+        "placeRef": "place.imperial-fringe.gideon"
+      },
+      {
+        "sourcePath": "causalModel.pressures",
+        "placeRef": "place.imperial-fringe.gideon"
+      },
+      {
+        "sourcePath": "causalModel.wouldChangeIf",
+        "placeRef": "place.imperial-fringe.gideon"
+      },
+      {
+        "sourcePath": "districts[0].why.whyHere",
+        "placeRef": "place.imperial-fringe.gideon"
+      }
+    ],
+    "authoredOn": {
+      "wbSchemaVersion": 1,
+      "ground": {
+        "centreM": [
+          1198.0,
+          3084.0
+        ],
+        "halfM": 90.0,
+        "chunks": {
+          "chunk_2_6": "c402ce016241118c4aaf12f5e717db898aed4f02d4a10ad930501e3b94bf1330"
+        },
+        "sha256": "d3745fd7ad9237d5705b7e5bafaa46671244b8575ac347934946561a6091727b"
+      },
+      "kits": {
+        "bmv-treehouse-int": "b4eae3ff712c698e724481f7592dcb1ca9b041d0f64af19d910625f6fd363a68",
+        "camp-v1": "58cecc3b1bbbd4ff201aa2fdbfb2bfdb3b7487174b0c2bd7aa42886dd7e16390",
+        "enclosure-v1": "4a5e3c6874c484fccd1fc8b202d3c61f335a9dad2b9140ca8c086002f5c649a9",
+        "htbm-hut-int": "ea80ddee9fb3d16de90ae60647f316d6ec10d9891f703684dce693dbae21c8ef",
+        "mudmother-hut-int": "36687657be26a430ab9efed29d36f77b888b36c7c4f784af1e47445acec5b6d5",
+        "settlement-imperial-v1": "e0f1fce8cc1d06571b1b3604b03ee291c1b9cf576a3ede6e9d033366a6fd47f5"
+      },
+      "layout": {
+        "path": "world/sources/blueprints/the-broke-column.layout.json",
+        "sha256": "8af6fc89d0a85eec36d3c63aa6a28aa164b3b55667af3a7f20f67551b3ce5715"
+      }
+    },
+    "walkRoutes": {
+      "schemaVersion": 1,
+      "cellM": 0.5,
+      "stepM": 0.45,
+      "slopeMaxDeg": 30.0,
+      "wadeMaxM": 0.7,
+      "routes": {
+        "door:b-command": {
+          "points": [
+            [
+              1187.99,
+              76.25,
+              3071.9
+            ],
+            [
+              1187.99,
+              76.97,
+              3074.9
+            ],
+            [
+              1187.99,
+              77.1,
+              3075.4
+            ],
+            [
+              1187.99,
+              77.22,
+              3075.9
+            ],
+            [
+              1187.99,
+              77.35,
+              3076.4
+            ],
+            [
+              1187.49,
+              77.56,
+              3076.9
+            ],
+            [
+              1186.99,
+              77.76,
+              3077.4
+            ],
+            [
+              1186.49,
+              77.97,
+              3077.9
+            ],
+            [
+              1185.99,
+              78.3,
+              3078.4
+            ],
+            [
+              1185.99,
+              78.54,
+              3078.9
+            ],
+            [
+              1185.99,
+              78.82,
+              3079.4
+            ],
+            [
+              1186.49,
+              79.04,
+              3079.9
+            ],
+            [
+              1186.49,
+              79.09,
+              3080.4
+            ],
+            [
+              1186.49,
+              79.09,
+              3081.4
+            ],
+            [
+              1186.49,
+              79.11,
+              3082.4
+            ],
+            [
+              1186.49,
+              79.2,
+              3083.9
+            ],
+            [
+              1186.49,
+              79.21,
+              3084.4
+            ],
+            [
+              1186.49,
+              79.21,
+              3085.9
+            ]
+          ],
+          "routeM": 15.5,
+          "steepestDeg": 29.5,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0,
+          "parcelId": "parcel.the-broke-column.command-tent"
+        },
+        "opening:b-tent1": {
+          "points": [
+            [
+              1187.99,
+              76.25,
+              3071.9
+            ],
+            [
+              1187.99,
+              76.97,
+              3074.9
+            ],
+            [
+              1187.99,
+              77.1,
+              3075.4
+            ],
+            [
+              1187.99,
+              77.22,
+              3075.9
+            ],
+            [
+              1187.99,
+              77.35,
+              3076.4
+            ],
+            [
+              1188.49,
+              77.4,
+              3076.9
+            ],
+            [
+              1188.99,
+              77.44,
+              3077.4
+            ],
+            [
+              1189.99,
+              77.56,
+              3078.4
+            ],
+            [
+              1189.99,
+              77.95,
+              3079.9
+            ],
+            [
+              1189.99,
+              78.19,
+              3080.4
+            ],
+            [
+              1190.49,
+              78.39,
+              3080.9
+            ],
+            [
+              1190.99,
+              78.66,
+              3081.4
+            ],
+            [
+              1191.49,
+              78.94,
+              3081.9
+            ],
+            [
+              1191.49,
+              78.98,
+              3082.4
+            ],
+            [
+              1191.49,
+              79.05,
+              3082.9
+            ],
+            [
+              1191.49,
+              79.13,
+              3083.4
+            ],
+            [
+              1191.49,
+              79.19,
+              3083.9
+            ],
+            [
+              1191.49,
+              79.25,
+              3084.9
+            ],
+            [
+              1191.49,
+              79.29,
+              3085.4
+            ],
+            [
+              1191.49,
+              79.35,
+              3086.4
+            ]
+          ],
+          "routeM": 16.35,
+          "steepestDeg": 25.9,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0
+        },
+        "opening:b-tent2": {
+          "points": [
+            [
+              1187.99,
+              76.25,
+              3071.9
+            ],
+            [
+              1187.99,
+              76.97,
+              3074.9
+            ],
+            [
+              1188.49,
+              77.02,
+              3075.4
+            ],
+            [
+              1188.99,
+              77.06,
+              3075.9
+            ],
+            [
+              1189.99,
+              77.16,
+              3076.9
+            ],
+            [
+              1191.49,
+              77.34,
+              3078.4
+            ],
+            [
+              1191.99,
+              77.41,
+              3078.9
+            ],
+            [
+              1192.49,
+              77.49,
+              3079.4
+            ],
+            [
+              1192.49,
+              77.62,
+              3079.9
+            ],
+            [
+              1192.99,
+              77.86,
+              3080.4
+            ],
+            [
+              1192.99,
+              78.08,
+              3080.9
+            ],
+            [
+              1192.99,
+              78.22,
+              3081.4
+            ],
+            [
+              1192.99,
+              78.35,
+              3081.9
+            ],
+            [
+              1192.99,
+              78.43,
+              3082.4
+            ],
+            [
+              1193.49,
+              78.64,
+              3082.9
+            ],
+            [
+              1193.99,
+              78.83,
+              3083.4
+            ],
+            [
+              1193.99,
+              79.01,
+              3083.9
+            ],
+            [
+              1194.49,
+              79.14,
+              3084.4
+            ],
+            [
+              1194.49,
+              79.23,
+              3084.9
+            ],
+            [
+              1194.99,
+              79.38,
+              3085.4
+            ],
+            [
+              1195.49,
+              79.43,
+              3085.9
+            ],
+            [
+              1195.99,
+              79.44,
+              3086.4
+            ]
+          ],
+          "routeM": 18.19,
+          "steepestDeg": 24.1,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0
+        },
+        "opening:b-tent3": {
+          "points": [
+            [
+              1187.99,
+              76.25,
+              3071.9
+            ],
+            [
+              1187.99,
+              76.61,
+              3073.4
+            ],
+            [
+              1188.49,
+              76.64,
+              3073.9
+            ],
+            [
+              1188.99,
+              76.68,
+              3074.4
+            ],
+            [
+              1190.49,
+              76.83,
+              3075.9
+            ],
+            [
+              1191.99,
+              77.01,
+              3077.4
+            ],
+            [
+              1193.49,
+              77.22,
+              3078.9
+            ],
+            [
+              1193.99,
+              77.3,
+              3079.4
+            ],
+            [
+              1194.49,
+              77.39,
+              3079.9
+            ],
+            [
+              1194.49,
+              77.53,
+              3080.4
+            ],
+            [
+              1194.49,
+              77.66,
+              3080.9
+            ],
+            [
+              1194.99,
+              77.75,
+              3081.4
+            ],
+            [
+              1195.49,
+              77.9,
+              3081.9
+            ],
+            [
+              1195.99,
+              78.29,
+              3082.4
+            ],
+            [
+              1196.49,
+              78.52,
+              3082.9
+            ],
+            [
+              1196.49,
+              78.66,
+              3083.4
+            ],
+            [
+              1196.49,
+              78.8,
+              3084.4
+            ],
+            [
+              1196.99,
+              79.19,
+              3084.9
+            ],
+            [
+              1197.49,
+              79.46,
+              3085.4
+            ],
+            [
+              1197.49,
+              79.48,
+              3085.9
+            ],
+            [
+              1198.49,
+              79.54,
+              3086.9
+            ],
+            [
+              1198.99,
+              79.56,
+              3087.4
+            ]
+          ],
+          "routeM": 20.51,
+          "steepestDeg": 29.0,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.the-broke-column.idle-n1-work": {
+          "points": [
+            [
+              1187.99,
+              76.25,
+              3071.9
+            ],
+            [
+              1187.99,
+              76.97,
+              3074.9
+            ],
+            [
+              1187.99,
+              77.1,
+              3075.4
+            ],
+            [
+              1187.99,
+              77.22,
+              3075.9
+            ],
+            [
+              1187.99,
+              77.48,
+              3076.9
+            ],
+            [
+              1187.99,
+              77.6,
+              3077.4
+            ],
+            [
+              1187.99,
+              77.73,
+              3077.9
+            ],
+            [
+              1187.99,
+              77.95,
+              3078.4
+            ],
+            [
+              1187.49,
+              78.31,
+              3078.9
+            ],
+            [
+              1187.99,
+              78.64,
+              3079.4
+            ],
+            [
+              1187.49,
+              79.0,
+              3079.9
+            ],
+            [
+              1187.49,
+              79.06,
+              3080.4
+            ],
+            [
+              1187.49,
+              79.02,
+              3081.4
+            ],
+            [
+              1187.49,
+              79.02,
+              3081.9
+            ],
+            [
+              1187.49,
+              79.1,
+              3082.9
+            ],
+            [
+              1187.49,
+              79.15,
+              3083.4
+            ],
+            [
+              1187.49,
+              79.19,
+              3083.9
+            ]
+          ],
+          "routeM": 13.11,
+          "steepestDeg": 27.2,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.the-broke-column.idle-n1-home": {
+          "points": [
+            [
+              1187.99,
+              76.25,
+              3071.9
+            ],
+            [
+              1187.99,
+              76.97,
+              3074.9
+            ],
+            [
+              1187.99,
+              77.1,
+              3075.4
+            ],
+            [
+              1187.99,
+              77.22,
+              3075.9
+            ],
+            [
+              1187.99,
+              77.35,
+              3076.4
+            ],
+            [
+              1187.49,
+              77.56,
+              3076.9
+            ],
+            [
+              1186.99,
+              77.76,
+              3077.4
+            ],
+            [
+              1186.49,
+              77.97,
+              3077.9
+            ],
+            [
+              1185.99,
+              78.3,
+              3078.4
+            ],
+            [
+              1185.99,
+              78.54,
+              3078.9
+            ],
+            [
+              1185.99,
+              79.1,
+              3079.9
+            ],
+            [
+              1185.99,
+              79.13,
+              3080.4
+            ],
+            [
+              1185.99,
+              79.13,
+              3081.4
+            ],
+            [
+              1185.99,
+              79.16,
+              3082.9
+            ],
+            [
+              1185.49,
+              79.2,
+              3083.4
+            ]
+          ],
+          "routeM": 13.03,
+          "steepestDeg": 29.5,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.the-broke-column.npc-n1": {
+          "points": [
+            [
+              1187.99,
+              76.25,
+              3071.9
+            ],
+            [
+              1187.99,
+              76.97,
+              3074.9
+            ],
+            [
+              1187.99,
+              77.1,
+              3075.4
+            ],
+            [
+              1187.99,
+              77.22,
+              3075.9
+            ],
+            [
+              1187.99,
+              77.35,
+              3076.4
+            ],
+            [
+              1187.49,
+              77.56,
+              3076.9
+            ],
+            [
+              1186.99,
+              77.76,
+              3077.4
+            ],
+            [
+              1186.49,
+              77.97,
+              3077.9
+            ],
+            [
+              1185.99,
+              78.3,
+              3078.4
+            ],
+            [
+              1185.99,
+              78.54,
+              3078.9
+            ],
+            [
+              1185.99,
+              79.1,
+              3079.9
+            ],
+            [
+              1185.99,
+              79.13,
+              3080.4
+            ],
+            [
+              1185.99,
+              79.13,
+              3081.4
+            ],
+            [
+              1185.99,
+              79.15,
+              3082.4
+            ],
+            [
+              1185.49,
+              79.19,
+              3082.9
+            ]
+          ],
+          "routeM": 12.53,
+          "steepestDeg": 29.5,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.the-broke-column.idle-n2-levy": {
+          "points": [
+            [
+              1187.99,
+              76.25,
+              3071.9
+            ],
+            [
+              1188.99,
+              76.31,
+              3072.9
+            ],
+            [
+              1189.99,
+              76.39,
+              3073.9
+            ],
+            [
+              1190.49,
+              76.44,
+              3074.4
+            ],
+            [
+              1190.99,
+              76.37,
+              3074.4
+            ],
+            [
+              1191.49,
+              76.29,
+              3074.4
+            ],
+            [
+              1192.49,
+              76.15,
+              3074.4
+            ],
+            [
+              1192.99,
+              76.07,
+              3074.4
+            ],
+            [
+              1193.49,
+              76.0,
+              3074.4
+            ],
+            [
+              1193.99,
+              75.94,
+              3074.4
+            ],
+            [
+              1194.49,
+              75.87,
+              3074.4
+            ],
+            [
+              1196.49,
+              75.63,
+              3074.4
+            ],
+            [
+              1196.99,
+              75.58,
+              3074.4
+            ],
+            [
+              1197.49,
+              75.52,
+              3074.4
+            ],
+            [
+              1198.49,
+              75.42,
+              3074.4
+            ],
+            [
+              1198.99,
+              75.38,
+              3074.4
+            ],
+            [
+              1199.49,
+              75.33,
+              3074.4
+            ],
+            [
+              1200.99,
+              75.21,
+              3074.4
+            ],
+            [
+              1201.99,
+              75.15,
+              3074.4
+            ],
+            [
+              1202.49,
+              75.11,
+              3074.4
+            ]
+          ],
+          "routeM": 15.62,
+          "steepestDeg": 8.6,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.the-broke-column.idle-n2-cook": {
+          "points": [
+            [
+              1187.99,
+              76.25,
+              3071.9
+            ],
+            [
+              1187.99,
+              76.97,
+              3074.9
+            ],
+            [
+              1187.99,
+              77.1,
+              3075.4
+            ],
+            [
+              1187.99,
+              77.22,
+              3075.9
+            ],
+            [
+              1187.99,
+              77.35,
+              3076.4
+            ],
+            [
+              1187.49,
+              77.56,
+              3076.9
+            ],
+            [
+              1186.99,
+              77.76,
+              3077.4
+            ],
+            [
+              1186.49,
+              77.97,
+              3077.9
+            ],
+            [
+              1185.99,
+              78.3,
+              3078.4
+            ],
+            [
+              1185.99,
+              78.54,
+              3078.9
+            ],
+            [
+              1185.99,
+              79.1,
+              3079.9
+            ],
+            [
+              1185.99,
+              79.13,
+              3080.4
+            ],
+            [
+              1185.99,
+              79.13,
+              3081.4
+            ],
+            [
+              1185.49,
+              79.19,
+              3081.9
+            ],
+            [
+              1184.99,
+              79.22,
+              3082.4
+            ],
+            [
+              1184.49,
+              79.24,
+              3082.9
+            ],
+            [
+              1183.99,
+              79.22,
+              3083.4
+            ]
+          ],
+          "routeM": 13.66,
+          "steepestDeg": 29.5,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.the-broke-column.idle-n2-home": {
+          "points": [
+            [
+              1187.99,
+              76.25,
+              3071.9
+            ],
+            [
+              1187.99,
+              76.97,
+              3074.9
+            ],
+            [
+              1187.99,
+              77.1,
+              3075.4
+            ],
+            [
+              1187.99,
+              77.22,
+              3075.9
+            ],
+            [
+              1187.99,
+              77.35,
+              3076.4
+            ],
+            [
+              1187.49,
+              77.56,
+              3076.9
+            ],
+            [
+              1186.99,
+              77.76,
+              3077.4
+            ],
+            [
+              1186.49,
+              77.97,
+              3077.9
+            ],
+            [
+              1185.99,
+              78.3,
+              3078.4
+            ],
+            [
+              1185.99,
+              78.54,
+              3078.9
+            ],
+            [
+              1185.99,
+              79.1,
+              3079.9
+            ],
+            [
+              1185.99,
+              79.13,
+              3080.4
+            ],
+            [
+              1185.49,
+              79.19,
+              3080.9
+            ],
+            [
+              1184.99,
+              79.24,
+              3081.4
+            ],
+            [
+              1184.49,
+              79.28,
+              3081.9
+            ],
+            [
+              1183.99,
+              79.27,
+              3082.4
+            ],
+            [
+              1182.99,
+              79.23,
+              3083.4
+            ]
+          ],
+          "routeM": 14.07,
+          "steepestDeg": 29.5,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.the-broke-column.npc-n2": {
+          "points": [
+            [
+              1187.99,
+              76.25,
+              3071.9
+            ],
+            [
+              1187.99,
+              76.61,
+              3073.4
+            ],
+            [
+              1188.49,
+              76.64,
+              3073.9
+            ],
+            [
+              1188.99,
+              76.68,
+              3074.4
+            ],
+            [
+              1190.49,
+              76.83,
+              3075.9
+            ],
+            [
+              1191.99,
+              77.01,
+              3077.4
+            ],
+            [
+              1193.49,
+              77.22,
+              3078.9
+            ],
+            [
+              1193.99,
+              77.3,
+              3079.4
+            ],
+            [
+              1194.49,
+              77.39,
+              3079.9
+            ],
+            [
+              1194.99,
+              77.47,
+              3080.4
+            ],
+            [
+              1195.99,
+              77.65,
+              3081.4
+            ],
+            [
+              1196.49,
+              77.81,
+              3081.9
+            ],
+            [
+              1196.99,
+              78.03,
+              3082.4
+            ],
+            [
+              1196.99,
+              78.18,
+              3082.9
+            ],
+            [
+              1196.99,
+              78.32,
+              3083.4
+            ],
+            [
+              1197.49,
+              78.36,
+              3083.9
+            ],
+            [
+              1197.99,
+              78.75,
+              3084.4
+            ],
+            [
+              1198.49,
+              78.76,
+              3084.4
+            ]
+          ],
+          "routeM": 17.43,
+          "steepestDeg": 29.3,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.the-broke-column.container-sack": {
+          "points": [
+            [
+              1187.99,
+              76.25,
+              3071.9
+            ],
+            [
+              1187.99,
+              76.97,
+              3074.9
+            ],
+            [
+              1188.49,
+              77.02,
+              3075.4
+            ],
+            [
+              1188.99,
+              77.06,
+              3075.9
+            ],
+            [
+              1189.99,
+              77.16,
+              3076.9
+            ],
+            [
+              1191.49,
+              77.34,
+              3078.4
+            ],
+            [
+              1191.99,
+              77.41,
+              3078.9
+            ],
+            [
+              1192.49,
+              77.49,
+              3079.4
+            ],
+            [
+              1192.49,
+              77.62,
+              3079.9
+            ],
+            [
+              1192.99,
+              77.86,
+              3080.4
+            ],
+            [
+              1192.99,
+              78.08,
+              3080.9
+            ],
+            [
+              1192.99,
+              78.22,
+              3081.4
+            ],
+            [
+              1192.99,
+              78.35,
+              3081.9
+            ],
+            [
+              1192.99,
+              78.43,
+              3082.4
+            ],
+            [
+              1193.49,
+              78.64,
+              3082.9
+            ],
+            [
+              1193.99,
+              78.83,
+              3083.4
+            ],
+            [
+              1193.99,
+              79.01,
+              3083.9
+            ],
+            [
+              1194.49,
+              79.14,
+              3084.4
+            ],
+            [
+              1194.49,
+              79.32,
+              3085.4
+            ],
+            [
+              1194.49,
+              79.4,
+              3085.9
+            ],
+            [
+              1194.99,
+              79.44,
+              3086.4
+            ]
+          ],
+          "routeM": 17.78,
+          "steepestDeg": 24.1,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.the-broke-column.container-barrel": {
+          "points": [
+            [
+              1187.99,
+              76.25,
+              3071.9
+            ],
+            [
+              1187.99,
+              76.61,
+              3073.4
+            ],
+            [
+              1188.49,
+              76.64,
+              3073.9
+            ],
+            [
+              1188.99,
+              76.68,
+              3074.4
+            ],
+            [
+              1190.49,
+              76.83,
+              3075.9
+            ],
+            [
+              1191.99,
+              77.01,
+              3077.4
+            ],
+            [
+              1193.49,
+              77.22,
+              3078.9
+            ],
+            [
+              1193.99,
+              77.3,
+              3079.4
+            ],
+            [
+              1194.49,
+              77.39,
+              3079.9
+            ],
+            [
+              1194.49,
+              77.53,
+              3080.4
+            ],
+            [
+              1194.49,
+              77.66,
+              3080.9
+            ],
+            [
+              1194.99,
+              77.75,
+              3081.4
+            ],
+            [
+              1195.49,
+              77.9,
+              3081.9
+            ],
+            [
+              1195.99,
+              78.29,
+              3082.4
+            ],
+            [
+              1196.49,
+              78.52,
+              3082.9
+            ],
+            [
+              1196.49,
+              78.66,
+              3083.4
+            ],
+            [
+              1196.49,
+              78.8,
+              3084.4
+            ],
+            [
+              1196.99,
+              79.19,
+              3084.9
+            ],
+            [
+              1197.49,
+              79.46,
+              3085.4
+            ],
+            [
+              1197.49,
+              79.48,
+              3085.9
+            ],
+            [
+              1198.49,
+              79.54,
+              3086.9
+            ]
+          ],
+          "routeM": 19.81,
+          "steepestDeg": 29.0,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0
+        }
+      }
+    }
+  }
+}

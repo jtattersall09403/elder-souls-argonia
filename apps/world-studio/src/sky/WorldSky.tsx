@@ -48,11 +48,12 @@ import {
   createSunCascades,
   writeDomeFromRig,
 } from "./skyObjects";
-import { computeLightRig, type LightRig } from "./lightRig";
+import { computeLightRig, setDrawnLightRig, type LightRig } from "./lightRig";
 import { worldClock, notifyClock } from "./timeState";
 import { waterTimeS } from "../water/waterClock";
 import { wetnessUniforms } from "../water/groundWetness";
 import { lightningNow, weatherAt } from "../weather/weatherState";
+import { CLIMATE_MAX_TEXELS, loadSmoothRaster } from "@elder-souls/game-core/terrain/groundRasters";
 import { RainSystem, rainDropBudget } from "../weather/RainSystem";
 import { AmbientAir, type AmbientAirConditions } from "@elder-souls/game-core/air/AmbientAir";
 import type { AirWaterSurface } from "@elder-souls/game-core/air/ambientAir";
@@ -197,8 +198,11 @@ export function WorldSky({
   groundHeight,
   crowns,
   sunLightingOut,
+  shadowMapSize = 2048,
   children,
 }: {
+  /** Cascade map edge from the quality preset; `?smsize=` still overrides. */
+  shadowMapSize?: number;
   /** Tree crowns near the camera for the canopy map (decision 0112 §5); the
    * vegetation layer fills it (Vegetation `crownsRef`). */
   crowns?: React.MutableRefObject<CrownSource | null>;
@@ -281,6 +285,7 @@ export function WorldSky({
   // each is a TextureNode whose `.value` swaps from the zero placeholder to
   // the decoded raster, re-pointing every sample of it.
   useEffect(() => {
+    // Smooth fields: decoded exactly and halved before upload (groundRasters).
     const rasters: [AerialRasterKey, string][] = [
       ["uClimateAir", "climate-air"],
       ["uClimateWeather", "climate-weather"],
@@ -288,11 +293,9 @@ export function WorldSky({
     ];
     for (const [key, name] of rasters) {
       if (aerialRasterLoaded(sharedAerialUniforms, key)) continue;
-      new THREE.TextureLoader().load(`${base}province/${name}.png`, (t) => {
-        t.colorSpace = THREE.NoColorSpace;
-        t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
-        sharedAerialUniforms[key].value = t;
-      });
+      loadSmoothRaster(`${base}province/${name}.png`, CLIMATE_MAX_TEXELS)
+        .then((t) => { sharedAerialUniforms[key].value = t; })
+        .catch((e) => console.error(`climate raster ${name}`, e));
     }
   }, [base]);
 
@@ -330,7 +333,7 @@ export function WorldSky({
   const { sun, csm } = useMemo(() => {
     // ?smsize= lets headless probes shrink the cascade maps (software GL).
     const params = new URLSearchParams(window.location.search);
-    const smsize = Number(params.get("smsize")) || 2048;
+    const smsize = Number(params.get("smsize")) || shadowMapSize;
     // Character play: ONE cascade over 120 m (2026-09-21, round 9). Every
     // cascade re-draws every caster in its slice, so a second cascade was a
     // second pass over most of the jungle's 2.5 M caster triangles for
@@ -348,7 +351,17 @@ export function WorldSky({
       shadowMapSize: smsize,
       maxFar: mode === "character" ? (csmFar ?? 120) : 6000,
     });
+    // shadowMapSize is read at creation only: the effect below resizes the
+    // live cascades in place (a rebuild would recompile every lit material).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
+  useEffect(() => {
+    // Quality change: the shadow node re-sizes each cascade's map from its
+    // shadow's mapSize on the next shadow pass (ShadowNode.updateShadow).
+    const s = Number(new URLSearchParams(window.location.search).get("smsize")) || shadowMapSize;
+    sun.shadow.mapSize.set(s, s);
+    for (const l of csm.lights) l.shadow?.mapSize.set(s, s);
+  }, [sun, csm, shadowMapSize]);
   // The sun joins the scene through JSX below, so a discarded render leaves
   // nothing behind; the cascade proxies are added by the node at first use
   // and removed by dispose().
@@ -607,6 +620,7 @@ export function WorldSky({
         sunOcclusion,
       },
     );
+    setDrawnLightRig(scene, rig);
     const sunDir = sunDirScratch.set(rig.sun.direction.x, rig.sun.direction.y, rig.sun.direction.z);
 
     // Sky dome follows the camera so the horizon never clips.

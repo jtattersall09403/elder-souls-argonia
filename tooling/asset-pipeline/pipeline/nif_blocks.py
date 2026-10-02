@@ -324,6 +324,94 @@ def effect_shape_shaders(nif: Nif) -> dict[str, dict]:
     return out
 
 
+#: BSLightingShaderProperty Shader_Flags_1 bit OWN_EMIT.
+OWN_EMIT = 1 << 22
+
+
+def lighting_shader_emissive(raw: bytes) -> dict:
+    """BSLightingShaderProperty (bsVersion 83/100): the OWN_EMIT flag and the
+    emissive colour and multiple (shader type u32, NiObjectNET, flags 1 and
+    2, uv offset and scale, texture set ref, then emissive rgb and multiple)."""
+    p = _object_net(raw, 4)
+    (flags1,) = struct.unpack_from("<I", raw, p); p += 8 + 16 + 4
+    r, g, b, multiple = struct.unpack_from("<4f", raw, p)
+    return {"ownEmit": bool(flags1 & OWN_EMIT), "emissive": [round(r, 4), round(g, 4), round(b, 4)],
+            "emissiveMultiple": round(multiple, 4)}
+
+
+def emitting_shapes(nif: Nif) -> list[str]:
+    """Shapes whose lighting shader really emits: OWN_EMIT set AND a non-black
+    emissive colour at a positive multiple. Skyrim flags whole lanterns
+    OWN_EMIT (CandleLanternWithCandle01's LampGeneric01 metal frame too) but
+    gives the frame a black emissive, so the flag alone lit the metal (walk 9,
+    owner); only the candle (`CandleLanternWithCandle:7`, emissive
+    1.0/0.80/0.46 x 1.14) and a paper shell glow."""
+    out = []
+    for i, (kind, raw) in enumerate(nif.blocks):
+        if kind not in EFFECT_GEOMETRY:
+            continue
+        try:
+            shader_ref, _ = _geometry_properties(raw, nif.bs_version, kind)
+        except struct.error:
+            continue
+        if not (0 <= shader_ref < len(nif.blocks) and nif.blocks[shader_ref][0] == "BSLightingShaderProperty"):
+            continue
+        s = lighting_shader_emissive(nif.blocks[shader_ref][1])
+        if s["ownEmit"] and max(s["emissive"]) > 0 and s["emissiveMultiple"] > 0:
+            out.append(nif.name(i))
+    return sorted(out)
+
+
+#: Shader_Flags_1 External_Emittance: Bethesda's flag for emittance driven by
+#: the cell's daylight (interior window panes: FarmWindowInterior01, the Ayleid
+#: and Solitude windows).
+EXTERNAL_EMITTANCE = 1 << 29
+#: BSShaderTextureSet slot of the backlight map (light passing through from behind).
+BACKLIGHT_SLOT = 7
+#: BSShaderTextureSet slot of the environment (cube) map.
+ENV_SLOT = 4
+
+
+def _texture_set(raw: bytes) -> list[str]:
+    (n,) = struct.unpack_from("<I", raw, 0)
+    p, out = 4, []
+    for _ in range(n):
+        s, p = _sized_string(raw, p)
+        out.append(s)
+    return out
+
+
+def window_glass_shapes(nif: Nif) -> list[str]:
+    """Emitting shapes (`emitting_shapes`) that are window glass, read from the
+    shader, never the name: opaque (no NiAlphaProperty) AND either the
+    External_Emittance flag (vanilla interior windows) or both a backlight map
+    (slot 7) and an environment map (slot 4): glass that transmits and
+    reflects (the kotm mudhut panes: amber, amber_bl, ShinyBright_e). Not glass:
+    the bee-in-jar wings (backlight, no environment map),
+    honeycomb and snail slime (env-map shader, no backlight), nirnroot and
+    deathbell (External_Emittance but alpha-tested), candles and lantern shells
+    (glow map, no external emittance). Sample: test_window_glass.py."""
+    emitting = set(emitting_shapes(nif))
+    out = []
+    for i, (kind, raw) in enumerate(nif.blocks):
+        if kind not in EFFECT_GEOMETRY or nif.name(i) not in emitting:
+            continue
+        shader_ref, alpha_ref = _geometry_properties(raw, nif.bs_version, kind)
+        if 0 <= alpha_ref < len(nif.blocks):
+            continue
+        sraw = nif.blocks[shader_ref][1]
+        p = _object_net(sraw, 4)
+        flags1, = struct.unpack_from("<I", sraw, p)
+        tref, = struct.unpack_from("<i", sraw, p + 8 + 16)
+        tex = _texture_set(nif.blocks[tref][1]) if 0 <= tref < len(nif.blocks) else []
+        # glass both transmits (backlight map) and reflects (environment map,
+        # slot 4); a bee's wing transmits only
+        glass = all(len(tex) > s and tex[s].strip() for s in (BACKLIGHT_SLOT, ENV_SLOT))
+        if flags1 & EXTERNAL_EMITTANCE or glass:
+            out.append(nif.name(i))
+    return sorted(out)
+
+
 def is_flame_system(name: str) -> bool:
     return bool(FLAME_NAME.search(name)) and not NOT_FLAME_NAME.search(name)
 

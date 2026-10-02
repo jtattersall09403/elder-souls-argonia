@@ -9,7 +9,7 @@ import { applyShoreWetness } from "./water/groundWetness";
 // deep for tsc to check usefully).
 type LooseFn = (...args: TslNode[]) => TslNode;
 const {
-  Fn, If, abs, clamp, float, floor, fract, int, ivec2, length, mix, normalize, pow, sign, smoothstep,
+  Fn, If, abs, clamp, dot, float, floor, fract, int, ivec2, length, mix, mod, normalize, pow, sign, smoothstep,
   texture, textureLoad, uniform, uniformArray, uv, vec2, vec3, vec4,
 } = TSL as unknown as Record<string, LooseFn>;
 const { cameraPosition, cameraViewMatrix, positionWorld } = TSL as unknown as Record<string, TslNode>;
@@ -87,11 +87,25 @@ export interface GroundUniforms {
  * export_web_chunks.GRADIENT_CLAMP. */
 const GRADIENT_CLAMP = 8.0;
 
-/** Builds the splat material. The caller owns disposal of the material and of
- * `material.userData.tex` (the albedo array texture) when
- * `material.userData.ownsTex` is true; a material given a shared array borrows
- * it and disposes nothing. Live-tunable uniforms (TSL uniform nodes: write
- * `.value`) are exposed on `material.userData.groundUniforms`.
+/** Ids and blend of one packed RG8 control texel `c` (0..1 floats), the
+ * inverse of game-core `terrain/groundRasters.packControl`: R = id0 | blend
+ * bits 0-1 << 6, G = id1 | blend bits 2-3 << 6; the blend keeps 16 levels
+ * over 0..127/255. Float arithmetic, exact for bytes. */
+export function decodeControl(c: TslNode): { i0: TslNode; i1: TslNode; blend: TslNode } {
+  const r = floor(c.r.mul(255.0).add(0.5));
+  const g = floor(c.g.mul(255.0).add(0.5));
+  const i0 = int(mod(r, 64.0));
+  const i1 = int(mod(g, 64.0));
+  const q = floor(r.div(64.0)).add(floor(g.div(64.0)).mul(4.0));
+  return { i0, i1, blend: q.mul(127.0 / (15.0 * 255.0)) };
+}
+
+/** Builds the splat material. The albedo array (`arrayTex`, from
+ * game-core `terrain/groundArray`) belongs to the loader cache: the province
+ * ground and the apron's two materials share it and none of them disposes
+ * it; it rides on `material.userData.tex`. The material is the caller's to
+ * dispose. Live-tunable uniforms (TSL uniform nodes: write `.value`) are
+ * exposed on `material.userData.groundUniforms`.
  *
  * The surface normal comes from one province-wide slope-gradient texture
  * (`gradTex`, written by `worldgen.export_web_chunks`) scaled by
@@ -102,25 +116,8 @@ const GRADIENT_CLAMP = 8.0;
  * The aerial haze is the scene's `fogNode` (the material keeps `fog: true`);
  * the aerial uniforms are read here only for the climate-air raster (canopy
  * darkening, shore-wetness shelter) and the province extent. */
-/** Ground layer images decode AND resize to the 512² array layer off the main
- * thread (walk 6: drawImage of full-size HTMLImageElements decoded and
- * resampled every layer synchronously, ~1.3 s of main-thread work). Use as
- * `useLoader(THREE.ImageBitmapLoader, urls, groundLayerBitmaps)`; every
- * caller passes the same options so useLoader's cache is shared. */
-export const GROUND_LAYER_SIZE = 512;
-export function groundLayerBitmaps(loader: THREE.Loader): void {
-  (loader as THREE.ImageBitmapLoader).setOptions({
-    imageOrientation: "none",
-    premultiplyAlpha: "none",
-    resizeWidth: GROUND_LAYER_SIZE,
-    resizeHeight: GROUND_LAYER_SIZE,
-    resizeQuality: "high",
-  });
-}
-
 export function createGroundMaterial(
-  images: CanvasImageSource[],
-  cliffNormals: CanvasImageSource[],
+  arrayTex: THREE.Texture,
   ctrl: THREE.Texture,
   tintTex: THREE.Texture,
   gradTex: THREE.Texture,
@@ -128,45 +125,19 @@ export function createGroundMaterial(
   verticalScale: number,
   aerialUniforms: AerialUniforms,
   options: { shoreWetness?: boolean } = {},
-  /** Reuse another material's albedo array instead of building a second one
-   * (16d: the apron's two materials share the province's ~40 MB array). The
-   * borrower sets `userData.ownsTex = false` and must not dispose it. */
-  sharedArrayTexture?: THREE.DataArrayTexture,
 ): MeshStandardNodeMaterial {
-  const n = images.length;
-  const size = GROUND_LAYER_SIZE;
+  const n = manifest.materials.length;
   // Cliff materials (Phase 16b item 3): the two library slots the triplanar
   // SIDE projections sample instead of the texel's own ground texture, so a
   // steep face reads as rock or dirt cliff rather than a smeared top texture.
   const cliffRock = manifest.materials.find((m) => m.name === "cliff_rock");
   const cliffDirt = manifest.materials.find((m) => m.name === "cliff_dirt");
   const hasCliff = !!cliffRock && !!cliffDirt;
-  const cliffNrmOk = hasCliff && cliffNormals.length === 2;
-  // The two cliff NORMAL maps ride in the SAME array texture as the albedos,
-  // as layers n and n+1 (one sampler, one allocation).
-  const layers = n + (cliffNrmOk ? 2 : 0);
-  const ownsTex = !sharedArrayTexture;
-  let tex = sharedArrayTexture;
-  if (!tex) {
-    const data = new Uint8Array(size * size * 4 * layers);
-    const canvas = document.createElement("canvas");
-    canvas.width = canvas.height = size;
-    const g2d = canvas.getContext("2d", { willReadFrequently: true })!;
-    [...images, ...(cliffNrmOk ? cliffNormals : [])].forEach((img, i) => {
-      g2d.clearRect(0, 0, size, size);
-      g2d.drawImage(img, 0, 0, size, size);
-      data.set(g2d.getImageData(0, 0, size, size).data, size * size * 4 * i);
-    });
-    tex = new THREE.DataArrayTexture(data, size, size, layers);
-    tex.name = "es-ground-albedo-array";
-    tex.format = THREE.RGBAFormat;
-    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-    tex.minFilter = THREE.LinearMipmapLinearFilter;
-    tex.magFilter = THREE.LinearFilter;
-    tex.generateMipmaps = true;
-    tex.anisotropy = 4;
-    tex.needsUpdate = true;
-  }
+  // The two cliff NORMAL maps ride in the SAME array as the albedos, as
+  // layers n and n+1 (one sampler, one allocation).
+  const depth = (arrayTex.image as { depth?: number } | undefined)?.depth ?? n;
+  const cliffNrmOk = hasCliff && depth === n + 2;
+  const tex = arrayTex;
 
   // integer ids: never let the GPU filter or mip the control map
   ctrl.minFilter = THREE.NearestFilter;
@@ -203,7 +174,7 @@ export function createGroundMaterial(
   const provinceUv: TslNode = uv();
   const { uVerticalScale, uTintStrength, uCanopyStrength } = groundUniforms;
 
-  const layer = (uvNode: TslNode, index: TslNode): TslNode => texture(tex!, uvNode).depth(int(index)).rgb;
+  const layer = (uvNode: TslNode, index: TslNode): TslNode => texture(tex, uvNode).depth(int(index)).rgb;
   // gradient-map normal (signed-sqrt decode, see export_gradients)
   const gradientNormal = (): TslNode => {
     const s = groundUniforms.uGrad.sample(provinceUv).rg.mul(2.0).sub(1.0);
@@ -260,25 +231,46 @@ export function createGroundMaterial(
     };
     // near: tiled texture of the texel's two materials; far: their flat
     // average colours (kills distant tiling, Frostbite near/far pattern)
-    const texelCol = (tc: TslNode): TslNode => {
-      const c = textureLoad(ctrl, clamp(tc, ivec2(0, 0), ctrlMax)).toVar();
-      const i0 = int(c.r.mul(255.0).add(0.5)).toVar();
-      const i1 = int(c.g.mul(255.0).add(0.5)).toVar();
-      const near = mix(litterMix(i0, triSample(i0)), litterMix(i1, triSample(i1)), c.b);
+    // Cost (performance lane, walk 9): the tiled samples run only where the
+    // near field contributes (fade < 1), and the second id only when it
+    // shows (ids differ, blend > 0: 48% of control texels are blend 0); a
+    // weight-0 term is pixel-identical without its samples.
+    const ctrlAt = (tc: TslNode): TslNode => textureLoad(ctrl, clamp(tc, ivec2(0, 0), ctrlMax)).toVar();
+    const texelCol = (c: TslNode): TslNode => {
+      const { i0: d0, i1: d1, blend: b } = decodeControl(c);
+      const i0 = d0.toVar(), i1 = d1.toVar(), blend = b.toVar();
+      const near = vec3(0.0).toVar();
+      If(fade.lessThan(1.0), () => {
+        near.assign(litterMix(i0, triSample(i0)));
+        If(i1.notEqual(i0).and(blend.greaterThan(0.0)), () => {
+          near.assign(mix(near, litterMix(i1, triSample(i1)), blend));
+        });
+      });
       const far = mix(mix(avgCol(i0), litterAvg, uLitterOf.element(i0).mul(litter)),
-        mix(avgCol(i1), litterAvg, uLitterOf.element(i1).mul(litter)), c.b);
+        mix(avgCol(i1), litterAvg, uLitterOf.element(i1).mul(litter)), blend);
       return mix(near, far, fade).toVar();
     };
     const p = provinceUv.mul(ctrlSize).sub(0.5).toVar();
     const p0 = ivec2(floor(p)).toVar();
     const f = fract(p).toVar();
-    // ids can't be hardware-filtered: manual bilinear over 4 texels
-    const col = mix(
-      mix(texelCol(p0), texelCol(p0.add(ivec2(1, 0))), f.x),
-      mix(texelCol(p0.add(ivec2(0, 1))), texelCol(p0.add(ivec2(1, 1))), f.x),
-      f.y).toVar();
-    const macro = texture(ctrl, provinceUv).a;
-    col.mulAssign(float(0.84).add(float(0.32).mul(macro)));
+    // ids can't be hardware-filtered: manual bilinear over 4 texels. Inside a
+    // uniform patch (all four texels equal: most of the ground) the bilinear
+    // of four equal colours is that colour, shaded once with a quarter of the
+    // texture-array samples (performance lane, walk 9).
+    const c00 = ctrlAt(p0), c10 = ctrlAt(p0.add(ivec2(1, 0)));
+    const c01 = ctrlAt(p0.add(ivec2(0, 1))), c11 = ctrlAt(p0.add(ivec2(1, 1)));
+    const diff = (a: TslNode, b: TslNode): TslNode => dot(abs(a.rg.sub(b.rg)), vec2(1.0, 1.0));
+    const col = vec3(0.0).toVar("esSplatCol");
+    If(diff(c00, c10).add(diff(c00, c01)).add(diff(c00, c11)).lessThan(1.0 / 512.0), () => {
+      col.assign(texelCol(c00));
+    }).Else(() => {
+      col.assign(mix(
+        mix(texelCol(c00), texelCol(c10), f.x),
+        mix(texelCol(c01), texelCol(c11), f.x),
+        f.y));
+    });
+    // The control's macro brightness is folded into the tint raster's RGB at
+    // load (groundRasters.foldMacroIntoTint).
     // macro climate tint (coastal/wetness/latitude palette drift),
     // with a live strength control for owner tuning
     col.mulAssign(mix(vec3(1.0), texture(tintTex, provinceUv).rgb.mul(2.0), uTintStrength));
@@ -300,7 +292,7 @@ export function createGroundMaterial(
     const wp = positionWorld.toVar("esWorldPosL");
     const w = triWeights(nrm).toVar("esWL");
     const p = provinceUv.mul(ctrlSize).sub(0.5);
-    const ci = int(textureLoad(ctrl, clamp(ivec2(floor(p)), ivec2(0, 0), ctrlMax)).r.mul(255.0).add(0.5)).toVar();
+    const ci = decodeControl(textureLoad(ctrl, clamp(ivec2(floor(p)), ivec2(0, 0), ctrlMax))).i0.toVar();
     const clN = cliffLayerOf(ci).toVar();
     const clT = uTileM.element(int(clN)).toVar();
     // its normal map's layer: n for rock, n + 1 for dirt
@@ -349,7 +341,6 @@ export function createGroundMaterial(
   };
 
   material.userData.tex = tex;
-  material.userData.ownsTex = ownsTex;
   material.userData.groundUniforms = groundUniforms;
   return material;
 }

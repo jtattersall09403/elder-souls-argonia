@@ -72,7 +72,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.812,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 23.868
+   "pivotAboveBaseM": 23.868,
+   "displayName": "Housetronc 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetronc001lianess",
@@ -135,7 +136,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.249,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.612
+   "pivotAboveBaseM": 5.612,
+   "displayName": "Housetronc 001lianess"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncbalcon15v001",
@@ -215,7 +217,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.912,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Housetroncbalcon 15v 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncbalconacces15d001",
@@ -277,7 +280,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.203,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.363
+   "pivotAboveBaseM": 4.363,
+   "displayName": "Housetroncbalconacces 15d 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncbalconacces15i001",
@@ -345,7 +349,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.184,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.363
+   "pivotAboveBaseM": 4.363,
+   "displayName": "Housetroncbalconacces 15i 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncbalconendl01",
@@ -412,7 +417,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.733,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Housetroncbalconendl 01"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncbalconendr01",
@@ -479,7 +485,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.788,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Housetroncbalconendr 01"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncdooret01",
@@ -539,7 +546,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.985,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.415
+   "pivotAboveBaseM": 2.415,
+   "displayName": "Housetroncdooret 01"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncdoorrc01",
@@ -599,7 +607,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.274
+   "pivotAboveBaseM": 2.274,
+   "displayName": "Housetroncdoorrc 01"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncwindowet001",
@@ -657,7 +666,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.173,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.514
+   "pivotAboveBaseM": -0.514,
+   "displayName": "Housetroncwindowet 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncwindowet002",
@@ -715,7 +725,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.082,
    "openBackYawDeg": 135.0,
-   "pivotAboveBaseM": -1.015
+   "pivotAboveBaseM": -1.015,
+   "displayName": "Housetroncwindowet 002"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncwindowet003",
@@ -773,7 +784,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.583,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.605
+   "pivotAboveBaseM": -0.605,
+   "displayName": "Housetroncwindowet 003"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncwindowet004",
@@ -831,7 +843,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.635,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.863
+   "pivotAboveBaseM": -0.863,
+   "displayName": "Housetroncwindowet 004"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncwindowrc001",
@@ -889,7 +902,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.192,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.403
+   "pivotAboveBaseM": -0.403,
+   "displayName": "Housetroncwindowrc 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncwindowrc002",
@@ -947,7 +961,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.14,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.403
+   "pivotAboveBaseM": -0.403,
+   "displayName": "Housetroncwindowrc 002"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncwindowrc003",
@@ -1005,7 +1020,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.202,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -1.016
+   "pivotAboveBaseM": -1.016,
+   "displayName": "Housetroncwindowrc 003"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechamp001",
@@ -1072,7 +1088,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 16.098
+   "pivotAboveBaseM": 16.098,
+   "displayName": "Housechamp 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalcon45v001",
@@ -1139,7 +1156,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.833,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Housechampbalcon 45v 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconacces45d001",
@@ -1207,7 +1225,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.251,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 9.094
+   "pivotAboveBaseM": 9.094,
+   "displayName": "Housechampbalconacces 45d 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconacces45i001",
@@ -1274,7 +1293,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.205,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 9.094
+   "pivotAboveBaseM": 9.094,
+   "displayName": "Housechampbalconacces 45i 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconacceslatld001",
@@ -1341,7 +1361,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.934,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Housechampbalconacceslatld 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconacceslatli001",
@@ -1408,7 +1429,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.608,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Housechampbalconacceslatli 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconacceslatrd001",
@@ -1475,7 +1497,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.888,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Housechampbalconacceslatrd 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconacceslatri001",
@@ -1542,7 +1565,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.779,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Housechampbalconacceslatri 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconfinl01",
@@ -1609,7 +1633,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.624,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Housechampbalconfinl 01"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconfinr01",
@@ -1676,7 +1701,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.524,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Housechampbalconfinr 01"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampdoor01",
@@ -1736,7 +1762,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.415
+   "pivotAboveBaseM": 2.415,
+   "displayName": "Housechampdoor 01"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechamplianess001",
@@ -1800,7 +1827,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.149,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.503
+   "pivotAboveBaseM": 4.503,
+   "displayName": "Housechamplianess 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechamplianestronc",
@@ -1863,7 +1891,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.618,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 13.264
+   "pivotAboveBaseM": 13.264,
+   "displayName": "Housechamplianestronc"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampwindow001",
@@ -1921,7 +1950,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.192,
    "openBackYawDeg": 135.0,
-   "pivotAboveBaseM": 0.116
+   "pivotAboveBaseM": 0.116,
+   "displayName": "Housechampwindow 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampwindow002",
@@ -1979,7 +2009,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.587,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.375
+   "pivotAboveBaseM": -0.375,
+   "displayName": "Housechampwindow 002"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampwindow003",
@@ -2037,7 +2068,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.164,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.388
+   "pivotAboveBaseM": -0.388,
+   "displayName": "Housechampwindow 003"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampwindow004",
@@ -2095,7 +2127,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.341,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.001
+   "pivotAboveBaseM": -0.001,
+   "displayName": "Housechampwindow 004"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housegland001",
@@ -2161,7 +2194,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 9.604
+   "pivotAboveBaseM": 9.604,
+   "displayName": "Housegland 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandacceslatd01",
@@ -2235,7 +2269,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.95,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Houseglandacceslatd 01"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandacceslati01",
@@ -2302,7 +2337,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.812,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Houseglandacceslati 01"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglanddoor001",
@@ -2360,7 +2396,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.396,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.025
+   "pivotAboveBaseM": 1.025,
+   "displayName": "Houseglanddoor 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandfixation001",
@@ -2423,7 +2460,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.974,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.97
+   "pivotAboveBaseM": 4.97,
+   "displayName": "Houseglandfixation 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandwindowet001",
@@ -2481,7 +2519,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.419,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": -5.021
+   "pivotAboveBaseM": -5.021,
+   "displayName": "Houseglandwindowet 001"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandwindowet002",
@@ -2539,7 +2578,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.493,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -4.102
+   "pivotAboveBaseM": -4.102,
+   "displayName": "Houseglandwindowet 002"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandwindowet003",
@@ -2597,7 +2637,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.292,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.544
+   "pivotAboveBaseM": -3.544,
+   "displayName": "Houseglandwindowet 003"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandwindowrc001",
@@ -2655,7 +2696,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.254,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.057
+   "pivotAboveBaseM": -0.057,
+   "displayName": "Houseglandwindowrc 001"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0ldi01",
@@ -2729,7 +2771,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.413,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passcirc 45r 1280h 0ldi 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0rdi01",
@@ -2796,7 +2839,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.447,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passcirc 45r 1280h 0rdi 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256ldi01",
@@ -2861,7 +2905,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.949,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.529
+   "pivotAboveBaseM": 1.529,
+   "displayName": "Passcirc 45r 1280h 256ldi 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256lid01",
@@ -2926,7 +2971,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.664,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.529
+   "pivotAboveBaseM": 1.529,
+   "displayName": "Passcirc 45r 1280h 256lid 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256rdi01",
@@ -2991,7 +3037,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.959,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.529
+   "pivotAboveBaseM": 1.529,
+   "displayName": "Passcirc 45r 1280h 256rdi 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256rid01",
@@ -3063,7 +3110,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.662,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.529
+   "pivotAboveBaseM": 1.529,
+   "displayName": "Passcirc 45r 1280h 256rid 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h0dd01",
@@ -3137,7 +3185,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.501,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passcirc 90r 448h 0dd 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h128ldd01",
@@ -3202,7 +3251,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.854,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.534
+   "pivotAboveBaseM": 1.534,
+   "displayName": "Passcirc 90r 448h 128ldd 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h128rdd01",
@@ -3267,7 +3317,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.965,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.528
+   "pivotAboveBaseM": 1.528,
+   "displayName": "Passcirc 90r 448h 128rdd 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256ldd01",
@@ -3334,7 +3385,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.944,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.541
+   "pivotAboveBaseM": 1.541,
+   "displayName": "Passcirc 90r 448h 256ldd 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256rdd01",
@@ -3399,7 +3451,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.956,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.539
+   "pivotAboveBaseM": 1.539,
+   "displayName": "Passcirc 90r 448h 256rdd 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r576h256ldd01",
@@ -3464,7 +3517,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.933,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.529
+   "pivotAboveBaseM": 1.529,
+   "displayName": "Passcirc 90r 576h 256ldd 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r576h256rdd01",
@@ -3529,7 +3583,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.951,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.529
+   "pivotAboveBaseM": 1.529,
+   "displayName": "Passcirc 90r 576h 256rdd 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passend01",
@@ -3594,7 +3649,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.899,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passend 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01",
@@ -3654,7 +3710,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.379,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.542
+   "pivotAboveBaseM": 1.542,
+   "displayName": "Passesc 128h 64d 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01",
@@ -3728,7 +3785,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.919
+   "pivotAboveBaseM": 1.919,
+   "displayName": "Passjunctd 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passjuncti01",
@@ -3795,7 +3853,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.969,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.838
+   "pivotAboveBaseM": 1.838,
+   "displayName": "Passjuncti 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passjuncxd01",
@@ -3862,7 +3921,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.919
+   "pivotAboveBaseM": 1.919,
+   "displayName": "Passjuncxd 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passjuncxi01",
@@ -3929,7 +3989,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.972,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.838
+   "pivotAboveBaseM": 1.838,
+   "displayName": "Passjuncxi 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passjuncydii01",
@@ -3998,7 +4059,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.696,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passjuncydii 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passjuncyidd01",
@@ -4066,7 +4128,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.73,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passjuncyidd 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128d01",
@@ -4139,7 +4202,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.943,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passl 128d 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128h32d01",
@@ -4206,7 +4270,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.453,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.529
+   "pivotAboveBaseM": 1.529,
+   "displayName": "Passl 128h 32d 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128h32i01",
@@ -4271,7 +4336,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.575,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.525
+   "pivotAboveBaseM": 1.525,
+   "displayName": "Passl 128h 32i 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128h64d01",
@@ -4336,7 +4402,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.379,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.542
+   "pivotAboveBaseM": 1.542,
+   "displayName": "Passl 128h 64d 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128h64i01",
@@ -4401,7 +4468,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.583,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.534
+   "pivotAboveBaseM": 1.534,
+   "displayName": "Passl 128h 64i 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
@@ -4475,7 +4543,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.938,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passl 128i 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl160h128d01",
@@ -4540,7 +4609,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.487,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passl 160h 128d 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl160h128i01",
@@ -4605,7 +4675,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.461,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passl 160h 128i 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256d01",
@@ -4670,7 +4741,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.973,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passl 256d 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64d01",
@@ -4735,7 +4807,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.453,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.984
+   "pivotAboveBaseM": 1.984,
+   "displayName": "Passl 256h 64d 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64i01",
@@ -4807,7 +4880,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.575,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.98
+   "pivotAboveBaseM": 1.98,
+   "displayName": "Passl 256h 64i 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64startd01",
@@ -4872,7 +4946,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.529
+   "pivotAboveBaseM": 1.529,
+   "displayName": "Passl 256h 64startd 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64starti01",
@@ -4937,7 +5012,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.634
+   "pivotAboveBaseM": 1.634,
+   "displayName": "Passl 256h 64starti 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256i01",
@@ -5004,7 +5080,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.732,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passl 256i 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl512h64d01",
@@ -5069,7 +5146,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.972,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.977
+   "pivotAboveBaseM": 1.977,
+   "displayName": "Passl 512h 64d 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl512h64i01",
@@ -5136,7 +5214,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.806,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.975
+   "pivotAboveBaseM": 1.975,
+   "displayName": "Passl 512h 64i 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl64d01",
@@ -5201,7 +5280,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.901,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passl 64d 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl64i01",
@@ -5268,7 +5348,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.639,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passl 64i 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128ldi01",
@@ -5333,7 +5414,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.348,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.529
+   "pivotAboveBaseM": 1.529,
+   "displayName": "Passturn 45h 128ldi 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128lid01",
@@ -5398,7 +5480,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.595,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.529
+   "pivotAboveBaseM": 1.529,
+   "displayName": "Passturn 45h 128lid 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128rdi01",
@@ -5463,7 +5546,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.323,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.529
+   "pivotAboveBaseM": 1.529,
+   "displayName": "Passturn 45h 128rdi 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128rid01",
@@ -5528,7 +5612,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.339,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.529
+   "pivotAboveBaseM": 1.529,
+   "displayName": "Passturn 45h 128rid 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64ldi01",
@@ -5593,7 +5678,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.95,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.522
+   "pivotAboveBaseM": 1.522,
+   "displayName": "Passturn 45h 64ldi 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64lid01",
@@ -5658,7 +5744,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.811,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.522
+   "pivotAboveBaseM": 1.522,
+   "displayName": "Passturn 45h 64lid 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64rdi01",
@@ -5723,7 +5810,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.974,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.522
+   "pivotAboveBaseM": 1.522,
+   "displayName": "Passturn 45h 64rdi 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64rid01",
@@ -5788,7 +5876,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.893,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.522
+   "pivotAboveBaseM": 1.522,
+   "displayName": "Passturn 45h 64rid 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45ldi01",
@@ -5855,7 +5944,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.684,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passturn 45ldi 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45ldis01",
@@ -5922,7 +6012,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.875,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passturn 45ldis 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45rdi01",
@@ -5989,7 +6080,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.708,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passturn 45rdi 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45rdis01",
@@ -6056,7 +6148,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.567,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passturn 45rdis 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01",
@@ -6143,7 +6236,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 9.604
+   "pivotAboveBaseM": 9.604,
+   "displayName": "Kiosk 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesd01",
@@ -6206,7 +6300,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.184,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.327
+   "pivotAboveBaseM": 0.327,
+   "displayName": "Kioskaccesd 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesi01",
@@ -6271,7 +6366,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.154,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.335
+   "pivotAboveBaseM": 0.335,
+   "displayName": "Kioskaccesi 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarriered01",
@@ -6332,7 +6428,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.357,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.154
+   "pivotAboveBaseM": 0.154,
+   "displayName": "Kioskbarriered 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarrierei01",
@@ -6393,7 +6490,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.098,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.154
+   "pivotAboveBaseM": 0.154,
+   "displayName": "Kioskbarrierei 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskfixation001",
@@ -6449,7 +6547,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.974,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.97
+   "pivotAboveBaseM": 4.97,
+   "displayName": "Kioskfixation 001"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskmurd01",
@@ -6510,7 +6609,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.416,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.826
+   "pivotAboveBaseM": 0.826,
+   "displayName": "Kioskmurd 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskmuri01",
@@ -6571,7 +6671,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.309,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.243
+   "pivotAboveBaseM": 1.243,
+   "displayName": "Kioskmuri 01"
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiant01",
@@ -6636,7 +6737,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.379,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.527
+   "pivotAboveBaseM": 1.527,
+   "displayName": "Treegiant 01"
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche1",
@@ -6694,7 +6796,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.151,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.848
+   "pivotAboveBaseM": 1.848,
+   "displayName": "Treegiantbranche 1"
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche2",
@@ -6752,7 +6855,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.109,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.859
+   "pivotAboveBaseM": 2.859,
+   "displayName": "Treegiantbranche 2"
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche3",
@@ -6810,7 +6914,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.092,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.859
+   "pivotAboveBaseM": 2.859,
+   "displayName": "Treegiantbranche 3"
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche4",
@@ -6868,7 +6973,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.109,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.597
+   "pivotAboveBaseM": 1.597,
+   "displayName": "Treegiantbranche 4"
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche5",
@@ -6926,7 +7032,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.154,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.262
+   "pivotAboveBaseM": 2.262,
+   "displayName": "Treegiantbranche 5"
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche6",
@@ -6984,7 +7091,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.126,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.528
+   "pivotAboveBaseM": 1.528,
+   "displayName": "Treegiantbranche 6"
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche7",
@@ -7042,7 +7150,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.648,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.521
+   "pivotAboveBaseM": 1.521,
+   "displayName": "Treegiantbranche 7"
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche12",
@@ -7100,7 +7209,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.821,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 22.053
+   "pivotAboveBaseM": 22.053,
+   "displayName": "Treegiantbranche 12"
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche13",
@@ -7158,7 +7268,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.871,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.091
+   "pivotAboveBaseM": 1.091,
+   "displayName": "Treegiantbranche 13"
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbrancheleaves01b",
@@ -7222,7 +7333,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.668,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.185
+   "pivotAboveBaseM": 0.185,
+   "displayName": "Treegiantbrancheleaves 01b"
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbrancheleaves03",
@@ -7297,7 +7409,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.682,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.707
+   "pivotAboveBaseM": 0.707,
+   "displayName": "Treegiantbrancheleaves 03"
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbrancheleaves04",
@@ -7365,7 +7478,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.728,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.707
+   "pivotAboveBaseM": 0.707,
+   "displayName": "Treegiantbrancheleaves 04"
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantrootbase01",
@@ -7430,7 +7544,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.11,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 39.602
+   "pivotAboveBaseM": 39.602,
+   "displayName": "Treegiantrootbase 01"
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treemere03",
@@ -7495,7 +7610,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.343,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 43.447
+   "pivotAboveBaseM": 43.447,
+   "displayName": "Treemere 03"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots01",
@@ -7553,7 +7669,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.11,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 39.602
+   "pivotAboveBaseM": 39.602,
+   "displayName": "Histroots 01"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots02",
@@ -7616,7 +7733,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.626
+   "pivotAboveBaseM": 3.626,
+   "displayName": "Histroots 02"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots03",
@@ -7679,7 +7797,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.823,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.05
+   "pivotAboveBaseM": 0.05,
+   "displayName": "Histroots 03"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots04",
@@ -7735,7 +7854,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.974,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.97
+   "pivotAboveBaseM": 4.97,
+   "displayName": "Histroots 04"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots05",
@@ -7796,7 +7916,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.416,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.826
+   "pivotAboveBaseM": 0.826,
+   "displayName": "Histroots 05"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots06",
@@ -7857,7 +7978,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.309,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.243
+   "pivotAboveBaseM": 1.243,
+   "displayName": "Histroots 06"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histramp",
@@ -7929,7 +8051,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.944,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.541
+   "pivotAboveBaseM": 1.541,
+   "displayName": "Histramp"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns01",
@@ -7995,7 +8118,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.524,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.425
+   "pivotAboveBaseM": 4.425,
+   "displayName": "Argonianlanterns 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
@@ -8054,8 +8178,8 @@
     ],
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "policy",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -8075,7 +8199,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.52,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.627
+   "pivotAboveBaseM": 2.627,
+   "displayName": "Argonianlanterns 02"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
@@ -8154,7 +8279,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.638,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.149
+   "pivotAboveBaseM": 2.149,
+   "displayName": "Argonianlanterns 03"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
@@ -8239,7 +8365,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.667,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.889
+   "pivotAboveBaseM": 0.889,
+   "displayName": "Argonianlanterns 04"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
@@ -8318,7 +8445,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.315,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.011
+   "pivotAboveBaseM": -0.011,
+   "displayName": "Argoniantotem 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbridge",
@@ -8395,7 +8523,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.993,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.345
+   "pivotAboveBaseM": 1.345,
+   "displayName": "Argonianbridge"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbridgestart",
@@ -8475,7 +8604,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.564
+   "pivotAboveBaseM": 1.564,
+   "displayName": "Argonianbridgestart"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianplatform",
@@ -8555,7 +8685,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.172
+   "pivotAboveBaseM": 0.172,
+   "displayName": "Argonianplatform"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianplatformsmall",
@@ -8635,7 +8766,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.157
+   "pivotAboveBaseM": 0.157,
+   "displayName": "Argonianplatformsmall"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfence01",
@@ -8712,7 +8844,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.379,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.05
+   "pivotAboveBaseM": 0.05,
+   "displayName": "Argonianfence 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfence02",
@@ -8800,7 +8933,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.608,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.016
+   "pivotAboveBaseM": -0.016,
+   "displayName": "Argonianfence 02"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfenceend",
@@ -8888,7 +9022,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.509,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.046
+   "pivotAboveBaseM": 0.046,
+   "displayName": "Argonianfenceend"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/histtree",
@@ -8970,7 +9105,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.521,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.822
+   "pivotAboveBaseM": 8.822,
+   "displayName": "Histtree"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/thatchroofing",
@@ -9050,7 +9186,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.683
+   "pivotAboveBaseM": 0.683,
+   "displayName": "Thatchroofing"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/archwaysticks",
@@ -9134,7 +9271,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.198,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.995
+   "pivotAboveBaseM": -3.995,
+   "displayName": "Archwaysticks"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/banner01",
@@ -9193,7 +9331,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 2.904
+   "pivotAboveBaseM": 2.904,
+   "displayName": "Banner 01"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
@@ -9290,7 +9429,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.674,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.269
+   "pivotAboveBaseM": 0.269,
+   "displayName": "Argonianbonechime 01"
   },
   {
    "id": "tropical:landscape/trees/anvilgianttrunk",
@@ -10613,7 +10753,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.061,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.211
+   "pivotAboveBaseM": 0.211,
+   "displayName": "Anvilgianttrunk"
   },
   {
    "id": "tropical:landscape/trees/anvil_palm_trunk",
@@ -11929,7 +12070,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.1,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.383
+   "pivotAboveBaseM": -0.383,
+   "displayName": "Anvil palm trunk"
   },
   {
    "id": "tropical:landscape/trees/anvil_root01",
@@ -12003,7 +12145,829 @@
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.626
+   "pivotAboveBaseM": 3.626,
+   "displayName": "Anvil root 01"
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockcaveentrance02",
+   "node": "es|8fc0e4a910|illa__landscape_rocks_rockcaveentrance02",
+   "category": "rock",
+   "sizeM": [
+    30.656,
+    32.221,
+    19.51
+   ],
+   "originOffsetM": [
+    17.17,
+    15.422,
+    3.767
+   ],
+   "triangles": 2029,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "dirt02.dds",
+    "mountainslab01.dds",
+    "mountainslab02.dds",
+    "rocks01.dds"
+   ],
+   "materials": [
+    "RockCaveEntrance02:0.Mat",
+    "RockCaveEntrance02:1 - L2_RockCaveEntrance02:1.Mat",
+    "RockCaveEntrance02:3.Mat",
+    "RockCaveEntrance02:8.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "RockCaveEntrance02:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockCaveEntrance02:8.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     13.489,
+     8.584,
+     14.177
+    ],
+    "centreOffsetM": [
+     -1.842,
+     5.988,
+     -0.688
+    ]
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.02,
+    "p50": -0.02,
+    "p75": -0.02,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.767,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.511,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.767,
+   "displayName": "Rock cave entrance 02"
+  },
+  {
+   "id": "kotm:argonia/trees/hist trees/hist_vines01",
+   "node": "es|87afe5fcb1|m__argonia_trees_hist trees_hist_vines01",
+   "category": "misc",
+   "sizeM": [
+    6.268,
+    5.478,
+    7.736
+   ],
+   "originOffsetM": [
+    3.545,
+    0.872,
+    0.384
+   ],
+   "triangles": 2029,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "crackedbark.dds"
+   ],
+   "materials": [
+    "DLC2_TelMithrynVines01:15.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.2008,
+    "p50": 0.7328,
+    "p75": 0.8135,
+    "n": 6,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 6,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.384,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.202,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.384,
+   "displayName": "Hist root 07"
+  },
+  {
+   "id": "vanilla:clutter/bones/humanribcage",
+   "node": "es|bfddfcb54d|vanilla__clutter_bones_humanribcage",
+   "category": "clutter",
+   "sizeM": [
+    0.369,
+    0.847,
+    0.293
+   ],
+   "originOffsetM": [
+    0.185,
+    0.423,
+    0.147
+   ],
+   "triangles": 2704,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "skeleton.dds"
+   ],
+   "materials": [
+    "Ribcage:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.147,
+    "p50": -0.147,
+    "p75": -0.147,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.147,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.901,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.147,
+   "displayName": "Bone human ribcage"
+  },
+  {
+   "id": "vanilla:clutter/bones/humanarmleft",
+   "node": "es|e8a7206910|vanilla__clutter_bones_humanarmleft",
+   "category": "clutter",
+   "sizeM": [
+    0.218,
+    0.716,
+    0.126
+   ],
+   "originOffsetM": [
+    0.109,
+    0.358,
+    0.063
+   ],
+   "triangles": 250,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "skeleton.dds"
+   ],
+   "materials": [
+    "leftarm:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.063,
+    "p50": -0.063,
+    "p75": -0.063,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.063,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.847,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.063,
+   "displayName": "Bone human arm l"
+  },
+  {
+   "id": "vanilla:clutter/bones/humanlegleft",
+   "node": "es|fd7c4b5ac5|vanilla__clutter_bones_humanlegleft",
+   "category": "clutter",
+   "sizeM": [
+    0.174,
+    1.023,
+    0.338
+   ],
+   "originOffsetM": [
+    0.091,
+    0.542,
+    0.249
+   ],
+   "triangles": 398,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "skeleton.dds"
+   ],
+   "materials": [
+    "LeftLeg:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.249,
+    "p50": -0.249,
+    "p75": -0.249,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.249,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.644,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.249,
+   "displayName": "Bone human leg l"
+  },
+  {
+   "id": "vanilla:clutter/bones/humanspine",
+   "node": "es|a3df662008|vanilla__clutter_bones_humanspine",
+   "category": "clutter",
+   "sizeM": [
+    0.148,
+    0.87,
+    0.18
+   ],
+   "originOffsetM": [
+    0.074,
+    0.435,
+    0.09
+   ],
+   "triangles": 934,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "skeleton.dds"
+   ],
+   "materials": [
+    "Spine:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.09,
+    "p50": -0.09,
+    "p75": -0.09,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.09,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.936,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.09,
+   "displayName": "Bone human spine"
+  },
+  {
+   "id": "vanilla:clutter/bones/bloodyribs",
+   "node": "es|5f07aee6aa|vanilla__clutter_bones_bloodyribs",
+   "category": "clutter",
+   "sizeM": [
+    0.391,
+    0.878,
+    0.302
+   ],
+   "originOffsetM": [
+    0.196,
+    0.439,
+    0.151
+   ],
+   "triangles": 2559,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "bloodybones.dds"
+   ],
+   "materials": [
+    "BloodyRibs:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.151,
+    "p50": -0.151,
+    "p75": -0.151,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.151,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.947,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.151,
+   "displayName": "Bone human bloody ribcage"
+  },
+  {
+   "id": "vanilla:clutter/bones/bloodybone",
+   "node": "es|7bd874b524|vanilla__clutter_bones_bloodybone",
+   "category": "clutter",
+   "sizeM": [
+    0.102,
+    0.453,
+    0.074
+   ],
+   "originOffsetM": [
+    0.051,
+    0.226,
+    0.037
+   ],
+   "triangles": 104,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bloodybones.dds"
+   ],
+   "materials": [
+    "BloodyBone:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.037,
+    "p50": -0.037,
+    "p75": -0.037,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.037,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.037,
+   "displayName": "Bone human bloody bone"
+  },
+  {
+   "id": "kotm:issgard/clutter/bones/issgard_boneargonianskullfull",
+   "node": "es|e9d764af47|tter_bones_issgard_boneargonianskullfull",
+   "category": "clutter",
+   "sizeM": [
+    0.2,
+    0.307,
+    0.228
+   ],
+   "originOffsetM": [
+    0.1,
+    0.13,
+    0.115
+   ],
+   "triangles": 2594,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "isgard_beastskeletons.dds"
+   ],
+   "materials": [
+    "ArgonianJaw:0.Mat",
+    "ArgonianSkull:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.115,
+    "p50": -0.115,
+    "p75": -0.115,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.115,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.901,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.115,
+   "displayName": "Bone arg skull full"
+  },
+  {
+   "id": "vanilla:clutter/common/shovel01",
+   "node": "es|94328212ac|vanilla__clutter_common_shovel01",
+   "category": "clutter",
+   "sizeM": [
+    0.168,
+    0.474,
+    1.511
+   ],
+   "originOffsetM": [
+    0.084,
+    0.237,
+    0.762
+   ],
+   "triangles": 416,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "shovel01.dds"
+   ],
+   "materials": [
+    "Shovel:4.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.6918,
+    "p50": -0.5396,
+    "p75": -0.3914,
+    "n": 19,
+    "slopeTermMPerDeg": 0.00309,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 245,
+    "interior": {
+     "keep": 39,
+     "ruin": 50,
+     "town": 60,
+     "village": 21,
+     "camp": 30,
+     "wild": 8
+    },
+    "exterior": {
+     "wild": 17,
+     "village": 4,
+     "ruin": 5,
+     "town": 6,
+     "camp": 4,
+     "keep": 1
+    },
+    "sourceCells": [
+     "interior:keep:CidhnaMine01",
+     "interior:ruin:Saarthal01",
+     "interior:ruin:Ansilvund01",
+     "interior:camp:FrostmereCrypt01",
+     "interior:camp:FortFellhammer02",
+     "exterior:wild:Tamriel",
+     "interior:village:SoljundsSinkhole01",
+     "interior:keep:FortNeugrad02"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.762,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.536,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.762,
+   "displayName": "Shovel 01"
+  },
+  {
+   "id": "vanilla:clutter/basket01",
+   "node": "es|43d63743a7|vanilla__clutter_basket01",
+   "category": "clutter",
+   "sizeM": [
+    0.496,
+    0.488,
+    0.442
+   ],
+   "originOffsetM": [
+    0.248,
+    0.244,
+    -0.0
+   ],
+   "triangles": 500,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "basket01.dds"
+   ],
+   "materials": [
+    "Basket01:0.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0028,
+    "p50": 0.0,
+    "p75": 0.0244,
+    "n": 13,
+    "slopeTermMPerDeg": 0.00215,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 603,
+    "interior": {
+     "keep": 71,
+     "town": 346,
+     "ruin": 41,
+     "wild": 41,
+     "camp": 39,
+     "village": 35
+    },
+    "exterior": {
+     "town": 9,
+     "ruin": 9,
+     "wild": 5,
+     "camp": 4,
+     "keep": 2,
+     "village": 1
+    },
+    "sourceCells": [
+     "interior:town:RiftenHaelgasBunkhouse",
+     "interior:town:MarkarthTempleInnerSanctum",
+     "interior:keep:MarkarthUnderStoneKeep",
+     "interior:town:RiftenBlackBriarManor",
+     "interior:town:RiftenHouseofMjolltheLioness",
+     "interior:town:RiftenMercerFreyHouse",
+     "interior:keep:BloodletThrone01",
+     "interior:town:RiftenBlackBriarMeadery"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.941,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Basket 01"
+  },
+  {
+   "id": "shores:shoresofskyrim/fishnet01",
+   "node": "es|503ed3ef60|shores__shoresofskyrim_fishnet01",
+   "category": "misc",
+   "sizeM": [
+    0.547,
+    0.549,
+    0.458
+   ],
+   "originOffsetM": [
+    0.274,
+    0.275,
+    -0.021
+   ],
+   "triangles": 2115,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "fishinggear01.dds"
+   ],
+   "materials": [
+    "FishingGear_FishNet01:0.Mat",
+    "SM_Limpet_03_LOD0.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FishingGear_FishNet01:0.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0206,
+    "p50": 0.0206,
+    "p75": 0.0206,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0206
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.021,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.915,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.021,
+   "displayName": "Fishnet 01"
   },
   {
    "id": "composite:root/kiosk-with-access",
@@ -12088,16 +13052,20 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 9.604
+   "pivotAboveBaseM": 9.604,
+   "displayName": "Kiosk with access"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-root-v1.glb",
  "metresPerUnit": 0.014224,
- "texturesMissing": [],
+ "texturesMissing": [
+  "textures/shoresofskyrim/limpets01.dds",
+  "textures/shoresofskyrim/limpets01_n.dds"
+ ],
  "texturesSubstituted": {},
  "alphaModes": {
-  "MASK": 35,
-  "OPAQUE": 405,
+  "MASK": 37,
+  "OPAQUE": 420,
   "BLEND": 0
  },
  "trunkSolids": {
@@ -12131,16 +13099,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 48436168,
-  "bytesAfter": 16937496,
-  "images": 26,
-  "imageBytesAfter": 6295879,
+  "bytesBefore": 54858636,
+  "bytesAfter": 20027232,
+  "images": 37,
+  "imageBytesAfter": 9079264,
   "warnings": [],
-  "sha256": "6dfbff6b056921a37c62b16e965ee9afa20c9cbcef33a1560cc9dbda4fcf2034",
+  "sha256": "61e33ae470f9dbbe9448919aeeab28aa88cca196ec1b7d0a5681544ca083c59a",
   "sidecarBytes": {
-   "connectors": 118171,
-   "footprints": 217651,
-   "interiors": 113298
+   "connectors": 124654,
+   "footprints": 236439,
+   "interiors": 121099
   }
  }
 }

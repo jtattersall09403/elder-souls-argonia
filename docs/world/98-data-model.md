@@ -32,7 +32,7 @@ current (for example `test_export_places.py`).
 | Interior cell (one plugin cell copied verbatim) | the plugin, through `export_interior_bundle` | the plugin's cell id | `export_interior_bundle` | `public/province/interiors/<cellId>.json` (derived) |
 | Interior cell claims across places | `world/sources/placement/signature-claims.json` (`interiorCellClaims`) | cell id | `place_gates --claim-cells` | gate `interiors.variety` |
 | Kit piece facts (size, entrance, sink, mounts, abuts) | `world/sources/placement/kit-interiors/`, `kit-designed-sink.json`, `kit-mounts-mined.json`, `kit-assemblies-mined.json` | asset id `<pool>:<path>` | the kit measurers and miners | the workbench, the compile, the gates |
-| Route, travel service, crossing | `world/sources/routes/registry.json`, `travel-services.json`, `water-crossings.json` | `route.`, `travel.` | the route chain (frozen world) and the travel-service writers | the catalogue `travelStation`, the blueprint terminals |
+| Route, travel service, crossing | `world/sources/routes/registry.json`, `travel-services.json`, `water-crossings.json` | `route.`, `travel.` | the route chain (frozen world) and the travel-service writers | the catalogue `travelStation`, the blueprint terminals; a place record's `relations.travelServiceEdges` names a route (`<mode>:<route-id>`) or a travel service as `service:<id>`, checked against `travel-services.json` ids by gate `record.coherence` |
 | Quest | `world/sources/quests/<line>.json` | `quest.<line>.<code>` | quest authoring; the place builder at step 5b when a place change touches a premise | `export_quest_index` → `docs/quests/index/*.md` (derived); the promise ledger's `quest` rows |
 | Quest world provision | `docs/quests/20-world-provisions.md` and the catalogue `questHooks.provisions` | `quest.provision.<code>-<slug>` | quest authoring | the promise ledger `provision` rows |
 | NPC | `world/sources/registries/npcs.json` | `npc.` | `npc_roster --apply` from the catalogue slots and the layout sockets | the bundle, quests |
@@ -56,7 +56,18 @@ The place record, the map popup and the built place must agree. The
 popup reads `places.json`, which `export_places` derives from the
 catalogue, so the record is the only thing to edit. When the build
 changes the world, the builder edits the record and the quests that read
-it in the same change (0104 decision 6, place-build step 5b). Gate
-`record.consistency` checks the measured part (the counted buildings
-against the record's magnitude band in `breadth-bars.json`), and gate
-`promises` checks that every ledger row is filled or confirmed.
+it in the same change (0104 decision 6). The record must also agree with
+itself, the world around it (routes, neighbours, water), every quest that
+uses it and lore: place-build step 5b runs the record-coherence protocol
+(0117; six readers over the packet from `worldgen.record_coherence`, its
+§ Scene saying what stands on land, water or islet and what grows; one
+change set, checked by `--changed` against every record it touches).
+Four gates hold the measured part: `record.consistency` (the counted
+buildings against the record's magnitude band in `breadth-bars.json`),
+`record.coherence` over every built place (every place and route the
+prose and its quests name resolves and is related to the place, a
+"between A and B" has its route, a quest's premised feature exists, a
+plant the prose says grows there stands within 200 m), `record.regression`
+(no record green in HEAD's `world/sources/catalogue/coherence-receipt.json`
+is red now; the gate refreshes that tracked receipt) and `promises`
+(every ledger row filled or confirmed).

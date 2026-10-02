@@ -438,6 +438,10 @@ no id has two homes, and that every promise is filled or excused (the open
 count is pinned per place and only falls); every family in
 `data-registry.json` names its schema or a queued owner.
 
+JSON records are edited through a parser or the record tool, never by
+character-offset splicing: a splice deleted 966 lines of a catalogue file in
+the walk-8 record-coherence round (preserve the file's indent and newline).
+
 ## Performance checklists (decision 0108)
 
 Standing rules for anything that draws, lights or streams; the architecture

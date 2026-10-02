@@ -14,8 +14,9 @@
   Helstrom Ancestor Lizard (speculated Argonian progenitor), extinct Helstrom
   Crocodile (died out in the Great Burn of the Blackwater War; skulls used by
   the Dead-Water Tribe as traps).
-- Neighboured by Alten Markmont (SE), Greenspring (SW), Tenmar Wall (N) —
-  matches the community map's secondary-settlement candidates.
+- Neighboured by Alten Markmont (SE), Greenspring (SW), Tenmar Wall (N) (canon).
+  Our map does not follow the bearings: Greenspring sits 1.8 km NE of Helstrom,
+  with Ux-Aneet and Cut-and-Carried between them.
 
 **Build implications:** danger model excludes Helstrom as an access seed (its
 approach stays danger 4–5, done); city is Argonian-centric, tribal-protected;

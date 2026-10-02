@@ -129,7 +129,7 @@ async function assertAssembledFace(id, path, appearance) {
   for (const node of meshNodes.filter((candidate) => hairTintMeshes.has(candidate.name))) {
     for (const primitive of json.meshes?.[node.mesh]?.primitives ?? []) {
       const material = json.materials?.[primitive.material];
-      if (material?.alphaMode !== "MASK" || material.alphaCutoff !== 0.5) {
+      if (material?.alphaMode !== "MASK" || (material.alphaCutoff ?? 0.5) !== 0.5) {
         throw new Error(`Race ${id} HairTint head part ${node.name} is not a 0.5-cutoff alpha mask`);
       }
     }
@@ -155,7 +155,9 @@ async function assertAssembledFace(id, path, appearance) {
   }
   const primitive = json.meshes?.[bodyNode.mesh]?.primitives?.[0];
   const textureIndex = json.materials?.[primitive?.material]?.pbrMetallicRoughness?.baseColorTexture?.index;
-  const imageIndex = json.textures?.[textureIndex]?.source;
+  const texture = json.textures?.[textureIndex];
+  // A KTX2 texture names its image under KHR_texture_basisu (publish_characters.py).
+  const imageIndex = texture?.extensions?.KHR_texture_basisu?.source ?? texture?.source;
   if (imageIndex === undefined) throw new Error(`Race ${id} body has no embedded diffuse`);
   return embeddedImageHash(path, json, imageIndex);
 }

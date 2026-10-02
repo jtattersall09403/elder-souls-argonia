@@ -605,6 +605,12 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
         }
         if entry.get("collisionRadiusM"):
             record["collisionRadiusM"] = entry["collisionRadiusM"]
+        if "lodRatios" in entry and record["doubleSided"]:
+            # an alpha-tested piece gets no decimated levels (blender half),
+            # unless its row authors a chain: [1.0, 1.0] ships the full
+            # 3-tier chain the settlement runtime requires, every level
+            # sharing LOD0's mesh (walk 9: chickennest01 had 1 tier)
+            record["lodRatiosAuthored"] = True
         if entry.get("variantOf"):
             # a texture variant (`texture_variants`): the base's mesh under
             # its own id; the derived textures land after the texture pass
@@ -945,6 +951,62 @@ def bakes_own_card(entry, kit, category):
 EFFECT_MODES = frozenset({"additive"})
 
 
+BASE_NAMES_RECORD = (Path(__file__).resolve().parents[3]
+                     / "world/sources/placement/kit-base-names.json")
+
+
+@functools.lru_cache(maxsize=1)
+def _base_edids() -> dict:
+    """{asset id: plugin base-record EDID} (worldgen/mine_base_names.py)."""
+    if not BASE_NAMES_RECORD.exists():
+        return {}
+    rows = json.loads(BASE_NAMES_RECORD.read_text()).get("assets", {})
+    return {k: v["edid"] for k, v in rows.items() if v.get("edid")}
+
+
+#: Mod editor-id prefixes that make an EDID a worse name than the NIF stem.
+EDID_MOD_PREFIXES = ("CIP", "HTBM", "GV", "BSK", "BM", "CC", "ALPA")
+
+
+def readable_edid(edid: str) -> bool:
+    """False for an EDID that starts with a digit, carries a mod prefix or
+    says DUPLICATE: the stem names that piece instead."""
+    return not (edid[:1].isdigit() or "DUPLICATE" in edid.upper()
+                or edid.upper().startswith(EDID_MOD_PREFIXES))
+
+
+def display_name_from_id(asset_id: str, edid: str | None = None) -> str:
+    """Readable name, deterministic: the piece's plugin EDID when mined
+    (`ExteriorWoodenTable01` -> "Exterior wooden table 01"), else the NIF stem
+    (`vanilla:clutter/hay/hayscatter06` -> "Hayscatter 06")."""
+    if edid is None:
+        edid = _base_edids().get(asset_id)
+    if edid and not readable_edid(edid):
+        edid = ""
+    stem = edid or asset_id.rsplit("/", 1)[-1].rsplit(":", 1)[-1]
+    stem = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1 \2", stem)
+    stem = re.sub(r"([a-z])([A-Z])", r"\1 \2", stem)
+    stem = re.sub(r"([A-Za-z])(\d)", r"\1 \2", stem)
+    stem = re.sub(r"(\d)([A-Z])", r"\1 \2", stem)
+    words = [w for w in re.split(r"[\s_\-.]+", stem) if w]
+    text = " ".join(w if len(w) > 1 and w.isupper() else w.lower() for w in words)
+    return text[:1].upper() + text[1:] if text else asset_id
+
+
+def apply_display_names(summary: dict, kit: dict | None = None) -> int:
+    """Set every manifest row's `displayName`: an authored one in the kit
+    config (`assets[].displayName`) wins, else the NIF stem rule. Returns rows set."""
+    authored = {e["asset"]: e["displayName"] for e in (kit or {}).get("assets", [])
+                if isinstance(e, dict) and e.get("asset") and e.get("displayName")}
+    count = 0
+    for row in summary.get("assets", []):
+        name = authored.get(row.get("id")) or display_name_from_id(str(row.get("id", "")))
+        if row.get("displayName") != name:
+            row["displayName"] = name
+            count += 1
+    return count
+
+
 def apply_light_records(summary: dict, kit: dict) -> int:
     """Copy each piece's kit-config `light` block onto its manifest record.
 
@@ -1072,7 +1134,8 @@ def mine_fire_layer(nif_bytes: bytes, addn: dict, read_mesh,
             flames.append(flame_of(system, system["positionUnits"], system["name"]))
     glows = [{"shape": g["shape"], "texturePath": g["texture"], "emissive": g.get("emissive")}
              for g in nb.billboard_glow_shapes(nif)]
-    return {"flames": flames, "glowShapes": glows}
+    return {"flames": flames, "glowShapes": glows, "emissiveShapes": nb.emitting_shapes(nif),
+            "windowShapes": nb.window_glass_shapes(nif)}
 
 
 def seat_flames_on_geometry(record: dict) -> int:
@@ -1179,7 +1242,7 @@ def apply_fire_layer(summary: dict, kit: dict, plan_assets: list[dict], vault: P
     written = 0
     missing = set()
     for record in summary.get("assets", []):
-        for key in ("flames", "glows", "flameCardMaterials"):
+        for key in ("flames", "glows", "flameCardMaterials", "emissiveMaterials", "windowMaterials"):
             record.pop(key, None)
         plan = by_id.get(record["id"])
         if plan is None or not plan.get("nif"):
@@ -1206,6 +1269,17 @@ def apply_fire_layer(summary: dict, kit: dict, plan_assets: list[dict], vault: P
             record["glows"] = glows
         if cards:
             record["flameCardMaterials"] = cards
+        # the materials that really emit (nif_blocks.emitting_shapes): a lit
+        # lantern's shell is one of these, never every OWN_EMIT material
+        emitting = [f"{shape}.Mat" for shape in layer["emissiveShapes"]
+                    if f"{shape}.Mat" in record.get("materials", [])]
+        if emitting:
+            record["emissiveMaterials"] = emitting
+        # window glass (nif_blocks.window_glass_shapes): an interior's daylight panes
+        windows = [f"{shape}.Mat" for shape in layer["windowShapes"]
+                   if f"{shape}.Mat" in record.get("materials", [])]
+        if windows:
+            record["windowMaterials"] = windows
         written += len(flames) + len(glows)
     if missing:
         raise RuntimeError(f"{kit['id']}: flame textures with no {FLAME_TEXTURE_KIT} "
@@ -2092,6 +2166,7 @@ def _build(kit_id: str, vault: Path, force: bool = False, stamp_only: bool = Fal
         raise RuntimeError(f"kit build refused ({kit_id}), light blocks with no fixtureKind "
                            "(set it in the kit config's light block):\n  " + "\n  ".join(unkinded))
     apply_placement_metadata(summary, kit["id"])
+    apply_display_names(summary, kit)
     built_gltf = read_gltf_json(output_glb)
     untextured = (untextured_material_errors(built_gltf, summary, notes["texturesMissing"])
                   + unflagged_fire_card_errors(built_gltf, summary))
@@ -2394,7 +2469,16 @@ def main() -> None:
                     help="write the inputs stamp beside the existing build and "
                          "publish (no Blender, no output touched), so the next "
                          "build of unchanged inputs skips")
+    ap.add_argument("--emissive-merge", action="store_true",
+                    help="write only `emissiveMaterials` and `windowMaterials` (nif_blocks.emitting_shapes, "
+                         "window_glass_shapes) onto the "
+                         "pieces (lanterns, window panes) of the built and published manifests, from the kit's "
+                         "data-root NIFs (no Blender, ~1 s a kit)")
     args = ap.parse_args()
+    if args.emissive_merge:
+        for kit_id in ([args.kit] if args.kit else [k for k in args.kits.split(",") if k]):
+            print(kit_id, merge_emissive_materials(kit_id))
+        return
     if args.force and args.stamp_only:
         ap.error("--force and --stamp-only contradict each other")
     if args.kit:
@@ -2403,6 +2487,42 @@ def main() -> None:
         build_many([k for k in args.kits.split(",") if k], Path(args.vault), args.jobs,
                    force=args.force, stamp_only=args.stamp_only)
     refresh_abuts_derived()
+
+
+def merge_emissive_materials(kit_id: str) -> dict[str, list[str]]:
+    """Per-asset merge of `emissiveMaterials` and `windowMaterials` (the fields
+    `apply_fire_layer` writes on a full build) onto every piece (lantern shells,
+    window panes) of the kit's built and published manifests, read from the NIF
+    the build staged under `build/kits/<kit>/data-root/meshes/<id path>.nif`.
+    Returns asset id -> emitting materials written (window ones marked `[window]`)."""
+    from . import nif_blocks as nb
+    pipeline_root = Path(__file__).resolve().parents[1]
+    data_root = pipeline_root / "build/kits" / kit_id / "data-root/meshes"
+    manifests = [p for p in (pipeline_root / "output/kits" / f"{kit_id}.kit.json",
+                             pipeline_root.parents[1] / "apps/world-studio/public/kits" / f"{kit_id}.kit.json")
+                 if p.is_file()]
+    written: dict[str, list[str]] = {}
+    for path in manifests:
+        manifest = json.loads(path.read_text())
+        for record in manifest.get("assets", []):
+            record.pop("emissiveMaterials", None)
+            record.pop("windowMaterials", None)
+            nif = data_root / (record["id"].split(":", 1)[1].lower() + ".nif")
+            if not nif.is_file():
+                if record.get("light"):
+                    raise FileNotFoundError(f"{kit_id} {record['id']}: no staged NIF at {nif}")
+                continue
+            parsed = nb.parse(nif.read_bytes())
+            mats = set(record.get("materials", []))
+            emitting = [f"{s}.Mat" for s in nb.emitting_shapes(parsed) if f"{s}.Mat" in mats]
+            windows = [f"{s}.Mat" for s in nb.window_glass_shapes(parsed) if f"{s}.Mat" in mats]
+            if emitting:
+                record["emissiveMaterials"] = emitting
+                written[record["id"]] = [m + (" [window]" if m in windows else "") for m in emitting]
+            if windows:
+                record["windowMaterials"] = windows
+        path.write_text(json.dumps(manifest, indent=1) + "\n")
+    return written
 
 
 WORLDGEN_DIR = Path(__file__).resolve().parents[2] / "world-generation"

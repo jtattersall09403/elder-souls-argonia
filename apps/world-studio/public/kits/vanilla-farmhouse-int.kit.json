@@ -55,7 +55,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farmhouse door 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouseldoor01",
@@ -113,7 +114,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farmhouse l door 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcolumn01",
@@ -174,7 +176,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.184,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b column 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcolumn02",
@@ -235,7 +238,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b column 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcorner01",
@@ -305,7 +309,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b corner 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcorner02",
@@ -375,7 +380,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b corner 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcorner03",
@@ -445,7 +451,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b corner 03"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcorner04",
@@ -515,7 +522,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b corner 04"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbdivider01",
@@ -573,7 +581,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Farm b divider 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbdivider02",
@@ -636,7 +645,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "displayName": "Farm b divider 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbdivider03",
@@ -699,7 +709,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Farm b divider 03"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbdivider04",
@@ -762,7 +773,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "displayName": "Farm b divider 04"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbicorner01",
@@ -834,7 +846,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.75,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm BI corner 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbicorner02",
@@ -906,7 +919,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.75,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm BI corner 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbicorner03",
@@ -978,7 +992,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.75,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm BI corner 03"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbicorner04",
@@ -1050,7 +1065,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.75,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm BI corner 04"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbmiddle01",
@@ -1118,7 +1134,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b middle 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbmiddle02",
@@ -1186,7 +1203,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b middle 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor01",
@@ -1249,7 +1267,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.033
+   "pivotAboveBaseM": 0.033,
+   "displayName": "Farm b trapdoor 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02",
@@ -1312,7 +1331,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.473,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b trapdoor 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwall01",
@@ -1384,7 +1404,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b wall 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwall02",
@@ -1456,7 +1477,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b wall 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwall03",
@@ -1528,7 +1550,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b wall 03"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwall04",
@@ -1600,7 +1623,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b wall 04"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance01",
@@ -1674,7 +1698,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.969,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b wall entrance 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance02",
@@ -1748,7 +1773,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.969,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b wall entrance 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance03",
@@ -1822,7 +1848,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.969,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b wall entrance 03"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance04",
@@ -1896,7 +1923,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.969,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b wall entrance 04"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance05",
@@ -1970,7 +1998,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.809,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.085
+   "pivotAboveBaseM": 0.085,
+   "displayName": "Farm b wall entrance 05"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwalltrapdoor01",
@@ -2042,7 +2071,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.906,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b wall trapdoor 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwell01",
@@ -2125,7 +2155,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.555,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 10.924
+   "pivotAboveBaseM": 10.924,
+   "displayName": "Farm b well 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwellent01",
@@ -2197,7 +2228,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.945,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm b well ent 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmhousejaildoor01",
@@ -2258,7 +2290,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.043
+   "pivotAboveBaseM": -0.043,
+   "displayName": "Farmhouse jail door 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2basementent01",
@@ -2336,7 +2369,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.916,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.727
+   "pivotAboveBaseM": 3.727,
+   "displayName": "Farm int 2 basement ent 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2doorway02nodoor",
@@ -2415,7 +2449,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.949,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.11
+   "pivotAboveBaseM": 0.11,
+   "displayName": "Farm int 2 doorway 02 no door"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2doorway03",
@@ -2496,7 +2531,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.949,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm int 2 doorway 03"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2doorway04",
@@ -2574,7 +2610,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.969,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm int 2 doorway 04"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2end01",
@@ -2665,7 +2702,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.651,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.023
+   "pivotAboveBaseM": 0.023,
+   "emissiveMaterials": [
+    "FarmInt2End01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmInt2End01:14.Mat"
+   ],
+   "displayName": "Farm int 2 end 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2end02",
@@ -2756,7 +2800,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.64,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "emissiveMaterials": [
+    "FarmInt2End02:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmInt2End02:14.Mat"
+   ],
+   "displayName": "Farm int 2 end 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2end03",
@@ -2847,7 +2898,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.651,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.023
+   "pivotAboveBaseM": 0.023,
+   "emissiveMaterials": [
+    "FarmInt2End03:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmInt2End03:14.Mat"
+   ],
+   "displayName": "Farm int 2 end 03"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2hearth02",
@@ -2926,7 +2984,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.969,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm int 2 hearth 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2wall01",
@@ -3002,7 +3061,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.969,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm int 2 wall 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintcorner01",
@@ -3071,7 +3131,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.863,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm int corner 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintdoorway01",
@@ -3142,7 +3203,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.931,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm int doorway 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintend01",
@@ -3230,7 +3292,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.622,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "emissiveMaterials": [
+    "FarmIntEnd01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntEnd01:14.Mat"
+   ],
+   "displayName": "Farm int end 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintend02",
@@ -3318,7 +3387,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.638,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "emissiveMaterials": [
+    "FarmIntEnd02:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntEnd02:14.Mat"
+   ],
+   "displayName": "Farm int end 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintend03",
@@ -3406,7 +3482,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.638,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "emissiveMaterials": [
+    "FarmIntEnd03:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntEnd03:14.Mat"
+   ],
+   "displayName": "Farm int end 03"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend01",
@@ -3490,7 +3573,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.965,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "emissiveMaterials": [
+    "FarmIntInnEnd01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnEnd01:14.Mat"
+   ],
+   "displayName": "Farm int inn end 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend02",
@@ -3574,7 +3664,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.98,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "emissiveMaterials": [
+    "FarmIntInnEnd02:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnEnd02:14.Mat"
+   ],
+   "displayName": "Farm int inn end 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend03",
@@ -3657,7 +3754,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.971,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.541
+   "pivotAboveBaseM": 0.541,
+   "emissiveMaterials": [
+    "FarmIntInnEnd03:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnEnd03:14.Mat"
+   ],
+   "displayName": "Farm int inn end 03"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend04",
@@ -3740,7 +3844,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.971,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.541
+   "pivotAboveBaseM": 0.541,
+   "emissiveMaterials": [
+    "FarmIntInnEnd04:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnEnd04:14.Mat"
+   ],
+   "displayName": "Farm int inn end 04"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend05",
@@ -3824,7 +3935,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.781,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.442
+   "pivotAboveBaseM": 3.442,
+   "emissiveMaterials": [
+    "FarmIntInnEnd05:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnEnd05:14.Mat"
+   ],
+   "displayName": "Farm int inn end 05"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend06",
@@ -3907,7 +4025,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.955,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.541
+   "pivotAboveBaseM": 0.541,
+   "emissiveMaterials": [
+    "FarmIntInnEnd06:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnEnd06:14.Mat"
+   ],
+   "displayName": "Farm int inn end 06"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnwall01",
@@ -3990,7 +4115,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.912,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "emissiveMaterials": [
+    "FarmIntInnWall01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnWall01:14.Mat"
+   ],
+   "displayName": "Farm int inn wall 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnwallentrance01",
@@ -4075,7 +4207,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.853,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "emissiveMaterials": [
+    "FarmIntInnWallEntrance01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnWallEntrance01:14.Mat"
+   ],
+   "displayName": "Farm int inn wall entrance 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhback01",
@@ -4160,7 +4299,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.966,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "emissiveMaterials": [
+    "FarmIntLHBack01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntLHBack01:14.Mat"
+   ],
+   "displayName": "Farm int LH back 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhbase01",
@@ -4223,7 +4369,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm int LH base 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhbase02",
@@ -4286,7 +4433,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm int LH base 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhend01",
@@ -4370,7 +4518,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.918,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "emissiveMaterials": [
+    "FarmIntLHEnd01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntLHEnd01:14.Mat"
+   ],
+   "displayName": "Farm int LH end 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhend02",
@@ -4454,7 +4609,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.9,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "emissiveMaterials": [
+    "FarmIntLHEnd02:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntLHEnd02:14.Mat"
+   ],
+   "displayName": "Farm int LH end 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhfirepit01",
@@ -4524,7 +4686,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.016,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Farm int LH fire pit 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhfirepit02",
@@ -4594,7 +4757,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.004,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Farm int LH fire pit 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhfirepit03",
@@ -4675,7 +4839,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.07,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Farm int LH fire pit 03"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhfront01",
@@ -4762,7 +4927,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.768,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "emissiveMaterials": [
+    "FarmIntLHFront01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntLHFront01:14.Mat"
+   ],
+   "displayName": "Farm int LH front 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhloft01",
@@ -4830,7 +5002,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.543,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.039
+   "pivotAboveBaseM": 0.039,
+   "displayName": "Farm int LH loft 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhloft02",
@@ -4898,7 +5071,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.543,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.039
+   "pivotAboveBaseM": 0.039,
+   "displayName": "Farm int LH loft 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhlofttop01",
@@ -4961,7 +5135,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "displayName": "Farm int LH loft top 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhmid01",
@@ -5044,7 +5219,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.916,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "emissiveMaterials": [
+    "FarmIntLHMid01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntLHMid01:14.Mat"
+   ],
+   "displayName": "Farm int LH mid 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwall01",
@@ -5113,7 +5295,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Farm int wall 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwallhearth01",
@@ -5190,7 +5373,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.946,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Farm int wall hearth 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwallhearth02",
@@ -5269,7 +5453,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.934,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Farm int wall hearth 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwbasementent01",
@@ -5343,7 +5528,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.916,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313
+   "pivotAboveBaseM": 0.313,
+   "displayName": "Farm int w basement ent 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwooddoorway01",
@@ -5422,7 +5608,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.848,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.385
+   "pivotAboveBaseM": -3.385,
+   "displayName": "Farm int wood doorway 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwoodend01",
@@ -5503,7 +5690,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.996,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -2.873
+   "pivotAboveBaseM": -2.873,
+   "emissiveMaterials": [
+    "FarmIntWoodEnd01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntWoodEnd01:14.Mat"
+   ],
+   "displayName": "Farm int wood end 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwoodend02",
@@ -5584,7 +5778,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.996,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -2.873
+   "pivotAboveBaseM": -2.873,
+   "emissiveMaterials": [
+    "FarmIntWoodEnd02:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntWoodEnd02:14.Mat"
+   ],
+   "displayName": "Farm int wood end 02"
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwoodwall01",
@@ -5654,7 +5855,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.385
+   "pivotAboveBaseM": -3.385,
+   "displayName": "Farm int wood wall 01"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\vanilla-farmhouse-int.glb",

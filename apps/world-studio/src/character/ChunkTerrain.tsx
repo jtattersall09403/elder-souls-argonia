@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
-import { createGroundMaterial, groundLayerBitmaps, useGroundManifest, type GroundUniforms } from "../groundMaterial";
+import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "../groundMaterial";
 import type { MeshStandardNodeMaterial } from "three/webgpu";
+import { useGroundArray } from "@elder-souls/game-core/terrain/groundArray";
 import { sharedAerialUniforms } from "../sky/WorldSky";
 import {
   LOD_REEVALUATE_M, SUB_TILE_DIVISIONS, SUB_TILE_LODS, drawsAsSubTiles, lodForDistance, lodForSubTile,
@@ -11,6 +12,7 @@ import {
 import { useHiddenLayers } from "../ladder";
 import { buildTerrainGridGeometry, subGrid } from "@elder-souls/game-core/terrain/gridGeometry";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
+import { GroundRasterLoader, groundRasterKey } from "@elder-souls/game-core/terrain/groundRasters";
 import { createOcclusionCadence, hiddenBehindTerrain, topCornersOfBox } from "@elder-souls/game-core/terrain/terrainOcclusion";
 import { makeChunkHeightSampler } from "./terrainHeightSampler";
 import type { FrameJobHandle } from "@elder-souls/game-core/scheduling/frameWork";
@@ -85,31 +87,25 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   onLodMap?: (focusCell: [number, number]) => void;
   /** Keep the caller's macro/loading terrain visible until detail chunks exist. */
   loadingFallback?: React.ReactNode;
-  /** The built ground material, once it exists: the apron's materials borrow
-   * its albedo array rather than allocating a second one (16d). */
+  /** The built ground material, once it exists (the apron mounts after it). */
   onGroundMaterial?: (material: MeshStandardNodeMaterial) => void;
 }) {
   const base = DATA_BASE;
   const { set, manifest: ground } = useGroundManifest(base, matSet);
-  const images = useLoader(THREE.ImageBitmapLoader,
-    ground.materials.map((m) => `${base}textures/ground/${set}/${m.file}`), groundLayerBitmaps);
-  // The two cliff normal maps (rock, dirt) — the side-projection relief.
-  // An older set without `normalFile` rows simply ships no perturbation.
-  const cliffNrmFiles = ["cliff_rock", "cliff_dirt"]
-    .map((name) => ground.materials.find((m) => m.name === name)?.normalFile)
-    .filter((f): f is string => !!f);
-  const cliffNormals = useLoader(THREE.ImageBitmapLoader,
-    cliffNrmFiles.map((f) => `${base}textures/ground/${set}/${f}`), groundLayerBitmaps);
-  const ctrl = useLoader(THREE.TextureLoader, `${base}province/refined/ground-control.png`);
-  const tintTex = useLoader(THREE.TextureLoader, `${base}province/refined/ground-tint.png`);
-  const gradTex = useLoader(THREE.TextureLoader, `${base}province/chunks/normal-grad.png`);
+  // The albedo layers and the two cliff normal maps, one KTX2 array.
+  const arrayTex = useGroundArray(base, set);
+  const { ctrl, tint: tintTex, grad: gradTex } = useLoader(GroundRasterLoader, groundRasterKey(
+    `${base}province/refined/ground-control.png`, `${base}province/refined/ground-tint.png`,
+    `${base}province/chunks/normal-grad.png`),
+    // the store's decodes: ground-control is shared with the walk world and groundcover
+    (loader) => { loader.png = (url) => store.pngs.decode(url); });
   const hiddenLayers = useHiddenLayers(base);
   const shoreWetness = !hiddenLayers.has("water");
   const material = useMemo(
-    () => createGroundMaterial(images, cliffNormals, ctrl, tintTex, gradTex, ground,
+    () => createGroundMaterial(arrayTex, ctrl, tintTex, gradTex, ground,
       verticalScale ?? manifest.verticalScaleAtGeometry, sharedAerialUniforms, { shoreWetness }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [images, cliffNormals, ctrl, tintTex, gradTex, ground, shoreWetness],
+    [arrayTex, ctrl, tintTex, gradTex, ground, shoreWetness],
   );
   const groundUniforms = material.userData.groundUniforms as GroundUniforms;
   useEffect(() => {
@@ -129,9 +125,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
       type: material.type,
     });
     return () => {
-      // Only the owner disposes the albedo array: the apron's materials borrow
-      // this one (16d, `sharedArrayTexture`).
-      if (material.userData.ownsTex !== false) (material.userData.tex as THREE.DataArrayTexture).dispose();
+      // The albedo array belongs to the loader cache (shared with the apron).
       material.dispose();
     };
   }, [material]);

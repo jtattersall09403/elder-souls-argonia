@@ -1,0 +1,222 @@
+{
+ "schemaVersion": 1,
+ "encoder": {
+  "tool": "gltfpack 1.2 (BasisU)",
+  "mode": "uastc",
+  "quality": 8
+ },
+ "layers": [
+  {
+   "file": "00-water_silt.png",
+   "class": "color",
+   "sha256": "7b66577bcfb113e2deb224d38400beb09d03f1483f94a5c0cd7f7d43097a0aa3"
+  },
+  {
+   "file": "01-river_mud.png",
+   "class": "color",
+   "sha256": "cb83c09bec85aa8a3c4d347c70e1254483fe228ad77b8387f1e264b98432740b"
+  },
+  {
+   "file": "02-bank_wet.png",
+   "class": "color",
+   "sha256": "01d65791a8843df94391c59a86128e519838a5600c8bdff6c1b039431f5f0acd"
+  },
+  {
+   "file": "03-scum.png",
+   "class": "color",
+   "sha256": "096467f21a1830855599dfeec5270e9e5fe1ba574baf19112f88481d737f2471"
+  },
+  {
+   "file": "04-black_mud.png",
+   "class": "color",
+   "sha256": "5f90b26851da56cb6ca8330ae7f7024b2634683bcbba7a121a0057f9dcafc14d"
+  },
+  {
+   "file": "05-puddle_mud.png",
+   "class": "color",
+   "sha256": "038a5d6a41695ef638b499a0e92002391e1494b65853b84991d91e7cf9d7c839"
+  },
+  {
+   "file": "06-clay_bank.png",
+   "class": "color",
+   "sha256": "bf4adabd19a4e421925b5a3954d77eea6d2fac28ca8c25596f4f46cec2a0dc7e"
+  },
+  {
+   "file": "07-muck.png",
+   "class": "color",
+   "sha256": "b336d2164a94a8df9b65f93d00bcf1422667ea26b75c5641b819ce2ba68c1e2e"
+  },
+  {
+   "file": "08-bc_mud.png",
+   "class": "color",
+   "sha256": "9f1a7c0a0fb9cbd9b022cb9d152e41ab7cd6cda4154c2765c4ad6439c79331f0"
+  },
+  {
+   "file": "09-peat.png",
+   "class": "color",
+   "sha256": "c2eb2a5cfe0115d7e787f20064dd28adb59b1d535a3281c600e3fde463c52f5e"
+  },
+  {
+   "file": "10-mud_leaves.png",
+   "class": "color",
+   "sha256": "300a51ee66bdba9ce6f66d5cb3f2e5b378ad5b54e9838f7a306da013135fd317"
+  },
+  {
+   "file": "11-marsh_grass.png",
+   "class": "color",
+   "sha256": "2670f4c284aa18cd446c017073b2244dafaf437bee015bcfbf096afae61492b4"
+  },
+  {
+   "file": "12-undergrowth.png",
+   "class": "color",
+   "sha256": "cb5c4d3fc99b3d7a8ee0ff73040f31759147925a0bde988fe11beea06f0be618"
+  },
+  {
+   "file": "13-bc_moss.png",
+   "class": "color",
+   "sha256": "b12dae59e48caeeb2ca23b8beb633b62993e65cafb02c8aa0f2331042357a3be"
+  },
+  {
+   "file": "14-moss.png",
+   "class": "color",
+   "sha256": "3bce521965327e58506943068dcc557489f9211c0252167cd54d13bc8680c9de"
+  },
+  {
+   "file": "15-swamp_grass.png",
+   "class": "color",
+   "sha256": "2e77a29501ac52815777c7527360862a5ed93a878529c8abc7456e0593049b64"
+  },
+  {
+   "file": "16-trop_grass.png",
+   "class": "color",
+   "sha256": "5cb92da43b2419aa2ed949f9d773471bfff98e28da5ba7eaded1defcaf77548a"
+  },
+  {
+   "file": "17-grass_dirt.png",
+   "class": "color",
+   "sha256": "1d21ea256d40fb937f13ea39d66cc3d6f56bf9598c8000c9cfc8ddb8c9e3b7ff"
+  },
+  {
+   "file": "18-scrub.png",
+   "class": "color",
+   "sha256": "6b789e052838c7a0f2ba89b4239fb8f926167c18e121aa75da2256cb76a01424"
+  },
+  {
+   "file": "19-jungle_floor.png",
+   "class": "color",
+   "sha256": "569a1032b2e10839709bee9501c6dcc42a3e0308db8f402279799b510b9d210c"
+  },
+  {
+   "file": "20-forest_floor.png",
+   "class": "color",
+   "sha256": "616d785f5a69348bcda8a07652a5cf0fe5ae6288d5801c5cd378488ff138502c"
+  },
+  {
+   "file": "21-leaf_litter.png",
+   "class": "color",
+   "sha256": "50e27401fa3b5543f2d25393d70558a20bacdf3b08e8903080246f6231a539a7"
+  },
+  {
+   "file": "22-mossy_rock.png",
+   "class": "color",
+   "sha256": "896e69cb10ec5f3f6204fe4a5a4984498ee6af40e9ab842ed48a6a6b3d988c10"
+  },
+  {
+   "file": "23-bc_rock.png",
+   "class": "color",
+   "sha256": "3a144e28659d1e1b08d8a56af4a3a1a2df0725aeb3987df7dcdb3fb212620f72"
+  },
+  {
+   "file": "24-tidal_sand.png",
+   "class": "color",
+   "sha256": "2cde870cf1dbd8f53a22530b6c6f70a77defcd2d011795a7afd4e9bc5a4a378f"
+  },
+  {
+   "file": "25-salt_flat.png",
+   "class": "color",
+   "sha256": "d6c0bf22bbdd5634ebd6169a4e8a3a0996f9000e395bd5c0015066d95b87b9d1"
+  },
+  {
+   "file": "26-dry_clay.png",
+   "class": "color",
+   "sha256": "5894c2192dc3e20ca8b5de8689c779ddc34d2405d18fd9d2b73b0626e07892ea"
+  },
+  {
+   "file": "27-dirt_path.png",
+   "class": "color",
+   "sha256": "6fc3a0c4a15d164c88c57cd21b06234124b251dd37656e3401ac963bd55a1752"
+  },
+  {
+   "file": "28-peat_slope.png",
+   "class": "color",
+   "sha256": "b6b52d3d39ce77e477d676099d18899743e748bc4c49ac7fe2b14c1c6e4cee59"
+  },
+  {
+   "file": "29-track_mud.png",
+   "class": "color",
+   "sha256": "4bd4cfdcf964177a1ddd3451663b4895571adcb402040159238f0dbc4eff5e36"
+  },
+  {
+   "file": "30-bc_road.png",
+   "class": "color",
+   "sha256": "6ee1b2966670a113fe4f898aab18ca2ffb3f3387256d4de448b6f0e0df434f4b"
+  },
+  {
+   "file": "31-mountain_rock.png",
+   "class": "color",
+   "sha256": "6990246d7fc1dad3a65f8962a96dc1d27c028f031b74670cec1377525b5115f8"
+  },
+  {
+   "file": "32-beach_sand.png",
+   "class": "color",
+   "sha256": "6d4a93dedc923bcd53779d3cf719d1fd633b8b63a207ef6479e87f23a839ce11"
+  },
+  {
+   "file": "33-seabed_sand.png",
+   "class": "color",
+   "sha256": "0b6605b55a2b9a0c177abd1d250b5580b76dffdb915c6c1206049ad5aac86aa6"
+  },
+  {
+   "file": "34-river_pebbles.png",
+   "class": "color",
+   "sha256": "cc436a3855e4df3c1fb3adaa7a3286616933f95cfa74821d360baa04a794ba8b"
+  },
+  {
+   "file": "35-ocean_floor.png",
+   "class": "color",
+   "sha256": "da3ae21f1bf3e940798ff52acebc734bf37f059d2b166232106e8963068ade62"
+  },
+  {
+   "file": "36-trop_rocks.png",
+   "class": "color",
+   "sha256": "00ce2fb8c93597ec0fec1e62b79efe471f8aff871bb304d45c7a6e78ad2a90e0"
+  },
+  {
+   "file": "37-scree.png",
+   "class": "color",
+   "sha256": "5f237363faff641f828d059fc0664b15d3ab1d245b4709817b3eb66d9c606eed"
+  },
+  {
+   "file": "38-cliff_rock.png",
+   "class": "color",
+   "sha256": "50d7de2e920443c2004b94ecf2684107a9bbd97b02a2829ae59b2ba662d72e44"
+  },
+  {
+   "file": "39-cliff_dirt.png",
+   "class": "color",
+   "sha256": "bd9e7bc13447417a6ebf7c591bbdadd03e43261a835613e0745ba9557fe3f780"
+  },
+  {
+   "file": "38-cliff_rock_n.png",
+   "class": "normal",
+   "sha256": "14f259331fe6ef2c33a4208c7943cfb6724fd4819f884048c1b9cc91f0d9510b"
+  },
+  {
+   "file": "39-cliff_dirt_n.png",
+   "class": "normal",
+   "sha256": "0f1d2a8e807161273f6fcb1965b56537a26e2ffc884e9991d063e692e0f55837"
+  }
+ ],
+ "bytes": 12145818,
+ "sha256": "5e39eb52e19152ba1fa242ff9ee2d0c8d3ec8712c952e758cbaefdc937467cab"
+}

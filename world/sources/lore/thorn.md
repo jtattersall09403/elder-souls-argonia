@@ -33,8 +33,9 @@ Dres slavery history feeds the north's cultural tension.
   Silyanorn, Twyllbek and Archon) — so Thorn, like Stormhold and Gideon, has an
   **Ayleid substratum** beneath the Dunmer and Argonian layers.
 - Neighbours: **Branchmont** (SW), **Riverwalk** (W), Morrowind (N, toward
-  **Tear**). Riverwalk is also named as east of Alten Corimont, making it the
-  natural mid-point of the northern trunk route.
+  **Tear**). Our map does not follow the canon bearing for Riverwalk: it sits
+  0.95 km EAST of Thorn (by the Tear road), an M1 boardwalk village on the sea
+  cove at the mouth of the pilgrim water to Hissmir.
 - **Thornmarsh is grassland.** "Like the rest of northern Black Marsh, the area has
   more **temperate grasslands** compared to the swampier areas in the south"
   (Lore:Thornmarsh). Thorn's outskirts should read as **open saltrice country**,

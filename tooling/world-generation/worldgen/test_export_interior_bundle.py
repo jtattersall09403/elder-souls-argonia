@@ -216,6 +216,33 @@ def test_piece_class_reads_the_base_record_then_the_sourced_absent_master_row():
                           "architecture/whiterun/wrbuildings/wrhouse01.nif", {})[0] == "architecture"
 
 
+def test_a_kit_folder_clutter_mesh_is_clutter_and_the_kit_pieces_stay_architecture():
+    # 16k walk 9 (type-5 slice): Creation Club's root clusters sit in the root
+    # kit's clutter folder; the cave walls beside them stay the kit's pieces
+    cc = "creationclub/_shared/dungeons/root/clutter/rootclusterlarge01.nif"
+    assert ex.piece_class({"type": "STAT"}, None, cc, {})[0] == "clutter"
+    wall = "dungeons/caves/green/largeroom/caveglroomwall01.nif"
+    assert ex.piece_class({"type": "STAT"}, None, wall, {})[0] in ex.ARCHITECTURE_CLASSES
+
+
+def test_a_piece_resting_on_a_listed_gap_is_a_gap_too_and_must_name_it(tmp_path):
+    # MugsumpHollowInt01 (16k walk 9): stalagmites stood on resource-pack boulders
+    row = {"refId": "B", "reason": "rests-on-a-gap", "restsOn": "A", "why": "stood on A"}
+    gap = {"refId": "A", "reason": "asset-exists-nowhere", "search": "no copy anywhere"}
+    (tmp_path / "C.json").write_text(json.dumps({"gaps": [gap, row]}))
+    assert set(ex.load_gaps("C", tmp_path)) == {"A", "B"}
+    (tmp_path / "C.json").write_text(json.dumps({"gaps": [dict(row, restsOn="Z"), gap]}))
+    with pytest.raises(ValueError):
+        ex.load_gaps("C", tmp_path)
+
+
+def test_an_autoload_marker_is_an_invisible_load_door():
+    # AutoLoadDoor01 at a cave mouth (King of the Murkmire's MugsumpHollowInt01)
+    assert ex.is_invisible_load_door("autoloadmarker01.nif")
+    assert ex.is_invisible_load_door("Meshes\\AutoLoadMarker01.nif")
+    assert not ex.is_invisible_load_door("argonia/mudhuts/door01.nif")
+
+
 def test_a_tree_base_is_vegetation_and_every_crate_is_clutter():
     # R46: a TREE base is vegetation whatever its mesh folder says
     assert ex.piece_class({"type": "TREE"}, None, "argonia/trees/undergrowth01.nif", {})[0] == "vegetation"

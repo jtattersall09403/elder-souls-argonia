@@ -157,10 +157,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 84.6,
+    "deg": 82.3,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 85\u00b0 in the piece's own frame carries 4.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 82\u00b0 in the piece's own frame carries 2.49x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -171,10 +171,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 85.3,
+    "deg": 84.3,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 85\u00b0 in the piece's own frame carries 4.95x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 84\u00b0 in the piece's own frame carries 2.96x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -1139,6 +1139,51 @@
    "provenance": [],
    "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
   },
+  "kotm:argonia/stalactites/stal2": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "kotm:argonia/stalactites/stal3": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "kotm:argonia/stalactites/stal5": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "kotm:argonia/stalactites/stal6": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "kotm:argonia/stalactites/stal7": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
   "kotm:argonia/stockades/minewoodplanks02": {
    "category": "misc",
    "entrance": null,
@@ -1272,6 +1317,15 @@
    "provenance": [],
    "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
   },
+  "kotm:argonia/trees/greguire/junglelogmossflat01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
   "kotm:argonia/trees/greguire/palmoketree02full": {
    "category": "misc",
    "entrance": null,
@@ -1296,6 +1350,70 @@
    "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
   },
   "kotm:argonia/trees/greguire/palmoketree04full": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "kotm:argonia/trees/greguire/swampplant08": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 17.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 17\u00b0 in the piece's own frame carries 3.40x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "kotm:argonia/trees/greguire/swampplant08a": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 294.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 294\u00b0 in the piece's own frame carries 14.21x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "kotm:argonia/trees/hist trees/hist_root03": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "kotm:argonia/trees/hist trees/hist_root04": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "kotm:argonia/trees/hist trees/hist_root05": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "kotm:argonia/trees/hist trees/hist_rootanim": {
    "category": "misc",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
@@ -1489,6 +1607,43 @@
    "provenance": [],
    "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
   },
+  "kotm:plants/tamira/new plants/tropicalplant01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 45.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 46\u00b0 in the piece's own frame carries 1.47x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "kotm:plants/tamira/new plants/tropicalshrub03": {
+   "category": "shrub",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 350.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 350\u00b0 in the piece's own frame carries 1.51x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "kotm:plants/tamira/new plants/tropicalshrub05": {
+   "category": "shrub",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
   "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat": {
    "category": "misc",
    "entrance": null,
@@ -1567,6 +1722,89 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/bones/bloodyarm": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/bones/bloodyhand": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 309.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 310\u00b0 in the piece's own frame carries 1.93x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/bones/bloodyleg": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/bones/bloodyskull": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 317.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 317\u00b0 in the piece's own frame carries 1.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/bones/humanfootleft": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/bones/humanhandleft": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 46.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 47\u00b0 in the piece's own frame carries 1.48x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/bones/humanlegright": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 221.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 221\u00b0 in the piece's own frame carries 1.63x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "interior": "none",
    "provenance": [],
    "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
@@ -1988,8 +2226,335 @@
    "provenance": [],
    "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
   },
+  "vanilla:dungeons/caves/green/dirtmound/cavegdirtmound03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largehall/caveglhall1way01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largehall/caveglhallentrance03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 16.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 17\u00b0 in the piece's own frame carries 1.95x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largehall/caveglhallramp01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 287.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 288\u00b0 in the piece's own frame carries 1.48x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomcorner01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 136.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 136\u00b0 in the piece's own frame carries 1.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomcorner02c": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 196.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 197\u00b0 in the piece's own frame carries 1.43x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomcorner03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomcorner04": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 227.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 228\u00b0 in the piece's own frame carries 1.57x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomdoorl03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 107.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 107\u00b0 in the piece's own frame carries 1.93x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomincorner02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomincorner04": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroommid01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 224.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 224\u00b0 in the piece's own frame carries 1.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomwall01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 345.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 345\u00b0 in the piece's own frame carries 1.66x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomwall02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 282.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 282\u00b0 in the piece's own frame carries 1.89x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomwall02c": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 285.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 285\u00b0 in the piece's own frame carries 1.61x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomwall03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 192.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 193\u00b0 in the piece's own frame carries 1.71x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomwall04c": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 285.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 285\u00b0 in the piece's own frame carries 1.52x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/mines/cavepillars/mineclpillar02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/mines/cavepillars/mineclpillar03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/mines/cavepillars/mineclpillar04": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/mines/cavepillars/mineclpillar05": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/mines/cavepillars/mineclpillar06": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/nordic/rubble/norvinefloor01nocol": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/nordic/rubble/norvinefloor02nocol": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 135.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 135\u00b0 in the piece's own frame carries 1.69x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
   "vanilla:furniture/smallcookingpotnohandle": {
    "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:landscape/dirtcliffs/dirtcliffsisland01": {
+   "category": "terrain-feature",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 198.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 199\u00b0 in the piece's own frame carries 3.77x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:landscape/volcanic/volcanicplateau02": {
+   "category": "terrain-feature",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 165.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 165\u00b0 in the piece's own frame carries 1.58x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:plants/florahangingmoss01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:plants/florahangingmoss02": {
+   "category": "plant",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": null,
@@ -2029,7 +2594,7 @@
  "provenance": {
   "exterior-interior-links.json": {
    "miner": "worldgen.mine_door_links",
-   "minerVersion": "9abb006dbad2",
+   "minerVersion": "0cd64d1a336f",
    "plugins": [
     "ArgonianHome.esp",
     "ArgonianLakeHouse.esl",
@@ -2088,7 +2653,7 @@
     "igs_tileset_ayleid.esp"
    ],
    "poolRegister": {
-    "date": "2026-09-25",
+    "date": "2026-09-27",
     "pools": [
      "bmv",
      "vanilla",
@@ -2120,7 +2685,7 @@
      "hlaalu"
     ],
     "source": "worldgen.asset_registry.POOLS",
-    "uncommittedChanges": true
+    "uncommittedChanges": false
    },
    "poolsMined": [
     "ayleidcc",
@@ -2146,7 +2711,7 @@
     "xalfek",
     "xanmeer"
    ],
-   "runDate": "2026-09-26"
+   "runDate": "2026-10-01"
   },
   "kit-assemblies-mined.json": {
    "miner": "worldgen.mine_assemblies",

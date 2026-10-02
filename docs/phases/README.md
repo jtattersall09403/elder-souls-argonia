@@ -22,7 +22,7 @@ are not phases — several phases each draw on one module.
 | 13 | fauna ecology, encounters, fixed loot (systems only; rollout in 15); fills the `sockets[]` the places author, adding no vocabulary | [§ Phase 13](#phase-13--fauna-ecology-encounters-and-fixed-loot-exemplar-first) | [0103](../decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md) |
 | **12** | **interiors**: tiers B and C only, every assembled interior (dungeons, unique large interiors; never a standard house, stable or workplace, which are tier A with their places, 0105) — research, the furnishing mine, the skill proved on exemplars then unattended; sites, promises, sockets and tier A cells are delivered earlier with the places (16k) | [§ Phase 12](#phase-12--interiors-research-the-furnishing-mine-and-a-skill-proved-on-exemplars) | [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md), [0103](../decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md) |
 | P (+12b) | rolling polish pass; the soundscape | [§ Phase P](#phase-p--general-polish-pass-rolling-including-phase-12b--the-soundscape) + [P-polish/backlog.md](P-polish/backlog.md) | [0023](../decisions/0023-soundscape-polish-tier-and-credits.md) |
-| 14 | streaming and deployment (budgets; the renderer extraction moved to 10b) | [§ Phase 14](#phase-14--streaming-and-deployment) | [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md) |
+| 14 | budget lock and production chunk format (techniques go to the standing performance lane; the renderer extraction moved to 10b) | [§ Phase 14](#phase-14--budget-lock-and-chunk-format) | [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md) |
 | 15 | rollout by region packet, one pass per packet once every system exists, with the skill set the 16k loop proved (0099) | [§ Phase 15](#phase-15--rollout-by-region-packet) | [0034](../decisions/0034-build-sequence-rework.md), [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md) |
 | after | the game build-out (everything the final game needs beyond the world) | [buildout/](buildout/README.md) | [0038](../decisions/0038-world-build-vs-game-buildout-seam.md) |
 
@@ -705,7 +705,7 @@ Deliverables:
   **one** package first (a five-way import cycle), re-validate anything
   tuned under the studio's paused clock against `GAME_TIME_SCALE = 30`;
   resolve the `__STUDIO_*` debug globals into a dev-only seam (standard 8).
-  Phase 14 keeps budgets, the chunk format and the impostor audit;
+  Phase 14 keeps the budget lock and the chunk format;
 - **arrows and physical materials** for the bow (moved here from Phase 13:
   they are bow parity, not ecology);
 - **the minimal NPC detection service** (ratified 2026-09-13, owner
@@ -989,75 +989,38 @@ Deliverables (the first two are met by the above; the rest remain):
   day/night chorus flip, underwater transformation, soundscape density (a
   taste call: Morrowind-sparse vs jungle wall-of-sound).
 
-### Phase 14 — streaming and deployment
+### Phase 14 — budget lock and chunk format
 
-**Phase 14 locks budgets and hardens streaming; it does not introduce them**
-(0034). The province already streams (chunked terrain + LODs since Phase 6),
-and every placement phase ships its content *through* the tiered
-streaming/LOD architecture as it lands — vegetation via module 65's tiers and
-budget probes, kits/interiors via the bundle contract (module 80 §63) — so
-nothing ever renders "everything at once". **Standing rule: the province must
-stay loadable and playable in the owner's browser at every phase gate.** If
-rollout scale (Phase 15) starts to strain that, pull Phase 14 items forward
-into the packets (draw-distance rings, impostor distances, instance caps,
-texture compression) rather than waiting for this phase.
+**Phase 14 locks the budgets and fixes the production chunk format before
+rollout; it introduces no performance technique** (0034; owner 2026-10-01).
+Every technique (LOD and instance batching, material and pass savings,
+compression trades, culling, the fable5-world-demo rows) is taken by the
+standing [performance lane](lanes/performance-lane.md) as soon as it is the
+cheapest win, never parked here. Phase 14 follows Phases 13 and 12b because
+their creatures, encounters and sound consume the budget it locks. **Standing
+rule: the province must stay loadable and playable in the owner's browser at
+every phase gate**; the performance lane holds that rule between gates.
 
 Deliverables:
 
 - (the renderer extraction moved to Phase 10b, decision 0062; the shell
   app, menus and deploy slice stay in the build-out);
 - production chunk format;
-- dependency-aware streaming (nav tiles stream with chunks, §114);
+- dependency-aware streaming (nav tiles stream with chunks, §114; the
+  King of the Murkmire creature and actor textures, 542 MB raw, wait for
+  this streaming host: [KotM plan](../research/placement-settlements/king-of-the-murkmire-adoption-plan.md) § 3.9, § 4.4);
 - **main-thread work moved to workers** — terrain grid geometry, flora
   collider bodies (trimesh BVH), settlement far-merges and vegetation cell
   builds are built in web workers and handed over as transferables; the
-  `FrameWorkQueue` (`packages/game-core/src/scheduling/`, 16g follow-up
-  2026-09-20) stays as the main-thread hand-over budget. Queued 2026-09-20
-  from the walking-stutter root cause: every crossing into new ground ran
-  those builds synchronously in one frame;
-- LOD and instance batching; vegetation quality tiers locked as one
-  declarative table (T3 ring, T2 caps, impostor distances — §112);
-- **billboard/impostor audit for the flora kit** — DONE in 16f round 2 (2026-09-18, decision 0071): the audit found no card mapped by a wrong filename (11 explicit borrows only) but 115 of 159 flora species, all 61 ground-cover species and all underwater species had NO card; the kit builder now bakes a card per asset from its own mesh (`bakeCards`), rocks ship one mesh level; the runtime crossfades every level by dither. What stays here for Phase 14: locking the distances as one declarative table and the per-device budgets. Original observation kept for the record (owner,
-  2026-09-01 — a performance item, so it lands here rather than in Phase 10's
-  look-pass): ① several tree types show the **wrong silhouette** at distance
-  (palms resolving to a conifer/pine card — a card↔species mapping fault in
-  the kit builder's `_lod_flat` selection, same failure family as the
-  round-4 "wrong game's atlas" bug, so check per-species provenance not just
-  presence); ② **some trees appear never to drop to a card at all**, staying
-  at full mesh at any distance — verify per species that a billboard level
-  exists, is eligible, and is actually selected at range (instrument counts
-  per species/level, don't eyeball), because a species silently held at full
-  mesh is a straight draw-call and triangle cost across the whole province.
-  Fix in the kit builder + LOD selection, then re-measure the province
-  budget;
-- **compressed textures and geometry — DONE, pulled forward by the owner on
-  2026-09-18 (decision 0073)**: the composed Pages site had reached 1,041 MB
-  against the 1 GB limit, so every kit now ships KTX2/UASTC textures and
-  meshopt geometry through `pipeline/kit_compress.py` (556 → 222 MB; the
-  site with every kit in 999 → 561 MB), the runtime decodes via
-  `game-core/assets/kitLoader.ts`; the duplicated character assets ship
-  once. Numbers and the per-role choice:
-  [research/rendering/gpu-texture-and-mesh-compression.md](../research/rendering/gpu-texture-and-mesh-compression.md).
-  What stays here: per-device texture budgets and any ETC1S trade the owner
-  chooses for opaque architecture (measured 4/5, ~30 % smaller);
-- **King of the Murkmire** ([KotM plan](../research/placement-settlements/king-of-the-murkmire-adoption-plan.md) § 3.9, § 4.4): its LOD meshes
-  are rungs on the 0075 ladder; its whole pool (1,653 MB raw, about
-  660 MB compressed) cannot ship under the 900 MB site gate, so each kit
-  ships only placed pieces with its own download line, and its creature
-  and actor textures (542 MB raw) wait for this phase's streaming host;
-- performance budgets by device class;
-- **rendering-performance techniques from the fable5-world-demo audit**
-  ([audit](../research/rendering/fable5-world-demo-audit.md) rows 15-21;
-  MIT code at `github.com/Braffolk/fable5-world-demo` commit `fd75fdb7`, local
-  clone `/workspaces/ext/fable5-world-demo`, same three.js 0.184): CSM cascade
-  update periods (`src/render/CsmCached.ts:29`), `matrixAutoUpdate=false` and
-  uniform groups on static meshes (their `STATUS.md:548-561`), vertex-stage
-  hoists in foliage materials (`src/render/VegMaterials.ts:53-63`), a depth
-  prepass for alpha foliage gated on an M2 measurement
-  (`src/render/VegPrepass.ts:38,79`), CDLOD vertex morph on terrain
-  (`src/world/TerrainTiles.ts:117-133`), a far-forest canopy shell
-  (`src/world/CanopyShell.ts`), and their ABAB measurement rules
-  (`STATUS.md:585-600`) for the device-class budgets;
+  `FrameWorkQueue` (`packages/game-core/src/scheduling/`) stays as the
+  main-thread hand-over budget (the walking-stutter root cause, 2026-09-20:
+  every crossing into new ground ran those builds synchronously in one
+  frame);
+- performance budgets by device class, measured by the fable5-world-demo
+  ABAB rules (`STATUS.md:585-600`, [audit](../research/rendering/fable5-world-demo-audit.md)),
+  locked as one declarative table with the vegetation quality tiers (T3
+  ring, T2 caps, impostor distances, §112) and per-device texture budgets;
+- the lock: every budget above enforced by a gate before Phase 15 rolls out;
 - GitHub Pages build containing approved runtime content only;
 - **sparse local state variants, consumed and budgeted** (the overlay
   mechanism in the bundle format is the 16k loop's (carried 16h item 18), per the buildout register and

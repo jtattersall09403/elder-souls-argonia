@@ -3,8 +3,8 @@
  "kit": "settlement-imperial-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 13856740,
-  "sha256": "f0320d067f5f4b07d2215cdf8bb0da2b8ddc204254e34188e4273e4218125576"
+  "bytes": 14132180,
+  "sha256": "ce285db28def8077f13351ab0203907dd9b7904f887728b0666ab1f05206ccbf"
  },
  "totals": {
   "parts": 7,
@@ -157,6 +157,9 @@
     0.129,
     0.127,
     0.024
+   ],
+   "emissiveMaterials": [
+    "CandleLanternWithCandle:7.Mat"
    ]
   }
  }

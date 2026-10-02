@@ -382,9 +382,12 @@ def check_failure_rows(check: dict) -> list[dict]:
                 f"{pair.get('a')}~{pair.get('b')}: {pair['relation']} pair fails "
                 f"(gap {pair.get('gapM')}, penetration {pair.get('penetrationM')}, "
                 f"crossing {pair.get('intersecting')})")
+    # an off-network place (a lair reached across country, `rules.off_network`)
+    # has no way to reach: walkRule proves its doors from the approach instead
+    off_network = bool((check.get("pathReach") or {}).get("offNetwork"))
     for uid, d in check["doors"].items():
         dist = d["best"]["pathDistanceM"]
-        if dist is None or dist > bi.DOOR_REACH_M:
+        if not off_network and (dist is None or dist > bi.DOOR_REACH_M):
             add("doorReach", [uid], f"{uid}: best doorway {dist} m from a way (> {bi.DOOR_REACH_M})")
     # decision 0102 decision 2: the measured walk-packet rules
     uids = list(check["pieces"])
@@ -412,4 +415,6 @@ RULES = (("walk", "walkRule"), ("floorEdge", "floorEdgeRule"), ("pathReach", "pa
          ("sign", "signRule"), ("berthReach", "berthReachRule"), ("collider", "colliderRule"),
          ("burial", "burialRule"), ("hanging", "hangingRule"), ("fixtureSeat", "fixtureSeatRule"),
          ("archway", "archwayRule"), ("rockSeat", "rockSeatRule"), ("padClear", "padClearRule"),
-         ("landing", "landingRule"), ("walkway", "walkwayRule"), ("coplanar", "coplanarRule"), ("ownerOk", "ownerOkRule"), ("scanFresh", "scanFreshRule"))
+         ("landing", "landingRule"), ("walkway", "walkwayRule"), ("coplanar", "coplanarRule"),
+         ("seatFacing", "seatFacingRule"), ("socketCoherence", "socketCoherenceRule"),
+         ("serviceSign", "serviceSignRule"), ("ownerOk", "ownerOkRule"), ("scanFresh", "scanFreshRule"))

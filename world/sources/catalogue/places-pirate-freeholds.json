@@ -359,6 +359,14 @@
         {
           "sourcePath": "why.founding",
           "placeRef": "place.dunmer-north.hatching-pools"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.thorn"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.dunmer-north.thorn"
         }
       ],
       "cityLayout": {
@@ -3834,7 +3842,7 @@
             "to": "hostile",
             "when": {
               "questStage": [
-                "quest.mq.01",
+                "quest.main.mq01",
                 "≥",
                 60
               ]
@@ -7118,7 +7126,9 @@
           "place.pirate-freeholds.alten-corimont"
         ],
         "supplies": [
-          "place.pirate-freeholds.alten-corimont"
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.corimont-hiring-yard",
+          "place.pirate-freeholds.opening-work-camp"
         ],
         "rivals": [],
         "patrols": [],
@@ -7154,7 +7164,7 @@
             "to": "hostile",
             "when": {
               "questStage": [
-                "quest.mq.01",
+                "quest.main.mq01",
                 "≥",
                 30
               ]
@@ -7165,7 +7175,7 @@
             "to": "neutral",
             "when": {
               "questStage": [
-                "quest.mq.01",
+                "quest.main.mq01",
                 "≥",
                 60
               ]
@@ -7317,7 +7327,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A gang that works a channel has to sleep on land. The families follow it. The camp is forty years old and is still named for the ground worked by the gang.",
-        "siteAdvantages": "Firm bank opposite the barge's mooring, with a hatching shed set back from the water where the ground stays dry.",
+        "siteAdvantages": "A slope of firm ground between the Border road and the marsh. Its top terrace stays dry enough for a hatching shed.",
         "occupantsMotive": "Families whose people are on the roll, keeping a life going within walking distance of it.",
         "pressures": "The camp has a Hist a day upriver but no claim on it. The families stay because the clutch is in the shed.",
         "wouldChangeIf": "If the clutch is lost, the families go somewhere the ledger cannot follow."
@@ -7351,7 +7361,7 @@
       "occupants": [
         "D1 gang families",
         "D1 clutch-keeper",
-        "D2 camp overseer"
+        "D1 camp overseers"
       ],
       "notableNpcSlots": [
         {
@@ -7381,14 +7391,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "low sheds along a bank with one long shed set back from the water and banked with earth",
+        "silhouette": "low shelters stepped down a slope on levelled terraces, with the hatching shed on the top terrace below the road",
         "palette": "mud, undyed cloth, the warm amber of the hatching shed's lamps at night",
-        "materials": "mud render, cut reed, plank walkways over the wet ground",
+        "materials": "bamboo, reed thatch, hide over poles, packed earth",
         "signatureFeature": "the hatching shed, kept warmer and cleaner than the sleeping sheds",
         "condition": "poor, well kept",
         "mood": "domestic; the ledger is a walk away",
-        "approach": "the walkway from the water runs straight past the shed door",
-        "senses": "cooking, wet reed; from the long shed a low continuous sound"
+        "approach": "the way in drops from the Border road to the hatching shed door; the yard way steps down the terraces from there",
+        "senses": "cooking, wet reed; from the hatching shed a low continuous sound"
       },
       "assetPlan": [
         "bamboo-hut",
@@ -7475,7 +7485,7 @@
             "to": "friendly",
             "when": {
               "questStage": [
-                "quest.mq.01",
+                "quest.main.mq01",
                 "≥",
                 60
               ]
@@ -7494,7 +7504,7 @@
           "lore-reveal"
         ],
         "impact": "province-changing",
-        "hook": "The gang's families live on this bank. The warm shed at the back holds the clutch that they will not leave.",
+        "hook": "The gang's families live on this slope above the marsh. The warm shed at the top holds the gang's egg clutch. The families will not move away from it.",
         "reviewed": true
       },
       "interior": {
@@ -7518,15 +7528,6 @@
             "count": "band",
             "named": false,
             "note": "gang families, who know every name on the roll"
-          },
-          {
-            "slotId": "n2",
-            "role": "named-keeper",
-            "registerRef": null,
-            "danger": "D1",
-            "count": "single",
-            "named": true,
-            "note": "the clutch-keeper, who does not leave the shed"
           },
           {
             "slotId": "n3",
@@ -7593,7 +7594,17 @@
         "score": 3.746
       },
       "sitingNote": "Held at D1 with the barge for the same Ring A reason; see place.pirate-freeholds.opening-work-barge.",
-      "ownerGuided": true
+      "ownerGuided": true,
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.approach",
+          "routeRef": "route.road.stormhold-thorn"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.road.stormhold-thorn"
+        }
+      ]
     },
     {
       "id": "place.pirate-freeholds.plague-cordon-line",
@@ -13187,7 +13198,7 @@
             "to": "friendly",
             "when": {
               "questStage": [
-                "quest.mq.01",
+                "quest.main.mq01",
                 "≥",
                 40
               ]

@@ -69,7 +69,11 @@
    "undersideClosed": true,
    "undersideCoverage": 0.959,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.824
+   "pivotAboveBaseM": 1.824,
+   "emissiveMaterials": [
+    "Constellation.Mat"
+   ],
+   "displayName": "Arconstellationstele"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfloorraised01a",
@@ -131,7 +135,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.001,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.475
+   "pivotAboveBaseM": 0.475,
+   "displayName": "Arfloorraised 01a"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfloorraised02a",
@@ -193,7 +198,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.488
+   "pivotAboveBaseM": 0.488,
+   "displayName": "Arfloorraised 02a"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfloorraised03a",
@@ -255,7 +261,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.193
+   "pivotAboveBaseM": 0.193,
+   "displayName": "Arfloorraised 03a"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen01",
@@ -322,7 +329,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -5.409
+   "pivotAboveBaseM": -5.409,
+   "displayName": "Arledgescreen 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen02",
@@ -393,7 +401,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -5.376
+   "pivotAboveBaseM": -5.376,
+   "displayName": "Arledgescreen 02"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen02left",
@@ -464,7 +473,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -5.376
+   "pivotAboveBaseM": -5.376,
+   "displayName": "Arledgescreen 02left"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen02right",
@@ -535,7 +545,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -5.376
+   "pivotAboveBaseM": -5.376,
+   "displayName": "Arledgescreen 02right"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhallbladeslots",
@@ -608,7 +619,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.906,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.109
+   "pivotAboveBaseM": 0.109,
+   "displayName": "Arnhallbladeslots"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhalldeadend01",
@@ -672,7 +684,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.938,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arnhalldeadend 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhalldeadend02",
@@ -735,7 +748,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.938,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arnhalldeadend 02"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhalldeadendwall",
@@ -791,7 +805,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arnhalldeadendwall"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arpitretractablestairs02",
@@ -922,7 +937,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.552
+   "pivotAboveBaseM": 4.552,
+   "displayName": "Arpitretractablestairs 02"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arpitretractablestairsbase02",
@@ -994,7 +1010,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.17
+   "pivotAboveBaseM": 0.17,
+   "displayName": "Arpitretractablestairsbase 02"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arpitwalltallsecret01",
@@ -1070,7 +1087,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.811,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.168
+   "pivotAboveBaseM": 0.168,
+   "displayName": "Arpitwalltallsecret 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arretractablebridge01",
@@ -1145,7 +1163,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.577,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.556
+   "pivotAboveBaseM": 0.556,
+   "displayName": "Arretractablebridge 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepile02",
@@ -1211,7 +1230,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.032,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.043
+   "pivotAboveBaseM": 0.043,
+   "displayName": "Arrubblepile 02"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepile03",
@@ -1277,7 +1297,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.166,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.171
+   "pivotAboveBaseM": 0.171,
+   "displayName": "Arrubblepile 03"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepileceiling01",
@@ -1350,7 +1371,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.327
+   "pivotAboveBaseM": 1.327,
+   "displayName": "Arrubblepileceiling 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artable01",
@@ -1416,7 +1438,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.002
+   "pivotAboveBaseM": 0.002,
+   "displayName": "Artable 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablesquare01",
@@ -1482,7 +1505,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.002
+   "pivotAboveBaseM": 0.002,
+   "displayName": "Artablesquare 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablethin01",
@@ -1548,7 +1572,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.002
+   "pivotAboveBaseM": 0.002,
+   "displayName": "Artablethin 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall01dirt",
@@ -1622,7 +1647,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.859,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Arwhall 01dirt"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall3way01",
@@ -1700,7 +1726,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.85,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Arwhall 3way 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall3way02",
@@ -1774,7 +1801,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.85,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Arwhall 3way 02"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall4way01fancy",
@@ -1848,7 +1876,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.863,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.183
+   "pivotAboveBaseM": -0.183,
+   "displayName": "Arwhall 4way 01fancy"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhallcorner01fancy",
@@ -1920,7 +1949,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.854,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Arwhallcorner 01fancy"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhallsecret01fancy",
@@ -1998,7 +2028,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.816,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Arwhallsecret 01fancy"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhalltransnarrowflat",
@@ -2067,7 +2098,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Arwhalltransnarrowflat"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbench02",
@@ -2132,7 +2164,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Arbench 02"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbench03",
@@ -2200,7 +2233,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arbench 03"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbridge1way02x256",
@@ -2262,7 +2296,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91
+   "pivotAboveBaseM": 0.91,
+   "displayName": "Arbridge 1way 02x 256"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbridge1wayendcap02",
@@ -2324,7 +2359,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.999,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 0.91
+   "pivotAboveBaseM": 0.91,
+   "displayName": "Arbridge 1wayendcap 02"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arclutterpedestal01",
@@ -2388,7 +2424,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.973,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Arclutterpedestal 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arcluttertrough01",
@@ -2452,7 +2489,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arcluttertrough 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridge01",
@@ -2517,7 +2555,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.797
+   "pivotAboveBaseM": 0.797,
+   "displayName": "Arfacadebridge 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridgecurve01",
@@ -2582,7 +2621,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.661,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.797
+   "pivotAboveBaseM": 0.797,
+   "displayName": "Arfacadebridgecurve 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridgerampccw01",
@@ -2642,7 +2682,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.809,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.182
+   "pivotAboveBaseM": 6.182,
+   "displayName": "Arfacadebridgerampccw 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridgerampcw01",
@@ -2702,7 +2743,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.809,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.182
+   "pivotAboveBaseM": 6.182,
+   "displayName": "Arfacadebridgerampcw 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturebedsingle01",
@@ -2767,7 +2809,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Arfurniturebedsingle 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturebedsingle02",
@@ -2839,7 +2882,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.066,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Arfurniturebedsingle 02"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturechair01",
@@ -2905,7 +2949,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.033,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Arfurniturechair 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturechair02",
@@ -2969,7 +3014,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.113,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "displayName": "Arfurniturechair 02"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arhitchpost01",
@@ -3032,7 +3078,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.961,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.228
+   "pivotAboveBaseM": 0.228,
+   "displayName": "Arhitchpost 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatcorin01",
@@ -3094,7 +3141,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 67.5,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arplatcorin 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatcorin02",
@@ -3156,7 +3204,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 135.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arplatcorin 02"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatcorout01",
@@ -3218,7 +3267,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 135.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arplatcorout 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatmid01",
@@ -3277,7 +3327,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.91
+   "pivotAboveBaseM": -0.91,
+   "displayName": "Arplatmid 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatwall01",
@@ -3339,7 +3390,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arplatwall 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatwallstair01",
@@ -3401,7 +3453,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arplatwallstair 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatwallstair02",
@@ -3463,7 +3516,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 135.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arplatwallstair 02"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arsteppeddias01",
@@ -3525,7 +3579,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arsteppeddias 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablebench2seater",
@@ -3591,7 +3646,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.84,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.007
+   "pivotAboveBaseM": 0.007,
+   "displayName": "Artablebench 2seater"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablebench4seater",
@@ -3657,7 +3713,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.777,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.01
+   "pivotAboveBaseM": 0.01,
+   "displayName": "Artablebench 4seater"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwindow01",
@@ -3715,7 +3772,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.755,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 1.199
+   "pivotAboveBaseM": 1.199,
+   "emissiveMaterials": [
+    "ImpWindow01:24.Mat"
+   ],
+   "windowMaterials": [
+    "ImpWindow01:24.Mat"
+   ],
+   "displayName": "Arwindow 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhall01mine",
@@ -3796,7 +3860,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.726,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.109
+   "pivotAboveBaseM": 0.109,
+   "displayName": "Arnhall 01mine"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhall4way01",
@@ -3868,7 +3933,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.66,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.109
+   "pivotAboveBaseM": 0.109,
+   "displayName": "Arnhall 4way 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhall4way02",
@@ -3937,7 +4003,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.66,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.109
+   "pivotAboveBaseM": 0.109,
+   "displayName": "Arnhall 4way 02"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrmcornerexitrightnarrow01",
@@ -4009,7 +4076,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.879,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Arrmcornerexitrightnarrow 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/arpuzzlepillar",
@@ -4085,7 +4153,13 @@
    "undersideClosed": false,
    "undersideCoverage": 0.215,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "emissiveMaterials": [
+    "Face01.Mat",
+    "Face02.Mat",
+    "Face03.Mat"
+   ],
+   "displayName": "Arpuzzlepillar"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonealteration01",
@@ -4156,7 +4230,11 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.24
+   "pivotAboveBaseM": 0.24,
+   "emissiveMaterials": [
+    "MagicStoneRestoration01:8.Mat"
+   ],
+   "displayName": "Magicstonealteration 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstoneconjuration01",
@@ -4227,7 +4305,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.24
+   "pivotAboveBaseM": 0.24,
+   "displayName": "Magicstoneconjuration 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonedestruction01",
@@ -4298,7 +4377,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.24
+   "pivotAboveBaseM": 0.24,
+   "displayName": "Magicstonedestruction 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstoneenchanting01",
@@ -4369,7 +4449,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.24
+   "pivotAboveBaseM": 0.24,
+   "displayName": "Magicstoneenchanting 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstoneillusion01",
@@ -4440,7 +4521,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.24
+   "pivotAboveBaseM": 0.24,
+   "displayName": "Magicstoneillusion 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonerestoration01",
@@ -4511,7 +4593,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.24
+   "pivotAboveBaseM": 0.24,
+   "displayName": "Magicstonerestoration 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/traps/artrapswingingblade01",
@@ -4567,7 +4650,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.727,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -1.007
+   "pivotAboveBaseM": -1.007,
+   "displayName": "Artrapswingingblade 01"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/traps/arwelkyndclusterevil01",
@@ -4659,7 +4743,11 @@
    "undersideClosed": true,
    "undersideCoverage": 0.773,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.026
+   "pivotAboveBaseM": 0.026,
+   "emissiveMaterials": [
+    "ARWelkydCluster01New.Mat"
+   ],
+   "displayName": "Arwelkyndclusterevil 01"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\xanmeer-interior-v1.glb",

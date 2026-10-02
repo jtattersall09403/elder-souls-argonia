@@ -16,7 +16,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 
 import wb  # noqa: E402
-from workbench import pads, rules  # noqa: E402
+from workbench import measure, pads, rules  # noqa: E402
 from workbench.scene import Piece  # noqa: E402
 
 LAYOUT = HERE.parent / "fixtures" / "claywater-walk2.layout.json"
@@ -88,3 +88,22 @@ def test_a_deck_class_prop_settled_on_the_ground_passes_prop_seat(applied_layout
     got = rules.prop_seat(cat, scene, uids=["t-hay"])
     fails = [f for f in got["failures"] if "t-hay" in f]
     assert not fails, fails
+
+
+RACK = "vanilla:clutter/common/tanningrack01"
+
+
+def test_a_padded_assembly_member_is_seated_as_a_prop(cat):
+    """Walk 9: a padded market stall and fish rack (assembly members) were
+    seated by the building seat 0.030 m over their pads, which propSeatRule
+    (it judges every assembly member) failed. A padded piece takes the pad
+    seat while unbound (its `place` op) and the prop seat once bound as an
+    assembly member; a padded building never does. The walk-8 `is_prop`
+    (any pad owner excluded) fails the second assert."""
+    p = Piece("t-rack", RACK, 0.0, 0.0, 0.0)
+    p.pad = {"apronM": 0.3}
+    assert not measure.is_prop(cat, p)                     # unbound: the pad seat
+    p.role = {"kind": "assembly", "layer": "clutter", "on": "ground"}
+    assert measure.is_prop(cat, p)                         # dressing: the prop seat
+    p.role = {"kind": "parcel", "id": "parcel.x"}
+    assert not measure.is_prop(cat, p)                     # a building keeps its pad seat

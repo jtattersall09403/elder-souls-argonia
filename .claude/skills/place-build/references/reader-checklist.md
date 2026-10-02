@@ -13,7 +13,7 @@ it). **Readers get only the `reader` rows**; a `rule:` row is never
 pasted into a reader's prompt, because a red there is already a check
 failure. A row with a measured half and a looked-at half stays
 `reader`. When a new rule starts measuring a `reader` row, retag it in
-the same change. Tally: 22 `reader`, 18 `rule:` (the round-1 review
+the same change. Tally: 23 `reader`, 19 `rule:` (the round-1 review
 estimated ~24 measurable; rows 4, 6, 11, 17, 19 and 28 are partly
 measured and stay `reader` until a rule covers the whole row).
 
@@ -109,7 +109,12 @@ Each reader is given its shot and the designer's expected value first.
 48. On three interior renders of each tier A cell (from the door and two far corners, the runtime light model: no shadows, no bounce, the cell's ambient cube as the sky, its lights as points, no fill): does the room read warm and readable, lit by its own hearth and lanterns (light pooled round each source, falling off towards the walls), not flat, evenly grey or washed out? The measured half is `interior_light`: `sourceLedFraction` ≥ 0.70 and the dark fraction ≤ 30 % (doors-interiors-sockets § 7); a render that reads flat is a NO whatever that number says. (16k walk 5 F1 follow-up) `reader`
 49. On the same interior renders: is every wall, floor and piece textured (no surface one flat colour), every piece resting on a floor, table, shelf, wall or ceiling (nothing hanging in the air), every stair meeting a floor at both ends, and every hearth burning? The measured half is `wb.py audit-interior <cell>` exit 0 (textures, support, stairs, hearth, lit density; doors-interiors-sockets § 3); a NO on the picture with a green audit is a new audit row. (owner walk 6, the Greenspring hut: flat green walls, no hearth fire) `reader`
 50. Is `wb.py coplanar` (places) / `audit-interior` (cells) at 0 before the renders, and on the renders does any surface shimmer or show two textures striped over each other (a decal flush on a floor or wall, two panels on one plane)? A hit is fixed at source (R90), never by a render angle.
-51. Does the built studio draw every flame the cell and the place burn? Measured only: `node tooling/visual-look/flames.mjs interior <cellId> <xKm> <zKm>` PASS for every cell the doors claim and `flames.mjs place <xKm> <zKm> --t 22` PASS for the place (fire.md § 3 step 4); the PASS lines go in the walk packet. A flame proxy on a render or a look sheet never answers this row. (owner walk 7: three rounds claimed flames the studio never drew) `rule:flames.mjs`
+51. Does the built studio draw every flame the cell and the place burn? Measured only: `node tooling/visual-look/flames.mjs interior <cellId> <xKm> <zKm>` PASS for every cell the doors claim and `flames.mjs place <placeId> --t 22` PASS for the place (fire.md § 3 step 4); the PASS lines go in the walk packet. A flame proxy on a render or a look sheet never answers this row. (owner walk 7: three rounds claimed flames the studio never drew) `rule:flames.mjs`
+
+## Owner walk-8 defects (front and iso; step 4)
+
+52. Does every prop used from one side face its user: a chair toward its table or out from the wall to the path, a spit or oven mouth to the cook's open side, a lantern arm over the way, a shop board out from the wall readable from the street? Name any that face a wall. (R94; seats are also measured by `seatFacingRule`) `reader`
+53. Does every lodging, trade, stable or smith building show its board on a bracket post beside the door, not over the opening? (R96; Gate "Signage, banners, totems, shrines") `rule:serviceSignRule`
 
 ## Walk only (never asked of the reader)
 

@@ -87,7 +87,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.012,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.318
+   "pivotAboveBaseM": 0.318,
+   "displayName": "WR castle stairs 01"
   },
   {
    "id": "vanilla:architecture/whiterun/wrterrain/wrstairsplatform01",
@@ -189,7 +190,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.147
+   "pivotAboveBaseM": -0.147,
+   "displayName": "WR stairs platform 01"
   },
   {
    "id": "vanilla:architecture/whiterun/wrterrain/wrbridgestone01",
@@ -265,7 +267,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.656,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.377
+   "pivotAboveBaseM": -0.377,
+   "displayName": "WR bridge stone 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallterracestairs01",
@@ -332,7 +335,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.015,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.009
+   "pivotAboveBaseM": 0.009,
+   "displayName": "Stonewall terrace stairs 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallterracerampup01",
@@ -395,7 +399,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stonewall terrace ramp up 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallterracerampdown01",
@@ -465,7 +470,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.003,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stonewall terrace ramp down 01"
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallterrace01",
@@ -530,7 +536,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 202.5,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stonewall terrace 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01",
@@ -591,7 +598,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.251
+   "pivotAboveBaseM": 0.251,
+   "displayName": "Trgmstairs 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/stairs01",
@@ -654,7 +662,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.018,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.15
+   "pivotAboveBaseM": 0.15,
+   "displayName": "Stairs 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge01",
@@ -719,7 +728,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.411
+   "pivotAboveBaseM": 0.411,
+   "displayName": "Trgmbridge 01"
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02",
@@ -786,7 +796,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.973,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.772
+   "pivotAboveBaseM": 2.772,
+   "displayName": "Trgmbridge 02"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01",
@@ -846,7 +857,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.379,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.542
+   "pivotAboveBaseM": 1.542,
+   "displayName": "Passesc 128h 64d 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128h64d01",
@@ -911,7 +923,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.379,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.542
+   "pivotAboveBaseM": 1.542,
+   "displayName": "Passl 128h 64d 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128d01",
@@ -984,7 +997,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.943,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passl 128d 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256d01",
@@ -1049,7 +1063,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.973,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Passl 256d 01"
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64startd01",
@@ -1114,7 +1129,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.529
+   "pivotAboveBaseM": 1.529,
+   "displayName": "Passl 256h 64startd 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldstairs01",
@@ -1206,7 +1222,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.843,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Stockade scaffold stairs 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridge01",
@@ -1297,7 +1314,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.875,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.546
+   "pivotAboveBaseM": 0.546,
+   "displayName": "Stockade scaffold bridge 01"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridge02",
@@ -1387,7 +1405,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.815,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.774
+   "pivotAboveBaseM": 0.774,
+   "displayName": "Stockade scaffold bridge 02"
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridgenarrow",
@@ -1470,7 +1489,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.8,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.877
+   "pivotAboveBaseM": 0.877,
+   "displayName": "Stockade scaffold bridge narrow light SN"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\route-structures-v1.glb",

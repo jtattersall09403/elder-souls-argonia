@@ -50,7 +50,7 @@ import { availableParallelism } from "node:os";
 import { basename, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { jobsCap, pinPrefix } from "./jobs.mjs";
-import { loadWorkspaces, selectGates } from "./preflight_select.mjs";
+import { loadWorkspaces, rerunOnlyFailed, selectGates } from "./preflight_select.mjs";
 import { PYTEST_CWD, byFile, failedIds, headOutcomes, readRecord, writeRecord, unchecked, label } from "./preflight_heads.mjs";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -324,6 +324,28 @@ if (!selection.all) {
       (sum.deselect.length ? `; slow deselected: ${sum.deselect.join(", ")}` : ""));
   }
 }
+// One close per batch (decision 0118): inside the open review batch, a re-run
+// runs only last run's red gates (and gates it did not run); `--all-gates` opts out.
+const RUNS_LOG = join(repoRoot, "tooling", ".reports", "preflight", "runs.jsonl");
+const batchId = (() => {
+  try {
+    const s = JSON.parse(readFileSync(join(repoRoot, "tooling", ".reports", "review", "stamp.json"), "utf8"));
+    return s.open && s.batchId ? s.batchId : null;
+  } catch { return null; }
+})();
+if (!runnerMode && !process.argv.includes("--all-gates")) {
+  let last = null;
+  try {
+    const rows = readFileSync(RUNS_LOG, "utf8").trim().split("\n");
+    last = JSON.parse(rows[rows.length - 1]);
+  } catch { /* no log yet */ }
+  const narrowed = rerunOnlyFailed(selection.gates, last, batchId, reviewPaths);
+  if (narrowed.skipped.length) {
+    selection.gates = narrowed.gates;
+    selection.skipped.push(...narrowed.skipped);
+    console.log(`preflight: re-run inside batch ${batchId}: only last run's red gates; green last time, skipped: ${narrowed.skipped.join(", ")} (--all-gates runs them)`);
+  }
+}
 const runnerTree = runnerMode ? exportCommittedTree() : null;
 console.log(`preflight: ${(capBytes / GIB).toFixed(1)} GiB cap, ${(usedBytes / GIB).toFixed(1)} GiB already used → ${(budget / GIB).toFixed(1)} GiB free → ${pyWorkers} pytest workers, ${wsJobs} workspace jobs, ${jobs} gates at once (ES_JOBS cap), watchdog ceiling ${ceilingGib} GiB`);
 const memwatch = join(repoRoot, "tooling", "repo-standards", "memwatch.sh");
@@ -443,9 +465,10 @@ console.log(`\n${results.length - failed} passed, ${failed} failed; slowest ${Ma
 if (!runnerMode) writeStamp(reviewPaths, !failed && !slow);
 // One line per run for the weekly drift check (cost-review § Workflow drift).
 try {
-  appendFileSync(join(repoRoot, "tooling", ".reports", "preflight", "runs.jsonl"), JSON.stringify({
+  appendFileSync(RUNS_LOG, JSON.stringify({
     at: new Date().toISOString(), runner: runnerMode, paths: reviewPaths, wallS, passed: !failed && !slow,
-    gates: results.map((r) => [r.name, r.seconds]), headReds: headReds.length }) + "\n");
+    gates: results.map((r) => [r.name, r.seconds]), headReds: headReds.length, batchId,
+    failed: results.filter((r) => r.code !== 0).map((r) => r.name) }) + "\n");
 } catch { /* a log line never fails a run */ }
 process.exit(failed || slow ? 1 : 0);
 

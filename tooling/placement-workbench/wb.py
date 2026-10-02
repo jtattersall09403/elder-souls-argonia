@@ -126,9 +126,12 @@ def reseat_after_pads(cat, scene) -> list[dict]:
     for p in scene.pieces:
         by = p.settledBy or ""
         # planner ruling 1 (round 6): only a piece that owns no pad is re-seated;
-        # a building, a run member or a retaining wall keeps its pad seat
-        if (not by.startswith("settle:") or p.pad is not None
-                or (p.role or {}).get("kind") == "run"):
+        # a building, a run member or a retaining wall keeps its pad seat. A
+        # padded assembly member (a stall, a rack: walk 9) is dressing and is
+        # re-seated by `prop_seat` on its own pad (`measure.is_prop`)
+        kind = (p.role or {}).get("kind")
+        if (not by.startswith("settle:") or kind == "run"
+                or (p.pad is not None and kind != "assembly")):
             continue
         before = p.y
         _settle(cat, scene, p, by.rsplit(":", 1)[-1], declared_pads=resolved)
@@ -437,6 +440,21 @@ def _sill(cat, g, p, row, cs) -> dict:
     else:
         heights = [g.survey_height(x, z) for x, z in samples]
         line = min(heights) if fit == "dug-in" else sum(heights) / len(heights)
+        if fit == "dug-in" and cat is not None:
+            # a dug-in piece whose door stands inside its own outline (a cave
+            # mouth: the load door at the end of its tunnel) is entered over
+            # its own floor, which walkwayRule measures step by step from the
+            # ground to the door; the ground under the hill is no sill
+            # (16k walk 9: rockcaveentrance02's 30 m mound read 0.43 m)
+            from types import SimpleNamespace
+            from shapely.geometry import Point, Polygon
+            from workbench import rules as _rules
+            door = next((d for d in _rules.piece_doors(cat, SimpleNamespace(paths=[]), p)
+                         if d.get("bound")), None)
+            if door is not None and len(samples) >= 3 and \
+                    Polygon(samples).buffer(0).contains(Point(*door["thresholdM"])):
+                return {"sillM": None, "sillMaxM": tpg.SILL_LIMIT_M, "sillRule": None,
+                        "sillWhy": "door inside its own outline: walkwayRule judges the way in"}
         sill = abs(line - g.survey_height(p.x, p.z))
     return {"sillM": round(sill, 3), "sillMaxM": tpg.SILL_LIMIT_M,
             "sillRule": None if sill <= tpg.SILL_LIMIT_M else
@@ -474,14 +492,43 @@ def _at_height(cat, scene, child, height: float) -> None:
     child.y += float(height) - (float(cz) - float(g.chunk_height(float(cx), float(-cy))))
 
 
+def mount_records_problem(asset: str, policies: dict, anchors: dict) -> str | None:
+    """Why a mounted asset's records do not yet carry its mount, or None: an
+    asset-level placement-policies row (the fit gate), and a mounts record
+    that agrees with its assetPlacement anchorClass (the record follows the
+    placement)."""
+    if asset not in policies.get("assetPolicies", {}):
+        return (f"{asset} has no assetPolicies row in placement-policies.json: add it "
+                f"(\"direct\", the mount sets the pose) with its assetPolicyEvidence reason")
+    row = policies.get("assetPlacement", {}).get(asset) or {}
+    rec = anchors.get(asset, {})
+    if "anchorClass" in row and (rec.get("anchorClass"), rec.get("anchorClassEvidence")) \
+            != (row["anchorClass"], "policy"):
+        return (f"{asset}: mounts record says {rec.get('anchorClass')}, its assetPlacement row "
+                f"{row['anchorClass']}: run `python3 -m worldgen.mine_mounts --assets {asset} --merge`")
+    return None
+
+
 def cmd_mount(a, scene, cat):
     child, parent = scene.piece(a.child), scene.piece(a.parent)
+    from workbench import paths as wbpaths
+    problem = mount_records_problem(
+        child.asset, json.loads((wbpaths.ASSET_PIPELINE / "pipeline" / "config"
+                                 / "placement-policies.json").read_text()), _mounts_anchors())
+    if problem:
+        raise ValueError(problem)
     if getattr(a, "hang", False):
         # R53: hang from the parent's own mesh (a branch underside) by the
         # child's hang point; --along/--bearing pick the spot from the trunk
         got = snap.hang_mount(cat, scene, child, parent, getattr(a, "unmined", None),
                               min_h=a.min_h, max_h=a.max_h, along_m=a.along,
                               bearing_deg=getattr(a, "bearing", None))
+        got["pose"] = {"x": child.x, "z": child.z, "yaw": child.yaw, "y": child.y}
+        got["contact"] = measure.contact(cat, child, parent)
+        return got
+    if getattr(a, "like", None):
+        got = snap.like_wall_mount(cat, scene, child, parent, a.like, getattr(a, "twin", None),
+                                   bool(getattr(a, "hook_only", False)))
         got["pose"] = {"x": child.x, "z": child.z, "yaw": child.yaw, "y": child.y}
         got["contact"] = measure.contact(cat, child, parent)
         return got
@@ -708,6 +755,10 @@ def _rule_task(cat, scene, key: str):
     fn = {"walk": rules.walk, "pathReach": rules.path_reach,
           "berthReach": rules.berth_reach, "landing": seat_rules.landing,
           "coplanar": rules.coplanar}.get(key)
+    if key in ("seatFacing", "socketCoherence", "serviceSign"):
+        from workbench import dressing_rules as dr
+        return {"seatFacing": dr.seat_facing, "socketCoherence": dr.socket_coherence,
+                "serviceSign": dr.service_sign}[key](cat, scene)
     if key == "walkway":
         from workbench import walkway
         return walkway.walkway(cat, scene)
@@ -730,8 +781,10 @@ def _piece_rule_task(cat, scene, key: str, uids: list):
 # by piece across the pool and scoped by `--only`
 CHECK_RULES = ("walk", "floorEdge", "pathReach", "propSeat", "roadSurface", "sill", "sign",
                "berthReach", "collider", "burial", "hanging", "fixtureSeat", "archway", "rockSeat",
-               "padClear", "landing", "walkway", "coplanar")
-GRAPH_RULES = ("walk", "pathReach", "berthReach", "landing", "walkway", "coplanar")
+               "padClear", "landing", "walkway", "coplanar", "seatFacing", "socketCoherence",
+               "serviceSign")
+GRAPH_RULES = ("walk", "pathReach", "berthReach", "landing", "walkway", "coplanar",
+               "seatFacing", "socketCoherence", "serviceSign")
 
 
 def cmd_check(a, scene, cat):
@@ -1252,7 +1305,11 @@ def cmd_site(a, scene, cat):
                                   "maxSlopeDeg": rules["maxSlopeDeg"],
                                   "fromCentreM": round(math.hypot(x - cx, z - cz), 2)})
                 continue
-            if any(g.wet(vx, vz) for vx, vz in poly):
+            # dry by both water records: the wet mask at the outline AND the
+            # fine depth `check` reports as waterDepthM (walk 9: the mask let
+            # a Claywater table and rain butt stand in 1.08 m and 0.84 m)
+            if (any(g.wet(vx, vz) or g.depth(vx, vz) > 0.0 for vx, vz in poly)
+                    or g.depth(x, z) > 0.0):
                 continue
             found.append({"at": [round(x, 2), round(z, 2)], "maxSlopeDeg": rules["maxSlopeDeg"],
                           "surveyDeltaM": rules.get("surveyDeltaM", 0.0), "sillM": rules.get("sillM"),
@@ -1630,6 +1687,16 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--yaw", type=float, default=None,
                    help="world yaw for a pair recorded yawBy: designer (a road board: height "
                         "and face mined, the bearing is the road's)")
+    s.add_argument("--like", default=None, metavar="MINED_PARENT_ASSET",
+                   help="R97: hang the child on the parent's wall face nearest where it is "
+                        "placed by its mined WALL pair on MINED_PARENT_ASSET (offset off the "
+                        "wall, height and yaw to the wall measured on that mesh)")
+    s.add_argument("--twin", default=None, metavar="VANILLA_ASSET",
+                   help="R99 with --like: borrow the mined pair of this geometric twin (bounds "
+                        "and hook within 1 cm, measured; refused otherwise)")
+    s.add_argument("--hook-only", action="store_true",
+                   help="R99 amended, with --twin: judge only the top 0.25 m (beam, rings, "
+                        "hooks); the board hangs free and must clear the wall and the ground")
     s.add_argument("--wall", action="store_true",
                    help="with --unmined: hang the child on the parent's nearest wall face where "
                         "it is placed (its height kept), not on its top (walk 2 round 4)")
@@ -2227,6 +2294,13 @@ def round_parser() -> argparse.ArgumentParser:
     ap.add_argument("--shots", default="auto", help="the render round's list (default auto)")
     ap.add_argument("--res", type=int, default=1024)
     ap.add_argument("--samples", type=int, default=12)
+    ap.add_argument("--walk", type=int, default=None, metavar="N",
+                    help="the owner walk this fix round answers: the first round of walk N "
+                         "opens the run <place>#walk-N in the build ledger (a `fix-round` "
+                         "stage); later rounds of walk N keep it open (decision 0118)")
+    ap.add_argument("--end-walk", action="store_true",
+                    help="with --walk: after this round, end the fix-round stage, so the "
+                         "run's minutes reach `build_ledger.py --report`")
     ap.add_argument("--no-compile", action="store_true")
     ap.add_argument("--full", action="store_true", help="re-derive every op and pair")
     ap.add_argument("--cache", action="store_true", help="restore unchanged ops from the op cache")
@@ -2347,6 +2421,32 @@ def write_ledger(path: Path, out: dict, report_dir: Path | None = None) -> None:
             log.write(row)
 
 
+def walk_clock(place_id: str, walk: int, end: bool = False, at: float | None = None,
+               clock_dir: str | None = None, ledger: str | None = None) -> str:
+    """Decision 0118 (method review r6: no fix round was timed after 09-29, so
+    the review loop's trigger went blind): the build-ledger events of a fix
+    round. Opens `<place>#walk-<walk>` with a `fix-round` stage unless the
+    place's open stage already answers this walk; with `end`, ends the open
+    fix-round stage (its row carries the walk's minutes). Returns what it did."""
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "repo-standards"))
+    import build_ledger as bl
+    clock_dir = clock_dir or os.path.join(bl.ROOT, "tooling", ".reports", "16k")
+    ledger = ledger or bl.LEDGER
+    at = time.time() if at is None else at
+    path = bl.clock_path(clock_dir, place_id)
+    clock = json.loads(Path(path).read_text()) if os.path.exists(path) else {}
+    if end:
+        if clock.get("stage") != "fix-round" or clock.get("walk") != walk:
+            return f"no open fix-round stage for {place_id} walk {walk}"
+        bl.end_stage(clock_dir, place_id, "fix-round", at, ledger)
+        return f"ended {bl.walk_run_id(place_id, walk)} fix-round stage"
+    if clock.get("walk") == walk:
+        return f"{bl.walk_run_id(place_id, walk)} already open ({clock.get('stage')})"
+    bl.start_stage(clock_dir, place_id, "fix-round", at, ledger, path="fix-round",
+                   start_run=True, walk=walk)
+    return f"opened {bl.walk_run_id(place_id, walk)} (fix-round stage)"
+
+
 def run_round(argv) -> int:
     """`wb.py round [SCENE] LAYOUT`: one process, the catalogue, ground,
     survey, road paint and kit records loaded once; writes
@@ -2357,9 +2457,13 @@ def run_round(argv) -> int:
     a = round_parser().parse_args(argv)
     if len(a.args) > 2:
         raise SystemExit("wb.py round [SCENE] LAYOUT")
+    if a.end_walk and a.walk is None:
+        raise SystemExit("wb.py round: --end-walk needs --walk N")
     scene_name, layout_path = (a.args if len(a.args) == 2 else (None, a.args[0]))
     t0 = time.time()
     doc = layout.load(Path(layout_path))
+    if a.walk is not None:
+        print(f"build ledger: {walk_clock(doc['placeId'], a.walk)}")
     cat = place_catalogue(doc["placeId"])
     t_load = round(time.time() - t0, 2)
     applied = apply_layout(Path(layout_path), scene_name, not a.no_compile, a.allow_stale_ground,
@@ -2426,6 +2530,8 @@ def run_round(argv) -> int:
     path.write_text(json.dumps(out, indent=1, default=lambda o: round(float(o), 4)) + "\n")
     report_dir = a.report_dir or default_report_dir(doc["placeId"])
     write_ledger(path, out, report_dir)
+    if a.end_walk:
+        print(f"build ledger: {walk_clock(doc['placeId'], a.walk, end=True)}")
     if a.waiting_on:
         write_waiting_on(report_dir, doc["placeId"], a.waiting_on)
     lines = digest(applied) if "summaryPath" in applied else [f"round: REFUSED {out.get('refused')}"]

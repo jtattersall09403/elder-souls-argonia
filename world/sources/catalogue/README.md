@@ -82,7 +82,8 @@ reward-pass call, not a rename. `"tier-2 hub"` collapsed to `tier-2`.
   through. Every record carries at least one.
 - `travelServiceEdges` — service strings, **not** IDs:
   `"<mode>:<a>-<b>"`, mode ∈ boat / ferry / road / cart / porter / lighter /
-  guide / portage / rootworm / pilot.
+  guide / portage / rootworm / pilot; or `"service:<id>"`, a `travel-services.json`
+  service id (checked by gate `record.coherence`).
 - `visibleFrom` stays near-empty until Part 3: the scour found the province has
   almost no long sightlines, so a claimed sightline needs a canopy-breaking
   landmark and, ideally, plotted positions.

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Weekly workflow drift check (decision 0106; cost-review § Workflow drift).
 
-Prints five measures over the last N days (default 7), each with its red
+Prints the drift measures over the last N days (default 7), each with its red
 threshold, and exits 1 when any is red. Reads only local logs (< 1 s):
   preflight runs      tooling/.reports/preflight/runs.jsonl (preflight.mjs)
   commits             git log --since
-  review fires        tooling/.reports/review/stamp.json (review_gate.py)
+  review fires        tooling/.reports/review/reviews.jsonl (review_gate.py, append-only)
   miner full runs     tooling/repo-standards/output/tool-timings.jsonl (memwatch)
   lanes over budget   tooling/.reports/budget/*.checkpoint (job_guard.sh --budget)
 
@@ -18,12 +18,13 @@ import re
 import subprocess
 import sys
 import time
+from collections import Counter
 from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 RUNS = ROOT / "tooling/.reports/preflight/runs.jsonl"
-STAMPS = ROOT / "tooling/.reports/review/stamp.json"
+REVIEWS = ROOT / "tooling/.reports/review/reviews.jsonl"  # append-only (review_gate.py, decision 0118)
 TIMINGS = ROOT / "tooling/repo-standards/output/tool-timings.jsonl"
 BUDGET = ROOT / "tooling/.reports/budget"
 CODE = re.compile(r"^(packages|apps|tooling)/.+\.(py|ts|tsx|mjs|js)$|^(packages|apps|tooling)/?$")
@@ -31,7 +32,7 @@ SCOPED = ("--assets", "--only", "--set", "--sample", "--rederive", "--refresh-de
           "--complete-only", "--dump-meshes", "--help")
 
 RED = {"preflightPerCommit": 1.5, "scopedWallP50S": 30, "scopedOver60S": 0,
-       "reviewFiresOnNonCode": 0, "minerFullRuns": 1, "lanesOverBudget": 2}
+       "reviewFiresOnNonCode": 0, "reviewFiresPerBatchMax": 1, "minerFullRuns": 1, "lanesOverBudget": 2}
 
 
 def _jsonl(path: Path) -> list[dict]:
@@ -64,12 +65,9 @@ def measure(days: float) -> dict:
     scoped = sorted(r["wallS"] for r in runs if not r.get("runner"))
     commits = int(subprocess.run(["git", "rev-list", "--count", f"--since={int(since)}", "HEAD"],
                                  cwd=ROOT, capture_output=True, text=True).stdout.strip() or 0)
-    try:
-        stamps = json.loads(STAMPS.read_text()).get("stamps", {}).values()
-    except (OSError, ValueError):
-        stamps = []
-    fires = [s for s in stamps if s.get("time", 0) >= since]
+    fires = [s for s in _jsonl(REVIEWS) if s.get("time", 0) >= since]
     non_code = [s for s in fires if s.get("paths") and not any(CODE.match(p) for p in s["paths"])]
+    per_batch = Counter(s.get("batchId") or s.get("head") for s in fires)
     miners = [t for t in _jsonl(TIMINGS) if _epoch(t.get("date")) >= since
               and re.search(r"mine_(abuts|mounts|designed_sink)", t.get("tool", "") + " ".join(t.get("args", [])))
               and not any(a.startswith(SCOPED) for a in t.get("args", []))]
@@ -81,6 +79,7 @@ def measure(days: float) -> dict:
             "scopedWallP50S": scoped[len(scoped) // 2] if scoped else 0,
             "scopedOver60S": sum(1 for w in scoped if w > 60),
             "reviewFires": len(fires), "reviewFiresOnNonCode": len(non_code),
+            "reviewFiresPerBatchMax": max(per_batch.values(), default=0),
             "minerFullRuns": len(miners), "lanesOverBudget": over}
 
 

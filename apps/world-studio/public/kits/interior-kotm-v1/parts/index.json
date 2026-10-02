@@ -3,15 +3,15 @@
  "kit": "interior-kotm-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 13677396,
-  "sha256": "ff8040a2b8df9c62cb1f2a45a8c83e2e3ab3844f4df8d7d22a2687ae431c5431"
+  "bytes": 17300312,
+  "sha256": "a52491b62dfd086de739fbd0cdff1c95131f5aa61e4fea9ad149f2426b60ea50"
  },
  "totals": {
-  "parts": 96,
-  "partBytes": 1868356,
-  "textureFiles": 76,
-  "textureBytes": 3530012,
-  "bytes": 5398368
+  "parts": 146,
+  "partBytes": 3280508,
+  "textureFiles": 105,
+  "textureBytes": 5727813,
+  "bytes": 9008321
  },
  "assets": {
   "kotm:argonia/clutter/amberbee": {
@@ -457,6 +457,119 @@
     "5d6aedd71b9740f4"
    ]
   },
+  "kotm:argonia/stalactites/stal2": {
+   "file": "kotm_argonia_stalactites_stal2-2e352897.glb",
+   "bytes": 5080,
+   "vertices": 80,
+   "triangles": 132,
+   "textures": [
+    "03b25c8aefe029e5"
+   ]
+  },
+  "kotm:argonia/stalactites/stal3": {
+   "file": "kotm_argonia_stalactites_stal3-e902c1c4.glb",
+   "bytes": 5036,
+   "vertices": 75,
+   "triangles": 122,
+   "textures": [
+    "03b25c8aefe029e5"
+   ]
+  },
+  "kotm:argonia/stalactites/stal5": {
+   "file": "kotm_argonia_stalactites_stal5-98062b5c.glb",
+   "bytes": 5480,
+   "vertices": 101,
+   "triangles": 166,
+   "textures": [
+    "03b25c8aefe029e5"
+   ]
+  },
+  "kotm:argonia/stalactites/stal6": {
+   "file": "kotm_argonia_stalactites_stal6-3708c3a3.glb",
+   "bytes": 5616,
+   "vertices": 110,
+   "triangles": 187,
+   "textures": [
+    "03b25c8aefe029e5"
+   ]
+  },
+  "kotm:argonia/stalactites/stal7": {
+   "file": "kotm_argonia_stalactites_stal7-655ff13e.glb",
+   "bytes": 6120,
+   "vertices": 136,
+   "triangles": 230,
+   "textures": [
+    "03b25c8aefe029e5"
+   ]
+  },
+  "kotm:argonia/trees/greguire/junglelogmossflat01": {
+   "file": "kotm_argonia_trees_greguire_junglelogmossflat01-cbc27127.glb",
+   "bytes": 9964,
+   "vertices": 300,
+   "triangles": 160,
+   "textures": [
+    "2cc1e3a671f28296",
+    "fac8e79b042d4d00"
+   ]
+  },
+  "kotm:argonia/trees/greguire/swampplant08": {
+   "file": "kotm_argonia_trees_greguire_swampplant08-861b6d2a.glb",
+   "bytes": 21156,
+   "vertices": 748,
+   "triangles": 620,
+   "textures": [
+    "0dd22a04ae35f0fa",
+    "1071c5d84f7c0f5c",
+    "386dc8a21e961975"
+   ]
+  },
+  "kotm:argonia/trees/greguire/swampplant08a": {
+   "file": "kotm_argonia_trees_greguire_swampplant08a-da3d2280.glb",
+   "bytes": 42248,
+   "vertices": 2273,
+   "triangles": 1890,
+   "textures": [
+    "0dd22a04ae35f0fa",
+    "1071c5d84f7c0f5c",
+    "386dc8a21e961975"
+   ]
+  },
+  "kotm:argonia/trees/hist trees/hist_root03": {
+   "file": "kotm_argonia_trees_hist_trees_hist_root03-04982b58.glb",
+   "bytes": 6728,
+   "vertices": 169,
+   "triangles": 264,
+   "textures": [
+    "05032215bf964d4a"
+   ]
+  },
+  "kotm:argonia/trees/hist trees/hist_root04": {
+   "file": "kotm_argonia_trees_hist_trees_hist_root04-286aed25.glb",
+   "bytes": 6740,
+   "vertices": 169,
+   "triangles": 264,
+   "textures": [
+    "05032215bf964d4a"
+   ]
+  },
+  "kotm:argonia/trees/hist trees/hist_root05": {
+   "file": "kotm_argonia_trees_hist_trees_hist_root05-3d4b5915.glb",
+   "bytes": 15752,
+   "vertices": 670,
+   "triangles": 1103,
+   "textures": [
+    "05032215bf964d4a"
+   ]
+  },
+  "kotm:argonia/trees/hist trees/hist_rootanim": {
+   "file": "kotm_argonia_trees_hist_trees_hist_rootanim-50e90b80.glb",
+   "bytes": 10716,
+   "vertices": 403,
+   "triangles": 666,
+   "textures": [
+    "05032215bf964d4a"
+   ]
+  },
   "kotm:loliceptresource/barrel/miscbarrelopen01": {
    "file": "kotm_loliceptresource_barrel_miscbarrelopen01-59797b19.glb",
    "bytes": 67684,
@@ -498,6 +611,33 @@
     "6b62fbeb16d2c788",
     "8e87fcd556f9017f",
     "9849de4fbd70b209"
+   ]
+  },
+  "kotm:plants/tamira/new plants/tropicalplant01": {
+   "file": "kotm_plants_tamira_new_plants_tropicalplant01-18580e25.glb",
+   "bytes": 18256,
+   "vertices": 925,
+   "triangles": 1152,
+   "textures": [
+    "0dd22a04ae35f0fa"
+   ]
+  },
+  "kotm:plants/tamira/new plants/tropicalshrub03": {
+   "file": "kotm_plants_tamira_new_plants_tropicalshrub03-a82ccaa6.glb",
+   "bytes": 28412,
+   "vertices": 1554,
+   "triangles": 1443,
+   "textures": [
+    "7d04f9158e1ad6b5"
+   ]
+  },
+  "kotm:plants/tamira/new plants/tropicalshrub05": {
+   "file": "kotm_plants_tamira_new_plants_tropicalshrub05-fdd2ae70.glb",
+   "bytes": 10512,
+   "vertices": 470,
+   "triangles": 608,
+   "textures": [
+    "8bbec45e95965024"
    ]
   },
   "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat": {
@@ -554,6 +694,69 @@
    "triangles": 152,
    "textures": [
     "99ec066031db096c"
+   ]
+  },
+  "vanilla:clutter/bones/bloodyarm": {
+   "file": "vanilla_clutter_bones_bloodyarm-155a701c.glb",
+   "bytes": 5488,
+   "vertices": 132,
+   "triangles": 196,
+   "textures": [
+    "3ae0814e7e49d75a"
+   ]
+  },
+  "vanilla:clutter/bones/bloodyhand": {
+   "file": "vanilla_clutter_bones_bloodyhand-67f76f2b.glb",
+   "bytes": 8388,
+   "vertices": 326,
+   "triangles": 488,
+   "textures": [
+    "3ae0814e7e49d75a"
+   ]
+  },
+  "vanilla:clutter/bones/bloodyleg": {
+   "file": "vanilla_clutter_bones_bloodyleg-41d96368.glb",
+   "bytes": 5180,
+   "vertices": 118,
+   "triangles": 188,
+   "textures": [
+    "3ae0814e7e49d75a"
+   ]
+  },
+  "vanilla:clutter/bones/bloodyskull": {
+   "file": "vanilla_clutter_bones_bloodyskull-a2714079.glb",
+   "bytes": 9640,
+   "vertices": 411,
+   "triangles": 690,
+   "textures": [
+    "3ae0814e7e49d75a"
+   ]
+  },
+  "vanilla:clutter/bones/humanfootleft": {
+   "file": "vanilla_clutter_bones_humanfootleft-72030aa0.glb",
+   "bytes": 6824,
+   "vertices": 207,
+   "triangles": 288,
+   "textures": [
+    "53910dd5f4a481f0"
+   ]
+  },
+  "vanilla:clutter/bones/humanhandleft": {
+   "file": "vanilla_clutter_bones_humanhandleft-5c7889c1.glb",
+   "bytes": 9668,
+   "vertices": 416,
+   "triangles": 650,
+   "textures": [
+    "53910dd5f4a481f0"
+   ]
+  },
+  "vanilla:clutter/bones/humanlegright": {
+   "file": "vanilla_clutter_bones_humanlegright-73a5916c.glb",
+   "bytes": 7380,
+   "vertices": 260,
+   "triangles": 398,
+   "textures": [
+    "53910dd5f4a481f0"
    ]
   },
   "vanilla:clutter/books/basicbook01": {
@@ -912,6 +1115,313 @@
     "9c53fdfb26b0eb86"
    ]
   },
+  "vanilla:dungeons/caves/green/dirtmound/cavegdirtmound03": {
+   "file": "vanilla_dungeons_caves_green_dirtmound_cavegdirtmound03-4e6886e0.glb",
+   "bytes": 4676,
+   "vertices": 75,
+   "triangles": 130,
+   "textures": [
+    "40943593cc24f9a1"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largehall/caveglhall1way01": {
+   "file": "vanilla_dungeons_caves_green_largehall_caveglhall1way01-ee14a5c2.glb",
+   "bytes": 64936,
+   "vertices": 2744,
+   "triangles": 3711,
+   "textures": [
+    "032ec677e02e9aa0",
+    "03b25c8aefe029e5",
+    "09c7e3aefec9b84f",
+    "40943593cc24f9a1",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largehall/caveglhallentrance03": {
+   "file": "vanilla_dungeons_caves_green_largehall_caveglhallentrance03-2e81c89a.glb",
+   "bytes": 126136,
+   "vertices": 5462,
+   "triangles": 7357,
+   "textures": [
+    "032ec677e02e9aa0",
+    "03b25c8aefe029e5",
+    "09c7e3aefec9b84f",
+    "40943593cc24f9a1",
+    "515142d0b672cad8",
+    "8d4d5ec2f8e2d049",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf",
+    "b8a4204fe3b6ec13"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largehall/caveglhallramp01": {
+   "file": "vanilla_dungeons_caves_green_largehall_caveglhallramp01-591dcb89.glb",
+   "bytes": 57996,
+   "vertices": 2314,
+   "triangles": 3186,
+   "textures": [
+    "032ec677e02e9aa0",
+    "03b25c8aefe029e5",
+    "09c7e3aefec9b84f",
+    "40943593cc24f9a1",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomcorner01": {
+   "file": "vanilla_dungeons_caves_green_largeroom_caveglroomcorner01-3a056748.glb",
+   "bytes": 48384,
+   "vertices": 1759,
+   "triangles": 2455,
+   "textures": [
+    "032ec677e02e9aa0",
+    "03b25c8aefe029e5",
+    "09c7e3aefec9b84f",
+    "40943593cc24f9a1",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomcorner02c": {
+   "file": "vanilla_dungeons_caves_green_largeroom_caveglroomcorner02c-4031d9e6.glb",
+   "bytes": 48924,
+   "vertices": 1783,
+   "triangles": 2567,
+   "textures": [
+    "032ec677e02e9aa0",
+    "03b25c8aefe029e5",
+    "09c7e3aefec9b84f",
+    "40943593cc24f9a1",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomcorner03": {
+   "file": "vanilla_dungeons_caves_green_largeroom_caveglroomcorner03-19a21b32.glb",
+   "bytes": 52408,
+   "vertices": 1988,
+   "triangles": 2804,
+   "textures": [
+    "032ec677e02e9aa0",
+    "03b25c8aefe029e5",
+    "09c7e3aefec9b84f",
+    "40943593cc24f9a1",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomcorner04": {
+   "file": "vanilla_dungeons_caves_green_largeroom_caveglroomcorner04-9fb94d53.glb",
+   "bytes": 48640,
+   "vertices": 1784,
+   "triangles": 2505,
+   "textures": [
+    "032ec677e02e9aa0",
+    "03b25c8aefe029e5",
+    "09c7e3aefec9b84f",
+    "40943593cc24f9a1",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomdoorl03": {
+   "file": "vanilla_dungeons_caves_green_largeroom_caveglroomdoorl03-0a79e692.glb",
+   "bytes": 51144,
+   "vertices": 1975,
+   "triangles": 2753,
+   "textures": [
+    "032ec677e02e9aa0",
+    "03b25c8aefe029e5",
+    "09c7e3aefec9b84f",
+    "40943593cc24f9a1",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomincorner02": {
+   "file": "vanilla_dungeons_caves_green_largeroom_caveglroomincorner02-da4b5c7d.glb",
+   "bytes": 43308,
+   "vertices": 1527,
+   "triangles": 2145,
+   "textures": [
+    "032ec677e02e9aa0",
+    "03b25c8aefe029e5",
+    "09c7e3aefec9b84f",
+    "40943593cc24f9a1",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomincorner04": {
+   "file": "vanilla_dungeons_caves_green_largeroom_caveglroomincorner04-8dd806cf.glb",
+   "bytes": 42144,
+   "vertices": 1469,
+   "triangles": 2052,
+   "textures": [
+    "032ec677e02e9aa0",
+    "03b25c8aefe029e5",
+    "09c7e3aefec9b84f",
+    "40943593cc24f9a1",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroommid01": {
+   "file": "vanilla_dungeons_caves_green_largeroom_caveglroommid01-6e1ce744.glb",
+   "bytes": 34816,
+   "vertices": 1404,
+   "triangles": 1970,
+   "textures": [
+    "03b25c8aefe029e5",
+    "40943593cc24f9a1",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomwall01": {
+   "file": "vanilla_dungeons_caves_green_largeroom_caveglroomwall01-871dfd08.glb",
+   "bytes": 51232,
+   "vertices": 1981,
+   "triangles": 2769,
+   "textures": [
+    "032ec677e02e9aa0",
+    "03b25c8aefe029e5",
+    "09c7e3aefec9b84f",
+    "40943593cc24f9a1",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomwall02": {
+   "file": "vanilla_dungeons_caves_green_largeroom_caveglroomwall02-c382c284.glb",
+   "bytes": 51916,
+   "vertices": 1992,
+   "triangles": 2829,
+   "textures": [
+    "032ec677e02e9aa0",
+    "03b25c8aefe029e5",
+    "09c7e3aefec9b84f",
+    "40943593cc24f9a1",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomwall02c": {
+   "file": "vanilla_dungeons_caves_green_largeroom_caveglroomwall02c-9ef19c60.glb",
+   "bytes": 53548,
+   "vertices": 2075,
+   "triangles": 2983,
+   "textures": [
+    "032ec677e02e9aa0",
+    "03b25c8aefe029e5",
+    "09c7e3aefec9b84f",
+    "40943593cc24f9a1",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomwall03": {
+   "file": "vanilla_dungeons_caves_green_largeroom_caveglroomwall03-84e461ea.glb",
+   "bytes": 50692,
+   "vertices": 1922,
+   "triangles": 2668,
+   "textures": [
+    "032ec677e02e9aa0",
+    "03b25c8aefe029e5",
+    "09c7e3aefec9b84f",
+    "40943593cc24f9a1",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf"
+   ]
+  },
+  "vanilla:dungeons/caves/green/largeroom/caveglroomwall04c": {
+   "file": "vanilla_dungeons_caves_green_largeroom_caveglroomwall04c-2c2cac53.glb",
+   "bytes": 53740,
+   "vertices": 2099,
+   "triangles": 2930,
+   "textures": [
+    "032ec677e02e9aa0",
+    "03b25c8aefe029e5",
+    "09c7e3aefec9b84f",
+    "40943593cc24f9a1",
+    "9b957f056993fb1d",
+    "b6aa43fce0de72cf"
+   ]
+  },
+  "vanilla:dungeons/mines/cavepillars/mineclpillar02": {
+   "file": "vanilla_dungeons_mines_cavepillars_mineclpillar02-f12d6684.glb",
+   "bytes": 18728,
+   "vertices": 484,
+   "triangles": 721,
+   "textures": [
+    "0a4dcfa74cff1b4f",
+    "7743f12f0b57261b",
+    "a56b29948aee52f5"
+   ]
+  },
+  "vanilla:dungeons/mines/cavepillars/mineclpillar03": {
+   "file": "vanilla_dungeons_mines_cavepillars_mineclpillar03-9b0d5167.glb",
+   "bytes": 31364,
+   "vertices": 1244,
+   "triangles": 1848,
+   "textures": [
+    "0a4dcfa74cff1b4f",
+    "7743f12f0b57261b",
+    "a56b29948aee52f5"
+   ]
+  },
+  "vanilla:dungeons/mines/cavepillars/mineclpillar04": {
+   "file": "vanilla_dungeons_mines_cavepillars_mineclpillar04-2d73d1bc.glb",
+   "bytes": 24464,
+   "vertices": 920,
+   "triangles": 781,
+   "textures": [
+    "0a4dcfa74cff1b4f",
+    "7743f12f0b57261b",
+    "a56b29948aee52f5"
+   ]
+  },
+  "vanilla:dungeons/mines/cavepillars/mineclpillar05": {
+   "file": "vanilla_dungeons_mines_cavepillars_mineclpillar05-5e623fc1.glb",
+   "bytes": 18776,
+   "vertices": 503,
+   "triangles": 772,
+   "textures": [
+    "0a4dcfa74cff1b4f",
+    "7743f12f0b57261b",
+    "a56b29948aee52f5"
+   ]
+  },
+  "vanilla:dungeons/mines/cavepillars/mineclpillar06": {
+   "file": "vanilla_dungeons_mines_cavepillars_mineclpillar06-3d093eed.glb",
+   "bytes": 25240,
+   "vertices": 958,
+   "triangles": 784,
+   "textures": [
+    "0a4dcfa74cff1b4f",
+    "7743f12f0b57261b",
+    "a56b29948aee52f5"
+   ]
+  },
+  "vanilla:dungeons/nordic/rubble/norvinefloor01nocol": {
+   "file": "vanilla_dungeons_nordic_rubble_norvinefloor01nocol-c818283d.glb",
+   "bytes": 25628,
+   "vertices": 1372,
+   "triangles": 2212,
+   "textures": [
+    "c78e652b6e29bc0d"
+   ]
+  },
+  "vanilla:dungeons/nordic/rubble/norvinefloor02nocol": {
+   "file": "vanilla_dungeons_nordic_rubble_norvinefloor02nocol-08389244.glb",
+   "bytes": 17128,
+   "vertices": 833,
+   "triangles": 1348,
+   "textures": [
+    "c78e652b6e29bc0d"
+   ]
+  },
   "vanilla:furniture/smallcookingpotnohandle": {
    "file": "vanilla_furniture_smallcookingpotnohandle-a1805df5.glb",
    "bytes": 12904,
@@ -920,6 +1430,48 @@
    "textures": [
     "77a79c8f3f2b5a74",
     "d284a5208fb29230"
+   ]
+  },
+  "vanilla:landscape/dirtcliffs/dirtcliffsisland01": {
+   "file": "vanilla_landscape_dirtcliffs_dirtcliffsisland01-6e8c39de.glb",
+   "bytes": 48308,
+   "vertices": 2047,
+   "triangles": 2656,
+   "textures": [
+    "2796a60280401d93",
+    "81c4887a2b169fe6",
+    "a4bac7327e22d66d"
+   ]
+  },
+  "vanilla:landscape/volcanic/volcanicplateau02": {
+   "file": "vanilla_landscape_volcanic_volcanicplateau02-4a3e57a0.glb",
+   "bytes": 44424,
+   "vertices": 1193,
+   "triangles": 1557,
+   "textures": [
+    "2796a60280401d93",
+    "986b0360198203d0",
+    "b8a4204fe3b6ec13",
+    "c22574b0b1b2a7f0",
+    "e3556722070f86df"
+   ]
+  },
+  "vanilla:plants/florahangingmoss01": {
+   "file": "vanilla_plants_florahangingmoss01-072972a6.glb",
+   "bytes": 9356,
+   "vertices": 288,
+   "triangles": 272,
+   "textures": [
+    "fac8e79b042d4d00"
+   ]
+  },
+  "vanilla:plants/florahangingmoss02": {
+   "file": "vanilla_plants_florahangingmoss02-915e7092.glb",
+   "bytes": 13712,
+   "vertices": 516,
+   "triangles": 398,
+   "textures": [
+    "fac8e79b042d4d00"
    ]
   },
   "vanilla:plants/giantlichen01": {
@@ -951,6 +1503,60 @@
   }
  },
  "fires": {
+  "kotm:argonia/trees/greguire/swampplant08": {
+   "id": "kotm:argonia/trees/greguire/swampplant08",
+   "category": "misc",
+   "anchorClass": "ground",
+   "sizeM": [
+    1.629,
+    1.598,
+    1.104
+   ],
+   "originOffsetM": [
+    0.855,
+    0.727,
+    0.009
+   ],
+   "emissiveMaterials": [
+    "SwampPlant08:LEaves.Mat"
+   ]
+  },
+  "kotm:argonia/trees/greguire/swampplant08a": {
+   "id": "kotm:argonia/trees/greguire/swampplant08a",
+   "category": "misc",
+   "anchorClass": "ground",
+   "sizeM": [
+    3.126,
+    3.579,
+    2.471
+   ],
+   "originOffsetM": [
+    1.465,
+    2.045,
+    0.133
+   ],
+   "emissiveMaterials": [
+    "SwampPlant08.Mat"
+   ]
+  },
+  "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime": {
+   "id": "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime",
+   "category": "misc",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.501,
+    0.538,
+    0.427
+   ],
+   "originOffsetM": [
+    0.25,
+    0.269,
+    0
+   ],
+   "emissiveMaterials": [
+    "Puddle02:0.Mat"
+   ]
+  },
   "vanilla:clutter/glazedcandles01": {
    "id": "vanilla:clutter/glazedcandles01",
    "category": "clutter",
@@ -1025,6 +1631,28 @@
     0.109,
     0.108,
     0
+   ],
+   "emissiveMaterials": [
+    "GlazedCandles01:6.Mat"
+   ]
+  },
+  "vanilla:critters/bee/beehoneycomb": {
+   "id": "vanilla:critters/bee/beehoneycomb",
+   "category": "creature",
+   "anchorClass": "wall",
+   "sizeM": [
+    0.047,
+    0.334,
+    0.276
+   ],
+   "originOffsetM": [
+    0.021,
+    0.165,
+    0.162
+   ],
+   "emissiveMaterials": [
+    "HoneyComb:0.Mat",
+    "HoneyComb:1.Mat"
    ]
   }
  }

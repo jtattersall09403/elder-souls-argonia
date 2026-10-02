@@ -286,3 +286,19 @@ def test_a_light_block_with_no_fixture_kind_is_listed_for_refusal():
         {"id": "a:wall"},
     ]}
     assert bk.unkinded_fire_pieces(summary) == ["a:forge"]
+
+
+@needs_vault
+def test_only_really_emitting_lantern_materials_glow():
+    """Walk 9: CandleLanternWithCandle01 flags both materials OWN_EMIT but its
+    LampGeneric01 frame has a black emissive; only the candle (:7) emits.
+    The mud-mother cord lantern (hist-wood cage, rope) emits nothing."""
+    from .bsa import BSAArchive
+    archive = BSAArchive(DATA / "Skyrim - Meshes.bsa")
+    lamp = nb.parse(archive.read("meshes/clutter/common/candlelanternwithcandle01.nif"))
+    assert nb.emitting_shapes(lamp) == ["CandleLanternWithCandle:7"]
+    cord = nb.parse((MUD.parent / "ArgonianLanterns03.nif").read_bytes())
+    assert nb.emitting_shapes(cord) == []
+    published = json.loads((PUBLISHED / "settlement-imperial-v1.kit.json").read_text())
+    row = next(a for a in published["assets"] if a["id"] == "vanilla:clutter/common/candlelanternwithcandle01")
+    assert row["emissiveMaterials"] == ["CandleLanternWithCandle:7.Mat"]

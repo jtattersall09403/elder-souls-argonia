@@ -286,7 +286,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.303
+   "pivotAboveBaseM": 0.303,
+   "displayName": "Dwarfjunip 05"
   },
   {
    "id": "bmv:landscape/rocks/moss_rockcliff01",
@@ -369,7 +370,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.199,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 4.964
+   "pivotAboveBaseM": 4.964,
+   "displayName": "Moss rockcliff 01"
   },
   {
    "id": "bmv:landscape/trees/cedartree3",
@@ -1714,7 +1716,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.232,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.07
+   "pivotAboveBaseM": -0.07,
+   "displayName": "Cedartree 3"
   },
   {
    "id": "bmv:landscape/trees/gkbfallforestshrub02",
@@ -1793,7 +1796,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.914,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.245
+   "pivotAboveBaseM": 0.245,
+   "displayName": "Gkbfallforestshrub 02"
   },
   {
    "id": "bmv:vvardenfell/flora/algrass03b",
@@ -1869,7 +1873,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.317,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.058
+   "pivotAboveBaseM": 0.058,
+   "displayName": "Algrass 03b"
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb9",
@@ -2527,7 +2532,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.936,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.903
+   "pivotAboveBaseM": 0.903,
+   "displayName": "Mangrovereachtree 0gkb 9"
   },
   {
    "id": "bmv:landscape/grass/vurt_reeds",
@@ -2612,7 +2618,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.089
+   "pivotAboveBaseM": -0.089,
+   "displayName": "Vurt reeds"
   },
   {
    "id": "bmv:landscape/trees/gkblillipad2",
@@ -2695,7 +2702,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 348.8,
-   "pivotAboveBaseM": 2.334
+   "pivotAboveBaseM": 2.334,
+   "displayName": "Gkblillipad 2"
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb3",
@@ -3441,7 +3449,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.633,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.795
+   "pivotAboveBaseM": 1.795,
+   "displayName": "Mangrovereachtree 0gkb 3"
   },
   {
    "id": "bmv:landscape/trees/beachpalm2",
@@ -3654,7 +3663,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.718,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.055
+   "pivotAboveBaseM": 0.055,
+   "displayName": "Beachpalm 2"
   },
   {
    "id": "bmv:landscape/grass/waterkelptall01",
@@ -3734,7 +3744,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.323,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.09
+   "pivotAboveBaseM": 0.09,
+   "displayName": "Waterkelptall 01"
   },
   {
    "id": "bmv:landscape/trees/cypress3",
@@ -5091,7 +5102,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.835,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.941
+   "pivotAboveBaseM": 0.941,
+   "displayName": "Cypress 3"
   },
   {
    "id": "bmv:landscape/plants/kelptallstatic01aaa",
@@ -5171,7 +5183,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.277,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.09
+   "pivotAboveBaseM": 0.09,
+   "displayName": "Kelptallstatic 01aaa"
   },
   {
    "id": "bmv:landscape/trees/cypress1",
@@ -6522,7 +6535,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.417,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.941
+   "pivotAboveBaseM": 0.941,
+   "displayName": "Cypress 1"
   },
   {
    "id": "bmv:landscape/plants/florahangingmoss02aaa",
@@ -6601,7 +6615,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.309,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.303
+   "pivotAboveBaseM": 1.303,
+   "displayName": "Florahangingmoss 02aaa"
   },
   {
    "id": "bmv:landscape/plants/fernlarge03",
@@ -6685,7 +6700,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.056
+   "pivotAboveBaseM": 0.056,
+   "displayName": "Fernlarge 03"
   },
   {
    "id": "bmv:landscape/plants/braken",
@@ -6764,7 +6780,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.001,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.03
+   "pivotAboveBaseM": 0.03,
+   "displayName": "Braken"
   },
   {
    "id": "bmv:vurt_shroom/vurt_shroom_big1",
@@ -6856,7 +6873,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.938,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.291
+   "pivotAboveBaseM": 3.291,
+   "displayName": "Vurt shroom big 1"
   },
   {
    "id": "bmv:landscape/trees/treewillow01a",
@@ -8234,7 +8252,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.179,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.066
+   "pivotAboveBaseM": 4.066,
+   "displayName": "Treewillow 01a"
   },
   {
    "id": "bmv:landscape/trees/hangingvines1",
@@ -8313,7 +8332,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.085,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.325
+   "pivotAboveBaseM": 1.325,
+   "displayName": "Hangingvines 1"
   },
   {
    "id": "bmv:landscape/trees/tropicalplant01",
@@ -8402,7 +8422,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.02,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.062
+   "pivotAboveBaseM": 0.062,
+   "displayName": "Tropicalplant 01"
   },
   {
    "id": "bmv:landscape/plants/bigshrub2(colorful)",
@@ -8481,7 +8502,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.6,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.15
+   "pivotAboveBaseM": 1.15,
+   "displayName": "Bigshrub 2(colorful)"
   },
   {
    "id": "bmv:landscape/grass/waterkelpshort01",
@@ -8561,7 +8583,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.37,
    "openBackYawDeg": 292.5,
-   "pivotAboveBaseM": 0.024
+   "pivotAboveBaseM": 0.024,
+   "displayName": "Waterkelpshort 01"
   },
   {
    "id": "bmv:landscape/trees/treewillow02a",
@@ -9939,7 +9962,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.07,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.925
+   "pivotAboveBaseM": 2.925,
+   "displayName": "Treewillow 02a"
   },
   {
    "id": "bmv:landscape/plants/esloebush08",
@@ -10018,7 +10042,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.235,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.138
+   "pivotAboveBaseM": 0.138,
+   "displayName": "Esloebush 08"
   },
   {
    "id": "bmv:landscape/plants/fern01",
@@ -10097,7 +10122,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.103
+   "pivotAboveBaseM": 0.103,
+   "displayName": "Fern 01"
   },
   {
    "id": "bmv:landscape/trees/treewillow03a",
@@ -11475,7 +11501,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.113,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.002
+   "pivotAboveBaseM": 0.002,
+   "displayName": "Treewillow 03a"
   },
   {
    "id": "bmv:landscape/plants/chickweed",
@@ -11557,7 +11584,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.01,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.065
+   "pivotAboveBaseM": 0.065,
+   "displayName": "Chickweed"
   },
   {
    "id": "bmv:landscape/trees/beachpalm3",
@@ -11986,7 +12014,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.059
+   "pivotAboveBaseM": 0.059,
+   "displayName": "Beachpalm 3"
   },
   {
    "id": "bmv:landscape/trees/fanpalm1",
@@ -12654,7 +12683,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.484,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.055
+   "pivotAboveBaseM": 0.055,
+   "displayName": "Fanpalm 1"
   },
   {
    "id": "bmv:landscape/trees/bambooplant",
@@ -12743,7 +12773,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.013,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005
+   "pivotAboveBaseM": 0.005,
+   "displayName": "Bambooplant"
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew1",
@@ -13938,7 +13969,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.766,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.492
+   "pivotAboveBaseM": 0.492,
+   "displayName": "Gkbjungletreenew 1"
   },
   {
    "id": "bmv:landscape/trees/tropicalshrub01",
@@ -14022,7 +14054,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.004
+   "pivotAboveBaseM": 0.004,
+   "displayName": "Tropicalshrub 01"
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew12v3",
@@ -14733,7 +14766,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.97,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.036
+   "pivotAboveBaseM": 0.036,
+   "displayName": "Gkbjungletreenew 12v 3"
   },
   {
    "id": "bmv:landscape/trees/beachpalm1",
@@ -15435,7 +15469,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.019,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.055
+   "pivotAboveBaseM": 0.055,
+   "displayName": "Beachpalm 1"
   },
   {
    "id": "bmv:landscape/trees/hangingvines2",
@@ -15514,7 +15549,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.212,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.325
+   "pivotAboveBaseM": 1.325,
+   "displayName": "Hangingvines 2"
   },
   {
    "id": "bmv:landscape/plants/florahangingmoss03aaa",
@@ -15593,7 +15629,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.656,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.809
+   "pivotAboveBaseM": 0.809,
+   "displayName": "Florahangingmoss 03aaa"
   },
   {
    "id": "tropical:plants/tropical/manfern",
@@ -15707,7 +15744,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.004,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.422
+   "pivotAboveBaseM": 0.422,
+   "displayName": "Tree thicket 01"
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew17v2tropical",
@@ -17061,7 +17099,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.73,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Gkbjungletreenew 17v 2tropical"
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew19v3",
@@ -18113,7 +18152,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.978,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.036
+   "pivotAboveBaseM": 0.036,
+   "displayName": "Gkbjungletreenew 19v 3"
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew21v3",
@@ -18522,7 +18562,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.813,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.052
+   "pivotAboveBaseM": 0.052,
+   "displayName": "Gkbjungletreenew 21v 3"
   },
   {
    "id": "vanilla:landscape/rocks/rockl04",
@@ -18576,19 +18617,20 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.69,
-    "buryCapM": 0.25,
+    "buryCapM": 0.75,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.429,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.69
+   "pivotAboveBaseM": 0.69,
+   "displayName": "Rock l 04"
   },
   {
    "id": "vanilla:landscape/rocks/rockl02",
@@ -18656,7 +18698,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.573
+   "pivotAboveBaseM": 0.573,
+   "displayName": "Rock l 02"
   },
   {
    "id": "vanilla:landscape/rocks/rockm03",
@@ -18710,19 +18753,20 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.47,
-    "buryCapM": 0.25,
+    "buryCapM": 0.75,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": true,
    "undersideCoverage": 0.791,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.47
+   "pivotAboveBaseM": 0.47,
+   "displayName": "Rock m 03"
   },
   {
    "id": "vanilla:landscape/rocks/rockm02",
@@ -18776,19 +18820,20 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.336,
-    "buryCapM": 0.25,
+    "buryCapM": 0.75,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.051,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.336
+   "pivotAboveBaseM": 0.336,
+   "displayName": "DB torture victim container 3"
   },
   {
    "id": "vanilla:landscape/rocks/rocks03",
@@ -18842,19 +18887,20 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.383,
-    "buryCapM": 0.25,
+    "buryCapM": 0.75,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.372,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.383
+   "pivotAboveBaseM": 0.383,
+   "displayName": "Rock s 03"
   },
   {
    "id": "bmv:landscape/trees/fanpalm3",
@@ -19301,7 +19347,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.059
+   "pivotAboveBaseM": 0.059,
+   "displayName": "Fanpalm 3"
   },
   {
    "id": "bmv:landscape/trees/treeofwolene4",
@@ -20648,7 +20695,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.071
+   "pivotAboveBaseM": 0.071,
+   "displayName": "Treeofwolene 4"
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew30v3",
@@ -22001,7 +22049,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.845,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.749
+   "pivotAboveBaseM": 4.749,
+   "displayName": "Gkbjungletreenew 30v 3"
   },
   {
    "id": "bmv:landscape/trees/fanpalm4",
@@ -22401,7 +22450,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.498,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.264
+   "pivotAboveBaseM": 0.264,
+   "displayName": "Fanpalm 4"
   },
   {
    "id": "bmv:landscape/trees/fanpalm6",
@@ -23108,7 +23158,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.036,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.867
+   "pivotAboveBaseM": 2.867,
+   "displayName": "Fanpalm 6"
   },
   {
    "id": "composite:jungle/anvil-canopy-tree",
@@ -24479,7 +24530,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.383
+   "pivotAboveBaseM": -0.383,
+   "displayName": "Anvil canopy tree"
   },
   {
    "id": "composite:jungle/anvil-emergent-giant",
@@ -25855,7 +25907,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.519
+   "pivotAboveBaseM": 0.519,
+   "displayName": "Anvil emergent giant"
   },
   {
    "id": "bmv:landscape/trees/scottish-pine22",
@@ -27200,7 +27253,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.21,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Scottish pine 22"
   },
   {
    "id": "bmv:landscape/trees/gkbtreeaspen02jungle",
@@ -27714,7 +27768,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.198,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.235
+   "pivotAboveBaseM": 0.235,
+   "displayName": "Gkbtreeaspen 02jungle"
   },
   {
    "id": "bmv:landscape/trees/gkbtreeaspen03jungle",
@@ -28171,7 +28226,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.207,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.168
+   "pivotAboveBaseM": 0.168,
+   "displayName": "Gkbtreeaspen 03jungle"
   },
   {
    "id": "bmv:landscape/trees/gkbtreeaspen05jungle",
@@ -28360,7 +28416,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.906,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.228
+   "pivotAboveBaseM": 0.228,
+   "displayName": "Gkbtreeaspen 05jungle"
   },
   {
    "id": "bmv:landscape/trees/hodalder01gkb",
@@ -29358,7 +29415,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.953,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.052
+   "pivotAboveBaseM": 0.052,
+   "displayName": "Hodalder 01gkb"
   },
   {
    "id": "bmv:landscape/trees/ztgorsebush02lightyellow",
@@ -29444,7 +29502,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.254,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.541
+   "pivotAboveBaseM": 0.541,
+   "displayName": "Ztgorsebush 02lightyellow"
   },
   {
    "id": "bmv:landscape/trees/flatpalm1",
@@ -29816,7 +29875,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.011,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.059
+   "pivotAboveBaseM": 0.059,
+   "displayName": "Flatpalm 1"
   },
   {
    "id": "bmv:landscape/trees/flatpalm2",
@@ -30162,7 +30222,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.059
+   "pivotAboveBaseM": 0.059,
+   "displayName": "Flatpalm 2"
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb2",
@@ -31518,7 +31579,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.624,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.524
+   "pivotAboveBaseM": 3.524,
+   "displayName": "Mangrovereachtree 0gkb 2"
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb8",
@@ -32501,7 +32563,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.993,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.468
+   "pivotAboveBaseM": 2.468,
+   "displayName": "Mangrovereachtree 0gkb 8"
   },
   {
    "id": "bmv:landscape/trees/datepalm2",
@@ -32680,7 +32743,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.193,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.22
+   "pivotAboveBaseM": -0.22,
+   "displayName": "Datepalm 2"
   },
   {
    "id": "bmv:landscape/trees/beachpalm5",
@@ -33395,7 +33459,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.706,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": 0.616
+   "pivotAboveBaseM": 0.616,
+   "displayName": "Beachpalm 5"
   },
   {
    "id": "bmv:landscape/trees/fanpalm5",
@@ -34349,7 +34414,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.628,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.317
+   "pivotAboveBaseM": 4.317,
+   "displayName": "Fanpalm 5"
   },
   {
    "id": "bmv:landscape/trees/gkbcyrodilcypress1",
@@ -35699,7 +35765,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.173
+   "pivotAboveBaseM": 0.173,
+   "displayName": "G rtree 6"
   },
   {
    "id": "bmv:landscape/trees/gkbcyrodilcypress2",
@@ -37047,7 +37114,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.154
+   "pivotAboveBaseM": 0.154,
+   "displayName": "G rtree 7"
   },
   {
    "id": "bmv:vurt_shroom/vurt_shroom_big6",
@@ -37137,7 +37205,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.713,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.876
+   "pivotAboveBaseM": 4.876,
+   "displayName": "Vurt shroom big 6"
   },
   {
    "id": "bmv:trdata/mushrooms/tr_oth_tallmush01",
@@ -37217,7 +37286,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.697,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.005
+   "pivotAboveBaseM": -0.005,
+   "displayName": "Tr oth tallmush 01"
   },
   {
    "id": "bmv:trdata/mushrooms/tr_oth_tallmush05",
@@ -37297,7 +37367,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.701,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.085
+   "pivotAboveBaseM": 0.085,
+   "displayName": "Tr oth tallmush 05"
   },
   {
    "id": "bmv:vurt/deadtrees/dead_bc_tree_01",
@@ -38648,7 +38719,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.377,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.006
+   "pivotAboveBaseM": 0.006,
+   "displayName": "Dead bc tree 01"
   },
   {
    "id": "bmv:vurt/deadtrees/dead_bc_tree_02",
@@ -39992,7 +40064,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.407,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.022
+   "pivotAboveBaseM": 0.022,
+   "displayName": "Dead bc tree 02"
   },
   {
    "id": "bmv:vurt/deadtrees/dead_bc_tree_04",
@@ -41331,7 +41404,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.134,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.209
+   "pivotAboveBaseM": 0.209,
+   "displayName": "Dead bc tree 04"
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenewsticktree11",
@@ -42525,7 +42599,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.886,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "displayName": "Gkbjungletreenewsticktree 11"
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenewsticktree20v2",
@@ -43877,7 +43952,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.218
+   "pivotAboveBaseM": 0.218,
+   "displayName": "Gkbjungletreenewsticktree 20v 2"
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew10",
@@ -45080,7 +45156,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005
+   "pivotAboveBaseM": 0.005,
+   "displayName": "Gkbjungletreenew 10"
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew3",
@@ -45991,7 +46068,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.902,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.361
+   "pivotAboveBaseM": 1.361,
+   "displayName": "GR tree 9"
   },
   {
    "id": "bmv:plants/trees/banana_tree",
@@ -46085,7 +46163,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.765,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.044
+   "pivotAboveBaseM": 0.044,
+   "displayName": "Banana tree"
   },
   {
    "id": "bmv:landscape/plants/water lily1",
@@ -46175,7 +46254,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.639
+   "pivotAboveBaseM": 8.639,
+   "displayName": "Water lily 1"
   },
   {
    "id": "bmv:landscape/plants/water lily2",
@@ -46265,7 +46345,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.023,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.688
+   "pivotAboveBaseM": 8.688,
+   "displayName": "Water lily 2"
   },
   {
    "id": "bmv:landscape/trees/reedlarge1",
@@ -46344,7 +46425,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 56.2,
-   "pivotAboveBaseM": 0.243
+   "pivotAboveBaseM": 0.243,
+   "displayName": "Reedlarge 1"
   },
   {
    "id": "bmv:landscape/trees/reedmed1",
@@ -46423,7 +46505,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 78.8,
-   "pivotAboveBaseM": 0.243
+   "pivotAboveBaseM": 0.243,
+   "displayName": "Reedmed 1"
   },
   {
    "id": "bmv:landscape/trees/reedsmall1",
@@ -46505,7 +46588,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.307,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": 0.216
+   "pivotAboveBaseM": 0.216,
+   "displayName": "Reedsmall 1"
   },
   {
    "id": "bmv:landscape/trees/reedsmall2",
@@ -46587,7 +46671,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 11.2,
-   "pivotAboveBaseM": 0.216
+   "pivotAboveBaseM": 0.216,
+   "displayName": "Reedsmall 2"
   },
   {
    "id": "bmv:landscape/trees/gkblillipad",
@@ -46669,7 +46754,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 348.8,
-   "pivotAboveBaseM": 2.334
+   "pivotAboveBaseM": 2.334,
+   "displayName": "Gkblillipad"
   },
   {
    "id": "bmv:landscape/plants/espfernbraken01st",
@@ -46748,7 +46834,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.317,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.063
+   "pivotAboveBaseM": 0.063,
+   "displayName": "Espfernbraken 01st"
   },
   {
    "id": "bmv:landscape/plants/espfernbraken02st",
@@ -46832,7 +46919,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.106,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.037
+   "pivotAboveBaseM": 0.037,
+   "displayName": "Espfernbraken 02st"
   },
   {
    "id": "bmv:landscape/plants/espfernbraken03st",
@@ -46916,7 +47004,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.048
+   "pivotAboveBaseM": 0.048,
+   "displayName": "Espfernbraken 03st"
   },
   {
    "id": "bmv:landscape/plants/espfernbraken04st",
@@ -47000,7 +47089,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.003,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.053
+   "pivotAboveBaseM": 0.053,
+   "displayName": "Espfernbraken 04st"
   },
   {
    "id": "bmv:landscape/plants/espfernbraken05st",
@@ -47084,7 +47174,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.059
+   "pivotAboveBaseM": 0.059,
+   "displayName": "Espfernbraken 05st"
   },
   {
    "id": "bmv:landscape/plants/espfernbraken06st",
@@ -47168,7 +47259,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.057
+   "pivotAboveBaseM": 0.057,
+   "displayName": "Espfernbraken 06st"
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster01",
@@ -47252,7 +47344,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.032,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.087
+   "pivotAboveBaseM": 0.087,
+   "displayName": "Espfernbrakencluster 01"
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster02",
@@ -47336,7 +47429,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.149
+   "pivotAboveBaseM": 0.149,
+   "displayName": "Espfernbrakencluster 02"
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster03",
@@ -47420,7 +47514,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.086
+   "pivotAboveBaseM": 0.086,
+   "displayName": "Espfernbrakencluster 03"
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster04",
@@ -47504,7 +47599,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.059
+   "pivotAboveBaseM": 0.059,
+   "displayName": "Espfernbrakencluster 04"
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster05",
@@ -47588,7 +47684,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.013,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.085
+   "pivotAboveBaseM": 0.085,
+   "displayName": "Espfernbrakencluster 05"
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster06",
@@ -47672,7 +47769,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.136,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.044
+   "pivotAboveBaseM": 0.044,
+   "displayName": "Espfernbrakencluster 06"
   },
   {
    "id": "bmv:landscape/plants/bigshrub-b(colorful)",
@@ -47756,7 +47854,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.277,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.434
+   "pivotAboveBaseM": 0.434,
+   "displayName": "Bigshrub b(colorful)"
   },
   {
    "id": "bmv:landscape/plants/bigshrub-c(colorful)",
@@ -47840,7 +47939,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.277,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.434
+   "pivotAboveBaseM": 0.434,
+   "displayName": "Bigshrub c(colorful)"
   },
   {
    "id": "bmv:landscape/grass/watercoralgrass01",
@@ -47925,7 +48025,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 225.0,
-   "pivotAboveBaseM": 0.032
+   "pivotAboveBaseM": 0.032,
+   "displayName": "Watercoralgrass 01"
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed06",
@@ -48010,7 +48111,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.116,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.973
+   "pivotAboveBaseM": 0.973,
+   "displayName": "TBP seaweed 06 cluster"
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed06var1",
@@ -48094,7 +48196,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.232,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.973
+   "pivotAboveBaseM": 0.973,
+   "displayName": "Tbp seaweed 06var 1"
   },
   {
    "id": "depths:landscape/grass/waterkelptall02",
@@ -48173,7 +48276,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.323,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.09
+   "pivotAboveBaseM": 0.09,
+   "displayName": "Waterkelptall 02"
   },
   {
    "id": "depths:landscape/grass/waterkelptall03",
@@ -48252,7 +48356,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.323,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.801
+   "pivotAboveBaseM": 0.801,
+   "displayName": "Waterkelptall 03"
   },
   {
    "id": "vanilla:landscape/plants/kelpshortstatic01",
@@ -48332,7 +48437,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.358,
    "openBackYawDeg": 292.5,
-   "pivotAboveBaseM": 0.024
+   "pivotAboveBaseM": 0.024,
+   "displayName": "Tree kelp short static 01"
   },
   {
    "id": "vanilla:plants/floraswampfungalpod01",
@@ -48413,7 +48519,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.073,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.122
+   "pivotAboveBaseM": 0.122,
+   "displayName": "Flora swamp fungal pod 01"
   },
   {
    "id": "vanilla:plants/floraswampfungalpod02",
@@ -48497,7 +48604,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.073,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.082
+   "pivotAboveBaseM": 0.082,
+   "displayName": "Floraswampfungalpod 02"
   },
   {
    "id": "vanilla:landscape/rocks/rockl01",
@@ -48551,19 +48659,20 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.848,
-    "buryCapM": 0.25,
+    "buryCapM": 0.75,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.848
+   "pivotAboveBaseM": 0.848,
+   "displayName": "DB torture victim container 1"
   },
   {
    "id": "vanilla:landscape/rocks/rockl03",
@@ -48629,7 +48738,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.124,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.231
+   "pivotAboveBaseM": 0.231,
+   "displayName": "Rock l 03"
   },
   {
    "id": "vanilla:landscape/rocks/rockl05",
@@ -48695,7 +48805,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.353,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.253
+   "pivotAboveBaseM": 1.253,
+   "displayName": "Rock l 05"
   },
   {
    "id": "vanilla:landscape/rocks/rockm01",
@@ -48749,19 +48860,20 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.188,
-    "buryCapM": 0.25,
+    "buryCapM": 0.75,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.188
+   "pivotAboveBaseM": 0.188,
+   "displayName": "Rock m 01"
   },
   {
    "id": "vanilla:landscape/rocks/rockm04",
@@ -48815,19 +48927,20 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.26,
-    "buryCapM": 0.25,
+    "buryCapM": 0.75,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.009,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.26
+   "pivotAboveBaseM": 0.26,
+   "displayName": "Rock m 04"
   },
   {
    "id": "vanilla:landscape/rocks/rocks01",
@@ -48881,19 +48994,20 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.205,
-    "buryCapM": 0.25,
+    "buryCapM": 0.75,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.424,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.205
+   "pivotAboveBaseM": 0.205,
+   "displayName": "Rock s 01"
   },
   {
    "id": "vanilla:landscape/rocks/rocks02",
@@ -48947,19 +49061,20 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.09,
-    "buryCapM": 0.25,
+    "buryCapM": 0.75,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.313,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.09
+   "pivotAboveBaseM": 0.09,
+   "displayName": "Rock s 02"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl01wet",
@@ -49025,7 +49140,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.848
+   "pivotAboveBaseM": 0.848,
+   "displayName": "Rock l 01 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl02wet",
@@ -49093,7 +49209,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.573
+   "pivotAboveBaseM": 0.573,
+   "displayName": "Rock l 02 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl03wet",
@@ -49160,7 +49277,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.124,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.231
+   "pivotAboveBaseM": 0.231,
+   "displayName": "Rock l 03 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl04wet",
@@ -49226,7 +49344,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.429,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.69
+   "pivotAboveBaseM": 0.69,
+   "displayName": "Rock l 04 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl05wet",
@@ -49293,7 +49412,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.353,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.253
+   "pivotAboveBaseM": 1.253,
+   "displayName": "Rock l 05 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockm02wet",
@@ -49347,19 +49467,20 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.336,
-    "buryCapM": 0.25,
+    "buryCapM": 0.75,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.051,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.336
+   "pivotAboveBaseM": 0.336,
+   "displayName": "Rock m 02 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilel01wet",
@@ -49427,7 +49548,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.711
+   "pivotAboveBaseM": 0.711,
+   "displayName": "Rock pile l 01 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilel02wet",
@@ -49503,7 +49625,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.02,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.183
+   "pivotAboveBaseM": 1.183,
+   "displayName": "Rock pile l 02 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilel03wet",
@@ -49582,7 +49705,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.594
+   "pivotAboveBaseM": 1.594,
+   "displayName": "Rock pile l 03 wet"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilem02wet",
@@ -49659,7 +49783,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.002,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.49
+   "pivotAboveBaseM": 0.49,
+   "displayName": "Rock pile m 02 wet"
   },
   {
    "id": "vanilla:landscape/rocks/rockpiles01",
@@ -49715,19 +49840,20 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.247,
-    "buryCapM": 0.25,
+    "buryCapM": 0.75,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.043,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.247
+   "pivotAboveBaseM": 0.247,
+   "displayName": "Rock pile s 01"
   },
   {
    "id": "vanilla:landscape/rocks/rockpiles02",
@@ -49783,19 +49909,20 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.32,
-    "buryCapM": 0.25,
+    "buryCapM": 0.75,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.055,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.32
+   "pivotAboveBaseM": 0.32,
+   "displayName": "Rock pile s 02"
   },
   {
    "id": "vanilla:landscape/rocks/rockpiles03",
@@ -49851,19 +49978,20 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.279,
-    "buryCapM": 0.25,
+    "buryCapM": 0.75,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.07,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.279
+   "pivotAboveBaseM": 0.279,
+   "displayName": "Rock pile s 03"
   },
   {
    "id": "vanilla:landscape/rocks/rockpiles04",
@@ -49931,7 +50059,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.503
+   "pivotAboveBaseM": 0.503,
+   "displayName": "Rock pile s 04"
   },
   {
    "id": "vanilla:landscape/rocks/rockpilem01",
@@ -50007,7 +50136,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.002,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.584
+   "pivotAboveBaseM": 0.584,
+   "displayName": "Rock pile m 01"
   },
   {
    "id": "vanilla:landscape/rocks/rockpilem02",
@@ -50084,7 +50214,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.002,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.49
+   "pivotAboveBaseM": 0.49,
+   "displayName": "Rock pile m 02"
   },
   {
    "id": "vanilla:landscape/rocks/rockpilel01",
@@ -50152,7 +50283,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.711
+   "pivotAboveBaseM": 0.711,
+   "displayName": "Rock pile l 01"
   },
   {
    "id": "vanilla:landscape/rocks/rockpilel02",
@@ -50228,7 +50360,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.02,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.183
+   "pivotAboveBaseM": 1.183,
+   "displayName": "Rock pile l 02"
   },
   {
    "id": "vanilla:landscape/rocks/rockpilel03",
@@ -50307,7 +50440,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.594
+   "pivotAboveBaseM": 1.594,
+   "displayName": "Rock pile l 03"
   },
   {
    "id": "vanilla:landscape/rocks/rockpilel04",
@@ -50385,7 +50519,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.003,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.652
+   "pivotAboveBaseM": 1.652,
+   "displayName": "Rock pile l 04"
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff01",
@@ -50463,7 +50598,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.199,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 4.964
+   "pivotAboveBaseM": 4.964,
+   "displayName": "Rock cliff 01"
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff02",
@@ -50539,7 +50675,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.066,
    "openBackYawDeg": 258.8,
-   "pivotAboveBaseM": 0.389
+   "pivotAboveBaseM": 0.389,
+   "displayName": "Rock cliff 02"
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff03",
@@ -50607,7 +50744,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.237,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "displayName": "Rock cliff 03"
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff04",
@@ -50675,7 +50813,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": 281.2,
-   "pivotAboveBaseM": 0.36
+   "pivotAboveBaseM": 0.36,
+   "displayName": "Rock cliff 04"
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff05",
@@ -50751,7 +50890,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.174,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.036
+   "pivotAboveBaseM": 1.036,
+   "displayName": "Rock cliff 05"
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff06",
@@ -50817,7 +50957,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.325,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.425
+   "pivotAboveBaseM": 0.425,
+   "displayName": "Rock cliff 06"
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff07",
@@ -50885,7 +51026,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.078,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 0.091
+   "pivotAboveBaseM": 0.091,
+   "displayName": "Rock cliff 07"
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff08",
@@ -50962,7 +51104,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.35,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.353
+   "pivotAboveBaseM": 2.353,
+   "displayName": "Rock cliff 08"
   },
   {
    "id": "vanilla:landscape/plants/deadshrub01",
@@ -51041,7 +51184,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.533,
    "openBackYawDeg": 225.0,
-   "pivotAboveBaseM": -0.003
+   "pivotAboveBaseM": -0.003,
+   "displayName": "Tree dead shrub"
   },
   {
    "id": "vanilla:landscape/plants/tundrashrub01",
@@ -51120,7 +51264,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.196,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.221
+   "pivotAboveBaseM": 0.221,
+   "displayName": "Tree tundra shrub 01"
   },
   {
    "id": "vanilla:landscape/plants/tundrashrub02",
@@ -51199,7 +51344,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.161,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.06
+   "pivotAboveBaseM": 0.06,
+   "displayName": "Tree tundra shrub 02"
   },
   {
    "id": "vanilla:landscape/plants/tundrashrub03",
@@ -51278,7 +51424,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.096,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.221
+   "pivotAboveBaseM": 0.221,
+   "displayName": "Tree tundra shrub 03"
   },
   {
    "id": "vanilla:landscape/plants/tundrascrub01",
@@ -51357,7 +51504,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.094,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.42
+   "pivotAboveBaseM": 0.42,
+   "displayName": "Tundra scrub 01"
   },
   {
    "id": "vanilla:landscape/plants/reachshrub01",
@@ -51436,7 +51584,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.572,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.22
+   "pivotAboveBaseM": 0.22,
+   "displayName": "Tree reach shrub 01"
   },
   {
    "id": "vanilla:landscape/plants/thicket01",
@@ -51515,7 +51664,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.316,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.114
+   "pivotAboveBaseM": 0.114,
+   "displayName": "Tree thicket 01"
   },
   {
    "id": "vanilla:plants/floramountainflower01purple",
@@ -51594,7 +51744,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.229,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.073
+   "pivotAboveBaseM": 0.073,
+   "displayName": "Tree flora mountain flower 01 purple"
   },
   {
    "id": "vanilla:plants/floramountainflower01blue",
@@ -51673,7 +51824,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.229,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.073
+   "pivotAboveBaseM": 0.073,
+   "displayName": "Tree flora mountain flower 01 blue"
   },
   {
    "id": "vanilla:plants/floramountainflower01red",
@@ -51752,7 +51904,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.229,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.073
+   "pivotAboveBaseM": 0.073,
+   "displayName": "Tree flora mountain flower 01 red"
   },
   {
    "id": "vanilla:landscape/trees/treepineforestlog01",
@@ -51859,7 +52012,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.338,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.483
+   "pivotAboveBaseM": 1.483,
+   "displayName": "Tree pine forest log 01"
   },
   {
    "id": "vanilla:landscape/trees/treepineforestlog02",
@@ -51964,7 +52118,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.365,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.037
+   "pivotAboveBaseM": 2.037,
+   "displayName": "Tree pine forest log 02"
   },
   {
    "id": "vanilla:landscape/trees/treepineforeststump01",
@@ -52066,7 +52221,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.777,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.409
+   "pivotAboveBaseM": 1.409,
+   "displayName": "DB torture victim container 4"
   },
   {
    "id": "vanilla:landscape/trees/treepineforeststump02a",
@@ -52170,7 +52326,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.093,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.278
+   "pivotAboveBaseM": 1.278,
+   "displayName": "Tree pine forest stump 02 a"
   },
   {
    "id": "vanilla:landscape/trees/treeaspenlog01",
@@ -52272,7 +52429,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.151,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.972
+   "pivotAboveBaseM": 1.972,
+   "displayName": "Tree aspen log 01"
   },
   {
    "id": "vanilla:landscape/trees/treeaspenstump01",
@@ -52372,7 +52530,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.027
+   "pivotAboveBaseM": 1.027,
+   "displayName": "DB torture victim container 2"
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\flora-province-v1.glb",

@@ -599,6 +599,29 @@ facing the approach (within 90° of the door's bearing) or a mounted light
 (HARD for a place, WARN for a fixture; glow facings from the kit manifest's
 `glowFacingsDeg`, lights by assembly layer `light`); reader checklist (front).
 
+**C17. Dressing faces its user, idle spots stand at their props, and a
+trade shows its board.** A seat faces its table, else away from the wall
+it stands against, else toward the way; a spit or oven mouth faces the
+cook's open side; a lantern arm reaches over the way. An `idle` socket
+stands at the seat, fire, water, bed or workplace its activity names. A
+lodging, trader, stable or smith building hangs its pool's board on a
+bracket post beside the door, never over it. *E* (vanilla Whiterun and
+Riften shop boards on `signwrpost01`/wall brackets; mined pairs in
+`kit-mounts-mined.json`); *O* owner walk 8, 2026-10-01. **Enforced by**
+`wb.py check` `seatFacingRule`, `socketCoherenceRule`, `serviceSignRule`
+(R94-R96; the place-build skill's `references/dressing.md`); reader
+checklist rows 52-53.
+
+**C18. A road between places is dressed in clusters at its features, by
+its condition and the region it crosses.** Kept field walls near holdings
+that tumble with distance; verge rocks clumped on cuts; cairns at Argonian
+forks; a signpost at every junction of three or more roads with one arm
+per destination; pull-offs on flat ground. A leg improves one condition
+step within 300 m of a place. *E* vanilla hold roads (to be measured by
+the type-10 roadside mine); *O* owner walk 8. **Enforced by** nothing
+yet: the type-10 slice proves it and its gate
+([road-dressing.md](../research/placement-settlements/road-dressing.md)).
+
 ---
 
 ## Part D — The walking player

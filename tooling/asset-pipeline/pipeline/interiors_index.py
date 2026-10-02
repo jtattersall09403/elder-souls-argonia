@@ -770,8 +770,28 @@ def probe_from_inside(triangles, centre: tuple[float, float], eye_y: float) -> d
         "floor": bool(np.isfinite(dist[BINS + 1])),
         "floorFront": bool(np.isfinite(dist[BINS + 1]) and front[BINS + 1]),
         "headroomM": float(dist[BINS]) if np.isfinite(dist[BINS]) else float("inf"),
+        "floorDropM": float(dist[BINS + 1]) if np.isfinite(dist[BINS + 1]) else float("inf"),
         "eyeY": eye_y,
     }
+
+
+#: a down ray shorter than this hit a lump at the stander's knees, not a floor
+DOOR_STOREY_MIN_DROP_M = 0.4
+
+
+def door_storey_y(probe: dict, floor_y: float, base_y: float) -> float:
+    """The height a doorway is measured and ray-confirmed at: the surface the
+    probe's down ray stands the player on, not the floor-ladder rung the ring
+    closed at. The rung is a 1 m step, so the real floor sits anywhere up to
+    an eye height off it (16k walk 9: KotM's lizardhouse pod floor is 1.18 m
+    above rung 4, so the 1.1 m door eye stood under the pod and its round
+    door at 5.3 m was tested as closed wall; the shed's tread is 1.06 m below
+    rung 2, under the band its open front was tested in). No floor hit, or a
+    hit at the knees, keeps the rung (`floor_y`)."""
+    drop = probe.get("floorDropM", float("inf"))
+    if not probe.get("floor") or not math.isfinite(drop) or drop < DOOR_STOREY_MIN_DROP_M:
+        return floor_y
+    return max(probe["eyeY"] - drop, base_y)
 
 
 def best_floor(triangles, centre: tuple[float, float], base_y: float, height_m: float) -> dict:
@@ -992,6 +1012,11 @@ DOOR_RAY_REACH_M = 1.0
 #: the columns sit across this share of the recorded width (the jambs' own
 #: rounding stays out of the test)
 DOOR_RAY_WIDTH_SHARE = 0.7
+#: ...but never wider than a stander's shoulders: a round or arched door
+#: narrows towards its crown, and 70% of its width at the door eye is wider
+#: than it stands 1.8 m up (16k walk 9: KotM's lizardhouse round door is 1.7 m
+#: wide at its middle and 1.0 m at 1.8 m above its sill)
+DOOR_RAY_PASS_WIDTH_M = 0.8
 DOOR_RAY_COLUMNS = 5
 
 
@@ -1044,7 +1069,7 @@ def doorway_rays(triangles, door: dict, sill_lo_y: float, sill_hi_y: float) -> d
     start = wall - out_dir * DOOR_RAY_REACH_M
     reach = 2.0 * DOOR_RAY_REACH_M
     width = float(door.get("arcM") or LEAF_MIN_ARC_M)
-    half = 0.5 * DOOR_RAY_WIDTH_SHARE * width
+    half = 0.5 * min(DOOR_RAY_WIDTH_SHARE * width, DOOR_RAY_PASS_WIDTH_M)
     columns = np.linspace(-half, half, DOOR_RAY_COLUMNS)
     top = sill_hi_y + DOOR_RAY_HIGH_M + 0.5
     heights = np.arange(sill_lo_y, top + 1e-9, DOOR_RAY_STEP_M)
@@ -1893,6 +1918,67 @@ def door_piece_doorways(record: dict, asset_id: str,
     return out[:MAX_DOORWAYS]
 
 
+#: the mesh of a load door that draws nothing (AutoLoadDoor01, a cave mouth)
+INVISIBLE_LOAD_DOOR_MODELS = ("autoloadmarker01",)
+
+
+def cave_mouth_link(record: dict, link_row: dict) -> bool:
+    """A rock is never a building, but a rock its plugin hung an invisible
+    load door inside IS a cave mouth: the plugin's link makes it an entrance
+    (`mine_door_links` gives such a door to the rock whose box holds it;
+    16k walk 9, rockcaveentrance02 -> MugsumpHollowInt01)."""
+    model = str(link_row.get("doorModel") or "").lower().rsplit("/", 1)[-1].rsplit(":", 1)[-1]
+    return record.get("category") == "rock" and model.removesuffix(".nif") in INVISIBLE_LOAD_DOOR_MODELS
+
+
+def cave_mouth_axis_deg(door_yaws_deg: list[float], front_deg: float) -> float:
+    """The way out of a cave mouth, from its plugins' own doors: every load
+    door stands along the tunnel, facing out or in, so the yaws gather on one
+    axis (rockcaveentrance02: 107-120 and 274-298 deg). Fold them onto the
+    half facing the rock's show side and take the circular mean."""
+    out = []
+    for y in door_yaws_deg:
+        y = float(y) % 360.0
+        if abs((y - front_deg + 180.0) % 360.0 - 180.0) > 90.0:
+            y = (y + 180.0) % 360.0
+        out.append(math.radians(y))
+    s, c = sum(math.sin(a) for a in out), sum(math.cos(a) for a in out)
+    return math.degrees(math.atan2(s, c)) % 360.0 if out else front_deg % 360.0
+
+
+def settle_cave_mouth(record: dict, front_of) -> None:
+    """Every record leaves with no `caveDoorYawsDeg` (classify_asset's working
+    field, never published): a radial esp-door on a rock with a derivable front
+    (``front_of()``) is fixed on its doors' axis; any other record just drops it."""
+    ent = record.get("entrance") or {}
+    if ent.get("kind") == "esp-door" and ent.get("radial") and record.get("category") == "rock":
+        front = front_of()
+        if front and front.get("deg") is not None:
+            fix_cave_mouth_entrance(record, float(front["deg"]))
+    record.pop("caveDoorYawsDeg", None)
+
+
+def fix_cave_mouth_entrance(record: dict, front_deg: float) -> None:
+    """A cave-mouth rock's plugin doors stand at different spots inside its
+    tunnel across the plugins (`radial`), but the way in is always the mouth.
+    Fix the entrance on the doors' median ring along the tunnel axis their
+    yaws give (`caveDoorYawsDeg`, `cave_mouth_axis_deg`), facing out (16k
+    walk 9, rockcaveentrance02: 29 cells; the show side 79.7 deg picks the
+    outward half). With no yaws, the show side is the axis."""
+    ent = record["entrance"]
+    yaws = record.pop("caveDoorYawsDeg", None) or []
+    axis = cave_mouth_axis_deg(yaws, front_deg) if yaws else front_deg % 360.0
+    r = float(ent.get("radiusM") or 0.0)
+    b = math.radians(axis)
+    ent.pop("radial", None)
+    ent.update(sideDeg=round(axis, 2), yawDeg=round(axis, 2),
+               offsetM=[round(r * math.sin(b), 3), round(-r * math.cos(b), 3)])
+    record["entranceWhy"] = (
+        f"a cave mouth: the plugin's invisible load door stands inside the tunnel on "
+        f"a {r:.2f} m ring across its placements; their {len(yaws)} door yaws give the "
+        f"tunnel axis, {axis:.0f} deg in the rock's frame, on its show side, so the door is fixed there")
+
+
 # --------------------------------------------------------------------------- #
 # per-kit derivation
 # --------------------------------------------------------------------------- #
@@ -1920,11 +2006,16 @@ def classify_asset(asset: dict, kit: str, verts, triangles,
     # door is. It does not decide what counts as a building: that stays with
     # the geometry (owner ruling 2026-09-04), or a walkway with a door standing
     # on it would become a house.
-    if link is not None and kit not in INTERIOR_KITS and record.get("interior") != "none":
+    if link is not None and kit not in INTERIOR_KITS and (
+            record.get("interior") != "none" or cave_mouth_link(record, link[0])):
         row, interior_kit = link
         shell_links = ([posed_link(r, anchor_pose) for r in links.get(anchor_id) or ()]
                        if anchor_link is not None else None) or links.get(asset["id"]) or [row]
         apply_esp_link(record, row, interior_kit, shell_links)
+        if cave_mouth_link(record, row):
+            record["caveDoorYawsDeg"] = [float((r.get("doorOffsetInShell") or {}).get("yawDeg"))
+                                         for r in shell_links
+                                         if (r.get("doorOffsetInShell") or {}).get("yawDeg") is not None]
         fix_radial_esp_door(record, assembly_doors)
         if assembly_doors:
             # The plugin's door leads, but a shell the source authors ALSO hung
@@ -2118,9 +2209,15 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
             def confirm(found, lo_y, hi_y):
                 return confirm_doorways(triangles, found, lo_y, hi_y, asset_id, closed)
 
-            sill_hi = floor_y + LEAF_SILL_MAX_M
-            doors, why_not = doorways_from_probe(triangles, (cx, cz), floor_y, room_h)
-            doors = confirm(doors, floor_y, sill_hi)
+            # Doorways are probed and ray-confirmed at the storey's own surface
+            # (door_storey_y), never at the ladder rung the ring closed at.
+            door_y = door_storey_y(probe, floor_y, base_y)
+            door_h = height - (door_y - base_y)
+            if abs(door_y - floor_y) > 0.05:
+                record["doorStoreyM"] = round(door_y - base_y, 2)
+            sill_hi = door_y + LEAF_SILL_MAX_M
+            doors, why_not = doorways_from_probe(triangles, (cx, cz), door_y, door_h)
+            doors = confirm(doors, door_y, sill_hi)
             if probe["floorOffsetM"] > 0 and not probe["floor"]:
                 # Nothing to stand on at the storey the ring closed at: the way
                 # in is at the ground, where a player walks (walk 2 lane P,
@@ -2134,22 +2231,22 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
                     record["doorwaysMeasuredBelowM"] = probe["floorOffsetM"]
             if not doors:
                 # the leaf pass: a door modelled shut into the shell
-                doors = confirm(leaf_doorways(triangles, (cx, cz), floor_y, room_h),
-                                floor_y, sill_hi)
+                doors = confirm(leaf_doorways(triangles, (cx, cz), door_y, door_h),
+                                door_y, sill_hi)
                 if doors:
                     why_not = None
             if not doors:
                 doors, point = doorways_retry_off_centre(
-                    triangles, plan, (cx, cz), floor_y, room_h)
-                doors = confirm(doors, floor_y, sill_hi)
+                    triangles, plan, (cx, cz), door_y, door_h)
+                doors = confirm(doors, door_y, sill_hi)
                 if doors:
                     why_not = None
                     record["doorwayProbeCentreM"] = [round(point[0], 2), round(point[1], 2)]
             if not doors:
-                doors = sill_doorways(triangles, (cx, cz), floor_y, room_h)
+                doors = sill_doorways(triangles, (cx, cz), door_y, door_h)
                 if doors:
                     why_not = None
-                    record["doorwaysMeasuredAboveFloorM"] = round(doors[0]["sillYM"] - floor_y, 2)
+                    record["doorwaysMeasuredAboveFloorM"] = round(doors[0]["sillYM"] - door_y, 2)
             record["doorways"] = doors
             if closed:
                 record["doorwaysClosedDropped"] = closed
@@ -2432,6 +2529,9 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
         finalise_entrance(record)
         walk_in_open_front(record, setting.get(asset_id))
         set_storeys(record)
+        source = parts_of.get(asset_id, [asset_id])[0]
+        settle_cave_mouth(record, lambda: (pf.derive_front(asset_id, tris_of.get(asset_id), coplacements)
+                                           or pf.derive_front(source, None, coplacements)))
         if record.get("entrance") is None:
             source = parts_of.get(asset_id, [asset_id])[0]
             record["front"] = (pf.derive_front(asset_id, tris_of.get(asset_id), coplacements)

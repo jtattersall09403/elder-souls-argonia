@@ -3,8 +3,8 @@
  "kit": "settlement-mud-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 19480744,
-  "sha256": "31570402567aa6b9f7ad80132af01b5338099f04a8a886dfd5ef6d07efe42014"
+  "bytes": 20168020,
+  "sha256": "9c66627fd833d317cecef91586f7164401645dbfbb0e0ade3dff89adf9d5bf02"
  },
  "totals": {
   "parts": 5,
@@ -65,5 +65,48 @@
    ]
   }
  },
- "fires": {}
+ "fires": {
+  "kotm:argonia/mudhuts/window01": {
+   "id": "kotm:argonia/mudhuts/window01",
+   "category": "misc",
+   "anchorClass": "ground",
+   "sizeM": [
+    3.681,
+    4.117,
+    1.872
+   ],
+   "originOffsetM": [
+    1.841,
+    2.046,
+    0.554
+   ],
+   "emissiveMaterials": [
+    "Objekt01:1.Mat"
+   ],
+   "windowMaterials": [
+    "Objekt01:1.Mat"
+   ]
+  },
+  "kotm:argonia/mudhuts/window02": {
+   "id": "kotm:argonia/mudhuts/window02",
+   "category": "misc",
+   "anchorClass": "ground",
+   "sizeM": [
+    1.777,
+    1.987,
+    0.824
+   ],
+   "originOffsetM": [
+    0.889,
+    0.979,
+    0.175
+   ],
+   "emissiveMaterials": [
+    "Kugel02:1.Mat"
+   ],
+   "windowMaterials": [
+    "Kugel02:1.Mat"
+   ]
+  }
+ }
 }

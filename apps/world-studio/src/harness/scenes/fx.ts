@@ -88,14 +88,14 @@ export default {
     //    wind tune on an instanced attribute (stiffness − 1, sink).
     const treeGeo = new THREE.BoxGeometry(0.6, 8, 0.6, 1, 8, 1).translate(0, 4, 0);
     const bands = new Float32Array(count * 4);
-    const tunes = new Float32Array(count * 2);
+    const tunes = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
       const vanish = Math.floor(i / COLS) % 2 === 1;
       bands.set(vanish ? [0, 70, 0, LOD_CULL_BAND_M] : [0, 60, 0, 0], i * 4);
-      tunes.set([-(i % 3) * 0.3, 0.3], i * 2);
+      tunes.set([-(i % 3) * 0.3, 0.3, 8], i * 3);
     }
     treeGeo.setAttribute(LOD_BAND_ATTRIBUTE, new THREE.InstancedBufferAttribute(bands, 4));
-    treeGeo.setAttribute(WIND_TUNE_ATTRIBUTE, new THREE.InstancedBufferAttribute(tunes, 2));
+    treeGeo.setAttribute(WIND_TUNE_ATTRIBUTE, new THREE.InstancedBufferAttribute(tunes, 3));
     const treeMat = new MeshStandardNodeMaterial({ color: 0x4d7a2e, roughness: 0.9 });
     applyWindSway(treeMat, wind);
     applyLodFade(treeMat, lod);
@@ -133,7 +133,7 @@ export default {
     const data = createBatchDataTexture(count);
     for (let s = 0; s < count; s++) {
       writeBatchInstance(data, s, s % 5 === 0 ? [0, 45, 0, LOD_CULL_BAND_M] : [0, LOD_OPEN_M, 0, 0],
-        -(s % 2) * 0.5, 0);
+        -(s % 2) * 0.5, 0, 8);
     }
     data.needsUpdate = true;
     const maskSize = 8;
@@ -159,7 +159,7 @@ export default {
       scene,
       camera,
       frame(t: number) {
-        updateWindSway(wind, t, { windDirXZ: [0.8, 0.6], windSpeedMS: 9, gustiness: 0.6 });
+        updateWindSway(wind, t, { windDirXZ: [0.8, 0.6], windSpeedMS: 9, gustiness: 0.6 }, camera.position);
         // Dolly back and forth so rungs step and vanishes dither.
         camera.position.z = 30 + 40 * Math.sin(t * 0.25);
         camera.updateMatrixWorld();

@@ -5,7 +5,7 @@
  */
 import * as THREE from "three";
 import { describe, expect, it, vi } from "vitest";
-import { buildStartMark, flameManifestPath, swapInBuild } from "./SettlementLayer";
+import { buildStartMark, flameManifestPath, retryIncompleteBuild, swapInBuild } from "./SettlementLayer";
 
 describe("settlement build swap", () => {
   it("swaps an empty build in without three's 'not an instance' error", () => {
@@ -25,6 +25,13 @@ describe("settlement build swap", () => {
   it("a running build keeps the live covered radius; the first build is not restarted by 1 m", () => {
     expect(buildStartMark({ x: 1, z: 2 }, 120)).toEqual({ x: 1, z: 2, coveredRadiusM: 120 });
     expect(buildStartMark({ x: 1, z: 2 }, null).coveredRadiusM).toBe(Number.POSITIVE_INFINITY);
+  });
+
+  it("an incomplete build is retried only after it swaps in, never while it runs", () => {
+    expect(retryIncompleteBuild(true, true, 10_000, 0)).toBe(false);
+    expect(retryIncompleteBuild(true, false, 10_000, 0)).toBe(true);
+    expect(retryIncompleteBuild(true, false, 1_000, 0)).toBe(false);
+    expect(retryIncompleteBuild(false, false, 10_000, 0)).toBe(false);
   });
 
   it("finds the flame kit's manifest whether or not the bundle lists works-v1", () => {

@@ -101,6 +101,52 @@ def test_flame_anchor_gate_fails_an_unpublished_place(monkeypatch):
     assert g.rows[0]["failures"] == ["place.x.claywater: has no published bundle to check"]
 
 
+def test_kits_fresh_gate_fails_a_stale_publish(tmp_path, monkeypatch):
+    """16k walk 9: the exporter's publish refusal runs as gate kits.fresh."""
+    from . import export_settlement_bundle  # noqa: F401  (puts pipeline on the path)
+    import pipeline.kit_compress as kc
+    monkeypatch.setattr(kc, "glb_problems", lambda name, glb, manifest: [])
+    built, public = tmp_path / "built", tmp_path / "public"
+    built.mkdir(), public.mkdir()
+    (built / "k.kit.json").write_text('{"assets": [1]}')
+    (public / "k.kit.json").write_text('{"assets": [1]}')
+    settlement = {"placements": [{"kit": "k"}]}
+    g = pg.Gates()
+    pg.kits_fresh_gate(g, settlement, built, public)
+    (public / "k.kit.json").write_text('{"assets": []}')
+    pg.kits_fresh_gate(g, settlement, built, public)
+    pg.kits_fresh_gate(g, None, built, public)
+    assert [r["ok"] for r in g.rows] == [True, False, False]
+    assert "stale publish" in g.rows[1]["failures"][0]
+
+
+def test_collider_ceiling_gate_fails_a_place_over_the_ceiling(monkeypatch):
+    """16k walk 9: the exporter's collider part ceiling runs as gate
+    collider.ceiling on one place's runtime placements, under 5 s."""
+    import json
+    import time
+    from pathlib import Path
+    from . import export_settlement_bundle as esb
+    pid = "place.dunmer-north.riverwalk"
+    path = esb.DEFAULT_SETTLEMENTS / f"{pid}.settlement.json"
+    bp_path = Path(esb.BLUEPRINTS) / f"{pid}.json"
+    if not path.exists():
+        import pytest
+        pytest.skip("Riverwalk is not compiled on this machine")
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    bp = json.loads(bp_path.read_text(encoding="utf-8"))["blueprint"]
+    g = pg.Gates()
+    t = time.perf_counter()
+    pg.collider_ceiling_gate(g, doc, bp)
+    assert time.perf_counter() - t < 5
+    monkeypatch.setattr(esb, "COLLIDER_PART_CEILING", 1)
+    monkeypatch.setattr(esb, "COLLIDER_PART_CEILING_LARGE", 1)
+    pg.collider_ceiling_gate(g, doc, bp)
+    pg.collider_ceiling_gate(g, None, bp)
+    assert [r["ok"] for r in g.rows] == [True, False, False]
+    assert "exceeds the collider part ceiling of 1" in g.rows[1]["failures"][0]
+
+
 def test_tier_a_doors_is_the_one_rule():
     bp = {"doors": [{"id": "d1", "interiorClaim": {"tier": "A", "cellId": "C1"}},
                     {"id": "d2", "interiorClaim": {"tier": "B", "cellId": "C2"}},
@@ -108,3 +154,11 @@ def test_tier_a_doors_is_the_one_rule():
                     {"id": "d4", "interiorClaim": {"tier": "A", "cellId": "C1"}}]}
     assert [(d["id"], c) for d, c in pg.tier_a_doors(bp)] == [("d1", "C1"), ("d4", "C1")]
     assert pg.tier_a_cells(bp) == ["C1"]
+
+
+def test_apply_cmd_carries_the_layouts_owner_go_ahead():
+    from pathlib import Path
+    plain = pg.apply_cmd({"placeId": "p"}, Path("l.json"), "s", True)
+    assert "--owner-guided" not in plain
+    guided = pg.apply_cmd({"placeId": "p", "ownerGoAhead": "owner 2026-10-01"}, Path("l.json"), "s", False)
+    assert guided[-2:] == ["--owner-guided", "owner 2026-10-01"] and "--no-compile" in guided

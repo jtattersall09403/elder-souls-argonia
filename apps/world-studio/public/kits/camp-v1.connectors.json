@@ -1,0 +1,232 @@
+{
+ "assets": {
+  "vanilla:architecture/tents/largeimperialtent01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.17
+    ],
+    "widthM": 5.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.53,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.92,
+     -0.02
+    ],
+    "widthM": 8.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.13
+    ],
+    "widthM": 5.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.53,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.92,
+     -0.02
+    ],
+    "widthM": 8.3
+   }
+  ],
+  "vanilla:architecture/tents/smallimperialtent": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.68,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.56
+    ],
+    "widthM": 4.68
+   },
+   {
+    "count": 9,
+    "evidence": "co-placement",
+    "face": "toward 89",
+    "heightM": 2.68,
+    "normalDeg": 89.0,
+    "pairedWith": "vanilla:architecture/tents/smallimperialtent",
+    "positionInPiece": [
+     2.06,
+     -0.04
+    ],
+    "template": "vanilla:t0224",
+    "widthM": 3.12
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 172",
+    "heightM": 2.68,
+    "normalDeg": 172.5,
+    "pairedWith": "vanilla:architecture/tents/smallimperialtent",
+    "positionInPiece": [
+     0.2,
+     1.49
+    ],
+    "template": "vanilla:t0833",
+    "widthM": 4.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.68,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.56
+    ],
+    "widthM": 4.68
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 232",
+    "heightM": 2.68,
+    "normalDeg": 232.0,
+    "pairedWith": "vanilla:architecture/tents/smallimperialtent",
+    "positionInPiece": [
+     -2.32,
+     1.81
+    ],
+    "template": "vanilla:t1533",
+    "widthM": 4.83
+   },
+   {
+    "count": 9,
+    "evidence": "co-placement",
+    "face": "toward 268",
+    "heightM": 2.68,
+    "normalDeg": 268.2,
+    "pairedWith": "vanilla:architecture/tents/smallimperialtent",
+    "positionInPiece": [
+     -2.06,
+     0.06
+    ],
+    "template": "vanilla:t0224",
+    "widthM": 3.12
+   }
+  ],
+  "vanilla:clutter/civilwar/civilwarbanner01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.98,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.05,
+     -1.15
+    ],
+    "widthM": 0.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.98,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.05,
+     1.15
+    ],
+    "widthM": 0.39
+   }
+  ],
+  "vanilla:clutter/civilwar/civilwarbannerimp01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.23,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.04,
+     -0.65
+    ],
+    "widthM": 0.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.23,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.04,
+     0.67
+    ],
+    "widthM": 0.21
+   }
+  ],
+  "vanilla:clutter/civilwar/civilwartable01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -0.87
+    ],
+    "widthM": 2.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.2,
+     0.02
+    ],
+    "widthM": 1.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     0.91
+    ],
+    "widthM": 2.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.15,
+     0.02
+    ],
+    "widthM": 1.78
+   }
+  ]
+ },
+ "counts": {
+  "assets": 5,
+  "bounds": 14,
+  "co-placement": 4
+ },
+ "elongationRatio": 2.0,
+ "kit": "camp-v1",
+ "schemaVersion": 1
+}

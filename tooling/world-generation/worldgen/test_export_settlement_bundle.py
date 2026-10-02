@@ -1091,7 +1091,9 @@ def _padded_bundle(pad: bool) -> dict:
     if pad:
         house["pad"] = {"parcelId": "b1", "datumM": 11.0, "apronM": 1.5,
                         "polygonM": [[8.5, 8.5], [15.5, 8.5], [15.5, 15.5], [8.5, 15.5]]}
-    return {"placements": [house], "settlements": [{"id": "place.t", "placementIds": [house["id"]]}]}
+    return {"placements": [house], "settlements": [{"id": "place.t", "placementIds": [house["id"]],
+                             # no province road here: the runner has no land-cover raster
+                             "_roadPaint": None}]}
 
 
 def test_a_declared_pad_travels_in_the_bundle_as_its_ground_overlay():
@@ -1869,7 +1871,9 @@ def test_published_places_clear_ground_cover_only_on_their_ways_pads_and_floors(
     """16k walk 4: the published tiers. Every painted way lies inside the
     ground-cover clearance, the ground-cover clearance lies inside the tree
     clearance, and it is far smaller than the old hull (Claywater 7,830 m2
-    hull; under 3,300 m2 now: walk 6 widened the ways' soft edges to 0.7-1.2 m)."""
+    hull; under 3,800 m2 now: walk 6 widened the ways' soft edges to 0.7-1.2 m,
+    walk 9 added a 1.5 m trampled ring round every building). A contact shade
+    is no bare ground and is not cleared."""
     from shapely.geometry import Polygon
     from shapely.ops import unary_union
     side = {s["id"]: s for s in json.loads(
@@ -1880,10 +1884,10 @@ def test_published_places_clear_ground_cover_only_on_their_ways_pads_and_floors(
         ground = unary_union([Polygon(r).buffer(0) for r in c["groundClear"]])
         trees = unary_union([Polygon(r).buffer(0) for r in c["hardClear"]])
         paint = json.loads((_PUBLIC / f"settlements/{pid}.json").read_text())["settlement"]["groundPaint"]
-        ways = unary_union([Polygon(e["polygonM"]) for e in paint["entries"]])
+        ways = unary_union([Polygon(e["polygonM"]) for e in paint["entries"] if e["texture"] != "shade"])
         assert ways.difference(ground.buffer(1e-3)).area < 0.01, pid
         assert ground.difference(trees.buffer(1e-3)).area < 0.5, pid
-        assert ground.area < 3300.0, (pid, ground.area)
+        assert ground.area < 3800.0, (pid, ground.area)
 
 
 # --- 16k fix 2 r3 ruling 1: the warning ledger compares FLOOD warnings only

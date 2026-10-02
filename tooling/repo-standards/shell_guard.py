@@ -9,7 +9,12 @@ or the harness hand-back. Nor does any agent write git's copy of a file over
 the shared working tree (`git checkout -- <path>`, `git restore`, `git stash`,
 `git reset --hard`, `git show REV:path > file` outside /tmp): on 2026-09-30 a
 lane lead did that to Riverwalk's layout and blueprint while another lane was
-editing them (the rules of the road forbid it; this makes it impossible). Reads the hook JSON on stdin; exit 2 with a
+editing them (the rules of the road forbid it; this makes it impossible).
+Decision 0118 adds: poll loopholes (pgrep loops, python sleep one-liners,
+waiting while-loops, `date; grep` ticks) refused for every agent; a heredoc
+that writes a tracked repo file refused for every agent (use Edit); and a
+nudge to an Opus agent (deliver, place-builder, lead, research) at its third
+single look-up command in a row. Reads the hook JSON on stdin; exit 2 with a
 reason on stderr blocks the call and shows the reason to the model.
 
 Set SHELL_GUARD_LOG=1 in the environment to append each decision to
@@ -35,6 +40,112 @@ WAIT = re.compile(
     r"(^|[;&|(\n]\s*)(rtk\s+)?(tail\s+([^|;&\n]*\s)?(-[a-zA-Z]*[fF][a-zA-Z]*|--follow\S*|--pid\S*)(\s|$)|until\s[^\n]*?;\s*do\b)"
     r"|\bdo\s+(true|:)\s*;?\s*done\b"
     r"|\bdo\s+echo\s+[\"']?(waiting|still|polling|not yet)\b")
+
+# Poll loopholes (decision 0118, method review r6: a 20-min `python3 -c ... pgrep`
+# wait, 122 `date; grep` polls in 5 min): pgrep inside any loop or beside a
+# sleep, a python one-liner that sleeps, a `while` loop that sleeps or polls,
+# and a command that starts by printing the date before a look (a poll tick).
+POLL = re.compile(
+    r"\bwhile\s+(!\s*)?pgrep\b|\b(for|until)\b[^\n]*?\bdo\b[^\n]*\bpgrep\b"
+    r"|\bpgrep\b[^\n]*?(;|&&|\|\|)\s*(sleep|wait)\b|\bpgrep\b[^\n]*\btime\.sleep\s*\("
+    r"|\bpython3?\s+-c\s[^\n]*\btime\.sleep\s*\("
+    r"|\bwhile\b[^\n]*?\bdo\b[^\n]*\b(sleep|pgrep|wait)\b"
+    r"|(^|[;&|(\n]\s*)date(\s+[^;&|\n]*)?\s*(;|&&)\s*(rtk\s+)?(grep|tail|cat|ls|wc|pgrep|ps)\b")
+
+# Heredoc edits (decision 0118: 517 heredoc edits by Opus agents in walks 6-8):
+# a heredoc whose output lands in a tracked repo file. The Edit tool exists.
+REDIRECT = re.compile(r"(?<![<0-9&])>>?\s*([^\s;&|<>]+)|\btee\s+(?:-a\s+)?([^\s;&|<>]+)")
+PY_HEREDOC = re.compile(r"\bpython3?\s+-\s*<<")
+PY_WRITE = re.compile(r"(?:open\(\s*|Path\(\s*)?['\"]([\w./-]+\.[A-Za-z0-9]+)['\"]\s*(?:,\s*['\"][wa]|\)\.write_text|\)\.write_bytes)"
+                      r"|\b(\w+)\s*=\s*['\"]([\w./-]+\.[A-Za-z0-9]+)['\"]")
+LOOKUP_ONE = re.compile(r"^\s*(rtk\s+)?(cat|head|tail|sed\s+-n|grep|rg|ls|find|wc|git\s+(log|show|diff|status|grep|blame))\b[^;&|\n]*$")
+OPUS = {"deliver", "place-builder", "lead", "research"}
+STATE = os.environ.get("ES_SHELL_GUARD_DIR", "/tmp/es-shell-guard")
+LOOKUP_NUDGE_AT = 3
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
+HEREDOC_START = re.compile(r"<<-?\s*['\"]?(\w+)['\"]?")
+RUNS_BODY = re.compile(r"\b(python3?|bash|sh|node)\s+(-\s*)?<<")
+
+
+def strip_data_heredocs(cmd):
+    """The command without the bodies of data heredocs (cat/tee/commit
+    messages), so text that mentions `pgrep` or `sleep` is not a wait; a
+    heredoc fed to python/bash/sh/node keeps its body (it runs)."""
+    out, lines, i = [], cmd.split("\n"), 0
+    while i < len(lines):
+        line = lines[i]
+        out.append(line)
+        m = HEREDOC_START.search(line)
+        i += 1
+        if m and not RUNS_BODY.search(line):
+            while i < len(lines) and lines[i].strip() != m.group(1):
+                i += 1
+            if i < len(lines):
+                out.append(lines[i])
+                i += 1
+    return "\n".join(out)
+
+
+def tracked(path, cwd=None):
+    """True when `path` is a file git tracks in this repo."""
+    import subprocess
+    p = path.strip("'\"")
+    if not p or p.startswith(("/tmp", "/dev/", "$")):
+        return False
+    full = p if os.path.isabs(p) else os.path.join(cwd or REPO, p)
+    if not full.startswith(REPO + os.sep):
+        return False
+    return subprocess.run(["git", "ls-files", "--error-unmatch", os.path.relpath(full, REPO)], cwd=REPO,
+                          capture_output=True).returncode == 0
+
+
+CD = re.compile(r"(?:^|[;&|(\n]\s*)cd\s+([^\s;&|)]+)")
+
+
+def heredoc_edit(cmd, cwd=None):
+    """The tracked file a heredoc writes, or None."""
+    if "<<" not in cmd:
+        return None
+    # `cd x && cat > f <<` writes x/f: follow every cd before the heredoc
+    base = cwd or REPO
+    for m in CD.finditer(cmd.split("<<", 1)[0]):
+        d = m.group(1).strip("'\"")
+        base = d if os.path.isabs(d) else os.path.normpath(os.path.join(base, d))
+    cwd = base
+    for line in cmd.splitlines():
+        if "<<" not in line:
+            continue
+        for m in REDIRECT.finditer(line):
+            target = m.group(1) or m.group(2)
+            if target and tracked(target, cwd):
+                return target
+    if PY_HEREDOC.search(cmd):
+        body = cmd.split("<<", 1)[1]
+        if re.search(r"\.write(_text|_bytes)?\(|['\"][wa]\+?['\"]\s*\)", body):
+            for m in PY_WRITE.finditer(body):
+                target = m.group(1) or m.group(3)
+                if target and tracked(target, cwd):
+                    return target
+    return None
+
+
+def lookup_streak(d, cmd):
+    """Consecutive single look-up commands by this Opus agent (0 for others)."""
+    aid, kind = d.get("agent_id"), (d.get("agent_type") or "").lower()
+    if not aid or kind not in OPUS:
+        return 0
+    os.makedirs(STATE, exist_ok=True)
+    path = os.path.join(STATE, re.sub(r"[^\w-]", "_", str(aid)))
+    try:
+        n = int(open(path).read() or 0)
+    except (OSError, ValueError):
+        n = 0
+    n = n + 1 if LOOKUP_ONE.match(cmd) else 0
+    with open(path, "w") as f:
+        f.write(str(n))
+    return n
 
 # git writing a committed copy over the working tree. `git checkout <branch>`
 # (no pathspec) and `git checkout -b` stay allowed; `git show REV:path` into
@@ -75,6 +186,27 @@ def main():
             "another lane may be editing it. Read HEAD's version into a temp path "
             "(`git show HEAD:<path> > /tmp/x`) and edit the file you own with the Edit tool.\n")
         return 2
+    if POLL.search(strip_data_heredocs(cmd)):
+        sys.stderr.write(
+            "[shell guard, decision 0118] no polling (pgrep loops, python time.sleep one-liners, while-loops "
+            "that wait, `date; grep` ticks). Use run_in_background (the harness re-invokes you when the job "
+            "exits) or the hand-back of the agent you are waiting on.\n")
+        return 2
+    try:
+        target = heredoc_edit(cmd, d.get("cwd"))
+    except Exception:
+        target = None
+    if target:
+        sys.stderr.write(
+            f"[shell guard, decision 0118] a heredoc writes the tracked file `{target}`. Edit tracked files "
+            "with the Edit tool (Read the range first); a heredoc patch script costs a turn per retry and "
+            "skips the prose hook. Heredocs into /tmp stay allowed.\n")
+        return 2
+    if lookup_streak(d, cmd) >= LOOKUP_NUDGE_AT:
+        print(json.dumps({"hookSpecificOutput": {"hookEventName": "PreToolUse", "additionalContext": (
+            "[shell guard, decision 0118] third single look-up in a row: batch the next look-ups into one Bash "
+            "call, or one `find` brief when more than 3 files need reading. Each turn re-sends your whole context.")}}))
+        return 0
     hit = BLOCK.search(cmd)
     if os.environ.get("SHELL_GUARD_LOG"):
         with open("/tmp/shell_guard.log", "a") as f:

@@ -6157,8 +6157,8 @@
         3
       ],
       "lore": "Lore:Black Marsh (bog iron); material-culture (metal use almost unheard of post-Duskfall)",
-      "footprintRadiusM": 45,
-      "footprintSource": "band",
+      "footprintRadiusM": 70,
+      "footprintSource": "built-ground",
       "proximity": {
         "maxFromM": {
           "route": 400
@@ -7586,8 +7586,8 @@
         8
       ],
       "lore": "labour-and-bondage dossier; argonia-4e201-state (shellback city levies)",
-      "footprintRadiusM": 45,
-      "footprintSource": "band"
+      "footprintRadiusM": 30,
+      "footprintSource": "built-ground"
     },
     {
       "type": "tunnel-rat-gallery",
@@ -12330,7 +12330,7 @@
       ],
       "lore": "Lore:Argonian (bones brought to the dirt redeem a death away from the Hist); White Rose Prison",
       "footprintRadiusM": 45,
-      "footprintSource": "band"
+      "footprintSource": "built-ground"
     },
     {
       "type": "cairn-field",
@@ -19157,6 +19157,73 @@
       }
     },
     {
+      "type": "deserter-camp",
+      "class": "camp",
+      "family": "hostile-camp",
+      "recordScope": "poi",
+      "variants": [
+        "legion-remnant"
+      ],
+      "summary": "A camp of men the Legion left behind at the recall, still keeping its watches and its roster, who take from the road and call it a levy.",
+      "slots": {
+        "cue": "a line of Legion tents and a barricade across the track, the watch called on the hour",
+        "population": "4-8; a serjeant and the rank and file of a column",
+        "props": "a duty roster, a pay book, issue canvas and tools kept in order, near-empty stores",
+        "rewardFree": "the roster and the pay book",
+        "rewardGated": "the strongroom of Legion issue",
+        "satellite": "the barricade on the track below the tents"
+      },
+      "siting": {
+        "landformClasses": [
+          "ravine",
+          "enclosed-clearing",
+          "any-firm-ground"
+        ],
+        "waterRelation": "a stream at its back",
+        "regionClasses": [
+          "firm lowland",
+          "upland hills"
+        ],
+        "neighbourRelation": "on a road between two settlements a day apart"
+      },
+      "magnitude": "M1",
+      "settingClass": "camp",
+      "cultures": [
+        "imperial"
+      ],
+      "dangerTiers": [
+        "D3"
+      ],
+      "eraLayers": [
+        "current"
+      ],
+      "season": "all",
+      "statuses": [
+        "active"
+      ],
+      "assetPlan": [
+        "imperial-keep",
+        "market-tents",
+        "stockade-scaffold",
+        "signage-blank",
+        "clutter"
+      ],
+      "assetGaps": [],
+      "traversal": [
+        "walk",
+        "combat",
+        "stealth"
+      ],
+      "complexityBudget": "simple",
+      "countBand": [
+        1,
+        2
+      ],
+      "lore": "Lore:Imperial Legion (the recall from Black Marsh); world/sources/lore/gideon.md. Split from blackguard-hideout at 16k walk 9: a Legion remnant is no Blackguard outpost.",
+      "footprintRadiusM": 25,
+      "footprintSource": "built-ground"
+    },
+    {
       "type": "cult-raid-camp",
       "class": "camp",
       "family": "hostile-camp",
@@ -24426,8 +24493,8 @@
         16
       ],
       "lore": "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role",
-      "footprintRadiusM": 45,
-      "footprintSource": "band"
+      "footprintRadiusM": 20,
+      "footprintSource": "built-ground"
     },
     {
       "type": "wild-rootworm-burrow",

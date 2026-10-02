@@ -184,7 +184,7 @@ const scene: HarnessScene = {
       scene: s,
       camera,
       frame(t: number) {
-        updateWindSway(wind, t, { windDirXZ: [0.8, 0.6], windSpeedMS: 9, gustiness: 0.5 });
+        updateWindSway(wind, t, { windDirXZ: [0.8, 0.6], windSpeedMS: 9, gustiness: 0.5 }, camera.position);
         place(t);
         aerial.uEsFogCam.value.copy(camera.position);
         sky.frame(t);

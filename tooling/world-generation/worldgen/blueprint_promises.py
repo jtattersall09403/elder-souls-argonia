@@ -52,6 +52,7 @@ Run (from tooling/world-generation/):
 from __future__ import annotations
 
 import argparse
+import functools
 import json
 import re
 import sys
@@ -149,7 +150,8 @@ def load_record(place_id: str) -> dict | None:
         for rec in rf.places:
             if rec.get("id") == place_id:
                 return rec
-    return None
+    from .blueprint import route_place_records   # a route place (16k type 10): its row is its record
+    return route_place_records().get(place_id)
 
 
 def provision_tags(path: Path = PLACE_MAP_PATH) -> dict[str, str]:
@@ -456,12 +458,15 @@ def check_promises(bp: dict, rec: dict | None = None) -> tuple[list[str], list[s
 def fill_subjects(record: dict | None) -> dict[str, str]:
     """{0104 ledger row id: its subject}: the last bracketed key of the row's
     source path (the catalogue socket id, the service id), which is the
-    subject `socket_promise_errors` names a build-ledger row by."""
+    subject `socket_promise_errors` names a build-ledger row by. A quest
+    provision's key is `quest.provision.<x>` and the build-ledger row is
+    `promise.provision.<x>`, so its subject is `<x>` (Gang Ground, walk 9:
+    a marker filling a STATE provision row never matched)."""
     out = {}
     for row in (record or {}).get("promises", []) or []:
         path = str((row.get("source") or {}).get("path", ""))
         if path.endswith("]") and "[" in path:
-            out[row["id"]] = path[path.rindex("[") + 1:-1]
+            out[row["id"]] = path[path.rindex("[") + 1:-1].removeprefix("quest.provision.")
     return out
 
 
@@ -552,6 +557,9 @@ def _record_file(place_id: str) -> str:
     for rf in catalogue.load_region_files():
         if any(r.get("id") == place_id for r in rf.places):
             return str(rf.path.relative_to(REPO_ROOT))
+    from .blueprint import ROUTE_PLACES, route_place_records   # a route place's home table
+    if place_id in route_place_records():
+        return str(ROUTE_PLACES.relative_to(REPO_ROOT))
     return f"{CATALOGUE_REL}/?"
 
 
@@ -640,13 +648,19 @@ def text_sha(text: str) -> str:
     return hashlib.sha256(str(text).encode("utf-8")).hexdigest()[:12]
 
 
+@functools.lru_cache(maxsize=4)
+def _quest_docs(files: tuple[tuple[str, int], ...]) -> tuple[tuple[Path, object], ...]:
+    """Every quest file parsed once per run (keyed by path and mtime, so an edit is re-read)."""
+    return tuple((Path(f), json.loads(Path(f).read_text(encoding="utf-8"))) for f, _ in files)
+
+
 def quest_rows_for(place_id: str, quests_dir: Path = QUESTS_DIR) -> dict[str, tuple[str, str]]:
     """quest code -> (its home file, "<code> <title>: <premise>") for every
     quest record (`world/sources/quests/*.json`, the home table the quest
     index renders) whose `settlement` or `anchorPlaces` names this place."""
     out: dict[str, tuple[str, str]] = {}
-    for path in sorted(Path(quests_dir).glob("*.json")):
-        doc = json.loads(path.read_text(encoding="utf-8"))
+    files = tuple((str(p), p.stat().st_mtime_ns) for p in sorted(Path(quests_dir).glob("*.json")))
+    for path, doc in _quest_docs(files):
         rows = doc.get("quests") if isinstance(doc, dict) else None
         for q in rows or []:
             if not isinstance(q, dict) or not q.get("code"):

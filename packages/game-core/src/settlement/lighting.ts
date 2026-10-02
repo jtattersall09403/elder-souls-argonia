@@ -59,8 +59,9 @@ import { MINUTES_PER_DAY } from "@elder-souls/world-time";
 import { lightSourceFromRecord } from "../fx/carriedLight";
 import { FlameSystem } from "../fx/fire/FlameSystem";
 import { FixtureLightField } from "../render/fixtureLights";
+import { BLOOM_SOURCE_LAYER } from "../render/post/BloomPass";
 import { flameCardBedAnchorLocal, pieceFlameAnchorsLocal } from "../fx/fire/flameAnchors";
-import { FIRE_PRESETS, fireFlicker, type FirePresetId } from "../fx/fire/fireTypes";
+import { FIRE_LIGHTS, FIRE_PRESETS, fireFlicker, firePresetFor, type FirePresetId } from "../fx/fire/fireTypes";
 import { FLAME_MAX_DISTANCE_M as FIRE_MAX_DISTANCE_M, FLAME_MIN_ANGLE_RAD as FIRE_MIN_ANGLE_RAD } from "../fx/fire/flameMaterial";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import { FIXTURE_LIGHT_RGB } from "./fixtureGlow";
@@ -95,8 +96,6 @@ export { FIXTURE_LIGHT_RGB };
 export const LIGHTS_CAP = 100;
 /** How often the lit set is re-chosen, seconds. */
 export const LIGHT_BUDGET_REFRESH_S = 1;
-/** Peak intensity (cd) of a fixture light: the carried torch's (character CarriedLight). */
-export const FIXTURE_CANDELA = 6;
 /** The lights band (R3): a burning fixture this close to the camera emits a
  * point light (up to `LIGHTS_CAP`); further out only its sprite and emissive
  * show. Also the radius of the place check rule's fixture-density count. */
@@ -160,6 +159,8 @@ export interface LightFixture {
   /** World position of the point light. */
   position: THREE.Vector3;
   radiusM: number;
+  /** Peak intensity (cd): its fire class's (fx/fire `FIRE_LIGHTS`). */
+  candela: number;
   /** Linear RGB. */
   colour: THREE.Color;
   /** The NIF's flames and glows (manifest `flames`, `glows`), else one
@@ -251,15 +252,19 @@ export function isSpriteHolderPlacement(
   return (meta?.flames?.length ?? 0) + (meta?.glows?.length ?? 0) + (meta?.flameCardMaterials?.length ?? 0) > 0;
 }
 
-/** Radius and linear colour of a fixture: the LIGH record's radius where
- * recorded, else the default; the colour is always `FIXTURE_LIGHT_RGB`. */
-export function fixtureLightOf(light: SettlementKitLight | undefined): {
-  radiusM: number; colour: THREE.Color;
+/** Radius, intensity and linear colour of a fixture of fire class `preset`:
+ * the LIGH record's radius where recorded (else the default), capped by the
+ * class's `maxRadiusM`; the class's candela (fx/fire `FIRE_LIGHTS`); the
+ * colour is always `FIXTURE_LIGHT_RGB`. */
+export function fixtureLightOf(light: SettlementKitLight | undefined, preset: FirePresetId = "candle"): {
+  radiusM: number; candela: number; colour: THREE.Color;
 } {
   const colour = srgbColour(FIXTURE_LIGHT_RGB);
-  if (!light) return { radiusM: FIXTURE_DEFAULT_RADIUS_M, colour };
-  const spec = lightSourceFromRecord(light.formId, light);
-  return { radiusM: spec.radiusMetres > 0 ? spec.radiusMetres : FIXTURE_DEFAULT_RADIUS_M, colour };
+  const cls = FIRE_LIGHTS[preset];
+  const recorded = light ? lightSourceFromRecord(light.formId, light).radiusMetres : 0;
+  const radiusM = recorded > 0 ? recorded : FIXTURE_DEFAULT_RADIUS_M;
+  return { radiusM: cls.maxRadiusM === null ? radiusM : Math.min(radiusM, cls.maxRadiusM),
+    candela: cls.candela, colour };
 }
 
 function srgbColour(rgb: readonly [number, number, number]): THREE.Color {
@@ -298,7 +303,6 @@ export function fixtureFromPiece(
   castsLight = true,
   mount: FixtureMount = {},
 ): LightFixture {
-  const { radiusM, colour } = fixtureLightOf(meta?.light);
   const scaleOf = new THREE.Vector3().setFromMatrixScale(matrix);
   const scale = Math.max(scaleOf.x, scaleOf.y, scaleOf.z);
   const hostKind = mount.hostMeta?.light?.fixtureKind ?? mount.hostMeta?.category;
@@ -307,6 +311,11 @@ export function fixtureFromPiece(
   const bed = flameCardBedAnchorLocal(meta, localBox);
   const anchors = bed ? [bed] : pieceFlameAnchorsLocal(meta, localBox,
     castsLight && !drawsOwnFire(meta) && !mount.hasMountedFire, hostKind);
+  // the light's class is its first fire's (a lantern's candle, a hanging
+  // lantern's body flame), else the piece's own record's
+  const preset = anchors[0]?.preset ?? firePresetFor({ id: meta?.id, category: meta?.category,
+    anchorClass: meta?.anchorClass, fixtureKind: meta?.light?.fixtureKind, hostKind });
+  const { radiusM, candela, colour } = fixtureLightOf(meta?.light, preset);
   const flames: FixtureSprite[] = anchors.map((a) => {
     const position = a.local.clone().applyMatrix4(matrix);
     const f = a.record >= 0 ? meta!.flames![a.record] : undefined;
@@ -325,14 +334,14 @@ export function fixtureFromPiece(
   const lightAt = offset ? new THREE.Vector3(...offset).applyMatrix4(matrix)
     : (flames[0]?.position.clone()
       ?? localBox.getCenter(new THREE.Vector3()).setY(localBox.max.y).applyMatrix4(matrix));
-  return { id, kind: "fixture", position: lightAt, radiusM, colour,
+  return { id, kind: "fixture", position: lightAt, radiusM, candela, colour,
     alwaysLit: burnsByDay(meta, mount.hostMeta), castsLight, flames: [...flames, ...glows] };
 }
 
 /** A fire socket's fixture (always lit): a hearth fire at the socket, light just above it. */
 export function fixtureFromFireSocket(id: string, socketAt: THREE.Vector3): LightFixture {
-  const { radiusM, colour } = fixtureLightOf(undefined);
-  return { id, kind: "fixture", radiusM, colour, alwaysLit: true, castsLight: true,
+  const { radiusM, candela, colour } = fixtureLightOf(undefined, "hearth");
+  return { id, kind: "fixture", radiusM, candela, colour, alwaysLit: true, castsLight: true,
     position: socketAt.clone().add(new THREE.Vector3(0, 0.3, 0)),
     flames: [fallbackFlame(id, socketAt.clone(), "hearth")] };
 }
@@ -429,6 +438,8 @@ export class SettlementLightFixtures {
     mesh.frustumCulled = false;
     mesh.name = `settlement-fixture-flames:${textureId}`;
     mesh.layers.set(PRECIP_LAYER);
+    mesh.layers.enable(BLOOM_SOURCE_LAYER); // a glow source (render/post/BloomPass.ts)
+    // no quad draws until its texture has loaded (a null map is a white square)
     mesh.visible = false;
     this.group.add(mesh);
     batch = { mesh, geometry, capacity: 0, drawn: 0, textured: false };
@@ -503,7 +514,7 @@ export class SettlementLightFixtures {
     this.assigned.forEach((index, slot) => {
       const fixture = this.fixtures[index];
       const flicker = this.flickers[slot];
-      this.field.setIntensity(slot, fixture.colour, FIXTURE_CANDELA
+      this.field.setIntensity(slot, fixture.colour, fixture.candela
         * fixtureFactor(factor, fixture.alwaysLit)
         * bandFade(fixture.position.distanceTo(this.cameraAt))
         * (flicker ? fireFlicker(timeS, flicker.seed, flicker.rateHz, flicker.amount) : 1));

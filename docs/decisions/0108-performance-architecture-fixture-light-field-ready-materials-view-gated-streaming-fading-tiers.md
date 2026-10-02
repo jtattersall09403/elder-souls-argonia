@@ -209,6 +209,55 @@ baseline.
 | programs (renderer.info.programs) | 72 Claywater night; 96 / 106 Greenspring night / noon; 99 jungle | baseline.md |
 | HUD `gpu` line | wall time on Metal (ANGLE): includes back-pressure, not shader work | audit.md 8 |
 
+## 7a. Walk-8 rows (owner: Greenspring night rain, 35–42 fps on the M2)
+
+- **On-screen passes reuse pass 1's world matrices**: WaterPipeline sets
+  `scene.matrixWorldAutoUpdate = false` for the water, precipitation and
+  overlay renders, so three's whole-scene `updateMatrixWorld` walk runs once
+  a frame, not four times. Node bench over three r184: one walk is 0.39 ms
+  at 4k objects and 1.45 ms at 12k on the VM, so the three walks removed
+  were 1.2–4.3 ms of VM CPU (a ratio; the M2 runs JS ~2–3x faster).
+- **Settlement draws are static** (audit row 16): every InstancedMesh and
+  far merge sits at identity with `matrixAutoUpdate = false`. Settlement
+  pieces were already one InstancedMesh per kit part per chunk bucket, so
+  no instancing work was left.
+- **`shadowMapSize` is a quality field**: low/medium 2048 (unchanged),
+  high 4096 (+48 MB GPU, ~4x shadow fill on update frames); `?quality=high`
+  or `?q=high` or the HUD picks it, high also raises DPR to 1.25.
+- Audit row 15 (cascade update periods) does not apply in character view:
+  it draws one cascade, already refreshed every other frame.
+- Rain is one shader-animated draw built once; the ripple and light-field
+  code holds no per-frame allocations.
+
+## 7b. Post-process row (owner 2026-10-01: glow round bright lights at 60 fps on the Honor Magic V5 and the M2)
+
+- **Bloom only**: `packages/game-core/src/render/post/BloomPass.ts`, one
+  injected instance, drawn by WaterPipeline above water after the overlay
+  pass: prefilter of the linear HDR scene target × exposure at half the
+  canvas (soft knee, threshold 4 ± 2 in exposed units), the flame layer
+  added depth-tested (flames carry `BLOOM_SOURCE_LAYER` 7 beside the
+  precipitation layer; rain does not), dual-filter mip chain (≤ 5 levels,
+  8 px floor), composited additively (strength 0.35, tuned on Claywater and KeebaHouseFisher at 22:00). Research estimate
+  0.6–1.2 ms Adreno, 0.3 ms M2 (cheap-sky-and-post-effects doc §2); the
+  owner's HUD line `post on · bloom gpu … ms` is the measurement, `?post=0`
+  the A/B. No extra MSAA resolve: it reads the scene target the blit
+  already resolved.
+- **No colour grade**: ACES runs inside the blit; a grade would change the
+  default look or add a pass, so none is drawn.
+- **No `alphaToCoverage`**: foliage draws into the water pipeline's scene
+  target, `samples: 0` on both tiers; canvas MSAA does not reach it.
+- Not drawn: under water, with `?water=0` (no pipeline), in Fly3D.
+
+## 7c. Walk-9 rows (owner: Riverwalk night rain with lamps, 32–42 fps on the M2)
+
+| item | outcome | evidence |
+|---|---|---|
+| Terrain splat samples | taken (`groundMaterial.ts` `esTexelCol`, map_fragment): a uniform 2×2 control patch shades once, the second id is sampled only when its blend is above 0, the near samples only where fade < 1; pixel-identical | province control raster: 41.9 % of 2×2 patches uniform, 48 % of texels blend 0; near-field array samples per fragment ~8 to ~4.2 (−48 %) |
+| "Terrain noise bake" (walk-8 list) | does not exist: the ground shader has no procedural noise (macro brightness is in the tint raster); its cost was the splat sampling above | `groundMaterial.ts` |
+| Rain passes | kept: 2 draws in the one precip pass, ~0.20 M fragments a frame (0.14× a 1470×956 screen; outer shell 0.03 M) of a 3-line shader | Monte Carlo over the RainSystem vertex law |
+| Ripple, foam, bloom targets | kept: ripple 128², foam 512²/256² by tier (world sims, not screen-sized); bloom already half resolution; the water surface draws on screen at full resolution by definition | `RippleSim.ts`, `FoamField.ts`, `BloomPass.ts` |
+| Foliage depth prepass | not built: it re-issues every foliage triangle, and the M2 pays ~2.6 ms per million (`FRAME_TRIANGLE_BUDGET`), against a 2–4 ms fill estimate; worth it only if the HUD shows the frame fill-bound | owner HUD reading in the performance lane |
+
 ## 8. How performance is measured
 
 - **No full-studio headless probes.** The VM has no GPU; SwiftShader runs

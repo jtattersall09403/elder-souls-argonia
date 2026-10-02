@@ -48,6 +48,20 @@ if (opts.mode === "fixtures" || opts.mode === "preset") {
   process.exit(0);
 }
 
+if (opts.mode === "seam") {
+  const { runSeam } = await import("./subjects/seam.mjs");
+  const { files, facts } = await runSeam({ place: opts.place, suffix: opts.suffix, bearing: opts.bearing ?? 0, outDir });
+  console.log(`\n--- judge brief (paste to a Sonnet general-purpose agent) ---\n` + judgeBrief({
+    subject: `${opts.place} ${opts.suffix}: the building's base on the ground (the _live image; _bare is without the ground paint)`,
+    images: files, classes: opts.classes ?? ["building-seam"], rows, facts: JSON.stringify(facts),
+    sheetKey: "one building's base from 6 m at 1.2 m eye, on its own padded ground (plain grass texture, no "
+      + "terrain road paint, vegetation or water); _live has the place's ground paint, _bare has none. "
+      + "Ignore the `all` rows about grids and bounds: this view has neither.",
+  }));
+  console.log(`look: seam in ${((Date.now() - t0) / 1000).toFixed(1)} s (${JSON.stringify(facts)})`);
+  process.exit(0);
+}
+
 if (opts.mode === "place") {
   const sceneFile = join(repo, "tooling/placement-workbench/output/scenes", `${opts.scene}.json`);
   const scene = JSON.parse(readFileSync(sceneFile, "utf8"));

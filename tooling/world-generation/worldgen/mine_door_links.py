@@ -124,6 +124,25 @@ def shell_candidate_model(model: str) -> bool:
     return not any(model.startswith(d) or f"/{d}" in model for d in NOT_SHELL_DIRS)
 
 
+#: A cave's load door draws nothing (AutoLoadDoor01): the way in is the rock
+#: the plugin set around it. A rock whose own box holds such a door IS the
+#: entrance (King of the Murkmire's MugsumpHollowInt01 door stands 0.36 m
+#: inside `rockcaveentrance02`; 16k walk 9, type-5 slice). Measured, never
+#: named: the door's mesh and the rock's box decide.
+INVISIBLE_LOAD_DOOR_MODELS = frozenset({"autoloadmarker01.nif", "autoloadmarker01"})
+
+
+def invisible_load_door(base) -> bool:
+    model = (getattr(base, "model_key", None) or getattr(base, "model", None) or "") if base else ""
+    return model.lower().replace("\\", "/").rsplit("/", 1)[-1] in INVISIBLE_LOAD_DOOR_MODELS
+
+
+def cave_mouth_rock(model: str) -> bool:
+    """A rock may be a shell, but only for an invisible load door inside its box."""
+    return classify(model).category == "rock" and not any(
+        model.startswith(d) or f"/{d}" in model for d in NOT_SHELL_DIRS)
+
+
 #: Record types whose refs count as an interior's pieces.
 PIECE_TYPES = {"STAT", "FURN", "CONT", "LIGH", "DOOR", "MSTT", "ACTI"}
 
@@ -415,6 +434,7 @@ def shell_for(door, refs, vault: Vault, plugin: Plugin, seed_family: str | None 
       stands inside mudhut01's box but its room is the pod's, 1.5 against 2.2).
     """
     radius = SHELL_RADIUS_M * UNITS_PER_METRE
+    cave_door = invisible_load_door(vault.base_of(plugin, door.base))
     cands = []
     for ref in refs:
         if ref.form_id == door.form_id:
@@ -427,7 +447,8 @@ def shell_for(door, refs, vault: Vault, plugin: Plugin, seed_family: str | None 
         diag, volume = diag * k, volume * k ** 3
         if diag < SHELL_MIN_OBND_M:
             continue
-        if not shell_candidate_model(base.model_key):
+        if not shell_candidate_model(base.model_key) and not (
+                cave_door and cave_mouth_rock(base.model_key) and _box_gap(ref, base, door) <= 0.0):
             continue
         if footprint_class(obnd_dims_m(base, k)) != "building":
             continue

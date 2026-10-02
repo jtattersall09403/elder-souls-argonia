@@ -5,11 +5,11 @@
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-hist-heartland.json",
-   "sha256": "9065d919e40cac76ce1d7781373583d518da8cdfbd1166feac4d95132d1a56d8"
+   "sha256": "6a84cb07e50606eac404f33416b956e08e630f38eef1f5d8d92b1de9db125544"
   },
   {
    "file": "world/sources/quests/local-hist-heartland.json",
-   "sha256": "941e7fa2298d6b7143cd101d358da07c1198f9032ce049ad201402b5a6e9fd64"
+   "sha256": "ec92b28a68440a3251a982f5877f893b32f100d113c658a346f55ab1b182007c"
   },
   {
    "file": "world/sources/quests/quests-factions.json",
@@ -18,13 +18,23 @@
  ],
  "promises": [
   {
+   "id": "promise.greenspring.evidence-sick-root",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].sockets.evidence[evidence.greenspring.sick-root]"
+   },
+   "text": "Greenspring has the evidence socket evidence.greenspring.sick-root.",
+   "unfilled": null
+  },
+  {
    "id": "promise.greenspring.interior-principal",
    "kind": "interior",
    "source": {
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].interior"
    },
-   "text": "Greenspring's principal interior is a dwelling (S2), entered by 1 door.",
+   "text": "Greenspring's principal interior is a dwelling (S2), entered by 6 door.",
    "unfilled": null
   },
   {
@@ -120,10 +130,10 @@
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].vibe.approach"
    },
-   "text": "Coming in from the fork, the standing water goes from black to clear over about a hundred metres. Frond smoke from the cookfires reaches the fork before the houses are in sight.",
+   "text": "Coming up from the landing, the black river water gives way to a small clear pool under the Hist. Frond smoke from the cookfires reaches the landing before the houses are in sight.",
    "confirmed": {
-    "sha": "db6b80ff972b",
-    "note": "Cookfire (campfire01burning) and the cooking stand burn in the yards; the fork lies below the village."
+    "sha": "c8d8c56c2576",
+    "note": "The inlet deck of the Border road crossings below lands on the bank; the clear pool lies under the Hist and the family-hut fire smokes between them."
    }
   },
   {
@@ -146,10 +156,10 @@
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].vibe.materials"
    },
-   "text": "a hide awning over the spring house; mud-walled pods and bamboo huts; rough stones set round the spring; a plank landing on the bank",
+   "text": "a hide tent beside the spring; mud-walled pods and bamboo huts; a plank landing on the bank",
    "confirmed": {
-    "sha": "9e41bf181a5b",
-    "note": "Hide tent over the spring house, three KotM mud pods and three HTBM bamboo huts, rock cairns round the spring, the plank ferry landing."
+    "sha": "0b80ad45ac96",
+    "note": "The spring-house is a hide tent (argoniantent02) by the pool; the kotm mud pods and two bamboo huts stand round it; the landing is the crossings' plank deck."
    }
   },
   {
@@ -172,10 +182,10 @@
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].vibe.palette"
    },
-   "text": "grey stones round a pool of clear water, a green crown thinning to open sky above, painted urns along the yards, mud churned brown at the landing",
+   "text": "a pool of clear water, a green crown thinning to open sky above, painted urns along the yards, mud churned brown at the landing",
    "confirmed": {
-    "sha": "85b41f78a5f9",
-    "note": "Rock cairns ring the pool; painted urns in every yard; the landing on the bank."
+    "sha": "b7238e304527",
+    "note": "Pool under the Hist, the sick crown over open sky, urns among the yard clutter, the landing on mud bank."
    }
   },
   {
@@ -198,10 +208,10 @@
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].vibe.signatureFeature"
    },
-   "text": "Water drunk without ceremony, dipped from a stone-ringed pool that visitors are expected to taste before they speak.",
+   "text": "Water drunk without ceremony, dipped from the clear pool under the Hist that visitors are expected to taste before they speak.",
    "confirmed": {
-    "sha": "1f21f6cbb2b7",
-    "note": "The spring pool (pool op) ringed by sp-rim stones with an urn beside it."
+    "sha": "35e5cd2a92b8",
+    "note": "The pool lies at the foot of the built Hist landmark beside the spring-house; the custom is a later-phase dialogue system."
    }
   },
   {
@@ -211,10 +221,10 @@
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].vibe.silhouette"
    },
-   "text": "a sick crown leaning out over a river fork, with the spring ringed in grey stones below it",
+   "text": "a sick crown leaning over the spring and the huts round it",
    "confirmed": {
-    "sha": "601a58db9326",
-    "note": "The sick Hist (ancient-sleeping-tree-sick) leans over the village; the spring rim below it."
+    "sha": "7f1072bebaca",
+    "note": "The sick Hist (ancient-sleeping-tree-sick) stands over the pool with the ten structures round it."
    }
   },
   {
@@ -224,10 +234,10 @@
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].why.founding"
    },
-   "text": "Founded at the Panther fork on springs that can be drunk unboiled, rare enough here to found a village.",
+   "text": "Founded beside the Panther Race on springs whose water can be drunk unboiled, which is rare in this region. The tribe's Hist grows over the spring.",
    "confirmed": {
-    "sha": "cad6e9862fd5",
-    "note": "Sited at the fork below The Panther Race (nearPoint); the spring pool is built."
+    "sha": "e4edbe6b6c1b",
+    "note": "Spring pool and the Hist parcel built; The Panther Race 0.39 km N on the same water body."
    }
   },
   {
@@ -237,10 +247,10 @@
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].why.occupantsMotive"
    },
-   "text": "A tribe that has made itself indispensable as the interior's last friendly stop. It charges nothing for water and a great deal for beds and rope.",
+   "text": "A tribe that has made itself indispensable to travellers bound for Helstrom. It charges nothing for water and a great deal for beds and rope.",
    "confirmed": {
-    "sha": "3d72d37a8b80",
-    "note": "Lodge with lodging and trader services; the spring is free to use."
+    "sha": "996f5fffeb23",
+    "note": "Lodge with guest bed and root-herald trade chest; rope basket at the bed-keeper."
    }
   },
   {
@@ -250,10 +260,10 @@
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].why.pressures"
    },
-   "text": "Traffic for Helstrom comes through the village, including people whom the tribe would rather not host: cult couriers, tappers and the Veiled Reed's factors.",
+   "text": "Salt is reaching the water from upstream. The Hist has begun to sicken. The village blames the salt works. Traffic for Helstrom also brings people the tribe would rather not host: cult couriers, tappers and the Veiled Reed's factors.",
    "confirmed": {
-    "sha": "92c7ea46dd6b",
-    "note": "Herald's house (root-herald who trades with Helstrom); no placed thing contradicts it."
+    "sha": "b0891e4cfc85",
+    "note": "Salt sack and sick-root marker (socket.greenspring.marker-sick-root, MR01) built; Salt Ledge 1.5 km N."
    }
   },
   {
@@ -263,10 +273,10 @@
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].why.siteAdvantages"
    },
-   "text": "Firm ground where clean water rises from a stone lip, at the last dry footing before the Helstrom approach.",
+   "text": "Firm ground where clean water rises from a stone lip, a short walk from the road and from the river landing.",
    "confirmed": {
-    "sha": "c885bc7c30c5",
-    "note": "The spring rises at the stone lip piece (sp-lip2) on firm ground."
+    "sha": "40d3f00d093e",
+    "note": "Border road 0.09 km; plank landing on the bank; spring pool on firm ground."
    }
   },
   {
@@ -276,10 +286,10 @@
     "file": "world/sources/catalogue/places-hist-heartland.json",
     "path": "places[place.hist-heartland.greenspring].why.wouldChangeIf"
    },
-   "text": "If the springs soured the village would move within a season. The Helstrom approach would then have no guaranteed clean water in a day's radius.",
+   "text": "If the springs soured the village would move within a season. Travellers bound for Helstrom would then lose their surest clean water.",
    "confirmed": {
-    "sha": "2b4b94314e20",
-    "note": "Carried by the spring pool and quest LH07; no placed thing contradicts it."
+    "sha": "d34684150b1a",
+    "note": "Spring pool is the built water source; Helstrom 1.83 km SW."
    }
   },
   {
@@ -312,10 +322,10 @@
     "file": "world/sources/quests/local-hist-heartland.json",
     "path": "quest[LH37]"
    },
-   "text": "LH37 Water Without Ceremony: Two tribes camped here on principle want the spring's use written down before the next convocation",
+   "text": "LH37 Water Without Ceremony: Two delegations who would not pay Nine-Trunks' pitch rent lodge here instead; they want the spring's use written down before the next convocation",
    "confirmed": {
-    "sha": "e12dec0cc83e",
-    "note": "The spring pool and the open common give two camped tribes their ground."
+    "sha": "d6a3023821f3",
+    "note": "Lodge with guest beds built; Nine-Trunks (rival) rents the pitch per LH51; spring pool built."
    }
   },
   {

@@ -188,3 +188,31 @@ def test_a_bump_on_the_step_off_is_steep_and_a_bank_beside_the_deck_is_not():
     bank = Ground([(0.0, 0.0, 20.0)], ridge=(2.6, 6.0, -1.0, 8.0))   # a 2 m bank beside the deck
     deg, _ = walkway._step_off_slope_deg(bank, 0.0, 0.0, (0.0, -1.0))
     assert deg <= walkway.FLAT_DEG, deg
+
+
+def test_a_route_compiled_stair_near_the_runs_is_a_handover_outline(tmp_path, monkeypatch):
+    """Walk 9 type 10: the river crossing ends at the foot of a stair the
+    route compile publishes; walkwayRule reads its outline from the route
+    bundles so the bank under the stair is not the run's step-off. Only
+    route-structure placements near the runs are read."""
+    import json
+    from shapely.geometry import Point
+    from workbench import paths
+    routes = tmp_path / walkway.ROUTE_BUNDLES
+    routes.mkdir(parents=True)
+    stair = {"kind": "route-structure", "id": "structure.t.1.p1", "assetId": "kit:stair",
+             "positionM": [100.0, 0.0, 200.0], "yawDeg": 0.0, "scale": 1}
+    far = dict(stair, id="structure.t.2.p1", positionM=[900.0, 0.0, 900.0])
+    other = dict(stair, id="house", kind="settlement")
+    (routes / "route.t.json").write_text(json.dumps({"placements": [stair, far, other]}))
+    monkeypatch.setattr(paths, "PUBLIC", tmp_path)
+
+    class Cat:
+        def footprint(self, asset):
+            return [(-3.0, -5.0), (3.0, -5.0), (3.0, 5.0), (-3.0, 5.0)]
+
+    got = walkway.route_structure_outlines(Cat(), (90.0, 180.0, 110.0, 195.0))
+    assert [sid for sid, _ in got] == ["structure.t.1.p1"]
+    poly = got[0][1]
+    assert poly.distance(Point(100.0, 203.0)) <= walkway.HANDOVER_M
+    assert poly.distance(Point(100.0, 190.0)) > walkway.HANDOVER_M

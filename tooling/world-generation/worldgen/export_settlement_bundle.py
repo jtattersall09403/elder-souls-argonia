@@ -160,6 +160,9 @@ COMPATIBLE_ASSET_GROUND_FITS = {
         {"direct", "dug-in"},
     "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar02":
         {"direct", "pad"},
+    # The KotM shop sign hangs by its wall-mount pair (placement-policies
+    # assetFits "direct"); mounted on a padded house it takes the house's pad.
+    "kotm:argonia/blackwood/sign": {"direct", "pad"},
     "mudmother:gv_meshes/argoniannest/argonianplatform": {"direct", "pad"},
     "mudmother:gv_meshes/argoniannest/fishracksmall": {"direct", "pad"},
     "mudmother:gv_meshes/argoniannest/mudhut01": {"pad", "plinth", "dug-in"},
@@ -1129,6 +1132,65 @@ def _place_scope(places) -> set[str] | None:
     return scope
 
 
+def runtime_placement(source_id: str, raw: dict, asset: dict, footprint: list,
+                      parcel: dict, laid_runs: dict[str, list[dict]]) -> dict:
+    """One compiled kit placement as the runtime reads it (anchor, collision,
+    layer, mount and run contracts). `build_bundle` and place_gates'
+    `collider.ceiling` both build placements here, so the gate counts the
+    parts the export publishes."""
+    object_kind = raw.get("objectKind") or ("dressing" if "dressingFor" in raw else "parcel")
+    return {
+        "id": raw["id"], "sourceId": source_id,
+        # an authored assembly piece is part of its building: drawn and
+        # collided as the building is
+        "kind": "settlement" if object_kind in ("parcel", "assembly") else object_kind,
+        "assetId": raw["assetId"], "kit": raw["kit"],
+        "positionM": raw["positionM"], "yawDeg": raw.get("yawDeg", 0),
+        "scale": raw.get("scale", 1), "footprintM": footprint,
+        "anchor": _anchor_contract(asset, raw.get("groundFit", "direct")),
+        "collision": _collision_contract(asset, disabled=object_kind == "dressing",
+                                         scale=raw.get("scale", 1)),
+        **_layer_contract(raw),
+        **({"yFinal": True} if raw.get("yFinal") is True else {}),
+        "provenance": raw["provenance"],
+        **_mount_contract(raw),
+        **_run_contract(raw, parcel, laid_runs),
+        # a building's declared pad (0101): the compile's resolved datum and
+        # polygon, carried as its ground overlay by `attach_ground_overlays` (0102)
+        **({"pad": raw["pad"]} if isinstance(raw.get("pad"), dict) else {}),
+    }
+
+
+def place_collider_errors(doc: dict, bp: dict, kits_dir: Path = KITS,
+                          dwellings: int | None = None) -> list[str]:
+    """`collider_part_budget`'s ceiling errors for ONE compiled place, without
+    building the bundle (place_gates `collider.ceiling`). Footprints stay
+    empty: they never bear on collision parts. An unbuildable placement is a
+    failure, never a raise."""
+    raws = [r for r in doc.get("placements", []) if r.get("kit")]
+    try:
+        effect_rows: dict[str, dict] = {}
+        _kits, assets = _kit_assets({r["kit"] for r in raws}, kits_dir,
+                                    {(r["kit"], r["assetId"]) for r in raws}, effect_rows)
+        parcels = {p["id"]: p for p in bp.get("parcels", [])}
+        laid_runs: dict[str, list[dict]] = {}
+        placements = []
+        for raw in raws:
+            if raw.get("objectKind") == "effect":
+                placements.append(effect_contract(doc["id"], raw, effect_rows=effect_rows))
+                continue
+            asset = assets.get((raw["kit"], raw["assetId"]))
+            if asset is None:
+                return [f"{raw['id']}: asset absent from {raw['kit']} manifest"]
+            placements.append(runtime_placement(doc["id"], raw, asset, [],
+                                                parcels.get(raw.get("parcelId"), {}), laid_runs))
+    except ValueError as exc:
+        return [str(exc)]
+    settlements = [{"id": doc["id"], "placementIds": [p["id"] for p in placements]}]
+    return collider_part_budget(settlements, placements, kits_dir, COLLIDER_PART_CEILING,
+                                None if dwellings is None else {doc["id"]: dwellings})[1]
+
+
 def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                  structures_dir: Path = DEFAULT_STRUCTURES,
                  blueprints_dir: Path = BLUEPRINTS,
@@ -1433,27 +1495,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 footprint = _bounds_footprint(
                     asset, raw["positionM"], raw.get("yawDeg", 0), raw.get("scale", 1),
                 )
-            placement = {
-                "id": raw["id"], "sourceId": doc["id"],
-                # an authored assembly piece is part of its building: drawn and
-                # collided as the building is
-                "kind": ("settlement" if object_kind in ("parcel", "assembly")
-                         else object_kind),
-                "assetId": raw["assetId"], "kit": raw["kit"],
-                "positionM": raw["positionM"], "yawDeg": raw.get("yawDeg", 0),
-                "scale": raw.get("scale", 1), "footprintM": footprint,
-                "anchor": _anchor_contract(asset, fit),
-                "collision": _collision_contract(asset, disabled=is_dressing,
-                                                 scale=raw.get("scale", 1)),
-                **_layer_contract(raw),
-                **({"yFinal": True} if raw.get("yFinal") is True else {}),
-                "provenance": raw["provenance"],
-                **_mount_contract(raw),
-                **_run_contract(raw, parcel, laid_runs),
-                # a building's declared pad (0101): the compile's resolved
-                # datum and polygon, carried as its ground overlay by `attach_ground_overlays` (0102)
-                **({"pad": raw["pad"]} if isinstance(raw.get("pad"), dict) else {}),
-            }
+            placement = runtime_placement(doc["id"], raw, asset, footprint, parcel, laid_runs)
             ids.append(placement["id"])
             all_placements.append(placement)
             if footprint and not is_dressing:
@@ -1778,6 +1820,22 @@ def _scoped_kits(bundle: dict, places=None) -> list[str]:
     return sorted(used & set(bundle["kits"]))
 
 
+def kit_freshness_problems(kits, kits_dir: Path = KITS, public_dir: Path = PUBLIC_KITS) -> list[str]:
+    """Per published kit: the ``kit_compress --check`` rule (``glb_problems``),
+    then the published manifest against the build's (a differing one is a stale
+    publish). Shared by ``_stage_assets`` and ``place_gates`` (gate kits.fresh)."""
+    from pipeline.kit_compress import glb_problems
+    out: list[str] = []
+    for name in sorted(kits):
+        glb, manifest = public_dir / f"{name}.glb", public_dir / f"{name}.kit.json"
+        problems = glb_problems(name, glb, manifest)
+        if not problems and _read(manifest) != _read(kits_dir / f"{name}.kit.json"):
+            problems = [f"{name}: published manifest differs from the build's "
+                        f"{kits_dir / (name + '.kit.json')} (stale publish)"]
+        out.extend(problems)
+    return out
+
+
 def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
                   publish_kit=None, places=None) -> tuple[Path, list[str]]:
     """Validate and copy every asset to a private sibling before publication.
@@ -1791,7 +1849,7 @@ def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
     as is a published manifest that is not the manifest this bundle was built
     from (the pair is stale against the build). Sidecars come from the build
     output, where the measurers write them."""
-    from pipeline.kit_compress import glb_problems, publish
+    from pipeline.kit_compress import publish
     publish_kit = publish_kit or publish
     kits = _scoped_kits(bundle, places)
 
@@ -1811,16 +1869,9 @@ def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
             require(kits_dir / f"{name}.glb")
         for suffix in sidecar_suffixes(name):
             require(kits_dir / f"{name}{suffix}")
-    refused: list[str] = []
     for name in unpublished:
         publish_kit(name)
-    for name in kits:
-        glb, manifest = public_dir / f"{name}.glb", public_dir / f"{name}.kit.json"
-        problems = glb_problems(name, glb, manifest)
-        if not problems and _read(manifest) != _read(kits_dir / f"{name}.kit.json"):
-            problems = [f"{name}: published manifest differs from the build's "
-                        f"{kits_dir / (name + '.kit.json')} (stale publish)"]
-        refused.extend(problems)
+    refused = kit_freshness_problems(kits, kits_dir, public_dir)
     if refused:
         raise ValueError("refusing to publish kits that fail kit_compress --check "
                          "(publish them with `python3 -m pipeline.kit_compress --kit "
@@ -1997,7 +2048,9 @@ def grow_clearance(site: dict, rows: list[dict], treatments: list[dict] = ()) ->
         return [p if p.is_valid else p.buffer(0) for p in parts if not p.is_empty]
 
     decks = {t["id"].removeprefix("treatment.") for t in treatments if t.get("kind") == "deck"}
-    ways = valid([Polygon(e["polygonM"]) for e in (site.get("groundPaint") or {}).get("entries") or []])
+    # the ways and the seams' trampled rings; a contact shade is not bare ground
+    ways = valid([Polygon(e["polygonM"]) for e in (site.get("groundPaint") or {}).get("entries") or []
+                  if e["texture"] != "shade"])
     hard = valid([Polygon(piece["polygonM"]) for o in (site.get("groundOverlays") or {}).get("pads") or []
                   for piece in o["pieces"]]
                  + [Polygon(p) for t in treatments for p in treatment_clearance_polygons(t)])
@@ -2093,15 +2146,22 @@ def clip_ground_paint(site: dict, treatments: list[dict] = (), road=_LOAD_ROAD) 
     if road is _LOAD_ROAD:
         ways = unary_union([Polygon(e["polygonM"]) for e in paint["entries"]])
         road = province_road_paint(ways.buffer(5.0).bounds) if not ways.is_empty else None
+    road_only = None
     if road is not None and not road.is_empty:
-        road = road_cut(road)
+        road = road_only = road_cut(road)
         cut = cut.union(road) if not cut.is_empty else road
     if cut.is_empty:
         return
     from shapely.geometry import LineString, Point
     out = []
     for e in paint["entries"]:
-        rings = _rings(Polygon(e["polygonM"]).difference(cut))
+        # a building's seam (`seam_paint`) carries its own floor hole: its
+        # trampled ring stops only at the road, its shade nowhere
+        seam = e["id"].startswith(SEAM_ID_PREFIX)
+        if seam and (e["texture"] == "shade" or road_only is None):
+            out.append(e)
+            continue
+        rings = _rings(Polygon(e["polygonM"]).difference(road_only if seam else cut))
         rings = [r for r in rings if Polygon(r).area > 0.05]
         if e.get("centrelineM"):
             # a remnant the way's centre does not run through is a sliver along the road's or the
@@ -2152,6 +2212,85 @@ def layout_pool_ops(bp: dict) -> dict:
     return {"poolOps": ops} if ops else {}
 
 
+#: The building-to-ground seam (16k walk 9, docs/research/rendering/building-ground-seam.md):
+#: every building's footprint gets, at compile, a trampled-earth ring and a contact shade.
+SEAM_RING_GROW_M = 1.5        # the trampled ring reaches this far past the walls (or the pad)
+SEAM_RING_EDGE_M = 1.2
+SEAM_RING_ALPHA = 0.6
+SEAM_RING_TEXTURE = "track_mud"
+SEAM_SHADE_GROW_M = 1.0       # the shade is full at the wall and fades to 0 over this (t², groundPaint.ts)
+SEAM_SHADE_ALPHA = 0.7
+SEAM_HOLE_INSET_M = 0.4       # nothing is painted this far inside the walls (the floor)
+SEAM_MIN_AREA_M2 = 4.0        # a smaller footprint (a well, a totem) is not a building
+SEAM_WET_CELL_M = 0.5
+SEAM_ID_PREFIX = "seam."
+
+
+def _dry_parts(poly, is_wet):
+    """``poly`` less its wet ground (`is_wet` sampled on a SEAM_WET_CELL_M grid):
+    the polygons left, exterior rings only, largest first."""
+    from shapely.geometry import box
+    from shapely.ops import unary_union
+    x0, z0, x1, z1 = poly.bounds
+    c = SEAM_WET_CELL_M
+    wet = []
+    nx, nz = int((x1 - x0) / c) + 1, int((z1 - z0) / c) + 1
+    for j in range(nz):
+        for i in range(nx):
+            x, z = x0 + (i + 0.5) * c, z0 + (j + 0.5) * c
+            if is_wet(x, z):
+                wet.append(box(x - c / 2, z - c / 2, x + c / 2, z + c / 2))
+    left = poly.difference(unary_union(wet)) if wet else poly
+    parts = [left] if left.geom_type == "Polygon" else list(getattr(left, "geoms", []))
+    parts = [p for p in parts if p.geom_type == "Polygon" and p.area >= 0.5]
+    return sorted(parts, key=lambda p: -p.area)
+
+
+def _ring_of(poly) -> list:
+    return [[round(float(x), 3), round(float(z), 3)] for x, z in list(poly.exterior.coords)[:-1]]
+
+
+def seam_paint(site: dict, rows: list[dict], is_wet) -> None:
+    """Appends to the place's `groundPaint` the seam of every building
+    (a placement whose id ends ``.building``, footprint at least
+    SEAM_MIN_AREA_M2): a ``seam-ring`` of trampled earth round the footprint
+    (and its pad, so a retaining wall's foot is worn too) and a ``shade``
+    entry, full at the wall and fading outward, both left unpainted under the
+    floor and cut off the water. A stilt building gets the shade only, with no
+    hole (the ground under its deck is in its shadow). Written before
+    `grow_clearance` (the ring is bare ground) and `clip_ground_paint` (which
+    cuts the ring at the road only)."""
+    from shapely.geometry import Polygon
+    entries = (site.setdefault("groundPaint", {"schemaVersion": GROUND_PAINT_SCHEMA, "entries": []})
+               ["entries"])
+    for row in sorted(rows, key=lambda r: r["id"]):
+        fp = row.get("footprintM") or []
+        if not row["id"].endswith(".building") or len(fp) < 3:
+            continue
+        foot = Polygon(fp).buffer(0)
+        if foot.area < SEAM_MIN_AREA_M2:
+            continue
+        stilt = (row.get("anchor") or {}).get("groundFit") == "stilt"
+        hole = None if stilt else foot.buffer(-SEAM_HOLE_INSET_M, quad_segs=4)
+        hole_field = ({"holeM": _ring_of(hole)} if hole is not None and not hole.is_empty
+                      and hole.geom_type == "Polygon" else {})
+        base = row["id"]
+        layers = [("shade", "shade", foot.buffer(SEAM_SHADE_GROW_M, quad_segs=4),
+                   SEAM_SHADE_GROW_M, SEAM_SHADE_ALPHA)]
+        if not stilt:
+            pad = (row.get("pad") or {}).get("polygonM") or []
+            body = foot.union(Polygon(pad).buffer(0)) if len(pad) >= 3 else foot
+            layers.append(("seam-ring", SEAM_RING_TEXTURE, body.buffer(SEAM_RING_GROW_M, quad_segs=4),
+                           SEAM_RING_EDGE_M, SEAM_RING_ALPHA))
+        for kind, texture, poly, edge, alpha in layers:
+            parts = _dry_parts(poly.simplify(0.05), is_wet)
+            for i, part in enumerate(parts):
+                suffix = "" if len(parts) == 1 else f".part-{i + 1}"
+                entries.append({"id": f"{SEAM_ID_PREFIX}{kind}.{base}{suffix}", "kind": kind, "texture": texture,
+                                "edgeM": edge, "peakAlpha": alpha, "polygonM": _ring_of(part),
+                                **hole_field})
+
+
 def attach_ground_overlays(bundle: dict, places, survey=None) -> int:
     """Decision 0102 decision 1: every exported place carries its levelled
     ground as `groundOverlays` (schemaVersion 1, `pad_overlay`): one overlay
@@ -2189,6 +2328,7 @@ def attach_ground_overlays(bundle: dict, places, survey=None) -> int:
         ids = set(site["placementIds"])
         own = [t for t in bundle.get("groundTreatments") or []
                if t["id"].removeprefix("treatment.") in ids]
+        seam_paint(site, rows, is_wet)        # before the clearance: the trampled ring is bare
         grow_clearance(site, rows, own)       # from the whole ways, before the paint is cut
         clip_ground_paint(site, own, road=site.pop("_roadPaint", _LOAD_ROAD))
     _refuse("ground overlays", missing,

@@ -4483,7 +4483,7 @@
         "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-hist-heartland.json"
       ],
-      "notes": "Two tribes camped here on principle want the spring's use written down before the next convocation",
+      "notes": "Two delegations who would not pay Nine-Trunks' pitch rent lodge here instead; they want the spring's use written down before the next convocation",
       "code": "LH37",
       "tier": "local",
       "milestone": 2,
@@ -9469,14 +9469,14 @@
     },
     {
       "id": "quest.local.lv38",
-      "name": "Two Cities Claim the Halt",
+      "name": "Thorn and Hissmir Claim the Halt",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "A channel village is taxed by two authorities; paying either one is treated as a choice",
+      "notes": "Thorn and Hissmir both tax the cove village at the mouth of the pilgrim water; paying either one counts as taking its side",
       "code": "LV38",
       "tier": "local",
       "milestone": 1,
@@ -9503,14 +9503,14 @@
     },
     {
       "id": "quest.local.lv40",
-      "name": "The Channel Silted Overnight",
+      "name": "The Cove Silted Overnight",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "The main street stops being navigable, which nobody believes was natural",
+      "notes": "The sounded way across the cove to the ferry stage silts up overnight, which the boat-holders do not believe was natural",
       "code": "LV40",
       "tier": "local",
       "milestone": 2,

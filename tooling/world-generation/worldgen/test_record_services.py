@@ -156,7 +156,6 @@ CULTURE_KIT_PINNED = {
     "place.hist-heartland.bubble-spire-open-helstrom": ["dunmer-telvanni"],
     "place.hist-heartland.umpholo-mission": ["imperial-keep"],
     "place.hist-heartland.xal-meeruth-station": ["imperial-keep"],
-    "place.imperial-fringe.bog-iron-workings": ["vanilla-farmhouse"],
     "place.imperial-fringe.bonded-shed-of-the-onkobra": ["hlaalu-domestic"],
     "place.imperial-fringe.cartwrights-cross": ["imperial-keep", "vanilla-farmhouse"],
     "place.imperial-fringe.castle-giovesse": ["hlaalu-domestic"],
@@ -338,7 +337,6 @@ TRAVEL_EDGE_PINNED: dict[str, list[str]] = {
     "place.dunmer-north.murkwater": ["route.boat.stormhold-alten-corimont"],
     "place.dunmer-north.nine-fords": ["route.road.thorn-tear-road"],
     "place.dunmer-north.reedmoor-stilts": ["route.boat.stormhold-alten-corimont"],
-    "place.dunmer-north.riverwalk": ["route.boat.stormhold-alten-corimont"],
     "place.dunmer-north.stormhold": ["route.road.thorn-tear-road"],
     "place.dunmer-north.tear-road-stage": ["route.road.thorn-tear-road"],
     "place.dunmer-north.tearmouth": ["route.boat.archon-thorn", "route.road.thorn-tear-road"],
@@ -420,6 +418,8 @@ def far_travel_edges(places: dict, lines: dict, unresolved: dict | None = None) 
         x, z = rec["positionM"]
         tol = NAMED_ROUTE_TOL_M + float(rec.get("footprintRadiusM") or 0.0)
         for edge in (rec.get("relations") or {}).get("travelServiceEdges") or []:
+            if str(edge).startswith("service:"):   # a service id, checked by record.coherence
+                continue
             lid = edge_line_id(edge, lines, aliases, geometry)
             if lid is None:
                 if unresolved is not None:
@@ -586,7 +586,7 @@ def test_travel_services_check_refuses_a_socket_the_place_does_not_have():
 # answers, or a non-settlement record whose kind (faction-access) the
 # NON_SETTLEMENT_CEILING still strips (low-water-fair, red-cart-yard); the
 # count only falls.
-REWARD_UNBACKED_PINNED_COUNT = 173
+REWARD_UNBACKED_PINNED_COUNT = 172
 
 
 def unbacked_reward_kinds(places: dict) -> dict[str, list[str]]:
@@ -634,8 +634,12 @@ def test_only_a_road_crossing_derives_ferry_from_its_operator():
 def test_the_ceiling_spares_only_what_the_record_implies():
     from worldgen import catalogue, derive_services
     rec = json.loads(json.dumps(_places()["place.imperial-fringe.claywater-station"]))
-    assert derive_services.derive(rec) == ["ferry", "lodging", "stable", "trader"]
+    # Claywater's trader was cut to what stands (walk 9 coherence set), so
+    # its record no longer promises trade-access.
+    assert derive_services.derive(rec) == ["ferry", "lodging", "stable"]
     assert catalogue.hamlet_overreach(rec, rec["services"]) == []
+    rec["rewardProfile"]["kinds"].append("trade-access")
+    assert derive_services.derive(rec) == ["ferry", "lodging", "stable", "trader"]
     assert catalogue.hamlet_overreach(rec, rec["services"] + ["smith"]) == ["smith"]
     rec["rewardProfile"]["kinds"] = []
     rec["classification"]["type"] = "flood-high-hamlet"

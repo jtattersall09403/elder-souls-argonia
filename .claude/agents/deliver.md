@@ -31,7 +31,14 @@ Rules of the road:
 - Report: what changed (file:line), what was measured, what failed.
 - Batch look-ups: several searches in one Bash call, or one `find` agent
   when more than 3 files need reading; edit with the Edit tool, never by
-  re-running a heredoc patch script.
+  re-running a heredoc patch script. The shell guard nudges at the third
+  single look-up in a row and refuses a heredoc that writes a tracked file
+  (decision 0118).
+- Chunking (decision 0118): your brief is one deliverable for one context.
+  If it proves bigger, stop at a green step, write the hand-off note the
+  brief names (what is green, next step, files) and return; a fresh agent
+  continues from the note.
+- A lane spawned by a lead reports to that lead, never to the planner.
 - No foreground waits: any job over 60 s runs with `run_in_background`
   and the harness re-invokes you when it exits; never `tail -f`,
   `tail --pid`, `until` loops or `true`/`echo waiting` loops (the shell
