@@ -260,7 +260,8 @@ const shoot = async (quality = 60) => (await send("Page.captureScreenshot", { fo
 /** A frame for the record: with the view's `clean`, the HUD is hidden around the screenshot only. */
 const frameShot = async (view, quality) => {
   if (!view.clean) return shoot(quality);
-  await evaluate(HUD_HIDE_JS);
+  const hide = await evaluate(HUD_HIDE_JS);
+  if (!hide?.ok) { await evaluate(HUD_SHOW_JS); throw new Error(`clean: ${JSON.stringify(hide)}`); }
   try { return await shoot(quality); } finally { await evaluate(HUD_SHOW_JS); }
 };
 // A full read: stalled flag, 1 %-low fps of the last ~300 rAF durations (raw durations dropped), screen-middle luma

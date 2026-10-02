@@ -259,10 +259,14 @@ export function podSetupCommand(pod, mode, script = "/root/site/tooling/gpu-lane
   return `${parts.join(" ")} -o StrictHostKeyChecking=no ${host} bash ${script} ${mode}`;
 }
 
-/** Page JS that hides every overlay for a screenshot and restores it: each fixed/absolute element that neither is nor
- * holds the render canvas (the largest canvas; so the minimap's own absolute canvas is hidden too), plus overflow
- * hidden on html and body (no scrollbar). The same rule as measure.mjs --clean. The HUD is still read between shots. */
-export const HUD_HIDE_JS = `(() => { const main = [...document.querySelectorAll("canvas")].sort((a, b) => b.width * b.height - a.width * a.height)[0]; window.__hid = [...document.querySelectorAll("body *")].filter((e) => e !== main && !(main && e.contains(main)) && ["fixed", "absolute"].includes(getComputedStyle(e).position)); window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); window.__ovf = [document.documentElement, document.body].map((e) => { const v = e.style.overflow; e.style.overflow = "hidden"; return v; }); return window.__hid.length; })()`;
+/** Page JS that hides everything but the render canvas for a screenshot, and HUD_SHOW_JS restores it. The render
+ * canvas is the one marked `data-render-canvas` by the studio, never picked by size (walk-10 vol smoke 2: the largest
+ * canvas was the 2D province preview map, so the game canvas was hidden) nor by probing getContext (that claims a
+ * canvas that has no context yet: the preview map then gets null for "2d" and the studio crashes). Every element that
+ * neither is nor holds it is hidden (the HUD, the minimap, the 2D preview page), html and body get overflow hidden.
+ * Returns {ok, hidden, before, after, err?}: before/after are the canvas's layout (client) and drawing-buffer sizes; ok
+ * is false when no render canvas is marked or either size changed (the caller fails loudly). */
+export const HUD_HIDE_JS = `(() => { const main = document.querySelector("canvas[data-render-canvas]"); if (!main) return { ok: false, hidden: 0, err: "no canvas[data-render-canvas]" }; const size = () => [main.clientWidth, main.clientHeight, main.width, main.height]; const before = size(); window.__hid = [...document.querySelectorAll("body *")].filter((e) => e !== main && !e.contains(main)); window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); window.__ovf = [document.documentElement, document.body].map((e) => { const v = e.style.overflow; e.style.overflow = "hidden"; return v; }); const after = size(); const same = before.every((v, i) => v === after[i]); return { ok: same, hidden: window.__hid.length, before, after, ...(same ? {} : { err: "render canvas size changed on hide" }) }; })()`;
 export const HUD_SHOW_JS = `(() => { window.__hid?.forEach((e) => { e.style.visibility = e.dataset.v; }); window.__hid = null; if (window.__ovf) [document.documentElement, document.body].forEach((e, i) => { e.style.overflow = window.__ovf[i]; }); window.__ovf = null; return true; })()`;
 
 /** Page JS that aims the studio's follow camera (CharacterMode __STUDIO_CHARACTER_DEBUG__.aimCamera; FollowCamera puts

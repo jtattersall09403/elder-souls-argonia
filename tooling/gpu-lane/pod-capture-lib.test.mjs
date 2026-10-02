@@ -163,19 +163,27 @@ test("aimJs calls aimCamera once the debug hook exists", () => {
   assert.equal(run(aimJs([0.5, -0.1])), true); run(aimJs([2]));
   assert.deepEqual(calls, [[0.5, -0.1], [2]]);
 });
-test("HUD hide hides overlays and the minimap canvas, keeps the render canvas, sets overflow hidden; show restores", () => {
-  const el = (position, tag = "DIV", w = 0) => ({ style: { visibility: "", overflow: "" }, dataset: {}, tagName: tag, position, width: w, height: w, contains: () => false });
-  const main = el("absolute", "CANVAS", 1000), mini = el("absolute", "CANVAS", 200), hud = el("fixed"), wrap = el("absolute"), flow = el("static");
+test("HUD hide keeps the marked render canvas, not the largest; hides the rest; fails on a resize", () => {
+  const el = (tag = "DIV", w = 0, ctx = null) => ({ style: { visibility: "", overflow: "" }, dataset: {}, tagName: tag, width: w, height: w, clientWidth: w, clientHeight: w, contains: () => false, marked: ctx === "render" });
+  // walk-10 vol smoke 2: the 2D province preview canvas (2048) is larger than the render canvas (512)
+  const main = el("CANVAS", 512, "render"), map = el("CANVAS", 2048, "2d"), mini = el("CANVAS", 200, "2d"), hud = el(), wrap = el(), page = el();
   wrap.contains = (x) => x === main;
-  const html = el("static"), body = el("static");
-  const window = {}, document = { documentElement: html, body, querySelectorAll: (q) => (q === "canvas" ? [mini, main] : [hud, wrap, flow, mini, main]) };
-  const getComputedStyle = (e) => ({ position: e.position });
-  const run = (js) => new Function("window", "document", "getComputedStyle", `return ${js}`)(window, document, getComputedStyle);
-  assert.equal(run(HUD_HIDE_JS), 2);
-  assert.equal(hud.style.visibility, "hidden"); assert.equal(mini.style.visibility, "hidden");
+  const html = el(), body = el();
+  const window = {}, document = { documentElement: html, body, querySelector: (q) => (q === "canvas[data-render-canvas]" ? [map, mini, main].find((c) => c.marked) ?? null : null), querySelectorAll: () => [page, map, hud, wrap, mini, main] };
+  const run = (js) => new Function("window", "document", `return ${js}`)(window, document);
+  const r = run(HUD_HIDE_JS);
+  assert.equal(r.ok, true); assert.equal(r.hidden, 4); assert.deepEqual(r.after, [512, 512, 512, 512]);
+  for (const e of [map, mini, hud, page]) assert.equal(e.style.visibility, "hidden");
   assert.equal(wrap.style.visibility, ""); assert.equal(main.style.visibility, "");
   assert.equal(html.style.overflow, "hidden"); assert.equal(body.style.overflow, "hidden");
-  run(HUD_SHOW_JS); assert.equal(hud.style.visibility, ""); assert.equal(mini.style.visibility, ""); assert.equal(body.style.overflow, "");
+  run(HUD_SHOW_JS); assert.equal(map.style.visibility, ""); assert.equal(body.style.overflow, "");
+  // a hide that resizes the render canvas fails loudly
+  Object.defineProperty(body.style, "overflow", { set() { main.clientWidth = 600; }, get() { return ""; } });
+  const bad = run(HUD_HIDE_JS); assert.equal(bad.ok, false); assert.match(bad.err, /size changed/);
+  run(HUD_SHOW_JS);
+  // no marked render canvas: not ok, nothing hidden
+  main.marked = false;
+  assert.deepEqual(run(HUD_HIDE_JS), { ok: false, hidden: 0, err: "no canvas[data-render-canvas]" });
 });
 
 test("ancestorPids: walks /proc stat parents up to (not including) PID 1", async () => {
