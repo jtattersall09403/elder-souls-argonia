@@ -7,7 +7,8 @@
  *
  *   node tooling/gpu-lane/pod-capture.mjs --views <views.json> --out <dir> [--pod "ssh -i <key> -p <port> root@<ip>" | --cdp http://127.0.0.1:9222]
  *     [--seconds 120] [--shots 500@60,2000] [--reads 15,30,60,120] [--profile <s>@<t>] [--settled-frames 300] [--settle-floor 60]
- *     [--window 10] [--width 1280 --height 720] [--prep /tmp/<lane>/prep-times.jsonl]
+ *     [--window 10] [--width 1280 --height 720] [--prep /tmp/<lane>/prep-times.jsonl] [--ready-timeout 90] [--capture-timeout 180]
+ *     [--heap-profile]
  *   node tooling/gpu-lane/pod-capture.mjs --url <url> [--compare <url>] --out <dir> [...]   (a views file of one or two views)
  *
  * --views      JSON list of {name, url, steps?, shots?, seconds?, plain?, clean?, aim?} (url any http(s) URL; plain: a non-studio
@@ -30,6 +31,17 @@
  *              (trace-frames.mjs: main-thread self ms by stage, hitches over 33 ms with their top stage). Default 10; 0 = off.
  * --prep       prep timings appended by build-dist.sh and pod-sync.sh (JSON lines); result.json `prep` and a summary line
  *              carry each step and the wall time from the first step's start to the first capture
+ * --ready-timeout  s from navigation until the studio renders (frames advancing, geometries > 0; not for plain views); past it the view fails
+ *              with failed "not-ready" and lastState (last read: HUD, renderer, console tail). Default 90.
+ * --capture-timeout  s per view from its context opening to its result; past it the view fails with "capture-timeout"
+ *              (the partial result is kept). Default 180 (a 120 s view takes ~150 s). Either way the context is disposed and
+ *              the run moves on. <out>/result.json and summary.md are rewritten after every view, so a killed run keeps its rows.
+ * --heap-profile  (or a view's heapProfile: true) HeapProfiler sampling (32 KiB interval) over the cost window: the top 25
+ *              allocating functions by self size (bundle url:line:col; the dist ships no sourcemaps) -> result heapTop and heap.json
+ * Orphan guard: the process records its ancestor PIDs at start and exits (tunnel closed) within 5 s of any of them dying,
+ *              so a capture never outlives the agent that ran it. With --pod it first asks the pod for its Chrome
+ *              (curl 127.0.0.1:9222/json/version over ssh, 5 s); when it is not there it restarts it with pod-setup.sh as
+ *              below, and exits 3 ("pod Chrome down after pod-setup.sh") only if it is still down.
  * --profile    a CPU profile of <s> seconds starting at <t> per view (summary in result.json, raw to profile.cpuprofile)
  * steps        per view, {at, label, js, waitMs?}: at `at` s the page evaluates js (its JSON return goes to probe[label]), waits waitMs
  *              (default 2500), then a full read goes into steps[]
@@ -46,11 +58,12 @@
  * loss), reads, settledAt, heapSlope (post-GC MB/min once GPU resource counts held 5 s), work, stages, hitches, probe, summary.
  * Exit 0 unless the tab could not be opened.
  */
-import { execSync } from "node:child_process";
+import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { HUD_HIDE_JS, HUD_SHOW_JS, aimJs, browserStoppedAnswering, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, settleGate, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summaryTable } from "./pod-capture-lib.mjs";
+import { HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepSummary, screenMiddle, stalledReads, summariseProfile, summaryTable } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
+import { heapFit } from "./checks.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
 import { closeTunnels, openTunnel } from "./tunnels.mjs";
 
@@ -64,6 +77,8 @@ const defaultS = Number(opt("seconds", 120)), readsSpec = opt("reads", "15,30,60
 const prof = opt("profile") ? parseProfile(opt("profile")) : null, windowS = Number(opt("window", 10));
 const W = Number(opt("width", 1280)), H = Number(opt("height", 720));
 const settledFrames = Number(opt("settled-frames", 300)), settleFloor = Number(opt("settle-floor", 60));
+const readyTimeoutS = Number(opt("ready-timeout", 90)), captureTimeoutS = Number(opt("capture-timeout", 180));
+const heapProfileAll = args.includes("--heap-profile");
 
 const CDP_TIMEOUT_MS = 30_000;          // a CDP call that does not answer in this long has stopped answering
 const GC_TIMEOUT_MS = 10_000;           // a forced GC on a busy page; one timeout turns the view's forced GCs off
@@ -76,8 +91,30 @@ let tunnel = null;
 const closeOwn = () => { if (tunnel) closeTunnels({ pid: tunnel.pid }); tunnel = null; };
 process.on("SIGINT", () => { closeOwn(); process.exit(130); });
 process.on("SIGTERM", () => { closeOwn(); process.exit(143); });
+// orphan guard (iter7: a capture outlived its agent by 1.5 h): exit when any ancestor process is gone
+let openPage = null; // the view page currently open, closed by the orphan guard
+const ancestors = ancestorPids(process.ppid);
+setInterval(() => {
+  const gone = ancestors.find((p) => { try { process.kill(p, 0); return false; } catch (e) { return e.code !== "EPERM"; } });
+  if (!gone) return;
+  console.error(`pod-capture: ancestor ${gone} gone, closing the view and exiting`);
+  // the open view would keep rendering in the pod Chrome; finished views are already on disk
+  Promise.race([closeViewPage(openPage), new Promise((r) => setTimeout(r, 3000))]).finally(() => { closeOwn(); process.exit(129); });
+}, 5000).unref();
 const pod = opt("pod");
-if (pod) tunnel = await openTunnel({ pod, purpose: "cdp-capture" });
+if (pod) {
+  const [sshBin, ...sshArgs] = pod.split(/\s+/);
+  const chromeUp = () => {
+    try { return execFileSync(sshBin, [...sshArgs.slice(0, -1), "-o", "StrictHostKeyChecking=no", "-o", "ConnectTimeout=5", sshArgs.at(-1), "curl -s -m 3 127.0.0.1:9222/json/version"], { timeout: 8000, encoding: "utf8" }).includes("webSocketDebuggerUrl"); } catch { return false; }
+  };
+  // a pod Chrome that is down at start is restarted the same way as mid-run (pod-setup.sh), once
+  if (!chromeUp()) {
+    console.log(`pod-capture: pod Chrome down at start; restarting it (pod-setup.sh ${chromeMode})`);
+    try { execSync(podSetupCommand(pod, chromeMode), { stdio: "inherit", timeout: CHROME_RESTART_TIMEOUT_MS }); } catch { /* checked below */ }
+    if (!chromeUp()) { console.error(`pod Chrome down after pod-setup.sh: run POD_SSH="${pod}" bash tooling/gpu-lane/pod-sync.sh --check <lane>`); process.exit(3); }
+  }
+  tunnel = await openTunnel({ pod, purpose: "cdp-capture" });
+}
 const cdpHttp = (tunnel ? `http://127.0.0.1:${tunnel.localPort}` : opt("cdp", process.env.CHROME_CDP ?? "http://127.0.0.1:9222")).replace(/\/$/, "");
 
 // The browser websocket (Target.*), open for the whole run; reopened after a Chrome restart (recoverChrome).
@@ -180,10 +217,11 @@ async function openViewPage() {
   await send("Runtime.enable"); await send("HeapProfiler.enable"); await send("Page.enable"); await send("Network.enable");
   await send("Page.addScriptToEvaluateOnNewDocument", { source: INIT });
   await send("Emulation.setDeviceMetricsOverride", { width: W, height: H, deviceScaleFactor: 1, mobile: false });
-  return { targetId, browserContextId };
+  return (openPage = { targetId, browserContextId });
 }
 async function closeViewPage(page) {
   if (!page) return;
+  if (page === openPage) openPage = null;
   try { ws?.close(); } catch { /* already closed */ }
   ws = null; for (const f of pending.values()) f({ error: { message: "page closed" } }); pending.clear();
   await bsend("Target.closeTarget", { targetId: page.targetId }).catch(() => {});
@@ -197,7 +235,9 @@ async function baseline() {
   try { await send("HeapProfiler.collectGarbage", {}, GC_TIMEOUT_MS); heapMB = r1((await send("Runtime.getHeapUsage")).usedSize / 1e6); } catch { /* left null */ }
   return { rafFps, heapMB };
 }
+let aborted = false; // set while a timed-out view's body unwinds, so it can never reach the next view's page
 const send = (method, params = {}, timeoutMs = CDP_TIMEOUT_MS) => new Promise((res, rej) => {
+  if (aborted || !ws) { rej(new Error(`${method}: view aborted`)); return; }
   const id = ++nextId; const t = setTimeout(() => { pending.delete(id); rej(new Error(`${method} timed out`)); }, timeoutMs);
   pending.set(id, (m) => { clearTimeout(t); m.error ? rej(new Error(`${method}: ${m.error.message}`)) : res(m.result); });
   ws.send(JSON.stringify({ id, method, params }));
@@ -232,7 +272,11 @@ const fullRead = async () => {
 };
 
 /** The cost window: measure.mjs's per-frame work probe and a filtered trace, together, for windowS seconds. */
-async function costWindow(dir, atS) {
+async function costWindow(dir, atS, heapProfile = false) {
+  // every allocation sampled, collected or not, so the profile total is the allocation rate (diag7 c9: gc hitches)
+  if (heapProfile) await send("HeapProfiler.startSampling", { samplingInterval: 32768, includeObjectsCollectedByMajorGC: true, includeObjectsCollectedByMinorGC: true }).catch(() => { heapProfile = false; });
+  await evaluate(`(() => { const t0 = performance.now(); window.__HEAPS = []; clearInterval(window.__HEAPI);
+    window.__HEAPI = setInterval(() => window.__HEAPS.push([(performance.now() - t0) / 1000, (performance.memory?.usedJSHeapSize ?? NaN) / 1e6]), 500); })()`);
   await evaluate(`(() => { const l = window.__GPU_LANE__; if (l) { l.frames = []; l.ts = []; l.wrapMs = 0; l.on = true; } })()`);
   traceEv = []; const done = new Promise((r) => { traceDone = r; });
   let traced = true;
@@ -240,15 +284,26 @@ async function costWindow(dir, atS) {
   await new Promise((r) => setTimeout(r, windowS * 1000));
   const raw = await evaluate(`(() => { const l = window.__GPU_LANE__; if (!l) return null; l.on = false;
     return { wrapMs: l.wrapMs, frames: l.frames.map((f) => ({ t: f.stamp, work: Math.max(f.end, f.msg) - f.start, gpu: f.gpu })) }; })()`, 30_000);
-  let stages = null, hitches = null;
+  const heapLine = heapFit(await evaluate(`(() => { clearInterval(window.__HEAPI); return window.__HEAPS ?? []; })()`));
+  let stages = null, hitches = null, majorGCs = null;
   if (traced) {
     await send("Tracing.end"); await Promise.race([done, new Promise((r) => setTimeout(r, 60_000))]);
     writeFileSync(join(dir, "trace.json"), JSON.stringify({ traceEvents: traceEv }));
     stages = mainThreadStages(traceEv);
+    majorGCs = traceEv.filter((e) => e.name === "MajorGC" && e.ph !== "E").length;
     const c = classifyFrames(traceEv, { overMs: 33 });
-    hitches = { frames: c.frames, over33: c.over33 ?? 0, maxMs: c.maxMs ?? null, list: c.long.map((f) => ({ atS: f.atS, ms: f.ms, top: topCause(f.byCause), byCause: f.byCause })) };
+    hitches = { frames: c.frames, over33: c.over33 ?? 0, maxMs: c.maxMs ?? null, list: c.long.map((f) => ({ atS: f.atS, ms: f.ms, stage: topCause(f.byCause), byCause: f.byCause })) };
   }
   traceEv = null; traceDone = null;
+  let heap = null, allocMBps = null;
+  if (heapProfile) {
+    try {
+      const { profile } = await send("HeapProfiler.stopSampling", {}, 60_000);
+      heap = heapTop(profile, 25);
+      allocMBps = r1(heapTop(profile, Infinity).reduce((a, f) => a + f.selfMB, 0) / windowS);
+      writeFileSync(join(dir, "heap.json"), JSON.stringify({ allocMBps, top: heap }, null, 1));
+    } catch (e) { heap = { error: String(e.message) }; }
+  }
   let work = null;
   if (raw?.frames) {
     for (let i = 0; i < raw.frames.length; i++) raw.frames[i].dt = i ? raw.frames[i].t - raw.frames[i - 1].t : 0;
@@ -257,7 +312,7 @@ async function costWindow(dir, atS) {
     work = { ...w, wrapperMsPerFrame: raw.frames.length ? Math.round((raw.wrapMs / raw.frames.length) * 100) / 100 : null,
       wallFps: r1(raw.frames.length / windowS), low1: onePercentLow(dts) };
   }
-  return { at: atS, seconds: windowS, work, stages, hitches };
+  return { at: atS, seconds: windowS, work, stages, hitches, heapTop: heap, heap: { fitMBPerMin: heapLine.mbPerMin, samples: heapLine.n, majorGCs, allocMBps } };
 }
 
 async function captureView(view) {
@@ -268,10 +323,36 @@ async function captureView(view) {
   const readsAt = readsSpec.split(",").map(Number).filter((s) => s < totalS);
   const steps = [...view.steps];
   sink = { cons: counter(), pageErrors: counter(), network: counter(), reqUrl: new Map() };
-  const result = { name: view.name, url: view.url, seconds: totalS, frames: 0, reads: {}, settledAt: null, probe: {}, profile: null, window: null, baseline: null, contaminated: null };
-  let page = null;
+  const result = { name: view.name, url: view.url, seconds: totalS, frames: 0, reads: {}, settledAt: null, readyS: null, probe: {}, profile: null, window: null, baseline: null, contaminated: null };
+  const ctl = { page: null };
+  const body = viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl);
+  let timer;
+  const limit = new Promise((r) => { timer = setTimeout(() => r("timeout"), captureTimeoutS * 1000); });
   try {
-    page = await openViewPage();
+    if (await Promise.race([body.then(() => "done"), limit]) === "timeout") {
+      result.failed = "capture-timeout";
+      aborted = true;
+      await closeViewPage(ctl.page); ctl.page = null;
+      await Promise.race([body.catch(() => {}), new Promise((r) => setTimeout(r, 70_000))]); // the body unwinds (every await is bounded)
+    }
+  } catch (e) {
+    result.error = String(e.stack ?? e);
+  } finally {
+    clearTimeout(timer);
+    aborted = false;
+    Object.assign(result, { console: sink.cons.list(), pageErrors: sink.pageErrors.list(), network: sink.network.list() });
+    result.http404s = result.network.filter(([k]) => k.startsWith("404 ")).length;
+    sink = null;
+    result.summary = summarise(result);
+    writeFileSync(join(dir, "result.json"), JSON.stringify(result, null, 1));
+    await closeViewPage(ctl.page);
+  }
+  return result;
+}
+
+async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
+  {
+    ctl.page = await openViewPage();
     result.baseline = await baseline();
     all.cap ??= capVerdict(result.baseline.rafFps);
     Object.assign(result.baseline, contaminationVerdict(result.baseline, all.cap.blankRafFps));
@@ -282,10 +363,19 @@ async function captureView(view) {
     await send("Page.navigate", { url: view.url });
     const heapSamples = [];
     let si = 0, ri = 0, lastPoll = -1, zeroSince = null, profState = prof ? "wait" : "done";
-    // plain views (a non-studio page: no HUD, no build queue) skip the settle gate and run their seconds
+    // plain views (a non-studio page: no HUD, no build queue) skip the settle gate and the ready limit, and run their seconds
     const gate = settledFrames > 0 && !view.plain ? settleGate(settledFrames, settleFloor) : null;
+    const heapProfile = Boolean(view.heapProfile ?? heapProfileAll);
+    let lastFrame = null;
     while (sec() < totalS) {
+      if (aborted) return;
       const s = sec();
+      if (!view.plain && result.readyS === null && s > readyTimeoutS) {
+        result.failed = "not-ready";
+        const last = await fullRead();
+        result.lastState = { atS: r1(s), read: last, consoleTail: sink.cons.list().slice(-10), pageErrors: sink.pageErrors.list().slice(-5) };
+        return;
+      }
       if (profState === "wait" && s >= prof.at) { await send("Profiler.start"); profState = "on"; }
       if (profState === "on" && s >= prof.at + prof.seconds) {
         const { profile } = await send("Profiler.stop", {}, 60_000);
@@ -320,15 +410,17 @@ async function captureView(view) {
           catch (e) { result.gcOff = `${r1(s)} s: ${e.message}`; }
         }
         if (q && !q.err) heapSamples.push({ s: lastPoll, heapMB, buffers: q.g, textures: q.x });
+        if (result.readyS === null && q && !q.err && q.g > 0 && lastFrame !== null && q.f > lastFrame) result.readyS = r1(s);
+        if (q && !q.err) lastFrame = q.f;
         if (gate?.feed(s, q, q?.f)) {
           result.reads.settled = { t: r1(sec()), gateAt: gate.settledAt, afterFrames: settledFrames, ...(await fullRead()) };
-          if (windowS > 0 && !result.window) result.window = await costWindow(dir, r1(sec()));
+          if (windowS > 0 && !result.window) result.window = await costWindow(dir, r1(sec()), heapProfile);
         }
         if (q?.p === 0 && q.g > 0) { zeroSince ??= s; if (result.settledAt === null && s - zeroSince >= 5) result.settledAt = r1(zeroSince); } else zeroSince = null;
       }
       await new Promise((r) => setTimeout(r, 100));
     }
-    if (windowS > 0 && !result.window) result.window = { ...(await costWindow(dir, r1(sec()))), unsettled: true };
+    if (windowS > 0 && !result.window) result.window = { ...(await costWindow(dir, r1(sec()), heapProfile)), unsettled: true };
     result.heapSlope = heapSlope(heapSamples);
     result.final = await fullRead();
     try { writeFileSync(join(dir, "final.jpg"), Buffer.from(await frameShot(view, 80), "base64")); } catch { /* final read has the luma */ }
@@ -336,37 +428,34 @@ async function captureView(view) {
     const gc = counter(); (Array.isArray(g) ? g : [JSON.stringify(g)]).forEach(gc.add);
     result.gpuErrors = gc.list();
     result.stalledReads = stalledReads(result.reads, result.final);
-  } catch (e) {
-    result.error = String(e.stack ?? e);
-  } finally {
-    Object.assign(result, { console: sink.cons.list(), pageErrors: sink.pageErrors.list(), network: sink.network.list() });
-    result.http404s = result.network.filter(([k]) => k.startsWith("404 ")).length;
-    sink = null;
-    result.summary = summarise(result);
-    writeFileSync(join(dir, "result.json"), JSON.stringify(result, null, 1));
-    await closeViewPage(page);
   }
-  return result;
 }
 
 function summarise(r) {
   const fpsFrom = r.reads?.settled && !r.reads.settled.err ? "settled" : r.final ? "final" : null;
   const s = (fpsFrom === "settled" ? r.reads.settled : r.final) ?? {};
   const g = s.gpuMs ?? {}, w = r.window ?? {}, st = w.stages?.perFrameMs ?? {}, top = Object.entries(st)[0];
-  const hitchTop = topCause(Object.fromEntries((w.hitches?.list ?? []).reduce((m, h) => (h.top ? m.set(h.top, (m.get(h.top) ?? 0) + h.ms) : m), new Map())));
+  const hitchTop = topCause(Object.fromEntries((w.hitches?.list ?? []).reduce((m, h) => (h.stage ? m.set(h.stage, (m.get(h.stage) ?? 0) + h.ms) : m), new Map())));
   const winLow1 = w.work?.low1 ?? null;
   return {
     contaminated: r.contaminated ?? null, lumaSettled: r.reads?.settled?.luma ?? null, lumaFinal: r.final?.luma ?? null, blackShare: r.final?.blackShare ?? null,
     fps: s.fps ?? null, fpsFrom, low1: winLow1 ?? s.low1 ?? null, low1From: winLow1 != null ? "window" : fpsFrom, gpuMs: g.supported ? g.avg : null, cpuMs: g.cpu ?? null,
     costMs: w.work?.costMs?.mean ?? null, costFrom: w.work ? (w.unsettled ? "unsettled" : "window") : null, windowFps: w.work?.wallFps ?? null, uncappedFps: w.work?.uncappedFps ?? null,
     calls: g.calls ?? s.renderer?.calls ?? null, tris: g.tris ?? s.renderer?.triangles ?? null,
-    heapMbPerMin: r.heapSlope?.mbPerMin ?? null, topStage: top ? `${top[0]} ${top[1]}` : null,
+    heapMbPerMin: r.window?.heap?.fitMBPerMin ?? r.heapSlope?.mbPerMin ?? null, heapFrom: r.window?.heap?.fitMBPerMin != null ? "window-fit" : "post-gc",
+    majorGCs: r.window?.heap?.majorGCs ?? null, allocMBps: r.window?.heap?.allocMBps ?? null, topStage: top ? `${top[0]} ${top[1]}` : null,
     hitches: w.hitches ? `${w.hitches.over33}${hitchTop ? ` (${hitchTop})` : ""}` : null,
     errors: `${r.gpuErrors?.length ?? "?"}/${r.console?.filter(([k]) => k.startsWith("error")).length ?? "?"}/${r.pageErrors?.length ?? "?"}/${r.http404s ?? "?"}`,
+    failed: r.failed ?? null, heapTop: r.window?.heapTop?.[0] ? `${r.window.heapTop[0].fn} ${r.window.heapTop[0].selfMB} MB` : null,
     settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
   };
 }
 
+const writeAll = () => {
+  if (opt("prep")) { try { all.prep = prepSummary(readFileSync(opt("prep"), "utf8"), all.firstCaptureAt); } catch (e) { all.prep = { error: String(e.message) }; } }
+  writeFileSync(join(out, "result.json"), JSON.stringify(all, null, 1));
+  writeFileSync(join(out, "summary.md"), `${summaryTable(all.views, all.cap, all.prep?.steps ? all.prep : null)}\n`);
+};
 const all = { cdp: cdpHttp, startedAt: new Date().toISOString(), cap: null, orphansClosed: 0, recoveries: 0, firstCaptureAt: null, prep: null, views: [] };
 let sentinel = null;
 try {
@@ -386,6 +475,7 @@ try {
       writeFileSync(join(out, v.name, "result.json"), JSON.stringify(r, null, 1));
     }
     all.views.push(r);
+    writeAll();
     console.log(`pod-capture ${v.name}: ${JSON.stringify(r.summary)}`);
   }
   const byName = Object.fromEntries(all.views.map((v) => [v.name, v]));
@@ -396,9 +486,7 @@ try {
   if (sentinel) await bsend("Target.closeTarget", { targetId: sentinel }).catch(() => {});
   bws.close();
   closeOwn();
-  if (opt("prep")) { try { all.prep = prepSummary(readFileSync(opt("prep"), "utf8"), all.firstCaptureAt); } catch (e) { all.prep = { error: String(e.message) }; } }
-  writeFileSync(join(out, "result.json"), JSON.stringify(all, null, 1));
-  writeFileSync(join(out, "summary.md"), `${summaryTable(all.views, all.cap, all.prep?.steps ? all.prep : null)}\n`);
+  writeAll();
 }
 console.log(`pod-capture: ${all.views.length}/${views.length} views, ${all.recoveries} Chrome restarts, cap detected ${all.cap?.capDetected} (blank rAF ${all.cap?.blankRafFps}), orphans closed ${all.orphansClosed}, contaminated ${all.views.filter((v) => v.contaminated).map((v) => v.name).join(",") || "none"}${all.error ? `, ERROR ${all.error.split("\n")[0]}` : ""} -> ${out}/summary.md`);
 process.exit(0);

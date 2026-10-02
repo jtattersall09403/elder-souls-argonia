@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 /** Pure parts of pod-capture.mjs (unit-tested in pod-capture-lib.test.mjs). */
 
 /**
@@ -186,10 +187,10 @@ const cell = (x) => (x === null || x === undefined ? "-" : typeof x === "number"
  * (window = the cost window after the settled read, settled, final); "window fps" is that window's own wall-clock rate
  * beside its cost ms; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "contaminated", "luma settled", "luma final", "black", "fps (from)", "low1 (from)", "GPU ms", "CPU ms", "cost ms (from)", "window fps", "uncapped fps", "calls", "tris M", "heap MB/min", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404"];
+  const cols = ["view", "failed", "contaminated", "luma settled", "luma final", "black", "fps (from)", "low1 (from)", "GPU ms", "CPU ms", "cost ms (from)", "window fps", "uncapped fps", "calls", "tris M", "heap MB/min", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s"];
   const from = (v, f) => (v == null ? null : `${cell(v)} (${f ?? "-"})`);
-  const rows = views.map(({ name, summary: s = {} }) => [name, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, from(s.fps, s.fpsFrom), from(s.low1, s.low1From), s.gpuMs, s.cpuMs,
-    from(s.costMs, s.costFrom), s.windowFps, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors].map(cell));
+  const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, from(s.fps, s.fpsFrom), from(s.low1, s.low1From), s.gpuMs, s.cpuMs,
+    from(s.costMs, s.costFrom), s.windowFps, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps].map(cell));
   return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), "",
     `| ${cols.join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.join(" | ")} |`)].join("\n");
 }
@@ -244,4 +245,28 @@ export const HUD_SHOW_JS = `(() => { window.__hid?.forEach((e) => { e.style.visi
 export function aimJs([yaw, pitch]) {
   const args = pitch === undefined ? `${yaw}` : `${yaw}, ${pitch}`;
   return `(() => { const d = window.__STUDIO_CHARACTER_DEBUG__; if (!d?.aimCamera) return false; d.aimCamera(${args}); return true; })()`;
+}
+
+/** The PIDs above `pid` (it included) up to, not including, PID 1, read from /proc/<pid>/stat (`readStat` for tests).
+ * pod-capture exits when any of them dies, so a capture under job_guard never outlives the agent that launched it. */
+export function ancestorPids(pid, readStat = (p) => readFileSync(`/proc/${p}/stat`, "utf8")) {
+  const out = [];
+  for (let p = pid, n = 0; p > 1 && n < 64; n++) {
+    out.push(p);
+    try { p = Number(readStat(p).replace(/^.*\) /s, "").split(" ")[1]); } catch { break; }
+  }
+  return out;
+}
+
+/** A CDP HeapProfiler sampling profile -> the top `n` functions by self size (summed over call sites), MB, bundle position. */
+export function heapTop(profile, n = 25) {
+  const by = new Map();
+  const walk = (node) => {
+    const c = node.callFrame ?? {};
+    const k = `${c.functionName || "(anonymous)"} ${c.url ?? ""}:${(c.lineNumber ?? -1) + 1}:${(c.columnNumber ?? -1) + 1}`;
+    if (node.selfSize) by.set(k, (by.get(k) ?? 0) + node.selfSize);
+    for (const ch of node.children ?? []) walk(ch);
+  };
+  if (profile?.head) walk(profile.head);
+  return [...by].sort((a, b) => b[1] - a[1]).slice(0, n).map(([fn, b]) => ({ fn, selfMB: Math.round(b / 1e4) / 100 }));
 }

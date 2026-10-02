@@ -109,7 +109,7 @@ test("summaryTable: header, cap line and one row per view with dashes for missin
   const t = summaryTable([{ name: "A", summary: { lumaSettled: 40.123, tris: 940000, fps: 59 } }, { name: "B" }], { capDetected: false, blankRafFps: 240 }).split("\n");
   assert.equal(t[0], "cap detected: false (blank-page rAF 240 fps)");
   assert.equal(t.length, 6);
-  assert.match(t[4], /^\| A \| - \| 40\.12 \| - \| - \| 59 \(-\) \|.*\| 0\.94 \|/);
+  assert.match(t[4], /^\| A \| - \| - \| 40\.12 \| - \| - \| 59 \(-\) \|.*\| 0\.94 \|/);
   assert.match(t[5], /^\| B( \| -)+ \|$/);
 });
 test("the iter7 views file parses: A, B, D x webgpu, webgl backend, studio, plus B-webgpu-diag", async () => {
@@ -170,4 +170,22 @@ test("HUD hide hides fixed overlays without a canvas and show restores them", ()
   const run = (js) => new Function("window", "document", "getComputedStyle", `return ${js}`)(window, document, getComputedStyle);
   assert.equal(run(HUD_HIDE_JS), 1); assert.equal(hud.style.visibility, "hidden"); assert.equal(wrap.style.visibility, "");
   run(HUD_SHOW_JS); assert.equal(hud.style.visibility, "");
+});
+
+test("ancestorPids: walks /proc stat parents up to (not including) PID 1", async () => {
+  const { ancestorPids } = await import("./pod-capture-lib.mjs");
+  const stat = { 50: "50 (node x) S 40 1", 40: "40 (bash) S 7 1", 7: "7 (claude) S 1 1" };
+  assert.deepEqual(ancestorPids(50, (p) => stat[p]), [50, 40, 7]);
+});
+
+test("heapTop: sums self size per function and sorts", async () => {
+  const { heapTop } = await import("./pod-capture-lib.mjs");
+  const f = (name, size, children = []) => ({ callFrame: { functionName: name, url: "a.js", lineNumber: 0, columnNumber: 4 }, selfSize: size, children });
+  const t = heapTop({ head: f("(root)", 0, [f("g", 2e6, [f("h", 5e6)]), f("g", 1e6)]) }, 2);
+  assert.deepEqual(t, [{ fn: "h a.js:1:5", selfMB: 5 }, { fn: "g a.js:1:5", selfMB: 3 }]);
+});
+
+test("summaryTable: failed column carries the view's failure reason", async () => {
+  const { summaryTable } = await import("./pod-capture-lib.mjs");
+  assert.match(summaryTable([{ name: "A", summary: { failed: "not-ready" } }], null).split("\n")[4], /^\| A \| not-ready \|/);
 });
