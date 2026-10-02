@@ -11,7 +11,7 @@
  *     [--ready-timeout 150] [--profile <s>] [--out tooling/.reports/gpu-lane/<run>/]
  *     [--pod "ssh -i <key> -p <port> root@<ip>"] [--maps <built site dir>]
  *
- * --pod: host sampler (host-sampler.mjs) beside workerGaps; --maps: hidden source maps (source-maps.mjs, A1).
+ * --pod: host sampler (host-sampler.mjs) beside workerGaps (a --spots run with a headline row needs --pod or --no-pod); --maps: hidden source maps (source-maps.mjs, A1).
  * --profile <s>: a CDP CPU profile of <s> seconds (during the walk when --walk is set, else after the
  * settle window); the .cpuprofile lands beside measure.json and its summary in the url entry.
  * --smoke: one spot (default spot a), 60 s; exits 1 and says why on the vsync cap, a ready gate over 40 s,
@@ -24,7 +24,7 @@
  * url<i>-<settled|walk>.trace.json beside measure.json, its long-frame classes (trace-frames.mjs) in `trace`.
  * --aim "yaw,pitch" (radians): aim the follow camera before the settle. --clean 1: HUD-free screenshots.
  * --spots <file>: ONE invocation measures every spot of the file (one line each: `<name> <?query> [--aim yaw,pitch]
- * [walk=<s>] [diag=<probes>] [trace] [trace-gpu] [memory-infra] [heapsample] [profile]`, spots/perf10-c4.txt) in ONE tab (the same page navigates spot to spot, ready gate per spot), takes a
+ * [walk=<s>] [diag=<probes>] [trace] [trace-gpu] [memory-infra] [heapsample] [profile] [profile-walk]`, spots/perf10-c4.txt) in ONE tab (the same page navigates spot to spot, ready gate per spot), takes a
  * clean settled screenshot of each (<run dir>/<name>-settled.jpg) and writes summary.md: settled fps, p1Low,
  * uncapped, p1LowUncapped, max ms, over20, over33 and pass against --bar fps,p1low (default 83,69). A spot with a
  * probe token, a `diag=` query, or any global --diag/--trace/--profile/--census is a diagnosis row: pass reads `diag`
@@ -50,14 +50,21 @@ export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeP
 const repo = resolve(new URL("../..", import.meta.url).pathname);
 const probePath = (n) => new URL(`./probes/${n}.js`, import.meta.url).pathname;
 
+/** A --spots run with a headline (non-diagnosis) row records host steal/faults only with --pod: refused unless --no-pod is explicit. */
+export function podRefusal(o) {
+  if (!o.spots || o.pod || o.noPod) return null;
+  const head = (o.spotList ?? []).filter((s) => !s.diagnosis).map((s) => s.name);
+  return head.length ? `--spots run has headline rows (${head.join(", ")}) and no --pod: the host steal/fault sampler would be off. Pass --pod "ssh ..." or --no-pod` : null;
+}
+
 export function parseArgs(argv) {
   const o = { url: [], origin: "http://127.0.0.1:8099", base: null, renderer: "webgl", settle: 10, walk: 0, shots: false,
     cdp: "127.0.0.1:9222", run: null, out: null, width: 1280, height: 720, dpr: 1, readyTimeout: 150, profile: 0,
-    smoke: false, census: false, trace: false, traceGpu: false, diag: "", aim: "", clean: "", spots: "", bar: "83,69", leak: 0, leakEvery: 15, pod: "", maps: "" };
+    smoke: false, noPod: false, census: false, trace: false, traceGpu: false, diag: "", aim: "", clean: "", spots: "", bar: "83,69", leak: 0, leakEvery: 15, pod: "", maps: "" };
   const camel = (k) => k.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i].replace(/^--/, "");
-    if (k === "shots" || k === "smoke" || k === "census" || k === "trace") { o[k] = true; continue; }
+    if (k === "shots" || k === "smoke" || k === "census" || k === "trace" || k === "no-pod") { o[camel(k)] = true; continue; }
     if (k === "trace-gpu") { o.traceGpu = o.trace = true; continue; }
     const v = argv[++i];
     if (v === undefined) throw new Error(`--${k} needs a value`);
@@ -88,6 +95,8 @@ export function parseArgs(argv) {
   }
   o.url = o.spotList.map((s) => s.query);
   o.diagList = [...new Set(o.spotList.flatMap((s) => s.diagList))];
+  const refusal = podRefusal(o);
+  if (refusal) throw new Error(refusal);
   if (!["webgl", "webgpu"].includes(o.renderer)) throw new Error("--renderer is webgl or webgpu");
   o.base ??= o.renderer === "webgpu" ? "/elder-souls-argonia/webgpu/" : "/elder-souls-argonia/studio/";
   o.out = resolve(o.out ?? join(repo, "tooling/.reports/gpu-lane", o.run));
@@ -483,6 +492,40 @@ async function cpuProfile(page, o, seconds, tag, name, hl) {
   return { elapsedMs: Date.now() - t0, file, seconds, ...profileSummary(profile, 40, o.sourceMaps) };
 }
 
+/**
+ * `profile-walk` spikes: for every frame of a window series ({t, work} page ms) whose rAF work is >= minWork ms, the top
+ * `top` self-time functions of the profile samples inside the frame's span [t_i, t_i+1) (last frame: t + work), as
+ * {t, work, top: [{name, at, ms}]}. `offsetMs` = profile.startTime/1000 - the page's performance.now() read just
+ * after Profiler.start (the mapping hitchList uses).
+ */
+export function profileSpikes(profile, offsetMs, series, { minWork = 12, top = 8 } = {}, maps = null) {
+  const byId = new Map(profile.nodes.map((n) => [n.id, n]));
+  const { samples = [], timeDeltas = [] } = profile;
+  const smp = [];
+  let t = profile.startTime / 1000 - offsetMs;
+  for (let i = 0; i < samples.length; i++) {
+    t += (timeDeltas[i] ?? 0) / 1000;
+    smp.push({ t, id: samples[i], dt: (timeDeltas[i + 1] ?? 0) / 1000 });
+  }
+  const out = [];
+  for (let i = 0; i < series.t.length; i++) {
+    if (!(series.work[i] >= minWork)) continue;
+    const a = series.t[i], b = i + 1 < series.t.length ? series.t[i + 1] : a + series.work[i];
+    const self = new Map();
+    for (const s of smp) {
+      if (s.t < a || s.t >= b) continue;
+      const cf = byId.get(s.id)?.callFrame ?? {};
+      const key = `${cf.functionName || "(anon)"}\t${sourcePosition(maps, cf.url, cf.lineNumber ?? -1, cf.columnNumber ?? -1) ?? `${cf.url || "(native)"}:${(cf.lineNumber ?? -1) + 1}`}`;
+      self.set(key, (self.get(key) ?? 0) + s.dt);
+    }
+    out.push({ t: r2(a), work: r2(series.work[i]), top: [...self].sort((x, y) => y[1] - x[1]).slice(0, top).map(([k, ms]) => {
+      const [name, at] = k.split("\t");
+      return { name, at, ms: r2(ms) };
+    }) });
+  }
+  return out;
+}
+
 /** `profile` spot token: the top `top` functions by self time over a stats window, as
  * {name, at: "<url>:<line>", msPerFrame} with `frames` the window's frame count. */
 export function profileTopPerFrame(profile, frames, top = 25, maps = null) {
@@ -601,7 +644,8 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     if (o.clean) await page.evaluate(() => window.__hid?.forEach((e) => { e.style.visibility = e.dataset.v; })).catch(() => {});
   };
   await shot("settled");
-  let walk = null, heapsample = null;
+  let walk = null, heapsample = null, profileWalk = null;
+  if (P.profileWalk && !(walkS > 0)) profileWalk = { error: "profile-walk needs a walk spot (walk=<s> or steps=)" };
   if (P.heapsample && !(walkS > 0)) heapsample = { error: "heapsample needs a walk spot (walk=<s> or steps=)" };
   if (walkS > 0) {
     const cdp = await ctx.newCDPSession(page);
@@ -613,12 +657,21 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
       wait: nodeWait,
     };
     const stopWalkTrace = doTrace ? await startTrace(page, join(o.out, `${name}-walk.trace.json`), traceOpt, hl) : null;
+    // `profile-walk`: started just before the window opens, stopped just after it (no CDP inside it).
+    const stopWalkProfile = P.profileWalk ? await startCpuProfile(page, 200, hl) : null;
+    const walkPn = stopWalkProfile ? await page.evaluate(() => performance.now()) : 0;
     const stopHeap = P.heapsample ? await startHeapSample(page, hl, o.sourceMaps) : null;
     // One window (stats, trace, profile) spans the whole sequence: the driver runs beside the sampler.
     const [w] = await Promise.all([
       sample(page, walkS, o.profile > 0 ? () => cpuProfile(page, o, Math.min(o.profile, walkS), "walk", name, hl) : null, nodeWait, hl),
       driveSteps(io, spot.steps, spot.aim ? Number(spot.aim.split(",")[0]) : 0),
     ]);
+    if (stopWalkProfile) {
+      const file = join(o.out, `${name}-walk.cpuprofile`);
+      const prof = await stopWalkProfile(file);
+      profileWalk = { file, intervalUs: 200, frames: w.ts.length, topSelfPerFrame: profileTopPerFrame(prof, w.ts.length, 25, o.sourceMaps),
+        spikes: profileSpikes(prof, prof.startTime / 1000 - walkPn, w.series, {}, o.sourceMaps) };
+    }
     if (stopHeap) heapsample = await stopHeap(join(o.out, `${name}-walk.heapsample.json`));
     if (stopWalkTrace) traces.walk = await stopWalkTrace(w.extra?.file, w.ts.at(-1));
     if (w.extra) profile = w.extra;
@@ -654,7 +707,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   const hitchCtx = { settled: hitchContext(settle.work.hitches ?? [], harnessLog, settle.workerGaps, spikes),
     ...(walk ? { walk: hitchContext(walk.hitches ?? [], harnessLog, walk.workerGaps, spikes) } : {}) };
   return { name, url, query, ready, readyS, ...stats, series: settle.series, workerGaps: settle.workerGaps, hostSamples, hostSpikes: spikes, harnessLog, hitchContext: hitchCtx, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
-    walk, profile, trace: doTrace ? traces : null, heapsample, diagnosis: !!spot.diagnosis, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
+    walk, profile, profileWalk, trace: doTrace ? traces : null, heapsample, diagnosis: !!spot.diagnosis, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
 }
 
 /**
@@ -712,7 +765,7 @@ async function main() {
   const rows = result.urls.flatMap((u) => spotRows(u.name, u, o.barParsed));
   const table = summaryTable(rows, o.barParsed);
   const hitchLines = result.urls.flatMap((u) => hitchContextText(u.name, u.hitchContext ?? {}));
-  writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\n${table}\n\n## Hitches over 33 ms: nearest harness action (500 ms) and heartbeat worker\n\n${hitchLines.join("\n") || "none"}\n`);
+  writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\nhost sampler: ${o.pod ? "on" : "off"}\n\n${table}\n\n## Hitches over 33 ms: nearest harness action (500 ms) and heartbeat worker\n\n${hitchLines.join("\n") || "none"}\n`);
   writeFileSync(join(o.out, "summary.json"), `${JSON.stringify({ schemaVersion: 1, run: o.run, bar: o.barParsed, rows }, null, 2)}\n`);
   console.log(`\n${table}\nmeasure: ${join(o.out, "summary.md")}`);
   await browser.close().catch(() => {});

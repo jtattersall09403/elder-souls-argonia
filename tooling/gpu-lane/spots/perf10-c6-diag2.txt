@@ -1,0 +1,3 @@
+# perf10 chunk 6 diagnosis round 2: CPU profile over the e walk window with per-spike stacks (frames >= 12 ms), and over the c settled window.
+ewprof ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5 walk=20 profile-walk   # e: the walk spikes
+cprof ?view=character&x=4.7789&z=1.9&t=12&w=clear&rate=0.5 profile               # c: settled CPU profile
