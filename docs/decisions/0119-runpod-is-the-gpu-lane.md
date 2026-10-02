@@ -15,17 +15,22 @@ in with OAuth; no API key is stored anywhere in the repo or on the VM.
 ## Decisions
 
 1. **Budget: $15 of RunPod credit per month, in total.** It is spent only
-   when absolutely necessary; the named case is the WebGPU fix loop (load,
-   screenshot frames, inspect, fix, repeat).
+   when absolutely necessary; the named cases are the GPU measure-diagnose-fix
+   loops: the WebGPU loop (load, screenshot frames, inspect, fix, repeat)
+   and the main-studio performance loop (owner 2026-10-02).
 2. **Only when faster end to end than SwiftShader on this box.** Boot,
    setup and sync time count: a pod that needs a long setup every time is
    not worth it. The setup is one script,
-   `tooling/webgpu/runpod-setup.sh` (the WebGPU lane writes it),
-   so a pod is ready in one step.
+   `tooling/gpu-lane/runpod-setup.sh`, so a pod is ready in one step.
 3. **Price first.** The agent states the hourly price before creating
    anything billable.
-4. **One pod at a time, deleted (not stopped) when the loop ends**: a
-   stopped pod still bills its disk.
+4. **One pod per lane, lanes in parallel, deleted (not stopped) when the
+   lane's loop ends** (owner 2026-10-02: the WebGPU lane and the performance
+   lane each run their own pod at the same time): a stopped pod still bills
+   its disk. Within a lane, a pod stays up across fix-measure iterations
+   when that saves wall time (sync the build to it rather than booting a
+   new pod) and is deleted the moment the lane has no next measurement
+   queued.
 5. **Every pod minute and dollar is logged in the lane report** (pod id,
    GPU type, $/h, start, end, minutes, dollars), so the month's spend is
    summable from the reports.
@@ -35,6 +40,6 @@ in with OAuth; no API key is stored anywhere in the repo or on the VM.
 
 ## Where each lives
 
-- Setup: `tooling/webgpu/runpod-setup.sh` (the WebGPU lane).
+- Setup and the measure harness: `tooling/gpu-lane/` (shared by both loops).
 - The rule line: CLAUDE.md golden rules; the cost row in
   [gpu-dev-machine-cost-analysis.md](../research/infrastructure/gpu-dev-machine-cost-analysis.md).
