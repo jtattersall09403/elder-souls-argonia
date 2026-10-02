@@ -1,5 +1,5 @@
 import { assetUrl } from "./assetBase";
-import { useGLTF } from "@react-three/drei";
+import { useCharacterGLTF } from "./characterGltf";
 import { useLayoutEffect, useMemo } from "react";
 import * as THREE from "three";
 
@@ -35,7 +35,7 @@ export function QuiverAttachment({
    */
   visible?: boolean;
 }) {
-  const gltf = useGLTF(assetUrl(asset));
+  const gltf = useCharacterGLTF(assetUrl(asset));
   const mount = useMemo(() => {
     const group = new THREE.Group();
     const instance = gltf.scene.clone(true);

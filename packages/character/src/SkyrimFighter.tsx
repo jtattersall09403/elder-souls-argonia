@@ -425,7 +425,7 @@ function PosedActor({
   // draw drives it (`riggedBow`). Every other weapon is its static build.
   const weaponRig = weaponProfile.rig ?? null;
   const weaponUrl = assetUrl(weaponRig?.asset ?? weaponProfile.asset);
-  const weaponGltf = useGLTF(weaponUrl);
+  const weaponGltf = useCharacterGLTF(weaponUrl);
   const model = useMemo(() => {
     const instance = clone(gltf.scene);
     // SkeletonUtils intentionally shares materials. Give each fighter its own

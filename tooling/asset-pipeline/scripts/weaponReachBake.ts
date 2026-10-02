@@ -52,9 +52,10 @@ for (const weapon of Object.values(ARSENAL_BLUEPRINT_WEAPONS)) {
   if (weapon.stats.ranged) continue;
   const gltf = await load(weapon.visual.asset);
   const box = measureHeldObject(gltf.scene), capsule = hitCapsuleFor(box);
-  // The manifest rounds dimensions to five decimal places. Detect stale
-  // display length/geometry as well as stale attack measurements.
-  if ([box.width, box.height, box.length].some((v, i) => Math.abs(v - weapon.visual.sizeMeters[i]) > 0.00001)) {
+  // The manifest is measured on the raw build; the shipped copy is meshopt
+  // compressed (publish_characters.py), which moves a vertex by up to ~2e-5 m.
+  // 0.1 mm still catches stale display length/geometry.
+  if ([box.width, box.height, box.length].some((v, i) => Math.abs(v - weapon.visual.sizeMeters[i]) > 0.0001)) {
     throw Error(`Mesh dimensions disagree with the item manifest: ${weapon.id}`);
   }
   const socket = rig.scene.getObjectByName(weapon.visual.held.socket);

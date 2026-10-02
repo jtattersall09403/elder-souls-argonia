@@ -1,5 +1,5 @@
 import { assetUrl } from "./assetBase";
-import { useGLTF } from "@react-three/drei";
+import { useCharacterGLTF } from "./characterGltf";
 import { useLayoutEffect, useMemo } from "react";
 import type * as THREE from "three";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
@@ -62,7 +62,7 @@ export function ArmourAttachments({
     () => armour.map((piece) => assetUrl(armourAsset(piece, wearer.sex))),
     [armour, wearer.sex],
   );
-  const loaded = useGLTF(urls) as unknown as { scene: THREE.Object3D }[];
+  const loaded = useCharacterGLTF(urls);
 
   useLayoutEffect(() => {
     const mounted = mountArmour(

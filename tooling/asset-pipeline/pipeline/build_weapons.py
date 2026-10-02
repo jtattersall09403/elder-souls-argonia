@@ -423,6 +423,11 @@ def main() -> None:
     parser.add_argument("--only", nargs="*", default=None)
     args = parser.parse_args()
     build(args.set, args.only)
+    # The shipped copies are the compressed ones (KTX2 + meshopt, standard 16).
+    from .publish_characters import publish
+    config = json.loads((CONFIG / f"{args.set}.json").read_text())
+    folders = tuple(Path(config[key]).name for key in ("outputDir", "quiverDir") if config.get(key))
+    publish(set(args.only) if args.only else None, folders)
 
 
 if __name__ == "__main__":

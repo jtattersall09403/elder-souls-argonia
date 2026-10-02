@@ -1,5 +1,5 @@
 import { assetUrl } from "./assetBase";
-import { useGLTF } from "@react-three/drei";
+import { useCharacterGLTF } from "./characterGltf";
 import { useFrame } from "@react-three/fiber";
 import { useLayoutEffect, useMemo, type MutableRefObject } from "react";
 import * as THREE from "three";
@@ -124,7 +124,7 @@ export function OffHandItem({
   glowIntensity?: MutableRefObject<number>;
 }) {
   const rig = profile.rig;
-  const gltf = useGLTF(assetUrl(rig?.asset ?? profile.asset));
+  const gltf = useCharacterGLTF(assetUrl(rig?.asset ?? profile.asset));
   const built = useMemo(() => {
     const group = new THREE.Group();
     if (rig) {

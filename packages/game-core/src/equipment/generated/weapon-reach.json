@@ -15,95 +15,95 @@
     "animationManifestSha256": "5d353c1b6dbc6c5ac4d5553a379463f84928d811d893d19188375949bd142ccb",
     "assets": {
       "races/dunmer-male.glb": "ffaebb940e4ec432aafb95b1c7c8c4ce45f6b4c7953be14adcdfbb7095edd593",
-      "weapons/iron-dagger.glb": "d405a720f11bf7217ca7157ccc32b67ba8cbc94ba0f4b932cd4c1c54bfac6449",
+      "weapons/iron-dagger.glb": "d0ffb0eb3ac95c022b55e6f77aedd922877939d2eabe8a06ab055ac8301074a2",
       "rig-skyrim-humanoid.oneHanded.glb": "e9e401be7d8e63aa8170ac89315b73bd3c3580e0b364eb3cf66131ede094b450",
       "rig-skyrim-humanoid.criticals.glb": "a95ddf321bbbce8a22b1a93996d86f2dce9886c6f1a92ea45b6a7f6392efd8eb",
-      "weapons/steel-dagger.glb": "864a46456b2ed896f171f5eb88b994251972b41df857b37f1256b231c14da5e9",
-      "weapons/elven-dagger.glb": "79b7483ae0a1fa577e4aeb4982b7349893b6cca75d838a47e4b9437d59ecf3ff",
-      "weapons/ebony-dagger.glb": "0096f5fe334e2bb9dc7fe369e2ea7b069ab169d6abf17523881b1af7995ed7c2",
-      "weapons/iron-sword.glb": "a560e3b9cae65ec40c411b227ab3cd8bdae189fc51b6daa99da4477108f9bb1e",
-      "weapons/steel-sword.glb": "4fea64f0655259430ddbec0de4d22914f68ccf3bafa431859ec8aa0e00ad26f1",
-      "weapons/imperial-sword.glb": "fabd633501c6b519afdb5dac60f90f8572a7f77835c1b344531b594efff69501",
-      "weapons/silver-sword.glb": "a945d397e95011bbc376f919a2b417b164afd554854285cf68d764519d34f0a5",
-      "weapons/elven-sword.glb": "1d84ababdc871c6cb152e426f6da6ffebc1d615eadc639ef48eea3eba8cb778c",
-      "weapons/dwarven-sword.glb": "dbe4051e1dba2ec30d95423b71283daf395cca677559e4369403afb446a0f54b",
-      "weapons/orcish-sword.glb": "be122435de2d94257234b351eea10df6077b9c5b74a4d59a54028b42df1400c2",
-      "weapons/nordhero-sword.glb": "034f85af3faa272c82174b3cb157e61439bec3c06188a10d9a6d28dcfcf5411f",
-      "weapons/glass-sword.glb": "d9f5f34a6cc98b77116519b8ceb536095f46c09c381608f3f10252aaea59782e",
-      "weapons/ebony-sword.glb": "ee1c3621d591a90eab90cc76e9d7d8ac7f1a175d323f557dceed76716dcdf990",
-      "weapons/daedric-sword.glb": "c6e2ef4228f3c50542900489ffd863dec6944e73ddcaad72ca20c1a967479f6c",
-      "weapons/blades-sword.glb": "182f9b89882224e07cd036d2c89e55589b4cd4497fd4d12393f6ae16dd275800",
-      "weapons/steel-scimitar.glb": "b3525df2cd90fa9fcf3cecfde9d921be7fe7ffe24659ddc5150b3cc5ad73d542",
-      "weapons/iron-greatsword.glb": "d3513d5e2749366567a5aca2d29c2e6b86bfa55054fa01da10e76b5fe24ec52a",
+      "weapons/steel-dagger.glb": "d865a05ef8d2faebdf8222dd97e7c7b8ed36579d3e5a6b533327199ffb1155c1",
+      "weapons/elven-dagger.glb": "2c0132f3b0ba7813c5d9d1b8b1868e276b85a2412466cdcb8f150f1bef549b8d",
+      "weapons/ebony-dagger.glb": "ddbc63282f77ed427bcdf7e52e6e586214bcf1959dd0dc219e22372a005a61e8",
+      "weapons/iron-sword.glb": "862e2ce4f0794d6eea090930fb000c32f65ed7f630e0e76f524e6fd2ae3829ee",
+      "weapons/steel-sword.glb": "dc1d4a1b6cd3c177f6e99d9c67454c4230096e8ce83c609a084d12adb880cc4d",
+      "weapons/imperial-sword.glb": "66d6f225f1fa97353253a4b33579a184a3983d7708e50a3efab63686855c9c92",
+      "weapons/silver-sword.glb": "41674320cebabf9fe6da7c8f8a578630cf383554d68ff887ba3e112ced63b621",
+      "weapons/elven-sword.glb": "e622444096ba3a3a09b78e8ce71d7d8c9f09786991ae75114d9d1f3f07cbc22f",
+      "weapons/dwarven-sword.glb": "05042951b332035851a9b397ca85ca2a9a14abf23fb5a65b590b96f1281d4d8a",
+      "weapons/orcish-sword.glb": "387a16804c94fdab9ddaf949e249610a0826f73f368c960a7651188338d3c189",
+      "weapons/nordhero-sword.glb": "0d789f6dfccfa565cb3c52b72358fd0d946f7ea2390fcb3af8c563242f420e2d",
+      "weapons/glass-sword.glb": "5b5b0404c79390180828277a70205f19f2b5a528deaa1c83a2543f722e3b2af5",
+      "weapons/ebony-sword.glb": "819c21aa0e03728719c2bdb3f892e59a70b1a3cfa2a85ae50170b9f7f090ca05",
+      "weapons/daedric-sword.glb": "b713f855b85bce747381eb32413a714f758d11b27f24423c534313f51b22d9c0",
+      "weapons/blades-sword.glb": "a04508b98a67c277acdf04a7da6a6f6ea1bed977f0f99469f51da34da077d40c",
+      "weapons/steel-scimitar.glb": "7d06c9bd8a93948e9785874b46d04b3cb15eb2daa90c6b128681fca1282edc58",
+      "weapons/iron-greatsword.glb": "64cf1fbfc813a35ad3b1a270c9d6749c84d944f8a525cddcb733f1990e074508",
       "rig-skyrim-humanoid.greatsword.glb": "9a35af8243ae432332deb060e6dd73f17406621c99cd593348f9326c6da5d716",
-      "weapons/steel-greatsword.glb": "bc6391031398694e7d1e4716a78c2180f4accc2f2d0bf100e70294b4785df94a",
-      "weapons/elven-greatsword.glb": "68934df7cb90e4da98506fab10740f09ef144ec52aeed7234debde717407e217",
-      "weapons/ebony-greatsword.glb": "a5a5f38955fdc325ad3f029bea10b14ab9a91ce9be0dc3b8b39eb6a6bbed508d",
-      "weapons/daedric-greatsword.glb": "024752b3114a5e67736d4fa4e477e9c5caa82710f450587184a2e74a123965df",
-      "weapons/iron-waraxe.glb": "353ef53397c0c90cb3257c3af59338b6585f95fda63e6a4508e110cb3c6762e6",
-      "weapons/steel-waraxe.glb": "7632c4f22f029d18a2948a52cf6d3999fb6d6eb78893a63d9b5fa6efe4daef7d",
-      "weapons/orcish-waraxe.glb": "25c17d6d0cf8019fa4a32dda5a5db277d553dbd937f2e5d7fce2c54467195a9b",
-      "weapons/nordhero-waraxe.glb": "172734d86315e940f8f5567912c7428500b3ad0fe525a80167ca4fbd4107b42c",
-      "weapons/iron-battleaxe.glb": "ebcd9a5707dce93171d26d1b880438e9b9db1e80867933c69f7eb451c0a357b4",
+      "weapons/steel-greatsword.glb": "fa66e66d32a5af65eedbf992b1e19900f2a61db24d264184cc6f4f7a7f5b380a",
+      "weapons/elven-greatsword.glb": "b3c92a0d336286088aa8ca0b8b1ddb7f2b4887f40523eeaeb47bc99b395f8726",
+      "weapons/ebony-greatsword.glb": "a77e6aecbc2e74dc0f3de3b17830aa3b82e0f3a4b9ab18b29283b1cec06c3b04",
+      "weapons/daedric-greatsword.glb": "faf6ffb89b9bc2a750640a751869f6e3d97e736b0ff697fb90281e6e954870e9",
+      "weapons/iron-waraxe.glb": "2f82a6679dc5400fbf8cb5c9e6bb758fca1f1132e805b71df7c2df255cb0c20d",
+      "weapons/steel-waraxe.glb": "a1c630c15d67733e80fd890fcd334304b93a3256c9bfa83a060db594f89b2471",
+      "weapons/orcish-waraxe.glb": "9b7b54b37a62a9cc794157f1bebca542e9c0b7dc40cabb96d7f7daf02a4ac998",
+      "weapons/nordhero-waraxe.glb": "d432e49a85f07e185418d4abe1b525277e376fd7c0a370f4b3f61fe1330322b7",
+      "weapons/iron-battleaxe.glb": "2f7178a3a281d47d3c1a8fa8dad608a32a9418a9b4d114c8e0213fef89e821a9",
       "rig-skyrim-humanoid.greataxe.glb": "5fecbb09b76c6205f60545a823be402c289420911db6afad94b0d71db49d6a37",
-      "weapons/steel-battleaxe.glb": "37d875ff08383756aa0606158146e92c042859f23621ebd7758f91bfa3392af5",
-      "weapons/dwarven-battleaxe.glb": "79ccea2c0c768c3d8de3c7510fdc6c97e1e9d2079a31d92754c20657b2dca960",
-      "weapons/iron-mace.glb": "4a68b3cb52a08542176200a5ef8f0b826b7a355054d6382b51eb39ec4684e916",
-      "weapons/steel-mace.glb": "b13224f20b17f3f89174d19d87d6723e840be421fa51ee2249e999c313da9350",
-      "weapons/dwarven-mace.glb": "80d419392458bd746f8707cae751a0bb7cb52af0d35825ae9a63aa7c97246455",
-      "weapons/iron-warhammer.glb": "7969c56653fe876dd34119d37df395e78bfeda4a0f1cf6b9035220f792b025c7",
-      "weapons/steel-warhammer.glb": "af3e8d02fc7c14eabbc43f87709d0355e0c6b48379b622c558bbad9db7959ba3",
-      "weapons/orcish-warhammer.glb": "1def4f1f5f9393af13c33ab906bf6de73e8f806f32d6035a0bc823b12212b18f",
-      "weapons/iron-rapier.glb": "b450e5ed470218d42e37b33be439c000ecdf2cee6f9d57a8478d07ea4831af57",
+      "weapons/steel-battleaxe.glb": "1ac1252a1ecd8b160fc3c084c9e5e17ce3f1fc414135bf81468c295f82ddd7a5",
+      "weapons/dwarven-battleaxe.glb": "c919b31262a1d4c7780b14348cd638f4b92555037de6dbb1e3642e943295d4e7",
+      "weapons/iron-mace.glb": "a24215b342d1f9877889209c94fa5149eaeccb4ed3558acd09cf58343d3b7fb7",
+      "weapons/steel-mace.glb": "b095df483ea944f96eff8d31470353af5f9709aa395604bb9ec75376974a5f81",
+      "weapons/dwarven-mace.glb": "fae8e834e765187ada3d477e40cc9a3a4ba690c67d827ea9e8b51ed9889dd5d6",
+      "weapons/iron-warhammer.glb": "19eb07668444d9cf4ca521c2d926fcea01373baa9f6558101bd2e3d4e791ba95",
+      "weapons/steel-warhammer.glb": "c5bef57220df3101cd3ef07a443e363588fb107c864299330ff52e4981efab49",
+      "weapons/orcish-warhammer.glb": "07c0b2fbbc6282e57ba4e766e108e0dd9cc73d7f3b0adde4c70c211f57f43af4",
+      "weapons/iron-rapier.glb": "4fea4b80beaa4cbce75428981f6afde27610d692e98d065d126b59527dbb686a",
       "rig-skyrim-humanoid.rapier.glb": "185ed619eb60cdc85a07db49c784f87500aae3ea9b1d69b56456b1532c82e029",
-      "weapons/steel-rapier.glb": "bb08a66aeb377c0e3cdc0fbadff72c5a14fc61b6f3ca854d61e77a77aac6476a",
-      "weapons/elven-rapier.glb": "f6632f667728af1862c261027fef717bbd0d36a61b9cf1e7b91518777a5f68bf",
-      "weapons/ebony-rapier.glb": "ab5a372a043f185fd2695598cad1e38577b7fee2cf5a75905895574a23a9f7d6",
-      "weapons/iron-katana.glb": "3882013ad2c454192233b6176eae18dd5a40eb73f62971f1fde53c9ffbfadd67",
+      "weapons/steel-rapier.glb": "4a3079ceec5b36416951063be83b60bd985eaf27f6100bc59827142f84dabcb5",
+      "weapons/elven-rapier.glb": "079efc933dfe1a64ba6e17a1b59b867bf65399c392f5cf1d25f3e969c49a9a34",
+      "weapons/ebony-rapier.glb": "b47b60c50dc711f2f1a392c1f15e39981075f14dcef837737da52d41cb2f776f",
+      "weapons/iron-katana.glb": "ac1440a128a912527db0c09a6a84187adea2114d5540d9f5ac61559f51e5530a",
       "rig-skyrim-humanoid.katana.glb": "31fa8b91e1050254789f4ab3884cc36ebb5d78e8821c2558eba8699e852d1914",
-      "weapons/steel-katana.glb": "ba6077fd8f4cb71dd47d17aabfef9bd1ba88f57169144c832f259bed8bc3e624",
-      "weapons/elven-katana.glb": "3d778c1204ea306b5b4dbd9ec4a67a1b7c2de4bfde8863df70eebb9a1ef14229",
-      "weapons/ebony-katana.glb": "9357822afe0813e46528651d1ae20cbc6d106b56fc7280625750f210c54cac04",
-      "weapons/iron-claw.glb": "7c41cb031aaf25048080516fd1efc005f3e08ddcba0bfe1682eeaec2b6b78ecf",
+      "weapons/steel-katana.glb": "3aa1a7509b5e43de44ae45fd21e18ef5a00791901bf198fb823e03c6db7d45d6",
+      "weapons/elven-katana.glb": "60a5fdd0bd49261929170be106bab4f2c44701d9e907a92a368b1df523043a7b",
+      "weapons/ebony-katana.glb": "139039d08967ad64ca54079153de00e2e6a9a704962295032550fa072e974aa3",
+      "weapons/iron-claw.glb": "7739fb28e1bc7963680401c0b3598c845355f6aaab968cea49262f64ca472a8a",
       "rig-skyrim-humanoid.claw.glb": "53465d837f922d4f7e67c9563cbb69f2ab4ae109afed111e376d053bcc850a2a",
-      "weapons/steel-claw.glb": "5c65a3d2544fbb2408f697fdc757282cac24f4bf639ec49e6134b05f8a51c0d1",
-      "weapons/elven-claw.glb": "c4176b9983452c53617dc4dd10dc0680a5cf4d6494bd133463ef3c0210fcc2ce",
-      "weapons/ebony-claw.glb": "68df7af902a756ee1abcda68050b8a5fa9d138789ca70317be141692e08b6f13",
-      "weapons/iron-pike.glb": "dcdf24f55e71eaaf2e1951b3ee87962d967bf76dfba2a7a736317d39cea21224",
+      "weapons/steel-claw.glb": "ed4b1675e04547637cd7b70200b0fae645c122c106af9e3cc2cf69b5338f5d75",
+      "weapons/elven-claw.glb": "6bc9f33b42f4c3f5f83a52beea16eea1bc399d1590ab8641553507e9ae0b2d5d",
+      "weapons/ebony-claw.glb": "17f34db29cd45f5870750191b79198aff962c553318c47f9686b4e1aa5ef63d2",
+      "weapons/iron-pike.glb": "9b1d7e6a5c3ae7799efd9f1925b541f718c0d8346679c37fd2a3421d3f4621bb",
       "rig-skyrim-humanoid.pike.glb": "ef9cc309b385770d88ff2f286a567170e7fa11f62ca01320d9b98a3e8e5bbfdd",
-      "weapons/steel-pike.glb": "ca8b15f1642a97e765fd04a9979e91cecb3acbe63c5eb0c0b4a212fc16a86050",
-      "weapons/elven-pike.glb": "fa575b6cf9b35516ad0f945946fae1da8e4d9728d37e9f4f1d0b8f5a95e11619",
-      "weapons/ebony-pike.glb": "276a822caa96e8784f3ef174400214c9ee6caaeb6af2d20c792a4ca5b49ae0d5",
-      "weapons/iron-spear.glb": "e83b37d8e1d5dd0b76cd16c5ba762ee2d04cacced3bb3b6c6d82d64c5255bcba",
-      "weapons/steel-spear.glb": "47178d8cb77dbe7e1b24b3fbd5416b8fb8faccbab598985da03a1aacabafba62",
-      "weapons/elven-spear.glb": "ec5d1ce1044b5cfe3b2b7095bfb7fbc686d3ee82fdbd0f7fe82b26b70042e652",
-      "weapons/ebony-spear.glb": "ee6e44015b5663f327195a552aef93b77bf4cb4342166a5ad8ae4bff8762e460",
-      "weapons/iron-halberd.glb": "6b301f771d30b7824f97232bb544171d12dc9387483f9cd77813097f0d2345b9",
+      "weapons/steel-pike.glb": "932af7a5f783f6a15cada94eae339053d8b81283d774c7aa54ca2abb28bdfb15",
+      "weapons/elven-pike.glb": "f4ee7c8610a1fa8607723b4afe2a8afc9fe2fa828a791c06bc984cb0861e63eb",
+      "weapons/ebony-pike.glb": "e52f2c6435f904ac8b17cbd4047b4ea8fb97417a8d139285d1c15d245bc5e2f5",
+      "weapons/iron-spear.glb": "d3d851754a867f22d6605d80cdb46fd9dfb6dd869a8818202671fd3bd69843e3",
+      "weapons/steel-spear.glb": "af91d6383f8023364a51cb77c40444bedf0a566c2b4ed28e6be0e7ddab6b4ef6",
+      "weapons/elven-spear.glb": "0569b255fec7936f332cd967c29591ec76e77537dd08f954eefeaf8d168f1fa7",
+      "weapons/ebony-spear.glb": "ecbdf3331daf4b20ac5f91caafebc0e3eef4a63b9b015966065166ce657dae59",
+      "weapons/iron-halberd.glb": "0c84aeb0c5955b4c453d8b8763f3239630f8e59a32e43d935232122d0f473f9d",
       "rig-skyrim-humanoid.halberd.glb": "e39cdc2e3eee35e68f7067cfb44bceb86340b3e795adfca1a0d4ac8a7b6277c0",
-      "weapons/steel-halberd.glb": "11e44452226706612f6f26e00a0acfafb72c689e3299af5680c6e4c305feaa0f",
-      "weapons/elven-halberd.glb": "bd461b34dc3e3c5b733f63b8e5a7ba137905d4bc19649eaacae8ec1fb69889a9",
-      "weapons/ebony-halberd.glb": "9ba1dea0c63836897c0a67c856bcc6021aa0f80f84f2040175db88996869f981",
-      "weapons/iron-quarterstaff.glb": "480f5a3a8d4d1e57bbf2969307e90bbb32bb0b0813f06b1c7a692b05c0c0d7e7",
+      "weapons/steel-halberd.glb": "f4b82e286b8456c78a93a9a5f7539706175f81a05264d5b1ed4bf4138a59ef7a",
+      "weapons/elven-halberd.glb": "b83260ae4b3135cf9385153196c8ca228a8ed6b281e801e18542019958a32ba0",
+      "weapons/ebony-halberd.glb": "735a5bdb7ed31a70a33feea634d140bd03ed1664e82c2843ec759666dab1aa77",
+      "weapons/iron-quarterstaff.glb": "8652f575270e9bf3ec3f08bd390a0c1b504803ec668dc11d92987fdfa5a665f2",
       "rig-skyrim-humanoid.quarterstaff.glb": "38e62302c1c6dfad46dc369187cf44abc9c7d0dd25a844f7d80ce01b23806411",
-      "weapons/steel-quarterstaff.glb": "b0314dbcdcdf93fc44bdcc6b2e2e3fd6c664a369fb7eceba277fd08bee8601ea",
-      "weapons/elven-quarterstaff.glb": "bc6abf9b9b9053dc6412ed97a802d4e621db224906f1c12ce2972de04aa3c54d",
-      "weapons/ebony-quarterstaff.glb": "edd44649e7803278e76ae02bbab6273871954595072c6482417c9f05b8c4fd32",
-      "weapons/bone-talon-dagger.glb": "f5ddb99c95f70769bc085c7a640ceb3c97d8b587c760714588fd860a34782fa7",
-      "weapons/steel-great-cleaver.glb": "a464236895f48dc9d31005720459931be86caafd9345c7e26709fb69efa15491",
-      "weapons/obsidian-warhammer.glb": "52375333d3af7fbc430f3856e6cb5b42964f2c7cf4b2eb9f8be18a3380d18b15",
-      "weapons/silver-jagged-katana.glb": "c239bf74d22875a3d97ff43f7db668b5841f9ce54fcac7affaba00643c4855bc",
-      "weapons/wooden-ball-club.glb": "23bc508619109fdaa3f3126e3f583eca1914b4a033f0fada4d3e29d9ea4dd02d",
-      "weapons/iron-trident.glb": "08e91928661b6dc33cc49eed64fe72bca037f890914c1f756d8c0c31c5138ff8",
-      "weapons/elven-trident.glb": "b032054834458444e1c051eb8d09310fd1230148202416beacee9294bebd4928",
-      "weapons/ebony-trident.glb": "d2042cf695c1267944ec95aa01c533f905bc6185b4d0c88105d19320363da916",
-      "weapons/iron-halfpike.glb": "8fb5c44efe18b6ab577df393cdd66ee3b7133de82a35a4fb8d3056653eee88d9",
-      "weapons/steel-halfpike.glb": "33a10cd467155e11b23a5fd473dee7b78938324754781dba6e13d842d95ada57",
-      "weapons/elven-halfpike.glb": "265d191fc4105432002063b9593077f7a3ef516d4fdce5d25f8325544c2fb88f"
+      "weapons/steel-quarterstaff.glb": "2c55908f999f47fe454e4ba115b3054ae4952699da17303704005da6df7fdbef",
+      "weapons/elven-quarterstaff.glb": "0b4868a8b6083590191c46765396c2aa0d1e798a92195d512ab25f4359e4f58d",
+      "weapons/ebony-quarterstaff.glb": "376c735e350670d77f1a69111e74d614aa36da17573229628fd057e52ad14dbc",
+      "weapons/bone-talon-dagger.glb": "3fa831cc662e16b32bc5b432beb1996924b5b36c6d34f20c976317aff55efc29",
+      "weapons/steel-great-cleaver.glb": "9be3734b7547bd37ac6e84886846130674da37ae72fad03a81b51cf9e5408ec6",
+      "weapons/obsidian-warhammer.glb": "f7bba1770fe13cb15a8ee70058da00a2c76f8c77cb1afc88af976acf815c5259",
+      "weapons/silver-jagged-katana.glb": "d5b59d2775e6c78c632c2af5b7fb1d51247b72729062cd2d6ff515312e9f023e",
+      "weapons/wooden-ball-club.glb": "e9d84b188353d748a39c33939f1c708d4164f9b12f4c73cbc4ffdf790d038bb0",
+      "weapons/iron-trident.glb": "52ce81b49b6d0e80d5b60da36b40168594a3cee2944304dcacc674b7e95edebe",
+      "weapons/elven-trident.glb": "8508313d9168cb3a8e6e2c828751eae50c73ca796f2bf82a2590fb5a522f995b",
+      "weapons/ebony-trident.glb": "e59080e88be217a1a315e346db06883a91c996943206425b91607a44edce5150",
+      "weapons/iron-halfpike.glb": "0b9aa972e2e87dc88a9564e027e2b5f18d67599a0ecfc8b59d66ea69a73ca09f",
+      "weapons/steel-halfpike.glb": "a8f9947fcac2bd1c15d158bb617b21290edcf0cc1fd6174eaa18d6efd391aaf5",
+      "weapons/elven-halfpike.glb": "3e62ecc098334bf87e2031801fd8ac428301e9efd0207083e043c31a0fd4ce94"
     }
   },
   "weapons": {
     "iron-dagger": {
-      "lengthMeters": 0.42,
+      "lengthMeters": 0.420002,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -111,8 +111,8 @@
             0.4225,
             0.6695
           ],
-          "range": 0.986737,
-          "stationaryRange": 1.026157,
+          "range": 0.986738,
+          "stationaryRange": 1.026158,
           "atSeconds": 0.441427,
           "sourceTime": 0.596523
         },
@@ -122,8 +122,8 @@
             0.3978,
             0.6019
           ],
-          "range": 0.812988,
-          "stationaryRange": 0.848107,
+          "range": 0.812989,
+          "stationaryRange": 0.848108,
           "atSeconds": 0.35152,
           "sourceTime": 0.475027
         },
@@ -166,8 +166,8 @@
             2.525811,
             2.904189
           ],
-          "range": 0.93634,
-          "stationaryRange": 0.93634,
+          "range": 0.936341,
+          "stationaryRange": 0.936341,
           "atSeconds": 0.542882,
           "sourceTime": 2.898625
         },
@@ -185,7 +185,7 @@
       }
     },
     "steel-dagger": {
-      "lengthMeters": 0.42,
+      "lengthMeters": 0.420002,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -193,8 +193,8 @@
             0.4225,
             0.6695
           ],
-          "range": 0.987596,
-          "stationaryRange": 1.024731,
+          "range": 0.987597,
+          "stationaryRange": 1.024732,
           "atSeconds": 0.445581,
           "sourceTime": 0.602136
         },
@@ -215,7 +215,7 @@
             0.595881,
             1.112494
           ],
-          "range": 1.501941,
+          "range": 1.501942,
           "stationaryRange": 1.348512,
           "atSeconds": 0.524059,
           "sourceTime": 0.708188
@@ -226,8 +226,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.347132,
-          "stationaryRange": 1.15396,
+          "range": 2.347133,
+          "stationaryRange": 1.153961,
           "atSeconds": 0.536993,
           "sourceTime": 0.725666
         },
@@ -238,7 +238,7 @@
             0.777314
           ],
           "range": 1.102172,
-          "stationaryRange": 1.09464,
+          "stationaryRange": 1.094641,
           "atSeconds": 0.571132,
           "sourceTime": 0.771801
         },
@@ -248,8 +248,8 @@
             2.525811,
             2.904189
           ],
-          "range": 0.940179,
-          "stationaryRange": 0.940179,
+          "range": 0.94018,
+          "stationaryRange": 0.94018,
           "atSeconds": 0.542882,
           "sourceTime": 2.898625
         },
@@ -267,7 +267,7 @@
       }
     },
     "elven-dagger": {
-      "lengthMeters": 0.42,
+      "lengthMeters": 0.420006,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -275,8 +275,8 @@
             0.4225,
             0.6695
           ],
-          "range": 0.976612,
-          "stationaryRange": 1.015611,
+          "range": 0.976617,
+          "stationaryRange": 1.015615,
           "atSeconds": 0.441427,
           "sourceTime": 0.596523
         },
@@ -286,8 +286,8 @@
             0.3978,
             0.6019
           ],
-          "range": 0.814141,
-          "stationaryRange": 0.836802,
+          "range": 0.81414,
+          "stationaryRange": 0.836804,
           "atSeconds": 0.35152,
           "sourceTime": 0.475027
         },
@@ -297,8 +297,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.493844,
-          "stationaryRange": 1.340416,
+          "range": 1.493847,
+          "stationaryRange": 1.34042,
           "atSeconds": 0.524059,
           "sourceTime": 0.708188
         },
@@ -308,8 +308,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.335306,
-          "stationaryRange": 1.142891,
+          "range": 2.335311,
+          "stationaryRange": 1.142895,
           "atSeconds": 0.536993,
           "sourceTime": 0.725666
         },
@@ -319,8 +319,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.099042,
-          "stationaryRange": 1.0853,
+          "range": 1.099043,
+          "stationaryRange": 1.085304,
           "atSeconds": 0.571132,
           "sourceTime": 0.771801
         },
@@ -330,8 +330,8 @@
             2.525811,
             2.904189
           ],
-          "range": 0.926818,
-          "stationaryRange": 0.926818,
+          "range": 0.926824,
+          "stationaryRange": 0.926824,
           "atSeconds": 0.542882,
           "sourceTime": 2.898625
         },
@@ -341,15 +341,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.658732,
-          "stationaryRange": 0.658732,
+          "range": 0.658734,
+          "stationaryRange": 0.658734,
           "atSeconds": 1.159358,
           "sourceTime": 1.5667
         }
       }
     },
     "ebony-dagger": {
-      "lengthMeters": 0.42,
+      "lengthMeters": 0.420006,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -357,8 +357,8 @@
             0.4225,
             0.6695
           ],
-          "range": 0.982601,
-          "stationaryRange": 1.020612,
+          "range": 0.982605,
+          "stationaryRange": 1.020615,
           "atSeconds": 0.445581,
           "sourceTime": 0.602136
         },
@@ -369,7 +369,7 @@
             0.6019
           ],
           "range": 0.808821,
-          "stationaryRange": 0.840058,
+          "stationaryRange": 0.84006,
           "atSeconds": 0.35152,
           "sourceTime": 0.475027
         },
@@ -379,8 +379,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.4983,
-          "stationaryRange": 1.344872,
+          "range": 1.498303,
+          "stationaryRange": 1.344875,
           "atSeconds": 0.524059,
           "sourceTime": 0.708188
         },
@@ -390,8 +390,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.34181,
-          "stationaryRange": 1.148971,
+          "range": 2.341815,
+          "stationaryRange": 1.148975,
           "atSeconds": 0.536993,
           "sourceTime": 0.725666
         },
@@ -401,8 +401,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.100744,
-          "stationaryRange": 1.090428,
+          "range": 1.100745,
+          "stationaryRange": 1.090432,
           "atSeconds": 0.571132,
           "sourceTime": 0.771801
         },
@@ -412,8 +412,8 @@
             2.525811,
             2.904189
           ],
-          "range": 0.934167,
-          "stationaryRange": 0.934167,
+          "range": 0.934171,
+          "stationaryRange": 0.934171,
           "atSeconds": 0.542882,
           "sourceTime": 2.898625
         },
@@ -423,15 +423,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.660083,
-          "stationaryRange": 0.660083,
+          "range": 0.660084,
+          "stationaryRange": 0.660084,
           "atSeconds": 1.159358,
           "sourceTime": 1.5667
         }
       }
     },
     "iron-sword": {
-      "lengthMeters": 0.98,
+      "lengthMeters": 0.979996,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -439,8 +439,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.465002,
-          "stationaryRange": 1.400211,
+          "range": 1.464998,
+          "stationaryRange": 1.400207,
           "atSeconds": 0.615983,
           "sourceTime": 0.615983
         },
@@ -450,8 +450,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.117529,
-          "stationaryRange": 1.14884,
+          "range": 1.117526,
+          "stationaryRange": 1.148837,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -461,8 +461,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.833247,
-          "stationaryRange": 1.675152,
+          "range": 1.833243,
+          "stationaryRange": 1.675148,
           "atSeconds": 0.720868,
           "sourceTime": 0.720868
         },
@@ -472,8 +472,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.90912,
-          "stationaryRange": 1.576952,
+          "range": 2.909115,
+          "stationaryRange": 1.576948,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -483,8 +483,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.593532,
-          "stationaryRange": 1.460323,
+          "range": 1.593528,
+          "stationaryRange": 1.46032,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -494,8 +494,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.254988,
-          "stationaryRange": 1.254988,
+          "range": 1.254985,
+          "stationaryRange": 1.254985,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -513,7 +513,7 @@
       }
     },
     "steel-sword": {
-      "lengthMeters": 0.98,
+      "lengthMeters": 0.980003,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -555,7 +555,7 @@
             0.886692
           ],
           "range": 2.9223,
-          "stationaryRange": 1.590249,
+          "stationaryRange": 1.59025,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -587,15 +587,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.781859,
-          "stationaryRange": 0.781859,
+          "range": 0.781858,
+          "stationaryRange": 0.781858,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
       }
     },
     "imperial-sword": {
-      "lengthMeters": 0.98,
+      "lengthMeters": 0.979996,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -603,8 +603,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.45651,
-          "stationaryRange": 1.391797,
+          "range": 1.456507,
+          "stationaryRange": 1.391793,
           "atSeconds": 0.615983,
           "sourceTime": 0.615983
         },
@@ -614,8 +614,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.109275,
-          "stationaryRange": 1.140589,
+          "range": 1.109272,
+          "stationaryRange": 1.140586,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -625,8 +625,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.824926,
-          "stationaryRange": 1.666832,
+          "range": 1.824923,
+          "stationaryRange": 1.666829,
           "atSeconds": 0.720868,
           "sourceTime": 0.720868
         },
@@ -636,8 +636,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.900584,
-          "stationaryRange": 1.568459,
+          "range": 2.90058,
+          "stationaryRange": 1.568456,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -647,8 +647,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.585087,
-          "stationaryRange": 1.451985,
+          "range": 1.585084,
+          "stationaryRange": 1.451982,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -658,8 +658,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.246682,
-          "stationaryRange": 1.246682,
+          "range": 1.246679,
+          "stationaryRange": 1.246679,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -669,15 +669,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.758494,
-          "stationaryRange": 0.758494,
+          "range": 0.758492,
+          "stationaryRange": 0.758492,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
       }
     },
     "silver-sword": {
-      "lengthMeters": 0.98,
+      "lengthMeters": 0.979988,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -685,8 +685,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.439861,
-          "stationaryRange": 1.379078,
+          "range": 1.439851,
+          "stationaryRange": 1.379068,
           "atSeconds": 0.611867,
           "sourceTime": 0.611867
         },
@@ -696,8 +696,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.105057,
-          "stationaryRange": 1.136467,
+          "range": 1.105049,
+          "stationaryRange": 1.136459,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -707,8 +707,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.819822,
-          "stationaryRange": 1.659963,
+          "range": 1.819814,
+          "stationaryRange": 1.659954,
           "atSeconds": 0.716702,
           "sourceTime": 0.716702
         },
@@ -718,8 +718,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.88126,
-          "stationaryRange": 1.551531,
+          "range": 2.88125,
+          "stationaryRange": 1.551521,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -729,8 +729,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.570651,
-          "stationaryRange": 1.443008,
+          "range": 1.570641,
+          "stationaryRange": 1.442999,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -740,8 +740,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.239649,
-          "stationaryRange": 1.239649,
+          "range": 1.239641,
+          "stationaryRange": 1.239641,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -751,15 +751,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.788186,
-          "stationaryRange": 0.788186,
+          "range": 0.788184,
+          "stationaryRange": 0.788184,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
       }
     },
     "elven-sword": {
-      "lengthMeters": 0.98,
+      "lengthMeters": 0.979988,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -767,8 +767,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.46071,
-          "stationaryRange": 1.398219,
+          "range": 1.4607,
+          "stationaryRange": 1.39821,
           "atSeconds": 0.615983,
           "sourceTime": 0.615983
         },
@@ -778,8 +778,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.120262,
-          "stationaryRange": 1.151633,
+          "range": 1.120254,
+          "stationaryRange": 1.151625,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -789,8 +789,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.835276,
-          "stationaryRange": 1.675727,
+          "range": 1.835268,
+          "stationaryRange": 1.675718,
           "atSeconds": 0.716702,
           "sourceTime": 0.716702
         },
@@ -800,8 +800,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.903503,
-          "stationaryRange": 1.572637,
+          "range": 2.903492,
+          "stationaryRange": 1.572626,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -811,8 +811,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.590609,
-          "stationaryRange": 1.460485,
+          "range": 1.590599,
+          "stationaryRange": 1.460476,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -822,8 +822,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.256163,
-          "stationaryRange": 1.256163,
+          "range": 1.256155,
+          "stationaryRange": 1.256155,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -833,15 +833,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.788218,
-          "stationaryRange": 0.788218,
+          "range": 0.788216,
+          "stationaryRange": 0.788216,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
       }
     },
     "dwarven-sword": {
-      "lengthMeters": 0.98,
+      "lengthMeters": 0.979996,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -849,8 +849,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.462808,
-          "stationaryRange": 1.396785,
+          "range": 1.462801,
+          "stationaryRange": 1.396778,
           "atSeconds": 0.615983,
           "sourceTime": 0.615983
         },
@@ -860,8 +860,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.111546,
-          "stationaryRange": 1.142818,
+          "range": 1.11154,
+          "stationaryRange": 1.142812,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -871,8 +871,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.828253,
-          "stationaryRange": 1.670148,
+          "range": 1.828247,
+          "stationaryRange": 1.670142,
           "atSeconds": 0.720868,
           "sourceTime": 0.720868
         },
@@ -882,8 +882,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.907609,
-          "stationaryRange": 1.574767,
+          "range": 2.907602,
+          "stationaryRange": 1.57476,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -893,8 +893,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.591102,
-          "stationaryRange": 1.455659,
+          "range": 1.591095,
+          "stationaryRange": 1.455653,
           "atSeconds": 0.652419,
           "sourceTime": 0.652419
         },
@@ -904,8 +904,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.249842,
-          "stationaryRange": 1.249842,
+          "range": 1.249836,
+          "stationaryRange": 1.249836,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -915,15 +915,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.749,
-          "stationaryRange": 0.749,
+          "range": 0.748999,
+          "stationaryRange": 0.748999,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
       }
     },
     "orcish-sword": {
-      "lengthMeters": 0.98,
+      "lengthMeters": 0.979996,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -931,8 +931,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.47444,
-          "stationaryRange": 1.411528,
+          "range": 1.474438,
+          "stationaryRange": 1.411525,
           "atSeconds": 0.615983,
           "sourceTime": 0.615983
         },
@@ -942,8 +942,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.132709,
-          "stationaryRange": 1.164071,
+          "range": 1.132707,
+          "stationaryRange": 1.164069,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -953,8 +953,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.847729,
-          "stationaryRange": 1.6886,
+          "range": 1.847727,
+          "stationaryRange": 1.688598,
           "atSeconds": 0.716702,
           "sourceTime": 0.716702
         },
@@ -964,8 +964,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.91748,
-          "stationaryRange": 1.586371,
+          "range": 2.917478,
+          "stationaryRange": 1.586369,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -975,8 +975,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.604091,
-          "stationaryRange": 1.473413,
+          "range": 1.604089,
+          "stationaryRange": 1.473411,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -986,8 +986,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.268896,
-          "stationaryRange": 1.268896,
+          "range": 1.268894,
+          "stationaryRange": 1.268894,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -997,15 +997,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.797226,
-          "stationaryRange": 0.797226,
+          "range": 0.797224,
+          "stationaryRange": 0.797224,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
       }
     },
     "nordhero-sword": {
-      "lengthMeters": 0.98,
+      "lengthMeters": 0.979996,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -1013,8 +1013,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.445415,
-          "stationaryRange": 1.385495,
+          "range": 1.445409,
+          "stationaryRange": 1.385489,
           "atSeconds": 0.611867,
           "sourceTime": 0.611867
         },
@@ -1024,8 +1024,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.113467,
-          "stationaryRange": 1.144892,
+          "range": 1.113462,
+          "stationaryRange": 1.144887,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -1035,8 +1035,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.827972,
-          "stationaryRange": 1.668115,
+          "range": 1.827967,
+          "stationaryRange": 1.66811,
           "atSeconds": 0.716702,
           "sourceTime": 0.716702
         },
@@ -1046,8 +1046,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.886082,
-          "stationaryRange": 1.556946,
+          "range": 2.886075,
+          "stationaryRange": 1.556939,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -1057,8 +1057,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.576641,
-          "stationaryRange": 1.450225,
+          "range": 1.576635,
+          "stationaryRange": 1.450219,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -1068,8 +1068,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.247393,
-          "stationaryRange": 1.247393,
+          "range": 1.247387,
+          "stationaryRange": 1.247387,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -1079,15 +1079,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.803939,
-          "stationaryRange": 0.803939,
+          "range": 0.803938,
+          "stationaryRange": 0.803938,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
       }
     },
     "glass-sword": {
-      "lengthMeters": 0.98,
+      "lengthMeters": 0.979988,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -1095,8 +1095,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.430908,
-          "stationaryRange": 1.37101,
+          "range": 1.4309,
+          "stationaryRange": 1.371002,
           "atSeconds": 0.611867,
           "sourceTime": 0.611867
         },
@@ -1106,8 +1106,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.099031,
-          "stationaryRange": 1.130456,
+          "range": 1.099024,
+          "stationaryRange": 1.130449,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -1117,8 +1117,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.813528,
-          "stationaryRange": 1.653671,
+          "range": 1.813522,
+          "stationaryRange": 1.653664,
           "atSeconds": 0.716702,
           "sourceTime": 0.716702
         },
@@ -1128,8 +1128,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.871556,
-          "stationaryRange": 1.542435,
+          "range": 2.871548,
+          "stationaryRange": 1.542427,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -1139,8 +1139,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.562145,
-          "stationaryRange": 1.435759,
+          "range": 1.562137,
+          "stationaryRange": 1.435752,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -1150,8 +1150,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.23294,
-          "stationaryRange": 1.23294,
+          "range": 1.232933,
+          "stationaryRange": 1.232933,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -1161,15 +1161,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.78968,
-          "stationaryRange": 0.78968,
+          "range": 0.789679,
+          "stationaryRange": 0.789679,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
       }
     },
     "ebony-sword": {
-      "lengthMeters": 0.98,
+      "lengthMeters": 0.979988,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -1177,8 +1177,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.45669,
-          "stationaryRange": 1.390594,
+          "range": 1.456681,
+          "stationaryRange": 1.390586,
           "atSeconds": 0.615983,
           "sourceTime": 0.615983
         },
@@ -1188,8 +1188,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.105203,
-          "stationaryRange": 1.136472,
+          "range": 1.105196,
+          "stationaryRange": 1.136465,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -1199,8 +1199,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.821964,
-          "stationaryRange": 1.663859,
+          "range": 1.821957,
+          "stationaryRange": 1.663852,
           "atSeconds": 0.720868,
           "sourceTime": 0.720868
         },
@@ -1210,8 +1210,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.901531,
-          "stationaryRange": 1.56865,
+          "range": 2.901523,
+          "stationaryRange": 1.568642,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -1221,8 +1221,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.584972,
-          "stationaryRange": 1.449393,
+          "range": 1.584963,
+          "stationaryRange": 1.449385,
           "atSeconds": 0.652419,
           "sourceTime": 0.652419
         },
@@ -1232,8 +1232,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.243548,
-          "stationaryRange": 1.243548,
+          "range": 1.243541,
+          "stationaryRange": 1.243541,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -1243,15 +1243,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.741984,
-          "stationaryRange": 0.741984,
+          "range": 0.741982,
+          "stationaryRange": 0.741982,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
       }
     },
     "daedric-sword": {
-      "lengthMeters": 0.98,
+      "lengthMeters": 0.980011,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -1259,8 +1259,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.418363,
-          "stationaryRange": 1.356631,
+          "range": 1.418371,
+          "stationaryRange": 1.356638,
           "atSeconds": 0.611867,
           "sourceTime": 0.611867
         },
@@ -1270,8 +1270,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.080407,
-          "stationaryRange": 1.111797,
+          "range": 1.080413,
+          "stationaryRange": 1.111803,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -1281,8 +1281,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.795356,
-          "stationaryRange": 1.635493,
+          "range": 1.795362,
+          "stationaryRange": 1.635499,
           "atSeconds": 0.716702,
           "sourceTime": 0.716702
         },
@@ -1292,8 +1292,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.860557,
-          "stationaryRange": 1.530186,
+          "range": 2.860566,
+          "stationaryRange": 1.530194,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -1303,8 +1303,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.548665,
-          "stationaryRange": 1.419644,
+          "range": 1.548673,
+          "stationaryRange": 1.419651,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -1314,8 +1314,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.215733,
-          "stationaryRange": 1.215733,
+          "range": 1.21574,
+          "stationaryRange": 1.21574,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -1325,15 +1325,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.755157,
-          "stationaryRange": 0.755157,
+          "range": 0.755158,
+          "stationaryRange": 0.755158,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
       }
     },
     "blades-sword": {
-      "lengthMeters": 0.98,
+      "lengthMeters": 0.979988,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -1341,8 +1341,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.427093,
-          "stationaryRange": 1.363012,
+          "range": 1.427086,
+          "stationaryRange": 1.363005,
           "atSeconds": 0.615983,
           "sourceTime": 0.615983
         },
@@ -1352,8 +1352,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.081796,
-          "stationaryRange": 1.113127,
+          "range": 1.08179,
+          "stationaryRange": 1.113121,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -1363,8 +1363,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.796886,
-          "stationaryRange": 1.638796,
+          "range": 1.79688,
+          "stationaryRange": 1.63879,
           "atSeconds": 0.720868,
           "sourceTime": 0.720868
         },
@@ -1374,8 +1374,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.870807,
-          "stationaryRange": 1.539036,
+          "range": 2.8708,
+          "stationaryRange": 1.539029,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -1385,8 +1385,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.55605,
-          "stationaryRange": 1.42381,
+          "range": 1.556043,
+          "stationaryRange": 1.423804,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -1396,8 +1396,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.218773,
-          "stationaryRange": 1.218773,
+          "range": 1.218767,
+          "stationaryRange": 1.218767,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -1407,15 +1407,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.736501,
-          "stationaryRange": 0.736501,
+          "range": 0.736499,
+          "stationaryRange": 0.736499,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
       }
     },
     "steel-scimitar": {
-      "lengthMeters": 0.95,
+      "lengthMeters": 0.950008,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -1423,8 +1423,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.491264,
-          "stationaryRange": 1.425142,
+          "range": 1.49127,
+          "stationaryRange": 1.425148,
           "atSeconds": 0.519675,
           "sourceTime": 0.611382
         },
@@ -1434,8 +1434,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.114828,
-          "stationaryRange": 1.181177,
+          "range": 1.114833,
+          "stationaryRange": 1.181182,
           "atSeconds": 0.507484,
           "sourceTime": 0.59704
         },
@@ -1445,8 +1445,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.92082,
-          "stationaryRange": 1.709132,
+          "range": 1.920825,
+          "stationaryRange": 1.709137,
           "atSeconds": 0.610065,
           "sourceTime": 0.717724
         },
@@ -1456,8 +1456,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.823114,
-          "stationaryRange": 1.59627,
+          "range": 2.82312,
+          "stationaryRange": 1.596276,
           "atSeconds": 0.622145,
           "sourceTime": 0.731935
         },
@@ -1467,8 +1467,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.414687,
-          "stationaryRange": 1.486845,
+          "range": 1.414693,
+          "stationaryRange": 1.486851,
           "atSeconds": 0.557505,
           "sourceTime": 0.655888
         },
@@ -1478,8 +1478,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.287944,
-          "stationaryRange": 1.287944,
+          "range": 1.28795,
+          "stationaryRange": 1.28795,
           "atSeconds": 0.34,
           "sourceTime": 0.5667
         },
@@ -1489,15 +1489,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.846417,
-          "stationaryRange": 0.846417,
+          "range": 0.846419,
+          "stationaryRange": 0.846419,
           "atSeconds": 1.331695,
           "sourceTime": 1.5667
         }
       }
     },
     "iron-greatsword": {
-      "lengthMeters": 1.42,
+      "lengthMeters": 1.419998,
       "attacks": {
         "light1": {
           "animation": "GREATSWORD_LIGHT_1",
@@ -1505,8 +1505,8 @@
             0.74,
             1.04
           ],
-          "range": 1.910282,
-          "stationaryRange": 1.69807,
+          "range": 1.910286,
+          "stationaryRange": 1.698073,
           "atSeconds": 0.974435,
           "sourceTime": 1.015806
         },
@@ -1516,8 +1516,8 @@
             0.65,
             0.916
           ],
-          "range": 1.424956,
-          "stationaryRange": 1.281937,
+          "range": 1.42496,
+          "stationaryRange": 1.28194,
           "atSeconds": 0.871989,
           "sourceTime": 0.911164
         },
@@ -1527,8 +1527,8 @@
             0.900654,
             1.276315
           ],
-          "range": 2.436665,
-          "stationaryRange": 1.604774,
+          "range": 2.436668,
+          "stationaryRange": 1.604777,
           "atSeconds": 1.058236,
           "sourceTime": 1.086045
         },
@@ -1538,8 +1538,8 @@
             0.823346,
             1.09635
           ],
-          "range": 1.80558,
-          "stationaryRange": 1.865566,
+          "range": 1.805583,
+          "stationaryRange": 1.865569,
           "atSeconds": 0.989099,
           "sourceTime": 1.018349
         },
@@ -1549,8 +1549,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.896961,
-          "stationaryRange": 1.653127,
+          "range": 2.896964,
+          "stationaryRange": 1.65313,
           "atSeconds": 1.109227,
           "sourceTime": 1.148917
         },
@@ -1560,8 +1560,8 @@
             2.975,
             3.255
           ],
-          "range": 1.595945,
-          "stationaryRange": 1.595945,
+          "range": 1.595948,
+          "stationaryRange": 1.595948,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         },
@@ -1571,15 +1571,15 @@
             2.975,
             3.255
           ],
-          "range": 1.595945,
-          "stationaryRange": 1.595945,
+          "range": 1.595948,
+          "stationaryRange": 1.595948,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         }
       }
     },
     "steel-greatsword": {
-      "lengthMeters": 1.42,
+      "lengthMeters": 1.419983,
       "attacks": {
         "light1": {
           "animation": "GREATSWORD_LIGHT_1",
@@ -1587,8 +1587,8 @@
             0.74,
             1.04
           ],
-          "range": 1.901396,
-          "stationaryRange": 1.689186,
+          "range": 1.901372,
+          "stationaryRange": 1.689162,
           "atSeconds": 0.974435,
           "sourceTime": 1.015806
         },
@@ -1598,8 +1598,8 @@
             0.65,
             0.916
           ],
-          "range": 1.415436,
-          "stationaryRange": 1.272233,
+          "range": 1.415414,
+          "stationaryRange": 1.272212,
           "atSeconds": 0.871989,
           "sourceTime": 0.911164
         },
@@ -1609,8 +1609,8 @@
             0.900654,
             1.276315
           ],
-          "range": 2.427319,
-          "stationaryRange": 1.595337,
+          "range": 2.427297,
+          "stationaryRange": 1.595315,
           "atSeconds": 1.058236,
           "sourceTime": 1.086045
         },
@@ -1620,8 +1620,8 @@
             0.823346,
             1.09635
           ],
-          "range": 1.795378,
-          "stationaryRange": 1.855407,
+          "range": 1.795358,
+          "stationaryRange": 1.855387,
           "atSeconds": 0.989099,
           "sourceTime": 1.018349
         },
@@ -1631,8 +1631,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.887059,
-          "stationaryRange": 1.643654,
+          "range": 2.887039,
+          "stationaryRange": 1.643633,
           "atSeconds": 1.109227,
           "sourceTime": 1.148917
         },
@@ -1642,8 +1642,8 @@
             2.975,
             3.255
           ],
-          "range": 1.58625,
-          "stationaryRange": 1.58625,
+          "range": 1.586229,
+          "stationaryRange": 1.586229,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         },
@@ -1653,15 +1653,15 @@
             2.975,
             3.255
           ],
-          "range": 1.58625,
-          "stationaryRange": 1.58625,
+          "range": 1.586229,
+          "stationaryRange": 1.586229,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         }
       }
     },
     "elven-greatsword": {
-      "lengthMeters": 1.42,
+      "lengthMeters": 1.420029,
       "attacks": {
         "light1": {
           "animation": "GREATSWORD_LIGHT_1",
@@ -1669,8 +1669,8 @@
             0.74,
             1.04
           ],
-          "range": 1.871895,
-          "stationaryRange": 1.659681,
+          "range": 1.871923,
+          "stationaryRange": 1.659709,
           "atSeconds": 0.974435,
           "sourceTime": 1.015806
         },
@@ -1680,8 +1680,8 @@
             0.65,
             0.916
           ],
-          "range": 1.387027,
-          "stationaryRange": 1.244141,
+          "range": 1.387053,
+          "stationaryRange": 1.244167,
           "atSeconds": 0.871989,
           "sourceTime": 0.911164
         },
@@ -1691,8 +1691,8 @@
             0.900654,
             1.276315
           ],
-          "range": 2.398605,
-          "stationaryRange": 1.566783,
+          "range": 2.398632,
+          "stationaryRange": 1.566809,
           "atSeconds": 1.058236,
           "sourceTime": 1.086045
         },
@@ -1702,8 +1702,8 @@
             0.823346,
             1.09635
           ],
-          "range": 1.768133,
-          "stationaryRange": 1.828088,
+          "range": 1.768158,
+          "stationaryRange": 1.828113,
           "atSeconds": 0.989099,
           "sourceTime": 1.018349
         },
@@ -1713,8 +1713,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.859301,
-          "stationaryRange": 1.615162,
+          "range": 2.859327,
+          "stationaryRange": 1.615189,
           "atSeconds": 1.109227,
           "sourceTime": 1.148917
         },
@@ -1724,8 +1724,8 @@
             2.975,
             3.255
           ],
-          "range": 1.558136,
-          "stationaryRange": 1.558136,
+          "range": 1.558162,
+          "stationaryRange": 1.558162,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         },
@@ -1735,15 +1735,15 @@
             2.975,
             3.255
           ],
-          "range": 1.558136,
-          "stationaryRange": 1.558136,
+          "range": 1.558162,
+          "stationaryRange": 1.558162,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         }
       }
     },
     "ebony-greatsword": {
-      "lengthMeters": 1.42,
+      "lengthMeters": 1.419983,
       "attacks": {
         "light1": {
           "animation": "GREATSWORD_LIGHT_1",
@@ -1751,8 +1751,8 @@
             0.74,
             1.04
           ],
-          "range": 1.823156,
-          "stationaryRange": 1.610945,
+          "range": 1.823135,
+          "stationaryRange": 1.610924,
           "atSeconds": 0.974435,
           "sourceTime": 1.015806
         },
@@ -1762,8 +1762,8 @@
             0.65,
             0.916
           ],
-          "range": 1.337558,
-          "stationaryRange": 1.194459,
+          "range": 1.337538,
+          "stationaryRange": 1.19444,
           "atSeconds": 0.871989,
           "sourceTime": 0.911164
         },
@@ -1773,8 +1773,8 @@
             0.900654,
             1.276315
           ],
-          "range": 2.349342,
-          "stationaryRange": 1.517411,
+          "range": 2.349322,
+          "stationaryRange": 1.517392,
           "atSeconds": 1.058236,
           "sourceTime": 1.086045
         },
@@ -1784,8 +1784,8 @@
             0.823346,
             1.09635
           ],
-          "range": 1.71789,
-          "stationaryRange": 1.777895,
+          "range": 1.717872,
+          "stationaryRange": 1.777877,
           "atSeconds": 0.989099,
           "sourceTime": 1.018349
         },
@@ -1795,8 +1795,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.8094,
-          "stationaryRange": 1.565749,
+          "range": 2.809381,
+          "stationaryRange": 1.565729,
           "atSeconds": 1.109227,
           "sourceTime": 1.148917
         },
@@ -1806,8 +1806,8 @@
             2.975,
             3.255
           ],
-          "range": 1.508472,
-          "stationaryRange": 1.508472,
+          "range": 1.508453,
+          "stationaryRange": 1.508453,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         },
@@ -1817,15 +1817,15 @@
             2.975,
             3.255
           ],
-          "range": 1.508472,
-          "stationaryRange": 1.508472,
+          "range": 1.508453,
+          "stationaryRange": 1.508453,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         }
       }
     },
     "daedric-greatsword": {
-      "lengthMeters": 1.42,
+      "lengthMeters": 1.420029,
       "attacks": {
         "light1": {
           "animation": "GREATSWORD_LIGHT_1",
@@ -1833,8 +1833,8 @@
             0.74,
             1.04
           ],
-          "range": 1.880488,
-          "stationaryRange": 1.66828,
+          "range": 1.880512,
+          "stationaryRange": 1.668304,
           "atSeconds": 0.974435,
           "sourceTime": 1.015806
         },
@@ -1844,8 +1844,8 @@
             0.65,
             0.916
           ],
-          "range": 1.393979,
-          "stationaryRange": 1.250617,
+          "range": 1.394001,
+          "stationaryRange": 1.250639,
           "atSeconds": 0.871989,
           "sourceTime": 0.911164
         },
@@ -1855,8 +1855,8 @@
             0.900654,
             1.276315
           ],
-          "range": 2.406009,
-          "stationaryRange": 1.57395,
+          "range": 2.406031,
+          "stationaryRange": 1.573973,
           "atSeconds": 1.058236,
           "sourceTime": 1.086045
         },
@@ -1866,8 +1866,8 @@
             0.823346,
             1.09635
           ],
-          "range": 1.773317,
-          "stationaryRange": 1.833383,
+          "range": 1.773337,
+          "stationaryRange": 1.833404,
           "atSeconds": 0.989099,
           "sourceTime": 1.018349
         },
@@ -1877,8 +1877,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.865263,
-          "stationaryRange": 1.622238,
+          "range": 2.865285,
+          "stationaryRange": 1.622261,
           "atSeconds": 1.109227,
           "sourceTime": 1.148917
         },
@@ -1888,8 +1888,8 @@
             2.975,
             3.255
           ],
-          "range": 1.564636,
-          "stationaryRange": 1.564636,
+          "range": 1.564657,
+          "stationaryRange": 1.564657,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         },
@@ -1899,15 +1899,15 @@
             2.975,
             3.255
           ],
-          "range": 1.564636,
-          "stationaryRange": 1.564636,
+          "range": 1.564657,
+          "stationaryRange": 1.564657,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         }
       }
     },
     "iron-waraxe": {
-      "lengthMeters": 0.78,
+      "lengthMeters": 0.780014,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -1915,8 +1915,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.262904,
-          "stationaryRange": 1.236822,
+          "range": 1.262913,
+          "stationaryRange": 1.23683,
           "atSeconds": 0.668371,
           "sourceTime": 0.602136
         },
@@ -1926,8 +1926,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.01067,
-          "stationaryRange": 1.03581,
+          "range": 1.010676,
+          "stationaryRange": 1.035816,
           "atSeconds": 0.66399,
           "sourceTime": 0.598189
         },
@@ -1937,8 +1937,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.689511,
-          "stationaryRange": 1.544567,
+          "range": 1.689518,
+          "stationaryRange": 1.544574,
           "atSeconds": 0.790244,
           "sourceTime": 0.711932
         },
@@ -1948,8 +1948,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.816216,
-          "stationaryRange": 1.385423,
+          "range": 2.816225,
+          "stationaryRange": 1.385432,
           "atSeconds": 0.805335,
           "sourceTime": 0.725527
         },
@@ -1959,8 +1959,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.475851,
-          "stationaryRange": 1.311699,
+          "range": 1.475854,
+          "stationaryRange": 1.311707,
           "atSeconds": 0.661086,
           "sourceTime": 0.595573
         },
@@ -1970,8 +1970,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.236822,
-          "stationaryRange": 1.236822,
+          "range": 1.23683,
+          "stationaryRange": 1.23683,
           "atSeconds": 0.527132,
           "sourceTime": 0.474894
         },
@@ -1981,15 +1981,15 @@
             0.4225,
             0.6695
           ],
-          "range": 1.236822,
-          "stationaryRange": 1.236822,
+          "range": 1.23683,
+          "stationaryRange": 1.23683,
           "atSeconds": 0.527132,
           "sourceTime": 0.474894
         }
       }
     },
     "steel-waraxe": {
-      "lengthMeters": 0.78,
+      "lengthMeters": 0.780014,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -1997,8 +1997,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.272804,
-          "stationaryRange": 1.245551,
+          "range": 1.272814,
+          "stationaryRange": 1.24556,
           "atSeconds": 0.668371,
           "sourceTime": 0.602136
         },
@@ -2008,8 +2008,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.016205,
-          "stationaryRange": 1.041959,
+          "range": 1.016211,
+          "stationaryRange": 1.041966,
           "atSeconds": 0.66399,
           "sourceTime": 0.598189
         },
@@ -2019,8 +2019,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.696672,
-          "stationaryRange": 1.551727,
+          "range": 1.696679,
+          "stationaryRange": 1.551734,
           "atSeconds": 0.790244,
           "sourceTime": 0.711932
         },
@@ -2030,8 +2030,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.826639,
-          "stationaryRange": 1.395874,
+          "range": 2.826649,
+          "stationaryRange": 1.395884,
           "atSeconds": 0.805335,
           "sourceTime": 0.725527
         },
@@ -2041,8 +2041,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.478319,
-          "stationaryRange": 1.320157,
+          "range": 1.478322,
+          "stationaryRange": 1.320165,
           "atSeconds": 0.661086,
           "sourceTime": 0.595573
         },
@@ -2052,8 +2052,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.245551,
-          "stationaryRange": 1.245551,
+          "range": 1.24556,
+          "stationaryRange": 1.24556,
           "atSeconds": 0.527132,
           "sourceTime": 0.474894
         },
@@ -2063,15 +2063,15 @@
             0.4225,
             0.6695
           ],
-          "range": 1.245551,
-          "stationaryRange": 1.245551,
+          "range": 1.24556,
+          "stationaryRange": 1.24556,
           "atSeconds": 0.527132,
           "sourceTime": 0.474894
         }
       }
     },
     "orcish-waraxe": {
-      "lengthMeters": 0.78,
+      "lengthMeters": 0.779991,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -2079,8 +2079,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.26016,
-          "stationaryRange": 1.233968,
+          "range": 1.260154,
+          "stationaryRange": 1.233963,
           "atSeconds": 0.668371,
           "sourceTime": 0.602136
         },
@@ -2090,8 +2090,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.007521,
-          "stationaryRange": 1.032718,
+          "range": 1.007517,
+          "stationaryRange": 1.032713,
           "atSeconds": 0.66399,
           "sourceTime": 0.598189
         },
@@ -2101,8 +2101,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.686517,
-          "stationaryRange": 1.541574,
+          "range": 1.686513,
+          "stationaryRange": 1.541569,
           "atSeconds": 0.790244,
           "sourceTime": 0.711932
         },
@@ -2112,8 +2112,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.813522,
-          "stationaryRange": 1.38273,
+          "range": 2.813515,
+          "stationaryRange": 1.382724,
           "atSeconds": 0.805335,
           "sourceTime": 0.725527
         },
@@ -2123,8 +2123,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.472419,
-          "stationaryRange": 1.308823,
+          "range": 1.472417,
+          "stationaryRange": 1.308817,
           "atSeconds": 0.661086,
           "sourceTime": 0.595573
         },
@@ -2134,8 +2134,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.233968,
-          "stationaryRange": 1.233968,
+          "range": 1.233963,
+          "stationaryRange": 1.233963,
           "atSeconds": 0.527132,
           "sourceTime": 0.474894
         },
@@ -2145,15 +2145,15 @@
             0.4225,
             0.6695
           ],
-          "range": 1.233968,
-          "stationaryRange": 1.233968,
+          "range": 1.233963,
+          "stationaryRange": 1.233963,
           "atSeconds": 0.527132,
           "sourceTime": 0.474894
         }
       }
     },
     "nordhero-waraxe": {
-      "lengthMeters": 0.78,
+      "lengthMeters": 0.779999,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -2172,7 +2172,7 @@
             0.3978,
             0.6019
           ],
-          "range": 1.010007,
+          "range": 1.010008,
           "stationaryRange": 1.034882,
           "atSeconds": 0.66399,
           "sourceTime": 0.598189
@@ -2205,7 +2205,7 @@
             0.573319,
             0.777314
           ],
-          "range": 1.476485,
+          "range": 1.476486,
           "stationaryRange": 1.309767,
           "atSeconds": 0.661086,
           "sourceTime": 0.595573
@@ -2235,7 +2235,7 @@
       }
     },
     "iron-battleaxe": {
-      "lengthMeters": 1.349999,
+      "lengthMeters": 1.349976,
       "attacks": {
         "light1": {
           "animation": "GREATAXE_LIGHT_1",
@@ -2243,8 +2243,8 @@
             0.748,
             1.04
           ],
-          "range": 1.882273,
-          "stationaryRange": 1.66143,
+          "range": 1.882262,
+          "stationaryRange": 1.661418,
           "atSeconds": 0.975517,
           "sourceTime": 1.015667
         },
@@ -2254,8 +2254,8 @@
             0.65,
             0.916
           ],
-          "range": 1.399687,
-          "stationaryRange": 1.259138,
+          "range": 1.399676,
+          "stationaryRange": 1.259128,
           "atSeconds": 0.871989,
           "sourceTime": 0.911164
         },
@@ -2265,8 +2265,8 @@
             0.909987,
             1.234316
           ],
-          "range": 2.391127,
-          "stationaryRange": 1.563005,
+          "range": 2.391116,
+          "stationaryRange": 1.562994,
           "atSeconds": 1.058113,
           "sourceTime": 1.084253
         },
@@ -2276,8 +2276,8 @@
             0.854,
             1.12
           ],
-          "range": 1.654699,
-          "stationaryRange": 1.804454,
+          "range": 1.65469,
+          "stationaryRange": 1.804445,
           "atSeconds": 0.997882,
           "sourceTime": 1.023273
         },
@@ -2287,8 +2287,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.850011,
-          "stationaryRange": 1.589561,
+          "range": 2.850001,
+          "stationaryRange": 1.58955,
           "atSeconds": 1.109227,
           "sourceTime": 1.148917
         },
@@ -2298,8 +2298,8 @@
             0.748,
             1.04
           ],
-          "range": 1.66194,
-          "stationaryRange": 1.66194,
+          "range": 1.661928,
+          "stationaryRange": 1.661928,
           "atSeconds": 1.031775,
           "sourceTime": 1.031775
         },
@@ -2309,15 +2309,15 @@
             0.748,
             1.04
           ],
-          "range": 1.66194,
-          "stationaryRange": 1.66194,
+          "range": 1.661928,
+          "stationaryRange": 1.661928,
           "atSeconds": 1.031775,
           "sourceTime": 1.031775
         }
       }
     },
     "steel-battleaxe": {
-      "lengthMeters": 1.35,
+      "lengthMeters": 1.350006,
       "attacks": {
         "light1": {
           "animation": "GREATAXE_LIGHT_1",
@@ -2325,8 +2325,8 @@
             0.748,
             1.04
           ],
-          "range": 1.851968,
-          "stationaryRange": 1.631121,
+          "range": 1.85197,
+          "stationaryRange": 1.631123,
           "atSeconds": 0.975517,
           "sourceTime": 1.015667
         },
@@ -2336,8 +2336,8 @@
             0.65,
             0.916
           ],
-          "range": 1.367794,
-          "stationaryRange": 1.226695,
+          "range": 1.367796,
+          "stationaryRange": 1.226697,
           "atSeconds": 0.871989,
           "sourceTime": 0.911164
         },
@@ -2347,8 +2347,8 @@
             0.909987,
             1.234316
           ],
-          "range": 2.359673,
-          "stationaryRange": 1.531236,
+          "range": 2.359674,
+          "stationaryRange": 1.531238,
           "atSeconds": 1.058113,
           "sourceTime": 1.084253
         },
@@ -2358,8 +2358,8 @@
             0.854,
             1.12
           ],
-          "range": 1.620497,
-          "stationaryRange": 1.770407,
+          "range": 1.620499,
+          "stationaryRange": 1.770409,
           "atSeconds": 0.997882,
           "sourceTime": 1.023273
         },
@@ -2369,8 +2369,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.817602,
-          "stationaryRange": 1.557694,
+          "range": 2.817604,
+          "stationaryRange": 1.557696,
           "atSeconds": 1.109227,
           "sourceTime": 1.148917
         },
@@ -2380,8 +2380,8 @@
             0.748,
             1.04
           ],
-          "range": 1.631644,
-          "stationaryRange": 1.631644,
+          "range": 1.631646,
+          "stationaryRange": 1.631646,
           "atSeconds": 1.031775,
           "sourceTime": 1.031775
         },
@@ -2391,15 +2391,15 @@
             0.748,
             1.04
           ],
-          "range": 1.631644,
-          "stationaryRange": 1.631644,
+          "range": 1.631646,
+          "stationaryRange": 1.631646,
           "atSeconds": 1.031775,
           "sourceTime": 1.031775
         }
       }
     },
     "dwarven-battleaxe": {
-      "lengthMeters": 1.35,
+      "lengthMeters": 1.350006,
       "attacks": {
         "light1": {
           "animation": "GREATAXE_LIGHT_1",
@@ -2407,8 +2407,8 @@
             0.748,
             1.04
           ],
-          "range": 1.85543,
-          "stationaryRange": 1.63458,
+          "range": 1.855423,
+          "stationaryRange": 1.634574,
           "atSeconds": 0.975517,
           "sourceTime": 1.015667
         },
@@ -2418,8 +2418,8 @@
             0.65,
             0.916
           ],
-          "range": 1.368822,
-          "stationaryRange": 1.226901,
+          "range": 1.368817,
+          "stationaryRange": 1.226896,
           "atSeconds": 0.871989,
           "sourceTime": 0.911164
         },
@@ -2429,8 +2429,8 @@
             0.909987,
             1.234316
           ],
-          "range": 2.361307,
-          "stationaryRange": 1.532887,
+          "range": 2.361301,
+          "stationaryRange": 1.532881,
           "atSeconds": 1.058113,
           "sourceTime": 1.084253
         },
@@ -2440,8 +2440,8 @@
             0.854,
             1.12
           ],
-          "range": 1.617776,
-          "stationaryRange": 1.767925,
+          "range": 1.617772,
+          "stationaryRange": 1.76792,
           "atSeconds": 0.997882,
           "sourceTime": 1.023273
         },
@@ -2451,8 +2451,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.817745,
-          "stationaryRange": 1.55875,
+          "range": 2.81774,
+          "stationaryRange": 1.558745,
           "atSeconds": 1.109227,
           "sourceTime": 1.148917
         },
@@ -2462,8 +2462,8 @@
             0.748,
             1.04
           ],
-          "range": 1.635124,
-          "stationaryRange": 1.635124,
+          "range": 1.635118,
+          "stationaryRange": 1.635118,
           "atSeconds": 1.031775,
           "sourceTime": 1.031775
         },
@@ -2473,15 +2473,15 @@
             0.748,
             1.04
           ],
-          "range": 1.635124,
-          "stationaryRange": 1.635124,
+          "range": 1.635118,
+          "stationaryRange": 1.635118,
           "atSeconds": 1.031775,
           "sourceTime": 1.031775
         }
       }
     },
     "iron-mace": {
-      "lengthMeters": 0.8,
+      "lengthMeters": 0.800011,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -2489,8 +2489,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.225191,
-          "stationaryRange": 1.218145,
+          "range": 1.225199,
+          "stationaryRange": 1.218153,
           "atSeconds": 0.750425,
           "sourceTime": 0.60034
         },
@@ -2500,8 +2500,8 @@
             0.3978,
             0.6019
           ],
-          "range": 0.990976,
-          "stationaryRange": 1.01606,
+          "range": 0.990981,
+          "stationaryRange": 1.016065,
           "atSeconds": 0.74826,
           "sourceTime": 0.598608
         },
@@ -2511,8 +2511,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.657002,
-          "stationaryRange": 1.523615,
+          "range": 1.657008,
+          "stationaryRange": 1.523622,
           "atSeconds": 0.89067,
           "sourceTime": 0.712536
         },
@@ -2522,8 +2522,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.817699,
-          "stationaryRange": 1.368909,
+          "range": 2.817708,
+          "stationaryRange": 1.368918,
           "atSeconds": 0.90847,
           "sourceTime": 0.726776
         },
@@ -2533,8 +2533,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.401561,
-          "stationaryRange": 1.294085,
+          "range": 1.401563,
+          "stationaryRange": 1.294092,
           "atSeconds": 0.96753,
           "sourceTime": 0.774024
         },
@@ -2544,8 +2544,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.218145,
-          "stationaryRange": 1.218145,
+          "range": 1.218153,
+          "stationaryRange": 1.218153,
           "atSeconds": 0.593992,
           "sourceTime": 0.475193
         },
@@ -2555,15 +2555,15 @@
             0.4225,
             0.6695
           ],
-          "range": 1.218145,
-          "stationaryRange": 1.218145,
+          "range": 1.218153,
+          "stationaryRange": 1.218153,
           "atSeconds": 0.593992,
           "sourceTime": 0.475193
         }
       }
     },
     "steel-mace": {
-      "lengthMeters": 0.8,
+      "lengthMeters": 0.800003,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -2571,8 +2571,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.254029,
-          "stationaryRange": 1.239687,
+          "range": 1.254031,
+          "stationaryRange": 1.239689,
           "atSeconds": 0.750425,
           "sourceTime": 0.60034
         },
@@ -2582,8 +2582,8 @@
             0.3978,
             0.6019
           ],
-          "range": 0.993494,
-          "stationaryRange": 1.023199,
+          "range": 0.993496,
+          "stationaryRange": 1.0232,
           "atSeconds": 0.74826,
           "sourceTime": 0.598608
         },
@@ -2593,8 +2593,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.667806,
-          "stationaryRange": 1.535055,
+          "range": 1.667808,
+          "stationaryRange": 1.535057,
           "atSeconds": 0.89067,
           "sourceTime": 0.712536
         },
@@ -2604,8 +2604,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.849286,
-          "stationaryRange": 1.400184,
+          "range": 2.849289,
+          "stationaryRange": 1.400186,
           "atSeconds": 0.90847,
           "sourceTime": 0.726776
         },
@@ -2615,8 +2615,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.385239,
-          "stationaryRange": 1.313641,
+          "range": 1.38524,
+          "stationaryRange": 1.313643,
           "atSeconds": 0.96753,
           "sourceTime": 0.774024
         },
@@ -2626,8 +2626,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.239687,
-          "stationaryRange": 1.239687,
+          "range": 1.239689,
+          "stationaryRange": 1.239689,
           "atSeconds": 0.593992,
           "sourceTime": 0.475193
         },
@@ -2637,15 +2637,15 @@
             0.4225,
             0.6695
           ],
-          "range": 1.239687,
-          "stationaryRange": 1.239687,
+          "range": 1.239689,
+          "stationaryRange": 1.239689,
           "atSeconds": 0.593992,
           "sourceTime": 0.475193
         }
       }
     },
     "dwarven-mace": {
-      "lengthMeters": 0.8,
+      "lengthMeters": 0.800003,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -2653,8 +2653,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.140932,
-          "stationaryRange": 1.139732,
+          "range": 1.140937,
+          "stationaryRange": 1.139736,
           "atSeconds": 0.750425,
           "sourceTime": 0.60034
         },
@@ -2664,8 +2664,8 @@
             0.3978,
             0.6019
           ],
-          "range": 0.942904,
-          "stationaryRange": 0.94892,
+          "range": 0.942902,
+          "stationaryRange": 0.948923,
           "atSeconds": 0.579548,
           "sourceTime": 0.463639
         },
@@ -2675,8 +2675,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.587298,
-          "stationaryRange": 1.452441,
+          "range": 1.587302,
+          "stationaryRange": 1.452445,
           "atSeconds": 0.886503,
           "sourceTime": 0.709203
         },
@@ -2686,8 +2686,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.732571,
-          "stationaryRange": 1.282948,
+          "range": 2.732576,
+          "stationaryRange": 1.282953,
           "atSeconds": 0.904306,
           "sourceTime": 0.723445
         },
@@ -2697,8 +2697,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.350873,
-          "stationaryRange": 1.216389,
+          "range": 1.350875,
+          "stationaryRange": 1.216393,
           "atSeconds": 0.96753,
           "sourceTime": 0.774024
         },
@@ -2708,8 +2708,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.139732,
-          "stationaryRange": 1.139732,
+          "range": 1.139736,
+          "stationaryRange": 1.139736,
           "atSeconds": 0.593992,
           "sourceTime": 0.475193
         },
@@ -2719,15 +2719,15 @@
             0.4225,
             0.6695
           ],
-          "range": 1.139732,
-          "stationaryRange": 1.139732,
+          "range": 1.139736,
+          "stationaryRange": 1.139736,
           "atSeconds": 0.593992,
           "sourceTime": 0.475193
         }
       }
     },
     "iron-warhammer": {
-      "lengthMeters": 1.3,
+      "lengthMeters": 1.300018,
       "attacks": {
         "light1": {
           "animation": "GREATAXE_LIGHT_1",
@@ -2735,8 +2735,8 @@
             0.748,
             1.04
           ],
-          "range": 1.822878,
-          "stationaryRange": 1.612584,
+          "range": 1.82289,
+          "stationaryRange": 1.612597,
           "atSeconds": 1.091348,
           "sourceTime": 1.001353
         },
@@ -2746,8 +2746,8 @@
             0.65,
             0.916
           ],
-          "range": 1.350926,
-          "stationaryRange": 1.202504,
+          "range": 1.350938,
+          "stationaryRange": 1.202515,
           "atSeconds": 0.988374,
           "sourceTime": 0.91171
         },
@@ -2757,8 +2757,8 @@
             0.909987,
             1.234316
           ],
-          "range": 2.457613,
-          "stationaryRange": 1.509801,
+          "range": 2.457626,
+          "stationaryRange": 1.509812,
           "atSeconds": 1.209951,
           "sourceTime": 1.095935
         },
@@ -2768,8 +2768,8 @@
             0.854,
             1.12
           ],
-          "range": 1.573054,
-          "stationaryRange": 1.740539,
+          "range": 1.573064,
+          "stationaryRange": 1.74055,
           "atSeconds": 1.132721,
           "sourceTime": 1.025613
         },
@@ -2779,8 +2779,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.986626,
-          "stationaryRange": 1.534005,
+          "range": 2.986637,
+          "stationaryRange": 1.534017,
           "atSeconds": 1.24953,
           "sourceTime": 1.141567
         },
@@ -2790,8 +2790,8 @@
             0.748,
             1.04
           ],
-          "range": 1.613028,
-          "stationaryRange": 1.613028,
+          "range": 1.613041,
+          "stationaryRange": 1.613041,
           "atSeconds": 1.169912,
           "sourceTime": 1.0327
         },
@@ -2801,15 +2801,15 @@
             0.748,
             1.04
           ],
-          "range": 1.613028,
-          "stationaryRange": 1.613028,
+          "range": 1.613041,
+          "stationaryRange": 1.613041,
           "atSeconds": 1.169912,
           "sourceTime": 1.0327
         }
       }
     },
     "steel-warhammer": {
-      "lengthMeters": 1.299999,
+      "lengthMeters": 1.300018,
       "attacks": {
         "light1": {
           "animation": "GREATAXE_LIGHT_1",
@@ -2817,8 +2817,8 @@
             0.748,
             1.04
           ],
-          "range": 1.708961,
-          "stationaryRange": 1.497858,
+          "range": 1.708972,
+          "stationaryRange": 1.497868,
           "atSeconds": 1.087213,
           "sourceTime": 0.997059
         },
@@ -2828,8 +2828,8 @@
             0.65,
             0.916
           ],
-          "range": 1.250075,
-          "stationaryRange": 1.11205,
+          "range": 1.250085,
+          "stationaryRange": 1.112059,
           "atSeconds": 0.988374,
           "sourceTime": 0.91171
         },
@@ -2839,8 +2839,8 @@
             0.909987,
             1.234316
           ],
-          "range": 2.34523,
-          "stationaryRange": 1.408833,
+          "range": 2.345241,
+          "stationaryRange": 1.408843,
           "atSeconds": 1.205787,
           "sourceTime": 1.091611
         },
@@ -2850,8 +2850,8 @@
             0.854,
             1.12
           ],
-          "range": 1.501134,
-          "stationaryRange": 1.667668,
+          "range": 1.501142,
+          "stationaryRange": 1.667676,
           "atSeconds": 1.12859,
           "sourceTime": 1.021323
         },
@@ -2861,8 +2861,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.892666,
-          "stationaryRange": 1.436836,
+          "range": 2.892676,
+          "stationaryRange": 1.436846,
           "atSeconds": 1.24953,
           "sourceTime": 1.141567
         },
@@ -2872,8 +2872,8 @@
             0.748,
             1.04
           ],
-          "range": 1.498175,
-          "stationaryRange": 1.498175,
+          "range": 1.498186,
+          "stationaryRange": 1.498186,
           "atSeconds": 1.169912,
           "sourceTime": 1.0327
         },
@@ -2883,15 +2883,15 @@
             0.748,
             1.04
           ],
-          "range": 1.498175,
-          "stationaryRange": 1.498175,
+          "range": 1.498186,
+          "stationaryRange": 1.498186,
           "atSeconds": 1.169912,
           "sourceTime": 1.0327
         }
       }
     },
     "orcish-warhammer": {
-      "lengthMeters": 1.3,
+      "lengthMeters": 1.299988,
       "attacks": {
         "light1": {
           "animation": "GREATAXE_LIGHT_1",
@@ -2899,8 +2899,8 @@
             0.748,
             1.04
           ],
-          "range": 1.735518,
-          "stationaryRange": 1.524932,
+          "range": 1.735515,
+          "stationaryRange": 1.524929,
           "atSeconds": 1.087213,
           "sourceTime": 0.997059
         },
@@ -2910,8 +2910,8 @@
             0.65,
             0.916
           ],
-          "range": 1.268723,
-          "stationaryRange": 1.124194,
+          "range": 1.268721,
+          "stationaryRange": 1.124192,
           "atSeconds": 0.988374,
           "sourceTime": 0.91171
         },
@@ -2921,8 +2921,8 @@
             0.909987,
             1.234316
           ],
-          "range": 2.370864,
-          "stationaryRange": 1.42766,
+          "range": 2.370861,
+          "stationaryRange": 1.427658,
           "atSeconds": 1.205787,
           "sourceTime": 1.091611
         },
@@ -2932,8 +2932,8 @@
             0.854,
             1.12
           ],
-          "range": 1.50136,
-          "stationaryRange": 1.668011,
+          "range": 1.501358,
+          "stationaryRange": 1.668008,
           "atSeconds": 1.12859,
           "sourceTime": 1.021323
         },
@@ -2943,8 +2943,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.907704,
-          "stationaryRange": 1.453285,
+          "range": 2.907701,
+          "stationaryRange": 1.453282,
           "atSeconds": 1.24953,
           "sourceTime": 1.141567
         },
@@ -2954,8 +2954,8 @@
             0.748,
             1.04
           ],
-          "range": 1.525326,
-          "stationaryRange": 1.525326,
+          "range": 1.525323,
+          "stationaryRange": 1.525323,
           "atSeconds": 1.169912,
           "sourceTime": 1.0327
         },
@@ -2965,15 +2965,15 @@
             0.748,
             1.04
           ],
-          "range": 1.525326,
-          "stationaryRange": 1.525326,
+          "range": 1.525323,
+          "stationaryRange": 1.525323,
           "atSeconds": 1.169912,
           "sourceTime": 1.0327
         }
       }
     },
     "iron-rapier": {
-      "lengthMeters": 1.1,
+      "lengthMeters": 1.100014,
       "attacks": {
         "light1": {
           "animation": "RAPIER_LIGHT_1",
@@ -2981,8 +2981,8 @@
             0.2808,
             0.6045
           ],
-          "range": 1.882482,
-          "stationaryRange": 1.726813,
+          "range": 1.882492,
+          "stationaryRange": 1.726823,
           "atSeconds": 0.47949,
           "sourceTime": 0.599362
         },
@@ -2992,8 +2992,8 @@
             0.3783,
             0.572
           ],
-          "range": 1.647315,
-          "stationaryRange": 1.688638,
+          "range": 1.647324,
+          "stationaryRange": 1.688647,
           "atSeconds": 0.453522,
           "sourceTime": 0.566903
         },
@@ -3003,8 +3003,8 @@
             0.33334,
             0.655013
           ],
-          "range": 2.121275,
-          "stationaryRange": 1.84424,
+          "range": 2.121285,
+          "stationaryRange": 1.84425,
           "atSeconds": 0.51986,
           "sourceTime": 0.649825
         },
@@ -3014,8 +3014,8 @@
             0.479514,
             0.71052
           ],
-          "range": 2.108047,
-          "stationaryRange": 1.277958,
+          "range": 2.108048,
+          "stationaryRange": 1.277964,
           "atSeconds": 0.564309,
           "sourceTime": 0.705387
         },
@@ -3025,8 +3025,8 @@
             0.579481,
             0.835054
           ],
-          "range": 1.255732,
-          "stationaryRange": 1.2467,
+          "range": 1.255733,
+          "stationaryRange": 1.246706,
           "atSeconds": 0.663954,
           "sourceTime": 0.829942
         },
@@ -3036,8 +3036,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.346952,
-          "stationaryRange": 1.346952,
+          "range": 1.346961,
+          "stationaryRange": 1.346961,
           "atSeconds": 0.32,
           "sourceTime": 0.5667
         },
@@ -3047,15 +3047,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.805401,
-          "stationaryRange": 0.805401,
+          "range": 0.805403,
+          "stationaryRange": 0.805403,
           "atSeconds": 1.25336,
           "sourceTime": 1.5667
         }
       }
     },
     "steel-rapier": {
-      "lengthMeters": 1.1,
+      "lengthMeters": 1.099991,
       "attacks": {
         "light1": {
           "animation": "RAPIER_LIGHT_1",
@@ -3063,8 +3063,8 @@
             0.2808,
             0.6045
           ],
-          "range": 1.89452,
-          "stationaryRange": 1.73886,
+          "range": 1.89451,
+          "stationaryRange": 1.73885,
           "atSeconds": 0.47949,
           "sourceTime": 0.599362
         },
@@ -3074,8 +3074,8 @@
             0.3783,
             0.572
           ],
-          "range": 1.659349,
-          "stationaryRange": 1.700671,
+          "range": 1.659339,
+          "stationaryRange": 1.700661,
           "atSeconds": 0.453522,
           "sourceTime": 0.566903
         },
@@ -3085,8 +3085,8 @@
             0.33334,
             0.655013
           ],
-          "range": 2.133346,
-          "stationaryRange": 1.856311,
+          "range": 2.133336,
+          "stationaryRange": 1.856301,
           "atSeconds": 0.51986,
           "sourceTime": 0.649825
         },
@@ -3097,7 +3097,7 @@
             0.71052
           ],
           "range": 2.121044,
-          "stationaryRange": 1.292128,
+          "stationaryRange": 1.292121,
           "atSeconds": 0.564309,
           "sourceTime": 0.705387
         },
@@ -3107,8 +3107,8 @@
             0.579481,
             0.835054
           ],
-          "range": 1.261844,
-          "stationaryRange": 1.260869,
+          "range": 1.261845,
+          "stationaryRange": 1.260862,
           "atSeconds": 0.663954,
           "sourceTime": 0.829942
         },
@@ -3118,8 +3118,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.359554,
-          "stationaryRange": 1.359554,
+          "range": 1.359545,
+          "stationaryRange": 1.359545,
           "atSeconds": 0.32,
           "sourceTime": 0.5667
         },
@@ -3129,15 +3129,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.82202,
-          "stationaryRange": 0.82202,
+          "range": 0.822018,
+          "stationaryRange": 0.822018,
           "atSeconds": 1.25336,
           "sourceTime": 1.5667
         }
       }
     },
     "elven-rapier": {
-      "lengthMeters": 1.1,
+      "lengthMeters": 1.099991,
       "attacks": {
         "light1": {
           "animation": "RAPIER_LIGHT_1",
@@ -3145,8 +3145,8 @@
             0.2808,
             0.6045
           ],
-          "range": 1.914822,
-          "stationaryRange": 1.759123,
+          "range": 1.914814,
+          "stationaryRange": 1.759115,
           "atSeconds": 0.47949,
           "sourceTime": 0.599362
         },
@@ -3156,8 +3156,8 @@
             0.3783,
             0.572
           ],
-          "range": 1.679666,
-          "stationaryRange": 1.720992,
+          "range": 1.679659,
+          "stationaryRange": 1.720984,
           "atSeconds": 0.453522,
           "sourceTime": 0.566903
         },
@@ -3167,8 +3167,8 @@
             0.33334,
             0.655013
           ],
-          "range": 2.153504,
-          "stationaryRange": 1.876465,
+          "range": 2.153496,
+          "stationaryRange": 1.876458,
           "atSeconds": 0.51986,
           "sourceTime": 0.649825
         },
@@ -3178,8 +3178,8 @@
             0.479514,
             0.71052
           ],
-          "range": 2.113104,
-          "stationaryRange": 1.303109,
+          "range": 2.113105,
+          "stationaryRange": 1.303104,
           "atSeconds": 0.564309,
           "sourceTime": 0.705387
         },
@@ -3189,8 +3189,8 @@
             0.579481,
             0.835054
           ],
-          "range": 1.249227,
-          "stationaryRange": 1.271871,
+          "range": 1.249228,
+          "stationaryRange": 1.271867,
           "atSeconds": 0.663954,
           "sourceTime": 0.829942
         },
@@ -3200,8 +3200,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.377452,
-          "stationaryRange": 1.377452,
+          "range": 1.377445,
+          "stationaryRange": 1.377445,
           "atSeconds": 0.32,
           "sourceTime": 0.5667
         },
@@ -3211,15 +3211,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.822049,
-          "stationaryRange": 0.822049,
+          "range": 0.822048,
+          "stationaryRange": 0.822048,
           "atSeconds": 1.25336,
           "sourceTime": 1.5667
         }
       }
     },
     "ebony-rapier": {
-      "lengthMeters": 1.1,
+      "lengthMeters": 1.100006,
       "attacks": {
         "light1": {
           "animation": "RAPIER_LIGHT_1",
@@ -3227,8 +3227,8 @@
             0.2808,
             0.6045
           ],
-          "range": 1.877031,
-          "stationaryRange": 1.721327,
+          "range": 1.877036,
+          "stationaryRange": 1.721332,
           "atSeconds": 0.47949,
           "sourceTime": 0.599362
         },
@@ -3238,8 +3238,8 @@
             0.3783,
             0.572
           ],
-          "range": 1.641878,
-          "stationaryRange": 1.683203,
+          "range": 1.641883,
+          "stationaryRange": 1.683209,
           "atSeconds": 0.453522,
           "sourceTime": 0.566903
         },
@@ -3249,8 +3249,8 @@
             0.33334,
             0.655013
           ],
-          "range": 2.115692,
-          "stationaryRange": 1.838653,
+          "range": 2.115698,
+          "stationaryRange": 1.838658,
           "atSeconds": 0.51986,
           "sourceTime": 0.649825
         },
@@ -3261,7 +3261,7 @@
             0.71052
           ],
           "range": 2.084718,
-          "stationaryRange": 1.263999,
+          "stationaryRange": 1.264003,
           "atSeconds": 0.564309,
           "sourceTime": 0.705387
         },
@@ -3271,8 +3271,8 @@
             0.579481,
             0.835054
           ],
-          "range": 1.239708,
-          "stationaryRange": 1.232768,
+          "range": 1.239707,
+          "stationaryRange": 1.232772,
           "atSeconds": 0.663954,
           "sourceTime": 0.829942
         },
@@ -3282,8 +3282,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.339334,
-          "stationaryRange": 1.339334,
+          "range": 1.339339,
+          "stationaryRange": 1.339339,
           "atSeconds": 0.32,
           "sourceTime": 0.5667
         },
@@ -3293,15 +3293,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.781339,
-          "stationaryRange": 0.781339,
+          "range": 0.78134,
+          "stationaryRange": 0.78134,
           "atSeconds": 1.25336,
           "sourceTime": 1.5667
         }
       }
     },
     "iron-katana": {
-      "lengthMeters": 1.05,
+      "lengthMeters": 1.050011,
       "attacks": {
         "light1": {
           "animation": "KATANA_LIGHT_1",
@@ -3309,8 +3309,8 @@
             0.4108,
             0.6045
           ],
-          "range": 1.207398,
-          "stationaryRange": 1.163131,
+          "range": 1.207407,
+          "stationaryRange": 1.16314,
           "atSeconds": 0.566097,
           "sourceTime": 0.595891
         },
@@ -3320,8 +3320,8 @@
             0.4355,
             0.702
           ],
-          "range": 1.523246,
-          "stationaryRange": 1.402636,
+          "range": 1.523256,
+          "stationaryRange": 1.402645,
           "atSeconds": 0.56314,
           "sourceTime": 0.592779
         },
@@ -3331,8 +3331,8 @@
             0.6104,
             1.1396
           ],
-          "range": 2.001121,
-          "stationaryRange": 1.317326,
+          "range": 2.001131,
+          "stationaryRange": 1.317336,
           "atSeconds": 0.854102,
           "sourceTime": 0.899055
         },
@@ -3342,8 +3342,8 @@
             1.0575,
             1.2345
           ],
-          "range": 3.051251,
-          "stationaryRange": 1.25974,
+          "range": 3.051256,
+          "stationaryRange": 1.259751,
           "atSeconds": 1.094852,
           "sourceTime": 1.152476
         },
@@ -3353,8 +3353,8 @@
             0.5025,
             0.7035
           ],
-          "range": 2.636262,
-          "stationaryRange": 1.529568,
+          "range": 2.636268,
+          "stationaryRange": 1.529578,
           "atSeconds": 0.614361,
           "sourceTime": 0.646696
         },
@@ -3364,8 +3364,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.269994,
-          "stationaryRange": 1.269994,
+          "range": 1.270003,
+          "stationaryRange": 1.270003,
           "atSeconds": 0.38,
           "sourceTime": 0.5667
         },
@@ -3375,15 +3375,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.747757,
-          "stationaryRange": 0.747757,
+          "range": 0.747759,
+          "stationaryRange": 0.747759,
           "atSeconds": 1.488365,
           "sourceTime": 1.5667
         }
       }
     },
     "steel-katana": {
-      "lengthMeters": 1.05,
+      "lengthMeters": 1.050011,
       "attacks": {
         "light1": {
           "animation": "KATANA_LIGHT_1",
@@ -3391,8 +3391,8 @@
             0.4108,
             0.6045
           ],
-          "range": 1.215981,
-          "stationaryRange": 1.172184,
+          "range": 1.215986,
+          "stationaryRange": 1.17219,
           "atSeconds": 0.566097,
           "sourceTime": 0.595891
         },
@@ -3402,8 +3402,8 @@
             0.4355,
             0.702
           ],
-          "range": 1.532715,
-          "stationaryRange": 1.411973,
+          "range": 1.532722,
+          "stationaryRange": 1.41198,
           "atSeconds": 0.56314,
           "sourceTime": 0.592779
         },
@@ -3413,8 +3413,8 @@
             0.6104,
             1.1396
           ],
-          "range": 2.011218,
-          "stationaryRange": 1.327424,
+          "range": 2.011225,
+          "stationaryRange": 1.327431,
           "atSeconds": 0.854102,
           "sourceTime": 0.899055
         },
@@ -3424,8 +3424,8 @@
             1.0575,
             1.2345
           ],
-          "range": 3.055691,
-          "stationaryRange": 1.269768,
+          "range": 3.055694,
+          "stationaryRange": 1.269775,
           "atSeconds": 1.094852,
           "sourceTime": 1.152476
         },
@@ -3435,8 +3435,8 @@
             0.5025,
             0.7035
           ],
-          "range": 2.641642,
-          "stationaryRange": 1.539065,
+          "range": 2.641645,
+          "stationaryRange": 1.539072,
           "atSeconds": 0.614361,
           "sourceTime": 0.646696
         },
@@ -3446,8 +3446,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.279039,
-          "stationaryRange": 1.279039,
+          "range": 1.279045,
+          "stationaryRange": 1.279045,
           "atSeconds": 0.38,
           "sourceTime": 0.5667
         },
@@ -3457,15 +3457,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.749715,
-          "stationaryRange": 0.749715,
+          "range": 0.749716,
+          "stationaryRange": 0.749716,
           "atSeconds": 1.488365,
           "sourceTime": 1.5667
         }
       }
     },
     "elven-katana": {
-      "lengthMeters": 1.05,
+      "lengthMeters": 1.049988,
       "attacks": {
         "light1": {
           "animation": "KATANA_LIGHT_1",
@@ -3473,8 +3473,8 @@
             0.4108,
             0.6045
           ],
-          "range": 1.202557,
-          "stationaryRange": 1.158028,
+          "range": 1.202549,
+          "stationaryRange": 1.15802,
           "atSeconds": 0.566097,
           "sourceTime": 0.595891
         },
@@ -3484,8 +3484,8 @@
             0.4355,
             0.702
           ],
-          "range": 1.517905,
-          "stationaryRange": 1.397381,
+          "range": 1.517896,
+          "stationaryRange": 1.397372,
           "atSeconds": 0.56314,
           "sourceTime": 0.592779
         },
@@ -3495,8 +3495,8 @@
             0.6104,
             1.1396
           ],
-          "range": 1.995422,
-          "stationaryRange": 1.311626,
+          "range": 1.995412,
+          "stationaryRange": 1.311616,
           "atSeconds": 0.854102,
           "sourceTime": 0.899055
         },
@@ -3506,8 +3506,8 @@
             1.0575,
             1.2345
           ],
-          "range": 3.048745,
-          "stationaryRange": 1.25408,
+          "range": 3.048741,
+          "stationaryRange": 1.254071,
           "atSeconds": 1.094852,
           "sourceTime": 1.152476
         },
@@ -3517,8 +3517,8 @@
             0.5025,
             0.7035
           ],
-          "range": 2.633228,
-          "stationaryRange": 1.52421,
+          "range": 2.633223,
+          "stationaryRange": 1.524201,
           "atSeconds": 0.614361,
           "sourceTime": 0.646696
         },
@@ -3528,8 +3528,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.264907,
-          "stationaryRange": 1.264907,
+          "range": 1.264898,
+          "stationaryRange": 1.264898,
           "atSeconds": 0.38,
           "sourceTime": 0.5667
         },
@@ -3539,15 +3539,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.746653,
-          "stationaryRange": 0.746653,
+          "range": 0.746651,
+          "stationaryRange": 0.746651,
           "atSeconds": 1.488365,
           "sourceTime": 1.5667
         }
       }
     },
     "ebony-katana": {
-      "lengthMeters": 1.05,
+      "lengthMeters": 1.049995,
       "attacks": {
         "light1": {
           "animation": "KATANA_LIGHT_1",
@@ -3555,8 +3555,8 @@
             0.4108,
             0.6045
           ],
-          "range": 1.197343,
-          "stationaryRange": 1.152538,
+          "range": 1.197341,
+          "stationaryRange": 1.152535,
           "atSeconds": 0.566097,
           "sourceTime": 0.595891
         },
@@ -3566,8 +3566,8 @@
             0.4355,
             0.702
           ],
-          "range": 1.512154,
-          "stationaryRange": 1.391724,
+          "range": 1.512151,
+          "stationaryRange": 1.391722,
           "atSeconds": 0.56314,
           "sourceTime": 0.592779
         },
@@ -3577,8 +3577,8 @@
             0.6104,
             1.1396
           ],
-          "range": 1.989281,
-          "stationaryRange": 1.305485,
+          "range": 1.989278,
+          "stationaryRange": 1.305482,
           "atSeconds": 0.854102,
           "sourceTime": 0.899055
         },
@@ -3588,8 +3588,8 @@
             1.0575,
             1.2345
           ],
-          "range": 3.046045,
-          "stationaryRange": 1.247982,
+          "range": 3.046044,
+          "stationaryRange": 1.247979,
           "atSeconds": 1.094852,
           "sourceTime": 1.152476
         },
@@ -3599,8 +3599,8 @@
             0.5025,
             0.7035
           ],
-          "range": 2.629962,
-          "stationaryRange": 1.518439,
+          "range": 2.62996,
+          "stationaryRange": 1.518437,
           "atSeconds": 0.614361,
           "sourceTime": 0.646696
         },
@@ -3610,8 +3610,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.259441,
-          "stationaryRange": 1.259441,
+          "range": 1.259438,
+          "stationaryRange": 1.259438,
           "atSeconds": 0.38,
           "sourceTime": 0.5667
         },
@@ -3621,15 +3621,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.745463,
-          "stationaryRange": 0.745463,
+          "range": 0.745462,
+          "stationaryRange": 0.745462,
           "atSeconds": 1.488365,
           "sourceTime": 1.5667
         }
       }
     },
     "iron-claw": {
-      "lengthMeters": 0.206958,
+      "lengthMeters": 0.206959,
       "attacks": {
         "light1": {
           "animation": "CLAW_LIGHT_1",
@@ -3637,8 +3637,8 @@
             0.4602,
             0.702
           ],
-          "range": 1.016172,
-          "stationaryRange": 1.073191,
+          "range": 1.01617,
+          "stationaryRange": 1.07319,
           "atSeconds": 0.411289,
           "sourceTime": 0.555795
         },
@@ -3648,8 +3648,8 @@
             0.4758,
             0.702
           ],
-          "range": 1.010159,
-          "stationaryRange": 1.030159,
+          "range": 1.010158,
+          "stationaryRange": 1.030157,
           "atSeconds": 0.421497,
           "sourceTime": 0.56959
         },
@@ -3659,8 +3659,8 @@
             0.6104,
             1.1396
           ],
-          "range": 1.423935,
-          "stationaryRange": 1.19996,
+          "range": 1.423933,
+          "stationaryRange": 1.199958,
           "atSeconds": 0.535017,
           "sourceTime": 0.722996
         },
@@ -3670,8 +3670,8 @@
             0.487681,
             0.662686
           ],
-          "range": 1.345687,
-          "stationaryRange": 1.208618,
+          "range": 1.345685,
+          "stationaryRange": 1.208617,
           "atSeconds": 0.421589,
           "sourceTime": 0.569714
         },
@@ -3681,8 +3681,8 @@
             0.4927,
             0.6695
           ],
-          "range": 1.056137,
-          "stationaryRange": 1.159388,
+          "range": 1.056136,
+          "stationaryRange": 1.159386,
           "atSeconds": 0.44228,
           "sourceTime": 0.597675
         },
@@ -3692,8 +3692,8 @@
             0.4602,
             0.702
           ],
-          "range": 1.073191,
-          "stationaryRange": 1.073191,
+          "range": 1.07319,
+          "stationaryRange": 1.07319,
           "atSeconds": 0.41545,
           "sourceTime": 0.561419
         },
@@ -3703,8 +3703,8 @@
             0.4602,
             0.702
           ],
-          "range": 1.073191,
-          "stationaryRange": 1.073191,
+          "range": 1.07319,
+          "stationaryRange": 1.07319,
           "atSeconds": 0.41545,
           "sourceTime": 0.561419
         }
@@ -3719,8 +3719,8 @@
             0.4602,
             0.702
           ],
-          "range": 1.016028,
-          "stationaryRange": 1.073086,
+          "range": 1.016027,
+          "stationaryRange": 1.073084,
           "atSeconds": 0.411289,
           "sourceTime": 0.555795
         },
@@ -3730,8 +3730,8 @@
             0.4758,
             0.702
           ],
-          "range": 1.010134,
-          "stationaryRange": 1.030108,
+          "range": 1.010133,
+          "stationaryRange": 1.030107,
           "atSeconds": 0.421497,
           "sourceTime": 0.56959
         },
@@ -3741,8 +3741,8 @@
             0.6104,
             1.1396
           ],
-          "range": 1.423849,
-          "stationaryRange": 1.199879,
+          "range": 1.423848,
+          "stationaryRange": 1.199878,
           "atSeconds": 0.535017,
           "sourceTime": 0.722996
         },
@@ -3752,8 +3752,8 @@
             0.487681,
             0.662686
           ],
-          "range": 1.345453,
-          "stationaryRange": 1.208527,
+          "range": 1.345452,
+          "stationaryRange": 1.208526,
           "atSeconds": 0.421589,
           "sourceTime": 0.569714
         },
@@ -3763,8 +3763,8 @@
             0.4927,
             0.6695
           ],
-          "range": 1.05619,
-          "stationaryRange": 1.159284,
+          "range": 1.056189,
+          "stationaryRange": 1.159283,
           "atSeconds": 0.44228,
           "sourceTime": 0.597675
         },
@@ -3774,8 +3774,8 @@
             0.4602,
             0.702
           ],
-          "range": 1.073086,
-          "stationaryRange": 1.073086,
+          "range": 1.073084,
+          "stationaryRange": 1.073084,
           "atSeconds": 0.41545,
           "sourceTime": 0.561419
         },
@@ -3785,15 +3785,15 @@
             0.4602,
             0.702
           ],
-          "range": 1.073086,
-          "stationaryRange": 1.073086,
+          "range": 1.073084,
+          "stationaryRange": 1.073084,
           "atSeconds": 0.41545,
           "sourceTime": 0.561419
         }
       }
     },
     "elven-claw": {
-      "lengthMeters": 0.263358,
+      "lengthMeters": 0.263359,
       "attacks": {
         "light1": {
           "animation": "CLAW_LIGHT_1",
@@ -3801,8 +3801,8 @@
             0.4602,
             0.702
           ],
-          "range": 1.015987,
-          "stationaryRange": 1.073056,
+          "range": 1.015984,
+          "stationaryRange": 1.073053,
           "atSeconds": 0.411289,
           "sourceTime": 0.555795
         },
@@ -3812,8 +3812,8 @@
             0.4758,
             0.702
           ],
-          "range": 1.010127,
-          "stationaryRange": 1.030094,
+          "range": 1.010125,
+          "stationaryRange": 1.030092,
           "atSeconds": 0.421497,
           "sourceTime": 0.56959
         },
@@ -3823,8 +3823,8 @@
             0.6104,
             1.1396
           ],
-          "range": 1.423825,
-          "stationaryRange": 1.199856,
+          "range": 1.423822,
+          "stationaryRange": 1.199854,
           "atSeconds": 0.535017,
           "sourceTime": 0.722996
         },
@@ -3834,8 +3834,8 @@
             0.487681,
             0.662686
           ],
-          "range": 1.345387,
-          "stationaryRange": 1.208501,
+          "range": 1.345383,
+          "stationaryRange": 1.208499,
           "atSeconds": 0.421589,
           "sourceTime": 0.569714
         },
@@ -3845,8 +3845,8 @@
             0.4927,
             0.6695
           ],
-          "range": 1.056205,
-          "stationaryRange": 1.159255,
+          "range": 1.056204,
+          "stationaryRange": 1.159252,
           "atSeconds": 0.44228,
           "sourceTime": 0.597675
         },
@@ -3856,8 +3856,8 @@
             0.4602,
             0.702
           ],
-          "range": 1.073056,
-          "stationaryRange": 1.073056,
+          "range": 1.073053,
+          "stationaryRange": 1.073053,
           "atSeconds": 0.41545,
           "sourceTime": 0.561419
         },
@@ -3867,15 +3867,15 @@
             0.4602,
             0.702
           ],
-          "range": 1.073056,
-          "stationaryRange": 1.073056,
+          "range": 1.073053,
+          "stationaryRange": 1.073053,
           "atSeconds": 0.41545,
           "sourceTime": 0.561419
         }
       }
     },
     "ebony-claw": {
-      "lengthMeters": 0.150008,
+      "lengthMeters": 0.150009,
       "attacks": {
         "light1": {
           "animation": "CLAW_LIGHT_1",
@@ -3883,8 +3883,8 @@
             0.4602,
             0.702
           ],
-          "range": 1.016143,
-          "stationaryRange": 1.07317,
+          "range": 1.016142,
+          "stationaryRange": 1.073169,
           "atSeconds": 0.411289,
           "sourceTime": 0.555795
         },
@@ -3894,8 +3894,8 @@
             0.4758,
             0.702
           ],
-          "range": 1.010154,
-          "stationaryRange": 1.030149,
+          "range": 1.010153,
+          "stationaryRange": 1.030147,
           "atSeconds": 0.421497,
           "sourceTime": 0.56959
         },
@@ -3905,8 +3905,8 @@
             0.6104,
             1.1396
           ],
-          "range": 1.423918,
-          "stationaryRange": 1.199944,
+          "range": 1.423916,
+          "stationaryRange": 1.199942,
           "atSeconds": 0.535017,
           "sourceTime": 0.722996
         },
@@ -3916,8 +3916,8 @@
             0.487681,
             0.662686
           ],
-          "range": 1.34564,
-          "stationaryRange": 1.2086,
+          "range": 1.345639,
+          "stationaryRange": 1.208599,
           "atSeconds": 0.421589,
           "sourceTime": 0.569714
         },
@@ -3927,8 +3927,8 @@
             0.4927,
             0.6695
           ],
-          "range": 1.056148,
-          "stationaryRange": 1.159367,
+          "range": 1.056146,
+          "stationaryRange": 1.159366,
           "atSeconds": 0.44228,
           "sourceTime": 0.597675
         },
@@ -3938,8 +3938,8 @@
             0.4602,
             0.702
           ],
-          "range": 1.07317,
-          "stationaryRange": 1.07317,
+          "range": 1.073169,
+          "stationaryRange": 1.073169,
           "atSeconds": 0.41545,
           "sourceTime": 0.561419
         },
@@ -3949,15 +3949,15 @@
             0.4602,
             0.702
           ],
-          "range": 1.07317,
-          "stationaryRange": 1.07317,
+          "range": 1.073169,
+          "stationaryRange": 1.073169,
           "atSeconds": 0.41545,
           "sourceTime": 0.561419
         }
       }
     },
     "iron-pike": {
-      "lengthMeters": 2.5,
+      "lengthMeters": 2.499985,
       "attacks": {
         "light1": {
           "animation": "PIKE_LIGHT_1",
@@ -3965,8 +3965,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.607384,
-          "stationaryRange": 2.442331,
+          "range": 2.60737,
+          "stationaryRange": 2.442317,
           "atSeconds": 0.717364,
           "sourceTime": 0.803448
         },
@@ -3976,8 +3976,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.607384,
-          "stationaryRange": 2.442331,
+          "range": 2.60737,
+          "stationaryRange": 2.442317,
           "atSeconds": 0.717364,
           "sourceTime": 0.803448
         },
@@ -3987,8 +3987,8 @@
             1.39162,
             1.803425
           ],
-          "range": 4.152281,
-          "stationaryRange": 2.755139,
+          "range": 4.152266,
+          "stationaryRange": 2.755125,
           "atSeconds": 1.242517,
           "sourceTime": 1.39162
         },
@@ -3998,8 +3998,8 @@
             0.70291,
             1.145483
           ],
-          "range": 2.488565,
-          "stationaryRange": 2.402383,
+          "range": 2.488551,
+          "stationaryRange": 2.402369,
           "atSeconds": 1.018593,
           "sourceTime": 1.140824
         },
@@ -4009,8 +4009,8 @@
             0.653209,
             1.145483
           ],
-          "range": 2.268526,
-          "stationaryRange": 2.446377,
+          "range": 2.268512,
+          "stationaryRange": 2.446363,
           "atSeconds": 1.018606,
           "sourceTime": 1.140839
         },
@@ -4020,8 +4020,8 @@
             2.975,
             3.255
           ],
-          "range": 2.391907,
-          "stationaryRange": 2.391907,
+          "range": 2.391891,
+          "stationaryRange": 2.391891,
           "atSeconds": 0.455504,
           "sourceTime": 3.085164
         },
@@ -4031,15 +4031,15 @@
             2.975,
             3.255
           ],
-          "range": 2.391907,
-          "stationaryRange": 2.391907,
+          "range": 2.391891,
+          "stationaryRange": 2.391891,
           "atSeconds": 0.455504,
           "sourceTime": 3.085164
         }
       }
     },
     "steel-pike": {
-      "lengthMeters": 2.5,
+      "lengthMeters": 2.500061,
       "attacks": {
         "light1": {
           "animation": "PIKE_LIGHT_1",
@@ -4047,8 +4047,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.661986,
-          "stationaryRange": 2.496967,
+          "range": 2.662037,
+          "stationaryRange": 2.497017,
           "atSeconds": 0.717364,
           "sourceTime": 0.803448
         },
@@ -4058,8 +4058,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.661986,
-          "stationaryRange": 2.496967,
+          "range": 2.662037,
+          "stationaryRange": 2.497017,
           "atSeconds": 0.717364,
           "sourceTime": 0.803448
         },
@@ -4069,8 +4069,8 @@
             1.39162,
             1.803425
           ],
-          "range": 4.206848,
-          "stationaryRange": 2.809653,
+          "range": 4.206899,
+          "stationaryRange": 2.809704,
           "atSeconds": 1.242517,
           "sourceTime": 1.39162
         },
@@ -4080,8 +4080,8 @@
             0.70291,
             1.145483
           ],
-          "range": 2.544046,
-          "stationaryRange": 2.457044,
+          "range": 2.544094,
+          "stationaryRange": 2.457095,
           "atSeconds": 1.018593,
           "sourceTime": 1.140824
         },
@@ -4091,8 +4091,8 @@
             0.653209,
             1.145483
           ],
-          "range": 2.323111,
-          "stationaryRange": 2.500929,
+          "range": 2.323162,
+          "stationaryRange": 2.50098,
           "atSeconds": 1.018606,
           "sourceTime": 1.140839
         },
@@ -4102,8 +4102,8 @@
             2.975,
             3.255
           ],
-          "range": 2.44456,
-          "stationaryRange": 2.44456,
+          "range": 2.444616,
+          "stationaryRange": 2.444616,
           "atSeconds": 0.455504,
           "sourceTime": 3.085164
         },
@@ -4113,15 +4113,15 @@
             2.975,
             3.255
           ],
-          "range": 2.44456,
-          "stationaryRange": 2.44456,
+          "range": 2.444616,
+          "stationaryRange": 2.444616,
           "atSeconds": 0.455504,
           "sourceTime": 3.085164
         }
       }
     },
     "elven-pike": {
-      "lengthMeters": 2.5,
+      "lengthMeters": 2.499985,
       "attacks": {
         "light1": {
           "animation": "PIKE_LIGHT_1",
@@ -4129,8 +4129,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.619828,
-          "stationaryRange": 2.454907,
+          "range": 2.619812,
+          "stationaryRange": 2.454891,
           "atSeconds": 0.717364,
           "sourceTime": 0.803448
         },
@@ -4140,8 +4140,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.619828,
-          "stationaryRange": 2.454907,
+          "range": 2.619812,
+          "stationaryRange": 2.454891,
           "atSeconds": 0.717364,
           "sourceTime": 0.803448
         },
@@ -4151,8 +4151,8 @@
             1.39162,
             1.803425
           ],
-          "range": 4.16459,
-          "stationaryRange": 2.767241,
+          "range": 4.164573,
+          "stationaryRange": 2.767225,
           "atSeconds": 1.242517,
           "sourceTime": 1.39162
         },
@@ -4162,8 +4162,8 @@
             0.70291,
             1.145483
           ],
-          "range": 2.504422,
-          "stationaryRange": 2.415056,
+          "range": 2.504406,
+          "stationaryRange": 2.41504,
           "atSeconds": 1.018593,
           "sourceTime": 1.140824
         },
@@ -4173,8 +4173,8 @@
             0.653209,
             1.145483
           ],
-          "range": 2.280908,
-          "stationaryRange": 2.458629,
+          "range": 2.280892,
+          "stationaryRange": 2.458613,
           "atSeconds": 1.018606,
           "sourceTime": 1.140839
         },
@@ -4184,8 +4184,8 @@
             2.975,
             3.255
           ],
-          "range": 2.396974,
-          "stationaryRange": 2.396974,
+          "range": 2.396956,
+          "stationaryRange": 2.396956,
           "atSeconds": 0.455504,
           "sourceTime": 3.085164
         },
@@ -4195,15 +4195,15 @@
             2.975,
             3.255
           ],
-          "range": 2.396974,
-          "stationaryRange": 2.396974,
+          "range": 2.396956,
+          "stationaryRange": 2.396956,
           "atSeconds": 0.455504,
           "sourceTime": 3.085164
         }
       }
     },
     "ebony-pike": {
-      "lengthMeters": 2.5,
+      "lengthMeters": 2.500031,
       "attacks": {
         "light1": {
           "animation": "PIKE_LIGHT_1",
@@ -4211,8 +4211,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.490814,
-          "stationaryRange": 2.325978,
+          "range": 2.490833,
+          "stationaryRange": 2.325997,
           "atSeconds": 0.717364,
           "sourceTime": 0.803448
         },
@@ -4222,8 +4222,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.490814,
-          "stationaryRange": 2.325978,
+          "range": 2.490833,
+          "stationaryRange": 2.325997,
           "atSeconds": 0.717364,
           "sourceTime": 0.803448
         },
@@ -4233,8 +4233,8 @@
             1.39162,
             1.803425
           ],
-          "range": 4.035486,
-          "stationaryRange": 2.638009,
+          "range": 4.035505,
+          "stationaryRange": 2.638028,
           "atSeconds": 1.242517,
           "sourceTime": 1.39162
         },
@@ -4244,8 +4244,8 @@
             0.70291,
             1.145483
           ],
-          "range": 2.377577,
-          "stationaryRange": 2.286187,
+          "range": 2.377594,
+          "stationaryRange": 2.286206,
           "atSeconds": 1.018593,
           "sourceTime": 1.140824
         },
@@ -4255,8 +4255,8 @@
             0.653209,
             1.145483
           ],
-          "range": 2.151856,
-          "stationaryRange": 2.329494,
+          "range": 2.151875,
+          "stationaryRange": 2.329513,
           "atSeconds": 1.018606,
           "sourceTime": 1.140839
         },
@@ -4266,8 +4266,8 @@
             2.975,
             3.255
           ],
-          "range": 2.263519,
-          "stationaryRange": 2.263519,
+          "range": 2.26354,
+          "stationaryRange": 2.26354,
           "atSeconds": 0.455504,
           "sourceTime": 3.085164
         },
@@ -4277,15 +4277,15 @@
             2.975,
             3.255
           ],
-          "range": 2.263519,
-          "stationaryRange": 2.263519,
+          "range": 2.26354,
+          "stationaryRange": 2.26354,
           "atSeconds": 0.455504,
           "sourceTime": 3.085164
         }
       }
     },
     "iron-spear": {
-      "lengthMeters": 2.1,
+      "lengthMeters": 2.099976,
       "attacks": {
         "light1": {
           "animation": "PIKE_LIGHT_1",
@@ -4293,8 +4293,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.33052,
-          "stationaryRange": 2.165108,
+          "range": 2.330502,
+          "stationaryRange": 2.16509,
           "atSeconds": 0.709018,
           "sourceTime": 0.863152
         },
@@ -4304,8 +4304,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.33052,
-          "stationaryRange": 2.165108,
+          "range": 2.330502,
+          "stationaryRange": 2.16509,
           "atSeconds": 0.709018,
           "sourceTime": 0.863152
         },
@@ -4315,8 +4315,8 @@
             1.39162,
             1.803425
           ],
-          "range": 3.780513,
-          "stationaryRange": 2.475804,
+          "range": 3.780495,
+          "stationaryRange": 2.475787,
           "atSeconds": 1.143116,
           "sourceTime": 1.39162
         },
@@ -4326,8 +4326,8 @@
             0.70291,
             1.145483
           ],
-          "range": 2.219861,
-          "stationaryRange": 2.125282,
+          "range": 2.219845,
+          "stationaryRange": 2.125264,
           "atSeconds": 0.936801,
           "sourceTime": 1.140454
         },
@@ -4337,8 +4337,8 @@
             0.653209,
             1.145483
           ],
-          "range": 1.949816,
-          "stationaryRange": 2.167711,
+          "range": 1.949798,
+          "stationaryRange": 2.167693,
           "atSeconds": 0.936806,
           "sourceTime": 1.14046
         },
@@ -4348,8 +4348,8 @@
             2.975,
             3.255
           ],
-          "range": 2.084153,
-          "stationaryRange": 2.084153,
+          "range": 2.084134,
+          "stationaryRange": 2.084134,
           "atSeconds": 0.418929,
           "sourceTime": 3.085
         },
@@ -4359,15 +4359,15 @@
             2.975,
             3.255
           ],
-          "range": 2.084153,
-          "stationaryRange": 2.084153,
+          "range": 2.084134,
+          "stationaryRange": 2.084134,
           "atSeconds": 0.418929,
           "sourceTime": 3.085
         }
       }
     },
     "steel-spear": {
-      "lengthMeters": 2.1,
+      "lengthMeters": 2.100006,
       "attacks": {
         "light1": {
           "animation": "PIKE_LIGHT_1",
@@ -4375,8 +4375,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.376405,
-          "stationaryRange": 2.211032,
+          "range": 2.376409,
+          "stationaryRange": 2.211036,
           "atSeconds": 0.709018,
           "sourceTime": 0.863152
         },
@@ -4386,8 +4386,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.376405,
-          "stationaryRange": 2.211032,
+          "range": 2.376409,
+          "stationaryRange": 2.211036,
           "atSeconds": 0.709018,
           "sourceTime": 0.863152
         },
@@ -4397,8 +4397,8 @@
             1.39162,
             1.803425
           ],
-          "range": 3.826361,
-          "stationaryRange": 2.521597,
+          "range": 3.826365,
+          "stationaryRange": 2.5216,
           "atSeconds": 1.143116,
           "sourceTime": 1.39162
         },
@@ -4408,8 +4408,8 @@
             0.70291,
             1.145483
           ],
-          "range": 2.266639,
-          "stationaryRange": 2.17123,
+          "range": 2.266642,
+          "stationaryRange": 2.171233,
           "atSeconds": 0.936801,
           "sourceTime": 1.140454
         },
@@ -4419,8 +4419,8 @@
             0.653209,
             1.145483
           ],
-          "range": 1.9957,
-          "stationaryRange": 2.213547,
+          "range": 1.995704,
+          "stationaryRange": 2.213551,
           "atSeconds": 0.936806,
           "sourceTime": 1.14046
         },
@@ -4430,8 +4430,8 @@
             2.975,
             3.255
           ],
-          "range": 2.128525,
-          "stationaryRange": 2.128525,
+          "range": 2.128529,
+          "stationaryRange": 2.128529,
           "atSeconds": 0.418929,
           "sourceTime": 3.085
         },
@@ -4441,15 +4441,15 @@
             2.975,
             3.255
           ],
-          "range": 2.128525,
-          "stationaryRange": 2.128525,
+          "range": 2.128529,
+          "stationaryRange": 2.128529,
           "atSeconds": 0.418929,
           "sourceTime": 3.085
         }
       }
     },
     "elven-spear": {
-      "lengthMeters": 2.1,
+      "lengthMeters": 2.099991,
       "attacks": {
         "light1": {
           "animation": "PIKE_LIGHT_1",
@@ -4457,8 +4457,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.34105,
-          "stationaryRange": 2.175789,
+          "range": 2.341043,
+          "stationaryRange": 2.175782,
           "atSeconds": 0.709018,
           "sourceTime": 0.863152
         },
@@ -4468,8 +4468,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.34105,
-          "stationaryRange": 2.175789,
+          "range": 2.341043,
+          "stationaryRange": 2.175782,
           "atSeconds": 0.709018,
           "sourceTime": 0.863152
         },
@@ -4479,8 +4479,8 @@
             1.39162,
             1.803425
           ],
-          "range": 3.790895,
-          "stationaryRange": 2.485972,
+          "range": 3.790887,
+          "stationaryRange": 2.485965,
           "atSeconds": 1.143116,
           "sourceTime": 1.39162
         },
@@ -4490,8 +4490,8 @@
             0.70291,
             1.145483
           ],
-          "range": 2.233846,
-          "stationaryRange": 2.136055,
+          "range": 2.233839,
+          "stationaryRange": 2.136048,
           "atSeconds": 0.936801,
           "sourceTime": 1.140454
         },
@@ -4501,8 +4501,8 @@
             0.653209,
             1.145483
           ],
-          "range": 1.960343,
-          "stationaryRange": 2.178051,
+          "range": 1.960336,
+          "stationaryRange": 2.178044,
           "atSeconds": 0.936806,
           "sourceTime": 1.14046
         },
@@ -4512,8 +4512,8 @@
             2.975,
             3.255
           ],
-          "range": 2.088966,
-          "stationaryRange": 2.088966,
+          "range": 2.088958,
+          "stationaryRange": 2.088958,
           "atSeconds": 0.418929,
           "sourceTime": 3.085
         },
@@ -4523,15 +4523,15 @@
             2.975,
             3.255
           ],
-          "range": 2.088966,
-          "stationaryRange": 2.088966,
+          "range": 2.088958,
+          "stationaryRange": 2.088958,
           "atSeconds": 0.418929,
           "sourceTime": 3.085
         }
       }
     },
     "ebony-spear": {
-      "lengthMeters": 2.1,
+      "lengthMeters": 2.099976,
       "attacks": {
         "light1": {
           "animation": "PIKE_LIGHT_1",
@@ -4539,8 +4539,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.234092,
-          "stationaryRange": 2.06895,
+          "range": 2.234081,
+          "stationaryRange": 2.06894,
           "atSeconds": 0.709018,
           "sourceTime": 0.863152
         },
@@ -4550,8 +4550,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.234092,
-          "stationaryRange": 2.06895,
+          "range": 2.234081,
+          "stationaryRange": 2.06894,
           "atSeconds": 0.709018,
           "sourceTime": 0.863152
         },
@@ -4561,8 +4561,8 @@
             1.39162,
             1.803425
           ],
-          "range": 3.683817,
-          "stationaryRange": 2.37873,
+          "range": 3.683806,
+          "stationaryRange": 2.378719,
           "atSeconds": 1.143116,
           "sourceTime": 1.39162
         },
@@ -4572,8 +4572,8 @@
             0.70291,
             1.145483
           ],
-          "range": 2.129586,
-          "stationaryRange": 2.029287,
+          "range": 2.129576,
+          "stationaryRange": 2.029276,
           "atSeconds": 0.936801,
           "sourceTime": 1.140454
         },
@@ -4583,8 +4583,8 @@
             0.653209,
             1.145483
           ],
-          "range": 1.853386,
-          "stationaryRange": 2.070945,
+          "range": 1.853375,
+          "stationaryRange": 2.070934,
           "atSeconds": 0.936806,
           "sourceTime": 1.14046
         },
@@ -4594,8 +4594,8 @@
             2.975,
             3.255
           ],
-          "range": 1.97851,
-          "stationaryRange": 1.97851,
+          "range": 1.978498,
+          "stationaryRange": 1.978498,
           "atSeconds": 0.554464,
           "sourceTime": 3.25
         },
@@ -4605,15 +4605,15 @@
             2.975,
             3.255
           ],
-          "range": 1.97851,
-          "stationaryRange": 1.97851,
+          "range": 1.978498,
+          "stationaryRange": 1.978498,
           "atSeconds": 0.554464,
           "sourceTime": 3.25
         }
       }
     },
     "iron-halberd": {
-      "lengthMeters": 2.2,
+      "lengthMeters": 2.200012,
       "attacks": {
         "light1": {
           "animation": "HALBERD_LIGHT_1",
@@ -4621,8 +4621,8 @@
             0.697422,
             1.057316
           ],
-          "range": 2.43843,
-          "stationaryRange": 2.065212,
+          "range": 2.438441,
+          "stationaryRange": 2.065223,
           "atSeconds": 0.967734,
           "sourceTime": 0.999733
         },
@@ -4632,8 +4632,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.388078,
-          "stationaryRange": 2.240734,
+          "range": 2.388089,
+          "stationaryRange": 2.240745,
           "atSeconds": 0.827702,
           "sourceTime": 0.863455
         },
@@ -4643,8 +4643,8 @@
             0.614853,
             0.909247
           ],
-          "range": 3.596953,
-          "stationaryRange": 2.558677,
+          "range": 3.596964,
+          "stationaryRange": 2.558688,
           "atSeconds": 0.710804,
           "sourceTime": 0.716202
         },
@@ -4654,8 +4654,8 @@
             1.16205,
             1.580956
           ],
-          "range": 4.13601,
-          "stationaryRange": 2.07237,
+          "range": 4.136021,
+          "stationaryRange": 2.072381,
           "atSeconds": 1.431452,
           "sourceTime": 1.455765
         },
@@ -4665,8 +4665,8 @@
             0.894652,
             1.230147
           ],
-          "range": 3.148852,
-          "stationaryRange": 2.022569,
+          "range": 3.148862,
+          "stationaryRange": 2.02258,
           "atSeconds": 1.146753,
           "sourceTime": 1.172633
         },
@@ -4676,8 +4676,8 @@
             0.697422,
             1.057316
           ],
-          "range": 2.06529,
-          "stationaryRange": 2.06529,
+          "range": 2.065301,
+          "stationaryRange": 2.065301,
           "atSeconds": 1.030635,
           "sourceTime": 1.016419
         },
@@ -4687,15 +4687,15 @@
             0.697422,
             1.057316
           ],
-          "range": 2.06529,
-          "stationaryRange": 2.06529,
+          "range": 2.065301,
+          "stationaryRange": 2.065301,
           "atSeconds": 1.030635,
           "sourceTime": 1.016419
         }
       }
     },
     "steel-halberd": {
-      "lengthMeters": 2.2,
+      "lengthMeters": 2.200027,
       "attacks": {
         "light1": {
           "animation": "HALBERD_LIGHT_1",
@@ -4703,8 +4703,8 @@
             0.697422,
             1.057316
           ],
-          "range": 2.45292,
-          "stationaryRange": 2.079615,
+          "range": 2.452942,
+          "stationaryRange": 2.079638,
           "atSeconds": 0.967734,
           "sourceTime": 0.999733
         },
@@ -4714,8 +4714,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.402619,
-          "stationaryRange": 2.255216,
+          "range": 2.402641,
+          "stationaryRange": 2.255238,
           "atSeconds": 0.827702,
           "sourceTime": 0.863455
         },
@@ -4725,8 +4725,8 @@
             0.614853,
             0.909247
           ],
-          "range": 3.61106,
-          "stationaryRange": 2.573159,
+          "range": 3.611082,
+          "stationaryRange": 2.573182,
           "atSeconds": 0.710804,
           "sourceTime": 0.716202
         },
@@ -4736,8 +4736,8 @@
             1.16205,
             1.580956
           ],
-          "range": 4.150201,
-          "stationaryRange": 2.086531,
+          "range": 4.150223,
+          "stationaryRange": 2.086553,
           "atSeconds": 1.431452,
           "sourceTime": 1.455765
         },
@@ -4747,8 +4747,8 @@
             0.894652,
             1.230147
           ],
-          "range": 3.161678,
-          "stationaryRange": 2.036565,
+          "range": 3.161699,
+          "stationaryRange": 2.036587,
           "atSeconds": 1.146753,
           "sourceTime": 1.172633
         },
@@ -4758,8 +4758,8 @@
             0.697422,
             1.057316
           ],
-          "range": 2.079696,
-          "stationaryRange": 2.079696,
+          "range": 2.079718,
+          "stationaryRange": 2.079718,
           "atSeconds": 1.030635,
           "sourceTime": 1.016419
         },
@@ -4769,15 +4769,15 @@
             0.697422,
             1.057316
           ],
-          "range": 2.079696,
-          "stationaryRange": 2.079696,
+          "range": 2.079718,
+          "stationaryRange": 2.079718,
           "atSeconds": 1.030635,
           "sourceTime": 1.016419
         }
       }
     },
     "elven-halberd": {
-      "lengthMeters": 2.2,
+      "lengthMeters": 2.199966,
       "attacks": {
         "light1": {
           "animation": "HALBERD_LIGHT_1",
@@ -4785,8 +4785,8 @@
             0.697422,
             1.057316
           ],
-          "range": 2.448096,
-          "stationaryRange": 2.074688,
+          "range": 2.448073,
+          "stationaryRange": 2.074665,
           "atSeconds": 0.967734,
           "sourceTime": 0.999733
         },
@@ -4796,8 +4796,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.397857,
-          "stationaryRange": 2.250385,
+          "range": 2.397834,
+          "stationaryRange": 2.250362,
           "atSeconds": 0.827702,
           "sourceTime": 0.863455
         },
@@ -4807,8 +4807,8 @@
             0.614853,
             0.909247
           ],
-          "range": 3.605908,
-          "stationaryRange": 2.568323,
+          "range": 3.605886,
+          "stationaryRange": 2.5683,
           "atSeconds": 0.706644,
           "sourceTime": 0.711376
         },
@@ -4818,8 +4818,8 @@
             1.16205,
             1.580956
           ],
-          "range": 4.145019,
-          "stationaryRange": 2.081321,
+          "range": 4.144997,
+          "stationaryRange": 2.081299,
           "atSeconds": 1.431452,
           "sourceTime": 1.455765
         },
@@ -4829,8 +4829,8 @@
             0.894652,
             1.230147
           ],
-          "range": 3.154849,
-          "stationaryRange": 2.031156,
+          "range": 3.154828,
+          "stationaryRange": 2.031134,
           "atSeconds": 1.146753,
           "sourceTime": 1.172633
         },
@@ -4840,8 +4840,8 @@
             0.697422,
             1.057316
           ],
-          "range": 2.074771,
-          "stationaryRange": 2.074771,
+          "range": 2.074748,
+          "stationaryRange": 2.074748,
           "atSeconds": 1.030635,
           "sourceTime": 1.016419
         },
@@ -4851,15 +4851,15 @@
             0.697422,
             1.057316
           ],
-          "range": 2.074771,
-          "stationaryRange": 2.074771,
+          "range": 2.074748,
+          "stationaryRange": 2.074748,
           "atSeconds": 1.030635,
           "sourceTime": 1.016419
         }
       }
     },
     "ebony-halberd": {
-      "lengthMeters": 2.2,
+      "lengthMeters": 2.200012,
       "attacks": {
         "light1": {
           "animation": "HALBERD_LIGHT_1",
@@ -4867,8 +4867,8 @@
             0.697422,
             1.057316
           ],
-          "range": 2.35926,
-          "stationaryRange": 1.986522,
+          "range": 2.359258,
+          "stationaryRange": 1.98652,
           "atSeconds": 0.967734,
           "sourceTime": 0.999733
         },
@@ -4878,8 +4878,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.30863,
-          "stationaryRange": 2.161638,
+          "range": 2.308627,
+          "stationaryRange": 2.161636,
           "atSeconds": 0.827702,
           "sourceTime": 0.863455
         },
@@ -4889,8 +4889,8 @@
             0.614853,
             0.909247
           ],
-          "range": 3.519951,
-          "stationaryRange": 2.479503,
+          "range": 3.519949,
+          "stationaryRange": 2.479501,
           "atSeconds": 0.710804,
           "sourceTime": 0.716202
         },
@@ -4900,8 +4900,8 @@
             1.16205,
             1.580956
           ],
-          "range": 4.058538,
-          "stationaryRange": 1.995183,
+          "range": 4.058536,
+          "stationaryRange": 1.995181,
           "atSeconds": 1.431452,
           "sourceTime": 1.455765
         },
@@ -4911,8 +4911,8 @@
             0.894652,
             1.230147
           ],
-          "range": 3.078851,
-          "stationaryRange": 1.946273,
+          "range": 3.078849,
+          "stationaryRange": 1.946271,
           "atSeconds": 1.146753,
           "sourceTime": 1.172633
         },
@@ -4922,8 +4922,8 @@
             0.697422,
             1.057316
           ],
-          "range": 1.986596,
-          "stationaryRange": 1.986596,
+          "range": 1.986594,
+          "stationaryRange": 1.986594,
           "atSeconds": 1.030635,
           "sourceTime": 1.016419
         },
@@ -4933,15 +4933,15 @@
             0.697422,
             1.057316
           ],
-          "range": 1.986596,
-          "stationaryRange": 1.986596,
+          "range": 1.986594,
+          "stationaryRange": 1.986594,
           "atSeconds": 1.030635,
           "sourceTime": 1.016419
         }
       }
     },
     "iron-quarterstaff": {
-      "lengthMeters": 1.6,
+      "lengthMeters": 1.599976,
       "attacks": {
         "light1": {
           "animation": "QUARTERSTAFF_LIGHT_1",
@@ -4960,8 +4960,8 @@
             0.607957,
             0.900752
           ],
-          "range": 1.69934,
-          "stationaryRange": 1.717186,
+          "range": 1.69932,
+          "stationaryRange": 1.717166,
           "atSeconds": 0.72025,
           "sourceTime": 0.895615
         },
@@ -4971,8 +4971,8 @@
             1.360852,
             1.803425
           ],
-          "range": 3.434116,
-          "stationaryRange": 2.170061,
+          "range": 3.434096,
+          "stationaryRange": 2.17004,
           "atSeconds": 1.09853,
           "sourceTime": 1.365999
         },
@@ -4982,8 +4982,8 @@
             0.595012,
             0.916685
           ],
-          "range": 1.837308,
-          "stationaryRange": 1.81609,
+          "range": 1.837287,
+          "stationaryRange": 1.81607,
           "atSeconds": 0.733088,
           "sourceTime": 0.911579
         },
@@ -4994,7 +4994,7 @@
             1.720591
           ],
           "range": 1.226929,
-          "stationaryRange": 1.630176,
+          "stationaryRange": 1.630156,
           "atSeconds": 0.856481,
           "sourceTime": 1.065015
         },
@@ -5023,7 +5023,7 @@
       }
     },
     "steel-quarterstaff": {
-      "lengthMeters": 1.6,
+      "lengthMeters": 1.599976,
       "attacks": {
         "light1": {
           "animation": "QUARTERSTAFF_LIGHT_1",
@@ -5031,8 +5031,8 @@
             0.61609,
             0.933285
           ],
-          "range": 1.33755,
-          "stationaryRange": 1.477837,
+          "range": 1.337548,
+          "stationaryRange": 1.477835,
           "atSeconds": 0.746429,
           "sourceTime": 0.928169
         },
@@ -5042,8 +5042,8 @@
             0.607957,
             0.900752
           ],
-          "range": 1.470732,
-          "stationaryRange": 1.479533,
+          "range": 1.470715,
+          "stationaryRange": 1.479515,
           "atSeconds": 0.72025,
           "sourceTime": 0.895615
         },
@@ -5053,8 +5053,8 @@
             1.360852,
             1.803425
           ],
-          "range": 3.190738,
-          "stationaryRange": 1.925644,
+          "range": 3.19072,
+          "stationaryRange": 1.925626,
           "atSeconds": 1.09853,
           "sourceTime": 1.365999
         },
@@ -5064,8 +5064,8 @@
             0.595012,
             0.916685
           ],
-          "range": 1.597517,
-          "stationaryRange": 1.573962,
+          "range": 1.597499,
+          "stationaryRange": 1.573944,
           "atSeconds": 0.733088,
           "sourceTime": 0.911579
         },
@@ -5075,8 +5075,8 @@
             1.065015,
             1.720591
           ],
-          "range": 1.40414,
-          "stationaryRange": 1.391711,
+          "range": 1.404139,
+          "stationaryRange": 1.391694,
           "atSeconds": 0.856481,
           "sourceTime": 1.065015
         },
@@ -5086,8 +5086,8 @@
             0.61609,
             0.933285
           ],
-          "range": 1.477837,
-          "stationaryRange": 1.477837,
+          "range": 1.477835,
+          "stationaryRange": 1.477835,
           "atSeconds": 0.746429,
           "sourceTime": 0.928169
         },
@@ -5097,15 +5097,15 @@
             0.61609,
             0.933285
           ],
-          "range": 1.477837,
-          "stationaryRange": 1.477837,
+          "range": 1.477835,
+          "stationaryRange": 1.477835,
           "atSeconds": 0.746429,
           "sourceTime": 0.928169
         }
       }
     },
     "elven-quarterstaff": {
-      "lengthMeters": 1.6,
+      "lengthMeters": 1.600006,
       "attacks": {
         "light1": {
           "animation": "QUARTERSTAFF_LIGHT_1",
@@ -5113,8 +5113,8 @@
             0.61609,
             0.933285
           ],
-          "range": 1.27377,
-          "stationaryRange": 1.413612,
+          "range": 1.273775,
+          "stationaryRange": 1.413618,
           "atSeconds": 0.746429,
           "sourceTime": 0.928169
         },
@@ -5124,8 +5124,8 @@
             0.607957,
             0.900752
           ],
-          "range": 1.547775,
-          "stationaryRange": 1.558228,
+          "range": 1.547774,
+          "stationaryRange": 1.558227,
           "atSeconds": 0.72025,
           "sourceTime": 0.895615
         },
@@ -5135,8 +5135,8 @@
             1.360852,
             1.803425
           ],
-          "range": 3.270508,
-          "stationaryRange": 2.0056,
+          "range": 3.270507,
+          "stationaryRange": 2.005599,
           "atSeconds": 1.09853,
           "sourceTime": 1.365999
         },
@@ -5146,8 +5146,8 @@
             0.595012,
             0.916685
           ],
-          "range": 1.67662,
-          "stationaryRange": 1.653506,
+          "range": 1.676619,
+          "stationaryRange": 1.653505,
           "atSeconds": 0.733088,
           "sourceTime": 0.911579
         },
@@ -5157,8 +5157,8 @@
             1.065015,
             1.720591
           ],
-          "range": 1.363765,
-          "stationaryRange": 1.470517,
+          "range": 1.363769,
+          "stationaryRange": 1.470516,
           "atSeconds": 0.856481,
           "sourceTime": 1.065015
         },
@@ -5168,8 +5168,8 @@
             0.61609,
             0.933285
           ],
-          "range": 1.413612,
-          "stationaryRange": 1.413612,
+          "range": 1.413618,
+          "stationaryRange": 1.413618,
           "atSeconds": 0.746429,
           "sourceTime": 0.928169
         },
@@ -5179,15 +5179,15 @@
             0.61609,
             0.933285
           ],
-          "range": 1.413612,
-          "stationaryRange": 1.413612,
+          "range": 1.413618,
+          "stationaryRange": 1.413618,
           "atSeconds": 0.746429,
           "sourceTime": 0.928169
         }
       }
     },
     "ebony-quarterstaff": {
-      "lengthMeters": 1.6,
+      "lengthMeters": 1.600006,
       "attacks": {
         "light1": {
           "animation": "QUARTERSTAFF_LIGHT_1",
@@ -5195,8 +5195,8 @@
             0.61609,
             0.933285
           ],
-          "range": 1.33637,
-          "stationaryRange": 1.476652,
+          "range": 1.336375,
+          "stationaryRange": 1.476657,
           "atSeconds": 0.746429,
           "sourceTime": 0.928169
         },
@@ -5207,7 +5207,7 @@
             0.900752
           ],
           "range": 1.471871,
-          "stationaryRange": 1.480723,
+          "stationaryRange": 1.480722,
           "atSeconds": 0.72025,
           "sourceTime": 0.895615
         },
@@ -5239,7 +5239,7 @@
             1.065015,
             1.720591
           ],
-          "range": 1.40322,
+          "range": 1.403224,
           "stationaryRange": 1.392904,
           "atSeconds": 0.856481,
           "sourceTime": 1.065015
@@ -5250,8 +5250,8 @@
             0.61609,
             0.933285
           ],
-          "range": 1.476652,
-          "stationaryRange": 1.476652,
+          "range": 1.476657,
+          "stationaryRange": 1.476657,
           "atSeconds": 0.746429,
           "sourceTime": 0.928169
         },
@@ -5261,15 +5261,15 @@
             0.61609,
             0.933285
           ],
-          "range": 1.476652,
-          "stationaryRange": 1.476652,
+          "range": 1.476657,
+          "stationaryRange": 1.476657,
           "atSeconds": 0.746429,
           "sourceTime": 0.928169
         }
       }
     },
     "bone-talon-dagger": {
-      "lengthMeters": 0.42,
+      "lengthMeters": 0.419998,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -5277,8 +5277,8 @@
             0.4225,
             0.6695
           ],
-          "range": 0.982405,
-          "stationaryRange": 1.02045,
+          "range": 0.982404,
+          "stationaryRange": 1.020449,
           "atSeconds": 0.445581,
           "sourceTime": 0.602136
         },
@@ -5288,8 +5288,8 @@
             0.3978,
             0.6019
           ],
-          "range": 0.808992,
-          "stationaryRange": 0.839952,
+          "range": 0.808991,
+          "stationaryRange": 0.839951,
           "atSeconds": 0.35152,
           "sourceTime": 0.475027
         },
@@ -5299,7 +5299,7 @@
             0.595881,
             1.112494
           ],
-          "range": 1.498157,
+          "range": 1.498156,
           "stationaryRange": 1.344728,
           "atSeconds": 0.524059,
           "sourceTime": 0.708188
@@ -5310,8 +5310,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.341601,
-          "stationaryRange": 1.148775,
+          "range": 2.3416,
+          "stationaryRange": 1.148774,
           "atSeconds": 0.536993,
           "sourceTime": 0.725666
         },
@@ -5322,7 +5322,7 @@
             0.777314
           ],
           "range": 1.100688,
-          "stationaryRange": 1.090263,
+          "stationaryRange": 1.090262,
           "atSeconds": 0.571132,
           "sourceTime": 0.771801
         },
@@ -5332,8 +5332,8 @@
             2.525811,
             2.904189
           ],
-          "range": 0.93393,
-          "stationaryRange": 0.93393,
+          "range": 0.933929,
+          "stationaryRange": 0.933929,
           "atSeconds": 0.542882,
           "sourceTime": 2.898625
         },
@@ -5343,15 +5343,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.66004,
-          "stationaryRange": 0.66004,
+          "range": 0.660039,
+          "stationaryRange": 0.660039,
           "atSeconds": 1.159358,
           "sourceTime": 1.5667
         }
       }
     },
     "steel-great-cleaver": {
-      "lengthMeters": 1.42,
+      "lengthMeters": 1.420029,
       "attacks": {
         "light1": {
           "animation": "GREATSWORD_LIGHT_1",
@@ -5359,8 +5359,8 @@
             0.74,
             1.04
           ],
-          "range": 1.909322,
-          "stationaryRange": 1.697099,
+          "range": 1.90935,
+          "stationaryRange": 1.697127,
           "atSeconds": 0.974435,
           "sourceTime": 1.015806
         },
@@ -5370,8 +5370,8 @@
             0.65,
             0.916
           ],
-          "range": 1.428928,
-          "stationaryRange": 1.287397,
+          "range": 1.428954,
+          "stationaryRange": 1.287422,
           "atSeconds": 0.871989,
           "sourceTime": 0.911164
         },
@@ -5381,8 +5381,8 @@
             0.900654,
             1.276315
           ],
-          "range": 2.439083,
-          "stationaryRange": 1.608026,
+          "range": 2.43911,
+          "stationaryRange": 1.608053,
           "atSeconds": 1.058236,
           "sourceTime": 1.086045
         },
@@ -5392,8 +5392,8 @@
             0.823346,
             1.09635
           ],
-          "range": 1.81434,
-          "stationaryRange": 1.873994,
+          "range": 1.814365,
+          "stationaryRange": 1.874018,
           "atSeconds": 0.989099,
           "sourceTime": 1.018349
         },
@@ -5403,8 +5403,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.903576,
-          "stationaryRange": 1.656707,
+          "range": 2.903601,
+          "stationaryRange": 1.656734,
           "atSeconds": 1.109227,
           "sourceTime": 1.148917
         },
@@ -5414,8 +5414,8 @@
             2.975,
             3.255
           ],
-          "range": 1.601024,
-          "stationaryRange": 1.601024,
+          "range": 1.60105,
+          "stationaryRange": 1.60105,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         },
@@ -5425,15 +5425,15 @@
             2.975,
             3.255
           ],
-          "range": 1.601024,
-          "stationaryRange": 1.601024,
+          "range": 1.60105,
+          "stationaryRange": 1.60105,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         }
       }
     },
     "obsidian-warhammer": {
-      "lengthMeters": 1.3,
+      "lengthMeters": 1.299988,
       "attacks": {
         "light1": {
           "animation": "GREATAXE_LIGHT_1",
@@ -5441,8 +5441,8 @@
             0.748,
             1.04
           ],
-          "range": 1.821929,
-          "stationaryRange": 1.611681,
+          "range": 1.821927,
+          "stationaryRange": 1.611678,
           "atSeconds": 1.091348,
           "sourceTime": 1.001353
         },
@@ -5452,8 +5452,8 @@
             0.65,
             0.916
           ],
-          "range": 1.348957,
-          "stationaryRange": 1.199803,
+          "range": 1.348955,
+          "stationaryRange": 1.199801,
           "atSeconds": 0.988374,
           "sourceTime": 0.91171
         },
@@ -5463,8 +5463,8 @@
             0.909987,
             1.234316
           ],
-          "range": 2.456734,
-          "stationaryRange": 1.507802,
+          "range": 2.456732,
+          "stationaryRange": 1.5078,
           "atSeconds": 1.209951,
           "sourceTime": 1.095935
         },
@@ -5474,8 +5474,8 @@
             0.854,
             1.12
           ],
-          "range": 1.569227,
-          "stationaryRange": 1.736727,
+          "range": 1.569225,
+          "stationaryRange": 1.736726,
           "atSeconds": 1.132721,
           "sourceTime": 1.025613
         },
@@ -5485,8 +5485,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.98392,
-          "stationaryRange": 1.531735,
+          "range": 2.983918,
+          "stationaryRange": 1.531733,
           "atSeconds": 1.24953,
           "sourceTime": 1.141567
         },
@@ -5496,8 +5496,8 @@
             0.748,
             1.04
           ],
-          "range": 1.612134,
-          "stationaryRange": 1.612134,
+          "range": 1.612132,
+          "stationaryRange": 1.612132,
           "atSeconds": 1.169912,
           "sourceTime": 1.0327
         },
@@ -5507,15 +5507,15 @@
             0.748,
             1.04
           ],
-          "range": 1.612134,
-          "stationaryRange": 1.612134,
+          "range": 1.612132,
+          "stationaryRange": 1.612132,
           "atSeconds": 1.169912,
           "sourceTime": 1.0327
         }
       }
     },
     "silver-jagged-katana": {
-      "lengthMeters": 1.05,
+      "lengthMeters": 1.049995,
       "attacks": {
         "light1": {
           "animation": "KATANA_LIGHT_1",
@@ -5523,8 +5523,8 @@
             0.4108,
             0.6045
           ],
-          "range": 1.21113,
-          "stationaryRange": 1.167065,
+          "range": 1.211124,
+          "stationaryRange": 1.167059,
           "atSeconds": 0.566097,
           "sourceTime": 0.595891
         },
@@ -5534,8 +5534,8 @@
             0.4355,
             0.702
           ],
-          "range": 1.527363,
-          "stationaryRange": 1.406686,
+          "range": 1.527357,
+          "stationaryRange": 1.40668,
           "atSeconds": 0.56314,
           "sourceTime": 0.592779
         },
@@ -5545,8 +5545,8 @@
             0.6104,
             1.1396
           ],
-          "range": 2.005512,
-          "stationaryRange": 1.321717,
+          "range": 2.005505,
+          "stationaryRange": 1.321711,
           "atSeconds": 0.854102,
           "sourceTime": 0.899055
         },
@@ -5556,8 +5556,8 @@
             1.0575,
             1.2345
           ],
-          "range": 3.053182,
-          "stationaryRange": 1.264101,
+          "range": 3.053179,
+          "stationaryRange": 1.264094,
           "atSeconds": 1.094852,
           "sourceTime": 1.152476
         },
@@ -5567,8 +5567,8 @@
             0.5025,
             0.7035
           ],
-          "range": 2.638601,
-          "stationaryRange": 1.533697,
+          "range": 2.638597,
+          "stationaryRange": 1.533691,
           "atSeconds": 0.614361,
           "sourceTime": 0.646696
         },
@@ -5578,8 +5578,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.273922,
-          "stationaryRange": 1.273922,
+          "range": 1.273916,
+          "stationaryRange": 1.273916,
           "atSeconds": 0.38,
           "sourceTime": 0.5667
         },
@@ -5589,15 +5589,15 @@
             1.5667,
             1.8467
           ],
-          "range": 0.748608,
-          "stationaryRange": 0.748608,
+          "range": 0.748607,
+          "stationaryRange": 0.748607,
           "atSeconds": 1.488365,
           "sourceTime": 1.5667
         }
       }
     },
     "wooden-ball-club": {
-      "lengthMeters": 0.8,
+      "lengthMeters": 0.799988,
       "attacks": {
         "light1": {
           "animation": "LIGHT_1",
@@ -5605,8 +5605,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.220324,
-          "stationaryRange": 1.211255,
+          "range": 1.220315,
+          "stationaryRange": 1.211247,
           "atSeconds": 0.750425,
           "sourceTime": 0.60034
         },
@@ -5616,8 +5616,8 @@
             0.3978,
             0.6019
           ],
-          "range": 0.978848,
-          "stationaryRange": 1.005216,
+          "range": 0.978842,
+          "stationaryRange": 1.00521,
           "atSeconds": 0.74826,
           "sourceTime": 0.598608
         },
@@ -5627,8 +5627,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.647612,
-          "stationaryRange": 1.514224,
+          "range": 1.647605,
+          "stationaryRange": 1.514217,
           "atSeconds": 0.89067,
           "sourceTime": 0.712536
         },
@@ -5638,8 +5638,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.813706,
-          "stationaryRange": 1.364733,
+          "range": 2.813696,
+          "stationaryRange": 1.364723,
           "atSeconds": 0.90847,
           "sourceTime": 0.726776
         },
@@ -5649,8 +5649,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.384552,
-          "stationaryRange": 1.286774,
+          "range": 1.384549,
+          "stationaryRange": 1.286766,
           "atSeconds": 0.96753,
           "sourceTime": 0.774024
         },
@@ -5660,8 +5660,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.211255,
-          "stationaryRange": 1.211255,
+          "range": 1.211247,
+          "stationaryRange": 1.211247,
           "atSeconds": 0.593992,
           "sourceTime": 0.475193
         },
@@ -5671,8 +5671,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.211255,
-          "stationaryRange": 1.211255,
+          "range": 1.211247,
+          "stationaryRange": 1.211247,
           "atSeconds": 0.593992,
           "sourceTime": 0.475193
         }
@@ -5687,8 +5687,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.279696,
-          "stationaryRange": 2.115855,
+          "range": 2.279704,
+          "stationaryRange": 2.115863,
           "atSeconds": 0.717364,
           "sourceTime": 0.803448
         },
@@ -5698,8 +5698,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.279696,
-          "stationaryRange": 2.115855,
+          "range": 2.279704,
+          "stationaryRange": 2.115863,
           "atSeconds": 0.717364,
           "sourceTime": 0.803448
         },
@@ -5709,8 +5709,8 @@
             1.39162,
             1.803425
           ],
-          "range": 3.823212,
-          "stationaryRange": 2.424388,
+          "range": 3.82322,
+          "stationaryRange": 2.424396,
           "atSeconds": 1.242517,
           "sourceTime": 1.39162
         },
@@ -5720,8 +5720,8 @@
             0.70291,
             1.145483
           ],
-          "range": 2.190802,
-          "stationaryRange": 2.076684,
+          "range": 2.190809,
+          "stationaryRange": 2.076692,
           "atSeconds": 1.018593,
           "sourceTime": 1.140824
         },
@@ -5731,8 +5731,8 @@
             0.653209,
             1.145483
           ],
-          "range": 1.940401,
-          "stationaryRange": 2.117043,
+          "range": 1.940409,
+          "stationaryRange": 2.117051,
           "atSeconds": 1.018606,
           "sourceTime": 1.140839
         },
@@ -5742,8 +5742,8 @@
             2.975,
             3.255
           ],
-          "range": 2.016757,
-          "stationaryRange": 2.016757,
+          "range": 2.016766,
+          "stationaryRange": 2.016766,
           "atSeconds": 0.603044,
           "sourceTime": 3.25041
         },
@@ -5753,15 +5753,15 @@
             2.975,
             3.255
           ],
-          "range": 2.016757,
-          "stationaryRange": 2.016757,
+          "range": 2.016766,
+          "stationaryRange": 2.016766,
           "atSeconds": 0.603044,
           "sourceTime": 3.25041
         }
       }
     },
     "elven-trident": {
-      "lengthMeters": 2.5,
+      "lengthMeters": 2.500031,
       "attacks": {
         "light1": {
           "animation": "PIKE_LIGHT_1",
@@ -5769,8 +5769,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.285897,
-          "stationaryRange": 2.122048,
+          "range": 2.285912,
+          "stationaryRange": 2.122063,
           "atSeconds": 0.717364,
           "sourceTime": 0.803448
         },
@@ -5780,8 +5780,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.285897,
-          "stationaryRange": 2.122048,
+          "range": 2.285912,
+          "stationaryRange": 2.122063,
           "atSeconds": 0.717364,
           "sourceTime": 0.803448
         },
@@ -5791,8 +5791,8 @@
             1.39162,
             1.803425
           ],
-          "range": 3.829423,
-          "stationaryRange": 2.430609,
+          "range": 3.829438,
+          "stationaryRange": 2.430624,
           "atSeconds": 1.242517,
           "sourceTime": 1.39162
         },
@@ -5802,8 +5802,8 @@
             0.70291,
             1.145483
           ],
-          "range": 2.196815,
-          "stationaryRange": 2.082873,
+          "range": 2.196829,
+          "stationaryRange": 2.082888,
           "atSeconds": 1.018593,
           "sourceTime": 1.140824
         },
@@ -5813,8 +5813,8 @@
             0.653209,
             1.145483
           ],
-          "range": 1.946604,
-          "stationaryRange": 2.123255,
+          "range": 1.946619,
+          "stationaryRange": 2.12327,
           "atSeconds": 1.018606,
           "sourceTime": 1.140839
         },
@@ -5824,8 +5824,8 @@
             2.975,
             3.255
           ],
-          "range": 2.023144,
-          "stationaryRange": 2.023144,
+          "range": 2.02316,
+          "stationaryRange": 2.02316,
           "atSeconds": 0.603044,
           "sourceTime": 3.25041
         },
@@ -5835,15 +5835,15 @@
             2.975,
             3.255
           ],
-          "range": 2.023144,
-          "stationaryRange": 2.023144,
+          "range": 2.02316,
+          "stationaryRange": 2.02316,
           "atSeconds": 0.603044,
           "sourceTime": 3.25041
         }
       }
     },
     "ebony-trident": {
-      "lengthMeters": 2.5,
+      "lengthMeters": 2.499969,
       "attacks": {
         "light1": {
           "animation": "PIKE_LIGHT_1",
@@ -5851,8 +5851,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.282508,
-          "stationaryRange": 2.118748,
+          "range": 2.28249,
+          "stationaryRange": 2.11873,
           "atSeconds": 0.717364,
           "sourceTime": 0.803448
         },
@@ -5862,8 +5862,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.282508,
-          "stationaryRange": 2.118748,
+          "range": 2.28249,
+          "stationaryRange": 2.11873,
           "atSeconds": 0.717364,
           "sourceTime": 0.803448
         },
@@ -5873,8 +5873,8 @@
             1.39162,
             1.803425
           ],
-          "range": 3.825923,
-          "stationaryRange": 2.427001,
+          "range": 3.825905,
+          "stationaryRange": 2.426983,
           "atSeconds": 1.242517,
           "sourceTime": 1.39162
         },
@@ -5884,8 +5884,8 @@
             0.70291,
             1.145483
           ],
-          "range": 2.195516,
-          "stationaryRange": 2.079623,
+          "range": 2.1955,
+          "stationaryRange": 2.079605,
           "atSeconds": 1.018593,
           "sourceTime": 1.140824
         },
@@ -5895,8 +5895,8 @@
             0.653209,
             1.145483
           ],
-          "range": 1.943193,
-          "stationaryRange": 2.119754,
+          "range": 1.943175,
+          "stationaryRange": 2.119735,
           "atSeconds": 1.018606,
           "sourceTime": 1.140839
         },
@@ -5906,8 +5906,8 @@
             2.975,
             3.255
           ],
-          "range": 2.017725,
-          "stationaryRange": 2.017725,
+          "range": 2.017705,
+          "stationaryRange": 2.017705,
           "atSeconds": 0.603044,
           "sourceTime": 3.25041
         },
@@ -5917,15 +5917,15 @@
             2.975,
             3.255
           ],
-          "range": 2.017725,
-          "stationaryRange": 2.017725,
+          "range": 2.017705,
+          "stationaryRange": 2.017705,
           "atSeconds": 0.603044,
           "sourceTime": 3.25041
         }
       }
     },
     "iron-halfpike": {
-      "lengthMeters": 2.1,
+      "lengthMeters": 2.099976,
       "attacks": {
         "light1": {
           "animation": "PIKE_LIGHT_1",
@@ -5933,8 +5933,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.090637,
-          "stationaryRange": 1.926215,
+          "range": 2.090615,
+          "stationaryRange": 1.926193,
           "atSeconds": 0.709018,
           "sourceTime": 0.863152
         },
@@ -5944,8 +5944,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.090637,
-          "stationaryRange": 1.926215,
+          "range": 2.090615,
+          "stationaryRange": 1.926193,
           "atSeconds": 0.709018,
           "sourceTime": 0.863152
         },
@@ -5955,8 +5955,8 @@
             1.39162,
             1.803425
           ],
-          "range": 3.5396,
-          "stationaryRange": 2.233603,
+          "range": 3.539577,
+          "stationaryRange": 2.23358,
           "atSeconds": 1.143116,
           "sourceTime": 1.39162
         },
@@ -5966,8 +5966,8 @@
             0.70291,
             1.145483
           ],
-          "range": 2.001854,
-          "stationaryRange": 1.886948,
+          "range": 2.001834,
+          "stationaryRange": 1.886925,
           "atSeconds": 0.936801,
           "sourceTime": 1.140454
         },
@@ -5977,8 +5977,8 @@
             0.653209,
             1.145483
           ],
-          "range": 1.709989,
-          "stationaryRange": 1.926645,
+          "range": 1.709967,
+          "stationaryRange": 1.926622,
           "atSeconds": 0.936806,
           "sourceTime": 1.14046
         },
@@ -5988,8 +5988,8 @@
             2.975,
             3.255
           ],
-          "range": 1.819074,
-          "stationaryRange": 1.819074,
+          "range": 1.819049,
+          "stationaryRange": 1.819049,
           "atSeconds": 0.554464,
           "sourceTime": 3.25
         },
@@ -5999,15 +5999,15 @@
             2.975,
             3.255
           ],
-          "range": 1.819074,
-          "stationaryRange": 1.819074,
+          "range": 1.819049,
+          "stationaryRange": 1.819049,
           "atSeconds": 0.554464,
           "sourceTime": 3.25
         }
       }
     },
     "steel-halfpike": {
-      "lengthMeters": 2.1,
+      "lengthMeters": 2.099976,
       "attacks": {
         "light1": {
           "animation": "PIKE_LIGHT_1",
@@ -6015,8 +6015,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.075444,
-          "stationaryRange": 1.910937,
+          "range": 2.075435,
+          "stationaryRange": 1.910929,
           "atSeconds": 0.709018,
           "sourceTime": 0.863152
         },
@@ -6026,8 +6026,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.075444,
-          "stationaryRange": 1.910937,
+          "range": 2.075435,
+          "stationaryRange": 1.910929,
           "atSeconds": 0.709018,
           "sourceTime": 0.863152
         },
@@ -6037,8 +6037,8 @@
             1.39162,
             1.803425
           ],
-          "range": 3.524498,
-          "stationaryRange": 2.218601,
+          "range": 3.52449,
+          "stationaryRange": 2.218592,
           "atSeconds": 1.143116,
           "sourceTime": 1.39162
         },
@@ -6048,8 +6048,8 @@
             0.70291,
             1.145483
           ],
-          "range": 1.98487,
-          "stationaryRange": 1.871626,
+          "range": 1.984862,
+          "stationaryRange": 1.871617,
           "atSeconds": 0.936801,
           "sourceTime": 1.140454
         },
@@ -6059,8 +6059,8 @@
             0.653209,
             1.145483
           ],
-          "range": 1.694784,
-          "stationaryRange": 1.911546,
+          "range": 1.694776,
+          "stationaryRange": 1.911538,
           "atSeconds": 0.936806,
           "sourceTime": 1.14046
         },
@@ -6070,8 +6070,8 @@
             2.975,
             3.255
           ],
-          "range": 1.805511,
-          "stationaryRange": 1.805511,
+          "range": 1.805501,
+          "stationaryRange": 1.805501,
           "atSeconds": 0.554464,
           "sourceTime": 3.25
         },
@@ -6081,15 +6081,15 @@
             2.975,
             3.255
           ],
-          "range": 1.805511,
-          "stationaryRange": 1.805511,
+          "range": 1.805501,
+          "stationaryRange": 1.805501,
           "atSeconds": 0.554464,
           "sourceTime": 3.25
         }
       }
     },
     "elven-halfpike": {
-      "lengthMeters": 2.1,
+      "lengthMeters": 2.100006,
       "attacks": {
         "light1": {
           "animation": "PIKE_LIGHT_1",
@@ -6097,8 +6097,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.111623,
-          "stationaryRange": 1.947164,
+          "range": 2.111621,
+          "stationaryRange": 1.947161,
           "atSeconds": 0.709018,
           "sourceTime": 0.863152
         },
@@ -6108,8 +6108,8 @@
             0.548991,
             0.868219
           ],
-          "range": 2.111623,
-          "stationaryRange": 1.947164,
+          "range": 2.111621,
+          "stationaryRange": 1.947161,
           "atSeconds": 0.709018,
           "sourceTime": 0.863152
         },
@@ -6119,8 +6119,8 @@
             1.39162,
             1.803425
           ],
-          "range": 3.560626,
-          "stationaryRange": 2.254673,
+          "range": 3.560624,
+          "stationaryRange": 2.25467,
           "atSeconds": 1.143116,
           "sourceTime": 1.39162
         },
@@ -6130,8 +6130,8 @@
             0.70291,
             1.145483
           ],
-          "range": 2.022051,
-          "stationaryRange": 1.907877,
+          "range": 2.022048,
+          "stationaryRange": 1.907874,
           "atSeconds": 0.936801,
           "sourceTime": 1.140454
         },
@@ -6141,8 +6141,8 @@
             0.653209,
             1.145483
           ],
-          "range": 1.73097,
-          "stationaryRange": 1.947672,
+          "range": 1.730967,
+          "stationaryRange": 1.94767,
           "atSeconds": 0.936806,
           "sourceTime": 1.14046
         },
@@ -6152,8 +6152,8 @@
             2.975,
             3.255
           ],
-          "range": 1.840773,
-          "stationaryRange": 1.840773,
+          "range": 1.84077,
+          "stationaryRange": 1.84077,
           "atSeconds": 0.554464,
           "sourceTime": 3.25
         },
@@ -6163,8 +6163,8 @@
             2.975,
             3.255
           ],
-          "range": 1.840773,
-          "stationaryRange": 1.840773,
+          "range": 1.84077,
+          "stationaryRange": 1.84077,
           "atSeconds": 0.554464,
           "sourceTime": 3.25
         }
