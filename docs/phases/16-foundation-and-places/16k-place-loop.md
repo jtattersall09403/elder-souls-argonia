@@ -132,7 +132,8 @@ beside publishing lanes, and commits in the step that writes it.
    deployed studio** (owner 2026-09-27): before posting, every "queued",
    "not done" or "later" line in a lane report is settled (done, or a
    lane relaunched from its note; never carried into the packet); merge
-   `dev` into `webgpu` and run the WebGPU boot check (the `webgpu`
+   `dev` into `webgpu` with `python3 tooling/repo-standards/merge_forward.py`
+   (the preflight gate `webgpu-merged` enforces it on every code batch) and run the WebGPU boot check (the `webgpu`
    build loads to a first frame with no console errors, `measure.mjs` per
    `tooling/gpu-lane/README.md`; walk 9's WebGPU build failed to load
    110 commits behind `dev`), then merge `dev` into

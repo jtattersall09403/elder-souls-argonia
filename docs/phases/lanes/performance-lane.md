@@ -13,6 +13,13 @@ may hand it an item from the owner's walk.
   `packages/game-core/src/{vegetation,settlement,fx}/**` cost paths,
   `apps/world-studio/src/{sky,water,vegetation}/**` composition, kit-build
   cost options (through the `kit-build` skill), this brief.
+- WebGPU branch (decision 0111): every improvement on `dev` flows into
+  `webgpu` automatically. The mechanism is
+  `python3 tooling/repo-standards/merge_forward.py` (merges `dev` into the
+  webgpu worktree, then runs the no-GLSL check and the world-studio
+  typecheck); the enforcement is the preflight gate `webgpu-merged`, which
+  fails any code batch while `dev` has commits not on `webgpu`. A conflict
+  goes to a deliver agent to port the change into the TSL twin.
 - Never touches: the frozen world data, place layouts, gameplay tuning, the
   look (decision 0108 §6: quality defaults are never lowered to win frames).
 

@@ -65,6 +65,8 @@ export const GATE_INPUTS = {
   "bundle-load": ["apps/world-studio/public/kits/", "apps/world-studio/public/province/settlements/",
     "apps/world-studio/public/province/interiors/", "packages/game-core/src/settlement/",
     "packages/game-core/src/interior/"],
+  // any code change on dev must reach webgpu; docs-only batches skip it
+  "webgpu-merged": [/^(apps|packages|tooling)\//],
   "python-deps": ["tooling/world-generation/requirements-test.txt",
     "tooling/world-generation/worldgen/check_requirements.py"],
 };
