@@ -25,7 +25,7 @@ import * as TSLNS from "three/tsl";
 // TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const {
-  Fn, clamp, cos, dot, float, floor, fract, int, ivec2, max, min, mix, normalize, pow, sin, smoothstep, sqrt, step, vec2, vec3, vec4,
+  Fn, If, clamp, cos, dot, float, floor, fract, int, ivec2, max, min, mix, normalize, pow, sin, smoothstep, sqrt, step, vec2, vec3, vec4,
 } = TSLNS as any;
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -328,26 +328,32 @@ export function esApronGround(u: WaterSamplerNodes, wpos: TslNode): TslNode {
  * failed with "undeclared identifier"), so texture readers stay inline and
  * only the pure-maths helpers (noise, fbm, detail gradient) are functions. */
 export const makeSurfaceAt = (u: WaterSamplerNodes, _name = "esSurfaceAt") => Fn(([wpos]: [TslNode]) => {
-  const f = n(clamp(n(wpos).div(u.uSurfMpp).sub(0.5), vec2(0.0), vec2(n(u.uSurfSize).sub(1.001))));
-  const i0 = n(ivec2(f));
-  const t = n(f.sub(vec2(i0)));
-  const i1 = n(min(i0.add(1), ivec2(n(int(u.uSurfSize)).sub(1))));
-  const s00 = n(decodeSurf(u, n(u.uSurfTex).load(i0)));
-  const s10 = n(decodeSurf(u, n(u.uSurfTex).load(ivec2(i1.x, i0.y))));
-  const s01 = n(decodeSurf(u, n(u.uSurfTex).load(ivec2(i0.x, i1.y))));
-  const s11 = n(decodeSurf(u, n(u.uSurfTex).load(i1)));
-  const bw = vec4(float(1.0).sub(t.x).mul(float(1.0).sub(t.y)), t.x.mul(float(1.0).sub(t.y)),
-    float(1.0).sub(t.x).mul(t.y), t.x.mul(t.y));
-  const wet = vec4(step(u.uSurfBuried, s00.y), step(u.uSurfBuried, s10.y),
-    step(u.uSurfBuried, s01.y), step(u.uSurfBuried, s11.y));
-  const ww = n(n(bw).mul(wet));
-  const wsum = ww.x.add(ww.y).add(ww.z).add(ww.w);
-  const plain = n(mix(mix(s00, s10, t.x), mix(s01, s11, t.x), t.y));
-  const hWeighted = ww.x.mul(s00.x).add(ww.y.mul(s10.x)).add(ww.z.mul(s01.x)).add(ww.w.mul(s11.x)).div(max(wsum, 1e-30));
-  const h = sel(wsum.greaterThan(0.0), hWeighted, plain.x);
-  const inside = vec2(h, plain.y);
-  const apron = vec2(0.0, n(esApronGround(u, wpos)).negate());
-  return sel(n(u.uHasApron).greaterThan(0.5).and(esOutside(u, wpos)), apron, inside);
+  // Real branch, as dev's early return: beyond the province the 4 apron
+  // loads, inside it the 4 surface loads, never both (webgpu10 F2; the field
+  // fragment calls this 5 times). Loads only, legal inside If.
+  const out = vec2(0.0).toVar();
+  If(n(u.uHasApron).greaterThan(0.5).and(esOutside(u, wpos)), () => {
+    out.assign(vec2(0.0, n(esApronGround(u, wpos)).negate()));
+  }).Else(() => {
+    const f = n(clamp(n(wpos).div(u.uSurfMpp).sub(0.5), vec2(0.0), vec2(n(u.uSurfSize).sub(1.001))));
+    const i0 = n(ivec2(f));
+    const t = n(f.sub(vec2(i0)));
+    const i1 = n(min(i0.add(1), ivec2(n(int(u.uSurfSize)).sub(1))));
+    const s00 = n(decodeSurf(u, n(u.uSurfTex).load(i0)));
+    const s10 = n(decodeSurf(u, n(u.uSurfTex).load(ivec2(i1.x, i0.y))));
+    const s01 = n(decodeSurf(u, n(u.uSurfTex).load(ivec2(i0.x, i1.y))));
+    const s11 = n(decodeSurf(u, n(u.uSurfTex).load(i1)));
+    const bw = vec4(float(1.0).sub(t.x).mul(float(1.0).sub(t.y)), t.x.mul(float(1.0).sub(t.y)),
+      float(1.0).sub(t.x).mul(t.y), t.x.mul(t.y));
+    const wet = vec4(step(u.uSurfBuried, s00.y), step(u.uSurfBuried, s10.y),
+      step(u.uSurfBuried, s01.y), step(u.uSurfBuried, s11.y));
+    const ww = n(n(bw).mul(wet));
+    const wsum = ww.x.add(ww.y).add(ww.z).add(ww.w);
+    const plain = n(mix(mix(s00, s10, t.x), mix(s01, s11, t.x), t.y));
+    const hWeighted = ww.x.mul(s00.x).add(ww.y.mul(s10.x)).add(ww.z.mul(s01.x)).add(ww.w.mul(s11.x)).div(max(wsum, 1e-30));
+    out.assign(vec2(sel(wsum.greaterThan(0.0), hWeighted, plain.x), plain.y));
+  });
+  return out;
 });
 
 /** 16f colour constituents at wpos: x algae, y dark. */
