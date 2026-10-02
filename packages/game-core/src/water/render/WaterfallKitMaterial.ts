@@ -69,6 +69,13 @@ export const KIT_FACING_FADE = { start: 0.09, full: 0.26 } as const;
 
 const VERTEX = /* glsl */ `
 attribute vec4 aInst;
+// the vanilla NIF vertex colour, exported as two glTF layers (three names
+// COLOR_n \`color_n\`): COLOR_1 the RGB tint, COLOR_2 the vertex alpha in r
+// that feathers every sheet edge to 0; ensureKitVertexColours fills 1s
+attribute vec4 color_1;
+attribute vec4 color_2;
+varying vec3 vTint;
+varying float vVertA;
 varying vec2 vUv;
 varying vec3 vWorldPos;
 varying vec3 vNormalW;
@@ -78,6 +85,8 @@ uniform float uLift;
 ${FALLS_SHADOW_VERTEX_PARS}
 void main() {
   vUv = uv;
+  vTint = color_1.rgb;
+  vVertA = color_2.r;
   vInst = aInst;
   vec4 wp = instanceMatrix * vec4(position, 1.0);
   // the receiving pool moves with the season/tide; the whole piece rides it
@@ -99,6 +108,8 @@ varying vec2 vUv;
 varying vec3 vWorldPos;
 varying vec3 vNormalW;
 varying vec4 vInst;
+varying vec3 vTint;
+varying float vVertA;
 uniform float uTime;
 uniform vec3 uAmbient;
 uniform vec3 uSunLight;
@@ -148,7 +159,8 @@ void main() {
     cov = 1.0 - (1.0 - cov) * (1.0 - cov2);
     tone = max(tone, s2.rgb);
   }
-  float alpha = uAlpha * cov * vInst.w * uOpacity;
+  tone *= vTint;
+  float alpha = uAlpha * cov * vVertA * vInst.w * uOpacity;
   // nothing of the kit is drawn from under the pool: that view is the field
   // water's below variant, not an opaque plane through the surface
   alpha *= 1.0 - clamp(uUnderwater, 0.0, 1.0);
@@ -246,6 +258,21 @@ export function createKitPieceMaterial(role: KitShapeRole, texture: THREE.Textur
   applyAerial(material);
   material.customProgramCacheKey = () => `es-waterfall-kit${normal && role.kind === "lit" ? "-n" : ""}`;
   return material;
+}
+
+/**
+ * The two kit colour layers the shader reads, as three's GLTFLoader names
+ * them. A shape without one (the Inner and SlopeMesh bodies carry no
+ * COLOR_2) gets an all-ones layer, so one program serves every shape.
+ */
+export const KIT_VERTEX_COLOUR_ATTRIBUTES = ["color_1", "color_2"] as const;
+
+export function ensureKitVertexColours(geometry: THREE.BufferGeometry): void {
+  const count = geometry.getAttribute("position").count;
+  for (const name of KIT_VERTEX_COLOUR_ATTRIBUTES) {
+    if (geometry.getAttribute(name)) continue;
+    geometry.setAttribute(name, new THREE.BufferAttribute(new Float32Array(count * 4).fill(1), 4));
+  }
 }
 
 /** A texture bound for the kit: repeat both axes (the offset scrolls forever), no colour management. */
