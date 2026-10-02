@@ -97,6 +97,16 @@ Chrome started with `--remote-debugging-port` and serve with `node tooling/gpu-l
 **Toggle-then-read.** To prove a cause, one `pod-capture.mjs --views` file with `steps` toggles one thing at a time
 (unhook a queue, null `scene.environment`) and reads the screen-middle luma after each, all in one capture.
 
+## Capture round rules (owner 2026-10-03)
+
+- Every round's frames are looked at by an `image-reader` (reference vs candidate at the same pose, a brightened
+  copy, first and last frame, HUD text transcribed into the diagnosis) before any probe-only conclusion; a
+  brightness number alone never decides a cause.
+- A view set that includes a night view also includes the same pose at t=12 clear, because a dim reference makes
+  a dark candidate ambiguous.
+- The ready gate waits for the build-queue counter at 0 and streaming quiet (both in the capture summary); one
+  capture per round runs 180 s after ready with a frame every 10 s, so "too soon" is ruled out.
+
 ## URL switches
 
 | Switch | Where it acts | Effect |

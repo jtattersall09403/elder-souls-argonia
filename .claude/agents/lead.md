@@ -112,13 +112,21 @@ Rules of the road:
   (a) one measure job per round, owned by one `run` agent, measuring EVERY
   spot/view with screenshots and all numbers in ONE harness invocation (one
   page, no parallel tabs, no tool edits between captures of a round);
+  every view set that includes a night view also includes the same pose at
+  t=12 clear (a dim reference makes a dark candidate ambiguous); the ready
+  gate waits for the build-queue counter at 0 and streaming quiet (both in
+  the capture summary), and one capture per round runs 180 s after ready
+  with a frame every 10 s, so "too soon" is ruled out;
   (b) one diagnosis report per round (`<lane>-diag<N>.md`) listing EVERY
   cause with its evidence row from that measure (every hitch over 33 ms with
   its source, every spot under the bar with its pass/stage, every error,
   every luma ratio, heap slope), produced by one or more `find`/`research`
   agents in parallel over disjoint questions and signed off by you BEFORE any
   fix brief; a fix brief that names no cause from the diagnosis is not
-  launched;
+  launched; before any probe-only conclusion, an `image-reader` looks at
+  every capture round's frames (reference vs candidate at the same pose, a
+  brightened copy, first and last frame, HUD text transcribed into the
+  diagnosis); a brightness number alone never decides a cause;
   (c) all fixes of a round launch as ONE parallel foreground wave with
   disjoint files; fix agents only edit and run the unit tests beside the
   change and NEVER measure, probe or touch the pod;
