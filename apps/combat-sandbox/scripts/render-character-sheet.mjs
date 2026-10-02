@@ -87,7 +87,14 @@ const VARIANT_DIRECTORY = "tooling/asset-pipeline/output/sheet-variants";
 
 const DEFAULT_TITLE = "Current race defaults: close face and full body";
 const DEFAULT_SUBTITLE = "Actual game renderer • vanilla Skyrim FaceGen, FaceTint, "
-  + "body tint and weight • armour and weapons hidden";
+  + "body tint and weight";
+
+/** The kit clause of the subtitle, stated from the real mode. */
+function kitClause(armourIds, weaponId) {
+  const armour = armourIds.length ? `worn armour: ${armourIds.join(", ")}` : "armour hidden";
+  const weapon = weaponId ? `weapon: ${weaponId}` : "weapons hidden";
+  return `${armour} • ${weapon}`;
+}
 
 /**
  * The shots a card can hold, and the panel each one occupies.
@@ -132,13 +139,15 @@ function parseArguments(argv) {
     roster: "playable",
     sex: "male",
     title: DEFAULT_TITLE,
-    subtitle: DEFAULT_SUBTITLE,
+    subtitle: null,
     out: null,
     headed: false,
     prebuilt: false,
     // Armour mode. Empty by default, so the appearance sheets keep their bare
     // bodies and their promise that no kit is in frame.
     armour: "",
+    // One carried main-hand weapon by item id; empty keeps the hands empty.
+    weapon: "",
     builds: "",
     backdrop: "",
     flag: "",
@@ -160,6 +169,9 @@ function parseArguments(argv) {
   }
   if (!["male", "female", "both"].includes(options.sex)) {
     throw new Error(`--sex must be male, female or both (got "${options.sex}")`);
+  }
+  if (options.subtitle === null) {
+    options.subtitle = `${DEFAULT_SUBTITLE} • ${kitClause(commaList(options.armour), options.weapon)}`;
   }
   if (!options.out) throw new Error("--out is required");
   if (options.backdrop && !/^[0-9a-fA-F]{6}$/.test(options.backdrop)) {
@@ -191,7 +203,8 @@ const sexes = options.sex === "both" ? ["male", "female"] : [options.sex];
 const armourIds = commaList(options.armour);
 const buildFilter = commaList(options.builds);
 const flagged = new Set(commaList(options.flag));
-const layout = armourIds.length ? LAYOUTS.neck : LAYOUTS.appearance;
+// A weapon is judged on the full body, so armour plus weapon uses the face and body grid.
+const layout = armourIds.length && !options.weapon ? LAYOUTS.neck : LAYOUTS.appearance;
 const COLUMNS = layout.columns;
 const CARD_WIDTH = layout.cardWidth;
 const CARD_HEIGHT = layout.cardHeight;
@@ -443,6 +456,7 @@ try {
       }
       const query = new URLSearchParams({ scenario: "portrait", build: card.buildId, shot });
       if (card.armourId) query.set("armour", card.armourId);
+      if (options.weapon) query.set("weapon", options.weapon);
       if (options.backdrop) query.set("bg", options.backdrop);
       await page.goto(`${gameUrl}?${query}`, { waitUntil: "domcontentloaded" });
       await page.waitForFunction(
@@ -613,6 +627,7 @@ await writeFile(`${outPath}.json`, `${JSON.stringify({
   roster: options.roster,
   sexes,
   armour: armourIds,
+  weapon: options.weapon || null,
   backdrop: options.backdrop ? `#${options.backdrop}` : null,
   cards: cards.map((card) => ({
     buildId: card.buildId,

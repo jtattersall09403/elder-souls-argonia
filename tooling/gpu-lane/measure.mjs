@@ -34,7 +34,7 @@ const probePath = (n) => new URL(`./probes/${n}.js`, import.meta.url).pathname;
 export function parseArgs(argv) {
   const o = { url: [], origin: "http://127.0.0.1:8099", base: null, renderer: "webgl", settle: 10, walk: 0, shots: false,
     cdp: "127.0.0.1:9222", run: null, out: null, width: 1280, height: 720, dpr: 1, readyTimeout: 150, profile: 0,
-    smoke: false, census: false, diag: "" };
+    smoke: false, census: false, diag: "", aim: "", clean: "" };
   const camel = (k) => k.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i].replace(/^--/, "");
@@ -301,6 +301,12 @@ async function measureUrl(ctx, o, query, idx, own, browser) {
     await page.waitForTimeout(500);
   }
   const readyS = Math.round((Date.now() - t0) / 100) / 10;
+  // --aim "yaw,pitch" (radians): points the follow camera via __STUDIO_CHARACTER_DEBUG__ before the settle.
+  if (o.aim) {
+    const [yaw, pitch] = o.aim.split(",").map(Number);
+    await page.evaluate(([y, p]) => window.__STUDIO_CHARACTER_DEBUG__?.aimCamera(y, p), [yaw, pitch]).catch(() => {});
+    await page.waitForTimeout(1500);
+  }
   const settle = await sample(page, o.settle);
   const stats = { ...frameStats(settle.ts), ...settle.work };
   let profile = null;
@@ -317,7 +323,10 @@ async function measureUrl(ctx, o, query, idx, own, browser) {
   const shot = async (tag) => {
     if (!o.shots) return;
     const p = join(o.out, `url${idx}-${tag}.jpg`);
+    // --clean 1: hide the HUD overlays (fixed/absolute elements without a canvas) for the screenshot only.
+    if (o.clean) await page.evaluate(() => { window.__hid = [...document.querySelectorAll("body *")].filter((e) => !e.querySelector("canvas") && e.tagName !== "CANVAS" && ["fixed", "absolute"].includes(getComputedStyle(e).position)); window.__hid.forEach((e) => { e.dataset.v = e.style.visibility; e.style.visibility = "hidden"; }); }).catch(() => {});
     await page.screenshot({ path: p, type: "jpeg", quality: 75 }).catch(() => {});
+    if (o.clean) await page.evaluate(() => window.__hid?.forEach((e) => { e.style.visibility = e.dataset.v; })).catch(() => {});
     screenshots.push(p);
   };
   await shot("settled");

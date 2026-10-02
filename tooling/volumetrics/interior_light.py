@@ -211,18 +211,22 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--cells", help="comma-separated cell ids (default: every published interior)")
     ap.add_argument("--merge", action="store_true", help="keep the other cells already in the sidecar")
+    ap.add_argument("--out", default=str(OUT), help="the record to write (default: the shipped interiorLight.json)")
+    ap.add_argument("--interiors", default=str(INTERIORS), help="the folder of published cell bundles to read")
     args = ap.parse_args()
+    out = Path(args.out)
     want = set(args.cells.split(",")) if args.cells else None
-    bundles = [json.loads(f.read_text()) for f in sorted(INTERIORS.glob("*.json"))
+    bundles = [json.loads(f.read_text()) for f in sorted(Path(args.interiors).glob("*.json"))
                if want is None or f.stem in want]
     index_cache: dict = {}
     files = sorted({f for b in bundles for p in b["placements"]
                     if (f := part_file(p.get("kit", ""), p["assetId"], index_cache))})
     parts = read_parts(files)
-    cells = json.loads(OUT.read_text())["cells"] if args.merge and OUT.exists() else {}
+    cells = json.loads(out.read_text())["cells"] if args.merge and out.exists() else {}
     for b in bundles:
         cells[b["cellId"]] = cell_apertures(b, parts, index_cache)
-    OUT.write_text(json.dumps({"schemaVersion": 1,
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps({"schemaVersion": 1,
                                "source": "tooling/volumetrics/interior_light.py over public/province/interiors",
                                "cells": dict(sorted(cells.items()))}, indent=1) + "\n")
     for b in bundles:
