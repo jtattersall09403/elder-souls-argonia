@@ -1,0 +1,9 @@
+[
+ {
+  "name": "int-keeba-hearth",
+  "url": "http://127.0.0.1:8099/elder-souls-argonia/webgpu/?view=character&gputiming=1&q=high&vol=high&rate=0.5&interior=KeebaHouseCrafter&t=08:00",
+  "clean": true,
+  "shots": "100@1,60000",
+  "seconds": 131
+ }
+]
