@@ -461,6 +461,11 @@ headless.
   sun/moon rig and the carried torch, parked at intensity 0 when unused).
   Never add, remove or hide a real light at runtime: every lit program
   relinks.
+- On the node renderer a light's `castShadow`, `visible` and the light
+  count are pipeline cache keys: never toggle them after the first frame;
+  switch a light or its shadow off with `intensity` / `shadow.intensity`
+  (`render/lightSwitch`: `setShadowShown`, `LIGHT_HELD_OFF`; test
+  `apps/world-studio/src/sky/lightCacheKeys.test.ts`).
 
 **Before adding a material.**
 - Share it: one material per kit glTF material (or per batch key), never a

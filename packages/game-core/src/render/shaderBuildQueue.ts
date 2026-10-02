@@ -14,6 +14,9 @@ import type { WebGPURenderer } from "three/webgpu";
  * while everything waiting was hidden (walk 9: ~1,000 draws held back a
  * second over a 40 s hold at Riverwalk).
  *
+ * An object that drew before and is re-keyed (a light set, fog or material
+ * change) keeps drawing under its built program while the new key builds on
+ * a detached render object: a re-key costs stale frames, never a vanish.
  * Here an object whose material is not built yet is not drawn; its build is
  * queued and runs with three's `buildAsync`, which yields to the browser
  * after every shader stage, so no task holds the main thread for a whole
@@ -69,17 +72,45 @@ export class BuildQueue<K = unknown> {
   }
 }
 
-/** The three 0.184 internals the queue reads (Renderer, RenderObjects, NodeManager). */
+/** The three 0.184 render object fields the queue reads. */
+interface RenderObjectInternals {
+  readonly id: number;
+  version: number;
+  camera: unknown;
+  drawRange: unknown;
+  group: unknown;
+  initialCacheKey: unknown;
+  readonly needsUpdate: boolean;
+  material: { version: number };
+  getCacheKey(): unknown;
+  constructor: new (...a: unknown[]) => RenderObjectInternals;
+}
+
+/** The three 0.184 internals the queue reads (Renderer, RenderObjects, NodeManager, Pipelines). */
 interface RendererInternals {
   _renderObjectDirect: (...a: unknown[]) => void;
-  _objects: { get: (...a: unknown[]) => object };
   _currentRenderContext: unknown;
+  _currentRenderBundle: unknown;
+  _objects: {
+    get: (...a: unknown[]) => RenderObjectInternals;
+    getChainMap(passId?: unknown): { get(keys: unknown[]): RenderObjectInternals | undefined };
+    nodes: unknown; geometries: unknown; renderer: unknown;
+  };
   _nodes: {
     nodeBuilderCache: Map<unknown, unknown>;
     get(renderObject: object): { nodeBuilderState?: unknown };
     getForRenderCacheKey(renderObject: object): unknown;
     getForRender(renderObject: object, useAsync?: boolean): unknown;
+    needsRefresh(renderObject: object): boolean;
+    updateBefore(renderObject: object): void;
+    updateForRender(renderObject: object): void;
+    updateAfter(renderObject: object): void;
   };
+  _geometries: { updateForRender(renderObject: object): void };
+  _bindings: { updateForRender(renderObject: object): void };
+  _pipelines: { updateForRender(renderObject: object): void; isReady(renderObject: object): boolean };
+  backend: { draw(renderObject: object, info: unknown): void };
+  info: unknown;
 }
 
 interface Placed { matrixWorld?: { elements: ArrayLike<number> } }
@@ -105,12 +136,43 @@ export function queueShaderBuilds(renderer: WebGPURenderer, inFlight = SHADER_BU
   const queue = new BuildQueue(inFlight, (e) => console.error("[shader build]", e));
   // readable by the diagnostics (buildQueueOf), never enumerated
   Object.defineProperty(renderer, "esBuildQueue", { value: queue, configurable: true });
+  // render objects that have drawn built: the fast path skips every lookup of ours for them.
+  // Per queue instance (engineering standard 8), weak so disposed objects go.
+  const drawn = new WeakSet<object>();
   r._renderObjectDirect = function (this: RendererInternals, ...a: unknown[]) {
-    const [object, material, scene, camera, lightsNode, , clippingContext, passId] = a;
-    const ro = this._objects.get(object, material, scene, camera, lightsNode, this._currentRenderContext, clippingContext, passId);
-    const nodes = this._nodes;
+    const [object, material, scene, camera, lightsNode, group, clippingContext, passId] = a;
+    const objects = this._objects, nodes = this._nodes;
+    const current = objects.getChainMap(passId).get([object, material, this._currentRenderContext, lightsNode]);
+    if (current && drawn.has(current)) {
+      const stale = (current.version !== (material as { version: number }).version || current.needsUpdate)
+        && current.initialCacheKey !== current.getCacheKey();
+      if (!stale || nodes.nodeBuilderCache.has(current.getCacheKey())) { draw.apply(this, a); return; }
+      // Re-keyed (a light, fog or material change) and the new program is not built: three would
+      // dispose this render object and draw nothing until the build lands. Keep drawing it under
+      // its built program and build the new key on a detached render object (never in the chain
+      // map), so the swap happens on the first frame after the build: stale frames, never a vanish.
+      const ro = current;
+      queue.request(ro.getCacheKey(), distanceSq(object as Placed, camera as Viewer), () => {
+        const twin = new ro.constructor(objects.nodes, objects.geometries, objects.renderer, object, material, scene, camera, lightsNode, this._currentRenderContext, clippingContext);
+        // never disposed: disposing would drop the cache entry it just built (usedTimes -> 0);
+        // its node data is weakly held and goes with it
+        return nodes.getForRender(twin, true);
+      });
+      if (this._currentRenderBundle !== null) return;
+      ro.camera = camera;
+      ro.drawRange = (object as { geometry: { drawRange: unknown } }).geometry.drawRange;
+      ro.group = group;
+      if (nodes.needsRefresh(ro)) {
+        nodes.updateBefore(ro); this._geometries.updateForRender(ro); nodes.updateForRender(ro); this._bindings.updateForRender(ro);
+      }
+      this._pipelines.updateForRender(ro);
+      if (this._pipelines.isReady(ro)) this.backend.draw(ro, this.info);
+      return;
+    }
+    const ro = objects.get(object, material, scene, camera, lightsNode, this._currentRenderContext, clippingContext, passId);
     const key = nodes.getForRenderCacheKey(ro);
     if (nodes.get(ro).nodeBuilderState !== undefined || nodes.nodeBuilderCache.has(key)) {
+      drawn.add(ro);
       draw.apply(this, a);
       return;
     }

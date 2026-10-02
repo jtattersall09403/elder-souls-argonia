@@ -38,7 +38,7 @@ describe("queueShaderBuilds", () => {
       getForRender: async (ro: { key: string }) => { await tick(); built.add(ro.key); },
     };
     const fake = {
-      _objects: { get: (object: { id: string }) => ({ key: object.id }) },
+      _objects: { get: (object: { id: string }) => ({ key: object.id }), getChainMap: () => ({ get: () => undefined }) },
       _currentRenderContext: null,
       _nodes: nodes,
       _renderObjectDirect(object: { id: string }) { drawn.push(object.id); },
@@ -55,5 +55,51 @@ describe("queueShaderBuilds", () => {
     expect(drawn.slice(1)).toEqual(["a", "b", "c"]);
     expect(queue.deferred).toBe(2);
     expect(queueShaderBuilds(fake as unknown as WebGPURenderer, 0)).toBeNull();
+  });
+
+  it("keeps drawing a re-keyed object under its built program while the new key builds", async () => {
+    const drawnDirect: string[] = [];
+    const cache = new Map<unknown, unknown>([["k1", {}]]);
+    const mat = { version: 0 };
+    let key = "k1";
+    const ro = {
+      key: "k1", version: 0, initialCacheKey: "k1", material: mat, camera: null, drawRange: null, group: null,
+      get needsUpdate() { return key !== "k1"; },
+      getCacheKey: () => key,
+    };
+    let built = 0;
+    class Twin { constructor() {} }
+    Object.defineProperty(ro, "constructor", { value: Twin });
+    const nodes = {
+      nodeBuilderCache: cache,
+      get: () => ({ nodeBuilderState: {} }),
+      getForRenderCacheKey: (r: { key: string }) => r.key,
+      getForRender: async () => { await tick(); built++; cache.set(key, {}); },
+      needsRefresh: () => false, updateBefore() {}, updateForRender() {}, updateAfter() {},
+    };
+    const fake = {
+      _objects: { get: () => ro, getChainMap: () => ({ get: () => ro }), nodes: {}, geometries: {}, renderer: {} },
+      _currentRenderContext: null, _currentRenderBundle: null,
+      _nodes: nodes,
+      _geometries: { updateForRender() {} }, _bindings: { updateForRender() {} },
+      _pipelines: { updateForRender() {}, isReady: () => true },
+      backend: { draw: () => drawnDirect.push("stale") },
+      info: {},
+      _renderObjectDirect() { drawnDirect.push("three"); },
+    };
+    const queue = queueShaderBuilds(fake as unknown as WebGPURenderer, 1)!;
+    const object = { geometry: { drawRange: {} }, matrixWorld: { elements: new Array(16).fill(0) } };
+    const camera = { matrixWorld: { elements: new Array(16).fill(0) } };
+    const draw = () => (fake._renderObjectDirect as (...a: unknown[]) => void)(object, mat, {}, camera, {}, null, null, "default");
+    draw(); draw(); // first draw marks ro built; second is the fast path
+    expect(drawnDirect).toEqual(["three", "three"]);
+    key = "k2"; // a light flip re-keys it
+    draw();
+    expect(drawnDirect[2]).toBe("stale");
+    await tick(); await tick(); await tick();
+    expect(built).toBe(1);
+    expect(queue.pending).toBe(0);
+    draw();
+    expect(drawnDirect[3]).toBe("three");
   });
 });

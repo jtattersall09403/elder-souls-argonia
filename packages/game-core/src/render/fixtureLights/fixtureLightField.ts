@@ -241,7 +241,6 @@ export class FixtureLightField {
       for (let i = 0; i < FIXTURE_LIGHTS_MAX; i++) {
         const light = new THREE.PointLight(0xffffff, 0, 1, FIXTURE_LIGHT_DECAY);
         light.castShadow = false;
-        light.visible = false;
         group.add(light);
       }
       this.pointLights = group;
@@ -257,8 +256,8 @@ export class FixtureLightField {
       const light = group.children[i] as THREE.PointLight;
       const p = i * 4; const c = (FIXTURE_LIGHTS_MAX + i) * 4;
       const on = i < this.used && (this.data[c] > 0 || this.data[c + 1] > 0 || this.data[c + 2] > 0);
-      light.visible = on;
-      if (!on) continue;
+      // off is intensity 0, never visible=false: the light set keys every lit program (render/lightSwitch)
+      if (!on) { light.intensity = 0; continue; }
       light.position.set(this.data[p], this.data[p + 1], this.data[p + 2]);
       light.distance = this.data[p + 3];
       light.color.setRGB(this.data[c], this.data[c + 1], this.data[c + 2], THREE.LinearSRGBColorSpace);

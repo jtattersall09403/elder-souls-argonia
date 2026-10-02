@@ -475,7 +475,8 @@ describe("InteriorEnvironment", () => {
     expect(scene.background).toBeNull();
     expect(clear.color.equals(cell.background)).toBe(true);
     expect(clear.alpha).toBe(1);
-    expect(sun.visible).toBe(false);
+    // held dark by intensity, never hidden (visible keys every lit program)
+    expect([sun.visible, sun.intensity]).toEqual([true, 0]);
     expect(scene.environment).toBeNull();
     expect(scene.fog).toBe(cell.fog);
     expect(gl.toneMappingExposure).toBe(1);
@@ -483,7 +484,7 @@ describe("InteriorEnvironment", () => {
     gl.toneMappingExposure = 2.5;     // the sky rig wrote while inside
     inside.frame();
     inside.restore();
-    expect(sun.visible).toBe(true);
+    expect([sun.visible, sun.intensity]).toEqual([true, 1]);
     expect(scene.environment).toBe(env);
     expect(scene.fog).toBeNull();
     expect(gl.toneMappingExposure).toBe(2.5);

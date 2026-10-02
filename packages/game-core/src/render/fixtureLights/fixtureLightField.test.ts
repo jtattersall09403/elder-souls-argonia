@@ -97,7 +97,8 @@ describe("FixtureLightField", () => {
     field.commit();
     expect(group.parent).toBe(scene);
     expect(group.children).toHaveLength(FIXTURE_LIGHTS_MAX);
-    const on = group.children.filter((l) => l.visible) as THREE.PointLight[];
+    expect(group.children.every((l) => l.visible)).toBe(true);
+    const on = group.children.filter((l) => (l as THREE.PointLight).intensity > 0) as THREE.PointLight[];
     expect(on).toHaveLength(1);
     expect([on[0].position.x, on[0].distance, on[0].decay, on[0].castShadow]).toEqual([3, 6, 2, false]);
     expect([on[0].color.r * on[0].intensity, on[0].color.g * on[0].intensity]).toEqual([6, 3]);

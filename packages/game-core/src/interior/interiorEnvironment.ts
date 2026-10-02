@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import * as tsl from "three/tsl";
 import type { LoadedInterior } from "./interiorLoader";
+import { LIGHT_HELD_OFF, setShadowShown, type MaybeShadowLight } from "../render/lightSwitch";
 import type { TslNode } from "../render/nodes/materialNodes";
 import type { InteriorFogProfile } from "../air/volumetrics/froxelGrid";
 import { applyVolumetrics, type VolumetricsSampler } from "../air/volumetrics/volumetricNodes";
@@ -97,7 +98,7 @@ export class InteriorEnvironment {
     environment: THREE.Scene["environment"]; fogNode: unknown; exposure: number;
     clearColor: THREE.Color; clearAlpha: number;
   };
-  private readonly hidden = new Set<THREE.Light>();
+  private readonly hidden = new Map<MaybeShadowLight, { intensity: number; shadow: number; autoUpdate: boolean }>();
   /** Frames until the next light sweep: a scene walk each frame costs more than a light ever added. */
   private sweepIn = 0;
 
@@ -131,14 +132,18 @@ export class InteriorEnvironment {
     scene.fog = interior.fog;
     scene.background = null;
     gl.setClearColor(interior.background, 1);
-    if (--this.sweepIn > 0) return;
-    this.sweepIn = LIGHT_SWEEP_FRAMES;
-    scene.traverse((o) => {
-      const light = o as THREE.Light;
-      if (!light.isLight || !light.visible || this.owns(light)) return;
-      light.visible = false;
-      this.hidden.add(light);
-    });
+    if (--this.sweepIn <= 0) {
+      this.sweepIn = LIGHT_SWEEP_FRAMES;
+      scene.traverse((o) => {
+        const light = o as MaybeShadowLight;
+        if (!light.isLight || this.hidden.has(light) || this.owns(light)) return;
+        // held dark, never hidden: visible and castShadow key every lit program (render/lightSwitch)
+        this.hidden.set(light, { intensity: light.intensity, shadow: light.shadow?.intensity ?? 1, autoUpdate: light.shadow?.autoUpdate ?? true });
+        light.userData[LIGHT_HELD_OFF] = true;
+      });
+    }
+    // every frame: a host (aimSun) may write a held light's intensity between sweeps
+    for (const light of this.hidden.keys()) { light.intensity = 0; setShadowShown(light, false); }
   }
 
   restore(): void {
@@ -149,7 +154,11 @@ export class InteriorEnvironment {
     scene.environment = saved.environment;
     gl.toneMappingExposure = saved.exposure;
     gl.setClearColor(saved.clearColor, saved.clearAlpha);
-    for (const light of this.hidden) light.visible = true;
+    for (const [light, was] of this.hidden) {
+      delete light.userData[LIGHT_HELD_OFF];
+      light.intensity = was.intensity;
+      if (light.shadow) { setShadowShown(light, was.autoUpdate); light.shadow.intensity = was.shadow; }
+    }
     this.hidden.clear();
   }
 

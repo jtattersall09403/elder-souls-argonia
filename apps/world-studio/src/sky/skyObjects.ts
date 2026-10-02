@@ -7,6 +7,7 @@
  * materials throughout (decision 0107, docs/standards/tsl-shaders.md).
  */
 import * as THREE from "three";
+import { lightHeldOff, setShadowShown } from "@elder-souls/game-core/render/lightSwitch";
 import { MeshBasicNodeMaterial, NodeMaterial, PointsNodeMaterial } from "three/webgpu";
 import * as TSL_TYPED from "three/tsl";
 import { SkyMesh } from "three/examples/jsm/objects/SkyMesh.js";
@@ -677,6 +678,9 @@ export function aimSun(sun: THREE.DirectionalLight, sunDir: THREE.Vector3, focus
   sun.target.position.copy(focus);
   sun.target.updateMatrixWorld();
   sun.color.setRGB(...rig.sunColor);
-  sun.intensity = rig.sunIntensity;
-  sun.castShadow = rig.sunCastsShadows;
+  // castShadow stays true and the sun stays visible: both key every lit program on the node
+  // renderer (game-core render/lightSwitch); off is intensity / shadow.intensity
+  const held = lightHeldOff(sun);
+  sun.intensity = held ? 0 : rig.sunIntensity;
+  setShadowShown(sun, rig.sunCastsShadows && !held);
 }
