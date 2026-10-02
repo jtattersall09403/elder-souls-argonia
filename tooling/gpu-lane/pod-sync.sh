@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 # Put a built studio on the pod and (re)start serve.mjs on the pod's port 8099 over EVERY synced dist, each at the
 # base it was built for (dev at /studio/, webgpu at /webgpu/), with the studio data from /root/site/public.
-#   POD_SSH="ssh -i <key> -p <port> root@<ip>" bash tooling/gpu-lane/pod-sync.sh --data <lane>   (once per pod)
+#   POD_SSH="ssh -i <key> -p <port> root@<ip>" bash tooling/gpu-lane/pod-sync.sh --data <lane> [<worktree>]   (once per pod)
 #   POD_SSH="..." bash tooling/gpu-lane/pod-sync.sh <dist> <dev|webgpu> <lane>                   (per iteration)
 #   POD_SSH="..." bash tooling/gpu-lane/pod-sync.sh --check <lane> [webgl|webgpu]               (before build/sync)
 # --check: the pod's Chrome must answer 127.0.0.1:9222/json/version; when it does not, pod-setup.sh is re-run on the pod
 #   (default webgpu flags) and the check repeated; exits non-zero if Chrome is still down (iter7 lost 10 min to this).
-# --data: the main tree's apps/world-studio/public (kits, province, textures: ~600 MB) to /root/site/public, skipped when
-#   its listing hash (path, size, mtime) equals the pod's /root/site/public/.hash.
+# --data: the <worktree>'s apps/world-studio/public (default: this script's repo root; kits, province, textures: ~600 MB)
+#   to /root/site/public (rsync --delete), skipped when "<worktree> <listing hash (path, size, mtime)>" equals the pod's
+#   /root/site/public/.hash.
 # Each dist also carries the server's own files (serve-lib.mjs serveFiles), so serve.mjs starts on the pod's node.
 # <dist>: the fixed folder build-dist.sh writes (never a per-iteration copy). Its key (build-dist's source key in
 #   .srchash plus the serve*.mjs it starts, no hash over the built files) is compared with /root/site/dists/<name>/.hash; equal and the server alive -> skip; else
@@ -35,13 +36,17 @@ DATA_EXCL=(--exclude /kits/ --exclude /province/ --exclude /textures/)
 
 if [ "${1:-}" = --data ]; then
   lane=${2:?lane}; t0=$(date +%s)
-  pub=$(node -e 'import("./apps/world-studio/scripts/lib/webgpu-static.mjs").then((m) => console.log(m.dataPublicDir()))')
-  h=$(cd "$pub" && find . -type f -printf '%P %s %T@\n' | sort | sha1sum | cut -c1-40)
+  # the worktree whose data is synced: the 3rd argument (as build-dist.sh's <worktree>), else this script's own repo root
+  wt=$(cd "${3:-$(git -C "$(dirname "$0")" rev-parse --show-toplevel)}" && pwd -P)
+  pub=$wt/apps/world-studio/public
+  [ -d "$pub" ] || { echo "pod-sync: $pub is not a directory" >&2; exit 1; }
+  # the marker names the worktree too, so switching worktree forces a sync
+  h="$wt $(cd "$pub" && find . -type f -printf '%P %s %T@\n' | sort | sha1sum | cut -c1-40)"
   if [ "$($S "$t" "cat /root/site/public/.hash 2>/dev/null" || true)" = "$h" ]; then
     echo "pod-sync: data unchanged ($h), skipped"; note sync:data 0 1; exit 0; fi
   $S "$t" "mkdir -p /root/site/public"
   b=$(rsync -a --stats --delete --exclude /.hash -e "$S" "$pub/" "$t:/root/site/public/" | sent)
-  $S "$t" "echo $h > /root/site/public/.hash"
+  $S "$t" "echo '$h' > /root/site/public/.hash"
   s=$(( $(date +%s) - t0 )); echo "pod-sync: data synced in $s s, $b bytes sent"; note sync:data "$s" "" "$b"; exit 0
 fi
 
