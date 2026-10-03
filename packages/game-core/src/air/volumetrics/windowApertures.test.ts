@@ -208,12 +208,14 @@ describe("vol10 F3/F4/F7: the cell's own light feeds the medium", () => {
     expect(keebaUnit).toBeCloseTo(3 * 2.738 * Math.PI, 2);
     expect(keebaUnit).toBeGreaterThan(3 * Math.PI / 4 * 2);
   });
-  it("F4: mid-beam in-scatter (sky fill only) is over 2x a lamp halo at the same distance", () => {
+  // LAMP_PHASE.forward 0.6 (vol10 diag8 O-1) gives the lamp a wide side-on skirt (lampPhase(0)): the beam
+  // outshines it 1.53x at 2 m
+  it("F4: mid-beam in-scatter (sky fill only) is over 1.5x a lamp halo at the same distance", () => {
     const dustSigma = 0.005; // Keeba's dust "low"
     const beam = beamInscatterPerM(keebaUnit * SKY_FILL_SCALE, dustSigma, 0);
     const lampI = 2.738 * Math.PI, d = 2;
     const halo = (lampI / (d * d)) * lampPhase(0) * Math.max(dustSigma, LAMP_HALO.high.sigmaFloorPerM) * ALBEDO;
-    expect(beam).toBeGreaterThan(2 * halo);
+    expect(beam).toBeGreaterThan(1.5 * halo);
   });
   it("F7: Mugsump's fog scatters its own ambient (radiance > 0 at mid-room), faces read by name", () => {
     const m = bundleOf("MugsumpHollowInt01");

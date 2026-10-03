@@ -734,3 +734,12 @@ test("withFinalJpgLuma: luma final and black are final.jpg's own (diag19 Q1: 0.3
   assert.deepEqual(f, { luma: 145.5, blackShare: 0, fps: 30, lumaSource: "final.jpg" });
   assert.equal(summariseViewF2({ final: f }).lumaFinal, 145.5);
 });
+
+import { duplicateKeyViews, withParam } from "./pod-capture-lib.mjs";
+test("duplicateKeyViews refuses a twin that appended vol=off beside vol=high (diag8 H0); withParam replaces", () => {
+  const base = "http://x/?view=character&vol=high&rate=0.5";
+  const views = [{ name: "a-voloff", url: `${base}&vol=off` }, { name: "ok", url: withParam(base, "vol", "off") },
+    { name: "page", url: "http://x/?a=1&a=2", plain: true }];
+  assert.deepEqual(duplicateKeyViews(views), [{ name: "a-voloff", key: "vol" }]);
+  assert.equal(new URL(withParam(base, "vol", "off")).searchParams.getAll("vol").join(), "off");
+});

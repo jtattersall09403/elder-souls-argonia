@@ -461,6 +461,28 @@ export function heapTop(profile, n = 25) {
   return [...by].sort((a, b) => b[1] - a[1]).slice(0, n).map(([fn, b]) => ({ fn, selfMB: Math.round(b / 1e4) / 100 }));
 }
 
+/** Studio views (non-plain) whose URL repeats a query key: `[{name, key}]`. The studio reads the first value, so a
+ * twin built by appending `vol=off` beside `vol=high` was never off (vol10 diag8 H0); pod-capture refuses them. */
+export function duplicateKeyViews(views) {
+  const out = [];
+  for (const v of views) {
+    if (v.plain) continue;
+    const seen = new Set();
+    for (const k of new URL(v.url).searchParams.keys()) {
+      if (seen.has(k)) { out.push({ name: v.name, key: k }); break; }
+      seen.add(k);
+    }
+  }
+  return out;
+}
+
+/** `url` with its `key` set to `value`, replacing every existing `key` (views builders use it for twins). */
+export function withParam(url, key, value) {
+  const u = new URL(url);
+  u.searchParams.set(key, String(value));
+  return u.toString();
+}
+
 /** Studio views whose URL has no `rate=` run a paused world clock, so their numbers are not game-speed measurements
  * (diag10 T9). Returns the names of the non-plain views lacking it; pod-capture refuses them unless --allow-paused. */
 export function pausedClockViews(views) {

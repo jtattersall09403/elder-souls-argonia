@@ -90,7 +90,7 @@ import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
-import { viewDeadlineS, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, POSE_READY_JS, DEV_HOOKS_JS, profileStartS } from "./pod-capture-lib.mjs";
+import { viewDeadlineS, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, duplicateKeyViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, POSE_READY_JS, DEV_HOOKS_JS, profileStartS } from "./pod-capture-lib.mjs";
 import { loadSourceMaps } from "./source-maps.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit } from "./checks.mjs";
@@ -125,6 +125,9 @@ const heapProfileAll = args.includes("--heap-profile"), cpuProfile = args.includ
 // a studio view without rate= runs a paused clock: not a game-speed measurement (diag10 T9)
 const paused = pausedClockViews(views);
 if (paused.length && !args.includes("--allow-paused")) { console.error(`pod-capture: views without rate= (paused clock): ${paused.join(", ")}; add rate=0.5 or pass --allow-paused`); process.exit(2); }
+// a repeated query key reads its first value: a twin appended `vol=off` beside `vol=high` was never off (diag8 H0)
+const dupKeys = duplicateKeyViews(views);
+if (dupKeys.length) { console.error(`pod-capture: views with a duplicate query key: ${dupKeys.map((d) => `${d.name} (${d.key})`).join(", ")}; build twins with pod-capture-lib withParam`); process.exit(2); }
 
 const CDP_TIMEOUT_MS = 30_000;          // a CDP call that does not answer in this long has stopped answering
 const GC_TIMEOUT_MS = 10_000;           // a forced GC on a busy page; one timeout turns the view's forced GCs off

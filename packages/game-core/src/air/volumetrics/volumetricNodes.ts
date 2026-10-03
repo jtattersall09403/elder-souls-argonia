@@ -64,7 +64,7 @@ export function applyVolumetrics(v: VolumetricsSampler, color: TslNode, viewDept
 /** Lamp phase: an isotropic floor plus a forward Henyey-Greenstein lobe. The round glow a lamp wears
  * in fog is light scattered a few degrees off its straight path toward the eye, so the lobe sets
  * the halo; the floor keeps a faint wide skirt (fitted by eye to the owner's misty-lamp photo). */
-export const LAMP_PHASE: { readonly g: number; readonly forward: number } = { g: 0.75, forward: 0.8 };
+export const LAMP_PHASE: { readonly g: number; readonly forward: number } = { g: 0.75, forward: 0.6 };
 /** A lamp's airlight is marched only inside LAMP_REACH x its light radius, fading from LAMP_REACH_FADE
  * of that: at 3 radii the in-scatter has fallen to a few percent of its peak, so the phase lobe and the
  * medium set the halo edge, not the cut; the cut still keeps distant ground free of lit haze. */
@@ -106,9 +106,10 @@ export function localScatter(sigma: number, local: number, r: number): number {
 /** Single-scatter in-scatter of one point light along a ray [0, L] in a homogeneous medium, marched
  * equiangularly (Kulla and Fajardo 2012): t = t0 + h tan(theta), dt / r^2 = dtheta / h, and the
  * scattering cosine at the sample is sin(theta). t0 is the ray parameter nearest the light, h its
- * distance from the ray. Plain TS twin of the shader loop. */
+ * distance from the ray. `sigma` scatters, `ext` extinguishes (the halo medium scatters; the grid's own air dims,
+ * vol10 diag8 O-1). Plain TS twin of the shader loop. */
 export function airlightIntegral(sigma: number, intensity: number, t0: number, h: number, L: number,
-  steps = LAMP_STEPS, forward: number = LAMP_PHASE.forward, R = Infinity, local = 0): number {
+  steps = LAMP_STEPS, forward: number = LAMP_PHASE.forward, R = Infinity, local = 0, ext = sigma): number {
   const hh = Math.max(h, 0.05);
   const half = Math.sqrt(Math.max(R * R - hh * hh, 0));
   const a = Math.atan((Math.max(t0 - half, 0) - t0) / hh);
@@ -118,7 +119,7 @@ export function airlightIntegral(sigma: number, intensity: number, t0: number, h
     const th = a + (k + 0.5) * dth;
     const t = t0 + hh * Math.tan(th), r = hh / Math.cos(th);
     const fade = Number.isFinite(R) ? 1 - smooth(R * LAMP_REACH_FADE, R, r) : 1;
-    sum += localScatter(sigma, local, r) * lampPhase(Math.sin(th), LAMP_PHASE.g, forward) * Math.exp(-sigma * (t + r)) * fade;
+    sum += localScatter(sigma, local, r) * lampPhase(Math.sin(th), LAMP_PHASE.g, forward) * Math.exp(-ext * (t + r)) * fade;
   }
   return intensity * sum * dth / hh;
 }
@@ -131,6 +132,7 @@ function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode
   const dir = dirW.div(max(length(dirW), float(1e-4)));
   // the medium's mean extinction along this pixel's ray, read from the grid's own transmittance
   const gridSigma = clamp(log(max(trans, float(1e-4))).negate().div(max(viewDepth, v.near)), 0.002, 0.5);
+  // the halo medium scatters; the grid's own air extinguishes, so clear air does not dim the lamp it lights (diag8 O-1)
   const sigma = v.halo ? max(gridSigma, v.halo.sigmaFloor) : gridSigma;
   const minReach = float(v.halo?.minReachM ?? LAMP_HALO.high.minReachM);
   const { g, forward } = LAMP_PHASE;
@@ -162,7 +164,7 @@ function pointAirlight(v: VolumetricsSampler, trans: TslNode, viewDepth: TslNode
         const ph = float((1 - forward) / (4 * Math.PI)).add(float(forward * (1 - g * g) / (4 * Math.PI))
           .div(pow(max(float(1 + g * g).sub(c.mul(2 * g)), float(1e-4)), float(1.5))));
         const scat = max(sigma, local.mul(float(1).sub(smoothstep(float(0), float(FIRE_HALO_FALLOFF_M), r))));
-        sum.addAssign(scat.mul(ph).mul(exp(sigma.mul(t.add(r)).negate())).mul(float(1).sub(smoothstep(R.mul(LAMP_REACH_FADE), R, r))));
+        sum.addAssign(scat.mul(ph).mul(exp(gridSigma.mul(t.add(r)).negate())).mul(float(1).sub(smoothstep(R.mul(LAMP_REACH_FADE), R, r))));
       }
       acc.addAssign(L.col.element(i).xyz.mul(sum.mul(dth).div(h).mul(reach)));
     });

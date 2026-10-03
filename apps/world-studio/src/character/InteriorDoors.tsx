@@ -76,6 +76,16 @@ export interface InteriorDoorsProbe {
    * `opened` the controller was ready and the cell was asked for, `shown` the cell attached,
    * `clear` the first frame the fade was fully lifted with the cell shown. Null until reached. */
   stagesMs: { opened: number | null; shown: number | null; clear: number | null };
+  /** The cell's daylight (vol10 diag8 I-1): the window share, whether an aperture faces the sun, the eased sky
+   * strength the cell sun takes, and the aperture count. */
+  daylight: { sunShare: number; faced: boolean; strength: number; apertures: number };
+  /** What lights the character in the cell (vol10 diag8 I-2): its skinned materials' envMapIntensity (mean, min),
+   * the scene environment texture it reads, and the cell ambient's intensity. Null with no cell shown. */
+  lightingIn: {
+    playerEnvMapIntensity: { mean: number; min: number; materials: number } | null;
+    environment: { uuid: string; name: string } | null;
+    cellAmbientIntensity: number;
+  } | null;
   /** Bytes the shown cell's load fetched over the network (resource timing; cached files count 0). */
   bytes: number | null;
   /** Requests the shown cell's load made (resource timing, cached included). */
@@ -361,6 +371,8 @@ export function InteriorDoors({
   const sky = useMemo(() => ({ dir: new THREE.Vector3(0, -1, 0), tint: new THREE.Color(), strength: 0, inFrames: 0 }), []);
   // the sky light eased toward the last read every frame (diag3 Q5): the read refreshes twice a second, a step each time
   const skyEased = useMemo(() => ({ dir: new THREE.Vector3(0, -1, 0), strength: 0, primed: false }), []);
+  // the last frame's daylight decisions, read by the probe (vol10 diag8 I-1)
+  const daylightSeen = useMemo(() => ({ sunShare: 0, faced: false }), []);
   // the outside the cell's air follows (floor mist by dawn and season), refreshed with the sky light
   const climate = useMemo<InteriorClimate>(() => ({ minuteOfDay: 720, sunriseMin: 360, wetSeason: 0.5 }), []);
   const fogProfile = useMemo<InteriorFogProfile>(() => ({ floorY: 0, floorMistTopM: 0, floorMistDensity: 0, dustDensity: 0 }), []);
@@ -400,6 +412,30 @@ export function InteriorDoors({
     const swingDoor = swing && focus ? swing.controller.doors.find((d) => d.id === focus.id) : undefined;
     environment.current?.frame();
     const rig = shown ? drawnLightRigOf(scene) : null;
+    // the ephemeris and sunrise allocate: the sky light and the climate are re-read twice a second, whatever the
+    // volumetrics band (vol10 diag8 I-1: read only with the band on, the cell sun stayed dark with vol=off)
+    if (shown && --sky.inFrames <= 0) {
+      sky.inFrames = SKY_LIGHT_REFRESH_FRAMES;
+      const epoch = worldClock.epochMinutes();
+      climate.minuteOfDay = ((epoch % 1440) + 1440) % 1440;
+      climate.sunriseMin = sunriseSunsetMin(epoch).sunriseMin;
+      climate.wetSeason = (worldClock.season().s + 1) / 2;
+      if (windows) {
+        const sun = sunAt(epoch);
+        sky.strength = windowSkyLight(sun, moonsAt(epoch), sky.dir, sky.tint);
+        // the light the exterior draws (lightRig): its sun or moon colour, and the
+        // weather's direct share (overcast and rain leave the sky fill only)
+        if (rig) {
+          const c = sun.altitude > 0 ? rig.sunColor : rig.moonColor;
+          const peak = Math.max(c[0], c[1], c[2]);
+          if (peak > 0) sky.tint.setRGB(c[0] / peak, c[1] / peak, c[2] / peak);
+          sky.strength *= SKY_FILL_SCALE + (1 - SKY_FILL_SCALE) * Math.min(1, Math.max(0, rig.directFactor));
+        }
+        // the sky as the cell sees it: its compass turned to the door it was entered by (0112 §6)
+        worldToCellDirection(sky.dir, cellCompassOffsetDeg(transition.entranceFacingDeg ?? 0,
+          shown.interior.bundle.arrivalMarker.yawDeg), sky.dir);
+      }
+    }
     if (!shown) skyEased.primed = false;
     else if (sky.inFrames > 0) {
       // the first read of a cell snaps; later reads ease in over SKY_EASE_S
@@ -427,7 +463,9 @@ export function InteriorDoors({
           // the exterior sun's own colour and intensity, in the cell's exposure-1 frame (diag3 Q2)
           shown.interior.daylight.setSun(faced ? toSunCell : null, faced ? skyEased.strength : 0,
             daylightColour, rig.sunIntensity * rig.exposureTarget);
+          daylightSeen.faced = faced;
         }
+        daylightSeen.sunShare = share;
         if (cellAmbient) cellAmbient.share = share;
       }
     }
@@ -436,29 +474,6 @@ export function InteriorDoors({
       nearestVolumeLights((v) => field.forEachLight(v), camera.position.x, camera.position.y, camera.position.z,
         MAX_VOLUME_LIGHTS, volLights.current);
       let apertures: ReturnType<WindowBeams["update"]> | undefined;
-      // the ephemeris and sunrise allocate: the sky light and the climate are re-read twice a second
-      if (--sky.inFrames <= 0) {
-        sky.inFrames = SKY_LIGHT_REFRESH_FRAMES;
-        const epoch = worldClock.epochMinutes();
-        climate.minuteOfDay = ((epoch % 1440) + 1440) % 1440;
-        climate.sunriseMin = sunriseSunsetMin(epoch).sunriseMin;
-        climate.wetSeason = (worldClock.season().s + 1) / 2;
-        if (windows) {
-          const sun = sunAt(epoch);
-          sky.strength = windowSkyLight(sun, moonsAt(epoch), sky.dir, sky.tint);
-          // the light the exterior draws (lightRig): its sun or moon colour, and the
-          // weather's direct share (overcast and rain leave the sky fill only)
-          if (rig) {
-            const c = sun.altitude > 0 ? rig.sunColor : rig.moonColor;
-            const peak = Math.max(c[0], c[1], c[2]);
-            if (peak > 0) sky.tint.setRGB(c[0] / peak, c[1] / peak, c[2] / peak);
-            sky.strength *= SKY_FILL_SCALE + (1 - SKY_FILL_SCALE) * Math.min(1, Math.max(0, rig.directFactor));
-          }
-          // the sky as the cell sees it: its compass turned to the door it was entered by (0112 §6)
-          worldToCellDirection(sky.dir, cellCompassOffsetDeg(transition.entranceFacingDeg ?? 0,
-            shown.interior.bundle.arrivalMarker.yawDeg), sky.dir);
-        }
-      }
       if (windows) {
         camera.updateMatrixWorld();
         frustum.setFromProjectionMatrix(viewProj.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
@@ -494,9 +509,11 @@ export function InteriorDoors({
     if (!probeRef) return undefined;
     probeRef.current = () => probeState(shown, transition,
       transition.prompt ? interaction.isFocused(transition.prompt.doorId) : false, overlay, linkS.current,
-      shown ? linker.programsOf(shown.interior) ?? null : null, loadNet.current, stagesMs.current);
+      shown ? linker.programsOf(shown.interior) ?? null : null, loadNet.current, stagesMs.current,
+      { sunShare: daylightSeen.sunShare, faced: daylightSeen.faced, strength: skyEased.strength,
+        apertures: windows?.apertures.length ?? 0 }, scene);
     return () => { probeRef.current = null; };
-  }, [probeRef, shown, transition, interaction, overlay]);
+  }, [probeRef, shown, transition, interaction, overlay, daylightSeen, skyEased, windows, scene]);
 
   if (shown) return linked === shown ? <primitive object={shown.interior.group} position={shown.originM} /> : null;
   return exteriorSwing.length ? <>{exteriorSwing.map((d) => <primitive key={d.id} object={d.object} />)}</> : null;
@@ -596,7 +613,7 @@ const INTERIOR_LINK_WAIT_MS = 4000;
 function probeState(
   shown: Shown | null, transition: DoorTransition, focused: boolean, overlay: DoorOverlayChannel,
   linkS: number | null, programs: number | null, net: { bytes: number; requests: number } | null,
-  stagesMs: InteriorDoorsProbe["stagesMs"],
+  stagesMs: InteriorDoorsProbe["stagesMs"], daylight: InteriorDoorsProbe["daylight"], scene: THREE.Scene,
 ): InteriorDoorsProbe {
   let boundsM: InteriorDoorsProbe["boundsM"] = null;
   if (shown) {
@@ -616,6 +633,29 @@ function probeState(
     loadS: shown?.interior.loadS ?? null,
     linkS, enterS: transition.enterS, programs, bytes: net?.bytes ?? null, requests: net?.requests ?? null,
     stagesMs: { ...stagesMs },
+    daylight,
+    lightingIn: shown ? lightingIn(shown.interior, scene) : null,
+  };
+}
+
+/** What lights a body standing in the cell (vol10 diag8 I-2): the envMapIntensity of the skinned meshes outside
+ * the cell (the character), the scene environment the cell inherits, and the cell ambient. Probe-time only. */
+function lightingIn(interior: LoadedInterior, scene: THREE.Scene): NonNullable<InteriorDoorsProbe["lightingIn"]> {
+  let sum = 0, n = 0, min = Infinity;
+  scene.traverse((o) => {
+    if (!(o as THREE.SkinnedMesh).isSkinnedMesh) return;
+    for (let p: THREE.Object3D | null = o; p; p = p.parent) if (p === interior.group) return;
+    const mats = (o as THREE.SkinnedMesh).material;
+    for (const m of Array.isArray(mats) ? mats : [mats]) {
+      const v = (m as THREE.MeshStandardMaterial).envMapIntensity;
+      if (typeof v === "number") { sum += v; n++; min = Math.min(min, v); }
+    }
+  });
+  const env = scene.environment;
+  return {
+    playerEnvMapIntensity: n ? { mean: sum / n, min, materials: n } : null,
+    environment: env ? { uuid: env.uuid, name: env.name } : null,
+    cellAmbientIntensity: interior.daylight.ambient.intensity,
   };
 }
 

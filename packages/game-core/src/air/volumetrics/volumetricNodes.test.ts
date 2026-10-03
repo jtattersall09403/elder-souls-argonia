@@ -34,6 +34,14 @@ describe("lamp halo floor", () => {
     expect(at1m / core).toBeGreaterThan(0.1);
     expect(at1m).toBeGreaterThan(0.1 * airlightIntegral(0.002, 60, 20, 0.2, 40, 10, undefined, minReachM));
   });
+  it("clear air does not dim the lamp it lights: the floor scatters, the grid sigma extinguishes (diag8 O-1)", () => {
+    const { sigmaFloorPerM, minReachM } = LAMP_HALO.high;
+    // the integrand's peak at t = 40 m: scatter x exp(-ext t); r7 extinguished with the floor too (0.0084)
+    expect(sigmaFloorPerM * Math.exp(-0.002 * 40)).toBeGreaterThanOrEqual(3 * 0.0084);
+    const split = airlightIntegral(sigmaFloorPerM, 60, 40, 0.2, 80, 10, undefined, minReachM, 0, 0.002);
+    const r7 = airlightIntegral(sigmaFloorPerM, 60, 40, 0.2, 80, 10, undefined, minReachM);
+    expect(split / r7).toBeGreaterThanOrEqual(3);
+  });
   it("mobile values sit beside the high ones", () => {
     expect(LAMP_HALO.mobile.viewM).toBeLessThanOrEqual(LAMP_HALO.high.viewM);
     expect(LAMP_HALO.mobile.minReachM).toBeGreaterThan(0);
