@@ -1014,3 +1014,17 @@ def test_shapes_the_nif_hides_are_dropped_and_listed():
     hidden = {d["shape"].split(".")[0] for d in rec.get("droppedShapes", [])
               if d.get("reason") == "hidden"}
     assert {"BodyMale_Big", "FemaleHead"} <= hidden
+
+
+def test_code_digest_is_part_of_the_kit_input_hash(tmp_path, monkeypatch):
+    data_root = tmp_path / "data-root"
+    data_root.mkdir()
+    monkeypatch.setattr(build_kit, "kit_asset_ids", lambda kit_id: set())
+    monkeypatch.setattr(build_kit, "kit_record_view", lambda path, kit_id, ids: b"")
+    monkeypatch.setattr(build_kit, "KIT_ROW_RECORDS", [])
+    monkeypatch.setattr(build_kit, "KIT_RECORD_FILES", [])
+    monkeypatch.setattr(build_kit, "kit_code_digest", lambda: "code-a")
+    a = build_kit.kit_input_hashes("flora-marsh-probe", data_root, {}, tmp_path)
+    monkeypatch.setattr(build_kit, "kit_code_digest", lambda: "code-b")
+    b = build_kit.kit_input_hashes("flora-marsh-probe", data_root, {}, tmp_path)
+    assert build_kit.digest_of(a) != build_kit.digest_of(b)

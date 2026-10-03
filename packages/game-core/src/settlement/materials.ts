@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { ALWAYS_LIT_DAY_FACTOR, artificialLightFactor } from "./lighting";
 import type { SettlementKitMaterialExtras } from "./types";
 import { applyLanternShell } from "./fixtureGlow";
+import { isSettlementGlowMaterial, WINDOW_GLOW_GAIN, WINDOW_GLOW_LINEAR_RGB } from "./windowGlow";
 import { chainHas, markChain } from "../render/shaderHookChain";
 
 export interface SettlementMaterialUniforms {
@@ -30,10 +31,8 @@ interface SettlementSurfaceState {
   flameGain: THREE.IUniform<number>;
 }
 
-/** Warm lamplight colour of a lit window at full night (linear RGB), and its
- * gain over the glTF emissive (the NIF's Glow_Map mask at factor 1). */
-const WINDOW_GLOW_RGB = "vec3(1.0, 0.6, 0.28)";
-const WINDOW_GLOW_GAIN = 2.0;
+export { isSettlementGlowMaterial };
+const WINDOW_GLOW_RGB = `vec3(${WINDOW_GLOW_LINEAR_RGB.map((c) => c.toFixed(2)).join(", ")})`;
 /** Gain of an additive effect card over its texture x vertex colour when its
  * kit carries none: kits built before output format 3 (build_kit
  * KIT_OUTPUT_FORMAT_VERSION); every later build writes the NIF's own. */
@@ -46,15 +45,6 @@ const FLAME_GLOW_GAIN = 1.5;
 export function additiveGain(material: THREE.Material): number {
   const gain = (material.userData as SettlementKitMaterialExtras | undefined)?.gain;
   return typeof gain === "number" && gain > 0 ? gain : FLAME_GLOW_GAIN;
-}
-
-/**
- * A glow material is one whose kit build carried the NIF's Glow_Map slot
- * into the glTF as an emissive texture (blender/build_kit.py
- * rebuild_material). Selected by that map, never by a material name.
- */
-export function isSettlementGlowMaterial(material: THREE.Material): boolean {
-  return Boolean((material as THREE.MeshStandardMaterial).emissiveMap);
 }
 
 /**

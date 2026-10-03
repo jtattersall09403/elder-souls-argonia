@@ -1995,6 +1995,7 @@ def kit_input_hashes(kit_id: str, data_root: Path, plan: dict, vault: Path) -> d
     files += [(_repo_label(p), p) for p in dict.fromkeys(repo_files)]
     hashes = input_hashes(files, {"plan": plan, "vault": str(vault)})
     hashes["(output-format)"] = str(KIT_OUTPUT_FORMAT_VERSION)
+    hashes["(build code)"] = kit_code_digest()
     ids = kit_asset_ids(kit_id)
     for path in KIT_ROW_RECORDS:
         hashes[f"{path.name} (kit rows)"] = hashlib.sha256(
@@ -2027,9 +2028,9 @@ def outputs_digest(kit_id: str, output_glb: Path) -> str:
 
 
 def kit_code_digest() -> str:
-    """sha256 over ``KIT_CODE_FILES``' content: an informational stamp line
-    (``# code:``), never part of the skip digest. ``batch_prepass`` warns
-    when it moved while ``KIT_OUTPUT_FORMAT_VERSION`` did not (L9 rec 5)."""
+    """sha256 over ``KIT_CODE_FILES``' content: an input of every kit's skip
+    digest (``kit_input_hashes``), so a build-rule change marks every kit
+    stale, and the stamp's ``# code:`` line."""
     h = hashlib.sha256()
     for path in KIT_CODE_FILES:
         h.update(path.name.encode("utf-8") + b"\0" + (path.read_bytes() if path.is_file() else b""))
