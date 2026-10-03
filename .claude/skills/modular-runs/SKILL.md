@@ -244,7 +244,9 @@ turn, snapped face to face by geometry, then walked.
     flat crossing's end by a pair rise (it fails run-jointPair as
     crossing). A partly-wet run END takes a cut-only pad over its dry
     points down to the run's line (deck - sink; `cutOnly` in
-    `pad_overlay`), never filling water. Two run pieces' faces meeting
+    `pad_overlay`), never filling water; a cut never goes below water and
+    feathers over at least 4 m (`run_pad_patches`: skipped when its line is
+    under the member's water, patch blend >= `CUT_BLEND_M`). Two run pieces' faces meeting
     within 2 mm at a mined joint (coplanarRule, stairs02 0.0012 m) z-fight
     in the plugin's own pose too: offset the child 0.005 m along the
     joint's face normal, never exempt the joint.

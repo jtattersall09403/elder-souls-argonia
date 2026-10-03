@@ -76,3 +76,28 @@ def test_a_climb_run_takes_no_pad():
     assert run_pad_patches(rows, "place.rw", bank) == []
     level = [_member(i, 4.0 * i, rise=CLIMB_STEP_M * 0.9 * i) for i in range(3)]
     assert climb_runs(level) == set()
+
+
+def test_a_cut_never_goes_below_the_water():
+    """Riverwalk fs00: the ferry landing's end cut to -0.284 m, 0.41 m into its
+    bank and below the water; the piece is skipped, never clamped to a pit."""
+    rows, ground, wet = _riverwalk()
+    got = run_pad_patches(rows, "place.rw", ground, wet, water_at=lambda x, z: 0.3)
+    assert got == []                         # line 0.18 is under the 0.3 m surface
+    low = run_pad_patches(rows, "place.rw", ground, wet, water_at=lambda x, z: 0.1)
+    assert len(low) == 1                     # a surface under the line still cuts
+
+
+def test_a_cut_feathers_over_at_least_four_metres():
+    """Riverwalk lw13: a 0.138 m cut with the default 3.0 m blend left a
+    13.6 deg slope at the run end."""
+    import math
+    rows, ground, wet = _riverwalk()
+    (patch,) = run_pad_patches(rows, "place.rw", ground, wet)
+    assert patch["blendM"] >= 4.0
+    overlay = pad_overlay.overlay_from_patch(patch, 2.745)
+    padded = pad_overlay.ground(lambda x, z: 0.318 if x >= 53.0 else 0.0, [overlay])
+    xs = [53.0 + 0.25 * k for k in range(50)]
+    worst = max(math.degrees(math.atan2(abs(padded(b, 0.5) - padded(a, 0.5)), 0.25))
+                for a, b in zip(xs, xs[1:]))
+    assert worst < 12.0                      # walkwayRule's FLAT_DEG
