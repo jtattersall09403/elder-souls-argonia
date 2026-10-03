@@ -11,6 +11,8 @@ different places.
 
 ## The method
 
+Choose the palette by [palette-and-breadth.md](palette-and-breadth.md): the type sets the grammar, the region sets the families, siblings set what must differ.
+
 1. Type: what the place is FOR (the rows below, region-free).
 2. Region: what it is made of, how water and weather behave, what grows,
    what the light and air do ([design-intent.md](design-intent.md) § Intent

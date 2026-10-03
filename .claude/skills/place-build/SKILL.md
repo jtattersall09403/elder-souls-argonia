@@ -16,7 +16,9 @@ description: Design and build one real place (settlement, camp, shrine, works, d
 > (history); decision 0041 § Taste ledger; `docs/world/20-province-design.md`
 > §16, `docs/world/50-hydrology-climate.md`, `docs/world/55-light-sky-time.md`,
 > `world/sources/climate/weather-states.json` and
-> `world/sources/lore/topics/material-culture.md` (steps 1a and 4b). If a cited record has moved,
+> `world/sources/lore/topics/material-culture.md` (steps 1a and 4b),
+> `world/sources/assets/README.md`, `world/sources/assets/vault-inventory.md`
+> and `apps/world-studio/public/province/blueprints.json` (step 1a § Palette). If a cited record has moved,
 > this skill is stale: report it, do not follow it blind.
 
 This skill holds the procedure; its `references/` hold the grounding:
@@ -42,6 +44,8 @@ This skill holds the procedure; its `references/` hold the grounding:
 | [references/promise-ledger.md](references/promise-ledger.md) | the promise ledger's rows, where each source lives, reading the prose, the two-way rule | step 0 item 3 |
 | [references/publish-gates-and-readback.md](references/publish-gates-and-readback.md) | what `place_gates` runs, the per-batch gates, the R74/R81 read-back against the published bundle | step 5, step 7 item 4 |
 | [references/walk-packet.md](references/walk-packet.md) | each walk-packet section in full and the two-run post procedure | step 6 |
+| [references/palette-and-breadth.md](references/palette-and-breadth.md) | the palette from the whole pool, siblings, internal variety, the kit lane, the ledger | step 1a |
+| [references/asset-breadth-ledger.md](references/asset-breadth-ledger.md) | one row per closed place: palette and assets used against available | step 8 |
 
 **Tools.** `placement-workbench` is the tool manual (every `wb.py`
 command, its bars and its costs). Kit gaps go to `kit-build`,
@@ -167,6 +171,8 @@ type's row in [references/type-feel.md](references/type-feel.md). Write
 `why`, `vibe` and hooks are the intent, read as story beats. Nothing is
 placed before both sections exist. A decision only the owner can make goes
 to the decision-rights table in [references/builder-practice.md](references/builder-practice.md).
+
+§ Palette: choose from the whole pool, consistent with region-and-culture siblings yet distinct, further from the same type elsewhere; a chosen asset not yet in a kit starts a kit lane in this slice ([references/palette-and-breadth.md](references/palette-and-breadth.md)).
 
 ## 1. Design brief
 
@@ -355,6 +361,7 @@ touches the walked path, run [references/feel-check.md](references/feel-check.md
 eye-height shots per walk-through stage, day and night; one `image-reader`
 with the blind-read brief; the exit rule. Each miss is a layout row naming
 its lever, never a prose change. It counts inside the four-round cap.
+The palette is not a subset of any sibling's ([references/palette-and-breadth.md](references/palette-and-breadth.md) § Siblings).
 
 ## 5. Export, patches, compile, publish, gates
 
@@ -484,6 +491,7 @@ writes the lessons, the type sheet and the judgements:
    this layout, 16k S10), edited by every later one.
 3. The receipt, the type register and readiness check, and the choice of
    the next slice (contrast rule, 97 A6): [references/builder-practice.md](references/builder-practice.md) § Slice close.
+4. Append the place's row to [references/asset-breadth-ledger.md](references/asset-breadth-ledger.md).
 
 ## Never
 

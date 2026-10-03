@@ -34,7 +34,8 @@ who has not seen the design. One check per render round, inside standard
 >    <first-seen object>?
 > 6. Anything that reads as a stand-in: a block, a flat slab, an unlit
 >    dome, a boulder where a made thing should be, smoke with no fire, a
->    dark room with no light source.
+>    dark room with no light source, the same building or prop repeated so it
+>    reads as copy-paste.
 > Answer in at most 25 lines.
 
 ## Exit rule

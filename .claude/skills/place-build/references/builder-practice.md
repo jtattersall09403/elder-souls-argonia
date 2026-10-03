@@ -17,7 +17,8 @@ its opening. Read once per slice; the rules are binding.
   | a promise no kit carries after a completed sourcing search | the builder writes the search evidence; owner call in the packet |
   | the inherited ground contradicts the region's palette beyond what placed assets can carry | owner call in the packet, with the feel-check pictures |
   | a place moved or cut, a quest premise changed, a new type, a world-level rule | owner, batched in the packet § Owner calls; the build continues on the builder's recommendation |
-  | a change to tooling, kits or the frozen world | the planner, via the report |
+  | assets the palette needs that are not in a kit yet | the builder launches the kit lane in this slice ([palette-and-breadth.md](palette-and-breadth.md) § The kit lane); a manifest-writing step that would run beside another publishing lane is cleared with the planner first |
+  | a change to tooling or the frozen world | the planner, via the report |
 - **Fan out inside the lane.** Kit rebuilds, bundle exports, pose and
   yard scans, plugin mines and every render read run as parallel
   sub-agents (`run` for jobs, `find` for look-ups, a Sonnet reader per
