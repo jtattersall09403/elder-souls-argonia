@@ -15,13 +15,12 @@
  * renders N timed frames after the harness frames and publishes
  * `window.__FIXTURE_BENCH__` (driver: packages/game-core/src/render/fixtureLights/harness/run.mjs).
  */
-import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
+import { loadKitParts } from "@elder-souls/game-core/assets/loadKitParts";
+import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { MeshStandardNodeMaterial, type WebGPURenderer } from "three/webgpu";
 import { setFixtureLightsPerObject } from "@elder-souls/game-core/render/fixtureLights/fixtureLightField";
 import { createKitLoader, kitDecodersFor } from "@elder-souls/game-core/assets/kitLoader";
-import { loadKitParts } from "@elder-souls/game-core/assets/loadKitParts";
-import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { buildArchitectureKit, kitAssetMetaFromManifest, type ArchitecturePart } from "@elder-souls/game-core/settlement/kit";
 import {
   createSettlementMaterialUniforms,
@@ -114,7 +113,8 @@ export async function buildSettlementScene(ctx: HarnessContext, night: boolean):
     loadKitParts(KIT, "all", { baseUrl: base, kitCache: new KitCache(), loader }),
     fetch(`${base}kits/${KIT}.kit.json`).then((r) => r.json()),
   ]);
-  const kit = buildArchitectureKit({ scene: gltf.scene } as unknown as GLTF);
+  // the parts group carries no parser: stampKitImageKeys skips it, as for one part
+  const kit = buildArchitectureKit(gltf as unknown as Parameters<typeof buildArchitectureKit>[0]);
   const meta = kitAssetMetaFromManifest(manifest, KIT);
 
   // the game's night exposure (fire.ts FIRE_NIGHT, 22): the lamps' 6 cd are

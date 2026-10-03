@@ -26,6 +26,14 @@ export function distBase(dist) {
   return m[1];
 }
 
+/** Where the server mounts the studio data (kits, rasters): the page fetches its kits from here whatever base its dist was built for. */
+export const DATA_PREFIX = "/elder-souls-argonia/studio/";
+/** The data base for a view URL: its origin plus the mounted data prefix, or null for a URL outside the site. */
+export function dataBaseOf(viewUrl) {
+  const m = /^(https?:\/\/[^/]+)\/elder-souls-argonia\//.exec(viewUrl);
+  return m ? m[1] + DATA_PREFIX : null;
+}
+
 /** [prefix, root] pairs: each dist at its built base, then the studio data at /studio/ (after a dev
  * dist built for /studio/, as Pages composes it), then the character files at the site root. */
 export function siteRoots(dists, data, characterFiles) {
@@ -36,5 +44,5 @@ export function siteRoots(dists, data, characterFiles) {
     seen.set(base, d);
     return [base, resolve(d)];
   });
-  return [...roots, ["/elder-souls-argonia/studio/", resolve(data)], ["/elder-souls-argonia/", resolve(characterFiles)]];
+  return [...roots, [DATA_PREFIX, resolve(data)], ["/elder-souls-argonia/", resolve(characterFiles)]];
 }

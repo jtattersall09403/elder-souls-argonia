@@ -1294,7 +1294,7 @@ export function Groundcover({
     gcCull?.dispose();
   }, [gcCull]);
   const cards = useMemo(
-    () => (kit && gltf ? buildCardIndex(gltf, kit) : new Map<string, KitLevelPart>()), [gltf, kit]);
+    () => (gltf && kit ? buildCardIndex(gltf, kit) : new Map<string, KitLevelPart>()), [gltf, kit]);
 
   useFrame((state) => {
     // Ground-cover stage of the frame (decision 0084 round 10).

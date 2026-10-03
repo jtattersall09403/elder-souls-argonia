@@ -65,6 +65,7 @@ import { Groundcover, GROUNDCOVER_ENABLED } from "../vegetation/Groundcover";
 import { volumetricTier } from "@elder-souls/game-core/air/volumetrics/bandGovernor";
 import type { FireVolumeTier } from "@elder-souls/game-core/fx/fire/fireTypes";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
+import type { KitProgramWarmReport } from "@elder-souls/game-core/settlement/kitProgramWarm";
 import { groundArrivalsOf } from "@elder-souls/game-core/settlement/groundPaint";
 import {
   FrameSegments, FrameSegmentsContext, useFrameSegments, useMarkedFrame,
@@ -375,6 +376,23 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const handleSettlementSolids = useCallback((solids: SettlementSolid[]) => {
     settlementSolidsRef.current = solids;
   }, []);
+  // The boot program warm's proof numbers, refreshed into the perf summary
+  // once a second (the late links are counted live).
+  const programWarmTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+  useEffect(() => () => { if (programWarmTimer.current) clearInterval(programWarmTimer.current); }, []);
+  const handleProgramWarm = useCallback((report: KitProgramWarmReport) => {
+    const write = () => {
+      const st = (window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats }).__STUDIO_GPU_MS__;
+      if (!st) return;
+      const late = report.linkedAfter();
+      st.programsWarmed = report.programsWarmed;
+      st.programsLinkedAfterWarm = late.length;
+      if (import.meta.env.DEV) st.programsLinkedAfterWarmKeys = late;
+    };
+    if (programWarmTimer.current) clearInterval(programWarmTimer.current);
+    write();
+    programWarmTimer.current = setInterval(write, 1000);
+  }, []);
   const waterSurfaceFocus = useCallback((): Vec3 | null => {
     const position = player.current?.body?.translation();
     return position ? { x: position.x, y: position.y / verticalScaleRef.current, z: position.z } : null;
@@ -629,6 +647,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 quality={quality}
                 environment={settlementEnvironment}
                 onSolids={handleSettlementSolids}
+                onProgramWarm={handleProgramWarm}
                 rebuildRef={settlementRebuildRef}
                 onDoors={setDoors}
                 kitCache={kitCache}
@@ -1100,6 +1119,8 @@ interface FrameGpuStats {
   wall?: boolean;
   /** Which clock the GPU figure comes from (node renderer timestamps). */
   source?: GpuTimerSource;
+  /** Per-segment GPU ms (sky, scene, water, ...), read on demand by probes; allocates, never called per frame. */
+  segments?: () => readonly { label: string; avg: number; max: number }[];
   /** Triangles and draw calls the WHOLE frame issued, averaged over the same
    * 60-frame window as `avg` (every pass, see the manual `info.reset`). */
   tris: number;
@@ -1122,6 +1143,12 @@ interface FrameGpuStats {
    * by the occlusion passes, which own the numbers; undefined until they run. */
   hiddenChunks?: number;
   hiddenSectors?: number;
+  /** Programs the settlement layer's boot warm linked (kitProgramWarm.ts),
+   * and programs first linked after it finished; the GPU lane reads both.
+   * The late programs' cache keys are listed in dev builds only. */
+  programsWarmed?: number;
+  programsLinkedAfterWarm?: number;
+  programsLinkedAfterWarmKeys?: string[];
 }
 
 /** Mean of a bounded sample ring; 0 when it is empty. */
@@ -1215,6 +1242,7 @@ function FrameRateProbe({ owner }: { owner: FrameRenderOwner }) {
       avg: 0, max: 0, supported: Boolean(segments?.gpuSupported), wall: undefined,
       tris: 0, calls: 0, cpu: 0, cpuMax: 0, lastTris: 0,
       hiddenChunks: undefined, hiddenSectors: undefined,
+      segments: () => segments?.stats().gpu ?? [],
     });
     gpu.current.stats.buckets.fill(0);
     // Attribution (HUD line 3). `info.render.triangles` is the only count
@@ -1236,8 +1264,7 @@ function FrameRateProbe({ owner }: { owner: FrameRenderOwner }) {
   const [bucketsOn, setBucketsOn] = useState(readPerfOpen);
   type RenderObjectDirect = (object: unknown, material: unknown, scene: unknown, camera: unknown,
     lightsNode: unknown, group: unknown, clippingContext: unknown, passId: unknown) => unknown;
-  const bucketHook = useRef<{ internals: { _renderObjectDirect: RenderObjectDirect }; direct: RenderObjectDirect;
-    wrapped: RenderObjectDirect; n: number; sampled: boolean } | null>(null);
+  const bucketHook = useRef<{ install: (sampled: boolean) => void; n: number; sampled: boolean } | null>(null);
   useEffect(() => {
     const onFlip = (e: Event) => setBucketsOn((e as CustomEvent<boolean>).detail);
     window.addEventListener(PERF_OPEN_EVENT, onFlip);
@@ -1252,23 +1279,35 @@ function FrameRateProbe({ owner }: { owner: FrameRenderOwner }) {
     const renderObjectDirect = internals._renderObjectDirect;
     // Named parameters, not a rest array: this runs once per DRAW, and a
     // `...rest` array per draw was hundreds of arrays a frame (walk 5 perf).
-    const wrapped = function wrapped(object: unknown, material: unknown, scene: unknown,
-      cam: unknown, lightsNode: unknown, group: unknown, clippingContext: unknown, passId: unknown) {
+    const shadowOf = (material: unknown): boolean => {
       const shadow = (material as { isShadowPassMaterial?: boolean } | null)?.isShadowPassMaterial === true;
       // the CPU clock flips to "shadow" while those draws run (decision 0084 round 10)
       if (shadow !== inShadow) {
         inShadow = shadow;
         segments?.cpuMark(shadow ? "shadow" : "scene");
       }
+      return shadow;
+    };
+    // Unsampled frames: only the shadow mark. Sampled frames (one in
+    // BUCKET_SAMPLE_EVERY, perf-diag23 Q1) also attribute triangles.
+    const marking = function marking(object: unknown, material: unknown, scene: unknown,
+      cam: unknown, lightsNode: unknown, group: unknown, clippingContext: unknown, passId: unknown) {
+      shadowOf(material);
+      return renderObjectDirect.call(renderer, object, material, scene, cam, lightsNode, group,
+        clippingContext, passId);
+    };
+    const wrapped = function wrapped(object: unknown, material: unknown, scene: unknown,
+      cam: unknown, lightsNode: unknown, group: unknown, clippingContext: unknown, passId: unknown) {
+      const shadow = shadowOf(material);
       const before = renderer.info.render.triangles;
       const out = renderObjectDirect.call(renderer, object, material, scene, cam, lightsNode, group,
         clippingContext, passId);
       frame[bucketSlot(shadow, bucketIndexOf(object))] += renderer.info.render.triangles - before;
       return out;
     };
-    // Installed on one frame in BUCKET_SAMPLE_EVERY by the -100 hook (perf-diag23
-    // Q1: wrapped on every draw it held 10.8 of 21.4 s of a walk profile).
-    bucketHook.current = { internals, direct: renderObjectDirect, wrapped, n: 0, sampled: false };
+    const install = (sampled: boolean) => { internals._renderObjectDirect = sampled ? wrapped : marking; };
+    install(false);
+    bucketHook.current = { install, n: 0, sampled: false };
     return () => { internals._renderObjectDirect = renderObjectDirect; bucketHook.current = null; };
   }, [gl, segments, bucketsOn]);
 
@@ -1309,7 +1348,7 @@ function FrameRateProbe({ owner }: { owner: FrameRenderOwner }) {
     if (hook) {
       hook.n += 1;
       hook.sampled = hook.n % BUCKET_SAMPLE_EVERY === 0;
-      hook.internals._renderObjectDirect = hook.sampled ? hook.wrapped : hook.direct;
+      hook.install(hook.sampled);
     }
     info.reset();
 

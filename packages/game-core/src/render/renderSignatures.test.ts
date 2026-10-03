@@ -1,40 +1,39 @@
 import { describe, expect, it } from "vitest";
-import { closeSync, openSync, readFileSync, readSync, readdirSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { glbJson, kitSignatures, missingSignatures, NON_SETTLEMENT_KITS, RENDER_SIGNATURES_SCHEMA_VERSION, type RenderSignatures } from "./renderSignatures";
+import { missingSignatures, NON_SETTLEMENT_KITS, RENDER_SIGNATURES_SCHEMA_VERSION, type RenderSignature, type RenderSignatures } from "./renderSignatures";
+
+// @ts-expect-error the bake is an .mjs script with no declarations
+import { bakeSignatures, kitPartSignatures, publishedKits } from "../../scripts/bake-render-signatures.mjs";
 
 const pub = resolve(__dirname, "../../../../apps/world-studio/public");
-/** The JSON head of a kit's first published part GLB (kit parts schema 4, decision 0120). */
-const head = (kit: string): Uint8Array => {
-  const dir = join(pub, "kits", kit, "parts");
-  const fd = openSync(join(dir, readdirSync(dir).filter((f) => f.endsWith(".glb")).sort()[0]), "r");
-  try {
-    const h = Buffer.alloc(20); readSync(fd, h, 0, 20, 0);
-    const b = Buffer.alloc(20 + h.readUInt32LE(12)); readSync(fd, b, 0, b.length, 0);
-    return new Uint8Array(b.buffer, b.byteOffset, b.length);
-  } finally { closeSync(fd); }
-};
+const kitsDir = join(pub, "kits");
 
-describe("render signatures from kit GLB JSON chunks (webgpu10 c10)", () => {
-  it("reads two real kits' headers into deduped signatures with three's attribute names", () => {
+describe("render signatures from kit parts (webgpu10 c11)", () => {
+  it("reads two real kits' part headers into deduped signatures with three's attribute names", () => {
     for (const kit of ["camp-v1", "settlement-mud-v1"]) {
-      const sigs = kitSignatures(glbJson(head(kit)), kit);
+      const sigs = kitPartSignatures(kit, kitsDir) as RenderSignature[];
       expect(sigs.length).toBeGreaterThan(0);
       for (const s of sigs) {
         expect(s.kits).toEqual([kit]);
         expect(s.attributes.map((a) => a.name)).toContain("position");
-        for (const a of s.attributes) expect(a.name).toBe(a.name.toLowerCase().replace(/^skin(weight|index)$/, (m) => m));
       }
       expect(new Set(sigs.map((s) => JSON.stringify([s.attributes, s.indexed, s.material]))).size).toBe(sigs.length);
     }
   });
 
-  it("the baked render-signatures.json covers every published settlement-path kit (re-run the bake)", () => {
+  it("the baked render-signatures.json is non-empty and covers every published settlement-path kit (re-run the bake)", () => {
     const baked = JSON.parse(readFileSync(join(pub, "render-signatures.json"), "utf8")) as RenderSignatures;
     expect(baked.schemaVersion).toBe(RENDER_SIGNATURES_SCHEMA_VERSION);
-    const kits = readdirSync(join(pub, "kits")).filter((f) => f.endsWith(".glb")).map((f) => f.slice(0, -4))
-      .filter((k) => !NON_SETTLEMENT_KITS.includes(k));
-    const missing = kits.flatMap((k) => missingSignatures(baked, kitSignatures(glbJson(head(k)), k)).map((s) => `${k}: ${s}`));
+    expect(baked.signatures.length, "zero signatures: the boot precompile would do nothing").toBeGreaterThan(0);
+    const kits = (publishedKits(kitsDir) as string[]).filter((k) => !NON_SETTLEMENT_KITS.includes(k));
+    expect(kits.length).toBeGreaterThan(0);
+    const missing = kits.flatMap((k) => missingSignatures(baked, kitPartSignatures(k, kitsDir)).map((s) => `${k}: ${s}`));
     expect(missing, "node packages/game-core/scripts/bake-render-signatures.mjs").toEqual([]);
+    // every published kit with at least one drawing part appears in the baked kit lists
+    const listed = new Set(baked.signatures.flatMap((s) => s.kits));
+    const unlisted = kits.filter((k) => kitPartSignatures(k, kitsDir).length > 0 && !listed.has(k));
+    expect(unlisted).toEqual([]);
+    expect(bakeSignatures(kitsDir).baked.signatures.length).toBe(baked.signatures.length);
   });
 });

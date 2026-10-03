@@ -524,7 +524,53 @@ export function capVerdict(blankRafFps) {
   return { blankRafFps: Math.round(blankRafFps * 10) / 10, capDetected: blankRafFps <= 61 };
 }
 
+/** A view URL that repeats a query key (the page takes one of them, so the view is not the one asked for). Returns the key or null. */
+export function repeatedQueryKey(url) {
+  const q = String(url).split("#")[0].split("?")[1];
+  if (!q) return null;
+  const seen = new Set();
+  for (const kv of q.split("&")) {
+    const k = decodeURIComponent(kv.split("=")[0]);
+    if (!k) continue;
+    if (seen.has(k)) return k;
+    seen.add(k);
+  }
+  return null;
+}
+
+/** HH:MM game-clock text in the page body -> minute of day, or null when none is shown. */
+export function clockMinute(text) {
+  const m = /\b([01]?\d|2[0-3]):([0-5]\d)\b/.exec(String(text ?? ""));
+  return m ? Number(m[1]) * 60 + Number(m[2]) : null;
+}
+
+/** True when both clock readings exist and the game clock did not advance between the first and the last frame. */
+export function clockStalled(first, last) {
+  return Number.isFinite(first) && Number.isFinite(last) && first === last;
+}
+
+/** Twin pairs: view names `<x>-off` with a `<x>-on` partner -> [[off, on]]. */
+export function twinPairs(names) {
+  const set = new Set(names);
+  return names.filter((n) => n.endsWith("-off") && set.has(`${n.slice(0, -4)}-on`)).map((n) => [n, `${n.slice(0, -4)}-on`]);
+}
+
+/** An "off" twin whose last frame is byte-identical to its "on" twin (same encoder and size: pixel-identical) switched nothing off. */
+export function twinIdentical(offJpg, onJpg) {
+  return Boolean(offJpg && onJpg && offJpg.length === onJpg.length && Buffer.compare(offJpg, onJpg) === 0);
+}
+
 const cell = (x) => (x === null || x === undefined ? "-" : typeof x === "number" ? String(Math.round(x * 100) / 100) : String(x));
+/** The "gpu segments" cell: `label avg/max` per GPU segment, ms. Native WebGPU pages report nothing unless the view's URL
+ * carries `gputiming=1` (the timestamp queries are off while the HUD perf section is closed); the cell then reads
+ * "off (no gputiming=1)". Nothing is added to the URL here. */
+export function segmentsCell(g) {
+  const seg = g?.segments;
+  if (!Array.isArray(seg)) return null;
+  if (!seg.length) return g.supported ? "none yet" : "off (no gputiming=1)";
+  return seg.map((x) => `${x.label} ${r1c(x.avg)}/${r1c(x.max)}`).join("; ");
+}
+const r1c = (x) => (Number.isFinite(x) ? Math.round(x * 100) / 100 : "?");
 /** A view's summary from its result.json fields. Rates come from the cost window (it starts after the settled read;
  * `from` is "window", or "unsettled" when the view ended before the settled read): fps is the window's wall-clock frame
  * rate, GPU and CPU ms the window's per-frame means (measure.mjs workStats gpuFrameMs, workMs), low1 its frame intervals.
@@ -537,11 +583,12 @@ export function summariseView(r) {
   const hitchTop = topCause(Object.fromEntries((w.hitches?.list ?? []).reduce((m, h) => (h.stage ? m.set(h.stage, (m.get(h.stage) ?? 0) + h.ms) : m), new Map())));
   const s = (r.reads?.settled && !r.reads.settled.err ? r.reads.settled : r.final) ?? {}, g = s.gpuMs ?? {};
   return {
-    contaminated: r.contaminated ?? null, skippedFrames: r.skippedFrames?.length ?? 0, lumaSettled: r.reads?.settled?.luma ?? null, lumaFinal: r.final?.luma ?? null, blackShare: r.final?.blackShare ?? null,
+    contaminated: r.contaminated ? `CONTAMINATED${r.contaminationReasons?.length ? ` (${r.contaminationReasons.join("; ")})` : ""}` : r.contaminated ?? null, vramStartMiB: r.vramStartMiB ?? null, skippedFrames: r.skippedFrames?.length ?? 0, lumaSettled: r.reads?.settled?.luma ?? null, lumaFinal: r.final?.luma ?? null, blackShare: r.final?.blackShare ?? null,
     from, fps: wk?.wallFps ?? null, low1: wk?.low1 ?? null, gpuMs: wk?.gpuFrameMs?.mean ?? null, cpuMs: wk?.workMs?.mean ?? null,
     costMs: wk?.costMs?.mean ?? null, uncappedFps: wk?.uncappedFps ?? null,
-    calls: g.calls ?? s.renderer?.calls ?? null, tris: g.tris ?? s.renderer?.triangles ?? null,
+    calls: g.calls ?? s.renderer?.calls ?? null, tris: trisInvalid(r) ? "tris invalid (cull read-back)" : g.tris ?? s.renderer?.triangles ?? null,
     heapMbPerMin: r.heapSlope?.mbPerMin ?? null,
+    gpuSegments: segmentsCell(g),
     majorGCs: w.heap?.majorGCs ?? null, allocMBps: w.heap?.allocMBps ?? null, topStage: top ? `${top[0]} ${top[1]}` : null,
     hitches: w.hitches ? `${w.hitches.over33}${hitchTop ? ` (${hitchTop})` : ""}` : null,
     errors: `${r.gpuErrors?.length ?? "?"}/${r.console?.filter(([k]) => k.startsWith("error")).length ?? "?"}/${r.pageErrors?.length ?? "?"}/${r.http404s ?? "?"}`,
@@ -570,9 +617,9 @@ export function summariseView(r) {
 /** Markdown summary: one row per view from its result.json `summary` (`summariseView`). "from" names the window the rates
  * came from; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "failed", "invalid", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets", "ready gate", "program errors", "shot error", "clock", "dev hooks", "profile self top15 (source)", "heap alloc top5", "veg tris by rung", "fetch before ready"];
+  const cols = ["view", "failed", "invalid", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "gpu segments avg/max ms", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets", "ready gate", "program errors", "shot error", "clock", "dev hooks", "profile self top15 (source)", "heap alloc top5", "veg tris by rung", "fetch before ready"];
   const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.invalid, s.load, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
-    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets, s.readyGate, s.programErrors, s.shotErrors, s.clock, s.devHooks, s.profileSrc, s.heapAllocTop5, s.vegTrisByRung, s.fetchBeforeReady].map(cell));
+    s.costMs, s.uncappedFps, s.gpuSegments, s.calls, s.tris == null || typeof s.tris === "string" ? s.tris : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets, s.readyGate, s.programErrors, s.shotErrors, s.clock, s.devHooks, s.profileSrc, s.heapAllocTop5, s.vegTrisByRung, s.fetchBeforeReady].map(cell));
   const stopped = views.filter((v) => v.summary?.clockStopped).map((v) => v.name);
   const unpinned = views.filter((v) => v.summary?.weatherPinAdded).map((v) => v.name);
   return [...(unpinned.length ? [`WEATHER UNPINNED in the views file (w=clear added; diag20 E7): ${unpinned.join(", ")}`] : []), `cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), ...(stopped.length ? [`CLOCK STOPPED (rate= set, first and last frame show the same time): ${stopped.join(", ")}`] : []), "",
@@ -1623,4 +1670,140 @@ export function recordSkippedFrame(result, s, err) {
   const reason = String(err?.message ?? err ?? "unknown").slice(0, 200);
   (result.skippedFrames ??= []).push({ s: Math.round(s * 10) / 10, reason });
   return result.skippedFrames.length;
+}
+
+/** diag22 C1 pre-capture data check: the loader's KIT_PARTS_SCHEMA_VERSION (read from the dist's own kitParts.ts source)
+ * against the schemaVersion of one kits/<kit>/parts/index.json as the pod serves it. fetchText(url) returns the body or
+ * throws. {ok, loader, served, url, why?}: not ok on a mismatch, an unreadable index or a loader with no constant. */
+export async function kitSchemaCheck({ loaderSrc, url, fetchText }) {
+  const m = /KIT_PARTS_SCHEMA_VERSION\s*=\s*(\d+)/.exec(String(loaderSrc ?? ""));
+  const loader = m ? Number(m[1]) : null;
+  if (loader === null) return { ok: false, loader, served: null, url, why: "no KIT_PARTS_SCHEMA_VERSION in the loader source" };
+  let served = null;
+  try {
+    const body = await fetchText(url);
+    if (/^\s*</.test(body)) return { ok: false, loader, served, url, why: `index is HTML, not kit data (the server has no such file): ${url}` };
+    served = JSON.parse(body).schemaVersion ?? null;
+  } catch (e) { return { ok: false, loader, served, url, why: `index unreadable: ${String(e.message).slice(0, 120)}` }; }
+  return served === loader ? { ok: true, loader, served, url } : { ok: false, loader, served, url, why: `served schemaVersion ${served} != loader ${loader} (pod data not from the build's tree: pod-sync.sh --data)` };
+}
+
+/** Kits the page loads whatever the view: the vegetation layers (Groundcover, the flora layer) read these by id. */
+export const PAGE_FIXED_KITS = ["flora-province-v1", "groundcover-province-v1"];
+
+/** Every kit the page will load, as the page finds them: `province/settlements/index.json` (places and routes), each
+ * bundle's `kits[id].parts`, plus PAGE_FIXED_KITS. `fetchMany(urls)` resolves a Map url -> body string or an Error.
+ * Returns { kits: Map id -> parts url, problems: [string] } (an index or bundle that is unreadable or HTML). */
+export async function pageKitIndexes({ dataBase, fetchMany }) {
+  const problems = [];
+  const kits = new Map(PAGE_FIXED_KITS.map((id) => [id, `${dataBase}kits/${id}/parts/index.json`]));
+  const readJson = (url, body) => {
+    if (body instanceof Error || body === undefined) { problems.push(`${url}: ${String(body?.message ?? "not fetched").slice(0, 120)}`); return null; }
+    if (/^\s*</.test(body)) { problems.push(`${url}: HTML, not data`); return null; }
+    try { return JSON.parse(body); } catch (e) { problems.push(`${url}: ${String(e.message).slice(0, 80)}`); return null; }
+  };
+  const indexUrl = `${dataBase}province/settlements/index.json`;
+  const index = readJson(indexUrl, (await fetchMany([indexUrl])).get(indexUrl));
+  const bundleUrls = [...(index?.places ?? []), ...(index?.routes ?? [])].map((e) => `${dataBase}province/${e.bundle}`);
+  const bodies = bundleUrls.length ? await fetchMany(bundleUrls) : new Map();
+  for (const url of bundleUrls) {
+    const bundle = readJson(url, bodies.get(url));
+    for (const [id, ref] of Object.entries(bundle?.kits ?? {})) if (typeof ref?.parts === "string") kits.set(id, `${dataBase}${ref.parts}`);
+  }
+  return { kits, problems };
+}
+
+/** The pre-capture kit check over EVERY kit the page loads (pageKitIndexes): each parts index must be JSON at the
+ * loader's KIT_PARTS_SCHEMA_VERSION. Returns { ok, checked, failed: [{kit, url, why}], problems }. smoke2 (c11): five
+ * kits with no parts index placed nothing while the one-sentinel check passed. */
+export async function pageKitCheck({ loaderSrc, dataBase, fetchMany }) {
+  const { kits, problems } = await pageKitIndexes({ dataBase, fetchMany });
+  const bodies = await fetchMany([...kits.values()]);
+  const failed = [];
+  for (const [kit, url] of kits) {
+    const body = bodies.get(url);
+    const c = await kitSchemaCheck({ loaderSrc, url, fetchText: async () => { if (body instanceof Error || body === undefined) throw body ?? new Error("not fetched"); return body; } });
+    if (!c.ok) failed.push({ kit, url, why: c.why });
+  }
+  return { ok: failed.length === 0 && problems.length === 0, checked: kits.size, failed, problems };
+}
+
+/** fetchMany here: every URL in parallel, each with timeoutMs; a non-2xx reply is an Error. */
+export function localFetchMany(timeoutMs = 5000) {
+  return async (urls) => new Map(await Promise.all(urls.map(async (u) => {
+    try { const r = await fetch(u, { signal: AbortSignal.timeout(timeoutMs) }); return [u, r.ok ? await r.text() : new Error(`HTTP ${r.status}`)]; } catch (e) { return [u, e]; }
+  })));
+}
+
+/** fetchMany through one shell command (the pod over ssh): `run(script)` -> stdout. One round trip per list, the
+ * curls in parallel, each body marked with its status and URL (parseShellFetch). */
+export function shellFetchMany(run, timeoutS = 5) {
+  return async (urls) => {
+    const list = urls.map((u) => `'${u.replace(/'/g, "'\\''")}'`).join(" ");
+    const script = `d=$(mktemp -d); i=0; for u in ${list}; do i=$((i+1)); (curl -s -m ${timeoutS} -o "$d/$i" -w '%{http_code}' "$u" > "$d/$i.c") & done; wait; `
+      + `i=0; for u in ${list}; do i=$((i+1)); printf '\\n@@KIT@@ %s %s\\n' "$(cat "$d/$i.c")" "$u"; cat "$d/$i" 2>/dev/null; done; rm -rf "$d"`;
+    return parseShellFetch(await run(script), urls);
+  };
+}
+
+/** shellFetchMany's output as a Map url -> body or Error (a URL with no block is "no reply"). */
+export function parseShellFetch(out, urls) {
+  const m = new Map(urls.map((u) => [u, new Error("no reply")]));
+  for (const p of String(out).split(/\n@@KIT@@ /).slice(1)) {
+    const nl = p.indexOf("\n");
+    const head = (nl < 0 ? p : p.slice(0, nl)).split(" ");
+    m.set(head.slice(1).join(" "), head[0] === "200" ? (nl < 0 ? "" : p.slice(nl + 1)) : new Error(`HTTP ${head[0]}`));
+  }
+  return m;
+}
+
+/** Renderer processes from CDP SystemInfo.getProcessInfo, sampled twice dtS apart: [{pid, cpuPct}] (cpuTime is
+ * cumulative seconds). */
+export function rendererCpu(first, second, dtS) {
+  const t0 = new Map((first ?? []).filter((p) => p.type === "renderer").map((p) => [p.id, p.cpuTime]));
+  return (second ?? []).filter((p) => p.type === "renderer").map((p) => ({ pid: p.id, cpuPct: t0.has(p.id) && dtS > 0 ? Math.round(((p.cpuTime - t0.get(p.id)) / dtS) * 100) : null }));
+}
+
+/** diag22 C3: a view's start state against the run's post-launch baseline. contaminated when the pod GPU holds more than
+ * vramMiB over the baseline (a previous page's memory still resident) or a renderer burns over cpuPct (a runaway page). */
+export function startContamination({ vramStartMiB, vramBaselineMiB, renderers }, { vramMiB = 1024, cpuPct = 50 } = {}) {
+  const reasons = [];
+  if (Number.isFinite(vramStartMiB) && Number.isFinite(vramBaselineMiB) && vramStartMiB - vramBaselineMiB > vramMiB) reasons.push(`VRAM ${vramStartMiB} MiB > baseline ${vramBaselineMiB} + ${vramMiB}`);
+  for (const r of renderers ?? []) if (r.cpuPct > cpuPct) reasons.push(`renderer ${r.pid} at ${r.cpuPct}% CPU`);
+  return { contaminated: reasons.length > 0, reasons };
+}
+
+/** Poll check() (async, true = done) every stepMs until it holds or timeoutMs passes; resolves whether it held. */
+export async function waitFor(check, { timeoutMs = 10_000, stepMs = 500, sleep = (ms) => new Promise((r) => setTimeout(r, ms)), now = Date.now } = {}) {
+  const end = now() + timeoutMs;
+  for (;;) {
+    if (await check().catch(() => false)) return true;
+    if (now() >= end) return false;
+    await sleep(stepMs);
+  }
+}
+
+/** diag22 C3 close path: after closeTarget/disposeBrowserContext, the view's renderer processes (pids not alive before the
+ * view opened) must exit within timeoutMs; survivors are killed (kill(pids)), checked again, and a survivor of that asks
+ * the caller to restart Chrome. listRenderers() -> pids. Returns {survivors, killed, restart}. */
+export async function reapViewRenderers({ before, listRenderers, kill, timeoutMs = 10_000, sleep, now }) {
+  const pre = new Set(before ?? []);
+  let left = [];
+  const gone = async () => { left = (await listRenderers()).filter((p) => !pre.has(p)); return left.length === 0; };
+  if (await waitFor(gone, { timeoutMs, sleep, now })) return { survivors: [], killed: [], restart: false };
+  const killed = [...left];
+  await kill(killed).catch(() => {});
+  const ok = await waitFor(gone, { timeoutMs: 3000, sleep, now });
+  return { survivors: ok ? [] : left, killed, restart: !ok };
+}
+
+/** diag22 C4: renderer.info counts an esIndirect draw at the last kept GPU-cull read-back (mesh.count); when the window
+ * saw GPU errors (failed buffers, so failed read-backs) on a page with indirect draws, that count is stale and the
+ * view's tris are invalid. hasIndirect: census indirect draws > 0, or a webgpu backend with no census. */
+export function trisInvalid(r) {
+  const c = r.window?.drawCensus, errs = r.gpuErrors?.length ?? 0;
+  if (!errs) return false;
+  if (c && !c.err) return Object.values(c.trisByPass ?? {}).some((v) => v.indirectDrawsPerFrame > 0);
+  const b = r.final?.backend ?? r.reads?.settled?.backend;
+  return b === "webgpu";
 }

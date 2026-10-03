@@ -99,7 +99,8 @@ import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
-import { viewDeadlineS, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, WORLD_READY_JS, worldReadyGate, pairVerdicts, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, DEV_HOOKS_JS, profileStartS, duplicateKeyViews, recordSkippedFrame, buildsAfterKits, framesBeforePose, captureFrame, poseReadyJs, poseTarget, poseResidual, installPoseProbe, POSE_FRAMES, installProgramErrorProbe, viewEndS } from "./pod-capture-lib.mjs";
+import { viewDeadlineS, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, WORLD_READY_JS, worldReadyGate, pairVerdicts, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, DEV_HOOKS_JS, profileStartS, duplicateKeyViews, recordSkippedFrame, buildsAfterKits, framesBeforePose, captureFrame, poseReadyJs, poseTarget, poseResidual, installPoseProbe, POSE_FRAMES, installProgramErrorProbe, viewEndS, pageKitCheck, localFetchMany, shellFetchMany, rendererCpu, startContamination, reapViewRenderers, repeatedQueryKey, twinPairs, twinIdentical } from "./pod-capture-lib.mjs";
+import { dataBaseOf } from "./serve-lib.mjs";
 import { loadSourceMaps } from "./source-maps.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit, heapTopAllocators } from "./checks.mjs";
@@ -176,6 +177,27 @@ if (opt("lane")) {
   } catch (e) { console.error(`pod-capture: prep failed, no capture: ${String(e.message).split("\n")[0]}`); process.exit(4); }
   console.log(`pod-capture prep: ${JSON.stringify(prep)}`);
 }
+/** One command on the pod over the --pod ssh; its stdout. */
+const podExec = (cmd, timeout = 15_000) => { const [b, ...a] = pod.split(/\s+/); return execFileSync(b, [...a.slice(0, -1), "-o", "StrictHostKeyChecking=no", "-o", "ConnectTimeout=5", a.at(-1), cmd], { timeout, encoding: "utf8", maxBuffer: 1 << 30 }); };
+// diag22 C1 + c11 smoke2: every kit the page will load (the settlements index, each bundle's kits, the vegetation
+// kits; pageKitCheck) must serve a parts index at the dist's loader schema, fetched as the pod serves it, one round trip
+// per stage. Any miss, HTML index or wrong schema stops the run (exit 5) naming the kits.
+{
+  const wt = opt("worktree", execFileSync("git", ["-C", new URL(".", import.meta.url).pathname, "rev-parse", "--show-toplevel"], { encoding: "utf8" }).trim());
+  const loaderSrc = (() => { try { return readFileSync(join(wt, "packages/game-core/src/assets/kitParts.ts"), "utf8"); } catch { return null; } })();
+  const fetchMany = pod ? shellFetchMany(async (script) => podExec(script, 30_000)) : localFetchMany();
+  for (const base of new Set(views.map((v) => dataBaseOf(v.url)).filter(Boolean))) {
+    const t0 = Date.now();
+    const c = await pageKitCheck({ loaderSrc, dataBase: base, fetchMany });
+    if (!c.ok) {
+      console.error(`pod-capture: kit data check failed, no capture (${base}):`);
+      for (const p of c.problems) console.error(`  ${p}`);
+      for (const f of c.failed) console.error(`  ${f.kit}: ${f.why}`);
+      process.exit(5);
+    }
+    console.log(`pod-capture: ${c.checked} kit parts indexes at loader schema (${base}) in ${Date.now() - t0} ms`);
+  }
+}
 if (pod) {
   const [sshBin, ...sshArgs] = pod.split(/\s+/);
   const chromeUp = () => {
@@ -191,6 +213,10 @@ if (pod) {
 }
 const cdpHttp = (tunnel ? `http://127.0.0.1:${tunnel.localPort}` : opt("cdp", process.env.CHROME_CDP ?? "http://127.0.0.1:9222")).replace(/\/$/, "");
 
+// Open harness defects (decision 0119): print the README rows so no pod job starts blind.
+try { const _m = readFileSync(new URL("./README.md", import.meta.url), "utf8").match(/## Open harness defects[^\n]*\n([\s\S]*?)\n## /);
+  if (_m && import.meta.url === `file://${process.argv[1]}`) console.error("OPEN HARNESS DEFECTS (fix before this run):\n" + _m[1].split("\n").filter((l) => l.startsWith("| ") && !l.startsWith("| Defect")).join("\n"));
+} catch { /* print only */ }
 const all = { cdp: cdpHttp, startedAt: new Date().toISOString(), cap: null, orphansClosed: 0, recoveries: 0, adapterWaits: [], prep, views: [] };
 // The browser websocket (Target.*), open for the whole run; reopened after a Chrome restart (recoverChrome).
 let bws = null, bNext = 0; const bPending = new Map();
@@ -200,7 +226,16 @@ async function connectBrowser() {
   bws.onmessage = (e) => { const m = JSON.parse(e.data); if (m.id) { bPending.get(m.id)?.(m); bPending.delete(m.id); } };
   bws.onclose = () => { for (const f of bPending.values()) f({ error: { message: "browser closed" } }); bPending.clear(); };
   if (chromeMode === "webgpu") all.adapterWaits.push(await waitAdapter());
+  vramBaselineMiB = podVramMiB(); // post-launch baseline, reset on every Chrome (re)start (diag22 C3)
 }
+let vramBaselineMiB = null, restartBeforeNext = false;
+/** Pod GPU memory used (nvidia-smi over the --pod ssh), MiB; null without --pod or on failure. */
+function podVramMiB() {
+  if (!pod) return null;
+  try { const v = Number(podExec("nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits").trim().split("\n")[0]); return Number.isFinite(v) ? v : null; } catch { return null; }
+}
+const processInfo = () => bsend("SystemInfo.getProcessInfo", {}, PING_TIMEOUT_MS).then((r) => r.processInfo ?? []);
+const rendererPids = async () => (await processInfo()).filter((p) => p.type === "renderer").map((p) => p.id);
 // about:blank is not a secure context (no navigator.gpu): the probe runs on the first view's origin, which is (http://localhost via the tunnel).
 // It waits for the page's load and for location.origin to be the served origin, so it never reads the initial about:blank.
 const ADAPTER_PROBE_JS = `(async () => { if (location.protocol === "about:") return { gpuPresent: false, adapter: false, at: "about:blank" };
@@ -294,7 +329,8 @@ const READ = `(async () => {
   const rafMs = (window.__RAFMS ?? []).slice(-300);
   const g = window.__STUDIO_GPU_MS__;
   return { rafMs, frames: [f1, f2], backend: window.__RENDERER_BACKEND__ ?? (r?.backend?.isWebGPUBackend ? "webgpu" : undefined),
-    fps: window.__STUDIO_FPS__, gpuMs: g && { avg: g.avg, max: g.max, supported: g.supported, cpu: g.cpu, cpuMax: g.cpuMax, tris: g.tris, calls: g.calls, source: g.source },
+    fps: window.__STUDIO_FPS__, gpuMs: g && { avg: g.avg, max: g.max, supported: g.supported, cpu: g.cpu, cpuMax: g.cpuMax, tris: g.tris, calls: g.calls, source: g.source,
+      segments: (() => { try { return g.segments?.().map((x) => ({ label: x.label, avg: x.avg, max: x.max })); } catch { return undefined; } })() },
     renderer: i && { geometries: i.memory?.geometries, textures: i.memory?.textures, triangles: i.render?.triangles, calls: i.render?.drawCalls ?? i.render?.calls },
     vegRead: ${VEG_READ_JS},
     buildQueue: q && { pending: q.pending, twinsHeld: q.twinsHeld, skippedDraws: q.skippedDraws },
@@ -325,6 +361,7 @@ const onPageMessage = (e) => {
 };
 /** A fresh browser context and its about:blank page, attached, domains on, init script and device metrics set. */
 async function openViewPage() {
+  const renderersBefore = await rendererPids().catch(() => null);
   const { browserContextId } = await bsend("Target.createBrowserContext", { disposeOnDetach: false });
   const { targetId } = await bsend("Target.createTarget", { url: "about:blank", browserContextId, newWindow: true, background: false });
   ws = new WebSocket(pageWs(targetId));
@@ -333,15 +370,23 @@ async function openViewPage() {
   await send("Runtime.enable"); await send("HeapProfiler.enable"); await send("Page.enable"); await send("Network.enable");
   await send("Page.addScriptToEvaluateOnNewDocument", { source: INIT });
   await send("Emulation.setDeviceMetricsOverride", { width: W, height: H, deviceScaleFactor: 1, mobile: false });
-  return (openPage = { targetId, browserContextId });
+  return (openPage = { targetId, browserContextId, renderersBefore });
 }
 async function closeViewPage(page) {
   if (!page) return;
   if (page === openPage) openPage = null;
   try { ws?.close(); } catch { /* already closed */ }
   ws = null; for (const f of pending.values()) f({ error: { message: "page closed" } }); pending.clear();
-  await bsend("Target.closeTarget", { targetId: page.targetId }).catch(() => {});
-  await bsend("Target.disposeBrowserContext", { browserContextId: page.browserContextId }).catch(() => {});
+  await bsend("Target.closeTarget", { targetId: page.targetId }, 10_000).catch(() => {});
+  await bsend("Target.disposeBrowserContext", { browserContextId: page.browserContextId }, 10_000).catch(() => {});
+  // diag22 C3: the view's renderer must exit (iter32: a runaway page outlived its close at 100% CPU and starved every
+  // later view). Survivors after 10 s are killed on the pod; a survivor of that restarts Chrome before the next view.
+  if (!page.renderersBefore) return;
+  const reap = await reapViewRenderers({ before: page.renderersBefore, listRenderers: rendererPids,
+    kill: async (pids) => { if (pod) podExec(`kill -9 ${pids.join(" ")}`); else throw new Error("no --pod to kill on"); } });
+  page.reap = reap;
+  if (reap.killed.length) console.log(`pod-capture: view renderer(s) ${reap.killed.join(",")} outlived close; killed${reap.restart ? ", still alive: Chrome restarts before the next view" : ""}`);
+  if (reap.restart && pod) restartBeforeNext = true;
 }
 /** A timed-out view (webgpu diag8 T6b: closeTarget and disposeBrowserContext blocked behind a busy renderer, and
  * every later createBrowserContext timed out): crash its renderer (Page.crash never replies), close it, and report
@@ -467,6 +512,12 @@ async function captureView(view) {
   sink = { cons: counter(), pageErrors: counter(), network: counter(), reqUrl: new Map() };
   const result = { name: view.name, url: view.url, seconds: totalS, frames: 0, skippedFrames: [], reads: {}, settledAt: null, readyS: null, probe: {}, profile: null, window: null, baseline: null, contaminated: null, ...(view.weatherPinAdded ? { weatherPinAdded: true } : {}) };
   const ctl = { page: null };
+  // diag22 C3: the view's start state (pod VRAM over the post-launch baseline, renderer CPU) -> contaminated
+  try {
+    const p0 = await processInfo(); await new Promise((r) => setTimeout(r, 1000)); const p1 = await processInfo();
+    const start = { vramStartMiB: podVramMiB(), vramBaselineMiB, renderers: rendererCpu(p0, p1, 1) };
+    Object.assign(result, { vramStartMiB: start.vramStartMiB, vramBaselineMiB, renderersAtStart: start.renderers, startState: startContamination(start) });
+  } catch (e) { result.startState = { contaminated: false, reasons: [], err: String(e.message) }; }
   const body = viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl);
   let timer;
   // per-view limit: viewDeadlineS, widened for a `long` view to its ready time plus `long` plus the window
@@ -516,6 +567,7 @@ async function captureView(view) {
     result.summary = summariseView(result);
     writeFileSync(join(dir, "result.json"), JSON.stringify(result, null, 1));
     await closeViewPage(ctl.page);
+    if (ctl.page?.reap) { result.closeReap = ctl.page.reap; writeFileSync(join(dir, "result.json"), JSON.stringify(result, null, 1)); }
   }
   return result;
 }
@@ -526,11 +578,15 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
     result.baseline = await baseline();
     all.cap ??= capVerdict(result.baseline.rafFps);
     Object.assign(result.baseline, contaminationVerdict(result.baseline, all.cap.blankRafFps));
-    result.contaminated = result.baseline.contaminated;
+    result.contaminated = result.baseline.contaminated || result.startState?.contaminated === true;
+    result.contaminationReasons = [...(result.baseline.reasons ?? []), ...(result.startState?.reasons ?? [])];
+    const dupKey = repeatedQueryKey(view.url);
+    if (dupKey) { result.invalid = `invalid:url repeats query key ${dupKey}`; return result; }
     if (prof) { await send("Profiler.enable"); await send("Profiler.setSamplingInterval", { interval: 200 }); }
     const t0 = Date.now(), sec = () => (Date.now() - t0) / 1000;
     await send("Page.navigate", { url: view.url });
     const heapSamples = [];
+    let clockFirst = null;
     let si = 0, ri = 0, lastPoll = -1, zeroSince = null, profState = prof ? "wait" : "done";
     const hs = view.heapsample ? parseHeapSample(view.heapsample) : null;
     let hsState = hs ? "wait" : "done", hsStartS = null;
@@ -701,7 +757,7 @@ try {
     if (t.type === "page" && t.id !== sentinel) { await fetch(`${cdpHttp}/json/close/${t.id}`).catch(() => {}); all.orphansClosed++; }
   }
   for (const v of views) {
-    if (!(await browserAlive())) await recoverChrome();
+    if (restartBeforeNext || !(await browserAlive())) { restartBeforeNext = false; await recoverChrome(); }
     let r = await captureView(v);
     if (needsChromeRestart(r, r.error && browserStoppedAnswering(r.error) ? await browserAlive() : true)) {
       await recoverChrome();
@@ -724,6 +780,13 @@ try {
     console.log(`pod-capture ${v.name}: ${JSON.stringify(r.summary)}`);
   }
   const byName = Object.fromEntries(all.views.map((v) => [v.name, v]));
+  for (const [off, on] of twinPairs(all.views.map((v) => v.name))) {
+    const f = (n) => { try { return readFileSync(join(out, n, "final.jpg")); } catch { return null; } };
+    if (twinIdentical(f(off), f(on)) && !byName[off].invalid) {
+      byName[off].invalid = `invalid:twin ${off} is pixel-identical to ${on}`; byName[off].summary.invalid = byName[off].invalid;
+      writeFileSync(join(out, off, "result.json"), JSON.stringify(byName[off], null, 1));
+    }
+  }
   if (byName.main && byName.compare) byName.main.lumaRatio = lumaRatios(byName.main.reads, byName.compare.reads, byName.main.final, byName.compare.final);
 } catch (e) {
   all.error = String(e.stack ?? e);

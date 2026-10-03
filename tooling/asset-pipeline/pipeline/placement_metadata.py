@@ -1054,6 +1054,9 @@ def main(argv: Iterable[str] | None = None) -> int:
                 kits=set(args.kit) if args.kit else None)
         print(f"refreshed placement metadata in {len(refreshed)} kit manifests "
               f"({len(mined)} sink records)")
+        # every publish ends in this refresh: re-bake the boot program warm list
+        from .program_classes import write as write_program_classes
+        print(f"re-baked {write_program_classes(PUBLISHED_KITS_DIR)}")
         if args.kit and not refreshed:
             print(f"no kit manifest matched --kit {args.kit}")
             return 1

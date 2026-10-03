@@ -65,3 +65,12 @@ describe("BandGovernor", () => {
     expect(m.fireTier).toBe("mobile");
   });
 });
+
+describe("BandGovernor.fixedOff", () => {
+  it("is true only when the band is pinned to off for the session", () => {
+    expect(new BandGovernor({ backend: "webgpu", override: "off" }).fixedOff).toBe(true);
+    expect(new BandGovernor({ backend: "webgl" }).fixedOff).toBe(true);
+    expect(new BandGovernor({ backend: "webgpu", override: "low" }).fixedOff).toBe(false);
+    expect(new BandGovernor({ backend: "webgpu" }).fixedOff).toBe(false);
+  });
+});

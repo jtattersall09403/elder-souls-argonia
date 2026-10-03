@@ -103,5 +103,6 @@ export function judgeBrief({ subject, images, classes, rows, facts, sheetKey = P
     `Questions (answer each: id, PASS / FAIL / UNSURE, the evidence in one line with a measurement against the grid where you can; UNSURE only when the view cannot show it, and say which view would):`,
     ...pick.map((r) => `- [${r.id}] ${r.question} Pass bar: ${r.bar}`),
     `Then list any OTHER defect you see that no question asked about (these become new look-list rows). Reply in <= 25 lines.`,
+    `Open question (last, answered in the same read; place-build references/reader-brief.md): given the context the caller gave (the place, its type, its region, the intent words, what this piece or view is meant to be), does what you see feel right for it? If not, what is obviously wrong when you step back? Name anything wrong as a finding like a FAIL.`,
   ].join("\n");
 }

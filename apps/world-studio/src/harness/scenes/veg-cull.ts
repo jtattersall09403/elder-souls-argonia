@@ -21,10 +21,10 @@
  * The harness's own frames then draw the GPU path (CPU path on WebGL).
  */
 import * as THREE from "three";
-import { MeshStandardNodeMaterial, type WebGPURenderer } from "three/webgpu";
-import { createKitDecoders, createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
 import { loadKitParts } from "@elder-souls/game-core/assets/loadKitParts";
 import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
+import { MeshStandardNodeMaterial, type WebGPURenderer } from "three/webgpu";
+import { createKitDecoders, createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
 import { createWindUniforms, updateWindSway, windStiffness } from "@elder-souls/game-core/fx/windSway";
 import {
   createLodFadeUniforms, createLodHistory, lodLadder, pushLodHistory,

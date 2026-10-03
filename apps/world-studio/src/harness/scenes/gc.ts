@@ -20,10 +20,10 @@
  * `&measure=1` as in the veg scene (`measureCullParity`).
  */
 import * as THREE from "three";
-import { MeshStandardNodeMaterial } from "three/webgpu";
-import { createKitLoader, kitDecodersFor } from "@elder-souls/game-core/assets/kitLoader";
 import { loadKitParts } from "@elder-souls/game-core/assets/loadKitParts";
 import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
+import { MeshStandardNodeMaterial } from "three/webgpu";
+import { createKitLoader, kitDecodersFor } from "@elder-souls/game-core/assets/kitLoader";
 import { createWindUniforms, updateWindSway } from "@elder-souls/game-core/fx/windSway";
 import { createLodFadeUniforms, LOD_BAND_ATTRIBUTE } from "@elder-souls/game-core/fx/lodFade";
 import { makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry";

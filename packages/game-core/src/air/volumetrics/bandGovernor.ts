@@ -74,6 +74,8 @@ export class BandGovernor {
   private readonly sorted = new Float64Array(512);
   private head = 0;
   private count = 0;
+  /** True when the band is pinned to `off` for the session: the sampler can be left out of the shader at build time. */
+  get fixedOff(): boolean { return this.fixed && this.band === "off"; }
   private sinceChange = 0;
   /** Seconds the 2 s median has been under `UP_MS` without a break. */
   private calmS = 0;

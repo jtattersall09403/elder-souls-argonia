@@ -71,8 +71,11 @@ set. It reasons over every record the fix touches, including places and
 quests no reader flagged: a quest re-premised is checked against the
 quests that depend on it and share its cast; a neighbour that names this
 place is edited with it; a travel-services row or route relation moves with
-the prose. Fix the record to the world and the build, never the world to
-the prose; a quest is edited only so that the whole quest set stays
+the prose. The record is the intent: the place is built up to it. A `why`,
+`vibe` or hook line is rewritten down to the built place only for one of
+decision 0102's four reasons (a later-phase system, a GPU-only judgement,
+an asset that exists nowhere after a completed search, an owner-level
+world call), named beside the changed line in design.md. A quest is edited only so that the whole quest set stays
 consistent (never fix one quest by breaking another). Prose is written
 against the record (standard 12) and the style guide's "Before you write".
 

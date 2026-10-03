@@ -12,8 +12,9 @@ loops; this script is the sanctioned wait.
                  [--since <epoch s or ISO time> | --any-mtime]
 
 A file is done when it exists, its mtime is not before `--since` (default: the
-time of the call, so a stale same-name report never counts; `--any-mtime`
-turns the check off) and it has not been modified for 3 s (its writer
+time of the call MINUS `--timeout`, so a report written during the previous
+wait window still counts; a lead passes `--since <launch epoch>` explicitly
+for a wave; `--any-mtime` turns the check off) and it has not been modified for 3 s (its writer
 finished). Prints `done <path>` / `waiting <path>` per file, then `all done`
 or `timeout: N of M done`. Exit 0 in both cases: a timeout is a normal
 re-call. The default timeout stays under the 600 s foreground Bash cap.
@@ -55,10 +56,10 @@ def main(argv=None):
     ap.add_argument("--files", nargs="+", required=True, help="report files the children write last")
     ap.add_argument("--timeout", type=float, default=540, help="seconds before returning (default 540)")
     ap.add_argument("--poll", type=float, default=5, help="seconds between checks (default 5)")
-    ap.add_argument("--since", help="epoch seconds or ISO time; files older than this do not count (default: now)")
+    ap.add_argument("--since", help="epoch seconds or ISO time; files older than this do not count (default: now minus --timeout)")
     ap.add_argument("--any-mtime", action="store_true", help="count a file whatever its mtime")
     args = ap.parse_args(argv)
-    since = None if args.any_mtime else (parse_since(args.since) if args.since else time.time())
+    since = None if args.any_mtime else (parse_since(args.since) if args.since else time.time() - args.timeout)
     states = wait(args.files, args.timeout, args.poll, since)
     for f, ok in zip(args.files, states):
         print(("done " if ok else "waiting ") + f)

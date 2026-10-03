@@ -54,7 +54,7 @@ describe("DrawTargetLinker (review 2026-09-30: settlement pre-link keys)", () =>
     setLitPreparer(scene, () => undefined);
     const { gl, seen, bound } = fakeGl();
     const linker = new DrawTargetLinker(gl, scene).attach();
-    pass(scene, new THREE.WebGLRenderTarget(4, 4, { type: THREE.HalfFloatType }));
+    pass(scene, new THREE.RenderTarget(4, 4, { type: THREE.HalfFloatType }));
     await linker.link({ object: new THREE.Group(), pass: "screen" }, camera);
     expect(seen).toEqual([null]);
     expect(bound()).toBeNull();

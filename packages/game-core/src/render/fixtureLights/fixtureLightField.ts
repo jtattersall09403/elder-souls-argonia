@@ -37,7 +37,7 @@ import { Lighting, LightsNode } from "three/webgpu";
 import type { WebGPURenderer } from "three/webgpu";
 import { TiledLighting } from "three/examples/jsm/lighting/TiledLighting.js";
 import {
-  Break, Fn, If, Loop, cameraViewMatrix, directPointLight, exp, getDistanceAttenuation, int, ivec2, max, positionView, textureLoad, uniform, vec4,
+  Break, Fn, If, Loop, cameraViewMatrix, getDistanceAttenuation, int, ivec2, max, positionView, tanh, textureLoad, uniform, vec4,
 } from "three/tsl";
 import { activeBackend } from "../createRenderer";
 import { sel, type TslNode } from "../nodes/materialNodes";
@@ -72,7 +72,7 @@ export const FIXTURE_LIGHT_DECAY = 2;
 /**
  * A lamp's SCREEN gain (perf10 c12 A): the field's colour is multiplied by
  * `FIXTURE_SCREEN_GAIN / toneMappingExposure` (the field's `screenNode`
- * uniform, set per render from the renderer), so a lit wall reaches the same screen-linear value
+ * uniform, set per render from the renderer; the knee is `kneeNode`), so a lit wall reaches the same screen-linear value
  * at any exposure, as the F41 window emissive does (settlement/windowGlow.ts).
  * Unanchored, night exposure ~22 turned a wall 1 m from a 2 cd lantern into a
  * flat orange slab. Each lamp's irradiance E = I x gain / d^2 passes a soft
@@ -148,10 +148,10 @@ export class FixtureLightField {
   readonly slotsNodeHi: TslNode;
   /** `FIXTURE_SCREEN_GAIN / exposure`, the lamps' screen anchor; one uniform, so no program changes. */
   readonly screenNode: TslNode;
+  /** `FIXTURE_KNEE / exposure`, the per-light soft knee (set with `screenNode`). */
+  readonly kneeNode: TslNode;
   /** The renderer exposure the screen gain is anchored to. */
   exposure = 1;
-  /** `FIXTURE_KNEE / exposure`, the per-lamp soft knee in the same units as the screen gain. */
-  readonly kneeNode: TslNode;
   /** Bumps whenever a slot's position or radius changes: per-object lists re-chosen. */
   epoch = 0;
   private readonly data = new Float32Array(FIXTURE_LIGHTS_MAX * 2 * 4);
@@ -184,9 +184,9 @@ export class FixtureLightField {
       ({ object, material }: { object: THREE.Object3D; material?: THREE.Material }) => this.slotMatrixFor(object, material));
     this.slotsNodeHi = (uniform as (value: unknown, type: string) => TslNode)(new THREE.Matrix4(), "mat4").onObjectUpdate(
       ({ object, material }: { object: THREE.Object3D; material?: THREE.Material }) => this.slotMatrixFor(object, material, 16));
+    this.kneeNode = (uniform as (value: unknown) => TslNode)(FIXTURE_KNEE);
     this.screenNode = (uniform as (value: unknown) => TslNode)(FIXTURE_SCREEN_GAIN).onRenderUpdate(
       ({ renderer }: { renderer?: { toneMappingExposure: number } }) => this.setExposure(renderer?.toneMappingExposure ?? this.exposure));
-    this.kneeNode = (uniform as (value: unknown) => TslNode)(FIXTURE_KNEE);
   }
 
   /** Anchor the lamps to `exposure` (toneMappingExposure); returns the screen gain. Run every render. */
@@ -486,23 +486,23 @@ export class FixtureFieldLightsNode extends LightsNode {
         const viewPosition = cameraViewMatrix.mul(vec4(posRadius.xyz, 1)).xyz;
         const lightVector = viewPosition.sub(positionView);
         const lightLength = lightVector.length();
-        // three 0.184's runtime takes `lightVector` (its typings lag)
-        // E = I x gain x attenuation, then the per-lamp soft knee K tanh(max(E) / K) (dev perf-diag23 Q5);
-        // the attenuation is taken here, so three's term below runs with decay 0 and no cutoff (factor 1)
+        // three's directPointLight with the dev perf-diag23 Q5 knee between the attenuation
+        // and the BRDF: E = I x screen x att(d), E' = E x K tanh(m / K) / m, m = max(E.rgb).
+        // Distance floored at FIXTURE_LIGHT_MIN_DISTANCE_M (dev perf10: a lamp's own shell and
+        // the wall beside it never take the 1/d^2 spike), direction unchanged.
         const attenuation = (getDistanceAttenuation as (p: Record<string, TslNode>) => TslNode)({
-          lightDistance: max(lightLength, FIXTURE_LIGHT_MIN_DISTANCE_M), cutoffDistance: posRadius.w, decayExponent: radiance.a });
+          lightDistance: max(lightLength, FIXTURE_LIGHT_MIN_DISTANCE_M),
+          cutoffDistance: posRadius.w,
+          decayExponent: radiance.a,
+        });
         const e = radiance.rgb.mul(this.field.screenNode).mul(attenuation);
-        const peak = max(max(e.r, e.g), e.b);
-        const x = peak.div(this.field.kneeNode);
-        const tanhX = exp(x.mul(-2)).oneMinus().div(exp(x.mul(-2)).add(1));
-        builder.lightsNode.setupDirectLight(builder, this, (directPointLight as (p: Record<string, TslNode>) => TslNode)({
-          color: e.mul(this.field.kneeNode.mul(tanhX).div(max(peak, 1e-6))),
-          // distance floored at FIXTURE_LIGHT_MIN_DISTANCE_M (dev perf10: a lamp's own shell and
-          // the wall beside it never take the 1/d^2 spike), direction unchanged
-          lightVector: lightVector.div(max(lightLength, 1e-4)).mul(max(lightLength, FIXTURE_LIGHT_MIN_DISTANCE_M)),
-          cutoffDistance: 0,
-          decayExponent: 0,
-        }));
+        const m = max(max(e.r, e.g), e.b);
+        const knee = this.field.kneeNode;
+        const kneed = sel(m.greaterThan(0), e.mul(knee.mul(tanh(m.div(knee))).div(max(m, 1e-6))), e);
+        builder.lightsNode.setupDirectLight(builder, this, {
+          lightDirection: lightVector.div(max(lightLength, 1e-4)),
+          lightColor: kneed,
+        });
       });
     }, "void")();
   }

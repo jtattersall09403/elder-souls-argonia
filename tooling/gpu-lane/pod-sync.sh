@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Put a built studio on the pod and (re)start serve.mjs on the pod's port 8099 over EVERY synced dist, each at the
 # base it was built for (dev at /studio/, webgpu at /webgpu/), with the studio data from /root/site/public.
-#   POD_SSH="ssh -i <key> -p <port> root@<ip>" bash tooling/gpu-lane/pod-sync.sh --data <lane> [<worktree>]   (once per pod)
+#   POD_SSH="ssh -i <key> -p <port> root@<ip>" bash tooling/gpu-lane/pod-sync.sh --data <lane>   (once per pod, from the dist's worktree)
 #   POD_SSH="..." bash tooling/gpu-lane/pod-sync.sh <dist> <dev|webgpu> <lane>                   (per iteration)
 #   POD_SSH="..." bash tooling/gpu-lane/pod-sync.sh --check <lane> [webgl|webgpu]               (before build/sync)
 # Sync only adds or overwrites on the pod; nothing is ever deleted unless `--prune [--prune-max <N>]` is given (any
@@ -9,17 +9,16 @@
 #   `*deleting` lines and the first 20 paths, exits non-zero when the count exceeds N (default 50), else runs it for real.
 # --check: the pod's Chrome must answer 127.0.0.1:9222/json/version; when it does not, pod-setup.sh is re-run on the pod
 #   (default webgpu flags) and the check repeated; exits non-zero if Chrome is still down (iter7 lost 10 min to this).
-# --data: the main tree's apps/world-studio/public (kits, province, textures and the gitignored generated data: ~600 MB)
-#   to /root/site/public (add/overwrite; --prune deletes), then the <worktree>'s (default: this script's repo root)
-#   tracked public files that differ from the main tree overlaid (never deletes); skipped when "<main listing hash> <overlay hash>" equals the
-#   pod's /root/site/public/.hash.
+# --data: apps/world-studio/public (~600 MB) to /root/site/public (add/overwrite; --prune deletes): git-tracked files (kits/ and the tracked json) from
+#   THIS worktree (run it from the tree the dist was built from), untracked generated data (province rasters) from the
+#   main worktree; refuses, listing the paths, while this tree has uncommitted changes under kits/ (diag22 C1). Skipped
+#   when the listing hash (path, size, mtime) equals the pod's /root/site/public/.hash.
 # Each dist also carries the server's own files (serve-lib.mjs serveFiles), so serve.mjs starts on the pod's node.
 # <dist>: the fixed folder build-dist.sh writes (never a per-iteration copy). Its key (build-dist's source key in
 #   .srchash plus the serve*.mjs it starts, no hash over the built files) is compared with /root/site/dists/<name>/.hash; equal and the server alive -> skip; else
 #   `rsync -a --checksum` (data dirs excluded; --prune adds --delete) and restart. Any other pod dist built for the same base is
 #   deleted first. Exits non-zero unless, after a restart, the new serve.mjs is alive and every served base answers.
 # Each step appends {step, seconds, at, skipped?, bytes?} (bytes: rsync "sent" for sync:data and sync:<dist>) to /tmp/<lane>/prep-times.jsonl (a lane log; pod-capture times its own prep).
-# After a restart, 2 sentinel data files (ground-control.png, a kit parts index) must return 200 at the local size (walk 10: a crashed server left an old one answering).
 set -euo pipefail
 : "${POD_SSH:?POD_SSH=\"ssh -i <key> -p <port> root@<ip>\"}"
 t=${POD_SSH##* }; S="${POD_SSH% *} -o StrictHostKeyChecking=no"
@@ -54,33 +53,27 @@ fi
 DATA_EXCL=(--exclude /kits/ --exclude /province/ --exclude /textures/)
 
 if [ "${1:-}" = --data ]; then
-  lane=${2:?lane}; t0=$(date +%s)
-  # base: the MAIN tree's public dir (first `git worktree list` entry; it alone holds the gitignored generated data:
-  # province/water, refined, chunk lods); overlay: the caller worktree's (3rd argument, else this script's repo root)
-  # TRACKED public files that differ from the main tree. A worktree synced alone lost that data (vol10: 11 x 404).
-  wt=$(cd "${3:-$(git -C "$(dirname "$0")" rev-parse --show-toplevel)}" && pwd -P)
-  main=$(git -C "$wt" worktree list --porcelain | sed -n '1s/^worktree //p')
-  pub=$main/apps/world-studio/public; wpub=$wt/apps/world-studio/public
-  [ -d "$pub" ] || { echo "pod-sync: $pub is not a directory" >&2; exit 1; }
-  ov=$(mktemp); trap 'rm -f "$ov"' EXIT
-  if [ "$wt" != "$main" ]; then
-    git -C "$wt" ls-files apps/world-studio/public | sed 's#^apps/world-studio/public/##' | while IFS= read -r f; do
-      cmp -s "$wpub/$f" "$pub/$f" || printf '%s\n' "$f"; done > "$ov"
-  fi
-  # marker = main listing hash + overlay hash (paths and contents), so a change on either side forces a sync
-  hm=$(cd "$pub" && find . -type f -printf '%P %s %T@\n' | sort | sha1sum | cut -c1-40)
-  ho=$( (cd "$wpub" 2>/dev/null && [ -s "$ov" ] && tr '\n' '\0' < "$ov" | xargs -0 sha1sum) | sha1sum | cut -c1-40)
-  h="$hm $ho"
+  # Data source (diag22 C1): git-TRACKED public files (kits/, tracked province/textures json) from THIS worktree, the
+  # tree the dist is built from; only untracked generated data (province rasters, vegetation) from the main worktree
+  # (git common dir), which another lane may leave mid-republish. Refuses while this tree's tracked public data is dirty.
+  lane=${2:?lane}; t0=$(date +%s); P=apps/world-studio/public
+  dirty=$(git status --porcelain -- "$P/kits" | cut -c4-)
+  [ -z "$dirty" ] || { echo "pod-sync: refusing --data: uncommitted kit data in $(pwd)/$P/kits (commit it or build from a clean tree):" >&2; echo "$dirty" | head -40 >&2; exit 1; }
+  main=$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")
+  lst=$(mktemp); trap 'rm -f "$lst"' EXIT
+  { git ls-files -- "$P"; git -C "$main" ls-files -- "$P"; } | sed "s#^$P/##" | sort -u > "$lst"
+  h=$({ git ls-files -z -- "$P" | xargs -0 -r stat -c '%n %s %Y'
+        (cd "$main/$P" && find . -type f -printf '%P %s %T@\n') | awk 'NR==FNR { t[$0] = 1; next } !($1 in t)' "$lst" -; } | sort | sha1sum | cut -c1-40)
   if [ "$($S "$t" "cat /root/site/public/.hash 2>/dev/null" || true)" = "$h" ]; then
     echo "pod-sync: data unchanged ($h), skipped"; note sync:data 0 1; exit 0; fi
   $S "$t" "mkdir -p /root/site/public"
-  prune_gate -a --exclude /.hash -e "$S" "$pub/" "$t:/root/site/public/"
-  b=$(rsync -a --stats ${DEL[@]+"${DEL[@]}"} --exclude /.hash -e "$S" "$pub/" "$t:/root/site/public/" | sent)
-  if [ -s "$ov" ]; then
-    echo "pod-sync: overlaying $(wc -l < "$ov") tracked file(s) from $wt"
-    bo=$(rsync -a --stats --files-from="$ov" -e "$S" "$wpub/" "$t:/root/site/public/" | sent); b=$(( b + bo )); fi
-  $S "$t" "echo '$h' > /root/site/public/.hash"
-  s=$(( $(date +%s) - t0 )); echo "pod-sync: data synced in $s s, $b bytes sent"; note sync:data "$s" "" "$b"; exit 0
+  # untracked data from the main tree (tracked paths excluded, so --prune leaves them to the second pass)
+  prune_gate -a --exclude /.hash --exclude-from=<(sed 's#^#/#' "$lst") -e "$S" "$main/$P/" "$t:/root/site/public/"
+  b1=$(rsync -a --stats ${DEL[@]+"${DEL[@]}"} --exclude /.hash --exclude-from=<(sed 's#^#/#' "$lst") -e "$S" "$main/$P/" "$t:/root/site/public/" | sent)
+  # tracked data from this tree
+  b2=$(git ls-files -- "$P" | sed "s#^$P/##" | rsync -a --stats --ignore-missing-args --files-from=- -e "$S" "$P/" "$t:/root/site/public/" | sent)
+  $S "$t" "echo $h > /root/site/public/.hash"
+  s=$(( $(date +%s) - t0 )); echo "pod-sync: data synced in $s s ($b1 + $b2 bytes sent; tracked from $(pwd), untracked from $main)"; note sync:data "$s" "" "$((b1 + b2))"; exit 0
 fi
 
 d=${1:?dist dir}; n=${2:?name}; lane=${3:?lane}; t0=$(date +%s)
@@ -108,11 +101,12 @@ for d in dists/*; do b=$(grep -o "src=\"/[^\"]*/assets/" $d/index.html | head -1
 [ -d /root/site/public ] || { echo "pod-sync: no /root/site/public; run pod-sync.sh --data first" >&2; exit 1; }
 kill -0 $(cat /root/serve.pid) 2>/dev/null || { cat /root/serve.log; echo "pod-sync: serve.mjs is not running" >&2; exit 1; }
 cat /root/serve.log'
-note serve $(( $(date +%s) - t0 ))
-# Sentinels: the pod must answer 200 with the local file's size (the SPA fallback html is 200 with another size).
+# Sentinels: the pod must answer 200 with the local file's size at the data prefix (serve-lib DATA_PREFIX; the SPA
+# fallback html is 200 with another size). Walk 10: a crashed server left an old one answering and the sync returned 0.
 for f in province/refined/ground-control.png kits/bmv-treehouse-int/parts/index.json; do
-  want=$(stat -c %s "apps/world-studio/public/$f")
+  want=$(stat -L -c %s "apps/world-studio/public/$f")
   got=$($S "$t" "curl -s -o /dev/null -w '%{http_code} %{size_download}' http://127.0.0.1:8099/elder-souls-argonia/studio/$f")
   [ "$got" = "200 $want" ] || { echo "pod-sync: data mismatch for $f: pod '$got', local '200 $want'" >&2; exit 1; }
 done
 echo "pod-sync: data public ok"
+note serve $(( $(date +%s) - t0 ))

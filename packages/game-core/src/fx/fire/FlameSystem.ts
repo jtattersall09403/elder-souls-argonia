@@ -539,7 +539,8 @@ export class FlameSystem {
  * previous rows' buffer with the new instance count, and on WebGPU the
  * overrun invalidated the whole pass (walk 9 pod run: 54 rows bound, 60
  * drawn, everything in renderContext_4 gone for the frame). Disposing the old
- * geometry frees its buffers (review 2026-09-30: a rebind without it leaked).
+ * geometry frees its buffers (review 2026-09-30: a rebind without it leaked),
+ * synchronously, before the mesh draws the new one (vol10 c10 F).
  */
 function bindInterleaved(mesh: THREE.Mesh<THREE.InstancedBufferGeometry>, data: Float32Array, stride: number,
   columns: [string, number][]): void {

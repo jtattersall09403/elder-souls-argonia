@@ -6,7 +6,7 @@
  *   node tooling/gpu-lane/tunnels.mjs open --pod "ssh -i <key> -p <port> root@<ip>" [--local 9222] [--remote 9222] [--purpose cdp]
  *   node tooling/gpu-lane/tunnels.mjs keep --pod "<ssh>" --local 9242 [--remote 9222]   (foreground; re-opens on every drop)
  *   node tooling/gpu-lane/tunnels.mjs list
- *   node tooling/gpu-lane/tunnels.mjs close [--purpose cdp] [--local 9242]   (only matching recorded PIDs still ssh; no filter closes all)
+ *   node tooling/gpu-lane/tunnels.mjs close [--purpose cdp] [--local 9242]   (only matching recorded PIDs still ssh; a bare close with no --local is refused)
  *
  * pod-capture.mjs --pod opens its own CDP tunnel through openTunnel and closes it at exit (also on SIGINT/SIGTERM).
  */
@@ -90,6 +90,10 @@ export function closeTunnels({ purpose, pid, localPort, reg = registryPath(), ki
   return closed;
 }
 
+/** A close with no --local would close other lanes' tunnels: refused with a message, else null. */
+export const closeRefusal = (argv) => (argv.includes("--local") ? null
+  : "tunnels close: refused without --local <port> (a bare close closes every lane's tunnels); run `tunnels.mjs list` and pass the port you opened");
+
 if (import.meta.url === `file://${process.argv[1]}`) {
   const [cmd, ...a] = process.argv.slice(2);
   const opt = (k, d) => { const i = a.indexOf(`--${k}`); return i < 0 ? d : a[i + 1]; };
@@ -107,6 +111,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   } else if (cmd === "list") {
     for (const t of load(registryPath())) console.log(`${isOurSsh(t.pid) ? "up  " : "dead"} ${JSON.stringify(t)}`);
   } else if (cmd === "close") {
+    const refusal = closeRefusal(a);
+    if (refusal) { console.error(refusal); process.exit(2); }
     const c = closeTunnels({ purpose: opt("purpose"), localPort: opt("local") === undefined ? undefined : Number(opt("local")) });
     console.log(`tunnels: closed ${c.length}${c.map((t) => ` ${t.pid}(${t.purpose}:${t.localPort})`).join("")}`);
   } else { console.error("usage: tunnels.mjs open|list|close (see header)"); process.exit(2); }

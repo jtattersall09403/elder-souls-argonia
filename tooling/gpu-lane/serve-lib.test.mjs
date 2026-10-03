@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { distBase, serveFiles, siteRoots } from "./serve-lib.mjs";
+import { DATA_PREFIX, dataBaseOf, distBase, serveFiles, siteRoots } from "./serve-lib.mjs";
 
 const dist = (base) => {
   const d = mkdtempSync(join(tmpdir(), "serve-lib-"));
@@ -37,4 +37,11 @@ test("serveFiles lists the server modules, three's package.json and basis dir, a
 test("serveFiles fails naming a missing served dir", () => {
   const root = mkdtempSync(join(tmpdir(), "serve-lib-"));
   assert.throws(() => serveFiles(root, { basis: join(root, "b/x/y/z/basis"), characters: join(root, "chars") }), /missing .*chars/);
+});
+test("dataBaseOf: a /webgpu/ view URL resolves to the prefix the server mounts the data at", () => {
+  const b = dataBaseOf("http://127.0.0.1:8081/elder-souls-argonia/webgpu/?view=x");
+  assert.equal(b, "http://127.0.0.1:8081/elder-souls-argonia/studio/");
+  const r = siteRoots([dist("/elder-souls-argonia/webgpu/")], "/data", "/chars");
+  assert.ok(r.some(([p, root]) => p === DATA_PREFIX && root === "/data" && b.endsWith(p)));
+  assert.equal(dataBaseOf("http://x/other/"), null);
 });

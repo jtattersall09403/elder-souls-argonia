@@ -1,5 +1,7 @@
 # Type 7: works and landing (sheet written by the type's first slice, Bog Iron Workings, 16k walk 9; edited by every later slice of the type)
 
+Feel: [type-feel.md](../type-feel.md), row Works.
+
 49 active `works` records (craft, extraction, illicit, storage-and-freight,
 cultivation, aquaculture, labour, market) and the ferry stages and landings
 (`transit` records). A works is a process laid out on the ground: what comes

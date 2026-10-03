@@ -51,7 +51,8 @@ only when the roster keeps a work and a home socket for every slot.
 
 Skyrim hangs a trade's board on the wall beside the door (a bracket post
 only for the stable), never over the opening, and stands a signpost only at
-road junctions, with one arm per destination. A board with a mined wall pair
+road junctions, on the verge with its post clear of the road bed (scanned and
+padded, never on the way), with one arm per destination. A board with a mined wall pair
 on another building is hung with `wb.py mount <board> <host> --like <that
 building>` (R97). A parcel whose `services` hold `lodging`,
 `trader`, `stable` or `smith` carries its board within 4 m of its walls,

@@ -40,7 +40,6 @@ import {
   cloneSettlementMaterial,
   createSettlementMaterialUniforms,
   isSettlementGlowMaterial,
-  prepareSettlementMaterial,
   updateSettlementEnvironment,
   type SettlementMaterialUniforms,
 } from "./materials";
@@ -71,6 +70,7 @@ import { isFlameCardMaterial } from "../fx/fire/flameAnchors";
 import { mergeRunColliders, type RunColliderCache } from "./runColliders";
 import { fixtureLightFieldOf } from "../render/fixtureLights";
 import { DrawTargetLinker, type LinkingRenderer } from "../render/drawTargetLinker";
+import { prepareSettlementColour, warmKitPrograms, type KitProgramWarmReport } from "./kitProgramWarm";
 import { assertPoolsSchema, syncPlacePools } from "./pools";
 import { TransientFetchError, fetchJsonWithRetry, loadGltfWithRetry } from "./fetchRetry";
 import {
@@ -536,8 +536,11 @@ export function solidFrom(
 export function SettlementLayer({
   baseUrl, focusRef, groundAt, groundArrivals, quality, environment, onSolids, onStats, materialPatch,
   rebuildRef, onDoors, kitCache: sharedKitCache, lightFixtures: sharedLightFixtures, onError,
-  localSurfaces, ringPendingRef,
-}: SettlementLayerProps) {
+  localSurfaces, ringPendingRef, onProgramWarm,
+}: SettlementLayerProps & {
+  /** The boot program warm's report (kitProgramWarm.ts), for the perf summary. */
+  onProgramWarm?: (report: KitProgramWarmReport) => void;
+}) {
   const root = useRef<THREE.Group>(null);
   const [bundle, setBundle] = useState<SettlementBundle | null>(null);
   // The app's settlement source (SettlementBundleSourceContext), else the
@@ -635,6 +638,33 @@ export function SettlementLayer({
   const { camera: sceneCamera, scene, gl } = useThree();
   const linker = useMemo(() => new DrawTargetLinker(gl as unknown as LinkingRenderer, scene), [gl, scene]);
   useEffect(() => { linker.attach(); return () => linker.detach(); }, [linker]);
+  // Every kit program linked at mount from the baked class list, before any
+  // part arrives (kitProgramWarm.ts, perf10 c14), against the target the
+  // scene pass is seen to draw into.
+  const onProgramWarmRef = useRef(onProgramWarm);
+  onProgramWarmRef.current = onProgramWarm;
+  useEffect(() => {
+    const abort = new AbortController();
+    let release: (() => void) | null = null;
+    const observed = () => new Promise<void>((resolve) => {
+      const start = performance.now();
+      const step = () => {
+        if (linker.observed || abort.signal.aborted
+          || performance.now() - start >= SETTLEMENT_LINK_WAIT_MS) resolve();
+        else requestAnimationFrame(step);
+      };
+      step();
+    });
+    warmKitPrograms({ baseUrl, gl, linker, camera: sceneCamera, uniforms, materialPatch, observed, signal: abort.signal })
+      .then((warm) => {
+        if (!warm) return;
+        if (abort.signal.aborted) { warm.release(); return; }
+        release = warm.release;
+        onProgramWarmRef.current?.(warm.report);
+      })
+      .catch((err: unknown) => { if (!abort.signal.aborted) console.warn(`kit program warm: ${String(err)}`); });
+    return () => { abort.abort(); release?.(); };
+  }, [baseUrl, gl, linker, sceneCamera, uniforms, materialPatch]);
   const ownLightFixtures = useMemo(
     () => (sharedLightFixtures ? null
       : new SettlementLightFixtures(uniforms.esSettlementNight, fixtureLightFieldOf(scene))),
@@ -1282,12 +1312,11 @@ export function SettlementLayer({
         const base = bucket.flame || bucket.shell ? bucket.part.material : identities.of(bucket.part.material);
         const material = materialVariant(base, String(glowMaterial));
         bucket.material = material;
-        materialPatch?.(material);
-        // decal, additive card, still water and the surface features; the
+        // decal, additive card, still water and the surface features, the
+        // same preparation the boot program warm gives its materials; the
         // shadow pass reuses the colour material's own position and mask
-        // (decision 0107), so every draw's caster matches its colour by
-        // construction: there is no depth twin to pair or check.
-        const drawFlags = prepareSettlementMaterial(material, uniforms, glowMaterial, bucket.flame === true);
+        // (decision 0107), so there is no depth twin to pair or check.
+        const drawFlags = prepareSettlementColour(material, uniforms, glowMaterial, bucket.flame === true, materialPatch);
         const { transforms, groundLinesM } = bucket;
         const cell = settlementBatchCell(bucket.chunk, bucket.view.level, bucket.ladderClass);
         addToBatch(batches, drawBatchKey(material, bucket.part.geometry, cell, drawFlags), {

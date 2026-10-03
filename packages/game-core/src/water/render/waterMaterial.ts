@@ -891,7 +891,10 @@ export function createWaterMaterial(
   if (tier.ripples) {
     const info = n(u.uRippleInfo);
     const rUv = n(wpXZ.sub(info.xy).div(info.z).add(0.5));
-    const on = info.w.greaterThan(0.5).and(all(rUv.greaterThan(vec2(0.02)))).and(all(rUv.lessThan(vec2(0.98))));
+    // fade over the outer band, as FoamField does (a hard cut drew a 64 m square)
+    const rE2 = n(smoothstep(vec2(0.02), vec2(0.12), rUv).mul(smoothstep(vec2(0.02), vec2(0.12), float(1.0).sub(rUv))));
+    const rEdge = n(rE2.x.mul(rE2.y).toVar());
+    const on = info.w.greaterThan(0.5).and(rEdge.greaterThan(0.0));
     const rT = 1.0 / 256.0;
     const R = (o: TslNode) => n(n(u.uRipple).sample(rUv.add(o))).r;
     // uniform gate (patch live) around the 5 samples, the per-pixel range as sel()
@@ -900,7 +903,7 @@ export function createWaterMaterial(
       const o = vec3(0.0).toVar();
       If(info.w.greaterThan(0.5), () => {
         const g2 = n(vec2(R(vec2(rT, 0.0)).sub(R(vec2(-rT, 0.0))), R(vec2(0.0, rT)).sub(R(vec2(0.0, -rT))))).mul(14.0);
-        o.assign(sel(on, vec3(g2, n(abs(n(n(u.uRipple).sample(rUv)).r)).mul(6.0)), vec3(0.0)));
+        o.assign(sel(on, vec3(g2, n(abs(n(n(u.uRipple).sample(rUv)).r)).mul(6.0)).mul(rEdge), vec3(0.0)));
       });
       return o;
     })().toVar());
@@ -1040,10 +1043,13 @@ export function createWaterMaterial(
     alb = n(mix(alb, vec3(0.16, 0.30, 0.10), algae.mul(0.55)));
     const shoreD = n(shorePx);
     const expo = n(expoPx);
+    // contact line and froth stay within ~20 m of the shore horizontally: deep
+    // water under a steep bank has a small vertical depth but carries no surf
+    const shoreNear = n(float(1.0).sub(smoothstep(8.0, 20.0, shoreD)).toVar());
     // 1. thin contact line
     const cn0 = n(n(esFbm(wpXZ.mul(1.3).add(3.0), 2)).toVar());
     let foamE = n(float(1.0).sub(smoothstep(0.0, fx(CONTACT_FOAM_M, 2), tv.add(cn0.sub(0.45).mul(0.10)))))
-      .mul(n(clamp(max(expo.mul(2.0), vEsSurf.x), 0.0, 1.0)).mul(0.5).add(0.18));
+      .mul(n(clamp(max(expo.mul(2.0), vEsSurf.x), 0.0, 1.0)).mul(0.5).add(0.18)).mul(shoreNear);
     // 2. surf bore + backwash
     const bn = n(n(esFbm(wpXZ.mul(0.16), 3)).toVar());
     // the vertex stage's energy (vEsSurf.y) and the per-pixel shore frame at
@@ -1074,7 +1080,7 @@ export function createWaterMaterial(
       esContactRushFn(wpXZ, vEsFlow.xy.div(max(speed, 1e-3)), speed), float(0.0)));
     foamE = foamE.add(esPlungeFoamFn(wpXZ, vEsFlow.xy));
     // 5b. shoreline depth-range froth
-    foamE = foamE.add(esShoreFroth(tv, esFbm(wpXZ.mul(0.9).add(7.0), 2), vEsSurf.x));
+    foamE = foamE.add(n(esShoreFroth(tv, esFbm(wpXZ.mul(0.9).add(7.0), 2), vEsSurf.x)).mul(shoreNear));
     foamE = n(min(foamE, 0.85)).toVar();
     // 5c. persistent foam field
     foamE = n(max(foamE, min(esFoamFieldAt(u, wpXZ), 0.95)));

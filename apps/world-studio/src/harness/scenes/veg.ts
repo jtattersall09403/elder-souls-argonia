@@ -31,11 +31,11 @@
  * (`measureCullParity`: `window.__CULL_PARITY__` and a `[cull-parity]` line).
  */
 import * as THREE from "three";
+import { loadKitParts } from "@elder-souls/game-core/assets/loadKitParts";
+import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { MeshStandardNodeMaterial } from "three/webgpu";
 import { toEpochMinutes } from "@elder-souls/world-time";
 import { createKitDecoders, createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
-import { loadKitParts } from "@elder-souls/game-core/assets/loadKitParts";
-import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { createWindUniforms, updateWindSway, windStiffness } from "@elder-souls/game-core/fx/windSway";
 import {
   createLodFadeUniforms, createLodHistory, lodLadder, pushLodHistory,

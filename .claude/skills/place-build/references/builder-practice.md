@@ -3,15 +3,22 @@
 Moved out of SKILL.md to keep it lean (0105 R39); the skill links here from
 its opening. Read once per slice; the rules are binding.
 
-- **Recommend and do.** A rule, gate, tool or record fix the builder
-  finds it needs, and that sits under an existing decision (0097–0104,
-  0081), is filed to the tooling sub-lane (below) with its fail-first
-  test and its lessons row, never written inside a round; it is
-  reported, never asked. The
-  builder stops for a ruling only on an owner-level call (a place moved
-  or cut, a quest premise changed, a new type, a world-level rule) or
-  when a check cannot be met with any asset we hold after a completed
-  search.
+- **Recommend and do: the decision-rights table.** A rule, gate, tool or
+  record fix the builder finds it needs, and that sits under an existing
+  decision (0097–0104, 0081), is filed to the tooling sub-lane (below)
+  with its fail-first test and its lessons row, never written inside a
+  round; it is reported, never asked. Every other call:
+
+  | Call | Who decides |
+  |---|---|
+  | layout, pieces, mood levers, which beats carry which promises, lighting, shots | the builder, recorded in design.md |
+  | the intent where the record is silent or contradicts its region or lore (a record defect) | the builder from the region record and lore, written in § Intent, named in the packet |
+  | a taste call where two readings both fit record and lore (tended or abandoned shrine) | the builder picks, names the other reading and its consequence in one packet line |
+  | a promise no kit carries after a completed sourcing search | the builder writes the search evidence; owner call in the packet |
+  | the inherited ground contradicts the region's palette beyond what placed assets can carry | owner call in the packet, with the feel-check pictures |
+  | a place moved or cut, a quest premise changed, a new type, a world-level rule | owner, batched in the packet § Owner calls; the build continues on the builder's recommendation |
+  | assets the palette needs that are not in a kit yet | the builder launches the kit lane in this slice, reviewed per [kit-review.md](kit-review.md) ([palette-and-breadth.md](palette-and-breadth.md) § The kit lane); a manifest-writing step that would run beside another publishing lane is cleared with the planner first |
+  | a change to tooling or the frozen world | the planner, via the report |
 - **Fan out inside the lane.** Kit rebuilds, bundle exports, pose and
   yard scans, plugin mines and every render read run as parallel
   sub-agents (`run` for jobs, `find` for look-ups, a Sonnet reader per

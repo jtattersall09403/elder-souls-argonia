@@ -369,12 +369,13 @@ export function WorldSky({
   useLayoutEffect(() => {
     const fogScene = scene as THREE.Scene & { fogNode?: unknown };
     const V = TSL_V as unknown as Record<string, { z: { negate(): unknown } }>;
-    fogScene.fogNode = createAerialFogNode(sharedAerialUniforms, (lit) =>
+    // A fixed `off` band (`?vol=off`, the classic-WebGL backend) leaves the apply out of the graph: no 3D sample, no light loop.
+    fogScene.fogNode = createAerialFogNode(sharedAerialUniforms, governor.fixedOff ? undefined : (lit) =>
       applyVolumetrics(volumetrics, lit, V.positionView.z.negate() as never, V.screenUV as never));
     return () => {
       fogScene.fogNode = null;
     };
-  }, [scene, volumetrics]);
+  }, [scene, volumetrics, governor]);
 
   // Renderer: physical lights + ACES + soft shadows, one configuration for
   // both modes (module 55 §96 — tone mapping is part of the light system).
@@ -584,6 +585,8 @@ export function WorldSky({
   const state = useRef({
     lastLst: Number.NaN,
     lastBakeSunY: Number.NaN,
+    lastBakeSunX: 0,
+    lastBakeSunZ: 0,
     lastBakeCover: Number.NaN,
     lastEpoch: Number.NaN,
     exposure: Number.NaN,
@@ -1051,12 +1054,22 @@ export function WorldSky({
       (PMREM_REBAKE_ENABLED || state.current.envBakes === 0) &&
       (!Number.isFinite(state.current.lastBakeSunY) ||
       Math.abs(sunDir.y - state.current.lastBakeSunY) > bakeStep ||
+      // azimuth past 2 deg: around midday sun.y barely moves while the sun sweeps
+      Math.abs(Math.atan2(
+        sunDir.x * state.current.lastBakeSunZ - sunDir.z * state.current.lastBakeSunX,
+        sunDir.x * state.current.lastBakeSunX + sunDir.z * state.current.lastBakeSunZ,
+      )) > 0.035 ||
       Math.abs(bakeCover - (state.current.lastBakeCover || 0)) > 0.06)
     ) {
       state.current.lastBakeSunY = sunDir.y;
+      state.current.lastBakeSunX = sunDir.x;
+      state.current.lastBakeSunZ = sunDir.z;
       state.current.lastBakeCover = bakeCover;
       copySkyUniforms(dome, bake);
       bake.sky.showSunDisc.value = 0;
+      // no Mie forward lobe in the IBL: the water's live GGX specular and
+      // sparkle draw the sun; a baked glow reflected beside it read as a second sun
+      bake.sky.mieDirectionalG.value = 0;
       bake.extras.uFlash.value = 0; // flashes never tint the IBL
       envRef.current?.rebake();
       state.current.envBakes += 1;

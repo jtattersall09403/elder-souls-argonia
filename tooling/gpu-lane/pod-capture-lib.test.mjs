@@ -1,7 +1,24 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { viewDeadlineS, onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile, settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, installGpuErrorProbe, gpuProbeLine, installNanProbe, nanProbeLine, installDrawCensus, drawCensusLine, summaryTable, profileStartS, devHooksLine, recordSkippedFrame } from "./pod-capture-lib.mjs";
+import { viewDeadlineS, onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile, settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, installGpuErrorProbe, gpuProbeLine, installNanProbe, nanProbeLine, installDrawCensus, drawCensusLine, summaryTable, profileStartS, devHooksLine, recordSkippedFrame, segmentsCell, repeatedQueryKey, clockMinute, clockStalled, twinPairs, twinIdentical } from "./pod-capture-lib.mjs";
+
+test("repeatedQueryKey: names the repeated key, null when none", () => {
+  assert.equal(repeatedQueryKey("http://x/?view=character&t=22&w=rain&t=12"), "t");
+  assert.equal(repeatedQueryKey("http://x/?view=character&t=22&w=rain"), null);
+  assert.equal(repeatedQueryKey("http://x/"), null);
+});
+test("clockStalled: equal readings stall; advanced or unreadable do not", () => {
+  assert.equal(clockMinute("Day 3  22:07 rain"), 22 * 60 + 7);
+  assert.equal(clockStalled(clockMinute("22:07"), clockMinute("22:07")), true);
+  assert.equal(clockStalled(clockMinute("22:07"), clockMinute("22:41")), false);
+  assert.equal(clockStalled(null, 5), false);
+});
+test("twinIdentical: byte-identical off/on frames are invalid; pairs found by suffix", () => {
+  assert.deepEqual(twinPairs(["a-off", "a-on", "b-off", "c"]), [["a-off", "a-on"]]);
+  assert.equal(twinIdentical(Buffer.from([1, 2, 3]), Buffer.from([1, 2, 3])), true);
+  assert.equal(twinIdentical(Buffer.from([1, 2, 3]), Buffer.from([1, 2, 4])), false);
+});
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -1057,4 +1074,101 @@ test("vol10 c10 G: fogdyn (settle false, shotsFrom settle) 180 s at 10 s takes 1
   for (let i = 0; poseAt + i / 10 < viewEndSG(view, 180, poseAt); i++) { const s = poseAt + i / 10; const t = shotTime(view, s, null, null, poseAt); if (si < shots.length && t >= shots[si]) { while (si < shots.length && shots[si] <= t) si++; taken++; } }
   assert.equal(taken, 18); // the first frame at the pose gate plus 10..170 s (the view ends 180 s from navigation)
   assert.equal(shots.filter((x) => x > 0).length, 18);
+});
+
+// ---- diag22 C1/C3/C4 ----
+test("kitSchemaCheck: a served schema 2 against loader 3 fails the run; equal passes; unreadable fails", async () => {
+  const { kitSchemaCheck } = await import("./pod-capture-lib.mjs");
+  const loaderSrc = "export const KIT_PARTS_SCHEMA_VERSION = 3;";
+  const bad = await kitSchemaCheck({ loaderSrc, url: "u", fetchText: async () => '{"schemaVersion":2}' });
+  assert.equal(bad.ok, false); assert.match(bad.why, /served schemaVersion 2 != loader 3/);
+  assert.equal((await kitSchemaCheck({ loaderSrc, url: "u", fetchText: async () => '{"schemaVersion":3}' })).ok, true);
+  assert.equal((await kitSchemaCheck({ loaderSrc, url: "u", fetchText: async () => { throw new Error("HTTP 404"); } })).ok, false);
+  assert.equal((await kitSchemaCheck({ loaderSrc: "", url: "u", fetchText: async () => '{"schemaVersion":3}' })).ok, false);
+});
+test("kitSchemaCheck fails on an HTML index and names the URL", async () => {
+  const { kitSchemaCheck } = await import("./pod-capture-lib.mjs");
+  const c = await kitSchemaCheck({ loaderSrc: "KIT_PARTS_SCHEMA_VERSION = 3", url: "http://h/x/parts/index.json", fetchText: async () => "<!doctype html><html></html>" });
+  assert.equal(c.ok, false); assert.match(c.why, /HTML.*http:\/\/h\/x\/parts\/index\.json/);
+});
+test("kitSchemaCheck reads the real loader constant", async () => {
+  const { kitSchemaCheck } = await import("./pod-capture-lib.mjs");
+  const src = (await import("node:fs")).readFileSync(new URL("../../packages/game-core/src/assets/kitParts.ts", import.meta.url), "utf8");
+  const c = await kitSchemaCheck({ loaderSrc: src, url: "u", fetchText: async () => '{"schemaVersion":-1}' });
+  assert.ok(Number.isInteger(c.loader)); assert.equal(c.ok, false);
+});
+test("startContamination: VRAM over baseline + 1 GiB or a renderer over 50% CPU marks the view", async () => {
+  const { startContamination, rendererCpu } = await import("./pod-capture-lib.mjs");
+  assert.deepEqual(startContamination({ vramStartMiB: 1500, vramBaselineMiB: 600, renderers: [{ pid: 1, cpuPct: 3 }] }), { contaminated: false, reasons: [] });
+  assert.equal(startContamination({ vramStartMiB: 4998, vramBaselineMiB: 600, renderers: [] }).contaminated, true);
+  const r = rendererCpu([{ type: "renderer", id: 7, cpuTime: 10 }, { type: "gpu", id: 2, cpuTime: 1 }], [{ type: "renderer", id: 7, cpuTime: 11 }, { type: "gpu", id: 2, cpuTime: 5 }], 1);
+  assert.deepEqual(r, [{ pid: 7, cpuPct: 100 }]);
+  assert.deepEqual(startContamination({ vramStartMiB: null, vramBaselineMiB: 600, renderers: r }).reasons, ["renderer 7 at 100% CPU"]);
+});
+test("reapViewRenderers: exits clean; a survivor is killed; a survivor of the kill asks for a Chrome restart", async () => {
+  const { reapViewRenderers } = await import("./pod-capture-lib.mjs");
+  let t = 0; const clock = { sleep: async (ms) => { t += ms; }, now: () => t };
+  let alive = [1, 9];
+  assert.deepEqual(await reapViewRenderers({ before: [1], listRenderers: async () => (t >= 1000 ? [1] : alive), kill: async () => {}, ...clock }), { survivors: [], killed: [], restart: false });
+  t = 0; const killed = [];
+  const r1 = await reapViewRenderers({ before: [1], listRenderers: async () => alive, kill: async (p) => { killed.push(...p); alive = [1]; }, ...clock });
+  assert.deepEqual(r1, { survivors: [], killed: [9], restart: false }); assert.deepEqual(killed, [9]);
+  t = 0; alive = [1, 9];
+  assert.deepEqual(await reapViewRenderers({ before: [1], listRenderers: async () => alive, kill: async () => {}, ...clock }), { survivors: [9], killed: [9], restart: true });
+});
+test("summariseView: CONTAMINATED cell; tris invalid when GPU errors hit indirect draws", async () => {
+  const { summariseView, summaryTable } = await import("./pod-capture-lib.mjs");
+  const census = { trisByPass: { main: { indirectDrawsPerFrame: 3 } } };
+  const base = { final: { gpuMs: { tris: 89e6 }, backend: "webgpu" }, window: { drawCensus: census } };
+  const bad = summariseView({ ...base, gpuErrors: [["OOM", 1990]], contaminated: true, contaminationReasons: ["VRAM 4998 MiB > baseline 600 + 1024"] });
+  assert.equal(bad.tris, "tris invalid (cull read-back)");
+  assert.match(bad.contaminated, /^CONTAMINATED \(VRAM 4998/);
+  assert.equal(summariseView({ ...base, gpuErrors: [] }).tris, 89e6);
+  assert.equal(summariseView({ final: { gpuMs: { tris: 5e6 }, backend: "webgpu" }, gpuErrors: [["x", 1]] }).tris, "tris invalid (cull read-back)");
+  assert.equal(summariseView({ final: { gpuMs: { tris: 5e6 }, backend: "webgl2" }, gpuErrors: [["x", 1]] }).tris, 5e6);
+  assert.match(summaryTable([{ name: "N", summary: bad }], null), /\| tris invalid \(cull read-back\) \|/);
+});
+
+test("segmentsCell: per-segment avg/max ms; absent timing says so; summariseView carries it", () => {
+  const g = { supported: true, segments: [{ label: "sky", avg: 0.512, max: 1.2 }, { label: "water", avg: 3, max: 4.456 }] };
+  assert.equal(segmentsCell(g), "sky 0.51/1.2; water 3/4.46");
+  assert.equal(segmentsCell({ supported: false, segments: [] }), "off (no gputiming=1)");
+  assert.equal(segmentsCell({ supported: true, segments: [] }), "none yet");
+  assert.equal(segmentsCell({ supported: true }), null);
+  assert.equal(summariseView({ final: { gpuMs: g } }).gpuSegments, "sky 0.51/1.2; water 3/4.46");
+  assert.match(summaryTable([{ name: "v", summary: summariseView({ final: { gpuMs: g } }) }], {}), /gpu segments avg\/max ms/);
+});
+
+test("pageKitCheck: every kit the page loads is checked; one HTML index fails and names its kit (c11 smoke2)", async () => {
+  const { pageKitCheck, PAGE_FIXED_KITS } = await import("./pod-capture-lib.mjs");
+  const B = "http://h/elder-souls-argonia/studio/";
+  const files = {
+    [`${B}province/settlements/index.json`]: JSON.stringify({ places: [{ bundle: "settlements/a.json" }], routes: [{ bundle: "settlements/routes/r.json" }] }),
+    [`${B}province/settlements/a.json`]: JSON.stringify({ kits: { "settlement-mud-v1": { parts: "kits/settlement-mud-v1/parts/index.json" } } }),
+    [`${B}province/settlements/routes/r.json`]: JSON.stringify({ kits: { "docks-v1": { parts: "kits/docks-v1/parts/index.json" } } }),
+    [`${B}kits/settlement-mud-v1/parts/index.json`]: '{"schemaVersion":4}',
+    [`${B}kits/docks-v1/parts/index.json`]: "<!doctype html><html></html>",
+  };
+  for (const k of PAGE_FIXED_KITS) files[`${B}kits/${k}/parts/index.json`] = '{"schemaVersion":4}';
+  const fetchMany = async (urls) => new Map(urls.map((u) => [u, files[u] ?? new Error("HTTP 404")]));
+  const loaderSrc = "KIT_PARTS_SCHEMA_VERSION = 4";
+  const c = await pageKitCheck({ loaderSrc, dataBase: B, fetchMany });
+  assert.equal(c.ok, false);
+  assert.equal(c.checked, 2 + PAGE_FIXED_KITS.length);
+  assert.deepEqual(c.failed.map((f) => f.kit), ["docks-v1"]);
+  assert.match(c.failed[0].why, /HTML/);
+  files[`${B}kits/docks-v1/parts/index.json`] = '{"schemaVersion":4}';
+  assert.equal((await pageKitCheck({ loaderSrc, dataBase: B, fetchMany })).ok, true);
+  delete files[`${B}province/settlements/routes/r.json`];
+  const lost = await pageKitCheck({ loaderSrc, dataBase: B, fetchMany });
+  assert.equal(lost.ok, false);
+  assert.match(lost.problems[0], /routes\/r\.json/);
+});
+
+test("parseShellFetch: status and body per URL; a missing reply is an Error", async () => {
+  const { parseShellFetch } = await import("./pod-capture-lib.mjs");
+  const m = parseShellFetch('\n@@KIT@@ 200 http://a/x\n{"v":1}\n@@KIT@@ 404 http://a/y\nnope', ["http://a/x", "http://a/y", "http://a/z"]);
+  assert.equal(m.get("http://a/x"), '{"v":1}');
+  assert.match(m.get("http://a/y").message, /404/);
+  assert.match(m.get("http://a/z").message, /no reply/);
 });

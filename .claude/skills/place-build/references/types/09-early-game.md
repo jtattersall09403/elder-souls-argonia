@@ -1,5 +1,7 @@
 # Type 9: early-game location (sheet written by the first slice, Gang Ground; edited by every later slice of the type)
 
+Feel: [type-feel.md](../type-feel.md), every row (the type spans a works, a camp and a transit place; use the row of the scene being built).
+
 The opening scenes of 0062 § 9 and quest MQ01: the work barge (The Roll,
 M1 works), the gang's camp (Gang Ground, M2 muster yard) and the Corimont
 crosstrees (M1 transit, inside Alten Corimont, type 8). Every type-9 place is

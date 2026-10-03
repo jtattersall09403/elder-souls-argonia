@@ -1,5 +1,7 @@
 # Type 2: Hist village (sheet written by slice 2, Greenspring; edited by every later slice of the type)
 
+Feel: [type-feel.md](../type-feel.md), row Village.
+
 Covers the `hist-village` catalogue type (16k § The type list, row 2): a
 tribal or dry village grown round its own Hist. First place: Greenspring
 (`place.hist-heartland.greenspring`, M3, hist-heartland), design in
