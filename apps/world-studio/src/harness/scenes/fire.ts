@@ -4,7 +4,8 @@
  * both backends, the raymarched volume for the large presets on WebGPU).
  * Each fire is scaled to the same 0.8 m height so the eight read side by
  * side; left to right: candle, lanternStanding, lanternHanging, torchGround,
- * torchHandheld, brazier, hearth, campfire. The backdrop is written through
+ * torchHandheld, brazier, hearth, campfire, on a lit ground under their own fire light
+ * (`addLitGroundAndFireLights`). The sky backdrop is written through
  * the fire's own `displayToScene`, so it shows the display colours the old
  * fire sheets used (tools/fire-sheet.mjs, retired) under the frame's tone map.
  * fire-night.ts and fire-close.ts reuse `buildFireScene`.
@@ -17,10 +18,11 @@
  * on it before its first shot (`fireReady`).
  */
 import * as THREE from "three";
-import { MeshBasicNodeMaterial } from "three/webgpu";
+import { MeshBasicNodeMaterial, MeshStandardNodeMaterial } from "three/webgpu";
 import { uniform, vec3 } from "three/tsl";
 import { FlameSystem } from "@elder-souls/game-core/fx/fire/FlameSystem";
-import { FIRE_PRESETS, FIRE_PRESET_ORDER, type FirePresetId } from "@elder-souls/game-core/fx/fire/fireTypes";
+import { FIRE_LIGHTS, FIRE_PRESETS, FIRE_PRESET_ORDER, type FirePresetId } from "@elder-souls/game-core/fx/fire/fireTypes";
+import { fixtureLightFieldOf, installFixtureLighting } from "@elder-souls/game-core/render/fixtureLights/index";
 import { displayToScene } from "@elder-souls/game-core/fx/fire/fireNodes";
 import type { WebGPURenderer } from "three/webgpu";
 import type { HarnessContext } from "../types";
@@ -63,6 +65,39 @@ function backdropMaterial(hex: number, exposure: number): MeshBasicNodeMaterial 
   return m;
 }
 
+/** The fire's light when its record names none: Skyrim's Torch01 LIGH (0001d4ec), 512 units, colour 250/190/131. */
+const FIRE_LIGHT_RADIUS_M = 512 * 0.01428;
+const FIRE_LIGHT_SRGB = 0xfabe83;
+/** Height of the light over the emitter's base (the flame body, not the fuel bed). */
+const FIRE_LIGHT_LIFT_M = 0.3;
+
+/**
+ * A lit ground (the backdrop's colour as albedo, roughness 1) and the game's fire light: the scene's
+ * fixture light field (render/fixtureLights, the settlement's own model), one slot per emitter at
+ * its base + 0.3 m with FIRE_LIGHTS' candela and radius cap (vol10 diag6 F1). The look's sky light
+ * is a directional from above at the display-to-scene scale (fireNodes `displayToScene`: 0.6 / exposure),
+ * so the ground reads near its backdrop colour where no fire reaches.
+ */
+export function addLitGroundAndFireLights(ctx: HarnessContext, scene: THREE.Scene, look: FireLook, sizeM: number,
+  emitters: readonly { position: THREE.Vector3; preset: FirePresetId }[]): void {
+  installFixtureLighting(ctx.renderer as unknown as WebGPURenderer);
+  const groundMat = new MeshStandardNodeMaterial({ color: new THREE.Color(look.ground), roughness: 1, metalness: 0 });
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(sizeM, sizeM).rotateX(-Math.PI / 2), groundMat);
+  ground.name = "fire-ground";
+  scene.add(ground);
+  const skyLight = new THREE.DirectionalLight(0xffffff, (Math.PI * 0.6) / look.exposure);
+  skyLight.position.set(0.3, 1, 0.4);
+  scene.add(skyLight);
+  const field = fixtureLightFieldOf(scene);
+  field.setLights(emitters.map((e) => ({
+    position: e.position.clone().add(new THREE.Vector3(0, FIRE_LIGHT_LIFT_M, 0)),
+    radiusM: FIRE_LIGHTS[e.preset].maxRadiusM ?? FIRE_LIGHT_RADIUS_M, fire: true,
+  })));
+  const colour = new THREE.Color(FIRE_LIGHT_SRGB);
+  emitters.forEach((e, i) => field.setIntensity(i, colour, FIRE_LIGHTS[e.preset].candela));
+  field.commit();
+}
+
 /** A row of fires over a sky/ground backdrop at one exposure. */
 export async function buildFireScene(ctx: HarnessContext, look: FireLook, presets: readonly FirePresetId[], heightM: number,
   spacingM: number, opts: { seeds?: readonly number[]; show?: (name: string) => boolean; cardsOnly?: boolean } = {}) {
@@ -72,19 +107,18 @@ export async function buildFireScene(ctx: HarnessContext, look: FireLook, preset
   const sky = new THREE.Mesh(new THREE.PlaneGeometry(width * 4, heightM * 12), backdropMaterial(look.sky, look.exposure));
   sky.position.set(0, heightM * 6, -spacingM * 2);
   scene.add(sky);
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(width * 4, spacingM * 8).rotateX(-Math.PI / 2),
-    backdropMaterial(look.ground, look.exposure));
-  scene.add(ground);
   const fire = new FlameSystem();
   // cardsOnly: the card path as WebGL draws it, on both backends. Hiding the
   // volume meshes is not enough: on WebGPU the cards of a volume preset yield
   // to the volume inside its reach (flameMaterial.ts cardShare), so hidden
   // volumes left the WebGPU cards faded (the ~9 luma backend gap, L19 round)
   fire.setBackend(opts.cardsOnly ? "webgl" : ctx.backend);
-  fire.setEmitters(presets.map((preset, i) => ({
+  const emitters = presets.map((preset, i) => ({
     position: new THREE.Vector3((i - (presets.length - 1) / 2) * spacingM, 0.02, 0),
     preset, scale: heightM / FIRE_PRESETS[preset].shape.heightM, seed: opts.seeds?.[i] ?? (0.37 + i * 0.13) % 1, owner: i,
-  })));
+  }));
+  fire.setEmitters(emitters);
+  addLitGroundAndFireLights(ctx, scene, look, Math.max(width * 4, spacingM * 8), emitters);
   scene.add(fire.group);
   const fov = 36;
   const aspect = ctx.width / ctx.height;

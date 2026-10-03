@@ -6,7 +6,7 @@ import type { ArchitectureAsset } from "../settlement/kit";
 import type { SettlementDoor } from "../settlement/types";
 import { isInteriorSwingDoor, parseInteriorBundle, type Vec3 } from "./bundle";
 import { CellLightFlicker } from "../fx/fire/interiorFires";
-import { daylightShare, INTERIOR_SUN_SHADOW_MAP, interiorAmbientShare, PANE_LIGHT_INSET_M, paneLightSeat, INTERIOR_LIGHT_INTENSITY_PER_FADE, INTERIOR_NIGHT_AMBIENT, InteriorDaylight, InteriorLoader, isWindowPane, type LoadedInterior, WINDOW_LIGHT_CANDELA, WINDOW_OVERCAST_SHARE } from "./interiorLoader";
+import { CELL_SUN_GAIN, daylightShare, INTERIOR_SUN_SHADOW_MAP, interiorAmbientShare, PANE_LIGHT_INSET_M, paneLightSeat, INTERIOR_LIGHT_INTENSITY_PER_FADE, INTERIOR_NIGHT_AMBIENT, InteriorDaylight, InteriorLoader, isWindowPane, type LoadedInterior, WINDOW_LIGHT_CANDELA, WINDOW_OVERCAST_SHARE } from "./interiorLoader";
 import { FIXTURE_LIGHTS_MAX, FixtureLightField } from "../render/fixtureLights/fixtureLightField";
 import { LIGHTS_CAP } from "../settlement/lighting";
 import { DOOR_FADE_S, DoorTransition, RETURN_LIFT_M } from "./doorTransition";
@@ -804,7 +804,7 @@ describe("sun through the openings (vol10 F1, F5)", () => {
     expect(seat.z).toBeCloseTo(0, 6);
     expect(paneLightSeat(box, world, new THREE.Vector3(9, 1, 0)).x).toBeCloseTo(5 + PANE_LIGHT_INSET_M, 6);
   });
-  it("Keeba at 08:00: the directional is the sky's sun from the sun side, at outdoor intensity x share, over the ambient", () => {
+  it("Keeba at 08:00: the directional is the sky's sun from the sun side, at outdoor intensity x share x gain, over the ambient", () => {
     const rows = (lightRows as { cells: Record<string, { apertures: { outward: number[]; centreM: number[] }[] }> }).cells;
     const day = Math.floor(new WorldClock().epochMinutes() / 1440) * 1440;
     const sun = sunAt(day + 8 * 60);
@@ -824,7 +824,7 @@ describe("sun through the openings (vol10 F1, F5)", () => {
     for (const a of facing) expect(travel.x * a.outward[0] + travel.z * a.outward[2]).toBeLessThan(0);
     expect(travel.y).toBeLessThan(0);
     expect(directional.color.equals(sunColour)).toBe(true);
-    expect(directional.intensity).toBeCloseTo(6 * 0.901, 6);
+    expect(directional.intensity).toBeCloseTo(6 * 0.901 * CELL_SUN_GAIN, 6);
     expect(directional.intensity * Math.max(sunColour.r, sunColour.g, sunColour.b)).toBeGreaterThan(ambient.intensity);
     // no opening faces the sun: the record light, its own colour, from straight above at the day's share
     d.setSun(null, 0, sunColour, 6);

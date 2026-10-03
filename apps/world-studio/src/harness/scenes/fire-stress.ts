@@ -8,7 +8,7 @@
  */
 import * as THREE from "three";
 import { FlameSystem } from "@elder-souls/game-core/fx/fire/FlameSystem";
-import { fireReady } from "./fire";
+import { addLitGroundAndFireLights, FIRE_NIGHT, fireReady } from "./fire";
 import type { FirePresetId } from "@elder-souls/game-core/fx/fire/fireTypes";
 import type { HarnessContext } from "../types";
 
@@ -19,14 +19,16 @@ export async function buildFireStress(ctx: HarnessContext, backend: "webgpu" | "
   const scene = new THREE.Scene();
   const fire = new FlameSystem();
   fire.setBackend(backend);
-  fire.setEmitters(Array.from({ length: 20 }, (_, i) => {
+  const emitters = Array.from({ length: 20 }, (_, i) => {
     const d = 4 + (i / 19) * 30;
     const a = ((i * 0.618034) % 1 - 0.5) * 1.1;
     return {
       position: new THREE.Vector3(Math.sin(a) * d, 0, -Math.cos(a) * d),
       preset: KINDS[i % KINDS.length], scale: 1, seed: (i * 0.377) % 1, owner: i,
     };
-  }));
+  });
+  fire.setEmitters(emitters);
+  addLitGroundAndFireLights(ctx, scene, FIRE_NIGHT, 90, emitters);
   scene.add(fire.group);
   const camera = new THREE.PerspectiveCamera(60, ctx.width / ctx.height, 0.1, 200);
   camera.position.set(0, 1.6, 0);

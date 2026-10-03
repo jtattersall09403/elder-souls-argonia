@@ -12,7 +12,7 @@ import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
 import { CAMERA_BLOCKING_GROUPS } from "@elder-souls/game-core/camera/cameraCollision";
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
 import {
-  colorFromRGB, daylightShare, INTERIOR_AMBIENT_SCALE, interiorAmbientShare, interiorCellLights, InteriorLoader, solidsAt,
+  clampCellSunElevation, colorFromRGB, daylightShare, INTERIOR_AMBIENT_SCALE, interiorAmbientShare, interiorCellLights, InteriorLoader, solidsAt,
   type LoadedInterior,
 } from "@elder-souls/game-core/interior/interiorLoader";
 import { drawnLightRigOf } from "../sky/lightRig";
@@ -91,7 +91,7 @@ export interface InteriorDoorsProbe {
  */
 export function InteriorDoors({
   baseUrl, controller, doors, groundAt, bodyCentreHeightM, directCellId, directYawDeg = null, onInside, interaction, kitCache,
-  overlay, probeRef, sounds, onShown, fireTier,
+  overlay, probeRef, sounds, onShown, fireTier, onExteriorNeededChange,
 }: {
   baseUrl: string;
   controller: PlayerMovementController;
@@ -118,6 +118,12 @@ export function InteriorDoors({
   sounds?: { emit(e: SoundEvent): void };
   /** The cell on screen and its sockets (the socket overlay), null outside. */
   onShown?: (cell: ShownCellSockets | null) => void;
+  /**
+   * False while a deep-linked cell (`directCellId`) has not been exited: the host mounts no exterior
+   * layers until then. Turns true at the exit press (the exit holds at black until the ground at the
+   * return point is loaded) and stays true; true from the start without a deep link (vol10 diag6 L1).
+   */
+  onExteriorNeededChange?: (needed: boolean) => void;
 }) {
   const decoders = useKitDecoders(baseUrl);
   const { world, rapier } = useRapier();
@@ -173,6 +179,9 @@ export function InteriorDoors({
   }), [controller, interiors, bodyCentreHeightM, groundAt]);
 
   useEffect(() => { transition.setDoors(doors); }, [transition, doors]);
+  // a deep-linked cell is fetched on mount, not after the controller mounts: it opens on bundle resident
+  useEffect(() => { if (directCellId) interiors.request(directCellId).catch(() => undefined); }, [interiors, directCellId]);
+  const exteriorNeeded = useRef<boolean | null>(null);
   useEffect(() => { onInside(shown !== null); }, [shown, onInside]);
   useEffect(() => {
     onShown?.(shown ? { cellId: shown.interior.bundle.cellId, originM: shown.originM, sockets: shown.interior.bundle.sockets } : null);
@@ -342,6 +351,7 @@ export function InteriorDoors({
   }, [shown]);
   const ambientIrr = useMemo(() => new THREE.Color(), []);
   const toSunCell = useMemo(() => new THREE.Vector3(), []);
+  const sunTravel = useMemo(() => new THREE.Vector3(), []);
   const sky = useMemo(() => ({ dir: new THREE.Vector3(0, -1, 0), tint: new THREE.Color(), strength: 0, inFrames: 0 }), []);
   // the sky light eased toward the last read every frame (diag3 Q5): the read refreshes twice a second, a step each time
   const skyEased = useMemo(() => ({ dir: new THREE.Vector3(0, -1, 0), strength: 0, primed: false }), []);
@@ -370,6 +380,8 @@ export function InteriorDoors({
       transition.openDirect(directCellId, { x: p.x, y: p.y, z: p.z }, directYawDeg);
     }
     transition.update(Math.min(delta, 0.1), answers);
+    const needed = !directCellId || exteriorNeeded.current === true || (opened.current && transition.leaving);
+    if (needed !== exteriorNeeded.current) { exteriorNeeded.current = needed; onExteriorNeededChange?.(needed); }
     if (transition.candidate) interaction.offer(transition.candidate);
     if (swing && transition.fade === 0) {
       const p = controller.position(bodyPos);
@@ -400,9 +412,12 @@ export function InteriorDoors({
         // eased sky strength when an aperture faces it, none otherwise (the record light stands)
         if (windows) {
           let faced = false;
-          if (skyEased.strength > 0) for (const a of windows.apertures) if (sunFacing(a, skyEased.dir)) { faced = true; break; }
+          // the cell sun is clamped to 45 deg elevation (clampCellSunElevation): the apertures test the clamped ray
+          clampCellSunElevation(toSunCell.copy(skyEased.dir).negate());
+          sunTravel.copy(toSunCell).negate();
+          if (skyEased.strength > 0) for (const a of windows.apertures) if (sunFacing(a, sunTravel)) { faced = true; break; }
           // the exterior sun's own colour and intensity, in the cell's exposure-1 frame (diag3 Q2)
-          shown.interior.daylight.setSun(faced ? toSunCell.copy(skyEased.dir).negate() : null, faced ? skyEased.strength : 0,
+          shown.interior.daylight.setSun(faced ? toSunCell : null, faced ? skyEased.strength : 0,
             daylightColour, rig.sunIntensity * rig.exposureTarget);
         }
         if (cellAmbient) cellAmbient.share = share;

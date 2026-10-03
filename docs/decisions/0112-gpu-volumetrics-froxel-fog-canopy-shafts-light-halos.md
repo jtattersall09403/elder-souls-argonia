@@ -163,9 +163,22 @@ colour comes from the light rig.
    - **Light rig.** When a plugin aperture faces the sun, the cell's record
      directional is aimed along the cell-frame sun (`InteriorDaylight.setSun`,
      called each frame from `InteriorDoors.tsx`) with the sky's sun colour and
-     intensity `sunIntensity × exposureTarget × share`; one 1024 shadow map
-     covers the cell bounds, shell categories cast, panes never cast,
-     `normalBias` 0.02. The light count and `castShadow` are fixed per cell,
+     intensity `sunIntensity × exposureTarget × share × CELL_SUN_GAIN` (6:
+     the floor patch at ≥ 5× the ambient-lit floor beside it; the gain's
+     derivation is at the constant). The cell sun's elevation is clamped to
+     45° (`clampCellSunElevation`, bearing kept); the light, the occluder and
+     the apertures' sun-facing test all use the clamped ray. One 1024 shadow
+     map covers the cell bounds; casters are chosen by measured size (a part
+     under 2.5 m casts, panes never), `normalBias` 0.02. The cell's sun
+     occluder (`cellSunOccluder.ts`) cuts its holes where the sun ray crosses
+     each aperture and rebuilds them when the sun turns more than 1°.
+   - **Deep link.** A studio `?interior=` link fetches the cell on mount and
+     opens it as soon as its bundle is resident, at the cell's own arrival
+     record; no exterior layers mount until the exit press
+     (`InteriorDoors` `onExteriorNeededChange`), and the exit holds at black
+     until the ground at the return point is loaded.
+   - **Captures.** Every GPU-lane view is captured with `w=clear` unless it
+     tests weather, at `rate=0.5`. The light count and `castShadow` are fixed per cell,
      so a light change recompiles no material. Pane lights sit 0.3 m inside
      the wall (`PANE_LIGHT_INSET_M`). Record lights within 1.5 m of a fire
      flicker with it (`interiorFires.ts:CellLightFlicker`, driven by

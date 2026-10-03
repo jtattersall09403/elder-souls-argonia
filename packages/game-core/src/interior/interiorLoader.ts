@@ -46,6 +46,32 @@ export const INTERIOR_LIGHT_DECAY = 2;
 /** The cell ambient's scale, on the same reasoning as the lights. */
 export const INTERIOR_AMBIENT_SCALE = Math.PI;
 
+/**
+ * Gain on the cell sun through an opening that faces it (vol10 diag6 P1). The bars want the sun
+ * patch on the floor near-white, many times the ambient-lit floor beside it. Measured in r5 at sun
+ * altitude 28-36 deg: the cell sun (outdoor sun x exposure, 3.0-3.18) added ~0.9x the floor's
+ * ambient-cube light (0.96 x PI SH), so the patch read ~1.9x its surroundings. Patch/surround =
+ * 1 + 0.9 g; for >= 5x, g >= 4.4; 6 gives ~6.4x, with headroom for the clamp's lower incidence.
+ */
+export const CELL_SUN_GAIN = 6;
+
+/** Highest elevation the cell sun takes, radians (vol10 diag6 P2): a noon sun through side windows lands on the floor. */
+export const CELL_SUN_MAX_ELEVATION_RAD = Math.PI / 4;
+
+/**
+ * Clamp a to-sun direction (y up) to at most CELL_SUN_MAX_ELEVATION_RAD, in place, keeping its
+ * compass bearing; returns it normalised. A straight-up vector has no bearing to keep and is left
+ * as is. Allocation-free.
+ */
+export function clampCellSunElevation(toSun: THREE.Vector3): THREE.Vector3 {
+  toSun.normalize();
+  const h = Math.hypot(toSun.x, toSun.z);
+  const maxY = Math.sin(CELL_SUN_MAX_ELEVATION_RAD);
+  if (toSun.y <= maxY || h < 1e-6) return toSun;
+  const k = Math.cos(CELL_SUN_MAX_ELEVATION_RAD) / h;
+  return toSun.set(toSun.x * k, maxY, toSun.z * k);
+}
+
 /** A record light's three.js decay: `INTERIOR_LIGHT_DECAY` times its falloff exponent (absent reads 1). */
 export function interiorLightDecay(light: Pick<InteriorLight, "falloffExponent">): number {
   return INTERIOR_LIGHT_DECAY * (light.falloffExponent ?? 1);
@@ -244,12 +270,12 @@ export class InteriorDaylight {
     this.ambient.intensity = this.ambientBase * floor;
     if (this.directional) {
       // the sun through an opening that faces it: the sky's sun, its colour and outdoor
-      // intensity times its share, aimed along it; else the record light from straight
+      // intensity times its share and CELL_SUN_GAIN, aimed along it (elevation clamped to 45 deg); else the record light from straight
       // above (vol10 D1, diag3 Q2)
       const sun = this.sunShare > 0;
       const d = this.directional;
       d.color.copy(sun ? this.sunColour : this.directionalColour);
-      d.intensity = sun ? this.sunIntensity * this.sunShare : this.directionalBase * floor;
+      d.intensity = sun ? this.sunIntensity * this.sunShare * CELL_SUN_GAIN : this.directionalBase * floor;
       d.target.position.copy(this.bounds.center);
       d.position.copy(sun ? this.toSun : _UP).multiplyScalar(this.bounds.radius).add(this.bounds.center);
       d.target.updateMatrixWorld();
@@ -293,7 +319,7 @@ export class InteriorDaylight {
   setSun(toSunCell: THREE.Vector3 | null, sunShare: number, colour: THREE.Color, intensity: number): void {
     this.sunShare = toSunCell && sunShare > 0 ? sunShare : 0;
     if (toSunCell) {
-      this.toSun.copy(toSunCell).normalize();
+      clampCellSunElevation(this.toSun.copy(toSunCell));
       this.occluder?.aim(this.toSun);
     }
     this.sunColour.copy(colour);

@@ -226,6 +226,9 @@ export class DoorTransition {
     return (this.phase === "hold" && this.pending?.kind === "enter") || this.phase === "settle";
   }
 
+  /** True from the exit press until the player stands outside (the host mounts the exterior for it). */
+  get leaving(): boolean { return this.pending?.kind === "leave"; }
+
   get cellId(): string | null { return this.inside?.cellId ?? null; }
   /** Outward compass bearing of the exterior door the cell was entered by (0 for a direct open), null outside. */
   get entranceFacingDeg(): number | null { return this.inside?.returnTo.facingDeg ?? null; }
@@ -316,6 +319,9 @@ export class DoorTransition {
         this.phase = "settle";
         return;
       }
+      // a cell opened directly (deep link) has no exterior mounted until the exit asks for it:
+      // hold at black until the ground at the return point is loaded (vol10 diag6 L1)
+      if (this.inside && !this.inside.enteredBy && this.hosts.groundAt(this.inside.returnTo.x, this.inside.returnTo.z) === null) return;
       this.leave(pending.loadDoorRef);
       this.pending = null;
       this.phase = "in";
