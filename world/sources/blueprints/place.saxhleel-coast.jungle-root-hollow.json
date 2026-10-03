@@ -118,6 +118,77 @@
         "yMeasured": 37.793,
         "assembly": [
           {
+            "id": "d-basket",
+            "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
+            "atM": [
+              18.6062,
+              -3.0149
+            ],
+            "yaw": 50.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 38.031
+          },
+          {
+            "id": "d-chime",
+            "asset": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
+            "atM": [
+              0.1303,
+              -0.8482
+            ],
+            "yaw": 96.0,
+            "on": "parent",
+            "layer": "clutter",
+            "evidence": "measured",
+            "mountPair": {
+              "kind": "unmined",
+              "mountedOn": "r-vines",
+              "unmined": "reader-approved r29"
+            },
+            "upM": 3.1388,
+            "host": "r-vines"
+          },
+          {
+            "id": "d-totem",
+            "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+            "atM": [
+              9.7848,
+              4.9747
+            ],
+            "yaw": 106.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 37.729
+          },
+          {
+            "id": "l-candle-n",
+            "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+            "atM": [
+              3.0006,
+              -0.8925
+            ],
+            "yaw": 106.0,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured",
+            "yMeasured": 38.0336
+          },
+          {
+            "id": "l-candle-s",
+            "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+            "atM": [
+              2.4449,
+              2.2589
+            ],
+            "yaw": 106.0,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured",
+            "yMeasured": 38.071
+          },
+          {
             "id": "r-vines",
             "asset": "kotm:argonia/trees/hist trees/hist_vines01",
             "atM": [
@@ -539,11 +610,14 @@
         "sha256": "ef03739d429b1ad5c00359983ea0bd86bdcb58ade9bccaa503a29b2fc3c77ce8"
       },
       "kits": {
-        "settlement-root-v1": "68c39b0353a0a39fb0b1e7194cc8d72aaa07f4b89b71619e9335e510837834b5"
+        "dungeon-root-v1": "66a7812fa7024674c8e0a1b446ab4b5857498388f9b7bc9f72bd2247f2dc40dc",
+        "mudmother-hut-int": "bff2ca4aa7c35e6e9a46c1eb943f8bcf4bbf5e632667f43355ae1e1364910283",
+        "settlement-mud-v1": "62dc047d1ac7a7f5329635ae06edca66c410489b2f7f2418c818b9b57182bc12",
+        "settlement-root-v1": "68a8291b5596f9e60e803b55fff88cb9ba39fc58b650e9f8b59daeaaf8c37b74"
       },
       "layout": {
         "path": "world/sources/blueprints/jungle-root-hollow.layout.json",
-        "sha256": "92b4047ad35ee530d499137a35771255d8b930678a136bfd71d0dd2a8984c95e"
+        "sha256": "f225b93ea7209e06a2b85fc46ae907cb891f15088fbf03580c9997820fa47fed"
       }
     },
     "walkRoutes": {

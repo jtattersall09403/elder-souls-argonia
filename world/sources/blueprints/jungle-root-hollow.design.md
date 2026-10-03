@@ -98,7 +98,8 @@ Riverwalk are in other regions).
 | The collar (`r-vines`) | the Hist root the record says collars the mouth | `kotm:argonia/trees/hist trees/hist_vines01` (settlement-root-v1), assembly member at the mouth's right-hand side, outside the rock (the plugin's own offset buries it in this rock on level ground) | vibe.silhouette; KotM refs round the door |
 | Bone scatter (`s1-lb-*`, yard set `lair-bone-scatter`) | what the occupant dragged out and left | the bones `MugsumpHollowInt01` itself scatters (humanribcage, humanarmleft, humanlegleft, humanspine, bloodyribs, bloodybone) and its Argonian skull (`kotm:issgard/clutter/bones/issgard_boneargonianskullfull`), all settlement-root-v1 | vibe.signatureFeature |
 | Tools in the scatter (`s1-lt-*`, yard set `lair-tool-scatter`) | other people's tools | `vanilla:clutter/common/shovel01`, `vanilla:clutter/basket01`, `shores:shoresofskyrim/fishnet01` (settlement-root-v1) | vibe.signatureFeature; item classes `tool`, `fishing-gear` |
-| Lights | none: a beast's lair, nobody lights it | — | record `interior.light: dark`; R80 density trivially met |
+| Warding at the mouth (`l-candle-n`, `l-candle-s`, `d-totem`, `d-chime`; audit10 C5) | the hiring camp's searchers mark the den: two candle stands flank the way in (1.85 m from the threshold, each a flame at night), a totem stands 9 m out on the approach, a bone chime hangs on the Hist vine so anything coming out rings it | `mudmother:gv_meshes/argoniannest/argoniancandle01` (settlement-mud-v1, lit, mined light and flame), `argoniantotem01` (plugin sink n 3), `argonianbonechime01` hung by `mount --hang` (unmined, reader-approved r29) | material-culture.md:30 (totems), :300 (chimes at every threshold); the interior stays dark (`interior.light: dark`) |
+| Forager's basket (`d-basket`) | a second dropped basket in the tool scatter | `mudmother:gv_meshes/argoniannest/basketsmall01` | vibe.materials "dragged belongings" |
 | Ways | none (off the road, no terminal) | — | step 0.3b |
 
 Bars: type 5 has no breadth-bars object yet (the type sheet records it);
@@ -130,7 +131,8 @@ clusters sit in their kit's clutter folder).
 
 ### § Creative register (three calls unlike Claywater, Greenspring, Riverwalk)
 
-1. No light at all: the only built place that is dark at night.
+1. The only lights are a warning: two candles the searchers keep at a
+   beast's door, nothing to live by (audit10 C5 replaced "no light at all").
 2. The signature is the threshold scatter: bones and tools in one fan
    in front of the mouth, thickest at the door, thinning outwards.
 3. The bank is rock, the province's rarest material, set against living
@@ -157,13 +159,15 @@ sockets), the occupant (encounter socket). All three are built here.
 ### § Seams
 
 Off the road; no internal way; approach on foot through the jungle from
-the east (the hiring camp). No sign: nobody marks a beast's lair.
+the east (the hiring camp). No road sign; the camp's totem on the
+approach is the only marker.
 
 ### § Approach (openworld-approach §5, the answers that matter)
 
 Seen first from 30-40 m through the trees (concealment 0.85): the rock
 bank and the root mass; the mouth is the dark gap between them, facing
-east toward the hiring camp. No light, no path, no sign.
+east toward the hiring camp. No path; at night the two warding candles
+show the mouth from the trees.
 
 ## § Lessons this slice
 
