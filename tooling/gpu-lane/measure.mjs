@@ -401,16 +401,28 @@ const nodeWait = (ms) => new Promise((r) => setTimeout(r, ms));
  * CDP round-trip (a 45-52 ms main-thread message) lands inside it (perf-diag4 D2). `during` (the CPU
  * profile, the driver) may only send its start/stop at the window's edges or the scenario's own input.
  */
-export async function sample(page, seconds, during, wait = nodeWait, hl = harnessLogger()) {
+export async function sample(page, seconds, during, wait = nodeWait, hl = harnessLogger(), schedule = null) {
   // The heartbeat Worker ticks every 5 ms on its own thread and keeps its gaps over 20 ms (page time) to itself
   // until read once after the window: a gap the main thread AND the worker both saw is a process/host stall.
-  await hl.wrap("evaluate:window-open", () => page.evaluate((ms) => {
+  // `schedule` (stepsSchedule) is the walk's route: page timers play it from the window open, W as a synthetic
+  // KeyboardEvent on window (input.ts reads event.code), turns through aimCamera; `route` lists what fired when.
+  await hl.wrap("evaluate:window-open", () => page.evaluate(([ms, sched]) => {
     const l = window.__GPU_LANE__; l.ts = []; l.frames = []; l.wrapMs = 0; l.on = true;
+    l.route = sched ? { done: false, fired: [] } : null;
+    if (sched) {
+      const s0 = performance.now(), route = l.route;
+      sched.forEach((e, i) => setTimeout(() => {
+        if (e.k === "aim") window.__STUDIO_CHARACTER_DEBUG__?.aimCamera(e.yaw);
+        else window.dispatchEvent(new KeyboardEvent(e.down ? "keydown" : "keyup", { key: "w", code: "KeyW", bubbles: true }));
+        route.fired.push([e.k, e.k === "aim" ? e.yaw : e.down, Math.round(performance.now() - s0)]);
+        if (i === sched.length - 1) route.done = true;
+      }, e.at));
+    }
     l.hb = typeof Worker === "function" ? new Worker(URL.createObjectURL(new Blob([`let last = performance.now(); const gaps = [];
       const id = setInterval(() => { const n = performance.now(); if (n - last > 20) gaps.push([last + performance.timeOrigin, n - last]); last = n; }, 5);
       onmessage = () => { clearInterval(id); postMessage(gaps); };`]))) : null;
     setTimeout(() => { l.on = false; }, ms);
-  }, seconds * 1000));
+  }, [seconds * 1000, schedule]));
   const t0 = Date.now();
   const extra = during ? await during() : null;
   await wait(Math.max(0, seconds * 1000 - (Date.now() - t0)) + 150);
@@ -418,12 +430,12 @@ export async function sample(page, seconds, during, wait = nodeWait, hl = harnes
     const l = window.__GPU_LANE__;
     const hb = l.hb; l.hb = null;
     const workerGaps = hb ? await new Promise((r) => { hb.onmessage = (e) => { hb.terminate(); r(e.data.map(([s, ms]) => [s - performance.timeOrigin, ms])); }; hb.postMessage(0); }) : null;
-    return { ts: l.ts, wrapMs: l.wrapMs, workerGaps, frames: l.frames.map((f) => ({ t: f.stamp, work: Math.max(f.end, f.msg) - f.start, gpu: f.gpu, gcCum: f.gc })) };
+    return { ts: l.ts, wrapMs: l.wrapMs, workerGaps, route: l.route, frames: l.frames.map((f) => ({ t: f.stamp, work: Math.max(f.end, f.msg) - f.start, gpu: f.gpu, gcCum: f.gc })) };
   }));
   for (let i = 0; i < raw.frames.length; i++) raw.frames[i].dt = i ? raw.frames[i].t - raw.frames[i - 1].t : 0;
   gcDeltas(raw.frames);
   const workerGaps = raw.workerGaps?.map(([s, ms]) => [r2(s), r2(ms)]) ?? null;
-  return { ts: raw.ts, extra, series: frameSeries(raw.frames), workerGaps,
+  return { ts: raw.ts, extra, route: raw.route ?? null, series: frameSeries(raw.frames), workerGaps,
     work: { ...workStats(raw.frames), wrapperMsPerFrame: raw.frames.length ? r2(raw.wrapMs / raw.frames.length) : null } };
 }
 
@@ -635,19 +647,23 @@ export function profileTopPerFrame(profile, frames, top = 25, maps = null) {
 }
 
 /**
- * Runs a step sequence through io {key(down), aim(yaw), wait(ms)}: W goes down at the first w segment and stays
- * down to the end. aimCamera is absolute, so a sequence with a yaw step first sets the camera to baseYaw (the
- * spot's --aim yaw, else 0) and each yaw step sets baseYaw + the running sum; the character turns with the camera.
+ * The in-page route of a `steps=` sequence: [{at (ms from the window open), k: "aim", yaw} | {at, k: "key", down}].
+ * W goes down at the first w segment and up at the end. aimCamera is absolute, so a sequence with a yaw step first
+ * sets the camera to baseYaw (the spot's --aim yaw, else 0) and each yaw step sets baseYaw + the running sum; the
+ * character turns with the camera. sample() hands it to the page as the window opens and page timers play it (no
+ * CDP call or page.evaluate inside the window, README "Probe rules" 4).
  */
-export async function driveSteps(io, steps, baseYaw = 0) {
-  let yaw = baseYaw, held = false;
-  if (steps.some((s) => s.yaw !== undefined)) await io.aim(yaw);
+export function stepsSchedule(steps, baseYaw = 0) {
+  const out = [];
+  let yaw = baseYaw, t = 0, held = false;
+  if (steps.some((s) => s.yaw !== undefined)) out.push({ at: 0, k: "aim", yaw });
   for (const s of steps) {
-    if (s.yaw !== undefined) { yaw += s.yaw; await io.aim(yaw); continue; }
-    if (!held) { await io.key(true); held = true; }
-    await io.wait(s.w * 1000);
+    if (s.yaw !== undefined) { yaw += s.yaw; out.push({ at: t, k: "aim", yaw }); continue; }
+    if (!held) { out.push({ at: t, k: "key", down: true }); held = true; }
+    t += s.w * 1000;
   }
-  if (held) await io.key(false);
+  if (held) out.push({ at: t, k: "key", down: false });
+  return out;
 }
 
 /** A pageerror entry with its stack kept (perf-diag9 E2: the message alone could not name the throwing caller). */
@@ -689,6 +705,18 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     await page.waitForTimeout(500);
   }
   const readyS = Math.round((Date.now() - t0) / 100) / 10;
+  // `hold=<s>[/<every>]` spot token: the settle window opens <s> s after the ready gate; until then one screenshot
+  // every <every> s (`<spot>-hold-<t>s.jpg`, t from the ready gate), all before any stats window.
+  const holdShots = [];
+  if (spot.hold) {
+    const tReady = Date.now();
+    for (let k = 0; Date.now() - tReady < spot.hold.s * 1000; k++) {
+      const p = join(o.out, `${name}-hold-${String(k * spot.hold.every).padStart(3, "0")}s.jpg`);
+      await hl.wrap("screenshot:hold", () => page.screenshot({ path: p, type: "jpeg", quality: 75 })).catch(() => {});
+      holdShots.push(p);
+      await nodeWait(Math.max(0, Math.min(tReady + (k + 1) * spot.hold.every * 1000, tReady + spot.hold.s * 1000) - Date.now()));
+    }
+  }
   // --aim "yaw,pitch" (radians): points the follow camera via __STUDIO_CHARACTER_DEBUG__ before the settle.
   if (spot.aim) {
     const [yaw, pitch] = spot.aim.split(",").map(Number);
@@ -720,7 +748,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     return { tris: g?.tris ?? null, calls: g?.calls ?? null,
       memory: m ? { usedJSHeapSize: m.usedJSHeapSize, totalJSHeapSize: m.totalJSHeapSize, jsHeapSizeLimit: m.jsHeapSizeLimit } : null };
   }).catch(() => ({}));
-  const screenshots = [];
+  const screenshots = [...holdShots];
   const shot = async (tag) => {
     if (!o.shots) return;
     const p = join(o.out, `${name}-${tag}.jpg`);
@@ -738,24 +766,15 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   if (P.profileWalk && !(walkS > 0)) profileWalk = { error: "profile-walk needs a walk spot (walk=<s> or steps=)" };
   if (P.heapsample && !(walkS > 0)) heapsample = { error: "heapsample needs a walk spot (walk=<s> or steps=)" };
   if (walkS > 0) {
-    const cdp = await ctx.newCDPSession(page);
     await page.mouse.click(o.width / 2, o.height / 2).catch(() => {});
-    const key = { key: "w", code: "KeyW", windowsVirtualKeyCode: 87, nativeVirtualKeyCode: 87, text: "w" };
-    const io = {
-      key: (down) => hl.wrap(down ? "input:keyDown" : "input:keyUp", () => cdp.send("Input.dispatchKeyEvent", { type: down ? "keyDown" : "keyUp", ...key })),
-      aim: (yaw) => hl.wrap("evaluate:aim", () => page.evaluate((y) => window.__STUDIO_CHARACTER_DEBUG__?.aimCamera(y), yaw)).catch(() => {}),
-      wait: nodeWait,
-    };
     const stopWalkTrace = doTrace ? await startTrace(page, join(o.out, `${name}-walk.trace.json`), traceOpt, hl) : null;
     // `profile-walk`: started just before the window opens, stopped just after it (no CDP inside it).
     const stopWalkProfile = P.profileWalk ? await startCpuProfile(page, 200, hl) : null;
     const walkPn = stopWalkProfile ? await profileAnchor(page) : 0;
     const stopHeap = P.heapsample ? await startHeapSample(page, hl, o.sourceMaps) : null;
-    // One window (stats, trace, profile) spans the whole sequence: the driver runs beside the sampler.
-    const [w] = await Promise.all([
-      sample(page, walkS, o.profile > 0 ? () => cpuProfile(page, o, Math.min(o.profile, walkS), "walk", name, hl) : null, nodeWait, hl),
-      driveSteps(io, spot.steps, spot.aim ? Number(spot.aim.split(",")[0]) : 0),
-    ]);
+    // One window (stats, trace, profile) spans the whole sequence; the page plays the route (stepsSchedule).
+    const w = await sample(page, walkS, o.profile > 0 ? () => cpuProfile(page, o, Math.min(o.profile, walkS), "walk", name, hl) : null, nodeWait, hl,
+      stepsSchedule(spot.steps, spot.aim ? Number(spot.aim.split(",")[0]) : 0));
     if (stopWalkProfile) {
       const file = join(o.out, `${name}-walk.cpuprofile`);
       const prof = await stopWalkProfile(file);
@@ -765,7 +784,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     if (stopHeap) heapsample = await stopHeap(join(o.out, `${name}-walk.heapsample.json`));
     if (stopWalkTrace) traces.walk = await stopWalkTrace(w.extra?.file, w.ts.at(-1));
     if (w.extra) profile = w.extra;
-    walk = { seconds: walkS, steps: spot.steps, ...frameStats(w.ts), ...w.work, series: w.series, gcFrames: gcFramesDigest(w.series), workerGaps: w.workerGaps,
+    walk = { seconds: walkS, steps: spot.steps, route: w.route,...frameStats(w.ts), ...w.work, series: w.series, gcFrames: gcFramesDigest(w.series), workerGaps: w.workerGaps,
       hud: parseHud(await hl.wrap("evaluate:hud", () => page.evaluate(() => document.body.innerText)).catch(() => "")) };
     await shot("walk");
   }

@@ -13,7 +13,9 @@ export const CAPTURE_RATE = 0.5;
  * starts with "?"; blank lines and lines starting with "#" are skipped; `x<N>` repeats the spot N times in a row (names
  * <name>, <name>2, <name>3, ...). `walk=<s>` is sugar for `steps=w:<s>`. Probe tokens make the spot a diagnosis row
  * (never judged against the bar, README "Probe rules"): `diag=<probe,..>`, `trace`, `trace-gpu` (implies trace),
- * `memory-infra` (implies trace), `heapsample`, `profile` (a 200 us CPU profile over the settled window), `profile-walk` (the same over the walk window, with per-spike stacks). Returns [{name, query, aim, steps, probes}], probes =
+ * `memory-infra` (implies trace), `heapsample`, `profile` (a 200 us CPU profile over the settled window), `profile-walk` (the same over the walk window, with per-spike stacks).
+ * `hold=<s>[/<every>]` opens the settle window s seconds after the ready gate with a screenshot every `every` s (10)
+ * until then (warm-up vs steady state, also a diagnosis row). Returns [{name, query, aim, steps, hold, probes}], probes =
  * {diag: [names], trace, traceGpu, memoryInfra, heapsample, profile, profileWalk}.
  */
 export function parseSpots(text) {
@@ -23,7 +25,7 @@ export function parseSpots(text) {
     if (!line || line.startsWith("#")) continue;
     const tok = line.split(/\s+/);
     const probes = { diag: [], trace: false, traceGpu: false, traceV8: false, memoryInfra: false, heapsample: false, profile: false, profileWalk: false };
-    const spot = { name: tok[0], query: "", aim: "", steps: [], probes };
+    const spot = { name: tok[0], query: "", aim: "", steps: [], hold: null, probes };
     let times = 1;
     for (let k = 1; k < tok.length; k++) {
       if (tok[k].startsWith("?")) spot.query = tok[k];
@@ -39,7 +41,8 @@ export function parseSpots(text) {
       else if (tok[k] === "heapsample") probes.heapsample = true;
       else if (tok[k] === "profile") probes.profile = true;
       else if (tok[k] === "profile-walk") probes.profileWalk = true;
-      else throw new Error(`spots line ${i + 1}: cannot read "${tok[k]}" (want ?query, --aim yaw,pitch, walk=<s>, steps=<seq>, diag=<probes>, trace, trace-v8, trace-gpu, memory-infra, heapsample, profile, profile-walk)`);
+      else if (/^hold=\d+(\/\d+)?$/.test(tok[k])) { const [s, every = 10] = tok[k].slice(5).split("/").map(Number); spot.hold = { s, every }; }
+      else throw new Error(`spots line ${i + 1}: cannot read "${tok[k]}" (want ?query, --aim yaw,pitch, walk=<s>, steps=<seq>, hold=<s>[/<every>], diag=<probes>, trace, trace-v8, trace-gpu, memory-infra, heapsample, profile, profile-walk)`);
     }
     if (!/^[\w.-]+$/.test(spot.name) || !spot.query) throw new Error(`spots line ${i + 1}: need "<name> <?query>"`);
     for (let n = 1; n <= times; n++) {
@@ -92,7 +95,7 @@ export function spotRows(name, u, bar) {
  */
 export const isDiagnosisSpot = (spot, g = {}) => {
   const p = spot.probes ?? {};
-  return !!(p.diag?.length || p.trace || p.traceGpu || p.memoryInfra || p.heapsample || p.profile || p.profileWalk || /[?&]diag=/.test(spot.query ?? "")
+  return !!(spot.hold || p.diag?.length || p.trace || p.traceGpu || p.memoryInfra || p.heapsample || p.profile || p.profileWalk || /[?&]diag=/.test(spot.query ?? "")
     || g.diag?.length || g.trace || g.profile > 0 || g.census);
 };
 

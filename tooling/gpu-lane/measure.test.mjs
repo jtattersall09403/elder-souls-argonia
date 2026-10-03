@@ -242,15 +242,34 @@ test("parseSteps: w and signed yaw segments; bad tokens refused", async () => {
   assert.deepEqual(parseSpots("m ?x=1 steps=w:2,yaw:-0.5,w:1\n")[0].steps, [{ w: 2 }, { yaw: -0.5 }, { w: 1 }]);
   assert.throws(() => parseSpots("m ?x=1 steps=w:2,turn:1"), /spots line 1: bad step/);
 });
-test("driveSteps: W held across the whole sequence, yaw set absolute from the base", async () => {
-  const { driveSteps } = await import("./measure.mjs");
-  const calls = [];
-  const io = { key: async (d) => calls.push(d ? "down" : "up"), aim: async (y) => calls.push(`aim ${y.toFixed(2)}`), wait: async (ms) => calls.push(`wait ${ms}`) };
-  await driveSteps(io, [{ w: 7 }, { yaw: 1.2 }, { w: 6 }, { yaw: -2 }, { w: 7 }], 0.5);
-  assert.deepEqual(calls, ["aim 0.50", "down", "wait 7000", "aim 1.70", "wait 6000", "aim -0.30", "wait 7000", "up"]);
-  calls.length = 0;
-  await driveSteps(io, [{ w: 20 }]);
-  assert.deepEqual(calls, ["down", "wait 20000", "up"], "a plain walk does not re-aim the camera");
+test("stepsSchedule: W held across the whole sequence, yaw set absolute from the base, times from the steps string", async () => {
+  const { stepsSchedule } = await import("./measure.mjs");
+  const { parseSteps } = await import("./spots.mjs");
+  const f = (s) => s.map((e) => (e.k === "aim" ? `${e.at} aim ${e.yaw.toFixed(2)}` : `${e.at} ${e.down ? "down" : "up"}`));
+  assert.deepEqual(f(stepsSchedule(parseSteps("w:7,yaw:+1.2,w:6,yaw:-2.0,w:7"), 0.5)),
+    ["0 aim 0.50", "0 down", "7000 aim 1.70", "13000 aim -0.30", "20000 up"]);
+  assert.deepEqual(f(stepsSchedule([{ w: 20 }])), ["0 down", "20000 up"], "a plain walk does not re-aim the camera");
+});
+test("sample plays a steps= route in the page: no page.evaluate between window open and close, events at the schedule's times", async () => {
+  const { sample, stepsSchedule } = await import("./measure.mjs");
+  const { parseSteps } = await import("./spots.mjs");
+  const lane = { ts: [], frames: [], wrapMs: 0, on: false };
+  const log = [], seen = [];
+  const t0 = performance.now();
+  globalThis.KeyboardEvent = class { constructor(type, init) { this.type = type; this.code = init.code; } };
+  globalThis.window = { __GPU_LANE__: lane, dispatchEvent: (e) => seen.push([`${e.type} ${e.code}`, performance.now() - t0]),
+    __STUDIO_CHARACTER_DEBUG__: { aimCamera: (y) => seen.push([`aim ${y.toFixed(2)}`, performance.now() - t0]) } };
+  const page = { evaluate: async (fn, arg) => { log.push(["evaluate", lane.on]); return fn(arg); } };
+  // 1 ms per step second keeps the test fast: w:0.04 = 40 ms.
+  const steps = parseSteps("w:0.04,yaw:+1.2,w:0.03");
+  const r = await sample(page, 0.07, null, async (ms) => { log.push(["wait"]); await new Promise((res) => setTimeout(res, ms)); }, undefined, stepsSchedule(steps, 0.5));
+  delete globalThis.window; delete globalThis.KeyboardEvent;
+  assert.deepEqual(log.map((l) => l[0]), ["evaluate", "wait", "evaluate"], "only the window-open and window-read evaluates");
+  assert.equal(log[2][1], false, "the read runs after the page closed the window");
+  assert.deepEqual(seen.map((s) => s[0]), ["aim 0.50", "keydown KeyW", "aim 1.70", "keyup KeyW"]);
+  for (const [i, at] of [0, 0, 40, 70].entries()) assert.ok(Math.abs(seen[i][1] - at) < 25, `${seen[i][0]} at ${seen[i][1]} ms, want ${at}`);
+  assert.equal(r.route.done, true);
+  assert.deepEqual(r.route.fired.map((x) => x[0]), ["aim", "key", "aim", "key"]);
 });
 test("sample: the window closes in the page, and no page.evaluate runs between its start and its end", async () => {
   const { sample } = await import("./measure.mjs");
@@ -286,7 +305,12 @@ test("parseSpots: name, query, --aim and walk=; comments skipped; bad lines thro
   const { parseSpots, parseBar, spotRows, summaryTable, heapSlope } = await import("./spots.mjs");
   const s = parseSpots("# c\na ?x=1&t=2  # night\n\ne ?x=1&t=2 --aim 0.5,-0.2 walk=20\n");
   const off = { diag: [], trace: false, traceGpu: false, traceV8: false, memoryInfra: false, heapsample: false, profile: false, profileWalk: false };
-  assert.deepEqual(s, [{ name: "a", query: "?x=1&t=2", aim: "", steps: [], probes: off }, { name: "e", query: "?x=1&t=2", aim: "0.5,-0.2", steps: [{ w: 20 }], probes: off }]);
+  assert.deepEqual(s, [{ name: "a", query: "?x=1&t=2", aim: "", steps: [], hold: null, probes: off }, { name: "e", query: "?x=1&t=2", aim: "0.5,-0.2", steps: [{ w: 20 }], hold: null, probes: off }]);
+  const { isDiagnosisSpot } = await import("./spots.mjs");
+  const h = parseSpots("ch ?x=1 hold=180/10\nch5 ?x=1 hold=60\n");
+  assert.deepEqual(h.map((x) => x.hold), [{ s: 180, every: 10 }, { s: 60, every: 10 }]);
+  assert.equal(isDiagnosisSpot(h[0]), true, "a hold row is never a bar row");
+  assert.throws(() => parseSpots("a ?x=1 hold=3m"), /cannot read/);
   assert.throws(() => parseSpots("a ?x=1\na ?x=2"), /duplicate/);
   assert.throws(() => parseSpots("a ?x=1 walk=fast"), /cannot read/);
   assert.throws(() => parseSpots("a"), /need/);
