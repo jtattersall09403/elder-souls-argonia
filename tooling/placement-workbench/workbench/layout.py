@@ -366,7 +366,9 @@ def check_failure_rows(check: dict) -> list[dict]:
         rock = is_rock(r.get("asset") or "")
         for rule in ("slopeRule", "deltaRule", "sillRule", "padRule", "beachedRule",
                      "stiltRule", "floorServiceRule", "notExportable"):
-            if rock and rule in ("slopeRule", "deltaRule"):
+            # the yard sill too: on a rock it reads only the ground slope at
+            # the pivot (sp-ring3, audit10 c5)
+            if rock and rule in ("slopeRule", "deltaRule", "sillRule"):
                 continue
             if r.get(rule):
                 # the piece row's sillRule is the yard gate's ground line at the pivot
