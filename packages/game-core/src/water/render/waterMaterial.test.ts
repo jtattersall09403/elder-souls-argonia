@@ -370,7 +370,7 @@ describe("Water Pro transfers (Greenheck study §3.1, §6)", () => {
     const waveUses = frag.match(/uWaveTime/g) ?? [];
     // surf closed forms (esSurfFoam/esSwash) and uniform declaration only
     for (const line of frag.split("\n").filter((l) => l.includes("uWaveTime"))) {
-      expect(/uniform float uWaveTime|esSurfFoam\(|esSwash\(|esShoreSwell\(|esSurfGroup\(|esAlongPhase\(|esWaveFrag\(|esWaveCrestH\(|esFlowWave\(|float t\b|, t\)|\bt\b/.test(line)).toBe(true);
+      expect(/uniform float uWaveTime|esSurfFoam\(|esSwash\(|esShoreSwell\(|esSurfGroup\(|esAlongPhase\(|esWaveFrag\(|esWaveCrestH\(|esFlowWave\(|esWaveSampleEx\(|float t\b|, t\)|\bt\b/.test(line)).toBe(true);
     }
     expect(waveUses.length).toBeGreaterThan(0);
   });
@@ -506,11 +506,11 @@ describe("foam, depth tint, shore and exposure per pixel (perf-diag4 V2)", () =>
         expect(frag).not.toContain("vEsData");
         expect(vert).not.toContain("vEsData");
         expect(vert).toContain("vEsStill = esStill;");
-        expect(frag).toContain("float esExpoPx = esWaveExposure(esShorePx, esDepthPx, max(vEsKlass.x, esSPx.z));");
+        expect(frag).toContain("float esExpoPx = esWaveExposure(esShorePx, esDepthPx, max(esTurbPx, esTanPx));");
         expect(frag).toContain("float esColDepth = min(esThick, max(esDepthPx, 0.05) * 4.0);");
         expect(frag).toContain("float esShoreD = esShorePx;");
         expect(frag).toContain("float esExpo = esExpoPx;");
-        expect(frag).toMatch(/float esCrest = [^;]*- vEsStill \+ esWaveF\.z \+ esCrestD\.z;/);
+        expect(frag).toMatch(/float esCrest = [^;]*- vEsStill \+ esWaveF\.z \+ esCrestD;/);
         // the per-pixel inputs are declared before the colour block reads them
         expect(frag.indexOf("float esExpoPx")).toBeLessThan(frag.indexOf("float esDetStrength"));
       }
@@ -539,10 +539,10 @@ describe("short Gerstner bands per pixel (perf-diag9 V1)", () => {
         expect(vert, `${tier.name}: ${b.wavelengthM} m off the vertex`).not.toContain(`${b.freq}, `);
         expect(frag, `${tier.name}: ${b.wavelengthM} m in the fragment`).toContain(`${b.freq}, ${b.amp}, ${b.phaseSpeed}, ${b.phase0}`);
       }
-      expect(frag).toContain("esWaveF = esWaveFrag(vEsRestXZ, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime)");
-      expect(frag).toContain("vec2 esWaveG = esWaveF.xy + esCrestD.xy;");
+      expect(frag).toContain("esWaveF = esWaveFrag(vEsRestXZ, esAmpPx, vEsWaveIn.y, vEsWaveIn.z, uWaveTime)");
+      expect(frag).toContain("vec2 esWaveG = esWaveF.xy;");
       expect(frag).toMatch(/esNBase\.x - [^;]*- esWaveG\.x/);
-      expect(vert).toContain("vEsWaveIn = vec3(esWaveAmp, esFetchM, esStandW);");
+      expect(vert).toContain("vEsWaveIn.x = esWaveAmp;");
     }
     // high tier (2.6 m) moves the 4.8 m and 3.1 m bands; low tier (3.6 m, 6 bands) moves none
     const moved = (t: typeof WATER_TIERS.high, k: number) =>
@@ -575,10 +575,10 @@ describe("crest bands per pixel (perf-diag11 W1, diag12 Q2)", () => {
     const frag = code(shader.fragmentShader);
     // the vertex surface is unchanged (0047): every crest band is still in the vertex sum
     for (const b of picked) expect(vert).toContain(`w = esWaveBand(pos, exposure * clamp(fetchM / ${b.fetchM}`);
-    expect(vert).toContain("vEsCrestV = esWaveCrestH(esRestW.xz, esWaveAmp, esFetchM, esStandW, uWaveTime);");
-    expect(frag).toMatch(/esCrestD = \(esWaveCrestH\(vEsRestXZ,[^;]*- vEsCrestV\)/);
-    expect(frag).toContain("vec2 esWaveG = esWaveF.xy + esCrestD.xy;");
-    expect(frag).toMatch(/float esCrest = [^;]*\+ esCrestD\.z;/);
+    expect(vert).toContain("vEsCrestV = esWaveCrestH(esRestW.xz, esWaveAmp, esFetchM, esStandW, uWaveTime).z;");
+    expect(frag).toMatch(/esCrestD = \(esWaveCrestH\(vEsRestXZ,[^;]*\.z - vEsCrestV\)/);
+    expect(frag).toContain("vec2 esWaveG = esWaveF.xy;");
+    expect(frag).toMatch(/float esCrest = [^;]*\+ esCrestD;/);
     for (const b of picked) expect(frag).toContain(`${b.freq}, ${b.phaseSpeed}, ${b.phase0});`);
     // no crest work where nothing reads it: the strips
     for (const s of [compile("strip", assets, WATER_TIERS.high).shader, compile("strip", assets, low).shader]) {
@@ -722,6 +722,24 @@ describe("every es* function is declared before its first call (GLSL compile, pe
           expect([...new Set(bad)]).toEqual([]);
         });
       }
+    }
+  }
+});
+
+describe("the transmitted colour and fresnel read no per-vertex input (perf10 c9 V8)", () => {
+  for (const [tierName, tier] of Object.entries(WATER_TIERS)) {
+    for (const variant of ["above", "below"] as const) {
+      it(`field ${tierName} ${variant}`, () => {
+        const body = code(compile("field", assets, tier, variant).shader.fragmentShader);
+        // the wave normal (refraction offset, fresnel) is per pixel near the camera
+        expect(body).toMatch(/esNBase = normalize\(mix\(esNBase, esNPx, esNPxW\)\)/);
+        expect(body).toMatch(/esWaveSampleEx\(vEsRestXZ, esAmpPx,/);
+        expect(body).not.toMatch(/esWaveFrag\([^)]*vEsWaveIn\.x/);
+        // absorption and albedo constituents: never a vertex varying
+        expect(body).not.toMatch(/vEsKlass\.[xyz]/);
+        expect(body).not.toMatch(/=\s*vEsColour\b|\bvEsColour\.[xy]/);
+        expect(body).toMatch(/texture2D\(uKlassTex, clamp\(vEsWorldPos\.xz/);
+      });
     }
   }
 });

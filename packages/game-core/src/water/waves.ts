@@ -890,6 +890,16 @@ export function snapOmegaGlsl(): string {
  * (`vertexBandWeight`), which `gerstnerFragGlsl` then draws per pixel.
  */
 export function gerstnerGlsl(bandCount: number = WAVES.bands, gridCellM = 0): string {
+  return waveExposureGlsl() + snapOmegaGlsl() + gerstnerSumGlsl(bandCount, gridCellM);
+}
+
+/**
+ * The wave sum alone (`EsWave`, `esSeaRms`, `esWaveBand`, `esWaveSampleEx`,
+ * `esWaveSample`), without the exposure and snap helpers `gerstnerGlsl`
+ * adds: the water field fragment declares those itself and evaluates the
+ * vertex bands' normal per pixel from it (perf10 c9 V8).
+ */
+export function gerstnerSumGlsl(bandCount: number = WAVES.bands, gridCellM = 0): string {
   const rows = waveBands()
     .slice(0, bandCount)
     .map((b) => ({ b, w: vertexBandWeight(b.wavelengthM, gridCellM) }))
@@ -902,7 +912,6 @@ export function gerstnerGlsl(bandCount: number = WAVES.bands, gridCellM = 0): st
     .join("\n    ");
   return /* glsl */ `
   struct EsWave { vec3 disp; vec3 normal; float height; };
-${waveExposureGlsl()}
 
   // KEEP IN LOCKSTEP with seaRmsHeightM(): JONSWAP fetch-limited growth
   // under the Pierson-Moskowitz cap, a wind floor for the ever-present swell.
@@ -912,8 +921,6 @@ ${waveExposureGlsl()}
     float hsFull = 0.21 * u * u / 9.81;
     return min(hsFetch, hsFull) * 0.25;
   }
-
-${snapOmegaGlsl()}
 
   // KEEP IN LOCKSTEP with gerstnerAt(): travelling ↔ standing blend.
   EsWave esWaveBand(vec2 pos, float exposure, float standing, float t, vec2 d,

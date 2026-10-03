@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { WHITEWATER_GLSL, STREAK_LAYERS } from "./whitewaterStreaks";
 import { STRIP_BANK_FADE_START } from "./ChannelStrips";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
-import { FLOW_WAVE_MIN_SPEED_MS, SEA, WAVES, flowWaveGlsl, snapOmegaGlsl, gerstnerGlsl, gerstnerFragGlsl, gerstnerCrestGlsl, standingRatioGlsl, surfGlsl,
+import { FLOW_WAVE_MIN_SPEED_MS, SEA, WAVES, flowWaveGlsl, snapOmegaGlsl, gerstnerGlsl, gerstnerSumGlsl, gerstnerFragGlsl, gerstnerCrestGlsl, standingRatioGlsl, surfGlsl,
   waveExposureGlsl, whitecapThreshold, whitecapDriftMS } from "@elder-souls/game-core/water/index";
 import { buriedThresholdM, tideResponseGlsl } from "../waterData";
 
@@ -693,8 +693,10 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant, strip: boolean)
   uniform int uPlungeCount;
   varying float vEsStill; // the vertex still level (m): lift and crest base; depth, shore and exposure are per pixel (diag4 V2)
   varying float vEsSurfH; // the vertex swash + shore swell height (m), swapped for its per-pixel value in the lift (f33)
-  varying vec4 vEsKlass;
-varying vec2 vEsColour;  // 16f: algae, dark  // turbidity(silt), salinity, tannin, class index
+  varying vec4 vEsKlass;  // turbidity(silt), salinity, tannin, class index; the field reads only the class (its colour is per pixel, perf10 c9 V8)
+#ifdef ES_STRIP
+  varying vec2 vEsColour;  // 16f: algae, dark (the ribbon's; the field samples them per pixel)
+#endif
   varying vec3 vEsFlow;   // flow m/s (xy) + surface drop along flow (z)
   varying vec3 vEsNormalW; // world-space wave normal
   varying vec2 vEsSurf;   // fetch exposure, surf energy (the shore frame is per pixel)
@@ -875,15 +877,17 @@ uniform float uVerticalScale;
 varying float vEsStill;
 varying float vEsSurfH;  // swash + shore swell at this vertex (f33: the fragment swaps it per pixel)
 varying vec4 vEsKlass;
+#ifdef ES_STRIP
 varying vec2 vEsColour;  // 16f: algae, dark
+#endif
 varying vec3 vEsFlow;
-varying vec3 vEsNormalW;
+varying vec3 vEsNormalW; // the vertex wave normal: debug view 1 only (the fragment's is per pixel, perf10 c9 V8)
 varying vec2 vEsSurf;   // fetch exposure, surf energy
 varying vec2 vEsRestXZ;  // rest world xz: per-pixel shore frame and crest phase (diag14 V1, V2)
-varying vec3 vEsWaveIn;  // wave amp, fetch, standing: the fragment's short bands
+varying vec3 vEsWaveIn;  // vertex wave amp (the crest height swap), fetch, standing
 ${SAMPLER_GLSL}
 ${gerstnerGlsl(tier.waveBands, tier.gridCellM)}
-${crestPx ? `varying vec3 vEsCrestV;  // crest bands' vertex slope (xy) + height (z) (diag11 W1, diag12 Q2)
+${crestPx ? `varying float vEsCrestV;  // crest bands' vertex height (diag11 W1, diag12 Q2)
 ${gerstnerCrestGlsl(tier.waveBands, tier.gridCellM, tier.crestBands)}` : ""}
 ${standingRatioGlsl(classes)}
 ${tideResponseGlsl(classes)}
@@ -975,15 +979,17 @@ float esCamDist = distance(cameraPosition.xz, esRestW.xz);
 // the horizon blend is what the far sea meets) — CPU twin: waterWorld.sample
 float esWaveAmp = esExposure * esSeaRms(uWindMS, esFetchM);
 EsWave esW;
-vEsWaveIn = vec3(0.0, esFetchM, 0.0);${crestPx ? `
-vEsCrestV = vec3(0.0);` : ""}
+// per-band fetch (long swell needs long fetch) + the class standing ratio
+// (lakes/marsh bob, coast marches) — CPU twin: waterWorld.sample; set on
+// every vertex, so the fragment's per-pixel normal never interpolates a
+// standing ratio toward a dry vertex's zero
+float esStandW = esStandingRatio(esKl.r * 255.0, esShore);
+vEsWaveIn = vec3(0.0, esFetchM, esStandW);${crestPx ? `
+vEsCrestV = 0.0;` : ""}
 if (esWaveAmp > 0.0005) {
-  // per-band fetch (long swell needs long fetch) + the class standing ratio
-  // (lakes/marsh bob, coast marches) — CPU twin: waterWorld.sample
-  float esStandW = esStandingRatio(esKl.r * 255.0, esShore);
-  vEsWaveIn = vec3(esWaveAmp, esFetchM, esStandW);
+  vEsWaveIn.x = esWaveAmp;
   esW = esWaveSampleEx(esRestW.xz, esWaveAmp, esFetchM, esStandW, uWaveTime);${crestPx ? `
-  vEsCrestV = esWaveCrestH(esRestW.xz, esWaveAmp, esFetchM, esStandW, uWaveTime);` : ""}
+  vEsCrestV = esWaveCrestH(esRestW.xz, esWaveAmp, esFetchM, esStandW, uWaveTime).z;` : ""}
 } else {
   esW.disp = vec3(0.0);
   esW.normal = vec3(0.0, 1.0, 0.0);
@@ -1015,7 +1021,9 @@ if (esFlowSp > ${FLOW_WAVE_MIN_GLSL}) {
 vEsSurf = vec2(esFetch, esSurfE);
 vEsStill = esStill;
 vEsKlass = vec4(esKl.g, esKl.b, esSS.z, esKl.r * 255.0);   // turbidity, salinity, tannin, class
+#ifdef ES_STRIP
 vEsColour = esColourAt(esRestW.xz);
+#endif
 // surface drop along the current → cascades/rapids where water descends
 float esDropSlope = 0.0;
 #ifdef ES_STRIP
@@ -1061,8 +1069,9 @@ ${strip ? "" : FOAM_FIELD_GLSL + RAIN_RINGS_GLSL + SPARKLE_SSS_GLSL + HORIZON_BL
 ${MENISCUS_GLSL}
 varying vec2 vEsRestXZ;
 varying vec3 vEsWaveIn;
+${gerstnerSumGlsl(tier.waveBands, tier.gridCellM)}
 ${gerstnerFragGlsl(tier.waveBands, tier.gridCellM)}
-${crestPx ? `varying vec3 vEsCrestV;
+${crestPx ? `varying float vEsCrestV;
 ${gerstnerCrestGlsl(tier.waveBands, tier.gridCellM, tier.crestBands)}` : ""}
 ${foamTex && !strip ? "#define ES_FOAM_TEX 1" : ""}
 uniform vec3 uWaterSunDir;
@@ -1081,7 +1090,10 @@ uniform float uEsDebugMode;`,
   float esDbgReflW = 0.0; float esDbgSsrW = 0.0;
   float esGuard = 1.0;
   ${strip ? /* glsl */ `
-  float esExpoPx = 0.05;   // narrow water: ripples, never swell (the vertex twin)` : /* glsl */ `
+  float esExpoPx = 0.05;   // narrow water: ripples, never swell (the vertex twin)
+  // the ribbon's colour constituents ride its own vertices (it is one station wide)
+  float esTurbPx = vEsKlass.x, esSalPx = vEsKlass.y, esTanPx = vEsKlass.z;
+  vec2 esColPx = vEsColour;` : /* glsl */ `
   // Depth, shore distance and exposure PER PIXEL (perf-diag4 V2): read from
   // varyings they were one plane per triangle, and the foam thresholds over
   // them printed straight-edged pale triangles along the mesh grid.
@@ -1112,11 +1124,21 @@ uniform float uEsDebugMode;`,
   float esLift = vEsStill - vEsSurfH + esSurfHPx - esFS.x;   // tide + season + surf at this pixel
   float esDepthPx = esFS.y + esLift;  // signed depth + lift
   vec3 esSPx = esShoreAt(vEsWorldPos.xz);   // shore dist, season response, tannin
+  // The colour constituents PER PIXEL (perf10 c9 V8): turbidity and salinity
+  // from the class raster, tannin from the shore raster, algae and dark from
+  // their alpha bytes. As vertex varyings they were one plane per triangle in
+  // the Beer-Lambert absorption and printed straight-edged transmitted-colour
+  // steps along the mesh grid.
+  vec4 esKlPx = texture2D(uKlassTex, clamp(vEsWorldPos.xz / uFlowExtentM, vec2(0.0), vec2(1.0)));
+  vec2 esColPx = esColourAt(vEsWorldPos.xz);
   // past the border on a land / inland edge texel: the vertex stage's apron rule
-  if (uHasApron > 0.5 && esOutside(vEsWorldPos.xz) && esTideResponse(vEsKlass.w) < 0.5)
+  if (uHasApron > 0.5 && esOutside(vEsWorldPos.xz) && esTideResponse(vEsKlass.w) < 0.5) {
     esSPx = vec3(uSurfShoreMax, 0.0, 0.0);
+    esKlPx = vec4(uApronCoast.x / 255.0, uApronCoast.y, uApronCoast.z, 1.0);
+  }
+  float esTurbPx = esKlPx.g, esSalPx = esKlPx.b, esTanPx = esSPx.z;
   float esShorePx = esSPx.x;
-  float esExpoPx = esWaveExposure(esShorePx, esDepthPx, max(vEsKlass.x, esSPx.z));
+  float esExpoPx = esWaveExposure(esShorePx, esDepthPx, max(esTurbPx, esTanPx));
   {
     // Decision 0047: the raster no longer cuts the shoreline. It only guards
     // against drawing BURIED surface (signed depth + lift below the floor);
@@ -1158,11 +1180,24 @@ uniform float uEsDebugMode;`,
         "#include <normal_fragment_begin>",
         /* glsl */ `
 float faceDirection = gl_FrontFacing ? 1.0 : -1.0;
-vec3 esNBase = normalize(vEsNormalW);
 float esSpeed = length(vEsFlow.xy);
 // cascades: white churning descent where the surface visibly drops
 float esCascade = smoothstep(0.04, 0.30, vEsFlow.z);
 float esDist = distance(cameraPosition, vEsWorldPos);
+// The wave normal PER PIXEL inside 400 m (perf10 c9 V8): every vertex band
+// at the rest xz, its amplitude from this pixel's exposure. The interpolated
+// vertex normal kinked at each grid edge; the refraction offset (esNW.xz)
+// and the fresnel turned the kinks into straight-edged pale facets. Past
+// 120-400 m it hands over to the vertex normal (the far grid's own filter).
+float esAmpPx = esExpoPx * esSeaRms(uWindMS, vEsWaveIn.y);
+vec3 esNBase = normalize(vEsNormalW);
+float esNPxW = 1.0 - smoothstep(120.0, 400.0, esDist);
+if (esNPxW > 0.0) {
+  vec3 esNPx = vec3(0.0, 1.0, 0.0);
+  if (esAmpPx > 0.0005)
+    esNPx = esWaveSampleEx(vEsRestXZ, esAmpPx, vEsWaveIn.y, vEsWaveIn.z, uWaveTime).normal;
+  esNBase = normalize(mix(esNBase, esNPx, esNPxW));
+}
 // distance LOD: detail normals AND their strength fade out far away —
 // unfiltered procedural ripple at 1 px = the "TV static" (round 2, defect 1)
 float esDetFade = exp(-esDist * 0.010);
@@ -1235,18 +1270,17 @@ if (uRainRipple > 0.02) esRainG = esRainRings(vEsWorldPos.xz, uTransportTime, uR
 // pixel, faded out where a pixel spans several of their wavelengths; z is
 // their height, which makes the foam crest non-planar inside a triangle
 vec3 esWaveF = vec3(0.0);
-if (vEsWaveIn.x > 0.0005 && esDist < 400.0)
-  esWaveF = esWaveFrag(vEsRestXZ, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime)
-          * (1.0 - smoothstep(120.0, 400.0, esDist));
-// the tier's crest bands (its sharpest, by curvature) per pixel: exact minus
-// interpolated vertex slope and height, under the same fade; the vertex sum
-// is unchanged (0047), only where the normal and the crest read it from
-// (diag12 Q2: a 17.9 m band on the 3.6 m grid kinked the Gouraud normal)
-vec3 esCrestD = vec3(0.0);${crestPx ? `
-if (vEsWaveIn.x > 0.0005 && esDist < 400.0)
-  esCrestD = (esWaveCrestH(vEsRestXZ, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime) - vEsCrestV)
-           * (1.0 - smoothstep(120.0, 400.0, esDist));` : ""}
-vec2 esWaveG = esWaveF.xy + esCrestD.xy;
+if (esAmpPx > 0.0005 && esNPxW > 0.0)
+  esWaveF = esWaveFrag(vEsRestXZ, esAmpPx, vEsWaveIn.y, vEsWaveIn.z, uWaveTime) * esNPxW;
+// the tier's crest bands (its sharpest, by curvature): exact minus
+// interpolated vertex HEIGHT per pixel for the crest, under the same fade;
+// the vertex sum is unchanged (0047). Their slope is already in the per-pixel
+// normal above (diag12 Q2: a 17.9 m band on the 3.6 m grid kinked the
+// Gouraud normal).
+float esCrestD = 0.0;${crestPx ? `
+if (vEsWaveIn.x > 0.0005 && esNPxW > 0.0)
+  esCrestD = (esWaveCrestH(vEsRestXZ, vEsWaveIn.x, vEsWaveIn.y, vEsWaveIn.z, uWaveTime).z - vEsCrestV) * esNPxW;` : ""}
+vec2 esWaveG = esWaveF.xy;
 ${strip ? "" : /* glsl */ `
 // shore swell slope per pixel at the rest xz (diag14 V1): the shore frame from
 // the raster's 2-texel gradient under a soft cut, the vertex stage's swell
@@ -1281,8 +1315,8 @@ vec3 nonPerturbedNormal = normal;`,
         variant === "above" && strip
           ? /* glsl */ `
 // ---- whitewater strip (decision 0047 item 4) ---------------------------
-float esSal = vEsKlass.y;
-float esTan = vEsKlass.z;
+float esSal = esSalPx;
+float esTan = esTanPx;
 float esBlend = esStripBlend(vEsFlow.z, esSpeed);
 float esAer = esStripAeration(vEsFlow.z, esSpeed);
 // three streak layers scrolled along the ribbon's OWN arc (vEsStrip.y, metres)
@@ -1334,10 +1368,10 @@ roughnessFactor = mix(0.5, 0.9, esWhite);
 // 16f colour constituents (decision 0070, dossier water-colour.md): the
 // dark constituent is more tannin (blackwater under canopy); algae adds a
 // little suspended matter and, below, a green cast to the albedo.
-float esAlgae = vEsColour.x;
-float esTurb = clamp(vEsKlass.x + esAlgae * 0.25, 0.0, 1.0);   // suspended silt — "whitewater" opacity
-float esSal = vEsKlass.y;
-float esTan = clamp(vEsKlass.z + vEsColour.y * 0.7, 0.0, 1.0);    // dissolved tannin — "blackwater" tea
+float esAlgae = esColPx.x;
+float esTurb = clamp(esTurbPx + esAlgae * 0.25, 0.0, 1.0);   // suspended silt — "whitewater" opacity
+float esSal = esSalPx;
+float esTan = clamp(esTanPx + esColPx.y * 0.7, 0.0, 1.0);    // dissolved tannin — "blackwater" tea
 float esMurk = clamp(esTurb * 0.7 + esTan * 0.8, 0.0, 1.0);
 // ---- the shoreline is cut by the terrain; its fade is VERTICAL -----------
 // Reconstruct the scene point behind this pixel from the UNREFRACTED scene
@@ -1405,8 +1439,8 @@ float esFoamE;
 // The crest per pixel: the mesh crest is one plane per triangle (vertex
 // height minus vertex still level, both interpolated), so the short bands'
 // own height rides on top of it (perf-diag4 V2), and the crest bands'
-// per-pixel height swap (esCrestD.z, diag11 W1 / diag12 Q2).
-float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsStill + esWaveF.z + esCrestD.z;
+// per-pixel height swap (esCrestD, diag11 W1 / diag12 Q2).
+float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsStill + esWaveF.z + esCrestD;
 float esCrestMesh = esCrest;   // the real crest, for the backlit scatter
 esDbgCrest = esCrest;
 float esCrestFade = 1.0 - smoothstep(1200.0, 2400.0, esDist);
@@ -1508,9 +1542,9 @@ roughnessFactor = mix(
   0.92, esFoam);
 #include <emissivemap_fragment>`
           : /* glsl */ `
-float esTurb = clamp(vEsKlass.x + vEsKlass.z + vEsColour.y * 0.7, 0.0, 1.0);
+float esTurb = clamp(esTurbPx + esTanPx + esColPx.y * 0.7, 0.0, 1.0);
 vec3 esAlbU = mix(vec3(0.05, 0.14, 0.15), vec3(0.06, 0.08, 0.03), esTurb);
-esAlbU = mix(esAlbU, vec3(0.16, 0.30, 0.10), vEsColour.x * 0.55);       // algae green (16f)
+esAlbU = mix(esAlbU, vec3(0.16, 0.30, 0.10), esColPx.x * 0.55);       // algae green (16f)
 diffuseColor.rgb = esAlbU;
 roughnessFactor = 0.4;
 float esFoam = 0.0;
