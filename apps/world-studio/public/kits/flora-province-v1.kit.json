@@ -52633,7 +52633,17 @@
   "imageBytesAfter": 21201950,
   "warnings": [],
   "sha256": "68d7d907d16fcc3a28acc6f9dd3000cbbae25da4ed979442baa2d4f89414333c",
+  "parts": {
+   "parts": 159,
+   "partBytes": 6738376,
+   "textureFiles": 148,
+   "textureBytes": 21116173,
+   "bytes": 27854549,
+   "sourceSha256": "3e3e55257e92cb9bbef7d9bbfdfe2da0d1d9b250b4fb870503ee54e8d334ca23",
+   "packedSha256": "68d7d907d16fcc3a28acc6f9dd3000cbbae25da4ed979442baa2d4f89414333c"
+  },
   "sidecarBytes": {},
   "sidecarsExempt": "vegetation atlas: no snap edges, no footprints, no interiors"
- }
+ },
+ "schemaVersion": 1
 }

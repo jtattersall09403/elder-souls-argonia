@@ -31,6 +31,8 @@
  * (`measureCullParity`: `window.__CULL_PARITY__` and a `[cull-parity]` line).
  */
 import * as THREE from "three";
+import { loadKitParts } from "@elder-souls/game-core/assets/loadKitParts";
+import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { MeshStandardNodeMaterial } from "three/webgpu";
 import { toEpochMinutes } from "@elder-souls/world-time";
 import { createKitDecoders, createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
@@ -141,7 +143,7 @@ const scene: HarnessScene = {
     const base = import.meta.env.BASE_URL ?? "/";
     const decoders = createKitDecoders(ctx.renderer, base);
     const [gltf, manifest] = await Promise.all([
-      createKitLoader(decoders).loadAsync(`${base}kits/flora-province-v1.glb`),
+      loadKitParts("flora-province-v1", "all", { baseUrl: base, kitCache: new KitCache(), loader: createKitLoader(decoders) }),
       fetch(`${base}kits/flora-province-v1.kit.json`).then((r) => r.json() as Promise<KitManifest>),
     ]);
     const sidecar = await fetch(`${base}kits/flora-province-v1.impostors.json`)

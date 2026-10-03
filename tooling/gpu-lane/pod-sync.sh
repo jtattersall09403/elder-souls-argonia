@@ -82,4 +82,11 @@ for d in dists/*; do b=$(grep -o "src=\"/[^\"]*/assets/" $d/index.html | head -1
 [ -d /root/site/public ] || { echo "pod-sync: no /root/site/public; run pod-sync.sh --data first" >&2; exit 1; }
 kill -0 $(cat /root/serve.pid) 2>/dev/null || { cat /root/serve.log; echo "pod-sync: serve.mjs is not running" >&2; exit 1; }
 cat /root/serve.log'
+# Sentinels: the pod must answer 200 with the local file's size at the data prefix (serve-lib DATA_PREFIX; the SPA
+# fallback html is 200 with another size). Walk 10: a crashed server left an old one answering and the sync returned 0.
+for f in province/refined/ground-control.png kits/bmv-treehouse-int/parts/index.json; do
+  want=$(stat -c %s "apps/world-studio/public/$f")
+  got=$($S "$t" "curl -s -o /dev/null -w '%{http_code} %{size_download}' http://127.0.0.1:8099/elder-souls-argonia/studio/$f")
+  [ "$got" = "200 $want" ] || { echo "pod-sync: data mismatch for $f: pod '$got', local '200 $want'" >&2; exit 1; }
+done
 note serve $(( $(date +%s) - t0 ))

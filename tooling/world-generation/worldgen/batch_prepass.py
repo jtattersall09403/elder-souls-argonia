@@ -223,6 +223,27 @@ def place_sources(place_id: str, blueprints_dir: Path = BLUEPRINTS_DIR) -> tuple
     return blueprint, layout
 
 
+def resolve_places(names: list[str], blueprints_dir: Path = BLUEPRINTS_DIR) -> list[str]:
+    """Full place ids for ids or slugs: a name that is not a known place id
+    resolves to the one place id ending `.<slug>`; none or several is an error."""
+    from .blueprint_files import blueprint_paths
+    ids = {(json.loads(p.read_text()).get("blueprint") or {}).get("id")
+           for p in blueprint_paths(blueprints_dir)}
+    ids |= {json.loads(p.read_text()).get("placeId") for p in blueprints_dir.glob("*.layout.json")}
+    ids.discard(None)
+    out = []
+    for name in names:
+        if name in ids:
+            out.append(name)
+            continue
+        found = sorted(i for i in ids if i.endswith("." + name))
+        if len(found) != 1:
+            raise SystemExit(f"batch_prepass: slug {name} matches {len(found)} place ids"
+                             + (f" ({', '.join(found)})" if found else ""))
+        out.append(found[0])
+    return out
+
+
 def _asset_refs(doc) -> list[str]:
     out = []
     if isinstance(doc, dict):
@@ -414,20 +435,27 @@ def run_builds(kits: list[str]) -> None:
     subprocess.run([sys.executable, "-m", "pipeline.build_kit", "--kits", ",".join(kits)],
                    cwd=ASSET_PIPELINE, check=True)
     for kit in kits:
-        if not (PUBLIC_KITS / f"{kit}.glb").exists():
+        if not (PUBLIC_KITS / kit / "parts" / "index.json").exists():
             subprocess.run([sys.executable, "-m", "pipeline.kit_compress", "--kit", kit],
                            cwd=ASSET_PIPELINE, check=True)
 
 
 def kit_bytes(kit: str, kits_dir: Path = PUBLIC_KITS) -> int:
-    """Bytes on disk of a published kit: `<kit>.*` and its `<kit>-*/` folders."""
+    """Bytes on disk of a published kit: `<kit>.*`, its `<kit>-*/` folders, its
+    `<kit>/parts/` files and each pool texture (`tex/<sha16>.ktx2`) its parts
+    index names (decision 0120)."""
     total = 0
     for path in kits_dir.glob(f"{kit}.*"):
         if path.is_file():
             total += path.stat().st_size
-    for folder in kits_dir.glob(f"{kit}-*"):
+    for folder in [*kits_dir.glob(f"{kit}-*"), kits_dir / kit / "parts"]:
         if folder.is_dir():
             total += sum(p.stat().st_size for p in folder.rglob("*") if p.is_file())
+    index = kits_dir / kit / "parts" / "index.json"
+    if index.is_file():
+        pooled = {h for row in json.loads(index.read_text())["assets"].values() for h in row["textures"]}
+        total += sum((kits_dir / "tex" / f"{h}.ktx2").stat().st_size for h in pooled
+                     if (kits_dir / "tex" / f"{h}.ktx2").is_file())
     return total
 
 
@@ -469,7 +497,7 @@ def budget_check(kits: list[str], site_dir: Path = SITE_DIR, kits_dir: Path = PU
     shipped_dir = site_dir / "studio" / "kits"
     for kit in kits:
         n = kit_bytes(kit, kits_dir)
-        shipped = (shipped_dir / f"{kit}.glb").exists()
+        shipped = (shipped_dir / kit / "parts" / "index.json").exists()
         if not shipped:
             new_bytes += n
         lines.append(f"  {kit:32s} {n / MB:7.1f} MB  {'in the composed site' if shipped else 'NEW to the site'}")
@@ -518,7 +546,7 @@ def build_table(places: list[str], links: dict, plugins: dict[str, str], profile
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--places", required=True, help="comma-separated place ids")
+    ap.add_argument("--places", required=True, help="comma-separated place ids or slugs")
     ap.add_argument("--no-build", action="store_true",
                     help="list the kits the batch needs and would build; build nothing")
     ap.add_argument("--site-dir", default=str(SITE_DIR))
@@ -526,7 +554,7 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
     t0 = time.monotonic()
     from . import blueprint_interiors as bi
-    places = sorted({p for p in args.places.split(",") if p})
+    places = sorted(set(resolve_places([p for p in args.places.split(",") if p])))
     links = bi.linked_shells()
     plugins = discovered_plugins()
     table_path = Path(args.table)

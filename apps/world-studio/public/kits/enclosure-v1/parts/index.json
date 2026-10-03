@@ -1,0 +1,1710 @@
+{
+ "schemaVersion": 4,
+ "kit": "enclosure-v1",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 31623712,
+  "sha256": "927130892a2e5de583d716e0b72242b23e1cdb72493984c1674a969079468c32"
+ },
+ "packed": {
+  "bytes": 13876676,
+  "sha256": "620edc747147799061c4555ad44e36bbc7a6640365668a95b10f473ea94141c8"
+ },
+ "totals": {
+  "parts": 55,
+  "partBytes": 4328232,
+  "textureFiles": 41,
+  "textureBytes": 10625125,
+  "bytes": 14953357
+ },
+ "assets": {
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch01": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_ararch01-9ff884b6.glb",
+   "bytes": 32884,
+   "vertices": 810,
+   "triangles": 1184,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 810,
+     "triangles": 1184
+    },
+    {
+     "lod": 1,
+     "vertices": 369,
+     "triangles": 414
+    },
+    {
+     "lod": 2,
+     "vertices": 290,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "fe34afe5216cc2df"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch02": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_ararch02-aa652b31.glb",
+   "bytes": 35440,
+   "vertices": 858,
+   "triangles": 1232,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 858,
+     "triangles": 1232
+    },
+    {
+     "lod": 1,
+     "vertices": 398,
+     "triangles": 430
+    },
+    {
+     "lod": 2,
+     "vertices": 301,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch03": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_ararch03-45f14e7d.glb",
+   "bytes": 18392,
+   "vertices": 405,
+   "triangles": 508,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 405,
+     "triangles": 508
+    },
+    {
+     "lod": 1,
+     "vertices": 288,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 288,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/1024/1024arch01": {
+   "file": "bmv_architecture_newcastle_wall_1024_1024arch01-37a15924.glb",
+   "bytes": 37680,
+   "vertices": 577,
+   "triangles": 670,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 577,
+     "triangles": 670
+    },
+    {
+     "lod": 1,
+     "vertices": 577,
+     "triangles": 670
+    },
+    {
+     "lod": 2,
+     "vertices": 577,
+     "triangles": 670
+    }
+   ],
+   "textures": [
+    "19a30e60e3f91376",
+    "3efeea4eb4b6dc3a",
+    "5dca549b4711e865",
+    "6c6beca41392302f",
+    "820db6ad824b2c54",
+    "c9205b3585eeca4c",
+    "e54220b36f8db616"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/1024/1024wall01": {
+   "file": "bmv_architecture_newcastle_wall_1024_1024wall01-a9c1fd45.glb",
+   "bytes": 83748,
+   "vertices": 1613,
+   "triangles": 1834,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1613,
+     "triangles": 1834
+    },
+    {
+     "lod": 1,
+     "vertices": 1396,
+     "triangles": 1554
+    },
+    {
+     "lod": 2,
+     "vertices": 1396,
+     "triangles": 1554
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "6c6beca41392302f",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/1024/1024wall02": {
+   "file": "bmv_architecture_newcastle_wall_1024_1024wall02-d86ee6ff.glb",
+   "bytes": 101464,
+   "vertices": 2219,
+   "triangles": 2462,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2219,
+     "triangles": 2462
+    },
+    {
+     "lod": 1,
+     "vertices": 1834,
+     "triangles": 1978
+    },
+    {
+     "lod": 2,
+     "vertices": 1834,
+     "triangles": 1978
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "6c6beca41392302f",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/1024/1024wallcorner2way": {
+   "file": "bmv_architecture_newcastle_wall_1024_1024wallcorner2way-5f5b05c5.glb",
+   "bytes": 107372,
+   "vertices": 2508,
+   "triangles": 2812,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2508,
+     "triangles": 2812
+    },
+    {
+     "lod": 1,
+     "vertices": 1899,
+     "triangles": 1979
+    },
+    {
+     "lod": 2,
+     "vertices": 1899,
+     "triangles": 1979
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "6c6beca41392302f",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/1024/1024wallcorner3way": {
+   "file": "bmv_architecture_newcastle_wall_1024_1024wallcorner3way-e93b544d.glb",
+   "bytes": 99956,
+   "vertices": 2142,
+   "triangles": 2295,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2142,
+     "triangles": 2295
+    },
+    {
+     "lod": 1,
+     "vertices": 1718,
+     "triangles": 1743
+    },
+    {
+     "lod": 2,
+     "vertices": 1718,
+     "triangles": 1743
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "6c6beca41392302f",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/1024/1024wallcorner4way": {
+   "file": "bmv_architecture_newcastle_wall_1024_1024wallcorner4way-0639d99a.glb",
+   "bytes": 104264,
+   "vertices": 2476,
+   "triangles": 2554,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2476,
+     "triangles": 2554
+    },
+    {
+     "lod": 1,
+     "vertices": 1852,
+     "triangles": 1686
+    },
+    {
+     "lod": 2,
+     "vertices": 1852,
+     "triangles": 1686
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/1024/1024wallgate01": {
+   "file": "bmv_architecture_newcastle_wall_1024_1024wallgate01-bd85cdec.glb",
+   "bytes": 137012,
+   "vertices": 2975,
+   "triangles": 3246,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2975,
+     "triangles": 3246
+    },
+    {
+     "lod": 1,
+     "vertices": 2372,
+     "triangles": 2366
+    },
+    {
+     "lod": 2,
+     "vertices": 2372,
+     "triangles": 2366
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "4178652dddca37fe",
+    "6c6beca41392302f",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "be226b05703737a3",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/1024/1024wallgate02": {
+   "file": "bmv_architecture_newcastle_wall_1024_1024wallgate02-6904fb7e.glb",
+   "bytes": 194176,
+   "vertices": 4337,
+   "triangles": 4962,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4337,
+     "triangles": 4962
+    },
+    {
+     "lod": 1,
+     "vertices": 2666,
+     "triangles": 2666
+    },
+    {
+     "lod": 2,
+     "vertices": 2509,
+     "triangles": 2529
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "be226b05703737a3",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c",
+    "cc69c6c52b4ad557",
+    "d48ade0460e43521"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/1024/1024wallround01": {
+   "file": "bmv_architecture_newcastle_wall_1024_1024wallround01-5605aed1.glb",
+   "bytes": 105832,
+   "vertices": 2411,
+   "triangles": 2922,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2411,
+     "triangles": 2922
+    },
+    {
+     "lod": 1,
+     "vertices": 1908,
+     "triangles": 2133
+    },
+    {
+     "lod": 2,
+     "vertices": 1908,
+     "triangles": 2133
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "6c6beca41392302f",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/1024/1024wallstair01": {
+   "file": "bmv_architecture_newcastle_wall_1024_1024wallstair01-4043e3ef.glb",
+   "bytes": 133480,
+   "vertices": 2996,
+   "triangles": 3546,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2996,
+     "triangles": 3546
+    },
+    {
+     "lod": 1,
+     "vertices": 2428,
+     "triangles": 2640
+    },
+    {
+     "lod": 2,
+     "vertices": 2428,
+     "triangles": 2640
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "19a30e60e3f91376",
+    "3efeea4eb4b6dc3a",
+    "6c6beca41392302f",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c",
+    "d48ade0460e43521"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/1024/1024walltower01a": {
+   "file": "bmv_architecture_newcastle_wall_1024_1024walltower01a-e05ff294.glb",
+   "bytes": 110140,
+   "vertices": 2450,
+   "triangles": 2670,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2450,
+     "triangles": 2670
+    },
+    {
+     "lod": 1,
+     "vertices": 1792,
+     "triangles": 1582
+    },
+    {
+     "lod": 2,
+     "vertices": 1792,
+     "triangles": 1582
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/1024/1024walltower01b": {
+   "file": "bmv_architecture_newcastle_wall_1024_1024walltower01b-539e4f69.glb",
+   "bytes": 130744,
+   "vertices": 2870,
+   "triangles": 3288,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2870,
+     "triangles": 3288
+    },
+    {
+     "lod": 1,
+     "vertices": 2171,
+     "triangles": 2116
+    },
+    {
+     "lod": 2,
+     "vertices": 2171,
+     "triangles": 2116
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "19a30e60e3f91376",
+    "3efeea4eb4b6dc3a",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c",
+    "cc69c6c52b4ad557"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/256/256wall01": {
+   "file": "bmv_architecture_newcastle_wall_256_256wall01-9297f71d.glb",
+   "bytes": 52588,
+   "vertices": 769,
+   "triangles": 802,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 769,
+     "triangles": 802
+    },
+    {
+     "lod": 1,
+     "vertices": 769,
+     "triangles": 802
+    },
+    {
+     "lod": 2,
+     "vertices": 769,
+     "triangles": 802
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/256/256wall02": {
+   "file": "bmv_architecture_newcastle_wall_256_256wall02-8f492da5.glb",
+   "bytes": 62156,
+   "vertices": 920,
+   "triangles": 954,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 920,
+     "triangles": 954
+    },
+    {
+     "lod": 1,
+     "vertices": 917,
+     "triangles": 949
+    },
+    {
+     "lod": 2,
+     "vertices": 917,
+     "triangles": 949
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/256/256wallendcap": {
+   "file": "bmv_architecture_newcastle_wall_256_256wallendcap-8b63e175.glb",
+   "bytes": 73068,
+   "vertices": 1162,
+   "triangles": 1246,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1162,
+     "triangles": 1246
+    },
+    {
+     "lod": 1,
+     "vertices": 1111,
+     "triangles": 1137
+    },
+    {
+     "lod": 2,
+     "vertices": 1111,
+     "triangles": 1137
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/512/512pillar01": {
+   "file": "bmv_architecture_newcastle_wall_512_512pillar01-2e8df522.glb",
+   "bytes": 54852,
+   "vertices": 1004,
+   "triangles": 1192,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1004,
+     "triangles": 1192
+    },
+    {
+     "lod": 1,
+     "vertices": 948,
+     "triangles": 1092
+    },
+    {
+     "lod": 2,
+     "vertices": 948,
+     "triangles": 1092
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "c9205b3585eeca4c",
+    "e54220b36f8db616"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/512/512wall01a": {
+   "file": "bmv_architecture_newcastle_wall_512_512wall01a-76dd4ef6.glb",
+   "bytes": 72404,
+   "vertices": 1325,
+   "triangles": 1502,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1325,
+     "triangles": 1502
+    },
+    {
+     "lod": 1,
+     "vertices": 1309,
+     "triangles": 1478
+    },
+    {
+     "lod": 2,
+     "vertices": 1309,
+     "triangles": 1478
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "6c6beca41392302f",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/512/512wall02": {
+   "file": "bmv_architecture_newcastle_wall_512_512wall02-241259bd.glb",
+   "bytes": 70408,
+   "vertices": 1251,
+   "triangles": 1348,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1251,
+     "triangles": 1348
+    },
+    {
+     "lod": 1,
+     "vertices": 1103,
+     "triangles": 1160
+    },
+    {
+     "lod": 2,
+     "vertices": 1103,
+     "triangles": 1160
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/ledge/1024ledge": {
+   "file": "bmv_architecture_newcastle_wall_ledge_1024ledge-72595555.glb",
+   "bytes": 47840,
+   "vertices": 712,
+   "triangles": 822,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 712,
+     "triangles": 822
+    },
+    {
+     "lod": 1,
+     "vertices": 712,
+     "triangles": 822
+    },
+    {
+     "lod": 2,
+     "vertices": 712,
+     "triangles": 822
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "6c6beca41392302f",
+    "70b4367e904dcf38",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/ledge/1024ledgeconnect": {
+   "file": "bmv_architecture_newcastle_wall_ledge_1024ledgeconnect-3a5295aa.glb",
+   "bytes": 74016,
+   "vertices": 1157,
+   "triangles": 1177,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1157,
+     "triangles": 1177
+    },
+    {
+     "lod": 1,
+     "vertices": 1135,
+     "triangles": 1137
+    },
+    {
+     "lod": 2,
+     "vertices": 1135,
+     "triangles": 1137
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "70b4367e904dcf38",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c",
+    "f7310b4169f8e116"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/ledge/1024ledgecorner": {
+   "file": "bmv_architecture_newcastle_wall_ledge_1024ledgecorner-b2af2721.glb",
+   "bytes": 70224,
+   "vertices": 1255,
+   "triangles": 1452,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1255,
+     "triangles": 1452
+    },
+    {
+     "lod": 1,
+     "vertices": 1126,
+     "triangles": 1280
+    },
+    {
+     "lod": 2,
+     "vertices": 1126,
+     "triangles": 1280
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "6c6beca41392302f",
+    "70b4367e904dcf38",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/misc/ramp01": {
+   "file": "bmv_architecture_newcastle_wall_misc_ramp01-cf830dbb.glb",
+   "bytes": 108868,
+   "vertices": 2508,
+   "triangles": 3280,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2508,
+     "triangles": 3280
+    },
+    {
+     "lod": 1,
+     "vertices": 1969,
+     "triangles": 2280
+    },
+    {
+     "lod": 2,
+     "vertices": 1949,
+     "triangles": 2248
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "19a30e60e3f91376",
+    "3efeea4eb4b6dc3a",
+    "6c6beca41392302f",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "c9205b3585eeca4c",
+    "cc69c6c52b4ad557"
+   ]
+  },
+  "bmv:architecture/newcastle/wall/slope/1024wallslope256": {
+   "file": "bmv_architecture_newcastle_wall_slope_1024wallslope256-8c906aa8.glb",
+   "bytes": 84956,
+   "vertices": 1613,
+   "triangles": 1842,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1613,
+     "triangles": 1842
+    },
+    {
+     "lod": 1,
+     "vertices": 1401,
+     "triangles": 1562
+    },
+    {
+     "lod": 2,
+     "vertices": 1401,
+     "triangles": 1562
+    }
+   ],
+   "textures": [
+    "0345db7c8aa6b8f0",
+    "049a4ed34c5668f6",
+    "172244ad14ee1919",
+    "3efeea4eb4b6dc3a",
+    "6c6beca41392302f",
+    "80b9f374b2ecad96",
+    "820db6ad824b2c54",
+    "9597f56931dd6b65",
+    "99a7f4de3a2466ed",
+    "c29dd46d2c0ba8af",
+    "c9205b3585eeca4c"
+   ]
+  },
+  "bmv:architecture/redoran/custom/redoranwall": {
+   "file": "bmv_architecture_redoran_custom_redoranwall-ecfaed6f.glb",
+   "bytes": 10324,
+   "vertices": 153,
+   "triangles": 176,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 153,
+     "triangles": 176
+    },
+    {
+     "lod": 1,
+     "vertices": 153,
+     "triangles": 176
+    },
+    {
+     "lod": 2,
+     "vertices": 153,
+     "triangles": 176
+    }
+   ],
+   "textures": [
+    "25582cee605e7fca"
+   ]
+  },
+  "bmv:architecture/redoran/custom/redoranwallcorner": {
+   "file": "bmv_architecture_redoran_custom_redoranwallcorner-b01dc1dd.glb",
+   "bytes": 36704,
+   "vertices": 862,
+   "triangles": 1400,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 862,
+     "triangles": 1400
+    },
+    {
+     "lod": 1,
+     "vertices": 452,
+     "triangles": 678
+    },
+    {
+     "lod": 2,
+     "vertices": 408,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "25582cee605e7fca"
+   ]
+  },
+  "bmv:architecture/redoran/custom/redoranwalldivider": {
+   "file": "bmv_architecture_redoran_custom_redoranwalldivider-d54113ab.glb",
+   "bytes": 10804,
+   "vertices": 295,
+   "triangles": 448,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 295,
+     "triangles": 448
+    },
+    {
+     "lod": 1,
+     "vertices": 295,
+     "triangles": 448
+    },
+    {
+     "lod": 2,
+     "vertices": 295,
+     "triangles": 448
+    }
+   ],
+   "textures": [
+    "25582cee605e7fca"
+   ]
+  },
+  "bmv:architecture/redoran/custom/redoranwallgate": {
+   "file": "bmv_architecture_redoran_custom_redoranwallgate-5aa76139.glb",
+   "bytes": 39960,
+   "vertices": 1152,
+   "triangles": 1296,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1152,
+     "triangles": 1296
+    },
+    {
+     "lod": 1,
+     "vertices": 1006,
+     "triangles": 1024
+    },
+    {
+     "lod": 2,
+     "vertices": 1006,
+     "triangles": 1024
+    }
+   ],
+   "textures": [
+    "25582cee605e7fca"
+   ]
+  },
+  "composite:farmfence/wr-fence-run-3": {
+   "file": "composite_farmfence_wr-fence-run-3-563fd13d.glb",
+   "bytes": 46300,
+   "vertices": 346,
+   "triangles": 420,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 346,
+     "triangles": 420
+    },
+    {
+     "lod": 1,
+     "vertices": 346,
+     "triangles": 420
+    },
+    {
+     "lod": 2,
+     "vertices": 346,
+     "triangles": 420
+    }
+   ],
+   "textures": [
+    "5a4f92831ea417f2",
+    "68c404141ba5af5c",
+    "c916da3f38a18d2c"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/legion/0mjy_aztecportal": {
+   "file": "there_be_monsters_-_curse_of_cipactli_architecture_ruins_legion_0mjy_aztecportal-02285530.glb",
+   "bytes": 962532,
+   "vertices": 57409,
+   "triangles": 37589,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 57409,
+     "triangles": 37589
+    },
+    {
+     "lod": 1,
+     "vertices": 21249,
+     "triangles": 13155
+    },
+    {
+     "lod": 2,
+     "vertices": 6561,
+     "triangles": 4510
+    }
+   ],
+   "textures": [
+    "d104879e4b9c3912",
+    "e69e30ff7927c395"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/legion/redruingate": {
+   "file": "here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_legion_redruingate-f754a1c4.glb",
+   "bytes": 222088,
+   "vertices": 7392,
+   "triangles": 7798,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 7392,
+     "triangles": 7798
+    },
+    {
+     "lod": 1,
+     "vertices": 3923,
+     "triangles": 3037
+    },
+    {
+     "lod": 2,
+     "vertices": 2178,
+     "triangles": 1582
+    }
+   ],
+   "textures": [
+    "4b1273385e1c73bc",
+    "74a4476a28c89466",
+    "9a08144a9177ffbd",
+    "ca899681a1d0a962",
+    "d4b9174b5ac1d545"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallarch01": {
+   "file": "e_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_stonewallarch01-bf41e7ff.glb",
+   "bytes": 44760,
+   "vertices": 1301,
+   "triangles": 2396,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1301,
+     "triangles": 2396
+    },
+    {
+     "lod": 1,
+     "vertices": 480,
+     "triangles": 838
+    },
+    {
+     "lod": 2,
+     "vertices": 181,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "717c4c0b5888f777"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve01": {
+   "file": "_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_stonewallcurve01-9d407924.glb",
+   "bytes": 48352,
+   "vertices": 1312,
+   "triangles": 2108,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1312,
+     "triangles": 2108
+    },
+    {
+     "lod": 1,
+     "vertices": 575,
+     "triangles": 736
+    },
+    {
+     "lod": 2,
+     "vertices": 283,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "717c4c0b5888f777"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve02": {
+   "file": "_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_stonewallcurve02-944825c3.glb",
+   "bytes": 48644,
+   "vertices": 1330,
+   "triangles": 2108,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1330,
+     "triangles": 2108
+    },
+    {
+     "lod": 1,
+     "vertices": 578,
+     "triangles": 736
+    },
+    {
+     "lod": 2,
+     "vertices": 277,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "717c4c0b5888f777"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallpillar01": {
+   "file": "be_monsters_-_curse_of_cipactli_architecture_villages_argonian_stonewallpillar01-32c86066.glb",
+   "bytes": 18760,
+   "vertices": 463,
+   "triangles": 820,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 463,
+     "triangles": 820
+    },
+    {
+     "lod": 1,
+     "vertices": 186,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 186,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "717c4c0b5888f777"
+   ]
+  },
+  "vanilla:architecture/whiterun/wrfarmfence/wrfence4way01": {
+   "file": "vanilla_architecture_whiterun_wrfarmfence_wrfence4way01-56867088.glb",
+   "bytes": 17440,
+   "vertices": 386,
+   "triangles": 286,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 386,
+     "triangles": 286
+    },
+    {
+     "lod": 1,
+     "vertices": 386,
+     "triangles": 286
+    },
+    {
+     "lod": 2,
+     "vertices": 386,
+     "triangles": 286
+    }
+   ],
+   "textures": [
+    "0c7e1e04666b2eaa",
+    "c15039c0e24a71b2",
+    "c433d6e389dd996a"
+   ]
+  },
+  "vanilla:architecture/whiterun/wrfarmfence/wrfencebase4way01": {
+   "file": "vanilla_architecture_whiterun_wrfarmfence_wrfencebase4way01-12bdd6c7.glb",
+   "bytes": 16744,
+   "vertices": 255,
+   "triangles": 256,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 255,
+     "triangles": 256
+    },
+    {
+     "lod": 1,
+     "vertices": 255,
+     "triangles": 256
+    },
+    {
+     "lod": 2,
+     "vertices": 255,
+     "triangles": 256
+    }
+   ],
+   "textures": [
+    "5a4f92831ea417f2",
+    "68c404141ba5af5c",
+    "c916da3f38a18d2c"
+   ]
+  },
+  "vanilla:architecture/whiterun/wrfarmfence/wrfencebasecor01": {
+   "file": "vanilla_architecture_whiterun_wrfarmfence_wrfencebasecor01-93d6591b.glb",
+   "bytes": 12692,
+   "vertices": 96,
+   "triangles": 120,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 96,
+     "triangles": 120
+    },
+    {
+     "lod": 1,
+     "vertices": 96,
+     "triangles": 120
+    },
+    {
+     "lod": 2,
+     "vertices": 96,
+     "triangles": 120
+    }
+   ],
+   "textures": [
+    "5a4f92831ea417f2",
+    "68c404141ba5af5c",
+    "c916da3f38a18d2c"
+   ]
+  },
+  "vanilla:architecture/whiterun/wrfarmfence/wrfencebaseend01": {
+   "file": "vanilla_architecture_whiterun_wrfarmfence_wrfencebaseend01-0c4164c8.glb",
+   "bytes": 12720,
+   "vertices": 93,
+   "triangles": 114,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 93,
+     "triangles": 114
+    },
+    {
+     "lod": 1,
+     "vertices": 93,
+     "triangles": 114
+    },
+    {
+     "lod": 2,
+     "vertices": 93,
+     "triangles": 114
+    }
+   ],
+   "textures": [
+    "5a4f92831ea417f2",
+    "68c404141ba5af5c",
+    "c916da3f38a18d2c"
+   ]
+  },
+  "vanilla:architecture/whiterun/wrfarmfence/wrfencebasestr01": {
+   "file": "vanilla_architecture_whiterun_wrfarmfence_wrfencebasestr01-f37a20a5.glb",
+   "bytes": 12484,
+   "vertices": 80,
+   "triangles": 96,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 80,
+     "triangles": 96
+    },
+    {
+     "lod": 1,
+     "vertices": 80,
+     "triangles": 96
+    },
+    {
+     "lod": 2,
+     "vertices": 80,
+     "triangles": 96
+    }
+   ],
+   "textures": [
+    "5a4f92831ea417f2",
+    "68c404141ba5af5c",
+    "c916da3f38a18d2c"
+   ]
+  },
+  "vanilla:architecture/whiterun/wrfarmfence/wrfencebasesupport01": {
+   "file": "vanilla_architecture_whiterun_wrfarmfence_wrfencebasesupport01-7e9cc4f9.glb",
+   "bytes": 13332,
+   "vertices": 132,
+   "triangles": 188,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 132,
+     "triangles": 188
+    },
+    {
+     "lod": 1,
+     "vertices": 132,
+     "triangles": 188
+    },
+    {
+     "lod": 2,
+     "vertices": 132,
+     "triangles": 188
+    }
+   ],
+   "textures": [
+    "5a4f92831ea417f2",
+    "68c404141ba5af5c",
+    "c916da3f38a18d2c"
+   ]
+  },
+  "vanilla:architecture/whiterun/wrfarmfence/wrfencecor01": {
+   "file": "vanilla_architecture_whiterun_wrfarmfence_wrfencecor01-71bc5ee1.glb",
+   "bytes": 15404,
+   "vertices": 238,
+   "triangles": 194,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 238,
+     "triangles": 194
+    },
+    {
+     "lod": 1,
+     "vertices": 238,
+     "triangles": 194
+    },
+    {
+     "lod": 2,
+     "vertices": 238,
+     "triangles": 194
+    }
+   ],
+   "textures": [
+    "0c7e1e04666b2eaa",
+    "c15039c0e24a71b2",
+    "c433d6e389dd996a"
+   ]
+  },
+  "vanilla:architecture/whiterun/wrfarmfence/wrfencestr01": {
+   "file": "vanilla_architecture_whiterun_wrfarmfence_wrfencestr01-3a2a4bce.glb",
+   "bytes": 15332,
+   "vertices": 238,
+   "triangles": 194,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 238,
+     "triangles": 194
+    },
+    {
+     "lod": 1,
+     "vertices": 238,
+     "triangles": 194
+    },
+    {
+     "lod": 2,
+     "vertices": 238,
+     "triangles": 194
+    }
+   ],
+   "textures": [
+    "0c7e1e04666b2eaa",
+    "c15039c0e24a71b2",
+    "c433d6e389dd996a"
+   ]
+  },
+  "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01": {
+   "file": "vanilla_architecture_whiterun_wrfarmfence_wrfencestrgate01-3e69d6ed.glb",
+   "bytes": 16488,
+   "vertices": 294,
+   "triangles": 270,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 294,
+     "triangles": 270
+    },
+    {
+     "lod": 1,
+     "vertices": 294,
+     "triangles": 270
+    },
+    {
+     "lod": 2,
+     "vertices": 294,
+     "triangles": 270
+    }
+   ],
+   "textures": [
+    "0c7e1e04666b2eaa",
+    "c15039c0e24a71b2",
+    "c433d6e389dd996a"
+   ]
+  },
+  "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01door01": {
+   "file": "vanilla_architecture_whiterun_wrfarmfence_wrfencestrgate01door01-6b5ae9d8.glb",
+   "bytes": 15288,
+   "vertices": 266,
+   "triangles": 230,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 266,
+     "triangles": 230
+    },
+    {
+     "lod": 1,
+     "vertices": 266,
+     "triangles": 230
+    },
+    {
+     "lod": 2,
+     "vertices": 266,
+     "triangles": 230
+    }
+   ],
+   "textures": [
+    "0c7e1e04666b2eaa",
+    "c15039c0e24a71b2",
+    "c433d6e389dd996a"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01": {
+   "file": "vanilla_clutter_stockade_stockadebarricade_stockadebarricade01-8a4d5dce.glb",
+   "bytes": 120936,
+   "vertices": 3591,
+   "triangles": 3910,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3591,
+     "triangles": 3910
+    },
+    {
+     "lod": 1,
+     "vertices": 2796,
+     "triangles": 2572
+    },
+    {
+     "lod": 2,
+     "vertices": 2796,
+     "triangles": 2572
+    }
+   ],
+   "textures": [
+    "876fdaabbb65805a",
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadegate01": {
+   "file": "vanilla_clutter_stockade_stockadegate01-3f76ce64.glb",
+   "bytes": 65804,
+   "vertices": 1727,
+   "triangles": 988,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1727,
+     "triangles": 988
+    },
+    {
+     "lod": 1,
+     "vertices": 1727,
+     "triangles": 988
+    },
+    {
+     "lod": 2,
+     "vertices": 1727,
+     "triangles": 988
+    }
+   ],
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadepike01": {
+   "file": "vanilla_clutter_stockade_stockadepike01-676f95f6.glb",
+   "bytes": 8756,
+   "vertices": 34,
+   "triangles": 30,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 34,
+     "triangles": 30
+    },
+    {
+     "lod": 1,
+     "vertices": 34,
+     "triangles": 30
+    },
+    {
+     "lod": 2,
+     "vertices": 34,
+     "triangles": 30
+    }
+   ],
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadetower01": {
+   "file": "vanilla_clutter_stockade_stockadetower01-7b7836f9.glb",
+   "bytes": 185412,
+   "vertices": 6608,
+   "triangles": 5982,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6608,
+     "triangles": 5982
+    },
+    {
+     "lod": 1,
+     "vertices": 3226,
+     "triangles": 2117
+    },
+    {
+     "lod": 2,
+     "vertices": 1756,
+     "triangles": 950
+    }
+   ],
+   "textures": [
+    "289ab3078ad33017",
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadewallcornerin01": {
+   "file": "vanilla_clutter_stockade_stockadewallcornerin01-74f1c290.glb",
+   "bytes": 29760,
+   "vertices": 775,
+   "triangles": 713,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 775,
+     "triangles": 713
+    },
+    {
+     "lod": 1,
+     "vertices": 618,
+     "triangles": 535
+    },
+    {
+     "lod": 2,
+     "vertices": 618,
+     "triangles": 535
+    }
+   ],
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadewallcornerout01": {
+   "file": "vanilla_clutter_stockade_stockadewallcornerout01-fe019d8a.glb",
+   "bytes": 28344,
+   "vertices": 680,
+   "triangles": 614,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 680,
+     "triangles": 614
+    },
+    {
+     "lod": 1,
+     "vertices": 596,
+     "triangles": 500
+    },
+    {
+     "lod": 2,
+     "vertices": 596,
+     "triangles": 500
+    }
+   ],
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadewallstraight01": {
+   "file": "vanilla_clutter_stockade_stockadewallstraight01-11ce3153.glb",
+   "bytes": 29136,
+   "vertices": 738,
+   "triangles": 667,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 738,
+     "triangles": 667
+    },
+    {
+     "lod": 1,
+     "vertices": 629,
+     "triangles": 535
+    },
+    {
+     "lod": 2,
+     "vertices": 629,
+     "triangles": 535
+    }
+   ],
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadewallwalkway01": {
+   "file": "vanilla_clutter_stockade_stockadewallwalkway01-d48c8610.glb",
+   "bytes": 18968,
+   "vertices": 557,
+   "triangles": 423,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 557,
+     "triangles": 423
+    },
+    {
+     "lod": 1,
+     "vertices": 557,
+     "triangles": 423
+    },
+    {
+     "lod": 2,
+     "vertices": 557,
+     "triangles": 423
+    }
+   ],
+   "textures": [
+    "289ab3078ad33017",
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  }
+ },
+ "fires": {}
+}

@@ -8,7 +8,7 @@
  "kits": {
   "fixture-int-v1": {
    "id": "fixture-int-v1",
-   "glb": "kits/fixture-int-v1.glb",
+   "parts": "kits/fixture-int-v1/parts/index.json",
    "manifest": "kits/fixture-int-v1.kit.json"
   }
  },

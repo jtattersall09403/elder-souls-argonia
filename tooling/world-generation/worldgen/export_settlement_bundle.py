@@ -136,6 +136,23 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_SETTLEMENTS = Path(__file__).resolve().parents[1] / "output" / "settlements"
 DEFAULT_STRUCTURES = Path(__file__).resolve().parents[1] / "output" / "route-structures"
 ROUTE_STRUCTURES_SOURCE = REPO_ROOT / "world" / "sources" / "routes" / "route-structures.json"
+ROUTE_STRUCTURES_SCHEMA = 2
+
+
+def route_built_by(source: dict) -> dict[str, str]:
+    """{structure id: place id} for the route rows a place builds (`builtBy`)."""
+    return {row["id"]: row["builtBy"] for row in source.get("structures") or []
+            if isinstance(row, dict) and row.get("builtBy")}
+
+
+def drop_built_by_route_pieces(whole: dict, built_by: dict[str, str]) -> int:
+    """Remove the published route pieces of rows a place builds; returns how many."""
+    keep = [p for p in whole["placements"]
+            if not (p.get("kind") == "route-structure"
+                    and (p.get("provenance") or {}).get("sourceStructureId") in built_by)]
+    dropped = len(whole["placements"]) - len(keep)
+    whole["placements"] = keep
+    return dropped
 BLUEPRINTS = REPO_ROOT / "world" / "sources" / "blueprints"
 KITS = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
 WARNING_KNOWN_RED = (REPO_ROOT / "world" / "sources" / "settlements"
@@ -400,7 +417,7 @@ def _kit_assets(names: set[str], kits_dir: Path,
             effect_rows[name] = manifest.get("effectTextures") or {}
         kits[name] = {
             "id": name,
-            "glb": f"kits/{name}.glb",
+            "parts": f"kits/{name}/parts/index.json",
             "manifest": f"kits/{name}.kit.json",
         }
         for asset in manifest.get("assets", []):
@@ -427,13 +444,34 @@ def _glb_document(path: Path) -> dict:
     raise ValueError(f"{path}: no JSON chunk in GLB")
 
 
+def kit_glbs(kit: str, kits_dir: Path = KITS) -> list[Path]:
+    """The GLBs a kit's assets live in: the raw build `<kit>.glb` in a build
+    folder, else every part its published parts index lists (decision 0120:
+    public/kits holds parts only). Each part's scene root is its asset root,
+    so the readers below walk a part exactly as they walk the whole kit."""
+    whole = kits_dir / f"{kit}.glb"
+    if whole.is_file():
+        return [whole]
+    index_path = kits_dir / kit / "parts" / "index.json"
+    if not index_path.is_file():
+        raise FileNotFoundError(f"{kit}: neither {whole} nor {index_path}")
+    rows = _read(index_path)["assets"]
+    return [index_path.parent / rows[a]["file"] for a in sorted(rows)]
+
+
 def lod_chain_triangles(kit: str, kits_dir: Path = KITS) -> dict[str, list[int]]:
     """Per-asset triangles at each LOD tier, exactly as the runtime counts them.
 
     Mirrors buildArchitectureKit: level comes from the node's ``lod`` extra
     (absent means 0), and a tier's triangle total is the sum over its meshes.
     """
-    document = _glb_document(kits_dir / f"{kit}.glb")
+    chains: dict[str, list[int]] = {}
+    for path in kit_glbs(kit, kits_dir):
+        chains.update(_lod_chain_triangles(_glb_document(path)))
+    return chains
+
+
+def _lod_chain_triangles(document: dict) -> dict[str, list[int]]:
     nodes = document.get("nodes", [])
     meshes = document.get("meshes", [])
     accessors = document.get("accessors", [])
@@ -513,28 +551,38 @@ def texture_cap_errors(kits: dict, lod: dict, kits_dir: Path = KITS) -> list[str
     cap = lod["atlasMaxSize"]
     errors: list[str] = []
     for kit in sorted(kits):
-        path = kits_dir / f"{kit}.glb"
-        data = path.read_bytes()
-        offset = 12
-        document: dict | None = None
-        binary = b""
-        while offset + 8 <= len(data):
-            length, chunk_type = struct.unpack_from("<II", data, offset)
-            payload = data[offset + 8:offset + 8 + length]
-            if chunk_type == 0x4E4F534A:
-                document = json.loads(payload)
-            else:
-                binary = payload
-            offset += 8 + length + (-length % 4)
-        if document is None:
-            raise ValueError(f"{path}: no JSON chunk in GLB")
-        for index, image in enumerate(document.get("images", [])):
-            view = document["bufferViews"][image["bufferView"]]
-            start = view.get("byteOffset", 0)
-            width, height = _image_size(binary[start:start + view["byteLength"]])
-            if width > cap or height > cap:
-                errors.append(f"{kit}: image {index} is {width}x{height}, over the "
-                              f"runtime texture cap of {cap}")
+        seen: set[str] = set()
+        for path in kit_glbs(kit, kits_dir):
+            data = path.read_bytes()
+            offset = 12
+            document: dict | None = None
+            binary = b""
+            while offset + 8 <= len(data):
+                length, chunk_type = struct.unpack_from("<II", data, offset)
+                payload = data[offset + 8:offset + 8 + length]
+                if chunk_type == 0x4E4F534A:
+                    document = json.loads(payload)
+                else:
+                    binary = payload
+                offset += 8 + length + (-length % 4)
+            if document is None:
+                raise ValueError(f"{path}: no JSON chunk in GLB")
+            for index, image in enumerate(document.get("images", [])):
+                if "uri" in image:  # a part's pool texture (kits/tex/<sha16>.ktx2)
+                    source = (path.parent / image["uri"]).resolve()
+                    if str(source) in seen:
+                        continue
+                    seen.add(str(source))
+                    with open(source, "rb") as fh:
+                        blob, name = fh.read(64), f"{source.name}"
+                else:
+                    view = document["bufferViews"][image["bufferView"]]
+                    start = view.get("byteOffset", 0)
+                    blob, name = binary[start:start + view["byteLength"]], f"{path.name} image {index}"
+                width, height = _image_size(blob)
+                if width > cap or height > cap:
+                    errors.append(f"{kit}: {name} is {width}x{height}, over the "
+                                  f"runtime texture cap of {cap}")
     return errors
 
 
@@ -571,25 +619,25 @@ def lod0_part_counts(kit: str, kits_dir: Path = KITS) -> dict[str, int]:
     makes one Mesh (one collision part) per glTF primitive, and only level 0
     meshes are used for collision.
     """
-    document = _glb_document(kits_dir / f"{kit}.glb")
-    nodes = document.get("nodes", [])
-    meshes = document.get("meshes", [])
-    scene = document["scenes"][document.get("scene", 0)].get("nodes", [])
     counts: dict[str, int] = {}
+    for path in kit_glbs(kit, kits_dir):
+        document = _glb_document(path)
+        nodes = document.get("nodes", [])
+        meshes = document.get("meshes", [])
 
-    def walk(index: int) -> int:
-        node = nodes[index]
-        total = 0
-        if "mesh" in node and (node.get("extras") or {}).get("lod", 0) == 0:
-            total += len(meshes[node["mesh"]].get("primitives", []))
-        for child in node.get("children", []):
-            total += walk(child)
-        return total
+        def walk(index: int) -> int:
+            node = nodes[index]
+            total = 0
+            if "mesh" in node and (node.get("extras") or {}).get("lod", 0) == 0:
+                total += len(meshes[node["mesh"]].get("primitives", []))
+            for child in node.get("children", []):
+                total += walk(child)
+            return total
 
-    for index in scene:
-        asset_id = (nodes[index].get("extras") or {}).get("assetId")
-        if isinstance(asset_id, str):
-            counts[asset_id] = walk(index)
+        for index in document["scenes"][document.get("scene", 0)].get("nodes", []):
+            asset_id = (nodes[index].get("extras") or {}).get("assetId")
+            if isinstance(asset_id, str):
+                counts[asset_id] = walk(index)
     return counts
 
 
@@ -768,9 +816,13 @@ def _validated_route_docs(structures_dir: Path, source_path: Path) -> list[dict]
     ids, embedded source rows and sourceStructureId coverage must all agree.
     """
     source = _read(source_path)
+    if source.get("schemaVersion") != ROUTE_STRUCTURES_SCHEMA:
+        raise ValueError(f"route structure source is schemaVersion {source.get('schemaVersion')}, "
+                         f"this exporter reads {ROUTE_STRUCTURES_SCHEMA}")
     rows = source.get("structures")
     if not isinstance(rows, list):
         raise ValueError("route structure source has no structures list")
+    built_by = route_built_by(source)
     expected_by_way: dict[str, list[dict]] = {}
     source_ids: set[str] = set()
     for index, row in enumerate(rows):
@@ -818,11 +870,16 @@ def _validated_route_docs(structures_dir: Path, source_path: Path) -> list[dict]
             structure_id = provenance.get("sourceStructureId") if isinstance(provenance, dict) else None
             if structure_id not in {row["id"] for row in expected_rows}:
                 raise ValueError(f"{placement['id']}: placement has unknown sourceStructureId")
+            if structure_id in built_by:
+                raise ValueError(f"{placement['id']}: {structure_id} is builtBy "
+                                 f"{built_by[structure_id]} and carries no route piece")
             covered.add(structure_id)
-        absent = sorted({row["id"] for row in expected_rows} - covered)
+        absent = sorted({row["id"] for row in expected_rows} - covered - set(built_by))
         if absent:
             raise ValueError(f"{way_id}: authored structures have no placements: {', '.join(absent)}")
         for row in expected_rows:
+            if row["id"] in built_by:
+                continue
             pieces = sorted(
                 (placement for placement in placements
                  if placement["provenance"]["sourceStructureId"] == row["id"]),
@@ -1827,14 +1884,16 @@ def _scoped_kits(bundle: dict, places=None) -> list[str]:
 
 
 def kit_freshness_problems(kits, kits_dir: Path = KITS, public_dir: Path = PUBLIC_KITS) -> list[str]:
-    """Per published kit: the ``kit_compress --check`` rule (``glb_problems``),
-    then the published manifest against the build's (a differing one is a stale
+    """Per published kit: the ``kit_compress --check`` rule (``published_problems``
+    and ``parts_problems`` against the raw build in ``kits_dir``), then the
+    published manifest against the build's (a differing one is a stale
     publish). Shared by ``_stage_assets`` and ``place_gates`` (gate kits.fresh)."""
-    from pipeline.kit_compress import glb_problems
+    from pipeline.kit_compress import parts_problems, published_problems
     out: list[str] = []
     for name in sorted(kits):
-        glb, manifest = public_dir / f"{name}.glb", public_dir / f"{name}.kit.json"
-        problems = glb_problems(name, glb, manifest)
+        manifest = public_dir / f"{name}.kit.json"
+        problems = published_problems(name, public_dir) or parts_problems(
+            name, kits_dir / f"{name}.glb", public_dir)
         if not problems and _read(manifest) != _read(kits_dir / f"{name}.kit.json"):
             problems = [f"{name}: published manifest differs from the build's "
                         f"{kits_dir / (name + '.kit.json')} (stale publish)"]
@@ -1846,14 +1905,14 @@ def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
                   publish_kit=None, places=None) -> tuple[Path, list[str]]:
     """Validate and copy every asset to a private sibling before publication.
 
-    16h K14 (M19 ruling 5): the GLB that ships is the PUBLISHED, compressed
-    one in ``public_dir`` when its pair passes the ``kit_compress --check``
-    rule (``glb_problems``); the raw ``kits_dir`` build is the measurement
-    product and never reaches public/kits. A kit with no published GLB yet is
-    compressed from the raw build through ``kit_compress.publish`` first. A
-    published GLB that fails the rule (a raw build copied over it) is refused,
-    as is a published manifest that is not the manifest this bundle was built
-    from (the pair is stale against the build). Sidecars come from the build
+    16h K14 (M19 ruling 5), decision 0120: what ships is the kit's compressed
+    parts (``<kit>/parts/``, written only by ``kit_compress.publish``) with its
+    manifest, when they pass the ``kit_compress --check`` rule; the raw
+    ``kits_dir`` build is the measurement product and never reaches
+    public/kits. A kit with no parts index yet is published from the raw build
+    through ``kit_compress.publish`` first. Parts cut from another raw build,
+    or a published manifest that is not the manifest this bundle was built
+    from, are refused (stale against the build). Sidecars come from the build
     output, where the measurers write them."""
     from pipeline.kit_compress import publish
     publish_kit = publish_kit or publish
@@ -1868,7 +1927,8 @@ def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
             raise ValueError(f"runtime kit asset is missing or empty: {path}")
 
     # Every input exists before anything is published or staged.
-    unpublished = [name for name in kits if not (public_dir / f"{name}.glb").is_file()]
+    unpublished = [name for name in kits
+                   if not (public_dir / name / "parts" / "index.json").is_file()]
     for name in kits:
         require(kits_dir / f"{name}.kit.json")
         if name in unpublished:
@@ -1887,7 +1947,7 @@ def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
     names: list[str] = []
     try:
         for name in kits:
-            sources = [public_dir / f"{name}.glb", public_dir / f"{name}.kit.json"] + [
+            sources = [public_dir / f"{name}.kit.json"] + [
                 kits_dir / f"{name}{suffix}" for suffix in sidecar_suffixes(name)]
             for source in sources:
                 require(source)
@@ -1910,14 +1970,19 @@ def copy_assets(bundle: dict, kits_dir: Path = KITS,
         shutil.rmtree(stage, ignore_errors=True)
 
 
-def merge_bundle(base: dict, part: dict, places) -> dict:
+def merge_bundle(base: dict, part: dict, places, built_by: dict[str, str] | None = None) -> dict:
     """The published bundle `base` with the named places replaced by `part`.
 
     Every other place's rows, and the route structures, are carried from
     `base` unchanged and in the order a full export writes them (places in
     compiled-file order, each place's rows in its own order), so a --places
-    publish of an unchanged place writes the bytes a full export would."""
+    publish of an unchanged place writes the bytes a full export would. The
+    one exception is a route piece whose source row is `builtBy` a place
+    (`built_by`): it is dropped, as a full export would not emit it."""
     places = set(places)
+    if built_by:
+        base = dict(base)
+        drop_built_by_route_pieces(base, built_by)
     if (base.get("schemaVersion") not in READABLE_SCHEMA_VERSIONS
             or base.get("collisionFrame") != COLLISION_FRAME):
         raise ValueError(
@@ -2313,6 +2378,7 @@ def attach_ground_overlays(bundle: dict, places, survey=None) -> int:
         if survey is None:
             raise ValueError("ground overlays: the province survey rasters are unavailable")
     is_wet = depth_is_wet(survey.water_signed_depth_m, survey.extent_m)
+    water_at = pad_overlay.survey_water_at(survey)
     scope = _place_scope(places) if places is not None else None
     by_id = {p["id"]: p for p in bundle["placements"]}
     missing: list[str] = []
@@ -2323,7 +2389,7 @@ def attach_ground_overlays(bundle: dict, places, survey=None) -> int:
         pool_ops = site.pop("poolOps", [])
         site["groundOverlays"] = {"schemaVersion": pad_overlay.SCHEMA_VERSION,
                                   "pads": pad_overlay.apply_order(pad_overlay.place_overlays(
-                                      rows, site["id"], survey.height_at, is_wet) + [
+                                      rows, site["id"], survey.height_at, is_wet, water_at) + [
                                       pad_overlay.pool_overlay(op, site["id"], survey.height_at)
                                       for op in pool_ops])}
         site.pop("pools", None)
@@ -2383,7 +2449,7 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
                           places=places, report=report)
     if places is not None:
         bundle = merge_bundle(published_base(base, out, _place_scope(places)), bundle,
-                              _place_scope(places))
+                              _place_scope(places), route_built_by(_read(ROUTE_STRUCTURES_SOURCE)))
         # the budget is the MERGED set's (decision 0052): the part's own worst
         # case says nothing about the places carried from the base
         budget, ceiling_errors = collider_part_budget(
@@ -2430,6 +2496,23 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
     return bundle
 
 
+def publish_route_claims(province_dir: Path, source_path: Path = ROUTE_STRUCTURES_SOURCE
+                         ) -> tuple[int, dict]:
+    """Apply `builtBy` to the published bundles without building a place: the
+    published whole minus the claimed route pieces, written with an empty
+    place scope so only bundles whose bytes change (the route bundles) and the
+    index are rewritten."""
+    whole = settlement_bundles.load_published(province_dir)
+    dropped = drop_built_by_route_pieces(whole, route_built_by(_read(source_path)))
+    root = Path(province_dir) / settlement_bundles.BUNDLE_DIR
+    index = _read(root / settlement_bundles.INDEX_NAME)
+    # each place keeps the budget it was published with (a place is not rebuilt here)
+    budgets = {e["id"]: _read(Path(province_dir) / e["bundle"])["lod"]["colliderPartBudget"]
+               for e in index["places"]}
+    wrote = settlement_bundles.write_published(whole, budgets, province_dir, [])
+    return dropped, wrote
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, default=OUT)
@@ -2453,7 +2536,16 @@ def main() -> int:
     ap.add_argument("--manifest-dir", type=Path, default=PLACE_MANIFESTS,
                     help="where a --places publish writes <place-id>/manifest.json "
                          "(contract 1; default tooling/.reports/16k)")
+    ap.add_argument("--route-claims", action="store_true",
+                    help="drop the published route pieces of route-structures.json rows "
+                         "marked `builtBy`, rewriting only the route bundles that change "
+                         "and the index; builds no place")
     args = ap.parse_args()
+    if args.route_claims:
+        dropped, wrote = publish_route_claims(args.out.parent)
+        print(f"export_settlement_bundle --route-claims: dropped {dropped} route piece(s); "
+              f"wrote {', '.join(wrote['written']) or 'no bundle'}")
+        return 0
     places = None if args.places is None else [p.strip() for p in args.places.split(",")]
     try:
         bundle = export(args.out, args.copy_assets, places=places, base=args.base,

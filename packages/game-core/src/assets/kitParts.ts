@@ -10,11 +10,11 @@
  */
 import type { InteriorFireRow } from "../fx/fire/interiorFires";
 
-/** 3: rows carry every LOD tier (`lods`), textures live in the shared `kits/tex/` pool, `exterior` marks a whole-kit split (0120). */
-export const KIT_PARTS_SCHEMA_VERSION = 3;
+/** 4: every kit ships only as parts, a part for every manifest asset; `source` is the raw build, `packed` the gltfpack GLB (0120). */
+export const KIT_PARTS_SCHEMA_VERSION = 4;
 
-/** A kit row of a published bundle: its id and its whole-GLB path, whose stem names the parts folder. */
-export interface KitPartsRef { id: string; glb: string }
+/** A kit row of a published bundle: its id, its parts index path and its manifest path. */
+export interface KitPartsRef { id: string; parts: string; manifest: string }
 
 export interface KitPartLod { lod: number; vertices: number; triangles: number }
 
@@ -34,19 +34,19 @@ export interface KitPartRow {
 export interface KitPartsIndex {
   schemaVersion: typeof KIT_PARTS_SCHEMA_VERSION;
   kit: string;
-  /** True when every asset of the kit is split, so exteriors draw from parts; false: only interior-drawn assets. */
-  exterior: boolean;
-  /** The whole published GLB the parts were cut from. */
+  /** The raw build the parts were packed from. */
   source: { bytes: number; sha256: string };
+  /** The gltfpack GLB the parts were cut from (never published). */
+  packed: { bytes: number; sha256: string };
   assets: Record<string, KitPartRow>;
   /** The split assets that burn in an interior, their kit manifest rows reduced to the anchor fields. */
   fires: Record<string, InteriorFireRow>;
 }
 
-/** The parts folder of a kit, from the bundle's own GLB path (`<kit>.glb` -> `<kit>/parts/` beside it). */
+/** The parts folder of a kit: the directory of the bundle row's `parts` index path, with a trailing slash. */
 export function kitPartsDir(ref: KitPartsRef): string {
-  if (!ref.glb.endsWith(".glb")) throw new Error(`kit ${ref.id}: glb path ${ref.glb} does not end in .glb`);
-  return `${ref.glb.slice(0, -".glb".length)}/parts/`;
+  if (!ref.parts.endsWith("/index.json")) throw new Error(`kit ${ref.id}: parts path ${ref.parts} does not end in /index.json`);
+  return ref.parts.slice(0, -"index.json".length);
 }
 
 /** Validate a fetched parts index; a wrong schema or kit is a named error. */
@@ -56,12 +56,13 @@ export function parseKitPartsIndex(raw: unknown, kitId: string, source: string):
   if (!x || typeof x !== "object") fail("not an object");
   if (x!.schemaVersion !== KIT_PARTS_SCHEMA_VERSION) fail(`unsupported schemaVersion ${String(x!.schemaVersion)}`);
   if (x!.kit !== kitId) fail(`is for kit ${String(x!.kit)}, not ${kitId}`);
-  if (typeof x!.exterior !== "boolean") fail("no exterior flag");
   if (!x!.assets || typeof x!.assets !== "object") fail("no assets map");
   if (!x!.fires || typeof x!.fires !== "object") fail("no fires map");
   for (const [id, row] of Object.entries(x!.assets!)) {
     if (typeof row?.file !== "string" || !row.file.endsWith(".glb")) fail(`${id}: no part file`);
-    if (!Array.isArray(row.lods) || !row.lods.length) fail(`${id}: no lods`);
+    // Empty `lods`: a meshless asset (a plugin's trigger or dummy marker, e.g.
+    // interior-farmhouse-v1 dummymace01); its part is the bare root node.
+    if (!Array.isArray(row.lods)) fail(`${id}: no lods list`);
   }
   return x as KitPartsIndex;
 }

@@ -14,6 +14,8 @@ import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 import { addToBatch, drawBatchKey, settlementBatchCell, settlementChunkKey, type DrawBatch } from "./SettlementLayer";
 import { buildArchitectureKit, kitAssetMetaFromManifest } from "./kit";
+import { kitPartsDir } from "../assets/kitParts";
+import { isSmokeColumnPlacement } from "./smokeColumn";
 import { mergeTransformedParts } from "./lod";
 import { placementTransform } from "./anchoring";
 import { settlementMeshDrawFlags } from "./materials";
@@ -34,7 +36,8 @@ const ktx2Stub = {
   detectSupport() { return this; },
   dispose() { /* nothing */ },
 };
-async function loadKit(glb: string): Promise<GLTF> {
+/** One published part GLB (decision 0120), path relative to public/. */
+async function loadPart(glb: string): Promise<GLTF> {
   const bytes = readFileSync(resolve(PUBLIC, glb));
   await MeshoptDecoder.ready;
   const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).setKTX2Loader(ktx2Stub as never);
@@ -49,7 +52,14 @@ describe("Greenspring settlement draws (published bundle)", () => {
     const metas = new Map<string, ReturnType<typeof kitAssetMetaFromManifest>>();
     for (const id of used) {
       const kit = bundle.kits[id];
-      kits.set(id, buildArchitectureKit(await loadKit(kit.glb)));
+      // Every part the place draws, gathered per kit as the settlement layer does.
+      const index = JSON.parse(readFileSync(resolve(PUBLIC, kit.parts), "utf8")) as { assets: Record<string, { file: string }> };
+      const assets: ReturnType<typeof buildArchitectureKit> = new Map();
+      for (const assetId of new Set(bundle.placements.filter((p) => p.kit === id && !isSmokeColumnPlacement(p)).map((p) => p.assetId))) {
+        const part = await loadPart(`${kitPartsDir(kit)}${index.assets[assetId].file}`);
+        for (const [aid, asset] of buildArchitectureKit(part)) assets.set(aid, asset);
+      }
+      kits.set(id, assets);
       metas.set(id, kitAssetMetaFromManifest(JSON.parse(readFileSync(resolve(PUBLIC, kit.manifest), "utf8")), kit.manifest));
     }
     const identities = new SettlementMaterialIdentities();

@@ -1,0 +1,387 @@
+{
+ "schemaVersion": 4,
+ "kit": "waterfall-fx-v1",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 842980,
+  "sha256": "ea952fd6e810212e640c68fc7cb6de81e56874898172addc5538e3619884485d"
+ },
+ "packed": {
+  "bytes": 842980,
+  "sha256": "ea952fd6e810212e640c68fc7cb6de81e56874898172addc5538e3619884485d"
+ },
+ "totals": {
+  "parts": 26,
+  "partBytes": 898484,
+  "textureFiles": 0,
+  "textureBytes": 0,
+  "bytes": 898484
+ },
+ "assets": {
+  "vanilla:architecture/whiterun/wreffects/wrstairsstreamrapids01": {
+   "file": "vanilla_architecture_whiterun_wreffects_wrstairsstreamrapids01-943f3fe3.glb",
+   "bytes": 7152,
+   "vertices": 48,
+   "triangles": 60,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 48,
+     "triangles": 60
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:architecture/whiterun/wreffects/wrstairsstreamrapids01foam": {
+   "file": "vanilla_architecture_whiterun_wreffects_wrstairsstreamrapids01foam-46b7a4a4.glb",
+   "bytes": 7176,
+   "vertices": 48,
+   "triangles": 60,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 48,
+     "triangles": 60
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/ambient/fxmistlow01": {
+   "file": "vanilla_effects_ambient_fxmistlow01-2f4ef359.glb",
+   "bytes": 14740,
+   "vertices": 179,
+   "triangles": 217,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 179,
+     "triangles": 217
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxrapids": {
+   "file": "vanilla_effects_fxrapids-68c98159.glb",
+   "bytes": 15872,
+   "vertices": 95,
+   "triangles": 131,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 95,
+     "triangles": 131
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxrapidsbig01": {
+   "file": "vanilla_effects_fxrapidsbig01-919f1b2d.glb",
+   "bytes": 38044,
+   "vertices": 507,
+   "triangles": 815,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 507,
+     "triangles": 815
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxrapidsfallsline01": {
+   "file": "vanilla_effects_fxrapidsfallsline01-ca9177e2.glb",
+   "bytes": 19328,
+   "vertices": 151,
+   "triangles": 204,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 151,
+     "triangles": 204
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxrapidsfallstop": {
+   "file": "vanilla_effects_fxrapidsfallstop-368453b5.glb",
+   "bytes": 53412,
+   "vertices": 701,
+   "triangles": 1100,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 701,
+     "triangles": 1100
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxrapidsringheavy": {
+   "file": "vanilla_effects_fxrapidsringheavy-7b12aee1.glb",
+   "bytes": 25032,
+   "vertices": 254,
+   "triangles": 384,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 254,
+     "triangles": 384
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxsplashlargechurnnorapids": {
+   "file": "vanilla_effects_fxsplashlargechurnnorapids-d182b9d2.glb",
+   "bytes": 4412,
+   "vertices": 8,
+   "triangles": 4,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxwaterfallbodyslope": {
+   "file": "vanilla_effects_fxwaterfallbodyslope-5f51eaf2.glb",
+   "bytes": 58440,
+   "vertices": 860,
+   "triangles": 964,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 860,
+     "triangles": 964
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxwaterfallbodytall": {
+   "file": "vanilla_effects_fxwaterfallbodytall-54577cf4.glb",
+   "bytes": 65164,
+   "vertices": 966,
+   "triangles": 1476,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 966,
+     "triangles": 1476
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxwaterfallbodytall02": {
+   "file": "vanilla_effects_fxwaterfallbodytall02-09550e0a.glb",
+   "bytes": 93996,
+   "vertices": 1398,
+   "triangles": 1620,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1398,
+     "triangles": 1620
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxwaterfallmistblast": {
+   "file": "vanilla_effects_fxwaterfallmistblast-87d82cac.glb",
+   "bytes": 18972,
+   "vertices": 252,
+   "triangles": 84,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 252,
+     "triangles": 84
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxwaterfallmistblastlite": {
+   "file": "vanilla_effects_fxwaterfallmistblastlite-67fa1173.glb",
+   "bytes": 10164,
+   "vertices": 126,
+   "triangles": 42,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 126,
+     "triangles": 42
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxwaterfallskirtslope": {
+   "file": "vanilla_effects_fxwaterfallskirtslope-ba0a32e1.glb",
+   "bytes": 32432,
+   "vertices": 345,
+   "triangles": 274,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 345,
+     "triangles": 274
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxwaterfallskirtslopenomist": {
+   "file": "vanilla_effects_fxwaterfallskirtslopenomist-f928cd88.glb",
+   "bytes": 32452,
+   "vertices": 345,
+   "triangles": 274,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 345,
+     "triangles": 274
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxwaterfallskirttallfront": {
+   "file": "vanilla_effects_fxwaterfallskirttallfront-9ac17b3d.glb",
+   "bytes": 47424,
+   "vertices": 609,
+   "triangles": 408,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 609,
+     "triangles": 408
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxwaterfallthin2048x128": {
+   "file": "vanilla_effects_fxwaterfallthin2048x128-1543a9a6.glb",
+   "bytes": 68192,
+   "vertices": 1049,
+   "triangles": 564,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1049,
+     "triangles": 564
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxwaterfallthin2048x512": {
+   "file": "vanilla_effects_fxwaterfallthin2048x512-eee58ba6.glb",
+   "bytes": 72092,
+   "vertices": 1123,
+   "triangles": 564,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1123,
+     "triangles": 564
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxwaterfallthin4096x256": {
+   "file": "vanilla_effects_fxwaterfallthin4096x256-f2534c74.glb",
+   "bytes": 70484,
+   "vertices": 1092,
+   "triangles": 564,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1092,
+     "triangles": 564
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxwaterfallthin512x128": {
+   "file": "vanilla_effects_fxwaterfallthin512x128-a7b139e5.glb",
+   "bytes": 50732,
+   "vertices": 800,
+   "triangles": 412,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 800,
+     "triangles": 412
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxwaterfallthinsheet": {
+   "file": "vanilla_effects_fxwaterfallthinsheet-c5588319.glb",
+   "bytes": 40820,
+   "vertices": 572,
+   "triangles": 320,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 572,
+     "triangles": 320
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:effects/fxwaterfallthinspray2048": {
+   "file": "vanilla_effects_fxwaterfallthinspray2048-dd047dce.glb",
+   "bytes": 33136,
+   "vertices": 344,
+   "triangles": 420,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 344,
+     "triangles": 420
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:lod/waterfalls/fxwaterfallbodyslope_lod": {
+   "file": "vanilla_lod_waterfalls_fxwaterfallbodyslope_lod-8aa9d813.glb",
+   "bytes": 6268,
+   "vertices": 48,
+   "triangles": 70,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 48,
+     "triangles": 70
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:lod/waterfalls/fxwaterfallbodytall02_lod": {
+   "file": "vanilla_lod_waterfalls_fxwaterfallbodytall02_lod-536a6703.glb",
+   "bytes": 5844,
+   "vertices": 40,
+   "triangles": 58,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 40,
+     "triangles": 58
+    }
+   ],
+   "textures": []
+  },
+  "vanilla:lod/waterfalls/fxwaterfallbodytall_lod": {
+   "file": "vanilla_lod_waterfalls_fxwaterfallbodytall_lod-e6ecafe8.glb",
+   "bytes": 6704,
+   "vertices": 56,
+   "triangles": 84,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 56,
+     "triangles": 84
+    }
+   ],
+   "textures": []
+  }
+ },
+ "fires": {}
+}

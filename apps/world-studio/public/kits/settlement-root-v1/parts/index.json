@@ -1,20 +1,3464 @@
 {
- "schemaVersion": 3,
+ "schemaVersion": 4,
  "kit": "settlement-root-v1",
- "exterior": false,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 20027212,
-  "sha256": "d5ca6a1fac17d43ebdb1a6043dc7310a675ce042b0fb3f38b09b92e1bcca01cd"
+  "bytes": 54841936,
+  "sha256": "4c5720959bfcc0ed591f0777b40fe6580abc06ea50292445c273ecb02905f012"
+ },
+ "packed": {
+  "bytes": 20019620,
+  "sha256": "1371a5bc036ffc9c8d23c2f8fd7be82aa68914eda893a9e86f0a74b808701f7e"
  },
  "totals": {
-  "parts": 8,
-  "partBytes": 227940,
-  "textureFiles": 4,
-  "textureBytes": 792618,
-  "bytes": 1020558
+  "parts": 156,
+  "partBytes": 15024296,
+  "textureFiles": 34,
+  "textureBytes": 8122355,
+  "bytes": 23146651
  },
  "assets": {
+  "bmv:architecture/citebosmer/houses/housechamp001": {
+   "file": "bmv_architecture_citebosmer_houses_housechamp001-dcd666af.glb",
+   "bytes": 124248,
+   "vertices": 2870,
+   "triangles": 4490,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2870,
+     "triangles": 4490
+    },
+    {
+     "lod": 1,
+     "vertices": 1416,
+     "triangles": 1568
+    },
+    {
+     "lod": 2,
+     "vertices": 1155,
+     "triangles": 1198
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "a011419253dbf875"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampbalcon45v001": {
+   "file": "bmv_architecture_citebosmer_houses_housechampbalcon45v001-78735998.glb",
+   "bytes": 119516,
+   "vertices": 4159,
+   "triangles": 5844,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4159,
+     "triangles": 5844
+    },
+    {
+     "lod": 1,
+     "vertices": 2134,
+     "triangles": 2198
+    },
+    {
+     "lod": 2,
+     "vertices": 1123,
+     "triangles": 908
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampbalconacces45d001": {
+   "file": "bmv_architecture_citebosmer_houses_housechampbalconacces45d001-4be713b4.glb",
+   "bytes": 157324,
+   "vertices": 4125,
+   "triangles": 5659,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4125,
+     "triangles": 5659
+    },
+    {
+     "lod": 1,
+     "vertices": 2175,
+     "triangles": 2294
+    },
+    {
+     "lod": 2,
+     "vertices": 1538,
+     "triangles": 1452
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampbalconacces45i001": {
+   "file": "bmv_architecture_citebosmer_houses_housechampbalconacces45i001-c3a1e03f.glb",
+   "bytes": 132208,
+   "vertices": 4497,
+   "triangles": 6290,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4497,
+     "triangles": 6290
+    },
+    {
+     "lod": 1,
+     "vertices": 2364,
+     "triangles": 2517
+    },
+    {
+     "lod": 2,
+     "vertices": 1370,
+     "triangles": 1226
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampbalconacceslatld001": {
+   "file": "bmv_architecture_citebosmer_houses_housechampbalconacceslatld001-cf43cd95.glb",
+   "bytes": 103728,
+   "vertices": 3523,
+   "triangles": 4891,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3523,
+     "triangles": 4891
+    },
+    {
+     "lod": 1,
+     "vertices": 1777,
+     "triangles": 1826
+    },
+    {
+     "lod": 2,
+     "vertices": 931,
+     "triangles": 741
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampbalconacceslatli001": {
+   "file": "bmv_architecture_citebosmer_houses_housechampbalconacceslatli001-c788ef54.glb",
+   "bytes": 79152,
+   "vertices": 2532,
+   "triangles": 3550,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2532,
+     "triangles": 3550
+    },
+    {
+     "lod": 1,
+     "vertices": 1305,
+     "triangles": 1317
+    },
+    {
+     "lod": 2,
+     "vertices": 682,
+     "triangles": 528
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampbalconacceslatrd001": {
+   "file": "bmv_architecture_citebosmer_houses_housechampbalconacceslatrd001-efec7bc8.glb",
+   "bytes": 103440,
+   "vertices": 3490,
+   "triangles": 4918,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3490,
+     "triangles": 4918
+    },
+    {
+     "lod": 1,
+     "vertices": 1786,
+     "triangles": 1835
+    },
+    {
+     "lod": 2,
+     "vertices": 936,
+     "triangles": 745
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampbalconacceslatri001": {
+   "file": "bmv_architecture_citebosmer_houses_housechampbalconacceslatri001-660d962e.glb",
+   "bytes": 76948,
+   "vertices": 2456,
+   "triangles": 3461,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2456,
+     "triangles": 3461
+    },
+    {
+     "lod": 1,
+     "vertices": 1260,
+     "triangles": 1286
+    },
+    {
+     "lod": 2,
+     "vertices": 654,
+     "triangles": 517
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampbalconfinl01": {
+   "file": "bmv_architecture_citebosmer_houses_housechampbalconfinl01-336eb100.glb",
+   "bytes": 109596,
+   "vertices": 3794,
+   "triangles": 5330,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3794,
+     "triangles": 5330
+    },
+    {
+     "lod": 1,
+     "vertices": 1881,
+     "triangles": 1951
+    },
+    {
+     "lod": 2,
+     "vertices": 975,
+     "triangles": 755
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampbalconfinr01": {
+   "file": "bmv_architecture_citebosmer_houses_housechampbalconfinr01-983ef657.glb",
+   "bytes": 109920,
+   "vertices": 3817,
+   "triangles": 5366,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3817,
+     "triangles": 5366
+    },
+    {
+     "lod": 1,
+     "vertices": 1890,
+     "triangles": 1963
+    },
+    {
+     "lod": 2,
+     "vertices": 977,
+     "triangles": 760
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampdoor01": {
+   "file": "bmv_architecture_citebosmer_houses_housechampdoor01-86538e44.glb",
+   "bytes": 34996,
+   "vertices": 732,
+   "triangles": 1146,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 732,
+     "triangles": 1146
+    },
+    {
+     "lod": 1,
+     "vertices": 358,
+     "triangles": 443
+    },
+    {
+     "lod": 2,
+     "vertices": 311,
+     "triangles": 365
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "a011419253dbf875",
+    "c256351516c66f2c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechamplianess001": {
+   "file": "bmv_architecture_citebosmer_houses_housechamplianess001-e6c94e11.glb",
+   "bytes": 116816,
+   "vertices": 2453,
+   "triangles": 3960,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2453,
+     "triangles": 3960
+    },
+    {
+     "lod": 1,
+     "vertices": 1242,
+     "triangles": 1382
+    },
+    {
+     "lod": 2,
+     "vertices": 1130,
+     "triangles": 1200
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechamplianestronc": {
+   "file": "bmv_architecture_citebosmer_houses_housechamplianestronc-3112e5d3.glb",
+   "bytes": 19320,
+   "vertices": 433,
+   "triangles": 512,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 433,
+     "triangles": 512
+    },
+    {
+     "lod": 1,
+     "vertices": 328,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 328,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampwindow001": {
+   "file": "bmv_architecture_citebosmer_houses_housechampwindow001-811e03ba.glb",
+   "bytes": 9148,
+   "vertices": 66,
+   "triangles": 90,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 66,
+     "triangles": 90
+    },
+    {
+     "lod": 1,
+     "vertices": 66,
+     "triangles": 90
+    },
+    {
+     "lod": 2,
+     "vertices": 66,
+     "triangles": 90
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "8e95cb500a53dc1c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampwindow002": {
+   "file": "bmv_architecture_citebosmer_houses_housechampwindow002-9a8400d5.glb",
+   "bytes": 15692,
+   "vertices": 218,
+   "triangles": 338,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 218,
+     "triangles": 338
+    },
+    {
+     "lod": 1,
+     "vertices": 204,
+     "triangles": 310
+    },
+    {
+     "lod": 2,
+     "vertices": 204,
+     "triangles": 310
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "8e95cb500a53dc1c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampwindow003": {
+   "file": "bmv_architecture_citebosmer_houses_housechampwindow003-7b6d94bc.glb",
+   "bytes": 9804,
+   "vertices": 111,
+   "triangles": 170,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 111,
+     "triangles": 170
+    },
+    {
+     "lod": 1,
+     "vertices": 111,
+     "triangles": 170
+    },
+    {
+     "lod": 2,
+     "vertices": 111,
+     "triangles": 170
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "8e95cb500a53dc1c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampwindow004": {
+   "file": "bmv_architecture_citebosmer_houses_housechampwindow004-d69e82f4.glb",
+   "bytes": 9124,
+   "vertices": 66,
+   "triangles": 90,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 66,
+     "triangles": 90
+    },
+    {
+     "lod": 1,
+     "vertices": 66,
+     "triangles": 90
+    },
+    {
+     "lod": 2,
+     "vertices": 66,
+     "triangles": 90
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "8e95cb500a53dc1c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housegland001": {
+   "file": "bmv_architecture_citebosmer_houses_housegland001-a1f29851.glb",
+   "bytes": 280296,
+   "vertices": 8028,
+   "triangles": 12532,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 8028,
+     "triangles": 12532
+    },
+    {
+     "lod": 1,
+     "vertices": 4225,
+     "triangles": 4670
+    },
+    {
+     "lod": 2,
+     "vertices": 2485,
+     "triangles": 1940
+    }
+   ],
+   "textures": [
+    "390f2f0a0e27a2fd",
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/houseglandacceslatd01": {
+   "file": "bmv_architecture_citebosmer_houses_houseglandacceslatd01-2cc948a9.glb",
+   "bytes": 78376,
+   "vertices": 2502,
+   "triangles": 3493,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2502,
+     "triangles": 3493
+    },
+    {
+     "lod": 1,
+     "vertices": 1252,
+     "triangles": 1299
+    },
+    {
+     "lod": 2,
+     "vertices": 654,
+     "triangles": 523
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/houseglandacceslati01": {
+   "file": "bmv_architecture_citebosmer_houses_houseglandacceslati01-c6281cd4.glb",
+   "bytes": 76296,
+   "vertices": 2435,
+   "triangles": 3441,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2435,
+     "triangles": 3441
+    },
+    {
+     "lod": 1,
+     "vertices": 1231,
+     "triangles": 1278
+    },
+    {
+     "lod": 2,
+     "vertices": 636,
+     "triangles": 515
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/houseglanddoor001": {
+   "file": "bmv_architecture_citebosmer_houses_houseglanddoor001-f5a174f2.glb",
+   "bytes": 19660,
+   "vertices": 315,
+   "triangles": 503,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 315,
+     "triangles": 503
+    },
+    {
+     "lod": 1,
+     "vertices": 231,
+     "triangles": 315
+    },
+    {
+     "lod": 2,
+     "vertices": 231,
+     "triangles": 315
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "c256351516c66f2c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/houseglandfixation001": {
+   "file": "bmv_architecture_citebosmer_houses_houseglandfixation001-4b9f847c.glb",
+   "bytes": 32504,
+   "vertices": 725,
+   "triangles": 1240,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 725,
+     "triangles": 1240
+    },
+    {
+     "lod": 1,
+     "vertices": 354,
+     "triangles": 433
+    },
+    {
+     "lod": 2,
+     "vertices": 275,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/houseglandwindowet001": {
+   "file": "bmv_architecture_citebosmer_houses_houseglandwindowet001-3e160a6e.glb",
+   "bytes": 10284,
+   "vertices": 76,
+   "triangles": 100,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 76,
+     "triangles": 100
+    },
+    {
+     "lod": 1,
+     "vertices": 76,
+     "triangles": 100
+    },
+    {
+     "lod": 2,
+     "vertices": 76,
+     "triangles": 100
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "8e95cb500a53dc1c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/houseglandwindowet002": {
+   "file": "bmv_architecture_citebosmer_houses_houseglandwindowet002-c3e3bc61.glb",
+   "bytes": 10304,
+   "vertices": 77,
+   "triangles": 105,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 77,
+     "triangles": 105
+    },
+    {
+     "lod": 1,
+     "vertices": 77,
+     "triangles": 105
+    },
+    {
+     "lod": 2,
+     "vertices": 77,
+     "triangles": 105
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "8e95cb500a53dc1c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/houseglandwindowet003": {
+   "file": "bmv_architecture_citebosmer_houses_houseglandwindowet003-1d762018.glb",
+   "bytes": 11796,
+   "vertices": 167,
+   "triangles": 249,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 167,
+     "triangles": 249
+    },
+    {
+     "lod": 1,
+     "vertices": 167,
+     "triangles": 249
+    },
+    {
+     "lod": 2,
+     "vertices": 167,
+     "triangles": 249
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "8e95cb500a53dc1c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/houseglandwindowrc001": {
+   "file": "bmv_architecture_citebosmer_houses_houseglandwindowrc001-b0f23a1f.glb",
+   "bytes": 19704,
+   "vertices": 293,
+   "triangles": 449,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 293,
+     "triangles": 449
+    },
+    {
+     "lod": 1,
+     "vertices": 233,
+     "triangles": 308
+    },
+    {
+     "lod": 2,
+     "vertices": 233,
+     "triangles": 308
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "8e95cb500a53dc1c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetronc001": {
+   "file": "bmv_architecture_citebosmer_houses_housetronc001-69b42b45.glb",
+   "bytes": 159032,
+   "vertices": 3654,
+   "triangles": 5516,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3654,
+     "triangles": 5516
+    },
+    {
+     "lod": 1,
+     "vertices": 1997,
+     "triangles": 1975
+    },
+    {
+     "lod": 2,
+     "vertices": 1679,
+     "triangles": 1499
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "a011419253dbf875"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetronc001lianess": {
+   "file": "bmv_architecture_citebosmer_houses_housetronc001lianess-2e99d5bd.glb",
+   "bytes": 114748,
+   "vertices": 3408,
+   "triangles": 5823,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3408,
+     "triangles": 5823
+    },
+    {
+     "lod": 1,
+     "vertices": 1757,
+     "triangles": 2036
+    },
+    {
+     "lod": 2,
+     "vertices": 1069,
+     "triangles": 964
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncbalcon15v001": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncbalcon15v001-4cfaccca.glb",
+   "bytes": 102620,
+   "vertices": 2082,
+   "triangles": 2862,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2082,
+     "triangles": 2862
+    },
+    {
+     "lod": 1,
+     "vertices": 1673,
+     "triangles": 2134
+    },
+    {
+     "lod": 2,
+     "vertices": 1673,
+     "triangles": 2134
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncbalconacces15d001": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncbalconacces15d001-bf98638d.glb",
+   "bytes": 71220,
+   "vertices": 2014,
+   "triangles": 2767,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2014,
+     "triangles": 2767
+    },
+    {
+     "lod": 1,
+     "vertices": 1090,
+     "triangles": 1207
+    },
+    {
+     "lod": 2,
+     "vertices": 731,
+     "triangles": 735
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncbalconacces15i001": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncbalconacces15i001-9c221bf6.glb",
+   "bytes": 96144,
+   "vertices": 2724,
+   "triangles": 3765,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2724,
+     "triangles": 3765
+    },
+    {
+     "lod": 1,
+     "vertices": 1441,
+     "triangles": 1570
+    },
+    {
+     "lod": 2,
+     "vertices": 1060,
+     "triangles": 1055
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncbalconendl01": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncbalconendl01-8a37b623.glb",
+   "bytes": 106788,
+   "vertices": 3656,
+   "triangles": 5076,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3656,
+     "triangles": 5076
+    },
+    {
+     "lod": 1,
+     "vertices": 1829,
+     "triangles": 1869
+    },
+    {
+     "lod": 2,
+     "vertices": 959,
+     "triangles": 734
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncbalconendr01": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncbalconendr01-39b74b63.glb",
+   "bytes": 107584,
+   "vertices": 3694,
+   "triangles": 5128,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3694,
+     "triangles": 5128
+    },
+    {
+     "lod": 1,
+     "vertices": 1853,
+     "triangles": 1893
+    },
+    {
+     "lod": 2,
+     "vertices": 977,
+     "triangles": 749
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncdooret01": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncdooret01-abfd1b0f.glb",
+   "bytes": 34868,
+   "vertices": 731,
+   "triangles": 1146,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 731,
+     "triangles": 1146
+    },
+    {
+     "lod": 1,
+     "vertices": 356,
+     "triangles": 444
+    },
+    {
+     "lod": 2,
+     "vertices": 310,
+     "triangles": 365
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "a011419253dbf875",
+    "c256351516c66f2c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncdoorrc01": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncdoorrc01-f03e87f0.glb",
+   "bytes": 34556,
+   "vertices": 737,
+   "triangles": 1179,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 737,
+     "triangles": 1179
+    },
+    {
+     "lod": 1,
+     "vertices": 365,
+     "triangles": 470
+    },
+    {
+     "lod": 2,
+     "vertices": 317,
+     "triangles": 390
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "a011419253dbf875",
+    "c256351516c66f2c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncwindowet001": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncwindowet001-3fdd973b.glb",
+   "bytes": 9812,
+   "vertices": 115,
+   "triangles": 179,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 115,
+     "triangles": 179
+    },
+    {
+     "lod": 1,
+     "vertices": 115,
+     "triangles": 179
+    },
+    {
+     "lod": 2,
+     "vertices": 115,
+     "triangles": 179
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "8e95cb500a53dc1c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncwindowet002": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncwindowet002-a0abb236.glb",
+   "bytes": 9056,
+   "vertices": 65,
+   "triangles": 89,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 65,
+     "triangles": 89
+    },
+    {
+     "lod": 1,
+     "vertices": 65,
+     "triangles": 89
+    },
+    {
+     "lod": 2,
+     "vertices": 65,
+     "triangles": 89
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "8e95cb500a53dc1c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncwindowet003": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncwindowet003-bdd32162.glb",
+   "bytes": 9072,
+   "vertices": 65,
+   "triangles": 89,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 65,
+     "triangles": 89
+    },
+    {
+     "lod": 1,
+     "vertices": 65,
+     "triangles": 89
+    },
+    {
+     "lod": 2,
+     "vertices": 65,
+     "triangles": 89
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "8e95cb500a53dc1c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncwindowet004": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncwindowet004-45f61f01.glb",
+   "bytes": 10268,
+   "vertices": 142,
+   "triangles": 227,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 142,
+     "triangles": 227
+    },
+    {
+     "lod": 1,
+     "vertices": 142,
+     "triangles": 227
+    },
+    {
+     "lod": 2,
+     "vertices": 142,
+     "triangles": 227
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "8e95cb500a53dc1c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncwindowrc001": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncwindowrc001-f2f26457.glb",
+   "bytes": 9036,
+   "vertices": 65,
+   "triangles": 89,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 65,
+     "triangles": 89
+    },
+    {
+     "lod": 1,
+     "vertices": 65,
+     "triangles": 89
+    },
+    {
+     "lod": 2,
+     "vertices": 65,
+     "triangles": 89
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "8e95cb500a53dc1c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncwindowrc002": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncwindowrc002-f4aabc65.glb",
+   "bytes": 9032,
+   "vertices": 65,
+   "triangles": 89,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 65,
+     "triangles": 89
+    },
+    {
+     "lod": 1,
+     "vertices": 65,
+     "triangles": 89
+    },
+    {
+     "lod": 2,
+     "vertices": 65,
+     "triangles": 89
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "8e95cb500a53dc1c"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncwindowrc003": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncwindowrc003-98b80323.glb",
+   "bytes": 9044,
+   "vertices": 65,
+   "triangles": 89,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 65,
+     "triangles": 89
+    },
+    {
+     "lod": 1,
+     "vertices": 65,
+     "triangles": 89
+    },
+    {
+     "lod": 2,
+     "vertices": 65,
+     "triangles": 89
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "8e95cb500a53dc1c"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01": {
+   "file": "bmv_architecture_citebosmer_passerelles_kiosque_kiosk01-47fc08f9.glb",
+   "bytes": 327372,
+   "vertices": 8538,
+   "triangles": 14048,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 8538,
+     "triangles": 14048
+    },
+    {
+     "lod": 1,
+     "vertices": 4893,
+     "triangles": 6134
+    },
+    {
+     "lod": 2,
+     "vertices": 3724,
+     "triangles": 4356
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_kiosque_kioskaccesd01-71dd0c35.glb",
+   "bytes": 11088,
+   "vertices": 167,
+   "triangles": 192,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 167,
+     "triangles": 192
+    },
+    {
+     "lod": 1,
+     "vertices": 167,
+     "triangles": 192
+    },
+    {
+     "lod": 2,
+     "vertices": 167,
+     "triangles": 192
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesi01": {
+   "file": "bmv_architecture_citebosmer_passerelles_kiosque_kioskaccesi01-8d1e13cd.glb",
+   "bytes": 15940,
+   "vertices": 219,
+   "triangles": 236,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 219,
+     "triangles": 236
+    },
+    {
+     "lod": 1,
+     "vertices": 219,
+     "triangles": 236
+    },
+    {
+     "lod": 2,
+     "vertices": 219,
+     "triangles": 236
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarriered01": {
+   "file": "bmv_architecture_citebosmer_passerelles_kiosque_kioskbarriered01-33edaa31.glb",
+   "bytes": 17764,
+   "vertices": 483,
+   "triangles": 663,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 483,
+     "triangles": 663
+    },
+    {
+     "lod": 1,
+     "vertices": 281,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 281,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarrierei01": {
+   "file": "bmv_architecture_citebosmer_passerelles_kiosque_kioskbarrierei01-51d6e4db.glb",
+   "bytes": 17244,
+   "vertices": 453,
+   "triangles": 613,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 453,
+     "triangles": 613
+    },
+    {
+     "lod": 1,
+     "vertices": 282,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 282,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskfixation001": {
+   "file": "bmv_architecture_citebosmer_passerelles_kiosque_kioskfixation001-4aa5f435.glb",
+   "bytes": 32536,
+   "vertices": 725,
+   "triangles": 1240,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 725,
+     "triangles": 1240
+    },
+    {
+     "lod": 1,
+     "vertices": 354,
+     "triangles": 433
+    },
+    {
+     "lod": 2,
+     "vertices": 275,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskmurd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_kiosque_kioskmurd01-6e741986.glb",
+   "bytes": 15532,
+   "vertices": 359,
+   "triangles": 632,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 359,
+     "triangles": 632
+    },
+    {
+     "lod": 1,
+     "vertices": 249,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 249,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskmuri01": {
+   "file": "bmv_architecture_citebosmer_passerelles_kiosque_kioskmuri01-0f445d38.glb",
+   "bytes": 15272,
+   "vertices": 356,
+   "triangles": 632,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 356,
+     "triangles": 632
+    },
+    {
+     "lod": 1,
+     "vertices": 250,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 250,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0ldi01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passcirc45r1280h0ldi01-42982dd1.glb",
+   "bytes": 365332,
+   "vertices": 13834,
+   "triangles": 20032,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 13834,
+     "triangles": 20032
+    },
+    {
+     "lod": 1,
+     "vertices": 6937,
+     "triangles": 7317
+    },
+    {
+     "lod": 2,
+     "vertices": 3534,
+     "triangles": 2819
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0rdi01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passcirc45r1280h0rdi01-18a3c35f.glb",
+   "bytes": 365208,
+   "vertices": 13821,
+   "triangles": 20032,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 13821,
+     "triangles": 20032
+    },
+    {
+     "lod": 1,
+     "vertices": 6932,
+     "triangles": 7318
+    },
+    {
+     "lod": 2,
+     "vertices": 3550,
+     "triangles": 2819
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256ldi01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passcirc45r1280h256ldi01-d38f93d7.glb",
+   "bytes": 360236,
+   "vertices": 13840,
+   "triangles": 20032,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 13840,
+     "triangles": 20032
+    },
+    {
+     "lod": 1,
+     "vertices": 6891,
+     "triangles": 7318
+    },
+    {
+     "lod": 2,
+     "vertices": 3567,
+     "triangles": 2819
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256lid01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passcirc45r1280h256lid01-6ad78da8.glb",
+   "bytes": 358808,
+   "vertices": 13854,
+   "triangles": 20032,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 13854,
+     "triangles": 20032
+    },
+    {
+     "lod": 1,
+     "vertices": 6907,
+     "triangles": 7317
+    },
+    {
+     "lod": 2,
+     "vertices": 3565,
+     "triangles": 2819
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256rdi01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passcirc45r1280h256rdi01-e4c3dd94.glb",
+   "bytes": 359680,
+   "vertices": 13844,
+   "triangles": 20032,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 13844,
+     "triangles": 20032
+    },
+    {
+     "lod": 1,
+     "vertices": 6924,
+     "triangles": 7318
+    },
+    {
+     "lod": 2,
+     "vertices": 3522,
+     "triangles": 2819
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256rid01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passcirc45r1280h256rid01-41a4dfab.glb",
+   "bytes": 357960,
+   "vertices": 13829,
+   "triangles": 20032,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 13829,
+     "triangles": 20032
+    },
+    {
+     "lod": 1,
+     "vertices": 6919,
+     "triangles": 7318
+    },
+    {
+     "lod": 2,
+     "vertices": 3553,
+     "triangles": 2818
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h0dd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passcirc90r448h0dd01-ab2aadb6.glb",
+   "bytes": 286448,
+   "vertices": 10825,
+   "triangles": 15532,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 10825,
+     "triangles": 15532
+    },
+    {
+     "lod": 1,
+     "vertices": 5437,
+     "triangles": 5737
+    },
+    {
+     "lod": 2,
+     "vertices": 2866,
+     "triangles": 2272
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h128ldd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passcirc90r448h128ldd01-5b30c098.glb",
+   "bytes": 284964,
+   "vertices": 10844,
+   "triangles": 15532,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 10844,
+     "triangles": 15532
+    },
+    {
+     "lod": 1,
+     "vertices": 5469,
+     "triangles": 5737
+    },
+    {
+     "lod": 2,
+     "vertices": 2864,
+     "triangles": 2271
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h128rdd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passcirc90r448h128rdd01-81df14c6.glb",
+   "bytes": 284428,
+   "vertices": 10809,
+   "triangles": 15532,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 10809,
+     "triangles": 15532
+    },
+    {
+     "lod": 1,
+     "vertices": 5461,
+     "triangles": 5736
+    },
+    {
+     "lod": 2,
+     "vertices": 2852,
+     "triangles": 2272
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256ldd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passcirc90r448h256ldd01-d35c5e45.glb",
+   "bytes": 283684,
+   "vertices": 10834,
+   "triangles": 15532,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 10834,
+     "triangles": 15532
+    },
+    {
+     "lod": 1,
+     "vertices": 5469,
+     "triangles": 5737
+    },
+    {
+     "lod": 2,
+     "vertices": 2895,
+     "triangles": 2272
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256rdd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passcirc90r448h256rdd01-6f43effa.glb",
+   "bytes": 283068,
+   "vertices": 10819,
+   "triangles": 15532,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 10819,
+     "triangles": 15532
+    },
+    {
+     "lod": 1,
+     "vertices": 5471,
+     "triangles": 5737
+    },
+    {
+     "lod": 2,
+     "vertices": 2862,
+     "triangles": 2271
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r576h256ldd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passcirc90r576h256ldd01-6751795e.glb",
+   "bytes": 355384,
+   "vertices": 13827,
+   "triangles": 20024,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 13827,
+     "triangles": 20024
+    },
+    {
+     "lod": 1,
+     "vertices": 6881,
+     "triangles": 7309
+    },
+    {
+     "lod": 2,
+     "vertices": 3509,
+     "triangles": 2811
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r576h256rdd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passcirc90r576h256rdd01-a540bdd9.glb",
+   "bytes": 356040,
+   "vertices": 13824,
+   "triangles": 20024,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 13824,
+     "triangles": 20024
+    },
+    {
+     "lod": 1,
+     "vertices": 6920,
+     "triangles": 7309
+    },
+    {
+     "lod": 2,
+     "vertices": 3517,
+     "triangles": 2811
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passend01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passend01-722cdcd4.glb",
+   "bytes": 79664,
+   "vertices": 2417,
+   "triangles": 3530,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2417,
+     "triangles": 3530
+    },
+    {
+     "lod": 1,
+     "vertices": 1186,
+     "triangles": 1260
+    },
+    {
+     "lod": 2,
+     "vertices": 605,
+     "triangles": 457
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passesc128h64d01-045e7214.glb",
+   "bytes": 61324,
+   "vertices": 1758,
+   "triangles": 2504,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1758,
+     "triangles": 2504
+    },
+    {
+     "lod": 1,
+     "vertices": 867,
+     "triangles": 914
+    },
+    {
+     "lod": 2,
+     "vertices": 454,
+     "triangles": 359
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passjunctd01-86b0162d.glb",
+   "bytes": 108248,
+   "vertices": 3628,
+   "triangles": 5248,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3628,
+     "triangles": 5248
+    },
+    {
+     "lod": 1,
+     "vertices": 1817,
+     "triangles": 1923
+    },
+    {
+     "lod": 2,
+     "vertices": 924,
+     "triangles": 747
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passjuncti01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passjuncti01-6ab17e27.glb",
+   "bytes": 126168,
+   "vertices": 4196,
+   "triangles": 6023,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4196,
+     "triangles": 6023
+    },
+    {
+     "lod": 1,
+     "vertices": 2107,
+     "triangles": 2208
+    },
+    {
+     "lod": 2,
+     "vertices": 1070,
+     "triangles": 858
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passjuncxd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passjuncxd01-abcee142.glb",
+   "bytes": 111716,
+   "vertices": 3797,
+   "triangles": 5506,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3797,
+     "triangles": 5506
+    },
+    {
+     "lod": 1,
+     "vertices": 1902,
+     "triangles": 2025
+    },
+    {
+     "lod": 2,
+     "vertices": 984,
+     "triangles": 794
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passjuncxi01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passjuncxi01-1402be97.glb",
+   "bytes": 144944,
+   "vertices": 4919,
+   "triangles": 7040,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4919,
+     "triangles": 7040
+    },
+    {
+     "lod": 1,
+     "vertices": 2486,
+     "triangles": 2588
+    },
+    {
+     "lod": 2,
+     "vertices": 1262,
+     "triangles": 1013
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passjuncydii01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passjuncydii01-1d9240f4.glb",
+   "bytes": 192532,
+   "vertices": 6478,
+   "triangles": 9030,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6478,
+     "triangles": 9030
+    },
+    {
+     "lod": 1,
+     "vertices": 3345,
+     "triangles": 3479
+    },
+    {
+     "lod": 2,
+     "vertices": 1960,
+     "triangles": 1644
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passjuncyidd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passjuncyidd01-64e19bb6.glb",
+   "bytes": 179100,
+   "vertices": 6084,
+   "triangles": 8434,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6084,
+     "triangles": 8434
+    },
+    {
+     "lod": 1,
+     "vertices": 3091,
+     "triangles": 3179
+    },
+    {
+     "lod": 2,
+     "vertices": 1814,
+     "triangles": 1488
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128d01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl128d01-71da2480.glb",
+   "bytes": 79692,
+   "vertices": 1758,
+   "triangles": 2504,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1758,
+     "triangles": 2504
+    },
+    {
+     "lod": 1,
+     "vertices": 1356,
+     "triangles": 1776
+    },
+    {
+     "lod": 2,
+     "vertices": 1356,
+     "triangles": 1776
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128h32d01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl128h32d01-6ce51de5.glb",
+   "bytes": 61272,
+   "vertices": 1748,
+   "triangles": 2503,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1748,
+     "triangles": 2503
+    },
+    {
+     "lod": 1,
+     "vertices": 873,
+     "triangles": 913
+    },
+    {
+     "lod": 2,
+     "vertices": 454,
+     "triangles": 358
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128h32i01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl128h32i01-a4249c38.glb",
+   "bytes": 62132,
+   "vertices": 1746,
+   "triangles": 2503,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1746,
+     "triangles": 2503
+    },
+    {
+     "lod": 1,
+     "vertices": 879,
+     "triangles": 912
+    },
+    {
+     "lod": 2,
+     "vertices": 437,
+     "triangles": 358
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128h64d01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl128h64d01-7084a8ff.glb",
+   "bytes": 61356,
+   "vertices": 1758,
+   "triangles": 2504,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1758,
+     "triangles": 2504
+    },
+    {
+     "lod": 1,
+     "vertices": 867,
+     "triangles": 914
+    },
+    {
+     "lod": 2,
+     "vertices": 454,
+     "triangles": 359
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128h64i01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl128h64i01-537af991.glb",
+   "bytes": 61912,
+   "vertices": 1745,
+   "triangles": 2504,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1745,
+     "triangles": 2504
+    },
+    {
+     "lod": 1,
+     "vertices": 878,
+     "triangles": 913
+    },
+    {
+     "lod": 2,
+     "vertices": 452,
+     "triangles": 358
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128i01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl128i01-f6667722.glb",
+   "bytes": 62152,
+   "vertices": 1748,
+   "triangles": 2504,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1748,
+     "triangles": 2504
+    },
+    {
+     "lod": 1,
+     "vertices": 876,
+     "triangles": 914
+    },
+    {
+     "lod": 2,
+     "vertices": 446,
+     "triangles": 359
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl160h128d01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl160h128d01-ef9e04a2.glb",
+   "bytes": 61856,
+   "vertices": 1794,
+   "triangles": 2564,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1794,
+     "triangles": 2564
+    },
+    {
+     "lod": 1,
+     "vertices": 888,
+     "triangles": 935
+    },
+    {
+     "lod": 2,
+     "vertices": 469,
+     "triangles": 358
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl160h128i01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl160h128i01-1426e5d7.glb",
+   "bytes": 106244,
+   "vertices": 3468,
+   "triangles": 5006,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3468,
+     "triangles": 5006
+    },
+    {
+     "lod": 1,
+     "vertices": 1727,
+     "triangles": 1826
+    },
+    {
+     "lod": 2,
+     "vertices": 913,
+     "triangles": 702
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256d01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl256d01-5c436734.glb",
+   "bytes": 105556,
+   "vertices": 3469,
+   "triangles": 5006,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3469,
+     "triangles": 5006
+    },
+    {
+     "lod": 1,
+     "vertices": 1741,
+     "triangles": 1826
+    },
+    {
+     "lod": 2,
+     "vertices": 883,
+     "triangles": 701
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256h64d01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl256h64d01-bc96908f.glb",
+   "bytes": 105992,
+   "vertices": 3475,
+   "triangles": 5006,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3475,
+     "triangles": 5006
+    },
+    {
+     "lod": 1,
+     "vertices": 1734,
+     "triangles": 1827
+    },
+    {
+     "lod": 2,
+     "vertices": 889,
+     "triangles": 702
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256h64i01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl256h64i01-c39181ac.glb",
+   "bytes": 107860,
+   "vertices": 3472,
+   "triangles": 5006,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3472,
+     "triangles": 5006
+    },
+    {
+     "lod": 1,
+     "vertices": 1744,
+     "triangles": 1826
+    },
+    {
+     "lod": 2,
+     "vertices": 863,
+     "triangles": 702
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256h64startd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl256h64startd01-d876ca2f.glb",
+   "bytes": 91484,
+   "vertices": 2874,
+   "triangles": 4082,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2874,
+     "triangles": 4082
+    },
+    {
+     "lod": 1,
+     "vertices": 1453,
+     "triangles": 1504
+    },
+    {
+     "lod": 2,
+     "vertices": 751,
+     "triangles": 591
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256h64starti01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl256h64starti01-cfbd974d.glb",
+   "bytes": 91272,
+   "vertices": 2828,
+   "triangles": 4031,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2828,
+     "triangles": 4031
+    },
+    {
+     "lod": 1,
+     "vertices": 1437,
+     "triangles": 1485
+    },
+    {
+     "lod": 2,
+     "vertices": 747,
+     "triangles": 584
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256i01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl256i01-8a781f8a.glb",
+   "bytes": 107652,
+   "vertices": 3473,
+   "triangles": 5006,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3473,
+     "triangles": 5006
+    },
+    {
+     "lod": 1,
+     "vertices": 1737,
+     "triangles": 1826
+    },
+    {
+     "lod": 2,
+     "vertices": 878,
+     "triangles": 702
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl512h64d01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl512h64d01-13fd8aec.glb",
+   "bytes": 193384,
+   "vertices": 6928,
+   "triangles": 10012,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6928,
+     "triangles": 10012
+    },
+    {
+     "lod": 1,
+     "vertices": 3469,
+     "triangles": 3654
+    },
+    {
+     "lod": 2,
+     "vertices": 1762,
+     "triangles": 1405
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl512h64i01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl512h64i01-4626ab3f.glb",
+   "bytes": 196196,
+   "vertices": 6926,
+   "triangles": 10012,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6926,
+     "triangles": 10012
+    },
+    {
+     "lod": 1,
+     "vertices": 3470,
+     "triangles": 3654
+    },
+    {
+     "lod": 2,
+     "vertices": 1729,
+     "triangles": 1405
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl64d01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl64d01-a911338e.glb",
+   "bytes": 53588,
+   "vertices": 1446,
+   "triangles": 2103,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1446,
+     "triangles": 2103
+    },
+    {
+     "lod": 1,
+     "vertices": 685,
+     "triangles": 758
+    },
+    {
+     "lod": 2,
+     "vertices": 371,
+     "triangles": 333
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl64i01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl64i01-b5d4ff2a.glb",
+   "bytes": 53916,
+   "vertices": 1446,
+   "triangles": 2103,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1446,
+     "triangles": 2103
+    },
+    {
+     "lod": 1,
+     "vertices": 686,
+     "triangles": 758
+    },
+    {
+     "lod": 2,
+     "vertices": 375,
+     "triangles": 334
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128ldi01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passturn45h128ldi01-946fbbcd.glb",
+   "bytes": 191968,
+   "vertices": 6923,
+   "triangles": 10012,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6923,
+     "triangles": 10012
+    },
+    {
+     "lod": 1,
+     "vertices": 3447,
+     "triangles": 3655
+    },
+    {
+     "lod": 2,
+     "vertices": 1791,
+     "triangles": 1405
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128lid01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passturn45h128lid01-63707956.glb",
+   "bytes": 192604,
+   "vertices": 6922,
+   "triangles": 10012,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6922,
+     "triangles": 10012
+    },
+    {
+     "lod": 1,
+     "vertices": 3452,
+     "triangles": 3655
+    },
+    {
+     "lod": 2,
+     "vertices": 1785,
+     "triangles": 1405
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128rdi01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passturn45h128rdi01-f31d20de.glb",
+   "bytes": 192188,
+   "vertices": 6918,
+   "triangles": 10012,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6918,
+     "triangles": 10012
+    },
+    {
+     "lod": 1,
+     "vertices": 3459,
+     "triangles": 3655
+    },
+    {
+     "lod": 2,
+     "vertices": 1797,
+     "triangles": 1404
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128rid01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passturn45h128rid01-cb084e64.glb",
+   "bytes": 192364,
+   "vertices": 6922,
+   "triangles": 10012,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6922,
+     "triangles": 10012
+    },
+    {
+     "lod": 1,
+     "vertices": 3450,
+     "triangles": 3654
+    },
+    {
+     "lod": 2,
+     "vertices": 1769,
+     "triangles": 1404
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64ldi01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passturn45h64ldi01-0802dba3.glb",
+   "bytes": 191880,
+   "vertices": 6927,
+   "triangles": 10012,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6927,
+     "triangles": 10012
+    },
+    {
+     "lod": 1,
+     "vertices": 3451,
+     "triangles": 3655
+    },
+    {
+     "lod": 2,
+     "vertices": 1770,
+     "triangles": 1404
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64lid01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passturn45h64lid01-cbfd0a4a.glb",
+   "bytes": 192632,
+   "vertices": 6923,
+   "triangles": 10012,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6923,
+     "triangles": 10012
+    },
+    {
+     "lod": 1,
+     "vertices": 3454,
+     "triangles": 3655
+    },
+    {
+     "lod": 2,
+     "vertices": 1784,
+     "triangles": 1405
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64rdi01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passturn45h64rdi01-7200da2b.glb",
+   "bytes": 192348,
+   "vertices": 6920,
+   "triangles": 10012,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6920,
+     "triangles": 10012
+    },
+    {
+     "lod": 1,
+     "vertices": 3465,
+     "triangles": 3655
+    },
+    {
+     "lod": 2,
+     "vertices": 1795,
+     "triangles": 1404
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64rid01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passturn45h64rid01-2df5830c.glb",
+   "bytes": 191880,
+   "vertices": 6918,
+   "triangles": 10012,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6918,
+     "triangles": 10012
+    },
+    {
+     "lod": 1,
+     "vertices": 3446,
+     "triangles": 3654
+    },
+    {
+     "lod": 2,
+     "vertices": 1746,
+     "triangles": 1405
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45ldi01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passturn45ldi01-4d9905ad.glb",
+   "bytes": 193140,
+   "vertices": 6928,
+   "triangles": 10012,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6928,
+     "triangles": 10012
+    },
+    {
+     "lod": 1,
+     "vertices": 3450,
+     "triangles": 3655
+    },
+    {
+     "lod": 2,
+     "vertices": 1782,
+     "triangles": 1404
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45ldis01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passturn45ldis01-875c4225.glb",
+   "bytes": 51840,
+   "vertices": 1355,
+   "triangles": 1952,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1355,
+     "triangles": 1952
+    },
+    {
+     "lod": 1,
+     "vertices": 664,
+     "triangles": 712
+    },
+    {
+     "lod": 2,
+     "vertices": 396,
+     "triangles": 345
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45rdi01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passturn45rdi01-bbb52c00.glb",
+   "bytes": 193328,
+   "vertices": 6925,
+   "triangles": 10012,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6925,
+     "triangles": 10012
+    },
+    {
+     "lod": 1,
+     "vertices": 3460,
+     "triangles": 3655
+    },
+    {
+     "lod": 2,
+     "vertices": 1783,
+     "triangles": 1405
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45rdis01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passturn45rdis01-b5c0ec48.glb",
+   "bytes": 51896,
+   "vertices": 1358,
+   "triangles": 1952,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1358,
+     "triangles": 1952
+    },
+    {
+     "lod": 1,
+     "vertices": 662,
+     "triangles": 712
+    },
+    {
+     "lod": 2,
+     "vertices": 396,
+     "triangles": 345
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/trees/treegiant01": {
+   "file": "bmv_architecture_citebosmer_trees_treegiant01-38b88a21.glb",
+   "bytes": 77340,
+   "vertices": 2559,
+   "triangles": 3511,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2559,
+     "triangles": 3511
+    },
+    {
+     "lod": 1,
+     "vertices": 1274,
+     "triangles": 1365
+    },
+    {
+     "lod": 2,
+     "vertices": 758,
+     "triangles": 665
+    }
+   ],
+   "textures": [
+    "141785b98d32917f",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/trees/treegiantbranche1": {
+   "file": "bmv_architecture_citebosmer_trees_treegiantbranche1-4d4f9bbc.glb",
+   "bytes": 9956,
+   "vertices": 117,
+   "triangles": 180,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 117,
+     "triangles": 180
+    },
+    {
+     "lod": 1,
+     "vertices": 117,
+     "triangles": 180
+    },
+    {
+     "lod": 2,
+     "vertices": 117,
+     "triangles": 180
+    }
+   ],
+   "textures": [
+    "141785b98d32917f",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/trees/treegiantbranche12": {
+   "file": "bmv_architecture_citebosmer_trees_treegiantbranche12-8aacbddd.glb",
+   "bytes": 11380,
+   "vertices": 221,
+   "triangles": 296,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 221,
+     "triangles": 296
+    },
+    {
+     "lod": 1,
+     "vertices": 221,
+     "triangles": 296
+    },
+    {
+     "lod": 2,
+     "vertices": 221,
+     "triangles": 296
+    }
+   ],
+   "textures": [
+    "141785b98d32917f",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/trees/treegiantbranche13": {
+   "file": "bmv_architecture_citebosmer_trees_treegiantbranche13-83020705.glb",
+   "bytes": 9196,
+   "vertices": 63,
+   "triangles": 86,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 63,
+     "triangles": 86
+    },
+    {
+     "lod": 1,
+     "vertices": 63,
+     "triangles": 86
+    },
+    {
+     "lod": 2,
+     "vertices": 63,
+     "triangles": 86
+    }
+   ],
+   "textures": [
+    "141785b98d32917f",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/trees/treegiantbranche2": {
+   "file": "bmv_architecture_citebosmer_trees_treegiantbranche2-12dbdb8f.glb",
+   "bytes": 17896,
+   "vertices": 342,
+   "triangles": 484,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 342,
+     "triangles": 484
+    },
+    {
+     "lod": 1,
+     "vertices": 261,
+     "triangles": 343
+    },
+    {
+     "lod": 2,
+     "vertices": 261,
+     "triangles": 343
+    }
+   ],
+   "textures": [
+    "141785b98d32917f",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/trees/treegiantbranche3": {
+   "file": "bmv_architecture_citebosmer_trees_treegiantbranche3-53ccbd88.glb",
+   "bytes": 11060,
+   "vertices": 216,
+   "triangles": 288,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 216,
+     "triangles": 288
+    },
+    {
+     "lod": 1,
+     "vertices": 216,
+     "triangles": 288
+    },
+    {
+     "lod": 2,
+     "vertices": 216,
+     "triangles": 288
+    }
+   ],
+   "textures": [
+    "141785b98d32917f",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/trees/treegiantbranche4": {
+   "file": "bmv_architecture_citebosmer_trees_treegiantbranche4-5bfadce2.glb",
+   "bytes": 9060,
+   "vertices": 63,
+   "triangles": 88,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 63,
+     "triangles": 88
+    },
+    {
+     "lod": 1,
+     "vertices": 63,
+     "triangles": 88
+    },
+    {
+     "lod": 2,
+     "vertices": 63,
+     "triangles": 88
+    }
+   ],
+   "textures": [
+    "141785b98d32917f",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/trees/treegiantbranche5": {
+   "file": "bmv_architecture_citebosmer_trees_treegiantbranche5-5bceb14c.glb",
+   "bytes": 18368,
+   "vertices": 380,
+   "triangles": 546,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 380,
+     "triangles": 546
+    },
+    {
+     "lod": 1,
+     "vertices": 297,
+     "triangles": 389
+    },
+    {
+     "lod": 2,
+     "vertices": 297,
+     "triangles": 389
+    }
+   ],
+   "textures": [
+    "141785b98d32917f",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/trees/treegiantbranche6": {
+   "file": "bmv_architecture_citebosmer_trees_treegiantbranche6-ad8bc5f4.glb",
+   "bytes": 8820,
+   "vertices": 54,
+   "triangles": 72,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 54,
+     "triangles": 72
+    },
+    {
+     "lod": 1,
+     "vertices": 54,
+     "triangles": 72
+    },
+    {
+     "lod": 2,
+     "vertices": 54,
+     "triangles": 72
+    }
+   ],
+   "textures": [
+    "141785b98d32917f",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/trees/treegiantbranche7": {
+   "file": "bmv_architecture_citebosmer_trees_treegiantbranche7-b95de85c.glb",
+   "bytes": 8752,
+   "vertices": 39,
+   "triangles": 36,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 39,
+     "triangles": 36
+    },
+    {
+     "lod": 1,
+     "vertices": 39,
+     "triangles": 36
+    },
+    {
+     "lod": 2,
+     "vertices": 39,
+     "triangles": 36
+    }
+   ],
+   "textures": [
+    "141785b98d32917f",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/trees/treegiantbrancheleaves01b": {
+   "file": "bmv_architecture_citebosmer_trees_treegiantbrancheleaves01b-11c82699.glb",
+   "bytes": 18412,
+   "vertices": 196,
+   "triangles": 147,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 196,
+     "triangles": 147
+    },
+    {
+     "lod": 1,
+     "vertices": 196,
+     "triangles": 147
+    },
+    {
+     "lod": 2,
+     "vertices": 196,
+     "triangles": 147
+    }
+   ],
+   "textures": [
+    "6a95438588d78bf6",
+    "97b439761248a3e1",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/trees/treegiantbrancheleaves03": {
+   "file": "bmv_architecture_citebosmer_trees_treegiantbrancheleaves03-8599a143.glb",
+   "bytes": 32276,
+   "vertices": 495,
+   "triangles": 410,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 495,
+     "triangles": 410
+    },
+    {
+     "lod": 1,
+     "vertices": 495,
+     "triangles": 410
+    },
+    {
+     "lod": 2,
+     "vertices": 495,
+     "triangles": 410
+    }
+   ],
+   "textures": [
+    "6a95438588d78bf6",
+    "97b439761248a3e1",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/trees/treegiantbrancheleaves04": {
+   "file": "bmv_architecture_citebosmer_trees_treegiantbrancheleaves04-586da08e.glb",
+   "bytes": 34460,
+   "vertices": 616,
+   "triangles": 559,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 616,
+     "triangles": 559
+    },
+    {
+     "lod": 1,
+     "vertices": 616,
+     "triangles": 559
+    },
+    {
+     "lod": 2,
+     "vertices": 616,
+     "triangles": 559
+    }
+   ],
+   "textures": [
+    "6a95438588d78bf6",
+    "97b439761248a3e1",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/trees/treegiantrootbase01": {
+   "file": "bmv_architecture_citebosmer_trees_treegiantrootbase01-51b089ba.glb",
+   "bytes": 10684,
+   "vertices": 160,
+   "triangles": 236,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 160,
+     "triangles": 236
+    },
+    {
+     "lod": 1,
+     "vertices": 160,
+     "triangles": 236
+    },
+    {
+     "lod": 2,
+     "vertices": 160,
+     "triangles": 236
+    }
+   ],
+   "textures": [
+    "141785b98d32917f",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "bmv:architecture/citebosmer/trees/treemere03": {
+   "file": "bmv_architecture_citebosmer_trees_treemere03-a1734636.glb",
+   "bytes": 107820,
+   "vertices": 3760,
+   "triangles": 5392,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3760,
+     "triangles": 5392
+    },
+    {
+     "lod": 1,
+     "vertices": 1784,
+     "triangles": 2022
+    },
+    {
+     "lod": 2,
+     "vertices": 904,
+     "triangles": 830
+    }
+   ],
+   "textures": [
+    "141785b98d32917f",
+    "fbe58cef4226ee83"
+   ]
+  },
+  "composite:root/kiosk-with-access": {
+   "file": "composite_root_kiosk-with-access-5aabf965.glb",
+   "bytes": 351316,
+   "vertices": 8924,
+   "triangles": 14476,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 8924,
+     "triangles": 14476
+    },
+    {
+     "lod": 1,
+     "vertices": 5279,
+     "triangles": 6562
+    },
+    {
+     "lod": 2,
+     "vertices": 4110,
+     "triangles": 4784
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/histramp": {
+   "file": "htbm_here_there_be_monsters_-_curse_of_cipactli_trees_histramp-e88eaeec.glb",
+   "bytes": 283696,
+   "vertices": 10834,
+   "triangles": 15532,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 10834,
+     "triangles": 15532
+    },
+    {
+     "lod": 1,
+     "vertices": 5469,
+     "triangles": 5737
+    },
+    {
+     "lod": 2,
+     "vertices": 2895,
+     "triangles": 2272
+    }
+   ],
+   "textures": [
+    "0911d57f304bfd2d",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/histroots01": {
+   "file": "htbm_here_there_be_monsters_-_curse_of_cipactli_trees_histroots01-792d80c1.glb",
+   "bytes": 10764,
+   "vertices": 160,
+   "triangles": 236,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 160,
+     "triangles": 236
+    },
+    {
+     "lod": 1,
+     "vertices": 160,
+     "triangles": 236
+    },
+    {
+     "lod": 2,
+     "vertices": 160,
+     "triangles": 236
+    }
+   ],
+   "textures": [
+    "0911d57f304bfd2d",
+    "141785b98d32917f"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/histroots02": {
+   "file": "htbm_here_there_be_monsters_-_curse_of_cipactli_trees_histroots02-a0f9d508.glb",
+   "bytes": 35552,
+   "vertices": 923,
+   "triangles": 1494,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 923,
+     "triangles": 1494
+    },
+    {
+     "lod": 1,
+     "vertices": 402,
+     "triangles": 522
+    },
+    {
+     "lod": 2,
+     "vertices": 257,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "0911d57f304bfd2d"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/histroots03": {
+   "file": "htbm_here_there_be_monsters_-_curse_of_cipactli_trees_histroots03-5bbff2d8.glb",
+   "bytes": 17568,
+   "vertices": 403,
+   "triangles": 666,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 403,
+     "triangles": 666
+    },
+    {
+     "lod": 1,
+     "vertices": 209,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 209,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "0911d57f304bfd2d"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/histroots04": {
+   "file": "htbm_here_there_be_monsters_-_curse_of_cipactli_trees_histroots04-15c22443.glb",
+   "bytes": 32548,
+   "vertices": 725,
+   "triangles": 1240,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 725,
+     "triangles": 1240
+    },
+    {
+     "lod": 1,
+     "vertices": 354,
+     "triangles": 433
+    },
+    {
+     "lod": 2,
+     "vertices": 275,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "0911d57f304bfd2d"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/histroots05": {
+   "file": "htbm_here_there_be_monsters_-_curse_of_cipactli_trees_histroots05-04ff16a9.glb",
+   "bytes": 15556,
+   "vertices": 359,
+   "triangles": 632,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 359,
+     "triangles": 632
+    },
+    {
+     "lod": 1,
+     "vertices": 249,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 249,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "0911d57f304bfd2d"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/histroots06": {
+   "file": "htbm_here_there_be_monsters_-_curse_of_cipactli_trees_histroots06-563ec530.glb",
+   "bytes": 15312,
+   "vertices": 356,
+   "triangles": 632,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 356,
+     "triangles": 632
+    },
+    {
+     "lod": 1,
+     "vertices": 250,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 250,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "0911d57f304bfd2d"
+   ]
+  },
+  "kotm:argonia/trees/hist trees/hist_vines01": {
+   "file": "kotm_argonia_trees_hist_trees_hist_vines01-6cb0402d.glb",
+   "bytes": 50484,
+   "vertices": 1366,
+   "triangles": 2029,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1366,
+     "triangles": 2029
+    },
+    {
+     "lod": 1,
+     "vertices": 623,
+     "triangles": 710
+    },
+    {
+     "lod": 2,
+     "vertices": 355,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "7b7c1c5ed1e0f45e"
+   ]
+  },
   "kotm:issgard/clutter/bones/issgard_boneargonianskullfull": {
    "file": "kotm_issgard_clutter_bones_issgard_boneargonianskullfull-f12a814d.glb",
    "bytes": 55288,
@@ -39,6 +3483,545 @@
    ],
    "textures": [
     "f67b9b6722952f8c"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/archwaysticks": {
+   "file": "mudmother_gv_meshes_argoniannest_archwaysticks-ecd4f6b3.glb",
+   "bytes": 24776,
+   "vertices": 574,
+   "triangles": 422,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 574,
+     "triangles": 422
+    },
+    {
+     "lod": 1,
+     "vertices": 570,
+     "triangles": 418
+    },
+    {
+     "lod": 2,
+     "vertices": 570,
+     "triangles": 418
+    }
+   ],
+   "textures": [
+    "be9d386a886e9cc7"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbonechime01": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianbonechime01-e7904aea.glb",
+   "bytes": 141824,
+   "vertices": 3387,
+   "triangles": 5084,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3387,
+     "triangles": 5084
+    },
+    {
+     "lod": 1,
+     "vertices": 2430,
+     "triangles": 3300
+    },
+    {
+     "lod": 2,
+     "vertices": 2430,
+     "triangles": 3300
+    }
+   ],
+   "textures": [
+    "514659983becd199",
+    "c2340d176a740498",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbridge": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianbridge-abf8ee0b.glb",
+   "bytes": 294156,
+   "vertices": 11183,
+   "triangles": 15764,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 11183,
+     "triangles": 15764
+    },
+    {
+     "lod": 1,
+     "vertices": 5366,
+     "triangles": 5670
+    },
+    {
+     "lod": 2,
+     "vertices": 2539,
+     "triangles": 2099
+    }
+   ],
+   "textures": [
+    "514659983becd199",
+    "c2340d176a740498"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbridgestart": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianbridgestart-e12fa82e.glb",
+   "bytes": 92336,
+   "vertices": 2678,
+   "triangles": 3802,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2678,
+     "triangles": 3802
+    },
+    {
+     "lod": 1,
+     "vertices": 1293,
+     "triangles": 1414
+    },
+    {
+     "lod": 2,
+     "vertices": 785,
+     "triangles": 729
+    }
+   ],
+   "textures": [
+    "294b86688eadb39d",
+    "514659983becd199",
+    "c2340d176a740498"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfence01": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianfence01-f2895adb.glb",
+   "bytes": 34540,
+   "vertices": 826,
+   "triangles": 1084,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 826,
+     "triangles": 1084
+    },
+    {
+     "lod": 1,
+     "vertices": 410,
+     "triangles": 382
+    },
+    {
+     "lod": 2,
+     "vertices": 351,
+     "triangles": 304
+    }
+   ],
+   "textures": [
+    "294b86688eadb39d",
+    "514659983becd199"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfence02": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianfence02-89397cea.glb",
+   "bytes": 18992,
+   "vertices": 337,
+   "triangles": 370,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 337,
+     "triangles": 370
+    },
+    {
+     "lod": 1,
+     "vertices": 301,
+     "triangles": 308
+    },
+    {
+     "lod": 2,
+     "vertices": 301,
+     "triangles": 308
+    }
+   ],
+   "textures": [
+    "294b86688eadb39d",
+    "514659983becd199"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfenceend": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianfenceend-30c4fe9d.glb",
+   "bytes": 33556,
+   "vertices": 810,
+   "triangles": 1035,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 810,
+     "triangles": 1035
+    },
+    {
+     "lod": 1,
+     "vertices": 401,
+     "triangles": 374
+    },
+    {
+     "lod": 2,
+     "vertices": 359,
+     "triangles": 318
+    }
+   ],
+   "textures": [
+    "294b86688eadb39d",
+    "514659983becd199"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns01": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianlanterns01-cee108f0.glb",
+   "bytes": 134680,
+   "vertices": 4449,
+   "triangles": 3944,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4449,
+     "triangles": 3944
+    },
+    {
+     "lod": 1,
+     "vertices": 1943,
+     "triangles": 1380
+    },
+    {
+     "lod": 2,
+     "vertices": 973,
+     "triangles": 630
+    }
+   ],
+   "textures": [
+    "9166ed5cf28c02f1",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns02": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianlanterns02-bd1d6aac.glb",
+   "bytes": 60488,
+   "vertices": 1413,
+   "triangles": 1248,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1413,
+     "triangles": 1248
+    },
+    {
+     "lod": 1,
+     "vertices": 781,
+     "triangles": 622
+    },
+    {
+     "lod": 2,
+     "vertices": 767,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "9166ed5cf28c02f1",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns03": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianlanterns03-fa5e0740.glb",
+   "bytes": 60464,
+   "vertices": 1411,
+   "triangles": 1248,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1411,
+     "triangles": 1248
+    },
+    {
+     "lod": 1,
+     "vertices": 780,
+     "triangles": 622
+    },
+    {
+     "lod": 2,
+     "vertices": 766,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "9166ed5cf28c02f1",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns04": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianlanterns04-ba4e1af6.glb",
+   "bytes": 44188,
+   "vertices": 1157,
+   "triangles": 1080,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1157,
+     "triangles": 1080
+    },
+    {
+     "lod": 1,
+     "vertices": 643,
+     "triangles": 482
+    },
+    {
+     "lod": 2,
+     "vertices": 637,
+     "triangles": 460
+    }
+   ],
+   "textures": [
+    "9166ed5cf28c02f1",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianplatform": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianplatform-f3644bcb.glb",
+   "bytes": 23412,
+   "vertices": 514,
+   "triangles": 902,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 514,
+     "triangles": 902
+    },
+    {
+     "lod": 1,
+     "vertices": 205,
+     "triangles": 314
+    },
+    {
+     "lod": 2,
+     "vertices": 197,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "c2340d176a740498"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianplatformsmall": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianplatformsmall-dab71ab7.glb",
+   "bytes": 7280,
+   "vertices": 173,
+   "triangles": 212,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 173,
+     "triangles": 212
+    },
+    {
+     "lod": 1,
+     "vertices": 173,
+     "triangles": 212
+    },
+    {
+     "lod": 2,
+     "vertices": 173,
+     "triangles": 212
+    }
+   ],
+   "textures": [
+    "c2340d176a740498"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantotem01": {
+   "file": "mudmother_gv_meshes_argoniannest_argoniantotem01-ded592da.glb",
+   "bytes": 24384,
+   "vertices": 698,
+   "triangles": 836,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 698,
+     "triangles": 836
+    },
+    {
+     "lod": 1,
+     "vertices": 540,
+     "triangles": 565
+    },
+    {
+     "lod": 2,
+     "vertices": 540,
+     "triangles": 565
+    }
+   ],
+   "textures": [
+    "514659983becd199"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/banner01": {
+   "file": "mudmother_gv_meshes_argoniannest_banner01-bc006a84.glb",
+   "bytes": 5164,
+   "vertices": 35,
+   "triangles": 48,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 35,
+     "triangles": 48
+    },
+    {
+     "lod": 1,
+     "vertices": 35,
+     "triangles": 48
+    },
+    {
+     "lod": 2,
+     "vertices": 35,
+     "triangles": 48
+    }
+   ],
+   "textures": [
+    "b1831e9d6e088fe6"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/histtree": {
+   "file": "mudmother_gv_meshes_argoniannest_histtree-3801a71e.glb",
+   "bytes": 144400,
+   "vertices": 4420,
+   "triangles": 5224,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4420,
+     "triangles": 5224
+    },
+    {
+     "lod": 1,
+     "vertices": 2081,
+     "triangles": 1826
+    },
+    {
+     "lod": 2,
+     "vertices": 1136,
+     "triangles": 765
+    }
+   ],
+   "textures": [
+    "12f59a45ee0e0dc5",
+    "9166ed5cf28c02f1"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/thatchroofing": {
+   "file": "mudmother_gv_meshes_argoniannest_thatchroofing-2b4425c1.glb",
+   "bytes": 4772,
+   "vertices": 25,
+   "triangles": 24,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 25,
+     "triangles": 24
+    },
+    {
+     "lod": 1,
+     "vertices": 25,
+     "triangles": 24
+    },
+    {
+     "lod": 2,
+     "vertices": 25,
+     "triangles": 24
+    }
+   ],
+   "textures": [
+    "d0ea8af8344c8c57"
+   ]
+  },
+  "shores:shoresofskyrim/fishnet01": {
+   "file": "shores_shoresofskyrim_fishnet01-22585317.glb",
+   "bytes": 48520,
+   "vertices": 1515,
+   "triangles": 2115,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1515,
+     "triangles": 2115
+    },
+    {
+     "lod": 1,
+     "vertices": 761,
+     "triangles": 883
+    },
+    {
+     "lod": 2,
+     "vertices": 542,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "90be772bad74e449"
+   ]
+  },
+  "tropical:landscape/trees/anvil_palm_trunk": {
+   "file": "tropical_landscape_trees_anvil_palm_trunk-1bd0dcf0.glb",
+   "bytes": 35264,
+   "vertices": 1712,
+   "triangles": 572,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1712,
+     "triangles": 572
+    }
+   ],
+   "textures": [
+    "37e4f2028cc3cf53"
+   ]
+  },
+  "tropical:landscape/trees/anvil_root01": {
+   "file": "tropical_landscape_trees_anvil_root01-c052bc73.glb",
+   "bytes": 35196,
+   "vertices": 923,
+   "triangles": 1494,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 923,
+     "triangles": 1494
+    },
+    {
+     "lod": 1,
+     "vertices": 402,
+     "triangles": 522
+    },
+    {
+     "lod": 2,
+     "vertices": 257,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "3e1e098845536706"
+   ]
+  },
+  "tropical:landscape/trees/anvilgianttrunk": {
+   "file": "tropical_landscape_trees_anvilgianttrunk-4a7d3116.glb",
+   "bytes": 25204,
+   "vertices": 960,
+   "triangles": 784,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 960,
+     "triangles": 784
+    }
+   ],
+   "textures": [
+    "3e1e098845536706"
    ]
   },
   "vanilla:clutter/basket01": {
@@ -221,6 +4204,61 @@
    ],
    "textures": [
     "63d644afaac283a8"
+   ]
+  },
+  "vanilla:clutter/common/shovel01": {
+   "file": "vanilla_clutter_common_shovel01-adde4f9f.glb",
+   "bytes": 17116,
+   "vertices": 387,
+   "triangles": 416,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 387,
+     "triangles": 416
+    },
+    {
+     "lod": 1,
+     "vertices": 289,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 289,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "15fd9dde7cf48e54"
+   ]
+  },
+  "vanilla:landscape/rocks/rockcaveentrance02": {
+   "file": "vanilla_landscape_rocks_rockcaveentrance02-ae32fb70.glb",
+   "bytes": 75020,
+   "vertices": 1795,
+   "triangles": 2029,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1795,
+     "triangles": 2029
+    },
+    {
+     "lod": 1,
+     "vertices": 1052,
+     "triangles": 989
+    },
+    {
+     "lod": 2,
+     "vertices": 761,
+     "triangles": 730
+    }
+   ],
+   "textures": [
+    "25c02250327bb7ae",
+    "48fc2c9e0a8a9117",
+    "96f0c39794d7ee77",
+    "a1f18029dde77b5f"
    ]
   }
  },

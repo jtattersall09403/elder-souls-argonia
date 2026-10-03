@@ -1,0 +1,1995 @@
+{
+ "schemaVersion": 4,
+ "kit": "xanmeer-interior-v1",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 16742592,
+  "sha256": "f77f51dbeeba25eaba3fdeb9e464a84c415384f90fd6582aff44549012907115"
+ },
+ "packed": {
+  "bytes": 7817368,
+  "sha256": "c7524bbd14c57bf4b995b90fdba23a250ffc9bd56588b1117b53e4dd3bfc7191"
+ },
+ "totals": {
+  "parts": 68,
+  "partBytes": 2270768,
+  "textureFiles": 24,
+  "textureBytes": 6229817,
+  "bytes": 8500585
+ },
+ "assets": {
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbench02": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arbench02-57e50f08.glb",
+   "bytes": 20692,
+   "vertices": 365,
+   "triangles": 290,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 365,
+     "triangles": 290
+    },
+    {
+     "lod": 1,
+     "vertices": 365,
+     "triangles": 290
+    },
+    {
+     "lod": 2,
+     "vertices": 365,
+     "triangles": 290
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbench03": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arbench03-4782fc99.glb",
+   "bytes": 19640,
+   "vertices": 314,
+   "triangles": 204,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 314,
+     "triangles": 204
+    },
+    {
+     "lod": 1,
+     "vertices": 314,
+     "triangles": 204
+    },
+    {
+     "lod": 2,
+     "vertices": 314,
+     "triangles": 204
+    }
+   ],
+   "textures": [
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbridge1way02x256": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arbridge1way02x256-5c387ef5.glb",
+   "bytes": 17700,
+   "vertices": 338,
+   "triangles": 548,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 338,
+     "triangles": 548
+    },
+    {
+     "lod": 1,
+     "vertices": 244,
+     "triangles": 380
+    },
+    {
+     "lod": 2,
+     "vertices": 244,
+     "triangles": 380
+    }
+   ],
+   "textures": [
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbridge1wayendcap02": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arbridge1wayendcap02-137d7d57.glb",
+   "bytes": 11208,
+   "vertices": 241,
+   "triangles": 312,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 241,
+     "triangles": 312
+    },
+    {
+     "lod": 1,
+     "vertices": 241,
+     "triangles": 312
+    },
+    {
+     "lod": 2,
+     "vertices": 241,
+     "triangles": 312
+    }
+   ],
+   "textures": [
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arclutterpedestal01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arclutterpedestal01-0a5a7a88.glb",
+   "bytes": 22288,
+   "vertices": 681,
+   "triangles": 530,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 681,
+     "triangles": 530
+    },
+    {
+     "lod": 1,
+     "vertices": 681,
+     "triangles": 530
+    },
+    {
+     "lod": 2,
+     "vertices": 681,
+     "triangles": 530
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "7033fa45a75069f9"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arcluttertrough01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arcluttertrough01-00a7824c.glb",
+   "bytes": 16884,
+   "vertices": 344,
+   "triangles": 356,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 344,
+     "triangles": 356
+    },
+    {
+     "lod": 1,
+     "vertices": 344,
+     "triangles": 356
+    },
+    {
+     "lod": 2,
+     "vertices": 344,
+     "triangles": 356
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arconstellationstele": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arconstellationstele-5fe48704.glb",
+   "bytes": 11948,
+   "vertices": 110,
+   "triangles": 86,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 110,
+     "triangles": 86
+    },
+    {
+     "lod": 1,
+     "vertices": 110,
+     "triangles": 86
+    },
+    {
+     "lod": 2,
+     "vertices": 110,
+     "triangles": 86
+    }
+   ],
+   "textures": [
+    "460bd5bde54c817d",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridge01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arfacadebridge01-7f5223a9.glb",
+   "bytes": 30088,
+   "vertices": 574,
+   "triangles": 692,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 574,
+     "triangles": 692
+    },
+    {
+     "lod": 1,
+     "vertices": 570,
+     "triangles": 688
+    },
+    {
+     "lod": 2,
+     "vertices": 570,
+     "triangles": 688
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridgecurve01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arfacadebridgecurve01-7ae8dc0a.glb",
+   "bytes": 32324,
+   "vertices": 692,
+   "triangles": 820,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 692,
+     "triangles": 820
+    },
+    {
+     "lod": 1,
+     "vertices": 658,
+     "triangles": 768
+    },
+    {
+     "lod": 2,
+     "vertices": 658,
+     "triangles": 768
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridgerampccw01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arfacadebridgerampccw01-7a50b968.glb",
+   "bytes": 32488,
+   "vertices": 662,
+   "triangles": 820,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 662,
+     "triangles": 820
+    },
+    {
+     "lod": 1,
+     "vertices": 630,
+     "triangles": 768
+    },
+    {
+     "lod": 2,
+     "vertices": 630,
+     "triangles": 768
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridgerampcw01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arfacadebridgerampcw01-b6cdfa51.glb",
+   "bytes": 32388,
+   "vertices": 662,
+   "triangles": 820,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 662,
+     "triangles": 820
+    },
+    {
+     "lod": 1,
+     "vertices": 630,
+     "triangles": 768
+    },
+    {
+     "lod": 2,
+     "vertices": 630,
+     "triangles": 768
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfloorraised01a": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arfloorraised01a-ab1a0ce2.glb",
+   "bytes": 12836,
+   "vertices": 365,
+   "triangles": 183,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 365,
+     "triangles": 183
+    },
+    {
+     "lod": 1,
+     "vertices": 365,
+     "triangles": 183
+    },
+    {
+     "lod": 2,
+     "vertices": 365,
+     "triangles": 183
+    }
+   ],
+   "textures": [
+    "63e899c39d23bb30"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfloorraised02a": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arfloorraised02a-ce6f9025.glb",
+   "bytes": 14996,
+   "vertices": 556,
+   "triangles": 326,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 556,
+     "triangles": 326
+    },
+    {
+     "lod": 1,
+     "vertices": 556,
+     "triangles": 326
+    },
+    {
+     "lod": 2,
+     "vertices": 556,
+     "triangles": 326
+    }
+   ],
+   "textures": [
+    "63e899c39d23bb30"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfloorraised03a": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arfloorraised03a-d2a382fb.glb",
+   "bytes": 13092,
+   "vertices": 449,
+   "triangles": 255,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 449,
+     "triangles": 255
+    },
+    {
+     "lod": 1,
+     "vertices": 449,
+     "triangles": 255
+    },
+    {
+     "lod": 2,
+     "vertices": 449,
+     "triangles": 255
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturebedsingle01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arfurniturebedsingle01-f3630260.glb",
+   "bytes": 36740,
+   "vertices": 901,
+   "triangles": 764,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 901,
+     "triangles": 764
+    },
+    {
+     "lod": 1,
+     "vertices": 830,
+     "triangles": 650
+    },
+    {
+     "lod": 2,
+     "vertices": 830,
+     "triangles": 650
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "7033fa45a75069f9"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturebedsingle02": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arfurniturebedsingle02-791ebb90.glb",
+   "bytes": 46312,
+   "vertices": 989,
+   "triangles": 844,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 989,
+     "triangles": 844
+    },
+    {
+     "lod": 1,
+     "vertices": 918,
+     "triangles": 730
+    },
+    {
+     "lod": 2,
+     "vertices": 918,
+     "triangles": 730
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "7033fa45a75069f9",
+    "f29a6eca1a3a1fd0",
+    "fb14007b119ac7aa"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturechair01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arfurniturechair01-1625bbc0.glb",
+   "bytes": 25572,
+   "vertices": 730,
+   "triangles": 551,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 730,
+     "triangles": 551
+    },
+    {
+     "lod": 1,
+     "vertices": 730,
+     "triangles": 551
+    },
+    {
+     "lod": 2,
+     "vertices": 730,
+     "triangles": 551
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "7033fa45a75069f9",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturechair02": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arfurniturechair02-ef5dc25f.glb",
+   "bytes": 19416,
+   "vertices": 660,
+   "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 660,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 660,
+     "triangles": 500
+    },
+    {
+     "lod": 2,
+     "vertices": 660,
+     "triangles": 500
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "7033fa45a75069f9"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arhitchpost01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arhitchpost01-9932b8ed.glb",
+   "bytes": 22864,
+   "vertices": 476,
+   "triangles": 656,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 476,
+     "triangles": 656
+    },
+    {
+     "lod": 1,
+     "vertices": 382,
+     "triangles": 460
+    },
+    {
+     "lod": 2,
+     "vertices": 382,
+     "triangles": 460
+    }
+   ],
+   "textures": [
+    "2a060095db7b3bbf",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arledgescreen01-50315522.glb",
+   "bytes": 15960,
+   "vertices": 295,
+   "triangles": 308,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 295,
+     "triangles": 308
+    },
+    {
+     "lod": 1,
+     "vertices": 295,
+     "triangles": 308
+    },
+    {
+     "lod": 2,
+     "vertices": 295,
+     "triangles": 308
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9",
+    "7642e7001a5a115a"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen02": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arledgescreen02-13d5ad61.glb",
+   "bytes": 17736,
+   "vertices": 197,
+   "triangles": 230,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 197,
+     "triangles": 230
+    },
+    {
+     "lod": 1,
+     "vertices": 197,
+     "triangles": 230
+    },
+    {
+     "lod": 2,
+     "vertices": 197,
+     "triangles": 230
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9",
+    "7642e7001a5a115a"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen02left": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arledgescreen02left-381e2de6.glb",
+   "bytes": 17832,
+   "vertices": 186,
+   "triangles": 204,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 186,
+     "triangles": 204
+    },
+    {
+     "lod": 1,
+     "vertices": 186,
+     "triangles": 204
+    },
+    {
+     "lod": 2,
+     "vertices": 186,
+     "triangles": 204
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9",
+    "7642e7001a5a115a"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen02right": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arledgescreen02right-1d784d64.glb",
+   "bytes": 17820,
+   "vertices": 186,
+   "triangles": 204,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 186,
+     "triangles": 204
+    },
+    {
+     "lod": 1,
+     "vertices": 186,
+     "triangles": 204
+    },
+    {
+     "lod": 2,
+     "vertices": 186,
+     "triangles": 204
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9",
+    "7642e7001a5a115a"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhall01mine": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arnhall01mine-1b12c941.glb",
+   "bytes": 71824,
+   "vertices": 1345,
+   "triangles": 1664,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1345,
+     "triangles": 1664
+    },
+    {
+     "lod": 1,
+     "vertices": 1348,
+     "triangles": 1574
+    },
+    {
+     "lod": 2,
+     "vertices": 1348,
+     "triangles": 1574
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "3fb6b307f8538e8f",
+    "a1c2f25bfd9dc099",
+    "ae247b460a649e02",
+    "d349b6d59108b06c",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhall4way01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arnhall4way01-62bbd69d.glb",
+   "bytes": 57816,
+   "vertices": 1310,
+   "triangles": 1394,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1310,
+     "triangles": 1394
+    },
+    {
+     "lod": 1,
+     "vertices": 1262,
+     "triangles": 1058
+    },
+    {
+     "lod": 2,
+     "vertices": 1262,
+     "triangles": 1058
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "afbcec3557dd6e95",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhall4way02": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arnhall4way02-e3ff82b9.glb",
+   "bytes": 44564,
+   "vertices": 946,
+   "triangles": 1010,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 946,
+     "triangles": 1010
+    },
+    {
+     "lod": 1,
+     "vertices": 874,
+     "triangles": 758
+    },
+    {
+     "lod": 2,
+     "vertices": 874,
+     "triangles": 758
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "95370e801f519361",
+    "afbcec3557dd6e95",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhallbladeslots": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arnhallbladeslots-7b5b9ca3.glb",
+   "bytes": 47976,
+   "vertices": 1089,
+   "triangles": 898,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1089,
+     "triangles": 898
+    },
+    {
+     "lod": 1,
+     "vertices": 1090,
+     "triangles": 880
+    },
+    {
+     "lod": 2,
+     "vertices": 1090,
+     "triangles": 880
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "7033fa45a75069f9",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhalldeadend01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arnhalldeadend01-6b205901.glb",
+   "bytes": 11424,
+   "vertices": 59,
+   "triangles": 51,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 59,
+     "triangles": 51
+    },
+    {
+     "lod": 1,
+     "vertices": 59,
+     "triangles": 51
+    },
+    {
+     "lod": 2,
+     "vertices": 59,
+     "triangles": 51
+    }
+   ],
+   "textures": [
+    "afbcec3557dd6e95",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhalldeadend02": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arnhalldeadend02-80899268.glb",
+   "bytes": 8356,
+   "vertices": 53,
+   "triangles": 47,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 53,
+     "triangles": 47
+    },
+    {
+     "lod": 1,
+     "vertices": 53,
+     "triangles": 47
+    },
+    {
+     "lod": 2,
+     "vertices": 53,
+     "triangles": 47
+    }
+   ],
+   "textures": [
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhalldeadendwall": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arnhalldeadendwall-ed803ead.glb",
+   "bytes": 4456,
+   "vertices": 18,
+   "triangles": 16,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 18,
+     "triangles": 16
+    },
+    {
+     "lod": 1,
+     "vertices": 18,
+     "triangles": 16
+    },
+    {
+     "lod": 2,
+     "vertices": 18,
+     "triangles": 16
+    }
+   ],
+   "textures": [
+    "afbcec3557dd6e95"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arpitretractablestairs02": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arpitretractablestairs02-79e6719d.glb",
+   "bytes": 216256,
+   "vertices": 2924,
+   "triangles": 1700,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2924,
+     "triangles": 1700
+    },
+    {
+     "lod": 1,
+     "vertices": 2924,
+     "triangles": 1700
+    },
+    {
+     "lod": 2,
+     "vertices": 2924,
+     "triangles": 1700
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arpitretractablestairsbase02": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arpitretractablestairsbase02-9d22afac.glb",
+   "bytes": 42080,
+   "vertices": 943,
+   "triangles": 818,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 943,
+     "triangles": 818
+    },
+    {
+     "lod": 1,
+     "vertices": 913,
+     "triangles": 777
+    },
+    {
+     "lod": 2,
+     "vertices": 913,
+     "triangles": 777
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "7033fa45a75069f9",
+    "afbcec3557dd6e95",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arpitwalltallsecret01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arpitwalltallsecret01-4c0a7d31.glb",
+   "bytes": 42836,
+   "vertices": 911,
+   "triangles": 807,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 911,
+     "triangles": 807
+    },
+    {
+     "lod": 1,
+     "vertices": 911,
+     "triangles": 807
+    },
+    {
+     "lod": 2,
+     "vertices": 911,
+     "triangles": 807
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "7033fa45a75069f9",
+    "95370e801f519361",
+    "afbcec3557dd6e95",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatcorin01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arplatcorin01-7cbf538d.glb",
+   "bytes": 8952,
+   "vertices": 70,
+   "triangles": 86,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 70,
+     "triangles": 86
+    },
+    {
+     "lod": 1,
+     "vertices": 70,
+     "triangles": 86
+    },
+    {
+     "lod": 2,
+     "vertices": 70,
+     "triangles": 86
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatcorin02": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arplatcorin02-db3efb8a.glb",
+   "bytes": 8636,
+   "vertices": 51,
+   "triangles": 64,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 51,
+     "triangles": 64
+    },
+    {
+     "lod": 1,
+     "vertices": 51,
+     "triangles": 64
+    },
+    {
+     "lod": 2,
+     "vertices": 51,
+     "triangles": 64
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatcorout01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arplatcorout01-e4ad91ee.glb",
+   "bytes": 9156,
+   "vertices": 78,
+   "triangles": 102,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 78,
+     "triangles": 102
+    },
+    {
+     "lod": 1,
+     "vertices": 78,
+     "triangles": 102
+    },
+    {
+     "lod": 2,
+     "vertices": 78,
+     "triangles": 102
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatmid01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arplatmid01-a9430291.glb",
+   "bytes": 3780,
+   "vertices": 25,
+   "triangles": 32,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 25,
+     "triangles": 32
+    },
+    {
+     "lod": 1,
+     "vertices": 25,
+     "triangles": 32
+    },
+    {
+     "lod": 2,
+     "vertices": 25,
+     "triangles": 32
+    }
+   ],
+   "textures": []
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatwall01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arplatwall01-b0afaa87.glb",
+   "bytes": 8520,
+   "vertices": 45,
+   "triangles": 56,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 45,
+     "triangles": 56
+    },
+    {
+     "lod": 1,
+     "vertices": 45,
+     "triangles": 56
+    },
+    {
+     "lod": 2,
+     "vertices": 45,
+     "triangles": 56
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatwallstair01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arplatwallstair01-7c1e3844.glb",
+   "bytes": 11012,
+   "vertices": 198,
+   "triangles": 276,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 198,
+     "triangles": 276
+    },
+    {
+     "lod": 1,
+     "vertices": 198,
+     "triangles": 276
+    },
+    {
+     "lod": 2,
+     "vertices": 198,
+     "triangles": 276
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatwallstair02": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arplatwallstair02-203ba9e5.glb",
+   "bytes": 11200,
+   "vertices": 211,
+   "triangles": 286,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 211,
+     "triangles": 286
+    },
+    {
+     "lod": 1,
+     "vertices": 211,
+     "triangles": 286
+    },
+    {
+     "lod": 2,
+     "vertices": 211,
+     "triangles": 286
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arretractablebridge01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arretractablebridge01-cabb061f.glb",
+   "bytes": 70992,
+   "vertices": 1818,
+   "triangles": 2196,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1818,
+     "triangles": 2196
+    },
+    {
+     "lod": 1,
+     "vertices": 1339,
+     "triangles": 1411
+    },
+    {
+     "lod": 2,
+     "vertices": 1339,
+     "triangles": 1411
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "55ff29f04b16c0de",
+    "7033fa45a75069f9",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrmcornerexitrightnarrow01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arrmcornerexitrightnarrow01-a9cf682f.glb",
+   "bytes": 53132,
+   "vertices": 1346,
+   "triangles": 1662,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1346,
+     "triangles": 1662
+    },
+    {
+     "lod": 1,
+     "vertices": 1015,
+     "triangles": 1084
+    },
+    {
+     "lod": 2,
+     "vertices": 1015,
+     "triangles": 1084
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "7033fa45a75069f9",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepile02": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arrubblepile02-25597c1c.glb",
+   "bytes": 47804,
+   "vertices": 1154,
+   "triangles": 1560,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1154,
+     "triangles": 1560
+    },
+    {
+     "lod": 1,
+     "vertices": 805,
+     "triangles": 1021
+    },
+    {
+     "lod": 2,
+     "vertices": 805,
+     "triangles": 1021
+    }
+   ],
+   "textures": [
+    "63e899c39d23bb30",
+    "7033fa45a75069f9",
+    "a031eebae76abd9f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepile03": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arrubblepile03-2d474a8d.glb",
+   "bytes": 32368,
+   "vertices": 598,
+   "triangles": 774,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 598,
+     "triangles": 774
+    },
+    {
+     "lod": 1,
+     "vertices": 541,
+     "triangles": 680
+    },
+    {
+     "lod": 2,
+     "vertices": 541,
+     "triangles": 680
+    }
+   ],
+   "textures": [
+    "63e899c39d23bb30",
+    "7033fa45a75069f9",
+    "a031eebae76abd9f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepileceiling01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arrubblepileceiling01-b273d454.glb",
+   "bytes": 64412,
+   "vertices": 1655,
+   "triangles": 1340,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1655,
+     "triangles": 1340
+    },
+    {
+     "lod": 1,
+     "vertices": 1655,
+     "triangles": 1340
+    },
+    {
+     "lod": 2,
+     "vertices": 1655,
+     "triangles": 1340
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "63e899c39d23bb30",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arsteppeddias01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arsteppeddias01-b1641b0f.glb",
+   "bytes": 24292,
+   "vertices": 637,
+   "triangles": 932,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 637,
+     "triangles": 932
+    },
+    {
+     "lod": 1,
+     "vertices": 433,
+     "triangles": 584
+    },
+    {
+     "lod": 2,
+     "vertices": 433,
+     "triangles": 584
+    }
+   ],
+   "textures": [
+    "7033fa45a75069f9"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artable01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_artable01-4972cc93.glb",
+   "bytes": 54372,
+   "vertices": 1608,
+   "triangles": 1350,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1608,
+     "triangles": 1350
+    },
+    {
+     "lod": 1,
+     "vertices": 1285,
+     "triangles": 1020
+    },
+    {
+     "lod": 2,
+     "vertices": 1285,
+     "triangles": 1020
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablebench2seater": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_artablebench2seater-e483111c.glb",
+   "bytes": 64636,
+   "vertices": 1973,
+   "triangles": 1640,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1973,
+     "triangles": 1640
+    },
+    {
+     "lod": 1,
+     "vertices": 1416,
+     "triangles": 1070
+    },
+    {
+     "lod": 2,
+     "vertices": 1416,
+     "triangles": 1070
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablebench4seater": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_artablebench4seater-5f2c44a8.glb",
+   "bytes": 70236,
+   "vertices": 2338,
+   "triangles": 1930,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2338,
+     "triangles": 1930
+    },
+    {
+     "lod": 1,
+     "vertices": 1515,
+     "triangles": 1104
+    },
+    {
+     "lod": 2,
+     "vertices": 1515,
+     "triangles": 1104
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablesquare01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_artablesquare01-2d4cab0f.glb",
+   "bytes": 51244,
+   "vertices": 1290,
+   "triangles": 1036,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1290,
+     "triangles": 1036
+    },
+    {
+     "lod": 1,
+     "vertices": 1069,
+     "triangles": 807
+    },
+    {
+     "lod": 2,
+     "vertices": 1069,
+     "triangles": 807
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablethin01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_artablethin01-317c3d41.glb",
+   "bytes": 54900,
+   "vertices": 1607,
+   "triangles": 1350,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1607,
+     "triangles": 1350
+    },
+    {
+     "lod": 1,
+     "vertices": 1292,
+     "triangles": 1019
+    },
+    {
+     "lod": 2,
+     "vertices": 1292,
+     "triangles": 1019
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall01dirt": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arwhall01dirt-57bbec41.glb",
+   "bytes": 64048,
+   "vertices": 1589,
+   "triangles": 1412,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1589,
+     "triangles": 1412
+    },
+    {
+     "lod": 1,
+     "vertices": 1153,
+     "triangles": 979
+    },
+    {
+     "lod": 2,
+     "vertices": 1153,
+     "triangles": 979
+    }
+   ],
+   "textures": [
+    "1547f4ae4bd3361a",
+    "38ab21d112af488b",
+    "7033fa45a75069f9",
+    "95370e801f519361",
+    "afbcec3557dd6e95",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall3way01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arwhall3way01-091c2e1c.glb",
+   "bytes": 81540,
+   "vertices": 1931,
+   "triangles": 1994,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1931,
+     "triangles": 1994
+    },
+    {
+     "lod": 1,
+     "vertices": 1511,
+     "triangles": 1491
+    },
+    {
+     "lod": 2,
+     "vertices": 1511,
+     "triangles": 1491
+    }
+   ],
+   "textures": [
+    "1547f4ae4bd3361a",
+    "38ab21d112af488b",
+    "63e899c39d23bb30",
+    "7033fa45a75069f9",
+    "afbcec3557dd6e95",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall3way02": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arwhall3way02-f470cbf0.glb",
+   "bytes": 66500,
+   "vertices": 1391,
+   "triangles": 1440,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1391,
+     "triangles": 1440
+    },
+    {
+     "lod": 1,
+     "vertices": 1154,
+     "triangles": 1191
+    },
+    {
+     "lod": 2,
+     "vertices": 1154,
+     "triangles": 1191
+    }
+   ],
+   "textures": [
+    "1547f4ae4bd3361a",
+    "38ab21d112af488b",
+    "63e899c39d23bb30",
+    "7033fa45a75069f9",
+    "afbcec3557dd6e95",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall4way01fancy": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arwhall4way01fancy-dcbc51d3.glb",
+   "bytes": 55700,
+   "vertices": 1438,
+   "triangles": 1546,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1438,
+     "triangles": 1546
+    },
+    {
+     "lod": 1,
+     "vertices": 1313,
+     "triangles": 1355
+    },
+    {
+     "lod": 2,
+     "vertices": 1313,
+     "triangles": 1355
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "63e899c39d23bb30",
+    "7033fa45a75069f9",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhallcorner01fancy": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arwhallcorner01fancy-7e414b73.glb",
+   "bytes": 62996,
+   "vertices": 1527,
+   "triangles": 1838,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1527,
+     "triangles": 1838
+    },
+    {
+     "lod": 1,
+     "vertices": 1176,
+     "triangles": 1268
+    },
+    {
+     "lod": 2,
+     "vertices": 1176,
+     "triangles": 1268
+    }
+   ],
+   "textures": [
+    "38ab21d112af488b",
+    "7033fa45a75069f9",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhallsecret01fancy": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arwhallsecret01fancy-78596f46.glb",
+   "bytes": 76588,
+   "vertices": 2120,
+   "triangles": 2276,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2120,
+     "triangles": 2276
+    },
+    {
+     "lod": 1,
+     "vertices": 1338,
+     "triangles": 1276
+    },
+    {
+     "lod": 2,
+     "vertices": 1338,
+     "triangles": 1276
+    }
+   ],
+   "textures": [
+    "1547f4ae4bd3361a",
+    "38ab21d112af488b",
+    "63e899c39d23bb30",
+    "7033fa45a75069f9",
+    "afbcec3557dd6e95",
+    "ceac31e57a43650f",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhalltransnarrowflat": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arwhalltransnarrowflat-f15725d1.glb",
+   "bytes": 18532,
+   "vertices": 238,
+   "triangles": 236,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 238,
+     "triangles": 236
+    },
+    {
+     "lod": 1,
+     "vertices": 238,
+     "triangles": 236
+    },
+    {
+     "lod": 2,
+     "vertices": 238,
+     "triangles": 236
+    }
+   ],
+   "textures": [
+    "63e899c39d23bb30",
+    "7033fa45a75069f9",
+    "fcf422539a6adce3"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwindow01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_arwindow01-209e01bc.glb",
+   "bytes": 9096,
+   "vertices": 68,
+   "triangles": 54,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 68,
+     "triangles": 54
+    },
+    {
+     "lod": 1,
+     "vertices": 68,
+     "triangles": 54
+    },
+    {
+     "lod": 2,
+     "vertices": 68,
+     "triangles": 54
+    }
+   ],
+   "textures": [
+    "667496aa73bcb464",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/arpuzzlepillar": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_puzzle_arpuzzlepillar-c0a972d4.glb",
+   "bytes": 23796,
+   "vertices": 464,
+   "triangles": 474,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 464,
+     "triangles": 474
+    },
+    {
+     "lod": 1,
+     "vertices": 464,
+     "triangles": 474
+    },
+    {
+     "lod": 2,
+     "vertices": 464,
+     "triangles": 474
+    }
+   ],
+   "textures": [
+    "460bd5bde54c817d",
+    "619ac6d01956acb6",
+    "67153ef57a6dfc8f",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonealteration01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_puzzle_magicstonealteration01-5519a204.glb",
+   "bytes": 13592,
+   "vertices": 120,
+   "triangles": 134,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 120,
+     "triangles": 134
+    },
+    {
+     "lod": 1,
+     "vertices": 120,
+     "triangles": 134
+    },
+    {
+     "lod": 2,
+     "vertices": 120,
+     "triangles": 134
+    }
+   ],
+   "textures": [
+    "374e794e76156d48",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstoneconjuration01": {
+   "file": "yleidcc_sarthesarai_dungeons_ayleidruins_interior_puzzle_magicstoneconjuration01-1ba8b0f7.glb",
+   "bytes": 13632,
+   "vertices": 119,
+   "triangles": 133,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 119,
+     "triangles": 133
+    },
+    {
+     "lod": 1,
+     "vertices": 119,
+     "triangles": 133
+    },
+    {
+     "lod": 2,
+     "vertices": 119,
+     "triangles": 133
+    }
+   ],
+   "textures": [
+    "374e794e76156d48",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonedestruction01": {
+   "file": "yleidcc_sarthesarai_dungeons_ayleidruins_interior_puzzle_magicstonedestruction01-99d23e16.glb",
+   "bytes": 13580,
+   "vertices": 114,
+   "triangles": 128,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 114,
+     "triangles": 128
+    },
+    {
+     "lod": 1,
+     "vertices": 114,
+     "triangles": 128
+    },
+    {
+     "lod": 2,
+     "vertices": 114,
+     "triangles": 128
+    }
+   ],
+   "textures": [
+    "374e794e76156d48",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstoneenchanting01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_puzzle_magicstoneenchanting01-2c61f755.glb",
+   "bytes": 13628,
+   "vertices": 119,
+   "triangles": 133,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 119,
+     "triangles": 133
+    },
+    {
+     "lod": 1,
+     "vertices": 119,
+     "triangles": 133
+    },
+    {
+     "lod": 2,
+     "vertices": 119,
+     "triangles": 133
+    }
+   ],
+   "textures": [
+    "374e794e76156d48",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstoneillusion01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_puzzle_magicstoneillusion01-2f12af6e.glb",
+   "bytes": 13608,
+   "vertices": 119,
+   "triangles": 133,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 119,
+     "triangles": 133
+    },
+    {
+     "lod": 1,
+     "vertices": 119,
+     "triangles": 133
+    },
+    {
+     "lod": 2,
+     "vertices": 119,
+     "triangles": 133
+    }
+   ],
+   "textures": [
+    "374e794e76156d48",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonerestoration01": {
+   "file": "yleidcc_sarthesarai_dungeons_ayleidruins_interior_puzzle_magicstonerestoration01-64b06b06.glb",
+   "bytes": 13588,
+   "vertices": 114,
+   "triangles": 128,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 114,
+     "triangles": 128
+    },
+    {
+     "lod": 1,
+     "vertices": 114,
+     "triangles": 128
+    },
+    {
+     "lod": 2,
+     "vertices": 114,
+     "triangles": 128
+    }
+   ],
+   "textures": [
+    "374e794e76156d48",
+    "ceac31e57a43650f"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/traps/artrapswingingblade01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_traps_artrapswingingblade01-7f3830df.glb",
+   "bytes": 5340,
+   "vertices": 62,
+   "triangles": 70,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 62,
+     "triangles": 70
+    },
+    {
+     "lod": 1,
+     "vertices": 62,
+     "triangles": 70
+    },
+    {
+     "lod": 2,
+     "vertices": 62,
+     "triangles": 70
+    }
+   ],
+   "textures": [
+    "7350c2f84404be3b"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/traps/arwelkyndclusterevil01": {
+   "file": "ayleidcc_sarthesarai_dungeons_ayleidruins_interior_traps_arwelkyndclusterevil01-ac91df70.glb",
+   "bytes": 18948,
+   "vertices": 507,
+   "triangles": 978,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 507,
+     "triangles": 978
+    },
+    {
+     "lod": 1,
+     "vertices": 245,
+     "triangles": 342
+    },
+    {
+     "lod": 2,
+     "vertices": 222,
+     "triangles": 299
+    }
+   ],
+   "textures": []
+  }
+ },
+ "fires": {
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arconstellationstele": {
+   "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arconstellationstele",
+   "category": "ruin",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.148,
+    3.647,
+    3.647
+   ],
+   "originOffsetM": [
+    0.003,
+    1.824,
+    1.824
+   ],
+   "emissiveMaterials": [
+    "Constellation.Mat"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwindow01": {
+   "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwindow01",
+   "category": "ruin",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.385,
+    1.128,
+    2.399
+   ],
+   "originOffsetM": [
+    0,
+    0.576,
+    1.199
+   ],
+   "emissiveMaterials": [
+    "ImpWindow01:24.Mat"
+   ],
+   "windowMaterials": [
+    "ImpWindow01:24.Mat"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/arpuzzlepillar": {
+   "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/arpuzzlepillar",
+   "category": "ruin",
+   "anchorClass": "ground",
+   "sizeM": [
+    1.724,
+    1.724,
+    2.845
+   ],
+   "originOffsetM": [
+    0.862,
+    0.862,
+    0
+   ],
+   "emissiveMaterials": [
+    "Face01.Mat",
+    "Face02.Mat",
+    "Face03.Mat"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonealteration01": {
+   "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonealteration01",
+   "category": "ruin",
+   "anchorClass": "ground",
+   "sizeM": [
+    1.073,
+    1.026,
+    0.259
+   ],
+   "originOffsetM": [
+    0.537,
+    0.533,
+    0.24
+   ],
+   "emissiveMaterials": [
+    "MagicStoneRestoration01:8.Mat"
+   ]
+  },
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/traps/arwelkyndclusterevil01": {
+   "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/traps/arwelkyndclusterevil01",
+   "category": "ruin",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.778,
+    0.73,
+    1.032
+   ],
+   "originOffsetM": [
+    0.375,
+    0.359,
+    0.026
+   ],
+   "emissiveMaterials": [
+    "ARWelkydCluster01New.Mat"
+   ]
+  }
+ }
+}

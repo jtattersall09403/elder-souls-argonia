@@ -928,6 +928,8 @@ function flipPerfOpen(was: boolean): boolean {
 /** Fired with the new open state on every flip: the in-canvas probe installs
  * its per-draw triangle attribution only while the section is open. */
 const PERF_OPEN_EVENT = "es-perf-hud-open";
+/** The per-draw bucket wrapper runs on one frame in this many (perf-diag23 Q1). */
+const BUCKET_SAMPLE_EVERY = 30;
 
 function readPerfOpen(): boolean {
   try { return window.localStorage.getItem(PERF_OPEN_KEY) === "1"; } catch { return false; }
@@ -1198,9 +1200,11 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
   }, [gl, segments]);
 
   // The per-draw triangle attribution (HUD line 3) wraps the call every draw
-  // goes through, ~0.3 ms a frame (perf10 O7): installed only while the perf
-  // section is open, removed when it closes (its buckets then read zero).
+  // goes through: installed only while the perf section is open (perf10 O7),
+  // and then on one sampled frame in BUCKET_SAMPLE_EVERY, the HUD holding the
+  // mean of the sampled rows between samples.
   const [bucketsOn, setBucketsOn] = useState(readPerfOpen);
+  const bucketHook = useRef<{ install: (sampled: boolean) => void; n: number; sampled: boolean } | null>(null);
   useEffect(() => {
     const onFlip = (e: Event) => setBucketsOn((e as CustomEvent<boolean>).detail);
     window.addEventListener(PERF_OPEN_EVENT, onFlip);
@@ -1218,21 +1222,36 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     const renderObjectDirect = internals._renderObjectDirect;
     // Named parameters, not a rest array: this runs once per DRAW, and a
     // `...rest` array per draw was hundreds of arrays a frame (walk 5 perf).
-    internals._renderObjectDirect = function wrapped(object: unknown, material: unknown, scene: unknown,
-      cam: unknown, lightsNode: unknown, group: unknown, clippingContext: unknown, passId: unknown) {
+    const shadowOf = (material: unknown): boolean => {
       const shadow = (material as { isShadowPassMaterial?: boolean } | null)?.isShadowPassMaterial === true;
       // the CPU clock flips to "shadow" while those draws run (decision 0084 round 10)
       if (shadow !== inShadow) {
         inShadow = shadow;
         segments?.cpuMark(shadow ? "shadow" : "scene");
       }
+      return shadow;
+    };
+    // Unsampled frames: only the shadow mark. Sampled frames (one in
+    // BUCKET_SAMPLE_EVERY, perf-diag23 Q1) also attribute triangles.
+    const marking = function marking(object: unknown, material: unknown, scene: unknown,
+      cam: unknown, lightsNode: unknown, group: unknown, clippingContext: unknown, passId: unknown) {
+      shadowOf(material);
+      return renderObjectDirect.call(renderer, object, material, scene, cam, lightsNode, group,
+        clippingContext, passId);
+    };
+    const wrapped = function wrapped(object: unknown, material: unknown, scene: unknown,
+      cam: unknown, lightsNode: unknown, group: unknown, clippingContext: unknown, passId: unknown) {
+      const shadow = shadowOf(material);
       const before = renderer.info.render.triangles;
       const out = renderObjectDirect.call(renderer, object, material, scene, cam, lightsNode, group,
         clippingContext, passId);
       frame[bucketSlot(shadow, bucketIndexOf(object))] += renderer.info.render.triangles - before;
       return out;
     };
-    return () => { internals._renderObjectDirect = renderObjectDirect; };
+    const install = (sampled: boolean) => { internals._renderObjectDirect = sampled ? wrapped : marking; };
+    install(false);
+    bucketHook.current = { install, n: 0, sampled: false };
+    return () => { internals._renderObjectDirect = renderObjectDirect; bucketHook.current = null; };
   }, [gl, segments, bucketsOn]);
 
   useFrame((_, delta) => {
@@ -1259,12 +1278,21 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     if (tris > 0) {
       g.triSamples.push(tris); if (g.triSamples.length > 60) g.triSamples.shift();
       g.callSamples.push(calls); if (g.callSamples.length > 60) g.callSamples.shift();
+    }
+    // Bucket rows come from sampled frames only (the wrapper ran on them).
+    const hook = bucketHook.current;
+    if (tris > 0 && hook?.sampled) {
       // Recycle the row that leaves the window: no per-frame array.
       const row = g.bucketSamples.length >= 60 ? g.bucketSamples.shift()! : new Array<number>(g.frameBuckets.length);
       for (let i = 0; i < g.frameBuckets.length; i++) row[i] = g.frameBuckets[i];
       g.bucketSamples.push(row);
     }
     g.frameBuckets.fill(0);
+    if (hook) {
+      hook.n += 1;
+      hook.sampled = hook.n % BUCKET_SAMPLE_EVERY === 0;
+      hook.install(hook.sampled);
+    }
     info.reset();
 
     const seg = segments?.gpuSummary(g.segSummary);

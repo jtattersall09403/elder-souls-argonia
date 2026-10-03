@@ -1,0 +1,1356 @@
+{
+ "schemaVersion": 4,
+ "kit": "docks-v1",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 8897240,
+  "sha256": "00d0219b9ebe19093ccc10cde2fe5f2b627f45cb5b4f2a2a32d9a3a075f6f4c8"
+ },
+ "packed": {
+  "bytes": 3601324,
+  "sha256": "79e72996ab7c273411ec6a047ac0bbd4cc6e058ee378986b4126454e574a9c37"
+ },
+ "totals": {
+  "parts": 48,
+  "partBytes": 1935276,
+  "textureFiles": 14,
+  "textureBytes": 2299696,
+  "bytes": 4234972
+ },
+ "assets": {
+  "bmv:architecture/jets/miscstuff/dockextension": {
+   "file": "bmv_architecture_jets_miscstuff_dockextension-71cb025d.glb",
+   "bytes": 64700,
+   "vertices": 2068,
+   "triangles": 2556,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2068,
+     "triangles": 2556
+    },
+    {
+     "lod": 1,
+     "vertices": 1110,
+     "triangles": 1026
+    },
+    {
+     "lod": 2,
+     "vertices": 988,
+     "triangles": 900
+    }
+   ],
+   "textures": [
+    "c2a94c30dc62a274",
+    "c83180e21cad555f"
+   ]
+  },
+  "bmv:architecture/jets/miscstuff/dockpostextension": {
+   "file": "bmv_architecture_jets_miscstuff_dockpostextension-93f02b0c.glb",
+   "bytes": 12852,
+   "vertices": 336,
+   "triangles": 480,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 336,
+     "triangles": 480
+    },
+    {
+     "lod": 1,
+     "vertices": 242,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 242,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "c83180e21cad555f"
+   ]
+  },
+  "bmv:architecture/jets/miscstuff/dockramp": {
+   "file": "bmv_architecture_jets_miscstuff_dockramp-5dd24ae3.glb",
+   "bytes": 68520,
+   "vertices": 2068,
+   "triangles": 2556,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2068,
+     "triangles": 2556
+    },
+    {
+     "lod": 1,
+     "vertices": 1111,
+     "triangles": 1025
+    },
+    {
+     "lod": 2,
+     "vertices": 989,
+     "triangles": 899
+    }
+   ],
+   "textures": [
+    "c2a94c30dc62a274",
+    "c83180e21cad555f"
+   ]
+  },
+  "bmv:architecture/jets/miscstuff/dockstepsfree": {
+   "file": "bmv_architecture_jets_miscstuff_dockstepsfree-306da89c.glb",
+   "bytes": 22524,
+   "vertices": 743,
+   "triangles": 916,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 743,
+     "triangles": 916
+    },
+    {
+     "lod": 1,
+     "vertices": 517,
+     "triangles": 483
+    },
+    {
+     "lod": 2,
+     "vertices": 517,
+     "triangles": 483
+    }
+   ],
+   "textures": [
+    "c2a94c30dc62a274",
+    "c83180e21cad555f"
+   ]
+  },
+  "bmv:architecture/jets/miscstuff/dockwsteps": {
+   "file": "bmv_architecture_jets_miscstuff_dockwsteps-735feeb1.glb",
+   "bytes": 97484,
+   "vertices": 3147,
+   "triangles": 3952,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3147,
+     "triangles": 3952
+    },
+    {
+     "lod": 1,
+     "vertices": 1868,
+     "triangles": 1809
+    },
+    {
+     "lod": 2,
+     "vertices": 1746,
+     "triangles": 1683
+    }
+   ],
+   "textures": [
+    "c2a94c30dc62a274",
+    "c83180e21cad555f"
+   ]
+  },
+  "bmv:sheogorad/dagon fel/cleat": {
+   "file": "bmv_sheogorad_dagon_fel_cleat-04d89cc9.glb",
+   "bytes": 10116,
+   "vertices": 155,
+   "triangles": 146,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 155,
+     "triangles": 146
+    },
+    {
+     "lod": 1,
+     "vertices": 155,
+     "triangles": 146
+    },
+    {
+     "lod": 2,
+     "vertices": 155,
+     "triangles": 146
+    }
+   ],
+   "textures": [
+    "679c1c1910a5a493",
+    "d48c71a59d87d943"
+   ]
+  },
+  "bmv:sheogorad/dagon fel/docks3way": {
+   "file": "bmv_sheogorad_dagon_fel_docks3way-b20dbb52.glb",
+   "bytes": 34768,
+   "vertices": 766,
+   "triangles": 744,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 766,
+     "triangles": 744
+    },
+    {
+     "lod": 1,
+     "vertices": 766,
+     "triangles": 744
+    },
+    {
+     "lod": 2,
+     "vertices": 766,
+     "triangles": 744
+    }
+   ],
+   "textures": [
+    "1002e17a785f9708",
+    "1ca0d1b876d9ea75",
+    "65707778a58cf3f6",
+    "7d0d32f551e39a52",
+    "d48c71a59d87d943",
+    "d7be88ff8a19c46c"
+   ]
+  },
+  "bmv:sheogorad/dagon fel/docks4way": {
+   "file": "bmv_sheogorad_dagon_fel_docks4way-998b963e.glb",
+   "bytes": 44580,
+   "vertices": 896,
+   "triangles": 900,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 896,
+     "triangles": 900
+    },
+    {
+     "lod": 1,
+     "vertices": 854,
+     "triangles": 816
+    },
+    {
+     "lod": 2,
+     "vertices": 854,
+     "triangles": 816
+    }
+   ],
+   "textures": [
+    "1002e17a785f9708",
+    "1ca0d1b876d9ea75",
+    "65707778a58cf3f6",
+    "7d0d32f551e39a52",
+    "d48c71a59d87d943",
+    "d7be88ff8a19c46c"
+   ]
+  },
+  "bmv:sheogorad/dagon fel/dockscentre": {
+   "file": "bmv_sheogorad_dagon_fel_dockscentre-cc5a0e0e.glb",
+   "bytes": 31264,
+   "vertices": 532,
+   "triangles": 492,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 532,
+     "triangles": 492
+    },
+    {
+     "lod": 1,
+     "vertices": 532,
+     "triangles": 492
+    },
+    {
+     "lod": 2,
+     "vertices": 532,
+     "triangles": 492
+    }
+   ],
+   "textures": [
+    "1002e17a785f9708",
+    "1ca0d1b876d9ea75",
+    "65707778a58cf3f6",
+    "7d0d32f551e39a52",
+    "d48c71a59d87d943",
+    "d7be88ff8a19c46c"
+   ]
+  },
+  "bmv:sheogorad/dagon fel/dockscentrealt": {
+   "file": "bmv_sheogorad_dagon_fel_dockscentrealt-d00dcacb.glb",
+   "bytes": 31140,
+   "vertices": 508,
+   "triangles": 480,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 508,
+     "triangles": 480
+    },
+    {
+     "lod": 1,
+     "vertices": 508,
+     "triangles": 480
+    },
+    {
+     "lod": 2,
+     "vertices": 508,
+     "triangles": 480
+    }
+   ],
+   "textures": [
+    "1002e17a785f9708",
+    "1ca0d1b876d9ea75",
+    "65707778a58cf3f6",
+    "7d0d32f551e39a52",
+    "d48c71a59d87d943",
+    "d7be88ff8a19c46c"
+   ]
+  },
+  "bmv:sheogorad/dagon fel/dockscentrenopost": {
+   "file": "bmv_sheogorad_dagon_fel_dockscentrenopost-2b499634.glb",
+   "bytes": 26076,
+   "vertices": 402,
+   "triangles": 300,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 402,
+     "triangles": 300
+    },
+    {
+     "lod": 1,
+     "vertices": 402,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 402,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "1002e17a785f9708",
+    "1ca0d1b876d9ea75",
+    "7d0d32f551e39a52",
+    "d48c71a59d87d943",
+    "d7be88ff8a19c46c"
+   ]
+  },
+  "bmv:sheogorad/dagon fel/dockscentresmall": {
+   "file": "bmv_sheogorad_dagon_fel_dockscentresmall-332fce26.glb",
+   "bytes": 24716,
+   "vertices": 306,
+   "triangles": 252,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 306,
+     "triangles": 252
+    },
+    {
+     "lod": 1,
+     "vertices": 306,
+     "triangles": 252
+    },
+    {
+     "lod": 2,
+     "vertices": 306,
+     "triangles": 252
+    }
+   ],
+   "textures": [
+    "1002e17a785f9708",
+    "1ca0d1b876d9ea75",
+    "7d0d32f551e39a52",
+    "d48c71a59d87d943",
+    "d7be88ff8a19c46c"
+   ]
+  },
+  "bmv:sheogorad/dagon fel/dockscorner": {
+   "file": "bmv_sheogorad_dagon_fel_dockscorner-dcfcb12a.glb",
+   "bytes": 42248,
+   "vertices": 948,
+   "triangles": 948,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 948,
+     "triangles": 948
+    },
+    {
+     "lod": 1,
+     "vertices": 906,
+     "triangles": 864
+    },
+    {
+     "lod": 2,
+     "vertices": 906,
+     "triangles": 864
+    }
+   ],
+   "textures": [
+    "1002e17a785f9708",
+    "1ca0d1b876d9ea75",
+    "65707778a58cf3f6",
+    "7d0d32f551e39a52",
+    "d48c71a59d87d943",
+    "d7be88ff8a19c46c"
+   ]
+  },
+  "bmv:sheogorad/dagon fel/docksend": {
+   "file": "bmv_sheogorad_dagon_fel_docksend-6281e3ac.glb",
+   "bytes": 31020,
+   "vertices": 510,
+   "triangles": 492,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 510,
+     "triangles": 492
+    },
+    {
+     "lod": 1,
+     "vertices": 510,
+     "triangles": 492
+    },
+    {
+     "lod": 2,
+     "vertices": 510,
+     "triangles": 492
+    }
+   ],
+   "textures": [
+    "1002e17a785f9708",
+    "1ca0d1b876d9ea75",
+    "65707778a58cf3f6",
+    "7d0d32f551e39a52",
+    "d48c71a59d87d943",
+    "d7be88ff8a19c46c"
+   ]
+  },
+  "bmv:sheogorad/dagon fel/docksendnopost": {
+   "file": "bmv_sheogorad_dagon_fel_docksendnopost-5cebda13.glb",
+   "bytes": 25848,
+   "vertices": 380,
+   "triangles": 300,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 380,
+     "triangles": 300
+    },
+    {
+     "lod": 1,
+     "vertices": 380,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 380,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "1002e17a785f9708",
+    "1ca0d1b876d9ea75",
+    "7d0d32f551e39a52",
+    "d48c71a59d87d943",
+    "d7be88ff8a19c46c"
+   ]
+  },
+  "bmv:sheogorad/dagon fel/dockspilings": {
+   "file": "bmv_sheogorad_dagon_fel_dockspilings-7f5fa38e.glb",
+   "bytes": 14444,
+   "vertices": 170,
+   "triangles": 208,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 170,
+     "triangles": 208
+    },
+    {
+     "lod": 1,
+     "vertices": 170,
+     "triangles": 208
+    },
+    {
+     "lod": 2,
+     "vertices": 170,
+     "triangles": 208
+    }
+   ],
+   "textures": [
+    "65707778a58cf3f6",
+    "7d0d32f551e39a52",
+    "d7be88ff8a19c46c"
+   ]
+  },
+  "bmv:sheogorad/dagon fel/dockspilingsdamage": {
+   "file": "bmv_sheogorad_dagon_fel_dockspilingsdamage-2146e947.glb",
+   "bytes": 15220,
+   "vertices": 133,
+   "triangles": 174,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 133,
+     "triangles": 174
+    },
+    {
+     "lod": 1,
+     "vertices": 133,
+     "triangles": 174
+    },
+    {
+     "lod": 2,
+     "vertices": 133,
+     "triangles": 174
+    }
+   ],
+   "textures": [
+    "1002e17a785f9708",
+    "1ca0d1b876d9ea75",
+    "7d0d32f551e39a52"
+   ]
+  },
+  "bmv:sheogorad/dagon fel/dockssteps": {
+   "file": "bmv_sheogorad_dagon_fel_dockssteps-046771f2.glb",
+   "bytes": 7756,
+   "vertices": 228,
+   "triangles": 164,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 228,
+     "triangles": 164
+    },
+    {
+     "lod": 1,
+     "vertices": 228,
+     "triangles": 164
+    },
+    {
+     "lod": 2,
+     "vertices": 228,
+     "triangles": 164
+    }
+   ],
+   "textures": [
+    "d48c71a59d87d943"
+   ]
+  },
+  "composite:docks/quay-run-2": {
+   "file": "composite_docks_quay-run-2-bd72dc07.glb",
+   "bytes": 103116,
+   "vertices": 3202,
+   "triangles": 3064,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3202,
+     "triangles": 3064
+    },
+    {
+     "lod": 1,
+     "vertices": 2346,
+     "triangles": 1570
+    },
+    {
+     "lod": 2,
+     "vertices": 2346,
+     "triangles": 1570
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "composite:docks/quay-run-3": {
+   "file": "composite_docks_quay-run-3-3cf591c1.glb",
+   "bytes": 153056,
+   "vertices": 4791,
+   "triangles": 4590,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4791,
+     "triangles": 4590
+    },
+    {
+     "lod": 1,
+     "vertices": 3508,
+     "triangles": 2350
+    },
+    {
+     "lod": 2,
+     "vertices": 3508,
+     "triangles": 2350
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01": {
+   "file": "_be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_wooddock01-20e421fb.glb",
+   "bytes": 118800,
+   "vertices": 3822,
+   "triangles": 4556,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3822,
+     "triangles": 4556
+    },
+    {
+     "lod": 1,
+     "vertices": 1892,
+     "triangles": 1594
+    },
+    {
+     "lod": 2,
+     "vertices": 943,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "09430645ca1512ac",
+    "17f16e8738594ed3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02": {
+   "file": "_be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_wooddock02-4f790591.glb",
+   "bytes": 119892,
+   "vertices": 3684,
+   "triangles": 4356,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3684,
+     "triangles": 4356
+    },
+    {
+     "lod": 1,
+     "vertices": 1811,
+     "triangles": 1523
+    },
+    {
+     "lod": 2,
+     "vertices": 935,
+     "triangles": 599
+    }
+   ],
+   "textures": [
+    "09430645ca1512ac",
+    "17f16e8738594ed3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01": {
+   "file": "onsters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_wooddockshort01-35b12099.glb",
+   "bytes": 107848,
+   "vertices": 3161,
+   "triangles": 3742,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3161,
+     "triangles": 3742
+    },
+    {
+     "lod": 1,
+     "vertices": 1533,
+     "triangles": 1307
+    },
+    {
+     "lod": 2,
+     "vertices": 899,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "09430645ca1512ac",
+    "17f16e8738594ed3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank01": {
+   "file": "be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_woodplank01-7b98fcff.glb",
+   "bytes": 6188,
+   "vertices": 65,
+   "triangles": 76,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 65,
+     "triangles": 76
+    },
+    {
+     "lod": 1,
+     "vertices": 65,
+     "triangles": 76
+    },
+    {
+     "lod": 2,
+     "vertices": 65,
+     "triangles": 76
+    }
+   ],
+   "textures": [
+    "17f16e8738594ed3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank02": {
+   "file": "be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_woodplank02-d0984e3b.glb",
+   "bytes": 6260,
+   "vertices": 65,
+   "triangles": 76,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 65,
+     "triangles": 76
+    },
+    {
+     "lod": 1,
+     "vertices": 65,
+     "triangles": 76
+    },
+    {
+     "lod": 2,
+     "vertices": 65,
+     "triangles": 76
+    }
+   ],
+   "textures": [
+    "17f16e8738594ed3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank03": {
+   "file": "be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_woodplank03-fa03f15e.glb",
+   "bytes": 6180,
+   "vertices": 65,
+   "triangles": 76,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 65,
+     "triangles": 76
+    },
+    {
+     "lod": 1,
+     "vertices": 65,
+     "triangles": 76
+    },
+    {
+     "lod": 2,
+     "vertices": 65,
+     "triangles": 76
+    }
+   ],
+   "textures": [
+    "17f16e8738594ed3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank04": {
+   "file": "be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_woodplank04-d468d293.glb",
+   "bytes": 6256,
+   "vertices": 67,
+   "triangles": 76,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 67,
+     "triangles": 76
+    },
+    {
+     "lod": 1,
+     "vertices": 67,
+     "triangles": 76
+    },
+    {
+     "lod": 2,
+     "vertices": 67,
+     "triangles": 76
+    }
+   ],
+   "textures": [
+    "17f16e8738594ed3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken01": {
+   "file": "sters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_woodplankbroken01-915c4c3d.glb",
+   "bytes": 6424,
+   "vertices": 70,
+   "triangles": 72,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 70,
+     "triangles": 72
+    },
+    {
+     "lod": 1,
+     "vertices": 70,
+     "triangles": 72
+    },
+    {
+     "lod": 2,
+     "vertices": 70,
+     "triangles": 72
+    }
+   ],
+   "textures": [
+    "17f16e8738594ed3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken02": {
+   "file": "sters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_woodplankbroken02-f813496f.glb",
+   "bytes": 6108,
+   "vertices": 53,
+   "triangles": 50,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 53,
+     "triangles": 50
+    },
+    {
+     "lod": 1,
+     "vertices": 53,
+     "triangles": 50
+    },
+    {
+     "lod": 2,
+     "vertices": 53,
+     "triangles": 50
+    }
+   ],
+   "textures": [
+    "17f16e8738594ed3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken03": {
+   "file": "sters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_woodplankbroken03-fefc3615.glb",
+   "bytes": 6304,
+   "vertices": 66,
+   "triangles": 68,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 66,
+     "triangles": 68
+    },
+    {
+     "lod": 1,
+     "vertices": 66,
+     "triangles": 68
+    },
+    {
+     "lod": 2,
+     "vertices": 66,
+     "triangles": 68
+    }
+   ],
+   "textures": [
+    "17f16e8738594ed3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01": {
+   "file": "_be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_woodpole01-02a2f3b0.glb",
+   "bytes": 25688,
+   "vertices": 590,
+   "triangles": 708,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 590,
+     "triangles": 708
+    },
+    {
+     "lod": 1,
+     "vertices": 509,
+     "triangles": 557
+    },
+    {
+     "lod": 2,
+     "vertices": 509,
+     "triangles": 557
+    }
+   ],
+   "textures": [
+    "09430645ca1512ac",
+    "17f16e8738594ed3"
+   ]
+  },
+  "vanilla:architecture/docks/dockcolstr01": {
+   "file": "vanilla_architecture_docks_dockcolstr01-5f48edbb.glb",
+   "bytes": 12836,
+   "vertices": 268,
+   "triangles": 342,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 268,
+     "triangles": 342
+    },
+    {
+     "lod": 1,
+     "vertices": 268,
+     "triangles": 342
+    },
+    {
+     "lod": 2,
+     "vertices": 268,
+     "triangles": 342
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0"
+   ]
+  },
+  "vanilla:architecture/docks/dockcolstr02": {
+   "file": "vanilla_architecture_docks_dockcolstr02-20dc74fb.glb",
+   "bytes": 13260,
+   "vertices": 355,
+   "triangles": 240,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 355,
+     "triangles": 240
+    },
+    {
+     "lod": 1,
+     "vertices": 355,
+     "triangles": 240
+    },
+    {
+     "lod": 2,
+     "vertices": 355,
+     "triangles": 240
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0"
+   ]
+  },
+  "vanilla:architecture/docks/dockcolstrsign01": {
+   "file": "vanilla_architecture_docks_dockcolstrsign01-50e2b3b4.glb",
+   "bytes": 34000,
+   "vertices": 739,
+   "triangles": 714,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 739,
+     "triangles": 714
+    },
+    {
+     "lod": 1,
+     "vertices": 681,
+     "triangles": 600
+    },
+    {
+     "lod": 2,
+     "vertices": 681,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0"
+   ]
+  },
+  "vanilla:architecture/docks/dockcolstrsignrope01": {
+   "file": "vanilla_architecture_docks_dockcolstrsignrope01-5c29c2bd.glb",
+   "bytes": 11708,
+   "vertices": 220,
+   "triangles": 282,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 220,
+     "triangles": 282
+    },
+    {
+     "lod": 1,
+     "vertices": 220,
+     "triangles": 282
+    },
+    {
+     "lod": 2,
+     "vertices": 220,
+     "triangles": 282
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0"
+   ]
+  },
+  "vanilla:architecture/docks/dockcorsol01": {
+   "file": "vanilla_architecture_docks_dockcorsol01-930aac43.glb",
+   "bytes": 56372,
+   "vertices": 1763,
+   "triangles": 1682,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1763,
+     "triangles": 1682
+    },
+    {
+     "lod": 1,
+     "vertices": 1256,
+     "triangles": 818
+    },
+    {
+     "lod": 2,
+     "vertices": 1256,
+     "triangles": 818
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "vanilla:architecture/docks/dockropestr01": {
+   "file": "vanilla_architecture_docks_dockropestr01-d073c1da.glb",
+   "bytes": 5328,
+   "vertices": 80,
+   "triangles": 96,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 80,
+     "triangles": 96
+    },
+    {
+     "lod": 1,
+     "vertices": 80,
+     "triangles": 96
+    },
+    {
+     "lod": 2,
+     "vertices": 80,
+     "triangles": 96
+    }
+   ],
+   "textures": [
+    "70752238f00904ba"
+   ]
+  },
+  "vanilla:architecture/docks/dockropestr02": {
+   "file": "vanilla_architecture_docks_dockropestr02-96d8bcb6.glb",
+   "bytes": 5752,
+   "vertices": 112,
+   "triangles": 96,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 112,
+     "triangles": 96
+    },
+    {
+     "lod": 1,
+     "vertices": 112,
+     "triangles": 96
+    },
+    {
+     "lod": 2,
+     "vertices": 112,
+     "triangles": 96
+    }
+   ],
+   "textures": [
+    "70752238f00904ba"
+   ]
+  },
+  "vanilla:architecture/docks/dockstepsdown01": {
+   "file": "vanilla_architecture_docks_dockstepsdown01-0c365e50.glb",
+   "bytes": 51592,
+   "vertices": 1752,
+   "triangles": 1624,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1752,
+     "triangles": 1624
+    },
+    {
+     "lod": 1,
+     "vertices": 1189,
+     "triangles": 758
+    },
+    {
+     "lod": 2,
+     "vertices": 1189,
+     "triangles": 758
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "vanilla:architecture/docks/dockstepsdown02": {
+   "file": "vanilla_architecture_docks_dockstepsdown02-c91a1660.glb",
+   "bytes": 61040,
+   "vertices": 1948,
+   "triangles": 1772,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1948,
+     "triangles": 1772
+    },
+    {
+     "lod": 1,
+     "vertices": 1194,
+     "triangles": 766
+    },
+    {
+     "lod": 2,
+     "vertices": 1180,
+     "triangles": 760
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "vanilla:architecture/docks/dockstepsdownend01": {
+   "file": "vanilla_architecture_docks_dockstepsdownend01-8fa95976.glb",
+   "bytes": 33908,
+   "vertices": 702,
+   "triangles": 684,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 702,
+     "triangles": 684
+    },
+    {
+     "lod": 1,
+     "vertices": 678,
+     "triangles": 642
+    },
+    {
+     "lod": 2,
+     "vertices": 678,
+     "triangles": 642
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "vanilla:architecture/docks/dockstr4way01": {
+   "file": "vanilla_architecture_docks_dockstr4way01-e5965dfa.glb",
+   "bytes": 47368,
+   "vertices": 1386,
+   "triangles": 1248,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1386,
+     "triangles": 1248
+    },
+    {
+     "lod": 1,
+     "vertices": 1106,
+     "triangles": 752
+    },
+    {
+     "lod": 2,
+     "vertices": 1106,
+     "triangles": 752
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "vanilla:architecture/docks/dockstrent01": {
+   "file": "vanilla_architecture_docks_dockstrent01-549c27b4.glb",
+   "bytes": 52756,
+   "vertices": 1613,
+   "triangles": 1538,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1613,
+     "triangles": 1538
+    },
+    {
+     "lod": 1,
+     "vertices": 1184,
+     "triangles": 790
+    },
+    {
+     "lod": 2,
+     "vertices": 1184,
+     "triangles": 790
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "vanilla:architecture/docks/dockstrent02": {
+   "file": "vanilla_architecture_docks_dockstrent02-b5e66033.glb",
+   "bytes": 52412,
+   "vertices": 1589,
+   "triangles": 1526,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1589,
+     "triangles": 1526
+    },
+    {
+     "lod": 1,
+     "vertices": 1162,
+     "triangles": 780
+    },
+    {
+     "lod": 2,
+     "vertices": 1162,
+     "triangles": 780
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "vanilla:architecture/docks/dockstrent03": {
+   "file": "vanilla_architecture_docks_dockstrent03-9a18333a.glb",
+   "bytes": 44972,
+   "vertices": 1223,
+   "triangles": 1130,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1223,
+     "triangles": 1130
+    },
+    {
+     "lod": 1,
+     "vertices": 1031,
+     "triangles": 781
+    },
+    {
+     "lod": 2,
+     "vertices": 1031,
+     "triangles": 781
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "vanilla:architecture/docks/dockstrent04": {
+   "file": "vanilla_architecture_docks_dockstrent04-39809cd3.glb",
+   "bytes": 43888,
+   "vertices": 1159,
+   "triangles": 1098,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1159,
+     "triangles": 1098
+    },
+    {
+     "lod": 1,
+     "vertices": 972,
+     "triangles": 755
+    },
+    {
+     "lod": 2,
+     "vertices": 972,
+     "triangles": 755
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "vanilla:architecture/docks/dockstrsol01": {
+   "file": "vanilla_architecture_docks_dockstrsol01-03aef258.glb",
+   "bytes": 50916,
+   "vertices": 1472,
+   "triangles": 1476,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1472,
+     "triangles": 1476
+    },
+    {
+     "lod": 1,
+     "vertices": 1094,
+     "triangles": 768
+    },
+    {
+     "lod": 2,
+     "vertices": 1094,
+     "triangles": 768
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "vanilla:architecture/docks/dockstrsol02": {
+   "file": "vanilla_architecture_docks_dockstrsol02-2971f930.glb",
+   "bytes": 79772,
+   "vertices": 2029,
+   "triangles": 2130,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2029,
+     "triangles": 2130
+    },
+    {
+     "lod": 1,
+     "vertices": 1280,
+     "triangles": 862
+    },
+    {
+     "lod": 2,
+     "vertices": 1204,
+     "triangles": 784
+    }
+   ],
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  }
+ },
+ "fires": {}
+}

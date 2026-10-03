@@ -64,7 +64,7 @@ id at the named position; readers never get labelled images.
 17. Is there no rubble ring, skirt band or code-placed clutter hugging the base or blocking the door? (L33) `reader`
 18. For a stilt or quay piece: are the legs visible, the deck above the ground or water, and the stair reaching the ground? (L24, L30) `rule:floorEdgeRule, walkRule`
 19. For a dug-in piece: is the threshold flush with the approach, and are the flanks closed by ground or rock with no hollow end showing? (L25, L26) `reader`
-20. Do run pieces (walls, fences, docks, boardwalks) meet at their joints with no gap, overlap or step in height? (L28, L29; Gate "Seated, joined") `rule:compile.modularRuns (mined abuts pairs)`
+20. Do run pieces (walls, fences, docks, boardwalks) meet at their joints with no gap, overlap or step in height? (L28, L29; Gate "Seated, joined") `rule:compile.modularRuns (mined abuts pairs)`. A stone ring round a pool is a run too: closed at the ground with no ground showing between stones, low, and no cairn or stack in it (lessons: stone lip round a `pool` op) `rule:blender/examples/ring_lip.py closedAtGround`
 21. Is no plant, bush or tree standing in a doorway or through a floor? (L35) `rule:compile.clearance, walkRule`
 22. Is the solid mass (tower, stair block) left without a door unless it is meant to be entered? (L18) `reader`
 23. Does a landing stage end over dry ground, with its closing step's foot on that ground? (L31, water-edge places only) `rule:berthReachRule`

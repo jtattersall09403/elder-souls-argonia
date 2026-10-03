@@ -52,14 +52,14 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useFrame, useLoader, useThree } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import type { WebGPURenderer } from "three/webgpu";
 import { GpuCullPool, type PooledDraw } from "@elder-souls/game-core/render/gpuCull/GpuCullPool";
 import { unionBand } from "@elder-souls/game-core/render/gpuCull/cullMath";
 import { deferDispose } from "@elder-souls/game-core/render/deferDispose";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
-import { configureKitLoader } from "@elder-souls/game-core/assets/kitLoader";
+import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
+import { useKitParts } from "./useKitParts";
 import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
 import {
   buildFloraKit,
@@ -1173,8 +1173,10 @@ export function Groundcover({
   const maxWindowFrame = useRef(0);
 
   const decoders = useKitDecoders(baseUrl);
-  const gltf = useLoader(GLTFLoader, `${baseUrl}kits/groundcover-province-v1.glb`,
-    (loader) => configureKitLoader(loader, decoders));
+  // The kit's parts (0120), every species in one pass: groundcover is placed
+  // procedurally per tile, so no index names the species a chunk draws.
+  const kitCache = useMemo(() => new KitCache(), []);
+  const gltf = useKitParts(baseUrl, "groundcover-province-v1", decoders, kitCache, { priority: "high" });
 
   useEffect(() => {
     let cancelled = false;
@@ -1262,7 +1264,7 @@ export function Groundcover({
   }, [settlementBundle]);
 
   useEffect(() => {
-    if (manifest) setKit(buildFloraKit(gltf, manifest));
+    if (gltf && manifest) setKit(buildFloraKit(gltf, manifest));
   }, [gltf, manifest]);
 
   // The easy half of the wind work: groundcover casts no shadows, so there is
@@ -1292,7 +1294,7 @@ export function Groundcover({
     gcCull?.dispose();
   }, [gcCull]);
   const cards = useMemo(
-    () => (kit ? buildCardIndex(gltf, kit) : new Map<string, KitLevelPart>()), [gltf, kit]);
+    () => (gltf && kit ? buildCardIndex(gltf, kit) : new Map<string, KitLevelPart>()), [gltf, kit]);
 
   useFrame((state) => {
     // Ground-cover stage of the frame (decision 0084 round 10).

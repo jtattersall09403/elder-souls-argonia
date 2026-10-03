@@ -31,24 +31,28 @@ describe("WaterfallKitMaterial vertex colour", () => {
 
   // perf10 F37b: the PUBLISHED kit the studio loads keeps the edge alpha the shader reads: COLOR_1/COLOR_2
   // (GLTFLoader: color_1/color_2), uncompressed, and COLOR_2 reaches 0 on the sheet edges.
-  it("the published kit GLB carries COLOR_2 edge alpha under the names the shader reads", () => {
-    const b = readFileSync(new URL("../../../../../apps/world-studio/public/kits/waterfall-fx-v1.glb", import.meta.url));
-    const n = b.readUInt32LE(12);
-    const j = JSON.parse(b.subarray(20, 20 + n).toString("utf8"));
-    const bin = b.subarray(20 + n + 8);
-    expect(j.extensionsUsed ?? []).not.toContain("EXT_meshopt_compression");
+  it("the published kit parts carry COLOR_2 edge alpha under the names the shader reads", () => {
+    const dir = new URL("../../../../../apps/world-studio/public/kits/waterfall-fx-v1/parts/", import.meta.url);
+    const index = JSON.parse(readFileSync(new URL("index.json", dir), "utf8")) as { assets: Record<string, { file: string }> };
     let sheets = 0;
-    for (const m of j.meshes) for (const p of m.primitives) {
-      for (const a of Object.keys(p.attributes).filter((k) => /^COLOR_[12]$/.test(k))) {
-        expect(KIT_VERTEX_COLOUR_ATTRIBUTES).toContain(a.toLowerCase());
+    for (const row of Object.values(index.assets)) {
+      const b = readFileSync(new URL(row.file, dir));
+      const n = b.readUInt32LE(12);
+      const j = JSON.parse(b.subarray(20, 20 + n).toString("utf8"));
+      const bin = b.subarray(20 + n + 8);
+      expect(j.extensionsUsed ?? []).not.toContain("EXT_meshopt_compression");
+      for (const m of j.meshes ?? []) for (const p of m.primitives) {
+        for (const a of Object.keys(p.attributes).filter((k) => /^COLOR_[12]$/.test(k))) {
+          expect(KIT_VERTEX_COLOUR_ATTRIBUTES).toContain(a.toLowerCase());
+        }
+        if (p.attributes.COLOR_2 == null) continue;
+        const ac = j.accessors[p.attributes.COLOR_2], bv = j.bufferViews[ac.bufferView];
+        expect(ac.componentType).toBe(5123);
+        const at = (bv.byteOffset ?? 0) + (ac.byteOffset ?? 0), st = bv.byteStride ?? 8;
+        let min = 1;
+        for (let i = 0; i < ac.count; i++) min = Math.min(min, bin.readUInt16LE(at + i * st) / 65535);
+        if (min < 0.01) sheets++;
       }
-      if (p.attributes.COLOR_2 == null) continue;
-      const ac = j.accessors[p.attributes.COLOR_2], bv = j.bufferViews[ac.bufferView];
-      expect(ac.componentType).toBe(5123);
-      const at = (bv.byteOffset ?? 0) + (ac.byteOffset ?? 0), st = bv.byteStride ?? 8;
-      let min = 1;
-      for (let i = 0; i < ac.count; i++) min = Math.min(min, bin.readUInt16LE(at + i * st) / 65535);
-      if (min < 0.01) sheets++;
     }
     // 59 of the 65 shapes carry COLOR_2; 57 feather to 0 (two rapids foam pieces bottom out near 0.2)
     expect(sheets).toBeGreaterThanOrEqual(50);

@@ -102,7 +102,7 @@ Claywater signatures; none repeats here (§ Bars).
 | Spring-keeper's house `b-fam1` | the spring-keeper and her family | `composite:mud/kotm-house-pod` 13.6 × 13.9 m, door facing 17° onto the spring-house path; was `mudhut01`, then `composite:mud/hut-with-entrance` (§ Doors) | notable slot |
 | Family hut `b-fam2` | a family of the village (n2), the cook-fire | `composite:mud/hut-with-entrance`; was `mudhut01` (§ Doors) | record n2 band |
 | East family hut `b-fam3` | a second family by the track | `composite:mud/hut-with-entrance` | record n2 band |
-| Spring house `b-shed` | shelter for the spring's jars and stone lip | `mudmother:gv_meshes/argoniannest/argoniantent02` at 0.85 (5.2 × 4.5 m), open side facing the pool | record why/vibe; LH37, LH38 |
+| Spring house `b-shed` | shelter for the spring's jars | `mudmother:gv_meshes/argoniannest/argoniantent02` at 0.85 (5.2 × 4.5 m), open side facing the pool | record why/vibe; LH37, LH38 |
 | The Hist `hist` | the village's tribal Hist, sick | `histtree:skyfall/sleeping tree overhaul/ancient sleeping tree` 24.9 × 27.1 × 24.4 m, on a pad (mound) | 97 C4 the Hist wins; L17 |
 | Hist shrine | the shrine service at the Hist's foot | `rune circle` (anchor), two `argoniantotem01`, `windchimehavok`, two Hist flowers, two candles | L17: a shrine, not a temple |
 | Graves (walk 9) | the village's dead under two low cairns, one north-west of the Hist and one north of the spring-keeper's house: burial runs through the Hist | `burialcairn02` (works-v1) ×2 | `argonia-4e201-state.md:165-167`; `references/dressing.md` § 4 |
@@ -143,32 +143,39 @@ Enclosure kinds: none (97 owner call 8).
 
 ### The spring
 
-The village is named for the spring (record `why`). Until walk 4 nothing
-showed it but a cairn and a jar. Now the layout's `pool` op `sp-pool` cuts a
-basin at 4718, 1868: water 2.5 m in radius, 0.5 m deep, with a 1.0 m rim
-that grades back to the bank. The export writes it as a `pool` ground overlay
-and a still water surface in the place's `pools[]`, which the studio shows at
-load. The natural ground on the rim stands 0.08-0.18 m over the water on the
-north and east and 0.01-0.14 m under it on the south-west (bearings 210-270),
-towards the river.
+The village is named for the spring (record `why`). The layout's `pool` op
+`sp-pool` cuts a basin at 4718, 1868: water 2.5 m in radius, 0.5 m deep,
+with a 0.3 m rim that grades back to natural ground. The export writes it as
+a `pool` ground overlay and a still water surface in the place's `pools[]`,
+which the studio shows at load. The still water lies about 0.08 m under the
+ground at the centre.
+
+The record's "stone lip" is two rings of boulders just outside the basin cut,
+each standing on natural ground. The inner ring is thirteen
+`vanilla:landscape/rocks/rocks02`: `sp-ring1`-`sp-ring4` and
+`sp-ring6`-`sp-ring14` (`sp-ring5` is retired, Std 2), chained round the
+centre at 2.92 m (`sp-ring3` at 2.97 m). Each touches the next, with `wb check`
+gaps of 0.002-0.045 m. The rock policy seats each on its lowest three
+contacts, 0.42-0.51 m into the ground (`rockSeat` embed, bar 0.576 m), so
+about 0.3 m shows. The rocks02 touch only below the ground. Above it, gaps of 0.14-0.33 m stay
+open between them (`placement-workbench/blender/examples/ring_lip.py`). The outer ring is
+thirteen `rocks03` boulders, `sp-fill1`-`sp-fill13`, set over those gaps at
+3.2 m from the centre. They sit 0.95-1.05 m deep (bar 1.133 m) and show about
+0.5 m. The plugins place rocks03 touching rocks02 (21 references in the
+`kit-mounts-mined` abuts), so the crossing is designed. With both rings the lip
+is closed at 0.05 m above the ground. Its slits are 0.09 m or less at 0.15 m. No plugin in the pool places a ring, well or pool-edge set that an
+Argonian village may use. The ones found and turned down are Whiterun's pond
+walls (Nord), the Imperial `mwimparchpool01`, the 2.49 m Argonian
+`stonewallcurve01/02` and the volcanic `mineralpoolsm01` (in no kit). Black
+Marsh pools in the micrositing data are edged by plants, not stone. Loose
+boulders on measured contacts are the lip. No cairn stands at the spring.
 
 The spring house tent moved east of the pool to 4729.0, 1867.5, turned to
 yaw 270 so its open side faces the water across the spring-house path. It
 could not stay by the water: a building pad outranks the pool and grades the
 ground for 3 m past its edge, so any pad closer than 5.5 m to the centre
-would lift the basin. The jars, the basket, the candle, the stone cairn
-`sp-lip2` and the urn `sp-urn` stand on the tent's pad. Three more
-cairns stand on the rim's north side, 3.25 m from the centre:
-`sp-rim1` (`rockcairn01`, bearing 20°), `sp-rim2` (`rockcairn03`, 65°) and
-`sp-rim3` (`rockcairn04`, 335°). The rock policy rests a cairn on its lowest
-three contacts and lets it sink up to 0.3 m. Each height is set
-in the layout (3.162, 3.26 and 3.138 m) from the rock seat on the ground
-once the pool's rim grades it. `settle` cannot give it yet, because it reads
-no pool ground and does not use the rock seat. The seats put the cairns'
-lowest points 0.18-0.29 m over the still water (2.93 m). The 3.1 m `rockcairn02` is
-not used. Its sink is a mesh reading; a 3 m piece on such a sink fails
-0105 R36. Its one plugin placement is scaled, so the sink miner cannot
-measure it. The Hist flower that stood on the ground at the spring now
+would lift the basin. The jars, the basket, the candle and the urn `sp-urn`
+stand on the tent's pad. The Hist flower that stood on the ground at the spring now
 hangs in the Hist (§ Lights).
 
 ### Lights

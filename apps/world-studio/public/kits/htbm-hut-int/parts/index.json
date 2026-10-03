@@ -1,18 +1,21 @@
 {
- "schemaVersion": 3,
+ "schemaVersion": 4,
  "kit": "htbm-hut-int",
- "exterior": false,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
+  "bytes": 13179416,
+  "sha256": "b1fe76d1ec406d66d370f83915246af3665d8d1f540faafbab9a4e4eaa46979b"
+ },
+ "packed": {
   "bytes": 6184400,
   "sha256": "8f4bff1bfeb2b3e2cc8d430adf8d2a71b711b1e2a31a1ec23891718be483f281"
  },
  "totals": {
-  "parts": 9,
-  "partBytes": 754968,
-  "textureFiles": 15,
-  "textureBytes": 3518223,
-  "bytes": 4273191
+  "parts": 15,
+  "partBytes": 1114840,
+  "textureFiles": 23,
+  "textureBytes": 5602080,
+  "bytes": 6716920
  },
  "assets": {
   "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int": {
@@ -98,6 +101,32 @@
     "dc4f3c7828673f51"
    ]
   },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/chestwicker01": {
+   "file": "ere_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_chestwicker01-9b4d711f.glb",
+   "bytes": 23448,
+   "vertices": 523,
+   "triangles": 494,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 523,
+     "triangles": 494
+    },
+    {
+     "lod": 1,
+     "vertices": 522,
+     "triangles": 492
+    },
+    {
+     "lod": 2,
+     "vertices": 522,
+     "triangles": 492
+    }
+   ],
+   "textures": [
+    "51e8c770ae87ec18"
+   ]
+  },
   "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01": {
    "file": "re_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_wickerbasket01-ce6ae8cc.glb",
    "bytes": 18780,
@@ -150,6 +179,144 @@
     "08a71e40d4da0f06",
     "27855f4d597ffa3c",
     "dcff439e64e45d53"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickersofa01": {
+   "file": "here_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_wickersofa01-d52ce440.glb",
+   "bytes": 67024,
+   "vertices": 1522,
+   "triangles": 1737,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1522,
+     "triangles": 1737
+    },
+    {
+     "lod": 1,
+     "vertices": 1098,
+     "triangles": 1037
+    },
+    {
+     "lod": 2,
+     "vertices": 1098,
+     "triangles": 1037
+    }
+   ],
+   "textures": [
+    "08a71e40d4da0f06",
+    "27855f4d597ffa3c",
+    "dcff439e64e45d53"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01": {
+   "file": "ere_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_wickertable01-e2eb7b3d.glb",
+   "bytes": 35700,
+   "vertices": 768,
+   "triangles": 1064,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 768,
+     "triangles": 1064
+    },
+    {
+     "lod": 1,
+     "vertices": 442,
+     "triangles": 508
+    },
+    {
+     "lod": 2,
+     "vertices": 442,
+     "triangles": 508
+    }
+   ],
+   "textures": [
+    "08a71e40d4da0f06",
+    "27855f4d597ffa3c",
+    "a87ac81b0fcbbeb8"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/bamboohut01_int": {
+   "file": "_be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_bamboohut01_int-0c585b16.glb",
+   "bytes": 210584,
+   "vertices": 6025,
+   "triangles": 7010,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6025,
+     "triangles": 7010
+    },
+    {
+     "lod": 1,
+     "vertices": 3406,
+     "triangles": 3476
+    },
+    {
+     "lod": 2,
+     "vertices": 2420,
+     "triangles": 2526
+    }
+   ],
+   "textures": [
+    "0f5a5c790f0e0267",
+    "69b5dc725db42187",
+    "dc4f3c7828673f51",
+    "eb8ecfcf4106453a"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbtrapdoor02-74a4522b.glb",
+   "bytes": 10292,
+   "vertices": 176,
+   "triangles": 230,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 176,
+     "triangles": 230
+    },
+    {
+     "lod": 1,
+     "vertices": 176,
+     "triangles": 230
+    },
+    {
+     "lod": 2,
+     "vertices": 176,
+     "triangles": 230
+    }
+   ],
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:clutter/barrel01": {
+   "file": "vanilla_clutter_barrel01-65266384.glb",
+   "bytes": 12824,
+   "vertices": 286,
+   "triangles": 396,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 286,
+     "triangles": 396
+    },
+    {
+     "lod": 1,
+     "vertices": 238,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 238,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "940d11c16a11b275"
    ]
   },
   "vanilla:clutter/giant/giantcampfire01off": {

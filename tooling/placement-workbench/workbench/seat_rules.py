@@ -263,6 +263,7 @@ def burial_piece(cat, scene, ctx, p) -> tuple[dict, list]:
 
 ROCK_POLICY = {
     "tokens": ("rockcairn", "boulder"),
+    "folder": "landscape/rocks/",
     "contacts": 3,          # seated by its lowest three contacts ...
     "contactM": 0.05,       # ... each within this of the ground (or under it)
     "spreadM": 0.15,        # ... at least this far apart in plan
@@ -277,12 +278,24 @@ cairns rockcairn01-04 and the boulder classes) seat by rock_seat, never by
 the direct fit's 2 deg slope / ground-delta rule or the footFloat bar."""
 
 
-def is_rock(asset: str) -> bool:
-    return _has(asset, ROCK_POLICY["tokens"])
+def is_rock(asset: str, cat=None) -> bool:
+    """The landscape rock family by its folder (rocks0N, rockm/l, rockpiles,
+    wetrocks: greenspring sp-ring3, audit10 c5) or a token. With ``cat``, a
+    folder member counts only when the plugins measured its sink (a cave
+    mouth carries a policy sink only: jungle-root-hollow b-mouth is no
+    seated rock); without it, by the folder alone."""
+    if _has(asset, ROCK_POLICY["tokens"]):
+        return True
+    if ROCK_POLICY["folder"] not in asset.lower():
+        return False
+    if cat is None:
+        return True
+    ev = str((cat.row(asset).get("designedSinkM") or {}).get("evidence") or "")
+    return ev.startswith(DESIGNED_EVIDENCE)
 
 
 def rock_targets(cat, scene) -> list[str]:
-    return [p.uid for p in scene.pieces if is_rock(p.asset) and not _mounted(scene, p)
+    return [p.uid for p in scene.pieces if is_rock(p.asset, cat) and not _mounted(scene, p)
             and not p.beached]
 
 
@@ -320,6 +333,16 @@ def rock_seat_y(cat, g, p) -> float:
     return float(p.y) - float(gaps[idx[-1]])
 
 
+def rock_designed_embed(cat, asset: str, scale: float) -> float:
+    """The base depth the plugins' p75 sink gives the rock ((p75 + pivot
+    over base) x scale) when the sink is plugin-measured; 0 otherwise."""
+    row = cat.row(asset)
+    ds = row.get("designedSinkM") or {}
+    if not str(ds.get("evidence") or "").startswith(DESIGNED_EVIDENCE) or ds.get("p75") is None:
+        return 0.0
+    return (float(ds["p75"]) + float(row["originOffsetM"][2])) * scale
+
+
 def rock_piece(cat, scene, ctx, p) -> tuple[dict, list]:
     """rockSeatRule for one rock: ROCK_POLICY["contacts"] spread points
     within contactM of the padded ground (or under it), and no point
@@ -332,16 +355,21 @@ def rock_piece(cat, scene, ctx, p) -> tuple[dict, list]:
     idx = _spread_contacts(xy, gaps, k)
     third = float(gaps[idx[-1]]) if len(idx) == k else math.inf
     embed = max(0.0, -float(gaps.min()))
+    # a landscape rock the plugins sink deeper (rocks0N p50 0.33-0.82 m,
+    # rockl 1.7 m) may embed as deep as the plugins' upper quartile sink
+    # puts its base (its lowest point on a slope reads deeper than at p50)
+    embed_max = max(ROCK_POLICY["embedMaxM"], rock_designed_embed(cat, p.asset, p.scale))
     r = {"contactGapsM": [round(float(gaps[i]), 3) for i in idx], "embedM": round(embed, 3),
+         "embedMaxM": round(embed_max, 3),
          "seatYM": round(float(p.y) - third, 3) if math.isfinite(third) else None,
          "policy": "rock"}
     fails = []
     if third > ROCK_POLICY["contactM"]:
         fails.append(f"{p.uid}: rests on fewer than {k} contacts (the {k}th stands "
                      f"{third:.2f} m over the ground; seat it at y {r['seatYM']})")
-    if embed > ROCK_POLICY["embedMaxM"] + BURY_TOL_M:
-        fails.append(f"{p.uid}: embedded {embed:.2f} m (> {ROCK_POLICY['embedMaxM']} m, "
-                     f"0075 rock seating): a flatter spot or a smaller rock")
+    if embed > embed_max + BURY_TOL_M:
+        fails.append(f"{p.uid}: embedded {embed:.2f} m (> {embed_max:.2f} m, 0075 rock "
+                     f"seating or its designed sink): a flatter spot or a smaller rock")
     return {p.uid: r}, fails
 
 

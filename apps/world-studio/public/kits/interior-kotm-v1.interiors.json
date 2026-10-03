@@ -128,7 +128,7 @@
     "deg": 133.5,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 134\u00b0 in the piece's own frame carries 1.36x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 133\u00b0 in the piece's own frame carries 1.36x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -1707,12 +1707,7 @@
    "category": "armour",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": {
-    "deg": 342.9,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 343\u00b0 in the piece's own frame carries 3.73x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "interior": "none",
    "provenance": [],
    "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"

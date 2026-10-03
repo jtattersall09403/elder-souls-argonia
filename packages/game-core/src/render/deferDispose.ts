@@ -64,7 +64,7 @@ interface AttributesLike { delete(attribute: object): unknown }
  * start: its own index and attribute buffers are deleted through the
  * WebGPURenderer's attribute store, never through `geometry.dispose()` (whose
  * handler deletes the mesh's current, live attributes; see the header). A
- * renderer without that store (WebGLRenderer, a stub) frees by
+ * renderer without that store (a stub) frees by
  * `geometry.dispose()`, whose handler reads the geometry's own attributes.
  */
 export function deferDisposeReplaced(renderer: object | null | undefined, geometry: THREE.BufferGeometry): void {

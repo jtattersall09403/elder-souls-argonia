@@ -8,37 +8,37 @@
  "kits": {
   "interior-farmhouse-v1": {
    "id": "interior-farmhouse-v1",
-   "glb": "kits/interior-farmhouse-v1.glb",
+   "parts": "kits/interior-farmhouse-v1/parts/index.json",
    "manifest": "kits/interior-farmhouse-v1.kit.json"
   },
   "interior-kotm-v1": {
    "id": "interior-kotm-v1",
-   "glb": "kits/interior-kotm-v1.glb",
+   "parts": "kits/interior-kotm-v1/parts/index.json",
    "manifest": "kits/interior-kotm-v1.kit.json"
   },
   "mudmother-hut-int": {
    "id": "mudmother-hut-int",
-   "glb": "kits/mudmother-hut-int.glb",
+   "parts": "kits/mudmother-hut-int/parts/index.json",
    "manifest": "kits/mudmother-hut-int.kit.json"
   },
   "settlement-imperial-v1": {
    "id": "settlement-imperial-v1",
-   "glb": "kits/settlement-imperial-v1.glb",
+   "parts": "kits/settlement-imperial-v1/parts/index.json",
    "manifest": "kits/settlement-imperial-v1.kit.json"
   },
   "settlement-mud-v1": {
    "id": "settlement-mud-v1",
-   "glb": "kits/settlement-mud-v1.glb",
+   "parts": "kits/settlement-mud-v1/parts/index.json",
    "manifest": "kits/settlement-mud-v1.kit.json"
   },
   "settlement-root-v1": {
    "id": "settlement-root-v1",
-   "glb": "kits/settlement-root-v1.glb",
+   "parts": "kits/settlement-root-v1/parts/index.json",
    "manifest": "kits/settlement-root-v1.kit.json"
   },
   "works-v1": {
    "id": "works-v1",
-   "glb": "kits/works-v1.glb",
+   "parts": "kits/works-v1/parts/index.json",
    "manifest": "kits/works-v1.kit.json"
   }
  },

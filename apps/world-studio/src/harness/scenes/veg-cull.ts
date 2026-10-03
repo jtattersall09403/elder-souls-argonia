@@ -21,6 +21,8 @@
  * The harness's own frames then draw the GPU path (CPU path on WebGL).
  */
 import * as THREE from "three";
+import { loadKitParts } from "@elder-souls/game-core/assets/loadKitParts";
+import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { MeshStandardNodeMaterial, type WebGPURenderer } from "three/webgpu";
 import { createKitDecoders, createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
 import { createWindUniforms, updateWindSway, windStiffness } from "@elder-souls/game-core/fx/windSway";
@@ -90,7 +92,7 @@ const scene: HarnessScene = {
     const base = import.meta.env.BASE_URL ?? "/";
     const decoders = createKitDecoders(renderer, base);
     const [gltf, manifest] = await Promise.all([
-      createKitLoader(decoders).loadAsync(`${base}kits/flora-province-v1.glb`),
+      loadKitParts("flora-province-v1", "all", { baseUrl: base, kitCache: new KitCache(), loader: createKitLoader(decoders) }),
       fetch(`${base}kits/flora-province-v1.kit.json`).then((r) => r.json() as Promise<KitManifest>),
     ]);
     const kit = buildFloraKit(gltf, manifest);

@@ -1,0 +1,1989 @@
+{
+ "schemaVersion": 4,
+ "kit": "hlaalu-domestic",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 22009548,
+  "sha256": "126ee2f3518174dbd2db24566cf5a3954dbc6add3cae19156f851e4a3c51bb99"
+ },
+ "packed": {
+  "bytes": 8421548,
+  "sha256": "df696cc9659f48d35655c9ce3d69354f60375058f77e03a547b423f248362740"
+ },
+ "totals": {
+  "parts": 72,
+  "partBytes": 4375264,
+  "textureFiles": 27,
+  "textureBytes": 5424400,
+  "bytes": 9799664
+ },
+ "assets": {
+  "bmv:architecture/phitt/aldredanyia/house03": {
+   "file": "bmv_architecture_phitt_aldredanyia_house03-87fc31ca.glb",
+   "bytes": 34764,
+   "vertices": 557,
+   "triangles": 628,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 557,
+     "triangles": 628
+    },
+    {
+     "lod": 1,
+     "vertices": 520,
+     "triangles": 551
+    },
+    {
+     "lod": 2,
+     "vertices": 520,
+     "triangles": 551
+    }
+   ],
+   "textures": [
+    "53d74d2d61060ab0",
+    "5e0477592db68945",
+    "694ca0f605dfb9b2",
+    "ffe5351d2b2be097"
+   ]
+  },
+  "bmv:architecture/phitt/aldredanyia/overhang05": {
+   "file": "bmv_architecture_phitt_aldredanyia_overhang05-de97911f.glb",
+   "bytes": 35676,
+   "vertices": 922,
+   "triangles": 1056,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 922,
+     "triangles": 1056
+    },
+    {
+     "lod": 1,
+     "vertices": 757,
+     "triangles": 780
+    },
+    {
+     "lod": 2,
+     "vertices": 757,
+     "triangles": 780
+    }
+   ],
+   "textures": [
+    "65707778a58cf3f6",
+    "93fd713b595605fe",
+    "c83180e21cad555f",
+    "d7be88ff8a19c46c"
+   ]
+  },
+  "bmv:architecture/phitt/aldredanyia/window": {
+   "file": "bmv_architecture_phitt_aldredanyia_window-21809d52.glb",
+   "bytes": 17068,
+   "vertices": 275,
+   "triangles": 312,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 275,
+     "triangles": 312
+    },
+    {
+     "lod": 1,
+     "vertices": 275,
+     "triangles": 312
+    },
+    {
+     "lod": 2,
+     "vertices": 275,
+     "triangles": 312
+    }
+   ],
+   "textures": [
+    "694ca0f605dfb9b2",
+    "a5654fc0626420b4",
+    "ffe5351d2b2be097"
+   ]
+  },
+  "composite:phitt/marsh-house-03": {
+   "file": "composite_phitt_marsh-house-03-6db3d9cc.glb",
+   "bytes": 131580,
+   "vertices": 2579,
+   "triangles": 2932,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2579,
+     "triangles": 2932
+    },
+    {
+     "lod": 1,
+     "vertices": 2374,
+     "triangles": 2579
+    },
+    {
+     "lod": 2,
+     "vertices": 2374,
+     "triangles": 2579
+    }
+   ],
+   "textures": [
+    "53d74d2d61060ab0",
+    "5e0477592db68945",
+    "65707778a58cf3f6",
+    "694ca0f605dfb9b2",
+    "93fd713b595605fe",
+    "a5654fc0626420b4",
+    "c83180e21cad555f",
+    "d7be88ff8a19c46c",
+    "ffe5351d2b2be097"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/baseentrance00": {
+   "file": "hlaalu_hlaaluarchitecture_custom_baseentrance00-e803e9cb.glb",
+   "bytes": 113720,
+   "vertices": 4030,
+   "triangles": 4116,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4030,
+     "triangles": 4116
+    },
+    {
+     "lod": 1,
+     "vertices": 2290,
+     "triangles": 1658
+    },
+    {
+     "lod": 2,
+     "vertices": 1513,
+     "triangles": 1017
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "bdc3c166e71e4371",
+    "da654673894db3e6",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/baseentrance01": {
+   "file": "hlaalu_hlaaluarchitecture_custom_baseentrance01-bae888f7.glb",
+   "bytes": 68992,
+   "vertices": 2599,
+   "triangles": 2829,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2599,
+     "triangles": 2829
+    },
+    {
+     "lod": 1,
+     "vertices": 1413,
+     "triangles": 1155
+    },
+    {
+     "lod": 2,
+     "vertices": 841,
+     "triangles": 636
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "bdc3c166e71e4371",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/basetower00": {
+   "file": "hlaalu_hlaaluarchitecture_custom_basetower00-b3df0484.glb",
+   "bytes": 41268,
+   "vertices": 1300,
+   "triangles": 1428,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1300,
+     "triangles": 1428
+    },
+    {
+     "lod": 1,
+     "vertices": 755,
+     "triangles": 693
+    },
+    {
+     "lod": 2,
+     "vertices": 661,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/basetower01": {
+   "file": "hlaalu_hlaaluarchitecture_custom_basetower01-51e728ca.glb",
+   "bytes": 85620,
+   "vertices": 2731,
+   "triangles": 2715,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2731,
+     "triangles": 2715
+    },
+    {
+     "lod": 1,
+     "vertices": 1615,
+     "triangles": 1196
+    },
+    {
+     "lod": 2,
+     "vertices": 1330,
+     "triangles": 981
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "da654673894db3e6",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/dome": {
+   "file": "hlaalu_hlaaluarchitecture_custom_dome-d666c938.glb",
+   "bytes": 35208,
+   "vertices": 887,
+   "triangles": 1188,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 887,
+     "triangles": 1188
+    },
+    {
+     "lod": 1,
+     "vertices": 678,
+     "triangles": 804
+    },
+    {
+     "lod": 2,
+     "vertices": 678,
+     "triangles": 804
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/entrance00": {
+   "file": "hlaalu_hlaaluarchitecture_custom_entrance00-c9881f57.glb",
+   "bytes": 40708,
+   "vertices": 1263,
+   "triangles": 1492,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1263,
+     "triangles": 1492
+    },
+    {
+     "lod": 1,
+     "vertices": 798,
+     "triangles": 771
+    },
+    {
+     "lod": 2,
+     "vertices": 735,
+     "triangles": 683
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "bdc3c166e71e4371",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/house01": {
+   "file": "hlaalu_hlaaluarchitecture_custom_house01-0c651607.glb",
+   "bytes": 164208,
+   "vertices": 6692,
+   "triangles": 7754,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6692,
+     "triangles": 7754
+    },
+    {
+     "lod": 1,
+     "vertices": 3523,
+     "triangles": 3076
+    },
+    {
+     "lod": 2,
+     "vertices": 2100,
+     "triangles": 1631
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "bdc3c166e71e4371",
+    "da654673894db3e6",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/house01base": {
+   "file": "hlaalu_hlaaluarchitecture_custom_house01base-7ff316a9.glb",
+   "bytes": 65148,
+   "vertices": 2668,
+   "triangles": 2692,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2668,
+     "triangles": 2692
+    },
+    {
+     "lod": 1,
+     "vertices": 1442,
+     "triangles": 1072
+    },
+    {
+     "lod": 2,
+     "vertices": 850,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/housebase00": {
+   "file": "hlaalu_hlaaluarchitecture_custom_housebase00-90cb6e26.glb",
+   "bytes": 57348,
+   "vertices": 2191,
+   "triangles": 2300,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2191,
+     "triangles": 2300
+    },
+    {
+     "lod": 1,
+     "vertices": 1197,
+     "triangles": 970
+    },
+    {
+     "lod": 2,
+     "vertices": 764,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/housebase01": {
+   "file": "hlaalu_hlaaluarchitecture_custom_housebase01-d42100e3.glb",
+   "bytes": 102096,
+   "vertices": 3622,
+   "triangles": 3587,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3622,
+     "triangles": 3587
+    },
+    {
+     "lod": 1,
+     "vertices": 2075,
+     "triangles": 1473
+    },
+    {
+     "lod": 2,
+     "vertices": 1437,
+     "triangles": 981
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "da654673894db3e6",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/housetall01": {
+   "file": "hlaalu_hlaaluarchitecture_custom_housetall01-b17aa870.glb",
+   "bytes": 12368,
+   "vertices": 205,
+   "triangles": 304,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 205,
+     "triangles": 304
+    },
+    {
+     "lod": 1,
+     "vertices": 205,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 205,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/largewindow00": {
+   "file": "hlaalu_hlaaluarchitecture_custom_largewindow00-6aa48131.glb",
+   "bytes": 9340,
+   "vertices": 157,
+   "triangles": 143,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 157,
+     "triangles": 143
+    },
+    {
+     "lod": 1,
+     "vertices": 157,
+     "triangles": 143
+    },
+    {
+     "lod": 2,
+     "vertices": 157,
+     "triangles": 143
+    }
+   ],
+   "textures": [
+    "da654673894db3e6",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/middletower00": {
+   "file": "hlaalu_hlaaluarchitecture_custom_middletower00-086ec340.glb",
+   "bytes": 34068,
+   "vertices": 988,
+   "triangles": 1168,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 988,
+     "triangles": 1168
+    },
+    {
+     "lod": 1,
+     "vertices": 610,
+     "triangles": 602
+    },
+    {
+     "lod": 2,
+     "vertices": 608,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/middletower01": {
+   "file": "hlaalu_hlaaluarchitecture_custom_middletower01-e90f7434.glb",
+   "bytes": 87664,
+   "vertices": 2896,
+   "triangles": 2884,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2896,
+     "triangles": 2884
+    },
+    {
+     "lod": 1,
+     "vertices": 1759,
+     "triangles": 1272
+    },
+    {
+     "lod": 2,
+     "vertices": 1361,
+     "triangles": 1008
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "da654673894db3e6",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/roof": {
+   "file": "hlaalu_hlaaluarchitecture_custom_roof-70663e33.glb",
+   "bytes": 9464,
+   "vertices": 114,
+   "triangles": 94,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 114,
+     "triangles": 94
+    },
+    {
+     "lod": 1,
+     "vertices": 114,
+     "triangles": 94
+    },
+    {
+     "lod": 2,
+     "vertices": 114,
+     "triangles": 94
+    }
+   ],
+   "textures": [
+    "e0684afb6da12d5d",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/toptower00": {
+   "file": "hlaalu_hlaaluarchitecture_custom_toptower00-fa6b6148.glb",
+   "bytes": 56336,
+   "vertices": 2204,
+   "triangles": 2300,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2204,
+     "triangles": 2300
+    },
+    {
+     "lod": 1,
+     "vertices": 1211,
+     "triangles": 970
+    },
+    {
+     "lod": 2,
+     "vertices": 773,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/toptower01": {
+   "file": "hlaalu_hlaaluarchitecture_custom_toptower01-51ebae85.glb",
+   "bytes": 109156,
+   "vertices": 4115,
+   "triangles": 4016,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4115,
+     "triangles": 4016
+    },
+    {
+     "lod": 1,
+     "vertices": 2374,
+     "triangles": 1640
+    },
+    {
+     "lod": 2,
+     "vertices": 1534,
+     "triangles": 1008
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "da654673894db3e6",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower00": {
+   "file": "hlaalu_hlaaluarchitecture_custom_tower00-93ab176a.glb",
+   "bytes": 104540,
+   "vertices": 4495,
+   "triangles": 4896,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4495,
+     "triangles": 4896
+    },
+    {
+     "lod": 1,
+     "vertices": 2177,
+     "triangles": 1713
+    },
+    {
+     "lod": 2,
+     "vertices": 1136,
+     "triangles": 767
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower01": {
+   "file": "hlaalu_hlaaluarchitecture_custom_tower01-02706746.glb",
+   "bytes": 181596,
+   "vertices": 7665,
+   "triangles": 8104,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 7665,
+     "triangles": 8104
+    },
+    {
+     "lod": 1,
+     "vertices": 4008,
+     "triangles": 3018
+    },
+    {
+     "lod": 2,
+     "vertices": 2256,
+     "triangles": 1483
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "bdc3c166e71e4371",
+    "da654673894db3e6",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower02": {
+   "file": "hlaalu_hlaaluarchitecture_custom_tower02-8fd03d1f.glb",
+   "bytes": 156316,
+   "vertices": 6401,
+   "triangles": 6612,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6401,
+     "triangles": 6612
+    },
+    {
+     "lod": 1,
+     "vertices": 3333,
+     "triangles": 2383
+    },
+    {
+     "lod": 2,
+     "vertices": 1874,
+     "triangles": 1175
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "da654673894db3e6",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower03": {
+   "file": "hlaalu_hlaaluarchitecture_custom_tower03-da5b0835.glb",
+   "bytes": 193748,
+   "vertices": 8308,
+   "triangles": 8328,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 8308,
+     "triangles": 8328
+    },
+    {
+     "lod": 1,
+     "vertices": 4486,
+     "triangles": 3054
+    },
+    {
+     "lod": 2,
+     "vertices": 2191,
+     "triangles": 1368
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "da654673894db3e6",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower04": {
+   "file": "hlaalu_hlaaluarchitecture_custom_tower04-acce0b92.glb",
+   "bytes": 168288,
+   "vertices": 6668,
+   "triangles": 6936,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6668,
+     "triangles": 6936
+    },
+    {
+     "lod": 1,
+     "vertices": 3547,
+     "triangles": 2609
+    },
+    {
+     "lod": 2,
+     "vertices": 2071,
+     "triangles": 1379
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "bdc3c166e71e4371",
+    "da654673894db3e6",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower05": {
+   "file": "hlaalu_hlaaluarchitecture_custom_tower05-0436e545.glb",
+   "bytes": 80604,
+   "vertices": 3490,
+   "triangles": 3728,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3490,
+     "triangles": 3728
+    },
+    {
+     "lod": 1,
+     "vertices": 1743,
+     "triangles": 1364
+    },
+    {
+     "lod": 2,
+     "vertices": 942,
+     "triangles": 664
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower06": {
+   "file": "hlaalu_hlaaluarchitecture_custom_tower06-e9da7015.glb",
+   "bytes": 133516,
+   "vertices": 5399,
+   "triangles": 5444,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5399,
+     "triangles": 5444
+    },
+    {
+     "lod": 1,
+     "vertices": 2885,
+     "triangles": 2034
+    },
+    {
+     "lod": 2,
+     "vertices": 1669,
+     "triangles": 1072
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "da654673894db3e6",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower07": {
+   "file": "hlaalu_hlaaluarchitecture_custom_tower07-755d2a7f.glb",
+   "bytes": 168176,
+   "vertices": 7313,
+   "triangles": 7160,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 7313,
+     "triangles": 7160
+    },
+    {
+     "lod": 1,
+     "vertices": 3999,
+     "triangles": 2705
+    },
+    {
+     "lod": 2,
+     "vertices": 2021,
+     "triangles": 1265
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "da654673894db3e6",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower08": {
+   "file": "hlaalu_hlaaluarchitecture_custom_tower08-a32e61ea.glb",
+   "bytes": 253712,
+   "vertices": 11005,
+   "triangles": 11107,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 11005,
+     "triangles": 11107
+    },
+    {
+     "lod": 1,
+     "vertices": 6028,
+     "triangles": 4192
+    },
+    {
+     "lod": 2,
+     "vertices": 2995,
+     "triangles": 1902
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "bdc3c166e71e4371",
+    "da654673894db3e6",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/miniwall": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_miniwall-8785e1e8.glb",
+   "bytes": 128100,
+   "vertices": 5971,
+   "triangles": 4272,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5971,
+     "triangles": 4272
+    },
+    {
+     "lod": 1,
+     "vertices": 2223,
+     "triangles": 1495
+    },
+    {
+     "lod": 2,
+     "vertices": 960,
+     "triangles": 512
+    }
+   ],
+   "textures": [
+    "80f13f58cf51249e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall001": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_misc_walls_stonewall001-41bcfb9c.glb",
+   "bytes": 4828,
+   "vertices": 36,
+   "triangles": 36,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 36,
+     "triangles": 36
+    },
+    {
+     "lod": 1,
+     "vertices": 36,
+     "triangles": 36
+    },
+    {
+     "lod": 2,
+     "vertices": 36,
+     "triangles": 36
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall002": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_misc_walls_stonewall002-1aef81f2.glb",
+   "bytes": 5040,
+   "vertices": 48,
+   "triangles": 54,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 48,
+     "triangles": 54
+    },
+    {
+     "lod": 1,
+     "vertices": 48,
+     "triangles": 54
+    },
+    {
+     "lod": 2,
+     "vertices": 48,
+     "triangles": 54
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall003": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_misc_walls_stonewall003-f57c8fe5.glb",
+   "bytes": 5048,
+   "vertices": 48,
+   "triangles": 54,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 48,
+     "triangles": 54
+    },
+    {
+     "lod": 1,
+     "vertices": 48,
+     "triangles": 54
+    },
+    {
+     "lod": 2,
+     "vertices": 48,
+     "triangles": 54
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcorner001": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_misc_walls_stonewallcorner001-08d81002.glb",
+   "bytes": 5504,
+   "vertices": 72,
+   "triangles": 90,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 72,
+     "triangles": 90
+    },
+    {
+     "lod": 1,
+     "vertices": 72,
+     "triangles": 90
+    },
+    {
+     "lod": 2,
+     "vertices": 72,
+     "triangles": 90
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcurve001": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_misc_walls_stonewallcurve001-af204050.glb",
+   "bytes": 5820,
+   "vertices": 96,
+   "triangles": 126,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 96,
+     "triangles": 126
+    },
+    {
+     "lod": 1,
+     "vertices": 96,
+     "triangles": 126
+    },
+    {
+     "lod": 2,
+     "vertices": 96,
+     "triangles": 126
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallendpillar001": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_misc_walls_stonewallendpillar001-423050c3.glb",
+   "bytes": 9436,
+   "vertices": 108,
+   "triangles": 136,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 108,
+     "triangles": 136
+    },
+    {
+     "lod": 1,
+     "vertices": 108,
+     "triangles": 136
+    },
+    {
+     "lod": 2,
+     "vertices": 108,
+     "triangles": 136
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallgatearc001": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_misc_walls_stonewallgatearc001-c6709e32.glb",
+   "bytes": 12844,
+   "vertices": 242,
+   "triangles": 336,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 242,
+     "triangles": 336
+    },
+    {
+     "lod": 1,
+     "vertices": 219,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 219,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/multi_barrels00": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_multi_barrels00-16807338.glb",
+   "bytes": 325568,
+   "vertices": 10537,
+   "triangles": 11244,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 10537,
+     "triangles": 11244
+    },
+    {
+     "lod": 1,
+     "vertices": 8995,
+     "triangles": 8397
+    },
+    {
+     "lod": 2,
+     "vertices": 8995,
+     "triangles": 8397
+    }
+   ],
+   "textures": [
+    "638a1c5c1dada020",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/multi_crate00": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_multi_crate00-eac92b60.glb",
+   "bytes": 51368,
+   "vertices": 1762,
+   "triangles": 1208,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1762,
+     "triangles": 1208
+    },
+    {
+     "lod": 1,
+     "vertices": 1762,
+     "triangles": 1208
+    },
+    {
+     "lod": 2,
+     "vertices": 1762,
+     "triangles": 1208
+    }
+   ],
+   "textures": [
+    "7fab0e33b122d12c"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/skavenclaystairs": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_skavenclaystairs-db6d6e7d.glb",
+   "bytes": 10272,
+   "vertices": 216,
+   "triangles": 144,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 216,
+     "triangles": 144
+    },
+    {
+     "lod": 1,
+     "vertices": 216,
+     "triangles": 144
+    },
+    {
+     "lod": 2,
+     "vertices": 216,
+     "triangles": 144
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/stairs01": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_stairs01-f0ef243b.glb",
+   "bytes": 24028,
+   "vertices": 757,
+   "triangles": 948,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 757,
+     "triangles": 948
+    },
+    {
+     "lod": 1,
+     "vertices": 522,
+     "triangles": 523
+    },
+    {
+     "lod": 2,
+     "vertices": 522,
+     "triangles": 523
+    }
+   ],
+   "textures": [
+    "bdc3c166e71e4371",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/tradehome": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_tradehome-90f3fc26.glb",
+   "bytes": 16968,
+   "vertices": 504,
+   "triangles": 260,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 504,
+     "triangles": 260
+    },
+    {
+     "lod": 1,
+     "vertices": 504,
+     "triangles": 260
+    },
+    {
+     "lod": 2,
+     "vertices": 504,
+     "triangles": 260
+    }
+   ],
+   "textures": [
+    "961f7570adcf79bb"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trcrane02base": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trcrane02base-0ebc1b87.glb",
+   "bytes": 28856,
+   "vertices": 1260,
+   "triangles": 720,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1260,
+     "triangles": 720
+    },
+    {
+     "lod": 1,
+     "vertices": 614,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 614,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "961f7570adcf79bb"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge01": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmbridge01-0b206105.glb",
+   "bytes": 34016,
+   "vertices": 891,
+   "triangles": 1248,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 891,
+     "triangles": 1248
+    },
+    {
+     "lod": 1,
+     "vertices": 594,
+     "triangles": 664
+    },
+    {
+     "lod": 2,
+     "vertices": 594,
+     "triangles": 664
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "bdc3c166e71e4371",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmbridge02-24186b13.glb",
+   "bytes": 59400,
+   "vertices": 1663,
+   "triangles": 2302,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1663,
+     "triangles": 2302
+    },
+    {
+     "lod": 1,
+     "vertices": 936,
+     "triangles": 957
+    },
+    {
+     "lod": 2,
+     "vertices": 805,
+     "triangles": 804
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "bdc3c166e71e4371",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmcover1": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmcover1-202ef4b5.glb",
+   "bytes": 23876,
+   "vertices": 481,
+   "triangles": 502,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 481,
+     "triangles": 502
+    },
+    {
+     "lod": 1,
+     "vertices": 481,
+     "triangles": 502
+    },
+    {
+     "lod": 2,
+     "vertices": 481,
+     "triangles": 502
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmcover2": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmcover2-f43eddf2.glb",
+   "bytes": 33900,
+   "vertices": 728,
+   "triangles": 792,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 728,
+     "triangles": 792
+    },
+    {
+     "lod": 1,
+     "vertices": 728,
+     "triangles": 792
+    },
+    {
+     "lod": 2,
+     "vertices": 728,
+     "triangles": 792
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmcoverstairs": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmcoverstairs-2795f5a4.glb",
+   "bytes": 36292,
+   "vertices": 899,
+   "triangles": 897,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 899,
+     "triangles": 897
+    },
+    {
+     "lod": 1,
+     "vertices": 899,
+     "triangles": 897
+    },
+    {
+     "lod": 2,
+     "vertices": 899,
+     "triangles": 897
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmfence": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmfence-8eecf467.glb",
+   "bytes": 8028,
+   "vertices": 68,
+   "triangles": 46,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 68,
+     "triangles": 46
+    },
+    {
+     "lod": 1,
+     "vertices": 68,
+     "triangles": 46
+    },
+    {
+     "lod": 2,
+     "vertices": 68,
+     "triangles": 46
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmfenceend": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmfenceend-5a4526d1.glb",
+   "bytes": 10140,
+   "vertices": 192,
+   "triangles": 206,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 192,
+     "triangles": 206
+    },
+    {
+     "lod": 1,
+     "vertices": 192,
+     "triangles": 206
+    },
+    {
+     "lod": 2,
+     "vertices": 192,
+     "triangles": 206
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmfencepost": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmfencepost-8c8d2c95.glb",
+   "bytes": 8984,
+   "vertices": 110,
+   "triangles": 134,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 110,
+     "triangles": 134
+    },
+    {
+     "lod": 1,
+     "vertices": 110,
+     "triangles": 134
+    },
+    {
+     "lod": 2,
+     "vertices": 110,
+     "triangles": 134
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmlcwall-d471d844.glb",
+   "bytes": 4348,
+   "vertices": 30,
+   "triangles": 22,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 30,
+     "triangles": 22
+    },
+    {
+     "lod": 1,
+     "vertices": 30,
+     "triangles": 22
+    },
+    {
+     "lod": 2,
+     "vertices": 30,
+     "triangles": 22
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall90a": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmlcwall90a-275e0e53.glb",
+   "bytes": 5248,
+   "vertices": 76,
+   "triangles": 66,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 76,
+     "triangles": 66
+    },
+    {
+     "lod": 1,
+     "vertices": 76,
+     "triangles": 66
+    },
+    {
+     "lod": 2,
+     "vertices": 76,
+     "triangles": 66
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokena": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmlcwallbrokena-e1d2a6ad.glb",
+   "bytes": 18724,
+   "vertices": 486,
+   "triangles": 446,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 486,
+     "triangles": 446
+    },
+    {
+     "lod": 1,
+     "vertices": 384,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 384,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenb": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmlcwallbrokenb-53e8334d.glb",
+   "bytes": 17140,
+   "vertices": 449,
+   "triangles": 430,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 449,
+     "triangles": 430
+    },
+    {
+     "lod": 1,
+     "vertices": 351,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 351,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenc": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmlcwallbrokenc-61e975f5.glb",
+   "bytes": 8456,
+   "vertices": 294,
+   "triangles": 268,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 294,
+     "triangles": 268
+    },
+    {
+     "lod": 1,
+     "vertices": 294,
+     "triangles": 268
+    },
+    {
+     "lod": 2,
+     "vertices": 294,
+     "triangles": 268
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallend": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmlcwallend-a0e51f5d.glb",
+   "bytes": 4856,
+   "vertices": 54,
+   "triangles": 50,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 54,
+     "triangles": 50
+    },
+    {
+     "lod": 1,
+     "vertices": 54,
+     "triangles": 50
+    },
+    {
+     "lod": 2,
+     "vertices": 54,
+     "triangles": 50
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallentera": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmlcwallentera-3f393983.glb",
+   "bytes": 6144,
+   "vertices": 136,
+   "triangles": 152,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 136,
+     "triangles": 152
+    },
+    {
+     "lod": 1,
+     "vertices": 136,
+     "triangles": 152
+    },
+    {
+     "lod": 2,
+     "vertices": 136,
+     "triangles": 152
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallenterb": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmlcwallenterb-7baf90c3.glb",
+   "bytes": 6804,
+   "vertices": 188,
+   "triangles": 215,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 188,
+     "triangles": 215
+    },
+    {
+     "lod": 1,
+     "vertices": 188,
+     "triangles": 215
+    },
+    {
+     "lod": 2,
+     "vertices": 188,
+     "triangles": 215
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmstairs01-d80ac3c1.glb",
+   "bytes": 8564,
+   "vertices": 307,
+   "triangles": 251,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 307,
+     "triangles": 251
+    },
+    {
+     "lod": 1,
+     "vertices": 307,
+     "triangles": 251
+    },
+    {
+     "lod": 2,
+     "vertices": 307,
+     "triangles": 251
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock01": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmstoneblock01-fdbebede.glb",
+   "bytes": 4588,
+   "vertices": 36,
+   "triangles": 30,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 36,
+     "triangles": 30
+    },
+    {
+     "lod": 1,
+     "vertices": 36,
+     "triangles": 30
+    },
+    {
+     "lod": 2,
+     "vertices": 36,
+     "triangles": 30
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock02": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmstoneblock02-02de9a08.glb",
+   "bytes": 4572,
+   "vertices": 36,
+   "triangles": 30,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 36,
+     "triangles": 30
+    },
+    {
+     "lod": 1,
+     "vertices": 36,
+     "triangles": 30
+    },
+    {
+     "lod": 2,
+     "vertices": 36,
+     "triangles": 30
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock03": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmstoneblock03-919befa6.glb",
+   "bytes": 4560,
+   "vertices": 36,
+   "triangles": 30,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 36,
+     "triangles": 30
+    },
+    {
+     "lod": 1,
+     "vertices": 36,
+     "triangles": 30
+    },
+    {
+     "lod": 2,
+     "vertices": 36,
+     "triangles": 30
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/objects/crane01": {
+   "file": "hlaalu_hlaaluarchitecture_objects_crane01-c969802a.glb",
+   "bytes": 176860,
+   "vertices": 5594,
+   "triangles": 5184,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5594,
+     "triangles": 5184
+    },
+    {
+     "lod": 1,
+     "vertices": 4144,
+     "triangles": 3417
+    },
+    {
+     "lod": 2,
+     "vertices": 4001,
+     "triangles": 3282
+    }
+   ],
+   "textures": [
+    "09318c1ebcf93f2d",
+    "289ab3078ad33017",
+    "4aa6b2df8b9813ce",
+    "6dc005f6d00197e5",
+    "8f73d247007ce917",
+    "e4eaf07169f1c690",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/objects/crane02": {
+   "file": "hlaalu_hlaaluarchitecture_objects_crane02-6a94774d.glb",
+   "bytes": 171580,
+   "vertices": 5343,
+   "triangles": 4788,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5343,
+     "triangles": 4788
+    },
+    {
+     "lod": 1,
+     "vertices": 3854,
+     "triangles": 3024
+    },
+    {
+     "lod": 2,
+     "vertices": 3686,
+     "triangles": 2866
+    }
+   ],
+   "textures": [
+    "09318c1ebcf93f2d",
+    "289ab3078ad33017",
+    "4aa6b2df8b9813ce",
+    "6dc005f6d00197e5",
+    "8f73d247007ce917",
+    "e4eaf07169f1c690",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/objects/crane03": {
+   "file": "hlaalu_hlaaluarchitecture_objects_crane03-5073f2a3.glb",
+   "bytes": 184948,
+   "vertices": 5695,
+   "triangles": 5264,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5695,
+     "triangles": 5264
+    },
+    {
+     "lod": 1,
+     "vertices": 4121,
+     "triangles": 3352
+    },
+    {
+     "lod": 2,
+     "vertices": 3927,
+     "triangles": 3166
+    }
+   ],
+   "textures": [
+    "09318c1ebcf93f2d",
+    "289ab3078ad33017",
+    "4aa6b2df8b9813ce",
+    "6dc005f6d00197e5",
+    "8f73d247007ce917",
+    "940d11c16a11b275",
+    "e4eaf07169f1c690",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/objects/sbigplanter02t": {
+   "file": "hlaalu_hlaaluarchitecture_objects_sbigplanter02t-5633eba0.glb",
+   "bytes": 18900,
+   "vertices": 262,
+   "triangles": 204,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 262,
+     "triangles": 204
+    },
+    {
+     "lod": 1,
+     "vertices": 262,
+     "triangles": 204
+    },
+    {
+     "lod": 2,
+     "vertices": 262,
+     "triangles": 204
+    }
+   ],
+   "textures": [
+    "279e2ff2dfa6e9a8",
+    "a22cf358b7d3b179",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/objects/trlanternpost1arm": {
+   "file": "hlaalu_hlaaluarchitecture_objects_trlanternpost1arm-b80bc837.glb",
+   "bytes": 33808,
+   "vertices": 1110,
+   "triangles": 1595,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1110,
+     "triangles": 1595
+    },
+    {
+     "lod": 1,
+     "vertices": 501,
+     "triangles": 558
+    },
+    {
+     "lod": 2,
+     "vertices": 308,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/objects/trlanternpost2arm": {
+   "file": "hlaalu_hlaaluarchitecture_objects_trlanternpost2arm-7f03d605.glb",
+   "bytes": 39508,
+   "vertices": 1380,
+   "triangles": 1944,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1380,
+     "triangles": 1944
+    },
+    {
+     "lod": 1,
+     "vertices": 636,
+     "triangles": 680
+    },
+    {
+     "lod": 2,
+     "vertices": 340,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/objects/trlanternpost4arm": {
+   "file": "hlaalu_hlaaluarchitecture_objects_trlanternpost4arm-56ca6b86.glb",
+   "bytes": 49872,
+   "vertices": 1915,
+   "triangles": 2642,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1915,
+     "triangles": 2642
+    },
+    {
+     "lod": 1,
+     "vertices": 887,
+     "triangles": 924
+    },
+    {
+     "lod": 2,
+     "vertices": 416,
+     "triangles": 316
+    }
+   ],
+   "textures": [
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/objects/trlanternpostbase": {
+   "file": "hlaalu_hlaaluarchitecture_objects_trlanternpostbase-e7fd5074.glb",
+   "bytes": 5172,
+   "vertices": 63,
+   "triangles": 94,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 63,
+     "triangles": 94
+    },
+    {
+     "lod": 1,
+     "vertices": 63,
+     "triangles": 94
+    },
+    {
+     "lod": 2,
+     "vertices": 63,
+     "triangles": 94
+    }
+   ],
+   "textures": [
+    "ffd74e2fd5a9a82e"
+   ]
+  }
+ },
+ "fires": {}
+}

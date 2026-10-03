@@ -21,7 +21,7 @@ def fixture(tmp: Path) -> Path:
                                                                        "sockets": [{"positionM": [1.0, 0.0, -2.0]}, {"positionM": [3.0, 0.0, 0.0]}]}))
     pl = lambda i, a, x, z, kind="settlement": {"id": i, "assetId": a, "kind": kind, "positionM": [x, 0, z]}
     bundle = {
-        "kits": {"k1": {"glb": "kits/k1.glb"}},
+        "kits": {"k1": {"parts": "kits/k1/parts/index.json"}},
         "settlement": {"boundaryM": [[0, 0], [100, 0], [100, 100], [0, 100]],
                        "walkRoutes": {"routes": {"r": {"points": [[10, 0, 10], [20, 0, 10], [30, 0, 20]]}}},
                        "groundPaint": {"entries": [

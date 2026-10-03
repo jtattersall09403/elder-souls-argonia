@@ -31,11 +31,18 @@ const GATE_ASSET = "mwimparchwallgate01";
 (globalThis as { ProgressEvent?: unknown }).ProgressEvent ??=
   class { constructor(public type: string, public options: unknown) {} };
 
-/** The PUBLISHED kit (the tracked copy that ships, so the runner and CI read
- * the same bytes; raw builds are never tracked): meshopt-decoded geometry,
- * textures and materials stripped (no KTX2 decode in node). */
-async function loadPublishedKit(kit: string) {
-  const bytes = readFileSync(resolve(ROOT, `apps/world-studio/public/kits/${kit}.glb`));
+/** The PUBLISHED part files of a kit (decision 0120: the tracked copy that
+ * ships, so the runner and CI read the same bytes; raw builds are never tracked), by asset id. */
+function publishedPartFiles(kit: string): Map<string, string> {
+  const dir = resolve(ROOT, `apps/world-studio/public/kits/${kit}/parts`);
+  const index = JSON.parse(readFileSync(resolve(dir, "index.json"), "utf8")) as { assets: Record<string, { file: string }> };
+  return new Map(Object.entries(index.assets).map(([id, row]) => [id, resolve(dir, row.file)]));
+}
+
+/** One PUBLISHED part: meshopt-decoded geometry, textures and materials
+ * stripped (no KTX2 decode in node). */
+async function loadPublishedPart(kit: string, assetId: string) {
+  const bytes = readFileSync(publishedPartFiles(kit).get(assetId)!);
   const length = bytes.readUInt32LE(12);
   const json = JSON.parse(bytes.subarray(20, 20 + length).toString());
   const binary = bytes.subarray(28 + length);
@@ -65,7 +72,15 @@ const lod0Cache = new Map<string, Map<string, number>>();
 function lod0Primitives(kit: string): Map<string, number> {
   const hit = lod0Cache.get(kit);
   if (hit) return hit;
-  const glb = readFileSync(resolve(ROOT, `apps/world-studio/public/kits/${kit}.glb`));
+  const counts = new Map<string, number>();
+  for (const file of publishedPartFiles(kit).values()) {
+    for (const [assetId, n] of lod0PrimitivesOf(readFileSync(file))) counts.set(assetId, n);
+  }
+  lod0Cache.set(kit, counts);
+  return counts;
+}
+
+function lod0PrimitivesOf(glb: Buffer): Map<string, number> {
   const jsonLength = glb.readUInt32LE(12);
   type Node = { mesh?: number; children?: number[]; extras?: { lod?: number; assetId?: string } };
   const doc = JSON.parse(glb.subarray(20, 20 + jsonLength).toString("utf8")) as {
@@ -84,7 +99,6 @@ function lod0Primitives(kit: string): Map<string, number> {
     const assetId = nodes[index].extras?.assetId;
     if (typeof assetId === "string") counts.set(assetId, walk(index));
   }
-  lod0Cache.set(kit, counts);
   return counts;
 }
 
@@ -107,7 +121,7 @@ function worldMesh(solid: SettlementSolid): THREE.Mesh[] {
 
 describe("settlement collision is the real shape", () => {
   it("collides Lilmoth's gate arch as triangles, with the road still open", async () => {
-    const gltf = await loadPublishedKit(gate.kit);
+    const gltf = await loadPublishedPart(gate.kit, gate.assetId);
     const asset = buildArchitectureKit(gltf).get(gate.assetId)!;
     expect(asset).toBeTruthy();
     const transform = placementTransform(gate, gate.positionM[1]);

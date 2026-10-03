@@ -10,7 +10,9 @@ import { MeshStandardNodeMaterial } from "three/webgpu";
 import { describe, expect, it } from "vitest";
 import {
   FIXTURE_LIGHTS_MAX,
+  FIXTURE_KNEE,
   FIXTURE_SCREEN_GAIN,
+  fixtureScreenValue,
   setFixtureLightsPerObject,
   FIXTURE_LIGHTS_PER_OBJECT,
   FixtureFieldLighting,
@@ -233,6 +235,9 @@ describe("FixtureLightField.forEachLight", () => {
     expect(screen(1)).toBeCloseTo(night, 6);
     expect(night).toBeCloseTo(2 * 0.3 / Math.PI * FIXTURE_SCREEN_GAIN, 6);
     expect((field.screenNode as unknown as { value: number }).value).toBeCloseTo(FIXTURE_SCREEN_GAIN, 6);
+    // the knee scales with exposure too, so its argument is exposure-free
+    field.setExposure(22);
+    expect((field.kneeNode as unknown as { value: number }).value * 22).toBeCloseTo(FIXTURE_KNEE, 9);
   });
 
   it("the lamp bound is part of the program cache key", async () => {
@@ -246,5 +251,13 @@ describe("FixtureLightField.forEachLight", () => {
       object: {}, material, renderer: { backend: {} }, clippingContextCacheKey: "", context: { id: 0 },
     });
     expect(key(a)).not.toBe(key(b));
+  });
+
+  it("the soft knee: lantern wall at 1 m ~0.68 sRGB, torch at the 0.8 m clamp ~0.76 linear (perf-diag23 Q5)", () => {
+    const lantern = fixtureScreenValue(2, 1, 0.3);
+    expect(lantern).toBeCloseTo(0.424, 2);
+    expect(Math.pow(lantern, 1 / 2.4) * 1.055 - 0.055).toBeCloseTo(0.68, 1);
+    expect(fixtureScreenValue(6, 0.5, 0.3)).toBeCloseTo(0.761, 2);
+    expect(fixtureScreenValue(2, 3, 0.3)).toBeCloseTo(0.0531, 3); // E 0.56: the knee barely moves it
   });
 });

@@ -1,4 +1,5 @@
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import type { KitPartsIndex } from "../assets/kitParts";
 
 /**
  * One loaded GLTF per published kit id, shared by every runtime layer that
@@ -19,6 +20,19 @@ export class KitCache {
       entry = load(url);
       entry.catch(() => { if (this.entries.get(kitId) === entry) this.entries.delete(kitId); });
       this.entries.set(kitId, entry);
+    }
+    return entry;
+  }
+
+  private readonly indexes = new Map<string, Promise<KitPartsIndex>>();
+
+  /** The kit's parts index (decision 0120), fetched through `load()` only once; a failure is forgotten. */
+  partsIndex(kitId: string, load: () => Promise<KitPartsIndex>): Promise<KitPartsIndex> {
+    let entry = this.indexes.get(kitId);
+    if (!entry) {
+      entry = load();
+      entry.catch(() => { if (this.indexes.get(kitId) === entry) this.indexes.delete(kitId); });
+      this.indexes.set(kitId, entry);
     }
     return entry;
   }

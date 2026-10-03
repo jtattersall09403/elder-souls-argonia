@@ -1704,6 +1704,15 @@ def _parcel_flood_evidence(parcel: dict, survey: ProvinceSurvey) -> dict:
         row, col = survey.grid_px(x, z)
         rec = survey.water_entity_at(x, z)
         is_open = bool(survey.open_water[row, col])
+        if rec is None and is_open:
+            # The open flag is the ANALYSIS cell's (5.5 m, depth > 0.5 m over
+            # the cell); the id raster's 3.7 m texel under this sample can be
+            # dry at the cell's edge (crossings bank-stair: 5 m of 5 cm marsh
+            # inside an open cell of body.2442-1212). Name the fact by the
+            # same cell it was read from, never leave it nameless.
+            near = survey.nearest_water_entity(x, z)
+            if near is not None and float(near.get("distanceM") or 0.0) <= survey.grid_px_m:
+                rec = near
         band = _band_of(rec)
         wr = min(max(int(z / wet_px_m), 0), wet_n - 1)
         wc = min(max(int(x / wet_px_m), 0), wet_n - 1)
@@ -2620,6 +2629,19 @@ def grid_max_slope_deg(footprint_m, survey) -> float:
                if box(c * px, r * px, (c + 1) * px, (r + 1) * px).intersects(poly))
 
 
+def _climb_parcel(parcel: dict) -> bool:
+    """A `pieces` run whose adjacent members rise more than the controller
+    step (`settlement_run_pads.climb_runs`): a stair flight up a bank."""
+    if not parcel.get("pieces") or "assetRef" in parcel:
+        return False
+    laid, run_errors = fp_mod.lay_pieces(parcel)
+    if run_errors or not laid:
+        return False
+    return bool(srp_mod.climb_runs([{"id": str(i), "run": {"id": parcel["id"], "index": i,
+                                                          "riseM": float(r.get("riseM", 0.0))}}
+                                    for i, r in enumerate(laid)]))
+
+
 def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                       warnings: list[str] | None = None) -> dict:
     source_bp = bp                      # hashed as authored, never as resolved
@@ -2677,7 +2699,11 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         if parcel.get("pad") is not None and pid not in pads:
             continue                    # refused by resolve_building_pads
         pad = pads.get(pid)
-        if delta > FIT_MAX[fit]:
+        # a climb (a stair flight) stands on the slope it climbs: neither its
+        # ground delta nor its fit slope is judged; walkwayRule is (audit10 c5/c6:
+        # the crossings stair's lowest 1.5 m spans 0.91 m of bank toe)
+        climb = _climb_parcel(parcel)
+        if delta > FIT_MAX[fit] and not climb:
             errors.append(
                 f"{pid}: measured Δ={delta:.2f} m exceeds groundFit '{fit}' "
                 f"(max {FIT_MAX[fit]:.2f} m) — never grade Δ>=2 m: use stilt/dug-in or re-site"
@@ -2712,12 +2738,6 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                 })
             # each piece is judged on its own measured outline, not the run's
             piece_polys = fp_mod.laid_polygons_m(parcel, laid) or [foot_m] * len(laid)
-            # a climb (a stair flight) stands on the slope it climbs: its fit slope
-            # is not judged; walkwayRule and landingRule are (audit10 c5)
-            from .settlement_run_pads import climb_runs
-            climb = bool(climb_runs([{"id": str(i), "run": {"id": pid, "index": i,
-                                                            "riseM": float(r.get("riseM", 0.0))}}
-                                     for i, r in enumerate(laid)]))
             for i, row in enumerate(laid):
                 slope = footprint_max_slope_deg(piece_polys[i], survey)
                 asset = shelf.find(culture, row["asset"], kind_of.get(pid, "structure"))

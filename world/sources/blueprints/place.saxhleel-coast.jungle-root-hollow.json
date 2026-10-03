@@ -115,7 +115,7 @@
           0.6189728
         ],
         "yawDeg": 350.0,
-        "yMeasured": 37.793,
+        "yMeasured": 37.193,
         "assembly": [
           {
             "id": "d-basket",
@@ -134,8 +134,8 @@
             "id": "d-chime",
             "asset": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
             "atM": [
-              0.1303,
-              -0.8482
+              0.1122,
+              -0.8593
             ],
             "yaw": 96.0,
             "on": "parent",
@@ -146,7 +146,7 @@
               "mountedOn": "r-vines",
               "unmined": "reader-approved r29"
             },
-            "upM": 3.1388,
+            "upM": 3.1438,
             "host": "r-vines"
           },
           {
@@ -610,10 +610,10 @@
         "sha256": "ef03739d429b1ad5c00359983ea0bd86bdcb58ade9bccaa503a29b2fc3c77ce8"
       },
       "kits": {
-        "dungeon-root-v1": "66a7812fa7024674c8e0a1b446ab4b5857498388f9b7bc9f72bd2247f2dc40dc",
-        "mudmother-hut-int": "bff2ca4aa7c35e6e9a46c1eb943f8bcf4bbf5e632667f43355ae1e1364910283",
-        "settlement-mud-v1": "62dc047d1ac7a7f5329635ae06edca66c410489b2f7f2418c818b9b57182bc12",
-        "settlement-root-v1": "68a8291b5596f9e60e803b55fff88cb9ba39fc58b650e9f8b59daeaaf8c37b74"
+        "dungeon-root-v1": "1aeaf82ebdb27ffd10bb181bf7f554c6764e46133042d8b85be27b2e284359ab",
+        "mudmother-hut-int": "45c9a3c490699dbf3409cd59b3b02d47c2f96b1e5a4c261fd9a29302dd4cdf7a",
+        "settlement-mud-v1": "742878416432e1a62eccc1c0b49059a6699ecb2af37501f155c9d471cbf866fa",
+        "settlement-root-v1": "4d1028fbb4c59cbe131fcb7e9f0c64771aa3b62c83f7a38b687aa39c9661e32e"
       },
       "layout": {
         "path": "world/sources/blueprints/jungle-root-hollow.layout.json",

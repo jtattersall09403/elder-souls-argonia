@@ -34,28 +34,6 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (1.1 m\u00b2 plan, 3.8 m tall)"
   },
-  "bmv:architecture/jets/miscstuff/dockracked02": {
-   "category": "architecture",
-   "entrance": null,
-   "entranceWhy": "not an enclosure, so no doorway is derived",
-   "floorOffsetM": 1.0,
-   "front": null,
-   "frontFaceFraction": 1.0,
-   "headroomM": 1.77,
-   "heightM": 3.76,
-   "interior": "none",
-   "medianWallM": 1.31,
-   "planAreaM2": 22.03,
-   "planCentreM": [
-    0.43,
-    -1.65
-   ],
-   "provenance": [],
-   "ringFraction": 1.0,
-   "roofOverhead": true,
-   "sizeClass": "small",
-   "why": "a crawl space, not a room \u2014 only 1.8 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
-  },
   "bmv:architecture/jets/miscstuff/dockramp": {
    "category": "architecture",
    "entrance": null,

@@ -70,30 +70,6 @@
     "widthM": 0.36
    }
   ],
-  "bmv:architecture/jets/miscstuff/dockracked02": [
-   {
-    "evidence": "bounds",
-    "face": "north",
-    "heightM": 3.76,
-    "normalDeg": 0.0,
-    "positionInPiece": [
-     0.06,
-     -4.68
-    ],
-    "widthM": 3.36
-   },
-   {
-    "evidence": "bounds",
-    "face": "south",
-    "heightM": 3.76,
-    "normalDeg": 180.0,
-    "positionInPiece": [
-     0.06,
-     4.95
-    ],
-    "widthM": 3.36
-   }
-  ],
   "bmv:architecture/jets/miscstuff/dockramp": [
    {
     "evidence": "bounds",
@@ -2375,8 +2351,8 @@
   ]
  },
  "counts": {
-  "assets": 49,
-  "bounds": 147,
+  "assets": 48,
+  "bounds": 145,
   "co-placement": 47
  },
  "elongationRatio": 2.0,

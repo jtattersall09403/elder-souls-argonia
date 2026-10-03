@@ -1,0 +1,1584 @@
+{
+ "schemaVersion": 4,
+ "kit": "watercraft-v1",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 82224228,
+  "sha256": "11a27a6d6c8b540ed84c7948bc455cacb8b7cdcc160e4c06f6b363e4bad7aba4"
+ },
+ "packed": {
+  "bytes": 31654744,
+  "sha256": "915b840031740a0e0a8e81dadc3b4c9186de42d9bde20e0b46e4957e9e5f4bce"
+ },
+ "totals": {
+  "parts": 45,
+  "partBytes": 13382636,
+  "textureFiles": 77,
+  "textureBytes": 17786043,
+  "bytes": 31168679
+ },
+ "assets": {
+  "bmv:architecture/boats/rowboat01": {
+   "file": "bmv_architecture_boats_rowboat01-5f1956d8.glb",
+   "bytes": 136616,
+   "vertices": 4344,
+   "triangles": 3634,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4344,
+     "triangles": 3634
+    },
+    {
+     "lod": 1,
+     "vertices": 2006,
+     "triangles": 1285
+    },
+    {
+     "lod": 2,
+     "vertices": 1315,
+     "triangles": 900
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "bmv:architecture/boats/rowboatbrokenback": {
+   "file": "bmv_architecture_boats_rowboatbrokenback-80e33034.glb",
+   "bytes": 70592,
+   "vertices": 1956,
+   "triangles": 1672,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1956,
+     "triangles": 1672
+    },
+    {
+     "lod": 1,
+     "vertices": 1197,
+     "triangles": 900
+    },
+    {
+     "lod": 2,
+     "vertices": 1197,
+     "triangles": 900
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "bmv:architecture/boats/rowboatbrokenfront": {
+   "file": "bmv_architecture_boats_rowboatbrokenfront-f5961a76.glb",
+   "bytes": 64724,
+   "vertices": 1878,
+   "triangles": 1550,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1878,
+     "triangles": 1550
+    },
+    {
+     "lod": 1,
+     "vertices": 1244,
+     "triangles": 872
+    },
+    {
+     "lod": 2,
+     "vertices": 1244,
+     "triangles": 872
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "bmv:architecture/ships/imperialship01base": {
+   "file": "bmv_architecture_ships_imperialship01base-078172f6.glb",
+   "bytes": 375224,
+   "vertices": 14182,
+   "triangles": 12311,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 14182,
+     "triangles": 12311
+    },
+    {
+     "lod": 1,
+     "vertices": 7165,
+     "triangles": 4631
+    },
+    {
+     "lod": 2,
+     "vertices": 3695,
+     "triangles": 2345
+    }
+   ],
+   "textures": [
+    "3ccb8ac9f2e67d61",
+    "5b9fd423146d62b1",
+    "5ced709f1880dd4c",
+    "5f9b0a5738640054",
+    "6dc005f6d00197e5",
+    "70585149bfac34a6",
+    "8b9ff97221d2adc0",
+    "c2a94c30dc62a274"
+   ]
+  },
+  "bmv:architecture/ships/imperialship01masts": {
+   "file": "bmv_architecture_ships_imperialship01masts-058e82ca.glb",
+   "bytes": 1193104,
+   "vertices": 59720,
+   "triangles": 46625,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 59720,
+     "triangles": 46625
+    },
+    {
+     "lod": 1,
+     "vertices": 24602,
+     "triangles": 16425
+    },
+    {
+     "lod": 2,
+     "vertices": 8940,
+     "triangles": 5903
+    }
+   ],
+   "textures": [
+    "3ccb8ac9f2e67d61",
+    "6dc005f6d00197e5",
+    "8b9ff97221d2adc0",
+    "c2a94c30dc62a274",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "bmv:breticships/shipbreticjollyboat": {
+   "file": "bmv_breticships_shipbreticjollyboat-444f34e8.glb",
+   "bytes": 278260,
+   "vertices": 11052,
+   "triangles": 10358,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 11052,
+     "triangles": 10358
+    },
+    {
+     "lod": 1,
+     "vertices": 5330,
+     "triangles": 4218
+    },
+    {
+     "lod": 2,
+     "vertices": 3046,
+     "triangles": 2446
+    }
+   ],
+   "textures": [
+    "098873b9f84df4ab",
+    "266bd5cb4ef88869",
+    "4581dd38830f1181",
+    "a1f16740f956b73d",
+    "a528068c3e449541"
+   ]
+  },
+  "bmv:nordships/shipnordrowboat": {
+   "file": "bmv_nordships_shipnordrowboat-4410d7ac.glb",
+   "bytes": 152992,
+   "vertices": 6135,
+   "triangles": 5950,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6135,
+     "triangles": 5950
+    },
+    {
+     "lod": 1,
+     "vertices": 3116,
+     "triangles": 2506
+    },
+    {
+     "lod": 2,
+     "vertices": 2132,
+     "triangles": 1564
+    }
+   ],
+   "textures": [
+    "2b90c11002e9eb49",
+    "6bb9d092180bed0c",
+    "cf360487d197f3be",
+    "f034ac87a0c2e063",
+    "fd108eee8660f402"
+   ]
+  },
+  "bmv:nordships/shipnordtradeship": {
+   "file": "bmv_nordships_shipnordtradeship-6c98f1ed.glb",
+   "bytes": 372452,
+   "vertices": 15743,
+   "triangles": 13929,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 15743,
+     "triangles": 13929
+    },
+    {
+     "lod": 1,
+     "vertices": 7215,
+     "triangles": 5253
+    },
+    {
+     "lod": 2,
+     "vertices": 3713,
+     "triangles": 2835
+    }
+   ],
+   "textures": [
+    "166cd1616a7cebb1",
+    "1c989728592b0e1c",
+    "2b90c11002e9eb49",
+    "6bb9d092180bed0c",
+    "cf360487d197f3be",
+    "f034ac87a0c2e063",
+    "fd108eee8660f402"
+   ]
+  },
+  "bmv:nordships/shipnordtradeshipbeached": {
+   "file": "bmv_nordships_shipnordtradeshipbeached-ceed2f24.glb",
+   "bytes": 330384,
+   "vertices": 14542,
+   "triangles": 12773,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 14542,
+     "triangles": 12773
+    },
+    {
+     "lod": 1,
+     "vertices": 6398,
+     "triangles": 4482
+    },
+    {
+     "lod": 2,
+     "vertices": 2772,
+     "triangles": 1992
+    }
+   ],
+   "textures": [
+    "1c989728592b0e1c",
+    "2b90c11002e9eb49",
+    "6bb9d092180bed0c",
+    "cf360487d197f3be",
+    "f034ac87a0c2e063",
+    "fd108eee8660f402"
+   ]
+  },
+  "bmv:transport/ships/ghostship": {
+   "file": "bmv_transport_ships_ghostship-98b4d7cc.glb",
+   "bytes": 123680,
+   "vertices": 5543,
+   "triangles": 3510,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5543,
+     "triangles": 3510
+    },
+    {
+     "lod": 1,
+     "vertices": 2303,
+     "triangles": 1228
+    },
+    {
+     "lod": 2,
+     "vertices": 943,
+     "triangles": 421
+    }
+   ],
+   "textures": [
+    "670a0567dd0fa65a"
+   ]
+  },
+  "bmv:transport/ships/merchant_ship": {
+   "file": "bmv_transport_ships_merchant_ship-1750388b.glb",
+   "bytes": 93176,
+   "vertices": 4055,
+   "triangles": 2139,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4055,
+     "triangles": 2139
+    },
+    {
+     "lod": 1,
+     "vertices": 1906,
+     "triangles": 920
+    },
+    {
+     "lod": 2,
+     "vertices": 1239,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "296189d4547502a4",
+    "8061d3a527914da1"
+   ]
+  },
+  "canoe:actors/sfss/canoe/canoe1": {
+   "file": "canoe_actors_sfss_canoe_canoe1-7525535c.glb",
+   "bytes": 379736,
+   "vertices": 13754,
+   "triangles": 9788,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 13754,
+     "triangles": 9788
+    },
+    {
+     "lod": 1,
+     "vertices": 7341,
+     "triangles": 5035
+    },
+    {
+     "lod": 2,
+     "vertices": 5913,
+     "triangles": 4283
+    }
+   ],
+   "textures": [
+    "3dee5fd66dce8c0a",
+    "4aa6b2df8b9813ce",
+    "5ced709f1880dd4c",
+    "6210191d543cd15b",
+    "6dc005f6d00197e5",
+    "7db75a65070b2a7f",
+    "84e860a3ea484090",
+    "9988966c66ea8405",
+    "a0b9b6ed3bfdd573",
+    "a3cc35ebb0f81c80",
+    "dc9bb44de37c4b8c"
+   ]
+  },
+  "canoe:weapons/sfss/anchor": {
+   "file": "canoe_weapons_sfss_anchor-dc9125c9.glb",
+   "bytes": 6800,
+   "vertices": 167,
+   "triangles": 200,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 167,
+     "triangles": 200
+    },
+    {
+     "lod": 1,
+     "vertices": 167,
+     "triangles": 200
+    },
+    {
+     "lod": 2,
+     "vertices": 167,
+     "triangles": 200
+    }
+   ],
+   "textures": [
+    "1d7cd7436afd17ff"
+   ]
+  },
+  "canoe:weapons/sfss/shipoar01": {
+   "file": "canoe_weapons_sfss_shipoar01-84db80ef.glb",
+   "bytes": 12784,
+   "vertices": 434,
+   "triangles": 204,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 434,
+     "triangles": 204
+    },
+    {
+     "lod": 1,
+     "vertices": 434,
+     "triangles": 204
+    },
+    {
+     "lod": 2,
+     "vertices": 434,
+     "triangles": 204
+    }
+   ],
+   "textures": [
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "canoe:weapons/sfss/shipoar01ground": {
+   "file": "canoe_weapons_sfss_shipoar01ground-4321960c.glb",
+   "bytes": 12928,
+   "vertices": 434,
+   "triangles": 204,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 434,
+     "triangles": 204
+    },
+    {
+     "lod": 1,
+     "vertices": 434,
+     "triangles": 204
+    },
+    {
+     "lod": 2,
+     "vertices": 434,
+     "triangles": 204
+    }
+   ],
+   "textures": [
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "canoe:weapons/sfss/shipoar01towhanded": {
+   "file": "canoe_weapons_sfss_shipoar01towhanded-6c3f4faa.glb",
+   "bytes": 12868,
+   "vertices": 434,
+   "triangles": 204,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 434,
+     "triangles": 204
+    },
+    {
+     "lod": 1,
+     "vertices": 434,
+     "triangles": 204
+    },
+    {
+     "lod": 2,
+     "vertices": 434,
+     "triangles": 204
+    }
+   ],
+   "textures": [
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "ferries:yamadori/ferries/common_rowboat_inialta_01": {
+   "file": "ferries_yamadori_ferries_common_rowboat_inialta_01-809b06f3.glb",
+   "bytes": 156352,
+   "vertices": 5410,
+   "triangles": 5144,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5410,
+     "triangles": 5144
+    },
+    {
+     "lod": 1,
+     "vertices": 3330,
+     "triangles": 2319
+    },
+    {
+     "lod": 2,
+     "vertices": 2129,
+     "triangles": 1729
+    }
+   ],
+   "textures": [
+    "25ea96f8198f2617",
+    "5ced709f1880dd4c",
+    "6210191d543cd15b",
+    "6dc005f6d00197e5",
+    "a1abefd7e80cdbfe",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "ferries:yamadori/ferries/plank_ferry_swamp_01": {
+   "file": "ferries_yamadori_ferries_plank_ferry_swamp_01-8e940901.glb",
+   "bytes": 31020,
+   "vertices": 806,
+   "triangles": 588,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 806,
+     "triangles": 588
+    },
+    {
+     "lod": 1,
+     "vertices": 722,
+     "triangles": 504
+    },
+    {
+     "lod": 2,
+     "vertices": 722,
+     "triangles": 504
+    }
+   ],
+   "textures": [
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "ferries:yamadori/ferries/plank_ferry_swamp_03": {
+   "file": "ferries_yamadori_ferries_plank_ferry_swamp_03-a1e127f5.glb",
+   "bytes": 39504,
+   "vertices": 1138,
+   "triangles": 851,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1138,
+     "triangles": 851
+    },
+    {
+     "lod": 1,
+     "vertices": 1054,
+     "triangles": 767
+    },
+    {
+     "lod": 2,
+     "vertices": 1054,
+     "triangles": 767
+    }
+   ],
+   "textures": [
+    "19cd370427c58073",
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "ferries:yamadori/ferries/river_ferry_rift_01": {
+   "file": "ferries_yamadori_ferries_river_ferry_rift_01-d073ccd1.glb",
+   "bytes": 180072,
+   "vertices": 5883,
+   "triangles": 8058,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5883,
+     "triangles": 8058
+    },
+    {
+     "lod": 1,
+     "vertices": 3110,
+     "triangles": 3342
+    },
+    {
+     "lod": 2,
+     "vertices": 2016,
+     "triangles": 1860
+    }
+   ],
+   "textures": [
+    "0b84bde9b0c005cf",
+    "16a394063568db72",
+    "2d6d226f0a1c4e10",
+    "71cab37f68b713d2",
+    "9f65d75e8da4f637",
+    "ecf73618c148beee"
+   ]
+  },
+  "ferries:yamadori/ferries/rowboat_ferry_swamp_01": {
+   "file": "ferries_yamadori_ferries_rowboat_ferry_swamp_01-d8123e0b.glb",
+   "bytes": 107432,
+   "vertices": 4100,
+   "triangles": 3542,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4100,
+     "triangles": 3542
+    },
+    {
+     "lod": 1,
+     "vertices": 2274,
+     "triangles": 1414
+    },
+    {
+     "lod": 2,
+     "vertices": 1114,
+     "triangles": 899
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "ferries:yamadori/ferries/volkihar_ferry_01": {
+   "file": "ferries_yamadori_ferries_volkihar_ferry_01-89e7e960.glb",
+   "bytes": 199004,
+   "vertices": 6715,
+   "triangles": 6020,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6715,
+     "triangles": 6020
+    },
+    {
+     "lod": 1,
+     "vertices": 4386,
+     "triangles": 3238
+    },
+    {
+     "lod": 2,
+     "vertices": 3226,
+     "triangles": 2723
+    }
+   ],
+   "textures": [
+    "221e5dc3a95ffbbe",
+    "25ea96f8198f2617",
+    "2c57d63a940c0e8a",
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "77c47ded97ff9a2f",
+    "92ce077c1c8b4e0e",
+    "a1abefd7e80cdbfe",
+    "e08eeabdc4f3aa5a",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "ferryraft:snt/ferry/ferryraft01": {
+   "file": "ferryraft_snt_ferry_ferryraft01-6eb95622.glb",
+   "bytes": 157632,
+   "vertices": 5112,
+   "triangles": 3592,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5112,
+     "triangles": 3592
+    },
+    {
+     "lod": 1,
+     "vertices": 4257,
+     "triangles": 2578
+    },
+    {
+     "lod": 2,
+     "vertices": 4257,
+     "triangles": 2578
+    }
+   ],
+   "textures": [
+    "6dc005f6d00197e5",
+    "77c47ded97ff9a2f",
+    "8d8c9f84eae22a9d",
+    "a0b9b6ed3bfdd573",
+    "c849674e11618091",
+    "e08eeabdc4f3aa5a",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "ferryraft:snt/ferry/ferryraft01_no_col": {
+   "file": "ferryraft_snt_ferry_ferryraft01_no_col-0c956763.glb",
+   "bytes": 158068,
+   "vertices": 5112,
+   "triangles": 3592,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5112,
+     "triangles": 3592
+    },
+    {
+     "lod": 1,
+     "vertices": 4257,
+     "triangles": 2578
+    },
+    {
+     "lod": 2,
+     "vertices": 4257,
+     "triangles": 2578
+    }
+   ],
+   "textures": [
+    "6dc005f6d00197e5",
+    "77c47ded97ff9a2f",
+    "8d8c9f84eae22a9d",
+    "a0b9b6ed3bfdd573",
+    "c849674e11618091",
+    "e08eeabdc4f3aa5a",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "ferryraft:snt/ferry/norbridgewoodplanks01": {
+   "file": "ferryraft_snt_ferry_norbridgewoodplanks01-f4ee5e8a.glb",
+   "bytes": 26864,
+   "vertices": 1086,
+   "triangles": 792,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1086,
+     "triangles": 792
+    },
+    {
+     "lod": 1,
+     "vertices": 534,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 534,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "8d8c9f84eae22a9d"
+   ]
+  },
+  "ferryraft:snt/ferry/norbridgewoodplanks02": {
+   "file": "ferryraft_snt_ferry_norbridgewoodplanks02-c09cd5da.glb",
+   "bytes": 7276,
+   "vertices": 220,
+   "triangles": 160,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 220,
+     "triangles": 160
+    },
+    {
+     "lod": 1,
+     "vertices": 220,
+     "triangles": 160
+    },
+    {
+     "lod": 2,
+     "vertices": 220,
+     "triangles": 160
+    }
+   ],
+   "textures": [
+    "8d8c9f84eae22a9d"
+   ]
+  },
+  "rowboats:dungeons/clutter/shipoar01": {
+   "file": "rowboats_dungeons_clutter_shipoar01-1e45ae54.glb",
+   "bytes": 6392,
+   "vertices": 138,
+   "triangles": 200,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 138,
+     "triangles": 200
+    },
+    {
+     "lod": 1,
+     "vertices": 138,
+     "triangles": 200
+    },
+    {
+     "lod": 2,
+     "vertices": 138,
+     "triangles": 200
+    }
+   ],
+   "textures": [
+    "74a6dfe1e3e76c10"
+   ]
+  },
+  "rowboats:dungeons/ship/shiprowboat01": {
+   "file": "rowboats_dungeons_ship_shiprowboat01-7d9ec631.glb",
+   "bytes": 106792,
+   "vertices": 3595,
+   "triangles": 5484,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3595,
+     "triangles": 5484
+    },
+    {
+     "lod": 1,
+     "vertices": 1712,
+     "triangles": 2078
+    },
+    {
+     "lod": 2,
+     "vertices": 952,
+     "triangles": 1009
+    }
+   ],
+   "textures": [
+    "74a6dfe1e3e76c10"
+   ]
+  },
+  "rowboats:dungeons/ship/shiprowboatanim01": {
+   "file": "rowboats_dungeons_ship_shiprowboatanim01-a5b38025.glb",
+   "bytes": 105376,
+   "vertices": 3595,
+   "triangles": 5484,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3595,
+     "triangles": 5484
+    },
+    {
+     "lod": 1,
+     "vertices": 1764,
+     "triangles": 2178
+    },
+    {
+     "lod": 2,
+     "vertices": 1004,
+     "triangles": 1109
+    }
+   ],
+   "textures": [
+    "74a6dfe1e3e76c10"
+   ]
+  },
+  "sailboats:sailboats/longboat": {
+   "file": "sailboats_sailboats_longboat-38f617a0.glb",
+   "bytes": 575144,
+   "vertices": 21509,
+   "triangles": 19633,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 21509,
+     "triangles": 19633
+    },
+    {
+     "lod": 1,
+     "vertices": 11535,
+     "triangles": 8842
+    },
+    {
+     "lod": 2,
+     "vertices": 8030,
+     "triangles": 6424
+    }
+   ],
+   "textures": [
+    "166cd1616a7cebb1",
+    "2b90c11002e9eb49",
+    "3dee5fd66dce8c0a",
+    "6210191d543cd15b",
+    "6bb9d092180bed0c",
+    "84e860a3ea484090",
+    "940d11c16a11b275",
+    "9988966c66ea8405",
+    "9a27911525728b4f",
+    "a0b9b6ed3bfdd573",
+    "a3cc35ebb0f81c80",
+    "cf360487d197f3be",
+    "dc9bb44de37c4b8c",
+    "f034ac87a0c2e063",
+    "fd108eee8660f402"
+   ]
+  },
+  "sailboats:sailboats/longboatfurled": {
+   "file": "sailboats_sailboats_longboatfurled-5c87c65d.glb",
+   "bytes": 564960,
+   "vertices": 21430,
+   "triangles": 19259,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 21430,
+     "triangles": 19259
+    },
+    {
+     "lod": 1,
+     "vertices": 11492,
+     "triangles": 8562
+    },
+    {
+     "lod": 2,
+     "vertices": 7987,
+     "triangles": 6144
+    }
+   ],
+   "textures": [
+    "166cd1616a7cebb1",
+    "2b90c11002e9eb49",
+    "3dee5fd66dce8c0a",
+    "6210191d543cd15b",
+    "6bb9d092180bed0c",
+    "84e860a3ea484090",
+    "940d11c16a11b275",
+    "9988966c66ea8405",
+    "9a27911525728b4f",
+    "a0b9b6ed3bfdd573",
+    "a3cc35ebb0f81c80",
+    "cf360487d197f3be",
+    "dc9bb44de37c4b8c",
+    "f034ac87a0c2e063",
+    "fd108eee8660f402"
+   ]
+  },
+  "sailboats:sailboats/rowboat": {
+   "file": "sailboats_sailboats_rowboat-2d7c6a0e.glb",
+   "bytes": 274884,
+   "vertices": 9018,
+   "triangles": 8006,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 9018,
+     "triangles": 8006
+    },
+    {
+     "lod": 1,
+     "vertices": 5950,
+     "triangles": 4126
+    },
+    {
+     "lod": 2,
+     "vertices": 4780,
+     "triangles": 3611
+    }
+   ],
+   "textures": [
+    "098873b9f84df4ab",
+    "3dee5fd66dce8c0a",
+    "5ced709f1880dd4c",
+    "6210191d543cd15b",
+    "6dc005f6d00197e5",
+    "84e860a3ea484090",
+    "9988966c66ea8405",
+    "a0b9b6ed3bfdd573",
+    "a3cc35ebb0f81c80",
+    "dc9bb44de37c4b8c",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "sailboats:sailboats/rowboatnord": {
+   "file": "sailboats_sailboats_rowboatnord-8d59f1cd.glb",
+   "bytes": 307636,
+   "vertices": 10806,
+   "triangles": 10210,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 10806,
+     "triangles": 10210
+    },
+    {
+     "lod": 1,
+     "vertices": 6529,
+     "triangles": 5012
+    },
+    {
+     "lod": 2,
+     "vertices": 5545,
+     "triangles": 4070
+    }
+   ],
+   "textures": [
+    "2b90c11002e9eb49",
+    "3dee5fd66dce8c0a",
+    "6bb9d092180bed0c",
+    "84e860a3ea484090",
+    "9988966c66ea8405",
+    "a0b9b6ed3bfdd573",
+    "a3cc35ebb0f81c80",
+    "cf360487d197f3be",
+    "dc9bb44de37c4b8c",
+    "f034ac87a0c2e063",
+    "fd108eee8660f402"
+   ]
+  },
+  "sailboats:sailboats/sailboat": {
+   "file": "sailboats_sailboats_sailboat-3b45e14c.glb",
+   "bytes": 384440,
+   "vertices": 14457,
+   "triangles": 13160,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 14457,
+     "triangles": 13160
+    },
+    {
+     "lod": 1,
+     "vertices": 7936,
+     "triangles": 5978
+    },
+    {
+     "lod": 2,
+     "vertices": 5655,
+     "triangles": 4205
+    }
+   ],
+   "textures": [
+    "098873b9f84df4ab",
+    "266bd5cb4ef88869",
+    "4581dd38830f1181",
+    "9988966c66ea8405",
+    "a0b9b6ed3bfdd573",
+    "a1f16740f956b73d",
+    "a528068c3e449541",
+    "dc9bb44de37c4b8c"
+   ]
+  },
+  "sailboats:sailboats/sailboatelf": {
+   "file": "sailboats_sailboats_sailboatelf-bb7a1c7b.glb",
+   "bytes": 490728,
+   "vertices": 16906,
+   "triangles": 18756,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 16906,
+     "triangles": 18756
+    },
+    {
+     "lod": 1,
+     "vertices": 10197,
+     "triangles": 8873
+    },
+    {
+     "lod": 2,
+     "vertices": 7936,
+     "triangles": 6381
+    }
+   ],
+   "textures": [
+    "28c83731a78e92a9",
+    "4242a4dfe680f484",
+    "440b290bbe11ec4e",
+    "46745e4fcdf632b3",
+    "47b48c5bfe7de283",
+    "58fdc4f4d51e36f5",
+    "66584595d83a30f5",
+    "84e860a3ea484090",
+    "8dc285399b5f1f73",
+    "9988966c66ea8405",
+    "a0b9b6ed3bfdd573",
+    "a3cc35ebb0f81c80",
+    "dc9bb44de37c4b8c",
+    "e65f9f42c0990bbf",
+    "fda534afb7e67508"
+   ]
+  },
+  "sailboats:sailboats/sailboatelffurled": {
+   "file": "sailboats_sailboats_sailboatelffurled-df045f89.glb",
+   "bytes": 496508,
+   "vertices": 17109,
+   "triangles": 19187,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 17109,
+     "triangles": 19187
+    },
+    {
+     "lod": 1,
+     "vertices": 10089,
+     "triangles": 8786
+    },
+    {
+     "lod": 2,
+     "vertices": 7862,
+     "triangles": 6298
+    }
+   ],
+   "textures": [
+    "00a07e5ed9cdebbe",
+    "28c83731a78e92a9",
+    "4242a4dfe680f484",
+    "440b290bbe11ec4e",
+    "47b48c5bfe7de283",
+    "58fdc4f4d51e36f5",
+    "66584595d83a30f5",
+    "84e860a3ea484090",
+    "8dc285399b5f1f73",
+    "9988966c66ea8405",
+    "a0b9b6ed3bfdd573",
+    "a3cc35ebb0f81c80",
+    "dc9bb44de37c4b8c",
+    "e65f9f42c0990bbf",
+    "fda534afb7e67508"
+   ]
+  },
+  "sailboats:sailboats/sailboatfurled": {
+   "file": "sailboats_sailboats_sailboatfurled-c6efd801.glb",
+   "bytes": 368024,
+   "vertices": 14077,
+   "triangles": 12806,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 14077,
+     "triangles": 12806
+    },
+    {
+     "lod": 1,
+     "vertices": 7568,
+     "triangles": 5606
+    },
+    {
+     "lod": 2,
+     "vertices": 5287,
+     "triangles": 3833
+    }
+   ],
+   "textures": [
+    "098873b9f84df4ab",
+    "266bd5cb4ef88869",
+    "4581dd38830f1181",
+    "9988966c66ea8405",
+    "a0b9b6ed3bfdd573",
+    "a1f16740f956b73d",
+    "a528068c3e449541",
+    "dc9bb44de37c4b8c"
+   ]
+  },
+  "sbot:bstamriel/dungeons/ships/breticships/shipbreticgreyteship_hull01": {
+   "file": "sbot_bstamriel_dungeons_ships_breticships_shipbreticgreyteship_hull01-f44d4b09.glb",
+   "bytes": 689860,
+   "vertices": 28904,
+   "triangles": 28504,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 28904,
+     "triangles": 28504
+    },
+    {
+     "lod": 1,
+     "vertices": 13671,
+     "triangles": 10193
+    },
+    {
+     "lod": 2,
+     "vertices": 6109,
+     "triangles": 4000
+    }
+   ],
+   "textures": [
+    "281c148f6c5e05eb",
+    "4280d5273ef70328",
+    "70166743337f3d8f",
+    "9fa3ff6589d43cab",
+    "b5196fde15e435e3",
+    "ebccfec944f4b646"
+   ]
+  },
+  "sbot:bstamriel/dungeons/ships/breticships/shipbreticrennenboat01": {
+   "file": "sbot_bstamriel_dungeons_ships_breticships_shipbreticrennenboat01-b61a681b.glb",
+   "bytes": 253108,
+   "vertices": 10081,
+   "triangles": 9529,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 10081,
+     "triangles": 9529
+    },
+    {
+     "lod": 1,
+     "vertices": 4915,
+     "triangles": 3652
+    },
+    {
+     "lod": 2,
+     "vertices": 2439,
+     "triangles": 1789
+    }
+   ],
+   "textures": [
+    "281c148f6c5e05eb",
+    "70166743337f3d8f",
+    "9fa3ff6589d43cab",
+    "b5196fde15e435e3",
+    "ebccfec944f4b646"
+   ]
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiiliccityferry01": {
+   "file": "sbot_bstamriel_dungeons_ships_cyrodiilicships_shipcyrodiiliccityferry01-3b38a7e0.glb",
+   "bytes": 180500,
+   "vertices": 5883,
+   "triangles": 8058,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5883,
+     "triangles": 8058
+    },
+    {
+     "lod": 1,
+     "vertices": 3110,
+     "triangles": 3342
+    },
+    {
+     "lod": 2,
+     "vertices": 2016,
+     "triangles": 1860
+    }
+   ],
+   "textures": [
+    "0b84bde9b0c005cf",
+    "16a394063568db72",
+    "2d6d226f0a1c4e10",
+    "71cab37f68b713d2",
+    "7e711b7fbf7fec9f",
+    "ecf73618c148beee"
+   ]
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicgalleon01_docked": {
+   "file": "sbot_bstamriel_dungeons_ships_cyrodiilicships_shipcyrodiilicgalleon01_docked-198a60df.glb",
+   "bytes": 1258076,
+   "vertices": 50319,
+   "triangles": 51440,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 50319,
+     "triangles": 51440
+    },
+    {
+     "lod": 1,
+     "vertices": 24400,
+     "triangles": 18172
+    },
+    {
+     "lod": 2,
+     "vertices": 11011,
+     "triangles": 7055
+    }
+   ],
+   "textures": [
+    "0b84bde9b0c005cf",
+    "25db99d4a614ff47",
+    "2d6d226f0a1c4e10",
+    "71cab37f68b713d2",
+    "924de950525108ca",
+    "940492f6816844fb",
+    "9fa3ff6589d43cab",
+    "cd6e8c80c73e37e6"
+   ]
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicnavyshipsmall01_docked": {
+   "file": "ot_bstamriel_dungeons_ships_cyrodiilicships_shipcyrodiilicnavyshipsmall01_docked-711dcc7f.glb",
+   "bytes": 857432,
+   "vertices": 33278,
+   "triangles": 34383,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 33278,
+     "triangles": 34383
+    },
+    {
+     "lod": 1,
+     "vertices": 15880,
+     "triangles": 12544
+    },
+    {
+     "lod": 2,
+     "vertices": 7406,
+     "triangles": 5407
+    }
+   ],
+   "textures": [
+    "0b84bde9b0c005cf",
+    "2d6d226f0a1c4e10",
+    "71cab37f68b713d2",
+    "7e711b7fbf7fec9f",
+    "940492f6816844fb",
+    "9f7e4bcbaea95152",
+    "cd6e8c80c73e37e6",
+    "e8e76348b3cace80"
+   ]
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicriverferry01": {
+   "file": "sbot_bstamriel_dungeons_ships_cyrodiilicships_shipcyrodiilicriverferry01-3f98f6e1.glb",
+   "bytes": 405384,
+   "vertices": 12835,
+   "triangles": 16645,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 12835,
+     "triangles": 16645
+    },
+    {
+     "lod": 1,
+     "vertices": 6673,
+     "triangles": 6222
+    },
+    {
+     "lod": 2,
+     "vertices": 3608,
+     "triangles": 2839
+    }
+   ],
+   "textures": [
+    "0b84bde9b0c005cf",
+    "16a394063568db72",
+    "71cab37f68b713d2",
+    "7e711b7fbf7fec9f",
+    "9f7e4bcbaea95152",
+    "ecf73618c148beee"
+   ]
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrowboat01": {
+   "file": "sbot_bstamriel_dungeons_ships_cyrodiilicships_shipcyrodiilicrowboat01-a47cebd7.glb",
+   "bytes": 115052,
+   "vertices": 3180,
+   "triangles": 3368,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3180,
+     "triangles": 3368
+    },
+    {
+     "lod": 1,
+     "vertices": 1558,
+     "triangles": 1354
+    },
+    {
+     "lod": 2,
+     "vertices": 1267,
+     "triangles": 1091
+    }
+   ],
+   "textures": [
+    "2d6d226f0a1c4e10",
+    "71cab37f68b713d2",
+    "940492f6816844fb",
+    "9fa3ff6589d43cab"
+   ]
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipeectradeship01": {
+   "file": "sbot_bstamriel_dungeons_ships_cyrodiilicships_shipeectradeship01-50239b43.glb",
+   "bytes": 1262796,
+   "vertices": 58196,
+   "triangles": 54708,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 58196,
+     "triangles": 54708
+    },
+    {
+     "lod": 1,
+     "vertices": 27225,
+     "triangles": 19394
+    },
+    {
+     "lod": 2,
+     "vertices": 11330,
+     "triangles": 7167
+    }
+   ],
+   "textures": [
+    "25db99d4a614ff47",
+    "2d6d226f0a1c4e10",
+    "71cab37f68b713d2",
+    "7e711b7fbf7fec9f",
+    "924de950525108ca",
+    "940492f6816844fb",
+    "9fa3ff6589d43cab"
+   ]
+  }
+ },
+ "fires": {
+  "bmv:architecture/ships/imperialship01base": {
+   "id": "bmv:architecture/ships/imperialship01base",
+   "category": "architecture",
+   "anchorClass": "water",
+   "sizeM": [
+    29.142,
+    10.027,
+    11.488
+   ],
+   "originOffsetM": [
+    12.347,
+    5.677,
+    5.638
+   ],
+   "emissiveMaterials": [
+    "Windows.Mat"
+   ],
+   "windowMaterials": [
+    "Windows.Mat"
+   ]
+  },
+  "canoe:actors/sfss/canoe/canoe1": {
+   "id": "canoe:actors/sfss/canoe/canoe1",
+   "category": "creature",
+   "anchorClass": "ground",
+   "sizeM": [
+    1.981,
+    6.762,
+    2.125
+   ],
+   "originOffsetM": [
+    0.99,
+    2.986,
+    0.166
+   ],
+   "emissiveMaterials": [
+    "Object009:2.Mat"
+   ]
+  },
+  "ferryraft:snt/ferry/ferryraft01": {
+   "id": "ferryraft:snt/ferry/ferryraft01",
+   "category": "misc",
+   "anchorClass": "water",
+   "flames": [
+    {
+     "offsetM": [
+      -1.2176,
+      0.5342,
+      0.1451
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -1.2375,
+      0.5085,
+      0.0868
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
+   "sizeM": [
+    3.236,
+    4.104,
+    1.711
+   ],
+   "originOffsetM": [
+    1.59,
+    2.016,
+    0.473
+   ],
+   "emissiveMaterials": [
+    "CandleLanternWithCandle:7.Mat"
+   ]
+  },
+  "ferryraft:snt/ferry/ferryraft01_no_col": {
+   "id": "ferryraft:snt/ferry/ferryraft01_no_col",
+   "category": "misc",
+   "anchorClass": "water",
+   "flames": [
+    {
+     "offsetM": [
+      -1.2176,
+      0.5342,
+      0.1451
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -1.2375,
+      0.5085,
+      0.0868
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
+   "sizeM": [
+    3.236,
+    4.104,
+    1.711
+   ],
+   "originOffsetM": [
+    1.59,
+    2.016,
+    0.473
+   ]
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicgalleon01_docked": {
+   "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicgalleon01_docked",
+   "category": "dungeon-kit",
+   "anchorClass": "ground",
+   "sizeM": [
+    14.206,
+    36.591,
+    30.896
+   ],
+   "originOffsetM": [
+    7.103,
+    19.594,
+    4.114
+   ],
+   "emissiveMaterials": [
+    "shipwindows.Mat"
+   ]
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipeectradeship01": {
+   "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipeectradeship01",
+   "category": "dungeon-kit",
+   "anchorClass": "ground",
+   "sizeM": [
+    13.496,
+    30.072,
+    22.033
+   ],
+   "originOffsetM": [
+    6.748,
+    15.041,
+    3.174
+   ],
+   "emissiveMaterials": [
+    "Windowpane.Mat"
+   ]
+  }
+ }
+}

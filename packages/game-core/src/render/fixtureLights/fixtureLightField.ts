@@ -37,7 +37,7 @@ import { Lighting, LightsNode } from "three/webgpu";
 import type { WebGPURenderer } from "three/webgpu";
 import { TiledLighting } from "three/examples/jsm/lighting/TiledLighting.js";
 import {
-  Break, Fn, If, Loop, cameraViewMatrix, directPointLight, int, ivec2, max, positionView, textureLoad, uniform, vec4,
+  Break, Fn, If, Loop, cameraViewMatrix, getDistanceAttenuation, int, ivec2, max, positionView, tanh, textureLoad, uniform, vec4,
 } from "three/tsl";
 import { activeBackend } from "../createRenderer";
 import { sel, type TslNode } from "../nodes/materialNodes";
@@ -72,14 +72,26 @@ export const FIXTURE_LIGHT_DECAY = 2;
 /**
  * A lamp's SCREEN gain (perf10 c12 A): the field's colour is multiplied by
  * `FIXTURE_SCREEN_GAIN / toneMappingExposure` (the field's `screenNode`
- * uniform, set per render from the renderer), so a lit wall reaches the same
- * screen-linear value at any exposure, as the F41 window emissive does
- * (settlement/windowGlow.ts). Unanchored, night exposure ~22 turned a wall
- * 1 m from a 2 cd lantern into a flat orange slab. Screen-linear for a Lambert
- * receiver of albedo a at d m from I cd is I x a / pi / d^2 x 1.5: 2 cd, a 0.3,
- * 1 m gives 0.29; 3 m 0.032; a 6 cd torch at the 0.8 m clamp 1.34.
+ * uniform, set per render from the renderer; the knee is `kneeNode`), so a lit wall reaches the same screen-linear value
+ * at any exposure, as the F41 window emissive does (settlement/windowGlow.ts).
+ * Unanchored, night exposure ~22 turned a wall 1 m from a 2 cd lantern into a
+ * flat orange slab. Each lamp's irradiance E = I x gain / d^2 passes a soft
+ * knee per light, E' = K tanh(E / K) with K = `FIXTURE_KNEE` (both scaled by
+ * 1 / exposure on the GPU), then screen-linear for a Lambert receiver of
+ * albedo a is E' x a / pi (perf-diag23 Q5): a 2 cd lantern, a 0.3, 1 m gives
+ * E 5.0 -> 4.44, 0.42 (sRGB ~0.68); 3 m E 0.56, ~unchanged; a 6 cd torch at
+ * the 0.8 m clamp E 23.4 -> 7.97, 0.76, not blown.
  */
-export const FIXTURE_SCREEN_GAIN = 1.5;
+export const FIXTURE_SCREEN_GAIN = 2.5;
+/** The per-light soft knee, in exposure-1 screen-irradiance units (see FIXTURE_SCREEN_GAIN). */
+export const FIXTURE_KNEE = 8;
+
+/** Exposure-1 screen-linear Lambert value of one lamp, as the shader computes it (gain, knee, a / pi). */
+export function fixtureScreenValue(candela: number, distanceM: number, albedo: number): number {
+  const d = Math.max(distanceM, 0.8);
+  const e = (candela * FIXTURE_SCREEN_GAIN) / (d * d);
+  return FIXTURE_KNEE * Math.tanh(e / FIXTURE_KNEE) * albedo / Math.PI;
+}
 
 /** How fixture light reaches the lit materials (module doc). */
 export type FixtureLightingMode = "field" | "tiled" | "plain";
@@ -134,6 +146,8 @@ export class FixtureLightField {
   readonly slotsNodeHi: TslNode;
   /** `FIXTURE_SCREEN_GAIN / exposure`, the lamps' screen anchor; one uniform, so no program changes. */
   readonly screenNode: TslNode;
+  /** `FIXTURE_KNEE / exposure`, the per-light soft knee (set with `screenNode`). */
+  readonly kneeNode: TslNode;
   /** The renderer exposure the screen gain is anchored to. */
   exposure = 1;
   /** Bumps whenever a slot's position or radius changes: per-object lists re-chosen. */
@@ -166,6 +180,7 @@ export class FixtureLightField {
       ({ object, material }: { object: THREE.Object3D; material?: THREE.Material }) => this.slotMatrixFor(object, material));
     this.slotsNodeHi = (uniform as (value: unknown, type: string) => TslNode)(new THREE.Matrix4(), "mat4").onObjectUpdate(
       ({ object, material }: { object: THREE.Object3D; material?: THREE.Material }) => this.slotMatrixFor(object, material, 16));
+    this.kneeNode = (uniform as (value: unknown) => TslNode)(FIXTURE_KNEE);
     this.screenNode = (uniform as (value: unknown) => TslNode)(FIXTURE_SCREEN_GAIN).onRenderUpdate(
       ({ renderer }: { renderer?: { toneMappingExposure: number } }) => this.setExposure(renderer?.toneMappingExposure ?? this.exposure));
   }
@@ -176,6 +191,7 @@ export class FixtureLightField {
     this.exposure = e;
     const gain = FIXTURE_SCREEN_GAIN / e;
     (this.screenNode as unknown as { value: number }).value = gain;
+    (this.kneeNode as unknown as { value: number }).value = FIXTURE_KNEE / e;
     return gain;
   }
 
@@ -465,15 +481,23 @@ export class FixtureFieldLightsNode extends LightsNode {
         const viewPosition = cameraViewMatrix.mul(vec4(posRadius.xyz, 1)).xyz;
         const lightVector = viewPosition.sub(positionView);
         const lightLength = lightVector.length();
-        // three 0.184's runtime takes `lightVector` (its typings lag)
-        builder.lightsNode.setupDirectLight(builder, this, (directPointLight as (p: Record<string, TslNode>) => TslNode)({
-          color: radiance.rgb.mul(this.field.screenNode),
-          // distance floored at FIXTURE_LIGHT_MIN_DISTANCE_M (dev perf10: a lamp's own shell and
-          // the wall beside it never take the 1/d^2 spike), direction unchanged
-          lightVector: lightVector.div(max(lightLength, 1e-4)).mul(max(lightLength, FIXTURE_LIGHT_MIN_DISTANCE_M)),
+        // three's directPointLight with the dev perf-diag23 Q5 knee between the attenuation
+        // and the BRDF: E = I x screen x att(d), E' = E x K tanh(m / K) / m, m = max(E.rgb).
+        // Distance floored at FIXTURE_LIGHT_MIN_DISTANCE_M (dev perf10: a lamp's own shell and
+        // the wall beside it never take the 1/d^2 spike), direction unchanged.
+        const attenuation = (getDistanceAttenuation as (p: Record<string, TslNode>) => TslNode)({
+          lightDistance: max(lightLength, FIXTURE_LIGHT_MIN_DISTANCE_M),
           cutoffDistance: posRadius.w,
           decayExponent: radiance.a,
-        }));
+        });
+        const e = radiance.rgb.mul(this.field.screenNode).mul(attenuation);
+        const m = max(max(e.r, e.g), e.b);
+        const knee = this.field.kneeNode;
+        const kneed = sel(m.greaterThan(0), e.mul(knee.mul(tanh(m.div(knee))).div(max(m, 1e-6))), e);
+        builder.lightsNode.setupDirectLight(builder, this, {
+          lightDirection: lightVector.div(max(lightLength, 1e-4)),
+          lightColor: kneed,
+        });
       });
     }, "void")();
   }

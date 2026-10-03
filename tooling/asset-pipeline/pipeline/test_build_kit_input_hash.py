@@ -132,7 +132,7 @@ def test_kit_jobs_and_blender_threads_follow_the_slot_share(monkeypatch):
 
 
 def test_a_skip_vouches_for_the_published_outputs(tmp_path, monkeypatch):
-    # review 2026-09-27: a restored older published GLB (tracked) must not be
+    # review 2026-09-27: a restored older published parts index (tracked) must not be
     # kept by a skip; every output's content is in the stamp
     from . import kit_compress
     pub = tmp_path / "public"
@@ -143,13 +143,14 @@ def test_a_skip_vouches_for_the_published_outputs(tmp_path, monkeypatch):
     glb = raw / "k.glb"
     glb.write_bytes(b"glTF")
     glb.with_suffix(".kit.json").write_text("{}")
-    (pub / "k.glb").write_bytes(b"compressed")
+    (pub / "k" / "parts").mkdir(parents=True)
+    (pub / "k" / "parts" / "index.json").write_text('{"packed": {"sha256": "a"}}')
     (raw / "k-cards").mkdir()
     (raw / "k-cards" / "a.png").write_bytes(b"png")
     write_inputs_stamp(glb, {"x": "1"}, [], "k")
     digest = inputs_stamp_path(glb).read_text().split("\n", 1)[0]
     assert unchanged_outputs(glb, digest) is not None
-    (pub / "k.glb").write_bytes(b"an older publish")
+    (pub / "k" / "parts" / "index.json").write_text('{"packed": {"sha256": "an older publish"}}')
     assert unchanged_outputs(glb, digest) is None
     write_inputs_stamp(glb, {"x": "1"}, [], "k")
     (raw / "k-cards" / "a.png").unlink()
@@ -242,7 +243,8 @@ def _stamp_fixture(tmp_path, monkeypatch):
     (raw / "k.kit.json").write_text('{"assets": []}\n')
     for kind in ("footprints", "interiors", "connectors"):
         (raw / f"k.{kind}.json").write_text("{}\n")
-    (pub / "k.glb").write_bytes(b"glTF compressed")
+    (pub / "k" / "parts").mkdir(parents=True)
+    (pub / "k" / "parts" / "index.json").write_text('{"packed": {"sha256": "c"}}')
     (pub / "k.kit.json").write_text('{"assets": [], "compression": {}}\n')
     return raw, pub
 

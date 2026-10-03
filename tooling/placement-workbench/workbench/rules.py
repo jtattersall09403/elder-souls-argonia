@@ -2071,12 +2071,16 @@ def sign(cat, scene, uids=None) -> dict:
     return piece_rule("sign", cat, scene, uids)
 
 
-def _ends(cat, p) -> tuple[tuple[float, float], tuple[float, float]]:
+def _ends(cat, p, climb: bool = False) -> tuple[tuple[float, float], tuple[float, float]]:
     """A way piece's two ends: the middles of the short sides of its
-    footprint's minimum rotated rectangle; a piled deck's from its mesh plan
-    box (`_piled_box`, the walk grid's own box, so the two rules agree)."""
+    footprint's minimum rotated rectangle; a piled deck's, or a CLIMB run
+    member's (``climb``: `climb_uids`), from its mesh plan box (`_piled_box`,
+    the walk grid's own box, so the two rules agree). A climb piece's
+    footprint is its lowest 1.5 m only: stairs02's top tread stands 2.0 m
+    past it, so the crossings stair's walked top end read the bank face
+    under the lip (audit10 c6)."""
     from shapely.geometry import Polygon
-    box = (_piled_box(cat, p) if cat.row(p.asset).get("piled")
+    box = (_piled_box(cat, p) if climb or cat.row(p.asset).get("piled")
            else Polygon(measure.footprint_province(cat, p)).minimum_rotated_rectangle)
     rect = list(box.exterior.coords)[:4]
     sides = [((rect[i][0] + rect[(i + 1) % 4][0]) / 2, (rect[i][1] + rect[(i + 1) % 4][1]) / 2,
@@ -2384,13 +2388,21 @@ def piece_rule(key: str, cat, scene, uids=None, fit_for=None) -> dict:
 # measure is worldgen/coplanar.py, shared with `wb.py coplanar` and the
 # interior exporter's `separate` pass.
 # --------------------------------------------------------------------------
-def coplanar(cat, scene) -> dict:
+def coplanar(cat, scene, mined_joint=None) -> dict:
+    """``mined_joint(a, b)`` (wb.py `mined_run_joint`): the two pieces stand
+    at a mined `run` abuts pose, whose overlap the plugin designed (stairs02,
+    audit10 c6); only that joint is exempt, never either piece against any
+    other."""
     paths.bridge()
     from worldgen import coplanar as cp
     placements = [{"id": p.uid, "kit": cat.row(p.asset)["kit"], "assetId": p.asset,
                    "positionM": [p.x, p.y, p.z], "yawDeg": p.yaw, "pitchDeg": p.pitch,
                    "scale": p.scale} for p in scene.pieces if p.y is not None]
     hits = cp.find(cp.pieces_from_bundle(placements, cp.KitGeometry()), cp.decals_biased("place"))
+    if mined_joint is not None:
+        by = {p.uid: p for p in scene.pieces}
+        hits = [h for h in hits if not (h["a"]["id"] in by and h["b"]["id"] in by
+                                        and mined_joint(by[h["a"]["id"]], by[h["b"]["id"]]))]
     fails = [f"{h['b']['id']}: coplanar with {h['a']['id']} over {h['overlapM2']} m2 at {h['atM']} "
              f"({h['fix']})" for h in hits]
     return {"ok": not fails, "failures": fails, "rows": hits}

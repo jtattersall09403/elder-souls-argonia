@@ -77,11 +77,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Buntingline 01",
    "undersideClosed": false,
    "undersideCoverage": 0.031,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.494,
-   "displayName": "Buntingline 01"
+   "pivotAboveBaseM": 0.494
   },
   {
    "id": "kotm:argonia/clutter/burner02",
@@ -147,11 +147,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Burner 02",
    "undersideClosed": false,
    "undersideCoverage": 0.376,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.047,
-   "displayName": "Burner 02"
+   "pivotAboveBaseM": 0.047
   },
   {
    "id": "kotm:argonia/clutter/doll_atronachamber",
@@ -209,11 +209,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Doll atronachamber",
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.058,
-   "displayName": "Doll atronachamber"
+   "pivotAboveBaseM": 0.058
   },
   {
    "id": "kotm:argonia/clutter/firewoodpilehuge01",
@@ -271,11 +271,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Firewood pile huge 1 cypress",
    "undersideClosed": true,
    "undersideCoverage": 0.945,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024,
-   "displayName": "Firewood pile huge 1 cypress"
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "kotm:argonia/clutter/firewoodpilelarge01",
@@ -338,11 +338,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Firewood pile large 01 cypress",
    "undersideClosed": true,
    "undersideCoverage": 0.633,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.019,
-   "displayName": "Firewood pile large 01 cypress"
+   "pivotAboveBaseM": 0.019
   },
   {
    "id": "kotm:argonia/clutter/firewoodpilesmall01",
@@ -365,7 +365,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "baldcypressbark01_d.dds",
@@ -405,11 +405,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.344,
+     0.178,
+     0.421
+    ],
+    "centreOffsetM": [
+     -0.061,
+     0.185,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Firewood pile small 01 cypress",
    "undersideClosed": true,
    "undersideCoverage": 0.962,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.017,
-   "displayName": "Firewood pile small 01 cypress"
+   "pivotAboveBaseM": 0.017
   },
   {
    "id": "kotm:argonia/clutter/hangingfeathers01",
@@ -474,11 +487,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hangingfeathers 01",
    "undersideClosed": true,
    "undersideCoverage": 0.772,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.269,
-   "displayName": "Hangingfeathers 01"
+   "pivotAboveBaseM": 1.269
   },
   {
    "id": "kotm:argonia/clutter/saxhleelfence01",
@@ -538,11 +551,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Saxhleelfence 01",
    "undersideClosed": true,
    "undersideCoverage": 0.727,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.014,
-   "displayName": "Saxhleelfence 01"
+   "pivotAboveBaseM": 0.014
   },
   {
    "id": "kotm:argonia/clutter/saxhleeltapestry01",
@@ -598,11 +611,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Saxhleeltapestry 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 2.228,
-   "displayName": "Saxhleeltapestry 01"
+   "pivotAboveBaseM": 2.228
   },
   {
    "id": "kotm:argonia/clutter/saxhleeltapestry02",
@@ -658,11 +671,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Saxhleeltapestry 02",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 2.228,
-   "displayName": "Saxhleeltapestry 02"
+   "pivotAboveBaseM": 2.228
   },
   {
    "id": "kotm:argonia/clutter/spinningwheel",
@@ -720,11 +733,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Spinningwheel",
    "undersideClosed": false,
    "undersideCoverage": 0.327,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005,
-   "displayName": "Spinningwheel"
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "kotm:argonia/clutter/tamwindchime01",
@@ -747,7 +760,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "flatbow_red.dds",
@@ -797,11 +810,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.136,
+     0.693,
+     0.135
+    ],
+    "centreOffsetM": [
+     -0.001,
+     0.152,
+     -0.006
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Tamwindchime 01",
    "undersideClosed": true,
    "undersideCoverage": 0.988,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.635,
-   "displayName": "Tamwindchime 01"
+   "pivotAboveBaseM": 0.635
   },
   {
    "id": "kotm:argonia/clutter/urn01",
@@ -859,11 +885,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Urn 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.002,
-   "displayName": "Urn 01"
+   "pivotAboveBaseM": 0.002
   },
   {
    "id": "kotm:argonia/clutter/urn02",
@@ -921,11 +947,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Urn 02",
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Urn 02"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/clutter/vase01",
@@ -948,7 +974,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "honeypot01.dds"
@@ -983,11 +1009,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.196,
+     0.276,
+     0.196
+    ],
+    "centreOffsetM": [
+     0.001,
+     0.304,
+     -0.001
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Vase 01",
    "undersideClosed": true,
    "undersideCoverage": 0.875,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.009,
-   "displayName": "Vase 01"
+   "pivotAboveBaseM": 0.009
   },
   {
    "id": "kotm:argonia/clutter/vase03",
@@ -1010,7 +1049,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "honeypot01.dds"
@@ -1045,11 +1084,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.227,
+     0.541,
+     0.227
+    ],
+    "centreOffsetM": [
+     -0.001,
+     0.608,
+     0.001
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Vase 03",
    "undersideClosed": true,
    "undersideCoverage": 0.754,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.007,
-   "displayName": "Vase 03"
+   "pivotAboveBaseM": 0.007
   },
   {
    "id": "kotm:argonia/clutter/vase05",
@@ -1107,11 +1159,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Vase 05",
    "undersideClosed": true,
    "undersideCoverage": 0.934,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Vase 05"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "kotm:argonia/clutter/vase06",
@@ -1169,11 +1221,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Vase 06",
    "undersideClosed": true,
    "undersideCoverage": 0.934,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Vase 06"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "kotm:argonia/clutter/wallbasket01",
@@ -1231,11 +1283,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wallbasket 01",
    "undersideClosed": true,
    "undersideCoverage": 0.994,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.347,
-   "displayName": "Wallbasket 01"
+   "pivotAboveBaseM": 0.347
   },
   {
    "id": "kotm:argonia/clutter/wallbasket03",
@@ -1293,11 +1345,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wallbasket 03",
    "undersideClosed": true,
    "undersideCoverage": 0.994,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.347,
-   "displayName": "Wallbasket 03"
+   "pivotAboveBaseM": 0.347
   },
   {
    "id": "kotm:argonia/clutter/wallbasket04",
@@ -1355,11 +1407,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wallbasket 04",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.326,
-   "displayName": "Wallbasket 04"
+   "pivotAboveBaseM": 0.326
   },
   {
    "id": "kotm:argonia/clutter/wallbasket05",
@@ -1417,11 +1469,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wallbasket 05",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.326,
-   "displayName": "Wallbasket 05"
+   "pivotAboveBaseM": 0.326
   },
   {
    "id": "kotm:argonia/clutter/wallbasket06",
@@ -1479,11 +1531,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wallbasket 06",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.326,
-   "displayName": "Wallbasket 06"
+   "pivotAboveBaseM": 0.326
   },
   {
    "id": "kotm:argonia/food/flatbread",
@@ -1541,11 +1593,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Saltrice flatbread",
    "undersideClosed": true,
    "undersideCoverage": 0.848,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.008,
-   "displayName": "Saltrice flatbread"
+   "pivotAboveBaseM": 0.008
   },
   {
    "id": "kotm:argonia/food/sakebottle02",
@@ -1605,11 +1657,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tee lel",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "displayName": "Tee lel"
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "kotm:argonia/furniture/rusticbed",
@@ -1691,11 +1743,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rusticbed",
    "undersideClosed": true,
    "undersideCoverage": 0.999,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005,
-   "displayName": "Rusticbed"
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "kotm:argonia/furniture/rusticchair01",
@@ -1718,7 +1770,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "baldcypressbark01_d.dds",
@@ -1764,11 +1816,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rusticchair 01",
    "undersideClosed": true,
    "undersideCoverage": 0.87,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.009,
-   "displayName": "Rusticchair 01"
+   "pivotAboveBaseM": -0.009
   },
   {
    "id": "kotm:argonia/furniture/rusticchair02",
@@ -1791,7 +1843,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "baldcypressbark01_d.dds",
@@ -1842,11 +1894,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rusticchair 02",
    "undersideClosed": true,
    "undersideCoverage": 0.861,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.018,
-   "displayName": "Rusticchair 02"
+   "pivotAboveBaseM": -0.018
   },
   {
    "id": "kotm:argonia/furniture/rusticchair04",
@@ -1869,7 +1921,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "baldcypressbark01_d.dds",
@@ -1920,11 +1972,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rusticchair 04",
    "undersideClosed": true,
    "undersideCoverage": 0.775,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.006,
-   "displayName": "Rusticchair 04"
+   "pivotAboveBaseM": -0.006
   },
   {
    "id": "kotm:argonia/furniture/rusticchest",
@@ -1996,11 +2048,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rusticchest",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.28,
-   "displayName": "Rusticchest"
+   "pivotAboveBaseM": 0.28
   },
   {
    "id": "kotm:argonia/furniture/rusticcupboard",
@@ -2076,11 +2128,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rusticcupboard",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.9,
-   "displayName": "Rusticcupboard"
+   "pivotAboveBaseM": 0.9
   },
   {
    "id": "kotm:argonia/furniture/rusticshelf",
@@ -2103,7 +2155,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "baldcypressbark01_d.dds",
@@ -2154,11 +2206,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rusticshelf",
    "undersideClosed": true,
    "undersideCoverage": 0.853,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.806,
-   "displayName": "Rusticshelf"
+   "pivotAboveBaseM": 0.806
   },
   {
    "id": "kotm:argonia/furniture/rustictable01",
@@ -2181,7 +2233,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "baldcypressbark01_d.dds",
@@ -2232,11 +2284,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rustictable 01",
    "undersideClosed": true,
    "undersideCoverage": 0.963,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.396,
-   "displayName": "Rustictable 01"
+   "pivotAboveBaseM": 0.396
   },
   {
    "id": "kotm:argonia/furniture/rustictable02",
@@ -2310,11 +2362,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rustictable 02",
    "undersideClosed": true,
    "undersideCoverage": 0.969,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.396,
-   "displayName": "Rustictable 02"
+   "pivotAboveBaseM": 0.396
   },
   {
    "id": "kotm:argonia/furniture/rustictable03",
@@ -2388,11 +2440,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rustictable 03",
    "undersideClosed": true,
    "undersideCoverage": 0.923,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.41,
-   "displayName": "Rustictable 03"
+   "pivotAboveBaseM": 0.41
   },
   {
    "id": "kotm:argonia/mudhuts/floor02",
@@ -2452,11 +2504,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mud hut floor 02",
    "undersideClosed": true,
    "undersideCoverage": 0.905,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.555,
-   "displayName": "Mud hut floor 02"
+   "pivotAboveBaseM": 0.555
   },
   {
    "id": "kotm:argonia/mudhuts/manorint",
@@ -2511,11 +2563,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mud hut 04 int",
    "undersideClosed": true,
    "undersideCoverage": 0.91,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -2.716,
-   "displayName": "Mud hut 04 int"
+   "pivotAboveBaseM": -2.716
   },
   {
    "id": "kotm:argonia/mudhuts/mudhutintfloor01",
@@ -2578,11 +2630,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mud hut 02 int floor 01",
    "undersideClosed": true,
    "undersideCoverage": 0.721,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.458,
-   "displayName": "Mud hut 02 int floor 01"
+   "pivotAboveBaseM": 0.458
   },
   {
    "id": "kotm:argonia/mudhuts/mudhutintstairs",
@@ -2645,11 +2697,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mud hut stairs 02",
    "undersideClosed": false,
    "undersideCoverage": 0.517,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.707,
-   "displayName": "Mud hut stairs 02"
+   "pivotAboveBaseM": 3.707
   },
   {
    "id": "kotm:argonia/mudhuts/smpodint01",
@@ -2711,11 +2763,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mud hut 05 int",
    "undersideClosed": true,
    "undersideCoverage": 0.756,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.887,
-   "displayName": "Mud hut 05 int"
+   "pivotAboveBaseM": 4.887
   },
   {
    "id": "kotm:argonia/mudhuts/smpodint02",
@@ -2772,11 +2824,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mud hut 06 int",
    "undersideClosed": true,
    "undersideCoverage": 0.788,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.179,
-   "displayName": "Mud hut 06 int"
+   "pivotAboveBaseM": 5.179
   },
   {
    "id": "kotm:argonia/mudhuts/tamu_woodpole01",
@@ -2836,11 +2888,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mud hut walkway pole",
    "undersideClosed": false,
    "undersideCoverage": 0.109,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Mud hut walkway pole"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "kotm:loliceptresource/barrel/miscbarrelopen01",
@@ -2863,7 +2915,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "broom01.dds",
@@ -2913,11 +2965,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.335,
+     0.758,
+     0.387
+    ],
+    "centreOffsetM": [
+     0.001,
+     0.857,
+     0.14
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Miscbarrelopen 01",
    "undersideClosed": true,
    "undersideCoverage": 0.833,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.004,
-   "displayName": "Miscbarrelopen 01"
+   "pivotAboveBaseM": 0.004
   },
   {
    "id": "kotm:mihail monsters and animals/rabbit/frog/frogmeat",
@@ -2975,11 +3040,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Frog leg raw",
    "undersideClosed": false,
    "undersideCoverage": 0.335,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005,
-   "displayName": "Frog leg raw"
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "kotm:mihail monsters and animals/rabbit/frog/frogmeat2",
@@ -3037,11 +3102,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Frog leg cooked",
    "undersideClosed": false,
    "undersideCoverage": 0.335,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005,
-   "displayName": "Frog leg cooked"
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "kotm:oaristys/clutter/rugs",
@@ -3105,11 +3170,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rugs",
    "undersideClosed": true,
    "undersideCoverage": 0.703,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.003,
-   "displayName": "Rugs"
+   "pivotAboveBaseM": 0.003
   },
   {
    "id": "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat",
@@ -3167,11 +3232,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Snail meat",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.038,
-   "displayName": "Snail meat"
+   "pivotAboveBaseM": 0.038
   },
   {
    "id": "vanilla:architecture/riften/clutter/rtchimney01",
@@ -3231,11 +3296,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "RT chimney 01",
    "undersideClosed": false,
    "undersideCoverage": 0.34,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.413,
-   "displayName": "RT chimney 01"
+   "pivotAboveBaseM": 0.413
   },
   {
    "id": "vanilla:clutter/books/basicbook01",
@@ -3296,11 +3361,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Book 02920v 7",
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029,
-   "displayName": "Book 02920v 7"
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "vanilla:clutter/books/basicbook03",
@@ -3356,11 +3421,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Book 0 ahzirr traajijazeri",
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029,
-   "displayName": "Book 0 ahzirr traajijazeri"
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "vanilla:clutter/books/basicbook04",
@@ -3421,11 +3486,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Book 0 argonian account book 1",
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029,
-   "displayName": "Book 0 argonian account book 1"
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "vanilla:clutter/books/basicbook04a",
@@ -3481,11 +3546,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Book 0 black arrow v 1",
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029,
-   "displayName": "Book 0 black arrow v 1"
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "vanilla:clutter/books/basicbook06",
@@ -3541,11 +3606,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Book 0 palla v 1",
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.027,
-   "displayName": "Book 0 palla v 1"
+   "pivotAboveBaseM": 0.027
   },
   {
    "id": "vanilla:clutter/books/book02lowpoly",
@@ -3601,11 +3666,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Book 1 cheap biographyof barenziahv i",
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.046,
-   "displayName": "Book 1 cheap biographyof barenziahv i"
+   "pivotAboveBaseM": 0.046
   },
   {
    "id": "vanilla:clutter/common/fishingpolecollection01",
@@ -3660,11 +3725,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Fishing pole collection",
    "undersideClosed": false,
    "undersideCoverage": 0.543,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Fishing pole collection"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/common/rag01",
@@ -3722,11 +3787,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rag 01",
    "undersideClosed": true,
    "undersideCoverage": 0.864,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.02,
-   "displayName": "Rag 01"
+   "pivotAboveBaseM": 0.02
   },
   {
    "id": "vanilla:clutter/common/rug03",
@@ -3789,11 +3854,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rug 03",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.002,
-   "displayName": "Rug 03"
+   "pivotAboveBaseM": -0.002
   },
   {
    "id": "vanilla:clutter/common/rug07",
@@ -3856,11 +3921,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rug 07",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Rug 07"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/deadanimals/wallmountedmudcrab01",
@@ -3883,7 +3948,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "mountedheadbase01.dds",
@@ -3923,11 +3988,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.436,
+     0.356,
+     0.134
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.029,
+     0.144
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Wall mounted mudcrab 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.376,
-   "displayName": "Wall mounted mudcrab 01"
+   "pivotAboveBaseM": 0.376
   },
   {
    "id": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
@@ -3987,11 +4065,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wall mounted slaughter fish 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.247,
-   "displayName": "Wall mounted slaughter fish 01"
+   "pivotAboveBaseM": 0.247
   },
   {
    "id": "vanilla:clutter/dining set/basicwoodenbowl01",
@@ -4044,11 +4122,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Basic wooden bowl 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Basic wooden bowl 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/dining set/basicwoodenplate01",
@@ -4101,11 +4179,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Basic wooden plate 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Basic wooden plate 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/giant/giantspit01",
@@ -4158,11 +4236,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Giant spit 01",
    "undersideClosed": false,
    "undersideCoverage": 0.146,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.239,
-   "displayName": "Giant spit 01"
+   "pivotAboveBaseM": 1.239
   },
   {
    "id": "vanilla:clutter/glazedcandles01",
@@ -4284,11 +4362,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Glazed candles 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Glazed candles 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/ingredients/mudcrabchitin",
@@ -4349,11 +4427,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mudcrab chitin",
    "undersideClosed": true,
    "undersideCoverage": 0.713,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.139,
-   "displayName": "Mudcrab chitin"
+   "pivotAboveBaseM": 0.139
   },
   {
    "id": "vanilla:clutter/wallbaskethex02",
@@ -4420,11 +4498,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wall basket hex 02",
    "undersideClosed": false,
    "undersideCoverage": 0.582,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.01,
-   "displayName": "Wall basket hex 02"
+   "pivotAboveBaseM": 1.01
   },
   {
    "id": "vanilla:clutter/wallbaskethex03",
@@ -4491,11 +4569,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wall basket hex 03",
    "undersideClosed": false,
    "undersideCoverage": 0.54,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.01,
-   "displayName": "Wall basket hex 03"
+   "pivotAboveBaseM": 1.01
   },
   {
    "id": "vanilla:furniture/smallcookingpotnohandle",
@@ -4518,7 +4596,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "none",
    "droppedShapes": [],
    "textures": [
     "stew01.dds",
@@ -4528,19 +4606,7 @@
     "PotOpen01:17.Mat",
     "PotOpen01:18.Mat"
    ],
-   "collisionFrame": "pivot-yup-v3",
-   "collisionBox": {
-    "halfExtentsM": [
-     0.225,
-     0.104,
-     0.228
-    ],
-    "centreOffsetM": [
-     0.068,
-     0.722,
-     -0.657
-    ]
-   },
+   "collisionFrame": "pivot-yup-v2",
    "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.6036,
@@ -4568,11 +4634,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Crafting cooking pot sm no handle",
    "undersideClosed": true,
    "undersideCoverage": 0.85,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.604,
-   "displayName": "Crafting cooking pot sm no handle"
+   "pivotAboveBaseM": -0.604
   },
   {
    "id": "vanilla:plants/mushroom01",
@@ -4625,11 +4691,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mushroom 01",
    "undersideClosed": true,
    "undersideCoverage": 0.973,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.19,
-   "displayName": "Mushroom 01"
+   "pivotAboveBaseM": 0.19
   },
   {
    "id": "vanilla:plants/slaughterfishegg01",
@@ -4690,11 +4756,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Slaughterfish egg 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.053,
-   "displayName": "Slaughterfish egg 01"
+   "pivotAboveBaseM": 0.053
   },
   {
    "id": "vanilla:clutter/deadanimals/deadpondfish01",
@@ -4758,11 +4824,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Critter pond fish 01 ingredient",
    "undersideClosed": true,
    "undersideCoverage": 0.618,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.01,
-   "displayName": "Critter pond fish 01 ingredient"
+   "pivotAboveBaseM": 0.01
   },
   {
    "id": "vanilla:clutter/deadanimals/deadpondfish02",
@@ -4826,11 +4892,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Critter pond fish 02 ingredient",
    "undersideClosed": true,
    "undersideCoverage": 0.618,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.01,
-   "displayName": "Critter pond fish 02 ingredient"
+   "pivotAboveBaseM": 0.01
   },
   {
    "id": "vanilla:clutter/deadanimals/deadpondfish03",
@@ -4894,11 +4960,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Critter pond fish 03 ingredient",
    "undersideClosed": true,
    "undersideCoverage": 0.618,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.01,
-   "displayName": "Critter pond fish 03 ingredient"
+   "pivotAboveBaseM": 0.01
   },
   {
    "id": "vanilla:clutter/deadanimals/deadpondfish04",
@@ -4962,11 +5028,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Critter pond fish 04 ingredient",
    "undersideClosed": true,
    "undersideCoverage": 0.618,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.01,
-   "displayName": "Critter pond fish 04 ingredient"
+   "pivotAboveBaseM": 0.01
   },
   {
    "id": "vanilla:clutter/deadanimals/deadpondfish05",
@@ -5030,11 +5096,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Critter pond fish 05 ingredient",
    "undersideClosed": true,
    "undersideCoverage": 0.618,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.01,
-   "displayName": "Critter pond fish 05 ingredient"
+   "pivotAboveBaseM": 0.01
   },
   {
    "id": "vanilla:clutter/deadanimals/deadsalmon01",
@@ -5097,11 +5163,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Dead salmon 01",
    "undersideClosed": true,
    "undersideCoverage": 0.818,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.693,
-   "displayName": "Dead salmon 01"
+   "pivotAboveBaseM": 0.693
   },
   {
    "id": "vanilla:clutter/deadanimals/deadsalmon02",
@@ -5164,11 +5230,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Dead salmon 02",
    "undersideClosed": true,
    "undersideCoverage": 0.961,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.587,
-   "displayName": "Dead salmon 02"
+   "pivotAboveBaseM": 0.587
   },
   {
    "id": "vanilla:clutter/food/cookedslaughterfishsteak01",
@@ -5226,11 +5292,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Food slaughterfish cooked",
    "undersideClosed": false,
    "undersideCoverage": 0.594,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.015,
-   "displayName": "Food slaughterfish cooked"
+   "pivotAboveBaseM": 0.015
   },
   {
    "id": "kotm:argonia/clutter/wallbasket02",
@@ -5288,11 +5354,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wallbasket 02",
    "undersideClosed": true,
    "undersideCoverage": 0.994,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.347,
-   "displayName": "Wallbasket 02"
+   "pivotAboveBaseM": 0.347
   },
   {
    "id": "vanilla:clutter/wallbasketlarge01",
@@ -5359,11 +5425,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wall basket large 01",
    "undersideClosed": false,
    "undersideCoverage": 0.493,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.269,
-   "displayName": "Wall basket large 01"
+   "pivotAboveBaseM": 1.269
   },
   {
    "id": "vanilla:clutter/wallbasket03",
@@ -5426,11 +5492,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wall basket 03",
    "undersideClosed": true,
    "undersideCoverage": 0.906,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.363,
-   "displayName": "Wall basket 03"
+   "pivotAboveBaseM": 0.363
   },
   {
    "id": "kotm:skinwalker21 creatures/horker/giant snail/shell",
@@ -5488,11 +5554,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Giant snail shell 01",
    "undersideClosed": true,
    "undersideCoverage": 0.954,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.166,
-   "displayName": "Giant snail shell 01"
+   "pivotAboveBaseM": -0.166
   },
   {
    "id": "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime",
@@ -5508,15 +5574,20 @@
     0.269,
     -0.0
    ],
-   "triangles": 1076,
+   "triangles": 1006,
    "lodRatios": [
     0.35,
     0.12
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
-   "droppedShapes": [],
+   "collision": "box",
+   "droppedShapes": [
+    {
+     "shape": "TrollFat01:5",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "bucket01.dds",
     "darkswirlsoil.dds"
@@ -5561,11 +5632,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.22,
+     0.188,
+     0.237
+    ],
+    "centreOffsetM": [
+     0.001,
+     0.213,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Snail slime ingredient",
    "undersideClosed": true,
    "undersideCoverage": 0.775,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Snail slime ingredient"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/blacksmith/blacksmithnovicetongs01",
@@ -5624,11 +5708,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Blacksmith tongs 01",
    "undersideClosed": false,
    "undersideCoverage": 0.409,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.009,
-   "displayName": "Blacksmith tongs 01"
+   "pivotAboveBaseM": 0.009
   },
   {
    "id": "vanilla:clutter/bucket02a",
@@ -5651,7 +5735,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "bucket01.dds"
@@ -5681,11 +5765,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.228,
+     0.29,
+     0.231
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.329,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Bucket 02a",
    "undersideClosed": true,
    "undersideCoverage": 0.781,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Bucket 02a"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/furniture/rusticbench01",
@@ -5759,11 +5856,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rusticbench 01",
    "undersideClosed": true,
    "undersideCoverage": 0.948,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.016,
-   "displayName": "Rusticbench 01"
+   "pivotAboveBaseM": -0.016
   },
   {
    "id": "kotm:argonia/clutter/amberbee",
@@ -5821,11 +5918,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Amberbee",
    "undersideClosed": true,
    "undersideCoverage": 0.787,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.096,
-   "displayName": "Amberbee"
+   "pivotAboveBaseM": 0.096
   },
   {
    "id": "vanilla:critters/bee/beehoneycomb",
@@ -5892,11 +5989,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Bee honey comb",
    "undersideClosed": true,
    "undersideCoverage": 0.995,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.162,
-   "displayName": "Bee honey comb"
+   "pivotAboveBaseM": 0.162
   },
   {
    "id": "vanilla:plants/giantlichen01",
@@ -5957,11 +6054,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Giant lichen",
    "undersideClosed": true,
    "undersideCoverage": 0.624,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.14,
-   "displayName": "Giant lichen"
+   "pivotAboveBaseM": 0.14
   },
   {
    "id": "kotm:argonia/food/sakebottle",
@@ -6021,11 +6118,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Jeel sa",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.003,
-   "displayName": "Jeel sa"
+   "pivotAboveBaseM": 0.003
   },
   {
    "id": "vanilla:clothes/monk/monkrobesgnd",
@@ -6083,11 +6180,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Monkrobesgnd",
    "undersideClosed": true,
    "undersideCoverage": 0.966,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005,
-   "displayName": "Monkrobesgnd"
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "vanilla:clutter/woodfires/cookingstand02",
@@ -6110,7 +6207,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "wrfireplaceclutter01.dds"
@@ -6145,11 +6242,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.265,
+     0.421,
+     0.221
+    ],
+    "centreOffsetM": [
+     0.07,
+     0.478,
+     -0.659
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Cooking stand 01 with stone",
    "undersideClosed": false,
    "undersideCoverage": 0.187,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Cooking stand 01 with stone"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/wine/winebottle02a",
@@ -6203,11 +6313,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Food wine bottle 02 a",
    "undersideClosed": true,
    "undersideCoverage": 0.898,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Food wine bottle 02 a"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/common/rug01",
@@ -6265,11 +6375,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rug 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Rug 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/common/rug02",
@@ -6330,11 +6440,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rug 02",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Rug 02"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/common/flute01",
@@ -6392,11 +6502,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Dancers flute",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.032,
-   "displayName": "Dancers flute"
+   "pivotAboveBaseM": 0.032
   },
   {
    "id": "vanilla:clutter/ingredients/scalypholiotabits01",
@@ -6456,11 +6566,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Scaly pholiota bits",
    "undersideClosed": true,
    "undersideCoverage": 0.756,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.047,
-   "displayName": "Scaly pholiota bits"
+   "pivotAboveBaseM": 0.047
   },
   {
    "id": "vanilla:clutter/ingredients/trollfat01",
@@ -6515,11 +6625,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Troll fat",
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.062,
-   "displayName": "Troll fat"
+   "pivotAboveBaseM": 0.062
   },
   {
    "id": "kotm:argonia/blackwood/boat01",
@@ -6584,11 +6694,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Boat 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.711,
-   "displayName": "Boat 01"
+   "pivotAboveBaseM": 0.711
   },
   {
    "id": "kotm:argonia/blackwood/doorframe",
@@ -6644,11 +6754,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mud hut doorway 02",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 1.272,
-   "displayName": "Mud hut doorway 02"
+   "pivotAboveBaseM": 1.272
   },
   {
    "id": "kotm:argonia/blackwood/hausneu01innen",
@@ -6710,11 +6820,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire house 08 int",
    "undersideClosed": true,
    "undersideCoverage": 0.673,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Murkmire house 08 int"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/blackwood/house04platform",
@@ -6776,11 +6886,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire platform base 02",
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.866,
-   "displayName": "Murkmire platform base 02"
+   "pivotAboveBaseM": 5.866
   },
   {
    "id": "kotm:argonia/blackwood/house05platform",
@@ -6842,11 +6952,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cypress stockade base 01",
    "undersideClosed": true,
    "undersideCoverage": 0.973,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.866,
-   "displayName": "Cypress stockade base 01"
+   "pivotAboveBaseM": 5.866
   },
   {
    "id": "kotm:argonia/blackwood/house1in",
@@ -6906,11 +7016,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire house 01int",
    "undersideClosed": true,
    "undersideCoverage": 0.875,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.83,
-   "displayName": "Murkmire house 01int"
+   "pivotAboveBaseM": -0.83
   },
   {
    "id": "kotm:argonia/blackwood/house2in",
@@ -6970,11 +7080,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire house 02int",
    "undersideClosed": true,
    "undersideCoverage": 0.651,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.83,
-   "displayName": "Murkmire house 02int"
+   "pivotAboveBaseM": -0.83
   },
   {
    "id": "kotm:argonia/blackwood/house2inb",
@@ -7040,11 +7150,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire house partion int 06",
    "undersideClosed": true,
    "undersideCoverage": 0.73,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.83,
-   "displayName": "Murkmire house partion int 06"
+   "pivotAboveBaseM": -0.83
   },
   {
    "id": "kotm:argonia/blackwood/house4in",
@@ -7104,11 +7214,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire house 04int",
    "undersideClosed": true,
    "undersideCoverage": 0.902,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.83,
-   "displayName": "Murkmire house 04int"
+   "pivotAboveBaseM": -0.83
   },
   {
    "id": "kotm:argonia/blackwood/housepartion01",
@@ -7168,11 +7278,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire house partion int 01",
    "undersideClosed": true,
    "undersideCoverage": 0.852,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.83,
-   "displayName": "Murkmire house partion int 01"
+   "pivotAboveBaseM": -0.83
   },
   {
    "id": "kotm:argonia/blackwood/housepartion02",
@@ -7232,11 +7342,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire house partion int 02",
    "undersideClosed": true,
    "undersideCoverage": 0.875,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.83,
-   "displayName": "Murkmire house partion int 02"
+   "pivotAboveBaseM": -0.83
   },
   {
    "id": "kotm:argonia/blackwood/housepartion04",
@@ -7296,11 +7406,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire house partion int 04",
    "undersideClosed": true,
    "undersideCoverage": 0.902,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.83,
-   "displayName": "Murkmire house partion int 04"
+   "pivotAboveBaseM": -0.83
   },
   {
    "id": "kotm:argonia/blackwood/housepartionwallwide",
@@ -7368,11 +7478,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire house partion int wall 02",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": -0.83,
-   "displayName": "Murkmire house partion int wall 02"
+   "pivotAboveBaseM": -0.83
   },
   {
    "id": "kotm:argonia/blackwood/lumbermill01waterwheel01",
@@ -7454,11 +7564,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire lumbermill 01 water wheel 01",
    "undersideClosed": true,
    "undersideCoverage": 0.613,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.92,
-   "displayName": "Murkmire lumbermill 01 water wheel 01"
+   "pivotAboveBaseM": 5.92
   },
   {
    "id": "kotm:argonia/blackwood/lumbermill01waterwheel02",
@@ -7540,11 +7650,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire lumbermill 01 water wheel 02",
    "undersideClosed": true,
    "undersideCoverage": 0.613,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.92,
-   "displayName": "Murkmire lumbermill 01 water wheel 02"
+   "pivotAboveBaseM": 5.92
   },
   {
    "id": "kotm:argonia/blackwood/plankwall01a",
@@ -7610,11 +7720,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire plank wall 03 a",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 1.869,
-   "displayName": "Murkmire plank wall 03 a"
+   "pivotAboveBaseM": 1.869
   },
   {
    "id": "kotm:argonia/blackwood/plankwall01b",
@@ -7680,11 +7790,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire plank wall 03 b",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.869,
-   "displayName": "Murkmire plank wall 03 b"
+   "pivotAboveBaseM": 1.869
   },
   {
    "id": "kotm:argonia/blackwood/plankwall02b",
@@ -7750,11 +7860,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire plank wall 04 b",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.869,
-   "displayName": "Murkmire plank wall 04 b"
+   "pivotAboveBaseM": 1.869
   },
   {
    "id": "kotm:argonia/blackwood/roundhut02int",
@@ -7817,11 +7927,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire round hut 02 int",
    "undersideClosed": true,
    "undersideCoverage": 0.612,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.205,
-   "displayName": "Murkmire round hut 02 int"
+   "pivotAboveBaseM": 5.205
   },
   {
    "id": "kotm:argonia/blackwood/shipplank02",
@@ -7887,11 +7997,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire plank 04",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Murkmire plank 04"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "kotm:argonia/blackwood/shiveringhouse_01_inside",
@@ -7955,11 +8065,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire house 07 beige int 02",
    "undersideClosed": true,
    "undersideCoverage": 0.784,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.578,
-   "displayName": "Murkmire house 07 beige int 02"
+   "pivotAboveBaseM": 0.578
   },
   {
    "id": "kotm:argonia/blackwood/wall01",
@@ -8015,11 +8125,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire house partion int wall 03",
    "undersideClosed": false,
    "undersideCoverage": 0.312,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.057,
-   "displayName": "Murkmire house partion int wall 03"
+   "pivotAboveBaseM": 0.057
   },
   {
    "id": "kotm:argonia/blackwood/walldoor01",
@@ -8075,11 +8185,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire house partion int wall 03 door",
    "undersideClosed": true,
    "undersideCoverage": 0.656,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.057,
-   "displayName": "Murkmire house partion int wall 03 door"
+   "pivotAboveBaseM": 0.057
   },
   {
    "id": "kotm:argonia/clutter/burner01",
@@ -8136,11 +8246,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Burner 01",
    "undersideClosed": true,
    "undersideCoverage": 0.73,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.003,
-   "displayName": "Burner 01"
+   "pivotAboveBaseM": -0.003
   },
   {
    "id": "kotm:argonia/clutter/doll_spriggan",
@@ -8193,11 +8303,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Doll spriggan",
    "undersideClosed": true,
    "undersideCoverage": 0.607,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.058,
-   "displayName": "Doll spriggan"
+   "pivotAboveBaseM": 0.058
   },
   {
    "id": "kotm:argonia/clutter/firewoodpilemedium01",
@@ -8255,11 +8365,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Firewood pile medium 01 cypress",
    "undersideClosed": true,
    "undersideCoverage": 0.753,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024,
-   "displayName": "Firewood pile medium 01 cypress"
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "kotm:argonia/clutter/hangingfeathers02",
@@ -8319,11 +8429,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hangingfeathers 02",
    "undersideClosed": true,
    "undersideCoverage": 0.772,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.269,
-   "displayName": "Hangingfeathers 02"
+   "pivotAboveBaseM": 1.269
   },
   {
    "id": "kotm:argonia/clutter/hangingfeathers03",
@@ -8383,11 +8493,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hangingfeathers 03",
    "undersideClosed": true,
    "undersideCoverage": 0.777,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.01,
-   "displayName": "Hangingfeathers 03"
+   "pivotAboveBaseM": 1.01
   },
   {
    "id": "kotm:argonia/clutter/saxhleelfence02",
@@ -8442,11 +8552,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Saxhleelfence 02",
    "undersideClosed": true,
    "undersideCoverage": 0.82,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.009,
-   "displayName": "Saxhleelfence 02"
+   "pivotAboveBaseM": 0.009
   },
   {
    "id": "kotm:argonia/clutter/shell01",
@@ -8499,11 +8609,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shell 01",
    "undersideClosed": false,
    "undersideCoverage": 0.49,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.003,
-   "displayName": "Shell 01"
+   "pivotAboveBaseM": 0.003
   },
   {
    "id": "kotm:argonia/clutter/townlantern04",
@@ -8526,7 +8636,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "armlet_r.dds",
@@ -8591,11 +8701,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.235,
+     0.33,
+     0.224
+    ],
+    "centreOffsetM": [
+     -0.01,
+     0.364,
+     0.134
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Townlantern 04",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.011,
-   "displayName": "Townlantern 04"
+   "pivotAboveBaseM": 0.011
   },
   {
    "id": "kotm:argonia/clutter/twigsbundle",
@@ -8650,11 +8773,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Twigsbundle",
    "undersideClosed": true,
    "undersideCoverage": 0.942,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.011,
-   "displayName": "Twigsbundle"
+   "pivotAboveBaseM": 0.011
   },
   {
    "id": "kotm:argonia/clutter/vossasatl01",
@@ -8707,11 +8830,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Vossasatl 01",
    "undersideClosed": true,
    "undersideCoverage": 0.874,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.053,
-   "displayName": "Vossasatl 01"
+   "pivotAboveBaseM": 0.053
   },
   {
    "id": "kotm:argonia/clutter/vossasatl02",
@@ -8764,11 +8887,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Vossasatl 02",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.112,
-   "displayName": "Vossasatl 02"
+   "pivotAboveBaseM": 0.112
   },
   {
    "id": "kotm:argonia/clutter/vossasatl03",
@@ -8830,11 +8953,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Vossasatl 03",
    "undersideClosed": true,
    "undersideCoverage": 0.693,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.003,
-   "displayName": "Vossasatl 03"
+   "pivotAboveBaseM": -0.003
   },
   {
    "id": "kotm:argonia/clutter/woodchoppingblock",
@@ -8912,11 +9035,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wood chopping block cypress",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.174,
-   "displayName": "Wood chopping block cypress"
+   "pivotAboveBaseM": 0.174
   },
   {
    "id": "kotm:argonia/clutter/woodpickup",
@@ -8992,11 +9115,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wood pile cypress",
    "undersideClosed": false,
    "undersideCoverage": 0.544,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.163,
-   "displayName": "Wood pile cypress"
+   "pivotAboveBaseM": 0.163
   },
   {
    "id": "kotm:argonia/furniture/beddouble01",
@@ -9083,11 +9206,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Beddouble 01",
    "undersideClosed": true,
    "undersideCoverage": 0.837,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Beddouble 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/furniture/bedsingle01",
@@ -9173,11 +9296,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Bedsingle 01",
    "undersideClosed": true,
    "undersideCoverage": 0.847,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Bedsingle 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/furniture/bench01",
@@ -9245,11 +9368,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Bench 01",
    "undersideClosed": true,
    "undersideCoverage": 0.857,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Bench 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "kotm:argonia/furniture/chair01",
@@ -9272,7 +9395,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "dryoakpost01.dds",
@@ -9317,11 +9440,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Chair 01",
    "undersideClosed": true,
    "undersideCoverage": 0.868,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Chair 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/furniture/chair03",
@@ -9344,7 +9467,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "riftencanalwood01.dds",
@@ -9389,11 +9512,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Chair 03",
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Chair 03"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/furniture/furnbedfoottable01",
@@ -9465,11 +9588,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Furnbedfoottable 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Furnbedfoottable 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "kotm:argonia/furniture/furnbook3shelf01",
@@ -9539,11 +9662,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Furnbook 3shelf 01",
    "undersideClosed": true,
    "undersideCoverage": 0.979,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Furnbook 3shelf 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/furniture/furnbook4shelf01",
@@ -9613,11 +9736,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Furnbook 4shelf 01",
    "undersideClosed": true,
    "undersideCoverage": 0.979,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Furnbook 4shelf 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/furniture/furncupboard01",
@@ -9689,11 +9812,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Furncupboard 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Furncupboard 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/furniture/furncupboardsm01",
@@ -9765,11 +9888,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Furncupboardsm 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Furncupboardsm 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/furniture/furndresser3dwr01",
@@ -9841,11 +9964,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Furndresser 3dwr 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Furndresser 3dwr 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/furniture/furnwardrobe01",
@@ -9919,11 +10042,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Furnwardrobe 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Furnwardrobe 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/furniture/hangingfoodrack01",
@@ -9946,7 +10069,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "none",
    "droppedShapes": [],
    "textures": [
     "dryoakpost01.dds",
@@ -9956,19 +10079,7 @@
     "Brace.Mat",
     "Pole.Mat"
    ],
-   "collisionFrame": "pivot-yup-v3",
-   "collisionBox": {
-    "halfExtentsM": [
-     0.419,
-     0.085,
-     0.128
-    ],
-    "centreOffsetM": [
-     0.0,
-     2.061,
-     0.003
-    ]
-   },
+   "collisionFrame": "pivot-yup-v2",
    "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
@@ -9991,11 +10102,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hangingfoodrack 01",
    "undersideClosed": false,
    "undersideCoverage": 0.188,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -1.964,
-   "displayName": "Hangingfoodrack 01"
+   "pivotAboveBaseM": -1.964
   },
   {
    "id": "kotm:argonia/furniture/rusticbench02",
@@ -10064,11 +10175,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rusticbench 02",
    "undersideClosed": true,
    "undersideCoverage": 0.646,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.006,
-   "displayName": "Rusticbench 02"
+   "pivotAboveBaseM": 0.006
   },
   {
    "id": "kotm:argonia/furniture/stool01",
@@ -10091,7 +10202,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "whwoodboards01.dds"
@@ -10136,11 +10247,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Stool 01",
    "undersideClosed": true,
    "undersideCoverage": 0.949,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Stool 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "kotm:argonia/furniture/table03",
@@ -10208,11 +10319,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Table 03",
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Table 03"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/furniture/table03end",
@@ -10235,7 +10346,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "riftencanalwood01.dds",
@@ -10280,11 +10391,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Table 03end",
    "undersideClosed": true,
    "undersideCoverage": 0.945,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Table 03end"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "kotm:argonia/furniture/table03sq",
@@ -10352,11 +10463,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Table 03sq",
    "undersideClosed": true,
    "undersideCoverage": 0.945,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Table 03sq"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/stockades/minewoodplanks02",
@@ -10409,11 +10520,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cypress stockade planks 02",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.51,
-   "displayName": "Cypress stockade planks 02"
+   "pivotAboveBaseM": 0.51
   },
   {
    "id": "kotm:argonia/stockades/minewoodplanks04",
@@ -10466,11 +10577,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cypress stockade planks 03",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.933,
-   "displayName": "Cypress stockade planks 03"
+   "pivotAboveBaseM": 0.933
   },
   {
    "id": "kotm:argonia/stockades/stockadescaffoldbase0sided01",
@@ -10532,11 +10643,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cypress stockade scaffold base 01",
    "undersideClosed": false,
    "undersideCoverage": 0.289,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Cypress stockade scaffold base 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "kotm:argonia/stockades/stockadescaffoldtop0sided01",
@@ -10591,11 +10702,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cypress stockade scaffold floor 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219,
-   "displayName": "Cypress stockade scaffold floor 01"
+   "pivotAboveBaseM": 0.219
   },
   {
    "id": "kotm:argonia/stockades/stockadescaffoldtop0sided01b",
@@ -10650,11 +10761,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cypress stockade scaffold floor 02",
    "undersideClosed": true,
    "undersideCoverage": 0.956,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.117,
-   "displayName": "Cypress stockade scaffold floor 02"
+   "pivotAboveBaseM": 0.117
   },
   {
    "id": "kotm:argonia/trees/ctq_kapoktree01",
@@ -10712,11 +10823,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonia tree kapok 01",
    "undersideClosed": false,
    "undersideCoverage": 0.293,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 16.457,
-   "displayName": "Argonia tree kapok 01"
+   "pivotAboveBaseM": 16.457
   },
   {
    "id": "kotm:argonia/trees/ctq_kapoktree03",
@@ -10774,11 +10885,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonia tree kapok 03",
    "undersideClosed": false,
    "undersideCoverage": 0.061,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 24.183,
-   "displayName": "Argonia tree kapok 03"
+   "pivotAboveBaseM": 24.183
   },
   {
    "id": "kotm:argonia/trees/ctq_kapoktree04",
@@ -10836,11 +10947,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonia tree kapok 04",
    "undersideClosed": false,
    "undersideCoverage": 0.237,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 20.342,
-   "displayName": "Argonia tree kapok 04"
+   "pivotAboveBaseM": 20.342
   },
   {
    "id": "kotm:argonia/trees/ctq_kapoktree05",
@@ -10898,11 +11009,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonia tree kapok 05",
    "undersideClosed": false,
    "undersideCoverage": 0.228,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 19.303,
-   "displayName": "Argonia tree kapok 05"
+   "pivotAboveBaseM": 19.303
   },
   {
    "id": "kotm:argonia/trees/cypressdebris/cutlog01",
@@ -10957,11 +11068,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tree cypress cut log 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.761,
-   "displayName": "Tree cypress cut log 01"
+   "pivotAboveBaseM": 0.761
   },
   {
    "id": "kotm:argonia/trees/cypressdebris/cutlog02",
@@ -11016,11 +11127,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tree cypress cut log 01 a",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.399,
-   "displayName": "Tree cypress cut log 01 a"
+   "pivotAboveBaseM": 0.399
   },
   {
    "id": "kotm:argonia/trees/cypressdebris/cutlog04",
@@ -11075,11 +11186,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tree cypress cut log 02",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.761,
-   "displayName": "Tree cypress cut log 02"
+   "pivotAboveBaseM": 0.761
   },
   {
    "id": "kotm:argonia/trees/greguire/palmoketree02full",
@@ -11142,11 +11253,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonia tree palmoke 03",
    "undersideClosed": false,
    "undersideCoverage": 0.192,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.236,
-   "displayName": "Argonia tree palmoke 03"
+   "pivotAboveBaseM": -0.236
   },
   {
    "id": "kotm:argonia/trees/greguire/palmoketree03full",
@@ -11209,11 +11320,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonia tree palmoke 05",
    "undersideClosed": false,
    "undersideCoverage": 0.213,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.075,
-   "displayName": "Argonia tree palmoke 05"
+   "pivotAboveBaseM": -0.075
   },
   {
    "id": "kotm:argonia/trees/greguire/palmoketree04full",
@@ -11276,11 +11387,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonia tree palmoke 10",
    "undersideClosed": false,
    "undersideCoverage": 0.198,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.078,
-   "displayName": "Argonia tree palmoke 10"
+   "pivotAboveBaseM": -0.078
   },
   {
    "id": "kotm:argonia/trees/hist trees/histtree01",
@@ -11352,11 +11463,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonia tree hist 01",
    "undersideClosed": true,
    "undersideCoverage": 0.901,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.418,
-   "displayName": "Argonia tree hist 01"
+   "pivotAboveBaseM": 1.418
   },
   {
    "id": "kotm:argonia/trees/hist trees/histtreetrunk01",
@@ -11418,11 +11529,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hist trunk 01",
    "undersideClosed": false,
    "undersideCoverage": 0.392,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.854,
-   "displayName": "Hist trunk 01"
+   "pivotAboveBaseM": 8.854
   },
   {
    "id": "kotm:argonia/xanmeer/detail/ruinstable01",
@@ -11475,11 +11586,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Old imp wood table 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.04,
-   "displayName": "Old imp wood table 01"
+   "pivotAboveBaseM": 0.04
   },
   {
    "id": "kotm:argonia/xanmeer/interior/freefloor2x2",
@@ -11532,11 +11643,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Murkmire plank wall 06 c",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Murkmire plank wall 06 c"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "kotm:argonia/xanmeer/interior/freefloor3x3",
@@ -11589,11 +11700,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Old imp ext ledge mid 03",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Old imp ext ledge mid 03"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "kotm:caen/mounted heads/murkmire/mounted crocodile big",
@@ -11654,11 +11765,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wall mounted crocodile",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.448,
-   "displayName": "Wall mounted crocodile"
+   "pivotAboveBaseM": 0.448
   },
   {
    "id": "kotm:loliceptresource/barrel/rugopenbarrel",
@@ -11681,7 +11792,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "meadbarrel01.dds",
@@ -11726,11 +11837,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.259,
+     0.611,
+     0.248
+    ],
+    "centreOffsetM": [
+     0.015,
+     0.69,
+     -0.012
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Rugopenbarrel",
    "undersideClosed": true,
    "undersideCoverage": 0.777,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.004,
-   "displayName": "Rugopenbarrel"
+   "pivotAboveBaseM": 0.004
   },
   {
    "id": "kotm:loliceptresource/chest/workbenchchest01",
@@ -11753,7 +11877,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "blacksmithnovicehammer01.dds",
@@ -11800,11 +11924,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.353,
+     0.213,
+     0.166
+    ],
+    "centreOffsetM": [
+     0.029,
+     0.237,
+     0.008
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Workbenchchest 01",
    "undersideClosed": true,
    "undersideCoverage": 0.825,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.004,
-   "displayName": "Workbenchchest 01"
+   "pivotAboveBaseM": 0.004
   },
   {
    "id": "kotm:loliceptresource/deco/quillinkwellpaper02",
@@ -11867,11 +12004,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Quillinkwellpaper 02",
    "undersideClosed": true,
    "undersideCoverage": 0.994,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.04,
-   "displayName": "Quillinkwellpaper 02"
+   "pivotAboveBaseM": 0.04
   },
   {
    "id": "kotm:loliceptresource/deco/quillinkwellpaper03",
@@ -11894,7 +12031,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "book01.dds",
@@ -11934,11 +12071,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.334,
+     0.205,
+     0.207
+    ],
+    "centreOffsetM": [
+     -0.019,
+     0.217,
+     -0.04
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Quillinkwellpaper 03",
    "undersideClosed": true,
    "undersideCoverage": 0.622,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.016,
-   "displayName": "Quillinkwellpaper 03"
+   "pivotAboveBaseM": 0.016
   },
   {
    "id": "kotm:oaristys/paper/scrolls02",
@@ -11991,11 +12141,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Scrolls 02",
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.006,
-   "displayName": "Scrolls 02"
+   "pivotAboveBaseM": 0.006
   },
   {
    "id": "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeatcooked",
@@ -12048,11 +12198,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Snail meat cooked",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.038,
-   "displayName": "Snail meat cooked"
+   "pivotAboveBaseM": 0.038
   },
   {
    "id": "kotm:skinwalker21 creatures/sabrecat/megalania/skyrim/megalaniascales",
@@ -12110,11 +12260,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "An wamasu scales",
    "undersideClosed": true,
    "undersideCoverage": 0.912,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.013,
-   "displayName": "An wamasu scales"
+   "pivotAboveBaseM": 0.013
   },
   {
    "id": "vanilla:dungeons/caves/green/largehall/caveglhallentrance03",
@@ -12192,11 +12342,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL hall entrance 03",
    "undersideClosed": true,
    "undersideCoverage": 0.893,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.595,
-   "displayName": "Cave GL hall entrance 03"
+   "pivotAboveBaseM": 1.595
   },
   {
    "id": "vanilla:dungeons/caves/green/largehall/caveglhallramp01",
@@ -12270,11 +12420,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL hall ramp 01",
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.114,
-   "displayName": "Cave GL hall ramp 01"
+   "pivotAboveBaseM": -0.114
   },
   {
    "id": "vanilla:dungeons/caves/green/largehall/caveglhall1way01",
@@ -12348,11 +12498,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL hall 1 way 01",
    "undersideClosed": true,
    "undersideCoverage": 0.959,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.078,
-   "displayName": "Cave GL hall 1 way 01"
+   "pivotAboveBaseM": -0.078
   },
   {
    "id": "vanilla:dungeons/caves/green/largeroom/caveglroomdoorl03",
@@ -12426,11 +12576,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL room door l 03",
    "undersideClosed": true,
    "undersideCoverage": 0.914,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.114,
-   "displayName": "Cave GL room door l 03"
+   "pivotAboveBaseM": -0.114
   },
   {
    "id": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner03",
@@ -12504,11 +12654,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL room corner 03",
    "undersideClosed": true,
    "undersideCoverage": 0.953,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.41,
-   "displayName": "Cave GL room corner 03"
+   "pivotAboveBaseM": -0.41
   },
   {
    "id": "vanilla:dungeons/caves/green/largeroom/caveglroomwall03",
@@ -12582,11 +12732,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL room wall 03",
    "undersideClosed": true,
    "undersideCoverage": 0.967,
    "openBackYawDeg": 315.0,
-   "pivotAboveBaseM": -0.001,
-   "displayName": "Cave GL room wall 03"
+   "pivotAboveBaseM": -0.001
   },
   {
    "id": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner02c",
@@ -12653,11 +12803,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL room corner 02c",
    "undersideClosed": true,
    "undersideCoverage": 0.818,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.264,
-   "displayName": "Cave GL room corner 02c"
+   "pivotAboveBaseM": -0.264
   },
   {
    "id": "vanilla:dungeons/caves/green/largeroom/caveglroomwall02",
@@ -12731,11 +12881,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL room wall 02",
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.358,
-   "displayName": "Cave GL room wall 02"
+   "pivotAboveBaseM": -0.358
   },
   {
    "id": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner01",
@@ -12809,11 +12959,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL room corner 01",
    "undersideClosed": true,
    "undersideCoverage": 0.896,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.394,
-   "displayName": "Cave GL room corner 01"
+   "pivotAboveBaseM": -0.394
   },
   {
    "id": "vanilla:dungeons/caves/green/largeroom/caveglroomincorner02",
@@ -12887,11 +13037,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL room in corner 02",
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.313,
-   "displayName": "Cave GL room in corner 02"
+   "pivotAboveBaseM": -0.313
   },
   {
    "id": "vanilla:dungeons/caves/green/largeroom/caveglroomwall02c",
@@ -12965,11 +13115,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL room wall 02c",
    "undersideClosed": true,
    "undersideCoverage": 0.904,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.358,
-   "displayName": "Cave GL room wall 02c"
+   "pivotAboveBaseM": -0.358
   },
   {
    "id": "vanilla:dungeons/caves/green/largeroom/caveglroomwall01",
@@ -13043,11 +13193,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL room wall 01",
    "undersideClosed": true,
    "undersideCoverage": 0.996,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.277,
-   "displayName": "Cave GL room wall 01"
+   "pivotAboveBaseM": -0.277
   },
   {
    "id": "vanilla:dungeons/caves/green/largeroom/caveglroomcorner04",
@@ -13121,11 +13271,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL room corner 04",
    "undersideClosed": true,
    "undersideCoverage": 0.964,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.39,
-   "displayName": "Cave GL room corner 04"
+   "pivotAboveBaseM": -0.39
   },
   {
    "id": "vanilla:dungeons/caves/green/largeroom/caveglroomwall04c",
@@ -13192,11 +13342,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL room wall 04c",
    "undersideClosed": true,
    "undersideCoverage": 0.973,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.342,
-   "displayName": "Cave GL room wall 04c"
+   "pivotAboveBaseM": -0.342
   },
   {
    "id": "vanilla:dungeons/caves/green/largeroom/caveglroomincorner04",
@@ -13270,11 +13420,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL room in corner 04",
    "undersideClosed": true,
    "undersideCoverage": 0.97,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.258,
-   "displayName": "Cave GL room in corner 04"
+   "pivotAboveBaseM": -0.258
   },
   {
    "id": "vanilla:dungeons/caves/green/largeroom/caveglroommid01",
@@ -13343,11 +13493,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave GL room mid 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.313,
-   "displayName": "Cave GL room mid 01"
+   "pivotAboveBaseM": -0.313
   },
   {
    "id": "vanilla:landscape/dirtcliffs/dirtcliffsisland01",
@@ -13426,11 +13576,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Dirt cliffs island 01",
    "undersideClosed": false,
    "undersideCoverage": 0.247,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.412,
-   "displayName": "Dirt cliffs island 01"
+   "pivotAboveBaseM": 0.412
   },
   {
    "id": "vanilla:landscape/volcanic/volcanicplateau02",
@@ -13515,11 +13665,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Volcanic plateau 02",
    "undersideClosed": false,
    "undersideCoverage": 0.018,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.736,
-   "displayName": "Volcanic plateau 02"
+   "pivotAboveBaseM": 0.736
   },
   {
    "id": "vanilla:dungeons/mines/cavepillars/mineclpillar02",
@@ -13583,11 +13733,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mine CL pillar 02",
    "undersideClosed": false,
    "undersideCoverage": 0.21,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.102,
-   "displayName": "Mine CL pillar 02"
+   "pivotAboveBaseM": 0.102
   },
   {
    "id": "vanilla:dungeons/mines/cavepillars/mineclpillar04",
@@ -13651,11 +13801,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mine CL pillar 04",
    "undersideClosed": false,
    "undersideCoverage": 0.027,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.165,
-   "displayName": "Mine CL pillar 04"
+   "pivotAboveBaseM": 0.165
   },
   {
    "id": "vanilla:dungeons/mines/cavepillars/mineclpillar06",
@@ -13712,11 +13862,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mine CL pillar 06",
    "undersideClosed": false,
    "undersideCoverage": 0.061,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.04,
-   "displayName": "Mine CL pillar 06"
+   "pivotAboveBaseM": 0.04
   },
   {
    "id": "vanilla:dungeons/mines/cavepillars/mineclpillar03",
@@ -13780,11 +13930,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mine CL pillar 03",
    "undersideClosed": false,
    "undersideCoverage": 0.101,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.308,
-   "displayName": "Mine CL pillar 03"
+   "pivotAboveBaseM": 0.308
   },
   {
    "id": "vanilla:dungeons/mines/cavepillars/mineclpillar05",
@@ -13848,11 +13998,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mine CL pillar 05",
    "undersideClosed": false,
    "undersideCoverage": 0.106,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.048,
-   "displayName": "Mine CL pillar 05"
+   "pivotAboveBaseM": 0.048
   },
   {
    "id": "kotm:argonia/stalactites/stal6",
@@ -13875,7 +14025,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "cave08.dds"
@@ -13905,11 +14055,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.41,
+     1.073,
+     0.42
+    ],
+    "centreOffsetM": [
+     0.057,
+     1.186,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "LS cave stalactite 05",
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.033,
-   "displayName": "LS cave stalactite 05"
+   "pivotAboveBaseM": 0.033
   },
   {
    "id": "kotm:argonia/stalactites/stal2",
@@ -13932,7 +14095,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "cave08.dds"
@@ -13962,11 +14125,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.321,
+     0.524,
+     0.326
+    ],
+    "centreOffsetM": [
+     0.011,
+     0.561,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "LS cave stalactite 02",
    "undersideClosed": false,
    "undersideCoverage": 0.022,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.034,
-   "displayName": "LS cave stalactite 02"
+   "pivotAboveBaseM": 0.034
   },
   {
    "id": "kotm:argonia/stalactites/stal3",
@@ -13989,7 +14165,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "cave08.dds"
@@ -14019,11 +14195,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.386,
+     0.7,
+     0.379
+    ],
+    "centreOffsetM": [
+     0.023,
+     0.763,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "LS cave stalactite 03",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.033,
-   "displayName": "LS cave stalactite 03"
+   "pivotAboveBaseM": 0.033
   },
   {
    "id": "kotm:argonia/stalactites/stal5",
@@ -14046,7 +14235,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "cave08.dds"
@@ -14076,11 +14265,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.4,
+     0.964,
+     0.39
+    ],
+    "centreOffsetM": [
+     0.045,
+     1.095,
+     -0.001
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "LS cave stalactite 04",
    "undersideClosed": false,
    "undersideCoverage": 0.02,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "displayName": "LS cave stalactite 04"
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "kotm:argonia/stalactites/stal7",
@@ -14133,11 +14335,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "LS cave stalactite 06",
    "undersideClosed": false,
    "undersideCoverage": 0.029,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.033,
-   "displayName": "LS cave stalactite 06"
+   "pivotAboveBaseM": 0.033
   },
   {
    "id": "vanilla:dungeons/caves/green/dirtmound/cavegdirtmound03",
@@ -14190,11 +14392,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave g dirt mound 03",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.474,
-   "displayName": "Cave g dirt mound 03"
+   "pivotAboveBaseM": 0.474
   },
   {
    "id": "kotm:argonia/trees/greguire/swampplant08a",
@@ -14258,11 +14460,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonia tree swamp plant 02 b",
    "undersideClosed": false,
    "undersideCoverage": 0.019,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.133,
-   "displayName": "Argonia tree swamp plant 02 b"
+   "pivotAboveBaseM": 0.133
   },
   {
    "id": "kotm:argonia/trees/greguire/swampplant08",
@@ -14326,11 +14528,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonia tree swamp plant 02 a",
    "undersideClosed": false,
    "undersideCoverage": 0.006,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.009,
-   "displayName": "Argonia tree swamp plant 02 a"
+   "pivotAboveBaseM": 0.009
   },
   {
    "id": "kotm:plants/tamira/new plants/tropicalshrub05",
@@ -14386,11 +14588,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonia groundplant 05",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.315,
-   "displayName": "Argonia groundplant 05"
+   "pivotAboveBaseM": 0.315
   },
   {
    "id": "kotm:plants/tamira/new plants/tropicalshrub03",
@@ -14446,11 +14648,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonia groundplant 06",
    "undersideClosed": false,
    "undersideCoverage": 0.112,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.164,
-   "displayName": "Argonia groundplant 06"
+   "pivotAboveBaseM": 0.164
   },
   {
    "id": "kotm:plants/tamira/new plants/tropicalplant01",
@@ -14506,11 +14708,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonia groundplant 02",
    "undersideClosed": false,
    "undersideCoverage": 0.02,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.062,
-   "displayName": "Argonia groundplant 02"
+   "pivotAboveBaseM": 0.062
   },
   {
    "id": "vanilla:plants/florahangingmoss02",
@@ -14566,11 +14768,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tree flora hanging moss 02",
    "undersideClosed": false,
    "undersideCoverage": 0.309,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.303,
-   "displayName": "Tree flora hanging moss 02"
+   "pivotAboveBaseM": 1.303
   },
   {
    "id": "vanilla:plants/florahangingmoss01",
@@ -14626,11 +14828,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tree flora hanging moss 01",
    "undersideClosed": false,
    "undersideCoverage": 0.06,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.325,
-   "displayName": "Tree flora hanging moss 01"
+   "pivotAboveBaseM": 1.325
   },
   {
    "id": "kotm:argonia/trees/greguire/junglelogmossflat01",
@@ -14689,11 +14891,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonia tree moss cluster 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.306,
-   "displayName": "Argonia tree moss cluster 01"
+   "pivotAboveBaseM": 1.306
   },
   {
    "id": "vanilla:dungeons/nordic/rubble/norvinefloor01nocol",
@@ -14749,11 +14951,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Nor vine floor 01 no col",
    "undersideClosed": true,
    "undersideCoverage": 0.791,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.228,
-   "displayName": "Nor vine floor 01 no col"
+   "pivotAboveBaseM": 0.228
   },
   {
    "id": "vanilla:dungeons/nordic/rubble/norvinefloor02nocol",
@@ -14809,11 +15011,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Nor vine floor 02 no col",
    "undersideClosed": false,
    "undersideCoverage": 0.107,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.228,
-   "displayName": "Nor vine floor 02 no col"
+   "pivotAboveBaseM": 0.228
   },
   {
    "id": "kotm:argonia/trees/hist trees/hist_root03",
@@ -14873,11 +15075,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hist root 03",
    "undersideClosed": false,
    "undersideCoverage": 0.182,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.919,
-   "displayName": "Hist root 03"
+   "pivotAboveBaseM": 1.919
   },
   {
    "id": "kotm:argonia/trees/hist trees/hist_root04",
@@ -14937,11 +15139,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hist root 04",
    "undersideClosed": false,
    "undersideCoverage": 0.18,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.919,
-   "displayName": "Hist root 04"
+   "pivotAboveBaseM": 1.919
   },
   {
    "id": "kotm:argonia/trees/hist trees/hist_rootanim",
@@ -15001,11 +15203,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hist root 06",
    "undersideClosed": true,
    "undersideCoverage": 0.831,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.05,
-   "displayName": "Hist root 06"
+   "pivotAboveBaseM": 0.05
   },
   {
    "id": "kotm:argonia/trees/hist trees/hist_root05",
@@ -15065,11 +15267,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hist root 05",
    "undersideClosed": true,
    "undersideCoverage": 0.615,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.79,
-   "displayName": "Hist root 05"
+   "pivotAboveBaseM": 4.79
   },
   {
    "id": "vanilla:clutter/bones/humanfootleft",
@@ -15122,11 +15324,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Bone human foot l",
    "undersideClosed": false,
    "undersideCoverage": 0.549,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.058,
-   "displayName": "Bone human foot l"
+   "pivotAboveBaseM": 0.058
   },
   {
    "id": "vanilla:clutter/bones/humanhandleft",
@@ -15179,11 +15381,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Bone human hand l",
    "undersideClosed": true,
    "undersideCoverage": 0.687,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.069,
-   "displayName": "Bone human hand l"
+   "pivotAboveBaseM": 0.069
   },
   {
    "id": "vanilla:clutter/bones/humanlegright",
@@ -15236,11 +15438,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Bone human leg r",
    "undersideClosed": true,
    "undersideCoverage": 0.644,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.249,
-   "displayName": "Bone human leg r"
+   "pivotAboveBaseM": 0.249
   },
   {
    "id": "vanilla:clutter/bones/bloodyleg",
@@ -15293,11 +15495,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Bone human bloody leg",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.066,
-   "displayName": "Bone human bloody leg"
+   "pivotAboveBaseM": 0.066
   },
   {
    "id": "vanilla:clutter/bones/bloodyskull",
@@ -15350,11 +15552,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Bone human bloody skull",
    "undersideClosed": true,
    "undersideCoverage": 0.893,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.101,
-   "displayName": "Bone human bloody skull"
+   "pivotAboveBaseM": 0.101
   },
   {
    "id": "vanilla:clutter/bones/bloodyarm",
@@ -15407,11 +15609,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Bone human bloody arm",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.058,
-   "displayName": "Bone human bloody arm"
+   "pivotAboveBaseM": 0.058
   },
   {
    "id": "vanilla:clutter/bones/bloodyhand",
@@ -15434,7 +15636,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "none",
    "droppedShapes": [],
    "textures": [
     "bloodybones.dds"
@@ -15442,19 +15644,7 @@
    "materials": [
     "BloodyHand:0.Mat"
    ],
-   "collisionFrame": "pivot-yup-v3",
-   "collisionBox": {
-    "halfExtentsM": [
-     0.091,
-     0.049,
-     0.146
-    ],
-    "centreOffsetM": [
-     -0.0,
-     0.0,
-     0.0
-    ]
-   },
+   "collisionFrame": "pivot-yup-v2",
    "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
@@ -15477,11 +15667,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Bone human bloody hand",
    "undersideClosed": true,
    "undersideCoverage": 0.664,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.056,
-   "displayName": "Bone human bloody hand"
+   "pivotAboveBaseM": 0.056
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\interior-kotm-v1.glb",
@@ -15551,6 +15741,7 @@
   "cardTriAreaPerHeight2": 0.002,
   "maxRadiusFactor": 1.5
  },
+ "schemaVersion": 1,
  "compression": {
   "schemaVersion": 1,
   "tool": "gltfpack 1.2",
@@ -15577,24 +15768,25 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 85710592,
-  "bytesAfter": 17300312,
+  "bytesBefore": 85705008,
+  "bytesAfter": 17297056,
   "images": 157,
   "imageBytesAfter": 8870872,
   "warnings": [],
-  "sha256": "a52491b62dfd086de739fbd0cdff1c95131f5aa61e4fea9ad149f2426b60ea50",
+  "sha256": "955e9af605b9e472f63afcb77ca3439a212d03d21e697a1436b5db02b4a9ff1d",
   "parts": {
-   "parts": 146,
-   "partBytes": 3280508,
-   "textureFiles": 105,
-   "textureBytes": 5727813,
-   "bytes": 9008321,
-   "sourceSha256": "a52491b62dfd086de739fbd0cdff1c95131f5aa61e4fea9ad149f2426b60ea50"
+   "parts": 231,
+   "partBytes": 11597932,
+   "textureFiles": 152,
+   "textureBytes": 8524850,
+   "bytes": 20122782,
+   "sourceSha256": "4e93c42e55a80283f355e8afa8b791e586826e5eb0cb10c2b2402e9931f19059",
+   "packedSha256": "955e9af605b9e472f63afcb77ca3439a212d03d21e697a1436b5db02b4a9ff1d"
   },
   "sidecarBytes": {
    "connectors": 148650,
    "footprints": 285053,
-   "interiors": 100600
+   "interiors": 100369
   }
  }
 }

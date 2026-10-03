@@ -1,18 +1,21 @@
 {
- "schemaVersion": 3,
+ "schemaVersion": 4,
  "kit": "works-v1",
- "exterior": true,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 23698312,
-  "sha256": "850ee873b22925b3d1c8590af8c27f274c93c9199266f09afacecc122315beb9"
+  "bytes": 48835796,
+  "sha256": "942e37b0762d6e9e1179c563ab6ea966b48fd9d51d6b2424787df1bc5de1d644"
+ },
+ "packed": {
+  "bytes": 23697524,
+  "sha256": "3be6406107667810bcbebbeebcde412f5c846bf4cfd41926d244dfd45653fb6a"
  },
  "totals": {
   "parts": 124,
-  "partBytes": 4237244,
+  "partBytes": 4235656,
   "textureFiles": 98,
   "textureBytes": 19733053,
-  "bytes": 23970297
+  "bytes": 23968709
  },
  "assets": {
   "bmv:advertising_board": {
@@ -1957,24 +1960,24 @@
   },
   "vanilla:clutter/horsetrough/horsetrough01": {
    "file": "vanilla_clutter_horsetrough_horsetrough01-2dddbb63.glb",
-   "bytes": 15572,
-   "vertices": 260,
-   "triangles": 205,
+   "bytes": 13984,
+   "vertices": 252,
+   "triangles": 201,
    "lods": [
     {
      "lod": 0,
-     "vertices": 260,
-     "triangles": 205
+     "vertices": 252,
+     "triangles": 201
     },
     {
      "lod": 1,
-     "vertices": 260,
-     "triangles": 205
+     "vertices": 252,
+     "triangles": 201
     },
     {
      "lod": 2,
-     "vertices": 260,
-     "triangles": 205
+     "vertices": 252,
+     "triangles": 201
     }
    ],
    "textures": [

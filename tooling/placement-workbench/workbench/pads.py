@@ -315,7 +315,7 @@ def run_overlays(cat, scene, g=None) -> list[dict]:
     if not rows:
         return []
     patches = srp.run_pad_patches(rows, place, g.survey_height,
-                                  lambda x, z: g.depth(x, z) > 0.0)
+                                  lambda x, z: g.depth(x, z) > 0.0, g.water_level)
     hard = srp.PAD_HARD_RADIUS_PX * RAW_M
     return [pad_overlay.overlay_from_patch(q, hard) for q in patches]
 

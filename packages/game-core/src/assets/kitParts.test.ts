@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import * as THREE from "three";
 import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
@@ -11,10 +11,8 @@ import { SharedKtx2Textures } from "./sharedTextures";
 // by tooling/asset-pipeline/pipeline/kit_parts.mjs.
 const KIT = "interior-kotm-v1"; // the kit whose parts the cells draw most of (121)
 const KITS = new URL("../../../../apps/world-studio/public/kits/", import.meta.url);
-const partsOf = (kit: string) => new URL(kitPartsDir({ id: kit, glb: `${kit}.glb` }), KITS);
+const partsOf = (kit: string) => new URL(kitPartsDir({ id: kit, parts: `${kit}/parts/index.json`, manifest: `${kit}.kit.json` }), KITS);
 const PARTS = partsOf(KIT);
-/** The 0120 S1 sample: every asset split, exteriors draw from parts. */
-const EXTERIOR_KITS = ["settlement-mud-v1", "works-v1"];
 
 /** A KTX2 stand-in: records the URL three asks for and answers an empty compressed texture. */
 function stubKtx2(asked: string[]) {
@@ -28,7 +26,7 @@ function stubKtx2(asked: string[]) {
   };
 }
 
-// GLTFLoader reads `self.URL` for an embedded image (the whole kit's KTX2 bufferViews).
+// GLTFLoader reads `self.URL` for an embedded image (waterfall-fx-v1's PNG stubs).
 (globalThis as { self?: unknown }).self ??= globalThis;
 
 async function parse(url: URL, asked: string[] = [], ktx2: unknown = stubKtx2(asked)): Promise<GLTF> {
@@ -40,53 +38,74 @@ async function parse(url: URL, asked: string[] = [], ktx2: unknown = stubKtx2(as
   return new Promise((resolve, reject) => loader.parse(buffer as ArrayBuffer, url.href.replace(/[^/]*$/, ""), resolve, reject));
 }
 
-/** Triangles with each rotated to start at its lowest index: meshopt's index codec may rotate a triangle, never flip it. */
-function canonicalTriangles(g: THREE.BufferGeometry): number[] {
-  const a = Array.from(g.index?.array ?? []);
-  const out: number[] = [];
-  for (let i = 0; i < a.length; i += 3) {
-    const t = [a[i], a[i + 1], a[i + 2]];
-    const r = t.indexOf(Math.min(...t));
-    out.push(t[r], t[(r + 1) % 3], t[(r + 2) % 3]);
-  }
-  return out;
-}
-
 const levelCounts = (a: ArchitectureAsset) => a.levels.map((parts) => ({
   parts: parts.length,
   vertices: parts.reduce((n, p) => n + p.geometry.getAttribute("position").count, 0),
   triangles: parts.reduce((n, p) => n + p.triangles, 0),
 }));
 
-describe.each([KIT, ...EXTERIOR_KITS])("kit parts (%s): a part GLB loads on its own and carries every LOD tier of its asset", (kit) => {
-  it("every part matches the whole kit at every level, bit for bit; its textures resolve to the kits/tex pool", async () => {
+/** Every published kit (decision 0120: kits ship only as parts). */
+const ALL_KITS = readdirSync(KITS).filter((f) => f.endsWith(".kit.json")).map((f) => f.slice(0, -".kit.json".length)).sort();
+/** Kits whose every part is loaded through three: interior, exterior, no-sidecar camp, uncompressed waterfall. */
+const LOADED_KITS = [KIT, "settlement-mud-v1", "camp-v1", "waterfall-fx-v1"];
+const RAW_KITS = new URL("../../../../tooling/asset-pipeline/output/kits/", import.meta.url);
+
+/** Per asset root: triangles per LOD tier, read from a GLB's JSON chunk (the buildArchitectureKit rule: `extras.lod`, absent 0). */
+function rawLodTriangles(url: URL): Map<string, number[]> {
+  const bytes = readFileSync(url);
+  const json = JSON.parse(new TextDecoder().decode(bytes.subarray(20, 20 + bytes.readUInt32LE(12))));
+  const out = new Map<string, number[]>();
+  for (const r of json.scenes[json.scene ?? 0].nodes) {
+    const id = json.nodes[r].extras?.assetId;
+    if (typeof id !== "string") continue;
+    const tiers: number[] = [];
+    const walk = (i: number) => {
+      const n = json.nodes[i];
+      if (n.mesh !== undefined) {
+        const lod = typeof n.extras?.lod === "number" ? n.extras.lod : 0;
+        for (const p of json.meshes[n.mesh].primitives) {
+          tiers[lod] = (tiers[lod] ?? 0) + (p.indices !== undefined ? json.accessors[p.indices].count : json.accessors[p.attributes.POSITION].count) / 3;
+        }
+      }
+      for (const c of n.children ?? []) walk(c);
+    };
+    walk(r);
+    out.set(id, tiers.filter((t) => t !== undefined));
+  }
+  return out;
+}
+
+describe("every published kit ships as parts that cover its manifest", () => {
+  it.each(ALL_KITS)("%s: a part per manifest asset, no whole GLB, and the raw build's LOD tiers", (kit) => {
+    const index = parseKitPartsIndex(JSON.parse(readFileSync(new URL(`${kit}/parts/index.json`, KITS), "utf8")), kit, "index.json");
+    const manifest = JSON.parse(readFileSync(new URL(`${kit}.kit.json`, KITS), "utf8")) as { assets: { id: string }[] };
+    expect(Object.keys(index.assets).sort()).toEqual(manifest.assets.map((a) => a.id).sort());
+    expect(existsSync(new URL(`${kit}.glb`, KITS))).toBe(false);
+    const raw = new URL(`${kit}.glb`, RAW_KITS);
+    if (!existsSync(raw)) return; // the raw build is git-ignored (absent on CI); the index's sha256 names it
+    const tiers = rawLodTriangles(raw);
+    // gltfpack drops degenerate triangles (watercraft-v1: 12311 of 12321), so a tier matches to 1 %
+    for (const [id, row] of Object.entries(index.assets)) {
+      const raw = tiers.get(id) ?? [];
+      expect(row.lods.length).toBe(raw.length);
+      row.lods.forEach((l, i) => expect(Math.abs(l.triangles - raw[i])).toBeLessThanOrEqual(raw[i] * 0.01));
+    }
+  });
+});
+
+describe.each(LOADED_KITS)("kit parts (%s): a part GLB loads on its own and carries every LOD tier of its asset", (kit) => {
+  it("every part reads through buildArchitectureKit at its indexed counts; its textures resolve to the kits/tex pool", async () => {
     const parts = partsOf(kit);
     const index = parseKitPartsIndex(JSON.parse(readFileSync(new URL("index.json", parts), "utf8")), kit, "index.json");
-    const whole = buildArchitectureKit(await parse(new URL(`${kit}.glb`, KITS)));
-    expect(index.source.bytes).toBe(readFileSync(new URL(`${kit}.glb`, KITS)).length);
-    // an exterior kit splits every asset; an interior-only kit the assets the cells draw (review 5536a1d9)
-    expect(index.exterior).toBe(EXTERIOR_KITS.includes(kit));
-    if (index.exterior) expect(Object.keys(index.assets).sort()).toEqual([...whole.keys()].sort());
     expect(Object.keys(index.assets).length).toBeGreaterThan(0);
-    for (const id of Object.keys(index.assets)) expect(whole.has(id)).toBe(true);
     let checked = 0;
-    let vertices = 0;
     for (const [assetId, row] of Object.entries(index.assets)) {
       const asked: string[] = [];
       const part = buildArchitectureKit(await parse(new URL(row.file, parts), asked));
       expect([...part.keys()]).toEqual([assetId]);
       const got = levelCounts(part.get(assetId)!);
-      expect(got).toEqual(levelCounts(whole.get(assetId)!));
       expect(got[0].vertices).toBe(row.vertices);
       expect(row.lods.map((l) => l.triangles)).toEqual(got.map((l) => l.triangles));
-      // the same vertices and triangles, not only as many (re-encoding is lossless)
-      part.get(assetId)!.levels.forEach((level, li) => level.forEach((p, i) => {
-        const w = whole.get(assetId)!.levels[li][i];
-        expect(Array.from(p.geometry.getAttribute("position").array)).toEqual(Array.from(w.geometry.getAttribute("position").array));
-        expect(canonicalTriangles(p.geometry)).toEqual(canonicalTriangles(w.geometry));
-        expect(p.localMatrix.equals(w.localMatrix)).toBe(true);
-      }));
-      vertices += got[0].vertices;
       for (const url of asked) {
         expect(new URL(url).href).toMatch(/\/kits\/tex\/[0-9a-f]{16}\.ktx2$/);
         expect(existsSync(new URL(url))).toBe(true);
@@ -94,7 +113,6 @@ describe.each([KIT, ...EXTERIOR_KITS])("kit parts (%s): a part GLB loads on its 
       checked += 1;
     }
     expect(checked).toBe(Object.keys(index.assets).length);
-    expect(vertices).toBeGreaterThan(10_000);
   }, 180_000);
 });
 

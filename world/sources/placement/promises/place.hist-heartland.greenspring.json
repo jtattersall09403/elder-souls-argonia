@@ -121,7 +121,10 @@
    "confirmed": {
     "sha": "6326417580fe",
     "note": "The spring pool, ringed by its rim stones, and the spring house stand at the village centre.",
-    "ids": ["place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring1", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-rim1"]
+    "ids": [
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring1",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring8"
+    ]
    }
   },
   {
@@ -238,7 +241,10 @@
    "confirmed": {
     "sha": "7f1072bebaca",
     "note": "The sick Hist (ancient-sleeping-tree-sick) stands over the pool with the ten structures round it.",
-    "ids": ["landmark.greenspring.the-hist", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring1"]
+    "ids": [
+     "landmark.greenspring.the-hist",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring1"
+    ]
    }
   },
   {
@@ -297,7 +303,34 @@
    "confirmed": {
     "sha": "40d3f00d093e",
     "note": "Border road 0.09 km; plank landing on the bank; spring pool on firm ground, its water held by a lip of rim stones.",
-    "ids": ["place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring1", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring2", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring3", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring4", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring6", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring7", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring8", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-rim1", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-rim2", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-rim3"]
+    "ids": [
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring1",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring2",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring3",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring4",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring6",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring7",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring8",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring9",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring10",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring11",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring12",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring13",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring14",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-fill1",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-fill2",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-fill3",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-fill4",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-fill5",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-fill6",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-fill7",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-fill8",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-fill9",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-fill10",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-fill11",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-fill12",
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-fill13"
+    ]
    }
   },
   {
@@ -311,7 +344,9 @@
    "confirmed": {
     "sha": "d34684150b1a",
     "note": "Spring pool is the built water source; Helstrom 1.83 km SW.",
-    "ids": ["place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring1"]
+    "ids": [
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring1"
+    ]
    }
   },
   {
@@ -477,7 +512,10 @@
    },
    "text": "Greenspring shows the spring its record names.",
    "unfilled": null,
-   "filledBy": ["place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring1", "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-rim1"]
+   "filledBy": [
+    "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring1",
+    "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.sp-ring8"
+   ]
   }
  ]
 }

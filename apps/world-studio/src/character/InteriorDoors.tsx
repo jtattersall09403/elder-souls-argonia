@@ -16,6 +16,7 @@ import { markStaticDraws } from "@elder-souls/game-core/render/staticRefresh";
 import { drawnLightRigOf } from "../sky/lightRig";
 import { SharedKtx2Textures } from "@elder-souls/game-core/assets/sharedTextures";
 import { kitPartsDir } from "@elder-souls/game-core/assets/kitParts";
+import { loadKitPart } from "@elder-souls/game-core/assets/loadKitParts";
 import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
 import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import { DoorTransition, type InteriorSource } from "@elder-souls/game-core/interior/doorTransition";
@@ -132,16 +133,15 @@ export function InteriorDoors({
   const drawn = useRef(false);
   const opened = useRef(false);
 
-  const loader = useMemo(() => {
-    // Parts share a kit's textures by URI: each is transcoded and uploaded once (sharedTextures.ts).
-    const textures = new SharedKtx2Textures(decoders.ktx2) as unknown as KTX2Loader;
-    return new InteriorLoader(baseUrl, {
-      fetchJson: (url) => fetch(url).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`${url}: HTTP ${r.status}`)))),
-      // One part GLB per (kit, asset) the cell draws (assets/kitParts.ts), kept in the scene's cache.
-      loadPart: (kit, assetId, url) => kitCache.load(`${kit.id}#${assetId}`, url,
-        (u) => createKitLoader(decoders).setKTX2Loader(textures).loadAsync(u)).then(buildArchitectureKit),
-    });
-  }, [baseUrl, decoders, kitCache]);
+  // Parts share a kit's textures by URI: each is transcoded and uploaded once (sharedTextures.ts).
+  const partLoader = useMemo(() => createKitLoader(decoders)
+    .setKTX2Loader(new SharedKtx2Textures(decoders.ktx2) as unknown as KTX2Loader), [decoders]);
+  const loader = useMemo(() => new InteriorLoader(baseUrl, {
+    fetchJson: (url) => fetch(url).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`${url}: HTTP ${r.status}`)))),
+    // One part GLB per (kit, asset) the cell draws (assets/kitParts.ts), kept in the scene's cache.
+    loadPart: (kit, assetId, url) => kitCache.load(`${kit.id}#${assetId}`, url,
+      (u) => partLoader.loadAsync(u)).then(buildArchitectureKit),
+  }), [baseUrl, partLoader, kitCache]);
 
   const linker = useMemo(() => new InteriorLinker(gl as unknown as WebGPURenderer, scene), [gl, scene]);
   useEffect(() => () => linker.dispose(), [linker]);
@@ -204,18 +204,22 @@ export function InteriorDoors({
     const swingDoors = doors.filter(isSwingDoor);
     if (!swingDoors.length) { setExteriorSwing([]); return undefined; }
     let live = true;
-    const kitIds = [...new Set(swingDoors.map((d) => d.swing.kit))];
-    Promise.all(kitIds.map((id) => kitCache.load(id, `${baseUrl}kits/${id}.glb`,
-      (u) => createKitLoader(decoders).loadAsync(u)).then(buildArchitectureKit).then((kit) => [id, kit] as const)))
-      .then((kits) => {
+    // One part per swing leaf asset (0120), shared with the settlement layer through the cache.
+    const keys = [...new Set(swingDoors.map((d) => `${d.swing.kit}#${d.swing.assetId}`))];
+    const options = { baseUrl, kitCache, loader: partLoader };
+    Promise.all(keys.map((key) => {
+      const [kit, assetId] = key.split("#");
+      return loadKitPart(kit, assetId, options).then((gltf) => [key, buildArchitectureKit(gltf).get(assetId)] as const);
+    }))
+      .then((assets) => {
         if (!live) return;
-        const byKit = new Map(kits);
+        const byKey = new Map(assets);
         setExteriorSwing(swingDoors.map((d) => buildSwingDoor(d.id, d.swing,
-          byKit.get(d.swing.kit)?.get(d.swing.assetId)?.levels[0] ?? null)));
+          byKey.get(`${d.swing.kit}#${d.swing.assetId}`)?.levels[0] ?? null)));
       })
       .catch((err: unknown) => console.error("swing doors: kit load failed", err));
     return () => { live = false; };
-  }, [doors, baseUrl, kitCache, decoders]);
+  }, [doors, baseUrl, kitCache, partLoader]);
 
   const swing = useMemo(() => {
     const list = shown ? shown.interior.swingDoors : exteriorSwing;

@@ -21,7 +21,7 @@ interface Opts {
   base: string; set: string; rows: Row[]; entries: GroundPaintEntry[];
   grid: { x0: number; z0: number; step: number; n: number; heights: number[]; wet: number[] };
   place: { positionM: [number, number, number]; yawDeg: number; pitchDeg?: number; scale: number; footprintM: [number, number][] };
-  glbUrl: string; node: string; fromPart: boolean; bearingDeg: number; distM: number; eyeM: number;
+  glbUrl: string; bearingDeg: number; distM: number; eyeM: number;
   width: number; height: number;
 }
 
@@ -93,12 +93,7 @@ async function run(o: Opts) {
   loader.setKTX2Loader(ktx2);
   loader.setMeshoptDecoder(MeshoptDecoder);
   const gltf = await loader.loadAsync(o.glbUrl);
-  let obj: THREE.Object3D = gltf.scene;
-  if (!o.fromPart) {
-    const found = gltf.scene.getObjectByName(o.node) ?? gltf.scene.getObjectByName(THREE.PropertyBinding.sanitizeNodeName(o.node));
-    if (!found) throw new Error(`node ${o.node} not in kit GLB`);
-    found.removeFromParent(); found.position.set(0, 0, 0); found.quaternion.identity(); found.scale.setScalar(1); obj = found;
-  }
+  const obj: THREE.Object3D = gltf.scene;
   const holder = new THREE.Group();
   holder.position.set(px, p.positionM[1], pz);
   holder.quaternion.copy(placementQuaternion(p.yawDeg, p.pitchDeg ?? 0));

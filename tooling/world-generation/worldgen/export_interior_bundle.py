@@ -1355,7 +1355,7 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
         "frame": FRAME,
         "shellAssetId": None,
         "refCount": len(refs),
-        "kits": {k: {"id": k, "glb": f"kits/{k}.glb", "manifest": f"kits/{k}.kit.json"}
+        "kits": {k: {"id": k, "parts": f"kits/{k}/parts/index.json", "manifest": f"kits/{k}.kit.json"}
                  for k in kits},
         "arrivalMarker": arrival,
         "exitDoor": ({k: first[k] for k in ("id", "refId", "positionM", "yawDeg")}
@@ -1469,7 +1469,7 @@ def validate_bundle(b: dict) -> list[str]:
         bad.append("shellAssetId is per place (the claiming parcel's assetRef); the shared cell file carries null")
     kits = b.get("kits")
     if not isinstance(kits, dict) or not all(
-            isinstance(v, dict) and v.get("id") == k and isinstance(v.get("glb"), str)
+            isinstance(v, dict) and v.get("id") == k and isinstance(v.get("parts"), str)
             and isinstance(v.get("manifest"), str) for k, v in kits.items()):
         bad.append("kits map malformed")
         kits = {}

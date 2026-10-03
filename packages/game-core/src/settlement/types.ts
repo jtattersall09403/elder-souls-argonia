@@ -1,3 +1,4 @@
+import type { KitPartsRef } from "../assets/kitParts";
 import type { GroundPaintDoc } from "./groundPaint";
 import type { LocalPoolRecord } from "../water/localSurfaces";
 import type * as THREE from "three";
@@ -171,7 +172,7 @@ export interface SettlementBundle {
     colliderRadiusM: number;
     colliderPartBudget: number;
   };
-  kits: Record<string, { id: string; glb: string; manifest: string }>;
+  kits: Record<string, KitPartsRef>;
   settlements: {
     id: string;
     placementIds: string[];

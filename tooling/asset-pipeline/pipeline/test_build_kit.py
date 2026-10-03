@@ -356,14 +356,10 @@ def test_every_asset_bakes_its_own_card_under_bake_cards():
 
 def _shipped_flora_cards():
     """(asset record, card mesh bounds per view) for every species in the
-    SHIPPED flora kit, read from the GLB's own accessor bounds."""
-    import struct
-    root = Path(__file__).resolve().parents[3] / "apps/world-studio/public/kits"
-    manifest = json.loads((root / "flora-province-v1.kit.json").read_text())
-    with open(root / "flora-province-v1.glb", "rb") as fh:
-        fh.read(12)
-        length = struct.unpack("<II", fh.read(8))[0]
-        gltf = json.loads(fh.read(length))
+    SHIPPED flora kit, read from its parts' own accessor bounds (decision 0120)."""
+    from .kit_compress import PUBLIC_KITS, published_gltf
+    manifest = json.loads((PUBLIC_KITS / "flora-province-v1.kit.json").read_text())
+    gltf = published_gltf("flora-province-v1")
     nodes, meshes, accessors = gltf["nodes"], gltf["meshes"], gltf["accessors"]
     by_node = {n.get("name"): i for i, n in enumerate(nodes)}
     out = []
@@ -722,10 +718,10 @@ def test_a_pools_own_relocated_copy_still_beats_vanillas_exact_path(tmp_path):
 def test_published_kit_has_no_untextured_lod0_material(kit_id):
     """16k kits r3 ruling 5 on the shipped file: the mud kit's hut composite
     carried `Object10:3.Mat` (the Nordic door's untextured effect card)."""
-    glb = build_kit.REPO_ROOT / "apps/world-studio/public/kits" / f"{kit_id}.glb"
-    manifest = json.loads(glb.with_suffix(".kit.json").read_text())
+    from .kit_compress import PUBLIC_KITS, published_gltf
+    manifest = json.loads((PUBLIC_KITS / f"{kit_id}.kit.json").read_text())
     errors = build_kit.untextured_material_errors(
-        build_kit.read_gltf_json(glb), manifest, manifest.get("texturesMissing", []))
+        published_gltf(kit_id), manifest, manifest.get("texturesMissing", []))
     assert errors == []
 
 
@@ -745,14 +741,21 @@ def test_fire_card_gate_names_an_unflagged_flame_or_glow_card():
     assert [e.split(":")[0] for e in errors] == ["Flames"] and "(kit:fire)" in errors[0]
 
 
-@pytest.mark.parametrize("glb", sorted((build_kit.REPO_ROOT / "apps/world-studio/public/kits")
-                                       .glob("*.glb")), ids=lambda p: p.stem)
-def test_published_kit_ships_every_fire_card_additive(glb):
+_PUBLISHED_KITS = sorted(p.name[:-len(".kit.json")] for p in
+                         (build_kit.REPO_ROOT / "apps/world-studio/public/kits").glob("*.kit.json"))
+
+
+def test_the_fire_card_gate_has_kits_to_read():
+    assert len(_PUBLISHED_KITS) >= 20  # a glob that matches nothing passes every case below
+
+
+@pytest.mark.parametrize("kit_id", _PUBLISHED_KITS)
+def test_published_kit_ships_every_fire_card_additive(kit_id):
     """Walk 4: interior-farmhouse-v1 shipped fireplacewood01burning's
     Flames:0/1 cards MASK (solid streaks); its config row had no effect flag."""
-    manifest = glb.with_suffix(".kit.json")
-    summary = json.loads(manifest.read_text()) if manifest.is_file() else {}
-    assert build_kit.unflagged_fire_card_errors(build_kit.read_gltf_json(glb), summary) == []
+    from .kit_compress import PUBLIC_KITS, published_gltf
+    summary = json.loads((PUBLIC_KITS / f"{kit_id}.kit.json").read_text())
+    assert build_kit.unflagged_fire_card_errors(published_gltf(kit_id), summary) == []
 
 
 def test_untextured_gate_passes_textured_additive_and_judged_materials():
@@ -1014,6 +1017,34 @@ def test_shapes_the_nif_hides_are_dropped_and_listed():
     hidden = {d["shape"].split(".")[0] for d in rec.get("droppedShapes", [])
               if d.get("reason") == "hidden"}
     assert {"BodyMale_Big", "FemaleHead"} <= hidden
+
+
+def _glb_json(path: Path) -> dict:
+    with path.open("rb") as fh:
+        head = fh.read(20)
+        return json.loads(fh.read(int.from_bytes(head[12:16], "little")))
+
+
+def test_no_published_kit_ships_a_primitive_without_a_material():
+    """A NIF shape with no shader property (Havok proxy boxes, multibound
+    OBBs, editor markers) is dropped at import, reason `no-shader`; one that
+    shipped drew as a white GLTFLoader-default card (16k walk 10, Rose Bone
+    Waystation: argonianbonechime01's BoneHavok02-04). Header read only."""
+    root = Path(__file__).resolve().parents[3] / "apps/world-studio/public/kits"
+    hits = []
+    for glb in sorted(root.glob("*/parts/*.glb")):
+        doc = _glb_json(glb)
+        bad = {i for i, m in enumerate(doc.get("meshes", []))
+               if any("material" not in p for p in m["primitives"])}
+        hits += [f"{glb.relative_to(root)}: {n.get('name')}" for n in doc.get("nodes", [])
+                 if n.get("mesh") in bad]
+    assert hits == []
+    manifest = json.loads((root / "settlement-mud-v1.kit.json").read_text())
+    rec = next(a for a in manifest["assets"]
+               if a["id"] == "mudmother:gv_meshes/argoniannest/argonianbonechime01")
+    dropped = {d["shape"].split(".")[0] for d in rec.get("droppedShapes", [])
+               if d.get("reason") == "no-shader"}
+    assert {"BoneHavok02", "BoneHavok03", "BoneHavok04"} <= dropped
 
 
 def test_code_digest_is_part_of_the_kit_input_hash(tmp_path, monkeypatch):

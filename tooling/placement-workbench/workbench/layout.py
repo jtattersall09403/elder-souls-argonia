@@ -363,7 +363,7 @@ def check_failure_rows(check: dict) -> list[dict]:
         # a rock (seat_rules ROCK_POLICY, 0075) is judged by rockSeatRule on
         # its lowest three contacts, never by the direct fit's slope, delta
         # or foot float (planner ruling 5, CLAYWATER2)
-        rock = is_rock(r.get("asset") or "")
+        rock = r.get("rock") or is_rock(r.get("asset") or "")
         for rule in ("slopeRule", "deltaRule", "sillRule", "padRule", "beachedRule",
                      "stiltRule", "floorServiceRule", "notExportable"):
             # the yard sill too: on a rock it reads only the ground slope at
@@ -376,6 +376,7 @@ def check_failure_rows(check: dict) -> list[dict]:
         # a piled deck (dock, jetty, landing span) stands on its piles and
         # seats by its deck: its feet are exempt (lessons L65, round 4)
         if (r.get("anchorClass") or "ground") == "ground" and not r.get("piled") and not rock and \
+                not r.get("climb") and \
                 (r.get("footFloatMaxM") or 0.0) > tpg.FLOAT_LIMIT_M:
             add("footFloat", [uid], f"{uid}: foot floats {r['footFloatMaxM']} m (> {tpg.FLOAT_LIMIT_M})")
         if r.get("hullWater") and not r["hullWater"]["ok"]:
@@ -423,4 +424,5 @@ RULES = (("walk", "walkRule"), ("floorEdge", "floorEdgeRule"), ("pathReach", "pa
          ("archway", "archwayRule"), ("rockSeat", "rockSeatRule"), ("padClear", "padClearRule"),
          ("landing", "landingRule"), ("walkway", "walkwayRule"), ("coplanar", "coplanarRule"),
          ("seatFacing", "seatFacingRule"), ("socketCoherence", "socketCoherenceRule"),
-         ("serviceSign", "serviceSignRule"), ("ownerOk", "ownerOkRule"), ("scanFresh", "scanFreshRule"))
+         ("serviceSign", "serviceSignRule"), ("ownerOk", "ownerOkRule"), ("scanFresh", "scanFreshRule"),
+         ("dyErased", "dyErasedRule"))

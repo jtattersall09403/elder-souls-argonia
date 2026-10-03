@@ -146,6 +146,27 @@ def test_refuses_an_authored_window_past_the_current_route_endpoint():
         compile_structure(st, way, h, _kit_stub())
 
 
+def test_built_by_row_reserves_its_window_and_emits_no_piece():
+    """A row `builtBy` a place compiles to no placement; the studio feed keeps its
+    window footprint (terrain_patches reads it) and names the builder."""
+    way, h = _slope_way(rise_per_m=0.2)
+    base = {"wayId": way["id"], "kind": "stair", "family": "dunmer-stone",
+            "fromM": 100.0, "toM": 130.0, "why": "test"}
+    rows = [{**base, "id": "structure.dunmer-north-test.1"},
+            {**base, "id": "structure.dunmer-north-test.2", "builtBy": "place.x.y"}]
+    by_way, compiled = compile_all(rows, {way["id"]: way}, h, _kit_stub())
+    doc = by_way[way["id"]]
+    sources = {p["provenance"]["sourceStructureId"] for p in doc["placements"]}
+    assert sources == {"structure.dunmer-north-test.1"}
+    assert [s["id"] for s in doc["structures"]] == [r["id"] for r in rows]
+    feed = {s["id"]: s for s in studio_export(by_way, compiled)["structures"]}
+    built = feed["structure.dunmer-north-test.2"]
+    assert built["builtBy"] == "place.x.y"
+    assert built["pointsM"] == feed["structure.dunmer-north-test.1"]["pointsM"]
+    with pytest.raises(ValueError, match="is not a place id"):
+        compile_all([{**rows[1], "builtBy": "crossings"}], {way["id"]: way}, h, _kit_stub())
+
+
 def test_route_output_publication_replaces_the_exact_file_set(tmp_path):
     out = tmp_path / "route-structures"
     out.mkdir()

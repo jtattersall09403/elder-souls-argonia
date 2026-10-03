@@ -110,6 +110,29 @@ def _settle(cat, scene, piece: Piece, source: str = "chunks", declared_pads: dic
     return got
 
 
+def reseated_after_pads(p) -> bool:
+    """Whether `reseat_after_pads` settles ``p`` again: ground-settled and
+    owning no pad (planner ruling 1, round 6: a building, a run member or a
+    retaining wall keeps its pad seat; a padded assembly member, a stall or
+    a rack (walk 9), is dressing and is re-seated on its own pad)."""
+    kind = (p.role or {}).get("kind")
+    return ((p.settledBy or "").startswith("settle:") and kind != "run"
+            and (p.pad is None or kind == "assembly"))
+
+
+def dy_erased_rule(scene, dy_ops: list[tuple[int, str, float]]) -> dict:
+    """dyErasedRule (audit10 c6, crossings rk-bend-bank-2 rounds 27/28): a
+    `move` op's authored dy on a piece `reseat_after_pads` settles again is
+    silently undone, so it fails, naming the op and the piece."""
+    fails = []
+    for i, uid, dy in dy_ops:
+        p = next((q for q in scene.pieces if q.uid == uid), None)
+        if p is not None and reseated_after_pads(p):
+            fails.append(f"{uid}: op {i} `move --dy {dy}`: authored dy on a ground-settled piece "
+                         f"is erased by reseat_after_pads: change asset or spot, or mount it")
+    return {"failures": fails}
+
+
 def reseat_after_pads(cat, scene) -> list[dict]:
     """Planner ruling 1 (16k fix 2 round 5): every pad the runtime applies,
     building AND run, exists only once the whole layout is laid (a run's pad
@@ -124,17 +147,10 @@ def reseat_after_pads(cat, scene) -> list[dict]:
     moved: dict[str, float] = {}
     out = []
     for p in scene.pieces:
-        by = p.settledBy or ""
-        # planner ruling 1 (round 6): only a piece that owns no pad is re-seated;
-        # a building, a run member or a retaining wall keeps its pad seat. A
-        # padded assembly member (a stall, a rack: walk 9) is dressing and is
-        # re-seated by `prop_seat` on its own pad (`measure.is_prop`)
-        kind = (p.role or {}).get("kind")
-        if (not by.startswith("settle:") or kind == "run"
-                or (p.pad is not None and kind != "assembly")):
+        if not reseated_after_pads(p):
             continue
         before = p.y
-        _settle(cat, scene, p, by.rsplit(":", 1)[-1], declared_pads=resolved)
+        _settle(cat, scene, p, p.settledBy.rsplit(":", 1)[-1], declared_pads=resolved)
         dy = float(p.y - before) if before is not None else 0.0
         if abs(dy) > 1e-6:
             moved[p.uid] = dy
@@ -656,14 +672,16 @@ def cmd_doors(a, scene, cat):
 def _check_row(cat, scene, p, declared, cs) -> dict:
     """One piece's `check` row: seat vs its y, foot float, slope vs its fit's
     limit, quay reach or hull water, the pad fit (0101)."""
-    from workbench import pads, rules
+    from workbench import pads, rules, seat_rules
     # every piece is judged on the ground the scene's pads patch (0101)
     g = pads.ground_for(cat, scene, p, declared)
     row = cat.row(p.asset)
     r = {"asset": p.asset.rsplit("/", 1)[-1], "fit": fit_of(row),
          "anchorClass": row.get("anchorClass"), "settledBy": p.settledBy,
-         "piled": bool(row.get("piled"))}
-    mounted = ((p.settledBy or "").startswith(("mount:", "template:"))
+         "piled": bool(row.get("piled")),
+         # by the full path: the landscape rock folder (seat_rules.is_rock)
+         "rock": seat_rules.is_rock(p.asset, cat)}
+    mounted =((p.settledBy or "").startswith(("mount:", "template:"))
                or (p.role or {}).get("on") == "parent")
     seat = None
     if not mounted:
@@ -688,7 +706,12 @@ def _check_row(cat, scene, p, declared, cs) -> dict:
             if p.role.get("kind") == "run":
                 slope = g.footprint_max_slope_deg(poly)
                 r["maxSlopeDeg"] = round(slope, 2)
-                r["slopeRule"] = cs.fit_slope_failure({**row}, slope)
+                # a climb run (adjacent rise > CLIMB_STEP_M) is judged by
+                # walkwayRule and landingRule only (modular-runs 29b); the
+                # row's `climb` flag also lifts footFloat (layout.py)
+                r["climb"] = p.uid in rules.climb_uids(scene)
+                r["slopeRule"] = (None if r["climb"]
+                                  else cs.fit_slope_failure({**row}, slope))
                 r.update(_sill(cat, g, p, row, cs))
             r["deltaM"] = round(seat["deltaM"], 3)
             r["wetVertices"] = sum(g.wet(x, z) for x, z in poly)
@@ -782,7 +805,7 @@ def _rule_task(cat, scene, key: str):
     from workbench import seat_rules
     fn = {"walk": rules.walk, "pathReach": rules.path_reach,
           "berthReach": rules.berth_reach, "landing": seat_rules.landing,
-          "coplanar": rules.coplanar}.get(key)
+          "coplanar": lambda c, s: rules.coplanar(c, s, mined_joint=mined_run_joint)}.get(key)
     if key in ("seatFacing", "socketCoherence", "serviceSign"):
         from workbench import dressing_rules as dr
         return {"seatFacing": dr.seat_facing, "socketCoherence": dr.socket_coherence,
@@ -954,6 +977,43 @@ def along_run_overlap(cat, a: Piece, b: Piece) -> float:
                                 cat.mesh(b.asset), measure._transform4(b))
 
 
+#: slack over a mined pair's offsetSpreadM (float noise of a snapped pose)
+MINED_POSE_SLACK_M = 0.01
+MINED_POSE_YAW_DEG = 1.0
+
+
+def mined_pair_pose(a: Piece, b: Piece) -> dict | None:
+    """The mined `run` abuts pair whose pose the two stand at (either as the
+    parent), within its recorded offsetSpreadM (+ MINED_POSE_SLACK_M) and
+    MINED_POSE_YAW_DEG: {offM, spreadM, count}; None when no pair matches."""
+    import copy
+    for parent, child in ((a, b), (b, a)):
+        for s in snap.evidence_steps(parent.asset, child.asset):
+            if s.get("joint") != "run" or s.get("offsetSpreadM") is None:
+                continue
+            want = copy.copy(child)
+            snap._set_from_parent(want, parent, s["offsetM"], s["riseM"], s["yawDeg"])
+            d2 = (want.x - child.x) ** 2 + (want.z - child.z) ** 2
+            if want.y is not None and child.y is not None:
+                d2 += (want.y - child.y) ** 2
+            dyaw = abs((want.yaw - child.yaw + 180.0) % 360.0 - 180.0)
+            off = d2 ** 0.5
+            if off <= float(s["offsetSpreadM"]) + MINED_POSE_SLACK_M and dyaw <= MINED_POSE_YAW_DEG:
+                return {"offM": round(off, 3), "spreadM": s["offsetSpreadM"], "count": s["count"]}
+    return None
+
+
+def mined_run_joint(a: Piece, b: Piece) -> dict | None:
+    """The `minedPair` a run-joint row carries (`_pair_verdict`): ``a`` and
+    ``b`` are run neighbours (adjacent members of one run, or one snapped
+    onto the other by evidence) standing at a mined `run` abuts pose."""
+    ra, rb = a.role or {}, b.role or {}
+    snapped = any((x.settledBy or "") == f"evidence-snap:{y.uid}" for x, y in ((a, b), (b, a)))
+    neighbours = (ra.get("kind") == rb.get("kind") == "run" and ra.get("id") == rb.get("id")
+                  and abs(int(ra.get("index", -9)) - int(rb.get("index", -9))) == 1)
+    return mined_pair_pose(a, b) if snapped or neighbours else None
+
+
 #: how far an unmined mount's mesh may pass into its host (the mined pairs'
 #: designed overlap does not apply: nobody designed this pose)
 UNMINED_MOUNT_PENETRATION_M = 0.02
@@ -1006,6 +1066,23 @@ def _pair_verdict(a: Piece, b: Piece, got: dict, cat=None) -> dict:
     if snapped or (ra.get("kind") == rb.get("kind") == "run" and ra.get("id") == rb.get("id")
                    and abs(int(ra.get("index", -9)) - int(rb.get("index", -9))) == 1):
         bar, overlap_bar = run_joint_bars(a, b)
+        mined = mined_pair_pose(a, b)
+        if mined is not None:
+            # the plugin's own pose crosses (stairs02 overlaps its neighbour
+            # 0.234 m, audit10 c5): at the mined pair pose, within the
+            # pair's recorded spread, the crossing is designed (modular-runs 29c)
+            # the overlap bar is waived for a CLIMB joint only (treads nest by
+            # design); a flat mined joint keeps it
+            from worldgen import settlement_run_pads as srp
+            climb = (a.y is not None and b.y is not None
+                     and abs(a.y - b.y) > srp.CLIMB_STEP_M)
+            out = {"relation": "run-joint", "minedPair": mined, "ok": True}
+            if overlap_bar is not None and cat is not None:
+                overlap = along_run_overlap(cat, a, b)
+                out.update(penetrationBarM=bar, alongRunOverlapM=round(overlap, 3),
+                           alongRunOverlapBarM=overlap_bar)
+                out["ok"] = climb or overlap <= overlap_bar
+            return out
         out = {"relation": "run-joint",
                "ok": got["gapM"] <= JOINT_GAP_M and (got["penetrationM"] or 0.0) <= bar}
         if overlap_bar is not None and cat is not None:
@@ -2241,6 +2318,9 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
         check = check_scene(cat, scene, use_cache=not full, stats=stats)
         check["ownerOk"] = owner_ok_rule(layout_path)
         check["scanFresh"] = scan_fresh_rule(layout_path)
+        check["dyErased"] = dy_erased_rule(scene, [
+            (i, o.get("uid"), o["dy"]) for i, o in enumerate(doc["ops"])
+            if isinstance(o, dict) and o.get("op") == "move" and o.get("dy")])
         summary["check"] = {"failures": layout.check_failures(check),
                             "pieces": len(check["pieces"]), "nearPairs": len(check["nearPairs"]),
                             "doors": len(check["doors"]), "s": round(time.time() - t1, 2),
