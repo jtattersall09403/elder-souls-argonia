@@ -650,7 +650,10 @@ export function installGpuErrorProbe(win) {
  * the first record per (group, uniform, owner uuid), other writes one per buffer/texture, at most 60. `persistent` lists
  * every owner (group + uuid) whose LAST write in the run was still non-finite, with its name and bad-write count, so
  * start-up NaNs are told apart from values that stay bad. `badPerFrame[f]` counts bad writes per submit for the first
- * 600; `scanned` / `bytes` are the scan totals. Mapped ranges and writeBuffer into STORAGE-not-UNIFORM buffers whose hit has a subnormal float among its 8 neighbours or whose non-finite share is over 0.5 % are packed integer data: counted in `packedSkipped`, never recorded. Self-contained: it is stringified into the page. */
+ * 600; `scanned` / `bytes` are the scan totals. `layout` (D4): createShaderModule / createComputePipeline / createBindGroup
+ * and compute-pass setPipeline/setBindGroup are wrapped; for the first hit buffer a compute pass bound it gives
+ * {pipelineLabel, group, binding, bufferLabel, byteOffset, wgslStruct (the var<uniform> line + its struct, members in offset
+ * order), wgsl (the module source, 20 kB)}; null with no hit, `{err}` when no compute pass bound a hit buffer. Mapped ranges and writeBuffer into STORAGE-not-UNIFORM buffers whose hit has a subnormal float among its 8 neighbours or whose non-finite share is over 0.5 % are packed integer data: counted in `packedSkipped`, never recorded. Self-contained: it is stringified into the page. */
 export function installNanProbe(win) {
   const P = (win.__nanProbe = { records: [], badPerFrame: [], scanned: 0, bytes: 0, bad: 0, packedSkipped: 0, frame: 0, threeHooked: false, persistent: [] });
   const MAX = 60, FRAMES = 600, INDEX = 0x10, INDIRECT = 0x100, MAP_READ = 0x1;
@@ -730,7 +733,36 @@ export function installNanProbe(win) {
       if (curRO) { r.owner = ownerInfo(curRO, r.group); try { r.owner.node = unifsAt(curBinding, fi).map(nodeOf); } catch (e) { r.owner.node = [`err ${e.message}`]; } }
     } else if (kind === "writeBuffer") r.mapping = P.threeHooked ? "not inside backend.updateBinding (stack only)" : "renderer not hooked (stack only)";
     P.records.push(r);
+    if (kind === "writeBuffer" && hitBufs.length < 60 && !hitBufs.some(([b]) => b === target)) hitBufs.push([target, r.byteOffset]);
   };
+  // D4 layout: which compute pipeline binds a hit buffer, at what group/binding, and that binding's WGSL uniform struct.
+  // Read lazily (the bind happens after the first write), emitted once for the first hit buffer a compute pass bound.
+  const modCode = new WeakMap(), pipeInfo = new WeakMap(), bgBufs = new WeakMap(), bufBind = new WeakMap(), hitBufs = [];
+  let curPipe = null;
+  const D = win.GPUDevice?.prototype;
+  wrap(D, "createShaderModule", (f) => function (desc) { const m = f.call(this, desc); try { modCode.set(m, String(desc?.code ?? "")); } catch {} return m; });
+  wrap(D, "createComputePipeline", (f) => function (desc) { const pl = f.call(this, desc); try { pipeInfo.set(pl, { label: desc?.label ?? pl?.label ?? "", module: desc?.compute?.module }); } catch {} return pl; });
+  wrap(D, "createBindGroup", (f) => function (desc) { const bg = f.call(this, desc); try { bgBufs.set(bg, (desc?.entries ?? []).filter((e) => e?.resource?.buffer || e?.resource?.usage !== undefined).map((e) => [e.resource.buffer ?? e.resource, e.binding])); } catch {} return bg; });
+  const CP = win.GPUComputePassEncoder?.prototype;
+  wrap(CP, "setPipeline", (f) => function (pl) { curPipe = pl; return f.call(this, pl); });
+  wrap(CP, "setBindGroup", (f) => function (index, bg, ...a) {
+    try { const info = curPipe && pipeInfo.get(curPipe); if (info) for (const [buf, binding] of bgBufs.get(bg) ?? []) if (!bufBind.has(buf)) bufBind.set(buf, { info, group: index, binding }); } catch {}
+    return f.call(this, index, bg, ...a);
+  });
+  const wgslStruct = (code, g, b) => {
+    const m = new RegExp(`(?:@binding\\(\\s*${b}\\s*\\)\\s*@group\\(\\s*${g}\\s*\\)|@group\\(\\s*${g}\\s*\\)\\s*@binding\\(\\s*${b}\\s*\\))\\s*var<\\s*uniform\\s*>\\s*(\\w+)\\s*:\\s*(\\w+)`).exec(code);
+    if (!m) return null;
+    const st = new RegExp(`struct\\s+${m[2]}\\s*\\{[^}]*\\}`).exec(code);
+    return `var<uniform> ${m[1]} : ${m[2]};\n${st ? st[0] : "(struct not found)"}`;
+  };
+  Object.defineProperty(P, "layout", { enumerable: true, get: () => {
+    for (const [buf, byteOffset] of hitBufs) {
+      const bb = bufBind.get(buf); if (!bb) continue;
+      const code = modCode.get(bb.info.module) ?? "";
+      return { pipelineLabel: bb.info.label, group: bb.group, binding: bb.binding, bufferLabel: buf.label ?? "", byteOffset, wgslStruct: wgslStruct(code, bb.group, bb.binding), wgsl: code.slice(0, 20000) };
+    }
+    return hitBufs.length ? { err: "no compute pass bound a hit buffer" } : null;
+  } });
   // packed integer data read as floats: mapped ranges, and writeBuffer into STORAGE-not-UNIFORM buffers, are packed when a
   // float within 4 of the hit is subnormal or over 0.5 % of the range is non-finite
   const packedHit = (target, kind, n, vals, idx) => {

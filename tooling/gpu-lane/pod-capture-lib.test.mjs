@@ -514,6 +514,27 @@ test("nan probe: a NaN in a Float32 uniform write is recorded with label, frame 
   assert.equal(r.value, "NaN"); assert.equal(r.group, "objectUniforms"); assert.deepEqual(r.uniforms, ["windDir"]);
   assert.match(nanProbeLine(p), /^not-a-bar; 2 bad writes, first f2 bindingBuffer7_objectUniforms_\(vertex\)\/objectUniforms\.windDir NaN/);
 });
+test("nan probe: layout names the compute pipeline, group/binding and WGSL uniform struct that bound the hit buffer (D4)", () => {
+  class GPUQueue { submit() {} writeBuffer() {} writeTexture() {} }
+  class GPUBuffer { constructor(label, size, usage) { this.label = label; this.size = size; this.usage = usage; } }
+  class GPUDevice { createShaderModule(d) { return { label: d.label }; } createComputePipeline(d) { return { label: d.label }; } createBindGroup(d) { return { entries: d.entries }; } }
+  class GPUComputePassEncoder { setPipeline() {} setBindGroup() {} }
+  const win = { GPUQueue, GPUBuffer, GPUDevice, GPUComputePassEncoder, performance: { now: () => 5 } };
+  installNanProbe(win);
+  const dev = new GPUDevice(), q = new GPUQueue(), buf = new GPUBuffer("NodeBuffer_inject", 464, 0x40 | 0x8), other = new GPUBuffer("other", 16, 0x40);
+  const code = "struct NodeBuffer_9Struct {\n  camPos : vec3<f32>,\n  jitterXY : vec2<f32>\n};\n@binding( 1 ) @group( 0 )\nvar<uniform> NodeBuffer_9 : NodeBuffer_9Struct;\n@compute @workgroup_size(8) fn main() {}";
+  assert.equal(win.__nanProbe.layout, null, "no hit, no layout");
+  const pl = dev.createComputePipeline({ label: "froxelInject", compute: { module: dev.createShaderModule({ code }) } });
+  const f = new Float32Array(116); f[22] = NaN;
+  q.writeBuffer(buf, 0, f);
+  assert.deepEqual(win.__nanProbe.layout, { err: "no compute pass bound a hit buffer" });
+  const pass = new GPUComputePassEncoder();
+  pass.setPipeline(pl); pass.setBindGroup(0, dev.createBindGroup({ entries: [{ binding: 0, resource: { buffer: other } }, { binding: 1, resource: { buffer: buf } }] }));
+  const L = JSON.parse(JSON.stringify(win.__nanProbe)).layout;
+  assert.deepEqual([L.pipelineLabel, L.group, L.binding, L.bufferLabel, L.byteOffset], ["froxelInject", 0, 1, "NodeBuffer_inject", 88]);
+  assert.match(L.wgslStruct, /^var<uniform> NodeBuffer_9 : NodeBuffer_9Struct;\nstruct NodeBuffer_9Struct \{[^}]*jitterXY : vec2<f32>/);
+  assert.ok(L.wgsl.includes("@compute"));
+});
 test("nan probe: finite writes stay clean; index buffers and int arrays are skipped; mapped and half-float paths fire", () => {
   const { win, q, GPUBuffer } = fakeNanWindow();
   q.writeBuffer(new GPUBuffer("ok", 16, 0x40), 0, new Float32Array([1, 2, 3, 4]));
