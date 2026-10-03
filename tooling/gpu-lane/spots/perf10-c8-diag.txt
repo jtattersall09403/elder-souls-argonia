@@ -10,3 +10,6 @@ aday9 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wdbg=9&rate=0.5
 adayq14 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wq=low&wdbg=14&rate=0.5
 adayq9 ?view=character&x=7.1971&z=0.584&t=12&w=clear&wq=low&wdbg=9&rate=0.5
 cheap ?view=character&x=4.02&z=4.61&t=22&w=rain&gc=0&rate=0.5 walk=20   # control: e with the groundcover not mounted
+adayfield14 ?view=character&x=7.1971&z=0.584&t=12&w=clear&waterLayers=field&wdbg=14&rate=0.5
+adayfield9 ?view=character&x=7.1971&z=0.584&t=12&w=clear&waterLayers=field&wdbg=9&rate=0.5
+w8 ?view=character&x=2.53&z=0.32&t=12&w=clear&wdbg=8&rate=0.5   # gorge waterfall final alpha
