@@ -119,6 +119,12 @@ Chrome started with `--remote-debugging-port` and serve with `node tooling/gpu-l
   a dark candidate ambiguous.
 - The ready gate waits for the build-queue counter at 0 and streaming quiet (both in the capture summary); one
   capture per round runs 180 s after ready with a frame every 10 s, so "too soon" is ruled out.
+- `pod-capture.mjs` takes no frame before the world is loaded (`worldReadyGate`, 2 consecutive reads: queue pending 0,
+  ground-cover tiles live with none pending or newly staled, vegetation instances > 0 unless the view sets
+  `expectVegetation: false`, fixture lights > 0 for a `halos-*` view); a view not loaded by its end is `invalid` (the
+  summary's `invalid` column) and takes no frame. On/off twins (`X`, `X-voloff`) whose vegetation instances or triangles
+  differ by over 10 % read `INVALID-PAIR` there (r10 compared 16769 veg instances with 0). With `settle: false`,
+  `shotsFrom: "settle"` counts from the pose gate (r10 fogdyn took 1 frame in 180 s waiting on a gate that never ran).
 - Every frame of a capture (settled, walk, hold) is HUD-free under `--clean 1` (one routine, `cleanShot` in
   `measure.mjs`) and hold frames are taken after the spot's `--aim`, at the settled shot's camera.
 

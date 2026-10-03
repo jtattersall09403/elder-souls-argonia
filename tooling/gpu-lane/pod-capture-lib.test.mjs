@@ -109,7 +109,7 @@ test("summaryTable: header, cap line and one row per view with dashes for missin
   const t = summaryTable([{ name: "A", summary: { lumaSettled: 40.123, tris: 940000, fps: 59 } }, { name: "B" }], { capDetected: false, blankRafFps: 240 }).split("\n");
   assert.equal(t[0], "cap detected: false (blank-page rAF 240 fps)");
   assert.equal(t.length, 6);
-  assert.match(t[4], /^\| A \| - \| - \| - \| 40\.12 \| - \| - \| - \| 59 \|.*\| 0\.94 \|/);
+  assert.match(t[4], /^\| A \| - \| - \| - \| - \| 40\.12 \| - \| - \| - \| 59 \|.*\| 0\.94 \|/);
   assert.match(t[5], /^\| B( \| -)+ \|$/);
 });
 test("the iter7 views file parses: A, B, D x webgpu, webgl backend, studio, plus B-webgpu-diag", async () => {
@@ -1027,4 +1027,34 @@ test("c10 harness2: kits arrived -> last pipeline build", async () => {
   assert.match(line, /kits arrived 6.8 s, last build 11.3 s, builds after kits 4.5 s/);
   assert.match(readyGateLine({ poseAt: 9.1, kitsArrivedS: 6.8, loadAfterKits: dev }), /builds after kits n\/a/);
   assert.match(readyGateLine({ poseAt: null, poseTimedOut: true, framesBeforePose: true }), /FRAMES BEFORE POSE/);
+});
+
+import { worldReadyVerdict, worldReadyGate, pairVerdicts, devHooksLine as devHooksLineG, summariseView as summariseViewG, viewEndS as viewEndSG } from "./pod-capture-lib.mjs";
+test("vol10 c10 G: r10 on/off twins of different worlds are INVALID-PAIR; matched twins pass", () => {
+  const v = (name, veg, tris) => ({ name, final: { vegRead: { veg: { instances: veg } }, renderer: { triangles: tris } } });
+  const p = pairVerdicts([v("canopy-08", 16769, 9.3e6), v("canopy-08-voloff", 0, 9.3e6), v("halos-claywater-22", 0, 560e3), v("halos-claywater-22-voloff", 2342, 15.9e6), v("ok", 1000, 1e6), v("ok-voloff", 1050, 1.05e6)]);
+  assert.match(p["canopy-08"], /INVALID-PAIR \(veg 16769 vs 0\)/);
+  assert.match(p["halos-claywater-22-voloff"], /veg 0 vs 2342, tris 560000 vs 15900000/);
+  assert.equal(p.ok, undefined);
+});
+test("vol10 c10 G: world-ready gate needs a loaded world for 2 reads; a halos view with 0 lamps is INVALID", () => {
+  const w = { pending: 0, gcLive: 176, gcPending: 0, gcStaled: 3, veg: 16769, lamps: 0 };
+  assert.deepEqual(worldReadyVerdict({ name: "halos-claywater-22" }, w).why, ["lamps 0"]);
+  assert.equal(worldReadyVerdict({ name: "canopy-08" }, w).ready, true);
+  assert.deepEqual(worldReadyVerdict({ name: "canopy-12" }, { ...w, veg: 0 }).why, ["veg 0"]);
+  assert.equal(worldReadyVerdict({ name: "sea", expectVegetation: false }, { ...w, veg: 0 }).ready, true);
+  const g = worldReadyGate({ name: "canopy-08" });
+  assert.equal(g.feed(10, w), false); assert.equal(g.feed(11, { ...w, gcStaled: 4 }), false); // a stale since the last read resets
+  assert.equal(g.feed(12, { ...w, gcStaled: 4 }), false); assert.equal(g.feed(13, { ...w, gcStaled: 4 }), true); assert.equal(g.at, 13);
+  assert.match(devHooksLineG({ castersMissingLayer: [], warm: null, lamps: 0 }), /lamps 0/);
+  assert.equal(summariseViewG({ name: "halos-claywater-22", devHooks: { lamps: 0 } }).invalid, "lamps 0");
+  assert.equal(summariseViewG({ name: "canopy-08", devHooks: { lamps: 0 } }).invalid, null);
+});
+test("vol10 c10 G: fogdyn (settle false, shotsFrom settle) 180 s at 10 s takes 18 scheduled frames from the pose gate", () => {
+  const view = { seconds: 180, shots: "10000@0,10000", shotsFrom: "settle", settle: false };
+  const shots = viewShots(view, undefined, 180), poseAt = 7.9;
+  let si = 0, taken = 0;
+  for (let i = 0; poseAt + i / 10 < viewEndSG(view, 180, poseAt); i++) { const s = poseAt + i / 10; const t = shotTime(view, s, null, null, poseAt); if (si < shots.length && t >= shots[si]) { while (si < shots.length && shots[si] <= t) si++; taken++; } }
+  assert.equal(taken, 18); // the first frame at the pose gate plus 10..170 s (the view ends 180 s from navigation)
+  assert.equal(shots.filter((x) => x > 0).length, 18);
 });

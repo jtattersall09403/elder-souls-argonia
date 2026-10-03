@@ -14,7 +14,9 @@
  * --views      JSON list of {name, url, steps?, shots?, shotsFrom?, long?, seconds?, plain?, clean?, aim?, settle?, readyFlag?} (url any http(s) URL; plain: a non-studio
  *              page, no settle gate, runs its seconds; clean: HUD, minimap and scrollbar hidden around frames and final.jpg; frames: one at ready, then
  *              on `shots` from navigation (a view with seconds and no shots: every 10 s), shotsFrom: "settle" counts them from the shot
- *              settle gate (fps and luma steady, pod-capture-lib shotSettle; settle false = off); per frame the HUD HH:MM clock
+ *              settle gate (fps and luma steady, pod-capture-lib shotSettle; settle false = off, then from the pose gate); no frame
+ *              before the world is loaded (worldReadyGate: queue 0, ground-cover tiles built, veg > 0 unless expectVegetation:
+ *              false, lamps > 0 for halos-*, 2 reads); not loaded by the end -> result.invalid; per frame the HUD HH:MM clock
  *              (result.frameClocks, result.clock.clockAdvancing); final luma/black decoded from final.jpg's own bytes (lumaSource); aim: [yaw, pitch?] rad
  *              through aimCamera before the first frame; readyFlag: a window global the page sets truthy when its first frame is drawn,
  *              no shot before it (or --ready-timeout), conventions at pod-capture-lib aimJs); each view writes <out>/<name>/ (result.json, frames/, final.jpg,
@@ -97,7 +99,7 @@ import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
-import { viewDeadlineS, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, DEV_HOOKS_JS, profileStartS, duplicateKeyViews, recordSkippedFrame, buildsAfterKits, framesBeforePose, captureFrame, poseReadyJs, poseTarget, poseResidual, installPoseProbe, POSE_FRAMES, installProgramErrorProbe, viewEndS } from "./pod-capture-lib.mjs";
+import { viewDeadlineS, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, WORLD_READY_JS, worldReadyGate, pairVerdicts, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, DEV_HOOKS_JS, profileStartS, duplicateKeyViews, recordSkippedFrame, buildsAfterKits, framesBeforePose, captureFrame, poseReadyJs, poseTarget, poseResidual, installPoseProbe, POSE_FRAMES, installProgramErrorProbe, viewEndS } from "./pod-capture-lib.mjs";
 import { loadSourceMaps } from "./source-maps.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit, heapTopAllocators } from "./checks.mjs";
@@ -544,6 +546,9 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
     if (view.readyFlag) result.readyFlag = { name: view.readyFlag, at: null, timedOut: false };
     const poseT = view.plain ? null : poseTarget(view.url, view.aim ?? null);
     let firstAt = null;
+    // vol10 c10 G: no frame before the world is loaded (worldReadyGate; plain views skip it)
+    const world = view.plain ? null : worldReadyGate(view);
+    if (world) result.worldReady = { at: null };
     while (sec() < viewEndS(view, totalS, firstAt)) {
       if (aborted) return;
       const s = sec();
@@ -590,10 +595,12 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
         else if (s > readyTimeoutS) result.readyFlag.timedOut = true;
       }
       const flagOpen = !view.readyFlag || result.readyFlag.at !== null || result.readyFlag.timedOut;
+      if (world && world.at === null && s > Math.max(readyTimeoutS, totalS - 5)) { result.invalid = `world not ready by ${r1(s)} s: ${world.last?.why.join(", ") ?? "no read"}`; result.worldReady.last = world.last; return; }
+      const worldOpen = !world || world.at !== null;
       // diag19 D5: a first frame at ready, then shot times from navigation (`shotsFrom: "settle"`: from the shot settle gate)
       const shotT = shotTime(view, s, shotGate?.at ?? null, firstAt, result.poseAt ?? null);
       const firstDue = !firstShot && (view.plain || (result.readyS !== null && result.poseAt !== undefined && (result.poseAt === null || s >= result.poseAt)));
-      if (flagOpen && (view.plain || result.poseAt !== undefined) && (!view.aim || result.aimedAt) && (firstDue || (si < shots.length && shotT >= shots[si]))) {
+      if (flagOpen && worldOpen && (view.plain || result.poseAt !== undefined) && (!view.aim || result.aimedAt) && (firstDue || (si < shots.length && shotT >= shots[si]))) {
         while (si < shots.length && shots[si] <= shotT) si++;
         if (!firstShot) firstAt = s;
         firstShot = true;
@@ -630,6 +637,7 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
           try { await send("HeapProfiler.collectGarbage", {}, GC_TIMEOUT_MS); heapMB = (await send("Runtime.getHeapUsage")).usedSize / 1e6; }
           catch (e) { result.gcOff = `${r1(s)} s: ${e.message}`; }
         }
+        if (world && world.at === null) { if (world.feed(r1(s), await evaluate(WORLD_READY_JS, 5_000))) result.worldReady.at = r1(s); }
         if (q && !q.err) heapSamples.push({ s: lastPoll, heapMB, buffers: q.g, textures: q.x });
         if (result.readyS === null && q && !q.err && q.g > 0 && lastFrame !== null && q.f > lastFrame) result.readyS = r1(s);
         if (result.readyS !== null && result.resources === undefined) result.resources = { atReadyEntries: await evaluate(RESOURCES_READ_JS, 10_000).catch(() => null) };
@@ -657,6 +665,7 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
       }
       await new Promise((r) => setTimeout(r, 100));
     }
+    if (world && world.at === null && !result.invalid) { result.invalid = `world not ready in ${totalS} s: ${world.last?.why.join(", ") ?? "no read"}`; result.worldReady.last = world.last; }
     if (probeTargets && !result.targetProbe) await probeTargetsNow(dir, result); // never settled: probe at the end
     if (windowS > 0 && !result.window) result.window = { ...(await costWindow(dir, r1(sec()), heapProfile)), unsettled: true };
     result.heapSlope = heapSlope(heapSamples);
@@ -678,6 +687,9 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
 }
 
 const writeAll = () => {
+  // on/off twins of different worlds are flagged (pairVerdicts); a view already INVALID keeps its own reason
+  const pairs = pairVerdicts(all.views);
+  for (const v of all.views) if (v.summary && pairs[v.name]) v.summary.invalid = v.summary.invalid ? `${v.summary.invalid}; ${pairs[v.name]}` : pairs[v.name];
   writeFileSync(join(out, "result.json"), JSON.stringify(all, null, 1));
   writeFileSync(join(out, "summary.md"), `${summaryTable(all.views, all.cap, all.prep)}\n`);
 };

@@ -53,10 +53,66 @@ export function viewShots(view, runSpec, totalS) {
   return spec === "none" ? [] : parseShots(spec, totalS);
 }
 
+/** vol10 c10 G: the world a frame is taken of. Build queue pending, ground-cover tiles live/pending and cumulative
+ * staled count (Groundcover.tsx __STUDIO_GROUNDCOVER_DEBUG__.perf), vegetation instances, fixture lights (the scene's
+ * fixture light field, the volume lamp list's source). r10 took on/off twins of different worlds (canopy-08 16769 veg
+ * instances vs its voloff 0; halos-claywater-22 560k tris and no lamps vs its voloff 15.9M). */
+export const WORLD_READY_JS = `(() => { const q = window.__RENDERER__?.esBuildQueue, g = window.__STUDIO_GROUNDCOVER_DEBUG__?.perf, v = window.__STUDIO_VEGETATION_DEBUG__, lf = window.__SCENE__?.userData?.esFixtureLightField;
+  return { pending: q ? q.pending : null, gcLive: g ? g.tilesLive : null, gcPending: g ? g.tilesPending : null, gcStaled: g ? g.cacheStaled : null, veg: v && Number.isFinite(v.instances) ? v.instances : null, lamps: lf ? lf.count : null }; })()`;
+
+/** One read's world-ready verdict for a view: { ready, why[] }. Queue pending 0; ground-cover tiles live > 0, none
+ * pending and none staled since the previous read (`prevStaled`); vegetation instances > 0 unless the view sets
+ * `expectVegetation: false`; a `halos-*` view needs fixture lights > 0. A missing hook (null) fails its row. */
+export function worldReadyVerdict(view, w, prevStaled = null) {
+  const why = [];
+  if (!w || w.err) return { ready: false, why: ["no read"] };
+  if (w.pending !== 0) why.push(`queue ${w.pending ?? "n/a"}`);
+  if (view.expectGroundcover !== false && !(w.gcLive > 0 && w.gcPending === 0)) why.push(`gc tiles ${w.gcLive ?? "n/a"}/${w.gcPending ?? "n/a"}`);
+  if (view.expectGroundcover !== false && prevStaled !== null && w.gcStaled !== prevStaled) why.push(`gc staled ${prevStaled}->${w.gcStaled}`);
+  if (view.expectVegetation !== false && !(w.veg > 0)) why.push(`veg ${w.veg ?? "n/a"}`);
+  if (String(view.name ?? "").startsWith("halos-") && !(w.lamps > 0)) why.push(`lamps ${w.lamps ?? "n/a"}`);
+  return { ready: why.length === 0, why };
+}
+
+/** World-ready gate: open after `n` consecutive ready reads (worldReadyVerdict); `last` keeps the latest reasons. */
+export function worldReadyGate(view, n = 2) {
+  let run = 0, at = null, prevStaled = null, last = null;
+  return {
+    get at() { return at; }, get last() { return last; },
+    feed(s, w) {
+      if (at !== null) return true;
+      const v = worldReadyVerdict(view, w, prevStaled);
+      prevStaled = w?.gcStaled ?? null; last = { s, why: v.why, read: w };
+      run = v.ready ? run + 1 : 0;
+      if (run >= n) at = s;
+      return at !== null;
+    },
+  };
+}
+
+/** On/off twins (`X` and `X-voloff`) whose final vegetation instances or renderer triangles differ by more than `tol`
+ * of the larger: name -> "INVALID-PAIR (...)" for both members. A twin missing a count is flagged too. */
+export function pairVerdicts(views, tol = 0.1) {
+  const byName = new Map(views.map((v) => [v.name, v])), out = {};
+  const nums = (v) => { const f = v.final ?? {}; return { veg: f.vegRead?.veg?.instances ?? null, tris: f.renderer?.triangles ?? f.vegRead?.render?.triangles ?? null }; };
+  const off = (a, b) => (a == null || b == null ? true : Math.abs(a - b) > tol * Math.max(a, b, 1));
+  for (const v of views) {
+    const m = /^(.*)-voloff$/.exec(v.name); const on = m && byName.get(m[1]);
+    if (!on) continue;
+    const a = nums(on), b = nums(v), bad = [];
+    if (off(a.veg, b.veg)) bad.push(`veg ${a.veg ?? "?"} vs ${b.veg ?? "?"}`);
+    if (off(a.tris, b.tris)) bad.push(`tris ${a.tris ?? "?"} vs ${b.tris ?? "?"}`);
+    if (bad.length) out[on.name] = out[v.name] = `INVALID-PAIR (${bad.join(", ")})`;
+  }
+  return out;
+}
+
 /** Shot time of second `s` after navigation: from navigation, or from the shot settle gate (`settleAt`, null = not yet
- * open -> -1) when the view sets `shotsFrom: "settle"` (diag19 D5: counting from a gate at ~45 s left 0-2 frames). */
+ * open -> -1) when the view sets `shotsFrom: "settle"` (diag19 D5: counting from a gate at ~45 s left 0-2 frames). With
+ * `settle: false` there is no gate, so it counts from the pose gate (r10 fogdyn: settle false + shotsFrom settle waited on a
+ * gate that never ran and took one frame in 180 s). */
 export const shotTime = (view, s, settleAt, firstAt = null, poseAt = null) => (view.long ? (firstAt == null ? -1 : s - firstAt)
-  : view.shotsFrom === "settle" ? (settleAt == null ? -1 : s - settleAt) : s - (poseAt ?? 0));
+  : view.shotsFrom === "settle" && view.settle !== false ? (settleAt == null ? -1 : s - settleAt) : s - (poseAt ?? 0));
 /** c10 harness2: the frame schedule counts from the pose gate's first satisfied time (`poseAt`), never page start. A view whose
  * pose gate never passed (poseAt null: timed out) writes its frames anyway and is marked `framesBeforePose`. */
 export const framesBeforePose = (view, poseAt) => !view.plain && poseAt === null;
@@ -440,7 +496,7 @@ export const poseReadyJs = (target) => `(() => { const p = window.__poseProbe; i
 /** webgpu diag20 E8 dev hooks, read once per view at the end of the cost window: castShadow objects no caster layer carries
  * (WorldSky's debug handle `__STUDIO_SKY_DEBUG__.castersMissingLayer()`: name, owner, kind each; expect none) and the
  * RenderWarmGate state (CharacterMode __STUDIO_WARM__: open reason "stable" or "cap", frames). */
-export const DEV_HOOKS_JS = `(() => { let casters = null; try { const f = window.__STUDIO_SKY_DEBUG__?.castersMissingLayer; casters = typeof f === "function" ? f() : null; } catch (e) { casters = "err " + String(e).slice(0, 60); } const w = window.__STUDIO_WARM__; return { castersMissingLayer: casters, warm: w ? { open: w.open, reason: w.reason, frames: w.frames } : null }; })()`;
+export const DEV_HOOKS_JS = `(() => { let casters = null; try { const f = window.__STUDIO_SKY_DEBUG__?.castersMissingLayer; casters = typeof f === "function" ? f() : null; } catch (e) { casters = "err " + String(e).slice(0, 60); } const w = window.__STUDIO_WARM__; const lf = window.__SCENE__?.userData?.esFixtureLightField; return { castersMissingLayer: casters, warm: w ? { open: w.open, reason: w.reason, frames: w.frames } : null, lamps: lf ? lf.count : null }; })()`;
 
 /** Names shown in the summary cell before "+N more". */
 const DEV_HOOKS_NAMES_MAX = 8;
@@ -458,7 +514,7 @@ export function devHooksLine(d) {
     c = `casters missing layer ${m.length} (expect 0): ${names}${m.length > DEV_HOOKS_NAMES_MAX ? ` +${m.length - DEV_HOOKS_NAMES_MAX} more` : ""}`;
   }
   const w = d.warm ? `warm ${d.warm.open ? d.warm.reason : "not open"} @${d.warm.frames}f` : "warm ?";
-  return `${c}; ${w}`;
+  return `${c}; ${w}${d.lamps === undefined ? "" : `; lamps ${d.lamps ?? "?"}`}`;
 }
 
 /** rAF rate of a blank page (frames per second) -> the cap verdict. Above 61 fps the vsync / frame-rate cap is off and
@@ -505,6 +561,7 @@ export function summariseView(r) {
     profileSrc: r.profile?.selfTopSrc?.length ? `${r.profile.from === "settle" ? `settle+${r.profile.atSpec}` : r.profile.at} s: ${r.profile.selfTopSrc.map(([f, ms]) => `${f} ${ms}`).join("; ")}` : null,
     weatherPinAdded: r.weatherPinAdded ?? false,
     readyGate: readyGateLine(r),
+    invalid: r.invalid ?? (String(r.name ?? "").startsWith("halos-") && r.devHooks && !(r.devHooks.lamps > 0) ? `lamps ${r.devHooks.lamps ?? "n/a"}` : null),
     programErrors: r.errors?.length ? `${r.errors.length}: ${r.errors.slice(0, 3).map((e) => `${e.by ? `${e.by.perfTag ?? "-"}/${e.by.name || "?"}/${e.by.materialType ?? "?"}` : "?"} [${(e.attributes ?? []).length} attrs]`).join("; ")}` : "0",
     shotErrors: r.shotErrors?.length ? r.shotErrors[0] : null,
     settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
@@ -513,8 +570,8 @@ export function summariseView(r) {
 /** Markdown summary: one row per view from its result.json `summary` (`summariseView`). "from" names the window the rates
  * came from; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets", "ready gate", "program errors", "shot error", "clock", "dev hooks", "profile self top15 (source)", "heap alloc top5", "veg tris by rung", "fetch before ready"];
-  const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.load, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
+  const cols = ["view", "failed", "invalid", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets", "ready gate", "program errors", "shot error", "clock", "dev hooks", "profile self top15 (source)", "heap alloc top5", "veg tris by rung", "fetch before ready"];
+  const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.invalid, s.load, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
     s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets, s.readyGate, s.programErrors, s.shotErrors, s.clock, s.devHooks, s.profileSrc, s.heapAllocTop5, s.vegTrisByRung, s.fetchBeforeReady].map(cell));
   const stopped = views.filter((v) => v.summary?.clockStopped).map((v) => v.name);
   const unpinned = views.filter((v) => v.summary?.weatherPinAdded).map((v) => v.name);
