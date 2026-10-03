@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from functools import cached_property
 from pathlib import Path
 
@@ -115,8 +116,10 @@ class Catalogue:
             if mesh is None:
                 raise KeyError(f"{asset_id}: no mesh in the raw kit builds ({paths.RAW_KITS})")
             cache.parent.mkdir(parents=True, exist_ok=True)
-            np.savez(cache, vertices=np.asarray(mesh.vertices, np.float64),
+            tmp = cache.with_name(f"{cache.stem}.{os.getpid()}.tmp.npz")
+            np.savez(tmp, vertices=np.asarray(mesh.vertices, np.float64),
                      faces=np.asarray(mesh.faces, np.int64))
+            os.replace(tmp, cache)       # atomic: a parallel reader never sees half a file
         self._meshes[asset_id] = mesh
         return mesh
 

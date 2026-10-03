@@ -22,6 +22,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 
 import numpy as np
@@ -126,7 +127,9 @@ def extract(centre_m: tuple[float, float], half_m: float, out: Path) -> dict:
         "chunkMetres": cell,
     }
     out.parent.mkdir(parents=True, exist_ok=True)
-    np.savez_compressed(out.with_suffix(".npz"), **arrays)
+    tmp = out.with_name(f"{out.stem}.{os.getpid()}.tmp.npz")
+    np.savez_compressed(tmp, **arrays)
+    os.replace(tmp, out.with_suffix(".npz"))   # atomic for parallel test workers
     out.with_suffix(".json").write_text(json.dumps(meta, indent=1))
     return meta
 

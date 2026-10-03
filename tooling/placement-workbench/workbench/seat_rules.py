@@ -603,6 +603,70 @@ def wade_step_end(cat, scene, g, members, ends) -> dict | None:
     return None
 
 
+def _floor_deck(cat, q, lowest: bool = False) -> float | None:
+    """``q``'s walked deck height from its descriptor (`describe` floors zM:
+    the largest up-facing face, or the lowest for a step piece's foot tread),
+    never its bounds max (a rail post's top; audit10 c4 crossings)."""
+    from . import describe
+    floors = describe.describe(cat, q.asset).get("floors") or []
+    if not floors:
+        return None
+    f = min(floors, key=lambda f: f["zM"]) if lowest else floors[0]
+    return q.y + float(f["zM"]) * q.scale
+
+
+def _dry_end(cat, scene, g, members, end, ua, out, step, lift=None) -> tuple[dict, str | None]:
+    """One dry end of a crossing run (``out`` signs ``ua`` outward): the deck
+    of the member nearest the end (`_floor_deck`; a step member's lowest
+    tread) within LANDING_FOOT_M of the ground LANDING_INSET_M past it, or a
+    step piece there (`_landing_step`)."""
+    from .rules import _ends
+    q = min(members, key=lambda m: min(math.dist(end, e) for e in _ends(cat, m)))
+    deck = _floor_deck(cat, q, lowest=_has(q.asset, LANDING_TOKENS))
+    if deck is not None:
+        deck += (lift or {}).get(q.uid, 0.0)
+    past = (end[0] + out * ua[0] * LANDING_INSET_M, end[1] + out * ua[1] * LANDING_INSET_M)
+    drop = None if deck is None else round(deck - float(g.chunk_height(*past)), 2)
+    row = {"end": [round(end[0], 2), round(end[1], 2)], "member": q.uid, "landDropM": drop}
+    if drop is not None and abs(drop) <= LANDING_FOOT_M:
+        return row, None
+    row["step"] = _landing_step(cat, scene, g, members, end, deck, step)
+    if row["step"] is not None:
+        return row, None
+    return row, (f"its dry end at {row['end']} stands {drop} m over the ground past it with no "
+                 f"step (want within {LANDING_FOOT_M} m, or a step piece whose top is within "
+                 f"{step} m of the deck)")
+
+
+def _buried_fail(cat, g, key, members, lift, r, pre, tag) -> list[str]:
+    """Ground over the deck along the run (a deck run into a bank, audit10
+    c4 crossings ib-00 1.04 m): every 0.5 m along each member's axis the
+    ground stands at most LANDING_FOOT_M (the end's bar: a plank end may
+    tuck that far into a bank) over its `_floor_deck`; step members
+    are skipped (walkwayRule walks their treads). Records the worst five."""
+    from .rules import _ends
+    out = []
+    for q in members:
+        deck = None if _has(q.asset, LANDING_TOKENS) else _floor_deck(cat, q)
+        if deck is None:
+            continue
+        deck += (lift or {}).get(q.uid, 0.0)
+        a, b = _ends(cat, q)
+        for t in np.linspace(0.05, 0.95, max(2, int(math.dist(a, b) / 0.5) + 1)):
+            x, z = a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t
+            over = float(g.chunk_height(x, z)) - deck
+            if over > LANDING_FOOT_M:
+                out.append({"uid": q.uid, "atM": [round(float(x), 2), round(float(z), 2)],
+                            "groundOverDeckM": round(over, 2)})
+    if not out:
+        return []
+    out = sorted(out, key=lambda v: -v["groundOverDeckM"])[:5]
+    r[pre + ("Buried" if pre else "buried")] = out
+    w = out[0]
+    return [f"{key}: the ground stands {w['groundOverDeckM']} m over the deck of {w['uid']} at "
+            f"{w['atM']} (a deck run into a bank; want at most {LANDING_FOOT_M} m){tag}"]
+
+
 def landing(cat, scene) -> dict:
     """landingRule (owner 2026-09-25 'Landing stage reaches dry ground', for
     every water-edge run, walk 4): along the run's axis (its two farthest
@@ -612,7 +676,9 @@ def landing(cat, scene) -> dict:
     or a step piece (LANDING_TOKENS) within LANDING_STEP_REACH_M of that end
     has its top within the controller's step (`rules.character` stepM) of
     the deck and its base on the ground (within FIXTURE_FLOAT_M); a run with
-    both ends over water is an open run. Judged at the workbench pose and,
+    both ends over water is an open run; a run with both ends dry (a
+    crossing) has each dry end judged by the same bar (`_dry_end`); and on
+    every run the ground never stands over a member's deck (`_buried_fail`). Judged at the workbench pose and,
     where the place's last compile put a member more than COMPILED_OFF_M
     off it, at the compiled pivots too (`compiled_y`)."""
     from . import rules
@@ -638,14 +704,25 @@ def landing(cat, scene) -> dict:
                          f"on dry ground, or in a plugin-paired step-down piece whose foot stands "
                          f"in wadeable water, at most {WADE_DEPTH_M} m, where a way arrives)")
             continue
-        if wa is None and wb is None:
-            continue                               # a deck that crosses water: berthReach/walk judge it
+        lift = {q.uid: compiled[q.uid] - q.y for q in members
+                if q.uid in compiled and abs(compiled[q.uid] - q.y) > COMPILED_OFF_M}
+        if wa is None and wb is None:              # a crossing: judge each dry end, and the bank
+            r = {"members": uids, "crossing": True, "stepM": step}
+            for where, lf in [("", None)] + ([("compiled", lift)] if lift else []):
+                tag = " [at the last compile's pivots]" if where else ""
+                r[where + ("DryEnds" if where else "dryEnds")] = ends = []
+                for end, out in ((a, -1), (b, 1)):
+                    row, fail = _dry_end(cat, scene, g, members, end, ua, out, step, lf)
+                    ends.append(row)
+                    if fail:
+                        fails.append(f"{key}: {fail}{tag}")
+                fails += _buried_fail(cat, g, key, members, lf, r, where, tag)
+            rows[key] = r
+            continue
         water_end, land_end, sign = (a, b, 1) if wa is not None else (b, a, -1)
         level = wa if wa is not None else wb
         past = (land_end[0] - sign * ua[0] * LANDING_INSET_M, land_end[1] - sign * ua[1] * LANDING_INSET_M)
         ground = float(g.chunk_height(*past))
-        lift = {q.uid: compiled[q.uid] - q.y for q in members
-                if q.uid in compiled and abs(compiled[q.uid] - q.y) > COMPILED_OFF_M}
         r = {"members": uids, "waterLevelM": round(level, 3),
              "landEnd": [round(land_end[0], 2), round(land_end[1], 2)], "stepM": step}
         for where, lf in [("", None)] + ([("compiled", lift)] if lift else []):
@@ -669,6 +746,7 @@ def landing(cat, scene) -> dict:
                     fails.append(f"{key}: its landward end stands {drop} m over the dry ground "
                                  f"past it with no step (want within {LANDING_FOOT_M} m, or a step "
                                  f"piece whose top is within {step} m of the deck){tag}")
+            fails += _buried_fail(cat, g, key, members, lf, r, pre, tag)
         rows[key] = r
     for p in scene.pieces:
         if p.y is not None and getattr(p, "walkable", False) and measure.deck_seated(cat.row(p.asset)):
