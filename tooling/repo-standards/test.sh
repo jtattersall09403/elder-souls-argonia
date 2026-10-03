@@ -12,7 +12,7 @@ fi
 python3 -m pytest -q -p no:cacheprovider -p no:randomly . ../bootstrap ../gpu-lane/walk; p=$?
 node check.mjs; c=$?
 node --test preflight_select.test.mjs preflight_heads.test.mjs ../province-artefact/common.test.mjs \
-  ../pages-site/kit-ref.test.mjs ../pages-site/kit-reach.test.mjs ../gpu-lane/measure.test.mjs ../gpu-lane/walk/*.test.mjs; n=$?
+  ../pages-site/kit-ref.test.mjs ../pages-site/kit-reach.test.mjs ../gpu-lane/measure.test.mjs ../gpu-lane/walk/*.test.mjs check_no_glsl.test.mjs; n=$?
 node check_site_refs.mjs; r=$?
 node check_no_glsl.mjs; g=$?
 exit $(( p | c | n | r | g ))
