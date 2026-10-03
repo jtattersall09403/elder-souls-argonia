@@ -363,7 +363,12 @@ frame: x east, y NORTH, z up; `ground_height` takes province x, z):
 `objects_by_uid()`, `ground_height(x, z)`, `ray_cast(origin, dir,
 filter=None|uid|'ground'|{...})`, `bounds(uid)`, `lowest_point(uid)`,
 `contacts(uid, other)` (gap and crossing triangle pairs), `forget()` after
-the script moves anything. Cost (kit cache warm): Claywater 109 pieces,
+the script moves anything. A render needs `scene.render.engine = "CYCLES"`
+and a light (the bpy scene has none; EEVEE needs a display and fails).
+`blender/examples/studio_shot.py X Z YAW PITCH OUT.png [hideUids]` renders
+the place from a walk frame's camera (route.json stand, compass yaw, pitch;
+5.8 m follow arm, vfov 48): the piece behind a judge's finding, or none
+(world vegetation), ~40 s. Cost (kit cache warm): Claywater 109 pieces,
 6.6 s (5.0 s building the job, 0.8 s scene build, 0.5 s script);
 Greenspring 120 pieces, 3.5 s. A kit's first launch builds its .blend
 cache (Greenspring cold: 8.9 s scene build). The example
