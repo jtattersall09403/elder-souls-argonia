@@ -70,6 +70,9 @@ const FIRE_LIGHT_RADIUS_M = 512 * 0.01428;
 const FIRE_LIGHT_SRGB = 0xfabe83;
 /** Height of the light over the emitter's base (the flame body, not the fuel bed). */
 const FIRE_LIGHT_LIFT_M = 0.3;
+/** The emitters' base height over y 0, and how far the ground plane sits under it (vol10 c8 L1). */
+export const FIRE_EMITTER_Y_M = 0.02;
+export const FIRE_GROUND_BELOW_M = 0.03;
 
 /**
  * A lit ground (the backdrop's colour as albedo, roughness 1) and the game's fire light: the scene's
@@ -80,10 +83,17 @@ const FIRE_LIGHT_LIFT_M = 0.3;
  */
 export function addLitGroundAndFireLights(ctx: HarnessContext, scene: THREE.Scene, look: FireLook, sizeM: number,
   emitters: readonly { position: THREE.Vector3; preset: FirePresetId }[]): void {
-  installFixtureLighting(ctx.renderer as unknown as WebGPURenderer);
+  // vol10 c8 L1 split: `?lighting=field|tiled|plain` (plain: real PointLights, same numbers), `?firelights=0` (fire lights dark)
+  const q = new URLSearchParams(window.location.search);
+  const asked = q.get("lighting");
+  installFixtureLighting(ctx.renderer as unknown as WebGPURenderer,
+    asked === "field" || asked === "tiled" || asked === "plain" ? asked : undefined);
+  const fireLightsOn = q.get("firelights") !== "0";
   const groundMat = new MeshStandardNodeMaterial({ color: new THREE.Color(look.ground), roughness: 1, metalness: 0 });
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(sizeM, sizeM).rotateX(-Math.PI / 2), groundMat);
   ground.name = "fire-ground";
+  // under the emitters' bases (y = FIRE_EMITTER_Y_M) so a flat-cut flame base never meets the plane's depth
+  ground.position.y = FIRE_EMITTER_Y_M - FIRE_GROUND_BELOW_M;
   scene.add(ground);
   // diag7 O9: 0.15 pi (was 0.6 pi, which blew the ground glow out); the fire lights are FIRE_LIGHTS candela as-is
   const skyLight = new THREE.DirectionalLight(0xffffff, (Math.PI * 0.15) / look.exposure);
@@ -95,7 +105,7 @@ export function addLitGroundAndFireLights(ctx: HarnessContext, scene: THREE.Scen
     radiusM: FIRE_LIGHTS[e.preset].maxRadiusM ?? FIRE_LIGHT_RADIUS_M, fire: true,
   })));
   const colour = new THREE.Color(FIRE_LIGHT_SRGB);
-  emitters.forEach((e, i) => field.setIntensity(i, colour, FIRE_LIGHTS[e.preset].candela));
+  emitters.forEach((e, i) => field.setIntensity(i, colour, fireLightsOn ? FIRE_LIGHTS[e.preset].candela : 0));
   field.commit();
 }
 
@@ -115,7 +125,7 @@ export async function buildFireScene(ctx: HarnessContext, look: FireLook, preset
   // volumes left the WebGPU cards faded (the ~9 luma backend gap, L19 round)
   fire.setBackend(opts.cardsOnly ? "webgl" : ctx.backend);
   const emitters = presets.map((preset, i) => ({
-    position: new THREE.Vector3((i - (presets.length - 1) / 2) * spacingM, 0.02, 0),
+    position: new THREE.Vector3((i - (presets.length - 1) / 2) * spacingM, FIRE_EMITTER_Y_M, 0),
     preset, scale: heightM / FIRE_PRESETS[preset].shape.heightM, seed: opts.seeds?.[i] ?? (0.37 + i * 0.13) % 1, owner: i,
   }));
   fire.setEmitters(emitters);
