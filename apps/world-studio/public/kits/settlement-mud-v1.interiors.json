@@ -105,6 +105,7 @@
   "composite:mud/hut-with-entrance": {
    "category": "architecture",
    "closedShellPromotedBy": "door-piece",
+   "doorStoreyM": 0.16,
    "entrance": {
     "count": 22,
     "doorAsset": "bmv:architecture/huts/exterior/doorframe01",
@@ -168,6 +169,7 @@
   "composite:mud/kotm-house-pod": {
    "category": "misc",
    "closedShellPromotedBy": "door-piece",
+   "doorStoreyM": 4.96,
    "entrance": {
     "doorAsset": "kotm:argonia/mudhuts/door01",
     "heightM": 2.4429,
@@ -234,6 +236,7 @@
   "composite:mud/pod-as-placed": {
    "category": "misc",
    "closedShellPromotedBy": "door-piece",
+   "doorStoreyM": 5.05,
    "entrance": {
     "doorAsset": "kotm:argonia/mudhuts/door01",
     "kind": "esp-door",
@@ -649,15 +652,25 @@
   },
   "kotm:argonia/mudhuts/manorext": {
    "category": "misc",
+   "doorStoreyM": 0.4,
    "doorwaysClosedDropped": [
     {
-     "arcM": 2.43,
-     "kind": "opening",
+     "arcM": 6.11,
+     "kind": "open-front",
      "offsetM": [
-      4.91,
-      0.15
+      -2.06,
+      1.72
      ],
-     "sideDeg": 107.5
+     "sideDeg": 182.5
+    },
+    {
+     "arcM": 5.88,
+     "kind": "open-front",
+     "offsetM": [
+      -2.36,
+      -5.51
+     ],
+     "sideDeg": 352.5
     }
    ],
    "entrance": null,
@@ -907,22 +920,23 @@
   },
   "kotm:argonia/mudhuts/smpodext01": {
    "category": "misc",
+   "doorStoreyM": 0.27,
    "doorwaysClosedDropped": [
     {
-     "arcM": 6.57,
+     "arcM": 4.94,
      "kind": "open-front",
      "offsetM": [
-      0.94,
-      1.1
+      0.87,
+      1.33
      ],
-     "sideDeg": 162.5
+     "sideDeg": 165.0
     },
     {
-     "arcM": 4.75,
+     "arcM": 2.44,
      "kind": "opening",
      "offsetM": [
-      1.22,
-      -4.93
+      1.3,
+      -5.16
      ],
      "sideDeg": 20.0
     }
@@ -950,15 +964,25 @@
   "kotm:argonia/mudhuts/smpodext02": {
    "category": "misc",
    "closedShellPromotedBy": "door-piece",
+   "doorStoreyM": 0.11,
    "doorwaysClosedDropped": [
     {
-     "arcM": 1.21,
+     "arcM": 3.04,
      "kind": "opening",
      "offsetM": [
-      -4.8,
-      4.68
+      -0.06,
+      5.83
      ],
-     "sideDeg": 220.0
+     "sideDeg": 167.5
+    },
+    {
+     "arcM": 1.18,
+     "kind": "opening",
+     "offsetM": [
+      2.88,
+      3.93
+     ],
+     "sideDeg": 130.0
     }
    ],
    "entrance": {
@@ -1466,19 +1490,59 @@
   },
   "mudmother:gv_meshes/argoniannest/histtree": {
    "category": "misc",
+   "doorStoreyM": 7.21,
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 4.25,
+     "kind": "opening",
+     "offsetM": [
+      0.19,
+      0.43
+     ],
+     "sideDeg": 5.0
+    },
+    {
+     "arcM": 3.37,
+     "kind": "opening",
+     "offsetM": [
+      -0.58,
+      1.34
+     ],
+     "sideDeg": 268.29
+    },
+    {
+     "arcM": 2.37,
+     "kind": "opening",
+     "offsetM": [
+      -5.16,
+      1.61
+     ],
+     "sideDeg": 266.84
+    },
+    {
+     "arcM": 1.84,
+     "kind": "opening",
+     "offsetM": [
+      -9.79,
+      8.96
+     ],
+     "sideDeg": 232.34
+    }
+   ],
+   "doorwaysMeasuredAboveFloorM": -0.0,
    "entrance": {
-    "arcM": 0.93,
-    "centreShiftM": -0.88,
-    "clearM": 2.95,
+    "arcM": 1.73,
+    "centreShiftM": -0.6,
+    "clearM": 1.9,
     "kind": "opening",
     "offsetM": [
-     5.27,
-     2.7
+     3.77,
+     2.84
     ],
     "rayConfirmed": true,
-    "sideDeg": 105.0,
-    "sillYM": -0.82,
-    "widthM": 3.3
+    "sideDeg": 112.5,
+    "sillYM": -1.62,
+    "widthM": 3.85
    },
    "floorOffsetM": 8.0,
    "frontFaceFraction": 0.733,

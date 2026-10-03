@@ -2,30 +2,19 @@
  "assets": {
   "vanilla:architecture/tents/largeimperialtent01": {
    "category": "architecture",
-   "doorwaysClosedDropped": [
-    {
-     "arcM": 1.77,
-     "kind": "open-front",
-     "offsetM": [
-      -2.78,
-      0.94
-     ],
-     "sideDeg": 255.0
-    }
-   ],
    "entrance": {
-    "arcM": 1.45,
-    "centreShiftM": 0.12,
+    "arcM": 1.77,
+    "centreShiftM": -0.0,
     "clearM": 2.95,
     "kind": "open-front",
     "offsetM": [
-     -2.83,
-     -0.89
+     -2.78,
+     0.94
     ],
     "rayConfirmed": true,
-    "sideDeg": 295.0,
+    "sideDeg": 255.0,
     "sillYM": -0.15,
-    "widthM": 1.5
+    "widthM": 1.55
    },
    "floorOffsetM": 0.0,
    "frontFaceFraction": 1.0,
@@ -38,7 +27,22 @@
     -0.33,
     0.28
    ],
-   "provenance": [],
+   "provenance": [
+    {
+     "arcM": 1.45,
+     "centreShiftM": 0.12,
+     "clearM": 2.95,
+     "kind": "open-front",
+     "offsetM": [
+      -2.83,
+      -0.89
+     ],
+     "rayConfirmed": true,
+     "sideDeg": 295.0,
+     "sillYM": -0.15,
+     "widthM": 1.5
+    }
+   ],
    "ringFraction": 0.819,
    "roofOverhead": true,
    "sizeClass": "medium",

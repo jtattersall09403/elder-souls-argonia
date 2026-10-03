@@ -3,8 +3,8 @@
  "kit": "works-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 23691616,
-  "sha256": "ca5ced5f39a4f9196679cb32157d187fac3d8153b0d8cb3f9fb0a5763160383f"
+  "bytes": 24876664,
+  "sha256": "cd378ecdd001d6d8a16c2fdfed77305bdf9422ca4c73eadd5c986a2723f1877b"
  },
  "totals": {
   "parts": 11,

@@ -854,6 +854,42 @@ def test_size_rule_gives_small_solids_a_convex_collider():
                      "a:fern": "none", "a:authored": "none", "a:wall": "mesh"}
 
 
+def test_clutter_box_rule_gives_small_convex_clutter_one_box():
+    """Audit10: candles, baskets, chairs and firewood cost one part each."""
+    kit = {"id": "settlement-mud-v1", "assets": [{"asset": "a:authored", "collision": "convex"}]}
+    summary = {"assets": [
+        # the woven chair's Blender proxy is kept as it is
+        {"id": "a:chair", "category": "furniture", "collision": "convex",
+         "sizeM": [0.614, 0.583, 0.998], "originOffsetM": [0.307, 0.292, 0.0],
+         "collisionFrame": "pivot-yup-v2",
+         "collisionBox": {"halfExtentsM": [0.27, 0.439, 0.257], "centreOffsetM": [0.0, 0.499, 0.0]}},
+        {"id": "a:firewood", "category": "clutter", "collision": "convex",
+         "sizeM": [0.782, 0.956, 0.405], "originOffsetM": [0.391, 0.478, 0.0]},
+        {"id": "a:mat", "category": "misc", "collision": "convex",
+         "sizeM": [0.8, 0.8, 0.1], "originOffsetM": [0.4, 0.4, 0.0]},
+        {"id": "a:lantern", "category": "misc", "collision": "convex", "anchorClass": "hanging",
+         "sizeM": [0.655, 0.639, 2.236], "originOffsetM": [0.317, 0.317, 2.149]},
+        {"id": "a:cart", "category": "clutter", "collision": "convex",
+         "sizeM": [1.6, 0.9, 1.1], "originOffsetM": [0.8, 0.45, 0.0]},
+        {"id": "a:hut", "category": "architecture", "collision": "mesh",
+         "sizeM": [0.9, 0.9, 2.0], "originOffsetM": [0.45, 0.45, 0.0]},
+        {"id": "a:authored", "category": "clutter", "collision": "convex",
+         "sizeM": [0.5, 0.5, 0.5], "originOffsetM": [0.25, 0.25, 0.0]},
+    ]}
+    out = build_kit.apply_clutter_box_collision(summary, kit)
+    assert out == {"box": ["a:chair", "a:firewood"], "none": ["a:mat"]}
+    rows = {r["id"]: r for r in summary["assets"]}
+    assert rows["a:chair"]["collisionBox"]["centreOffsetM"] == [0.0, 0.499, 0.0]
+    assert rows["a:chair"]["collisionFrame"] == "pivot-yup-v3"
+    assert rows["a:firewood"]["collisionBox"] == {
+        "halfExtentsM": [0.344, 0.178, 0.421], "centreOffsetM": [0.0, 0.203, 0.0]}
+    assert {i: rows[i]["collision"] for i in ("a:lantern", "a:cart", "a:hut", "a:authored")} == {
+        "a:lantern": "convex", "a:cart": "convex", "a:hut": "mesh", "a:authored": "convex"}
+    flora = {"assets": [dict(rows["a:cart"], id="a:bush", sizeM=[0.5, 0.5, 0.5])]}
+    assert build_kit.apply_clutter_box_collision(flora, {"id": "flora-province-v1"}) == {
+        "box": [], "none": []}
+
+
 # The kits Claywater Station draws (walk 2 D6): published manifests obey the
 # size rule, so the woodpile, handcart and troughs the owner walked through
 # collide. A kit outside this list meets the rule on its next rebuild.

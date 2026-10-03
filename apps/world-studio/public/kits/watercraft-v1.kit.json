@@ -59,6 +59,9 @@
     "Object009:2.Mat"
    ],
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "Object009:2.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.1663,
     "p50": -0.1663,
@@ -94,14 +97,11 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Canoe 1",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.166,
-   "emissiveMaterials": [
-    "Object009:2.Mat"
-   ],
-   "displayName": "Canoe 1"
+   "pivotAboveBaseM": 0.166
   },
   {
    "id": "canoe:weapons/sfss/shipoar01",
@@ -161,11 +161,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "SFSS 1st person oar",
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041,
-   "displayName": "SFSS 1st person oar"
+   "pivotAboveBaseM": 0.041
   },
   {
    "id": "canoe:weapons/sfss/shipoar01ground",
@@ -225,11 +225,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "SFSS all aboard oar",
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041,
-   "displayName": "SFSS all aboard oar"
+   "pivotAboveBaseM": 0.041
   },
   {
    "id": "canoe:weapons/sfss/shipoar01towhanded",
@@ -289,11 +289,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "SFSS 1st persontwohanded oar",
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041,
-   "displayName": "SFSS 1st persontwohanded oar"
+   "pivotAboveBaseM": 0.041
   },
   {
    "id": "canoe:weapons/sfss/anchor",
@@ -351,11 +351,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "SFSS 1st anchor",
    "undersideClosed": false,
    "undersideCoverage": 0.18,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.015,
-   "displayName": "SFSS 1st anchor"
+   "pivotAboveBaseM": 0.015
   },
   {
    "id": "ferryraft:snt/ferry/ferryraft01",
@@ -441,6 +441,9 @@
      "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
     }
    ],
+   "emissiveMaterials": [
+    "CandleLanternWithCandle:7.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.4728,
     "p50": -0.4728,
@@ -485,14 +488,11 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
+   "displayName": "SNT ferry raft",
    "undersideClosed": true,
    "undersideCoverage": 0.892,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.473,
-   "emissiveMaterials": [
-    "CandleLanternWithCandle:7.Mat"
-   ],
-   "displayName": "SNT ferry raft"
+   "pivotAboveBaseM": 0.473
   },
   {
    "id": "ferryraft:snt/ferry/ferryraft01_no_col",
@@ -605,11 +605,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "SNT ferry with light",
    "undersideClosed": true,
    "undersideCoverage": 0.892,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.473,
-   "displayName": "SNT ferry with light"
+   "pivotAboveBaseM": 0.473
   },
   {
    "id": "ferryraft:snt/ferry/norbridgewoodplanks01",
@@ -668,11 +668,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "SNT ferrydock",
    "undersideClosed": true,
    "undersideCoverage": 0.9,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.079,
-   "displayName": "SNT ferrydock"
+   "pivotAboveBaseM": 0.079
   },
   {
    "id": "ferryraft:snt/ferry/norbridgewoodplanks02",
@@ -730,11 +730,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Nor bridge wood planks 02 SNT",
    "undersideClosed": true,
    "undersideCoverage": 0.906,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.079,
-   "displayName": "Nor bridge wood planks 02 SNT"
+   "pivotAboveBaseM": 0.079
   },
   {
    "id": "ferries:yamadori/ferries/plank_ferry_swamp_01",
@@ -809,11 +809,11 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Plank ferry swamp 01",
    "undersideClosed": true,
    "undersideCoverage": 0.783,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.764,
-   "displayName": "Plank ferry swamp 01"
+   "pivotAboveBaseM": 0.764
   },
   {
    "id": "ferries:yamadori/ferries/plank_ferry_swamp_03",
@@ -885,11 +885,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Plank ferry swamp 03",
    "undersideClosed": true,
    "undersideCoverage": 0.783,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.764,
-   "displayName": "Plank ferry swamp 03"
+   "pivotAboveBaseM": 0.764
   },
   {
    "id": "ferries:yamadori/ferries/rowboat_ferry_swamp_01",
@@ -976,11 +976,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rowboat ferry swamp 01",
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.036,
-   "displayName": "Rowboat ferry swamp 01"
+   "pivotAboveBaseM": 0.036
   },
   {
    "id": "ferries:yamadori/ferries/common_rowboat_inialta_01",
@@ -1056,11 +1056,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Common rowboat inialta 01",
    "undersideClosed": true,
    "undersideCoverage": 0.643,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.036,
-   "displayName": "Common rowboat inialta 01"
+   "pivotAboveBaseM": 0.036
   },
   {
    "id": "ferries:yamadori/ferries/river_ferry_rift_01",
@@ -1140,11 +1140,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "River ferry rift 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.507,
-   "displayName": "River ferry rift 01"
+   "pivotAboveBaseM": 0.507
   },
   {
    "id": "ferries:yamadori/ferries/volkihar_ferry_01",
@@ -1236,11 +1236,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Volkihar ferry 01",
    "undersideClosed": true,
    "undersideCoverage": 0.647,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.036,
-   "displayName": "Volkihar ferry 01"
+   "pivotAboveBaseM": 0.036
   },
   {
    "id": "rowboats:dungeons/ship/shiprowboat01",
@@ -1309,11 +1309,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shiprowboat 01",
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.179,
-   "displayName": "Shiprowboat 01"
+   "pivotAboveBaseM": 0.179
   },
   {
    "id": "rowboats:dungeons/ship/shiprowboatanim01",
@@ -1374,11 +1374,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shiprowboatanim 01",
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.179,
-   "displayName": "Shiprowboatanim 01"
+   "pivotAboveBaseM": 0.179
   },
   {
    "id": "rowboats:dungeons/clutter/shipoar01",
@@ -1445,11 +1445,11 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Shipoar 01",
    "undersideClosed": false,
    "undersideCoverage": 0.345,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.071,
-   "displayName": "Shipoar 01"
+   "pivotAboveBaseM": 0.071
   },
   {
    "id": "sailboats:sailboats/sailboat",
@@ -1529,11 +1529,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Sailboat",
    "undersideClosed": true,
    "undersideCoverage": 0.907,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.093,
-   "displayName": "Sailboat"
+   "pivotAboveBaseM": 0.093
   },
   {
    "id": "sailboats:sailboats/sailboatfurled",
@@ -1611,11 +1611,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Sailboatfurled",
    "undersideClosed": true,
    "undersideCoverage": 0.906,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.093,
-   "displayName": "Sailboatfurled"
+   "pivotAboveBaseM": 0.093
   },
   {
    "id": "sailboats:sailboats/sailboatelf",
@@ -1720,11 +1720,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Sailboatelf",
    "undersideClosed": true,
    "undersideCoverage": 0.875,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.272,
-   "displayName": "Sailboatelf"
+   "pivotAboveBaseM": 0.272
   },
   {
    "id": "sailboats:sailboats/sailboatelffurled",
@@ -1827,11 +1827,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Sailboatelffurled",
    "undersideClosed": true,
    "undersideCoverage": 0.875,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.272,
-   "displayName": "Sailboatelffurled"
+   "pivotAboveBaseM": 0.272
   },
   {
    "id": "sailboats:sailboats/longboat",
@@ -1928,11 +1928,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Longboat",
    "undersideClosed": true,
    "undersideCoverage": 0.878,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.214,
-   "displayName": "Longboat"
+   "pivotAboveBaseM": 0.214
   },
   {
    "id": "sailboats:sailboats/longboatfurled",
@@ -2027,11 +2027,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Longboatfurled",
    "undersideClosed": true,
    "undersideCoverage": 0.878,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.214,
-   "displayName": "Longboatfurled"
+   "pivotAboveBaseM": 0.214
   },
   {
    "id": "sailboats:sailboats/rowboat",
@@ -2114,11 +2114,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rowboat",
    "undersideClosed": true,
    "undersideCoverage": 0.932,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.14,
-   "displayName": "Rowboat"
+   "pivotAboveBaseM": -0.14
   },
   {
    "id": "sailboats:sailboats/rowboatnord",
@@ -2201,11 +2201,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rowboatnord",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.071,
-   "displayName": "Rowboatnord"
+   "pivotAboveBaseM": 0.071
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiiliccityferry01",
@@ -2288,11 +2288,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shipcyrodiiliccityferry 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.507,
-   "displayName": "Shipcyrodiiliccityferry 01"
+   "pivotAboveBaseM": 0.507
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicriverferry01",
@@ -2375,11 +2375,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shipcyrodiilicriverferry 01",
    "undersideClosed": true,
    "undersideCoverage": 0.909,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.583,
-   "displayName": "Shipcyrodiilicriverferry 01"
+   "pivotAboveBaseM": 0.583
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrowboat01",
@@ -2453,11 +2453,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shipcyrodiilicrowboat 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.402,
-   "displayName": "Shipcyrodiilicrowboat 01"
+   "pivotAboveBaseM": 0.402
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicgalleon01_docked",
@@ -2512,6 +2512,9 @@
     "deck alpha.Mat": 0.224
    },
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "shipwindows.Mat"
+   ],
    "designedSinkM": {
     "p25": -4.1136,
     "p50": -4.1136,
@@ -2538,6 +2541,7 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shipcyrodiilicgalleon 01 docked",
    "glowFacingsDeg": [
     27.4,
     81.1,
@@ -2547,11 +2551,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.947,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.114,
-   "emissiveMaterials": [
-    "shipwindows.Mat"
-   ],
-   "displayName": "Shipcyrodiilicgalleon 01 docked"
+   "pivotAboveBaseM": 4.114
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicnavyshipsmall01_docked",
@@ -2632,11 +2632,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shipcyrodiilicnavyshipsmall 01 docked",
    "undersideClosed": true,
    "undersideCoverage": 0.907,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.752,
-   "displayName": "Shipcyrodiilicnavyshipsmall 01 docked"
+   "pivotAboveBaseM": 1.752
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipeectradeship01",
@@ -2683,6 +2683,9 @@
     "Windowpane.Mat"
    ],
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "Windowpane.Mat"
+   ],
    "designedSinkM": {
     "p25": -3.174,
     "p50": -3.174,
@@ -2709,6 +2712,7 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shipeectradeship 01",
    "glowFacingsDeg": [
     0.6,
     180.6
@@ -2716,11 +2720,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.891,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.174,
-   "emissiveMaterials": [
-    "Windowpane.Mat"
-   ],
-   "displayName": "Shipeectradeship 01"
+   "pivotAboveBaseM": 3.174
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/breticships/shipbreticrennenboat01",
@@ -2787,11 +2787,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shipbreticrennenboat 01",
    "undersideClosed": true,
    "undersideCoverage": 0.906,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.636,
-   "displayName": "Shipbreticrennenboat 01"
+   "pivotAboveBaseM": 0.636
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/breticships/shipbreticgreyteship_hull01",
@@ -2859,11 +2859,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shipbreticgreyteship hull 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.614,
-   "displayName": "Shipbreticgreyteship hull 01"
+   "pivotAboveBaseM": 4.614
   },
   {
    "id": "bmv:architecture/ships/imperialship01base",
@@ -2910,6 +2910,12 @@
     "Windows.Mat"
    ],
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "Windows.Mat"
+   ],
+   "windowMaterials": [
+    "Windows.Mat"
+   ],
    "designedSinkM": {
     "p25": -5.6384,
     "p50": -5.6384,
@@ -2944,6 +2950,7 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Imperialship 01base",
    "glowFacingsDeg": [
     12.2,
     59.3,
@@ -2953,14 +2960,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.991,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.638,
-   "emissiveMaterials": [
-    "Windows.Mat"
-   ],
-   "windowMaterials": [
-    "Windows.Mat"
-   ],
-   "displayName": "Imperialship 01base"
+   "pivotAboveBaseM": 5.638
   },
   {
    "id": "bmv:architecture/ships/imperialship01masts",
@@ -3034,11 +3034,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Imperialship 01masts",
    "undersideClosed": false,
    "undersideCoverage": 0.282,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.361,
-   "displayName": "Imperialship 01masts"
+   "pivotAboveBaseM": 0.361
   },
   {
    "id": "bmv:architecture/boats/rowboat01",
@@ -3100,11 +3100,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rowboat 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.764,
-   "displayName": "Rowboat 01"
+   "pivotAboveBaseM": 0.764
   },
   {
    "id": "bmv:architecture/boats/rowboatbrokenback",
@@ -3166,11 +3166,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rowboatbrokenback",
    "undersideClosed": true,
    "undersideCoverage": 0.882,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.764,
-   "displayName": "Rowboatbrokenback"
+   "pivotAboveBaseM": 0.764
   },
   {
    "id": "bmv:architecture/boats/rowboatbrokenfront",
@@ -3232,11 +3232,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rowboatbrokenfront",
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.757,
-   "displayName": "Rowboatbrokenfront"
+   "pivotAboveBaseM": 0.757
   },
   {
    "id": "bmv:nordships/shipnordrowboat",
@@ -3302,11 +3302,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shipnordrowboat",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.508,
-   "displayName": "Shipnordrowboat"
+   "pivotAboveBaseM": 0.508
   },
   {
    "id": "bmv:nordships/shipnordtradeship",
@@ -3379,11 +3379,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shipnordtradeship",
    "undersideClosed": true,
    "undersideCoverage": 0.878,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.214,
-   "displayName": "Shipnordtradeship"
+   "pivotAboveBaseM": 0.214
   },
   {
    "id": "bmv:nordships/shipnordtradeshipbeached",
@@ -3451,11 +3451,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shipnordtradeshipbeached",
    "undersideClosed": true,
    "undersideCoverage": 0.828,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.063,
-   "displayName": "Shipnordtradeshipbeached"
+   "pivotAboveBaseM": -0.063
   },
   {
    "id": "bmv:breticships/shipbreticjollyboat",
@@ -3527,11 +3527,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shipbreticjollyboat",
    "undersideClosed": true,
    "undersideCoverage": 0.907,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.636,
-   "displayName": "Shipbreticjollyboat"
+   "pivotAboveBaseM": 0.636
   },
   {
    "id": "bmv:transport/ships/ghostship",
@@ -3592,11 +3592,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Ghostship",
    "undersideClosed": false,
    "undersideCoverage": 0.535,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.42,
-   "displayName": "Ghostship"
+   "pivotAboveBaseM": 3.42
   },
   {
    "id": "bmv:transport/ships/merchant_ship",
@@ -3660,11 +3660,11 @@
      "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Merchant ship",
    "undersideClosed": true,
    "undersideCoverage": 0.956,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.057,
-   "displayName": "Merchant ship"
+   "pivotAboveBaseM": 5.057
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\watercraft-v1.glb",
@@ -3726,16 +3726,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 82224356,
-  "bytesAfter": 31654616,
+  "bytesBefore": 82224476,
+  "bytesAfter": 31654960,
   "images": 94,
   "imageBytesAfter": 22693665,
   "warnings": [],
-  "sha256": "94592e448eb5bbc1a8fa30c1f44b223dfc123f4b8737fb186ad1aa2fe155ce45",
+  "sha256": "1980bc30d29d346cc859061f2c9d1b1213f005040bec404ae7a1c32f29f69098",
   "sidecarBytes": {
    "connectors": 23858,
    "footprints": 88312,
-   "interiors": 35806
+   "interiors": 36344
   }
  }
 }

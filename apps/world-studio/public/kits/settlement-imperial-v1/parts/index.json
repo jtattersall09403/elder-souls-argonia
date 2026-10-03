@@ -3,15 +3,15 @@
  "kit": "settlement-imperial-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 14132180,
-  "sha256": "ce285db28def8077f13351ab0203907dd9b7904f887728b0666ab1f05206ccbf"
+  "bytes": 14132292,
+  "sha256": "b34ca8b13a6fbb70ab2cde8a6172ff4da0a1c1a721dd071ab247c47dc76b7cd7"
  },
  "totals": {
   "parts": 7,
-  "partBytes": 102652,
+  "partBytes": 102708,
   "textureFiles": 8,
   "textureBytes": 1182169,
-  "bytes": 1284821
+  "bytes": 1284877
  },
  "assets": {
   "vanilla:architecture/farmhouse/fencewoven01": {
@@ -54,7 +54,7 @@
   },
   "vanilla:clutter/common/candlelanternwithcandle01": {
    "file": "vanilla_clutter_common_candlelanternwithcandle01-1e5326ce.glb",
-   "bytes": 21292,
+   "bytes": 21348,
    "vertices": 922,
    "triangles": 670,
    "textures": [
