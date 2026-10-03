@@ -16,15 +16,16 @@
  *   - `setCandidate` / `setCandidateRange` when copies are handed rows,
  *     `clearCandidate` / `clearCandidateRange` when they are given back,
  *   - `removeDraw` before the mesh is pooled or disposed (it detaches the
- *     mesh from the page's shared buffers; those are marked page-owned and
- *     the renderer's store refuses to delete them, so disposing a member's
- *     geometry never frees them, whatever three's cached lists still hold),
+ *     mesh from the page's shared buffers; those are marked page-owned, the
+ *     kit's vertex buffers kit-shared, and the renderer's store refuses to
+ *     delete either, so disposing a member's geometry never frees them,
+ *     whatever three's cached lists still hold),
  *   - `update` once a frame before render, `refreshCounts` every few frames.
  */
 import * as THREE from "three";
 import type { WebGPURenderer } from "three/webgpu";
 import type { LodFadeUniforms } from "../../fx/lodFade";
-import { detachSharedAttribute } from "../../vegetation/slotGeometry";
+import { detachSharedAttribute, isKitShared } from "../../vegetation/slotGeometry";
 import { GpuCullSystem, type GpuCullDraw, type GpuCullDrawOptions } from "./GpuCullSystem";
 import { INDIRECT_STRIDE, sphereSweptInFrustum, type SunSweep } from "./cullMath";
 import { applyVisibility, type VisibleRule } from "../../vegetation/drawCount";
@@ -34,6 +35,13 @@ import { LOD_OPEN_M } from "../../fx/lodFade";
  * top of the GPU cull's own: the LOD history and a read-back's lag move the
  * camera that far between the cull and the test (0108 §4). */
 export const SUBMIT_MARGIN_M = 8;
+
+/** How far the camera may move (m) or turn (cosine of the angle) from where
+ * the last read-back's cull ran before a kept-none member is shown again
+ * until a fresh read-back: a read-back is a few frames old, and a member the
+ * camera turned towards must not pop in late. */
+export const READ_STALE_M = 2;
+export const READ_STALE_COS = Math.cos((3 * Math.PI) / 180);
 
 export interface GpuCullPoolOptions {
   lodFade: LodFadeUniforms;
@@ -63,9 +71,19 @@ export interface PooledDraw {
   band: readonly [number, number, number, number] | null;
   casts: boolean;
   fromZero: boolean;
-  /** Whether three gets this member this frame (`update`): false only when
-   * the last read-back kept none AND no candidate can be in view or band. */
+  /** Whether three gets this member this frame (`updateSubmit`): it kept
+   * copies at the last read-back, or it may keep some and that read-back
+   * cannot speak for it yet (rows written or bounds entering view since, or
+   * the view moved past `READ_STALE_M` / `READ_STALE_COS`). A member the GPU
+   * last kept none of is not drawn in any pass (webgpu10 diag19 D2). */
   submit: boolean;
+  /** Bumped by every candidate write and by the bounds entering view; the
+   * read-back that started after the last bump clears `pending`. */
+  writes: number;
+  /** `writes` as of the last completed read-back's dispatch. */
+  readWrites: number;
+  /** `boundsMayKeep` at the last `updateSubmit`. */
+  mayKeep: boolean;
   /** The member's one visibility rule (drawCount.ts), re-applied when `submit` flips. */
   rule: VisibleRule;
 }
@@ -145,7 +163,10 @@ interface AttributeStore { delete(attribute: object): unknown; esPageGuard?: boo
 const PAGE_OWNED = "esPageOwned";
 
 /**
- * Make this renderer's attribute store refuse to delete a page-owned buffer.
+ * Make this renderer's attribute store refuse to delete a page-owned buffer
+ * or a kit-shared one (`KIT_SHARED`, vegetation/slotGeometry.ts: a slot
+ * view's dispose deleted the kit vertex buffers other views still drew,
+ * webgpu10 diag19 D1).
  *
  * three's geometry dispose handler (Geometries.js onDispose) deletes every
  * attribute in the render object's CACHED attribute list (RenderObject
@@ -154,15 +175,16 @@ const PAGE_OWNED = "esPageOwned";
  * stand-ins in. Deleting them unset a vertex slot of every other draw on the
  * page ("Vertex buffer slot N ... not set ... DrawIndexedIndirect", the
  * submit rejected, a black frame; webgpu diag10 D3). Per renderer instance,
- * once; the page frees its own buffers in `releasePage`.
+ * once; the page frees its own buffers in `releasePage`. Any layer that
+ * disposes slot views calls it at mount, on either backend.
  */
-export function guardPageBuffers(renderer: WebGPURenderer): AttributeStore | null {
+export function guardSharedBuffers(renderer: WebGPURenderer): AttributeStore | null {
   const store = (renderer as unknown as { _attributes?: AttributeStore | null })._attributes;
   if (!store) return null;
   if (!store.esPageGuard) {
     const del = store.delete.bind(store);
     store.delete = (attribute: object) =>
-      (attribute as Record<string, unknown>)[PAGE_OWNED] ? null : del(attribute);
+      (attribute as Record<string, unknown>)[PAGE_OWNED] || isKitShared(attribute) ? null : del(attribute);
     store.esPageGuard = true;
   }
   return store;
@@ -187,6 +209,10 @@ export class GpuCullPool {
   private readonly projView = new THREE.Matrix4();
   private readonly frustum = new THREE.Frustum();
   private readonly planes = new Float32Array(24);
+  /** Camera position and forward at the last `updateSubmit`, and as of the
+   * last completed read-back's dispatch (NaN: no read-back yet). */
+  private readonly framePose = new Float64Array(6).fill(NaN);
+  private readonly seenPose = new Float64Array(6).fill(NaN);
 
   constructor(readonly options: GpuCullPoolOptions) {
     this.pageRows = options.pageRows ?? 1 << 16;
@@ -224,9 +250,16 @@ export class GpuCullPool {
       system, draw, mesh, kept: 0, filled: 0, bounds: new Float32Array(6),
       radius: Math.max(0, s.radius) + Math.hypot(s.center.x, s.center.z), centreY: s.center.y,
       band: opts.band, casts: opts.casts, fromZero: opts.fromZero,
-      submit: false, rule: rule ?? (() => pooled.submit),
+      submit: false, writes: 0, readWrites: 0, mayKeep: false,
+      rule: rule ?? (() => pooled.submit),
     };
     emptyBounds(pooled.bounds);
+    // three culls the member per camera on its candidates' bounds, so each
+    // sun cascade draws only the casters inside its own box (a near batch is
+    // not rendered into the far cascades, nor a far one into the near):
+    // webgpu10 diag19 D2 (2). The sphere follows `bounds` in `updateSubmit`.
+    mesh.frustumCulled = true;
+    mesh.boundingSphere = new THREE.Sphere(new THREE.Vector3(), -1);
     this.members.push(pooled);
     applyVisibility(mesh, pooled.rule);
     this.draws.get(system)!.add(pooled);
@@ -236,6 +269,7 @@ export class GpuCullPool {
   setCandidate(d: PooledDraw, k: number, matrix: THREE.Matrix4, dataSlot: number): void {
     d.system.setCandidate(d.draw, k, matrix, dataSlot);
     growBounds(d.bounds, matrix.elements, 0, d.radius, d.centreY);
+    d.writes++;
   }
 
   setCandidateRange(
@@ -244,6 +278,7 @@ export class GpuCullPool {
   ): void {
     d.system.setCandidateRange(d.draw, k0, matrices, payloads, dataSlot);
     for (let o = 0; o < matrices.length; o += 16) growBounds(d.bounds, matrices, o, d.radius, d.centreY);
+    d.writes++;
   }
 
   setBand(d: PooledDraw, band: readonly [number, number, number, number] | null): void {
@@ -264,6 +299,7 @@ export class GpuCullPool {
     for (let o = 0; o < n * 16; o += 16) growBounds(d.bounds, matrices, o, d.radius, d.centreY);
     if (d.filled > n) d.system.clearCandidateRange(d.draw, n, d.filled - n);
     d.filled = n;
+    d.writes++;
   }
 
   clearCandidate(d: PooledDraw, k: number): void {
@@ -287,6 +323,8 @@ export class GpuCullPool {
     if (geometry.getAttribute("esSlot") === (d.system.slots as unknown)) detachSharedAttribute(geometry, "esSlot");
     geometry.setIndirect(null);
     d.mesh.instanceMatrix = placeholderMatrix();
+    d.mesh.frustumCulled = false;
+    d.mesh.boundingSphere = null;
     const set = this.draws.get(d.system);
     set?.delete(d);
     const at = this.members.indexOf(d);
@@ -319,6 +357,8 @@ export class GpuCullPool {
     if (idle === this.idle) return;
     this.idle = idle;
     if (!idle) return;
+    this.seenPose.fill(NaN); // the zeroed counts speak for no view
+
     for (const d of this.members) {
       d.kept = 0;
       if (!d.submit) continue;
@@ -331,7 +371,7 @@ export class GpuCullPool {
    * and decide each member's `submit` (no allocation). */
   update(renderer: WebGPURenderer, camera: THREE.Camera, sweep: SunSweep | null): void {
     if (this.idle) return;
-    this.store ??= guardPageBuffers(renderer);
+    this.store ??= guardSharedBuffers(renderer);
     const nodes = this.nodes;
     nodes.length = 0;
     for (const system of this.pages) {
@@ -344,10 +384,14 @@ export class GpuCullPool {
   }
 
   /**
-   * A member whose last read-back kept nothing is not handed to three while
-   * its candidates' bounds cannot be in the (widened) view or LOD band; it is
-   * handed back the frame they can, whatever the lagging read-back says. A
-   * member with no candidates is never handed over.
+   * A member whose last read-back kept nothing is not handed to three
+   * (webgpu10 diag19 D2: kept-none members cost a render object per pass),
+   * unless that read-back cannot speak for it yet: rows were written since,
+   * its bounds just entered the (widened) view or band, or the camera moved
+   * or turned past the stale limits since the read-back's cull. A member
+   * whose bounds cannot be in view or band is never handed over unless it
+   * kept copies; one with no candidates never is. Also keeps the member's
+   * bounding sphere on its bounds for three's per-camera cull.
    */
   updateSubmit(camera: THREE.Camera, sweep: SunSweep | null): void {
     this.projView.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
@@ -358,13 +402,30 @@ export class GpuCullPool {
       planes[p * 4] = pl.normal.x; planes[p * 4 + 1] = pl.normal.y;
       planes[p * 4 + 2] = pl.normal.z; planes[p * 4 + 3] = pl.constant;
     }
-    const vx = camera.matrixWorld.elements[12];
-    const vz = camera.matrixWorld.elements[14];
+    const e = camera.matrixWorld.elements;
+    const vx = e[12];
+    const vz = e[14];
+    const seen = this.seenPose;
+    const stale = !(Math.hypot(e[12] - seen[0], e[13] - seen[1], e[14] - seen[2]) < READ_STALE_M)
+      || !(-(e[8] * seen[3] + e[9] * seen[4] + e[10] * seen[5]) / (Math.hypot(e[8], e[9], e[10]) || 1) > READ_STALE_COS);
+    const len = Math.hypot(e[8], e[9], e[10]) || 1;
+    const fp = this.framePose;
+    fp[0] = e[12]; fp[1] = e[13]; fp[2] = e[14];
+    fp[3] = -e[8] / len; fp[4] = -e[9] / len; fp[5] = -e[10] / len;
     for (let i = 0; i < this.members.length; i++) {
       const d = this.members[i];
-      const empty = d.bounds[0] > d.bounds[3];
-      const submit = !empty && (d.kept > 0
-        || boundsMayKeep(d.bounds, planes, d.casts ? sweep : null, d.band, d.fromZero, vx, vz));
+      const b = d.bounds;
+      const empty = b[0] > b[3];
+      const mayKeep = !empty
+        && boundsMayKeep(b, planes, d.casts ? sweep : null, d.band, d.fromZero, vx, vz);
+      if (mayKeep && !d.mayKeep) d.writes++;
+      d.mayKeep = mayKeep;
+      const submit = !empty && (d.kept > 0 || (mayKeep && (stale || d.writes !== d.readWrites)));
+      const sphere = d.mesh.boundingSphere;
+      if (submit && sphere) {
+        sphere.center.set((b[0] + b[3]) / 2, (b[1] + b[4]) / 2, (b[2] + b[5]) / 2);
+        sphere.radius = Math.hypot(b[3] - b[0], b[4] - b[1], b[5] - b[2]) / 2;
+      }
       if (submit === d.submit) continue;
       d.submit = submit;
       applyVisibility(d.mesh, d.rule);
@@ -373,7 +434,8 @@ export class GpuCullPool {
 
   /**
    * Read the indirect args back (async, one read in flight at most) and set
-   * each mesh's `count` to its kept instances, at least 1. The indirect args
+   * each member's `kept` (which `updateSubmit` hides kept-none members by)
+   * and its mesh's `count` to the kept instances, at least 1. The indirect args
    * decide what is DRAWN; `count` only feeds `renderer.info` (three counts
    * `count` instances per indirect draw, WebGPUBackend.draw), so the HUD's
    * triangle line reads the GPU's own kept set, a read-back or so behind.
@@ -383,11 +445,20 @@ export class GpuCullPool {
     if (this.idle || this.reading || this.pages.length === 0) return;
     this.reading = true;
     const pages = [...this.pages];
+    // What this read speaks for: the cull dispatched before it ran from this
+    // pose and over these writes (a member written later stays pending).
+    const pose = Float64Array.from(this.framePose);
+    const writes = new Map<PooledDraw, number>();
+    for (const d of this.members) writes.set(d, d.writes);
     Promise.all(pages.map((system) => renderer.getArrayBufferAsync(system.indirect as never)))
       .then((buffers) => {
+        this.seenPose.set(pose);
         buffers.forEach((buffer, p) => {
           const ind = new Uint32Array(buffer);
           for (const d of this.draws.get(pages[p]) ?? []) {
+            const w = writes.get(d);
+            if (w === undefined) continue;
+            d.readWrites = w;
             d.kept = ind[d.draw.index * INDIRECT_STRIDE + 1] ?? 0;
             d.mesh.count = Math.max(1, d.kept);
             d.mesh.userData.esKept = d.kept;

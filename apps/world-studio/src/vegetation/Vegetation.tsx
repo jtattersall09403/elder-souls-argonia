@@ -60,7 +60,7 @@ import {
 import type { NodeMaterial, WebGPURenderer } from "three/webgpu";
 import { crownOf, type CrownSource } from "@elder-souls/game-core/air/volumetrics/studioSamplers";
 import type { Crown } from "@elder-souls/game-core/air/volumetrics/canopyMap";
-import { GpuCullPool, cullSphereOf, type PooledDraw } from "@elder-souls/game-core/render/gpuCull/GpuCullPool";
+import { GpuCullPool, cullSphereOf, guardSharedBuffers, type PooledDraw } from "@elder-souls/game-core/render/gpuCull/GpuCullPool";
 import { unionBand } from "@elder-souls/game-core/render/gpuCull/cullMath";
 import { makeBatchMaterial, type BatchPatchMemo, type VegShaderMode } from "./batchMaterial";
 import { OCCLUSION_CELL_M, OCCLUSION_MIN_DISTANCE_M } from "@elder-souls/game-core/render/terrainOcclusion";
@@ -102,10 +102,7 @@ import {
   CellRegistry,
   type TerrainLod,
 } from "@elder-souls/game-core/vegetation/cellRegistry";
-import {
-  disposeSlotGeometry,
-  makeSlotGeometry,
-} from "@elder-souls/game-core/vegetation/slotGeometry";
+import { makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry";
 import { OcclusionMask } from "@elder-souls/game-core/vegetation/occlusionMask";
 import { compactRows } from "@elder-souls/game-core/vegetation/compactRows";
 import { LINK_HELD, applyVisibility, setDrawCount, type VisibleRule } from "@elder-souls/game-core/vegetation/drawCount";
@@ -894,10 +891,14 @@ export function Vegetation({
   };
 
   /** Free one geometry mesh's owned buffers: its `esSlot` view and the
-   * instance matrix. The kit's shared buffers survive. */
+   * instance matrix. The kit's shared buffers survive: they are marked
+   * kit-shared and the guarded store refuses to delete them (on either
+   * backend; guarded here because the store exists only once the renderer
+   * has initialised, and the guard is idempotent). */
   const disposeShallowGeometry = (geo: GeoMesh): void => {
+    guardSharedBuffers(gl);
     geo.mesh.dispose();
-    disposeSlotGeometry(geo.geometry, geo.source);
+    geo.geometry.dispose();
   };
 
   const configureGeoMesh = (batch: Batch, mesh: THREE.InstancedMesh): void => {

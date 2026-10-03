@@ -157,6 +157,16 @@ with an object that must not have it: clone first (the old rule, unchanged).
   change. The WebGL backend keeps the CPU path (switch points: Vegetation.tsx, Groundcover.tsx).
 - A compute stage may bind at most 8 storage buffers (WebGPU default limit): pack per-candidate and
   per-draw data into one buffer each.
+- Disposing a geometry deletes the buffers in its render objects' CACHED attribute list (three r184
+  `Geometries` onDispose reads `RenderObject.getAttributes()`, built at first render), not the
+  geometry's current attributes: swapping a shared attribute for a stand-in before `dispose()`
+  protects nothing. A buffer shared between geometries is guarded at the renderer's attribute store
+  (`guardSharedBuffers`: page buffers `esPageOwned`, kit buffers `esKitShared` set by
+  `makeSlotGeometry`); its owner deletes the mark before freeing it (webgpu10 diag19 D1).
+- A GPU-cull member is never drawn while its last read-back kept nothing (until new rows, its bounds
+  entering view, or the camera moving 2 m / turning 3 degrees), and three frustum-culls it per camera
+  on its candidates' bounding sphere, so each shadow cascade draws only the casters inside its box.
+  Never set `frustumCulled = false` on a pool member.
 
 ## 5. Render targets, readback, timing
 

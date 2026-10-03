@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
-import { disposeSlotGeometry, isDetachedAttribute, makeSlotGeometry } from "./slotGeometry";
+import { isKitShared, makeSlotGeometry } from "./slotGeometry";
 
 function source(): THREE.BufferGeometry {
   const geometry = new THREE.BufferGeometry();
@@ -42,37 +42,14 @@ describe("makeSlotGeometry", () => {
   });
 });
 
-describe("disposeSlotGeometry", () => {
-  it("frees the owned attribute alone", () => {
+describe("kit-shared marks (webgpu10 diag19 D1)", () => {
+  it("marks every source buffer a view shares, never the view's own", () => {
     const kit = source();
     const owned = new THREE.InstancedBufferAttribute(new Float32Array(4), 1);
     const view = makeSlotGeometry(kit, { esSlot: owned });
-    const freed: string[] = [];
-    view.addEventListener("dispose", () => {
-      freed.push(...Object.keys(view.attributes).filter((n) => !isDetachedAttribute(view.attributes[n])));
-      if (view.index) freed.push("index");
-    });
-    disposeSlotGeometry(view, kit);
-    expect(freed).toEqual(["esSlot"]);
-    // The name stays (three's WebGPU dispose reads every material attribute by name)
-    // but holds an empty stand-in, never the kit's buffer.
-    expect(view.attributes.position).toBeDefined();
-    expect(view.attributes.position).not.toBe(kit.attributes.position);
-    expect(view.index).toBeNull();
-    // The kit is untouched and still drawable by every other view.
-    expect(kit.attributes.position).toBeDefined();
-    expect(kit.index).not.toBeNull();
-  });
-
-  it("keeps an index the view does not share with the source", () => {
-    const kit = source();
-    const view = makeSlotGeometry(kit, {});
-    view.setIndex(new THREE.BufferAttribute(new Uint16Array([2, 1, 0]), 1));
-    const freed: string[] = [];
-    view.addEventListener("dispose", () => {
-      if (view.index) freed.push("index");
-    });
-    disposeSlotGeometry(view, kit);
-    expect(freed).toEqual(["index"]);
+    expect(isKitShared(view.attributes.position)).toBe(true);
+    expect(isKitShared(view.attributes.uv)).toBe(true);
+    expect(isKitShared(view.index!)).toBe(true);
+    expect(isKitShared(owned)).toBe(false);
   });
 });
