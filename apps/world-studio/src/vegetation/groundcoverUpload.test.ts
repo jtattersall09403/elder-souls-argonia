@@ -18,6 +18,7 @@ import {
   takeRanges,
   type RangeCursor,
 } from "./groundcoverSchedule";
+import { takePooled } from "./groundcoverPool";
 
 /** A fake clock and a "tile" of `slices` slices, each costing `msPerSlice`. */
 function longTile(slices: number, msPerSlice: number, clock: { t: number }) {
@@ -256,5 +257,63 @@ describe("grownCapacity (perf10 G6: a walk stops allocating)", () => {
     }
     expect(allocsPerRefill.slice(10).reduce((a, b) => a + b, 0)).toBe(0);
     expect(created.slice(0, -1).every((c) => c.disposed)).toBe(true);
+  });
+});
+
+describe("takePooled (perf10 c9 F38c: draw slots reuse idle meshes across plans)", () => {
+  /** A seeded walk of 50 refills: 12 live `plan|slot|part` keys per refill
+   * out of 40, 3 leaving and 3 new entering each time, as tiles cross wedges.
+   * Expected, written first: creates only until the pool holds the live set
+   * plus one refill's churn (15), none over the last 40 refills. */
+  function walk(take: (pool: Map<string, { count: number }>, key: string, live: Set<string>) => { count: number } | null) {
+    let seed = 777;
+    const rnd = (n: number) => { seed = (seed * 1664525 + 1013904223) >>> 0; return (seed >>> 8) % n; };
+    const pool = new Map<string, { count: number }>();
+    let liveKeys: string[] = [];
+    while (liveKeys.length < 12) {
+      const k = `${rnd(10)}|${rnd(4)}|0`;
+      if (!liveKeys.includes(k)) liveKeys.push(k);
+    }
+    const creates: number[] = [];
+    for (let refill = 0; refill < 50; refill++) {
+      if (refill > 0) {
+        liveKeys.splice(0, 3);
+        while (liveKeys.length < 12) {
+          const k = `${rnd(10)}|${rnd(4)}|0`;
+          if (!liveKeys.includes(k)) liveKeys.push(k);
+        }
+      }
+      const live = new Set<string>();
+      let n = 0;
+      for (const key of liveKeys) {
+        let mesh = take(pool, key, live);
+        if (!mesh) { mesh = { count: 0 }; pool.set(key, mesh); n++; }
+        live.add(key);
+      }
+      // The commit draws the live set; the drain releases the rest.
+      for (const [key, mesh] of pool) mesh.count = live.has(key) ? 1 : 0;
+      creates.push(n);
+    }
+    return { creates, poolSize: pool.size };
+  }
+
+  it("a seeded walk with changing plans creates nothing over the last 40 refills", () => {
+    const { creates, poolSize } = walk((pool, key, live) => takePooled(pool, key, live)?.mesh ?? null);
+    expect(creates.slice(10).reduce((a, b) => a + b, 0)).toBe(0);
+    expect(poolSize).toBeLessThanOrEqual(15);
+  });
+
+  it("the exact-key pool it replaces kept creating (fails on the old lookup)", () => {
+    const { creates } = walk((pool, key) => pool.get(key) ?? null);
+    expect(creates.slice(10).reduce((a, b) => a + b, 0)).toBeGreaterThan(0);
+  });
+
+  it("never takes a member this refill filled or one still drawing", () => {
+    const pool = new Map([["a", { count: 0 }], ["b", { count: 5 }]]);
+    expect(takePooled(pool, "c", new Set(["a"]))).toBeNull();
+    const t = takePooled(pool, "d", new Set());
+    expect(t?.reusedFrom).toBe("a");
+    expect(pool.has("a")).toBe(false);
+    expect(pool.get("d")).toBe(t?.mesh);
   });
 });

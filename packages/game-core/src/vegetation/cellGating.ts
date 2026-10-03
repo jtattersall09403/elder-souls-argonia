@@ -344,14 +344,96 @@ export function gateSpecies(
   order?: (rung: GateRung, tile: number, d: number) => void,
   view?: GateView,
 ): void {
+  resetGateStats(stats);
+  for (let e = 0; e < list.length; e++) {
+    gateEntry(list[e], eye, forward, apply, stats, marginM, order, view);
+  }
+}
+
+function resetGateStats(stats: GateStats): void {
   stats.visibleCopies = 0;
   stats.visibleTriangles = 0;
   stats.checksCell = 0;
   stats.checksTile = 0;
+}
+
+/** Entries one `GatePass.step` resolves at most (perf10 c9 F38b). */
+export const GATE_ENTRIES_PER_STEP_MIN = 256;
+
+/**
+ * One `gateSpecies` pass spread over several frames (perf10 c9 F38b: the
+ * whole pass in one frame cost 10 ms self on the walk). `start` snapshots the
+ * eye, the forward and the view; each `step` resolves the next `budget`
+ * entries against that snapshot. Every entry's answer depends only on the
+ * snapshot and its own latches, so a pass split over N steps gives the same
+ * answers as one; a tile's flip is queued as its entry resolves, exactly as
+ * the one-frame pass queued it. The stats accumulate privately and are copied
+ * to the caller's on the step that completes the pass.
+ */
+export class GatePass {
+  private readonly eye = { x: 0, y: 0, z: 0 };
+  private readonly forward = { x: 0, z: 0 };
+  private view: GateView | undefined;
+  private marginM = GATE_MARGIN_M;
+  private next = 0;
+  private active = false;
+  private readonly acc: GateStats = { visibleCopies: 0, visibleTriangles: 0, checksCell: 0, checksTile: 0 };
+
+  get running(): boolean { return this.active; }
+
+  /** Begin a pass. `view` is read on every step: keep it unchanged until the pass completes. */
+  start(
+    eye: { x: number; y: number; z: number },
+    forward: { x: number; z: number },
+    view?: GateView,
+    marginM: number = GATE_MARGIN_M,
+  ): void {
+    this.eye.x = eye.x; this.eye.y = eye.y; this.eye.z = eye.z;
+    this.forward.x = forward.x; this.forward.z = forward.z;
+    this.view = view;
+    this.marginM = marginM;
+    this.next = 0;
+    this.active = true;
+    resetGateStats(this.acc);
+  }
+
+  /** Resolve up to `budget` entries; true when the pass is complete. */
+  step(
+    list: readonly GateSpecies[],
+    apply: (rung: GateRung, tile: number, visible: boolean) => void,
+    stats: GateStats,
+    budget: number,
+    order?: (rung: GateRung, tile: number, d: number) => void,
+  ): boolean {
+    if (!this.active) return true;
+    const end = Math.min(list.length, this.next + Math.max(1, budget));
+    for (let e = this.next; e < end; e++) {
+      gateEntry(list[e], this.eye, this.forward, apply, this.acc, this.marginM, order, this.view);
+    }
+    this.next = end;
+    if (end < list.length) return false;
+    this.active = false;
+    stats.visibleCopies = this.acc.visibleCopies;
+    stats.visibleTriangles = this.acc.visibleTriangles;
+    stats.checksCell = this.acc.checksCell;
+    stats.checksTile = this.acc.checksTile;
+    return true;
+  }
+}
+
+function gateEntry(
+  entry: GateSpecies,
+  eye: { x: number; y: number; z: number },
+  forward: { x: number; z: number },
+  apply: (rung: GateRung, tile: number, visible: boolean) => void,
+  stats: GateStats,
+  marginM: number,
+  order: ((rung: GateRung, tile: number, d: number) => void) | undefined,
+  view: GateView | undefined,
+): void {
   // Distances are plain numbers: the pass allocates nothing (diag10 C3).
   const ex = eye.x, ez = eye.z;
-  for (let e = 0; e < list.length; e++) {
-    const entry = list[e];
+  {
     stats.checksCell++;
     const cb = entry.cellBox;
     const rawMax = rangeMax(cb.minX, cb.minZ, cb.maxX, cb.maxZ, ex, ez);

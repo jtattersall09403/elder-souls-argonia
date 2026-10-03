@@ -82,6 +82,8 @@ import {
 } from "@elder-souls/game-core/vegetation/cellBuild";
 import {
   casterReachesCascade,
+  GATE_ENTRIES_PER_STEP_MIN,
+  GatePass,
   gateSpecies,
   GATE_TILE_COUNT,
   rangeDistances,
@@ -104,7 +106,7 @@ import {
 } from "@elder-souls/game-core/vegetation/slotGeometry";
 import { OcclusionMask } from "@elder-souls/game-core/vegetation/occlusionMask";
 import { compactRows } from "@elder-souls/game-core/vegetation/compactRows";
-import { setDrawCount } from "@elder-souls/game-core/vegetation/drawCount";
+import { releaseHeld, setDrawCount } from "@elder-souls/game-core/vegetation/drawCount";
 import {
   clearUploadSpans,
   markUploadRow,
@@ -359,6 +361,8 @@ interface GeoMesh {
   slotOf: Int32Array;
   /** Visible copies; kept equal to `mesh.count`. */
   count: number;
+  /** True while the mesh's program links: hidden whatever its count. */
+  held: boolean;
   /** Rows written since the last flush, as disjoint spans (never one
    * min..max range: a frame touches rows at both ends of the buffer). */
   dirty: UploadSpans;
@@ -573,6 +577,8 @@ export function Vegetation({
   /** The view planes of the last gate pass (null before the first), which a
    * cell arriving between passes is gated with too. */
   const gateView = useRef<GateView | null>(null);
+  /** The regate in progress, resumed each frame until complete (F38b). */
+  const gatePass = useRef(new GatePass());
   /** The shadow-casting sun light, looked up every `SUN_SCAN_FRAMES`. */
   const sunLight = useRef<THREE.DirectionalLight | null>(null);
   const gateDirty = useRef(true);
@@ -908,9 +914,9 @@ export function Vegetation({
       dataSlot: new Int32Array(capacity),
       orderOf: new Int32Array(capacity).fill(-1),
       slotOf: new Int32Array(capacity),
-      count: 0, dirty: newUploadSpans(),
+      count: 0, held: true, dirty: newUploadSpans(),
     };
-    holdUntilLinked(mesh, (object) => linker.link({ object }, camera), () => { geo.mesh.visible = true; });
+    holdUntilLinked(mesh, (object) => linker.link({ object }, camera), () => releaseHeld(geo));
     return geo;
   };
 
@@ -930,8 +936,7 @@ export function Vegetation({
     (geometry.getAttribute("esSlot").array as Float32Array).set(
       (geo.geometry.getAttribute("esSlot").array as Float32Array)
         .subarray(0, geo.count));
-    setDrawCount(mesh, geo.count);
-    mesh.visible = geo.mesh.visible;     // still held while its link is pending
+    setDrawCount(mesh, geo.count, geo.held);   // still hidden while its link is pending
     mesh.instanceMatrix.needsUpdate = true;
     geometry.getAttribute("esSlot").needsUpdate = true;
     root.current?.add(mesh);
@@ -1168,10 +1173,13 @@ export function Vegetation({
       if (sun !== sunLight.current) gateDirty.current = true;
       sunLight.current = sun;
     }
-    const runGate = gateDirty.current
+    // A pass runs to completion before the next one starts: a trigger seen
+    // mid-pass (a dirty flag stays set) starts the next pass after it.
+    const pass = gatePass.current;
+    const runGate = !pass.running && (gateDirty.current
       || !(moved < GATE_STEP_M)
       || !(turned > Math.cos(GATE_TURN_RAD))
-      || counters.current.frame - g.frame >= GATE_MAX_FRAMES;
+      || counters.current.frame - g.frame >= GATE_MAX_FRAMES);
     if (runGate) {
       gateDirty.current = false;
       g.x = eye.x; g.z = eye.z;
@@ -1188,8 +1196,16 @@ export function Vegetation({
       // The distances are the ones this pass already computes, and the two
       // loops below are over the ~120 batches, not over their copies.
       for (const batch of batches.current.values()) batch.orderMin = Infinity;
-      gateSpecies(allSpecies.current, eye, fwd, enqueueTile,
-        gateStats.current, undefined, markOrder, view ?? undefined);
+      pass.start(eye, fwd, view ?? undefined);
+    }
+    // The pass is spread over frames (perf10 c9 F38b): about a quarter of
+    // the entries per frame, so a full regate costs a quarter of a frame's
+    // worth of gating at most and completes within four frames.
+    if (pass.running) {
+      const list = allSpecies.current;
+      const budget = Math.max(GATE_ENTRIES_PER_STEP_MIN, Math.ceil(list.length / 4));
+      if (pass.step(list, enqueueTile, gateStats.current, budget, markOrder)) {
+      const view = gateView.current;
       // The same nearest distance decides whether a casting batch draws into
       // the sun shadow map at all (diag9 C1): every casting batch is one
       // shadow draw whatever its copies' distance (the meshes are never
@@ -1207,6 +1223,7 @@ export function Vegetation({
         if (batch.renderOrder === next) continue;
         batch.renderOrder = next;
         for (const geo of batch.geoList) geo.mesh.renderOrder = next;
+      }
       }
     }
     const gatingMs = performance.now() - gateStart;
@@ -1751,7 +1768,7 @@ export function Vegetation({
       markUploadRow(geo.dirty, target);   // only the targets are written
     }
     geo.count = count;
-    setDrawCount(geo.mesh, count);
+    setDrawCount(geo.mesh, count, geo.held);
     dirtyGeos.current.add(geo);
   }
 
@@ -1803,7 +1820,7 @@ export function Vegetation({
       geo.count--;
       // Hiding the last visible row writes nothing: it just leaves the prefix.
     }
-    setDrawCount(geo.mesh, geo.count);
+    setDrawCount(geo.mesh, geo.count, geo.held);
     if (visible) markUploadRow(geo.dirty, row);
     dirtyGeos.current.add(geo);
   }

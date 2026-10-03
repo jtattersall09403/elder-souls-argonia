@@ -84,6 +84,7 @@ import { disposeSlotGeometry, makeSlotGeometry } from "@elder-souls/game-core/ve
 import { decodePng } from "@elder-souls/game-core/terrain/groundRasters";
 import { sharedWindUniforms } from "./windUniforms";
 import { FillScratch, ROLE_ALL, ROLE_NAMES, ROLE_REST, ROLE_THIN } from "./groundcoverFill";
+import { takePooled } from "./groundcoverPool";
 import { lastWeatherSample } from "../weather/weatherState";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { treatmentClearancePolygons } from "@elder-souls/game-core/settlement/groundTreatment";
@@ -903,6 +904,21 @@ function releaseRange(mesh: THREE.InstancedMesh, start: number, n: number): void
 }
 
 /** Frees a pooled mesh's own buffers (matrix, colour, band), never the kit's. */
+/** Point an idle pool member at another kit part. Its instance buffers (the
+ * matrices, the colours and its own band) stay, GL buffers included: the band
+ * leaves the old view before that view's owned buffers are freed. */
+function retargetPoolMesh(mesh: THREE.InstancedMesh, source: THREE.BufferGeometry, material: THREE.Material): void {
+  const slots = slotsOf(mesh);
+  if (slots.source === source && mesh.material === material) return;
+  const old = mesh.geometry;
+  const band = old.getAttribute(LOD_BAND_ATTRIBUTE) as THREE.InstancedBufferAttribute;
+  old.deleteAttribute(LOD_BAND_ATTRIBUTE);
+  disposeSlotGeometry(old, slots.source);
+  mesh.geometry = makeSlotGeometry(source, { [LOD_BAND_ATTRIBUTE]: band });
+  mesh.material = material;
+  slots.source = source;
+}
+
 function disposePoolMesh(mesh: THREE.InstancedMesh): void {
   mesh.removeFromParent();
   mesh.dispose();
@@ -1941,7 +1957,17 @@ export function Groundcover({
             if (bucket !== BUCKET_NEAR && card) {
               applyCylindricalBillboard(part.material, lodFade);
             }
-            let mesh = meshPool.current.get(meshKey);
+            const taken = takePooled(meshPool.current, meshKey, liveMeshes);
+            let mesh = taken?.mesh;
+            if (taken && taken.reusedFrom !== null) {
+              // An idle member from another plan or wedge: same buffers and
+              // capacity, retargeted to this part (F38c).
+              const swapT0 = performance.now();
+              retargetPoolMesh(taken.mesh, part.geometry, part.material);
+              taken.mesh.userData.gcSector = quadrant;
+              taken.mesh.name = `groundcover-${plan.id}-b${bucket}-q${quadrant}`;
+              tf.swapMs += performance.now() - swapT0;
+            }
             if (!mesh) {
               const allocT0 = performance.now();
               // 1.5x headroom (`slotCapacity`): the ring breathes by a few
