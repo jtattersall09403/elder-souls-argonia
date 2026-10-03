@@ -273,14 +273,13 @@ async function runCensus(page, o) {
   // The hitch window opens CENSUS_LEAD_MS after Profiler.start: starting the profiler costs one ~400 ms
   // frame of its own (perf-f6), which is the harness, not the app.
   await cdp.send("Profiler.start");
-  // The profile clock starts with Profiler.start, ~ the instant before this page read.
-  const pn = await page.evaluate(() => performance.now());
+  const pn = await profileAnchor(page);
   await page.waitForTimeout(CENSUS_LEAD_MS);
   const w = await sample(page, seconds, async () => {
     const t0 = Date.now();
     await nodeWait(seconds * 1000);
     profile = (await cdp.send("Profiler.stop")).profile;
-    offsetMs = profile.startTime / 1000 - pn;
+    offsetMs = profileOffset(profile, pn);
     return { elapsedMs: Date.now() - t0 };
   });
   const endMB = await heapMB();
@@ -538,6 +537,30 @@ export function hitchContextText(name, ctx) {
 
 /** Starts a CDP CPU profile (sampling `intervalUs`); the returned stop(file) ends it, writes the
  * .cpuprofile and returns the raw profile with the file. Every CDP send is at the call or the stop. */
+/**
+ * Clock anchor for a running CPU profile (perf10 F36): the page runs a named busy loop for ANCHOR_BUSY_MS and returns
+ * the performance.now() it began at; profileOffset finds the loop's first sample, so the page-to-profile mapping is
+ * read off the samples' own clock. `profile.startTime/1000 - performance.now()` read after Profiler.start was ~185 ms
+ * off (tooling/.reports/16k/walk10/perf-diag18-q.md "Measurement defect").
+ */
+export const ANCHOR_FN = "__gpuLaneProfileAnchor__";
+export const ANCHOR_BUSY_MS = 5;
+function profileAnchor(page) {
+  return page.evaluate(`(function ${ANCHOR_FN}() { const t = performance.now(); while (performance.now() - t < ${ANCHOR_BUSY_MS}); return t; })()`);
+}
+
+/** offsetMs (profile ms - page ms) from the anchor loop's first sample; startTime when the loop was never sampled. */
+export function profileOffset(profile, anchorPn) {
+  const ids = new Set(profile.nodes.filter((n) => n.callFrame?.functionName === ANCHOR_FN).map((n) => n.id));
+  const { samples = [], timeDeltas = [] } = profile;
+  let t = profile.startTime;
+  for (let i = 0; i < samples.length; i++) {
+    t += timeDeltas[i] ?? 0;
+    if (ids.has(samples[i])) return t / 1000 - anchorPn;
+  }
+  return profile.startTime / 1000 - anchorPn;
+}
+
 async function startCpuProfile(page, intervalUs, hl) {
   const cdp = await page.context().newCDPSession(page);
   await cdp.send("Profiler.enable");
@@ -563,8 +586,7 @@ async function cpuProfile(page, o, seconds, tag, name, hl) {
 /**
  * `profile-walk` spikes: for every frame of a window series ({t, work} page ms) whose rAF work is >= minWork ms, the top
  * `top` self-time functions of the profile samples inside the frame's span [t_i, t_i+1) (last frame: t + work), as
- * {t, work, top: [{name, at, ms}]}. `offsetMs` = profile.startTime/1000 - the page's performance.now() read just
- * after Profiler.start (the mapping hitchList uses).
+ * {t, work, top: [{name, at, ms}]}. `offsetMs` = profileOffset(profile, anchor page ms), the mapping hitchList uses.
  */
 export function profileSpikes(profile, offsetMs, series, { minWork = 12, top = 8 } = {}, maps = null) {
   const byId = new Map(profile.nodes.map((n) => [n.id, n]));
@@ -727,7 +749,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     const stopWalkTrace = doTrace ? await startTrace(page, join(o.out, `${name}-walk.trace.json`), traceOpt, hl) : null;
     // `profile-walk`: started just before the window opens, stopped just after it (no CDP inside it).
     const stopWalkProfile = P.profileWalk ? await startCpuProfile(page, 200, hl) : null;
-    const walkPn = stopWalkProfile ? await page.evaluate(() => performance.now()) : 0;
+    const walkPn = stopWalkProfile ? await profileAnchor(page) : 0;
     const stopHeap = P.heapsample ? await startHeapSample(page, hl, o.sourceMaps) : null;
     // One window (stats, trace, profile) spans the whole sequence: the driver runs beside the sampler.
     const [w] = await Promise.all([
@@ -738,7 +760,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
       const file = join(o.out, `${name}-walk.cpuprofile`);
       const prof = await stopWalkProfile(file);
       profileWalk = { file, intervalUs: 200, frames: w.ts.length, topSelfPerFrame: profileTopPerFrame(prof, w.ts.length, 25, o.sourceMaps),
-        spikes: profileSpikes(prof, prof.startTime / 1000 - walkPn, w.series, {}, o.sourceMaps) };
+        spikes: profileSpikes(prof, profileOffset(prof, walkPn), w.series, {}, o.sourceMaps) };
     }
     if (stopHeap) heapsample = await stopHeap(join(o.out, `${name}-walk.heapsample.json`));
     if (stopWalkTrace) traces.walk = await stopWalkTrace(w.extra?.file, w.ts.at(-1));

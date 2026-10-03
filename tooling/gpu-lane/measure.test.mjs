@@ -572,3 +572,17 @@ test("perf rounds need --pod: a --spots run with a headline row is refused unles
   assert.equal(parseArgs(["--run", "r", "--spots", head, "--pod", "ssh -p 1 root@h"]).pod, "ssh -p 1 root@h");
   assert.doesNotThrow(() => parseArgs(["--run", "r", "--spots", diag]), "diagnosis-only files need no pod");
 });
+
+test("profileOffset: the anchor loop's first sample maps page ms to profile ms, not startTime (perf10 F36)", async () => {
+  const { profileOffset, profileSpikes, ANCHOR_FN } = await import("./measure.mjs");
+  const nodes = [{ id: 1, callFrame: { functionName: "(root)" } }, { id: 2, callFrame: { functionName: ANCHOR_FN } }, { id: 3, callFrame: { functionName: "hot", url: "a.js", lineNumber: 9 } }];
+  // Profile starts at 1000 ms; the anchor (page 500 ms) is first sampled 185 ms later, at 1185 ms.
+  const profile = { nodes, startTime: 1000_000, samples: [1, 2, 2, 1, 3, 3], timeDeltas: [0, 185_000, 1000, 1000, 98_000, 1000] };
+  const off = profileOffset(profile, 500);
+  assert.equal(off, 685);
+  // `hot` sampled at profile 1285-1286 ms = page 600-601 ms: it lands in the frame at page 600, not 785.
+  const out = profileSpikes(profile, off, { t: [600, 620], work: [15, 15] }, {}, null);
+  assert.equal(out[0].top[0].name, "hot");
+  assert.equal(out[1].top.length, 0);
+  assert.equal(profileOffset({ ...profile, samples: [1, 1, 1, 1, 3, 3] }, 500), 500, "no anchor sample: startTime fallback");
+});
