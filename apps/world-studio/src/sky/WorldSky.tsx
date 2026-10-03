@@ -964,8 +964,8 @@ export function WorldSky({
     // Exposure: eye adaptation in log space on REAL seconds (adaptExposure);
     // snap when paused or scrubbed so fixed-instant probes are deterministic.
     // The adapted value lives here, not in gl.toneMappingExposure: inside a
-    // cell InteriorEnvironment overwrites the renderer's value with 1 every
-    // frame, and reading it back made the exit start from 1 (walk 6 white-out).
+    // cell InteriorEnvironment overwrites the renderer's value every frame with
+    // an auto-exposure from the cell's ambient (1..INTERIOR_EXPOSURE_MAX), so reading it back would start the exit from that.
     const jumped =
       !Number.isFinite(state.current.lastEpoch) ||
       Math.abs(epochMinutes - state.current.lastEpoch) > worldClock.rate * 0.5 + 1;

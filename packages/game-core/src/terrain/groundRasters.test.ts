@@ -1,7 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import * as THREE from "three";
 import { png } from "./__fixtures__/png";
-import { GroundRasterLoader, PngCache, decodePng, foldMacroIntoTint, groundRasterKey, packControl, packGradient, textureResidentBytes, type GroundTextures } from "./groundRasters";
+import { GroundRasterLoader, PngCache, decodePng, fetchPng, GROUND_PNG_TIMEOUT_MS, foldMacroIntoTint, groundRasterKey, packControl, packGradient, textureResidentBytes, type GroundTextures } from "./groundRasters";
 
 
 describe("ground rasters", () => {
@@ -64,5 +64,17 @@ describe("PngCache", () => {
     const cache = new PngCache(async () => { if (n++ === 0) throw new Error("404"); return { width: 1, height: 1, data: new Uint8Array(4) }; });
     await expect(cache.decode("a")).rejects.toThrow("404");
     expect((await cache.decode("a")).width).toBe(1);
+  });
+});
+
+describe("fetchPng timeout", () => {
+  it("rejects when the request never settles", async () => {
+    expect(GROUND_PNG_TIMEOUT_MS).toBe(60000);
+    const fake = (_u: string, init?: RequestInit) => new Promise<Response>((_res, rej) => {
+      init?.signal?.addEventListener("abort", () => rej(init.signal!.reason));
+    });
+    vi.stubGlobal("fetch", fake);
+    try { await expect(fetchPng("x.png", undefined, 20)).rejects.toBeTruthy(); }
+    finally { vi.unstubAllGlobals(); }
   });
 });
