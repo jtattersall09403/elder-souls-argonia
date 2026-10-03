@@ -691,7 +691,7 @@
           },
           {
             "id": "rk-bend-bank-2",
-            "asset": "vanilla:landscape/rocks/rockpiles02",
+            "asset": "vanilla:landscape/rocks/rocks03",
             "atM": [
               -99.48,
               -47.38
@@ -700,7 +700,7 @@
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 8.0889
+            "yMeasured": 7.8302
           },
           {
             "id": "rk-bend-east-0",
@@ -1374,13 +1374,13 @@
         "sha256": "2861793c32c2bcfb6ad7006b0590739c517fab96578c9d92c7aec1b635d16cfb"
       },
       "kits": {
-        "docks-v1": "dd2016a5acc7ce810ffc6ead7034fd35d13d5ff65533df5f6dd5ba4a86a6c4ef",
+        "docks-v1": "61172a3e0f74f841510a2811b2ede866a8ef6ea851e0b71ac987fac0edae1e38",
         "flora-province-v1": "ae18747b03cec838f3c498e346db7676774ff8974666cc0c6d3f1e80fc23306f",
-        "route-dressing-v1": "059a958a8da1b538f406836b20e669c6b42a9140f5aa182c3aeff8e256c9d1c0"
+        "route-dressing-v1": "82cd4a45f749bc8c8f11db4b5851bbda22433e50d4b44ff0ff9dfa9dc4954566"
       },
       "layout": {
         "path": "world/sources/blueprints/border-road-greenspring-crossings.layout.json",
-        "sha256": "c8f17fbfa5813958bc07a2434d5d52a2f82f48dd61239418d42b1f3e3d1bb9ae"
+        "sha256": "f5b2cd1192307ca69455c36bb29d1a4750f89e09b47ae569c169e754159e8462"
       }
     },
     "walkRoutes": {

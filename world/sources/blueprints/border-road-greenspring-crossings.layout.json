@@ -615,13 +615,18 @@
   {
    "op": "place",
    "uid": "rk-bend-bank-2",
-   "asset": "vanilla:landscape/rocks/rockpiles02",
+   "asset": "vanilla:landscape/rocks/rocks03",
    "at": [
     4530.52,
     1691.62
    ],
    "yaw": 41.0,
    "settle": true
+  },
+  {
+   "op": "note",
+   "uid": "rk-bend-bank-2",
+   "text": "audit10 c5: rockSeatRule read rockpiles02 here 0.81 m into the 37 deg bank (bar 0.62 m, its plugins' p75 base depth). The runtime seat sinks every rock pile 0.7 to 1.0 m within 6 m of this spot. A lifted y does not survive the reseat after pads, so the pile became rocks03: its three lowest contacts sit 1.00 to 1.04 m in (bar 1.13 m)."
   },
   {
    "op": "place",
