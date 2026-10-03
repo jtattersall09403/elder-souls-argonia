@@ -214,6 +214,15 @@ PRECIP_LAYER pass camera sees no light objects, so a light-driven material
 cannot do this; `smokeColumn.ts` (`setLighting`) is the example. `sceneRadiance`
 is for things that emit (flames, glows, motes).
 
+Never share one shadow or override material across casters whose
+`alphaTest` differs without stabilising it: the stock setter bumps
+`version` each time the value crosses 0, and three copies every caster's
+`alphaTest` onto the light's one shadow-pass material, so alternating cutout
+and solid casters re-key every shadow render object every frame
+(webgpu10 c9 H1: 135 of 135 re-keyed, ~46 MB/s garbage, a 71 ms GC every
+9-10 s). The sky calls `stabiliseShadowPassMaterials(scene)`
+(render/shadowCasters.ts); any new scene that renders shadows calls it too.
+
 ## 7. Tests
 
 Vitest runs without a GPU. Test (a) the TS maths the graph mirrors, (b) that a helper filled the right

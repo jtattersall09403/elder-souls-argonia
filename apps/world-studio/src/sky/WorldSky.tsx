@@ -73,7 +73,7 @@ import { AmbientAir, type AmbientAirConditions } from "@elder-souls/game-core/ai
 import type { AirWaterSurface } from "@elder-souls/game-core/air/ambientAir";
 import { STUDIO_TOOLS } from "../studioTools";
 import {
-  aimShadowCameraAtCasters, castersMissingLayer, type CasterMissingLayer,
+  aimShadowCameraAtCasters, castersMissingLayer, stabiliseShadowPassMaterials, type CasterMissingLayer,
 } from "@elder-souls/game-core/render/shadowCasters";
 import { climateAirAt } from "../weather/climateSampler";
 import { buriedThresholdM } from "@elder-souls/game-core/water/index";
@@ -294,6 +294,8 @@ export function WorldSky({
   const sunLighting = useMemo<SunLighting>(() => ({ dir: new THREE.Vector3(0, 1, 0), sunIrradiance: volSun.current, skyIrradiance: volSky.current }), []);
   useEffect(() => { if (sunLightingOut) sunLightingOut.current = sunLighting; }, [sunLightingOut, sunLighting]);
   const segments = useFrameSegments();
+  // Shadow-pass materials never re-key per caster (render/shadowCasters.ts).
+  useMemo(() => stabiliseShadowPassMaterials(scene), [scene]);
   // the debug handle's caster audit (castShadow objects with no caster layer cast nothing)
   const listCastersMissingLayer = useMemo(() => () => castersMissingLayer(scene), [scene]);
   const base = DATA_BASE;

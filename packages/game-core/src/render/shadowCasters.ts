@@ -66,3 +66,46 @@ export function castersMissingLayer(root: THREE.Object3D): CasterMissingLayer[] 
   });
   return out;
 }
+
+const STABLE_ALPHA_TEST = Symbol("esStableAlphaTest");
+
+/** Make a shadow-pass material's `alphaTest` a plain value (webgpu10 c9 H1).
+ * three's Renderer.renderObject copies each caster's alphaTest onto the
+ * light's ONE shared shadow-pass material; the stock setter bumps `version`
+ * whenever the value crosses 0, so alternating cutout and solid casters
+ * re-keyed every shadow render object every frame (getMaterialCacheKey,
+ * ~46 MB/s garbage). Storing without the bump is correct: each render object
+ * belongs to one caster whose alphaTest is fixed, its pipeline key and its
+ * `alphaTest > 0` discard branch are built from that caster's value, and the
+ * alpha-test uniform reads the current value at draw time. Idempotent. */
+export function stabiliseShadowAlphaTest(material: THREE.Material): void {
+  const m = material as THREE.Material & { [STABLE_ALPHA_TEST]?: true };
+  if (m[STABLE_ALPHA_TEST]) return;
+  let value = m.alphaTest;
+  Object.defineProperty(m, "alphaTest", {
+    configurable: true,
+    enumerable: true,
+    get: () => value,
+    set: (v: number) => { value = v; },
+  });
+  m[STABLE_ALPHA_TEST] = true;
+}
+
+/** Every shadow-pass material three sets as `scene.overrideMaterial` (one
+ * per light, made at its first shadow render, before any caster draws) gets
+ * `stabiliseShadowAlphaTest`. Per-scene accessor, no module state. */
+export function stabiliseShadowPassMaterials(scene: THREE.Scene): void {
+  const s = scene as THREE.Scene & { [STABLE_ALPHA_TEST]?: true };
+  if (s[STABLE_ALPHA_TEST]) return;
+  let current = scene.overrideMaterial;
+  Object.defineProperty(scene, "overrideMaterial", {
+    configurable: true,
+    enumerable: true,
+    get: () => current,
+    set: (mat: THREE.Material | null) => {
+      if (mat && (mat as { isShadowPassMaterial?: boolean }).isShadowPassMaterial) stabiliseShadowAlphaTest(mat);
+      current = mat;
+    },
+  });
+  s[STABLE_ALPHA_TEST] = true;
+}
