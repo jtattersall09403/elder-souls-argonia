@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { camYaw, cdpLost, coverage, isDay, legTargets, legTo, lumaSettled, outShotPlan, parseArgs, smokeRoute, walkBudgetS } from "./walk-lib.mjs";
+import { aimFrom, camYaw, enteredCell, MAX_UP_RAD, cdpLost, coverage, isDay, legTargets, legTo, lumaSettled, outShotPlan, parseArgs, smokeRoute, walkBudgetS } from "./walk-lib.mjs";
 
 test("--smoke is a bare flag", () => {
   assert.equal(parseArgs(["--route", "r", "--smoke", "--out", "o"]).smoke, true);
@@ -78,4 +78,23 @@ test("cdpLost tells a lost DevTools link from a page error", () => {
   assert.equal(cdpLost(new Error("page.evaluate: Target page, context or browser has been closed")), true);
   assert.equal(cdpLost(new Error("Protocol error: Target closed")), true);
   assert.equal(cdpLost(new Error("page.evaluate: TypeError: d.state is not a function")), false);
+});
+
+test("aimFrom re-aims a close-up from the body's real stand, never steeper up than MAX_UP_RAD (audit10 H9)", () => {
+  // camp audit10-r2 sign0: body at rest 3.1 m from the 21.81 m board on 18.7 m ground; the route asked -0.6254 (sky)
+  const a = aimFrom([3954.9, 18.7, 1420.34], [3958.0, 21.81, 1421.0]);
+  assert.equal(a.pitch, -MAX_UP_RAD);
+  assert.ok(Math.abs(a.bearing - legTo([3954.9, 1420.34], [3958.0, 1421.0]).bearing) < 1e-9);
+  // a ground fire 3 m off: looks down at it, unclamped
+  const f = aimFrom([0, 10, 0], [0, 10.3, -3]);
+  assert.ok(Math.abs(f.pitch - Math.atan2(11.45 - 10.3, 3)) < 1e-9 && Math.abs(f.bearing) < 1e-9);
+});
+
+test("enteredCell: a stale interior state from a failed exit is not an entry (audit10 H8)", () => {
+  // opening-work-camp audit10-r2 door.2: still in Interior04 after door.1's failed exit, enterS 0.11 s
+  const stale = { insideInterior: true, transitioning: false, cellId: "CIPHTBMHutInterior04" };
+  assert.equal(enteredCell("CIPHTBMHutInterior04")(stale), false);
+  assert.equal(enteredCell(null)(stale), true);
+  assert.equal(enteredCell(null)({ ...stale, transitioning: true }), false);
+  assert.equal(enteredCell(null)({ insideInterior: false, transitioning: false, cellId: null }), false);
 });

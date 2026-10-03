@@ -14,10 +14,13 @@ indexes, the interior cell files) and writes route JSON, deterministic (no clock
 Route fields: `schemaVersion` 2, `placeId`, `bearing` and `pitch` (convention notes), `boundaryM`,
 `centreM`, `fixtures` (burning placement ids), `doors` (ids with a claimed interior cell), `only`,
 `freeWalk`, `waypoints`. A waypoint has `id`, `xM`, `zM`, `yawRad` (compass), `arrive`, optional
-`detourM` and `actions`: `shot` (name, yaw, pitch, subjects), `fire` (fixtureIds, `centreM` [x,y,z],
-yaw, pitch, n frames, dtS), `door` (doorId, cellId, `thresholdM`, approach, faceYaw, exitDoorLocalM,
-`interiorStep`, `interiorShots`, `outShot` {standM, yaw, pitch}). Waypoints cover 4 overviews, a base
-shot and an action per door, a fire cluster per 6 m group, a sign close-up per 3 m group.
+`detourM` and `actions`: `shot` (name, yaw, pitch, subjects, `aimM` [x,y,z] on close-ups), `fire`
+(fixtureIds, `aimM` [x,y,z], yaw, pitch, n frames, dtS), `door` (doorId, cellId, `thresholdM`, approach,
+faceYaw, exitDoorLocalM, `interiorStep`, `interiorShots`, `outShot` {standM, yaw, pitch}). Waypoints cover
+4 overviews, a base shot and an action per door, a fire cluster per 6 m group, a sign close-up per 3 m
+group, a close-up per filled `thing-` promise (`promises`), and a `feature-<parcel>` close-up of every
+parcel (a stable, a stair, each crossing) that no door base or promised building already frames
+(`features`; a fire or sign close-up frames its fixture, never the structure under it).
 
 Route rules (the walk-10 causes they fix are in `tooling/.reports/16k/walk10/walk10-diag1.md`):
 - Every stand point (overview, door base, out shot, fire, sign) clears every collider footprint in the
@@ -47,9 +50,16 @@ Route rules (the walk-10 causes they fix are in `tooling/.reports/16k/walk10/wal
 - Pitch is the follow camera's: positive looks down (`followCamera.ts` minPitch/maxPitch). Aimed
   pitches put the target on the view ray through the look target 1.45 m over the feet:
   `atan2(ground + 1.45 − targetY, planar distance)`, ground from the nearest walk-route sample. Fires
-  door bases at 1.2 m over the threshold. Fire close-ups (`close_up`) aim at the flame point (below), measure the pitch from 1.6 m eye height over
-  the stand ground, and stand 3-10 m off: far enough that the subject fills a third of a 60 deg frame and the
-  look-up stays under 0.35 rad (a steeper one puts the camera arm under the hill). The first overview (the
+  door bases at 1.2 m over the threshold. Close-ups (`close_up`: fires, promises, features; `sign_shot`)
+  aim at the target's own visual centre (`target_y`: a hanging piece halfway down from its origin, a
+  standing one 0.8 m over it; the flame point for fires), measure the pitch from 1.6 m eye height over
+  the stand ground, and stand 3-12 m off: far enough that the subject fills a third of a 60 deg frame and
+  the look-up stays under 0.12 rad. **Rule (audit10 H9, keep it):** every pitch is clamped to
+  [-0.12, 0.6] rad and a close-up stand needs a sight line to its target that crosses no footprint but the
+  target's own (within 1 m of it): a steeper look-up or a shot through a roof framed only sky in round 2
+  (camp sign 3 m under a 3.1 m board at -0.63 rad). The runner re-aims every `aimM` action from where the
+  body actually stands over the live ground (`aimFrom`, same clamp), so a stand miss or a wrong
+  walk-route ground sample cannot tip the frame into the sky. The first overview (the
   yaw-check start) is chosen so 4 m north and 4 m east are clear of every collider.
 
 **`walk_run.mjs --route <route.json> --out <dir>`** flags: `--cdp host:port` (127.0.0.1:9242),
@@ -100,9 +110,15 @@ What `summary.json` (schemaVersion 2) records beyond coverage and findings:
 - every door: `focusReads[]` (step 0 at the approach, then up to three 0.2 m steps while focus is null):
   `posM`, `thresholdDistM` (route `thresholdM`, else the offered door's xz), `transitioning`,
   `doorCandidate`, `fade`, `offered` doors with distance and reach, `focus`;
-- inside: `interiorStep` (walks the route's `interiorStep` metres, default 1.5, off the arrival marker
-  before the shots) and `exposure` (`settled`, `waitS`, `luma`: mean screen luma polled until it moves
-  under 2 % over 1 s, at most 6 s).
+- inside: `interiorWalk` to the floor centre, else `interiorStep` (walks the route's `interiorStep`
+  metres, default 1.5, off the arrival marker), before the shots, and `exposure` (`settled`, `waitS`, `luma`: mean screen luma polled until it moves
+  under 2 % over 1 s, at most 6 s); a night pass's free-walk end shot waits the same way (`endExposure`).
+
+Door rules (audit10 H8, keep them): inside a cell a walk never falls back to the teleport (the hook
+grounds the body on the exterior terrain ~4 km under the cell, and every later frame is grey); it stops
+at 1 m and records `arrived`. Entry waits for a cell other than the one the body was in when E was
+pressed (`enteredCell`), so a stale interior state never reads as an entry. An exit that fails reloads
+the pass URL (`forcedLeave`) before the next door; the studio has no leave-interior hook.
 
 Yaw convention: route bearings are compass radians (0 = north = -z, pi/2 = east = +x). The follow
 camera yaw is the negative of the compass bearing it looks along (`camYaw(b) = -b`), so after
