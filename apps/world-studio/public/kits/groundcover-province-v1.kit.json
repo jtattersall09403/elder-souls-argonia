@@ -5975,13 +5975,15 @@
   "sha256": "1c3314e87eec75f0b2147626e35b7dadcda5366f9a2453bf8db6b96c1a04d955",
   "parts": {
    "parts": 78,
-   "partBytes": 515080,
-   "textureFiles": 65,
-   "textureBytes": 3053911,
-   "bytes": 3568991,
-   "sourceSha256": "1c3314e87eec75f0b2147626e35b7dadcda5366f9a2453bf8db6b96c1a04d955"
+   "partBytes": 798156,
+   "textureFiles": 67,
+   "textureBytes": 4688787,
+   "bytes": 5486943,
+   "sourceSha256": "b4e1486213365e1e9847021693e7dc0d656f7ea7ab03e8bb17acc3a3479fd793",
+   "packedSha256": "1c3314e87eec75f0b2147626e35b7dadcda5366f9a2453bf8db6b96c1a04d955"
   },
   "sidecarBytes": {},
   "sidecarsExempt": "groundcover atlas: no snap edges, no footprints, no interiors"
- }
+ },
+ "schemaVersion": 1
 }

@@ -2010,15 +2010,20 @@ def kit_input_hashes(kit_id: str, data_root: Path, plan: dict, vault: Path) -> d
 
 def output_files(kit_id: str, output_glb: Path) -> list[Path]:
     """Every file a build of `kit_id` leaves: the raw GLB, manifest and
-    sidecars beside it, the published copy under public/kits, and the
-    `<kit>-cards` / `<kit>-fx` folders in either place (not the stamp)."""
-    from .kit_compress import PUBLIC_KITS
+    sidecars beside it, the published manifest and sidecars and parts index
+    under public/kits (the index names every part's bytes and the packed GLB's
+    sha256, decision 0120), and the `<kit>-cards` / `<kit>-fx` folders in
+    either place (not the stamp)."""
+    from .kit_compress import PUBLIC_KITS, parts_index_path
     out = []
     for root in dict.fromkeys([output_glb.parent, PUBLIC_KITS]):
         out += [f for f in root.glob(f"{kit_id}.*") if f.is_file() and not f.name.endswith(".inputs.sha256")]
         for d in root.glob(f"{kit_id}-*"):
             if d.is_dir():
                 out += [f for f in d.rglob("*") if f.is_file()]
+    index = parts_index_path(kit_id)
+    if index.is_file():
+        out.append(index)
     return sorted(out)
 
 
@@ -2323,11 +2328,12 @@ def _build(kit_id: str, vault: Path, force: bool = False, stamp_only: bool = Fal
     print(f"[kit] {kit_id}: {len(summary['assets'])} assets -> {output_glb.name} "
           f"({total_mb:.1f} MB), manifest {manifest_path.name}")
     # Publish: the raw build above is the measurement product; what ships
-    # under apps/world-studio/public/kits/ is its KTX2/meshopt compression
-    # (pipeline/kit_compress.py). A kit already published there is
-    # refreshed; a first publish is `python3 -m pipeline.kit_compress --kit`.
+    # under apps/world-studio/public/kits/ is its KTX2/meshopt compression cut
+    # into parts (pipeline/kit_compress.py, decision 0120). A kit already
+    # published there is refreshed; a first publish is
+    # `python3 -m pipeline.kit_compress --kit`.
     from . import kit_compress
-    if kit.get("publish", (kit_compress.PUBLIC_KITS / f"{kit_id}.glb").exists()):
+    if kit.get("publish", kit_compress.parts_index_path(kit_id).exists()):
         summary["compression"] = kit_compress.publish(kit_id)
     write_inputs_stamp(output_glb, hashes, summary["sidecars"], kit_id)
     return summary

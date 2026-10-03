@@ -10,7 +10,7 @@ job per file:
 | `Vegetation.tsx` | T1/T2: streams chunk bundles around the focus and draws them as instanced meshes |
 | | loads **two** kits — `flora-province-v1` (trees, shrubs, rocks) and `underwater-v1` (the 16f band: kelp, corals, shell beds, wrecks) — and merges them with `mergeFloraKits` |
 | | **first wins** on a duplicate id (e.g. `tbp_seaweed06`, `waterkelptall02/03` ship in both): the land kit's copy is the one the palettes were authored against |
-| `Groundcover.tsx` | T3: regenerates grass/fern/reed deterministically inside the ring from the land-cover raster and `world/sources/flora/groundcover.json`; kit `public/kits/groundcover-province-v1.glb`, hook `window.__STUDIO_GROUNDCOVER_DEBUG__` |
+| `Groundcover.tsx` | T3: regenerates grass/fern/reed deterministically inside the ring from the land-cover raster and `world/sources/flora/groundcover.json`; kit `public/kits/groundcover-province-v1/parts/` (useKitParts.ts), hook `window.__STUDIO_GROUNDCOVER_DEBUG__` |
 
 ## What is here and what is not
 

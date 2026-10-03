@@ -1,9 +1,12 @@
 {
- "schemaVersion": 3,
+ "schemaVersion": 4,
  "kit": "works-v1",
- "exterior": true,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
+  "bytes": 48835796,
+  "sha256": "942e37b0762d6e9e1179c563ab6ea966b48fd9d51d6b2424787df1bc5de1d644"
+ },
+ "packed": {
   "bytes": 23697524,
   "sha256": "3be6406107667810bcbebbeebcde412f5c846bf4cfd41926d244dfd45653fb6a"
  },

@@ -6379,6 +6379,15 @@
   "imageBytesAfter": 14592523,
   "warnings": [],
   "sha256": "08c650df6329bcfa6fca6d450fc0ba24bde2c760ef9ec37542985ae5bf46a5ac",
+  "parts": {
+   "parts": 85,
+   "partBytes": 8476856,
+   "textureFiles": 64,
+   "textureBytes": 14262158,
+   "bytes": 22739014,
+   "sourceSha256": "3870bd006d9957b9c94de19f733d4ed1e6f8ae1bae2db896dd300dbce5c8a939",
+   "packedSha256": "08c650df6329bcfa6fca6d450fc0ba24bde2c760ef9ec37542985ae5bf46a5ac"
+  },
   "sidecarBytes": {
    "connectors": 75609,
    "footprints": 116883,

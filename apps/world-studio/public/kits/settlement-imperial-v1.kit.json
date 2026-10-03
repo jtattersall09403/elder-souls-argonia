@@ -5076,12 +5076,13 @@
   "warnings": [],
   "sha256": "3e120c95c06bd64f67e49f3c31a2e71e241b0c23d5d5c3d7e2e8a4a420802953",
   "parts": {
-   "parts": 7,
-   "partBytes": 157468,
-   "textureFiles": 8,
-   "textureBytes": 1182169,
-   "bytes": 1339637,
-   "sourceSha256": "3e120c95c06bd64f67e49f3c31a2e71e241b0c23d5d5c3d7e2e8a4a420802953"
+   "parts": 51,
+   "partBytes": 3134572,
+   "textureFiles": 56,
+   "textureBytes": 12255176,
+   "bytes": 15389748,
+   "sourceSha256": "5cf94abc8cff71f8e3b527f9eb1e77b4b0b3153b46c639a5ba7db695d21e9af3",
+   "packedSha256": "3e120c95c06bd64f67e49f3c31a2e71e241b0c23d5d5c3d7e2e8a4a420802953"
   },
   "sidecarBytes": {
    "connectors": 37323,

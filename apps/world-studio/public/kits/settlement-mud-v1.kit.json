@@ -6291,7 +6291,8 @@
    "textureFiles": 73,
    "textureBytes": 15352893,
    "bytes": 21353857,
-   "sourceSha256": "6b6c4342b2b366b90262c46b806857c763aa6ff8b9a63fb574cb90a9d782f4b3"
+   "sourceSha256": "0fe361c3af0e6190759876c610794bddb89c27dd83c15263414944e1357e54b5",
+   "packedSha256": "6b6c4342b2b366b90262c46b806857c763aa6ff8b9a63fb574cb90a9d782f4b3"
   },
   "sidecarBytes": {
    "connectors": 48496,

@@ -20484,12 +20484,13 @@
   "warnings": [],
   "sha256": "15a2b663373f5bf0f9156379c589a65509f6ecd1f20fa5da92a210fa01f062b9",
   "parts": {
-   "parts": 61,
-   "partBytes": 1483492,
-   "textureFiles": 55,
-   "textureBytes": 2954379,
-   "bytes": 4437871,
-   "sourceSha256": "15a2b663373f5bf0f9156379c589a65509f6ecd1f20fa5da92a210fa01f062b9"
+   "parts": 307,
+   "partBytes": 6322560,
+   "textureFiles": 244,
+   "textureBytes": 12103244,
+   "bytes": 18425804,
+   "sourceSha256": "51c73124bbea15b19647ac91f54711dbbddefbc45564ac6c500d0eafcc609b70",
+   "packedSha256": "15a2b663373f5bf0f9156379c589a65509f6ecd1f20fa5da92a210fa01f062b9"
   },
   "sidecarBytes": {
    "connectors": 198712,

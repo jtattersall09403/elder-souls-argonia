@@ -138,8 +138,15 @@ def test_a_previous_table_is_merged_only_when_its_inputs_match(world):
 
 
 def _kit(dir_: Path, kit: str, assets: list[str], glb_bytes: int = 0) -> None:
+    """A published kit (decision 0120): manifest, a parts index and one part
+    of `glb_bytes` minus 100 B, plus a 100 B pool texture the part names."""
     (dir_ / f"{kit}.kit.json").write_text(json.dumps({"kit": kit, "assets": [{"id": a} for a in assets]}))
-    (dir_ / f"{kit}.glb").write_bytes(b"x" * glb_bytes)
+    parts = dir_ / kit / "parts"
+    parts.mkdir(parents=True, exist_ok=True)
+    (dir_ / "tex").mkdir(exist_ok=True)
+    (dir_ / "tex" / f"{kit}.ktx2").write_bytes(b"t" * min(100, glb_bytes))
+    (parts / "a.glb").write_bytes(b"x" * max(0, glb_bytes - 100))
+    (parts / "index.json").write_text(json.dumps({"assets": {"a": {"file": "a.glb", "textures": [kit]}}}))
 
 
 def test_kit_plan_builds_missing_stale_and_stamped_kits(tmp_path):

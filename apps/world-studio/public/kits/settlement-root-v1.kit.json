@@ -13176,12 +13176,13 @@
   "warnings": [],
   "sha256": "1371a5bc036ffc9c8d23c2f8fd7be82aa68914eda893a9e86f0a74b808701f7e",
   "parts": {
-   "parts": 8,
-   "partBytes": 227940,
-   "textureFiles": 4,
-   "textureBytes": 792618,
-   "bytes": 1020558,
-   "sourceSha256": "1371a5bc036ffc9c8d23c2f8fd7be82aa68914eda893a9e86f0a74b808701f7e"
+   "parts": 156,
+   "partBytes": 15024296,
+   "textureFiles": 34,
+   "textureBytes": 8122355,
+   "bytes": 23146651,
+   "sourceSha256": "4c5720959bfcc0ed591f0777b40fe6580abc06ea50292445c273ecb02905f012",
+   "packedSha256": "1371a5bc036ffc9c8d23c2f8fd7be82aa68914eda893a9e86f0a74b808701f7e"
   },
   "sidecarBytes": {
    "connectors": 124654,

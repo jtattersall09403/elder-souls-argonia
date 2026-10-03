@@ -1,0 +1,564 @@
+{
+ "schemaVersion": 4,
+ "kit": "wrecks-v1",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 30097472,
+  "sha256": "a26bc33c89cf036fa39b8e36901d264b890b0a1ac8e747a432be6c509a0e54a7"
+ },
+ "packed": {
+  "bytes": 8251684,
+  "sha256": "c3a646bfac420668d8d6653c5a6fa301a25485e96aa93ede135ffbb58a3a350d"
+ },
+ "totals": {
+  "parts": 19,
+  "partBytes": 6998812,
+  "textureFiles": 11,
+  "textureBytes": 2425075,
+  "bytes": 9423887
+ },
+ "assets": {
+  "depths:dos/boats/rowboatbrokenback": {
+   "file": "depths_dos_boats_rowboatbrokenback-597ba4f7.glb",
+   "bytes": 70488,
+   "vertices": 1956,
+   "triangles": 1672,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1956,
+     "triangles": 1672
+    },
+    {
+     "lod": 1,
+     "vertices": 1197,
+     "triangles": 900
+    },
+    {
+     "lod": 2,
+     "vertices": 1197,
+     "triangles": 900
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "depths:dos/boats/rowboatbrokenfront": {
+   "file": "depths_dos_boats_rowboatbrokenfront-2e53df69.glb",
+   "bytes": 64608,
+   "vertices": 1878,
+   "triangles": 1550,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1878,
+     "triangles": 1550
+    },
+    {
+     "lod": 1,
+     "vertices": 1244,
+     "triangles": 872
+    },
+    {
+     "lod": 2,
+     "vertices": 1244,
+     "triangles": 872
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "depths:dos/ships/shipatmoranlongshipwreck01": {
+   "file": "depths_dos_ships_shipatmoranlongshipwreck01-29056564.glb",
+   "bytes": 194764,
+   "vertices": 9197,
+   "triangles": 9212,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 9197,
+     "triangles": 9212
+    },
+    {
+     "lod": 1,
+     "vertices": 4473,
+     "triangles": 3538
+    },
+    {
+     "lod": 2,
+     "vertices": 2231,
+     "triangles": 1652
+    }
+   ],
+   "textures": [
+    "85075073a11d27cc",
+    "c70aa43559cb965c",
+    "fea14c205f5d7c7e"
+   ]
+  },
+  "depths:dos/ships/shipatmoranlongshipwreck02": {
+   "file": "depths_dos_ships_shipatmoranlongshipwreck02-60bb1cda.glb",
+   "bytes": 228452,
+   "vertices": 10531,
+   "triangles": 10338,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 10531,
+     "triangles": 10338
+    },
+    {
+     "lod": 1,
+     "vertices": 4849,
+     "triangles": 3727
+    },
+    {
+     "lod": 2,
+     "vertices": 2603,
+     "triangles": 1796
+    }
+   ],
+   "textures": [
+    "85075073a11d27cc",
+    "c70aa43559cb965c",
+    "fea14c205f5d7c7e"
+   ]
+  },
+  "depths:dos/ships/shipatmoranrowboatwreck01": {
+   "file": "depths_dos_ships_shipatmoranrowboatwreck01-3e9014cf.glb",
+   "bytes": 98364,
+   "vertices": 3850,
+   "triangles": 3740,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3850,
+     "triangles": 3740
+    },
+    {
+     "lod": 1,
+     "vertices": 1637,
+     "triangles": 1346
+    },
+    {
+     "lod": 2,
+     "vertices": 1238,
+     "triangles": 960
+    }
+   ],
+   "textures": [
+    "85075073a11d27cc",
+    "fea14c205f5d7c7e"
+   ]
+  },
+  "depths:dos/ships/shipatmoranrowboatwreck02": {
+   "file": "depths_dos_ships_shipatmoranrowboatwreck02-2506dce3.glb",
+   "bytes": 101696,
+   "vertices": 4076,
+   "triangles": 3996,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4076,
+     "triangles": 3996
+    },
+    {
+     "lod": 1,
+     "vertices": 1718,
+     "triangles": 1436
+    },
+    {
+     "lod": 2,
+     "vertices": 1226,
+     "triangles": 960
+    }
+   ],
+   "textures": [
+    "85075073a11d27cc",
+    "fea14c205f5d7c7e"
+   ]
+  },
+  "depths:dos/ships/shipatmoranwarshipwreck01": {
+   "file": "depths_dos_ships_shipatmoranwarshipwreck01-e574f3db.glb",
+   "bytes": 273796,
+   "vertices": 12990,
+   "triangles": 12546,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 12990,
+     "triangles": 12546
+    },
+    {
+     "lod": 1,
+     "vertices": 6035,
+     "triangles": 4542
+    },
+    {
+     "lod": 2,
+     "vertices": 3122,
+     "triangles": 2141
+    }
+   ],
+   "textures": [
+    "85075073a11d27cc",
+    "c70aa43559cb965c",
+    "fea14c205f5d7c7e"
+   ]
+  },
+  "depths:dos/ships/shipatmoranwarshipwreck02": {
+   "file": "depths_dos_ships_shipatmoranwarshipwreck02-6d516a87.glb",
+   "bytes": 263824,
+   "vertices": 12474,
+   "triangles": 12362,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 12474,
+     "triangles": 12362
+    },
+    {
+     "lod": 1,
+     "vertices": 6009,
+     "triangles": 4539
+    },
+    {
+     "lod": 2,
+     "vertices": 3266,
+     "triangles": 2182
+    }
+   ],
+   "textures": [
+    "85075073a11d27cc",
+    "c70aa43559cb965c",
+    "fea14c205f5d7c7e"
+   ]
+  },
+  "depths:dos/ships/shipbreticcarrack_halfwreck01": {
+   "file": "depths_dos_ships_shipbreticcarrack_halfwreck01-ca3f9834.glb",
+   "bytes": 345040,
+   "vertices": 15716,
+   "triangles": 16033,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 15716,
+     "triangles": 16033
+    },
+    {
+     "lod": 1,
+     "vertices": 7873,
+     "triangles": 5700
+    },
+    {
+     "lod": 2,
+     "vertices": 3231,
+     "triangles": 2227
+    }
+   ],
+   "textures": [
+    "85075073a11d27cc",
+    "fea14c205f5d7c7e"
+   ]
+  },
+  "depths:dos/ships/shipbreticcarrack_halfwreck02": {
+   "file": "depths_dos_ships_shipbreticcarrack_halfwreck02-95c301bb.glb",
+   "bytes": 560656,
+   "vertices": 28724,
+   "triangles": 27015,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 28724,
+     "triangles": 27015
+    },
+    {
+     "lod": 1,
+     "vertices": 13538,
+     "triangles": 9759
+    },
+    {
+     "lod": 2,
+     "vertices": 5607,
+     "triangles": 3932
+    }
+   ],
+   "textures": [
+    "443101f34c9176af",
+    "85075073a11d27cc",
+    "c70aa43559cb965c",
+    "fea14c205f5d7c7e"
+   ]
+  },
+  "vanilla:clutter/shipwreck/shipwreckboards01": {
+   "file": "vanilla_clutter_shipwreck_shipwreckboards01-73444cf1.glb",
+   "bytes": 12484,
+   "vertices": 42,
+   "triangles": 26,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 42,
+     "triangles": 26
+    },
+    {
+     "lod": 1,
+     "vertices": 42,
+     "triangles": 26
+    },
+    {
+     "lod": 2,
+     "vertices": 42,
+     "triangles": 26
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "876fdaabbb65805a"
+   ]
+  },
+  "vanilla:clutter/shipwreck/shipwreckboards02": {
+   "file": "vanilla_clutter_shipwreck_shipwreckboards02-41f06571.glb",
+   "bytes": 12536,
+   "vertices": 42,
+   "triangles": 26,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 42,
+     "triangles": 26
+    },
+    {
+     "lod": 1,
+     "vertices": 42,
+     "triangles": 26
+    },
+    {
+     "lod": 2,
+     "vertices": 42,
+     "triangles": 26
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "876fdaabbb65805a"
+   ]
+  },
+  "vanilla:clutter/shipwreck/shipwreckboards03": {
+   "file": "vanilla_clutter_shipwreck_shipwreckboards03-307716c9.glb",
+   "bytes": 12768,
+   "vertices": 57,
+   "triangles": 37,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 57,
+     "triangles": 37
+    },
+    {
+     "lod": 1,
+     "vertices": 57,
+     "triangles": 37
+    },
+    {
+     "lod": 2,
+     "vertices": 57,
+     "triangles": 37
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "876fdaabbb65805a"
+   ]
+  },
+  "vanilla:dungeons/ship/shiplongboatwreck01": {
+   "file": "vanilla_dungeons_ship_shiplongboatwreck01-dc40dad2.glb",
+   "bytes": 364088,
+   "vertices": 13452,
+   "triangles": 12789,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 13452,
+     "triangles": 12789
+    },
+    {
+     "lod": 1,
+     "vertices": 6190,
+     "triangles": 4695
+    },
+    {
+     "lod": 2,
+     "vertices": 2821,
+     "triangles": 2349
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "a1abefd7e80cdbfe",
+    "d006283037aab48a",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "vanilla:dungeons/ship/shiplongboatwreck02": {
+   "file": "vanilla_dungeons_ship_shiplongboatwreck02-e4663975.glb",
+   "bytes": 224404,
+   "vertices": 7233,
+   "triangles": 7285,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 7233,
+     "triangles": 7285
+    },
+    {
+     "lod": 1,
+     "vertices": 3575,
+     "triangles": 2929
+    },
+    {
+     "lod": 2,
+     "vertices": 2407,
+     "triangles": 2100
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "a1abefd7e80cdbfe",
+    "d006283037aab48a",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "vanilla:dungeons/ship/shipwrecklarge01": {
+   "file": "vanilla_dungeons_ship_shipwrecklarge01-407f6dc1.glb",
+   "bytes": 1342120,
+   "vertices": 53745,
+   "triangles": 49897,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 53745,
+     "triangles": 49897
+    },
+    {
+     "lod": 1,
+     "vertices": 25427,
+     "triangles": 17826
+    },
+    {
+     "lod": 2,
+     "vertices": 10372,
+     "triangles": 7255
+    }
+   ],
+   "textures": [
+    "074df88b2573de3d",
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "a1abefd7e80cdbfe",
+    "d006283037aab48a",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "vanilla:dungeons/ship/shipwrecklarge02": {
+   "file": "vanilla_dungeons_ship_shipwrecklarge02-14fb7b79.glb",
+   "bytes": 1374828,
+   "vertices": 55719,
+   "triangles": 51344,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 55719,
+     "triangles": 51344
+    },
+    {
+     "lod": 1,
+     "vertices": 26280,
+     "triangles": 18176
+    },
+    {
+     "lod": 2,
+     "vertices": 10440,
+     "triangles": 7120
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "a1abefd7e80cdbfe",
+    "d006283037aab48a",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "vanilla:dungeons/ship/shipwrecklarge03": {
+   "file": "vanilla_dungeons_ship_shipwrecklarge03-478018a7.glb",
+   "bytes": 892440,
+   "vertices": 35182,
+   "triangles": 31349,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 35182,
+     "triangles": 31349
+    },
+    {
+     "lod": 1,
+     "vertices": 16173,
+     "triangles": 11265
+    },
+    {
+     "lod": 2,
+     "vertices": 7241,
+     "triangles": 4899
+    }
+   ],
+   "textures": [
+    "074df88b2573de3d",
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "a1abefd7e80cdbfe",
+    "d006283037aab48a",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "vanilla:dungeons/ship/shipwrecklarge04": {
+   "file": "vanilla_dungeons_ship_shipwrecklarge04-c4e4f463.glb",
+   "bytes": 561456,
+   "vertices": 18964,
+   "triangles": 17581,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 18964,
+     "triangles": 17581
+    },
+    {
+     "lod": 1,
+     "vertices": 9194,
+     "triangles": 6536
+    },
+    {
+     "lod": 2,
+     "vertices": 5368,
+     "triangles": 3869
+    }
+   ],
+   "textures": [
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "a1abefd7e80cdbfe",
+    "d006283037aab48a",
+    "e4eaf07169f1c690"
+   ]
+  }
+ },
+ "fires": {}
+}

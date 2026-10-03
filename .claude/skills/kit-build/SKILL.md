@@ -195,24 +195,19 @@ into the kit config (`--record`), then step 1 rebuilds.
   belongs in `kit_compress.SIDECAR_EXEMPT` with its reason, never silence.
 - Stale if skipped: the studio and the settlement export read the published
   sidecars, not the raw ones.
-- Parts are published with the kit, for **scoped kits only**: a kit publishes
-  parts when a published interior cell (`public/province/interiors/<cell>.json`
-  `kits`) names it, because only the interior loader reads parts and every part
-  is a second copy that ships, and then only for the assets those cells DRAW
-  (placements, stand-ins, swing doors: `kit_parts.mjs drawnAssets`,
-  `kit_compress.parts_drawn`; walk 4: every asset of the 10 scoped kits was
-  131.7 MB and a 709.0 MB site, drawn assets only are 19.3 MB and 597.3 MB).
-  A cell that starts drawing a new asset needs `kit_parts.mjs --all` rerun;
-  `kit_compress` check names the missing asset.
-  `kit_compress` ends by running `node pipeline/kit_parts.mjs --kit <kit>` for a
-  scoped kit and deletes an unscoped kit's parts folder; the writer cuts the
-  published GLB into `public/kits/<kit>/parts/` (one GLB per asset, every LOD tier,
-  textures once province-wide in `public/kits/tex/<sha16>.ktx2`, `index.json` schema 3) and records
-  the totals in `compression.parts`. After a cell bundle names a new kit, or a
-  GLB changed any other way, run `node pipeline/kit_parts.mjs --all` (scoped
-  kits written, unscoped folders deleted); `--all --check` and `kit_compress
-  --check` exit 1 on stale, missing or out-of-scope parts. The parts count in
-  the site budget (step 7).
+- Every kit ships **only as parts** (decision 0120): `kit_compress` packs the
+  raw build with gltfpack into a temporary GLB, runs `node pipeline/kit_parts.mjs
+  --kit <kit> --glb <packed> --raw <raw>` on it and deletes it; no whole kit GLB
+  is published. The writer cuts one GLB per manifest asset (every LOD tier) into
+  `public/kits/<kit>/parts/`, textures once province-wide in
+  `public/kits/tex/<sha16>.ktx2`, `index.json` schema 4 (`source` = the raw
+  build's sha256, `packed` = the packed GLB's), and the totals land in
+  `compression.parts`. `kit_compress --check` exits 1 when the parts were cut
+  from another raw build or packed GLB, a manifest asset has no part, or a file
+  is missing or resized; `node pipeline/kit_parts.mjs --prune [--check]`
+  deletes (or names) pool files no index references. Parts and pool count in
+  the site budget (step 7); compose ships a pool file only when a kept kit's
+  parts index names it.
 - After publish, look at every new or changed piece: `npm run look -- piece <kit> <assetId>` and its Sonnet judge ([visual-look](../visual-look/SKILL.md)); a FAIL is fixed at source before the kit is used.
 - A doorway is recorded only where rays pass (`interiors_index.doorway_rays`):
   every geometric doorway (`opening`, `open-front`, `leaf`) must let horizontal

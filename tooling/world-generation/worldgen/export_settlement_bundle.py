@@ -417,7 +417,7 @@ def _kit_assets(names: set[str], kits_dir: Path,
             effect_rows[name] = manifest.get("effectTextures") or {}
         kits[name] = {
             "id": name,
-            "glb": f"kits/{name}.glb",
+            "parts": f"kits/{name}/parts/index.json",
             "manifest": f"kits/{name}.kit.json",
         }
         for asset in manifest.get("assets", []):
@@ -444,13 +444,34 @@ def _glb_document(path: Path) -> dict:
     raise ValueError(f"{path}: no JSON chunk in GLB")
 
 
+def kit_glbs(kit: str, kits_dir: Path = KITS) -> list[Path]:
+    """The GLBs a kit's assets live in: the raw build `<kit>.glb` in a build
+    folder, else every part its published parts index lists (decision 0120:
+    public/kits holds parts only). Each part's scene root is its asset root,
+    so the readers below walk a part exactly as they walk the whole kit."""
+    whole = kits_dir / f"{kit}.glb"
+    if whole.is_file():
+        return [whole]
+    index_path = kits_dir / kit / "parts" / "index.json"
+    if not index_path.is_file():
+        raise FileNotFoundError(f"{kit}: neither {whole} nor {index_path}")
+    rows = _read(index_path)["assets"]
+    return [index_path.parent / rows[a]["file"] for a in sorted(rows)]
+
+
 def lod_chain_triangles(kit: str, kits_dir: Path = KITS) -> dict[str, list[int]]:
     """Per-asset triangles at each LOD tier, exactly as the runtime counts them.
 
     Mirrors buildArchitectureKit: level comes from the node's ``lod`` extra
     (absent means 0), and a tier's triangle total is the sum over its meshes.
     """
-    document = _glb_document(kits_dir / f"{kit}.glb")
+    chains: dict[str, list[int]] = {}
+    for path in kit_glbs(kit, kits_dir):
+        chains.update(_lod_chain_triangles(_glb_document(path)))
+    return chains
+
+
+def _lod_chain_triangles(document: dict) -> dict[str, list[int]]:
     nodes = document.get("nodes", [])
     meshes = document.get("meshes", [])
     accessors = document.get("accessors", [])
@@ -530,28 +551,38 @@ def texture_cap_errors(kits: dict, lod: dict, kits_dir: Path = KITS) -> list[str
     cap = lod["atlasMaxSize"]
     errors: list[str] = []
     for kit in sorted(kits):
-        path = kits_dir / f"{kit}.glb"
-        data = path.read_bytes()
-        offset = 12
-        document: dict | None = None
-        binary = b""
-        while offset + 8 <= len(data):
-            length, chunk_type = struct.unpack_from("<II", data, offset)
-            payload = data[offset + 8:offset + 8 + length]
-            if chunk_type == 0x4E4F534A:
-                document = json.loads(payload)
-            else:
-                binary = payload
-            offset += 8 + length + (-length % 4)
-        if document is None:
-            raise ValueError(f"{path}: no JSON chunk in GLB")
-        for index, image in enumerate(document.get("images", [])):
-            view = document["bufferViews"][image["bufferView"]]
-            start = view.get("byteOffset", 0)
-            width, height = _image_size(binary[start:start + view["byteLength"]])
-            if width > cap or height > cap:
-                errors.append(f"{kit}: image {index} is {width}x{height}, over the "
-                              f"runtime texture cap of {cap}")
+        seen: set[str] = set()
+        for path in kit_glbs(kit, kits_dir):
+            data = path.read_bytes()
+            offset = 12
+            document: dict | None = None
+            binary = b""
+            while offset + 8 <= len(data):
+                length, chunk_type = struct.unpack_from("<II", data, offset)
+                payload = data[offset + 8:offset + 8 + length]
+                if chunk_type == 0x4E4F534A:
+                    document = json.loads(payload)
+                else:
+                    binary = payload
+                offset += 8 + length + (-length % 4)
+            if document is None:
+                raise ValueError(f"{path}: no JSON chunk in GLB")
+            for index, image in enumerate(document.get("images", [])):
+                if "uri" in image:  # a part's pool texture (kits/tex/<sha16>.ktx2)
+                    source = (path.parent / image["uri"]).resolve()
+                    if str(source) in seen:
+                        continue
+                    seen.add(str(source))
+                    with open(source, "rb") as fh:
+                        blob, name = fh.read(64), f"{source.name}"
+                else:
+                    view = document["bufferViews"][image["bufferView"]]
+                    start = view.get("byteOffset", 0)
+                    blob, name = binary[start:start + view["byteLength"]], f"{path.name} image {index}"
+                width, height = _image_size(blob)
+                if width > cap or height > cap:
+                    errors.append(f"{kit}: {name} is {width}x{height}, over the "
+                                  f"runtime texture cap of {cap}")
     return errors
 
 
@@ -588,25 +619,25 @@ def lod0_part_counts(kit: str, kits_dir: Path = KITS) -> dict[str, int]:
     makes one Mesh (one collision part) per glTF primitive, and only level 0
     meshes are used for collision.
     """
-    document = _glb_document(kits_dir / f"{kit}.glb")
-    nodes = document.get("nodes", [])
-    meshes = document.get("meshes", [])
-    scene = document["scenes"][document.get("scene", 0)].get("nodes", [])
     counts: dict[str, int] = {}
+    for path in kit_glbs(kit, kits_dir):
+        document = _glb_document(path)
+        nodes = document.get("nodes", [])
+        meshes = document.get("meshes", [])
 
-    def walk(index: int) -> int:
-        node = nodes[index]
-        total = 0
-        if "mesh" in node and (node.get("extras") or {}).get("lod", 0) == 0:
-            total += len(meshes[node["mesh"]].get("primitives", []))
-        for child in node.get("children", []):
-            total += walk(child)
-        return total
+        def walk(index: int) -> int:
+            node = nodes[index]
+            total = 0
+            if "mesh" in node and (node.get("extras") or {}).get("lod", 0) == 0:
+                total += len(meshes[node["mesh"]].get("primitives", []))
+            for child in node.get("children", []):
+                total += walk(child)
+            return total
 
-    for index in scene:
-        asset_id = (nodes[index].get("extras") or {}).get("assetId")
-        if isinstance(asset_id, str):
-            counts[asset_id] = walk(index)
+        for index in document["scenes"][document.get("scene", 0)].get("nodes", []):
+            asset_id = (nodes[index].get("extras") or {}).get("assetId")
+            if isinstance(asset_id, str):
+                counts[asset_id] = walk(index)
     return counts
 
 
@@ -1853,14 +1884,16 @@ def _scoped_kits(bundle: dict, places=None) -> list[str]:
 
 
 def kit_freshness_problems(kits, kits_dir: Path = KITS, public_dir: Path = PUBLIC_KITS) -> list[str]:
-    """Per published kit: the ``kit_compress --check`` rule (``glb_problems``),
-    then the published manifest against the build's (a differing one is a stale
+    """Per published kit: the ``kit_compress --check`` rule (``published_problems``
+    and ``parts_problems`` against the raw build in ``kits_dir``), then the
+    published manifest against the build's (a differing one is a stale
     publish). Shared by ``_stage_assets`` and ``place_gates`` (gate kits.fresh)."""
-    from pipeline.kit_compress import glb_problems
+    from pipeline.kit_compress import parts_problems, published_problems
     out: list[str] = []
     for name in sorted(kits):
-        glb, manifest = public_dir / f"{name}.glb", public_dir / f"{name}.kit.json"
-        problems = glb_problems(name, glb, manifest)
+        manifest = public_dir / f"{name}.kit.json"
+        problems = published_problems(name, public_dir) or parts_problems(
+            name, kits_dir / f"{name}.glb", public_dir)
         if not problems and _read(manifest) != _read(kits_dir / f"{name}.kit.json"):
             problems = [f"{name}: published manifest differs from the build's "
                         f"{kits_dir / (name + '.kit.json')} (stale publish)"]
@@ -1872,14 +1905,14 @@ def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
                   publish_kit=None, places=None) -> tuple[Path, list[str]]:
     """Validate and copy every asset to a private sibling before publication.
 
-    16h K14 (M19 ruling 5): the GLB that ships is the PUBLISHED, compressed
-    one in ``public_dir`` when its pair passes the ``kit_compress --check``
-    rule (``glb_problems``); the raw ``kits_dir`` build is the measurement
-    product and never reaches public/kits. A kit with no published GLB yet is
-    compressed from the raw build through ``kit_compress.publish`` first. A
-    published GLB that fails the rule (a raw build copied over it) is refused,
-    as is a published manifest that is not the manifest this bundle was built
-    from (the pair is stale against the build). Sidecars come from the build
+    16h K14 (M19 ruling 5), decision 0120: what ships is the kit's compressed
+    parts (``<kit>/parts/``, written only by ``kit_compress.publish``) with its
+    manifest, when they pass the ``kit_compress --check`` rule; the raw
+    ``kits_dir`` build is the measurement product and never reaches
+    public/kits. A kit with no parts index yet is published from the raw build
+    through ``kit_compress.publish`` first. Parts cut from another raw build,
+    or a published manifest that is not the manifest this bundle was built
+    from, are refused (stale against the build). Sidecars come from the build
     output, where the measurers write them."""
     from pipeline.kit_compress import publish
     publish_kit = publish_kit or publish
@@ -1894,7 +1927,8 @@ def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
             raise ValueError(f"runtime kit asset is missing or empty: {path}")
 
     # Every input exists before anything is published or staged.
-    unpublished = [name for name in kits if not (public_dir / f"{name}.glb").is_file()]
+    unpublished = [name for name in kits
+                   if not (public_dir / name / "parts" / "index.json").is_file()]
     for name in kits:
         require(kits_dir / f"{name}.kit.json")
         if name in unpublished:
@@ -1913,7 +1947,7 @@ def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
     names: list[str] = []
     try:
         for name in kits:
-            sources = [public_dir / f"{name}.glb", public_dir / f"{name}.kit.json"] + [
+            sources = [public_dir / f"{name}.kit.json"] + [
                 kits_dir / f"{name}{suffix}" for suffix in sidecar_suffixes(name)]
             for source in sources:
                 require(source)

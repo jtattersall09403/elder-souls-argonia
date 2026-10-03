@@ -252,10 +252,8 @@ def test_blender_numeric_suffixes_resolve_to_the_same_shape():
 
 
 def test_published_flame_cards_carry_their_gain():
-    import struct
-    data = (PUBLISHED / "works-v1.glb").read_bytes()
-    length = struct.unpack_from("<I", data, 12)[0]
-    materials = {m["name"]: m for m in json.loads(data[20:20 + length])["materials"]}
+    from .kit_compress import published_gltf
+    materials = {m["name"]: m for m in published_gltf("works-v1", PUBLISHED)["materials"]}
     assert materials["Flames02grant01:0.Mat"]["extras"]["gain"] == 1.6
     assert materials["Glow:2.Mat"]["extras"]["gain"] == 2.5
 

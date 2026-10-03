@@ -111,7 +111,10 @@ function loadSpecies(): { species: KitSpecies; tiers: Record<string, { level: nu
   }
   const farOnly: Tiers = { ...asset.lodTiers };
   delete farOnly.mid;
-  const json = readGlbJson(join(KITS, "flora-province-v1.glb"));
+  // The species' published part (decision 0120).
+  const parts = join(KITS, "flora-province-v1/parts");
+  const index = JSON.parse(readFileSync(join(parts, "index.json"), "utf8")) as { assets: Record<string, { file: string }> };
+  const json = readGlbJson(join(parts, index.assets[ID].file));
   const kit = buildFloraKit(sceneFor(json, ID, (extras) => extras.esTier === "mid"),
     { ...manifest, assets: [{ ...asset, lodTiers: farOnly } as KitManifest["assets"][number]] });
   const species = kit.get(ID);

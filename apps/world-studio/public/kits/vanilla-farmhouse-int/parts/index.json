@@ -1,0 +1,2798 @@
+{
+ "schemaVersion": 4,
+ "kit": "vanilla-farmhouse-int",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 21062756,
+  "sha256": "9256eab286e3684fba49832fdc6252f8e2a87c991d75bfa5efc7acbcea490ced"
+ },
+ "packed": {
+  "bytes": 7021112,
+  "sha256": "c44ff6427e0a01ca72755248b2bd86087a930e5c0015941a7d85fac28b9bb325"
+ },
+ "totals": {
+  "parts": 76,
+  "partBytes": 4962172,
+  "textureFiles": 14,
+  "textureBytes": 3610324,
+  "bytes": 8572496
+ },
+ "assets": {
+  "vanilla:architecture/farmhouse/farmhousedoor01": {
+   "file": "vanilla_architecture_farmhouse_farmhousedoor01-edb792b7.glb",
+   "bytes": 5860,
+   "vertices": 132,
+   "triangles": 204,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 132,
+     "triangles": 204
+    },
+    {
+     "lod": 1,
+     "vertices": 132,
+     "triangles": 204
+    },
+    {
+     "lod": 2,
+     "vertices": 132,
+     "triangles": 204
+    }
+   ],
+   "textures": [
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/farmhouseldoor01": {
+   "file": "vanilla_architecture_farmhouse_farmhouseldoor01-43cc4330.glb",
+   "bytes": 9668,
+   "vertices": 152,
+   "triangles": 214,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 152,
+     "triangles": 214
+    },
+    {
+     "lod": 1,
+     "vertices": 152,
+     "triangles": 214
+    },
+    {
+     "lod": 2,
+     "vertices": 152,
+     "triangles": 214
+    }
+   ],
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbcolumn01": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbcolumn01-7dd8e423.glb",
+   "bytes": 5808,
+   "vertices": 80,
+   "triangles": 96,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 80,
+     "triangles": 96
+    },
+    {
+     "lod": 1,
+     "vertices": 80,
+     "triangles": 96
+    },
+    {
+     "lod": 2,
+     "vertices": 80,
+     "triangles": 96
+    }
+   ],
+   "textures": [
+    "ab2b57bb8d2ac6f9"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbcolumn02": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbcolumn02-e42d207f.glb",
+   "bytes": 5440,
+   "vertices": 52,
+   "triangles": 72,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 52,
+     "triangles": 72
+    },
+    {
+     "lod": 1,
+     "vertices": 52,
+     "triangles": 72
+    },
+    {
+     "lod": 2,
+     "vertices": 52,
+     "triangles": 72
+    }
+   ],
+   "textures": [
+    "ab2b57bb8d2ac6f9"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbcorner01": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbcorner01-ef78e06c.glb",
+   "bytes": 27240,
+   "vertices": 392,
+   "triangles": 462,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 392,
+     "triangles": 462
+    },
+    {
+     "lod": 1,
+     "vertices": 377,
+     "triangles": 438
+    },
+    {
+     "lod": 2,
+     "vertices": 377,
+     "triangles": 438
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbcorner02": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbcorner02-8b7cfa38.glb",
+   "bytes": 27236,
+   "vertices": 392,
+   "triangles": 462,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 392,
+     "triangles": 462
+    },
+    {
+     "lod": 1,
+     "vertices": 377,
+     "triangles": 438
+    },
+    {
+     "lod": 2,
+     "vertices": 377,
+     "triangles": 438
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbcorner03": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbcorner03-bbad21c1.glb",
+   "bytes": 27224,
+   "vertices": 392,
+   "triangles": 462,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 392,
+     "triangles": 462
+    },
+    {
+     "lod": 1,
+     "vertices": 377,
+     "triangles": 438
+    },
+    {
+     "lod": 2,
+     "vertices": 377,
+     "triangles": 438
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbcorner04": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbcorner04-3c0c733f.glb",
+   "bytes": 27232,
+   "vertices": 392,
+   "triangles": 462,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 392,
+     "triangles": 462
+    },
+    {
+     "lod": 1,
+     "vertices": 377,
+     "triangles": 438
+    },
+    {
+     "lod": 2,
+     "vertices": 377,
+     "triangles": 438
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbdivider01": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbdivider01-1c903444.glb",
+   "bytes": 8288,
+   "vertices": 36,
+   "triangles": 24,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 36,
+     "triangles": 24
+    },
+    {
+     "lod": 1,
+     "vertices": 36,
+     "triangles": 24
+    },
+    {
+     "lod": 2,
+     "vertices": 36,
+     "triangles": 24
+    }
+   ],
+   "textures": [
+    "289ab3078ad33017",
+    "ab2b57bb8d2ac6f9"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbdivider02": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbdivider02-ac68365c.glb",
+   "bytes": 9164,
+   "vertices": 112,
+   "triangles": 86,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 112,
+     "triangles": 86
+    },
+    {
+     "lod": 1,
+     "vertices": 112,
+     "triangles": 86
+    },
+    {
+     "lod": 2,
+     "vertices": 112,
+     "triangles": 86
+    }
+   ],
+   "textures": [
+    "289ab3078ad33017",
+    "ab2b57bb8d2ac6f9"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbdivider03": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbdivider03-a6726986.glb",
+   "bytes": 12192,
+   "vertices": 412,
+   "triangles": 276,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 412,
+     "triangles": 276
+    },
+    {
+     "lod": 1,
+     "vertices": 412,
+     "triangles": 276
+    },
+    {
+     "lod": 2,
+     "vertices": 412,
+     "triangles": 276
+    }
+   ],
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbdivider04": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbdivider04-a4437870.glb",
+   "bytes": 12696,
+   "vertices": 496,
+   "triangles": 298,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 496,
+     "triangles": 298
+    },
+    {
+     "lod": 1,
+     "vertices": 496,
+     "triangles": 298
+    },
+    {
+     "lod": 2,
+     "vertices": 496,
+     "triangles": 298
+    }
+   ],
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbicorner01": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbicorner01-15ca5bb9.glb",
+   "bytes": 62100,
+   "vertices": 1524,
+   "triangles": 1858,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1524,
+     "triangles": 1858
+    },
+    {
+     "lod": 1,
+     "vertices": 899,
+     "triangles": 919
+    },
+    {
+     "lod": 2,
+     "vertices": 847,
+     "triangles": 864
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbicorner02": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbicorner02-058454ee.glb",
+   "bytes": 62084,
+   "vertices": 1524,
+   "triangles": 1858,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1524,
+     "triangles": 1858
+    },
+    {
+     "lod": 1,
+     "vertices": 899,
+     "triangles": 919
+    },
+    {
+     "lod": 2,
+     "vertices": 847,
+     "triangles": 864
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbicorner03": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbicorner03-7c6ff883.glb",
+   "bytes": 62072,
+   "vertices": 1524,
+   "triangles": 1858,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1524,
+     "triangles": 1858
+    },
+    {
+     "lod": 1,
+     "vertices": 900,
+     "triangles": 920
+    },
+    {
+     "lod": 2,
+     "vertices": 847,
+     "triangles": 864
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbicorner04": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbicorner04-54229cb1.glb",
+   "bytes": 62056,
+   "vertices": 1524,
+   "triangles": 1858,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1524,
+     "triangles": 1858
+    },
+    {
+     "lod": 1,
+     "vertices": 899,
+     "triangles": 919
+    },
+    {
+     "lod": 2,
+     "vertices": 847,
+     "triangles": 864
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbmiddle01": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbmiddle01-04a7e43e.glb",
+   "bytes": 11772,
+   "vertices": 66,
+   "triangles": 48,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 66,
+     "triangles": 48
+    },
+    {
+     "lod": 1,
+     "vertices": 66,
+     "triangles": 48
+    },
+    {
+     "lod": 2,
+     "vertices": 66,
+     "triangles": 48
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbmiddle02": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbmiddle02-a61057c6.glb",
+   "bytes": 11768,
+   "vertices": 66,
+   "triangles": 48,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 66,
+     "triangles": 48
+    },
+    {
+     "lod": 1,
+     "vertices": 66,
+     "triangles": 48
+    },
+    {
+     "lod": 2,
+     "vertices": 66,
+     "triangles": 48
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor01": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbtrapdoor01-cb6f4b3e.glb",
+   "bytes": 36568,
+   "vertices": 925,
+   "triangles": 1222,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 925,
+     "triangles": 1222
+    },
+    {
+     "lod": 1,
+     "vertices": 545,
+     "triangles": 560
+    },
+    {
+     "lod": 2,
+     "vertices": 504,
+     "triangles": 503
+    }
+   ],
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbtrapdoor02-74a4522b.glb",
+   "bytes": 10308,
+   "vertices": 176,
+   "triangles": 230,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 176,
+     "triangles": 230
+    },
+    {
+     "lod": 1,
+     "vertices": 176,
+     "triangles": 230
+    },
+    {
+     "lod": 2,
+     "vertices": 176,
+     "triangles": 230
+    }
+   ],
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwall01": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbwall01-473ef24d.glb",
+   "bytes": 33004,
+   "vertices": 616,
+   "triangles": 744,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 616,
+     "triangles": 744
+    },
+    {
+     "lod": 1,
+     "vertices": 564,
+     "triangles": 671
+    },
+    {
+     "lod": 2,
+     "vertices": 564,
+     "triangles": 671
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwall02": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbwall02-74c22fbb.glb",
+   "bytes": 32892,
+   "vertices": 616,
+   "triangles": 744,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 616,
+     "triangles": 744
+    },
+    {
+     "lod": 1,
+     "vertices": 564,
+     "triangles": 671
+    },
+    {
+     "lod": 2,
+     "vertices": 564,
+     "triangles": 671
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwall03": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbwall03-5791023d.glb",
+   "bytes": 32988,
+   "vertices": 616,
+   "triangles": 744,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 616,
+     "triangles": 744
+    },
+    {
+     "lod": 1,
+     "vertices": 564,
+     "triangles": 671
+    },
+    {
+     "lod": 2,
+     "vertices": 564,
+     "triangles": 671
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwall04": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbwall04-7c35129e.glb",
+   "bytes": 32888,
+   "vertices": 616,
+   "triangles": 744,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 616,
+     "triangles": 744
+    },
+    {
+     "lod": 1,
+     "vertices": 564,
+     "triangles": 671
+    },
+    {
+     "lod": 2,
+     "vertices": 564,
+     "triangles": 671
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance01": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbwallentrance01-c5c07982.glb",
+   "bytes": 42584,
+   "vertices": 902,
+   "triangles": 1038,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 902,
+     "triangles": 1038
+    },
+    {
+     "lod": 1,
+     "vertices": 660,
+     "triangles": 721
+    },
+    {
+     "lod": 2,
+     "vertices": 660,
+     "triangles": 721
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance02": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbwallentrance02-4d1e6592.glb",
+   "bytes": 42540,
+   "vertices": 902,
+   "triangles": 1038,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 902,
+     "triangles": 1038
+    },
+    {
+     "lod": 1,
+     "vertices": 660,
+     "triangles": 721
+    },
+    {
+     "lod": 2,
+     "vertices": 660,
+     "triangles": 721
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance03": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbwallentrance03-e51ebcf7.glb",
+   "bytes": 42536,
+   "vertices": 902,
+   "triangles": 1038,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 902,
+     "triangles": 1038
+    },
+    {
+     "lod": 1,
+     "vertices": 660,
+     "triangles": 721
+    },
+    {
+     "lod": 2,
+     "vertices": 660,
+     "triangles": 721
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance04": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbwallentrance04-c8d3a05e.glb",
+   "bytes": 42616,
+   "vertices": 902,
+   "triangles": 1038,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 902,
+     "triangles": 1038
+    },
+    {
+     "lod": 1,
+     "vertices": 660,
+     "triangles": 721
+    },
+    {
+     "lod": 2,
+     "vertices": 660,
+     "triangles": 721
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance05": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbwallentrance05-4260a910.glb",
+   "bytes": 58216,
+   "vertices": 1485,
+   "triangles": 1455,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1485,
+     "triangles": 1455
+    },
+    {
+     "lod": 1,
+     "vertices": 1016,
+     "triangles": 867
+    },
+    {
+     "lod": 2,
+     "vertices": 1002,
+     "triangles": 850
+    }
+   ],
+   "textures": [
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwalltrapdoor01": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbwalltrapdoor01-b5467cd2.glb",
+   "bytes": 36956,
+   "vertices": 818,
+   "triangles": 964,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 818,
+     "triangles": 964
+    },
+    {
+     "lod": 1,
+     "vertices": 710,
+     "triangles": 807
+    },
+    {
+     "lod": 2,
+     "vertices": 710,
+     "triangles": 807
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwell01": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbwell01-197a2e5e.glb",
+   "bytes": 139784,
+   "vertices": 4243,
+   "triangles": 4915,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4243,
+     "triangles": 4915
+    },
+    {
+     "lod": 1,
+     "vertices": 2556,
+     "triangles": 2399
+    },
+    {
+     "lod": 2,
+     "vertices": 2280,
+     "triangles": 2057
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "beec97932e0d336f",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwellent01": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmbwellent01-e1730772.glb",
+   "bytes": 38328,
+   "vertices": 893,
+   "triangles": 1035,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 893,
+     "triangles": 1035
+    },
+    {
+     "lod": 1,
+     "vertices": 656,
+     "triangles": 723
+    },
+    {
+     "lod": 2,
+     "vertices": 656,
+     "triangles": 723
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmhousejaildoor01": {
+   "file": "vanilla_architecture_farmhouse_interior_basement_farmhousejaildoor01-b8555a10.glb",
+   "bytes": 15088,
+   "vertices": 464,
+   "triangles": 528,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 464,
+     "triangles": 528
+    },
+    {
+     "lod": 1,
+     "vertices": 341,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 341,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2basementent01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmint2basementent01-63991b7a.glb",
+   "bytes": 103428,
+   "vertices": 3043,
+   "triangles": 3214,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3043,
+     "triangles": 3214
+    },
+    {
+     "lod": 1,
+     "vertices": 1820,
+     "triangles": 1560
+    },
+    {
+     "lod": 2,
+     "vertices": 1357,
+     "triangles": 1119
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2doorway02nodoor": {
+   "file": "vanilla_architecture_farmhouse_interior_farmint2doorway02nodoor-7241a5e8.glb",
+   "bytes": 97364,
+   "vertices": 2625,
+   "triangles": 3140,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2625,
+     "triangles": 3140
+    },
+    {
+     "lod": 1,
+     "vertices": 1458,
+     "triangles": 1422
+    },
+    {
+     "lod": 2,
+     "vertices": 1345,
+     "triangles": 1299
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "bf54764d1816fe0a",
+    "c2a94c30dc62a274",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2doorway03": {
+   "file": "vanilla_architecture_farmhouse_interior_farmint2doorway03-135f1c26.glb",
+   "bytes": 102440,
+   "vertices": 2617,
+   "triangles": 3206,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2617,
+     "triangles": 3206
+    },
+    {
+     "lod": 1,
+     "vertices": 1524,
+     "triangles": 1536
+    },
+    {
+     "lod": 2,
+     "vertices": 1320,
+     "triangles": 1321
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "bf54764d1816fe0a",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2doorway04": {
+   "file": "vanilla_architecture_farmhouse_interior_farmint2doorway04-fea626da.glb",
+   "bytes": 77536,
+   "vertices": 1749,
+   "triangles": 2070,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1749,
+     "triangles": 2070
+    },
+    {
+     "lod": 1,
+     "vertices": 1033,
+     "triangles": 1001
+    },
+    {
+     "lod": 2,
+     "vertices": 916,
+     "triangles": 874
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2end01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmint2end01-0a177b51.glb",
+   "bytes": 141968,
+   "vertices": 4035,
+   "triangles": 4820,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4035,
+     "triangles": 4820
+    },
+    {
+     "lod": 1,
+     "vertices": 2367,
+     "triangles": 2199
+    },
+    {
+     "lod": 2,
+     "vertices": 1624,
+     "triangles": 1446
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "97d57c3e2fb1241b",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "afde1885c83ac831",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2end02": {
+   "file": "vanilla_architecture_farmhouse_interior_farmint2end02-6238e2d9.glb",
+   "bytes": 116268,
+   "vertices": 2901,
+   "triangles": 3424,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2901,
+     "triangles": 3424
+    },
+    {
+     "lod": 1,
+     "vertices": 1719,
+     "triangles": 1639
+    },
+    {
+     "lod": 2,
+     "vertices": 1375,
+     "triangles": 1279
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "97d57c3e2fb1241b",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "afde1885c83ac831",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2end03": {
+   "file": "vanilla_architecture_farmhouse_interior_farmint2end03-a3737ae5.glb",
+   "bytes": 134768,
+   "vertices": 3850,
+   "triangles": 4551,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3850,
+     "triangles": 4551
+    },
+    {
+     "lod": 1,
+     "vertices": 2326,
+     "triangles": 2183
+    },
+    {
+     "lod": 2,
+     "vertices": 1676,
+     "triangles": 1519
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "97d57c3e2fb1241b",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "afde1885c83ac831",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2hearth02": {
+   "file": "vanilla_architecture_farmhouse_interior_farmint2hearth02-b7377ec7.glb",
+   "bytes": 88096,
+   "vertices": 2180,
+   "triangles": 2805,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2180,
+     "triangles": 2805
+    },
+    {
+     "lod": 1,
+     "vertices": 1332,
+     "triangles": 1437
+    },
+    {
+     "lod": 2,
+     "vertices": 1263,
+     "triangles": 1360
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "bf54764d1816fe0a",
+    "c2a94c30dc62a274",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2wall01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmint2wall01-3d8f06d7.glb",
+   "bytes": 68744,
+   "vertices": 1537,
+   "triangles": 1872,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1537,
+     "triangles": 1872
+    },
+    {
+     "lod": 1,
+     "vertices": 918,
+     "triangles": 920
+    },
+    {
+     "lod": 2,
+     "vertices": 862,
+     "triangles": 856
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintcorner01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintcorner01-e362a5b5.glb",
+   "bytes": 152076,
+   "vertices": 5117,
+   "triangles": 6562,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5117,
+     "triangles": 6562
+    },
+    {
+     "lod": 1,
+     "vertices": 2702,
+     "triangles": 2766
+    },
+    {
+     "lod": 2,
+     "vertices": 1679,
+     "triangles": 1502
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintdoorway01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintdoorway01-22406df1.glb",
+   "bytes": 65120,
+   "vertices": 1526,
+   "triangles": 1862,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1526,
+     "triangles": 1862
+    },
+    {
+     "lod": 1,
+     "vertices": 904,
+     "triangles": 925
+    },
+    {
+     "lod": 2,
+     "vertices": 856,
+     "triangles": 870
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c664e8814422b515",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintend01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintend01-a07cce4b.glb",
+   "bytes": 98784,
+   "vertices": 2303,
+   "triangles": 2780,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2303,
+     "triangles": 2780
+    },
+    {
+     "lod": 1,
+     "vertices": 1388,
+     "triangles": 1376
+    },
+    {
+     "lod": 2,
+     "vertices": 1261,
+     "triangles": 1223
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "97d57c3e2fb1241b",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "afde1885c83ac831",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintend02": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintend02-57924e2a.glb",
+   "bytes": 103080,
+   "vertices": 2458,
+   "triangles": 3020,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2458,
+     "triangles": 3020
+    },
+    {
+     "lod": 1,
+     "vertices": 1458,
+     "triangles": 1460
+    },
+    {
+     "lod": 2,
+     "vertices": 1254,
+     "triangles": 1223
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "97d57c3e2fb1241b",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "afde1885c83ac831",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintend03": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintend03-7d2a1794.glb",
+   "bytes": 103200,
+   "vertices": 2469,
+   "triangles": 3020,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2469,
+     "triangles": 3020
+    },
+    {
+     "lod": 1,
+     "vertices": 1469,
+     "triangles": 1460
+    },
+    {
+     "lod": 2,
+     "vertices": 1265,
+     "triangles": 1223
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "97d57c3e2fb1241b",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "afde1885c83ac831",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintinnend01-889ad1a2.glb",
+   "bytes": 127828,
+   "vertices": 3935,
+   "triangles": 4530,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3935,
+     "triangles": 4530
+    },
+    {
+     "lod": 1,
+     "vertices": 2157,
+     "triangles": 1946
+    },
+    {
+     "lod": 2,
+     "vertices": 1397,
+     "triangles": 1194
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend02": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintinnend02-47407181.glb",
+   "bytes": 117288,
+   "vertices": 3517,
+   "triangles": 4046,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3517,
+     "triangles": 4046
+    },
+    {
+     "lod": 1,
+     "vertices": 1938,
+     "triangles": 1765
+    },
+    {
+     "lod": 2,
+     "vertices": 1302,
+     "triangles": 1140
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend03": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintinnend03-d5d9972d.glb",
+   "bytes": 139380,
+   "vertices": 4166,
+   "triangles": 4829,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4166,
+     "triangles": 4829
+    },
+    {
+     "lod": 1,
+     "vertices": 2375,
+     "triangles": 2122
+    },
+    {
+     "lod": 2,
+     "vertices": 1506,
+     "triangles": 1323
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend04": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintinnend04-d8d553e9.glb",
+   "bytes": 126384,
+   "vertices": 3780,
+   "triangles": 4446,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3780,
+     "triangles": 4446
+    },
+    {
+     "lod": 1,
+     "vertices": 2178,
+     "triangles": 1996
+    },
+    {
+     "lod": 2,
+     "vertices": 1446,
+     "triangles": 1279
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend05": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintinnend05-082bb49c.glb",
+   "bytes": 140068,
+   "vertices": 4507,
+   "triangles": 4991,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4507,
+     "triangles": 4991
+    },
+    {
+     "lod": 1,
+     "vertices": 2560,
+     "triangles": 2153
+    },
+    {
+     "lod": 2,
+     "vertices": 1687,
+     "triangles": 1313
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend06": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintinnend06-f87b7eea.glb",
+   "bytes": 133824,
+   "vertices": 3850,
+   "triangles": 4505,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3850,
+     "triangles": 4505
+    },
+    {
+     "lod": 1,
+     "vertices": 2219,
+     "triangles": 2014
+    },
+    {
+     "lod": 2,
+     "vertices": 1461,
+     "triangles": 1285
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnwall01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintinnwall01-70005fcb.glb",
+   "bytes": 72836,
+   "vertices": 1678,
+   "triangles": 1986,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1678,
+     "triangles": 1986
+    },
+    {
+     "lod": 1,
+     "vertices": 989,
+     "triangles": 957
+    },
+    {
+     "lod": 2,
+     "vertices": 896,
+     "triangles": 852
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnwallentrance01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintinnwallentrance01-4cfead4f.glb",
+   "bytes": 82416,
+   "vertices": 1916,
+   "triangles": 2203,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1916,
+     "triangles": 2203
+    },
+    {
+     "lod": 1,
+     "vertices": 1124,
+     "triangles": 1045
+    },
+    {
+     "lod": 2,
+     "vertices": 950,
+     "triangles": 871
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhback01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintlhback01-41aad75e.glb",
+   "bytes": 201748,
+   "vertices": 7035,
+   "triangles": 8052,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 7035,
+     "triangles": 8052
+    },
+    {
+     "lod": 1,
+     "vertices": 3749,
+     "triangles": 3345
+    },
+    {
+     "lod": 2,
+     "vertices": 2316,
+     "triangles": 1746
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhbase01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintlhbase01-6c1ff81e.glb",
+   "bytes": 11016,
+   "vertices": 176,
+   "triangles": 150,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 176,
+     "triangles": 150
+    },
+    {
+     "lod": 1,
+     "vertices": 176,
+     "triangles": 150
+    },
+    {
+     "lod": 2,
+     "vertices": 176,
+     "triangles": 150
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "beec97932e0d336f"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhbase02": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintlhbase02-a5122193.glb",
+   "bytes": 9336,
+   "vertices": 96,
+   "triangles": 86,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 96,
+     "triangles": 86
+    },
+    {
+     "lod": 1,
+     "vertices": 96,
+     "triangles": 86
+    },
+    {
+     "lod": 2,
+     "vertices": 96,
+     "triangles": 86
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "beec97932e0d336f"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhend01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintlhend01-5aaf8ba1.glb",
+   "bytes": 116128,
+   "vertices": 3534,
+   "triangles": 4088,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3534,
+     "triangles": 4088
+    },
+    {
+     "lod": 1,
+     "vertices": 1928,
+     "triangles": 1780
+    },
+    {
+     "lod": 2,
+     "vertices": 1300,
+     "triangles": 1140
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhend02": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintlhend02-90c5a5f2.glb",
+   "bytes": 126544,
+   "vertices": 3946,
+   "triangles": 4568,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3946,
+     "triangles": 4568
+    },
+    {
+     "lod": 1,
+     "vertices": 2146,
+     "triangles": 1959
+    },
+    {
+     "lod": 2,
+     "vertices": 1401,
+     "triangles": 1199
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhfirepit01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintlhfirepit01-704aef3f.glb",
+   "bytes": 31420,
+   "vertices": 653,
+   "triangles": 880,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 653,
+     "triangles": 880
+    },
+    {
+     "lod": 1,
+     "vertices": 538,
+     "triangles": 652
+    },
+    {
+     "lod": 2,
+     "vertices": 538,
+     "triangles": 652
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "beec97932e0d336f",
+    "bf54764d1816fe0a"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhfirepit02": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintlhfirepit02-1ae6f860.glb",
+   "bytes": 24252,
+   "vertices": 548,
+   "triangles": 360,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 548,
+     "triangles": 360
+    },
+    {
+     "lod": 1,
+     "vertices": 548,
+     "triangles": 360
+    },
+    {
+     "lod": 2,
+     "vertices": 548,
+     "triangles": 360
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "beec97932e0d336f",
+    "bf54764d1816fe0a"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhfirepit03": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintlhfirepit03-7798ead1.glb",
+   "bytes": 68492,
+   "vertices": 1832,
+   "triangles": 1968,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1832,
+     "triangles": 1968
+    },
+    {
+     "lod": 1,
+     "vertices": 1157,
+     "triangles": 961
+    },
+    {
+     "lod": 2,
+     "vertices": 1155,
+     "triangles": 959
+    }
+   ],
+   "textures": [
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "beec97932e0d336f",
+    "bf54764d1816fe0a",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhfront01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintlhfront01-25c6c40a.glb",
+   "bytes": 197720,
+   "vertices": 6687,
+   "triangles": 7428,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 6687,
+     "triangles": 7428
+    },
+    {
+     "lod": 1,
+     "vertices": 3715,
+     "triangles": 3203
+    },
+    {
+     "lod": 2,
+     "vertices": 2404,
+     "triangles": 1835
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhloft01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintlhloft01-7e378d96.glb",
+   "bytes": 60492,
+   "vertices": 1849,
+   "triangles": 2198,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1849,
+     "triangles": 2198
+    },
+    {
+     "lod": 1,
+     "vertices": 1029,
+     "triangles": 826
+    },
+    {
+     "lod": 2,
+     "vertices": 632,
+     "triangles": 388
+    }
+   ],
+   "textures": [
+    "289ab3078ad33017",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhloft02": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintlhloft02-78116eae.glb",
+   "bytes": 60724,
+   "vertices": 1849,
+   "triangles": 2198,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1849,
+     "triangles": 2198
+    },
+    {
+     "lod": 1,
+     "vertices": 1029,
+     "triangles": 826
+    },
+    {
+     "lod": 2,
+     "vertices": 634,
+     "triangles": 388
+    }
+   ],
+   "textures": [
+    "289ab3078ad33017",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhlofttop01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintlhlofttop01-2711ca0c.glb",
+   "bytes": 10848,
+   "vertices": 240,
+   "triangles": 196,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 240,
+     "triangles": 196
+    },
+    {
+     "lod": 1,
+     "vertices": 240,
+     "triangles": 196
+    },
+    {
+     "lod": 2,
+     "vertices": 240,
+     "triangles": 196
+    }
+   ],
+   "textures": [
+    "289ab3078ad33017",
+    "ab2b57bb8d2ac6f9"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhmid01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintlhmid01-7caa46f3.glb",
+   "bytes": 74080,
+   "vertices": 1740,
+   "triangles": 2046,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1740,
+     "triangles": 2046
+    },
+    {
+     "lod": 1,
+     "vertices": 1024,
+     "triangles": 982
+    },
+    {
+     "lod": 2,
+     "vertices": 912,
+     "triangles": 858
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwall01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintwall01-97f52cd4.glb",
+   "bytes": 47920,
+   "vertices": 1233,
+   "triangles": 1568,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1233,
+     "triangles": 1568
+    },
+    {
+     "lod": 1,
+     "vertices": 775,
+     "triangles": 820
+    },
+    {
+     "lod": 2,
+     "vertices": 775,
+     "triangles": 820
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwallhearth01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintwallhearth01-0e2f64aa.glb",
+   "bytes": 87788,
+   "vertices": 2172,
+   "triangles": 2884,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2172,
+     "triangles": 2884
+    },
+    {
+     "lod": 1,
+     "vertices": 1176,
+     "triangles": 1293
+    },
+    {
+     "lod": 2,
+     "vertices": 1135,
+     "triangles": 1251
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "bf54764d1816fe0a",
+    "c2a94c30dc62a274",
+    "c664e8814422b515"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwallhearth02": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintwallhearth02-0e19ba37.glb",
+   "bytes": 98528,
+   "vertices": 2463,
+   "triangles": 3178,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2463,
+     "triangles": 3178
+    },
+    {
+     "lod": 1,
+     "vertices": 1307,
+     "triangles": 1394
+    },
+    {
+     "lod": 2,
+     "vertices": 1196,
+     "triangles": 1267
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "bf54764d1816fe0a",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwbasementent01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintwbasementent01-f20c3052.glb",
+   "bytes": 57808,
+   "vertices": 1267,
+   "triangles": 1148,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1267,
+     "triangles": 1148
+    },
+    {
+     "lod": 1,
+     "vertices": 800,
+     "triangles": 546
+    },
+    {
+     "lod": 2,
+     "vertices": 777,
+     "triangles": 523
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwooddoorway01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintwooddoorway01-6f9975eb.glb",
+   "bytes": 61148,
+   "vertices": 1204,
+   "triangles": 1541,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1204,
+     "triangles": 1541
+    },
+    {
+     "lod": 1,
+     "vertices": 904,
+     "triangles": 1003
+    },
+    {
+     "lod": 2,
+     "vertices": 904,
+     "triangles": 1003
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "2cd52ea7dca5f933",
+    "717c4c0b5888f777",
+    "ab2b57bb8d2ac6f9",
+    "bf54764d1816fe0a",
+    "c2a94c30dc62a274",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwoodend01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintwoodend01-4114e157.glb",
+   "bytes": 54032,
+   "vertices": 1097,
+   "triangles": 1252,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1097,
+     "triangles": 1252
+    },
+    {
+     "lod": 1,
+     "vertices": 832,
+     "triangles": 805
+    },
+    {
+     "lod": 2,
+     "vertices": 832,
+     "triangles": 805
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwoodend02": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintwoodend02-9e3606b1.glb",
+   "bytes": 55200,
+   "vertices": 1169,
+   "triangles": 1332,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1169,
+     "triangles": 1332
+    },
+    {
+     "lod": 1,
+     "vertices": 840,
+     "triangles": 805
+    },
+    {
+     "lod": 2,
+     "vertices": 840,
+     "triangles": 805
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwoodwall01": {
+   "file": "vanilla_architecture_farmhouse_interior_farmintwoodwall01-cc554c0c.glb",
+   "bytes": 26856,
+   "vertices": 349,
+   "triangles": 410,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 349,
+     "triangles": 410
+    },
+    {
+     "lod": 1,
+     "vertices": 327,
+     "triangles": 376
+    },
+    {
+     "lod": 2,
+     "vertices": 327,
+     "triangles": 376
+    }
+   ],
+   "textures": [
+    "07db43355fb0ebea",
+    "289ab3078ad33017",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274"
+   ]
+  }
+ },
+ "fires": {
+  "vanilla:architecture/farmhouse/interior/farmint2end01": {
+   "id": "vanilla:architecture/farmhouse/interior/farmint2end01",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    6.155,
+    10.924,
+    14.588
+   ],
+   "originOffsetM": [
+    4.335,
+    5.462,
+    0.023
+   ],
+   "emissiveMaterials": [
+    "FarmInt2End01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmInt2End01:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2end02": {
+   "id": "vanilla:architecture/farmhouse/interior/farmint2end02",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    6.429,
+    10.924,
+    14.565
+   ],
+   "originOffsetM": [
+    2.094,
+    5.462,
+    0
+   ],
+   "emissiveMaterials": [
+    "FarmInt2End02:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmInt2End02:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2end03": {
+   "id": "vanilla:architecture/farmhouse/interior/farmint2end03",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    6.155,
+    10.924,
+    14.588
+   ],
+   "originOffsetM": [
+    4.335,
+    5.462,
+    0.023
+   ],
+   "emissiveMaterials": [
+    "FarmInt2End03:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmInt2End03:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintend01": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintend01",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    6.155,
+    10.924,
+    10.924
+   ],
+   "originOffsetM": [
+    0.693,
+    5.462,
+    0
+   ],
+   "emissiveMaterials": [
+    "FarmIntEnd01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntEnd01:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintend02": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintend02",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    6.429,
+    10.924,
+    10.924
+   ],
+   "originOffsetM": [
+    5.735,
+    5.462,
+    0
+   ],
+   "emissiveMaterials": [
+    "FarmIntEnd02:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntEnd02:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintend03": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintend03",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    10.924,
+    6.429,
+    10.924
+   ],
+   "originOffsetM": [
+    5.462,
+    0.693,
+    0
+   ],
+   "emissiveMaterials": [
+    "FarmIntEnd03:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntEnd03:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend01": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintinnend01",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    7.326,
+    13.996,
+    11.891
+   ],
+   "originOffsetM": [
+    3.969,
+    6.998,
+    0.028
+   ],
+   "emissiveMaterials": [
+    "FarmIntInnEnd01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnEnd01:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend02": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintinnend02",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    6.998,
+    13.996,
+    11.891
+   ],
+   "originOffsetM": [
+    3.357,
+    6.998,
+    0.028
+   ],
+   "emissiveMaterials": [
+    "FarmIntInnEnd02:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnEnd02:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend03": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintinnend03",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    10.924,
+    13.456,
+    12.403
+   ],
+   "originOffsetM": [
+    5.462,
+    13.456,
+    0.541
+   ],
+   "emissiveMaterials": [
+    "FarmIntInnEnd03:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnEnd03:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend04": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintinnend04",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    10.924,
+    13.456,
+    12.403
+   ],
+   "originOffsetM": [
+    5.462,
+    0,
+    0.541
+   ],
+   "emissiveMaterials": [
+    "FarmIntInnEnd04:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnEnd04:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend05": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintinnend05",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    6.998,
+    13.996,
+    15.305
+   ],
+   "originOffsetM": [
+    3.357,
+    6.998,
+    3.442
+   ],
+   "emissiveMaterials": [
+    "FarmIntInnEnd05:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnEnd05:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend06": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintinnend06",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    10.924,
+    13.456,
+    12.403
+   ],
+   "originOffsetM": [
+    5.462,
+    0,
+    0.541
+   ],
+   "emissiveMaterials": [
+    "FarmIntInnEnd06:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnEnd06:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnwall01": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintinnwall01",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    3.969,
+    12.15,
+    11.891
+   ],
+   "originOffsetM": [
+    2.148,
+    5.999,
+    0.028
+   ],
+   "emissiveMaterials": [
+    "FarmIntInnWall01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnWall01:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnwallentrance01": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintinnwallentrance01",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    3.969,
+    14.281,
+    11.891
+   ],
+   "originOffsetM": [
+    2.148,
+    7.283,
+    0.028
+   ],
+   "emissiveMaterials": [
+    "FarmIntInnWallEntrance01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntInnWallEntrance01:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhback01": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintlhback01",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    11.483,
+    11.155,
+    12.944
+   ],
+   "originOffsetM": [
+    5.79,
+    5.462,
+    0.028
+   ],
+   "emissiveMaterials": [
+    "FarmIntLHBack01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntLHBack01:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhend01": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintlhend01",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    5.846,
+    11.386,
+    12.802
+   ],
+   "originOffsetM": [
+    4.025,
+    5.693,
+    0.028
+   ],
+   "emissiveMaterials": [
+    "FarmIntLHEnd01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntLHEnd01:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhend02": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintlhend02",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    6.174,
+    11.386,
+    12.802
+   ],
+   "originOffsetM": [
+    2.148,
+    5.693,
+    0.028
+   ],
+   "emissiveMaterials": [
+    "FarmIntLHEnd02:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntLHEnd02:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhfront01": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintlhfront01",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    11.483,
+    14.565,
+    12.944
+   ],
+   "originOffsetM": [
+    5.79,
+    9.103,
+    0.028
+   ],
+   "emissiveMaterials": [
+    "FarmIntLHFront01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntLHFront01:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhmid01": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintlhmid01",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    3.969,
+    11.386,
+    12.802
+   ],
+   "originOffsetM": [
+    2.148,
+    5.693,
+    0.028
+   ],
+   "emissiveMaterials": [
+    "FarmIntLHMid01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntLHMid01:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwoodend01": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintwoodend01",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    3.898,
+    10.924,
+    11.692
+   ],
+   "originOffsetM": [
+    2.077,
+    5.462,
+    -2.873
+   ],
+   "emissiveMaterials": [
+    "FarmIntWoodEnd01:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntWoodEnd01:14.Mat"
+   ]
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwoodend02": {
+   "id": "vanilla:architecture/farmhouse/interior/farmintwoodend02",
+   "category": "architecture",
+   "anchorClass": "ground",
+   "sizeM": [
+    4.133,
+    10.924,
+    11.692
+   ],
+   "originOffsetM": [
+    2.055,
+    5.462,
+    -2.873
+   ],
+   "emissiveMaterials": [
+    "FarmIntWoodEnd02:14.Mat"
+   ],
+   "windowMaterials": [
+    "FarmIntWoodEnd02:14.Mat"
+   ]
+  }
+ }
+}

@@ -60,7 +60,7 @@ export interface WaterAssets {
   /** The vanilla waterfall FX textures (kit `waterfall-fx-textures`), by
    * shader slot; absent or null slots keep the procedural streak field. */
   waterfallTextures?: WaterfallTextureSet;
-  /** The vanilla waterfall FX kit geometry (`waterfall-fx-v1.glb`, decision
+  /** The vanilla waterfall FX kit geometry (kit `waterfall-fx-v1`, decision
    * 0064), parsed by piece; null/absent = falls are not drawn (ramps still are). */
   waterfallKit?: WaterfallKit | null;
 }

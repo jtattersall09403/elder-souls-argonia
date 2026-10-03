@@ -1,18 +1,21 @@
 {
- "schemaVersion": 3,
+ "schemaVersion": 4,
  "kit": "interior-farmhouse-v1",
- "exterior": false,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
+  "bytes": 80787716,
+  "sha256": "51c73124bbea15b19647ac91f54711dbbddefbc45564ac6c500d0eafcc609b70"
+ },
+ "packed": {
   "bytes": 16550908,
   "sha256": "15a2b663373f5bf0f9156379c589a65509f6ecd1f20fa5da92a210fa01f062b9"
  },
  "totals": {
-  "parts": 61,
-  "partBytes": 1483492,
-  "textureFiles": 55,
-  "textureBytes": 2954379,
-  "bytes": 4437871
+  "parts": 307,
+  "partBytes": 6322560,
+  "textureFiles": 244,
+  "textureBytes": 12103244,
+  "bytes": 18425804
  },
  "assets": {
   "vanilla:architecture/farmhouse/farmhouseldoor01": {
@@ -175,6 +178,110 @@
     "bf36fb70a1b239c2"
    ]
   },
+  "vanilla:clutter/banners/genericbannerred01": {
+   "file": "vanilla_clutter_banners_genericbannerred01-eada9eb5.glb",
+   "bytes": 4888,
+   "vertices": 35,
+   "triangles": 48,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 35,
+     "triangles": 48
+    },
+    {
+     "lod": 1,
+     "vertices": 35,
+     "triangles": 48
+    },
+    {
+     "lod": 2,
+     "vertices": 35,
+     "triangles": 48
+    }
+   ],
+   "textures": [
+    "001fdaaebb88336e"
+   ]
+  },
+  "vanilla:clutter/barset/barleft01": {
+   "file": "vanilla_clutter_barset_barleft01-4c770ad7.glb",
+   "bytes": 7276,
+   "vertices": 219,
+   "triangles": 153,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 219,
+     "triangles": 153
+    },
+    {
+     "lod": 1,
+     "vertices": 219,
+     "triangles": 153
+    },
+    {
+     "lod": 2,
+     "vertices": 219,
+     "triangles": 153
+    }
+   ],
+   "textures": [
+    "93cf685841f9c876"
+   ]
+  },
+  "vanilla:clutter/barset/barright01": {
+   "file": "vanilla_clutter_barset_barright01-0366d9d3.glb",
+   "bytes": 7260,
+   "vertices": 211,
+   "triangles": 153,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 211,
+     "triangles": 153
+    },
+    {
+     "lod": 1,
+     "vertices": 211,
+     "triangles": 153
+    },
+    {
+     "lod": 2,
+     "vertices": 211,
+     "triangles": 153
+    }
+   ],
+   "textures": [
+    "93cf685841f9c876"
+   ]
+  },
+  "vanilla:clutter/barset/barstraight01": {
+   "file": "vanilla_clutter_barset_barstraight01-73e06dcc.glb",
+   "bytes": 5352,
+   "vertices": 85,
+   "triangles": 54,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 85,
+     "triangles": 54
+    },
+    {
+     "lod": 1,
+     "vertices": 85,
+     "triangles": 54
+    },
+    {
+     "lod": 2,
+     "vertices": 85,
+     "triangles": 54
+    }
+   ],
+   "textures": [
+    "93cf685841f9c876"
+   ]
+  },
   "vanilla:clutter/basket02": {
    "file": "vanilla_clutter_basket02-79d437fb.glb",
    "bytes": 14700,
@@ -227,6 +334,32 @@
     "2718a8e21a49f4e9"
    ]
   },
+  "vanilla:clutter/blacksmith/blacksmithnovicehammer01": {
+   "file": "vanilla_clutter_blacksmith_blacksmithnovicehammer01-54a7512c.glb",
+   "bytes": 5888,
+   "vertices": 134,
+   "triangles": 102,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 134,
+     "triangles": 102
+    },
+    {
+     "lod": 1,
+     "vertices": 134,
+     "triangles": 102
+    },
+    {
+     "lod": 2,
+     "vertices": 134,
+     "triangles": 102
+    }
+   ],
+   "textures": [
+    "807d06e1d4aa827d"
+   ]
+  },
   "vanilla:clutter/bones/deerskullhornsstatic": {
    "file": "vanilla_clutter_bones_deerskullhornsstatic-9da814dc.glb",
    "bytes": 16952,
@@ -251,6 +384,84 @@
    ],
    "textures": [
     "fdc016bbad37bfad"
+   ]
+  },
+  "vanilla:clutter/bones/deerskullprop": {
+   "file": "vanilla_clutter_bones_deerskullprop-6f049eeb.glb",
+   "bytes": 12584,
+   "vertices": 247,
+   "triangles": 438,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 247,
+     "triangles": 438
+    },
+    {
+     "lod": 1,
+     "vertices": 175,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 175,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "fdc016bbad37bfad"
+   ]
+  },
+  "vanilla:clutter/bones/humanskullfull": {
+   "file": "vanilla_clutter_bones_humanskullfull-7b866bff.glb",
+   "bytes": 27600,
+   "vertices": 703,
+   "triangles": 1124,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 703,
+     "triangles": 1124
+    },
+    {
+     "lod": 1,
+     "vertices": 411,
+     "triangles": 600
+    },
+    {
+     "lod": 2,
+     "vertices": 411,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "53910dd5f4a481f0"
+   ]
+  },
+  "vanilla:clutter/bones/mountedantlers": {
+   "file": "vanilla_clutter_bones_mountedantlers-2a9a5803.glb",
+   "bytes": 35300,
+   "vertices": 1040,
+   "triangles": 1448,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1040,
+     "triangles": 1448
+    },
+    {
+     "lod": 1,
+     "vertices": 472,
+     "triangles": 506
+    },
+    {
+     "lod": 2,
+     "vertices": 306,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "f08b4095a43e42c2"
    ]
   },
   "vanilla:clutter/books/basicbook03a": {
@@ -278,6 +489,440 @@
    "textures": [
     "7a482ec28ce30f59",
     "9f2e0fca2754ba45"
+   ]
+  },
+  "vanilla:clutter/books/basicbook05": {
+   "file": "vanilla_clutter_books_basicbook05-4c9f3aa5.glb",
+   "bytes": 21932,
+   "vertices": 685,
+   "triangles": 538,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 685,
+     "triangles": 538
+    },
+    {
+     "lod": 1,
+     "vertices": 685,
+     "triangles": 538
+    },
+    {
+     "lod": 2,
+     "vertices": 685,
+     "triangles": 538
+    }
+   ],
+   "textures": [
+    "9f2e0fca2754ba45",
+    "d307f8a8e9ef2008"
+   ]
+  },
+  "vanilla:clutter/books/basicbook05a": {
+   "file": "vanilla_clutter_books_basicbook05a-4ae20836.glb",
+   "bytes": 22324,
+   "vertices": 685,
+   "triangles": 538,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 685,
+     "triangles": 538
+    },
+    {
+     "lod": 1,
+     "vertices": 685,
+     "triangles": 538
+    },
+    {
+     "lod": 2,
+     "vertices": 685,
+     "triangles": 538
+    }
+   ],
+   "textures": [
+    "9f2e0fca2754ba45",
+    "d307f8a8e9ef2008"
+   ]
+  },
+  "vanilla:clutter/books/basicbook06a": {
+   "file": "vanilla_clutter_books_basicbook06a-e07fa465.glb",
+   "bytes": 22320,
+   "vertices": 685,
+   "triangles": 538,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 685,
+     "triangles": 538
+    },
+    {
+     "lod": 1,
+     "vertices": 685,
+     "triangles": 538
+    },
+    {
+     "lod": 2,
+     "vertices": 685,
+     "triangles": 538
+    }
+   ],
+   "textures": [
+    "9f2e0fca2754ba45",
+    "ced2e68ba6168608"
+   ]
+  },
+  "vanilla:clutter/books/basicbook07": {
+   "file": "vanilla_clutter_books_basicbook07-f7892b8d.glb",
+   "bytes": 21956,
+   "vertices": 685,
+   "triangles": 538,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 685,
+     "triangles": 538
+    },
+    {
+     "lod": 1,
+     "vertices": 685,
+     "triangles": 538
+    },
+    {
+     "lod": 2,
+     "vertices": 685,
+     "triangles": 538
+    }
+   ],
+   "textures": [
+    "11460400d61b6d5f",
+    "9f2e0fca2754ba45"
+   ]
+  },
+  "vanilla:clutter/books/basicbook07a": {
+   "file": "vanilla_clutter_books_basicbook07a-9de3119b.glb",
+   "bytes": 22348,
+   "vertices": 685,
+   "triangles": 538,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 685,
+     "triangles": 538
+    },
+    {
+     "lod": 1,
+     "vertices": 685,
+     "triangles": 538
+    },
+    {
+     "lod": 2,
+     "vertices": 685,
+     "triangles": 538
+    }
+   ],
+   "textures": [
+    "11460400d61b6d5f",
+    "9f2e0fca2754ba45"
+   ]
+  },
+  "vanilla:clutter/books/book02lowpoly02": {
+   "file": "vanilla_clutter_books_book02lowpoly02-92e415c5.glb",
+   "bytes": 22808,
+   "vertices": 658,
+   "triangles": 544,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 658,
+     "triangles": 544
+    },
+    {
+     "lod": 1,
+     "vertices": 658,
+     "triangles": 544
+    },
+    {
+     "lod": 2,
+     "vertices": 658,
+     "triangles": 544
+    }
+   ],
+   "textures": [
+    "283bb2d3cb6e4d5c",
+    "9f2e0fca2754ba45"
+   ]
+  },
+  "vanilla:clutter/books/journallowpoly01": {
+   "file": "vanilla_clutter_books_journallowpoly01-923ad065.glb",
+   "bytes": 25288,
+   "vertices": 584,
+   "triangles": 514,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 584,
+     "triangles": 514
+    },
+    {
+     "lod": 1,
+     "vertices": 584,
+     "triangles": 514
+    },
+    {
+     "lod": 2,
+     "vertices": 584,
+     "triangles": 514
+    }
+   ],
+   "textures": [
+    "9da0abbfe025a98b",
+    "9f2e0fca2754ba45",
+    "af86bf395c6cd11a"
+   ]
+  },
+  "vanilla:clutter/books/journallowpoly02": {
+   "file": "vanilla_clutter_books_journallowpoly02-44820d8c.glb",
+   "bytes": 25348,
+   "vertices": 584,
+   "triangles": 514,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 584,
+     "triangles": 514
+    },
+    {
+     "lod": 1,
+     "vertices": 584,
+     "triangles": 514
+    },
+    {
+     "lod": 2,
+     "vertices": 584,
+     "triangles": 514
+    }
+   ],
+   "textures": [
+    "9f2e0fca2754ba45",
+    "af86bf395c6cd11a",
+    "d8640055208a1d44"
+   ]
+  },
+  "vanilla:clutter/books/note01": {
+   "file": "vanilla_clutter_books_note01-c577e6e6.glb",
+   "bytes": 7316,
+   "vertices": 178,
+   "triangles": 224,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 178,
+     "triangles": 224
+    },
+    {
+     "lod": 1,
+     "vertices": 178,
+     "triangles": 224
+    },
+    {
+     "lod": 2,
+     "vertices": 178,
+     "triangles": 224
+    }
+   ],
+   "textures": [
+    "28c725c5951f7926"
+   ]
+  },
+  "vanilla:clutter/books/note02": {
+   "file": "vanilla_clutter_books_note02-8f17e1a1.glb",
+   "bytes": 10908,
+   "vertices": 178,
+   "triangles": 224,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 178,
+     "triangles": 224
+    },
+    {
+     "lod": 1,
+     "vertices": 178,
+     "triangles": 224
+    },
+    {
+     "lod": 2,
+     "vertices": 178,
+     "triangles": 224
+    }
+   ],
+   "textures": [
+    "57b1f36691b2e677"
+   ]
+  },
+  "vanilla:clutter/books/spelltomealterationlowpoly": {
+   "file": "vanilla_clutter_books_spelltomealterationlowpoly-daa934f9.glb",
+   "bytes": 25864,
+   "vertices": 684,
+   "triangles": 544,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 684,
+     "triangles": 544
+    },
+    {
+     "lod": 1,
+     "vertices": 684,
+     "triangles": 544
+    },
+    {
+     "lod": 2,
+     "vertices": 684,
+     "triangles": 544
+    }
+   ],
+   "textures": [
+    "5b9f37be05613f4c",
+    "604d3c89d788cb72",
+    "9f2e0fca2754ba45"
+   ]
+  },
+  "vanilla:clutter/books/spelltomeconjurationlowpoly": {
+   "file": "vanilla_clutter_books_spelltomeconjurationlowpoly-825c0f66.glb",
+   "bytes": 25896,
+   "vertices": 684,
+   "triangles": 544,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 684,
+     "triangles": 544
+    },
+    {
+     "lod": 1,
+     "vertices": 684,
+     "triangles": 544
+    },
+    {
+     "lod": 2,
+     "vertices": 684,
+     "triangles": 544
+    }
+   ],
+   "textures": [
+    "0de0828864686020",
+    "340ab2c2a5623fa6",
+    "9f2e0fca2754ba45"
+   ]
+  },
+  "vanilla:clutter/books/spelltomedestructionlowpoly": {
+   "file": "vanilla_clutter_books_spelltomedestructionlowpoly-1155702a.glb",
+   "bytes": 25936,
+   "vertices": 684,
+   "triangles": 544,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 684,
+     "triangles": 544
+    },
+    {
+     "lod": 1,
+     "vertices": 684,
+     "triangles": 544
+    },
+    {
+     "lod": 2,
+     "vertices": 684,
+     "triangles": 544
+    }
+   ],
+   "textures": [
+    "95356c7a6cb0b13a",
+    "9f2e0fca2754ba45",
+    "d11d576930abe17c"
+   ]
+  },
+  "vanilla:clutter/brewerycasklargeclosed01": {
+   "file": "vanilla_clutter_brewerycasklargeclosed01-39b92b15.glb",
+   "bytes": 35460,
+   "vertices": 1038,
+   "triangles": 1115,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1038,
+     "triangles": 1115
+    },
+    {
+     "lod": 1,
+     "vertices": 632,
+     "triangles": 515
+    },
+    {
+     "lod": 2,
+     "vertices": 611,
+     "triangles": 492
+    }
+   ],
+   "textures": [
+    "547c4106fc6d7782",
+    "ca639561e3b40f6b"
+   ]
+  },
+  "vanilla:clutter/brewerycasklargeclosed02": {
+   "file": "vanilla_clutter_brewerycasklargeclosed02-7fa407f7.glb",
+   "bytes": 27208,
+   "vertices": 980,
+   "triangles": 802,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 980,
+     "triangles": 802
+    },
+    {
+     "lod": 1,
+     "vertices": 738,
+     "triangles": 428
+    },
+    {
+     "lod": 2,
+     "vertices": 738,
+     "triangles": 428
+    }
+   ],
+   "textures": [
+    "547c4106fc6d7782",
+    "aacdecca0d913ada"
+   ]
+  },
+  "vanilla:clutter/brewerycasklargeopen01": {
+   "file": "vanilla_clutter_brewerycasklargeopen01-269679e0.glb",
+   "bytes": 16248,
+   "vertices": 406,
+   "triangles": 444,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 406,
+     "triangles": 444
+    },
+    {
+     "lod": 1,
+     "vertices": 325,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 325,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "547c4106fc6d7782"
    ]
   },
   "vanilla:clutter/candles/candlehornchandelier01": {
@@ -384,6 +1029,85 @@
     "92021889840d7cb6"
    ]
   },
+  "vanilla:clutter/chauruseggs/eggs": {
+   "file": "vanilla_clutter_chauruseggs_eggs-979882d1.glb",
+   "bytes": 5060,
+   "vertices": 49,
+   "triangles": 80,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 49,
+     "triangles": 80
+    },
+    {
+     "lod": 1,
+     "vertices": 49,
+     "triangles": 80
+    },
+    {
+     "lod": 2,
+     "vertices": 49,
+     "triangles": 80
+    }
+   ],
+   "textures": [
+    "0ab3f9d07940083f",
+    "e190b8bebdc41610"
+   ]
+  },
+  "vanilla:clutter/chopping block/axe01": {
+   "file": "vanilla_clutter_chopping_block_axe01-878fb04e.glb",
+   "bytes": 12728,
+   "vertices": 258,
+   "triangles": 370,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 258,
+     "triangles": 370
+    },
+    {
+     "lod": 1,
+     "vertices": 222,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 222,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "b34cfb7585643469"
+   ]
+  },
+  "vanilla:clutter/coin01": {
+   "file": "vanilla_clutter_coin01-160a361c.glb",
+   "bytes": 5872,
+   "vertices": 144,
+   "triangles": 140,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 144,
+     "triangles": 140
+    },
+    {
+     "lod": 1,
+     "vertices": 144,
+     "triangles": 140
+    },
+    {
+     "lod": 2,
+     "vertices": 144,
+     "triangles": 140
+    }
+   ],
+   "textures": [
+    "67ea256c7d89e75d"
+   ]
+  },
   "vanilla:clutter/common/broom": {
    "file": "vanilla_clutter_common_broom-fa335bf0.glb",
    "bytes": 23000,
@@ -410,6 +1134,32 @@
     "ef3a115cb2e7cd78"
    ]
   },
+  "vanilla:clutter/common/commoncrate01": {
+   "file": "vanilla_clutter_common_commoncrate01-fa4b3d4f.glb",
+   "bytes": 21232,
+   "vertices": 597,
+   "triangles": 485,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 597,
+     "triangles": 485
+    },
+    {
+     "lod": 1,
+     "vertices": 439,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 439,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "05a13042d7563362"
+   ]
+  },
   "vanilla:clutter/common/commonshelf01": {
    "file": "vanilla_clutter_common_commonshelf01-f5a10a2e.glb",
    "bytes": 22836,
@@ -429,6 +1179,58 @@
     {
      "lod": 2,
      "vertices": 451,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "05a13042d7563362"
+   ]
+  },
+  "vanilla:clutter/common/commontable01": {
+   "file": "vanilla_clutter_common_commontable01-61f04085.glb",
+   "bytes": 26532,
+   "vertices": 1003,
+   "triangles": 788,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1003,
+     "triangles": 788
+    },
+    {
+     "lod": 1,
+     "vertices": 555,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 555,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "05a13042d7563362"
+   ]
+  },
+  "vanilla:clutter/common/commontable02": {
+   "file": "vanilla_clutter_common_commontable02-bea01488.glb",
+   "bytes": 26812,
+   "vertices": 1005,
+   "triangles": 788,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1005,
+     "triangles": 788
+    },
+    {
+     "lod": 1,
+     "vertices": 564,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 564,
      "triangles": 300
     }
    ],
@@ -462,6 +1264,221 @@
     "05a13042d7563362"
    ]
   },
+  "vanilla:clutter/common/commontablesquare01": {
+   "file": "vanilla_clutter_common_commontablesquare01-0a57a3dd.glb",
+   "bytes": 21088,
+   "vertices": 624,
+   "triangles": 672,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 624,
+     "triangles": 672
+    },
+    {
+     "lod": 1,
+     "vertices": 375,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 375,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "05a13042d7563362"
+   ]
+  },
+  "vanilla:clutter/common/crateopen01": {
+   "file": "vanilla_clutter_common_crateopen01-08b7a14d.glb",
+   "bytes": 15196,
+   "vertices": 560,
+   "triangles": 284,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 560,
+     "triangles": 284
+    },
+    {
+     "lod": 1,
+     "vertices": 560,
+     "triangles": 284
+    },
+    {
+     "lod": 2,
+     "vertices": 560,
+     "triangles": 284
+    }
+   ],
+   "textures": [
+    "00c0747b6bc011d9",
+    "489a30237702fed4"
+   ]
+  },
+  "vanilla:clutter/common/cratesmall02": {
+   "file": "vanilla_clutter_common_cratesmall02-83488192.glb",
+   "bytes": 29992,
+   "vertices": 780,
+   "triangles": 650,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 780,
+     "triangles": 650
+    },
+    {
+     "lod": 1,
+     "vertices": 569,
+     "triangles": 364
+    },
+    {
+     "lod": 2,
+     "vertices": 569,
+     "triangles": 364
+    }
+   ],
+   "textures": [
+    "9c53fdfb26b0eb86",
+    "ea54798d7baab949"
+   ]
+  },
+  "vanilla:clutter/common/cratesmall03": {
+   "file": "vanilla_clutter_common_cratesmall03-a603b40c.glb",
+   "bytes": 29596,
+   "vertices": 706,
+   "triangles": 594,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 706,
+     "triangles": 594
+    },
+    {
+     "lod": 1,
+     "vertices": 605,
+     "triangles": 468
+    },
+    {
+     "lod": 2,
+     "vertices": 605,
+     "triangles": 468
+    }
+   ],
+   "textures": [
+    "00c0747b6bc011d9",
+    "ea54798d7baab949"
+   ]
+  },
+  "vanilla:clutter/common/cratesmall04": {
+   "file": "vanilla_clutter_common_cratesmall04-94485d3c.glb",
+   "bytes": 30244,
+   "vertices": 710,
+   "triangles": 594,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 710,
+     "triangles": 594
+    },
+    {
+     "lod": 1,
+     "vertices": 609,
+     "triangles": 468
+    },
+    {
+     "lod": 2,
+     "vertices": 609,
+     "triangles": 468
+    }
+   ],
+   "textures": [
+    "00c0747b6bc011d9",
+    "489a30237702fed4"
+   ]
+  },
+  "vanilla:clutter/common/cratesmalllong02": {
+   "file": "vanilla_clutter_common_cratesmalllong02-f0d4ba0b.glb",
+   "bytes": 33712,
+   "vertices": 953,
+   "triangles": 744,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 953,
+     "triangles": 744
+    },
+    {
+     "lod": 1,
+     "vertices": 632,
+     "triangles": 364
+    },
+    {
+     "lod": 2,
+     "vertices": 632,
+     "triangles": 364
+    }
+   ],
+   "textures": [
+    "9c53fdfb26b0eb86",
+    "ea54798d7baab949"
+   ]
+  },
+  "vanilla:clutter/common/cratesmalllong03": {
+   "file": "vanilla_clutter_common_cratesmalllong03-79550cad.glb",
+   "bytes": 32496,
+   "vertices": 856,
+   "triangles": 704,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 856,
+     "triangles": 704
+    },
+    {
+     "lod": 1,
+     "vertices": 660,
+     "triangles": 469
+    },
+    {
+     "lod": 2,
+     "vertices": 660,
+     "triangles": 469
+    }
+   ],
+   "textures": [
+    "00c0747b6bc011d9",
+    "489a30237702fed4"
+   ]
+  },
+  "vanilla:clutter/common/cratesmalllong04": {
+   "file": "vanilla_clutter_common_cratesmalllong04-ddfd9c62.glb",
+   "bytes": 29832,
+   "vertices": 712,
+   "triangles": 596,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 712,
+     "triangles": 596
+    },
+    {
+     "lod": 1,
+     "vertices": 612,
+     "triangles": 468
+    },
+    {
+     "lod": 2,
+     "vertices": 612,
+     "triangles": 468
+    }
+   ],
+   "textures": [
+    "00c0747b6bc011d9",
+    "ea54798d7baab949"
+   ]
+  },
   "vanilla:clutter/common/cupboard01": {
    "file": "vanilla_clutter_common_cupboard01-5aed270f.glb",
    "bytes": 48604,
@@ -488,6 +1505,58 @@
     "05a13042d7563362"
    ]
   },
+  "vanilla:clutter/common/dresser01": {
+   "file": "vanilla_clutter_common_dresser01-282484dd.glb",
+   "bytes": 27660,
+   "vertices": 1008,
+   "triangles": 946,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1008,
+     "triangles": 946
+    },
+    {
+     "lod": 1,
+     "vertices": 647,
+     "triangles": 488
+    },
+    {
+     "lod": 2,
+     "vertices": 647,
+     "triangles": 488
+    }
+   ],
+   "textures": [
+    "05a13042d7563362"
+   ]
+  },
+  "vanilla:clutter/common/drum01": {
+   "file": "vanilla_clutter_common_drum01-07cf0d28.glb",
+   "bytes": 37348,
+   "vertices": 1112,
+   "triangles": 1004,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1112,
+     "triangles": 1004
+    },
+    {
+     "lod": 1,
+     "vertices": 441,
+     "triangles": 351
+    },
+    {
+     "lod": 2,
+     "vertices": 391,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "742fc554e7b82955"
+   ]
+  },
   "vanilla:clutter/common/endtable01": {
    "file": "vanilla_clutter_common_endtable01-fdc50d1b.glb",
    "bytes": 26000,
@@ -512,6 +1581,401 @@
    ],
    "textures": [
     "05a13042d7563362"
+   ]
+  },
+  "vanilla:clutter/common/flagon01": {
+   "file": "vanilla_clutter_common_flagon01-3534a77e.glb",
+   "bytes": 22708,
+   "vertices": 731,
+   "triangles": 858,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 731,
+     "triangles": 858
+    },
+    {
+     "lod": 1,
+     "vertices": 332,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 332,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "c33ba57e78367f06"
+   ]
+  },
+  "vanilla:clutter/common/leatherhide": {
+   "file": "vanilla_clutter_common_leatherhide-0c5390ae.glb",
+   "bytes": 15800,
+   "vertices": 282,
+   "triangles": 412,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 282,
+     "triangles": 412
+    },
+    {
+     "lod": 1,
+     "vertices": 223,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 223,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "31b2d3792c95453f"
+   ]
+  },
+  "vanilla:clutter/common/leatherstrips01": {
+   "file": "vanilla_clutter_common_leatherstrips01-aea0d131.glb",
+   "bytes": 16704,
+   "vertices": 400,
+   "triangles": 338,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 400,
+     "triangles": 338
+    },
+    {
+     "lod": 1,
+     "vertices": 356,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 356,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "e91134392ae60b69"
+   ]
+  },
+  "vanilla:clutter/common/lockpick": {
+   "file": "vanilla_clutter_common_lockpick-b8f0d666.glb",
+   "bytes": 5188,
+   "vertices": 80,
+   "triangles": 68,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 80,
+     "triangles": 68
+    },
+    {
+     "lod": 1,
+     "vertices": 80,
+     "triangles": 68
+    },
+    {
+     "lod": 2,
+     "vertices": 80,
+     "triangles": 68
+    }
+   ],
+   "textures": [
+    "238beff0470ee009"
+   ]
+  },
+  "vanilla:clutter/common/lute01": {
+   "file": "vanilla_clutter_common_lute01-216ce229.glb",
+   "bytes": 31876,
+   "vertices": 974,
+   "triangles": 948,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 974,
+     "triangles": 948
+    },
+    {
+     "lod": 1,
+     "vertices": 368,
+     "triangles": 331
+    },
+    {
+     "lod": 2,
+     "vertices": 338,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "bfc527a139d430c2"
+   ]
+  },
+  "vanilla:clutter/common/pickaxe02": {
+   "file": "vanilla_clutter_common_pickaxe02-ca91fc54.glb",
+   "bytes": 22144,
+   "vertices": 581,
+   "triangles": 704,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 581,
+     "triangles": 704
+    },
+    {
+     "lod": 1,
+     "vertices": 464,
+     "triangles": 507
+    },
+    {
+     "lod": 2,
+     "vertices": 464,
+     "triangles": 507
+    }
+   ],
+   "textures": [
+    "15819f1a847e0d3e",
+    "4165c05c0263b42f"
+   ]
+  },
+  "vanilla:clutter/common/quill01": {
+   "file": "vanilla_clutter_common_quill01-4ef1c26d.glb",
+   "bytes": 7300,
+   "vertices": 209,
+   "triangles": 245,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 209,
+     "triangles": 245
+    },
+    {
+     "lod": 1,
+     "vertices": 209,
+     "triangles": 245
+    },
+    {
+     "lod": 2,
+     "vertices": 209,
+     "triangles": 245
+    }
+   ],
+   "textures": [
+    "234210b99d66e959"
+   ]
+  },
+  "vanilla:clutter/common/rug10": {
+   "file": "vanilla_clutter_common_rug10-5ebe2c5e.glb",
+   "bytes": 5168,
+   "vertices": 44,
+   "triangles": 66,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 44,
+     "triangles": 66
+    },
+    {
+     "lod": 1,
+     "vertices": 44,
+     "triangles": 66
+    },
+    {
+     "lod": 2,
+     "vertices": 44,
+     "triangles": 66
+    }
+   ],
+   "textures": [
+    "3a17ef5a22abc48b"
+   ]
+  },
+  "vanilla:clutter/common/rug11": {
+   "file": "vanilla_clutter_common_rug11-cc6d3258.glb",
+   "bytes": 10096,
+   "vertices": 119,
+   "triangles": 82,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 119,
+     "triangles": 82
+    },
+    {
+     "lod": 1,
+     "vertices": 119,
+     "triangles": 82
+    },
+    {
+     "lod": 2,
+     "vertices": 119,
+     "triangles": 82
+    }
+   ],
+   "textures": [
+    "4ba8f16c67d7c29f",
+    "a36ee4e5a6ea4b1c"
+   ]
+  },
+  "vanilla:clutter/common/rug12": {
+   "file": "vanilla_clutter_common_rug12-4724855a.glb",
+   "bytes": 10088,
+   "vertices": 119,
+   "triangles": 82,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 119,
+     "triangles": 82
+    },
+    {
+     "lod": 1,
+     "vertices": 119,
+     "triangles": 82
+    },
+    {
+     "lod": 2,
+     "vertices": 119,
+     "triangles": 82
+    }
+   ],
+   "textures": [
+    "4ba8f16c67d7c29f",
+    "a36ee4e5a6ea4b1c"
+   ]
+  },
+  "vanilla:clutter/common/rug14": {
+   "file": "vanilla_clutter_common_rug14-9639a239.glb",
+   "bytes": 5120,
+   "vertices": 41,
+   "triangles": 60,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 41,
+     "triangles": 60
+    },
+    {
+     "lod": 1,
+     "vertices": 41,
+     "triangles": 60
+    },
+    {
+     "lod": 2,
+     "vertices": 41,
+     "triangles": 60
+    }
+   ],
+   "textures": [
+    "552135f6a58b91bd"
+   ]
+  },
+  "vanilla:clutter/common/ruground04": {
+   "file": "vanilla_clutter_common_ruground04-666fc265.glb",
+   "bytes": 5224,
+   "vertices": 47,
+   "triangles": 75,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 47,
+     "triangles": 75
+    },
+    {
+     "lod": 1,
+     "vertices": 47,
+     "triangles": 75
+    },
+    {
+     "lod": 2,
+     "vertices": 47,
+     "triangles": 75
+    }
+   ],
+   "textures": [
+    "3121501ef0ffae52"
+   ]
+  },
+  "vanilla:clutter/common/saw01": {
+   "file": "vanilla_clutter_common_saw01-446a18b0.glb",
+   "bytes": 21272,
+   "vertices": 609,
+   "triangles": 498,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 609,
+     "triangles": 498
+    },
+    {
+     "lod": 1,
+     "vertices": 445,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 445,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "238beff0470ee009"
+   ]
+  },
+  "vanilla:clutter/common/strongbox01": {
+   "file": "vanilla_clutter_common_strongbox01-3ce15005.glb",
+   "bytes": 26236,
+   "vertices": 656,
+   "triangles": 604,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 656,
+     "triangles": 604
+    },
+    {
+     "lod": 1,
+     "vertices": 540,
+     "triangles": 403
+    },
+    {
+     "lod": 2,
+     "vertices": 540,
+     "triangles": 403
+    }
+   ],
+   "textures": [
+    "26aeef1029e42d24"
+   ]
+  },
+  "vanilla:clutter/common/torchpermanent01": {
+   "file": "vanilla_clutter_common_torchpermanent01-3c80fd6b.glb",
+   "bytes": 35604,
+   "vertices": 920,
+   "triangles": 786,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 920,
+     "triangles": 786
+    },
+    {
+     "lod": 1,
+     "vertices": 763,
+     "triangles": 581
+    },
+    {
+     "lod": 2,
+     "vertices": 763,
+     "triangles": 581
+    }
+   ],
+   "textures": [
+    "765ac4f30e347dca",
+    "866e82ab242360ec",
+    "b718b8c0bbafa6ba"
    ]
   },
   "vanilla:clutter/common/wardrobe01": {
@@ -566,6 +2030,59 @@
     "6cd81b458d9cb29e"
    ]
   },
+  "vanilla:clutter/containers/miscsack02large": {
+   "file": "vanilla_clutter_containers_miscsack02large-5c5a3acd.glb",
+   "bytes": 19004,
+   "vertices": 313,
+   "triangles": 494,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 313,
+     "triangles": 494
+    },
+    {
+     "lod": 1,
+     "vertices": 276,
+     "triangles": 419
+    },
+    {
+     "lod": 2,
+     "vertices": 276,
+     "triangles": 419
+    }
+   ],
+   "textures": [
+    "92d079c4a4af0658",
+    "e7fc0d65a0f762e9"
+   ]
+  },
+  "vanilla:clutter/containers/miscsacklargeflat03": {
+   "file": "vanilla_clutter_containers_miscsacklargeflat03-1103d1b9.glb",
+   "bytes": 19804,
+   "vertices": 472,
+   "triangles": 536,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 472,
+     "triangles": 536
+    },
+    {
+     "lod": 1,
+     "vertices": 315,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 315,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "92d079c4a4af0658"
+   ]
+  },
   "vanilla:clutter/cookingspitfarmhouse01": {
    "file": "vanilla_clutter_cookingspitfarmhouse01-fd15877e.glb",
    "bytes": 7252,
@@ -592,9 +2109,139 @@
     "77a79c8f3f2b5a74"
    ]
   },
+  "vanilla:clutter/counterset/countercornerin01": {
+   "file": "vanilla_clutter_counterset_countercornerin01-0cf0ca27.glb",
+   "bytes": 9264,
+   "vertices": 345,
+   "triangles": 224,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 345,
+     "triangles": 224
+    },
+    {
+     "lod": 1,
+     "vertices": 345,
+     "triangles": 224
+    },
+    {
+     "lod": 2,
+     "vertices": 345,
+     "triangles": 224
+    }
+   ],
+   "textures": [
+    "93cf685841f9c876"
+   ]
+  },
+  "vanilla:clutter/counterset/counterleft01": {
+   "file": "vanilla_clutter_counterset_counterleft01-a4ad5e01.glb",
+   "bytes": 6748,
+   "vertices": 176,
+   "triangles": 126,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 176,
+     "triangles": 126
+    },
+    {
+     "lod": 1,
+     "vertices": 176,
+     "triangles": 126
+    },
+    {
+     "lod": 2,
+     "vertices": 176,
+     "triangles": 126
+    }
+   ],
+   "textures": [
+    "93cf685841f9c876"
+   ]
+  },
+  "vanilla:clutter/counterset/counterright01": {
+   "file": "vanilla_clutter_counterset_counterright01-01f98168.glb",
+   "bytes": 6756,
+   "vertices": 168,
+   "triangles": 126,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 168,
+     "triangles": 126
+    },
+    {
+     "lod": 1,
+     "vertices": 168,
+     "triangles": 126
+    },
+    {
+     "lod": 2,
+     "vertices": 168,
+     "triangles": 126
+    }
+   ],
+   "textures": [
+    "93cf685841f9c876"
+   ]
+  },
+  "vanilla:clutter/counterset/counterstraight01": {
+   "file": "vanilla_clutter_counterset_counterstraight01-df8c6806.glb",
+   "bytes": 5312,
+   "vertices": 78,
+   "triangles": 50,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 78,
+     "triangles": 50
+    },
+    {
+     "lod": 1,
+     "vertices": 78,
+     "triangles": 50
+    },
+    {
+     "lod": 2,
+     "vertices": 78,
+     "triangles": 50
+    }
+   ],
+   "textures": [
+    "93cf685841f9c876"
+   ]
+  },
   "vanilla:clutter/deadanimals/hanginganimalsring01": {
    "file": "vanilla_clutter_deadanimals_hanginganimalsring01-b389c168.glb",
    "bytes": 16012,
+   "vertices": 428,
+   "triangles": 372,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 428,
+     "triangles": 372
+    },
+    {
+     "lod": 1,
+     "vertices": 363,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 363,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "63463239a4c225f7"
+   ]
+  },
+  "vanilla:clutter/deadanimals/hanginganimalsring02": {
+   "file": "vanilla_clutter_deadanimals_hanginganimalsring02-45eaa3e2.glb",
+   "bytes": 16216,
    "vertices": 428,
    "triangles": 372,
    "lods": [
@@ -722,6 +2369,110 @@
     "5a9895da034d8d2c"
    ]
   },
+  "vanilla:clutter/deadanimals/mountedfemaleelk": {
+   "file": "vanilla_clutter_deadanimals_mountedfemaleelk-036c4c63.glb",
+   "bytes": 34636,
+   "vertices": 982,
+   "triangles": 1532,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 982,
+     "triangles": 1532
+    },
+    {
+     "lod": 1,
+     "vertices": 471,
+     "triangles": 601
+    },
+    {
+     "lod": 2,
+     "vertices": 340,
+     "triangles": 399
+    }
+   ],
+   "textures": [
+    "4d5ace253db7a947"
+   ]
+  },
+  "vanilla:clutter/deadanimals/mountedmaleelk": {
+   "file": "vanilla_clutter_deadanimals_mountedmaleelk-fcd216a6.glb",
+   "bytes": 64556,
+   "vertices": 1865,
+   "triangles": 2708,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1865,
+     "triangles": 2708
+    },
+    {
+     "lod": 1,
+     "vertices": 1012,
+     "triangles": 1186
+    },
+    {
+     "lod": 2,
+     "vertices": 672,
+     "triangles": 699
+    }
+   ],
+   "textures": [
+    "4d5ace253db7a947"
+   ]
+  },
+  "vanilla:clutter/deadanimals/pheasantmeat01": {
+   "file": "vanilla_clutter_deadanimals_pheasantmeat01-a6d391b0.glb",
+   "bytes": 6028,
+   "vertices": 106,
+   "triangles": 156,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 106,
+     "triangles": 156
+    },
+    {
+     "lod": 1,
+     "vertices": 106,
+     "triangles": 156
+    },
+    {
+     "lod": 2,
+     "vertices": 106,
+     "triangles": 156
+    }
+   ],
+   "textures": [
+    "f2ed4ea5940bbdd2"
+   ]
+  },
+  "vanilla:clutter/deadanimals/salmonmeat01": {
+   "file": "vanilla_clutter_deadanimals_salmonmeat01-72780d0e.glb",
+   "bytes": 4776,
+   "vertices": 48,
+   "triangles": 52,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 48,
+     "triangles": 52
+    },
+    {
+     "lod": 1,
+     "vertices": 48,
+     "triangles": 52
+    },
+    {
+     "lod": 2,
+     "vertices": 48,
+     "triangles": 52
+    }
+   ],
+   "textures": [
+    "a4bcdd72e2125e65"
+   ]
+  },
   "vanilla:clutter/deadanimals/wallmountedbear01": {
    "file": "vanilla_clutter_deadanimals_wallmountedbear01-f5612da0.glb",
    "bytes": 47440,
@@ -746,6 +2497,87 @@
    ],
    "textures": [
     "8a4a1773b937ebe8",
+    "ec8da253f210f595"
+   ]
+  },
+  "vanilla:clutter/deadanimals/wallmountedbear02": {
+   "file": "vanilla_clutter_deadanimals_wallmountedbear02-01712189.glb",
+   "bytes": 47484,
+   "vertices": 1484,
+   "triangles": 2036,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1484,
+     "triangles": 2036
+    },
+    {
+     "lod": 1,
+     "vertices": 768,
+     "triangles": 855
+    },
+    {
+     "lod": 2,
+     "vertices": 487,
+     "triangles": 520
+    }
+   ],
+   "textures": [
+    "69e35cbb0c1a7c8b",
+    "ec8da253f210f595"
+   ]
+  },
+  "vanilla:clutter/deadanimals/wallmountedbear03": {
+   "file": "vanilla_clutter_deadanimals_wallmountedbear03-2d519da9.glb",
+   "bytes": 47476,
+   "vertices": 1484,
+   "triangles": 2036,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1484,
+     "triangles": 2036
+    },
+    {
+     "lod": 1,
+     "vertices": 768,
+     "triangles": 855
+    },
+    {
+     "lod": 2,
+     "vertices": 487,
+     "triangles": 520
+    }
+   ],
+   "textures": [
+    "59d3b259602a6a68",
+    "ec8da253f210f595"
+   ]
+  },
+  "vanilla:clutter/deadanimals/wallmountedgoat01": {
+   "file": "vanilla_clutter_deadanimals_wallmountedgoat01-6463d9ce.glb",
+   "bytes": 66472,
+   "vertices": 2193,
+   "triangles": 2653,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2193,
+     "triangles": 2653
+    },
+    {
+     "lod": 1,
+     "vertices": 1181,
+     "triangles": 1071
+    },
+    {
+     "lod": 2,
+     "vertices": 661,
+     "triangles": 520
+    }
+   ],
+   "textures": [
+    "3c7fffece215db39",
     "ec8da253f210f595"
    ]
   },
@@ -777,6 +2609,33 @@
     "f326a0a02022d7cd"
    ]
   },
+  "vanilla:clutter/deadanimals/wallmountedsabrecat01": {
+   "file": "vanilla_clutter_deadanimals_wallmountedsabrecat01-04fc8af9.glb",
+   "bytes": 72672,
+   "vertices": 2196,
+   "triangles": 3198,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2196,
+     "triangles": 3198
+    },
+    {
+     "lod": 1,
+     "vertices": 1122,
+     "triangles": 1261
+    },
+    {
+     "lod": 2,
+     "vertices": 612,
+     "triangles": 577
+    }
+   ],
+   "textures": [
+    "c0f28b40d5cdb5b7",
+    "ec8da253f210f595"
+   ]
+  },
   "vanilla:clutter/deadanimals/wallmountedsabrecat02": {
    "file": "vanilla_clutter_deadanimals_wallmountedsabrecat02-e0bdc525.glb",
    "bytes": 72680,
@@ -801,6 +2660,60 @@
    ],
    "textures": [
     "645942d159d59090",
+    "ec8da253f210f595"
+   ]
+  },
+  "vanilla:clutter/deadanimals/wallmountedwolf01": {
+   "file": "vanilla_clutter_deadanimals_wallmountedwolf01-ca52d54f.glb",
+   "bytes": 51936,
+   "vertices": 1766,
+   "triangles": 2630,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1766,
+     "triangles": 2630
+    },
+    {
+     "lod": 1,
+     "vertices": 877,
+     "triangles": 1062
+    },
+    {
+     "lod": 2,
+     "vertices": 438,
+     "triangles": 519
+    }
+   ],
+   "textures": [
+    "4a0e3fef6a3436f5",
+    "ec8da253f210f595"
+   ]
+  },
+  "vanilla:clutter/deadanimals/wallmountedwolf02": {
+   "file": "vanilla_clutter_deadanimals_wallmountedwolf02-c4274e76.glb",
+   "bytes": 52040,
+   "vertices": 1766,
+   "triangles": 2630,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1766,
+     "triangles": 2630
+    },
+    {
+     "lod": 1,
+     "vertices": 877,
+     "triangles": 1062
+    },
+    {
+     "lod": 2,
+     "vertices": 438,
+     "triangles": 519
+    }
+   ],
+   "textures": [
+    "42d7538d11c61726",
     "ec8da253f210f595"
    ]
   },
@@ -856,6 +2769,58 @@
     "f0a4968543a45b2d"
    ]
   },
+  "vanilla:clutter/dining set/basicplate01": {
+   "file": "vanilla_clutter_dining_set_basicplate01-2ce40680.glb",
+   "bytes": 7092,
+   "vertices": 222,
+   "triangles": 264,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 222,
+     "triangles": 264
+    },
+    {
+     "lod": 1,
+     "vertices": 222,
+     "triangles": 264
+    },
+    {
+     "lod": 2,
+     "vertices": 222,
+     "triangles": 264
+    }
+   ],
+   "textures": [
+    "f0a4968543a45b2d"
+   ]
+  },
+  "vanilla:clutter/dining set/basicplate02": {
+   "file": "vanilla_clutter_dining_set_basicplate02-a415d9b1.glb",
+   "bytes": 7072,
+   "vertices": 222,
+   "triangles": 264,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 222,
+     "triangles": 264
+    },
+    {
+     "lod": 1,
+     "vertices": 222,
+     "triangles": 264
+    },
+    {
+     "lod": 2,
+     "vertices": 222,
+     "triangles": 264
+    }
+   ],
+   "textures": [
+    "f0a4968543a45b2d"
+   ]
+  },
   "vanilla:clutter/dining set/basictankard01": {
    "file": "vanilla_clutter_dining_set_basictankard01-e9d6ae49.glb",
    "bytes": 7024,
@@ -880,6 +2845,127 @@
    ],
    "textures": [
     "f0a4968543a45b2d"
+   ]
+  },
+  "vanilla:clutter/dummyitems/dummymace01": {
+   "file": "vanilla_clutter_dummyitems_dummymace01-4c357391.glb",
+   "bytes": 292,
+   "vertices": 0,
+   "triangles": 0,
+   "lods": [],
+   "textures": []
+  },
+  "vanilla:clutter/dummyitems/dummypotion01": {
+   "file": "vanilla_clutter_dummyitems_dummypotion01-5bd7463d.glb",
+   "bytes": 296,
+   "vertices": 0,
+   "triangles": 0,
+   "lods": [],
+   "textures": []
+  },
+  "vanilla:clutter/dwemer/dweichorgoo01": {
+   "file": "vanilla_clutter_dwemer_dweichorgoo01-86e1c5d2.glb",
+   "bytes": 27624,
+   "vertices": 486,
+   "triangles": 924,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 486,
+     "triangles": 924
+    },
+    {
+     "lod": 1,
+     "vertices": 190,
+     "triangles": 332
+    },
+    {
+     "lod": 2,
+     "vertices": 182,
+     "triangles": 316
+    }
+   ],
+   "textures": [
+    "86a0dd1585cc36c6",
+    "887338fda816db8f"
+   ]
+  },
+  "vanilla:clutter/floral/snowberrywreath": {
+   "file": "vanilla_clutter_floral_snowberrywreath-8c31b0a7.glb",
+   "bytes": 19864,
+   "vertices": 537,
+   "triangles": 514,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 537,
+     "triangles": 514
+    },
+    {
+     "lod": 1,
+     "vertices": 338,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 338,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "bf90e8a5d213ff5c"
+   ]
+  },
+  "vanilla:clutter/food/apple01": {
+   "file": "vanilla_clutter_food_apple01-d3185d75.glb",
+   "bytes": 6576,
+   "vertices": 118,
+   "triangles": 162,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 118,
+     "triangles": 162
+    },
+    {
+     "lod": 1,
+     "vertices": 118,
+     "triangles": 162
+    },
+    {
+     "lod": 2,
+     "vertices": 118,
+     "triangles": 162
+    }
+   ],
+   "textures": [
+    "892c733ef0dae7bc"
+   ]
+  },
+  "vanilla:clutter/food/apple02": {
+   "file": "vanilla_clutter_food_apple02-d0cc17ad.glb",
+   "bytes": 6576,
+   "vertices": 118,
+   "triangles": 162,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 118,
+     "triangles": 162
+    },
+    {
+     "lod": 1,
+     "vertices": 118,
+     "triangles": 162
+    },
+    {
+     "lod": 2,
+     "vertices": 118,
+     "triangles": 162
+    }
+   ],
+   "textures": [
+    "8e268e94c0dd9fd5"
    ]
   },
   "vanilla:clutter/food/bread01a": {
@@ -934,6 +3020,611 @@
     "46e76fc7010ea8ac"
    ]
   },
+  "vanilla:clutter/food/cheesewedge01": {
+   "file": "vanilla_clutter_food_cheesewedge01-8dbc7de4.glb",
+   "bytes": 4836,
+   "vertices": 49,
+   "triangles": 58,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 49,
+     "triangles": 58
+    },
+    {
+     "lod": 1,
+     "vertices": 49,
+     "triangles": 58
+    },
+    {
+     "lod": 2,
+     "vertices": 49,
+     "triangles": 58
+    }
+   ],
+   "textures": [
+    "043f5dc021081088"
+   ]
+  },
+  "vanilla:clutter/food/cheesewedge02": {
+   "file": "vanilla_clutter_food_cheesewedge02-cbd493cf.glb",
+   "bytes": 4668,
+   "vertices": 40,
+   "triangles": 28,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 40,
+     "triangles": 28
+    },
+    {
+     "lod": 1,
+     "vertices": 40,
+     "triangles": 28
+    },
+    {
+     "lod": 2,
+     "vertices": 40,
+     "triangles": 28
+    }
+   ],
+   "textures": [
+    "bf6564eb32237bc2"
+   ]
+  },
+  "vanilla:clutter/food/cheesewheel01a": {
+   "file": "vanilla_clutter_food_cheesewheel01a-e7eae1ed.glb",
+   "bytes": 6808,
+   "vertices": 181,
+   "triangles": 236,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 181,
+     "triangles": 236
+    },
+    {
+     "lod": 1,
+     "vertices": 181,
+     "triangles": 236
+    },
+    {
+     "lod": 2,
+     "vertices": 181,
+     "triangles": 236
+    }
+   ],
+   "textures": [
+    "043f5dc021081088"
+   ]
+  },
+  "vanilla:clutter/food/cheesewheel01b": {
+   "file": "vanilla_clutter_food_cheesewheel01b-8dae64a3.glb",
+   "bytes": 6564,
+   "vertices": 163,
+   "triangles": 208,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 163,
+     "triangles": 208
+    },
+    {
+     "lod": 1,
+     "vertices": 163,
+     "triangles": 208
+    },
+    {
+     "lod": 2,
+     "vertices": 163,
+     "triangles": 208
+    }
+   ],
+   "textures": [
+    "043f5dc021081088"
+   ]
+  },
+  "vanilla:clutter/food/cheesewheel02a": {
+   "file": "vanilla_clutter_food_cheesewheel02a-e2c3930e.glb",
+   "bytes": 5032,
+   "vertices": 78,
+   "triangles": 68,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 78,
+     "triangles": 68
+    },
+    {
+     "lod": 1,
+     "vertices": 78,
+     "triangles": 68
+    },
+    {
+     "lod": 2,
+     "vertices": 78,
+     "triangles": 68
+    }
+   ],
+   "textures": [
+    "bf6564eb32237bc2"
+   ]
+  },
+  "vanilla:clutter/food/cheesewheel02b": {
+   "file": "vanilla_clutter_food_cheesewheel02b-e9cc3481.glb",
+   "bytes": 5388,
+   "vertices": 96,
+   "triangles": 80,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 96,
+     "triangles": 80
+    },
+    {
+     "lod": 1,
+     "vertices": 96,
+     "triangles": 80
+    },
+    {
+     "lod": 2,
+     "vertices": 96,
+     "triangles": 80
+    }
+   ],
+   "textures": [
+    "bf6564eb32237bc2"
+   ]
+  },
+  "vanilla:clutter/food/cookedsalmonsteak01": {
+   "file": "vanilla_clutter_food_cookedsalmonsteak01-d20055dc.glb",
+   "bytes": 4708,
+   "vertices": 36,
+   "triangles": 32,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 36,
+     "triangles": 32
+    },
+    {
+     "lod": 1,
+     "vertices": 36,
+     "triangles": 32
+    },
+    {
+     "lod": 2,
+     "vertices": 36,
+     "triangles": 32
+    }
+   ],
+   "textures": [
+    "71b3e94fcd2bce3f"
+   ]
+  },
+  "vanilla:clutter/food/nuttybread01": {
+   "file": "vanilla_clutter_food_nuttybread01-8b83c2d4.glb",
+   "bytes": 20192,
+   "vertices": 525,
+   "triangles": 750,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 525,
+     "triangles": 750
+    },
+    {
+     "lod": 1,
+     "vertices": 269,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 269,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "7868b39e0fafe2c0"
+   ]
+  },
+  "vanilla:clutter/giant/gianthangingbones": {
+   "file": "vanilla_clutter_giant_gianthangingbones-577c5bcb.glb",
+   "bytes": 15592,
+   "vertices": 413,
+   "triangles": 574,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 413,
+     "triangles": 574
+    },
+    {
+     "lod": 1,
+     "vertices": 254,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 254,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "bf3e166a110e5f3c"
+   ]
+  },
+  "vanilla:clutter/glazed02potteryjug01": {
+   "file": "vanilla_clutter_glazed02potteryjug01-72f202ca.glb",
+   "bytes": 18152,
+   "vertices": 505,
+   "triangles": 672,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 505,
+     "triangles": 672
+    },
+    {
+     "lod": 1,
+     "vertices": 281,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 281,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "ebe89d0e41ac2717"
+   ]
+  },
+  "vanilla:clutter/glazed02potteryurn01": {
+   "file": "vanilla_clutter_glazed02potteryurn01-2a1898e9.glb",
+   "bytes": 17604,
+   "vertices": 472,
+   "triangles": 638,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 472,
+     "triangles": 638
+    },
+    {
+     "lod": 1,
+     "vertices": 271,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 271,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "ebe89d0e41ac2717"
+   ]
+  },
+  "vanilla:clutter/glazedbowl01": {
+   "file": "vanilla_clutter_glazedbowl01-6308b6fe.glb",
+   "bytes": 16864,
+   "vertices": 459,
+   "triangles": 544,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 459,
+     "triangles": 544
+    },
+    {
+     "lod": 1,
+     "vertices": 316,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 316,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "308d2a5e777d1e9b"
+   ]
+  },
+  "vanilla:clutter/glazedbowl02": {
+   "file": "vanilla_clutter_glazedbowl02-d45ef35d.glb",
+   "bytes": 16012,
+   "vertices": 426,
+   "triangles": 440,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 426,
+     "triangles": 440
+    },
+    {
+     "lod": 1,
+     "vertices": 321,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 321,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "308d2a5e777d1e9b"
+   ]
+  },
+  "vanilla:clutter/glazedcandlesstatic02": {
+   "file": "vanilla_clutter_glazedcandlesstatic02-ba39bff8.glb",
+   "bytes": 34132,
+   "vertices": 721,
+   "triangles": 840,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 721,
+     "triangles": 840
+    },
+    {
+     "lod": 1,
+     "vertices": 580,
+     "triangles": 599
+    },
+    {
+     "lod": 2,
+     "vertices": 580,
+     "triangles": 599
+    }
+   ],
+   "textures": [
+    "308d2a5e777d1e9b",
+    "e57da8e5f799fb18"
+   ]
+  },
+  "vanilla:clutter/glazedcup01": {
+   "file": "vanilla_clutter_glazedcup01-300dc0c9.glb",
+   "bytes": 7712,
+   "vertices": 254,
+   "triangles": 286,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 254,
+     "triangles": 286
+    },
+    {
+     "lod": 1,
+     "vertices": 254,
+     "triangles": 286
+    },
+    {
+     "lod": 2,
+     "vertices": 254,
+     "triangles": 286
+    }
+   ],
+   "textures": [
+    "308d2a5e777d1e9b"
+   ]
+  },
+  "vanilla:clutter/glazedjuglarge01": {
+   "file": "vanilla_clutter_glazedjuglarge01-72bde459.glb",
+   "bytes": 20156,
+   "vertices": 593,
+   "triangles": 712,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 593,
+     "triangles": 712
+    },
+    {
+     "lod": 1,
+     "vertices": 321,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 321,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "308d2a5e777d1e9b"
+   ]
+  },
+  "vanilla:clutter/glazedjugsmall01": {
+   "file": "vanilla_clutter_glazedjugsmall01-bc282916.glb",
+   "bytes": 16880,
+   "vertices": 449,
+   "triangles": 590,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 449,
+     "triangles": 590
+    },
+    {
+     "lod": 1,
+     "vertices": 277,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 277,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "308d2a5e777d1e9b"
+   ]
+  },
+  "vanilla:clutter/glazedplate01": {
+   "file": "vanilla_clutter_glazedplate01-f2cebcfb.glb",
+   "bytes": 15436,
+   "vertices": 298,
+   "triangles": 308,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 298,
+     "triangles": 308
+    },
+    {
+     "lod": 1,
+     "vertices": 294,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 294,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "308d2a5e777d1e9b"
+   ]
+  },
+  "vanilla:clutter/glazedpot01": {
+   "file": "vanilla_clutter_glazedpot01-474a7042.glb",
+   "bytes": 14976,
+   "vertices": 322,
+   "triangles": 446,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 322,
+     "triangles": 446
+    },
+    {
+     "lod": 1,
+     "vertices": 246,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 246,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "308d2a5e777d1e9b"
+   ]
+  },
+  "vanilla:clutter/hagraven/hagravenhangingball01": {
+   "file": "vanilla_clutter_hagraven_hagravenhangingball01-ac1f6798.glb",
+   "bytes": 29212,
+   "vertices": 461,
+   "triangles": 760,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 461,
+     "triangles": 760
+    },
+    {
+     "lod": 1,
+     "vertices": 385,
+     "triangles": 612
+    },
+    {
+     "lod": 2,
+     "vertices": 385,
+     "triangles": 612
+    }
+   ],
+   "textures": [
+    "1ce9f66875719f05",
+    "60d7730143ccb812",
+    "7ecbc6734cee705c",
+    "d1b34d6ca0e09ee9"
+   ]
+  },
+  "vanilla:clutter/hagraven/hagravenhangingball02": {
+   "file": "vanilla_clutter_hagraven_hagravenhangingball02-76d922e8.glb",
+   "bytes": 41396,
+   "vertices": 841,
+   "triangles": 1376,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 841,
+     "triangles": 1376
+    },
+    {
+     "lod": 1,
+     "vertices": 454,
+     "triangles": 634
+    },
+    {
+     "lod": 2,
+     "vertices": 438,
+     "triangles": 610
+    }
+   ],
+   "textures": [
+    "1ce9f66875719f05",
+    "60d7730143ccb812",
+    "7ecbc6734cee705c",
+    "d1b34d6ca0e09ee9"
+   ]
+  },
+  "vanilla:clutter/hay/haymound02": {
+   "file": "vanilla_clutter_hay_haymound02-7da1e0f8.glb",
+   "bytes": 10376,
+   "vertices": 135,
+   "triangles": 190,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 135,
+     "triangles": 190
+    },
+    {
+     "lod": 1,
+     "vertices": 135,
+     "triangles": 190
+    },
+    {
+     "lod": 2,
+     "vertices": 135,
+     "triangles": 190
+    }
+   ],
+   "textures": [
+    "f547bc6470506aa2"
+   ]
+  },
+  "vanilla:clutter/hay/haymoundl01": {
+   "file": "vanilla_clutter_hay_haymoundl01-ff5710f3.glb",
+   "bytes": 15696,
+   "vertices": 151,
+   "triangles": 215,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 151,
+     "triangles": 215
+    },
+    {
+     "lod": 1,
+     "vertices": 151,
+     "triangles": 215
+    },
+    {
+     "lod": 2,
+     "vertices": 151,
+     "triangles": 215
+    }
+   ],
+   "textures": [
+    "f547bc6470506aa2"
+   ]
+  },
   "vanilla:clutter/hay/hayscatter01": {
    "file": "vanilla_clutter_hay_hayscatter01-f958d00c.glb",
    "bytes": 4608,
@@ -986,6 +3677,455 @@
     "f547bc6470506aa2"
    ]
   },
+  "vanilla:clutter/honeypot01": {
+   "file": "vanilla_clutter_honeypot01-a7148a1c.glb",
+   "bytes": 39980,
+   "vertices": 1144,
+   "triangles": 1410,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1144,
+     "triangles": 1410
+    },
+    {
+     "lod": 1,
+     "vertices": 495,
+     "triangles": 493
+    },
+    {
+     "lod": 2,
+     "vertices": 347,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "67041eb311c908ee"
+   ]
+  },
+  "vanilla:clutter/imperial/impcandle01": {
+   "file": "vanilla_clutter_imperial_impcandle01-205d49ce.glb",
+   "bytes": 10956,
+   "vertices": 159,
+   "triangles": 138,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 159,
+     "triangles": 138
+    },
+    {
+     "lod": 1,
+     "vertices": 159,
+     "triangles": 138
+    },
+    {
+     "lod": 2,
+     "vertices": 159,
+     "triangles": 138
+    }
+   ],
+   "textures": [
+    "b6ab5a1245983e49",
+    "e57da8e5f799fb18"
+   ]
+  },
+  "vanilla:clutter/ingredients/beefmeat": {
+   "file": "vanilla_clutter_ingredients_beefmeat-b8531780.glb",
+   "bytes": 11560,
+   "vertices": 188,
+   "triangles": 306,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 188,
+     "triangles": 306
+    },
+    {
+     "lod": 1,
+     "vertices": 185,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 185,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "7314f15efa5b48a3"
+   ]
+  },
+  "vanilla:clutter/ingredients/bonemeal01": {
+   "file": "vanilla_clutter_ingredients_bonemeal01-cfad0a5f.glb",
+   "bytes": 21044,
+   "vertices": 359,
+   "triangles": 422,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 359,
+     "triangles": 422
+    },
+    {
+     "lod": 1,
+     "vertices": 333,
+     "triangles": 394
+    },
+    {
+     "lod": 2,
+     "vertices": 333,
+     "triangles": 394
+    }
+   ],
+   "textures": [
+    "41f7fe962b9cf0c9",
+    "bcefbff236d54ff9"
+   ]
+  },
+  "vanilla:clutter/ingredients/carrot01": {
+   "file": "vanilla_clutter_ingredients_carrot01-c7774e65.glb",
+   "bytes": 17552,
+   "vertices": 403,
+   "triangles": 477,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 403,
+     "triangles": 477
+    },
+    {
+     "lod": 1,
+     "vertices": 280,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 280,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "3a856543e0b4acce"
+   ]
+  },
+  "vanilla:clutter/ingredients/clam/clammeat": {
+   "file": "vanilla_clutter_ingredients_clam_clammeat-d2949c15.glb",
+   "bytes": 5184,
+   "vertices": 52,
+   "triangles": 72,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 52,
+     "triangles": 72
+    },
+    {
+     "lod": 1,
+     "vertices": 52,
+     "triangles": 72
+    },
+    {
+     "lod": 2,
+     "vertices": 52,
+     "triangles": 72
+    }
+   ],
+   "textures": [
+    "1958c87ad68ba4fe"
+   ]
+  },
+  "vanilla:clutter/ingredients/clam/pearlsmall": {
+   "file": "vanilla_clutter_ingredients_clam_pearlsmall-ace78c84.glb",
+   "bytes": 5060,
+   "vertices": 42,
+   "triangles": 80,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 42,
+     "triangles": 80
+    },
+    {
+     "lod": 1,
+     "vertices": 42,
+     "triangles": 80
+    },
+    {
+     "lod": 2,
+     "vertices": 42,
+     "triangles": 80
+    }
+   ],
+   "textures": [
+    "2beea97477d8f51c"
+   ]
+  },
+  "vanilla:clutter/ingredients/dragonflyblue": {
+   "file": "vanilla_clutter_ingredients_dragonflyblue-1996c09f.glb",
+   "bytes": 10284,
+   "vertices": 174,
+   "triangles": 180,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 174,
+     "triangles": 180
+    },
+    {
+     "lod": 1,
+     "vertices": 174,
+     "triangles": 180
+    },
+    {
+     "lod": 2,
+     "vertices": 174,
+     "triangles": 180
+    }
+   ],
+   "textures": [
+    "a9592b9e4f5bb56c",
+    "b6a41ba87e8ec5be"
+   ]
+  },
+  "vanilla:clutter/ingredients/dragonflyorange": {
+   "file": "vanilla_clutter_ingredients_dragonflyorange-63c505ce.glb",
+   "bytes": 10272,
+   "vertices": 174,
+   "triangles": 180,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 174,
+     "triangles": 180
+    },
+    {
+     "lod": 1,
+     "vertices": 174,
+     "triangles": 180
+    },
+    {
+     "lod": 2,
+     "vertices": 174,
+     "triangles": 180
+    }
+   ],
+   "textures": [
+    "091f0c11ed1707ca",
+    "b6a41ba87e8ec5be"
+   ]
+  },
+  "vanilla:clutter/ingredients/ectoplasm": {
+   "file": "vanilla_clutter_ingredients_ectoplasm-5bb547d6.glb",
+   "bytes": 13740,
+   "vertices": 320,
+   "triangles": 372,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 320,
+     "triangles": 372
+    },
+    {
+     "lod": 1,
+     "vertices": 320,
+     "triangles": 372
+    },
+    {
+     "lod": 2,
+     "vertices": 320,
+     "triangles": 372
+    }
+   ],
+   "textures": [
+    "75b00659025db5b3",
+    "bcefbff236d54ff9"
+   ]
+  },
+  "vanilla:clutter/ingredients/firesaltpile": {
+   "file": "vanilla_clutter_ingredients_firesaltpile-2673767a.glb",
+   "bytes": 13180,
+   "vertices": 251,
+   "triangles": 368,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 251,
+     "triangles": 368
+    },
+    {
+     "lod": 1,
+     "vertices": 214,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 214,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "7dccfc8f58da835f"
+   ]
+  },
+  "vanilla:clutter/ingredients/frostsalts": {
+   "file": "vanilla_clutter_ingredients_frostsalts-0af9596f.glb",
+   "bytes": 5908,
+   "vertices": 122,
+   "triangles": 198,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 122,
+     "triangles": 198
+    },
+    {
+     "lod": 1,
+     "vertices": 122,
+     "triangles": 198
+    },
+    {
+     "lod": 2,
+     "vertices": 122,
+     "triangles": 198
+    }
+   ],
+   "textures": [
+    "5d75c9850000625d"
+   ]
+  },
+  "vanilla:clutter/ingredients/giantstoe": {
+   "file": "vanilla_clutter_ingredients_giantstoe-0a60840c.glb",
+   "bytes": 6068,
+   "vertices": 122,
+   "triangles": 198,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 122,
+     "triangles": 198
+    },
+    {
+     "lod": 1,
+     "vertices": 122,
+     "triangles": 198
+    },
+    {
+     "lod": 2,
+     "vertices": 122,
+     "triangles": 198
+    }
+   ],
+   "textures": [
+    "ef6ec76a19b95090"
+   ]
+  },
+  "vanilla:clutter/ingredients/glowdust01": {
+   "file": "vanilla_clutter_ingredients_glowdust01-acdf1792.glb",
+   "bytes": 37920,
+   "vertices": 606,
+   "triangles": 622,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 606,
+     "triangles": 622
+    },
+    {
+     "lod": 1,
+     "vertices": 580,
+     "triangles": 594
+    },
+    {
+     "lod": 2,
+     "vertices": 580,
+     "triangles": 594
+    }
+   ],
+   "textures": [
+    "7cbd0b1bdb75fd95",
+    "98ccf419a1127ba6",
+    "bcefbff236d54ff9"
+   ]
+  },
+  "vanilla:clutter/ingredients/hagclaw": {
+   "file": "vanilla_clutter_ingredients_hagclaw-033e2a2c.glb",
+   "bytes": 5112,
+   "vertices": 61,
+   "triangles": 72,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 61,
+     "triangles": 72
+    },
+    {
+     "lod": 1,
+     "vertices": 61,
+     "triangles": 72
+    },
+    {
+     "lod": 2,
+     "vertices": 61,
+     "triangles": 72
+    }
+   ],
+   "textures": [
+    "776e677f264e7178"
+   ]
+  },
+  "vanilla:clutter/ingredients/horsemeat": {
+   "file": "vanilla_clutter_ingredients_horsemeat-113da111.glb",
+   "bytes": 7020,
+   "vertices": 180,
+   "triangles": 298,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 180,
+     "triangles": 298
+    },
+    {
+     "lod": 1,
+     "vertices": 180,
+     "triangles": 298
+    },
+    {
+     "lod": 2,
+     "vertices": 180,
+     "triangles": 298
+    }
+   ],
+   "textures": [
+    "a4a4d72bdf900857"
+   ]
+  },
+  "vanilla:clutter/ingredients/icewraithteeth": {
+   "file": "vanilla_clutter_ingredients_icewraithteeth-e7cf8220.glb",
+   "bytes": 5988,
+   "vertices": 95,
+   "triangles": 144,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 95,
+     "triangles": 144
+    },
+    {
+     "lod": 1,
+     "vertices": 95,
+     "triangles": 144
+    },
+    {
+     "lod": 2,
+     "vertices": 95,
+     "triangles": 144
+    }
+   ],
+   "textures": [
+    "30e018a86a93863e"
+   ]
+  },
   "vanilla:clutter/ingredients/mead01": {
    "file": "vanilla_clutter_ingredients_mead01-6528315d.glb",
    "bytes": 21568,
@@ -1011,6 +4151,86 @@
    "textures": [
     "a6fb72402f619129",
     "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/ingredients/moonsugar01": {
+   "file": "vanilla_clutter_ingredients_moonsugar01-5be1176a.glb",
+   "bytes": 42840,
+   "vertices": 1071,
+   "triangles": 852,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1071,
+     "triangles": 852
+    },
+    {
+     "lod": 1,
+     "vertices": 811,
+     "triangles": 600
+    },
+    {
+     "lod": 2,
+     "vertices": 811,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "67192021f2c59002",
+    "7ade7f27d2ef082e"
+   ]
+  },
+  "vanilla:clutter/ingredients/pie01": {
+   "file": "vanilla_clutter_ingredients_pie01-82a9b44d.glb",
+   "bytes": 6828,
+   "vertices": 174,
+   "triangles": 300,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 174,
+     "triangles": 300
+    },
+    {
+     "lod": 1,
+     "vertices": 174,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 174,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "2a569e7d637790be"
+   ]
+  },
+  "vanilla:clutter/ingredients/sap": {
+   "file": "vanilla_clutter_ingredients_sap-2e5fa1df.glb",
+   "bytes": 13232,
+   "vertices": 320,
+   "triangles": 372,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 320,
+     "triangles": 372
+    },
+    {
+     "lod": 1,
+     "vertices": 320,
+     "triangles": 372
+    },
+    {
+     "lod": 2,
+     "vertices": 320,
+     "triangles": 372
+    }
+   ],
+   "textures": [
+    "75b00659025db5b3",
+    "bcefbff236d54ff9"
    ]
   },
   "vanilla:clutter/ingredients/slaughterfishscale": {
@@ -1039,6 +4259,191 @@
     "9df568fd9f06b584"
    ]
   },
+  "vanilla:clutter/ingredients/spideregg01": {
+   "file": "vanilla_clutter_ingredients_spideregg01-0ba203fe.glb",
+   "bytes": 6368,
+   "vertices": 130,
+   "triangles": 192,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 130,
+     "triangles": 192
+    },
+    {
+     "lod": 1,
+     "vertices": 130,
+     "triangles": 192
+    },
+    {
+     "lod": 2,
+     "vertices": 130,
+     "triangles": 192
+    }
+   ],
+   "textures": [
+    "c29a47e454e379b5"
+   ]
+  },
+  "vanilla:clutter/ingredients/spriggantaproot": {
+   "file": "vanilla_clutter_ingredients_spriggantaproot-467b374c.glb",
+   "bytes": 12244,
+   "vertices": 190,
+   "triangles": 308,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 190,
+     "triangles": 308
+    },
+    {
+     "lod": 1,
+     "vertices": 186,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 186,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "60d7730143ccb812",
+    "d1b34d6ca0e09ee9"
+   ]
+  },
+  "vanilla:clutter/ingredients/stew": {
+   "file": "vanilla_clutter_ingredients_stew-8562ebfc.glb",
+   "bytes": 11920,
+   "vertices": 240,
+   "triangles": 262,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 240,
+     "triangles": 262
+    },
+    {
+     "lod": 1,
+     "vertices": 240,
+     "triangles": 262
+    },
+    {
+     "lod": 2,
+     "vertices": 240,
+     "triangles": 262
+    }
+   ],
+   "textures": [
+    "bcefbff236d54ff9",
+    "d284a5208fb29230"
+   ]
+  },
+  "vanilla:clutter/ingredients/sweetroll01": {
+   "file": "vanilla_clutter_ingredients_sweetroll01-62c2a8d1.glb",
+   "bytes": 11640,
+   "vertices": 209,
+   "triangles": 396,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 209,
+     "triangles": 396
+    },
+    {
+     "lod": 1,
+     "vertices": 161,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 161,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "ea98683f8370f972"
+   ]
+  },
+  "vanilla:clutter/ingredients/vampiredust": {
+   "file": "vanilla_clutter_ingredients_vampiredust-6fe19388.glb",
+   "bytes": 20588,
+   "vertices": 354,
+   "triangles": 412,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 354,
+     "triangles": 412
+    },
+    {
+     "lod": 1,
+     "vertices": 328,
+     "triangles": 384
+    },
+    {
+     "lod": 2,
+     "vertices": 328,
+     "triangles": 384
+    }
+   ],
+   "textures": [
+    "41f7fe962b9cf0c9",
+    "bcefbff236d54ff9"
+   ]
+  },
+  "vanilla:clutter/ingredients/venison": {
+   "file": "vanilla_clutter_ingredients_venison-88e4d4dd.glb",
+   "bytes": 11948,
+   "vertices": 199,
+   "triangles": 302,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 199,
+     "triangles": 302
+    },
+    {
+     "lod": 1,
+     "vertices": 198,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 198,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "0a1c311740a8ff56"
+   ]
+  },
+  "vanilla:clutter/ingredients/voidsalts": {
+   "file": "vanilla_clutter_ingredients_voidsalts-ff4143ad.glb",
+   "bytes": 5904,
+   "vertices": 122,
+   "triangles": 198,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 122,
+     "triangles": 198
+    },
+    {
+     "lod": 1,
+     "vertices": 122,
+     "triangles": 198
+    },
+    {
+     "lod": 2,
+     "vertices": 122,
+     "triangles": 198
+    }
+   ],
+   "textures": [
+    "b6cb6bc2d8364746"
+   ]
+  },
   "vanilla:clutter/kettle01": {
    "file": "vanilla_clutter_kettle01-d989af2c.glb",
    "bytes": 30592,
@@ -1063,6 +4468,32 @@
    ],
    "textures": [
     "965012d39e3f5a8d"
+   ]
+  },
+  "vanilla:clutter/key01": {
+   "file": "vanilla_clutter_key01-4c8b70fe.glb",
+   "bytes": 19428,
+   "vertices": 452,
+   "triangles": 368,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 452,
+     "triangles": 368
+    },
+    {
+     "lod": 1,
+     "vertices": 388,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 388,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "7be1dbfbab628470"
    ]
   },
   "vanilla:clutter/kitchen/castironpotsmall01": {
@@ -1140,6 +4571,112 @@
     }
    ],
    "textures": [
+    "64be3b1d2af73dcf"
+   ]
+  },
+  "vanilla:clutter/meaderybrewer01": {
+   "file": "vanilla_clutter_meaderybrewer01-dc7a9800.glb",
+   "bytes": 26060,
+   "vertices": 703,
+   "triangles": 1010,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 703,
+     "triangles": 1010
+    },
+    {
+     "lod": 1,
+     "vertices": 315,
+     "triangles": 352
+    },
+    {
+     "lod": 2,
+     "vertices": 277,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "ca639561e3b40f6b"
+   ]
+  },
+  "vanilla:clutter/meaderybrewer01lid": {
+   "file": "vanilla_clutter_meaderybrewer01lid-1aef01da.glb",
+   "bytes": 5160,
+   "vertices": 72,
+   "triangles": 112,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 72,
+     "triangles": 112
+    },
+    {
+     "lod": 1,
+     "vertices": 72,
+     "triangles": 112
+    },
+    {
+     "lod": 2,
+     "vertices": 72,
+     "triangles": 112
+    }
+   ],
+   "textures": [
+    "ca639561e3b40f6b"
+   ]
+  },
+  "vanilla:clutter/oilbarrel/bfxoilbarrelclosedstatic01": {
+   "file": "vanilla_clutter_oilbarrel_bfxoilbarrelclosedstatic01-505b2f9e.glb",
+   "bytes": 13472,
+   "vertices": 359,
+   "triangles": 316,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 359,
+     "triangles": 316
+    },
+    {
+     "lod": 1,
+     "vertices": 359,
+     "triangles": 316
+    },
+    {
+     "lod": 2,
+     "vertices": 359,
+     "triangles": 316
+    }
+   ],
+   "textures": [
+    "25a9bbbbf32ab401",
+    "64be3b1d2af73dcf"
+   ]
+  },
+  "vanilla:clutter/oilbarrel/bfxoilbarrelclosedstatic02": {
+   "file": "vanilla_clutter_oilbarrel_bfxoilbarrelclosedstatic02-031573b5.glb",
+   "bytes": 13656,
+   "vertices": 369,
+   "triangles": 324,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 369,
+     "triangles": 324
+    },
+    {
+     "lod": 1,
+     "vertices": 369,
+     "triangles": 324
+    },
+    {
+     "lod": 2,
+     "vertices": 369,
+     "triangles": 324
+    }
+   ],
+   "textures": [
+    "25a9bbbbf32ab401",
     "64be3b1d2af73dcf"
    ]
   },
@@ -1299,6 +4836,666 @@
     "aa625ff8711151e5"
    ]
   },
+  "vanilla:clutter/pelts/pelthanging01": {
+   "file": "vanilla_clutter_pelts_pelthanging01-2e8fe2a5.glb",
+   "bytes": 5220,
+   "vertices": 72,
+   "triangles": 86,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 72,
+     "triangles": 86
+    },
+    {
+     "lod": 1,
+     "vertices": 72,
+     "triangles": 86
+    },
+    {
+     "lod": 2,
+     "vertices": 72,
+     "triangles": 86
+    }
+   ],
+   "textures": [
+    "bb2a646533f8db88"
+   ]
+  },
+  "vanilla:clutter/pelts/pelthanging02": {
+   "file": "vanilla_clutter_pelts_pelthanging02-6a444ac6.glb",
+   "bytes": 5152,
+   "vertices": 68,
+   "triangles": 82,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 68,
+     "triangles": 82
+    },
+    {
+     "lod": 1,
+     "vertices": 68,
+     "triangles": 82
+    },
+    {
+     "lod": 2,
+     "vertices": 68,
+     "triangles": 82
+    }
+   ],
+   "textures": [
+    "6b3ba27070caf9a3"
+   ]
+  },
+  "vanilla:clutter/pelts/pelthanging03": {
+   "file": "vanilla_clutter_pelts_pelthanging03-e4e4a926.glb",
+   "bytes": 5472,
+   "vertices": 90,
+   "triangles": 104,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 90,
+     "triangles": 104
+    },
+    {
+     "lod": 1,
+     "vertices": 90,
+     "triangles": 104
+    },
+    {
+     "lod": 2,
+     "vertices": 90,
+     "triangles": 104
+    }
+   ],
+   "textures": [
+    "aa625ff8711151e5"
+   ]
+  },
+  "vanilla:clutter/potions/meadblackbriar": {
+   "file": "vanilla_clutter_potions_meadblackbriar-7443e794.glb",
+   "bytes": 27664,
+   "vertices": 508,
+   "triangles": 592,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 508,
+     "triangles": 592
+    },
+    {
+     "lod": 1,
+     "vertices": 407,
+     "triangles": 419
+    },
+    {
+     "lod": 2,
+     "vertices": 407,
+     "triangles": 419
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f",
+    "bb65d8301dad2dd0",
+    "fdd95835f73eacc6"
+   ]
+  },
+  "vanilla:clutter/potions/poisonfear01": {
+   "file": "vanilla_clutter_potions_poisonfear01-11725fad.glb",
+   "bytes": 12036,
+   "vertices": 219,
+   "triangles": 216,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 219,
+     "triangles": 216
+    },
+    {
+     "lod": 1,
+     "vertices": 219,
+     "triangles": 216
+    },
+    {
+     "lod": 2,
+     "vertices": 219,
+     "triangles": 216
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f",
+    "c2c6421823b83a02"
+   ]
+  },
+  "vanilla:clutter/potions/poisonfrenzy01": {
+   "file": "vanilla_clutter_potions_poisonfrenzy01-3c5a62d5.glb",
+   "bytes": 12100,
+   "vertices": 219,
+   "triangles": 216,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 219,
+     "triangles": 216
+    },
+    {
+     "lod": 1,
+     "vertices": 219,
+     "triangles": 216
+    },
+    {
+     "lod": 2,
+     "vertices": 219,
+     "triangles": 216
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f",
+    "c2c6421823b83a02"
+   ]
+  },
+  "vanilla:clutter/potions/poisonparalyze01": {
+   "file": "vanilla_clutter_potions_poisonparalyze01-983eb7c6.glb",
+   "bytes": 11628,
+   "vertices": 177,
+   "triangles": 180,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 177,
+     "triangles": 180
+    },
+    {
+     "lod": 1,
+     "vertices": 177,
+     "triangles": 180
+    },
+    {
+     "lod": 2,
+     "vertices": 177,
+     "triangles": 180
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f",
+    "c2c6421823b83a02"
+   ]
+  },
+  "vanilla:clutter/potions/potionfortifyhealratelesser": {
+   "file": "vanilla_clutter_potions_potionfortifyhealratelesser-ffc0cccc.glb",
+   "bytes": 17868,
+   "vertices": 430,
+   "triangles": 306,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 430,
+     "triangles": 306
+    },
+    {
+     "lod": 1,
+     "vertices": 427,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 427,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/potions/potionfortifyskill01": {
+   "file": "vanilla_clutter_potions_potionfortifyskill01-44180481.glb",
+   "bytes": 18848,
+   "vertices": 408,
+   "triangles": 454,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 408,
+     "triangles": 454
+    },
+    {
+     "lod": 1,
+     "vertices": 304,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 304,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/potions/potionfortifystaminalesser": {
+   "file": "vanilla_clutter_potions_potionfortifystaminalesser-8498267e.glb",
+   "bytes": 18800,
+   "vertices": 456,
+   "triangles": 342,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 456,
+     "triangles": 342
+    },
+    {
+     "lod": 1,
+     "vertices": 427,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 427,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/potions/potionhealthextra": {
+   "file": "vanilla_clutter_potions_potionhealthextra-a9c3fba0.glb",
+   "bytes": 20656,
+   "vertices": 575,
+   "triangles": 617,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 575,
+     "triangles": 617
+    },
+    {
+     "lod": 1,
+     "vertices": 330,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 330,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/potions/potionhealthgreat": {
+   "file": "vanilla_clutter_potions_potionhealthgreat-4cc303ff.glb",
+   "bytes": 19780,
+   "vertices": 498,
+   "triangles": 611,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 498,
+     "triangles": 611
+    },
+    {
+     "lod": 1,
+     "vertices": 300,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 300,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/potions/potionhealthlesser": {
+   "file": "vanilla_clutter_potions_potionhealthlesser-eb0a0a52.glb",
+   "bytes": 21788,
+   "vertices": 620,
+   "triangles": 506,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 620,
+     "triangles": 506
+    },
+    {
+     "lod": 1,
+     "vertices": 461,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 461,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/potions/potioninvisibiltylesser": {
+   "file": "vanilla_clutter_potions_potioninvisibiltylesser-8080603b.glb",
+   "bytes": 21568,
+   "vertices": 620,
+   "triangles": 506,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 620,
+     "triangles": 506
+    },
+    {
+     "lod": 1,
+     "vertices": 461,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 461,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/potions/potionmagickaextreme": {
+   "file": "vanilla_clutter_potions_potionmagickaextreme-8915ced2.glb",
+   "bytes": 19708,
+   "vertices": 575,
+   "triangles": 671,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 575,
+     "triangles": 671
+    },
+    {
+     "lod": 1,
+     "vertices": 329,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 329,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/potions/potionmagickalesser": {
+   "file": "vanilla_clutter_potions_potionmagickalesser-34210535.glb",
+   "bytes": 18708,
+   "vertices": 430,
+   "triangles": 306,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 430,
+     "triangles": 306
+    },
+    {
+     "lod": 1,
+     "vertices": 426,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 426,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/potions/potionresistfire50": {
+   "file": "vanilla_clutter_potions_potionresistfire50-34f4d806.glb",
+   "bytes": 16372,
+   "vertices": 367,
+   "triangles": 456,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 367,
+     "triangles": 456
+    },
+    {
+     "lod": 1,
+     "vertices": 267,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 267,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/potions/potionresistfrost50": {
+   "file": "vanilla_clutter_potions_potionresistfrost50-7d7468a4.glb",
+   "bytes": 16372,
+   "vertices": 367,
+   "triangles": 456,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 367,
+     "triangles": 456
+    },
+    {
+     "lod": 1,
+     "vertices": 267,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 267,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/potions/potionresistshock50": {
+   "file": "vanilla_clutter_potions_potionresistshock50-37380e68.glb",
+   "bytes": 16372,
+   "vertices": 367,
+   "triangles": 456,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 367,
+     "triangles": 456
+    },
+    {
+     "lod": 1,
+     "vertices": 267,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 267,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/potions/potionskooma": {
+   "file": "vanilla_clutter_potions_potionskooma-a1f074a7.glb",
+   "bytes": 18880,
+   "vertices": 495,
+   "triangles": 548,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 495,
+     "triangles": 548
+    },
+    {
+     "lod": 1,
+     "vertices": 308,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 308,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/potions/potionstaminaextra": {
+   "file": "vanilla_clutter_potions_potionstaminaextra-8735d0ec.glb",
+   "bytes": 16532,
+   "vertices": 312,
+   "triangles": 366,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 312,
+     "triangles": 366
+    },
+    {
+     "lod": 1,
+     "vertices": 271,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 271,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/potions/potionstaminagreat": {
+   "file": "vanilla_clutter_potions_potionstaminagreat-b7e3b283.glb",
+   "bytes": 17128,
+   "vertices": 341,
+   "triangles": 398,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 341,
+     "triangles": 398
+    },
+    {
+     "lod": 1,
+     "vertices": 277,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 277,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/potions/potionstaminalesser": {
+   "file": "vanilla_clutter_potions_potionstaminalesser-cc849c3f.glb",
+   "bytes": 19192,
+   "vertices": 456,
+   "triangles": 342,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 456,
+     "triangles": 342
+    },
+    {
+     "lod": 1,
+     "vertices": 427,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 427,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/practicedummy/practicedummy01": {
+   "file": "vanilla_clutter_practicedummy_practicedummy01-6cbeebcf.glb",
+   "bytes": 33020,
+   "vertices": 829,
+   "triangles": 1066,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 829,
+     "triangles": 1066
+    },
+    {
+     "lod": 1,
+     "vertices": 485,
+     "triangles": 489
+    },
+    {
+     "lod": 2,
+     "vertices": 477,
+     "triangles": 479
+    }
+   ],
+   "textures": [
+    "0209a574aeb2b5c6",
+    "76236ea2541c1567"
+   ]
+  },
+  "vanilla:clutter/practicedummy/practicedummy02": {
+   "file": "vanilla_clutter_practicedummy_practicedummy02-2ba35f44.glb",
+   "bytes": 47380,
+   "vertices": 1164,
+   "triangles": 1096,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1164,
+     "triangles": 1096
+    },
+    {
+     "lod": 1,
+     "vertices": 1116,
+     "triangles": 1024
+    },
+    {
+     "lod": 2,
+     "vertices": 1116,
+     "triangles": 1024
+    }
+   ],
+   "textures": [
+    "0209a574aeb2b5c6",
+    "69af0012c0d5b2fb",
+    "76236ea2541c1567",
+    "d1ac4df756c55d7a",
+    "f547bc6470506aa2"
+   ]
+  },
   "vanilla:clutter/quest/firebrandwine01": {
    "file": "vanilla_clutter_quest_firebrandwine01-d87de7cb.glb",
    "bytes": 21168,
@@ -1326,6 +5523,678 @@
     "ecf358945997e6f2"
    ]
   },
+  "vanilla:clutter/quest/sleepingtreesap01": {
+   "file": "vanilla_clutter_quest_sleepingtreesap01-d84c2b87.glb",
+   "bytes": 17928,
+   "vertices": 412,
+   "triangles": 508,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 412,
+     "triangles": 508
+    },
+    {
+     "lod": 1,
+     "vertices": 288,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 288,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "b6ee256be9c8e60f"
+   ]
+  },
+  "vanilla:clutter/quest/tgparchment01": {
+   "file": "vanilla_clutter_quest_tgparchment01-5410372e.glb",
+   "bytes": 12588,
+   "vertices": 227,
+   "triangles": 321,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 227,
+     "triangles": 321
+    },
+    {
+     "lod": 1,
+     "vertices": 216,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 216,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "ceb5f36614af0e72"
+   ]
+  },
+  "vanilla:clutter/ruins/ruinsfloorcandlelampsmon": {
+   "file": "vanilla_clutter_ruins_ruinsfloorcandlelampsmon-ab5b12cf.glb",
+   "bytes": 32260,
+   "vertices": 785,
+   "triangles": 891,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 785,
+     "triangles": 891
+    },
+    {
+     "lod": 1,
+     "vertices": 670,
+     "triangles": 651
+    },
+    {
+     "lod": 2,
+     "vertices": 670,
+     "triangles": 651
+    }
+   ],
+   "textures": [
+    "1ad417f463733278",
+    "92a2ef36c80f3944",
+    "e57da8e5f799fb18"
+   ]
+  },
+  "vanilla:clutter/ruins/ruinsfloorcandlelampsmon02": {
+   "file": "vanilla_clutter_ruins_ruinsfloorcandlelampsmon02-394c5eb8.glb",
+   "bytes": 34924,
+   "vertices": 733,
+   "triangles": 763,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 733,
+     "triangles": 763
+    },
+    {
+     "lod": 1,
+     "vertices": 675,
+     "triangles": 655
+    },
+    {
+     "lod": 2,
+     "vertices": 675,
+     "triangles": 655
+    }
+   ],
+   "textures": [
+    "1ad417f463733278",
+    "92a2ef36c80f3944",
+    "e57da8e5f799fb18"
+   ]
+  },
+  "vanilla:clutter/shrines/shrinearkay": {
+   "file": "vanilla_clutter_shrines_shrinearkay-bd0f1609.glb",
+   "bytes": 16536,
+   "vertices": 412,
+   "triangles": 472,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 412,
+     "triangles": 472
+    },
+    {
+     "lod": 1,
+     "vertices": 304,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 304,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "e89b9c988ca40a1d"
+   ]
+  },
+  "vanilla:clutter/shrines/shrinebase": {
+   "file": "vanilla_clutter_shrines_shrinebase-f48b6786.glb",
+   "bytes": 50216,
+   "vertices": 1385,
+   "triangles": 1425,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1385,
+     "triangles": 1425
+    },
+    {
+     "lod": 1,
+     "vertices": 712,
+     "triangles": 667
+    },
+    {
+     "lod": 2,
+     "vertices": 645,
+     "triangles": 599
+    }
+   ],
+   "textures": [
+    "4f30548ffef3b88d",
+    "e57da8e5f799fb18"
+   ]
+  },
+  "vanilla:clutter/silver/silverbowl01": {
+   "file": "vanilla_clutter_silver_silverbowl01-c85d8f82.glb",
+   "bytes": 15048,
+   "vertices": 391,
+   "triangles": 544,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 391,
+     "triangles": 544
+    },
+    {
+     "lod": 1,
+     "vertices": 262,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 262,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "1e8c44f25cbf8d9a"
+   ]
+  },
+  "vanilla:clutter/silver/silverjug01": {
+   "file": "vanilla_clutter_silver_silverjug01-5d1a7a79.glb",
+   "bytes": 29896,
+   "vertices": 745,
+   "triangles": 862,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 745,
+     "triangles": 862
+    },
+    {
+     "lod": 1,
+     "vertices": 313,
+     "triangles": 301
+    },
+    {
+     "lod": 2,
+     "vertices": 312,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "1e8c44f25cbf8d9a"
+   ]
+  },
+  "vanilla:clutter/tolfdirsalembic01/alchemytolfdirsalembic01": {
+   "file": "vanilla_clutter_tolfdirsalembic01_alchemytolfdirsalembic01-313bcdc6.glb",
+   "bytes": 70416,
+   "vertices": 1418,
+   "triangles": 1920,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1418,
+     "triangles": 1920
+    },
+    {
+     "lod": 1,
+     "vertices": 1282,
+     "triangles": 1682
+    },
+    {
+     "lod": 2,
+     "vertices": 1282,
+     "triangles": 1682
+    }
+   ],
+   "textures": [
+    "1b786d3d01cf0f14",
+    "7233d2ac7f91a93d"
+   ]
+  },
+  "vanilla:clutter/upperclass/upperchair01": {
+   "file": "vanilla_clutter_upperclass_upperchair01-2c637951.glb",
+   "bytes": 18180,
+   "vertices": 508,
+   "triangles": 460,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 508,
+     "triangles": 460
+    },
+    {
+     "lod": 1,
+     "vertices": 382,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 382,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "9a25d4483e80d935"
+   ]
+  },
+  "vanilla:clutter/upperclass/uppercupboard01": {
+   "file": "vanilla_clutter_upperclass_uppercupboard01-7d49e6c6.glb",
+   "bytes": 61452,
+   "vertices": 2417,
+   "triangles": 2196,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2417,
+     "triangles": 2196
+    },
+    {
+     "lod": 1,
+     "vertices": 1267,
+     "triangles": 890
+    },
+    {
+     "lod": 2,
+     "vertices": 754,
+     "triangles": 488
+    }
+   ],
+   "textures": [
+    "9a25d4483e80d935"
+   ]
+  },
+  "vanilla:clutter/upperclass/upperdresser01": {
+   "file": "vanilla_clutter_upperclass_upperdresser01-347f213e.glb",
+   "bytes": 44524,
+   "vertices": 1468,
+   "triangles": 1294,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1468,
+     "triangles": 1294
+    },
+    {
+     "lod": 1,
+     "vertices": 844,
+     "triangles": 575
+    },
+    {
+     "lod": 2,
+     "vertices": 728,
+     "triangles": 488
+    }
+   ],
+   "textures": [
+    "9a25d4483e80d935"
+   ]
+  },
+  "vanilla:clutter/upperclass/uppershelf01": {
+   "file": "vanilla_clutter_upperclass_uppershelf01-d4029b67.glb",
+   "bytes": 49376,
+   "vertices": 1801,
+   "triangles": 1687,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1801,
+     "triangles": 1687
+    },
+    {
+     "lod": 1,
+     "vertices": 865,
+     "triangles": 590
+    },
+    {
+     "lod": 2,
+     "vertices": 510,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "9a25d4483e80d935"
+   ]
+  },
+  "vanilla:clutter/upperclass/uppertable01": {
+   "file": "vanilla_clutter_upperclass_uppertable01-a70705a1.glb",
+   "bytes": 21832,
+   "vertices": 728,
+   "triangles": 692,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 728,
+     "triangles": 692
+    },
+    {
+     "lod": 1,
+     "vertices": 426,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 426,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "9a25d4483e80d935"
+   ]
+  },
+  "vanilla:clutter/upperclass/uppertableround01": {
+   "file": "vanilla_clutter_upperclass_uppertableround01-31265016.glb",
+   "bytes": 22128,
+   "vertices": 778,
+   "triangles": 832,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 778,
+     "triangles": 832
+    },
+    {
+     "lod": 1,
+     "vertices": 372,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 372,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "9a25d4483e80d935"
+   ]
+  },
+  "vanilla:clutter/upperclass/uppertablesquare01": {
+   "file": "vanilla_clutter_upperclass_uppertablesquare01-7aa9fd77.glb",
+   "bytes": 33436,
+   "vertices": 880,
+   "triangles": 880,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 880,
+     "triangles": 880
+    },
+    {
+     "lod": 1,
+     "vertices": 460,
+     "triangles": 308
+    },
+    {
+     "lod": 2,
+     "vertices": 452,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "9a25d4483e80d935"
+   ]
+  },
+  "vanilla:clutter/upperclass/upperwardrobe01": {
+   "file": "vanilla_clutter_upperclass_upperwardrobe01-c0454243.glb",
+   "bytes": 74868,
+   "vertices": 3355,
+   "triangles": 2928,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3355,
+     "triangles": 2928
+    },
+    {
+     "lod": 1,
+     "vertices": 1933,
+     "triangles": 1404
+    },
+    {
+     "lod": 2,
+     "vertices": 1249,
+     "triangles": 884
+    }
+   ],
+   "textures": [
+    "9a25d4483e80d935"
+   ]
+  },
+  "vanilla:clutter/wallbasket01": {
+   "file": "vanilla_clutter_wallbasket01-4fc737f7.glb",
+   "bytes": 17452,
+   "vertices": 392,
+   "triangles": 400,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 392,
+     "triangles": 400
+    },
+    {
+     "lod": 1,
+     "vertices": 341,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 341,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "b35bcb40eb8bac67"
+   ]
+  },
+  "vanilla:clutter/wallbasket02": {
+   "file": "vanilla_clutter_wallbasket02-528b11c7.glb",
+   "bytes": 30160,
+   "vertices": 618,
+   "triangles": 734,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 618,
+     "triangles": 734
+    },
+    {
+     "lod": 1,
+     "vertices": 566,
+     "triangles": 634
+    },
+    {
+     "lod": 2,
+     "vertices": 566,
+     "triangles": 634
+    }
+   ],
+   "textures": [
+    "5d6aedd71b9740f4",
+    "67ae0d42579c1eb0",
+    "75799bb94b2b9652",
+    "b35bcb40eb8bac67"
+   ]
+  },
+  "vanilla:clutter/wallbasket04": {
+   "file": "vanilla_clutter_wallbasket04-6008b1c8.glb",
+   "bytes": 17624,
+   "vertices": 392,
+   "triangles": 400,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 392,
+     "triangles": 400
+    },
+    {
+     "lod": 1,
+     "vertices": 341,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 341,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "b35bcb40eb8bac67"
+   ]
+  },
+  "vanilla:clutter/wallbaskethex01": {
+   "file": "vanilla_clutter_wallbaskethex01-cb1c7f73.glb",
+   "bytes": 7772,
+   "vertices": 214,
+   "triangles": 240,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 214,
+     "triangles": 240
+    },
+    {
+     "lod": 1,
+     "vertices": 214,
+     "triangles": 240
+    },
+    {
+     "lod": 2,
+     "vertices": 214,
+     "triangles": 240
+    }
+   ],
+   "textures": [
+    "b35bcb40eb8bac67"
+   ]
+  },
+  "vanilla:clutter/wallbaskethex04": {
+   "file": "vanilla_clutter_wallbaskethex04-bb40b80b.glb",
+   "bytes": 11368,
+   "vertices": 227,
+   "triangles": 264,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 227,
+     "triangles": 264
+    },
+    {
+     "lod": 1,
+     "vertices": 227,
+     "triangles": 264
+    },
+    {
+     "lod": 2,
+     "vertices": 227,
+     "triangles": 264
+    }
+   ],
+   "textures": [
+    "67ae0d42579c1eb0",
+    "b35bcb40eb8bac67"
+   ]
+  },
+  "vanilla:clutter/wallbasketlarge02": {
+   "file": "vanilla_clutter_wallbasketlarge02-4f684557.glb",
+   "bytes": 31040,
+   "vertices": 640,
+   "triangles": 706,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 640,
+     "triangles": 706
+    },
+    {
+     "lod": 1,
+     "vertices": 588,
+     "triangles": 605
+    },
+    {
+     "lod": 2,
+     "vertices": 588,
+     "triangles": 605
+    }
+   ],
+   "textures": [
+    "5d6aedd71b9740f4",
+    "67ae0d42579c1eb0",
+    "75799bb94b2b9652",
+    "b35bcb40eb8bac67"
+   ]
+  },
+  "vanilla:clutter/warhorns/imperialwarhorn": {
+   "file": "vanilla_clutter_warhorns_imperialwarhorn-02eb361e.glb",
+   "bytes": 14624,
+   "vertices": 314,
+   "triangles": 310,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 314,
+     "triangles": 310
+    },
+    {
+     "lod": 1,
+     "vertices": 304,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 304,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "4878a2cb7ca63b09"
+   ]
+  },
+  "vanilla:clutter/weaponrack/wrplaque01": {
+   "file": "vanilla_clutter_weaponrack_wrplaque01-d380b952.glb",
+   "bytes": 14656,
+   "vertices": 419,
+   "triangles": 452,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 419,
+     "triangles": 452
+    },
+    {
+     "lod": 1,
+     "vertices": 419,
+     "triangles": 452
+    },
+    {
+     "lod": 2,
+     "vertices": 419,
+     "triangles": 452
+    }
+   ],
+   "textures": [
+    "0209a574aeb2b5c6",
+    "d68f871095fc0a85"
+   ]
+  },
+  "vanilla:clutter/weaponrack/wrplaquetrigger01": {
+   "file": "vanilla_clutter_weaponrack_wrplaquetrigger01-74281447.glb",
+   "bytes": 300,
+   "vertices": 0,
+   "triangles": 0,
+   "lods": [],
+   "textures": []
+  },
   "vanilla:clutter/wine/winebottle01a": {
    "file": "vanilla_clutter_wine_winebottle01a-443e9df4.glb",
    "bytes": 16672,
@@ -1346,6 +6215,32 @@
      "lod": 2,
      "vertices": 247,
      "triangles": 334
+    }
+   ],
+   "textures": [
+    "ecf358945997e6f2"
+   ]
+  },
+  "vanilla:clutter/wine/winebottle01aempty": {
+   "file": "vanilla_clutter_wine_winebottle01aempty-da33daa9.glb",
+   "bytes": 12596,
+   "vertices": 227,
+   "triangles": 336,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 227,
+     "triangles": 336
+    },
+    {
+     "lod": 1,
+     "vertices": 209,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 209,
+     "triangles": 300
     }
    ],
    "textures": [
@@ -1378,6 +6273,58 @@
     "ecf358945997e6f2"
    ]
   },
+  "vanilla:clutter/wine/winebottle01bempty": {
+   "file": "vanilla_clutter_wine_winebottle01bempty-84009055.glb",
+   "bytes": 16340,
+   "vertices": 323,
+   "triangles": 416,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 323,
+     "triangles": 416
+    },
+    {
+     "lod": 1,
+     "vertices": 323,
+     "triangles": 416
+    },
+    {
+     "lod": 2,
+     "vertices": 323,
+     "triangles": 416
+    }
+   ],
+   "textures": [
+    "ecf358945997e6f2"
+   ]
+  },
+  "vanilla:clutter/wine/winebottle02aempty": {
+   "file": "vanilla_clutter_wine_winebottle02aempty-80e58fb5.glb",
+   "bytes": 11848,
+   "vertices": 203,
+   "triangles": 336,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 203,
+     "triangles": 336
+    },
+    {
+     "lod": 1,
+     "vertices": 184,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 184,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "ecf358945997e6f2"
+   ]
+  },
   "vanilla:clutter/wine/winebottle02b": {
    "file": "vanilla_clutter_wine_winebottle02b-4f15ffb1.glb",
    "bytes": 17232,
@@ -1401,6 +6348,59 @@
     }
    ],
    "textures": [
+    "ecf358945997e6f2"
+   ]
+  },
+  "vanilla:clutter/wine/winebottle02bempty": {
+   "file": "vanilla_clutter_wine_winebottle02bempty-dbe7734b.glb",
+   "bytes": 16716,
+   "vertices": 333,
+   "triangles": 456,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 333,
+     "triangles": 456
+    },
+    {
+     "lod": 1,
+     "vertices": 333,
+     "triangles": 456
+    },
+    {
+     "lod": 2,
+     "vertices": 333,
+     "triangles": 456
+    }
+   ],
+   "textures": [
+    "ecf358945997e6f2"
+   ]
+  },
+  "vanilla:clutter/wine/winesanspicedwine": {
+   "file": "vanilla_clutter_wine_winesanspicedwine-463fbf87.glb",
+   "bytes": 17280,
+   "vertices": 350,
+   "triangles": 494,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 350,
+     "triangles": 494
+    },
+    {
+     "lod": 1,
+     "vertices": 350,
+     "triangles": 494
+    },
+    {
+     "lod": 2,
+     "vertices": 350,
+     "triangles": 494
+    }
+   ],
+   "textures": [
+    "bae1198a77488d14",
     "ecf358945997e6f2"
    ]
   },
@@ -1433,6 +6433,435 @@
     "acac1b10de5d5fde"
    ]
   },
+  "vanilla:critters/bee/beehivehusk": {
+   "file": "vanilla_critters_bee_beehivehusk-5c702ead.glb",
+   "bytes": 9480,
+   "vertices": 235,
+   "triangles": 294,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 235,
+     "triangles": 294
+    },
+    {
+     "lod": 1,
+     "vertices": 235,
+     "triangles": 294
+    },
+    {
+     "lod": 2,
+     "vertices": 235,
+     "triangles": 294
+    }
+   ],
+   "textures": [
+    "0ae7e13daf414f65"
+   ]
+  },
+  "vanilla:critters/bee/beeinjar": {
+   "file": "vanilla_critters_bee_beeinjar-7306b549.glb",
+   "bytes": 41824,
+   "vertices": 794,
+   "triangles": 786,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 794,
+     "triangles": 786
+    },
+    {
+     "lod": 1,
+     "vertices": 794,
+     "triangles": 786
+    },
+    {
+     "lod": 2,
+     "vertices": 794,
+     "triangles": 786
+    }
+   ],
+   "textures": [
+    "2acd74c28df2880e",
+    "32367a253c906e97",
+    "ba0e6d71675a2264",
+    "e422502e60306ba1",
+    "edc81ae79133fbd6",
+    "f07330f08f9e6503"
+   ]
+  },
+  "vanilla:critters/firefly/fireflygo": {
+   "file": "vanilla_critters_firefly_fireflygo-a3d3c2dd.glb",
+   "bytes": 7024,
+   "vertices": 145,
+   "triangles": 286,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 145,
+     "triangles": 286
+    },
+    {
+     "lod": 1,
+     "vertices": 145,
+     "triangles": 286
+    },
+    {
+     "lod": 2,
+     "vertices": 145,
+     "triangles": 286
+    }
+   ],
+   "textures": [
+    "0d24ef33a1d2270b",
+    "72c7894ffcaf1021"
+   ]
+  },
+  "vanilla:dungeons/mines/ore/ingotcorundum": {
+   "file": "vanilla_dungeons_mines_ore_ingotcorundum-014c6ad6.glb",
+   "bytes": 5696,
+   "vertices": 89,
+   "triangles": 98,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 89,
+     "triangles": 98
+    },
+    {
+     "lod": 1,
+     "vertices": 89,
+     "triangles": 98
+    },
+    {
+     "lod": 2,
+     "vertices": 89,
+     "triangles": 98
+    }
+   ],
+   "textures": [
+    "2a30d46a1e029851"
+   ]
+  },
+  "vanilla:dungeons/mines/ore/ingotiron01": {
+   "file": "vanilla_dungeons_mines_ore_ingotiron01-b0a9c68b.glb",
+   "bytes": 5644,
+   "vertices": 89,
+   "triangles": 98,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 89,
+     "triangles": 98
+    },
+    {
+     "lod": 1,
+     "vertices": 89,
+     "triangles": 98
+    },
+    {
+     "lod": 2,
+     "vertices": 89,
+     "triangles": 98
+    }
+   ],
+   "textures": [
+    "578f88a79805b6ae"
+   ]
+  },
+  "vanilla:dungeons/mines/ore/ingotsilver": {
+   "file": "vanilla_dungeons_mines_ore_ingotsilver-8c5b66d8.glb",
+   "bytes": 6456,
+   "vertices": 163,
+   "triangles": 98,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 163,
+     "triangles": 98
+    },
+    {
+     "lod": 1,
+     "vertices": 163,
+     "triangles": 98
+    },
+    {
+     "lod": 2,
+     "vertices": 163,
+     "triangles": 98
+    }
+   ],
+   "textures": [
+    "c090d700eeb464a0"
+   ]
+  },
+  "vanilla:dungeons/mines/ore/ingotsteel": {
+   "file": "vanilla_dungeons_mines_ore_ingotsteel-d5555262.glb",
+   "bytes": 5644,
+   "vertices": 92,
+   "triangles": 102,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 92,
+     "triangles": 102
+    },
+    {
+     "lod": 1,
+     "vertices": 92,
+     "triangles": 102
+    },
+    {
+     "lod": 2,
+     "vertices": 92,
+     "triangles": 102
+    }
+   ],
+   "textures": [
+    "5d1a2e4ae562ca90"
+   ]
+  },
+  "vanilla:dungeons/mines/ore/ore_silver": {
+   "file": "vanilla_dungeons_mines_ore_ore_silver-16fe5a4a.glb",
+   "bytes": 7040,
+   "vertices": 177,
+   "triangles": 300,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 177,
+     "triangles": 300
+    },
+    {
+     "lod": 1,
+     "vertices": 177,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 177,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "3f7f8781b7424213"
+   ]
+  },
+  "vanilla:dungeons/mines/ore/oreiron01": {
+   "file": "vanilla_dungeons_mines_ore_oreiron01-eac47ee2.glb",
+   "bytes": 7008,
+   "vertices": 177,
+   "triangles": 300,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 177,
+     "triangles": 300
+    },
+    {
+     "lod": 1,
+     "vertices": 177,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 177,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "94ec4d3fa03ae4be"
+   ]
+  },
+  "vanilla:dungeons/ship/clutter/shipoar01": {
+   "file": "vanilla_dungeons_ship_clutter_shipoar01-b121356e.glb",
+   "bytes": 12960,
+   "vertices": 434,
+   "triangles": 204,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 434,
+     "triangles": 204
+    },
+    {
+     "lod": 1,
+     "vertices": 434,
+     "triangles": 204
+    },
+    {
+     "lod": 2,
+     "vertices": 434,
+     "triangles": 204
+    }
+   ],
+   "textures": [
+    "89886576b7974949",
+    "b93c04b179e42d1f"
+   ]
+  },
+  "vanilla:furniture/alchemyworkbench": {
+   "file": "vanilla_furniture_alchemyworkbench-48d4c33b.glb",
+   "bytes": 166692,
+   "vertices": 4105,
+   "triangles": 5484,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4105,
+     "triangles": 5484
+    },
+    {
+     "lod": 1,
+     "vertices": 2602,
+     "triangles": 3131
+    },
+    {
+     "lod": 2,
+     "vertices": 2569,
+     "triangles": 3070
+    }
+   ],
+   "textures": [
+    "1b786d3d01cf0f14",
+    "41552c7908fed555",
+    "7233d2ac7f91a93d"
+   ]
+  },
+  "vanilla:furniture/alchemyworkstation": {
+   "file": "vanilla_furniture_alchemyworkstation-04cc5f08.glb",
+   "bytes": 85580,
+   "vertices": 1742,
+   "triangles": 2292,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1742,
+     "triangles": 2292
+    },
+    {
+     "lod": 1,
+     "vertices": 1583,
+     "triangles": 2048
+    },
+    {
+     "lod": 2,
+     "vertices": 1583,
+     "triangles": 2048
+    }
+   ],
+   "textures": [
+    "1b786d3d01cf0f14",
+    "41552c7908fed555",
+    "7233d2ac7f91a93d"
+   ]
+  },
+  "vanilla:furniture/bedroll/bedroll01": {
+   "file": "vanilla_furniture_bedroll_bedroll01-1c1c57d8.glb",
+   "bytes": 12628,
+   "vertices": 196,
+   "triangles": 336,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 196,
+     "triangles": 336
+    },
+    {
+     "lod": 1,
+     "vertices": 178,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 178,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "20890f9311ffd2f2"
+   ]
+  },
+  "vanilla:furniture/blacksmithworkbench01": {
+   "file": "vanilla_furniture_blacksmithworkbench01-f763c0d0.glb",
+   "bytes": 25412,
+   "vertices": 596,
+   "triangles": 430,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 596,
+     "triangles": 430
+    },
+    {
+     "lod": 1,
+     "vertices": 596,
+     "triangles": 430
+    },
+    {
+     "lod": 2,
+     "vertices": 596,
+     "triangles": 430
+    }
+   ],
+   "textures": [
+    "5aeb1a1960a72187",
+    "df50ae210601c7f6"
+   ]
+  },
+  "vanilla:furniture/clutter/blacksmithanvil": {
+   "file": "vanilla_furniture_clutter_blacksmithanvil-d1768810.glb",
+   "bytes": 17376,
+   "vertices": 442,
+   "triangles": 406,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 442,
+     "triangles": 406
+    },
+    {
+     "lod": 1,
+     "vertices": 380,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 380,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "43d562634b4e1961"
+   ]
+  },
+  "vanilla:furniture/clutter/blacksmithsharpeningwheelanimating": {
+   "file": "vanilla_furniture_clutter_blacksmithsharpeningwheelanimating-9d33878c.glb",
+   "bytes": 42632,
+   "vertices": 1230,
+   "triangles": 1119,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1230,
+     "triangles": 1119
+    },
+    {
+     "lod": 1,
+     "vertices": 1230,
+     "triangles": 1119
+    },
+    {
+     "lod": 2,
+     "vertices": 1230,
+     "triangles": 1119
+    }
+   ],
+   "textures": [
+    "155b7b665a1a68c9",
+    "cc2c44453b3191b9"
+   ]
+  },
   "vanilla:furniture/common/commonbed01": {
    "file": "vanilla_furniture_common_commonbed01-f2002452.glb",
    "bytes": 43640,
@@ -1463,6 +6892,37 @@
     "f547bc6470506aa2"
    ]
   },
+  "vanilla:furniture/common/commonbeddouble01": {
+   "file": "vanilla_furniture_common_commonbeddouble01-fef75c87.glb",
+   "bytes": 48684,
+   "vertices": 1227,
+   "triangles": 946,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1227,
+     "triangles": 946
+    },
+    {
+     "lod": 1,
+     "vertices": 1075,
+     "triangles": 870
+    },
+    {
+     "lod": 2,
+     "vertices": 1075,
+     "triangles": 870
+    }
+   ],
+   "textures": [
+    "05a13042d7563362",
+    "6b3ba27070caf9a3",
+    "744defe543b80553",
+    "aa625ff8711151e5",
+    "bb2a646533f8db88",
+    "f547bc6470506aa2"
+   ]
+  },
   "vanilla:furniture/commontableonebench": {
    "file": "vanilla_furniture_commontableonebench-08d3461f.glb",
    "bytes": 44164,
@@ -1489,6 +6949,289 @@
     "05a13042d7563362"
    ]
   },
+  "vanilla:furniture/farm/farmtable01": {
+   "file": "vanilla_furniture_farm_farmtable01-060e7e58.glb",
+   "bytes": 15936,
+   "vertices": 338,
+   "triangles": 328,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 338,
+     "triangles": 328
+    },
+    {
+     "lod": 1,
+     "vertices": 322,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 322,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "bf36fb70a1b239c2"
+   ]
+  },
+  "vanilla:furniture/farm/farmtablebench01": {
+   "file": "vanilla_furniture_farm_farmtablebench01-0db11e2a.glb",
+   "bytes": 6920,
+   "vertices": 216,
+   "triangles": 216,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 216,
+     "triangles": 216
+    },
+    {
+     "lod": 1,
+     "vertices": 216,
+     "triangles": 216
+    },
+    {
+     "lod": 2,
+     "vertices": 216,
+     "triangles": 216
+    }
+   ],
+   "textures": [
+    "bf36fb70a1b239c2"
+   ]
+  },
+  "vanilla:furniture/noble/noblebeddouble01": {
+   "file": "vanilla_furniture_noble_noblebeddouble01-b28fbbe0.glb",
+   "bytes": 39424,
+   "vertices": 1505,
+   "triangles": 1086,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1505,
+     "triangles": 1086
+    },
+    {
+     "lod": 1,
+     "vertices": 633,
+     "triangles": 380
+    },
+    {
+     "lod": 2,
+     "vertices": 488,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "245575cfe0165d0c"
+   ]
+  },
+  "vanilla:furniture/noble/nobleendtable04": {
+   "file": "vanilla_furniture_noble_nobleendtable04-07436ea8.glb",
+   "bytes": 17472,
+   "vertices": 425,
+   "triangles": 266,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 425,
+     "triangles": 266
+    },
+    {
+     "lod": 1,
+     "vertices": 425,
+     "triangles": 266
+    },
+    {
+     "lod": 2,
+     "vertices": 425,
+     "triangles": 266
+    }
+   ],
+   "textures": [
+    "0fd381b9bff00e8c",
+    "245575cfe0165d0c",
+    "d85856c3200b4cfb"
+   ]
+  },
+  "vanilla:furniture/noble/noblewashbasin01": {
+   "file": "vanilla_furniture_noble_noblewashbasin01-cf41418e.glb",
+   "bytes": 42288,
+   "vertices": 1276,
+   "triangles": 1256,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1276,
+     "triangles": 1256
+    },
+    {
+     "lod": 1,
+     "vertices": 920,
+     "triangles": 744
+    },
+    {
+     "lod": 2,
+     "vertices": 920,
+     "triangles": 744
+    }
+   ],
+   "textures": [
+    "07b55a372603e20f",
+    "0fd381b9bff00e8c",
+    "d85856c3200b4cfb"
+   ]
+  },
+  "vanilla:furniture/woodenbarstool": {
+   "file": "vanilla_furniture_woodenbarstool-3306ff6b.glb",
+   "bytes": 14224,
+   "vertices": 314,
+   "triangles": 348,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 314,
+     "triangles": 348
+    },
+    {
+     "lod": 1,
+     "vertices": 290,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 290,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "ac6b61bd444fb6e8"
+   ]
+  },
+  "vanilla:plants/birdegg02": {
+   "file": "vanilla_plants_birdegg02-0450d970.glb",
+   "bytes": 7232,
+   "vertices": 242,
+   "triangles": 420,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 242,
+     "triangles": 420
+    }
+   ],
+   "textures": [
+    "f8c6f35d8a121f8a"
+   ]
+  },
+  "vanilla:plants/birdegg03": {
+   "file": "vanilla_plants_birdegg03-a6aa88ea.glb",
+   "bytes": 7232,
+   "vertices": 242,
+   "triangles": 420,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 242,
+     "triangles": 420
+    }
+   ],
+   "textures": [
+    "f1b70a81afbb9798"
+   ]
+  },
+  "vanilla:plants/cabbage01": {
+   "file": "vanilla_plants_cabbage01-65fb1725.glb",
+   "bytes": 5852,
+   "vertices": 148,
+   "triangles": 200,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 148,
+     "triangles": 200
+    }
+   ],
+   "textures": [
+    "b81b77fd502d1348"
+   ]
+  },
+  "vanilla:plants/coinbagmed": {
+   "file": "vanilla_plants_coinbagmed-f9c8ac45.glb",
+   "bytes": 12584,
+   "vertices": 582,
+   "triangles": 709,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 582,
+     "triangles": 709
+    }
+   ],
+   "textures": [
+    "a9a0bea1f81026bf"
+   ]
+  },
+  "vanilla:plants/coinbagsmall": {
+   "file": "vanilla_plants_coinbagsmall-80efadcd.glb",
+   "bytes": 10760,
+   "vertices": 442,
+   "triangles": 540,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 442,
+     "triangles": 540
+    }
+   ],
+   "textures": [
+    "a9a0bea1f81026bf"
+   ]
+  },
+  "vanilla:plants/creepclusterroot01": {
+   "file": "vanilla_plants_creepclusterroot01-b08e03d2.glb",
+   "bytes": 14484,
+   "vertices": 338,
+   "triangles": 500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 338,
+     "triangles": 500
+    },
+    {
+     "lod": 1,
+     "vertices": 229,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 229,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "d89121a0125a9cf0"
+   ]
+  },
+  "vanilla:plants/deathbell01": {
+   "file": "vanilla_plants_deathbell01-c50b243c.glb",
+   "bytes": 6032,
+   "vertices": 93,
+   "triangles": 130,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 93,
+     "triangles": 130
+    }
+   ],
+   "textures": [
+    "3f87d81a6e9142bd",
+    "a5596c39a847bb01"
+   ]
+  },
   "vanilla:plants/dragonstongue01": {
    "file": "vanilla_plants_dragonstongue01-46071954.glb",
    "bytes": 5520,
@@ -1503,6 +7246,70 @@
    ],
    "textures": [
     "dbfa9f058d356c86"
+   ]
+  },
+  "vanilla:plants/elvesear01": {
+   "file": "vanilla_plants_elvesear01-6d7fbf05.glb",
+   "bytes": 4676,
+   "vertices": 75,
+   "triangles": 75,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 75,
+     "triangles": 75
+    }
+   ],
+   "textures": [
+    "b00ac7e153c64818"
+   ]
+  },
+  "vanilla:plants/frostmirriam01": {
+   "file": "vanilla_plants_frostmirriam01-ea3e9c4f.glb",
+   "bytes": 4460,
+   "vertices": 62,
+   "triangles": 62,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 62,
+     "triangles": 62
+    }
+   ],
+   "textures": [
+    "b00ac7e153c64818"
+   ]
+  },
+  "vanilla:plants/garlic01": {
+   "file": "vanilla_plants_garlic01-32cb3ae6.glb",
+   "bytes": 4308,
+   "vertices": 62,
+   "triangles": 100,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 62,
+     "triangles": 100
+    }
+   ],
+   "textures": [
+    "b75ec8707a4bb6b1"
+   ]
+  },
+  "vanilla:plants/gourd01": {
+   "file": "vanilla_plants_gourd01-361601cb.glb",
+   "bytes": 7720,
+   "vertices": 271,
+   "triangles": 446,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 271,
+     "triangles": 446
+    }
+   ],
+   "textures": [
+    "081941f576011a54"
    ]
   },
   "vanilla:plants/hangingelvesear01": {
@@ -1553,6 +7360,54 @@
     "b75ec8707a4bb6b1"
    ]
   },
+  "vanilla:plants/hangingmoss01": {
+   "file": "vanilla_plants_hangingmoss01-2f515338.glb",
+   "bytes": 5080,
+   "vertices": 69,
+   "triangles": 54,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 69,
+     "triangles": 54
+    }
+   ],
+   "textures": [
+    "a4bf0f184a69cd6d"
+   ]
+  },
+  "vanilla:plants/jazbay01": {
+   "file": "vanilla_plants_jazbay01-31d70eca.glb",
+   "bytes": 13556,
+   "vertices": 659,
+   "triangles": 872,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 659,
+     "triangles": 872
+    }
+   ],
+   "textures": [
+    "0d0dde2afea315cf"
+   ]
+  },
+  "vanilla:plants/lavender01": {
+   "file": "vanilla_plants_lavender01-6fe736fe.glb",
+   "bytes": 6944,
+   "vertices": 202,
+   "triangles": 158,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 202,
+     "triangles": 158
+    }
+   ],
+   "textures": [
+    "388d3d952dcd4cd8"
+   ]
+  },
   "vanilla:plants/leek01": {
    "file": "vanilla_plants_leek01-bbab52d0.glb",
    "bytes": 5680,
@@ -1567,6 +7422,320 @@
    ],
    "textures": [
     "9c89e0126139d642"
+   ]
+  },
+  "vanilla:plants/mountainflower01purple": {
+   "file": "vanilla_plants_mountainflower01purple-2adaafa7.glb",
+   "bytes": 8204,
+   "vertices": 262,
+   "triangles": 362,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 262,
+     "triangles": 362
+    }
+   ],
+   "textures": [
+    "96656b45a7a48028"
+   ]
+  },
+  "vanilla:plants/mushroom03": {
+   "file": "vanilla_plants_mushroom03-691dfbf9.glb",
+   "bytes": 9516,
+   "vertices": 329,
+   "triangles": 438,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 329,
+     "triangles": 438
+    }
+   ],
+   "textures": [
+    "114570d84ca934ec"
+   ]
+  },
+  "vanilla:plants/nirnroot01": {
+   "file": "vanilla_plants_nirnroot01-1935182e.glb",
+   "bytes": 6472,
+   "vertices": 120,
+   "triangles": 136,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 120,
+     "triangles": 136
+    },
+    {
+     "lod": 1,
+     "vertices": 120,
+     "triangles": 136
+    },
+    {
+     "lod": 2,
+     "vertices": 120,
+     "triangles": 136
+    }
+   ],
+   "textures": [
+    "56b90765558286ec"
+   ]
+  },
+  "vanilla:plants/potato01": {
+   "file": "vanilla_plants_potato01-13c64b42.glb",
+   "bytes": 4256,
+   "vertices": 64,
+   "triangles": 80,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 64,
+     "triangles": 80
+    }
+   ],
+   "textures": [
+    "eb77e8a9b65f9b32"
+   ]
+  },
+  "vanilla:plants/snowberry": {
+   "file": "vanilla_plants_snowberry-345734a8.glb",
+   "bytes": 10696,
+   "vertices": 520,
+   "triangles": 568,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 520,
+     "triangles": 568
+    }
+   ],
+   "textures": [
+    "bf90e8a5d213ff5c"
+   ]
+  },
+  "vanilla:plants/spikygrass01": {
+   "file": "vanilla_plants_spikygrass01-738f54e8.glb",
+   "bytes": 8616,
+   "vertices": 323,
+   "triangles": 450,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 323,
+     "triangles": 450
+    }
+   ],
+   "textures": [
+    "04ba5d06d13e99ff"
+   ]
+  },
+  "vanilla:plants/swampfungalpod01": {
+   "file": "vanilla_plants_swampfungalpod01-f9d879c2.glb",
+   "bytes": 8340,
+   "vertices": 298,
+   "triangles": 427,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 298,
+     "triangles": 427
+    }
+   ],
+   "textures": [
+    "15faeae3961eab9d"
+   ]
+  },
+  "vanilla:plants/thistle01": {
+   "file": "vanilla_plants_thistle01-88cdb1e9.glb",
+   "bytes": 7828,
+   "vertices": 232,
+   "triangles": 270,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 232,
+     "triangles": 270
+    }
+   ],
+   "textures": [
+    "b2bd20b12d621e3e"
+   ]
+  },
+  "vanilla:plants/tundracotton01": {
+   "file": "vanilla_plants_tundracotton01-620d6c0e.glb",
+   "bytes": 8992,
+   "vertices": 362,
+   "triangles": 255,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 362,
+     "triangles": 255
+    }
+   ],
+   "textures": [
+    "3f47e49fb5066062"
+   ]
+  },
+  "vanilla:weapons/iron/ironarrow": {
+   "file": "vanilla_weapons_iron_ironarrow-a6316ad2.glb",
+   "bytes": 31972,
+   "vertices": 622,
+   "triangles": 612,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 622,
+     "triangles": 612
+    },
+    {
+     "lod": 1,
+     "vertices": 622,
+     "triangles": 612
+    },
+    {
+     "lod": 2,
+     "vertices": 622,
+     "triangles": 612
+    }
+   ],
+   "textures": [
+    "2d09faa0ad8301d1"
+   ]
+  },
+  "vanilla:weapons/iron/irondagger": {
+   "file": "vanilla_weapons_iron_irondagger-85785518.glb",
+   "bytes": 19600,
+   "vertices": 441,
+   "triangles": 602,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 441,
+     "triangles": 602
+    },
+    {
+     "lod": 1,
+     "vertices": 380,
+     "triangles": 486
+    },
+    {
+     "lod": 2,
+     "vertices": 380,
+     "triangles": 486
+    }
+   ],
+   "textures": [
+    "3186a9f2f4116ccd",
+    "e282da7538235c4f"
+   ]
+  },
+  "vanilla:weapons/iron/ironmace": {
+   "file": "vanilla_weapons_iron_ironmace-287b3365.glb",
+   "bytes": 24264,
+   "vertices": 699,
+   "triangles": 911,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 699,
+     "triangles": 911
+    },
+    {
+     "lod": 1,
+     "vertices": 451,
+     "triangles": 491
+    },
+    {
+     "lod": 2,
+     "vertices": 451,
+     "triangles": 491
+    }
+   ],
+   "textures": [
+    "d2e7fc9d838ea743",
+    "e282da7538235c4f"
+   ]
+  },
+  "vanilla:weapons/iron/longsword": {
+   "file": "vanilla_weapons_iron_longsword-acd13353.glb",
+   "bytes": 20200,
+   "vertices": 469,
+   "triangles": 603,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 469,
+     "triangles": 603
+    },
+    {
+     "lod": 1,
+     "vertices": 399,
+     "triangles": 478
+    },
+    {
+     "lod": 2,
+     "vertices": 399,
+     "triangles": 478
+    }
+   ],
+   "textures": [
+    "80c1e596ee3d4e01",
+    "e282da7538235c4f"
+   ]
+  },
+  "vanilla:weapons/iron/waraxe": {
+   "file": "vanilla_weapons_iron_waraxe-0ab355eb.glb",
+   "bytes": 20108,
+   "vertices": 468,
+   "triangles": 614,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 468,
+     "triangles": 614
+    },
+    {
+     "lod": 1,
+     "vertices": 399,
+     "triangles": 492
+    },
+    {
+     "lod": 2,
+     "vertices": 399,
+     "triangles": 492
+    }
+   ],
+   "textures": [
+    "674dd43f52031857",
+    "e282da7538235c4f"
+   ]
+  },
+  "vanilla:weapons/steel/steelgreatsword": {
+   "file": "vanilla_weapons_steel_steelgreatsword-3bc67cfb.glb",
+   "bytes": 32440,
+   "vertices": 943,
+   "triangles": 892,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 943,
+     "triangles": 892
+    },
+    {
+     "lod": 1,
+     "vertices": 401,
+     "triangles": 312
+    },
+    {
+     "lod": 2,
+     "vertices": 389,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "710c9c2f66b8dab4"
    ]
   },
   "vanilla:weapons/steel/steelmace": {
@@ -1594,6 +7763,86 @@
    "textures": [
     "6032996b0b784083",
     "657eec74ff4f5595"
+   ]
+  },
+  "vanilla:weapons/steel/steelsword": {
+   "file": "vanilla_weapons_steel_steelsword-4f02abd5.glb",
+   "bytes": 40252,
+   "vertices": 983,
+   "triangles": 1226,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 983,
+     "triangles": 1226
+    },
+    {
+     "lod": 1,
+     "vertices": 569,
+     "triangles": 601
+    },
+    {
+     "lod": 2,
+     "vertices": 568,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "657eec74ff4f5595",
+    "9e3002f542956dde"
+   ]
+  },
+  "vanilla:weapons/steel/steelwaraxe": {
+   "file": "vanilla_weapons_steel_steelwaraxe-78b2e801.glb",
+   "bytes": 26400,
+   "vertices": 844,
+   "triangles": 994,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 844,
+     "triangles": 994
+    },
+    {
+     "lod": 1,
+     "vertices": 504,
+     "triangles": 508
+    },
+    {
+     "lod": 2,
+     "vertices": 504,
+     "triangles": 508
+    }
+   ],
+   "textures": [
+    "412bf615c80d581c",
+    "657eec74ff4f5595"
+   ]
+  },
+  "vanilla:weapons/steel/steelwarhammer": {
+   "file": "vanilla_weapons_steel_steelwarhammer-f144d8ed.glb",
+   "bytes": 18004,
+   "vertices": 478,
+   "triangles": 560,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 478,
+     "triangles": 560
+    },
+    {
+     "lod": 1,
+     "vertices": 316,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 316,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "4e752cae65c6b006"
    ]
   }
  },
@@ -2015,6 +8264,678 @@
     "CandleHornWall01:0.Mat"
    ]
   },
+  "vanilla:clutter/chauruseggs/eggs": {
+   "id": "vanilla:clutter/chauruseggs/eggs",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.126,
+    0.133,
+    0.133
+   ],
+   "originOffsetM": [
+    0.063,
+    0.066,
+    0.007
+   ],
+   "emissiveMaterials": [
+    "Egg:0.Mat"
+   ]
+  },
+  "vanilla:clutter/common/torchpermanent01": {
+   "id": "vanilla:clutter/common/torchpermanent01",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "light": {
+    "fixtureKind": "torch",
+    "formId": "000bcc9d",
+    "editorId": "DefaultTorch01NS_Fast",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     197,
+     156,
+     112
+    ],
+    "flicker": {
+     "frequency": 3,
+     "intensityAmplitude": 0.5,
+     "movementAmplitude": 16
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1,
+    "offsetM": [
+     0.03,
+     0,
+     -1.23
+    ],
+    "evidence": "Skyrim.esm: DefaultTorch01NS_Fast is the nearest LIGH ref (< 200 units, same cell) to 226 of 776 torchpermanent01 refs (next: BleakFallsDraugrTorch01NS 46; none 185); offset is the median of those 226 in the piece's frame, glTF Y-up metres, horizontal agreement 0.90 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
+   },
+   "flames": [
+    {
+     "offsetM": [
+      0,
+      0.5007,
+      -0.2105
+     ],
+     "texture": "fx:fxfireatlas04-gradflame01",
+     "atlas": [
+      1,
+      8
+     ],
+     "fps": 3,
+     "sizeM": 0.4294,
+     "source": "AddOnNode46 -> MPSTorchFire01/pFireballCore05"
+    }
+   ],
+   "sizeM": [
+    0.169,
+    0.312,
+    0.881
+   ],
+   "originOffsetM": [
+    0.074,
+    0.029,
+    0.311
+   ]
+  },
+  "vanilla:clutter/dwemer/dweichorgoo01": {
+   "id": "vanilla:clutter/dwemer/dweichorgoo01",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "sizeM": [
+    1.245,
+    1.047,
+    0.768
+   ],
+   "originOffsetM": [
+    0.55,
+    0.536,
+    0.02
+   ],
+   "emissiveMaterials": [
+    "L1_GooBase09.Mat"
+   ]
+  },
+  "vanilla:clutter/glazedcandlesstatic02": {
+   "id": "vanilla:clutter/glazedcandlesstatic02",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "light": {
+    "fixtureKind": "candle",
+    "formId": "000b9be7",
+    "editorId": "WRCandleFlickerNS",
+    "burnSeconds": -1,
+    "radiusUnits": 128,
+    "colourRgb": [
+     254,
+     234,
+     152
+    ],
+    "flicker": {
+     "frequency": 3,
+     "intensityAmplitude": 0.3,
+     "movementAmplitude": 16
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1.7,
+    "offsetM": [
+     0,
+     0.74,
+     0
+    ],
+    "evidence": "Skyrim.esm: WRCandleFlickerNS is the nearest LIGH ref (< 200 units, same cell) to 65 of 307 glazedcandlesstatic02 refs (next: SolitudeInnFirePlacesDefault 38; none 82); offset is the median of those 65 in the piece's frame, glTF Y-up metres, horizontal agreement 0.38 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
+   },
+   "flames": [
+    {
+     "offsetM": [
+      0.0512,
+      0.1939,
+      -0.0379
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.0524,
+      0.1662,
+      -0.0284
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.0454,
+      0.1387,
+      0.0587
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      0.0132,
+      0.1537,
+      0.0884
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
+   "sizeM": [
+    0.453,
+    0.446,
+    0.208
+   ],
+   "originOffsetM": [
+    0.226,
+    0.223,
+    0
+   ],
+   "emissiveMaterials": [
+    "GlazedCandlesStatic02:6.Mat"
+   ]
+  },
+  "vanilla:clutter/hagraven/hagravenhangingball01": {
+   "id": "vanilla:clutter/hagraven/hagravenhangingball01",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.305,
+    0.309,
+    1.96
+   ],
+   "originOffsetM": [
+    0.153,
+    0.151,
+    1.96
+   ],
+   "emissiveMaterials": [
+    "HagravenHangingBall01:22.Mat"
+   ]
+  },
+  "vanilla:clutter/hagraven/hagravenhangingball02": {
+   "id": "vanilla:clutter/hagraven/hagravenhangingball02",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.305,
+    0.305,
+    1.855
+   ],
+   "originOffsetM": [
+    0.153,
+    0.151,
+    1.855
+   ],
+   "emissiveMaterials": [
+    "HagravenHangingBall02:22.Mat"
+   ]
+  },
+  "vanilla:clutter/imperial/impcandle01": {
+   "id": "vanilla:clutter/imperial/impcandle01",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "light": {
+    "fixtureKind": "candle",
+    "formId": "0003611f",
+    "editorId": "SolitudeInnCandleDefault",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     226,
+     207,
+     150
+    ],
+    "flicker": {
+     "frequency": 3,
+     "intensityAmplitude": 0.3,
+     "movementAmplitude": 14
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "fade": 1.5,
+    "offsetM": [
+     0,
+     0.14,
+     0
+    ],
+    "evidence": "Skyrim.esm: SolitudeInnCandleDefault is the nearest LIGH ref (< 200 units, same cell) to 106 of 334 impcandle01 refs (next: SolitudeInnFiretDefault 22; none 170); offset is the median of those 106 in the piece's frame, glTF Y-up metres, horizontal agreement 0.07 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
+   },
+   "flames": [
+    {
+     "offsetM": [
+      0.0009,
+      0.272,
+      0.0002
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01",
+     "seatedFromM": 0.3234
+    }
+   ],
+   "sizeM": [
+    0.145,
+    0.148,
+    0.272
+   ],
+   "originOffsetM": [
+    0.072,
+    0.074,
+    0
+   ],
+   "emissiveMaterials": [
+    "Scandle01:8.Mat"
+   ]
+  },
+  "vanilla:clutter/ingredients/ectoplasm": {
+   "id": "vanilla:clutter/ingredients/ectoplasm",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.176,
+    0.191,
+    0.085
+   ],
+   "originOffsetM": [
+    0.088,
+    0.096,
+    0.042
+   ],
+   "emissiveMaterials": [
+    "Ectoplasm:9.Mat"
+   ]
+  },
+  "vanilla:clutter/ingredients/firesaltpile": {
+   "id": "vanilla:clutter/ingredients/firesaltpile",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.16,
+    0.179,
+    0.117
+   ],
+   "originOffsetM": [
+    0.092,
+    0.08,
+    0.044
+   ],
+   "emissiveMaterials": [
+    "FireSaltPile:0.Mat"
+   ]
+  },
+  "vanilla:clutter/ingredients/sap": {
+   "id": "vanilla:clutter/ingredients/sap",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.176,
+    0.191,
+    0.085
+   ],
+   "originOffsetM": [
+    0.088,
+    0.096,
+    0.042
+   ],
+   "emissiveMaterials": [
+    "Sap:8.Mat"
+   ]
+  },
+  "vanilla:clutter/ingredients/spriggantaproot": {
+   "id": "vanilla:clutter/ingredients/spriggantaproot",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.221,
+    0.21,
+    0.407
+   ],
+   "originOffsetM": [
+    0.104,
+    0.123,
+    0.203
+   ],
+   "emissiveMaterials": [
+    "Taproot:0.Mat"
+   ]
+  },
+  "vanilla:clutter/oilbarrel/bfxoilbarrelclosedstatic01": {
+   "id": "vanilla:clutter/oilbarrel/bfxoilbarrelclosedstatic01",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.551,
+    0.551,
+    0.701
+   ],
+   "originOffsetM": [
+    0.276,
+    0.258,
+    -0.004
+   ],
+   "emissiveMaterials": [
+    "BFXOilBarrelClosedStatic01:1.Mat"
+   ]
+  },
+  "vanilla:clutter/oilbarrel/bfxoilbarrelclosedstatic02": {
+   "id": "vanilla:clutter/oilbarrel/bfxoilbarrelclosedstatic02",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.551,
+    0.551,
+    0.703
+   ],
+   "originOffsetM": [
+    0.276,
+    0.257,
+    -0.002
+   ],
+   "emissiveMaterials": [
+    "BFXOilBarrelClosedStatic02:1.Mat"
+   ]
+  },
+  "vanilla:clutter/ruins/ruinsfloorcandlelampsmon": {
+   "id": "vanilla:clutter/ruins/ruinsfloorcandlelampsmon",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "light": {
+    "fixtureKind": "candle",
+    "formId": "00088238",
+    "editorId": "DefaultCandleLight01NS",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     236,
+     223,
+     170
+    ],
+    "flicker": {
+     "frequency": 3,
+     "intensityAmplitude": 0.2,
+     "movementAmplitude": 8
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1,
+    "offsetM": [
+     0,
+     1.12,
+     0
+    ],
+    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 262 of 2241 ruinsfloorcandlelampsmon refs (next: DefaultCandleLight01NSDesat 168; none 1189); offset is the median of those 262 in the piece's frame, glTF Y-up metres, horizontal agreement 0.04 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
+   },
+   "flames": [
+    {
+     "offsetM": [
+      0.0068,
+      0.3697,
+      -0.0628
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      0.0016,
+      0.4028,
+      0.0394
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
+   "sizeM": [
+    0.292,
+    0.297,
+    0.41
+   ],
+   "originOffsetM": [
+    0.145,
+    0.147,
+    -0.005
+   ],
+   "emissiveMaterials": [
+    "Ruins_FloorCandleLampSmall01:10.Mat"
+   ]
+  },
+  "vanilla:clutter/ruins/ruinsfloorcandlelampsmon02": {
+   "id": "vanilla:clutter/ruins/ruinsfloorcandlelampsmon02",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "light": {
+    "fixtureKind": "candle",
+    "formId": "00088238",
+    "editorId": "DefaultCandleLight01NS",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     236,
+     223,
+     170
+    ],
+    "flicker": {
+     "frequency": 3,
+     "intensityAmplitude": 0.2,
+     "movementAmplitude": 8
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1,
+    "offsetM": [
+     0,
+     1.11,
+     0
+    ],
+    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 256 of 1515 ruinsfloorcandlelampsmon02 refs (next: DefaultCandleLight01NSDesat 132; none 780); offset is the median of those 256 in the piece's frame, glTF Y-up metres, horizontal agreement 0.04 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
+   },
+   "flames": [
+    {
+     "offsetM": [
+      0.0259,
+      0.3403,
+      0.0511
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      0.0564,
+      0.3672,
+      -0.0044
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.0348,
+      0.4311,
+      0.0126
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
+   "sizeM": [
+    0.283,
+    0.292,
+    0.435
+   ],
+   "originOffsetM": [
+    0.138,
+    0.145,
+    -0.005
+   ],
+   "emissiveMaterials": [
+    "Ruins_FloorCandleLampSmall02:10.Mat",
+    "Ruins_FloorCandleLampSmall02:8.Mat"
+   ]
+  },
+  "vanilla:clutter/shrines/shrinebase": {
+   "id": "vanilla:clutter/shrines/shrinebase",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "flames": [
+    {
+     "offsetM": [
+      0.0196,
+      0.4614,
+      -0.0322
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.0321,
+      0.4062,
+      0.0167
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.0083,
+      0.4211,
+      0.0743
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
+   "sizeM": [
+    0.597,
+    0.597,
+    0.806
+   ],
+   "originOffsetM": [
+    0.299,
+    0.3,
+    0.012
+   ],
+   "emissiveMaterials": [
+    "GlazedCandlesStatic04:9.Mat"
+   ]
+  },
+  "vanilla:clutter/tolfdirsalembic01/alchemytolfdirsalembic01": {
+   "id": "vanilla:clutter/tolfdirsalembic01/alchemytolfdirsalembic01",
+   "category": "clutter",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.487,
+    0.341,
+    0.319
+   ],
+   "originOffsetM": [
+    0.22,
+    0.194,
+    -0.025
+   ],
+   "emissiveMaterials": [
+    "Liquid02:14.Mat",
+    "Liquid02:15.Mat"
+   ]
+  },
   "vanilla:clutter/woodfires/fireplacewood01burning": {
    "id": "vanilla:clutter/woodfires/fireplacewood01burning",
    "category": "clutter",
@@ -2078,6 +8999,134 @@
    "flameCardMaterials": [
     "Flames:0.Mat",
     "Flames:1.Mat"
+   ]
+  },
+  "vanilla:critters/bee/beehivehusk": {
+   "id": "vanilla:critters/bee/beehivehusk",
+   "category": "creature",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.387,
+    0.334,
+    0.266
+   ],
+   "originOffsetM": [
+    0.192,
+    0.19,
+    0.156
+   ],
+   "emissiveMaterials": [
+    "BeeHiveHusk:0.Mat"
+   ]
+  },
+  "vanilla:critters/bee/beeinjar": {
+   "id": "vanilla:critters/bee/beeinjar",
+   "category": "creature",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.35,
+    0.345,
+    0.438
+   ],
+   "originOffsetM": [
+    0.175,
+    0.173,
+    0.001
+   ],
+   "emissiveMaterials": [
+    "Wings:1.Mat"
+   ]
+  },
+  "vanilla:critters/firefly/fireflygo": {
+   "id": "vanilla:critters/firefly/fireflygo",
+   "category": "creature",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.096,
+    0.083,
+    0.184
+   ],
+   "originOffsetM": [
+    0.048,
+    0.026,
+    0.08
+   ],
+   "emissiveMaterials": [
+    "FireflyGO:0.Mat"
+   ]
+  },
+  "vanilla:furniture/alchemyworkbench": {
+   "id": "vanilla:furniture/alchemyworkbench",
+   "category": "furniture",
+   "anchorClass": "ground",
+   "sizeM": [
+    1.707,
+    1.494,
+    1.602
+   ],
+   "originOffsetM": [
+    0.853,
+    -0.26,
+    0
+   ],
+   "emissiveMaterials": [
+    "Liquid01:14.Mat",
+    "Liquid01:15.Mat",
+    "Table01:24.Mat"
+   ]
+  },
+  "vanilla:furniture/alchemyworkstation": {
+   "id": "vanilla:furniture/alchemyworkstation",
+   "category": "furniture",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.889,
+    0.888,
+    0.344
+   ],
+   "originOffsetM": [
+    0.444,
+    -0.29,
+    -0.91
+   ],
+   "emissiveMaterials": [
+    "Tablet01:24.Mat"
+   ]
+  },
+  "vanilla:plants/deathbell01": {
+   "id": "vanilla:plants/deathbell01",
+   "category": "plant",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.197,
+    0.221,
+    0.208
+   ],
+   "originOffsetM": [
+    0.066,
+    0.138,
+    0.055
+   ],
+   "emissiveMaterials": [
+    "DeathBell01:0.Mat"
+   ]
+  },
+  "vanilla:plants/nirnroot01": {
+   "id": "vanilla:plants/nirnroot01",
+   "category": "root",
+   "anchorClass": "ground",
+   "sizeM": [
+    0.383,
+    0.381,
+    0.758
+   ],
+   "originOffsetM": [
+    0.19,
+    0.299,
+    0.454
+   ],
+   "emissiveMaterials": [
+    "Nirnroot:0.Mat"
    ]
   }
  }

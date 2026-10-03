@@ -7,7 +7,8 @@ and meshopt geometry, recorded in the manifest.
 The raw build (`output/kits/<id>.glb`, git-ignored) is the MEASUREMENT
 product: `trunk_solids`, `vet_kit`, `measure_footprints`, `interiors_index`
 and trimesh all parse its plain accessors. What ships under
-`apps/world-studio/public/kits/` is the same kit run through gltfpack:
+`apps/world-studio/public/kits/` is the same kit run through gltfpack and
+cut into per-asset parts (decision 0120; no whole GLB ships):
 
 * every image becomes a KTX2 container, UASTC-encoded (`KHR_texture_basisu`)
   — near-lossless (median 39–45 dB PSNR, indistinguishable on inspection)
@@ -55,7 +56,6 @@ OUTPUT_KITS = REPO_ROOT / "tooling/asset-pipeline/output/kits"
 # recompressed (tool-speed review S2a, 18 s a publish); --force re-runs it.
 COMPRESS_CACHE = REPO_ROOT / "tooling/asset-pipeline/output/cache/kit-compress"
 PUBLIC_KITS = REPO_ROOT / "apps/world-studio/public/kits"
-PUBLIC_INTERIORS = REPO_ROOT / "apps/world-studio/public/province/interiors"
 CONFIG = Path(__file__).parent / "config" / "kits"
 TOOLCHAIN = json.loads((Path(__file__).parent / "config" / "toolchain.json").read_text())
 
@@ -86,90 +86,135 @@ SIDECAR_EXEMPT = {
 }
 
 
-# Per-asset parts (decision 0120, schema 3): `kit_parts.mjs` cuts the PUBLISHED
-# GLB into public/kits/<kit>/parts/ (one GLB per asset, every LOD) with its
-# textures in the province pool public/kits/tex/. Written at the end of every
-# publish, so a kit and its parts never disagree; `check` fails a stale or
-# missing parts folder, a missing pool file and an orphan pool file.
+# Parts (decision 0120, schema 4): a kit ships ONLY as parts. gltfpack packs
+# the raw build into a temporary GLB beside public/kits/, `kit_parts.mjs` cuts
+# it into public/kits/<kit>/parts/ (one GLB per manifest asset, every LOD) with
+# its KTX2 textures in the province pool public/kits/tex/, and the temporary
+# GLB is deleted. The parts index records the raw build's sha256 (`source`),
+# which `check` compares, and the packed GLB's (`packed`), which the manifest's
+# compression record names.
 PARTS_WRITER = Path(__file__).with_name("kit_parts.mjs")
-PARTS_SCHEMA_VERSION = 3
-# Same set as kit_parts.mjs EXTERIOR_PARTS_KITS (test_kit_compress pins the two equal).
-EXTERIOR_PARTS_KITS = ("settlement-mud-v1", "works-v1")
+PARTS_SCHEMA_VERSION = 4
 
 
-def parts_scope() -> set[str]:
-    """The kits that publish parts (kit_parts.mjs `scopedKits`, same rule): the
-    kits a published interior cell bundle names in its `kits` table, plus
-    EXTERIOR_PARTS_KITS."""
-    scope = set(EXTERIOR_PARTS_KITS)
-    if not PUBLIC_INTERIORS.exists():
-        return scope
-    return scope | {kit for cell in sorted(PUBLIC_INTERIORS.glob("*.json"))
-                    for kit in json.loads(cell.read_text()).get("kits", {})}
+def parts_index_path(kit_id: str, public_dir: Path | None = None) -> Path:
+    return (public_dir or PUBLIC_KITS) / kit_id / "parts" / "index.json"
 
 
-def parts_drawn(kit_id: str) -> set[str]:
-    """The assets of `kit_id` that get a part (kit_parts.mjs `partsAssets`, same
-    rule): every manifest asset of an EXTERIOR_PARTS_KITS kit, else the assets
-    the published interior cells DRAW (placements, stand-ins, swing doors)."""
-    if kit_id in EXTERIOR_PARTS_KITS:
-        manifest = json.loads((PUBLIC_KITS / f"{kit_id}.kit.json").read_text())
-        return {a["id"] for a in manifest["assets"]}
-    drawn: set[str] = set()
-    if not PUBLIC_INTERIORS.exists():
-        return drawn
-    for path in sorted(PUBLIC_INTERIORS.glob("*.json")):
-        cell = json.loads(path.read_text())
-        drawn |= {p["assetId"] for p in cell.get("placements", []) if p.get("kit") == kit_id}
-        drawn |= {s["standInAsset"] for s in cell.get("substitutions", []) if s.get("kit") == kit_id}
-        drawn |= {d["assetId"] for d in cell.get("doors", [])
-                  if d.get("doorType") == "swing" and d.get("kit") == kit_id}
-    return drawn
+def published_gltf(kit_id: str, public_dir: Path | None = None) -> dict:
+    """The glTF JSON of a published kit as ONE document: every part's JSON
+    chunk concatenated, its index references offset so the result reads like
+    the whole packed kit (scene roots = the asset roots, in index order). For
+    checks on names, extras, materials and accessor bounds of what ships;
+    binary chunks are not read (a buffer keeps its part's byteLength)."""
+    index_path = parts_index_path(kit_id, public_dir)
+    rows = json.loads(index_path.read_text())["assets"]
+    keys = ("nodes", "meshes", "materials", "accessors", "bufferViews", "buffers",
+            "textures", "images", "samplers")
+    out: dict = {k: [] for k in keys}
+    out.update(scene=0, scenes=[{"nodes": []}])
+
+    def texture_refs(value, off: int, key: str = ""):
+        """kit_parts.mjs `remapTextureRefs`: a `*Texture` object's `index`."""
+        if isinstance(value, list):
+            return [texture_refs(v, off) for v in value]
+        if not isinstance(value, dict):
+            return value
+        copy = {k: texture_refs(v, off, k) for k, v in value.items()}
+        if key.endswith("Texture") and isinstance(value.get("index"), int):
+            copy["index"] = value["index"] + off
+        return copy
+
+    for asset_id in rows:
+        doc = read_gltf_json(index_path.parent / rows[asset_id]["file"])
+        off = {k: len(out[k]) for k in keys}
+        for n in doc.get("nodes", []):
+            n = dict(n)
+            if "mesh" in n:
+                n["mesh"] += off["meshes"]
+            if "children" in n:
+                n["children"] = [c + off["nodes"] for c in n["children"]]
+            out["nodes"].append(n)
+        for m in doc.get("meshes", []):
+            prims = []
+            for p in m.get("primitives", []):
+                p = {**p, "attributes": {k: v + off["accessors"] for k, v in p["attributes"].items()}}
+                if "indices" in p:
+                    p["indices"] += off["accessors"]
+                if "material" in p:
+                    p["material"] += off["materials"]
+                prims.append(p)
+            out["meshes"].append({**m, "primitives": prims})
+        out["materials"] += [texture_refs(m, off["textures"]) for m in doc.get("materials", [])]
+        out["accessors"] += [{**a, "bufferView": a["bufferView"] + off["bufferViews"]}
+                             if "bufferView" in a else a for a in doc.get("accessors", [])]
+        for v in doc.get("bufferViews", []):
+            v = {**v, "buffer": v["buffer"] + off["buffers"]}
+            if MESH_EXTENSION in v.get("extensions", {}):
+                ext = v["extensions"][MESH_EXTENSION]
+                v["extensions"] = {MESH_EXTENSION: {**ext, "buffer": ext["buffer"] + off["buffers"]}}
+            out["bufferViews"].append(v)
+        out["buffers"] += doc.get("buffers", [])
+        for t in doc.get("textures", []):
+            t = dict(t)
+            if "source" in t:
+                t["source"] += off["images"]
+            if "sampler" in t:
+                t["sampler"] += off["samplers"]
+            if TEXTURE_EXTENSION in t.get("extensions", {}):
+                ext = t["extensions"][TEXTURE_EXTENSION]
+                t["extensions"] = {**t["extensions"], TEXTURE_EXTENSION: {**ext, "source": ext["source"] + off["images"]}}
+            out["textures"].append(t)
+        out["images"] += [{**i, "bufferView": i["bufferView"] + off["bufferViews"]}
+                          if "bufferView" in i else i for i in doc.get("images", [])]
+        out["samplers"] += doc.get("samplers", [])
+        out["scenes"][0]["nodes"] += [r + off["nodes"] for r in doc["scenes"][doc.get("scene", 0)]["nodes"]]
+    return out
 
 
-def publish_parts(kit_id: str) -> dict | None:
-    """Run kit_parts.mjs for one scoped kit; returns the parts index's totals.
-    An unscoped kit's parts folder is deleted and None returned."""
-    if kit_id not in parts_scope():
-        shutil.rmtree(PUBLIC_KITS / kit_id / "parts", ignore_errors=True)
-        return None
-    proc = subprocess.run(["node", str(PARTS_WRITER), "--kit", kit_id], cwd=REPO_ROOT,
-                          capture_output=True, text=True)
+def publish_parts(kit_id: str, packed: Path, raw: Path) -> dict:
+    """Cut the packed GLB into the kit's parts (kit_parts.mjs); returns the
+    parts index's totals with the source and packed sha256."""
+    proc = subprocess.run(["node", str(PARTS_WRITER), "--kit", kit_id, "--glb", str(packed),
+                           "--raw", str(raw)], cwd=REPO_ROOT, capture_output=True, text=True)
     if proc.returncode != 0:
         raise RuntimeError(f"kit_parts failed on {kit_id}:\n{proc.stdout[-2000:]}{proc.stderr[-2000:]}")
-    index = json.loads((PUBLIC_KITS / kit_id / "parts" / "index.json").read_text())
-    return {**index["totals"], "sourceSha256": index["source"]["sha256"]}
+    index = json.loads(parts_index_path(kit_id).read_text())
+    return {**index["totals"], "sourceSha256": index["source"]["sha256"],
+            "packedSha256": index["packed"]["sha256"]}
 
 
-def parts_problems(kit_id: str) -> list[str]:
-    """Why a kit's parts folder does not match its published GLB (empty = current):
-    the index must name the GLB's sha256, list exactly the assets the cells
-    draw (`parts_drawn`), and every file it lists must exist at its recorded size. Milliseconds; the writer is deterministic, so a current
-    index means current parts."""
-    fix = f"node tooling/asset-pipeline/pipeline/kit_parts.mjs --kit {kit_id}"
-    folder = PUBLIC_KITS / kit_id / "parts"
-    if kit_id not in parts_scope():
-        return ([f"{kit_id}: parts folder but named by no interior cell "
-                 "(node tooling/asset-pipeline/pipeline/kit_parts.mjs --all deletes it)"]
-                if folder.exists() else [])
+def parts_problems(kit_id: str, raw: Path | None = None, public_dir: Path | None = None) -> list[str]:
+    """Why a kit's published parts are not shippable (empty = current): the
+    index is schema 4, names the packed GLB the manifest's compression record
+    names, holds a part for every manifest asset, and every file it lists
+    exists at its recorded size. With `raw` (the raw build, when present on
+    this machine): the index was cut from those bytes. Milliseconds; the writer
+    is deterministic, so a current index means current parts."""
+    fix = f"python3 -m pipeline.kit_compress --kit {kit_id}"
+    public_dir = public_dir or PUBLIC_KITS
+    folder = public_dir / kit_id / "parts"
     index_path = folder / "index.json"
     if not index_path.exists():
-        return [f"{kit_id}: no parts folder ({fix})"]
+        return [f"{kit_id}: no parts index ({fix})"]
     index = json.loads(index_path.read_text())
     if index.get("schemaVersion") != PARTS_SCHEMA_VERSION:
         return [f"{kit_id}: parts index schemaVersion {index.get('schemaVersion')}, "
                 f"writer is {PARTS_SCHEMA_VERSION} ({fix})"]
-    glb = PUBLIC_KITS / f"{kit_id}.glb"
-    if index.get("source", {}).get("sha256") != hashlib.sha256(glb.read_bytes()).hexdigest():
-        return [f"{kit_id}: parts were cut from another GLB ({fix})"]
-    drawn, cut = parts_drawn(kit_id), set(index["assets"])
-    if drawn != cut:
-        return [f"{kit_id}: parts do not match the assets the cells draw: missing "
-                f"{sorted(drawn - cut)[:5]}, undrawn {sorted(cut - drawn)[:5]} ({fix})"]
+    manifest_path = public_dir / f"{kit_id}.kit.json"
+    manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
+    record = manifest.get("compression") or {}
+    if record.get("sha256") != index.get("packed", {}).get("sha256"):
+        return [f"{kit_id}: parts were cut from another packed GLB than the manifest records ({fix})"]
+    if raw is not None and raw.exists() and index.get("source", {}).get("sha256") != _sha256(raw):
+        return [f"{kit_id}: parts were cut from another raw build than {raw.name} ({fix})"]
+    wanted, cut = {a["id"] for a in manifest.get("assets", [])}, set(index["assets"])
+    if wanted - cut:
+        return [f"{kit_id}: parts lack manifest asset(s) {sorted(wanted - cut)[:5]} ({fix})"]
     missing = [row["file"] for row in index["assets"].values()
                if not (folder / row["file"]).exists() or (folder / row["file"]).stat().st_size != row["bytes"]]
     textures = {h for row in index["assets"].values() for h in row["textures"]}
-    missing += [f"tex/{h}.ktx2" for h in sorted(textures) if not (PUBLIC_KITS / "tex" / f"{h}.ktx2").exists()]
+    missing += [f"tex/{h}.ktx2" for h in sorted(textures) if not (public_dir / "tex" / f"{h}.ktx2").exists()]
     return [f"{kit_id}: parts files missing or resized: {', '.join(missing[:5])} ({fix})"] if missing else []
 
 
@@ -184,7 +229,7 @@ def pool_problems() -> list[str]:
             for h in row.get("textures", [])}
     orphans = sorted(p.name for p in pool.iterdir() if p.name not in used)
     return ([f"tex pool: {len(orphans)} file(s) no parts index references, e.g. {orphans[:3]} "
-             "(node tooling/asset-pipeline/pipeline/kit_parts.mjs --all deletes them)"] if orphans else [])
+             "(node tooling/asset-pipeline/pipeline/kit_parts.mjs --prune deletes them)"] if orphans else [])
 
 
 def gltfpack_path() -> Path:
@@ -300,23 +345,25 @@ def input_key(raw: Path, policy: dict, threads: int) -> str:
     GLB's bytes, the policy, the gltfpack args and build, and this module."""
     version = subprocess.run([str(gltfpack_path()), "-v"], capture_output=True,
                              text=True).stdout.strip() if gltfpack_path().exists() else "missing"
-    parts = {"raw": _sha256(raw), "policy": policy, "args": gltfpack_args(policy, threads),
+    parts = {"raw": _sha256(raw), "policy": policy,
+             "args": gltfpack_args(policy, threads) if policy["enabled"] else [],
              "gltfpack": version, "code": _sha256(Path(__file__))}
     return hashlib.sha256(json.dumps(parts, sort_keys=True).encode()).hexdigest()
 
 
-def reusable_record(kit_id: str, key: str, dst: Path, published: Path,
-                    cache_dir: Path | None = None) -> dict | None:
+def reusable_record(kit_id: str, key: str, cache_dir: Path | None = None,
+                    public_dir: Path | None = None) -> dict | None:
     """The previous compression record when the last run had this input key
-    and the published GLB is still the bytes that run wrote; else None."""
+    and the published parts were cut from the bytes that run packed; else None."""
+    public_dir = public_dir or PUBLIC_KITS
     cache = (cache_dir or COMPRESS_CACHE) / f"{kit_id}.json"
-    if not (cache.is_file() and dst.is_file() and published.is_file()):
+    published, index = public_dir / f"{kit_id}.kit.json", parts_index_path(kit_id, public_dir)
+    if not (cache.is_file() and published.is_file() and index.is_file()):
         return None
     last = json.loads(cache.read_text())
     record = json.loads(published.read_text()).get("compression") or {}
-    if last.get("inputKey") != key or record.get("sha256") != last.get("sha256"):
-        return None
-    if _sha256(dst) != last["sha256"]:
+    packed = json.loads(index.read_text()).get("packed", {}).get("sha256")
+    if last.get("inputKey") != key or not (record.get("sha256") == last.get("sha256") == packed):
         return None
     return {k: v for k, v in record.items() if k not in ("sidecarBytes", "sidecarsExempt")}
 
@@ -378,53 +425,43 @@ def publish(kit_id: str, threads: int = 4, force: bool = False) -> dict:
 
 
 def _publish(kit_id: str, threads: int = 4, force: bool = False) -> dict:
-    """Compress output/kits/<id>.glb into public/kits/<id>.glb and copy the
-    manifest across with the compression record added. Kits whose config
-    `output` already sits under public/ are compressed in place. gltfpack is
-    skipped when the input key matches the last run's and the published GLB
-    is untouched (`reusable_record`); `force` always re-runs it."""
+    """Pack output/kits/<id>.glb into a temporary GLB, cut it into
+    public/kits/<id>/parts/ and copy the manifest across with the compression
+    record added. Nothing is packed or cut when the input key matches the
+    last run's and the parts index still names that run's packed GLB
+    (`reusable_record`); `force` always re-runs."""
     kit = json.loads((CONFIG / f"{kit_id}.json").read_text())
     raw = (REPO_ROOT / kit["output"]).resolve()
     manifest_path = raw.with_suffix(".kit.json")
     if not raw.exists() or not manifest_path.exists():
         raise FileNotFoundError(f"{kit_id}: build the kit first ({raw})")
-    dst = PUBLIC_KITS / f"{kit_id}.glb"
+    if raw.parent.resolve() == PUBLIC_KITS.resolve():
+        raise ValueError(f"{kit_id}: config `output` is under public/kits; kits build into output/kits/")
     policy = policy_for(kit)
     manifest = json.loads(manifest_path.read_text())
-    if raw.resolve() == dst.resolve():
-        # The kit builds straight into public/: keep the raw build under
-        # output/kits/ for the measuring tools, and take it from there when
-        # the public copy is already a compressed one.
-        keep = OUTPUT_KITS / f"{kit_id}.glb"
-        facts = describe(raw)
-        if facts["texturesCompressed"] or facts["meshesCompressed"]:
-            if not keep.exists():
-                raise FileNotFoundError(f"{kit_id}: {dst} is already compressed and no raw build "
-                                        f"exists at {keep}; rebuild the kit")
-        else:
-            OUTPUT_KITS.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(raw, keep)
-        raw = keep
-    if not policy["enabled"]:
-        record = {"schemaVersion": SCHEMA_VERSION, "enabled": False,
-                  "bytes": raw.stat().st_size,
-                  "reason": kit.get("compressionReason", "disabled in kit config")}
-        shutil.copyfile(raw, dst)
-    else:
-        key = input_key(raw, policy, threads)
-        record = None if force else reusable_record(kit_id, key, dst,
-                                                    PUBLIC_KITS / f"{kit_id}.kit.json")
-        if record is not None:
-            print(f"[kit] {kit_id}: gltfpack skipped (raw GLB, policy and tool unchanged; --force re-runs)")
-        else:
-            record = compress(raw, dst, policy, threads)
-            remember(kit_id, key, record)
     published = PUBLIC_KITS / f"{kit_id}.kit.json"
-    parts = publish_parts(kit_id)
-    if parts is None:
-        record.pop("parts", None)
+    key = input_key(raw, policy, threads)
+    record = None if force else reusable_record(kit_id, key)
+    if record is not None:
+        print(f"[kit] {kit_id}: pack and cut skipped (raw GLB, policy and tool unchanged; --force re-runs)")
     else:
-        record["parts"] = parts
+        PUBLIC_KITS.mkdir(parents=True, exist_ok=True)
+        packed = PUBLIC_KITS / f".{kit_id}.packing.glb"
+        try:
+            if policy["enabled"]:
+                record = compress(raw, packed, policy, threads)
+            else:
+                shutil.copyfile(raw, packed)
+                record = {"schemaVersion": SCHEMA_VERSION, "enabled": False,
+                          "bytes": raw.stat().st_size,
+                          "reason": kit.get("compressionReason", "disabled in kit config"),
+                          "sha256": _sha256(packed)}
+            # The parts writer reads the manifest's asset list from public/.
+            published.write_text(json.dumps(manifest, indent=1) + "\n")
+            record["parts"] = publish_parts(kit_id, packed, raw)
+        finally:
+            packed.unlink(missing_ok=True)
+        remember(kit_id, key, record)
     sidecars = publish_sidecars(kit_id)
     record["sidecarBytes"] = sidecars
     # The single list of kits the three architecture measurements do not apply
@@ -435,58 +472,55 @@ def _publish(kit_id: str, threads: int = 4, force: bool = False) -> dict:
     manifest["schemaVersion"] = KIT_MANIFEST_SCHEMA_VERSION
     manifest["compression"] = record
     manifest_path.write_text(json.dumps(manifest, indent=1) + "\n")
-    if published.resolve() != manifest_path.resolve():
-        published.write_text(json.dumps(manifest, indent=1) + "\n")
+    published.write_text(json.dumps(manifest, indent=1) + "\n")
     if sidecars:
         print(f"[kit] {kit_id}: sidecars " + ", ".join(
             f"{n} {b / 1e3:.1f} kB" for n, b in sorted(sidecars.items())))
     elif kit_id in SIDECAR_EXEMPT:
         print(f"[kit] {kit_id}: no sidecars ({SIDECAR_EXEMPT[kit_id]})")
-    parts = record.get("parts")
-    if parts is None:
-        print(f"[kit] {kit_id}: no parts (named by no interior cell)")
-    else:
-        print(f"[kit] {kit_id}: parts {parts['parts']} GLBs {parts['partBytes'] / 1e6:.1f} MB + "
-              f"{parts['textureFiles']} textures {parts['textureBytes'] / 1e6:.1f} MB -> "
-              f"{(PUBLIC_KITS / kit_id / 'parts').relative_to(REPO_ROOT)}")
+    parts = record["parts"]
+    print(f"[kit] {kit_id}: parts {parts['parts']} GLBs {parts['partBytes'] / 1e6:.1f} MB + "
+          f"{parts['textureFiles']} textures {parts['textureBytes'] / 1e6:.1f} MB -> "
+          f"{(PUBLIC_KITS / kit_id / 'parts').relative_to(REPO_ROOT)}")
     if record.get("enabled", True):
         print(f"[kit] {kit_id}: compressed {record['bytesBefore'] / 1e6:.1f} MB -> "
-              f"{record['bytesAfter'] / 1e6:.1f} MB ({record['images']} images KTX2, "
-              f"{'/'.join(f'{c} {policy[c].upper()}' for c in CLASSES)}, meshopt) "
-              f"-> {dst.relative_to(REPO_ROOT)}")
+              f"{record['bytesAfter'] / 1e6:.1f} MB packed ({record['images']} images KTX2, "
+              f"{'/'.join(f'{c} {policy[c].upper()}' for c in CLASSES)}, meshopt)")
     return record
+
+
+def raw_build(kit_id: str) -> Path | None:
+    """The raw build a kit config names (git-ignored; absent on CI)."""
+    config = CONFIG / f"{kit_id}.json"
+    return (REPO_ROOT / json.loads(config.read_text())["output"]).resolve() if config.exists() else None
 
 
 def check(kit_id: str) -> list[str]:
     """Why a published kit is not acceptable (empty list = fine)."""
-    glb = PUBLIC_KITS / f"{kit_id}.glb"
-    if not glb.exists():
-        return [f"{kit_id}: no published GLB"]
-    return (glb_problems(kit_id, glb, PUBLIC_KITS / f"{kit_id}.kit.json") + sidecar_problems(kit_id)
-            + parts_problems(kit_id) + pool_problems())
+    return (published_problems(kit_id) + sidecar_problems(kit_id)
+            + parts_problems(kit_id, raw_build(kit_id)) + pool_problems())
 
 
-def glb_problems(kit_id: str, glb: Path, manifest_path: Path) -> list[str]:
-    """Why a GLB and its manifest may not ship (empty list = fine): the
-    `--check` rule minus the sidecars, for any pair about to be published.
-    16h M19 ruling 5: `export_settlement_bundle --copy-assets` copied the raw
-    `output/kits` builds over the compressed ones (K12 B found 15 kits at raw
-    size); every writer into public/kits runs this first."""
-    problems = []
-    try:
-        facts = describe(glb)
-    except ValueError as exc:
-        return [f"{kit_id}: {exc}"]
-    record = json.loads(manifest_path.read_text()).get("compression") if manifest_path.exists() else None
+def published_problems(kit_id: str, public_dir: Path | None = None) -> list[str]:
+    """Why a published kit's manifest may not ship (empty list = fine): it
+    carries a `compression` record, and a compressed kit's record names KTX2
+    images and meshopt geometry. 16h M19 ruling 5: `export_settlement_bundle
+    --copy-assets` once copied raw `output/kits` builds over compressed ones;
+    every writer into public/kits runs this first."""
+    manifest_path = (public_dir or PUBLIC_KITS) / f"{kit_id}.kit.json"
+    if not manifest_path.exists():
+        return [f"{kit_id}: no published manifest"]
+    record = json.loads(manifest_path.read_text()).get("compression")
     if record is None:
-        problems.append(f"{kit_id}: manifest has no `compression` record (published without pipeline.kit_compress)")
-    elif record.get("enabled", True):
-        if facts["images"] and not facts["texturesCompressed"]:
-            problems.append(f"{kit_id}: images are {facts['imageMimeTypes']}, not KTX2")
-        if facts["meshes"] and not facts["meshesCompressed"]:
-            problems.append(f"{kit_id}: meshes are not meshopt-compressed")
-        if record.get("bytesAfter") != facts["bytes"]:
-            problems.append(f"{kit_id}: manifest records {record.get('bytesAfter')} B, GLB is {facts['bytes']} B")
+        return [f"{kit_id}: manifest has no `compression` record (published without pipeline.kit_compress)"]
+    problems = []
+    if record.get("enabled", True):
+        if record.get("textureContainer") != "ktx2":
+            problems.append(f"{kit_id}: compression record names no KTX2 textures")
+        if record.get("geometry") != MESH_EXTENSION:
+            problems.append(f"{kit_id}: compression record names no meshopt geometry")
+    if not record.get("sha256"):
+        problems.append(f"{kit_id}: compression record has no packed sha256")
     return problems
 
 

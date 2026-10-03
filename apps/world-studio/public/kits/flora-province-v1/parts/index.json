@@ -1,20 +1,2722 @@
 {
- "schemaVersion": 3,
+ "schemaVersion": 4,
  "kit": "flora-province-v1",
- "exterior": false,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
+  "bytes": 73039528,
+  "sha256": "3e3e55257e92cb9bbef7d9bbfdfe2da0d1d9b250b4fb870503ee54e8d334ca23"
+ },
+ "packed": {
   "bytes": 25978468,
   "sha256": "68d7d907d16fcc3a28acc6f9dd3000cbbae25da4ed979442baa2d4f89414333c"
  },
  "totals": {
-  "parts": 8,
-  "partBytes": 109384,
-  "textureFiles": 4,
-  "textureBytes": 341823,
-  "bytes": 451207
+  "parts": 159,
+  "partBytes": 6738376,
+  "textureFiles": 148,
+  "textureBytes": 21116173,
+  "bytes": 27854549
  },
  "assets": {
+  "bmv:landscape/grass/vurt_reeds": {
+   "file": "bmv_landscape_grass_vurt_reeds-d668cde7.glb",
+   "bytes": 8528,
+   "vertices": 104,
+   "triangles": 52,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 104,
+     "triangles": 52
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "2ca4bd7774b3e3d7"
+   ]
+  },
+  "bmv:landscape/grass/watercoralgrass01": {
+   "file": "bmv_landscape_grass_watercoralgrass01-3fe4d8de.glb",
+   "bytes": 8080,
+   "vertices": 16,
+   "triangles": 10,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 16,
+     "triangles": 10
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "e59537e8ed7f5f43"
+   ]
+  },
+  "bmv:landscape/grass/waterkelpshort01": {
+   "file": "bmv_landscape_grass_waterkelpshort01-9b6897fb.glb",
+   "bytes": 7944,
+   "vertices": 23,
+   "triangles": 17,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 23,
+     "triangles": 17
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "ce99383c8ea45c0e"
+   ]
+  },
+  "bmv:landscape/grass/waterkelptall01": {
+   "file": "bmv_landscape_grass_waterkelptall01-2805a234.glb",
+   "bytes": 8284,
+   "vertices": 22,
+   "triangles": 18,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 22,
+     "triangles": 18
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "aa18923922137458",
+    "ce99383c8ea45c0e"
+   ]
+  },
+  "bmv:landscape/plants/bigshrub-b(colorful)": {
+   "file": "bmv_landscape_plants_bigshrub-b_colorful_-f97ee631.glb",
+   "bytes": 25312,
+   "vertices": 1216,
+   "triangles": 912,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1216,
+     "triangles": 912
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "4d091de00706fb33",
+    "aa18923922137458"
+   ]
+  },
+  "bmv:landscape/plants/bigshrub-c(colorful)": {
+   "file": "bmv_landscape_plants_bigshrub-c_colorful_-9d9f80e5.glb",
+   "bytes": 25316,
+   "vertices": 1216,
+   "triangles": 912,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1216,
+     "triangles": 912
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "685fbfc2308120d1",
+    "aa18923922137458"
+   ]
+  },
+  "bmv:landscape/plants/bigshrub2(colorful)": {
+   "file": "bmv_landscape_plants_bigshrub2_colorful_-db7a917c.glb",
+   "bytes": 16044,
+   "vertices": 525,
+   "triangles": 420,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 525,
+     "triangles": 420
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "aa18923922137458",
+    "f193e79031d662d2"
+   ]
+  },
+  "bmv:landscape/plants/braken": {
+   "file": "bmv_landscape_plants_braken-6219d2b0.glb",
+   "bytes": 9620,
+   "vertices": 190,
+   "triangles": 176,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 190,
+     "triangles": 176
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "ccfd3915210c5523"
+   ]
+  },
+  "bmv:landscape/plants/chickweed": {
+   "file": "bmv_landscape_plants_chickweed-f0fc9fd1.glb",
+   "bytes": 60872,
+   "vertices": 3244,
+   "triangles": 3832,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3244,
+     "triangles": 3832
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "3728de7cfdc3ba29",
+    "74f871d91e72e6b0"
+   ]
+  },
+  "bmv:landscape/plants/esloebush08": {
+   "file": "bmv_landscape_plants_esloebush08-92e904c7.glb",
+   "bytes": 10124,
+   "vertices": 92,
+   "triangles": 62,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 92,
+     "triangles": 62
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1559e5d1d4515c8c",
+    "aa18923922137458"
+   ]
+  },
+  "bmv:landscape/plants/espfernbraken01st": {
+   "file": "bmv_landscape_plants_espfernbraken01st-a7797657.glb",
+   "bytes": 7408,
+   "vertices": 12,
+   "triangles": 6,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 12,
+     "triangles": 6
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "fc1537ddf9e55b4d"
+   ]
+  },
+  "bmv:landscape/plants/espfernbraken02st": {
+   "file": "bmv_landscape_plants_espfernbraken02st-8fbbf049.glb",
+   "bytes": 9136,
+   "vertices": 64,
+   "triangles": 48,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 64,
+     "triangles": 48
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "1bc354a79b17795a"
+   ]
+  },
+  "bmv:landscape/plants/espfernbraken03st": {
+   "file": "bmv_landscape_plants_espfernbraken03st-4d2f01b0.glb",
+   "bytes": 9824,
+   "vertices": 96,
+   "triangles": 100,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 96,
+     "triangles": 100
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "1bc354a79b17795a"
+   ]
+  },
+  "bmv:landscape/plants/espfernbraken04st": {
+   "file": "bmv_landscape_plants_espfernbraken04st-f10fe57f.glb",
+   "bytes": 12104,
+   "vertices": 211,
+   "triangles": 240,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 211,
+     "triangles": 240
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "1bc354a79b17795a"
+   ]
+  },
+  "bmv:landscape/plants/espfernbraken05st": {
+   "file": "bmv_landscape_plants_espfernbraken05st-7f00401b.glb",
+   "bytes": 10404,
+   "vertices": 120,
+   "triangles": 128,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 120,
+     "triangles": 128
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "1bc354a79b17795a"
+   ]
+  },
+  "bmv:landscape/plants/espfernbraken06st": {
+   "file": "bmv_landscape_plants_espfernbraken06st-d61034c0.glb",
+   "bytes": 11472,
+   "vertices": 171,
+   "triangles": 176,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 171,
+     "triangles": 176
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "1bc354a79b17795a"
+   ]
+  },
+  "bmv:landscape/plants/espfernbrakencluster01": {
+   "file": "bmv_landscape_plants_espfernbrakencluster01-04c0b9f8.glb",
+   "bytes": 36176,
+   "vertices": 1432,
+   "triangles": 1424,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1432,
+     "triangles": 1424
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "1bc354a79b17795a"
+   ]
+  },
+  "bmv:landscape/plants/espfernbrakencluster02": {
+   "file": "bmv_landscape_plants_espfernbrakencluster02-840fbe5e.glb",
+   "bytes": 23740,
+   "vertices": 780,
+   "triangles": 824,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 780,
+     "triangles": 824
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "1bc354a79b17795a"
+   ]
+  },
+  "bmv:landscape/plants/espfernbrakencluster03": {
+   "file": "bmv_landscape_plants_espfernbrakencluster03-be468a64.glb",
+   "bytes": 19708,
+   "vertices": 588,
+   "triangles": 636,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 588,
+     "triangles": 636
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "1bc354a79b17795a"
+   ]
+  },
+  "bmv:landscape/plants/espfernbrakencluster04": {
+   "file": "bmv_landscape_plants_espfernbrakencluster04-1e1a85d8.glb",
+   "bytes": 15628,
+   "vertices": 384,
+   "triangles": 400,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 384,
+     "triangles": 400
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1bc354a79b17795a",
+    "aa18923922137458"
+   ]
+  },
+  "bmv:landscape/plants/espfernbrakencluster05": {
+   "file": "bmv_landscape_plants_espfernbrakencluster05-e616df72.glb",
+   "bytes": 18180,
+   "vertices": 517,
+   "triangles": 544,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 517,
+     "triangles": 544
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "1bc354a79b17795a"
+   ]
+  },
+  "bmv:landscape/plants/espfernbrakencluster06": {
+   "file": "bmv_landscape_plants_espfernbrakencluster06-15b395f3.glb",
+   "bytes": 16844,
+   "vertices": 448,
+   "triangles": 336,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 448,
+     "triangles": 336
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "1bc354a79b17795a"
+   ]
+  },
+  "bmv:landscape/plants/fern01": {
+   "file": "bmv_landscape_plants_fern01-0ed0587d.glb",
+   "bytes": 9144,
+   "vertices": 120,
+   "triangles": 128,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 120,
+     "triangles": 128
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "4a94a380b6f1ccda"
+   ]
+  },
+  "bmv:landscape/plants/fernlarge03": {
+   "file": "bmv_landscape_plants_fernlarge03-311df80d.glb",
+   "bytes": 10344,
+   "vertices": 224,
+   "triangles": 236,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 224,
+     "triangles": 236
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "144b39c11a29f334",
+    "1ae4a31895bd18c8"
+   ]
+  },
+  "bmv:landscape/plants/florahangingmoss02aaa": {
+   "file": "bmv_landscape_plants_florahangingmoss02aaa-2f5861ef.glb",
+   "bytes": 17416,
+   "vertices": 516,
+   "triangles": 398,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 516,
+     "triangles": 398
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "98a2332514cd9c7d",
+    "aa18923922137458"
+   ]
+  },
+  "bmv:landscape/plants/florahangingmoss03aaa": {
+   "file": "bmv_landscape_plants_florahangingmoss03aaa-67c54a9f.glb",
+   "bytes": 13416,
+   "vertices": 293,
+   "triangles": 209,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 293,
+     "triangles": 209
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "98a2332514cd9c7d",
+    "aa18923922137458"
+   ]
+  },
+  "bmv:landscape/plants/kelptallstatic01aaa": {
+   "file": "bmv_landscape_plants_kelptallstatic01aaa-1d25baa6.glb",
+   "bytes": 8780,
+   "vertices": 38,
+   "triangles": 34,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 38,
+     "triangles": 34
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "aa18923922137458",
+    "ce99383c8ea45c0e"
+   ]
+  },
+  "bmv:landscape/plants/water lily1": {
+   "file": "bmv_landscape_plants_water_lily1-8f174271.glb",
+   "bytes": 36504,
+   "vertices": 1688,
+   "triangles": 2044,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1688,
+     "triangles": 2044
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "03142d0f817c57dc",
+    "949075c056533e09",
+    "c9f77f0ae20ef9df",
+    "e63717947a502d0f"
+   ]
+  },
+  "bmv:landscape/plants/water lily2": {
+   "file": "bmv_landscape_plants_water_lily2-f0994504.glb",
+   "bytes": 30412,
+   "vertices": 1219,
+   "triangles": 1456,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1219,
+     "triangles": 1456
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "03142d0f817c57dc",
+    "c9f77f0ae20ef9df",
+    "e63717947a502d0f",
+    "e6a777d6839f802f"
+   ]
+  },
+  "bmv:landscape/rocks/moss_rockcliff01": {
+   "file": "bmv_landscape_rocks_moss_rockcliff01-da1910b1.glb",
+   "bytes": 41712,
+   "vertices": 1439,
+   "triangles": 1728,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1439,
+     "triangles": 1728
+    }
+   ],
+   "textures": [
+    "44427d1a57ee4dae",
+    "6cd688770db91804",
+    "9703efe7382b1d5f",
+    "a74ae4887d0ef314"
+   ]
+  },
+  "bmv:landscape/trees/bambooplant": {
+   "file": "bmv_landscape_trees_bambooplant-2f1f1cc8.glb",
+   "bytes": 28316,
+   "vertices": 1517,
+   "triangles": 1440,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1517,
+     "triangles": 1440
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "72d7df26ccb3878a",
+    "aa18923922137458"
+   ]
+  },
+  "bmv:landscape/trees/beachpalm1": {
+   "file": "bmv_landscape_trees_beachpalm1-6f392a6f.glb",
+   "bytes": 33360,
+   "vertices": 755,
+   "triangles": 844,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 755,
+     "triangles": 844
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "2240880223857547",
+    "5bb4c7745967ff78",
+    "7626ce374743ccf5",
+    "ac6aca6a09d279e6",
+    "b52047a9c1b104cf",
+    "d0d8a49e45c30a25",
+    "e4fa3121fdce9530"
+   ]
+  },
+  "bmv:landscape/trees/beachpalm2": {
+   "file": "bmv_landscape_trees_beachpalm2-cfc6b5cb.glb",
+   "bytes": 33772,
+   "vertices": 789,
+   "triangles": 876,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 789,
+     "triangles": 876
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "2240880223857547",
+    "5bb4c7745967ff78",
+    "7626ce374743ccf5",
+    "b52047a9c1b104cf",
+    "ba95fc46f59b38f4",
+    "d0d8a49e45c30a25",
+    "e4fa3121fdce9530"
+   ]
+  },
+  "bmv:landscape/trees/beachpalm3": {
+   "file": "bmv_landscape_trees_beachpalm3-ce91cb46.glb",
+   "bytes": 34316,
+   "vertices": 830,
+   "triangles": 876,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 830,
+     "triangles": 876
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "2240880223857547",
+    "5bb4c7745967ff78",
+    "7626ce374743ccf5",
+    "ac6aca6a09d279e6",
+    "b52047a9c1b104cf",
+    "d0d8a49e45c30a25",
+    "e4fa3121fdce9530"
+   ]
+  },
+  "bmv:landscape/trees/beachpalm5": {
+   "file": "bmv_landscape_trees_beachpalm5-b32482d8.glb",
+   "bytes": 33500,
+   "vertices": 787,
+   "triangles": 876,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 787,
+     "triangles": 876
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "2240880223857547",
+    "39c05133270d13ff",
+    "5bb4c7745967ff78",
+    "7626ce374743ccf5",
+    "b52047a9c1b104cf",
+    "d0d8a49e45c30a25",
+    "e4fa3121fdce9530"
+   ]
+  },
+  "bmv:landscape/trees/cedartree3": {
+   "file": "bmv_landscape_trees_cedartree3-9aa79114.glb",
+   "bytes": 38212,
+   "vertices": 1614,
+   "triangles": 1266,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1614,
+     "triangles": 1266
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1aa0298027744844",
+    "3050a05873b0e9c9",
+    "5476f391d5311c9b",
+    "ba95fc46f59b38f4"
+   ]
+  },
+  "bmv:landscape/trees/cypress1": {
+   "file": "bmv_landscape_trees_cypress1-de129de0.glb",
+   "bytes": 59020,
+   "vertices": 2686,
+   "triangles": 2447,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2686,
+     "triangles": 2447
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "41971b5d80df1a8d",
+    "5b23fdb4100e85ca",
+    "8ab34c3982396567",
+    "a1d2409eee5e32fd",
+    "ba95fc46f59b38f4",
+    "e7bc32f98999ea96"
+   ]
+  },
+  "bmv:landscape/trees/cypress3": {
+   "file": "bmv_landscape_trees_cypress3-15763e35.glb",
+   "bytes": 60656,
+   "vertices": 2332,
+   "triangles": 2046,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2332,
+     "triangles": 2046
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "41971b5d80df1a8d",
+    "5b23fdb4100e85ca",
+    "855a11af1ea96725",
+    "a1d2409eee5e32fd",
+    "ba95fc46f59b38f4",
+    "e7bc32f98999ea96"
+   ]
+  },
+  "bmv:landscape/trees/datepalm2": {
+   "file": "bmv_landscape_trees_datepalm2-e38ef106.glb",
+   "bytes": 27328,
+   "vertices": 571,
+   "triangles": 604,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 571,
+     "triangles": 604
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "040deb10c4870f19",
+    "32c6cf6aaee9a524",
+    "39c05133270d13ff",
+    "85f5c97d17ed4f0a",
+    "a2b41c3704e61b2e",
+    "e325c2e4569991c1"
+   ]
+  },
+  "bmv:landscape/trees/dwarfjunip05": {
+   "file": "bmv_landscape_trees_dwarfjunip05-3b2e2efd.glb",
+   "bytes": 188992,
+   "vertices": 5563,
+   "triangles": 5708,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5563,
+     "triangles": 5708
+    },
+    {
+     "lod": 1,
+     "vertices": 3374,
+     "triangles": 3471
+    },
+    {
+     "lod": 2,
+     "vertices": 2425,
+     "triangles": 2586
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "40d72ece647a0478",
+    "6194a49fdf4b041a",
+    "aa18923922137458"
+   ]
+  },
+  "bmv:landscape/trees/fanpalm1": {
+   "file": "bmv_landscape_trees_fanpalm1-fec6caf8.glb",
+   "bytes": 33816,
+   "vertices": 475,
+   "triangles": 588,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 475,
+     "triangles": 588
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1f9beeae3340c9e5",
+    "2240880223857547",
+    "735ded6b476265fd",
+    "ac6aca6a09d279e6",
+    "c64d10d6f206c19a",
+    "db9a7961ba24a969",
+    "e13ceaccb5f2f535",
+    "e82becdb78000577"
+   ]
+  },
+  "bmv:landscape/trees/fanpalm3": {
+   "file": "bmv_landscape_trees_fanpalm3-5d224392.glb",
+   "bytes": 34884,
+   "vertices": 550,
+   "triangles": 620,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 550,
+     "triangles": 620
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1f9beeae3340c9e5",
+    "2240880223857547",
+    "61f027b2dda55945",
+    "735ded6b476265fd",
+    "b71e85e998dacdea",
+    "c64d10d6f206c19a",
+    "db9a7961ba24a969",
+    "e82becdb78000577"
+   ]
+  },
+  "bmv:landscape/trees/fanpalm4": {
+   "file": "bmv_landscape_trees_fanpalm4-91220a24.glb",
+   "bytes": 34248,
+   "vertices": 509,
+   "triangles": 620,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 509,
+     "triangles": 620
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1f9beeae3340c9e5",
+    "2240880223857547",
+    "61f027b2dda55945",
+    "735ded6b476265fd",
+    "b71e85e998dacdea",
+    "c64d10d6f206c19a",
+    "db9a7961ba24a969",
+    "e82becdb78000577"
+   ]
+  },
+  "bmv:landscape/trees/fanpalm5": {
+   "file": "bmv_landscape_trees_fanpalm5-3834a10d.glb",
+   "bytes": 33960,
+   "vertices": 475,
+   "triangles": 588,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 475,
+     "triangles": 588
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1f9beeae3340c9e5",
+    "2240880223857547",
+    "39c05133270d13ff",
+    "735ded6b476265fd",
+    "c64d10d6f206c19a",
+    "db9a7961ba24a969",
+    "e13ceaccb5f2f535",
+    "e82becdb78000577"
+   ]
+  },
+  "bmv:landscape/trees/fanpalm6": {
+   "file": "bmv_landscape_trees_fanpalm6-99a00b47.glb",
+   "bytes": 33904,
+   "vertices": 475,
+   "triangles": 588,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 475,
+     "triangles": 588
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1f9beeae3340c9e5",
+    "2240880223857547",
+    "61f027b2dda55945",
+    "735ded6b476265fd",
+    "c64d10d6f206c19a",
+    "db9a7961ba24a969",
+    "e13ceaccb5f2f535",
+    "e82becdb78000577"
+   ]
+  },
+  "bmv:landscape/trees/flatpalm1": {
+   "file": "bmv_landscape_trees_flatpalm1-c3dcc526.glb",
+   "bytes": 20532,
+   "vertices": 327,
+   "triangles": 312,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 327,
+     "triangles": 312
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "411646372edb28b0",
+    "7174d292ef08a623",
+    "e6913e6a73d9658e",
+    "f45d48d0009b2953",
+    "f688edbe894802cf"
+   ]
+  },
+  "bmv:landscape/trees/flatpalm2": {
+   "file": "bmv_landscape_trees_flatpalm2-3abc0e04.glb",
+   "bytes": 20976,
+   "vertices": 351,
+   "triangles": 336,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 351,
+     "triangles": 336
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "411646372edb28b0",
+    "7174d292ef08a623",
+    "e6913e6a73d9658e",
+    "f45d48d0009b2953",
+    "f688edbe894802cf"
+   ]
+  },
+  "bmv:landscape/trees/gkbcyrodilcypress1": {
+   "file": "bmv_landscape_trees_gkbcyrodilcypress1-4ab31b87.glb",
+   "bytes": 53212,
+   "vertices": 2284,
+   "triangles": 1822,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2284,
+     "triangles": 1822
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "39c05133270d13ff",
+    "59b80205e9eed3ef",
+    "83ad74c9753a9be8",
+    "964978e041f89946",
+    "ffe88e664abd21e1"
+   ]
+  },
+  "bmv:landscape/trees/gkbcyrodilcypress2": {
+   "file": "bmv_landscape_trees_gkbcyrodilcypress2-3a7bc654.glb",
+   "bytes": 50356,
+   "vertices": 2285,
+   "triangles": 1822,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2285,
+     "triangles": 1822
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "39c05133270d13ff",
+    "59b80205e9eed3ef",
+    "83ad74c9753a9be8",
+    "964978e041f89946",
+    "ffe88e664abd21e1"
+   ]
+  },
+  "bmv:landscape/trees/gkbfallforestshrub02": {
+   "file": "bmv_landscape_trees_gkbfallforestshrub02-4b1a7534.glb",
+   "bytes": 13548,
+   "vertices": 283,
+   "triangles": 273,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 283,
+     "triangles": 273
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "68f3f9f56e6bbcbe",
+    "aa18923922137458"
+   ]
+  },
+  "bmv:landscape/trees/gkbjungletreenew1": {
+   "file": "bmv_landscape_trees_gkbjungletreenew1-8dc08697.glb",
+   "bytes": 59012,
+   "vertices": 2392,
+   "triangles": 2598,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2392,
+     "triangles": 2598
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "096ec8a4675ec461",
+    "aa18923922137458",
+    "d6600b461c7c512f",
+    "ef558167d32a6699"
+   ]
+  },
+  "bmv:landscape/trees/gkbjungletreenew10": {
+   "file": "bmv_landscape_trees_gkbjungletreenew10-01ad0e21.glb",
+   "bytes": 47540,
+   "vertices": 2024,
+   "triangles": 2540,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2024,
+     "triangles": 2540
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "183af03cf8f59b54",
+    "456e8a01113b85c2",
+    "7580ffffc828b7cb",
+    "949075c056533e09"
+   ]
+  },
+  "bmv:landscape/trees/gkbjungletreenew12v3": {
+   "file": "bmv_landscape_trees_gkbjungletreenew12v3-a29b2c92.glb",
+   "bytes": 32560,
+   "vertices": 1117,
+   "triangles": 1179,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1117,
+     "triangles": 1179
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "aa18923922137458",
+    "b230c0b513e32bea",
+    "c8cc0304ecd6a034"
+   ]
+  },
+  "bmv:landscape/trees/gkbjungletreenew17v2tropical": {
+   "file": "bmv_landscape_trees_gkbjungletreenew17v2tropical-da969cb1.glb",
+   "bytes": 93724,
+   "vertices": 4866,
+   "triangles": 3773,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4866,
+     "triangles": 3773
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "2e67e9c8c5c06a7f",
+    "7e1ec2877a45c4c0",
+    "8cd8afc287bd394f",
+    "ac6aca6a09d279e6",
+    "faa406e5a24eb437"
+   ]
+  },
+  "bmv:landscape/trees/gkbjungletreenew19v3": {
+   "file": "bmv_landscape_trees_gkbjungletreenew19v3-ffa9979d.glb",
+   "bytes": 62864,
+   "vertices": 2735,
+   "triangles": 2611,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2735,
+     "triangles": 2611
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "ac6aca6a09d279e6",
+    "b230c0b513e32bea",
+    "c8cc0304ecd6a034"
+   ]
+  },
+  "bmv:landscape/trees/gkbjungletreenew21v3": {
+   "file": "bmv_landscape_trees_gkbjungletreenew21v3-2f93dfe8.glb",
+   "bytes": 40216,
+   "vertices": 1429,
+   "triangles": 1418,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1429,
+     "triangles": 1418
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "61f027b2dda55945",
+    "b230c0b513e32bea",
+    "c8cc0304ecd6a034"
+   ]
+  },
+  "bmv:landscape/trees/gkbjungletreenew3": {
+   "file": "bmv_landscape_trees_gkbjungletreenew3-6cbcc201.glb",
+   "bytes": 41612,
+   "vertices": 1319,
+   "triangles": 1064,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1319,
+     "triangles": 1064
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "8cd8afc287bd394f",
+    "949075c056533e09",
+    "94e32494aac04ebc",
+    "c396cd19d65aea3e",
+    "faa406e5a24eb437"
+   ]
+  },
+  "bmv:landscape/trees/gkbjungletreenew30v3": {
+   "file": "bmv_landscape_trees_gkbjungletreenew30v3-c2099573.glb",
+   "bytes": 60376,
+   "vertices": 2235,
+   "triangles": 1990,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2235,
+     "triangles": 1990
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "61f027b2dda55945",
+    "b230c0b513e32bea",
+    "c8cc0304ecd6a034"
+   ]
+  },
+  "bmv:landscape/trees/gkbjungletreenewsticktree11": {
+   "file": "bmv_landscape_trees_gkbjungletreenewsticktree11-48597a08.glb",
+   "bytes": 64136,
+   "vertices": 2975,
+   "triangles": 3023,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2975,
+     "triangles": 3023
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "949075c056533e09",
+    "97dfb756428048bc",
+    "d6600b461c7c512f"
+   ]
+  },
+  "bmv:landscape/trees/gkbjungletreenewsticktree20v2": {
+   "file": "bmv_landscape_trees_gkbjungletreenewsticktree20v2-11e1d66e.glb",
+   "bytes": 88084,
+   "vertices": 4380,
+   "triangles": 3399,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4380,
+     "triangles": 3399
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "949075c056533e09",
+    "97dfb756428048bc",
+    "d6600b461c7c512f"
+   ]
+  },
+  "bmv:landscape/trees/gkblillipad": {
+   "file": "bmv_landscape_trees_gkblillipad-5afaf71b.glb",
+   "bytes": 10328,
+   "vertices": 12,
+   "triangles": 6,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 12,
+     "triangles": 6
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "23d09c63a90d288c",
+    "aa18923922137458",
+    "f8c4da7bbdc6fbce"
+   ]
+  },
+  "bmv:landscape/trees/gkblillipad2": {
+   "file": "bmv_landscape_trees_gkblillipad2-b076d049.glb",
+   "bytes": 10316,
+   "vertices": 12,
+   "triangles": 6,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 12,
+     "triangles": 6
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "870a364e8aa4dbcd",
+    "aa18923922137458",
+    "f8c4da7bbdc6fbce"
+   ]
+  },
+  "bmv:landscape/trees/gkbtreeaspen02jungle": {
+   "file": "bmv_landscape_trees_gkbtreeaspen02jungle-101169eb.glb",
+   "bytes": 18012,
+   "vertices": 502,
+   "triangles": 380,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 502,
+     "triangles": 380
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "af96080b1d21e0e7",
+    "c8cc0304ecd6a034",
+    "f45d48d0009b2953"
+   ]
+  },
+  "bmv:landscape/trees/gkbtreeaspen03jungle": {
+   "file": "bmv_landscape_trees_gkbtreeaspen03jungle-ac3637d9.glb",
+   "bytes": 18188,
+   "vertices": 512,
+   "triangles": 379,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 512,
+     "triangles": 379
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "af96080b1d21e0e7",
+    "c8cc0304ecd6a034",
+    "f45d48d0009b2953"
+   ]
+  },
+  "bmv:landscape/trees/gkbtreeaspen05jungle": {
+   "file": "bmv_landscape_trees_gkbtreeaspen05jungle-bfb34414.glb",
+   "bytes": 16492,
+   "vertices": 260,
+   "triangles": 229,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 260,
+     "triangles": 229
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "8b46542d543be1dc",
+    "c8cc0304ecd6a034",
+    "f45d48d0009b2953"
+   ]
+  },
+  "bmv:landscape/trees/hangingvines1": {
+   "file": "bmv_landscape_trees_hangingvines1-39db2faa.glb",
+   "bytes": 11796,
+   "vertices": 288,
+   "triangles": 272,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 288,
+     "triangles": 272
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "aa18923922137458",
+    "ca9fae3bf74cd978"
+   ]
+  },
+  "bmv:landscape/trees/hangingvines2": {
+   "file": "bmv_landscape_trees_hangingvines2-e04480bf.glb",
+   "bytes": 11192,
+   "vertices": 249,
+   "triangles": 195,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 249,
+     "triangles": 195
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "aa18923922137458",
+    "ca9fae3bf74cd978"
+   ]
+  },
+  "bmv:landscape/trees/hodalder01gkb": {
+   "file": "bmv_landscape_trees_hodalder01gkb-c46fa7aa.glb",
+   "bytes": 52468,
+   "vertices": 2372,
+   "triangles": 2177,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2372,
+     "triangles": 2177
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "421be4b3c807f966",
+    "6194a49fdf4b041a",
+    "f45d48d0009b2953"
+   ]
+  },
+  "bmv:landscape/trees/mangrovereachtree0gkb2": {
+   "file": "bmv_landscape_trees_mangrovereachtree0gkb2-4d2525b1.glb",
+   "bytes": 96816,
+   "vertices": 5169,
+   "triangles": 6392,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5169,
+     "triangles": 6392
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "096ec8a4675ec461",
+    "183af03cf8f59b54",
+    "7580ffffc828b7cb",
+    "f45d48d0009b2953"
+   ]
+  },
+  "bmv:landscape/trees/mangrovereachtree0gkb3": {
+   "file": "bmv_landscape_trees_mangrovereachtree0gkb3-07422042.glb",
+   "bytes": 90188,
+   "vertices": 3029,
+   "triangles": 3518,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3029,
+     "triangles": 3518
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "0ecec56de908c18b",
+    "17c42104368d3210",
+    "b44212c3ad84505c",
+    "ba95fc46f59b38f4"
+   ]
+  },
+  "bmv:landscape/trees/mangrovereachtree0gkb8": {
+   "file": "bmv_landscape_trees_mangrovereachtree0gkb8-76d19e53.glb",
+   "bytes": 109820,
+   "vertices": 3901,
+   "triangles": 4367,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3901,
+     "triangles": 4367
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "096ec8a4675ec461",
+    "17c42104368d3210",
+    "39c05133270d13ff",
+    "b44212c3ad84505c",
+    "d6600b461c7c512f"
+   ]
+  },
+  "bmv:landscape/trees/mangrovereachtree0gkb9": {
+   "file": "bmv_landscape_trees_mangrovereachtree0gkb9-1de114e3.glb",
+   "bytes": 104784,
+   "vertices": 3611,
+   "triangles": 4039,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3611,
+     "triangles": 4039
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "0ecec56de908c18b",
+    "17c42104368d3210",
+    "b44212c3ad84505c",
+    "ba95fc46f59b38f4",
+    "d6600b461c7c512f"
+   ]
+  },
+  "bmv:landscape/trees/reedlarge1": {
+   "file": "bmv_landscape_trees_reedlarge1-bdddd41c.glb",
+   "bytes": 7484,
+   "vertices": 24,
+   "triangles": 12,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 24,
+     "triangles": 12
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "43f239805ed16b9a",
+    "aa18923922137458"
+   ]
+  },
+  "bmv:landscape/trees/reedmed1": {
+   "file": "bmv_landscape_trees_reedmed1-b355a439.glb",
+   "bytes": 7480,
+   "vertices": 24,
+   "triangles": 12,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 24,
+     "triangles": 12
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "43f239805ed16b9a",
+    "aa18923922137458"
+   ]
+  },
+  "bmv:landscape/trees/reedsmall1": {
+   "file": "bmv_landscape_trees_reedsmall1-70aeb701.glb",
+   "bytes": 10264,
+   "vertices": 8,
+   "triangles": 4,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 8,
+     "triangles": 4
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "aa18923922137458",
+    "b903cc74c70e03cd",
+    "f66e7f9ee1c5c56a"
+   ]
+  },
+  "bmv:landscape/trees/reedsmall2": {
+   "file": "bmv_landscape_trees_reedsmall2-1171c1a4.glb",
+   "bytes": 10228,
+   "vertices": 8,
+   "triangles": 4,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 8,
+     "triangles": 4
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "aa18923922137458",
+    "b903cc74c70e03cd",
+    "f66e7f9ee1c5c56a"
+   ]
+  },
+  "bmv:landscape/trees/scottish-pine22": {
+   "file": "bmv_landscape_trees_scottish-pine22-a42c62fa.glb",
+   "bytes": 30356,
+   "vertices": 1146,
+   "triangles": 890,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1146,
+     "triangles": 890
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "5c6e681ab455485e",
+    "a161a8043351540b",
+    "d627efafceeb0f84",
+    "f45d48d0009b2953"
+   ]
+  },
+  "bmv:landscape/trees/treeofwolene4": {
+   "file": "bmv_landscape_trees_treeofwolene4-5c0f0859.glb",
+   "bytes": 68668,
+   "vertices": 3604,
+   "triangles": 2992,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3604,
+     "triangles": 2992
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "3d8b8b0acd1fc0ef",
+    "61f027b2dda55945",
+    "b230c0b513e32bea",
+    "e629f4eec4dbee89"
+   ]
+  },
+  "bmv:landscape/trees/treewillow01a": {
+   "file": "bmv_landscape_trees_treewillow01a-7a9a468f.glb",
+   "bytes": 401772,
+   "vertices": 20446,
+   "triangles": 11652,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 20446,
+     "triangles": 11652
+    },
+    {
+     "lod": 1,
+     "vertices": 6219,
+     "triangles": 3772
+    },
+    {
+     "lod": 2,
+     "vertices": 4064,
+     "triangles": 2398
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "54216d6a29421831",
+    "ba95fc46f59b38f4",
+    "fc5e0c37c7c25af7"
+   ]
+  },
+  "bmv:landscape/trees/treewillow02a": {
+   "file": "bmv_landscape_trees_treewillow02a-c833b9b3.glb",
+   "bytes": 422968,
+   "vertices": 20738,
+   "triangles": 11576,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 20738,
+     "triangles": 11576
+    },
+    {
+     "lod": 1,
+     "vertices": 6282,
+     "triangles": 3756
+    },
+    {
+     "lod": 2,
+     "vertices": 6028,
+     "triangles": 3406
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "54216d6a29421831",
+    "ac6aca6a09d279e6",
+    "fc5e0c37c7c25af7"
+   ]
+  },
+  "bmv:landscape/trees/treewillow03a": {
+   "file": "bmv_landscape_trees_treewillow03a-04cbb007.glb",
+   "bytes": 204628,
+   "vertices": 8917,
+   "triangles": 5694,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 8917,
+     "triangles": 5694
+    },
+    {
+     "lod": 1,
+     "vertices": 2894,
+     "triangles": 2016
+    },
+    {
+     "lod": 2,
+     "vertices": 2382,
+     "triangles": 1546
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "54216d6a29421831",
+    "ac6aca6a09d279e6",
+    "fc5e0c37c7c25af7"
+   ]
+  },
+  "bmv:landscape/trees/tropicalplant01": {
+   "file": "bmv_landscape_trees_tropicalplant01-2b3cc672.glb",
+   "bytes": 21932,
+   "vertices": 925,
+   "triangles": 1152,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 925,
+     "triangles": 1152
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "f27040f1797df1b9"
+   ]
+  },
+  "bmv:landscape/trees/tropicalshrub01": {
+   "file": "bmv_landscape_trees_tropicalshrub01-d0a57583.glb",
+   "bytes": 15916,
+   "vertices": 569,
+   "triangles": 508,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 569,
+     "triangles": 508
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "6b56d231f4dd524b"
+   ]
+  },
+  "bmv:landscape/trees/ztgorsebush02lightyellow": {
+   "file": "bmv_landscape_trees_ztgorsebush02lightyellow-cba6ab15.glb",
+   "bytes": 22352,
+   "vertices": 731,
+   "triangles": 628,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 731,
+     "triangles": 628
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "4f19e5c91405a6ba",
+    "aa18923922137458",
+    "fec1252b3cece053"
+   ]
+  },
+  "bmv:plants/trees/banana_tree": {
+   "file": "bmv_plants_trees_banana_tree-7af86e09.glb",
+   "bytes": 82040,
+   "vertices": 5608,
+   "triangles": 3888,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5608,
+     "triangles": 3888
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "aa18923922137458",
+    "b7635cb2534edc80"
+   ]
+  },
+  "bmv:trdata/mushrooms/tr_oth_tallmush01": {
+   "file": "bmv_trdata_mushrooms_tr_oth_tallmush01-e88f5e85.glb",
+   "bytes": 13672,
+   "vertices": 284,
+   "triangles": 524,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 284,
+     "triangles": 524
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "4101c58f0629782b",
+    "aa18923922137458"
+   ]
+  },
+  "bmv:trdata/mushrooms/tr_oth_tallmush05": {
+   "file": "bmv_trdata_mushrooms_tr_oth_tallmush05-dad7c0d5.glb",
+   "bytes": 13900,
+   "vertices": 297,
+   "triangles": 523,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 297,
+     "triangles": 523
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "39c05133270d13ff",
+    "4101c58f0629782b"
+   ]
+  },
+  "bmv:vurt/deadtrees/dead_bc_tree_01": {
+   "file": "bmv_vurt_deadtrees_dead_bc_tree_01-f71b4a2e.glb",
+   "bytes": 32640,
+   "vertices": 1185,
+   "triangles": 1767,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1185,
+     "triangles": 1767
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "36c585ae73da7d39",
+    "5e8c7899d40e3e82",
+    "949075c056533e09"
+   ]
+  },
+  "bmv:vurt/deadtrees/dead_bc_tree_02": {
+   "file": "bmv_vurt_deadtrees_dead_bc_tree_02-9bf25100.glb",
+   "bytes": 42604,
+   "vertices": 2283,
+   "triangles": 3381,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2283,
+     "triangles": 3381
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "36c585ae73da7d39",
+    "949075c056533e09"
+   ]
+  },
+  "bmv:vurt/deadtrees/dead_bc_tree_04": {
+   "file": "bmv_vurt_deadtrees_dead_bc_tree_04-455351ca.glb",
+   "bytes": 21608,
+   "vertices": 959,
+   "triangles": 1338,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 959,
+     "triangles": 1338
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "36c585ae73da7d39",
+    "949075c056533e09"
+   ]
+  },
+  "bmv:vurt_shroom/vurt_shroom_big1": {
+   "file": "bmv_vurt_shroom_vurt_shroom_big1-3a9c0fd7.glb",
+   "bytes": 25272,
+   "vertices": 966,
+   "triangles": 1658,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 966,
+     "triangles": 1658
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "26c28d7e7aba25e9",
+    "315e60eeaf0cd58c",
+    "a0c7284fb6e0d859",
+    "ba95fc46f59b38f4",
+    "fa616b8243e93f24"
+   ]
+  },
+  "bmv:vurt_shroom/vurt_shroom_big6": {
+   "file": "bmv_vurt_shroom_vurt_shroom_big6-2b1055ab.glb",
+   "bytes": 19664,
+   "vertices": 363,
+   "triangles": 650,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 363,
+     "triangles": 650
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "26c28d7e7aba25e9",
+    "39c05133270d13ff",
+    "a00089dd46ddf556",
+    "a0c7284fb6e0d859"
+   ]
+  },
+  "bmv:vvardenfell/flora/algrass03b": {
+   "file": "bmv_vvardenfell_flora_algrass03b-1e2e8f8d.glb",
+   "bytes": 12908,
+   "vertices": 304,
+   "triangles": 272,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 304,
+     "triangles": 272
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "58d8d37f90fcb64a",
+    "aa18923922137458"
+   ]
+  },
+  "composite:jungle/anvil-canopy-tree": {
+   "file": "composite_jungle_anvil-canopy-tree-c0eece09.glb",
+   "bytes": 426396,
+   "vertices": 15746,
+   "triangles": 5252,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 15746,
+     "triangles": 5252
+    },
+    {
+     "lod": 1,
+     "vertices": 8668,
+     "triangles": 2892
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "39bce80767ac115f",
+    "61f027b2dda55945",
+    "a08ad1714780a550",
+    "ef6895bd39db496a"
+   ]
+  },
+  "composite:jungle/anvil-emergent-giant": {
+   "file": "composite_jungle_anvil-emergent-giant-e70db48b.glb",
+   "bytes": 501200,
+   "vertices": 20595,
+   "triangles": 8518,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 20595,
+     "triangles": 8518
+    },
+    {
+     "lod": 1,
+     "vertices": 7075,
+     "triangles": 3926
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "39bce80767ac115f",
+    "49094a4a7cec95de",
+    "61f027b2dda55945",
+    "a08ad1714780a550"
+   ]
+  },
+  "depths:landscape/grass/tbp_seaweed06": {
+   "file": "depths_landscape_grass_tbp_seaweed06-3b4716a1.glb",
+   "bytes": 16204,
+   "vertices": 420,
+   "triangles": 336,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 420,
+     "triangles": 336
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "aa18923922137458",
+    "dae28c64272c9d9d"
+   ]
+  },
+  "depths:landscape/grass/tbp_seaweed06var1": {
+   "file": "depths_landscape_grass_tbp_seaweed06var1-2cc4252d.glb",
+   "bytes": 26404,
+   "vertices": 1145,
+   "triangles": 667,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1145,
+     "triangles": 667
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "0e3d8380c40e8477",
+    "aa18923922137458"
+   ]
+  },
+  "depths:landscape/grass/waterkelptall02": {
+   "file": "depths_landscape_grass_waterkelptall02-cb2f0a09.glb",
+   "bytes": 8216,
+   "vertices": 22,
+   "triangles": 18,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 22,
+     "triangles": 18
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "aa18923922137458",
+    "dae28c64272c9d9d"
+   ]
+  },
+  "depths:landscape/grass/waterkelptall03": {
+   "file": "depths_landscape_grass_waterkelptall03-256b6e24.glb",
+   "bytes": 8224,
+   "vertices": 22,
+   "triangles": 18,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 22,
+     "triangles": 18
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "0e3d8380c40e8477",
+    "aa18923922137458"
+   ]
+  },
+  "tropical:plants/tropical/manfern": {
+   "file": "tropical_plants_tropical_manfern-1ef5a422.glb",
+   "bytes": 22388,
+   "vertices": 485,
+   "triangles": 560,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 485,
+     "triangles": 560
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1b14b4aabd94cd73",
+    "3a618b8725d4d74d",
+    "ac6aca6a09d279e6",
+    "ce9822d0eaa139bc"
+   ]
+  },
+  "vanilla:landscape/plants/deadshrub01": {
+   "file": "vanilla_landscape_plants_deadshrub01-1b194481.glb",
+   "bytes": 12184,
+   "vertices": 235,
+   "triangles": 153,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 235,
+     "triangles": 153
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "aa18923922137458",
+    "dda27459d47e5ab2"
+   ]
+  },
+  "vanilla:landscape/plants/kelpshortstatic01": {
+   "file": "vanilla_landscape_plants_kelpshortstatic01-e7a6c972.glb",
+   "bytes": 8180,
+   "vertices": 31,
+   "triangles": 25,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 31,
+     "triangles": 25
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "ce99383c8ea45c0e"
+   ]
+  },
+  "vanilla:landscape/plants/reachshrub01": {
+   "file": "vanilla_landscape_plants_reachshrub01-fdcaff54.glb",
+   "bytes": 15544,
+   "vertices": 397,
+   "triangles": 374,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 397,
+     "triangles": 374
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "4603fa7cb857844e",
+    "aa18923922137458"
+   ]
+  },
+  "vanilla:landscape/plants/thicket01": {
+   "file": "vanilla_landscape_plants_thicket01-82b8ff44.glb",
+   "bytes": 11336,
+   "vertices": 184,
+   "triangles": 184,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 184,
+     "triangles": 184
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "3cec99b860aef899",
+    "86d37d8b4e9e78c5"
+   ]
+  },
+  "vanilla:landscape/plants/tundrascrub01": {
+   "file": "vanilla_landscape_plants_tundrascrub01-42a98068.glb",
+   "bytes": 12968,
+   "vertices": 258,
+   "triangles": 223,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 258,
+     "triangles": 223
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "72add6836cce70af"
+   ]
+  },
+  "vanilla:landscape/plants/tundrashrub01": {
+   "file": "vanilla_landscape_plants_tundrashrub01-ebaecb7e.glb",
+   "bytes": 19540,
+   "vertices": 661,
+   "triangles": 612,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 661,
+     "triangles": 612
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "575ae1426a9b3324"
+   ]
+  },
+  "vanilla:landscape/plants/tundrashrub02": {
+   "file": "vanilla_landscape_plants_tundrashrub02-dccf08fd.glb",
+   "bytes": 23392,
+   "vertices": 893,
+   "triangles": 884,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 893,
+     "triangles": 884
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "2c17a6dd42347f56"
+   ]
+  },
+  "vanilla:landscape/plants/tundrashrub03": {
+   "file": "vanilla_landscape_plants_tundrashrub03-6a33f2b1.glb",
+   "bytes": 82908,
+   "vertices": 4524,
+   "triangles": 4148,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4524,
+     "triangles": 4148
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "575ae1426a9b3324"
+   ]
+  },
+  "vanilla:landscape/rocks/rockcliff01": {
+   "file": "vanilla_landscape_rocks_rockcliff01-22781aa5.glb",
+   "bytes": 41440,
+   "vertices": 1439,
+   "triangles": 1728,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1439,
+     "triangles": 1728
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "6cd688770db91804",
+    "a74ae4887d0ef314",
+    "c88b140288b17cf3"
+   ]
+  },
+  "vanilla:landscape/rocks/rockcliff02": {
+   "file": "vanilla_landscape_rocks_rockcliff02-1f9197b5.glb",
+   "bytes": 58268,
+   "vertices": 2493,
+   "triangles": 3275,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2493,
+     "triangles": 3275
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "6cd688770db91804",
+    "a74ae4887d0ef314"
+   ]
+  },
+  "vanilla:landscape/rocks/rockcliff03": {
+   "file": "vanilla_landscape_rocks_rockcliff03-4c58786a.glb",
+   "bytes": 35464,
+   "vertices": 1621,
+   "triangles": 2399,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1621,
+     "triangles": 2399
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "c88b140288b17cf3"
+   ]
+  },
+  "vanilla:landscape/rocks/rockcliff04": {
+   "file": "vanilla_landscape_rocks_rockcliff04-d2550dec.glb",
+   "bytes": 34044,
+   "vertices": 1508,
+   "triangles": 2430,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1508,
+     "triangles": 2430
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "c88b140288b17cf3"
+   ]
+  },
+  "vanilla:landscape/rocks/rockcliff05": {
+   "file": "vanilla_landscape_rocks_rockcliff05-b772ae50.glb",
+   "bytes": 36952,
+   "vertices": 1361,
+   "triangles": 1917,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1361,
+     "triangles": 1917
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "6cd688770db91804",
+    "a74ae4887d0ef314"
+   ]
+  },
+  "vanilla:landscape/rocks/rockcliff06": {
+   "file": "vanilla_landscape_rocks_rockcliff06-6f427691.glb",
+   "bytes": 30116,
+   "vertices": 1487,
+   "triangles": 2360,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1487,
+     "triangles": 2360
+    }
+   ],
+   "textures": [
+    "308e1a121d341988"
+   ]
+  },
+  "vanilla:landscape/rocks/rockcliff07": {
+   "file": "vanilla_landscape_rocks_rockcliff07-6b689db4.glb",
+   "bytes": 55628,
+   "vertices": 2593,
+   "triangles": 3968,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2593,
+     "triangles": 3968
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "6cd688770db91804"
+   ]
+  },
+  "vanilla:landscape/rocks/rockcliff08": {
+   "file": "vanilla_landscape_rocks_rockcliff08-ec2504d0.glb",
+   "bytes": 52436,
+   "vertices": 2076,
+   "triangles": 2671,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2076,
+     "triangles": 2671
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "6cd688770db91804",
+    "a74ae4887d0ef314"
+   ]
+  },
   "vanilla:landscape/rocks/rockl01": {
    "file": "vanilla_landscape_rocks_rockl01-de8268a8.glb",
    "bytes": 8932,
@@ -62,6 +2764,175 @@
    ],
    "textures": [
     "308e1a121d341988"
+   ]
+  },
+  "vanilla:landscape/rocks/rockl04": {
+   "file": "vanilla_landscape_rocks_rockl04-e6a2a878.glb",
+   "bytes": 8860,
+   "vertices": 271,
+   "triangles": 335,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 271,
+     "triangles": 335
+    }
+   ],
+   "textures": [
+    "308e1a121d341988"
+   ]
+  },
+  "vanilla:landscape/rocks/rockl05": {
+   "file": "vanilla_landscape_rocks_rockl05-0791e2ba.glb",
+   "bytes": 7900,
+   "vertices": 217,
+   "triangles": 280,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 217,
+     "triangles": 280
+    }
+   ],
+   "textures": [
+    "308e1a121d341988"
+   ]
+  },
+  "vanilla:landscape/rocks/rockm01": {
+   "file": "vanilla_landscape_rocks_rockm01-81091b2e.glb",
+   "bytes": 5580,
+   "vertices": 95,
+   "triangles": 126,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 95,
+     "triangles": 126
+    }
+   ],
+   "textures": [
+    "308e1a121d341988"
+   ]
+  },
+  "vanilla:landscape/rocks/rockm02": {
+   "file": "vanilla_landscape_rocks_rockm02-858b06e2.glb",
+   "bytes": 5668,
+   "vertices": 99,
+   "triangles": 123,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 99,
+     "triangles": 123
+    }
+   ],
+   "textures": [
+    "308e1a121d341988"
+   ]
+  },
+  "vanilla:landscape/rocks/rockm03": {
+   "file": "vanilla_landscape_rocks_rockm03-f518ee9c.glb",
+   "bytes": 8200,
+   "vertices": 233,
+   "triangles": 348,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 233,
+     "triangles": 348
+    }
+   ],
+   "textures": [
+    "308e1a121d341988"
+   ]
+  },
+  "vanilla:landscape/rocks/rockm04": {
+   "file": "vanilla_landscape_rocks_rockm04-e7a69e2e.glb",
+   "bytes": 6312,
+   "vertices": 135,
+   "triangles": 195,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 135,
+     "triangles": 195
+    }
+   ],
+   "textures": [
+    "308e1a121d341988"
+   ]
+  },
+  "vanilla:landscape/rocks/rockpilel01": {
+   "file": "vanilla_landscape_rocks_rockpilel01-12547e46.glb",
+   "bytes": 36700,
+   "vertices": 1606,
+   "triangles": 1786,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1606,
+     "triangles": 1786
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "a74ae4887d0ef314"
+   ]
+  },
+  "vanilla:landscape/rocks/rockpilel02": {
+   "file": "vanilla_landscape_rocks_rockpilel02-2f2266dd.glb",
+   "bytes": 47532,
+   "vertices": 2054,
+   "triangles": 2479,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2054,
+     "triangles": 2479
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "6cd688770db91804",
+    "a74ae4887d0ef314"
+   ]
+  },
+  "vanilla:landscape/rocks/rockpilel03": {
+   "file": "vanilla_landscape_rocks_rockpilel03-91c23cef.glb",
+   "bytes": 57708,
+   "vertices": 2276,
+   "triangles": 2754,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2276,
+     "triangles": 2754
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "6cd688770db91804",
+    "a74ae4887d0ef314",
+    "c88b140288b17cf3"
+   ]
+  },
+  "vanilla:landscape/rocks/rockpilel04": {
+   "file": "vanilla_landscape_rocks_rockpilel04-405e8126.glb",
+   "bytes": 26792,
+   "vertices": 711,
+   "triangles": 863,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 711,
+     "triangles": 863
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "6cd688770db91804",
+    "a74ae4887d0ef314",
+    "c88b140288b17cf3"
    ]
   },
   "vanilla:landscape/rocks/rockpilem01": {
@@ -117,6 +2988,23 @@
     "6cd688770db91804"
    ]
   },
+  "vanilla:landscape/rocks/rockpiles02": {
+   "file": "vanilla_landscape_rocks_rockpiles02-34e2f956.glb",
+   "bytes": 10636,
+   "vertices": 189,
+   "triangles": 240,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 189,
+     "triangles": 240
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "6cd688770db91804"
+   ]
+  },
   "vanilla:landscape/rocks/rockpiles03": {
    "file": "vanilla_landscape_rocks_rockpiles03-4806dbc3.glb",
    "bytes": 11608,
@@ -134,6 +3022,55 @@
     "6cd688770db91804"
    ]
   },
+  "vanilla:landscape/rocks/rockpiles04": {
+   "file": "vanilla_landscape_rocks_rockpiles04-2eccdb42.glb",
+   "bytes": 13260,
+   "vertices": 327,
+   "triangles": 402,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 327,
+     "triangles": 402
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "6cd688770db91804"
+   ]
+  },
+  "vanilla:landscape/rocks/rocks01": {
+   "file": "vanilla_landscape_rocks_rocks01-23cfae9f.glb",
+   "bytes": 4852,
+   "vertices": 58,
+   "triangles": 76,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 58,
+     "triangles": 76
+    }
+   ],
+   "textures": [
+    "308e1a121d341988"
+   ]
+  },
+  "vanilla:landscape/rocks/rocks02": {
+   "file": "vanilla_landscape_rocks_rocks02-234e4b36.glb",
+   "bytes": 5116,
+   "vertices": 71,
+   "triangles": 80,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 71,
+     "triangles": 80
+    }
+   ],
+   "textures": [
+    "308e1a121d341988"
+   ]
+  },
   "vanilla:landscape/rocks/rocks03": {
    "file": "vanilla_landscape_rocks_rocks03-ea96ed1b.glb",
    "bytes": 4732,
@@ -148,6 +3085,496 @@
    ],
    "textures": [
     "308e1a121d341988"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockl01wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockl01wet-dc9c04fb.glb",
+   "bytes": 8956,
+   "vertices": 270,
+   "triangles": 387,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 270,
+     "triangles": 387
+    }
+   ],
+   "textures": [
+    "308e1a121d341988"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockl02wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockl02wet-90132d31.glb",
+   "bytes": 14144,
+   "vertices": 382,
+   "triangles": 449,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 382,
+     "triangles": 449
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "c88b140288b17cf3"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockl03wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockl03wet-a0f956f6.glb",
+   "bytes": 6112,
+   "vertices": 120,
+   "triangles": 163,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 120,
+     "triangles": 163
+    }
+   ],
+   "textures": [
+    "308e1a121d341988"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockl04wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockl04wet-9ad9d074.glb",
+   "bytes": 8888,
+   "vertices": 271,
+   "triangles": 335,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 271,
+     "triangles": 335
+    }
+   ],
+   "textures": [
+    "308e1a121d341988"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockl05wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockl05wet-01e19636.glb",
+   "bytes": 7936,
+   "vertices": 217,
+   "triangles": 280,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 217,
+     "triangles": 280
+    }
+   ],
+   "textures": [
+    "308e1a121d341988"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockm02wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockm02wet-2288df10.glb",
+   "bytes": 5704,
+   "vertices": 99,
+   "triangles": 123,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 99,
+     "triangles": 123
+    }
+   ],
+   "textures": [
+    "308e1a121d341988"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockpilel01wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockpilel01wet-bb0e2918.glb",
+   "bytes": 35352,
+   "vertices": 1605,
+   "triangles": 1786,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1605,
+     "triangles": 1786
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "a74ae4887d0ef314"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockpilel02wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockpilel02wet-aaad9d4c.glb",
+   "bytes": 46420,
+   "vertices": 2064,
+   "triangles": 2479,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2064,
+     "triangles": 2479
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "6cd688770db91804",
+    "a74ae4887d0ef314"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockpilel03wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockpilel03wet-eb0e180e.glb",
+   "bytes": 78168,
+   "vertices": 3955,
+   "triangles": 2754,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3955,
+     "triangles": 2754
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "6cd688770db91804",
+    "a74ae4887d0ef314",
+    "c88b140288b17cf3"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockpilem02wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockpilem02wet-0eef7b50.glb",
+   "bytes": 26656,
+   "vertices": 756,
+   "triangles": 938,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 756,
+     "triangles": 938
+    }
+   ],
+   "textures": [
+    "308e1a121d341988",
+    "6cd688770db91804",
+    "a74ae4887d0ef314"
+   ]
+  },
+  "vanilla:landscape/trees/treeaspenlog01": {
+   "file": "vanilla_landscape_trees_treeaspenlog01-96180642.glb",
+   "bytes": 62432,
+   "vertices": 1024,
+   "triangles": 879,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1024,
+     "triangles": 879
+    },
+    {
+     "lod": 1,
+     "vertices": 973,
+     "triangles": 781
+    },
+    {
+     "lod": 2,
+     "vertices": 973,
+     "triangles": 781
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "28fd2c523f70051d",
+    "3cec99b860aef899",
+    "5bee31ed21aa4d1d",
+    "bb1806adeaed540f"
+   ]
+  },
+  "vanilla:landscape/trees/treeaspenstump01": {
+   "file": "vanilla_landscape_trees_treeaspenstump01-05a60a32.glb",
+   "bytes": 45356,
+   "vertices": 925,
+   "triangles": 1142,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 925,
+     "triangles": 1142
+    },
+    {
+     "lod": 1,
+     "vertices": 645,
+     "triangles": 623
+    },
+    {
+     "lod": 2,
+     "vertices": 645,
+     "triangles": 623
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "28fd2c523f70051d",
+    "3cec99b860aef899",
+    "5bee31ed21aa4d1d",
+    "bb1806adeaed540f"
+   ]
+  },
+  "vanilla:landscape/trees/treepineforestlog01": {
+   "file": "vanilla_landscape_trees_treepineforestlog01-dbe5dca4.glb",
+   "bytes": 101624,
+   "vertices": 2792,
+   "triangles": 2610,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2792,
+     "triangles": 2610
+    },
+    {
+     "lod": 1,
+     "vertices": 1805,
+     "triangles": 1337
+    },
+    {
+     "lod": 2,
+     "vertices": 1454,
+     "triangles": 1031
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "24645594a7a67c86",
+    "3cec99b860aef899",
+    "59b80205e9eed3ef",
+    "b318a773337064eb",
+    "c39135a5f61a81f0",
+    "e90286e6cebb7a1a"
+   ]
+  },
+  "vanilla:landscape/trees/treepineforestlog02": {
+   "file": "vanilla_landscape_trees_treepineforestlog02-f3ce64ae.glb",
+   "bytes": 102288,
+   "vertices": 3080,
+   "triangles": 2720,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3080,
+     "triangles": 2720
+    },
+    {
+     "lod": 1,
+     "vertices": 1945,
+     "triangles": 1391
+    },
+    {
+     "lod": 2,
+     "vertices": 1481,
+     "triangles": 1056
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "24645594a7a67c86",
+    "3cec99b860aef899",
+    "59b80205e9eed3ef",
+    "c39135a5f61a81f0",
+    "e90286e6cebb7a1a"
+   ]
+  },
+  "vanilla:landscape/trees/treepineforeststump01": {
+   "file": "vanilla_landscape_trees_treepineforeststump01-2ee7149c.glb",
+   "bytes": 94516,
+   "vertices": 2403,
+   "triangles": 2922,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2403,
+     "triangles": 2922
+    },
+    {
+     "lod": 1,
+     "vertices": 1245,
+     "triangles": 1156
+    },
+    {
+     "lod": 2,
+     "vertices": 903,
+     "triangles": 736
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "24645594a7a67c86",
+    "3cec99b860aef899",
+    "59b80205e9eed3ef",
+    "b318a773337064eb",
+    "c39135a5f61a81f0",
+    "e90286e6cebb7a1a"
+   ]
+  },
+  "vanilla:landscape/trees/treepineforeststump02a": {
+   "file": "vanilla_landscape_trees_treepineforeststump02a-1a30b3ab.glb",
+   "bytes": 69776,
+   "vertices": 1382,
+   "triangles": 1509,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1382,
+     "triangles": 1509
+    },
+    {
+     "lod": 1,
+     "vertices": 969,
+     "triangles": 849
+    },
+    {
+     "lod": 2,
+     "vertices": 922,
+     "triangles": 794
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "24645594a7a67c86",
+    "3cec99b860aef899",
+    "59b80205e9eed3ef",
+    "b318a773337064eb",
+    "c39135a5f61a81f0",
+    "e90286e6cebb7a1a"
+   ]
+  },
+  "vanilla:plants/floramountainflower01blue": {
+   "file": "vanilla_plants_floramountainflower01blue-5bc00bd5.glb",
+   "bytes": 12128,
+   "vertices": 201,
+   "triangles": 173,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 201,
+     "triangles": 173
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "aad4cca95b14f3fb"
+   ]
+  },
+  "vanilla:plants/floramountainflower01purple": {
+   "file": "vanilla_plants_floramountainflower01purple-00ec0eca.glb",
+   "bytes": 12160,
+   "vertices": 201,
+   "triangles": 173,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 201,
+     "triangles": 173
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "8af195adaf3b0f1c"
+   ]
+  },
+  "vanilla:plants/floramountainflower01red": {
+   "file": "vanilla_plants_floramountainflower01red-baed431d.glb",
+   "bytes": 12108,
+   "vertices": 201,
+   "triangles": 173,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 201,
+     "triangles": 173
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "63c7f8da71f089da"
+   ]
+  },
+  "vanilla:plants/floraswampfungalpod01": {
+   "file": "vanilla_plants_floraswampfungalpod01-bf2b8467.glb",
+   "bytes": 39624,
+   "vertices": 1885,
+   "triangles": 2242,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1885,
+     "triangles": 2242
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "20f147bd164c25c9"
+   ]
+  },
+  "vanilla:plants/floraswampfungalpod02": {
+   "file": "vanilla_plants_floraswampfungalpod02-987c9932.glb",
+   "bytes": 19832,
+   "vertices": 806,
+   "triangles": 992,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 806,
+     "triangles": 992
+    },
+    {
+     "lod": 3,
+     "vertices": 8,
+     "triangles": 4
+    }
+   ],
+   "textures": [
+    "1ae4a31895bd18c8",
+    "20f147bd164c25c9"
    ]
   }
  },

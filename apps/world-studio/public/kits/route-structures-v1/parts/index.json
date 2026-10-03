@@ -1,0 +1,599 @@
+{
+ "schemaVersion": 4,
+ "kit": "route-structures-v1",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 18494460,
+  "sha256": "c44bf0602402a9a711a0bf2c88d301072e402a027d26e491c0c4726f5fdda9f5"
+ },
+ "packed": {
+  "bytes": 9178624,
+  "sha256": "c72ac58ef023c8bf379b1179147a627e05cefbde1e6219d603d256f3c31aaa0f"
+ },
+ "totals": {
+  "parts": 20,
+  "partBytes": 1331440,
+  "textureFiles": 29,
+  "textureBytes": 8222058,
+  "bytes": 9553498
+ },
+ "assets": {
+  "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passesc128h64d01-045e7214.glb",
+   "bytes": 61324,
+   "vertices": 1758,
+   "triangles": 2504,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1758,
+     "triangles": 2504
+    },
+    {
+     "lod": 1,
+     "vertices": 867,
+     "triangles": 914
+    },
+    {
+     "lod": 2,
+     "vertices": 454,
+     "triangles": 359
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128d01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl128d01-71da2480.glb",
+   "bytes": 79692,
+   "vertices": 1758,
+   "triangles": 2504,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1758,
+     "triangles": 2504
+    },
+    {
+     "lod": 1,
+     "vertices": 1356,
+     "triangles": 1776
+    },
+    {
+     "lod": 2,
+     "vertices": 1356,
+     "triangles": 1776
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128h64d01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl128h64d01-7084a8ff.glb",
+   "bytes": 61356,
+   "vertices": 1758,
+   "triangles": 2504,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1758,
+     "triangles": 2504
+    },
+    {
+     "lod": 1,
+     "vertices": 867,
+     "triangles": 914
+    },
+    {
+     "lod": 2,
+     "vertices": 454,
+     "triangles": 359
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256d01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl256d01-5c436734.glb",
+   "bytes": 105556,
+   "vertices": 3469,
+   "triangles": 5006,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3469,
+     "triangles": 5006
+    },
+    {
+     "lod": 1,
+     "vertices": 1741,
+     "triangles": 1826
+    },
+    {
+     "lod": 2,
+     "vertices": 883,
+     "triangles": 701
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256h64startd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl256h64startd01-d876ca2f.glb",
+   "bytes": 91484,
+   "vertices": 2874,
+   "triangles": 4082,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2874,
+     "triangles": 4082
+    },
+    {
+     "lod": 1,
+     "vertices": 1453,
+     "triangles": 1504
+    },
+    {
+     "lod": 2,
+     "vertices": 751,
+     "triangles": 591
+    }
+   ],
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/stairs01": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_stairs01-f0ef243b.glb",
+   "bytes": 24028,
+   "vertices": 757,
+   "triangles": 948,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 757,
+     "triangles": 948
+    },
+    {
+     "lod": 1,
+     "vertices": 522,
+     "triangles": 523
+    },
+    {
+     "lod": 2,
+     "vertices": 522,
+     "triangles": 523
+    }
+   ],
+   "textures": [
+    "bdc3c166e71e4371",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge01": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmbridge01-0b206105.glb",
+   "bytes": 34016,
+   "vertices": 891,
+   "triangles": 1248,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 891,
+     "triangles": 1248
+    },
+    {
+     "lod": 1,
+     "vertices": 594,
+     "triangles": 664
+    },
+    {
+     "lod": 2,
+     "vertices": 594,
+     "triangles": 664
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "bdc3c166e71e4371",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmbridge02-24186b13.glb",
+   "bytes": 59400,
+   "vertices": 1663,
+   "triangles": 2302,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1663,
+     "triangles": 2302
+    },
+    {
+     "lod": 1,
+     "vertices": 936,
+     "triangles": 957
+    },
+    {
+     "lod": 2,
+     "vertices": 805,
+     "triangles": 804
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179",
+    "bdc3c166e71e4371",
+    "ffd74e2fd5a9a82e"
+   ]
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01": {
+   "file": "hlaalu_hlaaluarchitecture_hammerfell_trgmstairs01-d80ac3c1.glb",
+   "bytes": 8564,
+   "vertices": 307,
+   "triangles": 251,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 307,
+     "triangles": 251
+    },
+    {
+     "lod": 1,
+     "vertices": 307,
+     "triangles": 251
+    },
+    {
+     "lod": 2,
+     "vertices": 307,
+     "triangles": 251
+    }
+   ],
+   "textures": [
+    "a22cf358b7d3b179"
+   ]
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewallterrace01": {
+   "file": "vanilla_architecture_farmhouse_stonewall_stonewallterrace01-fd4ac6f8.glb",
+   "bytes": 41236,
+   "vertices": 977,
+   "triangles": 1390,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 977,
+     "triangles": 1390
+    },
+    {
+     "lod": 1,
+     "vertices": 525,
+     "triangles": 580
+    },
+    {
+     "lod": 2,
+     "vertices": 433,
+     "triangles": 444
+    }
+   ],
+   "textures": [
+    "591d2b4dcf0917f0",
+    "717c4c0b5888f777"
+   ]
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewallterracerampdown01": {
+   "file": "vanilla_architecture_farmhouse_stonewall_stonewallterracerampdown01-c2edce2f.glb",
+   "bytes": 61744,
+   "vertices": 1798,
+   "triangles": 2599,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1798,
+     "triangles": 2599
+    },
+    {
+     "lod": 1,
+     "vertices": 957,
+     "triangles": 1083
+    },
+    {
+     "lod": 2,
+     "vertices": 560,
+     "triangles": 567
+    }
+   ],
+   "textures": [
+    "591d2b4dcf0917f0",
+    "717c4c0b5888f777"
+   ]
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewallterracerampup01": {
+   "file": "vanilla_architecture_farmhouse_stonewall_stonewallterracerampup01-ac734779.glb",
+   "bytes": 61712,
+   "vertices": 1798,
+   "triangles": 2599,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1798,
+     "triangles": 2599
+    },
+    {
+     "lod": 1,
+     "vertices": 952,
+     "triangles": 1083
+    },
+    {
+     "lod": 2,
+     "vertices": 565,
+     "triangles": 566
+    }
+   ],
+   "textures": [
+    "591d2b4dcf0917f0",
+    "717c4c0b5888f777"
+   ]
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewallterracestairs01": {
+   "file": "vanilla_architecture_farmhouse_stonewall_stonewallterracestairs01-ef3fb2b7.glb",
+   "bytes": 93284,
+   "vertices": 2473,
+   "triangles": 3466,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2473,
+     "triangles": 3466
+    },
+    {
+     "lod": 1,
+     "vertices": 1393,
+     "triangles": 1523
+    },
+    {
+     "lod": 2,
+     "vertices": 868,
+     "triangles": 916
+    }
+   ],
+   "textures": [
+    "591d2b4dcf0917f0",
+    "717c4c0b5888f777",
+    "beec97932e0d336f"
+   ]
+  },
+  "vanilla:architecture/whiterun/wrterrain/wrbridgestone01": {
+   "file": "vanilla_architecture_whiterun_wrterrain_wrbridgestone01-49c99571.glb",
+   "bytes": 33704,
+   "vertices": 765,
+   "triangles": 578,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 765,
+     "triangles": 578
+    },
+    {
+     "lod": 1,
+     "vertices": 765,
+     "triangles": 578
+    },
+    {
+     "lod": 2,
+     "vertices": 765,
+     "triangles": 578
+    }
+   ],
+   "textures": [
+    "0c7e1e04666b2eaa",
+    "4c28eb4749a857c8",
+    "5a4f92831ea417f2",
+    "60fcb05748e7184b",
+    "c15039c0e24a71b2",
+    "c433d6e389dd996a",
+    "c916da3f38a18d2c"
+   ]
+  },
+  "vanilla:architecture/whiterun/wrterrain/wrcastlestairs01": {
+   "file": "vanilla_architecture_whiterun_wrterrain_wrcastlestairs01-f89da382.glb",
+   "bytes": 115564,
+   "vertices": 3165,
+   "triangles": 2639,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3165,
+     "triangles": 2639
+    },
+    {
+     "lod": 1,
+     "vertices": 2075,
+     "triangles": 1483
+    },
+    {
+     "lod": 2,
+     "vertices": 1798,
+     "triangles": 1298
+    }
+   ],
+   "textures": [
+    "0c7e1e04666b2eaa",
+    "4e9e25c688977ac7",
+    "5a4f92831ea417f2",
+    "60fcb05748e7184b",
+    "68c404141ba5af5c",
+    "c433d6e389dd996a",
+    "c916da3f38a18d2c",
+    "f014635335dd57a0"
+   ]
+  },
+  "vanilla:architecture/whiterun/wrterrain/wrstairsplatform01": {
+   "file": "vanilla_architecture_whiterun_wrterrain_wrstairsplatform01-66c86545.glb",
+   "bytes": 220168,
+   "vertices": 5507,
+   "triangles": 5602,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5507,
+     "triangles": 5602
+    },
+    {
+     "lod": 1,
+     "vertices": 3369,
+     "triangles": 2817
+    },
+    {
+     "lod": 2,
+     "vertices": 2792,
+     "triangles": 2305
+    }
+   ],
+   "textures": [
+    "0c7e1e04666b2eaa",
+    "1ec55e04dd0d702e",
+    "48fc2c9e0a8a9117",
+    "4e9e25c688977ac7",
+    "5a4f92831ea417f2",
+    "60fcb05748e7184b",
+    "77538e2484e8711d",
+    "8b020faa891b3cb2",
+    "96f0c39794d7ee77",
+    "c3f333d25b7426e4",
+    "c433d6e389dd996a",
+    "c916da3f38a18d2c",
+    "f014635335dd57a0"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadescaffoldbridge01": {
+   "file": "vanilla_clutter_stockade_stockadescaffoldbridge01-babb2bfc.glb",
+   "bytes": 35960,
+   "vertices": 1048,
+   "triangles": 1064,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1048,
+     "triangles": 1064
+    },
+    {
+     "lod": 1,
+     "vertices": 958,
+     "triangles": 884
+    },
+    {
+     "lod": 2,
+     "vertices": 958,
+     "triangles": 884
+    }
+   ],
+   "textures": [
+    "289ab3078ad33017",
+    "ab2b57bb8d2ac6f9",
+    "c664e8814422b515",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadescaffoldbridge02": {
+   "file": "vanilla_clutter_stockade_stockadescaffoldbridge02-02e4196c.glb",
+   "bytes": 49232,
+   "vertices": 1316,
+   "triangles": 1296,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1316,
+     "triangles": 1296
+    },
+    {
+     "lod": 1,
+     "vertices": 1126,
+     "triangles": 952
+    },
+    {
+     "lod": 2,
+     "vertices": 1126,
+     "triangles": 952
+    }
+   ],
+   "textures": [
+    "289ab3078ad33017",
+    "ab2b57bb8d2ac6f9",
+    "c664e8814422b515",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadescaffoldbridgenarrow": {
+   "file": "vanilla_clutter_stockade_stockadescaffoldbridgenarrow-014cb599.glb",
+   "bytes": 56436,
+   "vertices": 1844,
+   "triangles": 1780,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1844,
+     "triangles": 1780
+    },
+    {
+     "lod": 1,
+     "vertices": 1102,
+     "triangles": 952
+    },
+    {
+     "lod": 2,
+     "vertices": 1102,
+     "triangles": 952
+    }
+   ],
+   "textures": [
+    "289ab3078ad33017",
+    "ab2b57bb8d2ac6f9",
+    "c664e8814422b515",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:clutter/stockade/stockadescaffoldstairs01": {
+   "file": "vanilla_clutter_stockade_stockadescaffoldstairs01-67e823b6.glb",
+   "bytes": 36980,
+   "vertices": 1136,
+   "triangles": 1084,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1136,
+     "triangles": 1084
+    },
+    {
+     "lod": 1,
+     "vertices": 964,
+     "triangles": 778
+    },
+    {
+     "lod": 2,
+     "vertices": 964,
+     "triangles": 778
+    }
+   ],
+   "textures": [
+    "289ab3078ad33017",
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  }
+ },
+ "fires": {}
+}

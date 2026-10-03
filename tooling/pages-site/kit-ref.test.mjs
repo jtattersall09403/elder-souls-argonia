@@ -3,7 +3,7 @@ import { test } from "node:test";
 import { kitRefs } from "./kit-ref.mjs";
 
 test("a kit path names its kit", () => {
-  assert.deepEqual(kitRefs('fetch(`${base}kits/works-v1.glb`); "/studio/kits/flora-province-v1.kit.json"'),
+  assert.deepEqual(kitRefs('fetch(`${base}kits/works-v1/parts/index.json`); "/studio/kits/flora-province-v1.kit.json"'),
     ["works-v1", "flora-province-v1"]);
 });
 

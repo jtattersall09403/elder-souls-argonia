@@ -180,7 +180,7 @@ async function keyOf(opts, studioBase) {
     h.update(bundleText);
     const bundle = JSON.parse(bundleText);
     for (const id of Object.keys(bundle.kits).sort()) {
-      const index = JSON.parse(await get(`${bundle.kits[id].glb.slice(0, -4)}/parts/index.json`));
+      const index = JSON.parse(await get(bundle.kits[id].parts));
       h.update(id); h.update(JSON.stringify(index.fires ?? null));
     }
   }

@@ -1,9 +1,12 @@
 {
- "schemaVersion": 3,
+ "schemaVersion": 4,
  "kit": "settlement-mud-v1",
- "exterior": true,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
+  "bytes": 43840368,
+  "sha256": "0fe361c3af0e6190759876c610794bddb89c27dd83c15263414944e1357e54b5"
+ },
+ "packed": {
   "bytes": 20160112,
   "sha256": "6b6c4342b2b366b90262c46b806857c763aa6ff8b9a63fb574cb90a9d782f4b3"
  },

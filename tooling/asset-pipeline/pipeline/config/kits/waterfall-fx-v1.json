@@ -1,7 +1,7 @@
 {
  "id": "waterfall-fx-v1",
  "description": "The vanilla Skyrim waterfall / rapids / mist FX kit (decision 0064): the falling bodies, thin sheets, skirts, mist blasts, crest lines, plunge rings and ground-mist discs the water runtime stacks along every compiled cascade the way Bethesda stacked them (docs/research/rendering/waterfall-assets-vault-audit.md s5). Geometry and UVs only: textureMaxSize is 16 so the packed images are stubs, because the textures ship separately as PNGs in apps/world-studio/public/kits/waterfall-fx-textures/ and the material is authored in our own shader (packages/game-core/src/water/render/WaterfallKit*.ts), which reproduces the UV-scroll controllers the export drops. Every entry is doubleSided because the NIF effect-shader flag says so. Shape names survive as the nodes' pynNodeName extra; the runtime keys layer roles off them.",
- "output": "apps/world-studio/public/kits/waterfall-fx-v1.glb",
+ "output": "tooling/asset-pipeline/output/kits/waterfall-fx-v1.glb",
  "lodRatios": [],
  "textureMaxSize": 16,
  "compression": false,

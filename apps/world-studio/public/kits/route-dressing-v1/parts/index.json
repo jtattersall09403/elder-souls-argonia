@@ -1,0 +1,718 @@
+{
+ "schemaVersion": 4,
+ "kit": "route-dressing-v1",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 6217812,
+  "sha256": "8b226f808ebe8ee1280b2f493088c0359e312d523656f40aa55b6c10ec0f5f7c"
+ },
+ "packed": {
+  "bytes": 2739072,
+  "sha256": "97dc1ce2e0cf82cdcf84d75ed9ff660d5c0338d679a358a87f6c4069fb8e1dc4"
+ },
+ "totals": {
+  "parts": 26,
+  "partBytes": 750424,
+  "textureFiles": 8,
+  "textureBytes": 2207005,
+  "bytes": 2957429
+ },
+ "assets": {
+  "vanilla:clutter/burialcairn/burialcairn01": {
+   "file": "vanilla_clutter_burialcairn_burialcairn01-e0224016.glb",
+   "bytes": 104284,
+   "vertices": 2737,
+   "triangles": 4033,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2737,
+     "triangles": 4033
+    },
+    {
+     "lod": 1,
+     "vertices": 1487,
+     "triangles": 1566
+    },
+    {
+     "lod": 2,
+     "vertices": 1115,
+     "triangles": 840
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117",
+    "64a5a3b29280fabd",
+    "6bbbbda6b33ae782"
+   ]
+  },
+  "vanilla:clutter/burialcairn/burialcairn02": {
+   "file": "vanilla_clutter_burialcairn_burialcairn02-97b36a53.glb",
+   "bytes": 101176,
+   "vertices": 2691,
+   "triangles": 4022,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2691,
+     "triangles": 4022
+    },
+    {
+     "lod": 1,
+     "vertices": 1453,
+     "triangles": 1616
+    },
+    {
+     "lod": 2,
+     "vertices": 1100,
+     "triangles": 922
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117",
+    "64a5a3b29280fabd",
+    "6bbbbda6b33ae782"
+   ]
+  },
+  "vanilla:clutter/burialcairn/burialcairn03": {
+   "file": "vanilla_clutter_burialcairn_burialcairn03-16d7eea8.glb",
+   "bytes": 101196,
+   "vertices": 2631,
+   "triangles": 3863,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2631,
+     "triangles": 3863
+    },
+    {
+     "lod": 1,
+     "vertices": 1414,
+     "triangles": 1483
+    },
+    {
+     "lod": 2,
+     "vertices": 1057,
+     "triangles": 805
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117",
+    "64a5a3b29280fabd",
+    "6bbbbda6b33ae782"
+   ]
+  },
+  "vanilla:clutter/woodfires/campfire01landoff": {
+   "file": "vanilla_clutter_woodfires_campfire01landoff-35601034.glb",
+   "bytes": 35676,
+   "vertices": 695,
+   "triangles": 685,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 695,
+     "triangles": 685
+    },
+    {
+     "lod": 1,
+     "vertices": 678,
+     "triangles": 658
+    },
+    {
+     "lod": 2,
+     "vertices": 678,
+     "triangles": 658
+    }
+   ],
+   "textures": [
+    "162791c1d67c3741",
+    "25c02250327bb7ae",
+    "48fc2c9e0a8a9117",
+    "bf54764d1816fe0a"
+   ]
+  },
+  "vanilla:landscape/rocks/cairns/rockcairn01": {
+   "file": "vanilla_landscape_rocks_cairns_rockcairn01-56098dc9.glb",
+   "bytes": 31868,
+   "vertices": 790,
+   "triangles": 1143,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 790,
+     "triangles": 1143
+    },
+    {
+     "lod": 1,
+     "vertices": 382,
+     "triangles": 400
+    },
+    {
+     "lod": 2,
+     "vertices": 316,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/cairns/rockcairn02": {
+   "file": "vanilla_landscape_rocks_cairns_rockcairn02-dd12a056.glb",
+   "bytes": 39268,
+   "vertices": 1078,
+   "triangles": 1522,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1078,
+     "triangles": 1522
+    },
+    {
+     "lod": 1,
+     "vertices": 518,
+     "triangles": 531
+    },
+    {
+     "lod": 2,
+     "vertices": 345,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/cairns/rockcairn03": {
+   "file": "vanilla_landscape_rocks_cairns_rockcairn03-fe0247c7.glb",
+   "bytes": 36040,
+   "vertices": 948,
+   "triangles": 1346,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 948,
+     "triangles": 1346
+    },
+    {
+     "lod": 1,
+     "vertices": 456,
+     "triangles": 470
+    },
+    {
+     "lod": 2,
+     "vertices": 344,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/cairns/rockcairn04": {
+   "file": "vanilla_landscape_rocks_cairns_rockcairn04-fb94982c.glb",
+   "bytes": 31444,
+   "vertices": 768,
+   "triangles": 1101,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 768,
+     "triangles": 1101
+    },
+    {
+     "lod": 1,
+     "vertices": 366,
+     "triangles": 385
+    },
+    {
+     "lod": 2,
+     "vertices": 310,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/rockl01": {
+   "file": "vanilla_landscape_rocks_rockl01-de8268a8.glb",
+   "bytes": 15744,
+   "vertices": 270,
+   "triangles": 387,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 270,
+     "triangles": 387
+    },
+    {
+     "lod": 1,
+     "vertices": 224,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 224,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/rockl02": {
+   "file": "vanilla_landscape_rocks_rockl02-0518e55e.glb",
+   "bytes": 15544,
+   "vertices": 382,
+   "triangles": 449,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 382,
+     "triangles": 449
+    },
+    {
+     "lod": 1,
+     "vertices": 382,
+     "triangles": 449
+    },
+    {
+     "lod": 2,
+     "vertices": 382,
+     "triangles": 449
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117",
+    "a1f18029dde77b5f"
+   ]
+  },
+  "vanilla:landscape/rocks/rockl04": {
+   "file": "vanilla_landscape_rocks_rockl04-e6a2a878.glb",
+   "bytes": 16208,
+   "vertices": 271,
+   "triangles": 335,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 271,
+     "triangles": 335
+    },
+    {
+     "lod": 1,
+     "vertices": 254,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 254,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/rockm01": {
+   "file": "vanilla_landscape_rocks_rockm01-81091b2e.glb",
+   "bytes": 6300,
+   "vertices": 95,
+   "triangles": 126,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 95,
+     "triangles": 126
+    },
+    {
+     "lod": 1,
+     "vertices": 95,
+     "triangles": 126
+    },
+    {
+     "lod": 2,
+     "vertices": 95,
+     "triangles": 126
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/rockm02": {
+   "file": "vanilla_landscape_rocks_rockm02-858b06e2.glb",
+   "bytes": 6388,
+   "vertices": 99,
+   "triangles": 123,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 99,
+     "triangles": 123
+    },
+    {
+     "lod": 1,
+     "vertices": 99,
+     "triangles": 123
+    },
+    {
+     "lod": 2,
+     "vertices": 99,
+     "triangles": 123
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/rockm03": {
+   "file": "vanilla_landscape_rocks_rockm03-f518ee9c.glb",
+   "bytes": 14684,
+   "vertices": 233,
+   "triangles": 348,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 233,
+     "triangles": 348
+    },
+    {
+     "lod": 1,
+     "vertices": 206,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 206,
+     "triangles": 299
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/rockm04": {
+   "file": "vanilla_landscape_rocks_rockm04-e7a69e2e.glb",
+   "bytes": 7032,
+   "vertices": 135,
+   "triangles": 195,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 135,
+     "triangles": 195
+    },
+    {
+     "lod": 1,
+     "vertices": 135,
+     "triangles": 195
+    },
+    {
+     "lod": 2,
+     "vertices": 135,
+     "triangles": 195
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/rockpilem01": {
+   "file": "vanilla_landscape_rocks_rockpilem01-5ace5a1c.glb",
+   "bytes": 36812,
+   "vertices": 848,
+   "triangles": 968,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 848,
+     "triangles": 968
+    },
+    {
+     "lod": 1,
+     "vertices": 698,
+     "triangles": 736
+    },
+    {
+     "lod": 2,
+     "vertices": 698,
+     "triangles": 736
+    }
+   ],
+   "textures": [
+    "25c02250327bb7ae",
+    "48fc2c9e0a8a9117",
+    "96f0c39794d7ee77"
+   ]
+  },
+  "vanilla:landscape/rocks/rockpilem02": {
+   "file": "vanilla_landscape_rocks_rockpilem02-1843c4ba.glb",
+   "bytes": 37960,
+   "vertices": 756,
+   "triangles": 938,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 756,
+     "triangles": 938
+    },
+    {
+     "lod": 1,
+     "vertices": 591,
+     "triangles": 667
+    },
+    {
+     "lod": 2,
+     "vertices": 591,
+     "triangles": 667
+    }
+   ],
+   "textures": [
+    "25c02250327bb7ae",
+    "48fc2c9e0a8a9117",
+    "96f0c39794d7ee77"
+   ]
+  },
+  "vanilla:landscape/rocks/rockpiles01": {
+   "file": "vanilla_landscape_rocks_rockpiles01-48007850.glb",
+   "bytes": 11468,
+   "vertices": 174,
+   "triangles": 216,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 174,
+     "triangles": 216
+    },
+    {
+     "lod": 1,
+     "vertices": 174,
+     "triangles": 216
+    },
+    {
+     "lod": 2,
+     "vertices": 174,
+     "triangles": 216
+    }
+   ],
+   "textures": [
+    "25c02250327bb7ae",
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/rockpiles02": {
+   "file": "vanilla_landscape_rocks_rockpiles02-34e2f956.glb",
+   "bytes": 12128,
+   "vertices": 189,
+   "triangles": 240,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 189,
+     "triangles": 240
+    },
+    {
+     "lod": 1,
+     "vertices": 189,
+     "triangles": 240
+    },
+    {
+     "lod": 2,
+     "vertices": 189,
+     "triangles": 240
+    }
+   ],
+   "textures": [
+    "25c02250327bb7ae",
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/rockpiles03": {
+   "file": "vanilla_landscape_rocks_rockpiles03-4806dbc3.glb",
+   "bytes": 13100,
+   "vertices": 243,
+   "triangles": 286,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 243,
+     "triangles": 286
+    },
+    {
+     "lod": 1,
+     "vertices": 243,
+     "triangles": 286
+    },
+    {
+     "lod": 2,
+     "vertices": 243,
+     "triangles": 286
+    }
+   ],
+   "textures": [
+    "25c02250327bb7ae",
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/rocks01": {
+   "file": "vanilla_landscape_rocks_rocks01-23cfae9f.glb",
+   "bytes": 5572,
+   "vertices": 58,
+   "triangles": 76,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 58,
+     "triangles": 76
+    },
+    {
+     "lod": 1,
+     "vertices": 58,
+     "triangles": 76
+    },
+    {
+     "lod": 2,
+     "vertices": 58,
+     "triangles": 76
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/rocks02": {
+   "file": "vanilla_landscape_rocks_rocks02-234e4b36.glb",
+   "bytes": 5840,
+   "vertices": 71,
+   "triangles": 80,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 71,
+     "triangles": 80
+    },
+    {
+     "lod": 1,
+     "vertices": 71,
+     "triangles": 80
+    },
+    {
+     "lod": 2,
+     "vertices": 71,
+     "triangles": 80
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/rocks03": {
+   "file": "vanilla_landscape_rocks_rocks03-ea96ed1b.glb",
+   "bytes": 5456,
+   "vertices": 49,
+   "triangles": 68,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 49,
+     "triangles": 68
+    },
+    {
+     "lod": 1,
+     "vertices": 49,
+     "triangles": 68
+    },
+    {
+     "lod": 2,
+     "vertices": 49,
+     "triangles": 68
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockl01wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockl01wet-dc9c04fb.glb",
+   "bytes": 15792,
+   "vertices": 270,
+   "triangles": 387,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 270,
+     "triangles": 387
+    },
+    {
+     "lod": 1,
+     "vertices": 224,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 224,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockm02wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockm02wet-2288df10.glb",
+   "bytes": 6460,
+   "vertices": 99,
+   "triangles": 123,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 99,
+     "triangles": 123
+    },
+    {
+     "lod": 1,
+     "vertices": 99,
+     "triangles": 123
+    },
+    {
+     "lod": 2,
+     "vertices": 99,
+     "triangles": 123
+    }
+   ],
+   "textures": [
+    "48fc2c9e0a8a9117"
+   ]
+  },
+  "vanilla:landscape/rocks/wetrocks/rockpilem02wet": {
+   "file": "vanilla_landscape_rocks_wetrocks_rockpilem02wet-0eef7b50.glb",
+   "bytes": 36984,
+   "vertices": 756,
+   "triangles": 938,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 756,
+     "triangles": 938
+    },
+    {
+     "lod": 1,
+     "vertices": 591,
+     "triangles": 667
+    },
+    {
+     "lod": 2,
+     "vertices": 591,
+     "triangles": 667
+    }
+   ],
+   "textures": [
+    "25c02250327bb7ae",
+    "48fc2c9e0a8a9117",
+    "96f0c39794d7ee77"
+   ]
+  }
+ },
+ "fires": {}
+}

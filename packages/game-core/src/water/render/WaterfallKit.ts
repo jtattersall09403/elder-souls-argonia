@@ -1,9 +1,8 @@
 import * as THREE from "three";
-import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { ensureKitVertexColours } from "./WaterfallKitMaterial";
 
 /**
- * The vanilla Skyrim waterfall FX kit (decision 0064): `waterfall-fx-v1.glb`
+ * The vanilla Skyrim waterfall FX kit (decision 0064): `waterfall-fx-v1` parts
  * parsed into the pieces the water runtime stacks along every compiled
  * cascade, plus the ROLE table that says how each of a piece's shapes is
  * shaded — which texture it binds, the UV-scroll rates the glTF export lost
@@ -203,7 +202,7 @@ export function roleForShape(piece: KitPieceId, shapeName: string): KitShapeRole
  * shapes, named by their `pynNodeName` extra) matched to a role. Geometry is
  * shared, never cloned — the instanced meshes reference it directly.
  */
-export function parseWaterfallKit(gltf: GLTF): WaterfallKit {
+export function parseWaterfallKit(gltf: { scene: THREE.Object3D }): WaterfallKit {
   gltf.scene.updateMatrixWorld(true);
   const byAsset = new Map<string, KitPieceId>();
   for (const [id, asset] of Object.entries(KIT_PIECE)) byAsset.set(asset, id as KitPieceId);
@@ -243,13 +242,10 @@ export function kitIsComplete(kit: WaterfallKit | undefined): kit is WaterfallKi
   return !!kit && REQUIRED_PIECES.every((p) => (kit[p]?.shapes.length ?? 0) > 0);
 }
 
-/** Load and parse the kit from an app-composed URL; null when it cannot load. */
-export async function loadWaterfallKit(url: string,
-  loader?: { loadAsync(url: string): Promise<GLTF> }): Promise<WaterfallKit | null> {
+/** Load (the app composes it from the kit's parts, 0120) and parse the kit; null when it cannot load. */
+export async function loadWaterfallKit(load: () => Promise<{ scene: THREE.Object3D }>): Promise<WaterfallKit | null> {
   try {
-    const gltfLoader = loader ?? new GLTFLoader();
-    const gltf = await gltfLoader.loadAsync(url);
-    const kit = parseWaterfallKit(gltf);
+    const kit = parseWaterfallKit(await load());
     return kitIsComplete(kit) ? kit : null;
   } catch {
     return null;

@@ -11,13 +11,15 @@
  *
  * The rule now:
  *   1. Every top-level kit id a root text file names (`kits/<id>`, kit-ref.mjs)
- *      keeps every file of that id (`<id>.kit.json`, `<id>.glb`, sidecars, and
- *      a folder called `<id>`).
+ *      keeps every file of that id (`<id>.kit.json`, sidecars, and the folder
+ *      `<id>/` holding its parts, decision 0120).
  *   2. Every kept JSON file is walked generically: each string value that,
  *      resolved against the file's own folder, is an existing file or folder
  *      under `kits/` keeps that file (or every file in that folder). Kept JSON
  *      reached this way is walked in turn, to a fixpoint.
- *   3. Everything else under `kits/` is pruned.
+ *   3. A kept `<id>/parts/index.json` keeps each pool file `tex/<sha16>.ktx2`
+ *      its rows name; rule 1 never keeps the pool by its name.
+ *   4. Everything else under `kits/` is pruned.
  *
  * Pure: the caller passes the file list (paths relative to `kits/`, "/"
  * separated) and a JSON reader; nothing here touches the disk.
@@ -45,6 +47,9 @@ export function resolveRelative(fromRel, ref) {
   return parts.join("/");
 }
 
+/** The province texture pool folder under `kits/` (pipeline/kit_parts.mjs). */
+export const POOL = "tex";
+
 /** The kit id a top-level entry under `kits/` stands for (`works-v1.kit.json` -> `works-v1`; a folder is its own name). */
 export const kitIdOf = (rel) => {
   const top = rel.split("/")[0];
@@ -71,12 +76,22 @@ export function kitReach(files, literalIds, readJson) {
   const keep = new Set();
   const queue = [];
   const add = (f) => { if (!keep.has(f)) { keep.add(f); if (f.endsWith(".json")) queue.push(f); } };
-  for (const f of files) if (literalIds.has(kitIdOf(f))) add(f);
+  // The texture pool is never kept whole by name: a pool file ships when a
+  // kept parts index names its hash (decision 0120).
+  for (const f of files) if (kitIdOf(f) !== POOL && literalIds.has(kitIdOf(f))) add(f);
   const resolved = [];
   while (queue.length) {
     const from = queue.shift();
     let parsed;
     try { parsed = readJson(from); } catch { continue; }   // not JSON after all: nothing to walk
+    if (from.endsWith("/parts/index.json")) {
+      for (const row of Object.values(parsed?.assets ?? {})) {
+        for (const h of row?.textures ?? []) {
+          const to = `${POOL}/${h}.ktx2`;
+          if (fileSet.has(to)) { resolved.push({ from, ref: h, to }); add(to); }
+        }
+      }
+    }
     jsonStrings(parsed, (s) => {
       const to = resolveRelative(from, s);
       if (to === null || to === "") return;
@@ -95,7 +110,7 @@ const ASSET_FILE = /\.(glb|gltf|ktx2|png|jpe?g|webp|bin|json)$/i;
  *   - kit JSON: every relative asset-file string, resolved against its own folder;
  *   - other shipped JSON (settlement and interior bundles, indexes): every string
  *     starting `kits/`, resolved against the studio root.
- * shipped: Set of studio-relative paths ("kits/works-v1.glb", "province/…").
+ * shipped: Set of studio-relative paths ("kits/works-v1/parts/index.json", "province/…").
  * jsonFiles: studio-relative JSON paths to check. readJson(rel) -> parsed JSON.
  * Returns [{from, ref}] for every dangling reference.
  */

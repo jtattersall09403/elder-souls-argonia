@@ -1,0 +1,1244 @@
+{
+ "schemaVersion": 4,
+ "kit": "ruin-monumental-v1",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 16787760,
+  "sha256": "952c437e24f040a04c3c013095076400936d62c65f7ac35cc22f044effd70a31"
+ },
+ "packed": {
+  "bytes": 7686852,
+  "sha256": "40be0fda2ff833831566991799cf257d8344833752b19cfb1f5b73507d32a691"
+ },
+ "totals": {
+  "parts": 46,
+  "partBytes": 2210712,
+  "textureFiles": 25,
+  "textureBytes": 6069346,
+  "bytes": 8280058
+ },
+ "assets": {
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararchcolumn02": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_ararchcolumn02-549e8e3b.glb",
+   "bytes": 31888,
+   "vertices": 650,
+   "triangles": 778,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 650,
+     "triangles": 778
+    },
+    {
+     "lod": 1,
+     "vertices": 550,
+     "triangles": 600
+    },
+    {
+     "lod": 2,
+     "vertices": 550,
+     "triangles": 600
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4",
+    "670229be195cbb0a"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arblock01-db1df4b7.glb",
+   "bytes": 4504,
+   "vertices": 28,
+   "triangles": 30,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 28,
+     "triangles": 30
+    },
+    {
+     "lod": 1,
+     "vertices": 28,
+     "triangles": 30
+    },
+    {
+     "lod": 2,
+     "vertices": 28,
+     "triangles": 30
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock02": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arblock02-963d9ba9.glb",
+   "bytes": 4528,
+   "vertices": 28,
+   "triangles": 30,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 28,
+     "triangles": 30
+    },
+    {
+     "lod": 1,
+     "vertices": 28,
+     "triangles": 30
+    },
+    {
+     "lod": 2,
+     "vertices": 28,
+     "triangles": 30
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock03": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arblock03-0a810bb3.glb",
+   "bytes": 4524,
+   "vertices": 28,
+   "triangles": 30,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 28,
+     "triangles": 30
+    },
+    {
+     "lod": 1,
+     "vertices": 28,
+     "triangles": 30
+    },
+    {
+     "lod": 2,
+     "vertices": 28,
+     "triangles": 30
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock05": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arblock05-68517d56.glb",
+   "bytes": 4996,
+   "vertices": 55,
+   "triangles": 72,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 55,
+     "triangles": 72
+    },
+    {
+     "lod": 1,
+     "vertices": 55,
+     "triangles": 72
+    },
+    {
+     "lod": 2,
+     "vertices": 55,
+     "triangles": 72
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick01": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arbrick01-70585a96.glb",
+   "bytes": 5116,
+   "vertices": 69,
+   "triangles": 44,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 69,
+     "triangles": 44
+    },
+    {
+     "lod": 1,
+     "vertices": 69,
+     "triangles": 44
+    },
+    {
+     "lod": 2,
+     "vertices": 69,
+     "triangles": 44
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick03": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arbrick03-a33e53f8.glb",
+   "bytes": 5120,
+   "vertices": 69,
+   "triangles": 44,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 69,
+     "triangles": 44
+    },
+    {
+     "lod": 1,
+     "vertices": 69,
+     "triangles": 44
+    },
+    {
+     "lod": 2,
+     "vertices": 69,
+     "triangles": 44
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick05": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arbrick05-deabcc1c.glb",
+   "bytes": 5496,
+   "vertices": 93,
+   "triangles": 126,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 93,
+     "triangles": 126
+    },
+    {
+     "lod": 1,
+     "vertices": 93,
+     "triangles": 126
+    },
+    {
+     "lod": 2,
+     "vertices": 93,
+     "triangles": 126
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbridge01": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arbridge01-a74020d0.glb",
+   "bytes": 45432,
+   "vertices": 1028,
+   "triangles": 1238,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1028,
+     "triangles": 1238
+    },
+    {
+     "lod": 1,
+     "vertices": 658,
+     "triangles": 657
+    },
+    {
+     "lod": 2,
+     "vertices": 652,
+     "triangles": 646
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4",
+    "fe34afe5216cc2df"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbridge03": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arbridge03-4fd9a508.glb",
+   "bytes": 36476,
+   "vertices": 961,
+   "triangles": 1133,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 961,
+     "triangles": 1133
+    },
+    {
+     "lod": 1,
+     "vertices": 689,
+     "triangles": 689
+    },
+    {
+     "lod": 2,
+     "vertices": 689,
+     "triangles": 689
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arcolumn02": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arcolumn02-a65af2f0.glb",
+   "bytes": 16640,
+   "vertices": 323,
+   "triangles": 328,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 323,
+     "triangles": 328
+    },
+    {
+     "lod": 1,
+     "vertices": 301,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 301,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/aroutercircle01": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_aroutercircle01-78d87cfe.glb",
+   "bytes": 26412,
+   "vertices": 560,
+   "triangles": 674,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 560,
+     "triangles": 674
+    },
+    {
+     "lod": 1,
+     "vertices": 519,
+     "triangles": 610
+    },
+    {
+     "lod": 2,
+     "vertices": 519,
+     "triangles": 610
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4",
+    "670229be195cbb0a",
+    "fe34afe5216cc2df"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock01": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arquadblock01-cfabee0e.glb",
+   "bytes": 4896,
+   "vertices": 56,
+   "triangles": 30,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 56,
+     "triangles": 30
+    },
+    {
+     "lod": 1,
+     "vertices": 56,
+     "triangles": 30
+    },
+    {
+     "lod": 2,
+     "vertices": 56,
+     "triangles": 30
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock02": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arquadblock02-5fa86d5d.glb",
+   "bytes": 5512,
+   "vertices": 85,
+   "triangles": 91,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 85,
+     "triangles": 91
+    },
+    {
+     "lod": 1,
+     "vertices": 85,
+     "triangles": 91
+    },
+    {
+     "lod": 2,
+     "vertices": 85,
+     "triangles": 91
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arringinnerwall02": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arringinnerwall02-edaddedf.glb",
+   "bytes": 20372,
+   "vertices": 522,
+   "triangles": 442,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 522,
+     "triangles": 442
+    },
+    {
+     "lod": 1,
+     "vertices": 432,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 432,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arringouterwall03": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arringouterwall03-a048a9b1.glb",
+   "bytes": 19060,
+   "vertices": 454,
+   "triangles": 536,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 454,
+     "triangles": 536
+    },
+    {
+     "lod": 1,
+     "vertices": 307,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 307,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arspiralstairs01": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arspiralstairs01-fbc2cf87.glb",
+   "bytes": 17680,
+   "vertices": 414,
+   "triangles": 503,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 414,
+     "triangles": 503
+    },
+    {
+     "lod": 1,
+     "vertices": 276,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 276,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairs01": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arstairs01-2692c632.glb",
+   "bytes": 7872,
+   "vertices": 211,
+   "triangles": 282,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 211,
+     "triangles": 282
+    },
+    {
+     "lod": 1,
+     "vertices": 211,
+     "triangles": 282
+    },
+    {
+     "lod": 2,
+     "vertices": 211,
+     "triangles": 282
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairs02": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arstairs02-3a1d67ca.glb",
+   "bytes": 21828,
+   "vertices": 655,
+   "triangles": 822,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 655,
+     "triangles": 822
+    },
+    {
+     "lod": 1,
+     "vertices": 311,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 311,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairscenter01": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arstairscenter01-804183c4.glb",
+   "bytes": 15868,
+   "vertices": 383,
+   "triangles": 584,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 383,
+     "triangles": 584
+    },
+    {
+     "lod": 1,
+     "vertices": 224,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 224,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairsside01": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arstairsside01-6a0181de.glb",
+   "bytes": 14164,
+   "vertices": 278,
+   "triangles": 399,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 278,
+     "triangles": 399
+    },
+    {
+     "lod": 1,
+     "vertices": 225,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 225,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuebase01": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arstatuebase01-1c678156.glb",
+   "bytes": 31612,
+   "vertices": 864,
+   "triangles": 1158,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 864,
+     "triangles": 1158
+    },
+    {
+     "lod": 1,
+     "vertices": 392,
+     "triangles": 405
+    },
+    {
+     "lod": 2,
+     "vertices": 311,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuewall01": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arstatuewall01-4ab5eb4d.glb",
+   "bytes": 21356,
+   "vertices": 557,
+   "triangles": 636,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 557,
+     "triangles": 636
+    },
+    {
+     "lod": 1,
+     "vertices": 557,
+     "triangles": 636
+    },
+    {
+     "lod": 2,
+     "vertices": 557,
+     "triangles": 636
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuewall02": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_arstatuewall02-9cb34520.glb",
+   "bytes": 34296,
+   "vertices": 718,
+   "triangles": 884,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 718,
+     "triangles": 884
+    },
+    {
+     "lod": 1,
+     "vertices": 599,
+     "triangles": 699
+    },
+    {
+     "lod": 2,
+     "vertices": 599,
+     "triangles": 699
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4",
+    "670229be195cbb0a",
+    "fe34afe5216cc2df"
+   ]
+  },
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/artower01": {
+   "file": "ayleidkit_igsresources_dungeons_ayleidruins_exterior_artower01-1f26738b.glb",
+   "bytes": 55784,
+   "vertices": 1191,
+   "triangles": 1568,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1191,
+     "triangles": 1568
+    },
+    {
+     "lod": 1,
+     "vertices": 765,
+     "triangles": 907
+    },
+    {
+     "lod": 2,
+     "vertices": 759,
+     "triangles": 900
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4",
+    "670229be195cbb0a",
+    "fe34afe5216cc2df"
+   ]
+  },
+  "composite:ayleid/arblock-mass-2x2x2": {
+   "file": "composite_ayleid_arblock-mass-2x2x2-8bc5dd8e.glb",
+   "bytes": 29548,
+   "vertices": 224,
+   "triangles": 240,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 224,
+     "triangles": 240
+    },
+    {
+     "lod": 1,
+     "vertices": 224,
+     "triangles": 240
+    },
+    {
+     "lod": 2,
+     "vertices": 224,
+     "triangles": 240
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "composite:ayleid/arblock-mass-3x1x3": {
+   "file": "composite_ayleid_arblock-mass-3x1x3-4bf8cffa.glb",
+   "bytes": 33096,
+   "vertices": 252,
+   "triangles": 270,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 252,
+     "triangles": 270
+    },
+    {
+     "lod": 1,
+     "vertices": 252,
+     "triangles": 270
+    },
+    {
+     "lod": 2,
+     "vertices": 252,
+     "triangles": 270
+    }
+   ],
+   "textures": [
+    "55304e9c8e6399c4"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding1": {
+   "file": "re_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_1mjyaztecbuilding1-46505444.glb",
+   "bytes": 37608,
+   "vertices": 1408,
+   "triangles": 785,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1408,
+     "triangles": 785
+    },
+    {
+     "lod": 1,
+     "vertices": 1396,
+     "triangles": 773
+    },
+    {
+     "lod": 2,
+     "vertices": 1396,
+     "triangles": 773
+    }
+   ],
+   "textures": [
+    "2e74c61caecd529d",
+    "e50e3368f3b7f3f4"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding3redone": {
+   "file": "monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_1mjyaztecbuilding3redone-45cbc6b2.glb",
+   "bytes": 73116,
+   "vertices": 3301,
+   "triangles": 1789,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3301,
+     "triangles": 1789
+    },
+    {
+     "lod": 1,
+     "vertices": 1441,
+     "triangles": 780
+    },
+    {
+     "lod": 2,
+     "vertices": 1072,
+     "triangles": 599
+    }
+   ],
+   "textures": [
+    "2e74c61caecd529d",
+    "e50e3368f3b7f3f4"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding7": {
+   "file": "re_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_1mjyaztecbuilding7-c7d2de13.glb",
+   "bytes": 61352,
+   "vertices": 2510,
+   "triangles": 1336,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2510,
+     "triangles": 1336
+    },
+    {
+     "lod": 1,
+     "vertices": 1732,
+     "triangles": 868
+    },
+    {
+     "lod": 2,
+     "vertices": 1732,
+     "triangles": 868
+    }
+   ],
+   "textures": [
+    "16e0d2b3504f577d",
+    "2e74c61caecd529d",
+    "5729cf487417df15",
+    "beb78ff3341ee842",
+    "e50e3368f3b7f3f4",
+    "e6a8d57a2c3822a1"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/3mjyunderwaterruins8": {
+   "file": "_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_3mjyunderwaterruins8-6f4c1ffa.glb",
+   "bytes": 105328,
+   "vertices": 3480,
+   "triangles": 2592,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3480,
+     "triangles": 2592
+    },
+    {
+     "lod": 1,
+     "vertices": 1651,
+     "triangles": 920
+    },
+    {
+     "lod": 2,
+     "vertices": 1327,
+     "triangles": 620
+    }
+   ],
+   "textures": [
+    "16e0d2b3504f577d",
+    "5729cf487417df15",
+    "e6a8d57a2c3822a1"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/blockslargepile": {
+   "file": "there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_blockslargepile-7cd5aea4.glb",
+   "bytes": 52944,
+   "vertices": 1674,
+   "triangles": 1728,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1674,
+     "triangles": 1728
+    },
+    {
+     "lod": 1,
+     "vertices": 892,
+     "triangles": 604
+    },
+    {
+     "lod": 2,
+     "vertices": 572,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "cdcc8c48b18d9430"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/gargoyle01": {
+   "file": "here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_gargoyle01-14840e90.glb",
+   "bytes": 37848,
+   "vertices": 1093,
+   "triangles": 1566,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1093,
+     "triangles": 1566
+    },
+    {
+     "lod": 1,
+     "vertices": 536,
+     "triangles": 548
+    },
+    {
+     "lod": 2,
+     "vertices": 334,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "e727e4c114f05745"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar02": {
+   "file": "m_here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_pillar02-b20a7e42.glb",
+   "bytes": 6060,
+   "vertices": 90,
+   "triangles": 78,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 90,
+     "triangles": 78
+    },
+    {
+     "lod": 1,
+     "vertices": 90,
+     "triangles": 78
+    },
+    {
+     "lod": 2,
+     "vertices": 90,
+     "triangles": 78
+    }
+   ],
+   "textures": [
+    "64970b4ec4822208"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar05": {
+   "file": "m_here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_pillar05-2de2f142.glb",
+   "bytes": 34516,
+   "vertices": 986,
+   "triangles": 1480,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 986,
+     "triangles": 1480
+    },
+    {
+     "lod": 1,
+     "vertices": 460,
+     "triangles": 518
+    },
+    {
+     "lod": 2,
+     "vertices": 296,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "24f8bb17db728cda"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/runicstone": {
+   "file": "here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_runicstone-19b44bb4.glb",
+   "bytes": 37572,
+   "vertices": 1187,
+   "triangles": 2028,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1187,
+     "triangles": 2028
+    },
+    {
+     "lod": 1,
+     "vertices": 498,
+     "triangles": 709
+    },
+    {
+     "lod": 2,
+     "vertices": 245,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "6224931480a8eea4"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue": {
+   "file": "re_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_serpentsigilstatue-67f940fa.glb",
+   "bytes": 99964,
+   "vertices": 4973,
+   "triangles": 2957,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4973,
+     "triangles": 2957
+    },
+    {
+     "lod": 1,
+     "vertices": 1798,
+     "triangles": 1034
+    },
+    {
+     "lod": 2,
+     "vertices": 522,
+     "triangles": 354
+    }
+   ],
+   "textures": [
+    "3c0c9c89546ffd3f"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentstatue_feathered": {
+   "file": "_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_serpentstatue_feathered-f91f9ff6.glb",
+   "bytes": 127984,
+   "vertices": 4348,
+   "triangles": 6028,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 4348,
+     "triangles": 6028
+    },
+    {
+     "lod": 1,
+     "vertices": 1864,
+     "triangles": 2108
+    },
+    {
+     "lod": 2,
+     "vertices": 997,
+     "triangles": 948
+    }
+   ],
+   "textures": [
+    "589c5f6782049a7e"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/skeletontotem01": {
+   "file": "there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_skeletontotem01-b3462c9b.glb",
+   "bytes": 351472,
+   "vertices": 14091,
+   "triangles": 13524,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 14091,
+     "triangles": 13524
+    },
+    {
+     "lod": 1,
+     "vertices": 7472,
+     "triangles": 4817
+    },
+    {
+     "lod": 2,
+     "vertices": 2621,
+     "triangles": 1848
+    }
+   ],
+   "textures": [
+    "0f6eefea76d60ea3",
+    "99fe7e6899361248"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/skullstack01": {
+   "file": "re_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_skullstack01-63652d72.glb",
+   "bytes": 423176,
+   "vertices": 17632,
+   "triangles": 28500,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 17632,
+     "triangles": 28500
+    },
+    {
+     "lod": 1,
+     "vertices": 7115,
+     "triangles": 9974
+    },
+    {
+     "lod": 2,
+     "vertices": 2812,
+     "triangles": 3420
+    }
+   ],
+   "textures": [
+    "99fe7e6899361248"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/statuegoddess": {
+   "file": "e_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_statuegoddess-60af6bb3.glb",
+   "bytes": 43088,
+   "vertices": 1404,
+   "triangles": 2246,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1404,
+     "triangles": 2246
+    },
+    {
+     "lod": 1,
+     "vertices": 602,
+     "triangles": 785
+    },
+    {
+     "lod": 2,
+     "vertices": 270,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "4419740d0f0f0df6"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem01": {
+   "file": "bm_here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_totem01-7f8d519f.glb",
+   "bytes": 45508,
+   "vertices": 1489,
+   "triangles": 2152,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1489,
+     "triangles": 2152
+    },
+    {
+     "lod": 1,
+     "vertices": 695,
+     "triangles": 752
+    },
+    {
+     "lod": 2,
+     "vertices": 311,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "4fc1b7c8052be0b0"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02": {
+   "file": "bm_here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_totem02-e34ed599.glb",
+   "bytes": 75944,
+   "vertices": 2883,
+   "triangles": 4974,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2883,
+     "triangles": 4974
+    },
+    {
+     "lod": 1,
+     "vertices": 1193,
+     "triangles": 1739
+    },
+    {
+     "lod": 2,
+     "vertices": 470,
+     "triangles": 595
+    }
+   ],
+   "textures": [
+    "9bb9aa6328e45cb6"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallcorner01": {
+   "file": "re_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_wallcorner01-a833cadb.glb",
+   "bytes": 31112,
+   "vertices": 515,
+   "triangles": 702,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 515,
+     "triangles": 702
+    },
+    {
+     "lod": 1,
+     "vertices": 414,
+     "triangles": 518
+    },
+    {
+     "lod": 2,
+     "vertices": 414,
+     "triangles": 518
+    }
+   ],
+   "textures": [
+    "30dd502ed9d86ba3",
+    "4a2d0bbc4588ac7d",
+    "52db236a10af2a32",
+    "b4c360162d311ad3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallfree01": {
+   "file": "here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_wallfree01-160899fa.glb",
+   "bytes": 25676,
+   "vertices": 426,
+   "triangles": 560,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 426,
+     "triangles": 560
+    },
+    {
+     "lod": 1,
+     "vertices": 349,
+     "triangles": 420
+    },
+    {
+     "lod": 2,
+     "vertices": 349,
+     "triangles": 420
+    }
+   ],
+   "textures": [
+    "30dd502ed9d86ba3",
+    "4a2d0bbc4588ac7d",
+    "b4c360162d311ad3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallstraight": {
+   "file": "re_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_wallstraight-0e0c59f4.glb",
+   "bytes": 16368,
+   "vertices": 211,
+   "triangles": 268,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 211,
+     "triangles": 268
+    },
+    {
+     "lod": 1,
+     "vertices": 211,
+     "triangles": 268
+    },
+    {
+     "lod": 2,
+     "vertices": 211,
+     "triangles": 268
+    }
+   ],
+   "textures": [
+    "30dd502ed9d86ba3",
+    "4a2d0bbc4588ac7d",
+    "b4c360162d311ad3"
+   ]
+  }
+ },
+ "fires": {}
+}

@@ -9,7 +9,7 @@
  *   - index schema (settlementIndex.ts `unsupported settlement index schema`);
  *   - per bundle, through `loadSettlementBundle` itself: schema and collision
  *     frame (`unsupported settlement schema`, `… collision frame`);
- *   - every kit a bundle lists: glb and manifest on disk (`kit manifest HTTP`,
+ *   - every kit a bundle lists: parts index and manifest on disk (`kit manifest HTTP`,
  *     `settlement kit … failed`), manifest parsed by `kitAssetMetaFromManifest`
  *     (`has no assets list`, `has no id`, `duplicate asset id`);
  *   - every placement: its kit listed (`references missing kit`), its asset row
@@ -25,7 +25,7 @@
  * triangle floors per decoded tier, bound texture sizes, far-tier merges,
  * colour/depth material pairs.
  */
-import { closeSync, existsSync, openSync, readFileSync, readSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { kitAssetMetaFromManifest } from "./kit";
@@ -71,37 +71,18 @@ function manifest(rel: string) {
 
 /**
  * LOD level count per asset as the runtime's `buildArchitectureKit` sees it:
- * each scene root carrying `extras.assetId`, levels = highest mesh-node
- * `extras.lod` + 1 (absent = 0). Read from the GLB's JSON chunk alone (the
+ * levels = highest `lod` + 1, read from the kit's parts index rows (`lods`,
+ * written by kit_parts.mjs from each part's mesh nodes; decision 0120). The
  * manifest's `lodRatios` disagreed with the GLB for one asset on 2026-09-28,
- * so the gate reads what the layer reads).
+ * so the gate reads what the layer reads.
  */
-const glbCache = new Map<string, Map<string, number>>();
-function glbLevels(rel: string): Map<string, number> {
-  let got = glbCache.get(rel);
+const partsCache = new Map<string, Map<string, number>>();
+function partLevels(rel: string): Map<string, number> {
+  let got = partsCache.get(rel);
   if (got) return got;
-  const fd = openSync(resolve(PUBLIC, rel.replace(/^\//, "")), "r");
-  const head = Buffer.alloc(20);
-  readSync(fd, head, 0, 20, 0);
-  const json = Buffer.alloc(head.readUInt32LE(12));
-  readSync(fd, json, 0, json.length, 20);
-  closeSync(fd);
-  type Node = { mesh?: number; children?: number[]; extras?: { assetId?: unknown; lod?: unknown } };
-  const gltf = JSON.parse(json.toString("utf8")) as { scene?: number; scenes: { nodes: number[] }[]; nodes: Node[] };
-  got = new Map();
-  for (const rootIndex of gltf.scenes[gltf.scene ?? 0].nodes) {
-    const id = gltf.nodes[rootIndex].extras?.assetId;
-    if (typeof id !== "string") continue;
-    let top = -1;
-    const walk = (i: number) => {
-      const node = gltf.nodes[i];
-      if (node.mesh !== undefined) top = Math.max(top, typeof node.extras?.lod === "number" ? node.extras.lod : 0);
-      node.children?.forEach(walk);
-    };
-    walk(rootIndex);
-    got.set(id, top + 1);
-  }
-  glbCache.set(rel, got);
+  const index = readJson(rel) as { assets: Record<string, { lods: { lod: number }[] }> };
+  got = new Map(Object.entries(index.assets).map(([id, row]) => [id, Math.max(-1, ...row.lods.map((l) => l.lod)) + 1]));
+  partsCache.set(rel, got);
   return got;
 }
 
@@ -121,7 +102,7 @@ describe("published place bundles load headless", () => {
     const bundle = await loadSettlementBundle(sourceFor(entry), null);
     const failures: string[] = [];
     for (const [id, kit] of Object.entries(bundle.kits)) {
-      if (!onDisk(kit.glb)) failures.push(`kit ${id}: glb ${kit.glb} missing`);
+      if (!onDisk(kit.parts)) failures.push(`kit ${id}: parts index ${kit.parts} missing`);
       if (!onDisk(kit.manifest)) { failures.push(`kit ${id}: manifest ${kit.manifest} missing`); continue; }
       try { manifest(kit.manifest); } catch (e) { failures.push(`kit ${id}: ${(e as Error).message}`); }
     }
@@ -134,9 +115,9 @@ describe("published place bundles load headless", () => {
       if (isSmokeColumnPlacement(p) || !manifestCache.has(kit.manifest)) continue;
       const asset = manifest(kit.manifest).assets.get(p.assetId);
       if (!asset) { failures.push(`${p.id}: ${p.kit} manifest has no asset ${p.assetId}`); continue; }
-      const tiers = onDisk(kit.glb) ? glbLevels(kit.glb).get(p.assetId) ?? 0 : 0;
+      const tiers = onDisk(kit.parts) ? partLevels(kit.parts).get(p.assetId) ?? 0 : 0;
       const need = requiredLodTiers({ longestSideM: Math.max(...(asset.sizeM ?? [Infinity])) * p.scale, kind: p.kind });
-      if (tiers < need) failures.push(`${p.id}: ${p.kit}/${p.assetId} has ${tiers} LOD tiers in its GLB, needs ${need}`);
+      if (tiers < need) failures.push(`${p.id}: ${p.kit}/${p.assetId} has ${tiers} LOD tiers in its parts, needs ${need}`);
     }
     if (bundle.placements.length) {
       try {

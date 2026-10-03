@@ -6,9 +6,9 @@
  */
 
 import { useEffect, useMemo, useState } from "react";
-import { useLoader } from "@react-three/fiber";
-import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { configureKitLoader, createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
+import { createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
+import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
+import { useKitParts } from "./useKitParts";
 import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
 import {
   collidersFor,
@@ -80,10 +80,14 @@ export function useFloraKit(baseUrl: string): FloraKitState {
   // Kits ship KTX2/meshopt-compressed (pipeline/kit_compress.py); the
   // decoders are the renderer's, shared by every kit load.
   const decoders = useKitDecoders(baseUrl);
-  const gltf = useLoader(GLTFLoader, `${baseUrl}kits/flora-province-v1.glb`,
-    (loader) => configureKitLoader(loader, decoders));
-  const [underwaterGltf, setUnderwaterGltf] = useState<GLTF | null>(null);
+  // Both kits ship as parts (0120), read through this hook's own cache. The
+  // land kit loads at high priority from mount, in parallel with the index
+  // and manifest fetches below (perf-diag23 Q2: suspense used to hold them
+  // until the kit had arrived).
+  const kitCache = useMemo(() => new KitCache(), []);
+  const gltf = useKitParts(baseUrl, "flora-province-v1", decoders, kitCache, { priority: "high" });
   const [underwaterWanted, setUnderwaterWanted] = useState(false);
+  const underwaterGltf = useKitParts(baseUrl, "underwater-v1", decoders, kitCache, { enabled: underwaterWanted });
   // Octahedral impostors (the flora kit's sidecar, `<kit>.impostors.json`):
   // installed over the card level of their species. They are NOT startup
   // payload (test_kit_compress STARTUP_KITS): the sidecar (a few hundred
@@ -130,20 +134,9 @@ export function useFloraKit(baseUrl: string): FloraKitState {
     return () => { cancelled = true; clearTimeout(cap); if (timer !== undefined) clearTimeout(timer); };
   }, [baseUrl, decoders]);
   useEffect(() => {
-    if (!underwaterWanted) return;
-    let cancelled = false;
-    createKitLoader(decoders).loadAsync(`${baseUrl}kits/underwater-v1.glb`)
-      .then((g) => { if (!cancelled) setUnderwaterGltf(g); })
-      .catch((error: unknown) => {
-        console.error("[vegetation] underwater kit failed to load", error);
-      });
-    return () => { cancelled = true; };
-  }, [baseUrl, underwaterWanted, decoders]);
-
-  useEffect(() => {
     let cancelled = false;
     Promise.all([
-      fetch(`${baseUrl}province/vegetation/vegetation-index.json`).then((r) => r.json()),
+      fetch(`${baseUrl}province/vegetation/vegetation-index.json`, { priority: "high" }).then((r) => r.json()),
       fetch(`${baseUrl}kits/flora-province-v1.kit.json`).then((r) => r.json()),
       fetch(`${baseUrl}kits/underwater-v1.kit.json`).then((r) => r.json()),
     ])
@@ -168,7 +161,7 @@ export function useFloraKit(baseUrl: string): FloraKitState {
   }, [baseUrl]);
 
   // Each base is built once per GLB; composing never rebuilds one.
-  const landBase = useMemo(() => (manifest ? buildFloraKit(gltf, manifest) : null), [gltf, manifest]);
+  const landBase = useMemo(() => (gltf && manifest ? buildFloraKit(gltf, manifest) : null), [gltf, manifest]);
   const underwaterBase = useMemo(
     () => (underwaterGltf && underwaterManifest ? buildFloraKit(underwaterGltf, underwaterManifest, true) : null),
     [underwaterGltf, underwaterManifest]);

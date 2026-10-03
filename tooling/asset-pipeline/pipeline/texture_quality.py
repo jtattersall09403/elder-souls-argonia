@@ -1,7 +1,11 @@
 """Measure what GPU texture compression did to a kit's textures.
 
     python3 -m pipeline.texture_quality --source output/kits/x.glb \
-        --packed apps/world-studio/public/kits/x.glb [--crops out/dir --pick material,...]
+        --packed /tmp/x.packed.glb [--crops out/dir --pick material,...]
+
+`--packed` is a gltfpack run on the raw build with kit_compress's own flags
+(only parts are published, decision 0120; kit_compress packs to a temporary
+GLB, cuts it and deletes it).
 
 Both GLBs are dumped with `kit_textures_dump.mjs` (the PNG bytes of the
 source, the KTX2 images of the packed build transcoded to RGBA8 with the

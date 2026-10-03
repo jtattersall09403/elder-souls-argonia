@@ -1,0 +1,154 @@
+{
+ "schemaVersion": 4,
+ "kit": "camp-v1",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 3402020,
+  "sha256": "911e65048b5e51f311a12620b14e9dee48647721c37d6c81acfa35ed68caa07d"
+ },
+ "packed": {
+  "bytes": 1788620,
+  "sha256": "3b7aec2eec1faa03bdb5a0baed66a577ff0f831f87504ac9e9f64e28c57fbcd4"
+ },
+ "totals": {
+  "parts": 5,
+  "partBytes": 159408,
+  "textureFiles": 6,
+  "textureBytes": 1670337,
+  "bytes": 1829745
+ },
+ "assets": {
+  "vanilla:architecture/tents/largeimperialtent01": {
+   "file": "vanilla_architecture_tents_largeimperialtent01-1c5cd048.glb",
+   "bytes": 62004,
+   "vertices": 2276,
+   "triangles": 2998,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2276,
+     "triangles": 2998
+    },
+    {
+     "lod": 1,
+     "vertices": 1048,
+     "triangles": 1048
+    },
+    {
+     "lod": 2,
+     "vertices": 440,
+     "triangles": 359
+    }
+   ],
+   "textures": [
+    "96776144294346c6"
+   ]
+  },
+  "vanilla:architecture/tents/smallimperialtent": {
+   "file": "vanilla_architecture_tents_smallimperialtent-9effd05d.glb",
+   "bytes": 41068,
+   "vertices": 1274,
+   "triangles": 1842,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1274,
+     "triangles": 1842
+    },
+    {
+     "lod": 1,
+     "vertices": 582,
+     "triangles": 644
+    },
+    {
+     "lod": 2,
+     "vertices": 304,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "37dc4108574cc544"
+   ]
+  },
+  "vanilla:clutter/civilwar/civilwarbanner01": {
+   "file": "vanilla_clutter_civilwar_civilwarbanner01-fb05a457.glb",
+   "bytes": 16860,
+   "vertices": 416,
+   "triangles": 246,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 416,
+     "triangles": 246
+    },
+    {
+     "lod": 1,
+     "vertices": 416,
+     "triangles": 246
+    },
+    {
+     "lod": 2,
+     "vertices": 416,
+     "triangles": 246
+    }
+   ],
+   "textures": [
+    "4b47a5a8e06a6115",
+    "4d172ca0868cbf4a"
+   ]
+  },
+  "vanilla:clutter/civilwar/civilwarbannerimp01": {
+   "file": "vanilla_clutter_civilwar_civilwarbannerimp01-413e8160.glb",
+   "bytes": 4908,
+   "vertices": 35,
+   "triangles": 48,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 35,
+     "triangles": 48
+    },
+    {
+     "lod": 1,
+     "vertices": 35,
+     "triangles": 48
+    },
+    {
+     "lod": 2,
+     "vertices": 35,
+     "triangles": 48
+    }
+   ],
+   "textures": [
+    "7d2024946a1ce9c4"
+   ]
+  },
+  "vanilla:clutter/civilwar/civilwartable01": {
+   "file": "vanilla_clutter_civilwar_civilwartable01-e6b5fae1.glb",
+   "bytes": 34568,
+   "vertices": 880,
+   "triangles": 952,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 880,
+     "triangles": 952
+    },
+    {
+     "lod": 1,
+     "vertices": 471,
+     "triangles": 333
+    },
+    {
+     "lod": 2,
+     "vertices": 444,
+     "triangles": 300
+    }
+   ],
+   "textures": [
+    "f6b38bffa5b31bca"
+   ]
+  }
+ },
+ "fires": {}
+}

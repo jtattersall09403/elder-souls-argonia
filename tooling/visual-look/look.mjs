@@ -8,8 +8,8 @@
 //   npm run look -- preset [<presetId> ...]          (subjects/preset.mjs)
 //
 // piece/composite: headless Chromium + SwiftShader draws the PUBLISHED kit
-// asset (apps/world-studio/public/kits: the per-asset part GLB when the kit
-// has one, else the node out of the kit GLB) through the runtime kit loader
+// asset (apps/world-studio/public/kits: its per-asset part GLB, decision
+// 0120) through the runtime kit loader
 // path (KTX2 + meshopt), and the flames through the runtime FlameSystem at
 // the anchors fx/fire/flameAnchors.ts gives the manifest row (the same call
 // settlement/lighting.ts makes). Day tiles use the day exposure of the light
@@ -93,7 +93,8 @@ const row = manifest.assets.find((a) => a.id === opts.asset);
 if (!row) { console.error(`${opts.asset} not in ${opts.kit}.kit.json`); process.exit(1); }
 const partsIndex = join(kitsDir, opts.kit, "parts/index.json");
 const part = existsSync(partsIndex) ? JSON.parse(readFileSync(partsIndex, "utf8")).assets[opts.asset] : undefined;
-const glbUrl = part ? `/kits/${opts.kit}/parts/${part.file}` : `/kits/${opts.kit}.glb`;
+if (!part) { console.error(`${opts.asset} has no part in kits/${opts.kit}/parts/index.json (republish: python3 -m pipeline.kit_compress --kit ${opts.kit})`); process.exit(1); }
+const glbUrl = `/kits/${opts.kit}/parts/${part.file}`;
 const classes = opts.classes ?? classesFor(row, opts.kit);
 
 const threeDir = join(repo, "node_modules/three");
@@ -123,17 +124,12 @@ const renderer = new THREE.WebGLRenderer({ canvas: gl, antialias: true, preserve
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 const sheet = document.getElementById("sheet").getContext("2d");
-window.look = async ({ url, node, row, fromPart }) => {
+window.look = async ({ url, row }) => {
   const loader = new GLTFLoader();
   loader.setKTX2Loader(new KTX2Loader().setTranscoderPath("/basis/").detectSupport(renderer));
   loader.setMeshoptDecoder(MeshoptDecoder);
   const gltf = await loader.loadAsync(url);
-  let obj = gltf.scene;
-  if (!fromPart) {
-    obj = gltf.scene.getObjectByName(node) ?? gltf.scene.getObjectByName(THREE.PropertyBinding.sanitizeNodeName(node));
-    if (!obj) throw new Error("node " + node + " not in kit GLB");
-    obj.removeFromParent(); obj.position.set(0, 0, 0); obj.quaternion.identity(); obj.scale.setScalar(1);
-  }
+  const obj = gltf.scene;
   const hidden = [];
   // A primitive with no source material gets GLTFLoader's default (white,
   // metalness 1): black on this sheet, a blank white card in the studio's
@@ -259,11 +255,11 @@ try {
   await tab.waitForFunction(() => window.ready === true, null, { timeout: 30000 }).catch(() => {});
   if (errors.length) throw new Error(`page errors:\n${errors.join("\n")}`);
   const { url, facts } = await tab.evaluate((a) => window.look(a),
-    { url: glbUrl, node: row.node, row, fromPart: !!part });
+    { url: glbUrl, row });
   if (errors.length) console.error(`page warnings:\n${errors.join("\n")}`);
   const png = join(outDir, `${opts.kit}__${slug(opts.asset)}.png`);
   writeFileSync(png, Buffer.from(url.split(",")[1], "base64"));
-  const factLine = JSON.stringify({ source: part ? "part GLB" : "kit GLB node", fixtureKind: row.light?.fixtureKind ?? null,
+  const factLine = JSON.stringify({ source: "part GLB",fixtureKind: row.light?.fixtureKind ?? null,
     anchorClass: row.anchorClass, ...facts });
   writeFileSync(png.replace(/\.png$/, ".json"), factLine + "\n");
   console.log(`sheet: ${png}`);

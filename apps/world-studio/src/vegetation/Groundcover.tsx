@@ -52,10 +52,10 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useFrame, useLoader } from "@react-three/fiber";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { configureKitLoader } from "@elder-souls/game-core/assets/kitLoader";
+import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
+import { useKitParts } from "./useKitParts";
 import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
 import {
   buildFloraKit,
@@ -1345,8 +1345,10 @@ export function Groundcover({
   const maxWindowFrame = useRef(0);
 
   const decoders = useKitDecoders(baseUrl);
-  const gltf = useLoader(GLTFLoader, `${baseUrl}kits/groundcover-province-v1.glb`,
-    (loader) => configureKitLoader(loader, decoders));
+  // The kit's parts (0120), every species in one pass: groundcover is placed
+  // procedurally per tile, so no index names the species a chunk draws.
+  const kitCache = useMemo(() => new KitCache(), []);
+  const gltf = useKitParts(baseUrl, "groundcover-province-v1", decoders, kitCache, { priority: "high" });
 
   useEffect(() => {
     let cancelled = false;
@@ -1434,7 +1436,7 @@ export function Groundcover({
   }, [settlementBundle]);
 
   useEffect(() => {
-    if (manifest) setKit(buildFloraKit(gltf, manifest));
+    if (gltf && manifest) setKit(buildFloraKit(gltf, manifest));
   }, [gltf, manifest]);
 
   // The easy half of the wind work: groundcover casts no shadows, so there is
@@ -1444,7 +1446,7 @@ export function Groundcover({
   // vegetation layer's: the two draw different kits, so no material is
   // shared, and one uniform object per layer keeps the dependency one-way.
   const lodFade = useMemo(() => createLodFadeUniforms(), []);
-  const cards = useMemo(() => buildCardIndex(gltf), [gltf]);
+  const cards = useMemo(() => (gltf ? buildCardIndex(gltf) : new Map<string, KitLevelPart>()), [gltf]);
 
   useFrame((state) => {
     const ufT0 = performance.now();

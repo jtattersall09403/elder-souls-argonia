@@ -9,7 +9,6 @@
  */
 
 import * as THREE from "three";
-import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
 import {
   BAYER4_THRESHOLDS,
@@ -162,7 +161,7 @@ export const SUBMERGED_MAX_DRAW_M = 120;
 export const SUBMERGED_LOD_SCALE = 0.5;
 
 export function buildFloraKit(
-  gltf: GLTF,
+  gltf: { scene: THREE.Object3D },
   manifest: KitManifest,
   /** True for the underwater-band kit: every species in it is submerged,
    * whatever category the manifest gives it (a sunken wall is still only ever

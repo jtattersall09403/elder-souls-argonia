@@ -1503,11 +1503,22 @@
   "cardTriAreaPerHeight2": 0.002,
   "maxRadiusFactor": 1.5
  },
+ "schemaVersion": 1,
  "compression": {
   "schemaVersion": 1,
   "enabled": false,
   "bytes": 842980,
   "reason": "0.86 MB of geometry with 16 px stub textures; loaded by sharedWaterAssets from paths without a renderer (App.tsx), which the KTX2 transcoder needs to choose a GPU format. Nothing to gain, one loader path to keep renderer-free.",
+  "sha256": "ea952fd6e810212e640c68fc7cb6de81e56874898172addc5538e3619884485d",
+  "parts": {
+   "parts": 26,
+   "partBytes": 898484,
+   "textureFiles": 0,
+   "textureBytes": 0,
+   "bytes": 898484,
+   "sourceSha256": "ea952fd6e810212e640c68fc7cb6de81e56874898172addc5538e3619884485d",
+   "packedSha256": "ea952fd6e810212e640c68fc7cb6de81e56874898172addc5538e3619884485d"
+  },
   "sidecarBytes": {
    "connectors": 18374,
    "footprints": 27614,

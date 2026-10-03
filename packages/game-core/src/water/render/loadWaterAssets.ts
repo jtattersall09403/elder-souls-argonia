@@ -35,8 +35,8 @@ export interface LoadWaterAssetsOptions {
   /** Waterfall FX texture URLs by shader slot (the app composes them from the
    * kit manifest via `WATERFALL_TEXTURE_ROLES`); missing = procedural. */
   waterfallTextureUrls?: Partial<Record<WaterfallTextureSlot, string>> & Record<string, string | undefined>;
-  /** The waterfall FX kit GLB (`kits/waterfall-fx-v1.glb`); missing = falls undrawn. */
-  waterfallKitUrl?: string;
+  /** Loads the waterfall FX kit `waterfall-fx-v1` (the app composes it from its parts, 0120); missing = falls undrawn. */
+  loadWaterfallGeometry?: () => Promise<{ scene: THREE.Object3D }>;
   /** The weather's wind speed (m/s) for the sea's energy; 0 = the swell floor. */
   windSpeedMS?: () => number;
   /** The places' own pools (spring basins), so the water query answers them. */
@@ -206,7 +206,7 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     fetch(`${waterBase}water-meta.json`).then((r) => r.json() as Promise<WaterMeta>),
     fetch(`${base}province/refined/flood-states.json`).then((r) => r.json()).catch(() => null),
     options.waterfallTextureUrls ? loadWaterfallTextures(options.waterfallTextureUrls) : Promise.resolve(undefined),
-    options.waterfallKitUrl ? loadWaterfallKit(options.waterfallKitUrl) : Promise.resolve(null),
+    options.loadWaterfallGeometry ? loadWaterfallKit(options.loadWaterfallGeometry) : Promise.resolve(null),
   ]);
   assertWaterSchema(meta);
   const ownerFile = meta.surface.ownerFile;
