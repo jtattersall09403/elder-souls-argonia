@@ -124,7 +124,7 @@ for trying a pose by hand:
   fit is a `modular-runs` question, not a nudge.
 - Mounted children (sconce on a wall, sign on a post):
   `$W mount <child> <parent> [--along M]`, which uses the mined band/points.
-  A road board on its post (pair `yawBy: designer`) takes height and face from the pair and its bearing from you: `mount <board> <post> --yaw D`, D the bearing of the route leg toward that board's own `pointsTo` destination (`check` `sign.posts[].destinations[].bearingDeg`; a board's tip points yaw + 90 for the bmv medium/large boards), so two arms on one post never share a yaw. Never pass `--height` off the post's mined arm sockets (`sign.posts[].armSocketsM`, heights over the post base); a second arm takes a different socket of that post (a board of another size, whose own mined pair sits there, e.g. medium 1.92 m with large 2.51 m), never a hand height. With no mined pair, a child whose longest PLAN side is under 0.6 m and
+  A road board on its post (pair `yawBy: designer`) takes height and face from the pair and its bearing from you: `mount <board> <post> --yaw D`, D the bearing of the route leg toward that board's own `pointsTo` destination (`check` `sign.posts[].destinations[].bearingDeg`; a board's tip points yaw + 90 for the bmv medium/large boards), so two arms on one post never share a yaw. Put each arm on a mined socket with `mount <board> <post> --yaw D --socket H` (H from `sign.posts[].armSocketsM`, heights over the post base; roadsignpost 1.922, 2.033, 2.51, 2.787, 2.885; any other H is refused); never `--height` for a sign arm. A second arm takes a different socket of that post (a board of another size, whose own mined pair sits there, e.g. medium 1.92 m with large 2.51 m), never a hand height. With no mined pair, a child whose longest PLAN side is under 0.6 m and
   whose height is under 1.0 m (0102 decision 5 as amended 2026-09-26) may
   stand on its parent's top where it is placed when the op names the render
   round that approved it: `--unmined "reader-approved r2"` (layout
@@ -204,7 +204,11 @@ Bars (the proving-ground gates): a run joint `gapM <= 0.03` and
 0.3` for ground pieces (docks exempt); `slopeRule` null for every
 building; `padRule` null for every padded building (0101 R1);
 `yOffRuntimeM` 0 after `settle` (the workbench seat IS the
-runtime's `anchorPlacement`); doors within 4 m of a path.
+runtime's `anchorPlacement`); doors within 4 m of a path. A rock (seat_rules
+`ROCK_POLICY` tokens) is judged by `rockSeatRule` only: slope, delta, yard
+sill and foot float are skipped for it. A row with `runtimeY: null` and a
+`seatError` (a piled run member wholly on dry ground) has no runtime seat:
+move it onto its water or give it a ground fit.
 
 The walk-packet rules (0102 decision 2, `workbench/rules.py`), all on the
 PADDED ground, each listed by `apply` as `<rule>: ...` when it fails:
@@ -342,7 +346,13 @@ failed on the defect the owner walked, `tests/test_walk4_wb.py`):
   post socket's `pointsTo` (best one-to-one match): a route id along that
   route toward its `to` end, a place id along the nearest route ending
   there toward that end, read 5 m on from the post in the published
-  `routes.json`. `check` lists them under `sign.posts`.
+  `routes.json`. `check` lists them under `sign.posts`. The board half
+  judges each arm against the route of the destination it points at
+  (`rules._arm_route`), the nearest way only when the post has no
+  `pointsTo` (at a fork the nearest way is the other track).
+- `padClearRule` judges pad-owning buildings only: a pad-owning prop
+  (`measure.is_prop`) seats on the graded surface by design
+  (`rules.pad_clear_targets`).
 
 ## 5b. Any other placement question: headless Blender (`wb.py bpy`)
 

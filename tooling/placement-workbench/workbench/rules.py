@@ -1804,6 +1804,31 @@ def _sign_target(p) -> bool:
             and not _has(p.asset, ROAD_SIGN_TOKENS))
 
 
+def _arm_route(cat, scene, p, parent) -> tuple[float, float, str] | None:
+    """(bearing, 0, way id) of the route toward the destination this arm is
+    matched to: of the post's sign socket `pointsTo`, the one whose route
+    leaves the post nearest the arm's tip bearing (its axis for a tipless
+    board). None when the post has no socket destinations or none resolves
+    (the board half then reads the nearest way). At a fork the nearest way
+    is the other track for one arm (The Broke Column, audit10 c5: s-board2
+    read 17 deg off the Mile House track while pointing up the Swampmoth leg)."""
+    if parent is None:
+        return None
+    sock = next((s for s in _layout_sockets(scene)
+                 if s.get("kind") == "sign" and s.get("host") == parent.uid), None)
+    want = [w for w in (destination_bearing(parent.x, parent.z, d)
+                        for d in (sock or {}).get("pointsTo") or []) if w is not None]
+    if not want:
+        return None
+    tip = board_tip_bearing(cat, p)
+    if tip is not None:
+        best = min(want, key=lambda w: _angle_off(tip, w[0]))
+    else:
+        axis = (p.yaw + 90.0) % 180.0
+        best = min(want, key=lambda w: _angle_off(axis * 2, w[0] * 2))
+    return best[0], 0.0, best[1]
+
+
 def sign_piece(cat, scene, ctx, p) -> tuple[dict, list]:
     """signRule for one board: ({uid: row}, failures)."""
     g = ctx["g"]
@@ -1818,7 +1843,7 @@ def sign_piece(cat, scene, ctx, p) -> tuple[dict, list]:
     wx, wz = float(cx), float(-cy)
     up = float(cz) - float(g.chunk_height(wx, wz))
     arm = (p.yaw + 90.0) % 180.0
-    road = _road_bearing(scene, wx, wz)
+    road = _arm_route(cat, scene, p, parent) or _road_bearing(scene, wx, wz)
     r.update(armBearingDeg=round(arm, 1), centreOverGroundM=round(up, 2))
     if road is not None:
         off = _angle_off(arm * 2, road[0] * 2) / 2.0     # mod-180 difference
@@ -2187,8 +2212,26 @@ PAD_CLEAR_NEAR_M = 0.5          # ... when it stands within this of the graded g
 
 
 def pad_clear_targets(cat, scene) -> list[str]:
-    """Every seated piece that owns a building pad."""
-    return [p.uid for p in scene.pieces if p.pad is not None and p.y is not None]
+    """Every seated piece that owns a building pad. A pad-owning prop seats
+    ON the graded surface (`measure.seat`, `measure.is_prop`, since
+    a37072f3), so its floor shares the ground's plane by design: not judged
+    (audit10 c5: camp y-fire, Greenspring b-fam2-fire)."""
+    return [p.uid for p in scene.pieces
+            if p.pad is not None and p.y is not None and not measure.is_prop(cat, p)]
+
+
+def climb_uids(scene) -> set[str]:
+    """The uids of every member of a CLIMB run (`settlement_run_pads.climb_runs`:
+    adjacent members rising more than CLIMB_STEP_M): footFloat and the fit
+    slope rule do not judge them; walkwayRule and landingRule do."""
+    paths.bridge()
+    from worldgen.settlement_run_pads import climb_runs
+    rows = [{"id": p.uid, "run": {"id": p.role["id"], "index": int(p.role.get("index", 0)),
+                                  "riseM": float(p.y)}}
+            for p in scene.pieces if (p.role or {}).get("kind") == "run" and p.role.get("id")
+            and p.y is not None]
+    climbs = climb_runs(rows)
+    return {r["id"] for r in rows if r["run"]["id"] in climbs}
 
 
 def pad_clear_piece(cat, scene, ctx, p) -> tuple[dict, list]:

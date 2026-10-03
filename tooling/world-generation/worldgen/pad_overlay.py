@@ -12,7 +12,9 @@ One overlay per pad the export measures (`settlement_run_pads`, one writer):
 ``{id, bboxM, blendM, hardM, pieces: [{placementId, polygonM, datumM}]}``. A
 building pad has one piece (its apron polygon and datum, ``hardM`` 0); a run
 pad has one piece per floating member (its footprint and designed ground
-line, ``hardM`` the chain's 1.5 samples of the 1.83 m frozen grid, resolved
+line; a partly-wet run end's dry points carry ``cutOnly``: that piece
+only ever lowers the ground to its line, so no wet sample is filled;
+``hardM`` the chain's 1.5 samples of the 1.83 m frozen grid, resolved
 here to metres so the runtime never needs the grid).
 
 The maths (the retired chain grid `apply_settlement_pad`'s, per sample,
@@ -71,7 +73,9 @@ def overlay_from_patch(patch: dict, default_hard_m: float) -> dict:
         "hardM": float(patch.get("hardM", default_hard_m)),
         "pieces": [{"placementId": r["placementId"],
                     "polygonM": [[float(x), float(z)] for x, z in r["footprintM"]],
-                    "datumM": round(float(r["targetM"]) - drop, 4)} for r in patch["params"]["pieces"]],
+                    "datumM": round(float(r["targetM"]) - drop, 4),
+                    **({"cutOnly": True} if r.get("cutOnly") else {})}
+                   for r in patch["params"]["pieces"]],
     }
 
 
@@ -153,7 +157,8 @@ def overlay_one(base: float, x: float, z: float, overlay: dict, yield_to=()) -> 
     hard_target = -math.inf
     pull = 0.0
     for piece in overlay["pieces"]:
-        target = float(piece["datumM"])
+        # a cut-only piece (a partly-wet run end's dry bank) lowers, never raises
+        target = min(float(piece["datumM"]), base) if piece.get("cutOnly") else float(piece["datumM"])
         d = polygon_distance(x, z, piece["polygonM"])
         if d <= hard:
             hard_target = max(hard_target, target)
@@ -242,7 +247,8 @@ def overlay_many(base: np.ndarray, X: np.ndarray, Z: np.ndarray, overlay: dict,
     hard_target = np.full(x.shape, -math.inf)
     pull = np.zeros(x.shape)
     for piece in overlay["pieces"]:
-        target = float(piece["datumM"])
+        target = (np.minimum(float(piece["datumM"]), b) if piece.get("cutOnly")
+                  else float(piece["datumM"]))
         poly = piece["polygonM"]
         d = np.where(_inside_many(x, z, poly), 0.0, _segment_distance_many(x, z, poly))
         hard_target = np.where(d <= hard, np.maximum(hard_target, target), hard_target)

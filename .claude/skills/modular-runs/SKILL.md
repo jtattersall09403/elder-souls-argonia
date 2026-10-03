@@ -230,11 +230,21 @@ turn, snapped face to face by geometry, then walked.
     the treads off the mesh, not bounds: top tread pivot -0.29, bottom
     tread +1.6 m along at -3.51, 0.29 m a tread (3 pieces = 9.06 m of
     treads). Set the bottom piece's `y` by hand so the top tread meets the
-    bank-top ground within 0.05 m. Not yet layable (open, see
-    `tooling/.reports/16k/walk10/audit10-c5/pb-border-road-greenspring-crossings.md`):
-    its manifest fit `pad` gives the run a `settlement_run_pads` fill
-    (2.9 m of ground raised under the stair) and slopeRule, and the
-    mined-pose joint (penetration 0.234 m, crossing) fails run-jointPair.
+    bank-top ground within 0.05 m. A run whose adjacent members rise more
+    than 0.45 m (the controller step) is a CLIMB
+    (`settlement_run_pads.climb_runs`, `rules.climb_uids`): it takes no
+    run pad and the compile's fit slope does not judge it; walkwayRule and
+    landingRule do. Still open: run-jointPair (wb.py `_pair_verdict`)
+    fails the mined pose itself (penetration 0.234 m, crossing).
+29c. **A rising run joint is set by the mined pair; a crossing's end height
+    by grading the ground** (audit10 c5, Riverwalk lw13): never lift a
+    flat crossing's end by a pair rise (it fails run-jointPair as
+    crossing). A partly-wet run END takes a cut-only pad over its dry
+    points down to the run's line (deck - sink; `cutOnly` in
+    `pad_overlay`), never filling water. Two run pieces' faces meeting
+    within 2 mm at a mined joint (coplanarRule, stairs02 0.0012 m) z-fight
+    in the plugin's own pose too: offset the child 0.005 m along the
+    joint's face normal, never exempt the joint.
 30. Argonian pieces for a landing: HTBM `tamu_wooddock*` have only `double`
     joints in the record (no run pair). King of the Murkmire's plugin places
     its `argonia/blackwood` docks and walkways; the KotM set in
