@@ -140,7 +140,8 @@ camera yaw is the negative of the compass bearing it looks along (`camYaw(b) = -
    The full run passes 10 min, so start it with `setsid nohup … &` and wait with
    `python3 tooling/repo-standards/lane_wait.py --files <out>/summary.json`.
 4. Judge: `python3 tooling/gpu-lane/walk/walk_judge.py tooling/.reports/gpu-lane/walk/<place>`, then one
-   `image-reader` agent per brief (each brief lists its images once, relative to the repo root); read the `summary.json` findings beside the reader outputs.
+   `image-reader` agent per brief (each brief lists its images once, relative to the repo root, and ends with the
+   open question read from `.claude/skills/place-build/references/reader-brief.md`, the one template); read the `summary.json` findings beside the reader outputs.
 
 Tests: `node --test tooling/gpu-lane/walk/*.test.mjs` and `python3 -m pytest -q tooling/gpu-lane/walk`.
 

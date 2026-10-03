@@ -38,25 +38,16 @@ start from the published kits.
 ## Siblings
 
 Which published places share this type, and what did each draw on? Run from
-the repo root (`<type>` is `classification.type`, e.g. `hist-village`):
+the repo root:
 
 ```bash
-python3 - <type> <<'PY'
-import json,glob,sys
-t=sys.argv[1]; c={}
-for f in glob.glob('world/sources/catalogue/places-*.json'):
-    for p in json.load(open(f))['places']: c[p['id']]=p
-for b in json.load(open('apps/world-studio/public/province/blueprints.json'))['blueprints']:
-    p=c.get(b['id'])
-    if p and p['classification']['type']==t:
-        print(b['id'],'|',p.get('culture'),'|',','.join(p['sitingPrefs']['regionClasses']),'|',sorted({str(q['assetRef']) for q in b['parcels']}),'|',sorted({q['buildingFamily'] for q in b['parcels'] if q.get('buildingFamily')}))
-PY
+python3 tooling/placement-workbench/scripts/sibling_palette.py --place-id <place id>
 ```
 
 Each line: place, culture, region classes, the assets and building families
-its parcels use. Sort the output into two lists: same type in the same region
-and culture (the shared grammar), and same type in other regions (what must
-differ more). A type with no published sibling yet says so in § Palette.
+its parcels use. The output is split into same type in a shared region class
+(the shared grammar) and same type in other regions (what must differ more);
+read culture off each line. A type with no published sibling yet says so in § Palette.
 
 ## § Palette (design.md, part of § Intent)
 

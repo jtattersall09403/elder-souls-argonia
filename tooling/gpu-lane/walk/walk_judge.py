@@ -30,7 +30,16 @@ FIRE_FRAME = re.compile(r"^(t\d+-fire\d+)-f(\d+)\.jpg$")
 FIRE_QUESTION = ("Each image is one fixture's time series, frames left to right, each labelled with its index. "
                  "Per sheet say: is a flame visible in each frame; does it change between frames (flicker, motion); "
                  "is the fixture lit at all (glow, light on nearby surfaces).")
-OPEN_QUESTION = "Does anything feel off for a Black Marsh settlement in our game (a swampy Imperial-Argonian frontier province)?"
+READER_BRIEF = REPO / ".claude/skills/place-build/references/reader-brief.md"
+
+
+def open_question() -> str:
+    """The open question, read from the one reader-brief template (place-build references/reader-brief.md)."""
+    block = READER_BRIEF.read_text().split("> **Open question", 1)[1].split("\n\n", 1)[0]
+    block = block.split("**", 1)[1].strip()
+    return " ".join(ln.lstrip("> ").strip() for ln in block.splitlines())
+
+
 EXIT_RULE = ("Return a ranked defect list, worst first, with evidence per shot: the file name, where in the frame "
              "(screen-left/right, near/far), and which row id. \"Nothing\" is a valid answer. Generic improvements are out of scope.")
 
@@ -126,7 +135,7 @@ def briefs(report: Path) -> list[Path]:
                 lines += ["## What to answer", FIRE_QUESTION, ""]
             if g == "interiors":
                 lines += ["## The run's door record (summary.json)", *interior_facts(summary), ""]
-            lines += ["## Open question", OPEN_QUESTION, "", "## Exit rule", EXIT_RULE, "",
+            lines += ["## Open question", open_question(), "", "## Exit rule", EXIT_RULE, "",
                       "## Write your answer to", shown(out_dir, f"{name}.reader.md"), ""]
             p = out_dir / f"{name}.md"
             p.write_text("\n".join(lines))
