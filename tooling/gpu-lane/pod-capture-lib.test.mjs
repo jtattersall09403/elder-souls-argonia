@@ -731,3 +731,41 @@ test("withFinalJpgLuma: luma final and black are final.jpg's own (diag19 Q1: 0.3
   assert.deepEqual(f, { luma: 145.5, blackShare: 0, fps: 30, lumaSource: "final.jpg" });
   assert.equal(summariseViewF2({ final: f }).lumaFinal, 145.5);
 });
+
+test("view heapsample: the --profile grammar, one parser; a bad spec names heapsample", async () => {
+  const { parseHeapSample, parseViews } = await import("./pod-capture-lib.mjs");
+  assert.deepEqual(parseHeapSample("10@settle+5"), { seconds: 10, at: 5, from: "settle" });
+  assert.deepEqual(parseHeapSample("10@60"), parseProfile("10@60"));
+  assert.throws(() => parseHeapSample("10"), /heapsample wants/);
+  assert.throws(() => parseViews(JSON.stringify([{ name: "a", url: "http://x/y", heapsample: "bad" }])), /heapsample wants/);
+  assert.equal(parseViews(JSON.stringify([{ name: "a", url: "http://x/y", heapsample: "10@settle+5" }]))[0].heapsample, "10@settle+5");
+});
+
+test("heap alloc top5, veg tris by rung and fetch before ready: filled from a fixture, empty and null-safe without it", async () => {
+  const { heapAllocLine, vegRungLine, VEG_READ_JS, resourceSummary, resourceLine } = await import("./pod-capture-lib.mjs");
+  const rows = Array.from({ length: 7 }, (_, i) => ({ name: `f${i} a.ts:${i}`, MB: 7 - i }));
+  assert.equal(heapAllocLine(rows), "f0 a.ts:0 7 MB; f1 a.ts:1 6 MB; f2 a.ts:2 5 MB; f3 a.ts:3 4 MB; f4 a.ts:4 3 MB");
+  assert.equal(heapAllocLine([]), null); assert.equal(heapAllocLine(undefined), null);
+  const read = { veg: { trianglesByRung: { near: 1.5e6, mid: 5e5, far: 2e5, card: 1e5 }, triangles: 2.3e6 }, render: { triangles: 3e6, calls: 900 } };
+  assert.equal(vegRungLine(read), "near 1.5 / mid 0.5 / far 0.2 / card 0.1 M; veg total 2.3 M; render triangles 3 M");
+  assert.equal(vegRungLine({ veg: null, render: null }), null); assert.equal(vegRungLine(undefined), null);
+  assert.equal(vegRungLine({ veg: null, render: { triangles: 2e6 } }), "render triangles 2 M");
+  // the page JS itself runs null-safe: no handle, no renderer
+  assert.deepEqual(new Function("window", `return ${VEG_READ_JS}`)({}), { veg: null, render: null });
+  const got = new Function("window", `return ${VEG_READ_JS}`)({ __STUDIO_VEGETATION_DEBUG__: { trianglesByRung: { near: 1, mid: 2, far: 3, card: 4 }, triangles: 10 }, __RENDERER__: { info: { render: { triangles: 5, drawCalls: 2, frame: 9 } } } });
+  assert.deepEqual(got.render, { triangles: 5, drawCalls: 2 }); assert.equal(got.veg.trianglesByRung.card, 4);
+  const sum = resourceSummary([
+    { name: "http://h/a/b.glb?v=1", transferSize: 3e6, encodedBodySize: 3e6, responseEnd: 10 }, { name: "http://h/t.ktx2", transferSize: 0, encodedBodySize: 2e6, responseEnd: 20 },
+    { name: "http://h/c.json", transferSize: 1e5, encodedBodySize: 1e5, responseEnd: 30 }, { name: "http://h/x.png", transferSize: 5e5, encodedBodySize: 5e5, responseEnd: 40 }]);
+  assert.equal(sum.requests, 4); assert.equal(sum.MB, 5.6); assert.deepEqual(sum.byKind.glb, { n: 1, MB: 3 }); assert.deepEqual(sum.byKind.ktx2, { n: 1, MB: 2 });
+  assert.deepEqual(sum.top.map((t) => t.name), ["a/b.glb", "h/t.ktx2", "h/x.png"]);
+  assert.equal(resourceLine(sum), "4 req / 5.6 MB (glb 1/3 MB, ktx2 1/2 MB, png 1/0.5 MB, json 1/0.1 MB); top3 a/b.glb 3, h/t.ktx2 2, h/x.png 0.5");
+  assert.equal(resourceLine(null), null);
+  assert.equal(resourceSummary(undefined).requests, 0);
+  const s = summariseView({ vegRead: undefined, final: { vegRead: read } , heapSample: { topAllocated: rows }, resources: { atReady: sum } });
+  assert.match(s.vegTrisByRung, /^near 1\.5/); assert.match(s.heapAllocTop5, /^f0 /); assert.match(s.fetchBeforeReady, /^4 req/);
+  const e = summariseView({});
+  assert.equal(e.vegTrisByRung, null); assert.equal(e.heapAllocTop5, null); assert.equal(e.fetchBeforeReady, null);
+  const t = summaryTable([{ name: "a", summary: s }, { name: "b", summary: e }], null);
+  assert.match(t, /heap alloc top5 \| veg tris by rung \| fetch before ready \|/); assert.match(t, /\| - \| - \| - \|\n?$/m);
+});

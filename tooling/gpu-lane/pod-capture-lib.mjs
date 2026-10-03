@@ -83,6 +83,59 @@ export function parseProfile(spec) {
   return m[2] !== undefined ? { seconds: +m[1], at: +m[2], from: "nav" } : { seconds: +m[1], at: +m[3], from: "settle" };
 }
 
+/** A view's `heapsample: "<s>@settle+<S>"` (or "<s>@<t>"): the --profile grammar, one parser (parseProfile). */
+export function parseHeapSample(spec) {
+  try { return parseProfile(spec); } catch { throw new Error(`heapsample wants <seconds>@<startS> or <seconds>@settle+<s>, got ${spec}`); }
+}
+
+/** The heap sampling summary cell: top 5 allocators of heapTopAllocators rows ({name, MB}), null when none. */
+export function heapAllocLine(rows) {
+  return rows?.length ? rows.slice(0, 5).map((h) => `${h.name} ${h.MB} MB`).join("; ") : null;
+}
+
+/** Page JS: the vegetation DEV handle's rung split and the renderer's per-frame triangle counters, null-safe (a dist built
+ * without the handle, or a WebGPU renderer without info.render, reads null for what is absent). */
+export const VEG_READ_JS = `(() => { const v = window.__STUDIO_VEGETATION_DEBUG__, r = window.__RENDERER__?.info?.render;
+  const num = (x) => (Number.isFinite(x) ? x : null);
+  const render = r ? Object.fromEntries(Object.entries(r).filter(([k, x]) => /tri|call/i.test(k) && Number.isFinite(x))) : null;
+  return { veg: v ? { trianglesByRung: v.trianglesByRung ?? null, triangles: num(v.triangles), instances: num(v.instances), draws: num(v.draws) } : null, render }; })()`;
+
+/** "veg tris by rung" cell: near/mid/far/card in M, the vegetation total and the renderer's per-frame triangles (M) with
+ * any other per-pass triangle counters renderer.info.render carries. null with no handle and no renderer counters. */
+export function vegRungLine(read) {
+  const M = (x) => (Number.isFinite(x) ? Math.round(x / 1e4) / 100 : "-");
+  const rung = read?.veg?.trianglesByRung, render = read?.render ?? null;
+  if (!rung && !render) return null;
+  const parts = [];
+  if (rung) parts.push(`near ${M(rung.near)} / mid ${M(rung.mid)} / far ${M(rung.far)} / card ${M(rung.card)} M`, `veg total ${M(read.veg.triangles)} M`);
+  const tri = render ? Object.entries(render).filter(([k]) => /tri/i.test(k)) : [];
+  if (tri.length) parts.push(`render ${tri.map(([k, x]) => `${k} ${M(x)}`).join(", ")} M`);
+  return parts.join("; ") || null;
+}
+
+/** Page JS: every resource timing entry so far (the per-URL fetch timeline). */
+export const RESOURCES_READ_JS = `(() => performance.getEntriesByType("resource").map((e) => ({ name: e.name, initiatorType: e.initiatorType, transferSize: e.transferSize, encodedBodySize: e.encodedBodySize, startTime: Math.round(e.startTime), responseEnd: Math.round(e.responseEnd) })))()`;
+
+const resourceKind = (name) => { const m = /\.(glb|gltf|ktx2|png|jpe?g|webp|json|wasm|js|css|bin|mp3|ogg)$/i.exec(String(name).split(/[?#]/)[0]); return m ? m[1].toLowerCase().replace("jpeg", "jpg").replace("gltf", "glb") : "other"; };
+
+/** Resource entries -> { requests, MB, byKind: {kind: {n, MB}}, top: top 3 by bytes [{name, MB}] }; bytes are the encoded body
+ * (transferSize 0 on a cache hit or a cross-origin entry without timing headers falls back to encodedBodySize). */
+export function resourceSummary(entries, { untilMs = Infinity } = {}) {
+  const rows = (entries ?? []).filter((e) => e && e.responseEnd <= untilMs).map((e) => ({ name: e.name, kind: resourceKind(e.name), bytes: e.transferSize > 0 ? e.transferSize : (e.encodedBodySize ?? 0) }));
+  const byKind = {};
+  for (const r of rows) { const k = (byKind[r.kind] ??= { n: 0, MB: 0 }); k.n++; k.MB += r.bytes / 1e6; }
+  for (const k of Object.values(byKind)) k.MB = Math.round(k.MB * 100) / 100;
+  return { requests: rows.length, MB: Math.round(rows.reduce((a, r) => a + r.bytes, 0) / 1e4) / 100, byKind,
+    top: [...rows].sort((a, b) => b.bytes - a.bytes).slice(0, 3).map((r) => ({ name: r.name.split("/").slice(-2).join("/").split("?")[0], MB: Math.round(r.bytes / 1e4) / 100 })) };
+}
+
+/** "fetch before ready" cell: N req / MB, bytes by kind, top 3 by bytes; null when the read never happened. */
+export function resourceLine(sum) {
+  if (!sum) return null;
+  const kinds = ["glb", "ktx2", "png", "json"].map((k) => `${k} ${sum.byKind?.[k]?.n ?? 0}/${sum.byKind?.[k]?.MB ?? 0} MB`).join(", ");
+  return `${sum.requests} req / ${sum.MB} MB (${kinds}); top3 ${sum.top.map((t) => `${t.name} ${t.MB}`).join(", ") || "-"}`;
+}
+
 /** The view second a --profile starts at: nav form `at`; settle form `at` seconds after the view settled (settledAt, the
  * build queue empty 5 s; a plain view or no settle gate: readyS), null while that has not happened. */
 export function profileStartS(prof, settledAt, readyS) {
@@ -262,6 +315,7 @@ export function parseViews(text) {
       throw new Error(`views[${i}]: "settle" must be false or {seconds, lumaTol, lumaFloor, fpsTol, minS, timeoutS} (each > 0)`);
     if (v.shotsFrom !== undefined && v.shotsFrom !== "settle") throw new Error(`views[${i}]: "shotsFrom" must be "settle"`);
     if (v.readyFlag !== undefined && !(typeof v.readyFlag === "string" && /^[A-Za-z_$][\w$]*$/.test(v.readyFlag))) throw new Error(`views[${i}]: "readyFlag" must be a global name`);
+    if (v.heapsample !== undefined) parseHeapSample(v.heapsample);
     const pin = pinWeather(v.url, v.plain);
     return { ...v, url: pin.url, ...(pin.added ? { weatherPinAdded: true } : {}), steps: v.steps ? parseSteps(JSON.stringify(v.steps)) : [] };
   });
@@ -345,6 +399,9 @@ export function summariseView(r) {
     drawCensus: w.drawCensus ? drawCensusLine(w.drawCensus, wk?.workMs?.mean ?? null) : null,
     load: r.loadTimeline ? loadLine(r.loadTimeline) : null,
     devHooks: devHooksLine(r.devHooks),
+    heapAllocTop5: heapAllocLine(r.heapSample?.topAllocated),
+    vegTrisByRung: vegRungLine(s.vegRead),
+    fetchBeforeReady: resourceLine(r.resources?.atReady),
     profileSrc: r.profile?.selfTopSrc?.length ? `${r.profile.from === "settle" ? `settle+${r.profile.atSpec}` : r.profile.at} s: ${r.profile.selfTopSrc.map(([f, ms]) => `${f} ${ms}`).join("; ")}` : null,
     weatherPinAdded: r.weatherPinAdded ?? false,
     settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
@@ -353,9 +410,9 @@ export function summariseView(r) {
 /** Markdown summary: one row per view from its result.json `summary` (`summariseView`). "from" names the window the rates
  * came from; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets", "clock", "dev hooks", "profile self top15 (source)"];
+  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets", "clock", "dev hooks", "profile self top15 (source)", "heap alloc top5", "veg tris by rung", "fetch before ready"];
   const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.load, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
-    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets, s.clock, s.devHooks, s.profileSrc].map(cell));
+    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets, s.clock, s.devHooks, s.profileSrc, s.heapAllocTop5, s.vegTrisByRung, s.fetchBeforeReady].map(cell));
   const stopped = views.filter((v) => v.summary?.clockStopped).map((v) => v.name);
   const unpinned = views.filter((v) => v.summary?.weatherPinAdded).map((v) => v.name);
   return [...(unpinned.length ? [`WEATHER UNPINNED in the views file (w=clear added; diag20 E7): ${unpinned.join(", ")}`] : []), `cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), ...(stopped.length ? [`CLOCK STOPPED (rate= set, first and last frame show the same time): ${stopped.join(", ")}`] : []), "",

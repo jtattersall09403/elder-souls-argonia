@@ -48,6 +48,11 @@
  *              so a capture never outlives the agent that ran it. With --pod it first asks the pod for its Chrome
  *              (curl 127.0.0.1:9222/json/version over ssh, 5 s); when it is not there it restarts it with pod-setup.sh as
  *              below, and exits 3 ("pod Chrome down after pod-setup.sh") only if it is still down.
+ * view field `heapsample: "<s>@settle+<S>"` (the --profile grammar): HeapProfiler sampling over that window -> <view>/heapsample.json
+ *              (topAllocated, 25 rows, source-mapped like --profile) and the summary's "heap alloc top5"; do not combine with --heap-profile
+ *              (one V8 sampler). Every view also writes resources.json (per-URL resource timing at ready and at complete) and the
+ *              summary's "fetch before ready" (req / MB, bytes by glb/ktx2/png/json, top 3) and "veg tris by rung" (the DEV handle
+ *              __STUDIO_VEGETATION_DEBUG__ trianglesByRung in M, "-" when the dist lacks it).
  * --cpu-profile  V8 CPU profile (200 us sampling) over each view's cost window: self ms per function (bundle url:line:col)
  *              per window frame, top 25 -> window.cpuTop and window.cpuprofile, top 5 in the summary row. Compare its numbers
  *              only against other --cpu-profile runs (the sampler costs main-thread time).
@@ -89,10 +94,10 @@ import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
-import { installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, POSE_READY_JS, DEV_HOOKS_JS, profileStartS } from "./pod-capture-lib.mjs";
+import { installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, POSE_READY_JS, DEV_HOOKS_JS, profileStartS } from "./pod-capture-lib.mjs";
 import { loadSourceMaps } from "./source-maps.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
-import { heapFit } from "./checks.mjs";
+import { heapFit, heapTopAllocators } from "./checks.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
 import { closeTunnels, openTunnel } from "./tunnels.mjs";
 
@@ -281,6 +286,7 @@ const READ = `(async () => {
   return { rafMs, frames: [f1, f2], backend: window.__RENDERER_BACKEND__ ?? (r?.backend?.isWebGPUBackend ? "webgpu" : undefined),
     fps: window.__STUDIO_FPS__, gpuMs: g && { avg: g.avg, max: g.max, supported: g.supported, cpu: g.cpu, cpuMax: g.cpuMax, tris: g.tris, calls: g.calls, source: g.source },
     renderer: i && { geometries: i.memory?.geometries, textures: i.memory?.textures, triangles: i.render?.triangles, calls: i.render?.drawCalls ?? i.render?.calls },
+    vegRead: ${VEG_READ_JS},
     buildQueue: q && { pending: q.pending, twinsHeld: q.twinsHeld, skippedDraws: q.skippedDraws },
     contexts: window.__CTX && JSON.parse(JSON.stringify(window.__CTX)),
     diag: (() => { try { return window.__DIAG && JSON.parse(JSON.stringify(window.__DIAG)); } catch (e) { return String(e); } })(),
@@ -487,6 +493,11 @@ async function captureView(view) {
       const page = await evaluate(LOAD_TIMELINE_READ_JS, 10_000).catch(() => null);
       result.loadTimeline = loadTimeline(page && !page.err ? page : null, result.loadHarness);
       writeFileSync(join(dir, "load-timeline.json"), JSON.stringify(result.loadTimeline, null, 1));
+      // per-URL resource timing at ready (read when the view became ready) and now (complete): resources.json
+      const done = await evaluate(RESOURCES_READ_JS, 10_000).catch(() => null);
+      const atReady = result.resources?.atReadyEntries ?? null;
+      result.resources = { atReady: atReady ? resourceSummary(atReady) : null, atComplete: Array.isArray(done) ? resourceSummary(done) : null };
+      writeFileSync(join(dir, "resources.json"), JSON.stringify({ ...result.resources, entriesAtReady: atReady, entriesAtComplete: Array.isArray(done) ? done : null }, null, 1));
     }
     result.http404s = result.network.filter(([k]) => k.startsWith("404 ")).length;
     sink = null;
@@ -509,6 +520,8 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
     await send("Page.navigate", { url: view.url });
     const heapSamples = [];
     let si = 0, ri = 0, lastPoll = -1, zeroSince = null, profState = prof ? "wait" : "done";
+    const hs = view.heapsample ? parseHeapSample(view.heapsample) : null;
+    let hsState = hs ? "wait" : "done", hsStartS = null;
     // plain views (a non-studio page: no HUD, no build queue) skip the settle gate and the ready limit, and run their seconds
     const gate = settledFrames > 0 && !view.plain ? settleGate(settledFrames, settleFloor) : null;
     const heapProfile = Boolean(view.heapProfile ?? heapProfileAll);
@@ -534,6 +547,16 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
         const { profile } = await send("Profiler.stop", {}, 60_000);
         writeFileSync(join(dir, "profile.cpuprofile"), JSON.stringify(profile));
         result.profile = { at: profStartS, from: prof.from, atSpec: prof.at, ...summariseProfile(profile, 30, mapsFor(view.url)) }; profState = "done";
+      }
+      // view `heapsample` <s>@settle+<S>: HeapProfiler sampling (32 KiB, collected objects included) over that window ->
+      // heapsample.json (the raw profile) and result.heapSample.topAllocated (heapTopAllocators, the spot walks' summariser)
+      if (hsState === "wait") { const p0 = profileStartS(hs, result.settledAt, result.readyS); if (p0 !== null && s >= p0) { await send("HeapProfiler.startSampling", { samplingInterval: 32768, includeObjectsCollectedByMajorGC: true, includeObjectsCollectedByMinorGC: true }); hsState = "on"; hsStartS = r1(s); } }
+      if (hsState === "on" && s >= hsStartS + hs.seconds) {
+        hsState = "done";
+        const { profile } = await send("HeapProfiler.stopSampling", {}, 60_000);
+        const top = heapTopAllocators(profile, 25, mapsFor(view.url));
+        writeFileSync(join(dir, "heapsample.json"), JSON.stringify({ at: hsStartS, seconds: hs.seconds, from: hs.from, topAllocated: top }, null, 1));
+        result.heapSample = { at: hsStartS, seconds: hs.seconds, topAllocated: top };
       }
       // diag20 E8: the first frame waits for the view's pose (POSE_READY_JS: the character spawned, so the follow camera is
       // on it; iter28 first frames showed the open-water boot camera), or --ready-timeout (then poseTimedOut)
@@ -587,6 +610,7 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
         }
         if (q && !q.err) heapSamples.push({ s: lastPoll, heapMB, buffers: q.g, textures: q.x });
         if (result.readyS === null && q && !q.err && q.g > 0 && lastFrame !== null && q.f > lastFrame) result.readyS = r1(s);
+        if (result.readyS !== null && result.resources === undefined) result.resources = { atReadyEntries: await evaluate(RESOURCES_READ_JS, 10_000).catch(() => null) };
         if (shotGate && shotGate.at === null && (!view.aim || result.aimedAt) && q && !q.err && Number.isFinite(q.f)) {
           const fps = settleFrame ? (q.f - settleFrame.f) / (s - settleFrame.s) : NaN;
           settleFrame = { f: q.f, s };
