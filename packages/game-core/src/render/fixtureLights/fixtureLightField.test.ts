@@ -10,6 +10,7 @@ import { MeshStandardNodeMaterial } from "three/webgpu";
 import { describe, expect, it } from "vitest";
 import {
   FIXTURE_LIGHTS_MAX,
+  FIXTURE_SCREEN_GAIN,
   setFixtureLightsPerObject,
   FIXTURE_LIGHTS_PER_OBJECT,
   FixtureFieldLighting,
@@ -220,6 +221,18 @@ describe("FixtureLightField.forEachLight", () => {
     mesh.instanceMatrix.needsUpdate = true;
     mesh.boundingSphere = null;
     expect(field.slotsOf(mesh).count).toBe(1);
+  });
+
+  it("anchors lamps to exposure: a 1 m receiver reads the same on screen at exposure 22 and 1 (perf10 c12 A)", () => {
+    const field = new FixtureLightField();
+    field.setLights(lamps(1));
+    field.setIntensity(0, new THREE.Color(1, 1, 1), 2); // hanging lantern, 2 cd
+    // three's Lambert term for a 0.3-albedo wall 1 m away, times the exposure ACES sees
+    const screen = (exposure: number) => field.radianceOf(0)[0] * field.setExposure(exposure) * (0.3 / Math.PI) * exposure;
+    const night = screen(22);
+    expect(screen(1)).toBeCloseTo(night, 6);
+    expect(night).toBeCloseTo(2 * 0.3 / Math.PI * FIXTURE_SCREEN_GAIN, 6);
+    expect((field.screenNode as unknown as { value: number }).value).toBeCloseTo(FIXTURE_SCREEN_GAIN, 6);
   });
 
   it("the lamp bound is part of the program cache key", async () => {

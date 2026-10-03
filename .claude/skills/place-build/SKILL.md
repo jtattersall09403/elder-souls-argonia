@@ -187,8 +187,12 @@ per building, enclosure, path, light, water edge and dressing group:
   every rejected pool member with its reason. Read the register digest and
   `interiorCellClaims` (`signature-claims.json`) first; a cell used in the
   region is legal only when every cell the fit rule accepts there is used.
-  Hold the cells: `python3 -m worldgen.place_gates --id <place-id> --claim-cells`
-  (worldgen). Gate `interiors.variety`.
+  First add the place to the claim table: `python3 -m worldgen.batch_prepass
+  --places <the table's places>,<place-id> --no-build` (worldgen, under
+  job_guard; a place the table lacks makes every place_gates run read ~30
+  cells from the plugins: jungle-root-hollow 67.6 s / 2.95 GiB uncovered,
+  6.9 s / 0.62 GiB covered). Hold the cells: `python3 -m worldgen.place_gates
+  --id <place-id> --claim-cells` (worldgen). Gate `interiors.variety`.
 - § Approach: the 16 questions of
   `docs/research/placement-settlements/openworld-approach-and-wayfinding.md`
   §5, each answered yes or no with its field; each "no" is a layout edit or

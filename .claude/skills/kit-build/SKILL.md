@@ -198,8 +198,8 @@ into the kit config (`--record`), then step 1 rebuilds.
   `kit_compress` check names the missing asset.
   `kit_compress` ends by running `node pipeline/kit_parts.mjs --kit <kit>` for a
   scoped kit and deletes an unscoped kit's parts folder; the writer cuts the
-  published GLB into `public/kits/<kit>/parts/` (one GLB per asset, LOD0 only,
-  textures once per kit as `parts/tex/<sha16>.ktx2`, `index.json`) and records
+  published GLB into `public/kits/<kit>/parts/` (one GLB per asset, every LOD tier,
+  textures once province-wide in `public/kits/tex/<sha16>.ktx2`, `index.json` schema 3) and records
   the totals in `compression.parts`. After a cell bundle names a new kit, or a
   GLB changed any other way, run `node pipeline/kit_parts.mjs --all` (scoped
   kits written, unscoped folders deleted); `--all --check` and `kit_compress

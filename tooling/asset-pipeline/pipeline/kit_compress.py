@@ -60,6 +60,9 @@ CONFIG = Path(__file__).parent / "config" / "kits"
 TOOLCHAIN = json.loads((Path(__file__).parent / "config" / "toolchain.json").read_text())
 
 SCHEMA_VERSION = 1
+# The published `<kit>.kit.json` (standard 6). Readers: packages/game-core
+# settlement/kit.ts kitAssetMetaFromManifest and kit_parts.mjs (assets list).
+KIT_MANIFEST_SCHEMA_VERSION = 1
 CLASSES = ("color", "normal", "attrib")
 DEFAULT_POLICY = {"color": "uastc", "normal": "uastc", "attrib": "uastc", "quality": 8}
 TEXTURE_EXTENSION = "KHR_texture_basisu"
@@ -83,29 +86,35 @@ SIDECAR_EXEMPT = {
 }
 
 
-# The interior loader's per-asset parts (packages/game-core/src/interior/
-# kitParts.ts): `kit_parts.mjs` cuts the PUBLISHED GLB into
-# public/kits/<kit>/parts/ (one GLB per asset, LOD0 only, textures once per kit
-# by URI). Written at the end of every publish, so a kit and its parts never
-# disagree; `check` fails a stale or missing parts folder (16k walk 4).
+# Per-asset parts (decision 0120, schema 3): `kit_parts.mjs` cuts the PUBLISHED
+# GLB into public/kits/<kit>/parts/ (one GLB per asset, every LOD) with its
+# textures in the province pool public/kits/tex/. Written at the end of every
+# publish, so a kit and its parts never disagree; `check` fails a stale or
+# missing parts folder, a missing pool file and an orphan pool file.
 PARTS_WRITER = Path(__file__).with_name("kit_parts.mjs")
+PARTS_SCHEMA_VERSION = 3
+# Same set as kit_parts.mjs EXTERIOR_PARTS_KITS (test_kit_compress pins the two equal).
+EXTERIOR_PARTS_KITS = ("settlement-mud-v1", "works-v1")
 
 
 def parts_scope() -> set[str]:
-    """The kits a published interior cell bundle names in its `kits` table: the
-    only kits that publish parts (kit_parts.mjs `scopedKits`, same rule). Parts
-    are a second copy of a kit's LOD0 geometry and textures and ship to Pages,
-    so an exterior-only kit carries none (16k walk 4, lane PARTS)."""
+    """The kits that publish parts (kit_parts.mjs `scopedKits`, same rule): the
+    kits a published interior cell bundle names in its `kits` table, plus
+    EXTERIOR_PARTS_KITS."""
+    scope = set(EXTERIOR_PARTS_KITS)
     if not PUBLIC_INTERIORS.exists():
-        return set()
-    return {kit for cell in sorted(PUBLIC_INTERIORS.glob("*.json"))
-            for kit in json.loads(cell.read_text()).get("kits", {})}
+        return scope
+    return scope | {kit for cell in sorted(PUBLIC_INTERIORS.glob("*.json"))
+                    for kit in json.loads(cell.read_text()).get("kits", {})}
 
 
 def parts_drawn(kit_id: str) -> set[str]:
-    """The assets of `kit_id` the published interior cells DRAW (placements,
-    stand-ins, swing doors): the only assets that get a part (kit_parts.mjs
-    `drawnAssets`, same rule; review 5536a1d9)."""
+    """The assets of `kit_id` that get a part (kit_parts.mjs `partsAssets`, same
+    rule): every manifest asset of an EXTERIOR_PARTS_KITS kit, else the assets
+    the published interior cells DRAW (placements, stand-ins, swing doors)."""
+    if kit_id in EXTERIOR_PARTS_KITS:
+        manifest = json.loads((PUBLIC_KITS / f"{kit_id}.kit.json").read_text())
+        return {a["id"] for a in manifest["assets"]}
     drawn: set[str] = set()
     if not PUBLIC_INTERIORS.exists():
         return drawn
@@ -147,6 +156,9 @@ def parts_problems(kit_id: str) -> list[str]:
     if not index_path.exists():
         return [f"{kit_id}: no parts folder ({fix})"]
     index = json.loads(index_path.read_text())
+    if index.get("schemaVersion") != PARTS_SCHEMA_VERSION:
+        return [f"{kit_id}: parts index schemaVersion {index.get('schemaVersion')}, "
+                f"writer is {PARTS_SCHEMA_VERSION} ({fix})"]
     glb = PUBLIC_KITS / f"{kit_id}.glb"
     if index.get("source", {}).get("sha256") != hashlib.sha256(glb.read_bytes()).hexdigest():
         return [f"{kit_id}: parts were cut from another GLB ({fix})"]
@@ -157,8 +169,22 @@ def parts_problems(kit_id: str) -> list[str]:
     missing = [row["file"] for row in index["assets"].values()
                if not (folder / row["file"]).exists() or (folder / row["file"]).stat().st_size != row["bytes"]]
     textures = {h for row in index["assets"].values() for h in row["textures"]}
-    missing += [f"tex/{h}.ktx2" for h in sorted(textures) if not (folder / "tex" / f"{h}.ktx2").exists()]
+    missing += [f"tex/{h}.ktx2" for h in sorted(textures) if not (PUBLIC_KITS / "tex" / f"{h}.ktx2").exists()]
     return [f"{kit_id}: parts files missing or resized: {', '.join(missing[:5])} ({fix})"] if missing else []
+
+
+def pool_problems() -> list[str]:
+    """Pool textures (public/kits/tex/) no `<kit>/parts/index.json` references
+    (kit_parts.mjs `orphanPoolFiles`, same rule): each one ships for nothing."""
+    pool = PUBLIC_KITS / "tex"
+    if not pool.exists():
+        return []
+    used = {f"{h}.ktx2" for index in sorted(PUBLIC_KITS.glob("*/parts/index.json"))
+            for row in json.loads(index.read_text()).get("assets", {}).values()
+            for h in row.get("textures", [])}
+    orphans = sorted(p.name for p in pool.iterdir() if p.name not in used)
+    return ([f"tex pool: {len(orphans)} file(s) no parts index references, e.g. {orphans[:3]} "
+             "(node tooling/asset-pipeline/pipeline/kit_parts.mjs --all deletes them)"] if orphans else [])
 
 
 def gltfpack_path() -> Path:
@@ -406,6 +432,7 @@ def _publish(kit_id: str, threads: int = 4, force: bool = False) -> dict:
     # than keeping a second copy of it (export_settlement_bundle.kit_sidecar_errors).
     if kit_id in SIDECAR_EXEMPT:
         record["sidecarsExempt"] = SIDECAR_EXEMPT[kit_id]
+    manifest["schemaVersion"] = KIT_MANIFEST_SCHEMA_VERSION
     manifest["compression"] = record
     manifest_path.write_text(json.dumps(manifest, indent=1) + "\n")
     if published.resolve() != manifest_path.resolve():
@@ -436,7 +463,7 @@ def check(kit_id: str) -> list[str]:
     if not glb.exists():
         return [f"{kit_id}: no published GLB"]
     return (glb_problems(kit_id, glb, PUBLIC_KITS / f"{kit_id}.kit.json") + sidecar_problems(kit_id)
-            + parts_problems(kit_id))
+            + parts_problems(kit_id) + pool_problems())
 
 
 def glb_problems(kit_id: str, glb: Path, manifest_path: Path) -> list[str]:

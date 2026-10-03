@@ -14,7 +14,7 @@
  * --pod: host sampler (host-sampler.mjs) beside workerGaps (a --spots run with a headline row needs --pod or --no-pod); --maps: hidden source maps (source-maps.mjs, A1).
  * --profile <s>: a CDP CPU profile of <s> seconds (during the walk when --walk is set, else after the
  * settle window); the .cpuprofile lands beside measure.json and its summary in the url entry.
- * --smoke: one spot (default spot a), 60 s; exits 1 and says why on the vsync cap, a ready gate over 40 s,
+ * --smoke: one spot (default spot a; with --spots, every spot of the file), 60 s; exits 1 and says why on the vsync cap, a ready gate over 40 s,
  * a black frame, a GPU/WebGL error or lost context, or a tab this run did not open. Run before a baseline.
  * --census: after the ready gate, a per-draw census, matrixAutoUpdate census, heap slope and a 30 s hitch
  * list with top functions; writes census.json and census.txt beside measure.json (WebGL renderer).
@@ -38,14 +38,14 @@ import { spawnSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { chromium } from "playwright";
-import { BLACK_LUMA, INPAGE_PROBES, SPOT_A, censusText, diagList, foreignPages, heapFit, heapGrowth, heapTopAllocators, hitchList, meanLuma, smokeProblems } from "./checks.mjs";
+import { BLACK_LUMA, INPAGE_PROBES, SPOT_A, censusText, diagList, foreignPages, heapFit, heapGrowth, heapTopAllocators, hitchList, meanLuma, smokeProblems, viewProblem } from "./checks.mjs";
 import { parseHud } from "./hud-parse.mjs";
 import { coreCorrelation, coreCorrelationText, hostSeries, hostSpikes, hostSummary, startHostSampler } from "./host-sampler.mjs";
 import { loadSourceMaps, sourcePosition } from "./source-maps.mjs";
 import { ANCHOR_PREFIX, GPU_TRACE_CATEGORIES, MEMORY_DUMP_CONFIG, MEMORY_INFRA_CATEGORY, TRACE_CATEGORIES, V8_TRACE_CATEGORIES, classifyFrames, isV8Event, gpuEventsInSpans, isGpuCategoryEvent, joinLinks, keepTraceEvent } from "./trace-frames.mjs";
 import { CAPTURE_RATE, heapSlope, isDiagnosisSpot, parseBar, parseSpots, spotRows, stepsSeconds, summaryTable } from "./spots.mjs";
 
-export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems };
+export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems, viewProblem };
 
 const repo = resolve(new URL("../..", import.meta.url).pathname);
 const probePath = (n) => new URL(`./probes/${n}.js`, import.meta.url).pathname;
@@ -73,9 +73,10 @@ export function parseArgs(argv) {
     else throw new Error(`unknown option --${k}`);
   }
   if (o.smoke) { // one spot, 60 s: ready gate <= 40 s, 5 s settle, one screenshot for the black-frame check
-    if (!o.url.length) o.url.push(`${SPOT_A}&rate=${CAPTURE_RATE}`); // the studio clock at the game's own speed (spots.mjs CAPTURE_RATE; paused without rate=)
+    if (!o.url.length && !o.spots) o.url.push(`${SPOT_A}&rate=${CAPTURE_RATE}`); // the studio clock at the game's own speed (spots.mjs CAPTURE_RATE; paused without rate=)
     o.clean ||= "1";
-    o.url.splice(1); o.run ??= "smoke"; o.readyTimeout = 40; o.settle = 5; o.shots = true;
+    if (!o.spots) o.url.splice(1);
+    o.run ??= "smoke"; o.readyTimeout = 40; o.settle = 5; o.shots = true;
   }
   if (o.spots) { // one line per spot; each spot carries its own aim and walk; HUD-free screenshots of every spot
     if (o.url.length) throw new Error("--spots replaces --url");
@@ -196,7 +197,24 @@ export function profileSummary(profile, top = 40, maps = null) {
 export function pageProbe() {
   const lane = { ts: [], frames: [], on: false, wrapMs: 0, lost: 0 };
   window.addEventListener("webglcontextlost", () => { lane.lost++; }, true);
+  // A rejected promise nobody handles throws no pageerror: log it as a console error so consoleErrors carries it.
+  window.addEventListener("unhandledrejection", (e) => {
+    const r = e.reason;
+    console.error(`unhandledrejection: ${String(r?.message ?? r).slice(0, 400)}${typeof r?.stack === "string" ? `\n${r.stack.split("\n").slice(1, 13).join("\n")}` : ""}`);
+  });
   Object.defineProperty(window, "__GPU_LANE__", { value: lane });
+  // Load timeline (decision 0120 "Measure before building"): every resource entry kept, a mark at the first rAF
+  // frame, and renderer.info.programs length every 250 ms through the dev hook __RENDERER__ for the first 150 s.
+  try { performance.setResourceTimingBufferSize(20000); } catch {}
+  lane.programs = [];
+  window.requestAnimationFrame(() => { try { performance.mark("es:load:first-present"); } catch {} });
+  let progAt = -Infinity;
+  const sampleProgs = (t) => { // from the rAF tick below: no timer of its own
+    if (t > 150000 || t - progAt < 250) return;
+    progAt = t;
+    const n = window.__RENDERER__?.info?.programs?.length;
+    if (n != null) lane.programs.push([Math.round(t), n]);
+  };
   // Every rAF callback is wrapped; the callbacks of one frame share `stamp`.
   const now = performance.now.bind(performance);
   const raf = window.requestAnimationFrame.bind(window);
@@ -221,7 +239,7 @@ export function pageProbe() {
     lane.wrapMs += now() - w0;
     try { cb(stamp); } finally { const c1 = now(); cur.end = c1; lane.wrapMs += now() - c1; }
   });
-  const tick = (t) => { if (lane.on) lane.ts.push(t); requestAnimationFrame(tick); };
+  const tick = (t) => { if (lane.on) lane.ts.push(t); sampleProgs(t); requestAnimationFrame(tick); };
   requestAnimationFrame(tick);
   // about:blank between spots has an opaque origin: storage throws there (perf-diag9 E1)
   if (location.protocol.startsWith("http")) try { localStorage.setItem("es.hud.perfOpen", "1"); } catch {}
@@ -691,6 +709,46 @@ export function stepsSchedule(steps, baseYaw = 0) {
   return out;
 }
 
+/**
+ * `loadTimeline` of a spot from one in-page read just after the harness ready gate ({nowMs, resources [[url, startMs,
+ * responseEndMs, encodedBytes, initiatorType]], marks [[name, ms]], programs [[ms, n]]}); every time is seconds from
+ * navigation. readyS = the page's warm gate (`es:load:warm-gate` mark, else the harness gate); completeS = the
+ * moment the harness gate (`isReady`: 20 s floor, HUD tris within 2 %, no "Loading" line, CPU pre/gc quiet; it reads
+ * no build queue) passed; sceneCompleteS = the last sign of the scene still arriving: max(last resource responseEnd,
+ * last program-count change, `es:load:settlement-first-build`, last `es:load:*` mark); kits = URLs containing
+ * `/kits/`; `requests` = per-URL rows (path, initiatorType, startS, endS, MB) for the 40 largest plus every JSON
+ * request, by start time.
+ */
+export function buildLoadTimeline({ nowMs, resources = [], marks = [], programs = [] }) {
+  const s = (ms) => (ms == null ? null : Math.round(ms) / 1000);
+  const mb = (b) => Math.round((b / 1048576) * 100) / 100;
+  const mark = (n) => marks.find(([m]) => m === n)?.[1] ?? null;
+  const readyMs = mark("es:load:warm-gate") ?? nowMs;
+  const sum = (rs) => ({ requests: rs.length, MB: mb(rs.reduce((a, r) => a + (r[3] || 0), 0)),
+    firstStartS: rs.length ? s(Math.min(...rs.map((r) => r[1]))) : null, lastEndS: rs.length ? s(Math.max(...rs.map((r) => r[2]))) : null });
+  const kits = resources.filter((r) => r[0].includes("/kits/"));
+  const loadMarks = marks.filter(([n]) => n.startsWith("es:load:"));
+  let programsChangedMs = null;
+  programs.forEach(([t, n], i) => { if (i === 0 || n !== programs[i - 1][1]) programsChangedMs = t; });
+  const sceneCompleteMs = Math.max(0, ...resources.map((r) => r[2]), ...loadMarks.map(([, t]) => t), programsChangedMs ?? 0);
+  const row = (r) => ({ url: new URL(r[0], "http://x").pathname, initiatorType: r[4] ?? "", startS: s(r[1]), endS: s(r[2]), MB: mb(r[3] || 0) });
+  const isJson = (r) => /\.json(\?|$)/.test(r[0]);
+  const keep = new Set([...[...resources].sort((a, b) => (b[3] || 0) - (a[3] || 0)).slice(0, 40), ...resources.filter(isJson)]);
+  return { firstPresentS: s(mark("es:load:first-present")), readyS: s(readyMs), completeS: s(nowMs), sceneCompleteS: s(sceneCompleteMs),
+    requests: [...keep].sort((a, b) => a[1] - b[1]).map(row),
+    kits: sum(kits), all: sum(resources), kitMBBeforeReady: mb(kits.filter((r) => r[2] <= readyMs).reduce((a, r) => a + (r[3] || 0), 0)),
+    marks: marks.filter(([n]) => n.startsWith("es:load:")).map(([stage, t]) => ({ stage: stage.slice(8), t: s(t) })),
+    programs: programs.map(([t, n]) => [s(t), n]) };
+}
+
+/** One summary.md line for a spot's loadTimeline. */
+export function loadTimelineText(name, l, cold = false) {
+  const tag = `${name}${cold ? " (cold)" : ""}`;
+  if (!l || l.error) return `${tag}: no load timeline${l?.error ? ` (${l.error})` : ""}`;
+  const k = l.kits, a = l.all;
+  return `${tag}: first present ${l.firstPresentS}, ready ${l.readyS}, complete ${l.completeS}, scene complete ${l.sceneCompleteS}; kits ${k.requests} req ${k.MB} MB ${k.firstStartS}-${k.lastEndS} (${l.kitMBBeforeReady} MB before ready); all ${a.requests} req ${a.MB} MB; programs ${l.programs.at(-1)?.[1] ?? "n/a"}; ${l.marks.map((m) => `${m.stage} ${m.t}`).join(", ")}`;
+}
+
 /** A pageerror entry with its stack kept (perf-diag9 E2: the message alone could not name the throwing caller). */
 export function pageErrorText(e) {
   const msg = String(e).slice(0, 400);
@@ -704,9 +762,19 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   const onConsole = (m) => { if (m.type() === "error") consoleErrors.push(m.text().slice(0, 400)); };
   const onPageError = (e) => consoleErrors.push(pageErrorText(e));
   const onResponse = (r) => { if (r.status() === 404) http404s.push(r.url()); };
+  // Requests still open (perf10 c12: the resource list shows only finished ones, so a hung fetch was invisible).
+  const open = new Map();
+  const onRequest = (r) => open.set(r, Date.now());
+  const onRequestDone = (r) => open.delete(r);
   page.on("console", onConsole); page.on("pageerror", onPageError); page.on("response", onResponse);
+  page.on("request", onRequest); page.on("requestfinished", onRequestDone); page.on("requestfailed", onRequestDone);
+  const inFlight = () => [...open].map(([r, t]) => [r.url().slice(0, 200), Math.round((Date.now() - t) / 100) / 10]).sort((a, b) => b[1] - a[1]);
+  const expectedView = new URLSearchParams(query.startsWith("?") ? query : `?${query}`).get("view");
+  let viewStall = null;
   const url = `${o.origin}${o.base}${query.startsWith("?") ? query : `?${query}`}`;
   if (idx > 0) await page.goto("about:blank").catch(() => {}); // drop the previous world (and its GPU memory) before the next spot
+  // `cold` spot token: an empty HTTP cache before the navigation, as the owner's first visit.
+  if (spot.cold) { const cdp = await ctx.newCDPSession(page); await cdp.send("Network.clearBrowserCache"); await cdp.detach().catch(() => {}); }
   const hl = harnessLogger();
   const t0 = Date.now();
   const loaded = await hl.wrap("goto", () => page.goto(url, { timeout: o.readyTimeout * 1000, waitUntil: "load" })).then(() => true)
@@ -721,9 +789,16 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     const s = await hl.wrap("evaluate:ready-poll", () => page.evaluate(() => {
       const text = document.body.innerText;
       const m = /(?:^|\n)tris ([\d.]+)M/.exec(text);
-      return { fps: window.__STUDIO_FPS__ ?? 0, tris: m ? Number(m[1]) * 1e6 : 0, loading: text.includes("Loading"), text };
-    })).catch(() => ({ fps: 0, tris: 0, loading: true, text: "" }));
-    const { text, ...rest } = s;
+      const el = document.querySelector("[data-es-view]");
+      const marks = performance.getEntriesByType("mark").filter((e) => e.name.startsWith("es:load:"));
+      const v = { view: el?.getAttribute("data-es-view") ?? null, shown: !!el?.checkVisibility?.(), canvas: !!el?.querySelector("canvas"),
+        lastMark: marks.length ? marks[marks.length - 1].name : null };
+      return { fps: window.__STUDIO_FPS__ ?? 0, tris: m ? Number(m[1]) * 1e6 : 0, loading: text.includes("Loading"), text, v };
+    })).catch(() => ({ fps: 0, tris: 0, loading: true, text: "", v: null }));
+    const { text, v, ...rest } = s;
+    // Fail fast when the page is not in the view its URL asked for (checks.mjs viewProblem names the stage).
+    viewStall = v ? viewProblem({ ...v, inFlight: inFlight() }, expectedView, Math.round((Date.now() - t0) / 100) / 10) : null;
+    if (viewStall) { consoleErrors.push(viewStall); break; }
     const st = parseHud(text).cpuByStage;
     samples.push({ t: Date.now(), ...rest, pre: st ? (st.pre?.avg ?? 0) : null, gc: st ? (st.gc?.avg ?? 0) : null });
     if (isReady(samples, { startT: t0 })) { ready = true; break; }
@@ -731,6 +806,12 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   }
   const readyS = Math.round((Date.now() - t0) / 100) / 10;
   const tReady = Date.now();
+  const inFlightAtReady = inFlight().slice(0, 20);
+  const loadTimeline = await hl.wrap("evaluate:load-timeline", () => page.evaluate(() => ({
+    nowMs: performance.now(),
+    resources: performance.getEntriesByType("resource").map((e) => [e.name, e.startTime, e.responseEnd, e.encodedBodySize, e.initiatorType]),
+    marks: performance.getEntriesByType("mark").map((e) => [e.name, e.startTime]),
+    programs: window.__GPU_LANE__?.programs ?? [] }))).then(buildLoadTimeline).catch((e) => ({ error: String(e) }));
   // --aim "yaw,pitch" (radians): points the follow camera via __STUDIO_CHARACTER_DEBUG__ before the settle.
   if (spot.aim) {
     const [yaw, pitch] = spot.aim.split(",").map(Number);
@@ -818,10 +899,11 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
     }, png.toString("base64")).catch(() => null);
     const contextLost = await page.evaluate(() => window.__GPU_LANE__.lost).catch(() => 0);
     const r = { ready, readyS, uncappedFps: stats.uncappedFps, luma: rgba ? meanLuma(rgba) : null, consoleErrors, contextLost,
-      foreign: foreignPages(browser, own) };
+      foreign: foreignPages(browser, own), viewStall };
     smoke = { ...r, luma: r.luma == null ? null : Math.round(r.luma * 10) / 10, problems: smokeProblems(r) };
   }
   page.off("console", onConsole); page.off("pageerror", onPageError); page.off("response", onResponse);
+  page.off("request", onRequest); page.off("requestfinished", onRequestDone); page.off("requestfailed", onRequestDone);
   const harnessLog = hl.entries();
   const hostSamples = host ? hostSeries(host.stop(), hl.origin) : null;
   const spikes = hostSpikes(hostSamples);
@@ -829,8 +911,8 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   if (walk) walk.coreCorrelation = coreCorrelation(walk.series, hostSamples);
   const hitchCtx = { settled: hitchContext(settle.work.hitches ?? [], harnessLog, settle.workerGaps, spikes),
     ...(walk ? { walk: hitchContext(walk.hitches ?? [], harnessLog, walk.workerGaps, spikes) } : {}) };
-  return { name, url, query, ready, readyS, ...stats, series: settle.series, gcFrames: gcFramesDigest(settle.series), workerGaps: settle.workerGaps, hostSamples, hostSpikes: spikes, coreCorrelation: coreCorr, harnessLog, hitchContext: hitchCtx, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
-    walk, profile, profileWalk, trace: doTrace ? traces : null, heapsample, diagnosis: !!spot.diagnosis, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
+  return { name, url, query, ready, readyS, cold: !!spot.cold, loadTimeline, ...stats, series: settle.series, gcFrames: gcFramesDigest(settle.series), workerGaps: settle.workerGaps, hostSamples, hostSpikes: spikes, coreCorrelation: coreCorr, harnessLog, hitchContext: hitchCtx, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
+    walk, profile, profileWalk, trace: doTrace ? traces : null, heapsample, diagnosis: !!spot.diagnosis, consoleErrors, viewStall, inFlightAtReady, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
 }
 
 /**
@@ -890,14 +972,15 @@ async function main() {
   const gcLines = result.urls.flatMap((u) => [...gcFramesText(`${u.name} settled`, u.gcFrames), ...gcFramesText(`${u.name} walk`, u.walk?.gcFrames)]);
   const hitchLines = result.urls.flatMap((u) => hitchContextText(u.name, u.hitchContext ?? {}));
   const coreLines = result.urls.flatMap((u) => [coreCorrelationText(`${u.name} settled`, u.coreCorrelation), coreCorrelationText(`${u.name} walk`, u.walk?.coreCorrelation)].filter(Boolean));
-  writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\nhost sampler: ${o.pod ? `on (${hostSummary(result.urls.map((u) => u.hostSamples))})` : "off"}\n\n${coreLines.length ? `${coreLines.join("\n")}\n\n` : ""}${table}\n\n## Hitches over 33 ms: nearest harness action (500 ms) and heartbeat worker\n\n${hitchLines.join("\n") || "none"}\n${gcLines.length ? `\n## Groundcover sub-timers on frames over 12 ms (ms; gcRefill 1 fill started, 2 swapped in)\n\n${gcLines.join("\n")}\n` : ""}`);
+  const loadLines = result.urls.map((u) => loadTimelineText(u.name, u.loadTimeline, u.cold));
+  writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\nhost sampler: ${o.pod ? `on (${hostSummary(result.urls.map((u) => u.hostSamples))})` : "off"}\n\n## Load (s from navigation)\n\n${loadLines.join("\n")}\n\n${coreLines.length ? `${coreLines.join("\n")}\n\n` : ""}${table}\n\n## Hitches over 33 ms: nearest harness action (500 ms) and heartbeat worker\n\n${hitchLines.join("\n") || "none"}\n${gcLines.length ? `\n## Groundcover sub-timers on frames over 12 ms (ms; gcRefill 1 fill started, 2 swapped in)\n\n${gcLines.join("\n")}\n` : ""}`);
   writeFileSync(join(o.out, "summary.json"), `${JSON.stringify({ schemaVersion: 1, run: o.run, bar: o.barParsed, rows }, null, 2)}\n`);
   console.log(`\n${table}\nmeasure: ${join(o.out, "summary.md")}`);
   await browser.close().catch(() => {});
   if (o.smoke) {
     const bad = result.urls.flatMap((u) => u.smoke?.problems ?? ["no smoke result"]);
     if (bad.length) { console.error(`SMOKE FAIL:\n  ${bad.join("\n  ")}`); process.exit(1); }
-    console.log(`SMOKE PASS (ready ${result.urls[0].readyS} s, uncapped ${result.urls[0].uncappedFps} fps, luma ${result.urls[0].smoke.luma})`);
+    for (const u of result.urls) console.log(`SMOKE PASS ${u.name} (ready ${u.readyS} s, uncapped ${u.uncappedFps} fps, luma ${u.smoke.luma})`);
   }
 }
 

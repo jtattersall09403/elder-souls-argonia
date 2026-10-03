@@ -785,7 +785,7 @@ export function App() {
   // The map canvas must STAY MOUNTED while flying — it is both the terrain
   // texture and the hover data source — so the 3D view overlays it.
   const flyOverlay = view === "fly3d" && meta && heightsRef.current && canvasRef.current && overlaysReady ? (
-    <div style={{ position: "fixed", inset: 0, zIndex: 5, background: "#10141a" }}>
+    <div data-es-view="fly3d" style={{ position: "fixed", inset: 0, zIndex: 5, background: "#10141a" }}>
       <Fly3D key={presetNonce} heights={displayHeights()!} size={meta.imageWidth}
         metresPerPixel={meta.metresPerPixel} textureCanvas={canvasRef.current}
         spawnKm={spawnKm} exaggeration={exaggeration} mode={camMode}

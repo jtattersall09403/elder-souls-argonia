@@ -1276,7 +1276,7 @@
    "child": "p1-board",
    "parent": "p1",
    "yaw": 225.0,
-   "height": 1.9
+   "height": 2.27
   },
   {
    "op": "place",
@@ -1329,7 +1329,7 @@
    "child": "p1-board2",
    "parent": "p1",
    "yaw": 45.0,
-   "height": 1.55
+   "height": 1.69
   },
   {
    "op": "path",

@@ -3,7 +3,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useRapier } from "@react-three/rapier";
 import type { RigidBody } from "@dimforge/rapier3d-compat";
 import * as THREE from "three";
-import { RenderTarget, type WebGPURenderer } from "three/webgpu";
+import type { WebGPURenderer } from "three/webgpu";
 import type { PlayerMovementController } from "@elder-souls/game-core/physics/PlayerMovementController";
 import type { SettlementDoor } from "@elder-souls/game-core/settlement/types";
 import { buildArchitectureKit } from "@elder-souls/game-core/settlement/kit";
@@ -13,12 +13,13 @@ import { CAMERA_BLOCKING_GROUPS } from "@elder-souls/game-core/camera/cameraColl
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
 import { daylightShare, InteriorLoader, solidsAt, type LoadedInterior } from "@elder-souls/game-core/interior/interiorLoader";
 import { drawnLightRigOf } from "../sky/lightRig";
-import { SharedKtx2Textures } from "@elder-souls/game-core/interior/sharedTextures";
-import { kitPartsDir } from "@elder-souls/game-core/interior/kitParts";
+import { SharedKtx2Textures } from "@elder-souls/game-core/assets/sharedTextures";
+import { kitPartsDir } from "@elder-souls/game-core/assets/kitParts";
 import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
 import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import { DoorTransition, type InteriorSource } from "@elder-souls/game-core/interior/doorTransition";
-import { fixtureLightFieldOf, prepareLit } from "@elder-souls/game-core/render/fixtureLights/index";
+import { fixtureLightFieldOf } from "@elder-souls/game-core/render/fixtureLights/index";
+import { DrawTargetLinker, type LinkingRenderer } from "@elder-souls/game-core/render/drawTargetLinker";
 import { InteriorEnvironment, InteriorFogNode, interiorFogProfile } from "@elder-souls/game-core/interior/interiorEnvironment";
 import { MAX_VOLUME_LIGHTS, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
 import { nearestVolumeLights } from "@elder-souls/game-core/air/volumetrics/studioSamplers";
@@ -135,7 +136,7 @@ export function InteriorDoors({
     const textures = new SharedKtx2Textures(decoders.ktx2) as unknown as KTX2Loader;
     return new InteriorLoader(baseUrl, {
       fetchJson: (url) => fetch(url).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`${url}: HTTP ${r.status}`)))),
-      // One part GLB per (kit, asset) the cell draws (interior/kitParts.ts), kept in the scene's cache.
+      // One part GLB per (kit, asset) the cell draws (assets/kitParts.ts), kept in the scene's cache.
       loadPart: (kit, assetId, url) => kitCache.load(`${kit.id}#${assetId}`, url,
         (u) => createKitLoader(decoders).setKTX2Loader(textures).loadAsync(u)).then(buildArchitectureKit),
     });
@@ -419,50 +420,30 @@ const probeBox = new THREE.Box3();
 const fmtS = (s: number | null) => (s === null ? "-" : `${s.toFixed(2)} s`);
 
 /**
- * Links a cell's shader programs before the cell is drawn (F3), the way the
- * settlement layer links a build (SettlementLayer `compileAsync`): the sky's
- * lit preparer patches every material first (CSM, fixture lights), then
- * `compileAsync` links in parallel where the driver can
- * (async pipeline creation). A pipeline's key depends on where the scene
- * pass draws: the water pipeline draws the scene into a linear, un-tone-mapped
- * target, the bare scene draws to the screen. `scene.onBeforeRender` records
- * which for the pass that draws layer 0, and the link binds a 1x1 target of
- * the same kind while it compiles, so the key it links is the one drawn.
+ * Links a cell's shader programs before the cell is drawn (F3) through the
+ * shared DrawTargetLinker (game-core render/drawTargetLinker.ts): the sky's
+ * lit preparer patches every material first (CSM, fixture lights), the link
+ * binds a 1x1 target of the kind the layer-0 pass draws into, so the key it links is the
+ * one drawn (perf10 c12 B5: one pre-link path for every caller).
  */
 class InteriorLinker {
-  private drawsToTarget = false;
-  private readonly scratch = new RenderTarget(1, 1, { type: THREE.HalfFloatType });
+  private readonly linker: DrawTargetLinker;
   private readonly warmed = new WeakSet<LoadedInterior>();
   private readonly programs = new WeakMap<LoadedInterior, number>();
-  private readonly hook: THREE.Scene["onBeforeRender"];
-  private readonly previous: THREE.Scene["onBeforeRender"];
 
-  constructor(private readonly gl: WebGPURenderer, private readonly scene: THREE.Scene) {
-    const previous = scene.onBeforeRender;
-    this.previous = previous;
-    const hook: THREE.Scene["onBeforeRender"] = (...args) => {
-      const [, , camera, target] = args as unknown as [unknown, unknown, THREE.Camera, RenderTarget | null];
-      if (camera.layers.isEnabled(0)) this.drawsToTarget = target !== null;
-      previous.apply(scene, args);
-    };
-    this.hook = hook;
-    scene.onBeforeRender = hook;
+  constructor(private readonly gl: WebGPURenderer, scene: THREE.Scene) {
+    this.linker = new DrawTargetLinker(gl as unknown as LinkingRenderer, scene).attach();
   }
 
   /** Patch and link `group` (detached, lights under it) against `target`'s lights and fog. */
   link(group: THREE.Object3D, camera: THREE.Camera, target: THREE.Scene): Promise<number> {
     const programsBefore = (this.gl.info as unknown as { programs?: unknown[] }).programs?.length ?? 0;
-    prepareLit(this.scene, group);
     group.updateMatrixWorld(true);
-    const bound = this.gl.getRenderTarget();
-    if (this.drawsToTarget) this.gl.setRenderTarget(this.scratch);
     let linking: Promise<unknown>;
     try {
-      linking = this.gl.compileAsync(group, camera, target);
+      linking = this.linker.compileAsync(group, camera, target);
     } catch (err) {
       linking = Promise.reject(err);
-    } finally {
-      this.gl.setRenderTarget(bound);
     }
     // never hold the black screen on a link that does not resolve
     const cap = new Promise<void>((resolve) => { setTimeout(resolve, INTERIOR_LINK_WAIT_MS); });
@@ -494,8 +475,7 @@ class InteriorLinker {
   }
 
   dispose(): void {
-    if (this.scene.onBeforeRender === this.hook) this.scene.onBeforeRender = this.previous;
-    this.scratch.dispose();
+    this.linker.detach();
   }
 }
 
@@ -537,7 +517,7 @@ function probeState(
 function loadNetOf(interior: LoadedInterior, baseUrl: string): { bytes: number; requests: number } | null {
   if (typeof performance === "undefined" || !performance.getEntriesByType) return null;
   const prefixes = [`${baseUrl}province/interiors/${interior.bundle.cellId}.json`,
-    ...Object.values(interior.bundle.kits).map((k) => `${baseUrl}${kitPartsDir(k)}`)];
+    ...Object.values(interior.bundle.kits).map((k) => `${baseUrl}${kitPartsDir(k)}`), `${baseUrl}kits/tex/`];
   let bytes = 0;
   let requests = 0;
   for (const e of performance.getEntriesByType("resource") as PerformanceResourceTiming[]) {

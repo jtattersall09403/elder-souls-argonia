@@ -105,11 +105,9 @@ class PluginWorld:
         for pname, plugin in self.plugins.items():
             for fid, base in cache.base_objects(plugin).items():
                 self.bases[_key(plugin, fid)] = base          # load order: last wins
-            for cell in cache.interior_cells(plugin):
-                for ref in cell.refs:
-                    self.interior_refs.add(_key(plugin, ref.form_id))
-                if pname == name and cell.editor_id:
-                    self.cells[cell.editor_id] = cell.refs
+            ids, named = cache.interior_cells(plugin, named=pname == name)
+            self.interior_refs.update(_key(plugin, fid) for fid in ids)
+            self.cells.update(named)
         self._world: dict[tuple[str, int], object] = {}
         self._searched: set[tuple[str, int]] = set()
 

@@ -151,6 +151,25 @@ test("meanLuma and the black-frame check: night shots (29, 36) pass, a black fra
   assert.match(smokeProblems({ ...ok, luma: null })[0], /no screenshot/);
 });
 
+test("viewProblem: a character URL left on the map page or suspended fails at 10 s, naming the stage", async () => {
+  const { viewProblem, smokeProblems } = await import("./measure.mjs");
+  const ok = { view: "character", shown: true, canvas: true, lastMark: "es:load:warm-gate", inFlight: [] };
+  assert.equal(viewProblem(ok, "character", 30), null);
+  assert.equal(viewProblem({ ...ok, view: null }, "character", 9.5), null); // still in time
+  assert.equal(viewProblem({ ...ok, view: null }, null, 30), null); // the map view is not checked
+  // c12s1: only es:load:first-present, the overlay hidden, the ground raster never finishing.
+  const c12 = viewProblem({ ...ok, shown: false, canvas: false, lastMark: "es:load:first-present",
+    inFlight: [["http://x/elder-souls-argonia/studio/province/refined/ground-control.png", 9.1]] }, "character", 10.2);
+  assert.match(c12, /^view: character view mounted but hidden after 10.2 s/);
+  assert.match(c12, /last load mark es:load:first-present; in flight: province\/refined\/ground-control.png 9.1 s/);
+  assert.match(viewProblem({ ...ok, view: null }, "character", 10), /not mounted .*the map page/);
+  assert.match(viewProblem({ ...ok, view: "character-error" }, "character", 10), /page shows character-error/);
+  assert.equal(viewProblem({ ...ok, canvas: false }, "character", 15), null);
+  assert.match(viewProblem({ ...ok, view: "fly3d", canvas: false }, "fly3d", 20), /no canvas after 20 s/);
+  const r = { ready: false, readyS: 10.2, uncappedFps: 90, luma: 30, consoleErrors: [], contextLost: 0, foreign: [], viewStall: c12 };
+  assert.equal(smokeProblems(r)[0], c12);
+});
+
 test("smokeProblems: vsync cap, ready gate, GPU errors, lost context, foreign pages", async () => {
   const { smokeProblems } = await import("./measure.mjs");
   const ok = { ready: true, readyS: 25, uncappedFps: 90, luma: 30, consoleErrors: ["404 foo"], contextLost: 0, foreign: [] };
@@ -323,6 +342,24 @@ test("gen-matrix: 15 deterministic lines, coordinates from places.json", async (
   }
   assert.equal(parseSpots(out).length, 17);
 });
+test("loadTimeline: kit and all-request totals, MB before the warm gate, es:load marks; the cold token", async () => {
+  const { buildLoadTimeline, loadTimelineText } = await import("./measure.mjs");
+  const MB = 1048576;
+  const l = buildLoadTimeline({ nowMs: 40000,
+    resources: [["/a/index.js", 100, 900, 2 * MB], ["/s/kits/x.glb", 5000, 9000, 3 * MB], ["/s/kits/y.glb", 6000, 30000, 1 * MB]],
+    marks: [["es:load:first-present", 1200], ["es:load:warm-gate", 20000], ["other", 1]], programs: [[250, 3], [500, 40]] });
+  assert.equal(l.firstPresentS, 1.2); assert.equal(l.readyS, 20); assert.equal(l.completeS, 40);
+  assert.deepEqual(l.kits, { requests: 2, MB: 4, firstStartS: 5, lastEndS: 30 });
+  assert.deepEqual(l.all, { requests: 3, MB: 6, firstStartS: 0.1, lastEndS: 30 });
+  assert.equal(l.kitMBBeforeReady, 3, "the kit ending after the warm gate is not counted");
+  assert.deepEqual(l.marks.map((m) => m.stage), ["first-present", "warm-gate"]);
+  assert.match(loadTimelineText("g", l, true), /^g \(cold\): first present 1.2, ready 20, complete 40, scene complete 30; kits 2 req 4 MB 5-30 \(3 MB before ready\).*programs 40/);
+  assert.equal(buildLoadTimeline({ nowMs: 7000 }).readyS, 7, "no warm-gate mark: ready is the harness gate");
+  const { parseSpots } = await import("./spots.mjs");
+  assert.equal(parseSpots("g ?view=x cold\nh ?view=x")[0].cold, true);
+  assert.ok(!parseSpots("h ?view=x")[0].cold);
+});
+
 test("parseSpots: name, query, --aim and walk=; comments skipped; bad lines throw", async () => {
   const { parseSpots, parseBar, spotRows, summaryTable, heapSlope } = await import("./spots.mjs");
   const s = parseSpots("# c\na ?x=1&t=2  # night\n\ne ?x=1&t=2 --aim 0.5,-0.2 walk=20\n");
@@ -633,4 +670,36 @@ test("profileOffset: the anchor loop's first sample maps page ms to profile ms, 
   assert.equal(out[0].top[0].name, "hot");
   assert.equal(out[1].top.length, 0);
   assert.equal(profileOffset({ ...profile, samples: [1, 1, 1, 1, 3, 3] }, 500), 500, "no anchor sample: startTime fallback");
+});
+
+test("loadTimeline: sceneCompleteS is the last arrival sign; per-URL rows keep the 40 largest and every JSON", async () => {
+  const { buildLoadTimeline, loadTimelineText } = await import("./measure.mjs");
+  const MB = 1048576;
+  const resources = [["http://h/s/a.json", 100, 31000, 10, "fetch"], ["http://h/s/big.glb", 200, 900, 5 * MB, "fetch"]];
+  for (let i = 0; i < 45; i++) resources.push([`http://h/s/k${i}.glb`, 300 + i, 400 + i, (i + 1) * 1000, "fetch"]);
+  const l = buildLoadTimeline({ nowMs: 60000, resources,
+    marks: [["es:load:first-present", 1200], ["es:load:settlement-first-build", 33000], ["other", 59000]], programs: [[250, 3], [34000, 40], [50000, 40]] });
+  assert.equal(l.completeS, 60);
+  assert.equal(l.sceneCompleteS, 34, "program count last changed at 34 s; the 59 s non-load mark and the 60 s gate do not count");
+  assert.equal(l.requests.length, 41, "the 40 largest (big.glb among them) plus the JSON request");
+  assert.ok(l.requests.some((r) => r.url === "/s/a.json" && r.initiatorType === "fetch" && r.endS === 31));
+  assert.deepEqual(l.requests.find((r) => r.url === "/s/big.glb"), { url: "/s/big.glb", initiatorType: "fetch", startS: 0.2, endS: 0.9, MB: 5 });
+  assert.match(loadTimelineText("g", l), /complete 60, scene complete 34;/);
+  assert.equal(buildLoadTimeline({ nowMs: 7000, resources: [["/x.js", 0, 4000, 1, "script"]] }).sceneCompleteS, 4);
+});
+
+test("parseArgs: --smoke with --spots applies to every spot of the file", async () => {
+  const { parseArgs } = await import("./measure.mjs");
+  const { writeFileSync, mkdtempSync } = await import("node:fs");
+  const { join } = await import("node:path");
+  const { tmpdir } = await import("node:os");
+  const f = join(mkdtempSync(join(tmpdir(), "spots-")), "s.txt");
+  writeFileSync(f, "a ?x=1&t=2\nb ?x=3&t=4\n");
+  const o = parseArgs(["--smoke", "--spots", f, "--no-pod"]);
+  assert.equal(o.smoke, true);
+  assert.deepEqual(o.spotList.map((s) => s.name), ["a", "b"]);
+  assert.equal(o.url.length, 2);
+  assert.equal(o.readyTimeout, 40);
+  assert.equal(o.settle, 5);
+  assert.equal(o.run, "smoke");
 });

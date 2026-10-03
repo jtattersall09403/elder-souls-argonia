@@ -5,8 +5,9 @@
  * render target the frame's scene pass was seen to draw into), then measures
  * each frame's main-thread work (first useFrame callback to a MessageChannel
  * task posted from it, which runs after the render) and feeds the `WarmGate`
- * with the build queue's pending count: it opens once the work is stable and
- * no shader build is pending, or at the cap. `onProgress` gets the gate state
+ * with the build queue's pending count and the spawn ring's undrawn pieces:
+ * it opens once the work is stable, no shader build is pending and the ring
+ * is in (decision 0120), or at the cap. `onProgress` gets the gate state
  * every frame until open, so the host can show it; `onOpen` fires once. The
  * game and the studio share it.
  */
@@ -17,8 +18,10 @@ import { WarmGate, type WarmGateOptions, type WarmGateState } from "./warmGate";
 import { buildQueueOf } from "./shaderBuildQueue";
 import { precompileScene, type PrecompileRenderer } from "./precompileScene";
 
-export function RenderWarmGate({ armed, onOpen, onProgress, options, builds }: {
+export function RenderWarmGate({ armed, onOpen, onProgress, options, builds, ringPendingRef }: {
   armed: boolean;
+  /** Spawn-ring pieces not yet drawn (the settlement layer's `ringPendingRef`); the gate holds while it is above 0. */
+  ringPendingRef?: { readonly current: number };
   onOpen: () => void;
   onProgress?: (state: WarmGateState) => void;
   options?: Partial<WarmGateOptions>;
@@ -35,6 +38,8 @@ export function RenderWarmGate({ armed, onOpen, onProgress, options, builds }: {
   cb.current = { onOpen, onProgress };
   const queue = builds !== undefined ? builds : buildQueueOf(gl);
   const queueRef = useRef(queue);
+  const ring = useRef(ringPendingRef);
+  ring.current = ringPendingRef;
   queueRef.current = queue;
   // the target the frame's scene pass draws into (layer 0), recorded as the frames run
   const sceneTarget = useRef<THREE.RenderTarget | null | undefined>(undefined);
@@ -52,9 +57,9 @@ export function RenderWarmGate({ armed, onOpen, onProgress, options, builds }: {
   useEffect(() => {
     channel.port1.onmessage = () => {
       if (gate.state.open) return;
-      const opened = gate.step(performance.now() - start.current, queueRef.current?.pending ?? 0);
+      const opened = gate.step(performance.now() - start.current, queueRef.current?.pending ?? 0, ring.current?.current ?? 0);
       cb.current.onProgress?.(gate.state);
-      if (opened) cb.current.onOpen();
+      if (opened) { performance.mark("es:load:warm-gate"); cb.current.onOpen(); }
     };
     return () => { channel.port1.onmessage = null; channel.port1.close(); };
   }, [channel, gate]);

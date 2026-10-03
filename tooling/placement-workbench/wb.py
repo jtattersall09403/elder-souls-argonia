@@ -492,6 +492,22 @@ def _at_height(cat, scene, child, height: float) -> None:
     child.y += float(height) - (float(cz) - float(g.chunk_height(float(cx), float(-cy))))
 
 
+def _on_socket(child, parent, socket_m: float) -> None:
+    """Stand a road board on its post's mined arm socket ``socket_m`` (m over
+    the post's base, `rules.post_arm_heights`; mount --socket, audit10 c5):
+    the height signRule measures, (child.y - post.y) / post.scale."""
+    from workbench import rules
+    sockets = rules.post_arm_heights(parent.asset)
+    if not any(abs(z - socket_m) <= 0.0015 for z in sockets):
+        raise ValueError(f"mount --socket {socket_m}: not a mined arm socket of {parent.asset} "
+                         f"(mined: {list(sockets)})")
+    if parent.y is None:
+        raise ValueError(f"{parent.uid}: settle the post before mounting on a socket")
+    child.y = parent.y + float(socket_m) * (parent.scale or 1.0)
+    child.role = {**child.role, "mountPair": {**(child.role.get("mountPair") or {}),
+                                              "heightBy": "socket", "socketM": float(socket_m)}}
+
+
 def mount_records_problem(asset: str, policies: dict, anchors: dict) -> str | None:
     """Why a mounted asset's records do not yet carry its mount, or None: an
     asset-level placement-policies row (the fit gate), and a mounts record
@@ -545,6 +561,11 @@ def cmd_mount(a, scene, cat):
     if getattr(a, "yaw", None) is not None:
         designer_yaw(child, parent, a.yaw)
         got["pair"]["yawBy"] = "designer"
+    if getattr(a, "socket", None) is not None:
+        if getattr(a, "height", None) is not None:
+            raise ValueError("mount: --socket or --height, not both")
+        _on_socket(child, parent, a.socket)
+        got["pair"] = {**got["pair"], "heightBy": "socket", "socketM": float(a.socket)}
     if getattr(a, "height", None) is not None and child.y is not None:
         if not wall:
             _at_height(cat, scene, child, a.height)
@@ -644,8 +665,15 @@ def _check_row(cat, scene, p, declared, cs) -> dict:
          "piled": bool(row.get("piled"))}
     mounted = ((p.settledBy or "").startswith(("mount:", "template:"))
                or (p.role or {}).get("on") == "parent")
+    seat = None
     if not mounted:
-        seat = measure.seat(cat, g, p)
+        try:
+            seat = measure.seat(cat, g, p)
+        except ValueError as e:
+            # a piled run member wholly on dry ground has no seat: report the
+            # row, as seat_rules._posed does (audit10 c5, riverwalk)
+            r.update(runtimeY=None, yOffRuntimeM=None, seatError=str(e))
+    if seat is not None:
         r["runtimeY"] = round(seat["y"], 3)
         r["yOffRuntimeM"] = None if p.y is None else round(p.y - seat["y"], 3)
         if p.beached:
@@ -1710,6 +1738,10 @@ def parser() -> argparse.ArgumentParser:
                    help="--hang: the branch hit at most this high over the ground")
     s.add_argument("--bearing", type=float, default=None,
                    help="--hang: compass bearing from the parent's pivot to look along")
+    s.add_argument("--socket", type=float, default=None, metavar="HEIGHT_M",
+                   help="a road board on its post's mined arm socket this high over the post's "
+                        "base (roadsignpost: 1.922, 2.033, 2.51, 2.787, 2.885); refused off the "
+                        "mined sockets. Use it, never --height, for sign arms")
     s.add_argument("--height", type=float, default=None,
                    help="the child's centre this high over the padded ground under it (a road "
                         "board at hand height: 1.9 m, walk 2 round 4); the pair's face and "

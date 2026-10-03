@@ -96,24 +96,70 @@ def run_seats(rows: list[dict], height_at) -> dict[str, float]:
     return out
 
 
+CLIMB_STEP_M = 0.45        # = the controller's step: adjacent run members rising more than this make a CLIMB
+
+
+def _by_run(rows: list[dict]) -> dict[str, list[dict]]:
+    """{run id: its members in ``run.index`` order (row order without one)}."""
+    runs: dict[str, list] = {}
+    for i, p in enumerate(rows):
+        if p.get("run"):
+            runs.setdefault(p["run"]["id"], []).append((int(p["run"].get("index", i)), i, p))
+    return {rid: [p for *_k, p in sorted(m, key=lambda t: t[:2])] for rid, m in runs.items()}
+
+
+def climb_runs(rows: list[dict], seats: dict[str, float] | None = None) -> set[str]:
+    """Every run id whose adjacent members rise more than CLIMB_STEP_M from
+    one to the next: a stair or ramp flight (audit10 c5, the Border-road
+    timber stair, 2.92 m a member). A climb takes no run pad (its ground
+    line is the flight's, not the ground's); the compile's fit slope and the
+    workbench's footFloat do not judge its members; walkwayRule and
+    landingRule do. ``rows`` are bundle placements with ``run`` {id, index?,
+    riseM}; ``seats`` (pivot y by id) when known, else each ``riseM``. The
+    one predicate: the workbench (`rules.climb_uids`) and the compile import it."""
+    out = set()
+    for rid, members in _by_run(rows).items():
+        ys = [float(seats[p["id"]]) if seats and p["id"] in seats else float(p["run"]["riseM"])
+              for p in members]
+        if any(abs(b - a) > CLIMB_STEP_M for a, b in zip(ys, ys[1:])):
+            out.add(rid)
+    return out
+
+
 def run_pad_patches(rows: list[dict], place_id: str, height_at, is_wet=None) -> list[dict]:
-    """One `settlement-pad` patch per run with a member over the seat bar. A
-    member with any footprint point in water (``is_wet(x, z)``) is left out:
-    a pad never fills water (0059 invariant 4)."""
+    """One `settlement-pad` patch per run with a member over the seat bar.
+    A pad never fills water (0059 invariant 4): a member with a wet
+    footprint point (``is_wet(x, z)``) gets no fill. A run END member that
+    is only partly wet (Riverwalk lw13: 3 of 12 points wet, its dry bank
+    0.45-0.56 m over the line 0.18) has its DRY points graded as a cut only
+    (``cutOnly``, `pad_overlay`) down to its ground line, the line an
+    all-dry end gets, so the run lands on its bank. A climb takes no pad."""
     seats = run_seats(rows, height_at)
+    climbs = climb_runs(rows, seats)
+    ends = {m[k]["id"] for m in _by_run(rows).values() for k in (0, -1)}
     by_run: dict[str, list[dict]] = {}
     for p in rows:
-        if p["id"] not in seats:
+        if p["id"] not in seats or p["run"]["id"] in climbs:
             continue
-        if is_wet is not None and any(is_wet(float(x), float(z)) for x, z in p["footprintM"]):
-            continue
+        foot = [(float(x), float(z)) for x, z in p["footprintM"]]
         line = seats[p["id"]] + float(p["anchor"]["designedSinkM"]["p50"]) * float(p.get("scale", 1.0))
-        low = min(height_at(float(x), float(z)) for x, z in p["footprintM"])
-        gap = line - low
-        if gap > SEAT_BAR_M:
-            by_run.setdefault(p["run"]["id"], []).append({
-                "placementId": p["id"], "targetM": round(line, 3), "gapM": round(gap, 3),
-                "footprintM": [[round(float(x), 3), round(float(z), 3)] for x, z in p["footprintM"]]})
+        wet = [bool(is_wet(x, z)) for x, z in foot] if is_wet is not None else [False] * len(foot)
+        piece = None
+        if any(wet):
+            dry = [q for q, w in zip(foot, wet) if not w]
+            if p["id"] in ends and len(dry) >= 3:
+                high = max(height_at(x, z) for x, z in dry)
+                if high - line > SEAT_BAR_M:
+                    piece = {"placementId": p["id"], "targetM": round(line, 3),
+                             "gapM": round(line - high, 3), "cutOnly": True,
+                             "footprintM": [[round(x, 3), round(z, 3)] for x, z in dry]}
+        else:
+            gap = line - min(height_at(x, z) for x, z in foot)
+            if gap > SEAT_BAR_M:
+                piece = {"placementId": p["id"], "targetM": round(line, 3), "gapM": round(gap, 3),
+                         "footprintM": [[round(x, 3), round(z, 3)] for x, z in foot]}
+        if piece is not None:
+            by_run.setdefault(p["run"]["id"], []).append(piece)
     return [pad_patch(place_id, run_id, pieces) for run_id, pieces in sorted(by_run.items())]
 
 

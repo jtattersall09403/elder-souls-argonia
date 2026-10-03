@@ -126,3 +126,17 @@ test("--trace-gpu: parseArgs turns trace on; GPU events of any duration are kept
   const kept = gpuEventsInSpans(gpu, new Set([2]), r.long.map((f) => f.spanUs));
   assert.deepEqual(kept.map((e) => e.name), ["A", "B", "C", "D", "E", "F"], "the event outside the long frame is dropped");
 });
+
+test("slowQueries: a getProgramParameter / getProgramInfoLog call over 4 ms is kept with its program key hash and stack", () => {
+  let clock = 0;
+  class GL { shaderSource() {} attachShader() {} linkProgram() {} getProgramParameter(p) { clock += p.cost; return true; } getProgramInfoLog(p) { clock += p.cost; return ""; } }
+  const win = { WebGL2RenderingContext: GL, setTimeout: () => 1, clearTimeout: () => {} };
+  const ctx = vm.createContext({ window: win, performance: { now: () => clock }, Object, Array, String, WeakMap, WeakSet, Set, Map, Math, Promise, Error });
+  vm.runInContext(readFileSync(probeUrl, "utf8"), ctx);
+  const gl = new GL(), slow = { cost: 9 }, fast = { cost: 1 };
+  gl.getProgramParameter(fast, 0); gl.getProgramParameter(slow, 0); gl.getProgramInfoLog(slow);
+  const q = JSON.parse(JSON.stringify(win.__DIAG__.relink().slowQueries));
+  assert.equal(q.length, 2, "only the two slow calls");
+  assert.deepEqual(q.map((r) => [r[1], r[3]]), [[9, "getProgramParameter"], [9, "getProgramInfoLog"]]);
+  assert.ok(Array.isArray(q[0][4]) && q[0][4].length <= 6);
+});

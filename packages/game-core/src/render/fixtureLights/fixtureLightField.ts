@@ -69,6 +69,17 @@ export function setFixtureLightsPerObject(material: THREE.Material, n: number): 
 }
 /** three's PointLight decay the fixture lights reproduce unless a lamp names its own. */
 export const FIXTURE_LIGHT_DECAY = 2;
+/**
+ * A lamp's SCREEN gain (perf10 c12 A): the field's colour is multiplied by
+ * `FIXTURE_SCREEN_GAIN / toneMappingExposure` (the field's `screenNode`
+ * uniform, set per render from the renderer), so a lit wall reaches the same
+ * screen-linear value at any exposure, as the F41 window emissive does
+ * (settlement/windowGlow.ts). Unanchored, night exposure ~22 turned a wall
+ * 1 m from a 2 cd lantern into a flat orange slab. Screen-linear for a Lambert
+ * receiver of albedo a at d m from I cd is I x a / pi / d^2 x 1.5: 2 cd, a 0.3,
+ * 1 m gives 0.29; 3 m 0.032; a 6 cd torch at the 0.8 m clamp 1.34.
+ */
+export const FIXTURE_SCREEN_GAIN = 1.5;
 
 /** How fixture light reaches the lit materials (module doc). */
 export type FixtureLightingMode = "field" | "tiled" | "plain";
@@ -121,6 +132,10 @@ export class FixtureLightField {
   readonly slotsNode: TslNode;
   /** Slots 16..31 (an interior cell's parts list 32), same layout. */
   readonly slotsNodeHi: TslNode;
+  /** `FIXTURE_SCREEN_GAIN / exposure`, the lamps' screen anchor; one uniform, so no program changes. */
+  readonly screenNode: TslNode;
+  /** The renderer exposure the screen gain is anchored to. */
+  exposure = 1;
   /** Bumps whenever a slot's position or radius changes: per-object lists re-chosen. */
   epoch = 0;
   private readonly data = new Float32Array(FIXTURE_LIGHTS_MAX * 2 * 4);
@@ -151,6 +166,17 @@ export class FixtureLightField {
       ({ object, material }: { object: THREE.Object3D; material?: THREE.Material }) => this.slotMatrixFor(object, material));
     this.slotsNodeHi = (uniform as (value: unknown, type: string) => TslNode)(new THREE.Matrix4(), "mat4").onObjectUpdate(
       ({ object, material }: { object: THREE.Object3D; material?: THREE.Material }) => this.slotMatrixFor(object, material, 16));
+    this.screenNode = (uniform as (value: unknown) => TslNode)(FIXTURE_SCREEN_GAIN).onRenderUpdate(
+      ({ renderer }: { renderer?: { toneMappingExposure: number } }) => this.setExposure(renderer?.toneMappingExposure ?? this.exposure));
+  }
+
+  /** Anchor the lamps to `exposure` (toneMappingExposure); returns the screen gain. Run every render. */
+  setExposure(exposure: number): number {
+    const e = exposure > 1e-3 ? exposure : 1e-3;
+    this.exposure = e;
+    const gain = FIXTURE_SCREEN_GAIN / e;
+    (this.screenNode as unknown as { value: number }).value = gain;
+    return gain;
   }
 
   /** Lamps held now. */
@@ -441,7 +467,7 @@ export class FixtureFieldLightsNode extends LightsNode {
         const lightLength = lightVector.length();
         // three 0.184's runtime takes `lightVector` (its typings lag)
         builder.lightsNode.setupDirectLight(builder, this, (directPointLight as (p: Record<string, TslNode>) => TslNode)({
-          color: radiance.rgb,
+          color: radiance.rgb.mul(this.field.screenNode),
           // distance floored at FIXTURE_LIGHT_MIN_DISTANCE_M (dev perf10: a lamp's own shell and
           // the wall beside it never take the 1/d^2 spike), direction unchanged
           lightVector: lightVector.div(max(lightLength, 1e-4)).mul(max(lightLength, FIXTURE_LIGHT_MIN_DISTANCE_M)),

@@ -68,19 +68,18 @@ def _euler(rotation_deg) -> np.ndarray:
 
 class KitGeometry:
     """LOD0 triangles + a per-triangle decal flag per (kit, asset), from the RAW
-    kit build (the published GLBs are meshopt-compressed). Each kit's GLB is
-    parsed once per run: the first touch keeps every asset's triangles (a few
-    MB), so a later cell or pass never re-reads the scene (its peak)."""
+    kit build (the published GLBs are meshopt-compressed). Only the asked-for
+    assets are kept: a kit's GLB is parsed again only when a later cell asks
+    for an asset not yet cached, and the scene is freed before returning."""
 
     def __init__(self, kits_dir: Path = RAW_KITS):
         self.dir = kits_dir
         self.cache: dict[tuple[str, str], tuple[np.ndarray, np.ndarray] | None] = {}
-        self.kits: set[str] = set()
 
     def load(self, kit: str, assets: set[str]) -> None:
-        if kit in self.kits:
+        assets = {a for a in assets if (kit, a) not in self.cache}
+        if not assets:
             return
-        self.kits.add(kit)
         import trimesh
         if str(ASSET_PIPELINE) not in sys.path:
             sys.path.insert(0, str(ASSET_PIPELINE))
@@ -90,9 +89,13 @@ class KitGeometry:
         names = set(scene.graph.nodes)
         by_id = glb_asset_id_nodes(self.dir / f"{kit}.glb")
         for asset in manifest["assets"]:
+            if asset["id"] not in assets:
+                continue
             node = _resolve_node(asset, names, by_id)
             decals = {m.lower() for m in asset.get("decalMaterials") or []}
             self.cache[(kit, asset["id"])] = _triangles(scene, node, decals, LOD_SUFFIXES) if node else None
+        for asset in assets:                   # not in the manifest: no geometry
+            self.cache.setdefault((kit, asset), None)
         del scene
 
     def get(self, kit: str, asset: str):

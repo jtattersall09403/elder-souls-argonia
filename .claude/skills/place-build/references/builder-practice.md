@@ -155,6 +155,20 @@ whose skirt sits under its pivot takes policy `dug-in` in
 `assetPolicies` (with its `assetPolicyEvidence` line); on `direct` it is
 judged on the 2 deg building slope bar (audit10 c4, minecdirtmound02).
 
+## A piece reported black or untextured (fix round)
+
+Before any swap: its `npm run look` tile (visual-look) read by an
+`image-reader`, then the mean of its diffuse (the source DDS in the vault
+BSA or the Tropical folder). A tile that shows mottling over a mean under
+~50/255 is a DARK SOURCE, not a missing texture: vanilla `smelter01.dds`
+is 43/41/37, `minefloordirt01.dds` 47/42/29 (audit10 c5, bog-iron kiln and
+spoil). Skyrim lifts these with specular and env light our runtime does
+not ship, so the fix is the render lane's, never a swap to a wrong-purpose
+piece; swap only when a published piece of the same purpose reads lighter
+on its own tile. A decal material with `VERTEX_ALPHA` draws as hard white
+or vanishes (its alpha sits in `COLOR_2`, which the settlement runtime does
+not read): a kit fix for the lead, written in the report.
+
 ## Interior audit (SKILL step 4)
 
 `wb.py audit-interior <cell ...>` and `seat-interior` run under

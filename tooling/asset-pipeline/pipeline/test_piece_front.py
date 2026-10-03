@@ -119,6 +119,12 @@ def test_the_detailed_face_is_the_front():
     assert min(abs(got[0] - 0.0), abs(got[0] - 360.0)) < 30.0
 
 
+def test_a_weapon_takes_no_asymmetry_front():
+    detailed = _box(front_rows=6, front_cols=8)
+    assert pf.derive_front("kit:box", detailed, {}, "clutter") is not None
+    assert pf.derive_front("kit:sword", detailed, {}, "weapon") is None
+
+
 def test_a_box_with_four_identical_faces_has_no_front():
     assert pf.asymmetry_front(_box(front_rows=1, front_cols=1)) is None
 

@@ -41,11 +41,19 @@ LOOK_ABOVE_FEET_M = 1.45
 EYE_M = 1.6  # close-up pitches are computed from this eye height over the stand ground
 CLOSE_FILL = 1 / 3  # a close-up subject fills this share of the frame height
 CLOSE_FOV_RAD = math.radians(60)  # vertical field of view the fill is sized for
-CLOSE_MIN_M, CLOSE_MAX_M = 3.0, 10.0
-CLOSE_MAX_UP_RAD = 0.35  # the camera arm hangs behind the body: a steeper look-up puts it under the hill
+CLOSE_MIN_M, CLOSE_MAX_M = 3.0, 12.0
+# audit10 H9: a look-up over ~7 deg frames sky (the arm drops under the look target and the subject sits on
+# a roof or a post over a sky backdrop): close-ups stand far enough back to stay under this, and every
+# pitch is clamped to it (walk-lib.mjs MAX_UP_RAD is the runner's copy of this number)
+CLOSE_MAX_UP_RAD = 0.12
+MAX_DOWN_RAD = 0.6
+CENTRE_REGION_RAD = math.radians(10)  # a framed target sits within this of the view ray (tests)
 FIRE_SIZE_M = 0.6
 FLAME_ABOVE_ORIGIN_M = 0.3  # a fixture with no light, flame or size row: the flame sits this far over its origin
-SIGN_STAND_M = 3.0  # sign close-ups stand this far off the board, on its reading side
+SIGN_STAND_M = 3.0  # sign close-ups stand at least this far off the board, on its reading side
+SIGN_SIZE_M = 1.0
+FEATURE_SIZE_MIN_M, FEATURE_SIZE_MAX_M = 2.5, 8.0  # a parcel feature shot frames its footprint extent, clamped
+LOS_NEAR_M = 1.0  # footprints this close to a target are its own (a lantern's shed): they never block its sight line
 PROMISE_SIZE_M = 2.5  # a promised thing (shed, bones, steps, a seep) is framed at this size
 PROMISE_AIM_M = 0.8  # aimed this far over the filler's origin
 THING_ROW_RE = re.compile(r"\.thing-")  # the physical-promise rows (promise_gate.PHYSICAL_NOUNS)
@@ -114,17 +122,28 @@ def sign_board_y(p: dict) -> float:
     return p["positionM"][1] - drop / 2
 
 
+def target_y(p: dict) -> float:
+    """World y of a placement's visual centre: a hanging piece (origin over its lowest point by more than
+    0.3 m, groundContactOffsetM) halfway down from its origin; a standing one PROMISE_AIM_M over it."""
+    drop = (p.get("anchor") or {}).get("groundContactOffsetM") or 0.0
+    return p["positionM"][1] - drop / 2 if drop > 0.3 else p["positionM"][1] + PROMISE_AIM_M
+
+
 def sign_shot(x: float, y: float, z: float, yaw_deg: float, centre: Pt, ground: list[tuple],
               polys: list[Poly], box: tuple) -> tuple[float, float, float, float]:
     """(stand x, stand z, compass yaw, pitch) for a sign board at (x, y, z) facing compass `yaw_deg`: a blade
     reads from both faces, so the stand is SIGN_STAND_M off along whichever face points towards the place
     centre (the street it is hung for), pushed clear; the yaw aims at the board, the pitch from EYE_M over the
-    stand ground to the board centre."""
+    stand ground to the board centre. The stand-off follows the close-up rule (close_stand_m: a high board
+    is shot from far enough back to stay under CLOSE_MAX_UP_RAD), never under SIGN_STAND_M."""
     fx, fz = compass(yaw_deg)
     if fx * (centre[0] - x) + fz * (centre[1] - z) < 0:
         fx, fz = -fx, -fz
-    sx, sz = clear_stand(x, z, x + fx * SIGN_STAND_M, z + fz * SIGN_STAND_M, polys, box)
-    gy = ground_y(sx, sz, ground, y - 2.0)
+    gy = ground_y(x, z, ground, y - 2.0)
+    for _ in range(3):
+        d = max(SIGN_STAND_M, close_stand_m(y - (gy + EYE_M), SIGN_SIZE_M))
+        sx, sz = clear_stand(x, z, x + fx * d, z + fz * d, polys, box, los=True)
+        gy = ground_y(sx, sz, ground, y - 2.0)
     return sx, sz, bearing(sx, sz, x, z), aim_pitch(sx, sz, x, y, z, gy, EYE_M)
 
 
@@ -153,6 +172,25 @@ def clusters(points: list[tuple], radius: float) -> list[list[tuple]]:
     for i, p in enumerate(pts):
         groups.setdefault(find(i), []).append(p)
     return sorted(groups.values(), key=lambda g: g[0][0])
+
+
+def parcels(bundle: dict) -> dict[str, list[dict]]:
+    """Placements with a position by parcel (the `<parcel>` of `…parcel.<place>.<parcel>.…` ids), sorted by id."""
+    out: dict[str, list[dict]] = {}
+    for p in sorted(bundle["placements"], key=lambda p: p["id"]):
+        if ".parcel." in p["id"] and p.get("positionM"):
+            out.setdefault(p["id"].split(".parcel.", 1)[1].split(".")[1], []).append(p)
+    return out
+
+
+def feature_target(parts: list[dict]) -> tuple[float, float, float, float]:
+    """(x, y, z, size) of a parcel: the centre of the box over its footprints (the position where a piece
+    has none), y the median visual centre (target_y), size the longer box side clamped to FEATURE_SIZE_*."""
+    pts = [tuple(q) for p in parts for q in (p.get("footprintM") or [(p["positionM"][0], p["positionM"][2])])]
+    xs, zs = [q[0] for q in pts], [q[1] for q in pts]
+    ys = sorted(target_y(p) for p in parts)
+    size = max(FEATURE_SIZE_MIN_M, min(FEATURE_SIZE_MAX_M, max(max(xs) - min(xs), max(zs) - min(zs))))
+    return (min(xs) + max(xs)) / 2, ys[len(ys) // 2], (min(zs) + max(zs)) / 2, size
 
 
 # ---- collider geometry (planar, settlement x/z metres) ----
@@ -206,20 +244,28 @@ def in_box(x: float, z: float, box: tuple) -> bool:
     return box[0] <= x <= box[1] and box[2] <= z <= box[3]
 
 
-def clear_stand(tx: float, tz: float, sx: float, sz: float, polys: list[Poly], box: tuple) -> Pt:
+def clear_stand(tx: float, tz: float, sx: float, sz: float, polys: list[Poly], box: tuple, los: bool = False) -> Pt:
     """Push (sx, sz) outward along target->stand until it clears every footprint by CLEAR_M; when that
-    bearing cannot clear within PUSH_MAX_M, try the next bearing in 30 deg steps, alternating sides."""
+    bearing cannot clear within PUSH_MAX_M, try the next bearing in 30 deg steps, alternating sides.
+    `los` (close-ups, audit10 H9): the sight line stand->target must also cross no footprint but the
+    target's own (those within LOS_NEAR_M of it), so a shot is never taken through a roof or a wall;
+    when no bearing has one, the first clear stand is used."""
     dist = math.hypot(sx - tx, sz - tz) or 1.0
     b0 = math.atan2(sx - tx, sz - tz)
+    others = [q for q in polys if clearance(tx, tz, [q]) > LOS_NEAR_M] if los else []
+    first = None
     for k in (0, 1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6):
         b = b0 + math.radians(30 * k)
         d = dist
         while d <= dist + PUSH_MAX_M:
             x, z = tx + math.sin(b) * d, tz + math.cos(b) * d
             if in_box(x, z, box) and clearance(x, z, polys) >= CLEAR_M:
-                return x, z
+                if not blocking((x, z), (tx, tz), others):
+                    return x, z
+                first = first or (x, z)
+                break
             d += PUSH_STEP_M
-    return sx, sz
+    return first or (sx, sz)
 
 
 def ground_y(x: float, z: float, ground: list[tuple], default: float) -> float:
@@ -232,8 +278,9 @@ def ground_y(x: float, z: float, ground: list[tuple], default: float) -> float:
 
 def aim_pitch(sx: float, sz: float, tx: float, ty: float, tz: float, gy: float, eye: float = LOOK_ABOVE_FEET_M) -> float:
     """Follow-camera pitch (positive = down) that puts (tx, ty, tz) on the view ray through the point
-    `eye` m over the feet standing at (sx, gy, sz)."""
-    return round(math.atan2(gy + eye - ty, max(0.5, math.hypot(tx - sx, tz - sz))), 4)
+    `eye` m over the feet standing at (sx, gy, sz), clamped to [-CLOSE_MAX_UP_RAD, MAX_DOWN_RAD]."""
+    p = math.atan2(gy + eye - ty, max(0.5, math.hypot(tx - sx, tz - sz)))
+    return round(max(-CLOSE_MAX_UP_RAD, min(MAX_DOWN_RAD, p)), 4)
 
 
 def close_stand_m(rise: float, size: float) -> float:
@@ -252,7 +299,7 @@ def close_up(tx: float, ty: float, tz: float, size: float, centre: Pt, ground: l
     gy = ground_y(tx, tz, ground, default_gy)
     for _ in range(3):  # the stand ground differs from the target's on a slope: settle the distance on it
         d = close_stand_m(ty - (gy + EYE_M), size)
-        sx, sz = clear_stand(tx, tz, *stand_off(tx, tz, centre, d), polys, box)
+        sx, sz = clear_stand(tx, tz, *stand_off(tx, tz, centre, d), polys, box, los=True)
         gy = ground_y(sx, sz, ground, default_gy)
     return sx, sz, bearing(sx, sz, tx, tz), aim_pitch(sx, sz, tx, ty, tz, gy, EYE_M)
 
@@ -476,7 +523,7 @@ def build_route(place_id: str, public: Path = PUBLIC, only: list[str] | None = N
         sx, sz, b, pitch = close_up(cx, cy, cz, FIRE_SIZE_M, centre, ground,
                                     min(p[3] for p in g) - FLAME_ABOVE_ORIGIN_M, polys, box)
         wp(f"fire{i}", sx, sz, b, [{"type": "fire", "name": f"fire{i}", "fixtureIds": [p[0] for p in g],
-                                    "centreM": [r2(cx), r2(cy), r2(cz)], "yaw": b,
+                                    "aimM": [r2(cx), r2(cy), r2(cz)], "yaw": b,
                                     "pitch": pitch, "n": FIRE_FRAMES, "dtS": FIRE_DT_S}])
 
     # signs: per cluster, the highest board, shot from SIGN_STAND_M off its reading face
@@ -486,13 +533,15 @@ def build_route(place_id: str, public: Path = PUBLIC, only: list[str] | None = N
         top = max(g, key=lambda p: (p[3], p[0]))
         sx, sz, b, pitch = sign_shot(top[1], top[3], top[2], top[4], centre, ground, polys, box)
         wp(f"sign{i}", sx, sz, b, [{"type": "shot", "name": f"sign{i}", "subjects": [p[0] for p in g], "yaw": b,
-                                    "pitch": pitch}])
+                                    "pitch": pitch, "aimM": [r2(top[1]), r2(top[3]), r2(top[2])]}])
 
     # promises: one close-up per filled physical promise (`thing-<noun>` rows of
     # the compile's promiseFills), aimed at the first filler the bundle places,
     # so a promise built out of every other shot is still seen (audit10)
-    where = {p["id"]: p["positionM"] for p in bundle["placements"] if p.get("positionM")}
-    where.update({s["id"]: s["positionM"] for s in bundle["settlement"].get("sockets") or [] if s.get("positionM")})
+    where = {p["id"]: (p["positionM"][0], p["positionM"][2], target_y(p)) for p in bundle["placements"] if p.get("positionM")}
+    where.update({s["id"]: (s["positionM"][0], s["positionM"][2], s["positionM"][1] + PROMISE_AIM_M)
+                  for s in bundle["settlement"].get("sockets") or [] if s.get("positionM")})
+    seen: set[str] = set()  # building pieces a promise shot already frames
     promised = []
     for pid, fillers in sorted((bundle["settlement"].get("promiseFills") or {}).items()):
         if not THING_ROW_RE.search(pid):
@@ -500,12 +549,29 @@ def build_route(place_id: str, public: Path = PUBLIC, only: list[str] | None = N
         hits = [(f, where[k]) for f in fillers for k in sorted(where) if k == f or k.endswith("." + f)]
         if not hits:
             continue
-        f, (tx, ty, tz) = hits[0]
-        sx, sz, b, pitch = close_up(tx, ty + PROMISE_AIM_M, tz, PROMISE_SIZE_M, centre, ground, ty, polys, box)
+        f, (tx, tz, ty) = hits[0]
+        seen.update(k for f2 in fillers for k in where if (k == f2 or k.endswith("." + f2)) and k.endswith(".building"))
+        sx, sz, b, pitch = close_up(tx, ty, tz, PROMISE_SIZE_M, centre, ground, ty - PROMISE_AIM_M, polys, box)
         tag = pid.rsplit(".thing-", 1)[-1]
         promised.append(pid)
         wp(f"promise-{tag}", sx, sz, b, [{"type": "shot", "name": f"promise-{tag}", "promiseId": pid,
-                                          "subjects": [f], "yaw": b, "pitch": pitch}])
+                                          "subjects": [f], "yaw": b, "pitch": pitch, "aimM": [r2(tx), r2(ty), r2(tz)]}])
+
+    # features (audit10 H9): every parcel (a stable, a stair, each crossing) that no door-base or promise
+    # shot already frames gets one close-up of its footprint-box centre, sized to its extent (a fire or a
+    # sign close-up frames its fixture, not the structure it hangs on)
+    doors_xz = [tuple(d["thresholdM"]) for d in bundle.get("doors", [])]
+    features = []
+    for key, parts in sorted(parcels(bundle).items()):
+        if any(p["id"] in seen for p in parts) or \
+                any(math.dist((p["positionM"][0], p["positionM"][2]), q) <= 3.0 for p in parts for q in doors_xz):
+            continue
+        tx, ty, tz, size = feature_target(parts)
+        sx, sz, b, pitch = close_up(tx, ty, tz, size, centre, ground, ty - PROMISE_AIM_M, polys, box)
+        features.append(key)
+        wp(f"feature-{key}", sx, sz, b, [{"type": "shot", "name": f"feature-{key}", "parcel": key,
+                                          "subjects": [p["id"] for p in parts], "yaw": b, "pitch": pitch,
+                                          "aimM": [r2(tx), r2(ty), r2(tz)]}])
 
     # visiting order: overviews first, then nearest-neighbour from the last overview
     head, rest = wps[:4], wps[4:]
@@ -526,7 +592,7 @@ def build_route(place_id: str, public: Path = PUBLIC, only: list[str] | None = N
             "pitch": "follow-camera radians: positive looks down",
             "boundaryM": [[x0, z0], [x1, z1]], "centreM": [r2(centre[0]), r2(centre[1])],
             "fixtures": sorted(p[0] for p in burning), "doors": sorted(d["id"] for d in bundle.get("doors", []) if (d.get("interiorClaim") or {}).get("cellId")),
-            "promises": promised, "only": sorted(only) if only else None,
+            "promises": promised, "features": features, "only": sorted(only) if only else None,
             "freeWalk": fw, "waypoints": set_arrivals(ordered, polys, box)}
 
 

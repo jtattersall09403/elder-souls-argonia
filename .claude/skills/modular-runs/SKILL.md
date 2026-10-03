@@ -221,6 +221,30 @@ turn, snapped face to face by geometry, then walked.
     the step. Read a deck's height from `describe` `floors[].zM` (the
     walked floor; dockstrent02 0.0 = the pivot), never `boundsM` max (the
     rail-post tops, +0.92: audit10 read a 0.40 m drop as 1.3 m).
+29b. **A climb (a stair up a bank) is chosen by the mined pair's rise**
+    (audit10 c5, border-road crossings): pieces = ceil((climb - top
+    piece's tread span) / pair rise) + 1, the surplus buried at the foot.
+    Timber: KotM `mudhuts/stairs02` (pair -x > +x, offset [-2.47, 0.03,
+    2.92], both faces run AND terminal: `snap --by evidence
+    --allow-terminal`; climbs toward its -x, yaw = bearing - 270). Read
+    the treads off the mesh, not bounds: top tread pivot -0.29, bottom
+    tread +1.6 m along at -3.51, 0.29 m a tread (3 pieces = 9.06 m of
+    treads). Set the bottom piece's `y` by hand so the top tread meets the
+    bank-top ground within 0.05 m. A run whose adjacent members rise more
+    than 0.45 m (the controller step) is a CLIMB
+    (`settlement_run_pads.climb_runs`, `rules.climb_uids`): it takes no
+    run pad and the compile's fit slope does not judge it; walkwayRule and
+    landingRule do. Still open: run-jointPair (wb.py `_pair_verdict`)
+    fails the mined pose itself (penetration 0.234 m, crossing).
+29c. **A rising run joint is set by the mined pair; a crossing's end height
+    by grading the ground** (audit10 c5, Riverwalk lw13): never lift a
+    flat crossing's end by a pair rise (it fails run-jointPair as
+    crossing). A partly-wet run END takes a cut-only pad over its dry
+    points down to the run's line (deck - sink; `cutOnly` in
+    `pad_overlay`), never filling water. Two run pieces' faces meeting
+    within 2 mm at a mined joint (coplanarRule, stairs02 0.0012 m) z-fight
+    in the plugin's own pose too: offset the child 0.005 m along the
+    joint's face normal, never exempt the joint.
 30. Argonian pieces for a landing: HTBM `tamu_wooddock*` have only `double`
     joints in the record (no run pair). King of the Murkmire's plugin places
     its `argonia/blackwood` docks and walkways; the KotM set in

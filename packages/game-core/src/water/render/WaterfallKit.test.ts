@@ -6,6 +6,16 @@ import { BODY16_MAX_ARC_M, CREST_OVERHANG_M, KIT_SCALE, LATERAL_STEP, STACK_STEP
 import { MIST_CONE, MIST_DOME, mistVolumeSite } from "./WaterfallMistVolume";
 import { traceWaterfallSheet, type Cascade } from "./WaterfallSheets";
 
+describe("kit sheet layers (perf10 D9(2))", () => {
+  it("a shape whose piece carries vanilla's second layer as a sibling shape has no scroll2", () => {
+    for (const piece of ["thin7", "thin29", "body16", "body34"] as const) {
+      const sheets = KIT_SHAPE_ROLES[piece].filter((r) => r.kind === "whitewater");
+      expect(sheets.length).toBeGreaterThanOrEqual(2);
+      for (const r of sheets) expect(r.scroll2, `${piece}/${r.match}`).toBeUndefined();
+    }
+  });
+});
+
 function cascade(over: Partial<Cascade> & { profile: number[] }): Cascade {
   return {
     id: "fall-test", bodyIndex: 0, riverBand: 2,

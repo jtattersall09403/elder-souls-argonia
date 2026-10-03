@@ -313,6 +313,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // kit cache the settlement layer and the interior loader share.
   const interaction = useMemo(() => new InteractionArbiter(), []);
   const kitCache = useMemo(() => new KitCache(), []);
+  // Spawn-ring pieces the settlement layer has not drawn yet; the warm gate holds on it (decision 0120).
+  const ringPendingRef = useRef(0);
   // Travel sockets (16e deliverable 7): the studio owns the body, so it
   // hands the sockets component a teleport instead of a handle. The adapter
   // is the controller boundary — nothing here touches ecctrl directly.
@@ -512,7 +514,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
 
   if (error) {
     return (
-      <div style={{ position: "fixed", inset: 0, zIndex: 6, background: "#10141a", color: "#e6ecf5", display: "grid", placeItems: "center" }}>
+      <div data-es-view="character-error" style={{ position: "fixed", inset: 0, zIndex: 6, background: "#10141a", color: "#e6ecf5", display: "grid", placeItems: "center" }}>
         <div>
           <p>Character mode failed to load: {error}</p>
           <button onClick={onExit}>← Back to map</button>
@@ -522,7 +524,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   }
 
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 6, background: "#10141a" }}>
+    <div data-es-view="character" style={{ position: "fixed", inset: 0, zIndex: 6, background: "#10141a" }}>
       {canvasError && <CanvasErrorBanner message={canvasError} />}
       {manifest && spawn ? (
         <Canvas
@@ -537,7 +539,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           // a shadow re-render each frame (WaterPipeline.tsx explains).
           shadows="percentage"
           style={{ width: "100%", height: "100%" }}
-          onCreated={({ gl }) => { glRef.current = gl.domElement; gl.domElement.dataset.renderCanvas = ""; }}
+          onCreated={({ gl }) => { glRef.current = gl.domElement; gl.domElement.dataset.renderCanvas = ""; gl.debug.checkShaderErrors = !import.meta.env.PROD; }}
           onPointerDown={() => { if (!touch) glRef.current?.requestPointerLock(); }}
         >
           <CanvasErrorBoundary onError={setCanvasError} onGpuError={recoverFromError}>
@@ -611,6 +613,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 onDoors={setDoors}
                 kitCache={kitCache}
                 onError={setSettlementError}
+                ringPendingRef={ringPendingRef}
                 localSurfaces={sharedLocalSurfaces(DATA_BASE)}
               />
             )}
@@ -631,7 +634,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           {/* outside the exterior group: it draws the shown cell's sockets while the exterior is hidden */}
           {showSockets && <SocketMarkers baseUrl={base} groundAt={markerGroundAt}
             startAt={focusRef.current} shown={shownCell} />}
-          <RenderWarmGate armed={collidersReady} onOpen={() => setRenderWarm(true)} onProgress={publishWarm} />
+          <RenderWarmGate armed={collidersReady} ringPendingRef={ringPendingRef} onOpen={() => setRenderWarm(true)} onProgress={publishWarm} />
           {/* Own Suspense boundary: rapier's WASM init and collider loads
               suspend, and without a boundary HERE each suspension unmounts and
               remounts the whole canvas tree — WorldSky included, leaking one
@@ -1558,11 +1561,10 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
   const { camera, scene, gl } = useThree();
   // Both fade programs of every player material linked ahead of the first
   // fade (playerFade.ts warmPlayerFadePrograms), the player held hidden until
-  // the first set links (gatePlayerFirstShow); checked once a second after
-  // that so an equipment change's new materials are pinned too.
+  // the first set links (gatePlayerFirstShow); checked every frame after
+  // that, so equipment attached later stays hidden until its programs link.
   const fadeLinker = useMemo(() => new DrawTargetLinker(gl as unknown as LinkingRenderer, scene), [gl, scene]);
   useEffect(() => { fadeLinker.attach(); return () => fadeLinker.detach(); }, [fadeLinker]);
-  const fadePinFrame = useRef(60);
   const fadePinCompile = useMemo(() => (object: THREE.Object3D) =>
     fadeLinker.compileAsync(object, camera).catch(() => undefined), [fadeLinker, camera]);
   const position = useMemo(() => new THREE.Vector3(), []);
@@ -1814,10 +1816,7 @@ function CharacterDriver({ handleRef, world, active, spawn, lastPose, locomotion
     }
     camera3P.applyTo(camera);
     if (playerModelRef?.current && gatePlayerFirstShow(playerModelRef.current, fadeLinker.observed, fadePinCompile)) {
-      if (fadePinFrame.current-- <= 0) {
-        fadePinFrame.current = 60;
-        warmPlayerFadePrograms(playerModelRef.current, fadePinCompile);
-      }
+      warmPlayerFadePrograms(playerModelRef.current, fadePinCompile);
       fadePlayerModel(playerModelRef.current, playerHiddenRef.current ? 0 : playerOpacityForArm(camera3P.arm));
     }
     focusRef.current = { x: position.x, z: position.z };

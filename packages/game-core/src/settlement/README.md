@@ -18,6 +18,16 @@ checkout/formatting timestamps but changes with any authored value.
 Load-bearing contracts:
 
 - semantic asset identity comes from glTF `extras.assetId`, never node names;
+- kits stream per piece (decision 0120): a kit whose parts index
+  (`assets/kitParts.ts`, schema 3) says `exterior` is fetched one part GLB
+  per (kit, asset), textures from the shared `kits/tex/` pool; the order and
+  the fetch priority come from `pieceRequestOrder.ts` alone (spawn ring and
+  view first, then ladder band, then distance); the warm gate holds on the
+  spawn ring (`ringPendingRef`). A kit without such an index still loads
+  whole until 0120 S2 republishes every kit as parts;
+- a walk never re-runs the bucket/signature/batch pass (`settlementReach.ts`,
+  perf-diag22 G-a): only new inputs (a piece arriving, a retry) do; a move
+  runs the reach pass (fixtures, smoke, colliders) when the set in reach changes;
 - every settlement and route-structure asset steps down an explicit LOD
   ladder (`settlementLadder`), built by the same `lodLadder` helper the
   vegetation cell build uses (0075): one kit level per rung, hard steps, no
@@ -100,7 +110,9 @@ Load-bearing contracts:
   within 200 m (`LIGHTS_CAP`, `LIGHTS_ACTIVE_M`, faded over the last 20 m)
   go into the scene's `FixtureLightField` (render/fixtureLights), re-chosen
   once a second, and each drawn object is lit by its 8 nearest (one program
-  for any count); the rest glow only. The manager is the layer's own or
+  for any count), its colour times `FIXTURE_SCREEN_GAIN / exposure` (the
+  shared `esFxScreen` uniform, so a lit wall reads the same on screen at any
+  exposure, as the F41 windows do); the rest glow only. The manager is the layer's own or
   injected (`lightFixtures` prop). Batches are split per 48 m square
   (`SETTLEMENT_CHUNK_M`), so off-screen parts are culled and each batch's
   bounds pick its own lamps, and per kit level and ladder class

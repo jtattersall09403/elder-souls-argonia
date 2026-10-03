@@ -791,7 +791,7 @@
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 35.0161
+            "yMeasured": 34.9861
           },
           {
             "id": "p1-board",
@@ -809,7 +809,7 @@
               "mountedOn": "p1",
               "n": 2
             },
-            "upM": 2.1407,
+            "upM": 2.5107,
             "host": "p1"
           },
           {
@@ -828,7 +828,7 @@
               "mountedOn": "p1",
               "n": 1
             },
-            "upM": 1.7849,
+            "upM": 1.9249,
             "host": "p1"
           }
         ],
@@ -5062,11 +5062,11 @@
         "settlement-imperial-v1": "9144866ffc6959ca92347c9eda44923bc516f98add601b49781101ac7d5a5972",
         "settlement-mud-v1": "cb681afe4a6def2ebb571a52282dd3d20fa22a9f1e20bb3de83c8817fcf53279",
         "settlement-root-v1": "967048d24c8b6bc0f81f738618cdd4295e699c231a220878c00a5f28e1c3dbc6",
-        "works-v1": "70449d43bd0f5e8683ece844f8ef99eb86b4e690785844b15c70f71f59c33549"
+        "works-v1": "5a6ad51eec8c4279a7f8924f32315c0969ef59b2657b19d6ed6258c38fbe996d"
       },
       "layout": {
         "path": "world/sources/blueprints/claywater-station.layout.json",
-        "sha256": "d1fadb18085f9f1e32f3be840150284b56a637d616cadd6719c6c0e1bf59e22e"
+        "sha256": "1243fef43fb00ab89761b6d66d073456c2f881d20199ab8ccc970fba9a96a0d6"
       }
     },
     "walkRoutes": {

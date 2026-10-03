@@ -130,9 +130,16 @@ window.look = async ({ url, node, row, fromPart }) => {
     obj.removeFromParent(); obj.position.set(0, 0, 0); obj.quaternion.identity(); obj.scale.setScalar(1);
   }
   const hidden = [];
+  // A primitive with no source material gets GLTFLoader's default (white,
+  // metalness 1): black on this sheet, a blank white card in the studio's
+  // image lighting. argonianbonechime01's Havok proxy boxes (audit10 c5).
+  const noMaterialMeshes = [];
   obj.traverse((m) => {
     if (!m.isMesh) return;
-    for (const mat of [m.material].flat()) if (isFlameCardMaterial(row, mat.name)) { m.visible = false; hidden.push(mat.name); }
+    for (const mat of [m.material].flat()) {
+      if (isFlameCardMaterial(row, mat.name)) { m.visible = false; hidden.push(mat.name); }
+      if (!mat.name && !mat.map) noMaterialMeshes.push(m.name);
+    }
   });
   obj.updateMatrixWorld(true);
   const measured = new THREE.Box3().setFromObject(obj);
@@ -222,7 +229,7 @@ window.look = async ({ url, node, row, fromPart }) => {
       anchorFailures: flameAnchorFailures(row.id, row, box, anchors),
       presetHeightsM: Object.fromEntries(anchors.map((a) => [a.preset, FIRE_PRESETS[a.preset]?.shape?.heightM])),
       anchors: anchors.map((a) => ({ preset: a.preset, local: a.local.toArray().map((v) => +v.toFixed(3)), record: a.record })),
-      hiddenFlameCards: hidden, flameCards, flameIntensity0, flamePos0, gridStepM: step, backend: renderer.backend.isWebGPUBackend ? "webgpu" : "webgl-fallback" },
+      hiddenFlameCards: hidden, noMaterialMeshes, flameCards, flameIntensity0, flamePos0, gridStepM: step, backend: renderer.backend.isWebGPUBackend ? "webgpu" : "webgl-fallback" },
   };
 };
 window.ready = true;

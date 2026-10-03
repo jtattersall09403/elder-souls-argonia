@@ -13,6 +13,8 @@ export interface RetryOptions {
   readonly baseDelayMs?: number;
   /** Injected for tests. */
   readonly pause?: (ms: number) => Promise<void>;
+  /** The fetch priority hint (`pieceRequestOrder.ts` chooses it); absent: the browser's default. */
+  readonly priority?: RequestPriority;
 }
 
 const RETRY_STATUS = (status: number) => status >= 500 || status === 408 || status === 429;
@@ -50,7 +52,7 @@ export function fetchWithRetry(url: string, options: RetryOptions & { readonly f
   Promise<Response> {
   const fetchFn = options.fetchFn ?? fetch;
   return withRetry(async () => {
-    const response = await fetchFn(url);
+    const response = await (options.priority ? fetchFn(url, { priority: options.priority }) : fetchFn(url));
     if (response.ok) return response;
     const message = `${url} returned HTTP ${response.status}`;
     throw RETRY_STATUS(response.status) ? new Error(message) : new PermanentFetchError(message);

@@ -18,7 +18,7 @@ def test_all_present_is_all_done(tmp_path):
         f.write_text("x")
         old = time.time() - 60
         os.utime(f, (old, old))
-    r = run("--files", str(a), str(b), "--timeout", "5", "--poll", "1")
+    r = run("--files", str(a), str(b), "--timeout", "5", "--poll", "1", "--any-mtime")
     assert r.returncode == 0
     assert r.stdout.splitlines() == [f"done {a}", f"done {b}", "all done"]
 
@@ -28,6 +28,17 @@ def test_missing_file_times_out(tmp_path):
     a.write_text("x")
     old = time.time() - 60
     os.utime(a, (old, old))
-    r = run("--files", str(a), str(b), "--timeout", "1", "--poll", "1")
+    r = run("--files", str(a), str(b), "--timeout", "1", "--poll", "1", "--any-mtime")
     assert r.returncode == 0
     assert r.stdout.splitlines() == [f"done {a}", f"waiting {b}", "timeout: 1 of 2 done"]
+
+
+def test_stale_file_ignored_fresh_file_done(tmp_path):
+    a = tmp_path / "a.md"
+    a.write_text("x")
+    old = time.time() - 60
+    os.utime(a, (old, old))
+    r = run("--files", str(a), "--timeout", "1", "--poll", "1")
+    assert r.stdout.splitlines() == [f"waiting {a}", "timeout: 0 of 1 done"]
+    r = run("--files", str(a), "--timeout", "1", "--poll", "1", "--since", str(old - 10))
+    assert r.stdout.splitlines() == [f"done {a}", "all done"]

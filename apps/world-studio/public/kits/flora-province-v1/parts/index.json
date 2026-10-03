@@ -1,6 +1,7 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "kit": "flora-province-v1",
+ "exterior": false,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
   "bytes": 25978468,
@@ -8,26 +9,40 @@
  },
  "totals": {
   "parts": 8,
-  "partBytes": 109296,
+  "partBytes": 109384,
   "textureFiles": 4,
   "textureBytes": 341823,
-  "bytes": 451119
+  "bytes": 451207
  },
  "assets": {
   "vanilla:landscape/rocks/rockl01": {
    "file": "vanilla_landscape_rocks_rockl01-de8268a8.glb",
-   "bytes": 8928,
+   "bytes": 8932,
    "vertices": 270,
    "triangles": 387,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 270,
+     "triangles": 387
+    }
+   ],
    "textures": [
     "308e1a121d341988"
    ]
   },
   "vanilla:landscape/rocks/rockl02": {
    "file": "vanilla_landscape_rocks_rockl02-0518e55e.glb",
-   "bytes": 14088,
+   "bytes": 14100,
    "vertices": 382,
    "triangles": 449,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 382,
+     "triangles": 449
+    }
+   ],
    "textures": [
     "308e1a121d341988",
     "c88b140288b17cf3"
@@ -35,18 +50,32 @@
   },
   "vanilla:landscape/rocks/rockl03": {
    "file": "vanilla_landscape_rocks_rockl03-4e124af7.glb",
-   "bytes": 6068,
+   "bytes": 6076,
    "vertices": 120,
    "triangles": 163,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 120,
+     "triangles": 163
+    }
+   ],
    "textures": [
     "308e1a121d341988"
    ]
   },
   "vanilla:landscape/rocks/rockpilem01": {
    "file": "vanilla_landscape_rocks_rockpilem01-5ace5a1c.glb",
-   "bytes": 26228,
+   "bytes": 26248,
    "vertices": 848,
    "triangles": 968,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 848,
+     "triangles": 968
+    }
+   ],
    "textures": [
     "308e1a121d341988",
     "6cd688770db91804",
@@ -55,9 +84,16 @@
   },
   "vanilla:landscape/rocks/rockpilem02": {
    "file": "vanilla_landscape_rocks_rockpilem02-1843c4ba.glb",
-   "bytes": 27696,
+   "bytes": 27712,
    "vertices": 756,
    "triangles": 938,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 756,
+     "triangles": 938
+    }
+   ],
    "textures": [
     "308e1a121d341988",
     "6cd688770db91804",
@@ -66,9 +102,16 @@
   },
   "vanilla:landscape/rocks/rockpiles01": {
    "file": "vanilla_landscape_rocks_rockpiles01-48007850.glb",
-   "bytes": 9964,
+   "bytes": 9976,
    "vertices": 174,
    "triangles": 216,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 174,
+     "triangles": 216
+    }
+   ],
    "textures": [
     "308e1a121d341988",
     "6cd688770db91804"
@@ -76,9 +119,16 @@
   },
   "vanilla:landscape/rocks/rockpiles03": {
    "file": "vanilla_landscape_rocks_rockpiles03-4806dbc3.glb",
-   "bytes": 11596,
+   "bytes": 11608,
    "vertices": 243,
    "triangles": 286,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 243,
+     "triangles": 286
+    }
+   ],
    "textures": [
     "308e1a121d341988",
     "6cd688770db91804"
@@ -86,9 +136,16 @@
   },
   "vanilla:landscape/rocks/rocks03": {
    "file": "vanilla_landscape_rocks_rocks03-ea96ed1b.glb",
-   "bytes": 4728,
+   "bytes": 4732,
    "vertices": 49,
    "triangles": 68,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 49,
+     "triangles": 68
+    }
+   ],
    "textures": [
     "308e1a121d341988"
    ]

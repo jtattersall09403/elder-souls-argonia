@@ -136,8 +136,26 @@
     return { links: st.links, linkMs: Math.round(st.ms * 100) / 100, distinctPrograms: per.length,
       relinked: per.filter((n) => n > 1).length, maxLinksOfOneProgram: per.length ? Math.max(...per) : 0,
       lastLinkAtMs: st.events.length ? st.events[st.events.length - 1][0] : null,
-      linksAfter30s: st.events.filter(([t]) => t > 30000).length, materials, events: st.events.slice(-400) };
+      linksAfter30s: st.events.filter(([t]) => t > 30000).length, materials, events: st.events.slice(-400),
+      slowQueries: st.slow.map(({ t, ms, p, fn, stack }) => { const k = full.get(p) ?? keyOf(p); return [t, ms, k == null ? progName.get(p) ?? "" : hash(k), fn, stack]; }) };
   };
+  // getProgramInfoLog / getProgramParameter calls over SLOW_MS on the main thread (the wait for a link that
+  // is still compiling): [t, ms, progKeyHash (else the SHADER_NAME), function, top 6 stack frames]. Called
+  // once per program check, never per draw.
+  const SLOW_MS = 4;
+  st.slow = [];
+  for (const fn of ["getProgramInfoLog", "getProgramParameter"]) {
+    const f = G[fn];
+    if (typeof f !== "function") continue;
+    G[fn] = function (p, ...a) {
+      const t = performance.now();
+      const r = f.call(this, p, ...a);
+      const ms = performance.now() - t;
+      if (ms > SLOW_MS && st.slow.length < 500) st.slow.push({ t: Math.round(t), ms: Math.round(ms * 100) / 100, p, fn,
+        stack: String(new Error().stack ?? "").split("\n").filter((l) => /^\s+at /.test(l)).slice(1, 7).map((l) => l.trim()) });
+      return r;
+    };
+  }
   G.linkProgram = function (p) {
     const info = describe(p, Math.round(performance.now()));
     const t = performance.now();

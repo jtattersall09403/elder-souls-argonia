@@ -1,6 +1,7 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "kit": "interior-kotm-v1",
+ "exterior": false,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
   "bytes": 17300312,
@@ -8,26 +9,60 @@
  },
  "totals": {
   "parts": 147,
-  "partBytes": 3290732,
+  "partBytes": 5119728,
   "textureFiles": 107,
   "textureBytes": 5873141,
-  "bytes": 9163873
+  "bytes": 10992869
  },
  "assets": {
   "kotm:argonia/clutter/amberbee": {
    "file": "kotm_argonia_clutter_amberbee-c6d8173b.glb",
-   "bytes": 14616,
+   "bytes": 27952,
    "vertices": 700,
    "triangles": 992,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 700,
+     "triangles": 992
+    },
+    {
+     "lod": 1,
+     "vertices": 315,
+     "triangles": 346
+    },
+    {
+     "lod": 2,
+     "vertices": 285,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "1c22339b88b9010b"
    ]
   },
   "kotm:argonia/clutter/buntingline01": {
    "file": "kotm_argonia_clutter_buntingline01-6c2dc235.glb",
-   "bytes": 28704,
+   "bytes": 37104,
    "vertices": 190,
    "triangles": 114,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 190,
+     "triangles": 114
+    },
+    {
+     "lod": 1,
+     "vertices": 190,
+     "triangles": 114
+    },
+    {
+     "lod": 2,
+     "vertices": 190,
+     "triangles": 114
+    }
+   ],
    "textures": [
     "2b7c32ecca712308",
     "8c43d230ba7157b4"
@@ -35,9 +70,26 @@
   },
   "kotm:argonia/clutter/burner02": {
    "file": "kotm_argonia_clutter_burner02-ff441661.glb",
-   "bytes": 45200,
+   "bytes": 80612,
    "vertices": 2217,
    "triangles": 2281,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2217,
+     "triangles": 2281
+    },
+    {
+     "lod": 1,
+     "vertices": 1480,
+     "triangles": 1075
+    },
+    {
+     "lod": 2,
+     "vertices": 1451,
+     "triangles": 1035
+    }
+   ],
    "textures": [
     "4021e21cf1e50df8",
     "518ee6dde1e0b262",
@@ -48,18 +100,52 @@
   },
   "kotm:argonia/clutter/doll_atronachamber": {
    "file": "kotm_argonia_clutter_doll_atronachamber-cb45c8c0.glb",
-   "bytes": 19188,
+   "bytes": 35572,
    "vertices": 804,
    "triangles": 1236,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 804,
+     "triangles": 1236
+    },
+    {
+     "lod": 1,
+     "vertices": 353,
+     "triangles": 432
+    },
+    {
+     "lod": 2,
+     "vertices": 267,
+     "triangles": 299
+    }
+   ],
    "textures": [
     "1c22339b88b9010b"
    ]
   },
   "kotm:argonia/clutter/firewoodpilehuge01": {
    "file": "kotm_argonia_clutter_firewoodpilehuge01-4d4e2543.glb",
-   "bytes": 40156,
+   "bytes": 64156,
    "vertices": 2466,
    "triangles": 1426,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2466,
+     "triangles": 1426
+    },
+    {
+     "lod": 1,
+     "vertices": 1368,
+     "triangles": 600
+    },
+    {
+     "lod": 2,
+     "vertices": 1368,
+     "triangles": 600
+    }
+   ],
    "textures": [
     "4021e21cf1e50df8",
     "9a71da547f95fc8f"
@@ -67,9 +153,26 @@
   },
   "kotm:argonia/clutter/firewoodpilelarge01": {
    "file": "kotm_argonia_clutter_firewoodpilelarge01-5ea91b7c.glb",
-   "bytes": 22848,
+   "bytes": 41600,
    "vertices": 1134,
    "triangles": 852,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1134,
+     "triangles": 852
+    },
+    {
+     "lod": 1,
+     "vertices": 931,
+     "triangles": 600
+    },
+    {
+     "lod": 2,
+     "vertices": 931,
+     "triangles": 600
+    }
+   ],
    "textures": [
     "4021e21cf1e50df8",
     "9a71da547f95fc8f"
@@ -77,9 +180,26 @@
   },
   "kotm:argonia/clutter/firewoodpilesmall01": {
    "file": "kotm_argonia_clutter_firewoodpilesmall01-56b1c95c.glb",
-   "bytes": 9912,
+   "bytes": 11736,
    "vertices": 206,
    "triangles": 158,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 206,
+     "triangles": 158
+    },
+    {
+     "lod": 1,
+     "vertices": 206,
+     "triangles": 158
+    },
+    {
+     "lod": 2,
+     "vertices": 206,
+     "triangles": 158
+    }
+   ],
    "textures": [
     "4021e21cf1e50df8",
     "9a71da547f95fc8f"
@@ -87,9 +207,26 @@
   },
   "kotm:argonia/clutter/hangingfeathers01": {
    "file": "kotm_argonia_clutter_hangingfeathers01-d962a36b.glb",
-   "bytes": 12052,
+   "bytes": 14800,
    "vertices": 248,
    "triangles": 306,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 248,
+     "triangles": 306
+    },
+    {
+     "lod": 1,
+     "vertices": 248,
+     "triangles": 306
+    },
+    {
+     "lod": 2,
+     "vertices": 248,
+     "triangles": 306
+    }
+   ],
    "textures": [
     "5d6aedd71b9740f4",
     "67ae0d42579c1eb0",
@@ -98,9 +235,26 @@
   },
   "kotm:argonia/clutter/saxhleelfence01": {
    "file": "kotm_argonia_clutter_saxhleelfence01-67ef2634.glb",
-   "bytes": 29260,
+   "bytes": 57740,
    "vertices": 1575,
    "triangles": 1420,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1575,
+     "triangles": 1420
+    },
+    {
+     "lod": 1,
+     "vertices": 1004,
+     "triangles": 641
+    },
+    {
+     "lod": 2,
+     "vertices": 970,
+     "triangles": 599
+    }
+   ],
    "textures": [
     "24f63fb182f6f591",
     "5d6aedd71b9740f4"
@@ -108,36 +262,104 @@
   },
   "kotm:argonia/clutter/saxhleeltapestry01": {
    "file": "kotm_argonia_clutter_saxhleeltapestry01-6bc24380.glb",
-   "bytes": 4092,
+   "bytes": 5108,
    "vertices": 35,
    "triangles": 48,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 35,
+     "triangles": 48
+    },
+    {
+     "lod": 1,
+     "vertices": 35,
+     "triangles": 48
+    },
+    {
+     "lod": 2,
+     "vertices": 35,
+     "triangles": 48
+    }
+   ],
    "textures": [
     "2b7c32ecca712308"
    ]
   },
   "kotm:argonia/clutter/saxhleeltapestry02": {
    "file": "kotm_argonia_clutter_saxhleeltapestry02-b9db8d6d.glb",
-   "bytes": 4072,
+   "bytes": 5096,
    "vertices": 35,
    "triangles": 48,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 35,
+     "triangles": 48
+    },
+    {
+     "lod": 1,
+     "vertices": 35,
+     "triangles": 48
+    },
+    {
+     "lod": 2,
+     "vertices": 35,
+     "triangles": 48
+    }
+   ],
    "textures": [
     "2b7c32ecca712308"
    ]
   },
   "kotm:argonia/clutter/spinningwheel": {
    "file": "kotm_argonia_clutter_spinningwheel-8facef6d.glb",
-   "bytes": 34700,
+   "bytes": 59500,
    "vertices": 2133,
    "triangles": 2920,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2133,
+     "triangles": 2920
+    },
+    {
+     "lod": 1,
+     "vertices": 941,
+     "triangles": 1021
+    },
+    {
+     "lod": 2,
+     "vertices": 423,
+     "triangles": 350
+    }
+   ],
    "textures": [
     "f16f3ec547e68bf8"
    ]
   },
   "kotm:argonia/clutter/tamwindchime01": {
    "file": "kotm_argonia_clutter_tamwindchime01-21ab37a1.glb",
-   "bytes": 49332,
+   "bytes": 68228,
    "vertices": 699,
    "triangles": 724,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 699,
+     "triangles": 724
+    },
+    {
+     "lod": 1,
+     "vertices": 648,
+     "triangles": 623
+    },
+    {
+     "lod": 2,
+     "vertices": 648,
+     "triangles": 623
+    }
+   ],
    "textures": [
     "119cf367cb2383fe",
     "5d6aedd71b9740f4",
@@ -146,126 +368,364 @@
   },
   "kotm:argonia/clutter/urn01": {
    "file": "kotm_argonia_clutter_urn01-d6d8fd13.glb",
-   "bytes": 15644,
+   "bytes": 28072,
    "vertices": 812,
    "triangles": 1440,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 812,
+     "triangles": 1440
+    },
+    {
+     "lod": 1,
+     "vertices": 320,
+     "triangles": 504
+    },
+    {
+     "lod": 2,
+     "vertices": 195,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "512113b74c34fe8a"
    ]
   },
   "kotm:argonia/clutter/urn02": {
    "file": "kotm_argonia_clutter_urn02-456853c9.glb",
-   "bytes": 14532,
+   "bytes": 26796,
    "vertices": 775,
    "triangles": 1368,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 775,
+     "triangles": 1368
+    },
+    {
+     "lod": 1,
+     "vertices": 305,
+     "triangles": 477
+    },
+    {
+     "lod": 2,
+     "vertices": 197,
+     "triangles": 299
+    }
+   ],
    "textures": [
     "512113b74c34fe8a"
    ]
   },
   "kotm:argonia/clutter/vase01": {
    "file": "kotm_argonia_clutter_vase01-c1fa56e5.glb",
-   "bytes": 7988,
+   "bytes": 14740,
    "vertices": 278,
    "triangles": 320,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 278,
+     "triangles": 320
+    },
+    {
+     "lod": 1,
+     "vertices": 268,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 268,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "512113b74c34fe8a"
    ]
   },
   "kotm:argonia/clutter/vase03": {
    "file": "kotm_argonia_clutter_vase03-116600bb.glb",
-   "bytes": 8980,
+   "bytes": 14940,
    "vertices": 344,
    "triangles": 560,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 344,
+     "triangles": 560
+    },
+    {
+     "lod": 1,
+     "vertices": 214,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 214,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "512113b74c34fe8a"
    ]
   },
   "kotm:argonia/clutter/vase05": {
    "file": "kotm_argonia_clutter_vase05-0bc5dd7c.glb",
-   "bytes": 8048,
+   "bytes": 13868,
    "vertices": 267,
    "triangles": 432,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 267,
+     "triangles": 432
+    },
+    {
+     "lod": 1,
+     "vertices": 201,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 201,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "512113b74c34fe8a"
    ]
   },
   "kotm:argonia/clutter/vase06": {
    "file": "kotm_argonia_clutter_vase06-8737fb4b.glb",
-   "bytes": 9004,
+   "bytes": 15044,
    "vertices": 336,
    "triangles": 526,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 336,
+     "triangles": 526
+    },
+    {
+     "lod": 1,
+     "vertices": 219,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 219,
+     "triangles": 299
+    }
+   ],
    "textures": [
     "512113b74c34fe8a"
    ]
   },
   "kotm:argonia/clutter/wallbasket01": {
    "file": "kotm_argonia_clutter_wallbasket01-6e222fa2.glb",
-   "bytes": 8972,
+   "bytes": 15740,
    "vertices": 361,
    "triangles": 400,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 361,
+     "triangles": 400
+    },
+    {
+     "lod": 1,
+     "vertices": 298,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 298,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "2b7c32ecca712308"
    ]
   },
   "kotm:argonia/clutter/wallbasket02": {
    "file": "kotm_argonia_clutter_wallbasket02-a9408fe0.glb",
-   "bytes": 8980,
+   "bytes": 15756,
    "vertices": 361,
    "triangles": 400,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 361,
+     "triangles": 400
+    },
+    {
+     "lod": 1,
+     "vertices": 298,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 298,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "2b7c32ecca712308"
    ]
   },
   "kotm:argonia/clutter/wallbasket03": {
    "file": "kotm_argonia_clutter_wallbasket03-c71dcf61.glb",
-   "bytes": 9032,
+   "bytes": 15864,
    "vertices": 361,
    "triangles": 400,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 361,
+     "triangles": 400
+    },
+    {
+     "lod": 1,
+     "vertices": 298,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 298,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "2b7c32ecca712308"
    ]
   },
   "kotm:argonia/clutter/wallbasket04": {
    "file": "kotm_argonia_clutter_wallbasket04-ab1be569.glb",
-   "bytes": 8796,
+   "bytes": 15848,
    "vertices": 369,
    "triangles": 400,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 369,
+     "triangles": 400
+    },
+    {
+     "lod": 1,
+     "vertices": 318,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 318,
+     "triangles": 299
+    }
+   ],
    "textures": [
     "2b7c32ecca712308"
    ]
   },
   "kotm:argonia/clutter/wallbasket05": {
    "file": "kotm_argonia_clutter_wallbasket05-a9c5dcbd.glb",
-   "bytes": 9292,
+   "bytes": 16708,
    "vertices": 392,
    "triangles": 400,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 392,
+     "triangles": 400
+    },
+    {
+     "lod": 1,
+     "vertices": 341,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 341,
+     "triangles": 299
+    }
+   ],
    "textures": [
     "2b7c32ecca712308"
    ]
   },
   "kotm:argonia/clutter/wallbasket06": {
    "file": "kotm_argonia_clutter_wallbasket06-bde0cf17.glb",
-   "bytes": 9280,
+   "bytes": 16736,
    "vertices": 391,
    "triangles": 400,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 391,
+     "triangles": 400
+    },
+    {
+     "lod": 1,
+     "vertices": 340,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 340,
+     "triangles": 299
+    }
+   ],
    "textures": [
     "2b7c32ecca712308"
    ]
   },
   "kotm:argonia/food/flatbread": {
    "file": "kotm_argonia_food_flatbread-b95e14b2.glb",
-   "bytes": 10236,
+   "bytes": 15916,
    "vertices": 452,
    "triangles": 768,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 452,
+     "triangles": 768
+    },
+    {
+     "lod": 1,
+     "vertices": 205,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 205,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "fdefb3cca29de8c0"
    ]
   },
   "kotm:argonia/food/sakebottle": {
    "file": "kotm_argonia_food_sakebottle-6f65252e.glb",
-   "bytes": 17172,
+   "bytes": 31276,
    "vertices": 751,
    "triangles": 1018,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 751,
+     "triangles": 1018
+    },
+    {
+     "lod": 1,
+     "vertices": 356,
+     "triangles": 378
+    },
+    {
+     "lod": 2,
+     "vertices": 324,
+     "triangles": 334
+    }
+   ],
    "textures": [
     "512113b74c34fe8a",
     "ecf358945997e6f2"
@@ -273,9 +733,26 @@
   },
   "kotm:argonia/food/sakebottle02": {
    "file": "kotm_argonia_food_sakebottle02-ee9440be.glb",
-   "bytes": 16928,
+   "bytes": 31284,
    "vertices": 727,
    "triangles": 916,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 727,
+     "triangles": 916
+    },
+    {
+     "lod": 1,
+     "vertices": 351,
+     "triangles": 342
+    },
+    {
+     "lod": 2,
+     "vertices": 344,
+     "triangles": 333
+    }
+   ],
    "textures": [
     "512113b74c34fe8a",
     "ecf358945997e6f2"
@@ -283,9 +760,26 @@
   },
   "kotm:argonia/furniture/rusticbed": {
    "file": "kotm_argonia_furniture_rusticbed-dae042ff.glb",
-   "bytes": 49296,
+   "bytes": 74280,
    "vertices": 1756,
    "triangles": 1793,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1756,
+     "triangles": 1793
+    },
+    {
+     "lod": 1,
+     "vertices": 1316,
+     "triangles": 1109
+    },
+    {
+     "lod": 2,
+     "vertices": 1316,
+     "triangles": 1109
+    }
+   ],
    "textures": [
     "4021e21cf1e50df8",
     "6a8ef7976a684134",
@@ -297,9 +791,26 @@
   },
   "kotm:argonia/furniture/rusticbench01": {
    "file": "kotm_argonia_furniture_rusticbench01-383aafd7.glb",
-   "bytes": 32556,
+   "bytes": 53628,
    "vertices": 1506,
    "triangles": 1372,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1506,
+     "triangles": 1372
+    },
+    {
+     "lod": 1,
+     "vertices": 1112,
+     "triangles": 840
+    },
+    {
+     "lod": 2,
+     "vertices": 1112,
+     "triangles": 840
+    }
+   ],
    "textures": [
     "4021e21cf1e50df8",
     "6a8ef7976a684134"
@@ -307,9 +818,26 @@
   },
   "kotm:argonia/furniture/rusticchair01": {
    "file": "kotm_argonia_furniture_rusticchair01-ebd8de15.glb",
-   "bytes": 32612,
+   "bytes": 54200,
    "vertices": 1403,
    "triangles": 1276,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1403,
+     "triangles": 1276
+    },
+    {
+     "lod": 1,
+     "vertices": 1093,
+     "triangles": 839
+    },
+    {
+     "lod": 2,
+     "vertices": 1093,
+     "triangles": 839
+    }
+   ],
    "textures": [
     "4021e21cf1e50df8",
     "6a8ef7976a684134"
@@ -317,9 +845,26 @@
   },
   "kotm:argonia/furniture/rusticchair02": {
    "file": "kotm_argonia_furniture_rusticchair02-1a42560e.glb",
-   "bytes": 31628,
+   "bytes": 57628,
    "vertices": 1335,
    "triangles": 1560,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1335,
+     "triangles": 1560
+    },
+    {
+     "lod": 1,
+     "vertices": 954,
+     "triangles": 868
+    },
+    {
+     "lod": 2,
+     "vertices": 922,
+     "triangles": 815
+    }
+   ],
    "textures": [
     "4021e21cf1e50df8",
     "6a8ef7976a684134"
@@ -327,9 +872,26 @@
   },
   "kotm:argonia/furniture/rusticchair04": {
    "file": "kotm_argonia_furniture_rusticchair04-1c448889.glb",
-   "bytes": 15816,
+   "bytes": 18568,
    "vertices": 346,
    "triangles": 350,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 346,
+     "triangles": 350
+    },
+    {
+     "lod": 1,
+     "vertices": 346,
+     "triangles": 350
+    },
+    {
+     "lod": 2,
+     "vertices": 346,
+     "triangles": 350
+    }
+   ],
    "textures": [
     "4021e21cf1e50df8",
     "6a8ef7976a684134"
@@ -337,9 +899,26 @@
   },
   "kotm:argonia/furniture/rusticchest": {
    "file": "kotm_argonia_furniture_rusticchest-aa98bb2a.glb",
-   "bytes": 29116,
+   "bytes": 40616,
    "vertices": 786,
    "triangles": 996,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 786,
+     "triangles": 996
+    },
+    {
+     "lod": 1,
+     "vertices": 603,
+     "triangles": 676
+    },
+    {
+     "lod": 2,
+     "vertices": 603,
+     "triangles": 676
+    }
+   ],
    "textures": [
     "4021e21cf1e50df8",
     "6a8ef7976a684134",
@@ -348,9 +927,26 @@
   },
   "kotm:argonia/furniture/rusticcupboard": {
    "file": "kotm_argonia_furniture_rusticcupboard-c77f509b.glb",
-   "bytes": 36100,
+   "bytes": 54992,
    "vertices": 1459,
    "triangles": 1508,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1459,
+     "triangles": 1508
+    },
+    {
+     "lod": 1,
+     "vertices": 1158,
+     "triangles": 1028
+    },
+    {
+     "lod": 2,
+     "vertices": 1158,
+     "triangles": 1028
+    }
+   ],
    "textures": [
     "4021e21cf1e50df8",
     "6a8ef7976a684134",
@@ -359,9 +955,26 @@
   },
   "kotm:argonia/furniture/rusticshelf": {
    "file": "kotm_argonia_furniture_rusticshelf-399229db.glb",
-   "bytes": 39296,
+   "bytes": 62788,
    "vertices": 1771,
    "triangles": 1724,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1771,
+     "triangles": 1724
+    },
+    {
+     "lod": 1,
+     "vertices": 1174,
+     "triangles": 840
+    },
+    {
+     "lod": 2,
+     "vertices": 1174,
+     "triangles": 840
+    }
+   ],
    "textures": [
     "4021e21cf1e50df8",
     "6a8ef7976a684134"
@@ -369,9 +982,26 @@
   },
   "kotm:argonia/furniture/rustictable01": {
    "file": "kotm_argonia_furniture_rustictable01-6c8e3d12.glb",
-   "bytes": 39860,
+   "bytes": 61940,
    "vertices": 1886,
    "triangles": 1752,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1886,
+     "triangles": 1752
+    },
+    {
+     "lod": 1,
+     "vertices": 1142,
+     "triangles": 840
+    },
+    {
+     "lod": 2,
+     "vertices": 1142,
+     "triangles": 840
+    }
+   ],
    "textures": [
     "4021e21cf1e50df8",
     "6a8ef7976a684134"
@@ -379,9 +1009,26 @@
   },
   "kotm:argonia/furniture/rustictable02": {
    "file": "kotm_argonia_furniture_rustictable02-3ba5edda.glb",
-   "bytes": 39536,
+   "bytes": 61112,
    "vertices": 1889,
    "triangles": 1752,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1889,
+     "triangles": 1752
+    },
+    {
+     "lod": 1,
+     "vertices": 1125,
+     "triangles": 840
+    },
+    {
+     "lod": 2,
+     "vertices": 1125,
+     "triangles": 840
+    }
+   ],
    "textures": [
     "4021e21cf1e50df8",
     "6a8ef7976a684134"
@@ -389,9 +1036,26 @@
   },
   "kotm:argonia/furniture/rustictable03": {
    "file": "kotm_argonia_furniture_rustictable03-c745beb9.glb",
-   "bytes": 38156,
+   "bytes": 59608,
    "vertices": 1604,
    "triangles": 1777,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1604,
+     "triangles": 1777
+    },
+    {
+     "lod": 1,
+     "vertices": 968,
+     "triangles": 744
+    },
+    {
+     "lod": 2,
+     "vertices": 968,
+     "triangles": 744
+    }
+   ],
    "textures": [
     "4021e21cf1e50df8",
     "6a8ef7976a684134"
@@ -399,9 +1063,26 @@
   },
   "kotm:argonia/furniture/table03sq": {
    "file": "kotm_argonia_furniture_table03sq-b4668d5a.glb",
-   "bytes": 10224,
+   "bytes": 11944,
    "vertices": 372,
    "triangles": 288,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 372,
+     "triangles": 288
+    },
+    {
+     "lod": 1,
+     "vertices": 372,
+     "triangles": 288
+    },
+    {
+     "lod": 2,
+     "vertices": 372,
+     "triangles": 288
+    }
+   ],
    "textures": [
     "98b208b1639d4938",
     "de5d89f4a58bb9b3"
@@ -409,18 +1090,52 @@
   },
   "kotm:argonia/mudhuts/floor02": {
    "file": "kotm_argonia_mudhuts_floor02-ff4724d1.glb",
-   "bytes": 78524,
+   "bytes": 131592,
    "vertices": 7291,
    "triangles": 3976,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 7291,
+     "triangles": 3976
+    },
+    {
+     "lod": 1,
+     "vertices": 2867,
+     "triangles": 1391
+    },
+    {
+     "lod": 2,
+     "vertices": 1515,
+     "triangles": 667
+    }
+   ],
    "textures": [
     "ed92dc656a5a17b3"
    ]
   },
   "kotm:argonia/mudhuts/mudhutintfloor01": {
    "file": "kotm_argonia_mudhuts_mudhutintfloor01-046a0294.glb",
-   "bytes": 17708,
+   "bytes": 21272,
    "vertices": 404,
    "triangles": 372,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 404,
+     "triangles": 372
+    },
+    {
+     "lod": 1,
+     "vertices": 404,
+     "triangles": 372
+    },
+    {
+     "lod": 2,
+     "vertices": 404,
+     "triangles": 372
+    }
+   ],
    "textures": [
     "24f63fb182f6f591",
     "a46a708a36b3c7e4",
@@ -429,9 +1144,26 @@
   },
   "kotm:argonia/mudhuts/mudhutintstairs": {
    "file": "kotm_argonia_mudhuts_mudhutintstairs-20b371c9.glb",
-   "bytes": 23352,
+   "bytes": 32148,
    "vertices": 1035,
    "triangles": 1002,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1035,
+     "triangles": 1002
+    },
+    {
+     "lod": 1,
+     "vertices": 776,
+     "triangles": 528
+    },
+    {
+     "lod": 2,
+     "vertices": 776,
+     "triangles": 528
+    }
+   ],
    "textures": [
     "24f63fb182f6f591",
     "ed92dc656a5a17b3"
@@ -439,9 +1171,26 @@
   },
   "kotm:argonia/mudhuts/smpodint01": {
    "file": "kotm_argonia_mudhuts_smpodint01-ecf59cc1.glb",
-   "bytes": 16304,
+   "bytes": 18868,
    "vertices": 465,
    "triangles": 736,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 465,
+     "triangles": 736
+    },
+    {
+     "lod": 1,
+     "vertices": 465,
+     "triangles": 736
+    },
+    {
+     "lod": 2,
+     "vertices": 465,
+     "triangles": 736
+    }
+   ],
    "textures": [
     "24f63fb182f6f591",
     "518ee6dde1e0b262"
@@ -449,9 +1198,26 @@
   },
   "kotm:argonia/mudhuts/smpodint02": {
    "file": "kotm_argonia_mudhuts_smpodint02-8a1d1d43.glb",
-   "bytes": 19324,
+   "bytes": 27024,
    "vertices": 658,
    "triangles": 1084,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 658,
+     "triangles": 1084
+    },
+    {
+     "lod": 1,
+     "vertices": 509,
+     "triangles": 818
+    },
+    {
+     "lod": 2,
+     "vertices": 509,
+     "triangles": 818
+    }
+   ],
    "textures": [
     "24f63fb182f6f591",
     "518ee6dde1e0b262"
@@ -459,9 +1225,26 @@
   },
   "kotm:argonia/mudhuts/tamu_woodpole01": {
    "file": "kotm_argonia_mudhuts_tamu_woodpole01-4fcfe95e.glb",
-   "bytes": 16476,
+   "bytes": 25392,
    "vertices": 590,
    "triangles": 708,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 590,
+     "triangles": 708
+    },
+    {
+     "lod": 1,
+     "vertices": 509,
+     "triangles": 557
+    },
+    {
+     "lod": 2,
+     "vertices": 509,
+     "triangles": 557
+    }
+   ],
    "textures": [
     "24f63fb182f6f591",
     "5d6aedd71b9740f4"
@@ -469,54 +1252,156 @@
   },
   "kotm:argonia/stalactites/stal2": {
    "file": "kotm_argonia_stalactites_stal2-2e352897.glb",
-   "bytes": 5080,
+   "bytes": 5968,
    "vertices": 80,
    "triangles": 132,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 80,
+     "triangles": 132
+    },
+    {
+     "lod": 1,
+     "vertices": 80,
+     "triangles": 132
+    },
+    {
+     "lod": 2,
+     "vertices": 80,
+     "triangles": 132
+    }
+   ],
    "textures": [
     "03b25c8aefe029e5"
    ]
   },
   "kotm:argonia/stalactites/stal3": {
    "file": "kotm_argonia_stalactites_stal3-e902c1c4.glb",
-   "bytes": 5036,
+   "bytes": 5924,
    "vertices": 75,
    "triangles": 122,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 75,
+     "triangles": 122
+    },
+    {
+     "lod": 1,
+     "vertices": 75,
+     "triangles": 122
+    },
+    {
+     "lod": 2,
+     "vertices": 75,
+     "triangles": 122
+    }
+   ],
    "textures": [
     "03b25c8aefe029e5"
    ]
   },
   "kotm:argonia/stalactites/stal5": {
    "file": "kotm_argonia_stalactites_stal5-98062b5c.glb",
-   "bytes": 5480,
+   "bytes": 6368,
    "vertices": 101,
    "triangles": 166,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 101,
+     "triangles": 166
+    },
+    {
+     "lod": 1,
+     "vertices": 101,
+     "triangles": 166
+    },
+    {
+     "lod": 2,
+     "vertices": 101,
+     "triangles": 166
+    }
+   ],
    "textures": [
     "03b25c8aefe029e5"
    ]
   },
   "kotm:argonia/stalactites/stal6": {
    "file": "kotm_argonia_stalactites_stal6-3708c3a3.glb",
-   "bytes": 5616,
+   "bytes": 6504,
    "vertices": 110,
    "triangles": 187,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 110,
+     "triangles": 187
+    },
+    {
+     "lod": 1,
+     "vertices": 110,
+     "triangles": 187
+    },
+    {
+     "lod": 2,
+     "vertices": 110,
+     "triangles": 187
+    }
+   ],
    "textures": [
     "03b25c8aefe029e5"
    ]
   },
   "kotm:argonia/stalactites/stal7": {
    "file": "kotm_argonia_stalactites_stal7-655ff13e.glb",
-   "bytes": 6120,
+   "bytes": 7008,
    "vertices": 136,
    "triangles": 230,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 136,
+     "triangles": 230
+    },
+    {
+     "lod": 1,
+     "vertices": 136,
+     "triangles": 230
+    },
+    {
+     "lod": 2,
+     "vertices": 136,
+     "triangles": 230
+    }
+   ],
    "textures": [
     "03b25c8aefe029e5"
    ]
   },
   "kotm:argonia/trees/greguire/junglelogmossflat01": {
    "file": "kotm_argonia_trees_greguire_junglelogmossflat01-cbc27127.glb",
-   "bytes": 9964,
+   "bytes": 11876,
    "vertices": 300,
    "triangles": 160,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 300,
+     "triangles": 160
+    },
+    {
+     "lod": 1,
+     "vertices": 300,
+     "triangles": 160
+    },
+    {
+     "lod": 2,
+     "vertices": 300,
+     "triangles": 160
+    }
+   ],
    "textures": [
     "2cc1e3a671f28296",
     "fac8e79b042d4d00"
@@ -524,9 +1409,26 @@
   },
   "kotm:argonia/trees/greguire/swampplant08": {
    "file": "kotm_argonia_trees_greguire_swampplant08-861b6d2a.glb",
-   "bytes": 21156,
+   "bytes": 23948,
    "vertices": 748,
    "triangles": 620,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 748,
+     "triangles": 620
+    },
+    {
+     "lod": 1,
+     "vertices": 748,
+     "triangles": 620
+    },
+    {
+     "lod": 2,
+     "vertices": 748,
+     "triangles": 620
+    }
+   ],
    "textures": [
     "0dd22a04ae35f0fa",
     "1071c5d84f7c0f5c",
@@ -535,9 +1437,26 @@
   },
   "kotm:argonia/trees/greguire/swampplant08a": {
    "file": "kotm_argonia_trees_greguire_swampplant08a-da3d2280.glb",
-   "bytes": 42248,
+   "bytes": 68792,
    "vertices": 2273,
    "triangles": 1890,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2273,
+     "triangles": 1890
+    },
+    {
+     "lod": 1,
+     "vertices": 1279,
+     "triangles": 898
+    },
+    {
+     "lod": 2,
+     "vertices": 1279,
+     "triangles": 898
+    }
+   ],
    "textures": [
     "0dd22a04ae35f0fa",
     "1071c5d84f7c0f5c",
@@ -546,45 +1465,130 @@
   },
   "kotm:argonia/trees/hist trees/hist_root03": {
    "file": "kotm_argonia_trees_hist_trees_hist_root03-04982b58.glb",
-   "bytes": 6728,
+   "bytes": 7636,
    "vertices": 169,
    "triangles": 264,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 169,
+     "triangles": 264
+    },
+    {
+     "lod": 1,
+     "vertices": 169,
+     "triangles": 264
+    },
+    {
+     "lod": 2,
+     "vertices": 169,
+     "triangles": 264
+    }
+   ],
    "textures": [
     "05032215bf964d4a"
    ]
   },
   "kotm:argonia/trees/hist trees/hist_root04": {
    "file": "kotm_argonia_trees_hist_trees_hist_root04-286aed25.glb",
-   "bytes": 6740,
+   "bytes": 7648,
    "vertices": 169,
    "triangles": 264,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 169,
+     "triangles": 264
+    },
+    {
+     "lod": 1,
+     "vertices": 169,
+     "triangles": 264
+    },
+    {
+     "lod": 2,
+     "vertices": 169,
+     "triangles": 264
+    }
+   ],
    "textures": [
     "05032215bf964d4a"
    ]
   },
   "kotm:argonia/trees/hist trees/hist_root05": {
    "file": "kotm_argonia_trees_hist_trees_hist_root05-3d4b5915.glb",
-   "bytes": 15752,
+   "bytes": 29532,
    "vertices": 670,
    "triangles": 1103,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 670,
+     "triangles": 1103
+    },
+    {
+     "lod": 1,
+     "vertices": 275,
+     "triangles": 386
+    },
+    {
+     "lod": 2,
+     "vertices": 222,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "05032215bf964d4a"
    ]
   },
   "kotm:argonia/trees/hist trees/hist_rootanim": {
    "file": "kotm_argonia_trees_hist_trees_hist_rootanim-50e90b80.glb",
-   "bytes": 10716,
+   "bytes": 17188,
    "vertices": 403,
    "triangles": 666,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 403,
+     "triangles": 666
+    },
+    {
+     "lod": 1,
+     "vertices": 209,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 209,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "05032215bf964d4a"
    ]
   },
   "kotm:loliceptresource/barrel/miscbarrelopen01": {
    "file": "kotm_loliceptresource_barrel_miscbarrelopen01-59797b19.glb",
-   "bytes": 67684,
+   "bytes": 109596,
    "vertices": 3038,
    "triangles": 3049,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 3038,
+     "triangles": 3049
+    },
+    {
+     "lod": 1,
+     "vertices": 2168,
+     "triangles": 1911
+    },
+    {
+     "lod": 2,
+     "vertices": 2168,
+     "triangles": 1911
+    }
+   ],
    "textures": [
     "1679aac9df612682",
     "238beff0470ee009",
@@ -595,27 +1599,78 @@
   },
   "kotm:mihail monsters and animals/rabbit/frog/frogmeat": {
    "file": "kotm_mihail_monsters_and_animals_rabbit_frog_frogmeat-010313be.glb",
-   "bytes": 18580,
+   "bytes": 30612,
    "vertices": 954,
    "triangles": 1900,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 954,
+     "triangles": 1900
+    },
+    {
+     "lod": 1,
+     "vertices": 336,
+     "triangles": 664
+    },
+    {
+     "lod": 2,
+     "vertices": 154,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "68f14aa3e503a7d6"
    ]
   },
   "kotm:mihail monsters and animals/rabbit/frog/frogmeat2": {
    "file": "kotm_mihail_monsters_and_animals_rabbit_frog_frogmeat2-87057f8e.glb",
-   "bytes": 18588,
+   "bytes": 30636,
    "vertices": 954,
    "triangles": 1900,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 954,
+     "triangles": 1900
+    },
+    {
+     "lod": 1,
+     "vertices": 336,
+     "triangles": 664
+    },
+    {
+     "lod": 2,
+     "vertices": 154,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "4756f1847811f2f0"
    ]
   },
   "kotm:oaristys/clutter/rugs": {
    "file": "kotm_oaristys_clutter_rugs-fbd83d7c.glb",
-   "bytes": 32784,
+   "bytes": 59048,
    "vertices": 1331,
    "triangles": 1732,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1331,
+     "triangles": 1732
+    },
+    {
+     "lod": 1,
+     "vertices": 1009,
+     "triangles": 1200
+    },
+    {
+     "lod": 2,
+     "vertices": 1009,
+     "triangles": 1200
+    }
+   ],
    "textures": [
     "37a0b1fd22d64a62",
     "6b62fbeb16d2c788",
@@ -625,54 +1680,126 @@
   },
   "kotm:plants/tamira/new plants/tropicalplant01": {
    "file": "kotm_plants_tamira_new_plants_tropicalplant01-18580e25.glb",
-   "bytes": 18256,
+   "bytes": 18260,
    "vertices": 925,
    "triangles": 1152,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 925,
+     "triangles": 1152
+    }
+   ],
    "textures": [
     "0dd22a04ae35f0fa"
    ]
   },
   "kotm:plants/tamira/new plants/tropicalshrub03": {
    "file": "kotm_plants_tamira_new_plants_tropicalshrub03-a82ccaa6.glb",
-   "bytes": 28412,
+   "bytes": 28416,
    "vertices": 1554,
    "triangles": 1443,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1554,
+     "triangles": 1443
+    }
+   ],
    "textures": [
     "7d04f9158e1ad6b5"
    ]
   },
   "kotm:plants/tamira/new plants/tropicalshrub05": {
    "file": "kotm_plants_tamira_new_plants_tropicalshrub05-fdd2ae70.glb",
-   "bytes": 10512,
+   "bytes": 10520,
    "vertices": 470,
    "triangles": 608,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 470,
+     "triangles": 608
+    }
+   ],
    "textures": [
     "8bbec45e95965024"
    ]
   },
   "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat": {
    "file": "kotm_skinwalker21_creatures_horker_giant_snail_giantsnailmeat-12c25a2e.glb",
-   "bytes": 9440,
+   "bytes": 15304,
    "vertices": 368,
    "triangles": 576,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 368,
+     "triangles": 576
+    },
+    {
+     "lod": 1,
+     "vertices": 210,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 210,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "02e2e5bb5823ccca"
    ]
   },
   "kotm:skinwalker21 creatures/horker/giant snail/shell": {
    "file": "kotm_skinwalker21_creatures_horker_giant_snail_shell-f4d00b79.glb",
-   "bytes": 26940,
+   "bytes": 44976,
    "vertices": 1616,
    "triangles": 2896,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1616,
+     "triangles": 2896
+    },
+    {
+     "lod": 1,
+     "vertices": 645,
+     "triangles": 1013
+    },
+    {
+     "lod": 2,
+     "vertices": 263,
+     "triangles": 347
+    }
+   ],
    "textures": [
     "92e874dc218aa6c5"
    ]
   },
   "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime": {
    "file": "kotm_skinwalker21_creatures_horker_giant_snail_skyrim_giantsnailslime-d41699dd.glb",
-   "bytes": 22136,
+   "bytes": 32224,
    "vertices": 854,
    "triangles": 1076,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 854,
+     "triangles": 1076
+    },
+    {
+     "lod": 1,
+     "vertices": 538,
+     "triangles": 612
+    },
+    {
+     "lod": 2,
+     "vertices": 538,
+     "triangles": 612
+    }
+   ],
    "textures": [
     "951aedbcaafc277d",
     "d1ac4df756c55d7a"
@@ -680,9 +1807,26 @@
   },
   "vanilla:architecture/riften/clutter/rtchimney01": {
    "file": "vanilla_architecture_riften_clutter_rtchimney01-321eac98.glb",
-   "bytes": 9488,
+   "bytes": 11048,
    "vertices": 196,
    "triangles": 122,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 196,
+     "triangles": 122
+    },
+    {
+     "lod": 1,
+     "vertices": 196,
+     "triangles": 122
+    },
+    {
+     "lod": 2,
+     "vertices": 196,
+     "triangles": 122
+    }
+   ],
    "textures": [
     "86c85b817065e26e",
     "9063791ad34d0cf9"
@@ -690,90 +1834,260 @@
   },
   "vanilla:clothes/monk/monkrobesgnd": {
    "file": "vanilla_clothes_monk_monkrobesgnd-37adc9ca.glb",
-   "bytes": 13444,
+   "bytes": 26164,
    "vertices": 657,
    "triangles": 980,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 657,
+     "triangles": 980
+    },
+    {
+     "lod": 1,
+     "vertices": 297,
+     "triangles": 342
+    },
+    {
+     "lod": 2,
+     "vertices": 270,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "4489b3b1cd760512"
    ]
   },
   "vanilla:clutter/blacksmith/blacksmithnovicetongs01": {
    "file": "vanilla_clutter_blacksmith_blacksmithnovicetongs01-28b40622.glb",
-   "bytes": 8008,
+   "bytes": 9548,
    "vertices": 176,
    "triangles": 152,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 176,
+     "triangles": 152
+    },
+    {
+     "lod": 1,
+     "vertices": 176,
+     "triangles": 152
+    },
+    {
+     "lod": 2,
+     "vertices": 176,
+     "triangles": 152
+    }
+   ],
    "textures": [
     "99ec066031db096c"
    ]
   },
   "vanilla:clutter/bones/bloodyarm": {
    "file": "vanilla_clutter_bones_bloodyarm-155a701c.glb",
-   "bytes": 5488,
+   "bytes": 6224,
    "vertices": 132,
    "triangles": 196,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 132,
+     "triangles": 196
+    },
+    {
+     "lod": 1,
+     "vertices": 132,
+     "triangles": 196
+    },
+    {
+     "lod": 2,
+     "vertices": 132,
+     "triangles": 196
+    }
+   ],
    "textures": [
     "3ae0814e7e49d75a"
    ]
   },
   "vanilla:clutter/bones/bloodyhand": {
    "file": "vanilla_clutter_bones_bloodyhand-67f76f2b.glb",
-   "bytes": 8388,
+   "bytes": 14044,
    "vertices": 326,
    "triangles": 488,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 326,
+     "triangles": 488
+    },
+    {
+     "lod": 1,
+     "vertices": 224,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 224,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "3ae0814e7e49d75a"
    ]
   },
   "vanilla:clutter/bones/bloodyleg": {
    "file": "vanilla_clutter_bones_bloodyleg-41d96368.glb",
-   "bytes": 5180,
+   "bytes": 5916,
    "vertices": 118,
    "triangles": 188,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 118,
+     "triangles": 188
+    },
+    {
+     "lod": 1,
+     "vertices": 118,
+     "triangles": 188
+    },
+    {
+     "lod": 2,
+     "vertices": 118,
+     "triangles": 188
+    }
+   ],
    "textures": [
     "3ae0814e7e49d75a"
    ]
   },
   "vanilla:clutter/bones/bloodyskull": {
    "file": "vanilla_clutter_bones_bloodyskull-a2714079.glb",
-   "bytes": 9640,
+   "bytes": 14996,
    "vertices": 411,
    "triangles": 690,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 411,
+     "triangles": 690
+    },
+    {
+     "lod": 1,
+     "vertices": 200,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 200,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "3ae0814e7e49d75a"
    ]
   },
   "vanilla:clutter/bones/humanfootleft": {
    "file": "vanilla_clutter_bones_humanfootleft-72030aa0.glb",
-   "bytes": 6824,
+   "bytes": 7564,
    "vertices": 207,
    "triangles": 288,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 207,
+     "triangles": 288
+    },
+    {
+     "lod": 1,
+     "vertices": 207,
+     "triangles": 288
+    },
+    {
+     "lod": 2,
+     "vertices": 207,
+     "triangles": 288
+    }
+   ],
    "textures": [
     "53910dd5f4a481f0"
    ]
   },
   "vanilla:clutter/bones/humanhandleft": {
    "file": "vanilla_clutter_bones_humanhandleft-5c7889c1.glb",
-   "bytes": 9668,
+   "bytes": 15392,
    "vertices": 416,
    "triangles": 650,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 416,
+     "triangles": 650
+    },
+    {
+     "lod": 1,
+     "vertices": 225,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 225,
+     "triangles": 299
+    }
+   ],
    "textures": [
     "53910dd5f4a481f0"
    ]
   },
   "vanilla:clutter/bones/humanlegright": {
    "file": "vanilla_clutter_bones_humanlegright-73a5916c.glb",
-   "bytes": 7380,
+   "bytes": 12784,
    "vertices": 260,
    "triangles": 398,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 260,
+     "triangles": 398
+    },
+    {
+     "lod": 1,
+     "vertices": 205,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 205,
+     "triangles": 299
+    }
+   ],
    "textures": [
     "53910dd5f4a481f0"
    ]
   },
   "vanilla:clutter/books/basicbook01": {
    "file": "vanilla_clutter_books_basicbook01-9fea6a87.glb",
-   "bytes": 20552,
+   "bytes": 22976,
    "vertices": 679,
    "triangles": 544,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 679,
+     "triangles": 544
+    },
+    {
+     "lod": 1,
+     "vertices": 679,
+     "triangles": 544
+    },
+    {
+     "lod": 2,
+     "vertices": 679,
+     "triangles": 544
+    }
+   ],
    "textures": [
     "8a412a25a552fede",
     "9f2e0fca2754ba45"
@@ -781,9 +2095,26 @@
   },
   "vanilla:clutter/books/basicbook03": {
    "file": "vanilla_clutter_books_basicbook03-cbd7453c.glb",
-   "bytes": 19572,
+   "bytes": 22020,
    "vertices": 687,
    "triangles": 538,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 687,
+     "triangles": 538
+    },
+    {
+     "lod": 1,
+     "vertices": 687,
+     "triangles": 538
+    },
+    {
+     "lod": 2,
+     "vertices": 687,
+     "triangles": 538
+    }
+   ],
    "textures": [
     "7a482ec28ce30f59",
     "9f2e0fca2754ba45"
@@ -791,9 +2122,26 @@
   },
   "vanilla:clutter/books/basicbook04": {
    "file": "vanilla_clutter_books_basicbook04-93c538bc.glb",
-   "bytes": 19480,
+   "bytes": 21928,
    "vertices": 683,
    "triangles": 538,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 683,
+     "triangles": 538
+    },
+    {
+     "lod": 1,
+     "vertices": 683,
+     "triangles": 538
+    },
+    {
+     "lod": 2,
+     "vertices": 683,
+     "triangles": 538
+    }
+   ],
    "textures": [
     "9f2e0fca2754ba45",
     "f2ff7da79f7e007c"
@@ -801,9 +2149,26 @@
   },
   "vanilla:clutter/books/basicbook04a": {
    "file": "vanilla_clutter_books_basicbook04a-97861b75.glb",
-   "bytes": 19876,
+   "bytes": 22328,
    "vertices": 685,
    "triangles": 538,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 685,
+     "triangles": 538
+    },
+    {
+     "lod": 1,
+     "vertices": 685,
+     "triangles": 538
+    },
+    {
+     "lod": 2,
+     "vertices": 685,
+     "triangles": 538
+    }
+   ],
    "textures": [
     "9f2e0fca2754ba45",
     "f2ff7da79f7e007c"
@@ -811,9 +2176,26 @@
   },
   "vanilla:clutter/books/basicbook06": {
    "file": "vanilla_clutter_books_basicbook06-2f7ac1a0.glb",
-   "bytes": 19480,
+   "bytes": 21928,
    "vertices": 685,
    "triangles": 538,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 685,
+     "triangles": 538
+    },
+    {
+     "lod": 1,
+     "vertices": 685,
+     "triangles": 538
+    },
+    {
+     "lod": 2,
+     "vertices": 685,
+     "triangles": 538
+    }
+   ],
    "textures": [
     "9f2e0fca2754ba45",
     "ced2e68ba6168608"
@@ -821,9 +2203,26 @@
   },
   "vanilla:clutter/books/book02lowpoly": {
    "file": "vanilla_clutter_books_book02lowpoly-f5905a63.glb",
-   "bytes": 20356,
+   "bytes": 22840,
    "vertices": 664,
    "triangles": 544,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 664,
+     "triangles": 544
+    },
+    {
+     "lod": 1,
+     "vertices": 664,
+     "triangles": 544
+    },
+    {
+     "lod": 2,
+     "vertices": 664,
+     "triangles": 544
+    }
+   ],
    "textures": [
     "0742cff10310ba16",
     "9f2e0fca2754ba45"
@@ -831,18 +2230,52 @@
   },
   "vanilla:clutter/bucket02a": {
    "file": "vanilla_clutter_bucket02a-b7bfdd8d.glb",
-   "bytes": 7888,
+   "bytes": 14604,
    "vertices": 343,
    "triangles": 316,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 343,
+     "triangles": 316
+    },
+    {
+     "lod": 1,
+     "vertices": 334,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 334,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "d1ac4df756c55d7a"
    ]
   },
   "vanilla:clutter/common/fishingpolecollection01": {
    "file": "vanilla_clutter_common_fishingpolecollection01-3df4cff0.glb",
-   "bytes": 45452,
+   "bytes": 71524,
    "vertices": 2700,
    "triangles": 2596,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2700,
+     "triangles": 2596
+    },
+    {
+     "lod": 1,
+     "vertices": 1260,
+     "triangles": 1060
+    },
+    {
+     "lod": 2,
+     "vertices": 676,
+     "triangles": 533
+    }
+   ],
    "textures": [
     "5d1a2e4ae562ca90",
     "a3251ccd8e6ada53"
@@ -850,45 +2283,130 @@
   },
   "vanilla:clutter/common/flute01": {
    "file": "vanilla_clutter_common_flute01-758ed6e8.glb",
-   "bytes": 7484,
+   "bytes": 13396,
    "vertices": 271,
    "triangles": 368,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 271,
+     "triangles": 368
+    },
+    {
+     "lod": 1,
+     "vertices": 232,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 232,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "e931269706a7fc32"
    ]
   },
   "vanilla:clutter/common/rag01": {
    "file": "vanilla_clutter_common_rag01-fab9276a.glb",
-   "bytes": 11124,
+   "bytes": 17028,
    "vertices": 428,
    "triangles": 762,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 428,
+     "triangles": 762
+    },
+    {
+     "lod": 1,
+     "vertices": 191,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 191,
+     "triangles": 299
+    }
+   ],
    "textures": [
     "288684a0360ef0f1"
    ]
   },
   "vanilla:clutter/common/rug01": {
    "file": "vanilla_clutter_common_rug01-b2a00cbc.glb",
-   "bytes": 3628,
+   "bytes": 4344,
    "vertices": 21,
    "triangles": 28,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 21,
+     "triangles": 28
+    },
+    {
+     "lod": 1,
+     "vertices": 21,
+     "triangles": 28
+    },
+    {
+     "lod": 2,
+     "vertices": 21,
+     "triangles": 28
+    }
+   ],
    "textures": [
     "6b62fbeb16d2c788"
    ]
   },
   "vanilla:clutter/common/rug02": {
    "file": "vanilla_clutter_common_rug02-d98e4dda.glb",
-   "bytes": 4168,
+   "bytes": 4880,
    "vertices": 21,
    "triangles": 28,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 21,
+     "triangles": 28
+    },
+    {
+     "lod": 1,
+     "vertices": 21,
+     "triangles": 28
+    },
+    {
+     "lod": 2,
+     "vertices": 21,
+     "triangles": 28
+    }
+   ],
    "textures": [
     "9849de4fbd70b209"
    ]
   },
   "vanilla:clutter/common/rug03": {
    "file": "vanilla_clutter_common_rug03-9819cdcc.glb",
-   "bytes": 7364,
+   "bytes": 8792,
    "vertices": 79,
    "triangles": 71,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 79,
+     "triangles": 71
+    },
+    {
+     "lod": 1,
+     "vertices": 79,
+     "triangles": 71
+    },
+    {
+     "lod": 2,
+     "vertices": 79,
+     "triangles": 71
+    }
+   ],
    "textures": [
     "8e87fcd556f9017f",
     "9849de4fbd70b209"
@@ -896,9 +2414,26 @@
   },
   "vanilla:clutter/common/rug07": {
    "file": "vanilla_clutter_common_rug07-92219e51.glb",
-   "bytes": 8664,
+   "bytes": 10092,
    "vertices": 119,
    "triangles": 82,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 119,
+     "triangles": 82
+    },
+    {
+     "lod": 1,
+     "vertices": 119,
+     "triangles": 82
+    },
+    {
+     "lod": 2,
+     "vertices": 119,
+     "triangles": 82
+    }
+   ],
    "textures": [
     "8e87fcd556f9017f",
     "9849de4fbd70b209"
@@ -906,72 +2441,208 @@
   },
   "vanilla:clutter/deadanimals/deadpondfish01": {
    "file": "vanilla_clutter_deadanimals_deadpondfish01-8b29cf50.glb",
-   "bytes": 10616,
+   "bytes": 12836,
    "vertices": 132,
    "triangles": 136,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 132,
+     "triangles": 136
+    },
+    {
+     "lod": 1,
+     "vertices": 132,
+     "triangles": 136
+    },
+    {
+     "lod": 2,
+     "vertices": 132,
+     "triangles": 136
+    }
+   ],
    "textures": [
     "131c6c0ee51ff178"
    ]
   },
   "vanilla:clutter/deadanimals/deadpondfish02": {
    "file": "vanilla_clutter_deadanimals_deadpondfish02-ba2e806b.glb",
-   "bytes": 11924,
+   "bytes": 14144,
    "vertices": 130,
    "triangles": 134,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 130,
+     "triangles": 134
+    },
+    {
+     "lod": 1,
+     "vertices": 130,
+     "triangles": 134
+    },
+    {
+     "lod": 2,
+     "vertices": 130,
+     "triangles": 134
+    }
+   ],
    "textures": [
     "131c6c0ee51ff178"
    ]
   },
   "vanilla:clutter/deadanimals/deadpondfish03": {
    "file": "vanilla_clutter_deadanimals_deadpondfish03-02d51752.glb",
-   "bytes": 11592,
+   "bytes": 13812,
    "vertices": 130,
    "triangles": 134,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 130,
+     "triangles": 134
+    },
+    {
+     "lod": 1,
+     "vertices": 130,
+     "triangles": 134
+    },
+    {
+     "lod": 2,
+     "vertices": 130,
+     "triangles": 134
+    }
+   ],
    "textures": [
     "131c6c0ee51ff178"
    ]
   },
   "vanilla:clutter/deadanimals/deadpondfish04": {
    "file": "vanilla_clutter_deadanimals_deadpondfish04-0b01bdb5.glb",
-   "bytes": 11592,
+   "bytes": 13812,
    "vertices": 130,
    "triangles": 134,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 130,
+     "triangles": 134
+    },
+    {
+     "lod": 1,
+     "vertices": 130,
+     "triangles": 134
+    },
+    {
+     "lod": 2,
+     "vertices": 130,
+     "triangles": 134
+    }
+   ],
    "textures": [
     "131c6c0ee51ff178"
    ]
   },
   "vanilla:clutter/deadanimals/deadpondfish05": {
    "file": "vanilla_clutter_deadanimals_deadpondfish05-2a77fbc0.glb",
-   "bytes": 11576,
+   "bytes": 13796,
    "vertices": 130,
    "triangles": 134,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 130,
+     "triangles": 134
+    },
+    {
+     "lod": 1,
+     "vertices": 130,
+     "triangles": 134
+    },
+    {
+     "lod": 2,
+     "vertices": 130,
+     "triangles": 134
+    }
+   ],
    "textures": [
     "131c6c0ee51ff178"
    ]
   },
   "vanilla:clutter/deadanimals/deadsalmon01": {
    "file": "vanilla_clutter_deadanimals_deadsalmon01-abbb2bb5.glb",
-   "bytes": 12348,
+   "bytes": 14748,
    "vertices": 216,
    "triangles": 256,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 216,
+     "triangles": 256
+    },
+    {
+     "lod": 1,
+     "vertices": 216,
+     "triangles": 256
+    },
+    {
+     "lod": 2,
+     "vertices": 216,
+     "triangles": 256
+    }
+   ],
    "textures": [
     "2c22e897116799b7"
    ]
   },
   "vanilla:clutter/deadanimals/deadsalmon02": {
    "file": "vanilla_clutter_deadanimals_deadsalmon02-c2368fc9.glb",
-   "bytes": 12196,
+   "bytes": 14540,
    "vertices": 215,
    "triangles": 254,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 215,
+     "triangles": 254
+    },
+    {
+     "lod": 1,
+     "vertices": 215,
+     "triangles": 254
+    },
+    {
+     "lod": 2,
+     "vertices": 215,
+     "triangles": 254
+    }
+   ],
    "textures": [
     "2c22e897116799b7"
    ]
   },
   "vanilla:clutter/deadanimals/wallmountedmudcrab01": {
    "file": "vanilla_clutter_deadanimals_wallmountedmudcrab01-435a9ccc.glb",
-   "bytes": 50120,
+   "bytes": 81608,
    "vertices": 2939,
    "triangles": 4284,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2939,
+     "triangles": 4284
+    },
+    {
+     "lod": 1,
+     "vertices": 1416,
+     "triangles": 1642
+    },
+    {
+     "lod": 2,
+     "vertices": 732,
+     "triangles": 707
+    }
+   ],
    "textures": [
     "4462f014892f00e2",
     "ec8da253f210f595"
@@ -979,9 +2650,26 @@
   },
   "vanilla:clutter/deadanimals/wallmountedslaughterfish01": {
    "file": "vanilla_clutter_deadanimals_wallmountedslaughterfish01-ec69cba6.glb",
-   "bytes": 37472,
+   "bytes": 61664,
    "vertices": 2058,
    "triangles": 2932,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2058,
+     "triangles": 2932
+    },
+    {
+     "lod": 1,
+     "vertices": 978,
+     "triangles": 1086
+    },
+    {
+     "lod": 2,
+     "vertices": 437,
+     "triangles": 433
+    }
+   ],
    "textures": [
     "2cef839b7c66c8cc",
     "acf33808ee05dfa2"
@@ -989,45 +2677,130 @@
   },
   "vanilla:clutter/dining set/basicwoodenbowl01": {
    "file": "vanilla_clutter_dining_set_basicwoodenbowl01-937e0057.glb",
-   "bytes": 4676,
+   "bytes": 5472,
    "vertices": 68,
    "triangles": 100,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 68,
+     "triangles": 100
+    },
+    {
+     "lod": 1,
+     "vertices": 68,
+     "triangles": 100
+    },
+    {
+     "lod": 2,
+     "vertices": 68,
+     "triangles": 100
+    }
+   ],
    "textures": [
     "f0a4968543a45b2d"
    ]
   },
   "vanilla:clutter/dining set/basicwoodenplate01": {
    "file": "vanilla_clutter_dining_set_basicwoodenplate01-25e4fc35.glb",
-   "bytes": 4644,
+   "bytes": 5444,
    "vertices": 76,
    "triangles": 100,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 76,
+     "triangles": 100
+    },
+    {
+     "lod": 1,
+     "vertices": 76,
+     "triangles": 100
+    },
+    {
+     "lod": 2,
+     "vertices": 76,
+     "triangles": 100
+    }
+   ],
    "textures": [
     "f0a4968543a45b2d"
    ]
   },
   "vanilla:clutter/food/cookedslaughterfishsteak01": {
    "file": "vanilla_clutter_food_cookedslaughterfishsteak01-550c4494.glb",
-   "bytes": 5796,
+   "bytes": 6600,
    "vertices": 190,
    "triangles": 174,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 190,
+     "triangles": 174
+    },
+    {
+     "lod": 1,
+     "vertices": 190,
+     "triangles": 174
+    },
+    {
+     "lod": 2,
+     "vertices": 190,
+     "triangles": 174
+    }
+   ],
    "textures": [
     "1636866e18fe83c3"
    ]
   },
   "vanilla:clutter/giant/giantspit01": {
    "file": "vanilla_clutter_giant_giantspit01-39686b29.glb",
-   "bytes": 8308,
+   "bytes": 15028,
    "vertices": 278,
    "triangles": 354,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 278,
+     "triangles": 354
+    },
+    {
+     "lod": 1,
+     "vertices": 248,
+     "triangles": 299
+    },
+    {
+     "lod": 2,
+     "vertices": 248,
+     "triangles": 299
+    }
+   ],
    "textures": [
     "901280c9737e574f"
    ]
   },
   "vanilla:clutter/glazedcandles01": {
    "file": "vanilla_clutter_glazedcandles01-f22bff61.glb",
-   "bytes": 12840,
+   "bytes": 14396,
    "vertices": 394,
    "triangles": 434,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 394,
+     "triangles": 434
+    },
+    {
+     "lod": 1,
+     "vertices": 394,
+     "triangles": 434
+    },
+    {
+     "lod": 2,
+     "vertices": 394,
+     "triangles": 434
+    }
+   ],
    "textures": [
     "308d2a5e777d1e9b",
     "e57da8e5f799fb18"
@@ -1035,27 +2808,78 @@
   },
   "vanilla:clutter/ingredients/mudcrabchitin": {
    "file": "vanilla_clutter_ingredients_mudcrabchitin-45496109.glb",
-   "bytes": 8388,
+   "bytes": 14516,
    "vertices": 262,
    "triangles": 396,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 262,
+     "triangles": 396
+    },
+    {
+     "lod": 1,
+     "vertices": 211,
+     "triangles": 300
+    },
+    {
+     "lod": 2,
+     "vertices": 211,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "51d29b0c0bc6f366"
    ]
   },
   "vanilla:clutter/ingredients/scalypholiotabits01": {
    "file": "vanilla_clutter_ingredients_scalypholiotabits01-36787843.glb",
-   "bytes": 30012,
+   "bytes": 49360,
    "vertices": 1212,
    "triangles": 1932,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1212,
+     "triangles": 1932
+    },
+    {
+     "lod": 1,
+     "vertices": 643,
+     "triangles": 900
+    },
+    {
+     "lod": 2,
+     "vertices": 643,
+     "triangles": 900
+    }
+   ],
    "textures": [
     "89e16d86368f2eee"
    ]
   },
   "vanilla:clutter/wallbasket03": {
    "file": "vanilla_clutter_wallbasket03-e3a5b89b.glb",
-   "bytes": 13032,
+   "bytes": 21560,
    "vertices": 434,
    "triangles": 440,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 434,
+     "triangles": 440
+    },
+    {
+     "lod": 1,
+     "vertices": 383,
+     "triangles": 339
+    },
+    {
+     "lod": 2,
+     "vertices": 383,
+     "triangles": 339
+    }
+   ],
    "textures": [
     "67ae0d42579c1eb0",
     "b35bcb40eb8bac67"
@@ -1063,9 +2887,26 @@
   },
   "vanilla:clutter/wallbaskethex02": {
    "file": "vanilla_clutter_wallbaskethex02-3e558436.glb",
-   "bytes": 17988,
+   "bytes": 21032,
    "vertices": 440,
    "triangles": 528,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 440,
+     "triangles": 528
+    },
+    {
+     "lod": 1,
+     "vertices": 440,
+     "triangles": 528
+    },
+    {
+     "lod": 2,
+     "vertices": 440,
+     "triangles": 528
+    }
+   ],
    "textures": [
     "5d6aedd71b9740f4",
     "67ae0d42579c1eb0",
@@ -1075,9 +2916,26 @@
   },
   "vanilla:clutter/wallbaskethex03": {
    "file": "vanilla_clutter_wallbaskethex03-bb1c3c8c.glb",
-   "bytes": 18344,
+   "bytes": 21388,
    "vertices": 466,
    "triangles": 552,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 466,
+     "triangles": 552
+    },
+    {
+     "lod": 1,
+     "vertices": 466,
+     "triangles": 552
+    },
+    {
+     "lod": 2,
+     "vertices": 466,
+     "triangles": 552
+    }
+   ],
    "textures": [
     "5d6aedd71b9740f4",
     "67ae0d42579c1eb0",
@@ -1087,9 +2945,26 @@
   },
   "vanilla:clutter/wallbasketlarge01": {
    "file": "vanilla_clutter_wallbasketlarge01-5163dae7.glb",
-   "bytes": 20576,
+   "bytes": 29916,
    "vertices": 600,
    "triangles": 706,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 600,
+     "triangles": 706
+    },
+    {
+     "lod": 1,
+     "vertices": 540,
+     "triangles": 606
+    },
+    {
+     "lod": 2,
+     "vertices": 540,
+     "triangles": 606
+    }
+   ],
    "textures": [
     "5d6aedd71b9740f4",
     "67ae0d42579c1eb0",
@@ -1099,27 +2974,78 @@
   },
   "vanilla:clutter/wine/winebottle02a": {
    "file": "vanilla_clutter_wine_winebottle02a-0451c019.glb",
-   "bytes": 10036,
+   "bytes": 15924,
    "vertices": 241,
    "triangles": 370,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 241,
+     "triangles": 370
+    },
+    {
+     "lod": 1,
+     "vertices": 222,
+     "triangles": 333
+    },
+    {
+     "lod": 2,
+     "vertices": 222,
+     "triangles": 333
+    }
+   ],
    "textures": [
     "ecf358945997e6f2"
    ]
   },
   "vanilla:clutter/woodfires/cookingstand02": {
    "file": "vanilla_clutter_woodfires_cookingstand02-4cd20772.glb",
-   "bytes": 21932,
+   "bytes": 40340,
    "vertices": 1498,
    "triangles": 948,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1498,
+     "triangles": 948
+    },
+    {
+     "lod": 1,
+     "vertices": 599,
+     "triangles": 331
+    },
+    {
+     "lod": 2,
+     "vertices": 544,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "77a79c8f3f2b5a74"
    ]
   },
   "vanilla:critters/bee/beehoneycomb": {
    "file": "vanilla_critters_bee_beehoneycomb-05138566.glb",
-   "bytes": 12564,
+   "bytes": 18536,
    "vertices": 357,
    "triangles": 600,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 357,
+     "triangles": 600
+    },
+    {
+     "lod": 1,
+     "vertices": 295,
+     "triangles": 476
+    },
+    {
+     "lod": 2,
+     "vertices": 295,
+     "triangles": 476
+    }
+   ],
    "textures": [
     "30c685508ed0c576",
     "9c53fdfb26b0eb86"
@@ -1127,18 +3053,52 @@
   },
   "vanilla:dungeons/caves/green/dirtmound/cavegdirtmound03": {
    "file": "vanilla_dungeons_caves_green_dirtmound_cavegdirtmound03-4e6886e0.glb",
-   "bytes": 4676,
+   "bytes": 5488,
    "vertices": 75,
    "triangles": 130,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 75,
+     "triangles": 130
+    },
+    {
+     "lod": 1,
+     "vertices": 75,
+     "triangles": 130
+    },
+    {
+     "lod": 2,
+     "vertices": 75,
+     "triangles": 130
+    }
+   ],
    "textures": [
     "40943593cc24f9a1"
    ]
   },
   "vanilla:dungeons/caves/green/largehall/caveglhall1way01": {
    "file": "vanilla_dungeons_caves_green_largehall_caveglhall1way01-ee14a5c2.glb",
-   "bytes": 64936,
+   "bytes": 114832,
    "vertices": 2744,
    "triangles": 3711,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2744,
+     "triangles": 3711
+    },
+    {
+     "lod": 1,
+     "vertices": 1650,
+     "triangles": 1835
+    },
+    {
+     "lod": 2,
+     "vertices": 1624,
+     "triangles": 1798
+    }
+   ],
    "textures": [
     "032ec677e02e9aa0",
     "03b25c8aefe029e5",
@@ -1150,9 +3110,26 @@
   },
   "vanilla:dungeons/caves/green/largehall/caveglhallentrance03": {
    "file": "vanilla_dungeons_caves_green_largehall_caveglhallentrance03-2e81c89a.glb",
-   "bytes": 126136,
+   "bytes": 209024,
    "vertices": 5462,
    "triangles": 7357,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 5462,
+     "triangles": 7357
+    },
+    {
+     "lod": 1,
+     "vertices": 3034,
+     "triangles": 3201
+    },
+    {
+     "lod": 2,
+     "vertices": 2454,
+     "triangles": 2452
+    }
+   ],
    "textures": [
     "032ec677e02e9aa0",
     "03b25c8aefe029e5",
@@ -1167,9 +3144,26 @@
   },
   "vanilla:dungeons/caves/green/largehall/caveglhallramp01": {
    "file": "vanilla_dungeons_caves_green_largehall_caveglhallramp01-591dcb89.glb",
-   "bytes": 57996,
+   "bytes": 99788,
    "vertices": 2314,
    "triangles": 3186,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2314,
+     "triangles": 3186
+    },
+    {
+     "lod": 1,
+     "vertices": 1518,
+     "triangles": 1797
+    },
+    {
+     "lod": 2,
+     "vertices": 1518,
+     "triangles": 1797
+    }
+   ],
    "textures": [
     "032ec677e02e9aa0",
     "03b25c8aefe029e5",
@@ -1181,9 +3175,26 @@
   },
   "vanilla:dungeons/caves/green/largeroom/caveglroomcorner01": {
    "file": "vanilla_dungeons_caves_green_largeroom_caveglroomcorner01-3a056748.glb",
-   "bytes": 48384,
+   "bytes": 76732,
    "vertices": 1759,
    "triangles": 2455,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1759,
+     "triangles": 2455
+    },
+    {
+     "lod": 1,
+     "vertices": 1373,
+     "triangles": 1768
+    },
+    {
+     "lod": 2,
+     "vertices": 1373,
+     "triangles": 1768
+    }
+   ],
    "textures": [
     "032ec677e02e9aa0",
     "03b25c8aefe029e5",
@@ -1195,9 +3206,26 @@
   },
   "vanilla:dungeons/caves/green/largeroom/caveglroomcorner02c": {
    "file": "vanilla_dungeons_caves_green_largeroom_caveglroomcorner02c-4031d9e6.glb",
-   "bytes": 48924,
+   "bytes": 71360,
    "vertices": 1783,
    "triangles": 2567,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1783,
+     "triangles": 2567
+    },
+    {
+     "lod": 1,
+     "vertices": 1299,
+     "triangles": 1672
+    },
+    {
+     "lod": 2,
+     "vertices": 1299,
+     "triangles": 1672
+    }
+   ],
    "textures": [
     "032ec677e02e9aa0",
     "03b25c8aefe029e5",
@@ -1209,9 +3237,26 @@
   },
   "vanilla:dungeons/caves/green/largeroom/caveglroomcorner03": {
    "file": "vanilla_dungeons_caves_green_largeroom_caveglroomcorner03-19a21b32.glb",
-   "bytes": 52408,
+   "bytes": 87284,
    "vertices": 1988,
    "triangles": 2804,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1988,
+     "triangles": 2804
+    },
+    {
+     "lod": 1,
+     "vertices": 1387,
+     "triangles": 1747
+    },
+    {
+     "lod": 2,
+     "vertices": 1387,
+     "triangles": 1747
+    }
+   ],
    "textures": [
     "032ec677e02e9aa0",
     "03b25c8aefe029e5",
@@ -1223,9 +3268,26 @@
   },
   "vanilla:dungeons/caves/green/largeroom/caveglroomcorner04": {
    "file": "vanilla_dungeons_caves_green_largeroom_caveglroomcorner04-9fb94d53.glb",
-   "bytes": 48640,
+   "bytes": 82636,
    "vertices": 1784,
    "triangles": 2505,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1784,
+     "triangles": 2505
+    },
+    {
+     "lod": 1,
+     "vertices": 1333,
+     "triangles": 1715
+    },
+    {
+     "lod": 2,
+     "vertices": 1333,
+     "triangles": 1715
+    }
+   ],
    "textures": [
     "032ec677e02e9aa0",
     "03b25c8aefe029e5",
@@ -1237,9 +3299,26 @@
   },
   "vanilla:dungeons/caves/green/largeroom/caveglroomdoorl03": {
    "file": "vanilla_dungeons_caves_green_largeroom_caveglroomdoorl03-0a79e692.glb",
-   "bytes": 51144,
+   "bytes": 85420,
    "vertices": 1975,
    "triangles": 2753,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1975,
+     "triangles": 2753
+    },
+    {
+     "lod": 1,
+     "vertices": 1390,
+     "triangles": 1747
+    },
+    {
+     "lod": 2,
+     "vertices": 1390,
+     "triangles": 1747
+    }
+   ],
    "textures": [
     "032ec677e02e9aa0",
     "03b25c8aefe029e5",
@@ -1251,9 +3330,26 @@
   },
   "vanilla:dungeons/caves/green/largeroom/caveglroomincorner02": {
    "file": "vanilla_dungeons_caves_green_largeroom_caveglroomincorner02-da4b5c7d.glb",
-   "bytes": 43308,
+   "bytes": 73692,
    "vertices": 1527,
    "triangles": 2145,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1527,
+     "triangles": 2145
+    },
+    {
+     "lod": 1,
+     "vertices": 1206,
+     "triangles": 1575
+    },
+    {
+     "lod": 2,
+     "vertices": 1206,
+     "triangles": 1575
+    }
+   ],
    "textures": [
     "032ec677e02e9aa0",
     "03b25c8aefe029e5",
@@ -1265,9 +3361,26 @@
   },
   "vanilla:dungeons/caves/green/largeroom/caveglroomincorner04": {
    "file": "vanilla_dungeons_caves_green_largeroom_caveglroomincorner04-8dd806cf.glb",
-   "bytes": 42144,
+   "bytes": 64104,
    "vertices": 1469,
    "triangles": 2052,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1469,
+     "triangles": 2052
+    },
+    {
+     "lod": 1,
+     "vertices": 1155,
+     "triangles": 1490
+    },
+    {
+     "lod": 2,
+     "vertices": 1155,
+     "triangles": 1490
+    }
+   ],
    "textures": [
     "032ec677e02e9aa0",
     "03b25c8aefe029e5",
@@ -1279,9 +3392,26 @@
   },
   "vanilla:dungeons/caves/green/largeroom/caveglroommid01": {
    "file": "vanilla_dungeons_caves_green_largeroom_caveglroommid01-6e1ce744.glb",
-   "bytes": 34816,
+   "bytes": 49700,
    "vertices": 1404,
    "triangles": 1970,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1404,
+     "triangles": 1970
+    },
+    {
+     "lod": 1,
+     "vertices": 930,
+     "triangles": 1092
+    },
+    {
+     "lod": 2,
+     "vertices": 930,
+     "triangles": 1092
+    }
+   ],
    "textures": [
     "03b25c8aefe029e5",
     "40943593cc24f9a1",
@@ -1291,9 +3421,26 @@
   },
   "vanilla:dungeons/caves/green/largeroom/caveglroomwall01": {
    "file": "vanilla_dungeons_caves_green_largeroom_caveglroomwall01-871dfd08.glb",
-   "bytes": 51232,
+   "bytes": 86112,
    "vertices": 1981,
    "triangles": 2769,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1981,
+     "triangles": 2769
+    },
+    {
+     "lod": 1,
+     "vertices": 1319,
+     "triangles": 1592
+    },
+    {
+     "lod": 2,
+     "vertices": 1319,
+     "triangles": 1592
+    }
+   ],
    "textures": [
     "032ec677e02e9aa0",
     "03b25c8aefe029e5",
@@ -1305,9 +3452,26 @@
   },
   "vanilla:dungeons/caves/green/largeroom/caveglroomwall02": {
    "file": "vanilla_dungeons_caves_green_largeroom_caveglroomwall02-c382c284.glb",
-   "bytes": 51916,
+   "bytes": 90744,
    "vertices": 1992,
    "triangles": 2829,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1992,
+     "triangles": 2829
+    },
+    {
+     "lod": 1,
+     "vertices": 1374,
+     "triangles": 1717
+    },
+    {
+     "lod": 2,
+     "vertices": 1374,
+     "triangles": 1717
+    }
+   ],
    "textures": [
     "032ec677e02e9aa0",
     "03b25c8aefe029e5",
@@ -1319,9 +3483,26 @@
   },
   "vanilla:dungeons/caves/green/largeroom/caveglroomwall02c": {
    "file": "vanilla_dungeons_caves_green_largeroom_caveglroomwall02c-9ef19c60.glb",
-   "bytes": 53548,
+   "bytes": 95016,
    "vertices": 2075,
    "triangles": 2983,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2075,
+     "triangles": 2983
+    },
+    {
+     "lod": 1,
+     "vertices": 1380,
+     "triangles": 1719
+    },
+    {
+     "lod": 2,
+     "vertices": 1378,
+     "triangles": 1715
+    }
+   ],
    "textures": [
     "032ec677e02e9aa0",
     "03b25c8aefe029e5",
@@ -1333,9 +3514,26 @@
   },
   "vanilla:dungeons/caves/green/largeroom/caveglroomwall03": {
    "file": "vanilla_dungeons_caves_green_largeroom_caveglroomwall03-84e461ea.glb",
-   "bytes": 50692,
+   "bytes": 85352,
    "vertices": 1922,
    "triangles": 2668,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1922,
+     "triangles": 2668
+    },
+    {
+     "lod": 1,
+     "vertices": 1396,
+     "triangles": 1746
+    },
+    {
+     "lod": 2,
+     "vertices": 1396,
+     "triangles": 1746
+    }
+   ],
    "textures": [
     "032ec677e02e9aa0",
     "03b25c8aefe029e5",
@@ -1347,9 +3545,26 @@
   },
   "vanilla:dungeons/caves/green/largeroom/caveglroomwall04c": {
    "file": "vanilla_dungeons_caves_green_largeroom_caveglroomwall04c-2c2cac53.glb",
-   "bytes": 53740,
+   "bytes": 89048,
    "vertices": 2099,
    "triangles": 2930,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2099,
+     "triangles": 2930
+    },
+    {
+     "lod": 1,
+     "vertices": 1452,
+     "triangles": 1777
+    },
+    {
+     "lod": 2,
+     "vertices": 1452,
+     "triangles": 1777
+    }
+   ],
    "textures": [
     "032ec677e02e9aa0",
     "03b25c8aefe029e5",
@@ -1361,9 +3576,26 @@
   },
   "vanilla:dungeons/mines/cavepillars/mineclpillar02": {
    "file": "vanilla_dungeons_mines_cavepillars_mineclpillar02-f12d6684.glb",
-   "bytes": 18728,
+   "bytes": 26760,
    "vertices": 484,
    "triangles": 721,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 484,
+     "triangles": 721
+    },
+    {
+     "lod": 1,
+     "vertices": 427,
+     "triangles": 611
+    },
+    {
+     "lod": 2,
+     "vertices": 427,
+     "triangles": 611
+    }
+   ],
    "textures": [
     "0a4dcfa74cff1b4f",
     "7743f12f0b57261b",
@@ -1372,9 +3604,26 @@
   },
   "vanilla:dungeons/mines/cavepillars/mineclpillar03": {
    "file": "vanilla_dungeons_mines_cavepillars_mineclpillar03-9b0d5167.glb",
-   "bytes": 31364,
+   "bytes": 59636,
    "vertices": 1244,
    "triangles": 1848,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1244,
+     "triangles": 1848
+    },
+    {
+     "lod": 1,
+     "vertices": 740,
+     "triangles": 965
+    },
+    {
+     "lod": 2,
+     "vertices": 689,
+     "triangles": 898
+    }
+   ],
    "textures": [
     "0a4dcfa74cff1b4f",
     "7743f12f0b57261b",
@@ -1383,9 +3632,26 @@
   },
   "vanilla:dungeons/mines/cavepillars/mineclpillar04": {
    "file": "vanilla_dungeons_mines_cavepillars_mineclpillar04-2d73d1bc.glb",
-   "bytes": 24464,
+   "bytes": 36140,
    "vertices": 920,
    "triangles": 781,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 920,
+     "triangles": 781
+    },
+    {
+     "lod": 1,
+     "vertices": 799,
+     "triangles": 547
+    },
+    {
+     "lod": 2,
+     "vertices": 799,
+     "triangles": 547
+    }
+   ],
    "textures": [
     "0a4dcfa74cff1b4f",
     "7743f12f0b57261b",
@@ -1394,9 +3660,26 @@
   },
   "vanilla:dungeons/mines/cavepillars/mineclpillar05": {
    "file": "vanilla_dungeons_mines_cavepillars_mineclpillar05-5e623fc1.glb",
-   "bytes": 18776,
+   "bytes": 26784,
    "vertices": 503,
    "triangles": 772,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 503,
+     "triangles": 772
+    },
+    {
+     "lod": 1,
+     "vertices": 411,
+     "triangles": 592
+    },
+    {
+     "lod": 2,
+     "vertices": 411,
+     "triangles": 592
+    }
+   ],
    "textures": [
     "0a4dcfa74cff1b4f",
     "7743f12f0b57261b",
@@ -1405,9 +3688,26 @@
   },
   "vanilla:dungeons/mines/cavepillars/mineclpillar06": {
    "file": "vanilla_dungeons_mines_cavepillars_mineclpillar06-3d093eed.glb",
-   "bytes": 25240,
+   "bytes": 38316,
    "vertices": 958,
    "triangles": 784,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 958,
+     "triangles": 784
+    },
+    {
+     "lod": 1,
+     "vertices": 856,
+     "triangles": 600
+    },
+    {
+     "lod": 2,
+     "vertices": 856,
+     "triangles": 600
+    }
+   ],
    "textures": [
     "0a4dcfa74cff1b4f",
     "7743f12f0b57261b",
@@ -1416,27 +3716,78 @@
   },
   "vanilla:dungeons/nordic/rubble/norvinefloor01nocol": {
    "file": "vanilla_dungeons_nordic_rubble_norvinefloor01nocol-c818283d.glb",
-   "bytes": 25628,
+   "bytes": 46580,
    "vertices": 1372,
    "triangles": 2212,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1372,
+     "triangles": 2212
+    },
+    {
+     "lod": 1,
+     "vertices": 583,
+     "triangles": 774
+    },
+    {
+     "lod": 2,
+     "vertices": 305,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "c78e652b6e29bc0d"
    ]
   },
   "vanilla:dungeons/nordic/rubble/norvinefloor02nocol": {
    "file": "vanilla_dungeons_nordic_rubble_norvinefloor02nocol-08389244.glb",
-   "bytes": 17128,
+   "bytes": 32900,
    "vertices": 833,
    "triangles": 1348,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 833,
+     "triangles": 1348
+    },
+    {
+     "lod": 1,
+     "vertices": 352,
+     "triangles": 470
+    },
+    {
+     "lod": 2,
+     "vertices": 258,
+     "triangles": 300
+    }
+   ],
    "textures": [
     "c78e652b6e29bc0d"
    ]
   },
   "vanilla:furniture/smallcookingpotnohandle": {
    "file": "vanilla_furniture_smallcookingpotnohandle-a1805df5.glb",
-   "bytes": 12904,
+   "bytes": 20876,
    "vertices": 428,
    "triangles": 482,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 428,
+     "triangles": 482
+    },
+    {
+     "lod": 1,
+     "vertices": 334,
+     "triangles": 318
+    },
+    {
+     "lod": 2,
+     "vertices": 334,
+     "triangles": 318
+    }
+   ],
    "textures": [
     "77a79c8f3f2b5a74",
     "d284a5208fb29230"
@@ -1444,9 +3795,26 @@
   },
   "vanilla:landscape/dirtcliffs/dirtcliffsisland01": {
    "file": "vanilla_landscape_dirtcliffs_dirtcliffsisland01-6e8c39de.glb",
-   "bytes": 48308,
+   "bytes": 84192,
    "vertices": 2047,
    "triangles": 2656,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 2047,
+     "triangles": 2656
+    },
+    {
+     "lod": 1,
+     "vertices": 1263,
+     "triangles": 1325
+    },
+    {
+     "lod": 2,
+     "vertices": 1257,
+     "triangles": 1316
+    }
+   ],
    "textures": [
     "2796a60280401d93",
     "81c4887a2b169fe6",
@@ -1455,9 +3823,26 @@
   },
   "vanilla:landscape/volcanic/volcanicplateau02": {
    "file": "vanilla_landscape_volcanic_volcanicplateau02-4a3e57a0.glb",
-   "bytes": 44424,
+   "bytes": 69884,
    "vertices": 1193,
    "triangles": 1557,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 1193,
+     "triangles": 1557
+    },
+    {
+     "lod": 1,
+     "vertices": 1034,
+     "triangles": 1272
+    },
+    {
+     "lod": 2,
+     "vertices": 1034,
+     "triangles": 1272
+    }
+   ],
    "textures": [
     "2796a60280401d93",
     "986b0360198203d0",
@@ -1468,45 +3853,80 @@
   },
   "vanilla:plants/florahangingmoss01": {
    "file": "vanilla_plants_florahangingmoss01-072972a6.glb",
-   "bytes": 9356,
+   "bytes": 9364,
    "vertices": 288,
    "triangles": 272,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 288,
+     "triangles": 272
+    }
+   ],
    "textures": [
     "fac8e79b042d4d00"
    ]
   },
   "vanilla:plants/florahangingmoss02": {
    "file": "vanilla_plants_florahangingmoss02-915e7092.glb",
-   "bytes": 13712,
+   "bytes": 13716,
    "vertices": 516,
    "triangles": 398,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 516,
+     "triangles": 398
+    }
+   ],
    "textures": [
     "fac8e79b042d4d00"
    ]
   },
   "vanilla:plants/giantlichen01": {
    "file": "vanilla_plants_giantlichen01-a903cead.glb",
-   "bytes": 7688,
+   "bytes": 7692,
    "vertices": 274,
    "triangles": 400,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 274,
+     "triangles": 400
+    }
+   ],
    "textures": [
     "a8b0ee2069a1f22e"
    ]
   },
   "vanilla:plants/mushroom01": {
    "file": "vanilla_plants_mushroom01-8ec25453.glb",
-   "bytes": 9376,
+   "bytes": 9380,
    "vertices": 321,
    "triangles": 426,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 321,
+     "triangles": 426
+    }
+   ],
    "textures": [
     "beeb7643e71811cb"
    ]
   },
   "vanilla:plants/slaughterfishegg01": {
    "file": "vanilla_plants_slaughterfishegg01-2ddf5673.glb",
-   "bytes": 4960,
+   "bytes": 4968,
    "vertices": 95,
    "triangles": 136,
+   "lods": [
+    {
+     "lod": 0,
+     "vertices": 95,
+     "triangles": 136
+    }
+   ],
    "textures": [
     "b277c07b8e07accd"
    ]

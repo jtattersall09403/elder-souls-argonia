@@ -31,12 +31,12 @@ function partsHosts(bundle: unknown, assetsOf: (kitId: string) => string[]) {
       fetched.push(url);
       const kit = /kits\/(.+)\/parts\/index\.json$/.exec(url)?.[1];
       if (!kit) return structuredClone(bundle);
-      // the cell's fire rows: the published parts index's (schema 2)
+      // the cell's fire rows: the published parts index's (schema 3)
       const published = new URL(`../../../../apps/world-studio/public/kits/${kit}/parts/index.json`, import.meta.url);
       const fires = existsSync(published) ? JSON.parse(readFileSync(published, "utf8")).fires : {};
       return {
-        schemaVersion: 2, kit, source: { bytes: 0, sha256: "" }, fires,
-        assets: Object.fromEntries(assetsOf(kit).map((id) => [id, { file: `${encodeURIComponent(id)}.glb`, bytes: 0, vertices: 0, triangles: 0, textures: [] }])),
+        schemaVersion: 3, kit, exterior: false, source: { bytes: 0, sha256: "" }, fires,
+        assets: Object.fromEntries(assetsOf(kit).map((id) => [id, { file: `${encodeURIComponent(id)}.glb`, bytes: 0, vertices: 0, triangles: 0, lods: [{ lod: 0, vertices: 0, triangles: 0 }], textures: [] }])),
       };
     },
     loadPart: async (_kit: unknown, assetId: string, url: string) => {
@@ -515,7 +515,7 @@ describe("InteriorEnvironment", () => {
     expect([sun.visible, sun.intensity]).toEqual([true, 0]);
     expect(scene.environment).toBeNull();
     expect(scene.fog).toBe(cell.fog);
-    expect(gl.toneMappingExposure).toBe(1);
+    expect(gl.toneMappingExposure).toBe(inside.exposure);
     expect(cell.group.children.filter((c) => (c as THREE.Light).isLight).every((l) => l.visible)).toBe(true);
     gl.toneMappingExposure = 2.5;     // the sky rig wrote while inside
     inside.frame();

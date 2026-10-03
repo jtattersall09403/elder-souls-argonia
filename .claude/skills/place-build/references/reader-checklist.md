@@ -96,7 +96,7 @@ because the owner walked every one of them before a rule measured it.
 38. Is any building's roof line or eave at ground height, the walls sunk out of sight? Give the depth in metres. (owner walk 4, the Claywater stable) `reader`, `rule:burialRule`
 39. Does any deck or landing stand a body-height above the shore or the water, with its land end left in the air and no step down? (owner walk 4, the Claywater landing) `reader`, `rule:landingRule`
 40. Is any hanging asset (a flower strand, a hanging lantern, a basket on a hook) standing on the ground instead of hanging from its tree or mount? (owner walk 4, Greenspring's Hist flowers) `reader`, `rule:hangingRule`
-41. On a signpost with two or more arms: are two arms level with each other or pointing the same way? (owner walk 4, the Claywater well post) `reader`, `rule:signRule`
+41. On a signpost with two or more arms: are two arms level with each other, pointing the same way, leaning, or hung off the post's arm sockets? Each arm's yaw is set from the route bearing toward its own `pointsTo` destination (`sign.posts[].destinations`), its height from a mined arm socket (`armSocketsM`), never a hand `--height`. (owner walk 4, the Claywater well post; audit10 P1, broke-column and work-camp posts) `reader`, `rule:signRule`
 42. Is any lantern, candle or brazier sunk into the floor, deck or ground it stands on? (owner walk 4) `reader`, `rule:fixtureSeatRule`
 43. When reporting a direction (an arrow, a facing, a raised arm), does the reader state it as screen-left or screen-right with the camera bearing, never "the same way" or "pointing at X"? The planner compares the stated side against `signRule`'s `pointsDeg` before briefing a fix. (owner walk 4: a reader misread a correct sign) `reader`
 

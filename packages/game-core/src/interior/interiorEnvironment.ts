@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import * as tsl from "three/tsl";
-import type { LoadedInterior } from "./interiorLoader";
+import { colorFromRGB, INTERIOR_AMBIENT_SCALE, type LoadedInterior } from "./interiorLoader";
+import type { InteriorBundle } from "./bundle";
+import { AMBIENT_CUBE_KEYS } from "./ambientCube";
 import { LIGHT_HELD_OFF, setShadowShown, type MaybeShadowLight } from "../render/lightSwitch";
 import type { TslNode } from "../render/nodes/materialNodes";
 import type { InteriorFogProfile } from "../air/volumetrics/froxelGrid";
@@ -55,6 +57,37 @@ export class InteriorFogNode {
 
 const LIGHT_SWEEP_FRAMES = 30;
 
+/**
+ * Interior auto-exposure (perf10 c12 A, Skyrim's eye adaptation): exposure =
+ * clamp(INTERIOR_TARGET_AMBIENT / cell ambient mean, 1, INTERIOR_EXPOSURE_MAX).
+ * A vanilla-dark hut (mean ~0.04 after INTERIOR_AMBIENT_SCALE) gets 4, dim but
+ * legible; a cell at 0.16 or brighter stays at 1. Fixture lights keep their
+ * screen brightness at any exposure (fixtureLightField FIXTURE_SCREEN_GAIN).
+ */
+export const INTERIOR_TARGET_AMBIENT = 0.16;
+export const INTERIOR_EXPOSURE_MAX = 6;
+/** Ease time constant (s) toward the cell's exposure on enter: ~95 % in 0.5 s, no pop. */
+export const INTERIOR_EXPOSURE_TAU_S = 0.17;
+
+/** The cell's ambient as lit (linear, mean of the cube's axes and channels, or of the flat colour), times its scale. */
+export function interiorAmbientMean(bundle: InteriorBundle): number {
+  const scale = bundle.ambient.intensity * INTERIOR_AMBIENT_SCALE;
+  const cube = bundle.lighting?.ambientCube;
+  if (cube) {
+    let sum = 0;
+    for (const k of AMBIENT_CUBE_KEYS) sum += cube[k][0] + cube[k][1] + cube[k][2];
+    return (sum / 18) * scale;
+  }
+  const c = colorFromRGB(bundle.ambient.colorRGB);
+  return ((c.r + c.g + c.b) / 3) * scale;
+}
+
+/** The exposure a cell of ambient `mean` is drawn at. */
+export function interiorExposure(mean: number): number {
+  if (!(mean > 0)) return INTERIOR_EXPOSURE_MAX;
+  return THREE.MathUtils.clamp(INTERIOR_TARGET_AMBIENT / mean, 1, INTERIOR_EXPOSURE_MAX);
+}
+
 /** The renderer fields the cell's environment sets (the node renderer, 0107, satisfies it). */
 export interface InteriorRenderer {
   toneMappingExposure: number;
@@ -86,7 +119,8 @@ export interface InteriorRenderer {
  * as that node (decision 0107). Inside, the outdoor node is swapped for the
  * cell's (`InteriorFogNode`: the volumetric medium, then the cell's range
  * fog), or lifted so `scene.fog` draws when no medium runs; put back on
- * `restore`. Exposure inside is 1, the value `sceneRadiance` then reads.
+ * `restore`. Exposure inside eases to the cell's auto-exposure
+ * (`interiorExposure`, perf10 c12 A).
  *
  * `frame()` runs each frame after the sky rig (which re-applies exposure and
  * may re-bake the environment): anything the rig wrote is remembered as the
@@ -101,6 +135,11 @@ export class InteriorEnvironment {
   private readonly hidden = new Map<MaybeShadowLight, { intensity: number; shadow: number; autoUpdate: boolean }>();
   /** Frames until the next light sweep: a scene walk each frame costs more than a light ever added. */
   private sweepIn = 0;
+  /** The cell's adapted exposure (`interiorExposure` of its ambient mean). */
+  readonly targetExposure: number;
+  /** The exposure written this frame, eased from the outside value toward `targetExposure`. */
+  exposure: number;
+  private lastS: number | null = null;
 
   constructor(
     private readonly scene: THREE.Scene,
@@ -116,10 +155,13 @@ export class InteriorEnvironment {
       exposure: gl.toneMappingExposure,
       clearColor: gl.getClearColor(new THREE.Color()), clearAlpha: gl.getClearAlpha(),
     };
-    this.frame();
+    this.targetExposure = interiorExposure(interiorAmbientMean(interior.bundle));
+    this.exposure = THREE.MathUtils.clamp(gl.toneMappingExposure || 1, 1, INTERIOR_EXPOSURE_MAX);
+    this.frame(0);
   }
 
-  frame(): void {
+  /** `dtS`: seconds since the last frame (default: measured on the wall clock). */
+  frame(dtS?: number): void {
     const { scene, gl, interior } = this;
     if (scene.environment) this.saved.environment = scene.environment;
     scene.environment = null;
@@ -127,8 +169,12 @@ export class InteriorEnvironment {
     const inside = this.fog?.node ?? null;
     if (fogHost.fogNode && fogHost.fogNode !== inside) this.saved.fogNode = fogHost.fogNode;
     fogHost.fogNode = inside;
-    if (gl.toneMappingExposure !== 1) this.saved.exposure = gl.toneMappingExposure;
-    gl.toneMappingExposure = 1;
+    if (gl.toneMappingExposure !== this.exposure) this.saved.exposure = gl.toneMappingExposure;
+    const now = performance.now() / 1000;
+    const dt = dtS ?? (this.lastS === null ? 0 : Math.min(now - this.lastS, 0.1));
+    this.lastS = now;
+    this.exposure += (this.targetExposure - this.exposure) * (1 - Math.exp(-dt / INTERIOR_EXPOSURE_TAU_S));
+    gl.toneMappingExposure = this.exposure;
     scene.fog = interior.fog;
     scene.background = null;
     gl.setClearColor(interior.background, 1);

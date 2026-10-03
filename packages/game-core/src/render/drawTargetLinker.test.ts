@@ -49,6 +49,18 @@ describe("DrawTargetLinker (review 2026-09-30: settlement pre-link keys)", () =>
     expect(scene.onBeforeRender).toBe(THREE.Scene.prototype.onBeforeRender);
   });
 
+  it("links a screen-pass draw (settlement flames) against the screen even when the scene pass draws into the water target (perf10 c12 R2 3a)", async () => {
+    const scene = new THREE.Scene();
+    setLitPreparer(scene, () => undefined);
+    const { gl, seen, bound } = fakeGl();
+    const linker = new DrawTargetLinker(gl, scene).attach();
+    pass(scene, new THREE.WebGLRenderTarget(4, 4, { type: THREE.HalfFloatType }));
+    await linker.link({ object: new THREE.Group(), pass: "screen" }, camera);
+    expect(seen).toEqual([null]);
+    expect(bound()).toBeNull();
+    linker.detach();
+  });
+
   it("links late-drawn meshes once, only after the scene pass is seen (16k walk 10)", () => {
     const scene = new THREE.Scene();
     setLitPreparer(scene, () => undefined);
@@ -111,5 +123,27 @@ describe("DrawTargetLinker (review 2026-09-30: settlement pre-link keys)", () =>
     setLitPreparer(scene, csmPreparer);
     await linking;
     expect(atCompile).toEqual([""]);
+  });
+
+  // perf10 diag 22 G-e: first-use work runs in the pre-swap wait, once per program
+  it("runs getUniforms and getAttributes once per program when it reports ready, not before", async () => {
+    const scene = new THREE.Scene();
+    setLitPreparer(scene, () => undefined);
+    const material = new THREE.MeshBasicMaterial();
+    let ready = false, uniforms = 0, attributes = 0;
+    const program = { isReady: () => ready, getUniforms: () => { uniforms++; }, getAttributes: () => { attributes++; } };
+    const gl = {
+      getRenderTarget: () => null, setRenderTarget: () => undefined,
+      compile: () => new Set([material]),
+      properties: { get: () => ({ currentProgram: program }) },
+      extensions: { has: () => true },
+    } as unknown as THREE.WebGLRenderer;
+    const linker = new DrawTargetLinker(gl, scene, 4000, 10_000);
+    const link = linker.link({ object: new THREE.Mesh() }, camera);
+    await new Promise((r) => setTimeout(r, 40));
+    expect([uniforms, attributes]).toEqual([0, 0]);
+    ready = true;
+    await link;
+    expect([uniforms, attributes]).toEqual([1, 1]);
   });
 });
