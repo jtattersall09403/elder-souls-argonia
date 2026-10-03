@@ -33,7 +33,7 @@
  */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { capVerdict, counter, heapSlope, settleGate, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, screenMiddle, stalledReads, summariseProfile, summaryTable } from "./pod-capture-lib.mjs";
+import { capVerdict, counter, heapSlope, settleGate, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, screenMiddle, stalledReads, summariseProfile, summaryTable, repeatedQueryKey, clockMinute, clockStalled, twinPairs, twinIdentical } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
 import { closeTunnels, openTunnel } from "./tunnels.mjs";
@@ -198,10 +198,13 @@ async function captureView(view) {
   sink = { cons: counter(), pageErrors: counter(), network: counter(), reqUrl: new Map() };
   const result = { name: view.name, url: view.url, seconds: totalS, frames: 0, reads: {}, settledAt: null, probe: {}, profile: null, window: null };
   try {
+    const dupKey = repeatedQueryKey(view.url);
+    if (dupKey) { result.invalid = `invalid:url repeats query key ${dupKey}`; return result; }
     if (prof) { await send("Profiler.enable"); await send("Profiler.setSamplingInterval", { interval: 200 }); }
     const t0 = Date.now(), sec = () => (Date.now() - t0) / 1000;
     await send("Page.navigate", { url: view.url });
     const heapSamples = [];
+    let clockFirst = null;
     let si = 0, ri = 0, lastPoll = -1, zeroSince = null, profState = prof ? "wait" : "done";
     const gate = settledFrames > 0 ? settleGate(settledFrames, settleFloor) : null;
     while (sec() < totalS) {
@@ -232,6 +235,7 @@ async function captureView(view) {
         // live heap after a forced GC, every 10 s: usedJSHeapSize counts uncollected garbage (walk 10 read +140 MB/min of churn as a leak)
         let heapMB;
         if (lastPoll % 10 === 0) { await send("HeapProfiler.collectGarbage", {}, 30_000); heapMB = (await send("Runtime.getHeapUsage")).usedSize / 1e6; }
+        if (clockFirst === null && lastPoll >= 5) clockFirst = clockMinute(await evaluate(`document.body.innerText`, 5_000));
         if (q && !q.err) heapSamples.push({ s: lastPoll, heapMB, buffers: q.g, textures: q.x });
         if (gate?.feed(s, q, q?.f)) {
           result.reads.settled = { t: r1(sec()), gateAt: gate.settledAt, afterFrames: settledFrames, ...(await fullRead()) };
@@ -242,6 +246,8 @@ async function captureView(view) {
       await new Promise((r) => setTimeout(r, 100));
     }
     if (windowS > 0 && !result.window) result.window = { ...(await costWindow(dir, r1(sec()))), unsettled: true };
+    const clockLast = clockMinute(await evaluate(`document.body.innerText`, 5_000));
+    if (clockStalled(clockFirst, clockLast)) result.invalid = `invalid:game clock did not advance (${clockFirst} min of day at first and last frame)`;
     result.heapSlope = heapSlope(heapSamples);
     result.final = await fullRead();
     try { writeFileSync(join(dir, "final.jpg"), Buffer.from(await shoot(80), "base64")); } catch { /* final read has the luma */ }
@@ -273,7 +279,7 @@ function summarise(r) {
     heapMbPerMin: r.heapSlope?.mbPerMin ?? null, topStage: top ? `${top[0]} ${top[1]}` : null,
     hitches: w.hitches ? `${w.hitches.over33}${hitchTop ? ` (${hitchTop})` : ""}` : null,
     errors: `${r.gpuErrors?.length ?? "?"}/${r.console?.filter(([k]) => k.startsWith("error")).length ?? "?"}/${r.pageErrors?.length ?? "?"}/${r.http404s ?? "?"}`,
-    settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
+    invalid: r.invalid, settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
   };
 }
 
@@ -293,6 +299,13 @@ try {
     console.log(`pod-capture ${v.name}: ${JSON.stringify(r.summary)}`);
   }
   const byName = Object.fromEntries(all.views.map((v) => [v.name, v]));
+  for (const [off, on] of twinPairs(all.views.map((v) => v.name))) {
+    const f = (n) => { try { return readFileSync(join(out, n, "final.jpg")); } catch { return null; } };
+    if (twinIdentical(f(off), f(on)) && !byName[off].invalid) {
+      byName[off].invalid = `invalid:twin ${off} is pixel-identical to ${on}`; byName[off].summary.invalid = byName[off].invalid;
+      writeFileSync(join(out, off, "result.json"), JSON.stringify(byName[off], null, 1));
+    }
+  }
   if (byName.main && byName.compare) byName.main.lumaRatio = lumaRatios(byName.main.reads, byName.compare.reads, byName.main.final, byName.compare.final);
 } catch (e) {
   all.error = String(e.stack ?? e);

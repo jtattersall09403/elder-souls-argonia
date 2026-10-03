@@ -1,7 +1,24 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate } from "./pod-capture-lib.mjs";
+import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, repeatedQueryKey, clockMinute, clockStalled, twinPairs, twinIdentical } from "./pod-capture-lib.mjs";
+
+test("repeatedQueryKey: names the repeated key, null when none", () => {
+  assert.equal(repeatedQueryKey("http://x/?view=character&t=22&w=rain&t=12"), "t");
+  assert.equal(repeatedQueryKey("http://x/?view=character&t=22&w=rain"), null);
+  assert.equal(repeatedQueryKey("http://x/"), null);
+});
+test("clockStalled: equal readings stall; advanced or unreadable do not", () => {
+  assert.equal(clockMinute("Day 3  22:07 rain"), 22 * 60 + 7);
+  assert.equal(clockStalled(clockMinute("22:07"), clockMinute("22:07")), true);
+  assert.equal(clockStalled(clockMinute("22:07"), clockMinute("22:41")), false);
+  assert.equal(clockStalled(null, 5), false);
+});
+test("twinIdentical: byte-identical off/on frames are invalid; pairs found by suffix", () => {
+  assert.deepEqual(twinPairs(["a-off", "a-on", "b-off", "c"]), [["a-off", "a-on"]]);
+  assert.equal(twinIdentical(Buffer.from([1, 2, 3]), Buffer.from([1, 2, 3])), true);
+  assert.equal(twinIdentical(Buffer.from([1, 2, 3]), Buffer.from([1, 2, 4])), false);
+});
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 

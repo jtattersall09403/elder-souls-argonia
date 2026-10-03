@@ -177,6 +177,42 @@ export function capVerdict(blankRafFps) {
   return { blankRafFps: Math.round(blankRafFps * 10) / 10, capDetected: blankRafFps <= 61 };
 }
 
+/** A view URL that repeats a query key (the page takes one of them, so the view is not the one asked for). Returns the key or null. */
+export function repeatedQueryKey(url) {
+  const q = String(url).split("#")[0].split("?")[1];
+  if (!q) return null;
+  const seen = new Set();
+  for (const kv of q.split("&")) {
+    const k = decodeURIComponent(kv.split("=")[0]);
+    if (!k) continue;
+    if (seen.has(k)) return k;
+    seen.add(k);
+  }
+  return null;
+}
+
+/** HH:MM game-clock text in the page body -> minute of day, or null when none is shown. */
+export function clockMinute(text) {
+  const m = /\b([01]?\d|2[0-3]):([0-5]\d)\b/.exec(String(text ?? ""));
+  return m ? Number(m[1]) * 60 + Number(m[2]) : null;
+}
+
+/** True when both clock readings exist and the game clock did not advance between the first and the last frame. */
+export function clockStalled(first, last) {
+  return Number.isFinite(first) && Number.isFinite(last) && first === last;
+}
+
+/** Twin pairs: view names `<x>-off` with a `<x>-on` partner -> [[off, on]]. */
+export function twinPairs(names) {
+  const set = new Set(names);
+  return names.filter((n) => n.endsWith("-off") && set.has(`${n.slice(0, -4)}-on`)).map((n) => [n, `${n.slice(0, -4)}-on`]);
+}
+
+/** An "off" twin whose last frame is byte-identical to its "on" twin (same encoder and size: pixel-identical) switched nothing off. */
+export function twinIdentical(offJpg, onJpg) {
+  return Boolean(offJpg && onJpg && offJpg.length === onJpg.length && Buffer.compare(offJpg, onJpg) === 0);
+}
+
 const cell = (x) => (x === null || x === undefined ? "-" : typeof x === "number" ? String(Math.round(x * 100) / 100) : String(x));
 /** Markdown summary: one row per view from its result.json `summary`. */
 export function summaryTable(views, cap) {
