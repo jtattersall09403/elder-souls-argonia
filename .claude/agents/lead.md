@@ -67,7 +67,7 @@ How you work:
   spawn agents. In this harness an Agent call made by a subagent returns
   "Async agent launched successfully" at once; it does NOT block. Then
   wait in the FOREGROUND: `python3 tooling/repo-standards/lane_wait.py
-  --files <those report files> --timeout 540`, re-calling it on each
+  --files <those report files> --timeout 540` (pass `--since <launch time>`, the default now, so a stale report never counts), re-calling it on each
   `timeout` until it prints `all done`. Never end your turn and never call
   SubagentHandback while a child runs (a placeholder hand-back ended two
   leads' runs). The completion notices that arrive are read when the wait
