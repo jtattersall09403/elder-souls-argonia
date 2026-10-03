@@ -1886,6 +1886,30 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (35.8 m\u00b2 plan, 1.7 m tall)"
   },
+  "vanilla:dungeons/mines/rocks/minecdirtmound02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.69,
+   "interior": "none",
+   "planAreaM2": 9.28,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (9.3 m\u00b2 plan, 0.7 m tall)"
+  },
+  "vanilla:dungeons/mines/rocks/minecdirtmound03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.01,
+   "interior": "none",
+   "planAreaM2": 36.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (36.0 m\u00b2 plan, 1.0 m tall)"
+  },
   "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupport01": {
    "category": "dungeon-kit",
    "entrance": null,

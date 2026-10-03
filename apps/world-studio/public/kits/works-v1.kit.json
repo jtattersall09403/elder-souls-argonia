@@ -8456,6 +8456,120 @@
    "pivotAboveBaseM": 0.762
   },
   {
+   "id": "vanilla:dungeons/mines/rocks/minecdirtmound02",
+   "node": "es|afe8dc62f5|a__dungeons_mines_rocks_minecdirtmound02",
+   "category": "dungeon-kit",
+   "sizeM": [
+    3.558,
+    3.595,
+    0.689
+   ],
+   "originOffsetM": [
+    1.722,
+    1.903,
+    0.32
+   ],
+   "triangles": 25,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minefloordirt01.dds"
+   ],
+   "materials": [
+    "MineCDirtMound02:3.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.32,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "displayName": "Minecdirtmound 02",
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.32
+  },
+  {
+   "id": "vanilla:dungeons/mines/rocks/minecdirtmound03",
+   "node": "es|b68616083a|a__dungeons_mines_rocks_minecdirtmound03",
+   "category": "dungeon-kit",
+   "sizeM": [
+    6.247,
+    7.441,
+    1.007
+   ],
+   "originOffsetM": [
+    2.892,
+    4.078,
+    0.474
+   ],
+   "triangles": 130,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "minefloordirt01.dds"
+   ],
+   "materials": [
+    "MineCDirtMound03:3.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.474,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "displayName": "Minecdirtmound 03",
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.474
+  },
+  {
    "id": "vanilla:clutter/containers/miscsacklarge",
    "node": "es|8a9c47ae41|anilla__clutter_containers_miscsacklarge",
    "category": "container",
@@ -12145,7 +12259,7 @@
  },
  "alphaModes": {
   "MASK": 37,
-  "OPAQUE": 252,
+  "OPAQUE": 254,
   "BLEND": 17
  },
  "effectTextures": {
@@ -12317,24 +12431,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 48825792,
-  "bytesAfter": 23691772,
+  "bytesBefore": 48837592,
+  "bytesAfter": 23698228,
   "images": 103,
   "imageBytesAfter": 20666274,
   "warnings": [],
-  "sha256": "9c3ceabe868c809c51e63ef8a249cc37c836deaa1cee63d22adb99335768f9eb",
+  "sha256": "5bdad18523f24ea07d62a70664aeb80fb19c6f62c4bde81ae13473ee6a1f5a7e",
   "parts": {
    "parts": 11,
    "partBytes": 192348,
    "textureFiles": 11,
    "textureBytes": 1393228,
    "bytes": 1585576,
-   "sourceSha256": "9c3ceabe868c809c51e63ef8a249cc37c836deaa1cee63d22adb99335768f9eb"
+   "sourceSha256": "5bdad18523f24ea07d62a70664aeb80fb19c6f62c4bde81ae13473ee6a1f5a7e"
   },
   "sidecarBytes": {
-   "connectors": 85341,
-   "footprints": 153981,
-   "interiors": 69085
+   "connectors": 86846,
+   "footprints": 156282,
+   "interiors": 69839
   }
  }
 }

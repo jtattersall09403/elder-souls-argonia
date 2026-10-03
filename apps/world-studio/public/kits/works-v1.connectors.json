@@ -4822,6 +4822,98 @@
     "widthM": 7.32
    }
   ],
+  "vanilla:dungeons/mines/rocks/minecdirtmound02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.69,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.06,
+     -1.69
+    ],
+    "widthM": 3.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.69,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.84,
+     0.1
+    ],
+    "widthM": 3.59
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.69,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.06,
+     1.9
+    ],
+    "widthM": 3.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.69,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.72,
+     0.1
+    ],
+    "widthM": 3.59
+   }
+  ],
+  "vanilla:dungeons/mines/rocks/minecdirtmound03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.01,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.23,
+     -3.36
+    ],
+    "widthM": 6.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.01,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.36,
+     0.36
+    ],
+    "widthM": 7.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.01,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.23,
+     4.08
+    ],
+    "widthM": 6.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.01,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.89,
+     0.36
+    ],
+    "widthM": 7.44
+   }
+  ],
   "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupport01": [
    {
     "evidence": "bounds",
@@ -5100,8 +5192,8 @@
   ]
  },
  "counts": {
-  "assets": 122,
-  "bounds": 412,
+  "assets": 124,
+  "bounds": 420,
   "co-placement": 23
  },
  "elongationRatio": 2.0,
