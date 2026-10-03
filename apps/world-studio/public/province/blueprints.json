@@ -9817,13 +9817,13 @@
           ],
           "districtId": "district.claywater-station.the-well",
           "entrance": {
-            "arcM": 1.56,
+            "arcM": 1.86,
             "bearingDeg": 258.0,
             "interiorRef": null,
             "kind": "open-front",
             "worldM": [
-              333.219,
-              3087.201
+              332.937,
+              3087.26
             ]
           },
           "front": null,
@@ -11986,13 +11986,13 @@
           ],
           "districtId": "district.the-broke-column.the-line",
           "entrance": {
-            "arcM": 1.45,
-            "bearingDeg": 25.0,
+            "arcM": 1.77,
+            "bearingDeg": 345.0,
             "interiorRef": null,
             "kind": "open-front",
             "worldM": [
-              1186.39,
-              3086.17
+              1184.56,
+              3086.22
             ]
           },
           "front": null,
