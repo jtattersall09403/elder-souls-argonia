@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { isSmokeColumnPlacement } from "./smokeColumn";
+import { stampKitImageKeys } from "./materialIdentity";
 import type { SettlementKitAssetMeta, SettlementKitManifests, SettlementPlacement } from "./types";
 
 export interface ArchitecturePart {
@@ -28,6 +29,7 @@ function assetIdOf(object: THREE.Object3D): string | null {
  * program look-up, where a clone per part made a material per mesh.
  */
 export function buildArchitectureKit(gltf: GLTF): Map<string, ArchitectureAsset> {
+  stampKitImageKeys(gltf);
   gltf.scene.updateMatrixWorld(true);
   const sceneInverse = gltf.scene.matrixWorld.clone().invert();
   const out = new Map<string, ArchitectureAsset>();

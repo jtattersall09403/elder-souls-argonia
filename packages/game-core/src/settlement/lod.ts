@@ -127,7 +127,14 @@ export function validateMaterialTextureCap(material: THREE.Material, maxSize: nu
   }
 }
 
-/** Bake repeated far-tier instances into one real geometry for one material. */
+/** The vertex attributes a settlement material reads (MeshStandardMaterial and
+ * the settlement surface patch). A kit part's extra NIF colour sets
+ * (`color_1`, `color_2`) are read by no settlement shader: a merge drops them,
+ * so they neither split batches nor cost memory. */
+const SETTLEMENT_SHADED_ATTRIBUTES: ReadonlySet<string> = new Set(
+  ["position", "normal", "uv", "uv1", "uv2", "uv3", "color", "tangent"]);
+
+/** Bake copies of one part into one real geometry (one entry of a draw batch). */
 export function mergeTransformedGeometry(
   geometry: THREE.BufferGeometry,
   transforms: readonly THREE.Matrix4[],
@@ -138,7 +145,11 @@ export function mergeTransformedGeometry(
     throw new Error("settlement far-tier ground-line count does not match transforms");
   }
   const copies = transforms.map((matrix, index) => {
-    const copy = geometry.clone().applyMatrix4(matrix);
+    const copy = geometry.clone();
+    for (const name of Object.keys(copy.attributes)) {
+      if (!SETTLEMENT_SHADED_ATTRIBUTES.has(name)) copy.deleteAttribute(name);
+    }
+    copy.applyMatrix4(matrix);
     if (groundLinesM) {
       const count = copy.getAttribute("position").count;
       copy.setAttribute("esSettlementGroundY", new THREE.Float32BufferAttribute(
@@ -150,6 +161,44 @@ export function mergeTransformedGeometry(
   const merged = mergeGeometries(copies, false);
   copies.forEach((copy) => copy.dispose());
   if (!merged) throw new Error("settlement far-tier geometry could not be merged");
+  return alignVertexStrides(merged);
+}
+
+/**
+ * The vertex layout two kit parts must share to merge into one geometry:
+ * each attribute's name, array type, item size and normalisation, and
+ * whether the part is indexed (`mergeGeometries` refuses a mismatch).
+ */
+export function vertexLayoutKey(geometry: THREE.BufferGeometry): string {
+  const rows = Object.entries(geometry.attributes).filter(([name]) => SETTLEMENT_SHADED_ATTRIBUTES.has(name)).map(([name, attribute]) => {
+    const array = attribute instanceof THREE.InterleavedBufferAttribute ? attribute.data.array : attribute.array;
+    return `${name}:${array.constructor.name}:${attribute.itemSize}:${attribute.normalized ? 1 : 0}`;
+  }).sort();
+  return `${geometry.index ? "i" : "n"}|${rows.join(",")}`;
+}
+
+/** One kit part and its copies in a settlement draw batch. */
+export interface MergeEntry {
+  geometry: THREE.BufferGeometry;
+  transforms: readonly THREE.Matrix4[];
+  groundLinesM: readonly number[];
+}
+
+/**
+ * Bake every copy of every part of one draw batch (one material, one vertex
+ * layout, one cell) into one geometry: one draw where an instanced mesh per
+ * part made one each (SettlementLayer drawBatchKey). Each part's copies are
+ * merged and freed before the next part, so peak memory is the batch, never
+ * parts x copies twice over.
+ */
+export function mergeTransformedParts(entries: readonly MergeEntry[]): THREE.BufferGeometry | null {
+  const pieces = entries
+    .map((entry) => mergeTransformedGeometry(entry.geometry, entry.transforms, entry.groundLinesM))
+    .filter((piece): piece is THREE.BufferGeometry => piece !== null);
+  if (pieces.length <= 1) return pieces[0] ?? null;
+  const merged = mergeGeometries(pieces, false);
+  pieces.forEach((piece) => piece.dispose());
+  if (!merged) throw new Error("settlement draw batch could not be merged (vertex layouts differ)");
   return alignVertexStrides(merged);
 }
 
