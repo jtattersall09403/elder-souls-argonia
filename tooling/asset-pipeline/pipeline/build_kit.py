@@ -1100,13 +1100,15 @@ def mine_fire_layer(nif_bytes: bytes, addn: dict, read_mesh,
     system there (not smoke, embers or glow) is one flame at the node. Every
     flame-named NiParticleSystem of the piece itself is one flame at its
     emitter. Positions are glTF Y-up metres from the pivot; sizes are the
-    particle's edge (2 x initial radius x its largest scale key)."""
+    particle's edge (2 x initial radius x its largest scale key x the system's
+    node scale to the root, x the AddOnNode's for an ADDN flame; vol10 diag4 D9)."""
     from . import nif_blocks as nb
     nif = nb.parse(nif_bytes)
     flames = []
 
-    def flame_of(system, at_units, source):
-        size = 2 * (system.get("radiusUnits") or 0) * (system.get("scaleMax") or 1)
+    def flame_of(system, at_units, source, outer_scale=1.0):
+        size = (2 * (system.get("radiusUnits") or 0) * (system.get("scaleMax") or 1)
+                * (system.get("nodeScale") or 1) * outer_scale)
         return {"offsetM": nb.to_gltf_m(at_units, metres_per_unit),
                 "texturePath": system["texture"], "palette": system.get("palette"),
                 "sizeM": round(size * metres_per_unit, 4),
@@ -1124,7 +1126,8 @@ def mine_fire_layer(nif_bytes: bytes, addn: dict, read_mesh,
                 continue
             at = [a + b for a, b in zip(node["positionUnits"], system["positionUnits"])]
             flames.append(flame_of(system, at,
-                                   f"AddOnNode{node['index']} -> {row['editorId']}/{system['name']}"))
+                                   f"AddOnNode{node['index']} -> {row['editorId']}/{system['name']}",
+                                   node.get("scale") or 1))
     for system in nb.particle_systems(nif):
         if system.get("unparsed"):
             if nb.is_flame_system(system["name"]):
