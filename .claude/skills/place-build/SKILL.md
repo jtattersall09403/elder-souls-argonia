@@ -330,7 +330,10 @@ without that is an escalation to the planner, never a packet.
 - Export writes the poses (0097) and the ground and kit provenance.
 - Patches are the place's own typed ones only (0081 decision 3: pad,
   `vegetation-clearance`, dressing-add); they travel in its bundle and the
-  studio overlays them at load (0102 decision 1). `compile_scatter` is
+  studio overlays them at load (0102 decision 1). Commit the place's
+  `index.json` and `ground-overlays.json` rows with
+  `python3 tooling/world-generation/scripts/commit_index_entry.py <place-id> -m "<msg>" [extra paths]`
+  (only this place's rows, via a temp index; never a hand-made one). `compile_scatter` is
   never re-run for a place (L35); no chain stage, refreeze or province
   publish runs for one. Publish is per place (`--places`).
 - `place_gates` runs every per-place gate in one process (the 0102 `check`

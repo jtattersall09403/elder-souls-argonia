@@ -61,6 +61,27 @@ def test_load_published_refuses_a_bundle_whose_bytes_moved(tmp_path):
         sb.load_published(tmp_path)
 
 
+def _two_places():
+    whole = _whole()
+    whole["settlements"].append({"id": "place.b", "placementIds": ["place.b.house"],
+                                 "boundaryM": [[50, 50], [60, 50], [60, 60], [50, 60]]})
+    whole["placements"].append({"id": "place.b.house", "kind": "settlement", "sourceId": "place.b",
+                                "kit": "k", "assetId": "h", "positionM": [55, 0, 55],
+                                "footprintM": [[54, 54], [56, 56]]})
+    return whole
+
+
+def test_a_scoped_load_ignores_another_places_stale_entry_but_not_its_own(tmp_path):
+    sb.write_published(_two_places(), {}, tmp_path)
+    stale = tmp_path / "settlements/place.b.json"                  # another lane's half-reverted publish
+    stale.write_bytes(stale.read_bytes() + b"\n")
+    with pytest.raises(ValueError, match="sha256"):
+        sb.load_published(tmp_path)
+    sb.load_published(tmp_path, verify_places={"place.a"})
+    with pytest.raises(ValueError, match="sha256"):
+        sb.load_published(tmp_path, verify_places={"place.b"})
+
+
 def test_a_full_publish_removes_a_bundle_the_index_no_longer_names(tmp_path):
     sb.write_published(_whole(), {}, tmp_path)
     whole = _whole()
