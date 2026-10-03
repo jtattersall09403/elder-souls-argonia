@@ -97,6 +97,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { join } from "node:path";
 import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
 import { buildsAfterKits, framesBeforePose, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, captureFrame, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, poseReadyJs, poseTarget, poseResidual, installPoseProbe, POSE_FRAMES, installProgramErrorProbe, viewEndS, DEV_HOOKS_JS, profileStartS, kitSchemaCheck, rendererCpu, startContamination, reapViewRenderers } from "./pod-capture-lib.mjs";
+import { dataBaseOf } from "./serve-lib.mjs";
 import { loadSourceMaps } from "./source-maps.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit, heapTopAllocators } from "./checks.mjs";
@@ -179,7 +180,7 @@ const podExec = (cmd, timeout = 15_000) => { const [b, ...a] = pod.split(/\s+/);
   const kitsDir = join(wt, "apps/world-studio/public/kits");
   const kit = existsSync(kitsDir) ? readdirSync(kitsDir).find((k) => existsSync(join(kitsDir, k, "parts/index.json"))) : null;
   const loaderSrc = (() => { try { return readFileSync(join(wt, "packages/game-core/src/assets/kitParts.ts"), "utf8"); } catch { return null; } })();
-  const bases = [...new Set(views.map((v) => /^(https?:\/\/[^/]+\/elder-souls-argonia\/(?:studio|webgpu|harness)\/)/.exec(v.url)?.[1]).filter(Boolean))];
+  const bases = [...new Set(views.map((v) => dataBaseOf(v.url)).filter(Boolean))];
   for (const base of kit ? bases : []) {
     const url = `${base}kits/${kit}/parts/index.json`;
     const c = await kitSchemaCheck({ loaderSrc, url, fetchText: pod ? async (u) => podExec(`curl -sf -m 10 '${u}'`) : async (u) => { const r = await fetch(u, { signal: AbortSignal.timeout(10_000) }); if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text(); } });

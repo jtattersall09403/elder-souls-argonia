@@ -1013,6 +1013,11 @@ test("kitSchemaCheck: a served schema 2 against loader 3 fails the run; equal pa
   assert.equal((await kitSchemaCheck({ loaderSrc, url: "u", fetchText: async () => { throw new Error("HTTP 404"); } })).ok, false);
   assert.equal((await kitSchemaCheck({ loaderSrc: "", url: "u", fetchText: async () => '{"schemaVersion":3}' })).ok, false);
 });
+test("kitSchemaCheck fails on an HTML index and names the URL", async () => {
+  const { kitSchemaCheck } = await import("./pod-capture-lib.mjs");
+  const c = await kitSchemaCheck({ loaderSrc: "KIT_PARTS_SCHEMA_VERSION = 3", url: "http://h/x/parts/index.json", fetchText: async () => "<!doctype html><html></html>" });
+  assert.equal(c.ok, false); assert.match(c.why, /HTML.*http:\/\/h\/x\/parts\/index\.json/);
+});
 test("kitSchemaCheck reads the real loader constant", async () => {
   const { kitSchemaCheck } = await import("./pod-capture-lib.mjs");
   const src = (await import("node:fs")).readFileSync(new URL("../../packages/game-core/src/assets/kitParts.ts", import.meta.url), "utf8");

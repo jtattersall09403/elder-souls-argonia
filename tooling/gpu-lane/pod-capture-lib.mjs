@@ -1541,7 +1541,11 @@ export async function kitSchemaCheck({ loaderSrc, url, fetchText }) {
   const loader = m ? Number(m[1]) : null;
   if (loader === null) return { ok: false, loader, served: null, url, why: "no KIT_PARTS_SCHEMA_VERSION in the loader source" };
   let served = null;
-  try { served = JSON.parse(await fetchText(url)).schemaVersion ?? null; } catch (e) { return { ok: false, loader, served, url, why: `index unreadable: ${String(e.message).slice(0, 120)}` }; }
+  try {
+    const body = await fetchText(url);
+    if (/^\s*</.test(body)) return { ok: false, loader, served, url, why: `index is HTML, not kit data (the server has no such file): ${url}` };
+    served = JSON.parse(body).schemaVersion ?? null;
+  } catch (e) { return { ok: false, loader, served, url, why: `index unreadable: ${String(e.message).slice(0, 120)}` }; }
   return served === loader ? { ok: true, loader, served, url } : { ok: false, loader, served, url, why: `served schemaVersion ${served} != loader ${loader} (pod data not from the build's tree: pod-sync.sh --data)` };
 }
 
