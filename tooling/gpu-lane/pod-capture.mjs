@@ -172,7 +172,7 @@ if (opt("lane")) {
   console.log(`pod-capture prep: ${JSON.stringify(prep)}`);
 }
 /** One command on the pod over the --pod ssh; its stdout. */
-const podExec = (cmd, timeout = 15_000) => { const [b, ...a] = pod.split(/\s+/); return execFileSync(b, [...a.slice(0, -1), "-o", "StrictHostKeyChecking=no", "-o", "ConnectTimeout=5", a.at(-1), cmd], { timeout, encoding: "utf8" }); };
+const podExec = (cmd, timeout = 15_000) => { const [b, ...a] = pod.split(/\s+/); return execFileSync(b, [...a.slice(0, -1), "-o", "StrictHostKeyChecking=no", "-o", "ConnectTimeout=5", a.at(-1), cmd], { timeout, encoding: "utf8", maxBuffer: 1 << 30 }); };
 // diag22 C1 + c11 smoke2: every kit the page will load (the settlements index, each bundle's kits, the vegetation
 // kits; pageKitCheck) must serve a parts index at the dist's loader schema, fetched as the pod serves it, one round trip
 // per stage. Any miss, HTML index or wrong schema stops the run (exit 5) naming the kits.
