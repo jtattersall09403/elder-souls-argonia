@@ -200,13 +200,17 @@ for trying a pose by hand:
     $W signature                 # buildings sharing one shell + assembly (they read as copies)
 
 Bars (the proving-ground gates): a run joint `gapM <= 0.03` and
-`penetrationM <= 0.05`; unrelated pieces never cross; `footFloatMaxM <=
-0.3` for ground pieces (docks exempt); `slopeRule` null for every
-building; `padRule` null for every padded building (0101 R1);
+`penetrationM <= 0.05`, or the pair stands at a mined `run` pair's pose
+within its `offsetSpreadM` (`minedPair` on the pair row: the plugin's own
+crossing passes); unrelated pieces never cross; `footFloatMaxM <=
+0.3` for ground pieces (docks and climb-run members, row `climb`, exempt);
+`slopeRule` null for every building and every non-climb run member; `padRule` null for every padded building (0101 R1);
 `yOffRuntimeM` 0 after `settle` (the workbench seat IS the
 runtime's `anchorPlacement`); doors within 4 m of a path. A rock (seat_rules
-`ROCK_POLICY` tokens) is judged by `rockSeatRule` only: slope, delta, yard
-sill and foot float are skipped for it. A row with `runtimeY: null` and a
+`ROCK_POLICY` tokens, or any `landscape/rocks/` piece whose sink the
+plugins measured: rocks0N, rockm/l, rockpiles, wetrocks; not a cave mouth)
+is judged by `rockSeatRule` only: slope, delta, yard sill and foot float
+are skipped for it. It may embed to max(0.3 m, its plugin p75 base depth). A row with `runtimeY: null` and a
 `seatError` (a piled run member wholly on dry ground) has no runtime seat:
 move it onto its water or give it a ground fit.
 

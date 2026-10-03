@@ -233,9 +233,12 @@ turn, snapped face to face by geometry, then walked.
     bank-top ground within 0.05 m. A run whose adjacent members rise more
     than 0.45 m (the controller step) is a CLIMB
     (`settlement_run_pads.climb_runs`, `rules.climb_uids`): it takes no
-    run pad and the compile's fit slope does not judge it; walkwayRule and
-    landingRule do. Still open: run-jointPair (wb.py `_pair_verdict`)
-    fails the mined pose itself (penetration 0.234 m, crossing).
+    run pad, and neither the compile's fit slope nor `wb check`'s
+    slopeRule and footFloat judge it (row flag `climb`); walkwayRule and
+    landingRule do. A run joint standing at a mined `run` pair's pose
+    within its `offsetSpreadM` (+0.01 m, 1 deg) passes run-jointPair even
+    though it crosses (stairs02's own pair crosses 0.234 m; wb.py
+    `mined_pair_pose`); off that pose the penetration and overlap bars hold.
 29c. **A rising run joint is set by the mined pair; a crossing's end height
     by grading the ground** (audit10 c5, Riverwalk lw13): never lift a
     flat crossing's end by a pair rise (it fails run-jointPair as

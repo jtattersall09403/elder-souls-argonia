@@ -656,14 +656,16 @@ def cmd_doors(a, scene, cat):
 def _check_row(cat, scene, p, declared, cs) -> dict:
     """One piece's `check` row: seat vs its y, foot float, slope vs its fit's
     limit, quay reach or hull water, the pad fit (0101)."""
-    from workbench import pads, rules
+    from workbench import pads, rules, seat_rules
     # every piece is judged on the ground the scene's pads patch (0101)
     g = pads.ground_for(cat, scene, p, declared)
     row = cat.row(p.asset)
     r = {"asset": p.asset.rsplit("/", 1)[-1], "fit": fit_of(row),
          "anchorClass": row.get("anchorClass"), "settledBy": p.settledBy,
-         "piled": bool(row.get("piled"))}
-    mounted = ((p.settledBy or "").startswith(("mount:", "template:"))
+         "piled": bool(row.get("piled")),
+         # by the full path: the landscape rock folder (seat_rules.is_rock)
+         "rock": seat_rules.is_rock(p.asset, cat)}
+    mounted =((p.settledBy or "").startswith(("mount:", "template:"))
                or (p.role or {}).get("on") == "parent")
     seat = None
     if not mounted:
@@ -688,7 +690,12 @@ def _check_row(cat, scene, p, declared, cs) -> dict:
             if p.role.get("kind") == "run":
                 slope = g.footprint_max_slope_deg(poly)
                 r["maxSlopeDeg"] = round(slope, 2)
-                r["slopeRule"] = cs.fit_slope_failure({**row}, slope)
+                # a climb run (adjacent rise > CLIMB_STEP_M) is judged by
+                # walkwayRule and landingRule only (modular-runs 29b); the
+                # row's `climb` flag also lifts footFloat (layout.py)
+                r["climb"] = p.uid in rules.climb_uids(scene)
+                r["slopeRule"] = (None if r["climb"]
+                                  else cs.fit_slope_failure({**row}, slope))
                 r.update(_sill(cat, g, p, row, cs))
             r["deltaM"] = round(seat["deltaM"], 3)
             r["wetVertices"] = sum(g.wet(x, z) for x, z in poly)
@@ -954,6 +961,32 @@ def along_run_overlap(cat, a: Piece, b: Piece) -> float:
                                 cat.mesh(b.asset), measure._transform4(b))
 
 
+#: slack over a mined pair's offsetSpreadM (float noise of a snapped pose)
+MINED_POSE_SLACK_M = 0.01
+MINED_POSE_YAW_DEG = 1.0
+
+
+def mined_pair_pose(a: Piece, b: Piece) -> dict | None:
+    """The mined `run` abuts pair whose pose the two stand at (either as the
+    parent), within its recorded offsetSpreadM (+ MINED_POSE_SLACK_M) and
+    MINED_POSE_YAW_DEG: {offM, spreadM, count}; None when no pair matches."""
+    import copy
+    for parent, child in ((a, b), (b, a)):
+        for s in snap.evidence_steps(parent.asset, child.asset):
+            if s.get("joint") != "run" or s.get("offsetSpreadM") is None:
+                continue
+            want = copy.copy(child)
+            snap._set_from_parent(want, parent, s["offsetM"], s["riseM"], s["yawDeg"])
+            d2 = (want.x - child.x) ** 2 + (want.z - child.z) ** 2
+            if want.y is not None and child.y is not None:
+                d2 += (want.y - child.y) ** 2
+            dyaw = abs((want.yaw - child.yaw + 180.0) % 360.0 - 180.0)
+            off = d2 ** 0.5
+            if off <= float(s["offsetSpreadM"]) + MINED_POSE_SLACK_M and dyaw <= MINED_POSE_YAW_DEG:
+                return {"offM": round(off, 3), "spreadM": s["offsetSpreadM"], "count": s["count"]}
+    return None
+
+
 #: how far an unmined mount's mesh may pass into its host (the mined pairs'
 #: designed overlap does not apply: nobody designed this pose)
 UNMINED_MOUNT_PENETRATION_M = 0.02
@@ -1006,6 +1039,12 @@ def _pair_verdict(a: Piece, b: Piece, got: dict, cat=None) -> dict:
     if snapped or (ra.get("kind") == rb.get("kind") == "run" and ra.get("id") == rb.get("id")
                    and abs(int(ra.get("index", -9)) - int(rb.get("index", -9))) == 1):
         bar, overlap_bar = run_joint_bars(a, b)
+        mined = mined_pair_pose(a, b)
+        if mined is not None:
+            # the plugin's own pose crosses (stairs02 overlaps its neighbour
+            # 0.234 m, audit10 c5): at the mined pair pose, within the
+            # pair's recorded spread, the crossing is designed (modular-runs 29c)
+            return {"relation": "run-joint", "minedPair": mined, "ok": True}
         out = {"relation": "run-joint",
                "ok": got["gapM"] <= JOINT_GAP_M and (got["penetrationM"] or 0.0) <= bar}
         if overlap_bar is not None and cat is not None:
