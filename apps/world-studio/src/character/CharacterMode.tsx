@@ -1,4 +1,5 @@
 import { Suspense, type ReactNode, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { useCameraAspectOwner } from "@elder-souls/game-core/render/cameraAspect";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Physics, useRapier } from "@react-three/rapier";
 import { ShapeType } from '@dimforge/rapier3d-compat';
@@ -540,6 +541,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           <FrameWorkProvider>
           {/* The HUD's frame rate is sampled HERE, inside the canvas, so
               `?veg=0` (no vegetation renderer mounted) still has one. */}
+          {/* The one owner of the camera's aspect (fix17: R3F left it 0 on native WebGPU). */}
+          <CameraAspectOwner />
           <FrameRateProbe ownsRender={!waterPipelineEnabled || hiddenLayers.has("water")} />
           {/* Natural light and sky (Phase 8a): terrain, character and sea are
               lit by the same sun/moon/sky rig, shadows and exposure as the
@@ -1125,6 +1128,11 @@ function maxOf(values: number[]): number {
 /** Millions, one decimal — the only scale these counts are read at. */
 function millions(n: number): string {
   return `${(n / 1e6).toFixed(1)}M`;
+}
+
+function CameraAspectOwner(): null {
+  useCameraAspectOwner();
+  return null;
 }
 
 function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {

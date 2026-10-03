@@ -13,6 +13,7 @@ import * as THREE from "three";
 import { Storage3DTexture, type WebGPURenderer } from "three/webgpu";
 import * as tsl from "three/tsl";
 import type { TslNode } from "../../render/nodes/materialNodes";
+import { matrixFinite } from "../../render/cameraAspect";
 import { fogRegimesInto, MOISTURE_FLOOR, MIST_FADE_SHARE, MIST_SCALE_SHARE, type FogFieldInput, type FogRegimes } from "./fogField";
 import { FOG_NOISE, FogDrift, bakeFogShape, bakeFogWarp } from "./fogNoise";
 import { SHADOWED_SKY, SUN_PROBES_M, SUN_PROBE_NEAR_M, probeSoftM } from "./terrainSun";
@@ -22,7 +23,7 @@ import type { VolumetricsSampler } from "./volumetricNodes";
 
 const T = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode> & Record<string, TslNode>;
 const {
-  Fn, If, Loop, clamp, cos, dot, exp, float, floor, fract, instanceIndex, int, length, log, max, min, mix, normalize, pow,
+  Fn, If, Loop, abs, clamp, cos, dot, exp, float, floor, fract, instanceIndex, int, length, log, max, min, mix, normalize, pow,
   sin, smoothstep, step, texture, texture3D, textureStore, uniform, uniformArray, uvec3, vec2, vec3, vec4,
 } = T;
 
@@ -190,6 +191,7 @@ export class Volumetrics implements VolumetricsSampler {
   private parity = 0;
   private frameIndex = 0;
   private readonly prevViewProj = new THREE.Matrix4();
+  private readonly _vp = new THREE.Matrix4();
   private hasHistory = false;
   /** Last dispatch sizes (invocations) for probes: inject, integrate. */
   readonly dispatch = { inject: 0, integrate: 0 };
@@ -599,8 +601,13 @@ export class Volumetrics implements VolumetricsSampler {
         const ps = log(max(prev.w, this.near).div(this.near)).div(log(this.far.div(this.near)));
         const inside = step(0, puv.x).mul(step(puv.x, 1)).mul(step(0, puv.y)).mul(step(puv.y, 1))
           .mul(step(0, ps)).mul(step(ps, 1)).mul(step(0, prev.w));
-        const hist = texture3D(history, subUvw(vec3(puv, ps), vec3(gx, gy, gz)), 0);
-        cur.assign(mix(cur, hist, inside.mul(HISTORY_BLEND)));
+        const hist = texture3D(history, subUvw(vec3(puv, ps), vec3(gx, gy, gz)), 0).toVar();
+        // A non-finite history texel (NaN fails every compare, Inf fails the bound)
+        // would self-feed forever: keep the current sample instead (fix17).
+        const mag = abs(hist.x).add(abs(hist.y)).add(abs(hist.z)).add(abs(hist.w)).add(abs(ps)).add(abs(puv.x)).add(abs(puv.y));
+        If(mag.lessThan(1e30), () => {
+          cur.assign(mix(cur, hist, inside.mul(HISTORY_BLEND)));
+        });
       });
       textureStore(write, coord, cur).toWriteOnly();
     })().compute(gx * gy * gz).setName("volumetricsInject");
@@ -706,8 +713,10 @@ export class Volumetrics implements VolumetricsSampler {
     this.deps.renderer.compute(this.kernels.integrate);
     this.parity = 1 - k;
     this.frameIndex++;
-    this.prevViewProj.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse);
-    this.hasHistory = true;
+    // history is only kept from a finite matrix; otherwise the next frame starts fresh (fix17)
+    this._vp.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse);
+    this.hasHistory = matrixFinite(this._vp);
+    if (this.hasHistory) this.prevViewProj.copy(this._vp);
   }
 
   /** Advance the fog drift (FogDrift) by the frame's real seconds and upload its offsets, morph and

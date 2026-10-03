@@ -52,6 +52,13 @@ with an object that must not have it: clone first (the old rule, unchanged).
 
 ### Gotchas proven on this port (each cost a lane an hour)
 
+- Camera aspect is owned once: R3F's default camera is `PerspectiveCamera(fov, 0)` and on native
+  WebGPU its aspect stayed 0, so every projection rebuild was Inf (NaN inverse) and fed bloom, the
+  underwater blit, CSM and the froxel history. Never call `camera.updateProjectionMatrix()` on the
+  main camera: call `updateProjection(camera, size.width, size.height)` from
+  `render/cameraAspect.ts` (the canvas mounts `useCameraAspectOwner`). A temporal history (froxel
+  reprojection or any self-feeding buffer) rejects a non-finite texel with a real `If` and keeps
+  its matrix only when it is finite: one NaN frame otherwise stays forever.
 - A GPU resource replaced under a node is destroyed only when no render object can still bind it:
   an object not drawn this frame keeps its old bind group, so destroying the old texture a fixed
   few frames later gives WebGPU "Destroyed texture used in a submit" and a black frame when that
