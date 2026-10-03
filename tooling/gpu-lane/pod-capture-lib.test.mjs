@@ -1,7 +1,7 @@
 // node --test tooling/gpu-lane/pod-capture-lib.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, viewDeadlineS, installGpuErrorProbe, gpuProbeLine, installDrawCensus, drawCensusLine } from "./pod-capture-lib.mjs";
+import { onePercentLow, parseSteps, counter, heapSlope, isStalled, lumaRatios, parseProfile, parseShots, screenMiddle, shotSchedule, stalledReads, summariseProfile , settleGate, shotSettle, summariseView, parseViews, browserStoppedAnswering, podSetupCommand, aimJs, HUD_HIDE_JS, HUD_SHOW_JS, viewDeadlineS, installGpuErrorProbe, gpuProbeLine, installNanProbe, nanProbeLine, installDrawCensus, drawCensusLine } from "./pod-capture-lib.mjs";
 
 const img = (w, h, f) => { const d = new Uint8ClampedArray(w * h * 4); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) d.set([...f(x, y), 255], (y * w + x) * 4); return d; };
 
@@ -361,6 +361,46 @@ test("gpu-error probe: every required slot set, no dump", () => {
   assert.equal(win.__gpuErrorProbe.dumps.length, 0); assert.equal(win.__gpuErrorProbe.draws, 1);
   assert.match(gpuProbeLine(win.__gpuErrorProbe), /^not-a-bar; no unset slot in 1 draws/);
 });
+test("gpu-error probe: destroyedInSubmit names the destroy stack only when a destroyed buffer is bound at submit", () => {
+  class GPUBuffer { constructor(d) { this.label = d.label; this.size = d.size; this.usage = d.usage; } destroy() {} }
+  class GPURenderPassEncoder { setBindGroup() {} setVertexBuffer() {} setIndexBuffer() {} drawIndexedIndirect() {} end() {} }
+  class GPUComputePassEncoder { setBindGroup() {} end() {} }
+  class GPUCommandEncoder { constructor(d) { this.label = d?.label ?? ""; } copyBufferToBuffer() {} beginRenderPass() { return new GPURenderPassEncoder(); } beginComputePass() { return new GPUComputePassEncoder(); } finish() { return {}; } }
+  class GPUDevice { createBuffer(d) { return new GPUBuffer(d); } createBindGroup() { return {}; } createCommandEncoder(d) { return new GPUCommandEncoder(d); } }
+  const submitted = [];
+  class GPUQueue { submit(cbs) { submitted.push(cbs.length); } }
+  let t = 0;
+  const win = { GPUDevice, GPUBuffer, GPURenderPassEncoder, GPUComputePassEncoder, GPUCommandEncoder, GPUQueue, performance: { now: () => (t += 10) } };
+  installGpuErrorProbe(win);
+  const dev = new GPUDevice(), q = new GPUQueue();
+  const live = dev.createBuffer({ label: "live", size: 64, usage: 72 }), doomed = dev.createBuffer({ label: "", size: 256, usage: 72 });
+  const bg = dev.createBindGroup({ label: "bindGroup_lights", entries: [{ binding: 0, resource: { buffer: live } }, { binding: 1, resource: { buffer: doomed } }] });
+  const frame = (label) => { const e = dev.createCommandEncoder({ label }); const p = e.beginRenderPass({}); p.setBindGroup(0, bg); p.end(); q.submit([e.finish()]); };
+  const P = win.__gpuErrorProbe;
+  frame("renderContext_6");
+  assert.equal(P.destroyedInSubmit.length, 0); // bound but not destroyed: no record
+  function disposeLights() { doomed.destroy(); }
+  disposeLights();
+  const other = dev.createCommandEncoder({ label: "compute" }); other.beginComputePass().setBindGroup(0, dev.createBindGroup({ entries: [{ binding: 0, resource: { buffer: live } }] })); q.submit([other.finish()]);
+  assert.equal(P.destroyedInSubmit.length, 0); // destroyed buffer not bound by this encoder: no record
+  for (let i = 0; i < 7; i++) frame("renderContext_6");
+  assert.equal(P.destroyedInSubmitSeen, 7); assert.equal(P.destroyedInSubmit.length, 5); assert.equal(submitted.length, 9);
+  const r = P.destroyedInSubmit[0];
+  assert.equal(r.encoder, "renderContext_6"); assert.equal(r.buffers.length, 1);
+  const b = r.buffers[0];
+  assert.deepEqual([b.id, b.size, b.usage, b.via], [2, 256, 72, "bindGroup_lights"]);
+  assert.match(b.destroyStack[0], /disposeLights/); assert.ok(b.createStack.length > 0); assert.ok(b.msDestroyToSubmit > 0);
+  frame("renderContext_9"); // a new encoder label still gets its first record
+  assert.equal(P.destroyedInSubmit.length, 6); assert.equal(P.destroyedInSubmit[5].encoder, "renderContext_9");
+  // an indirect-args buffer destroyed after use, and a copy destination: each named by the call that bound it
+  const args = dev.createBuffer({ label: "cullArgs", size: 20, usage: 256 }), dst = dev.createBuffer({ label: "readback", size: 20, usage: 9 });
+  const ok = dev.createCommandEncoder({ label: "veg" }); const vp = ok.beginRenderPass({}); vp.drawIndexedIndirect(args, 0); vp.end(); q.submit([ok.finish()]);
+  assert.equal(P.destroyedInSubmit.length, 6); // live indirect buffer: no record
+  args.destroy(); dst.destroy();
+  const e = dev.createCommandEncoder({ label: "veg" }); const p2 = e.beginRenderPass({}); p2.drawIndexedIndirect(args, 0); p2.end(); e.copyBufferToBuffer(live, 0, dst, 0, 20); q.submit([e.finish()]);
+  assert.deepEqual(P.destroyedInSubmit[6].buffers.map((x) => [x.label, x.via]), [["cullArgs", "drawIndexedIndirect"], ["readback", "copyBufferToBuffer dst"]]);
+  assert.match(gpuProbeLine(P), /destroyed-in-submit 9 \(errors 0\) enc renderContext_6 buf #2 via bindGroup_lights destroyed by at disposeLights/);
+});
 
 // --draw-census: a fake renderer and WebGPU device on a fake window, frames driven by hand
 test("draw census: categories, kinds, refreshes, us/draw and created-in-window counts", () => {
@@ -455,4 +495,159 @@ test("installLoadTimeline: pipeline builds, first present and KTX2 worker round 
     assert.deepEqual([t.transcode.count, t.transcode.ms, t.transcode.workers], [1, 60, 1]);
     return d.createRenderPipelineAsync().then(() => Promise.resolve()).then(() => assert.equal(t.builds.count, 3));
   });
+});
+
+// --probe-nan: a fake GPUQueue/GPUBuffer on a fake window; the probe must fire on a NaN write and stay quiet otherwise
+function fakeNanWindow(renderer) {
+  class GPUQueue { submit() {} writeBuffer() {} writeTexture() {} }
+  class GPUBuffer { constructor(label, size, usage) { this.label = label; this.size = size; this.usage = usage; this._ab = new ArrayBuffer(size); } getMappedRange() { return this._ab; } unmap() {} }
+  const win = { GPUQueue, GPUBuffer, __RENDERER__: renderer, performance: { now: () => 5 } };
+  installNanProbe(win);
+  return { win, q: new GPUQueue(), GPUBuffer };
+}
+test("nan probe: a NaN in a Float32 uniform write is recorded with label, frame and the uniform name", () => {
+  const binding = { name: "objectUniforms", uniforms: [{ name: "fogTime", offset: 0, itemSize: 1 }, { name: "windDir", offset: 4, itemSize: 4 }] };
+  const at = {};
+  const be = { updateBinding(b) { at.q.writeBuffer(at.buf, 0, new Float32Array([1, 2, 3, 4, 0.5, NaN, 0, 0])); } };
+  const { win, q, GPUBuffer } = fakeNanWindow({ backend: be });
+  at.q = q; at.buf = new GPUBuffer("bindingBuffer7_objectUniforms_(vertex)", 32, 0x40 | 0x8);
+  q.submit([]); q.submit([]);
+  win.__RENDERER__.backend.updateBinding(binding);
+  win.__RENDERER__.backend.updateBinding(binding);
+  const p = win.__nanProbe;
+  assert.equal(p.records.length, 1); assert.equal(p.bad, 2); assert.equal(p.badPerFrame[2], 2);
+  const r = p.records[0];
+  assert.equal(r.label, "bindingBuffer7_objectUniforms_(vertex)"); assert.equal(r.frame, 2); assert.equal(r.floatIndex, 5); assert.equal(r.byteOffset, 20);
+  assert.equal(r.value, "NaN"); assert.equal(r.group, "objectUniforms"); assert.deepEqual(r.uniforms, ["windDir"]);
+  assert.match(nanProbeLine(p), /^not-a-bar; 2 bad writes, first f2 bindingBuffer7_objectUniforms_\(vertex\)\/objectUniforms\.windDir NaN/);
+});
+test("nan probe: finite writes stay clean; index buffers and int arrays are skipped; mapped and half-float paths fire", () => {
+  const { win, q, GPUBuffer } = fakeNanWindow();
+  q.writeBuffer(new GPUBuffer("ok", 16, 0x40), 0, new Float32Array([1, 2, 3, 4]));
+  assert.equal(win.__nanProbe.records.length, 0);
+  assert.match(nanProbeLine(win.__nanProbe), /^not-a-bar; clean \(1 writes/);
+  q.writeBuffer(new GPUBuffer("idx", 16, 0x10 | 0x8), 0, new Float32Array([NaN, 0, 0, 0]));
+  q.writeBuffer(new GPUBuffer("ints", 16, 0x80), 0, new Uint32Array([0x7fc00000, 0, 0, 0]));
+  assert.equal(win.__nanProbe.records.length, 0); assert.equal(win.__nanProbe.scanned, 1);
+  const m = new GPUBuffer("mapped", 4096, 0x80); new Float32Array(m.getMappedRange())[1] = Infinity; m.unmap();
+  q.writeTexture({ texture: { label: "lightField", format: "rgba16float", width: 1, height: 1 } }, new Uint16Array([0x3c00, 0x7e00, 0, 0]), { offset: 0 }, [1, 1]);
+  const rs = win.__nanProbe.records;
+  assert.deepEqual(rs.map((r) => [r.kind, r.label, r.value, r.floatIndex]), [["mapped", "mapped", "Inf", 1], ["writeTexture", "lightField", "NaN", 1]]);
+  assert.equal(rs[0].mapping, undefined);
+});
+test("nan probe: a hit inside updateForRender names its owner (object, material, node; camera for render) and the persistent table", () => {
+  const at = {};
+  const obj = { name: "reedClump", type: "Mesh", uuid: "o1", userData: { kit: 1 }, parent: { name: "cell", parent: { name: "veg", parent: { type: "Scene" } } } };
+  const cam = { type: "PerspectiveCamera", name: "probeCam", uuid: "c1", aspect: 0, fov: 50, near: 0.1, far: 100, zoom: 1, isArrayCamera: false };
+  const ctx = { width: 0, height: 0, label: "rt", renderTarget: { width: 0, height: 4, depth: 1, samples: 0, texture: { name: "probeRT" } } };
+  const ro = { object: obj, material: { name: "reedMat", type: "MeshStandardNodeMaterial", uuid: "m1" }, context: ctx, camera: cam };
+  const vec = { isVector3: true, x: 1, y: NaN, z: 0, constructor: { name: "Vector3" } };
+  const objB = { name: "object", uniforms: [{ name: "nodeUniform6", offset: 0, itemSize: 4, nodeUniform: { name: "nodeUniform6", node: { name: "windDir", value: vec, constructor: { name: "UniformNode" } } } }] };
+  const renB = { name: "render", uniforms: [{ name: "cameraProjectionMatrix", offset: 0, itemSize: 16 }] };
+  const be = { updateBinding(b) { at.q.writeBuffer(at.buf, 0, at.data); } };
+  const bindings = { updateForRender(r) { for (const b of r.list) be.updateBinding(b); } };
+  const renderer = { backend: be, _bindings: bindings, getRenderTarget: () => ctx.renderTarget, getViewport: () => ({ x: 0, y: 0, z: 0, w: 4 }), getDrawingBufferSize: () => ({ x: 800, y: 600 }) };
+  const { win, q, GPUBuffer } = fakeNanWindow(renderer);
+  at.q = q; at.buf = new GPUBuffer("bindingBuffer18", 64, 0x40 | 0x8);
+  const run = (list, data) => { at.data = data; win.__RENDERER__._bindings.updateForRender({ ...ro, list }); };
+  run([objB], new Float32Array([1, NaN, 0, 0])); run([objB], new Float32Array([1, NaN, 0, 0])); run([objB], new Float32Array([1, 2, 0, 0])); // transient
+  const proj = new Float32Array(16); proj[0] = Infinity;
+  run([renB], proj); run([renB], proj); // persistent
+  const p = win.__nanProbe;
+  assert.equal(p.records.length, 2); assert.equal(p.bad, 4);
+  const [o, r] = p.records;
+  assert.equal(o.group, "object"); assert.equal(o.owner.object.name, "reedClump"); assert.deepEqual(o.owner.object.parents, ["cell", "veg", "Scene"]);
+  assert.deepEqual(o.owner.object.userData, ["kit"]); assert.equal(o.owner.material.name, "reedMat"); assert.equal(o.owner.context.target.label, "probeRT");
+  assert.deepEqual(o.owner.node, [{ uniform: "nodeUniform6", name: "windDir", class: "UniformNode", valueType: "object", valueClass: "Vector3", value: [1, "NaN", 0] }]);
+  assert.equal(r.group, "render"); assert.equal(r.owner.camera.name, "probeCam"); assert.equal(r.owner.camera.aspect, 0);
+  assert.deepEqual(r.owner.renderer.viewport, [0, 0, 0, 4]); assert.deepEqual(r.owner.renderer.drawingBuffer, [800, 600]); assert.equal(r.owner.renderer.target.height, 4);
+  assert.deepEqual(JSON.parse(JSON.stringify(p)).persistent, [{ group: "render", uuid: "c1", name: "probeCam", bad: 2 }]);
+  assert.match(nanProbeLine(p), /persistent 1;/);
+});
+test("nan probe: a mapped NaN pattern beside denormals is packed, not bad; a uniform NaN is still bad", () => {
+  const { win, q, GPUBuffer } = fakeNanWindow();
+  const m = new GPUBuffer("packed", 4096, 172); m.getMappedRange();
+  const u = new Uint32Array(m._ab); u[10] = 1; u[11] = 0x7fc00000; u[12] = 1; m.unmap();
+  assert.equal(win.__nanProbe.bad, 0); assert.equal(win.__nanProbe.packedSkipped, 1);
+  q.writeBuffer(new GPUBuffer("uni", 16, 0x40 | 0x8), 0, new Float32Array([1, NaN, 0, 1e-45]));
+  assert.equal(win.__nanProbe.bad, 1); assert.equal(win.__nanProbe.packedSkipped, 1);
+  assert.match(nanProbeLine(win.__nanProbe), /packed-skipped 1\)/);
+});
+
+test("gpu-error probe: encoderPasses names each encoder label's pass once (attachments, first pipeline, camera); destroyedInSubmit carries it", () => {
+  class GPUTexture { constructor(label, format, w, h, sc) { Object.assign(this, { label, format, width: w, height: h, sampleCount: sc }); } createView() { return {}; } }
+  class GPUBuffer { constructor(d) { this.label = d.label; this.size = d.size; } destroy() {} }
+  class GPURenderPassEncoder { setPipeline() {} setBindGroup() {} end() {} }
+  class GPUCommandEncoder { constructor(d) { this.label = d?.label ?? ""; } beginRenderPass() { return new GPURenderPassEncoder(); } finish() { return {}; } }
+  class GPUDevice { createBuffer(d) { return new GPUBuffer(d); } createBindGroup() { return {}; } createCommandEncoder(d) { return new GPUCommandEncoder(d); } createRenderPipeline() { return {}; } }
+  class GPUQueue { submit() {} }
+  const at = {};
+  const renderer = { backend: { draw(ro) { at.pass.setPipeline(at.pipe); } } };
+  const win = { GPUTexture, GPUDevice, GPUBuffer, GPURenderPassEncoder, GPUCommandEncoder, GPUQueue, __RENDERER__: renderer, performance: { now: () => 1 } };
+  installGpuErrorProbe(win);
+  const dev = new GPUDevice(), q = new GPUQueue();
+  const shadow = new GPUTexture("shadowMap", "depth32float", 2048, 2048, 1), colour = new GPUTexture("scene", "rgba16float", 1280, 720, 4), depth = new GPUTexture("", "depth24plus", 1280, 720, 4);
+  at.pipe = dev.createRenderPipeline({ label: "renderPipeline_shadow", vertex: { buffers: [] } });
+  const doomed = dev.createBuffer({ label: "lights", size: 64 }), bg = dev.createBindGroup({ label: "bg", entries: [{ binding: 0, resource: { buffer: doomed } }] });
+  const run = (label, d, cam) => { const e = dev.createCommandEncoder({ label }); at.pass = e.beginRenderPass(d); at.pass.setBindGroup(0, bg); renderer.backend.draw({ camera: cam, object: { name: "sunShadow" } }); at.pass.end(); q.submit([e.finish()]); };
+  const P = win.__gpuErrorProbe;
+  run("renderContext_6", { colorAttachments: [], depthStencilAttachment: { view: shadow.createView() } }, { type: "OrthographicCamera", name: "", isOrthographicCamera: true });
+  run("renderContext_6", { colorAttachments: [{ view: colour.createView() }], depthStencilAttachment: { view: depth.createView() } }, { type: "PerspectiveCamera" });
+  assert.deepEqual(P.encoderPasses.renderContext_6, { passLabel: "", colour: [], depth: { label: "shadowMap", format: "depth32float", size: [2048, 2048], sampleCount: 1 },
+    firstPipeline: "renderPipeline_shadow", camera: { type: "OrthographicCamera", name: "", ortho: true, array: false, object: "sunShadow" } }, "first pass of the label only");
+  assert.equal(P.destroyedInSubmit.length, 0, "no destroyed buffer yet: no record");
+  run("renderContext_2", { colorAttachments: [{ view: colour.createView() }] }, null);
+  assert.deepEqual(P.encoderPasses.renderContext_2.colour, [{ label: "scene", format: "rgba16float", size: [1280, 720], sampleCount: 4 }]);
+  assert.equal(P.encoderPasses.renderContext_2.camera, null);
+  doomed.destroy();
+  run("renderContext_6", { colorAttachments: [] }, null);
+  assert.equal(P.destroyedInSubmit[0].pass.firstPipeline, "renderPipeline_shadow");
+});
+test("load timeline: buffered longtask records and bootLongestTask; empty list and null when there were none", async () => {
+  const { installLoadTimeline, loadTimeline } = await import("./pod-capture-lib.mjs");
+  const observers = [];
+  class PerformanceObserver { constructor(cb) { this.cb = cb; observers.push(this); } observe(o) { this.opts = o; } }
+  const win = { performance: { now: () => 0, setResourceTimingBufferSize() {} }, PerformanceObserver };
+  installLoadTimeline(win);
+  assert.deepEqual(observers[0].opts, { type: "longtask", buffered: true });
+  const t = win.__loadTimeline;
+  const none = loadTimeline({ probe: JSON.parse(JSON.stringify(t)), fetch: null }, {});
+  assert.deepEqual([none.longTasks, none.bootLongestTask], [[], null]);
+  observers[0].cb({ getEntries: () => [{ startTime: 310.4, duration: 8412.6, name: "self", attribution: [{ name: "unknown", containerType: "window" }] }, { startTime: 9100, duration: 120, name: "self", attribution: [] }] });
+  const lt = loadTimeline({ probe: JSON.parse(JSON.stringify(t)), fetch: null }, {});
+  assert.equal(lt.longTasks.length, 2);
+  assert.deepEqual(lt.bootLongestTask, { at: 0.3, ms: 8413, name: "self", attribution: "unknown window" });
+  const bare = { performance: { now: () => 0, setResourceTimingBufferSize() {} } };
+  installLoadTimeline(bare);
+  assert.equal(loadTimeline({ probe: bare.__loadTimeline, fetch: null }, {}).longTasksUnobservable, "no PerformanceObserver");
+});
+
+import { viewShots, shotTime, hudClock, clockVerdict, withFinalJpgLuma, summaryTable as summaryTableF2, summariseView as summariseViewF2 } from "./pod-capture-lib.mjs";
+test("viewShots/shotTime: frames count from navigation unless shotsFrom settle; seconds-only views every 10 s (diag19 D5)", () => {
+  assert.deepEqual(viewShots({ seconds: 60 }, "500@60,2000", 60), [0, 10, 20, 30, 40, 50, 60]);
+  assert.equal(viewShots({ shots: "none", seconds: 60 }, undefined, 60).length, 0);
+  assert.equal(viewShots({}, "1000@2,5000", 10).length, parseShots("1000@2,5000", 10).length);
+  // old: a 60 s view whose settle gate opened at 45 s had shot time 15 at s=60; now 60 for any view without shotsFrom
+  assert.equal(shotTime({ clean: true }, 60, 45), 60);
+  assert.equal(shotTime({ shotsFrom: "settle" }, 60, 45), 15);
+  assert.equal(shotTime({ shotsFrom: "settle" }, 60, null), -1);
+  assert.throws(() => parseViews(JSON.stringify([{ name: "a", url: "http://x/", shotsFrom: "ready" }])), /shotsFrom/);
+});
+test("hudClock/clockVerdict: HUD HH:MM per frame, clockAdvancing first vs last", () => {
+  assert.deepEqual(hudClock("fps 60\n07:05\nalt 3 m"), { hhmm: "07:05", minute: 425 });
+  assert.equal(hudClock("fps 60 · 12.5 ms"), null);
+  assert.deepEqual(clockVerdict([{ clock: hudClock("07:05") }, { clock: null }, { clock: hudClock("07:40") }]), { first: "07:05", last: "07:40", clockAdvancing: true });
+  assert.equal(clockVerdict([{ clock: hudClock("07:05") }, { clock: hudClock("07:05") }]).clockAdvancing, false);
+  assert.equal(clockVerdict([{ clock: hudClock("07:05") }]).clockAdvancing, null);
+});
+test("summary: a rate= view whose clock did not advance is flagged in summary.md", () => {
+  const v = (name, url, adv) => ({ name, summary: summariseViewF2({ url, clock: { first: "07:05", last: adv ? "07:30" : "07:05", clockAdvancing: adv } }) });
+  const md = summaryTableF2([v("a", "http://x/?rate=0.5", false), v("b", "http://x/?rate=0.5", true), v("c", "http://x/?rate=0", false)], null);
+  assert.match(md, /CLOCK STOPPED[^\n]*: a$/m);
+  assert.match(md, /07:05->07:05 STOPPED/);
+});
+test("withFinalJpgLuma: luma final and black are final.jpg's own (diag19 Q1: 0.32 read beside a lit final.jpg)", () => {
+  const f = withFinalJpgLuma({ luma: 0.32, blackShare: 0.972, fps: 30 }, { luma: 145.5, blackShare: 0 });
+  assert.deepEqual(f, { luma: 145.5, blackShare: 0, fps: 30, lumaSource: "final.jpg" });
+  assert.equal(summariseViewF2({ final: f }).lumaFinal, 145.5);
 });

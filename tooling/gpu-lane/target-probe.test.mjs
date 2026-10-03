@@ -1,5 +1,6 @@
 // node --test tooling/gpu-lane/target-probe.test.mjs
 import { test } from "node:test";
+import vm from "node:vm";
 import assert from "node:assert/strict";
 import { installTargetProbe, recordPassDescriptor, targetsLine } from "./target-probe.mjs";
 
@@ -147,7 +148,7 @@ test("target probe: id-less targets (three RenderTarget) all seen; scene grid co
   assert.equal(g.samples.length, 8);
   assert.equal(g.meanLuma, Math.round(((2304 - 14) / (2304 - 4)) * 1e4) / 1e4);
   assert.match(g.depth.skipped, /no depthTexture/);
-  assert.match(targetsLine(p), / scene nan 3 inf 1 black 10\/2304 cam nan \? vp \?$/);
+  assert.match(targetsLine(p), / scene nan 3 inf 1 black 10\/2304 cam nan \? vp \? held err$/);
 });
 
 test("target probe: state block reads the largest render call's camera, viewport, drawing buffer, sun; NaN flagged", async () => {
@@ -172,6 +173,99 @@ test("target probe: state block reads the largest render call's camera, viewport
   assert.deepEqual(ok.state.drawingBuffer, { w: 1280, h: 720 });
   assert.deepEqual(ok.state.viewport, { x: 0, y: 0, w: 640, h: 360 });
   assert.equal(ok.state.sun.sunDirection.anyNaN, true);
-  assert.match(targetsLine(bad), / cam nan Y vp 1280x720$/);
-  assert.match(targetsLine(ok), / cam nan N vp 1280x720$/);
+  assert.match(targetsLine(bad), / cam nan Y vp 1280x720 held err$/);
+  assert.match(targetsLine(ok), / cam nan N vp 1280x720 held err$/);
+});
+
+// The page runs the STRINGIFIED function (pod-capture.mjs: `(${installTargetProbe})(window, ${recordPassDescriptor})`), so a
+// module-level helper is a ReferenceError there (iter22 readState). Evaluate that exact source in a fresh context.
+function pageCapture(renderer) {
+  const win = { requestAnimationFrame: (f) => setTimeout(f, 0), __RENDERER__: renderer };
+  const ctx = vm.createContext({ window: win, setTimeout, Promise, Number, Math, Object, Array, Boolean, String, Set, Map, WeakMap, WeakSet, Uint8Array, Uint16Array, Uint32Array });
+  vm.runInContext(`(${installTargetProbe})(window, ${recordPassDescriptor});`, ctx);
+  return win.__targetProbe.capture();
+}
+const pageRenderer = (extra = {}) => ({
+  backend: {}, toneMappingExposure: 1, setRenderTarget() {}, render() {}, readRenderTargetPixelsAsync: async () => new Uint8Array(4), getViewport: (v) => v.set(0, 0, 8, 4),
+  getDrawingBufferSize: (t) => t.set(8, 4), ...extra,
+});
+
+test("target probe: the injected page source (fresh vm context) returns every block, state included", async () => {
+  const out = await pageCapture(pageRenderer({ esBuildQueue: { skippedDraws: 0, pending: 0, frameTargets: new Set() } }));
+  for (const k of ["sceneGrid", "state", "notReadyPipelines", "exposure", "queue", "passes"]) assert.ok(k in out, `block ${k}`);
+  assert.equal(out.err, undefined);
+  assert.equal(out.state.camera, "unreachable");
+  assert.deepEqual(JSON.parse(JSON.stringify(out.state.drawingBuffer)), { w: 8, h: 4 }); // cross-realm object
+});
+
+test("target probe: one block throwing records its error and the others still land", async () => {
+  const q = { skippedDraws: 0, frameTargets: new Set(), get pending() { throw new Error("boom"); } };
+  const out = await pageCapture(pageRenderer({ esBuildQueue: q }));
+  assert.match(out.queue.err, /boom/);
+  assert.ok(out.state.drawingBuffer && out.exposure.toneMappingExposure === 1 && out.sceneGrid && out.notReadyPipelines && out.passes);
+});
+
+test("target probe: a depth24plus depth target is never copied (WebGPU forbids it); depth32float still is", async () => {
+  const run = async (format) => {
+    const copies = [];
+    const dt = { format };
+    const scene = { width: 8, height: 4, samples: 0, depthBuffer: true, depthTexture: dt, texture: { type: 1016, name: "" } };
+    const r = { esBuildQueue: { skippedDraws: 0, pending: 0, timedOut: new Set(), frameTargets: new WeakSet([scene]) }, setRenderTarget() {}, getRenderTarget: () => null,
+      backend: { copyTextureToBuffer: async (t) => { copies.push(t); return new Float32Array(64).fill(0.5); } },
+      readRenderTargetPixelsAsync: async () => new Uint16Array(8 * 4 * 4).fill(0x3c00) };
+    const { win } = fakeWindow(r);
+    const gl = new win.WebGL2RenderingContext();
+    const tick = setInterval(() => { r.setRenderTarget(scene); gl.drawArrays(); r.setRenderTarget(null); }, 0);
+    const p = await win.__targetProbe.capture();
+    clearInterval(tick);
+    return { copies, depth: p.sceneGrid.depth };
+  };
+  for (const f of ["depth24plus", "depth24plus-stencil8"]) {
+    const o = await run(f);
+    assert.equal(o.copies.length, 0, `${f}: no copyTextureToBuffer`);
+    assert.equal(o.depth.depthReadback, "skipped (depth24plus not copyable)");
+    assert.deepEqual([o.depth.format, o.depth.size], [f, [8, 4]]);
+  }
+  const ok = await run("depth32float");
+  assert.equal(ok.copies.length, 1);
+  assert.equal(ok.depth.mean, 0.5);
+});
+
+test("target probe: heldDraws names each draw the build queue skips (object, parents, material, attributes, pass camera, wait); empty when none", async () => {
+  let t = 1000;
+  const q = { skippedDraws: 0, pending: 1, twinsHeld: 6, timedOut: new Set(), running: new Set(["k-water"]), frameTargets: new WeakSet(),
+    request(key) { this.skippedDraws++; } };
+  const root = { name: "World", type: "Scene" }, grp = { name: "riverwalk", type: "Group", parent: root };
+  const water = { name: "waterSheet", type: "Mesh", uuid: "u1", parent: grp, geometry: { attributes: { position: {}, uv: {} } } };
+  const rock = { name: "rock", type: "Mesh", uuid: "u2", parent: root, geometry: { attributes: { position: {} } } };
+  const mainCam = { type: "PerspectiveCamera", name: "main" }, sunCam = { type: "OrthographicCamera", name: "", isOrthographicCamera: true };
+  let skipWater = true;
+  const r = { esBuildQueue: q, setRenderTarget() {}, getRenderTarget: () => null, readRenderTargetPixelsAsync: async () => new Uint16Array(4),
+    _renderObjectDirect(object, material, scene, camera) { if (object === water && skipWater) q.request("k-water", 1, () => {}, ""); else if (camera === sunCam && skipWater) q.request("k-rock-shadow", 1, () => {}, ""); },
+    render(sc, cam) { this._renderObjectDirect(water, { type: "MeshBasicNodeMaterial", name: "water" }, sc, cam); this._renderObjectDirect(rock, { type: "MeshStandardNodeMaterial", name: "rockMat" }, sc, sunCam); } };
+  const { win } = fakeWindow(r);
+  win.performance = { now: () => (t += 5) };
+  const orig = r._renderObjectDirect;
+  const tick = setInterval(() => r.render({}, mainCam), 0);
+  const p = await win.__targetProbe.capture();
+  assert.equal(r._renderObjectDirect, orig, "_renderObjectDirect restored after the window");
+  assert.ok(p.heldDraws.perFrame >= 1); assert.equal(p.heldDraws.twinsHeld, 6);
+  const w = p.heldDraws.objects.find((o) => o.object.name === "waterSheet");
+  assert.deepEqual(w.parents, [{ name: "riverwalk", type: "Group" }, { name: "World", type: "Scene" }]);
+  assert.deepEqual([w.material.type, w.material.name, w.geometryAttributes.join(","), w.pass, w.camera.type, w.target, w.running, w.timedOut], ["MeshBasicNodeMaterial", "water", "position,uv", "main", "PerspectiveCamera", "canvas", true, false]);
+  assert.ok(w.waitedMs > 0 && w.count >= 1);
+  const s = p.heldDraws.objects.find((o) => o.object.name === "rock");
+  assert.equal(s.pass, "shadow/ortho");
+  // the request hook stays (one Map lookup per skipped draw); with nothing skipped the list is empty
+  skipWater = false;
+  const p2 = await win.__targetProbe.capture();
+  clearInterval(tick);
+  assert.deepEqual([p2.heldDraws.perFrame, p2.heldDraws.objects.length], [0, 0]);
+});
+
+test("targetsLine: heldDraws count and first object's name/pass/waitedMs (6a12b6c1)", () => {
+  const p = { targets: [], heldDraws: { perFrame: 1, objects: [{ object: { name: "Water", type: "Mesh" }, pass: "main", waitedMs: 840 }, { object: { name: "b" }, pass: "other", waitedMs: 1 }] } };
+  assert.match(targetsLine(p), / held 2 \(Water\/main\/840ms\)$/);
+  assert.match(targetsLine({ targets: [], heldDraws: { err: "x" } }), / held err$/);
+  assert.doesNotMatch(targetsLine({ targets: [] }), /held/);
 });

@@ -11,9 +11,11 @@
  *     [--heap-profile]
  *   node tooling/gpu-lane/pod-capture.mjs --url <url> [--compare <url>] --out <dir> [...]   (a views file of one or two views)
  *
- * --views      JSON list of {name, url, steps?, shots?, seconds?, plain?, clean?, aim?, settle?, readyFlag?} (url any http(s) URL; plain: a non-studio
- *              page, no settle gate, runs its seconds; clean: HUD, minimap and scrollbar hidden around frames and final.jpg; settle: shots
- *              count from the shot settle gate (fps and luma steady, pod-capture-lib shotSettle; default on, false = off); aim: [yaw, pitch?] rad
+ * --views      JSON list of {name, url, steps?, shots?, shotsFrom?, seconds?, plain?, clean?, aim?, settle?, readyFlag?} (url any http(s) URL; plain: a non-studio
+ *              page, no settle gate, runs its seconds; clean: HUD, minimap and scrollbar hidden around frames and final.jpg; frames: one at ready, then
+ *              on `shots` from navigation (a view with seconds and no shots: every 10 s), shotsFrom: "settle" counts them from the shot
+ *              settle gate (fps and luma steady, pod-capture-lib shotSettle; settle false = off); per frame the HUD HH:MM clock
+ *              (result.frameClocks, result.clock.clockAdvancing); final luma/black decoded from final.jpg's own bytes (lumaSource); aim: [yaw, pitch?] rad
  *              through aimCamera before the first frame; readyFlag: a window global the page sets truthy when its first frame is drawn,
  *              no shot before it (or --ready-timeout), conventions at pod-capture-lib aimJs); each view writes <out>/<name>/ (result.json, frames/, final.jpg,
  *              trace.json); <out>/result.json holds every view and <out>/summary.md the table. Example: views/webgpu10-iter7.json
@@ -52,6 +54,8 @@
  *              only against other --cpu-profile runs (the sampler costs main-thread time).
  * --probe-targets   diagnosis only (rows read "not-a-bar"): after the settled read, one frame's render-target log and the
  *              scene (by deferBuildsInto identity) / frame-buffer / bloom-mip-0 luma, per-pass draws, queue skippedDraws per frame and the canvas screen-middle luma, to <out>/<view>/target-probe.json (target-probe.mjs).
+ * --probe-nan  diagnosis only (rows read "not-a-bar"): scans every CPU upload (writeBuffer, writeTexture float formats, mapped
+ *              ranges) for NaN/Inf (pod-capture-lib installNanProbe) -> <out>/<view>/nan-probe.json
  * --probe-gpu-errors  diagnosis only (rows read "not-a-bar"): wraps the WebGPU API before the app's scripts and dumps the first draw of
  *              up to 3 pipelines that need an unset vertex slot (pod-capture-lib installGpuErrorProbe) -> <out>/<view>/gpu-error-probe.json
  * --draw-census  diagnosis only (cells read "not-a-bar"): over the cost window, three's draws per frame by category and kind, us per
@@ -79,7 +83,7 @@ import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
-import { viewDeadlineS, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseShots, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop } from "./pod-capture-lib.mjs";
+import { viewDeadlineS, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, HUD_HIDE_JS, HUD_SHOW_JS, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma } from "./pod-capture-lib.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
 import { heapFit } from "./checks.mjs";
 import { TRACE_CATEGORIES, classifyFrames, keepTraceEvent, mainThreadStages, topCause } from "./trace-frames.mjs";
@@ -97,7 +101,7 @@ const W = Number(opt("width", 1280)), H = Number(opt("height", 720));
 const settledFrames = Number(opt("settled-frames", 300)), settleFloor = Number(opt("settle-floor", 60));
 const readyTimeoutS = Number(opt("ready-timeout", 90)), captureTimeoutS = Number(opt("capture-timeout", 180));
 const probeTargets = args.includes("--probe-targets");
-const probeGpuErrors = args.includes("--probe-gpu-errors"), drawCensus = args.includes("--draw-census");
+const probeGpuErrors = args.includes("--probe-gpu-errors"), drawCensus = args.includes("--draw-census"), probeNan = args.includes("--probe-nan");
 const heapProfileAll = args.includes("--heap-profile"), cpuProfile = args.includes("--cpu-profile");
 // a studio view without rate= runs a paused clock: not a game-speed measurement (diag10 T9)
 const paused = pausedClockViews(views);
@@ -246,7 +250,8 @@ const INIT = `(() => {
 })();
 try { (${pageProbe})(); } catch {}
 try { (${installLoadTimeline})(window); } catch {}${probeGpuErrors ? `
-try { (${installGpuErrorProbe})(window); } catch {}` : ""}${probeTargets ? `
+try { (${installGpuErrorProbe})(window); } catch {}` : ""}${probeNan ? `
+try { (${installNanProbe})(window); } catch {}` : ""}${probeTargets ? `
 try { (${installTargetProbe})(window, ${recordPassDescriptor}); } catch {}` : ""}${drawCensus ? `
 try { (${installDrawCensus})(window); } catch {}` : ""}`;
 const READ = `(async () => {
@@ -427,7 +432,7 @@ async function captureView(view) {
   const dir = join(out, view.name);
   mkdirSync(join(dir, "frames"), { recursive: true });
   const totalS = view.seconds ?? defaultS;
-  const shotsSpec = view.shots ?? opt("shots"), shots = shotsSpec === "none" ? [] : parseShots(shotsSpec, totalS);
+  const shots = viewShots(view, opt("shots"), totalS);
   const readsAt = readsSpec.split(",").map(Number).filter((s) => s < totalS);
   const steps = [...view.steps];
   sink = { cons: counter(), pageErrors: counter(), network: counter(), reqUrl: new Map() };
@@ -452,6 +457,10 @@ async function captureView(view) {
     if (probeGpuErrors && ctl.page) {
       result.gpuErrorProbe = await evaluate(`window.__gpuErrorProbe ?? { err: "no probe on the page" }`, 10_000);
       writeFileSync(join(dir, "gpu-error-probe.json"), JSON.stringify(result.gpuErrorProbe, null, 1));
+    }
+    if (probeNan && ctl.page) {
+      result.nanProbe = await evaluate(`window.__nanProbe ? JSON.parse(JSON.stringify(window.__nanProbe)) : { err: "no probe on the page" }`, 10_000);
+      writeFileSync(join(dir, "nan-probe.json"), JSON.stringify(result.nanProbe, null, 1));
     }
     // load timeline (owner 10 s bar): always, also for a failed view (complete stays null and the bar fails)
     if (ctl.page) {
@@ -487,7 +496,8 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
     // shots wait for the shot settle gate (frame rate and luma steady; pod-capture-lib shotSettle); plain views and settle: false skip it
     const shotGate = view.plain || view.settle === false ? null : shotSettle(view.settle === true ? {} : view.settle);
     if (shotGate) result.shotSettle = { config: shotGate.config, at: null, timedOut: false };
-    let flagPoll = -1;
+    let flagPoll = -1, firstShot = false;
+    result.frameClocks = []; result.clockSource = CLOCK_SOURCE;
     if (view.readyFlag) result.readyFlag = { name: view.readyFlag, at: null, timedOut: false };
     while (sec() < totalS) {
       if (aborted) return;
@@ -514,11 +524,17 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
         else if (s > readyTimeoutS) result.readyFlag.timedOut = true;
       }
       const flagOpen = !view.readyFlag || result.readyFlag.at !== null || result.readyFlag.timedOut;
-      // shot times count from the shot settle gate, else from the ready flag, else from navigation
-      const shotT = shotGate ? (shotGate.at === null ? -1 : s - shotGate.at) : view.readyFlag && result.readyFlag.at !== null ? s - result.readyFlag.at : s;
-      if (si < shots.length && flagOpen && shotT >= shots[si] && (!view.aim || result.aimedAt)) {
+      // diag19 D5: a first frame at ready, then shot times from navigation (`shotsFrom: "settle"`: from the shot settle gate)
+      const shotT = shotTime(view, s, shotGate?.at ?? null);
+      const firstDue = !firstShot && (view.plain || result.readyS !== null);
+      if (flagOpen && (!view.aim || result.aimedAt) && (firstDue || (si < shots.length && shotT >= shots[si]))) {
         while (si < shots.length && shots[si] <= shotT) si++;
-        try { writeFileSync(join(dir, "frames", `${String(Math.round(s * 1000)).padStart(6, "0")}.jpg`), Buffer.from(await frameShot(view), "base64")); result.frames++; } catch { /* busy page: skip this frame */ }
+        firstShot = true;
+        try {
+          const clock = hudClock(await evaluate(HUD_TEXT_JS, 5_000));
+          writeFileSync(join(dir, "frames", `${String(Math.round(s * 1000)).padStart(6, "0")}.jpg`), Buffer.from(await frameShot(view), "base64")); result.frames++;
+          result.frameClocks.push({ s: r1(s), clock });
+        } catch { /* busy page: skip this frame */ }
       }
       if (ri < readsAt.length && s >= readsAt[ri]) { ri++; result.reads[readsAt[ri - 1]] = { t: r1(sec()), ...(await fullRead()) }; }
       if (steps.length && s >= steps[0].at) {
@@ -571,7 +587,15 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
     if (windowS > 0 && !result.window) result.window = { ...(await costWindow(dir, r1(sec()), heapProfile)), unsettled: true };
     result.heapSlope = heapSlope(heapSamples);
     result.final = await fullRead();
-    try { writeFileSync(join(dir, "final.jpg"), Buffer.from(await frameShot(view, 80), "base64")); } catch { /* final read has the luma */ }
+    // luma final and black come from the bytes written as final.jpg (diag19 D5: a separate screenshot read 0.32 for a lit final.jpg)
+    try {
+      const clock = hudClock(await evaluate(HUD_TEXT_JS, 5_000));
+      const b64 = await frameShot(view, 80);
+      writeFileSync(join(dir, "final.jpg"), Buffer.from(b64, "base64"));
+      result.final = withFinalJpgLuma(result.final, await middleOf(b64));
+      result.frameClocks.push({ s: r1(sec()), clock, final: true });
+    } catch (e) { result.final = { ...result.final, lumaSource: `screenshot (final.jpg failed: ${String(e.message).slice(0, 80)})` }; }
+    result.clock = { source: CLOCK_SOURCE, ...clockVerdict(result.frameClocks) };
     const g = await evaluate(`window.__GPUERR ?? []`);
     const gc = counter(); (Array.isArray(g) ? g : [JSON.stringify(g)]).forEach(gc.add);
     result.gpuErrors = gc.list();

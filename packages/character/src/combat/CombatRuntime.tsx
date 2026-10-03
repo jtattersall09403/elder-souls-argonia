@@ -3,6 +3,7 @@ import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import { FOLLOW_CAMERA } from "@elder-souls/game-core/camera/followCamera";
 import { bowShoulderPosition } from "@elder-souls/game-core/camera/bowCamera";
 import { useFrame, useThree } from "@react-three/fiber";
+import { updateProjection } from "@elder-souls/game-core/render/cameraAspect";
 import { useMarkedFrame } from "@elder-souls/game-core/fx/frameSegments";
 import { useRapier } from "@react-three/rapier";
 import type { EcctrlHandle } from "ecctrl";
@@ -621,6 +622,7 @@ export function CombatRuntime({
     [groundContact],
   );
   const { camera } = useThree();
+  const viewSize = useThree((s) => s.size);
   const started = settings.started;
   const enemyEnabled = settings.enemyEnabled;
   const enemyAiEnabled = settings.enemyAiEnabled;
@@ -3233,7 +3235,7 @@ export function CombatRuntime({
       if (camera instanceof THREE.PerspectiveCamera && camera.fov !== portrait.fieldOfView) {
         camera.fov = portrait.fieldOfView;
         camera.near = 0.05;
-        camera.updateProjectionMatrix();
+        updateProjection(camera, viewSize.width, viewSize.height);
       }
       return;
     }
@@ -3253,7 +3255,7 @@ export function CombatRuntime({
       if (Math.abs(camera.fov - wanted) > 0.01 || camera.near !== wantedNear) {
         camera.fov = wanted;
         camera.near = wantedNear;
-        camera.updateProjectionMatrix();
+        updateProjection(camera, viewSize.width, viewSize.height);
       }
     }
     if (shake.current) {

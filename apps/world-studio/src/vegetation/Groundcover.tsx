@@ -1014,7 +1014,10 @@ export function Groundcover({
   onStats,
   quality,
   settlementsVisible = false,
+  idle = false,
 }: {
+  /** An interior cell is shown: the GPU cull neither dispatches nor reads back. */
+  idle?: boolean;
   /** Same shape the chunk terrain uses: ground position, not a camera. */
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
   baseUrl: string;
@@ -1437,6 +1440,7 @@ export function Groundcover({
     const list = meshList.current;
     if (gcCull) {
       // GPU path: the compute pass is the cull; nothing per mesh here.
+      gcCull.setIdle(idle);
       state.camera.updateMatrixWorld();
       gcCull.update(gl, state.camera, null);
       if (gcFrame.current++ % GC_COUNT_READ_FRAMES === 0) gcCull.refreshCounts(gl);

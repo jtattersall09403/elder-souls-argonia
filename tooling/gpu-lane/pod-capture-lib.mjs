@@ -45,6 +45,36 @@ export function parseShots(spec, totalS) {
   return shotSchedule({ fastMs: +m[1], fastUntilS: +m[2], slowMs: +m[3], totalS });
 }
 
+/** The view's shot schedule (seconds): its own `shots`, else every 10 s when it sets `seconds`, else the run's `--shots`. */
+export function viewShots(view, runSpec, totalS) {
+  const spec = view.shots ?? (view.seconds !== undefined ? "10000@0,10000" : runSpec);
+  return spec === "none" ? [] : parseShots(spec, totalS);
+}
+
+/** Shot time of second `s` after navigation: from navigation, or from the shot settle gate (`settleAt`, null = not yet
+ * open -> -1) when the view sets `shotsFrom: "settle"` (diag19 D5: counting from a gate at ~45 s left 0-2 frames). */
+export const shotTime = (view, s, settleAt) => (view.shotsFrom === "settle" ? (settleAt == null ? -1 : s - settleAt) : s);
+
+/** The page's visible text, read for the world clock (the studio exposes no clock global; the TimePanel prints HH:MM). */
+export const HUD_TEXT_JS = `document.body.innerText`;
+export const CLOCK_SOURCE = "hud-text HH:MM (sky/TimePanel)";
+/** The in-game time of day in the page text: the first stand-alone HH:MM -> { hhmm, minute }, or null. */
+export function hudClock(text) {
+  const m = /(?:^|[\s>])([01]?\d|2[0-3]):([0-5]\d)(?=$|[\s<])/m.exec(String(text ?? ""));
+  return m ? { hhmm: `${m[1].padStart(2, "0")}:${m[2]}`, minute: +m[1] * 60 + +m[2] } : null;
+}
+/** First and last clocked frame -> { first, last, clockAdvancing } (null when fewer than two frames carry a clock). */
+export function clockVerdict(frameClocks) {
+  const c = (frameClocks ?? []).filter((f) => f?.clock);
+  if (c.length < 2) return { first: c[0]?.clock.hhmm ?? null, last: c[0]?.clock.hhmm ?? null, clockAdvancing: null };
+  const a = c[0].clock, b = c[c.length - 1].clock;
+  return { first: a.hhmm, last: b.hhmm, clockAdvancing: a.minute !== b.minute };
+}
+/** final.jpg's own luma: the read's screen-middle numbers replaced by those decoded from the bytes written as final.jpg. */
+export function withFinalJpgLuma(final, middle) {
+  return { ...final, luma: middle?.luma ?? null, blackShare: middle?.blackShare ?? null, lumaSource: "final.jpg" };
+}
+
 /** "--profile 10@60" -> { seconds: 10, at: 60 } */
 export function parseProfile(spec) {
   const m = /^(\d+(?:\.\d+)?)@(\d+(?:\.\d+)?)$/.exec(spec ?? "");
@@ -207,6 +237,7 @@ export function parseViews(text) {
       throw new Error(`views[${i}]: "aim" must be [yawRad] or [yawRad, pitchRad]`);
     if (v.settle !== undefined && v.settle !== false && !(v.settle && typeof v.settle === "object" && Object.entries(v.settle).every(([k, x]) => k in SHOT_SETTLE_DEFAULT && x > 0)))
       throw new Error(`views[${i}]: "settle" must be false or {seconds, lumaTol, lumaFloor, fpsTol, minS, timeoutS} (each > 0)`);
+    if (v.shotsFrom !== undefined && v.shotsFrom !== "settle") throw new Error(`views[${i}]: "shotsFrom" must be "settle"`);
     if (v.readyFlag !== undefined && !(typeof v.readyFlag === "string" && /^[A-Za-z_$][\w$]*$/.test(v.readyFlag))) throw new Error(`views[${i}]: "readyFlag" must be a global name`);
     return { ...v, steps: v.steps ? parseSteps(JSON.stringify(v.steps)) : [] };
   });
@@ -243,7 +274,10 @@ export function summariseView(r) {
     failed: r.failed ?? null, heapTop: w.heapTop?.length ? w.heapTop.slice(0, 3).map((h) => `${h.fn} ${h.selfMB} MB`).join("; ") : null,
     cpuTop: w.cpuTop?.top?.length ? w.cpuTop.top.slice(0, 5).map((f) => `${f.fn.replace(/ \S*\/([^/ ]+)$/, " $1")} ${f.msPerFrame ?? f.selfMs}`).join("; ") : null,
     gpuProbe: r.gpuErrorProbe ? gpuProbeLine(r.gpuErrorProbe) : null,
+    nanProbe: r.nanProbe ? nanProbeLine(r.nanProbe) : null,
     targets: r.targetProbe ? targetsLine(r.targetProbe) : null,
+    clock: r.clock ? `${r.clock.first ?? "?"}->${r.clock.last ?? "?"} ${r.clock.clockAdvancing === null ? "?" : r.clock.clockAdvancing ? "advancing" : "STOPPED"}` : null,
+    clockStopped: r.clock?.clockAdvancing === false && /[?&]rate=(?!0(&|$))/.test(r.url ?? ""),
     drawCensus: w.drawCensus ? drawCensusLine(w.drawCensus, wk?.workMs?.mean ?? null) : null,
     load: r.loadTimeline ? loadLine(r.loadTimeline) : null,
     settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
@@ -252,10 +286,11 @@ export function summariseView(r) {
 /** Markdown summary: one row per view from its result.json `summary` (`summariseView`). "from" names the window the rates
  * came from; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "draw census", "targets"];
+  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets", "clock"];
   const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.load, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
-    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.drawCensus, s.targets].map(cell));
-  return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), "",
+    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets, s.clock].map(cell));
+  const stopped = views.filter((v) => v.summary?.clockStopped).map((v) => v.name);
+  return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), ...(stopped.length ? [`CLOCK STOPPED (rate= set, first and last frame show the same time): ${stopped.join(", ")}`] : []), "",
     `| ${cols.join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.join(" | ")} |`)].join("\n");
 }
 
@@ -399,6 +434,12 @@ export function backendFailure(view, r) {
  * destroyed), the missing slots, bind groups, index buffer, draw kind and args, the vertex WGSL, and the three.js render
  * object being drawn (win.__RENDERER__.backend.draw is wrapped once the studio exposes the renderer). The first 5
  * uncapturederror messages land in win.__gpuErrorProbe.errors with their time. Per draw: O(slots), no allocation.
+ * destroyedInSubmit: every buffer gets an id and an 8-frame creation stack at createBuffer, destroy() records a 12-frame
+ * stack and time (last 4096 kept), bind groups remember their buffers, and each command encoder (render/compute passes,
+ * bundles via executeBundles) the buffer ids it bound; at Queue.submit a command buffer that bound a destroyed buffer
+ * gives a record (encoder label; per buffer id/label/size/usage, the call that bound it (`via`: bind group label, vertex slot, index, drawIndexedIndirect, copy..., clearBuffer), creation and
+ * destroy stacks, ms destroy->submit): the first 5, plus the first of each new encoder label (20 labels).
+ * destroyedInSubmitSeen counts every such submit, destroyedInSubmitErrors Dawn's "used in submit while destroyed" errors.
  * Self-contained: it is stringified into the page. */
 export function installGpuErrorProbe(win) {
   const P = (win.__gpuErrorProbe = { dumps: [], errors: [], threeHooked: false, threeNote: "renderer not seen yet", draws: 0 });
@@ -419,23 +460,115 @@ export function installGpuErrorProbe(win) {
   wrap(Dev, "createRenderPipelineAsync", (f) => function (d) { return f.call(this, d).then((p) => { try { pipelines.set(p, pipeInfo(d)); } catch {} return p; }); });
   wrap(Dev, "createBindGroup", (f) => function (d) {
     const g = f.call(this, d);
+    try { bgBufs.set(g, { label: d.label ?? "", bufs: Array.from(d.entries ?? [], (e) => e.resource?.buffer).filter(Boolean) }); } catch {}
     try { bindGroups.set(g, { label: d.label ?? "", entries: Array.from(d.entries ?? [], (e) => ({ binding: e.binding, kind: e.resource?.buffer ? `buffer ${e.resource.buffer.label ?? ""} size ${e.resource.buffer.size}` : (e.resource?.constructor?.name ?? typeof e.resource) })) }); } catch {}
     return g;
   });
-  wrap(win.GPUBuffer?.prototype, "destroy", (f) => function () { destroyed.add(this); return f.call(this); });
+  // destroyed-in-submit: who destroyed a buffer a submitted command buffer still uses. Buffer info rides a WeakMap (lives
+  // as long as the buffer); destroy records sit in a Map bounded to MAX_DESTROYED (oldest dropped); per encoder the ids
+  // its passes and bundles bound (one Map per encoder, collected with it). Checked at Queue.submit, where Dawn rejects it.
+  const MAX_DESTROYED = 4096, MAX_DIS = 5, MAX_DIS_LABELS = 20;
+  const stack = (n) => String(new Error().stack ?? "").split("\n").slice(3, 3 + n).map((l) => l.trim());
+  const bufMeta = new WeakMap(), destroyedById = new Map(), bgBufs = new WeakMap(), encUse = new WeakMap(), passEnc = new WeakMap(), cbUse = new WeakMap(), bundleUse = new WeakMap();
+  let nextBufId = 1;
+  P.destroyedInSubmit = []; P.destroyedInSubmitSeen = 0; P.destroyedInSubmitErrors = 0;
+  const disLabels = new Set();
+  const meta = (b) => { let m = bufMeta.get(b); if (!m) { m = { id: nextBufId++, label: b.label ?? "", size: b.size, usage: b.usage, createStack: null }; bufMeta.set(b, m); } return m; };
+  wrap(Dev, "createBuffer", (f) => function (d) { const b = f.call(this, d); try { bufMeta.set(b, { id: nextBufId++, label: d?.label ?? b.label ?? "", size: d?.size ?? b.size, usage: d?.usage ?? b.usage, createStack: stack(8) }); } catch {} return b; });
+  wrap(win.GPUBuffer?.prototype, "destroy", (f) => function () {
+    destroyed.add(this);
+    try {
+      const m = meta(this);
+      destroyedById.delete(m.id); destroyedById.set(m.id, { t: now(), stack: stack(12), meta: m });
+      if (destroyedById.size > MAX_DESTROYED) destroyedById.delete(destroyedById.keys().next().value);
+    } catch {}
+    return f.call(this);
+  });
+  const useOf = (enc) => { let u = encUse.get(enc); if (!u) { u = { label: enc.label ?? "", used: new Map() }; encUse.set(enc, u); } return u; };
+  const noteBuf = (u, b, via) => { if (u && b) { const id = meta(b).id; if (!u.used.has(id)) u.used.set(id, via); } };
+  const noteGroup = (u, g) => { const bg = u && g ? bgBufs.get(g) : null; if (bg) for (const b of bg.bufs) noteBuf(u, b, bg.label); };
+  wrap(Dev, "createCommandEncoder", (f) => function (d) { const e = f.call(this, d); try { encUse.set(e, { label: d?.label ?? e.label ?? "", used: new Map() }); } catch {} return e; });
+  wrap(Dev, "createRenderBundleEncoder", (f) => function (d) { const e = f.call(this, d); try { passEnc.set(e, { label: d?.label ?? e.label ?? "", used: new Map() }); } catch {} return e; });
+  wrap(win.GPUCommandEncoder?.prototype, "beginComputePass", (f) => function (d) { const p = f.call(this, d); try { passEnc.set(p, useOf(this)); } catch {} return p; });
+  wrap(win.GPUCommandEncoder?.prototype, "finish", (f) => function (d) { const cb = f.call(this, d); try { cbUse.set(cb, useOf(this)); } catch {} return cb; });
+  for (const C of [win.GPURenderPassEncoder, win.GPUComputePassEncoder, win.GPURenderBundleEncoder]) {
+    const pr = C?.prototype;
+    wrap(pr, "setBindGroup", (f) => function (i, g, ...a) { try { noteGroup(passEnc.get(this), g); } catch {} return f.call(this, i, g, ...a); });
+    wrap(pr, "setVertexBuffer", (f) => function (slot, b, ...a) { try { noteBuf(passEnc.get(this), b, `vertex slot ${slot}`); } catch {} return f.call(this, slot, b, ...a); });
+    wrap(pr, "setIndexBuffer", (f) => function (b, ...a) { try { noteBuf(passEnc.get(this), b, "index"); } catch {} return f.call(this, b, ...a); });
+  }
+  for (const C of [win.GPURenderPassEncoder, win.GPURenderBundleEncoder]) for (const k of ["drawIndirect", "drawIndexedIndirect"])
+    wrap(C?.prototype, k, (f) => function (b, ...a) { try { noteBuf(passEnc.get(this), b, k); } catch {} return f.call(this, b, ...a); });
+  wrap(win.GPUComputePassEncoder?.prototype, "dispatchWorkgroupsIndirect", (f) => function (b, ...a) { try { noteBuf(passEnc.get(this), b, "dispatchWorkgroupsIndirect"); } catch {} return f.call(this, b, ...a); });
+  const CE = win.GPUCommandEncoder?.prototype;
+  wrap(CE, "copyBufferToBuffer", (f) => function (src, ...a) { try { const u = useOf(this); noteBuf(u, src, "copyBufferToBuffer src"); noteBuf(u, a.find((x) => x && typeof x === "object"), "copyBufferToBuffer dst"); } catch {} return f.call(this, src, ...a); });
+  wrap(CE, "copyBufferToTexture", (f) => function (src, ...a) { try { noteBuf(useOf(this), src?.buffer, "copyBufferToTexture"); } catch {} return f.call(this, src, ...a); });
+  wrap(CE, "copyTextureToBuffer", (f) => function (src, dst, ...a) { try { noteBuf(useOf(this), dst?.buffer, "copyTextureToBuffer"); } catch {} return f.call(this, src, dst, ...a); });
+  wrap(CE, "resolveQuerySet", (f) => function (qs, first, count, dst, ...a) { try { noteBuf(useOf(this), dst, "resolveQuerySet"); } catch {} return f.call(this, qs, first, count, dst, ...a); });
+  wrap(CE, "clearBuffer", (f) => function (b, ...a) { try { noteBuf(useOf(this), b, "clearBuffer"); } catch {} return f.call(this, b, ...a); });
+  wrap(win.GPURenderBundleEncoder?.prototype, "finish", (f) => function (d) { const bun = f.call(this, d); try { bundleUse.set(bun, passEnc.get(this)); } catch {} return bun; });
+  wrap(win.GPURenderPassEncoder?.prototype, "executeBundles", (f) => function (list) {
+    try { const u = passEnc.get(this); for (const bun of list ?? []) { const bu = bundleUse.get(bun); if (u && bu) for (const [id, via] of bu.used) if (!u.used.has(id)) u.used.set(id, `bundle ${bu.label} ${via}`); } } catch {}
+    return f.call(this, list);
+  });
+  wrap(win.GPUQueue?.prototype, "submit", (f) => function (cbs) {
+    try {
+      for (const cb of cbs ?? []) {
+        const u = cbUse.get(cb);
+        if (!u) continue;
+        let hits = null;
+        for (const [id, via] of u.used) { const d = destroyedById.get(id); if (d) (hits ??= []).push({ id, via, d }); }
+        if (!hits) continue;
+        P.destroyedInSubmitSeen++;
+        const fresh = !disLabels.has(u.label) && disLabels.size < MAX_DIS_LABELS;
+        if (P.destroyedInSubmit.length >= MAX_DIS && !fresh) continue;
+        disLabels.add(u.label);
+        const t = now();
+        P.destroyedInSubmit.push({ t, encoder: u.label, pass: P.encoderPasses[u.label] ?? null, buffers: hits.map(({ id, via, d }) => ({ id, label: d.meta.label, size: d.meta.size, usage: d.meta.usage,
+          via, createStack: d.meta.createStack, destroyStack: d.stack, msDestroyToSubmit: t - d.t })) });
+      }
+    } catch {}
+    return f.call(this, cbs);
+  });
   wrap(win.GPUAdapter?.prototype, "requestDevice", (f) => async function (...a) {
     const d = await f.apply(this, a);
-    d.addEventListener?.("uncapturederror", (e) => { if (P.errors.length < 5) P.errors.push({ t: now(), message: String(e.error?.message ?? e.message).slice(0, 600) }); });
+    d.addEventListener?.("uncapturederror", (e) => {
+      const msg = String(e.error?.message ?? e.message);
+      if (msg.includes("used in submit while destroyed")) P.destroyedInSubmitErrors++;
+      if (P.errors.length < 5) P.errors.push({ t: now(), message: msg.slice(0, 600) });
+    });
     return d;
   });
+  // pass identity per encoder label, once per label (first 40): attachment formats/sizes of its first render pass, the
+  // label of the first pipeline set in it and the camera of the backend.draw in progress then
+  P.encoderPasses = {};
+  const viewTex = new WeakMap(), MAX_ENC_PASSES = 40;
+  let encPassCount = 0;
+  wrap(win.GPUTexture?.prototype, "createView", (f) => function (...a) { const v = f.apply(this, a); try { viewTex.set(v, this); } catch {} return v; });
+  const attInfo = (v) => { const t = v ? viewTex.get(v) : null; return t ? { label: t.label ?? "", format: t.format ?? null, size: [t.width, t.height], sampleCount: t.sampleCount ?? 1 } : v ? { label: "?" } : null; };
+  const passIdentity = (d) => ({ passLabel: d?.label ?? "", colour: Array.from(d?.colorAttachments ?? [], (c) => (c ? attInfo(c.view) : null)),
+    depth: d?.depthStencilAttachment ? attInfo(d.depthStencilAttachment.view) : null, firstPipeline: null, camera: null });
   wrap(win.GPUCommandEncoder?.prototype, "beginRenderPass", (f) => function (d) {
     const pass = f.call(this, d);
+    let idRec = null;
+    try {
+      const u = useOf(this); passEnc.set(pass, u);
+      if (encPassCount < MAX_ENC_PASSES && !Object.hasOwn(P.encoderPasses, u.label)) { idRec = P.encoderPasses[u.label] = passIdentity(d); encPassCount++; }
+    } catch {}
     passes.set(pass, { pipeline: null, info: null, vb: new Array(MAX_SLOTS).fill(null), vbOff: new Array(MAX_SLOTS).fill(0), vbSize: new Array(MAX_SLOTS).fill(0),
-      ib: null, ibFormat: null, groups: new Array(8).fill(null), label: d?.label ?? "" });
+      ib: null, ibFormat: null, groups: new Array(8).fill(null), label: d?.label ?? "", idRec });
     return pass;
   });
+  const cameraOf = (ro) => { const c = ro?.camera; return c ? { type: c.type ?? null, name: c.name ?? "", ortho: Boolean(c.isOrthographicCamera), array: Boolean(c.isArrayCamera), object: ro.object?.name ?? null } : null; };
   const RP = win.GPURenderPassEncoder?.prototype;
-  wrap(RP, "setPipeline", (f) => function (p) { const s = passes.get(this); if (s) { s.pipeline = p; s.info = pipelines.get(p) ?? null; } return f.call(this, p); });
+  wrap(RP, "setPipeline", (f) => function (p) {
+    const s = passes.get(this);
+    if (s) {
+      s.pipeline = p; s.info = pipelines.get(p) ?? null;
+      if (s.idRec) { try { s.idRec.firstPipeline = s.info?.label ?? p?.label ?? ""; s.idRec.camera = cameraOf(curRO); } catch {} s.idRec = null; }
+    }
+    return f.call(this, p);
+  });
   wrap(RP, "setVertexBuffer", (f) => function (slot, buf, off, size) { const s = passes.get(this); if (s && slot < MAX_SLOTS) { s.vb[slot] = buf ?? null; s.vbOff[slot] = off ?? 0; s.vbSize[slot] = size ?? -1; } return f.call(this, slot, buf, off, size); });
   wrap(RP, "setIndexBuffer", (f) => function (buf, fmt, off, size) { const s = passes.get(this); if (s) { s.ib = buf; s.ibFormat = fmt; } return f.call(this, buf, fmt, off, size); });
   wrap(RP, "setBindGroup", (f) => function (i, g, ...a) { const s = passes.get(this); if (s && i < 8) s.groups[i] = g ?? null; return f.call(this, i, g, ...a); });
@@ -501,12 +634,198 @@ export function installGpuErrorProbe(win) {
   if (!hook() && typeof win.setInterval === "function") { const id = win.setInterval(() => { if (hook()) win.clearInterval(id); }, 250); }
 }
 
+/** `--probe-nan` (diagnosis only; never a bar row). Installed by the init script before the app's scripts, it wraps the
+ * WebGPU upload paths on `win` and scans every CPU write for a non-finite float: GPUQueue.writeBuffer (bytes as Float32),
+ * GPUQueue.writeTexture (*16float formats as half floats, *32float as Float32; other formats skipped) and mapped ranges
+ * (mappedAtCreation or mapAsync WRITE; each getMappedRange scanned as Float32 at unmap). Skipped: INDEX, INDIRECT and
+ * MAP_READ buffers and integer typed-array writes. Early exit at the first bad value of a write; one record per
+ * buffer/texture (its first hit), at most 40: frame (GPUQueue.submit count so far), ms since timeOrigin, label, size,
+ * usage, byte offset and float index, value, 8 neighbouring floats, stack (12 frames), and, for a three.js uniform buffer
+ * (written inside `__RENDERER__.backend.updateBinding`), the binding name and the uniforms whose offset covers the bad
+ * float. Inside `renderer._bindings.updateForRender(renderObject)` the hit also names its OWNER (looked up on a hit only):
+ * `owner` = the object (name, type, uuid, userData keys, 3 parent names), material (name, type, uuid), the render context
+ * (width, height, label, its target) and, for the uniform, `node` (name, class, value class and Vector/Matrix/Color
+ * components); a `render` group adds `camera` (type, name, uuid, aspect, fov, near, far, zoom, view offset, ortho bounds,
+ * isArrayCamera) and `renderer` (current target size/depth/label/samples, viewport, drawing-buffer size). Binding writes keep
+ * the first record per (group, uniform, owner uuid), other writes one per buffer/texture, at most 60. `persistent` lists
+ * every owner (group + uuid) whose LAST write in the run was still non-finite, with its name and bad-write count, so
+ * start-up NaNs are told apart from values that stay bad. `badPerFrame[f]` counts bad writes per submit for the first
+ * 600; `scanned` / `bytes` are the scan totals. Mapped ranges and writeBuffer into STORAGE-not-UNIFORM buffers whose hit has a subnormal float among its 8 neighbours or whose non-finite share is over 0.5 % are packed integer data: counted in `packedSkipped`, never recorded. Self-contained: it is stringified into the page. */
+export function installNanProbe(win) {
+  const P = (win.__nanProbe = { records: [], badPerFrame: [], scanned: 0, bytes: 0, bad: 0, packedSkipped: 0, frame: 0, threeHooked: false, persistent: [] });
+  const MAX = 60, FRAMES = 600, INDEX = 0x10, INDIRECT = 0x100, MAP_READ = 0x1;
+  const hit = new WeakSet(), maps = new WeakMap();
+  let curBinding = null, curRO = null;
+  const seen = new Set(), owners = new Map(); // owners: group|uuid -> { name, group, bad, lastBad }
+  const now = () => (win.performance ? Math.round(win.performance.now()) : 0);
+  const wrap = (proto, name, make) => { if (proto && typeof proto[name] === "function") proto[name] = make(proto[name]); };
+  const half = (h) => { const e = (h >> 10) & 31, m = h & 1023, s = h & 0x8000 ? -1 : 1; return e === 31 ? (m ? NaN : s * Infinity) : s * (e ? 2 ** (e - 15) * (1 + m / 1024) : 2 ** -14 * (m / 1024)); };
+  const name = (v) => (Number.isNaN(v) ? "NaN" : v > 0 ? "Inf" : "-Inf");
+  const skipUsage = (u) => Boolean((u ?? 0) & (INDEX | INDIRECT | MAP_READ));
+  // returns the first bad index or -1; vals(i) reads element i
+  const scan = (n, vals, bytesPer) => {
+    P.scanned++; P.bytes += n * bytesPer;
+    for (let i = 0; i < n; i++) { const v = vals(i); if (v !== v || v === Infinity || v === -Infinity) return i; }
+    return -1;
+  };
+  const unifsAt = (b, fi) => (b.uniforms ?? []).filter((u) => { const o = u.offset, n = u.itemSize ?? 1; return typeof o === "number" && fi >= o && fi < o + Math.max(n, 1); });
+  const uniformsAt = (b, fi) => { try { return unifsAt(b, fi).map((u) => u.name ?? u.nodeUniform?.name ?? "?"); } catch (e) { return [`err ${e.message}`]; } };
+  const nums = (a) => Array.from(a ?? [], (x) => (Number.isFinite(x) ? x : name(x)));
+  const comps = (v) => {
+    if (!v || typeof v !== "object") return undefined;
+    if (v.isMatrix4 || v.isMatrix3 || v.isMatrix2) return nums(v.elements);
+    if (v.isColor) return nums([v.r, v.g, v.b]);
+    if (v.isVector2 || v.isVector3 || v.isVector4 || v.isQuaternion) return nums(["x", "y", "z", "w"].filter((k) => k in v).map((k) => v[k]));
+    return undefined;
+  };
+  const nodeOf = (u) => {
+    const nu = u?.nodeUniform, node = nu?.node, v = node ? node.value : nu?.value;
+    return { uniform: u?.name ?? nu?.name ?? null, name: node?.name ?? nu?.name ?? null, class: node?.constructor?.name ?? null,
+      valueType: v === null ? "null" : typeof v, valueClass: v && typeof v === "object" ? v.constructor?.name ?? null : null,
+      value: typeof v === "number" ? (Number.isFinite(v) ? v : name(v)) : comps(v) };
+  };
+  const tgt = (t) => (t ? { width: t.width ?? null, height: t.height ?? null, depth: t.depth ?? null, label: t.texture?.name || t.label || null, samples: t.samples ?? null, isCubeRenderTarget: Boolean(t.isCubeRenderTarget) } : null);
+  const camOf = (c) => (c ? { type: c.type ?? null, name: c.name ?? "", uuid: c.uuid ?? null, aspect: c.aspect ?? null, fov: c.fov ?? null, near: c.near ?? null, far: c.far ?? null, zoom: c.zoom ?? null,
+    view: c.view ? { ...c.view } : null, ortho: c.isOrthographicCamera ? { left: c.left, right: c.right, top: c.top, bottom: c.bottom } : null, isArrayCamera: Boolean(c.isArrayCamera) } : null);
+  const ownerKey = (group, ro) => { const isRender = group === "render", o = isRender ? ro.camera : ro.object; return { uuid: o?.uuid ?? null, name: o?.name || o?.type || "?" }; };
+  const ownerInfo = (ro, group) => {
+    const o = ro.object, m = ro.material, ctx = ro.context, out = {};
+    try {
+      const parents = []; for (let p = o?.parent; p && parents.length < 3; p = p.parent) parents.push(p.name || p.type || "?");
+      out.object = o ? { name: o.name ?? "", type: o.type ?? null, uuid: o.uuid ?? null, userData: Object.keys(o.userData ?? {}), parents } : null;
+      out.material = m ? { name: m.name ?? "", type: m.type ?? null, uuid: m.uuid ?? null } : null;
+      out.context = ctx ? { width: ctx.width ?? null, height: ctx.height ?? null, label: ctx.label ?? null, target: tgt(ctx.renderTarget) } : null;
+      if (group === "render") {
+        out.camera = camOf(ro.camera);
+        const r = win.__RENDERER__, V = (k) => { try { const v = r[k](); return v ? nums([v.x, v.y, v.z, v.w].filter((x) => x !== undefined)) : null; } catch { return null; } };
+        out.renderer = r ? { target: tgt(r.getRenderTarget?.()), viewport: V("getViewport"), drawingBuffer: V("getDrawingBufferSize") } : null;
+      }
+    } catch (e) { out.err = e.message; }
+    return out;
+  };
+  // every binding write inside updateForRender updates its owner's last state (map lookup only; details on a hit)
+  const noteOwner = (bad) => {
+    if (!curRO || !curBinding) return null;
+    const group = curBinding.name ?? "?", k = ownerKey(group, curRO), key = `${group}|${k.uuid}`;
+    let e = owners.get(key);
+    if (!e) { if (!bad) return null; owners.set(key, (e = { group, uuid: k.uuid, name: k.name, bad: 0, lastBad: false })); }
+    e.lastBad = bad; if (bad) e.bad++;
+    return k;
+  };
+  const record = (target, kind, byteBase, idx, vals, n, bytesPer, extra) => {
+    P.bad++;
+    if (P.frame < FRAMES) P.badPerFrame[P.frame] = (P.badPerFrame[P.frame] ?? 0) + 1;
+    const own = kind === "writeBuffer" ? noteOwner(true) : null;
+    const fi = (byteBase + idx * bytesPer) / 4;
+    let dk = null;
+    if (own) { let un = "?"; try { un = uniformsAt(curBinding, fi).join("+"); } catch {} dk = `${curBinding.name}|${un}|${own.uuid}`; }
+    if ((dk ? seen.has(dk) : hit.has(target)) || P.records.length >= MAX) return;
+    if (dk) seen.add(dk); else hit.add(target);
+    const v = vals(idx), near = [];
+    for (let i = Math.max(0, idx - 4); i < Math.min(n, idx + 4); i++) { const x = vals(i); near.push(Number.isFinite(x) ? x : name(x)); }
+    const r = { kind, frame: P.frame, t: now(), label: target.label ?? "", size: target.size ?? null, usage: target.usage ?? null,
+      byteOffset: byteBase + idx * bytesPer, floatIndex: idx, value: name(v), near, stack: String(new Error().stack ?? "").split("\n").slice(1, 13).map((l) => l.trim()), ...extra };
+    if (curBinding && kind === "writeBuffer") {
+      r.group = curBinding.name ?? null; r.uniforms = uniformsAt(curBinding, fi);
+      if (curRO) { r.owner = ownerInfo(curRO, r.group); try { r.owner.node = unifsAt(curBinding, fi).map(nodeOf); } catch (e) { r.owner.node = [`err ${e.message}`]; } }
+    } else if (kind === "writeBuffer") r.mapping = P.threeHooked ? "not inside backend.updateBinding (stack only)" : "renderer not hooked (stack only)";
+    P.records.push(r);
+  };
+  // packed integer data read as floats: mapped ranges, and writeBuffer into STORAGE-not-UNIFORM buffers, are packed when a
+  // float within 4 of the hit is subnormal or over 0.5 % of the range is non-finite
+  const packedHit = (target, kind, n, vals, idx) => {
+    const u = target.usage ?? 0;
+    if (!(kind === "mapped" || (kind === "writeBuffer" && (u & 0x80) && !(u & 0x40)))) return false;
+    for (let i = Math.max(0, idx - 4); i < Math.min(n, idx + 4); i++) { const x = Math.abs(vals(i)); if (x > 0 && x < 1.1754943508222875e-38) return true; }
+    let bad = 0; for (let i = 0; i < n; i++) { const x = vals(i); if (x !== x || x === Infinity || x === -Infinity) bad++; }
+    return bad / n > 0.005;
+  };
+  const scanBytes = (target, kind, buf, byteStart, byteLen, byteBase, extra) => {
+    const n = byteLen >> 2;
+    if (n <= 0) return;
+    const f = byteStart % 4 === 0 ? new Float32Array(buf, byteStart, n) : new Float32Array(buf.slice(byteStart, byteStart + n * 4));
+    const vals = (i) => f[i], i = scan(n, vals, 4);
+    if (i >= 0 && packedHit(target, kind, n, vals, i)) { P.packedSkipped++; return; }
+    if (i >= 0) record(target, kind, byteBase, i, vals, n, 4, extra);
+    else if (kind === "writeBuffer") noteOwner(false);
+  };
+  Object.defineProperty(P, "persistent", { enumerable: true, get: () => [...owners.values()].filter((e) => e.lastBad).map(({ group, uuid, name: n, bad }) => ({ group, uuid, name: n, bad })) });
+  const isInt = (d) => /^(Int8|Int16|Int32|Uint16|Uint32|BigInt64|BigUint64)Array$/.test(d?.constructor?.name ?? "");
+  const Q = win.GPUQueue?.prototype;
+  wrap(Q, "submit", (f) => function (...a) { P.frame++; return f.apply(this, a); });
+  wrap(Q, "writeBuffer", (f) => function (buffer, bufferOffset, data, dataOffset, size) {
+    try {
+      if (!skipUsage(buffer?.usage) && !isInt(data)) {
+        const view = ArrayBuffer.isView(data), bpe = view ? (data.BYTES_PER_ELEMENT ?? 1) : 1;
+        const ab = view ? data.buffer : data, start = (view ? data.byteOffset : 0) + (dataOffset ?? 0) * bpe;
+        const len = size != null ? size * bpe : (view ? data.byteLength : data.byteLength) - (dataOffset ?? 0) * bpe;
+        scanBytes(buffer, "writeBuffer", ab, start, len, bufferOffset ?? 0, {});
+      }
+    } catch {}
+    return f.call(this, buffer, bufferOffset, data, dataOffset, size);
+  });
+  wrap(Q, "writeTexture", (f) => function (dest, data, layout, sz) {
+    try {
+      const tex = dest?.texture, fmt = String(tex?.format ?? "");
+      const is16 = /16float$/.test(fmt), is32 = /32float$/.test(fmt);
+      if (tex && (is16 || is32)) {
+        const view = ArrayBuffer.isView(data), ab = view ? data.buffer : data, start = (view ? data.byteOffset : 0) + (layout?.offset ?? 0);
+        const len = (view ? data.byteLength : data.byteLength) - (layout?.offset ?? 0);
+        const extra = { format: fmt, width: tex.width, height: tex.height };
+        if (is32) scanBytes(tex, "writeTexture", ab, start, len, 0, extra);
+        else {
+          const n = len >> 1, h = start % 2 === 0 ? new Uint16Array(ab, start, n) : new Uint16Array(ab.slice(start, start + n * 2));
+          const vals = (i) => half(h[i]), i = scan(n, vals, 2);
+          if (i >= 0) record(tex, "writeTexture", 0, i, vals, n, 2, extra);
+        }
+      }
+    } catch {}
+    return f.call(this, dest, data, layout, sz);
+  });
+  const B = win.GPUBuffer?.prototype;
+  wrap(B, "getMappedRange", (f) => function (off, size) {
+    const r = f.call(this, off, size);
+    try { if (!skipUsage(this.usage)) { let l = maps.get(this); if (!l) maps.set(this, (l = [])); l.push([r, off ?? 0]); } } catch {}
+    return r;
+  });
+  wrap(B, "unmap", (f) => function () {
+    try { const l = maps.get(this); if (l) { maps.delete(this); for (const [ab, off] of l) scanBytes(this, "mapped", ab, 0, ab.byteLength, off, {}); } } catch {}
+    return f.call(this);
+  });
+  const hook = () => {
+    const be = win.__RENDERER__?.backend;
+    if (!be || typeof be.updateBinding !== "function") return false;
+    const orig = be.updateBinding;
+    be.updateBinding = function (binding) { const prev = curBinding; curBinding = binding; try { return orig.call(this, binding); } finally { curBinding = prev; } };
+    const bs = win.__RENDERER__._bindings;
+    if (bs && typeof bs.updateForRender === "function") {
+      const ofr = bs.updateForRender;
+      bs.updateForRender = function (ro) { const prev = curRO; curRO = ro; try { return ofr.call(this, ro); } finally { curRO = prev; } };
+    }
+    P.threeHooked = true;
+    return true;
+  };
+  if (!hook() && typeof win.setInterval === "function") { const id = win.setInterval(() => { if (hook()) win.clearInterval(id); }, 250); }
+}
+
+/** One summary line from a view's nan-probe.json. */
+export function nanProbeLine(p) {
+  if (!p || p.err) return `not-a-bar; probe unread${p?.err ? ` (${String(p.err).slice(0, 60)})` : ""}`;
+  const totals = `${p.scanned ?? 0} writes, ${Math.round((p.bytes ?? 0) / 1e6 * 10) / 10} MB scanned, packed-skipped ${p.packedSkipped ?? 0}`;
+  const r = p.records?.[0];
+  if (!r) return `not-a-bar; clean (${totals})`;
+  const where = r.group ? `${r.group}.${(r.uniforms ?? []).join("+") || "?"}` : "stack only";
+  return `not-a-bar; ${p.bad} bad writes, first f${r.frame} ${r.label || "(unlabelled)"}/${where} ${r.value} (${p.records.length} records; persistent ${p.persistent?.length ?? 0}; ${totals})`;
+}
+
 /** One summary line from a view's gpu-error-probe.json: the first dump's missing slot, pipeline label and three object name. */
 export function gpuProbeLine(p) {
   if (!p || p.err) return `not-a-bar; probe unread${p?.err ? ` (${String(p.err).slice(0, 60)})` : ""}`;
   const d = p.dumps?.[0];
-  if (!d) return `not-a-bar; no unset slot in ${p.draws ?? 0} draws; ${p.errors?.length ?? 0} errors`;
-  return `not-a-bar; slot ${d.missing.join(",")} missing ${d.pipeline.label} obj ${d.three?.object?.name ?? d.three?.note ?? "?"} mat ${d.tuple?.materialName ?? "?"} three-pipeline ${d.tuple?.threePipelineLabel ?? "?"} (${p.dumps.length} dumps)`;
+  const r = p.destroyedInSubmit?.[0], b = r?.buffers?.[0];
+  const dis = r ? `; destroyed-in-submit ${p.destroyedInSubmitSeen} (errors ${p.destroyedInSubmitErrors ?? 0}) enc ${r.encoder} buf ${b?.label || `#${b?.id}`} via ${b?.via} destroyed by ${b?.destroyStack?.[0] ?? "?"}` : "";
+  if (!d) return `not-a-bar; no unset slot in ${p.draws ?? 0} draws; ${p.errors?.length ?? 0} errors${dis}`;
+  return `not-a-bar; slot ${d.missing.join(",")} missing ${d.pipeline.label} obj ${d.three?.object?.name ?? d.three?.note ?? "?"} mat ${d.tuple?.materialName ?? "?"} three-pipeline ${d.tuple?.threePipelineLabel ?? "?"} (${p.dumps.length} dumps)${dis}`;
 }
 
 /** `--draw-census` (diagnosis only; never a bar row). Installed by the init script before the app's scripts. Between
@@ -681,8 +1000,16 @@ export function viewDeadlineS(totalS, { readyS, windowS, profileS = 0, slackS = 
  * navigation start (timeOrigin). Raises the resource timing buffer so the end read sees every fetch.
  * Self-contained: it is stringified into the page. */
 export function installLoadTimeline(win) {
-  const t = { firstPresent: null, builds: { count: 0, ms: 0, last: null }, transcode: { count: 0, ms: 0, last: null, workers: 0 } };
+  const t = { firstPresent: null, builds: { count: 0, ms: 0, last: null }, transcode: { count: 0, ms: 0, last: null, workers: 0 }, longTasks: [] };
   win.__loadTimeline = t;
+  // main-thread tasks over 50 ms (buffered: the boot tasks before this observer ran too), first 200
+  try {
+    if (typeof win.PerformanceObserver !== "function") t.longTasksUnobservable = "no PerformanceObserver";
+    else new win.PerformanceObserver((list) => {
+      for (const e of list.getEntries()) if (t.longTasks.length < 200) t.longTasks.push({ start: Math.round(e.startTime), ms: Math.round(e.duration), name: e.name ?? "",
+        attribution: Array.from(e.attribution ?? [], (a) => [a.name, a.containerType, a.containerName || a.containerSrc || a.containerId].filter(Boolean).join(" ")).join("; ") });
+    }).observe({ type: "longtask", buffered: true });
+  } catch (e) { t.longTasksUnobservable = String(e?.message ?? e).slice(0, 120); }
   try { win.performance.setResourceTimingBufferSize(100000); } catch { /* old browser: 250 entries */ }
   const now = () => win.performance.now();
   const present = () => { if (t.firstPresent === null) t.firstPresent = now(); };
@@ -746,8 +1073,12 @@ export function loadTimeline(page, harness, bar = LOAD_BAR_S) {
     fetch: { at: s(page?.fetch?.last), count: page?.fetch?.count ?? null, mb: page?.fetch ? Math.round(page.fetch.bytes / 1e5) / 10 : null },
     transcode: p ? { count: p.transcode.count, ms: Math.round(p.transcode.ms), last: s(p.transcode.last) } : { unobservable: "no load-timeline probe on the page" },
     builds: p ? { count: p.builds.count, ms: Math.round(p.builds.ms), last: s(p.builds.last) } : null,
+    longTasks: p?.longTasks ? p.longTasks.map((x) => ({ at: s(x.start), ms: x.ms, name: x.name, attribution: x.attribution })) : null,
+    bootLongestTask: null,
     streamFirst: harness?.streamFirst ?? null, streamQuiet: harness?.streamQuiet ?? null, queueEmpty: harness?.queueEmpty ?? null,
   };
+  if (out.longTasks?.length) out.bootLongestTask = out.longTasks.reduce((m, x) => (x.ms > m.ms ? x : m));
+  if (p?.longTasksUnobservable) out.longTasksUnobservable = p.longTasksUnobservable;
   if (p && p.transcode.workers === 0) out.transcode.unobservable = "no KTX2 transcode worker started (no KTX2 texture on this view, or a loader that does not post {type: transcode})";
   const parts = [out.streamQuiet, out.queueEmpty, out.builds?.last];
   out.complete = parts.every((x) => Number.isFinite(x)) ? Math.max(...parts) : null;

@@ -9,7 +9,8 @@ import * as THREE from "three";
  * not on the mesh — so a shared attribute would let the last writer re-band
  * or re-slot every other mesh. `clone()` would copy every vertex instead and
  * upload the kit again per mesh. A view is the middle: nothing is copied,
- * only the named attributes are owned.
+ * only the named attributes are owned. Disposing a view frees its owned
+ * attributes; the shared ones are marked `KIT_SHARED` and survive.
  */
 export function makeSlotGeometry(
   source: THREE.BufferGeometry,
@@ -19,9 +20,13 @@ export function makeSlotGeometry(
   for (const name of Object.keys(source.attributes)) {
     // An owned name is never taken from the source: that is the whole point.
     if (name in ownedAttrs) continue;
+    markKitShared(source.attributes[name]);
     view.setAttribute(name, source.attributes[name]);
   }
-  if (source.index) view.setIndex(source.index);
+  if (source.index) {
+    markKitShared(source.index);
+    view.setIndex(source.index);
+  }
   for (const group of source.groups) {
     view.addGroup(group.start, group.count, group.materialIndex);
   }
@@ -37,47 +42,40 @@ export function makeSlotGeometry(
   return view;
 }
 
-const detachedStandIns = new WeakSet<THREE.BufferAttribute>();
+/**
+ * The mark a kit's SHARED buffers carry (every source attribute and index a
+ * view references). The renderer's attribute store refuses to delete a
+ * marked buffer (`guardSharedBuffers`, render/gpuCull/GpuCullPool.ts):
+ * three r184's geometry dispose handler (Geometries.js onDispose) deletes
+ * every attribute in the render object's CACHED attribute list
+ * (RenderObject.getAttributes, built at first render), not the geometry's
+ * current ones, so disposing one view would otherwise destroy the kit
+ * buffers every other view still draws ("used in submit while destroyed",
+ * a whole render context dropped per frame; webgpu10 diag19 D1). Swapping
+ * attributes on the view before dispose protects nothing. Kit geometries
+ * live for the session; a caller that ever frees one deletes this key from
+ * its buffers first.
+ */
+export const KIT_SHARED = "esKitShared";
 
-/** True for the empty stand-in `detachSharedAttribute` leaves under a shared name. */
-export function isDetachedAttribute(attribute: THREE.BufferAttribute | THREE.InterleavedBufferAttribute): boolean {
-  return detachedStandIns.has(attribute as THREE.BufferAttribute);
+function markKitShared(buffer: object): void {
+  (buffer as Record<string, unknown>)[KIT_SHARED] = true;
+}
+
+/** True for a buffer `makeSlotGeometry` took from a kit by reference. */
+export function isKitShared(buffer: object): boolean {
+  return (buffer as Record<string, unknown>)[KIT_SHARED] === true;
 }
 
 /**
- * Replace one attribute this view SHARES with a kit geometry by an empty
- * stand-in of the same item size, so a dispose frees nothing the kit still
- * draws with. The name must stay present: three's WebGPU dispose handler asks
- * the geometry's render objects for their attributes (built lazily from the
- * material's nodes, `position` among them) and reads `attribute.id` of every
- * name it finds missing, so a deleted shared attribute threw
- * "Cannot read properties of undefined (reading 'id')" out of unmount and
- * stopped the whole scene (the "3D tree failed" screen).
+ * Replace a PAGE buffer a released GPU-cull member still names (`esSlot`, a
+ * payload) by an empty stand-in of the same item size, so the detached mesh
+ * never draws from a page buffer its page may free (`releasePage`). The name
+ * stays present because the material's nodes read it. This does not stop a
+ * later dispose from deleting the page buffer (the cached attribute list
+ * still names it); the store guard does that.
  */
 export function detachSharedAttribute(geometry: THREE.BufferGeometry, name: string): void {
   const shared = geometry.attributes[name];
-  const stand = new THREE.BufferAttribute(new Float32Array(shared.itemSize), shared.itemSize);
-  detachedStandIns.add(stand);
-  geometry.setAttribute(name, stand);
-}
-
-/**
- * Free a view's OWNED buffers and nothing else.
- *
- * Three keys GPU buffers by the attribute object, and its geometry dispose
- * handler deletes the buffer of every attribute (and the index) the disposed
- * geometry still references, without fixing up the other geometries that
- * share them. So every attribute that belongs to the source is swapped for an
- * empty stand-in FIRST; what is left when `dispose()` fires is the owned set
- * alone, which no other mesh can see.
- */
-export function disposeSlotGeometry(
-  geometry: THREE.BufferGeometry,
-  source: THREE.BufferGeometry,
-): void {
-  for (const name of Object.keys(geometry.attributes)) {
-    if (geometry.attributes[name] === source.attributes[name]) detachSharedAttribute(geometry, name);
-  }
-  if (geometry.index && geometry.index === source.index) geometry.setIndex(null);
-  geometry.dispose();
+  geometry.setAttribute(name, new THREE.BufferAttribute(new Float32Array(shared.itemSize), shared.itemSize));
 }

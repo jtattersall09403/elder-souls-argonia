@@ -52,6 +52,13 @@ with an object that must not have it: clone first (the old rule, unchanged).
 
 ### Gotchas proven on this port (each cost a lane an hour)
 
+- Camera aspect is owned once: R3F's default camera is `PerspectiveCamera(fov, 0)` and on native
+  WebGPU its aspect stayed 0, so every projection rebuild was Inf (NaN inverse) and fed bloom, the
+  underwater blit, CSM and the froxel history. Never call `camera.updateProjectionMatrix()` on the
+  main camera: call `updateProjection(camera, size.width, size.height)` from
+  `render/cameraAspect.ts` (the canvas mounts `useCameraAspectOwner`). A temporal history (froxel
+  reprojection or any self-feeding buffer) rejects a non-finite texel with a real `If` and keeps
+  its matrix only when it is finite: one NaN frame otherwise stays forever.
 - A GPU resource replaced under a node is destroyed only when no render object can still bind it:
   an object not drawn this frame keeps its old bind group, so destroying the old texture a fixed
   few frames later gives WebGPU "Destroyed texture used in a submit" and a black frame when that
@@ -150,6 +157,16 @@ with an object that must not have it: clone first (the old rule, unchanged).
   change. The WebGL backend keeps the CPU path (switch points: Vegetation.tsx, Groundcover.tsx).
 - A compute stage may bind at most 8 storage buffers (WebGPU default limit): pack per-candidate and
   per-draw data into one buffer each.
+- Disposing a geometry deletes the buffers in its render objects' CACHED attribute list (three r184
+  `Geometries` onDispose reads `RenderObject.getAttributes()`, built at first render), not the
+  geometry's current attributes: swapping a shared attribute for a stand-in before `dispose()`
+  protects nothing. A buffer shared between geometries is guarded at the renderer's attribute store
+  (`guardSharedBuffers`: page buffers `esPageOwned`, kit buffers `esKitShared` set by
+  `makeSlotGeometry`); its owner deletes the mark before freeing it (webgpu10 diag19 D1).
+- A GPU-cull member is never drawn while its last read-back kept nothing (until new rows, its bounds
+  entering view, or the camera moving 2 m / turning 3 degrees), and three frustum-culls it per camera
+  on its candidates' bounding sphere, so each shadow cascade draws only the casters inside its box.
+  Never set `frustumCulled = false` on a pool member.
 
 ## 5. Render targets, readback, timing
 
