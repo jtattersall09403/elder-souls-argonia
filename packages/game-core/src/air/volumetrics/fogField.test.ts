@@ -125,3 +125,28 @@ describe("region fog profile", () => {
     expect(mistHeightProfile(6, 30, 2)).toBeGreaterThan(mistHeightProfile(6, 30));
   });
 });
+
+describe("vol10 diag7 burn-off, rain and halo floor", () => {
+  it("radiation mist and its top fall as the sun climbs, humid air keeping at most 15 %", () => {
+    const at = (deg: number) => fogRegimes({ ...BASE, humidity: 0.9, minuteOfDay: 6 * 60 + 60, sunElevationDeg: deg });
+    let prev = at(0);
+    for (const deg of [5, 10, 15, 20, 25]) {
+      const r = at(deg);
+      expect(r.radiationMist).toBeLessThanOrEqual(prev.radiationMist);
+      expect(r.mistDepthScale!).toBeLessThanOrEqual(prev.mistDepthScale!);
+      prev = r;
+    }
+    expect(at(0).mistDepthScale).toBe(1);
+    expect(at(25).mistDepthScale).toBeCloseTo(0.2, 6);
+    expect(at(25).radiationMist).toBeLessThanOrEqual(at(0).radiationMist * 0.15 + 1e-9);
+  });
+  it("rain in rain-state wind (5 m/s) keeps half the marsh fog and adds wet haze", () => {
+    const r = fogRegimes({ ...BASE, windSpeedMS: 5, rain: 1 });
+    expect(r.marshFog).toBeGreaterThan(0);
+    expect(r.wetHaze).toBe(4);
+  });
+  it("a humid night carries the halo floor", () => {
+    const r = fogRegimes({ ...BASE, minuteOfDay: 22 * 60, humidity: 0.55, sunElevationDeg: -20 });
+    expect(r.halo).toBeGreaterThanOrEqual(0.4);
+  });
+});

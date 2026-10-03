@@ -14,7 +14,7 @@ import { Storage3DTexture, type WebGPURenderer } from "three/webgpu";
 import * as tsl from "three/tsl";
 import type { TslNode } from "../../render/nodes/materialNodes";
 import { matrixFinite } from "../../render/cameraAspect";
-import { fogRegimesInto, MOISTURE_FLOOR, MIST_FADE_SHARE, MIST_SCALE_SHARE, type FogFieldInput, type FogRegimes } from "./fogField";
+import { fogRegimesInto, WET_HAZE_SCALE_M, MOISTURE_FLOOR, MIST_FADE_SHARE, MIST_SCALE_SHARE, type FogFieldInput, type FogRegimes } from "./fogField";
 import { FOG_NOISE, FogDrift, FogShapeBake, bakeFogWarp } from "./fogNoise";
 import { VOLUMETRIC_BANDS, bandSpec, type BandSpec, type VolumetricTier } from "./bandGovernor";
 import { SHADOWED_SKY, SUN_PROBES_M, SUN_PROBE_NEAR_M, probeSoftM } from "./terrainSun";
@@ -254,7 +254,7 @@ export class Volumetrics implements VolumetricsSampler {
     prevViewProj: uniform(new THREE.Matrix4()), history: uniform(0),
     sunDir: uniform(new THREE.Vector3(0, 1, 0)), sunIrr: uniform(new THREE.Color(0, 0, 0)), skyIrr: uniform(new THREE.Color(0, 0, 0)),
     canopyHaze: uniform(0), air: uniform(1), haloSigma: uniform(0), haloViewM: uniform(0),
-    mistDepth: uniform(30), mistHeightScale: uniform(1),
+    mistDepth: uniform(30), mistHeightScale: uniform(1), mistBurn: uniform(0), wetHaze: uniform(0),
     // fog drift (FogDrift uploads, 0..1 texture units): per-octave and per-warp offsets, morph, coverage
     off: [0, 1, 2, 3].map(() => uniform(new THREE.Vector3())), warpOff: [0, 1].map(() => uniform(new THREE.Vector3())),
     phiA: uniform(0), phiB: uniform(0), wfade: uniform(0.5), slow: uniform(0.5),
@@ -395,10 +395,10 @@ export class Volumetrics implements VolumetricsSampler {
 
   /** Burn-off (fogNoise burnOff): the share of shape `n` left under coverage `c`, the spatial term `cov`
    * and the slow day term moving c by up to +-FOG_NOISE.coverage.spatialShare. */
-  private burn(n: TslNode, c: TslNode, cov: TslNode): TslNode {
+  private burn(n: TslNode, c: TslNode, cov: TslNode, rim: TslNode = float(0)): TslNode {
     const share = FOG_NOISE.coverage.spatialShare;
     const cp = clamp(c.mul(float(1).add(cov.sub(0.5).add(this.u.slow.sub(0.5)).mul(share))), 0, 1);
-    return max(n.sub(float(1).sub(cp)), float(0)).div(max(cp, float(0.05)));
+    return max(n.sub(float(1).sub(cp).add(rim)), float(0)).div(max(cp, float(0.05)));
   }
 
   /** Density (m^-1) of the medium at world `p` (TSL); `fp` is the froxel's depth extent in metres,
@@ -431,7 +431,8 @@ export class Volumetrics implements VolumetricsSampler {
     const mist = exp(hF.div(depth.mul(MIST_SCALE_SHARE).mul(max(u.mistHeightScale, float(1e-3)))).negate())
       .mul(float(1).sub(smoothstep(top.sub(max(depth.mul(MIST_FADE_SHARE), soft(1.5))), top, p.y)))
       .mul(smoothstep(-1, 1, hAG)).mul(smoothstep(0, 6, top.sub(ground)))
-      .mul(this.burn(n, u.cover.x, cov)).mul(moistW).mul(0.05);
+      // the sun clears rims and edges first: the burn threshold rises with height above the basin floor
+      .mul(this.burn(n, u.cover.x, cov, ground.sub(farT.g).div(depth).mul(0.5).mul(u.mistBurn))).mul(moistW).mul(0.015);
     // steam fog: wisps over water, thin rising columns, patchy (~half covered), each column fading with
     // height at its own 1..5 m; its own drift and rise (FogDrift steam/wisp offsets)
     const signed = (v: TslNode) => v.sub(0.5).mul(3.2);
@@ -447,16 +448,19 @@ export class Volumetrics implements VolumetricsSampler {
     const surf = mix(ground, max(ground, nearT.g), waterMask);
     const hAS = p.y.sub(surf);
     const low = float(1).sub(smoothstep(2, 12, ground.sub(farT.g)));
-    const marshTop = float(0.95).add(nc.mul(2.2));
+    // top 2.5 m +-1.5 m (thicker than a froxel row at 100 m, 1.28 m), plus a 0.3x skirt over water
+    // falling at a 2 m scale height to 6 m so the bank reads past 50 m (vol10 diag7 O2)
+    const marshTop = float(2.5).add(nc.mul(3));
     const marshFall = clamp(float(1).sub(hAS.div(max(marshTop, float(0.2)))), 0, 1);
-    const marsh = moist.mul(low).mul(marshFall).mul(smoothstep(float(0).sub(soft(0.3)), float(0), hAS))
+    const skirt = waterMask.mul(exp(max(hAS, float(0)).div(-2))).mul(float(1).sub(smoothstep(4, 6, hAS))).mul(0.3);
+    const marsh = moist.mul(low).mul(max(marshFall, skirt)).mul(smoothstep(float(0).sub(soft(0.3)), float(0), hAS))
       .mul(this.burn(n, u.cover.z, cov)).mul(0.16);
-    const sea = farT.b.mul(exp(max(p.y, 0).div(-150))).mul(this.burn(n, u.cover.w, cov)).mul(0.012);
+    const sea = farT.b.mul(exp(max(p.y, 0).div(-25))).mul(this.burn(n, u.cover.w, cov)).mul(0.03);
     const cuv = p.xz.sub(u.canopyOrigin).div(CANOPY_SIZE_M);
     const under = smoothstep(0, 0.3, texture(this.canopy.texture, cuv).b.sub(ground));
     // canopy haze: humid air under the crowns, 0.01..0.03 /m at full strength (0112 §5)
     const haze = under.mul(float(1).sub(smoothstep(0, 25, hAG))).mul(u.canopyHaze).mul(0.025).mul(n.mul(0.5).add(0.5));
-    const air = this.airDensity(p);
+    const air = this.airDensity(p).add(exp(max(hAG, float(0)).div(-WET_HAZE_SCALE_M)).mul(u.wetHaze).mul(0.7e-4));
     const outside = mist.add(steam).add(marsh).add(sea).add(haze).mul(outdoor);
     // interior floor mist: 0..top, two octaves swirling in opposite directions, curling top
     const sw = vec3(u.time.mul(0.25), 0, u.time.mul(0.1));
@@ -752,7 +756,8 @@ export class Volumetrics implements VolumetricsSampler {
     const interior = f.interior ?? null;
     u.outdoor.value = interior ? 0 : 1;
     this.stepFog(f, r);
-    u.mistDepth.value = f.mistDepthM ?? 30;
+    u.mistDepth.value = (f.mistDepthM ?? 30) * (r?.mistDepthScale ?? 1);
+    u.mistBurn.value = r?.mistBurn ?? 0; u.wetHaze.value = r?.wetHaze ?? 0;
     // the region's radiation-mist scale height (fogField mistHeightProfile heightScale, G3 climate profile)
     u.mistHeightScale.value = r?.heightScale ?? 1;
     u.floorY.value = interior?.floorY ?? 0; u.floorTop.value = interior ? interior.floorY + interior.floorMistTopM : 0;

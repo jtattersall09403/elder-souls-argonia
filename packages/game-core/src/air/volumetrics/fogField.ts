@@ -92,7 +92,18 @@ export interface FogRegimes {
   windXZ: [number, number];
   /** The region's radiation-mist scale-height multiplier (mistHeightProfile's `heightScale`). */
   heightScale?: number;
+  /** Radiation-mist top as a share of its dawn depth: 1 - 0.8 sunBurn, so the top sinks as the sun climbs. */
+  mistDepthScale?: number;
+  /** 0..1 sun burn-off weight (sunBurn x region burnOffScale): rims and edges clear first by this. */
+  mistBurn?: number;
+  /** Rain-fed wet haze over the ground, 0..4 (4 x rain), at WET_HAZE_SCALE_M scale height. */
+  wetHaze?: number;
 }
+
+/** Scale height (m) of the rain-fed wet haze above the ground (vol10 diag7 O2). */
+export const WET_HAZE_SCALE_M = 40;
+/** Halo dampness floor on a humid night (humidity > 0.5, sun below the horizon; vol10 diag7 O7). */
+export const NIGHT_HALO_FLOOR = 0.4;
 
 /** regionHaze at which the froxel air equals its humidity/rain baseline: an average humid lowland
  * morning (0.9 raw x VISIBILITY_LIFT 0.72 ~ 0.65). The air scales by regionHaze / this, clamped. */
@@ -162,22 +173,24 @@ export function fogRegimesInto(out: FogRegimes, i: FogFieldInput, sunElevationDe
   const wind = Math.max(0, i.windSpeedMS);
   // mist needs still air: gone above ~5 m/s
   const calm = 1 - smooth(1.5, 5, wind);
+  // rain feeds ground fog even in rain-state wind (5-7 m/s, where calm is 0): marsh and mist keep half the rain
+  const groundCalm = Math.max(calm, 0.5 * clamp01(i.rain));
   const rainDamp = 1 - (1 - RAIN_MIST_KEEP) * clamp01(i.rain * 1.5);
   const p = i.profile ?? REGION_FOG_NEUTRAL;
   const humid = clamp01(i.humidity + p.humidityBias);
-  // the sun burns ground fog off as it climbs (4..25 deg), humid air holds on to half of it
-  const sunKeep = sunElevationDeg === undefined ? 1
-    : 1 - clamp01(sunBurn(sunElevationDeg) * p.burnOffScale) * (1 - 0.5 * humid);
+  // the sun burns ground fog off as it climbs (4..25 deg); humid air slows it but never holds more than 15 %
+  const burnW = sunElevationDeg === undefined ? 0 : clamp01(sunBurn(sunElevationDeg) * p.burnOffScale);
+  const sunKeep = 1 - burnW * (1 - 0.15 * humid);
 
   const dawn = dawnEnvelope(hSunrise, 3, 2.5);
   const radiationMist = Math.max(clamp01(i.weatherRadiation ?? 0),
-    clamp01(clamp01(i.prevNightClearCalm) * dawn * calm * (0.4 + 0.6 * humid) * p.radiationMist)) * rainDamp * sunKeep;
+    clamp01(clamp01(i.prevNightClearCalm) * dawn * groundCalm * (0.4 + 0.6 * humid) * p.radiationMist)) * rainDamp * sunKeep;
 
   const steamDawn = dawnEnvelope(hSunrise, 2, 2);
   const steamFog = p.densityScale * steamDawn * calm * (0.3 + 0.7 * clamp01(i.prevNightClearCalm)) * rainDamp * sunKeep;
 
   const dusk = Math.max(0, 1 - Math.abs(hSunset - 0.75) / 1.75);
-  const marshFog = p.densityScale * Math.max(dawnEnvelope(hSunrise, 2.5, 2), dusk) * calm * (0.35 + 0.65 * humid)
+  const marshFog = p.densityScale * Math.max(dawnEnvelope(hSunrise, 2.5, 2), dusk) * groundCalm * (0.35 + 0.65 * humid)
     * (0.6 + 0.4 * clamp01(i.wetSeason)) * sunKeep;
 
   const onshore = clamp01(i.onshore ?? 0);
@@ -193,11 +206,13 @@ export function fogRegimesInto(out: FogRegimes, i: FogFieldInput, sunElevationDe
   const hazeScale = i.regionHaze === undefined ? 1
     : Math.min(REGION_HAZE_SCALE.max, Math.max(REGION_HAZE_SCALE.min, i.regionHaze / REGION_HAZE_REF));
   const air = (1 + 2 * humid + 3 * clamp01(i.rain)) * hazeScale * p.densityScale;
-  const halo = Math.max(smooth(0.55, 0.95, humid), radiationMist, clamp01(marshFog), seaFog, clamp01(i.rain));
+  const night = sunElevationDeg !== undefined && sunElevationDeg < 0 && humid > 0.5 ? NIGHT_HALO_FLOOR : 0;
+  const halo = Math.max(night, smooth(0.55, 0.95, humid), radiationMist, clamp01(marshFog), seaFog, clamp01(i.rain));
   // noise drifts at the wind speed, floored so still air still mutates slowly
   const drift = Math.max(0.3, wind);
   out.radiationMist = radiationMist; out.steamFog = clamp01(steamFog); out.marshFog = clamp01(marshFog); out.seaFog = seaFog;
   out.canopyHaze = canopyHaze; out.air = air; out.halo = halo; out.heightScale = p.heightScale;
+  out.mistDepthScale = 1 - 0.8 * burnW; out.mistBurn = burnW; out.wetHaze = 4 * clamp01(i.rain);
   out.windXZ[0] = i.windDirXZ[0] * drift; out.windXZ[1] = i.windDirXZ[1] * drift;
   return out;
 }
