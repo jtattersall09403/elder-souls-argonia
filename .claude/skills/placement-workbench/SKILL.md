@@ -382,7 +382,12 @@ and a light (the bpy scene has none; EEVEE needs a display and fails).
 `blender/examples/studio_shot.py X Z YAW PITCH OUT.png [hideUids]` renders
 the place from a walk frame's camera (route.json stand, compass yaw, pitch;
 5.8 m follow arm, vfov 48): the piece behind a judge's finding, or none
-(world vegetation), ~40 s. Cost (kit cache warm): Claywater 109 pieces,
+(world vegetation), ~40 s.
+`blender/examples/walk_in_profile.py X Z OUT_BEARING [OUT_M IN_M]` walks a
+doorway's approach on the actual geometry (every piece plus the ground):
+largest up and down step, steepest 1 m rise, headroom per 0.25 m; run it
+whenever a sink row or a pose moves a cave mouth or doorway against its
+approach (bar: steps <= 0.45 m controller step, headroom >= 1.44 m capsule). Cost (kit cache warm): Claywater 109 pieces,
 6.6 s (5.0 s building the job, 0.8 s scene build, 0.5 s script);
 Greenspring 120 pieces, 3.5 s. A kit's first launch builds its .blend
 cache (Greenspring cold: 8.9 s scene build). The example
