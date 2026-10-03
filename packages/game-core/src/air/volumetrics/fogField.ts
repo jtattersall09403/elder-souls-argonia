@@ -75,6 +75,8 @@ export interface FogFieldInput {
   regionHaze?: number;
   /** Game day number (floor of epoch minutes / 1440): re-phases the fog's slow modulators each day. */
   dayIndex?: number;
+  /** The dominant weather state (WeatherSample.state): the fog cover snaps to its target when it changes. */
+  weatherState?: string;
   /** The fog profile of the region under the camera (RegionFogProbe). Absent: REGION_FOG_NEUTRAL. */
   profile?: Readonly<RegionFogProfile>;
 }
@@ -118,7 +120,7 @@ export const REGION_HAZE_SCALE = { min: 0.4, max: 2.5 } as const;
 export const RAIN_MIST_KEEP = 0.35;
 
 /** Mist kept over bone-dry ground; wet ground or standing water carries it all (froxelGrid's moistW). */
-export const MOISTURE_FLOOR = 0.25;
+export const MOISTURE_FLOOR = 0.05;
 
 /** Weight of the radiation mist on ground of moisture `m` (0 dry .. 1 wet or water), squared as in
  * fable5-world-demo src/gpu/passes/Froxels.ts:148 @ fd75fdb7 (MIT): mist pools over wet basins and

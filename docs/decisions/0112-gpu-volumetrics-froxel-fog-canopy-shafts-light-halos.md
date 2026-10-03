@@ -47,10 +47,11 @@ colour comes from the light rig.
    epoch minutes + weather + climate rasters, the strength of each regime;
    the GPU shapes it from two terrain grids baked around the camera (near
    256 m at 2 m, far 2 km at 16 m: ground height, water surface and mask,
-   ground wetness, basin floor = local minimum of the ground, and on the far
+   ground wetness, basin floor = local minimum of the ground or, over water,
+   of the water surface (never the bed under it), and on the far
    grid the ground moisture = max(the water record's marsh class, its water
    mask), read from the frozen record, never re-derived). Radiation mist is
-   weighted by moisture squared over a floor of 0.25 (`moistureWeight`), so
+   weighted by moisture squared over a floor of 0.05 (`moistureWeight`), so
    it gathers over wet basins and thins on dry slopes. The sun term is the
    sun light that reaches the froxel through the medium itself
    (`sunInscatterGain`): the medium's optical depth up the sun ray (density
@@ -63,26 +64,34 @@ colour comes from the light rig.
    from the sun keeps 0.6 of the sky ambient while the sun is up. Regimes, from the lane's
    research (tooling/.reports/16k/walk6/vol-research-climate.md):
    radiation mist pooling in basins with a flat top (clear calm night, peak at
-   sunrise, gone 1–3 h after; 10–60 m deep); steam fog wisps 0–8 m over water
+   sunrise, gone 1–3 h after; 6 m deep at dawn in the studio, scale height
+   1.2 m); steam fog wisps 0–8 m over water
    (cool dawns); marsh ground fog 0.5–3 m (dawn and dusk, wet ground); sea fog
    up estuaries (onshore wind); canopy haze under trees (humid mornings,
    30–90 min after rain) and a faint air baseline so shafts have a medium.
    The sun burns these off: mist, steam, marsh and canopy haze keep
    `1 − sunBurn × (1 − 0.15 humid)` as the sun climbs (sea fog does not); the
    mist top sinks to `1 − 0.8 sunBurn` of its depth and the burn threshold
-   rises by 0.5 × sunBurn × height above the basin floor / depth, so rims and
-   edges clear first. Densities: radiation mist peak 0.015 /m; marsh top
-   2.5 ± 1.5 m with a 0.3× skirt over water to 6 m (2 m scale height), 0.16
-   /m; sea fog 0.03 /m at a 25 m scale height (vol10 diag7).
+   rises by sunBurn × (0.5 × height above the basin floor / depth + (1 −
+   moisture)) for the mist and 0.5 × sunBurn off water for the marsh fog, so
+   rims, dry land and shores clear before water. Densities (`FOG_TERMS`,
+   CPU twin `fogTermsAt`): radiation mist peak 0.04 /m, integrated only to
+   400 m from the camera (fading from 300 m) so a grazing ray never sums a
+   white horizon band; marsh top 2.5 ± 1.5 m with a 0.3× skirt over water
+   to 6 m (2 m scale height), 0.16 /m; sea fog a 0.03 /m bank with a top at
+   20 ± 6 m faded over 6 m; canopy haze 0.025 /m, 0.06 /m once the sun is
+   above ~15°. Dawn over marsh water this gives a 100 m horizontal optical
+   depth of 3.4 at 1 m and 0 at 10 m (vol10 diag8). The sun phase's forward
+   share never falls under 0.35, so dawn mist wears the sun's tint.
    **Fog shape** is the fog's own noise (`fogNoise.ts`), never the shared
    volume-detail texture:
 
    | Part | Value | Config home |
    |---|---|---|
-   | Octaves | tiles 997 / 263 / 47 / 19 m (vertical 211 / 67 / 23 / 7 m), weights .30 / .30 / .25 / .15, golden-angle rotation; fine octave fades 100–170 m (the high grid's lateral Nyquist for 2.4 m features) | `fogNoise.ts:FOG_NOISE.octaves` |
+   | Octaves | tiles 997 / 101 / 47 / 19 m (vertical 211 / 67 / 23 / 7 m), weights .10 / .25 / .40 / .25, drift 1.0 / 1.07 / 2.3 / 2.5 × wind, golden-angle rotation; fine octave fades 100–170 m (the high grid's lateral Nyquist for 2.4 m features) | `fogNoise.ts:FOG_NOISE.octaves` |
    | Domain warp | 1777 m × 50 m and 433 m × 12 m, moving at 0.7 × wind | `FOG_NOISE` warp rows |
    | Morph | two phases crossfaded (rateA 0.005, rateB × √2, fade 389 s), day-phased modulator 431 / 797 / 1531 s | `FOG_NOISE.morph` |
-   | Coverage | density = max(0, n − (1 − C)) / max(C, 0.05), C eased with tau 180 s | `FOG_NOISE` coverage |
+   | Coverage | density = max(0, n − (1 − C)) / max(C, 0.05), C eased with tau 180 s within one weather state, snapped when the state changes | `FOG_NOISE` coverage |
    | Drift | `FogDrift` integrates wind × rate per octave, so a wind change never jumps the pattern; offsets wrap in [0, 1) | `fogNoise.ts:FogDrift` |
    | Clock | the water transport clock (`waterTransportTimeS`), so fog and water drift together | `WorldSky.tsx` fog update |
    | Bake | shape 128³ (64³ mobile), two channel-slices per frame (~1.9 ms each, ~4 s at 60 fps) through `FogShapeBake`; the texture holds the mean until the bake finishes | `fogNoise.ts:FogShapeBake` |
@@ -261,7 +270,7 @@ colour comes from the light rig.
    | System | Rule | Config home |
    |---|---|---|
    | Onshore sea fog | `OnshoreProbe` reads the gradient of climate-weather B over 3 px; onshore = wind travel direction dot −gradient; cached per cell, 64 m (128 m mobile) | `climateSampler.ts:OnshoreProbe`, `ONSHORE`; fed as `fog.onshore` in `WorldSky.tsx` |
-   | Region haze | the fog field's air term is scaled by `clamp(regionHaze / 0.65, 0.4, 2.5)`; rain keeps 35 % of ground mists (`RAIN_MIST_KEEP`); in rain-state wind mist and marsh fog take max(calm, 0.5 × rain), and rain adds wet haze 4 × rain × 0.7e-4 /m at a 40 m scale height above the ground (`WET_HAZE_SCALE_M`) | `fogField.ts` input `regionHaze`, `RAIN_MIST_KEEP` |
+   | Region haze | the fog field's air term is scaled by `clamp(regionHaze / 0.65, 0.4, 2.5)`; rain keeps 35 % of ground mists (`RAIN_MIST_KEEP`); in rain-state wind mist and marsh fog take max(calm, 0.5 × rain), and rain adds wet haze 4 × rain × 1.2e-3 /m at a 40 m scale height above the ground (`WET_HAZE_SCALE_M`) | `fogField.ts` input `regionHaze`, `RAIN_MIST_KEEP` |
    | Cap cloud | band on: the froxel medium owns it: fogField `capCloud` = synoptic cloud × humidity; density = smoothstep(centre − 2σ↓, centre, ground) × belt bell on height (`WHITEOUT_BELT` × vertical scale, passed as `capBelt`) × burn(shape, capCloud) × 0.02 /m, no extra noise taps; the aerial whiteout weight is 0. Band off: whiteout = bell × `mist.whiteoutBase` × belt mask (`esBeltMask`, 4 rotated taps + smoothstep 0.05–0.85; the dome march 1 tap) | `froxelGrid.ts` density `cap`, `fogField.ts:capCloud`; `aerial.ts:esBeltMask`, `express.ts` whiteout |
    | Region fog profile | the region class under the camera (`hydro-regions.png`, nearest texel, row 0 = world z 0) picks its row of the climate home table; its `fog` multipliers scale the air baseline and ground fogs (`densityScale`), the radiation-mist scale height (`heightScale`, which reaches the TSL mist height profile through the `mistHeightScale` uniform), the clear-night mist (`radiationMist`), the onshore sea fog (`seaFog`), the sun's burn-off (`burnOffScale`) and add to humidity (`humidityBias`); neutral until the map decodes. The integrity gate (`packages/world-schema/integrity.py:climate_region_errors`) holds one row per painted class; the runtime path is `RegionFogProbe` → `WorldSky` → fogField `profile` | `world/sources/climate/climate-regions.json` (schemaVersion 1, one row per painted class; read by `worldgen/regions.py`, published as hydrology-meta `climateProfiles[name].fog` by `regions.publish_climate_profiles`); `climateSampler.ts:RegionFogProbe`; `fogField.ts` input `profile` |
    | Lamp halos | fog output `halo` = max(smoothstep(.55, .95, humid), mists, sea fog, rain, 0.4 on a night with humidity > 0.5 (`NIGHT_HALO_FLOOR`)) (`FogRegimes.halo`, dampness); σ = max(grid, floor × halo); radius R = max(3 light radii, minReach); full halo out to max(2 radii, viewM) | `volumetricNodes.ts:LAMP_HALO` |

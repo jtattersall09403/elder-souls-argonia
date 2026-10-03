@@ -2,8 +2,8 @@
  * Terrain grids around the camera for the fog field (decision 0112 §4):
  * - near: 256 m at 2 m (128²): r ground height, g water surface height,
  *   b water mask, a ground wetness;
- * - far: 2 km at 16 m (128²): r ground height, g basin floor (min-filter of
- *   the ground over ~300 m, then a blur), b sea mask, a ground moisture
+ * - far: 2 km at 16 m (128²): r ground height, g basin floor (min-filter over
+ *   ~300 m, then a blur, of the ground or, over water, the water surface), b sea mask, a ground moisture
  *   (wet ground or standing water: max of the wetness and the water mask).
  * Baked on the CPU from injected samplers, re-centred when the camera moves
  * over a quarter of a grid, and chunked by rows under a per-frame budget.
@@ -118,11 +118,14 @@ export class TerrainGrids {
     }
     if (this.far.wants(x, z)) {
       const done = this.far.bakeRows(deadline, (wx, wz, d, o) => {
-        d[o] = s.groundHeight(wx, wz); d[o + 1] = 0; d[o + 2] = s.seaMask(wx, wz); d[o + 3] = Math.max(s.wetness(wx, wz), s.water(wx, wz).mask);
+        const g = s.groundHeight(wx, wz), w = s.water(wx, wz);
+        // the floor is the top of the medium's base: the water surface where there is water, never the
+        // bed under it (a seabed 20 m down zeroed the marsh fog and sank the mist under a cove, vol10 diag8 F-1)
+        d[o] = g; d[o + 1] = w.mask > 0 ? Math.max(g, w.height) : g; d[o + 2] = s.seaMask(wx, wz); d[o + 3] = Math.max(s.wetness(wx, wz), w.mask);
       });
       if (!done) return false;
       this.far.finish((d) => {
-        const floor = basinFloor(d, GRID_TEXELS, 4, 0, BASIN_RADIUS_TEXELS);
+        const floor = basinFloor(d, GRID_TEXELS, 4, 1, BASIN_RADIUS_TEXELS);
         for (let k = 0; k < floor.length; k++) d[k * 4 + 1] = floor[k];
       });
     }

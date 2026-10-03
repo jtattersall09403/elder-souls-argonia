@@ -975,7 +975,10 @@ export function WorldSky({
       volumetrics.update({
         camera: persp, timeS: waterTransportTimeS(), deltaS: waterTransportDeltaS(), sunDir, sunIrradiance: irr, skyIrradiance: volSky.current,
         lights: volLights.current, capBelt,
+        // dawn radiation mist 6 m deep (scale height 1.2 m): thick at the water, thin at head height (vol10 diag8 F-2)
+        mistDepthM: 6,
         fog: {
+          weatherState: wx.state,
           minuteOfDay: ((epochMinutes % 1440) + 1440) % 1440, sunriseMin, sunsetMin,
           prevNightClearCalm: fogClock.prevNightClearCalm,
           hoursSinceRain: fogClock.hoursSinceRain(epochMinutes, wx.rainIntensity > 0.02),

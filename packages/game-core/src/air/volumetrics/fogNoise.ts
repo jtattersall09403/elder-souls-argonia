@@ -5,8 +5,9 @@
  *   double precision (never wind x time), a slow two-slice morph at sqrt(2)-ratio rates under a
  *   speed modulator re-phased per day, and the eased coverage per regime;
  * - `fogShapeNoise`, the CPU mirror of the shader's octave sum (froxelGrid density()), for tests.
- * Four octaves on prime tiles 997/263/47/19 m, each rotated by the golden angle, drift at 1.00-1.25 x
- * the wind, warped by 50 m and 12 m (no curl, no rotation in time: banks bend, never spiral).
+ * Four octaves on prime tiles 997/101/47/19 m weighted .10/.25/.40/.25 (the 20-50 m billows carry the
+ * most), each rotated by the golden angle, drift at 1.0/1.07/2.3/2.5 x the wind (the billows visibly
+ * move within 5 s; vol10 diag8 F-3), warped by 50 m and 12 m (no curl, no rotation in time: banks bend, never spiral).
  * Everything is sampled at world position only: nothing here reads the camera or the player.
  */
 
@@ -23,10 +24,10 @@ export const FOG_NOISE = {
   warpTexels: 32,
   warpPeriod: 4,
   octaves: [
-    { tileXZ: 997, tileY: 211, weight: 0.3, rate: 1.0 },
-    { tileXZ: 263, tileY: 67, weight: 0.3, rate: 1.07 },
-    { tileXZ: 47, tileY: 23, weight: 0.25, rate: 1.15 },
-    { tileXZ: 19, tileY: 7, weight: 0.15, rate: 1.25 },
+    { tileXZ: 997, tileY: 211, weight: 0.1, rate: 1.0 },
+    { tileXZ: 101, tileY: 67, weight: 0.25, rate: 1.07 },
+    { tileXZ: 47, tileY: 23, weight: 0.4, rate: 2.3 },
+    { tileXZ: 19, tileY: 7, weight: 0.25, rate: 2.5 },
   ] as readonly FogOctave[],
   /** Octave k's axes are turned about Y by k x this, so no two lattices align. */
   rotationRad: GOLDEN_ANGLE,
@@ -49,7 +50,8 @@ export const FOG_NOISE = {
     modPeriodsS: [431, 797, 1531] as const, modAmps: [0.5, 0.3, 0.2] as const,
   },
   coverage: {
-    /** Eased toward its target with this time constant (s). */
+    /** Eased toward its target with this time constant (s), within one weather state; a change of
+     * weather state snaps it (a fog weather arrives as a bank, never a 3-minute fade; vol10 diag8 F-5). */
     tauS: 180,
     /** Sun elevation (deg) over which the sun burns the mist off. */
     sunBurnDeg: [4, 25] as const,
@@ -250,6 +252,7 @@ export class FogDrift {
   readonly cover = new Float64Array(5);
   private covered = false;
   private lastMinute = Number.NaN;
+  private lastWeather: string | undefined = undefined;
   // ---- uploads (0..1 texture units) ----
   /** Per octave: fract(R_k O_k / L_k), x,y,z (y 0). */
   readonly octaveOff = new Float32Array(12);
@@ -304,11 +307,13 @@ export class FogDrift {
   }
 
   /** Ease the coverage toward `target` (COVER_REGIMES order) over `deltaS`; snaps on the first call or
-   * when the game minute jumps by more than `FOG_NOISE.coverage.snapMin` (a scrub or a ?t= instant). */
-  ease(target: ArrayLike<number>, deltaS: number, minuteOfDay: number): void {
+   * when the game minute jumps by more than `FOG_NOISE.coverage.snapMin` (a scrub or a ?t= instant) or
+   * the weather state `weather` differs from the last call's. */
+  ease(target: ArrayLike<number>, deltaS: number, minuteOfDay: number, weather?: string): void {
     let jump = Math.abs(minuteOfDay - this.lastMinute);
     jump = Math.min(jump, 1440 - jump);
-    const snap = !this.covered || !(jump <= FOG_NOISE.coverage.snapMin);
+    const snap = !this.covered || !(jump <= FOG_NOISE.coverage.snapMin) || weather !== this.lastWeather;
+    this.lastWeather = weather;
     const k = snap ? 1 : 1 - Math.exp(-Math.max(0, deltaS) / FOG_NOISE.coverage.tauS);
     for (let i = 0; i < 5; i++) this.cover[i] += (target[i] - this.cover[i]) * k;
     this.covered = true;
