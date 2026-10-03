@@ -1413,23 +1413,7 @@
         "placeRef": "place.hist-heartland.greenspring"
       },
       {
-        "sourcePath": "parcels[1].why.playerPurpose",
-        "placeRef": "place.hist-heartland.greenspring"
-      },
-      {
-        "sourcePath": "parcels[1].why.whyNeighbours",
-        "placeRef": "place.hist-heartland.greenspring"
-      },
-      {
-        "sourcePath": "parcels[1].why.whySpot",
-        "placeRef": "place.hist-heartland.greenspring"
-      },
-      {
         "sourcePath": "parcels[2].why.playerPurpose",
-        "placeRef": "place.hist-heartland.greenspring"
-      },
-      {
-        "sourcePath": "parcels[2].why.what",
         "placeRef": "place.hist-heartland.greenspring"
       },
       {
@@ -1437,7 +1421,27 @@
         "placeRef": "place.hist-heartland.greenspring"
       },
       {
-        "sourcePath": "parcels[4].why.playerPurpose",
+        "sourcePath": "parcels[2].why.whySpot",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "parcels[3].why.playerPurpose",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "parcels[3].why.what",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "parcels[3].why.whyNeighbours",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "parcels[4].why.whyHere",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "parcels[5].why.playerPurpose",
         "placeRef": "place.dunmer-north.stormhold"
       }
     ],

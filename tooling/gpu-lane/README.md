@@ -38,7 +38,7 @@ Key paths follow `/tmp/<lane><round>/rp_key`.
 
 ## Open harness defects (fix before the next pod run)
 
-Standing rule (owner 2026-10-03): the first job of any lane that touches RunPod is this section, emptied (fixed, or a row moved to a named chunk brief) before its first capture. `measure.mjs`, `pod-capture.mjs` and `pod-setup.sh` print these rows at startup. Fixed and verified in the tree, so not listed: measure.mjs `about:blank` storage guard (:255), pod-sync.sh sentinel prefix (0a3940c2), batch_prepass short slugs (d43380fd), `w=clear` pinned at parse on the webgpu branch (609dca33).
+Standing rule (owner 2026-10-03): the first job of any lane that touches RunPod is this section, emptied (fixed, or a row moved to a named chunk brief) before its first capture. `measure.mjs`, `pod-capture.mjs` and `pod-setup.sh` print these rows at startup. Fixed and verified in the tree, so not listed: measure.mjs `about:blank` storage guard (:255), pod-sync.sh sentinel prefix (0a3940c2), batch_prepass short slugs (d43380fd), `w=clear` pinned at parse on the webgpu branch (609dca33), `tunnels.mjs close` without `--local <port>` refused with a message (it closed other lanes' tunnels; test in tunnels.test.mjs).
 
 | Defect | Where | Mechanism | Evidence |
 |---|---|---|---|
