@@ -56,3 +56,20 @@ def test_design_briefs_are_excluded_from_the_review_diff(tmp_path, monkeypatch):
         diff = rg.current_diff(paths)
         assert "CODECHANGE" in diff and "NEWCODE" in diff
         assert "DESIGNPROSE" not in diff and "UNTRACKEDPROSE" not in diff
+
+
+def test_base_diff_with_paths_keeps_only_the_named_dirs(tmp_path, monkeypatch):
+    import subprocess
+    run = lambda *a: subprocess.run(a, cwd=tmp_path, check=True, capture_output=True)  # noqa: E731
+    run("git", "init", "-q")
+    run("git", "config", "user.email", "t@t"); run("git", "config", "user.name", "t")
+    for d in ("packages", "apps", "tooling"):
+        (tmp_path / d).mkdir()
+        (tmp_path / d / "m.py").write_text("a = 1\n")
+    run("git", "add", "-A"); run("git", "commit", "-qm", "base")
+    for d in ("packages", "apps", "tooling"):
+        (tmp_path / d / "m.py").write_text(f"a = 2  # IN_{d.upper()}\n")
+    monkeypatch.setattr(rg, "ROOT", str(tmp_path))
+    diff = rg.current_diff(["packages", "apps"], base="HEAD")
+    assert "IN_PACKAGES" in diff and "IN_APPS" in diff and "IN_TOOLING" not in diff
+    assert "IN_TOOLING" in rg.current_diff(base="HEAD")
