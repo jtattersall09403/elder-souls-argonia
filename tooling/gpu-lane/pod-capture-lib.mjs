@@ -403,7 +403,7 @@ export function backendFailure(view, r) {
  * destroyedInSubmit: every buffer gets an id and an 8-frame creation stack at createBuffer, destroy() records a 12-frame
  * stack and time (last 4096 kept), bind groups remember their buffers, and each command encoder (render/compute passes,
  * bundles via executeBundles) the buffer ids it bound; at Queue.submit a command buffer that bound a destroyed buffer
- * gives a record (encoder label; per buffer id/label/size/usage, the bind group or slot that carried it, creation and
+ * gives a record (encoder label; per buffer id/label/size/usage, the call that bound it (`via`: bind group label, vertex slot, index, drawIndexedIndirect, copy..., clearBuffer), creation and
  * destroy stacks, ms destroy->submit): the first 5, plus the first of each new encoder label (20 labels).
  * destroyedInSubmitSeen counts every such submit, destroyedInSubmitErrors Dawn's "used in submit while destroyed" errors.
  * Self-contained: it is stringified into the page. */
@@ -463,6 +463,15 @@ export function installGpuErrorProbe(win) {
     wrap(pr, "setVertexBuffer", (f) => function (slot, b, ...a) { try { noteBuf(passEnc.get(this), b, `vertex slot ${slot}`); } catch {} return f.call(this, slot, b, ...a); });
     wrap(pr, "setIndexBuffer", (f) => function (b, ...a) { try { noteBuf(passEnc.get(this), b, "index"); } catch {} return f.call(this, b, ...a); });
   }
+  for (const C of [win.GPURenderPassEncoder, win.GPURenderBundleEncoder]) for (const k of ["drawIndirect", "drawIndexedIndirect"])
+    wrap(C?.prototype, k, (f) => function (b, ...a) { try { noteBuf(passEnc.get(this), b, k); } catch {} return f.call(this, b, ...a); });
+  wrap(win.GPUComputePassEncoder?.prototype, "dispatchWorkgroupsIndirect", (f) => function (b, ...a) { try { noteBuf(passEnc.get(this), b, "dispatchWorkgroupsIndirect"); } catch {} return f.call(this, b, ...a); });
+  const CE = win.GPUCommandEncoder?.prototype;
+  wrap(CE, "copyBufferToBuffer", (f) => function (src, ...a) { try { const u = useOf(this); noteBuf(u, src, "copyBufferToBuffer src"); noteBuf(u, a.find((x) => x && typeof x === "object"), "copyBufferToBuffer dst"); } catch {} return f.call(this, src, ...a); });
+  wrap(CE, "copyBufferToTexture", (f) => function (src, ...a) { try { noteBuf(useOf(this), src?.buffer, "copyBufferToTexture"); } catch {} return f.call(this, src, ...a); });
+  wrap(CE, "copyTextureToBuffer", (f) => function (src, dst, ...a) { try { noteBuf(useOf(this), dst?.buffer, "copyTextureToBuffer"); } catch {} return f.call(this, src, dst, ...a); });
+  wrap(CE, "resolveQuerySet", (f) => function (qs, first, count, dst, ...a) { try { noteBuf(useOf(this), dst, "resolveQuerySet"); } catch {} return f.call(this, qs, first, count, dst, ...a); });
+  wrap(CE, "clearBuffer", (f) => function (b, ...a) { try { noteBuf(useOf(this), b, "clearBuffer"); } catch {} return f.call(this, b, ...a); });
   wrap(win.GPURenderBundleEncoder?.prototype, "finish", (f) => function (d) { const bun = f.call(this, d); try { bundleUse.set(bun, passEnc.get(this)); } catch {} return bun; });
   wrap(win.GPURenderPassEncoder?.prototype, "executeBundles", (f) => function (list) {
     try { const u = passEnc.get(this); for (const bun of list ?? []) { const bu = bundleUse.get(bun); if (u && bu) for (const [id, via] of bu.used) if (!u.used.has(id)) u.used.set(id, `bundle ${bu.label} ${via}`); } } catch {}
@@ -482,7 +491,7 @@ export function installGpuErrorProbe(win) {
         disLabels.add(u.label);
         const t = now();
         P.destroyedInSubmit.push({ t, encoder: u.label, buffers: hits.map(({ id, via, d }) => ({ id, label: d.meta.label, size: d.meta.size, usage: d.meta.usage,
-          bindGroup: via, createStack: d.meta.createStack, destroyStack: d.stack, msDestroyToSubmit: t - d.t })) });
+          via, createStack: d.meta.createStack, destroyStack: d.stack, msDestroyToSubmit: t - d.t })) });
       }
     } catch {}
     return f.call(this, cbs);
@@ -759,7 +768,7 @@ export function gpuProbeLine(p) {
   if (!p || p.err) return `not-a-bar; probe unread${p?.err ? ` (${String(p.err).slice(0, 60)})` : ""}`;
   const d = p.dumps?.[0];
   const r = p.destroyedInSubmit?.[0], b = r?.buffers?.[0];
-  const dis = r ? `; destroyed-in-submit ${p.destroyedInSubmitSeen} (errors ${p.destroyedInSubmitErrors ?? 0}) enc ${r.encoder} buf ${b?.label || `#${b?.id}`} via ${b?.bindGroup} destroyed by ${b?.destroyStack?.[0] ?? "?"}` : "";
+  const dis = r ? `; destroyed-in-submit ${p.destroyedInSubmitSeen} (errors ${p.destroyedInSubmitErrors ?? 0}) enc ${r.encoder} buf ${b?.label || `#${b?.id}`} via ${b?.via} destroyed by ${b?.destroyStack?.[0] ?? "?"}` : "";
   if (!d) return `not-a-bar; no unset slot in ${p.draws ?? 0} draws; ${p.errors?.length ?? 0} errors${dis}`;
   return `not-a-bar; slot ${d.missing.join(",")} missing ${d.pipeline.label} obj ${d.three?.object?.name ?? d.three?.note ?? "?"} mat ${d.tuple?.materialName ?? "?"} three-pipeline ${d.tuple?.threePipelineLabel ?? "?"} (${p.dumps.length} dumps)${dis}`;
 }

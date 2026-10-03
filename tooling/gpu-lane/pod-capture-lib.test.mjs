@@ -356,9 +356,9 @@ test("gpu-error probe: every required slot set, no dump", () => {
 });
 test("gpu-error probe: destroyedInSubmit names the destroy stack only when a destroyed buffer is bound at submit", () => {
   class GPUBuffer { constructor(d) { this.label = d.label; this.size = d.size; this.usage = d.usage; } destroy() {} }
-  class GPURenderPassEncoder { setBindGroup() {} setVertexBuffer() {} setIndexBuffer() {} end() {} }
+  class GPURenderPassEncoder { setBindGroup() {} setVertexBuffer() {} setIndexBuffer() {} drawIndexedIndirect() {} end() {} }
   class GPUComputePassEncoder { setBindGroup() {} end() {} }
-  class GPUCommandEncoder { constructor(d) { this.label = d?.label ?? ""; } beginRenderPass() { return new GPURenderPassEncoder(); } beginComputePass() { return new GPUComputePassEncoder(); } finish() { return {}; } }
+  class GPUCommandEncoder { constructor(d) { this.label = d?.label ?? ""; } copyBufferToBuffer() {} beginRenderPass() { return new GPURenderPassEncoder(); } beginComputePass() { return new GPUComputePassEncoder(); } finish() { return {}; } }
   class GPUDevice { createBuffer(d) { return new GPUBuffer(d); } createBindGroup() { return {}; } createCommandEncoder(d) { return new GPUCommandEncoder(d); } }
   const submitted = [];
   class GPUQueue { submit(cbs) { submitted.push(cbs.length); } }
@@ -381,11 +381,18 @@ test("gpu-error probe: destroyedInSubmit names the destroy stack only when a des
   const r = P.destroyedInSubmit[0];
   assert.equal(r.encoder, "renderContext_6"); assert.equal(r.buffers.length, 1);
   const b = r.buffers[0];
-  assert.deepEqual([b.id, b.size, b.usage, b.bindGroup], [2, 256, 72, "bindGroup_lights"]);
+  assert.deepEqual([b.id, b.size, b.usage, b.via], [2, 256, 72, "bindGroup_lights"]);
   assert.match(b.destroyStack[0], /disposeLights/); assert.ok(b.createStack.length > 0); assert.ok(b.msDestroyToSubmit > 0);
   frame("renderContext_9"); // a new encoder label still gets its first record
   assert.equal(P.destroyedInSubmit.length, 6); assert.equal(P.destroyedInSubmit[5].encoder, "renderContext_9");
-  assert.match(gpuProbeLine(P), /destroyed-in-submit 8 \(errors 0\) enc renderContext_6 buf #2 via bindGroup_lights destroyed by at disposeLights/);
+  // an indirect-args buffer destroyed after use, and a copy destination: each named by the call that bound it
+  const args = dev.createBuffer({ label: "cullArgs", size: 20, usage: 256 }), dst = dev.createBuffer({ label: "readback", size: 20, usage: 9 });
+  const ok = dev.createCommandEncoder({ label: "veg" }); const vp = ok.beginRenderPass({}); vp.drawIndexedIndirect(args, 0); vp.end(); q.submit([ok.finish()]);
+  assert.equal(P.destroyedInSubmit.length, 6); // live indirect buffer: no record
+  args.destroy(); dst.destroy();
+  const e = dev.createCommandEncoder({ label: "veg" }); const p2 = e.beginRenderPass({}); p2.drawIndexedIndirect(args, 0); p2.end(); e.copyBufferToBuffer(live, 0, dst, 0, 20); q.submit([e.finish()]);
+  assert.deepEqual(P.destroyedInSubmit[6].buffers.map((x) => [x.label, x.via]), [["cullArgs", "drawIndexedIndirect"], ["readback", "copyBufferToBuffer dst"]]);
+  assert.match(gpuProbeLine(P), /destroyed-in-submit 9 \(errors 0\) enc renderContext_6 buf #2 via bindGroup_lights destroyed by at disposeLights/);
 });
 
 // --draw-census: a fake renderer and WebGPU device on a fake window, frames driven by hand
