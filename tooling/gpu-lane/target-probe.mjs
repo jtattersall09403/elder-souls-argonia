@@ -295,7 +295,7 @@ export function installTargetProbe(win, recordPass) {
   };
 }
 
-/** The summary cell, e.g. "not-a-bar; scene 0.41 (773 draws) / fb skip / bloom 0.02 / canvas luma 17.5 / skipped 3.0/frame, 2 not ready". */
+/** The summary cell, e.g. "not-a-bar; scene 0.41 (773 draws) / fb skip / bloom 0.02 / canvas luma 17.5 / skipped 3.0/frame, 2 not ready ... held 2 (Water/main/840ms)". */
 export function targetsLine(p) {
   if (!p) return null;
   if (p.err) return `not-a-bar; probe unread (${String(p.err).slice(0, 60)})`;
@@ -309,5 +309,7 @@ export function targetsLine(p) {
   const scene = g && !g.err && !g.skipped ? ` scene nan ${g.nan} inf ${g.inf} black ${g.black}/${gn}` : ` scene grid ${g?.err ?? g?.skipped ?? "-"}`.slice(0, 80);
   const c = p.state?.camera, d = p.state?.drawingBuffer;
   const st = ` cam nan ${c && typeof c === "object" ? (c.anyNaN || c.anyInf ? "Y" : "N") : "?"} vp ${d ? `${d.w}x${d.h}` : "?"}`;
-  return `not-a-bar; ${parts.join(" / ")}${tail}${scene}${st}`;
+  const h = p.heldDraws, h0 = h?.objects?.[0];
+  const held = !h ? "" : h.err ? ` held err` : ` held ${h.objects?.length ?? 0}${h0 ? ` (${h0.object?.name || h0.object?.type || "?"}/${h0.pass ?? "?"}/${h0.waitedMs ?? "?"}ms)` : ""}`;
+  return `not-a-bar; ${parts.join(" / ")}${tail}${scene}${st}${held}`;
 }

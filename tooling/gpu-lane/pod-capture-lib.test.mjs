@@ -614,3 +614,33 @@ test("load timeline: buffered longtask records and bootLongestTask; empty list a
   installLoadTimeline(bare);
   assert.equal(loadTimeline({ probe: bare.__loadTimeline, fetch: null }, {}).longTasksUnobservable, "no PerformanceObserver");
 });
+
+import { viewShots, shotTime, hudClock, clockVerdict, withFinalJpgLuma, summaryTable as summaryTableF2, summariseView as summariseViewF2 } from "./pod-capture-lib.mjs";
+test("viewShots/shotTime: frames count from navigation unless shotsFrom settle; seconds-only views every 10 s (diag19 D5)", () => {
+  assert.deepEqual(viewShots({ seconds: 60 }, "500@60,2000", 60), [0, 10, 20, 30, 40, 50, 60]);
+  assert.equal(viewShots({ shots: "none", seconds: 60 }, undefined, 60).length, 0);
+  assert.equal(viewShots({}, "1000@2,5000", 10).length, parseShots("1000@2,5000", 10).length);
+  // old: a 60 s view whose settle gate opened at 45 s had shot time 15 at s=60; now 60 for any view without shotsFrom
+  assert.equal(shotTime({ clean: true }, 60, 45), 60);
+  assert.equal(shotTime({ shotsFrom: "settle" }, 60, 45), 15);
+  assert.equal(shotTime({ shotsFrom: "settle" }, 60, null), -1);
+  assert.throws(() => parseViews(JSON.stringify([{ name: "a", url: "http://x/", shotsFrom: "ready" }])), /shotsFrom/);
+});
+test("hudClock/clockVerdict: HUD HH:MM per frame, clockAdvancing first vs last", () => {
+  assert.deepEqual(hudClock("fps 60\n07:05\nalt 3 m"), { hhmm: "07:05", minute: 425 });
+  assert.equal(hudClock("fps 60 · 12.5 ms"), null);
+  assert.deepEqual(clockVerdict([{ clock: hudClock("07:05") }, { clock: null }, { clock: hudClock("07:40") }]), { first: "07:05", last: "07:40", clockAdvancing: true });
+  assert.equal(clockVerdict([{ clock: hudClock("07:05") }, { clock: hudClock("07:05") }]).clockAdvancing, false);
+  assert.equal(clockVerdict([{ clock: hudClock("07:05") }]).clockAdvancing, null);
+});
+test("summary: a rate= view whose clock did not advance is flagged in summary.md", () => {
+  const v = (name, url, adv) => ({ name, summary: summariseViewF2({ url, clock: { first: "07:05", last: adv ? "07:30" : "07:05", clockAdvancing: adv } }) });
+  const md = summaryTableF2([v("a", "http://x/?rate=0.5", false), v("b", "http://x/?rate=0.5", true), v("c", "http://x/?rate=0", false)], null);
+  assert.match(md, /CLOCK STOPPED[^\n]*: a$/m);
+  assert.match(md, /07:05->07:05 STOPPED/);
+});
+test("withFinalJpgLuma: luma final and black are final.jpg's own (diag19 Q1: 0.32 read beside a lit final.jpg)", () => {
+  const f = withFinalJpgLuma({ luma: 0.32, blackShare: 0.972, fps: 30 }, { luma: 145.5, blackShare: 0 });
+  assert.deepEqual(f, { luma: 145.5, blackShare: 0, fps: 30, lumaSource: "final.jpg" });
+  assert.equal(summariseViewF2({ final: f }).lumaFinal, 145.5);
+});

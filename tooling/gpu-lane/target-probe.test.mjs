@@ -148,7 +148,7 @@ test("target probe: id-less targets (three RenderTarget) all seen; scene grid co
   assert.equal(g.samples.length, 8);
   assert.equal(g.meanLuma, Math.round(((2304 - 14) / (2304 - 4)) * 1e4) / 1e4);
   assert.match(g.depth.skipped, /no depthTexture/);
-  assert.match(targetsLine(p), / scene nan 3 inf 1 black 10\/2304 cam nan \? vp \?$/);
+  assert.match(targetsLine(p), / scene nan 3 inf 1 black 10\/2304 cam nan \? vp \? held err$/);
 });
 
 test("target probe: state block reads the largest render call's camera, viewport, drawing buffer, sun; NaN flagged", async () => {
@@ -173,8 +173,8 @@ test("target probe: state block reads the largest render call's camera, viewport
   assert.deepEqual(ok.state.drawingBuffer, { w: 1280, h: 720 });
   assert.deepEqual(ok.state.viewport, { x: 0, y: 0, w: 640, h: 360 });
   assert.equal(ok.state.sun.sunDirection.anyNaN, true);
-  assert.match(targetsLine(bad), / cam nan Y vp 1280x720$/);
-  assert.match(targetsLine(ok), / cam nan N vp 1280x720$/);
+  assert.match(targetsLine(bad), / cam nan Y vp 1280x720 held err$/);
+  assert.match(targetsLine(ok), / cam nan N vp 1280x720 held err$/);
 });
 
 // The page runs the STRINGIFIED function (pod-capture.mjs: `(${installTargetProbe})(window, ${recordPassDescriptor})`), so a
@@ -261,4 +261,11 @@ test("target probe: heldDraws names each draw the build queue skips (object, par
   const p2 = await win.__targetProbe.capture();
   clearInterval(tick);
   assert.deepEqual([p2.heldDraws.perFrame, p2.heldDraws.objects.length], [0, 0]);
+});
+
+test("targetsLine: heldDraws count and first object's name/pass/waitedMs (6a12b6c1)", () => {
+  const p = { targets: [], heldDraws: { perFrame: 1, objects: [{ object: { name: "Water", type: "Mesh" }, pass: "main", waitedMs: 840 }, { object: { name: "b" }, pass: "other", waitedMs: 1 }] } };
+  assert.match(targetsLine(p), / held 2 \(Water\/main\/840ms\)$/);
+  assert.match(targetsLine({ targets: [], heldDraws: { err: "x" } }), / held err$/);
+  assert.doesNotMatch(targetsLine({ targets: [] }), /held/);
 });

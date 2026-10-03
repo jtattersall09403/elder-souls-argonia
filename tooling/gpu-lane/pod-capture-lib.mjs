@@ -45,6 +45,36 @@ export function parseShots(spec, totalS) {
   return shotSchedule({ fastMs: +m[1], fastUntilS: +m[2], slowMs: +m[3], totalS });
 }
 
+/** The view's shot schedule (seconds): its own `shots`, else every 10 s when it sets `seconds`, else the run's `--shots`. */
+export function viewShots(view, runSpec, totalS) {
+  const spec = view.shots ?? (view.seconds !== undefined ? "10000@0,10000" : runSpec);
+  return spec === "none" ? [] : parseShots(spec, totalS);
+}
+
+/** Shot time of second `s` after navigation: from navigation, or from the shot settle gate (`settleAt`, null = not yet
+ * open -> -1) when the view sets `shotsFrom: "settle"` (diag19 D5: counting from a gate at ~45 s left 0-2 frames). */
+export const shotTime = (view, s, settleAt) => (view.shotsFrom === "settle" ? (settleAt == null ? -1 : s - settleAt) : s);
+
+/** The page's visible text, read for the world clock (the studio exposes no clock global; the TimePanel prints HH:MM). */
+export const HUD_TEXT_JS = `document.body.innerText`;
+export const CLOCK_SOURCE = "hud-text HH:MM (sky/TimePanel)";
+/** The in-game time of day in the page text: the first stand-alone HH:MM -> { hhmm, minute }, or null. */
+export function hudClock(text) {
+  const m = /(?:^|[\s>])([01]?\d|2[0-3]):([0-5]\d)(?=$|[\s<])/m.exec(String(text ?? ""));
+  return m ? { hhmm: `${m[1].padStart(2, "0")}:${m[2]}`, minute: +m[1] * 60 + +m[2] } : null;
+}
+/** First and last clocked frame -> { first, last, clockAdvancing } (null when fewer than two frames carry a clock). */
+export function clockVerdict(frameClocks) {
+  const c = (frameClocks ?? []).filter((f) => f?.clock);
+  if (c.length < 2) return { first: c[0]?.clock.hhmm ?? null, last: c[0]?.clock.hhmm ?? null, clockAdvancing: null };
+  const a = c[0].clock, b = c[c.length - 1].clock;
+  return { first: a.hhmm, last: b.hhmm, clockAdvancing: a.minute !== b.minute };
+}
+/** final.jpg's own luma: the read's screen-middle numbers replaced by those decoded from the bytes written as final.jpg. */
+export function withFinalJpgLuma(final, middle) {
+  return { ...final, luma: middle?.luma ?? null, blackShare: middle?.blackShare ?? null, lumaSource: "final.jpg" };
+}
+
 /** "--profile 10@60" -> { seconds: 10, at: 60 } */
 export function parseProfile(spec) {
   const m = /^(\d+(?:\.\d+)?)@(\d+(?:\.\d+)?)$/.exec(spec ?? "");
@@ -207,6 +237,7 @@ export function parseViews(text) {
       throw new Error(`views[${i}]: "aim" must be [yawRad] or [yawRad, pitchRad]`);
     if (v.settle !== undefined && v.settle !== false && !(v.settle && typeof v.settle === "object" && Object.entries(v.settle).every(([k, x]) => k in SHOT_SETTLE_DEFAULT && x > 0)))
       throw new Error(`views[${i}]: "settle" must be false or {seconds, lumaTol, lumaFloor, fpsTol, minS, timeoutS} (each > 0)`);
+    if (v.shotsFrom !== undefined && v.shotsFrom !== "settle") throw new Error(`views[${i}]: "shotsFrom" must be "settle"`);
     if (v.readyFlag !== undefined && !(typeof v.readyFlag === "string" && /^[A-Za-z_$][\w$]*$/.test(v.readyFlag))) throw new Error(`views[${i}]: "readyFlag" must be a global name`);
     return { ...v, steps: v.steps ? parseSteps(JSON.stringify(v.steps)) : [] };
   });
@@ -245,6 +276,8 @@ export function summariseView(r) {
     gpuProbe: r.gpuErrorProbe ? gpuProbeLine(r.gpuErrorProbe) : null,
     nanProbe: r.nanProbe ? nanProbeLine(r.nanProbe) : null,
     targets: r.targetProbe ? targetsLine(r.targetProbe) : null,
+    clock: r.clock ? `${r.clock.first ?? "?"}->${r.clock.last ?? "?"} ${r.clock.clockAdvancing === null ? "?" : r.clock.clockAdvancing ? "advancing" : "STOPPED"}` : null,
+    clockStopped: r.clock?.clockAdvancing === false && /[?&]rate=(?!0(&|$))/.test(r.url ?? ""),
     drawCensus: w.drawCensus ? drawCensusLine(w.drawCensus, wk?.workMs?.mean ?? null) : null,
     load: r.loadTimeline ? loadLine(r.loadTimeline) : null,
     settled: Boolean(r.reads?.settled), stalled: r.stalledReads?.length ?? null, error: r.error ? r.error.split("\n")[0] : undefined,
@@ -253,10 +286,11 @@ export function summariseView(r) {
 /** Markdown summary: one row per view from its result.json `summary` (`summariseView`). "from" names the window the rates
  * came from; "contaminated" is the view's blank-page baseline verdict. */
 export function summaryTable(views, cap, prep = null) {
-  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets"];
+  const cols = ["view", "failed", "load s", "contaminated", "luma settled", "luma final", "black", "from", "fps", "low1", "GPU ms", "CPU ms", "cost ms", "uncapped fps", "calls", "tris M", "heap MB/min (post-quiet)", "top stage ms/frame", "hitches>33 (top)", "errors gpu/con/page/404", "major GCs", "alloc MB/s", "cpu top5 ms/frame", "gpu-error probe", "nan probe", "draw census", "targets", "clock"];
   const rows = views.map(({ name, summary: s = {} }) => [name, s.failed, s.load, s.contaminated, s.lumaSettled, s.lumaFinal, s.blackShare, s.from, s.fps, s.low1, s.gpuMs, s.cpuMs,
-    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets].map(cell));
-  return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), "",
+    s.costMs, s.uncappedFps, s.calls, s.tris == null ? null : s.tris / 1e6, s.heapMbPerMin, s.topStage, s.hitches, s.errors, s.majorGCs, s.allocMBps, s.cpuTop, s.gpuProbe, s.nanProbe, s.drawCensus, s.targets, s.clock].map(cell));
+  const stopped = views.filter((v) => v.summary?.clockStopped).map((v) => v.name);
+  return [`cap detected: ${cell(cap?.capDetected)} (blank-page rAF ${cell(cap?.blankRafFps)} fps)`, ...(prep ? [prepLine(prep)] : []), ...(stopped.length ? [`CLOCK STOPPED (rate= set, first and last frame show the same time): ${stopped.join(", ")}`] : []), "",
     `| ${cols.join(" | ")} |`, `|${cols.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.join(" | ")} |`)].join("\n");
 }
 
