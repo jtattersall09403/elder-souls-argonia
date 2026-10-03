@@ -1252,14 +1252,17 @@ float esRipCrest = 0.0;
 #ifdef ES_RIPPLES
 {
   vec2 rUv = (vEsWorldPos.xz - uRippleInfo.xy) / uRippleInfo.z + 0.5;
-  if (uRippleInfo.w > 0.5 && all(greaterThan(rUv, vec2(0.02))) && all(lessThan(rUv, vec2(0.98)))) {
+  // fade over the outer band, as FoamField does (a hard cut drew a 64 m square)
+  vec2 rE2 = smoothstep(vec2(0.02), vec2(0.12), rUv) * smoothstep(vec2(0.02), vec2(0.12), 1.0 - rUv);
+  float rEdge = rE2.x * rE2.y;
+  if (uRippleInfo.w > 0.5 && rEdge > 0.0) {
     float rTexel = 1.0 / 256.0;
     float hx1 = texture2D(uRipple, rUv + vec2(rTexel, 0.0)).r;
     float hx0 = texture2D(uRipple, rUv - vec2(rTexel, 0.0)).r;
     float hz1 = texture2D(uRipple, rUv + vec2(0.0, rTexel)).r;
     float hz0 = texture2D(uRipple, rUv - vec2(0.0, rTexel)).r;
-    esRip = vec2(hx1 - hx0, hz1 - hz0) * 14.0;
-    esRipCrest = abs(texture2D(uRipple, rUv).r) * 6.0;
+    esRip = vec2(hx1 - hx0, hz1 - hz0) * 14.0 * rEdge;
+    esRipCrest = abs(texture2D(uRipple, rUv).r) * 6.0 * rEdge;
   }
 }
 #endif
@@ -1417,6 +1420,9 @@ esAlb = mix(esAlb, vec3(0.16, 0.30, 0.10), esAlgae * 0.55);              // alga
 // ---- foam: a system, not a blanket (round 2 defect: white sheets) ------
 float esShoreD = esShorePx;
 float esExpo = esExpoPx;
+// contact line and froth stay within ~20 m of the shore horizontally: deep
+// water under a steep bank has a small vertical depth but carries no surf
+float esShoreNear = 1.0 - smoothstep(8.0, 20.0, esShoreD);
 // 1. thin contact line exactly at the waterline (vertical thickness under
 // CONTACT_FOAM_M, noise-broken so it never prints a grid) — fetch-boosted so
 // the active surf edge always carries a bright lip
@@ -1424,7 +1430,7 @@ float esFoamE;
 {
   float esCn0 = esFbm(vEsWorldPos.xz * 1.3 + 3.0, 2);
   esFoamE = (1.0 - smoothstep(0.0, ${CONTACT_FOAM_M.toFixed(2)}, esTv + (esCn0 - 0.45) * 0.10))
-          * (0.18 + 0.5 * clamp(max(esExpo * 2.0, vEsSurf.x), 0.0, 1.0));
+          * (0.18 + 0.5 * clamp(max(esExpo * 2.0, vEsSurf.x), 0.0, 1.0)) * esShoreNear;
 }
 // 2. surf: bore foam riding each arriving crest + backwash remnants —
 // same closed forms as the swell/swash geometry, so foam and waterline
@@ -1478,7 +1484,7 @@ if (esSpeed > ${RUSH.speedFromMS.toFixed(2)})
 esFoamE += esPlungeFoam(vEsWorldPos.xz, vEsFlow.xy);
 // 5b. shoreline depth-range froth (study §4 (2)): a wider, lower,
 // noise-broken band over ~1.8 m of vertical depth behind the contact line
-esFoamE += esShoreFroth(esTv, esFbm(vEsWorldPos.xz * 0.9 + 7.0, 2), vEsSurf.x);
+esFoamE += esShoreFroth(esTv, esFbm(vEsWorldPos.xz * 0.9 + 7.0, 2), vEsSurf.x) * esShoreNear;
 // cap below saturation so the threshold texture ALWAYS breaks the foam up
 // (max coverage ~0.65, research Q3) ...
 esFoamE = min(esFoamE, 0.85);

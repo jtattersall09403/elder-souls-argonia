@@ -1157,6 +1157,8 @@ void main() {
   const state = useRef({
     lastLst: Number.NaN,
     lastBakeSunY: Number.NaN,
+    lastBakeSunX: 0,
+    lastBakeSunZ: 0,
     lastBakeCover: Number.NaN,
     lastEpoch: Number.NaN,
     exposure: Number.NaN,
@@ -1585,12 +1587,22 @@ void main() {
       (PMREM_REBAKE_ENABLED || state.current.envBakes === 0) &&
       (!Number.isFinite(state.current.lastBakeSunY) ||
       Math.abs(sunDir.y - state.current.lastBakeSunY) > bakeStep ||
+      // azimuth past 2 deg: around midday sun.y barely moves while the sun sweeps
+      Math.abs(Math.atan2(
+        sunDir.x * state.current.lastBakeSunZ - sunDir.z * state.current.lastBakeSunX,
+        sunDir.x * state.current.lastBakeSunX + sunDir.z * state.current.lastBakeSunZ,
+      )) > 0.035 ||
       Math.abs(bakeCover - (state.current.lastBakeCover || 0)) > 0.06)
     ) {
       state.current.lastBakeSunY = sunDir.y;
+      state.current.lastBakeSunX = sunDir.x;
+      state.current.lastBakeSunZ = sunDir.z;
       state.current.lastBakeCover = bakeCover;
       copySkyUniforms(sky as Sky & { material: THREE.ShaderMaterial }, bake.sky);
       bake.sky.material.uniforms.showSunDisc.value = 0;
+      // no Mie forward lobe in the IBL: the water's live GGX specular and
+      // sparkle draw the sun; a baked glow reflected beside it read as a second sun
+      bake.sky.material.uniforms.mieDirectionalG.value = 0;
       bake.sky.material.uniforms.uFlash.value = 0; // flashes never tint the IBL
       // One persistent environment texture (perf10 K3): a new texture per
       // bake re-keys every lit material's program (three setProgram envMap
