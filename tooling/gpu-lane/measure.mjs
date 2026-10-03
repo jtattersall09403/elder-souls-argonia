@@ -936,7 +936,9 @@ async function main() {
   if (o.census) await ctx.addInitScript({ content: readFileSync(probePath("census"), "utf8") });
   for (const n of o.diagList.filter((n) => INPAGE_PROBES.includes(n))) await ctx.addInitScript({ content: probeScript(n, readFileSync(probePath(n), "utf8"), o.globalDiag) });
   const git = (a) => spawnSync("git", a, { cwd: repo, encoding: "utf8" }).stdout.trim();
-  const result = { schemaVersion: 1, run: o.run, gitSha: git(["rev-parse", "HEAD"]), dirty: git(["status", "--porcelain"]) !== "",
+  // The sha pod-sync.sh stamped beside the synced data (the pod tree is no git repo); null off the pod.
+  const syncStamp = () => { try { return readFileSync(join(process.env.ES_DATA_PUBLIC ?? "/root/site/public", ".sync-sha"), "utf8").trim() || null; } catch { return null; } };
+  const result = { schemaVersion: 1, run: o.run, gitSha: syncStamp() ?? git(["rev-parse", "HEAD"]), dirty: git(["status", "--porcelain"]) !== "",
     builtAt: null, measuredAt: new Date().toISOString(), renderer: o.renderer, origin: o.origin, base: o.base,
     window: { width: o.width, height: o.height }, dpr: o.dpr, settleS: o.settle, walkS: o.walk, browser: browser.version(), orphansClosed, urls: [] };
   // builtAt: the served index.html's Last-Modified (the build that is actually being measured).
