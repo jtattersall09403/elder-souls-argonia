@@ -138,7 +138,7 @@ GRAPH_DIRS = ["tooling/world-generation/worldgen", "tooling/world-generation/scr
 SHARED = {
     "tooling/world-generation/conftest.py", "tooling/world-generation/worldgen/conftest.py",
     "tooling/world-generation/worldgen/__init__.py", "tooling/world-generation/pytest.ini",
-    "tooling/world-generation/scripts/select_tests.py", "tooling/world-generation/requirements-test.txt",
+    "tooling/world-generation/requirements-test.txt",
     "tooling/asset-pipeline/pipeline/__init__.py", "tooling/asset-pipeline/pipeline/conftest.py",
     "tooling/asset-pipeline/pytest.ini", "tooling/asset-pipeline/conftest.py",
     "tooling/placement-workbench/workbench/__init__.py", "tooling/placement-workbench/tests/conftest.py",
@@ -157,6 +157,9 @@ CONFTESTS = {
 # workbench files, 205-537 s; these sets run in 21-45 s). The full `--runner`
 # run before a merge to main is the backstop for an indirect break.
 OWN_TESTS = {
+    "tooling/world-generation/scripts/select_tests.py": (
+        "tooling/world-generation/worldgen/test_select_tests.py",
+        "tooling/world-generation/worldgen/test_test_reads_map.py"),
     "tooling/placement-workbench/workbench/walkway.py": (
         "tooling/placement-workbench/tests/test_walkway.py",
         "tooling/placement-workbench/tests/test_audit10_c6_wbrules.py"),
