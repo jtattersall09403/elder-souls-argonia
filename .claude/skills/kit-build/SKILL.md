@@ -163,6 +163,8 @@ into the kit config (`--record`), then step 1 rebuilds.
     # several: --kits a,b,c --jobs 3   (flora-province-v1: --jobs 1)
 
 - One heavy job per lane; K10: three settlement kits, jobs 3, peak 4.81 GiB.
+  A large rebuild runs a few kits per invocation under `job_guard.sh` and
+  reads `ownPeakMiB` from its log against the 4 GiB target.
 - `build` runs, in order: Blender, `trunk_solids`, `vet_kit`,
   `measure_sidecars` (K10 D), then `kit_compress.publish` when the kit is
   already published or its config sets `publish` (`build_kit.py:972`, `:981`).

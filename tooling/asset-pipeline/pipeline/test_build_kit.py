@@ -485,6 +485,33 @@ def test_build_many_serial_when_jobs_is_one():
     assert [s["kit"] for s in out] == ["a", "b"]
 
 
+def test_build_many_releases_each_kits_working_set():
+    """A kit's meshes are gone when its iteration ends, even held in a cycle
+    (trimesh scenes are), so the next kit starts at baseline."""
+    import gc
+    import weakref
+
+    class Meshes:
+        pass
+
+    refs = []
+
+    def builder(kit_id, vault):
+        meshes = Meshes()
+        meshes.self = meshes  # a cycle: refcounting alone never frees it
+        refs.append(weakref.ref(meshes))
+        if len(refs) == 2:
+            assert refs[0]() is None, "kit a's meshes outlived its iteration"
+        return {"kit": kit_id}
+
+    gc.disable()
+    try:
+        build_kit.build_many(["a", "b"], Path("/vault"), jobs=1, builder=builder)
+    finally:
+        gc.enable()
+    assert all(r() is None for r in refs)
+
+
 def test_default_kit_jobs_is_recorded():
     assert 1 <= build_kit.DEFAULT_KIT_JOBS <= 3
 
