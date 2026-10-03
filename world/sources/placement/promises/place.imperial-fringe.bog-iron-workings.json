@@ -92,9 +92,9 @@
    "text": "The seep shows through the ferns below the bench well before the workings do.",
    "confirmed": {
     "sha": "97924d97f82a",
-    "note": "The seep is the iron-rich ground below the bench; the fern scatter (813 within 200 m) covers the slope up to the workings; the way passes the ore outcrop on the south shore first.",
+    "note": "The seep is the iron-rich ground below the bench; the fern scatter (813 within 200 m) covers the slope up to the workings; the dig on the seep's south edge shows before the furnace does.",
     "ids": [
-     "sp-iron-seep",
+     "sd-shovel",
      "socket.bog-iron-workings.deep-pools"
     ]
    }
@@ -176,8 +176,8 @@
     "sha": "2c78ac487e2d",
     "note": "The furnace on its levelled pad above the seep, its charcoal bed part of the smelter mesh in front of its mouth (bl-furnace).",
     "ids": [
-     "bl-furnace",
-     "sp-iron-seep"
+     "place.imperial-fringe.bog-iron-workings.parcel.bog-iron-workings.the-bloomery.building",
+     "socket.bog-iron-workings.deep-pools"
     ]
    }
   },
@@ -191,11 +191,11 @@
    "text": "A squat clay furnace and its black charcoal bed on a bench, a mud hut west of them, the seep below the bank.",
    "confirmed": {
     "sha": "d3e3146209fc",
-    "note": "Bloomery with its fire on the bench at x 2008; the mud hut stands 19 m west at x 1989; the iron outcrop sp-iron-seep lies on the seep's south shore below.",
+    "note": "Bloomery with its fire on the bench at x 2008; the mud hut stands 19 m west at x 1989; the seep lies below the bank, its dig on the south edge.",
     "ids": [
-     "bl-furnace",
-     "b-hut",
-     "sp-iron-seep"
+     "place.imperial-fringe.bog-iron-workings.parcel.bog-iron-workings.the-bloomery.building",
+     "place.imperial-fringe.bog-iron-workings.parcel.bog-iron-workings.diggers-hut.building",
+     "sd-shovel"
     ]
    }
   },
@@ -235,10 +235,10 @@
    "text": "The seep is being worked out; each season's cakes are smaller and further from the path.",
    "confirmed": {
     "sha": "762ab478f2eb",
-    "note": "A pressure of the seep, not a built claim; the furnace stands at the north end, the ore outcrop on the far south shore, the abandoned deep end between.",
+    "note": "A pressure of the seep, not a built claim; the furnace stands at the north end, this season's dig on the far south edge, the abandoned deep end between.",
     "ids": [
-     "sp-iron-seep",
-     "bl-furnace"
+     "sd-shovel",
+     "place.imperial-fringe.bog-iron-workings.parcel.bog-iron-workings.the-bloomery.building"
     ]
    }
   },
@@ -252,9 +252,12 @@
    "text": "A stagnant iron-rich seep where the ore can be lifted from the mud in cakes.",
    "confirmed": {
     "sha": "b1674d2c56a5",
-    "note": "The seep stands 15 m below and east of the furnace floor; an iron ore outcrop (sp-iron-seep) lies on its south shore at 2040, 2592; the ore cakes (y4-oc-ore1, y4-oc-ore2, y4-oc-orebucket) wait by the cart at the furnace.",
+    "note": "The seep stands 15 m below and east of the furnace floor; on its south edge at 2035, 2588 a shovel stands in the mud beside two heaps of ore cakes, a bucket of cakes and a full basket; more cakes (y4-oc-ore1, y4-oc-ore2, y4-oc-orebucket) wait by the cart at the furnace.",
     "ids": [
-     "sp-iron-seep",
+     "sd-shovel",
+     "sd-ore1",
+     "sd-ore2",
+     "sd-orebucket",
      "y4-oc-ore1",
      "y4-oc-ore2",
      "y4-oc-orebucket",
@@ -320,10 +323,7 @@
     "path": "places[place.imperial-fringe.bog-iron-workings].why.siteAdvantages"
    },
    "text": "Bog Iron Workings shows the seep its record names.",
-   "unfilled": null,
-   "filledBy": [
-    "sp-iron-seep"
-   ]
+   "unfilled": null
   }
  ]
 }

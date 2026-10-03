@@ -1,540 +1,602 @@
 {
-  "schemaVersion": 1,
-  "placeId": "place.imperial-fringe.bog-iron-workings",
-  "window": {
-    "centreKm": [
-      2.008,
-      2.565
-    ],
-    "halfM": 75.0
+ "schemaVersion": 1,
+ "placeId": "place.imperial-fringe.bog-iron-workings",
+ "window": {
+  "centreKm": [
+   2.008,
+   2.565
+  ],
+  "halfM": 75.0
+ },
+ "ops": [
+  {
+   "op": "place",
+   "uid": "b-hut",
+   "asset": "composite:mud/kotm-house-pod",
+   "at": [
+    1989.0,
+    2537.0
+   ],
+   "yaw": 282.0,
+   "settle": true,
+   "pad": {
+    "apronM": 1.5,
+    "apronBySide": {
+     "e": 3.0
+    },
+    "batter": true
+   }
   },
-  "ops": [
+  {
+   "op": "bind",
+   "uid": "b-hut",
+   "kind": "parcel",
+   "id": "parcel.bog-iron-workings.diggers-hut"
+  },
+  {
+   "op": "place",
+   "uid": "b-hut-lamp",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    1995.9,
+    2537.5
+   ],
+   "yaw": 100.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "b-hut-lamp",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.diggers-hut",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "works-crew-stores",
+   "at": [
+    1996.2,
+    2535.0
+   ],
+   "yaw": 0.0,
+   "prefix": "y5-",
+   "parcel": "parcel.bog-iron-workings.diggers-hut"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-cs-basket",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.diggers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-cs-urn1",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.diggers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-cs-urn2",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.diggers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-cs-sack",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.diggers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-cs-wood",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.diggers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-cs-pail",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.diggers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-cs-basket2",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.diggers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-cs-crate",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.diggers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "bl-furnace",
+   "asset": "vanilla:furniture/smeltermarker",
+   "at": [
+    2008.0,
+    2541.0
+   ],
+   "yaw": 90.0,
+   "settle": true,
+   "pad": {
+    "apronM": 5.0,
+    "batter": true
+   }
+  },
+  {
+   "op": "bind",
+   "uid": "bl-furnace",
+   "kind": "parcel",
+   "id": "parcel.bog-iron-workings.the-bloomery"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "works-bloomery-yard",
+   "at": [
+    2007.0,
+    2537.6
+   ],
+   "yaw": 0.0,
+   "prefix": "y1-",
+   "parcel": "parcel.bog-iron-workings.the-bloomery"
+  },
+  {
+   "op": "bind",
+   "uid": "y1-bl-bellows",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y1-bl-wood",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y1-bl-chop",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y1-bl-ingots",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "works-diggers-cookfire",
+   "at": [
+    2003.6,
+    2541.6
+   ],
+   "yaw": 0.0,
+   "prefix": "y3-",
+   "parcel": "parcel.bog-iron-workings.the-bloomery"
+  },
+  {
+   "op": "bind",
+   "uid": "y3-cf-fire",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y3-cf-pot",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y3-cf-urn",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "works-ore-carry",
+   "at": [
+    2011.3,
+    2540.6
+   ],
+   "yaw": 0.0,
+   "prefix": "y4-",
+   "parcel": "parcel.bog-iron-workings.the-bloomery"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-oc-cart",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-oc-bask1",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-oc-bask2",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-oc-pail",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-oc-ore1",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-oc-ore2",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-oc-orebucket",
+   "kind": "assembly",
+   "id": "parcel.bog-iron-workings.the-bloomery",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "sd-shovel",
+   "asset": "vanilla:clutter/common/shovel01",
+   "at": [
+    2036.6,
+    2588.4
+   ],
+   "yaw": 20.0,
+   "settle": true,
+   "fills": [
+    "promise.bog-iron-workings.thing-seep"
+   ]
+  },
+  {
+   "op": "place",
+   "uid": "sd-ore1",
+   "asset": "kotm:oaristys/forge/orestack_iron",
+   "at": [
+    2033.8,
+    2587.5
+   ],
+   "yaw": 40.0,
+   "settle": true,
+   "fills": [
+    "promise.bog-iron-workings.thing-ore"
+   ]
+  },
+  {
+   "op": "place",
+   "uid": "sd-ore2",
+   "asset": "kotm:oaristys/forge/orestack_iron",
+   "at": [
+    2033.6,
+    2588.9
+   ],
+   "yaw": 160.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "sd-orebucket",
+   "asset": "kotm:oaristys/forge/orebucket_iron",
+   "at": [
+    2035.0,
+    2588.0
+   ],
+   "yaw": 0.0,
+   "y": 15.392,
+   "pad": {
+    "apronM": 2.0,
+    "datumM": 15.42
+   }
+  },
+  {
+   "op": "place",
+   "uid": "sd-basket",
+   "asset": "mudmother:gv_meshes/argoniannest/basketfull",
+   "at": [
+    2035.2,
+    2589.7
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {"op": "bind", "uid": "sd-shovel", "kind": "assembly", "id": "parcel.bog-iron-workings.the-bloomery", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sd-ore1", "kind": "assembly", "id": "parcel.bog-iron-workings.the-bloomery", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sd-ore2", "kind": "assembly", "id": "parcel.bog-iron-workings.the-bloomery", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sd-orebucket", "kind": "assembly", "id": "parcel.bog-iron-workings.the-bloomery", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "sd-basket", "kind": "assembly", "id": "parcel.bog-iron-workings.the-bloomery", "layer": "clutter", "on": "ground", "evidence": "measured"},
+  {
+   "op": "note",
+   "uid": "sd-shovel",
+   "text": "The dig at the seep's south edge: a shovel stuck in the mud (its plugin sinks it 0.54 m, as vanilla stands shovels in dirt mounds), the ore cakes lifted out heaped beside it, a bucket of cakes and a full basket to carry up to the furnace."
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.bog-iron-workings.the-way",
+   "points": [
+    [
+     2004.2,
+     2607.4
+    ],
+    [
+     2015.2,
+     2607.4
+    ],
+    [
+     2018.5,
+     2604.1
+    ],
+    [
+     2016.5,
+     2585.0
+    ],
+    [
+     2016.0,
+     2565.0
+    ],
+    [
+     2015.3,
+     2549.0
+    ],
+    [
+     2014.0,
+     2540.0
+    ],
+    [
+     2010.5,
+     2535.0
+    ],
+    [
+     2004.0,
+     2533.8
+    ],
+    [
+     1999.7,
+     2540.9
+    ],
+    [
+     1995.0,
+     2539.2
+    ]
+   ],
+   "width": 2.5,
+   "kind": "track"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.bog-iron-workings.furnace-path",
+   "points": [
+    [
+     2002.28,
+     2536.64
+    ],
+    [
+     2006.4,
+     2540.2
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "socket",
+   "id": "socket.bog-iron-workings.marker-hut-door",
+   "kind": "marker",
+   "at": [
+    1996.0,
+    2539.6
+   ],
+   "zone": "entrance",
+   "parcel": "parcel.bog-iron-workings.diggers-hut",
+   "why": "The diggers' hut door, the place's one lived-in entrance."
+  },
+  {
+   "op": "socket",
+   "id": "socket.bog-iron-workings.scene-the-mound",
+   "kind": "marker",
+   "host": "parcel.bog-iron-workings.the-bloomery",
+   "zone": "scene",
+   "parcel": "parcel.bog-iron-workings.the-bloomery",
+   "why": "The clay furnace, broken open each season to free the bloom.",
+   "fills": [
+    "promise.bog-iron-workings.scene-the-mound"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.bog-iron-workings.evidence-the-stained-boots",
+   "kind": "marker",
+   "at": [
+    1996.6,
+    2541.4
+   ],
+   "zone": "evidence",
+   "parcel": "parcel.bog-iron-workings.diggers-hut",
+   "why": "Beside the hut door, where the crew leave their boots, stained orange to the knee by the seep.",
+   "fills": [
+    "promise.bog-iron-workings.evidence-the-stained-boots"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.bog-iron-workings.post-ore-digger",
+   "kind": "marker",
+   "at": [
+    2021.5,
+    2538.0
+   ],
+   "zone": "post",
+   "parcel": "parcel.bog-iron-workings.the-bloomery",
+   "why": "The head of the bank over the seep, where the ore digger brings the cakes up.",
+   "fills": [
+    "promise.bog-iron-workings.post-ore-digger"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.bog-iron-workings.deep-pools",
+   "kind": "fauna",
+   "dangerBand": "D3",
+   "zone": "deep",
+   "at": [
+    2040.0,
+    2556.0
+   ],
+   "parcel": "parcel.bog-iron-workings.the-bloomery",
+   "why": "Something lives in the deep end of the seep, where the water stands 1.5 m deep and the diggers have stopped working (contents c1, LF67)."
+  },
+  {
+   "op": "socket",
+   "id": "socket.bog-iron-workings.idle-n1-work",
+   "kind": "idle",
+   "host": "parcel.bog-iron-workings.the-bloomery",
+   "activity": "work-at",
+   "parcel": "parcel.bog-iron-workings.the-bloomery",
+   "why": "The diggers feed the furnace and work the bellows through the day."
+  },
+  {
+   "op": "socket",
+   "id": "socket.bog-iron-workings.idle-n1-cook",
+   "kind": "idle",
+   "host": "y3-cf-fire",
+   "activity": "cook",
+   "parcel": "parcel.bog-iron-workings.the-bloomery",
+   "why": "The crew cooks its evening meal at its own fire on the furnace floor."
+  },
+  {
+   "op": "socket",
+   "id": "socket.bog-iron-workings.idle-n1-home",
+   "kind": "idle",
+   "host": "KeebaHouseSnailMinder.08095F78",
+   "activity": "sleep",
+   "parcel": "parcel.bog-iron-workings.diggers-hut",
+   "why": "The diggers sleep in the crew's hut through their season.",
+   "interiorCell": "KeebaHouseSnailMinder"
+  },
+  {
+   "op": "socket",
+   "id": "socket.bog-iron-workings.npc-n1",
+   "kind": "npc",
+   "at": [
+    2005.2,
+    2543.0
+   ],
+   "rosterSlotId": "n1",
+   "role": "the season's diggers",
+   "parcel": "parcel.bog-iron-workings.the-bloomery",
+   "why": "A crew of diggers from three villages works the seep and the furnace for one season.",
+   "schedule": [
     {
-      "op": "place",
-      "uid": "b-hut",
-      "asset": "composite:mud/kotm-house-pod",
-      "at": [
-        1989.0,
-        2537.0
-      ],
-      "yaw": 282.0,
-      "settle": true,
-      "pad": {
-        "apronM": 1.5,
-        "apronBySide": {
-          "e": 3.0
-        },
-        "batter": true
-      }
+     "dayPhase": "morning",
+     "socketId": "socket.bog-iron-workings.idle-n1-work",
+     "purpose": "work"
     },
     {
-      "op": "bind",
-      "uid": "b-hut",
-      "kind": "parcel",
-      "id": "parcel.bog-iron-workings.diggers-hut"
+     "dayPhase": "afternoon",
+     "socketId": "socket.bog-iron-workings.idle-n1-work",
+     "purpose": "work"
     },
     {
-      "op": "place",
-      "uid": "b-hut-lamp",
-      "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
-      "at": [
-        1995.9,
-        2537.5
-      ],
-      "yaw": 100.0,
-      "settle": true
+     "dayPhase": "dusk",
+     "socketId": "socket.bog-iron-workings.idle-n1-cook",
+     "purpose": "evening"
     },
     {
-      "op": "bind",
-      "uid": "b-hut-lamp",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.diggers-hut",
-      "layer": "light",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "group",
-      "action": "place",
-      "name": "works-crew-stores",
-      "at": [
-        1996.2,
-        2535.0
-      ],
-      "yaw": 0.0,
-      "prefix": "y5-",
-      "parcel": "parcel.bog-iron-workings.diggers-hut"
-    },
-    {
-      "op": "bind",
-      "uid": "y5-cs-basket",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.diggers-hut",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y5-cs-urn1",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.diggers-hut",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y5-cs-urn2",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.diggers-hut",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y5-cs-sack",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.diggers-hut",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y5-cs-wood",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.diggers-hut",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y5-cs-pail",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.diggers-hut",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y5-cs-basket2",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.diggers-hut",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y5-cs-crate",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.diggers-hut",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "place",
-      "uid": "bl-furnace",
-      "asset": "vanilla:furniture/smeltermarker",
-      "at": [
-        2008.0,
-        2541.0
-      ],
-      "yaw": 90.0,
-      "settle": true,
-      "pad": {
-        "apronM": 5.0,
-        "batter": true
-      }
-    },
-    {
-      "op": "bind",
-      "uid": "bl-furnace",
-      "kind": "parcel",
-      "id": "parcel.bog-iron-workings.the-bloomery"
-    },
-    {
-      "op": "group",
-      "action": "place",
-      "name": "works-bloomery-yard",
-      "at": [
-        2007.0,
-        2537.6
-      ],
-      "yaw": 0.0,
-      "prefix": "y1-",
-      "parcel": "parcel.bog-iron-workings.the-bloomery"
-    },
-    {
-      "op": "bind",
-      "uid": "y1-bl-bellows",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.the-bloomery",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y1-bl-wood",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.the-bloomery",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y1-bl-chop",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.the-bloomery",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y1-bl-ingots",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.the-bloomery",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "group",
-      "action": "place",
-      "name": "works-diggers-cookfire",
-      "at": [
-        2003.6,
-        2541.6
-      ],
-      "yaw": 0.0,
-      "prefix": "y3-",
-      "parcel": "parcel.bog-iron-workings.the-bloomery"
-    },
-    {
-      "op": "bind",
-      "uid": "y3-cf-fire",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.the-bloomery",
-      "layer": "light",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y3-cf-pot",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.the-bloomery",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y3-cf-urn",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.the-bloomery",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "group",
-      "action": "place",
-      "name": "works-ore-carry",
-      "at": [
-        2011.3,
-        2540.6
-      ],
-      "yaw": 0.0,
-      "prefix": "y4-",
-      "parcel": "parcel.bog-iron-workings.the-bloomery"
-    },
-    {
-      "op": "bind",
-      "uid": "y4-oc-cart",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.the-bloomery",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y4-oc-bask1",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.the-bloomery",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y4-oc-bask2",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.the-bloomery",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y4-oc-pail",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.the-bloomery",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y4-oc-ore1",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.the-bloomery",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y4-oc-ore2",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.the-bloomery",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "bind",
-      "uid": "y4-oc-orebucket",
-      "kind": "assembly",
-      "id": "parcel.bog-iron-workings.the-bloomery",
-      "layer": "clutter",
-      "on": "ground",
-      "evidence": "measured"
-    },
-    {
-      "op": "place",
-      "uid": "sp-iron-seep",
-      "asset": "vanilla:dungeons/mines/ore/mineoreiron01",
-      "at": [2040.0, 2592.0],
-      "yaw": 30.0,
-      "settle": true
-    },
-    {
-      "op": "note",
-      "uid": "sp-iron-seep",
-      "text": "The iron seep: Skyrim's iron ore vein (exterior wild 134, camp 12 in its plugin) lying half in the seep's north lobe below the bank head, where the diggers lift the ore cakes out of the mud."
-    },
-    {
-      "op": "path",
-      "action": "add",
-      "id": "route.bog-iron-workings.the-way",
-      "points": [
-        [
-          2004.2,
-          2607.4
-        ],
-        [
-          2015.2,
-          2607.4
-        ],
-        [
-          2018.5,
-          2604.1
-        ],
-        [
-          2016.5,
-          2585.0
-        ],
-        [
-          2016.0,
-          2565.0
-        ],
-        [
-          2015.3,
-          2549.0
-        ],
-        [
-          2014.0,
-          2540.0
-        ],
-        [
-          2010.5,
-          2535.0
-        ],
-        [
-          2004.0,
-          2533.8
-        ],
-        [
-          1999.7,
-          2540.9
-        ],
-        [
-          1995.0,
-          2539.2
-        ]
-      ],
-      "width": 2.5,
-      "kind": "track"
-    },
-    {
-      "op": "path",
-      "action": "add",
-      "id": "route.bog-iron-workings.furnace-path",
-      "points": [
-        [
-          2002.28,
-          2536.64
-        ],
-        [
-          2006.4,
-          2540.2
-        ]
-      ],
-      "width": 1.2,
-      "kind": "footpath"
-    },
-    {
-      "op": "socket",
-      "id": "socket.bog-iron-workings.marker-hut-door",
-      "kind": "marker",
-      "at": [
-        1996.0,
-        2539.6
-      ],
-      "zone": "entrance",
-      "parcel": "parcel.bog-iron-workings.diggers-hut",
-      "why": "The diggers' hut door, the place's one lived-in entrance."
-    },
-    {
-      "op": "socket",
-      "id": "socket.bog-iron-workings.scene-the-mound",
-      "kind": "marker",
-      "host": "parcel.bog-iron-workings.the-bloomery",
-      "zone": "scene",
-      "parcel": "parcel.bog-iron-workings.the-bloomery",
-      "why": "The clay furnace, broken open each season to free the bloom.",
-      "fills": [
-        "promise.bog-iron-workings.scene-the-mound"
-      ]
-    },
-    {
-      "op": "socket",
-      "id": "socket.bog-iron-workings.evidence-the-stained-boots",
-      "kind": "marker",
-      "at": [
-        1996.6,
-        2541.4
-      ],
-      "zone": "evidence",
-      "parcel": "parcel.bog-iron-workings.diggers-hut",
-      "why": "Beside the hut door, where the crew leave their boots, stained orange to the knee by the seep.",
-      "fills": [
-        "promise.bog-iron-workings.evidence-the-stained-boots"
-      ]
-    },
-    {
-      "op": "socket",
-      "id": "socket.bog-iron-workings.post-ore-digger",
-      "kind": "marker",
-      "at": [
-        2021.5,
-        2538.0
-      ],
-      "zone": "post",
-      "parcel": "parcel.bog-iron-workings.the-bloomery",
-      "why": "The head of the bank over the seep, where the ore digger brings the cakes up.",
-      "fills": [
-        "promise.bog-iron-workings.post-ore-digger"
-      ]
-    },
-    {
-      "op": "socket",
-      "id": "socket.bog-iron-workings.deep-pools",
-      "kind": "fauna",
-      "dangerBand": "D3",
-      "zone": "deep",
-      "at": [
-        2040.0,
-        2556.0
-      ],
-      "parcel": "parcel.bog-iron-workings.the-bloomery",
-      "why": "Something lives in the deep end of the seep, where the water stands 1.5 m deep and the diggers have stopped working (contents c1, LF67)."
-    },
-    {
-      "op": "socket",
-      "id": "socket.bog-iron-workings.idle-n1-work",
-      "kind": "idle",
-      "host": "parcel.bog-iron-workings.the-bloomery",
-      "activity": "work-at",
-      "parcel": "parcel.bog-iron-workings.the-bloomery",
-      "why": "The diggers feed the furnace and work the bellows through the day."
-    },
-    {
-      "op": "socket",
-      "id": "socket.bog-iron-workings.idle-n1-cook",
-      "kind": "idle",
-      "host": "y3-cf-fire",
-      "activity": "cook",
-      "parcel": "parcel.bog-iron-workings.the-bloomery",
-      "why": "The crew cooks its evening meal at its own fire on the furnace floor."
-    },
-    {
-      "op": "socket",
-      "id": "socket.bog-iron-workings.idle-n1-home",
-      "kind": "idle",
-      "host": "KeebaHouseSnailMinder.08095F78",
-      "activity": "sleep",
-      "parcel": "parcel.bog-iron-workings.diggers-hut",
-      "why": "The diggers sleep in the crew's hut through their season.",
-      "interiorCell": "KeebaHouseSnailMinder"
-    },
-    {
-      "op": "socket",
-      "id": "socket.bog-iron-workings.npc-n1",
-      "kind": "npc",
-      "at": [
-        2005.2,
-        2543.0
-      ],
-      "rosterSlotId": "n1",
-      "role": "the season's diggers",
-      "parcel": "parcel.bog-iron-workings.the-bloomery",
-      "why": "A crew of diggers from three villages works the seep and the furnace for one season.",
-      "schedule": [
-        {
-          "dayPhase": "morning",
-          "socketId": "socket.bog-iron-workings.idle-n1-work",
-          "purpose": "work"
-        },
-        {
-          "dayPhase": "afternoon",
-          "socketId": "socket.bog-iron-workings.idle-n1-work",
-          "purpose": "work"
-        },
-        {
-          "dayPhase": "dusk",
-          "socketId": "socket.bog-iron-workings.idle-n1-cook",
-          "purpose": "evening"
-        },
-        {
-          "dayPhase": "night",
-          "socketId": "socket.bog-iron-workings.idle-n1-home",
-          "purpose": "home"
-        }
-      ],
-      "fills": [
-        "promise.bog-iron-workings.occupant-n1"
-      ]
+     "dayPhase": "night",
+     "socketId": "socket.bog-iron-workings.idle-n1-home",
+     "purpose": "home"
     }
-  ]
+   ],
+   "fills": [
+    "promise.bog-iron-workings.occupant-n1"
+   ]
+  }
+ ]
 }
