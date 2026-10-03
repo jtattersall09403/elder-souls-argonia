@@ -116,10 +116,19 @@ colour comes from the light rig.
    a forest roof (cover above 0.1–0.2), leaf gaps and the ground between
    crowns included, so the shafts through the gaps have dust to light.
    Shafts appear where the canopy has gaps, the sun is low to mid, and the
-   medium is dense enough. The sun's CSM is not sampled: three r184 refuses
-   a depth-compare sample outside the fragment stage
-   (`WGSLNodeBuilder.js:847`), so the inject kernel cannot read the cascade
-   map as built. Over the first 24 m a per-pixel march in the apply stage
+   medium is dense enough. Inside the sun's CSM range the inject kernel
+   reads the cascades instead of the canopy map (`sunCascades.ts`, CPU twin
+   tested): cascade picked by the froxel's view depth against the splits,
+   the froxel projected by that cascade's shadow matrix, one `textureLoad`
+   texel compared by hand (three r184 refuses a comparison sampler outside
+   the fragment stage, `WGSLNodeBuilder.js:847`; `textureLoad` on the
+   `texture_depth_2d` binding is valid in compute). The cascades' depth
+   textures exist only after the first shadow pass (`ShadowNode.js:397-404`),
+   so the studio injects them then (`Volumetrics.attachSunCascades`, one
+   kernel rebuild per cascade set, never per frame); past the last cascade,
+   outside its map, or before injection, the canopy map carries the sun.
+   The tap runs on every band, mobile included: one texel replaces the
+   canopy map's twelve. The terrain sun probes stay everywhere. Over the first 24 m a per-pixel march in the apply stage
    (16 steps on high, 12 medium, 8 low, 4 mobile; start jittered per pixel
    by interleaved gradient noise) keeps the crowns' sharpness; it reads
    the medium's extinction back from the integrated grid (`gridDensity`),

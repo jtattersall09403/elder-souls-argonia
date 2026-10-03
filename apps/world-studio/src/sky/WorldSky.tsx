@@ -84,6 +84,7 @@ import { airAmounts } from "@elder-souls/game-core/air/ambientAir";
 import * as TSL_V from "three/tsl";
 import { Volumetrics, MAX_VOLUME_LIGHTS, fogSkyIrradianceInto, type VolumeLight } from "@elder-souls/game-core/air/volumetrics/froxelGrid";
 import { BandGovernor, VOLUMETRIC_BANDS, volBandOverride, type VolumetricTier } from "@elder-souls/game-core/air/volumetrics/bandGovernor";
+import type { SunCascadeSource } from "@elder-souls/game-core/air/volumetrics/sunCascades";
 import {
   FogClockHistory, nearestVolumeLights, studioTerrainSamplers, sunriseSunsetMin,
   type CrownSource, type WaterRecordQuery, type WeatherProbe,
@@ -301,6 +302,7 @@ export function WorldSky({
   const fogClock = useMemo(() => new FogClockHistory(), []);
   const volLights = useRef<VolumeLight[]>([]);
   const crownVersion = useRef(-1);
+  const sunCascadeSrc = useRef<(SunCascadeSource & { csm: CSMShadowNode }) | null>(null);
   useEffect(() => () => volumetrics.dispose(), [volumetrics]);
   // the froxel cap cloud's belt in runtime metres (the aerial belt stays off while the band draws)
   const capBelt = useMemo(() => ({ centreM: WHITEOUT_BELT.centreM * verticalScale,
@@ -480,7 +482,8 @@ export function WorldSky({
     return () => { scene.onBeforeRender = previous; unregister(); };
   }, [scene]);
 
-  const dome = useMemo(() => createSkyDome(STAR_RADIUS * 1.6, sharedAerialUniforms, cloudUniforms), []);
+  // the dome takes the lamp airlight (skyAirlight); `volumetrics` is stable per renderer/tier, so the dome builds once
+  const dome = useMemo(() => createSkyDome(STAR_RADIUS * 1.6, sharedAerialUniforms, cloudUniforms, volumetrics), [volumetrics]);
   const { sky, extras } = dome;
   const bake = useMemo(() => {
     const b = createSkyDome(100, sharedAerialUniforms, cloudUniforms);
@@ -958,6 +961,23 @@ export function WorldSky({
     // scene, its regimes from the clock, weather and climate here.
     const band = governor.frame(delta * 1000);
     if (band !== volumetrics.band) volumetrics.setBand(band);
+    // The sun's cascades join the medium's sun term once the first shadow pass has made their depth
+    // textures (ShadowNode builds them lazily): one source per cascade set, one kernel rebuild (0112 §5).
+    if (sunCascadeSrc.current?.csm !== csm && csm.lights.length > 0
+      && csm.lights.every((l) => l.shadow?.map?.depthTexture)) {
+      const far = () => Math.min((camera as THREE.PerspectiveCamera).far, csm.maxFar);
+      const src = {
+        csm,
+        cascades: csm.lights.map((l) => ({ depth: l.shadow!.map!.depthTexture!, matrix: l.shadow!.matrix, size: l.shadow!.mapSize })),
+        splitEndsInto: (out: number[]) => {
+          const f = far();
+          for (let i = 0; i < out.length; i++) out[i] = i < csm.breaks.length ? csm.breaks[i] * f : 0;
+        },
+        reversedDepth: (gl as unknown as { reversedDepthBuffer?: boolean }).reversedDepthBuffer === true,
+      };
+      sunCascadeSrc.current = src;
+      volumetrics.attachSunCascades(src);
+    }
     if (fireTierOut) fireTierOut.current = governor.spec?.fireTier ?? VOLUMETRIC_BANDS[governor.tier].fireTier;
     const crownSrc = crowns?.current;
     if (crownSrc && crownSrc.version !== crownVersion.current) {

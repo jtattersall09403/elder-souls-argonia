@@ -21,11 +21,12 @@ import { SHADOWED_SKY, SUN_PROBES_M, SUN_PROBE_NEAR_M, probeSoftM } from "./terr
 import { TerrainGrids, GRID_TEXELS, NEAR_SIZE_M, FAR_SIZE_M, type TerrainSamplers } from "./terrainGrids";
 import { CanopyMap, CANOPY_SIZE_M, CANOPY_TEXELS, type Crown } from "./canopyMap";
 import { FIRE_HALO_SIGMA_PER_M, lampHalo, type VolumetricsSampler } from "./volumetricNodes";
+import { MAX_SUN_CASCADES, type SunCascadeSource } from "./sunCascades";
 
 const T = tsl as unknown as Record<string, (...a: TslNode[]) => TslNode> & Record<string, TslNode>;
 const {
   Fn, If, Loop, abs, clamp, cos, dot, exp, float, floor, fract, instanceIndex, int, length, log, max, min, mix, normalize, pow,
-  sin, smoothstep, step, texture, texture3D, textureStore, uniform, uniformArray, uvec3, vec2, vec3, vec4,
+  sin, smoothstep, step, texture, texture3D, textureLoad, textureStore, uniform, uniformArray, ivec2, uvec3, vec2, vec3, vec4,
 } = T;
 
 export type VolumetricBand = "off" | "low" | "medium" | "high";
@@ -386,7 +387,15 @@ export class Volumetrics implements VolumetricsSampler {
     lightCount: uniform(0, "int"), apertureCount: uniform(0, "int"),
     /** The band's per-pixel march steps (uniform loop bounds: a band step recompiles no material). */
     moteSteps: uniform(0, "int"), shaftSteps: uniform(12, "int"),
+    /** Sun cascades (sunCascades.ts): live shadow matrices, map sizes, far ends (m of view depth). */
+    csmMat: Array.from({ length: MAX_SUN_CASCADES }, () => uniform(new THREE.Matrix4())),
+    csmSize: Array.from({ length: MAX_SUN_CASCADES }, () => uniform(new THREE.Vector2(1, 1))),
+    csmEnds: uniform(new THREE.Vector4()),
   };
+  /** The sun's cascades once injected (attachSunCascades); null until then: canopyT carries the sun. */
+  private sun: SunCascadeSource | null = null;
+  private sunSrc: SunCascadeSource | null = null;
+  private readonly csmEnds = [0, 0, 0, 0];
   private readonly lightPos = Array.from({ length: MAX_VOLUME_LIGHTS }, () => new THREE.Vector4());
   private readonly lightCol = Array.from({ length: MAX_VOLUME_LIGHTS }, () => new THREE.Vector4());
   private readonly apPos = Array.from({ length: MAX_APERTURES }, () => new THREE.Vector4());
@@ -511,6 +520,25 @@ export class Volumetrics implements VolumetricsSampler {
     this.u.shaftSteps.value = spec.shaftSteps;
     this.far.value = spec.farM;
     this.gridSize.value.set(spec.grid[0], spec.grid[1], spec.grid[2]);
+    this.useKernels(band, spec);
+    this.dispatch.inject = spec.grid[0] * spec.grid[1] * spec.grid[2];
+    this.dispatch.integrate = spec.grid[0] * spec.grid[1];
+    this.on.value = 1;
+  }
+
+  /** Inject the sun's cascaded shadow maps (decision 0112 §5). Called once, after the first shadow pass
+   * has created the cascades' depth textures; rebuilds the current band's kernels once (0108: one new
+   * program, then never) and every later band builds with the cascades. The same source again is a
+   * no-op; a new source (the studio's cascades rebuilt on a mode change) rebuilds once more. */
+  attachSunCascades(src: SunCascadeSource): void {
+    if (this.sunSrc === src || src.cascades.length === 0 || this.deps.backend !== "webgpu") return;
+    this.sunSrc = src;
+    this.sun = { ...src, cascades: src.cascades.slice(0, MAX_SUN_CASCADES) };
+    this.kernelsByBand.clear();
+    if (this.band !== "off") this.useKernels(this.band, bandSpec(this.band, this.tier));
+  }
+
+  private useKernels(band: Exclude<VolumetricBand, "off">, spec: BandSpec): void {
     let k = this.kernelsByBand.get(band);
     if (!k) {
       const [a, b] = this.scatter!;
@@ -522,9 +550,6 @@ export class Volumetrics implements VolumetricsSampler {
       this.kernelsByBand.set(band, k);
     }
     this.kernels = k;
-    this.dispatch.inject = spec.grid[0] * spec.grid[1] * spec.grid[2];
-    this.dispatch.integrate = spec.grid[0] * spec.grid[1];
-    this.on.value = 1;
   }
 
   /**
@@ -789,6 +814,35 @@ export class Volumetrics implements VolumetricsSampler {
     return trans.mul(u.outdoor);
   }
 
+  /** Sun visibility at `p` (view depth `viewZ`): the sun cascade covering viewZ, one textureLoad texel
+   * compared by hand against p's depth in that cascade (sunCascades.ts is the CPU twin); past every
+   * cascade or outside its map, canopyT. Without injected cascades, canopyT. */
+  private sunShade(p: TslNode, viewZ: TslNode): TslNode {
+    const sun = this.sun;
+    if (!sun) return this.canopyT(p);
+    const u = this.u;
+    const vis = float(1).toVar();
+    const hit = float(0).toVar();
+    const ends = [u.csmEnds.x, u.csmEnds.y, u.csmEnds.z, u.csmEnds.w];
+    sun.cascades.forEach((c, i) => {
+      If(hit.lessThan(0.5).and(viewZ.lessThanEqual(ends[i])), () => {
+        const sp = u.csmMat[i].mul(vec4(p, 1));
+        const sc = sp.xyz.div(sp.w);
+        const uv = vec2(sc.x, float(1).sub(sc.y));
+        If(uv.x.greaterThanEqual(0).and(uv.x.lessThanEqual(1)).and(uv.y.greaterThanEqual(0)).and(uv.y.lessThanEqual(1))
+          .and(sc.z.greaterThanEqual(0)).and(sc.z.lessThanEqual(1)), () => {
+          const size = u.csmSize[i];
+          const texel = ivec2(clamp(floor(uv.mul(size)), vec2(0), size.sub(1)));
+          const stored = textureLoad(c.depth as unknown as TslNode, texel);
+          vis.assign(sun.reversedDepth ? step(stored, sc.z) : step(sc.z, stored));
+          hit.assign(1);
+        });
+      });
+    });
+    If(hit.lessThan(0.5), () => { vis.assign(this.canopyT(p)); });
+    return vis.mul(u.outdoor);
+  }
+
   /** Terrain shadow on the sun at `p`: five probes up the sun ray against the ground height (terrainSun.ts
    * is the TS twin). Probes inside SUN_PROBE_NEAR_M read the near grid where it covers them, the rest the
    * far grid only. Indoors the term is 1 (the room's own geometry is not in the grids). */
@@ -865,7 +919,7 @@ export class Volumetrics implements VolumetricsSampler {
       });
       const sunT = exp(sunOd.negate());
       const sunGain = sunT.mul(phaseSun).add(float(1).sub(sunT).mul(1 / (4 * Math.PI)));
-      const radiance = vec3(u.sunIrr).mul(sunGain).mul(this.canopyT(p)).mul(sunVis).mul(step(float(0), u.sunDir.y))
+      const radiance = vec3(u.sunIrr).mul(sunGain).mul(this.sunShade(p, depth)).mul(sunVis).mul(step(float(0), u.sunDir.y))
         .mul(float(1).sub(this.shaftNear(p, length(dir).mul(depth))))
         .add(vec3(u.skyIrr).mul(SKY_INSCATTER).mul(this.skyOpen(p)).mul(skyKeep)).toVar();
       // point lights: analytic airlight in the apply stage (volumetricNodes), not here
@@ -972,6 +1026,12 @@ export class Volumetrics implements VolumetricsSampler {
     u.mistDepth.value = (f.mistDepthM ?? 30) * (r?.mistDepthScale ?? 1);
     u.mistBurn.value = r?.mistBurn ?? 0; u.wetHaze.value = r?.wetHaze ?? 0;
     u.capCover.value = f.capBelt ? (r?.capCloud ?? 0) : 0;
+    if (this.sun) {
+      const cs = this.sun.cascades;
+      this.sun.splitEndsInto(this.csmEnds);
+      u.csmEnds.value.set(this.csmEnds[0], this.csmEnds[1], this.csmEnds[2], this.csmEnds[3]);
+      for (let i = 0; i < cs.length; i++) { u.csmMat[i].value.copy(cs[i].matrix); u.csmSize[i].value.copy(cs[i].size); }
+    }
     if (f.capBelt) u.capBelt.value.set(f.capBelt.centreM, f.capBelt.sigmaBelowM, f.capBelt.sigmaAboveM);
     // the region's radiation-mist scale height (fogField mistHeightProfile heightScale, G3 climate profile)
     u.mistHeightScale.value = r?.heightScale ?? 1;
@@ -1062,7 +1122,7 @@ export class Volumetrics implements VolumetricsSampler {
 
   dispose(): void {
     for (const t of this.textures) t?.dispose();
-    this.kernels = null; this.kernelsByBand.clear();
+    this.kernels = null; this.kernelsByBand.clear(); this.sun = null; this.sunSrc = null;
     this.grids.dispose();
     this.canopy.dispose();
     this.fogShape.dispose();
