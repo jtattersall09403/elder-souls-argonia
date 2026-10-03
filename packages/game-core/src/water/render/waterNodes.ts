@@ -18,7 +18,7 @@ import * as THREE from "three";
 import type { TslNode } from "../../render/nodes/materialNodes";
 import {
   ALONG_DRIFT_OMEGA, ALONG_K, ALONG_SHORE, FLOW_WAVES, GROUP_OMEGA, OMEGA_QUANTUM, SEA, SHORE_SWELL,
-  STANDING_BY_CLASS, SURF_ENERGY, SWASH, SWASH_OMEGA, WAVES, vertexBandWeight, waveBands,
+  STANDING_BY_CLASS, SURF_ENERGY, SWASH, SWASH_OMEGA, WAVES, crestBands, vertexBandWeight, waveBands,
 } from "../waves";
 import { TIDAL_CLASSES } from "../waterData";
 import * as TSLNS from "three/tsl";
@@ -216,6 +216,29 @@ export function esWaveFrag(pos: TslNode, exposure: TslNode, fetchM: TslNode, sta
     const sS = n(sin(argS)), cS = n(cos(argS)), sT = n(sin(tau)), cT = n(cos(tau));
     const slope = aa.mul(b.freq).mul(n(tr).mul(cS).mul(cT).sub(sS.mul(sT)));
     g = n(g).add(vec3(slope.mul(b.dirX), slope.mul(b.dirZ), aa.mul(sS.mul(cT).add(n(tr).mul(cS).mul(sT)))));
+  }
+  return g;
+}
+
+/**
+ * `esWaveCrestH`: the `crestBands` set's height gradient (xy, the slope term
+ * of `esWaveSampleEx`'s normal) and height (z, the term it adds to the vertex
+ * displacement). The vertex evaluates it at the rest xz into a varying; the
+ * fragment evaluates it per pixel and swaps the interpolated height for the
+ * exact one in the crest (perf-diag11 W1, diag12 Q2), so the sharpest bands
+ * are per pixel while the surface stays the one vertex sum (decision 0047).
+ */
+export function esWaveCrestH(pos: TslNode, exposure: TslNode, fetchM: TslNode, standing0: TslNode,
+  t: TslNode, bandCount: number, gridCellM: number, count: number): TslNode {
+  const tr = float(1.0).sub(clamp(standing0, 0.0, 1.0));
+  let g: TslNode = vec3(0.0);
+  for (const b of crestBands(bandCount, gridCellM, count)) {
+    const a = n(exposure).mul(clamp(n(fetchM).div(b.fetchM), 0.0, 1.0)).mul(b.amp);
+    const argS = n(dot(vec2(b.dirX, b.dirZ), pos)).mul(b.freq).add(b.phase0);
+    const tau = n(t).mul(b.phaseSpeed);
+    const sS = n(sin(argS)), cS = n(cos(argS)), sT = n(sin(tau)), cT = n(cos(tau));
+    const slope = a.mul(b.freq).mul(n(tr).mul(cS).mul(cT).sub(sS.mul(sT)));
+    g = n(g).add(vec3(slope.mul(b.dirX), slope.mul(b.dirZ), a.mul(sS.mul(cT).add(n(tr).mul(cS).mul(sT)))));
   }
   return g;
 }

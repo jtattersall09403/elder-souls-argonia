@@ -9,6 +9,7 @@ import {
 import { STRIP_BANK_FADE_START, STRIP_BANK_M } from "./ChannelStrips";
 import { STREAK_LAYERS } from "./whitewaterStreaks";
 import { BURIED_DEPTH_M } from "../waterData";
+import { crestBands, vertexBandWeight, waveBands } from "../waves";
 import type { WaterAssets } from "./types";
 
 // Decision 0107: the water is a TSL node graph. These tests check the plain
@@ -122,6 +123,42 @@ describe("water node graph (decision 0107)", () => {
     expect(uniforms.uRipple.value).toBe(t);
     expect(uniforms.uSceneDepth.value).toBe(uniforms.placeholders.depth);
   });
+});
+
+describe("crest bands per pixel (perf-diag11 W1, diag12 Q2)", () => {
+  it("both tiers pick the two highest-curvature (amp*k^2) whole-vertex bands", () => {
+    for (const tier of [WATER_TIERS.high, WATER_TIERS.low]) {
+      const picked = crestBands(tier.waveBands, tier.gridCellM, tier.crestBands);
+      expect(picked.length).toBe(2);
+      const curv = (b: { amp: number; freq: number }) => b.amp * b.freq * b.freq;
+      const whole = waveBands().slice(0, tier.waveBands)
+        .filter((b) => vertexBandWeight(b.wavelengthM, tier.gridCellM) === 1)
+        .map(curv).sort((a, b) => b - a);
+      expect(picked.map(curv)).toEqual(whole.slice(0, 2));
+    }
+    // low: the 17.9 m and 27.7 m bands, not the largest-amplitude 103/66 m
+    const low = WATER_TIERS.low;
+    expect(crestBands(low.waveBands, low.gridCellM, 2).map((b) => Math.round(b.wavelengthM))).toEqual([18, 28]);
+  });
+});
+
+describe("water fragment per pixel throughout (f28-f33, perf10 c9 V8)", () => {
+  it("the field carries the rest xz and the crest-band height; a strip has no crest and keeps its vertex colour", () => {
+    for (const forceWebGL of [false, true]) {
+      for (const tier of [WATER_TIERS.high, WATER_TIERS.low]) {
+        const field = build("above", "field", forceWebGL, tier);
+        expect(field.fragment).toContain("vEsRestXZ");
+        expect(field.fragment).toContain("vEsCrestV");
+        expect(field.fragment).toContain("vEsSurfH");
+        // the field's colour constituents are per pixel, never a vertex varying
+        expect(field.vertex).not.toContain("vEsColour");
+      }
+      // the strip below reads its colour (the strip above draws whitewater from sal/tan only)
+      const strip = build("below", "strip", forceWebGL);
+      expect(strip.vertex).not.toContain("vEsCrestV");
+      expect(strip.fragment).toContain("vEsColour");
+    }
+  }, 60000);
 });
 
 describe("signed depth (decision 0047)", () => {
