@@ -220,12 +220,15 @@ baseline.
 
 ## 7a. Walk-8 rows (owner: Greenspring night rain, 35–42 fps on the M2)
 
-- **On-screen passes reuse pass 1's world matrices**: WaterPipeline sets
-  `scene.matrixWorldAutoUpdate = false` for the water, precipitation and
-  overlay renders, so three's whole-scene `updateMatrixWorld` walk runs once
-  a frame, not four times. Node bench over three r184: one walk is 0.39 ms
-  at 4k objects and 1.45 ms at 12k on the VM, so the three walks removed
-  were 1.2–4.3 ms of VM CPU (a ratio; the M2 runs JS ~2–3x faster).
+- **One scene matrix walk per frame, shadow casters on layers**: WaterPipeline
+  holds `scene.matrixWorldAutoUpdate` off across the scene, cascade, water,
+  precipitation and overlay passes after one `scene.updateMatrixWorld()`, so
+  three's whole-scene walk runs once a frame, not once per pass. Node bench
+  over three r184: one walk is 0.39 ms at 4k objects and 1.45 ms at 12k on
+  the VM (a ratio; the M2 runs JS ~2-3x faster). Shadow casters are set only
+  through `setCastShadow` (`packages/game-core/src/render/shadowCasters.ts`),
+  which puts them on the caster layer (30 = all cascades, 26-29 = one
+  cascade); cascade cameras see only those layers.
 - **Settlement draws are static** (audit row 16): every InstancedMesh and
   far merge sits at identity with `matrixAutoUpdate = false`. Settlement
   pieces were already one InstancedMesh per kit part per chunk bucket, so
