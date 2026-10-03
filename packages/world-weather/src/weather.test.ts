@@ -14,6 +14,7 @@ import {
 import {
   WHITEOUT_ENABLED,
   airmassFactor,
+  regionDaylight,
   regionHazeFactor,
   weatherSampleAt,
   weatherSampleForRegime,
@@ -445,10 +446,11 @@ describe("round 4 gates (owner feedback 2026-08-30)", () => {
     // finite, bounded factor is the whole contract.
     // Lower bound reflects the round-3 stronger afternoon burn-off (owner
     // 2026-08-30: variation was too subtle) — a scoured windy afternoon may
-    // now genuinely reach ~0.2 of baseline.
+    // now genuinely reach ~0.2 of baseline; clear daylight (perf10 Q1) takes
+    // a further 0.4x off the floor.
     for (const f of [steamy, scoured]) {
       expect(Number.isFinite(f)).toBe(true);
-      expect(f).toBeGreaterThan(0.15);
+      expect(f).toBeGreaterThan(0.08);
       expect(f).toBeLessThan(2.41);
     }
   });
@@ -525,5 +527,15 @@ describe("airmass clarity wander (owner 2026-08-30)", () => {
     const dawn = regionHazeFactor({ ...base, minuteOfDay: 6.5 * 60 });
     const noonish = regionHazeFactor({ ...base, minuteOfDay: 15 * 60 });
     expect(noonish).toBeLessThan(dawn * 0.9);
+  });
+
+  it("clear noon region haze is 0.4x of night; rain is unchanged", () => {
+    const base = { humidity: 0.9, wetness: 0, windSpeedMS: 2, season: 0.5, minuteOfDay: 12 * 60 };
+    expect(regionDaylight(12 * 60)).toBe(1);
+    expect(regionDaylight(0)).toBe(0);
+    const dry = { ...base, rainIntensity: 0 };
+    const rain = { ...base, rainIntensity: 1 };
+    expect(regionHazeFactor({ ...dry, daylight: 1 }) / regionHazeFactor({ ...dry, daylight: 0 })).toBeCloseTo(0.4, 6);
+    expect(regionHazeFactor({ ...rain, daylight: 1 })).toBeCloseTo(regionHazeFactor({ ...rain, daylight: 0 }), 9);
   });
 });

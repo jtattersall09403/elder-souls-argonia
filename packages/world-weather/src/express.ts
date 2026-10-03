@@ -265,7 +265,10 @@ export function regionHazeFactor(p: {
   minuteOfDay: number;
   /** Season scalar −1 (dry) … +1 (wet). */
   season: number;
+  /** Daylight 0..1; derived from `minuteOfDay` when omitted. */
+  daylight?: number;
 }): number {
+  const daylight = p.daylight ?? regionDaylight(p.minuteOfDay);
   // Afternoon heat drives evaporation off wet ground → the steam term.
   const dayHeat = Math.exp(-Math.pow((p.minuteOfDay - 870) / 260, 2));
   const steam = p.wetness * dayHeat;
@@ -287,7 +290,14 @@ export function regionHazeFactor(p: {
     0.6 * steam +
     0.3 * preDawn +
     0.15 * Math.max(0, p.season);
-  return Math.min(2.4, Math.max(0.3, raw * mixOut * burnOff)) * VISIBILITY_LIFT;
+  // Clear daylight thins the murk to 0.4x (perf10 Q1); night and rain keep it.
+  const dayClear = 1 - 0.6 * daylight * (1 - clamp01(p.rainIntensity));
+  return Math.min(2.4, Math.max(0.3, raw * mixOut * burnOff)) * dayClear * VISIBILITY_LIFT;
+}
+
+/** Daylight 0..1 from the hour: ramps up 06:00-08:00, down 17:00-19:00. */
+export function regionDaylight(minuteOfDay: number): number {
+  return smoothstep01((minuteOfDay - 360) / 120) * (1 - smoothstep01((minuteOfDay - 1020) / 120));
 }
 
 /** Clear-air sight distance from a region extinction and its live factor
