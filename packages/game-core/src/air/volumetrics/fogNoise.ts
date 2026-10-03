@@ -366,6 +366,7 @@ export interface FogNoiseTextures { shape: Uint8Array; shapeTexels: number; warp
  */
 export function fogShapeNoise(tex: FogNoiseTextures, d: FogDrift, band: FogBandNoise, x: number, y: number, z: number,
   fine = 1, outA?: Float64Array): number {
+  const stretch = (v: number) => Math.min(1, Math.max(0, 0.5 + (v - 0.5) * FOG_NOISE.contrast));
   let qx = x, qy = y, qz = z;
   const nw = FOG_NOISE.warpTexels;
   for (let k = 0; k < band.warps; k++) {
@@ -378,7 +379,7 @@ export function fogShapeNoise(tex: FogNoiseTextures, d: FogDrift, band: FogBandN
     if (k === 0 && outA) outA[0] = sampleTexture3(tex.warp, nw, u, v, w, 3);
   }
   const n = tex.shapeTexels;
-  let sum = 0, wsum = 0;
+  let sum = 0, wsum = 0, low = 0, wlow = 0;
   for (let k = 0; k < band.octaves; k++) {
     const o = FOG_NOISE.octaves[k];
     const c = Math.cos(k * FOG_NOISE.rotationRad), s = Math.sin(k * FOG_NOISE.rotationRad);
@@ -393,6 +394,8 @@ export function fogShapeNoise(tex: FogNoiseTextures, d: FogDrift, band: FogBandN
       if (k === 3) sv = 0.5 + (sv - 0.5) * fine;
     }
     sum += o.weight * sv; wsum += o.weight;
+    if (k === 0) { low += o.weight * sv; wlow += o.weight; }
   }
-  return Math.min(1, Math.max(0, 0.5 + (sum / wsum - 0.5) * FOG_NOISE.contrast));
+  if (outA && outA.length > 1) outA[1] = wlow > 0 ? stretch(low / wlow) : 0.5;
+  return stretch(sum / wsum);
 }

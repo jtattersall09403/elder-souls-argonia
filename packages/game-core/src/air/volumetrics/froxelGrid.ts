@@ -119,11 +119,15 @@ export const FOG_TERMS = {
    * along a 6 m layer never sums more than this much of it (no white horizon band). */
   mistFarCapM: 400,
   /** Marsh ground fog at its base, full cover. */
-  marshPeakPerM: 0.16,
+  marshPeakPerM: 0.16, marshTopM: 2.5,
+  /** Mist and marsh tops move +- this (m) with the low-octave shape (fogShapeAt .z). */
+  topReliefM: 5,
   /** Sea fog bank: density, top above sea level (m, billowed +-6 m by the shape) and its fade (m). */
   seaPeakPerM: 0.03, seaTopM: 20, seaFadeM: 6,
   /** Rain-fed wet haze at the ground per unit wetHaze (0..4). */
   wetHazePerM: 1.2e-3,
+  /** Cap cloud at the belt centre, full cover, where the ground reaches the belt. */
+  capPeakPerM: 0.02,
   /** Canopy haze under the crowns at full canopyHaze, and the sunlit dust value once the sun is above
    * ~15 deg (sin 13..17 deg blend). */
   canopyHazePerM: 0.025, canopyDustPerM: 0.06, canopyDustSunY: [0.225, 0.292] as const,
@@ -136,22 +140,27 @@ export interface FogTermPoint {
   under: number; distM: number;
   /** cover x mist, y steam, z marsh, w sea; canopy haze 0..1; the shape noise (0.5 = its median). */
   cover: readonly number[]; canopyHaze: number; noise: number;
+  /** The low-octave shape (fogShapeAt .z, fogShapeNoise outA[1]) that moves the layer tops. */
+  noiseLow: number;
   mistDepth: number; mistHeightScale: number; mistBurn: number; wetHaze: number; sunY: number;
+  /** Cap-cloud belt (centre, sigma below, sigma above; m) and its cover. */
+  capBelt: readonly [number, number, number]; capCover: number;
 }
-export interface FogTerms { mist: number; marsh: number; sea: number; wet: number; canopy: number }
+export interface FogTerms { mist: number; marsh: number; sea: number; wet: number; canopy: number; cap: number }
 
 const sm = (a: number, b: number, x: number) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
 /** Under-the-crowns share at a canopy texel (r cover, b crown top): CPU twin of the `under` node in density(). */
 export const canopyUnder = (cover: number, topM: number, groundM: number) => sm(0, 0.05, cover) * sm(0, 0.3, topM - groundM);
 const burnCpu = (n: number, c: number, rim: number) => Math.max(n - (1 - c) - rim, 0) / Math.max(c, 0.05);
 
-/** CPU twin of density()'s mist, marsh, sea, wet-haze and canopy terms (froxel prefilter width 0, the
+/** CPU twin of density()'s mist, marsh, sea, wet-haze, cap and canopy terms (froxel prefilter width 0, the
  * shape's coverage and slow terms at their mean): for tests and the dev probe. Writes into `out`. */
 export function fogTermsAt(q: FogTermPoint, out: FogTerms): FogTerms {
   const T = FOG_TERMS, n = q.noise, nc = n - 0.5;
+  const relief = (q.noiseLow - 0.5) * 2 * T.topReliefM;
   const hAG = q.y - q.ground;
   const moistW = MOISTURE_FLOOR + (1 - MOISTURE_FLOOR) * q.moist * q.moist;
-  const top = q.floor + q.mistDepth + nc * 4;
+  const top = q.floor + q.mistDepth + relief;
   const depth = Math.max(top - q.floor, 1);
   const hF = Math.max(q.y - q.floor, 0);
   const mistRim = ((q.ground - q.floor) / depth * 0.5 + (1 - q.moist)) * q.mistBurn;
@@ -162,7 +171,7 @@ export function fogTermsAt(q: FogTermPoint, out: FogTerms): FogTerms {
   const surf = q.ground + (Math.max(q.ground, q.waterH) - q.ground) * q.waterMask;
   const hAS = q.y - surf;
   const low = 1 - sm(2, 12, q.ground - q.floor);
-  const marshTop = 2.5 + nc * 3;
+  const marshTop = T.marshTopM + relief;
   const fall = Math.min(1, Math.max(0, 1 - hAS / Math.max(marshTop, 0.2)));
   const skirt = q.waterMask * Math.exp(Math.max(hAS, 0) / -2) * (1 - sm(4, 6, hAS)) * 0.3;
   out.marsh = q.moist * low * Math.max(fall, skirt) * (hAS >= 0 ? 1 : 0)
@@ -171,6 +180,8 @@ export function fogTermsAt(q: FogTermPoint, out: FogTerms): FogTerms {
   out.sea = q.sea * (1 - sm(seaTop - T.seaFadeM, seaTop, q.y)) * burnCpu(n, q.cover[3], 0) * T.seaPeakPerM;
   out.wet = Math.exp(Math.max(hAG, 0) / -WET_HAZE_SCALE_M) * q.wetHaze * T.wetHazePerM;
   const canopyK = T.canopyHazePerM + (T.canopyDustPerM - T.canopyHazePerM) * sm(T.canopyDustSunY[0], T.canopyDustSunY[1], q.sunY);
+  const [bc, sb, sa] = q.capBelt, bz = (q.y - bc) / (q.y >= bc ? sa : sb);
+  out.cap = sm(bc - 2 * sb, bc, q.ground) * Math.exp(-0.5 * bz * bz) * burnCpu(n, q.capCover, 0) * T.capPeakPerM;
   out.canopy = q.under * (1 - sm(0, 25, hAG)) * q.canopyHaze * canopyK * (n * 0.5 + 0.5);
   return out;
 }
@@ -404,7 +415,7 @@ export class Volumetrics implements VolumetricsSampler {
     band: VolumetricBand; cover: number[]; capCover: number; mistDepthM: number; mistBurn: number; wetHaze: number;
     regimes: FogRegimes; haloSigma: number; canopyCover100m: number;
     grid: { ground: number; floor: number; waterH: number; waterMask: number; moist: number; sea: number; under: number } | null;
-    densityAt: { hM: number; total: number; mist: number; marsh: number; sea: number; wet: number; canopy: number }[];
+    densityAt: { hM: number; total: number; mist: number; marsh: number; sea: number; wet: number; canopy: number; cap: number }[];
   } {
     const texel = (g: { data: Float32Array; origin: THREE.Vector2; sizeM: number }, ch: number, texels: number): number => {
       const i = Math.floor(((at.x - g.origin.x) / g.sizeM) * texels), j = Math.floor(((at.z - g.origin.y) / g.sizeM) * texels);
@@ -423,17 +434,18 @@ export class Volumetrics implements VolumetricsSampler {
       sea: texel(far, 2, GRID_TEXELS),
       under: canopyUnder(texel(cmap, 0, CANOPY_TEXELS) || 0, texel(cmap, 2, CANOPY_TEXELS) || 0, ground),
     } : null;
-    const densityAt: { hM: number; total: number; mist: number; marsh: number; sea: number; wet: number; canopy: number }[] = [];
+    const densityAt: { hM: number; total: number; mist: number; marsh: number; sea: number; wet: number; canopy: number; cap: number }[] = [];
     if (grid) {
       const surf = grid.waterMask > 0 ? Math.max(grid.ground, grid.waterH) : grid.ground;
-      const c4 = this.u.cover.value, cv = [c4.x, c4.y, c4.z, c4.w];
+      const c4 = this.u.cover.value, cv = [c4.x, c4.y, c4.z, c4.w], cb = this.u.capBelt.value;
       for (const hM of [0, 2, 10]) {
         const t = fogTermsAt({
-          y: surf + hM, ...grid, distM: 0, cover: cv, canopyHaze: this.u.canopyHaze.value, noise: 0.5,
+          y: surf + hM, ...grid, distM: 0, cover: cv, canopyHaze: this.u.canopyHaze.value, noise: 0.5, noiseLow: 0.5,
           mistDepth: this.u.mistDepth.value, mistHeightScale: this.u.mistHeightScale.value, mistBurn: this.u.mistBurn.value,
           wetHaze: this.u.wetHaze.value, sunY: this.u.sunDir.value.y,
-        }, { mist: 0, marsh: 0, sea: 0, wet: 0, canopy: 0 });
-        densityAt.push({ hM, total: t.mist + t.marsh + t.sea + t.wet + t.canopy, ...t });
+          capBelt: [cb.x, cb.y, cb.z], capCover: this.u.capCover.value,
+        }, { mist: 0, marsh: 0, sea: 0, wet: 0, canopy: 0, cap: 0 });
+        densityAt.push({ hM, total: t.mist + t.marsh + t.sea + t.wet + t.canopy + t.cap, ...t });
       }
     }
     const u = this.u, c = u.cover.value;
@@ -486,7 +498,8 @@ export class Volumetrics implements VolumetricsSampler {
   /**
    * The fog shape at world `p` (TSL), 0..1: the band's octave sum of the fog's own noise (fogNoise
    * fogShapeNoise is the CPU twin), domain-warped, contrast-stretched about 0.5. `.x` the shape, `.y` the
-   * spatial coverage noise (warp a). Sampled at world p only; the 4th octave fades to its mean beyond
+   * spatial coverage noise (warp a), `.z` the same stretch over the lowest octave only (125 m features) (the layer
+   * tops' relief; fogShapeNoise outA[1]). Sampled at world p only; the 4th octave fades to its mean beyond
    * FOG_NOISE.fineFadeM of the eye (level of detail, the mean density does not move).
    */
   private fogShapeAt(p: TslNode, spec: BandSpec): TslNode {
@@ -503,8 +516,8 @@ export class Volumetrics implements VolumetricsSampler {
       q = q.add(w.xyz.sub(0.5).mul(2 * FOG_NOISE.warp[k].ampM));
       if (k === 0) cov = w.w;
     }
-    let sum: TslNode = float(0);
-    let wsum = 0;
+    let sum: TslNode = float(0), low: TslNode = float(0);
+    let wsum = 0, wlow = 0;
     for (let k = 0; k < spec.fog.octaves; k++) {
       const o = FOG_NOISE.octaves[k];
       const uvw = rot(q, k * FOG_NOISE.rotationRad).div(vec3(o.tileXZ, o.tileY, o.tileXZ)).sub(u.off[k]);
@@ -522,9 +535,10 @@ export class Volumetrics implements VolumetricsSampler {
       }
       sum = sum.add(sv.mul(o.weight));
       wsum += o.weight;
+      if (k === 0) { low = low.add(sv.mul(o.weight)); wlow += o.weight; }
     }
-    const n = clamp(sum.div(wsum).sub(0.5).mul(FOG_NOISE.contrast).add(0.5), 0, 1);
-    return vec2(n, cov);
+    const stretch = (v: TslNode) => clamp(v.sub(0.5).mul(FOG_NOISE.contrast).add(0.5), 0, 1);
+    return vec3(stretch(sum.div(wsum)), cov, wlow > 0 ? stretch(low.div(wlow)) : float(0.5));
   }
 
   /** Burn-off (fogNoise burnOff): the share of shape `n` left under coverage `c`, the spatial term `cov`
@@ -555,11 +569,14 @@ export class Volumetrics implements VolumetricsSampler {
     const shape = this.fogShapeAt(p, spec);
     const n = shape.x, cov = shape.y;
     const nc = n.sub(0.5);
+    // layer tops: relief from the lowest octave only (125 m features), which survives the
+    // slice averaging that flattens the fine octaves past ~50 m (vol10 diag9 S4)
+    const relief = shape.z.sub(0.5).mul(2 * FOG_TERMS.topReliefM);
     const outdoor = u.outdoor;
     // radiation mist: pools over the basin floor, falling exponentially with height above it
     // (fogField mistHeightProfile), faded to zero by a top billowed by the shape; ground above the floor
     // (slopes, rims) sits higher in the profile and carries less; the lateral edge fades over the last 6 m.
-    const top = farT.g.add(u.mistDepth).add(nc.mul(4));
+    const top = farT.g.add(u.mistDepth).add(relief);
     const depth = max(top.sub(farT.g), float(1));
     const hF = max(p.y.sub(farT.g), float(0));
     const mist = exp(hF.div(depth.mul(MIST_SCALE_SHARE).mul(max(u.mistHeightScale, float(1e-3)))).negate())
@@ -586,9 +603,9 @@ export class Volumetrics implements VolumetricsSampler {
     const surf = mix(ground, max(ground, nearT.g), waterMask);
     const hAS = p.y.sub(surf);
     const low = float(1).sub(smoothstep(2, 12, ground.sub(farT.g)));
-    // top 2.5 m +-1.5 m (thicker than a froxel row at 100 m, 1.28 m), plus a 0.3x skirt over water
+    // top 2.5 m + the low-octave relief (+-topReliefM, several froxel rows at 100 m), plus a 0.3x skirt over water
     // falling at a 2 m scale height to 6 m so the bank reads past 50 m (vol10 diag7 O2)
-    const marshTop = float(2.5).add(nc.mul(3));
+    const marshTop = float(FOG_TERMS.marshTopM).add(relief);
     const marshFall = clamp(float(1).sub(hAS.div(max(marshTop, float(0.2)))), 0, 1);
     const skirt = waterMask.mul(exp(max(hAS, float(0)).div(-2))).mul(float(1).sub(smoothstep(4, 6, hAS))).mul(0.3);
     const marsh = moist.mul(low).mul(max(marshFall, skirt)).mul(smoothstep(float(0).sub(soft(0.3)), float(0), hAS))
@@ -604,7 +621,7 @@ export class Volumetrics implements VolumetricsSampler {
     const bs = mix(u.capBelt.y, u.capBelt.z, step(float(0), by));
     const bz = by.div(bs);
     const cap = smoothstep(bc.sub(u.capBelt.y.mul(2)), bc, ground).mul(exp(bz.mul(bz).mul(-0.5)))
-      .mul(this.burn(n, u.capCover, cov)).mul(0.02);
+      .mul(this.burn(n, u.capCover, cov)).mul(FOG_TERMS.capPeakPerM);
     const cuv = p.xz.sub(u.canopyOrigin).div(CANOPY_SIZE_M);
     const cs = texture(this.canopy.texture, cuv);
     const under = smoothstep(0, 0.05, cs.r).mul(smoothstep(0, 0.3, cs.b.sub(ground)));
