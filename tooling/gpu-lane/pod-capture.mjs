@@ -70,7 +70,7 @@
  * --maps       a dist dir holding the build's *.js.map files (default: the --lane dist of each view)
  * Views: a studio view URL without w= gets w=clear (diag20 E7; WARNING line and the summary's WEATHER UNPINNED line). The first
  *              frame (and every shot) waits for the view's pose (POSE_READY_JS: character spawned; result poseAt / poseTimedOut).
- *              Per view, the dev hooks __CASTERS_MISSING_LAYER__() and __STUDIO_WARM__ are read (result devHooks, "dev hooks" cell).
+ *              Per view, the dev hooks __STUDIO_SKY_DEBUG__.castersMissingLayer() and __STUDIO_WARM__ are read (result devHooks, "dev hooks" cell).
  * steps        per view, {at, label, js, waitMs?}: at `at` s the page evaluates js (its JSON return goes to probe[label]), waits waitMs
  *              (default 2500), then a full read goes into steps[]
  *

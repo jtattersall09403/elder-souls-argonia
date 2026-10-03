@@ -512,8 +512,12 @@ test("--profile N@settle+S (diag20 E8): starts S s after the settle gate, and th
 });
 
 test("dev hooks line (diag20 E8): casters missing a layer and the warm gate's open reason", () => {
-  assert.equal(devHooksLine({ castersMissingLayer: 0, warm: { open: true, reason: "stable", frames: 41 } }), "casters missing layer 0; warm stable @41f");
-  assert.equal(devHooksLine({ castersMissingLayer: 3, warm: { open: true, reason: "cap", frames: 600 } }), "casters missing layer 3 (expect 0); warm cap @600f");
+  assert.equal(devHooksLine({ castersMissingLayer: [], warm: { open: true, reason: "stable", frames: 41 } }), "casters missing layer 0; warm stable @41f");
+  const missing = [{ name: "wall", owner: "settlements", kind: "Mesh esSettlementBatch" }, { name: "<unnamed>", owner: "<scene>", kind: "Mesh" }];
+  assert.equal(devHooksLine({ castersMissingLayer: missing, warm: { open: true, reason: "cap", frames: 600 } }),
+    "casters missing layer 2 (expect 0): wall [settlements, Mesh esSettlementBatch], <unnamed> [<scene>, Mesh]; warm cap @600f");
+  const many = Array.from({ length: 10 }, (_, i) => ({ name: `m${i}`, owner: "o", kind: "Mesh" }));
+  assert.match(devHooksLine({ castersMissingLayer: many, warm: null }), /m7 \[o, Mesh\] \+2 more; warm \?$/);
   assert.equal(devHooksLine({ castersMissingLayer: null, warm: null }), "casters ?; warm ?");
   assert.equal(devHooksLine(null), null);
   assert.match(POSE_READY_JS, /__STUDIO_CHARACTER_DEBUG__/);

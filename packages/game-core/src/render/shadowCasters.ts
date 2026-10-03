@@ -10,7 +10,7 @@ import * as THREE from "three";
  *
  * Every caster is set through `setCastShadow` / `setCastShadowCascades`, so
  * the flag and the layer cannot disagree; a bare `castShadow = true` under a
- * caster-layer sun casts nothing (`countCastersMissingLayer` finds it).
+ * caster-layer sun casts nothing (`castersMissingLayer` names it).
  */
 export const SHADOW_CASTER_LAYER = 30;
 /** Cascade i's own layer; four cascades at most (layers 26..29). */
@@ -48,11 +48,21 @@ export function aimShadowCameraAtCasters(camera: THREE.Camera, index = -1): void
     | (index >= 0 && index < MAX_CASCADE_LAYERS ? 1 << (CASCADE_LAYER_BASE + index) : 0);
 }
 
-/** DEV: objects flagged castShadow that no caster layer carries (should be 0). */
-export function countCastersMissingLayer(root: THREE.Object3D): number {
-  let n = 0;
+/** One castShadow object no caster layer carries: its name, the nearest
+ * named ancestor (the layer or model that owns it) and its kind (three type
+ * plus its `es*` userData flags, e.g. `Mesh esSettlementBatch`). */
+export interface CasterMissingLayer { name: string; owner: string; kind: string }
+
+/** DEV (studio debug handle, gpu-lane dev hooks): every object flagged
+ * castShadow that no caster layer carries (expect none). */
+export function castersMissingLayer(root: THREE.Object3D): CasterMissingLayer[] {
+  const out: CasterMissingLayer[] = [];
   root.traverse((o) => {
-    if (o.castShadow && !(o as THREE.Light).isLight && (o.layers.mask & CASTER_BITS) === 0) n += 1;
+    if (!o.castShadow || (o as THREE.Light).isLight || (o.layers.mask & CASTER_BITS) !== 0) return;
+    let owner = o.parent;
+    while (owner && !owner.name) owner = owner.parent;
+    const flags = Object.keys(o.userData).filter((k) => k.startsWith("es") && o.userData[k]);
+    out.push({ name: o.name || "<unnamed>", owner: owner?.name ?? "<scene>", kind: [o.type, ...flags].join(" ") });
   });
-  return n;
+  return out;
 }

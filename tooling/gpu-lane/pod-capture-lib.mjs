@@ -284,14 +284,25 @@ export function pinWeather(url, plain = false) {
 export const POSE_READY_JS = `(() => { if (new URLSearchParams(location.search).get("view") !== "character") return true; const d = window.__STUDIO_CHARACTER_DEBUG__; const y = d?.playerY?.(); return y !== null && y !== undefined; })()`;
 
 /** webgpu diag20 E8 dev hooks, read once per view at the end of the cost window: castShadow objects no caster layer carries
- * (WorldSky __CASTERS_MISSING_LAYER__, expect 0) and the RenderWarmGate state (CharacterMode __STUDIO_WARM__: open reason
- * "stable" or "cap", frames). */
-export const DEV_HOOKS_JS = `(() => { let casters = null; try { casters = typeof window.__CASTERS_MISSING_LAYER__ === "function" ? window.__CASTERS_MISSING_LAYER__() : null; } catch (e) { casters = "err " + String(e).slice(0, 60); } const w = window.__STUDIO_WARM__; return { castersMissingLayer: casters, warm: w ? { open: w.open, reason: w.reason, frames: w.frames } : null }; })()`;
+ * (WorldSky's debug handle `__STUDIO_SKY_DEBUG__.castersMissingLayer()`: name, owner, kind each; expect none) and the
+ * RenderWarmGate state (CharacterMode __STUDIO_WARM__: open reason "stable" or "cap", frames). */
+export const DEV_HOOKS_JS = `(() => { let casters = null; try { const f = window.__STUDIO_SKY_DEBUG__?.castersMissingLayer; casters = typeof f === "function" ? f() : null; } catch (e) { casters = "err " + String(e).slice(0, 60); } const w = window.__STUDIO_WARM__; return { castersMissingLayer: casters, warm: w ? { open: w.open, reason: w.reason, frames: w.frames } : null }; })()`;
 
-/** One summary cell from DEV_HOOKS_JS's answer. */
+/** Names shown in the summary cell before "+N more". */
+const DEV_HOOKS_NAMES_MAX = 8;
+
+/** One summary cell from DEV_HOOKS_JS's answer: the missing casters by name [owner, kind]. */
 export function devHooksLine(d) {
   if (!d) return null;
-  const c = d.castersMissingLayer === null || d.castersMissingLayer === undefined ? "casters ?" : `casters missing layer ${d.castersMissingLayer}${d.castersMissingLayer === 0 ? "" : " (expect 0)"}`;
+  const m = d.castersMissingLayer;
+  let c;
+  if (m === null || m === undefined) c = "casters ?";
+  else if (typeof m === "string") c = `casters ${m}`;
+  else if (m.length === 0) c = "casters missing layer 0";
+  else {
+    const names = m.slice(0, DEV_HOOKS_NAMES_MAX).map((x) => `${x.name} [${x.owner}, ${x.kind}]`).join(", ");
+    c = `casters missing layer ${m.length} (expect 0): ${names}${m.length > DEV_HOOKS_NAMES_MAX ? ` +${m.length - DEV_HOOKS_NAMES_MAX} more` : ""}`;
+  }
   const w = d.warm ? `warm ${d.warm.open ? d.warm.reason : "not open"} @${d.warm.frames}f` : "warm ?";
   return `${c}; ${w}`;
 }

@@ -471,7 +471,7 @@ headless.
   cascades it reaches), never a bare `castShadow = true` or a JSX
   `castShadow` prop. The sun's cascade cameras see only the caster layers,
   so three never projects and sorts a non-caster per cascade; a bare flag
-  casts nothing (`window.__CASTERS_MISSING_LAYER__()` in the studio counts
+  casts nothing (`window.__STUDIO_SKY_DEBUG__.castersMissingLayer()` in the studio names
   them; 0 expected).
 - One whole-scene matrix walk a frame: `WaterPipeline` calls
   `scene.updateMatrixWorld()` once before the scene pass and holds
