@@ -316,6 +316,19 @@ describe("GatePass (perf10 c9 F38b: one regate spread over frames)", () => {
     }
   });
 
+  it("resolves the list it started with when the caller swaps it mid-pass", () => {
+    const first = build();
+    const pass = new GatePass();
+    pass.start({ x: 0, y: 0, z: 0 }, NORTH);
+    const seen = new Set<unknown>();
+    const apply = (r: unknown) => { seen.add(r); };
+    expect(pass.step(first, apply, stats(), 1)).toBe(false);
+    let steps = 1;
+    // a cell built mid-pass: the caller now hands a one-entry list
+    while (!pass.step(first.slice(0, 1), apply, stats(), 1)) steps++;
+    expect(steps + 1).toBe(first.length);
+  });
+
   it("leaves the caller's stats alone until the pass completes", () => {
     const s = stats();
     s.visibleCopies = -7;
