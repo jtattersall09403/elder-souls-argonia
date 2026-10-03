@@ -475,6 +475,124 @@
    "evidence": "measured"
   },
   {
+   "op": "place",
+   "uid": "s-tagrack",
+   "asset": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
+   "at": [
+    2561.5,
+    6565.3
+   ],
+   "yaw": 0.0
+  },
+  {
+   "op": "mount",
+   "child": "s-tagrack",
+   "parent": "s-shelter",
+   "hang": true,
+   "unmined": "reader-approved r17",
+   "max_h": 4.0,
+   "along": 1.5,
+   "bearing": 80.0
+  },
+  {
+   "op": "bind",
+   "uid": "s-tagrack",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "parent",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "k-tagrack",
+   "asset": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
+   "at": [
+    2577.3,
+    6555.2
+   ],
+   "yaw": 355.0
+  },
+  {
+   "op": "mount",
+   "child": "k-tagrack",
+   "parent": "b-keeper",
+   "hang": true,
+   "unmined": "reader-approved r17",
+   "max_h": 4.0,
+   "along": 3.2,
+   "bearing": 175.0
+  },
+  {
+   "op": "bind",
+   "uid": "k-tagrack",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.keepers-house",
+   "layer": "clutter",
+   "on": "parent",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "s-bones-skull1",
+   "asset": "kotm:issgard/clutter/bones/issgard_boneargonianskullfull",
+   "at": [
+    2557.6,
+    6563.95
+   ],
+   "yaw": 340.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "s-bones-skull2",
+   "asset": "kotm:issgard/clutter/bones/issgard_boneargonianskullfull",
+   "at": [
+    2558.6,
+    6563.95
+   ],
+   "yaw": 25.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "s-bones-spine",
+   "asset": "vanilla:clutter/bones/humanspine",
+   "at": [
+    2559.7,
+    6563.9
+   ],
+   "yaw": 80.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "s-bones-skull1",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-bones-skull2",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "s-bones-spine",
+   "kind": "assembly",
+   "id": "parcel.rose-bone-waystation.handover-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
    "op": "path",
    "action": "add",
    "id": "route.rose-bone-waystation.the-villages-way",

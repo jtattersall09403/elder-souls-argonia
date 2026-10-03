@@ -165,6 +165,45 @@
             "yMeasured": 10.1163
           },
           {
+            "id": "s-bones-skull1",
+            "asset": "kotm:issgard/clutter/bones/issgard_boneargonianskullfull",
+            "atM": [
+              2.4,
+              1.05
+            ],
+            "yaw": 160.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 10.274
+          },
+          {
+            "id": "s-bones-skull2",
+            "asset": "kotm:issgard/clutter/bones/issgard_boneargonianskullfull",
+            "atM": [
+              1.4,
+              1.05
+            ],
+            "yaw": 205.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 10.274
+          },
+          {
+            "id": "s-bones-spine",
+            "asset": "vanilla:clutter/bones/humanspine",
+            "atM": [
+              0.3,
+              1.1
+            ],
+            "yaw": 260.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 10.249
+          },
+          {
             "id": "s-chime1",
             "asset": "histtree:skyfall/sleeping tree overhaul/windchimehavok",
             "atM": [
@@ -368,6 +407,24 @@
             "layer": "light",
             "evidence": "measured",
             "yMeasured": 10.1878
+          },
+          {
+            "id": "s-tagrack",
+            "asset": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
+            "atM": [
+              -1.3822,
+              -1.5566
+            ],
+            "yaw": 180.0,
+            "on": "parent",
+            "layer": "clutter",
+            "evidence": "measured",
+            "mountPair": {
+              "kind": "unmined",
+              "mountedOn": "s-shelter",
+              "unmined": "reader-approved r17"
+            },
+            "upM": 2.2888
           }
         ],
         "footprint": [
@@ -517,6 +574,24 @@
               "unmined": "reader-approved r2"
             },
             "upM": 2.5298
+          },
+          {
+            "id": "k-tagrack",
+            "asset": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
+            "atM": [
+              -3.4347,
+              1.3436
+            ],
+            "yaw": 65.0,
+            "on": "parent",
+            "layer": "clutter",
+            "evidence": "measured",
+            "mountPair": {
+              "kind": "unmined",
+              "mountedOn": "b-keeper",
+              "unmined": "reader-approved r17"
+            },
+            "upM": 2.0418
           },
           {
             "id": "k-totem",
@@ -1181,17 +1256,18 @@
         "sha256": "a06450f5c8fcff7c7e7e3264fa94c5690c26142500691c90cecadb226b328dd4"
       },
       "kits": {
-        "dungeon-root-v1": "01532639bd3f467d1f2d900ffcad5a19625a2138a0b4d8cca6676f8ed168e262",
-        "htbm-hut-int": "ea80ddee9fb3d16de90ae60647f316d6ec10d9891f703684dce693dbae21c8ef",
-        "mudmother-hut-int": "36687657be26a430ab9efed29d36f77b888b36c7c4f784af1e47445acec5b6d5",
-        "settlement-imperial-v1": "e0f1fce8cc1d06571b1b3604b03ee291c1b9cf576a3ede6e9d033366a6fd47f5",
-        "settlement-mud-v1": "e502130d3e30e82a361775fc98195ec07e35dd75ec2efd08185446f5dbab42c8",
-        "settlement-stilt-v1": "8227f5b7252fb4b2d2399c8c95b2694115f3cc2078a39e6afafdd0f6f60ce05d",
-        "works-v1": "29987a9d895fea288297db1ddaa2539738bd7a109f17f4ac56e1e1043427b51b"
+        "dungeon-root-v1": "66a7812fa7024674c8e0a1b446ab4b5857498388f9b7bc9f72bd2247f2dc40dc",
+        "htbm-hut-int": "409bfa969e465a361d68dce3673eee1634f442eb97bde201a68ebf03896961c6",
+        "mudmother-hut-int": "bff2ca4aa7c35e6e9a46c1eb943f8bcf4bbf5e632667f43355ae1e1364910283",
+        "settlement-imperial-v1": "f8a72fb38b0ef3095ea0413462813ee4bcb7be5a4fdf28dbed2a447b5e3461f1",
+        "settlement-mud-v1": "62dc047d1ac7a7f5329635ae06edca66c410489b2f7f2418c818b9b57182bc12",
+        "settlement-root-v1": "68a8291b5596f9e60e803b55fff88cb9ba39fc58b650e9f8b59daeaaf8c37b74",
+        "settlement-stilt-v1": "f7e92cc345844d0efeda7843caf1e0742176ca07dfac5065fbf30271eaa71f3e",
+        "works-v1": "6067e40071c5a2dcba94d0420411ae0cd400ce480ebe42ab6f55ef063fbfda09"
       },
       "layout": {
         "path": "world/sources/blueprints/rose-bone-waystation.layout.json",
-        "sha256": "bb0bae8c26179d1283ead06735abd45c354d99a587ed8b6d622a99b7bbfc6c2f"
+        "sha256": "fd5a4cbd46ac8ce91389bbd415bfbea53e886d9d4d26c4b5b2535dbb5eac9362"
       }
     },
     "walkRoutes": {
