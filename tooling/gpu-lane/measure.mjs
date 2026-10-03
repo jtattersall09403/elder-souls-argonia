@@ -197,6 +197,18 @@ export function pageProbe() {
   const lane = { ts: [], frames: [], on: false, wrapMs: 0, lost: 0 };
   window.addEventListener("webglcontextlost", () => { lane.lost++; }, true);
   Object.defineProperty(window, "__GPU_LANE__", { value: lane });
+  // Load timeline (decision 0120 "Measure before building"): every resource entry kept, a mark at the first rAF
+  // frame, and renderer.info.programs length every 250 ms through the dev hook __RENDERER__ for the first 150 s.
+  try { performance.setResourceTimingBufferSize(20000); } catch {}
+  lane.programs = [];
+  window.requestAnimationFrame(() => { try { performance.mark("es:load:first-present"); } catch {} });
+  let progAt = -Infinity;
+  const sampleProgs = (t) => { // from the rAF tick below: no timer of its own
+    if (t > 150000 || t - progAt < 250) return;
+    progAt = t;
+    const n = window.__RENDERER__?.info?.programs?.length;
+    if (n != null) lane.programs.push([Math.round(t), n]);
+  };
   // Every rAF callback is wrapped; the callbacks of one frame share `stamp`.
   const now = performance.now.bind(performance);
   const raf = window.requestAnimationFrame.bind(window);
@@ -221,7 +233,7 @@ export function pageProbe() {
     lane.wrapMs += now() - w0;
     try { cb(stamp); } finally { const c1 = now(); cur.end = c1; lane.wrapMs += now() - c1; }
   });
-  const tick = (t) => { if (lane.on) lane.ts.push(t); requestAnimationFrame(tick); };
+  const tick = (t) => { if (lane.on) lane.ts.push(t); sampleProgs(t); requestAnimationFrame(tick); };
   requestAnimationFrame(tick);
   // about:blank between spots has an opaque origin: storage throws there (perf-diag9 E1)
   if (location.protocol.startsWith("http")) try { localStorage.setItem("es.hud.perfOpen", "1"); } catch {}
@@ -689,6 +701,34 @@ export function stepsSchedule(steps, baseYaw = 0) {
   return out;
 }
 
+/**
+ * `loadTimeline` of a spot from one in-page read just after the harness ready gate ({nowMs, resources [[url, startMs,
+ * responseEndMs, encodedBytes]], marks [[name, ms]], programs [[ms, n]]}); every time is seconds from navigation.
+ * readyS = the page's warm gate (`es:load:warm-gate` mark, else the harness gate); completeS = the harness gate
+ * (build queue 0 and streaming quiet); kits = URLs containing `/kits/`.
+ */
+export function buildLoadTimeline({ nowMs, resources = [], marks = [], programs = [] }) {
+  const s = (ms) => (ms == null ? null : Math.round(ms) / 1000);
+  const mb = (b) => Math.round((b / 1048576) * 100) / 100;
+  const mark = (n) => marks.find(([m]) => m === n)?.[1] ?? null;
+  const readyMs = mark("es:load:warm-gate") ?? nowMs;
+  const sum = (rs) => ({ requests: rs.length, MB: mb(rs.reduce((a, r) => a + (r[3] || 0), 0)),
+    firstStartS: rs.length ? s(Math.min(...rs.map((r) => r[1]))) : null, lastEndS: rs.length ? s(Math.max(...rs.map((r) => r[2]))) : null });
+  const kits = resources.filter((r) => r[0].includes("/kits/"));
+  return { firstPresentS: s(mark("es:load:first-present")), readyS: s(readyMs), completeS: s(nowMs),
+    kits: sum(kits), all: sum(resources), kitMBBeforeReady: mb(kits.filter((r) => r[2] <= readyMs).reduce((a, r) => a + (r[3] || 0), 0)),
+    marks: marks.filter(([n]) => n.startsWith("es:load:")).map(([stage, t]) => ({ stage: stage.slice(8), t: s(t) })),
+    programs: programs.map(([t, n]) => [s(t), n]) };
+}
+
+/** One summary.md line for a spot's loadTimeline. */
+export function loadTimelineText(name, l, cold = false) {
+  const tag = `${name}${cold ? " (cold)" : ""}`;
+  if (!l || l.error) return `${tag}: no load timeline${l?.error ? ` (${l.error})` : ""}`;
+  const k = l.kits, a = l.all;
+  return `${tag}: first present ${l.firstPresentS}, ready ${l.readyS}, complete ${l.completeS}; kits ${k.requests} req ${k.MB} MB ${k.firstStartS}-${k.lastEndS} (${l.kitMBBeforeReady} MB before ready); all ${a.requests} req ${a.MB} MB; programs ${l.programs.at(-1)?.[1] ?? "n/a"}; ${l.marks.map((m) => `${m.stage} ${m.t}`).join(", ")}`;
+}
+
 /** A pageerror entry with its stack kept (perf-diag9 E2: the message alone could not name the throwing caller). */
 export function pageErrorText(e) {
   const msg = String(e).slice(0, 400);
@@ -705,6 +745,8 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   page.on("console", onConsole); page.on("pageerror", onPageError); page.on("response", onResponse);
   const url = `${o.origin}${o.base}${query.startsWith("?") ? query : `?${query}`}`;
   if (idx > 0) await page.goto("about:blank").catch(() => {}); // drop the previous world (and its GPU memory) before the next spot
+  // `cold` spot token: an empty HTTP cache before the navigation, as the owner's first visit.
+  if (spot.cold) { const cdp = await ctx.newCDPSession(page); await cdp.send("Network.clearBrowserCache"); await cdp.detach().catch(() => {}); }
   const hl = harnessLogger();
   const t0 = Date.now();
   const loaded = await hl.wrap("goto", () => page.goto(url, { timeout: o.readyTimeout * 1000, waitUntil: "load" })).then(() => true)
@@ -729,6 +771,11 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   }
   const readyS = Math.round((Date.now() - t0) / 100) / 10;
   const tReady = Date.now();
+  const loadTimeline = await hl.wrap("evaluate:load-timeline", () => page.evaluate(() => ({
+    nowMs: performance.now(),
+    resources: performance.getEntriesByType("resource").map((e) => [e.name, e.startTime, e.responseEnd, e.encodedBodySize]),
+    marks: performance.getEntriesByType("mark").map((e) => [e.name, e.startTime]),
+    programs: window.__GPU_LANE__?.programs ?? [] }))).then(buildLoadTimeline).catch((e) => ({ error: String(e) }));
   // --aim "yaw,pitch" (radians): points the follow camera via __STUDIO_CHARACTER_DEBUG__ before the settle.
   if (spot.aim) {
     const [yaw, pitch] = spot.aim.split(",").map(Number);
@@ -828,7 +875,7 @@ async function measureUrl(page, ctx, o, spot, idx, own, browser) {
   if (walk) walk.coreCorrelation = coreCorrelation(walk.series, hostSamples);
   const hitchCtx = { settled: hitchContext(settle.work.hitches ?? [], harnessLog, settle.workerGaps, spikes),
     ...(walk ? { walk: hitchContext(walk.hitches ?? [], harnessLog, walk.workerGaps, spikes) } : {}) };
-  return { name, url, query, ready, readyS, ...stats, series: settle.series, gcFrames: gcFramesDigest(settle.series), workerGaps: settle.workerGaps, hostSamples, hostSpikes: spikes, coreCorrelation: coreCorr, harnessLog, hitchContext: hitchCtx, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
+  return { name, url, query, ready, readyS, cold: !!spot.cold, loadTimeline, ...stats, series: settle.series, gcFrames: gcFramesDigest(settle.series), workerGaps: settle.workerGaps, hostSamples, hostSpikes: spikes, coreCorrelation: coreCorr, harnessLog, hitchContext: hitchCtx, hud, drawCalls: hud.drawCalls ?? info.calls ?? null, tris: hud.tris ?? info.tris ?? null,
     walk, profile, profileWalk, trace: doTrace ? traces : null, heapsample, diagnosis: !!spot.diagnosis, consoleErrors, http404s, memory: info.memory ?? null, gpuAdapter: gpu, screenshots, census, diag, smoke };
 }
 
@@ -889,7 +936,8 @@ async function main() {
   const gcLines = result.urls.flatMap((u) => [...gcFramesText(`${u.name} settled`, u.gcFrames), ...gcFramesText(`${u.name} walk`, u.walk?.gcFrames)]);
   const hitchLines = result.urls.flatMap((u) => hitchContextText(u.name, u.hitchContext ?? {}));
   const coreLines = result.urls.flatMap((u) => [coreCorrelationText(`${u.name} settled`, u.coreCorrelation), coreCorrelationText(`${u.name} walk`, u.walk?.coreCorrelation)].filter(Boolean));
-  writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\nhost sampler: ${o.pod ? `on (${hostSummary(result.urls.map((u) => u.hostSamples))})` : "off"}\n\n${coreLines.length ? `${coreLines.join("\n")}\n\n` : ""}${table}\n\n## Hitches over 33 ms: nearest harness action (500 ms) and heartbeat worker\n\n${hitchLines.join("\n") || "none"}\n${gcLines.length ? `\n## Groundcover sub-timers on frames over 12 ms (ms; gcRefill 1 fill started, 2 swapped in)\n\n${gcLines.join("\n")}\n` : ""}`);
+  const loadLines = result.urls.map((u) => loadTimelineText(u.name, u.loadTimeline, u.cold));
+  writeFileSync(join(o.out, "summary.md"), `# ${o.run}\n\nhost sampler: ${o.pod ? `on (${hostSummary(result.urls.map((u) => u.hostSamples))})` : "off"}\n\n## Load (s from navigation)\n\n${loadLines.join("\n")}\n\n${coreLines.length ? `${coreLines.join("\n")}\n\n` : ""}${table}\n\n## Hitches over 33 ms: nearest harness action (500 ms) and heartbeat worker\n\n${hitchLines.join("\n") || "none"}\n${gcLines.length ? `\n## Groundcover sub-timers on frames over 12 ms (ms; gcRefill 1 fill started, 2 swapped in)\n\n${gcLines.join("\n")}\n` : ""}`);
   writeFileSync(join(o.out, "summary.json"), `${JSON.stringify({ schemaVersion: 1, run: o.run, bar: o.barParsed, rows }, null, 2)}\n`);
   console.log(`\n${table}\nmeasure: ${join(o.out, "summary.md")}`);
   await browser.close().catch(() => {});

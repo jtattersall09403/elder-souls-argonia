@@ -745,7 +745,9 @@ export function SettlementLayer({
       }
       if (gltfs.has(id)) continue;
       pendingKits.current.add(id);
+      if (!performance.getEntriesByName("es:load:kit-fetch-start").length) performance.mark("es:load:kit-fetch-start");
       kitCache.load(id, `${baseUrl}${kit.glb}`, (url) => loadGltfWithRetry(url, loader)).then((gltf) => {
+        if (!performance.getEntriesByName("es:load:kit-fetch-end").length) performance.mark("es:load:kit-fetch-end");
         setGltfs((current) => new Map(current).set(id, gltf));
       }).catch(failed(""))
         .finally(() => pendingKits.current.delete(id));
@@ -1284,6 +1286,7 @@ export function SettlementLayer({
         }
         liveSignature.current = signature;
         liveDraws.current = draws;
+        if (frames.swaps === 0) performance.mark("es:load:settlement-first-build");
         frames.swaps += 1;
       } else {
         frames.skippedSwaps += 1;

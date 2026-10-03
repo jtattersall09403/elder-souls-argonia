@@ -26,7 +26,7 @@ export function RenderWarmGate({ armed, onOpen, onProgress, options }: {
       if (gate.state.open) return;
       const opened = gate.step(performance.now() - start.current);
       cb.current.onProgress?.(gate.state);
-      if (opened) cb.current.onOpen();
+      if (opened) { performance.mark("es:load:warm-gate"); cb.current.onOpen(); }
     };
     return () => { channel.port1.onmessage = null; channel.port1.close(); };
   }, [channel, gate]);

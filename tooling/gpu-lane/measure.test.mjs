@@ -313,6 +313,24 @@ test("gen-matrix: 15 deterministic lines, coordinates from places.json", async (
   }
   assert.equal(parseSpots(out).length, 17);
 });
+test("loadTimeline: kit and all-request totals, MB before the warm gate, es:load marks; the cold token", async () => {
+  const { buildLoadTimeline, loadTimelineText } = await import("./measure.mjs");
+  const MB = 1048576;
+  const l = buildLoadTimeline({ nowMs: 40000,
+    resources: [["/a/index.js", 100, 900, 2 * MB], ["/s/kits/x.glb", 5000, 9000, 3 * MB], ["/s/kits/y.glb", 6000, 30000, 1 * MB]],
+    marks: [["es:load:first-present", 1200], ["es:load:warm-gate", 20000], ["other", 1]], programs: [[250, 3], [500, 40]] });
+  assert.equal(l.firstPresentS, 1.2); assert.equal(l.readyS, 20); assert.equal(l.completeS, 40);
+  assert.deepEqual(l.kits, { requests: 2, MB: 4, firstStartS: 5, lastEndS: 30 });
+  assert.deepEqual(l.all, { requests: 3, MB: 6, firstStartS: 0.1, lastEndS: 30 });
+  assert.equal(l.kitMBBeforeReady, 3, "the kit ending after the warm gate is not counted");
+  assert.deepEqual(l.marks.map((m) => m.stage), ["first-present", "warm-gate"]);
+  assert.match(loadTimelineText("g", l, true), /^g \(cold\): first present 1.2, ready 20, complete 40; kits 2 req 4 MB 5-30 \(3 MB before ready\).*programs 40/);
+  assert.equal(buildLoadTimeline({ nowMs: 7000 }).readyS, 7, "no warm-gate mark: ready is the harness gate");
+  const { parseSpots } = await import("./spots.mjs");
+  assert.equal(parseSpots("g ?view=x cold\nh ?view=x")[0].cold, true);
+  assert.ok(!parseSpots("h ?view=x")[0].cold);
+});
+
 test("parseSpots: name, query, --aim and walk=; comments skipped; bad lines throw", async () => {
   const { parseSpots, parseBar, spotRows, summaryTable, heapSlope } = await import("./spots.mjs");
   const s = parseSpots("# c\na ?x=1&t=2  # night\n\ne ?x=1&t=2 --aim 0.5,-0.2 walk=20\n");

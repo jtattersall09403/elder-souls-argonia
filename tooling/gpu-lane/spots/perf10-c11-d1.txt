@@ -1,0 +1,15 @@
+# perf10 c11 diag 1: cold load timelines first (gswload truly cold), the gsw walk GPU memory trace and slow program queries, the D11 Riverwalk night-rain wdbg ladder.
+# rwp22nos (wdbg=15, settlement layer hidden) is a pod-capture view: views/perf10-c11-rwp22nos.json
+gswload ?view=character&x=4.7988&z=1.8761&t=12&w=clear&rate=0.5 --aim -2.361,0.1 cold
+rwwload ?view=character&x=7.2090&z=0.5226&t=12&w=clear&rate=0.5 --aim 0.000,0.1 cold
+gswgpu ?view=character&x=4.7988&z=1.8761&t=12&w=clear&rate=0.5 --aim -2.361,0.1 steps=w:0.82,yaw:-1.390,w:3.45,yaw:-0.819,w:4.01,yaw:+0.042,w:4.65,yaw:-0.854,w:4.15,yaw:-0.902,w:2.92 trace-gpu memory-infra
+gswrelink ?view=character&x=4.7988&z=1.8761&t=12&w=clear&rate=0.5 --aim -2.361,0.1 steps=w:0.82,yaw:-1.390,w:3.45,yaw:-0.819,w:4.01,yaw:+0.042,w:4.65,yaw:-0.854,w:4.15,yaw:-0.902,w:2.92 diag=relink
+rwp22w15 ?view=character&x=7.1971&z=0.584&t=22&w=rain&wdbg=15&rate=0.5 hold=2/1
+rwp22w7 ?view=character&x=7.1971&z=0.584&t=22&w=rain&wdbg=7&rate=0.5 hold=2/1
+rwp22w13 ?view=character&x=7.1971&z=0.584&t=22&w=rain&wdbg=13&rate=0.5 hold=2/1
+rwp22w6 ?view=character&x=7.1971&z=0.584&t=22&w=rain&wdbg=6&rate=0.5 hold=2/1
+rwp22w3 ?view=character&x=7.1971&z=0.584&t=22&w=rain&wdbg=3&rate=0.5 hold=2/1
+rwp22w4 ?view=character&x=7.1971&z=0.584&t=22&w=rain&wdbg=4&rate=0.5 hold=2/1
+rwp22w5 ?view=character&x=7.1971&z=0.584&t=22&w=rain&wdbg=5&rate=0.5 hold=2/1
+rwp22w10 ?view=character&x=7.1971&z=0.584&t=22&w=rain&wdbg=10&rate=0.5 hold=2/1
+rwp12ref ?view=character&x=7.1971&z=0.584&t=12&w=clear&rate=0.5 hold=2/1   # reference: the same pose at noon clear
