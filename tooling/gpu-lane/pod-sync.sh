@@ -30,7 +30,7 @@ cat /root/serve.log'
 # Sentinels: the pod must answer 200 with the local file's size (the SPA fallback html is 200 with another size).
 for f in province/refined/ground-control.png kits/bmv-treehouse-int.connectors.json; do
   want=$(stat -c %s "apps/world-studio/public/$f")
-  got=$($S "$t" "curl -s -o /dev/null -w '%{http_code} %{size_download}' http://127.0.0.1:8099/$f")
+  got=$($S "$t" "curl -s -o /dev/null -w '%{http_code} %{size_download}' http://127.0.0.1:8099/elder-souls-argonia/studio/$f")
   [ "$got" = "200 $want" ] || { echo "pod-sync: data mismatch for $f: pod '$got', local '200 $want'" >&2; exit 1; }
 done
 echo "pod-sync: data public ok ($sha)"
