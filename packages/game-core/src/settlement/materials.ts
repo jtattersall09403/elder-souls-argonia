@@ -2,12 +2,15 @@ import * as THREE from "three";
 import { ALWAYS_LIT_DAY_FACTOR, artificialLightFactor } from "./lighting";
 import type { SettlementKitMaterialExtras } from "./types";
 import { applyLanternShell } from "./fixtureGlow";
-import { isSettlementGlowMaterial, WINDOW_GLOW_GAIN, WINDOW_GLOW_LINEAR_RGB } from "./windowGlow";
+import { isSettlementGlowMaterial, WINDOW_GLOW_LINEAR_RGB, WINDOW_SCREEN_GAIN } from "./windowGlow";
 import { chainHas, markChain } from "../render/shaderHookChain";
 
 export interface SettlementMaterialUniforms {
   esSettlementRain: { value: number };
   esSettlementNight: { value: number };
+  /** 1 / the renderer's toneMappingExposure: anchors window and lamp-shell
+   * emissive to the screen, as the sky and stars are (perf c10 F41). */
+  esSettlementExposureInv: { value: number };
 }
 
 const PATCH = "es-settlement-surface-v2";
@@ -263,9 +266,9 @@ export function flameOutputLine(glow: SettlementGlow): string {
 /** The emissive-stage line a glow kind adds (none for a plain surface or a card). */
 function glowLine(glow: SettlementGlow): string {
   if (glow === "flame" || glow === "lamp-flame") return "";
-  if (glow === "lamp-shell") return "\ntotalEmissiveRadiance *= esSettlementNight;";
+  if (glow === "lamp-shell") return "\ntotalEmissiveRadiance *= esSettlementNight * esSettlementExposureInv;";
   return glow
-    ? `\ntotalEmissiveRadiance *= ${WINDOW_GLOW_RGB} * esSettlementNight * ${WINDOW_GLOW_GAIN.toFixed(1)};`
+    ? `\ntotalEmissiveRadiance *= ${WINDOW_GLOW_RGB} * esSettlementNight * ${WINDOW_SCREEN_GAIN.toFixed(2)} * esSettlementExposureInv;`
     : "";
 }
 
@@ -292,13 +295,14 @@ export function reapplySettlementSurface(material: THREE.Material, force = false
       if (!state || shader.vertexShader.includes(SETTLEMENT_VARYING)) return;
       shader.uniforms.esSettlementRain = state.uniforms.esSettlementRain;
       shader.uniforms.esSettlementNight = state.uniforms.esSettlementNight;
+      shader.uniforms.esSettlementExposureInv = state.uniforms.esSettlementExposureInv;
       shader.uniforms.esSettlementFlameGain = state.flameGain;
       shader.vertexShader = shader.vertexShader
         .replace("#include <common>", `#include <common>\nattribute float ${SETTLEMENT_GROUND_ATTRIBUTE};\n${SETTLEMENT_VARYING};`)
         .replace("#include <begin_vertex>", `#include <begin_vertex>\nvec4 esSettlementWorldPosition = vec4(transformed, 1.0);\n#ifdef USE_INSTANCING\nesSettlementWorldPosition = instanceMatrix * esSettlementWorldPosition;\n#endif\nesSettlementWorldPosition = modelMatrix * esSettlementWorldPosition;\nesSettlementHeightAboveGround = esSettlementWorldPosition.y - ${SETTLEMENT_GROUND_ATTRIBUTE};`);
       if (state.depthPair) return;
       shader.fragmentShader = shader.fragmentShader
-        .replace("#include <common>", `#include <common>\nuniform float esSettlementRain;\nuniform float esSettlementNight;\nuniform float esSettlementFlameGain;\n${SETTLEMENT_VARYING};`)
+        .replace("#include <common>", `#include <common>\nuniform float esSettlementRain;\nuniform float esSettlementNight;\nuniform float esSettlementExposureInv;\nuniform float esSettlementFlameGain;\n${SETTLEMENT_VARYING};`)
         .replace("#include <color_fragment>", `#include <color_fragment>\nfloat esWallWet = esSettlementRain * mix(0.55, 1.0, 1.0 - smoothstep(0.0, 4.0, max(0.0, esSettlementHeightAboveGround)));\ndiffuseColor.rgb *= mix(1.0, 0.62, esWallWet * 0.55);`)
         // Night windows in the EMISSIVE stage: the kit's glow mask (emissive
         // map x factor) x warm lamplight x the lamp clock (lighting.ts). By day the
@@ -325,8 +329,10 @@ export function updateSettlementEnvironment(
   uniforms: SettlementMaterialUniforms,
   rainIntensity: number,
   epochMinutes: number,
+  exposure: number,
 ): void {
   uniforms.esSettlementRain.value = THREE.MathUtils.clamp(rainIntensity, 0, 1);
   // the ONE clock for every artificial light (lighting.ts, walk 2 D7)
   uniforms.esSettlementNight.value = artificialLightFactor(epochMinutes);
+  uniforms.esSettlementExposureInv.value = exposure > 0 ? 1 / exposure : 1;
 }

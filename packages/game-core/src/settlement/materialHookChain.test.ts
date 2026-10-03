@@ -17,7 +17,7 @@ function compile(material: THREE.Material): { vertex: string; fragment: string }
 const count = (text: string, needle: string) => text.split(needle).length - 1;
 
 describe("settlement surface + fixture lights hook chain (review 2026-09-30)", () => {
-  const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 } };
+  const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 }, esSettlementExposureInv: { value: 1 } };
 
   it("a settlement rebuild twice declares each patch once and never re-wraps", () => {
     const field = new FixtureLightField();

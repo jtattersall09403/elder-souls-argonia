@@ -43,7 +43,7 @@ describe("lantern shell", () => {
 
   it("is keyed by its glow kind on the lamp clock, patched before the first draw", () => {
     const m = flagged("OWN_EMIT");
-    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 1 } };
+    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 1 }, esSettlementExposureInv: { value: 1 } };
     applySettlementSurface(m, uniforms, "lamp-shell");
     expect(m.emissiveMap).toBe(m.map);
     const shader = {
@@ -52,7 +52,7 @@ describe("lantern shell", () => {
       fragmentShader: "#include <common>\n#include <emissivemap_fragment>",
     };
     m.onBeforeCompile(shader as unknown as THREE.WebGLProgramParametersWithUniforms, {} as THREE.WebGLRenderer);
-    expect(shader.fragmentShader).toContain("totalEmissiveRadiance *= esSettlementNight;");
+    expect(shader.fragmentShader).toContain("totalEmissiveRadiance *= esSettlementNight * esSettlementExposureInv;");
     expect(m.customProgramCacheKey()).toMatch(/\|4\|colour$/);
   });
 });

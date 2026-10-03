@@ -611,7 +611,7 @@ export function SettlementLayer({
   const running = useRef<FrameJobHandle | null>(null);
   const queue = useFrameWork();
   const uniforms = useMemo<SettlementMaterialUniforms>(() => ({
-    esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 },
+    esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 }, esSettlementExposureInv: { value: 1 },
   }), []);
   // Chimney smoke (smokeColumn.ts): one draw for every anchored column, made
   // once the effect texture named by its kit manifest has loaded.
@@ -865,10 +865,10 @@ export function SettlementLayer({
     return () => { cancelled = true; };
   }, [baseUrl, flameManifest, lightFixtures, setEffectError]);
 
-  useFrame(({ camera, clock }) => {
+  useFrame(({ camera, clock, gl: renderer }) => {
     if (fatalError) return;
     const env = environment?.();
-    if (env) updateSettlementEnvironment(uniforms, env.rainIntensity, env.epochMinutes);
+    if (env) updateSettlementEnvironment(uniforms, env.rainIntensity, env.epochMinutes, renderer.toneMappingExposure);
     lightFixtures.update(clock.elapsedTime, camera);
     if (smoke) {
       smoke.setAnchors(smokeAnchors.current);

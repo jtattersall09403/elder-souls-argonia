@@ -114,7 +114,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { KTX2Loader } from "three/addons/loaders/KTX2Loader.js";
 import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import { FlameSystem } from "/fire/FlameSystem.js";
-import { isSettlementGlowMaterial, WINDOW_GLOW_LINEAR_RGB, WINDOW_GLOW_GAIN } from "/gc/settlement/windowGlow.js";
+import { isSettlementGlowMaterial, WINDOW_GLOW_LINEAR_RGB, windowGlowScale } from "/gc/settlement/windowGlow.js";
 import { pieceFlameAnchorsLocal, manifestBoxYUp, isFlameCardMaterial, flameCardBedAnchorLocal, flameAnchorFailures } from "/fire/flameAnchors.js";
 import { FIRE_PRESETS } from "/fire/fireTypes.js";
 const TW = 480, TH = 400;
@@ -192,8 +192,8 @@ window.look = async ({ url, node, row, fromPart }) => {
   views.forEach(([name, v, night], i) => {
     const exposure = night ? 22 : 3.9e-5;
     renderer.toneMappingExposure = exposure;
-    // the runtime window glow (materials.ts glowLine): emissive map x warm rgb x gain x night (1 at full night, 0 by day)
-    const glowK = night ? WINDOW_GLOW_GAIN : 0;
+    // the runtime window glow (materials.ts glowLine): emissive map x warm rgb x screen gain / exposure x night (1 at full night, 0 by day)
+    const glowK = night ? windowGlowScale(exposure) : 0;
     scene.traverse((o) => { for (const m of [o.material].flat()) if (m && isSettlementGlowMaterial(m)) {
       m.emissive.setRGB(WINDOW_GLOW_LINEAR_RGB[0] * glowK, WINDOW_GLOW_LINEAR_RGB[1] * glowK, WINDOW_GLOW_LINEAR_RGB[2] * glowK); m.emissiveIntensity = 1; } });
     hemi.intensity = night ? 0.02 : 0.9 / exposure; sun.intensity = night ? 0 : 2.2 / exposure;

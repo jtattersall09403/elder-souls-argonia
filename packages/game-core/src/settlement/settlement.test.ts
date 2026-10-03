@@ -335,7 +335,7 @@ describe("settlement placement contract", () => {
 describe("settlement material patch contract", () => {
   it("stores state, chains cache identity, and can be restored after CSM", () => {
     const material = new THREE.MeshStandardMaterial();
-    const uniforms = { esSettlementRain: { value: 1 }, esSettlementNight: { value: 1 } };
+    const uniforms = { esSettlementRain: { value: 1 }, esSettlementNight: { value: 1 }, esSettlementExposureInv: { value: 1 } };
     applySettlementSurface(material, uniforms, true);
     const first = material.onBeforeCompile;
     expect(material.userData.esAerial).toBe(true);
@@ -362,7 +362,7 @@ describe("settlement material patch contract", () => {
     plain.name = "window-frame"; // a name match must not make it glow
     expect(isSettlementGlowMaterial(glow)).toBe(true);
     expect(isSettlementGlowMaterial(plain)).toBe(false);
-    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 1 } };
+    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 1 }, esSettlementExposureInv: { value: 1 } };
     const compile = (material: THREE.MeshStandardMaterial) => {
       applySettlementSurface(material, uniforms, isSettlementGlowMaterial(material));
       const shader = { uniforms: {}, vertexShader: "#include <common>\n#include <begin_vertex>",
@@ -377,10 +377,10 @@ describe("settlement material patch contract", () => {
   });
 
   it("lights windows on the lamp clock (lighting.ts), not the sun", () => {
-    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 } };
+    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 }, esSettlementExposureInv: { value: 1 } };
     const at = (minuteOfDay: number) => {
       updateSettlementEnvironment(uniforms, 0,
-        toEpochMinutes({ era: 4, year: 201, month: 6, day: 14, minuteOfDay }));
+        toEpochMinutes({ era: 4, year: 201, month: 6, day: 14, minuteOfDay }), 22);
       return uniforms.esSettlementNight.value;
     };
     expect(at(720)).toBe(0);
@@ -397,7 +397,7 @@ describe("settlement material patch contract", () => {
     material.displacementMap = new THREE.Texture();
     material.displacementScale = 1.7;
     material.displacementBias = -.2;
-    const uniforms = { esSettlementRain: { value: .8 }, esSettlementNight: { value: 0 } };
+    const uniforms = { esSettlementRain: { value: .8 }, esSettlementNight: { value: 0 }, esSettlementExposureInv: { value: 1 } };
     const depth = applySettlementSurfaceWithShadow(material, uniforms, true)!;
     expect(depth.map).toBe(material.map);
     expect(depth.alphaMap).toBe(material.alphaMap);
@@ -418,7 +418,7 @@ describe("settlement material patch contract", () => {
   it("re-syncs a reused shadow twin after three's shadow pass flips its side", () => {
     const material = new THREE.MeshStandardMaterial({ alphaTest: .5 });
     material.map = new THREE.Texture();
-    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 } };
+    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 }, esSettlementExposureInv: { value: 1 } };
     const depth = applySettlementSurfaceWithShadow(material, uniforms)!;
     depth.side = THREE.BackSide; // what WebGLShadowMap.getDepthMaterial writes
     expect(settlementShadowPairErrors(material, depth)).toContain(
@@ -430,7 +430,7 @@ describe("settlement material patch contract", () => {
   it("rebuilds and verifies the colour/depth pair at every LOD swap", () => {
     const contract = { absoluteTriangleFloor: [120, 80] as const,
       distancePerFootprintDiagonal: [4, 12] as const, farMergeDistanceM: 900 };
-    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 } };
+    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 }, esSettlementExposureInv: { value: 1 } };
     const levels = [20, 100, 1000].map((distance) => {
       const level = architectureLod(distance, 14, 3, contract).level;
       const colour = new THREE.MeshStandardMaterial({ alphaTest: .3 });

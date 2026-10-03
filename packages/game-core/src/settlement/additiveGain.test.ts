@@ -7,7 +7,7 @@ import * as THREE from "three";
 import { describe, expect, it } from "vitest";
 import { additiveGain, applySettlementSurface, flameOutputLine } from "./materials";
 
-const uniforms = () => ({ esSettlementRain: { value: 0 }, esSettlementNight: { value: 1 } });
+const uniforms = () => ({ esSettlementRain: { value: 0 }, esSettlementNight: { value: 1 }, esSettlementExposureInv: { value: 1 } });
 
 describe("additive card gain", () => {
   it("reads the material extra `gain`, else the pre-format-3 default", () => {
