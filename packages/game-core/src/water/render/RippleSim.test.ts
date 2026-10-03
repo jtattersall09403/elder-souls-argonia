@@ -232,7 +232,15 @@ function fakeRenderer() {
   let scissorTest = true;
   let clears = 0;
   const links: { material: THREE.Material; target: THREE.WebGLRenderTarget | null; tone: THREE.ToneMapping }[] = [];
+  const firstUse = new Map<THREE.Material, { uniforms: number; attributes: number }>();
   const renderer = {
+    properties: {
+      get: (material: THREE.Material) => {
+        const count = firstUse.get(material) ?? { uniforms: 0, attributes: 0 };
+        firstUse.set(material, count);
+        return { currentProgram: { isReady: () => true, getUniforms: () => { count.uniforms++; }, getAttributes: () => { count.attributes++; } } };
+      },
+    },
     compileAsync: (scene: THREE.Scene) => {
       links.push({ material: (scene.children[0] as THREE.Mesh).material as THREE.Material, target, tone: renderer.toneMapping });
       return Promise.resolve(scene);
@@ -254,7 +262,7 @@ function fakeRenderer() {
           : { kind: "update" });
     },
   };
-  return { renderer: renderer as unknown as THREE.WebGLRenderer, calls, links, get clears() { return clears; } };
+  return { renderer: renderer as unknown as THREE.WebGLRenderer, calls, links, firstUse, get clears() { return clears; } };
 }
 
 describe("ripple render scheduling", () => {
@@ -274,6 +282,15 @@ describe("ripple render scheduling", () => {
     }
     sim.step(renderer, 0, 0, 1 / 60);
     expect(links).toHaveLength(4);
+  });
+
+  it("runs three's first-use work on each pass program once its link resolves (perf10 c12 R2 3c)", async () => {
+    const sim = new RippleSim({ boundarySize: 16, sampleBoundary: () => ({ waterBodyId: "water.pond", depth: 2, surfaceHeight: 0 }) as never });
+    const { renderer, links, firstUse } = fakeRenderer();
+    sim.step(renderer, 0, 0, 0);
+    await Promise.resolve(); await Promise.resolve();
+    expect(links).toHaveLength(4);
+    for (const l of links) expect(firstUse.get(l.material)).toEqual({ uniforms: 1, attributes: 1 });
   });
 
   it("skips the GPU step over an all-dry patch once the field is zero, resumes when water appears (perf10 f3)", () => {

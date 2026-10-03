@@ -946,9 +946,9 @@ export function SettlementLayer({
         texture.colorSpace = THREE.SRGBColorSpace;
         if (cancelled) { texture.dispose(); continue; }
         // disposes the one it replaces; shown once both draws are linked
-        // (the flames draw in the scene pass, the bloom copy into the bloom target)
+        // (the flames draw in the screen pass, the bloom copy into the bloom target)
         void lightFixtures.setFlameTexture(texture, id, (flame, bloom) => Promise.all([
-          linker.link({ object: flame }, sceneCamera),
+          linker.link({ object: flame, pass: "screen" }, sceneCamera),
           linker.link({ object: bloom, pass: "target" }, sceneCamera),
         ]));
       }

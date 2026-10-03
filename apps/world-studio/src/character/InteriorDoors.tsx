@@ -17,7 +17,8 @@ import { kitPartsDir } from "@elder-souls/game-core/assets/kitParts";
 import type { ShownCellSockets } from "@elder-souls/game-core/interior/interiorSockets";
 import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import { DoorTransition, type InteriorSource } from "@elder-souls/game-core/interior/doorTransition";
-import { fixtureLightFieldOf, prepareLit } from "@elder-souls/game-core/render/fixtureLights/index";
+import { fixtureLightFieldOf } from "@elder-souls/game-core/render/fixtureLights/index";
+import { DrawTargetLinker } from "@elder-souls/game-core/render/drawTargetLinker";
 import { InteriorEnvironment } from "@elder-souls/game-core/interior/interiorEnvironment";
 import type { Vec3 } from "@elder-souls/game-core/interior/bundle";
 import {
@@ -358,50 +359,31 @@ const probeBox = new THREE.Box3();
 const fmtS = (s: number | null) => (s === null ? "-" : `${s.toFixed(2)} s`);
 
 /**
- * Links a cell's shader programs before the cell is drawn (F3), the way the
- * settlement layer links a build (SettlementLayer `compileAsync`): the sky's
- * lit preparer patches every material first (CSM, fixture lights), then
- * `compileAsync` links in parallel where the driver can
- * (KHR_parallel_shader_compile). A program's key depends on where the scene
- * pass draws: the water pipeline draws the scene into a linear, un-tone-mapped
- * target, the bare scene draws to the screen. `scene.onBeforeRender` records
- * which for the pass that draws layer 0, and the link binds a 1x1 target of
- * the same kind while it compiles, so the key it links is the one drawn.
+ * Links a cell's shader programs before the cell is drawn (F3) through the
+ * shared DrawTargetLinker (game-core render/drawTargetLinker.ts): the sky's
+ * lit preparer patches every material first (CSM, fixture lights), the link
+ * binds a 1x1 target of the kind the layer-0 pass draws into, and three's
+ * first-use work (`runFirstUse`) runs inside the wait, not on the first drawn
+ * frame (perf10 c12 B5: a raw `gl.compileAsync` here skipped it).
  */
 class InteriorLinker {
-  private drawsToTarget = false;
-  private readonly scratch = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType });
+  private readonly linker: DrawTargetLinker;
   private readonly warmed = new WeakSet<LoadedInterior>();
   private readonly programs = new WeakMap<LoadedInterior, number>();
-  private readonly hook: THREE.Scene["onBeforeRender"];
-  private readonly previous: THREE.Scene["onBeforeRender"];
 
-  constructor(private readonly gl: THREE.WebGLRenderer, private readonly scene: THREE.Scene) {
-    const previous = scene.onBeforeRender;
-    this.previous = previous;
-    const hook: THREE.Scene["onBeforeRender"] = (...args) => {
-      const [, , camera, target] = args as unknown as [unknown, unknown, THREE.Camera, THREE.WebGLRenderTarget | null];
-      if (camera.layers.isEnabled(0)) this.drawsToTarget = target !== null;
-      previous.apply(scene, args);
-    };
-    this.hook = hook;
-    scene.onBeforeRender = hook;
+  constructor(private readonly gl: THREE.WebGLRenderer, scene: THREE.Scene) {
+    this.linker = new DrawTargetLinker(gl, scene).attach();
   }
 
   /** Patch and link `group` (detached, lights under it) against `target`'s lights and fog. */
   link(group: THREE.Object3D, camera: THREE.Camera, target: THREE.Scene): Promise<number> {
     const programsBefore = this.gl.info.programs?.length ?? 0;
-    prepareLit(this.scene, group);
     group.updateMatrixWorld(true);
-    const bound = this.gl.getRenderTarget();
-    if (this.drawsToTarget) this.gl.setRenderTarget(this.scratch);
     let linking: Promise<unknown>;
     try {
-      linking = this.gl.compileAsync(group, camera, target);
+      linking = this.linker.compileAsync(group, camera, target);
     } catch (err) {
       linking = Promise.reject(err);
-    } finally {
-      this.gl.setRenderTarget(bound);
     }
     // never hold the black screen on a link that does not resolve
     const cap = new Promise<void>((resolve) => { setTimeout(resolve, INTERIOR_LINK_WAIT_MS); });
@@ -432,8 +414,7 @@ class InteriorLinker {
   }
 
   dispose(): void {
-    if (this.scene.onBeforeRender === this.hook) this.scene.onBeforeRender = this.previous;
-    this.scratch.dispose();
+    this.linker.detach();
   }
 }
 

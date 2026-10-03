@@ -12,7 +12,7 @@ import { litPreparerOf, prepareLit, whenLitPreparer } from "./fixtureLights/fixt
 export const LINK_SETTLE_MS = 2000;
 
 /** The slice of three's WebGLProgram the poll reads. */
-interface LinkedProgram {
+export interface LinkedProgram {
   isReady(): boolean;
   getUniforms?(): unknown;
   getAttributes?(): unknown;
@@ -58,8 +58,9 @@ export interface LinkWarm {
  * water variants). `scene.onBeforeRender` records which kind the pass that
  * draws layer 0 used; `link` binds a 1x1 target of the named kind while it
  * links (the key reads the target's colour space and the tone mapping it
- * implies, never its size). Same contract as apps/world-studio InteriorDoors
- * `InteriorLinker`.
+ * implies, never its size). Every pre-link goes through this class (the
+ * player fade, the settlement build, the interior cells); a raw
+ * `compileAsync` skips `runFirstUse` and leaves that work on the first draw.
  */
 export class DrawTargetLinker {
   /** Whether a layer-0 pass has been seen, so `drawsToTarget` is known. */

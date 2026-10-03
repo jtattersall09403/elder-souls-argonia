@@ -1,5 +1,6 @@
 import type { WorldWaterQuery } from "@elder-souls/contracts";
 import * as THREE from "three";
+import { runFirstUse, type LinkedProgram } from "../../render/drawTargetLinker";
 import { RIPPLE_PATH_GLSL } from './rippleIsolation';
 import { RIPPLE_ADVECTION_GLSL } from './rippleAdvection';
 
@@ -750,7 +751,14 @@ export class RippleSim {
     try {
       for (const material of this.maskMaterials) {
         this.quad.material = material;
-        renderer.compileAsync(this.scene, this.camera).catch(() => undefined);
+        // three's compileAsync only polls completion; its first-use work
+        // (uniform and attribute reflection) would still land on the first
+        // draw, so it runs here once the link is ready (cf. DrawTargetLinker,
+        // which this pass cannot use: it binds its own target `this.b`).
+        renderer.compileAsync(this.scene, this.camera).then(() => {
+          const program = (renderer.properties.get(material) as { currentProgram?: LinkedProgram }).currentProgram;
+          if (program) runFirstUse(program);
+        }).catch(() => undefined);
       }
     } finally {
       this.quad.material = own;

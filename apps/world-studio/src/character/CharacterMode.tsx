@@ -1519,11 +1519,10 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   const { camera, scene, gl } = useThree();
   // Both fade programs of every player material linked ahead of the first
   // fade (playerFade.ts warmPlayerFadePrograms), the player held hidden until
-  // the first set links (gatePlayerFirstShow); checked once a second after
-  // that so an equipment change's new materials are pinned too.
+  // the first set links (gatePlayerFirstShow); checked every frame after
+  // that, so equipment attached later stays hidden until its programs link.
   const fadeLinker = useMemo(() => new DrawTargetLinker(gl, scene), [gl, scene]);
   useEffect(() => { fadeLinker.attach(); return () => fadeLinker.detach(); }, [fadeLinker]);
-  const fadePinFrame = useRef(60);
   const fadePinCompile = useMemo(() => (object: THREE.Object3D) =>
     fadeLinker.compileAsync(object, camera).catch(() => undefined), [fadeLinker, camera]);
   const position = useMemo(() => new THREE.Vector3(), []);
@@ -1771,10 +1770,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     }
     camera3P.applyTo(camera);
     if (playerModelRef?.current && gatePlayerFirstShow(playerModelRef.current, fadeLinker.observed, fadePinCompile)) {
-      if (fadePinFrame.current-- <= 0) {
-        fadePinFrame.current = 60;
-        warmPlayerFadePrograms(playerModelRef.current, fadePinCompile);
-      }
+      warmPlayerFadePrograms(playerModelRef.current, fadePinCompile);
       fadePlayerModel(playerModelRef.current, playerHiddenRef.current ? 0 : playerOpacityForArm(camera3P.arm));
     }
     focusRef.current = { x: position.x, z: position.z };
