@@ -625,6 +625,12 @@
    "on": "ground",
    "evidence": "measured"
   },
+  {"op": "place", "uid": "t1-lantern", "asset": "vanilla:clutter/common/candlelanternwithcandle01", "at": [1191.95, 3087.25], "yaw": 0.0, "settle": true},
+  {"op": "place", "uid": "t2-lantern", "asset": "vanilla:clutter/common/candlelanternwithcandle01", "at": [1196.45, 3087.25], "yaw": 0.0, "settle": true},
+  {"op": "place", "uid": "t3-lantern", "asset": "vanilla:clutter/common/candlelanternwithcandle01", "at": [1202.55, 3087.25], "yaw": 0.0, "settle": true},
+  {"op": "bind", "uid": "t1-lantern", "kind": "assembly", "id": "parcel.the-broke-column.tent-1", "layer": "light", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "t2-lantern", "kind": "assembly", "id": "parcel.the-broke-column.tent-2", "layer": "light", "on": "ground", "evidence": "measured"},
+  {"op": "bind", "uid": "t3-lantern", "kind": "assembly", "id": "parcel.the-broke-column.tent-3", "layer": "light", "on": "ground", "evidence": "measured"},
   {
    "op": "path",
    "action": "add",

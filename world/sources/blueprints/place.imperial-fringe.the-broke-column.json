@@ -524,6 +524,19 @@
             "yMeasured": 76.4807
           },
           {
+            "id": "t1-lantern",
+            "asset": "vanilla:clutter/common/candlelanternwithcandle01",
+            "atM": [
+              -2.75,
+              1.05
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured",
+            "yMeasured": 79.3888
+          },
+          {
             "id": "t1-sack",
             "asset": "vanilla:clutter/containers/miscsacklarge",
             "atM": [
@@ -655,6 +668,19 @@
             "layer": "clutter",
             "evidence": "measured",
             "yMeasured": 79.5635
+          },
+          {
+            "id": "t2-lantern",
+            "asset": "vanilla:clutter/common/candlelanternwithcandle01",
+            "atM": [
+              -2.75,
+              1.05
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured",
+            "yMeasured": 79.4764
           }
         ]
       },
@@ -873,6 +899,19 @@
             "layer": "clutter",
             "evidence": "measured",
             "yMeasured": 75.6694
+          },
+          {
+            "id": "t3-lantern",
+            "asset": "vanilla:clutter/common/candlelanternwithcandle01",
+            "atM": [
+              -2.75,
+              -1.05
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured",
+            "yMeasured": 79.5948
           }
         ]
       }
@@ -1366,16 +1405,16 @@
         "sha256": "d3745fd7ad9237d5705b7e5bafaa46671244b8575ac347934946561a6091727b"
       },
       "kits": {
-        "bmv-treehouse-int": "b4eae3ff712c698e724481f7592dcb1ca9b041d0f64af19d910625f6fd363a68",
-        "camp-v1": "58cecc3b1bbbd4ff201aa2fdbfb2bfdb3b7487174b0c2bd7aa42886dd7e16390",
-        "enclosure-v1": "4a5e3c6874c484fccd1fc8b202d3c61f335a9dad2b9140ca8c086002f5c649a9",
-        "htbm-hut-int": "ea80ddee9fb3d16de90ae60647f316d6ec10d9891f703684dce693dbae21c8ef",
-        "mudmother-hut-int": "36687657be26a430ab9efed29d36f77b888b36c7c4f784af1e47445acec5b6d5",
-        "settlement-imperial-v1": "e0f1fce8cc1d06571b1b3604b03ee291c1b9cf576a3ede6e9d033366a6fd47f5"
+        "bmv-treehouse-int": "88b8aee84f65c844752ad96592f2bc043405af5c9d94b75a2203b9a2c53912b4",
+        "camp-v1": "30b4a040c18a9dddc11fdf1960790411b183e5e9fadf82112da0cb6d5e72974b",
+        "enclosure-v1": "2b9bf92118e3ed8729c35b95db2d05b203527aa5b081062c85052836463743ea",
+        "htbm-hut-int": "409bfa969e465a361d68dce3673eee1634f442eb97bde201a68ebf03896961c6",
+        "mudmother-hut-int": "bff2ca4aa7c35e6e9a46c1eb943f8bcf4bbf5e632667f43355ae1e1364910283",
+        "settlement-imperial-v1": "f8a72fb38b0ef3095ea0413462813ee4bcb7be5a4fdf28dbed2a447b5e3461f1"
       },
       "layout": {
         "path": "world/sources/blueprints/the-broke-column.layout.json",
-        "sha256": "8af6fc89d0a85eec36d3c63aa6a28aa164b3b55667af3a7f20f67551b3ce5715"
+        "sha256": "8bc4613b6e573df52749a4ab365727e7ab0b4b52a74ff056c38653e5a68c023a"
       }
     },
     "walkRoutes": {

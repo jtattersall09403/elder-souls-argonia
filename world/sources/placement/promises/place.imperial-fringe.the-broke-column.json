@@ -230,7 +230,7 @@
    "text": "A bench by a spring-fed tarn in the hills above the Mile House track, out of sight of the Gideon road, with cover uphill.",
    "confirmed": {
     "sha": "1a40819d9fd9",
-    "note": "The site is a spring head by an upland tarn (scour site spring-head-028), 165 m off the nearest route; the tents stand on the bench."
+    "note": "The site is a spring head by an upland tarn (scour site spring-head-028), 165 m off the nearest route; the tents (b-command, b-tent1..3) stand on the bench. The tarn is frozen water, not a placement: its nearest tarn-upland cell is 22 m north of the tent line at (1205, 3065), level 72.53 m, up to 2.1 m deep (water kind grid, audit10 fix-places-1)."
    }
   },
   {
