@@ -1836,7 +1836,20 @@ SIGN_ARM_RISE_M = 0.25        # signRule (walk 4): arms on one post differ in he
 SIGN_ROUTE_REACH_M = 150.0    # ... a destination's route is read within this of the post
 SIGN_LEG_M = 5.0              # ... its bearing: the route this far on from the post (its next leg;
                               # 25 m reads a bend: Claywater 345 deg against the 315 deg leg)
+SIGN_SOCKET_TOL_M = 0.05      # ... an arm's origin within this of one of the post's mined arm heights
+SIGN_LEAN_MAX_DEG = 1.0       # ... a post or arm tilted past this leans off its mounted axis
 SIGN_TIP_RATIO = 0.5          # a board's tip end is under this share of its other end's height
+
+
+@lru_cache(maxsize=None)
+def post_arm_heights(post_asset: str) -> tuple[float, ...]:
+    """The post's mined arm sockets (audit10 P1): the heights over the post's
+    base at which the source plugins hang road boards (SIGN_BOARD_TOKENS) on
+    this very post asset (`kit-mounts-mined.json` pairs), sorted."""
+    rec = json.loads((paths.PLACEMENT_RECORDS / "kit-mounts-mined.json").read_text())
+    return tuple(sorted({round(float(pt["offsetM"][2]), 3) for p in rec.get("pairs", [])
+                   if p["parent"] == post_asset and _has(p["child"], SIGN_BOARD_TOKENS)
+                   for pt in p.get("points") or [p]}))
 
 
 def board_tip_bearing(cat, p) -> float | None:
@@ -1934,15 +1947,35 @@ def _post_arms(cat, scene, g, post: str, boards: list, sock: dict | None) -> tup
         up = float(cz) - float(g.chunk_height(float(cx), float(-cy)))
         arms.append((uid, up, board_tip_bearing(cat, p)))
     host = scene.piece(post)
+    sockets = post_arm_heights(host.asset)
     row = {"arms": [{"uid": u, "centreOverGroundM": round(h, 2),
-                     "pointsDeg": None if b is None else round(b, 1)} for u, h, b in arms]}
+                     "pointsDeg": None if b is None else round(b, 1)} for u, h, b in arms],
+           "armSocketsM": [round(z, 3) for z in sockets]}
     fails = []
+    if abs(host.pitch) > SIGN_LEAN_MAX_DEG or abs(host.roll) > SIGN_LEAN_MAX_DEG:
+        fails.append(f"{post}: the post leans (pitch {host.pitch:.1f}, roll {host.roll:.1f} deg; "
+                     f"> {SIGN_LEAN_MAX_DEG}): its arms lean with it")
+    for (u, _h, _b), a in zip(arms, (scene.piece(u) for u in boards)):
+        rise = (a.y - host.y) / (host.scale or 1.0)
+        row["arms"][boards.index(u)]["onPostM"] = round(rise, 3)
+        if abs(a.pitch) > SIGN_LEAN_MAX_DEG or abs(a.roll) > SIGN_LEAN_MAX_DEG:
+            fails.append(f"{post}: arm {u} leans off its mounted axis (pitch {a.pitch:.1f}, "
+                         f"roll {a.roll:.1f} deg; > {SIGN_LEAN_MAX_DEG})")
+        near = min(sockets, key=lambda z: abs(z - rise)) if sockets else None
+        if near is None or abs(near - rise) > SIGN_SOCKET_TOL_M:
+            fails.append(f"{post}: arm {u} hangs {rise:.2f} m up the post, off its mined arm sockets "
+                         f"{[round(z, 2) for z in sockets]} (> {SIGN_SOCKET_TOL_M} m)")
     for (u1, h1, b1), (u2, h2, b2) in itertools.combinations(arms, 2):
+        y1, y2 = scene.piece(u1).yaw, scene.piece(u2).yaw
         if abs(h1 - h2) < SIGN_ARM_RISE_M:
             fails.append(f"{post}: arms {u1} and {u2} stand {abs(h1 - h2):.2f} m apart in height "
                          f"(want at least {SIGN_ARM_RISE_M} m)")
         if b1 is not None and b2 is not None and _angle_off(b1, b2) <= SIGN_BEARING_MAX_DEG:
             fails.append(f"{post}: arms {u1} and {u2} point the same way ({b1:.0f} and {b2:.0f} deg)")
+        elif (b1 is None or b2 is None) and _angle_off(y1, y2) <= SIGN_BEARING_MAX_DEG:
+            fails.append(f"{post}: arms {u1} and {u2} share one yaw ({y1:.0f} and {y2:.0f} deg)")
+    if len(arms) > 1 and not (sock or {}).get("pointsTo"):
+        fails.append(f"{post}: {len(arms)} arms and no destination for any (sign socket pointsTo)")
     dests = list((sock or {}).get("pointsTo") or [])
     if dests and len(dests) == len(arms):
         want = [destination_bearing(host.x, host.z, d) for d in dests]

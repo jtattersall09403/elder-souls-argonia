@@ -46,8 +46,34 @@ def test_roads_alone_cannot_measure_the_track_waymark(bc, cat, monkeypatch):
     assert "no published road or track toward" in fails and "deg off" in fails
 
 
+def _on_sockets(scene):
+    """The audit10 arms moved onto the post's mined arm sockets (2.51 and
+    2.033 m over its base): the fixed case."""
+    post = scene.piece("s-post")
+    scene.piece("s-board1").y = post.y + 2.51
+    scene.piece("s-board2").y = post.y + 2.033
+    return scene
+
+
+def test_hand_heights_off_the_mined_sockets_fail(bc, cat):
+    """audit10 P1: the published arms hang at 2.14 and 1.78 m up the post
+    (hand `--height` 1.9/1.55 over the ground), off every mined socket."""
+    fails = " | ".join(_sign(cat, bc.view())["failures"])
+    assert "s-board1 hangs 2.14 m up the post, off its mined arm sockets" in fails
+    assert "s-board2 hangs 1.78 m up the post" in fails
+
+
+def test_a_leaning_arm_and_a_shared_yaw_fail(bc, cat):
+    scene = _on_sockets(bc.view())
+    scene.piece("s-board2").roll = 6.0
+    scene.piece("s-board2").yaw = 180.0
+    fails = " | ".join(_sign(cat, scene)["failures"])
+    assert "arm s-board2 leans off its mounted axis" in fails
+    assert "point the same way" in fails
+
+
 def test_a_track_only_camp_passes(bc, cat):
-    out = _sign(cat, bc.view())
+    out = _sign(cat, _on_sockets(bc.view()))
     assert out["failures"] == []
     dests = {d["to"]: d for d in out["posts"]["s-post"]["destinations"]}
     assert dests[MILE_HOUSE]["bearingDeg"] == pytest.approx(270.0, abs=5)

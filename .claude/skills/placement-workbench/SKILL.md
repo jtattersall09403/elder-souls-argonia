@@ -124,7 +124,7 @@ for trying a pose by hand:
   fit is a `modular-runs` question, not a nudge.
 - Mounted children (sconce on a wall, sign on a post):
   `$W mount <child> <parent> [--along M]`, which uses the mined band/points.
-  A road board on its post (pair `yawBy: designer`) takes height and face from the pair and its bearing from you: `mount <board> <post> --yaw D` (world yaw toward the road). With no mined pair, a child whose longest PLAN side is under 0.6 m and
+  A road board on its post (pair `yawBy: designer`) takes height and face from the pair and its bearing from you: `mount <board> <post> --yaw D`, D the bearing of the route leg toward that board's own `pointsTo` destination (`check` `sign.posts[].destinations[].bearingDeg`; a board's tip points yaw + 90 for the bmv medium/large boards), so two arms on one post never share a yaw. Never pass `--height` off the post's mined arm sockets (`sign.posts[].armSocketsM`, heights over the post base); a second arm takes a different socket of that post (a board of another size, whose own mined pair sits there, e.g. medium 1.92 m with large 2.51 m), never a hand height. With no mined pair, a child whose longest PLAN side is under 0.6 m and
   whose height is under 1.0 m (0102 decision 5 as amended 2026-09-26) may
   stand on its parent's top where it is placed when the op names the render
   round that approved it: `--unmined "reader-approved r2"` (layout
@@ -330,7 +330,12 @@ failed on the defect the owner walked, `tests/test_walk4_wb.py`):
   folder takes). Greenspring at HEAD: b-fam1, b-fam2 (kotm mudhut01:
   `kotm:argonia/mudhuts/door01` by family, 5 linked placements). Where the
   opening really is: `blender/examples/doorway_rays.py` (`ring` mode).
-- `signRule` (walk 4 half): the boards on one post differ in centre height
+- `signRule` (walk 4 half; audit10 P1): every board hangs within 0.05 m of
+  one of its post's mined arm sockets (`post_arm_heights`: the heights over the
+  post base at which the plugins hang road boards on that post asset), the
+  post and each arm lean under 1 deg, a post with two or more arms has a
+  `pointsTo` destination per arm, and two arms never share a yaw within
+  15 deg; the boards on one post differ in centre height
   by >= 0.25 m, never point within 15 deg of each other (a board points
   along its longest axis toward its tip, the end under half its other end's
   height), and each points within 15 deg of the route leg toward one of the
