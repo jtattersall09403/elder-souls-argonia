@@ -26,10 +26,13 @@ import type * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
+import { SharedKtx2Textures } from "./sharedTextures";
 
 export interface KitDecoders {
   readonly ktx2: KTX2Loader;
   readonly meshopt: typeof MeshoptDecoder;
+  /** The renderer's one kit texture pool: every part loader (settlements, interiors, flora, groundcover) transcodes and uploads a `kits/tex` file once (decision 0120). */
+  readonly textures: SharedKtx2Textures;
   /** The site base the transcoder was resolved against. */
   readonly baseUrl: string;
   dispose(): void;
@@ -43,6 +46,7 @@ export function createKitDecoders(renderer: THREE.WebGLRenderer, baseUrl: string
   return {
     ktx2,
     meshopt: MeshoptDecoder,
+    textures: new SharedKtx2Textures(ktx2),
     baseUrl,
     dispose() { ktx2.dispose(); },
   };
@@ -94,4 +98,9 @@ export function configureKitLoader(loader: GLTFLoader, decoders: KitDecoders): G
 
 export function createKitLoader(decoders: KitDecoders): GLTFLoader {
   return configureKitLoader(new GLTFLoader(), decoders);
+}
+
+/** A loader for kit PARTS: their `kits/tex` textures come from the renderer's shared pool (`decoders.textures`). */
+export function createKitPartLoader(decoders: KitDecoders): GLTFLoader {
+  return createKitLoader(decoders).setKTX2Loader(decoders.textures as unknown as KTX2Loader);
 }

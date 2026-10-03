@@ -27,7 +27,11 @@ because 344 MB at about 13 MB/s is 25 s alone.
 1. **Kit meshes and textures are fetched per piece, or per kit section, on
    demand.** The unit is one piece (or a named section of a kit), not the
    kit file. `InteriorDoors.tsx` already loads `${kit.id}#${assetId}` per
-   part; exterior kits use the same addressing.
+   part; exterior kits use the same addressing. A pool texture
+   (`kits/tex/<sha16>.ktx2`) is owned once per renderer, on its kit decoders
+   (`decoders.textures`, built in `createKitDecoders` and used by every part
+   loader through `createKitPartLoader`), so it uploads once whichever layer
+   names it.
 2. **Requests are ordered by distance from the spawn.** The spawn ring (the
    pieces inside the near band of the player's start) and the pieces in view
    load before `ready`. Everything else streams after `ready`, nearest
