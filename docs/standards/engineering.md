@@ -506,6 +506,9 @@ headless.
   layer's own gate replaces it (distance AND the view frustum, widened, with
   a hysteresis latch: reuse `cellGating.viewPlanesFor` / `boxInPlanes`);
   shadow casters are kept by a sweep along the light.
+- A merged batch's key never depends on the camera; every level is built
+  before ready and walking only flips visibility between prebuilt batches
+  (F40: the settlement layer merged on the main thread on every 40 m move).
 - Build each unit once, on the input it settles on (the finest terrain LOD
   it needs, or a short settle window), and count rebuilds in a harness that
   replays a startup stream.

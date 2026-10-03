@@ -94,6 +94,41 @@ export function architectureLod(
   };
 }
 
+/** A ladder's edges are rounded to this (m) so pieces of near-equal size share
+ * one batch class (F40: a class is part of a camera-independent batch key). */
+export const SETTLEMENT_LADDER_STEP_M = 10;
+
+/** The ladder with every edge rounded to SETTLEMENT_LADDER_STEP_M. */
+export function quantizedLadder(ladder: readonly LodRung[]): LodRung[] {
+  const q = (m: number) => (Number.isFinite(m) ? Math.round(m / SETTLEMENT_LADDER_STEP_M) * SETTLEMENT_LADDER_STEP_M : m);
+  return ladder.map((rung) => ({ level: rung.level, lo: q(rung.lo), hi: q(rung.hi) }));
+}
+
+/**
+ * Which prebuilt batch of a chunk draws at a camera position (F40). Every
+ * level of every piece is merged once, keyed by chunk, level and ladder class
+ * (never by the camera); walking only flips these visibilities. The distance
+ * is the chunk centre's, so every piece of one batch steps level together.
+ */
+export interface SettlementBatchView {
+  /** Chunk centre, world metres. */
+  x: number;
+  z: number;
+  level: number;
+  ladder: readonly LodRung[];
+  /** Draw cap for the piece kind, scaled (metres). */
+  capM: number;
+}
+
+export function ladderClassKey(ladder: readonly LodRung[], capM: number): string {
+  return `${ladder.map((r) => `${r.level}:${r.hi}`).join("/")}@${Math.round(capM)}`;
+}
+
+export function batchVisibleAt(view: SettlementBatchView, focus: { x: number; z: number }): boolean {
+  const d = Math.hypot(view.x - focus.x, view.z - focus.z);
+  return d <= view.capM && ladderLevelAt(view.ladder, d) === view.level;
+}
+
 export function validateLodTriangles(
   triangles: readonly number[],
   contract: ArchitectureLodContract,

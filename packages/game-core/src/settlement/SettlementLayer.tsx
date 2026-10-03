@@ -20,8 +20,12 @@ import {
   buildArchitectureKit, kitAssetMetaFromManifest, kitAssetMetaOf, type ArchitecturePart,
 } from "./kit";
 import {
+  batchVisibleAt,
+  ladderClassKey,
   ladderLevelAt,
   mergeTransformedParts,
+  quantizedLadder,
+  type SettlementBatchView,
   vertexLayoutKey,
   type MergeEntry,
   settlementLadder,
@@ -65,7 +69,7 @@ import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import {
   FLAME_TEXTURE_ASSET_ID, FLAME_TEXTURE_KIT, fixtureFromFireSocket, fixtureFromPiece,
   burnsByDay, drawsOwnFire, isFireSocket, isLightFixturePlacement, isSpriteHolderPlacement,
-  LIGHTS_ACTIVE_M, SettlementLightFixtures,
+  SettlementLightFixtures,
   type LightFixture,
 } from "./lighting";
 import { isFlameCardMaterial } from "../fx/fire/flameAnchors";
@@ -100,6 +104,10 @@ interface DrawBucket {
   shell?: boolean;
   /** The chunk its placements stand in (`settlementChunkKey`). */
   chunk: string;
+  /** Where its batch draws (chunk centre, level, ladder class). */
+  view: SettlementBatchView;
+  /** Its ladder class (`ladderClassKey`). */
+  ladderClass: string;
 }
 
 /** What one settlement draw holds: every part of one cell drawing with one
@@ -114,6 +122,8 @@ export interface DrawBatch {
   signatures: string[];
   /** It holds far-tier copies. */
   far: boolean;
+  /** When it draws (F40); absent = always. */
+  view?: SettlementBatchView;
 }
 
 /** The batch a bucket draws in: material instance (one per identity,
@@ -130,12 +140,12 @@ export function addToBatch(
   batches: Map<string, DrawBatch>, key: string,
   row: {
     material: THREE.Material; drawFlags: DrawBatch["drawFlags"]; depthMaterial?: THREE.MeshDepthMaterial;
-    far: boolean; entry: MergeEntry; signature: string;
+    far: boolean; entry: MergeEntry; signature: string; view?: SettlementBatchView;
   },
 ): void {
   const batch = batches.get(key) ?? {
     material: row.material, drawFlags: row.drawFlags, depthMaterial: row.depthMaterial,
-    entries: [], signatures: [], far: false,
+    entries: [], signatures: [], far: false, view: row.view,
   };
   batch.entries.push(row.entry);
   batch.signatures.push(row.signature);
@@ -238,24 +248,29 @@ export function settlementChunkKey(x: number, z: number): string {
 
 const REBUILD_MOVE_M = 40;
 
-/** Beyond the lamp band a draw batch spans a square of this edge (m): no
- * fixture lamp lights it, so it needs no chunk of its own for its lamps. */
-export const SETTLEMENT_COARSE_CELL_M = 384;
+/** The camera moves this far (m) before the batches' visibility is chosen again. */
+const BATCH_VISIBILITY_MOVE_M = 2;
 
-/** A chunk whose centre is within this of the build focus keeps its own draws:
- * lamps burn within LIGHTS_ACTIVE_M of the camera, the camera moves up to
- * REBUILD_MOVE_M before the next build, and a chunk reaches a diagonal past
- * its centre. */
-export const SETTLEMENT_LAMP_BAND_M = LIGHTS_ACTIVE_M + REBUILD_MOVE_M + SETTLEMENT_CHUNK_M * Math.SQRT2;
+/** The cell a batch draws in (F40): its 48 m chunk (culled with its square,
+ * lit by its own lamps: fixture lights are chosen per object from its
+ * bounds), its kit level and its ladder class. Never the camera: every key is
+ * built once and walking only flips visibility (`batchVisibleAt`). */
+export function settlementBatchCell(chunk: string, level: number, ladderClass: string): string {
+  return `c${chunk}|L${level}|${ladderClass}`;
+}
 
-/** The cell a chunk's parts draw in: the chunk itself inside the lamp band
- * (culled with its square, lit by its own lamps: fixture lights are chosen per
- * object from its bounds), else the coarse cell its centre falls in. */
-export function drawCellOf(chunk: string, focus: { x: number; z: number }, coarseM = SETTLEMENT_COARSE_CELL_M): string {
+/** The centre of a chunk, world metres. */
+export function settlementChunkCentre(chunk: string): { x: number; z: number } {
   const [cx, cz] = chunk.split(",").map(Number);
-  const x = (cx + 0.5) * SETTLEMENT_CHUNK_M, z = (cz + 0.5) * SETTLEMENT_CHUNK_M;
-  if (Math.hypot(x - focus.x, z - focus.z) <= SETTLEMENT_LAMP_BAND_M) return `c${chunk}`;
-  return `C${Math.floor(x / coarseM)},${Math.floor(z / coarseM)}`;
+  return { x: (cx + 0.5) * SETTLEMENT_CHUNK_M, z: (cz + 0.5) * SETTLEMENT_CHUNK_M };
+}
+
+/** Show the prebuilt batches that draw at `focus`, hide the rest. */
+export function applyBatchVisibility(group: THREE.Object3D, focus: { x: number; z: number }): void {
+  for (const child of group.children) {
+    const view = child.userData.esSettlementView as SettlementBatchView | undefined;
+    if (view) child.visible = batchVisibleAt(view, focus);
+  }
 }
 
 /** Dispose and detach everything the layer put in `group`: the merged batch
@@ -276,7 +291,7 @@ function disposeChildren(group: THREE.Group, keep?: ReadonlySet<THREE.BufferGeom
  * and the sum of its translations to the millimetre. A retry that resolves
  * exactly what is already live is not swapped in (check-in 2 item 2).
  */
-function buildSignature(buckets: Map<string, DrawBucket>, colliderParts: number): string {
+function buildSignature(buckets: Map<string, DrawBucket>): string {
   const rows: string[] = [];
   for (const [key, bucket] of buckets) {
     let sum = 0;
@@ -284,7 +299,7 @@ function buildSignature(buckets: Map<string, DrawBucket>, colliderParts: number)
     for (const m of bucket.farTransforms) sum += m.elements[12] + m.elements[13] + m.elements[14];
     rows.push(`${key}:${bucket.transforms.length}:${bucket.farTransforms.length}:${Math.round(sum * 1000)}`);
   }
-  return `${rows.sort().join(",")}|${colliderParts}`;
+  return rows.sort().join(",");
 }
 
 /** How long a finished build waits for its programs to link before it swaps
@@ -580,6 +595,8 @@ export function SettlementLayer({
   // What the live group draws, so a retry that resolves the same set is not
   // swapped in; and how many draws the last swap put on screen.
   const liveSignature = useRef("");
+  /** Where the live batches' visibility was last chosen (F40). */
+  const visibleAt = useRef<{ x: number; z: number } | null>(null);
   const liveDraws = useRef(0);
   // Per-frame evidence for the flash probe (check-in 2 item 2): a frame whose
   // live group is empty while the last finished build drew something is a
@@ -863,6 +880,12 @@ export function SettlementLayer({
     frames.liveChildren = liveChildren;
     if (liveChildren === 0 && liveDraws.current > 0) frames.blankFrames += 1;
     const at = builtAt.current; const focus = focusRef.current;
+    // walking swaps prebuilt batches; it never merges (F40)
+    const shown = visibleAt.current;
+    if (root.current && (!shown || Math.hypot(focus.x - shown.x, focus.z - shown.z) > BATCH_VISIBILITY_MOVE_M)) {
+      applyBatchVisibility(root.current, focus);
+      visibleAt.current = { x: focus.x, z: focus.z };
+    }
     const rebuildMoveM = at ? Math.min(REBUILD_MOVE_M, Math.max(1, at.coveredRadiusM * 0.5)) : REBUILD_MOVE_M;
     if (at && Math.hypot(focus.x - at.x, focus.z - at.z) > rebuildMoveM) {
       builtAt.current = null; setRevision((v) => v + 1);
@@ -975,6 +998,7 @@ export function SettlementLayer({
         missingIds.push(p.id);
       };
       let sinceYield = 0;
+      let triangles = 0; let farInstances = 0; let nearInstances = 0;
       const solidsKept: SolidCache = new Map();
 
       const resolvePlaced = createPlacementResolver(bundle.placements,
@@ -998,9 +1022,9 @@ export function SettlementLayer({
         const drawScaleHere = quality?.architectureDrawScale ?? 1;
         const inDrawRange = distance <= cap * drawScaleHere;
         const collisionResident = residentPlacementIds.has(placement.id);
-        // Audit every physical place reference the layer can reach, route
-        // structures included (they were 85 % of the bundle and excluded).
-        if (!inDrawRange && !collisionResident) continue;
+        // Every placement of the bundle is batched at every level it can draw
+        // (F40: the batch set never depends on the camera); fixtures, smoke
+        // and solids stay camera-ranged.
         if (isSmokeColumnPlacement(placement)) {
           // An effect draws no kit mesh and has no collider: its pose is the
           // mounted child's final transform (the chimney top).
@@ -1040,59 +1064,69 @@ export function SettlementLayer({
         // own), so a material never flips glow kind (and recompiles) with what
         // a build happens to hold.
         const ownFlames = new Set(meta?.additiveMaterials ?? []);
-        if (inDrawRange) {
+        if (fixture || spriteHolder) {
           const box = assetBox(`${placement.kit}|${placement.assetId}`, asset.levels[0]);
-          if (fixture || spriteHolder) {
-            fixturesHere.push(fixtureFromPiece(placement.id, meta, transform, box, fixture,
-              { hostMeta, hasMountedFire: hostsOfFire.has(placement.id) }));
-          }
-          const triangles = asset.levels.map((parts) => parts.reduce((n, p) => n + p.triangles, 0));
+          fixturesHere.push(fixtureFromPiece(placement.id, meta, transform, box, fixture,
+            { hostMeta, hasMountedFire: hostsOfFire.has(placement.id) }));
+        }
+        {
+          const levelTriangles = asset.levels.map((parts) => parts.reduce((n, p) => n + p.triangles, 0));
           const piece = {
             longestSideM: assetLongestSideM(`${placement.kit}|${placement.assetId}`, asset.levels[0])
               * placement.scale,
             kind: placement.kind,
           };
-          validateLodTriangles(triangles, bundle.lod, piece);
+          validateLodTriangles(levelTriangles, bundle.lod, piece);
           // One rung per kit level, hard steps, no card (0075): the ladder is
           // the same helper the vegetation cell build uses.
-          const ladder = settlementLadder(footprintDiagonalM(placement), asset.levels.length,
-            bundle.lod, cap, drawScaleHere, piece);
-          const level = ladderLevelAt(ladder, distance);
-          const farMerged = distance >= bundle.lod.farMergeDistanceM * drawScaleHere;
-          asset.levels[level].forEach((part, partIndex) => {
-            // a flame card is drawn by the fire module instead: the piece's
-            // fixture burns its bed (lighting.ts, flameCardBedAnchorLocal)
-            if (isFlameCardMaterial(meta, part.material.name)) return;
-            // a flame part burns by day or not by what it is mounted on, so
-            // the same fire asset in a brazier and on its own are two buckets
-            const flamePart = ownFlames.has(part.material.name);
-            const litByDay = flamePart && burnsByDay(meta, hostMeta);
-            const chunk = settlementChunkKey(placement.positionM[0], placement.positionM[2]);
-            const key = `${placement.kit}|${placement.assetId}|${level}|${partIndex}${litByDay ? "|day" : ""}|${chunk}`;
-            const bucket = buckets.get(key) ?? {
-              part, transforms: [], groundLinesM: [], farTransforms: [], farGroundLinesM: [], chunk,
-            };
-            if (flamePart) {
-              bucket.flame = true;
-              bucket.alwaysLit = litByDay;
-            }
-            if (isLanternShellMaterial(part.material, meta)) bucket.shell = true;
-            const partTransform = transform.clone().multiply(part.localMatrix);
-            if (farMerged) {
-              bucket.farTransforms.push(partTransform);
-              bucket.farGroundLinesM.push(groundLineM);
-            } else {
-              bucket.transforms.push(partTransform);
+          // edges rounded so pieces of near-equal size share a batch class
+          const ladder = quantizedLadder(settlementLadder(footprintDiagonalM(placement),
+            asset.levels.length, bundle.lod, cap, drawScaleHere, piece));
+          const capM = cap * drawScaleHere;
+          const ladderClass = ladderClassKey(ladder, capM);
+          const chunk = settlementChunkKey(placement.positionM[0], placement.positionM[2]);
+          const centre = settlementChunkCentre(chunk);
+          // what draws now, for the stats only (the batches never read it)
+          const chunkDistance = Math.hypot(centre.x - focus.x, centre.z - focus.z);
+          const levelNow = chunkDistance <= capM ? ladderLevelAt(ladder, chunkDistance) : -1;
+          const farNow = distance >= bundle.lod.farMergeDistanceM * drawScaleHere;
+          const levels = [...new Set(ladder.map((rung) => rung.level))];
+          for (const level of levels) {
+            asset.levels[level].forEach((part, partIndex) => {
+              // a flame card is drawn by the fire module instead: the piece's
+              // fixture burns its bed (lighting.ts, flameCardBedAnchorLocal)
+              if (isFlameCardMaterial(meta, part.material.name)) return;
+              // a flame part burns by day or not by what it is mounted on, so
+              // the same fire asset in a brazier and on its own are two buckets
+              const flamePart = ownFlames.has(part.material.name);
+              const litByDay = flamePart && burnsByDay(meta, hostMeta);
+              const key = `${placement.kit}|${placement.assetId}|${level}|${partIndex}${litByDay ? "|day" : ""}|${chunk}|${ladderClass}`;
+              const bucket = buckets.get(key) ?? {
+                part, transforms: [], groundLinesM: [], farTransforms: [], farGroundLinesM: [], chunk,
+                ladderClass, view: { x: centre.x, z: centre.z, level, ladder, capM },
+              };
+              if (flamePart) {
+                bucket.flame = true;
+                bucket.alwaysLit = litByDay;
+              }
+              if (isLanternShellMaterial(part.material, meta)) bucket.shell = true;
+              bucket.transforms.push(transform.clone().multiply(part.localMatrix));
               bucket.groundLinesM.push(groundLineM);
-            }
-            buckets.set(key, bucket);
-          });
-          placementCount += 1;
+              buckets.set(key, bucket);
+              if (level === levelNow) {
+                triangles += part.triangles;
+                if (farNow) farInstances += 1; else nearInstances += 1;
+              }
+            });
+          }
+          if (inDrawRange) placementCount += 1;
         }
-        const solid = yield* solidSteps(placement, transform, anchored?.buryM ?? 0,
-          asset.levels[0], solidCache.current, solidsKept);
-        if (solid) solidCandidates.push({ value: solid, placementId: placement.id,
-          distanceM: distance, parts: solid.parts.length });
+        if (inDrawRange || collisionResident) {
+          const solid = yield* solidSteps(placement, transform, anchored?.buryM ?? 0,
+            asset.levels[0], solidCache.current, solidsKept);
+          if (solid) solidCandidates.push({ value: solid, placementId: placement.id,
+            distanceM: distance, parts: solid.parts.length });
+        }
       }
 
       solidCache.current = solidsKept;
@@ -1124,10 +1158,12 @@ export function SettlementLayer({
       // A retry that resolves exactly what is live keeps the live group: the
       // signature is taken before any geometry is cloned or merged, so such a
       // retry costs no clone, merge or upload (check-in 2 item 2).
-      const signature = buildSignature(buckets, collision.parts);
+      // The batch set is camera-independent (F40), so walking reuses the live
+      // group: no merge, no new mesh, no compile; only visibility changes.
+      const signature = buildSignature(buckets);
       const reuseLive = signature === liveSignature.current && group.children.length > 0;
-      let triangles = 0; let draws = 0; let farInstances = 0; let farMeshes = 0;
-      let nearInstances = 0; let groundBoundInstances = 0; let shadowPairedDraws = 0;
+      let draws = 0; let farMeshes = 0; let shadowPairedDraws = 0;
+      const groundBoundInstances = nearInstances + farInstances;
       const shadowPairFailures: string[] = [];
       // The run-joint gate (check-in 3 §2): a drawn run must step by its
       // mined rise at every joint. Reported in the evidence the probes read
@@ -1138,8 +1174,8 @@ export function SettlementLayer({
       // one material instance (one per identity, materialIdentity.ts) and one
       // vertex layout is baked into one geometry. A main thread bound by
       // per-draw CPU drew an instanced mesh per (asset, part, chunk): 267 at
-      // Greenspring. Inside the lamp band the cell is the 48 m chunk (its
-      // bounds pick its lamps); beyond it SETTLEMENT_COARSE_CELL_M (drawCellOf).
+      // Greenspring. The cell is the 48 m chunk (its bounds pick its lamps),
+      // one batch per kit level and ladder class (settlementBatchCell).
       const batches = new Map<string, DrawBatch>();
       for (const [bucketKey, bucket] of buckets) {
         yield;
@@ -1174,14 +1210,10 @@ export function SettlementLayer({
             `${material.name || "<unnamed>"}: ${error}`));
           throw new Error(`settlement colour/depth material pair failed: ${pairErrors.join("; ")}`);
         }
-        nearInstances += bucket.transforms.length;
-        farInstances += bucket.farTransforms.length;
-        groundBoundInstances += bucket.transforms.length + bucket.farTransforms.length;
-        triangles += bucket.part.triangles * (bucket.transforms.length + bucket.farTransforms.length);
-        const transforms = [...bucket.transforms, ...bucket.farTransforms];
-        const groundLinesM = [...bucket.groundLinesM, ...bucket.farGroundLinesM];
-        addToBatch(batches, drawBatchKey(material, bucket.part.geometry, drawCellOf(bucket.chunk, focus), drawFlags), {
-          material, drawFlags, depthMaterial, far: bucket.farTransforms.length > 0,
+        const { transforms, groundLinesM } = bucket;
+        const cell = settlementBatchCell(bucket.chunk, bucket.view.level, bucket.ladderClass);
+        addToBatch(batches, drawBatchKey(material, bucket.part.geometry, cell, drawFlags), {
+          material, drawFlags, depthMaterial, far: bucket.view.level > 0, view: bucket.view,
           entry: { geometry: bucket.part.geometry, transforms, groundLinesM },
           signature: `${bucketKey}:${farSignatureOf(transforms, groundLinesM)}`,
         });
@@ -1190,9 +1222,11 @@ export function SettlementLayer({
       const farKept = new Map<string, { signature: string; geometry: THREE.BufferGeometry }>();
       for (const [batchKey, batch] of batches) {
         yield;
-        draws += 1;
-        if (batch.depthMaterial) shadowPairedDraws += 1;
-        if (batch.far) farMeshes += 1;
+        if (!batch.view || batchVisibleAt(batch.view, focus)) {
+          draws += 1;
+          if (batch.depthMaterial) shadowPairedDraws += 1;
+          if (batch.far) farMeshes += 1;
+        }
         if (reuseLive) continue;
         const batchSignature = batch.signatures.sort().join(";");
         const cached = farCache.current.get(batchKey);
@@ -1206,6 +1240,7 @@ export function SettlementLayer({
         mesh.renderOrder = batch.drawFlags.renderOrder;
         if (batch.depthMaterial) mesh.customDepthMaterial = batch.depthMaterial;
         mesh.userData.esSettlementBatch = true;
+        if (batch.view) mesh.userData.esSettlementView = batch.view;
         next.add(mesh);
       }
       // No code-placed dressing at a building's foot (check-in 2 ruling 1):
@@ -1226,6 +1261,8 @@ export function SettlementLayer({
         const linkStart = performance.now();
         while (!linker.observed && performance.now() - linkStart < SETTLEMENT_LINK_WAIT_MS) yield;
         let linked = false;
+        // Every prebuilt batch is still visible here, so every level's program
+        // links now (compile walks visible objects only), never mid-walk.
         linker.compileAsync(next, sceneCamera, scene).then(() => { linked = true; }, () => { linked = true; });
         while (!linked && performance.now() - linkStart < SETTLEMENT_LINK_WAIT_MS) yield;
         // the live far merges not kept are freed with the live group
@@ -1235,6 +1272,8 @@ export function SettlementLayer({
         // Every piece is baked into its instance matrices or merged geometry
         // at identity: no per-frame local-matrix recompose (audit row 16).
         for (const child of next.children) { child.matrixAutoUpdate = false; child.updateMatrix(); }
+        applyBatchVisibility(next, focusRef.current);
+        visibleAt.current = { ...focusRef.current };
         swapInBuild(group, next);
         // Twins of materials no longer drawn go now, not at unmount.
         const drawn = new Set(group.children.map((child) => (child as THREE.Mesh).material));
