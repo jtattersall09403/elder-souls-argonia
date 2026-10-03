@@ -44,6 +44,9 @@ export class CanopyMap {
   readonly data = new Float32Array(CANOPY_TEXELS * CANOPY_TEXELS * 4);
   readonly texture: THREE.DataTexture;
   readonly origin = new THREE.Vector2(Number.NaN, Number.NaN);
+  /** Whether the last bake rasterised any crown (the map spans +-128 m, rebaked every 32 m, so false
+   * means no crown within 96 m of the camera): the volumetrics skip the shaft march when false. */
+  hasCrowns = false;
   /** Box-filter scratch (cover, bottom, top, crown presence), allocated once. */
   private readonly tmp = new Float32Array(CANOPY_TEXELS * CANOPY_TEXELS * 4);
   private readonly row = new Float32Array(CANOPY_TEXELS * 4);
@@ -63,6 +66,7 @@ export class CanopyMap {
     this.origin.set(ox, oz);
     const d = this.data;
     d.fill(0);
+    let any = false;
     for (const c of this.crowns(x, z, CANOPY_SIZE_M * 0.75)) {
       const i0 = Math.max(0, Math.floor((c.x - c.radiusM - ox) / t)), i1 = Math.min(CANOPY_TEXELS - 1, Math.ceil((c.x + c.radiusM - ox) / t));
       const j0 = Math.max(0, Math.floor((c.z - c.radiusM - oz) / t)), j1 = Math.min(CANOPY_TEXELS - 1, Math.ceil((c.z + c.radiusM - oz) / t));
@@ -74,12 +78,14 @@ export class CanopyMap {
         const gap = leafGap(wx, wz);
         const dens = Math.min(1, edge * 2.5) * Math.min(1, Math.max(0, (gap - 0.3) / 0.08));
         const o = (j * CANOPY_TEXELS + i) * 4;
+        any = true;
         if (d[o + 3] === 0) { d[o + 3] = 1; d[o + 1] = c.bottomM; d[o + 2] = c.topM; } else {
           d[o + 1] = Math.min(d[o + 1], c.bottomM); d[o + 2] = Math.max(d[o + 2], c.topM);
         }
         d[o] = Math.min(1, d[o] + dens * (1 - d[o]));
       }
     }
+    this.hasCrowns = any;
     this.coverPass();
     this.texture.needsUpdate = true;
     return true;

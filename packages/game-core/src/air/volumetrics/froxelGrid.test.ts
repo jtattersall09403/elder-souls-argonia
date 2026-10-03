@@ -101,3 +101,23 @@ describe("window beam soft edge (vol10 diag3 Q5)", () => {
   });
 });
 
+
+describe("shaft march gate (vol10 c10 M3)", () => {
+  it("the canopy map flags whether any crown is near", async () => {
+    const { CanopyMap } = await import("./canopyMap");
+    const empty = new CanopyMap(() => []);
+    empty.update(0, 0, true);
+    expect(empty.hasCrowns).toBe(false);
+    const forest = new CanopyMap(() => [{ x: 10, z: 0, radiusM: 4, bottomM: 3, topM: 12 }]);
+    forest.update(0, 0, true);
+    expect(forest.hasCrowns).toBe(true);
+  });
+  it("skips the march with no crown (uniform branch) and the canopyT taps where a step has no weight", async () => {
+    const fs = await import("node:fs");
+    const src = fs.readFileSync(new URL("./froxelGrid.ts", import.meta.url), "utf8");
+    expect(src).toMatch(/If\(u\.outdoor\.mul\(u\.canopyNear\)\.mul\(step\(float\(0\), u\.sunDir\.y\)\)\.greaterThan\(0\)/);
+    expect(src).toMatch(/If\(w\.greaterThan\(0\), \(\) => \{\s+acc\.addAssign\([^;]*this\.canopyT\(p\)/);
+    expect(src).toMatch(/u\.canopyNear\.value = this\.canopy\.hasCrowns \? 1 : 0;/);
+    expect(src).toMatch(/\.mul\(this\.u\.outdoor\)\.mul\(this\.u\.canopyNear\);/);
+  });
+});

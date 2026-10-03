@@ -387,6 +387,8 @@ export class Volumetrics implements VolumetricsSampler {
     steamOff: uniform(new THREE.Vector3()), wispOff: uniform(new THREE.Vector3()),
     nearOrigin: uniform(new THREE.Vector2()), farOrigin: uniform(new THREE.Vector2()), canopyOrigin: uniform(new THREE.Vector2()),
     floorY: uniform(0), floorTop: uniform(0), floorMist: uniform(0), dust: uniform(0), outdoor: uniform(1),
+    /** 1 when the canopy map holds any crown (CanopyMap.hasCrowns): gates the per-pixel shaft march. */
+    canopyNear: uniform(0),
     lightCount: uniform(0, "int"), apertureCount: uniform(0, "int"),
     /** The band's per-pixel march steps (uniform loop bounds: a band step recompiles no material). */
     moteSteps: uniform(0, "int"), shaftSteps: uniform(12, "int"),
@@ -716,7 +718,8 @@ export class Volumetrics implements VolumetricsSampler {
     // shafts: the sun's in-scatter under the crowns out to SHAFT_NEAR_M, marched per pixel at full canopy
     // sharpness. The grid leaves this share out (shaftNear), so the march REPLACES the grid's sun term
     // there and blends into it over the far edge: gaps between beams stay dark, crowns are not brightened.
-    If(u.outdoor.mul(step(float(0), u.sunDir.y)).greaterThan(0), () => {
+    // no crown on the canopy map: no march (uniform branch), shaftNear is 0 and the grid carries the sun
+    If(u.outdoor.mul(u.canopyNear).mul(step(float(0), u.sunDir.y)).greaterThan(0), () => {
       const span = min(segLen, SHAFT_NEAR_M);
       const dt = span.div(float(u.shaftSteps));
       const ph = sunPhase(dot(dir, u.sunDir), u.sunDir.y);
@@ -727,9 +730,12 @@ export class Volumetrics implements VolumetricsSampler {
       Loop(u.shaftSteps, ({ i: k }: { i: TslNode }) => {
         const t = dt.mul(float(k).add(jit));
         const p = cam.add(dir.mul(t));
-        const w = this.shaftNear(p, t);
-        acc.addAssign(vec3(u.sunIrr).mul(ph).mul(this.gridDensity(p)).mul(w).mul(this.canopyT(p))
-          .mul(dt).mul(exp(sigma.mul(t).negate())).mul(ALBEDO));
+        const w = this.shaftNear(p, t).toVar();
+        // the 12 canopyT taps only where the step carries weight
+        If(w.greaterThan(0), () => {
+          acc.addAssign(vec3(u.sunIrr).mul(ph).mul(this.gridDensity(p)).mul(w).mul(this.canopyT(p))
+            .mul(dt).mul(exp(sigma.mul(t).negate())).mul(ALBEDO));
+        });
       });
     });
     // motes: hashed points on a 0.3 m lattice, ~1 in 8 cells kept (~4.6 /m^3), lit only inside a beam,
@@ -795,10 +801,11 @@ export class Volumetrics implements VolumetricsSampler {
   }
 
   /** Share of the sun in-scatter at `p` (distance `t` from the eye) carried by the per-pixel shaft march
-   * instead of the grid: under a crown, fading out over the last quarter of SHAFT_NEAR_M. */
+   * instead of the grid: under a crown, fading out over the last quarter of SHAFT_NEAR_M; 0 with no crown
+   * on the canopy map (canopyNear), where the march is skipped. */
   private shaftNear(p: TslNode, t: TslNode): TslNode {
     const c = texture(this.canopy.texture, p.xz.sub(this.u.canopyOrigin).div(CANOPY_SIZE_M));
-    return smoothstep(0, 0.3, c.b.sub(p.y)).mul(float(1).sub(smoothstep(SHAFT_NEAR_M * 0.75, SHAFT_NEAR_M, t))).mul(this.u.outdoor);
+    return smoothstep(0, 0.3, c.b.sub(p.y)).mul(float(1).sub(smoothstep(SHAFT_NEAR_M * 0.75, SHAFT_NEAR_M, t))).mul(this.u.outdoor).mul(this.u.canopyNear);
   }
 
   /** Canopy transmittance of the sun ray from `p` (three samples up the ray). */
@@ -1021,6 +1028,7 @@ export class Volumetrics implements VolumetricsSampler {
     const nearReady = copyFinite(u.nearOrigin.value, this.grids.near.origin);
     const farReady = copyFinite(u.farOrigin.value, this.grids.far.origin);
     copyFinite(u.canopyOrigin.value, this.canopy.origin);
+    u.canopyNear.value = this.canopy.hasCrowns ? 1 : 0;
     const sunElevationDeg = THREE.MathUtils.radToDeg(Math.asin(Math.max(-1, Math.min(1, f.sunDir.y / (f.sunDir.length() || 1)))));
     let r: FogRegimes | null = f.regimes ?? null;
     if (!r && f.fog) r = fogRegimesInto(this.regimes, f.fog, f.fog.sunElevationDeg ?? sunElevationDeg);
