@@ -14,6 +14,8 @@ picks the class from the kit manifest row (`--class` overrides).
 | class | id | question | pass bar |
 | --- | --- | --- | --- |
 | all | tex-missing | Is any surface flat magenta, flat green, pure white or pure black where a texture should be? | No such surface in any tile. |
+| all | decal-patch | Does any hard-edged pale or white patch sit on a body surface (cracks, grime, moss overlays) where the texture should blend? | No hard-edged pale patch; overlays blend or are absent. |
+| all | dark-body | Does the main body read as its material (stone, clay, wood) with visible texture variation, or as a flat near-black mass? | Texture variation visible in the front and eye tiles; if dark, report the body as DARK SOURCE for the texture-mean check. |
 | all | zfight | Do two coplanar surfaces show stripes, speckle or saw-tooth mixing (z-fighting)? | No striped or speckled overlap in any tile. |
 | all | bounds | Does the mesh fill its bounds box (green wire) without a part outside it or a large empty end? | Mesh touches the box on every side; nothing pokes out. |
 | all | scale | Against the grid (spacing in the caption), is the piece a believable real size? | Door ~2 m, candle < 0.3 m, campfire ring ~1-1.5 m, tent taller than 1.7 m eye tile's horizon if walk-in. |
