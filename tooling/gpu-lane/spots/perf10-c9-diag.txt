@@ -1,0 +1,4 @@
+# perf10 chunk 9: ONE diagnosis capture naming the e/e3 walk's 20-31 ms gc-0 frames (W6, perf-diag18.md). A smoke row, then the e
+# walk with the walk CPU profile x3 (eprof, eprof2, eprof3); the harness writes each walk's spike stacks. README "Probe rules".
+e0 ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5
+eprof ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5 walk=20 profile-walk x3
