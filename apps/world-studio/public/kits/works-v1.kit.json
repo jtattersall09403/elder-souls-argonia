@@ -10837,7 +10837,7 @@
       2
      ],
      "fps": 2.143,
-     "sizeM": 0.4614,
+     "sizeM": 0.5537,
      "source": "FlamesSmall03"
     },
     {
@@ -10852,7 +10852,7 @@
       8
      ],
      "fps": 64.0,
-     "sizeM": 1.1379,
+     "sizeM": 1.3655,
      "source": "Firearticles"
     }
    ],
@@ -12431,19 +12431,19 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 48837592,
-  "bytesAfter": 23698228,
+  "bytesBefore": 48837240,
+  "bytesAfter": 23698312,
   "images": 103,
   "imageBytesAfter": 20666274,
   "warnings": [],
-  "sha256": "5bdad18523f24ea07d62a70664aeb80fb19c6f62c4bde81ae13473ee6a1f5a7e",
+  "sha256": "850ee873b22925b3d1c8590af8c27f274c93c9199266f09afacecc122315beb9",
   "parts": {
    "parts": 11,
    "partBytes": 192348,
    "textureFiles": 11,
    "textureBytes": 1393228,
    "bytes": 1585576,
-   "sourceSha256": "5bdad18523f24ea07d62a70664aeb80fb19c6f62c4bde81ae13473ee6a1f5a7e"
+   "sourceSha256": "850ee873b22925b3d1c8590af8c27f274c93c9199266f09afacecc122315beb9"
   },
   "sidecarBytes": {
    "connectors": 86846,

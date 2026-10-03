@@ -3,15 +3,15 @@
  "kit": "interior-farmhouse-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 16825852,
-  "sha256": "41e70c2501d089d4862b21b392b72dec425390e9d230742d82410cbe25dd381a"
+  "bytes": 16552320,
+  "sha256": "66ec592bfbc8b569fe15b520252295cd7b0629a580ec0317d17261b6c36e3e7d"
  },
  "totals": {
   "parts": 61,
-  "partBytes": 1001272,
-  "textureFiles": 59,
-  "textureBytes": 3126256,
-  "bytes": 4127528
+  "partBytes": 973308,
+  "textureFiles": 55,
+  "textureBytes": 2954379,
+  "bytes": 3927687
  },
  "assets": {
   "vanilla:architecture/farmhouse/farmhouseldoor01": {
@@ -312,23 +312,19 @@
   },
   "vanilla:clutter/dining set/basicfork01": {
    "file": "vanilla_clutter_dining_set_basicfork01-bcefbf78.glb",
-   "bytes": 10576,
-   "vertices": 316,
-   "triangles": 264,
+   "bytes": 5048,
+   "vertices": 106,
+   "triangles": 88,
    "textures": [
-    "ceae962d07353191",
-    "e2609a5a05cebc32",
     "f0a4968543a45b2d"
    ]
   },
   "vanilla:clutter/dining set/basicknife01": {
    "file": "vanilla_clutter_dining_set_basicknife01-9e0dc14a.glb",
-   "bytes": 10440,
-   "vertices": 252,
-   "triangles": 222,
+   "bytes": 4944,
+   "vertices": 84,
+   "triangles": 74,
    "textures": [
-    "ceae962d07353191",
-    "e2609a5a05cebc32",
     "f0a4968543a45b2d"
    ]
   },
@@ -604,14 +600,12 @@
   },
   "vanilla:weapons/steel/steelmace": {
    "file": "vanilla_weapons_steel_steelmace-70e2f24c.glb",
-   "bytes": 37976,
-   "vertices": 1776,
-   "triangles": 1912,
+   "bytes": 21036,
+   "vertices": 1024,
+   "triangles": 1032,
    "textures": [
     "6032996b0b784083",
-    "657eec74ff4f5595",
-    "a50f5341d9b3c919",
-    "c8d8a67fc0190379"
+    "657eec74ff4f5595"
    ]
   }
  },
