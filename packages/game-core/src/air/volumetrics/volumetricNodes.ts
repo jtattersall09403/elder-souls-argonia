@@ -75,7 +75,7 @@ export const LAMP_REACH = 3;
  * small candle's halo spans tens of pixels at 10-30 m. viewM: full halo out to this camera distance,
  * fading to none at twice it. */
 export const LAMP_HALO = {
-  high: { sigmaFloorPerM: 0.02, minReachM: 6, viewM: 30 },
+  high: { sigmaFloorPerM: 0.05, minReachM: 6, viewM: 60 },
   mobile: { sigmaFloorPerM: 0.02, minReachM: 4, viewM: 20 },
 } as const;
 /** The LAMP_HALO row a renderer of `tier` draws: mobile its own, every desktop tier high. */
