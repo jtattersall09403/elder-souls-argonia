@@ -18,12 +18,13 @@
  * on it before its first shot (`fireReady`).
  */
 import * as THREE from "three";
-import { MeshBasicNodeMaterial, MeshStandardNodeMaterial } from "three/webgpu";
+import { MeshBasicNodeMaterial, MeshLambertNodeMaterial } from "three/webgpu";
 import { uniform, vec3 } from "three/tsl";
 import { FlameSystem } from "@elder-souls/game-core/fx/fire/FlameSystem";
 import { FIRE_LIGHTS, FIRE_PRESETS, FIRE_PRESET_ORDER, type FirePresetId } from "@elder-souls/game-core/fx/fire/fireTypes";
 import { fixtureLightFieldOf, installFixtureLighting } from "@elder-souls/game-core/render/fixtureLights/index";
 import { displayToScene } from "@elder-souls/game-core/fx/fire/fireNodes";
+import { FLAME_ROOT_SHARE } from "@elder-souls/game-core/fx/fire/flameMaterial";
 import type { WebGPURenderer } from "three/webgpu";
 import type { HarnessContext } from "../types";
 
@@ -49,13 +50,17 @@ export async function fireReady(ctx: HarnessContext, scene: THREE.Scene, camera:
 
 export interface FireLook {
   exposure: number;
-  /** Display-referred sRGB hex of the sky and the ground behind the fires. */
+  /** Display-referred sRGB hex of the sky backdrop behind the fires. */
   sky: number;
-  ground: number;
+  /**
+   * sRGB hex of the lit ground's diffuse albedo (vol10 c9 D1: separate from the display colours; at night
+   * a dark soil, linear ~0.02, so the ground 1 m from a lamp reads ~0.3 pre-ACES and only the pool under it saturates).
+   */
+  groundAlbedo: number;
 }
 
-export const FIRE_DAY: FireLook = { exposure: 3.9e-5, sky: 0x9fb8d0, ground: 0x6b6247 };
-export const FIRE_NIGHT: FireLook = { exposure: 22, sky: 0x05070d, ground: 0x0b0a08 };
+export const FIRE_DAY: FireLook = { exposure: 3.9e-5, sky: 0x9fb8d0, groundAlbedo: 0x6b6247 };
+export const FIRE_NIGHT: FireLook = { exposure: 22, sky: 0x05070d, groundAlbedo: 0x27211a };
 
 function backdropMaterial(hex: number, exposure: number): MeshBasicNodeMaterial {
   const c = new THREE.Color(hex); // linear display value of the sRGB hex
@@ -70,30 +75,34 @@ const FIRE_LIGHT_RADIUS_M = 512 * 0.01428;
 const FIRE_LIGHT_SRGB = 0xfabe83;
 /** Height of the light over the emitter's base (the flame body, not the fuel bed). */
 const FIRE_LIGHT_LIFT_M = 0.3;
-/** The emitters' base height over y 0, and how far the ground plane sits under it (vol10 c8 L1). */
+/** The emitters' base height over y 0 (vol10 c8 L1). */
 export const FIRE_EMITTER_Y_M = 0.02;
-export const FIRE_GROUND_BELOW_M = 0.03;
+/** Clearance of the ground under the lowest flame-card root (vol10 c9 D1 F2). */
+const FIRE_GROUND_CLEAR_M = 0.01;
 
 /**
- * A lit ground (the backdrop's colour as albedo, roughness 1) and the game's fire light: the scene's
+ * A lit diffuse-only ground (Lambert, `look.groundAlbedo`; vol10 c9 D1: a roughness-1 standard ground
+ * reflected the low lamps 6-100x more than it scattered them) and the game's fire light: the scene's
  * fixture light field (render/fixtureLights, the settlement's own model), one slot per emitter at
  * its base + 0.3 m with FIRE_LIGHTS' candela and radius cap (vol10 diag6 F1). The look's sky light
  * is a directional from above at the display-to-scene scale (fireNodes `displayToScene`: 0.6 / exposure),
- * so the ground reads near its backdrop colour where no fire reaches.
+ * so the unlit ground reads dark soil where no fire reaches.
  */
 export function addLitGroundAndFireLights(ctx: HarnessContext, scene: THREE.Scene, look: FireLook, sizeM: number,
-  emitters: readonly { position: THREE.Vector3; preset: FirePresetId }[]): void {
+  emitters: readonly { position: THREE.Vector3; preset: FirePresetId; scale: number }[]): void {
   // vol10 c8 L1 split: `?lighting=field|tiled|plain` (plain: real PointLights, same numbers), `?firelights=0` (fire lights dark)
   const q = new URLSearchParams(window.location.search);
   const asked = q.get("lighting");
   installFixtureLighting(ctx.renderer as unknown as WebGPURenderer,
     asked === "field" || asked === "tiled" || asked === "plain" ? asked : undefined);
   const fireLightsOn = q.get("firelights") !== "0";
-  const groundMat = new MeshStandardNodeMaterial({ color: new THREE.Color(look.ground), roughness: 1, metalness: 0 });
+  const groundMat = new MeshLambertNodeMaterial({ color: new THREE.Color(look.groundAlbedo) });
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(sizeM, sizeM).rotateX(-Math.PI / 2), groundMat);
   ground.name = "fire-ground";
-  // under the emitters' bases (y = FIRE_EMITTER_Y_M) so a flat-cut flame base never meets the plane's depth
-  ground.position.y = FIRE_EMITTER_Y_M - FIRE_GROUND_BELOW_M;
+  // vol10 c9 D1 F2: under the lowest card root (FLAME_ROOT_SHARE of the flame height below the emitter,
+  // still ~half bright there), so the ground's depth never cuts a flame base flat
+  ground.position.y = Math.min(...emitters.map((e) =>
+    e.position.y - FLAME_ROOT_SHARE * FIRE_PRESETS[e.preset].shape.heightM * e.scale)) - FIRE_GROUND_CLEAR_M;
   scene.add(ground);
   // diag7 O9: 0.15 pi (was 0.6 pi, which blew the ground glow out); the fire lights are FIRE_LIGHTS candela as-is
   const skyLight = new THREE.DirectionalLight(0xffffff, (Math.PI * 0.15) / look.exposure);
