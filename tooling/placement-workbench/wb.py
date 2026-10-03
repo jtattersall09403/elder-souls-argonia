@@ -1071,7 +1071,12 @@ def _pair_verdict(a: Piece, b: Piece, got: dict, cat=None) -> dict:
             # the plugin's own pose crosses (stairs02 overlaps its neighbour
             # 0.234 m, audit10 c5): at the mined pair pose, within the
             # pair's recorded spread, the crossing is designed (modular-runs 29c)
-            return {"relation": "run-joint", "minedPair": mined, "ok": True}
+            out = {"relation": "run-joint", "minedPair": mined, "ok": True}
+            if overlap_bar is not None and cat is not None:
+                out.update(penetrationBarM=bar,
+                           alongRunOverlapM=round(along_run_overlap(cat, a, b), 3),
+                           alongRunOverlapBarM=overlap_bar)
+            return out
         out = {"relation": "run-joint",
                "ok": got["gapM"] <= JOINT_GAP_M and (got["penetrationM"] or 0.0) <= bar}
         if overlap_bar is not None and cat is not None:
