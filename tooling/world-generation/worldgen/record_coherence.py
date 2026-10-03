@@ -38,6 +38,7 @@ from pathlib import Path
 import numpy as np
 
 from . import catalogue
+from . import promise_gate as pg
 from .promise_gate import PHYSICAL_NOUNS
 
 REPO = catalogue.REPO_ROOT
@@ -293,7 +294,8 @@ def _feature_satisfiers(rec: dict, compiled: dict | None, index: Index) -> str:
     and never a placement or parcel id (a parcel named `hatching-shed` is no
     shed). A place with no bundle has an empty blob."""
     parts = [str(p.get("assetId") or p.get("asset") or "")
-             for key in ("placements", "compiledObjects") for p in (compiled or {}).get(key) or []]
+             for key in ("placements", "compiledObjects", pg.ROUTE_KEY)
+             for p in (compiled or {}).get(key) or []]
     blob = " ".join(parts).lower()
     # another place's slug inside an id (travel.x.ferry-channel-cross-village) is a
     # reference to that place, never this place's feature
@@ -302,6 +304,36 @@ def _feature_satisfiers(rec: dict, compiled: dict | None, index: Index) -> str:
         if slug in blob:
             blob = blob.replace(slug, " ")
     return blob
+
+
+#: water nouns a frozen hydrology body at the site keeps (hydrology-graph
+#: `bodies[].kind`); the body's box must come within the place's reach
+NOUN_BODIES: dict[str, tuple[str, ...]] = {
+    "tarn": ("tarn-upland", "pond", "pool", "lake-lowland"),
+    "spring": ("pool", "pond", "plunge-pool", "tarn-upland"),
+    "seep": ("marsh-fringe", "marsh-deep", "swamp", "backswamp", "mudflat", "pool", "pond"),
+}
+HYDROLOGY = PROVINCE / "hydrology-graph.json"
+
+
+def _bodies(index: Index) -> list[tuple[str, float, float, float, float]]:
+    """(kind, x0, z0, x1, z1) metres of every frozen water body, loaded once."""
+    if "bodies" not in index.cache:
+        g = json.loads(HYDROLOGY.read_text()) if HYDROLOGY.exists() else {"bodies": []}
+        mpp = (g.get("grid") or {}).get("metresPerSample") or 1.0
+        index.cache["bodies"] = [(b["kind"], *(c * mpp for c in b["bboxCells"]))
+                                 for b in g["bodies"] if b.get("bboxCells")]
+    return index.cache["bodies"]
+
+
+def _body_at(rec: dict, noun: str, index: Index) -> bool:
+    kinds = NOUN_BODIES.get(noun)
+    if not kinds:
+        return False
+    x, z = rec["positionM"]
+    reach = (rec.get("footprintRadiusM") or 100) + 45.0
+    return any(k in kinds and math.hypot(max(x0 - x, 0, x - x1), max(z0 - z, 0, z - z1)) <= reach
+               for k, x0, z0, x1, z1 in _bodies(index))
 
 
 def _water_near(rec: dict, classes: tuple[str, ...], index: Index) -> bool:
@@ -377,17 +409,28 @@ def coherence_failures(place_id: str, index: Index, compiled: dict | None = None
     # the physical features the record's own prose and its quests' premises
     # name, each shown by an asset the compiled bundle places (or the water
     # within 3 km): read only once the place is built, since nothing else
-    # can keep a physical promise (audit10)
+    # can keep a physical promise (audit10). The record's promise prose is the
+    # ledger's (blueprint_promises.PROSE_FIELDS): siting notes and constraints
+    # are design data, never a promise to the player
+    from .blueprint_promises import PROSE_FIELDS
+    record_prose = " ".join(str((rec.get(b) or {}).get(f) or "") for b, fs in PROSE_FIELDS for f in fs
+                            if isinstance(rec.get(b), dict))
     said = [] if compiled is None else (
-        [("the record", " ".join(t for _, t in prose_strings(rec)), None)]
+        [("the record", record_prose, None)]
         + [(f"quest {q['id']}", " ".join(t for k, t in quest_prose(q) if k in ("premise", "provision")), q)
            for _, q in quests])
+    if compiled is not None:
+        compiled = pg.with_route_ids(compiled, place_id)
     blob = _feature_satisfiers(rec, compiled, index) if compiled is not None else ""
+    # what the promise gate accepts keeps the noun too: a `thing-` row filled
+    # by a placement, marker socket or pool in the bundle (or a route bundle
+    # at the place), and the frozen water bodies at the site
+    shown = pg.shown_things(pg.load_ledger(place_id), compiled) if compiled is not None else set()
     for who, prem, q in said:
         for feat, (pat, toks, water) in sorted(FEATURES.items()):
             if not re.search(pat, prem, re.I if feat != "Hist tree" else 0):
                 continue
-            if _shows(blob, toks):
+            if _shows(blob, toks) or feat in shown or _body_at(rec, feat, index):
                 continue
             if feat == "toll" and (rec.get("relations") or {}).get("tolls"):
                 continue

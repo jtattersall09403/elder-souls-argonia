@@ -73,7 +73,7 @@ def test_the_ledger_record_is_generated_deterministically():
             "promise.claywater-station.occupant-landing-s-poler", "promise.claywater-station.safe-interior",
             "promise.claywater-station.operator-ferry-imperial-fringe-drowning-gate"} <= ids
     committed = pg.load_ledger(CLAYWATER)
-    strip = lambda rows: [{k: v for k, v in r.items() if k not in ("unfilled", "confirmed")}  # noqa: E731
+    strip = lambda rows: [{k: v for k, v in r.items() if k not in ("unfilled", "confirmed", "filledBy")}  # noqa: E731
                           for r in rows]
     assert strip(committed["promises"]) == strip(a), (
         "the committed ledger is stale: run `blueprint_promises --id "
@@ -255,3 +255,41 @@ def test_idioms_are_no_things():
     assert pg.thing_nouns("The track narrows at a barricade below the tents. A man steps out "
                           "and asks for the levy.") == []
     assert pg.thing_nouns("Stone steps climb to the shrine; she steps aside.") == ["shrine", "steps"]
+    # walk-10 ledgers: a way that steps down, a Hist a day away, a toll company
+    assert pg.thing_nouns("the yard way steps down the terraces") == []
+    assert pg.thing_nouns("The camp has a Hist a day upriver but no claim on it.") == []
+    assert pg.thing_nouns("The toll company's officers would rather use them.") == []
+    assert pg.thing_nouns("The tribe's Hist grows over the spring.") == ["Hist tree", "spring"]
+
+
+def test_a_place_op_fills_by_uid_and_a_ledger_row_by_filled_by():
+    """audit10: `place` ops carry `uid`, so their `fills` never counted; a
+    filler the layout cannot carry (a route bundle's stair) is named on the
+    ledger row in `filledBy`, and both are checked against the bundle."""
+    ledger = _ledger({"id": "promise.p.thing-shed", "kind": "provision"},
+                     {"id": "promise.p.thing-steps", "kind": "provision"})
+    layout = {"ops": [{"op": "place", "uid": "p-shed", "fills": ["promise.p.thing-shed"]}]}
+    ledger["promises"][1]["filledBy"] = ["structure.road-x.12.p1"]
+    assert pg.fills_index(BP, [], layout, ledger) == {"promise.p.thing-shed": ["p-shed"],
+                                                      "promise.p.thing-steps": ["structure.road-x.12.p1"]}
+    assert pg.promise_gate_errors(BP, ledger, layout=layout) == []
+    bundle = {"placements": [{"id": "place.r.p.parcel.p.yard.assembly.p-shed"}]}
+    assert [e.split(":")[0] for e in pg.promise_gate_errors(BP, ledger, layout=layout, bundle=bundle)] == [
+        "promises.built"]
+    bundle[pg.ROUTE_KEY] = [{"id": "structure.road-x.12.p1"}]
+    assert pg.promise_gate_errors(BP, ledger, layout=layout, bundle=bundle) == []
+    assert pg.shown_things({**ledger, "placeId": "place.r.p"}, bundle, BP, layout) == {"shed", "steps"}
+
+
+def test_a_filled_plank_crossing_shows_the_bridge():
+    ledger = {**_ledger({"id": "promise.p.thing-plank-crossing", "kind": "provision"}), "placeId": "place.r.p"}
+    ledger["promises"][0]["filledBy"] = ["rb-00"]
+    shown = pg.shown_things(ledger, {"placements": [{"id": "place.r.p.parcel.p.run.rb-00"}]}, BP, {})
+    assert shown == {"plank crossing", "bridge"}
+
+
+def test_the_asset_plan_promises_things():
+    rec = {"id": "place.r.p", "assetPlan": ["imperial-keep", "signage-blank", "clutter"]}
+    rows = bpr.claim_rows(rec, "p", "P", "f", "places[place.r.p]")
+    assert [(r["id"], r["source"]["path"]) for r in rows] == [
+        ("promise.p.thing-sign", "places[place.r.p].assetPlan[1]")]

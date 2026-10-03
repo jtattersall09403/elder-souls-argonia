@@ -1,7 +1,7 @@
 {
  "schemaVersion": 1,
  "placeId": "place.saxhleel-coast.jungle-root-hollow",
- "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled`, `filledBy` or `confirmed` block",
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-saxhleel-coast.json",

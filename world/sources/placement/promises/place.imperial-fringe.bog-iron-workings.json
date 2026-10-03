@@ -1,7 +1,7 @@
 {
  "schemaVersion": 1,
  "placeId": "place.imperial-fringe.bog-iron-workings",
- "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled`, `filledBy` or `confirmed` block",
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-imperial-fringe.json",
@@ -77,7 +77,9 @@
    "confirmed": {
     "sha": "da674c2878d4",
     "note": "The deep end of the seep, 1.5 m of water south-east of the bank, carries the fauna socket deep-pools; no work piece stands there.",
-    "ids": ["socket.bog-iron-workings.deep-pools"]
+    "ids": [
+     "socket.bog-iron-workings.deep-pools"
+    ]
    }
   },
   {
@@ -91,7 +93,10 @@
    "confirmed": {
     "sha": "97924d97f82a",
     "note": "The seep is the iron-rich ground below the bench; the fern scatter (813 within 200 m) covers the slope up to the workings; the way passes the ore outcrop on the south shore first.",
-    "ids": ["sp-iron-seep", "socket.bog-iron-workings.deep-pools"]
+    "ids": [
+     "sp-iron-seep",
+     "socket.bog-iron-workings.deep-pools"
+    ]
    }
   },
   {
@@ -170,7 +175,10 @@
    "confirmed": {
     "sha": "2c78ac487e2d",
     "note": "The furnace on its levelled pad above the seep, its charcoal bed part of the smelter mesh in front of its mouth (bl-furnace).",
-    "ids": ["bl-furnace", "sp-iron-seep"]
+    "ids": [
+     "bl-furnace",
+     "sp-iron-seep"
+    ]
    }
   },
   {
@@ -184,7 +192,11 @@
    "confirmed": {
     "sha": "d3e3146209fc",
     "note": "Bloomery with its fire on the bench at x 2008; the mud hut stands 19 m west at x 1989; the iron outcrop sp-iron-seep lies on the seep's south shore below.",
-    "ids": ["bl-furnace", "b-hut", "sp-iron-seep"]
+    "ids": [
+     "bl-furnace",
+     "b-hut",
+     "sp-iron-seep"
+    ]
    }
   },
   {
@@ -224,7 +236,10 @@
    "confirmed": {
     "sha": "762ab478f2eb",
     "note": "A pressure of the seep, not a built claim; the furnace stands at the north end, the ore outcrop on the far south shore, the abandoned deep end between.",
-    "ids": ["sp-iron-seep", "bl-furnace"]
+    "ids": [
+     "sp-iron-seep",
+     "bl-furnace"
+    ]
    }
   },
   {
@@ -238,7 +253,13 @@
    "confirmed": {
     "sha": "b1674d2c56a5",
     "note": "The seep stands 15 m below and east of the furnace floor; an iron ore outcrop (sp-iron-seep) lies on its south shore at 2040, 2592; the ore cakes (y4-oc-ore1, y4-oc-ore2, y4-oc-orebucket) wait by the cart at the furnace.",
-    "ids": ["sp-iron-seep", "y4-oc-ore1", "y4-oc-ore2", "y4-oc-orebucket", "y1-bl-ingots"]
+    "ids": [
+     "sp-iron-seep",
+     "y4-oc-ore1",
+     "y4-oc-ore2",
+     "y4-oc-orebucket",
+     "y1-bl-ingots"
+    ]
    }
   },
   {
@@ -276,6 +297,33 @@
    },
    "text": "Bog Iron Workings has the scene socket scene.bog-iron-workings.the-mound.",
    "unfilled": null
+  },
+  {
+   "id": "promise.bog-iron-workings.thing-ore",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.bog-iron-workings].why.siteAdvantages"
+   },
+   "text": "Bog Iron Workings shows the ore its record names.",
+   "unfilled": null,
+   "filledBy": [
+    "place.imperial-fringe.bog-iron-workings.parcel.bog-iron-workings.the-bloomery.assembly.y4-oc-ore1",
+    "place.imperial-fringe.bog-iron-workings.parcel.bog-iron-workings.the-bloomery.assembly.y1-bl-ingots"
+   ]
+  },
+  {
+   "id": "promise.bog-iron-workings.thing-seep",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.bog-iron-workings].why.siteAdvantages"
+   },
+   "text": "Bog Iron Workings shows the seep its record names.",
+   "unfilled": null,
+   "filledBy": [
+    "sp-iron-seep"
+   ]
   }
  ]
 }

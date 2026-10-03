@@ -728,6 +728,10 @@ def claim_rows(rec: dict, place_slug: str, name: str, cat: str, at: str) -> list
     for row in [r for r in rows if r["kind"] == "prose"]:
         for noun in thing_nouns(row["text"]):
             named.setdefault(noun, row["source"]["path"])
+    # the asset plan promises things too (`signage-blank` is a sign)
+    for i, item in enumerate(rec.get("assetPlan") or []):
+        for noun in thing_nouns(str(item).replace("-", " ")):
+            named.setdefault(noun, f"{at}.assetPlan[{i}]")
     for noun, path in sorted(named.items()):
         rows.append(_row(place_slug, f"thing-{noun_slug(noun)}", "provision", cat, path,
                          f"{name} shows the {noun} its record names."))
@@ -750,6 +754,8 @@ def ledger_record(rec: dict, services_doc: dict | None = None,
     rows = ledger_rows(rec, services_doc)
     for row in rows:
         row["unfilled"] = (prev.get(row["id"]) or {}).get("unfilled")
+        if (prev.get(row["id"]) or {}).get("filledBy") and row["kind"] not in CONFIRMED_KINDS:
+            row["filledBy"] = prev[row["id"]]["filledBy"]
         if row["kind"] in CONFIRMED_KINDS:
             # a confirmation holds only while its text is unchanged
             conf = (prev.get(row["id"]) or {}).get("confirmed")
@@ -759,8 +765,8 @@ def ledger_record(rec: dict, services_doc: dict | None = None,
     return {"schemaVersion": LEDGER_SCHEMA_VERSION,
             "placeId": rec["id"],
             "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write "
-                         "(decision 0104); never hand-edit a row but its `unfilled` or "
-                         "`confirmed` block",
+                         "(decision 0104); never hand-edit a row but its `unfilled`, "
+                         "`filledBy` or `confirmed` block",
             "derivedFrom": [{"file": f, "sha256": _sha(REPO_ROOT / f)} for f in files
                             if (REPO_ROOT / f).exists()],
             "promises": rows}

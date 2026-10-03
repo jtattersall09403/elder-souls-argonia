@@ -1,7 +1,7 @@
 {
  "schemaVersion": 1,
  "placeId": "place.imperial-fringe.the-broke-column",
- "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled`, `filledBy` or `confirmed` block",
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-imperial-fringe.json",
@@ -231,7 +231,9 @@
    "confirmed": {
     "sha": "1a40819d9fd9",
     "note": "The site is a spring head by an upland tarn (scour site spring-head-028), 165 m off the nearest route; the tents (b-command, b-tent1..3) stand on the bench. The tarn is frozen water, not a placement: its nearest tarn-upland cell is 22 m north of the tent line at (1205, 3065), level 72.53 m, up to 2.1 m deep (water kind grid, audit10 fix-places-1). The scene marker at its dry south-west edge (1203, 3068) holds the spring and the tarn.",
-    "ids": ["socket.the-broke-column.scene-spring-tarn"]
+    "ids": [
+     "socket.the-broke-column.scene-spring-tarn"
+    ]
    }
   },
   {
@@ -315,6 +317,19 @@
    },
    "text": "The Broke Column has the scene socket scene.the-broke-column.the-roster-tree.",
    "unfilled": null
+  },
+  {
+   "id": "promise.the-broke-column.thing-sign",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-imperial-fringe.json",
+    "path": "places[place.imperial-fringe.the-broke-column].assetPlan[3]"
+   },
+   "text": "The Broke Column shows the sign its record names.",
+   "unfilled": null,
+   "filledBy": [
+    "place.imperial-fringe.the-broke-column.parcel.the-broke-column.tent-3.assembly.s-post"
+   ]
   },
   {
    "id": "promise.the-broke-column.thing-spring",

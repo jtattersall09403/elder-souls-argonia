@@ -62,6 +62,28 @@ def test_a_physical_noun_is_kept_only_by_a_placed_asset():
         "place.t.home", ix, _built("settlement:mud/argonianbonechime01")))
 
 
+def test_a_noun_is_kept_by_what_the_promise_gate_accepts(monkeypatch):
+    """walk 10: a plank run filling thing-plank-crossing keeps "bridge", a
+    marker filling thing-steps keeps "steps", a frozen tarn at the site keeps
+    "tarn"; siting notes are no promise."""
+    ix = _index("A bridge and stone steps by the tarn.", "Nothing", True)
+    ix.places["place.t.home"]["sitingNote"] = "no shed here"
+    ledger = {"placeId": "place.t.home", "promises": [
+        {"id": "promise.home.thing-plank-crossing", "kind": "provision", "filledBy": ["rb-00"]},
+        {"id": "promise.home.thing-steps", "kind": "provision", "filledBy": ["socket.home.stair"]}]}
+    monkeypatch.setattr(rc.pg, "load_ledger", lambda pid: ledger)
+    monkeypatch.setattr(rc.pg, "fills_index", lambda bp, s, lay, led: {
+        r["id"]: r["filledBy"] for r in led["promises"]})
+    ix.cache["bodies"] = [("swamp", -10.0, -10.0, 10.0, 10.0)]
+    built = {"placements": [{"id": "place.t.home.parcel.run.rb-00", "assetId": "docks/dockstrent02"}],
+             "settlement": {"sockets": [{"id": "socket.home.stair"}]}}
+    fails = rc.coherence_failures("place.t.home", ix, built)
+    assert [f for f in fails if "names a" in f] == ["record.coherence: the record names a tarn and the "
+                                                   "built place and the water within 3 km have none"]
+    ix.cache["bodies"] = [("tarn-upland", 90.0, 0.0, 120.0, 30.0)]
+    assert not [f for f in rc.coherence_failures("place.t.home", ix, built) if "names a" in f]
+
+
 def test_a_premise_feature_held_by_another_anchor_place_passes(monkeypatch):
     """MQ01 (walk 9): the Hist of the premise stands at the quest's other
     anchor, kept there when that anchor is unbuilt or its bundle shows it."""

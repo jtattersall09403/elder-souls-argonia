@@ -1,11 +1,11 @@
 {
  "schemaVersion": 1,
  "placeId": "place.dunmer-north.riverwalk",
- "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled`, `filledBy` or `confirmed` block",
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-dunmer-north.json",
-   "sha256": "84a1fe6aedc01eae03e895f2c2001f4c4335c313fb7144b66cd55a23cf0fd6f7"
+   "sha256": "c52dc87b549a92fff3f0c3676d94c114b05e6764a0e5db5055102224e6451f10"
   },
   {
    "file": "world/sources/quests/local-dunmer-north.json",
@@ -127,7 +127,10 @@
    "text": "The cove where boats put in off the Padomaic run, where the toll is argued nightly and Thorn and Hissmir both claim it.",
    "confirmed": {
     "sha": "4cac5d6f5ed9",
-    "note": "Ferry raft and dock run on the cove (ocean body at 0 m); route.boat.archon-thorn 0.92 km; toll claim per why.pressures."
+    "note": "Ferry raft and dock run on the cove (ocean body at 0 m); route.boat.archon-thorn 0.92 km; toll claim per why.pressures.",
+    "ids": [
+     "place.dunmer-north.riverwalk.parcel.riverwalk.stage-shelter.assembly.canoe"
+    ]
    }
   },
   {
@@ -153,7 +156,11 @@
    "text": "Boats come in off the Padomaic run and pole across the cove to the ferry stage off the islet.",
    "confirmed": {
     "sha": "38833f3ad1c9",
-    "note": "Scene: ferry stage (ferryraft01) on water 21 m off the islet, joined to it by the 3-piece ferry-landing run; Padomaic run lane passes 0.92 km off."
+    "note": "Scene: ferry stage (ferryraft01) on water 21 m off the islet, joined to it by the 3-piece ferry-landing run; Padomaic run lane passes 0.92 km off.",
+    "ids": [
+     "place.dunmer-north.riverwalk.parcel.riverwalk.ferry-stage.building",
+     "place.dunmer-north.riverwalk.parcel.riverwalk.stage-shelter.assembly.canoe"
+    ]
    }
   },
   {
@@ -179,7 +186,10 @@
    "text": "Piles, planks and lashed handrails over the water. The crews' house and the family house stand on dry ground at the shore; the long house stands on piles in the shallows beside them.",
    "confirmed": {
     "sha": "5fc6723d846a",
-    "note": "Scene: crews' house and family house (bamboohut) on land; the long house (swamp-house-with-landing) on water 1.3 m deep, 11.6 m off the land; dock planks on piles."
+    "note": "Scene: crews' house and family house (bamboohut) on land; the long house (swamp-house-with-landing) on water 1.3 m deep, 11.6 m off the land; dock planks on piles.",
+    "ids": [
+     "place.dunmer-north.riverwalk.parcel.riverwalk.the-long-walk.piece.1"
+    ]
    }
   },
   {
@@ -205,7 +215,10 @@
    "text": "Silver weathered plank, black water and reed thatch.",
    "confirmed": {
     "sha": "82cba3c2e745",
-    "note": "Weathered dock planks, cove water and thatched bamboo huts."
+    "note": "Weathered dock planks, cove water and thatched bamboo huts.",
+    "ids": [
+     "place.dunmer-north.riverwalk.parcel.riverwalk.the-long-walk.piece.1"
+    ]
    }
   },
   {
@@ -231,7 +244,11 @@
    "text": "The plank walk is the only way between the shore and the ferry stage. It crosses open water, so everyone who lands at the stage walks past the toll-holder's post at the shore end.",
    "confirmed": {
     "sha": "66a5ff83d829",
-    "note": "Scene: the-long-walk is the only run joining land and islet; socket post-toll-holder stands at its shore end (7204, 522)."
+    "note": "Scene: the-long-walk is the only run joining land and islet; socket post-toll-holder stands at its shore end (7204, 522).",
+    "ids": [
+     "place.dunmer-north.riverwalk.parcel.riverwalk.ferry-stage.building",
+     "place.dunmer-north.riverwalk.parcel.riverwalk.the-long-walk.piece.1"
+    ]
    }
   },
   {
@@ -244,7 +261,11 @@
    "text": "Two houses and a totem stand on the shore, with the long house on piles in the shallows beside them. A plank walk runs out across the cove to a tent on a low islet. The ferry stage is moored off the islet's far side.",
    "confirmed": {
     "sha": "746e47a5833f",
-    "note": "Scene: two bamboo huts and one argoniantotem01 on land; long house on water; the long walk to the islet tent (argoniantent02); ferry raft moored off the islet."
+    "note": "Scene: two bamboo huts and one argoniantotem01 on land; long house on water; the long walk to the islet tent (argoniantent02); ferry raft moored off the islet.",
+    "ids": [
+     "place.dunmer-north.riverwalk.parcel.riverwalk.ferry-stage.building",
+     "place.dunmer-north.riverwalk.parcel.riverwalk.the-long-walk.piece.1"
+    ]
    }
   },
   {
@@ -257,7 +278,12 @@
    "text": "A halt in a sheltered sea cove at the mouth of the pilgrim water, the channel up to Hissmir. Boats off the Padomaic run put in here. The houses stand on the shore. A plank walk runs out from them across the cove to the islet where the ferry stage moors.",
    "confirmed": {
     "sha": "2287bca5e43e",
-    "note": "Scene: houses on land; the long walk runs from the shore across the cove to the islet; the ferry stage moors off the islet."
+    "note": "Scene: houses on land; the long walk runs from the shore across the cove to the islet; the ferry stage moors off the islet.",
+    "ids": [
+     "place.dunmer-north.riverwalk.parcel.riverwalk.ferry-stage.building",
+     "place.dunmer-north.riverwalk.parcel.riverwalk.stage-shelter.assembly.canoe",
+     "place.dunmer-north.riverwalk.parcel.riverwalk.the-long-walk.piece.1"
+    ]
    }
   },
   {
@@ -270,7 +296,11 @@
    "text": "It lives on the ferry stage and the toll on boats entering the pilgrim water. It also feeds and lodges the crews. The village grows no food of its own.",
    "confirmed": {
     "sha": "5a527b330281",
-    "note": "Ferry raft, crews' house and family house (2 load doors) built; tolls the pilgrim water."
+    "note": "Ferry raft, crews' house and family house (2 load doors) built; tolls the pilgrim water.",
+    "ids": [
+     "place.dunmer-north.riverwalk.parcel.riverwalk.ferry-stage.building",
+     "place.dunmer-north.riverwalk.parcel.riverwalk.stage-shelter.assembly.canoe"
+    ]
    }
   },
   {
@@ -296,7 +326,10 @@
    "text": "The only sheltered water on this stretch of coast, under a kilometre from Thorn by the Tear road. Canoes leave the same stage for Hissmir and Murkwater.",
    "confirmed": {
     "sha": "548a201377e0",
-    "note": "Tear road 0.69 km to Thorn; canoe service riverwalk-the-tide-fair calls at Hissmir and Murkwater."
+    "note": "Tear road 0.69 km to Thorn; canoe service riverwalk-the-tide-fair calls at Hissmir and Murkwater.",
+    "ids": [
+     "place.dunmer-north.riverwalk.parcel.riverwalk.stage-shelter.assembly.canoe"
+    ]
    }
   },
   {
@@ -309,7 +342,10 @@
    "text": "Would be bypassed if the cove silted up. The villagers sound the way across the cove to the ferry stage every morning.",
    "confirmed": {
     "sha": "6969fb5b603d",
-    "note": "Built plank walk crosses the cove to the ferry stage; a canoe and a ship oar on the dock."
+    "note": "Built plank walk crosses the cove to the ferry stage; a canoe and a ship oar on the dock.",
+    "ids": [
+     "place.dunmer-north.riverwalk.parcel.riverwalk.ferry-stage.building"
+    ]
    }
   },
   {
@@ -400,6 +436,58 @@
    },
    "text": "Riverwalk offers the trader service.",
    "unfilled": null
+  },
+  {
+   "id": "promise.riverwalk.thing-boat",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].why.founding"
+   },
+   "text": "Riverwalk shows the boat its record names.",
+   "unfilled": null,
+   "filledBy": [
+    "place.dunmer-north.riverwalk.parcel.riverwalk.stage-shelter.assembly.canoe"
+   ]
+  },
+  {
+   "id": "promise.riverwalk.thing-dock",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].assetPlan[3]"
+   },
+   "text": "Riverwalk shows the dock its record names.",
+   "unfilled": null,
+   "filledBy": [
+    "place.dunmer-north.riverwalk.parcel.riverwalk.ferry-landing.piece.1"
+   ]
+  },
+  {
+   "id": "promise.riverwalk.thing-ferry",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].why.founding"
+   },
+   "text": "Riverwalk shows the ferry its record names.",
+   "unfilled": null,
+   "filledBy": [
+    "place.dunmer-north.riverwalk.parcel.riverwalk.ferry-stage.building"
+   ]
+  },
+  {
+   "id": "promise.riverwalk.thing-plank-crossing",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].why.founding"
+   },
+   "text": "Riverwalk shows the plank crossing its record names.",
+   "unfilled": null,
+   "filledBy": [
+    "place.dunmer-north.riverwalk.parcel.riverwalk.the-long-walk.piece.1"
+   ]
   },
   {
    "id": "promise.riverwalk.travel-station",

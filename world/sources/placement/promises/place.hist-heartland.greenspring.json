@@ -1,7 +1,7 @@
 {
  "schemaVersion": 1,
  "placeId": "place.hist-heartland.greenspring",
- "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` or `confirmed` block",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled`, `filledBy` or `confirmed` block",
  "derivedFrom": [
   {
    "file": "world/sources/catalogue/places-hist-heartland.json",
@@ -133,7 +133,10 @@
    "text": "Coming up from the landing, the black river water gives way to a small clear pool under the Hist. Frond smoke from the cookfires reaches the landing before the houses are in sight.",
    "confirmed": {
     "sha": "c8d8c56c2576",
-    "note": "The inlet deck of the Border road crossings below lands on the bank; the clear pool lies under the Hist and the family-hut fire smokes between them."
+    "note": "The inlet deck of the Border road crossings below lands on the bank; the clear pool lies under the Hist and the family-hut fire smokes between them.",
+    "ids": [
+     "landmark.greenspring.the-hist"
+    ]
    }
   },
   {
@@ -159,7 +162,10 @@
    "text": "a hide tent beside the spring; mud-walled pods and bamboo huts; a plank landing on the bank",
    "confirmed": {
     "sha": "0b80ad45ac96",
-    "note": "The spring-house is a hide tent (argoniantent02) by the pool; the kotm mud pods and two bamboo huts stand round it; the landing is the crossings' plank deck."
+    "note": "The spring-house is a hide tent (argoniantent02) by the pool; the kotm mud pods and two bamboo huts stand round it; the landing is the crossings' plank deck.",
+    "ids": [
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.ld-plank"
+    ]
    }
   },
   {
@@ -198,7 +204,10 @@
    "text": "cold mineral water tasted before a word is spoken; wet rope and boat tar at the landing; voices bartering over bed and rope prices; frond smoke drifting from cookfires at dusk",
    "confirmed": {
     "sha": "ffe39b733947",
-    "note": "The spring pool, the plank landing with its canoe, the lodge trader, the cookfire."
+    "note": "The spring pool, the plank landing with its canoe, the lodge trader, the cookfire.",
+    "ids": [
+     "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.ld-canoe"
+    ]
    }
   },
   {
@@ -211,7 +220,10 @@
    "text": "Water drunk without ceremony, dipped from the clear pool under the Hist that visitors are expected to taste before they speak.",
    "confirmed": {
     "sha": "35e5cd2a92b8",
-    "note": "The pool lies at the foot of the built Hist landmark beside the spring-house; the custom is a later-phase dialogue system."
+    "note": "The pool lies at the foot of the built Hist landmark beside the spring-house; the custom is a later-phase dialogue system.",
+    "ids": [
+     "landmark.greenspring.the-hist"
+    ]
    }
   },
   {
@@ -237,7 +249,10 @@
    "text": "Founded beside the Panther Race on springs whose water can be drunk unboiled, which is rare in this region. The tribe's Hist grows over the spring.",
    "confirmed": {
     "sha": "e4edbe6b6c1b",
-    "note": "Spring pool and the Hist parcel built; The Panther Race 0.39 km N on the same water body."
+    "note": "Spring pool and the Hist parcel built; The Panther Race 0.39 km N on the same water body.",
+    "ids": [
+     "landmark.greenspring.the-hist"
+    ]
    }
   },
   {
@@ -263,7 +278,10 @@
    "text": "Salt is reaching the water from upstream. The Hist has begun to sicken. The village blames the salt works. Traffic for Helstrom also brings people the tribe would rather not host: cult couriers, tappers and the Veiled Reed's factors.",
    "confirmed": {
     "sha": "b0891e4cfc85",
-    "note": "Salt sack and sick-root marker (socket.greenspring.marker-sick-root, MR01) built; Salt Ledge 1.5 km N."
+    "note": "Salt sack and sick-root marker (socket.greenspring.marker-sick-root, MR01) built; Salt Ledge 1.5 km N.",
+    "ids": [
+     "landmark.greenspring.the-hist"
+    ]
    }
   },
   {
@@ -405,6 +423,55 @@
     "path": "places[place.hist-heartland.greenspring].services[trader]"
    },
    "text": "Greenspring offers the trader service.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.greenspring.thing-boat",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].vibe.senses"
+   },
+   "text": "Greenspring shows the boat its record names.",
+   "unfilled": null,
+   "filledBy": [
+    "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.ld-canoe"
+   ]
+  },
+  {
+   "id": "promise.greenspring.thing-hist-tree",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].why.founding"
+   },
+   "text": "Greenspring shows the Hist tree its record names.",
+   "unfilled": null,
+   "filledBy": [
+    "landmark.greenspring.the-hist"
+   ]
+  },
+  {
+   "id": "promise.greenspring.thing-plank-crossing",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].vibe.materials"
+   },
+   "text": "Greenspring shows the plank crossing its record names.",
+   "unfilled": null,
+   "filledBy": [
+    "place.hist-heartland.greenspring.parcel.greenspring.spring-house.assembly.ld-plank"
+   ]
+  },
+  {
+   "id": "promise.greenspring.thing-spring",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].why.founding"
+   },
+   "text": "Greenspring shows the spring its record names.",
    "unfilled": null
   }
  ]
