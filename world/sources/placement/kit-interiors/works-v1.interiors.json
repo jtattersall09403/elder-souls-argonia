@@ -1992,55 +1992,6 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (1.4 m\u00b2 plan, 1.7 m tall)"
-  },
-  "vanilla:landscape/volcanic/mineralpoolbig01": {
-   "category": "terrain-feature",
-   "entrance": null,
-   "entranceWhy": "not an enclosure, so no doorway is derived",
-   "floorOffsetM": 0.0,
-   "front": {
-    "deg": 284.7,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 285\u00b0 in the piece's own frame carries 1.75x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
-   "frontFaceFraction": 0.0,
-   "headroomM": 3.71,
-   "heightM": 4.18,
-   "interior": "none",
-   "medianWallM": 7.95,
-   "planAreaM2": 240.14,
-   "planCentreM": [
-    -0.91,
-    -0.12
-   ],
-   "provenance": [],
-   "ringFraction": 1.0,
-   "roofOverhead": true,
-   "sizeClass": "large",
-   "why": "category 'terrain-feature' is never a building"
-  },
-  "vanilla:landscape/volcanic/mineralpoolsm01": {
-   "category": "terrain-feature",
-   "entrance": null,
-   "entranceWhy": "not an enclosure, so no doorway is derived",
-   "floorOffsetM": 0.0,
-   "front": null,
-   "frontFaceFraction": 0.0,
-   "headroomM": 2.17,
-   "heightM": 2.37,
-   "interior": "none",
-   "medianWallM": 2.88,
-   "planAreaM2": 53.29,
-   "planCentreM": [
-    -0.31,
-    0.19
-   ],
-   "provenance": [],
-   "ringFraction": 1.0,
-   "roofOverhead": true,
-   "sizeClass": "medium",
-   "why": "category 'terrain-feature' is never a building"
   }
  },
  "kit": "works-v1",

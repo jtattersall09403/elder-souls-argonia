@@ -1569,20 +1569,22 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
     return counts
 
 
-def own_emit_maps(gltf: dict, emitting: set[str]) -> list[str]:
-    """Give each lighting-shader material that really emits (manifest
-    `emissiveMaterials`: NIF OWN_EMIT with a non-black emissive at a positive
-    multiple, nif_blocks.emitting_shapes) its own diffuse as the glTF
-    emissive map, factor white. Skyrim's OWN_EMIT draws the diffuse times the
-    emissive colour; the runtime keys every glow on an emissive map
-    (materials.ts isSettlementGlowMaterial) and scales it by night, so a
-    mud-hut amber window (kotm mudhuts/window01/02) that shipped with none
-    never glowed (audit10 B1). A material that already carries a Glow_Map
-    keeps it. Returns the materials changed."""
+def own_emit_maps(gltf: dict, windows: set[str]) -> list[str]:
+    """Give each WINDOW-glass material (manifest `windowMaterials`,
+    nif_blocks.window_glass_shapes) its own diffuse as the glTF emissive map,
+    factor white. Skyrim's OWN_EMIT draws the diffuse times the emissive
+    colour; the runtime keys every glow on an emissive map (materials.ts
+    isSettlementGlowMaterial) and scales it by night, so a mud-hut amber
+    window (kotm mudhuts/window01/02) that shipped with none never glowed
+    (audit10 B1). Keyed on the window class, never on every
+    `emissiveMaterials` entry: that set also holds the canoe hull
+    (Object009:2) and candle/lantern shells, which then glowed as whole
+    meshes at night (audit10 c3); flames stay with the fire layer. A material
+    that already carries a Glow_Map keeps it. Returns the materials changed."""
     changed = []
     for material in gltf.get("materials", []):
         match = NIF_MATERIAL_NAME.match(material.get("name") or "")
-        if not match or f"{match['shape']}.Mat" not in emitting or "emissiveTexture" in material:
+        if not match or f"{match['shape']}.Mat" not in windows or "emissiveTexture" in material:
             continue
         base = (material.get("pbrMetallicRoughness") or {}).get("baseColorTexture")
         if base is None:
@@ -1595,14 +1597,14 @@ def own_emit_maps(gltf: dict, emitting: set[str]) -> list[str]:
 
 def apply_own_emit_maps(glb: Path, summary: dict) -> list[str]:
     """`own_emit_maps` over the built GLB's JSON chunk, in place."""
-    emitting = {name for asset in summary.get("assets", [])
-                for name in asset.get("emissiveMaterials") or []}
-    if not emitting:
+    windows = {name for asset in summary.get("assets", [])
+               for name in asset.get("windowMaterials") or []}
+    if not windows:
         return []
     data = bytearray(glb.read_bytes())
     chunk_length, _ = struct.unpack_from("<I4s", data, 12)
     gltf = json.loads(bytes(data[20:20 + chunk_length]))
-    changed = own_emit_maps(gltf, emitting)
+    changed = own_emit_maps(gltf, windows)
     if changed:
         encoded = json.dumps(gltf, separators=(",", ":")).encode("utf-8")
         encoded += b" " * (-len(encoded) % 4)

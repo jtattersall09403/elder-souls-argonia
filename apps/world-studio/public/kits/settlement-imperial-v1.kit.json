@@ -5063,19 +5063,19 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 31706360,
-  "bytesAfter": 14132292,
+  "bytesBefore": 31706232,
+  "bytesAfter": 14132180,
   "images": 56,
   "imageBytesAfter": 12255176,
   "warnings": [],
-  "sha256": "b34ca8b13a6fbb70ab2cde8a6172ff4da0a1c1a721dd071ab247c47dc76b7cd7",
+  "sha256": "ce285db28def8077f13351ab0203907dd9b7904f887728b0666ab1f05206ccbf",
   "parts": {
    "parts": 7,
-   "partBytes": 102708,
+   "partBytes": 102652,
    "textureFiles": 8,
    "textureBytes": 1182169,
-   "bytes": 1284877,
-   "sourceSha256": "b34ca8b13a6fbb70ab2cde8a6172ff4da0a1c1a721dd071ab247c47dc76b7cd7"
+   "bytes": 1284821,
+   "sourceSha256": "ce285db28def8077f13351ab0203907dd9b7904f887728b0666ab1f05206ccbf"
   },
   "sidecarBytes": {
    "connectors": 37323,

@@ -4385,170 +4385,6 @@
    "pivotAboveBaseM": 0.725
   },
   {
-   "id": "vanilla:landscape/volcanic/mineralpoolsm01",
-   "node": "es|eb5426edc6|illa__landscape_volcanic_mineralpoolsm01",
-   "category": "terrain-feature",
-   "sizeM": [
-    8.287,
-    7.735,
-    2.37
-   ],
-   "originOffsetM": [
-    3.976,
-    3.786,
-    0.905
-   ],
-   "triangles": 898,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
-   "doubleSided": false,
-   "alphaTest": false,
-   "collision": "convex",
-   "droppedShapes": [],
-   "textures": [
-    "mineralpoolterrace.dds",
-    "volcanictundradirt02.dds",
-    "volcanictundraminerals01.dds"
-   ],
-   "materials": [
-    "Decals.Mat",
-    "MineralPoolSm01:12.Mat",
-    "MineralPoolSm01:9.Mat"
-   ],
-   "alphaMaskMaterials": {
-    "Decals.Mat": 0.102
-   },
-   "decalMaterials": [
-    "Decals.Mat"
-   ],
-   "collisionFrame": "pivot-yup-v3",
-   "collisionBox": {
-    "halfExtentsM": [
-     3.646,
-     1.043,
-     3.403
-    ],
-    "centreOffsetM": [
-     0.168,
-     0.28,
-     -0.081
-    ]
-   },
-   "lodLevels": 3,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.905,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
-    }
-   },
-   "displayName": "Mineralpoolsm 01",
-   "undersideClosed": false,
-   "undersideCoverage": 0.0,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.905
-  },
-  {
-   "id": "vanilla:landscape/volcanic/mineralpoolbig01",
-   "node": "es|a890aa0fe1|lla__landscape_volcanic_mineralpoolbig01",
-   "category": "terrain-feature",
-   "sizeM": [
-    16.787,
-    17.855,
-    4.179
-   ],
-   "originOffsetM": [
-    8.991,
-    9.301,
-    1.462
-   ],
-   "triangles": 2854,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
-   "doubleSided": false,
-   "alphaTest": false,
-   "collision": "convex",
-   "droppedShapes": [],
-   "textures": [
-    "mineralpoolterrace.dds",
-    "volcanictundradirt02.dds",
-    "volcanictundragravel01.dds",
-    "volcanictundraminerals01.dds"
-   ],
-   "materials": [
-    "MineralPoolBig01:12.Mat",
-    "MineralPoolBig01:9.Mat",
-    "MineralPoolDecal:5.Mat",
-    "MineralPoolDecal:8.Mat"
-   ],
-   "alphaMaskMaterials": {
-    "MineralPoolDecal:5.Mat": 0.102,
-    "MineralPoolDecal:8.Mat": 0.102
-   },
-   "decalMaterials": [
-    "MineralPoolDecal:5.Mat",
-    "MineralPoolDecal:8.Mat"
-   ],
-   "collisionFrame": "pivot-yup-v3",
-   "collisionBox": {
-    "halfExtentsM": [
-     7.386,
-     1.839,
-     7.856
-    ],
-    "centreOffsetM": [
-     -0.598,
-     0.628,
-     0.373
-    ]
-   },
-   "lodLevels": 3,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 1.462,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
-    }
-   },
-   "displayName": "Mineralpoolbig 01",
-   "undersideClosed": false,
-   "undersideCoverage": 0.0,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.462
-  },
-  {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase0sided01",
    "node": "es|04004f6f53|er_stockade_stockadescaffoldbase0sided01",
    "category": "clutter",
@@ -12308,8 +12144,8 @@
   "textures/landscape/trees/treepineforestcut01.dds": "textures/texturepack/landscape/trees/treepineforestcut01.dds"
  },
  "alphaModes": {
-  "MASK": 40,
-  "OPAQUE": 256,
+  "MASK": 37,
+  "OPAQUE": 252,
   "BLEND": 17
  },
  "effectTextures": {
@@ -12481,24 +12317,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 51517532,
-  "bytesAfter": 24876664,
-  "images": 107,
-  "imageBytesAfter": 21758192,
+  "bytesBefore": 48825792,
+  "bytesAfter": 23691772,
+  "images": 103,
+  "imageBytesAfter": 20666274,
   "warnings": [],
-  "sha256": "cd378ecdd001d6d8a16c2fdfed77305bdf9422ca4c73eadd5c986a2723f1877b",
+  "sha256": "9c3ceabe868c809c51e63ef8a249cc37c836deaa1cee63d22adb99335768f9eb",
   "parts": {
    "parts": 11,
    "partBytes": 192348,
    "textureFiles": 11,
    "textureBytes": 1393228,
    "bytes": 1585576,
-   "sourceSha256": "cd378ecdd001d6d8a16c2fdfed77305bdf9422ca4c73eadd5c986a2723f1877b"
+   "sourceSha256": "9c3ceabe868c809c51e63ef8a249cc37c836deaa1cee63d22adb99335768f9eb"
   },
   "sidecarBytes": {
-   "connectors": 86848,
-   "footprints": 158081,
-   "interiors": 70436
+   "connectors": 85341,
+   "footprints": 153981,
+   "interiors": 69085
   }
  }
 }

@@ -5097,103 +5097,11 @@
     ],
     "widthM": 0.9
    }
-  ],
-  "vanilla:landscape/volcanic/mineralpoolbig01": [
-   {
-    "evidence": "bounds",
-    "face": "north",
-    "heightM": 4.18,
-    "normalDeg": 0.0,
-    "positionInPiece": [
-     -0.6,
-     -8.55
-    ],
-    "widthM": 16.79
-   },
-   {
-    "evidence": "bounds",
-    "face": "east",
-    "heightM": 4.18,
-    "normalDeg": 90.0,
-    "positionInPiece": [
-     7.8,
-     0.38
-    ],
-    "widthM": 17.85
-   },
-   {
-    "evidence": "bounds",
-    "face": "south",
-    "heightM": 4.18,
-    "normalDeg": 180.0,
-    "positionInPiece": [
-     -0.6,
-     9.3
-    ],
-    "widthM": 16.79
-   },
-   {
-    "evidence": "bounds",
-    "face": "west",
-    "heightM": 4.18,
-    "normalDeg": 270.0,
-    "positionInPiece": [
-     -8.99,
-     0.38
-    ],
-    "widthM": 17.85
-   }
-  ],
-  "vanilla:landscape/volcanic/mineralpoolsm01": [
-   {
-    "evidence": "bounds",
-    "face": "north",
-    "heightM": 2.37,
-    "normalDeg": 0.0,
-    "positionInPiece": [
-     0.16,
-     -3.95
-    ],
-    "widthM": 8.29
-   },
-   {
-    "evidence": "bounds",
-    "face": "east",
-    "heightM": 2.37,
-    "normalDeg": 90.0,
-    "positionInPiece": [
-     4.31,
-     -0.08
-    ],
-    "widthM": 7.74
-   },
-   {
-    "evidence": "bounds",
-    "face": "south",
-    "heightM": 2.37,
-    "normalDeg": 180.0,
-    "positionInPiece": [
-     0.16,
-     3.79
-    ],
-    "widthM": 8.29
-   },
-   {
-    "evidence": "bounds",
-    "face": "west",
-    "heightM": 2.37,
-    "normalDeg": 270.0,
-    "positionInPiece": [
-     -3.98,
-     -0.08
-    ],
-    "widthM": 7.74
-   }
   ]
  },
  "counts": {
-  "assets": 124,
-  "bounds": 420,
+  "assets": 122,
+  "bounds": 412,
   "co-placement": 23
  },
  "elongationRatio": 2.0,

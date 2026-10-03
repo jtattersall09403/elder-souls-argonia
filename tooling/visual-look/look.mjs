@@ -170,7 +170,11 @@ window.look = async ({ url, node, row, fromPart }) => {
   }
   const hemi = new THREE.HemisphereLight(0xcfe0ff, 0x5a4a30, 1); scene.add(hemi);
   const sun = new THREE.DirectionalLight(0xfff2dd, 1); sun.position.set(0.6, 1, 0.8).multiplyScalar(100); scene.add(sun);
-  const isFire = anchors.length > 0;
+  // a piece with a flame or any emissive map (window glass, glow maps) gets
+  // the night tile, so a glow that should or should not show is judged (audit10 c3)
+  let emits = false;
+  scene.traverse((o) => { for (const m of [o.material].flat()) if (m && m.emissiveMap) emits = true; });
+  const isFire = anchors.length > 0 || emits;
   const fov = 35, dist = (r / Math.sin((fov * Math.PI) / 360)) * 1.05;
   const at = (bearing, elev, d = dist, target = centre) => {
     const b = (bearing * Math.PI) / 180, e = (elev * Math.PI) / 180;
