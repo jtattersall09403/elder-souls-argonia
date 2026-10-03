@@ -542,6 +542,9 @@ def settlement_clearance_patches(bundle: dict) -> list[dict]:
     sidecar row, decision 0102 decision 1) gets no rows here: the flora file
     holds no row for it, as the terrain file holds no place rows."""
     carried = {s["id"] for s in bundle.get("settlements") or [] if "vegetationClearance" in s}
+    # a door apron (`treatment.<door id>.apron`) belongs to its door's place,
+    # read from the door row as `settlement_bundles` splits it, never the id
+    door_place = {d["id"]: d["settlementId"] for d in bundle.get("doors") or []}
     out = []
     for t in sorted(bundle.get("groundTreatments") or [], key=lambda r: r["id"]):
         kind = t.get("kind", "floor")
@@ -549,7 +552,8 @@ def settlement_clearance_patches(bundle: dict) -> list[dict]:
         if not polys:
             continue
         tid = t["id"].removeprefix("treatment.")
-        place = tid.split(".parcel.")[0]
+        place = (door_place[tid.removesuffix(".apron")] if tid.endswith(".apron")
+                 else tid.split(".parcel.")[0])
         if place in carried:
             continue
         out.append({"id": SETTLEMENT_PATCH_PREFIX + tid, "kind": PATCH_KIND,
