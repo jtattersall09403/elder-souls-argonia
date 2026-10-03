@@ -1,0 +1,36 @@
+# perf10 chunk 10 re-measure after F40 (settlement batches camera-free, built before ready), F41 (window/lamp emissive exposure-anchored), F42 (beacon near fade), R3b (night hemi ground), H2 (clean hold frames)
+a ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=0.5       # Riverwalk night rain
+b ?view=character&x=4.7789&z=1.9&t=22&w=rain&rate=0.5         # Greenspring Hist night rain
+b2 ?view=character&x=4.7789&z=1.9&t=22&w=rain&rate=0.5
+b3 ?view=character&x=4.7789&z=1.9&t=22&w=rain&rate=0.5
+c ?view=character&x=4.7789&z=1.9&t=12&w=clear&rate=0.5 x3  # Greenspring noon clear (c, c2, c3)
+w ?view=character&x=2.5493&z=0.3147&t=12&w=clear&rate=0.5 --aim 1.445,-0.8   # gorge waterfall see-through: transparent crest/skirt/mist
+d ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5          # ESE jungle marsh
+e ?view=character&x=4.02&z=4.61&t=22&w=rain&rate=0.5 walk=20 x3  # d with a 20 s W-held walk into the water, three times (e, e2, e3)
+f ?view=character&x=0.304&z=3.042&t=12&rate=0.5               # Claywater day
+g ?view=character&x=4.475&z=1.6&t=12&rate=0.5                 # open river
+h ?view=character&x=4.53&z=4.52&t=22&w=rain&rate=0.5 --aim 1.4,0.1   # ESE marsh night-rain aimed view (perf-shots ese-night-rain)
+a2 ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=0.5
+a3 ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=0.5
+f2 ?view=character&x=0.304&z=3.042&t=12&rate=0.5
+f3 ?view=character&x=0.304&z=3.042&t=12&rate=0.5
+gsw ?view=character&x=4.7988&z=1.8761&t=12&w=clear&rate=0.5 --aim -2.361,0.1 steps=w:0.82,yaw:-1.390,w:3.45,yaw:-0.819,w:4.01,yaw:+0.042,w:4.65,yaw:-0.854,w:4.15,yaw:-0.902,w:2.92   # Greenspring free-walk route (walk_route.py freeWalk, 20 s)
+rww ?view=character&x=7.2090&z=0.5226&t=12&w=clear&rate=0.5 --aim 0.000,0.1 steps=w:1.46,yaw:+1.145,w:3.73,yaw:-1.664,w:0.87,yaw:-0.251,w:0.97   # Riverwalk free-walk route (the route's own 7 s)
+adayfield3 ?view=character&x=7.1971&z=0.584&t=12&w=clear&waterLayers=field&wdbg=3&rate=0.5
+adayfield6 ?view=character&x=7.1971&z=0.584&t=12&w=clear&waterLayers=field&wdbg=6&rate=0.5
+adayfield7 ?view=character&x=7.1971&z=0.584&t=12&w=clear&waterLayers=field&wdbg=7&rate=0.5
+adayfield14 ?view=character&x=7.1971&z=0.584&t=12&w=clear&waterLayers=field&wdbg=14&rate=0.5
+w8 ?view=character&x=2.5493&z=0.3147&t=12&w=clear&wdbg=8&rate=0.5 --aim 1.445,-0.8   # gorge waterfall final alpha
+chold ?view=character&x=4.7789&z=1.9&t=12&w=clear&rate=0.5 hold=180/10   # c measured 180 s after ready, a frame every 10 s before it
+# diagnosis spots
+gswprof ?view=character&x=4.7988&z=1.8761&t=12&w=clear&rate=0.5 --aim -2.361,0.1 steps=w:0.82,yaw:-1.390,w:3.45,yaw:-0.819,w:4.01,yaw:+0.042,w:4.65,yaw:-0.854,w:4.15,yaw:-0.902,w:2.92 profile-walk
+gswrelink ?view=character&x=4.7988&z=1.8761&t=12&w=clear&rate=0.5 --aim -2.361,0.1 steps=w:0.82,yaw:-1.390,w:3.45,yaw:-0.819,w:4.01,yaw:+0.042,w:4.65,yaw:-0.854,w:4.15,yaw:-0.902,w:2.92 diag=relink
+door22 ?view=character&x=4.7619&z=1.8541&t=22&w=clear&rate=0.5
+door12 ?view=character&x=4.7619&z=1.8541&t=12&w=clear&rate=0.5
+fire22 ?view=character&x=4.7334&z=1.8379&t=22&w=clear&rate=0.5 hold=3/0.2
+rwp22 ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=0.5 hold=8/1
+rwp22c ?view=character&x=7.1971&z=0.584&t=22&w=clear&rate=0.5
+rwp12 ?view=character&x=7.1971&z=0.584&t=12&w=rain&rate=0.5
+rwp22w9 ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=0.5&wdbg=9
+rwp22w14 ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=0.5&wdbg=14
+rwp22w1 ?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=0.5&wdbg=1
