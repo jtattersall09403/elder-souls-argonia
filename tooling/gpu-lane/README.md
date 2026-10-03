@@ -53,10 +53,15 @@ repeated runs must read the same bytes. DevTools comes back to the VM with `ssh 
    `["22/tcp"]`, env `NVIDIA_DRIVER_CAPABILITIES=all` and `PUBLIC_KEY=<contents of rp_key.pub>`.
    Use the direct address from `get-pod` (`ssh.direct`), not the `ssh.runpod.io` proxy.
    A pod is usable only after one SSH check of its public port mapping; a pod with no public SSH is deleted at once and another created.
+   Hosts of one GPU type differ (round 3: r 1.5 / 3.7 / 5.5 on three RTX 3070 pods), so every pod is calibrated
+   before its fps rows count: r = pod fps / 37 at Riverwalk `?view=character&x=7.1971&z=0.584&t=22&w=rain&rate=0.5`,
+   median of three settled 10 s samples; converted fps = pod fps / r; a row never uses another pod's r.
    Price: RTX 3070 community ~$0.13/h. Keep ONE pod across iterations of a round; delete it (never
    stop it) when nothing is queued. Log minutes and dollars in the lane report.
 3. Set up: `ssh -i /tmp/<lane>/rp_key -p <port> root@<ip> 'bash -s' < tooling/gpu-lane/pod-setup.sh`
-   (~40 s; `'bash -s webgpu'` for the WebGPU studio).
+   (~40 s; `'bash -s webgpu'` for the WebGPU studio). Under `job_guard.sh` the job gets no stdin, so
+   `job_guard.sh <lane> -- ssh ... 'bash -s' < pod-setup.sh` silently runs nothing; wrap the redirect:
+   `job_guard.sh <lane> -- bash -c "ssh ... 'bash -s' < tooling/gpu-lane/pod-setup.sh"`.
 4. Sync: `POD_SSH="ssh -i /tmp/<lane>/rp_key -p <port> root@<ip>" bash tooling/gpu-lane/pod-sync.sh /tmp/<lane>/site/studio dev`
    (and `pod-sync.sh <branch dist> webgpu` to serve the branch beside it).
 5. Tunnel: `node tooling/gpu-lane/tunnels.mjs open --pod "<same ssh>" --local <port>`; `tunnels.mjs close` after.
