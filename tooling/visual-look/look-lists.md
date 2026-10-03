@@ -14,6 +14,7 @@ picks the class from the kit manifest row (`--class` overrides).
 | class | id | question | pass bar |
 | --- | --- | --- | --- |
 | all | tex-missing | Is any surface flat magenta, flat green, pure white or pure black where a texture should be? | No such surface in any tile. |
+| all | no-material | Does the facts line's `noMaterialMeshes` name any mesh (a primitive with no source material: black here, a blank white card in the studio)? | Empty list; else a kit fix (drop the shape in build_kit), never a place nudge. |
 | all | decal-patch | Does any hard-edged pale or white patch sit on a body surface (cracks, grime, moss overlays) where the texture should blend? | No hard-edged pale patch; overlays blend or are absent. |
 | all | dark-body | Does the main body read as its material (stone, clay, wood) with visible texture variation, or as a flat near-black mass? | Texture variation visible in the front and eye tiles; if dark, report the body as DARK SOURCE for the texture-mean check. |
 | all | zfight | Do two coplanar surfaces show stripes, speckle or saw-tooth mixing (z-fighting)? | No striped or speckled overlap in any tile. |
