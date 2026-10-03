@@ -3,7 +3,9 @@
  * wind blowing in off the sea. The onshore component comes from the same path the studio uses
  * (climateSampler OnshoreProbe over a climate-weather B raster, here a synthetic coast whose sea-fog
  * propensity falls inland) into fogRegimes, so the sea-fog regime is computed, never forced. The
- * camera stands on the beach looking out to sea: the bank should sit low over the water and the strand.
+ * camera stands at the water's edge looking out to sea over an 8 km sea plane: the bank should fill the
+ * lower half over the water. `window.__SEAFOG_READY__` turns true once a frame has been drawn after the
+ * compile (the capture's readyFlag; the first frame is otherwise a pre-compile black, vol10 diag9 S2).
  */
 import * as THREE from "three";
 import { MeshStandardNodeMaterial } from "three/webgpu";
@@ -17,6 +19,9 @@ import { OnshoreProbe, type RasterPixels } from "../../weather/climateSampler";
 /** Sea for z < 0; the beach rises inland. */
 const ground = (_x: number, z: number) => (z < 0 ? -3 : Math.min(12, 0.02 * z));
 const EXTENT_M = 4000;
+declare global {
+  interface Window { __SEAFOG_READY__?: boolean }
+}
 /** 64 x 64 climate-weather raster over EXTENT_M: B (sea-fog propensity) 1 at sea, falling 1 per 800 m inland. */
 function coastRaster(): RasterPixels {
   const w = 64, data = new Uint8ClampedArray(w * w * 4);
@@ -43,16 +48,16 @@ const scene: HarnessScene = {
     s.add(sun, new THREE.HemisphereLight(skyIrr.clone(), new THREE.Color(0x3a3222), 1));
     const land = new THREE.Mesh(new THREE.PlaneGeometry(1200, 600).rotateX(-Math.PI / 2).translate(0, 0, 300),
       new MeshStandardNodeMaterial({ color: 0xb8a878, roughness: 1 }));
-    const sea = new THREE.Mesh(new THREE.PlaneGeometry(1200, 600).rotateX(-Math.PI / 2).translate(0, -0.2, -300),
+    const sea = new THREE.Mesh(new THREE.PlaneGeometry(8000, 4000).rotateX(-Math.PI / 2).translate(0, -0.2, -2000),
       new MeshStandardNodeMaterial({ color: 0x2a4050, roughness: 0.2 }));
     s.add(land, sea);
-    const camera = new THREE.PerspectiveCamera(60, ctx.width / ctx.height, 0.3, 3000);
-    camera.position.set(0, 1.7, 30);
-    camera.lookAt(0, 2, -200);
+    const camera = new THREE.PerspectiveCamera(60, ctx.width / ctx.height, 0.3, 6000);
+    camera.position.set(0, 1.7, 2);
+    camera.lookAt(0, 0, -150);
     camera.updateMatrixWorld();
     // wind travelling inland (+z) off the sea; the probe is centred on the province, so offset the camera
     const windDirXZ: [number, number] = [0, 1];
-    const onshore = new OnshoreProbe().atRaster(coastRaster(), EXTENT_M / 2, EXTENT_M / 2 + 30, EXTENT_M, windDirXZ);
+    const onshore = new OnshoreProbe().atRaster(coastRaster(), EXTENT_M / 2, EXTENT_M / 2 + camera.position.z, EXTENT_M, windDirXZ);
     const regimes = fogRegimes({
       minuteOfDay: 400, sunriseMin: 360, sunsetMin: 1110, prevNightClearCalm: 0.3, hoursSinceRain: Infinity, rain: 0,
       windSpeedMS: 4, windDirXZ, humidity: 0.95, wetSeason: 0.8, onshore, regionHaze: 0.9,
@@ -78,7 +83,14 @@ const scene: HarnessScene = {
     // each step advances the clock (diag7 O10: twelve steps at one timeS never let the field evolve)
     let clock = 0;
     update(clock);
-    return { scene: s, camera, frame: () => { for (let k = 0; k < 12; k++) { clock += 1 / 30; update(clock); } } };
+    window.__SEAFOG_READY__ = false;
+    await Promise.race([ctx.renderer.compileAsync(s, camera), new Promise((r) => setTimeout(r, 60_000))]);
+    // the frame hook runs before each render, so its second call follows the first presented frame
+    let calls = 0;
+    return { scene: s, camera, frame: () => {
+      if (++calls === 2) window.__SEAFOG_READY__ = true;
+      for (let k = 0; k < 12; k++) { clock += 1 / 30; update(clock); }
+    } };
   },
 };
 export default scene;
