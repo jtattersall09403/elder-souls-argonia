@@ -60,11 +60,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mudhut 01intnew",
    "undersideClosed": true,
    "undersideCoverage": 0.762,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.193,
-   "displayName": "Mudhut 01intnew"
+   "pivotAboveBaseM": 0.193
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/bookshelf",
@@ -139,11 +139,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Bookshelf",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Bookshelf"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/shelfsingle",
@@ -214,11 +214,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shelfsingle",
    "undersideClosed": true,
    "undersideCoverage": 0.972,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.193,
-   "displayName": "Shelfsingle"
+   "pivotAboveBaseM": -0.193
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/hangingshelf",
@@ -293,11 +293,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hangingshelf",
    "undersideClosed": true,
    "undersideCoverage": 0.707,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.782,
-   "displayName": "Hangingshelf"
+   "pivotAboveBaseM": 0.782
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/cavegbalconyshelf01",
@@ -365,11 +365,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cavegbalconyshelf 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.49,
-   "displayName": "Cavegbalconyshelf 01"
+   "pivotAboveBaseM": 1.49
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/chitinchair01",
@@ -392,7 +392,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "cloth01.dds",
@@ -443,11 +443,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Chitinchair 01",
    "undersideClosed": true,
    "undersideCoverage": 0.953,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.115,
-   "displayName": "Chitinchair 01"
+   "pivotAboveBaseM": 0.115
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianpillow01",
@@ -505,11 +505,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonianpillow 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041,
-   "displayName": "Argonianpillow 01"
+   "pivotAboveBaseM": 0.041
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/ovennew",
@@ -624,11 +624,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Ovennew",
    "undersideClosed": true,
    "undersideCoverage": 0.785,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "displayName": "Ovennew"
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/potterycup",
@@ -686,11 +686,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Potterycup",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Potterycup"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/potteryplate01",
@@ -748,11 +748,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Potteryplate 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Potteryplate 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/potteryplate02",
@@ -810,11 +810,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Potteryplate 02",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Potteryplate 02"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/potteryplate03",
@@ -872,11 +872,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Potteryplate 03",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Potteryplate 03"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/shellhalf",
@@ -929,11 +929,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shellhalf",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.518,
-   "displayName": "Shellhalf"
+   "pivotAboveBaseM": -0.518
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/clam01",
@@ -991,11 +991,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Clam 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.109,
-   "displayName": "Clam 01"
+   "pivotAboveBaseM": 0.109
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbone01",
@@ -1004,14 +1004,14 @@
    "sizeM": [
     0.191,
     1.154,
-    0.144
+    0.142
    ],
    "originOffsetM": [
     0.089,
     0.62,
     0.069
    ],
-   "triangles": 556,
+   "triangles": 544,
    "lodRatios": [
     0.35,
     0.12
@@ -1019,7 +1019,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "none",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "C_DLC2RieklingBone01:15",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "argonianbridge.dds"
    ],
@@ -1056,11 +1061,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonianbone 01",
    "undersideClosed": true,
-   "undersideCoverage": 1.0,
+   "undersideCoverage": 0.629,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.069,
-   "displayName": "Argonianbone 01"
+   "pivotAboveBaseM": 0.069
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/drum01",
@@ -1118,11 +1123,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Drum 01",
    "undersideClosed": true,
    "undersideCoverage": 0.803,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "displayName": "Drum 01"
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/candle01",
@@ -1218,6 +1223,9 @@
      "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
     }
    ],
+   "emissiveMaterials": [
+    "GlazedCandles01:6.Mat"
+   ],
    "designedSinkM": {
     "p25": 0.046,
     "p50": 0.046,
@@ -1244,14 +1252,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Candle 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.046,
-   "emissiveMaterials": [
-    "GlazedCandles01:6.Mat"
-   ],
-   "displayName": "Candle 01"
+   "pivotAboveBaseM": -0.046
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns01",
@@ -1314,11 +1319,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonianlanterns 01",
    "undersideClosed": false,
    "undersideCoverage": 0.524,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.425,
-   "displayName": "Argonianlanterns 01"
+   "pivotAboveBaseM": 4.425
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
@@ -1352,6 +1357,33 @@
     "DLC2DarkElfLanternStatic06:1.Mat"
    ],
    "lodLevels": 3,
+   "light": {
+    "formId": "000d0e40",
+    "editorId": "SLightStreetStreet01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     247,
+     139,
+     43
+    ],
+    "flicker": {
+     "frequency": 0.05,
+     "intensityAmplitude": 1.0,
+     "movementAmplitude": 1.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "fixtureKind": "lantern",
+    "offsetM": [
+     0.0,
+     -0.55,
+     0.0
+    ],
+    "evidence": "Copied from settlement-mud-v1's argonianlanterns04 row (the same mod piece; the mod places its 3 refs with no LIGH within 200 units, so it takes argonianlanterns03's mined record SLightStreetStreet01 with the light at its own lantern body, 0.55 m below the pivot). Walk 6 look round 2: the hut interior's copy carried no light, so it never burned."
+   },
    "designedSinkM": {
     "p25": -0.8895,
     "p50": -0.8895,
@@ -1400,38 +1432,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonianlanterns 04",
    "undersideClosed": true,
    "undersideCoverage": 0.667,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.889,
-   "light": {
-    "formId": "000d0e40",
-    "editorId": "SLightStreetStreet01",
-    "burnSeconds": -1,
-    "radiusUnits": 512,
-    "colourRgb": [
-     247,
-     139,
-     43
-    ],
-    "flicker": {
-     "frequency": 0.05,
-     "intensityAmplitude": 1.0,
-     "movementAmplitude": 1.0
-    },
-    "flags": [
-     "dynamic",
-     "flicker"
-    ],
-    "fixtureKind": "lantern",
-    "offsetM": [
-     0.0,
-     -0.55,
-     0.0
-    ],
-    "evidence": "Copied from settlement-mud-v1's argonianlanterns04 row (the same mod piece; the mod places its 3 refs with no LIGH within 200 units, so it takes argonianlanterns03's mined record SLightStreetStreet01 with the light at its own lantern body, 0.55 m below the pivot). Walk 6 look round 2: the hut interior's copy carried no light, so it never burned."
-   },
-   "displayName": "Argonianlanterns 04"
+   "pivotAboveBaseM": 0.889
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbonechime02",
@@ -1439,15 +1444,15 @@
    "category": "misc",
    "sizeM": [
     2.179,
-    0.23,
+    0.195,
     1.332
    ],
    "originOffsetM": [
     1.108,
-    0.108,
+    0.102,
     0.269
    ],
-   "triangles": 4058,
+   "triangles": 4010,
    "lodRatios": [
     0.35,
     0.12
@@ -1455,7 +1460,24 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "none",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "BoneHavok02",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "BoneHavok03",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "BoneHavok04",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "C_DLC2RieklingBone01:15",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "argonianbridge.dds",
     "fence01.dds",
@@ -1506,11 +1528,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonianbonechime 02",
    "undersideClosed": true,
-   "undersideCoverage": 0.604,
+   "undersideCoverage": 0.68,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.269,
-   "displayName": "Argonianbonechime 02"
+   "pivotAboveBaseM": 0.269
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/banner01",
@@ -1566,11 +1588,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Banner 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 2.904,
-   "displayName": "Banner 01"
+   "pivotAboveBaseM": 2.904
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wallhanging01",
@@ -1628,11 +1650,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wallhanging 01",
    "undersideClosed": true,
    "undersideCoverage": 0.792,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.387,
-   "displayName": "Wallhanging 01"
+   "pivotAboveBaseM": -0.387
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wallhanging02",
@@ -1690,11 +1712,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wallhanging 02",
    "undersideClosed": true,
    "undersideCoverage": 0.792,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.387,
-   "displayName": "Wallhanging 02"
+   "pivotAboveBaseM": -0.387
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wallhanging03",
@@ -1752,11 +1774,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wallhanging 03",
    "undersideClosed": true,
    "undersideCoverage": 0.792,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.387,
-   "displayName": "Wallhanging 03"
+   "pivotAboveBaseM": -0.387
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
@@ -1772,7 +1794,7 @@
     0.108,
     0.269
    ],
-   "triangles": 5132,
+   "triangles": 5084,
    "lodRatios": [
     0.35,
     0.12
@@ -1780,7 +1802,24 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "BoneHavok02",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "BoneHavok03",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "BoneHavok04",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "C_DLC2RieklingBone01:15",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "argonianbridge.dds",
     "fence01.dds",
@@ -1850,11 +1889,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonianbonechime 01",
    "undersideClosed": true,
-   "undersideCoverage": 0.674,
+   "undersideCoverage": 0.713,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.269,
-   "displayName": "Argonianbonechime 01"
+   "pivotAboveBaseM": 0.269
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfence02",
@@ -1939,11 +1978,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonianfence 02",
    "undersideClosed": true,
    "undersideCoverage": 0.608,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.016,
-   "displayName": "Argonianfence 02"
+   "pivotAboveBaseM": -0.016
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfenceend",
@@ -2028,11 +2067,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonianfenceend",
    "undersideClosed": false,
    "undersideCoverage": 0.509,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.046,
-   "displayName": "Argonianfenceend"
+   "pivotAboveBaseM": 0.046
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantent02",
@@ -2119,11 +2158,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argoniantent 02",
    "undersideClosed": true,
    "undersideCoverage": 0.656,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.449,
-   "displayName": "Argoniantent 02"
+   "pivotAboveBaseM": 0.449
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
@@ -2146,7 +2185,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "fence01.dds"
@@ -2199,11 +2238,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.332,
+     0.858,
+     0.216
+    ],
+    "centreOffsetM": [
+     -0.015,
+     0.985,
+     0.016
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Argoniantotem 01",
    "undersideClosed": false,
    "undersideCoverage": 0.315,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.011,
-   "displayName": "Argoniantotem 01"
+   "pivotAboveBaseM": -0.011
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketfull",
@@ -2226,7 +2278,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "argonianbasket01.dds"
@@ -2293,11 +2345,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Basketfull",
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.035,
-   "displayName": "Basketfull"
+   "pivotAboveBaseM": 0.035
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketsmall01",
@@ -2371,11 +2423,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Basketsmall 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Basketsmall 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/fishracksmall",
@@ -2451,11 +2503,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Fishracksmall",
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.228,
-   "displayName": "Fishracksmall"
+   "pivotAboveBaseM": -0.228
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/paintedurn01",
@@ -2478,7 +2530,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "paintedurn01.dds"
@@ -2543,11 +2595,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Paintedurn 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "displayName": "Paintedurn 01"
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/roundfloor01",
@@ -2627,11 +2679,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Roundfloor 01",
    "undersideClosed": true,
    "undersideCoverage": 0.805,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.002,
-   "displayName": "Roundfloor 01"
+   "pivotAboveBaseM": 3.002
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/sithisshrine",
@@ -2710,11 +2762,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Sithisshrine",
    "undersideClosed": true,
    "undersideCoverage": 0.937,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.065,
-   "displayName": "Sithisshrine"
+   "pivotAboveBaseM": -0.065
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/thatchroofing",
@@ -2791,11 +2843,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Thatchroofing",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.683,
-   "displayName": "Thatchroofing"
+   "pivotAboveBaseM": 0.683
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wovenchair01",
@@ -2818,7 +2870,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "furniturewood01.dds",
@@ -2886,11 +2938,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wovenchair 01",
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Wovenchair 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wovenfence01",
@@ -2975,11 +3027,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wovenfence 01",
    "undersideClosed": false,
    "undersideCoverage": 0.091,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.155,
-   "displayName": "Wovenfence 01"
+   "pivotAboveBaseM": 0.155
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/woventable01",
@@ -3068,11 +3120,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Woventable 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Woventable 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/riften/clutter/rtbanneranchor01",
@@ -3130,11 +3182,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "RT banner anchor 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041,
-   "displayName": "RT banner anchor 01"
+   "pivotAboveBaseM": 0.041
   },
   {
    "id": "vanilla:architecture/riften/interior/smallroomsingle/rifrmsmpartitionbeamtall01",
@@ -3192,11 +3244,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Rif rm sm partition beam tall 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.057,
-   "displayName": "Rif rm sm partition beam tall 01"
+   "pivotAboveBaseM": 0.057
   },
   {
    "id": "vanilla:clutter/bones/trollskull",
@@ -3219,7 +3271,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "trollskull.dds"
@@ -3250,11 +3302,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.178,
+     0.301,
+     0.268
+    ],
+    "centreOffsetM": [
+     -0.001,
+     -0.064,
+     -0.0
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Bone troll skull 01",
    "undersideClosed": true,
    "undersideCoverage": 0.984,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.405,
-   "displayName": "Bone troll skull 01"
+   "pivotAboveBaseM": 0.405
   },
   {
    "id": "vanilla:clutter/chopping block/choppingblock01",
@@ -3277,7 +3342,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "choppingblock01.dds"
@@ -3294,24 +3359,6 @@
     "slopeTermMPerDeg": 0.00537,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.0,
-    "buryCapM": 0.0,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "interior-zero",
-     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.0,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Chopping block 01",
    "settingClass": {
     "settings": {
      "interior": [
@@ -3353,7 +3400,38 @@
      "interior:keep:MarkarthUnderStoneKeep"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.33,
+     0.206,
+     0.33
+    ],
+    "centreOffsetM": [
+     0.001,
+     0.234,
+     -0.001
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Chopping block 01",
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/common/commoncounter01",
@@ -3411,11 +3489,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Common counter 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Common counter 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/common/commoncounterhanger01",
@@ -3473,11 +3551,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Common counter rack 0101",
    "undersideClosed": false,
    "undersideCoverage": 0.116,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.011,
-   "displayName": "Common counter rack 0101"
+   "pivotAboveBaseM": 0.011
   },
   {
    "id": "vanilla:clutter/containers/miscsack02largeflat",
@@ -3500,7 +3578,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "none",
    "droppedShapes": [],
    "textures": [
     "miscbag01.dds",
@@ -3510,19 +3588,7 @@
     "MiscSack02Large01:0.Mat",
     "MiscSack02Large01:1.Mat"
    ],
-   "collisionFrame": "pivot-yup-v3",
-   "collisionBox": {
-    "halfExtentsM": [
-     0.288,
-     0.093,
-     0.252
-    ],
-    "centreOffsetM": [
-     0.0,
-     -0.0,
-     0.0
-    ]
-   },
+   "collisionFrame": "pivot-yup-v2",
    "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1715,
@@ -3545,11 +3611,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Misc sack 02 large flat",
    "undersideClosed": true,
    "undersideCoverage": 0.877,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.106,
-   "displayName": "Misc sack 02 large flat"
+   "pivotAboveBaseM": 0.106
   },
   {
    "id": "vanilla:clutter/containers/miscsack02small",
@@ -3572,7 +3638,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "miscbag01.dds",
@@ -3622,11 +3688,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Misc sack 02 small",
    "undersideClosed": true,
    "undersideCoverage": 0.792,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.234,
-   "displayName": "Misc sack 02 small"
+   "pivotAboveBaseM": 0.234
   },
   {
    "id": "vanilla:clutter/containers/miscsack02smallflat",
@@ -3649,7 +3715,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "none",
    "droppedShapes": [],
    "textures": [
     "miscbag01.dds",
@@ -3659,19 +3725,7 @@
     "MiscSack02SmallFlat:0.Mat",
     "MiscSack02SmallFlat:1.Mat"
    ],
-   "collisionFrame": "pivot-yup-v3",
-   "collisionBox": {
-    "halfExtentsM": [
-     0.212,
-     0.069,
-     0.16
-    ],
-    "centreOffsetM": [
-     -0.0,
-     -0.016,
-     -0.0
-    ]
-   },
+   "collisionFrame": "pivot-yup-v2",
    "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.2005,
@@ -3694,11 +3748,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Misc sack 02 small flat",
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.094,
-   "displayName": "Misc sack 02 small flat"
+   "pivotAboveBaseM": 0.094
   },
   {
    "id": "vanilla:clutter/containers/miscsacklarge",
@@ -3721,7 +3775,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "miscbag01.dds"
@@ -3812,11 +3866,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Misc sack large",
    "undersideClosed": true,
    "undersideCoverage": 0.785,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.403,
-   "displayName": "Misc sack large"
+   "pivotAboveBaseM": 0.403
   },
   {
    "id": "vanilla:clutter/cookingspitsm01",
@@ -3869,11 +3923,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cooking spit sm 01",
    "undersideClosed": false,
    "undersideCoverage": 0.095,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.199,
-   "displayName": "Cooking spit sm 01"
+   "pivotAboveBaseM": 0.199
   },
   {
    "id": "vanilla:clutter/cookingstone01",
@@ -3896,7 +3950,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "cookingstone01.dds"
@@ -3926,11 +3980,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.332,
+     0.147,
+     0.326
+    ],
+    "centreOffsetM": [
+     0.012,
+     0.17,
+     -0.011
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Cooking stone 01",
    "undersideClosed": true,
    "undersideCoverage": 0.976,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.002,
-   "displayName": "Cooking stone 01"
+   "pivotAboveBaseM": -0.002
   },
   {
    "id": "vanilla:clutter/hay/haybale01",
@@ -3989,11 +4056,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hay bale 01",
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Hay bale 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/hay/hayscatter04",
@@ -4052,11 +4119,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hay scatter 04",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Hay scatter 04"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/hay/hayscatter05",
@@ -4115,11 +4182,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hay scatter 05",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Hay scatter 05"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/hay/hayscatter06",
@@ -4178,11 +4245,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hay scatter 06",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Hay scatter 06"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/ingredients/hawkfeather01",
@@ -4243,11 +4310,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hawk feathers",
    "undersideClosed": false,
    "undersideCoverage": 0.462,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.106,
-   "displayName": "Hawk feathers"
+   "pivotAboveBaseM": 0.106
   },
   {
    "id": "vanilla:dungeons/riften/clutter/riftenrwwoodbeam01",
@@ -4305,11 +4372,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Riften RW woodbeam 01",
    "undersideClosed": true,
    "undersideCoverage": 0.962,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16,
-   "displayName": "Riften RW woodbeam 01"
+   "pivotAboveBaseM": 0.16
   },
   {
    "id": "vanilla:dungeons/riften/clutter/riftenrwwoodbeam02",
@@ -4367,11 +4434,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Riften RW woodbeam 02",
    "undersideClosed": true,
    "undersideCoverage": 0.894,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16,
-   "displayName": "Riften RW woodbeam 02"
+   "pivotAboveBaseM": 0.16
   },
   {
    "id": "vanilla:dungeons/riften/clutter/riftenrwwoodbeam03",
@@ -4429,11 +4496,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Riften RW woodbeam 03",
    "undersideClosed": true,
    "undersideCoverage": 0.999,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16,
-   "displayName": "Riften RW woodbeam 03"
+   "pivotAboveBaseM": 0.16
   },
   {
    "id": "vanilla:furniture/bedroll/bedrollhay01",
@@ -4511,11 +4578,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Bedroll hay 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.289,
-   "displayName": "Bedroll hay 01"
+   "pivotAboveBaseM": 0.289
   },
   {
    "id": "vanilla:furniture/common/commonchair01",
@@ -4538,7 +4605,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "dresser01.dds"
@@ -4581,11 +4648,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Common chair 01",
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Common chair 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:furniture/orcfurniture/orcshelf01",
@@ -4651,11 +4718,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Orc shelf 01",
    "undersideClosed": true,
    "undersideCoverage": 0.857,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Orc shelf 01"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:furniture/smallcookingpot",
@@ -4736,11 +4803,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Crafting cooking pot sm",
    "undersideClosed": false,
    "undersideCoverage": 0.309,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.604,
-   "displayName": "Crafting cooking pot sm"
+   "pivotAboveBaseM": -0.604
   },
   {
    "id": "vanilla:plants/wheat01",
@@ -4796,11 +4863,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wheat",
    "undersideClosed": false,
    "undersideCoverage": 0.339,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": 0.38,
-   "displayName": "Wheat"
+   "pivotAboveBaseM": 0.38
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\mudmother-hut-int.glb",
@@ -4824,6 +4891,7 @@
   "cardTriAreaPerHeight2": 0.002,
   "maxRadiusFactor": 1.5
  },
+ "schemaVersion": 1,
  "compression": {
   "schemaVersion": 1,
   "tool": "gltfpack 1.2",
@@ -4850,24 +4918,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 22323664,
-  "bytesAfter": 11498828,
+  "bytesBefore": 22284876,
+  "bytesAfter": 11482144,
   "images": 50,
   "imageBytesAfter": 10308824,
   "warnings": [],
-  "sha256": "1a8d502df311b2b0194281a4e9d555ce118dab043d84f09d059c118a14020834",
+  "sha256": "2b98a244f9394cf5f095b9a10fdfd01dd577b838eb0d5b305e3482d51d642fc1",
   "parts": {
    "parts": 5,
-   "partBytes": 87196,
-   "textureFiles": 6,
-   "textureBytes": 1033380,
-   "bytes": 1120576,
-   "sourceSha256": "1a8d502df311b2b0194281a4e9d555ce118dab043d84f09d059c118a14020834"
+   "partBytes": 125428,
+   "textureFiles": 8,
+   "textureBytes": 1215769,
+   "bytes": 1341197,
+   "sourceSha256": "2b98a244f9394cf5f095b9a10fdfd01dd577b838eb0d5b305e3482d51d642fc1"
   },
   "sidecarBytes": {
    "connectors": 40535,
-   "footprints": 86768,
-   "interiors": 30441
+   "footprints": 87108,
+   "interiors": 30457
   }
  }
 }

@@ -4,8 +4,8 @@
  "exterior": false,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 11498828,
-  "sha256": "1a8d502df311b2b0194281a4e9d555ce118dab043d84f09d059c118a14020834"
+  "bytes": 11482144,
+  "sha256": "2b98a244f9394cf5f095b9a10fdfd01dd577b838eb0d5b305e3482d51d642fc1"
  },
  "totals": {
   "parts": 5,

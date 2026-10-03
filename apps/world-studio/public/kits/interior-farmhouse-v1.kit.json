@@ -17501,15 +17501,15 @@
    "category": "furniture",
    "sizeM": [
     0.571,
-    2.05,
-    0.992
+    1.667,
+    0.982
    ],
    "originOffsetM": [
     0.211,
-    0.008,
-    0.011
+    -0.376,
+    0.001
    ],
-   "triangles": 1135,
+   "triangles": 1119,
    "lodRatios": [
     0.35,
     0.12
@@ -17517,7 +17517,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "SparksEmitGeo:0",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "blacksmithsharpeningwheel01.dds",
     "blacksmithstone01.dds"
@@ -17536,13 +17541,13 @@
    "collisionBox": {
     "halfExtentsM": [
      0.251,
-     0.437,
-     0.902
+     0.432,
+     0.733
     ],
     "centreOffsetM": [
      0.075,
-     0.485,
-     -1.017
+     0.49,
+     -1.209
     ]
    },
    "lodLevels": 3,
@@ -17559,7 +17564,7 @@
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.011,
+    "groundContactOffsetM": 0.001,
     "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
@@ -17571,7 +17576,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.736,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.011
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "vanilla:furniture/common/commonbeddouble01",
@@ -20445,6 +20450,7 @@
   "cardTriAreaPerHeight2": 0.002,
   "maxRadiusFactor": 1.5
  },
+ "schemaVersion": 1,
  "compression": {
   "schemaVersion": 1,
   "tool": "gltfpack 1.2",
@@ -20471,24 +20477,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 80789904,
-  "bytesAfter": 16552320,
+  "bytesBefore": 80787716,
+  "bytesAfter": 16550908,
   "images": 245,
   "imageBytesAfter": 12116412,
   "warnings": [],
-  "sha256": "66ec592bfbc8b569fe15b520252295cd7b0629a580ec0317d17261b6c36e3e7d",
+  "sha256": "15a2b663373f5bf0f9156379c589a65509f6ecd1f20fa5da92a210fa01f062b9",
   "parts": {
    "parts": 61,
-   "partBytes": 973308,
+   "partBytes": 1483492,
    "textureFiles": 55,
    "textureBytes": 2954379,
-   "bytes": 3927687,
-   "sourceSha256": "66ec592bfbc8b569fe15b520252295cd7b0629a580ec0317d17261b6c36e3e7d"
+   "bytes": 4437871,
+   "sourceSha256": "15a2b663373f5bf0f9156379c589a65509f6ecd1f20fa5da92a210fa01f062b9"
   },
   "sidecarBytes": {
    "connectors": 198712,
    "footprints": 365854,
-   "interiors": 139071
+   "interiors": 137918
   }
  }
 }

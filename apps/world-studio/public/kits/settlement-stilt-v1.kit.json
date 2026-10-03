@@ -4843,7 +4843,7 @@
     7.716,
     5.591
    ],
-   "triangles": 2660,
+   "triangles": 2648,
    "lodRatios": [
     0.35,
     0.12
@@ -4851,7 +4851,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "mesh",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "FadeNode Anim:BSMultiBoundOBB",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "dryoakpost01.dds",
     "whwoodboards02.dds"
@@ -4895,7 +4900,7 @@
    },
    "displayName": "Murkmire walkway long 01",
    "undersideClosed": true,
-   "undersideCoverage": 1.0,
+   "undersideCoverage": 0.737,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 5.591
   },
@@ -4913,7 +4918,7 @@
     0.491,
     5.536
    ],
-   "triangles": 1726,
+   "triangles": 1714,
    "lodRatios": [
     0.35,
     0.12
@@ -4921,7 +4926,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "mesh",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "FadeNode Anim:BSMultiBoundOBB",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "dryoakpost01.dds",
     "whwoodboards02.dds"
@@ -4966,7 +4976,7 @@
    },
    "displayName": "Murkmire walkway short 01",
    "undersideClosed": true,
-   "undersideCoverage": 1.0,
+   "undersideCoverage": 0.646,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 5.536
   },
@@ -4984,7 +4994,7 @@
     9.574,
     5.527
    ],
-   "triangles": 2896,
+   "triangles": 2884,
    "lodRatios": [
     0.35,
     0.12
@@ -4992,7 +5002,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "mesh",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "FadeNode Anim:BSMultiBoundOBB",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "dryoakpost01.dds",
     "whwoodboards02.dds"
@@ -5035,8 +5050,8 @@
     }
    },
    "displayName": "Murkmire walkway curved 01",
-   "undersideClosed": true,
-   "undersideCoverage": 1.0,
+   "undersideClosed": false,
+   "undersideCoverage": 0.292,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 5.527
   },
@@ -5054,7 +5069,7 @@
     9.424,
     5.584
    ],
-   "triangles": 3196,
+   "triangles": 3184,
    "lodRatios": [
     0.35,
     0.12
@@ -5062,7 +5077,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "mesh",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "FadeNode Anim:BSMultiBoundOBB",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "dryoakpost01.dds",
     "whwoodboards02.dds"
@@ -5112,8 +5132,8 @@
     }
    },
    "displayName": "Murkmire walkway curved 02",
-   "undersideClosed": true,
-   "undersideCoverage": 1.0,
+   "undersideClosed": false,
+   "undersideCoverage": 0.27,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 5.584
   },
@@ -5131,7 +5151,7 @@
     7.552,
     5.53
    ],
-   "triangles": 1802,
+   "triangles": 1790,
    "lodRatios": [
     0.35,
     0.12
@@ -5139,7 +5159,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "mesh",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "FadeNode Anim:BSMultiBoundOBB",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "dryoakpost01.dds",
     "whwoodboards02.dds"
@@ -5190,7 +5215,7 @@
    },
    "displayName": "Murkmire walkway short 02",
    "undersideClosed": true,
-   "undersideCoverage": 1.0,
+   "undersideCoverage": 0.707,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 5.53
   },
@@ -5208,7 +5233,7 @@
     4.075,
     5.356
    ],
-   "triangles": 1420,
+   "triangles": 1408,
    "lodRatios": [
     0.35,
     0.12
@@ -5216,7 +5241,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "mesh",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "FadeNode Anim:BSMultiBoundOBB",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "dryoakpost01.dds",
     "whwoodboards02.dds"
@@ -5267,7 +5297,7 @@
    },
    "displayName": "Murkmire walkway short 03",
    "undersideClosed": true,
-   "undersideCoverage": 1.0,
+   "undersideCoverage": 0.685,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 5.356
   },
@@ -5285,7 +5315,7 @@
     -5.309,
     0.431
    ],
-   "triangles": 2896,
+   "triangles": 2884,
    "lodRatios": [
     0.35,
     0.12
@@ -5293,7 +5323,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "mesh",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "FadeNode Anim:BSMultiBoundOBB",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "dryoakpost01.dds",
     "whwoodboards02.dds"
@@ -5355,7 +5390,7 @@
     6.245,
     5.462
    ],
-   "triangles": 1178,
+   "triangles": 1166,
    "lodRatios": [
     0.35,
     0.12
@@ -5363,7 +5398,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "mesh",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "FadeNode Anim:BSMultiBoundOBB",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "dryoakpost01.dds",
     "riftencanalwood01.dds",
@@ -5405,7 +5445,7 @@
    },
    "displayName": "Murkmire walkway stairs 01",
    "undersideClosed": true,
-   "undersideCoverage": 1.0,
+   "undersideCoverage": 0.761,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 5.462
   },
@@ -6306,6 +6346,7 @@
   "cardTriAreaPerHeight2": 0.002,
   "maxRadiusFactor": 1.5
  },
+ "schemaVersion": 1,
  "compression": {
   "schemaVersion": 1,
   "tool": "gltfpack 1.2",
@@ -6332,16 +6373,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 48611668,
-  "bytesAfter": 20212880,
+  "bytesBefore": 48582136,
+  "bytesAfter": 20204172,
   "images": 65,
   "imageBytesAfter": 14592523,
   "warnings": [],
-  "sha256": "fab923f94c6703dbc1d8635d586e6b972fa25707d399dbda5c9cb5a5214102d2",
+  "sha256": "08c650df6329bcfa6fca6d450fc0ba24bde2c760ef9ec37542985ae5bf46a5ac",
   "sidecarBytes": {
    "connectors": 75609,
-   "footprints": 110508,
-   "interiors": 74528
+   "footprints": 116883,
+   "interiors": 72735
   }
  }
 }

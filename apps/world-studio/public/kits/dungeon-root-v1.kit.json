@@ -60,11 +60,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Connect",
    "undersideClosed": true,
    "undersideCoverage": 0.922,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.941,
-   "displayName": "Connect"
+   "pivotAboveBaseM": 1.941
   },
   {
    "id": "bmv:architecture/philscaves/srooms/cor01",
@@ -125,11 +125,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cor 01",
    "undersideClosed": true,
    "undersideCoverage": 0.946,
    "openBackYawDeg": 135.0,
-   "pivotAboveBaseM": 0.131,
-   "displayName": "Cor 01"
+   "pivotAboveBaseM": 0.131
   },
   {
    "id": "bmv:architecture/philscaves/srooms/cor02",
@@ -190,11 +190,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cor 02",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.103,
-   "displayName": "Cor 02"
+   "pivotAboveBaseM": 0.103
   },
   {
    "id": "bmv:architecture/philscaves/srooms/cor03",
@@ -255,11 +255,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cor 03",
    "undersideClosed": false,
    "undersideCoverage": 0.572,
    "openBackYawDeg": 135.0,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Cor 03"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "bmv:architecture/philscaves/srooms/corc",
@@ -320,11 +320,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Corc",
    "undersideClosed": true,
    "undersideCoverage": 0.942,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 0.083,
-   "displayName": "Corc"
+   "pivotAboveBaseM": 0.083
   },
   {
    "id": "bmv:architecture/philscaves/srooms/corc01",
@@ -380,11 +380,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Corc 01",
    "undersideClosed": false,
    "undersideCoverage": 0.137,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 0.0,
-   "displayName": "Corc 01"
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "bmv:architecture/philscaves/srooms/corc02",
@@ -440,11 +440,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Corc 02",
    "undersideClosed": false,
    "undersideCoverage": 0.137,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": -0.0,
-   "displayName": "Corc 02"
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "bmv:architecture/philscaves/srooms/corc03",
@@ -505,11 +505,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Corc 03",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 1.128,
-   "displayName": "Corc 03"
+   "pivotAboveBaseM": 1.128
   },
   {
    "id": "bmv:architecture/philscaves/srooms/corc04",
@@ -570,11 +570,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Corc 04",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 1.128,
-   "displayName": "Corc 04"
+   "pivotAboveBaseM": 1.128
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid01",
@@ -635,11 +635,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mid 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.179,
-   "displayName": "Mid 01"
+   "pivotAboveBaseM": 0.179
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid02",
@@ -700,11 +700,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mid 02",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.083,
-   "displayName": "Mid 02"
+   "pivotAboveBaseM": 0.083
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid03a",
@@ -765,11 +765,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mid 03a",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "displayName": "Mid 03a"
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid03b",
@@ -830,11 +830,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mid 03b",
    "undersideClosed": false,
    "undersideCoverage": 0.02,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -1.821,
-   "displayName": "Mid 03b"
+   "pivotAboveBaseM": -1.821
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid03c",
@@ -895,11 +895,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mid 03c",
    "undersideClosed": true,
    "undersideCoverage": 0.796,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.24,
-   "displayName": "Mid 03c"
+   "pivotAboveBaseM": 0.24
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid04",
@@ -960,11 +960,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mid 04",
    "undersideClosed": true,
    "undersideCoverage": 0.909,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.485,
-   "displayName": "Mid 04"
+   "pivotAboveBaseM": 7.485
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid05",
@@ -1025,11 +1025,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Mid 05",
    "undersideClosed": true,
    "undersideCoverage": 0.964,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.311,
-   "displayName": "Mid 05"
+   "pivotAboveBaseM": 0.311
   },
   {
    "id": "bmv:architecture/philscaves/srooms/room01",
@@ -1090,11 +1090,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Room 01",
    "undersideClosed": true,
    "undersideCoverage": 0.842,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.327,
-   "displayName": "Room 01"
+   "pivotAboveBaseM": 6.327
   },
   {
    "id": "bmv:architecture/philscaves/srooms/room02",
@@ -1155,11 +1155,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Room 02",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 18.381,
-   "displayName": "Room 02"
+   "pivotAboveBaseM": 18.381
   },
   {
    "id": "bmv:architecture/philscaves/srooms/room03",
@@ -1220,11 +1220,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Room 03",
    "undersideClosed": true,
    "undersideCoverage": 0.791,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 9.863,
-   "displayName": "Room 03"
+   "pivotAboveBaseM": 9.863
   },
   {
    "id": "bmv:architecture/philscaves/srooms/room04",
@@ -1285,11 +1285,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Room 04",
    "undersideClosed": true,
    "undersideCoverage": 0.636,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.74,
-   "displayName": "Room 04"
+   "pivotAboveBaseM": 8.74
   },
   {
    "id": "bmv:architecture/philscaves/srooms/room05",
@@ -1350,11 +1350,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Room 05",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 9.091,
-   "displayName": "Room 05"
+   "pivotAboveBaseM": 9.091
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall01",
@@ -1415,11 +1415,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wall 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": 0.156,
-   "displayName": "Wall 01"
+   "pivotAboveBaseM": 0.156
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall02",
@@ -1480,11 +1480,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wall 02",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": 0.055,
-   "displayName": "Wall 02"
+   "pivotAboveBaseM": 0.055
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall03",
@@ -1545,11 +1545,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wall 03",
    "undersideClosed": true,
    "undersideCoverage": 0.975,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "displayName": "Wall 03"
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall04",
@@ -1610,11 +1610,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wall 04",
    "undersideClosed": false,
    "undersideCoverage": 0.011,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -1.821,
-   "displayName": "Wall 04"
+   "pivotAboveBaseM": -1.821
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall05",
@@ -1675,11 +1675,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wall 05",
    "undersideClosed": true,
    "undersideCoverage": 0.648,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.128,
-   "displayName": "Wall 05"
+   "pivotAboveBaseM": 0.128
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall06",
@@ -1740,11 +1740,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Wall 06",
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": 0.082,
-   "displayName": "Wall 06"
+   "pivotAboveBaseM": 0.082
   },
   {
    "id": "bmv:architecture/philscaves/small/cap",
@@ -1800,11 +1800,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cap",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": 1.789,
-   "displayName": "Cap"
+   "pivotAboveBaseM": 1.789
   },
   {
    "id": "bmv:architecture/philscaves/small/cor01",
@@ -1865,11 +1865,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cor 01",
    "undersideClosed": true,
    "undersideCoverage": 0.788,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.953,
-   "displayName": "Cor 01"
+   "pivotAboveBaseM": 1.953
   },
   {
    "id": "bmv:architecture/philscaves/small/cor02",
@@ -1930,11 +1930,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cor 02",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.61,
-   "displayName": "Cor 02"
+   "pivotAboveBaseM": 3.61
   },
   {
    "id": "bmv:architecture/philscaves/small/cor03",
@@ -1995,11 +1995,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "VW cavehallturun",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.61,
-   "displayName": "VW cavehallturun"
+   "pivotAboveBaseM": 3.61
   },
   {
    "id": "bmv:architecture/philscaves/small/cor04",
@@ -2060,11 +2060,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cor 04",
    "undersideClosed": true,
    "undersideCoverage": 0.83,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.945,
-   "displayName": "Cor 04"
+   "pivotAboveBaseM": 1.945
   },
   {
    "id": "bmv:architecture/philscaves/small/doorcaveb",
@@ -2125,11 +2125,11 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Doorcaveb",
    "undersideClosed": false,
    "undersideCoverage": 0.368,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.827,
-   "displayName": "Doorcaveb"
+   "pivotAboveBaseM": 1.827
   },
   {
    "id": "bmv:architecture/philscaves/small/exit01",
@@ -2195,11 +2195,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Exit 01",
    "undersideClosed": true,
    "undersideCoverage": 0.883,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 1.827,
-   "displayName": "Exit 01"
+   "pivotAboveBaseM": 1.827
   },
   {
    "id": "bmv:architecture/philscaves/small/exit02",
@@ -2264,11 +2264,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Exit 02",
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.069,
-   "displayName": "Exit 02"
+   "pivotAboveBaseM": 2.069
   },
   {
    "id": "bmv:architecture/philscaves/small/hall01",
@@ -2329,11 +2329,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hall 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.884,
-   "displayName": "Hall 01"
+   "pivotAboveBaseM": 1.884
   },
   {
    "id": "bmv:architecture/philscaves/small/hall02",
@@ -2394,11 +2394,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hall 02",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.926,
-   "displayName": "Hall 02"
+   "pivotAboveBaseM": 1.926
   },
   {
    "id": "bmv:architecture/philscaves/small/hall03",
@@ -2459,11 +2459,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "VW cavehall 1",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.946,
-   "displayName": "VW cavehall 1"
+   "pivotAboveBaseM": 1.946
   },
   {
    "id": "bmv:architecture/philscaves/small/hall04",
@@ -2519,11 +2519,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hall 04",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.041,
-   "displayName": "Hall 04"
+   "pivotAboveBaseM": 2.041
   },
   {
    "id": "bmv:architecture/philscaves/small/hall05",
@@ -2584,11 +2584,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hall 05",
    "undersideClosed": true,
    "undersideCoverage": 0.662,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.966,
-   "displayName": "Hall 05"
+   "pivotAboveBaseM": 1.966
   },
   {
    "id": "bmv:architecture/philscaves/small/hall05_a",
@@ -2644,11 +2644,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hall 05 a",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -2.096,
-   "displayName": "Hall 05 a"
+   "pivotAboveBaseM": -2.096
   },
   {
    "id": "bmv:architecture/philscaves/small/hall05_b",
@@ -2709,11 +2709,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hall 05 b",
    "undersideClosed": true,
    "undersideCoverage": 0.961,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.007,
-   "displayName": "Hall 05 b"
+   "pivotAboveBaseM": -3.007
   },
   {
    "id": "bmv:architecture/philscaves/small/hallh01",
@@ -2769,11 +2769,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Hallh 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.812,
-   "displayName": "Hallh 01"
+   "pivotAboveBaseM": 1.812
   },
   {
    "id": "bmv:architecture/philscaves/small/ram01",
@@ -2829,11 +2829,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "VW cave slope",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.61,
-   "displayName": "VW cave slope"
+   "pivotAboveBaseM": 3.61
   },
   {
    "id": "bmv:architecture/philscaves/cave2",
@@ -2886,11 +2886,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave 2",
    "undersideClosed": true,
    "undersideCoverage": 0.771,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.729,
-   "displayName": "Cave 2"
+   "pivotAboveBaseM": 3.729
   },
   {
    "id": "bmv:architecture/philscaves/cave3",
@@ -2943,11 +2943,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cave 3",
    "undersideClosed": true,
    "undersideCoverage": 0.955,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 9.114,
-   "displayName": "Cave 3"
+   "pivotAboveBaseM": 9.114
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintdooret01",
@@ -3004,11 +3004,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintdooret 01",
    "undersideClosed": false,
    "undersideCoverage": 0.483,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.389,
-   "displayName": "Housetroncintdooret 01"
+   "pivotAboveBaseM": 0.389
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintdoorrc01",
@@ -3065,11 +3065,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintdoorrc 01",
    "undersideClosed": false,
    "undersideCoverage": 0.524,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.715,
-   "displayName": "Housetroncintdoorrc 01"
+   "pivotAboveBaseM": 0.715
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintet001",
@@ -3137,11 +3137,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintet 001",
    "undersideClosed": true,
    "undersideCoverage": 0.637,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.024,
-   "displayName": "Housetroncintet 001"
+   "pivotAboveBaseM": -3.024
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintet90v001",
@@ -3203,11 +3203,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintet 90v 001",
    "undersideClosed": false,
    "undersideCoverage": 0.593,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.395,
-   "displayName": "Housetroncintet 90v 001"
+   "pivotAboveBaseM": -3.395
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintrc001",
@@ -3278,11 +3278,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintrc 001",
    "undersideClosed": false,
    "undersideCoverage": 0.578,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.643,
-   "displayName": "Housetroncintrc 001"
+   "pivotAboveBaseM": 0.643
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintrc90v001",
@@ -3344,11 +3344,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintrc 90v 001",
    "undersideClosed": false,
    "undersideCoverage": 0.521,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.643,
-   "displayName": "Housetroncintrc 90v 001"
+   "pivotAboveBaseM": 0.643
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintrcet90v001",
@@ -3410,11 +3410,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintrcet 90v 001",
    "undersideClosed": true,
    "undersideCoverage": 0.628,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.643,
-   "displayName": "Housetroncintrcet 90v 001"
+   "pivotAboveBaseM": 0.643
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintss001",
@@ -3482,11 +3482,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintss 001",
    "undersideClosed": false,
    "undersideCoverage": 0.559,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.763,
-   "displayName": "Housetroncintss 001"
+   "pivotAboveBaseM": 2.763
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallet001",
@@ -3546,11 +3546,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintwallet 001",
    "undersideClosed": true,
    "undersideCoverage": 0.701,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.127,
-   "displayName": "Housetroncintwallet 001"
+   "pivotAboveBaseM": 0.127
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallet002",
@@ -3610,11 +3610,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintwallet 002",
    "undersideClosed": true,
    "undersideCoverage": 0.662,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.127,
-   "displayName": "Housetroncintwallet 002"
+   "pivotAboveBaseM": 0.127
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallet003",
@@ -3672,11 +3672,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintwallet 003",
    "undersideClosed": false,
    "undersideCoverage": 0.567,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.127,
-   "displayName": "Housetroncintwallet 003"
+   "pivotAboveBaseM": 0.127
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallrc001",
@@ -3736,11 +3736,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintwallrc 001",
    "undersideClosed": false,
    "undersideCoverage": 0.534,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.127,
-   "displayName": "Housetroncintwallrc 001"
+   "pivotAboveBaseM": 0.127
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallrc002",
@@ -3800,11 +3800,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintwallrc 002",
    "undersideClosed": true,
    "undersideCoverage": 0.608,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.127,
-   "displayName": "Housetroncintwallrc 002"
+   "pivotAboveBaseM": 0.127
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallrc003",
@@ -3862,11 +3862,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintwallrc 003",
    "undersideClosed": false,
    "undersideCoverage": 0.565,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.127,
-   "displayName": "Housetroncintwallrc 003"
+   "pivotAboveBaseM": 0.127
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowet001",
@@ -3921,11 +3921,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintwindowet 001",
    "undersideClosed": false,
    "undersideCoverage": 0.57,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.514,
-   "displayName": "Housetroncintwindowet 001"
+   "pivotAboveBaseM": -0.514
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowet002",
@@ -3980,11 +3980,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintwindowet 002",
    "undersideClosed": false,
    "undersideCoverage": 0.567,
    "openBackYawDeg": 315.0,
-   "pivotAboveBaseM": -1.03,
-   "displayName": "Housetroncintwindowet 002"
+   "pivotAboveBaseM": -1.03
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowet003",
@@ -4039,11 +4039,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintwindowet 003",
    "undersideClosed": true,
    "undersideCoverage": 0.874,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.605,
-   "displayName": "Housetroncintwindowet 003"
+   "pivotAboveBaseM": -0.605
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowrc001",
@@ -4098,11 +4098,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintwindowrc 001",
    "undersideClosed": false,
    "undersideCoverage": 0.217,
    "openBackYawDeg": 292.5,
-   "pivotAboveBaseM": -0.403,
-   "displayName": "Housetroncintwindowrc 001"
+   "pivotAboveBaseM": -0.403
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowrc002",
@@ -4157,11 +4157,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintwindowrc 002",
    "undersideClosed": false,
    "undersideCoverage": 0.365,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.403,
-   "displayName": "Housetroncintwindowrc 002"
+   "pivotAboveBaseM": -0.403
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowrc003",
@@ -4216,11 +4216,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housetroncintwindowrc 003",
    "undersideClosed": false,
    "undersideCoverage": 0.451,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -1.016,
-   "displayName": "Housetroncintwindowrc 003"
+   "pivotAboveBaseM": -1.016
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampint001",
@@ -4281,11 +4281,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housechampint 001",
    "undersideClosed": true,
    "undersideCoverage": 0.845,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.992,
-   "displayName": "Housechampint 001"
+   "pivotAboveBaseM": 0.992
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintdoor01",
@@ -4342,11 +4342,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housechampintdoor 01",
    "undersideClosed": true,
    "undersideCoverage": 0.909,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.389,
-   "displayName": "Housechampintdoor 01"
+   "pivotAboveBaseM": 0.389
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v001",
@@ -4406,11 +4406,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housechampintwalla 15v 001",
    "undersideClosed": false,
    "undersideCoverage": 0.523,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16,
-   "displayName": "Housechampintwalla 15v 001"
+   "pivotAboveBaseM": 0.16
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v002",
@@ -4470,11 +4470,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housechampintwalla 15v 002",
    "undersideClosed": true,
    "undersideCoverage": 0.626,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16,
-   "displayName": "Housechampintwalla 15v 002"
+   "pivotAboveBaseM": 0.16
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v003",
@@ -4532,11 +4532,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housechampintwalla 15v 003",
    "undersideClosed": false,
    "undersideCoverage": 0.556,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16,
-   "displayName": "Housechampintwalla 15v 003"
+   "pivotAboveBaseM": 0.16
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla45v001",
@@ -4596,11 +4596,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housechampintwalla 45v 001",
    "undersideClosed": false,
    "undersideCoverage": 0.519,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16,
-   "displayName": "Housechampintwalla 45v 001"
+   "pivotAboveBaseM": 0.16
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla45v002",
@@ -4660,11 +4660,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housechampintwalla 45v 002",
    "undersideClosed": false,
    "undersideCoverage": 0.532,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16,
-   "displayName": "Housechampintwalla 45v 002"
+   "pivotAboveBaseM": 0.16
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla45v003",
@@ -4722,11 +4722,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housechampintwalla 45v 003",
    "undersideClosed": false,
    "undersideCoverage": 0.536,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16,
-   "displayName": "Housechampintwalla 45v 003"
+   "pivotAboveBaseM": 0.16
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwindow001",
@@ -4781,11 +4781,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housechampintwindow 001",
    "undersideClosed": false,
    "undersideCoverage": 0.486,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.943,
-   "displayName": "Housechampintwindow 001"
+   "pivotAboveBaseM": -0.943
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwindow002",
@@ -4840,11 +4840,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housechampintwindow 002",
    "undersideClosed": true,
    "undersideCoverage": 0.774,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.4,
-   "displayName": "Housechampintwindow 002"
+   "pivotAboveBaseM": -0.4
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwindow003",
@@ -4899,11 +4899,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Housechampintwindow 003",
    "undersideClosed": true,
    "undersideCoverage": 0.648,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.125,
-   "displayName": "Housechampintwindow 003"
+   "pivotAboveBaseM": -0.125
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandint001",
@@ -4970,11 +4970,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Houseglandint 001",
    "undersideClosed": true,
    "undersideCoverage": 0.984,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.08,
-   "displayName": "Houseglandint 001"
+   "pivotAboveBaseM": 4.08
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandintdoor001",
@@ -5029,11 +5029,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Houseglandintdoor 001",
    "undersideClosed": false,
    "undersideCoverage": 0.394,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.095,
-   "displayName": "Houseglandintdoor 001"
+   "pivotAboveBaseM": -0.095
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandinttrapetdn001",
@@ -5093,11 +5093,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Houseglandinttrapetdn 001",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.016,
-   "displayName": "Houseglandinttrapetdn 001"
+   "pivotAboveBaseM": 0.016
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandinttraprcdn001",
@@ -5157,11 +5157,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Houseglandinttraprcdn 001",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.016,
-   "displayName": "Houseglandinttraprcdn 001"
+   "pivotAboveBaseM": 0.016
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandinttraprcup001",
@@ -5219,11 +5219,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Houseglandinttraprcup 001",
    "undersideClosed": true,
    "undersideCoverage": 0.797,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -1.638,
-   "displayName": "Houseglandinttraprcup 001"
+   "pivotAboveBaseM": -1.638
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandinttrapssup001",
@@ -5281,11 +5281,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Houseglandinttrapssup 001",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -1.559,
-   "displayName": "Houseglandinttrapssup 001"
+   "pivotAboveBaseM": -1.559
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandintwindowet001",
@@ -5340,11 +5340,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Houseglandintwindowet 001",
    "undersideClosed": true,
    "undersideCoverage": 0.675,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": -5.021,
-   "displayName": "Houseglandintwindowet 001"
+   "pivotAboveBaseM": -5.021
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandintwindowet002",
@@ -5399,11 +5399,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Houseglandintwindowet 002",
    "undersideClosed": false,
    "undersideCoverage": 0.598,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -4.102,
-   "displayName": "Houseglandintwindowet 002"
+   "pivotAboveBaseM": -4.102
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandintwindowet003",
@@ -5458,11 +5458,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Houseglandintwindowet 003",
    "undersideClosed": true,
    "undersideCoverage": 0.612,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.672,
-   "displayName": "Houseglandintwindowet 003"
+   "pivotAboveBaseM": -3.672
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandintwindowrc001",
@@ -5517,11 +5517,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Houseglandintwindowrc 001",
    "undersideClosed": false,
    "undersideCoverage": 0.383,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.052,
-   "displayName": "Houseglandintwindowrc 001"
+   "pivotAboveBaseM": -0.052
   },
   {
    "id": "bmv:telvanni/tel_ext_root_01",
@@ -5579,11 +5579,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tel ext root 01",
    "undersideClosed": false,
    "undersideCoverage": 0.187,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.833,
-   "displayName": "Tel ext root 01"
+   "pivotAboveBaseM": 11.833
   },
   {
    "id": "bmv:telvanni/tel_ext_root_02",
@@ -5636,11 +5636,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tel ext root 02",
    "undersideClosed": false,
    "undersideCoverage": 0.227,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 10.851,
-   "displayName": "Tel ext root 02"
+   "pivotAboveBaseM": 10.851
   },
   {
    "id": "bmv:telvanni/tel_root_03",
@@ -5693,11 +5693,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tel root 03",
    "undersideClosed": false,
    "undersideCoverage": 0.182,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 46.295,
-   "displayName": "Tel root 03"
+   "pivotAboveBaseM": 46.295
   },
   {
    "id": "bmv:telvanni/tel_int_connector_01",
@@ -5757,11 +5757,11 @@
      "fitPolicy": "authored placement-policies.json policy deck: Reviewed rests-on-a-host policy (16h round 13): a piece built to rest on another piece (the Telvanni treehouse connector on its tree or platform) takes the deck anchor class where its mined contact vote is ambiguous; the host supplies the datum, so terrain burial is forbidden, as for interior-zero."
     }
    },
+   "displayName": "Tel int connector 01",
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.296,
-   "displayName": "Tel int connector 01"
+   "pivotAboveBaseM": 0.296
   },
   {
    "id": "bmv:telvanni/tel_int_gourdhouse01",
@@ -5827,11 +5827,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tel int gourdhouse 01",
    "undersideClosed": true,
    "undersideCoverage": 0.915,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.254,
-   "displayName": "Tel int gourdhouse 01"
+   "pivotAboveBaseM": 0.254
   },
   {
    "id": "bmv:telvanni/tel_ramp_03",
@@ -5886,11 +5886,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tel ramp 03",
    "undersideClosed": true,
    "undersideCoverage": 0.726,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 44.635,
-   "displayName": "Tel ramp 03"
+   "pivotAboveBaseM": 44.635
   },
   {
    "id": "bmv:telvanni/tel_stairs_01",
@@ -5950,11 +5950,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tel stairs 01",
    "undersideClosed": false,
    "undersideCoverage": 0.236,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 12.616,
-   "displayName": "Tel stairs 01"
+   "pivotAboveBaseM": 12.616
   },
   {
    "id": "bmv:telvanni/tel_stairs_01b",
@@ -6014,11 +6014,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tel stairs 01b",
    "undersideClosed": true,
    "undersideCoverage": 0.942,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.129,
-   "displayName": "Tel stairs 01b"
+   "pivotAboveBaseM": 8.129
   },
   {
    "id": "bmv:telvanni/tel_ext_ramp_01",
@@ -6073,11 +6073,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tel ext ramp 01",
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.71,
-   "displayName": "Tel ext ramp 01"
+   "pivotAboveBaseM": 3.71
   },
   {
    "id": "bmv:telvanni/tel_pod_shelf_01",
@@ -6145,11 +6145,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tel pod shelf 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.891,
-   "displayName": "Tel pod shelf 01"
+   "pivotAboveBaseM": -3.891
   },
   {
    "id": "bmv:telvanni/tel_shelffungus_01",
@@ -6211,11 +6211,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tel shelffungus 01",
    "undersideClosed": true,
    "undersideCoverage": 0.666,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -9.843,
-   "displayName": "Tel shelffungus 01"
+   "pivotAboveBaseM": -9.843
   },
   {
    "id": "bmv:telvanni/tel_entrance_01",
@@ -6277,11 +6277,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Tel entrance 01",
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.033,
-   "displayName": "Tel entrance 01"
+   "pivotAboveBaseM": 2.033
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots01",
@@ -6336,11 +6336,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Histroots 01",
    "undersideClosed": false,
    "undersideCoverage": 0.11,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 39.602,
-   "displayName": "Histroots 01"
+   "pivotAboveBaseM": 39.602
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots02",
@@ -6400,11 +6400,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Histroots 02",
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.626,
-   "displayName": "Histroots 02"
+   "pivotAboveBaseM": 3.626
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots03",
@@ -6464,11 +6464,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Histroots 03",
    "undersideClosed": true,
    "undersideCoverage": 0.823,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.05,
-   "displayName": "Histroots 03"
+   "pivotAboveBaseM": 0.05
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots04",
@@ -6521,11 +6521,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Histroots 04",
    "undersideClosed": true,
    "undersideCoverage": 0.974,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.97,
-   "displayName": "Histroots 04"
+   "pivotAboveBaseM": 4.97
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots05",
@@ -6583,11 +6583,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Histroots 05",
    "undersideClosed": false,
    "undersideCoverage": 0.416,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.826,
-   "displayName": "Histroots 05"
+   "pivotAboveBaseM": 0.826
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots06",
@@ -6645,11 +6645,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Histroots 06",
    "undersideClosed": false,
    "undersideCoverage": 0.309,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.243,
-   "displayName": "Histroots 06"
+   "pivotAboveBaseM": 1.243
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histramp",
@@ -6718,11 +6718,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Histramp",
    "undersideClosed": true,
    "undersideCoverage": 0.944,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.541,
-   "displayName": "Histramp"
+   "pivotAboveBaseM": 1.541
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histtree",
@@ -6821,6 +6821,26 @@
     "Scene Root:99.Mat": 0.502
    },
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "Cylinder.2981.Mat",
+    "DeathBell01:0.Mat",
+    "ReachTree01:26.Mat",
+    "Scene Root:104.Mat",
+    "Scene Root:109.Mat",
+    "Scene Root:114.Mat",
+    "Scene Root:119.Mat",
+    "Scene Root:124.Mat",
+    "Scene Root:45.Mat",
+    "Scene Root:50.Mat",
+    "Scene Root:55.Mat",
+    "Scene Root:60.Mat",
+    "Scene Root:72.Mat",
+    "Scene Root:84.Mat",
+    "Scene Root:89.Mat",
+    "Scene Root:94.Mat",
+    "Scene Root:95.Mat",
+    "Scene Root:99.Mat"
+   ],
    "designedSinkM": {
     "p25": -16.0978,
     "p50": -16.0978,
@@ -6847,6 +6867,7 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "displayName": "Histtree",
    "glowFacingsDeg": [
     23.2,
     82.6,
@@ -6858,8 +6879,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 16.098,
-   "displayName": "Histtree"
+   "pivotAboveBaseM": 16.098
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/treegiantrootbase01",
@@ -6914,11 +6934,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Treegiantrootbase 01",
    "undersideClosed": false,
    "undersideCoverage": 0.11,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 39.602,
-   "displayName": "Treegiantrootbase 01"
+   "pivotAboveBaseM": 39.602
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/treeroots01",
@@ -6973,11 +6993,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Treeroots 01",
    "undersideClosed": false,
    "undersideCoverage": 0.11,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 39.602,
-   "displayName": "Treeroots 01"
+   "pivotAboveBaseM": 39.602
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/treeroots03",
@@ -7030,27 +7050,27 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Treeroots 03",
    "undersideClosed": true,
    "undersideCoverage": 0.823,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.05,
-   "displayName": "Treeroots 03"
+   "pivotAboveBaseM": 0.05
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/treeroottrap",
    "node": "es|673b0a77dc|s - curse of cipactli_trees_treeroottrap",
    "category": "misc",
    "sizeM": [
-    1.054,
+    0.885,
     4.569,
     3.411
    ],
    "originOffsetM": [
-    0.462,
+    0.293,
     2.177,
     2.08
    ],
-   "triangles": 806,
+   "triangles": 666,
    "lodRatios": [
     0.35,
     0.12
@@ -7062,6 +7082,46 @@
     {
      "shape": "EditorMarker",
      "reason": "effect-no-texture"
+    },
+    {
+     "shape": "Bone01:0",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "Bone02:0",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "Bone03:0",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "Bone04:0",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "Bone05:0",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "Bone06:0",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "Bone07:0",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "Bone08:0",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "Bone09:0",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "Bone10:0",
+     "reason": "no-shader"
     }
    ],
    "textures": [
@@ -7074,6 +7134,9 @@
     "Tentacle01.Mat"
    ],
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "Tentacle01.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.4552,
     "p50": -0.4552,
@@ -7095,6 +7158,7 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Treeroottrap",
    "glowFacingsDeg": [
     23.6,
     83.9,
@@ -7106,8 +7170,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.951,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.08,
-   "displayName": "Treeroottrap"
+   "pivotAboveBaseM": 2.08
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproot",
@@ -7142,6 +7205,9 @@
     "Taproot:0.Mat"
    ],
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "Taproot:0.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.2035,
     "p50": -0.2035,
@@ -7168,6 +7234,7 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Corruptedtaproot",
    "glowFacingsDeg": [
     29.9,
     84.2,
@@ -7179,8 +7246,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.98,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.203,
-   "displayName": "Corruptedtaproot"
+   "pivotAboveBaseM": 0.203
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproothist",
@@ -7236,6 +7302,7 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Corruptedtaproothist",
    "glowFacingsDeg": [
     30.1,
     84.3,
@@ -7247,8 +7314,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.98,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.203,
-   "displayName": "Corruptedtaproothist"
+   "pivotAboveBaseM": 0.203
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/clutter/histfruit",
@@ -7286,6 +7352,9 @@
     "SwampFungalPod02:0.Mat": 0.502
    },
    "lodLevels": 3,
+   "emissiveMaterials": [
+    "SwampFungalPod02:0.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.0638,
     "p50": -0.0638,
@@ -7312,6 +7381,7 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Histfruit",
    "glowFacingsDeg": [
     27.2,
     81.6,
@@ -7324,8 +7394,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.315,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.064,
-   "displayName": "Histfruit"
+   "pivotAboveBaseM": 0.064
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/histtree",
@@ -7404,11 +7473,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Histtree",
    "undersideClosed": false,
    "undersideCoverage": 0.521,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.822,
-   "displayName": "Histtree"
+   "pivotAboveBaseM": 8.822
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/fxhistmist01",
@@ -7471,11 +7540,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Fxhistmist 01",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.263,
-   "displayName": "Fxhistmist 01"
+   "pivotAboveBaseM": 1.263
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/cavegbalconyshelf01",
@@ -7543,11 +7612,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Cavegbalconyshelf 01",
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.49,
-   "displayName": "Cavegbalconyshelf 01"
+   "pivotAboveBaseM": 1.49
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/archwaysticks",
@@ -7628,11 +7697,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Archwaysticks",
    "undersideClosed": false,
    "undersideCoverage": 0.198,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.995,
-   "displayName": "Archwaysticks"
+   "pivotAboveBaseM": -3.995
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns01",
@@ -7695,11 +7764,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonianlanterns 01",
    "undersideClosed": false,
    "undersideCoverage": 0.524,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.425,
-   "displayName": "Argonianlanterns 01"
+   "pivotAboveBaseM": 4.425
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
@@ -7775,11 +7844,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Argonianlanterns 03",
    "undersideClosed": true,
    "undersideCoverage": 0.638,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.149,
-   "displayName": "Argonianlanterns 03"
+   "pivotAboveBaseM": 2.149
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/sithisshrine",
@@ -7858,11 +7927,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Sithisshrine",
    "undersideClosed": true,
    "undersideCoverage": 0.937,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.065,
-   "displayName": "Sithisshrine"
+   "pivotAboveBaseM": -0.065
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
@@ -7885,7 +7954,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "convex",
+   "collision": "box",
    "droppedShapes": [],
    "textures": [
     "fence01.dds"
@@ -7938,11 +8007,24 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "collisionBox": {
+    "halfExtentsM": [
+     0.332,
+     0.858,
+     0.216
+    ],
+    "centreOffsetM": [
+     -0.015,
+     0.985,
+     0.016
+    ]
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "displayName": "Argoniantotem 01",
    "undersideClosed": false,
    "undersideCoverage": 0.315,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.011,
-   "displayName": "Argoniantotem 01"
+   "pivotAboveBaseM": -0.011
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/roundfloor01",
@@ -8022,11 +8104,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Roundfloor 01",
    "undersideClosed": true,
    "undersideCoverage": 0.805,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.002,
-   "displayName": "Roundfloor 01"
+   "pivotAboveBaseM": 3.002
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/shellhalf",
@@ -8079,11 +8161,11 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
+   "displayName": "Shellhalf",
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.518,
-   "displayName": "Shellhalf"
+   "pivotAboveBaseM": -0.518
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\dungeon-root-v1.glb",
@@ -8137,6 +8219,7 @@
   "cardTriAreaPerHeight2": 0.002,
   "maxRadiusFactor": 1.5
  },
+ "schemaVersion": 1,
  "compression": {
   "schemaVersion": 1,
   "tool": "gltfpack 1.2",
@@ -8163,16 +8246,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 41036000,
-  "bytesAfter": 19212592,
+  "bytesBefore": 40989004,
+  "bytesAfter": 19193212,
   "images": 54,
   "imageBytesAfter": 14035718,
   "warnings": [],
-  "sha256": "431c8daae1cf1b444fbc2aefc75bd0fbc49704efcbed6eb738043f8f72b0e05d",
+  "sha256": "1f1202c6de02b56d5e0e15f6b0e4197f4e44de9258a6d9e116614b6fa1e631c7",
   "sidecarBytes": {
    "connectors": 79965,
-   "footprints": 156769,
-   "interiors": 56220
+   "footprints": 156946,
+   "interiors": 56236
   }
  }
 }

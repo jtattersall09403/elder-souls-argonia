@@ -4,15 +4,15 @@
  "exterior": false,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 17300312,
-  "sha256": "a52491b62dfd086de739fbd0cdff1c95131f5aa61e4fea9ad149f2426b60ea50"
+  "bytes": 17297056,
+  "sha256": "955e9af605b9e472f63afcb77ca3439a212d03d21e697a1436b5db02b4a9ff1d"
  },
  "totals": {
   "parts": 147,
-  "partBytes": 5119728,
+  "partBytes": 5113928,
   "textureFiles": 107,
   "textureBytes": 5873141,
-  "bytes": 10992869
+  "bytes": 10987069
  },
  "assets": {
   "kotm:argonia/clutter/amberbee": {
@@ -1090,7 +1090,7 @@
   },
   "kotm:argonia/mudhuts/floor02": {
    "file": "kotm_argonia_mudhuts_floor02-ff4724d1.glb",
-   "bytes": 131592,
+   "bytes": 131632,
    "vertices": 7291,
    "triangles": 3976,
    "lods": [
@@ -1780,24 +1780,24 @@
   },
   "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime": {
    "file": "kotm_skinwalker21_creatures_horker_giant_snail_skyrim_giantsnailslime-d41699dd.glb",
-   "bytes": 32224,
-   "vertices": 854,
-   "triangles": 1076,
+   "bytes": 29272,
+   "vertices": 808,
+   "triangles": 1006,
    "lods": [
     {
      "lod": 0,
-     "vertices": 854,
-     "triangles": 1076
+     "vertices": 808,
+     "triangles": 1006
     },
     {
      "lod": 1,
-     "vertices": 538,
-     "triangles": 612
+     "vertices": 492,
+     "triangles": 542
     },
     {
      "lod": 2,
-     "vertices": 538,
-     "triangles": 612
+     "vertices": 492,
+     "triangles": 542
     }
    ],
    "textures": [
@@ -3330,7 +3330,7 @@
   },
   "vanilla:dungeons/caves/green/largeroom/caveglroomincorner02": {
    "file": "vanilla_dungeons_caves_green_largeroom_caveglroomincorner02-da4b5c7d.glb",
-   "bytes": 73692,
+   "bytes": 70804,
    "vertices": 1527,
    "triangles": 2145,
    "lods": [

@@ -8809,7 +8809,7 @@
    "node": "es|43fe2b81c5|nilla__clutter_horsetrough_horsetrough01",
    "category": "clutter",
    "sizeM": [
-    1.843,
+    1.814,
     0.686,
     0.467
    ],
@@ -8818,7 +8818,7 @@
     0.349,
     0.0
    ],
-   "triangles": 213,
+   "triangles": 201,
    "lodRatios": [
     0.35,
     0.12
@@ -8826,7 +8826,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "BSMultiBoundOBB",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "woodpost02.dds",
     "woodwall01.dds"
@@ -12405,6 +12410,7 @@
   "cardTriAreaPerHeight2": 0.002,
   "maxRadiusFactor": 1.5
  },
+ "schemaVersion": 1,
  "compression": {
   "schemaVersion": 1,
   "tool": "gltfpack 1.2",
@@ -12431,23 +12437,23 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 48837240,
-  "bytesAfter": 23698312,
+  "bytesBefore": 48835796,
+  "bytesAfter": 23697524,
   "images": 103,
   "imageBytesAfter": 20666274,
   "warnings": [],
-  "sha256": "850ee873b22925b3d1c8590af8c27f274c93c9199266f09afacecc122315beb9",
+  "sha256": "3be6406107667810bcbebbeebcde412f5c846bf4cfd41926d244dfd45653fb6a",
   "parts": {
-   "parts": 11,
-   "partBytes": 192348,
-   "textureFiles": 11,
-   "textureBytes": 1393228,
-   "bytes": 1585576,
-   "sourceSha256": "850ee873b22925b3d1c8590af8c27f274c93c9199266f09afacecc122315beb9"
+   "parts": 124,
+   "partBytes": 4235656,
+   "textureFiles": 98,
+   "textureBytes": 19733053,
+   "bytes": 23968709,
+   "sourceSha256": "3be6406107667810bcbebbeebcde412f5c846bf4cfd41926d244dfd45653fb6a"
   },
   "sidecarBytes": {
    "connectors": 86846,
-   "footprints": 156282,
+   "footprints": 156144,
    "interiors": 69839
   }
  }

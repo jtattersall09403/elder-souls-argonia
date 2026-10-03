@@ -308,6 +308,10 @@
   "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01": "direct",
   "vanilla:clutter/firewood/firewoodpilesmall01": "direct",
   "bmv:roadsignmedium01r": "direct",
+  "bmv:roadsignlarge01l": "direct",
+  "bmv:roadsignlarge01r": "direct",
+  "kotm:argonia/mudhuts/stairs01": "route-structure",
+  "kotm:argonia/mudhuts/stairs02": "route-structure",
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01": "pad",
   "vanilla:architecture/farmhouse/walkway/walkwaystairs8": "plinth",
   "kotm:argonia/mudhuts/shed": "pad",
@@ -475,6 +479,10 @@
   "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Greenspring's dressing 2026-09-27): designed-sink p50 -0.0581 m, n 0, evidence mesh-sill",
   "vanilla:clutter/firewood/firewoodpilesmall01": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Greenspring's dressing 2026-09-27): designed-sink p50 0.036 m, n 104, evidence plugin",
   "bmv:roadsignmedium01r": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-2 pieces 2026-09-27): designed-sink p50 -0.155 m, n 0, evidence policy-fallback",
+  "bmv:roadsignlarge01l": "arm board hung on a roadsignpost's mined 2.51 m pair (kit-mounts-mined); same fit as bmv:roadsignmedium01l/r, so `mount` seats it on its own pair (16k walk 10, Opening Work Camp, The Broke Column)",
+  "bmv:roadsignlarge01r": "arm board hung on a roadsignpost's mined 2.51 m pair (kit-mounts-mined); same fit as bmv:roadsignmedium01l/r, so `mount` seats it on its own pair (16k walk 10, Opening Work Camp, The Broke Column)",
+  "kotm:argonia/mudhuts/stairs01": "a timber stair is a climb, not a building on a graded pad: the route-structure fit the vanilla and Hlaalu stairs carry (wrcastlestairs01, stonewallterracestairs01, hammerfell/stairs01), so the footing slope limit and the run pad do not refuse it on the bank it climbs (16k walk 10, Border Road Greenspring Crossings)",
+  "kotm:argonia/mudhuts/stairs02": "a timber stair hung from its top landing (pivot at the top, treads 0.29 m apart falling 3.5 m) is a climb, not a building on a graded pad: the route-structure fit the vanilla and Hlaalu stairs carry (wrcastlestairs01, stonewallterracestairs01, hammerfell/stairs01), so the footing slope limit and the run pad do not refuse it on the bank it climbs (16k walk 10, Border Road Greenspring Crossings)",
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01": "frozen from the imperial-keep manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-2 pieces 2026-09-27): designed-sink p50 0.0 m, n 0, evidence mesh-sill",
   "vanilla:architecture/farmhouse/walkway/walkwaystairs8": "frozen from the settlement-imperial-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-2 pieces 2026-09-27): designed-sink p50 -0.1422 m, n 39, evidence plugin",
   "kotm:argonia/mudhuts/shed": "Argonian mud shed on a declared pad (0101), same contact family as kotm:argonia/mudhuts/mudhut01; frozen from the settlement-mud-v1 manifest's fit (policy pad, designed-sink p50 0.0 m, n 0, evidence policy-fallback)",
@@ -542,8 +550,8 @@
    "why": "Legion tent: canvas on poles with no floor slab, open at both gable ends; 0105 R58 judges it at its poles and its canvas skirt (16k walk 9, The Broke Column). Its long-side canvas edges end 0.43 m (front) and 0.50 m (back) over the mesh's lowest point, so on the plugin sink (p50 0.11 m) they hovered 0.41 m over a levelled pad (check, walk 9); the sink is lowered to 0.48 m so every canvas edge meets the ground and the gable poles go 0.5 m in."
   },
   "vanilla:landscape/rocks/rockcaveentrance02": {
-   "designedSinkM": -0.02,
-   "why": "Skyrim's cave-mouth rock (30.7 x 32.2 x 19.5 m): its tunnel floor rises from 1.58 m under the pivot at the load door to the mouth's lip 7.8 m out along the tunnel axis (106 deg in its frame), 3.79 m above the mesh's lowest point, and an apron then falls 3.5 m away outside the lip into the hillside (vertical rays through the raw GLB, 16k walk 9, tooling/.reports/16k/walk9/place-type-5.md). The plugins set it into slopes (24 refs, mined sink p50 -2.38 m on their hillside land); on level ground the way in is flush only when the lip meets the lowest ground under the rock (the dug-in line), so the pivot, 0.02 m under the lip, stands 0.02 m above that line: designed sink -0.02 m (lesson L25). Seated at the mined row the lip stood 2.2 m above the approach at Takes-The-Tools."
+   "designedSinkM": 0.58,
+   "why": "Skyrim's cave-mouth rock (30.7 x 32.2 x 19.5 m): its tunnel floor rises from 1.58 m under the pivot at the load door to the mouth's lip 7.8 m out along the tunnel axis (106 deg in its frame), 3.79 m above the mesh's lowest point, and an apron then falls 3.5 m away outside the lip into the hillside (vertical rays through the raw GLB, 16k walk 9, tooling/.reports/16k/walk9/place-type-5.md). The plugins set it into slopes (24 refs, mined sink p50 -2.38 m on their hillside land); on level ground the way in is flush only when the lip meets the lowest ground under the rock (the dug-in line), so the pivot, 0.02 m under the lip, stands 0.02 m above that line: designed sink -0.02 m (lesson L25). Seated at the mined row the lip stood 2.2 m above the approach at Takes-The-Tools. The sink is 0.6 m deeper than that line (0.58 m): the Dirt02 skirt and Rocks01 decal are landscape-blend shapes that fade into the land by vertex alpha in Skyrim, and the kit draws them opaque, so on the dug-in line they stood 0.12-0.27 m proud as a hard-edged slab; a bpy scan of their sky-facing area above the ground read 31.8 + 10.6 m2 at 0 extra sink, 10.8 + 9.1 at 0.3 m and 0 at 0.6 m (16k walk 10, Jungle Root Hollow, tooling/.reports/16k/walk10/audit10-c5/pb-jungle-root-hollow.md), and the lip then sits 0.58 m into the approach, which a place grades to."
   },
   "bmv:advertising_board": {
    "designedSinkM": -0.041,

@@ -4,15 +4,15 @@
  "exterior": true,
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 20167696,
-  "sha256": "51ac55b6848ac92578ddd11069972fd0943af845c0bb5699e2f010585277909a"
+  "bytes": 20160112,
+  "sha256": "6b6c4342b2b366b90262c46b806857c763aa6ff8b9a63fb574cb90a9d782f4b3"
  },
  "totals": {
   "parts": 70,
-  "partBytes": 6011376,
+  "partBytes": 6000964,
   "textureFiles": 73,
   "textureBytes": 15352893,
-  "bytes": 21364269
+  "bytes": 21353857
  },
  "assets": {
   "bmv:architecture/huts/exterior/hutdecking": {
@@ -313,7 +313,7 @@
   },
   "histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick": {
    "file": "histtree_skyfall_sleeping_tree_overhaul_ancient-sleeping-tree-sick-36338e21.glb",
-   "bytes": 1028108,
+   "bytes": 1028104,
    "vertices": 39355,
    "triangles": 38018,
    "lods": [
@@ -1145,24 +1145,24 @@
   },
   "mudmother:gv_meshes/argoniannest/argonianbonechime01": {
    "file": "mudmother_gv_meshes_argoniannest_argonianbonechime01-e7904aea.glb",
-   "bytes": 152228,
-   "vertices": 3483,
-   "triangles": 5132,
+   "bytes": 141824,
+   "vertices": 3387,
+   "triangles": 5084,
    "lods": [
     {
      "lod": 0,
-     "vertices": 3483,
-     "triangles": 5132
+     "vertices": 3387,
+     "triangles": 5084
     },
     {
      "lod": 1,
-     "vertices": 2526,
-     "triangles": 3348
+     "vertices": 2430,
+     "triangles": 3300
     },
     {
      "lod": 2,
-     "vertices": 2526,
-     "triangles": 3348
+     "vertices": 2430,
+     "triangles": 3300
     }
    ],
    "textures": [
@@ -1868,7 +1868,7 @@
   },
   "mudmother:gv_meshes/argoniannest/wovenchair01": {
    "file": "mudmother_gv_meshes_argoniannest_wovenchair01-bb40a3d2.glb",
-   "bytes": 43672,
+   "bytes": 43668,
    "vertices": 983,
    "triangles": 1246,
    "lods": [

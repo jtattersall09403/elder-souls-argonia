@@ -100,6 +100,14 @@ same config) and duplicates in other kits.
   `droppedShapes` reason `hidden` (vanilla `furniture/smeltermarker` once
   shipped a 4.5 m preview skeleton). After adding a furniture-marker NIF,
   look at it (`npm run look`) before placing it.
+- Shaderless shapes: a shape with no shader property imports with no
+  material (Havok proxy boxes, multibound OBBs, editor markers) and is
+  dropped the same way, reason `no-shader` (mudmother's argonianbonechime01
+  shipped four white cards, walk 10). `test_build_kit.py
+  test_no_published_kit_ships_a_primitive_without_a_material` reads every
+  published kit and part GLB header (seconds) and names any primitive with
+  no material; after a publish, read `noMaterialMeshes` on the piece's look
+  facts. A hit is a rebuild of that kit, never a place nudge.
 - Collision default: the category table (`_COLLISION_BY_CATEGORY`), then the
   size rule (`apply_size_collision`, planner 2026-09-27): a non-foliage piece
   left at "none" that is >= 0.3 m in both plan axes and >= 0.3 m tall gets

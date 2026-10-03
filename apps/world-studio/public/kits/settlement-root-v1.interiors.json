@@ -3123,10 +3123,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 232.0,
+    "deg": 196.1,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 232\u00b0 in the piece's own frame carries 2.15x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 196\u00b0 in the piece's own frame carries 1.65x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "heightM": 1.41,
    "interior": "none",

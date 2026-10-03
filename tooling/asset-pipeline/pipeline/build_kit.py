@@ -1853,7 +1853,9 @@ PIPELINE_DIR = Path(__file__).resolve().parent
 #:      NIF's vertex colour and alpha.
 #:   3  2026-09-28: additive materials carry the NIF shape's emissive
 #:      multiple (manifest `additiveGains`, glTF material extra `gain`).
-KIT_OUTPUT_FORMAT_VERSION = 3
+#:   4  2026-10-03: shapes with no shader property (Havok proxies, multibound
+#:      OBBs, editor markers) are dropped, `droppedShapes` reason `no-shader`.
+KIT_OUTPUT_FORMAT_VERSION = 4
 
 #: The code a kit build runs: build_kit, the Blender half and the helper it
 #: imports, and every post-pass `_build` runs on the result. Its edits reach

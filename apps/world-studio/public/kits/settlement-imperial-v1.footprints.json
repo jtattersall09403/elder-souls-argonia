@@ -5615,7 +5615,7 @@
    "widthM": 2.09
   },
   "vanilla:clutter/horsetrough/horsetrough01": {
-   "areaM2": 1.25,
+   "areaM2": 1.23,
    "depthM": 0.69,
    "footprintM": [
     [
@@ -5633,14 +5633,6 @@
     [
      0.91,
      -0.33
-    ],
-    [
-     0.94,
-     -0.27
-    ],
-    [
-     0.94,
-     0.22
     ],
     [
      0.91,
@@ -5687,14 +5679,6 @@
      -0.33
     ],
     [
-     0.94,
-     -0.27
-    ],
-    [
-     0.94,
-     0.22
-    ],
-    [
      0.91,
      0.33
     ],
@@ -5719,7 +5703,7 @@
      0.33
     ]
    ],
-   "widthM": 1.85
+   "widthM": 1.82
   },
   "vanilla:clutter/imperial/impwallsconcecandle01": {
    "areaM2": 0.03,

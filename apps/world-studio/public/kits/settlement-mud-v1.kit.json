@@ -1897,7 +1897,7 @@
     0.108,
     0.269
    ],
-   "triangles": 5132,
+   "triangles": 5084,
    "lodRatios": [
     0.35,
     0.12
@@ -1905,7 +1905,24 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "BoneHavok02",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "BoneHavok03",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "BoneHavok04",
+     "reason": "no-shader"
+    },
+    {
+     "shape": "C_DLC2RieklingBone01:15",
+     "reason": "no-shader"
+    }
+   ],
    "textures": [
     "argonianbridge.dds",
     "fence01.dds",
@@ -1977,7 +1994,7 @@
    },
    "displayName": "Argonianbonechime 01",
    "undersideClosed": true,
-   "undersideCoverage": 0.674,
+   "undersideCoverage": 0.713,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.269
   },
@@ -5846,13 +5863,13 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": 1.109,
-    "buryCapM": 0.5,
+    "buryCapM": 0.15,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
    "displayName": "Mud hut stairs 03",
@@ -5936,13 +5953,13 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": 3.67,
-    "buryCapM": 0.5,
+    "buryCapM": 0.15,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
    "displayName": "Mud hut stairs 01",
@@ -6235,6 +6252,7 @@
   "cardTriAreaPerHeight2": 0.002,
   "maxRadiusFactor": 1.5
  },
+ "schemaVersion": 1,
  "compression": {
   "schemaVersion": 1,
   "tool": "gltfpack 1.2",
@@ -6261,23 +6279,23 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 43857036,
-  "bytesAfter": 20167696,
+  "bytesBefore": 43840368,
+  "bytesAfter": 20160112,
   "images": 77,
   "imageBytesAfter": 16467808,
   "warnings": [],
-  "sha256": "51ac55b6848ac92578ddd11069972fd0943af845c0bb5699e2f010585277909a",
+  "sha256": "6b6c4342b2b366b90262c46b806857c763aa6ff8b9a63fb574cb90a9d782f4b3",
   "parts": {
-   "parts": 6,
-   "partBytes": 92436,
-   "textureFiles": 8,
-   "textureBytes": 1808323,
-   "bytes": 1900759,
-   "sourceSha256": "51ac55b6848ac92578ddd11069972fd0943af845c0bb5699e2f010585277909a"
+   "parts": 70,
+   "partBytes": 6000964,
+   "textureFiles": 73,
+   "textureBytes": 15352893,
+   "bytes": 21353857,
+   "sourceSha256": "6b6c4342b2b366b90262c46b806857c763aa6ff8b9a63fb574cb90a9d782f4b3"
   },
   "sidecarBytes": {
    "connectors": 48496,
-   "footprints": 105484,
+   "footprints": 105548,
    "interiors": 57749
   }
  }

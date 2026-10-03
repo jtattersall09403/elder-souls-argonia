@@ -448,6 +448,21 @@ def import_nif_meshes(filepath):
         HIDDEN_DROPPED.append({"shape": obj.name, "reason": "hidden"})
         print("[kit]   dropped hidden shape %s" % obj.name)
         bpy.data.objects.remove(obj, do_unlink=True)
+    # A shape with no shader property (no BSLightingShaderProperty, no
+    # effect or water shader) is never drawn by the game: Havok proxy boxes
+    # (`BoneHavok02`-`04` on mudmother's argonianbonechime01), multibound
+    # OBBs, editor markers. PyNifly gives a shaded shape its `<shape>.Mat`
+    # material and a shaderless one none, so "no material" is the test; such
+    # a shape shipped as a white GLTFLoader-default card (16k walk 10, Rose
+    # Bone Waystation). Dropped and listed in `droppedShapes`, reason `no-shader`.
+    shaderless = [o for o in meshes if not any(o.data.materials)]
+    shaderless_names = {o.name for o in shaderless}
+    imported = [o for o in imported if o.name not in shaderless_names]
+    meshes = [o for o in meshes if o.name not in shaderless_names]
+    for obj in shaderless:
+        HIDDEN_DROPPED.append({"shape": obj.name, "reason": "no-shader"})
+        print("[kit]   dropped shaderless shape %s" % obj.name)
+        bpy.data.objects.remove(obj, do_unlink=True)
     if os.environ.get("KIT_DEBUG_IMPORT"):
         for o in imported:
             print("[kit] DBG", o.type, o.name,

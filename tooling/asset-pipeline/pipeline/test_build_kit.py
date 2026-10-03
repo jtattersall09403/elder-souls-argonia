@@ -1016,6 +1016,34 @@ def test_shapes_the_nif_hides_are_dropped_and_listed():
     assert {"BodyMale_Big", "FemaleHead"} <= hidden
 
 
+def _glb_json(path: Path) -> dict:
+    with path.open("rb") as fh:
+        head = fh.read(20)
+        return json.loads(fh.read(int.from_bytes(head[12:16], "little")))
+
+
+def test_no_published_kit_ships_a_primitive_without_a_material():
+    """A NIF shape with no shader property (Havok proxy boxes, multibound
+    OBBs, editor markers) is dropped at import, reason `no-shader`; one that
+    shipped drew as a white GLTFLoader-default card (16k walk 10, Rose Bone
+    Waystation: argonianbonechime01's BoneHavok02-04). Header read only."""
+    root = Path(__file__).resolve().parents[3] / "apps/world-studio/public/kits"
+    hits = []
+    for glb in sorted(root.glob("*.glb")) + sorted(root.glob("*/parts/*.glb")):
+        doc = _glb_json(glb)
+        bad = {i for i, m in enumerate(doc.get("meshes", []))
+               if any("material" not in p for p in m["primitives"])}
+        hits += [f"{glb.relative_to(root)}: {n.get('name')}" for n in doc.get("nodes", [])
+                 if n.get("mesh") in bad]
+    assert hits == []
+    manifest = json.loads((root / "settlement-mud-v1.kit.json").read_text())
+    rec = next(a for a in manifest["assets"]
+               if a["id"] == "mudmother:gv_meshes/argoniannest/argonianbonechime01")
+    dropped = {d["shape"].split(".")[0] for d in rec.get("droppedShapes", [])
+               if d.get("reason") == "no-shader"}
+    assert {"BoneHavok02", "BoneHavok03", "BoneHavok04"} <= dropped
+
+
 def test_code_digest_is_part_of_the_kit_input_hash(tmp_path, monkeypatch):
     data_root = tmp_path / "data-root"
     data_root.mkdir()
