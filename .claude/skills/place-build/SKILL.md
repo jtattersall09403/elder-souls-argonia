@@ -13,13 +13,22 @@ description: Design and build one real place (settlement, camp, shrine, works, d
 > decisions 3–4; the 16k brief
 > (`docs/phases/16-foundation-and-places/16k-place-loop.md`) § The loop,
 > § The checklist, § Owner check-ins; world 97 (binding rules) and 96 §2
-> (history); decision 0041 § Taste ledger. If a cited record has moved,
+> (history); decision 0041 § Taste ledger; `docs/world/20-province-design.md`
+> §16, `docs/world/50-hydrology-climate.md`, `docs/world/55-light-sky-time.md`,
+> `world/sources/climate/weather-states.json` and
+> `world/sources/lore/topics/material-culture.md` (steps 1a and 4b),
+> `world/sources/assets/README.md`, `world/sources/assets/vault-inventory.md`
+> and `apps/world-studio/public/province/blueprints.json` (step 1a § Palette), the `kit-build` and `visual-look` skills and
+> `tooling/visual-look/look-lists.md` (step 1c). If a cited record has moved,
 > this skill is stale: report it, do not follow it blind.
 
 This skill holds the procedure; its `references/` hold the grounding:
 
 | File | What it is | Read |
 |---|---|---|
+| [references/design-intent.md](references/design-intent.md) | § Intent and § Walk-through: mood levers, the region-derived palette, decision 0102 direction | step 1a |
+| [references/feel-check.md](references/feel-check.md) | eye-height shots, the reader brief, the exit rule | step 4b |
+| [references/type-feel.md](references/type-feel.md) | the feel method per type × region, with worked examples | step 1a |
 | [references/lessons/](references/lessons/README.md) | the lessons store, one file per section (README: row format and what each file holds; 0106): every lesson still in force, each with its gate | step 0, only the rows the site packet lists for this type; a section file when a job needs it |
 | [references/design-index.md](references/design-index.md) | one line per binding source or prior: the rule id and when it applies | step 0, the rows for this type, culture and step |
 | [references/dressing.md](references/dressing.md) | the facing table, idle-socket placement, signs by use and pool, and the dressing each place still lacks with its kit | steps 1-2, the dressing groups |
@@ -29,13 +38,17 @@ This skill holds the procedure; its `references/` hold the grounding:
 | [references/round-recipe.md](references/round-recipe.md) | the timetable of one round: what fans out, what the builder does itself, what is never done in a round | steps 2–4 and 7, before the first edit |
 | [references/creative-register.md](references/creative-register.md) | one row per built place: the creative calls made above its promises, so the next place makes different ones | step 1 § Creative register; appended at step 8 |
 | [references/rollout-packet-template.md](references/rollout-packet-template.md) | the spec the Phase 15 packet template meets (16j item 8) | at the loop's exit only |
-| [references/rulings.md](references/rulings.md) | every place ruling (R1–R55), one row each with its gate and source; the ONLY home of a ruling (0106) | step 0; read this table, never the lane reports (R39) |
+| [references/rulings.md](references/rulings.md) | every place ruling, one row each with its gate and source; the ONLY home of a ruling (0106) | step 0; read this table, never the lane reports (R39) |
 | [references/builder-practice.md](references/builder-practice.md) | how the builder works: recommend and do, fan out, scan before editing, one batch per round, per-place files, proven-type fast path | once per slice, before step 0 |
 | [references/brief-sections.md](references/brief-sections.md) | what § Interiors, § Containers and items, § Creative register, § Sockets, § Quests and § Seams must say | step 1 |
 | [references/fix-round-brief-template.md](references/fix-round-brief-template.md) | the planner's fix-round brief: needs, never sites; sourcing candidates cite their record row | step 7 (planner) |
 | [references/promise-ledger.md](references/promise-ledger.md) | the promise ledger's rows, where each source lives, reading the prose, the two-way rule | step 0 item 3 |
 | [references/publish-gates-and-readback.md](references/publish-gates-and-readback.md) | what `place_gates` runs, the per-batch gates, the R74/R81 read-back against the published bundle | step 5, step 7 item 4 |
 | [references/walk-packet.md](references/walk-packet.md) | each walk-packet section in full and the two-run post procedure | step 6 |
+| [references/palette-and-breadth.md](references/palette-and-breadth.md) | the palette from the whole pool, siblings, internal variety, the kit lane, the ledger | step 1a |
+| [references/reader-brief.md](references/reader-brief.md) | the one image-reader brief template: context, checklist, open question last, exit rule | steps 3-4, every reader brief |
+| [references/kit-review.md](references/kit-review.md) | the review of a kit lane's results: measured gates, the six-view look, the kit checklist, a finding changes the kit skill | step 1c, step 4 |
+| [references/asset-breadth-ledger.md](references/asset-breadth-ledger.md) | one row per closed place: palette and assets used against available | step 8 |
 
 **Tools.** `placement-workbench` is the tool manual (every `wb.py`
 command, its bars and its costs). Kit gaps go to `kit-build`,
@@ -49,13 +62,21 @@ typed patches → later phases fill the sockets the record declares.
 Lessons flow into this skill and its gates only. Anything that would move
 a frozen layer or an accepted place (listed in
 `world/sources/placement/accepted-places.json`) is a world-level call for
-the owner, batched into the next walk packet.
+the owner, batched into the next walk packet (the decision-rights table in
+[references/builder-practice.md](references/builder-practice.md) lists every other call).
 
 **A place's files and the entity tables they belong to** (who writes
 each, its ids, what references it): [docs/world/98-data-model.md](../../../docs/world/98-data-model.md)
 § A place's files. Read it at step 0.
 
 ## How the builder works
+
+A place is designed from what it must feel like to the player, then built
+from pieces, then checked against that feel: intent and walk-through first
+(1a), the brief's rows serve them (1), gates prove the build is correct
+(5), the feel check proves it is the place the record describes (4b). Read
+the record as a story about people in a particular region and climate,
+never as a parts list.
 
 [references/builder-practice.md](references/builder-practice.md) holds the
 binding practice (owner 2026-09-27): tool gaps go to a tooling sub-lane and
@@ -142,13 +163,35 @@ would join an earlier walk's run is refused.
 Ends when: § Site is written, every record defect is filed with its
 failing record named, and no stale lessons row is left unfixed.
 
+## 1a. Design intent and the walk-through (before any row)
+
+Read the place record's region and setting fields, the region's climate
+profile and weather frequencies, the palette derived from the place's
+region records ([references/design-intent.md](references/design-intent.md) item 4), and the
+type's row in [references/type-feel.md](references/type-feel.md). Write
+`<place>.design.md` § Intent and § Walk-through by answering
+[references/design-intent.md](references/design-intent.md). The record's
+`why`, `vibe` and hooks are the intent, read as story beats. Nothing is
+placed before both sections exist. A decision only the owner can make goes
+to the decision-rights table in [references/builder-practice.md](references/builder-practice.md).
+
+§ Palette: choose from the whole pool, consistent with region-and-culture siblings yet distinct, further from the same type elsewhere; a chosen asset not yet in a kit starts a kit lane in this slice ([references/palette-and-breadth.md](references/palette-and-breadth.md)).
+
+### 1c. Kit review (after any kit lane, before placing)
+
+Never assume the kit lane got an asset right: [references/kit-review.md](references/kit-review.md)
+(full review on a family's first use, gates only once proven in two places;
+measured AND visual; a finding changes the owning kit skill).
+
 ## 1. Design brief
 
 Write `<place>.design.md` § Brief before touching the workbench. One row
 per building, enclosure, path, light, water edge and dressing group:
 
-| Thing | Purpose (who, what trade, which promise) | Kit piece (measured with `wb.py - describe`) | Rule or lore pointer |
+| Thing | Purpose (who, what trade, which promise, which § Intent line or walk-through stage) | Kit piece (measured with `wb.py - describe`) | Rule or lore pointer |
 |---|---|---|---|
+
+A row that serves no intent line or stage is cut.
 
 - Every promise-ledger line appears as a row or as a written reason it is
   not built here.
@@ -193,10 +236,10 @@ per building, enclosure, path, light, water edge and dressing group:
   cells from the plugins: jungle-root-hollow 67.6 s / 2.95 GiB uncovered,
   6.9 s / 0.62 GiB covered). Hold the cells: `python3 -m worldgen.place_gates
   --id <place-id> --claim-cells` (worldgen). Gate `interiors.variety`.
-- § Approach: the 16 questions of
-  `docs/research/placement-settlements/openworld-approach-and-wayfinding.md`
-  §5, each answered yes or no with its field; each "no" is a layout edit or
-  a rule before the walk (`references/doors-interiors-sockets.md` §6).
+- § Approach: the world 97 §5 questions
+  (`docs/research/placement-settlements/openworld-approach-and-wayfinding.md`
+  §5) are answered inside § Walk-through
+  ([references/design-intent.md](references/design-intent.md)).
 - § Interiors, § Containers and items, § Creative register, § Sockets,
   § Quests, § Seams: what each says is in
   [references/brief-sections.md](references/brief-sections.md). The rules
@@ -278,6 +321,8 @@ Ends when: every Plan row is YES. Every fixture, tent, door or walkway piece new
     python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage readers --start
     python3 tooling/placement-workbench/wb.py round <scene> world/sources/blueprints/<place>.layout.json
 
+The first round frames any newly kitted pieces for the kit checklist ([references/kit-review.md](references/kit-review.md)). Every reader brief follows [references/reader-brief.md](references/reader-brief.md), open question last.
+
 Lit pieces: add a day and a night close-up per fixture
 (`front:<uid>/2.5`, `front:<uid>/2.5@night`); the fire pass shows each
 resolved flame; presets, the contact sheet and the anchor check are in
@@ -298,7 +343,8 @@ landed, hearths with fire, one lit fixture per 12 m² of reachable floor
 fixes: [references/builder-practice.md](references/builder-practice.md) § Interior audit.
 A red is fixed at source, never by moving a plugin piece.
 
-One Blender launch: the top view, one front per building, two isos, and a
+The top, front and iso shots judge the layout; the 4b shots judge what the
+player sees. One Blender launch: the top view, one front per building, two isos, and a
 shot of every `unmined` mount (0102 decision 5). The readers run as one
 `Workflow`, one `image-reader` per image or contact sheet, one merged NO
 list (`references/round-recipe.md` step 3); each gets only the
@@ -318,6 +364,15 @@ mount not in the mined pairs (child plan side under 0.6 m, height under
 
 Ends when: a round has zero NOs and `check` has zero failures. Four rounds
 without that is an escalation to the planner, never a packet.
+
+### 4b. Feel check
+
+After the first round whose gates are green, and in every later round that
+touches the walked path, run [references/feel-check.md](references/feel-check.md):
+eye-height shots per walk-through stage, day and night; one `image-reader`
+with the blind-read brief; the exit rule. Each miss is a layout row naming
+its lever, never a prose change. It counts inside the four-round cap.
+The palette is not a subset of any sibling's ([references/palette-and-breadth.md](references/palette-and-breadth.md) § Siblings).
 
 ## 5. Export, patches, compile, publish, gates
 
@@ -370,7 +425,8 @@ readers return NO lists, ONE Opus synthesis writes one change set, then
 references one, green; the `set` reader reads its before/after packet),
 `export_places`, `blueprint_promises --write` ([references/promise-ledger.md](references/promise-ledger.md)
 § Record = built), `record_coherence --receipt` and one `text-review`.
-Never one issue at a time. Gates `record.coherence` (every built place),
+The record is the intent and the place is built up to it (direction rule:
+record-coherence.md § 3). Never one issue at a time. Gates `record.coherence` (every built place),
 `record.regression`, `record.consistency` and `promises` fail until done.
 
 Ends when: 0 compile errors, every per-place gate green, the place
@@ -392,7 +448,8 @@ detail and the post procedure are in
 5. **Please look at** (at most eight lines): only judgements no tool makes.
 6. **§ Gaps** only for 0102 decision 3's four reasons; **§ Owner calls** only for world-level choices.
 7. Pictures (0102 decision 11): the plan render and up to four Blender shots, committed.
-8. How to reply, then the stay-or-switch line (0083). Post per walk-packet.md (two runs, pictures pushed between).
+8. The last feel-check verdict (per mood word) and its three keep-images.
+9. How to reply, then the stay-or-switch line (0083). Post per walk-packet.md (two runs, pictures pushed between).
 
 ## 7. The fix round (`continue 16k slice N after owner walk`)
 
@@ -445,6 +502,7 @@ writes the lessons, the type sheet and the judgements:
    this layout, 16k S10), edited by every later one.
 3. The receipt, the type register and readiness check, and the choice of
    the next slice (contrast rule, 97 A6): [references/builder-practice.md](references/builder-practice.md) § Slice close.
+4. Append the place's row to [references/asset-breadth-ledger.md](references/asset-breadth-ledger.md).
 
 ## Never
 
@@ -458,6 +516,10 @@ writes the lessons, the type sheet and the judgements:
 - Hand-edit a pose or a derived field in the blueprint JSON (L38, L39).
 - Invent dressing in the compile, or at a building's foot in code.
 - Rerun the chain, refreeze or republish the province for a place (0102 d1).
+- Place a piece before § Intent and § Walk-through exist.
+- Deliver a promised made thing (ore, hearth, sign, toll post) with the
+  nearest labelled mesh, unrecognisable from the approach.
+- Lower a record line to the build without a named 0102 reason.
 - Hand over a packet with a check failure, a reader NO or a red gate
   (0102 decision 3).
 

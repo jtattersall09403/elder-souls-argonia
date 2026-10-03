@@ -17,7 +17,11 @@ the same change. Tally: 23 `reader`, 19 `rule:` (the round-1 review
 estimated ~24 measurable; rows 4, 6, 11, 17, 19 and 28 are partly
 measured and stay `reader` until a rule covers the whole row).
 
+Intent and mood are judged by the feel check ([feel-check.md](feel-check.md)), not by these rows.
+
 ## The prompt preamble (paste it first)
+
+Every reader brief follows [reader-brief.md](reader-brief.md): context first, these rows, then its open question last.
 
 You are reading renders of one place built from game kit pieces. Answer
 every line below (the `reader` rows only are pasted) for every shot it names with YES, NO or UNSURE (every

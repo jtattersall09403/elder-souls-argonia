@@ -72,7 +72,11 @@ How you work:
   SubagentHandback while a child runs (a placeholder hand-back ended two
   leads' runs). The completion notices that arrive are read when the wait
   returns. An Agent result that says "launched in background" means: wait with lane_wait.py on that child's report file; SubagentHandback is only ever the final report. lane_wait is the only wait: no sleep, echo or `true` turns, no
-  polling loops. Integrate the reports, then call SubagentHandback once,
+  polling loops. A lead facing a capture longer than 20 min writes its
+  hand-off note and returns with the line `parked: <marker file>` instead of
+  re-arming lane_wait; the planner holds one wait over every parked lane's
+  marker and relaunches the lead from its note (method review r9: ~390
+  lead-min spent in 9-min lane_wait re-arms). Integrate the reports, then call SubagentHandback once,
   at the end, with the lane's real report, never a placeholder.
 - Decide inside the lane. Record a contract or architecture change as one
   decision record (next free number), a place ruling as a row in
@@ -136,6 +140,10 @@ Rules of the road:
   gate waits for the build-queue counter at 0 and streaming quiet (both in
   the capture summary), and one capture per round runs 180 s after ready
   with a frame every 10 s, so "too soon" is ruled out;
+  (b2) a diagnosis marks a cause owned by another lane as `owned: <lane>`, never as
+  its own FAIL: every lead keeps `tooling/.reports/16k/walk10/fixes.md` (gitignored)
+  with a shared-cause table, cause -> owner lane -> sha, and reads it before a
+  diagnosis;
   (b) one diagnosis report per round (`<lane>-diag<N>.md`) listing EVERY
   cause with its evidence row from that measure (every hitch over 33 ms with
   its source, every spot under the bar with its pass/stage, every error,
@@ -166,7 +174,8 @@ Rules of the road:
   never a bar row;
   (g) before any pod capture the run brief checks Chrome is alive on the pod
   (one curl to the DevTools /json/version through the tunnel) and restarts it
-  via pod-setup if not;
+  via pod-setup if not; the lane's first job is the open harness defects section of
+  tooling/gpu-lane/README.md, emptied before its first capture;
   one pod per lane for iteration loops; a fan-out job (the agent walks
   audit over many places) runs one pod per parallel worker when that is
   faster end to end, each deleted the moment its worker ends (0119 rule 4);

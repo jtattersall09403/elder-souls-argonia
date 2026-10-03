@@ -42,7 +42,7 @@ The tool prints a ready-to-paste judge brief: image paths, the measured
 facts, and the questions of the subject's class from
 [look-lists.md](../../../tooling/visual-look/look-lists.md). Launch one
 `image-reader` agent and paste it (several briefs
-may go to one agent). Numbers from the facts line beat the eye.
+may go to one agent). Numbers from the facts line beat the eye. The judge brief ends with the open question of place-build [reader-brief.md](../place-build/references/reader-brief.md); the caller adds the context (place, type, region, intent words, what the piece is meant to be).
 
 ## 3. Fix, then teach (the self-improvement rule)
 

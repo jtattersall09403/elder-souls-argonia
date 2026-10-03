@@ -96,7 +96,7 @@ import { execFileSync, execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { installTargetProbe, recordPassDescriptor } from "./target-probe.mjs";
-import { buildsAfterKits, framesBeforePose, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, captureFrame, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, poseReadyJs, poseTarget, poseResidual, installPoseProbe, POSE_FRAMES, installProgramErrorProbe, viewEndS, DEV_HOOKS_JS, profileStartS, pageKitCheck, localFetchMany, shellFetchMany, rendererCpu, startContamination, reapViewRenderers } from "./pod-capture-lib.mjs";
+import { buildsAfterKits, framesBeforePose, installLoadTimeline, LOAD_TIMELINE_READ_JS, loadTimeline, installGpuErrorProbe, installNanProbe, installDrawCensus, captureFrame, aimJs, ancestorPids, browserStoppedAnswering, needsChromeRestart, capVerdict, contaminationVerdict, podSetupCommand, counter, heapSlope, heapTop, parseHeapSample, VEG_READ_JS, RESOURCES_READ_JS, resourceSummary, settleGate, shotSettle, isStalled, lumaRatios, parseProfile, onePercentLow, parseViews, prepDists, distNameOf, screenMiddle, stalledReads, summariseProfile, summariseView, summaryTable, pausedClockViews, backendFailure, cpuTop, viewShots, shotTime, HUD_TEXT_JS, CLOCK_SOURCE, hudClock, clockVerdict, withFinalJpgLuma, poseReadyJs, poseTarget, poseResidual, installPoseProbe, POSE_FRAMES, installProgramErrorProbe, viewEndS, DEV_HOOKS_JS, profileStartS, pageKitCheck, localFetchMany, shellFetchMany, rendererCpu, startContamination, reapViewRenderers, repeatedQueryKey, twinPairs, twinIdentical } from "./pod-capture-lib.mjs";
 import { dataBaseOf } from "./serve-lib.mjs";
 import { loadSourceMaps } from "./source-maps.mjs";
 import { pageProbe, workStats } from "./measure.mjs";
@@ -207,6 +207,10 @@ if (pod) {
 }
 const cdpHttp = (tunnel ? `http://127.0.0.1:${tunnel.localPort}` : opt("cdp", process.env.CHROME_CDP ?? "http://127.0.0.1:9222")).replace(/\/$/, "");
 
+// Open harness defects (decision 0119): print the README rows so no pod job starts blind.
+try { const _m = readFileSync(new URL("./README.md", import.meta.url), "utf8").match(/## Open harness defects[^\n]*\n([\s\S]*?)\n## /);
+  if (_m && import.meta.url === `file://${process.argv[1]}`) console.error("OPEN HARNESS DEFECTS (fix before this run):\n" + _m[1].split("\n").filter((l) => l.startsWith("| ") && !l.startsWith("| Defect")).join("\n"));
+} catch { /* print only */ }
 const all = { cdp: cdpHttp, startedAt: new Date().toISOString(), cap: null, orphansClosed: 0, recoveries: 0, adapterWaits: [], prep, views: [] };
 // The browser websocket (Target.*), open for the whole run; reopened after a Chrome restart (recoverChrome).
 let bws = null, bNext = 0; const bPending = new Map();
@@ -570,10 +574,13 @@ async function viewBody(view, dir, totalS, shots, readsAt, steps, result, ctl) {
     Object.assign(result.baseline, contaminationVerdict(result.baseline, all.cap.blankRafFps));
     result.contaminated = result.baseline.contaminated || result.startState?.contaminated === true;
     result.contaminationReasons = [...(result.baseline.reasons ?? []), ...(result.startState?.reasons ?? [])];
+    const dupKey = repeatedQueryKey(view.url);
+    if (dupKey) { result.invalid = `invalid:url repeats query key ${dupKey}`; return result; }
     if (prof) { await send("Profiler.enable"); await send("Profiler.setSamplingInterval", { interval: 200 }); }
     const t0 = Date.now(), sec = () => (Date.now() - t0) / 1000;
     await send("Page.navigate", { url: view.url });
     const heapSamples = [];
+    let clockFirst = null;
     let si = 0, ri = 0, lastPoll = -1, zeroSince = null, profState = prof ? "wait" : "done";
     const hs = view.heapsample ? parseHeapSample(view.heapsample) : null;
     let hsState = hs ? "wait" : "done", hsStartS = null;
@@ -756,6 +763,13 @@ try {
     console.log(`pod-capture ${v.name}: ${JSON.stringify(r.summary)}`);
   }
   const byName = Object.fromEntries(all.views.map((v) => [v.name, v]));
+  for (const [off, on] of twinPairs(all.views.map((v) => v.name))) {
+    const f = (n) => { try { return readFileSync(join(out, n, "final.jpg")); } catch { return null; } };
+    if (twinIdentical(f(off), f(on)) && !byName[off].invalid) {
+      byName[off].invalid = `invalid:twin ${off} is pixel-identical to ${on}`; byName[off].summary.invalid = byName[off].invalid;
+      writeFileSync(join(out, off, "result.json"), JSON.stringify(byName[off], null, 1));
+    }
+  }
   if (byName.main && byName.compare) byName.main.lumaRatio = lumaRatios(byName.main.reads, byName.compare.reads, byName.main.final, byName.compare.final);
 } catch (e) {
   all.error = String(e.stack ?? e);

@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { closeTunnels, isOurSsh, tunnelArgs } from "./tunnels.mjs";
+import { closeTunnels, isOurSsh, tunnelArgs, closeRefusal } from "./tunnels.mjs";
 
 test("tunnelArgs: forward local to the pod's port, host last", () => {
   const a = tunnelArgs("ssh -i /tmp/k -p 2222 root@1.2.3.4", 9300, 9222);
@@ -27,5 +27,10 @@ test("closeTunnels --local closes only the tunnel on that local port", () => {
   closeTunnels({ localPort: 9243, reg, kill: (p) => killed.push(p), alive: () => true });
   assert.deepEqual(killed, [22]);
   assert.deepEqual(JSON.parse(readFileSync(reg, "utf8")).map((t) => t.pid), [21, 23]);
+});
+test("closeRefusal: a bare close is refused, --local passes", () => {
+  assert.match(closeRefusal([]), /refused without --local/);
+  assert.match(closeRefusal(["--purpose", "cdp"]), /refused/);
+  assert.equal(closeRefusal(["--local", "9242"]), null);
 });
 test("isOurSsh: this node process is not ssh", () => assert.equal(isOurSsh(process.pid), false));

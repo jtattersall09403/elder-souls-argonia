@@ -47,6 +47,10 @@ import { CAPTURE_RATE, heapSlope, isDiagnosisSpot, parseBar, parseSpots, spotRow
 
 export { BLACK_LUMA, SPOT_A, diagList, foreignPages, hitchList, meanLuma, smokeProblems, viewProblem };
 
+// Open harness defects (decision 0119): print the README rows so no pod job starts blind.
+try { const _m = readFileSync(new URL("./README.md", import.meta.url), "utf8").match(/## Open harness defects[^\n]*\n([\s\S]*?)\n## /);
+  if (_m && import.meta.url === `file://${process.argv[1]}`) console.error("OPEN HARNESS DEFECTS (fix before this run):\n" + _m[1].split("\n").filter((l) => l.startsWith("| ") && !l.startsWith("| Defect")).join("\n"));
+} catch { /* print only */ }
 const repo = resolve(new URL("../..", import.meta.url).pathname);
 const probePath = (n) => new URL(`./probes/${n}.js`, import.meta.url).pathname;
 

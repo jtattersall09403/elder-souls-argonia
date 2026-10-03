@@ -95,8 +95,19 @@ def test_a_workbench_hub_module_selects_its_own_tests_not_the_suite():
     workbench test by import; each selects its own named set instead."""
     sel = _module()
     for hub, own in sel.OWN_TESTS.items():
+        if not hub.startswith("tooling/placement-workbench/"):
+            continue
         got = sel.select_changed("workbench", [hub], use_reads_map=False)
         assert got["selected"] == sorted(own) and not got["all"], hub
+
+
+def test_an_edit_to_the_selector_selects_only_the_two_tests_that_load_it():
+    sel = _module()
+    got = sel.select_changed("placement", ["tooling/world-generation/scripts/select_tests.py"],
+                             use_reads_map=False)
+    assert got["selected"] == ["tooling/world-generation/worldgen/test_select_tests.py",
+                               "tooling/world-generation/worldgen/test_test_reads_map.py"]
+    assert not got["all"]
 
 
 def test_an_autouse_conftest_fixture_brings_only_the_imports_it_uses():

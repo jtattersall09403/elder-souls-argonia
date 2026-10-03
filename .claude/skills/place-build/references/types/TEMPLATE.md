@@ -1,5 +1,6 @@
 # Type <n>: <type name> (sheet written by slice <N>, <place>; edited by every later slice of the type)
 
+- **Feel:** this type's row in [type-feel.md](../type-feel.md); the sheet adds only what is particular to this type's instances.
 - **Cultures and their 97 Part F rows:** one half per culture the type is built by; plan unit, centre, spacing, orientation, enclosure, water relation, never-appears.
 - **Recipe:** the `type-recipes.json` rows this type covers (five slots, siting, magnitude, danger, asset plan) and what the catalogue records of the type actually carry.
 - **Lore to read:** dossier paths, one line each on what it decides for this type.

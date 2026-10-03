@@ -1,5 +1,7 @@
 # Type 10: road structure or crossing (sheet written by the type's first slice, the Border road crossings below Greenspring, 16k walk 9; edited by every later slice of the type)
 
+Feel: [type-feel.md](../type-feel.md), row Crossing.
+
 A route place is a stretch of a major road built as one place: its crossings,
 its stairs and its road dressing, between built places or a built place and a
 city. It has no catalogue record. Its record is its row in

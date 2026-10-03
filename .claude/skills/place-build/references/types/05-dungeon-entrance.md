@@ -1,5 +1,7 @@
 # Type 5: dungeon entrance (sheet written by slice 4, Takes-The-Tools; edited by every later slice of the type)
 
+Feel: [type-feel.md](../type-feel.md), row Dungeon mouth, ruin.
+
 Beast lairs, root systems, sinkholes and grottoes: 101 lair and lone
 records with an `interior.kind` of delve, dungeon or warren. The place
 outside is small (one mouth, its bank, its threshold); the place is the
