@@ -16,6 +16,8 @@ import {
   CellLightFlicker, interiorFireEmitters, isInteriorFlameCard, type InteriorFireRow,
 } from "../fx/fire/interiorFires";
 
+import { interiorLightOf } from "../air/volumetrics/windowApertures";
+import { CellSunShadowNode, cellSunOccluder } from "./cellSunOccluder";
 import { applyLanternShell, isLanternShellMaterial } from "../settlement/fixtureGlow";
 import { applySettlementDecal, settlementMeshDrawFlags } from "../settlement/materials";
 
@@ -123,8 +125,11 @@ export const INTERIOR_SUN_SHADOW_MAP = 1024;
 /** That map's biases: one 1024 texel spans ~3.5 cm over a 36 m cell, so bias 0 shows acne once the patch is bright (vol10 diag3 Q2). */
 export const INTERIOR_SUN_NORMAL_BIAS = 0.02;
 export const INTERIOR_SUN_BIAS = -0.0005;
-/** The placement categories that are the cell's shell: they cast the sun's shadow, so the walls clip it to window patches. */
-export const INTERIOR_SHADOW_CASTERS: ReadonlySet<string> = new Set(["architecture", "dungeon-kit", "rock", "terrain-feature"]);
+/**
+ * The placement categories that are the cell's shell: they never cast the cell sun's shadow (solid at
+ * their windows, vol10 diag4 D2); the cell's `cellSunOccluder` gives the walls and their openings.
+ */
+export const INTERIOR_SHELL_CATEGORIES: ReadonlySet<string> = new Set(["architecture", "dungeon-kit", "rock", "terrain-feature"]);
 
 /** Share of a clear day's window light an overcast sky (no direct sun) still gives: the sky's diffuse light. */
 export const WINDOW_OVERCAST_SHARE = 0.5;
@@ -379,8 +384,9 @@ export function interiorAmbient(bundle: InteriorBundle): THREE.Light {
  * placements of their stand-in asset), a point light per record light, the cell's
  * ambient and directional light, its fog. A cell with windows gives its
  * directional one `INTERIOR_SUN_SHADOW_MAP` shadow map over the cell's
- * bounds, its shell (`INTERIOR_SHADOW_CASTERS`) casting and every mesh
- * receiving, fixed for the cell's lifetime (0108 §1); a windowless cell has
+ * bounds: the props cast, the shell (`INTERIOR_SHELL_CATEGORIES`) does not,
+ * the record's apertures open holes in a shadow-only box over the bounds
+ * (`cellSunOccluder`), every mesh receives, fixed for the cell's lifetime (0108 §1); a windowless cell has
  * no shadow. No terrain, sky or water: none exists inside.
  * A placement whose asset is not in its kit is a named error, never a gap
  * drawn as nothing (the exporter lists gaps; the bundle carries none).
@@ -468,7 +474,8 @@ export function instantiateInterior(
   const directionalRGB = bundle.lighting?.directionalRGB;
   const directional = new THREE.DirectionalLight(
     directionalRGB ? colorFromRGB(directionalRGB) : 0xffffff, directionalRGB ? INTERIOR_AMBIENT_SCALE : 0);
-  const bounds = new THREE.Box3().setFromObject(group).getBoundingSphere(new THREE.Sphere());
+  const box = new THREE.Box3().setFromObject(group);
+  const bounds = box.getBoundingSphere(new THREE.Sphere());
   if (bounds.isEmpty()) bounds.set(inside, 1);
   const windowed = panes.windows.length + panes.materials.size > 0;
   directional.castShadow = windowed;
@@ -482,10 +489,17 @@ export function instantiateInterior(
     cam.near = 0.05;
     cam.far = 2 * bounds.radius;
     cam.updateProjectionMatrix();
+    (directional.shadow as unknown as { shadowNode: CellSunShadowNode }).shadowNode = new CellSunShadowNode(directional, directional.shadow);
+    const apertures = (interiorLightOf(bundle.cellId)?.apertures ?? []).map((a) => ({
+      centre: new THREE.Vector3(a.centreM[0], a.centreM[1], a.centreM[2]),
+      outward: new THREE.Vector3(a.outward[0], 0, a.outward[2]).normalize(),
+      halfSideM: a.radiusM,
+    }));
+    if (!box.isEmpty()) group.add(cellSunOccluder(box, apertures));
   }
   // a pane never casts: the sun it lets in would stop at its own glass (vol10 diag3 Q2)
   for (const { mesh, category, pane } of built) {
-    mesh.castShadow = windowed && !pane && INTERIOR_SHADOW_CASTERS.has(category);
+    mesh.castShadow = windowed && !pane && !INTERIOR_SHELL_CATEGORIES.has(category);
     mesh.receiveShadow = windowed;
   }
   directional.position.copy(bounds.center).addScaledVector(_UP, bounds.radius);
