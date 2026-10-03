@@ -155,9 +155,16 @@ LISTED_DROP_CLASSES = frozenset({"effect", "wearable"})
 HEARTH_FIRE_STAND_INS = {
     "FXfireWithEmbersLogs01": "vanilla:clutter/woodfires/fireplacewood01burning",
     "FXfireWithEmbersLight": "vanilla:clutter/woodfires/fireplacewood01burning",
+    # Skyrim.esm MSTT 0003BD2E, model FXfireWithEmbers03.nif, 42 units tall: a low
+    # burning fire (the HTBM huts' brazier fire), not a dead one
+    "FXfireWithEmbersOut": "vanilla:clutter/woodfires/fireplacewood01burning",
 }
 HEARTH_FIRE_WHY = "A log fire burns in the hearth here."
 HEARTH_FIRE_M = 1.0
+#: an effect model under this prefix is a fire; one left as a drop with no
+#: stood-in fire within HEARTH_FIRE_M fails the gate (audit10: the HTBM huts'
+#: FXfireWithEmbersOut fell to listed-drop and the brazier burned nothing)
+FIRE_EFFECT_MODEL_PREFIX = "effects/fxfire"
 
 
 def is_hearth_fire(sub: dict) -> bool:
@@ -426,12 +433,19 @@ def decode_ambient_colors(payload: bytes, offset: int = 0) -> dict:
 
 
 def ambient_cube(skyrim_rgb: dict) -> dict:
-    """``lighting.ambientCube``: the Skyrim cube in GAME axes, linear 0-1.
+    """``lighting.ambientCube``: the Skyrim cube in GAME axes, linear 0-1, one value
+    per surface normal (a floor facing up gets ``py``).
+    Each Skyrim directional ambient (XCLL / DALC) names the direction the light
+    TRAVELS, so a surface receives the colour of the axis opposite its normal:
+    Z- (light travelling down, the sky term) lands on up-facing floors (vol4-axis:
+    Skyrim.esm's 71 daytime WTHR DALC have Z+/Z- median 0.51, clear-sky Z- is the
+    sky colour; its 573 full interior XCLL median 0.30).
     Skyrim is x east, y north, z up; the game frame (FRAME, and every placement's
     positionM) is x east, y up, z south: game (x, y, z) = Skyrim (x, z, -y). So
-    game +x/-x = Skyrim X+/X-, game +y/-y = Skyrim Z+/Z-, game +z (south) = Skyrim Y-,
-    game -z (north) = Skyrim Y+."""
-    src = {"px": "xp", "nx": "xn", "py": "zp", "ny": "zn", "pz": "yn", "nz": "yp"}
+    normal game +x (east) <- Skyrim X- (light travelling west), -x <- X+;
+    +y (up) <- Z-, -y (down) <- Z+; +z (south, Skyrim -Y) <- Y+ (light travelling
+    north), -z (north) <- Y-."""
+    src = {"px": "xn", "nx": "xp", "py": "zn", "ny": "zp", "pz": "yp", "nz": "yn"}
     return {k: [round(_srgb_linear(c), 5) for c in skyrim_rgb[v]] for k, v in src.items()}
 
 
@@ -1396,7 +1410,14 @@ def check(bundle: dict) -> list[str]:
         elif s.get("standInCategory") != s.get("class") and not hearth_fire:
             problems.append(f"{bundle['cellId']}: stand-in {s.get('standInAsset')} is "
                             f"{s.get('standInCategory')!r}, the missing piece is {s.get('class')!r}")
-    ids = [p["id"] for p in bundle["placements"]] + [s["id"] for s in subs]
+    lit = [s["positionM"] for s in subs if is_hearth_fire(s) and s.get("positionM")]
+    for d in bundle["drops"]:
+        model = (d.get("model") or "").lower().replace("\\", "/")
+        if (d.get("class") == "effect" and d.get("positionM") and model.startswith(FIRE_EFFECT_MODEL_PREFIX)
+                and not any(math.dist(d["positionM"], f) <= HEARTH_FIRE_M for f in lit)):
+            problems.append(f"{bundle['cellId']}: fire effect {d.get('base')} ({d['refId']}) is a drop "
+                            f"with no fire drawn; add its base to HEARTH_FIRE_STAND_INS")
+    ids =[p["id"] for p in bundle["placements"]] + [s["id"] for s in subs]
     if len(ids) != len(set(ids)):
         problems.append(f"{bundle['cellId']}: duplicate placement ids")
     return problems

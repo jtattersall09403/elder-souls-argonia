@@ -107,33 +107,33 @@
   "fresnelPower": 1.0,
   "ambientCube": {
    "px": [
-    0.01521,
-    0.01298,
-    0.02217
-   ],
-   "nx": [
     0.01033,
     0.01298,
     0.01938
    ],
-   "py": [
-    0.00439,
-    0.00439,
-    0.00605
+   "nx": [
+    0.01521,
+    0.01298,
+    0.02217
    ],
-   "ny": [
+   "py": [
     0.02624,
     0.02624,
     0.04667
    ],
+   "ny": [
+    0.00439,
+    0.00439,
+    0.00605
+   ],
    "pz": [
     0.01298,
-    0.01161,
+    0.0137,
     0.02122
    ],
    "nz": [
     0.01298,
-    0.0137,
+    0.01161,
     0.02122
    ]
   },
@@ -236,7 +236,7 @@
    "kit": "htbm-hut-int",
    "positionM": [
     0.9103,
-    0.0285,
+    0.0484,
     2.8448
    ],
    "rotationDeg": [
@@ -255,7 +255,7 @@
    "kit": "htbm-hut-int",
    "positionM": [
     2.2758,
-    0.0285,
+    0.0624,
     2.2758
    ],
    "rotationDeg": [
@@ -388,7 +388,7 @@
    "kit": "htbm-hut-int",
    "positionM": [
     -2.3896,
-    0.0285,
+    0.0484,
     2.0483
    ],
    "rotationDeg": [
@@ -464,7 +464,7 @@
    "kit": "htbm-hut-int",
    "positionM": [
     1.7069,
-    0.0285,
+    0.0484,
     -2.5034
    ],
    "rotationDeg": [
@@ -701,7 +701,7 @@
    "kind": "idle",
    "positionM": [
     0.9103,
-    0.0285,
+    0.0484,
     2.8448
    ],
    "yawDeg": 350.0,
@@ -714,7 +714,7 @@
    "kind": "idle",
    "positionM": [
     2.2758,
-    0.0285,
+    0.0624,
     2.2758
    ],
    "yawDeg": 320.0,
@@ -740,7 +740,7 @@
    "kind": "idle",
    "positionM": [
     -2.3896,
-    0.0285,
+    0.0484,
     2.0483
    ],
    "yawDeg": 35.0,
@@ -792,7 +792,7 @@
    "kind": "idle",
    "positionM": [
     1.7069,
-    0.0285,
+    0.0484,
     -2.5034
    ],
    "yawDeg": 230.0,
@@ -1090,11 +1090,11 @@
  "settled": [
   {
    "id": "CIPHTBMHutInteriorGreatHouse.06256E06",
-   "dropM": 0.085
+   "dropM": 0.065
   },
   {
    "id": "CIPHTBMHutInteriorGreatHouse.06256E07",
-   "dropM": 0.085
+   "dropM": 0.051
   },
   {
    "id": "CIPHTBMHutInteriorGreatHouse.06256E8D",
@@ -1102,7 +1102,7 @@
   },
   {
    "id": "CIPHTBMHutInteriorGreatHouse.06256E8E",
-   "dropM": 0.085
+   "dropM": 0.065
   },
   {
    "id": "CIPHTBMHutInteriorGreatHouse.06256E8F",
@@ -1118,7 +1118,7 @@
   },
   {
    "id": "CIPHTBMHutInteriorGreatHouse.06256E93",
-   "dropM": 0.085
+   "dropM": 0.065
   }
  ],
  "coplanarFixed": [
