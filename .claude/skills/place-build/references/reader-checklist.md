@@ -69,6 +69,8 @@ id at the named position; readers never get labelled images.
 22. Is the solid mass (tower, stair block) left without a door unless it is meant to be entered? (L18) `reader`
 23. Does a landing stage end over dry ground, with its closing step's foot on that ground? (L31, water-edge places only) `rule:berthReachRule`
 24. Is the entrance lit at night: a window glow facing the approach, or a mounted light within 2 m of the threshold? (L19; 97 C16) `rule:compile.litEntrance (0102 decision 7)`
+24b. On the t22 shots: does every occupied dwelling and every occupied tent show at least one lit fixture (a flame at night: brazier, lantern, candle or fire) at its entrance or mouth, so no lived-in shelter stands dark? (audit10: the Broke Column's three tents and the Tag House keeper's door were dark) `reader`
+24c. Does every `promise-<noun>` shot of the walk show the promised thing itself (the shed, the bones, the steps, the sign), legible at that range, and is each `thing-` row of the ledger filled by the placement that shot frames? (audit10: bones, steps, signs, a shed and a seep were promised and never built) `rule:promises (promise_gate)` + `reader`
 25. Does every unmined small mount (e.g. a lantern on a barrel) read as resting on its host, neither floating nor sunk into it? (L34; 0102 decision 5) `reader`
 
 ## Iso (two per round; step 4)

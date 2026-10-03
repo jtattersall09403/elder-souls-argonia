@@ -62,11 +62,18 @@ and the builder closes each one before the walk:
    quest's purpose is an owner call.
 4. Re-run `blueprint_promises --write`, then set each prose and quest
    row's `confirmed: {"sha": <the sha the gate prints>, "note": <what in
-   the built place keeps it>}`. An edited text voids its confirmation.
+   the built place keeps it>, "ids": [<placement id>, ...]}`; `ids` is
+   required when the line names a physical noun and names the placements
+   (layout op ids) that show it. Fill each `thing-<noun>` row with
+   `fills` on the layout op of the placement that shows the noun. An
+   edited text voids its confirmation.
 5. Run `export_places` (the map popup is derived from the record) and
    list every edited line for the batch's `text-review`.
 
-Gates: `promises` (every row filled, excused or confirmed) and
+Gates: `promises` (every row filled, excused or confirmed; over the
+published bundle, `python3 -m worldgen.promise_gate --all-built`, every
+filler and `ids` entry placed), `record.coherence` (each physical noun of
+the record and its quests shown by a placed asset) and
 `record.consistency` (the counted buildings sit in the record's
 magnitude band) fail until this is done.
 

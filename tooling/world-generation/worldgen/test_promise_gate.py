@@ -220,3 +220,34 @@ def test_the_write_lock_serialises_writers(tmp_path, monkeypatch):
         locked_write_text(target, "two\n")
     assert target.read_text() == "two\n"
     assert [p.name for p in tmp_path.iterdir() if p.name.startswith(".doc.json")] == []
+
+
+def test_a_promised_thing_is_kept_by_a_placed_thing_never_by_a_pin():
+    """audit10: a hatching shed was named in the prose, pinned `confirmed`
+    and never built. A prose noun is a `thing-<noun>` row a placed thing in
+    the published bundle fills; the prose row names the placement it rests on."""
+    text = "A hatching shed stands above the yard."
+    prose = {"id": "promise.p.prose-vibe-silhouette", "kind": "prose", "text": text,
+             "source": {"file": "f", "path": "p"},
+             "confirmed": {"sha": bpr.text_sha(text), "note": "the shed stands"}}
+    ledger = {**_ledger(), "promises": [prose]}
+    codes = lambda errs: sorted(e.split(":")[0] for e in errs)  # noqa: E731
+    assert codes(pg.promise_gate_errors(BP, ledger)) == ["promises.confirm", "promises.thing"]
+    thing = {"id": "promise.p.thing-shed", "kind": "provision", "text": "t",
+             "source": {"file": "f", "path": "p"}, "unfilled": None}
+    prose["confirmed"]["ids"] = ["p-shed"]
+    ledger["promises"].append(thing)
+    assert codes(pg.promise_gate_errors(BP, ledger)) == ["promises.unfilled"]
+    layout = {"ops": [{"op": "place", "id": "p-shed", "fills": ["promise.p.thing-shed"]}]}
+    assert pg.promise_gate_errors(BP, ledger, layout=layout) == []
+    unbuilt = {"placements": [{"id": "place.r.p.parcel.p.yard.assembly.p-bench"}]}
+    assert codes(pg.promise_gate_errors(BP, ledger, layout=layout, bundle=unbuilt)) == [
+        "promises.built", "promises.built"]
+    built = {"placements": [{"id": "place.r.p.parcel.p.yard.assembly.p-shed"}]}
+    assert pg.promise_gate_errors(BP, ledger, layout=layout, bundle=built) == []
+
+
+def test_idioms_are_no_things():
+    assert pg.thing_nouns("The yards are well kept, the boatmen came as well, in the spring") == []
+    assert pg.thing_nouns("A stone well and a spring-fed tarn and Bones on the path") == [
+        "bones", "spring", "tarn", "well"]

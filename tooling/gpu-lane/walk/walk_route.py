@@ -46,6 +46,9 @@ CLOSE_MAX_UP_RAD = 0.35  # the camera arm hangs behind the body: a steeper look-
 FIRE_SIZE_M = 0.6
 FLAME_ABOVE_ORIGIN_M = 0.3  # a fixture with no light, flame or size row: the flame sits this far over its origin
 SIGN_STAND_M = 3.0  # sign close-ups stand this far off the board, on its reading side
+PROMISE_SIZE_M = 2.5  # a promised thing (shed, bones, steps, a seep) is framed at this size
+PROMISE_AIM_M = 0.8  # aimed this far over the filler's origin
+THING_ROW_RE = re.compile(r"\.thing-")  # the physical-promise rows (promise_gate.PHYSICAL_NOUNS)
 END_CLEAR_M = 2.0  # the free-walk end shot: nothing within this of the stand or the camera behind it
 END_BACK_STEP_M = 0.5
 YAW_CHECK_M = 4.0  # the runner's yaw check walks ~1 s (3.5 m) north then east from the first waypoint
@@ -485,6 +488,25 @@ def build_route(place_id: str, public: Path = PUBLIC, only: list[str] | None = N
         wp(f"sign{i}", sx, sz, b, [{"type": "shot", "name": f"sign{i}", "subjects": [p[0] for p in g], "yaw": b,
                                     "pitch": pitch}])
 
+    # promises: one close-up per filled physical promise (`thing-<noun>` rows of
+    # the compile's promiseFills), aimed at the first filler the bundle places,
+    # so a promise built out of every other shot is still seen (audit10)
+    where = {p["id"]: p["positionM"] for p in bundle["placements"] if p.get("positionM")}
+    where.update({s["id"]: s["positionM"] for s in bundle["settlement"].get("sockets") or [] if s.get("positionM")})
+    promised = []
+    for pid, fillers in sorted((bundle["settlement"].get("promiseFills") or {}).items()):
+        if not THING_ROW_RE.search(pid):
+            continue
+        hits = [(f, where[k]) for f in fillers for k in sorted(where) if k == f or k.endswith("." + f)]
+        if not hits:
+            continue
+        f, (tx, ty, tz) = hits[0]
+        sx, sz, b, pitch = close_up(tx, ty + PROMISE_AIM_M, tz, PROMISE_SIZE_M, centre, ground, ty, polys, box)
+        tag = pid.rsplit(".thing-", 1)[-1]
+        promised.append(pid)
+        wp(f"promise-{tag}", sx, sz, b, [{"type": "shot", "name": f"promise-{tag}", "promiseId": pid,
+                                          "subjects": [f], "yaw": b, "pitch": pitch}])
+
     # visiting order: overviews first, then nearest-neighbour from the last overview
     head, rest = wps[:4], wps[4:]
     ordered = list(head)
@@ -504,7 +526,7 @@ def build_route(place_id: str, public: Path = PUBLIC, only: list[str] | None = N
             "pitch": "follow-camera radians: positive looks down",
             "boundaryM": [[x0, z0], [x1, z1]], "centreM": [r2(centre[0]), r2(centre[1])],
             "fixtures": sorted(p[0] for p in burning), "doors": sorted(d["id"] for d in bundle.get("doors", []) if (d.get("interiorClaim") or {}).get("cellId")),
-            "only": sorted(only) if only else None,
+            "promises": promised, "only": sorted(only) if only else None,
             "freeWalk": fw, "waypoints": set_arrivals(ordered, polys, box)}
 
 

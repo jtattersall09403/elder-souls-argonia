@@ -219,3 +219,21 @@ def test_no_painted_way_still_gets_a_free_walk(tmp_path):
     p.write_text(json.dumps(b))
     fw = walk_route.build_route(PID, pub)["freeWalk"]
     assert fw["routeId"] == "fallback-loop" and fw["seconds"] > 0 and fw["endShot"]["pitch"] == 0.0
+
+
+def test_one_shot_per_filled_physical_promise(tmp_path):
+    """audit10: every filled `thing-<noun>` row gets its own close-up aimed at
+    the placement that fills it (by the layout op id, the compiled id's tail);
+    other rows and fillers the bundle does not place get none."""
+    pub = fixture(tmp_path)
+    p = pub / f"province/settlements/{PID}.json"
+    b = json.loads(p.read_text())
+    b["settlement"]["promiseFills"] = {"promise.walk.thing-sign": ["sign"], "promise.walk.thing-shed": ["p.gone"],
+                                       "promise.walk.service-ferry": ["p.lamp"]}
+    p.write_text(json.dumps(b))
+    r = walk_route.build_route(PID, pub)
+    shots = [a for w in r["waypoints"] for a in w["actions"] if a.get("promiseId")]
+    assert r["promises"] == ["promise.walk.thing-sign"]
+    assert [(a["name"], a["subjects"]) for a in shots] == [("promise-sign", ["sign"])]
+    w = next(w for w in r["waypoints"] if w["id"] == "promise-sign")
+    assert 2.0 <= math.dist((w["xM"], w["zM"]), (60, 60)) <= 12.0

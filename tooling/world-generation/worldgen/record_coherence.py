@@ -38,6 +38,7 @@ from pathlib import Path
 import numpy as np
 
 from . import catalogue
+from .promise_gate import PHYSICAL_NOUNS
 
 REPO = catalogue.REPO_ROOT
 SRC = REPO / "world" / "sources"
@@ -59,30 +60,13 @@ SKIP_KEYS = {"id", "aliases", "sources", "assetPlan", "scourSiteIds", "relations
              "status", "workflow", "densityLayer", "entrance", "season", "culture"}
 QUEST_PROSE = ("title", "premise", "provision", "summary", "hook", "notes")
 
-# feature -> (premise pattern, satisfier tokens in structural ids, water classes nearby)
+# feature -> (prose pattern, satisfier tokens in compiled ids and assets, water
+# classes nearby): one noun table (promise_gate.PHYSICAL_NOUNS), plus the
+# water that keeps a water noun
+FEATURE_WATER = {"channel": ("channel", "river", "lane"), "canal": ("channel",),
+                 "ferry": ("lane", "crossing"), "boat": ("lane", "crossing", "channel", "river")}
 FEATURES: dict[str, tuple[str, tuple[str, ...], tuple[str, ...]]] = {
-    "channel": (r"\bchannels?\b", ("channel", "canal"), ("channel", "river", "lane")),
-    "canal": (r"\bcanals?\b", ("canal", "channel"), ("channel",)),
-    "ferry": (r"\bferry\b|\bferries\b", ("ferry",), ("lane", "crossing")),
-    # Bare words that are also ordinary prose are read only as the feature
-    # noun: "as well" / "well-kept" is no well, "in the spring" / "spring
-    # rains" is the season (fig-market's premise), "takes its toll" no toll.
-    "well": (r"(?<!\bas )\bwells?\b(?![-,])", ("well",), ()),
-    "spring": (r"(?<!\bin )(?<!\bin the )(?<!\bthis )(?<!\blast )(?<!\bnext )(?<!\bthat )"
-               r"(?<!\bevery )(?<!\beach )(?<!\bby )(?<!\buntil )(?<!\bsince )(?<!\bthe late )"
-               r"(?<!\bthe early )\bsprings?\b"
-               r"(?!\s+(?:rains?|floods?|thaw|seasons?|tides?|planting|and\s+summer|or\s+summer))",
-               ("spring",), ()),
-    "Hist tree": (r"\bHist\b", ("hist",), ()),
-    "toll": (r"(?<!\btakes its )(?<!\btook its )(?<!\btake its )(?<!\btaken its )"
-             r"(?<!\btakes their )(?<!\btook their )(?<!\btake a )\btolls?\b", ("toll",), ()),
-    "bridge": (r"\bbridges?\b", ("bridge",), ()),
-    "dock": (r"\bdocks?\b|\bjett(?:y|ies)\b|\bpiers?\b|\bquays?\b",
-             ("dock", "jetty", "pier", "quay", "landing", "stage"), ()),
-    "shrine": (r"\bshrines?\b", ("shrine",), ()),
-    "mine": (r"\bmines?\b(?!\s+(?:is|was))", ("mine", "diggings"), ()),
-    "tower": (r"\btowers?\b", ("tower",), ()),
-}
+    noun: (pat, toks, FEATURE_WATER.get(noun, ())) for noun, (pat, toks) in PHYSICAL_NOUNS.items()}
 
 
 @dataclass
@@ -296,20 +280,20 @@ def related_ids(rec: dict, index: Index) -> set[str]:
 
 # --------------------------------------------------------------- the gate
 
+def _shows(blob: str, toks: tuple[str, ...]) -> bool:
+    """An asset blob shows a feature token: a word of four letters or more
+    anywhere in an asset name (`argonianbone01`, `roadsign`), a shorter one
+    at a word start (`orestack`, never `shore`)."""
+    return any((t in blob) if len(t) >= 4 else re.search(rf"(?<![a-z]){t}", blob) for t in toks)
+
+
 def _feature_satisfiers(rec: dict, compiled: dict | None, index: Index) -> str:
-    """Lower-case blob of the structural ids the place owns (never its prose)."""
-    parts: list[str] = []
-    for k in ("sockets", "contents", "stance", "assetPlan", "relations"):
-        parts.append(json.dumps(rec.get(k) or {}))
-    _, reached = travel_rows(rec["id"], index)
-    for sv in index.services.get("services", []):
-        if (sv.get("operator") or {}).get("nearestPlaceId") == rec["id"]:
-            parts.append(sv.get("id", "") + " " + sv.get("form", ""))
-    if compiled:
-        parts += [json.dumps(compiled.get("kits") or [])]
-        parts += [p.get("id", "") + " " + str(p.get("kit", "")) + " " + str(p.get("asset", ""))
-                  for p in compiled.get("placements") or []]
-        parts += [o.get("id", "") for o in compiled.get("compiledObjects") or []]
+    """Lower-case blob of the assets the compiled bundle places, and nothing
+    else: never the record (a record cannot keep its own promise, audit10)
+    and never a placement or parcel id (a parcel named `hatching-shed` is no
+    shed). A place with no bundle has an empty blob."""
+    parts = [str(p.get("assetId") or p.get("asset") or "")
+             for key in ("placements", "compiledObjects") for p in (compiled or {}).get(key) or []]
     blob = " ".join(parts).lower()
     # another place's slug inside an id (travel.x.ferry-channel-cross-village) is a
     # reference to that place, never this place's feature
@@ -390,14 +374,20 @@ def coherence_failures(place_id: str, index: Index, compiled: dict | None = None
                 why = "no route links them"
             fails.append(f"record.coherence: {where} puts the place between {after[0][1]} and "
                          f"{after[1][1]}; {why}")
-    blob = None
-    for _, q in quests:
-        prem = " ".join(t for k, t in quest_prose(q) if k in ("premise", "provision"))
+    # the physical features the record's own prose and its quests' premises
+    # name, each shown by an asset the compiled bundle places (or the water
+    # within 3 km): read only once the place is built, since nothing else
+    # can keep a physical promise (audit10)
+    said = [] if compiled is None else (
+        [("the record", " ".join(t for _, t in prose_strings(rec)), None)]
+        + [(f"quest {q['id']}", " ".join(t for k, t in quest_prose(q) if k in ("premise", "provision")), q)
+           for _, q in quests])
+    blob = _feature_satisfiers(rec, compiled, index) if compiled is not None else ""
+    for who, prem, q in said:
         for feat, (pat, toks, water) in sorted(FEATURES.items()):
             if not re.search(pat, prem, re.I if feat != "Hist tree" else 0):
                 continue
-            blob = blob if blob is not None else _feature_satisfiers(rec, compiled, index)
-            if any(re.search(rf"(?<![a-z]){t}", blob) for t in toks):
+            if _shows(blob, toks):
                 continue
             if feat == "toll" and (rec.get("relations") or {}).get("tolls"):
                 continue
@@ -405,13 +395,14 @@ def coherence_failures(place_id: str, index: Index, compiled: dict | None = None
                 continue
             # a quest anchored at several places holds each premise feature at one
             # of them: MQ01's Hist stands at the upriver Hist village, not at the
-            # gang's camp (walk 9); another anchor's own structural ids count
-            if any(any(re.search(rf"(?<![a-z]){t}", _feature_satisfiers(index.places[a], None, index))
-                       for t in toks)
-                   for a in q.get("anchorPlaces") or [] if a != place_id and a in index.places):
+            # gang's camp (walk 9); another anchor keeps it when its bundle
+            # shows it, or when it is not built yet (its own gate reads it then)
+            if q and any((c := load_compiled(a)) is None
+                         or _shows(_feature_satisfiers(index.places[a], c, index), toks)
+                         for a in q.get("anchorPlaces") or [] if a != place_id and a in index.places):
                 continue
-            fails.append(f"record.coherence: quest {q['id']} premises a {feat} and the record, the "
-                         f"build and the water within 3 km have none")
+            fails.append(f"record.coherence: {who} names a {feat} and the built place and the "
+                         f"water within 3 km have none")
     fails += relation_failures(place_id, index, compiled)
     fails += ecology_failures(place_id, index, compiled)
     return sorted(set(fails))
